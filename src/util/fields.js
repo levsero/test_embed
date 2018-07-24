@@ -4,8 +4,8 @@ import _ from 'lodash';
 import { Dropdown } from 'component/field/Dropdown';
 import { isMobileBrowser,
   isLandscape } from 'utility/devices';
-import { TextField, Textarea, Label, Input } from '@zendeskgarden/react-textfields';
-import { Checkbox, Label as CheckboxLabel, Hint } from '@zendeskgarden/react-checkboxes';
+import { TextField, Textarea, Label, Input, Hint } from '@zendeskgarden/react-textfields';
+import { Checkbox, Label as CheckboxLabel, Hint as CheckboxHint } from '@zendeskgarden/react-checkboxes';
 import { locals as styles } from './fields.scss';
 import classNames from 'classnames';
 
@@ -16,9 +16,15 @@ const getCustomFields = (customFields, formState, options = {}) => {
         <Label className={labelStyle()}>
           {sharedProps.label}
         </Label>
+        {renderDescription(sharedProps)}
         <Input className={styles.fieldInput} {...sharedProps} />
       </TextField>
     );
+  };
+  const renderDescription = (field) => {
+    return field.description
+      ? <Hint className={labelStyle()}>{field.description}</Hint>
+      : '';
   };
   const isCheckbox = (field) => {
     return field && field.type === Checkbox;
@@ -90,6 +96,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
             <Label className={labelStyle()}>
               {sharedProps.label}
             </Label>
+            {renderDescription(sharedProps)}
             <Textarea className={styles.textareaInput} {...sharedProps} rows='5' />
           </TextField>
         );
@@ -103,7 +110,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
         );
         const labelClasses = isMobileBrowser() ? styles.hasCheckboxMobile : '';
         const description = field.description
-          ? <Hint className={descriptionClasses}>{field.description}</Hint>
+          ? <CheckboxHint className={descriptionClasses}>{field.description}</CheckboxHint>
           : '';
 
         return (

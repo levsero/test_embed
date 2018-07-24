@@ -68,7 +68,8 @@ describe('fields', () => {
     title_in_portal: 'Age',
     required_in_portal: true,
     visible_in_portal: true,
-    editable_in_portal: true
+    editable_in_portal: true,
+    description: 'this is the integer description'
   };
   const decimalFieldPayload = {
     id: '22823260',
@@ -76,7 +77,8 @@ describe('fields', () => {
     title_in_portal: 'Total Cost',
     required_in_portal: false,
     visible_in_portal: true,
-    editable_in_portal: true
+    editable_in_portal: true,
+    description: 'this is the decimal description'
   };
   const checkboxFieldPayload = {
     id: '22823270',
@@ -101,7 +103,8 @@ describe('fields', () => {
     title_in_portal: 'What is your query about?',
     required_in_portal: true,
     visible_in_portal: true,
-    editable_in_portal: true
+    editable_in_portal: true,
+    description: 'subject description'
   };
   /* eslint-enable camelcase */
 
@@ -237,7 +240,7 @@ describe('fields', () => {
       });
     });
 
-    describe('when a fields visible and edtiable properties are undefined', () => {
+    describe('when a fields visible and editable properties are undefined', () => {
       beforeEach(() => {
         subjectFieldPayload.visible_in_portal = undefined;
         subjectFieldPayload.editable_in_portal = undefined;
@@ -253,11 +256,44 @@ describe('fields', () => {
           .toBe('What is your query about?');
       });
     });
+
+    describe('when a field is visible and editable properties are undefined', () => {
+      beforeEach(() => {
+        subjectFieldPayload.visible_in_portal = undefined;
+        subjectFieldPayload.editable_in_portal = undefined;
+
+        payload = [subjectFieldPayload];
+        customFields = getCustomFields(payload, {});
+      });
+
+      it('should return the field', () => {
+        const labelElement = customFields.allFields[0].props.children[0];
+
+        expect(labelElement.props.children)
+          .toBe('What is your query about?');
+      });
+    });
+
+    describe('when a description is supplied', () => {
+      beforeEach(() => {
+        subjectFieldPayload.description = 'this is the description';
+
+        payload = [subjectFieldPayload];
+        customFields = getCustomFields(payload, {});
+      });
+
+      it('renders the description', () => {
+        const descriptionElement = customFields.allFields[0].props.children[1];
+
+        expect(descriptionElement.props.children)
+          .toBe('this is the description');
+      });
+    });
     /* eslint-enable camelcase */
 
     describe('props', () => {
       it('should pass through the id to name', () => {
-        const field1 = customFields.allFields[0].props.children[1];
+        const field1 = customFields.allFields[0].props.children[2];
         const field2 = customFields.allFields[1];
 
         expect(field1.props.name)
@@ -274,14 +310,14 @@ describe('fields', () => {
         });
 
         it('should respect the required prop', () => {
-          const inputElement = customFields.allFields[0].props.children[1];
+          const inputElement = customFields.allFields[0].props.children[2];
 
           expect(inputElement.props.required)
             .toEqual(true);
         });
 
         it('should respect the `required_in_portal` setting over the `required` one', () => {
-          const inputElement = customFields.allFields[1].props.children[1];
+          const inputElement = customFields.allFields[1].props.children[2];
 
           expect(inputElement.props.required)
             .toEqual(false);
@@ -328,17 +364,24 @@ describe('fields', () => {
         });
 
         it('should pass in a pattern', () => {
-          const inputElement = customFields.allFields[0].props.children[1];
+          const inputElement = customFields.allFields[0].props.children[2];
 
           expect(inputElement.props.pattern)
             .toBeTruthy();
         });
 
         it('should be type number', () => {
-          const inputElement = customFields.allFields[0].props.children[1];
+          const inputElement = customFields.allFields[0].props.children[2];
 
           expect(inputElement.props.type)
             .toEqual('number');
+        });
+
+        it('has a description', () => {
+          const descriptionElement = customFields.allFields[0].props.children[1];
+
+          expect(descriptionElement.props.children)
+            .toEqual('this is the integer description');
         });
       });
 
@@ -349,24 +392,31 @@ describe('fields', () => {
         });
 
         it('should pass in a pattern', () => {
-          const inputElement = customFields.allFields[0].props.children[1];
+          const inputElement = customFields.allFields[0].props.children[2];
 
           expect(inputElement.props.pattern)
             .toBeTruthy();
         });
 
         it('should be type number', () => {
-          const inputElement = customFields.allFields[0].props.children[1];
+          const inputElement = customFields.allFields[0].props.children[2];
 
           expect(inputElement.props.type)
             .toEqual('number');
         });
 
         it('should assign a step', () => {
-          const inputElement = customFields.allFields[0].props.children[1];
+          const inputElement = customFields.allFields[0].props.children[2];
 
           expect(inputElement.props.step)
             .toEqual('any');
+        });
+
+        it('has a description', () => {
+          const descriptionElement = customFields.allFields[0].props.children[1];
+
+          expect(descriptionElement.props.children)
+            .toEqual('this is the decimal description');
         });
       });
 
