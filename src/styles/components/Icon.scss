@@ -370,7 +370,7 @@
 
 .Icon--remove {
   path {
-    fill: $zd-color-aluminum;
+    fill: $zd-color-grey-500;
   }
 }
 
@@ -444,5 +444,11 @@
     min-height: #{50/$font-size}rem;
     height: #{50/$font-size}rem;
     width: #{50/$font-size}rem;
+  }
+}
+
+.Icon--agent-avatar {
+  svg rect {
+    fill: $zd-color-grey-500;
   }
 }
