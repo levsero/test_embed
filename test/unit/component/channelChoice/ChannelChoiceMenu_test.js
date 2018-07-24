@@ -143,6 +143,7 @@ describe('ChannelChoiceMenu component', () => {
 
   describe('renderTalkButton', () => {
     let result,
+      children,
       component,
       componentProps,
       mockShowInitialTalkOption;
@@ -158,6 +159,10 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('when showInitialTalkOption is true', () => {
+      beforeEach(() => {
+        children = result.props.children;
+      });
+
       beforeAll(() => {
         mockShowInitialTalkOption = true;
       });
@@ -170,8 +175,13 @@ describe('ChannelChoiceMenu component', () => {
           };
         });
 
-        it('returns a ButtonIcon component', () => {
-          expect(TestUtils.isElementOfType(result, ButtonIcon))
+        it('returns a list item', () => {
+          expect(TestUtils.isElementOfType(result, 'li'))
+            .toEqual(true);
+        });
+
+        it('returns a child ButtonIcon component', () => {
+          expect(TestUtils.isElementOfType(children, ButtonIcon))
             .toEqual(true);
         });
 
@@ -186,12 +196,12 @@ describe('ChannelChoiceMenu component', () => {
         });
 
         it('passes talkAvailable to props.actionable', () => {
-          expect(result.props.actionable)
+          expect(children.props.actionable)
             .toEqual(componentProps.talkAvailable);
         });
 
         it('passes labelClasses to props.labelClassName', () => {
-          expect(result.props.labelClassName)
+          expect(children.props.labelClassName)
             .toEqual(componentProps.labelClasses);
         });
       });
@@ -207,12 +217,12 @@ describe('ChannelChoiceMenu component', () => {
             });
 
             it('has btn class', () => {
-              expect(result.props.className)
+              expect(children.props.className)
                 .toContain('btnClass');
             });
 
             it('has btnEnabled class', () => {
-              expect(result.props.className)
+              expect(children.props.className)
                 .toContain('btnEnabledClass');
             });
           });
@@ -226,12 +236,12 @@ describe('ChannelChoiceMenu component', () => {
             });
 
             it('has btn class', () => {
-              expect(result.props.className)
+              expect(children.props.className)
                 .toContain('btnClass');
             });
 
             it('does not have btnEnabled class', () => {
-              expect(result.props.className)
+              expect(children.props.className)
                 .not.toContain('btnEnabledClass');
             });
           });
@@ -243,12 +253,12 @@ describe('ChannelChoiceMenu component', () => {
           });
 
           it('does not have btn class', () => {
-            expect(result.props.className)
+            expect(children.props.className)
               .not.toContain('btnClass');
           });
 
           it('has buttonTalk class', () => {
-            expect(result.props.className)
+            expect(children.props.className)
               .toContain('buttonTalk');
           });
         });
@@ -265,12 +275,12 @@ describe('ChannelChoiceMenu component', () => {
             });
 
             it('has newIcon class', () => {
-              expect(result.props.iconClasses)
+              expect(children.props.iconClasses)
                 .toContain('newIconClass');
             });
 
             it('does not have newIconDisabled class', () => {
-              expect(result.props.iconClasses)
+              expect(children.props.iconClasses)
                 .not.toContain('newIconDisabledClass');
             });
           });
@@ -284,12 +294,12 @@ describe('ChannelChoiceMenu component', () => {
             });
 
             it('does not have newIcon class', () => {
-              expect(result.props.iconClasses)
+              expect(children.props.iconClasses)
                 .not.toContain('newIconClass');
             });
 
             it('has newIconDisabled class', () => {
-              expect(result.props.iconClasses)
+              expect(children.props.iconClasses)
                 .toContain('newIconDisabledClass');
             });
           });
@@ -301,12 +311,12 @@ describe('ChannelChoiceMenu component', () => {
           });
 
           it('has oldIcon class', () => {
-            expect(result.props.iconClasses)
+            expect(children.props.iconClasses)
               .toContain('oldIconClass');
           });
 
           it('has oldIconTalk class', () => {
-            expect(result.props.iconClasses)
+            expect(children.props.iconClasses)
               .toContain('oldIconTalkClass');
           });
         });
@@ -318,7 +328,7 @@ describe('ChannelChoiceMenu component', () => {
         });
 
         it('passes newHeight icon type to props.icon', () => {
-          expect(result.props.icon)
+          expect(children.props.icon)
             .toContain('Icon--new-channelChoice-talk');
         });
       });
@@ -329,13 +339,13 @@ describe('ChannelChoiceMenu component', () => {
         });
 
         it('passes default channelChoice icon type to props.icon', () => {
-          expect(result.props.icon)
+          expect(children.props.icon)
             .toContain('Icon--channelChoice-talk');
         });
       });
     });
 
-    describe('when showInitialTalkOption is true', () => {
+    describe('when showInitialTalkOption is false', () => {
       beforeAll(() => {
         mockShowInitialTalkOption = false;
       });
@@ -408,6 +418,7 @@ describe('ChannelChoiceMenu component', () => {
 
   describe('renderChatButton', () => {
     let result,
+      children,
       component,
       componentProps,
       mockShowInitialChatOption;
@@ -423,6 +434,10 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('when showInitialChatOption is true', () => {
+      beforeEach(() => {
+        children = result.props.children;
+      });
+
       beforeAll(() => {
         mockShowInitialChatOption = true;
       });
@@ -435,8 +450,13 @@ describe('ChannelChoiceMenu component', () => {
           };
         });
 
-        it('returns a ButtonIcon component', () => {
-          expect(TestUtils.isElementOfType(result, ButtonIcon))
+        it('returns a list item', () => {
+          expect(TestUtils.isElementOfType(result, 'li'))
+            .toEqual(true);
+        });
+
+        it('returns a child ButtonIcon component', () => {
+          expect(TestUtils.isElementOfType(children, ButtonIcon))
             .toEqual(true);
         });
 
@@ -451,12 +471,12 @@ describe('ChannelChoiceMenu component', () => {
         });
 
         it('passes chatAvailable to props.actionable', () => {
-          expect(result.props.actionable)
+          expect(children.props.actionable)
             .toEqual(componentProps.chatAvailable);
         });
 
         it('passes labelClasses to props.labelClassName', () => {
-          expect(result.props.labelClassName)
+          expect(children.props.labelClassName)
             .toEqual(componentProps.labelClasses);
         });
       });
@@ -472,12 +492,12 @@ describe('ChannelChoiceMenu component', () => {
             });
 
             it('has btn class', () => {
-              expect(result.props.className)
+              expect(children.props.className)
                 .toContain('btnClass');
             });
 
             it('has btnEnabled class', () => {
-              expect(result.props.className)
+              expect(children.props.className)
                 .toContain('btnEnabledClass');
             });
           });
@@ -491,12 +511,12 @@ describe('ChannelChoiceMenu component', () => {
             });
 
             it('has btn class', () => {
-              expect(result.props.className)
+              expect(children.props.className)
                 .toContain('btnClass');
             });
 
             it('does not have btnEnabled class', () => {
-              expect(result.props.className)
+              expect(children.props.className)
                 .not.toContain('btnEnabledClass');
             });
           });
@@ -508,12 +528,12 @@ describe('ChannelChoiceMenu component', () => {
           });
 
           it('does not have btn class', () => {
-            expect(result.props.className)
+            expect(children.props.className)
               .not.toContain('btnClass');
           });
 
           it('does not have btnEnabled class', () => {
-            expect(result.props.className)
+            expect(children.props.className)
               .not.toContain('btnEnabledClass');
           });
         });
@@ -524,7 +544,7 @@ describe('ChannelChoiceMenu component', () => {
           });
 
           it('does not have chatBtnDisabled class', () => {
-            expect(result.props.className)
+            expect(children.props.className)
               .not.toContain('chatBtnDisabledClass');
           });
         });
@@ -535,7 +555,7 @@ describe('ChannelChoiceMenu component', () => {
           });
 
           it('has chatBtnDisabled class', () => {
-            expect(result.props.className)
+            expect(children.props.className)
               .toContain('chatBtnDisabledClass');
           });
         });
@@ -552,12 +572,12 @@ describe('ChannelChoiceMenu component', () => {
             });
 
             it('has newIcon class', () => {
-              expect(result.props.iconClasses)
+              expect(children.props.iconClasses)
                 .toContain('newIconClass');
             });
 
             it('does not have newIconDisabled class', () => {
-              expect(result.props.iconClasses)
+              expect(children.props.iconClasses)
                 .not.toContain('newIconDisabledClass');
             });
           });
@@ -571,12 +591,12 @@ describe('ChannelChoiceMenu component', () => {
             });
 
             it('does not have newIcon class', () => {
-              expect(result.props.iconClasses)
+              expect(children.props.iconClasses)
                 .not.toContain('newIconClass');
             });
 
             it('has newIconDisabled class', () => {
-              expect(result.props.iconClasses)
+              expect(children.props.iconClasses)
                 .toContain('newIconDisabledClass');
             });
           });
@@ -588,17 +608,17 @@ describe('ChannelChoiceMenu component', () => {
           });
 
           it('has chatBtnDisabled class', () => {
-            expect(result.props.className)
+            expect(children.props.className)
               .toContain('chatBtnDisabledClass');
           });
 
           it('does not have newIcon class', () => {
-            expect(result.props.iconClasses)
+            expect(children.props.iconClasses)
               .not.toContain('newIconClass');
           });
 
           it('does not have newIconDisabled class', () => {
-            expect(result.props.iconClasses)
+            expect(children.props.iconClasses)
               .not.toContain('newIconDisabledClass');
           });
         });
@@ -610,7 +630,7 @@ describe('ChannelChoiceMenu component', () => {
         });
 
         it('passes newHeight icon type to props.icon', () => {
-          expect(result.props.icon)
+          expect(children.props.icon)
             .toContain('Icon--new-channelChoice-chat');
         });
       });
@@ -621,13 +641,13 @@ describe('ChannelChoiceMenu component', () => {
         });
 
         it('passes default channelChoice icon type to props.icon', () => {
-          expect(result.props.icon)
+          expect(children.props.icon)
             .toContain('Icon--chat');
         });
       });
     });
 
-    describe('when showInitialChatOption is true', () => {
+    describe('when showInitialChatOption is false', () => {
       beforeAll(() => {
         mockShowInitialChatOption = false;
       });
@@ -641,6 +661,7 @@ describe('ChannelChoiceMenu component', () => {
 
   describe('renderSubmitTicketButton', () => {
     let result,
+      children,
       component,
       componentProps;
 
@@ -653,6 +674,10 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('when submitTicketAvailable is true', () => {
+      beforeEach(() => {
+        children = result.props.children;
+      });
+
       beforeAll(() => {
         componentProps = {
           submitTicketAvailable: true,
@@ -660,8 +685,13 @@ describe('ChannelChoiceMenu component', () => {
         };
       });
 
-      it('returns a ButtonIcon component', () => {
-        expect(TestUtils.isElementOfType(result, ButtonIcon))
+      it('returns a list item', () => {
+        expect(TestUtils.isElementOfType(result, 'li'))
+          .toEqual(true);
+      });
+
+      it('returns a child ButtonIcon component', () => {
+        expect(TestUtils.isElementOfType(children, ButtonIcon))
           .toEqual(true);
       });
 
@@ -671,12 +701,12 @@ describe('ChannelChoiceMenu component', () => {
       });
 
       it('passes the expected string to props.label', () => {
-        expect(result.props.label)
+        expect(children.props.label)
           .toEqual('embeddable_framework.channelChoice.button.label.submitTicket');
       });
 
       it('passes labelClasses to props.labelClassName', () => {
-        expect(result.props.labelClassName)
+        expect(children.props.labelClassName)
           .toEqual(componentProps.labelClasses);
       });
 
@@ -686,7 +716,7 @@ describe('ChannelChoiceMenu component', () => {
         });
 
         it('passes the expected string to props.icon', () => {
-          expect(result.props.icon)
+          expect(children.props.icon)
             .toEqual('Icon--new-channelChoice-contactForm');
         });
       });
@@ -697,7 +727,7 @@ describe('ChannelChoiceMenu component', () => {
         });
 
         it('passes the expected string to props.icon', () => {
-          expect(result.props.icon)
+          expect(children.props.icon)
             .toEqual('Icon--channelChoice-contactForm');
         });
       });
@@ -718,46 +748,58 @@ describe('ChannelChoiceMenu component', () => {
 
     describe('props.iconClasses', () => {
       describe('when newHeight is true', () => {
+        beforeEach(() => {
+          children = result.props.children;
+        });
+
         beforeAll(() => {
           componentProps = { newHeight: true };
         });
 
         it('has newIcon class', () => {
-          expect(result.props.iconClasses)
+          expect(children.props.iconClasses)
             .toContain('newIconClass');
         });
       });
 
       describe('when newHeight is false', () => {
+        beforeEach(() => {
+          children = result.props.children;
+        });
+
         beforeAll(() => {
           componentProps = { newHeight: false };
         });
 
         it('has oldIcon class', () => {
-          expect(result.props.iconClasses)
+          expect(children.props.iconClasses)
             .toContain('oldIconClass');
         });
 
         it('does not have newIcon class', () => {
-          expect(result.props.iconClasses)
+          expect(children.props.iconClasses)
             .not.toContain('newIconClass');
         });
       });
     });
 
     describe('props.className', () => {
+      beforeEach(() => {
+        children = result.props.children;
+      });
+
       describe('when newHeight is true', () => {
         beforeAll(() => {
           componentProps = { newHeight: true };
         });
 
         it('has btn class', () => {
-          expect(result.props.className)
+          expect(children.props.className)
             .toContain('btnClass');
         });
 
         it('has btnEnabled class', () => {
-          expect(result.props.className)
+          expect(children.props.className)
             .toContain('btnEnabledClass');
         });
       });
@@ -768,12 +810,12 @@ describe('ChannelChoiceMenu component', () => {
         });
 
         it('does not have btn class', () => {
-          expect(result.props.className)
+          expect(children.props.className)
             .not.toContain('btnClass');
         });
 
         it('does not have btnEnabled class', () => {
-          expect(result.props.className)
+          expect(children.props.className)
             .not.toContain('btnEnabledClass');
         });
       });

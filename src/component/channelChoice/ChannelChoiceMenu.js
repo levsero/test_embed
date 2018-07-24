@@ -87,14 +87,16 @@ export class ChannelChoiceMenu extends Component {
     });
 
     return (
-      <ButtonIcon
-        actionable={talkAvailable}
-        className={buttonStyle}
-        labelClassName={this.props.labelClasses}
-        onClick={this.handleNextClick('talk')}
-        iconClasses={iconStyle}
-        label={this.renderTalkLabel()}
-        icon={iconType} />
+      <li>
+        <ButtonIcon
+          actionable={talkAvailable}
+          className={buttonStyle}
+          labelClassName={this.props.labelClasses}
+          onClick={this.handleNextClick('talk')}
+          iconClasses={iconStyle}
+          label={this.renderTalkLabel()}
+          icon={iconType} />
+      </li>
     );
   }
 
@@ -114,13 +116,15 @@ export class ChannelChoiceMenu extends Component {
     });
 
     return (
-      <ButtonIcon
-        className={buttonStyle}
-        iconClasses={iconStyle}
-        labelClassName={this.props.labelClasses}
-        onClick={this.handleNextClick('ticketSubmissionForm')}
-        label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-        icon={iconType} />
+      <li>
+        <ButtonIcon
+          className={buttonStyle}
+          iconClasses={iconStyle}
+          labelClassName={this.props.labelClasses}
+          onClick={this.handleNextClick('ticketSubmissionForm')}
+          label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
+          icon={iconType} />
+      </li>
     );
   }
 
@@ -159,24 +163,26 @@ export class ChannelChoiceMenu extends Component {
     });
 
     return (
-      <ButtonIcon
-        actionable={chatAvailable}
-        className={buttonStyle}
-        iconClasses={iconStyle}
-        labelClassName={this.props.labelClasses}
-        onClick={this.handleChatClick()}
-        label={this.renderChatLabel()}
-        icon={iconType} />
+      <li>
+        <ButtonIcon
+          actionable={chatAvailable}
+          className={buttonStyle}
+          iconClasses={iconStyle}
+          labelClassName={this.props.labelClasses}
+          onClick={this.handleChatClick()}
+          label={this.renderChatLabel()}
+          icon={iconType} />
+      </li>
     );
   }
 
   render = () => {
     return (
-      <div>
+      <ul>
         {this.renderTalkButton()}
         {this.renderChatButton()}
         {this.renderSubmitTicketButton()}
-      </div>
+      </ul>
     );
   }
 }
