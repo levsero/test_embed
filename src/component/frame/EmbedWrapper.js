@@ -4,6 +4,9 @@ import { Provider } from 'react-redux';
 
 import Navigation from 'component/frame/Navigation';
 import { generateWebWidgetPreviewCSS } from 'utility/color/styles';
+import { i18n } from 'service/i18n';
+import gardenOverrides from './gardenOverrides';
+import { ThemeProvider } from '@zendeskgarden/react-theming';
 
 export class EmbedWrapper extends Component {
   static propTypes = {
@@ -14,7 +17,8 @@ export class EmbedWrapper extends Component {
     handleCloseClick: PropTypes.func,
     hideCloseButton: PropTypes.bool,
     reduxStore: PropTypes.object.isRequired,
-    useBackButton: PropTypes.bool
+    useBackButton: PropTypes.bool,
+    document: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -52,20 +56,22 @@ export class EmbedWrapper extends Component {
 
     return (
       <Provider store={this.props.reduxStore}>
-        <div>
-          {css}
-          {styleTag}
-          <Navigation
-            ref={(el) => { this.nav = el; }}
-            handleBackClick={this.props.handleBackClick}
-            handleCloseClick={this.props.handleCloseClick}
-            fullscreen={this.props.fullscreen}
-            useBackButton={this.props.useBackButton}
-            hideCloseButton={this.props.hideCloseButton} />
-          <div id='Embed' ref={(el) => { this.embed = el; }}>
-            {newChild}
+        <ThemeProvider theme={gardenOverrides} rtl={i18n.isRTL()} document={this.props.document}>
+          <div>
+            {css}
+            {styleTag}
+            <Navigation
+              ref={(el) => { this.nav = el; }}
+              handleBackClick={this.props.handleBackClick}
+              handleCloseClick={this.props.handleCloseClick}
+              fullscreen={this.props.fullscreen}
+              useBackButton={this.props.useBackButton}
+              hideCloseButton={this.props.hideCloseButton} />
+            <div id='Embed' ref={(el) => { this.embed = el; }}>
+              {newChild}
+            </div>
           </div>
-        </div>
+        </ThemeProvider>
       </Provider>
     );
   }

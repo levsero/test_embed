@@ -19,7 +19,11 @@ describe('EmbedWrapper', () => {
       'React': React,
       'utility/color/styles': {},
       'component/frame/Navigation': noopReactComponent(),
-      'lodash': _
+      'lodash': _,
+      'service/i18n': {
+        i18n: jasmine.createSpyObj('i18n', ['isRTL'])
+      },
+      './gardenOverrides': {}
     });
 
     EmbedWrapper = requireUncached(EmbedWrapperPath).EmbedWrapper;

@@ -7,11 +7,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import { ThemeProvider } from '@zendeskgarden/react-theming';
 import { StyleSheetManager } from 'styled-components';
 
 import { locals as styles } from './Frame.scss';
-import gardenOverrides from './gardenOverrides';
 
 import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
@@ -402,21 +400,20 @@ export class Frame extends Component {
 
     const wrapper = (
       <StyleSheetManager target={this.getContentDocument().head}>
-        <ThemeProvider theme={gardenOverrides} rtl={i18n.isRTL()} document={this.getContentDocument()}>
-          <EmbedWrapper
-            ref={(el) => { this.child = el; }}
-            baseCSS={`${this.props.css} ${baseFontCSS}`}
-            reduxStore={this.props.store}
-            handleBackClick={this.back}
-            handleCloseClick={this.close}
-            useBackButton={this.props.useBackButton}
-            updateFrameSize={this.updateFrameSize}
-            hideCloseButton={this.props.hideCloseButton}
-            name={this.props.name}
-            fullscreen={this.props.fullscreenable && isMobileBrowser()}>
-            {newChild}
-          </EmbedWrapper>
-        </ThemeProvider>
+        <EmbedWrapper
+          ref={(el) => { this.child = el; }}
+          document={this.getContentDocument()}
+          baseCSS={`${this.props.css} ${baseFontCSS}`}
+          reduxStore={this.props.store}
+          handleBackClick={this.back}
+          handleCloseClick={this.close}
+          useBackButton={this.props.useBackButton}
+          updateFrameSize={this.updateFrameSize}
+          hideCloseButton={this.props.hideCloseButton}
+          name={this.props.name}
+          fullscreen={this.props.fullscreenable && isMobileBrowser()}>
+          {newChild}
+        </EmbedWrapper>
       </StyleSheetManager>
     );
 
