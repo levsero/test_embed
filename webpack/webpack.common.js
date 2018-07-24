@@ -2,12 +2,14 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
+const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp';
+
 const svgoConfig = JSON.stringify({
   plugins: [
     { removeTitle: true },
     { convertPathData: false },
     { convertStyleToAttrs: false}
-   ]
+  ]
 });
 const prefix = process.cwd();
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
@@ -71,7 +73,8 @@ module.exports = {
   output: {
     path: path.join(prefix, 'dist'),
     publicPath: '/dist/',
-    filename: '[name].js'
+    filename: '[name].js',
+    jsonpFunction: WEBPACK_JSONP_GLOBAL
   },
   resolve: {
     alias: {
