@@ -128,6 +128,28 @@ parts:
       screenshot: "https://drive.google.com/open?id=1wzf7c06mTD4LgHWyO1oy1yntdUC9cjLC"
       value: "We'll get back to you soon."
 
+  # Validation errors
+  - translation:
+      key: "embeddable_framework.validation.error.input"
+      title: "Error message shown beneath a required text input field when nothing has been entered."
+      screenshot: "https://drive.google.com/open?id=1yKHphG9otXmcDcrO4rkTQQ_f3hN3d11R"
+      value: "Please enter a value."
+  - translation:
+      key: "embeddable_framework.validation.error.select"
+      title: "Error message shown beneath a required dropdown field when nothing has been selected."
+      screenshot: "https://drive.google.com/open?id=1-qpAluk8alfGCotf7hqkhJAbA7d9ujx8"
+      value: "Please select a value."
+  - translation:
+      key: "embeddable_framework.validation.error.email"
+      title: "Error message shown beneath an email address field when the entered value is an invalid email address."
+      screenshot: "https://drive.google.com/open?id=1cnZUZ0D4SwJdqBk-W2kX2mWMo9PPaIOJ"
+      value: "Please enter a valid email address."
+  - translation:
+      key: "embeddable_framework.validation.error.phone"
+      title: "Error message shown beneath a phone number field when the entered value is an invalid phone number."
+      screenshot: "https://drive.google.com/open?id=1ZOK0K85KFmJ_XBIALS0U-77Pn_JBvDul"
+      value: "Please enter a valid phone number."
+
   # Launcher embed
   - translation:
       key: "embeddable_framework.launcher.label.help"
