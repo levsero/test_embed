@@ -30,7 +30,7 @@ export const getAuthToken = () => {
 
   return (oauth && oauth.token) ? oauth.token : null;
 };
-
+export const getHasWidgetShown = (state) => state.base.hasWidgetShown;
 export const getBaseIsAuthenticated = () => isTokenValid(getOAuth());
 export const getIsAuthenticationPending = (state) => state.base.isAuthenticationPending;
 export const getEmbeddableConfig = (state) => state.base.embeddableConfig;

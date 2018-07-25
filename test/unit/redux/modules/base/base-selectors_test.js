@@ -16,6 +16,7 @@ describe('base selectors', () => {
     getHelpCenterContextualEnabled,
     getHelpCenterSignInRequired,
     getIsAuthenticationPending,
+    getHasWidgetShown,
     mockStoreValue,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
@@ -56,6 +57,26 @@ describe('base selectors', () => {
     getEmbeddableConfig = selectors.getEmbeddableConfig;
     getHelpCenterContextualEnabled = selectors.getHelpCenterContextualEnabled;
     getHelpCenterSignInRequired = selectors.getHelpCenterSignInRequired;
+    getHasWidgetShown = selectors.getHasWidgetShown;
+  });
+
+  describe('getHasWidgetShown', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          hasWidgetShown: true
+        }
+      };
+      result = getHasWidgetShown(mockState);
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
   });
 
   describe('getIsAuthenticationPending', () => {
