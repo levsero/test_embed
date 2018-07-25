@@ -361,9 +361,9 @@ class SubmitTicket extends Component {
         containerClasses={containerClasses}
         footerClasses={footerClasses}
         newHeight={this.props.newHeight}>
-        <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
+        <h2 className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
-        </div>
+        </h2>
         <ul onClick={this.handleTicketFormsListClick}>
           {this.renderTicketFormOptions()}
         </ul>

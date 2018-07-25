@@ -137,9 +137,9 @@ export class HelpCenterResults extends Component {
 
     return (
       <div className={`${styles.legend} ${mobileClasses}`}>
-        <span className={styles.legendContent}>
+        <h2 className={styles.legendContent}>
           {resultsLegend}
-        </span>
+        </h2>
       </div>
     );
   }

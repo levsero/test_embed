@@ -151,9 +151,9 @@ export class ScrollContainer extends Component {
       <div className={scrollContainerClasses}>
         <header ref={(el) => {this.header = el;}}
           className={headerClasses}>
-          <div className={titleClasses}>
+          <h1 className={titleClasses}>
             {this.props.title}
-          </div>
+          </h1>
           {this.props.headerContent}
         </header>
         <div

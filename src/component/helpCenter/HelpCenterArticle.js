@@ -326,7 +326,7 @@ export class HelpCenterArticle extends Component {
 
     return (
       <div className={`${styles.content} ${mobileClasses}`} lang={this.props.locale} ref='userContent'>
-        <div className={styles.title}>{this.props.activeArticle.title}</div>
+        <h2 className={styles.title}>{this.props.activeArticle.title}</h2>
         {this.renderOriginalArticleButton()}
         <div
           ref='article'

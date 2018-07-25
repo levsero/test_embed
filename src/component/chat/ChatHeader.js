@@ -86,7 +86,7 @@ export class ChatHeader extends Component {
 
     return (
       <div className={styles.textContainer} style={rtlPaddingStyle}>
-        <div className={styles.title}>{titleText}</div>
+        <h2 className={styles.title}>{titleText}</h2>
         {this.renderSubText()}
       </div>
     );

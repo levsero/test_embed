@@ -2,8 +2,7 @@
 
 .title {
   composes: u-marginBT u-textBold u-textBody u-hsizeAll u-tableCell from global;
-
-  font-size: #{16/$font-size}rem;
+  font-size: #{16/$font-size}rem !important;
 }
 
 .originalArticleButton {

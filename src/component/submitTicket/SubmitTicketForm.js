@@ -385,9 +385,9 @@ export class SubmitTicketForm extends Component {
 
     return (
       <div ref='formWrapper' className={styles.formWrapper}>
-        <div className={`${styles.ticketFormTitle} ${titleMobileClasses}`}>
+        <h2 className={`${styles.ticketFormTitle} ${titleMobileClasses}`}>
           {activeTicketForm.display_name}
-        </div>
+        </h2>
         {ticketFieldsElem.allFields}
         {this.props.children}
       </div>
