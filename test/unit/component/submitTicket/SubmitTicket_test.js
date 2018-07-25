@@ -459,6 +459,16 @@ describe('Submit ticket component', () => {
       expect(submitTicket.renderTicketFormOptions().length)
         .toBe(3);
     });
+
+    it('renders a semantically appropriate un-numbered list', () => {
+      const ticketForms = [{ id: 1 }, { id: 2 }, { id: 3 }];
+
+      submitTicket = domRender(<SubmitTicket ticketForms={ticketForms} />);
+
+      expect(submitTicket.renderTicketFormOptions()
+        .map((el) => el.type))
+        .toEqual(['li', 'li', 'li']);
+    });
   });
 
   describe('loading spinner', () => {

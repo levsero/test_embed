@@ -91,6 +91,11 @@ describe('HelpCenterResults component', () => {
           .toBeTruthy();
       });
 
+      it('renders a semantically meaningful ordered list', () => {
+        expect(document.querySelector('.listClasses').tagName.toLowerCase())
+          .toEqual('ol');
+      });
+
       it('does not render a noResults div', () => {
         expect(document.querySelector('.noResultsClasses'))
           .toBeFalsy();

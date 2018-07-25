@@ -5,6 +5,7 @@
   padding-top: #{18/$font-size}rem;
   padding-bottom: #{18/$font-size}rem;
   line-height: #{18/$font-size};
+  list-style: none;
 
   &:hover, &:focus, &:active {
     text-decoration: underline;
