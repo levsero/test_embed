@@ -42,6 +42,7 @@ import ContainerStyles from 'component/container/Container.scss';
 import DropdownStyles from 'component/field/Dropdown.scss';
 import DropdownOptionStyles from 'component/field/DropdownOption.scss';
 import FieldStyles from 'component/field/Field.scss';
+import NestedDropdownStyles from 'component/field/NestedDropdown.scss';
 import FlagStyles from 'component/Flag.scss';
 import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.scss';
 import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss';
@@ -113,6 +114,7 @@ export const webWidgetStyles = `
   ${DropdownStyles}
   ${DropdownOptionStyles}
   ${FieldStyles}
+  ${NestedDropdownStyles}
   ${FlagStyles}
   ${HelpCenterArticleStyles}
   ${HelpCenterDesktopStyles}

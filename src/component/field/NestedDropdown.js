@@ -11,6 +11,8 @@ import {
   Hint,
   Label } from '@zendeskgarden/react-select';
 
+import { locals as styles } from './NestedDropdown.scss';
+
 export class NestedDropdown extends Component {
   static propTypes = {
     getFrameContentDocument: PropTypes.func.isRequired,
@@ -166,7 +168,7 @@ export class NestedDropdown extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.field}>
         <SelectField>
           <Label>{this.props.label}</Label>
           <Hint>{this.props.description}</Hint>

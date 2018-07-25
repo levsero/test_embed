@@ -39,6 +39,9 @@ describe('NestedDropdown component', () => {
     mockery.enable();
 
     initMockRegistry({
+      './NestedDropdown.scss': {
+        locals: {}
+      },
       '@zendeskgarden/react-select': {
         SelectField,
         Label: noopReactComponent(),
