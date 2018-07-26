@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextField, Label, Input } from '@zendeskgarden/react-textfields';
 
-import { locals as styles } from './EmailField.scss';
-
 export class EmailField extends Component {
   static propTypes = {
     value: PropTypes.oneOfType([
@@ -30,12 +28,13 @@ export class EmailField extends Component {
 
   render = () => {
     return (
-      <TextField className={styles.container}>
+      <TextField>
         <Label>
           {this.props.label}
         </Label>
         <Input
           required={this.props.required}
+          aria-required={this.props.required}
           value={this.props.value}
           autoComplete='off'
           onChange={() => {}} // stop react warning

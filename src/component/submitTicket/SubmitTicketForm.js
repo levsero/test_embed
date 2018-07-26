@@ -309,13 +309,12 @@ export class SubmitTicketForm extends Component {
 
   renderSubjectField = () => {
     const subjectField = (
-      <TextField className={styles.fieldContainer}>
-        <Label className={styles.fieldLabel}>
+      <TextField>
+        <Label>
           {i18n.t('embeddable_framework.submitTicket.field.subject.label')}
         </Label>
         <Input
           key='subject'
-          className={styles.fieldInput}
           value={this.props.formState.subject}
           disabled={this.props.previewEnabled} />
       </TextField>
@@ -340,15 +339,13 @@ export class SubmitTicketForm extends Component {
 
   renderNameField = () => {
     return (
-      <TextField className={styles.fieldContainer}>
-        <Label className={styles.fieldLabel}>
+      <TextField>
+        <Label>
           {i18n.t('embeddable_framework.submitTicket.field.name.label')}
         </Label>
         <Input
           key='name'
           name='name'
-          type='name'
-          className={styles.fieldInput}
           disabled={this.props.previewEnabled}
           value={this.props.formState.name} />
       </TextField>
@@ -357,13 +354,12 @@ export class SubmitTicketForm extends Component {
 
   renderDescriptionField = () => {
     return (
-      <TextField className={styles.fieldContainer}>
-        <Label className={styles.fieldLabel}>
+      <TextField>
+        <Label>
           {i18n.t('embeddable_framework.submitTicket.field.description.label')}
         </Label>
         <Textarea
           key='description'
-          className={styles.textareaInput}
           disabled={this.props.previewEnabled}
           required={true}
           rows='5' />

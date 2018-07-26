@@ -6,35 +6,26 @@ import { isMobileBrowser,
   isLandscape } from 'utility/devices';
 import { TextField, Textarea, Label, Input, Hint } from '@zendeskgarden/react-textfields';
 import { Checkbox, Label as CheckboxLabel, Hint as CheckboxHint } from '@zendeskgarden/react-checkboxes';
-import { locals as styles } from './fields.scss';
-import classNames from 'classnames';
 
 const getCustomFields = (customFields, formState, options = {}) => {
   const renderField = (sharedProps) => {
     return (
-      <TextField className={styles.fieldContainer} key={sharedProps.key}>
-        <Label className={labelStyle()}>
+      <TextField key={sharedProps.key}>
+        <Label>
           {sharedProps.label}
         </Label>
         {renderDescription(sharedProps)}
-        <Input className={styles.fieldInput} {...sharedProps} />
+        <Input {...sharedProps} />
       </TextField>
     );
   };
   const renderDescription = (field) => {
     return field.description
-      ? <Hint className={labelStyle()}>{field.description}</Hint>
+      ? <Hint>{field.description}</Hint>
       : '';
   };
   const isCheckbox = (field) => {
     return field && field.type === Checkbox;
-  };
-  const labelStyle = () => {
-    return classNames(
-      {
-        [styles.fieldLabelMobile]: isMobileBrowser()
-      }
-    );
   };
   const mapFields = (field) => {
     const title = field.title_in_portal || '';
@@ -92,30 +83,23 @@ const getCustomFields = (customFields, formState, options = {}) => {
       case 'textarea':
       case 'description':
         return (
-          <TextField className={styles.fieldContainer} key={sharedProps.key}>
-            <Label className={labelStyle()}>
+          <TextField key={sharedProps.key}>
+            <Label>
               {sharedProps.label}
             </Label>
             {renderDescription(sharedProps)}
-            <Textarea className={styles.textareaInput} {...sharedProps} rows='5' />
+            <Textarea {...sharedProps} rows='5' />
           </TextField>
         );
 
       case 'checkbox':
-        const descriptionClasses = classNames(
-          {
-            [styles.checkboxDescriptionMobile]: isMobileBrowser(),
-            [styles.fieldLabelMobile]: isMobileBrowser()
-          }
-        );
-        const labelClasses = isMobileBrowser() ? styles.hasCheckboxMobile : '';
         const description = field.description
-          ? <CheckboxHint className={descriptionClasses}>{field.description}</CheckboxHint>
+          ? <CheckboxHint>{field.description}</CheckboxHint>
           : '';
 
         return (
-          <Checkbox wrapperProps={{ className: styles.fieldContainer }} {...sharedProps}>
-            <CheckboxLabel className={`${labelStyle()} ${labelClasses}`}>{title}</CheckboxLabel>
+          <Checkbox {...sharedProps}>
+            <CheckboxLabel>{title}</CheckboxLabel>
             {description}
           </Checkbox>
         );
