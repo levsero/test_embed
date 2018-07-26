@@ -2,11 +2,11 @@
 
 ### The short version
 
-The Zendesk Web Widget is loaded dynamically using an `<iframe>` element. Whilst eearch engines such as Google crawl iframes, the presence of the Web Widget in a given page should have no impact --negative or positive-- on a website's SEO ratings.
+The Zendesk Web Widget is loaded dynamically using an `<iframe>` element. While search engines such as Google crawl iframes, the presence of the Web Widget in a given page should have no impact --negative or positive-- on a website's SEO ratings.
 
 ### A bit more detail
 
-An `<iframe>` element allows a web page to "insert" or embed another page within it using a simple markup tag. You can think of it as a window of variable size to another website or page. It is also used widely as a way to embed rich media such as video, audio or, in our case, the Zendesk web widget.
+An `<iframe>` element allows a web page to "insert" or embed another page within it using a simple markup tag. You can think of it as a window of variable size to another website or page. It's also used widely as a way to embed rich media such as video, audio or, in our case, the Zendesk Web Widget.
 
 The content inside the iframe is not considered by search engines to be part of that page. As a result, no rankings are passed on or "diluted" by content that may appear in the iframe.
 
