@@ -3,68 +3,53 @@ describe('Render phone field', () => {
     libphonenumber,
     mockIsMobileBrowserValue,
     mockIsLandscapeValue,
-    mockSupportedCountries;
+    mockCountries;
+
+  const ReactTextFields = require('@zendeskgarden/react-textfields');
+  const ReactSelection = require('@zendeskgarden/react-selection');
+
+  const SelectField = noopReactComponent();
+  const Item = noopReactComponent();
+  const Label = noopReactComponent();
+  const SelectContainer = noopReactComponent();
+  const SelectView = noopReactComponent();
+  const Dropdown = noopReactComponent();
+
+  mockIsMobileBrowserValue = false;
+  mockIsLandscapeValue = false;
+  mockCountries = ['US', 'AU', 'ZM', 'BB'];
 
   const phoneFieldPath = buildSrcPath('component/talk/TalkPhoneField');
 
-  class MockField extends Component {
-    onBlur() {
-      this.blurred = true;
-    }
-    validate() {
-      this.validated = true;
-    }
-    render() {
-      return <div className='field' />;
-    }
-  }
-
-  class MockDropdown extends Component {
-    render() {
-      return <div className='dropdown'/>;
-    }
-  }
-
-  libphonenumber = require('libphonenumber-js');
-  mockIsMobileBrowserValue = false;
-  mockIsLandscapeValue = false;
-  mockSupportedCountries = ['AU', 'US', 'ZM'];
-
   beforeEach(() => {
+    libphonenumber = require('libphonenumber-js');
+
     mockery.enable();
     initMockRegistry({
       'React': React,
-      'component/field/Field': { Field: MockField },
-      'component/field/Dropdown': { Dropdown: MockDropdown },
-      'component/Flag': { Flag: noopReactComponent },
-      'utility/devices': {
-        isMobileBrowser: () => mockIsMobileBrowserValue,
-        isLandscape: () => mockIsLandscapeValue
+      '@zendeskgarden/react-select': {
+        SelectField,
+        Label,
+        Item,
+        SelectView,
+        SelectContainer,
+        Dropdown
       },
-      './TalkPhoneField.scss': {
-        locals: {
-          field: 'field-class',
-          hover: 'hover-class',
-          focus: 'focus-class',
-          dropdown: 'dropdown-class',
-          dropdownMobile: 'dropdownMobile-class',
-          dropdownInput: 'dropdownInput-class',
-          menuContainer: 'menuContainer-class',
-          arrowMobile: 'arrow-mobile',
-          label: 'field-label',
-          labelPortrait: 'label-portrait',
-          labelLandscape: 'label-landscape',
-          fieldInputMobile: 'field-input-mobile'
+      'component/Flag': { Flag: noopReactComponent() },
+      'component/frame/gardenOverrides': { talkDropdownOverrides: {} },
+      './talkCountries': {
+        countriesByIso: {
+          'US': { code: '1', name: 'United States' },
+          'AU': { code: '61', name: 'Australia' },
+          'ZM': { code: '260', name: 'Zambia' },
+          'BB': { code: '1-246', name: 'Barbados' }
         }
-      },
-      'translation/ze_countries': {
-        'AU': { code: '61', name: 'Australia' },
-        'US': { code: '1', name: 'United States' },
-        'ZM': { code: '260', name: 'Zambia' }
       }
     });
     mockery.registerAllowable(phoneFieldPath);
     TalkPhoneField = requireUncached(phoneFieldPath).TalkPhoneField;
+
+    jasmine.clock().install();
   });
 
   afterEach(() => {
@@ -76,26 +61,28 @@ describe('Render phone field', () => {
   describe('constructor', () => {
     let phoneField;
 
+    const expectedCountries = [
+      { name: 'Australia', iso: 'AU', code: '+61' },
+      { name: 'Barbados', iso: 'BB', code: '+1 246' },
+      { name: 'United States', iso: 'US', code: '+1' },
+      { name: 'Zambia', iso: 'ZM', code: '+260' }
+    ];
+
     describe('when the form has no previous country and phone value', () => {
       beforeEach(() => {
-        phoneField = domRender(
+        phoneField = instanceRender(
           <TalkPhoneField
-            supportedCountries={mockSupportedCountries}
+            getFrameContentDocument={() => document}
+            supportedCountries={mockCountries}
             libphonenumber={libphonenumber} />
         );
       });
 
       it('sets the first country via alphabetical sort to the default country', () => {
-        const supportedCountries = [
-          { name: 'Australia', value: 'AU', default: true },
-          { name: 'United States', value: 'US', default: false },
-          { name: 'Zambia', value: 'ZM', default: false }
-        ];
         const expected = {
-          supportedCountries,
-          country: 'AU',
-          value: '+61',
-          focus: false
+          countries: expectedCountries,
+          selectedKey: 'US',
+          inputValue: '+1'
         };
 
         expect(phoneField.state)
@@ -105,26 +92,21 @@ describe('Render phone field', () => {
 
     describe('when the form has a previous country and phone value', () => {
       beforeEach(() => {
-        phoneField = domRender(
+        phoneField = instanceRender(
           <TalkPhoneField
-            supportedCountries={mockSupportedCountries}
-            country='ZM'
-            value='+260123654247'
+            getFrameContentDocument={() => document}
+            supportedCountries={mockCountries}
+            country='AU'
+            value='+61434032660'
             libphonenumber={libphonenumber} />
         );
       });
 
       it('sets the first country via alphabetical sort to the default country', () => {
-        const supportedCountries = [
-          { name: 'Australia', value: 'AU', default: false },
-          { name: 'United States', value: 'US', default: false },
-          { name: 'Zambia', value: 'ZM', default: true }
-        ];
         const expected = {
-          supportedCountries,
-          country: 'ZM',
-          value: '+260123654247',
-          focus: false
+          countries: expectedCountries,
+          selectedKey: 'AU',
+          inputValue: '+61 434 032 660'
         };
 
         expect(phoneField.state)
@@ -133,129 +115,202 @@ describe('Render phone field', () => {
     });
   });
 
-  describe('componentDidMount', () => {
-    let phoneField;
+  describe('onInputChange', () => {
+    let phoneField,
+      mockSetCustomValidity;
 
-    describe('if a country value exists in state', () => {
+    beforeEach(() => {
+      mockSetCustomValidity = jasmine.createSpy('setCustomValidity');
+
+      phoneField = instanceRender(
+        <TalkPhoneField
+          getFrameContentDocument={() => document}
+          supportedCountries={mockCountries}
+          country='AU'
+          libphonenumber={libphonenumber} />
+      );
+
+      phoneField.phoneInput = { setCustomValidity: mockSetCustomValidity };
+    });
+
+    describe('when the input value does not start with the country code', () => {
       beforeEach(() => {
-        phoneField = domRender(
-          <TalkPhoneField
-            supportedCountries={mockSupportedCountries}
-            country='US'
-            libphonenumber={libphonenumber} />
-        );
-
-        spyOn(phoneField, 'triggerCountryChange');
+        phoneField.onInputChange({ target: { value: '' }});
       });
 
-      it('calls triggerCountryChange with the country', () => {
-        expect(phoneField.triggerCountryChange)
-          .not.toHaveBeenCalled();
+      it('sets state.inputValue to the country code', () => {
+        expect(phoneField.state.inputValue)
+          .toBe('+61');
+      });
 
-        phoneField.componentDidMount();
-
-        expect(phoneField.triggerCountryChange)
-          .toHaveBeenCalledWith('US');
+      it('sets state.inputChangeTriggered to true', () => {
+        expect(phoneField.state.inputChangeTriggered)
+          .toBe(true);
       });
     });
 
-    describe('if a value provided is not equal to the country code', () => {
+    describe('when the input value does start with the country code', () => {
       beforeEach(() => {
-        phoneField = domRender(
-          <TalkPhoneField
-            supportedCountries={mockSupportedCountries}
-            value='+61403354742'
-            country='AU'
-            libphonenumber={libphonenumber} />
-        );
-
-        spyOn(phoneField.input, 'validate');
-        spyOn(phoneField.input, 'onBlur');
-
-        phoneField.componentDidMount();
+        phoneField.onInputChange({ target: { value: '+61432067819' }});
       });
 
-      it('calls validate', () => {
-        expect(phoneField.input.validate)
+      it('sets state.inputValue to the formatted phone number', () => {
+        expect(phoneField.state.inputValue)
+          .toBe('+61 432 067 819');
+      });
+
+      it('sets state.inputChangeTriggered to true', () => {
+        expect(phoneField.state.inputChangeTriggered)
+          .toBe(true);
+      });
+    });
+
+    describe('when the input value is a valid phone number', () => {
+      beforeEach(() => {
+        phoneField.onInputChange({ target: { value: '+61432067819' }});
+      });
+
+      it('calls phoneInput.setCustomValidity with an empty string', () => {
+        expect(mockSetCustomValidity)
+          .toHaveBeenCalledWith('')
+      });
+    });
+
+    describe('when the input value is not a valid phone number', () => {
+      beforeEach(() => {
+        phoneField.onInputChange({ target: { value: '+6143206' }});
+      });
+
+      it('calls phoneInput.setCustomValidity with an "Error" string', () => {
+        expect(mockSetCustomValidity)
+          .toHaveBeenCalledWith('Error')
+      });
+    });
+  });
+
+  describe('onFlagChange', () => {
+    let phoneField,
+      mockOnCountrySelect;
+
+    beforeEach(() => {
+      mockOnCountrySelect = jasmine.createSpy('onCountrySelect');
+      phoneField = instanceRender(
+        <TalkPhoneField
+          getFrameContentDocument={() => document}
+          supportedCountries={mockCountries}
+          country='AU'
+          value='+61432098745'
+          onCountrySelect={mockOnCountrySelect}
+          libphonenumber={libphonenumber} />
+      );
+
+      phoneField.phoneInput = { focus: jasmine.createSpy('focus') };
+    });
+
+    describe('when the flag is already selected', () => {
+      beforeEach(() => {
+        phoneField.onFlagChange('AU');
+      });
+
+      it('does not set state.inputValue to new flag code', () => {
+        expect(phoneField.state.inputValue)
+          .toBe('+61 432 098 745');
+      });
+
+      it('does not call phoneInput.focus on the next tick', () => {
+        jasmine.clock().tick(1);
+
+        expect(phoneField.phoneInput.focus)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call props.onCountrySelect', () => {
+        expect(mockOnCountrySelect)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the flag is not already selected', () => {
+      beforeEach(() => {
+        phoneField.onFlagChange('US');
+      });
+
+      it('sets state.selectedKey to the new flag iso', () => {
+        expect(phoneField.state.selectedKey)
+          .toBe('US');
+      });
+
+      it('sets state.inputValue to new flag code', () => {
+        expect(phoneField.state.inputValue)
+          .toBe('+1');
+      });
+
+      it('calls phoneInput.focus on the next tick', () => {
+        jasmine.clock().tick(1);
+
+        expect(phoneField.phoneInput.focus)
           .toHaveBeenCalled();
       });
 
-      it('calls onBlur with an event object with a formatted phone number', () => {
-        const expected = {
-          target: {
-            value: '+61 403 354 742'
-          }
-        };
-
-        expect(phoneField.input.onBlur)
-          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
+      it('calls props.onCountrySelect with the new flag and input', () => {
+        expect(mockOnCountrySelect)
+          .toHaveBeenCalledWith('US', '+1');
       });
     });
   });
 
-  it('handles empty values', () => {
-    const phoneField = domRender(<TalkPhoneField libphonenumber={libphonenumber} />);
-
-    phoneField.componentWillReceiveProps({ value: '' });
-
-    expect(phoneField.state.value)
-      .toEqual('');
-  });
-
-  it('fires field events on initial render', () => {
-    const phoneField = domRender(
-      <TalkPhoneField
-        country='AU'
-        value='61422222222'
-        libphonenumber={libphonenumber} />
-    );
-    const field = TestUtils.findRenderedComponentWithType(phoneField, MockField);
-
-    expect(field.blurred)
-      .toBe(true);
-
-    expect(field.validated)
-      .toBe(true);
-  });
-
-  it('triggers onCountryChange on country select', () => {
-    const selectSpy = jasmine.createSpy('onSelect');
-    const phoneField = domRender(
-      <TalkPhoneField
-        onCountrySelect={selectSpy}
-        libphonenumber={libphonenumber} />
-    );
-
-    phoneField.handleCountrySelected('US');
-
-    expect(selectSpy)
-      .toHaveBeenCalledWith('US', '+1');
-  });
-
-  describe('mobile', () => {
+  describe('validate', () => {
     let phoneField;
 
     beforeEach(() => {
-      mockIsMobileBrowserValue = true;
+      phoneField = instanceRender(
+        <TalkPhoneField
+          getFrameContentDocument={() => document}
+          supportedCountries={mockCountries}
+          country='AU'
+          libphonenumber={libphonenumber} />
+      );
 
-      phoneField = domRender(<TalkPhoneField libphonenumber={libphonenumber} />);
+      phoneField.phoneInput = { setCustomValidity: _.noop };
     });
 
-    it('has the default mobile classes when isMobileBrowser is true', () => {
-      expect(TestUtils.findRenderedDOMComponentWithClass(phoneField, 'label-portrait'))
-        .toBeTruthy();
+    describe('when state.inputChangeTriggered is true', () => {
+      beforeEach(() => {
+        phoneField.setState({ inputChangeTriggered: true });
+      });
 
-      expect(() => TestUtils.findRenderedDOMComponentWithClass(phoneField, 'label-landscape'))
-        .toThrow();
+      describe('when the phone number is valid', () => {
+        beforeEach(() => {
+          phoneField.onInputChange({ target: { value: '+61423098756' }});
+        });
+
+        it('returns undefined', () => {
+          expect(phoneField.validate())
+            .toBe(undefined);
+        });
+      });
+
+      describe('when the phone number is not valid', () => {
+        beforeEach(() => {
+          phoneField.onInputChange({ target: { value: '+6142309' }});
+        });
+
+        it('returns "error"', () => {
+          expect(phoneField.validate())
+            .toBe('error');
+        });
+      });
     });
 
-    it('passes mobile-specific props to components when isMobileBrowser is true', () => {
-      const dropdown = TestUtils.findRenderedComponentWithType(phoneField, MockDropdown);
-      const field = TestUtils.findRenderedComponentWithType(phoneField, MockField);
+    describe('when state.inputChangeTriggered is false', () => {
+      beforeEach(() => {
+        phoneField.setState({ inputChangeTriggered: false });
+      });
 
-      expect(dropdown.props.inputClassName).toMatch('dropdownMobile-class');
-      expect(dropdown.props.arrowClassName).toMatch('arrow-mobile');
-      expect(field.props.inputClasses).toMatch('field-input-mobile');
+      it('returns undefined', () => {
+        expect(phoneField.validate())
+          .toBe(undefined);
+      });
     });
   });
 
@@ -266,33 +321,24 @@ describe('Render phone field', () => {
     beforeEach(() => {
       phoneField = domRender(
         <TalkPhoneField
+          getFrameContentDocument={() => document}
           label='Phone'
-          required={true}
           supportedCountries={['US', 'AU']}
           country='AU'
           value='+61430999721'
+          required={true}
           libphonenumber={libphonenumber} />
       );
-      field = TestUtils.findRenderedComponentWithType(phoneField, MockField);
+      field = phoneField.phoneInput;
     });
 
     it('sets country state from prop', () => {
-      expect(phoneField.state.country)
+      expect(phoneField.state.selectedKey)
         .toEqual('AU');
     });
 
-    it('formats the value into an international phone number', () => {
-      expect(phoneField.state.value)
-        .toEqual('+61 430 999 721');
-    });
-
-    it('returns an internal field of talk phone number field component with a validator function prop', () => {
-      expect(field.props.validateInput)
-        .toEqual(jasmine.any(Function));
-    });
-
     it('returns an internal field of talk phone field component with a name prop', () => {
-      expect(field.props.name)
+      expect(field.name)
         .toEqual('phone');
     });
 
@@ -308,198 +354,11 @@ describe('Render phone field', () => {
     });
 
     it('formats the supported countries to the expected format', () => {
-      expect(phoneField.state.supportedCountries)
+      expect(phoneField.state.countries)
         .toEqual([
-          { name: 'Australia', value: 'AU', default: true },
-          { name: 'United States', value: 'US', default: false }
+          { name: 'Australia', iso: 'AU', code: '+61' },
+          { name: 'United States', iso: 'US', code: '+1' }
         ]);
-    });
-
-    it('formats the phone number', () => {
-      expect(phoneField.formatPhoneNumber('+61430999721', 'AU'))
-        .toEqual('+61 430 999 721');
-    });
-
-    it('disallows editing values that do not start with proper prefix', () => {
-      phoneField.componentWillReceiveProps({ value: '404' });
-
-      expect(phoneField.state.value)
-        .toEqual('+61');
-    });
-
-    it('allows editing values that conform to format', () => {
-      phoneField.componentWillReceiveProps({ value: '+61422133422' });
-
-      expect(phoneField.state.value)
-        .toEqual('+61 422 133 422');
-    });
-
-    it('updates state on country select', () => {
-      phoneField.handleCountrySelected('US');
-
-      expect(phoneField.state.country)
-        .toEqual('US');
-
-      expect(phoneField.state.value)
-        .toEqual('+1');
-
-      expect(field.validated)
-        .toBe(true);
-    });
-
-    it('sets state on mouse enter', () => {
-      phoneField.handleMouseEnter();
-
-      expect(phoneField.state.hover)
-        .toEqual(true);
-    });
-
-    it('does not reset value if country selected is the same as previous', () => {
-      phoneField.handleCountrySelected('AU');
-
-      expect(phoneField.state.value)
-        .toEqual('+61 430 999 721');
-    });
-
-    describe('event handling', () => {
-      describe('when focus is triggered', () => {
-        beforeEach(() => {
-          spyOn(phoneField, 'handleContainerFocus');
-
-          phoneField.handleFocus();
-        });
-
-        it('sets state on focus', () => {
-          expect(phoneField.state.focus)
-            .toEqual(true);
-        });
-
-        it('calls handleContainerFocus', () => {
-          expect(phoneField.handleContainerFocus)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when blur is triggered', () => {
-        describe('when menu is not open and container is not focused', () => {
-          beforeEach(() => {
-            phoneField.menuOpen = false;
-            phoneField.containerFocused = false;
-
-            phoneField.handleBlur();
-          });
-
-          it('sets state on blur', () => {
-            expect(phoneField.state.focus)
-              .toEqual(false);
-            expect(phoneField.state.hover)
-              .toEqual(false);
-          });
-        });
-
-        describe('when either menu is opened or container is focused', () => {
-          beforeEach(() => {
-            phoneField.menuOpen = true;
-            phoneField.containerFocused = true;
-
-            phoneField.setState({ focus: true, hover: true });
-            phoneField.handleBlur();
-          });
-
-          it('does not change the current state on blur', () => {
-            expect(phoneField.state.focus)
-              .toEqual(true);
-            expect(phoneField.state.hover)
-              .toEqual(true);
-          });
-        });
-      });
-
-      describe('when handleDropdownBlur is triggered', () => {
-        describe('when container is focused', () => {
-          beforeEach(() => {
-            phoneField.containerFocused = true;
-            field.blurred = false;
-
-            spyOn(phoneField, 'handleBlur');
-
-            jasmine.clock().install();
-            phoneField.handleDropdownBlur();
-            jasmine.clock().tick(0);
-          });
-
-          it('does not call blur on input', () => {
-            expect(field.blurred)
-              .toBe(false);
-          });
-        });
-
-        describe('when container is not focused', () => {
-          beforeEach(() => {
-            phoneField.containerFocused = false;
-            field.blurred = false;
-
-            spyOn(phoneField, 'handleBlur');
-
-            jasmine.clock().install();
-            phoneField.handleDropdownBlur();
-            jasmine.clock().tick(0);
-          });
-
-          it('calls blur on input', () => {
-            expect(field.blurred)
-              .toBe(true);
-          });
-        });
-      });
-
-      it('triggers validate on field after setting props', () => {
-        phoneField.componentWillReceiveProps({ value: '+61422' });
-
-        expect(field.validated)
-          .toBe(true);
-      });
-
-      it('sets state on mouse enter', () => {
-        phoneField.handleMouseEnter();
-
-        expect(phoneField.state.hover)
-          .toEqual(true);
-      });
-
-      it('sets state on mouse leave', () => {
-        phoneField.handleMouseLeave();
-
-        expect(phoneField.state.hover)
-          .toEqual(false);
-      });
-
-      it('does not remove focus when menu is open', () => {
-        phoneField.menuOpen = true;
-        phoneField.setState({ focus: true, hover: true });
-        phoneField.handleBlur();
-
-        expect(phoneField.state.focus)
-          .toEqual(true);
-
-        expect(phoneField.state.hover)
-          .toEqual(true);
-      });
-
-      it('sets menuOpen to value from handleMenuChange', () => {
-        expect(phoneField.menuOpen)
-          .toEqual(false);
-
-        phoneField.handleMenuChange(true);
-
-        expect(phoneField.menuOpen)
-          .toEqual(true);
-
-        phoneField.handleMenuChange(false);
-
-        expect(phoneField.menuOpen)
-          .toEqual(false);
-      });
     });
   });
 });
