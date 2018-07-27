@@ -552,6 +552,7 @@ class WebWidget extends Component {
         helpCenterAvailable={this.isHelpCenterAvailable()}
         channelChoiceAvailable={this.isChannelChoiceAvailable()}
         onBackClick={this.onBackClick}
+        getFrameContentDocument={this.props.getFrameContentDocument}
         getFrameDimensions={this.props.getFrameDimensions} />
     );
   }

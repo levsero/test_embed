@@ -59,7 +59,6 @@ import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss';
 import SuccessNotificationStyles from 'component/shared/SuccessNotification/SuccessNotification.scss';
 import TalkStyles from 'component/talk/Talk.scss';
-import TalkPhoneFieldStyles from 'component/talk/TalkPhoneField.scss';
 import LoadingBarContentStyles from 'component/loading/LoadingBarContent.scss';
 import { sharedStyles } from 'embed/sharedStyles.js';
 import gardenStyles from 'embed/gardenStyles.js';
@@ -128,6 +127,5 @@ export const webWidgetStyles = `
   ${SubmitTicketFormStyles}
   ${SuccessNotificationStyles}
   ${TalkStyles}
-  ${TalkPhoneFieldStyles}
   ${LoadingBarContentStyles}
 `;

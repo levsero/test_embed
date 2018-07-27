@@ -60,6 +60,7 @@ class Talk extends Component {
     submitTalkCallbackForm: PropTypes.func.isRequired,
     talkConfig: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool,
     channelChoiceAvailable: PropTypes.bool,
@@ -102,7 +103,7 @@ class Talk extends Component {
   }
 
   handleCountrySelect = (country, phone) => {
-    this.props.updateTalkCallbackForm({ ...this.props.formState, country, phone });
+    this.props.updateTalkCallbackForm({ country });
     if (this.form) {
       this.form.validate();
     }
@@ -163,7 +164,7 @@ class Talk extends Component {
     const nameLabel = i18n.t('embeddable_framework.common.textLabel.name');
     const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
     const submitButtonStyles = classNames({ [styles.submitBtnMobile]: this.props.isMobile });
-    let { phone, name, description, country } = this.props.formState;
+    const { phone, name, description, country } = this.props.formState;
 
     return (
       <Form
@@ -180,13 +181,13 @@ class Talk extends Component {
         <div className={styles.formDivider} />
         <TalkPhoneField
           label={phoneLabel}
-          getFrameDimensions={this.props.getFrameDimensions}
-          onCountrySelect={this.handleCountrySelect}
           required={true}
+          onCountrySelect={this.handleCountrySelect}
+          libphonenumber={this.props.libphonenumber}
+          getFrameContentDocument={this.props.getFrameContentDocument}
           supportedCountries={this.props.embeddableConfig.supportedCountries}
           country={country}
-          value={phone}
-          libphonenumber={this.props.libphonenumber} />
+          value={phone} />
         <TextField className={styles.textField}>
           <Label>{nameLabel}</Label>
           <Input
