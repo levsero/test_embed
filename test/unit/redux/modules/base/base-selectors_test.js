@@ -17,7 +17,9 @@ describe('base selectors', () => {
     getHelpCenterSignInRequired,
     getIsAuthenticationPending,
     getHasWidgetShown,
+    getHasPassedAuth,
     mockStoreValue,
+    mockIsOnHelpCenterPage,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
   beforeEach(() => {
@@ -35,6 +37,9 @@ describe('base selectors', () => {
       },
       'src/redux/modules/base/helpers/auth': {
         isTokenValid: isTokenValidSpy
+      },
+      'utility/pages': {
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPage
       }
     });
 
@@ -58,6 +63,117 @@ describe('base selectors', () => {
     getHelpCenterContextualEnabled = selectors.getHelpCenterContextualEnabled;
     getHelpCenterSignInRequired = selectors.getHelpCenterSignInRequired;
     getHasWidgetShown = selectors.getHasWidgetShown;
+    getHasPassedAuth = selectors.getHasPassedAuth;
+  });
+
+  describe('getHasPassedAuth', () => {
+    let result,
+      mockState,
+      mockHelpCenterSignInRequired;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embeddableConfig: {
+            embeds: {
+              helpCenterForm: {
+                props: {
+                  signInRequired: mockHelpCenterSignInRequired
+                }
+              }
+            }
+          }
+        }
+      };
+      result = getHasPassedAuth(mockState);
+    });
+
+    describe('isAuthenticated', () => {
+      beforeAll(() => {
+        mockHelpCenterSignInRequired = true;
+        mockIsOnHelpCenterPage = false;
+      });
+
+      describe('when set to true', () => {
+        beforeAll(() => {
+          isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(true);
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when set to false', () => {
+        beforeAll(() => {
+          isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false);
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('helpCenterSignInRequired', () => {
+      beforeAll(() => {
+        isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false);
+        mockIsOnHelpCenterPage = false;
+      });
+
+      describe('when set to true', () => {
+        beforeAll(() => {
+          mockHelpCenterSignInRequired = true;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('when set to false', () => {
+        beforeAll(() => {
+          mockHelpCenterSignInRequired = false;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('isOnHelpCenterPage', () => {
+      beforeAll(() => {
+        isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false);
+        mockHelpCenterSignInRequired = true;
+      });
+
+      describe('when set to true', () => {
+        beforeAll(() => {
+          mockIsOnHelpCenterPage = true;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when set to false', () => {
+        beforeAll(() => {
+          mockIsOnHelpCenterPage = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
   });
 
   describe('getHasWidgetShown', () => {

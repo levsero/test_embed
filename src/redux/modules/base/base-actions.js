@@ -17,7 +17,12 @@ import {
   REMOVE_FROM_QUEUE
 } from './base-action-types';
 import { settings } from 'service/settings';
-import { getOAuth, getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
+import { getOAuth,
+  getBaseIsAuthenticated,
+  getHasWidgetShown,
+  getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { contextualSearch } from 'src/redux/modules/helpCenter';
 import { chatOpened } from 'src/redux/modules/chat';
 import { extractTokenId,
   isTokenRenewable } from 'src/redux/modules/base/helpers/auth';
@@ -186,12 +191,17 @@ export const updateWidgetShown = (show) => {
   };
 
   return (dispatch, getState) => {
-    const activeEmbed = getState().base.activeEmbed;
+    const state = getState();
+    const activeEmbed = getActiveEmbed(state);
 
     dispatch(updateWidgetShownAction);
 
     if (activeEmbed === 'chat' && show) {
       dispatch(chatOpened());
+    }
+
+    if (!getHasContextuallySearched(state) && show && !getHasWidgetShown(state)) {
+      dispatch(contextualSearch());
     }
   };
 };

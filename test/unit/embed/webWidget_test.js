@@ -13,7 +13,6 @@ describe('embed.webWidget', () => {
     mockFiltersValue,
     mockFrame,
     mockNicknameValue,
-    targetCancelHandlerSpy,
     resetTalkScreenSpy,
     zChatInitSpy,
     authenticateSpy,
@@ -24,8 +23,7 @@ describe('embed.webWidget', () => {
     mockWebWidget,
     mockChatNotification,
     mockState,
-    mockChatVendorImport,
-    mockIsBaseAuthenticated;
+    mockChatVendorImport;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const revokeTokenSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
@@ -70,8 +68,6 @@ describe('embed.webWidget', () => {
         };
       }
     });
-
-    targetCancelHandlerSpy = jasmine.createSpy();
 
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
     mockWebWidget = requireUncached(buildTestPath('unit/mocks/mockWebWidget'));
@@ -158,8 +154,7 @@ describe('embed.webWidget', () => {
         getTicketFields: getTicketFieldsSpy
       },
       'src/redux/modules/base/base-selectors': {
-        getActiveEmbed: () => mockActiveEmbed,
-        getBaseIsAuthenticated: () => mockIsBaseAuthenticated
+        getActiveEmbed: () => mockActiveEmbed
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatNotification: () => mockChatNotification
@@ -176,17 +171,8 @@ describe('embed.webWidget', () => {
         isIE() { return mockIsIE; },
         getZoomSizingRatio: noop
       },
-      'utility/mouse': {
-        mouse: {
-          target: jasmine.createSpy('mouseTarget').and.returnValue(targetCancelHandlerSpy)
-        }
-      },
       'utility/color/styles': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
-      },
-      'utility/utils': {
-        getPageKeywords: jasmine.createSpy().and.returnValue('foo bar'),
-        cappedTimeoutCall: (callback) => { callback(); }
       },
       'utility/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue
@@ -1295,194 +1281,6 @@ describe('embed.webWidget', () => {
         });
       });
     });
-
-    describe('when subscribing to helpCenterForm.setHelpCenterSuggestions', () => {
-      it('should subscribe to helpCenterForm.setHelpCenterSuggestions', () => {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('helpCenterForm.setHelpCenterSuggestions', jasmine.any(Function));
-      });
-
-      describe('when helpCenterForm is not available', () => {
-        beforeEach(() => {
-          webWidget.create('', {});
-          webWidget.render();
-          spyOn(webWidget, 'keywordsSearch');
-          pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'foo' });
-        });
-
-        it('should not call keywordsSearch', () => {
-          expect(webWidget.keywordsSearch)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when helpCenterForm is available', () => {
-        describe('when mouse driven contextual search is enabled', () => {
-          let targetListener;
-
-          beforeEach(() => {
-            targetListener = mockRegistry['utility/mouse'].mouse.target;
-
-            webWidget.create('', { helpCenterForm: { enableMouseDrivenContextualHelp: true } });
-            webWidget.render('');
-          });
-
-          it('should add the mouse target listener', () => {
-            pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'foo' });
-
-            expect(targetListener)
-              .toHaveBeenCalled();
-          });
-        });
-
-        describe('when mouse driven contextual search is disabled', () => {
-          beforeEach(() => {
-            webWidget.create('', { helpCenterForm: {} });
-            webWidget.render();
-            spyOn(webWidget, 'keywordsSearch');
-            pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'foo' });
-          });
-
-          it('should call keywordsSearch', () => {
-            expect(webWidget.keywordsSearch)
-              .toHaveBeenCalledWith({ search: 'foo' });
-          });
-        });
-      });
-    });
-  });
-
-  describe('keywordsSearch', () => {
-    let webWidgetComponent,
-      childComponent;
-
-    describe('without authenticated help center', () => {
-      beforeEach(() => {
-        mockIsBaseAuthenticated = false;
-        webWidget.create('', { helpCenterForm: { signInRequired: true } });
-        webWidget.render();
-
-        const webWidgetComponent = webWidget.get().instance.getRootComponent();
-
-        childComponent = webWidgetComponent.getHelpCenterComponent();
-
-        spyOn(childComponent, 'contextualSearch');
-        webWidget.keywordsSearch({ search: 'foo' });
-      });
-
-      it('does not call contextual search', () => {
-        expect(childComponent.contextualSearch)
-          .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('with authenticated help center', () => {
-      let mockOptions;
-
-      beforeEach(() => {
-        mockIsBaseAuthenticated = true;
-        webWidget.create('',
-          {
-            helpCenterForm: {
-              contextualHelpEnabled: true,
-              signInRequired: true
-            }
-          }
-        );
-        webWidget.render();
-
-        webWidgetComponent = webWidget.get().instance.getRootComponent();
-        childComponent = webWidgetComponent.getRootComponent();
-
-        spyOn(childComponent, 'contextualSearch');
-      });
-
-      it('should wait until authenticate is true before searching', () => {
-        // Simulate the page load contextual request that is sent when mouse distance
-        // is less than minimum.
-        mockIsBaseAuthenticated = false;
-        webWidget.keywordsSearch({ url: true }, {
-          distance: 0.24,
-          speed: 0
-        });
-        jasmine.clock().tick();
-        mockIsBaseAuthenticated = true;
-        expect(childComponent.contextualSearch)
-          .not.toHaveBeenCalled();
-
-        jasmine.clock().tick();
-        webWidget.keywordsSearch({ url: true });
-        jasmine.clock().tick();
-
-        expect(childComponent.contextualSearch)
-          .toHaveBeenCalledWith({ url: true, pageKeywords: 'foo bar' });
-      });
-
-      describe('when sign-in is not required', () => {
-        beforeEach(() => {
-          mockOptions = { mock: 'options' };
-
-          webWidget.create('', { helpCenterForm: { signInRequired: false } });
-          webWidget.render();
-
-          const webWidgetComponent = webWidget.get().instance.getRootComponent();
-
-          childComponent = webWidgetComponent.getHelpCenterComponent();
-
-          spyOn(childComponent, 'contextualSearch');
-          webWidget.keywordsSearch(mockOptions);
-        });
-
-        it('calls contextualSearch with options', () => {
-          expect(childComponent.contextualSearch)
-            .toHaveBeenCalledWith(mockOptions);
-        });
-      });
-
-      describe('when HelpCenter has successfully authenticated', () => {
-        beforeEach(() => {
-          mockIsBaseAuthenticated = true;
-          mockOptions = { mock: 'options' };
-
-          webWidget.create('', { helpCenterForm: { signInRequired: true } });
-          webWidget.render();
-
-          const webWidgetComponent = webWidget.get().instance.getRootComponent();
-
-          childComponent = webWidgetComponent.getHelpCenterComponent();
-
-          spyOn(childComponent, 'contextualSearch');
-          webWidget.keywordsSearch(mockOptions);
-        });
-
-        it('calls contextualSearch with options', () => {
-          expect(childComponent.contextualSearch)
-            .toHaveBeenCalledWith(mockOptions);
-        });
-      });
-
-      describe('when the user is in a HelpCenter page', () => {
-        beforeEach(() => {
-          mockOptions = { mock: 'options' };
-          mockIsOnHelpCenterPageValue = true;
-
-          webWidget.create('', { helpCenterForm: { signInRequired: true } });
-          webWidget.render();
-
-          const webWidgetComponent = webWidget.get().instance.getRootComponent();
-
-          childComponent = webWidgetComponent.getHelpCenterComponent();
-
-          spyOn(childComponent, 'contextualSearch');
-          webWidget.keywordsSearch(mockOptions);
-        });
-
-        it('calls contextualSearch with options', () => {
-          expect(childComponent.contextualSearch)
-            .toHaveBeenCalledWith(mockOptions);
-        });
-      });
-    });
   });
 
   describe('postRender', () => {
@@ -1528,173 +1326,6 @@ describe('embed.webWidget', () => {
         it('calls authentication.revoke with tokensRevokedAt value', () => {
           expect(revokeTokenSpy)
             .toHaveBeenCalledWith(webWidget.get().config.helpCenterForm.tokensRevokedAt);
-        });
-      });
-    });
-
-    describe('contextual help', () => {
-      beforeEach(() => {
-        webWidget.create('', { helpCenterForm: { contextualHelpEnabled: true } }, mockStore);
-      });
-
-      describe('when mouse driven contextual help is enabled', () => {
-        let targetSpy;
-
-        beforeEach(() => {
-          targetSpy = mockRegistry['utility/mouse'].mouse.target;
-          webWidget.create('',
-            {
-              helpCenterForm: {
-                contextualHelpEnabled: true,
-                enableMouseDrivenContextualHelp: true
-              }
-            },
-            mockStore
-          );
-          webWidget.render();
-          spyOn(webWidget, 'keywordsSearch');
-        });
-
-        it('should add the mouse target listener', () => {
-          webWidget.postRender();
-
-          expect(targetSpy)
-            .toHaveBeenCalled();
-        });
-
-        describe('when zE.activate API function has been used', () => {
-          let mockMediator;
-
-          beforeEach(() => {
-            mockMediator = mockRegistry['service/mediator'].mediator;
-          });
-
-          describe('before post render', () => {
-            beforeEach(() => {
-              pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
-              webWidget.postRender();
-            });
-
-            it('should not add the mouse target listener', () => {
-              expect(targetSpy)
-                .not.toHaveBeenCalled();
-            });
-
-            it('should call keywordsSearch', () => {
-              expect(webWidget.keywordsSearch)
-                .toHaveBeenCalledWith({ url: true });
-            });
-          });
-
-          describe('after post render', () => {
-            describe('when contextual search options are used', () => {
-              beforeEach(() => {
-                pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'help' });
-                webWidget.postRender();
-                pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
-              });
-
-              it('should remove the mouse target listener', () => {
-                expect(targetCancelHandlerSpy)
-                  .toHaveBeenCalled();
-              });
-
-              it('should call keywordsSearch with set options', () => {
-                expect(webWidget.keywordsSearch)
-                  .toHaveBeenCalledWith({ search: 'help' });
-              });
-            });
-
-            describe('when no contextual search options are used', () => {
-              beforeEach(() => {
-                webWidget.postRender();
-                pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
-              });
-
-              it('should remove the mouse target listener', () => {
-                expect(targetCancelHandlerSpy)
-                  .toHaveBeenCalled();
-              });
-
-              it('should call keywordsSearch with url option', () => {
-                expect(webWidget.keywordsSearch)
-                  .toHaveBeenCalledWith({ url: true });
-              });
-            });
-          });
-        });
-
-        describe('when the user has manually set suggestions', () => {
-          beforeEach(() => {
-            const mockMediator = mockRegistry['service/mediator'].mediator;
-
-            pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')(['foo']);
-
-            targetSpy.calls.reset();
-
-            webWidget.postRender();
-          });
-
-          it('should\'t add the mouse target listener', () => {
-            expect(targetSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-
-        describe('when the user is on a help center host page', () => {
-          beforeEach(() => {
-            mockIsOnHelpCenterPageValue = true;
-            webWidget.postRender();
-          });
-
-          it('should not add the mouse target listener', () => {
-            expect(targetSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-      });
-
-      describe('when mouse driven contextual help is disabled', () => {
-        beforeEach(() => {
-          spyOn(webWidget, 'keywordsSearch');
-        });
-
-        it('should call keywordSearch', () => {
-          webWidget.render();
-          webWidget.postRender();
-
-          expect(webWidget.keywordsSearch)
-            .toHaveBeenCalledWith({ url: true });
-        });
-
-        describe('when the user has manually set suggestions', () => {
-          beforeEach(() => {
-            const mockMediator = mockRegistry['service/mediator'].mediator;
-
-            webWidget.render();
-            pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')(['foo']);
-
-            webWidget.keywordsSearch.calls.reset();
-
-            webWidget.postRender();
-          });
-
-          it('should not call keywordSearch', () => {
-            expect(webWidget.keywordsSearch)
-              .not.toHaveBeenCalled();
-          });
-        });
-
-        describe('when the user is on a help center host page', () => {
-          beforeEach(() => {
-            mockIsOnHelpCenterPageValue = true;
-            webWidget.postRender();
-          });
-
-          it('should not call keywordSearch', () => {
-            expect(webWidget.keywordsSearch)
-              .not.toHaveBeenCalled();
-          });
         });
       });
     });

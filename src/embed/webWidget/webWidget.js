@@ -22,12 +22,8 @@ import { getZoomSizingRatio,
   isMobileBrowser,
   setScaleLock } from 'utility/devices';
 import { document, getDocumentHost } from 'utility/globals';
-import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
-import { cappedTimeoutCall,
-  getPageKeywords } from 'utility/utils';
-import { getActiveEmbed,
-  getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { setVisitorInfo,
   chatNotificationDismissed,
@@ -47,10 +43,6 @@ const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
 export default function WebWidgetFactory(name) {
   let embed = null;
-  let hasManuallySetContextualSuggestions = false;
-  let useMouseDistanceContexualSearch = false;
-  let contextualSearchOptions = {};
-  let cancelTargetHandler = null;
   let resetEmbedOnShow = false;
   let prefix = '';
 
@@ -288,16 +280,6 @@ export default function WebWidgetFactory(name) {
           embed.instance.show(options);
           resetEmbedOnShow = false;
         }, 0);
-
-        if (useMouseDistanceContexualSearch && options.viaActivate && embed.config.helpCenterForm) {
-          useMouseDistanceContexualSearch = false;
-
-          if (cancelTargetHandler) {
-            cancelTargetHandler();
-          }
-
-          webWidget.keywordsSearch(contextualSearchOptions);
-        }
       });
     });
 
@@ -377,15 +359,6 @@ export default function WebWidgetFactory(name) {
         }
       });
     });
-
-    mediator.channel.subscribe(prefix + 'helpCenterForm.setHelpCenterSuggestions', (options) => {
-      waitForRootComponent(() => {
-        if (embed.embedsAvailable.helpCenterForm) {
-          hasManuallySetContextualSuggestions = true;
-          performContextualHelp(options);
-        }
-      });
-    });
   }
 
   function get() {
@@ -416,59 +389,12 @@ export default function WebWidgetFactory(name) {
     const config = embed.config.helpCenterForm;
     const authSetting = settings.getSupportAuthSettings();
 
-    if (config.contextualHelpEnabled &&
-        !hasManuallySetContextualSuggestions &&
-        !isOnHelpCenterPage()) {
-      const options = { url: true };
-
-      waitForRootComponent(() => performContextualHelp(options));
-    }
-
     if (config.tokensRevokedAt) {
       embed.store.dispatch(revokeToken(config.tokensRevokedAt));
     }
 
     if (authSetting) {
       embed.store.dispatch(authenticate(authSetting.jwt));
-    }
-  }
-
-  function keywordsSearch(options) {
-    const contextualSearchFn = () => {
-      const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
-      const signInNotRequired = embed.config.helpCenterForm.signInRequired === false;
-      const isAuthenticated = signInNotRequired || getBaseIsAuthenticated() || isOnHelpCenterPage();
-
-      if (isAuthenticated && helpCenterComponent) {
-        if (options.url) {
-          options.pageKeywords = getPageKeywords();
-        }
-
-        helpCenterComponent.contextualSearch(options);
-
-        return true;
-      }
-
-      return false;
-    };
-
-    cappedTimeoutCall(contextualSearchFn, 500, 20);
-  }
-
-  function performContextualHelp(options) {
-    contextualSearchOptions = options;
-
-    const onHitFn = (options) => () => {
-      keywordsSearch(options);
-      useMouseDistanceContexualSearch = false;
-    };
-
-    if (useMouseDistanceContexualSearch) {
-      const launcherElement = document.getElementById('launcher');
-
-      cancelTargetHandler = mouse.target(launcherElement, onHitFn(options), isMobileBrowser());
-    } else {
-      webWidget.keywordsSearch(options);
     }
   }
 
@@ -659,13 +585,10 @@ export default function WebWidgetFactory(name) {
       buttonLabelKey: 'message',
       formTitleKey: 'help',
       signInRequired: false,
-      enableMouseDrivenContextualHelp: false,
       color: '#659700'
     };
 
     config = _.extend({}, helpCenterConfigDefaults, config);
-
-    useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
     return {
       config
@@ -677,7 +600,6 @@ export default function WebWidgetFactory(name) {
     render,
     get,
     postRender,
-    keywordsSearch,
     waitForRootComponent
   };
 

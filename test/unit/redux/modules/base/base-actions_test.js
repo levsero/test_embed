@@ -14,12 +14,16 @@ let actions,
   mockBaseIsAuthenticated,
   mockIsTokenValid,
   mockExtractTokenId,
-  mockIsTokenRenewable,
   mockPersistentStoreValue,
+  mockHasContextuallySearched,
+  mockHasWidgetShown,
+  mockActiveEmbed,
+  mockIsTokenRenewable = jasmine.createSpy('isTokenRenewable'),
   persistentStoreRemoveSpy = jasmine.createSpy('remove'),
   persistentStoreSetSpy = jasmine.createSpy('set'),
   httpPostSpy = jasmine.createSpy('http'),
-  broadcastSpy = jasmine.createSpy('broadcast');
+  broadcastSpy = jasmine.createSpy('broadcast'),
+  contextualSearchSpy = jasmine.createSpy('contextualSearch').and.returnValue({ type: 'someActionType' });
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -43,7 +47,7 @@ describe('base redux actions', () => {
       'src/redux/modules/base/helpers/auth': {
         isTokenValid: () => mockIsTokenValid,
         extractTokenId: () => mockExtractTokenId,
-        isTokenRenewable: () => mockIsTokenRenewable
+        isTokenRenewable: mockIsTokenRenewable
       },
       'src/util/utils': {
         emailValid: () => mockEmailValidValue
@@ -55,7 +59,15 @@ describe('base redux actions', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getOAuth: () => mockOAuth,
-        getBaseIsAuthenticated: () => mockBaseIsAuthenticated
+        getBaseIsAuthenticated: () => mockBaseIsAuthenticated,
+        getHasWidgetShown: () => mockHasWidgetShown,
+        getActiveEmbed: () => mockActiveEmbed
+      },
+      'src/redux/modules/helpCenter/helpCenter-selectors': {
+        getHasContextuallySearched: () => mockHasContextuallySearched
+      },
+      'src/redux/modules/helpCenter': {
+        contextualSearch: contextualSearchSpy
       },
       'service/mediator': {
         mediator: {
@@ -97,6 +109,7 @@ describe('base redux actions', () => {
     persistentStoreSetSpy.calls.reset();
     persistentStoreRemoveSpy.calls.reset();
     broadcastSpy.calls.reset();
+    contextualSearchSpy.calls.reset();
     mockery.disable();
     mockery.deregisterAll();
   });
@@ -316,6 +329,45 @@ describe('base redux actions', () => {
     let action,
       actionList;
 
+    describe('when the widget is being shown for the first time', () => {
+      beforeEach(() => {
+        mockHasContextuallySearched = false;
+        mockHasWidgetShown = false;
+        mockStore.dispatch(actions.updateWidgetShown(true));
+      });
+
+      it('calls contextualSearch', () => {
+        expect(contextualSearchSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the widget is hidden', () => {
+      beforeEach(() => {
+        mockStore.dispatch(actions.updateWidgetShown(false));
+      });
+
+      it('does not call contextualSearch', () => {
+        expect(contextualSearchSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the widget is being shown for the second time', () => {
+      beforeEach(() => {
+        mockHasWidgetShown = true;
+        mockHasContextuallySearched = false;
+        mockStore.dispatch(actions.updateWidgetShown(true));
+      });
+
+      it('does not call contextualSearch', () => {
+        expect(contextualSearchSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+    });
+
     describe('when activeEmbed is not chat', () => {
       beforeEach(() => {
         mockStore = createMockStore({ base: { activeEmbed: 'apoorv' } });
@@ -341,6 +393,7 @@ describe('base redux actions', () => {
 
       describe('when widget is shown', () => {
         beforeEach(() => {
+          mockActiveEmbed = 'chat';
           mockStore.dispatch(actions.updateWidgetShown(true));
           actionList = mockStore.getActions();
         });
@@ -546,7 +599,7 @@ describe('base redux actions', () => {
 
     describe('when the oauth token is renewable', () => {
       beforeEach(() => {
-        mockIsTokenRenewable = true;
+        mockIsTokenRenewable.and.returnValue(true);
         mockStore.dispatch(actions.renewToken());
       });
 
@@ -631,7 +684,7 @@ describe('base redux actions', () => {
 
     describe('when the oauth token is not renewable', () => {
       beforeEach(() => {
-        mockIsTokenRenewable = false;
+        mockIsTokenRenewable.and.returnValue(false);
         mockStore.dispatch(actions.renewToken());
       });
 

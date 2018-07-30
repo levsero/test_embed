@@ -2,6 +2,7 @@ import { store } from 'service/persistence';
 import { isTokenValid } from 'src/redux/modules/base/helpers/auth';
 import _ from 'lodash';
 import { createSelector } from 'reselect';
+import { isOnHelpCenterPage } from 'utility/pages';
 
 export const getSubmitTicketEmbed = (state) => !!state.base.embeds.ticketSubmissionForm;
 export const getZopimChatEmbed = (state) => !!state.base.embeds.zopimChat;
@@ -47,3 +48,9 @@ export const getHelpCenterSignInRequired = createSelector(
   }
 );
 export const getQueue = (state) => state.base.queue;
+export const getHasPassedAuth = createSelector(
+  [getBaseIsAuthenticated, getHelpCenterSignInRequired],
+  (isAuthenticated, helpCenterSignInRequired) => {
+    return isAuthenticated || !helpCenterSignInRequired || isOnHelpCenterPage();
+  }
+);

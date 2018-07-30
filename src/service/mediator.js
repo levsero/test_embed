@@ -542,10 +542,6 @@ function init(embedsAccessible, params = {}) {
     c.broadcast('webWidget.update');
   });
 
-  c.intercept('.onSetHelpCenterSuggestions', (__, params) => {
-    c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
-  });
-
   c.intercept('.onSetLocale', () => {
     c.broadcast(`${chat}.refreshLocale`);
     c.broadcast(`${launcher}.refreshLocale`);

@@ -1,5 +1,10 @@
 import { createSelector } from 'reselect';
 
+import { getPageKeywords } from 'utility/utils';
+import { isOnHelpCenterPage } from 'utility/pages';
+
+import { getHelpCenterContextualEnabled } from 'src/redux/modules/base/base-selectors';
+
 import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
@@ -48,5 +53,32 @@ export const getHasSearched = createSelector(
   [getHasContextuallySearched, getTotalUserSearches],
   (hasContextuallySearched, numOfUserSearches) => {
     return hasContextuallySearched || numOfUserSearches > 0;
+  }
+);
+
+export const getContextualHelpRequestNeeded = createSelector(
+  [getManualContextualSuggestions, getHelpCenterContextualEnabled],
+  (manualContextualSuggestions, contextualHelpEnabled) => {
+    const searchTermExists = !!manualContextualSuggestions.query;
+    const labelsExist = !!manualContextualSuggestions.labels && manualContextualSuggestions.labels.length > 0;
+
+    return (contextualHelpEnabled && !isOnHelpCenterPage()) || (searchTermExists || labelsExist);
+  }
+);
+
+export const getSearchQuery = createSelector(
+  [getManualContextualSuggestions],
+  (manualContextualSuggestions) => {
+    let searchQuery = {};
+
+    if (manualContextualSuggestions.query) {
+      searchQuery.query = manualContextualSuggestions.query;
+    } else if (manualContextualSuggestions.labels && manualContextualSuggestions.labels.length > 0) {
+      searchQuery.label_names = manualContextualSuggestions.labels.join(','); // eslint-disable-line camelcase
+    } else {
+      searchQuery.query = getPageKeywords();
+    }
+
+    return searchQuery;
   }
 );

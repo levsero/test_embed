@@ -14,6 +14,7 @@ import throttle from 'src/redux/middleware/throttle';
 
 import { trackAnalytics } from 'src/redux/middleware/analytics';
 import { sendBlips } from 'src/redux/middleware/blip';
+import queueCalls from 'src/redux/middleware/queue';
 
 function loggerTitleFormatter(storeName) {
   return (action) => [`${storeName}`, `%c${String(action.type)}`, '%c'].join(' ');
@@ -34,7 +35,8 @@ export default function(storeName = 'web_widget', options = {}) {
     onStateChange(onStateChangeFn),
     sendBlips,
     trackAnalytics,
-    persist
+    persist,
+    onStateChange(queueCalls)
   ];
   let storeEnhancers;
 

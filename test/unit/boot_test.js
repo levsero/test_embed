@@ -62,7 +62,8 @@ describe('boot', () => {
         updateEmbeddableConfig: updateEmbeddableConfigSpy
       },
       'src/redux/modules/helpCenter': {
-        displayArticle: noop
+        displayArticle: noop,
+        setContextualSuggestionsManually: noop
       },
       'src/redux/modules/settings': {
         updateSettings: noop
