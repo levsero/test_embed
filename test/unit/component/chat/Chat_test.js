@@ -32,7 +32,7 @@ describe('ChatOffline component', () => {
 
     describe('when props.showOfflineChat is true', () => {
       beforeEach(() => {
-        component = instanceRender(
+        component = domRender(
           <Chat
             showOfflineChat={true} />
         );
@@ -46,6 +46,19 @@ describe('ChatOffline component', () => {
       it('does not render ChatOnline component', () => {
         expect(component.renderChatOnline())
           .toBeFalsy();
+      });
+
+      describe('getActiveComponent', () => {
+        let active;
+
+        beforeEach(() => {
+          active = component.getActiveComponent();
+        });
+
+        it('returns the offline component', () => {
+          expect(TestUtils.isCompositeComponentWithType(active, ChatOffline))
+            .toEqual(true);
+        });
       });
 
       describe('handleDragEnter', () => {
@@ -63,7 +76,7 @@ describe('ChatOffline component', () => {
 
     describe('when props.showOfflineForm is false', () => {
       beforeEach(() => {
-        component = instanceRender(
+        component = domRender(
           <Chat
             showOfflineForm={false} />
         );
@@ -77,6 +90,19 @@ describe('ChatOffline component', () => {
       it('does not render ChatOffline component', () => {
         expect(component.renderChatOffline())
           .toBeFalsy();
+      });
+
+      describe('getActiveComponent', () => {
+        let active;
+
+        beforeEach(() => {
+          active = component.getActiveComponent();
+        });
+
+        it('returns the online component', () => {
+          expect(TestUtils.isCompositeComponentWithType(active, ChatOnline))
+            .toEqual(true);
+        });
       });
 
       describe('handleDragEnter', () => {

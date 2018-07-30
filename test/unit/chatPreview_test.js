@@ -16,13 +16,26 @@ describe('chatPreview file', () => {
   const updatePreviewerSettingsSpy = jasmine.createSpy('updatePreviewerSettings');
   const dispatchSpy = jasmine.createSpy('dispatch');
   const createStoreSpy = jasmine.createSpy().and.callFake(() => ({ dispatch: dispatchSpy }));
+  const i18nSpy = jasmine.createSpyObj('i18n', ['setLocale']);
+  const chatForceUpdateSpy = jasmine.createSpy('chat.forceUpdate');
 
   beforeEach(() => {
     mockery.enable();
 
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
 
-    const ChatComponent = noopReactComponent();
+    class ChatComponent extends Component {
+      constructor() {
+        super();
+        this.chat = { forceUpdate: chatForceUpdateSpy };
+      }
+      getActiveComponent = () => this.chat
+      render() {
+        return (
+          <div></div>
+        );
+      }
+    }
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
@@ -43,7 +56,7 @@ describe('chatPreview file', () => {
       },
       'component/chat/Chat': connectedComponent(<ChatComponent />),
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['setLocale'])
+        i18n: i18nSpy
       },
       'src/redux/modules/chat': {
         updatePreviewerScreen: updatePreviewerScreenSpy,
@@ -339,6 +352,33 @@ describe('chatPreview file', () => {
         expect(dispatchSpy)
           .toHaveBeenCalledWith({ type: 'websdk/chat.memberjoin', payload: action });
       });
+    });
+  });
+
+  describe('updateLocale', () => {
+    let element, preview;
+
+    beforeEach(() => {
+      element = document.body.appendChild(document.createElement('div'));
+      preview = window.zEPreview.renderPreview({ element });
+
+      spyOn(preview._component, 'updateFrameLocale');
+      preview.updateLocale('de');
+    });
+
+    it('calls i18n.setLocale with the locale and forceUpdate as true', () => {
+      expect(i18nSpy.setLocale)
+        .toHaveBeenCalledWith('de', true);
+    });
+
+    it('calls frame.updateFrameLocale', () => {
+      expect(preview._component.updateFrameLocale)
+        .toHaveBeenCalled();
+    });
+
+    it('calls chat.getActiveComponent.forceUpdate', () => {
+      expect(updatePreviewerScreenSpy)
+        .toHaveBeenCalledWith({ screen: 'chatting', status: true });
     });
   });
 });

@@ -36,6 +36,11 @@ class Chat extends Component {
     super();
 
     this.online = null;
+    this.offline = null;
+  }
+
+  getActiveComponent = () => {
+    return (this.online) ? this.online : this.offline;
   }
 
   renderChatOffline = () => {
@@ -43,6 +48,7 @@ class Chat extends Component {
 
     return (
       <ChatOffline
+        ref={(el) => { this.offline = el; }}
         updateFrameSize={this.props.updateFrameSize}
         handleCloseClick={this.props.handleCloseClick}
         isMobile={this.props.isMobile}
