@@ -5,7 +5,7 @@ group :deployment do
   gem 'jwt', '~> 2.1'
 end
 
-source 'https://gem.zdsys.com/gems/' do
+source 'https://zdrepo.jfrog.io/zdrepo/api/gems/gems-local/' do
   group :deployment do
     gem 'zendesk_deployment', '~> 3.4'
   end
