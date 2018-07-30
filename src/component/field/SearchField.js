@@ -135,12 +135,12 @@ export class SearchField extends Component {
         onClick={this.props.onSearchIconClick}
         focused={this.state.focused}
         icon='Icon--search'
-        className={styles.desktopSearchOrLoading}
       />;
 
     return (
       <MediaFigure
-        key="searchOrLoading">
+        key="searchOrLoading"
+        className={styles.desktopSearchOrLoading}>
         {icon}
       </MediaFigure>
     );
