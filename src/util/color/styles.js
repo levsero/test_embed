@@ -1,11 +1,13 @@
 import { themeColor, colorFor, defaultColor } from './validate';
 import { ColorMixer } from './mixer';
 
-function generateUserCSS(color = defaultColor) {
+function getColorVariables(color = defaultColor) {
   const mixer = new ColorMixer;
   const baseColor = themeColor(color) || defaultColor;
+  const baseHighlightColor = mixer.highlightColor(baseColor);
 
   const buttonColorStr = colorFor('button', mixer.buttonColorFrom(baseColor));
+  const buttonHighlightColorStr = mixer.highlightColor(buttonColorStr);
   const buttonTextColorStr = mixer.foregroundColorFrom(buttonColorStr);
 
   const listColorStr = colorFor('resultLists', mixer.listColorFrom(baseColor));
@@ -21,141 +23,156 @@ function generateUserCSS(color = defaultColor) {
   const headerTextColorStr = mixer.foregroundColorFrom(headerColorStr);
   const headerBackgroundColorStr = mixer.highlightColor(headerColorStr);
 
+  return {
+    baseColor,
+    baseHighlightColor,
+    buttonColorStr,
+    buttonHighlightColorStr,
+    buttonTextColorStr,
+    listColorStr,
+    listHighlightColorStr,
+    linkColorStr,
+    linkTextColorStr,
+    launcherColorStr,
+    launcherTextColorStr,
+    headerColorStr,
+    headerTextColorStr,
+    headerBackgroundColorStr
+  };
+}
+
+function generateUserCSS(color = defaultColor) {
+  const colorVariables = getColorVariables(color);
+
   return (`
     .u-userColor {
-      color: ${baseColor} !important;
+      color: ${colorVariables.baseColor} !important;
     }
     .rf-CheckboxGroup__checkbox:checked + span:before,
     .u-userTextColor:not([disabled]) {
-      color: ${listColorStr} !important;
-      fill: ${listColorStr} !important;
+      color: ${colorVariables.listColorStr} !important;
+      fill: ${colorVariables.listColorStr} !important;
     }
     .u-userTextColor:not([disabled]):hover,
     .u-userTextColor:not([disabled]):active,
     .u-userTextColor:not([disabled]):focus {
-      color: ${listHighlightColorStr} !important;
-      fill: ${listHighlightColorStr} !important;
+      color: ${colorVariables.listHighlightColorStr} !important;
+      fill: ${colorVariables.listHighlightColorStr} !important;
     }
     .u-userFillColor:not([disabled]) svg {
-      fill: ${listColorStr} !important;
+      fill: ${colorVariables.listColorStr} !important;
     }
     .u-userFillColor:not([disabled]) svg path {
-      fill: ${listColorStr} !important;
+      fill: ${colorVariables.listColorStr} !important;
     }
     .u-userFillCustomColor svg path.customColor,
     .u-userFillCustomColor svg rect.customColor {
-      fill: ${listColorStr} !important;
+      fill: ${colorVariables.listColorStr} !important;
     }
     .u-userBackgroundColorNoHover {
-      background-color: ${buttonColorStr} !important;
-      color: ${buttonTextColorStr} !important;
+      background-color: ${colorVariables.buttonColorStr} !important;
+      color: ${colorVariables.buttonTextColorStr} !important;
     }
     .u-userBackgroundColor:not([disabled]) {
-      background-color: ${buttonColorStr} !important;
-      color: ${buttonTextColorStr} !important;
+      background-color: ${colorVariables.buttonColorStr} !important;
+      color: ${colorVariables.buttonTextColorStr} !important;
     }
     .u-userBackgroundColor:not([disabled]):hover,
     .u-userBackgroundColor:not([disabled]):active,
     .u-userBackgroundColor:not([disabled]):focus {
-      background-color: ${mixer.highlightColor(buttonColorStr)} !important;
+      background-color: ${colorVariables.buttonHighlightColorStr} !important;
     }
     .u-userLauncherColor:not([disabled]) {
-      background-color: ${launcherColorStr} !important;
-      color: ${launcherTextColorStr} !important;
-      fill: ${launcherTextColorStr} !important;
+      background-color: ${colorVariables.launcherColorStr} !important;
+      color: ${colorVariables.launcherTextColorStr} !important;
+      fill: ${colorVariables.launcherTextColorStr} !important;
       svg {
-        color: ${launcherTextColorStr} !important;
-        fill: ${launcherTextColorStr} !important;
+        color: ${colorVariables.launcherTextColorStr} !important;
+        fill: ${colorVariables.launcherTextColorStr} !important;
       }
     }
     .u-launcherColor:not([disabled]):hover {
-      background-color: ${mixer.highlightColor(baseColor)} !important;
+      background-color: ${colorVariables.baseHighlightColor} !important;
     }
     .u-userBorderColor:not([disabled]) {
-      color: ${buttonColorStr} !important;
+      color: ${colorVariables.buttonColorStr} !important;
       background-color: transparent !important;
-      border-color: ${buttonColorStr} !important;
+      border-color: ${colorVariables.buttonColorStr} !important;
     }
     .u-userBorderColor:not([disabled]):hover,
     .u-userBorderColor:not([disabled]):active,
     .u-userBorderColor:not([disabled]):focus {
-      color: ${buttonTextColorStr} !important;
-      background-color: ${buttonColorStr} !important;
-      border-color: ${buttonColorStr} !important;
+      color: ${colorVariables.buttonTextColorStr} !important;
+      background-color: ${colorVariables.buttonColorStr} !important;
+      border-color: ${colorVariables.buttonColorStr} !important;
     }
     .u-userLinkColor a {
-      color: ${linkColorStr} !important;
+      color: ${colorVariables.linkColorStr} !important;
     }
     .u-userLinkColor a:hover {
-      color: ${linkTextColorStr} !important;
+      color: ${colorVariables.linkTextColorStr} !important;
     }
     .u-userStrokeColor {
-      stroke: ${baseColor} !important;
+      stroke: ${colorVariables.baseColor} !important;
     }
     .u-userHeaderColor {
-      background: ${headerColorStr} !important;
-      color: ${headerTextColorStr} !important;
+      background: ${colorVariables.headerColorStr} !important;
+      color: ${colorVariables.headerTextColorStr} !important;
     }
     .u-userHeaderButtonColor {
-      fill: ${headerTextColorStr} !important;
+      fill: ${colorVariables.headerTextColorStr} !important;
     }
     .u-userHeaderButtonColor:hover,
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
-      background: ${headerBackgroundColorStr} !important;
+      background: ${colorVariables.headerBackgroundColorStr} !important;
       svg {
-        background: ${headerBackgroundColorStr} !important;
+        background: ${colorVariables.headerBackgroundColorStr} !important;
       }
     }
     .u-userHeaderButtonColorMobile {
-      fill: ${headerTextColorStr} !important;
+      fill: ${colorVariables.headerTextColorStr} !important;
     }
   `);
 }
 
 function generateWebWidgetPreviewCSS(color) {
-  const mixer = new ColorMixer;
-  const baseColor = themeColor(color);
-
-  const headerColorStr = colorFor('header', baseColor);
-  const headerTextColorStr = mixer.foregroundColorFrom(headerColorStr);
-  const headerBackgroundColorStr = mixer.highlightColor(headerColorStr);
-  const buttonColorStr = colorFor('button', mixer.buttonColorFrom(baseColor));
-  const buttonTextColorStr = mixer.foregroundColorFrom(buttonColorStr);
+  const colorVariables = getColorVariables(color);
 
   return (`
     .u-userBackgroundColor:not([disabled]) {
-      background-color: ${buttonColorStr} !important;
-      color: ${buttonTextColorStr} !important;
+      background-color: ${colorVariables.buttonColorStr} !important;
+      color: ${colorVariables.buttonTextColorStr} !important;
     }
     .u-userBackgroundColor:not([disabled]):hover,
     .u-userBackgroundColor:not([disabled]):active,
     .u-userBackgroundColor:not([disabled]):focus {
-      background-color: ${mixer.highlightColor(baseColor)} !important;
+      background-color: ${colorVariables.baseHighlightColor} !important;
     }
     .u-userHeaderColor {
-      background: ${headerColorStr} !important;
-      color: ${headerTextColorStr} !important;
+      background: ${colorVariables.headerColorStr} !important;
+      color: ${colorVariables.headerTextColorStr} !important;
     }
     .u-userHeaderButtonColor {
-      fill: ${headerTextColorStr} !important;
+      fill: ${colorVariables.headerTextColorStr} !important;
     }
     .u-userHeaderButtonColor:hover,
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
-      background: ${headerBackgroundColorStr} !important;
+      background: ${colorVariables.headerBackgroundColorStr} !important;
       svg {
-        background: ${headerBackgroundColorStr} !important;
+        background: ${colorVariables.headerBackgroundColorStr} !important;
       }
     }
     .u-userBackgroundColorNoHover {
-      background-color: ${buttonColorStr} !important;
-      color: ${buttonTextColorStr} !important;
+      background-color: ${colorVariables.buttonColorStr} !important;
+      color: ${colorVariables.buttonTextColorStr} !important;
     }
   `);
 }
 
 export {
   generateUserCSS,
-  generateWebWidgetPreviewCSS
+  generateWebWidgetPreviewCSS,
+  getColorVariables
 };
