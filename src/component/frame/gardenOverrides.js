@@ -42,8 +42,7 @@ const checkboxLabelMobileOverrides = isMobileBrowser() ? css`
   `
   : '';
 
-const inputOverrides = isMobileBrowser() ? css`
-    ${mobileOverrides}
+const borderOverrides = isMobileBrowser() ? css`
     border-radius: ${4/FONT_SIZE}rem !important;
     border-width: ${1.1/FONT_SIZE}rem !important;
   `
@@ -66,6 +65,11 @@ const genericOverrides = css`
     box-shadow: 0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;
   }
   ${mobileOverrides}
+`;
+
+const inputOverrides = css`
+  ${genericOverrides}
+  ${borderOverrides}
 `;
 
 export default {
