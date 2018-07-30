@@ -1530,4 +1530,21 @@ describe('ChattingScreen component', () => {
       });
     });
   });
+
+  describe('showContactDetails', () => {
+    const spyFn = jasmine.createSpy('showContactDetails');
+    let chatLog;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChattingScreen showContactDetails={spyFn} />);
+      const scrollContainer = component.render().props.children;
+
+      chatLog = scrollContainer.props.children[1];
+    });
+
+    it('passes showContactDetails prop to ChatLog', () => {
+      expect(chatLog.props.updateInfoOnClick)
+        .toEqual(spyFn);
+    });
+  });
 });
