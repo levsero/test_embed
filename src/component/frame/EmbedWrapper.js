@@ -8,7 +8,7 @@ import { ThemeProvider } from '@zendeskgarden/react-theming';
 import Navigation from 'component/frame/Navigation';
 import { generateWebWidgetPreviewCSS } from 'utility/color/styles';
 import { i18n } from 'service/i18n';
-import gardenOverrides from './gardenOverrides';
+import { getGardenOverrides } from './gardenOverrides';
 import { getDocumentHost } from 'utility/globals';
 
 export class EmbedWrapper extends Component {
@@ -75,7 +75,7 @@ export class EmbedWrapper extends Component {
 
     return (
       <Provider store={this.props.reduxStore}>
-        <ThemeProvider theme={gardenOverrides} rtl={i18n.isRTL()} document={this.props.document}>
+        <ThemeProvider theme={getGardenOverrides()} rtl={i18n.isRTL()} document={this.props.document}>
           <FocusJailContainer focusOnMount={false}>
             {({ getContainerProps, containerRef }) => (
               <div {...getContainerProps(this.getEmbedWrapperProps(containerRef))}>

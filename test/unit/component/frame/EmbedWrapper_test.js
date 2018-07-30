@@ -31,7 +31,9 @@ describe('EmbedWrapper', () => {
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['isRTL'])
       },
-      './gardenOverrides': {}
+      './gardenOverrides': {
+        getGardenOverrides: noop
+      }
     });
 
     EmbedWrapper = requireUncached(EmbedWrapperPath).EmbedWrapper;
