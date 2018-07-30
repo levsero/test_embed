@@ -104,7 +104,8 @@ class ChattingScreen extends Component {
     firstMessageTimestamp: PropTypes.number,
     newHeight: PropTypes.bool.isRequired,
     socialLogin: PropTypes.object,
-    conciergeSettings: PropTypes.object.isRequired
+    conciergeSettings: PropTypes.object.isRequired,
+    showContactDetails: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -132,7 +133,8 @@ class ChattingScreen extends Component {
     hideZendeskLogo: false,
     firstMessageTimestamp: null,
     socialLogin: {},
-    conciergeSettings: {}
+    conciergeSettings: {},
+    showContactDetails: () => {}
   };
 
   constructor(props) {
@@ -464,7 +466,7 @@ class ChattingScreen extends Component {
             onImageLoad={this.scrollToBottom}
             conciergeAvatar={this.props.conciergeSettings.avatar_path}
             showUpdateInfo={!!loginSettings.enabled && !(visitorNameSet || emailSet)}
-            updateInfoOnClick={this.showContactDetailsFn}
+            updateInfoOnClick={this.props.showContactDetails}
             socialLogin={this.props.socialLogin}
           />
           {this.renderQueuePosition()}

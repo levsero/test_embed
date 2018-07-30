@@ -249,6 +249,7 @@ class Chat extends Component {
         showChatEndFn={showChatEndFn}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
+        showContactDetails={this.showContactDetailsFn}
         newHeight={this.props.newHeight} />
     );
   }
