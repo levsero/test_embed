@@ -57,7 +57,7 @@
     "@zendeskgarden/svg-icons": "~4.0.0",
     "@zendeskgarden/css-buttons": "6.0.0",
     "airwaves": "~0.3.0",
-    "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v9.0.0",
+    "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v12.0.0",
     "classnames": "^2.2.5",
     "color": "~0.7.3",
     "core-js": "^2.5.1",
