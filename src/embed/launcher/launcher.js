@@ -54,6 +54,11 @@ function create(name, config, reduxStore) {
     // Re-authenticate user if their oauth token is within 20 minutes of expiring
     reduxStore.dispatch(renewToken());
   };
+  const updateFrameTitle = (title) => {
+    if (get(name).instance) {
+      get(name).instance.updateFrameTitle(title);
+    }
+  };
   const adjustFrameStyleMargins = (frameStyle) => {
     const zoomRatio = getZoomSizingRatio();
     const adjustMargin = (margin) => {
@@ -93,6 +98,7 @@ function create(name, config, reduxStore) {
     <Frame {...params} store={reduxStore}>
       <Launcher
         onClick={onClick}
+        updateFrameTitle={updateFrameTitle}
         label={`embeddable_framework.launcher.label.${config.labelKey}`} />
     </Frame>
   );

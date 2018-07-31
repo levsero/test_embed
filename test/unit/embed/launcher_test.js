@@ -40,6 +40,11 @@ describe('embed.launcher', () => {
       'service/beacon': {
         beacon: jasmine.createSpyObj('mockBeacon', ['trackUserAction'])
       },
+      'service/i18n': {
+        i18n: {
+          t: _.identity
+        }
+      },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])

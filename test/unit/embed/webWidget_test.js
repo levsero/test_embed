@@ -88,7 +88,8 @@ describe('embed.webWidget', () => {
       },
       'service/i18n': {
         i18n: {
-          getLocale: () => 'fr'
+          getLocale: () => 'fr',
+          t: _.identity
         }
       },
       'service/logging': {
@@ -250,6 +251,11 @@ describe('embed.webWidget', () => {
 
         expect(webWidget.get().component.props.css)
           .toContain('mockCss');
+      });
+
+      it('sets the iframe title', () => {
+        expect(frame.props.title)
+          .toEqual('embeddable_framework.web_widget.frame.title');
       });
 
       describe('onShow', () => {

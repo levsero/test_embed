@@ -35,7 +35,8 @@ class Launcher extends Component {
     onClick: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     notificationCount: PropTypes.number.isRequired,
-    getFrameContentDocument: PropTypes.func.isRequired
+    getFrameContentDocument: PropTypes.func,
+    updateFrameTitle: PropTypes.func
   };
 
   static defaultProps = { updateFrameSize: () => {} };
@@ -133,6 +134,21 @@ class Launcher extends Component {
     }
   }
 
+  getTitle = () => {
+    const defaultTitle = i18n.t('embeddable_framework.launcher.frame.title');
+
+    switch (this.props.activeEmbed) {
+      case 'chat':
+      case 'zopimChat':
+        if (this.props.chatAvailable) return i18n.t('embeddable_framework.launcher.chat.title');
+        return defaultTitle;
+      case 'talk':
+        return i18n.t('embeddable_framework.launcher.talk.title');
+      default:
+        return defaultTitle;
+    }
+  }
+
   getIconType = () => {
     const { talkAvailable, chatAvailable } = this.props;
 
@@ -166,6 +182,10 @@ class Launcher extends Component {
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
 
     setTimeout(() => this.props.updateFrameSize(5, 0), 0);
+
+    if (this.props.updateFrameTitle) {
+      this.props.updateFrameTitle(this.getTitle());
+    }
 
     return (
       <div className={`${styles.wrapper} ${baseMobileClasses}`}

@@ -63,7 +63,8 @@ export class Frame extends Component {
     preventClose: PropTypes.bool,
     useBackButton: PropTypes.bool,
     transitions: PropTypes.object,
-    visible: PropTypes.bool
+    visible: PropTypes.bool,
+    title: PropTypes.string
   }
 
   static defaultProps = {
@@ -86,7 +87,8 @@ export class Frame extends Component {
     store: { dispatch: () => {} },
     useBackButton: false,
     transitions: {},
-    visible: true
+    visible: true,
+    title: ''
   }
 
   constructor(props, context) {
@@ -167,6 +169,12 @@ export class Frame extends Component {
       this.child.forceUpdate();
       this.child.nav.forceUpdate();
     }
+  }
+
+  updateFrameTitle = (title) => {
+    const doc = this.getContentDocument();
+
+    this.iframe.title = doc.title = title;
   }
 
   setFixedFrameStyles = (fixedStyles = {}) => {
@@ -437,6 +445,9 @@ export class Frame extends Component {
     if (doc.readyState === 'complete') {
       this.updateFrameLocale();
       this.constructEmbed(html, doc);
+      if (this.props.title) {
+        this.updateFrameTitle(this.props.title);
+      }
     } else {
       setTimeout(this.renderFrameContent, 0);
     }
@@ -450,6 +461,7 @@ export class Frame extends Component {
 
     return (
       <iframe
+        title={this.props.title || this.props.name}
         style={this.computeIframeStyle()}
         ref={(el) => { this.iframe = el; }}
         id={this.props.name}

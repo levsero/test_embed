@@ -196,7 +196,8 @@ export default function WebWidgetFactory(name) {
       afterShowAnimate,
       onHide,
       onClose,
-      onBack
+      onBack,
+      title: i18n.t('embeddable_framework.web_widget.frame.title')
     };
     const component = (
       <Frame {...frameParams}>
