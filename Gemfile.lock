@@ -1,6 +1,6 @@
 GEM
   remote: https://rubygems.org/
-  remote: https://gem.zdsys.com/gems/
+  remote: https://zdrepo.jfrog.io/zdrepo/api/gems/gems-local/
   specs:
     airbrussh (1.2.0)
       sshkit (>= 1.6.1, != 1.7.0)
