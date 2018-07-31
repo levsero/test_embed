@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoicePopupDesktop';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -163,9 +163,10 @@ export class HelpCenterDesktop extends Component {
         <div className={styles.buttonContainer}>
           <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
             <Button
-              fullscreen={false}
-              label={this.props.buttonLabel}
-              onClick={onClickHandler} />
+              primary={true}
+              onClick={onClickHandler}>
+              {this.props.buttonLabel}
+            </Button>
           </ButtonGroup>
           {this.renderChannelChoice()}
         </div>

@@ -46,7 +46,7 @@ describe('PrechatForm component', () => {
           mobileContainer: 'mobileContainerClass'
         }
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
       },
       'component/field/EmailField': { EmailField },

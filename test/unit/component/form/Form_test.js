@@ -13,7 +13,7 @@ describe('Form component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/button/Button': { Button: MockButton },
+      '@zendeskgarden/react-buttons': { Button: MockButton },
       'component/button/ButtonGroup': {
         ButtonGroup: class extends Component {
           render() {
@@ -117,8 +117,8 @@ describe('Form component', () => {
           button = form.props.children[1].props.children;
         });
 
-        it('sets the label to props.submitButtonLabel', () => {
-          expect(button.props.label)
+        it('sets the chilren to props.submitButtonLabel', () => {
+          expect(button.props.children)
             .toBe('label');
         });
 

@@ -60,7 +60,7 @@ describe('Submit ticket component', () => {
           zendeskLogoButton: 'zendeskLogoButton'
         }
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
       },
       'component/submitTicket/SubmitTicketForm': {

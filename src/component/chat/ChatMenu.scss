@@ -34,21 +34,22 @@
   background-color: $base-color;
 }
 
-.item {
-  composes: u-hsizeAll u-textLeft u-borderNone from global;
+.item[type='button'] {
   background: none;
+  border: none;
+  color: $zd-color-grey-500 !important;
   outline: none;
-  color: $zd-color-grey-500;
-  font-size: $font-size-lrg;
-  padding: #{8/$font-size}rem #{15/$font-size}rem;
+  padding: 0 #{15/$font-size}rem;
+  text-align: left;
+  width: 100%;
 
   path {
     fill: $zd-color-grey-500;
   }
 
   &:hover, &:active, &:focus {
-    color: $zd-color-grey-800;
-    background: $zd-color-grey-100;
+    color: $zd-color-grey-800 !important;
+    background: $zd-color-grey-100 !important;
 
     path {
       fill: $zd-color-grey-800;
@@ -56,39 +57,62 @@
   }
 
   &:disabled {
-    color: $zd-color-grey-300;
-    background: $zd-color-white;
+    color: $zd-color-grey-300 !important;
+    background: $zd-color-white !important;
   }
 
   [dir='rtl'] & {
-    text-align: right !important;
+    text-align: right;
   }
 }
 
-.itemMobile {
-  composes: u-hsizeAll u-textLeft u-borderBottom from global;
-  font-size: $font-size-mobile;
+.itemMobile[type='button'] {
   background: none;
-  outline: none;
-  color: $zd-color-grey-500;
-  padding: #{13/$font-size}rem #{20/$font-size}rem;
-  border-color: $zd-color-grey-200;
-  box-sizing: border-box;
+  border-bottom: #{1/$font-size}rem solid $zd-color-grey-200 !important;
+  border-color: $zd-color-grey-200 !important;
   border-top: 0;
+  box-sizing: border-box;
+  color: $zd-color-grey-500 !important;
+  outline: none;
+  padding: #{13/$font-size}rem #{20/$font-size}rem;
+  text-align: left;
+  width: 100%;
 
   &:hover, &:active, &:focus {
-    color: $zd-color-grey-800;
-    background: $zd-color-grey-100;
+    color: $zd-color-grey-800 !important;
+    background: $zd-color-grey-100 !important;
   }
 
   &:disabled, &.disabled {
-    color: $zd-color-grey-300;
-    background: $zd-color-white;
+    color: $zd-color-grey-300 !important;
+    background: $zd-color-white !important;
   }
 
   [dir='rtl'] & {
-    text-align: right !important;
+    text-align: right;
   }
+}
+
+.dropzoneItem {
+  height: #{38/$font-size}rem;
+  background: none;
+  border-bottom: #{1/$font-size}rem solid $zd-color-grey-200 !important;
+  border-color: $zd-color-grey-200 !important;
+  border-top: 0;
+  box-sizing: border-box;
+  color: $zd-color-grey-500 !important;
+  outline: none;
+  padding: #{10/$font-size}rem #{20/$font-size}rem;
+  text-align: left;
+  width: 100%;
+
+  [dir='rtl'] & {
+    text-align: right;
+  }
+}
+
+.endChatContainerMobile {
+  padding: #{13/$font-size}rem #{20/$font-size}rem;
 }
 
 .endChatMobileButton {

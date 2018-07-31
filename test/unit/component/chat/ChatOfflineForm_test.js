@@ -66,7 +66,7 @@ describe('ChatOfflineForm component', () => {
       'component/field/EmailField': {
         EmailField: EmailField
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: Button
       },
       'component/loading/LoadingSpinner': {

@@ -58,7 +58,7 @@ describe('ChattingScreen component', () => {
       'component/loading/LoadingSpinner': {
         LoadingSpinner
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button
       },
       'component/button/ButtonPill': {

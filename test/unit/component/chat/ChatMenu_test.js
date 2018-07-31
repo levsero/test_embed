@@ -3,6 +3,7 @@ describe('ChatMenu component', () => {
   const chatMenuPath = buildSrcPath('component/chat/ChatMenu');
   const SlideAppear = noopReactComponent('SlideAppear');
   const Icon = noopReactComponent('Icon');
+  const Button = noopReactComponent('Button');
 
   beforeEach(() => {
     mockery.enable();
@@ -17,15 +18,14 @@ describe('ChatMenu component', () => {
           soundButtonReset: 'soundButtonReset',
           soundIcon: 'soundIconClass',
           itemLine: 'itemLineClass',
-          disabled: 'disabledClass'
+          disabled: 'disabledClass',
+          endChatContainerMobile: 'endChatContainerMobileClass'
         }
       },
       'component/Icon': {
         Icon
       },
-      'component/button/Button': {
-        Button: noopReactComponent()
-      },
+      '@zendeskgarden/react-buttons': { Button },
       'component/Dropzone': {
         Dropzone: noopReactComponent()
       },
@@ -107,7 +107,7 @@ describe('ChatMenu component', () => {
     });
 
     it('returns a button element', () => {
-      expect(TestUtils.isElementOfType(result, 'button'))
+      expect(TestUtils.isElementOfType(result, Button))
         .toEqual(true);
     });
 
@@ -233,7 +233,7 @@ describe('ChatMenu component', () => {
     });
 
     it('returns a button element', () => {
-      expect(TestUtils.isElementOfType(result, 'button'))
+      expect(TestUtils.isElementOfType(result, Button))
         .toEqual(true);
     });
 
@@ -387,7 +387,7 @@ describe('ChatMenu component', () => {
 
       it('returns an element with the correct styles', () => {
         expect(result.props.className)
-          .toEqual(getItemClassesResult);
+          .toEqual('endChatContainerMobileClass');
       });
 
       it('returns an element with onClick set to preventContainerClick', () => {

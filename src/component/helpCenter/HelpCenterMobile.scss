@@ -17,6 +17,10 @@
   composes: u-posRelative from global;
 }
 
+.footerButton {
+  width: 100%;
+}
+
 .searchTitle {
   composes: u-marginTM u-textCenter from global;
 

@@ -18,3 +18,7 @@
   composes: container;
   padding-top: $spacing-sml !important; /* 1 */
 }
+
+.cancelBtn {
+  width: 100%;
+}

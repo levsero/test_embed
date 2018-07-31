@@ -11,7 +11,7 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { errorCodes } from './talkErrorCodes';
 import { ICONS } from 'src/constants/shared';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
 import { TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 
@@ -162,12 +162,14 @@ class Talk extends Component {
     const phoneLabel = i18n.t('embeddable_framework.common.textLabel.phone_number');
     const nameLabel = i18n.t('embeddable_framework.common.textLabel.name');
     const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
+    const submitButtonStyles = classNames({ [styles.submitBtnMobile]: this.props.isMobile });
     let { phone, name, description, country } = this.props.formState;
 
     return (
       <Form
         ref={(el) => this.form = el}
         className={styles.form}
+        submitButtonClasses={submitButtonStyles}
         submitButtonLabel={i18n.t('embeddable_framework.common.button.send')}
         rtl={i18n.isRTL()}
         isMobile={this.props.isMobile}
@@ -328,24 +330,19 @@ class Talk extends Component {
       return null;
     }
 
-    const buttonContainer = classNames(
-      {
-        [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.isMobile),
-        [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.isMobile
-      }
-    );
+    const buttonContainer = classNames({
+      [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.isMobile),
+      [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.isMobile
+    });
 
     return (
       <div className={buttonContainer}>
         <Button
-          onTouchStartDisabled={true}
-          label={i18n.t('embeddable_framework.common.button.done')}
+          primary={true}
           className={styles.button}
-          primary={false}
-          onClick={this.props.onBackClick}
-          type='button'
-          fullscreen={this.props.isMobile}
-        />
+          onClick={this.props.onBackClick}>
+          {i18n.t('embeddable_framework.common.button.done')}
+        </Button>
       </div>
     );
   }

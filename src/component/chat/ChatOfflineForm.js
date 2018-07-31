@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { EmailField } from 'component/field/EmailField';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
@@ -156,13 +156,11 @@ export class ChatOfflineForm extends Component {
             icon={ICONS.SUCCESS_CONTACT_FORM}
             isMobile={this.props.isMobile} />
           <Button
-            onTouchStartDisabled={true}
-            label={i18n.t('embeddable_framework.common.button.done')}
+            primary={true}
             className={styles.doneButton}
-            primary={false}
-            onClick={this.props.handleOfflineFormBack}
-            type='button'
-            fullscreen={this.props.isMobile} />
+            onClick={this.props.handleOfflineFormBack}>
+            {i18n.t('embeddable_framework.common.button.done')}
+          </Button>
         </ScrollContainer>
       );
     }
@@ -252,11 +250,12 @@ export class ChatOfflineForm extends Component {
   renderSubmitButton() {
     return (
       <Button
+        primary={true}
         className={styles.submitBtn}
-        onTouchStartDisabled={true}
-        label={i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')}
         disabled={!this.state.valid}
-        type='submit' />
+        type='submit'>
+        {i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')}
+      </Button>
     );
   }
 

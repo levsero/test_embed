@@ -10,7 +10,7 @@ import {
   Item } from '@zendeskgarden/react-select';
 
 import { EmailField } from 'component/field/EmailField';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { UserProfile } from 'component/chat/UserProfile';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -269,11 +269,11 @@ export class PrechatForm extends Component {
   renderSubmitButton() {
     return (
       <Button
+        primary={true}
         className={styles.submitBtn}
-        onTouchStartDisabled={true}
-        label={i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
-        disabled={!this.state.valid}
-        type='submit' />
+        type='submit'>
+        {i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
+      </Button>
     );
   }
 

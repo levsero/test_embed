@@ -25,7 +25,7 @@ describe('Talk component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/button/Button': { Button: noopReactComponent },
+      '@zendeskgarden/react-buttons': { Button: noopReactComponent },
       'component/form/Form': { Form: noopReactComponent },
       'component/field/EmailField': { EmailField: noopReactComponent },
       'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },

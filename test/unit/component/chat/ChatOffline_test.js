@@ -31,7 +31,7 @@ describe('ChatOffline component', () => {
       'component/container/ScrollContainer': {
         ScrollContainer: noopReactComponent()
       },
-      'component/button/Button': { Button },
+      '@zendeskgarden/react-buttons': { Button },
       'component/chat/ChatOfflineForm': { ChatOfflineForm },
       'src/redux/modules/chat': {
         ChatOfflineFormChanged: ''
@@ -55,62 +55,6 @@ describe('ChatOffline component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
-  });
-
-  describe('renderFooterContent', () => {
-    let chatOffline,
-      result,
-      mockOfflineMessage,
-      mockNewHeight,
-      mockHideZendeskLogo,
-      mockIsMobile;
-
-    beforeEach(() => {
-      chatOffline = instanceRender(<ChatOffline
-        newHeight={mockNewHeight}
-        offlineMessage={mockOfflineMessage}
-        isMobile={mockIsMobile}
-        hideZendeskLogo={mockHideZendeskLogo} />);
-      result = chatOffline.renderFooterContent();
-    });
-
-    describe('when screen is not OFFLINE_FORM_SCREENS.SUCCESS', () => {
-      beforeAll(() => {
-        mockOfflineMessage = {
-          screen: 'yoloScreen'
-        };
-      });
-
-      it('does not render footer content', () => {
-        expect(result)
-          .toBeFalsy();
-      });
-    });
-
-    describe('when newHeight is false', () => {
-      beforeAll(() => {
-        mockNewHeight = false;
-      });
-
-      it('does not render footer content', () => {
-        expect(result)
-          .toBeFalsy();
-      });
-    });
-
-    describe('when footer content required', () => {
-      beforeAll(() => {
-        mockNewHeight = true;
-        mockOfflineMessage = {
-          screen: 'SUCCESS'
-        };
-      });
-
-      it('renders a button', () => {
-        expect(TestUtils.isElementOfType(result, Button))
-          .toEqual(true);
-      });
-    });
   });
 
   describe('render', () => {

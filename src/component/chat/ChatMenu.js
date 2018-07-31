@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { Dropzone } from 'component/Dropzone';
 import { SlideAppear } from 'component/transition/SlideAppear';
 
@@ -77,9 +77,9 @@ export class ChatMenu extends Component {
     const classes = this.getItemClasses(disabled);
 
     return (
-      <button className={classes} onClick={onClick} disabled={disabled}>
+      <Button type='button' className={classes} onClick={onClick} disabled={disabled}>
         {children}
-      </button>
+      </Button>
     );
   }
 
@@ -103,7 +103,8 @@ export class ChatMenu extends Component {
     ];
 
     return (
-      <button
+      <Button
+        type='button'
         className={`${this.getItemClasses()} ${classes}`}
         onClick={this.handleSoundClick}
         onMouseOver={this.handleSoundMouseOver}
@@ -111,7 +112,7 @@ export class ChatMenu extends Component {
         onFocus={this.handleSoundMouseOver}
         onBlur={this.handleSoundMouseOut}>
         {children}
-      </button>
+      </Button>
     );
   }
 
@@ -132,21 +133,22 @@ export class ChatMenu extends Component {
   renderEndChatButton = () => {
     const { isMobile, disableEndChat, endChatOnClick } = this.props;
     const label = i18n.t('embeddable_framework.chat.options.endChat');
-    const containerClasses = this.getItemClasses(disableEndChat);
+    const containerClasses = classNames(styles.endChatContainerMobile, {
+      [styles.disabled]: this.props.disableEndChat
+    });
 
-    return (isMobile
+    return (isMobile)
       ? <div className={containerClasses} onClick={this.preventContainerClick}>
         <Button
-          onTouchStartDisabled={true}
-          onClick={endChatOnClick}
-          label={label}
-          type={'button'}
-          className={styles.endChatMobileButton}
           primary={true}
-          disabled={disableEndChat} />
+          type='button'
+          onClick={endChatOnClick}
+          className={styles.endChatMobileButton}
+          disabled={disableEndChat}>
+          {label}
+        </Button>
       </div>
-      : this.renderButton(endChatOnClick, label, disableEndChat)
-    );
+      : this.renderButton(endChatOnClick, label, disableEndChat);
   }
 
   renderGoBackButton = () => {
@@ -161,7 +163,7 @@ export class ChatMenu extends Component {
 
     return (
       <div onClick={this.preventContainerClick}>
-        <Dropzone className={this.getItemClasses()} onDrop={this.props.onSendFileClick}>
+        <Dropzone className={styles.dropzoneItem} onDrop={this.props.onSendFileClick}>
           {i18n.t('embeddable_framework.chat.options.sendFile')}
         </Dropzone>
       </div>

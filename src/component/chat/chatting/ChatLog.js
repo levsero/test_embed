@@ -6,7 +6,7 @@ import { locals as styles } from './ChatLog.scss';
 
 import { ChatGroup } from 'component/chat/chatting/ChatGroup';
 import { EventMessage } from 'component/chat/chatting/EventMessage';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
 export class ChatLog extends Component {
@@ -104,12 +104,10 @@ export class ChatLog extends Component {
 
     return (
       <Button
-        primary={false}
-        label={i18n.t(labelKey)}
         className={styles.requestRatingButton}
-        onTouchStartDisabled={true}
-        onClick={goToFeedbackScreen}
-      />
+        onClick={goToFeedbackScreen}>
+        {i18n.t(labelKey)}
+      </Button>
     );
   }
 

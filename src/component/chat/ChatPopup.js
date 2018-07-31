@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon } from 'component/Icon';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { SlideAppear } from 'component/transition/SlideAppear';
 
 import { locals as styles } from './ChatPopup.scss';
@@ -68,30 +68,31 @@ export class ChatPopup extends Component {
 
     if (!showCta) return null;
 
-    const leftCtaButtonClasses = classNames(
-      { [this.ctaButtonStyle('left')]: !this.props.showOnlyLeftCta },
-      { [styles.fullWidthButton]: this.props.showOnlyLeftCta }
-    );
-    const ctaContainerClasses = classNames(
-      { [styles.ctaContainer]: !this.props.showOnlyLeftCta },
-      { [styles.ctaContainerNoCenter]: this.props.showOnlyLeftCta }
-    );
+    const leftCtaButtonClasses = classNames({
+      [this.ctaButtonStyle('left')]: !this.props.showOnlyLeftCta,
+      [styles.fullWidthButton]: this.props.showOnlyLeftCta
+    });
+    const ctaContainerClasses = classNames({
+      [styles.ctaContainer]: !this.props.showOnlyLeftCta,
+      [styles.ctaContainerNoCenter]: this.props.showOnlyLeftCta
+    });
     const leftCtaButton = (
       <Button
         onTouchStartDisabled={true}
-        label={leftCtaLabel}
         className={leftCtaButtonClasses}
-        primary={false}
-        onClick={leftCtaFn} />
+        onClick={leftCtaFn}>
+        {leftCtaLabel}
+      </Button>
     );
     const rightCtaButton = !this.props.showOnlyLeftCta ? (
       <Button
-        onTouchStartDisabled={true}
-        label={rightCtaLabel}
-        className={this.ctaButtonStyle('right')}
         primary={true}
+        onTouchStartDisabled={true}
+        className={this.ctaButtonStyle('right')}
         disabled={rightCtaDisabled}
-        onClick={rightCtaFn} />
+        onClick={rightCtaFn}>
+        {rightCtaLabel}
+      </Button>
     ) : null;
 
     return (

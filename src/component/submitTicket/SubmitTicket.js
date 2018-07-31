@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { locals as styles } from './SubmitTicket.scss';
 
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { Icon } from 'component/Icon';
@@ -279,23 +279,18 @@ class SubmitTicket extends Component {
     if (!this.props.showNotification) return;
 
     if (this.props.newHeight) {
-      const buttonContainer = classNames(
-        {
-          [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.fullscreen),
-          [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.fullscreen
-        }
-      );
+      const buttonContainer = classNames({
+        [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.fullscreen),
+        [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.fullscreen
+      });
       const doneButton = (
         <div className={buttonContainer}>
           <Button
-            onTouchStartDisabled={true}
-            label={i18n.t('embeddable_framework.common.button.done')}
+            primary={true}
             className={styles.button}
-            primary={false}
-            onClick={this.props.onCancel}
-            type='button'
-            fullscreen={this.props.fullscreen}
-          />
+            onClick={this.props.onCancel}>
+            {i18n.t('embeddable_framework.common.button.done')}
+          </Button>
         </div>
       );
 

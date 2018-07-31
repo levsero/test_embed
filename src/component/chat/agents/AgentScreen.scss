@@ -24,10 +24,11 @@
 .agentListBackButton {
   width: 100%;
   max-width: unset;
+  margin-bottom: #{20/$font-size}rem;
 }
 
 .agentListBackButtonWithLogo {
-  margin-bottom: #{24/$font-size}rem;
+  margin-bottom: #{35/$font-size}rem;
 }
 
 .zendeskLogo {

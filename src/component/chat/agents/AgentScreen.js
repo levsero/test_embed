@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { AgentList } from 'component/chat/agents/AgentList';
 import { ScrollContainer } from 'component/container/ScrollContainer';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { updateChatScreen } from 'src/redux/modules/chat';
@@ -52,11 +52,11 @@ class AgentScreen extends Component {
 
     return (
       <Button
-        fullscreen={this.props.isMobile}
-        label={i18n.t('embeddable_framework.chat.agentList.button.backToChat')}
-        onTouchStartDisabled={true}
+        primary={true}
         onClick={backButtonOnClick}
-        className={backToChatClasses} />
+        className={backToChatClasses}>
+        {i18n.t('embeddable_framework.chat.agentList.button.backToChat')}
+      </Button>
     );
   }
 

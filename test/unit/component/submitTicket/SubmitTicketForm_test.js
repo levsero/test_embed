@@ -35,10 +35,10 @@ describe('SubmitTicketForm component', () => {
       './SubmitTicketForm.scss': {
         locals: ''
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: class extends Component {
           render() {
-            return <input type='submit' disabled={this.props.disabled} />;
+            return <button {...this.props}>{this.props.children}</button>;
           }
         }
       },
@@ -193,7 +193,7 @@ describe('SubmitTicketForm component', () => {
   it('should change state and alter submit button on valid submit', () => {
     const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
     const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
-    const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
+    const submitElem = submitTicketFormNode.querySelector('button[type="submit"]');
 
     submitTicketForm.refs.form.checkValidity = () => true;
 
@@ -283,7 +283,7 @@ describe('SubmitTicketForm component', () => {
   it('should disable submit button when attachments not ready', () => {
     const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
     const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
-    const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
+    const submitElem = submitTicketFormNode.querySelector('button[type="submit"]');
 
     submitTicketForm.refs.form.checkValidity = () => true;
     mockAttachmentsReadyValue = false;
@@ -292,24 +292,6 @@ describe('SubmitTicketForm component', () => {
 
     expect(submitElem.disabled)
       .toEqual(true);
-  });
-
-  describe('ButtonSecondary', () => {
-    it('should be rendered in the form when fullscreen is false', () => {
-      const submitTicketForm = domRender(<SubmitTicketForm fullscreen={false} />);
-
-      expect(() => {
-        TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
-      }).not.toThrow();
-    });
-
-    it('should not be rendered in the form when fullscreen is true', () => {
-      const submitTicketForm = domRender(<SubmitTicketForm fullscreen={true} />);
-
-      expect(() => {
-        TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
-      }).toThrow();
-    });
   });
 
   describe('#renderSubjectField', () => {

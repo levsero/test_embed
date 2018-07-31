@@ -23,7 +23,7 @@ describe('ChannelChoiceMobile component', () => {
           }
         }
       },
-      'component/button/Button': { Button },
+      '@zendeskgarden/react-buttons': { Button },
       'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           render() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -228,10 +228,11 @@ export class HelpCenterMobile extends Component {
         <div className={styles.buttonContainer}>
           <ButtonGroup rtl={i18n.isRTL()}>
             <Button
-              fullscreen={true}
-              label={this.props.buttonLabel}
-              onTouchStartDisabled={true}
-              onClick={this.props.handleNextClick} />
+              primary={true}
+              className={styles.footerButton}
+              onClick={this.props.handleNextClick}>
+              {this.props.buttonLabel}
+            </Button>
           </ButtonGroup>
         </div>
       ) : null;

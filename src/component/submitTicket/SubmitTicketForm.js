@@ -7,8 +7,7 @@ import { locals as styles } from './SubmitTicketForm.scss';
 import classNames from 'classnames';
 
 import { AttachmentList } from 'component/attachment/AttachmentList';
-import { Button } from 'component/button/Button';
-import { ButtonSecondary } from 'component/button/ButtonSecondary';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { EmailField } from 'component/field/EmailField';
@@ -183,7 +182,7 @@ export class SubmitTicketForm extends Component {
     const form = ReactDOM.findDOMNode(this.refs.form);
 
     return _.chain(form.elements)
-      .reject((field) => field.type === 'submit')
+      .reject((field) => field.type === 'submit' || _.isEmpty(field.name))
       .reduce((result, field) => {
         result[field.name] = (field.type === 'checkbox')
           ? field.checked ? 1 : 0
@@ -418,13 +417,11 @@ export class SubmitTicketForm extends Component {
   }
 
   renderCancelButton = () => {
-    const { onCancel, fullscreen } = this.props;
-
     return (
-      <ButtonSecondary
-        label={i18n.t(this.state.cancelButtonMessage)}
-        onClick={onCancel}
-        fullscreen={fullscreen} />
+      <Button
+        onClick={this.props.onCancel}>
+        {i18n.t(this.state.cancelButtonMessage)}
+      </Button>
     );
   }
 
@@ -476,10 +473,11 @@ export class SubmitTicketForm extends Component {
             <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
               {buttonCancel}
               <Button
-                fullscreen={fullscreen}
-                label={i18n.t(this.state.buttonMessage)}
+                primary={true}
                 disabled={!this.state.isValid || this.state.isSubmitting}
-                type='submit' />
+                type='submit'>
+                {i18n.t(this.state.buttonMessage)}
+              </Button>
             </ButtonGroup>
           }
           fullscreen={fullscreen}>

@@ -51,7 +51,7 @@ describe('HelpCenterMobile component', () => {
           }
         }
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
       },
       'component/button/ButtonGroup': {

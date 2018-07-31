@@ -112,6 +112,10 @@
   width: 100%;
 }
 
+.submitBtnMobile {
+  composes: button;
+}
+
 .zendeskLogoButton {
   margin-bottom: #{40/$font-size}rem;
 }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { locals as styles } from './ChannelChoicePopupMobile.scss';
 
 import { ChannelChoiceMenu } from 'component/channelChoice/ChannelChoiceMenu';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { i18n } from 'service/i18n';
 
@@ -42,11 +42,11 @@ export class ChannelChoicePopupMobile extends Component {
       <div className={styles.buttonContainer}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
+            primary={true}
             className={styles.cancelButton}
-            fullscreen={true}
-            label={i18n.t('embeddable_framework.common.button.cancel')}
-            onTouchStartDisabled={true}
-            onClick={this.props.onCancelClick} />
+            onClick={this.props.onCancelClick}>
+            {i18n.t('embeddable_framework.common.button.cancel')}
+          </Button>
         </ButtonGroup>
       </div>
     );

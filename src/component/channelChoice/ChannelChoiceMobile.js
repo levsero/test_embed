@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { locals as styles } from './ChannelChoiceMobile.scss';
 
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
@@ -34,11 +34,9 @@ export class ChannelChoiceMobile extends Component {
     if (this.props.newHeight) return null;
 
     return (
-      <Button
-        fullscreen={true}
-        label={i18n.t('embeddable_framework.common.button.cancel')}
-        onTouchStartDisabled={true}
-        onClick={this.props.handleCancelClick} />
+      <Button primary={true} className={styles.cancelBtn} onClick={this.props.handleCancelClick}>
+        {i18n.t('embeddable_framework.common.button.cancel')}
+      </Button>
     );
   }
 
