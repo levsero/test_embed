@@ -68,3 +68,9 @@
     }
   };
 }
+
+.searchInput {
+  &:focus {
+    box-shadow: none !important;
+  }
+}

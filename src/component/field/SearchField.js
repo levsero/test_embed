@@ -165,9 +165,10 @@ export class SearchField extends Component {
       [styles.mobileContainer]: fullscreen,
       [styles.desktopContainer]: !fullscreen
     });
-    const searchInputClasses = classNames({
-      [styles.mobileSearchInput]: fullscreen
-    });
+    const searchInputClasses = classNames(
+      styles.searchInput,
+      { [styles.mobileSearchInput]: fullscreen }
+    );
 
     return (
       <FauxInput mediaLayout={true} className={searchContainerClasses} onClick={this.props.onClick}>
