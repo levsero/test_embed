@@ -5,7 +5,8 @@ const keyCodes = {
   'LEFT': 37,
   'TAB': 9,
   'ENTER': 13,
-  'ESC': 27
+  'ESC': 27,
+  'SPACE': 32
 };
 
 export { keyCodes };

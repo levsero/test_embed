@@ -51,6 +51,12 @@ describe('Launcher component', () => {
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatSuppress: noop
+      },
+      'utility/keyboard': {
+        keyCodes: {
+          'SPACE': 32,
+          'ENTER': 13
+        }
       }
     });
 
@@ -514,6 +520,69 @@ describe('Launcher component', () => {
       it('returns the value from the props', () => {
         expect(result)
           .toEqual(5);
+      });
+    });
+  });
+
+  describe('getFrameContentDocument', () => {
+    const documentSpy = jasmine.createSpyObj('frame', ['addEventListener']);
+    const getFrameContentDocument = () => documentSpy;
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<Launcher getFrameContentDocument={getFrameContentDocument} />);
+      component.componentDidMount();
+    });
+
+    it('adds an event listener on mount', () => {
+      expect(documentSpy.addEventListener)
+        .toHaveBeenCalledWith('keypress', component.handleKeyPress);
+    });
+  });
+
+  describe('handleKeyPress', () => {
+    const keyCodes = { enter: 13, space: 32 };
+    const clickSpy = jasmine.createSpy('click');
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<Launcher onClick={clickSpy} />);
+    });
+
+    afterEach(() => {
+      clickSpy.calls.reset();
+    });
+
+    describe('when the user presses <Enter>', () => {
+      let event = { keyCode: keyCodes.enter, preventDefault: () => false };
+
+      it('acts as if the launcher was clicked', () => {
+        component.handleKeyPress(event);
+
+        expect(clickSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the user presses <Space>', () => {
+      let event = { keyCode: keyCodes.space, preventDefault: () => false };
+
+      it('acts as if the launcher was clicked', () => {
+        component.handleKeyPress(event);
+
+        expect(clickSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the user presses any other key', () =>{
+      let event = { keyCode: 101, preventDefault: () => false };
+
+      it('does not do anything', () => {
+        component.handleKeyPress(event);
+
+        expect(clickSpy)
+          .not.toHaveBeenCalled();
       });
     });
   });
