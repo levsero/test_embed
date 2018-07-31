@@ -19,7 +19,6 @@ import {
 import { settings } from 'service/settings';
 import { getOAuth,
   getBaseIsAuthenticated,
-  getHasWidgetShown,
   getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { contextualSearch } from 'src/redux/modules/helpCenter';
@@ -200,7 +199,7 @@ export const updateWidgetShown = (show) => {
       dispatch(chatOpened());
     }
 
-    if (!getHasContextuallySearched(state) && show && !getHasWidgetShown(state)) {
+    if (!getHasContextuallySearched(state) && show) {
       dispatch(contextualSearch());
     }
   };

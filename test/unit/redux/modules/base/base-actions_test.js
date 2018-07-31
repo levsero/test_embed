@@ -16,7 +16,6 @@ let actions,
   mockExtractTokenId,
   mockPersistentStoreValue,
   mockHasContextuallySearched,
-  mockHasWidgetShown,
   mockActiveEmbed,
   mockIsTokenRenewable = jasmine.createSpy('isTokenRenewable'),
   persistentStoreRemoveSpy = jasmine.createSpy('remove'),
@@ -60,7 +59,6 @@ describe('base redux actions', () => {
       'src/redux/modules/base/base-selectors': {
         getOAuth: () => mockOAuth,
         getBaseIsAuthenticated: () => mockBaseIsAuthenticated,
-        getHasWidgetShown: () => mockHasWidgetShown,
         getActiveEmbed: () => mockActiveEmbed
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
@@ -332,7 +330,6 @@ describe('base redux actions', () => {
     describe('when the widget is being shown for the first time', () => {
       beforeEach(() => {
         mockHasContextuallySearched = false;
-        mockHasWidgetShown = false;
         mockStore.dispatch(actions.updateWidgetShown(true));
       });
 
@@ -356,8 +353,7 @@ describe('base redux actions', () => {
 
     describe('when the widget is being shown for the second time', () => {
       beforeEach(() => {
-        mockHasWidgetShown = true;
-        mockHasContextuallySearched = false;
+        mockHasContextuallySearched = true;
         mockStore.dispatch(actions.updateWidgetShown(true));
       });
 
