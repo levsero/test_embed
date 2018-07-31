@@ -5,7 +5,6 @@ import ButtonDropzoneStyles from 'component/button/ButtonDropzone.scss';
 import ButtonIconStyles from 'component/button/ButtonIcon.scss';
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss';
 import ButtonPillStyles from 'component/button/ButtonPill.scss';
-import ButtonSecondaryStyles from 'component/button/ButtonSecondary.scss';
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss';
 import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.scss';
 import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.scss';
@@ -76,7 +75,6 @@ export const webWidgetStyles = `
   ${ButtonIconStyles}
   ${ButtonGroupStyles}
   ${ButtonPillStyles}
-  ${ButtonSecondaryStyles}
   ${ChannelChoiceMenuStyles}
   ${ChannelChoiceDesktopStyles}
   ${ChannelChoicePopupDesktopStyles}
