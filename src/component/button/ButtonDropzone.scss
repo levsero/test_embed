@@ -6,6 +6,10 @@
 
   padding: #{14/$font-size}rem #{10/$font-size}rem;
   color: $zd-color-grey-800;
+
+  &:hover {
+    background-color: $zd-color-grey-100 !important;
+  }
 }
 
 .dropzoneActive {
