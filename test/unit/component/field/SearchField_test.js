@@ -25,7 +25,8 @@ describe('SearchField component', () => {
           desktopContainer: 'desktopContainer',
           mobileSearchInput: 'mobileSearchInput',
           notSearched: 'notSearchedClasses',
-          notSearchedWithLogo: 'notSearchedWithLogoClasses'
+          notSearchedWithLogo: 'notSearchedWithLogoClasses',
+          hasSearched: 'hasSearchedClasses'
         }
       },
       'component/button/IconFieldButton': {
@@ -424,6 +425,12 @@ describe('SearchField component', () => {
             .toContain('notSearchedWithLogoClasses');
         });
       });
+
+      it('does not render hasSearched class', () => {
+        expect(result.props.className)
+          .not
+          .toContain('hasSearchedClasses');
+      });
     });
 
     describe('when hasSearched is true', () => {
@@ -441,6 +448,11 @@ describe('SearchField component', () => {
         expect(result.props.className)
           .not
           .toContain('notSearchedWithLogoClasses');
+      });
+
+      it('renders hasSearched class', () => {
+        expect(result.props.className)
+          .toContain('hasSearchedClasses');
       });
     });
   });
