@@ -18,6 +18,6 @@ This also means you cannot rely on the Web Widget to have search engines index c
 
 ### Additional Reading
 
-* [iframes — backlink or no backlink, that is the question!](https://productforums.google.com/forum/#!topic/webmasters/LWuSo74wax8)
+* [<iframe>: The Inline Frame element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe)
 * [How iFrames (Don’t) Affect SEO](http://tentacleinbound.com/articles/how-iframes-affect-seo)
 * [Using iFrame: SEO and Accessibility Points](https://www.searchenginejournal.com/iframe-seo-and-accessibility/15217/)
