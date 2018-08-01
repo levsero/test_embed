@@ -1,4 +1,5 @@
 import { UPDATE_EMBEDDABLE_CONFIG } from '../base-action-types';
+import _ from 'lodash';
 
 const initialState = {
   embeds: {
@@ -17,8 +18,14 @@ const embeddableConfig = (state = initialState, action) => {
   switch (type) {
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
-        ...state,
-        ...payload
+        embeds: {
+          helpCenterForm: {
+            props: {
+              ...state.embeds.helpCenterForm.props,
+              ..._.get(payload, 'embeds.helpCenterForm')
+            }
+          }
+        }
       };
     default:
       return state;

@@ -42,7 +42,11 @@ describe('base reducer embeddable config', () => {
       let action = {
         type: actionTypes.UPDATE_EMBEDDABLE_CONFIG,
         payload: {
-          someConfig: 'someConfig'
+          embeds: {
+            helpCenterForm: {
+              contextualHelpEnabled: true
+            }
+          }
         }
       };
 
@@ -52,11 +56,10 @@ describe('base reducer embeddable config', () => {
     it('reduces to the correct embeddable config state', () => {
       expect(state)
         .toEqual({
-          someConfig: 'someConfig',
           embeds: {
             helpCenterForm: {
               props: {
-                contextualHelpEnabled: false,
+                contextualHelpEnabled: true,
                 signInRequired: false
               }
             }
