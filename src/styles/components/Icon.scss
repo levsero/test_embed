@@ -26,7 +26,7 @@
 
 .Icon--search {
   svg {
-    fill: $zd-color-aluminum;
+    fill: $zd-color-grey-400;
     min-width: #{14/$font-size}rem; /* 1 */
     min-height: #{14/$font-size}rem; /* 1 */
     height: #{14/$font-size}rem;
@@ -72,7 +72,7 @@
   }
 
   svg {
-    fill: $zd-color-aluminum;
+    fill: $zd-color-grey-400;
     min-width: #{10/$font-size}rem; /* 1 */
     min-height: #{10/$font-size}rem; /* 1 */
     height: #{10/$font-size}rem;
@@ -261,18 +261,6 @@
     min-height: #{14/$font-size}rem;
     width: #{14/$font-size}rem;
     height: #{14/$font-size}rem;
-
-    g {
-      fill: $zd-color-aluminum !important;
-    }
-
-    &:hover, &:active, &:focus {
-      background: $zd-color-platinum;
-
-      g {
-        fill: $zd-color-dark-gray !important;
-      }
-    }
   }
 }
 
@@ -300,7 +288,7 @@
   margin-top: #{-18/$font-size}rem !important;
 
   svg {
-    fill: $zd-color-aluminum;
+    fill: $zd-color-grey-500;
     min-width: #{7/$font-size}rem; /* 1 */
     min-height: #{7/$font-size}rem; /* 1 */
     height: #{7/$font-size}rem;
