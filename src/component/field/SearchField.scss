@@ -14,7 +14,7 @@
 .desktopContainer {
   composes: container;
   padding-left: #{10/$font-size}rem;
-  margin-bottom: $field-margin-bottom;
+  margin-bottom: #{10/$font-size}rem;
 }
 
 .mobileContainer {
@@ -73,4 +73,12 @@
   &:focus {
     box-shadow: none !important;
   }
+}
+
+.notSearched {
+  composes: u-marginBL from global;
+}
+
+.notSearchedWithLogo {
+  margin-bottom: #{40/$font-size}rem;
 }

@@ -23,7 +23,9 @@ describe('SearchField component', () => {
           hovering: 'hovering',
           mobileContainer: 'mobileContainer',
           desktopContainer: 'desktopContainer',
-          mobileSearchInput: 'mobileSearchInput'
+          mobileSearchInput: 'mobileSearchInput',
+          notSearched: 'notSearchedClasses',
+          notSearchedWithLogo: 'notSearchedWithLogoClasses'
         }
       },
       'component/button/IconFieldButton': {
@@ -319,10 +321,17 @@ describe('SearchField component', () => {
   describe('render', () => {
     let component,
       mockFullscreen,
+      mockHideZendeskLogo,
+      mockHasSearched,
       result;
 
     beforeEach(() => {
-      component = domRender(<SearchField fullscreen={mockFullscreen} />);
+      component = domRender(
+        <SearchField
+          hideZendeskLogo={mockHideZendeskLogo}
+          hasSearched={mockHasSearched}
+          fullscreen={mockFullscreen} />
+      );
       spyOn(component, 'renderIcons');
       result = component.render();
     });
@@ -374,6 +383,64 @@ describe('SearchField component', () => {
         expect(result.props.children[0].props.className)
           .not
           .toContain('mobileSearchInput');
+      });
+    });
+
+    describe('when hasSearched is false', () => {
+      beforeAll(() => {
+        mockHasSearched = false;
+      });
+
+      describe('when hideZendeskLogo is true', () => {
+        beforeAll(() => {
+          mockHideZendeskLogo = true;
+        });
+
+        it('does not render notSearchedWithLogo class', () => {
+          expect(result.props.className)
+            .not
+            .toContain('notSearchedWithLogoClasses');
+        });
+
+        it('renders notSearched class', () => {
+          expect(result.props.className)
+            .toContain('notSearchedClasses');
+        });
+      });
+
+      describe('when hideZendeskLogo is false', () => {
+        beforeAll(() => {
+          mockHideZendeskLogo = false;
+        });
+
+        it('does not render notSearched class', () => {
+          expect(result.props.className)
+            .not
+            .toContain('notSearchedClasses');
+        });
+
+        it('renders notSearchedWithLogo class', () => {
+          expect(result.props.className)
+            .toContain('notSearchedWithLogoClasses');
+        });
+      });
+    });
+
+    describe('when hasSearched is true', () => {
+      beforeAll(() => {
+        mockHasSearched = true;
+      });
+
+      it('does not render notSearched class', () => {
+        expect(result.props.className)
+          .not
+          .toContain('notSearchedClasses');
+      });
+
+      it('does not render notSearchedWithLogo class', () => {
+        expect(result.props.className)
+          .not
+          .toContain('notSearchedWithLogoClasses');
       });
     });
   });

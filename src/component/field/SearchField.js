@@ -160,8 +160,10 @@ export class SearchField extends Component {
   }
 
   render = () => {
-    const { fullscreen } = this.props;
+    const { fullscreen, hideZendeskLogo, hasSearched } = this.props;
     const searchContainerClasses = classNames({
+      [styles.notSearched]: !hasSearched && hideZendeskLogo,
+      [styles.notSearchedWithLogo]: !hasSearched && !hideZendeskLogo,
       [styles.mobileContainer]: fullscreen,
       [styles.desktopContainer]: !fullscreen
     });
