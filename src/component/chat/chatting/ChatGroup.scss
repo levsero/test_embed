@@ -53,7 +53,9 @@
 
 .attachmentError {
   composes: u-borderError from global;
+  background: transparent;
   float: right;
+  width: #{202/$font-size}rem;
 
   [dir='rtl'] & {
     float: left;
