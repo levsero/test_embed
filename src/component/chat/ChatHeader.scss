@@ -80,6 +80,7 @@
 .title {
   composes: u-textBold from global;
 
+  font-size: #{14/$font-size}rem;
   width: 100%;
   max-height: #{15/$font-size}rem;
   overflow: hidden;

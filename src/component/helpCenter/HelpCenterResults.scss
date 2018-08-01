@@ -71,7 +71,7 @@
 
 .legendContent {
   composes: Arrange-sizeFill from global;
-  font-size: #{13/$font-size}rem;
+  font-size: #{15/$font-size}rem;
 }
 
 .legendMobile {
