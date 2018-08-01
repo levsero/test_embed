@@ -15,6 +15,7 @@ import searchFieldFocused from './helpCenter-searchFieldFocused';
 import articleDisplayed from './helpCenter-articleDisplayed';
 import contextualSearch from './helpCenter-contextualSearch';
 import lastSearchTimestamp from './helpCenter-lastSearchTimestamp';
+import manualContextualSuggestions from './helpCenter-manualContextualSuggestions';
 
 export default combineReducers({
   activeArticle,
@@ -31,5 +32,6 @@ export default combineReducers({
   searchFieldFocused,
   articleDisplayed,
   contextualSearch,
-  lastSearchTimestamp
+  lastSearchTimestamp,
+  manualContextualSuggestions
 });

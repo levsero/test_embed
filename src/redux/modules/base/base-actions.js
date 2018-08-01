@@ -11,10 +11,17 @@ import {
   AUTHENTICATION_PENDING,
   AUTHENTICATION_TOKEN_REVOKED,
   AUTHENTICATION_TOKEN_NOT_REVOKED,
-  AUTHENTICATION_LOGGED_OUT
+  AUTHENTICATION_LOGGED_OUT,
+  UPDATE_EMBEDDABLE_CONFIG,
+  UPDATE_QUEUE,
+  REMOVE_FROM_QUEUE
 } from './base-action-types';
 import { settings } from 'service/settings';
-import { getOAuth, getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
+import { getOAuth,
+  getBaseIsAuthenticated,
+  getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { contextualSearch } from 'src/redux/modules/helpCenter';
 import { chatOpened } from 'src/redux/modules/chat';
 import { extractTokenId,
   isTokenRenewable } from 'src/redux/modules/base/helpers/auth';
@@ -130,6 +137,13 @@ export const logout = () => {
   };
 };
 
+export const updateEmbeddableConfig = (rawEmbeddableConfig) => {
+  return {
+    type: UPDATE_EMBEDDABLE_CONFIG,
+    payload: rawEmbeddableConfig
+  };
+};
+
 export const updateArturos = (payload) => {
   return {
     type: UPDATE_ARTUROS,
@@ -176,12 +190,17 @@ export const updateWidgetShown = (show) => {
   };
 
   return (dispatch, getState) => {
-    const activeEmbed = getState().base.activeEmbed;
+    const state = getState();
+    const activeEmbed = getActiveEmbed(state);
 
     dispatch(updateWidgetShownAction);
 
     if (activeEmbed === 'chat' && show) {
       dispatch(chatOpened());
+    }
+
+    if (!getHasContextuallySearched(state) && show) {
+      dispatch(contextualSearch());
     }
   };
 };
@@ -196,6 +215,20 @@ export const handleIdentifyRecieved = (payload) => {
   return {
     type: IDENTIFY_RECIEVED,
     payload: userDetails
+  };
+};
+
+export const updateQueue = (payload) => {
+  return {
+    type: UPDATE_QUEUE,
+    payload
+  };
+};
+
+export const removeFromQueue = (methodName) => {
+  return {
+    type: REMOVE_FROM_QUEUE,
+    payload: methodName
   };
 };
 

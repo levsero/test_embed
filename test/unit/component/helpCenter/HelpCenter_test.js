@@ -75,8 +75,6 @@ describe('HelpCenter component', () => {
             this.helpCenterMobile = null;
           }
 
-          hasContextualSearched() {}
-
           getSearchField() {
             return this.searchField;
           }
@@ -343,36 +341,6 @@ describe('HelpCenter component', () => {
     });
   });
 
-  describe('contextualSearch', () => {
-    let helpCenter,
-      showBackButtonSpy,
-      mockPerformContextualSearch,
-      mockArticleClicked = false;
-
-    beforeEach(() => {
-      mockPerformContextualSearch = jasmine.createSpy('mockPerformContextualSearch');
-      showBackButtonSpy = jasmine.createSpy('showBackButton');
-
-      helpCenter = domRender(
-        <HelpCenter
-          showBackButton={showBackButtonSpy}
-          performContextualSearch={mockPerformContextualSearch}
-          articleClicked={mockArticleClicked} />
-      );
-    });
-
-    it('should call performContextualSearch', () => {
-      const options = { search: 'foo bar' };
-      const focusField = jasmine.createSpy('focusField');
-
-      helpCenter.focusField = focusField;
-      helpCenter.contextualSearch(options);
-
-      expect(mockPerformContextualSearch)
-        .toHaveBeenCalledWith(options, jasmine.any(Function), focusField);
-    });
-  });
-
   describe('performing a search', () => {
     const responsePayloadError = {ok: false, body: {}};
     const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
@@ -383,20 +351,17 @@ describe('HelpCenter component', () => {
       focusField,
       successFn,
       mockPerformSearch,
-      mockPerformContextualSearch,
       query;
 
     beforeEach(() => {
       focusField = jasmine.createSpy('mockFocusField');
       successFn = jasmine.createSpy('mockSuccessFn');
       mockPerformSearch = jasmine.createSpy('mockPerformSearch');
-      mockPerformContextualSearch = jasmine.createSpy('mockPerformContextualSearch');
       query = { query: searchTerm, locale: 'en-us' };
 
       helpCenter = domRender(
         <HelpCenter
-          performSearch={mockPerformSearch}
-          performContextualSearch={mockPerformContextualSearch} />
+          performSearch={mockPerformSearch} />
       );
 
       helpCenter.focusField = focusField;
@@ -465,8 +430,7 @@ describe('HelpCenter component', () => {
           helpCenter = domRender(
             <HelpCenter
               localeFallbacks={mockLocaleFallbacks}
-              performSearch={mockPerformSearch}
-              performContextualSearch={mockPerformContextualSearch} />
+              performSearch={mockPerformSearch} />
           );
 
           helpCenter.focusField = focusField;

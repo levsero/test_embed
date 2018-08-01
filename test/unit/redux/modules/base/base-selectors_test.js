@@ -11,7 +11,15 @@ describe('base selectors', () => {
     getOAuth,
     getAuthToken,
     getBaseIsAuthenticated,
+    getQueue,
+    getEmbeddableConfig,
+    getHelpCenterContextualEnabled,
+    getHelpCenterSignInRequired,
+    getIsAuthenticationPending,
+    getHasWidgetShown,
+    getHasPassedAuth,
     mockStoreValue,
+    mockIsOnHelpCenterPage,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
   beforeEach(() => {
@@ -29,11 +37,15 @@ describe('base selectors', () => {
       },
       'src/redux/modules/base/helpers/auth': {
         isTokenValid: isTokenValidSpy
+      },
+      'utility/pages': {
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPage
       }
     });
 
     const selectors = requireUncached(selectorsPath);
 
+    getIsAuthenticationPending = selectors.getIsAuthenticationPending;
     getZopimChatEmbed = selectors.getZopimChatEmbed;
     getActiveEmbed = selectors.getActiveEmbed;
     getHelpCenterEmbed = selectors.getHelpCenterEmbed;
@@ -46,6 +58,256 @@ describe('base selectors', () => {
     getOAuth = selectors.getOAuth;
     getAuthToken = selectors.getAuthToken;
     getBaseIsAuthenticated = selectors.getBaseIsAuthenticated;
+    getQueue = selectors.getQueue;
+    getEmbeddableConfig = selectors.getEmbeddableConfig;
+    getHelpCenterContextualEnabled = selectors.getHelpCenterContextualEnabled;
+    getHelpCenterSignInRequired = selectors.getHelpCenterSignInRequired;
+    getHasWidgetShown = selectors.getHasWidgetShown;
+    getHasPassedAuth = selectors.getHasPassedAuth;
+  });
+
+  describe('getHasPassedAuth', () => {
+    let result,
+      mockState,
+      mockHelpCenterSignInRequired;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embeddableConfig: {
+            embeds: {
+              helpCenterForm: {
+                props: {
+                  signInRequired: mockHelpCenterSignInRequired
+                }
+              }
+            }
+          }
+        }
+      };
+      result = getHasPassedAuth(mockState);
+    });
+
+    describe('isAuthenticated', () => {
+      beforeAll(() => {
+        mockHelpCenterSignInRequired = true;
+        mockIsOnHelpCenterPage = false;
+      });
+
+      describe('when set to true', () => {
+        beforeAll(() => {
+          isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(true);
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when set to false', () => {
+        beforeAll(() => {
+          isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false);
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('helpCenterSignInRequired', () => {
+      beforeAll(() => {
+        isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false);
+        mockIsOnHelpCenterPage = false;
+      });
+
+      describe('when set to true', () => {
+        beforeAll(() => {
+          mockHelpCenterSignInRequired = true;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('when set to false', () => {
+        beforeAll(() => {
+          mockHelpCenterSignInRequired = false;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('isOnHelpCenterPage', () => {
+      beforeAll(() => {
+        isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false);
+        mockHelpCenterSignInRequired = true;
+      });
+
+      describe('when set to true', () => {
+        beforeAll(() => {
+          mockIsOnHelpCenterPage = true;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when set to false', () => {
+        beforeAll(() => {
+          mockIsOnHelpCenterPage = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+  });
+
+  describe('getHasWidgetShown', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          hasWidgetShown: true
+        }
+      };
+      result = getHasWidgetShown(mockState);
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getIsAuthenticationPending', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          isAuthenticationPending: true
+        }
+      };
+      result = getIsAuthenticationPending(mockState);
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getHelpCenterSignInRequired', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embeddableConfig: {
+            embeds: {
+              helpCenterForm: {
+                props: {
+                  signInRequired: true
+                }
+              }
+            }
+          }
+        }
+      };
+      result = getHelpCenterSignInRequired(mockState);
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getHelpCenterContextualEnabled', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embeddableConfig: {
+            embeds: {
+              helpCenterForm: {
+                props: {
+                  contextualHelpEnabled: true
+                }
+              }
+            }
+          }
+        }
+      };
+      result = getHelpCenterContextualEnabled(mockState);
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getEmbeddableConfig', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embeddableConfig: 'yoloConfig'
+        }
+      };
+      result = getEmbeddableConfig(mockState);
+    });
+
+    it('returns the embeddableConfig', () => {
+      expect(result)
+        .toEqual('yoloConfig');
+    });
+  });
+
+  describe('getQueue', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          queue: {
+            someMethod: ['yeah', 'some', 'args']
+          }
+        }
+      };
+      result = getQueue(mockState);
+    });
+
+    it('returns the queue', () => {
+      expect(result)
+        .toEqual({
+          someMethod: ['yeah', 'some', 'args']
+        });
+    });
   });
 
   describe('getActiveEmbed', () => {

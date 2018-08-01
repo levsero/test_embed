@@ -15,9 +15,11 @@ import { appendMetaTag,
   getMetaTagsByName,
   isMobileBrowser } from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
-import { handleIdentifyRecieved,
-  logout } from 'src/redux/modules/base';
-import { displayArticle } from 'src/redux/modules/helpCenter';
+import {
+  handleIdentifyRecieved,
+  logout,
+  updateEmbeddableConfig } from 'src/redux/modules/base';
+import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import createStore from 'src/redux/createStore';
 
@@ -208,6 +210,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       http.updateConfig({ hostMapping: config.hostMapping });
     }
 
+    reduxStore.dispatch(updateEmbeddableConfig(res.body));
     // Remove this code once Rollbar is GA'd
     logging.init(config.useRollbar);
 
@@ -282,7 +285,7 @@ const setupWidgetApi = (win, reduxStore) => {
     reduxStore.dispatch(logout());
   };
   win.zE.setHelpCenterSuggestions = (options) => {
-    mediator.channel.broadcast('.onSetHelpCenterSuggestions', options);
+    reduxStore.dispatch(setContextualSuggestionsManually(options));
   };
   win.zE.activate = (options) => {
     mediator.channel.broadcast('.activate', options);

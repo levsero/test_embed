@@ -18,7 +18,14 @@ describe('helpCenter selectors', () => {
     getArticleDisplayed,
     getSearchFieldValue,
     getSearchFieldFocused,
-    getIsContextualSearchComplete;
+    getIsContextualSearchComplete,
+    getManualContextualSuggestions,
+    getSearchQuery,
+    getContextualHelpRequestNeeded,
+    mockPageKeywords,
+    mockIsOnHelpCenterPage,
+    mockHelpCenterContextualEnabled;
+
   const contextualSearchRequestPending = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
   const contextualSearchRequestSuccess = 'CONTEXTUAL_SEARCH_REQUEST_SUCCESS';
   const contextualSearchRequestFailure = 'CONTEXTUAL_SEARCH_REQUEST_FAILURE';
@@ -31,6 +38,15 @@ describe('helpCenter selectors', () => {
         CONTEXTUAL_SEARCH_REQUEST_SENT: contextualSearchRequestPending,
         CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess,
         CONTEXTUAL_SEARCH_REQUEST_FAILURE: contextualSearchRequestFailure
+      },
+      'utility/utils': {
+        getPageKeywords: () => mockPageKeywords
+      },
+      'utility/pages': {
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPage
+      },
+      'src/redux/modules/base/base-selectors': {
+        getHelpCenterContextualEnabled: () => mockHelpCenterContextualEnabled
       }
     });
 
@@ -60,6 +76,192 @@ describe('helpCenter selectors', () => {
     getArticleDisplayed = selectors.getArticleDisplayed;
     getIsContextualSearchFailure = selectors.getIsContextualSearchFailure;
     getIsContextualSearchComplete = selectors.getIsContextualSearchComplete;
+    getManualContextualSuggestions = selectors.getManualContextualSuggestions;
+    getSearchQuery = selectors.getSearchQuery;
+    getContextualHelpRequestNeeded = selectors.getContextualHelpRequestNeeded;
+  });
+
+  describe('getContextualHelpRequestNeeded', () => {
+    let result,
+      mockManualContextualSuggestions;
+
+    beforeEach(() => {
+      let mockState = {
+        helpCenter: {
+          manualContextualSuggestions: mockManualContextualSuggestions
+        }
+      };
+
+      result = getContextualHelpRequestNeeded(mockState);
+    });
+
+    describe('when manual contextual suggestions search term is present', () => {
+      beforeAll(() => {
+        mockManualContextualSuggestions = {
+          query: 'yolo'
+        };
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when manual contextual suggestions labels is present', () => {
+      beforeAll(() => {
+        mockManualContextualSuggestions = {
+          labels: ['yo', 'lo']
+        };
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when manual contextual suggestions url is present', () => {
+      beforeAll(() => {
+        mockManualContextualSuggestions = {
+          url: true
+        };
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when manual contextual suggestions is not present', () => {
+      beforeAll(() => {
+        mockManualContextualSuggestions = {};
+      });
+
+      describe('when contextual help enabled', () => {
+        beforeAll(() => {
+          mockHelpCenterContextualEnabled = true;
+        });
+
+        describe('when not on help center page', () => {
+          beforeAll(() => {
+            mockIsOnHelpCenterPage = false;
+          });
+
+          it('returns true', () => {
+            expect(result)
+              .toEqual(true);
+          });
+        });
+      });
+
+      describe('when contextual help not enabled', () => {
+        beforeAll(() => {
+          mockHelpCenterContextualEnabled = false;
+          mockIsOnHelpCenterPage = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('when on help center page', () => {
+        beforeAll(() => {
+          mockIsOnHelpCenterPage = true;
+          mockHelpCenterContextualEnabled = true;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+  });
+
+  describe('getSearchQuery', () => {
+    let result,
+      mockManualContextualSuggestions;
+
+    beforeEach(() => {
+      let mockState = {
+        helpCenter: {
+          manualContextualSuggestions: mockManualContextualSuggestions
+        }
+      };
+
+      result = getSearchQuery(mockState);
+    });
+
+    describe('when search term is present', () => {
+      beforeAll(() => {
+        mockManualContextualSuggestions = {
+          query: 'yolo'
+        };
+      });
+
+      it('returns the correct search query', () => {
+        expect(result)
+          .toEqual({
+            query: 'yolo'
+          });
+      });
+    });
+
+    describe('when labels are present', () => {
+      beforeAll(() => {
+        mockManualContextualSuggestions = {
+          labels: ['y', 'o', 'l', 'o']
+        };
+      });
+
+      it('returns the correct search query', () => {
+        /* eslint camelcase:0 */
+        expect(result)
+          .toEqual({
+            label_names: 'y,o,l,o'
+          });
+      });
+    });
+
+    describe('when no manual contextual suggestions present', () => {
+      beforeAll(() => {
+        mockManualContextualSuggestions = {};
+        mockPageKeywords = 'pageKeyword';
+      });
+
+      it('returns the correct search query', () => {
+        expect(result)
+          .toEqual({
+            query: 'pageKeyword'
+          });
+      });
+    });
+  });
+
+  describe('getManualContextualSuggestions', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        manualContextualSuggestions: {
+          query: 'yolo'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getManualContextualSuggestions(mockHelpCenterState);
+    });
+
+    it('returns the current state of manualContextualSuggestions', () => {
+      expect(result)
+        .toEqual({
+          query: 'yolo'
+        });
+    });
   });
 
   describe('getSearchLoading', () => {

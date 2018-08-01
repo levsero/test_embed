@@ -36,7 +36,8 @@ describe('helpCenter root reducer', () => {
       'searchFieldFocused',
       'articleDisplayed',
       'contextualSearch',
-      'lastSearchTimestamp'
+      'lastSearchTimestamp',
+      'manualContextualSuggestions'
     ];
 
     it('has the expected sub states', () => {

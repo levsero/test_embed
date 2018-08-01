@@ -11,7 +11,6 @@ import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { handleArticleClick,
   performSearch,
-  performContextualSearch,
   performImageSearch,
   handleOriginalArticleClicked,
   addRestrictedImage,
@@ -81,7 +80,6 @@ class HelpCenter extends Component {
     localeFallbacks: PropTypes.array,
     onNextClick: PropTypes.func,
     originalArticleButton: PropTypes.bool,
-    performContextualSearch: PropTypes.func.isRequired,
     performSearch: PropTypes.func.isRequired,
     performImageSearch: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
@@ -191,10 +189,6 @@ class HelpCenter extends Component {
     if (this.helpCenterDesktop) {
       this.helpCenterDesktop.focusField();
     }
-  }
-
-  contextualSearch = (options) => {
-    this.props.performContextualSearch(options, ()=>{}, this.focusField);
   }
 
   search = () => {
@@ -443,7 +437,6 @@ const actionCreators = {
   handleArticleClick,
   performSearch,
   performImageSearch,
-  performContextualSearch,
   handleOriginalArticleClicked,
   addRestrictedImage
 };

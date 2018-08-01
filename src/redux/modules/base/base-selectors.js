@@ -1,5 +1,7 @@
 import { store } from 'service/persistence';
 import { isTokenValid } from 'src/redux/modules/base/helpers/auth';
+import { createSelector } from 'reselect';
+import { isOnHelpCenterPage } from 'utility/pages';
 
 export const getSubmitTicketEmbed = (state) => !!state.base.embeds.ticketSubmissionForm;
 export const getZopimChatEmbed = (state) => !!state.base.embeds.zopimChat;
@@ -28,5 +30,26 @@ export const getAuthToken = () => {
 
   return (oauth && oauth.token) ? oauth.token : null;
 };
-
+export const getHasWidgetShown = (state) => state.base.hasWidgetShown;
 export const getBaseIsAuthenticated = () => isTokenValid(getOAuth());
+export const getIsAuthenticationPending = (state) => state.base.isAuthenticationPending;
+export const getEmbeddableConfig = (state) => state.base.embeddableConfig;
+export const getHelpCenterContextualEnabled = createSelector(
+  getEmbeddableConfig,
+  (embeddableConfig) => {
+    return embeddableConfig.embeds.helpCenterForm.props.contextualHelpEnabled;
+  }
+);
+export const getHelpCenterSignInRequired = createSelector(
+  getEmbeddableConfig,
+  (embeddableConfig) => {
+    return embeddableConfig.embeds.helpCenterForm.props.signInRequired;
+  }
+);
+export const getQueue = (state) => state.base.queue;
+export const getHasPassedAuth = createSelector(
+  [getBaseIsAuthenticated, getHelpCenterSignInRequired],
+  (isAuthenticated, helpCenterSignInRequired) => {
+    return isAuthenticated || !helpCenterSignInRequired || isOnHelpCenterPage();
+  }
+);

@@ -3,12 +3,15 @@ import _ from 'lodash';
 import { http } from 'service/transport';
 import { settings } from 'service/settings';
 import { location } from 'utility/globals';
-import { isOnHostMappedDomain } from 'utility/pages';
-import { getAuthToken } from 'src/redux/modules/base/base-selectors';
-import { getLastSearchTimestamp } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { getAuthToken,
+  getHasWidgetShown,
+  getHasPassedAuth,
+  getIsAuthenticationPending } from 'src/redux/modules/base/base-selectors';
+import { getLastSearchTimestamp,
+  getContextualHelpRequestNeeded,
+  getSearchQuery } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { i18n } from 'service/i18n';
 import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter';
-
 import { SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_FAILURE,
@@ -24,7 +27,10 @@ import { SEARCH_REQUEST_SENT,
   GET_ARTICLE_REQUEST_SUCCESS,
   GET_ARTICLE_REQUEST_FAILURE,
   SEARCH_FIELD_CHANGED,
-  SEARCH_FIELD_FOCUSED } from './helpCenter-action-types';
+  SEARCH_FIELD_FOCUSED,
+  CONTEXTUAL_SUGGESTIONS_MANUALLY_SET } from './helpCenter-action-types';
+import { updateQueue } from 'src/redux/modules/base';
+import { isOnHostMappedDomain } from 'utility/pages';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = getAuthToken();
@@ -101,30 +107,32 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
   };
 }
 
-export function performContextualSearch(options, done = () => {}, fail = () => {}) {
+export function contextualSearch() {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    if (getContextualHelpRequestNeeded(state)) {
+      if (getHasPassedAuth(state)) {
+        dispatch(performContextualSearch());
+      } else if (getIsAuthenticationPending(state)) {
+        dispatch(updateQueue({ performContextualSearch: {} }));
+      }
+    }
+  };
+}
+
+export function performContextualSearch(done = () => {}, fail = () => {}) {
   const timestamp = Date.now();
-  const path = '/api/v2/help_center/articles/embeddable_search.json';
 
   return (dispatch, getState) => {
+    const searchQuery = getSearchQuery(getState());
+    const path = '/api/v2/help_center/articles/embeddable_search.json';
     /* eslint camelcase:0 */
     let query = {
       locale: i18n.getLocale(),
-      per_page: MAXIMUM_CONTEXTUAL_SEARCH_RESULTS
+      per_page: MAXIMUM_CONTEXTUAL_SEARCH_RESULTS,
+      ...searchQuery
     };
-    let searchTerm;
-
-    // This `isString` check is needed in the case that a user passes in only a
-    // string to `zE.setHelpCenterSuggestions`. It avoids options.search evaluating
-    // to true in that case because it equals the string function `String.prototype.search`.
-    if (_.isString(options.search) && options.search.length > 0) {
-      searchTerm = query.query = options.search;
-    } else if (_.isArray(options.labels) && options.labels.length > 0) {
-      searchTerm = query.label_names = options.labels.join(',');
-    } else if (options.url && options.pageKeywords && options.pageKeywords.length > 0) {
-      searchTerm = query.query = options.pageKeywords;
-    } else {
-      return;
-    }
 
     const doneFn = (response) => {
       if (preventSearchCompleteDispatch(getState, timestamp)) return;
@@ -139,8 +147,13 @@ export function performContextualSearch(options, done = () => {}, fail = () => {
       fail(error);
     };
 
-    dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SENT, payload: { searchTerm, timestamp } });
-
+    dispatch({
+      type: CONTEXTUAL_SEARCH_REQUEST_SENT,
+      payload: {
+        searchTerm: searchQuery.query || searchQuery.label_names,
+        timestamp
+      }
+    });
     http.send(constructHelpCenterPayload(path, query, doneFn, failFn));
   };
 }
@@ -211,5 +224,18 @@ export function displayArticle(articleId) {
         })
       }
     }, false);
+  };
+}
+
+export function setContextualSuggestionsManually(options) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
+      payload: options
+    });
+
+    if (getHasWidgetShown(getState())) {
+      dispatch(contextualSearch());
+    }
   };
 }

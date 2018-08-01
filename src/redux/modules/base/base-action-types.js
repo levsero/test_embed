@@ -11,5 +11,9 @@ export const AUTHENTICATION_PENDING = 'widget/base/AUTHENTICATION_PENDING';
 export const AUTHENTICATION_TOKEN_REVOKED = 'widget/base/AUTHENTICATION_TOKEN_REVOKED';
 export const AUTHENTICATION_TOKEN_NOT_REVOKED = 'widget/base/AUTHENTICATION_TOKEN_NOT_REVOKED';
 export const AUTHENTICATION_LOGGED_OUT = 'widget/base/AUTHENTICATION_LOGGED_OUT';
+export const UPDATE_EMBEDDABLE_CONFIG = 'widget/base/UPDATE_EMBEDDABLE_CONFIG';
+export const UPDATE_QUEUE = 'widget/base/UPDATE_QUEUE';
+export const REMOVE_FROM_QUEUE = 'widget/base/REMOVE_FROM_QUEUE';
+export const LAUNCHER_CLICKED = 'widget/base/LAUNCHER_CLICKED';
 // We can also add actions for animation start and show start and complete as needed
 export const WIDGET_HIDE_ANIMATION_COMPLETE = 'widget/base/WIDGET_HIDE_ANIMATION_COMPLETE';

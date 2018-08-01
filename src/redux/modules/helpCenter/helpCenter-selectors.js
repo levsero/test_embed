@@ -1,5 +1,10 @@
 import { createSelector } from 'reselect';
 
+import { getPageKeywords } from 'utility/utils';
+import { isOnHelpCenterPage } from 'utility/pages';
+
+import { getHelpCenterContextualEnabled } from 'src/redux/modules/base/base-selectors';
+
 import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
@@ -26,6 +31,7 @@ export const getSearchFieldValue = (state) => state.helpCenter.searchFieldValue;
 export const getSearchFieldFocused = (state) => !!state.helpCenter.searchFieldFocused;
 export const getHasContextuallySearched = (state) => getContextualSearch(state).hasSearched;
 export const getLastSearchTimestamp = (state) => state.helpCenter.lastSearchTimestamp;
+export const getManualContextualSuggestions = (state) => state.helpCenter.manualContextualSuggestions;
 
 export const getIsContextualSearchPending = (state) => {
   return getContextualSearchScreen(state) === CONTEXTUAL_SEARCH_REQUEST_SENT;
@@ -47,5 +53,47 @@ export const getHasSearched = createSelector(
   [getHasContextuallySearched, getTotalUserSearches],
   (hasContextuallySearched, numOfUserSearches) => {
     return hasContextuallySearched || numOfUserSearches > 0;
+  }
+);
+
+const getContextualHelpRequestedViaConfig = createSelector(
+  [getHelpCenterContextualEnabled],
+  (contextualHelpEnabled) => {
+    return contextualHelpEnabled && !isOnHelpCenterPage();
+  }
+);
+
+const getContextualHelpRequestedViaApi = createSelector(
+  [getManualContextualSuggestions],
+  (manualContextualSuggestions) => {
+    const searchTermExists = !!manualContextualSuggestions.query;
+    const labelsExist = !!manualContextualSuggestions.labels && manualContextualSuggestions.labels.length > 0;
+    const urlSet = !!manualContextualSuggestions.url;
+
+    return searchTermExists || labelsExist || urlSet;
+  }
+);
+
+export const getContextualHelpRequestNeeded = createSelector(
+  [getContextualHelpRequestedViaConfig, getContextualHelpRequestedViaApi],
+  (contextualHelpRequestedViaConfig, contextualHelpRequestedViaApi) => {
+    return contextualHelpRequestedViaConfig || contextualHelpRequestedViaApi;
+  }
+);
+
+export const getSearchQuery = createSelector(
+  [getManualContextualSuggestions],
+  (manualContextualSuggestions) => {
+    let searchQuery = {};
+
+    if (manualContextualSuggestions.query) {
+      searchQuery.query = manualContextualSuggestions.query;
+    } else if (manualContextualSuggestions.labels && manualContextualSuggestions.labels.length > 0) {
+      searchQuery.label_names = manualContextualSuggestions.labels.join(','); // eslint-disable-line camelcase
+    } else {
+      searchQuery.query = getPageKeywords();
+    }
+
+    return searchQuery;
   }
 );
