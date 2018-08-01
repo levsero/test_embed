@@ -38,25 +38,25 @@
   composes: u-hsizeAll u-textLeft u-borderNone from global;
   background: none;
   outline: none;
-  color: $zd-color-monsoon;
+  color: $zd-color-grey-500;
   font-size: $font-size-lrg;
   padding: #{8/$font-size}rem #{15/$font-size}rem;
 
   path {
-    fill: $zd-color-monsoon;
+    fill: $zd-color-grey-500;
   }
 
   &:hover, &:active, &:focus {
-    color: $zd-color-oil;
-    background: $zd-color-white-smoke;
+    color: $zd-color-grey-800;
+    background: $zd-color-grey-100;
 
     path {
-      fill: $zd-color-oil;
+      fill: $zd-color-grey-800;
     }
   }
 
   &:disabled {
-    color: $zd-color-iron;
+    color: $zd-color-grey-300;
     background: $zd-color-white;
   }
 
@@ -70,19 +70,19 @@
   font-size: $font-size-mobile;
   background: none;
   outline: none;
-  color: $zd-color-monsoon;
+  color: $zd-color-grey-500;
   padding: #{13/$font-size}rem #{20/$font-size}rem;
-  border-color: $zd-color-platinum;
+  border-color: $zd-color-grey-200;
   box-sizing: border-box;
   border-top: 0;
 
   &:hover, &:active, &:focus {
-    color: $zd-color-oil;
-    background: $zd-color-white-smoke;
+    color: $zd-color-grey-800;
+    background: $zd-color-grey-100;
   }
 
   &:disabled, &.disabled {
-    color: $zd-color-iron;
+    color: $zd-color-grey-300;
     background: $zd-color-white;
   }
 
@@ -102,7 +102,7 @@
   composes: u-borderBottom from global;
 
   margin: #{4/$font-size}rem 0;
-  border-color: $zd-color-platinum;
+  border-color: $zd-color-grey-200;
 }
 
 .soundButtonReset {
