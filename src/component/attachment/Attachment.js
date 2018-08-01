@@ -21,7 +21,7 @@ export class Attachment extends Component {
     handleRemoveAttachment: PropTypes.func,
     isDownloadable: PropTypes.bool.isRequired,
     isRemovable: PropTypes.bool.isRequired,
-    icon: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     uploading: PropTypes.bool.isRequired,
     uploadProgress: PropTypes.number,
     uploadRequestSender: PropTypes.object
@@ -31,6 +31,7 @@ export class Attachment extends Component {
     attachmentId: '',
     downloading: false,
     fakeProgress: false,
+    icon: '',
     isDownloadable: false,
     isRemovable: false,
     uploading: false,
@@ -97,6 +98,18 @@ export class Attachment extends Component {
     return secondaryText;
   }
 
+  renderPreviewIcon = () => {
+    const { file, isDownloadable } = this.props;
+
+    const previewIcon = this.props.icon.length > 0
+      ? <Icon type={this.props.icon} className={styles.iconPreview} />
+      : null;
+
+    if (isDownloadable && previewIcon) return this.renderLinkedEl(previewIcon, file.url);
+
+    return previewIcon;
+  }
+
   render() {
     const { file,
       downloading,
@@ -116,10 +129,13 @@ export class Attachment extends Component {
       { [styles.secondaryTextError]: !!errorMessage }
     );
 
-    const previewIcon = <Icon type={this.props.icon} className={styles.iconPreview} />;
+    const previewNameClasses = classNames(
+      styles.previewName,
+      { [styles.previewError]: !!errorMessage }
+    );
 
     const previewName = (
-      <div className={styles.previewName}>
+      <div className={previewNameClasses}>
         {filenameMaxLength ? this.truncateFilename(file.name, filenameMaxLength, 7) : file.name}
       </div>
     );
@@ -141,7 +157,7 @@ export class Attachment extends Component {
     return (
       <div className={containerClasses}>
         <div className={styles.preview}>
-          {isDownloadable ? this.renderLinkedEl(previewIcon, file.url) : previewIcon}
+          {this.renderPreviewIcon()}
           <div className={styles.description}>
             {isDownloadable ? this.renderLinkedEl(previewName, file.url) : previewName}
             <div className={secondaryTextClasses}>

@@ -7,13 +7,24 @@
 }
 
 .containerError {
-  composes: u-borderError from global;
+  composes: u-flex u-marginTL from global;
+  composes: Error from '../../styles/components/Error.scss';
+
+  svg {
+    margin: 0 #{8/$font-size}rem 0 #{10/$font-size}rem;
+  }
+
 }
 
 .preview {
   composes: u-flex u-flexAlignItemsCenter from global;
   min-height: #{32/$font-size}rem;
   z-index: 2;
+}
+
+.previewError {
+  color: $zd-color-grey-700 !important;
+  font-size: #{12/$font-size}rem;
 }
 
 .description {
@@ -32,7 +43,8 @@
 }
 
 .secondaryTextError {
-  color: $zd-color-flamingo;
+  color: $zd-color-red-500;
+  font-size: #{12/$font-size}rem;
 }
 
 .downloadSize {
