@@ -10,7 +10,7 @@
 
   &:before,
   &:after {
-    background-color: $zd-color-iron;
+    background-color: $zd-color-grey-300;
     content: "";
     display: inline-block;
     height: #{1/$font-size}rem;

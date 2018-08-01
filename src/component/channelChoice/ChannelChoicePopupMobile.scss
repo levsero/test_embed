@@ -9,10 +9,10 @@
   padding-bottom: #{8/$font-size}rem;
 
   &:hover, &:focus, &:active {
-    color: $zd-color-oil;
+    color: $zd-color-grey-800;
 
     svg path {
-      fill: $zd-color-dark-gray;
+      fill: $zd-color-grey-800;
     }
   }
 }

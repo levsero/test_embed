@@ -51,7 +51,7 @@
 
 .formDivider {
   composes: u-marginBL u-hsizeAll from global;
-  border: #{0.5/$font-size}rem solid $zd-color-gainsboro;
+  border: #{0.5/$font-size}rem solid $zd-color-grey-200;
   margin-left: #{-10/$font-size}rem;
   padding-right: #{20/$font-size}rem;
 }
