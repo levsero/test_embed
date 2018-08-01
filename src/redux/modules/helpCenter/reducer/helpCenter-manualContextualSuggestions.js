@@ -5,7 +5,8 @@ import _ from 'lodash';
 
 const initialState = {
   query: '',
-  labels: []
+  labels: [],
+  url: false
 };
 
 const manualContextualSuggestions = (state = initialState, action) => {
@@ -25,6 +26,11 @@ const manualContextualSuggestions = (state = initialState, action) => {
         return {
           ...state,
           labels: options.labels
+        };
+      } else if ('url' in options) {
+        return {
+          ...state,
+          url: options.url
         };
       }
       return state;

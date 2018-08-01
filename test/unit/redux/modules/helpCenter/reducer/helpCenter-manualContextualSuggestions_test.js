@@ -24,7 +24,8 @@ describe('helpCenter reducer manualContextualSuggestions', () => {
     it('is set to an expected object', () => {
       const expected = {
         query: '',
-        labels: []
+        labels: [],
+        url: false
       };
 
       expect(initialState)
@@ -54,7 +55,8 @@ describe('helpCenter reducer manualContextualSuggestions', () => {
         expect(state)
           .toEqual({
             query: 'yolo search',
-            labels: []
+            labels: [],
+            url: false
           });
       });
     });
@@ -73,7 +75,28 @@ describe('helpCenter reducer manualContextualSuggestions', () => {
         expect(state)
           .toEqual({
             query: '',
-            labels: ['yo', 'this', 'a', 'label']
+            labels: ['yo', 'this', 'a', 'label'],
+            url: false
+          });
+      });
+    });
+
+    describe('url provided', () => {
+      beforeAll(() => {
+        mockAction = {
+          type: actionTypes.CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
+          payload: {
+            url: true
+          }
+        };
+      });
+
+      it('sets the query state correctly', () => {
+        expect(state)
+          .toEqual({
+            query: '',
+            labels: [],
+            url: true
           });
       });
     });

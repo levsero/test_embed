@@ -121,6 +121,19 @@ describe('helpCenter selectors', () => {
       });
     });
 
+    describe('when manual contextual suggestions url is present', () => {
+      beforeAll(() => {
+        mockManualContextualSuggestions = {
+          url: true
+        };
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
     describe('when manual contextual suggestions is not present', () => {
       beforeAll(() => {
         mockManualContextualSuggestions = {};
@@ -168,6 +181,7 @@ describe('helpCenter selectors', () => {
       });
     });
   });
+
   describe('getSearchQuery', () => {
     let result,
       mockManualContextualSuggestions;
