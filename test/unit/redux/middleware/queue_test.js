@@ -81,7 +81,7 @@ describe('queue middleware', () => {
             .toHaveBeenCalled();
         });
 
-        it('calls removeFromQueue with the correct args', () => {
+        it('does not call removeFromQueue', () => {
           expect(removeFromQueueSpy)
             .not
             .toHaveBeenCalled();
@@ -100,7 +100,7 @@ describe('queue middleware', () => {
           .toHaveBeenCalled();
       });
 
-      it('calls removeFromQueue with the correct args', () => {
+      it('does not call removeFromQueue', () => {
         expect(removeFromQueueSpy)
           .not
           .toHaveBeenCalled();
