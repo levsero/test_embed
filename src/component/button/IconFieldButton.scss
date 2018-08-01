@@ -1,12 +1,17 @@
 @import '../../styles/_vars.scss';
 
-.focused {
-  composes: u-fillAluminum from global;
+.notFocused {
+  svg {
+    fill: $zd-color-grey-400 !important;
+  }
 }
 
-.notFocused {
-  composes: u-fillGainsboro from global;
+.focused {
+  svg {
+    fill: $zd-color-grey-600 !important;
+  }
 }
+
 .icon {
   composes: u-paddingLN from global;
 }

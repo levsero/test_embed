@@ -440,18 +440,6 @@ u-overflowAuto {
   color: $zd-color-aluminum !important;
 }
 
-.u-fillAluminum {
-  svg {
-    fill: $zd-color-aluminum !important;
-  }
-}
-
-.u-fillGainsboro {
-  svg {
-    fill: $zd-color-gainsboro !important;
-  }
-}
-
 .u-textSizeSml {
   font-size: #{13/$font-size}rem !important;
 }

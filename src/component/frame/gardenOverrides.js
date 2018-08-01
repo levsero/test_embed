@@ -1,4 +1,4 @@
-import { zdColorAluminum, zdColorPlatinum } from '@zendeskgarden/css-variables';
+import { zdColorGrey400, zdColorGrey600 } from '@zendeskgarden/css-variables';
 import { FONT_SIZE } from 'constants/shared';
 import { css } from 'styled-components';
 import { isMobileBrowser } from 'utility/devices';
@@ -38,7 +38,7 @@ const checkboxLabelMobileOverrides = isMobileBrowser() ? css`
     }
 
     box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`}
-    border-color: ${props => props.focused && `${zdColorAluminum} !important`}
+    border-color: ${props => props.focused && `${zdColorGrey600} !important`}
 
     &:before {
       width: ${14/FONT_SIZE}rem !important;
@@ -56,16 +56,16 @@ const borderOverrides = isMobileBrowser() ? css`
 
 const selectOverrides = css`
   :hover, :focus {
-    background-color: ${zdColorPlatinum} !important;
+    background-color: ${zdColorGrey400} !important;
   }
 
   box-shadow: ${props => props.focused && `inset 0 ${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4), inset 0 -${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4) !important`};
-  background-color: ${props => props.focused && `${zdColorPlatinum} !important`};
+  background-color: ${props => props.focused && `${zdColorGrey400} !important`};
 `;
 
 const genericOverrides = css`
   :hover, :focus {
-    border-color: ${zdColorAluminum} !important;
+    border-color: ${zdColorGrey600} !important;
   }
   :focus {
     box-shadow: 0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;
@@ -93,7 +93,7 @@ export default {
     ${genericOverrides}
     ${bottomMargin}
     box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`}
-    border-color: ${props => props.focused && `${zdColorAluminum} !important`}
+    border-color: ${props => props.focused && `${zdColorGrey600} !important`}
     margin-bottom: ${20/FONT_SIZE}rem !important;
   `,
   'select.item': selectOverrides,
