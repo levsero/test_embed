@@ -132,7 +132,7 @@ $menu-height: #{200/$font-size}rem;
 
 .description {
   composes: Form-description from '../../styles/components/Form.scss';
-  composes: u-textAluminum from global;
+  color: $zd-color-grey-500;
 }
 
 @keyframes right {

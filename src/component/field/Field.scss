@@ -52,6 +52,6 @@
 }
 
 .description {
-  composes: u-textAluminum from global;
+  color: $zd-color-grey-500;
   composes: Form-description from '../../styles/components/Form.scss';
 }
