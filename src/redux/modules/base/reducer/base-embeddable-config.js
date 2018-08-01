@@ -22,7 +22,7 @@ const embeddableConfig = (state = initialState, action) => {
           helpCenterForm: {
             props: {
               ...state.embeds.helpCenterForm.props,
-              ..._.get(payload, 'embeds.helpCenterForm')
+              ..._.get(payload, 'embeds.helpCenterForm.props')
             }
           }
         }

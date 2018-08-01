@@ -44,7 +44,9 @@ describe('base reducer embeddable config', () => {
         payload: {
           embeds: {
             helpCenterForm: {
-              contextualHelpEnabled: true
+              props: {
+                contextualHelpEnabled: true
+              }
             }
           }
         }

@@ -56,13 +56,27 @@ export const getHasSearched = createSelector(
   }
 );
 
-export const getContextualHelpRequestNeeded = createSelector(
-  [getManualContextualSuggestions, getHelpCenterContextualEnabled],
-  (manualContextualSuggestions, contextualHelpEnabled) => {
+const getContextualHelpRequestedViaConfig = createSelector(
+  [getHelpCenterContextualEnabled],
+  (contextualHelpEnabled) => {
+    return contextualHelpEnabled && !isOnHelpCenterPage();
+  }
+);
+
+const getContextualHelpRequestedViaApi = createSelector(
+  [getManualContextualSuggestions],
+  (manualContextualSuggestions) => {
     const searchTermExists = !!manualContextualSuggestions.query;
     const labelsExist = !!manualContextualSuggestions.labels && manualContextualSuggestions.labels.length > 0;
 
-    return (contextualHelpEnabled && !isOnHelpCenterPage()) || (searchTermExists || labelsExist);
+    return searchTermExists || labelsExist;
+  }
+);
+
+export const getContextualHelpRequestNeeded = createSelector(
+  [getContextualHelpRequestedViaConfig, getContextualHelpRequestedViaApi],
+  (contextualHelpRequestedViaConfig, contextualHelpRequestedViaApi) => {
+    return contextualHelpRequestedViaConfig || contextualHelpRequestedViaApi;
   }
 );
 
