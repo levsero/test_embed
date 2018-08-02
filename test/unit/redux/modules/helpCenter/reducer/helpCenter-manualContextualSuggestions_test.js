@@ -46,7 +46,8 @@ describe('helpCenter reducer manualContextualSuggestions', () => {
         mockAction = {
           type: actionTypes.CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
           payload: {
-            search: 'yolo search'
+            search: 'yolo search',
+            labels: ['y', 'o', 'l', 'o']
           }
         };
       });
@@ -66,7 +67,8 @@ describe('helpCenter reducer manualContextualSuggestions', () => {
         mockAction = {
           type: actionTypes.CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
           payload: {
-            labels: ['yo', 'this', 'a', 'label']
+            labels: ['yo', 'this', 'a', 'label'],
+            url: true
           }
         };
       });
