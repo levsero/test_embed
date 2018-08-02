@@ -29,7 +29,8 @@ import { getChatMessagesByAgent,
   getIsChatting as getIsChattingState,
   getActiveAgents,
   getDepartmentsList } from 'src/redux/modules/chat/chat-selectors';
-import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { getArticleDisplayed,
+  getHasSearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
   getWidgetShown,
   getIPMWidget,
@@ -83,6 +84,10 @@ const handleNewAgentMessage = (nextState, dispatch) => {
 
     if (recentMessage && getUserSoundSettings(nextState)) {
       audio.play('incoming_message');
+    }
+
+    if (_.size(getChatMessagesByAgent(nextState)) === 1 && !getHasSearched(nextState)) {
+      dispatch(updateActiveEmbed('chat'));
     }
 
     dispatch(newAgentMessageReceived(agentMessage));
