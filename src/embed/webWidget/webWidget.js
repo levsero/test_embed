@@ -21,7 +21,7 @@ import { getZoomSizingRatio,
   isIE,
   isMobileBrowser,
   setScaleLock } from 'utility/devices';
-import { document, getDocumentHost } from 'utility/globals';
+import { document, getDocumentHost, win } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
@@ -573,7 +573,8 @@ export default function WebWidgetFactory(name) {
     return _.omitBy({
       account_key: config.zopimId,
       override_proxy: config.overrideProxy,
-      authentication
+      authentication,
+      activity_window: win
     }, _.isNil);
     /* eslint-enable camelcase */
   }
