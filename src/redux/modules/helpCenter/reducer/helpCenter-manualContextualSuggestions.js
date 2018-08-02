@@ -3,6 +3,9 @@ import {
 } from '../helpCenter-action-types';
 import _ from 'lodash';
 
+// The reducer must have at most 1 non-falsy value.
+// This ensures that we only use one property for a contextual request and respect the
+// priority of each argument (query, labels then url).
 const initialState = {
   query: '',
   labels: [],
@@ -19,17 +22,17 @@ const manualContextualSuggestions = (state = initialState, action) => {
       // to true in that case because it equals the string function `String.prototype.search`.
       if (_.isString(options.search) && options.search.length > 0) {
         return {
-          ...state,
+          ...initialState,
           query: options.search
         };
       } else if (_.isArray(options.labels) && options.labels.length > 0) {
         return {
-          ...state,
+          ...initialState,
           labels: options.labels
         };
       } else if ('url' in options) {
         return {
-          ...state,
+          ...initialState,
           url: options.url
         };
       }
