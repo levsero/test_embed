@@ -8,7 +8,8 @@ describe('onStateChange middleware', () => {
     mockIsProactiveSession,
     mockChatScreen,
     mockSubmitTicketAvailable,
-    mockIsChatting;
+    mockIsChatting,
+    mockHasSearched;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
@@ -109,7 +110,8 @@ describe('onStateChange middleware', () => {
         }
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
-        getArticleDisplayed: _.identity
+        getArticleDisplayed: _.identity,
+        getHasSearched: () => mockHasSearched
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
@@ -272,14 +274,15 @@ describe('onStateChange middleware', () => {
     });
 
     describe('onNewChatMessage', () => {
-      const prevState = [{ nick: 'agent', timestamp: 50 }];
-      const nextState = [{ nick: 'agent', timestamp: 30 }, { nick: 'agent', timestamp: 60 }, { nick: 'agent:007', msg: 'latest', timestamp: 70 }];
+      let prevState = [{ nick: 'agent', timestamp: 50 }];
+      let nextState = [{ nick: 'agent', timestamp: 30 }, { nick: 'agent', timestamp: 60 }, { nick: 'agent:007', msg: 'latest', timestamp: 70 }];
       const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
 
       beforeEach(() => {
         broadcastSpy.calls.reset();
         newAgentMessageReceivedSpy.calls.reset();
         audioPlaySpy.calls.reset();
+        updateActiveEmbedSpy.calls.reset();
       });
 
       describe('when there are no new messages', () => {
@@ -467,6 +470,30 @@ describe('onStateChange middleware', () => {
               it('calls mediator with newChat.newMessage', () => {
                 expect(broadcastSpy)
                   .not.toHaveBeenCalledWith('newChat.newMessage');
+              });
+            });
+
+            describe('when the first message comes from the first agent', () => {
+              describe('when user has not made a search', () => {
+                beforeEach(() => {
+                  prevState = [];
+                  nextState = [{ nick: 'agent', timestamp: 90, msg: 'yolo' }];
+                  mockHasSearched = false;
+                  mockWidgetShown = false;
+                  mockIsMobileBrowser = true;
+                  mockMobileNotificationsDisabled = false;
+                  stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                });
+
+                afterEach(() => {
+                  prevState = [{ nick: 'agent', timestamp: 50 }];
+                  nextState = [{ nick: 'agent', timestamp: 30 }, { nick: 'agent', timestamp: 60 }, { nick: 'agent:007', msg: 'latest', timestamp: 70 }];
+                });
+
+                it('calls updateActiveEmbed with chat', () => {
+                  expect(updateActiveEmbedSpy)
+                    .toHaveBeenCalledWith('chat');
+                });
               });
             });
           });
