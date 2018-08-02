@@ -127,6 +127,10 @@ parts:
       title: "Success message that is displayed after a form is completed, indicating customer will get back to user soon."
       screenshot: "https://drive.google.com/open?id=1wzf7c06mTD4LgHWyO1oy1yntdUC9cjLC"
       value: "We'll get back to you soon."
+  - translation:
+      key: "embeddable_framework.web_widget.frame.title"
+      title: "This string is used by screen readers to identify the currently opened Web Widget. The text will be read out for the visually impaired. Capitalization doesn't matter."
+      value: "Find more information here"
 
   # Validation errors
   - translation:
@@ -177,6 +181,18 @@ parts:
       title: "This string is the same as 'embeddable_framework.talk.phoneOnly.title'"
       screenshot: "https://zendesk.box.com/s/8e4pkn837ahb0t47vnutkffv74cqs483"
       value: "Call us"
+  - translation:
+      key: "embeddable_framework.launcher.frame.title"
+      title: "This string is used by screen readers to identify the Web Widget launcher. The text will be read out for the visually impaired. Capitalization doesn't matter."
+      value: "Opens a widget where you can find more information"
+  - translation:
+      key: "embeddable_framework.launcher.chat.title"
+      title: "This string is used by screen readers to identify the Web Widget launcher when the Chat product is available. The text will be read out for the visually impaired. Capitalization doesn't matter."
+      value: "Opens a widget where you can chat to one of our agents"
+  - translation:
+      key: "embeddable_framework.launcher.talk.title"
+      title: "This string is used by screen readers to identify the Web Widget launcher when the Talk product is available. The text will be read out for the visually impaired. Capitalization doesn't matter."
+      value: "Opens a widget where you can talk to one of our agents"
 
   # Chat embed
   - translation:
