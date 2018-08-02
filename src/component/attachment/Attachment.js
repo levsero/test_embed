@@ -105,7 +105,7 @@ export class Attachment extends Component {
       ? <Icon type={this.props.icon} className={styles.iconPreview} />
       : null;
 
-    if (isDownloadable && previewIcon) return this.renderLinkedEl(previewIcon, file.url);
+    if (isDownloadable && !!previewIcon) return this.renderLinkedEl(previewIcon, file.url);
 
     return previewIcon;
   }

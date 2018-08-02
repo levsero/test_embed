@@ -333,6 +333,63 @@ describe('Attachment component', () => {
     });
   });
 
+  describe('#renderPreviewIcon', () => {
+    let component,
+      result,
+      icon,
+      isDownloadable;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <Attachment
+          file={mockProps.file}
+          isDownloadable={isDownloadable}
+          icon={icon}
+        />
+      );
+
+      result = component.renderPreviewIcon();
+    });
+
+    afterEach(() => {
+      isDownloadable = false;
+      icon = '';
+    });
+
+    describe('when there is an icon specified', () => {
+      describe('and the attachment is not downloadable', () => {
+        beforeAll(() => {
+          icon = 'iconName';
+        });
+
+        it('returns an Icon component', () => {
+          expect(TestUtils.isElementOfType(result, Icon)).toEqual(true);
+        });
+      });
+
+      describe('and the attachment is indeed downloadable', () => {
+        beforeAll(() => {
+          isDownloadable = true;
+          icon = 'iconName';
+        });
+
+        it('returns a link', () => {
+          expect(TestUtils.isElementOfType(result, 'a')).toEqual(true);
+        });
+      });
+    });
+
+    describe('when an icon is not specified', () => {
+      beforeAll(() => {
+        icon = '';
+      });
+
+      it('returns null', () => {
+        expect(result).toBeNull();
+      });
+    });
+  });
+
   describe('#render', () => {
     let component,
       componentNode,
