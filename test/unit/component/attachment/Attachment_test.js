@@ -253,7 +253,6 @@ describe('Attachment component', () => {
   describe('#renderSecondaryText', () => {
     let component,
       result,
-      errorMessage,
       isDownloadable,
       downloading,
       uploading;
@@ -271,7 +270,6 @@ describe('Attachment component', () => {
 
       result = component.renderSecondaryText(
         mockProps.file,
-        errorMessage,
         isDownloadable,
         downloading,
         uploading
@@ -279,20 +277,9 @@ describe('Attachment component', () => {
     });
 
     afterEach(() => {
-      errorMessage = undefined;
       isDownloadable = false;
       downloading = false;
       uploading = false;
-    });
-
-    describe('when there is an error message', () => {
-      beforeAll(() => {
-        errorMessage = mockProps.errorMessage;
-      });
-
-      it('returns the error message', () => {
-        expect(result).toEqual('An error occured');
-      });
     });
 
     describe('when there is no error message and uploading is true', () => {
@@ -394,6 +381,7 @@ describe('Attachment component', () => {
     let component,
       componentNode,
       element,
+      innerEl,
       errorMessage,
       isDownloadable,
       isRemovable,
@@ -413,6 +401,7 @@ describe('Attachment component', () => {
       );
 
       element = component.render();
+      innerEl = element.props.children;
       componentNode = ReactDOM.findDOMNode(component);
     });
 
@@ -425,8 +414,12 @@ describe('Attachment component', () => {
         errorMessage = undefined;
       });
 
-      it('sets an error class on the main container', () => {
-        expect(element.props.className).toContain('containerError');
+      it('does not render an attachment box', () => {
+        expect(innerEl[0]).toBeUndefined();
+      });
+
+      it('sets an error class on the attachment error container', () => {
+        expect(innerEl[1].props.className).toContain('containerError');
       });
     });
 
@@ -462,7 +455,7 @@ describe('Attachment component', () => {
       });
 
       it('does not render a progress bar after the preview block', () => {
-        const secondChild = element.props.children[1];
+        const secondChild = innerEl[0].props.children[1];
 
         expect(secondChild).toEqual(false);
       });
@@ -520,7 +513,7 @@ describe('Attachment component', () => {
       });
 
       it('renders a progress bar after the preview block', () => {
-        const secondChild = element.props.children[1];
+        const secondChild = innerEl[0].props.children[1];
 
         expect(TestUtils.isElementOfType(secondChild, ProgressBar)).toEqual(true);
       });
