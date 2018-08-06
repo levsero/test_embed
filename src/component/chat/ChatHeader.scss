@@ -1,6 +1,9 @@
 /**
  * 1. ChatLog's messages flow above ChatHeader's content,
       this lifts ChatHeader's content to a higher index to prevent that behaviour.
+ * 2. PostCSS (Autoprefixer) strips outdated CSS properties, as a result we have
+      to temporarily turn off the behaviour to enable line clamping to render ellipses
+      nicely for most browsers apart from IE and FF when a text overflows..
  */
 @import '../../styles/_vars.scss';
 
@@ -16,18 +19,32 @@
 
 .avatarContainer {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .avatar:nth-child(1) {
   left: 0;
+
+  [dir='rtl'] & {
+    left: -#{32/$font-size}rem;
+  }
 }
 
 .avatar:nth-child(2) {
   left: #{20/$font-size}rem;
+
+  [dir='rtl'] & {
+    left: -#{52/$font-size}rem;
+  }
 }
 
 .avatar:nth-child(3) {
   left: #{40/$font-size}rem;
+
+  [dir='rtl'] & {
+    left: -#{72/$font-size}rem;
+  }
 }
 
 .avatarOverflow {
@@ -55,19 +72,25 @@
 }
 
 .textContainer {
-  composes: u-paddingLS from global;
   color: $zd-color-oil;
   line-height: #{15/$font-size}rem;
   padding-top: #{1/$font-size}rem;
-
-  [dir='rtl'] & {
-    padding-left: 0 !important;
-    padding-right: #{10/$font-size}rem !important;
-  }
 }
 
 .title {
   composes: u-textBold from global;
+}
+
+.subTextContainer {
+  width: 100%;
+  max-height: #{30/$font-size}rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical; /* 2 */
+  /*! autoprefixer: on */
 }
 
 .clickable {
@@ -76,4 +99,17 @@
 
 .agentDetails {
   composes: u-flex from global;
+
+  width: 100%;
+}
+
+.ratingGroup {
+  display: inline-flex;
+  width: #{102/$font-size}rem;
+  margin-left: #{17/$font-size}rem !important;
+
+  [dir='rtl'] & {
+    margin-left: 0 !important;
+    margin-right: #{17/$font-size}rem !important;
+  }
 }

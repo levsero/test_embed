@@ -49,22 +49,12 @@ export class ChatHeader extends Component {
 
   renderAvatarContainer = () => {
     const { concierges } = this.props;
-    const avatarWidth = 32;
     const avatarSize = concierges.length;
-    let multipleAvatarWidth = 0;
-
-    if (avatarSize === 2) {
-      multipleAvatarWidth = 20;
-    } else if (avatarSize > 2) {
-      multipleAvatarWidth = 40;
-    }
-
     const overflowCount = avatarSize > 3 ? Math.min(avatarSize - 2, 99) : 0;
     const avatars = concierges.slice(0, overflowCount ? 2 : 3);
-    const style = { width: `${(avatarWidth + multipleAvatarWidth)/FONT_SIZE}rem` };
 
     return (
-      <div className={styles.avatarContainer} style={style} >
+      <div className={styles.avatarContainer}>
         {this.renderAvatars(avatars)}
         {this.renderOverflow(overflowCount)}
       </div>
@@ -74,32 +64,57 @@ export class ChatHeader extends Component {
   renderRatingButtons = () => {
     return (
       <RatingGroup
+        className={styles.ratingGroup}
         updateRating={this.props.updateRating}
-        rtl={i18n.rtl}
+        rtl={i18n.isRTL()}
         rating={this.props.rating} />
     );
   }
 
-  render = () => {
-    const { showRating, onAgentDetailsClick, concierges } = this.props;
-    // Title in chat refers to the byline and display_name refers to the display title
-    const { display_name: displayName, title } = concierges[0];
-    const subText = title ? title : i18n.t('embeddable_framework.chat.header.by_line');
-    const titleText = displayName ? displayName : i18n.t('embeddable_framework.chat.header.default.title');
-    const ratingButtons = showRating ? this.renderRatingButtons() : null;
-    const agentDetailsClasses = classNames(
-      styles.agentDetails,
-      { [styles.clickable]: !!onAgentDetailsClick }
+  renderTextContainer = () => {
+    const { concierges } = this.props;
+    const defaultTitleText = i18n.t('embeddable_framework.chat.header.default.title');
+    const titleText = _.get(concierges[0], 'display_name') || defaultTitleText;
+
+    const basePadding = 22;
+    const paddingAvatarModifier = 20;
+    const numAvatars = Math.min(concierges.length, 3);
+    const paddingAdjustment = basePadding + (numAvatars * paddingAvatarModifier);
+    const rtlPaddingStyle = (i18n.isRTL())
+      ? { paddingRight: `${paddingAdjustment/FONT_SIZE}rem` }
+      : { paddingLeft: `${paddingAdjustment/FONT_SIZE}rem` };
+
+    return (
+      <div className={styles.textContainer} style={rtlPaddingStyle}>
+        <div className={styles.title}>{titleText}</div>
+        {this.renderSubText()}
+      </div>
     );
+  }
+
+  renderSubText = () => {
+    const { concierges } = this.props;
+    const defaultSubText = i18n.t('embeddable_framework.chat.header.by_line');
+    const subText = _.get(concierges[0], 'title') || defaultSubText;
+
+    return (
+      <div className={styles.subTextContainer}>{subText}</div>
+    );
+  }
+
+  render = () => {
+    const { showRating, onAgentDetailsClick } = this.props;
+    // Title in chat refers to the byline and display_name refers to the display title
+    const ratingButtons = showRating ? this.renderRatingButtons() : null;
+    const agentDetailsClasses = classNames(styles.agentDetails, {
+      [styles.clickable]: !!onAgentDetailsClick
+    });
 
     return (
       <div className={styles.container}>
         <div className={agentDetailsClasses} onClick={onAgentDetailsClick}>
           {this.renderAvatarContainer()}
-          <div className={styles.textContainer}>
-            <div className={styles.title}>{titleText}</div>
-            <div>{subText}</div>
-          </div>
+          {this.renderTextContainer()}
         </div>
         {ratingButtons}
       </div>

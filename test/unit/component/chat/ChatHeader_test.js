@@ -1,5 +1,6 @@
 describe('ChatHeader component', () => {
-  let ChatHeader;
+  let ChatHeader,
+    mockIsRTL;
   const chatHeaderPath = buildSrcPath('component/chat/ChatHeader');
   const fontSize = 12;
 
@@ -30,7 +31,8 @@ describe('ChatHeader component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: _.identity
+          t: _.identity,
+          isRTL: () => mockIsRTL
         }
       },
       './ChatHeader.scss': {
@@ -38,7 +40,7 @@ describe('ChatHeader component', () => {
           container: 'container',
           textContainer: 'textContainer',
           ratingIconActive: 'ratingIconActive',
-          clickable:'clickableClasses'
+          clickable: 'clickableClasses'
         }
       },
       'constants/shared': {
@@ -143,7 +145,7 @@ describe('ChatHeader component', () => {
   });
 
   describe('renderAvatarContainer', () => {
-    let component, avatarContainer;
+    let component;
     const avatarDetails = {
       avatar: 'https://example.com/snake',
       display_name: 'Luke Skywalker',
@@ -159,12 +161,7 @@ describe('ChatHeader component', () => {
         component = domRender(<ChatHeader {...props} />);
         spyOn(component, 'renderAvatars');
         spyOn(component, 'renderOverflow');
-        avatarContainer = component.renderAvatarContainer();
-      });
-
-      it('sets the style width to 32/FONT_SIZErem', () => {
-        expect(avatarContainer.props.style.width)
-          .toBe(`${32/fontSize}rem`);
+        component.renderAvatarContainer();
       });
 
       it('calls renderAvatars with the concierge details', () => {
@@ -187,12 +184,7 @@ describe('ChatHeader component', () => {
         component = domRender(<ChatHeader {...props} />);
         spyOn(component, 'renderAvatars');
         spyOn(component, 'renderOverflow');
-        avatarContainer = component.renderAvatarContainer();
-      });
-
-      it('sets the style width to 52/FONT_SIZErem', () => {
-        expect(avatarContainer.props.style.width)
-          .toBe(`${52/fontSize}rem`);
+        component.renderAvatarContainer();
       });
 
       it('calls renderAvatars with the concierge details', () => {
@@ -215,12 +207,7 @@ describe('ChatHeader component', () => {
         component = domRender(<ChatHeader {...props} />);
         spyOn(component, 'renderAvatars');
         spyOn(component, 'renderOverflow');
-        avatarContainer = component.renderAvatarContainer();
-      });
-
-      it('sets the style width to 72/FONT_SIZErem', () => {
-        expect(avatarContainer.props.style.width)
-          .toBe(`${72/fontSize}rem`);
+        component.renderAvatarContainer();
       });
 
       it('calls renderAvatars with the concierge details', () => {
@@ -243,12 +230,7 @@ describe('ChatHeader component', () => {
         component = domRender(<ChatHeader {...props} />);
         spyOn(component, 'renderAvatars');
         spyOn(component, 'renderOverflow');
-        avatarContainer = component.renderAvatarContainer();
-      });
-
-      it('sets the style width to 72/FONT_SIZErem', () => {
-        expect(avatarContainer.props.style.width)
-          .toBe(`${72/fontSize}rem`);
+        component.renderAvatarContainer();
       });
 
       it('calls renderAvatars with just the first two avatars', () => {
@@ -339,6 +321,248 @@ describe('ChatHeader component', () => {
         expect(agentDetailsContainer.props.className)
           .not
           .toContain('clickableClasses');
+      });
+    });
+  });
+
+  describe('renderTextContainer', () => {
+    let result,
+      component,
+      mockConcierges;
+    const conciergeTemplate = { display_name: 'Red Spice Road soon' };
+
+    beforeEach(() => {
+      component = instanceRender(<ChatHeader concierges={mockConcierges} />);
+
+      spyOn(component, 'renderSubText');
+
+      result = component.renderTextContainer();
+    });
+
+    describe('when a display_name exists for a concierge', () => {
+      beforeAll(() => {
+        mockConcierges = [conciergeTemplate];
+      });
+
+      it('renders with the concierge display_name', () => {
+        const targetElement = result.props.children[0];
+
+        expect(targetElement.props.children)
+          .toEqual(conciergeTemplate.display_name);
+      });
+    });
+
+    describe('when a display_name does not exist for a concierge', () => {
+      beforeAll(() => {
+        mockConcierges = [{ display_name: '' }];
+      });
+
+      it('renders with a default title text', () => {
+        const targetElement = result.props.children[0];
+
+        expect(targetElement.props.children)
+          .toEqual('embeddable_framework.chat.header.default.title');
+      });
+    });
+
+    describe('when it is LTR mode', () => {
+      beforeAll(() => {
+        mockIsRTL = false;
+      });
+
+      describe('when there is only a single agent', () => {
+        beforeAll(() => {
+          mockConcierges = [conciergeTemplate];
+        });
+
+        it('calls renderSubText', () => {
+          expect(component.renderSubText)
+            .toHaveBeenCalled();
+        });
+
+        it('renders with paddingLeft ${42/FONT_SIZE}rem style', () => {
+          const expected = { paddingLeft: `${42/fontSize}rem` };
+
+          expect(result.props.style)
+            .toEqual(expected);
+        });
+      });
+
+      describe('when there are two agents', () => {
+        beforeAll(() => {
+          mockConcierges = [conciergeTemplate, conciergeTemplate];
+        });
+
+        it('calls renderSubText', () => {
+          expect(component.renderSubText)
+            .toHaveBeenCalled();
+        });
+
+        it('renders with paddingLeft ${62/FONT_SIZE}rem style', () => {
+          const expected = { paddingLeft: `${62/fontSize}rem` };
+
+          expect(result.props.style)
+            .toEqual(expected);
+        });
+      });
+
+      describe('when there are three agents', () => {
+        beforeAll(() => {
+          mockConcierges = [conciergeTemplate, conciergeTemplate, conciergeTemplate];
+        });
+
+        it('calls renderSubText', () => {
+          expect(component.renderSubText)
+            .toHaveBeenCalled();
+        });
+
+        it('renders with paddingLeft ${82/FONT_SIZE}rem style', () => {
+          const expected = { paddingLeft: `${82/fontSize}rem` };
+
+          expect(result.props.style)
+            .toEqual(expected);
+        });
+      });
+
+      describe('when there are more than three agents', () => {
+        beforeAll(() => {
+          mockConcierges = [
+            conciergeTemplate,
+            conciergeTemplate,
+            conciergeTemplate,
+            conciergeTemplate
+          ];
+        });
+
+        it('calls renderSubText', () => {
+          expect(component.renderSubText)
+            .toHaveBeenCalled();
+        });
+
+        it('renders with paddingLeft ${82/FONT_SIZE}rem style', () => {
+          const expected = { paddingLeft: `${82/fontSize}rem` };
+
+          expect(result.props.style)
+            .toEqual(expected);
+        });
+      });
+    });
+
+    describe('when it is RTL mode', () => {
+      beforeAll(() => {
+        mockIsRTL = true;
+      });
+
+      describe('when there is only a single agent', () => {
+        beforeAll(() => {
+          mockConcierges = [conciergeTemplate];
+        });
+
+        it('calls renderSubText', () => {
+          expect(component.renderSubText)
+            .toHaveBeenCalled();
+        });
+
+        it('renders with paddingRight ${42/FONT_SIZE}rem style', () => {
+          const expected = { paddingRight: `${42/fontSize}rem` };
+
+          expect(result.props.style)
+            .toEqual(expected);
+        });
+      });
+
+      describe('when there are two agents', () => {
+        beforeAll(() => {
+          mockConcierges = [conciergeTemplate, conciergeTemplate];
+        });
+
+        it('calls renderSubText', () => {
+          expect(component.renderSubText)
+            .toHaveBeenCalled();
+        });
+
+        it('renders with paddingRight ${62/FONT_SIZE}rem style', () => {
+          const expected = { paddingRight: `${62/fontSize}rem` };
+
+          expect(result.props.style)
+            .toEqual(expected);
+        });
+      });
+
+      describe('when there are three agents', () => {
+        beforeAll(() => {
+          mockConcierges = [conciergeTemplate, conciergeTemplate, conciergeTemplate];
+        });
+
+        it('calls renderSubText', () => {
+          expect(component.renderSubText)
+            .toHaveBeenCalled();
+        });
+
+        it('renders with paddingRight ${82/FONT_SIZE}rem style', () => {
+          const expected = { paddingRight: `${82/fontSize}rem` };
+
+          expect(result.props.style)
+            .toEqual(expected);
+        });
+      });
+
+      describe('when there are more than three agents', () => {
+        beforeAll(() => {
+          mockConcierges = [
+            conciergeTemplate,
+            conciergeTemplate,
+            conciergeTemplate,
+            conciergeTemplate
+          ];
+        });
+
+        it('calls renderSubText', () => {
+          expect(component.renderSubText)
+            .toHaveBeenCalled();
+        });
+
+        it('renders with paddingRight ${82/FONT_SIZE}rem style', () => {
+          const expected = { paddingRight: `${82/fontSize}rem` };
+
+          expect(result.props.style)
+            .toEqual(expected);
+        });
+      });
+    });
+  });
+
+  describe('renderSubText', () => {
+    let result,
+      mockConcierges,
+      mockShowRating;
+    const conciergeTemplate = { title: 'Sizuki Liew' };
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatHeader showRating={mockShowRating} concierges={mockConcierges} />);
+
+      result = component.renderSubText();
+    });
+
+    describe('when a title exists for a concierge', () => {
+      beforeAll(() => {
+        mockConcierges = [conciergeTemplate];
+      });
+
+      it('renders with the concierge title', () => {
+        expect(result.props.children)
+          .toEqual(conciergeTemplate.title);
+      });
+    });
+
+    describe('when a title does not exist for a concierge', () => {
+      beforeAll(() => {
+        mockConcierges = [{ title: '' }];
+      });
+
+      it('renders with a default by line text', () => {
+        expect(result.props.children)
+          .toEqual('embeddable_framework.chat.header.by_line');
       });
     });
   });
