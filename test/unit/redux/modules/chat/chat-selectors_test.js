@@ -53,6 +53,7 @@ describe('chat selectors', () => {
     getAuthUrls,
     getIsAuthenticated,
     getZChatVendor,
+    getIsLoggingOut,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -155,11 +156,29 @@ describe('chat selectors', () => {
     getAuthUrls = selectors.getAuthUrls;
     getIsAuthenticated = selectors.getIsAuthenticated;
     getZChatVendor = selectors.getZChatVendor;
+    getIsLoggingOut = selectors.getIsLoggingOut;
   });
 
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('getIsLoggingOut', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getIsLoggingOut({
+        chat: {
+          isLoggingOut: true
+        }
+      });
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
   });
 
   describe('getCurrentSessionStartTime', () => {
