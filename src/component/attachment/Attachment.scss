@@ -7,13 +7,10 @@
 }
 
 .containerError {
-  composes: u-flex u-marginTL from global;
+  padding-left: #{50/$font-size}rem !important;
+  composes: u-marginTL from global;
   composes: Error from '../../styles/components/Error.scss';
-
-  svg {
-    margin: 0 #{8/$font-size}rem 0 #{10/$font-size}rem;
-  }
-
+  background-position-y: #{14/$font-size}rem;
 }
 
 .preview {
@@ -25,6 +22,7 @@
 .previewError {
   color: $zd-color-grey-700 !important;
   font-size: #{12/$font-size}rem;
+  font-weight: normal;
 }
 
 .description {

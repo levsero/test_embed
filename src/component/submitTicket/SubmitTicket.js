@@ -20,6 +20,7 @@ import { i18n } from 'service/i18n';
 import { isIE } from 'utility/devices';
 import { ICONS } from 'src/constants/shared';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { Alert } from '@zendeskgarden/react-notifications';
 
 import classNames from 'classnames';
 
@@ -233,10 +234,9 @@ class SubmitTicket extends Component {
     if (!this.props.errorMsg) return;
 
     return (
-      <div className={styles.error}>
-        <Icon type='Icon--error' className={styles.errorIcon} />
+      <Alert type="error" className={styles.error}>
         {this.props.errorMsg}
-      </div>
+      </Alert>
     );
   }
 

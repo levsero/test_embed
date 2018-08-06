@@ -62,7 +62,8 @@
 
 .error {
   composes: u-flex u-marginTL from global;
-  composes: Error from '../../styles/components/Error.scss';
+  padding: #{12/$font-size}rem;
+  padding-left: #{50/$font-size}rem;
 }
 
 .errorIcon {
