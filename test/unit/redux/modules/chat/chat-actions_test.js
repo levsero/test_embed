@@ -315,9 +315,10 @@ describe('chat redux actions', () => {
     const makeEndChatCall = (...args) => {
       mockEndChat.calls.mostRecent().args[0](...args);
     };
+    let callbackSpy = jasmine.createSpy('callback');
 
     beforeEach(() => {
-      mockStore.dispatch(actions.endChat());
+      mockStore.dispatch(actions.endChat(callbackSpy));
     });
 
     it('calls endChat on the Web SDK', () => {
@@ -329,6 +330,11 @@ describe('chat redux actions', () => {
       describe('when there are no errors', () => {
         beforeEach(() => {
           makeEndChatCall();
+        });
+
+        it('calls callback', () => {
+          expect(callbackSpy)
+            .toHaveBeenCalled();
         });
 
         it('dispatches a CHAT_ALL_AGENTS_INACTIVE action', () => {
@@ -350,6 +356,11 @@ describe('chat redux actions', () => {
       describe('when there are errors', () => {
         beforeEach(() => {
           makeEndChatCall(['error!']);
+        });
+
+        it('calls callback', () => {
+          expect(callbackSpy)
+            .toHaveBeenCalled();
         });
 
         it('dispatches a END_CHAT_REQUEST_FAILURE action', () => {

@@ -137,7 +137,7 @@ export function sendMsg(msg, timestamp=Date.now()) {
   };
 }
 
-export const endChat = () => {
+export const endChat = (callback=() => {}) => {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
 
@@ -150,6 +150,8 @@ export const endChat = () => {
       } else {
         dispatch({ type: END_CHAT_REQUEST_FAILURE });
       }
+
+      callback();
     });
   };
 };
