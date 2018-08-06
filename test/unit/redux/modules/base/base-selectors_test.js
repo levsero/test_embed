@@ -18,6 +18,9 @@ describe('base selectors', () => {
     getIsAuthenticationPending,
     getHasWidgetShown,
     getHasPassedAuth,
+    getChatOverrideProxy,
+    getZChatConfig,
+    getZopimId,
     mockStoreValue,
     mockIsOnHelpCenterPage,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
@@ -64,6 +67,126 @@ describe('base selectors', () => {
     getHelpCenterSignInRequired = selectors.getHelpCenterSignInRequired;
     getHasWidgetShown = selectors.getHasWidgetShown;
     getHasPassedAuth = selectors.getHasPassedAuth;
+    getChatOverrideProxy = selectors.getChatOverrideProxy;
+    getZopimId = selectors.getZopimId;
+    getZChatConfig = selectors.getZChatConfig;
+  });
+
+  describe('getZChatConfig', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      result = getZChatConfig(mockState);
+    });
+
+    describe('when overrideProxy exists', () => {
+      beforeAll(() => {
+        mockState = {
+          base: {
+            embeddableConfig: {
+              embeds: {
+                zopimChat: {
+                  props: {
+                    zopimId: 'id',
+                    overrideProxy: 'someProxy'
+                  }
+                }
+              }
+            }
+          }
+        };
+      });
+
+      it('returns the chat config', () => {
+        /* eslint-disable camelcase */
+        expect(result)
+          .toEqual({
+            account_key: 'id',
+            override_proxy: 'someProxy'
+          });
+        /* eslint-enable camelcase */
+      });
+    });
+
+    describe('when overrideProxy does not exist', () => {
+      beforeAll(() => {
+        mockState = {
+          base: {
+            embeddableConfig: {
+              embeds: {
+                zopimChat: {
+                  props: {
+                    zopimId: 'id'
+                  }
+                }
+              }
+            }
+          }
+        };
+      });
+
+      it('returns the chat config', () => {
+        /* eslint-disable camelcase */
+        expect(result)
+          .toEqual({
+            account_key: 'id'
+          });
+        /* eslint-enable camelcase */
+      });
+    });
+  });
+
+  describe('getZopimId', () => {
+    let result;
+    const mockState = {
+      base: {
+        embeddableConfig: {
+          embeds: {
+            zopimChat: {
+              props: {
+                zopimId: 'id'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getZopimId(mockState);
+    });
+
+    it('returns the chat key', () => {
+      expect(result)
+        .toEqual('id');
+    });
+  });
+
+  describe('getChatOverrideProxy', () => {
+    let result;
+    const mockState = {
+      base: {
+        embeddableConfig: {
+          embeds: {
+            zopimChat: {
+              props: {
+                overrideProxy: 'yoloo'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getChatOverrideProxy(mockState);
+    });
+
+    it('returns the override proxy', () => {
+      expect(result)
+        .toEqual('yoloo');
+    });
   });
 
   describe('getHasPassedAuth', () => {
