@@ -558,14 +558,6 @@ export default function WebWidgetFactory(name) {
   }
 
   function makeChatConfig(config) {
-    const chatConfigDefaults = {
-      position: 'right',
-      color: '#659700',
-      zopimId: 'xxx'
-    };
-
-    config = _.extend({}, chatConfigDefaults, config);
-
     /* eslint-disable camelcase */
     const jwtFn = _.get(config, 'authentication.jwtFn');
     const authentication = jwtFn ? { jwt_fn: jwtFn } : null;
