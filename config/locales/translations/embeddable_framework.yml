@@ -153,6 +153,36 @@ parts:
       title: "Error message shown beneath a phone number field when the entered value is an invalid phone number."
       screenshot: "https://drive.google.com/open?id=1ZOK0K85KFmJ_XBIALS0U-77Pn_JBvDul"
       value: "Please enter a valid phone number."
+  - translation:
+      key: "embeddable_framework.validation.error.name"
+      title: "Error message shown beneath a name field when there is no value entered."
+      screenshot: "https://drive.google.com/open?id=1G0TgGHEXUrkgeVeqm1CRb3dOZWeTh89K"
+      value: "Please enter a valid name."
+  - translation:
+      key: "embeddable_framework.validation.error.department"
+      title: "Error message shown beneath a department field when there is no value entered."
+      screenshot: "https://drive.google.com/file/d/1bfsmK5WPBhRVyIBPGED5LC0P5TUCTEau/"
+      value: "Please select a department."
+  - translation:
+      key: "embeddable_framework.validation.error.message"
+      title: "Error message shown beneath a message field when there is no value entered."
+      screenshot: "https://drive.google.com/open?id=12STkQSlJL43xbw1w-FXjZVaBGlauSWQ7"
+      value: "Please enter a valid message."
+  - translation:
+      key: "embeddable_framework.validation.error.number"
+      title: "Error message shown beneath a number field when there is no value entered."
+      screenshot: "https://drive.google.com/open?id=1YxgMovHbhiIIP3dg_-PNduLLITOeu3gl"
+      value: "Please enter a number."
+  - translation:
+      key: "embeddable_framework.validation.error.checkbox"
+      title: "Error message shown beneath a checkbox field when there is no value entered."
+      screenshot: "https://drive.google.com/open?id=19KZ0HHETZ495uIADSltkY4arXFgUufhh"
+      value: "Please check this box to proceed."
+  - translation:
+      key: "embeddable_framework.validation.label.optional"
+      title: "A label that is applied to field labels that are optional. %(label)s is a string for the label of the field and does not need to be translated"
+      screenshot: "https://drive.google.com/open?id=1UEw-id8APMxRrgEl-5YwWo6RaeANig_m"
+      value: "%(label)s (optional)"
 
   # Launcher embed
   - translation:
