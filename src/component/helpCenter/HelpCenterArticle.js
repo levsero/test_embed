@@ -195,6 +195,7 @@ export class HelpCenterArticle extends Component {
       'youtube',
       'player\.vimeo',
       'players\.brightcove',
+      'play\.vidyard',
       'fast\.wistia',
       'content\.jwplatform',
       'screencast'
