@@ -30,10 +30,10 @@ describe('chat reducer isLoggingOut', () => {
       });
     });
 
-    describe('when a USER_LOGGING_OUT action is dispatched', () => {
+    describe('when a CHAT_USER_LOGGING_OUT action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.USER_LOGGING_OUT
+          type: actionTypes.CHAT_USER_LOGGING_OUT
         });
       });
 
@@ -43,10 +43,10 @@ describe('chat reducer isLoggingOut', () => {
       });
     });
 
-    describe('when a USER_LOGGED_OUT action is dispatched', () => {
+    describe('when a CHAT_USER_LOGGED_OUT action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.USER_LOGGED_OUT
+          type: actionTypes.CHAT_USER_LOGGED_OUT
         });
       });
 

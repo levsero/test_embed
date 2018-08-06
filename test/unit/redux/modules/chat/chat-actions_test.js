@@ -14,6 +14,9 @@ let actions,
   mockChatStandalone,
   mockChatOnline,
   mockDoAuthLogoutArgs,
+  mockZChatConfig,
+  mockInit = jasmine.createSpy('init'),
+  mockLogout = jasmine.createSpy('logout'),
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
@@ -26,6 +29,8 @@ let actions,
   mockClearVisitorDefaultDepartment = jasmine.createSpy('mockClearVisitorDefaultDepartment'),
   mockSendOfflineMsg = jasmine.createSpy('sendOfflineMsg'),
   mockReconnect = jasmine.createSpy('reconnect'),
+  mockOn = jasmine.createSpy('on'),
+  mockIsLoggingOut,
   showRatingScreen = false,
   getActiveAgentsSpy = jasmine.createSpy('getActiveAgents'),
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
@@ -60,7 +65,8 @@ describe('chat redux actions', () => {
 
     initMockRegistry({
       'src/redux/modules/base/base-selectors': {
-        getChatStandalone: () => mockChatStandalone
+        getChatStandalone: () => mockChatStandalone,
+        getZChatConfig: () => mockZChatConfig
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatVisitor: () => mockVisitor,
@@ -69,6 +75,7 @@ describe('chat redux actions', () => {
         getChatOnline: () => mockChatOnline,
         getActiveAgents: getActiveAgentsSpy,
         getIsAuthenticated: getIsAuthenticatedSpy,
+        getIsLoggingOut: () => mockIsLoggingOut,
         getZChatVendor: () => {
           return {
             sendChatMsg: mockSendChatMsg,
@@ -87,15 +94,20 @@ describe('chat redux actions', () => {
             getAccountSettings: () => mockAccountSettings,
             getOperatingHours: () => mockOperatingHours,
             fetchChatHistory: mockFetchChatHistory,
-            on: noop,
+            on: mockOn,
             getAuthLoginUrl: (key) => `www.foo.com/${key}/bar-baz`,
-            doAuthLogout: (cb) => cb(mockDoAuthLogoutArgs)
+            doAuthLogout: (cb) => cb(mockDoAuthLogoutArgs),
+            init: mockInit,
+            logout: mockLogout
           };
         }
       },
       'src/constants/chat': {
         CHAT_MESSAGE_TYPES,
-        WHITELISTED_SOCIAL_LOGINS
+        WHITELISTED_SOCIAL_LOGINS,
+        CONNECTION_STATUSES: {
+          CONNECTED: 'connected'
+        }
       },
       'service/mediator': {
         mediator: {
@@ -1613,6 +1625,146 @@ describe('chat redux actions', () => {
     it('has the correct params in the payload', () => {
       expect(action.payload)
         .toEqual(mockFormState);
+    });
+  });
+
+  describe('chatLogout', () => {
+    const makeEndChatCall = () => {
+      mockEndChat.calls.mostRecent().args[0]();
+    };
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.chatLogout());
+    });
+
+    afterEach(() => {
+      mockInit.calls.reset();
+      mockLogout.calls.reset();
+      mockEndChat.calls.reset();
+      mockOn.calls.reset();
+    });
+
+    describe('when authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = true;
+      });
+
+      it('calls endChat', () => {
+        expect(mockEndChat)
+          .toHaveBeenCalledWith(jasmine.any(Function));
+      });
+
+      describe('Web SDK callback', () => {
+        beforeEach(() => {
+          mockZChatConfig = { 'yolo': 'yolo' };
+          makeEndChatCall();
+        });
+
+        it('dispatches an action with type CHAT_USER_LOGGING_OUT', () => {
+          expect(mockStore.getActions()[0].type)
+            .toEqual(actionTypes.CHAT_USER_LOGGING_OUT);
+        });
+
+        it('calls logout', () => {
+          expect(mockLogout)
+            .toHaveBeenCalled();
+        });
+
+        it('calls init with correct args', () => {
+          expect(mockInit)
+            .toHaveBeenCalledWith(mockZChatConfig);
+        });
+
+        it('calls the "on" api with the correct args', () => {
+          expect(mockOn)
+            .toHaveBeenCalledWith('connection_update', jasmine.any(Function));
+        });
+
+        describe('on callback', () => {
+          const makeOnCallback = (...args) => {
+            mockOn.calls.mostRecent().args[1](...args);
+          };
+          let mockStatus;
+
+          beforeEach(() => {
+            makeOnCallback(mockStatus);
+          });
+
+          describe('when connection status is connected', () => {
+            beforeAll(() => {
+              mockStatus = 'connected';
+            });
+
+            describe('when user is logging out', () => {
+              beforeAll(() => {
+                mockIsLoggingOut = true;
+              });
+
+              it('dispatches an action with type CHAT_USER_LOGGED_OUT', () => {
+                expect(mockStore.getActions()[1].type)
+                  .toEqual(actionTypes.CHAT_USER_LOGGED_OUT);
+              });
+            });
+
+            describe('when user is not logging out', () => {
+              beforeAll(() => {
+                mockIsLoggingOut = false;
+              });
+
+              it('does not dispatch an action with type CHAT_USER_LOGGED_OUT', () => {
+                expect(mockStore.getActions().length)
+                  .toEqual(1);
+              });
+            });
+          });
+
+          describe('when connection status is not connected', () => {
+            beforeAll(() => {
+              mockStatus = 'connecting';
+            });
+
+            describe('when user is logging out', () => {
+              beforeAll(() => {
+                mockIsLoggingOut = true;
+              });
+
+              it('does not dispatch an action with type CHAT_USER_LOGGED_OUT', () => {
+                expect(mockStore.getActions().length)
+                  .toEqual(1);
+              });
+            });
+
+            describe('when user is not logging out', () => {
+              beforeAll(() => {
+                mockIsLoggingOut = false;
+              });
+
+              it('does not dispatch an action with type CHAT_USER_LOGGED_OUT', () => {
+                expect(mockStore.getActions().length)
+                  .toEqual(1);
+              });
+            });
+          });
+        });
+      });
+    });
+
+    describe('when not authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = false;
+      });
+
+      it('does not call endChat', () => {
+        expect(mockEndChat)
+          .not
+          .toHaveBeenCalled();
+      });
+
+      it('does not call logout', () => {
+        expect(mockLogout)
+          .not
+          .toHaveBeenCalled();
+      });
     });
   });
 

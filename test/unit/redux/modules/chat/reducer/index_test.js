@@ -1,5 +1,40 @@
 describe('chat root reducer', () => {
   let reducer;
+  const subStateList = [
+    'account_status',
+    'accountSettings',
+    'agentJoined',
+    'agents',
+    'chatHistory',
+    'chats',
+    'connection',
+    'currentMessage',
+    'currentSessionStartTime',
+    'departments',
+    'editContactDetails',
+    'emailTranscript',
+    'formState',
+    'inactive',
+    'inactiveAgents',
+    'is_chatting',
+    'lastAgentMessageSeenTimestamp',
+    'menu',
+    'menuVisible',
+    'notification',
+    'offlineMessage',
+    'operatingHours',
+    'queuePosition',
+    'rating',
+    'screen',
+    'sessionTimestamp',
+    'socialLogin',
+    'standaloneMobileNotificationVisible',
+    'userSettings',
+    'visitor',
+    'isAuthenticated',
+    'vendor',
+    'isLoggingOut'
+  ];
 
   beforeAll(() => {
     mockery.enable();
@@ -33,40 +68,25 @@ describe('chat root reducer', () => {
       state = reducer({}, { type: '' });
     });
 
-    const subStateList = [
-      'account_status',
-      'accountSettings',
-      'agentJoined',
-      'agents',
-      'chatHistory',
-      'chats',
-      'connection',
-      'currentMessage',
-      'currentSessionStartTime',
-      'departments',
-      'editContactDetails',
-      'emailTranscript',
-      'formState',
-      'inactive',
-      'inactiveAgents',
-      'is_chatting',
-      'lastAgentMessageSeenTimestamp',
-      'menu',
-      'menuVisible',
-      'notification',
-      'offlineMessage',
-      'operatingHours',
-      'queuePosition',
-      'rating',
-      'screen',
-      'sessionTimestamp',
-      'socialLogin',
-      'standaloneMobileNotificationVisible',
-      'userSettings',
-      'visitor',
-      'isAuthenticated',
-      'vendor'
-    ];
+    it('has the expected sub states', () => {
+      _.keys(state).forEach((subState) => {
+        if (!subStateList.includes(subState)) {
+          fail(`${subState} sub state is missing`);
+        }
+      });
+    });
+  });
+
+  describe('when CHAT_USER_LOGGING_OUT action is dispatched', () => {
+    let state,
+      prevState = {
+        vendor: 'yoloVendorLibrary',
+        isLoggingOut: true
+      };
+
+    beforeEach(() => {
+      state = reducer(prevState, { type: 'widget/chat/CHAT_USER_LOGGING_OUT' });
+    });
 
     it('has the expected sub states', () => {
       _.keys(state).forEach((subState) => {
@@ -74,6 +94,16 @@ describe('chat root reducer', () => {
           fail(`${subState} sub state is missing`);
         }
       });
+    });
+
+    it('does not change the vendor state', () => {
+      expect(state.vendor)
+        .toEqual('yoloVendorLibrary');
+    });
+
+    it('does not change the isLoggingOut state', () => {
+      expect(state.isLoggingOut)
+        .toEqual(true);
     });
   });
 });

@@ -21,6 +21,8 @@ import {
   updateEmbeddableConfig } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
+import { chatLogout } from 'src/redux/modules/chat';
+
 import createStore from 'src/redux/createStore';
 
 const handleQueue = (queue) => {
@@ -283,6 +285,8 @@ const setupWidgetApi = (win, reduxStore) => {
   };
   win.zE.logout = () => {
     reduxStore.dispatch(logout());
+    mediator.channel.broadcast('.logout');
+    reduxStore.dispatch(chatLogout());
   };
   win.zE.setHelpCenterSuggestions = (options) => {
     reduxStore.dispatch(setContextualSuggestionsManually(options));

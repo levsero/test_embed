@@ -67,6 +67,9 @@ describe('boot', () => {
       },
       'src/redux/modules/settings': {
         updateSettings: noop
+      },
+      'src/redux/modules/chat': {
+        chatLogout: noop
       }
     });
 
