@@ -7,6 +7,8 @@ describe('utils', () => {
     cssTimeToMs,
     base64encode,
     emailValid,
+    phoneValid,
+    isValidFieldValue,
     referrerPolicyUrl,
     getEnvironment,
     cappedTimeoutCall;
@@ -21,6 +23,11 @@ describe('utils', () => {
     }
   };
   const utilPath = buildSrcPath('util/utils');
+  const constantsPath = buildSrcPath('constants/shared');
+
+  let sharedConstants = requireUncached(constantsPath);
+  let EMAIL_PATTERN = sharedConstants.EMAIL_PATTERN;
+  let PHONE_PATTERN = sharedConstants.PHONE_PATTERN;
 
   beforeEach(() => {
     resetDOM();
@@ -37,7 +44,10 @@ describe('utils', () => {
           return 1;
         }
       },
-      'lodash': _
+      'lodash': _,
+      'constants/shared': {
+        EMAIL_PATTERN, PHONE_PATTERN
+      }
     });
 
     splitPath = require(utilPath).splitPath;
@@ -51,6 +61,8 @@ describe('utils', () => {
     referrerPolicyUrl = require(utilPath).referrerPolicyUrl;
     getEnvironment = require(utilPath).getEnvironment;
     cappedTimeoutCall = require(utilPath).cappedTimeoutCall;
+    phoneValid = require(utilPath).phoneValid;
+    isValidFieldValue = require(utilPath).isValidFieldValue;
   });
 
   afterEach(() => {
@@ -300,11 +312,12 @@ describe('utils', () => {
 
   describe('emailValid()', () => {
     const validEmails = [
-      'x@x.x',
+      'bob@omg.co.uk',
       'a/b@domain.com',
       'tu!!7n7.ad##0!!!@company.ca'
     ];
     const invalidEmails = [
+      'x@x.x',
       'x@x', // Is valid in some browsers but Zendesk doesn't handle them
       '',
       'hello.hi@hey',
@@ -333,6 +346,85 @@ describe('utils', () => {
         expect(emailValid('', { allowEmpty: true }))
           .toEqual(true);
       });
+    });
+  });
+
+  describe('phoneValid', () => {
+    const validValues = [
+      '1',
+      '12345',
+      '00000000000000000000',
+      1234
+    ];
+
+    const invalidValues = [
+      '',
+      'aaaa',
+      '1a1a1',
+      'abc123',
+      null,
+      undefined,
+      {},
+      []
+    ];
+
+    // sanity check that valid values is not empty
+    it('has valid values', () => {
+      expect(validValues.length)
+        .toBeGreaterThan(0);
+    });
+
+    // sanity check that invalid values is not empty
+    it('has invalid values', () => {
+      expect(invalidValues.length)
+        .toBeGreaterThan(0);
+    });
+
+    _.forEach(validValues, (value) => it(`should return true for ${value}`, () => {
+      expect(phoneValid(value))
+        .toEqual(true);
+    }));
+
+    _.forEach(invalidValues, (value) => it(`should return false for ${value}`, () => {
+      expect(phoneValid(value))
+        .toEqual(false);
+    }));
+  });
+
+  describe('isValidFieldValue', () => {
+    describe('when type is email', () => {
+      const validValues = [ 'a@b.com', 'test@test.it' ];
+      const invalidValues = [ 'aaaa', 'a@b.c', 'test@test' ];
+
+      _.forEach(validValues, (value) => it(`should return true for ${value}`, () => {
+        expect(isValidFieldValue('email', value))
+          .toEqual(true);
+      }));
+      _.forEach(invalidValues, (value) => it(`should return false for ${value}`, () => {
+        expect(isValidFieldValue('email', value))
+          .toEqual(false);
+      }));
+    });
+    describe('when type is tel', () => {
+      const validValues = [ '121343', '1' ];
+      const invalidValues = [ 'aaaa', '1s14f1', 'abc123' ];
+
+      _.forEach(validValues, (value) => it(`should return true for ${value}`, () => {
+        expect(isValidFieldValue('tel', value))
+          .toEqual(true);
+      }));
+      _.forEach(invalidValues, (value) => it(`should return false for ${value}`, () => {
+        expect(isValidFieldValue('tel', value))
+          .toEqual(false);
+      }));
+    });
+    describe('when type is anything else', () => {
+      const validValues = [ '121343', 'asasdadsasd', 'abc123 xyz789', '', null, undefined ];
+
+      _.forEach(validValues, (value) => it(`should return true for ${value}`, () => {
+        expect(isValidFieldValue('text', value))
+          .toEqual(true);
+      }));
     });
   });
 

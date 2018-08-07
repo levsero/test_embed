@@ -3,6 +3,7 @@ import jsSha1 from 'sha1';
 
 import { document as doc,
   location } from 'utility/globals';
+import { EMAIL_PATTERN, PHONE_PATTERN } from 'constants/shared';
 
 const zendeskStagingDomain = 'zd-staging';
 
@@ -107,11 +108,26 @@ function nowInSeconds() {
 }
 
 function emailValid(email, options = { allowEmpty: false }) {
-  // Taken from https://tinyurl.com/35646w3
-  const validRegex = new RegExp(/^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/) // eslint-disable-line
   const validEmpty = options.allowEmpty && email === '';
 
-  return validRegex.test(email) || validEmpty;
+  return EMAIL_PATTERN.test(email) || validEmpty;
+}
+
+function phoneValid(phone, options = { allowEmpty: false }) {
+  const validEmpty = options.allowEmpty && phone === '';
+
+  return PHONE_PATTERN.test(phone) || validEmpty;
+}
+
+function isValidFieldValue(type, value) {
+  switch (type) {
+    case 'email':
+      return emailValid(value, { allowEmpty: true });
+    case 'tel':
+      return phoneValid(value, { allowEmpty: true });
+    default:
+      return true;
+  }
 }
 
 function referrerPolicyUrl(policy, url) {
@@ -157,6 +173,8 @@ export {
   nowInSeconds,
   sha1,
   emailValid,
+  phoneValid,
+  isValidFieldValue,
   referrerPolicyUrl,
   getEnvironment
 };
