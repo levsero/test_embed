@@ -68,15 +68,19 @@ export class EmbedWrapper extends Component {
         }
 
         if (keyCode === KEY_CODES.ESCAPE) {
-          this.props.handleCloseClick();
-          // Due to the tabIndex switching based on visibility
-          // we need to move focus on the next tick
-          setTimeout(() => {
-            getDocumentHost().querySelector('#launcher').contentDocument.querySelector('button').focus();
-          }, 0);
+          this.closeEmbed();
         }
       }
     };
+  }
+
+  closeEmbed = () => {
+    this.props.handleCloseClick();
+    // Due to the tabIndex switching based on visibility
+    // we need to move focus on the next tick
+    setTimeout(() => {
+      getDocumentHost().querySelector('#launcher').contentDocument.querySelector('button').focus();
+    }, 0);
   }
 
   render = () => {
@@ -96,7 +100,7 @@ export class EmbedWrapper extends Component {
                 <Navigation
                   ref={(el) => { this.nav = el; }}
                   handleBackClick={this.props.handleBackClick}
-                  handleCloseClick={this.props.handleCloseClick}
+                  handleCloseClick={this.closeEmbed}
                   fullscreen={this.props.fullscreen}
                   useBackButton={this.props.useBackButton}
                   hideCloseButton={this.props.hideCloseButton} />

@@ -61,6 +61,7 @@ class Navigation extends Component {
         }
         rtl={i18n.isRTL()}
         className={options.className}
+        aria-label={options['aria-label']}
         position={options.position}
         fullscreen={this.props.fullscreen} />
     );
@@ -81,6 +82,7 @@ class Navigation extends Component {
           onClick: this.handleMenuClick,
           icon: ICONS.MENU,
           position: 'left',
+          'aria-label': 'Open menu',
           isVisible: true
         })
       );
@@ -90,6 +92,7 @@ class Navigation extends Component {
           onClick: handleBackClick,
           icon: ICONS.BACK,
           position: 'left',
+          'aria-label': 'Go back',
           isVisible: backButtonVisible && useBackButton
         })
       );
@@ -102,6 +105,7 @@ class Navigation extends Component {
         {this.renderLeftNavButton()}
         {this.renderNavButton({
           onClick: this.props.handleCloseClick,
+          'aria-label': 'Close widget',
           icon: ICONS.DASH,
           position: 'right',
           isVisible: !this.props.hideCloseButton

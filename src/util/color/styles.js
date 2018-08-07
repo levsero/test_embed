@@ -23,6 +23,7 @@ function getColorVariables(color = defaultColor) {
 
   const headerColorStr = colorFor('header', baseColor);
   const headerTextColorStr = mixer.foregroundColorFrom(headerColorStr);
+  const headerFocusRingColorStr = mixer.alphaColor(headerColorStr, 0.4);
   const headerBackgroundColorStr = mixer.highlightColor(headerColorStr);
 
   return {
@@ -95,7 +96,6 @@ function generateUserCSS(color = defaultColor) {
       }
     }
     .u-userLauncherColor:not([disabled]):focus {
-      outline: none !important;
       box-shadow: inset 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.launcherFocusRingColorStr} !important;
     }
     .u-launcherColor:not([disabled]):hover {
@@ -136,6 +136,9 @@ function generateUserCSS(color = defaultColor) {
       svg {
         background: ${colorVariables.headerBackgroundColorStr} !important;
       }
+    }
+    .u-userHeaderButtonColor:focus {
+      box-shadow: 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.headerFocusRingColorStr} !important;
     }
     .u-userHeaderButtonColorMobile {
       fill: ${colorVariables.headerTextColorStr} !important;
