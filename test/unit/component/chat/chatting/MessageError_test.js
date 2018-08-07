@@ -2,7 +2,6 @@ describe('MessageError component', () => {
   let MessageError;
 
   const messageErrorPath = buildSrcPath('component/chat/chatting/MessageError');
-  const sharedConstantsPath = buildSrcPath('constants/shared');
 
   beforeEach(() => {
     mockery.enable();
