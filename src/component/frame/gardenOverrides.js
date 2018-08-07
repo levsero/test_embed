@@ -140,9 +140,9 @@ function getGardenOverrides() {
     'checkboxes.hint': checkboxHintMobileOverrides,
     'select.label': mobileOverrides,
     'select.hint': mobileOverrides,
+    'select.select_group': bottomMargin,
     'select.select_view': css`
       ${genericOverrides}
-      ${bottomMargin}
       ${borderOverrides}
       box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`}
       border-color: ${props => props.focused && `${zdColorGrey600} !important`}
