@@ -1,5 +1,3 @@
-import { Checkbox } from '@zendeskgarden/react-checkboxes';
-
 describe('fields', () => {
   let getCustomFields,
     shouldRenderErrorMessage,
@@ -21,7 +19,7 @@ describe('fields', () => {
     id: 10006,
     type: 'tagger',
     title_in_portal: 'Nested Drop Down',
-    required_in_portal: false,
+    required_in_portal: true,
     custom_field_options: [
       {
         name: 'Option1::Part1',
@@ -78,7 +76,7 @@ describe('fields', () => {
     id: '22823260',
     type: 'decimal',
     title_in_portal: 'Total Cost',
-    required_in_portal: false,
+    required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true,
     description: 'this is the decimal description'
@@ -87,7 +85,7 @@ describe('fields', () => {
     id: '22823270',
     type: 'checkbox',
     title_in_portal: 'Can we call you?',
-    required_in_portal: false,
+    required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true,
     description: 'this is the description'
@@ -115,6 +113,9 @@ describe('fields', () => {
   let EMAIL_PATTERN = sharedConstants.EMAIL_PATTERN;
   /* eslint-enable camelcase */
 
+  const Message = noopReactComponent();
+  const Checkbox = noopReactComponent();
+
   beforeEach(() => {
     mockery.enable({
       warnOnReplace: false
@@ -129,6 +130,19 @@ describe('fields', () => {
       },
       'component/field/SelectField': {
         SelectField: noopReactComponent()
+      },
+      '@zendeskgarden/react-textfields': {
+        TextField: noopReactComponent(),
+        Textarea: noopReactComponent(),
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Message
+      },
+      '@zendeskgarden/react-checkboxes': {
+        Checkbox,
+        Label: noopReactComponent(),
+        Hint: noopReactComponent(),
+        Message
       },
       'component/field/NestedDropdown': {
         NestedDropdown: noopReactComponent()
@@ -367,6 +381,23 @@ describe('fields', () => {
           expect(customFields.allFields[0].props.options)
             .toEqual(nestedDropdownFieldPayload.custom_field_options);
         });
+
+        it('sets showError to a falsy value by default', () => {
+          expect(customFields.allFields[0].props.showErrors)
+            .toBeFalsy();
+        });
+
+        describe('when there are errors', () => {
+          beforeEach(() => {
+            payload = [nestedDropdownFieldPayload];
+            customFields = getCustomFields(payload, {}, { showErrors: true });
+          });
+
+          it('sets showError to true', () => {
+            expect(customFields.allFields[0].props.showErrors)
+              .toEqual(true);
+          });
+        });
       });
 
       describe('integer field', () => {
@@ -394,6 +425,23 @@ describe('fields', () => {
 
           expect(descriptionElement.props.children)
             .toEqual('this is the integer description');
+        });
+
+        it('does not have a Message component', () => {
+          expect(TestUtils.isElementOfType(customFields.allFields[0].props.children[3], Message))
+            .toEqual(false);
+        });
+
+        describe('when there are errors', () => {
+          beforeEach(() => {
+            payload = [integerFieldPayload];
+            customFields = getCustomFields(payload, {}, { showErrors: true });
+          });
+
+          it('has a Message component', () => {
+            expect(TestUtils.isElementOfType(customFields.allFields[0].props.children[3], Message))
+              .toEqual(true);
+          });
         });
       });
 
@@ -430,6 +478,23 @@ describe('fields', () => {
           expect(descriptionElement.props.children)
             .toEqual('this is the decimal description');
         });
+
+        it('does not have a Message component', () => {
+          expect(TestUtils.isElementOfType(customFields.allFields[0].props.children[3], Message))
+            .toEqual(false);
+        });
+
+        describe('when there are errors', () => {
+          beforeEach(() => {
+            payload = [decimalFieldPayload];
+            customFields = getCustomFields(payload, {}, { showErrors: true });
+          });
+
+          it('has a Message component', () => {
+            expect(TestUtils.isElementOfType(customFields.allFields[0].props.children[3], Message))
+              .toEqual(true);
+          });
+        });
       });
 
       describe('checkbox field', () => {
@@ -459,6 +524,32 @@ describe('fields', () => {
 
           expect(message.props.children)
             .toEqual('this is the description');
+        });
+
+        it('has no error', () => {
+          const message = checkboxField.props.children[1];
+
+          expect(message.props.children)
+            .toEqual('this is the description');
+        });
+
+        it('does not have a Message component', () => {
+          expect(TestUtils.isElementOfType(checkboxField.props.children[2], Message))
+            .toEqual(false);
+        });
+
+        describe('when there are errors', () => {
+          beforeEach(() => {
+            payload = [checkboxFieldPayload];
+            customFields = getCustomFields(payload, {}, { showErrors: true });
+
+            checkboxField = customFields.allFields[0];
+          });
+
+          it('has a Message component', () => {
+            expect(TestUtils.isElementOfType(checkboxField.props.children[2], Message))
+              .toEqual(true);
+          });
         });
       });
     });

@@ -33,6 +33,7 @@ describe('NestedDropdown component', () => {
   const NextItem = noopReactComponent();
   const PreviousItem = noopReactComponent();
   const Separator = noopReactComponent();
+  const Message = noopReactComponent();
   const nestedDropdownPath = buildSrcPath('component/field/NestedDropdown');
 
   beforeEach(() => {
@@ -50,8 +51,14 @@ describe('NestedDropdown component', () => {
         Hint: noopReactComponent(),
         Separator,
         NextItem,
-        PreviousItem
+        PreviousItem,
+        Message
       },
+      'service/i18n': {
+        i18n: {
+          t: noop
+        }
+      }
     });
 
     mockery.registerAllowable(nestedDropdownPath);
@@ -155,13 +162,26 @@ describe('NestedDropdown component', () => {
   describe('handleChange', () => {
     let component,
       selectedKey;
+    const onChangeSpy = jasmine.createSpy('onChange');
 
     beforeEach(() => {
+      jasmine.clock().install();
       component = instanceRender(
-        <NestedDropdown options={mockOptions} />
+        <NestedDropdown options={mockOptions} onChange={onChangeSpy} />
       );
       component.setState({ displayedKey: 'initial' });
       component.handleChange(selectedKey);
+    });
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
+
+    it('calls props.onChange', () => {
+      jasmine.clock().tick();
+
+      expect(onChangeSpy)
+        .toHaveBeenCalled();
     });
 
     describe('when a key with -prev is passed in', () => {
@@ -324,6 +344,38 @@ describe('NestedDropdown component', () => {
       it('displays the last section of the name of the value', () => {
         expect(displayedValue)
           .toEqual('apple');
+      });
+    });
+
+    describe('when showError is true', () => {
+      let errorComponent;
+
+      beforeEach(() => {
+        component = domRender(
+          <NestedDropdown options={mockOptions} showError={true} />
+        );
+        errorComponent = component.render().props.children[0].props.children[3];
+      });
+
+      it('renders a Message component', () => {
+        expect(TestUtils.isElementOfType(errorComponent, Message))
+          .toEqual(true);
+      });
+    });
+
+    describe('when showError is false', () => {
+      let errorComponent;
+
+      beforeEach(() => {
+        component = domRender(
+          <NestedDropdown options={mockOptions} showError={false} />
+        );
+        errorComponent = component.render().props.children[0].props.children[3];
+      });
+
+      it('does not render a Message component', () => {
+        expect(TestUtils.isElementOfType(errorComponent, Message))
+          .toEqual(false);
       });
     });
   });

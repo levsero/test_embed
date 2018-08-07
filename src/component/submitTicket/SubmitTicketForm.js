@@ -10,10 +10,10 @@ import { AttachmentList } from 'component/attachment/AttachmentList';
 import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
-import { EmailField } from 'component/field/EmailField';
 import { i18n } from 'service/i18n';
-import { getCustomFields } from 'utility/fields';
-import { TextField, Textarea, Label, Input } from '@zendeskgarden/react-textfields';
+import { getCustomFields, shouldRenderErrorMessage } from 'utility/fields';
+import { TextField, Textarea, Label, Input, Message } from '@zendeskgarden/react-textfields';
+import { EMAIL_PATTERN } from 'constants/shared';
 
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
@@ -168,12 +168,15 @@ export class SubmitTicketForm extends Component {
         buttonMessage: sendingButtonMessageString,
         isSubmitting: true
       });
-    }
 
-    this.props.submit(e, {
-      isFormValid: isFormValid,
-      value: this.getFormState()
-    });
+      this.props.submit(e, {
+        isFormValid: isFormValid,
+        value: this.getFormState()
+      });
+    } else {
+      e.preventDefault();
+      this.setState({ showErrors: true });
+    }
   }
 
   openAttachment = () => {
@@ -311,6 +314,12 @@ export class SubmitTicketForm extends Component {
   }
 
   renderSubjectField = () => {
+    const error = this.renderErrorMessage(
+      false,
+      this.props.formState.name,
+      'embeddable_framework.validation.error.input'
+    );
+
     const subjectField = (
       <TextField>
         <Label>
@@ -318,6 +327,7 @@ export class SubmitTicketForm extends Component {
         </Label>
         <Input
           key='subject'
+          validation={error ? 'error': ''}
           value={this.props.formState.subject}
           disabled={this.props.previewEnabled} />
       </TextField>
@@ -329,18 +339,36 @@ export class SubmitTicketForm extends Component {
   }
 
   renderEmailField = () => {
+    const error = this.renderErrorMessage(
+      true,
+      this.props.formState.email,
+      'embeddable_framework.validation.error.email',
+      EMAIL_PATTERN
+    );
+
     return (
-      <EmailField
-        key='email'
-        name='email'
-        disabled={this.props.previewEnabled}
-        label={i18n.t('embeddable_framework.form.field.email.label')}
-        required={true}
-        value={this.props.formState.email} />
+      <TextField>
+        <Label>
+          {i18n.t('embeddable_framework.form.field.email.label')}
+        </Label>
+        <Input
+          validation={error ? 'error': ''}
+          key='email'
+          name='email'
+          required={true}
+          value={this.props.formState.email}
+          disabled={this.props.previewEnabled} />
+        {error}
+      </TextField>
     );
   }
 
   renderNameField = () => {
+    const error = this.renderErrorMessage(
+      false,
+      this.props.formState.name,
+      'embeddable_framework.validation.error.name');
+
     return (
       <TextField>
         <Label>
@@ -349,13 +377,20 @@ export class SubmitTicketForm extends Component {
         <Input
           key='name'
           name='name'
+          validation={error ? 'error': ''}
           disabled={this.props.previewEnabled}
           value={this.props.formState.name} />
+        {error}
       </TextField>
     );
   }
 
   renderDescriptionField = () => {
+    const error = this.renderErrorMessage(
+      true,
+      this.props.formState.description,
+      'embeddable_framework.validation.error.input');
+
     return (
       <TextField>
         <Label>
@@ -363,12 +398,21 @@ export class SubmitTicketForm extends Component {
         </Label>
         <Textarea
           key='description'
+          validation={error ? 'error': ''}
           disabled={this.props.previewEnabled}
           required={true}
+          value={this.props.formState.description}
           rows='5' />
+        {error}
       </TextField>
     );
   }
+
+  renderErrorMessage = (required, value, errorString, pattern) => {
+    return shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)
+      ? <Message validation='error'>{i18n.t(errorString)}</Message>
+      : null;
+  };
 
   renderTicketFormBody = () => {
     const { activeTicketForm, ticketFields } = this.props;
@@ -378,7 +422,8 @@ export class SubmitTicketForm extends Component {
       {
         getFrameDimensions: this.props.getFrameDimensions,
         onChange: this.updateForm,
-        getFrameContentDocument: this.props.getFrameContentDocument
+        getFrameContentDocument: this.props.getFrameContentDocument,
+        showErrors: this.state.showErrors
       }
     );
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';

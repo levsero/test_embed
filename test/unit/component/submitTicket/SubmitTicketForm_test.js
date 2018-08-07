@@ -6,7 +6,8 @@ describe('SubmitTicketForm component', () => {
     mockAttachmentsReadyValue,
     mockAttachmentsListClear,
     scrollToBottomSpy,
-    mockFormState;
+    mockFormState,
+    mockShouldRenderErrorMessage;
   const submitTicketFormPath = buildSrcPath('component/submitTicket/SubmitTicketForm');
   const buttonPath = buildSrcPath('component/button/Button');
   const formParams = {
@@ -17,6 +18,7 @@ describe('SubmitTicketForm component', () => {
   const mockSetFormState = (state) => {
     mockFormState = state;
   };
+  const Message = noopReactComponent();
 
   beforeEach(() => {
     onSubmit = jasmine.createSpy();
@@ -41,6 +43,13 @@ describe('SubmitTicketForm component', () => {
             return <button {...this.props}>{this.props.children}</button>;
           }
         }
+      },
+      '@zendeskgarden/react-textfields': {
+        TextField: noopReactComponent(),
+        Textarea: noopReactComponent(),
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Message
       },
       'component/button/ButtonSecondary': {
         ButtonSecondary: class extends Component {
@@ -103,6 +112,9 @@ describe('SubmitTicketForm component', () => {
           }
         }
       },
+      'constants/shared': {
+        EMAIL_PATTERN: ''
+      },
       'service/i18n': {
         i18n: {
           init: noop,
@@ -113,6 +125,7 @@ describe('SubmitTicketForm component', () => {
         }
       },
       'utility/fields': {
+        shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
         getCustomFields: (fields) => {
           const generateField = (field) => {
             switch (field.type) {
@@ -137,13 +150,6 @@ describe('SubmitTicketForm component', () => {
             fields: [],
             allFields: _.map(fields, (f) => generateField(f))
           };
-        }
-      },
-      'component/field/EmailField': {
-        EmailField: class extends Component {
-          render() {
-            return <input key='email' name='email' value={this.props.value} />;
-          }
         }
       },
       'utility/globals': {
@@ -362,10 +368,10 @@ describe('SubmitTicketForm component', () => {
     });
 
     it('should render the email field', () => {
-      const emailField = formElements[2]; // second field in form
+      const emailField = formElements[2].firstChild; // second field in form
 
-      expect(emailField.name)
-        .toBe('email');
+      expect(emailField.innerHTML)
+        .toBe('embeddable_framework.form.field.email.label');
     });
 
     it('should render the extra fields defined in the ticket form', () => {
@@ -442,6 +448,10 @@ describe('SubmitTicketForm component', () => {
     });
 
     describe('when the form is invalid', () => {
+      beforeAll(() => {
+        mockPreviewEnabled = false;
+      });
+
       beforeEach(() => {
         submitTicketForm.setState({ isValid: false });
         submitTicketForm.handleSubmit({ preventDefault: mockPreventDefault });
@@ -460,6 +470,38 @@ describe('SubmitTicketForm component', () => {
       it('sets showErrors to true', () => {
         expect(submitTicketForm.state.showErrors)
           .toEqual(true);
+      });
+    });
+  });
+
+  describe('renderErrorMessage', () => {
+    let submitTicketForm, error;
+
+    beforeEach(() => {
+      submitTicketForm = instanceRender(<SubmitTicketForm />);
+    });
+
+    describe('when shouldRenderErrorMessages is true', () => {
+      beforeEach(() => {
+        mockShouldRenderErrorMessage = true;
+        error = submitTicketForm.renderErrorMessage();
+      });
+
+      it('returns the garden error message component', () => {
+        expect(TestUtils.isElementOfType(error, Message))
+          .toEqual(true);
+      });
+    });
+
+    describe('when shouldRenderErrorMessages is false', () => {
+      beforeEach(() => {
+        mockShouldRenderErrorMessage = false;
+        error = submitTicketForm.renderErrorMessage();
+      });
+
+      it('returns null', () => {
+        expect(error)
+          .toEqual(null);
       });
     });
   });
@@ -713,9 +755,7 @@ describe('SubmitTicketForm component', () => {
           5555555: '',
           '6666666': '',
           7777777: 1337,
-          '8888888': 10101001,
-          name: '',
-          email: ''
+          '8888888': 10101001
         }];
 
         it('should pre-fill ticket fields in the ticket form', () => {
@@ -735,9 +775,7 @@ describe('SubmitTicketForm component', () => {
           5555555: '',
           '6666666': '',
           7777777: 123,
-          '8888888': 324,
-          name: '',
-          email: ''
+          '8888888': 324
         }];
 
         it('should pre-fill ticket fields in the ticket form', () => {

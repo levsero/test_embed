@@ -9,7 +9,10 @@ import {
   NextItem,
   PreviousItem,
   Hint,
-  Label } from '@zendeskgarden/react-select';
+  Label,
+  Message } from '@zendeskgarden/react-select';
+
+import { i18n } from 'service/i18n';
 
 import { locals as styles } from './NestedDropdown.scss';
 
@@ -19,6 +22,8 @@ export class NestedDropdown extends Component {
     options: PropTypes.array.isRequired,
     label: PropTypes.string,
     name: PropTypes.string,
+    showError: PropTypes.bool,
+    onChange: PropTypes.func,
     description: PropTypes.string,
     required: PropTypes.bool
   }
@@ -27,7 +32,9 @@ export class NestedDropdown extends Component {
     label: '',
     name: '',
     required: false,
+    showError: false,
     description: '',
+    onChange: () => {},
     getFrameContentDocument: () => ({})
   }
 
@@ -164,6 +171,7 @@ export class NestedDropdown extends Component {
     }
 
     this.setState({ selectedKey, displayedKey });
+    setTimeout(this.props.onChange, 0);
   }
 
   render() {
@@ -178,9 +186,14 @@ export class NestedDropdown extends Component {
             onStateChange={newState => this.setState(newState)}
             onChange={this.handleChange}
             options={this.renderMenuItems(this.state.selectedKey)}
+            validation={this.props.showError ? 'error': ''}
             dropdownProps={{ style: { maxHeight: 215, overflow: 'auto' }}}>
             {this.findOptionNameFromValue(this.state.displayedKey) || '-'}
           </Select>
+          {this.props.showError &&
+            <Message validation='error'>
+              {i18n.t('embeddable_framework.validation.error.select')}
+            </Message>}
         </SelectField>
         {/* hidden field with the selected value so that the form grabs it on submit */}
         <input
