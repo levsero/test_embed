@@ -1,12 +1,7 @@
 describe('Render phone field', () => {
   let TalkPhoneField,
     libphonenumber,
-    mockIsMobileBrowserValue,
-    mockIsLandscapeValue,
     mockCountries;
-
-  const ReactTextFields = require('@zendeskgarden/react-textfields');
-  const ReactSelection = require('@zendeskgarden/react-selection');
 
   const SelectField = noopReactComponent();
   const Item = noopReactComponent();
@@ -15,8 +10,6 @@ describe('Render phone field', () => {
   const SelectView = noopReactComponent();
   const Dropdown = noopReactComponent();
 
-  mockIsMobileBrowserValue = false;
-  mockIsLandscapeValue = false;
   mockCountries = ['US', 'AU', 'ZM', 'BB'];
 
   const phoneFieldPath = buildSrcPath('component/talk/TalkPhoneField');
@@ -37,6 +30,7 @@ describe('Render phone field', () => {
       },
       'component/Flag': { Flag: noopReactComponent() },
       'component/frame/gardenOverrides': { talkDropdownOverrides: {} },
+      'component/talk/TalkCountryDropdown': { TalkCountryDropdown: noopReactComponent() },
       './talkCountries': {
         countriesByIso: {
           'US': { code: '1', name: 'United States' },
@@ -172,7 +166,7 @@ describe('Render phone field', () => {
 
       it('calls phoneInput.setCustomValidity with an empty string', () => {
         expect(mockSetCustomValidity)
-          .toHaveBeenCalledWith('')
+          .toHaveBeenCalledWith('');
       });
     });
 
@@ -183,7 +177,7 @@ describe('Render phone field', () => {
 
       it('calls phoneInput.setCustomValidity with an "Error" string', () => {
         expect(mockSetCustomValidity)
-          .toHaveBeenCalledWith('Error')
+          .toHaveBeenCalledWith('Error');
       });
     });
   });
@@ -316,7 +310,13 @@ describe('Render phone field', () => {
 
   describe('rendering', () => {
     let phoneField,
+      countryDropdown,
       field;
+
+    const expectedCountries = [
+      { name: 'Australia', iso: 'AU', code: '+61' },
+      { name: 'United States', iso: 'US', code: '+1' }
+    ];
 
     beforeEach(() => {
       phoneField = domRender(
@@ -329,6 +329,7 @@ describe('Render phone field', () => {
           required={true}
           libphonenumber={libphonenumber} />
       );
+      countryDropdown = phoneField.countryDropdown;
       field = phoneField.phoneInput;
     });
 
@@ -353,12 +354,18 @@ describe('Render phone field', () => {
         .toEqual(jasmine.objectContaining(expectedProps));
     });
 
+    it('renders a TalkCountyDropdown with correct props', () => {
+      expect(countryDropdown.props)
+        .toEqual(jasmine.objectContaining({
+          document,
+          selectedKey: 'AU',
+          countries: expectedCountries
+        }));
+    });
+
     it('formats the supported countries to the expected format', () => {
       expect(phoneField.state.countries)
-        .toEqual([
-          { name: 'Australia', iso: 'AU', code: '+61' },
-          { name: 'United States', iso: 'US', code: '+1' }
-        ]);
+        .toEqual(expectedCountries);
     });
   });
 });

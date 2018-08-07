@@ -1,14 +1,14 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SelectContainer, SelectView, Dropdown, Item, Label } from '@zendeskgarden/react-select';
+import { Label } from '@zendeskgarden/react-select';
 import { FauxInput, Input } from '@zendeskgarden/react-textfields';
 import { FieldContainer, composeEventHandlers, ControlledComponent } from '@zendeskgarden/react-selection';
 import { ThemeProvider } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 
 import { countriesByIso } from './talkCountries';
-import { Flag } from 'component/Flag';
+import { TalkCountryDropdown } from 'component/talk/TalkCountryDropdown';
 import { talkDropdownOverrides } from 'component/frame/gardenOverrides';
 
 const StyledFauxInput = styled(FauxInput)`
@@ -18,20 +18,6 @@ const StyledFauxInput = styled(FauxInput)`
 const StyledInput = styled(Input)`
   padding: 10px !important;
   align-self: center !important;
-`;
-
-const ScrollableArea = styled.div`
-  max-height: 215px;
-  overflow: auto;
-`;
-
-const SmallFlag = styled(Flag)`
-  height: 17.5px;
-  margin-right: ${props => props.gap && '10px'}
-`;
-
-const FlexItem = styled(Item)`
-  display: flex !important;
 `;
 
 export class TalkPhoneField extends ControlledComponent {
@@ -66,10 +52,10 @@ export class TalkPhoneField extends ControlledComponent {
       selectedKey,
       inputValue,
       countries: this.formatCountries(props.supportedCountries),
-      selectFocused: false,
       inputChangeTriggered: false
     };
 
+    this.countryDropdown = undefined;
     this.phoneInput = undefined;
   }
 
@@ -84,14 +70,6 @@ export class TalkPhoneField extends ControlledComponent {
     setTimeout(() => this.phoneInput.focus(), 0);
 
     this.props.onCountrySelect(selectedKey, this.state.inputValue);
-  }
-
-  onFlagStateChange = ({ selectedKey }) => {
-    // An item has been chosen turn of controlled focus of
-    // fauxinput and pass it back to the component to control
-    if (selectedKey) {
-      this.setState({ selectFocused: false });
-    }
   }
 
   formatCountries(supportedCountries) {
@@ -160,6 +138,8 @@ export class TalkPhoneField extends ControlledComponent {
     return {
       name,
       iso,
+      // We format the number as the user types which removes any dashes from the input.
+      // When storing the dialing code we need to replace the dash with a space so we can match it.
       code: `+${code}`.replace('-', ' ')
     };
   }
@@ -168,7 +148,7 @@ export class TalkPhoneField extends ControlledComponent {
     // prop is applied this way as we only want to control it
     // when the select is focused. Otherwise omit and let the component
     // control its focus state
-    const focused = this.state.selectFocused
+    const focused = (this.countryDropdown && this.countryDropdown.selectFocused())
       ? { focused: true }
       : {};
 
@@ -186,59 +166,13 @@ export class TalkPhoneField extends ControlledComponent {
                   validation={this.validate()}
                   mediaLayout={true}
                   inputRef={container => this.containerRef = container}>
-                  <SelectContainer
+                  <TalkCountryDropdown
+                    ref={node => this.countryDropdown = node}
+                    document={this.props.getFrameContentDocument()}
+                    getContainerRef={() => this.containerRef}
                     selectedKey={this.state.selectedKey}
-                    onChange={this.onFlagChange}
-                    onStateChange={this.onFlagStateChange}
-                    appendToNode={this.props.getFrameContentDocument().body}
-                    trigger={({ getTriggerProps, triggerRef, isOpen }) => (
-                      <SelectView
-                        {...getTriggerProps({
-                          open: isOpen,
-                          onClick: () => {
-                            // This fires before state update so if open is false it means
-                            // it's about to be opened
-                            this.setState({ selectFocused: !isOpen });
-                          },
-                          inputRef: ref => {
-                            this.triggerRef = ref;
-                            triggerRef(ref);
-                          }
-                        })}
-                      >
-                        <SmallFlag country={this.state.selectedKey} />
-                      </SelectView>
-                    )}
-                  >
-                    {({ getSelectProps, placement, getItemProps, focusedKey, selectedKey, dropdownRef }) => (
-                      <Dropdown
-                        {...getSelectProps({
-                          placement,
-                          animate: true,
-                          dropdownRef,
-                          style: { width: this.containerRef.getBoundingClientRect().width }
-                        })}
-                      >
-                        <ScrollableArea>
-                          {this.state.countries.map(({ name, iso, code }) => {
-                            return (
-                              <FlexItem
-                                {...getItemProps({
-                                  key: iso,
-                                  textValue: name,
-                                  focused: focusedKey === iso,
-                                  checked: selectedKey === iso
-                                })}
-                              >
-                                <SmallFlag gap={true} country={iso} />
-                                {`${name} (${code})`}
-                              </FlexItem>
-                            );
-                          })}
-                        </ScrollableArea>
-                      </Dropdown>
-                    )}
-                  </SelectContainer>
+                    countries={this.state.countries}
+                    onChange={this.onFlagChange} />
                   <StyledInput
                     {...getFieldInputProps()}
                     value={this.state.inputValue}

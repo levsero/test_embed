@@ -102,7 +102,7 @@ class Talk extends Component {
     this.props.updateTalkCallbackForm(formState);
   }
 
-  handleCountrySelect = (country, phone) => {
+  handleCountrySelect = (country) => {
     this.props.updateTalkCallbackForm({ country });
     if (this.form) {
       this.form.validate();
