@@ -365,6 +365,7 @@ describe('HelpCenterArticle component', () => {
           '//fast.wistia.net/embed/iframe/0kpsylzz9j',
           'https://youtube.com/embed/fooid',
           '//players.brightcove.net/fooid',
+          '//play.vidyard.com/fooid.html',
           '//content.jwplatform.com/players/fooid.html',
           '//screencast.com/users/fooid'
         ];
