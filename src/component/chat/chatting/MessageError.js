@@ -37,7 +37,7 @@ export class MessageError extends Component {
     }
 
     return (
-      <Alert type="error" className={errorClasses}>
+      <Alert type="error" role="alert" className={errorClasses}>
         {errorTag}
       </Alert>
     );

@@ -234,7 +234,7 @@ class SubmitTicket extends Component {
     if (!this.props.errorMsg) return;
 
     return (
-      <Alert type="error" className={styles.error}>
+      <Alert type="error" role="alert" className={styles.error}>
         {this.props.errorMsg}
       </Alert>
     );

@@ -177,7 +177,7 @@ export class Attachment extends Component {
     if (!errorMessage) return;
 
     return (
-      <Alert type="error" className={styles.containerError}>
+      <Alert type="error" role="alert" className={styles.containerError}>
         <Title className={styles.previewError}>{this.previewNameString()}</Title>
         <div className={styles.secondaryTextError}>{errorMessage}</div>
         <Close onClick={this.handleIconClick} />
