@@ -16,6 +16,7 @@ describe('Submit ticket component', () => {
     'submitted_from': global.window.location.href
   };
   const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
+  const Alert = noopReactComponent();
 
   class MockAttachmentList extends Component {
     getAttachmentTokens() {
@@ -62,6 +63,9 @@ describe('Submit ticket component', () => {
       },
       '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
+      },
+      '@zendeskgarden/react-notifications': {
+        Alert: Alert
       },
       'component/submitTicket/SubmitTicketForm': {
         SubmitTicketForm: class extends Component {
@@ -208,6 +212,42 @@ describe('Submit ticket component', () => {
       it('the passed fields do not match active ticket fields for a form', () => {
         expect(result.props.ticketFields)
           .not.toEqual(mockActiveTicketFormFields);
+      });
+    });
+  });
+
+  describe('#renderErrorMessage', () => {
+    let component,
+      result,
+      errorMessage;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <SubmitTicket
+          errorMsg={errorMessage}
+        />
+      );
+
+      result = component.renderErrorMessage();
+    });
+
+    describe('when there is an error message', () => {
+      beforeAll(() => {
+        errorMessage = 'Whoops! Something went totes wrong! <wink, wink>';
+      });
+
+      it('returns a garden <Alert> component', () => {
+        expect(TestUtils.isElementOfType(result, Alert)).toEqual(true);
+      });
+    });
+
+    describe('when there is no error', () => {
+      beforeAll(() => {
+        errorMessage = '';
+      });
+
+      it('returns undefined', () => {
+        expect(result).toBeUndefined();
       });
     });
   });

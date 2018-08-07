@@ -2,6 +2,7 @@ describe('MessageError component', () => {
   let MessageError;
 
   const messageErrorPath = buildSrcPath('component/chat/chatting/MessageError');
+  const Alert = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -12,6 +13,9 @@ describe('MessageError component', () => {
           container: 'container',
           messageErrorLink: 'messageErrorLink'
         }
+      },
+      '@zendeskgarden/react-notifications': {
+        Alert: Alert
       }
     });
 
@@ -50,6 +54,10 @@ describe('MessageError component', () => {
       it('renders custom class container', () => {
         expect(el.props.className)
           .toContain('customClassName');
+      });
+
+      it('returns a garden <Alert> component', () => {
+        expect(TestUtils.isElementOfType(el, Alert)).toEqual(true);
       });
 
       describe('when there is a handler', () => {
