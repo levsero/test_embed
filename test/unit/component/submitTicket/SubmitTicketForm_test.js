@@ -190,31 +190,46 @@ describe('SubmitTicketForm component', () => {
       .toEqual('');
   });
 
-  it('should change state and alter submit button on valid submit', () => {
-    const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
-    const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
-    const submitElem = submitTicketFormNode.querySelector('button[type="submit"]');
+  describe('submit button', () => {
+    let submitTicketForm, submitElem;
 
-    submitTicketForm.refs.form.checkValidity = () => true;
+    beforeEach(() => {
+      submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
 
-    expect(submitElem.disabled)
-      .toEqual(true);
+      const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
 
-    submitTicketForm.setState({isValid: true});
+      submitElem = submitTicketFormNode.querySelector('button[type="submit"]');
 
-    expect(submitElem.disabled)
-      .toEqual(false);
+      submitTicketForm.refs.form.checkValidity = () => true;
+    });
 
-    expect(submitTicketForm.state.isSubmitting)
-      .toEqual(false);
+    it('is not disabled by default', () => {
+      expect(submitElem.disabled)
+        .toEqual(false);
+    });
 
-    submitTicketForm.handleSubmit();
+    describe('when canSubmit is false', () => {
+      beforeEach(() => {
+        mockAttachmentsReadyValue = false;
+        submitTicketForm.setState({ canSubmit: false });
+      });
 
-    expect(submitTicketForm.state.isSubmitting)
-      .toEqual(true);
+      it('is disabled', () => {
+        expect(submitElem.disabled)
+          .toEqual(true);
+      });
+    });
 
-    expect(submitElem.disabled)
-      .toEqual(true);
+    describe('when isSubmitting is true', () => {
+      beforeEach(() => {
+        submitTicketForm.setState({ isSubmitting: true });
+      });
+
+      it('is disabled', () => {
+        expect(submitElem.disabled)
+          .toEqual(true);
+      });
+    });
   });
 
   describe('on a valid submission', () => {
@@ -278,20 +293,6 @@ describe('SubmitTicketForm component', () => {
           .toHaveBeenCalled();
       });
     });
-  });
-
-  it('should disable submit button when attachments not ready', () => {
-    const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
-    const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
-    const submitElem = submitTicketFormNode.querySelector('button[type="submit"]');
-
-    submitTicketForm.refs.form.checkValidity = () => true;
-    mockAttachmentsReadyValue = false;
-
-    submitTicketForm.updateForm();
-
-    expect(submitElem.disabled)
-      .toEqual(true);
   });
 
   describe('#renderSubjectField', () => {
@@ -400,30 +401,33 @@ describe('SubmitTicketForm component', () => {
     });
   });
 
-  describe('when the preview is enabled', () => {
-    let submitTicketForm;
+  describe('handleSubmit', () => {
+    let mockPreventDefault, mockPreviewEnabled, submitTicketForm;
 
     beforeEach(() => {
-      submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} previewEnabled={true} />);
-      submitTicketForm.refs.form.checkValidity = () => true;
+      submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} previewEnabled={mockPreviewEnabled} />);
+
+      mockPreventDefault = jasmine.createSpy('preventDefault');
     });
 
-    describe('when submit button is clicked', () => {
-      let mockPreventDefault;
+    describe('when the preview is enabled', () => {
+      beforeAll(() => {
+        mockPreviewEnabled = true;
+      });
 
       beforeEach(() => {
-        mockPreventDefault = jasmine.createSpy('preventDefault');
+        submitTicketForm.refs.form.checkValidity = () => true;
 
         submitTicketForm.setState({ isValid: true });
         submitTicketForm.handleSubmit({ preventDefault: mockPreventDefault });
       });
 
-      it('should call preventDefault', () => {
+      it('calls preventDefault', () => {
         expect(mockPreventDefault)
           .toHaveBeenCalled();
       });
 
-      it('should not change the button label', () => {
+      it('does not change the button label', () => {
         expect(submitTicketForm.state.buttonMessage)
           .toBe('embeddable_framework.submitTicket.form.submitButton.label.send');
 
@@ -431,9 +435,31 @@ describe('SubmitTicketForm component', () => {
           .toBe(false);
       });
 
-      it('should not call props.submit', () => {
+      it('does not call props.submit', () => {
         expect(onSubmit)
           .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the form is invalid', () => {
+      beforeEach(() => {
+        submitTicketForm.setState({ isValid: false });
+        submitTicketForm.handleSubmit({ preventDefault: mockPreventDefault });
+      });
+
+      it('calls preventDefault', () => {
+        expect(mockPreventDefault)
+          .toHaveBeenCalled();
+      });
+
+      it('does not call props.submit', () => {
+        expect(onSubmit)
+          .not.toHaveBeenCalled();
+      });
+
+      it('sets showErrors to true', () => {
+        expect(submitTicketForm.state.showErrors)
+          .toEqual(true);
       });
     });
   });

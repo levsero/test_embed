@@ -25,6 +25,8 @@ const initialState = {
   isRTL: i18n.isRTL(),
   isSubmitting: false,
   isValid: false,
+  canSubmit: true,
+  showErrors: false,
   shouldRemoveForm: false,
   showErrorMessage: false
 };
@@ -91,7 +93,7 @@ export class SubmitTicketForm extends Component {
 
   componentDidUpdate = () => {
     const form = ReactDOM.findDOMNode(this.refs.form);
-    const isValid = form.checkValidity() && this.attachmentsReady();
+    const canSubmit = this.attachmentsReady();
 
     if (this.refs.formWrapper && this.props.formState && this.state.shouldRemoveForm) {
       _.forEach(form.elements, function(field) {
@@ -118,8 +120,8 @@ export class SubmitTicketForm extends Component {
       }, this);
     }
 
-    if (this.state.isValid !== isValid) {
-      this.setState({ isValid });
+    if (this.state.canSubmit !== canSubmit) {
+      this.setState({ canSubmit });
     }
   }
 
@@ -267,7 +269,8 @@ export class SubmitTicketForm extends Component {
 
     this.props.setFormState(this.getFormState());
     this.setState({
-      isValid: form.checkValidity() && this.attachmentsReady()
+      isValid: form.checkValidity(),
+      canSubmit: this.attachmentsReady()
     });
   }
 
@@ -455,6 +458,7 @@ export class SubmitTicketForm extends Component {
         [styles.containerMobile]: fullscreen
       }
     );
+    const buttonDisabled = !this.state.canSubmit || this.state.isSubmitting;
 
     return (
       <form
@@ -474,7 +478,7 @@ export class SubmitTicketForm extends Component {
               {buttonCancel}
               <Button
                 primary={true}
-                disabled={!this.state.isValid || this.state.isSubmitting}
+                disabled={buttonDisabled}
                 type='submit'>
                 {i18n.t(this.state.buttonMessage)}
               </Button>
