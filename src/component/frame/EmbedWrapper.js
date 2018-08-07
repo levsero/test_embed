@@ -55,12 +55,24 @@ export class EmbedWrapper extends Component {
     return {
       ref,
       onKeyDown: evt => {
-        if (evt.keyCode === KEY_CODES.ESCAPE) {
+        const { target: { ownerDocument }, keyCode } = evt;
+        const frameElem = ownerDocument.defaultView.frameElement;
+
+        if (frameElem.id === "launcher") {
+          if (keyCode === KEY_CODES.TAB) {
+            getDocumentHost().querySelector('body').focus();
+            evt.preventDefault();
+          }
+
+          return;
+        }
+
+        if (keyCode === KEY_CODES.ESCAPE) {
           this.props.handleCloseClick();
           // Due to the tabIndex switching based on visibility
           // we need to move focus on the next tick
           setTimeout(() => {
-            getDocumentHost().querySelector('#launcher').focus();
+            getDocumentHost().querySelector('#launcher').contentDocument.querySelector('button').focus();
           }, 0);
         }
       }

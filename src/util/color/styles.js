@@ -1,5 +1,6 @@
 import { themeColor, colorFor, defaultColor } from './validate';
 import { ColorMixer } from './mixer';
+import { FONT_SIZE } from 'constants/shared'
 
 function getColorVariables(color = defaultColor) {
   const mixer = new ColorMixer;
@@ -18,6 +19,7 @@ function getColorVariables(color = defaultColor) {
 
   const launcherColorStr = colorFor('launcher', baseColor);
   const launcherTextColorStr = mixer.foregroundColorFrom(launcherColorStr);
+  const launcherFocusRingColorStr = mixer.alphaColor(launcherTextColorStr, 0.4).rgbaString();
 
   const headerColorStr = colorFor('header', baseColor);
   const headerTextColorStr = mixer.foregroundColorFrom(headerColorStr);
@@ -35,6 +37,7 @@ function getColorVariables(color = defaultColor) {
     linkTextColorStr,
     launcherColorStr,
     launcherTextColorStr,
+    launcherFocusRingColorStr,
     headerColorStr,
     headerTextColorStr,
     headerBackgroundColorStr
@@ -90,6 +93,10 @@ function generateUserCSS(color = defaultColor) {
         color: ${colorVariables.launcherTextColorStr} !important;
         fill: ${colorVariables.launcherTextColorStr} !important;
       }
+    }
+    .u-userLauncherColor:not([disabled]):focus {
+      outline: none !important;
+      box-shadow: inset 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.launcherFocusRingColorStr} !important;
     }
     .u-launcherColor:not([disabled]):hover {
       background-color: ${colorVariables.baseHighlightColor} !important;

@@ -47,28 +47,6 @@ class Launcher extends Component {
     this.state = { unreadMessages: 0 };
   }
 
-  componentDidMount() {
-    const { getFrameContentDocument } = this.props;
-
-    if (getFrameContentDocument) {
-      getFrameContentDocument().addEventListener('keypress', this.handleKeyPress);
-    }
-  }
-
-  componentWillUnmount() {
-    const { getFrameContentDocument } = this.props;
-
-    if (getFrameContentDocument) {
-      getFrameContentDocument().removeEventListener('keypress', this.handleKeyPress);
-    }
-  }
-
-  handleKeyPress = (e) => {
-    if (e.keyCode === keyCodes.ENTER || e.keyCode === keyCodes.SPACE) {
-      this.props.onClick(e);
-    }
-  }
-
   setUnreadMessages = (unreadMessages) => {
     this.setState({ unreadMessages });
   }
@@ -188,14 +166,14 @@ class Launcher extends Component {
     }
 
     return (
-      <div className={`${styles.wrapper} ${baseMobileClasses}`}
+      <button className={`${styles.wrapper} ${baseMobileClasses}`}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <Icon
           type={this.getActiveEmbedIconType()}
           className={`${styles.icon} ${iconMobileClasses}`} />
         <span className={`${styles.label} ${labelMobileClasses}`}>{this.getActiveEmbedLabel()}</span>
-      </div>
+      </button>
     );
   }
 }
