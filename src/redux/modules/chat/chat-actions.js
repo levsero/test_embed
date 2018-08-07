@@ -52,7 +52,9 @@ import {
   CHAT_SOCIAL_LOGOUT_PENDING,
   CHAT_SOCIAL_LOGOUT_SUCCESS,
   CHAT_SOCIAL_LOGOUT_FAILURE,
-  CHAT_VENDOR_LOADED
+  CHAT_VENDOR_LOADED,
+  CHAT_USER_LOGGING_OUT,
+  CHAT_USER_LOGGED_OUT
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -62,12 +64,16 @@ import {
   getChatOnline,
   getActiveAgents,
   getIsAuthenticated,
-  getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
+  getZChatVendor,
+  getIsLoggingOut } from 'src/redux/modules/chat/chat-selectors';
 import {
   CHAT_MESSAGE_TYPES,
   AGENT_BOT,
-  EVENT_TRIGGER } from 'src/constants/chat';
-import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
+  EVENT_TRIGGER,
+  CONNECTION_STATUSES } from 'src/constants/chat';
+import {
+  getChatStandalone,
+  getZChatConfig } from 'src/redux/modules/base/base-selectors';
 import { mediator } from 'service/mediator';
 import _ from 'lodash';
 
@@ -137,7 +143,7 @@ export function sendMsg(msg, timestamp=Date.now()) {
   };
 }
 
-export const endChat = () => {
+export const endChat = (callback=() => {}) => {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
 
@@ -150,6 +156,8 @@ export const endChat = () => {
       } else {
         dispatch({ type: END_CHAT_REQUEST_FAILURE });
       }
+
+      callback();
     });
   };
 };
@@ -588,6 +596,35 @@ export function handlePrechatFormSubmit(info) {
   return {
     type: PRE_CHAT_FORM_SUBMIT,
     payload: info
+  };
+}
+
+export function chatLogout() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const zChat = getZChatVendor(state);
+    const isAuthenticated = getIsAuthenticated(state);
+    const zChatConfig = getZChatConfig(state);
+
+    if (isAuthenticated) {
+      zChat.endChat(() => {
+        dispatch({
+          type: CHAT_USER_LOGGING_OUT
+        });
+
+        zChat.logout();
+        zChat.init(zChatConfig);
+        zChat.on('connection_update', (connectionStatus) => {
+          const isLoggingOut = getIsLoggingOut(getState());
+
+          if (connectionStatus === CONNECTION_STATUSES.CONNECTED && isLoggingOut) {
+            dispatch({
+              type: CHAT_USER_LOGGED_OUT
+            });
+          }
+        });
+      });
+    }
   };
 }
 

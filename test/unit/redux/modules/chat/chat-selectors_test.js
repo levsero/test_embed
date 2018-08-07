@@ -53,6 +53,7 @@ describe('chat selectors', () => {
     getAuthUrls,
     getIsAuthenticated,
     getZChatVendor,
+    getIsLoggingOut,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -155,11 +156,29 @@ describe('chat selectors', () => {
     getAuthUrls = selectors.getAuthUrls;
     getIsAuthenticated = selectors.getIsAuthenticated;
     getZChatVendor = selectors.getZChatVendor;
+    getIsLoggingOut = selectors.getIsLoggingOut;
   });
 
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('getIsLoggingOut', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getIsLoggingOut({
+        chat: {
+          isLoggingOut: true
+        }
+      });
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
   });
 
   describe('getCurrentSessionStartTime', () => {
@@ -1889,9 +1908,22 @@ describe('chat selectors', () => {
           is_chatting: false,
           account_status: 'offline',
           chats: { values: () => [{}, {}] },
-          agents: ['agent_1']
+          agents: ['agent_1'],
+          isLoggingOut: false
         }
       };
+    });
+
+    describe('when user is logging out', () => {
+      beforeEach(() => {
+        mockState.chat.isLoggingOut = true;
+        result = getShowOfflineChat(mockState);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
     });
 
     describe('when chat is online', () => {
@@ -1930,7 +1962,7 @@ describe('chat selectors', () => {
       });
     });
 
-    describe('when chat is offline, isChatting is true and a rating has been left', () => {
+    describe('when chat is offline, isChatting is true, not logging out, and a rating has been left', () => {
       beforeEach(() => {
         result = getShowOfflineChat(mockState);
       });

@@ -29,6 +29,12 @@ describe('base reducer embeddable config', () => {
                 contextualHelpEnabled: false,
                 signInRequired: false
               }
+            },
+            zopimChat: {
+              props: {
+                zopimId: '',
+                overrideProxy: ''
+              }
             }
           }
         });
@@ -47,6 +53,11 @@ describe('base reducer embeddable config', () => {
               props: {
                 contextualHelpEnabled: true
               }
+            },
+            zopimChat: {
+              props: {
+                zopimId: 'yoloId'
+              }
             }
           }
         }
@@ -63,6 +74,12 @@ describe('base reducer embeddable config', () => {
               props: {
                 contextualHelpEnabled: true,
                 signInRequired: false
+              }
+            },
+            zopimChat: {
+              props: {
+                zopimId: 'yoloId',
+                overrideProxy: ''
               }
             }
           }

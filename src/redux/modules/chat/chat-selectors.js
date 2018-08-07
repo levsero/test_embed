@@ -380,9 +380,11 @@ export const getLastAgentLeaveEvent = createSelector(
   }
 );
 
+export const getIsLoggingOut = (state) => state.chat.isLoggingOut;
+
 export const getShowOfflineChat = createSelector(
-  [getChatOnline, getIsChatting, getShowRatingScreen, getChats],
-  (chatOnline, isChatting, showRatingScreen) => {
-    return !chatOnline && !isChatting && !showRatingScreen;
+  [getChatOnline, getIsChatting, getShowRatingScreen, getIsLoggingOut],
+  (chatOnline, isChatting, showRatingScreen, isLoggingOut) => {
+    return !chatOnline && !isChatting && !showRatingScreen && !isLoggingOut;
   }
 );

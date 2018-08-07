@@ -8,6 +8,12 @@ const initialState = {
         contextualHelpEnabled: false,
         signInRequired: false
       }
+    },
+    zopimChat: {
+      props: {
+        zopimId: '',
+        overrideProxy: ''
+      }
     }
   }
 };
@@ -23,6 +29,12 @@ const embeddableConfig = (state = initialState, action) => {
             props: {
               ...state.embeds.helpCenterForm.props,
               ..._.get(payload, 'embeds.helpCenterForm.props')
+            }
+          },
+          zopimChat: {
+            props: {
+              ...state.embeds.zopimChat.props,
+              ..._.get(payload, 'embeds.zopimChat.props')
             }
           }
         }

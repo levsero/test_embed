@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import { CHAT_USER_LOGGING_OUT } from '../chat-action-types';
 import accountSettings from './account-settings/';
 import accountStatus from './chat-account-status';
 import agents from './chat-agents';
@@ -29,8 +30,9 @@ import currentSessionStartTime from './chat-current-session-start-time';
 import socialLogin from './chat-social-login';
 import isAuthenticated from './chat-is-authenticated';
 import vendor from './chat-vendor';
+import isLoggingOut from './chat-is-logging-out';
 
-export default combineReducers({
+const combinedReducers = combineReducers({
   accountSettings,
   account_status: accountStatus,
   agents,
@@ -59,5 +61,17 @@ export default combineReducers({
   currentSessionStartTime,
   socialLogin,
   isAuthenticated,
-  vendor
+  vendor,
+  isLoggingOut
 });
+
+export default function reducer(state, action) {
+  if (action.type === CHAT_USER_LOGGING_OUT) {
+    state = {
+      vendor: state.vendor,
+      isLoggingOut: state.isLoggingOut
+    };
+  }
+
+  return combinedReducers(state, action);
+}

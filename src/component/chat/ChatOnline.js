@@ -53,7 +53,8 @@ const mapStateToProps = (state) => {
     authUrls: selectors.getAuthUrls(state),
     socialLogin: selectors.getSocialLogin(state),
     chatVisitor: selectors.getChatVisitor(state),
-    isAuthenticated: selectors.getIsAuthenticated(state)
+    isAuthenticated: selectors.getIsAuthenticated(state),
+    isLoggingOut: selectors.getIsLoggingOut(state)
   };
 };
 
@@ -93,7 +94,8 @@ class Chat extends Component {
     socialLogin: PropTypes.object.isRequired,
     chatVisitor: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool,
-    newHeight: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool.isRequired,
+    isLoggingOut: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -122,7 +124,8 @@ class Chat extends Component {
     sendOfflineMessage: () => {},
     clearDepartment: () => {},
     hideZendeskLogo: false,
-    isAuthenticated: false
+    isAuthenticated: false,
+    isLoggingOut: false
   };
 
   constructor(props) {
@@ -380,9 +383,9 @@ class Chat extends Component {
   }
 
   renderChatReconnectionBubble = () => {
-    const { connection } = this.props;
+    const { connection, isLoggingOut } = this.props;
 
-    if (connection !== CONNECTION_STATUSES.CONNECTING) return;
+    if (connection !== CONNECTION_STATUSES.CONNECTING || isLoggingOut) return;
 
     return <ChatReconnectionBubble />;
   }
@@ -399,9 +402,9 @@ class Chat extends Component {
   }
 
   renderChatReconnectButton = () => {
-    const { connection } = this.props;
+    const { connection, isLoggingOut } = this.props;
 
-    if (connection !== CONNECTION_STATUSES.CLOSED) return;
+    if (connection !== CONNECTION_STATUSES.CLOSED || isLoggingOut) return;
 
     return (
       <div className={styles.reconnectContainer}>

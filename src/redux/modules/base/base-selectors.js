@@ -53,3 +53,27 @@ export const getHasPassedAuth = createSelector(
     return isAuthenticated || !helpCenterSignInRequired || isOnHelpCenterPage();
   }
 );
+
+export const getZopimId = createSelector(
+  [getEmbeddableConfig],
+  (embeddableConfig) => {
+    return embeddableConfig.embeds.zopimChat.props.zopimId;
+  }
+);
+export const getChatOverrideProxy = createSelector(
+  [getEmbeddableConfig],
+  (embeddableConfig) => {
+    return embeddableConfig.embeds.zopimChat.props.overrideProxy;
+  }
+);
+export const getZChatConfig = createSelector(
+  [getZopimId, getChatOverrideProxy],
+  (zopimId, overrideProxy) => {
+    /* eslint-disable camelcase */
+    return {
+      account_key: zopimId,
+      ...(overrideProxy && { override_proxy: overrideProxy })
+    };
+    /* eslint-enable camelcase */
+  }
+);

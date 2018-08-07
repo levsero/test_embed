@@ -762,16 +762,18 @@ describe('ChatOnline component', () => {
 
   describe('renderChatReconnectionBubble', () => {
     let connectionStatus,
+      isLoggingOut,
       result;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOnline connection={connectionStatus} />);
+      const component = instanceRender(<ChatOnline connection={connectionStatus} isLoggingOut={isLoggingOut} />);
 
       result = component.renderChatReconnectionBubble();
     });
 
     describe('when the connection prop is set to connecting', () => {
       beforeAll(() => {
+        isLoggingOut = false;
         connectionStatus = CONNECTION_STATUSES.CONNECTING;
       });
 
@@ -783,7 +785,20 @@ describe('ChatOnline component', () => {
 
     describe('when the connection prop is not set to connecting', () => {
       beforeAll(() => {
+        isLoggingOut = false;
         connectionStatus = CONNECTION_STATUSES.CONNECTED;
+      });
+
+      it('returns undefined', () => {
+        expect(result)
+          .toBeUndefined();
+      });
+    });
+
+    describe('when user is logging out', () => {
+      beforeAll(() => {
+        connectionStatus = CONNECTION_STATUSES.CONNECTING;
+        isLoggingOut = true;
       });
 
       it('returns undefined', () => {
@@ -829,10 +844,11 @@ describe('ChatOnline component', () => {
 
   describe('renderChatReconnectButton', () => {
     let connectionStatus,
+      isLoggingOut,
       result;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOnline connection={connectionStatus} />);
+      const component = instanceRender(<ChatOnline connection={connectionStatus} isLoggingOut={isLoggingOut} />);
 
       result = component.renderChatReconnectButton();
     });
@@ -840,6 +856,7 @@ describe('ChatOnline component', () => {
     describe('when the connection prop is set to closed', () => {
       beforeAll(() => {
         connectionStatus = CONNECTION_STATUSES.CLOSED;
+        isLoggingOut = false;
       });
 
       it('returns a div with a ButtonPill component inside it', () => {
@@ -851,6 +868,19 @@ describe('ChatOnline component', () => {
     describe('when the connection prop is not set to closed', () => {
       beforeAll(() => {
         connectionStatus = CONNECTION_STATUSES.CONNECTED;
+        isLoggingOut = false;
+      });
+
+      it('returns undefined', () => {
+        expect(result)
+          .toBeUndefined();
+      });
+    });
+
+    describe('when user is logging out', () => {
+      beforeAll(() => {
+        connectionStatus = CONNECTION_STATUSES.CONNECTED;
+        isLoggingOut = true;
       });
 
       it('returns undefined', () => {
