@@ -9,7 +9,6 @@ export const ICONS = {
   PAPERCLIP_SMALL:      'Icon--paperclip-small',
   PREVIEW_DEFAULT:      'Icon--preview-default',
   PREVIEW_DOCUMENT:     'Icon--preview-document',
-  PREVIEW_ERROR:        'Icon--preview-error',
   PREVIEW_IMAGE:        'Icon--preview-image',
   PREVIEW_PDF:          'Icon--preview-pdf',
   PREVIEW_PRESENTATION: 'Icon--preview-presentation',

@@ -104,15 +104,14 @@ export class Attachment extends Component {
   }
 
   renderPreviewIcon = () => {
+    if (!this.props.icon) return null;
+
     const { file, isDownloadable } = this.props;
+    const previewIcon = <Icon type={this.props.icon} className={styles.iconPreview} />;
 
-    const previewIcon = this.props.icon.length > 0
-      ? <Icon type={this.props.icon} className={styles.iconPreview} />
-      : null;
-
-    if (isDownloadable && !!previewIcon) return this.renderLinkedEl(previewIcon, file.url);
-
-    return previewIcon;
+    return (isDownloadable)
+      ? this.renderLinkedEl(previewIcon, file.url)
+      : previewIcon;
   }
 
   renderAttachmentBox() {
