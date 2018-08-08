@@ -5,9 +5,6 @@ describe('Frame', () => {
     mockIsMobileBrowserValue,
     mockChild,
     mockSettingsValue,
-    mockShowTransition,
-    mockHideTransition,
-    mockHiddenStateTransition,
     mockClickBusterRegister,
     mockIsRTLValue,
     mockLocaleValue,
@@ -56,21 +53,6 @@ describe('Frame', () => {
     mockLocaleValue = 'en-US';
     mockZoomSizingRatioValue = 1;
     mockWindowHeight = 1000;
-
-    mockShowTransition = jasmine.createSpy().and.returnValue({
-      start: { transitionDuration: '9999ms' },
-      end: { transitionDuration: '9999ms' }
-    });
-
-    mockHideTransition = jasmine.createSpy().and.returnValue({
-      start: { transitionDuration: '9999ms' },
-      end: { transitionDuration: '9999ms' }
-    });
-
-    mockHiddenStateTransition = jasmine.createSpy().and.returnValue({
-      top: '-9999px',
-      bottom: '0px'
-    });
 
     mockSettingsValue = {
       offset: { vertical: 0, horizontal: 0 },
@@ -121,17 +103,6 @@ describe('Frame', () => {
       },
       'component/frame/EmbedWrapper': {
         EmbedWrapper: MockEmbedWrapper
-      },
-      'service/transitionFactory': {
-        transitionFactory: {
-          webWidget: {
-            upShow: mockShowTransition,
-            downHide: mockHideTransition,
-            downShow: mockShowTransition,
-            upHide: mockHideTransition
-          },
-          hiddenState: mockHiddenStateTransition
-        }
       },
       'src/redux/modules/base/base-actions': {
         updateWidgetShown: mockUpdateWidgetShown,
@@ -458,13 +429,6 @@ describe('Frame', () => {
         .toHaveBeenCalled();
     });
 
-    it('uses the default show animation', () => {
-      jasmine.clock().tick(animationDuration);
-
-      expect(mockShowTransition)
-        .toHaveBeenCalled();
-    });
-
     it('calls afterShowAnimate', () => {
       jasmine.clock().tick(animationDuration);
 
@@ -479,59 +443,6 @@ describe('Frame', () => {
 
       expect(frameContainerStyle.WebkitOverflowScrolling)
         .toEqual('touch');
-    });
-
-    describe('with animation props passed in', () => {
-      beforeEach(() => {
-        mockOnShow = jasmine.createSpy('onShow');
-
-        frameProps = {
-          transitions: {
-            upShow: {
-              start: { top: '-1337px', transitionDuration: '9999s' },
-              end: { top: '466px', transitionDuration: '7777s' }
-            }
-          },
-          store: {
-            dispatch: noop
-          }
-        };
-
-        frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
-        frame.show({ transition: 'upShow' });
-      });
-
-      it('applies animation styles to the frame', () => {
-        expect(_.keys(frame.state.frameStyle))
-          .toEqual(['marginTop', 'transitionDuration', 'top']);
-      });
-
-      it('sets the frames style values', () => {
-        expect(frame.state.frameStyle.top)
-          .toEqual('-1337px');
-
-        expect(frame.state.frameStyle.transitionDuration)
-          .toEqual('9999s');
-      });
-    });
-
-    describe('with transiton: none option passed in', () => {
-      let stateBefore;
-
-      beforeEach(() => {
-        stateBefore = frame.state.frameStyle;
-        frame.show({ transition: 'none' });
-      });
-
-      it('does not set any frames style values', () => {
-        expect(frame.state.frameStyle)
-          .toEqual(stateBefore);
-      });
-
-      it('calls afterShowAnimate right away', () => {
-        expect(mockAfterShowAnimate)
-          .toHaveBeenCalled();
-      });
     });
 
     describe('when the name is not launcher', () => {
@@ -622,111 +533,28 @@ describe('Frame', () => {
         .toHaveBeenCalled();
     });
 
-    it('does not apply the animation if it does not exist', () => {
-      expect(mockHideTransition)
+    it('calls widgetHideAnimationComplete', () => {
+      expect(mockWidgetHideAnimationComplete)
         .toHaveBeenCalled();
     });
 
-    describe('without animation', () => {
-      beforeEach(() => {
-        mockOnHide = jasmine.createSpy('onHide');
-
-        frame = domRender(<Frame onHide={mockOnHide}>{mockChild}</Frame>);
-
-        frame.setState({ visible: true });
-        frame.hide({ transition: 'none' });
-      });
-
-      it('sets `visible` state to false without a delay', () => {
-        expect(frame.state.visible)
-          .toEqual(false);
-      });
-
-      it('triggers props.onHide without a delay', () => {
-        expect(mockOnHide)
-          .toHaveBeenCalled();
-      });
-
-      it('calls widgetHideAnimationComplete', () => {
-        expect(mockWidgetHideAnimationComplete)
-          .toHaveBeenCalled();
-      });
-
-      it('calls dispatch', () => {
-        expect(dispatchSpy)
-          .toHaveBeenCalled();
-      });
-
-      describe('when options.onHide is defined', () => {
-        let onHideSpy;
-
-        beforeEach(() => {
-          onHideSpy = jasmine.createSpy('onHide');
-
-          frame.hide({ transition: 'none', onHide: onHideSpy });
-        });
-
-        it('calls options.onHide', () => {
-          expect(onHideSpy)
-            .toHaveBeenCalled();
-        });
-      });
+    it('calls dispatch', () => {
+      expect(dispatchSpy)
+        .toHaveBeenCalled();
     });
 
-    describe('with animation', () => {
+    describe('when options.onHide is defined', () => {
+      let onHideSpy;
+
       beforeEach(() => {
-        frameProps = {
-          transitions: {
-            downHide: {
-              start: { top: '566px', transitionDuration: 0 },
-              end: { top: '789px', transitionDuration: '7777s' }
-            }
-          }
-        };
+        onHideSpy = jasmine.createSpy('onHide');
 
-        frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
-
-        frame.hide({ transition: 'downHide' });
-        jasmine.clock().tick(300);
+        frame.hide({ transition: 'none', onHide: onHideSpy });
       });
 
-      it('applies animation styles to the frame', () => {
-        expect(_.keys(frame.state.frameStyle))
-          .toEqual(['marginTop', 'transitionDuration', 'top']);
-      });
-
-      it('should set the frames style values', () => {
-        expect(frame.state.frameStyle.top)
-          .toEqual('789px');
-
-        expect(frame.state.frameStyle.transitionDuration)
-          .toEqual('7777s');
-      });
-
-      it('calls widgetHideAnimationComplete', () => {
-        expect(mockWidgetHideAnimationComplete)
+      it('calls options.onHide', () => {
+        expect(onHideSpy)
           .toHaveBeenCalled();
-      });
-
-      it('calls dispatch', () => {
-        expect(dispatchSpy)
-          .toHaveBeenCalled();
-      });
-
-      describe('when options.onHide is defined', () => {
-        let onHideSpy;
-
-        beforeEach(() => {
-          onHideSpy = jasmine.createSpy('onHide');
-
-          frame.hide({ transition: 'none', onHide: onHideSpy });
-          jasmine.clock().tick(300);
-        });
-
-        it('calls options.onHide', () => {
-          expect(onHideSpy)
-            .toHaveBeenCalled();
-        });
       });
     });
 
@@ -750,9 +578,9 @@ describe('Frame', () => {
           .toHaveBeenCalledWith(false);
       });
 
-      it('calls dispatch', () => {
-        expect(dispatchSpy)
-          .toHaveBeenCalled();
+      it('calls dispatch twice', () => {
+        expect(dispatchSpy.calls.count())
+          .toBe(2);
       });
     });
 
@@ -778,9 +606,9 @@ describe('Frame', () => {
           .not.toHaveBeenCalled();
       });
 
-      it('does not call dispatch', () => {
-        expect(dispatchSpy)
-          .not.toHaveBeenCalled();
+      it('does not call dispatch twice', () => {
+        expect(dispatchSpy.calls.count())
+          .not.toBe(2);
       });
     });
   });
@@ -817,37 +645,6 @@ describe('Frame', () => {
           it('calls hide with onHide callback', () => {
             expect(frame.hide)
               .toHaveBeenCalledWith(jasmine.objectContaining({ onHide }));
-          });
-        });
-
-        describe('when vertical position is bottom', () => {
-          beforeEach(() => {
-            spyOn(frame, 'hide');
-
-            frame.close();
-          });
-
-          it('should call hide with `downHide` transition', () => {
-            expect(frame.hide)
-              .toHaveBeenCalledWith(jasmine.objectContaining({ transition: 'downHide' }));
-          });
-        });
-
-        describe('when vertical position is top', () => {
-          beforeEach(() => {
-            mockSettingsValue.position.vertical = 'top';
-
-            Frame = requireUncached(FramePath).Frame;
-            frame = domRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
-
-            spyOn(frame, 'hide');
-
-            frame.close();
-          });
-
-          it('should call hide with `upHide` transition', () => {
-            expect(frame.hide)
-              .toHaveBeenCalledWith(jasmine.objectContaining({ transition: 'upHide' }));
           });
         });
       });
@@ -990,435 +787,6 @@ describe('Frame', () => {
       });
     });
 
-    describe('visibility', () => {
-      beforeEach(() => {
-        frame = domRender(<Frame>{mockChild}</Frame>);
-      });
-
-      it('should have visibile classes if state.visible is true', () => {
-        frame.setState({ visible: true });
-
-        expect(frame.computeIframeStyle().top)
-          .not.toEqual('-9999px');
-      });
-
-      it('should not have visibile classes if state.visible is false', () => {
-        frame.setState({ visible: false });
-
-        expect(frame.computeIframeStyle().top)
-          .toEqual('-9999px');
-      });
-
-      it('should not have visibile classes if state.hiddenByZoom is true', () => {
-        frame.setState({ hiddenByZoom: true });
-
-        expect(frame.computeIframeStyle().top)
-          .toEqual('-9999px');
-      });
-    });
-
-    describe('position', () => {
-      describe('vertical', () => {
-        beforeEach(() => {
-          frame = domRender(<Frame>{mockChild}</Frame>);
-        });
-
-        it('should have bottom classes by default', () => {
-          expect(frame.computeIframeStyle().bottom)
-            .toBeDefined();
-
-          expect(frame.computeIframeStyle().top)
-            .toBeUndefined();
-        });
-
-        describe('when settings sets position to top', () => {
-          beforeEach(() => {
-            mockSettingsValue = { position: { vertical: 'top'} };
-            Frame = requireUncached(FramePath).Frame;
-
-            frame = domRender(<Frame>{mockChild}</Frame>);
-          });
-
-          it('should have top classes', () => {
-            expect(frame.computeIframeStyle().top)
-              .toBeDefined();
-
-            expect(frame.computeIframeStyle().bottom)
-              .toBeUndefined();
-          });
-        });
-      });
-
-      describe('horizontal', () => {
-        beforeEach(() => {
-          frame = domRender(<Frame>{mockChild}</Frame>);
-        });
-
-        it('should have right classes by default', () => {
-          expect(frame.computeIframeStyle().right)
-            .toBeDefined();
-
-          expect(frame.computeIframeStyle().left)
-            .toBeUndefined();
-        });
-
-        it('can be changed by the position prop', () => {
-          frame = domRender(<Frame position='left'>{mockChild}</Frame>);
-
-          expect(frame.computeIframeStyle().left)
-            .toBeDefined();
-
-          expect(frame.computeIframeStyle().right)
-            .toBeUndefined();
-        });
-
-        describe('when settings sets position', () => {
-          beforeEach(() => {
-            mockSettingsValue = { position: { horizontal: 'left'} };
-            Frame = requireUncached(FramePath).Frame;
-
-            frame = domRender(<Frame>{mockChild}</Frame>);
-          });
-
-          it('uses that setting over the prop', () => {
-            expect(frame.computeIframeStyle().left)
-              .toBeDefined();
-
-            expect(frame.computeIframeStyle().right)
-              .toBeUndefined();
-          });
-        });
-      });
-
-      describe('when the frame should be hidden and vertical is top', () => {
-        beforeEach(() => {
-          mockSettingsValue = { position: { vertical: 'top' } };
-          Frame = requireUncached(FramePath).Frame;
-
-          frame = instanceRender(<Frame>{mockChild}</Frame>);
-          frame.setState({
-            visible: false,
-            hiddenByZoom: true
-          });
-        });
-
-        it('position should not override the hidden absolute position', () => {
-          expect(frame.computeIframeStyle().top)
-            .toEqual('-9999px');
-        });
-      });
-
-      describe('when the frame should be hidden and vertical is bottom', () => {
-        beforeEach(() => {
-          mockSettingsValue = { position: { vertical: 'bottom' } };
-          Frame = requireUncached(FramePath).Frame;
-
-          frame = instanceRender(<Frame>{mockChild}</Frame>);
-          frame.setState({
-            visible: false,
-            hiddenByZoom: true
-          });
-        });
-
-        it('position should not override the hidden absolute position', () => {
-          expect(frame.computeIframeStyle().top)
-            .toEqual('-9999px');
-        });
-      });
-    });
-
-    describe('offset', () => {
-      let frame;
-      const desktopOnlyOffset = {
-        offset: {
-          vertical: 31,
-          horizontal: 52
-        }
-      };
-      const mobileOnlyOffset = {
-        offset: {
-          mobile: {
-            horizontal: 100,
-            vertical: 200
-          }
-        }
-      };
-      const desktopAndMobileOffset = {
-        offset: {
-          horizontal: 101,
-          vertical: 102,
-          mobile: {
-            horizontal: 100,
-            vertical: 200
-          }
-        }
-      };
-
-      describe('when on desktop', () => {
-        beforeEach(() => {
-          mockIsMobileBrowserValue = false;
-        });
-
-        describe('when on launcher', () => {
-          beforeEach(() => {
-            Frame = requireUncached(FramePath).Frame;
-            frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
-          });
-
-          describe('when there is a desktop offset only', () => {
-            beforeEach(() => {
-              mockSettingsValue = desktopOnlyOffset;
-            });
-
-            it('should apply the customized desktop offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(31);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(52);
-            });
-          });
-
-          describe('when there is a mobile offset only', () => {
-            beforeEach(() => {
-              mockSettingsValue = mobileOnlyOffset;
-            });
-
-            it('should not apply customized mobile offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(0);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(0);
-            });
-          });
-
-          describe('when there are desktop and mobile offsets', () => {
-            beforeEach(() => {
-              mockSettingsValue = desktopAndMobileOffset;
-            });
-
-            it('should apply only customized desktop offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(102);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(101);
-            });
-          });
-
-          describe('when there is no offset', () => {
-            beforeEach(() => {
-              mockSettingsValue = {};
-            });
-
-            it('should not apply any offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(0);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(0);
-            });
-          });
-        });
-
-        describe('when on Web Widget', () => {
-          beforeEach(() => {
-            Frame = requireUncached(FramePath).Frame;
-            frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
-          });
-
-          describe('where there is a desktop offset only', () => {
-            beforeEach(() => {
-              mockSettingsValue = desktopOnlyOffset;
-            });
-
-            it('should apply the customized desktop offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(31);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(52);
-            });
-          });
-
-          describe('when there is a mobile offset only', () => {
-            beforeEach(() => {
-              mockSettingsValue = mobileOnlyOffset;
-            });
-
-            it('should not apply customized mobile offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(0);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(0);
-            });
-          });
-
-          describe('where there are desktop and mobile offsets', () => {
-            beforeEach(() => {
-              mockSettingsValue = desktopAndMobileOffset;
-            });
-
-            it('should apply only customized desktop offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(102);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(101);
-            });
-          });
-
-          describe('when there is no offset', () => {
-            beforeEach(() => {
-              mockSettingsValue = {};
-            });
-
-            it('should not apply any offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(0);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(0);
-            });
-          });
-        });
-      });
-
-      describe('when on mobile', () => {
-        beforeEach(() => {
-          mockIsMobileBrowserValue = true;
-        });
-
-        describe('when on launcher', () => {
-          beforeEach(() => {
-            Frame = requireUncached(FramePath).Frame;
-            frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
-          });
-
-          describe('when there is a desktop offset only', () => {
-            beforeEach(() => {
-              mockSettingsValue = desktopOnlyOffset;
-            });
-
-            it('should not apply the customized desktop offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(0);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(0);
-            });
-          });
-
-          describe('when there is a mobile offset only', () => {
-            beforeEach(() => {
-              mockSettingsValue = mobileOnlyOffset;
-            });
-
-            it('should apply customized mobile offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(200);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(100);
-            });
-          });
-
-          describe('where there are desktop and mobile offsets', () => {
-            beforeEach(() => {
-              mockSettingsValue = desktopAndMobileOffset;
-            });
-
-            it('should apply only customized mobile offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(200);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(100);
-            });
-          });
-
-          describe('no offset', () => {
-            beforeEach(() => {
-              mockSettingsValue = {};
-            });
-
-            it('should not apply any offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(0);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(0);
-            });
-          });
-        });
-
-        describe('when on Web Widget', () => {
-          beforeEach(() => {
-            Frame = requireUncached(FramePath).Frame;
-            frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
-          });
-
-          describe('when there is a desktop offset only', () => {
-            beforeEach(() => {
-              mockSettingsValue = desktopOnlyOffset;
-            });
-
-            it('should not apply the customized desktop offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(undefined);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(undefined);
-            });
-          });
-
-          describe('where there is a mobile offset only', () => {
-            beforeEach(() => {
-              mockSettingsValue = mobileOnlyOffset;
-            });
-
-            it('should not apply the customized mobile offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(undefined);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(undefined);
-            });
-          });
-
-          describe('when there are desktop and mobile offsets', () => {
-            beforeEach(() => {
-              mockSettingsValue = desktopAndMobileOffset;
-            });
-
-            it('should not apply any customized offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(undefined);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(undefined);
-            });
-          });
-
-          describe('when there is no offset', () => {
-            beforeEach(() => {
-              mockSettingsValue = {};
-            });
-
-            it('should not apply any offsets', () => {
-              expect(frame.computeIframeStyle().bottom)
-                .toBe(undefined);
-
-              expect(frame.computeIframeStyle().right)
-                .toBe(undefined);
-            });
-          });
-        });
-      });
-    });
-
     describe('zIndex', () => {
       let frame;
 
@@ -1468,6 +836,386 @@ describe('Frame', () => {
     });
   });
 
+  describe('getOffsetPosition', () => {
+    let frame;
+
+    describe('vertical', () => {
+      beforeEach(() => {
+        frame = domRender(<Frame>{mockChild}</Frame>);
+      });
+
+      it('should have bottom classes by default', () => {
+        expect(frame.getOffsetPosition().bottom)
+          .toBeDefined();
+
+        expect(frame.getOffsetPosition().top)
+          .toBeUndefined();
+      });
+
+      describe('when settings sets position to top', () => {
+        beforeEach(() => {
+          mockSettingsValue = { position: { vertical: 'top'} };
+          Frame = requireUncached(FramePath).Frame;
+
+          frame = domRender(<Frame>{mockChild}</Frame>);
+        });
+
+        it('should have top classes', () => {
+          expect(frame.getOffsetPosition().top)
+            .toBeDefined();
+
+          expect(frame.getOffsetPosition().bottom)
+            .toBeUndefined();
+        });
+      });
+    });
+
+    describe('horizontal', () => {
+      beforeEach(() => {
+        frame = domRender(<Frame>{mockChild}</Frame>);
+      });
+
+      it('should have right classes by default', () => {
+        expect(frame.getOffsetPosition().right)
+          .toBeDefined();
+
+        expect(frame.getOffsetPosition().left)
+          .toBeUndefined();
+      });
+
+      it('can be changed by the position prop', () => {
+        frame = domRender(<Frame position='left'>{mockChild}</Frame>);
+
+        expect(frame.getOffsetPosition().left)
+          .toBeDefined();
+
+        expect(frame.getOffsetPosition().right)
+          .toBeUndefined();
+      });
+
+      describe('when settings sets position', () => {
+        beforeEach(() => {
+          mockSettingsValue = { position: { horizontal: 'left'} };
+          Frame = requireUncached(FramePath).Frame;
+
+          frame = domRender(<Frame>{mockChild}</Frame>);
+        });
+
+        it('uses that setting over the prop', () => {
+          expect(frame.getOffsetPosition().left)
+            .toBeDefined();
+
+          expect(frame.getOffsetPosition().right)
+            .toBeUndefined();
+        });
+      });
+    });
+  });
+
+  describe('offset', () => {
+    let frame;
+    const desktopOnlyOffset = {
+      offset: {
+        vertical: 31,
+        horizontal: 52
+      }
+    };
+    const mobileOnlyOffset = {
+      offset: {
+        mobile: {
+          horizontal: 100,
+          vertical: 200
+        }
+      }
+    };
+    const desktopAndMobileOffset = {
+      offset: {
+        horizontal: 101,
+        vertical: 102,
+        mobile: {
+          horizontal: 100,
+          vertical: 200
+        }
+      }
+    };
+
+    describe('when on desktop', () => {
+      beforeEach(() => {
+        mockIsMobileBrowserValue = false;
+      });
+
+      describe('when on launcher', () => {
+        beforeEach(() => {
+          Frame = requireUncached(FramePath).Frame;
+          frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
+        });
+
+        describe('when there is a desktop offset only', () => {
+          beforeEach(() => {
+            mockSettingsValue = desktopOnlyOffset;
+          });
+
+          it('should apply the customized desktop offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(31);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(52);
+          });
+        });
+
+        describe('when there is a mobile offset only', () => {
+          beforeEach(() => {
+            mockSettingsValue = mobileOnlyOffset;
+          });
+
+          it('should not apply customized mobile offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(0);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(0);
+          });
+        });
+
+        describe('when there are desktop and mobile offsets', () => {
+          beforeEach(() => {
+            mockSettingsValue = desktopAndMobileOffset;
+          });
+
+          it('should apply only customized desktop offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(102);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(101);
+          });
+        });
+
+        describe('when there is no offset', () => {
+          beforeEach(() => {
+            mockSettingsValue = {};
+          });
+
+          it('should not apply any offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(0);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(0);
+          });
+        });
+      });
+
+      describe('when on Web Widget', () => {
+        beforeEach(() => {
+          Frame = requireUncached(FramePath).Frame;
+          frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+        });
+
+        describe('where there is a desktop offset only', () => {
+          beforeEach(() => {
+            mockSettingsValue = desktopOnlyOffset;
+          });
+
+          it('should apply the customized desktop offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(31);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(52);
+          });
+        });
+
+        describe('when there is a mobile offset only', () => {
+          beforeEach(() => {
+            mockSettingsValue = mobileOnlyOffset;
+          });
+
+          it('should not apply customized mobile offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(0);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(0);
+          });
+        });
+
+        describe('where there are desktop and mobile offsets', () => {
+          beforeEach(() => {
+            mockSettingsValue = desktopAndMobileOffset;
+          });
+
+          it('should apply only customized desktop offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(102);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(101);
+          });
+        });
+
+        describe('when there is no offset', () => {
+          beforeEach(() => {
+            mockSettingsValue = {};
+          });
+
+          it('should not apply any offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(0);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(0);
+          });
+        });
+      });
+    });
+
+    describe('when on mobile', () => {
+      beforeEach(() => {
+        mockIsMobileBrowserValue = true;
+      });
+
+      describe('when on launcher', () => {
+        beforeEach(() => {
+          Frame = requireUncached(FramePath).Frame;
+          frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
+        });
+
+        describe('when there is a desktop offset only', () => {
+          beforeEach(() => {
+            mockSettingsValue = desktopOnlyOffset;
+          });
+
+          it('should not apply the customized desktop offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(0);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(0);
+          });
+        });
+
+        describe('when there is a mobile offset only', () => {
+          beforeEach(() => {
+            mockSettingsValue = mobileOnlyOffset;
+          });
+
+          it('should apply customized mobile offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(200);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(100);
+          });
+        });
+
+        describe('where there are desktop and mobile offsets', () => {
+          beforeEach(() => {
+            mockSettingsValue = desktopAndMobileOffset;
+          });
+
+          it('should apply only customized mobile offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(200);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(100);
+          });
+        });
+
+        describe('no offset', () => {
+          beforeEach(() => {
+            mockSettingsValue = {};
+          });
+
+          it('should not apply any offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(0);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(0);
+          });
+        });
+      });
+
+      describe('when on Web Widget', () => {
+        beforeEach(() => {
+          Frame = requireUncached(FramePath).Frame;
+          frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+        });
+
+        describe('when there is a desktop offset only', () => {
+          beforeEach(() => {
+            mockSettingsValue = desktopOnlyOffset;
+          });
+
+          it('should not apply the customized desktop offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(undefined);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(undefined);
+          });
+        });
+
+        describe('where there is a mobile offset only', () => {
+          beforeEach(() => {
+            mockSettingsValue = mobileOnlyOffset;
+          });
+
+          it('should not apply the customized mobile offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(undefined);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(undefined);
+          });
+        });
+
+        describe('when there are desktop and mobile offsets', () => {
+          beforeEach(() => {
+            mockSettingsValue = desktopAndMobileOffset;
+          });
+
+          it('should not apply any customized offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(undefined);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(undefined);
+          });
+        });
+
+        describe('when there is no offset', () => {
+          beforeEach(() => {
+            mockSettingsValue = {};
+          });
+
+          it('should not apply any offsets', () => {
+            expect(frame.getOffsetPosition().bottom)
+              .toBe(undefined);
+
+            expect(frame.getOffsetPosition().right)
+              .toBe(undefined);
+          });
+        });
+      });
+    });
+
+    describe('when an animationOffset is passed in', () => {
+      beforeEach(() => {
+        mockSettingsValue = desktopOnlyOffset;
+        frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+      });
+
+      it('adds it to the vertical property', () => {
+        expect(frame.getOffsetPosition(20).bottom)
+          .toBe(51);
+      });
+    });
+  });
+
   describe('render', () => {
     let frame;
 
@@ -1495,6 +1243,14 @@ describe('Frame', () => {
         expect(frame.iframe.attributes.tabindex.value)
           .toEqual('0');
       });
+
+      it('has the correct animation styles applied to it', () => {
+        expect(frame.iframe.style.getPropertyValue('opacity'))
+          .toEqual('1');
+
+        expect(frame.iframe.style.getPropertyValue('bottom'))
+          .toEqual('0px');
+      });
     });
 
     describe('when not visible', () => {
@@ -1510,6 +1266,14 @@ describe('Frame', () => {
       it('should set the tab index to -1', () => {
         expect(frame.iframe.attributes.tabindex.value)
           .toEqual('-1');
+      });
+
+      it('has the correct animation styles applied to it', () => {
+        expect(frame.iframe.style.getPropertyValue('opacity'))
+          .toEqual('0');
+
+        expect(frame.iframe.style.getPropertyValue('bottom'))
+          .toEqual('-20px');
       });
     });
   });
