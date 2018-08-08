@@ -11,7 +11,7 @@ import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { getCustomFields, shouldRenderErrorMessage } from 'utility/fields';
+import { getCustomFields, shouldRenderErrorMessage, renderLabelText } from 'utility/fields';
 import { TextField, Textarea, Label, Input, Message } from '@zendeskgarden/react-textfields';
 import { EMAIL_PATTERN } from 'constants/shared';
 
@@ -323,7 +323,7 @@ export class SubmitTicketForm extends Component {
     const subjectField = (
       <TextField>
         <Label>
-          {i18n.t('embeddable_framework.submitTicket.field.subject.label')}
+          {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.subject.label'), false)}
         </Label>
         <Input
           key='subject'
@@ -349,7 +349,7 @@ export class SubmitTicketForm extends Component {
     return (
       <TextField>
         <Label>
-          {i18n.t('embeddable_framework.form.field.email.label')}
+          {renderLabelText(i18n.t('embeddable_framework.form.field.email.label'), true)}
         </Label>
         <Input
           validation={error ? 'error': ''}
@@ -372,7 +372,7 @@ export class SubmitTicketForm extends Component {
     return (
       <TextField>
         <Label>
-          {i18n.t('embeddable_framework.submitTicket.field.name.label')}
+          {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.name.label'), false)}
         </Label>
         <Input
           key='name'
@@ -394,7 +394,7 @@ export class SubmitTicketForm extends Component {
     return (
       <TextField>
         <Label>
-          {i18n.t('embeddable_framework.submitTicket.field.description.label')}
+          {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.description.label'), true)}
         </Label>
         <Textarea
           key='description'

@@ -125,6 +125,7 @@ describe('SubmitTicketForm component', () => {
         }
       },
       'utility/fields': {
+        renderLabelText: (string) => string,
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
         getCustomFields: (fields) => {
           const generateField = (field) => {

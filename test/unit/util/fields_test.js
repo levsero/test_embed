@@ -352,7 +352,7 @@ describe('fields', () => {
 
       describe('title', () => {
         beforeEach(() => {
-          payload = [textareaFieldPayload, descriptionFieldPayload];
+          payload = [textareaFieldPayload, subjectFieldPayload];
           customFields = getCustomFields(payload, {});
         });
 
@@ -367,7 +367,7 @@ describe('fields', () => {
           const labelElement = customFields.allFields[1].props.children[0];
 
           expect(labelElement.props.children)
-            .toEqual('How can we help?');
+            .toEqual('What is your query about?');
         });
       });
 

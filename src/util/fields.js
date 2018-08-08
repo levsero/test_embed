@@ -23,7 +23,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
     return (
       <TextField key={sharedProps.key}>
         <Label>
-          {sharedProps.label}
+          {renderLabelText(sharedProps.label, sharedProps.required)}
         </Label>
         {renderDescription(sharedProps)}
         <Input {...props} />
@@ -90,7 +90,8 @@ const getCustomFields = (customFields, formState, options = {}) => {
           ...sharedProps,
           showError: renderError,
           options: field.custom_field_options,
-          defaultOption
+          defaultOption,
+          label: renderLabelText(sharedProps.label, sharedProps.required)
         };
 
         return <NestedDropdown {...dropdownProps} />;
@@ -125,7 +126,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
         return (
           <TextField key={sharedProps.key}>
             <Label>
-              {sharedProps.label}
+              {renderLabelText(sharedProps.label, sharedProps.required)}
             </Label>
             {renderDescription(sharedProps)}
             <Textarea {...descProps} rows='5' />
@@ -151,7 +152,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
 
         return (
           <Checkbox {...checkboxProps}>
-            <CheckboxLabel>{title}</CheckboxLabel>
+            <CheckboxLabel>{renderLabelText(title, sharedProps.required)}</CheckboxLabel>
             {description}
             {checkboxError}
           </Checkbox>
