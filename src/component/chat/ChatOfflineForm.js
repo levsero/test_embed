@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import classNames from 'classnames';
-import { TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
+import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Button } from '@zendeskgarden/react-buttons';
-import { EmailField } from 'component/field/EmailField';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -15,8 +14,9 @@ import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
 import { UserProfile } from 'component/chat/UserProfile';
 import { SuccessNotification } from 'component/shared/SuccessNotification';
-import { ICONS } from 'src/constants/shared';
+import { ICONS, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 import { locals as styles } from './ChatOfflineForm.scss';
+import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -56,7 +56,8 @@ export class ChatOfflineForm extends Component {
     this.offlineForm = null;
 
     this.state = {
-      valid: false
+      valid: false,
+      showErrors: false
     };
   }
 
@@ -64,6 +65,13 @@ export class ChatOfflineForm extends Component {
     return classNames(styles.scrollContainer, {
       [styles.mobileContainer]: this.props.isMobile
     });
+  }
+
+  renderErrorMessage(value, required, errorString, pattern) {
+    if (shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)) {
+      return <Message validation='error'>{i18n.t(errorString)}</Message>;
+    }
+    return null;
   }
 
   renderNameField() {
@@ -74,18 +82,23 @@ export class ChatOfflineForm extends Component {
       [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0,
       [styles.textField]: _.size(authUrls) === 0
     });
+    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.name');
+    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField className={fieldContainerStyle}>
         <Label>
-          {i18n.t('embeddable_framework.common.textLabel.name')}
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.name'), isRequired)}
         </Label>
         <Input
           required={isRequired}
+          aria-required={isRequired}
           value={value}
           autoComplete='off'
           onChange={() => {}}
-          name='name' />
+          name='name'
+          {...validationProps} />
+        {error}
       </TextField>
     );
   }
@@ -93,31 +106,49 @@ export class ChatOfflineForm extends Component {
   renderEmailField() {
     const isRequired = !!_.get(this.props.formFields, 'email.required');
     const value = _.get(this.props.formState, 'email', '');
+    const error = this.renderErrorMessage(value,
+      isRequired, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
+    const validationProps = error ? { validation: 'error' } : {};
 
     return (
-      <EmailField
-        label={i18n.t('embeddable_framework.common.textLabel.email')}
-        value={value}
-        name='email'
-        required={isRequired} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.email'), isRequired)}
+        </Label>
+        <Input
+          required={isRequired}
+          aria-required={isRequired}
+          value={value}
+          onChange={() => {}}
+          type='email'
+          name='email'
+          {...validationProps} />
+        {error}
+      </TextField>
     );
   }
 
   renderPhoneNumberField() {
     const isRequired = !!_.get(this.props.formFields, 'phone.required');
     const value = _.get(this.props.formState, 'phone', '');
+    const error = this.renderErrorMessage(value,
+      isRequired, 'embeddable_framework.validation.error.phone', PHONE_PATTERN);
+    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField className={styles.textField}>
         <Label>
-          {i18n.t('embeddable_framework.common.textLabel.phone_number')}
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.phone_number'), isRequired)}
         </Label>
         <Input
           required={isRequired}
+          aria-required={isRequired}
           value={value}
           onChange={() => {}}
           type='tel'
-          name='phone' />
+          name='phone'
+          {...validationProps} />
+        {error}
       </TextField>
     );
   }
@@ -125,18 +156,23 @@ export class ChatOfflineForm extends Component {
   renderMessageField() {
     const isRequired = !!_.get(this.props.formFields, 'message.required');
     const value = _.get(this.props.formState, 'message', '');
+    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.message', null);
+    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
         <Label>
-          {i18n.t('embeddable_framework.common.textLabel.message')}
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.message'), isRequired)}
         </Label>
         <Textarea
           required={isRequired}
+          aria-required={isRequired}
           value={value}
           onChange={() => {}}
           rows='5'
-          name='message' />
+          name='message'
+          {...validationProps} />
+        {error}
       </TextField>
     );
   }
@@ -238,6 +274,13 @@ export class ChatOfflineForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
+
+    if (!this.state.valid) {
+      this.setState({ showErrors: true });
+      return;
+    }
+    this.setState({ showErrors: false });
+
     const { authenticated: isSociallyAuthenticated } = this.props.socialLogin;
     const { visitor, formState, isAuthenticated } = this.props;
     const formData = (isSociallyAuthenticated || isAuthenticated)
@@ -252,7 +295,6 @@ export class ChatOfflineForm extends Component {
       <Button
         primary={true}
         className={styles.submitBtn}
-        disabled={!this.state.valid}
         type='submit'>
         {i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')}
       </Button>
@@ -291,6 +333,7 @@ export class ChatOfflineForm extends Component {
 
     return (
       <form
+        noValidate={true}
         ref={(el) => { this.offlineForm = el; }}
         onSubmit={this.handleFormSubmit}
         onChange={this.handleFormChanged}>

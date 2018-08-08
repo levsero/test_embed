@@ -151,6 +151,7 @@ describe('fields', () => {
     mockery.registerAllowable(fieldsPath);
 
     let fields = requireUncached(fieldsPath);
+
     getCustomFields = fields.getCustomFields;
     shouldRenderErrorMessage = fields.shouldRenderErrorMessage;
     renderLabelText = fields.renderLabelText;
@@ -538,15 +539,30 @@ describe('fields', () => {
       });
 
       describe('when field is valid', () => {
-        beforeAll(() => {
-          mockRequired = true;
-          mockValue = 'taipan@zendesk.com';
-          mockPattern = EMAIL_PATTERN;
+        describe('when field has an existing value', () => {
+          beforeAll(() => {
+            mockRequired = true;
+            mockValue = 'taipan@zendesk.com';
+            mockPattern = EMAIL_PATTERN;
+          });
+
+          it('returns false', () => {
+            expect(result)
+              .toEqual(false);
+          });
         });
 
-        it('returns false', () => {
-          expect(result)
-            .toEqual(false);
+        describe('when field has no value', () => {
+          beforeAll(() => {
+            mockRequired = false;
+            mockValue = '';
+            mockPattern = EMAIL_PATTERN;
+          });
+
+          it('returns false', () => {
+            expect(result)
+              .toEqual(false);
+          });
         });
       });
     });

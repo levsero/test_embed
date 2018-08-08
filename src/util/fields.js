@@ -122,7 +122,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
 
 const shouldRenderErrorMessage = (value, required, showErrors, pattern) => {
   const isRequiredCheckValid = !required || value;
-  const isPatternCheckValid = pattern ? pattern.test(value) : true;
+  const isPatternCheckValid = !value || (pattern ? pattern.test(value) : true);
   const isValid = isRequiredCheckValid && isPatternCheckValid;
 
   return !isValid && showErrors;
@@ -130,7 +130,7 @@ const shouldRenderErrorMessage = (value, required, showErrors, pattern) => {
 
 const renderLabelText = (label, required) => {
   return required ? label : i18n.t('embeddable_framework.validation.label.optional', { label });
-}
+};
 
 export {
   getCustomFields,
