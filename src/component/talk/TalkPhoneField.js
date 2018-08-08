@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Label } from '@zendeskgarden/react-select';
 import { FauxInput, Input } from '@zendeskgarden/react-textfields';
@@ -7,6 +7,7 @@ import { FieldContainer, composeEventHandlers, ControlledComponent } from '@zend
 import { ThemeProvider } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 
+import { FONT_SIZE } from 'constants/shared';
 import { countriesByIso } from './talkCountries';
 import { TalkCountryDropdown } from 'component/talk/TalkCountryDropdown';
 import { talkDropdownOverrides } from 'component/frame/gardenOverrides';
@@ -16,7 +17,7 @@ const StyledFauxInput = styled(FauxInput)`
 `;
 
 const StyledInput = styled(Input)`
-  padding: 10px !important;
+  padding: ${10/FONT_SIZE}rem !important;
   align-self: center !important;
 `;
 
@@ -25,6 +26,7 @@ export class TalkPhoneField extends ControlledComponent {
     supportedCountries: PropTypes.array.isRequired,
     libphonenumber: PropTypes.object.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
+    rtl: PropTypes.bool,
     label: PropTypes.string,
     required: PropTypes.bool,
     country: PropTypes.string,
@@ -33,6 +35,7 @@ export class TalkPhoneField extends ControlledComponent {
   };
 
   static defaultProps = {
+    rtl: false,
     label: '',
     required: false,
     country: '',
@@ -154,12 +157,13 @@ export class TalkPhoneField extends ControlledComponent {
 
     return (
       <ThemeProvider
+        rtl={this.props.rtl}
         document={this.props.getFrameContentDocument()}
         theme={talkDropdownOverrides}>
         <FieldContainer>
           {({getLabelProps: getFieldLabelProps, getInputProps: getFieldInputProps}) => {
             return (
-              <div>
+              <Fragment>
                 <Label {...this.getLabelProps(getFieldLabelProps())}>{this.props.label}</Label>
                 <StyledFauxInput
                   {...focused}
@@ -184,7 +188,7 @@ export class TalkPhoneField extends ControlledComponent {
                     required={this.props.required}
                     bare={true} />
                 </StyledFauxInput>
-              </div>
+              </Fragment>
             ); }}
         </FieldContainer>
       </ThemeProvider>

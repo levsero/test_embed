@@ -13,7 +13,8 @@ describe('Render phone field', () => {
         Dropdown: noopReactComponent(),
         Item: noopReactComponent(),
       },
-      'component/Flag': { Flag: noopReactComponent() }
+      'component/Flag': { Flag: noopReactComponent() },
+      'constants/shared': {},
     });
 
     mockery.registerAllowable(talkCountryDropdownPath);

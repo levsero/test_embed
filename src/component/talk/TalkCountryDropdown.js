@@ -3,16 +3,23 @@ import PropTypes from 'prop-types';
 import { SelectContainer, SelectView, Dropdown, Item } from '@zendeskgarden/react-select';
 import styled from 'styled-components';
 
+import { FONT_SIZE } from 'constants/shared';
 import { Flag } from 'component/Flag';
 
 const ScrollableArea = styled.div`
-  max-height: 215px;
+  max-height: ${215/FONT_SIZE}rem;
   overflow: auto;
 `;
 
 const SmallFlag = styled(Flag)`
-  height: 17.5px;
-  margin-right: ${props => props.gap && '10px'}
+  height: ${17.5/FONT_SIZE}rem;
+  [dir='ltr'] & {
+    margin-right: ${props => props.gap && `${10/FONT_SIZE}rem`}
+  }
+
+  [dir='rtl'] & {
+    margin-left: ${props => props.gap && `${10/FONT_SIZE}rem`}
+  }
 `;
 
 const FlexItem = styled(Item)`

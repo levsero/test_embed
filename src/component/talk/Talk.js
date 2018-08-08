@@ -180,6 +180,7 @@ class Talk extends Component {
         {this.renderFormHeader()}
         <div className={styles.formDivider} />
         <TalkPhoneField
+          rtl={i18n.isRTL()}
           label={phoneLabel}
           required={true}
           onCountrySelect={this.handleCountrySelect}

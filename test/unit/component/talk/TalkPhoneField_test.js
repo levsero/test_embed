@@ -31,6 +31,7 @@ describe('Render phone field', () => {
       'component/Flag': { Flag: noopReactComponent() },
       'component/frame/gardenOverrides': { talkDropdownOverrides: {} },
       'component/talk/TalkCountryDropdown': { TalkCountryDropdown: noopReactComponent() },
+      'constants/shared': {},
       './talkCountries': {
         countriesByIso: {
           'US': { code: '1', name: 'United States' },
