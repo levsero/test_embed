@@ -50,18 +50,6 @@
   composes: u-marginBN from global;
 }
 
-.field {
-  composes: u-paddingVS u-paddingHM from global;
-}
-
-.fieldContainer:last-of-type {
-  margin-bottom: #{20/$font-size}rem !important;
-}
-
-.fieldInputMobile {
-  font-size: $font-size-lrg !important;
-}
-
 .loadingSpinner {
   composes: u-textCenter from global;
 }

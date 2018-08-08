@@ -1,5 +1,6 @@
 describe('ChatEmailTranscriptPopup component', () => {
   let ChatEmailTranscriptPopup,
+    mockShouldRenderErrorMessage,
     mockForm,
     mockFormValidity,
     ICONS;
@@ -8,6 +9,9 @@ describe('ChatEmailTranscriptPopup component', () => {
   const EMAIL_TRANSCRIPT_SUCCESS_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS_SCREEN';
   const EMAIL_TRANSCRIPT_FAILURE_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE_SCREEN';
   const EMAIL_TRANSCRIPT_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SCREEN';
+
+  const Message = noopReactComponent();
+  const TextField = noopReactComponent();
 
   const chatEmailTranscriptPopupPath = buildSrcPath('component/chat/ChatEmailTranscriptPopup');
   const sharedConstantsPath = buildSrcPath('constants/shared');
@@ -37,12 +41,20 @@ describe('ChatEmailTranscriptPopup component', () => {
         }
       },
       'constants/shared': {
-        ICONS
+        ICONS,
+        EMAIL_PATTERN: /.+/
       },
       'service/i18n': {
         i18n: {
           t: noop
         }
+      },
+      '@zendeskgarden/react-textfields': {
+        TextField,
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Textarea: noopReactComponent(),
+        Message
       },
       'src/redux/modules/chat/chat-screen-types': {
         EMAIL_TRANSCRIPT_LOADING_SCREEN: EMAIL_TRANSCRIPT_LOADING_SCREEN,
@@ -52,6 +64,10 @@ describe('ChatEmailTranscriptPopup component', () => {
       },
       'src/util/utils': {
         emailValid: () => true
+      },
+      'src/util/fields': {
+        shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
+        renderLabelText: () => 'someLabel'
       },
       'src/component/Icon': {
         Icon: noop
@@ -93,6 +109,7 @@ describe('ChatEmailTranscriptPopup component', () => {
 
   describe('handleSave', () => {
     let component,
+      mockState,
       rightCtaFnSpy;
 
     beforeEach(() => {
@@ -100,22 +117,43 @@ describe('ChatEmailTranscriptPopup component', () => {
 
       component = instanceRender(<ChatEmailTranscriptPopup rightCtaFn={rightCtaFnSpy} />);
 
-      component.setState({ formState: { email: 'bob@zd.com' } });
+      spyOn(component, 'setState');
+      component.state = mockState;
       component.handleSave({
         preventDefault: () => {}
       });
     });
 
-    it('calls props.rightCtaFn with form state name and email', () => {
-      expect(rightCtaFnSpy)
-        .toHaveBeenCalledWith('bob@zd.com');
+    describe('when form is invalid', () => {
+      beforeAll(() => {
+        mockState = {
+          formState: {},
+          valid: false
+        };
+      });
+
+      it('shows error', () => {
+        expect(component.setState)
+          .toHaveBeenCalledWith({ showErrors: true });
+      });
+    });
+
+    describe('when form is valid', () => {
+      beforeAll(() => {
+        mockState = { formState: { email: 'bob@zd.com' }, valid: true };
+      });
+
+      it('calls props.rightCtaFn with form state name and email', () => {
+        expect(rightCtaFnSpy)
+          .toHaveBeenCalledWith('bob@zd.com');
+      });
     });
   });
 
   describe('handleKeyPress', () => {
     const keyCodes = { enter: 13, a: 65 };
     let component;
-    let event = { keyCode: keyCodes.enter, preventDefault: () => false };
+    let event = { charCode: keyCodes.enter, preventDefault: () => false };
 
     beforeEach(() => {
       component = instanceRender(<ChatEmailTranscriptPopup />);
@@ -193,36 +231,7 @@ describe('ChatEmailTranscriptPopup component', () => {
 
   describe('render', () => {
     let component,
-      popupComponent,
       emailTranscript;
-
-    describe('when the form is valid', () => {
-      beforeEach(() => {
-        component = domRender(<ChatEmailTranscriptPopup />);
-        component.setState({ valid: true });
-
-        popupComponent = TestUtils.findRenderedComponentWithType(component, ChatPopup);
-      });
-
-      it('renders ChatPopup with rightCtaDisabled prop as false', () => {
-        expect(popupComponent.props.rightCtaDisabled)
-          .toBe(false);
-      });
-    });
-
-    describe('when the form is invalid', () => {
-      beforeEach(() => {
-        component = domRender(<ChatEmailTranscriptPopup />);
-        component.setState({ valid: false });
-
-        popupComponent = TestUtils.findRenderedComponentWithType(component, ChatPopup);
-      });
-
-      it('renders ChatPopup with rightCtaDisabled prop as true', () => {
-        expect(popupComponent.props.rightCtaDisabled)
-          .toBe(true);
-      });
-    });
 
     describe('renderSuccessScreen', () => {
       let response;
@@ -380,6 +389,33 @@ describe('ChatEmailTranscriptPopup component', () => {
         it('does not render form screen', () => {
           expect(response)
             .toEqual(null);
+        });
+      });
+    });
+
+    describe('renderEmailField', () => {
+      let result,
+        component;
+
+      beforeEach(() => {
+        component = instanceRender(<ChatEmailTranscriptPopup />);
+
+        result = component.renderEmailField();
+      });
+
+      it('renders a TextField component', () => {
+        expect(TestUtils.isElementOfType(result, TextField))
+          .toEqual(true);
+      });
+
+      describe('when invalid', () => {
+        beforeAll(() => {
+          mockShouldRenderErrorMessage = true;
+        });
+
+        it('renders field in an error state', () => {
+          expect(result.props.children[1].props.validation)
+            .toEqual('error');
         });
       });
     });
