@@ -3,7 +3,7 @@ import jsSha1 from 'sha1';
 
 import { document as doc,
   location } from 'utility/globals';
-import { EMAIL_PATTERN, PHONE_PATTERN } from 'constants/shared';
+import { EMAIL_PATTERN } from 'constants/shared';
 
 const zendeskStagingDomain = 'zd-staging';
 
@@ -113,23 +113,6 @@ function emailValid(email, options = { allowEmpty: false }) {
   return EMAIL_PATTERN.test(email) || validEmpty;
 }
 
-function phoneValid(phone, options = { allowEmpty: false }) {
-  const validEmpty = options.allowEmpty && phone === '';
-
-  return PHONE_PATTERN.test(phone) || validEmpty;
-}
-
-function isValidFieldValue(type, value) {
-  switch (type) {
-    case 'email':
-      return emailValid(value, { allowEmpty: true });
-    case 'tel':
-      return phoneValid(value, { allowEmpty: true });
-    default:
-      return true;
-  }
-}
-
 function referrerPolicyUrl(policy, url) {
   // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy#Examples
   // for reference on why each case does what it does
@@ -173,8 +156,6 @@ export {
   nowInSeconds,
   sha1,
   emailValid,
-  phoneValid,
-  isValidFieldValue,
   referrerPolicyUrl,
   getEnvironment
 };
