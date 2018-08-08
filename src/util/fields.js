@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
+import { i18n } from 'service/i18n';
 import { NestedDropdown } from 'component/field/NestedDropdown';
 import { isMobileBrowser,
   isLandscape } from 'utility/devices';
@@ -119,4 +120,19 @@ const getCustomFields = (customFields, formState, options = {}) => {
   };
 };
 
-export { getCustomFields };
+const shouldRenderErrorMessage = (value, required, showErrors, pattern) => {
+  const isRequiredCheckValid = !required || value;
+  const isPatternCheckValid = pattern ? pattern.test(value) : true;
+  const isValid = isRequiredCheckValid && isPatternCheckValid;
+
+  return !isValid && showErrors;
+};
+
+const renderLabelText = (label, required) => {
+  return required ? label : i18n.t('embeddable_framework.validation.label.optional', { label });
+}
+
+export {
+  getCustomFields,
+  shouldRenderErrorMessage,
+  renderLabelText };

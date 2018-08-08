@@ -2,8 +2,11 @@ import { Checkbox } from '@zendeskgarden/react-checkboxes';
 
 describe('fields', () => {
   let getCustomFields,
+    shouldRenderErrorMessage,
+    renderLabelText,
     mockLocaleIdValue;
 
+  const translateSpy = jasmine.createSpy('t').and.callFake(_.identity);
   const fieldsPath = buildSrcPath('util/fields');
   /* eslint-disable camelcase */
   const textFieldPayload = {
@@ -106,6 +109,10 @@ describe('fields', () => {
     editable_in_portal: true,
     description: 'subject description'
   };
+
+  const constantsPath = buildSrcPath('constants/shared');
+  let sharedConstants = requireUncached(constantsPath);
+  let EMAIL_PATTERN = sharedConstants.EMAIL_PATTERN;
   /* eslint-enable camelcase */
 
   beforeEach(() => {
@@ -128,7 +135,8 @@ describe('fields', () => {
       },
       'service/i18n': {
         i18n: {
-          getLocaleId: () => mockLocaleIdValue
+          getLocaleId: () => mockLocaleIdValue,
+          t: translateSpy
         }
       },
       'utility/devices': {
@@ -142,7 +150,10 @@ describe('fields', () => {
 
     mockery.registerAllowable(fieldsPath);
 
-    getCustomFields = requireUncached(fieldsPath).getCustomFields;
+    let fields = requireUncached(fieldsPath);
+    getCustomFields = fields.getCustomFields;
+    shouldRenderErrorMessage = fields.shouldRenderErrorMessage;
+    renderLabelText = fields.renderLabelText;
   });
 
   afterEach(() => {
@@ -448,6 +459,129 @@ describe('fields', () => {
           expect(message.props.children)
             .toEqual('this is the description');
         });
+      });
+    });
+  });
+
+  describe('shouldRenderErrorMessage', () => {
+    let result,
+      mockValue,
+      mockRequired,
+      mockShowErrors,
+      mockPattern;
+
+    beforeEach(() => {
+      result = shouldRenderErrorMessage(mockValue, mockRequired, mockShowErrors, mockPattern);
+    });
+
+    describe('showErrors', () => {
+      beforeAll(() => {
+        mockRequired = true;
+        mockPattern = false;
+        mockValue = null;
+      });
+
+      describe('when we should show errors', () => {
+        beforeAll(() => {
+          mockShowErrors = true;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when we should not show errors', () => {
+        beforeAll(() => {
+          mockShowErrors = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('isValid', () => {
+      beforeAll(() => {
+        mockShowErrors = true;
+      });
+
+      describe('when field is invalid', () => {
+        describe('when field is required but no value provided', () => {
+          beforeAll(() => {
+            mockRequired = true;
+            mockValue = null;
+            mockPattern = null;
+          });
+
+          it('returns true', () => {
+            expect(result)
+              .toEqual(true);
+          });
+        });
+
+        describe('field does not pass pattern test', () => {
+          beforeAll(() => {
+            mockRequired = false;
+            mockValue = 'taipan@@@@@@@@@zendesk.com';
+            mockPattern = EMAIL_PATTERN;
+          });
+
+          it('returns true', () => {
+            expect(result)
+              .toEqual(true);
+          });
+        });
+      });
+
+      describe('when field is valid', () => {
+        beforeAll(() => {
+          mockRequired = true;
+          mockValue = 'taipan@zendesk.com';
+          mockPattern = EMAIL_PATTERN;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+  });
+
+  describe('renderLabelText', () => {
+    let result,
+      mockLabel,
+      mockRequired;
+
+    beforeEach(() => {
+      result = renderLabelText(mockLabel, mockRequired);
+    });
+
+    describe('when field is required', () => {
+      beforeAll(() => {
+        mockLabel = 'yolo';
+        mockRequired = true;
+      });
+
+      it('returns just the label', () => {
+        expect(result)
+          .toEqual('yolo');
+      });
+    });
+
+    describe('when field is not required', () => {
+      beforeAll(() => {
+        mockLabel = 'yolo';
+        mockRequired = false;
+      });
+
+      it('calls i18n translate to include "optional" key', () => {
+        expect(translateSpy)
+          .toHaveBeenCalledWith('embeddable_framework.validation.label.optional', { label: 'yolo' });
       });
     });
   });
