@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
+import { TextField, Label, Input, Textarea, Message } from '@zendeskgarden/react-textfields';
 import {
   Select,
   SelectField,
   Label as SelectLabel,
+  Message as SelectMessage,
   Item } from '@zendeskgarden/react-select';
 
-import { EmailField } from 'component/field/EmailField';
 import { Button } from '@zendeskgarden/react-buttons';
 import { UserProfile } from 'component/chat/UserProfile';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -18,6 +18,8 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './PrechatForm.scss';
+import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
+import { EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -57,7 +59,8 @@ export class PrechatForm extends Component {
     super();
 
     this.state = {
-      valid: false
+      valid: false,
+      showErrors: false
     };
 
     this.form = null;
@@ -88,6 +91,13 @@ export class PrechatForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
+
+    if (!this.state.valid) {
+      this.setState({ showErrors: true });
+      return;
+    }
+    this.setState({ showErrors: false });
+
     const { authenticated: isSociallyAuthenticated } = this.props.socialLogin;
     const { visitor, isAuthenticated } = this.props;
     const formData = isSociallyAuthenticated || isAuthenticated
@@ -129,6 +139,13 @@ export class PrechatForm extends Component {
     this.handleFormChange();
   }
 
+  renderErrorMessage(Component, value, required, errorString, pattern) {
+    if (shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)) {
+      return <Component validation='error'>{i18n.t(errorString)}</Component>;
+    }
+    return null;
+  }
+
   renderGreetingMessage = () => {
     const { greetingMessage } = this.props;
 
@@ -143,23 +160,30 @@ export class PrechatForm extends Component {
     if (!loginEnabled) return null;
 
     const nameData = form.name;
+    const value = formState.name;
     const required = this.isFieldRequired(nameData.required);
     const fieldContainerStyle = classNames({
       [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0,
       [styles.textField]: _.size(authUrls) === 0
     });
 
+    const error = this.renderErrorMessage(Message, value, required, 'embeddable_framework.validation.error.name');
+    const validationProps = error ? { validation: 'error' } : {};
+
     return (
       <TextField className={fieldContainerStyle}>
         <Label>
-          {i18n.t('embeddable_framework.common.textLabel.name')}
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.name'), required)}
         </Label>
         <Input
           autoComplete='off'
+          aria-required={required}
           required={required}
-          value={formState.name}
+          value={value}
           onChange={() => {}}
-          name={nameData.name} />
+          name={nameData.name}
+          {...validationProps} />
+        {error}
       </TextField>
     );
   }
@@ -169,13 +193,27 @@ export class PrechatForm extends Component {
 
     const emailData = this.props.form.email;
     const required = this.isFieldRequired(emailData.required);
+    const value = this.props.formState.email;
+
+    const error = this.renderErrorMessage(Message, value,
+      required, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
+    const validationProps = error ? { validation: 'error' } : {};
 
     return (
-      <EmailField
-        label={i18n.t('embeddable_framework.common.textLabel.email')}
-        value={this.props.formState.email}
-        name={emailData.name}
-        required={required} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.email'), required)}
+        </Label>
+        <Input
+          required={required}
+          aria-required={required}
+          value={value}
+          onChange={() => {}}
+          type='email'
+          name={emailData.name}
+          {...validationProps} />
+        {error}
+      </TextField>
     );
   }
 
@@ -184,20 +222,26 @@ export class PrechatForm extends Component {
 
     if (!this.props.loginEnabled || phoneData.hidden) return null;
 
-    const phonePattern = '[0-9]+'; // taken from Chat SDK
+    const value = this.props.formState.phone;
+    const required = phoneData.required;
+    const error = this.renderErrorMessage(Message, value, required,
+      'embeddable_framework.validation.error.phone', PHONE_PATTERN);
+    const validationProps = error ? { validation: 'error' } : {};
 
     return (
-      <TextField className={styles.textField}>
+      <TextField>
         <Label>
-          {i18n.t('embeddable_framework.common.textLabel.phone_number')}
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.phone_number'), required)}
         </Label>
         <Input
-          required={phoneData.required}
-          value={this.props.formState.phone}
+          required={required}
+          aria-required={required}
+          value={value}
           onChange={() => {}}
           type='tel'
-          pattern={phonePattern}
-          name={phoneData.name} />
+          name={phoneData.name}
+          {...validationProps} />
+        {error}
       </TextField>
     );
   }
@@ -205,18 +249,25 @@ export class PrechatForm extends Component {
   renderMessageField = () => {
     const messageData = this.props.form.message;
     const required = this.isFieldRequired(messageData.required);
+    const value = this.props.formState.message;
+    const error = this.renderErrorMessage(Message, value,
+      required, 'embeddable_framework.validation.error.message');
+    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
         <Label>
-          {i18n.t('embeddable_framework.common.textLabel.message')}
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.message'), required)}
         </Label>
         <Textarea
           required={required}
-          value={this.props.formState.message}
+          aria-required={required}
+          value={value}
           onChange={() => {}}
           rows='4'
-          name={messageData.name} />
+          name={messageData.name}
+          {...validationProps} />
+        {error}
       </TextField>
     );
   }
@@ -231,24 +282,32 @@ export class PrechatForm extends Component {
     });
 
     const selectedDepartment = this.findDepartment(departments, this.props.formState.department);
+    const required = departmentSettings.required;
+    const value = selectedDepartment.id ? selectedDepartment.id.toString() : null;
+    const error = this.renderErrorMessage(SelectMessage, value,
+      required, 'embeddable_framework.validation.error.department');
+    const validationProps = error ? { validation: 'error' } : {};
 
     return (
-      <SelectField className={styles.textField}>
+      <SelectField>
         <SelectLabel>
           {departmentSettings.label}
         </SelectLabel>
         <Select
-          required={departmentSettings.required}
+          required={required}
+          aria-required={required}
           placeholder={i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
           name='department'
-          selectedKey={selectedDepartment.id}
+          selectedKey={value}
           appendToNode={this.props.getFrameContentDocument().body}
           onChange={this.handleSelectChange}
           popperModifiers={{ flip: { enabled: false }, preventOverflow: { escapeWithReference: true } }}
           dropdownProps={{ style: { maxHeight: '140px', overflow: 'auto' } }}
-          options={options}>
+          options={options}
+          {...validationProps}>
           {selectedDepartment.name}
         </Select>
+        {error}
       </SelectField>
     );
   }

@@ -1,5 +1,6 @@
 describe('PrechatForm component', () => {
   let PrechatForm,
+    mockShouldRenderErrorMessage,
     mockFormValidity;
   const PrechatFormPath = buildSrcPath('component/chat/prechat/PrechatForm');
   const UserProfile = noopReactComponent();
@@ -8,7 +9,7 @@ describe('PrechatForm component', () => {
   const TextField = noopReactComponent();
   const SelectField = noopReactComponent();
   const Item = noopReactComponent();
-  const EmailField = noopReactComponent();
+  const Message = noopReactComponent();
 
   const mockFormProp = {
     name: { name: 'name', required: true },
@@ -46,10 +47,13 @@ describe('PrechatForm component', () => {
           mobileContainer: 'mobileContainerClass'
         }
       },
+      'src/constants/shared': {
+        EMAIL_PATTERN: /.+/,
+        PHONE_PATTERN: /.+/
+      },
       '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
       },
-      'component/field/EmailField': { EmailField },
       'component/chat/UserProfile': { UserProfile },
       'service/i18n': {
         i18n: {
@@ -61,7 +65,8 @@ describe('PrechatForm component', () => {
         TextField,
         Label: noopReactComponent(),
         Input: noopReactComponent(),
-        Textarea: noopReactComponent()
+        Textarea: noopReactComponent(),
+        Message
       },
       '@zendeskgarden/react-select': {
         SelectField,
@@ -70,7 +75,11 @@ describe('PrechatForm component', () => {
         Select: noopReactComponent()
       },
       'component/container/ScrollContainer': { ScrollContainer },
-      'component/ZendeskLogo': { ZendeskLogo }
+      'component/ZendeskLogo': { ZendeskLogo },
+      'src/util/fields': {
+        shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
+        renderLabelText: () => 'someLabel'
+      }
     });
 
     mockery.registerAllowable(PrechatFormPath);
@@ -243,6 +252,7 @@ describe('PrechatForm component', () => {
 
   describe('renderPhoneField', () => {
     let result,
+      mockRenderErrorMessage,
       mockHidden;
 
     beforeEach(() => {
@@ -255,6 +265,7 @@ describe('PrechatForm component', () => {
         <PrechatForm form={mockForm} />
       );
 
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
       result = component.renderPhoneField();
     });
 
@@ -292,6 +303,28 @@ describe('PrechatForm component', () => {
           .toBe(null);
       });
     });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toBeFalsy();
+      });
+    });
   });
 
   describe('renderUserProfile', () => {
@@ -320,12 +353,14 @@ describe('PrechatForm component', () => {
   describe('renderNameField', () => {
     let result,
       component,
+      mockRenderErrorMessage,
       componentArgs;
 
     beforeEach(() => {
       component = instanceRender(<PrechatForm {...componentArgs} />);
 
       spyOn(component, 'isFieldRequired');
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
 
       result = component.renderNameField();
     });
@@ -392,11 +427,34 @@ describe('PrechatForm component', () => {
           .not.toContain('nameFieldWithSocialLoginClass');
       });
     });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toBeFalsy();
+      });
+    });
   });
 
   describe('renderEmailField', () => {
     let result,
       node,
+      mockRenderErrorMessage,
       component;
 
     beforeEach(() => {
@@ -408,12 +466,13 @@ describe('PrechatForm component', () => {
       component = instanceRender(<PrechatForm form={mockForm} />);
 
       spyOn(component, 'isFieldRequired');
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
 
       result = component.renderEmailField();
     });
 
-    it('renders a EmailField component', () => {
-      expect(TestUtils.isElementOfType(result, EmailField))
+    it('renders a TextField component', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
         .toEqual(true);
     });
 
@@ -434,10 +493,33 @@ describe('PrechatForm component', () => {
           .toBe(null);
       });
     });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toBeFalsy();
+      });
+    });
   });
 
   describe('renderMessageField', () => {
     let result,
+      mockRenderErrorMessage,
       component;
 
     beforeEach(() => {
@@ -449,6 +531,7 @@ describe('PrechatForm component', () => {
       component = instanceRender(<PrechatForm form={mockForm} />);
 
       spyOn(component, 'isFieldRequired');
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
 
       result = component.renderMessageField();
     });
@@ -461,6 +544,28 @@ describe('PrechatForm component', () => {
     it('calls isFieldRequired with expected arguments', () => {
       expect(component.isFieldRequired)
         .toHaveBeenCalledWith(true);
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toBeFalsy();
+      });
     });
   });
 
@@ -616,6 +721,7 @@ describe('PrechatForm component', () => {
       onFormCompletedSpy,
       mockSocialLogin,
       mockIsAuthenticated,
+      mockState = { valid: true },
       mockVisitor;
     const formState = {
       name: 'someName',
@@ -635,7 +741,35 @@ describe('PrechatForm component', () => {
           socialLogin={mockSocialLogin}
         />
       );
+      spyOn(component, 'setState');
+      component.state = mockState;
       component.handleFormSubmit({ preventDefault: noop });
+    });
+
+    describe('when form is invalid', () => {
+      beforeAll(() => {
+        mockState = {
+          valid: false
+        };
+      });
+
+      it('shows error', () => {
+        expect(component.setState)
+          .toHaveBeenCalledWith({ showErrors: true });
+      });
+    });
+
+    describe('when form is valid', () => {
+      beforeAll(() => {
+        mockState = {
+          valid: true
+        };
+      });
+
+      it('does not show error', () => {
+        expect(component.setState)
+          .toHaveBeenCalledWith({ showErrors: false });
+      });
     });
 
     describe('when not socially logged in', () => {
