@@ -171,14 +171,14 @@ describe('SubmitTicketForm component', () => {
     mockery.disable();
   });
 
-  it('should display form title', () => {
+  it('displays form title', () => {
     domRender(<SubmitTicketForm formTitleKey='testTitle' />);
 
     expect(document.getElementById('formTitle').innerHTML)
       .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
   });
 
-  it('should call i18n.t with the right parameter to set the form title', () => {
+  it('calls i18n.t with the right parameter to set the form title', () => {
     const titleKey = 'foo bar';
 
     spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
@@ -189,7 +189,7 @@ describe('SubmitTicketForm component', () => {
       .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
   });
 
-  it('should correctly render form with noValidate attribute', () => {
+  it('correctly renders form with noValidate attribute', () => {
     const submitTicketForm = domRender(<SubmitTicketForm />);
 
     expect(ReactDOM.findDOMNode(submitTicketForm).getAttribute('novalidate'))
@@ -261,7 +261,7 @@ describe('SubmitTicketForm component', () => {
       submitTicketForm.clear();
     });
 
-    it('should clear all fields other then name and email', () => {
+    it('clears all fields other then name and email', () => {
       expect(mockFormState)
         .toEqual(expectedFormState);
     });
@@ -271,7 +271,7 @@ describe('SubmitTicketForm component', () => {
         .toHaveBeenCalled();
     });
 
-    it("should reset the button to it's initial state", () => {
+    it("resets the button to it's initial state", () => {
       expect(submitTicketForm.state.buttonMessage)
         .toEqual('embeddable_framework.submitTicket.form.submitButton.label.send');
     });
@@ -289,12 +289,12 @@ describe('SubmitTicketForm component', () => {
         submitTicketForm.clear();
       });
 
-      it('should clear all fields other then name and email', () => {
+      it('clears all fields other then name and email', () => {
         expect(mockFormState)
           .toEqual(expectedFormState);
       });
 
-      it('should clear the attachments list', () => {
+      it('clears the attachments list', () => {
         expect(mockAttachmentsListClear)
           .toHaveBeenCalled();
       });
@@ -313,7 +313,7 @@ describe('SubmitTicketForm component', () => {
         result = submitTicketForm.renderSubjectField();
       });
 
-      it('should render the subject field', () => {
+      it('renders the subject field', () => {
         const labelElement = result.props.children[0];
 
         expect(labelElement.props.children)
@@ -328,7 +328,7 @@ describe('SubmitTicketForm component', () => {
         result = submitTicketForm.renderSubjectField();
       });
 
-      it('should not render the subject field', () => {
+      it('does not render the subject field', () => {
         expect(result)
           .toBeNull();
       });
@@ -360,21 +360,21 @@ describe('SubmitTicketForm component', () => {
       formElements = component.refs.formWrapper.children;
     });
 
-    it('should render the name field', () => {
+    it('renders the name field', () => {
       const nameField = formElements[1].firstChild; // first field in form
 
       expect(nameField.innerHTML)
         .toBe('embeddable_framework.submitTicket.field.name.label');
     });
 
-    it('should render the email field', () => {
+    it('renders the email field', () => {
       const emailField = formElements[2].firstChild; // second field in form
 
       expect(emailField.innerHTML)
         .toBe('embeddable_framework.form.field.email.label');
     });
 
-    it('should render the extra fields defined in the ticket form', () => {
+    it('renders the extra fields defined in the ticket form', () => {
       expect(formElements[3].getAttribute('name'))
         .toBe('1');
       expect(formElements[4].getAttribute('name'))
@@ -383,7 +383,7 @@ describe('SubmitTicketForm component', () => {
         .toBe('4');
     });
 
-    it('should not render any fields not defined in the ticket form', () => {
+    it('does not render any fields not defined in the ticket form', () => {
       expect(formElements.length)
         .not.toBe(4);
     });
@@ -514,7 +514,7 @@ describe('SubmitTicketForm component', () => {
     });
 
     describe('when given a value that is not an array of items', () => {
-      it('should return false', () => {
+      it('returns false', () => {
         const subjects = [false, 1, 'Brenda', new Date(), { id: 123, prefill: '' }, []];
 
         subjects.forEach((subject) => {
@@ -525,7 +525,7 @@ describe('SubmitTicketForm component', () => {
     });
 
     describe('when given an array of items', () => {
-      it('should return true', () => {
+      it('returns true', () => {
         expect(submitTicketForm.isPrefillValid([1,2,3]))
           .toEqual(true);
       });
@@ -562,7 +562,7 @@ describe('SubmitTicketForm component', () => {
       ];
 
       describe('with existing ids in both data sets', () => {
-        it('should not overwrite pre-fill field data', () => {
+        it('does not overwrite pre-fill field data', () => {
           const mockPrefillFields = [
             { id: 123, prefill: { '*': 'Bobdrian' } },
             { id: '456', prefill: { '*': 'Anthony the artist' } }
@@ -575,7 +575,7 @@ describe('SubmitTicketForm component', () => {
       });
 
       describe('with non-existing ids in both data sets', () => {
-        it('should merge pre-fill field data that is missing', () => {
+        it('merges pre-fill field data that is missing', () => {
           const mockPrefillFields = [
             { id: 123, prefill: { '*': 'Terence' } },
             { id: '2983745', prefill: { '*': 'Mike' } },
@@ -642,7 +642,7 @@ describe('SubmitTicketForm component', () => {
     });
 
     describe('when given an empty pre-fill data', () => {
-      it('should return an empty array', () => {
+      it('returns an empty array', () => {
         const result = submitTicketForm.filterPrefillFields(mockTicketFields);
 
         expect(result)
@@ -660,7 +660,7 @@ describe('SubmitTicketForm component', () => {
         { 'Ramza': 'Beoulve', prefill: { '*': 'foo', 'en-GB': 'bar' } }
       ];
 
-      it('should return an empty array', () => {
+      it('returns an empty array', () => {
         mockPrefillList.forEach((prefill) => {
           const result = submitTicketForm.filterPrefillFields(mockTicketFields, prefill);
           const result2 = submitTicketForm.filterPrefillFields(mockTicketFields, [], prefill);
@@ -685,7 +685,7 @@ describe('SubmitTicketForm component', () => {
         ]
       };
 
-      it('should not pre-fill the ticket fields', () => {
+      it('does not pre-fill the ticket fields', () => {
         const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefillTicketForm);
 
         expect(result)
@@ -700,7 +700,7 @@ describe('SubmitTicketForm component', () => {
         { id: 7777777, prefill: { '*': 324, 'en-GB': 10101001 } }
       ];
 
-      it('should return an array of valid pre-fill objects', () => {
+      it('returns an array of valid pre-fill objects', () => {
         const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefillTicketForm);
 
         expect(result)
@@ -758,7 +758,7 @@ describe('SubmitTicketForm component', () => {
           '8888888': 10101001
         }];
 
-        it('should pre-fill ticket fields in the ticket form', () => {
+        it('pre-fills ticket fields in the ticket form', () => {
           submitTicketForm.prefillFormState(mockTicketFields, mockPrefillTicketForm);
 
           expect(mockSetFormState.calls.mostRecent().args)
@@ -778,7 +778,7 @@ describe('SubmitTicketForm component', () => {
           '8888888': 324
         }];
 
-        it('should pre-fill ticket fields in the ticket form', () => {
+        it('pre-fills ticket fields in the ticket form', () => {
           mockRegistry['service/i18n'].i18n.getLocale = () => '*';
 
           submitTicketForm.prefillFormState(mockTicketFields, mockPrefillTicketForm);
