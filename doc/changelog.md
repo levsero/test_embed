@@ -1,4 +1,16 @@
 ## Changelog
+### 8 August 2018
+- Released a fix for customers still using the legacy snippet and who have a host-mapped domain hard-coded into their snippet. 
+
+### 6 August 2018
+- Executed a redirect from the legacy Web Widget snippet to the new snippet
+
+### 3 August 2018
+- Released a minor optimization of the Contextual Help experience.
+  - Widget now displays a visual indication when waiting for search results to be returned
+  - Widget now displays a message when Contextual Help search did not return any results
+
+
 ### 25 June 2018
 - Released minor changes to Web Widget design. Learn more [here](https://support.zendesk.com/hc/en-us/articles/360001558868-Update-to-Web-Widget-interface-and-experience).
   - Widget height is now fixed (except for initial Help Center search state). 
