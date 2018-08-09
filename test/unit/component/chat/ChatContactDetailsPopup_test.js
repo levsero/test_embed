@@ -3,6 +3,7 @@ describe('ChatContactDetailsPopup component', () => {
     mockForm,
     mockFormValidity,
     mockEmailValid,
+    mockShouldRenderErrorMessage,
     mockIsDefaultNickname,
     ICONS,
     EDIT_CONTACT_DETAILS_SCREEN,
@@ -11,6 +12,8 @@ describe('ChatContactDetailsPopup component', () => {
   const ChatContactDetailsPopupPath = buildSrcPath('component/chat/ChatContactDetailsPopup');
 
   const LoadingSpinner = noopReactComponent();
+  const Message = noopReactComponent();
+  const TextField = noopReactComponent();
 
   class ChatPopup extends Component {
     render() {
@@ -46,7 +49,8 @@ describe('ChatContactDetailsPopup component', () => {
         }
       },
       'constants/shared': {
-        ICONS
+        ICONS,
+        EMAIL_PATTERN: /.+/
       },
       'constants/chat': {
         EDIT_CONTACT_DETAILS_SCREEN,
@@ -56,7 +60,12 @@ describe('ChatContactDetailsPopup component', () => {
       'component/chat/ChatPopup': { ChatPopup },
       'component/loading/LoadingSpinner': { LoadingSpinner },
       'component/Icon': noopReactComponent(),
-      'component/field/EmailField': noopReactComponent(),
+      '@zendeskgarden/react-textfields': {
+        TextField,
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Message
+      },
       'service/i18n': {
         i18n: {
           t: noop
@@ -64,6 +73,10 @@ describe('ChatContactDetailsPopup component', () => {
       },
       'src/util/utils': {
         emailValid: () => mockEmailValid
+      },
+      'src/util/fields': {
+        shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
+        renderLabelText: () => 'someLabel'
       },
       'src/util/chat': {
         isDefaultNickname: () => mockIsDefaultNickname
@@ -104,6 +117,7 @@ describe('ChatContactDetailsPopup component', () => {
 
   describe('handleSave', () => {
     let component,
+      mockState,
       rightCtaFnSpy;
 
     beforeEach(() => {
@@ -111,30 +125,51 @@ describe('ChatContactDetailsPopup component', () => {
 
       component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
 
-      component.setState({ formState: { name: 'bob', email: 'bob@zd.com' } });
+      spyOn(component, 'setState');
+      component.state = mockState;
       component.handleSave();
     });
 
-    it('calls props.rightCtaFn with form state name and email', () => {
-      expect(rightCtaFnSpy)
-        .toHaveBeenCalledWith('bob', 'bob@zd.com');
-    });
-
-    describe('when there exists an activeElement', () => {
-      beforeEach(() => {
-        const mockActiveElement = domRender(<div />);
-
-        document.activeElement = mockActiveElement;
-
-        spyOn(document.activeElement, 'blur');
-
-        component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
-        component.handleSave();
+    describe('when form is invalid', () => {
+      beforeAll(() => {
+        mockState = {
+          formState: {},
+          valid: false
+        };
       });
 
-      it('calls blur on the activeElement', () => {
-        expect(document.activeElement.blur)
-          .toHaveBeenCalled();
+      it('shows error', () => {
+        expect(component.setState)
+          .toHaveBeenCalledWith({ showErrors: true });
+      });
+    });
+
+    describe('when form is valid', () => {
+      beforeAll(() => {
+        mockState = { valid: true, formState: { name: 'bob', email: 'bob@zd.com' } };
+      });
+
+      it('calls props.rightCtaFn with form state name and email', () => {
+        expect(rightCtaFnSpy)
+          .toHaveBeenCalledWith('bob', 'bob@zd.com');
+      });
+
+      describe('when there exists an activeElement', () => {
+        beforeEach(() => {
+          const mockActiveElement = domRender(<div />);
+
+          document.activeElement = mockActiveElement;
+
+          spyOn(document.activeElement, 'blur');
+
+          component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
+          component.handleSave();
+        });
+
+        it('calls blur on the activeElement', () => {
+          expect(document.activeElement.blur)
+            .toHaveBeenCalled();
+        });
       });
     });
   });
@@ -142,7 +177,7 @@ describe('ChatContactDetailsPopup component', () => {
   describe('handleKeyPress', () => {
     const keyCodes = { enter: 13, a: 65 };
     let component;
-    let event = { keyCode: keyCodes.enter, preventDefault: () => false };
+    let event = { charCode: keyCodes.enter, preventDefault: () => false };
 
     beforeEach(() => {
       component = instanceRender(<ChatContactDetailsPopup />);
@@ -302,8 +337,7 @@ describe('ChatContactDetailsPopup component', () => {
 
   describe('render', () => {
     let component,
-      renderedComponent,
-      popupComponent;
+      renderedComponent;
 
     describe('when method is called', () => {
       beforeEach(() => {
@@ -361,34 +395,6 @@ describe('ChatContactDetailsPopup component', () => {
       it('has an empty style in props.containerClasses', () => {
         expect(renderedComponent.props.containerClasses)
           .toEqual('');
-      });
-    });
-
-    describe('when the form is valid', () => {
-      beforeEach(() => {
-        component = domRender(<ChatContactDetailsPopup />);
-        component.setState({ valid: true });
-
-        popupComponent = TestUtils.findRenderedComponentWithType(component, ChatPopup);
-      });
-
-      it('renders ChatPopup with rightCtaDisabled prop as false', () => {
-        expect(popupComponent.props.rightCtaDisabled)
-          .toBe(false);
-      });
-    });
-
-    describe('when the form is invalid', () => {
-      beforeEach(() => {
-        component = domRender(<ChatContactDetailsPopup />);
-        component.setState({ valid: false });
-
-        popupComponent = TestUtils.findRenderedComponentWithType(component, ChatPopup);
-      });
-
-      it('renders ChatPopup with rightCtaDisabled prop as true', () => {
-        expect(popupComponent.props.rightCtaDisabled)
-          .toBe(true);
       });
     });
   });
@@ -495,6 +501,58 @@ describe('ChatContactDetailsPopup component', () => {
       it('passes the right height prop', () => {
         expect(loadingSpinner.props.height)
           .toEqual(32);
+      });
+    });
+  });
+
+  describe('renderEmailField', () => {
+    let result,
+      component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+      result = component.renderEmailField();
+    });
+
+    it('renders a TextField component', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
+        .toEqual(true);
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockShouldRenderErrorMessage = true;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+  });
+
+  describe('renderNameField', () => {
+    let result,
+      component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+      result = component.renderNameField();
+    });
+
+    it('renders a TextField component', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
+        .toEqual(true);
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockShouldRenderErrorMessage = true;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
       });
     });
   });
