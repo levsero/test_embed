@@ -85,8 +85,7 @@ describe('Submit ticket component', () => {
             );
           }
         },
-        MessageFieldset: noop,
-        EmailField: noop
+        MessageFieldset: noop
       },
       'component/field/SelectField': {
         SelectField: noopReactComponent()

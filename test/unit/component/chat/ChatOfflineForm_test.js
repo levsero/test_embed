@@ -6,7 +6,6 @@ describe('ChatOfflineForm component', () => {
 
   const Form = noopReactComponent();
   const Field = noopReactComponent();
-  const EmailField = noopReactComponent();
   const Button = noopReactComponent();
   const LoadingSpinner = noopReactComponent();
   const ChatOperatingHours = noopReactComponent();
@@ -64,9 +63,6 @@ describe('ChatOfflineForm component', () => {
       },
       'component/field/Field': {
         Field: Field
-      },
-      'component/field/EmailField': {
-        EmailField: EmailField
       },
       '@zendeskgarden/react-buttons': {
         Button: Button

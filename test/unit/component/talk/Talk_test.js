@@ -27,7 +27,6 @@ describe('Talk component', () => {
       'React': React,
       '@zendeskgarden/react-buttons': { Button: noopReactComponent },
       'component/form/Form': { Form: noopReactComponent },
-      'component/field/EmailField': { EmailField: noopReactComponent },
       'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
       'component/Icon': { Icon },
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },

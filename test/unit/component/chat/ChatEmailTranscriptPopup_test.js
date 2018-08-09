@@ -33,13 +33,6 @@ describe('ChatEmailTranscriptPopup component', () => {
     initMockRegistry({
       'component/chat/ChatEmailTranscriptPopup.scss': { locals: {} },
       'component/chat/ChatPopup': { ChatPopup },
-      'component/field/EmailField': {
-        EmailField: class extends Component {
-          render() {
-            return this.props.input;
-          }
-        }
-      },
       'constants/shared': {
         ICONS,
         EMAIL_PATTERN: /.+/
