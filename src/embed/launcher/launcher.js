@@ -16,7 +16,6 @@ import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color/styles';
-import { transitionFactory } from 'service/transitionFactory';
 import { isMobileBrowser,
   getZoomSizingRatio } from 'utility/devices';
 import { renewToken } from 'src/redux/modules/base';
@@ -85,12 +84,6 @@ function create(name, config, reduxStore) {
     hideCloseButton: true,
     name: name,
     position: config.position,
-    transitions: {
-      upShow: transitionFactory.webWidget.launcherUpShow(),
-      downHide: transitionFactory.webWidget.launcherDownHide(),
-      downShow: transitionFactory.webWidget.launcherDownShow(),
-      upHide: transitionFactory.webWidget.launcherUpHide()
-    },
     visible: config.visible
   };
 

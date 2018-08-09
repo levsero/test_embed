@@ -188,9 +188,6 @@ describe('embed.webWidget', () => {
         authenticate: authenticateSpy,
         revokeToken: revokeTokenSpy
       },
-      'service/transitionFactory' : {
-        transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
-      },
       'lodash': _,
       'constants/chat': {
         SDK_ACTION_TYPE_PREFIX: 'websdk'

@@ -67,9 +67,6 @@ describe('embed.launcher', () => {
         getZoomSizingRatio: () => mockZoomSizingRatioValue
       },
       'lodash': _,
-      'service/transitionFactory' : {
-        transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
-      },
       'src/redux/modules/base': {
         renewToken: () => mockToken
       }
