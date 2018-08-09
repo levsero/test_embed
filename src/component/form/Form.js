@@ -73,7 +73,6 @@ export class Form extends Component {
         <Button
           primary={true}
           className={this.props.submitButtonClasses}
-          disabled={!this.state.valid}
           type='submit'>
           {this.props.submitButtonLabel}
         </Button>

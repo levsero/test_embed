@@ -9,6 +9,7 @@ describe('Render phone field', () => {
   const SelectContainer = noopReactComponent();
   const SelectView = noopReactComponent();
   const Dropdown = noopReactComponent();
+  const Message = noopReactComponent();
 
   mockCountries = ['US', 'AU', 'ZM', 'BB'];
 
@@ -28,8 +29,18 @@ describe('Render phone field', () => {
         SelectContainer,
         Dropdown
       },
+      '@zendeskgarden/react-textfields': {
+        Message,
+        FauxInput: noopReactComponent(),
+        Input: noopReactComponent()
+      },
       'component/Flag': { Flag: noopReactComponent() },
       'component/frame/gardenOverrides': { talkDropdownOverrides: {} },
+      'service/i18n': {
+        i18n: {
+          t: _.identity
+        }
+      },
       'component/talk/TalkCountryDropdown': { TalkCountryDropdown: noopReactComponent() },
       'constants/shared': {},
       './talkCountries': {
@@ -254,57 +265,86 @@ describe('Render phone field', () => {
     });
   });
 
-  describe('validate', () => {
-    let phoneField;
+  describe('renderErrorMessage', () => {
+    let result,
+      mockShowError,
+      mockState;
 
     beforeEach(() => {
-      phoneField = instanceRender(
-        <TalkPhoneField
-          getFrameContentDocument={() => document}
-          supportedCountries={mockCountries}
-          country='AU'
-          libphonenumber={libphonenumber} />
-      );
+      const component = instanceRender(<TalkPhoneField showError={mockShowError}
+        getFrameContentDocument={() => document}
+        label='Phone'
+        supportedCountries={['US', 'AU']}
+        country='AU'
+        value='+61430999721'
+        required={true}
+        libphonenumber={libphonenumber} />);
 
-      phoneField.phoneInput = { setCustomValidity: _.noop };
+      component.state = mockState;
+      result = component.renderErrorMessage();
     });
 
-    describe('when state.inputChangeTriggered is true', () => {
-      beforeEach(() => {
-        phoneField.setState({ inputChangeTriggered: true });
+    describe('showError is true', () => {
+      beforeAll(() => {
+        mockShowError = true;
       });
 
-      describe('when the phone number is valid', () => {
-        beforeEach(() => {
-          phoneField.onInputChange({ target: { value: '+61423098756' }});
+      describe('field is invalid', () => {
+        beforeAll(() => {
+          mockState = {
+            valid: false
+          };
         });
 
-        it('returns undefined', () => {
-          expect(phoneField.validate())
-            .toBe(undefined);
+        it('renders Message component', () => {
+          expect(TestUtils.isElementOfType(result, Message))
+            .toEqual(true);
         });
       });
 
-      describe('when the phone number is not valid', () => {
-        beforeEach(() => {
-          phoneField.onInputChange({ target: { value: '+6142309' }});
+      describe('field is valid', () => {
+        beforeAll(() => {
+          mockState = {
+            valid: true
+          };
         });
 
-        it('returns "error"', () => {
-          expect(phoneField.validate())
-            .toBe('error');
+        it('does not render Message component', () => {
+          expect(TestUtils.isElementOfType(result, Message))
+            .toEqual(false);
         });
       });
     });
 
-    describe('when state.inputChangeTriggered is false', () => {
-      beforeEach(() => {
-        phoneField.setState({ inputChangeTriggered: false });
+    describe('showError is false', () => {
+      beforeAll(() => {
+        mockShowError = false;
       });
 
-      it('returns undefined', () => {
-        expect(phoneField.validate())
-          .toBe(undefined);
+      describe('field is invalid', () => {
+        beforeAll(() => {
+          mockState = {
+            valid: false
+          };
+        });
+
+        it('does not render Message component', () => {
+          expect(TestUtils.isElementOfType(result, Message))
+            .toEqual(false);
+        });
+      });
+
+      describe('field is valid', () => {
+        beforeAll(() => {
+          mockState = {
+            valid: true
+          };
+        });
+
+        it('does not render Message component', () => {
+          expect(TestUtils.isElementOfType(result, Message))
+            .toEqual(false);
+        });
       });
     });
   });
@@ -340,7 +380,7 @@ describe('Render phone field', () => {
     });
 
     it('returns an internal field of talk phone field component with a name prop', () => {
-      expect(field.name)
+      expect(field.props.name)
         .toEqual('phone');
     });
 

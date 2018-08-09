@@ -106,10 +106,7 @@ describe('Form component', () => {
     let form;
 
     describe('submit button', () => {
-      let button,
-        formRenderer,
-        formInstance,
-        formRenderedOutput;
+      let button;
 
       describe('button props', () => {
         beforeEach(() => {
@@ -125,36 +122,6 @@ describe('Form component', () => {
         it('sets the type to submit', () => {
           expect(button.props.type)
             .toBe('submit');
-        });
-      });
-
-      describe('when the form is valid', () => {
-        beforeEach(() => {
-          formRenderer = getRenderer(<Form formState={{ email: 'a@a.com' }} submitButtonLabel='label' />);
-          formInstance = formRenderer.getMountedInstance();
-          formInstance.setState({ valid: true });
-          formRenderedOutput = formRenderer.getRenderOutput();
-          button = formRenderedOutput.props.children[1].props.children;
-        });
-
-        it('sets disabled to false', () => {
-          expect(button.props.disabled)
-            .toBe(false);
-        });
-      });
-
-      describe('when the form is invalid', () => {
-        beforeEach(() => {
-          formRenderer = getRenderer(<Form formState={{ email: 'a@a.com' }} submitButtonLabel='label' />);
-          formInstance = formRenderer.getMountedInstance();
-          formInstance.setState({ valid: false });
-          formRenderedOutput = formRenderer.getRenderOutput();
-          button = formRenderedOutput.props.children[1].props.children;
-        });
-
-        it('sets disabled to true', () => {
-          expect(button.props.disabled)
-            .toBe(true);
         });
       });
     });

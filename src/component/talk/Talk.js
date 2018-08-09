@@ -13,7 +13,7 @@ import { errorCodes } from './talkErrorCodes';
 import { ICONS } from 'src/constants/shared';
 import { Button } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
-import { TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
+import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -31,6 +31,7 @@ import { getEmbeddableConfig,
   getAverageWaitTimeEnabled,
   getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors';
 import { i18n } from 'service/i18n';
+import { renderLabelText, shouldRenderErrorMessage } from 'src/util/fields';
 
 import { locals as styles } from './Talk.scss';
 
@@ -90,9 +91,18 @@ class Talk extends Component {
   constructor() {
     super();
     this.form = null;
+
+    this.state = {
+      showErrors: false
+    };
   }
 
   handleFormCompleted = (formState) => {
+    if (!this.form.state.valid) {
+      this.setState({ showErrors: true });
+      return;
+    }
+    this.setState({ showErrors: false });
     const { serviceUrl, nickname } = this.props.talkConfig;
 
     this.props.submitTalkCallbackForm(formState, serviceUrl, nickname);
@@ -159,12 +169,75 @@ class Talk extends Component {
     );
   }
 
-  renderFormScreen = () => {
+  renderErrorMessage = (value, required, errorString, pattern) => {
+    if (shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)) {
+      return <Message validation='error'>{i18n.t(errorString)}</Message>;
+    }
+    return null;
+  }
+
+  renderPhoneField = () => {
     const phoneLabel = i18n.t('embeddable_framework.common.textLabel.phone_number');
+    const value = this.props.formState.phone;
+
+    return (
+      <TalkPhoneField
+        rtl={i18n.isRTL()}
+        label={renderLabelText(phoneLabel, true)}
+        required={true}
+        onCountrySelect={this.handleCountrySelect}
+        libphonenumber={this.props.libphonenumber}
+        getFrameContentDocument={this.props.getFrameContentDocument}
+        supportedCountries={this.props.embeddableConfig.supportedCountries}
+        country={this.props.formState.country}
+        value={value}
+        showError={this.state.showErrors} />
+    );
+  }
+
+  renderNameField = () => {
     const nameLabel = i18n.t('embeddable_framework.common.textLabel.name');
+    const isRequired = false;
+    const value = this.props.formState.name;
+    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.name');
+    const validationProps = error ? { validation: 'error' } : {};
+
+    return (
+      <TextField className={styles.textField}>
+        <Label>{renderLabelText(nameLabel, isRequired)}</Label>
+        <Input
+          value={value}
+          name='name'
+          {...validationProps}
+          required={isRequired} />
+        {error}
+      </TextField>
+    );
+  }
+
+  renderDescriptionField = () => {
     const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
+    const isRequired = false;
+    const value = this.props.formState.description;
+    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.message');
+    const validationProps = error ? { validation: 'error' } : {};
+
+    return (
+      <TextField className={styles.textField}>
+        <Label>{renderLabelText(descriptionLabel, isRequired)}</Label>
+        <Textarea
+          value={this.props.formState.value}
+          rows='4'
+          name='description'
+          required={isRequired}
+          {...validationProps} />
+        {error}
+      </TextField>
+    );
+  }
+
+  renderFormScreen = () => {
     const submitButtonStyles = classNames({ [styles.submitBtnMobile]: this.props.isMobile });
-    const { phone, name, description, country } = this.props.formState;
 
     return (
       <Form
@@ -179,29 +252,9 @@ class Talk extends Component {
         onChange={this.handleFormChange}>
         {this.renderFormHeader()}
         <div className={styles.formDivider} />
-        <TalkPhoneField
-          rtl={i18n.isRTL()}
-          label={phoneLabel}
-          required={true}
-          onCountrySelect={this.handleCountrySelect}
-          libphonenumber={this.props.libphonenumber}
-          getFrameContentDocument={this.props.getFrameContentDocument}
-          supportedCountries={this.props.embeddableConfig.supportedCountries}
-          country={country}
-          value={phone} />
-        <TextField className={styles.textField}>
-          <Label>{nameLabel}</Label>
-          <Input
-            value={name}
-            name='name' />
-        </TextField>
-        <TextField className={styles.textField}>
-          <Label>{descriptionLabel}</Label>
-          <Textarea
-            value={description}
-            rows='4'
-            name='description' />
-        </TextField>
+        {this.renderPhoneField()}
+        {this.renderNameField()}
+        {this.renderDescriptionField()}
         {this.renderErrorNotification()}
       </Form>
     );
