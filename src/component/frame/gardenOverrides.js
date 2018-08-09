@@ -89,10 +89,10 @@ const dropdownOverrides = isMobileBrowser() ? css`
 
 const genericOverrides = css`
   :hover, :focus {
-    border-color: ${zdColorGrey600} !important;
+    border-color: ${props => !props.validation && `${zdColorGrey600} !important;`};
   }
   :focus {
-    box-shadow: 0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;
+    box-shadow: ${props => !props.validation && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
   }
   box-shadow: ${props => props.focused && !props.validation && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
   border-color: ${props => props.focused && !props.validation && `${zdColorGrey600} !important`};
