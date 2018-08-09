@@ -147,7 +147,6 @@ describe('renderer', () => {
 
       expect(mockUpdateArturos)
         .toHaveBeenCalledWith({
-          newHeight: false,
           newChat: false
         });
 

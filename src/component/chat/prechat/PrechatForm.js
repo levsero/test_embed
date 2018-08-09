@@ -36,7 +36,6 @@ export class PrechatForm extends Component {
     isAuthenticated: PropTypes.bool.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
-    newHeight: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool
   };
 
@@ -358,7 +357,6 @@ export class PrechatForm extends Component {
           containerClasses={styles.scrollContainerContent}
           footerContent={this.renderSubmitButton()}
           fullscreen={this.props.isMobile}
-          newHeight={this.props.newHeight}
           scrollShadowVisible={true}>
           {this.renderGreetingMessage()}
           {this.renderUserProfile()}

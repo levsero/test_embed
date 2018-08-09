@@ -107,9 +107,6 @@ describe('HelpCenter component', () => {
           t: jasmine.createSpy()
         }
       },
-      'src/redux/modules/base/base-selectors': {
-        getNewHeight: () => true
-      },
       'utility/globals': {
         win: window,
         document: document
@@ -693,91 +690,41 @@ describe('HelpCenter component', () => {
       });
     });
 
-    describe('when newHeight is true', () => {
+    describe('when channelChoice is true', () => {
       beforeAll(() => {
-        componentProps = { newHeight: true };
+        componentProps = {
+          ...componentProps,
+          channelChoice: true
+        };
       });
 
-      describe('when channelChoice is true', () => {
-        beforeAll(() => {
-          componentProps = {
-            ...componentProps,
-            channelChoice: true
-          };
-        });
-
-        it('calls onNextClick', () => {
-          expect(mockOnNextClick)
-            .toHaveBeenCalled();
-        });
-
-        it('does not call updateChannelChoiceShown', () => {
-          expect(mockUpdateChannelChoiceShown)
-            .not.toHaveBeenCalled();
-        });
+      it('calls onNextClick', () => {
+        expect(mockOnNextClick)
+          .toHaveBeenCalled();
       });
 
-      describe('when channelChoice is false', () => {
-        beforeAll(() => {
-          componentProps = {
-            ...componentProps,
-            channelChoice: false
-          };
-        });
-
-        it('calls onNextClick', () => {
-          expect(mockOnNextClick)
-            .toHaveBeenCalled();
-        });
-
-        it('does not call updateChannelChoiceShown', () => {
-          expect(mockUpdateChannelChoiceShown)
-            .not.toHaveBeenCalled();
-        });
+      it('does not call updateChannelChoiceShown', () => {
+        expect(mockUpdateChannelChoiceShown)
+          .not.toHaveBeenCalled();
       });
     });
 
-    describe('when newHeight is false', () => {
+    describe('when channelChoice is false', () => {
       beforeAll(() => {
-        componentProps = { newHeight: false };
+        componentProps = {
+          ...componentProps,
+          channelChoice: false
+        };
       });
 
-      describe('when channelChoice is true', () => {
-        beforeAll(() => {
-          componentProps = {
-            ...componentProps,
-            channelChoice: true
-          };
-        });
-
-        it('does not call onNextClick', () => {
-          expect(mockOnNextClick)
-            .not.toHaveBeenCalled();
-        });
-
-        it('calls updateChannelChoiceShown with true', () => {
-          expect(mockUpdateChannelChoiceShown)
-            .toHaveBeenCalledWith(true);
-        });
+      it('calls onNextClick', () => {
+        expect(mockOnNextClick)
+          .toHaveBeenCalled();
       });
 
-      describe('when channelChoice is false', () => {
-        beforeAll(() => {
-          componentProps = {
-            ...componentProps,
-            channelChoice: false
-          };
-        });
-
-        it('calls onNextClick', () => {
-          expect(mockOnNextClick)
-            .toHaveBeenCalled();
-        });
-
-        it('does not call updateChannelChoiceShown', () => {
-          expect(mockUpdateChannelChoiceShown)
-            .not.toHaveBeenCalled();
-        });
+      it('does not call updateChannelChoiceShown', () => {
+        expect(mockUpdateChannelChoiceShown)
+          .not.toHaveBeenCalled();
       });
     });
   });

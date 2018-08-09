@@ -79,8 +79,7 @@ class PrechatScreen extends Component {
     socialLogin: PropTypes.object.isRequired,
     loginSettings: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
-    newHeight: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -142,8 +141,7 @@ class PrechatScreen extends Component {
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
-        fullscreen={this.props.isMobile}
-        newHeight={this.props.newHeight}>
+        fullscreen={this.props.isMobile}>
         <ChatOfflineMessageForm
           offlineMessage={this.props.offlineMessage}
           onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)} />
@@ -170,7 +168,6 @@ class PrechatScreen extends Component {
         visitor={this.props.visitor}
         onFormCompleted={this.onPrechatFormComplete}
         isMobile={this.props.isMobile}
-        newHeight={this.props.newHeight}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
@@ -181,8 +178,7 @@ class PrechatScreen extends Component {
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
-        fullscreen={this.props.isMobile}
-        newHeight={this.props.newHeight}>
+        fullscreen={this.props.isMobile}>
         <LoadingSpinner className={styles.loadingSpinner} />
       </ScrollContainer>
     );

@@ -423,14 +423,12 @@ describe('Talk component', () => {
     let talk,
       result,
       mockScreen,
-      mockNewHeight,
       mockHideZendeskLogo,
       mockIsMobile;
 
     beforeEach(() => {
       talk = instanceRender(
         <Talk
-          newHeight={mockNewHeight}
           screen={mockScreen}
           isMobile={mockIsMobile}
           hideZendeskLogo={mockHideZendeskLogo} />
@@ -449,20 +447,8 @@ describe('Talk component', () => {
       });
     });
 
-    describe('when newHeight is false', () => {
-      beforeAll(() => {
-        mockNewHeight = false;
-      });
-
-      it('does not render footer content', () => {
-        expect(result)
-          .toBeFalsy();
-      });
-    });
-
     describe('when footer content required', () => {
       beforeAll(() => {
-        mockNewHeight = true;
         mockScreen = successNotificationScreen;
       });
 
@@ -625,37 +611,6 @@ describe('Talk component', () => {
       });
     });
 
-    describe('newHeight', () => {
-      let mockNewHeight;
-
-      beforeEach(() => {
-        talk = instanceRender(<Talk newHeight={mockNewHeight} />);
-        result = talk.render();
-      });
-
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          mockNewHeight = true;
-        });
-
-        it('does not render scrollContainer styles', () => {
-          expect(result.props.children[0].props.containerClasses)
-            .toEqual('');
-        });
-      });
-
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          mockNewHeight = false;
-        });
-
-        it('renders scrollContainer styles', () => {
-          expect(result.props.children[0].props.containerClasses)
-            .toEqual('scrollContainer');
-        });
-      });
-    });
-
     describe('when not on mobile', () => {
       beforeEach(() => {
         talk = domRender(<Talk />);
@@ -815,7 +770,8 @@ describe('Talk component', () => {
 
   describe('renderPhoneOnlyScreen', () => {
     let config,
-      formatPhoneNumberSpy;
+      formatPhoneNumberSpy,
+      result;
 
     beforeEach(() => {
       config = { phoneNumber: '+61434032660' };
@@ -824,7 +780,7 @@ describe('Talk component', () => {
       const talk = instanceRender(<Talk embeddableConfig={config} />);
 
       talk.formatPhoneNumber = formatPhoneNumberSpy;
-      talk.renderPhoneOnlyScreen();
+      result = talk.renderPhoneOnlyScreen();
     });
 
     it('formats the phone number', () => {
@@ -832,80 +788,29 @@ describe('Talk component', () => {
         .toHaveBeenCalledWith(config.phoneNumber);
     });
 
-    describe('newHeight', () => {
-      let mockNewHeight,
-        result;
+    it('renders new message string', () => {
+      expect(result.props.children[1].props.children)
+        .toEqual('embeddable_framework.talk.phoneOnly.new_message');
+    });
 
-      beforeEach(() => {
-        const talk = instanceRender(<Talk newHeight={mockNewHeight} />);
-
-        result = talk.renderPhoneOnlyScreen();
-      });
-
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          mockNewHeight = true;
-        });
-
-        it('renders new message string', () => {
-          expect(result.props.children[1].props.children)
-            .toEqual('embeddable_framework.talk.phoneOnly.new_message');
-        });
-
-        it('renders talk icon', () => {
-          expect(TestUtils.isElementOfType(result.props.children[0], Icon))
-            .toEqual(true);
-        });
-      });
-
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          mockNewHeight = false;
-        });
-
-        it('renders old message string', () => {
-          expect(result.props.children[1].props.children)
-            .toEqual('embeddable_framework.talk.phoneOnly.message');
-        });
-
-        it('does not render talk icon', () => {
-          expect(TestUtils.isElementOfType(result.props.children[0], Icon))
-            .toEqual(false);
-        });
-      });
+    it('renders talk icon', () => {
+      expect(TestUtils.isElementOfType(result.props.children[0], Icon))
+        .toEqual(true);
     });
   });
 
   describe('renderSuccessNotificationScreen', () => {
-    let mockNewHeight,
-      result,
+    let result,
       talk;
 
     beforeEach(() => {
-      talk = instanceRender(<Talk newHeight={mockNewHeight} />);
+      talk = instanceRender(<Talk />);
       result = talk.renderSuccessNotificationScreen();
     });
 
-    describe('when newHeight is true', () => {
-      beforeAll(() => {
-        mockNewHeight = true;
-      });
-
-      it('should render SuccessNotification component', () => {
-        expect(TestUtils.isElementOfType(result, SuccessNotification))
-          .toEqual(true);
-      });
-    });
-
-    describe('when newHeight is false', () => {
-      beforeAll(() => {
-        mockNewHeight = false;
-      });
-
-      it('should render original sucess notification', () => {
-        expect(TestUtils.isElementOfType(result, 'div'))
-          .toEqual(true);
-      });
+    it('renders SuccessNotification component', () => {
+      expect(TestUtils.isElementOfType(result, SuccessNotification))
+        .toEqual(true);
     });
   });
 

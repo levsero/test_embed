@@ -19,8 +19,7 @@ export class ChannelChoicePopupMobile extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool,
-    newHeight: PropTypes.bool
+    chatEnabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -29,8 +28,7 @@ export class ChannelChoicePopupMobile extends Component {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
-    chatEnabled: false,
-    newHeight: false
+    chatEnabled: false
   };
 
   handleContainerClick = (e) => e.stopPropagation();
@@ -59,8 +57,7 @@ export class ChannelChoicePopupMobile extends Component {
       onNextClick,
       talkAvailable,
       talkEnabled,
-      callbackEnabled,
-      newHeight } = this.props;
+      callbackEnabled } = this.props;
 
     return (
       <div onClick={this.handleContainerClick}>
@@ -74,8 +71,7 @@ export class ChannelChoicePopupMobile extends Component {
             talkAvailable={talkAvailable}
             talkEnabled={talkEnabled}
             buttonClasses={styles.innerItem}
-            labelClasses={styles.innerItemLabel}
-            newHeight={newHeight} />
+            labelClasses={styles.innerItemLabel} />
         </div>
         {this.renderCancelButton()}
       </div>

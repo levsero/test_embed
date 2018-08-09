@@ -10,7 +10,6 @@ export class ChannelChoiceMenu extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
-    newHeight: PropTypes.bool,
     chatAvailable: PropTypes.bool,
     buttonClasses: PropTypes.string,
     labelClasses: PropTypes.string,
@@ -27,8 +26,7 @@ export class ChannelChoiceMenu extends Component {
     talkEnabled: false,
     submitTicketAvailable: true,
     chatAvailable: false,
-    chatEnabled: false,
-    newHeight: false
+    chatEnabled: false
   };
 
   constructor(props) {
@@ -49,18 +47,16 @@ export class ChannelChoiceMenu extends Component {
   }
 
   renderTalkLabel = () => {
-    const { callbackEnabled, newHeight, talkAvailable } = this.props;
+    const { callbackEnabled, talkAvailable } = this.props;
     const optionLabel = (callbackEnabled)
       ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
       : i18n.t('embeddable_framework.channelChoice.button.label.call_us');
-    const offlineLabel = (newHeight)
-      ? (
-        <span>
-          <div className={styles.offlineLabelOption}>{optionLabel}</div>
-          <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
-        </span>
-      )
-      : i18n.t('embeddable_framework.channelChoice.button.label.talk_offline_v2');
+    const offlineLabel = (
+      <span>
+        <div className={styles.offlineLabelOption}>{optionLabel}</div>
+        <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
+      </span>
+    );
 
     return (talkAvailable)
       ? optionLabel
@@ -70,20 +66,14 @@ export class ChannelChoiceMenu extends Component {
   renderTalkButton = () => {
     if (!this.showInitialTalkOption) return null;
 
-    const { talkAvailable, newHeight, buttonClasses } = this.props;
-    const iconType = (newHeight) ? 'Icon--new-channelChoice-talk' : 'Icon--channelChoice-talk';
-    const iconStyle = classNames({
-      [styles.oldIcon]: !newHeight,
-      [styles.oldIconTalk]: !newHeight,
-      [styles.iconTalk]: newHeight,
-      [styles.newIcon]: newHeight && talkAvailable,
-      [styles.newIconDisabled]: newHeight && !talkAvailable
+    const { talkAvailable, buttonClasses } = this.props;
+    const iconStyle = classNames(styles.iconTalk, {
+      [styles.newIcon]: talkAvailable,
+      [styles.newIconDisabled]: !talkAvailable
     });
-    const buttonStyle = classNames(buttonClasses, {
-      [styles.btn]: newHeight,
-      [styles.btnEnabled]: newHeight && talkAvailable,
-      [styles.talkBtnDisabled]: !talkAvailable,
-      [styles.buttonTalk]: !newHeight
+    const buttonStyle = classNames(buttonClasses, styles.btn, {
+      [styles.btnEnabled]: talkAvailable,
+      [styles.talkBtnDisabled]: !talkAvailable
     });
 
     return (
@@ -95,7 +85,7 @@ export class ChannelChoiceMenu extends Component {
           onClick={this.handleNextClick('talk')}
           iconClasses={iconStyle}
           label={this.renderTalkLabel()}
-          icon={iconType} />
+          icon={'Icon--new-channelChoice-talk'} />
       </li>
     );
   }
@@ -103,17 +93,16 @@ export class ChannelChoiceMenu extends Component {
   renderSubmitTicketButton = () => {
     if (!this.props.submitTicketAvailable) return null;
 
-    const { newHeight, buttonClasses } = this.props;
-    const iconType = (newHeight) ? 'Icon--new-channelChoice-contactForm' : 'Icon--channelChoice-contactForm';
-    const iconStyle = classNames({
-      [styles.oldIcon]: !newHeight,
-      [styles.newIcon]: newHeight,
-      [styles.iconSubmitTicket]: newHeight
-    });
-    const buttonStyle = classNames(buttonClasses, {
-      [styles.btn]: newHeight,
-      [styles.btnEnabled]: newHeight
-    });
+    const { buttonClasses } = this.props;
+    const iconStyle = classNames(
+      styles.newIcon,
+      styles.iconSubmitTicket
+    );
+    const buttonStyle = classNames(
+      buttonClasses,
+      styles.btn,
+      styles.btnEnabled
+    );
 
     return (
       <li>
@@ -123,22 +112,20 @@ export class ChannelChoiceMenu extends Component {
           labelClassName={this.props.labelClasses}
           onClick={this.handleNextClick('ticketSubmissionForm')}
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-          icon={iconType} />
+          icon={'Icon--new-channelChoice-contactForm'} />
       </li>
     );
   }
 
   renderChatLabel = () => {
-    const { chatAvailable, newHeight } = this.props;
+    const { chatAvailable } = this.props;
     const optionLabel = i18n.t('embeddable_framework.common.button.chat');
-    const offlineLabel = (newHeight)
-      ? (
-        <span>
-          <div className={styles.offlineLabelOption}>{optionLabel}</div>
-          <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
-        </span>
-      )
-      : i18n.t('embeddable_framework.channelChoice.button.label.chat_offline_v2');
+    const offlineLabel = (
+      <span>
+        <div className={styles.offlineLabelOption}>{optionLabel}</div>
+        <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
+      </span>
+    );
 
     return (chatAvailable)
       ? optionLabel
@@ -148,17 +135,13 @@ export class ChannelChoiceMenu extends Component {
   renderChatButton = () => {
     if (!this.showInitialChatOption) return null;
 
-    const { chatAvailable, newHeight, buttonClasses } = this.props;
-    const iconType = (newHeight) ? 'Icon--new-channelChoice-chat' : 'Icon--chat';
-    const iconStyle = classNames({
-      [styles.oldIcon]: !newHeight,
-      [styles.iconChat]: newHeight,
-      [styles.newIcon]: newHeight && chatAvailable,
-      [styles.newIconDisabled]: newHeight && !chatAvailable
+    const { chatAvailable, buttonClasses } = this.props;
+    const iconStyle = classNames(styles.iconChat, {
+      [styles.newIcon]: chatAvailable,
+      [styles.newIconDisabled]: !chatAvailable
     });
-    const buttonStyle = classNames(buttonClasses, {
-      [styles.btn]: newHeight,
-      [styles.btnEnabled]: newHeight && chatAvailable,
+    const buttonStyle = classNames(buttonClasses, styles.btn, {
+      [styles.btnEnabled]: chatAvailable,
       [styles.chatBtnDisabled]: !chatAvailable
     });
 
@@ -171,7 +154,7 @@ export class ChannelChoiceMenu extends Component {
           labelClassName={this.props.labelClasses}
           onClick={this.handleChatClick()}
           label={this.renderChatLabel()}
-          icon={iconType} />
+          icon={'Icon--new-channelChoice-chat'} />
       </li>
     );
   }

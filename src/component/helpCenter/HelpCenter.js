@@ -66,7 +66,6 @@ const mapStateToProps = (state) => {
 
 class HelpCenter extends Component {
   static propTypes = {
-    newHeight: PropTypes.bool.isRequired,
     activeArticle: PropTypes.object,
     buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
@@ -145,8 +144,7 @@ class HelpCenter extends Component {
     updateChannelChoiceShown: () => {},
     handleSearchFieldChange: () => {},
     chatNotificationCount: 0,
-    isChatting: false,
-    newHeight: false
+    isChatting: false
   };
 
   constructor(props) {
@@ -235,15 +233,9 @@ class HelpCenter extends Component {
   }
 
   handleNextClick = (e) => {
-    const { newHeight, channelChoice, updateChannelChoiceShown, onNextClick } = this.props;
-
     e.preventDefault();
 
-    if (!newHeight && channelChoice) {
-      setTimeout(() => updateChannelChoiceShown(true), 0);
-    } else {
-      onNextClick();
-    }
+    this.props.onNextClick();
   }
 
   resetState = () => {
@@ -342,8 +334,7 @@ class HelpCenter extends Component {
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.props.searchFieldValue}
         updateFrameSize={this.props.updateFrameSize}
-        updateChatScreen={this.props.updateChatScreen}
-        newHeight={this.props.newHeight}>
+        updateChatScreen={this.props.updateChatScreen}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

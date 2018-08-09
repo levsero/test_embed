@@ -35,8 +35,7 @@ import { getChatNotification,
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
   getActiveEmbed,
-  getChatStandalone,
-  getNewHeight } from 'src/redux/modules/base/base-selectors';
+  getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 
@@ -69,7 +68,6 @@ const mapStateToProps = (state) => {
     isChatting: getIsChatting(state),
     hasSearched: getHasSearched(state),
     resultsCount: getResultsCount(state),
-    newHeight: getNewHeight(state),
     mobileNotificationsDisabled: getSettingsMobileNotificationsDisabled(state)
   };
 };
@@ -132,7 +130,6 @@ class WebWidget extends Component {
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
-    newHeight: PropTypes.bool.isRequired,
     mobileNotificationsDisabled: PropTypes.bool
   };
 
@@ -170,8 +167,7 @@ class WebWidget extends Component {
     articleViewActive: false,
     onShowMobile: () => {},
     ipmHelpCenterAvailable: false,
-    mobileNotificationsDisabled: false,
-    newHeight: false
+    mobileNotificationsDisabled: false
   };
 
   setComponent = (activeComponent) => {
@@ -280,7 +276,7 @@ class WebWidget extends Component {
   }
 
   show = (viaActivate = false) => {
-    const { activeEmbed, chatAvailable, newHeight, talkAvailable } = this.props;
+    const { activeEmbed, chatAvailable } = this.props;
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
@@ -296,16 +292,8 @@ class WebWidget extends Component {
       return;
     }
 
-    /*
-      For both variables below they must satisfy the following to be true
-      1. If their activeEmbeds are enabled (e.g. zopimChat, talk)
-      2. If the activeEmbed is channelChoice and newHeight is false
-      3. If the activeEmbed is channelChoice and newHeight is true and when their products wouldn't show
-    */
-    const newHeightNotAvailable = !newHeight || (newHeight && !this.isChannelChoiceAvailable());
-    const newHeightOffline = (activeEmbed === channelChoice && newHeightNotAvailable);
-    const chatOffline = (activeEmbed === zopimChat || newHeightOffline && !chatAvailable);
-    const talkOffline = (activeEmbed === talk || newHeightOffline && !talkAvailable);
+    const chatOffline = (activeEmbed === zopimChat);
+    const talkOffline = (activeEmbed === talk);
 
     if (this.noActiveEmbed() || viaActivate || chatOffline || talkOffline) this.resetActiveEmbed();
   }
@@ -324,10 +312,9 @@ class WebWidget extends Component {
       updateActiveEmbed,
       oldChat,
       chatAvailable,
-      talkAvailable,
-      newHeight } = this.props;
+      talkAvailable } = this.props;
 
-    if (newHeight && this.isChannelChoiceAvailable()) {
+    if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
       if (!ipmHelpCenterAvailable) {
         updateBackButtonVisibility(true);
@@ -373,8 +360,7 @@ class WebWidget extends Component {
       activeEmbed,
       updateBackButtonVisibility,
       updateActiveEmbed,
-      resetActiveArticle,
-      newHeight } = this.props;
+      resetActiveArticle } = this.props;
     const rootComponent = this.getRootComponent();
     const helpCenterAvailable = this.isHelpCenterAvailable();
     const channelChoiceAvailable = this.isChannelChoiceAvailable();
@@ -386,7 +372,7 @@ class WebWidget extends Component {
     } else if (this.props.showTicketFormsBackButton) {
       rootComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
-    } else if (newHeight && channelChoiceAvailable && activeEmbed !== channelChoice) {
+    } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(helpCenterAvailable);
     } else if (helpCenterAvailable) {
@@ -437,7 +423,6 @@ class WebWidget extends Component {
         position={this.props.position}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
-        newHeight={this.props.newHeight}
       />
     );
   }
@@ -476,8 +461,7 @@ class WebWidget extends Component {
           chatAvailable={chatAvailable}
           zendeskHost={this.props.zendeskHost}
           chatNotificationDismissed={this.props.chatNotificationDismissed}
-          updateChatScreen={this.props.updateChatScreen}
-          newHeight={this.props.newHeight} />
+          updateChatScreen={this.props.updateChatScreen} />
       </div>
     );
   }
@@ -510,8 +494,7 @@ class WebWidget extends Component {
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
           updateFrameSize={this.props.updateFrameSize}
-          fullscreen={this.props.fullscreen}
-          newHeight={this.props.newHeight} />
+          fullscreen={this.props.fullscreen} />
       </div>
     );
   }
@@ -532,8 +515,7 @@ class WebWidget extends Component {
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         onCancelClick={this.props.closeFrame}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        newHeight={this.props.newHeight} />
+        hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
 
@@ -542,7 +524,6 @@ class WebWidget extends Component {
 
     return (
       <Talk
-        newHeight={this.props.newHeight}
         ref={talk}
         hideZendeskLogo={this.props.hideZendeskLogo}
         style={this.props.style}

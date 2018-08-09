@@ -343,7 +343,75 @@ describe('Submit ticket component', () => {
   });
 
   describe('renderNotification', () => {
-    let notification;
+    let notification,
+      mockHideZendeskLogo,
+      mockFullScreen;
+
+    beforeEach(() => {
+      const submitTicket = domRender(<SubmitTicket
+        showNotification={true}
+        hideZendeskLogo={mockHideZendeskLogo}
+        fullscreen={mockFullScreen} />);
+
+      notification = submitTicket.renderNotification();
+    });
+
+    it('should render SuccessNotification', () => {
+      expect(TestUtils.isElementOfType(notification.props.children, SuccessNotification))
+        .toEqual(true);
+    });
+
+    describe('when on mobile', () => {
+      beforeAll(() => {
+        mockFullScreen = true;
+      });
+
+      it('renders noZendeskLogoButton class', () => {
+        expect(notification.props.footerContent.props.className)
+          .toContain('noZendeskLogoButton');
+      });
+
+      it('does not render zendeskLogoButton class', () => {
+        expect(notification.props.footerContent.props.className)
+          .not
+          .toContain('zendeskLogoButton');
+      });
+    });
+
+    describe('when hideZendeskLogo is true', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = true;
+      });
+
+      it('renders noZendeskLogoButton', () => {
+        expect(notification.props.footerContent.props.className)
+          .toContain('noZendeskLogoButton');
+      });
+
+      it('does not renders zendeskLogoButton', () => {
+        expect(notification.props.footerContent.props.className)
+          .not
+          .toContain('zendeskLogoButton');
+      });
+    });
+
+    describe('when zendesk logo required', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = false;
+        mockFullScreen = false;
+      });
+
+      it('renders zendeskLogoButton', () => {
+        expect(notification.props.footerContent.props.className)
+          .toContain('zendeskLogoButton');
+      });
+
+      it('does not render noZendeskLogoButton', () => {
+        expect(notification.props.footerContent.props.className)
+          .not
+          .toContain('noZendeskLogoButton');
+      });
+    });
 
     describe('when props.showNotification is true', () => {
       beforeEach(() => {
@@ -368,96 +436,6 @@ describe('Submit ticket component', () => {
       it('does not return an element', () => {
         expect(notification)
           .toBeFalsy();
-      });
-    });
-
-    describe('newHeight', () => {
-      let mockHeight,
-        mockHideZendeskLogo,
-        mockFullScreen;
-
-      beforeEach(() => {
-        const submitTicket = domRender(<SubmitTicket
-          showNotification={true}
-          newHeight={mockHeight}
-          hideZendeskLogo={mockHideZendeskLogo}
-          fullscreen={mockFullScreen} />);
-
-        notification = submitTicket.renderNotification();
-      });
-
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          mockHeight = true;
-        });
-
-        it('should render SuccessNotification', () => {
-          expect(TestUtils.isElementOfType(notification.props.children, SuccessNotification))
-            .toEqual(true);
-        });
-
-        describe('when on mobile', () => {
-          beforeAll(() => {
-            mockFullScreen = true;
-          });
-
-          it('renders noZendeskLogoButton class', () => {
-            expect(notification.props.footerContent.props.className)
-              .toContain('noZendeskLogoButton');
-          });
-
-          it('does not render zendeskLogoButton class', () => {
-            expect(notification.props.footerContent.props.className)
-              .not
-              .toContain('zendeskLogoButton');
-          });
-        });
-
-        describe('when hideZendeskLogo is true', () => {
-          beforeAll(() => {
-            mockHideZendeskLogo = true;
-          });
-
-          it('renders noZendeskLogoButton', () => {
-            expect(notification.props.footerContent.props.className)
-              .toContain('noZendeskLogoButton');
-          });
-
-          it('does not renders zendeskLogoButton', () => {
-            expect(notification.props.footerContent.props.className)
-              .not
-              .toContain('zendeskLogoButton');
-          });
-        });
-
-        describe('when zendesk logo required', () => {
-          beforeAll(() => {
-            mockHideZendeskLogo = false;
-            mockFullScreen = false;
-          });
-
-          it('renders zendeskLogoButton', () => {
-            expect(notification.props.footerContent.props.className)
-              .toContain('zendeskLogoButton');
-          });
-
-          it('does not render noZendeskLogoButton', () => {
-            expect(notification.props.footerContent.props.className)
-              .not
-              .toContain('noZendeskLogoButton');
-          });
-        });
-      });
-
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          mockHeight = false;
-        });
-
-        it('should not render SuccessNotification', () => {
-          expect(TestUtils.isElementOfType(notification.props.children, SuccessNotification))
-            .toEqual(false);
-        });
       });
     });
   });

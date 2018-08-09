@@ -11,25 +11,17 @@
   box-sizing: border-box;
 }
 
-.newHeightDesktop {
+.desktop {
   height: #{550/$font-size}rem;
 }
 
-.newHeightMobile {
+.mobile {
   height: 100%;
 }
 
-.newHeightFlexContainer {
+.flexContainer {
   display: flex;
   flex-direction: column;
-}
-
-.newHeightContent {
-  flex-grow: 1;
-}
-
-.noNewHeightContent {
-  max-height: #{350/$font-size}rem;
 }
 
 .containerDesktop {
@@ -61,6 +53,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
+  flex-grow: 1;
 
   /*
    * Customise scrollbar for safari/chrome

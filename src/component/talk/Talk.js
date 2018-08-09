@@ -68,7 +68,6 @@ class Talk extends Component {
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     updateFrameSize: PropTypes.func,
-    newHeight: PropTypes.bool.isRequired,
     libphonenumber: PropTypes.object.isRequired
   };
 
@@ -277,19 +276,15 @@ class Talk extends Component {
       { [styles.phoneOnlyMobileContainer]: this.props.isMobile }
     );
 
-    let talkIcon = null;
-    let callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.message');
+    let callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.new_message');
 
-    if (this.props.newHeight) {
-      talkIcon = (
-        <Icon
-          type={ICONS.TALK}
-          className='u-userFillCustomColor'
-          isMobile={this.props.isMobile}
-        />
-      );
-      callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.new_message');
-    }
+    const talkIcon = (
+      <Icon
+        type={ICONS.TALK}
+        className='u-userFillCustomColor'
+        isMobile={this.props.isMobile}
+      />
+    );
 
     return (
       <div className={containerClasses}>
@@ -304,26 +299,11 @@ class Talk extends Component {
   }
 
   renderSuccessNotificationScreen = () => {
-    if (this.props.newHeight) {
-      return (
-        <SuccessNotification
-          icon={ICONS.SUCCESS_TALK}
-          isMobile={this.props.isMobile}
-        />
-      );
-    }
-
-    const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
-
     return (
-      <div>
-        <p className={styles.notifyMessage}>
-          {i18n.t('embeddable_framework.talk.notify.success.message_new')}
-        </p>
-        <div className={styles.notify}>
-          <Icon type='Icon--tick' className={iconClasses} />
-        </div>
-      </div>
+      <SuccessNotification
+        icon={ICONS.SUCCESS_TALK}
+        isMobile={this.props.isMobile}
+      />
     );
   }
 
@@ -379,7 +359,7 @@ class Talk extends Component {
   }
 
   renderFooterContent = () => {
-    if (!(this.props.screen === SUCCESS_NOTIFICATION_SCREEN && this.props.newHeight)) {
+    if (this.props.screen !== SUCCESS_NOTIFICATION_SCREEN) {
       return null;
     }
 
@@ -424,10 +404,9 @@ class Talk extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const { isMobile, newHeight, screen } = this.props;
+    const { isMobile, screen } = this.props;
     const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
     const scrollContainerClasses = classNames({
-      [styles.scrollContainer]: !newHeight,
       [styles.scrollContainerSuccess]: screen === SUCCESS_NOTIFICATION_SCREEN
     });
 
@@ -435,7 +414,6 @@ class Talk extends Component {
       <div>
         <ScrollContainer
           ref='scrollContainer'
-          newHeight={newHeight}
           containerClasses={scrollContainerClasses}
           footerContent={this.renderFooterContent()}
           getFrameDimensions={this.props.getFrameDimensions}

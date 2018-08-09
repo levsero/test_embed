@@ -137,7 +137,7 @@ function init(config, reduxStore = dummyStore) {
     i18n.setLocale(config.locale);
     loadAudio(config);
 
-    const { newChat, newHeight, embeds = {} } = config;
+    const { newChat, embeds = {} } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;
     const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm
       || !!embeds.helpCenterForm
@@ -150,7 +150,6 @@ function init(config, reduxStore = dummyStore) {
     }
 
     const arturos = {
-      newHeight: !!newHeight,
       newChat: !!newChat
     };
 

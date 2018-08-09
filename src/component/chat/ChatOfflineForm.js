@@ -11,7 +11,6 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
-import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
 import { UserProfile } from 'component/chat/UserProfile';
 import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { ICONS, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
@@ -35,7 +34,6 @@ export class ChatOfflineForm extends Component {
     authUrls: PropTypes.object.isRequired,
     visitor: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    newHeight: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool
   };
 
@@ -176,37 +174,21 @@ export class ChatOfflineForm extends Component {
   renderSuccess() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS) return;
 
-    if (this.props.newHeight) {
-      return (
-        <ScrollContainer
-          ref='scrollContainer'
-          classes={this.getScrollContainerClasses()}
-          containerClasses={styles.scrollContainerContent}
-          title={i18n.t('embeddable_framework.chat.title')}
-          newHeight={this.props.newHeight}>
-          <SuccessNotification
-            icon={ICONS.SUCCESS_CONTACT_FORM}
-            isMobile={this.props.isMobile} />
-          <Button
-            primary={true}
-            className={styles.doneButton}
-            onClick={this.props.handleOfflineFormBack}>
-            {i18n.t('embeddable_framework.common.button.done')}
-          </Button>
-        </ScrollContainer>
-      );
-    }
-
     return (
       <ScrollContainer
         ref='scrollContainer'
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
-        title={i18n.t('embeddable_framework.chat.title')}
-        newHeight={this.props.newHeight}>
-        <ChatOfflineMessageForm
-          offlineMessage={this.props.offlineMessage}
-          onFormBack={this.props.handleOfflineFormBack} />
+        title={i18n.t('embeddable_framework.chat.title')}>
+        <SuccessNotification
+          icon={ICONS.SUCCESS_CONTACT_FORM}
+          isMobile={this.props.isMobile} />
+        <Button
+          primary={true}
+          className={styles.doneButton}
+          onClick={this.props.handleOfflineFormBack}>
+          {i18n.t('embeddable_framework.common.button.done')}
+        </Button>
       </ScrollContainer>
     );
   }
@@ -219,8 +201,7 @@ export class ChatOfflineForm extends Component {
         ref='scrollContainer'
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.loadingSpinnerContainer}
-        title={i18n.t('embeddable_framework.chat.title')}
-        newHeight={this.props.newHeight}>
+        title={i18n.t('embeddable_framework.chat.title')}>
         <div className={styles.loadingSpinner}>
           <LoadingSpinner />
         </div>
@@ -339,7 +320,6 @@ export class ChatOfflineForm extends Component {
           containerClasses={styles.scrollContainerContent}
           footerContent={this.renderSubmitButton()}
           title={i18n.t('embeddable_framework.chat.title')}
-          newHeight={this.props.newHeight}
           scrollShadowVisible={true}>
           {this.renderOfflineGreeting()}
           {this.renderOperatingHoursLink()}
@@ -362,8 +342,7 @@ export class ChatOfflineForm extends Component {
         ref='scrollContainer'
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
-        title={i18n.t('embeddable_framework.chat.title')}
-        newHeight={this.props.newHeight}>
+        title={i18n.t('embeddable_framework.chat.title')}>
         <ChatOperatingHours
           handleOfflineFormBack={handleOfflineFormBack}
           operatingHours={operatingHours} />

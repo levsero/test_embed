@@ -1,6 +1,8 @@
 describe('ScrollContainer component', () => {
   let ScrollContainer,
-    mockNewHeight,
+    container,
+    mockIsFullScreen,
+    result,
     mockIsMobile = false;
   const containerPath = buildSrcPath('component/container/ScrollContainer');
 
@@ -19,26 +21,24 @@ describe('ScrollContainer component', () => {
           userHeader: 'userHeaderClassesYo',
           container: 'containerClasses',
           containerDesktop: 'containerDesktopClasses',
-          newHeightFlexContainer: 'newHeightFlexContainer',
-          newHeightContent: 'newHeightContent',
-          noNewHeightContent: 'noNewHeightContent',
-          newHeightDesktop: 'newHeightDesktop',
-          newHeightMobile: 'newHeightMobile',
+          flexContainer: 'flexContainer',
+          desktop: 'desktop',
+          mobile: 'mobile',
           title: 'title',
           titleMobile: 'titleMobile'
         }
       },
       'utility/devices': {
         isMobileBrowser: () => mockIsMobile
-      },
-      'src/redux/modules/base/base-selectors': {
-        getNewHeight: () => mockNewHeight
       }
     });
 
     mockery.registerAllowable(containerPath);
 
     ScrollContainer = requireUncached(containerPath).ScrollContainer;
+
+    container = instanceRender(<ScrollContainer fullscreen={mockIsFullScreen} />);
+    result = container.render();
   });
 
   afterEach(() => {
@@ -65,6 +65,50 @@ describe('ScrollContainer component', () => {
 
     expect(container.props.className)
       .toMatch('containerDesktopClasses');
+  });
+
+  it('renders flexContainer class', () => {
+    expect(result.props.className)
+      .toContain('flexContainer');
+  });
+
+  it('renders content class', () => {
+    expect(result.props.children[1].props.className)
+      .toContain('content');
+  });
+
+  describe('when on mobile', () => {
+    beforeAll(() => {
+      mockIsFullScreen = true;
+    });
+
+    it('renders mobile class', () => {
+      expect(result.props.className)
+        .toContain('mobile');
+    });
+
+    it('does not render desktop class', () => {
+      expect(result.props.className)
+        .not
+        .toContain('desktop');
+    });
+  });
+
+  describe('when not on mobile', () => {
+    beforeAll(() => {
+      mockIsFullScreen = false;
+    });
+
+    it('does not render mobile class', () => {
+      expect(result.props.className)
+        .not
+        .toContain('mobile');
+    });
+
+    it('renders desktop class', () => {
+      expect(result.props.className)
+        .toContain('desktop');
+    });
   });
 
   describe('titleClasses', () => {
@@ -126,132 +170,6 @@ describe('ScrollContainer component', () => {
         expect(result)
           .not
           .toContain('titleMobile');
-      });
-    });
-  });
-
-  describe('newHeight', () => {
-    let container,
-      mockIsFullScreen,
-      result;
-
-    beforeEach(() => {
-      container = instanceRender(<ScrollContainer newHeight={mockNewHeight} fullscreen={mockIsFullScreen} />);
-      result = container.render();
-    });
-
-    describe('when newHeight is true', () => {
-      beforeAll(() => {
-        mockNewHeight = true;
-      });
-
-      it('renders newHeightFlexContainer class', () => {
-        expect(result.props.className)
-          .toContain('newHeightFlexContainer');
-      });
-
-      it('renders newHeightContent class', () => {
-        expect(result.props.children[1].props.className)
-          .toContain('newHeightContent');
-      });
-
-      it('does not render noNewHeightContent class', () => {
-        expect(result.props.children[1].props.className)
-          .not
-          .toContain('noNewHeightContent');
-      });
-
-      describe('when on mobile', () => {
-        beforeAll(() => {
-          mockIsFullScreen = true;
-        });
-
-        it('renders newHeightMobile class', () => {
-          expect(result.props.className)
-            .toContain('newHeightMobile');
-        });
-
-        it('does not render newHeightDesktop class', () => {
-          expect(result.props.className)
-            .not
-            .toContain('newHeightDesktop');
-        });
-      });
-
-      describe('when not on mobile', () => {
-        beforeAll(() => {
-          mockIsFullScreen = false;
-        });
-
-        it('does not render newHeightMobile class', () => {
-          expect(result.props.className)
-            .not
-            .toContain('newHeightMobile');
-        });
-
-        it('renders newHeightDesktop class', () => {
-          expect(result.props.className)
-            .toContain('newHeightDesktop');
-        });
-      });
-    });
-
-    describe('when newHeight is false', () => {
-      beforeAll(() => {
-        mockNewHeight = false;
-      });
-
-      it('does not render newHeightFlexContainer class', () => {
-        expect(result.props.className)
-          .not
-          .toContain('newHeightFlexContainer');
-      });
-
-      it('does not render newHeightContent class', () => {
-        expect(result.props.children[1].props.className)
-          .not
-          .toContain('newHeightContent');
-      });
-
-      it('renders noNewHeightContent class', () => {
-        expect(result.props.children[1].props.className)
-          .toContain('noNewHeightContent');
-      });
-
-      describe('when on mobile', () => {
-        beforeAll(() => {
-          mockIsFullScreen = true;
-        });
-
-        it('does not render newHeightMobile class', () => {
-          expect(result.props.className)
-            .not
-            .toContain('newHeightMobile');
-        });
-
-        it('does not render newHeightDesktop class', () => {
-          expect(result.props.className)
-            .not
-            .toContain('newHeightDesktop');
-        });
-      });
-
-      describe('when not on mobile', () => {
-        beforeAll(() => {
-          mockIsFullScreen = false;
-        });
-
-        it('does not render newHeightMobile class', () => {
-          expect(result.props.className)
-            .not
-            .toContain('newHeightMobile');
-        });
-
-        it('does not render newHeightDesktop class', () => {
-          expect(result.props.className)
-            .not
-            .toContain('newHeightDesktop');
-        });
       });
     });
   });

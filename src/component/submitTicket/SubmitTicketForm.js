@@ -55,8 +55,7 @@ export class SubmitTicketForm extends Component {
     previewEnabled: PropTypes.bool,
     setFormState: PropTypes.func,
     subjectEnabled: PropTypes.bool,
-    submit: PropTypes.func.isRequired,
-    newHeight: PropTypes.bool.isRequired
+    submit: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -496,7 +495,7 @@ export class SubmitTicketForm extends Component {
   }
 
   render = () => {
-    const { attachmentsEnabled, fullscreen, formTitleKey, hide, newHeight } = this.props;
+    const { attachmentsEnabled, fullscreen, formTitleKey, hide } = this.props;
 
     const form = this.props.activeTicketForm ? this.renderTicketFormBody() : this.renderFormBody();
     const formBody = this.state.shouldRemoveForm ? null : form;
@@ -521,7 +520,6 @@ export class SubmitTicketForm extends Component {
         className={`${styles.form} ${hiddenClass}`}>
         <ScrollContainer
           ref='scrollContainer'
-          newHeight={newHeight}
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
           containerClasses={containerClasses}
           getFrameDimensions={this.props.getFrameDimensions}

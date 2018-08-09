@@ -14,7 +14,6 @@ import { locals as styles } from './HelpCenterDesktop.scss';
 
 export class HelpCenterDesktop extends Component {
   static propTypes = {
-    newHeight: PropTypes.bool.isRequired,
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
@@ -45,7 +44,6 @@ export class HelpCenterDesktop extends Component {
     articleViewActive: false,
     channelChoice: false,
     channelChoiceShown: false,
-    newHeight: false,
     formTitleKey: 'help',
     hasSearched: false,
     hideZendeskLogo: false,
@@ -153,8 +151,8 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderFooterContent = () => {
-    const { channelChoice, newHeight, showNextButton, hasSearched, articleViewActive } = this.props;
-    const onClickHandler = (newHeight && channelChoice)
+    const { channelChoice, showNextButton, hasSearched, articleViewActive } = this.props;
+    const onClickHandler = channelChoice
       ? this.props.onNextClick
       : this.props.handleNextClick;
 
@@ -185,7 +183,7 @@ export class HelpCenterDesktop extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const customHeightClasses = this.props.newHeight && !this.props.hasSearched ? styles.noCustomHeight : '';
+    const customHeightClasses = !this.props.hasSearched ? styles.noCustomHeight : '';
     let footerClasses = '';
 
     if (!this.props.showNextButton && this.props.hasSearched) {
@@ -205,8 +203,7 @@ export class HelpCenterDesktop extends Component {
           classes={customHeightClasses}
           footerClasses={footerClasses}
           headerContent={this.renderHeaderContent()}
-          footerContent={this.renderFooterContent()}
-          newHeight={this.props.newHeight}>
+          footerContent={this.renderFooterContent()}>
           {this.renderBodyForm()}
           {this.renderChildContent()}
         </ScrollContainer>

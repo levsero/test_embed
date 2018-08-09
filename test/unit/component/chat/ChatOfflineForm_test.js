@@ -545,8 +545,6 @@ describe('ChatOfflineForm component', () => {
     };
 
     describe('when the screen is the success screen', () => {
-      let mockNewHeight;
-
       beforeEach(() => {
         offlineMessageProp = { screen: 'success', details: mockFormValues };
         onFormBackSpy = jasmine.createSpy('onFormBack');
@@ -555,53 +553,20 @@ describe('ChatOfflineForm component', () => {
           <ChatOfflineForm
             formState={initialFormState}
             offlineMessage={offlineMessageProp}
-            handleOfflineFormBack={onFormBackSpy}
-            newHeight={mockNewHeight} />
+            handleOfflineFormBack={onFormBackSpy} />
         );
 
         result = component.renderSuccess();
       });
 
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          mockNewHeight = true;
-        });
-
-        it('does not render ChatOfflineMessageForm', () => {
-          expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
-            .toEqual(false);
-        });
-
-        it('renders SuccessNotification', () => {
-          expect(TestUtils.isElementOfType(result.props.children[0], SuccessNotification))
-            .toEqual(true);
-        });
+      it('does not render ChatOfflineMessageForm', () => {
+        expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
+          .toEqual(false);
       });
 
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          mockNewHeight = false;
-        });
-
-        it('does not render SuccessNotification', () => {
-          expect(TestUtils.isElementOfType(result, SuccessNotification))
-            .toEqual(false);
-        });
-
-        it('renders ChatOfflineMessageForm', () => {
-          expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
-            .toEqual(true);
-        });
-
-        it('passes the correct props to ChatOfflineMessageForm', () => {
-          const targetElem = result.props.children;
-
-          expect(targetElem.props.offlineMessage)
-            .toEqual(offlineMessageProp);
-
-          expect(targetElem.props.onFormBack)
-            .toEqual(onFormBackSpy);
-        });
+      it('renders SuccessNotification', () => {
+        expect(TestUtils.isElementOfType(result.props.children[0], SuccessNotification))
+          .toEqual(true);
       });
     });
 
