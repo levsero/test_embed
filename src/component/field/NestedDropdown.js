@@ -13,6 +13,7 @@ import {
   Message } from '@zendeskgarden/react-select';
 
 import { i18n } from 'service/i18n';
+import { FONT_SIZE } from 'constants/shared';
 
 import { locals as styles } from './NestedDropdown.scss';
 
@@ -187,7 +188,7 @@ export class NestedDropdown extends Component {
             onChange={this.handleChange}
             options={this.renderMenuItems(this.state.selectedKey)}
             validation={this.props.showError ? 'error': ''}
-            dropdownProps={{ style: { maxHeight: 215, overflow: 'auto' }}}>
+            dropdownProps={{ style: { maxHeight: `${240/FONT_SIZE}rem`, overflow: 'auto' }}}>
             {this.findOptionNameFromValue(this.state.displayedKey) || '-'}
           </Select>
           {this.props.showError &&

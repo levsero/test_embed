@@ -55,10 +55,18 @@ const checkboxLabelMobileOverrides = isMobile ? css`
       box-shadow: 0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;
     }
 
-    box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`}
-    border-color: ${props => props.focused && `${zdColorGrey600} !important`}
+    box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+    border-color: ${props => props.focused && `${zdColorGrey600} !important`};
   `
   : '';
+
+const itemCheckOverrides = isMobile ? css`
+  &:before {
+    background-size: ${10/FONT_SIZE}rem !important;
+    width: ${28/FONT_SIZE}rem !important;
+    height: ${42/FONT_SIZE}rem !important;
+  }
+` : '';
 
 const selectOverrides = css`
   :hover, :focus {
@@ -68,21 +76,24 @@ const selectOverrides = css`
   box-shadow: ${props => props.focused && `inset 0 ${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4), inset 0 -${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4) !important`};
   background-color: ${props => props.focused && `${zdColorGrey400} !important`};
   ${mobileOverrides}
-  ${isMobileBrowser() ? `padding: ${10/FONT_SIZE}rem ${14/FONT_SIZE}rem !important;` : ''}
+  ${isMobile ? `padding: ${10/FONT_SIZE}rem ${25/FONT_SIZE}rem !important` : ''};
+  ${itemCheckOverrides}
 `;
 
-const arrowOverrides = isMobileBrowser() ? css`
+const arrowOverrides = isMobile ? css`
   &::before {
     background-size: ${14/FONT_SIZE}rem !important;
     width: ${50/FONT_SIZE}rem !important;
     height: ${40/FONT_SIZE}rem !important;
   }
 ` : '';
+
 const selectArrowOverrides = css`
   ${selectOverrides}
   ${arrowOverrides}
 `;
-const dropdownOverrides = isMobileBrowser() ? css`
+
+const dropdownOverrides = isMobile ? css`
   ${mobileOverrides}
   max-height: ${300/FONT_SIZE}rem !important;
 ` : '';
@@ -104,6 +115,19 @@ const inputOverrides = css`
   ${genericOverrides}
   ${borderOverrides}
 `;
+
+const messageOverrides = isMobile ? css`
+  ${mobileOverrides}
+  margin-top: ${7/FONT_SIZE} rem !important;
+
+  [dir='ltr'] & {
+    padding-left: ${18/FONT_SIZE}rem !important;
+  }
+
+  [dir='rtl'] & {
+    padding-right: ${18/FONT_SIZE}rem !important;
+  }
+` : '';
 
 const getButtonOverrides = (colorVariables, themeColor) => {
   return css`
@@ -163,6 +187,7 @@ function getGardenOverrides() {
     'textfields.textarea': inputOverrides,
     'textfields.input': inputOverrides,
     'textfields.label': mobileOverrides,
+    'textfields.message': messageOverrides,
     'textfields.hint': mobileOverrides,
     'buttons.button': getButtonOverrides(colorVariables, themeColor),
     'checkboxes.checkbox_view': bottomMargin,
@@ -176,8 +201,9 @@ function getGardenOverrides() {
       ${borderOverrides}
       box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`}
       border-color: ${props => (props.focused || props.hovered) && `${zdColorGrey600} !important`}
-      margin-bottom: ${20/FONT_SIZE}rem !important;
+      ${bottomMargin}
       ${arrowOverrides}
+      min-height: ${isMobile ? `${42.5/FONT_SIZE}rem !important` : ''};
     `,
     'select.dropdown': dropdownOverrides,
     'select.item': selectOverrides,

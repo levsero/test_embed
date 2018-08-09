@@ -58,7 +58,10 @@ describe('NestedDropdown component', () => {
         i18n: {
           t: noop
         }
-      }
+      },
+      'constants/shared': {
+        FONT_SIZE: 14
+      },
     });
 
     mockery.registerAllowable(nestedDropdownPath);

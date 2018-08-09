@@ -19,7 +19,7 @@ import { i18n } from 'service/i18n';
 
 import { locals as styles } from './PrechatForm.scss';
 import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
-import { EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
+import { FONT_SIZE, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -302,7 +302,7 @@ export class PrechatForm extends Component {
           appendToNode={this.props.getFrameContentDocument().body}
           onChange={this.handleSelectChange}
           popperModifiers={{ flip: { enabled: false }, preventOverflow: { escapeWithReference: true } }}
-          dropdownProps={{ style: { maxHeight: '140px', overflow: 'auto' } }}
+          dropdownProps={{ style: { maxHeight: `${140/FONT_SIZE}rem`, overflow: 'auto' }}}
           options={options}
           {...validationProps}>
           {selectedDepartment.name}

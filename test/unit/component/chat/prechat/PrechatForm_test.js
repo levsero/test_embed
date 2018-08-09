@@ -49,7 +49,8 @@ describe('PrechatForm component', () => {
       },
       'src/constants/shared': {
         EMAIL_PATTERN: /.+/,
-        PHONE_PATTERN: /.+/
+        PHONE_PATTERN: /.+/,
+        FONT_SIZE: 14
       },
       '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
