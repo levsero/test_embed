@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { Button } from '@zendeskgarden/react-buttons';
 
 import { locals as styles } from './SubmitTicket.scss';
 
-import { Button } from '@zendeskgarden/react-buttons';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -307,8 +307,8 @@ class SubmitTicket extends Component {
 
     return _.map(ticketForms, (form, key) => {
       return (
-        <li key={key} data-id={form.id} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
-          {form.display_name}
+        <li key={key} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
+          <Button link data-id={form.id} onClick={this.handleTicketFormsListClick}>{form.display_name}</Button>
         </li>
       );
     });
@@ -337,7 +337,7 @@ class SubmitTicket extends Component {
         <h2 className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
         </h2>
-        <ul onClick={this.handleTicketFormsListClick}>
+        <ul>
           {this.renderTicketFormOptions()}
         </ul>
       </ScrollContainer>

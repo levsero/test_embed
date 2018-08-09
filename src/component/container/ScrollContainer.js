@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { isMobileBrowser } from 'utility/devices';
+import Refocus from 'component/Refocus';
+
 import { locals as styles } from './ScrollContainer.scss';
 
 const isMobile = isMobileBrowser();
@@ -155,7 +157,7 @@ export class ScrollContainer extends Component {
           ref={(el) => {this.content = el;}}
           className={contentClasses}
           onScroll={onContentScrolled}>
-          {this.props.children}
+          <Refocus>{this.props.children}</Refocus>
         </div>
         {this.renderFooter()}
       </div>
