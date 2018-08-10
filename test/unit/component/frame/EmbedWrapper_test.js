@@ -12,6 +12,8 @@ describe('EmbedWrapper', () => {
     }
   }
 
+  const hostDocumentFocusSpy = jasmine.createSpy('hostDocumentFocus');
+
   beforeEach(() => {
     mockery.enable();
 
@@ -22,7 +24,12 @@ describe('EmbedWrapper', () => {
         document: global.document,
         getDocumentHost: () => {
           return {
-            querySelector: () => ({focus: noop})
+            querySelector: () => ({
+              focus: hostDocumentFocusSpy,
+              contentDocument: {
+                querySelector: () => ({focus: noop})
+              }
+            })
           };
         }
       },
@@ -76,9 +83,51 @@ describe('EmbedWrapper', () => {
         .toBeDefined();
     });
 
-    it('closes on ESC', () => {
-      TestUtils.Simulate.keyDown(rootElem, { key: 'Escape', keyCode: 27, which: 27 });
-      expect(instance.props.handleCloseClick).toHaveBeenCalled();
+    describe('when ESC is pressed', () => {
+      it('closes webwidget if focused', () => {
+        const target = {
+          ownerDocument: {
+            defaultView: {
+              frameElement: {
+                id: 'webWidget'
+              }
+            }
+          }
+        };
+
+        TestUtils.Simulate.keyDown(rootElem, { key: 'Escape', keyCode: 27, which: 27, target });
+        expect(instance.props.handleCloseClick).toHaveBeenCalled();
+      });
+
+      it('does nothing if launcher is focused', () => {
+        const target = {
+          ownerDocument: {
+            defaultView: {
+              frameElement: {
+                id: 'launcher'
+              }
+            }
+          }
+        };
+
+        TestUtils.Simulate.keyDown(rootElem, { key: 'Escape', keyCode: 27, which: 27, target });
+        expect(instance.props.handleCloseClick).not.toHaveBeenCalled();
+      });
+    });
+
+    it('if launcher is focused and TAB is pressed host document receives focus', () => {
+      const target = {
+        ownerDocument: {
+          defaultView: {
+            frameElement: {
+              id: 'launcher'
+            }
+          }
+        }
+      };
+
+      TestUtils.Simulate.keyDown(rootElem, { key: 'Tab', keyCode: 9, which: 9, target });
+      expect(hostDocumentFocusSpy).toHaveBeenCalled();
     });
   });
 });

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KEY_CODES } from '@zendeskgarden/react-selection';
 
@@ -11,6 +12,20 @@ const mapStateToProps = (state) => {
 };
 
 export class Refocus extends Component {
+  static propTypes = {
+    widgetShown: PropTypes.bool.isRequired,
+    children: PropTypes.node
+  };
+
+  componentDidMount() {
+    // Sometimes the whole component gets mounted on page change
+    this.focusContainer();
+  }
+
+  componentDidUpdate() {
+    this.focusContainer();
+  }
+
   focusContainer = () => {
     if (!this.props.widgetShown) return;
 
@@ -33,15 +48,6 @@ export class Refocus extends Component {
     // focus component we stop the event from propagating and for tab
     // to act as expected.
     e.stopPropagation();
-  }
-
-  componentDidMount() {
-    // Sometimes the whole component gets mounted on page change
-    this.focusContainer();
-  }
-
-  componentDidUpdate() {
-    this.focusContainer();
   }
 
   render() {

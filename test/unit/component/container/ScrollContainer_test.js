@@ -28,6 +28,7 @@ describe('ScrollContainer component', () => {
           titleMobile: 'titleMobile'
         }
       },
+      'component/Refocus': noopReactComponent(),
       'utility/devices': {
         isMobileBrowser: () => mockIsMobile
       }

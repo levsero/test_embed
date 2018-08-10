@@ -1,6 +1,6 @@
 import { themeColor, colorFor, defaultColor } from './validate';
 import { ColorMixer } from './mixer';
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'constants/shared';
 
 function getColorVariables(color = defaultColor) {
   const mixer = new ColorMixer;
@@ -41,6 +41,7 @@ function getColorVariables(color = defaultColor) {
     launcherFocusRingColorStr,
     headerColorStr,
     headerTextColorStr,
+    headerFocusRingColorStr,
     headerBackgroundColorStr
   };
 }
@@ -96,7 +97,7 @@ function generateUserCSS(color = defaultColor) {
       }
     }
     .u-userLauncherColor:not([disabled]):focus {
-      box-shadow: inset 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.launcherFocusRingColorStr} !important;
+      box-shadow: inset 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.launcherFocusRingColorStr.toString()} !important;
     }
     .u-launcherColor:not([disabled]):hover {
       background-color: ${colorVariables.baseHighlightColor} !important;
@@ -136,9 +137,6 @@ function generateUserCSS(color = defaultColor) {
       svg {
         background: ${colorVariables.headerBackgroundColorStr} !important;
       }
-    }
-    .u-userHeaderButtonColor:focus {
-      box-shadow: 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.headerFocusRingColorStr} !important;
     }
     .u-userHeaderButtonColorMobile {
       fill: ${colorVariables.headerTextColorStr} !important;

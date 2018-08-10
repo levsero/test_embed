@@ -6,7 +6,6 @@ import { locals as styles } from './Launcher.scss';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-import { keyCodes } from 'utility/keyboard';
 import { getChatAvailable, getTalkAvailable } from 'src/redux/modules/selectors';
 import { settings } from 'service/settings';
 import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
