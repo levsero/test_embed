@@ -181,7 +181,7 @@ const shouldRenderErrorMessage = (value, required, showErrors, pattern) => {
 };
 
 const renderLabelText = (label, required) => {
-  return required ? label : i18n.t('embeddable_framework.validation.label.optional', { label });
+  return (required || !label) ? label : i18n.t('embeddable_framework.validation.label.optional', { label });
 };
 
 export {

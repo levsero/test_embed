@@ -680,6 +680,18 @@ describe('fields', () => {
       });
     });
 
+    describe('when label is falsy', () => {
+      beforeAll(() => {
+        mockLabel = null;
+        mockRequired = false;
+      });
+
+      it('returns the original value', () => {
+        expect(result)
+          .toEqual(null);
+      });
+    });
+
     describe('when field is not required', () => {
       beforeAll(() => {
         mockLabel = 'yolo';

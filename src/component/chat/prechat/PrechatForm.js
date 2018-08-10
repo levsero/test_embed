@@ -291,7 +291,7 @@ export class PrechatForm extends Component {
     return (
       <SelectField>
         <SelectLabel>
-          {departmentSettings.label ? renderLabelText(departmentSettings.label) : null}
+          {renderLabelText(departmentSettings.label, required)}
         </SelectLabel>
         <Select
           required={required}
