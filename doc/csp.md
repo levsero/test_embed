@@ -16,8 +16,14 @@ Zendesk uses a third-party library named [Rollbar.js](https://rollbar.com/) to t
 
 Add `static.zdassets.com` and `ekr.zdassets.com` to the header's `script-src` directive. Example:
 
-```js
+```
 Content-Security-Policy: script-src 'self' https://static.zdassets.com https://ekr.zdassets.com
+```
+
+Note if you use the `connect-src` directive, add your Zendesk domain. Example:
+
+```
+Content-Security-Policy: connect-src 'self' https://static.zdassets.com https://ekr.zdassets.com https://{subdomain}.zendesk.com
 ```
 
 Whitelisting the widget with an HTTP header is the recommended way.
