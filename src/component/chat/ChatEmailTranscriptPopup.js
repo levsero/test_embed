@@ -112,7 +112,6 @@ export class ChatEmailTranscriptPopup extends Component {
     const error = shouldRenderErrorMessage(value, true, this.state.showErrors, EMAIL_PATTERN)
       ? <Message validation='error'>{i18n.t('embeddable_framework.validation.error.email')}</Message>
       : null;
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
@@ -125,7 +124,7 @@ export class ChatEmailTranscriptPopup extends Component {
           onKeyPress={this.handleKeyPress}
           type='email'
           name='email'
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );

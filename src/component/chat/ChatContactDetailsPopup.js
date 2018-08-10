@@ -134,7 +134,6 @@ export class ChatContactDetailsPopup extends Component {
   renderNameField = () => {
     const value = this.state.formState.name;
     const error = this.renderErrorMessage(value, false, 'embeddable_framework.validation.error.name');
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
@@ -146,7 +145,7 @@ export class ChatContactDetailsPopup extends Component {
           name='name'
           autoComplete='off'
           onKeyPress={this.handleKeyPress}
-          {...validationProps}
+          validation={error ? 'error' : 'none'}
           disabled={this.props.isAuthenticated} />
         {error}
       </TextField>
@@ -157,7 +156,6 @@ export class ChatContactDetailsPopup extends Component {
     const value = this.state.formState.email;
     const error = this.renderErrorMessage(value,
       false, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
@@ -170,7 +168,7 @@ export class ChatContactDetailsPopup extends Component {
           disabled={this.props.isAuthenticated}
           name='email'
           onKeyPress={this.handleKeyPress}
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );

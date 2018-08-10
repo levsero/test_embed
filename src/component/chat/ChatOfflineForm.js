@@ -83,7 +83,6 @@ export class ChatOfflineForm extends Component {
       [styles.textField]: _.size(authUrls) === 0
     });
     const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.name');
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField className={fieldContainerStyle}>
@@ -97,7 +96,7 @@ export class ChatOfflineForm extends Component {
           autoComplete='off'
           onChange={() => {}}
           name='name'
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );
@@ -108,7 +107,6 @@ export class ChatOfflineForm extends Component {
     const value = _.get(this.props.formState, 'email', '');
     const error = this.renderErrorMessage(value,
       isRequired, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
@@ -122,7 +120,7 @@ export class ChatOfflineForm extends Component {
           onChange={() => {}}
           type='email'
           name='email'
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );
@@ -133,7 +131,6 @@ export class ChatOfflineForm extends Component {
     const value = _.get(this.props.formState, 'phone', '');
     const error = this.renderErrorMessage(value,
       isRequired, 'embeddable_framework.validation.error.phone', PHONE_PATTERN);
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField className={styles.textField}>
@@ -147,7 +144,7 @@ export class ChatOfflineForm extends Component {
           onChange={() => {}}
           type='tel'
           name='phone'
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );
@@ -157,7 +154,6 @@ export class ChatOfflineForm extends Component {
     const isRequired = !!_.get(this.props.formFields, 'message.required');
     const value = _.get(this.props.formState, 'message', '');
     const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.message', null);
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
@@ -171,7 +167,7 @@ export class ChatOfflineForm extends Component {
           onChange={() => {}}
           rows='5'
           name='message'
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );

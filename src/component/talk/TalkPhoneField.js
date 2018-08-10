@@ -158,7 +158,6 @@ export class TalkPhoneField extends ControlledComponent {
       ? { focused: true }
       : {};
     const error = this.renderErrorMessage();
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <div>
@@ -173,7 +172,7 @@ export class TalkPhoneField extends ControlledComponent {
                   <Label {...this.getLabelProps(getFieldLabelProps())}>{this.props.label}</Label>
                   <StyledFauxInput
                     {...focused}
-                    {...validationProps}
+                    validation={error ? 'error' : 'none'}
                     mediaLayout={true}
                     inputRef={container => this.containerRef = container}>
                     <TalkCountryDropdown

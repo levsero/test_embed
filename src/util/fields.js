@@ -17,7 +17,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
     const error = renderErrorMessage(sharedProps, formState);
     const props = {
       ...sharedProps,
-      validation: error ? 'error': ''
+      validation: error ? 'error': 'none'
     };
 
     return (
@@ -120,7 +120,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
         const descError = renderErrorMessage(sharedProps, formState);
         const descProps = {
           ...sharedProps,
-          validation: descError ? 'error': ''
+          validation: descError ? 'error': 'none'
         };
 
         return (
@@ -147,7 +147,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
           : null;
         const checkboxProps = {
           ...sharedProps,
-          validation: checkboxError ? 'error': ''
+          validation: checkboxError ? 'error': 'none'
         };
 
         return (

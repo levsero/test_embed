@@ -168,7 +168,6 @@ export class PrechatForm extends Component {
     });
 
     const error = this.renderErrorMessage(Message, value, required, 'embeddable_framework.validation.error.name');
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField className={fieldContainerStyle}>
@@ -182,7 +181,7 @@ export class PrechatForm extends Component {
           value={value}
           onChange={() => {}}
           name={nameData.name}
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );
@@ -197,7 +196,6 @@ export class PrechatForm extends Component {
 
     const error = this.renderErrorMessage(Message, value,
       required, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
@@ -211,7 +209,7 @@ export class PrechatForm extends Component {
           onChange={() => {}}
           type='email'
           name={emailData.name}
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );
@@ -226,7 +224,6 @@ export class PrechatForm extends Component {
     const required = phoneData.required;
     const error = this.renderErrorMessage(Message, value, required,
       'embeddable_framework.validation.error.phone', PHONE_PATTERN);
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
@@ -240,7 +237,7 @@ export class PrechatForm extends Component {
           onChange={() => {}}
           type='tel'
           name={phoneData.name}
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );
@@ -252,7 +249,6 @@ export class PrechatForm extends Component {
     const value = this.props.formState.message;
     const error = this.renderErrorMessage(Message, value,
       required, 'embeddable_framework.validation.error.message');
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField>
@@ -266,7 +262,7 @@ export class PrechatForm extends Component {
           onChange={() => {}}
           rows='4'
           name={messageData.name}
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );
@@ -286,7 +282,6 @@ export class PrechatForm extends Component {
     const value = selectedDepartment.id ? selectedDepartment.id.toString() : null;
     const error = this.renderErrorMessage(SelectMessage, value,
       required, 'embeddable_framework.validation.error.department');
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <SelectField>
@@ -304,7 +299,7 @@ export class PrechatForm extends Component {
           popperModifiers={{ flip: { enabled: false }, preventOverflow: { escapeWithReference: true } }}
           dropdownProps={{ style: { maxHeight: `${140/FONT_SIZE}rem`, overflow: 'auto' }}}
           options={options}
-          {...validationProps}>
+          validation={error ? 'error' : 'none'}>
           {selectedDepartment.name}
         </Select>
         {error}

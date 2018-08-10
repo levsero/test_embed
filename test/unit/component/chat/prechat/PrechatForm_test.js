@@ -323,7 +323,7 @@ describe('PrechatForm component', () => {
 
       it('renders field not in an error state', () => {
         expect(result.props.children[1].props.validation)
-          .toBeFalsy();
+          .toEqual('none');
       });
     });
   });
@@ -447,7 +447,7 @@ describe('PrechatForm component', () => {
 
       it('renders field not in an error state', () => {
         expect(result.props.children[1].props.validation)
-          .toBeFalsy();
+          .toEqual('none');
       });
     });
   });
@@ -513,7 +513,7 @@ describe('PrechatForm component', () => {
 
       it('renders field not in an error state', () => {
         expect(result.props.children[1].props.validation)
-          .toBeFalsy();
+          .toEqual('none');
       });
     });
   });
@@ -565,7 +565,7 @@ describe('PrechatForm component', () => {
 
       it('renders field not in an error state', () => {
         expect(result.props.children[1].props.validation)
-          .toBeFalsy();
+          .toEqual('none');
       });
     });
   });

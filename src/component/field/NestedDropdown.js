@@ -187,7 +187,7 @@ export class NestedDropdown extends Component {
             onStateChange={newState => this.setState(newState)}
             onChange={this.handleChange}
             options={this.renderMenuItems(this.state.selectedKey)}
-            validation={this.props.showError ? 'error': ''}
+            validation={this.props.showError ? 'error': 'none'}
             dropdownProps={{ style: { maxHeight: `${240/FONT_SIZE}rem`, overflow: 'auto' }}}>
             {this.findOptionNameFromValue(this.state.displayedKey) || '-'}
           </Select>

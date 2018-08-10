@@ -200,7 +200,6 @@ class Talk extends Component {
     const isRequired = false;
     const value = this.props.formState.name;
     const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.name');
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField className={styles.textField}>
@@ -208,7 +207,7 @@ class Talk extends Component {
         <Input
           value={value}
           name='name'
-          {...validationProps}
+          validation={error ? 'error' : 'none'}
           required={isRequired} />
         {error}
       </TextField>
@@ -220,7 +219,6 @@ class Talk extends Component {
     const isRequired = false;
     const value = this.props.formState.description;
     const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.message');
-    const validationProps = error ? { validation: 'error' } : {};
 
     return (
       <TextField className={styles.textField}>
@@ -230,7 +228,7 @@ class Talk extends Component {
           rows='4'
           name='description'
           required={isRequired}
-          {...validationProps} />
+          validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
     );
