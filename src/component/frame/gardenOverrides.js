@@ -118,14 +118,16 @@ const inputOverrides = css`
 
 const messageOverrides = isMobile ? css`
   ${mobileOverrides}
-  margin-top: ${7/FONT_SIZE} rem !important;
+  margin-top: ${7/FONT_SIZE}rem !important;
+  background-size: ${14/FONT_SIZE}rem !important;
+  background-position-y: ${2/FONT_SIZE}rem !important;
 
   [dir='ltr'] & {
-    padding-left: ${18/FONT_SIZE}rem !important;
+    padding-left: ${20/FONT_SIZE}rem !important;
   }
 
   [dir='rtl'] & {
-    padding-right: ${18/FONT_SIZE}rem !important;
+    padding-right: ${20/FONT_SIZE}rem !important;
   }
 ` : '';
 
@@ -188,6 +190,8 @@ function getGardenOverrides() {
     'textfields.input': inputOverrides,
     'textfields.label': mobileOverrides,
     'textfields.message': messageOverrides,
+    'select.message': messageOverrides,
+    'checkboxes.message': messageOverrides,
     'textfields.hint': mobileOverrides,
     'buttons.button': getButtonOverrides(colorVariables, themeColor),
     'checkboxes.checkbox_view': bottomMargin,
