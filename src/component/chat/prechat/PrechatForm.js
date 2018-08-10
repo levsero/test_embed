@@ -126,7 +126,7 @@ export class PrechatForm extends Component {
     setTimeout(() => {
       const { form, formState } = this.props;
       const valid = !!(this.form.checkValidity && this.form.checkValidity());
-      const deptValid = _.get(form, 'department.required') && formState.department;
+      const deptValid = _.get(form, 'department.required') ? formState.department : true;
 
       // FIXME: This is not tested due to timing pollution on our specs
       this.setState({ valid: valid && deptValid });
@@ -291,7 +291,7 @@ export class PrechatForm extends Component {
     return (
       <SelectField>
         <SelectLabel>
-          {departmentSettings.label}
+          {departmentSettings.label ? renderLabelText(departmentSettings.label) : null}
         </SelectLabel>
         <Select
           required={required}

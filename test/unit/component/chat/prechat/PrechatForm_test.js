@@ -79,7 +79,7 @@ describe('PrechatForm component', () => {
       'component/ZendeskLogo': { ZendeskLogo },
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
-        renderLabelText: () => 'someLabel'
+        renderLabelText: _.identity
       }
     });
 
