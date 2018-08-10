@@ -306,19 +306,26 @@ describe('SubmitTicketForm component', () => {
     let result;
 
     describe('when the subject field is enabled', () => {
+      let labelElement,
+        inputElement;
+
       beforeEach(() => {
         const submitTicketForm = instanceRender(
           <SubmitTicketForm subjectEnabled={true} />
         );
 
         result = submitTicketForm.renderSubjectField();
+        [labelElement, inputElement] = result.props.children;
       });
 
-      it('renders the subject field', () => {
-        const labelElement = result.props.children[0];
-
+      it('renders the subject field with correct label', () => {
         expect(labelElement.props.children)
           .toBe('embeddable_framework.submitTicket.field.subject.label');
+      });
+
+      it('renders the subject field with correct name', () => {
+        expect(inputElement.props.name)
+          .toBe('subject');
       });
     });
 
@@ -333,6 +340,57 @@ describe('SubmitTicketForm component', () => {
         expect(result)
           .toBeNull();
       });
+    });
+  });
+
+  describe('#renderNameFIeld', () => {
+    let result,
+      inputElement;
+
+    beforeEach(() => {
+      const submitTicketForm = instanceRender(<SubmitTicketForm />);
+
+      result = submitTicketForm.renderNameField();
+      inputElement = result.props.children[1];
+    });
+
+    it('renders the name field with correct name prop', () => {
+      expect(inputElement.props.name)
+        .toBe('name');
+    });
+  });
+
+  describe('#renderEmailField', () => {
+    let result,
+      inputElement;
+
+    beforeEach(() => {
+      const submitTicketForm = instanceRender(<SubmitTicketForm />);
+
+      result = submitTicketForm.renderEmailField();
+      inputElement = result.props.children[1];
+    });
+
+    it('renders the email field with correct name prop', () => {
+      expect(inputElement.props.name)
+        .toBe('email');
+    });
+  });
+
+  describe('#renderDescriptionField', () => {
+    let result,
+      inputElement;
+
+    beforeEach(() => {
+      const submitTicketForm = instanceRender(<SubmitTicketForm />);
+
+      result = submitTicketForm.renderDescriptionField();
+      inputElement = result.props.children[1];
+    });
+
+    it('renders the description field with correct name prop', () => {
+      expect(inputElement.props.name)
+        .toBe('description');
     });
   });
 

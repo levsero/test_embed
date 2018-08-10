@@ -319,6 +319,7 @@ export class SubmitTicketForm extends Component {
       this.props.formState.name,
       'embeddable_framework.validation.error.input'
     );
+    const name = 'subject';
 
     const subjectField = (
       <TextField>
@@ -326,7 +327,8 @@ export class SubmitTicketForm extends Component {
           {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.subject.label'), false)}
         </Label>
         <Input
-          key='subject'
+          key={name}
+          name={name}
           validation={error ? 'error': ''}
           value={this.props.formState.subject}
           disabled={this.props.previewEnabled} />
@@ -345,6 +347,7 @@ export class SubmitTicketForm extends Component {
       'embeddable_framework.validation.error.email',
       EMAIL_PATTERN
     );
+    const name = 'email';
 
     return (
       <TextField>
@@ -353,8 +356,8 @@ export class SubmitTicketForm extends Component {
         </Label>
         <Input
           validation={error ? 'error': ''}
-          key='email'
-          name='email'
+          key={name}
+          name={name}
           required={true}
           value={this.props.formState.email}
           disabled={this.props.previewEnabled} />
@@ -368,6 +371,7 @@ export class SubmitTicketForm extends Component {
       false,
       this.props.formState.name,
       'embeddable_framework.validation.error.name');
+    const name = 'name';
 
     return (
       <TextField>
@@ -375,8 +379,8 @@ export class SubmitTicketForm extends Component {
           {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.name.label'), false)}
         </Label>
         <Input
-          key='name'
-          name='name'
+          key={name}
+          name={name}
           validation={error ? 'error': ''}
           disabled={this.props.previewEnabled}
           value={this.props.formState.name} />
@@ -390,6 +394,7 @@ export class SubmitTicketForm extends Component {
       true,
       this.props.formState.description,
       'embeddable_framework.validation.error.input');
+    const name = 'description';
 
     return (
       <TextField>
@@ -397,7 +402,8 @@ export class SubmitTicketForm extends Component {
           {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.description.label'), true)}
         </Label>
         <Textarea
-          key='description'
+          key={name}
+          name={name}
           validation={error ? 'error': ''}
           disabled={this.props.previewEnabled}
           required={true}
