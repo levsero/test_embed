@@ -1,12 +1,5 @@
 @import '../../styles/_vars.scss';
 
-.scrollContainer {
-  flex: 1;
-  position: relative;
-  max-height: none;
-  height: auto;
-}
-
 .scrollContainerSuccess {
   overflow-y: hidden;
 }

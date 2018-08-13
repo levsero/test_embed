@@ -56,7 +56,6 @@ describe('Talk component', () => {
         locals: {
           content: 'contentClasses',
           contentMobile: 'contentMobileClasses',
-          scrollContainer: 'scrollContainer',
           scrollContainerSuccess: 'scrollContainerSuccessClass',
           noZendeskLogoButton: 'noZendeskLogoButton',
           zendeskLogoButton: 'zendeskLogoButton'

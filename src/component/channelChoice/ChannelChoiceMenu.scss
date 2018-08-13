@@ -45,34 +45,6 @@
   }
 }
 
-.buttonTalk {
-  padding-left: #{9/$font-size}rem !important;
-
-  &:hover, &:focus, &:active {
-    svg path {
-      fill: none !important;
-    }
-  }
-}
-
-.oldIcon {
-  padding-left: 0;
-  width: #{16/$font-size}rem;
-  height: #{16/$font-size}rem;
-
-  svg {
-    min-width: #{16/$font-size}rem;
-    min-height: #{16/$font-size}rem;
-    max-width: #{16/$font-size}rem;
-    max-height: #{16/$font-size}rem;
-  }
-
-  [dir='rtl'] & {
-    padding-left: #{15/$font-size}rem;
-    padding-right: 0 !important;
-  }
-}
-
 .iconTalk {
   padding-left: #{31/$font-size}rem;
   padding-right: #{14/$font-size}rem !important;
@@ -89,19 +61,6 @@
   [dir='rtl'] & {
     padding-left: #{14/$font-size}rem;
     padding-right: #{31/$font-size}rem !important;
-  }
-}
-
-.oldIconTalk {
-  svg path {
-    stroke: $zd-color-monsoon;
-    fill: none !important;
-  }
-
-  &:hover, &:focus, &:active {
-    svg path {
-      stroke: $zd-color-dark-gray;
-    }
   }
 }
 

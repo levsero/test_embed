@@ -13,13 +13,10 @@ describe('ChannelChoiceMenu component', () => {
         locals: {
           btn: 'btnClass',
           btnEnabled: 'btnEnabledClass',
-          buttonTalk: 'buttonTalkClass',
           chatBtnDisabled: 'chatBtnDisabledClass',
           iconTalk: 'iconTalkClass',
           newIcon: 'newIconClass',
           newIconDisabled: 'newIconDisabledClass',
-          oldIcon: 'oldIconClass',
-          oldIconTalk: 'oldIconTalkClass',
           talkBtnDisabled: 'talkBtnDisabledClass'
         }
       },
