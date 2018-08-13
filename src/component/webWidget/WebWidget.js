@@ -276,7 +276,7 @@ class WebWidget extends Component {
   }
 
   show = (viaActivate = false) => {
-    const { activeEmbed, chatAvailable } = this.props;
+    const { activeEmbed, chatAvailable, talkAvailable } = this.props;
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
@@ -292,8 +292,10 @@ class WebWidget extends Component {
       return;
     }
 
-    const chatOffline = (activeEmbed === zopimChat);
-    const talkOffline = (activeEmbed === talk);
+    const channelChoiceBecameUnavailable = (activeEmbed === channelChoice && !this.isChannelChoiceAvailable());
+
+    const chatOffline = (activeEmbed === chat && channelChoiceBecameUnavailable && !chatAvailable);
+    const talkOffline = (activeEmbed === talk || (channelChoiceBecameUnavailable && !talkAvailable));
 
     if (this.noActiveEmbed() || viaActivate || chatOffline || talkOffline) this.resetActiveEmbed();
   }
