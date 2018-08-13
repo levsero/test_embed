@@ -77,7 +77,7 @@ export class ChatOfflineForm extends Component {
   renderNameField() {
     const { formFields, formState, authUrls } = this.props;
     const isRequired = !!_.get(formFields, 'name.required');
-    const value = _.get(formState, 'name', '');
+    const value = formState.name;
     const fieldContainerStyle = classNames({
       [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0,
       [styles.textField]: _.size(authUrls) === 0
@@ -104,7 +104,7 @@ export class ChatOfflineForm extends Component {
 
   renderEmailField() {
     const isRequired = !!_.get(this.props.formFields, 'email.required');
-    const value = _.get(this.props.formState, 'email', '');
+    const value = this.props.formState.email;
     const error = this.renderErrorMessage(value,
       isRequired, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
 
@@ -128,7 +128,7 @@ export class ChatOfflineForm extends Component {
 
   renderPhoneNumberField() {
     const isRequired = !!_.get(this.props.formFields, 'phone.required');
-    const value = _.get(this.props.formState, 'phone', '');
+    const value = this.props.formState.phone;
     const error = this.renderErrorMessage(value,
       isRequired, 'embeddable_framework.validation.error.phone', PHONE_PATTERN);
 
@@ -152,7 +152,7 @@ export class ChatOfflineForm extends Component {
 
   renderMessageField() {
     const isRequired = !!_.get(this.props.formFields, 'message.required');
-    const value = _.get(this.props.formState, 'message', '');
+    const value = this.props.formState.message;
     const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.message', null);
 
     return (

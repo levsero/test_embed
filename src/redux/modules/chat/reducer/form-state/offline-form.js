@@ -1,7 +1,12 @@
 import { CHAT_OFFLINE_FORM_CHANGED, OFFLINE_FORM_BACK_BUTTON_CLICKED } from '../../chat-action-types';
 import { IDENTIFY_RECIEVED } from '../../../base/base-action-types';
 
-const initialState = {};
+const initialState = {
+  name: '',
+  email: '',
+  phone: '',
+  message: '',
+};
 
 const offlineForm = (state = initialState, action) => {
   switch (action.type) {
