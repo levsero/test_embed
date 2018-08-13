@@ -13,13 +13,11 @@
 
 .desktopContainer {
   composes: container;
-  padding-left: #{10/$font-size}rem;
   margin-bottom: #{10/$font-size}rem;
 }
 
 .mobileContainer {
   composes: container;
-  padding-left: #{8/$font-size}rem;
   height: #{40/$font-size}rem;
   padding-top: #{0/$font-size}rem;
   padding-bottom: #{0/$font-size}rem;
@@ -29,11 +27,6 @@
 .mobileSearchInput {
   font-size: $font-size-mobile;
   height: #{43/$font-size}rem;
-
-  [dir='rtl'] & {
-    padding-left: 0 !important;
-    padding-right: #{11/$font-size}rem !important;
-  }
 }
 
 .mobileSearchIcon {
@@ -67,11 +60,23 @@
       }
     }
   };
+
+  [dir='rtl'] & {
+    margin-left: #{12/$font-size}rem !important;
+    margin-right: #{16/$font-size}rem !important;
+  }
 }
 
 .searchInput {
   &:focus {
     box-shadow: none !important;
+  }
+
+  padding-left: #{12/$font-size}rem !important;
+
+  [dir='rtl'] & {
+    padding-left: 0 !important;
+    padding-right: #{11/$font-size}rem !important;
   }
 }
 
