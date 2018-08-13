@@ -92,7 +92,7 @@ class Navigation extends Component {
           onClick: handleBackClick,
           icon: ICONS.BACK,
           position: 'left',
-          'aria-label': 'Go back',
+          'aria-label': i18n.t('embeddable_framework.navigation.back'),
           isVisible: backButtonVisible && useBackButton
         })
       );
@@ -105,7 +105,7 @@ class Navigation extends Component {
         {this.renderLeftNavButton()}
         {this.renderNavButton({
           onClick: this.props.handleCloseClick,
-          'aria-label': 'Close widget',
+          'aria-label': i18n.t('embeddable_framework.navigation.close'),
           icon: ICONS.DASH,
           position: 'right',
           isVisible: !this.props.hideCloseButton

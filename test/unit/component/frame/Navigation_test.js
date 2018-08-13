@@ -24,7 +24,8 @@ describe('Navigation', () => {
       },
       'service/i18n': {
         i18n: {
-          isRTL: () => false
+          isRTL: () => false,
+          t: noop
         }
       },
       './Navigation.scss': {
