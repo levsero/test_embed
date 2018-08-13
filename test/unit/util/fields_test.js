@@ -2,6 +2,7 @@ describe('fields', () => {
   let getCustomFields,
     shouldRenderErrorMessage,
     renderLabelText,
+    getDefaultFieldValues,
     mockLocaleIdValue;
 
   const translateSpy = jasmine.createSpy('t').and.callFake(_.identity);
@@ -169,6 +170,7 @@ describe('fields', () => {
     getCustomFields = fields.getCustomFields;
     shouldRenderErrorMessage = fields.shouldRenderErrorMessage;
     renderLabelText = fields.renderLabelText;
+    getDefaultFieldValues = fields.getDefaultFieldValues;
   });
 
   afterEach(() => {
@@ -701,6 +703,64 @@ describe('fields', () => {
       it('calls i18n translate to include "optional" key', () => {
         expect(translateSpy)
           .toHaveBeenCalledWith('embeddable_framework.validation.label.optional', { label: 'yolo' });
+      });
+    });
+  });
+
+  describe('getDefaultFieldValues', () => {
+    describe('when the element has an existing value', () => {
+      const testDataList = [
+        { type: 'text',        value: 'a',    expectation: 'a' },
+        { type: 'subject',     value: 'b',    expectation: 'b' },
+        { type: 'integer',     value: 1,      expectation: 1 },
+        { type: 'decimal',     value: 1.1,    expectation: 1.1 },
+        { type: 'textarea',    value: 'a\tb', expectation: 'a\tb' },
+        { type: 'description', value: 'blah', expectation: 'blah' },
+        { type: 'checkbox',    value: true,   expectation: true },
+        { type: 'tagger',      value: 'bob',  expectation: 'bob' }
+      ];
+      const assertFieldUsesExistingValue = (type, value, expectation) => {
+        it(`returns '${expectation}' for ${type} field type`, () => {
+          expect(getDefaultFieldValues(type, value))
+            .toEqual(expectation);
+        });
+      };
+
+      it('the test data has at least one entry', () => {
+        expect(testDataList.length)
+          .toBeGreaterThan(0);
+      });
+
+      testDataList.forEach(({ type, value, expectation }) => {
+        assertFieldUsesExistingValue(type, value, expectation);
+      });
+    });
+
+    describe('when the element does not have an existing value', () => {
+      const testDataList = [
+        { type: 'text',        expectation: '' },
+        { type: 'subject',     expectation: '' },
+        { type: 'integer',     expectation: '' },
+        { type: 'decimal',     expectation: '' },
+        { type: 'textarea',    expectation: '' },
+        { type: 'description', expectation: '' },
+        { type: 'checkbox',    expectation: false },
+        { type: 'tagger',      expectation: undefined }
+      ];
+      const assertFieldUsesDefaultValue = (type, expectation) => {
+        it(`returns '${expectation}' for ${type} field type`, () => {
+          expect(getDefaultFieldValues(type))
+            .toEqual(expectation);
+        });
+      };
+
+      it('the test data has at least one entry', () => {
+        expect(testDataList.length)
+          .toBeGreaterThan(0);
+      });
+
+      testDataList.forEach(({ type, expectation }) => {
+        assertFieldUsesDefaultValue(type, expectation);
       });
     });
   });

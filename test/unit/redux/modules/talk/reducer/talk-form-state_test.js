@@ -24,9 +24,14 @@ describe('talk reducer form state', () => {
     let state;
 
     describe('initial state', () => {
-      it('phoneNumber is set to an empty object', () => {
+      const expected = {
+        name: '',
+        phone: ''
+      };
+
+      it('is set to an object with expected structure', () => {
         expect(initialState)
-          .toEqual({});
+          .toEqual(expected);
       });
     });
 

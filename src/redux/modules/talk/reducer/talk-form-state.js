@@ -1,6 +1,9 @@
 import { UPDATE_CALLBACK_FORM } from '../talk-action-types';
 
-const initialState = {};
+const initialState = {
+  name: '',
+  phone: ''
+};
 
 const formState = (state = initialState, action) => {
   switch (action.type) {

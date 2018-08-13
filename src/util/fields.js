@@ -12,6 +12,22 @@ import {
   Hint as CheckboxHint,
   Message as CheckboxMessage } from '@zendeskgarden/react-checkboxes';
 
+const getDefaultFieldValues = (elementType, existingValue) => {
+  switch (elementType) {
+    case 'text':
+    case 'subject':
+    case 'integer':
+    case 'decimal':
+    case 'textarea':
+    case 'description':
+      return existingValue || '';
+    case 'checkbox':
+      return existingValue || false;
+    default:
+      return existingValue;
+  }
+};
+
 const getCustomFields = (customFields, formState, options = {}) => {
   const renderField = (sharedProps) => {
     const error = renderErrorMessage(sharedProps, formState);
@@ -62,7 +78,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       errorString: 'embeddable_framework.validation.error.input',
       required: !!field.required_in_portal,
       'aria-required': !!field.required_in_portal,
-      value: formState[field.id]
+      value: getDefaultFieldValues(field.type, formState[field.id])
     };
     const { visible_in_portal: visible, editable_in_portal: editable } = field; // eslint-disable-line camelcase
 
@@ -187,4 +203,8 @@ const renderLabelText = (label, required) => {
 export {
   getCustomFields,
   shouldRenderErrorMessage,
-  renderLabelText };
+  renderLabelText,
+
+  // Exported for testing
+  getDefaultFieldValues
+};
