@@ -34,6 +34,16 @@
   padding: #{12/$font-size}rem;
   background-color: $zd-color-grey-200;
   margin: 0 auto!important;
+
+  border-top-right-radius: #{4/$font-size}rem;
+  border-bottom-right-radius: #{4/$font-size}rem;
+
+  [dir='rtl'] & {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: #{4/$font-size}rem;
+    border-bottom-left-radius: #{4/$font-size}rem;
+  }
 }
 
 .mobileClearInput {
