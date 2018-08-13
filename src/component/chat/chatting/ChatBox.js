@@ -43,7 +43,7 @@ export class ChatBox extends Component {
 
     return (
       <div className={styles.container}>
-        <TextField>
+        <TextField className={styles.textField}>
           <Label className={styles.label}>
             {placeholder}
           </Label>
