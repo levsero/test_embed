@@ -1112,7 +1112,7 @@ describe('WebWidget component', () => {
     });
 
     describe('when there is an active embed', () => {
-      describe('and no other factors apply', () => {
+      describe('when the activeEmbed is chat and it becomes unavailable', () => {
         beforeEach(() => {
           webWidget = domRender(
             <WebWidget
@@ -1125,9 +1125,9 @@ describe('WebWidget component', () => {
           webWidget.show();
         });
 
-        it('does not call resetActiveEmbed', () => {
+        it('calls resetActiveEmbed', () => {
           expect(webWidget.resetActiveEmbed)
-            .not.toHaveBeenCalled();
+            .toHaveBeenCalled();
         });
       });
 

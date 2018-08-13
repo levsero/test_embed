@@ -292,12 +292,17 @@ class WebWidget extends Component {
       return;
     }
 
-    const channelChoiceBecameUnavailable = (activeEmbed === channelChoice && !this.isChannelChoiceAvailable());
+    const channelChoiceunavailable = (activeEmbed === channelChoice && !this.isChannelChoiceAvailable());
+    const chatOffline = (activeEmbed === chat && !chatAvailable);
+    const talkOffline = (activeEmbed === talk && !talkAvailable);
 
-    const chatOffline = (activeEmbed === chat && channelChoiceBecameUnavailable && !chatAvailable);
-    const talkOffline = (activeEmbed === talk || (channelChoiceBecameUnavailable && !talkAvailable));
-
-    if (this.noActiveEmbed() || viaActivate || chatOffline || talkOffline) this.resetActiveEmbed();
+    if (
+      this.noActiveEmbed() ||
+      viaActivate ||
+      chatOffline ||
+      talkOffline ||
+      channelChoiceunavailable
+    ) this.resetActiveEmbed();
   }
 
   showHelpCenter = () => {
