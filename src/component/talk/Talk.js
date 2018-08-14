@@ -234,7 +234,7 @@ class Talk extends Component {
   }
 
   renderFormScreen = () => {
-    const submitButtonStyles = classNames({ [styles.submitBtnMobile]: this.props.isMobile });
+    const submitButtonStyles = classNames(styles.submitButton, { [styles.submitBtnMobile]: this.props.isMobile });
 
     return (
       <Form

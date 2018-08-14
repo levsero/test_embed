@@ -109,6 +109,12 @@
   composes: button;
 }
 
+.submitButton {
+  max-width: #{200/$font-size}rem !important;
+  padding-right: #{10/$font-size}rem !important;
+  padding-left: #{10/$font-size}rem !important;
+}
+
 .zendeskLogoButton {
   margin-bottom: #{40/$font-size}rem;
 }

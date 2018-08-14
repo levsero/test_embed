@@ -477,7 +477,8 @@ export class SubmitTicketForm extends Component {
   renderCancelButton = () => {
     return (
       <Button
-        onClick={this.props.onCancel}>
+        onClick={this.props.onCancel}
+        className={styles.button}>
         {i18n.t(this.state.cancelButtonMessage)}
       </Button>
     );
@@ -533,7 +534,8 @@ export class SubmitTicketForm extends Component {
               <Button
                 primary={true}
                 disabled={buttonDisabled}
-                type='submit'>
+                type='submit'
+                className={styles.button}>
                 {i18n.t(this.state.buttonMessage)}
               </Button>
             </ButtonGroup>

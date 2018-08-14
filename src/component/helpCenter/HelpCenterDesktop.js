@@ -162,7 +162,8 @@ export class HelpCenterDesktop extends Component {
           <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
             <Button
               primary={true}
-              onClick={onClickHandler}>
+              onClick={onClickHandler}
+              className={styles.button}>
               {this.props.buttonLabel}
             </Button>
           </ButtonGroup>
