@@ -453,7 +453,8 @@ export class SubmitTicketForm extends Component {
       {
         getFrameDimensions: this.props.getFrameDimensions,
         getFrameContentDocument: this.props.getFrameContentDocument,
-        onChange: this.updateForm
+        onChange: this.updateForm,
+        showErrors: this.state.showErrors
       }
     );
 
