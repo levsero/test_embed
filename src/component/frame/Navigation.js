@@ -82,7 +82,7 @@ class Navigation extends Component {
           onClick: this.handleMenuClick,
           icon: ICONS.MENU,
           position: 'left',
-          'aria-label': 'Open menu',
+          'aria-label': i18n.t('embeddable_framework.navigation.menu'),
           isVisible: true
         })
       );
