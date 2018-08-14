@@ -50,9 +50,13 @@ describe('submitTicket reducer formState', () => {
       });
     });
 
-    it('sets the state to the payload', () => {
+    it('sets the state to the payload merged with the initial state', () => {
       expect(state)
-        .toEqual(mockFormState);
+        .toEqual({
+          ...mockFormState,
+          subject: '',
+          description: ''
+        });
     });
   });
 
