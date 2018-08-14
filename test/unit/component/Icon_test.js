@@ -49,7 +49,7 @@ describe('Icon components', function() {
       'icons/widget-icon_arrow-down-stroke.svg': DummyIcon,
       'icons/widget-icon_google-plus.svg': DummyIcon,
       'icons/widget-icon_new-channelChoice-contactForm.svg': DummyIcon,
-      'icons/widget-icon_new-channelChoice-chat.svg': DummyIcon,
+      'icons/widget-icon_channelChoice-chat.svg': DummyIcon,
       'icons/widget-icon_new-channelChoice-talk.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/12/check-sm-stroke.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/attachment.svg': DummyIcon,

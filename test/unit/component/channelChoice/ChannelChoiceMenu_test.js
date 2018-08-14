@@ -149,7 +149,7 @@ describe('ChannelChoiceMenu component', () => {
 
       it('passes icon type to props.icon', () => {
         expect(children.props.icon)
-          .toContain('Icon--new-channelChoice-talk');
+          .toContain('Icon--channelChoice-talk');
       });
 
       describe('when called', () => {
@@ -349,7 +349,7 @@ describe('ChannelChoiceMenu component', () => {
 
       it('passes icon type to props.icon', () => {
         expect(children.props.icon)
-          .toContain('Icon--new-channelChoice-chat');
+          .toContain('Icon--channelChoice-chat');
       });
 
       describe('when called', () => {
@@ -555,7 +555,7 @@ describe('ChannelChoiceMenu component', () => {
 
       it('passes the expected string to props.icon', () => {
         expect(children.props.icon)
-          .toEqual('Icon--new-channelChoice-contactForm');
+          .toEqual('Icon--channelChoice-contactForm');
       });
     });
 

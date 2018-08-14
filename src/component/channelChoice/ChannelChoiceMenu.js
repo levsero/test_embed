@@ -85,7 +85,7 @@ export class ChannelChoiceMenu extends Component {
           onClick={this.handleNextClick('talk')}
           iconClasses={iconStyle}
           label={this.renderTalkLabel()}
-          icon={'Icon--new-channelChoice-talk'} />
+          icon={'Icon--channelChoice-talk'} />
       </li>
     );
   }
@@ -112,7 +112,7 @@ export class ChannelChoiceMenu extends Component {
           labelClassName={this.props.labelClasses}
           onClick={this.handleNextClick('ticketSubmissionForm')}
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-          icon={'Icon--new-channelChoice-contactForm'} />
+          icon={'Icon--channelChoice-contactForm'} />
       </li>
     );
   }
@@ -154,7 +154,7 @@ export class ChannelChoiceMenu extends Component {
           labelClassName={this.props.labelClasses}
           onClick={this.handleChatClick()}
           label={this.renderChatLabel()}
-          icon={'Icon--new-channelChoice-chat'} />
+          icon={'Icon--channelChoice-chat'} />
       </li>
     );
   }

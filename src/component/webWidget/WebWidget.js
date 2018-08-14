@@ -292,16 +292,16 @@ class WebWidget extends Component {
       return;
     }
 
-    const channelChoiceunavailable = (activeEmbed === channelChoice && !this.isChannelChoiceAvailable());
-    const chatOffline = (activeEmbed === chat && !chatAvailable);
-    const talkOffline = (activeEmbed === talk && !talkAvailable);
+    const channelChoiceUnavailable = (activeEmbed === channelChoice && !this.isChannelChoiceAvailable());
+    const chatUnavailable = (activeEmbed === chat && !chatAvailable);
+    const talkUnavailable = (activeEmbed === talk && !talkAvailable);
 
     if (
       this.noActiveEmbed() ||
       viaActivate ||
-      chatOffline ||
-      talkOffline ||
-      channelChoiceunavailable
+      chatUnavailable ||
+      talkUnavailable ||
+      channelChoiceUnavailable
     ) this.resetActiveEmbed();
   }
 
