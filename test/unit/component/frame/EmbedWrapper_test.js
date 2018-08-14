@@ -83,51 +83,78 @@ describe('EmbedWrapper', () => {
         .toBeDefined();
     });
 
-    describe('when ESC is pressed', () => {
-      it('closes webwidget if focused', () => {
-        const target = {
+    describe('on keypress', () => {
+      let target, targetId, keypressId;
+
+      beforeEach(() => {
+        target = {
           ownerDocument: {
             defaultView: {
               frameElement: {
-                id: 'webWidget'
+                id: targetId
               }
             }
           }
         };
 
-        TestUtils.Simulate.keyDown(rootElem, { key: 'Escape', keyCode: 27, which: 27, target });
-        expect(instance.props.handleCloseClick).toHaveBeenCalled();
+        TestUtils.Simulate.keyDown(rootElem, { key: 'Escape', keyCode: keypressId, which: keypressId, target });
       });
 
-      it('does nothing if launcher is focused', () => {
-        const target = {
-          ownerDocument: {
-            defaultView: {
-              frameElement: {
-                id: 'launcher'
-              }
-            }
-          }
-        };
+      describe('when ESC is pressed', () => {
+        beforeAll(() => {
+          keypressId = 27;
+        });
 
-        TestUtils.Simulate.keyDown(rootElem, { key: 'Escape', keyCode: 27, which: 27, target });
-        expect(instance.props.handleCloseClick).not.toHaveBeenCalled();
+        describe('when webWidget is focused', () => {
+          beforeAll(() => {
+            targetId = 'webWidget';
+          });
+
+          it('calls handleCloseClick', () => {
+            expect(instance.props.handleCloseClick)
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('when launcher is focused', () => {
+          beforeAll(() => {
+            targetId = 'launcher';
+          });
+
+          it('does not call handleCloseClick', () => {
+            expect(instance.props.handleCloseClick)
+              .not.toHaveBeenCalled();
+          });
+        });
       });
-    });
 
-    it('if launcher is focused and TAB is pressed host document receives focus', () => {
-      const target = {
-        ownerDocument: {
-          defaultView: {
-            frameElement: {
-              id: 'launcher'
-            }
-          }
-        }
-      };
+      describe('when TAB is pressed', () => {
+        beforeAll(() => {
+          keypressId = 9;
+        });
 
-      TestUtils.Simulate.keyDown(rootElem, { key: 'Tab', keyCode: 9, which: 9, target });
-      expect(hostDocumentFocusSpy).toHaveBeenCalled();
+        describe('when webWidget is focused', () => {
+          beforeAll(() => {
+            targetId = 'webWidget';
+          });
+
+          it('does not give document focus', () => {
+            expect(hostDocumentFocusSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when launcher is focused', () => {
+          beforeAll(() => {
+            targetId = 'launcher';
+          });
+
+          it('gives the document focus', () => {
+            expect(hostDocumentFocusSpy)
+              .toHaveBeenCalled();
+          });
+        });
+      });
     });
   });
 });

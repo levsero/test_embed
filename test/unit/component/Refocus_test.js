@@ -22,51 +22,63 @@ describe('Refocus component', () => {
   });
 
   describe('componentDidMount', () => {
+    let element, focusedSpy;
+
+    beforeEach(() => {
+      focusedSpy = jasmine.createSpy('focus');
+    });
+
     describe('widgetShown is true', () => {
-      it('this.container receives focus', () => {
-        const focused = jasmine.createSpy('focus');
-
+      beforeEach(() => {
         testRender(<Refocus widgetShown={true} />, {
-          createNodeMock: () => createNodeMock('DIV', focused)
+          createNodeMock: () => createNodeMock(element, focusedSpy)
         });
-
-        expect(focused)
-          .toHaveBeenCalled();
       });
 
-      it('this.container doesn\'t receive focus if activeElement is an input', () => {
-        const focused = jasmine.createSpy('focus');
-
-        testRender(<Refocus widgetShown={true} />, {
-          createNodeMock: () => createNodeMock('INPUT', focused)
+      describe('when activeElement is not an input or textarea', () => {
+        beforeAll(() => {
+          element = 'DIV';
         });
 
-        expect(focused)
-          .not.toHaveBeenCalled();
+        it('this.container receives focus', () => {
+          expect(focusedSpy)
+            .toHaveBeenCalled();
+        });
       });
 
-      it('this.container doesn\'t receive focus if activeElement is an textarea', () => {
-        const focused = jasmine.createSpy('focus');
-
-        testRender(<Refocus widgetShown={true} />, {
-          createNodeMock: () => createNodeMock('TEXTAREA', focused)
+      describe('when activeElement is an input', () => {
+        beforeAll(() => {
+          element = 'INPUT';
         });
 
-        expect(focused)
-          .not.toHaveBeenCalled();
+        it('this.container doesn\'t receive focus', () => {
+          expect(focusedSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when activeElement is a textarea', () => {
+        beforeAll(() => {
+          element = 'TEXTAREA';
+        });
+
+        it('this.container doesn\'t receive focus', () => {
+          expect(focusedSpy)
+            .not.toHaveBeenCalled();
+        });
       });
     });
 
     describe('widgetShown is false', () => {
-      it('this.container.focus() is not called', () => {
-        const focused = jasmine.createSpy('focus');
-
+      beforeEach(() => {
         instanceRender(<Refocus />);
         testRender(<Refocus />, {
-          createNodeMock: () => createNodeMock('DIV', focused)
+          createNodeMock: () => createNodeMock('DIV', focusedSpy)
         });
+      });
 
-        expect(focused)
+      it('this.container.focus() is not called', () => {
+        expect(focusedSpy)
           .not.toHaveBeenCalled();
       });
     });
