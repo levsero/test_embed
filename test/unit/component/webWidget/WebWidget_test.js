@@ -145,7 +145,7 @@ describe('WebWidget component', () => {
         .not.toContain('u-isHidden');
 
       expect(webWidget.renderSubmitTicket())
-        .toBe(null);
+        .toBeNull();
 
       expect(webWidget.renderChat())
         .toBeFalsy();

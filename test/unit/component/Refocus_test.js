@@ -40,7 +40,7 @@ describe('Refocus component', () => {
           element = 'DIV';
         });
 
-        it('this.container receives focus', () => {
+        it('causes this.container to receive focus', () => {
           expect(focusedSpy)
             .toHaveBeenCalled();
         });
