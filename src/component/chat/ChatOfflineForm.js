@@ -106,6 +106,7 @@ export class ChatOfflineForm extends Component {
     const error = this.renderErrorMessage(value,
       isRequired, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
 
+    /* eslint-disable max-len */
     return (
       <TextField>
         <Label>
@@ -116,12 +117,13 @@ export class ChatOfflineForm extends Component {
           aria-required={isRequired}
           value={value}
           onChange={() => {}}
-          type='email'
           name='email'
-          validation={error ? 'error' : 'none'} />
+          validation={error ? 'error' : 'none'}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
         {error}
       </TextField>
     );
+    /* eslint-enable max-len */
   }
 
   renderPhoneNumberField() {

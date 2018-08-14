@@ -348,6 +348,7 @@ export class SubmitTicketForm extends Component {
     );
     const name = 'email';
 
+    /* eslint-disable max-len */
     return (
       <TextField>
         <Label>
@@ -359,10 +360,12 @@ export class SubmitTicketForm extends Component {
           name={name}
           required={true}
           value={this.props.formState.email}
-          disabled={this.props.previewEnabled} />
+          disabled={this.props.previewEnabled}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
         {error}
       </TextField>
     );
+    /* eslint-enable max-len */
   }
 
   renderNameField = () => {

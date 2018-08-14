@@ -196,6 +196,7 @@ export class PrechatForm extends Component {
     const error = this.renderErrorMessage(Message, value,
       required, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
 
+    /* eslint-disable max-len */
     return (
       <TextField>
         <Label>
@@ -206,12 +207,13 @@ export class PrechatForm extends Component {
           aria-required={required}
           value={value}
           onChange={() => {}}
-          type='email'
           name={emailData.name}
-          validation={error ? 'error' : 'none'} />
+          validation={error ? 'error' : 'none'}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
         {error}
       </TextField>
     );
+    /* eslint-enable max-len */
   }
 
   renderPhoneField = () => {

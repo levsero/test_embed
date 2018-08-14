@@ -113,6 +113,7 @@ export class ChatEmailTranscriptPopup extends Component {
       ? <Message validation='error'>{i18n.t('embeddable_framework.validation.error.email')}</Message>
       : null;
 
+    /* eslint-disable max-len */
     return (
       <TextField>
         <Label>
@@ -122,12 +123,13 @@ export class ChatEmailTranscriptPopup extends Component {
           required={true}
           value={this.state.formState.email}
           onKeyPress={this.handleKeyPress}
-          type='email'
           name='email'
-          validation={error ? 'error' : 'none'} />
+          validation={error ? 'error' : 'none'}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
         {error}
       </TextField>
     );
+    /* eslint-enable max-len */
   }
 
   renderFormScreen = () => {

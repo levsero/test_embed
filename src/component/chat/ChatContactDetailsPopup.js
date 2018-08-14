@@ -157,6 +157,7 @@ export class ChatContactDetailsPopup extends Component {
     const error = this.renderErrorMessage(value,
       false, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
 
+    /* eslint-disable max-len */
     return (
       <TextField>
         <Label>
@@ -164,14 +165,15 @@ export class ChatContactDetailsPopup extends Component {
         </Label>
         <Input
           value={this.state.formState.email}
-          type='email'
           disabled={this.props.isAuthenticated}
           name='email'
           onKeyPress={this.handleKeyPress}
-          validation={error ? 'error' : 'none'} />
+          validation={error ? 'error' : 'none'}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
         {error}
       </TextField>
     );
+    /* eslint-enable max-len */
   }
 
   renderFailureScreen = () => {
