@@ -26,6 +26,7 @@ This document contains guidelines for the Embeddable Framework's redux coding co
       - [Use reselect for memoization of state](#use-reselect-for-memoization-of-state)
       - [Composing selectors](#composing-selectors)
       - [Use selectors everywhere](#use-selectors-everywhere)
+      - [Don't define any default state inside selectors](#don't-define-any-default-state-inside-selectors)
   * [Middleware](#middleware)
       - [Thunk middleware](#thunk-middleware)
       - [onStateChange middleware](#onstatechange-middleware)
@@ -222,6 +223,16 @@ export const getChatEnabled = (state) => getZopimChatOnline(state) && !getSettin
 
 #### Use selectors everywhere
 Selectors should be imported wherever needed, not just inside components. They can also be used in actions, middleware and more.
+
+#### Don't define any default state inside selectors
+Don't set up selectors to return default state, we should be relying on the initial state of reducers for this.
+```js
+// Good: With initial state set up in reducers
+export const getChatEnabled = (state) => state.chat.enabled
+
+// Bad: Might not reflect what the store actually has stored
+export const getChatEnabled = (state) => _.get(state, 'chat.enabled', true);
+```
 
 ## Middleware
 
