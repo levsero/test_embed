@@ -27,8 +27,9 @@
 }
 
 .fullscreen {
-  composes: u-isActionable u-textSizeBaseMobile u-userHeaderButtonColorMobile from global;
+  composes: u-isActionable u-userHeaderButtonColorMobile from global;
 
+  font-size: $font-size-mobile;
   margin-top: 0 !important;
   margin-right: #{2/$font-size}rem !important;
   margin-left: #{2/$font-size}rem !important;

@@ -16,7 +16,6 @@ import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color/styles';
-import { transitionFactory } from 'service/transitionFactory';
 import { isMobileBrowser,
   getZoomSizingRatio } from 'utility/devices';
 import { renewToken } from 'src/redux/modules/base';
@@ -54,6 +53,11 @@ function create(name, config, reduxStore) {
     // Re-authenticate user if their oauth token is within 20 minutes of expiring
     reduxStore.dispatch(renewToken());
   };
+  const updateFrameTitle = (title) => {
+    if (get(name).instance) {
+      get(name).instance.updateFrameTitle(title);
+    }
+  };
   const adjustFrameStyleMargins = (frameStyle) => {
     const zoomRatio = getZoomSizingRatio();
     const adjustMargin = (margin) => {
@@ -80,12 +84,6 @@ function create(name, config, reduxStore) {
     hideCloseButton: true,
     name: name,
     position: config.position,
-    transitions: {
-      upShow: transitionFactory.webWidget.launcherUpShow(),
-      downHide: transitionFactory.webWidget.launcherDownHide(),
-      downShow: transitionFactory.webWidget.launcherDownShow(),
-      upHide: transitionFactory.webWidget.launcherUpHide()
-    },
     visible: config.visible
   };
 
@@ -93,6 +91,7 @@ function create(name, config, reduxStore) {
     <Frame {...params} store={reduxStore}>
       <Launcher
         onClick={onClick}
+        updateFrameTitle={updateFrameTitle}
         label={`embeddable_framework.launcher.label.${config.labelKey}`} />
     </Frame>
   );

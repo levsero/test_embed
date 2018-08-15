@@ -6,11 +6,11 @@
   padding-top: #{10/$font-size}rem;
   overflow: hidden;
   text-align: center;
-  color: $zd-color-aluminum;
+  color: $zd-color-grey-500;
 
   &:before,
   &:after {
-    background-color: $zd-color-iron;
+    background-color: $zd-color-grey-300;
     content: "";
     display: inline-block;
     height: #{1/$font-size}rem;

@@ -45,9 +45,9 @@ export class SuccessNotification extends Component {
           isMobile={this.props.isMobile}
         />
         <div className={messageClasses}>
-          <p className={firstMessageClasses}>
+          <h2 className={firstMessageClasses}>
             {i18n.t('embeddable_framework.common.notify.message.thanks_for_reaching_out')}
-          </p>
+          </h2>
           <p>
             {i18n.t('embeddable_framework.common.notify.message.get_back')}
           </p>

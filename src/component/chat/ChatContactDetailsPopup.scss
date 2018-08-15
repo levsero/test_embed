@@ -30,9 +30,9 @@
 .resultMessage {
   float: left;
   width: 88%;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
   line-height: 1.4;
-  color: $zd-color-oil;
+  color: $zd-color-grey-800;
 
   a {
     cursor: pointer;
@@ -40,10 +40,10 @@
 }
 
 .title {
-  color: $zd-color-dark-gray;
+  color: $zd-color-grey-800;
   margin-bottom: #{16/$font-size}rem;
   text-align: center;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
 }
 
 .form {
@@ -51,30 +51,7 @@
 }
 
 .field {
-  composes: u-paddingVS u-paddingHM from global;
-}
-
-.fieldAuthDisabled {
-  background: #EEEEEE !important;
-  border: none !important;
-}
-
-.fieldInputAuthDisabled {
-  color: $zd-color-aluminum !important;
-}
-
-.fieldContainer:last-of-type {
-  margin-bottom: #{20/$font-size}rem !important;
-}
-
-.fieldLabel {
-  composes: u-marginBS from global;
-  font-size: #{13/$font-size}rem !important;
-  color: $zd-color-dark-gray !important;
-}
-
-.fieldInputMobile {
-  font-size: #{13/$font-size}rem !important;
+  margin-bottom: #{10/$font-size}rem;
 }
 
 .loadingSpinner {
@@ -95,4 +72,8 @@
   composes: u-inlineBlock from global;
   color: $error-color;
   width: calc(100% - #{27/$font-size}rem);
+}
+
+.nameContainer {
+  margin-bottom: $field-margin-bottom;
 }

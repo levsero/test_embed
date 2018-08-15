@@ -1,22 +1,17 @@
 @import '../../styles/_vars.scss';
 
-.scrollContainer {
-  flex: 1;
-  position: relative;
-  max-height: none;
-  height: auto;
-}
-
 .scrollContainerSuccess {
   overflow-y: hidden;
 }
 
 .content {
   composes: u-textHeightMed from global;
+  color: $zd-color-grey-800;
 }
 
 .contentMobile {
-  composes: u-textHeightLrg u-textSize15 from global;
+  composes: u-textHeightLrg from global;
+  font-size: $font-size-mobile;
 }
 
 .form {
@@ -49,19 +44,21 @@
 
 .formDivider {
   composes: u-marginBL u-hsizeAll from global;
-  border: #{0.5/$font-size}rem solid $zd-color-gainsboro;
+  border: #{0.5/$font-size}rem solid $zd-color-grey-200;
   margin-left: #{-10/$font-size}rem;
   padding-right: #{20/$font-size}rem;
 }
 
 .phoneOnlyContainer {
-  composes: u-textCenter u-textSizeNml u-userFillColor from global;
+  composes: u-textCenter u-userFillColor from global;
+  font-size: #{14/$font-size}rem !important;
   margin-top: #{50/$font-size}rem !important;
   margin-bottom: #{40/$font-size}rem;
 }
 
 .phoneOnlyMobileContainer {
-  composes: u-textHeightLrg u-textSize15 from global;
+  composes: u-textHeightLrg from global;
+  font-size: $font-size-mobile;
 }
 
 .phoneOnlyMessage {
@@ -108,10 +105,18 @@
   width: 100%;
 }
 
+.submitBtnMobile {
+  composes: button;
+}
+
 .zendeskLogoButton {
   margin-bottom: #{40/$font-size}rem;
 }
 
 .noZendeskLogoButton {
   margin-bottom: #{20/$font-size}rem;
+}
+
+.textField {
+  margin-bottom: $field-margin-bottom;
 }

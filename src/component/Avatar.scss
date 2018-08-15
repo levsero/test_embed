@@ -3,7 +3,7 @@
 .avatar {
   composes: u-block u-paddingAN u-textCenter from global;
   border-radius: 50%;
-  background-color: $zd-color-aluminum;
+  background-color: $zd-color-grey-500;
   height: #{32/$font-size}rem;
   width: #{32/$font-size}rem;
 }

@@ -22,7 +22,7 @@ export class ScrollContainer extends Component {
     title: PropTypes.string.isRequired,
     classes: PropTypes.string,
     onContentScrolled: PropTypes.func,
-    newHeight: PropTypes.bool
+    titleClasses: PropTypes.string
   };
 
   static defaultProps = {
@@ -34,7 +34,7 @@ export class ScrollContainer extends Component {
     headerContent: null,
     scrollShadowVisible: false,
     onContentScrolled: () => {},
-    newHeight: false
+    titleClasses: ''
   };
 
   constructor(props, context) {
@@ -121,23 +121,20 @@ export class ScrollContainer extends Component {
       headerContent,
       containerClasses,
       classes,
-      onContentScrolled,
-      newHeight
+      onContentScrolled
     } = this.props;
     const headerClasses = classNames(styles.header, styles.userHeader);
-    const titleClasses = classNames(styles.title, { [styles.titleMobile]: fullscreen });
+    const titleClasses = classNames(styles.title, this.props.titleClasses, { [styles.titleMobile]: fullscreen });
     const scrollContainerClasses = classNames(
       classes,
       styles.container,
-      { [styles.newHeightFlexContainer]: newHeight },
-      { [styles.newHeightDesktop]: newHeight && !fullscreen },
-      { [styles.newHeightMobile]: newHeight && fullscreen },
-      { [styles.containerDesktop]: !fullscreen }
+      styles.flexContainer,
+      { [styles.desktop]: !fullscreen },
+      { [styles.containerDesktop]: !fullscreen },
+      { [styles.mobile]: fullscreen },
     );
     const contentClasses = classNames(
       styles.content,
-      { [styles.newHeightContent]: newHeight },
-      { [styles.noNewHeightContent]: !newHeight },
       containerClasses,
       {
         [styles.contentMobile]: fullscreen,
@@ -149,9 +146,9 @@ export class ScrollContainer extends Component {
       <div className={scrollContainerClasses}>
         <header ref={(el) => {this.header = el;}}
           className={headerClasses}>
-          <div className={titleClasses}>
+          <h1 className={titleClasses}>
             {this.props.title}
-          </div>
+          </h1>
           {this.props.headerContent}
         </header>
         <div

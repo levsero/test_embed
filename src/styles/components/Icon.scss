@@ -26,7 +26,7 @@
 
 .Icon--search {
   svg {
-    fill: $zd-color-aluminum;
+    fill: $zd-color-grey-400;
     min-width: #{14/$font-size}rem; /* 1 */
     min-height: #{14/$font-size}rem; /* 1 */
     height: #{14/$font-size}rem;
@@ -53,12 +53,12 @@
 
     &:hover, &:active, &:focus {
       path {
-        fill: $zd-color-algae;
+        fill: $zd-color-grey-600;
       }
     }
 
     path {
-      fill: $zd-color-iron;
+      fill: $zd-color-grey-500;
     }
   }
 }
@@ -72,7 +72,7 @@
   }
 
   svg {
-    fill: $zd-color-aluminum;
+    fill: $zd-color-grey-400;
     min-width: #{10/$font-size}rem; /* 1 */
     min-height: #{10/$font-size}rem; /* 1 */
     height: #{10/$font-size}rem;
@@ -164,7 +164,7 @@
 }
 
 .Icon--tick {
-  border: #{2/$font-size}rem solid $zd-color-iron;
+  border: #{2/$font-size}rem solid $zd-color-grey-300;
   padding: $spacing-lrg;
   width: #{68/$font-size}rem;
   height: #{68/$font-size}rem;
@@ -261,18 +261,6 @@
     min-height: #{14/$font-size}rem;
     width: #{14/$font-size}rem;
     height: #{14/$font-size}rem;
-
-    g {
-      fill: $zd-color-aluminum !important;
-    }
-
-    &:hover, &:active, &:focus {
-      background: $zd-color-platinum;
-
-      g {
-        fill: $zd-color-dark-gray !important;
-      }
-    }
   }
 }
 
@@ -300,7 +288,7 @@
   margin-top: #{-18/$font-size}rem !important;
 
   svg {
-    fill: $zd-color-aluminum;
+    fill: $zd-color-grey-500;
     min-width: #{7/$font-size}rem; /* 1 */
     min-height: #{7/$font-size}rem; /* 1 */
     height: #{7/$font-size}rem;
@@ -352,13 +340,13 @@
 
 .Icon--error-fill {
   path {
-    fill: $zd-color-flamingo;
+    fill: $error-color;
   }
 }
 
 .Icon--checkmark-fill {
   path {
-    fill: $zd-color-chateau-green;
+    fill: $zd-color-green-500;
   }
   svg {
     min-width: #{15/$font-size}rem;
@@ -370,7 +358,7 @@
 
 .Icon--remove {
   path {
-    fill: $zd-color-aluminum;
+    fill: $zd-color-grey-500;
   }
 }
 
@@ -444,5 +432,11 @@
     min-height: #{50/$font-size}rem;
     height: #{50/$font-size}rem;
     width: #{50/$font-size}rem;
+  }
+}
+
+.Icon--agent-avatar {
+  svg rect {
+    fill: $zd-color-grey-500;
   }
 }

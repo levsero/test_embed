@@ -8,8 +8,6 @@ describe('ChatBox component', () => {
     initMockRegistry({
       './ChatBox.scss': {
         locals: {
-          label: 'label',
-          fieldMobile: 'fieldMobile',
           input: 'input',
           inputMobile: 'inputMobile'
         }
@@ -19,6 +17,11 @@ describe('ChatBox component', () => {
       },
       'service/i18n': {
         i18n: { t: noop }
+      },
+      '@zendeskgarden/react-textfields': {
+        TextField: noopReactComponent(),
+        Label: noopReactComponent(),
+        Textarea: noopReactComponent()
       },
       'utility/keyboard': {
         keyCodes: {
@@ -96,26 +99,30 @@ describe('ChatBox component', () => {
   });
 
   describe('chatBoxTextarea', () => {
-    let component;
+    let component, textarea;
 
     describe('on non-mobile devices', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatBox isMobile={false} />);
+        component = domRender(<ChatBox isMobile={false} />);
+
+        textarea = component.render().props.children.props.children[1];
       });
 
-      it('has 2 rows', () => {
-        expect(component.chatBoxTextarea().props.rows)
-          .toBe(2);
+      it('has 3 rows', () => {
+        expect(textarea.props.rows)
+          .toBe(3);
       });
     });
 
     describe('on mobile devices', () => {
       beforeEach(() => {
         component = instanceRender(<ChatBox isMobile={true} />);
+
+        textarea = component.render().props.children.props.children[1];
       });
 
       it('has 1 row', () => {
-        expect(component.chatBoxTextarea().props.rows)
+        expect(textarea.props.rows)
           .toBe(1);
       });
     });
@@ -127,17 +134,13 @@ describe('ChatBox component', () => {
     describe('on non-mobile devices', () => {
       beforeEach(() => {
         component = instanceRender(<ChatBox isMobile={false} />);
-        field = component.render().props.children;
+        field = component.render().props.children.props.children[1];
       });
 
       it('passes correct classnames to Field', () => {
-        expect(field.props.labelClasses)
-          .toContain('label');
-        expect(field.props.fieldClasses)
-          .not.toContain('fieldMobile');
-        expect(field.props.inputClasses)
+        expect(field.props.className)
           .toContain('input');
-        expect(field.props.inputClasses)
+        expect(field.props.className)
           .not.toContain('inputMobile');
       });
     });
@@ -145,15 +148,11 @@ describe('ChatBox component', () => {
     describe('on mobile devices', () => {
       beforeEach(() => {
         component = instanceRender(<ChatBox isMobile={true} />);
-        field = component.render().props.children;
+        field = component.render().props.children.props.children[1];
       });
 
       it('passes correct classnames to Field', () => {
-        expect(field.props.labelClasses)
-          .toContain('label');
-        expect(field.props.fieldClasses)
-          .toContain('fieldMobile');
-        expect(field.props.inputClasses)
+        expect(field.props.className)
           .toContain('input inputMobile');
       });
     });

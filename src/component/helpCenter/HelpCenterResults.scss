@@ -2,7 +2,7 @@
 
 .list {
   padding: #{8/$font-size}rem 0 0 #{16/$font-size}rem;
-  font-size: #{17/$font-size}rem;
+  font-size: #{19/$font-size}rem;
 
   [dir="rtl"] & {
     padding-right: #{24/$font-size}rem;
@@ -11,9 +11,9 @@
 }
 
 .item {
-  color: $zd-color-aluminum;
+  color: $zd-color-grey-800;
   list-style: decimal;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
   margin-bottom: #{7/$font-size}rem;
   padding-left: #{2/$font-size}rem;
 
@@ -28,7 +28,7 @@
 }
 
 .itemMobile {
-  composes: u-textSizeBaseMobile from global;
+  font-size: $font-size-mobile;
 }
 
 .listBottom {
@@ -40,7 +40,9 @@
 }
 
 .noResults {
-  composes: u-textCenter u-textSizeMed from global;
+  composes: u-textCenter from global;
+  color: $zd-color-grey-800;
+  font-size: $font-size-lrg;
   margin: 50% 0;
 }
 
@@ -49,11 +51,11 @@
 }
 
 .noResultsMobile {
-  composes: u-textSizeBaseMobile from global;
+  font-size: $font-size-mobile;
 }
 
 .noResultsParagraph {
-  composes: u-textSecondary from global;
+  color: $zd-color-grey-600;
 }
 
 .noResultsParagraphDesktop {
@@ -61,19 +63,23 @@
 }
 
 .legend {
-  composes: u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold from global;
+  composes: u-paddingTT Arrange Arrange--middle u-textBody u-textBold from global;
+
+  color: $zd-color-grey-800;
+  font-size: #{14/$font-size}rem !important;
 }
 
 .legendContent {
   composes: Arrange-sizeFill from global;
+  font-size: #{15/$font-size}rem;
 }
 
 .legendMobile {
-  composes: u-textSizeBaseMobile from global;
+  font-size: $font-size-mobile;
 }
 
 .contextualNoResults {
-  color: $zd-color-monsoon;
+  color: $zd-color-grey-500;
   align-items: center;
   display: flex;
   height: 100%;

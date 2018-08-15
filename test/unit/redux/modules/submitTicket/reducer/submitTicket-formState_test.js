@@ -23,9 +23,16 @@ describe('submitTicket reducer formState', () => {
   });
 
   describe('initial state', () => {
-    it('is set to an empty object', () => {
+    const expected = {
+      name: '',
+      subject: '',
+      email: '',
+      description: ''
+    };
+
+    it('is set to an object with expected structure', () => {
       expect(initialState)
-        .toEqual({});
+        .toEqual(expected);
     });
   });
 
@@ -43,9 +50,13 @@ describe('submitTicket reducer formState', () => {
       });
     });
 
-    it('sets the state to the payload', () => {
+    it('sets the state to the payload merged with the initial state', () => {
       expect(state)
-        .toEqual(mockFormState);
+        .toEqual({
+          ...mockFormState,
+          subject: '',
+          description: ''
+        });
     });
   });
 

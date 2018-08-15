@@ -56,7 +56,8 @@ const formatResults = (response) => {
 
   return {
     articles: results,
-    resultsCount: count
+    resultsCount: count,
+    locale: results.length > 0 ? results[0].locale : ''
   };
 };
 

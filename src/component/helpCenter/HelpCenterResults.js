@@ -12,6 +12,7 @@ export class HelpCenterResults extends Component {
     applyPadding: PropTypes.bool,
     articles: PropTypes.array,
     fullscreen: PropTypes.bool,
+    locale: PropTypes.string,
     handleArticleClick: PropTypes.func,
     hasContextualSearched: PropTypes.bool.isRequired,
     isContextualSearchComplete: PropTypes.bool.isRequired,
@@ -58,6 +59,7 @@ export class HelpCenterResults extends Component {
     const {
       fullscreen,
       articles,
+      locale,
       showContactButton,
       hideZendeskLogo } = this.props;
     const noPaddingClasses = !showContactButton && !hideZendeskLogo && this.hasInitialSearchResults();
@@ -70,7 +72,7 @@ export class HelpCenterResults extends Component {
     const articleLinks = _.map(articles, this.renderResultRow);
 
     return (
-      <ol className={`${styles.list} ${paddingClasses} ${mobileClasses}`}>
+      <ol lang={locale} className={`${styles.list} ${paddingClasses} ${mobileClasses}`}>
         {articleLinks}
       </ol>
     );
@@ -135,9 +137,9 @@ export class HelpCenterResults extends Component {
 
     return (
       <div className={`${styles.legend} ${mobileClasses}`}>
-        <span className={styles.legendContent}>
+        <h2 className={styles.legendContent}>
           {resultsLegend}
-        </span>
+        </h2>
       </div>
     );
   }

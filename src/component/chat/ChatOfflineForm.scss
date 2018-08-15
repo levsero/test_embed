@@ -40,9 +40,9 @@
 }
 
 .successContainer {
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
   line-height: #{20/$font-size}rem;
-  color: $zd-color-oil;
+  color: $zd-color-grey-800;
 }
 
 .backButton {
@@ -78,7 +78,6 @@
 .submitBtn {
   margin-top: #{15/$font-size}rem;
   margin-bottom: #{15/$font-size}rem;
-  height: #{40/$font-size}rem;
   float: right;
 
   [dir='rtl'] & {
@@ -99,4 +98,8 @@
       margin-right: #{4/$font-size}rem !important;
     }
   }
+}
+
+.textField {
+  margin-bottom: $field-margin-bottom;
 }

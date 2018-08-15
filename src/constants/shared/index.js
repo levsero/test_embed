@@ -1,5 +1,5 @@
 // If this changes it also needs to change in styles vars
-export const FONT_SIZE = 12;
+export const FONT_SIZE = 14;
 
 // TODO: this is an incomplete list, and should probably include exports for all the other icons we use as well
 export const ICONS = {
@@ -9,7 +9,6 @@ export const ICONS = {
   PAPERCLIP_SMALL:      'Icon--paperclip-small',
   PREVIEW_DEFAULT:      'Icon--preview-default',
   PREVIEW_DOCUMENT:     'Icon--preview-document',
-  PREVIEW_ERROR:        'Icon--preview-error',
   PREVIEW_IMAGE:        'Icon--preview-image',
   PREVIEW_PDF:          'Icon--preview-pdf',
   PREVIEW_PRESENTATION: 'Icon--preview-presentation',
@@ -48,3 +47,7 @@ export const FILETYPE_ICONS = {
 };
 
 export const GA_CATEGORY = 'Zendesk Web Widget';
+
+// Email regular expression from http://emailregex.com/
+export const EMAIL_PATTERN = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // eslint-disable-line
+export const PHONE_PATTERN = /^[0-9]+$/;

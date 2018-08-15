@@ -1,5 +1,0 @@
-@import '../../styles/_vars.scss';
-
-.button {
-  composes: c-btn c-btn--medium c-btn--secondary from '../../styles/components/Button.scss';
-}

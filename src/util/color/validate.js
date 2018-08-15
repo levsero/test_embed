@@ -1,6 +1,7 @@
 import { settings } from 'service/settings';
 
 const defaultColor = '#78A300';
+let selectedThemeColor = defaultColor;
 
 function themeColor(base = null) {
   let color = colorFor('theme');
@@ -8,6 +9,10 @@ function themeColor(base = null) {
 
   if (!color && isValid(normalizedBase)) {
     color = normalizedBase;
+  }
+
+  if (base !== null) {
+    selectedThemeColor = color;
   }
 
   return color;
@@ -41,8 +46,13 @@ function normalize(color) {
   return hashlessValidRegex.test(color) ? `#${color}` : color;
 }
 
+function getThemeColor() {
+  return selectedThemeColor;
+}
+
 export {
   defaultColor,
   themeColor,
-  colorFor
+  colorFor,
+  getThemeColor
 };

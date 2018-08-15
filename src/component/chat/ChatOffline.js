@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { i18n } from 'service/i18n';
 import classNames from 'classnames';
 
-import { OFFLINE_FORM_SCREENS } from 'constants/chat';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { chatOfflineFormChanged,
@@ -58,8 +57,7 @@ class ChatOffline extends Component {
     operatingHours: PropTypes.object,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    isAuthenticated: PropTypes.bool.isRequired,
-    newHeight: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -91,15 +89,13 @@ class ChatOffline extends Component {
         updateFrameSize={this.props.updateFrameSize}
         isAuthenticated={this.props.isAuthenticated}
         isMobile={this.props.isMobile}
-        newHeight={this.props.newHeight}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
 
   renderChatOfflineScreen = () => {
     const scrollContainerClasses = classNames(styles.scrollContainer, {
-      [styles.mobileContainer]: this.props.isMobile,
-      [styles.scrollContainer]: !this.props.newHeight
+      [styles.mobileContainer]: this.props.isMobile
     });
 
     return (
@@ -107,35 +103,19 @@ class ChatOffline extends Component {
         ref='scrollContainer'
         classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
-        title={i18n.t('embeddable_framework.chat.title')}
-        newHeight={this.props.newHeight}>
+        title={i18n.t('embeddable_framework.chat.title')}>
         <div>
           <p className={styles.greeting}>
             {i18n.t('embeddable_framework.chat.offline.label.noForm')}
           </p>
           <Button
-            onTouchStartDisabled={true}
-            label={i18n.t('embeddable_framework.chat.offline.button.close')}
+            primary={true}
             onClick={this.props.handleCloseClick}
-            className={styles.button} />
+            className={styles.button}>
+            {i18n.t('embeddable_framework.chat.offline.button.close')}
+          </Button>
         </div>
       </ScrollContainer>
-    );
-  }
-
-  renderFooterContent = () => {
-    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS || !this.props.newHeight) return;
-
-    return (
-      <Button
-        onTouchStartDisabled={true}
-        label={i18n.t('embeddable_framework.common.button.done')}
-        className={styles.button}
-        primary={false}
-        onClick={this.props.handleOfflineFormBack}
-        type='button'
-        fullscreen={this.props.isMobile}
-      />
     );
   }
 

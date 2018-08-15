@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { keyCodes } from 'utility/keyboard';
+import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
 import { ChatPopup } from 'component/chat/ChatPopup';
-import { EmailField } from 'component/field/EmailField';
 import { i18n } from 'service/i18n';
 import { EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
   EMAIL_TRANSCRIPT_FAILURE_SCREEN,
   EMAIL_TRANSCRIPT_SCREEN,
   EMAIL_TRANSCRIPT_LOADING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
-import { ICONS } from 'constants/shared';
+import { ICONS, EMAIL_PATTERN } from 'constants/shared';
 import { locals as styles } from 'component/chat/ChatEmailTranscriptPopup.scss';
 import { emailValid } from 'src/util/utils';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
+import { TextField, Label, Input, Message } from '@zendeskgarden/react-textfields';
 import { Icon } from 'src/component/Icon';
 import _ from 'lodash';
 
@@ -49,7 +50,8 @@ export class ChatEmailTranscriptPopup extends Component {
       valid: emailValid(email),
       formState: {
         email
-      }
+      },
+      showErrors: false
     };
 
     this.form = null;
@@ -67,16 +69,23 @@ export class ChatEmailTranscriptPopup extends Component {
     const email = this.props.emailTranscript.email || _.get(this.props.visitor, 'email', '');
 
     e.preventDefault();
+
+    if (!this.state.valid) {
+      this.setState({ showErrors: true });
+      return;
+    }
+
     this.props.rightCtaFn(this.state.formState.email);
 
     this.setState({
       valid: emailValid(email),
-      formState: { email }
+      formState: { email },
+      showErrors: false
     });
   }
 
   handleKeyPress = (e) => {
-    if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
+    if (e.charCode === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault();
       this.handleSave(e);
     }
@@ -87,7 +96,7 @@ export class ChatEmailTranscriptPopup extends Component {
     const fieldState = { [name]: value };
 
     this.setState({
-      valid: this.form.checkValidity(),
+      valid: emailValid(fieldState.email),
       formState: { ...this.state.formState, ...fieldState }
     });
   }
@@ -99,19 +108,28 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   renderEmailField = () => {
-    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
+    const value = this.state.formState.email;
+    const error = shouldRenderErrorMessage(value, true, this.state.showErrors, EMAIL_PATTERN)
+      ? <Message validation='error'>{i18n.t('embeddable_framework.validation.error.email')}</Message>
+      : null;
 
+    /* eslint-disable max-len */
     return (
-      <EmailField
-        fieldContainerClasses={styles.fieldContainer}
-        fieldClasses={styles.field}
-        labelClasses={styles.fieldLabel}
-        inputClasses={inputClasses}
-        label={i18n.t('embeddable_framework.form.field.email.label')}
-        value={this.state.formState.email}
-        name='email'
-        onKeyPress={this.handleKeyPress} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.email'), true)}
+        </Label>
+        <Input
+          required={true}
+          value={this.state.formState.email}
+          onKeyPress={this.handleKeyPress}
+          name='email'
+          validation={error ? 'error' : 'none'}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
+        {error}
+      </TextField>
     );
+    /* eslint-enable max-len */
   }
 
   renderFormScreen = () => {
@@ -162,7 +180,7 @@ export class ChatEmailTranscriptPopup extends Component {
       <div className={styles.resultMessage}>
         {failureMessageLabel}
         <br />
-        <a onClick={this.props.tryEmailTranscriptAgain}>{tryAgainLabel}</a>
+        <a className={styles.tryAgain} onClick={this.props.tryEmailTranscriptAgain}>{tryAgainLabel}</a>
       </div>
     );
 
@@ -207,8 +225,7 @@ export class ChatEmailTranscriptPopup extends Component {
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.handleSave}
-        rightCtaLabel={i18n.t('embeddable_framework.common.button.send')}
-        rightCtaDisabled={!this.state.valid}>
+        rightCtaLabel={i18n.t('embeddable_framework.common.button.send')}>
         <div className={childrenContainerClasses}>
           {this.renderFormScreen()}
           {this.renderSuccessScreen()}

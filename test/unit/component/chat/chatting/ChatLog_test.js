@@ -28,7 +28,7 @@ describe('ChatLog component', () => {
     initMockRegistry({
       'component/chat/chatting/ChatGroup': { ChatGroup },
       'component/chat/chatting/EventMessage': { EventMessage },
-      'component/button/Button': { Button },
+      '@zendeskgarden/react-buttons': { Button },
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS
@@ -427,8 +427,9 @@ describe('ChatLog component', () => {
           expect(renderRequestRatingButton).toBeTruthy();
           expect(renderRequestRatingButton.props).toEqual(jasmine.objectContaining(
             {
-              label: mockStringValues['embeddable_framework.chat.chatLog.button.leaveComment'],
-              onClick: goToFeedbackScreenSpy
+              className: 'requestRatingButtonStyles',
+              onClick: goToFeedbackScreenSpy,
+              children: 'Leave a comment'
             }
           ));
         });
@@ -445,7 +446,8 @@ describe('ChatLog component', () => {
         expect(renderRequestRatingButton).toBeTruthy();
         expect(renderRequestRatingButton.props).toEqual(jasmine.objectContaining(
           {
-            label: mockStringValues['embeddable_framework.chat.chatLog.button.rateChat'],
+            className: 'requestRatingButtonStyles',
+            children: 'Rate this chat',
             onClick: goToFeedbackScreenSpy
           }
         ));
@@ -496,7 +498,8 @@ describe('ChatLog component', () => {
           expect(renderRequestRatingButton).toBeTruthy();
           expect(renderRequestRatingButton.props).toEqual(jasmine.objectContaining(
             {
-              label: mockStringValues['embeddable_framework.chat.chatLog.button.rateChat'],
+              className: 'requestRatingButtonStyles',
+              children: 'Rate this chat',
               onClick: goToFeedbackScreenSpy
             }
           ));

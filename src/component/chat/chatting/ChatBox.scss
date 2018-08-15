@@ -4,10 +4,6 @@
   composes: u-alignBottom from global;
   margin: 0 #{1/$font-size}rem;
 
-  .label {
-    display: none;
-  }
-
   .fieldMobile {
     padding: #{12/$font-size}rem 0;
     border: none !important;
@@ -16,26 +12,23 @@
   }
 
   .input {
-    height: #{50/$font-size}rem !important;
-    color: $zd-color-oil !important;
-
-    &::placeholder {
-      color: $zd-color-gainsboro;
-    }
-
     &::-webkit-scrollbar {
       width: #{4/$font-size}rem;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $base-border-color;
+      background: $zd-color-grey-300;
       border-radius: #{4/$font-size}rem;
     }
   }
 
   .inputMobile {
-    font-size: #{14/$font-size}rem !important;
+    font-size: #{16/$font-size}rem !important;
     height: #{16/$font-size}rem !important;
     line-height: #{16/$font-size}rem !important;
   }
+}
+
+.label {
+  composes: u-isHiddenVisually from global;
 }

@@ -31,11 +31,11 @@
 }
 
 .labelPortrait {
-  composes: u-textSizeMed from global;
+  font-size: $font-size-lrg;
 }
 
 .labelLandscape {
-  composes: u-textSizeSml from global;
+  font-size: #{13/$font-size}rem
 }
 
 .container {
@@ -48,10 +48,10 @@
 }
 
 .fieldInputMobile {
-  composes: u-textSizeBaseMobile from global;
+  font-size: $font-size-mobile;
 }
 
 .description {
-  composes: u-textAluminum from global;
+  color: $zd-color-grey-500;
   composes: Form-description from '../../styles/components/Form.scss';
 }

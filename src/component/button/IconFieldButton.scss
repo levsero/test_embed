@@ -1,46 +1,15 @@
 @import '../../styles/_vars.scss';
 
-.button {
-  composes: u-borderTransparent u-marginLS from global;
-
-  border-top-right-radius: #{3/$font-size}rem;
-  border-bottom-right-radius: #{3/$font-size}rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  padding: #{12/$font-size}rem #{14/$font-size}rem #{8/$font-size}rem;
-
-  [dir='rtl'] & {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: #{3/$font-size}rem;
-    border-bottom-left-radius: #{3/$font-size}rem;
-
-    margin-left: 0 !important;
-    margin-right: #{10/$font-size}rem !important;
+.notFocused {
+  svg {
+    fill: $zd-color-grey-400 !important;
   }
 }
 
 .focused {
-  composes: u-fillAluminum from global;
-}
-
-.notFocused {
-  composes: u-fillGainsboro from global;
-}
-
-.fullscreen {
-  composes: Anim-color from '../../styles/components/Animation.scss';
-
-  padding: #{14/$font-size}rem #{14/$font-size}rem #{10/$font-size}rem;
-  background: $zd-color-anti-flash-white;
-
-  &:focus, &:active {
-    background: $zd-color-gainsboro !important;
+  svg {
+    fill: $zd-color-grey-600 !important;
   }
-}
-
-.hovering {
-  composes: u-userFillColor from global;
 }
 
 .icon {

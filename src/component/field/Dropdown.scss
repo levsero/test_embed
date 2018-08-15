@@ -60,8 +60,7 @@ $menu-height: #{200/$font-size}rem;
   outline: none;
   padding-bottom: #{8/$font-size}rem !important;
   padding-top: #{8/$font-size}rem !important;
-  height: #{18/$font-size}rem;
-  line-height: #{18/$font-size}rem;
+  line-height: #{20/$font-size}rem;
 
   &:focus {
     border: $thin-border-size solid $stroke-focused-color;
@@ -74,11 +73,11 @@ $menu-height: #{200/$font-size}rem;
 }
 
 .labelMobile {
-  composes: u-textSize15 from global;
+  font-size: $font-size-mobile;
 }
 
 .labelLandscape {
-  composes: u-textSizeSml from global;
+  font-size: #{13/$font-size}rem;
 }
 
 .menuContainer {
@@ -108,7 +107,7 @@ $menu-height: #{200/$font-size}rem;
     width: #{3/$font-size}rem;
   }
   &::-webkit-scrollbar-thumb {
-    background: $base-border-color;
+    background: $zd-color-grey-300;
     border-radius: #{3/$font-size}rem;
   }
 
@@ -123,7 +122,7 @@ $menu-height: #{200/$font-size}rem;
 }
 
 .menuContainerMobile {
-  composes: u-textSize15 from global;
+  font-size: $font-size-mobile;
   top: #{43/$font-size}rem;
 }
 
@@ -133,7 +132,7 @@ $menu-height: #{200/$font-size}rem;
 
 .description {
   composes: Form-description from '../../styles/components/Form.scss';
-  composes: u-textAluminum from global;
+  color: $zd-color-grey-500;
 }
 
 @keyframes right {

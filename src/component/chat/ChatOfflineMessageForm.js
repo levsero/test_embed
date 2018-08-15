@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { i18n } from 'service/i18n';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 
 import { locals as styles } from './ChatOfflineMessageForm.scss';
 
@@ -31,10 +31,11 @@ export class ChatOfflineMessageForm extends Component {
           <p className={styles.offlineMessage}>{message}</p>
         </div>
         <Button
-          onTouchStartDisabled={true}
-          label={i18n.t('embeddable_framework.chat.preChat.offline.button.sendAnother')}
+          primary={true}
           onClick={this.props.onFormBack}
-          className={styles.backButton} />
+          className={styles.backButton}>
+          {i18n.t('embeddable_framework.chat.preChat.offline.button.sendAnother')}
+        </Button>
       </div>
     );
   }

@@ -7,19 +7,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import { StyleSheetManager } from 'styled-components';
 
 import { locals as styles } from './Frame.scss';
 
 import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { transitionFactory } from 'service/transitionFactory';
 import { clickBusterRegister,
   getZoomSizingRatio,
   isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
-import { cssTimeToMs } from 'utility/utils';
+import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
+import { FONT_SIZE } from 'constants/shared';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -27,16 +28,11 @@ if (!__DEV__) {
 }
 
 const scrollingStyleDelay = 50; // small delay so that safari has finished rendering
-const sizingRatio = 12 * getZoomSizingRatio();
+const sizingRatio = FONT_SIZE * getZoomSizingRatio();
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 const zIndex = settings.get('zIndex');
 const isPositionTop = settings.get('position.vertical') === 'top';
-const defaultHideTransition = isPositionTop
-  ? transitionFactory.webWidget.upHide()
-  : transitionFactory.webWidget.downHide();
-const defaultShowTransition = isPositionTop
-  ? transitionFactory.webWidget.downShow()
-  : transitionFactory.webWidget.upShow();
+const transitionDuration = 250;
 const defaultMarginTop = isPositionTop && !isMobileBrowser() ? '15px' : 0;
 
 export class Frame extends Component {
@@ -61,7 +57,8 @@ export class Frame extends Component {
     preventClose: PropTypes.bool,
     useBackButton: PropTypes.bool,
     transitions: PropTypes.object,
-    visible: PropTypes.bool
+    visible: PropTypes.bool,
+    title: PropTypes.string
   }
 
   static defaultProps = {
@@ -84,7 +81,8 @@ export class Frame extends Component {
     store: { dispatch: () => {} },
     useBackButton: false,
     transitions: {},
-    visible: true
+    visible: true,
+    title: ''
   }
 
   constructor(props, context) {
@@ -147,6 +145,10 @@ export class Frame extends Component {
     return this.state.iframeDimensions;
   }
 
+  getFrameHead = () => {
+    return this.getContentDocument().head;
+  }
+
   updateFrameLocale = () => {
     const html = this.getContentDocument().documentElement;
     const direction = i18n.isRTL() ? 'rtl' : 'ltr';
@@ -161,6 +163,12 @@ export class Frame extends Component {
       this.child.forceUpdate();
       this.child.nav.forceUpdate();
     }
+  }
+
+  updateFrameTitle = (title) => {
+    const doc = this.getContentDocument();
+
+    this.iframe.title = doc.title = title;
   }
 
   setFixedFrameStyles = (fixedStyles = {}) => {
@@ -187,6 +195,7 @@ export class Frame extends Component {
         maxWidth: fullscreenWidth,
         height: '100%',
         left: this.state.visible ? '0px' : '-9999px',
+        top: this.state.visible ? '0px' : '-9999px',
         background:'#FFF',
         zIndex: zIndex
       };
@@ -232,12 +241,9 @@ export class Frame extends Component {
     htmlElem.style.fontSize = fontSize;
   }
 
-  show = (options = {}) => {
+  show = () => {
     const { dispatch } = this.props.store;
     const frameFirstChild = this.getRootComponentElement();
-    const transition = this.props.transitions[options.transition] || defaultShowTransition;
-    const animateFrom = _.extend({}, this.state.frameStyle, transition.start);
-    const animateTo = _.extend({}, this.state.frameStyle, transition.end);
 
     this.setState({ visible: true });
 
@@ -249,19 +255,8 @@ export class Frame extends Component {
       }
     }, scrollingStyleDelay);
 
-    if (options.transition === 'none') {
-      this.props.afterShowAnimate(this);
-    } else {
-      this.setState({ frameStyle: animateFrom });
-      setTimeout(() => this.setState({ frameStyle: animateTo }), 0);
-
-      setTimeout(
-        () => this.props.afterShowAnimate(this),
-        cssTimeToMs(transition.end.transitionDuration)
-      );
-    }
-
     this.props.onShow(this);
+    this.props.afterShowAnimate(this);
 
     if (this.props.name !== 'launcher') {
       dispatch(updateWidgetShown(true));
@@ -270,7 +265,7 @@ export class Frame extends Component {
 
   hide = (options = {}) => {
     const { dispatch } = this.props.store;
-    const { onHide, transitions, store } = this.props;
+    const { onHide, store } = this.props;
     const hideFinished = () => {
       this.setState({ visible: false });
       onHide(this);
@@ -278,19 +273,7 @@ export class Frame extends Component {
       store.dispatch(widgetHideAnimationComplete());
     };
 
-    if (options.transition === 'none') {
-      hideFinished();
-    } else {
-      const transition = transitions[options.transition] || defaultHideTransition;
-      const frameStyle = _.extend({}, this.state.frameStyle, transition.end);
-
-      this.setState({ frameStyle });
-
-      setTimeout(() => {
-        hideFinished();
-      }, cssTimeToMs(transition.end.transitionDuration));
-    }
-
+    hideFinished();
     if (this.props.name !== 'launcher') {
       dispatch(updateWidgetShown(false));
     }
@@ -305,9 +288,7 @@ export class Frame extends Component {
       clickBusterRegister(e.touches[0].clientX, e.touches[0].clientY);
     }
 
-    const transition = isPositionTop ? 'upHide' : 'downHide';
-
-    this.hide({ transition, onHide: options.onHide });
+    this.hide({ onHide: options.onHide });
 
     if (!options.skipOnClose) {
       this.props.onClose(this, options);
@@ -328,7 +309,7 @@ export class Frame extends Component {
   }
 
   computeIframeStyle = () => {
-    const { iframeDimensions, visible, hiddenByZoom, frameStyle } = this.state;
+    const { iframeDimensions, frameStyle } = this.state;
     const modifiedStyles = this.props.frameStyleModifier(frameStyle) || frameStyle;
     const baseStyles = {
       border: 'none',
@@ -336,25 +317,9 @@ export class Frame extends Component {
       zIndex: zIndex,
       transform: 'translateZ(0)',
       position: 'fixed',
-      opacity: 1
-    };
-
-    // Visibility
-    const hiddenStyle = transitionFactory.hiddenState(iframeDimensions.height, isPositionTop);
-    const visibilityStyles = (visible && !hiddenByZoom) ? null : hiddenStyle;
-
-    // Position
-    const isMobile = isMobileBrowser();
-    const offset = settings.get('offset');
-    const mobileOffset = _.get(offset, 'mobile', {});
-    const horizontalOffset = isMobile ? _.get(mobileOffset, 'horizontal', 0) : _.get(offset, 'horizontal', 0);
-    const verticalOffset = isMobile ? _.get(mobileOffset, 'vertical', 0) : _.get(offset, 'vertical', 0);
-    const horizontalPos = settings.get('position.horizontal') || this.props.position;
-    const verticalPos = isPositionTop ? 'top' : 'bottom';
-
-    const posObj = (isMobile && this.props.name === 'webWidget') ? {} : {
-      [horizontalPos]: horizontalOffset,
-      [verticalPos]: verticalOffset
+      transition: `all ${transitionDuration}ms cubic-bezier(0.645, 0.045, 0.355, 1)`,
+      transitionProperty: 'opacity, top, bottom',
+      opacity: 0
     };
 
     return _.extend({},
@@ -362,10 +327,26 @@ export class Frame extends Component {
       frameStyle,
       modifiedStyles,
       iframeDimensions,
-      posObj,
-      visibilityStyles,
       this.state.fixedStyles
     );
+  }
+
+  getOffsetPosition = (animationOffset = 0) => {
+    const isMobile = isMobileBrowser();
+
+    if (isMobile && this.props.name === 'webWidget') return {};
+
+    const offset = settings.get('offset');
+    const mobileOffset = _.get(offset, 'mobile', {});
+    const horizontalOffset = isMobile ? _.get(mobileOffset, 'horizontal', 0) : _.get(offset, 'horizontal', 0);
+    const verticalOffset = isMobile ? _.get(mobileOffset, 'vertical', 0) : _.get(offset, 'vertical', 0);
+    const horizontalPos = settings.get('position.horizontal') || this.props.position;
+    const verticalPos = isPositionTop ? 'top' : 'bottom';
+
+    return {
+      [horizontalPos]: horizontalOffset,
+      [verticalPos]: parseInt(verticalOffset) + animationOffset
+    };
   }
 
   injectEmbedIntoFrame = (embed) => {
@@ -392,23 +373,27 @@ export class Frame extends Component {
       setFixedFrameStyles: this.setFixedFrameStyles,
       closeFrame: this.close,
       getFrameDimensions: this.getFrameDimensions,
-      onBackButtonClick: this.back
+      onBackButtonClick: this.back,
+      getFrameContentDocument: this.getContentDocument
     });
 
     const wrapper = (
-      <EmbedWrapper
-        ref={(el) => { this.child = el; }}
-        baseCSS={`${this.props.css} ${baseFontCSS}`}
-        reduxStore={this.props.store}
-        handleBackClick={this.back}
-        handleCloseClick={this.close}
-        useBackButton={this.props.useBackButton}
-        updateFrameSize={this.updateFrameSize}
-        hideCloseButton={this.props.hideCloseButton}
-        name={this.props.name}
-        fullscreen={this.props.fullscreenable && isMobileBrowser()}>
-        {newChild}
-      </EmbedWrapper>
+      <StyleSheetManager target={this.getContentDocument().head}>
+        <EmbedWrapper
+          ref={(el) => { this.child = el; }}
+          document={this.getContentDocument()}
+          baseCSS={`${this.props.css} ${baseFontCSS}`}
+          reduxStore={this.props.store}
+          handleBackClick={this.back}
+          handleCloseClick={this.close}
+          useBackButton={this.props.useBackButton}
+          updateFrameSize={this.updateFrameSize}
+          hideCloseButton={this.props.hideCloseButton}
+          name={this.props.name}
+          fullscreen={this.props.fullscreenable && isMobileBrowser()}>
+          {newChild}
+        </EmbedWrapper>
+      </StyleSheetManager>
     );
 
     this.injectEmbedIntoFrame(wrapper);
@@ -427,6 +412,9 @@ export class Frame extends Component {
     if (doc.readyState === 'complete') {
       this.updateFrameLocale();
       this.constructEmbed(html, doc);
+      if (this.props.title) {
+        this.updateFrameTitle(this.props.title);
+      }
     } else {
       setTimeout(this.renderFrameContent, 0);
     }
@@ -437,14 +425,36 @@ export class Frame extends Component {
     const frameClasses = `${iframeNamespace}-${this.props.name}`;
     const activeClasses = this.state.visible ? `${frameClasses}--active` : '';
     const tabIndex = this.state.visible ? '0' : '-1';
+    const transitionStyles = {
+      entering: {
+        opacity: 0,
+        ...this.getOffsetPosition(-20)
+      },
+      entered:  {
+        opacity: 1,
+        ...this.getOffsetPosition(0)
+      },
+      exiting: {
+        opacity: 0,
+        ...this.getOffsetPosition(-20)
+      },
+      exited: {
+        top: '-9999px'
+      }
+    };
 
     return (
-      <iframe
-        style={this.computeIframeStyle()}
-        ref={(el) => { this.iframe = el; }}
-        id={this.props.name}
-        tabIndex={tabIndex}
-        className={`${frameClasses} ${activeClasses}`} />
+      <Transition in={this.state.visible} timeout={transitionDuration}>
+        {(status) => (
+          <iframe
+            title={this.props.title || this.props.name}
+            style={{ ...this.computeIframeStyle(), ...transitionStyles[status] }}
+            ref={(el) => { this.iframe = el; }}
+            id={this.props.name}
+            tabIndex={tabIndex}
+            className={`${frameClasses} ${activeClasses}`} />
+        )}
+      </Transition>
     );
   }
 }

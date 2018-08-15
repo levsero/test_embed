@@ -9,7 +9,9 @@
 }
 
 .fullscreen {
-  composes: u-sizeFull u-textSizeBaseMobile is-mobile from global;
+  composes: u-sizeFull is-mobile from global;
+
+  font-size: $font-size-mobile;
 }
 
 .rtl {

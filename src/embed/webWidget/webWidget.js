@@ -14,7 +14,6 @@ import { i18n } from 'service/i18n';
 import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
-import { transitionFactory } from 'service/transitionFactory';
 import { http } from 'service/transport';
 import { generateUserCSS } from 'utility/color/styles';
 import { getZoomSizingRatio,
@@ -179,14 +178,6 @@ export default function WebWidgetFactory(name) {
       css: webWidgetCSS + frameBodyCss + generateUserCSS(globalConfig.color),
       position: globalConfig.position,
       fullscreenable: true,
-      transitions: {
-        upClose: transitionFactory.webWidget.upHide(),
-        downClose: transitionFactory.webWidget.downHide(),
-        close: transitionFactory.webWidget.downHide(),
-        downShow: transitionFactory.webWidget.downShow(),
-        downHide: transitionFactory.webWidget.downHide(),
-        upShow: transitionFactory.webWidget.upShow()
-      },
       newChat: chatAvailable,
       store: reduxStore,
       visible: false,
@@ -196,7 +187,8 @@ export default function WebWidgetFactory(name) {
       afterShowAnimate,
       onHide,
       onClose,
-      onBack
+      onBack,
+      title: i18n.t('embeddable_framework.web_widget.frame.title')
     };
     const component = (
       <Frame {...frameParams}>

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
-import { Field } from 'component/field/Field';
 import { TalkPhoneField } from 'component/talk/TalkPhoneField';
 import { Form } from 'component/form/Form';
 import { Icon } from 'component/Icon';
@@ -12,8 +11,9 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { errorCodes } from './talkErrorCodes';
 import { ICONS } from 'src/constants/shared';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
+import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -31,6 +31,7 @@ import { getEmbeddableConfig,
   getAverageWaitTimeEnabled,
   getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors';
 import { i18n } from 'service/i18n';
+import { renderLabelText, shouldRenderErrorMessage } from 'src/util/fields';
 
 import { locals as styles } from './Talk.scss';
 
@@ -60,13 +61,13 @@ class Talk extends Component {
     submitTalkCallbackForm: PropTypes.func.isRequired,
     talkConfig: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool,
     channelChoiceAvailable: PropTypes.bool,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     updateFrameSize: PropTypes.func,
-    newHeight: PropTypes.bool.isRequired,
     libphonenumber: PropTypes.object.isRequired
   };
 
@@ -89,9 +90,18 @@ class Talk extends Component {
   constructor() {
     super();
     this.form = null;
+
+    this.state = {
+      showErrors: false
+    };
   }
 
   handleFormCompleted = (formState) => {
+    if (!this.form.state.valid) {
+      this.setState({ showErrors: true });
+      return;
+    }
+    this.setState({ showErrors: false });
     const { serviceUrl, nickname } = this.props.talkConfig;
 
     this.props.submitTalkCallbackForm(formState, serviceUrl, nickname);
@@ -101,8 +111,8 @@ class Talk extends Component {
     this.props.updateTalkCallbackForm(formState);
   }
 
-  handleCountrySelect = (country, phone) => {
-    this.props.updateTalkCallbackForm({ ...this.props.formState, country, phone });
+  handleCountrySelect = (country) => {
+    this.props.updateTalkCallbackForm({ country });
     if (this.form) {
       this.form.validate();
     }
@@ -158,16 +168,79 @@ class Talk extends Component {
     );
   }
 
-  renderFormScreen = () => {
+  renderErrorMessage = (value, required, errorString, pattern) => {
+    if (shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)) {
+      return <Message validation='error'>{i18n.t(errorString)}</Message>;
+    }
+    return null;
+  }
+
+  renderPhoneField = () => {
     const phoneLabel = i18n.t('embeddable_framework.common.textLabel.phone_number');
+    const value = this.props.formState.phone;
+
+    return (
+      <TalkPhoneField
+        rtl={i18n.isRTL()}
+        label={renderLabelText(phoneLabel, true)}
+        required={true}
+        onCountrySelect={this.handleCountrySelect}
+        libphonenumber={this.props.libphonenumber}
+        getFrameContentDocument={this.props.getFrameContentDocument}
+        supportedCountries={this.props.embeddableConfig.supportedCountries}
+        country={this.props.formState.country}
+        value={value}
+        showError={this.state.showErrors} />
+    );
+  }
+
+  renderNameField = () => {
     const nameLabel = i18n.t('embeddable_framework.common.textLabel.name');
+    const isRequired = false;
+    const value = this.props.formState.name;
+    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.name');
+
+    return (
+      <TextField className={styles.textField}>
+        <Label>{renderLabelText(nameLabel, isRequired)}</Label>
+        <Input
+          value={value}
+          name='name'
+          validation={error ? 'error' : 'none'}
+          required={isRequired} />
+        {error}
+      </TextField>
+    );
+  }
+
+  renderDescriptionField = () => {
     const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
-    let { phone, name, description, country } = this.props.formState;
+    const isRequired = false;
+    const value = this.props.formState.description;
+    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.message');
+
+    return (
+      <TextField className={styles.textField}>
+        <Label>{renderLabelText(descriptionLabel, isRequired)}</Label>
+        <Textarea
+          value={this.props.formState.value}
+          rows='4'
+          name='description'
+          required={isRequired}
+          validation={error ? 'error' : 'none'} />
+        {error}
+      </TextField>
+    );
+  }
+
+  renderFormScreen = () => {
+    const submitButtonStyles = classNames({ [styles.submitBtnMobile]: this.props.isMobile });
 
     return (
       <Form
         ref={(el) => this.form = el}
         className={styles.form}
+        submitButtonClasses={submitButtonStyles}
         submitButtonLabel={i18n.t('embeddable_framework.common.button.send')}
         rtl={i18n.isRTL()}
         isMobile={this.props.isMobile}
@@ -176,23 +249,9 @@ class Talk extends Component {
         onChange={this.handleFormChange}>
         {this.renderFormHeader()}
         <div className={styles.formDivider} />
-        <TalkPhoneField
-          label={phoneLabel}
-          getFrameDimensions={this.props.getFrameDimensions}
-          onCountrySelect={this.handleCountrySelect}
-          required={true}
-          supportedCountries={this.props.embeddableConfig.supportedCountries}
-          country={country}
-          value={phone}
-          libphonenumber={this.props.libphonenumber} />
-        <Field label={nameLabel}
-          value={name}
-          name='name' />
-        <Field
-          label={descriptionLabel}
-          value={description}
-          input={<textarea rows='3' />}
-          name='description' />
+        {this.renderPhoneField()}
+        {this.renderNameField()}
+        {this.renderDescriptionField()}
         {this.renderErrorNotification()}
       </Form>
     );
@@ -217,19 +276,15 @@ class Talk extends Component {
       { [styles.phoneOnlyMobileContainer]: this.props.isMobile }
     );
 
-    let talkIcon = null;
-    let callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.message');
+    let callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.new_message');
 
-    if (this.props.newHeight) {
-      talkIcon = (
-        <Icon
-          type={ICONS.TALK}
-          className='u-userFillCustomColor'
-          isMobile={this.props.isMobile}
-        />
-      );
-      callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.new_message');
-    }
+    const talkIcon = (
+      <Icon
+        type={ICONS.TALK}
+        className='u-userFillCustomColor'
+        isMobile={this.props.isMobile}
+      />
+    );
 
     return (
       <div className={containerClasses}>
@@ -244,26 +299,11 @@ class Talk extends Component {
   }
 
   renderSuccessNotificationScreen = () => {
-    if (this.props.newHeight) {
-      return (
-        <SuccessNotification
-          icon={ICONS.SUCCESS_TALK}
-          isMobile={this.props.isMobile}
-        />
-      );
-    }
-
-    const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
-
     return (
-      <div>
-        <p className={styles.notifyMessage}>
-          {i18n.t('embeddable_framework.talk.notify.success.message_new')}
-        </p>
-        <div className={styles.notify}>
-          <Icon type='Icon--tick' className={iconClasses} />
-        </div>
-      </div>
+      <SuccessNotification
+        icon={ICONS.SUCCESS_TALK}
+        isMobile={this.props.isMobile}
+      />
     );
   }
 
@@ -319,28 +359,23 @@ class Talk extends Component {
   }
 
   renderFooterContent = () => {
-    if (!(this.props.screen === SUCCESS_NOTIFICATION_SCREEN && this.props.newHeight)) {
+    if (this.props.screen !== SUCCESS_NOTIFICATION_SCREEN) {
       return null;
     }
 
-    const buttonContainer = classNames(
-      {
-        [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.isMobile),
-        [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.isMobile
-      }
-    );
+    const buttonContainer = classNames({
+      [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.isMobile),
+      [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.isMobile
+    });
 
     return (
       <div className={buttonContainer}>
         <Button
-          onTouchStartDisabled={true}
-          label={i18n.t('embeddable_framework.common.button.done')}
+          primary={true}
           className={styles.button}
-          primary={false}
-          onClick={this.props.onBackClick}
-          type='button'
-          fullscreen={this.props.isMobile}
-        />
+          onClick={this.props.onBackClick}>
+          {i18n.t('embeddable_framework.common.button.done')}
+        </Button>
       </div>
     );
   }
@@ -369,10 +404,9 @@ class Talk extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const { isMobile, newHeight, screen } = this.props;
+    const { isMobile, screen } = this.props;
     const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
     const scrollContainerClasses = classNames({
-      [styles.scrollContainer]: !newHeight,
       [styles.scrollContainerSuccess]: screen === SUCCESS_NOTIFICATION_SCREEN
     });
 
@@ -380,7 +414,6 @@ class Talk extends Component {
       <div>
         <ScrollContainer
           ref='scrollContainer'
-          newHeight={newHeight}
           containerClasses={scrollContainerClasses}
           footerContent={this.renderFooterContent()}
           getFrameDimensions={this.props.getFrameDimensions}

@@ -18,8 +18,22 @@ describe('EmbedWrapper', () => {
     initMockRegistry({
       'React': React,
       'utility/color/styles': {},
+      'utility/globals': {
+        document: global.document,
+        getDocumentHost: () => {
+          return {
+            querySelector: () => ({focus: noop})
+          };
+        }
+      },
       'component/frame/Navigation': noopReactComponent(),
-      'lodash': _
+      'lodash': _,
+      'service/i18n': {
+        i18n: jasmine.createSpyObj('i18n', ['isRTL'])
+      },
+      './gardenOverrides': {
+        getGardenOverrides: noop
+      }
     });
 
     EmbedWrapper = requireUncached(EmbedWrapperPath).EmbedWrapper;
@@ -31,17 +45,20 @@ describe('EmbedWrapper', () => {
   });
 
   describe('render', () => {
-    let instance, styleBlock;
+    let instance, styleBlock, rootElem, handleCloseClickMock;
 
     beforeEach(() => {
+      handleCloseClickMock = jasmine.createSpy();
       instance = domRender(
         <EmbedWrapper
+          handleCloseClick={handleCloseClickMock}
           baseCSS='.base-css-file {}'>
           <MockChildComponent />
         </EmbedWrapper>
       );
 
-      styleBlock = ReactDOM.findDOMNode(instance).getElementsByTagName('style')[0];
+      rootElem = ReactDOM.findDOMNode(instance);
+      styleBlock = rootElem.getElementsByTagName('style')[0];
     });
 
     it('adds a <style> block to the iframe document', () => {
@@ -57,6 +74,11 @@ describe('EmbedWrapper', () => {
     it('adds a rootComponent ref to that child', () => {
       expect(instance.refs.rootComponent)
         .toBeDefined();
+    });
+
+    it('closes on ESC', () => {
+      TestUtils.Simulate.keyDown(rootElem, { key: 'Escape', keyCode: 27, which: 27 });
+      expect(instance.props.handleCloseClick).toHaveBeenCalled();
     });
   });
 });

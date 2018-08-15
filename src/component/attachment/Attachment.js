@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import { Icon } from 'component/Icon';
 import { ProgressBar } from 'component/attachment/ProgressBar';
+import { Alert, Title, Close } from '@zendeskgarden/react-notifications';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './Attachment.scss';
 import classNames from 'classnames';
@@ -21,7 +22,7 @@ export class Attachment extends Component {
     handleRemoveAttachment: PropTypes.func,
     isDownloadable: PropTypes.bool.isRequired,
     isRemovable: PropTypes.bool.isRequired,
-    icon: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     uploading: PropTypes.bool.isRequired,
     uploadProgress: PropTypes.number,
     uploadRequestSender: PropTypes.object
@@ -31,6 +32,7 @@ export class Attachment extends Component {
     attachmentId: '',
     downloading: false,
     fakeProgress: false,
+    icon: '',
     isDownloadable: false,
     isRemovable: false,
     uploading: false,
@@ -72,7 +74,7 @@ export class Attachment extends Component {
     );
   }
 
-  renderSecondaryText(file, errorMessage, isDownloadable, downloading, uploading) {
+  renderSecondaryText(file, isDownloadable, downloading, uploading) {
     const attachmentSize = this.formatAttachmentSize(file.size);
     const downloadLink = (
       <div>
@@ -82,9 +84,7 @@ export class Attachment extends Component {
     );
     let secondaryText;
 
-    if (errorMessage) {
-      secondaryText = errorMessage;
-    } else if (uploading) {
+    if (uploading) {
       secondaryText = i18n.t('embeddable_framework.chat.chatLog.uploading');
     } else if (downloading) {
       secondaryText = i18n.t('embeddable_framework.chat.chatLog.loadingImage', { attachmentSize });
@@ -97,30 +97,35 @@ export class Attachment extends Component {
     return secondaryText;
   }
 
-  render() {
+  previewNameString = () => {
+    const { file, filenameMaxLength } = this.props;
+
+    return filenameMaxLength ? this.truncateFilename(file.name, filenameMaxLength, 7) : file.name;
+  }
+
+  renderPreviewIcon = () => {
+    if (!this.props.icon) return null;
+
+    const { file, isDownloadable } = this.props;
+    const previewIcon = <Icon type={this.props.icon} className={styles.iconPreview} />;
+
+    return (isDownloadable)
+      ? this.renderLinkedEl(previewIcon, file.url)
+      : previewIcon;
+  }
+
+  renderAttachmentBox() {
     const { file,
       downloading,
       errorMessage,
-      filenameMaxLength,
       isDownloadable,
       uploading } = this.props;
 
-    const containerClasses = classNames(
-      styles.container,
-      this.props.className,
-      { [styles.containerError]: !!errorMessage }
-    );
-
-    const secondaryTextClasses = classNames(
-      styles.secondaryText,
-      { [styles.secondaryTextError]: !!errorMessage }
-    );
-
-    const previewIcon = <Icon type={this.props.icon} className={styles.iconPreview} />;
+    if (errorMessage) return;
 
     const previewName = (
       <div className={styles.previewName}>
-        {filenameMaxLength ? this.truncateFilename(file.name, filenameMaxLength, 7) : file.name}
+        {this.previewNameString()}
       </div>
     );
 
@@ -129,6 +134,11 @@ export class Attachment extends Component {
         onClick={this.handleIconClick}
         className={styles.icon}
         type='Icon--close' />
+    );
+
+    const containerClasses = classNames(
+      styles.container,
+      this.props.className
     );
 
     const progressBar = (
@@ -141,13 +151,12 @@ export class Attachment extends Component {
     return (
       <div className={containerClasses}>
         <div className={styles.preview}>
-          {isDownloadable ? this.renderLinkedEl(previewIcon, file.url) : previewIcon}
+          {this.renderPreviewIcon()}
           <div className={styles.description}>
             {isDownloadable ? this.renderLinkedEl(previewName, file.url) : previewName}
-            <div className={secondaryTextClasses}>
+            <div className={styles.secondaryText}>
               {this.renderSecondaryText(
                 file,
-                errorMessage,
                 isDownloadable,
                 downloading,
                 uploading)
@@ -157,6 +166,29 @@ export class Attachment extends Component {
           {this.props.isRemovable && removeIcon}
         </div>
         {(uploading && !errorMessage) && progressBar}
+      </div>
+    );
+  }
+
+  renderAttachmentError() {
+    const { errorMessage } = this.props;
+
+    if (!errorMessage) return;
+
+    return (
+      <Alert type="error" role="alert" className={styles.containerError}>
+        <Title className={styles.previewError}>{this.previewNameString()}</Title>
+        <div className={styles.secondaryTextError}>{errorMessage}</div>
+        <Close onClick={this.handleIconClick} />
+      </Alert>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        {this.renderAttachmentBox()}
+        {this.renderAttachmentError()}
       </div>
     );
   }

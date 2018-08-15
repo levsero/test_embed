@@ -27,6 +27,7 @@ export class MockFrame extends Component {
     this.setButtonColor = noop;
     this.updateFrameSize = noop;
     this.componentDidUpdate = noop;
+    this.getFrameContentDocument = () => {};
 
     this.state = {};
   }
@@ -66,4 +67,3 @@ export class MockFrame extends Component {
     );
   }
 }
-

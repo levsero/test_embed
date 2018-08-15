@@ -30,7 +30,9 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
 .authProfileContainer {
   position: relative;
   word-break: break-all;
-  background-color: $zd-color-anti-flash-white;
+  color: $zd-color-grey-800;
+  background-color: $zd-color-grey-100;
+  border: #{1/$font-size}rem solid $zd-color-grey-300;
   border-radius: #{4/$font-size}rem;
   margin-bottom: #{15/$font-size}rem;
   margin-top: #{8/$font-size}rem;
@@ -62,9 +64,11 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
 }
 
 .logoutIcon {
+  composes: u-isActionable from global;
+
   position: absolute;
   top: #{18/$font-size}rem;
-  color: $zd-color-aluminum;
+  color: $zd-color-grey-500;
 
   [dir='ltr'] & {
     right: #{16/$font-size}rem;
@@ -76,7 +80,15 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
 
   svg {
     path {
-      fill: $zd-color-aluminum;
+      fill: $zd-color-grey-500;
+    }
+  }
+
+  &:hover, &:focus, &:active {
+    svg {
+      path {
+        fill: $zd-color-grey-600;
+      }
     }
   }
 }

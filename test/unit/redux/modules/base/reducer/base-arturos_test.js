@@ -34,8 +34,7 @@ describe('base reducer arturos', () => {
 
     beforeEach(() => {
       mockArturos = {
-        newChat: true,
-        newHeight: false
+        newChat: true
       };
       state = reducer(currentState, {
         type: actionTypes.UPDATE_ARTUROS,
@@ -57,8 +56,7 @@ describe('base reducer arturos', () => {
     describe('when currentState has same attributes with different values', () => {
       beforeAll(() => {
         currentState = {
-          newChat: false,
-          newHeight: true
+          newChat: false
         };
       });
 

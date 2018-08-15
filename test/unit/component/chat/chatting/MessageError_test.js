@@ -1,27 +1,21 @@
 describe('MessageError component', () => {
-  let MessageError,
-    ICONS;
+  let MessageError;
 
   const messageErrorPath = buildSrcPath('component/chat/chatting/MessageError');
-  const sharedConstantsPath = buildSrcPath('constants/shared');
-  const Icon = noopReactComponent();
-
-  ICONS = requireUncached(sharedConstantsPath).ICONS;
+  const Alert = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
 
     initMockRegistry({
-      'component/Icon': { Icon },
-      'constants/shared': {
-        ICONS
-      },
       './MessageError.scss': {
         locals: {
           container: 'container',
-          icon: 'icon',
           messageErrorLink: 'messageErrorLink'
         }
+      },
+      '@zendeskgarden/react-notifications': {
+        Alert: Alert
       }
     });
 
@@ -49,13 +43,6 @@ describe('MessageError component', () => {
       el = component.render();
     });
 
-    it('renders an Icon component with the correct icon', () => {
-      const firstChild = el.props.children[0];
-
-      expect(TestUtils.isElementOfType(firstChild, Icon)).toEqual(true);
-      expect(firstChild.props.type).toEqual(ICONS.ERROR_FILL);
-    });
-
     describe('error element', () => {
       let errorElement;
 
@@ -69,13 +56,17 @@ describe('MessageError component', () => {
           .toContain('customClassName');
       });
 
+      it('returns a garden <Alert> component', () => {
+        expect(TestUtils.isElementOfType(el, Alert)).toEqual(true);
+      });
+
       describe('when there is a handler', () => {
         beforeAll(() => {
           handleErrorSpy = jasmine.createSpy('handleError').and.returnValue('random click');
         });
 
         beforeEach(() => {
-          errorElement = el.props.children[1];
+          errorElement = el.props.children;
         });
 
         it('renders an anchor tag', () => {
@@ -110,7 +101,7 @@ describe('MessageError component', () => {
         });
 
         beforeEach(() => {
-          errorElement = el.props.children[1];
+          errorElement = el.props.children;
         });
 
         it('renders the error message', () => {

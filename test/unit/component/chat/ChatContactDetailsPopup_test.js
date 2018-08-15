@@ -3,6 +3,7 @@ describe('ChatContactDetailsPopup component', () => {
     mockForm,
     mockFormValidity,
     mockEmailValid,
+    mockShouldRenderErrorMessage,
     mockIsDefaultNickname,
     ICONS,
     EDIT_CONTACT_DETAILS_SCREEN,
@@ -11,6 +12,8 @@ describe('ChatContactDetailsPopup component', () => {
   const ChatContactDetailsPopupPath = buildSrcPath('component/chat/ChatContactDetailsPopup');
 
   const LoadingSpinner = noopReactComponent();
+  const Message = noopReactComponent();
+  const TextField = noopReactComponent();
 
   class ChatPopup extends Component {
     render() {
@@ -46,7 +49,8 @@ describe('ChatContactDetailsPopup component', () => {
         }
       },
       'constants/shared': {
-        ICONS
+        ICONS,
+        EMAIL_PATTERN: /.+/
       },
       'constants/chat': {
         EDIT_CONTACT_DETAILS_SCREEN,
@@ -56,19 +60,11 @@ describe('ChatContactDetailsPopup component', () => {
       'component/chat/ChatPopup': { ChatPopup },
       'component/loading/LoadingSpinner': { LoadingSpinner },
       'component/Icon': noopReactComponent(),
-      'component/field/EmailField': noopReactComponent(),
-      'component/field/Field': {
-        Field: class extends Component {
-          render() {
-            return this.props.input
-              ? React.cloneElement(this.props.input, _.extend({}, this.props))
-              : <input
-                name={this.props.name}
-                required={this.props.required}
-                pattern={this.props.pattern}
-                type={this.props.type} />;
-          }
-        }
+      '@zendeskgarden/react-textfields': {
+        TextField,
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Message
       },
       'service/i18n': {
         i18n: {
@@ -77,6 +73,10 @@ describe('ChatContactDetailsPopup component', () => {
       },
       'src/util/utils': {
         emailValid: () => mockEmailValid
+      },
+      'src/util/fields': {
+        shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
+        renderLabelText: () => 'someLabel'
       },
       'src/util/chat': {
         isDefaultNickname: () => mockIsDefaultNickname
@@ -117,6 +117,7 @@ describe('ChatContactDetailsPopup component', () => {
 
   describe('handleSave', () => {
     let component,
+      mockState,
       rightCtaFnSpy;
 
     beforeEach(() => {
@@ -124,30 +125,51 @@ describe('ChatContactDetailsPopup component', () => {
 
       component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
 
-      component.setState({ formState: { name: 'bob', email: 'bob@zd.com' } });
+      spyOn(component, 'setState');
+      component.state = mockState;
       component.handleSave();
     });
 
-    it('calls props.rightCtaFn with form state name and email', () => {
-      expect(rightCtaFnSpy)
-        .toHaveBeenCalledWith('bob', 'bob@zd.com');
-    });
-
-    describe('when there exists an activeElement', () => {
-      beforeEach(() => {
-        const mockActiveElement = domRender(<div />);
-
-        document.activeElement = mockActiveElement;
-
-        spyOn(document.activeElement, 'blur');
-
-        component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
-        component.handleSave();
+    describe('when form is invalid', () => {
+      beforeAll(() => {
+        mockState = {
+          formState: {},
+          valid: false
+        };
       });
 
-      it('calls blur on the activeElement', () => {
-        expect(document.activeElement.blur)
-          .toHaveBeenCalled();
+      it('shows error', () => {
+        expect(component.setState)
+          .toHaveBeenCalledWith({ showErrors: true });
+      });
+    });
+
+    describe('when form is valid', () => {
+      beforeAll(() => {
+        mockState = { valid: true, formState: { name: 'bob', email: 'bob@zd.com' } };
+      });
+
+      it('calls props.rightCtaFn with form state name and email', () => {
+        expect(rightCtaFnSpy)
+          .toHaveBeenCalledWith('bob', 'bob@zd.com');
+      });
+
+      describe('when there exists an activeElement', () => {
+        beforeEach(() => {
+          const mockActiveElement = domRender(<div />);
+
+          document.activeElement = mockActiveElement;
+
+          spyOn(document.activeElement, 'blur');
+
+          component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
+          component.handleSave();
+        });
+
+        it('calls blur on the activeElement', () => {
+          expect(document.activeElement.blur)
+            .toHaveBeenCalled();
+        });
       });
     });
   });
@@ -155,7 +177,7 @@ describe('ChatContactDetailsPopup component', () => {
   describe('handleKeyPress', () => {
     const keyCodes = { enter: 13, a: 65 };
     let component;
-    let event = { keyCode: keyCodes.enter, preventDefault: () => false };
+    let event = { charCode: keyCodes.enter, preventDefault: () => false };
 
     beforeEach(() => {
       component = instanceRender(<ChatContactDetailsPopup />);
@@ -315,8 +337,7 @@ describe('ChatContactDetailsPopup component', () => {
 
   describe('render', () => {
     let component,
-      renderedComponent,
-      popupComponent;
+      renderedComponent;
 
     describe('when method is called', () => {
       beforeEach(() => {
@@ -374,34 +395,6 @@ describe('ChatContactDetailsPopup component', () => {
       it('has an empty style in props.containerClasses', () => {
         expect(renderedComponent.props.containerClasses)
           .toEqual('');
-      });
-    });
-
-    describe('when the form is valid', () => {
-      beforeEach(() => {
-        component = domRender(<ChatContactDetailsPopup />);
-        component.setState({ valid: true });
-
-        popupComponent = TestUtils.findRenderedComponentWithType(component, ChatPopup);
-      });
-
-      it('renders ChatPopup with rightCtaDisabled prop as false', () => {
-        expect(popupComponent.props.rightCtaDisabled)
-          .toBe(false);
-      });
-    });
-
-    describe('when the form is invalid', () => {
-      beforeEach(() => {
-        component = domRender(<ChatContactDetailsPopup />);
-        component.setState({ valid: false });
-
-        popupComponent = TestUtils.findRenderedComponentWithType(component, ChatPopup);
-      });
-
-      it('renders ChatPopup with rightCtaDisabled prop as true', () => {
-        expect(popupComponent.props.rightCtaDisabled)
-          .toBe(true);
       });
     });
   });
@@ -470,168 +463,6 @@ describe('ChatContactDetailsPopup component', () => {
     });
   });
 
-  describe('renderNameField', () => {
-    let component;
-
-    beforeEach(() => {
-      component = instanceRender(<ChatContactDetailsPopup />);
-      spyOn(component, 'generateFieldClasses');
-      spyOn(component, 'generateInputClasses');
-      component.renderNameField();
-    });
-
-    it('calls generateInputClasses', () => {
-      expect(component.generateInputClasses)
-        .toHaveBeenCalled();
-    });
-
-    it('calls generateFieldClasses', () => {
-      expect(component.generateFieldClasses)
-        .toHaveBeenCalled();
-    });
-  });
-
-  describe('renderEmailField', () => {
-    let component;
-
-    beforeEach(() => {
-      component = instanceRender(<ChatContactDetailsPopup />);
-      spyOn(component, 'generateFieldClasses');
-      spyOn(component, 'generateInputClasses');
-      component.renderEmailField();
-    });
-
-    it('calls generateInputClasses', () => {
-      expect(component.generateInputClasses)
-        .toHaveBeenCalled();
-    });
-
-    it('calls generateFieldClasses', () => {
-      expect(component.generateFieldClasses)
-        .toHaveBeenCalled();
-    });
-  });
-
-  describe('generateFieldClasses', () => {
-    let result,
-      component,
-      mockIsAuthenticated;
-
-    beforeEach(() => {
-      component = instanceRender(<ChatContactDetailsPopup isAuthenticated={mockIsAuthenticated} />);
-      result = component.generateFieldClasses();
-    });
-
-    it('renders field class', () => {
-      expect(result)
-        .toContain('field');
-    });
-
-    describe('when authenticated', () => {
-      beforeAll(() => {
-        mockIsAuthenticated = true;
-      });
-
-      it('renders fieldAuthDisabled class', () => {
-        expect(result)
-          .toContain('fieldAuthDisabled');
-      });
-    });
-
-    describe('when not authenticated', () => {
-      beforeAll(() => {
-        mockIsAuthenticated = false;
-      });
-
-      it('does not render fieldAuthDisabled class', () => {
-        expect(result)
-          .not
-          .toContain('fieldAuthDisabled');
-      });
-    });
-  });
-
-  describe('generateInputClasses', () => {
-    let result,
-      component,
-      mockIsAuthenticated,
-      mockIsMobile;
-
-    beforeEach(() => {
-      component = instanceRender(<ChatContactDetailsPopup isAuthenticated={mockIsAuthenticated} isMobile={mockIsMobile} />);
-      result = component.generateInputClasses();
-    });
-
-    describe('when authenticated', () => {
-      beforeAll(() => {
-        mockIsAuthenticated = true;
-      });
-
-      it('renders fieldInputAuthDisabled', () => {
-        expect(result)
-          .toContain('fieldInputAuthDisabled');
-      });
-
-      describe('when inputMobile is true', () => {
-        beforeAll(() => {
-          mockIsMobile = true;
-        });
-
-        it('renders fieldInputMobile', () => {
-          expect(result)
-            .toContain('fieldInputMobile');
-        });
-      });
-
-      describe('when inputMobile is false', () => {
-        beforeAll(() => {
-          mockIsMobile = false;
-        });
-
-        it('does not render fieldInputMobile', () => {
-          expect(result)
-            .not
-            .toContain('fieldInputMobile');
-        });
-      });
-    });
-
-    describe('when not authenticated', () => {
-      beforeAll(() => {
-        mockIsAuthenticated = false;
-      });
-
-      it('does not render fieldInputAuthDisabled', () => {
-        expect(result)
-          .not
-          .toContain('fieldInputAuthDisabled');
-      });
-
-      describe('when inputMobile is true', () => {
-        beforeAll(() => {
-          mockIsMobile = true;
-        });
-
-        it('renders fieldInputMobile', () => {
-          expect(result)
-            .toContain('fieldInputMobile');
-        });
-      });
-
-      describe('when inputMobile is false', () => {
-        beforeAll(() => {
-          mockIsMobile = false;
-        });
-
-        it('does not render fieldInputMobile', () => {
-          expect(result)
-            .not
-            .toContain('fieldInputMobile');
-        });
-      });
-    });
-  });
-
   describe('renderLoadingSpinner', () => {
     let loadingSpinner;
 
@@ -670,6 +501,58 @@ describe('ChatContactDetailsPopup component', () => {
       it('passes the right height prop', () => {
         expect(loadingSpinner.props.height)
           .toEqual(32);
+      });
+    });
+  });
+
+  describe('renderEmailField', () => {
+    let result,
+      component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+      result = component.renderEmailField();
+    });
+
+    it('renders a TextField component', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
+        .toEqual(true);
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockShouldRenderErrorMessage = true;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+  });
+
+  describe('renderNameField', () => {
+    let result,
+      component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+      result = component.renderNameField();
+    });
+
+    it('renders a TextField component', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
+        .toEqual(true);
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockShouldRenderErrorMessage = true;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
       });
     });
   });

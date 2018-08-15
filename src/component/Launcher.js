@@ -6,6 +6,7 @@ import { locals as styles } from './Launcher.scss';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
+import { keyCodes } from 'utility/keyboard';
 import { getChatAvailable, getTalkAvailable } from 'src/redux/modules/selectors';
 import { settings } from 'service/settings';
 import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
@@ -33,7 +34,9 @@ class Launcher extends Component {
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
-    notificationCount: PropTypes.number.isRequired
+    notificationCount: PropTypes.number.isRequired,
+    getFrameContentDocument: PropTypes.func,
+    updateFrameTitle: PropTypes.func
   };
 
   static defaultProps = { updateFrameSize: () => {} };
@@ -42,6 +45,28 @@ class Launcher extends Component {
     super(props, context);
 
     this.state = { unreadMessages: 0 };
+  }
+
+  componentDidMount() {
+    const { getFrameContentDocument } = this.props;
+
+    if (getFrameContentDocument) {
+      getFrameContentDocument().addEventListener('keypress', this.handleKeyPress);
+    }
+  }
+
+  componentWillUnmount() {
+    const { getFrameContentDocument } = this.props;
+
+    if (getFrameContentDocument) {
+      getFrameContentDocument().removeEventListener('keypress', this.handleKeyPress);
+    }
+  }
+
+  handleKeyPress = (e) => {
+    if (e.keyCode === keyCodes.ENTER || e.keyCode === keyCodes.SPACE) {
+      this.props.onClick(e);
+    }
   }
 
   setUnreadMessages = (unreadMessages) => {
@@ -109,6 +134,21 @@ class Launcher extends Component {
     }
   }
 
+  getTitle = () => {
+    const defaultTitle = i18n.t('embeddable_framework.launcher.frame.title');
+
+    switch (this.props.activeEmbed) {
+      case 'chat':
+      case 'zopimChat':
+        if (this.props.chatAvailable) return i18n.t('embeddable_framework.launcher.chat.title');
+        return defaultTitle;
+      case 'talk':
+        return i18n.t('embeddable_framework.launcher.talk.title');
+      default:
+        return defaultTitle;
+    }
+  }
+
   getIconType = () => {
     const { talkAvailable, chatAvailable } = this.props;
 
@@ -142,6 +182,10 @@ class Launcher extends Component {
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
 
     setTimeout(() => this.props.updateFrameSize(5, 0), 0);
+
+    if (this.props.updateFrameTitle) {
+      this.props.updateFrameTitle(this.getTitle());
+    }
 
     return (
       <div className={`${styles.wrapper} ${baseMobileClasses}`}

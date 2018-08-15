@@ -17,7 +17,7 @@
 }
 
 .greetingMessage {
-  color: $zd-color-dark-gray;
+  color: $zd-color-grey-800;
   margin-bottom: #{13/$font-size}rem;
   white-space: pre-line;
 }
@@ -32,7 +32,7 @@
 }
 
 .defaultDropdownText {
-  color: $zd-color-iron;
+  color: $zd-color-grey-300;
 }
 
 .nameFieldWithSocialLogin {
@@ -47,14 +47,13 @@
 }
 
 .mobileContainer {
-  composes: u-textSizeMed from global;
+  font-size: $font-size-mobile;
   height: 100% !important;
 }
 
 .submitBtn {
   margin-top: #{15/$font-size}rem;
   margin-bottom: #{15/$font-size}rem;
-  height: #{40/$font-size}rem;
   float: right;
 
   [dir='rtl'] & {

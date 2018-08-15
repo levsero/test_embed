@@ -1,21 +1,22 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-paddingAS u-flex u-flexAlignItemsCenter u-isDisabled from global;
+  composes: u-flex u-flexAlignItemsCenter u-isDisabled from global;
 
-  color: $zd-color-dark-gray;
+  color: $zd-color-grey-800;
+  padding: #{10/$font-size}rem;
 
   .Icon svg path {
-    fill: $zd-color-monsoon;
+    fill: $zd-color-grey-600;
   }
 
   &:hover, &:focus, &:active {
     background: $zd-color-anti-flash-white;
     border-radius: #{4/$font-size}rem;
-    color: $zd-color-oil;
+    color: $zd-color-grey-800;
 
     .Icon svg path {
-      fill: $zd-color-dark-gray;
+      fill: $zd-color-grey-800;
     }
   }
 }
@@ -34,7 +35,7 @@
     width: #{16/$font-size}rem;
 
     path {
-      fill: $zd-color-monsoon;
+      fill: $zd-color-grey-500;
     }
   }
 
@@ -45,6 +46,6 @@
 }
 
 .label {
-  composes: u-pullLeft u-textSizeNml from global;
+  composes: u-pullLeft from global;
   padding-top: #{1/$font-size}rem;
 }

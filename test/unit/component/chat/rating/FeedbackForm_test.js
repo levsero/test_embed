@@ -20,7 +20,7 @@ describe('FeedbackForm component', () => {
           rightButton: 'rightButtonClasses'
         }
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: class extends Component {
           render() {
             return (

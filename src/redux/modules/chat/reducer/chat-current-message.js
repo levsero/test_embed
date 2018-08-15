@@ -9,7 +9,7 @@ const currentMessage = (state = initialState, action) => {
     case CHAT_BOX_CHANGED:
       return action.payload;
     case PRE_CHAT_FORM_ON_CHANGE:
-      return action.payload.message;
+      return action.payload.message || '';
     case RESET_CURRENT_MESSAGE:
       return initialState;
     default:

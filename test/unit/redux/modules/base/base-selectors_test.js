@@ -7,7 +7,6 @@ describe('base selectors', () => {
     getWidgetShown,
     getIPMWidget,
     getChatStandalone,
-    getNewHeight,
     getOAuth,
     getAuthToken,
     getBaseIsAuthenticated,
@@ -57,7 +56,6 @@ describe('base selectors', () => {
     getWidgetShown = selectors.getWidgetShown;
     getChatStandalone = selectors.getChatStandalone;
     getIPMWidget = selectors.getIPMWidget;
-    getNewHeight = selectors.getNewHeight;
     getOAuth = selectors.getOAuth;
     getAuthToken = selectors.getAuthToken;
     getBaseIsAuthenticated = selectors.getBaseIsAuthenticated;
@@ -619,66 +617,6 @@ describe('base selectors', () => {
     it('returns whether IPM widget is activated', () => {
       expect(result)
         .toEqual(true);
-    });
-  });
-
-  describe('getNewHeight', () => {
-    let result,
-      mockState;
-
-    beforeEach(() => {
-      result = getNewHeight(mockState);
-    });
-
-    describe('when newHeight is true', () => {
-      beforeAll(() => {
-        mockState = {
-          base: {
-            arturos: {
-              newHeight: true
-            }
-          }
-        };
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
-
-    describe('when newHeight is false', () => {
-      beforeAll(() => {
-        mockState = {
-          base: {
-            arturos: {
-              newHeight: false
-            }
-          }
-        };
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
-    });
-
-    describe('when newHeight does not exist', () => {
-      beforeAll(() => {
-        mockState = {
-          base: {
-            arturos: {
-              newChat: true
-            }
-          }
-        };
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
     });
   });
 

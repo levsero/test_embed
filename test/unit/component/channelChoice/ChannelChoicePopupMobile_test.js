@@ -20,7 +20,7 @@ describe('ChannelChoicePopupMobile component', () => {
       './ChannelChoice.scss': {
         locals: {}
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: class extends Component {
           render() {
             return <div className={this.props.className} />;

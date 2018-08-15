@@ -26,7 +26,7 @@ describe('AgentScreen component', () => {
           agentListBackButtonWithLogo: 'agentListBackButtonWithLogoClasses'
         }
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button
       },
       'component/ZendeskLogo': {
@@ -139,7 +139,7 @@ describe('AgentScreen component', () => {
         });
 
         it('has its label set correctly', () => {
-          expect(footerContent.props.label)
+          expect(footerContent.props.children)
             .toEqual('embeddable_framework.chat.agentList.button.backToChat');
         });
 

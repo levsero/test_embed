@@ -1,10 +1,17 @@
 describe('SearchField component', () => {
-  let onChangeValue,
-    SearchField;
+  let SearchField;
   const searchFieldPath = buildSrcPath('component/field/SearchField');
+  const LoadingEllipses = class extends Component {
+    render() {
+      return (
+        <div className={`ellipses ${this.props.className}`} />
+      );
+    }
+  };
+  const Icon = noopReactComponent();
+  const IconFieldButton = noopReactComponent();
 
   beforeEach(() => {
-    onChangeValue = jasmine.createSpy('onChangeValue');
     mockery.enable({
       warnOnReplace: false
     });
@@ -13,48 +20,33 @@ describe('SearchField component', () => {
       'React': React,
       './SearchField.scss': {
         locals: {
-          hidden: 'hidden',
-          clearInput: 'clearInput',
-          fullscreen: 'fullscreenClass',
-          notSearched: 'notSearchedClass',
-          notSearchedLogo: 'notSearchedLogoClass',
-          searched: 'searchedClass'
+          hovering: 'hovering',
+          mobileContainer: 'mobileContainer',
+          desktopContainer: 'desktopContainer',
+          mobileSearchInput: 'mobileSearchInput',
+          notSearched: 'notSearchedClasses',
+          notSearchedWithLogo: 'notSearchedWithLogoClasses',
+          hasSearched: 'hasSearchedClasses'
         }
       },
       'component/button/IconFieldButton': {
-        IconFieldButton: noopReactComponent()
-      },
-      'component/field/SearchInput': {
-        SearchInput: class extends Component {
-          render() {
-            return (
-              <input onChange={this.props.onChange} />
-            );
-          }
-        }
+        IconFieldButton
       },
       'component/loading/LoadingEllipses': {
-        LoadingEllipses: class extends Component {
-          render() {
-            return (
-              <div className={`ellipses ${this.props.className}`} />
-            );
-          }
-        }
+        LoadingEllipses
       },
       'component/Icon': {
-        Icon: class extends Component {
-          render() {
-            return (
-              <span
-                className={this.props.className}
-                onClick={this.props.onClick}
-                type={`${this.props.type}`}>
-                <svg />
-              </span>
-            );
-          }
+        Icon
+      },
+      'service/i18n': {
+        i18n: {
+          t: _.identity
         }
+      },
+      '@zendeskgarden/react-textfields': {
+        Input: noopReactComponent(),
+        FauxInput: noopReactComponent(),
+        MediaFigure: noopReactComponent()
       }
     });
 
@@ -68,177 +60,399 @@ describe('SearchField component', () => {
     mockery.disable();
   });
 
-  describe('classname', () => {
+  describe('renderMobileLoadingOrClearIcon', () => {
     let result,
-      componentProps;
+      component,
+      mockIsLoading,
+      mockSearchInputVal;
 
     beforeEach(() => {
-      const component = instanceRender(<SearchField {...componentProps} />);
-
-      result = component.render();
+      component = domRender(<SearchField isLoading={mockIsLoading} />);
+      component.state = {
+        searchInputVal: mockSearchInputVal
+      };
+      result = component.renderMobileLoadingOrClearIcon();
     });
 
-    describe('when props.fullscreen is true', () => {
+    describe('when search is loading', () => {
       beforeAll(() => {
-        componentProps = { fullscreen: true };
+        mockIsLoading = true;
       });
 
-      it('has fullscreen class', () => {
-        expect(result.props.className)
-          .toContain('fullscreenClass');
-      });
-
-      it('does not have searched class', () => {
-        expect(result.props.className)
-          .not.toContain('searchedClass');
-      });
-
-      it('does not have notSearched class', () => {
-        expect(result.props.className)
-          .not.toContain('notSearchedClass');
-      });
-
-      it('does not have notSearchedLogo class', () => {
-        expect(result.props.className)
-          .not.toContain('notSearchedLogoClass');
+      it('renders LoadingEllipses child component', () => {
+        expect(TestUtils.isElementOfType(result.props.children, LoadingEllipses))
+          .toEqual(true);
       });
     });
 
-    describe('when props.fullscreen is false', () => {
+    describe('when search is not loading', () => {
       beforeAll(() => {
-        componentProps = { fullscreen: false };
+        mockIsLoading = false;
       });
 
-      it('does not have fullscreen class', () => {
-        expect(result.props.className)
-          .not.toContain('fullscreenClass');
-      });
-
-      describe('when props.hasSearched is true', () => {
+      describe('when there is a search input value', () => {
         beforeAll(() => {
-          _.assign(componentProps, { hasSearched: true });
+          mockSearchInputVal = 'yolo';
         });
 
-        it('has searched class', () => {
-          expect(result.props.className)
-            .toContain('searchedClass');
+        it('renders Icon child component', () => {
+          expect(TestUtils.isElementOfType(result.props.children, Icon))
+            .toEqual(true);
         });
       });
 
-      describe('when props.hasSearched is false', () => {
+      describe('when there is no search input value', () => {
         beforeAll(() => {
-          _.assign(componentProps, { hasSearched: false });
+          mockSearchInputVal = null;
         });
 
-        describe('when props.hideZendeskLogo is true', () => {
-          beforeAll(() => {
-            _.assign(componentProps, { hideZendeskLogo: true });
-          });
-
-          it('has notSearched class', () => {
-            expect(result.props.className)
-              .toContain('notSearchedClass');
-          });
-        });
-
-        describe('when props.hideZendeskLogo is false', () => {
-          beforeAll(() => {
-            _.assign(componentProps, { hideZendeskLogo: false });
-          });
-
-          it('has notSearchedLogo class', () => {
-            expect(result.props.className)
-              .toContain('notSearchedLogoClass');
-          });
+        it('renders no child component', () => {
+          expect(result.props.children)
+            .toBeFalsy();
         });
       });
     });
   });
 
-  describe('SearchField', () => {
-    it('should display `LoadingEllipses` component when `this.props.isLoading` is truthy', () => {
-      const searchField = domRender(<SearchField isLoading={true} />);
-      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'ellipses');
+  describe('renderDesktopSearchOrLoadingIcon', () => {
+    let result,
+      component,
+      mockIsLoading;
 
-      expect(searchField.props.isLoading)
-        .toEqual(true);
-
-      expect(loadingNode.className)
-        .not.toMatch('hidden');
+    beforeEach(() => {
+      component = domRender(<SearchField isLoading={mockIsLoading} />);
+      result = component.renderDesktopSearchOrLoadingIcon();
     });
 
-    it('should not display `LoadingEllipses` component when `this.props.isLoading` is falsy', () => {
-      const searchField = domRender(<SearchField isLoading={false} />);
-      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'ellipses');
-
-      expect(searchField.props.isLoading)
-        .toEqual(false);
-
-      expect(loadingNode.className)
-        .toMatch('hidden');
-    });
-
-    describe('on Mobile', () => {
-      it('should clear input and call props.onChangeValue when clear icon is clicked', () => {
-        const searchField = domRender(<SearchField onChangeValue={onChangeValue} fullscreen={true} />);
-        const searchFieldNode = ReactDOM.findDOMNode(searchField);
-        const searchInputNode = searchFieldNode.querySelector('input');
-
-        searchInputNode.value = 'Search string';
-
-        TestUtils.Simulate.click(searchFieldNode.querySelector('.clearInput'));
-
-        expect(onChangeValue)
-          .toHaveBeenCalledWith('');
+    describe('when is loading', () => {
+      beforeAll(() => {
+        mockIsLoading = true;
       });
 
-      it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', () => {
-        const searchField = domRender(<SearchField isLoading={false} fullscreen={true} />);
-        const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'clearInput');
-
-        searchField.setState({ searchInputVal: 'something' });
-
-        expect(searchField.state.searchInputVal)
-          .toEqual('something');
-
-        expect(clearInputNode.className)
-          .not.toMatch('hidden');
-      });
-
-      it('should not display `clearInput` Icon when the input has no text', () => {
-        const searchField = domRender(<SearchField fullscreen={true} />);
-        const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'clearInput');
-
-        searchField.setState({ searchInputVal: '' });
-
-        expect(searchField.state.searchInputVal)
-          .toEqual('');
-
-        expect(clearInputNode.className)
-          .toMatch('hidden');
-      });
-
-      it('should not display `clearInput` Icon when `this.props.isLoading` is true', () => {
-        const searchField = domRender(<SearchField isLoading={true} fullscreen={true} />);
-        const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'clearInput');
-
-        searchField.setState({ searchInputVal: 'something' });
-
-        expect(searchField.state.searchInputVal)
-          .toEqual('something');
-
-        expect(clearInputNode.className)
-          .toMatch('hidden');
+      it('renders LoadingEllipses child component', () => {
+        expect(TestUtils.isElementOfType(result.props.children, LoadingEllipses))
+          .toEqual(true);
       });
     });
 
-    describe('on Desktop', () => {
-      it('should not have a clear input icon', () => {
-        const searchField = domRender(<SearchField onChangeValue={onChangeValue} />);
-        const searchFieldNode = ReactDOM.findDOMNode(searchField);
+    describe('when not loading', () => {
+      beforeAll(() => {
+        mockIsLoading = false;
+      });
 
-        expect(searchFieldNode.querySelector('.clearInput'))
-          .toBeNull();
+      it('renders IconFieldButton child component', () => {
+        expect(TestUtils.isElementOfType(result.props.children, IconFieldButton))
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('renderIcons', () => {
+    let result,
+      component,
+      mockFullscreen;
+
+    beforeEach(() => {
+      component = domRender(<SearchField fullscreen={mockFullscreen}/>);
+      spyOn(component, 'renderMobileLoadingOrClearIcon');
+      spyOn(component, 'renderMobileSearchIconButton');
+      spyOn(component, 'renderDesktopSearchOrLoadingIcon');
+      result = component.renderIcons();
+    });
+
+    describe('when fullscreen is true', () => {
+      beforeAll(() => {
+        mockFullscreen = true;
+      });
+
+      it('calls renderMobileLoadingOrClearIcon method', () => {
+        expect(component.renderMobileLoadingOrClearIcon)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderMobileSearchIconButton method', () => {
+        expect(component.renderMobileSearchIconButton)
+          .toHaveBeenCalled();
+      });
+
+      it('render two icons', () => {
+        expect(result.length)
+          .toEqual(2);
+      });
+    });
+
+    describe('when fullscreen is false', () => {
+      beforeAll(() => {
+        mockFullscreen = false;
+      });
+
+      it('calls renderDesktopSearchOrLoadingIcon method', () => {
+        expect(component.renderDesktopSearchOrLoadingIcon)
+          .toHaveBeenCalled();
+      });
+
+      it('render one icon', () => {
+        expect(result.length)
+          .toEqual(1);
+      });
+    });
+  });
+
+  describe('onFocus', () => {
+    let component,
+      onFocusSpy;
+
+    beforeEach(() => {
+      onFocusSpy = jasmine.createSpy('onFocus');
+      component = domRender(<SearchField onFocus={onFocusSpy} />);
+      spyOn(component, 'setState');
+      component.onFocus('yolo');
+    });
+
+    it('calls setState with the correct params', () => {
+      expect(component.setState)
+        .toHaveBeenCalledWith({ focused: true });
+    });
+
+    it('calls onFocus prop with correct params', () => {
+      expect(onFocusSpy)
+        .toHaveBeenCalledWith('yolo');
+    });
+  });
+
+  describe('onBlur', () => {
+    let component,
+      onBlurSpy;
+
+    beforeEach(() => {
+      onBlurSpy = jasmine.createSpy('onBlur');
+      component = domRender(<SearchField onBlur={onBlurSpy} />);
+      spyOn(component, 'setState');
+      component.onBlur('yolo');
+    });
+
+    it('calls setState with the correct params', () => {
+      expect(component.setState)
+        .toHaveBeenCalledWith({ focused: false, blurred: true });
+    });
+
+    it('calls onBlur prop with correct params', () => {
+      expect(onBlurSpy)
+        .toHaveBeenCalledWith('yolo');
+    });
+  });
+
+  describe('onChange', () => {
+    let component,
+      eObj,
+      onChangeSpy = jasmine.createSpy('onChange'),
+      onChangeValueSpy = jasmine.createSpy('onChangeValue');
+
+    beforeEach(() => {
+      onChangeSpy = jasmine.createSpy('onChange');
+      onChangeValueSpy = jasmine.createSpy('onChangeValue');
+      component = domRender(<SearchField onChange={onChangeSpy} onChangeValue={onChangeValueSpy} />);
+      spyOn(component, 'setState');
+      eObj = {
+        target: {
+          value: 'yolo'
+        }
+      };
+      component.onChange(eObj);
+    });
+
+    it('calls setState with the correct params', () => {
+      expect(component.setState)
+        .toHaveBeenCalledWith({ searchInputVal: 'yolo' });
+    });
+
+    it('calls onChange prop with correct params', () => {
+      expect(onChangeSpy)
+        .toHaveBeenCalledWith(eObj);
+    });
+
+    it('calls onChangeValue prop with correct params', () => {
+      expect(onChangeValueSpy)
+        .toHaveBeenCalledWith('yolo');
+    });
+  });
+
+  describe('clearInput', () => {
+    let component,
+      onChangeValueSpy = jasmine.createSpy('onChangeValue');
+
+    beforeEach(() => {
+      component = domRender(<SearchField onChangeValue={onChangeValueSpy} />);
+      spyOn(component, 'setState');
+      component.clearInput();
+    });
+
+    it('calls clearInput with correct params', () => {
+      expect(component.setState)
+        .toHaveBeenCalledWith({ searchInputVal: '' });
+    });
+
+    it('calls onChangeValue prop with correct params', () => {
+      expect(onChangeValueSpy)
+        .toHaveBeenCalledWith('');
+    });
+  });
+
+  describe('setInput', () => {
+    let component,
+      onChangeValueSpy = jasmine.createSpy('onChangeValue');
+
+    beforeEach(() => {
+      component = domRender(<SearchField onChangeValue={onChangeValueSpy} />);
+      spyOn(component, 'setState');
+      component.setValue('yolo');
+    });
+
+    it('calls setInput with correct params', () => {
+      expect(component.setState)
+        .toHaveBeenCalledWith({ searchInputVal: 'yolo' });
+    });
+
+    it('calls onChangeValue prop with correct params', () => {
+      expect(onChangeValueSpy)
+        .toHaveBeenCalledWith('yolo');
+    });
+  });
+
+  describe('render', () => {
+    let component,
+      mockFullscreen,
+      mockHideZendeskLogo,
+      mockHasSearched,
+      result;
+
+    beforeEach(() => {
+      component = domRender(
+        <SearchField
+          hideZendeskLogo={mockHideZendeskLogo}
+          hasSearched={mockHasSearched}
+          fullscreen={mockFullscreen} />
+      );
+      spyOn(component, 'renderIcons');
+      result = component.render();
+    });
+
+    it('calls renderIcons', () => {
+      expect(component.renderIcons)
+        .toHaveBeenCalled();
+    });
+
+    describe('when fullscreen is true', () => {
+      beforeAll(() => {
+        mockFullscreen = true;
+      });
+
+      it('renders mobileContainer class', () => {
+        expect(result.props.className)
+          .toContain('mobileContainer');
+      });
+
+      it('does not render desktopContainer class', () => {
+        expect(result.props.className)
+          .not
+          .toContain('desktopContainer');
+      });
+
+      it('renders mobileSearchInput class', () => {
+        expect(result.props.children[0].props.className)
+          .toContain('mobileSearchInput');
+      });
+    });
+
+    describe('when fullscreen is false', () => {
+      beforeAll(() => {
+        mockFullscreen = false;
+      });
+
+      it('does not render mobileContainer class', () => {
+        expect(result.props.className)
+          .not
+          .toContain('mobileContainer');
+      });
+
+      it('renders desktopContainer class', () => {
+        expect(result.props.className)
+          .toContain('desktopContainer');
+      });
+
+      it('does not render mobileSearchInput class', () => {
+        expect(result.props.children[0].props.className)
+          .not
+          .toContain('mobileSearchInput');
+      });
+    });
+
+    describe('when hasSearched is false', () => {
+      beforeAll(() => {
+        mockHasSearched = false;
+      });
+
+      describe('when hideZendeskLogo is true', () => {
+        beforeAll(() => {
+          mockHideZendeskLogo = true;
+        });
+
+        it('does not render notSearchedWithLogo class', () => {
+          expect(result.props.className)
+            .not
+            .toContain('notSearchedWithLogoClasses');
+        });
+
+        it('renders notSearched class', () => {
+          expect(result.props.className)
+            .toContain('notSearchedClasses');
+        });
+      });
+
+      describe('when hideZendeskLogo is false', () => {
+        beforeAll(() => {
+          mockHideZendeskLogo = false;
+        });
+
+        it('does not render notSearched class', () => {
+          expect(result.props.className)
+            .not
+            .toContain('notSearchedClasses');
+        });
+
+        it('renders notSearchedWithLogo class', () => {
+          expect(result.props.className)
+            .toContain('notSearchedWithLogoClasses');
+        });
+      });
+
+      it('does not render hasSearched class', () => {
+        expect(result.props.className)
+          .not
+          .toContain('hasSearchedClasses');
+      });
+    });
+
+    describe('when hasSearched is true', () => {
+      beforeAll(() => {
+        mockHasSearched = true;
+      });
+
+      it('does not render notSearched class', () => {
+        expect(result.props.className)
+          .not
+          .toContain('notSearchedClasses');
+      });
+
+      it('does not render notSearchedWithLogo class', () => {
+        expect(result.props.className)
+          .not
+          .toContain('notSearchedWithLogoClasses');
+      });
+
+      it('renders hasSearched class', () => {
+        expect(result.props.className)
+          .toContain('hasSearchedClasses');
       });
     });
   });

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields';
 
 import { i18n } from 'service/i18n';
 import { RatingGroup, ratings } from 'component/chat/rating/RatingGroup';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 
 import { locals as styles } from './FeedbackForm.scss';
 
@@ -39,17 +40,17 @@ export class FeedbackForm extends Component {
     return (
       <div className={styles.buttonGroup}>
         <Button
-          onTouchStartDisabled={true}
           className={styles.button}
-          primary={false}
-          label={cancelButtonText}
-          onClick={this.props.skipClickFn} />
+          onClick={this.props.skipClickFn}>
+          {cancelButtonText}
+        </Button>
         <Button
-          onTouchStartDisabled={true}
+          primary={true}
           className={styles.rightButton}
           disabled={disabled}
-          label={i18n.t('embeddable_framework.common.button.send')}
-          onClick={() => this.props.sendClickFn(this.state.selectedRating, this.textarea.value)} />
+          onClick={() => this.props.sendClickFn(this.state.selectedRating, this.textarea.value)}>
+          {i18n.t('embeddable_framework.common.button.send')}
+        </Button>
       </div>
     );
   }
@@ -67,15 +68,16 @@ export class FeedbackForm extends Component {
           rating={this.state.selectedRating}
           updateRating={(rating) => this.setState({ selectedRating: rating })}
         />
-        <label htmlFor='feedbackTextarea' className={styles.feedbackDescription}>
-          {i18n.t('embeddable_framework.chat.postChat.rating.plainDescription')}
-        </label>
-        <textarea
-          id='feedbackTextarea'
-          ref={(el) => { this.textarea = el; }}
-          className={styles.textarea}
-          rows={6}
-          defaultValue={rating.comment} />
+        <TextField>
+          <Label>
+            {i18n.t('embeddable_framework.chat.postChat.rating.plainDescription')}
+          </Label>
+          <Textarea
+            innerRef={(el) => { this.textarea = el; }}
+            className={styles.textarea}
+            rows={6}
+            defaultValue={rating.comment} />
+        </TextField>
         {this.renderActionButtons()}
       </div>
     );

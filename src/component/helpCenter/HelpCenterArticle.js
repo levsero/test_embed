@@ -21,6 +21,7 @@ export class HelpCenterArticle extends Component {
   static propTypes = {
     activeArticle: PropTypes.object.isRequired,
     fullscreen: PropTypes.bool,
+    locale: PropTypes.string,
     imagesSender: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     handleOriginalArticleClick: PropTypes.func,
@@ -324,8 +325,8 @@ export class HelpCenterArticle extends Component {
     const mobileClasses = this.props.fullscreen ? styles.contentMobile : '';
 
     return (
-      <div className={`${styles.content} ${mobileClasses}`} ref='userContent'>
-        <div className={styles.title}>{this.props.activeArticle.title}</div>
+      <div className={`${styles.content} ${mobileClasses}`} lang={this.props.locale} ref='userContent'>
+        <h2 className={styles.title}>{this.props.activeArticle.title}</h2>
         {this.renderOriginalArticleButton()}
         <div
           ref='article'

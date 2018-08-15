@@ -1,7 +1,8 @@
 @import '../../styles/_vars.scss';
 
 .title {
-  composes: u-textSizeLrg u-marginBT u-textBold u-textBody u-hsizeAll u-tableCell from global;
+  composes: u-marginBT u-textBold u-textBody u-hsizeAll u-tableCell from global;
+  font-size: #{18/$font-size}rem !important;
 }
 
 .originalArticleButton {
@@ -41,7 +42,8 @@
 
   word-break: break-word;
   line-height: 1.5;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
+  max-width: #{339/$font-size}rem;
 
   p {
     margin-bottom: #{15/$font-size}rem;
@@ -89,7 +91,7 @@
   }
 
   h4 {
-    font-size: #{13/$font-size}rem;
+    font-size: $font-size-lrg;
   }
 
   h5, .wysiwyg-font-size-small {
@@ -129,7 +131,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: $base-border-color;
+      background: $zd-color-grey-300;
       border-radius: #{6/$font-size}rem;
     }
   }
@@ -137,7 +139,7 @@
   table {
     word-break: normal;
     text-align: left;
-    font-size: #{13/$font-size}rem;
+    font-size: $font-size-lrg;
     margin-bottom: #{10/$font-size}rem;
     margin-right: #{3/$font-size}rem;
   }
@@ -148,8 +150,8 @@
   }
 
   pre {
-    background: $zd-color-white-smoke;
-    border: #{1/$font-size}rem solid $zd-color-gainsboro;
+    background: $zd-color-grey-100;
+    border: #{1/$font-size}rem solid $zd-color-grey-200;
     border-radius: #{3/$font-size}rem;
     padding: #{10/$font-size}rem #{15/$font-size}rem;
     overflow: auto;

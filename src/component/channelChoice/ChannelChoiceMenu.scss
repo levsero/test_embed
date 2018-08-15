@@ -19,21 +19,21 @@
   }
 
   &:focus, &:active {
-    background-color: $zd-color-white-smoke;
+    background-color: $zd-color-grey-100;
   }
 }
 
 
 .btnDisabled {
   background-color: $zd-color-white !important;
-  color: $zd-color-aluminum !important;
+  color: $zd-color-grey-600 !important;
 }
 
 .chatBtnDisabled {
   composes: btnDisabled;
 
   svg path {
-    fill: $zd-color-iron !important;
+    fill: $zd-color-grey-300 !important;
   }
 }
 
@@ -41,36 +41,7 @@
   composes: btnDisabled;
 
   svg path {
-    stroke: $zd-color-iron !important;
-  }
-}
-
-.buttonTalk {
-  padding-left: #{9/$font-size}rem !important;
-
-  &:hover, &:focus, &:active {
-    svg path {
-      fill: none !important;
-      stroke: $zd-color-dark-gray;
-    }
-  }
-}
-
-.oldIcon {
-  padding-left: 0;
-  width: #{16/$font-size}rem;
-  height: #{16/$font-size}rem;
-
-  svg {
-    min-width: #{16/$font-size}rem;
-    min-height: #{16/$font-size}rem;
-    max-width: #{16/$font-size}rem;
-    max-height: #{16/$font-size}rem;
-  }
-
-  [dir='rtl'] & {
-    padding-left: #{15/$font-size}rem;
-    padding-right: 0 !important;
+    stroke: $zd-color-grey-400 !important;
   }
 }
 
@@ -90,19 +61,6 @@
   [dir='rtl'] & {
     padding-left: #{14/$font-size}rem;
     padding-right: #{31/$font-size}rem !important;
-  }
-}
-
-.oldIconTalk {
-  svg path {
-    stroke: $zd-color-monsoon;
-    fill: none !important;
-  }
-
-  &:hover, &:focus, &:active {
-    svg path {
-      stroke: $zd-color-dark-gray;
-    }
   }
 }
 
@@ -147,6 +105,8 @@
 .newIcon {
   composes: u-userColor from global;
 
+  box-sizing: content-box;
+
   svg {
     path, rect {
       fill: currentColor !important;
@@ -155,14 +115,16 @@
 }
 
 .newIconDisabled {
+  box-sizing: content-box;
+
   svg {
     path, rect {
-      fill: $zd-color-iron !important;
+      fill: $zd-color-grey-400 !important;
     }
   }
 }
 
 .offlineLabelOption {
-  color: $zd-color-oil;
+  color: $zd-color-grey-800;
   margin-bottom: #{5/$font-size}rem;
 }

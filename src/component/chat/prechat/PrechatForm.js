@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
+import { TextField, Label, Input, Textarea, Message } from '@zendeskgarden/react-textfields';
+import {
+  Select,
+  SelectField,
+  Label as SelectLabel,
+  Message as SelectMessage,
+  Item } from '@zendeskgarden/react-select';
 
-import { Field } from 'component/field/Field';
-import { Button } from 'component/button/Button';
-import { Dropdown } from 'component/field/Dropdown';
+import { Button } from '@zendeskgarden/react-buttons';
 import { UserProfile } from 'component/chat/UserProfile';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -13,6 +18,8 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './PrechatForm.scss';
+import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
+import { FONT_SIZE, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -27,8 +34,8 @@ export class PrechatForm extends Component {
     socialLogin: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
-    newHeight: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool
   };
 
@@ -43,14 +50,16 @@ export class PrechatForm extends Component {
     authUrls: {},
     socialLogin: {},
     isMobile: false,
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    getFrameContentDocument: () => ({})
   };
 
   constructor() {
     super();
 
     this.state = {
-      valid: false
+      valid: false,
+      showErrors: false
     };
 
     this.form = null;
@@ -61,9 +70,13 @@ export class PrechatForm extends Component {
   }
 
   isDepartmentOffline = (departments, departmentId) => {
-    const department = _.find(departments, (d) => d.id == departmentId); // eslint-disable-line eqeqeq
+    const department = this.findDepartment(departments, departmentId);
 
     return _.get(department, 'status') === 'offline';
+  }
+
+  findDepartment = (departments, departmentId) => {
+    return _.find(departments, (d) => d.id == departmentId) || {}; // eslint-disable-line eqeqeq
   }
 
   isFieldRequired = (fallback = false) => {
@@ -77,6 +90,13 @@ export class PrechatForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
+
+    if (!this.state.valid) {
+      this.setState({ showErrors: true });
+      return;
+    }
+    this.setState({ showErrors: false });
+
     const { authenticated: isSociallyAuthenticated } = this.props.socialLogin;
     const { visitor, isAuthenticated } = this.props;
     const formData = isSociallyAuthenticated || isAuthenticated
@@ -103,11 +123,26 @@ export class PrechatForm extends Component {
     // by jsdom during unit testing. This sanity check allows our unit tests to pass.
     // See this Github issue: https://github.com/tmpvar/jsdom/issues/544
     setTimeout(() => {
+      const { form, formState } = this.props;
       const valid = !!(this.form.checkValidity && this.form.checkValidity());
+      const deptValid = _.get(form, 'department.required') ? formState.department : true;
 
       // FIXME: This is not tested due to timing pollution on our specs
-      this.setState({ valid });
+      this.setState({ valid: valid && deptValid });
     }, 0);
+  }
+
+  handleSelectChange = (value) => {
+    this.props.onPrechatFormChange({ department: value });
+
+    this.handleFormChange();
+  }
+
+  renderErrorMessage(Component, value, required, errorString, pattern) {
+    if (shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)) {
+      return <Component validation='error'>{i18n.t(errorString)}</Component>;
+    }
+    return null;
   }
 
   renderGreetingMessage = () => {
@@ -124,18 +159,30 @@ export class PrechatForm extends Component {
     if (!loginEnabled) return null;
 
     const nameData = form.name;
+    const value = formState.name;
     const required = this.isFieldRequired(nameData.required);
     const fieldContainerStyle = classNames({
-      [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0
+      [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0,
+      [styles.textField]: _.size(authUrls) === 0
     });
 
+    const error = this.renderErrorMessage(Message, value, required, 'embeddable_framework.validation.error.name');
+
     return (
-      <Field
-        fieldContainerClasses={fieldContainerStyle}
-        label={i18n.t('embeddable_framework.common.textLabel.name')}
-        required={required}
-        value={formState.name}
-        name={nameData.name} />
+      <TextField className={fieldContainerStyle}>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.name'), required)}
+        </Label>
+        <Input
+          autoComplete='off'
+          aria-required={required}
+          required={required}
+          value={value}
+          onChange={() => {}}
+          name={nameData.name}
+          validation={error ? 'error' : 'none'} />
+        {error}
+      </TextField>
     );
   }
 
@@ -144,15 +191,29 @@ export class PrechatForm extends Component {
 
     const emailData = this.props.form.email;
     const required = this.isFieldRequired(emailData.required);
+    const value = this.props.formState.email;
 
+    const error = this.renderErrorMessage(Message, value,
+      required, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
+
+    /* eslint-disable max-len */
     return (
-      <Field
-        label={i18n.t('embeddable_framework.common.textLabel.email')}
-        required={required}
-        value={this.props.formState.email}
-        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-        name={emailData.name} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.email'), required)}
+        </Label>
+        <Input
+          required={required}
+          aria-required={required}
+          value={value}
+          onChange={() => {}}
+          name={emailData.name}
+          validation={error ? 'error' : 'none'}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
+        {error}
+      </TextField>
     );
+    /* eslint-enable max-len */
   }
 
   renderPhoneField = () => {
@@ -160,55 +221,90 @@ export class PrechatForm extends Component {
 
     if (!this.props.loginEnabled || phoneData.hidden) return null;
 
-    const phonePattern = '[0-9]+'; // taken from Chat SDK
+    const value = this.props.formState.phone;
+    const required = phoneData.required;
+    const error = this.renderErrorMessage(Message, value, required,
+      'embeddable_framework.validation.error.phone', PHONE_PATTERN);
 
     return (
-      <Field
-        label={i18n.t('embeddable_framework.common.textLabel.phone_number')}
-        required={phoneData.required}
-        type={'tel'}
-        value={this.props.formState.phone}
-        pattern={phonePattern}
-        name={phoneData.name} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.phone_number'), required)}
+        </Label>
+        <Input
+          required={required}
+          aria-required={required}
+          value={value}
+          onChange={() => {}}
+          type='tel'
+          name={phoneData.name}
+          validation={error ? 'error' : 'none'} />
+        {error}
+      </TextField>
     );
   }
 
   renderMessageField = () => {
     const messageData = this.props.form.message;
     const required = this.isFieldRequired(messageData.required);
+    const value = this.props.formState.message;
+    const error = this.renderErrorMessage(Message, value,
+      required, 'embeddable_framework.validation.error.message');
 
     return (
-      <Field
-        label={i18n.t('embeddable_framework.common.textLabel.message')}
-        required={required}
-        value={this.props.formState.message}
-        input={<textarea rows='3' />}
-        name={messageData.name} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.message'), required)}
+        </Label>
+        <Textarea
+          required={required}
+          aria-required={required}
+          value={value}
+          onChange={() => {}}
+          rows='4'
+          name={messageData.name}
+          validation={error ? 'error' : 'none'} />
+        {error}
+      </TextField>
     );
   }
 
   renderDepartmentsField = () => {
     const { department: departmentSettings, departments } = this.props.form;
-    const placeholderNode = (
-      <span className={styles.defaultDropdownText}>
-        {i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
-      </span>
-    );
 
     if (_.size(departments) === 0) return null;
 
+    const options = _.map(departments, (dept) => {
+      return <Item key={dept.id}>{dept.name}</Item>;
+    });
+
+    const selectedDepartment = this.findDepartment(departments, this.props.formState.department);
+    const required = departmentSettings.required;
+    const value = selectedDepartment.id ? selectedDepartment.id.toString() : null;
+    const error = this.renderErrorMessage(SelectMessage, value,
+      required, 'embeddable_framework.validation.error.department');
+
     return (
-      <Dropdown
-        className={styles.dropdown}
-        menuContainerClassName={styles.dropdownMenuContainer}
-        label={departmentSettings.label}
-        required={departmentSettings.required}
-        name='department'
-        options={departments}
-        onChange={this.handleFormChange}
-        placeholderNode={placeholderNode}
-        disableMenuUp={true}
-      />
+      <SelectField>
+        <SelectLabel>
+          {renderLabelText(departmentSettings.label, required)}
+        </SelectLabel>
+        <Select
+          required={required}
+          aria-required={required}
+          placeholder={i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
+          name='department'
+          selectedKey={value}
+          appendToNode={this.props.getFrameContentDocument().body}
+          onChange={this.handleSelectChange}
+          popperModifiers={{ flip: { enabled: false }, preventOverflow: { escapeWithReference: true } }}
+          dropdownProps={{ style: { maxHeight: `${140/FONT_SIZE}rem`, overflow: 'auto' }}}
+          options={options}
+          validation={error ? 'error' : 'none'}>
+          {selectedDepartment.name}
+        </Select>
+        {error}
+      </SelectField>
     );
   }
 
@@ -228,11 +324,11 @@ export class PrechatForm extends Component {
   renderSubmitButton() {
     return (
       <Button
+        primary={true}
         className={styles.submitBtn}
-        onTouchStartDisabled={true}
-        label={i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
-        disabled={!this.state.valid}
-        type='submit' />
+        type='submit'>
+        {i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
+      </Button>
     );
   }
 
@@ -263,7 +359,6 @@ export class PrechatForm extends Component {
           containerClasses={styles.scrollContainerContent}
           footerContent={this.renderSubmitButton()}
           fullscreen={this.props.isMobile}
-          newHeight={this.props.newHeight}
           scrollShadowVisible={true}>
           {this.renderGreetingMessage()}
           {this.renderUserProfile()}

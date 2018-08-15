@@ -34,9 +34,6 @@ describe('HelpCenterMobile component', () => {
           }
         }
       },
-      'component/button/SearchFieldButton': {
-        SearchFieldButton: noopReactComponent()
-      },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       },
@@ -54,7 +51,7 @@ describe('HelpCenterMobile component', () => {
           }
         }
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
       },
       'component/button/ButtonGroup': {
@@ -91,6 +88,57 @@ describe('HelpCenterMobile component', () => {
     mockery.disable();
   });
 
+  describe('handleSearchBoxClicked', () => {
+    let helpCenterMobile,
+      mockShowIntroScreen;
+
+    beforeEach(() => {
+      helpCenterMobile = domRender(
+        <HelpCenterMobile />
+      );
+      helpCenterMobile.state.showIntroScreen = mockShowIntroScreen;
+      spyOn(helpCenterMobile, 'setSearchFieldFocused');
+      spyOn(helpCenterMobile, 'setState');
+      helpCenterMobile.handleSearchBoxClicked();
+    });
+
+    describe('showIntroScreen is true', () => {
+      beforeAll(() => {
+        mockShowIntroScreen = true;
+      });
+
+      it('calls setSearchFieldFocused with true', () => {
+        expect(helpCenterMobile.setSearchFieldFocused)
+          .toHaveBeenCalledWith(true);
+      });
+
+      it('calls setState with correct params', () => {
+        expect(helpCenterMobile.setState)
+          .toHaveBeenCalledWith({
+            showIntroScreen: false
+          });
+      });
+    });
+
+    describe('showIntroScreen is false', () => {
+      beforeAll(() => {
+        mockShowIntroScreen = false;
+      });
+
+      it('does not call setSearchFieldFocused', () => {
+        expect(helpCenterMobile.setSearchFieldFocused)
+          .not
+          .toHaveBeenCalled();
+      });
+
+      it('does not call setState', () => {
+        expect(helpCenterMobile.setState)
+          .not
+          .toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('nextButton', () => {
     let helpCenterMobile,
       footerContent;
@@ -99,6 +147,7 @@ describe('HelpCenterMobile component', () => {
       beforeEach(() => {
         helpCenterMobile = domRender(
           <HelpCenterMobile hasSearched={true} onSearchFieldFocus={onSearchFieldFocusSpy}/>
+
         );
 
         helpCenterMobile.handleSearchBoxClicked();
@@ -151,37 +200,6 @@ describe('HelpCenterMobile component', () => {
         expect(TestUtils.isDOMComponent(footerContent))
           .toBe(false);
       });
-    });
-  });
-
-  describe('searchFieldButton', () => {
-    let helpCenterMobile;
-
-    beforeEach(() => {
-      helpCenterMobile = domRender(<HelpCenterMobile onSearchFieldFocus={onSearchFieldFocusSpy} />);
-    });
-
-    it('sets `showIntroScreen` state to false when component is clicked', () => {
-      expect(helpCenterMobile.state.showIntroScreen)
-        .toBe(true);
-
-      helpCenterMobile.handleSearchBoxClicked();
-
-      expect(helpCenterMobile.state.showIntroScreen)
-        .toBe(false);
-    });
-
-    it('sets searchFieldFocused state when component is clicked', () => {
-      expect(helpCenterMobile.state.searchFieldFocused)
-        .toEqual(false);
-
-      helpCenterMobile.handleSearchBoxClicked();
-      jasmine.clock().tick(1);
-
-      expect(helpCenterMobile.state.searchFieldFocused)
-        .toEqual(true);
-      expect(onSearchFieldFocusSpy)
-        .toHaveBeenCalledWith(true);
     });
   });
 

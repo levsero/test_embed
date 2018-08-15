@@ -23,7 +23,7 @@ describe('ChannelChoiceMobile component', () => {
           }
         }
       },
-      'component/button/Button': { Button },
+      '@zendeskgarden/react-buttons': { Button },
       'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           render() {
@@ -67,13 +67,12 @@ describe('ChannelChoiceMobile component', () => {
       });
     });
 
-    describe('when newHeight is true', () => {
+    describe('classes', () => {
       beforeEach(() => {
         const component = instanceRender(
           <ChannelChoiceMobile
             handleNextClick={noop}
-            handleCancelClick={noop}
-            newHeight={true} />
+            handleCancelClick={noop} />
         );
 
         result = component.render();
@@ -82,57 +81,6 @@ describe('ChannelChoiceMobile component', () => {
       it('has newContainer class', () => {
         expect(result.props.containerClasses)
           .toContain('newContainerClass');
-      });
-    });
-
-    describe('when newHeight is false', () => {
-      beforeEach(() => {
-        const component = instanceRender(
-          <ChannelChoiceMobile
-            handleNextClick={noop}
-            handleCancelClick={noop}
-            newHeight={false} />
-        );
-
-        result = component.render();
-      });
-
-      it('has container class', () => {
-        expect(result.props.containerClasses)
-          .toContain('containerClass');
-      });
-    });
-  });
-
-  describe('renderCancelButton', () => {
-    let result,
-      componentProps;
-
-    beforeEach(() => {
-      const component = instanceRender(<ChannelChoiceMobile {...componentProps} />);
-
-      result = component.renderCancelButton();
-    });
-
-    describe('when newHeight is true', () => {
-      beforeAll(() => {
-        componentProps = { newHeight: true };
-      });
-
-      it('returns null', () => {
-        expect(result)
-          .toBeNull();
-      });
-    });
-
-    describe('when newHeight is false', () => {
-      beforeAll(() => {
-        componentProps = { newHeight: false };
-      });
-
-      it('returns a Button component', () => {
-        expect(TestUtils.isElementOfType(result, Button))
-          .toEqual(true);
       });
     });
   });

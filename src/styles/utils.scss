@@ -436,44 +436,24 @@ u-overflowAuto {
   color: #DADADA;
 }
 
-.u-textAluminum {
-  color: $zd-color-aluminum !important;
-}
-
-.u-fillAluminum {
-  svg {
-    fill: $zd-color-aluminum !important;
-  }
-}
-
-.u-fillGainsboro {
-  svg {
-    fill: $zd-color-gainsboro !important;
-  }
-}
-
 .u-textSizeSml {
-  font-size: #{12/$font-size}rem !important;
-}
-
-.u-textSizeNml {
   font-size: #{13/$font-size}rem !important;
 }
 
-.u-textSizeMed {
+.u-textSizeNml {
   font-size: #{14/$font-size}rem !important;
 }
 
+.u-textSizeMed {
+  font-size: #{15/$font-size}rem !important;
+}
+
 .u-textSize15 {
-  font-size: $spacing-med !important;
+  font-size: #{16/$font-size}rem !important;
 }
 
 .u-textSizeLrg {
-  font-size: #{16/$font-size}rem;
-}
-
-.u-textSizeBaseMobile {
-  font-size: #{16/$font-size}rem !important;
+  font-size: #{17/$font-size}rem;
 }
 
 .u-textBold {
@@ -532,10 +512,6 @@ u-overflowAuto {
 
 .u-backgroundWhite {
   background-color: $zd-color-white !important;
-}
-
-.u-backgroundWhiteSmoke {
-  background-color: $zd-color-white-smoke !important;
 }
 
 /**

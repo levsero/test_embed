@@ -6,6 +6,7 @@
   img {
     max-width: #{180/$font-size}rem;
     max-height: #{180/$font-size}rem;
+    border: #{1/$font-size}rem solid $zd-color-grey-300;
     border-radius: #{8/$font-size}rem;
   }
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { locals as styles } from './IconFieldButton.scss';
 
 import { Icon } from 'component/Icon';
+import classNames from 'classnames';
 
 export class IconFieldButton extends Component {
   static propTypes = {
@@ -21,42 +22,18 @@ export class IconFieldButton extends Component {
     onClick: () => {}
   };
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = { hovering: false };
-  }
-
-  handleMouseEnter = () => {
-    this.setState({ hovering: true });
-  }
-
-  handleMouseLeave = () => {
-    this.setState({ hovering: false });
-  }
-
   render = () => {
-    const { fullscreen, focused, className } = this.props;
-    const userFillColorStyles = this.state.hovering && !fullscreen ? styles.hovering : '';
-    const fullScreenStyles = fullscreen ? styles.fullscreen : '';
-    const focusedStyles = focused ? styles.focused : styles.notFocused;
-    const notFullScreenStyles = !fullscreen ? focusedStyles : '';
-    const buttonClasses = `
-      ${styles.button}
-      ${userFillColorStyles}
-      ${notFullScreenStyles}
-      ${fullScreenStyles}
-      ${className}
-    `;
+    const focusedStyles = classNames({
+      [styles.focused]: this.props.focused && !this.props.fullscreen,
+      [styles.notFocused]: !this.props.fullscreen
+    });
+    const buttonClasses = classNames(focusedStyles, styles.icon);
 
     return (
       <div
         onClick={this.props.onClick}
-        onTouchStart={this.props.onClick}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        className={buttonClasses}>
-        <Icon type={this.props.icon} className={styles.icon} />
+        onTouchStart={this.props.onClick}>
+        <Icon type={this.props.icon} className={buttonClasses} />
       </div>
     );
   }

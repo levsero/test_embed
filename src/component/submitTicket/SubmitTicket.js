@@ -5,10 +5,9 @@ import _ from 'lodash';
 
 import { locals as styles } from './SubmitTicket.scss';
 
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -20,6 +19,7 @@ import { i18n } from 'service/i18n';
 import { isIE } from 'utility/devices';
 import { ICONS } from 'src/constants/shared';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { Alert } from '@zendeskgarden/react-notifications';
 
 import classNames from 'classnames';
 
@@ -48,6 +48,7 @@ class SubmitTicket extends Component {
     formTitleKey: PropTypes.string.isRequired,
     formState: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     loading: PropTypes.bool.isRequired,
     maxFileCount: PropTypes.number,
@@ -74,8 +75,7 @@ class SubmitTicket extends Component {
     searchTerm: PropTypes.string,
     hasContextuallySearched: PropTypes.bool,
     showNotification: PropTypes.bool.isRequired,
-    activeTicketFormFields: PropTypes.array,
-    newHeight: PropTypes.bool.isRequired
+    activeTicketFormFields: PropTypes.array
   };
 
   static defaultProps = {
@@ -219,8 +219,7 @@ class SubmitTicket extends Component {
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         fullscreen={this.props.fullscreen}
-        containerClasses={styles.ticketFormsContainer}
-        newHeight={this.props.newHeight}>
+        containerClasses={styles.ticketFormsContainer}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
           <LoadingSpinner />
         </div>
@@ -232,15 +231,14 @@ class SubmitTicket extends Component {
     if (!this.props.errorMsg) return;
 
     return (
-      <div className={styles.error}>
-        <Icon type='Icon--error' className={styles.errorIcon} />
+      <Alert type="error" role="alert" className={styles.error}>
         {this.props.errorMsg}
-      </div>
+      </Alert>
     );
   }
 
   renderForm = () => {
-    const { newHeight, activeTicketForm, ticketFormSettings, activeTicketFormFields, ticketFields } = this.props;
+    const { activeTicketForm, ticketFormSettings, activeTicketFormFields, ticketFields } = this.props;
     const getformByIdFn = (form) => parseInt(form.id) === parseInt(activeTicketForm.id);
     const activeTicketFormSettings = activeTicketForm ? _.find(ticketFormSettings, getformByIdFn) : {};
     const activeTicketFormPrefill = _.get(activeTicketFormSettings, 'fields', []);
@@ -248,7 +246,6 @@ class SubmitTicket extends Component {
 
     return (
       <SubmitTicketForm
-        newHeight={newHeight}
         ref='submitTicketForm'
         onCancel={this.props.onCancel}
         fullscreen={this.props.fullscreen}
@@ -259,6 +256,7 @@ class SubmitTicket extends Component {
         attachmentsEnabled={this.props.attachmentsEnabled}
         subjectEnabled={this.props.subjectEnabled}
         maxFileCount={this.props.maxFileCount}
+        getFrameContentDocument={this.props.getFrameContentDocument}
         maxFileSize={this.props.maxFileSize}
         formState={this.props.formState}
         setFormState={this.props.handleFormChange}
@@ -276,52 +274,30 @@ class SubmitTicket extends Component {
   renderNotification = () => {
     if (!this.props.showNotification) return;
 
-    if (this.props.newHeight) {
-      const buttonContainer = classNames(
-        {
-          [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.fullscreen),
-          [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.fullscreen
-        }
-      );
-      const doneButton = (
-        <div className={buttonContainer}>
-          <Button
-            onTouchStartDisabled={true}
-            label={i18n.t('embeddable_framework.common.button.done')}
-            className={styles.button}
-            primary={false}
-            onClick={this.props.onCancel}
-            type='button'
-            fullscreen={this.props.fullscreen}
-          />
-        </div>
-      );
-
-      return (
-        <ScrollContainer
-          containerClasses={styles.scrollContainerSuccess}
-          title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}
-          newHeight={true}
-          footerContent={doneButton}>
-          <SuccessNotification
-            icon={ICONS.SUCCESS_CONTACT_FORM}
-            isMobile={this.props.fullscreen} />
-        </ScrollContainer>
-      );
-    }
-
-    const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
+    const buttonContainer = classNames({
+      [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.fullscreen),
+      [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.fullscreen
+    });
+    const doneButton = (
+      <div className={buttonContainer}>
+        <Button
+          primary={true}
+          className={styles.button}
+          onClick={this.props.onCancel}>
+          {i18n.t('embeddable_framework.common.button.done')}
+        </Button>
+      </div>
+    );
 
     return (
-      <div className={styles.notify} ref='notification'>
-        <ScrollContainer
-          title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}
-          newHeight={this.props.newHeight}>
-          <Icon
-            type='Icon--tick'
-            className={iconClasses} />
-        </ScrollContainer>
-      </div>
+      <ScrollContainer
+        containerClasses={styles.scrollContainerSuccess}
+        title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}
+        footerContent={doneButton}>
+        <SuccessNotification
+          icon={ICONS.SUCCESS_CONTACT_FORM}
+          isMobile={this.props.fullscreen} />
+      </ScrollContainer>
     );
   }
 
@@ -357,11 +333,10 @@ class SubmitTicket extends Component {
         fullscreen={fullscreen}
         scrollShadowVisible={!fullscreen}
         containerClasses={containerClasses}
-        footerClasses={footerClasses}
-        newHeight={this.props.newHeight}>
-        <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
+        footerClasses={footerClasses}>
+        <h2 className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
-        </div>
+        </h2>
         <ul onClick={this.handleTicketFormsListClick}>
           {this.renderTicketFormOptions()}
         </ul>

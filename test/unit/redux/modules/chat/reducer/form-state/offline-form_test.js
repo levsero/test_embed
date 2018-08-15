@@ -27,9 +27,16 @@ describe('chat reducer formState offlineForm', () => {
     let state;
 
     describe('initial state', () => {
-      it('formState is set to an empty object', () => {
+      const expected = {
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+      };
+
+      it('is set to an object with expected structure', () => {
         expect(initialState)
-          .toEqual({});
+          .toEqual(expected);
       });
     });
 

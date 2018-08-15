@@ -189,7 +189,7 @@ export class AttachmentList extends Component {
       if (file && file.name) {
         const extension = file.name.split('.').pop().toUpperCase();
         const icon = attachment.errorMessage
-          ? ICONS.PREVIEW_ERROR
+          ? ''
           : FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
 
         return (

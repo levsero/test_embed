@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { locals as styles } from './ChannelChoicePopupMobile.scss';
 
 import { ChannelChoiceMenu } from 'component/channelChoice/ChannelChoiceMenu';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { i18n } from 'service/i18n';
 
@@ -19,8 +19,7 @@ export class ChannelChoicePopupMobile extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool,
-    newHeight: PropTypes.bool
+    chatEnabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -29,8 +28,7 @@ export class ChannelChoicePopupMobile extends Component {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
-    chatEnabled: false,
-    newHeight: false
+    chatEnabled: false
   };
 
   handleContainerClick = (e) => e.stopPropagation();
@@ -42,11 +40,11 @@ export class ChannelChoicePopupMobile extends Component {
       <div className={styles.buttonContainer}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
+            primary={true}
             className={styles.cancelButton}
-            fullscreen={true}
-            label={i18n.t('embeddable_framework.common.button.cancel')}
-            onTouchStartDisabled={true}
-            onClick={this.props.onCancelClick} />
+            onClick={this.props.onCancelClick}>
+            {i18n.t('embeddable_framework.common.button.cancel')}
+          </Button>
         </ButtonGroup>
       </div>
     );
@@ -59,8 +57,7 @@ export class ChannelChoicePopupMobile extends Component {
       onNextClick,
       talkAvailable,
       talkEnabled,
-      callbackEnabled,
-      newHeight } = this.props;
+      callbackEnabled } = this.props;
 
     return (
       <div onClick={this.handleContainerClick}>
@@ -74,8 +71,7 @@ export class ChannelChoicePopupMobile extends Component {
             talkAvailable={talkAvailable}
             talkEnabled={talkEnabled}
             buttonClasses={styles.innerItem}
-            labelClasses={styles.innerItemLabel}
-            newHeight={newHeight} />
+            labelClasses={styles.innerItemLabel} />
         </div>
         {this.renderCancelButton()}
       </div>

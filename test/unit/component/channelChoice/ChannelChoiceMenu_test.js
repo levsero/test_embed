@@ -13,13 +13,10 @@ describe('ChannelChoiceMenu component', () => {
         locals: {
           btn: 'btnClass',
           btnEnabled: 'btnEnabledClass',
-          buttonTalk: 'buttonTalkClass',
           chatBtnDisabled: 'chatBtnDisabledClass',
           iconTalk: 'iconTalkClass',
           newIcon: 'newIconClass',
           newIconDisabled: 'newIconDisabledClass',
-          oldIcon: 'oldIconClass',
-          oldIconTalk: 'oldIconTalkClass',
           talkBtnDisabled: 'talkBtnDisabledClass'
         }
       },
@@ -108,35 +105,18 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('when talkAvailable is false', () => {
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          componentProps = {
-            talkAvailable: false,
-            newHeight: true
-          };
-        });
-
-        it('returns a span element with two children', () => {
-          expect(result.type)
-            .toEqual('span');
-
-          expect(result.props.children.length)
-            .toEqual(2);
-        });
+      beforeAll(() => {
+        componentProps = {
+          talkAvailable: false
+        };
       });
 
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          componentProps = {
-            talkAvailable: false,
-            newHeight: false
-          };
-        });
+      it('returns a span element with two children', () => {
+        expect(result.type)
+          .toEqual('span');
 
-        it('returns the expected string', () => {
-          expect(result)
-            .toEqual('embeddable_framework.channelChoice.button.label.talk_offline_v2');
-        });
+        expect(result.props.children.length)
+          .toEqual(2);
       });
     });
   });
@@ -165,6 +145,11 @@ describe('ChannelChoiceMenu component', () => {
 
       beforeAll(() => {
         mockShowInitialTalkOption = true;
+      });
+
+      it('passes icon type to props.icon', () => {
+        expect(children.props.icon)
+          .toContain('Icon--channelChoice-talk');
       });
 
       describe('when called', () => {
@@ -207,140 +192,78 @@ describe('ChannelChoiceMenu component', () => {
       });
 
       describe('props.className', () => {
-        describe('when newHeight is true', () => {
-          describe('when talkAvailable is true', () => {
-            beforeAll(() => {
-              componentProps = {
-                newHeight: true,
-                talkAvailable: true
-              };
-            });
-
-            it('has btn class', () => {
-              expect(children.props.className)
-                .toContain('btnClass');
-            });
-
-            it('has btnEnabled class', () => {
-              expect(children.props.className)
-                .toContain('btnEnabledClass');
-            });
+        describe('when talkAvailable is true', () => {
+          beforeAll(() => {
+            componentProps = {
+              talkAvailable: true
+            };
           });
 
-          describe('when talkAvailable is false', () => {
-            beforeAll(() => {
-              componentProps = {
-                newHeight: true,
-                talkAvailable: false
-              };
-            });
+          it('has btn class', () => {
+            expect(children.props.className)
+              .toContain('btnClass');
+          });
 
-            it('has btn class', () => {
-              expect(children.props.className)
-                .toContain('btnClass');
-            });
-
-            it('does not have btnEnabled class', () => {
-              expect(children.props.className)
-                .not.toContain('btnEnabledClass');
-            });
+          it('has btnEnabled class', () => {
+            expect(children.props.className)
+              .toContain('btnEnabledClass');
           });
         });
 
-        describe('when newHeight is false', () => {
+        describe('when talkAvailable is false', () => {
           beforeAll(() => {
-            componentProps = { newHeight: false };
+            componentProps = {
+              talkAvailable: false
+            };
           });
 
-          it('does not have btn class', () => {
+          it('has btn class', () => {
             expect(children.props.className)
-              .not.toContain('btnClass');
+              .toContain('btnClass');
           });
 
-          it('has buttonTalk class', () => {
+          it('does not have btnEnabled class', () => {
             expect(children.props.className)
-              .toContain('buttonTalk');
+              .not.toContain('btnEnabledClass');
           });
         });
       });
 
       describe('props.iconClasses', () => {
-        describe('when newHeight is true', () => {
-          describe('when talkAvailable is true', () => {
-            beforeAll(() => {
-              componentProps = {
-                newHeight: true,
-                talkAvailable: true
-              };
-            });
-
-            it('has newIcon class', () => {
-              expect(children.props.iconClasses)
-                .toContain('newIconClass');
-            });
-
-            it('does not have newIconDisabled class', () => {
-              expect(children.props.iconClasses)
-                .not.toContain('newIconDisabledClass');
-            });
-          });
-
-          describe('when talkAvailable is false', () => {
-            beforeAll(() => {
-              componentProps = {
-                newHeight: true,
-                talkAvailable: false
-              };
-            });
-
-            it('does not have newIcon class', () => {
-              expect(children.props.iconClasses)
-                .not.toContain('newIconClass');
-            });
-
-            it('has newIconDisabled class', () => {
-              expect(children.props.iconClasses)
-                .toContain('newIconDisabledClass');
-            });
-          });
-        });
-
-        describe('when newHeight is false', () => {
+        describe('when talkAvailable is true', () => {
           beforeAll(() => {
-            componentProps = { newHeight: false };
+            componentProps = {
+              talkAvailable: true
+            };
           });
 
-          it('has oldIcon class', () => {
+          it('has newIcon class', () => {
             expect(children.props.iconClasses)
-              .toContain('oldIconClass');
+              .toContain('newIconClass');
           });
 
-          it('has oldIconTalk class', () => {
+          it('does not have newIconDisabled class', () => {
             expect(children.props.iconClasses)
-              .toContain('oldIconTalkClass');
+              .not.toContain('newIconDisabledClass');
           });
         });
-      });
 
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          componentProps = { newHeight: true };
-        });
+        describe('when talkAvailable is false', () => {
+          beforeAll(() => {
+            componentProps = {
+              talkAvailable: false
+            };
+          });
 
-        it('passes newHeight icon type to props.icon', () => {
-          expect(children.props.icon)
-            .toContain('Icon--new-channelChoice-talk');
-        });
-      });
+          it('does not have newIcon class', () => {
+            expect(children.props.iconClasses)
+              .not.toContain('newIconClass');
+          });
 
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          componentProps = { newHeight: false };
-        });
-
-        it('passes default channelChoice icon type to props.icon', () => {
-          expect(children.props.icon)
-            .toContain('Icon--channelChoice-talk');
+          it('has newIconDisabled class', () => {
+            expect(children.props.iconClasses)
+              .toContain('newIconDisabledClass');
+          });
         });
       });
     });
@@ -371,8 +294,7 @@ describe('ChannelChoiceMenu component', () => {
     describe('when chatAvailable is true', () => {
       beforeAll(() => {
         componentProps = {
-          chatAvailable: true,
-          newHeight: false
+          chatAvailable: true
         };
       });
 
@@ -383,35 +305,18 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('when chatAvailable is false', () => {
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          componentProps = {
-            chatAvailable: false,
-            newHeight: true
-          };
-        });
-
-        it('returns a span element with two children', () => {
-          expect(result.type)
-            .toEqual('span');
-
-          expect(result.props.children.length)
-            .toEqual(2);
-        });
+      beforeAll(() => {
+        componentProps = {
+          chatAvailable: false
+        };
       });
 
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          componentProps = {
-            chatAvailable: false,
-            newHeight: false
-          };
-        });
+      it('returns a span element with two children', () => {
+        expect(result.type)
+          .toEqual('span');
 
-        it('returns the expected string', () => {
-          expect(result)
-            .toEqual('embeddable_framework.channelChoice.button.label.chat_offline_v2');
-        });
+        expect(result.props.children.length)
+          .toEqual(2);
       });
     });
   });
@@ -440,6 +345,11 @@ describe('ChannelChoiceMenu component', () => {
 
       beforeAll(() => {
         mockShowInitialChatOption = true;
+      });
+
+      it('passes icon type to props.icon', () => {
+        expect(children.props.icon)
+          .toContain('Icon--channelChoice-chat');
       });
 
       describe('when called', () => {
@@ -482,54 +392,34 @@ describe('ChannelChoiceMenu component', () => {
       });
 
       describe('props.className', () => {
-        describe('when newHeight is true', () => {
-          describe('when chatAvailable is true', () => {
-            beforeAll(() => {
-              componentProps = {
-                newHeight: true,
-                chatAvailable: true
-              };
-            });
-
-            it('has btn class', () => {
-              expect(children.props.className)
-                .toContain('btnClass');
-            });
-
-            it('has btnEnabled class', () => {
-              expect(children.props.className)
-                .toContain('btnEnabledClass');
-            });
+        describe('when chatAvailable is true', () => {
+          beforeAll(() => {
+            componentProps = {
+              chatAvailable: true
+            };
           });
 
-          describe('when chatAvailable is false', () => {
-            beforeAll(() => {
-              componentProps = {
-                newHeight: true,
-                chatAvailable: false
-              };
-            });
+          it('has btn class', () => {
+            expect(children.props.className)
+              .toContain('btnClass');
+          });
 
-            it('has btn class', () => {
-              expect(children.props.className)
-                .toContain('btnClass');
-            });
-
-            it('does not have btnEnabled class', () => {
-              expect(children.props.className)
-                .not.toContain('btnEnabledClass');
-            });
+          it('has btnEnabled class', () => {
+            expect(children.props.className)
+              .toContain('btnEnabledClass');
           });
         });
 
-        describe('when newHeight is false', () => {
+        describe('when chatAvailable is false', () => {
           beforeAll(() => {
-            componentProps = { newHeight: false };
+            componentProps = {
+              chatAvailable: false
+            };
           });
 
-          it('does not have btn class', () => {
+          it('has btn class', () => {
             expect(children.props.className)
-              .not.toContain('btnClass');
+              .toContain('btnClass');
           });
 
           it('does not have btnEnabled class', () => {
@@ -562,59 +452,16 @@ describe('ChannelChoiceMenu component', () => {
       });
 
       describe('props.iconClasses', () => {
-        describe('when newHeight is true', () => {
-          describe('when chatAvailable is true', () => {
-            beforeAll(() => {
-              componentProps = {
-                newHeight: true,
-                chatAvailable: true
-              };
-            });
-
-            it('has newIcon class', () => {
-              expect(children.props.iconClasses)
-                .toContain('newIconClass');
-            });
-
-            it('does not have newIconDisabled class', () => {
-              expect(children.props.iconClasses)
-                .not.toContain('newIconDisabledClass');
-            });
-          });
-
-          describe('when chatAvailable is false', () => {
-            beforeAll(() => {
-              componentProps = {
-                newHeight: true,
-                chatAvailable: false
-              };
-            });
-
-            it('does not have newIcon class', () => {
-              expect(children.props.iconClasses)
-                .not.toContain('newIconClass');
-            });
-
-            it('has newIconDisabled class', () => {
-              expect(children.props.iconClasses)
-                .toContain('newIconDisabledClass');
-            });
-          });
-        });
-
-        describe('when newHeight is false', () => {
+        describe('when chatAvailable is true', () => {
           beforeAll(() => {
-            componentProps = { newHeight: false };
+            componentProps = {
+              chatAvailable: true
+            };
           });
 
-          it('has chatBtnDisabled class', () => {
-            expect(children.props.className)
-              .toContain('chatBtnDisabledClass');
-          });
-
-          it('does not have newIcon class', () => {
+          it('has newIcon class', () => {
             expect(children.props.iconClasses)
-              .not.toContain('newIconClass');
+              .toContain('newIconClass');
           });
 
           it('does not have newIconDisabled class', () => {
@@ -622,27 +469,23 @@ describe('ChannelChoiceMenu component', () => {
               .not.toContain('newIconDisabledClass');
           });
         });
-      });
 
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          componentProps = { newHeight: true };
-        });
+        describe('when chatAvailable is false', () => {
+          beforeAll(() => {
+            componentProps = {
+              chatAvailable: false
+            };
+          });
 
-        it('passes newHeight icon type to props.icon', () => {
-          expect(children.props.icon)
-            .toContain('Icon--new-channelChoice-chat');
-        });
-      });
+          it('does not have newIcon class', () => {
+            expect(children.props.iconClasses)
+              .not.toContain('newIconClass');
+          });
 
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          componentProps = { newHeight: false };
-        });
-
-        it('passes default channelChoice icon type to props.icon', () => {
-          expect(children.props.icon)
-            .toContain('Icon--chat');
+          it('has newIconDisabled class', () => {
+            expect(children.props.iconClasses)
+              .toContain('newIconDisabledClass');
+          });
         });
       });
     });
@@ -710,26 +553,9 @@ describe('ChannelChoiceMenu component', () => {
           .toEqual(componentProps.labelClasses);
       });
 
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          _.assign(componentProps, { newHeight: true });
-        });
-
-        it('passes the expected string to props.icon', () => {
-          expect(children.props.icon)
-            .toEqual('Icon--new-channelChoice-contactForm');
-        });
-      });
-
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          _.assign(componentProps, { newHeight: false });
-        });
-
-        it('passes the expected string to props.icon', () => {
-          expect(children.props.icon)
-            .toEqual('Icon--channelChoice-contactForm');
-        });
+      it('passes the expected string to props.icon', () => {
+        expect(children.props.icon)
+          .toEqual('Icon--channelChoice-contactForm');
       });
     });
 
@@ -747,77 +573,9 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('props.iconClasses', () => {
-      describe('when newHeight is true', () => {
-        beforeEach(() => {
-          children = result.props.children;
-        });
-
-        beforeAll(() => {
-          componentProps = { newHeight: true };
-        });
-
-        it('has newIcon class', () => {
-          expect(children.props.iconClasses)
-            .toContain('newIconClass');
-        });
-      });
-
-      describe('when newHeight is false', () => {
-        beforeEach(() => {
-          children = result.props.children;
-        });
-
-        beforeAll(() => {
-          componentProps = { newHeight: false };
-        });
-
-        it('has oldIcon class', () => {
-          expect(children.props.iconClasses)
-            .toContain('oldIconClass');
-        });
-
-        it('does not have newIcon class', () => {
-          expect(children.props.iconClasses)
-            .not.toContain('newIconClass');
-        });
-      });
-    });
-
-    describe('props.className', () => {
-      beforeEach(() => {
-        children = result.props.children;
-      });
-
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          componentProps = { newHeight: true };
-        });
-
-        it('has btn class', () => {
-          expect(children.props.className)
-            .toContain('btnClass');
-        });
-
-        it('has btnEnabled class', () => {
-          expect(children.props.className)
-            .toContain('btnEnabledClass');
-        });
-      });
-
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          componentProps = { newHeight: false };
-        });
-
-        it('does not have btn class', () => {
-          expect(children.props.className)
-            .not.toContain('btnClass');
-        });
-
-        it('does not have btnEnabled class', () => {
-          expect(children.props.className)
-            .not.toContain('btnEnabledClass');
-        });
+      it('has newIcon class', () => {
+        expect(children.props.iconClasses)
+          .toContain('newIconClass');
       });
     });
   });

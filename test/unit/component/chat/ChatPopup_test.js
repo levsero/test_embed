@@ -47,7 +47,7 @@ describe('ChatPopup component', () => {
           }
         }
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button
       },
       'component/transition/SlideAppear': {

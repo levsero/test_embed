@@ -94,7 +94,7 @@
 
 .closeIcon {
   composes: u-posAbsolute u-isActionable from global;
-  color: $zd-color-aluminum;
+  color: $zd-color-grey-400;
   top: #{10/$font-size}rem;
 
   [dir="ltr"] & {
@@ -106,7 +106,7 @@
   }
 
   &:hover {
-    color: $zd-color-monsoon;
+    color: $zd-color-grey-600;
   }
 
   svg {

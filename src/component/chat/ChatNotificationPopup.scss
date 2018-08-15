@@ -10,6 +10,7 @@
 
 .proactiveContainer {
   composes: u-flex u-flexAlignItemsCenter from global;
+  color: $zd-color-grey-800;
 }
 
 .proactiveNotificationMobile {

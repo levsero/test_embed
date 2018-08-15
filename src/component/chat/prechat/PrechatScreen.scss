@@ -17,7 +17,7 @@
 }
 
 .mobileContainer {
-  composes: u-textSizeMed from global;
+  font-size: $font-size-mobile;
   height: 100% !important;
 }
 

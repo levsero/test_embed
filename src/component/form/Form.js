@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 
 export class Form extends Component {
@@ -71,11 +71,11 @@ export class Form extends Component {
     return (
       <ButtonGroup fullscreen={this.props.isMobile} rtl={this.props.rtl}>
         <Button
+          primary={true}
           className={this.props.submitButtonClasses}
-          fullscreen={this.props.isMobile}
-          label={this.props.submitButtonLabel}
-          disabled={!this.state.valid}
-          type='submit' />
+          type='submit'>
+          {this.props.submitButtonLabel}
+        </Button>
       </ButtonGroup>
     );
   }

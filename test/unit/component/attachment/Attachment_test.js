@@ -12,6 +12,9 @@ describe('Attachment component', () => {
 
   const Icon = noopReactComponent();
   const ProgressBar = noopReactComponent();
+  const Alert = noopReactComponent();
+  const Title = noopReactComponent();
+  const Close = noopReactComponent();
 
   const mockProps = {
     attachmentId: '1',
@@ -44,6 +47,11 @@ describe('Attachment component', () => {
       'component/attachment/ProgressBar': { ProgressBar },
       'service/i18n': {
         i18n
+      },
+      '@zendeskgarden/react-notifications': {
+        Alert: Alert,
+        Title: Title,
+        Close: Close
       },
       './Attachment.scss': {
         locals: {
@@ -220,6 +228,47 @@ describe('Attachment component', () => {
     });
   });
 
+  describe('#previewNameString', () => {
+    let mockFile,
+      result;
+
+    beforeEach(() => {
+      const component = instanceRender(
+        <Attachment
+          file={mockFile}
+          filenameMaxLength={10}
+        />
+      );
+
+      result = component.previewNameString();
+    });
+
+    beforeAll(() => {
+      mockFile = {
+        name: 'apple.jpg'
+      };
+    });
+
+    describe('when the filename is under the maximum allowed display length', () => {
+      it('returns the full filename', () => {
+        expect(result).toEqual(mockFile.name);
+      });
+    });
+
+    describe('when the filename is longer than permitted', () => {
+      beforeAll(() => {
+        mockFile = {
+          name: 'pomegranate.jpg'
+        };
+      });
+
+      it('returns a truncated filename of the maximum allowed length', () => {
+        expect(result).toEqual('po…ate.jpg');
+        expect(result.length).toEqual(10);
+      });
+    });
+  });
+
   describe('#renderLinkedEl', () => {
     let result;
 
@@ -253,7 +302,6 @@ describe('Attachment component', () => {
   describe('#renderSecondaryText', () => {
     let component,
       result,
-      errorMessage,
       isDownloadable,
       downloading,
       uploading;
@@ -271,7 +319,6 @@ describe('Attachment component', () => {
 
       result = component.renderSecondaryText(
         mockProps.file,
-        errorMessage,
         isDownloadable,
         downloading,
         uploading
@@ -279,20 +326,9 @@ describe('Attachment component', () => {
     });
 
     afterEach(() => {
-      errorMessage = undefined;
       isDownloadable = false;
       downloading = false;
       uploading = false;
-    });
-
-    describe('when there is an error message', () => {
-      beforeAll(() => {
-        errorMessage = mockProps.errorMessage;
-      });
-
-      it('returns the error message', () => {
-        expect(result).toEqual('An error occured');
-      });
     });
 
     describe('when there is no error message and uploading is true', () => {
@@ -333,7 +369,111 @@ describe('Attachment component', () => {
     });
   });
 
-  describe('#render', () => {
+  describe('#renderPreviewIcon', () => {
+    let component,
+      result,
+      icon,
+      isDownloadable;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <Attachment
+          file={mockProps.file}
+          isDownloadable={isDownloadable}
+          icon={icon}
+        />
+      );
+
+      result = component.renderPreviewIcon();
+    });
+
+    afterEach(() => {
+      isDownloadable = false;
+      icon = '';
+    });
+
+    describe('when there is an icon specified', () => {
+      describe('and the attachment is not downloadable', () => {
+        beforeAll(() => {
+          icon = 'iconName';
+        });
+
+        it('returns an Icon component', () => {
+          expect(TestUtils.isElementOfType(result, Icon)).toEqual(true);
+        });
+      });
+
+      describe('and the attachment is indeed downloadable', () => {
+        beforeAll(() => {
+          isDownloadable = true;
+          icon = 'iconName';
+        });
+
+        it('returns a link', () => {
+          expect(TestUtils.isElementOfType(result, 'a')).toEqual(true);
+        });
+      });
+    });
+
+    describe('when an icon is not specified', () => {
+      beforeAll(() => {
+        icon = '';
+      });
+
+      it('returns null', () => {
+        expect(result).toBeNull();
+      });
+    });
+  });
+
+  describe('#renderAttachmentError', () => {
+    let component,
+      element,
+      errorMessage;
+
+    beforeEach(() => {
+      component = domRender(
+        <Attachment
+          className={mockProps.className}
+          file={mockProps.file}
+          errorMessage={errorMessage}
+          icon={mockProps.icon}
+        />
+      );
+
+      element = component.renderAttachmentError();
+    });
+
+    describe('when there is an initial attachment error', () => {
+      beforeAll(() => {
+        errorMessage = mockProps.errorMessage;
+      });
+
+      afterAll(() => {
+        errorMessage = undefined;
+      });
+
+      it('returns a garden <Alert> component', () => {
+        expect(TestUtils.isElementOfType(element, Alert)).toEqual(true);
+      });
+
+      it('sets an error class on the container', () => {
+        expect(element.props.className).toContain('containerError');
+      });
+    });
+
+    describe('when there is no attachment error', () => {
+      beforeAll(() => {
+        errorMessage = undefined;
+      });
+
+      it('returns undefined', () => {
+        expect(element).toBeUndefined();
+      });
+    });
+  });
+
+  describe('#renderAttachmentBox', () => {
     let component,
       componentNode,
       element,
@@ -355,7 +495,7 @@ describe('Attachment component', () => {
         />
       );
 
-      element = component.render();
+      element = component.renderAttachmentBox();
       componentNode = ReactDOM.findDOMNode(component);
     });
 
@@ -368,14 +508,8 @@ describe('Attachment component', () => {
         errorMessage = undefined;
       });
 
-      it('sets an error class on the main container', () => {
-        expect(element.props.className).toContain('containerError');
-      });
-    });
-
-    describe('when there is no attachment error', () => {
-      it('does not set an error class on the main container', () => {
-        expect(element.props.className).not.toContain('containerError');
+      it('returns undefined', () => {
+        expect(element).toBeUndefined();
       });
     });
 
@@ -405,9 +539,7 @@ describe('Attachment component', () => {
       });
 
       it('does not render a progress bar after the preview block', () => {
-        const secondChild = element.props.children[1];
-
-        expect(secondChild).toEqual(false);
+        expect(element.props.children[1]).toEqual(false);
       });
     });
 
@@ -466,6 +598,59 @@ describe('Attachment component', () => {
         const secondChild = element.props.children[1];
 
         expect(TestUtils.isElementOfType(secondChild, ProgressBar)).toEqual(true);
+      });
+    });
+  });
+
+  describe('#render', () => {
+    let component,
+      element,
+      innerEl,
+      errorMessage;
+
+    beforeEach(() => {
+      component = domRender(
+        <Attachment
+          className={mockProps.className}
+          file={mockProps.file}
+          errorMessage={errorMessage}
+          icon={mockProps.icon}
+        />
+      );
+
+      element = component.render();
+      innerEl = element.props.children;
+    });
+
+    describe('when there is an initial attachment error', () => {
+      beforeAll(() => {
+        errorMessage = mockProps.errorMessage;
+      });
+
+      afterAll(() => {
+        errorMessage = undefined;
+      });
+
+      it('renders an alert', () => {
+        expect(TestUtils.isElementOfType(innerEl[1], Alert)).toEqual(true);
+      });
+
+      it('does not render an attachment box', () => {
+        expect(innerEl[0]).toBeUndefined();
+      });
+    });
+
+    describe('when there is no attachment error', () => {
+      beforeAll(() => {
+        errorMessage = undefined;
+      });
+
+      it('renders an attachment box', () => {
+        expect(innerEl[0]).toBeDefined();
+      });
+
+      it('does not render an alert', () => {
+        expect(innerEl[1]).toBeUndefined();
       });
     });
   });

@@ -5,7 +5,6 @@ import ButtonDropzoneStyles from 'component/button/ButtonDropzone.scss';
 import ButtonIconStyles from 'component/button/ButtonIcon.scss';
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss';
 import ButtonPillStyles from 'component/button/ButtonPill.scss';
-import ButtonSecondaryStyles from 'component/button/ButtonSecondary.scss';
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss';
 import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.scss';
 import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.scss';
@@ -42,6 +41,7 @@ import ContainerStyles from 'component/container/Container.scss';
 import DropdownStyles from 'component/field/Dropdown.scss';
 import DropdownOptionStyles from 'component/field/DropdownOption.scss';
 import FieldStyles from 'component/field/Field.scss';
+import NestedDropdownStyles from 'component/field/NestedDropdown.scss';
 import FlagStyles from 'component/Flag.scss';
 import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.scss';
 import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss';
@@ -54,19 +54,18 @@ import MessageBubbleStyles from 'component/shared/MessageBubble/MessageBubble.sc
 import MessageErrorStyles from 'component/chat/chatting/MessageError.scss';
 import MessageOptionsStyles from 'component/shared/MessageOptions/MessageOptions.scss';
 import ProgressBarStyles from 'component/attachment/ProgressBar.scss';
-import SearchFieldButtonStyles from 'component/button/SearchFieldButton.scss';
 import SearchFieldStyles from 'component/field/SearchField.scss';
-import SearchInputStyles from 'component/field/SearchInput.scss';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss';
 import SuccessNotificationStyles from 'component/shared/SuccessNotification/SuccessNotification.scss';
 import TalkStyles from 'component/talk/Talk.scss';
-import TalkPhoneFieldStyles from 'component/talk/TalkPhoneField.scss';
 import LoadingBarContentStyles from 'component/loading/LoadingBarContent.scss';
 import { sharedStyles } from 'embed/sharedStyles.js';
+import gardenStyles from 'embed/gardenStyles.js';
 
 export const webWidgetStyles = `
   ${sharedStyles}
+  ${gardenStyles}
   ${AgentListStyles}
   ${AttachmentStyles}
   ${AttachmentBoxStyles}
@@ -75,7 +74,6 @@ export const webWidgetStyles = `
   ${ButtonIconStyles}
   ${ButtonGroupStyles}
   ${ButtonPillStyles}
-  ${ButtonSecondaryStyles}
   ${ChannelChoiceMenuStyles}
   ${ChannelChoiceDesktopStyles}
   ${ChannelChoicePopupDesktopStyles}
@@ -111,6 +109,7 @@ export const webWidgetStyles = `
   ${DropdownStyles}
   ${DropdownOptionStyles}
   ${FieldStyles}
+  ${NestedDropdownStyles}
   ${FlagStyles}
   ${HelpCenterArticleStyles}
   ${HelpCenterDesktopStyles}
@@ -123,13 +122,10 @@ export const webWidgetStyles = `
   ${MessageErrorStyles}
   ${MessageOptionsStyles}
   ${ProgressBarStyles}
-  ${SearchFieldButtonStyles}
   ${SearchFieldStyles}
-  ${SearchInputStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
   ${SuccessNotificationStyles}
   ${TalkStyles}
-  ${TalkPhoneFieldStyles}
   ${LoadingBarContentStyles}
 `;

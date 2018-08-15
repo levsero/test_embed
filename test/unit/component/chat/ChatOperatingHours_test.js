@@ -85,7 +85,7 @@ describe('ChatOperatingHours component', () => {
           t: _.identity
         }
       },
-      'component/button/Button': { Button },
+      '@zendeskgarden/react-buttons': { Button },
       'component/field/Dropdown': { Dropdown },
       'utility/time': {
         timeFromMinutes: timeFromMinutes
@@ -180,16 +180,12 @@ describe('ChatOperatingHours component', () => {
       expect(result.props.className).toEqual('buttonClass');
     });
 
-    it('has the right label prop', () => {
-      expect(result.props.label).toEqual('embeddable_framework.common.button.goBack');
+    it('has the right children prop', () => {
+      expect(result.props.children).toEqual('embeddable_framework.common.button.goBack');
     });
 
     it('has the right onClick prop', () => {
       expect(result.props.onClick).toEqual(jasmine.any(Function));
-    });
-
-    it('has the right type prop', () => {
-      expect(result.props.type).toEqual('button');
     });
   });
 

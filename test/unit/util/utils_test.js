@@ -21,6 +21,11 @@ describe('utils', () => {
     }
   };
   const utilPath = buildSrcPath('util/utils');
+  const constantsPath = buildSrcPath('constants/shared');
+
+  let sharedConstants = requireUncached(constantsPath);
+  let EMAIL_PATTERN = sharedConstants.EMAIL_PATTERN;
+  let PHONE_PATTERN = sharedConstants.PHONE_PATTERN;
 
   beforeEach(() => {
     resetDOM();
@@ -37,7 +42,10 @@ describe('utils', () => {
           return 1;
         }
       },
-      'lodash': _
+      'lodash': _,
+      'constants/shared': {
+        EMAIL_PATTERN, PHONE_PATTERN
+      }
     });
 
     splitPath = require(utilPath).splitPath;
@@ -300,11 +308,12 @@ describe('utils', () => {
 
   describe('emailValid()', () => {
     const validEmails = [
-      'x@x.x',
+      'bob@omg.co.uk',
       'a/b@domain.com',
       'tu!!7n7.ad##0!!!@company.ca'
     ];
     const invalidEmails = [
+      'x@x.x',
       'x@x', // Is valid in some browsers but Zendesk doesn't handle them
       '',
       'hello.hi@hey',

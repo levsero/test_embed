@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { Dropdown } from 'component/field/Dropdown';
 import { timeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
@@ -113,14 +113,13 @@ export class ChatOperatingHours extends Component {
   }
 
   renderBackButton = () => {
-    const backButtonLabel = i18n.t('embeddable_framework.common.button.goBack');
-
     return (
       <Button
+        primary={true}
         className={styles.button}
-        label={backButtonLabel}
-        onClick={this.props.handleOfflineFormBack}
-        type='button' />
+        onClick={this.props.handleOfflineFormBack}>
+        {i18n.t('embeddable_framework.common.button.goBack')}
+      </Button>
     );
   }
 

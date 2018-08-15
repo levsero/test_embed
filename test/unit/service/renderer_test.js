@@ -15,6 +15,7 @@ describe('renderer', () => {
   const mediatorInitSpy = jasmine.createSpy('mediator.init');
   const mediatorInitIPMStandaloneSpy = jasmine.createSpy('mediator.initIPMStandalone');
   const mockTrackSettings = { webWidget: 'foo' };
+  const FONT_SIZE = 14;
 
   const embedMocker = (name) => {
     const mock = jasmine.createSpyObj(name, [
@@ -87,6 +88,9 @@ describe('renderer', () => {
       'utility/globals': {
         win: global.window
       },
+      'constants/shared': {
+        FONT_SIZE
+      },
       'src/redux/modules/base': {
         updateEmbedAccessible: mockUpdateEmbedAccessible,
         updateArturos: mockUpdateArturos
@@ -143,7 +147,6 @@ describe('renderer', () => {
 
       expect(mockUpdateArturos)
         .toHaveBeenCalledWith({
-          newHeight: false,
           newChat: false
         });
 
@@ -473,7 +476,7 @@ describe('renderer', () => {
       renderer.propagateFontRatio(2);
 
       expect(updateBaseFontSize)
-        .toHaveBeenCalledWith('24px');
+        .toHaveBeenCalledWith(`${FONT_SIZE*2}px`);
 
       expect(updateBaseFontSize.calls.count())
         .toEqual(2);

@@ -668,7 +668,7 @@ describe('WebWidget component', () => {
           webWidget.onCancelClick();
         });
 
-        it('should call updateActiveEmbed with channelChoice', () => {
+        it('calls updateActiveEmbed with channelChoice', () => {
           expect(mockUpdateActiveEmbed)
             .toHaveBeenCalledWith('channelChoice');
         });
@@ -754,7 +754,7 @@ describe('WebWidget component', () => {
         webWidget.onNextClick('foo');
       });
 
-      it('should call updateActiveEmbed with that param', () => {
+      it('calls updateActiveEmbed with that param', () => {
         expect(mockUpdateActiveEmbed)
           .toHaveBeenCalledWith('foo');
       });
@@ -764,7 +764,7 @@ describe('WebWidget component', () => {
           webWidget.onNextClick('chat');
         });
 
-        it('should call updateActiveEmbed with that zopims variable', () => {
+        it('calls updateActiveEmbed with that zopims variable', () => {
           expect(mockUpdateActiveEmbed)
             .toHaveBeenCalledWith('zopimChat');
         });
@@ -786,12 +786,12 @@ describe('WebWidget component', () => {
         webWidget.onNextClick();
       });
 
-      it('should call updateActiveEmbed with chat', () => {
+      it('calls updateActiveEmbed with channelChoice', () => {
         expect(mockUpdateActiveEmbed)
-          .toHaveBeenCalledWith('chat');
+          .toHaveBeenCalledWith('channelChoice');
       });
 
-      it('should call updateBackButtonVisibility with true', () => {
+      it('calls updateBackButtonVisibility with true', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
@@ -810,12 +810,12 @@ describe('WebWidget component', () => {
         webWidget.onNextClick();
       });
 
-      it('should call updateActiveEmbed with talk', () => {
+      it('calls updateActiveEmbed with channelChoice', () => {
         expect(mockUpdateActiveEmbed)
-          .toHaveBeenCalledWith('talk');
+          .toHaveBeenCalledWith('channelChoice');
       });
 
-      it('should call updateBackButtonVisibility with true', () => {
+      it('calls updateBackButtonVisibility with true', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
@@ -834,12 +834,12 @@ describe('WebWidget component', () => {
         webWidget.onNextClick();
       });
 
-      it('should call updateActiveEmbed with chat', () => {
+      it('calls updateActiveEmbed with chat', () => {
         expect(mockUpdateActiveEmbed)
           .toHaveBeenCalledWith('chat');
       });
 
-      it('should call updateBackButtonVisibility with true', () => {
+      it('calls updateBackButtonVisibility with true', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
@@ -858,12 +858,12 @@ describe('WebWidget component', () => {
         webWidget.onNextClick();
       });
 
-      it('should call updateActiveEmbed with ticketSubmissionForm', () => {
+      it('calls updateActiveEmbed with ticketSubmissionForm', () => {
         expect(mockUpdateActiveEmbed)
           .toHaveBeenCalledWith('ticketSubmissionForm');
       });
 
-      it('should call updateBackButtonVisibility with true', () => {
+      it('calls updateBackButtonVisibility with true', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
@@ -1028,10 +1028,9 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when newHeight is available and activeEmbed is not channelChoice', () => {
+    describe('when activeEmbed is not channelChoice', () => {
       beforeAll(() => {
         _.assign(componentProps, {
-          newHeight: true,
           channelChoiceAvailable: true,
           activeEmbed: 'channelChoice',
           helpCenterAvailable: true
@@ -1113,18 +1112,23 @@ describe('WebWidget component', () => {
     });
 
     describe('when there is an active embed', () => {
-      beforeEach(() => {
-        webWidget = domRender(
-          <WebWidget updateActiveEmbed={noop} activeEmbed='chat' />
-        );
+      describe('when the activeEmbed is chat and it becomes unavailable', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              updateActiveEmbed={noop}
+              activeEmbed={'chat'}
+              chatAvailable={false} />
+          );
 
-        spyOn(webWidget, 'resetActiveEmbed');
-        webWidget.show();
-      });
+          spyOn(webWidget, 'resetActiveEmbed');
+          webWidget.show();
+        });
 
-      it('does not call resetActiveEmbed', () => {
-        expect(webWidget.resetActiveEmbed)
-          .not.toHaveBeenCalled();
+        it('calls resetActiveEmbed', () => {
+          expect(webWidget.resetActiveEmbed)
+            .toHaveBeenCalled();
+        });
       });
 
       describe('when viaActivate is true', () => {
@@ -1135,6 +1139,8 @@ describe('WebWidget component', () => {
               updateActiveEmbed={noop}
               activeEmbed='chat' />
           );
+
+          spyOn(webWidget, 'resetActiveEmbed');
 
           webWidget.show(true);
         });
@@ -1178,6 +1184,7 @@ describe('WebWidget component', () => {
               activeEmbed='zopimChat'
               zopimOnNext={zopimOnNextSpy} />
           );
+          spyOn(webWidget, 'resetActiveEmbed');
 
           webWidget.show();
         });
@@ -1202,6 +1209,7 @@ describe('WebWidget component', () => {
               chatOnline={false}
               activeEmbed='channelChoice' />
           );
+          spyOn(webWidget, 'resetActiveEmbed');
 
           webWidget.show();
         });
@@ -1221,6 +1229,7 @@ describe('WebWidget component', () => {
               talkAvailable={false}
               activeEmbed='talk' />
           );
+          spyOn(webWidget, 'resetActiveEmbed');
 
           webWidget.show();
         });
@@ -1241,6 +1250,7 @@ describe('WebWidget component', () => {
               activeEmbed='channelChoice' />
           );
 
+          spyOn(webWidget, 'resetActiveEmbed');
           webWidget.show();
         });
 
@@ -1638,7 +1648,7 @@ describe('WebWidget component', () => {
         webWidget.showChat();
       });
 
-      it('should call updateActiveEmbed with zopimChat', () => {
+      it('calls updateActiveEmbed with zopimChat', () => {
         expect(updateActiveEmbedSpy)
           .toHaveBeenCalledWith('zopimChat');
       });
@@ -1655,7 +1665,7 @@ describe('WebWidget component', () => {
           webWidget.showChat();
         });
 
-        it('should call zopimOnNext', () => {
+        it('calls zopimOnNext', () => {
           expect(zopimOnNextSpy)
             .toHaveBeenCalled();
         });
@@ -1673,7 +1683,7 @@ describe('WebWidget component', () => {
           webWidget.showChat();
         });
 
-        it('should call zopimOnNext', () => {
+        it('calls zopimOnNext', () => {
           expect(zopimOnNextSpy)
             .toHaveBeenCalled();
         });

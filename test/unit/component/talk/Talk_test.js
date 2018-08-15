@@ -4,7 +4,11 @@ describe('Talk component', () => {
     libPhoneNumberVendor,
     SuccessNotification = noopReactComponent(),
     Icon = noopReactComponent(),
-    ZendeskLogo = noopReactComponent();
+    ZendeskLogo = noopReactComponent(),
+    Message = noopReactComponent(),
+    TextField = noopReactComponent(),
+    renderLabelTextSpy = jasmine.createSpy('renderLabelText'),
+    shouldRenderErrorMessageSpy = jasmine.createSpy('shouldRenderErrorMessage');
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
@@ -25,10 +29,8 @@ describe('Talk component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/button/Button': { Button: noopReactComponent },
+      '@zendeskgarden/react-buttons': { Button: noopReactComponent },
       'component/form/Form': { Form: noopReactComponent },
-      'component/field/Field': { Field: noopReactComponent },
-      'component/field/EmailField': { EmailField: noopReactComponent },
       'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
       'component/Icon': { Icon },
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
@@ -54,11 +56,21 @@ describe('Talk component', () => {
         locals: {
           content: 'contentClasses',
           contentMobile: 'contentMobileClasses',
-          scrollContainer: 'scrollContainer',
           scrollContainerSuccess: 'scrollContainerSuccessClass',
           noZendeskLogoButton: 'noZendeskLogoButton',
           zendeskLogoButton: 'zendeskLogoButton'
         }
+      },
+      '@zendeskgarden/react-textfields': {
+        TextField,
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Textarea: noopReactComponent(),
+        Message
+      },
+      'src/util/fields': {
+        renderLabelText: renderLabelTextSpy,
+        shouldRenderErrorMessage: shouldRenderErrorMessageSpy
       }
     });
 
@@ -71,11 +83,171 @@ describe('Talk component', () => {
     mockery.disable();
   });
 
+  describe('renderNameField', () => {
+    let result,
+      componentArgs,
+      mockRenderErrorMessage;
+
+    beforeEach(() => {
+      const component = instanceRender(<Talk {...componentArgs} />);
+
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
+      result = component.renderNameField();
+    });
+
+    describe('when called', () => {
+      beforeAll(() => {
+        componentArgs = {
+          formFields: {
+            name: { required: true }
+          }
+        };
+      });
+
+      it('renders a type of TextField', () => {
+        expect(TestUtils.isElementOfType(result, TextField))
+          .toEqual(true);
+      });
+
+      it('has props.name of name', () => {
+        expect(result.props.children[1].props.name)
+          .toEqual('name');
+      });
+
+      it('has props.required of false', () => {
+        expect(result.props.children[1].props.required)
+          .toEqual(false);
+      });
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('none');
+      });
+    });
+  });
+
+  describe('renderDescriptionField', () => {
+    let result,
+      componentArgs,
+      mockRenderErrorMessage;
+
+    beforeEach(() => {
+      const component = instanceRender(<Talk {...componentArgs} />);
+
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
+      result = component.renderNameField();
+    });
+
+    describe('when called', () => {
+      beforeAll(() => {
+        componentArgs = {
+          formFields: {
+            name: { required: true }
+          }
+        };
+      });
+
+      it('renders a type of TextField', () => {
+        expect(TestUtils.isElementOfType(result, TextField))
+          .toEqual(true);
+      });
+
+      it('has props.name of name', () => {
+        expect(result.props.children[1].props.name)
+          .toEqual('name');
+      });
+
+      it('has props.required of false', () => {
+        expect(result.props.children[1].props.required)
+          .toEqual(false);
+      });
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('none');
+      });
+    });
+  });
+
+  describe('renderErrorMessage', () => {
+    let result,
+      mockErrorString;
+
+    beforeEach(() => {
+      let component = instanceRender(<Talk />);
+
+      result = component.renderErrorMessage('val', true, mockErrorString, 'aaa');
+    });
+
+    describe('when we should render error message', () => {
+      beforeAll(() => {
+        mockErrorString = 'yolo';
+        shouldRenderErrorMessageSpy.and.returnValue(true);
+      });
+
+      it('returns a Message component', () => {
+        expect(TestUtils.isElementOfType(result, Message))
+          .toEqual(true);
+      });
+
+      it('renders error string', () => {
+        expect(result.props.children)
+          .toEqual('yolo');
+      });
+    });
+
+    describe('when we should not render error message', () => {
+      beforeAll(() => {
+        shouldRenderErrorMessageSpy.and.returnValue(false);
+      });
+
+      it('returns no Message component', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+  });
+
   describe('handleFormCompleted', () => {
     let talk,
       form,
       config,
-      submitTalkCallbackFormSpy;
+      submitTalkCallbackFormSpy,
+      mockFormValid;
 
     beforeEach(() => {
       submitTalkCallbackFormSpy = jasmine.createSpy('submitTalkCallbackForm');
@@ -85,9 +257,13 @@ describe('Talk component', () => {
           talkConfig={config}
           submitTalkCallbackForm={submitTalkCallbackFormSpy} />
       );
+      spyOn(talk, 'setState');
       form = { clear: jasmine.createSpy('form.clear') };
 
       talk.form = form;
+      talk.form.state = {
+        valid: mockFormValid
+      };
       talk.handleFormCompleted({
         phone: '+61423456789',
         name: 'John',
@@ -96,14 +272,42 @@ describe('Talk component', () => {
       });
     });
 
-    it('calls submitTalkCallbackForm with the form state', () => {
-      expect(submitTalkCallbackFormSpy)
-        .toHaveBeenCalledWith({
-          phone: '+61423456789',
-          name: 'John',
-          email: 'john@john.com',
-          description: 'I need help in understanding your products.'
-        }, 'https://talk_service.com', 'Support');
+    describe('when form is valid', () => {
+      beforeAll(() => {
+        mockFormValid = true;
+      });
+
+      it('calls submitTalkCallbackForm with the form state', () => {
+        expect(submitTalkCallbackFormSpy)
+          .toHaveBeenCalledWith({
+            phone: '+61423456789',
+            name: 'John',
+            email: 'john@john.com',
+            description: 'I need help in understanding your products.'
+          }, 'https://talk_service.com', 'Support');
+      });
+
+      it('sets showErrors to false', () => {
+        expect(talk.setState)
+          .toHaveBeenCalledWith({ showErrors: false });
+      });
+    });
+
+    describe('when form is invalid', () => {
+      beforeAll(() => {
+        mockFormValid = false;
+      });
+
+      it('does not call submitTalkCallbackForm', () => {
+        expect(submitTalkCallbackFormSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+
+      it('sets showErrors to true', () => {
+        expect(talk.setState)
+          .toHaveBeenCalledWith({ showErrors: true });
+      });
     });
   });
 
@@ -218,14 +422,12 @@ describe('Talk component', () => {
     let talk,
       result,
       mockScreen,
-      mockNewHeight,
       mockHideZendeskLogo,
       mockIsMobile;
 
     beforeEach(() => {
       talk = instanceRender(
         <Talk
-          newHeight={mockNewHeight}
           screen={mockScreen}
           isMobile={mockIsMobile}
           hideZendeskLogo={mockHideZendeskLogo} />
@@ -244,20 +446,8 @@ describe('Talk component', () => {
       });
     });
 
-    describe('when newHeight is false', () => {
-      beforeAll(() => {
-        mockNewHeight = false;
-      });
-
-      it('does not render footer content', () => {
-        expect(result)
-          .toBeFalsy();
-      });
-    });
-
     describe('when footer content required', () => {
       beforeAll(() => {
-        mockNewHeight = true;
         mockScreen = successNotificationScreen;
       });
 
@@ -420,37 +610,6 @@ describe('Talk component', () => {
       });
     });
 
-    describe('newHeight', () => {
-      let mockNewHeight;
-
-      beforeEach(() => {
-        talk = instanceRender(<Talk newHeight={mockNewHeight} />);
-        result = talk.render();
-      });
-
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          mockNewHeight = true;
-        });
-
-        it('does not render scrollContainer styles', () => {
-          expect(result.props.children[0].props.containerClasses)
-            .toEqual('');
-        });
-      });
-
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          mockNewHeight = false;
-        });
-
-        it('renders scrollContainer styles', () => {
-          expect(result.props.children[0].props.containerClasses)
-            .toEqual('scrollContainer');
-        });
-      });
-    });
-
     describe('when not on mobile', () => {
       beforeEach(() => {
         talk = domRender(<Talk />);
@@ -610,7 +769,8 @@ describe('Talk component', () => {
 
   describe('renderPhoneOnlyScreen', () => {
     let config,
-      formatPhoneNumberSpy;
+      formatPhoneNumberSpy,
+      result;
 
     beforeEach(() => {
       config = { phoneNumber: '+61434032660' };
@@ -619,7 +779,7 @@ describe('Talk component', () => {
       const talk = instanceRender(<Talk embeddableConfig={config} />);
 
       talk.formatPhoneNumber = formatPhoneNumberSpy;
-      talk.renderPhoneOnlyScreen();
+      result = talk.renderPhoneOnlyScreen();
     });
 
     it('formats the phone number', () => {
@@ -627,80 +787,51 @@ describe('Talk component', () => {
         .toHaveBeenCalledWith(config.phoneNumber);
     });
 
-    describe('newHeight', () => {
-      let mockNewHeight,
-        result;
+    it('renders new message string', () => {
+      expect(result.props.children[1].props.children)
+        .toEqual('embeddable_framework.talk.phoneOnly.new_message');
+    });
 
-      beforeEach(() => {
-        const talk = instanceRender(<Talk newHeight={mockNewHeight} />);
-
-        result = talk.renderPhoneOnlyScreen();
-      });
-
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          mockNewHeight = true;
-        });
-
-        it('renders new message string', () => {
-          expect(result.props.children[1].props.children)
-            .toEqual('embeddable_framework.talk.phoneOnly.new_message');
-        });
-
-        it('renders talk icon', () => {
-          expect(TestUtils.isElementOfType(result.props.children[0], Icon))
-            .toEqual(true);
-        });
-      });
-
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          mockNewHeight = false;
-        });
-
-        it('renders old message string', () => {
-          expect(result.props.children[1].props.children)
-            .toEqual('embeddable_framework.talk.phoneOnly.message');
-        });
-
-        it('does not render talk icon', () => {
-          expect(TestUtils.isElementOfType(result.props.children[0], Icon))
-            .toEqual(false);
-        });
-      });
+    it('renders talk icon', () => {
+      expect(TestUtils.isElementOfType(result.props.children[0], Icon))
+        .toEqual(true);
     });
   });
 
   describe('renderSuccessNotificationScreen', () => {
-    let mockNewHeight,
-      result,
+    let result,
       talk;
 
     beforeEach(() => {
-      talk = instanceRender(<Talk newHeight={mockNewHeight} />);
+      talk = instanceRender(<Talk />);
       result = talk.renderSuccessNotificationScreen();
     });
 
-    describe('when newHeight is true', () => {
-      beforeAll(() => {
-        mockNewHeight = true;
-      });
+    it('renders SuccessNotification component', () => {
+      expect(TestUtils.isElementOfType(result, SuccessNotification))
+        .toEqual(true);
+    });
+  });
 
-      it('should render SuccessNotification component', () => {
-        expect(TestUtils.isElementOfType(result, SuccessNotification))
-          .toEqual(true);
-      });
+  describe('renderFormScreen', () => {
+    let talk;
+
+    beforeEach(() => {
+      talk = instanceRender(<Talk screen={callbackScreen} />);
+
+      spyOn(talk, 'renderPhoneField');
+      spyOn(talk, 'renderNameField');
+      spyOn(talk, 'renderDescriptionField');
+      talk.renderFormScreen();
     });
 
-    describe('when newHeight is false', () => {
-      beforeAll(() => {
-        mockNewHeight = false;
-      });
-
-      it('should render original sucess notification', () => {
-        expect(TestUtils.isElementOfType(result, 'div'))
-          .toEqual(true);
-      });
+    it('renders all fields', () => {
+      expect(talk.renderPhoneField)
+        .toHaveBeenCalled();
+      expect(talk.renderNameField)
+        .toHaveBeenCalled();
+      expect(talk.renderDescriptionField)
+        .toHaveBeenCalled();
     });
   });
 

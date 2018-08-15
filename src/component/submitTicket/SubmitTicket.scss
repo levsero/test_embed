@@ -17,9 +17,10 @@
 }
 
 .ticketFormsListMobile {
-  composes: u-paddingHL u-textSize15 from global;
+  composes: u-paddingHL from global;
   padding-top: #{24/$font-size}rem;
   padding-bottom: #{24/$font-size}rem;
+  font-size: $font-size-mobile;
 
   &:hover, &:focus, &:active {
     background: $zd-color-snow;
@@ -30,7 +31,8 @@
   composes: u-borderBottom u-textBold u-paddingHN from global;
   padding-top: #{16/$font-size}rem;
   padding-bottom: #{16/$font-size}rem;
-  color: $zd-color-dark-gray;
+  color: $zd-color-grey-800;
+  font-size: #{14/$font-size}rem;
 }
 
 .ticketFormsContainer {
@@ -60,7 +62,9 @@
 
 .error {
   composes: u-flex u-marginTL from global;
-  composes: Error from '../../styles/components/Error.scss';
+  background-position: #{14/$font-size}rem #{14/$font-size}rem;
+  padding: #{12/$font-size}rem;
+  padding-left: #{40/$font-size}rem;
 }
 
 .errorIcon {

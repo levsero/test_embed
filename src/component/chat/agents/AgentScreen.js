@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { AgentList } from 'component/chat/agents/AgentList';
 import { ScrollContainer } from 'component/container/ScrollContainer';
-import { Button } from 'component/button/Button';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { updateChatScreen } from 'src/redux/modules/chat';
@@ -24,8 +24,7 @@ class AgentScreen extends Component {
     isMobile: PropTypes.bool,
     activeAgents: PropTypes.object.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    updateChatScreen: PropTypes.func.isRequired,
-    newHeight: PropTypes.bool.isRequired
+    updateChatScreen: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -52,16 +51,16 @@ class AgentScreen extends Component {
 
     return (
       <Button
-        fullscreen={this.props.isMobile}
-        label={i18n.t('embeddable_framework.chat.agentList.button.backToChat')}
-        onTouchStartDisabled={true}
+        primary={true}
         onClick={backButtonOnClick}
-        className={backToChatClasses} />
+        className={backToChatClasses}>
+        {i18n.t('embeddable_framework.chat.agentList.button.backToChat')}
+      </Button>
     );
   }
 
   render = () => {
-    const { activeAgents, isMobile, newHeight } = this.props;
+    const { activeAgents, isMobile } = this.props;
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
@@ -74,7 +73,6 @@ class AgentScreen extends Component {
         containerClasses={styles.scrollContainerContent}
         footerContent={this.renderBackButton()}
         fullscreen={isMobile}
-        newHeight={newHeight}
       >
         <AgentList agents={activeAgents} />
         {this.renderZendeskLogo()}

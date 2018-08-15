@@ -47,7 +47,7 @@ describe('HelpCenterDesktop component', () => {
           }
         }
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
       },
       'component/button/ButtonGroup': {
@@ -158,55 +158,36 @@ describe('HelpCenterDesktop component', () => {
 
     describe('height of HC', () => {
       let helpCenterDesktop,
-        mockHasSearched,
-        mockNewHeight;
+        mockHasSearched;
 
       beforeEach(() => {
         helpCenterDesktop = domRender(
           <HelpCenterDesktop
-            hasSearched={mockHasSearched}
-            newHeight={mockNewHeight} />
+            hasSearched={mockHasSearched} />
         );
 
         result = helpCenterDesktop.render();
       });
 
-      describe('when newHeight is true', () => {
+      describe('when hasSearched is true', () => {
         beforeAll(() => {
-          mockNewHeight = true;
-        });
-
-        describe('when hasSearched is true', () => {
-          beforeAll(() => {
-            mockHasSearched = true;
-          });
-
-          it('should not apply any custom height classes', () => {
-            expect(result.props.children[0].props.classes)
-              .toEqual('');
-          });
-        });
-
-        describe('when hasSearched is false', () => {
-          beforeAll(() => {
-            mockHasSearched = false;
-          });
-
-          it('should not render the new 550px height', () => {
-            expect(result.props.children[0].props.classes)
-              .toEqual('noCustomHeight');
-          });
-        });
-      });
-
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          mockNewHeight = false;
+          mockHasSearched = true;
         });
 
         it('should not apply any custom height classes', () => {
           expect(result.props.children[0].props.classes)
             .toEqual('');
+        });
+      });
+
+      describe('when hasSearched is false', () => {
+        beforeAll(() => {
+          mockHasSearched = false;
+        });
+
+        it('should not render the new 550px height', () => {
+          expect(result.props.children[0].props.classes)
+            .toEqual('noCustomHeight');
         });
       });
     });
@@ -304,61 +285,34 @@ describe('HelpCenterDesktop component', () => {
         handleNextClickSpy.calls.reset();
       });
 
-      describe('when newHeight is true', () => {
-        describe('when channelChoice is true', () => {
-          beforeAll(() => {
-            componentProps = {
-              ...componentProps,
-              newHeight: true,
-              channelChoice: true
-            };
-          });
-
-          it('calls onNextClick', () => {
-            buttonComponent.props.onClick();
-
-            expect(onNextClickSpy)
-              .toHaveBeenCalled();
-          });
-
-          it('does not call handleNextClick', () => {
-            buttonComponent.props.onClick();
-
-            expect(handleNextClickSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-
-        describe('when channelChoice is false', () => {
-          beforeAll(() => {
-            componentProps = {
-              ...componentProps,
-              newHeight: true,
-              channelChoice: false
-            };
-          });
-
-          it('does not call onNextClick', () => {
-            buttonComponent.props.onClick();
-
-            expect(onNextClickSpy)
-              .not.toHaveBeenCalled();
-          });
-
-          it('calls handleNextClick', () => {
-            buttonComponent.props.onClick();
-
-            expect(handleNextClickSpy)
-              .toHaveBeenCalled();
-          });
-        });
-      });
-
-      describe('when newHeight is false', () => {
+      describe('when channelChoice is true', () => {
         beforeAll(() => {
           componentProps = {
             ...componentProps,
-            newHeight: false
+            channelChoice: true
+          };
+        });
+
+        it('calls onNextClick', () => {
+          buttonComponent.props.onClick();
+
+          expect(onNextClickSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call handleNextClick', () => {
+          buttonComponent.props.onClick();
+
+          expect(handleNextClickSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when channelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            channelChoice: false
           };
         });
 

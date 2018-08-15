@@ -4,13 +4,13 @@
   line-height: #{16/$font-size}rem;
   padding: #{8/$font-size}rem #{12/$font-size}rem;
   transition: background-color 250ms ease-out;
-  border-bottom: #{1/$font-size}rem $zd-color-anti-flash-white solid;
-  border-left: #{1/$font-size}rem $zd-color-anti-flash-white solid;
-  border-right: #{1/$font-size}rem $zd-color-anti-flash-white solid;
+  border-bottom: #{1/$font-size}rem $zd-color-grey-200 solid;
+  border-left: #{1/$font-size}rem $zd-color-grey-200 solid;
+  border-right: #{1/$font-size}rem $zd-color-grey-200 solid;
   max-width: #{219/$font-size}rem;
 
   &:hover {
-    background-color: $zd-color-white-smoke;
+    background-color: $zd-color-grey-200;
     cursor: pointer;
     transition: background-color 250ms ease-in;
   }

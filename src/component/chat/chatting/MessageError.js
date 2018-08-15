@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon } from 'component/Icon';
-import { ICONS } from 'constants/shared';
+import { Alert } from '@zendeskgarden/react-notifications';
 import { locals as styles } from './MessageError.scss';
 
 import classNames from 'classnames';
@@ -38,13 +37,9 @@ export class MessageError extends Component {
     }
 
     return (
-      <div className={errorClasses}>
-        <Icon
-          className={styles.icon}
-          type={ICONS.ERROR_FILL}
-        />
+      <Alert type="error" role="alert" className={errorClasses}>
         {errorTag}
-      </div>
+      </Alert>
     );
   }
 }

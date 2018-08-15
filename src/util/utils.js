@@ -3,6 +3,7 @@ import jsSha1 from 'sha1';
 
 import { document as doc,
   location } from 'utility/globals';
+import { EMAIL_PATTERN } from 'constants/shared';
 
 const zendeskStagingDomain = 'zd-staging';
 
@@ -107,11 +108,9 @@ function nowInSeconds() {
 }
 
 function emailValid(email, options = { allowEmpty: false }) {
-  // Taken from https://tinyurl.com/35646w3
-  const validRegex = new RegExp(/^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/) // eslint-disable-line
   const validEmpty = options.allowEmpty && email === '';
 
-  return validRegex.test(email) || validEmpty;
+  return EMAIL_PATTERN.test(email) || validEmpty;
 }
 
 function referrerPolicyUrl(policy, url) {

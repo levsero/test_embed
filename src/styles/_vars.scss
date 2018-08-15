@@ -5,7 +5,11 @@
  */
 
  // If this changes it also needs to change in javascript shared constants
-$font-size: 12;
+$font-size: 14;
+$font-size-lrg: #{15/$font-size}rem;
+$font-size-mobile: #{15/$font-size}rem;
+
+$font-size-lrg: #{15/$font-size}rem;
 
 $thin-border-size: #{1.1/$font-size}rem; /* 1 */
 
@@ -20,16 +24,19 @@ $stroke-color: #DADADA;
 $stroke-focused-color: $zd-color-aluminum;
 $base-color: $zd-color-white;
 $base-shadow: $zd-color-black;
-$base-border-color: $zd-color-gainsboro;
+$base-border-color: $zd-color-grey-200;
 
 // Text colors
-$body-color: $zd-color-oil;
+$body-color: $zd-color-grey-800;
 $secondary-color: $zd-color-aluminum;
 $neutral-link-color: #007FAB;
 
+// Fields
+$field-margin-bottom: #{20/$font-size}rem;
+
 // Errors
-$error-color: $zd-color-flamingo;
-$error-text-color: $zd-color-monsoon;
+$error-color: $zd-color-red-500;
+$error-text-color: $zd-color-red-700;
 $error-background-color: rgba($error-color, 0.1);
 
 // Spacing units and rem calculations

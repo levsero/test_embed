@@ -1,11 +1,11 @@
 describe('ChatOfflineForm component', () => {
   let ChatOfflineForm,
-    SuccessNotification = noopReactComponent();
+    SuccessNotification = noopReactComponent(),
+    mockShouldRenderErrorMessage;
   const ChatOfflineFormPath = buildSrcPath('component/chat/ChatOfflineForm');
 
   const Form = noopReactComponent();
   const Field = noopReactComponent();
-  const EmailField = noopReactComponent();
   const Button = noopReactComponent();
   const LoadingSpinner = noopReactComponent();
   const ChatOperatingHours = noopReactComponent();
@@ -13,11 +13,18 @@ describe('ChatOfflineForm component', () => {
   const UserProfile = noopReactComponent();
   const ZendeskLogo = noopReactComponent();
   const ScrollContainer = noopReactComponent();
-
+  const TextField = noopReactComponent();
+  const Message = noopReactComponent();
   const mainScreen = 'main';
   const successScreen = 'success';
   const loadingScreen = 'loading';
   const operatingHoursScreen = 'operatingHours';
+  const initialFormState = {
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  };
 
   beforeEach(() => {
     mockery.enable();
@@ -42,6 +49,13 @@ describe('ChatOfflineForm component', () => {
           isRTL: () => {}
         }
       },
+      '@zendeskgarden/react-textfields': {
+        TextField,
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Textarea: noopReactComponent(),
+        Message
+      },
       'constants/chat': {
         OFFLINE_FORM_SCREENS: {
           MAIN: mainScreen,
@@ -56,10 +70,7 @@ describe('ChatOfflineForm component', () => {
       'component/field/Field': {
         Field: Field
       },
-      'component/field/EmailField': {
-        EmailField: EmailField
-      },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: Button
       },
       'component/loading/LoadingSpinner': {
@@ -81,7 +92,11 @@ describe('ChatOfflineForm component', () => {
         }
       },
       'component/ZendeskLogo': { ZendeskLogo },
-      'component/container/ScrollContainer': { ScrollContainer }
+      'component/container/ScrollContainer': { ScrollContainer },
+      'src/util/fields': {
+        shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
+        renderLabelText: () => 'someLabel'
+      }
     });
 
     mockery.registerAllowable(ChatOfflineFormPath);
@@ -91,6 +106,45 @@ describe('ChatOfflineForm component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('renderErrorMessage', () => {
+    let result,
+      mockErrorString;
+
+    beforeEach(() => {
+      let component = instanceRender(<ChatOfflineForm />);
+
+      result = component.renderErrorMessage('val', true, mockErrorString, 'aaa');
+    });
+
+    describe('when we should render error message', () => {
+      beforeAll(() => {
+        mockErrorString = 'yolo';
+        mockShouldRenderErrorMessage = true;
+      });
+
+      it('returns a Message component', () => {
+        expect(TestUtils.isElementOfType(result, Message))
+          .toEqual(true);
+      });
+
+      it('renders error string', () => {
+        expect(result.props.children)
+          .toEqual('yolo');
+      });
+    });
+
+    describe('when we should not render error message', () => {
+      beforeAll(() => {
+        mockShouldRenderErrorMessage = false;
+      });
+
+      it('returns no Message component', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
   });
 
   describe('validate', () => {
@@ -247,14 +301,16 @@ describe('ChatOfflineForm component', () => {
       mockSocialLogin,
       mockFormState,
       mockIsAuthenticated,
-      sendOfflineMessageSpy;
+      sendOfflineMessageSpy,
+      component,
+      mockState = { valid: true };
 
     beforeEach(() => {
       mockFormState = { phone: '04028889342', message: 'halp!' };
       mockVisitor = { display_name: 'T-bone steak', email: 'dog@gone.com' };
       sendOfflineMessageSpy = jasmine.createSpy('sendOfflineMessage');
 
-      const component = instanceRender(
+      component = instanceRender(
         <ChatOfflineForm
           formState={mockFormState}
           visitor={mockVisitor}
@@ -262,7 +318,9 @@ describe('ChatOfflineForm component', () => {
           isAuthenticated={mockIsAuthenticated}
           sendOfflineMessage={sendOfflineMessageSpy} />
       );
+      spyOn(component, 'setState');
 
+      component.state = mockState;
       component.handleFormSubmit({ preventDefault: () => {} });
     });
 
@@ -270,9 +328,36 @@ describe('ChatOfflineForm component', () => {
       sendOfflineMessageSpy.calls.reset();
     });
 
+    describe('when form is invalid', () => {
+      beforeAll(() => {
+        mockState = {
+          valid: false
+        };
+      });
+
+      it('shows error', () => {
+        expect(component.setState)
+          .toHaveBeenCalledWith({ showErrors: true });
+      });
+    });
+
+    describe('when form is valid', () => {
+      beforeAll(() => {
+        mockState = {
+          valid: true
+        };
+      });
+
+      it('does not show error', () => {
+        expect(component.setState)
+          .toHaveBeenCalledWith({ showErrors: false });
+      });
+    });
+
     describe('when socially authenticated', () => {
       beforeAll(() => {
         mockSocialLogin = { authenticated: true };
+        mockState = { valid: true };
       });
 
       it('calls sendOfflineMessage with the expected args', () => {
@@ -290,6 +375,7 @@ describe('ChatOfflineForm component', () => {
     describe('when authenticated', () => {
       beforeAll(() => {
         mockIsAuthenticated = true;
+        mockState = { valid: true };
       });
 
       it('calls sendOfflineMessage with the expected args', () => {
@@ -308,6 +394,7 @@ describe('ChatOfflineForm component', () => {
       beforeAll(() => {
         mockSocialLogin = { authenticated: false };
         mockIsAuthenticated = false;
+        mockState = { valid: true };
       });
 
       it('calls sendOfflineMessage with the expected args', () => {
@@ -323,16 +410,19 @@ describe('ChatOfflineForm component', () => {
       mockOfflineMessage;
 
     beforeEach(() => {
-      component = instanceRender(<ChatOfflineForm offlineMessage={mockOfflineMessage} />);
+      component = instanceRender(
+        <ChatOfflineForm
+          formState={initialFormState}
+          offlineMessage={mockOfflineMessage} />
+      );
 
       spyOn(component, 'renderSubmitButton');
       spyOn(component, 'renderOfflineGreeting');
       spyOn(component, 'renderOperatingHoursLink');
-      spyOn(component, 'renderNameField');
-      spyOn(component, 'renderEmailField');
       spyOn(component, 'renderPhoneNumberField');
       spyOn(component, 'renderMessageField');
       spyOn(component, 'renderZendeskLogo');
+      spyOn(component, 'renderUserProfile');
       spyOn(component, 'getScrollContainerClasses');
 
       result = component.renderForm();
@@ -363,16 +453,6 @@ describe('ChatOfflineForm component', () => {
           .toHaveBeenCalled();
       });
 
-      it('calls renderNameField', () => {
-        expect(component.renderNameField)
-          .toHaveBeenCalled();
-      });
-
-      it('calls renderEmailField', () => {
-        expect(component.renderEmailField)
-          .toHaveBeenCalled();
-      });
-
       it('calls renderPhoneNumberField', () => {
         expect(component.renderPhoneNumberField)
           .toHaveBeenCalled();
@@ -385,6 +465,11 @@ describe('ChatOfflineForm component', () => {
 
       it('calls renderZendeskLogo', () => {
         expect(component.renderZendeskLogo)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderUserProfile', () => {
+        expect(component.renderUserProfile)
           .toHaveBeenCalled();
       });
 
@@ -411,7 +496,11 @@ describe('ChatOfflineForm component', () => {
 
     describe('when the screen is the loading screen', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'loading' }} />);
+        const component = instanceRender(
+          <ChatOfflineForm
+            formState={initialFormState}
+            offlineMessage={{ screen: 'loading' }} />
+        );
 
         result = component.renderLoading();
       });
@@ -427,7 +516,11 @@ describe('ChatOfflineForm component', () => {
 
     describe('when the screen is not the loading screen', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+        const component = instanceRender(
+          <ChatOfflineForm
+            formState={initialFormState}
+            offlineMessage={{ screen: 'main' }} />
+        );
 
         result = component.renderLoading();
       });
@@ -452,65 +545,38 @@ describe('ChatOfflineForm component', () => {
     };
 
     describe('when the screen is the success screen', () => {
-      let mockNewHeight;
-
       beforeEach(() => {
         offlineMessageProp = { screen: 'success', details: mockFormValues };
         onFormBackSpy = jasmine.createSpy('onFormBack');
 
         const component = instanceRender(
-          <ChatOfflineForm offlineMessage={offlineMessageProp} handleOfflineFormBack={onFormBackSpy} newHeight={mockNewHeight}/>
+          <ChatOfflineForm
+            formState={initialFormState}
+            offlineMessage={offlineMessageProp}
+            handleOfflineFormBack={onFormBackSpy} />
         );
 
         result = component.renderSuccess();
       });
 
-      describe('when newHeight is true', () => {
-        beforeAll(() => {
-          mockNewHeight = true;
-        });
-
-        it('does not render ChatOfflineMessageForm', () => {
-          expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
-            .toEqual(false);
-        });
-
-        it('renders SuccessNotification', () => {
-          expect(TestUtils.isElementOfType(result.props.children[0], SuccessNotification))
-            .toEqual(true);
-        });
+      it('does not render ChatOfflineMessageForm', () => {
+        expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
+          .toEqual(false);
       });
 
-      describe('when newHeight is false', () => {
-        beforeAll(() => {
-          mockNewHeight = false;
-        });
-
-        it('does not render SuccessNotification', () => {
-          expect(TestUtils.isElementOfType(result, SuccessNotification))
-            .toEqual(false);
-        });
-
-        it('renders ChatOfflineMessageForm', () => {
-          expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
-            .toEqual(true);
-        });
-
-        it('passes the correct props to ChatOfflineMessageForm', () => {
-          const targetElem = result.props.children;
-
-          expect(targetElem.props.offlineMessage)
-            .toEqual(offlineMessageProp);
-
-          expect(targetElem.props.onFormBack)
-            .toEqual(onFormBackSpy);
-        });
+      it('renders SuccessNotification', () => {
+        expect(TestUtils.isElementOfType(result.props.children[0], SuccessNotification))
+          .toEqual(true);
       });
     });
 
     describe('when the screen is not the success screen', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+        const component = instanceRender(
+          <ChatOfflineForm
+            formState={initialFormState}
+            offlineMessage={{ screen: 'main' }} />
+        );
 
         result = component.renderSuccess();
       });
@@ -527,7 +593,11 @@ describe('ChatOfflineForm component', () => {
 
     describe('when the screen is not the operating hours screen', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+        const component = instanceRender(
+          <ChatOfflineForm
+            formState={initialFormState}
+            offlineMessage={{ screen: 'main' }} />
+        );
 
         result = component.renderOperatingHours();
       });
@@ -585,6 +655,7 @@ describe('ChatOfflineForm component', () => {
 
       const component = instanceRender(
         <ChatOfflineForm
+          formState={initialFormState}
           operatingHours={mockOperatingHours}
           handleOperatingHoursClick={handleOperatingHoursClickFn}
           offlineMessage={{ screen: 'main' }} />
@@ -648,7 +719,11 @@ describe('ChatOfflineForm component', () => {
     let result;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+      const component = instanceRender(
+        <ChatOfflineForm
+          formState={initialFormState}
+          offlineMessage={{ screen: 'main' }} />
+      );
 
       result = component.renderOfflineGreeting();
     });
@@ -689,11 +764,17 @@ describe('ChatOfflineForm component', () => {
 
   describe('renderNameField', () => {
     let result,
-      componentArgs;
+      componentArgs,
+      mockRenderErrorMessage;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOfflineForm {...componentArgs} />);
+      const component = instanceRender(
+        <ChatOfflineForm
+          formState={initialFormState}
+          {...componentArgs} />
+      );
 
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
       result = component.renderNameField();
     });
 
@@ -706,18 +787,18 @@ describe('ChatOfflineForm component', () => {
         };
       });
 
-      it('renders a type of Field', () => {
-        expect(TestUtils.isElementOfType(result, Field))
+      it('renders a type of TextField', () => {
+        expect(TestUtils.isElementOfType(result, TextField))
           .toEqual(true);
       });
 
       it('has props.name of name', () => {
-        expect(result.props.name)
+        expect(result.props.children[1].props.name)
           .toEqual('name');
       });
 
       it('has props.required of true', () => {
-        expect(result.props.required)
+        expect(result.props.children[1].props.required)
           .toEqual(true);
       });
     });
@@ -730,7 +811,7 @@ describe('ChatOfflineForm component', () => {
       });
 
       it('renders with expected style', () => {
-        expect(result.props.fieldContainerClasses)
+        expect(result.props.className)
           .toContain('nameFieldWithSocialLoginClass');
       });
     });
@@ -747,78 +828,184 @@ describe('ChatOfflineForm component', () => {
           .not.toContain('nameFieldWithSocialLoginClass');
       });
     });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('none');
+      });
+    });
   });
 
   describe('renderEmailField', () => {
-    let result;
+    let result,
+      mockRenderErrorMessage;
 
     beforeEach(() => {
       const mockFormFields = { email: { required: true } };
-      const component = instanceRender(<ChatOfflineForm formFields={mockFormFields} />);
+      const component = instanceRender(
+        <ChatOfflineForm
+          formState={initialFormState}
+          formFields={mockFormFields} />
+      );
 
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
       result = component.renderEmailField();
     });
 
-    it('renders a type of EmailField', () => {
-      expect(TestUtils.isElementOfType(result, EmailField))
+    it('renders a type of TextField', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
         .toEqual(true);
     });
 
     it('has props.required of true', () => {
-      expect(result.props.required)
+      expect(result.props.children[1].props.required)
         .toEqual(true);
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('none');
+      });
     });
   });
 
   describe('renderPhoneNumberField', () => {
-    let result;
+    let result,
+      mockRenderErrorMessage;
 
     beforeEach(() => {
       const mockFormFields = { phone: { required: true } };
-      const component = instanceRender(<ChatOfflineForm formFields={mockFormFields} />);
+      const component = instanceRender(
+        <ChatOfflineForm
+          formState={initialFormState}
+          formFields={mockFormFields} />
+      );
 
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
       result = component.renderPhoneNumberField();
     });
 
-    it('renders a type of Field', () => {
-      expect(TestUtils.isElementOfType(result, Field))
+    it('renders a type of TextField', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
         .toEqual(true);
     });
 
     it('has props.name of phone', () => {
-      expect(result.props.name)
+      expect(result.props.children[1].props.name)
         .toEqual('phone');
     });
 
     it('has props.required of true', () => {
-      expect(result.props.required)
+      expect(result.props.children[1].props.required)
         .toEqual(true);
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('none');
+      });
     });
   });
 
   describe('renderMessageField', () => {
-    let result;
+    let result,
+      mockRenderErrorMessage;
 
     beforeEach(() => {
       const mockFormFields = { message: { required: true } };
-      const component = instanceRender(<ChatOfflineForm formFields={mockFormFields} />);
+      const component = instanceRender(
+        <ChatOfflineForm
+          formState={initialFormState}
+          formFields={mockFormFields} />
+      );
 
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
       result = component.renderMessageField();
     });
 
-    it('renders a type of Field', () => {
-      expect(TestUtils.isElementOfType(result, Field))
+    it('renders a type of TextField', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
         .toEqual(true);
     });
 
     it('has props.name of message', () => {
-      expect(result.props.name)
+      expect(result.props.children[1].props.name)
         .toEqual('message');
     });
 
     it('has props.required of true', () => {
-      expect(result.props.required)
+      expect(result.props.children[1].props.required)
         .toEqual(true);
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message;
+      });
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('error');
+      });
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null;
+      });
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation)
+          .toEqual('none');
+      });
     });
   });
 });

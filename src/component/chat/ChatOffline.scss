@@ -1,11 +1,11 @@
 @import '../../styles/_vars.scss';
 
 .mobileContainer {
-  composes: u-textSizeMed from global;
+  font-size: $font-size-mobile;
   height: 100% !important;
 
   .greeting {
-    font-size: #{14/$font-size}rem !important;
+    font-size: #{16/$font-size}rem !important;
   }
 }
 
@@ -28,7 +28,8 @@
 
 .greeting {
   margin-top: #{6/$font-size}rem;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
+  color: $zd-color-grey-800;
 }
 
 .button {

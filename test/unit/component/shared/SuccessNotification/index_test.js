@@ -18,7 +18,7 @@ describe('SuccessNotification component', () => {
       'component/Icon': {
         Icon
       },
-      'component/button/Button': {
+      '@zendeskgarden/react-buttons': {
         Button: class extends Component {
           render() {
             const { onClick, className } = this.props;

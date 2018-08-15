@@ -5,13 +5,13 @@
   composes: u-textCenter from global;
   margin-top: #{5/$font-size}rem;
   margin-bottom: #{10/$font-size}rem;
-  color: $zd-color-aluminum;
+  color: $zd-color-grey-500;
 }
 
 .agentTyping {
   margin-top: #{8/$font-size}rem;
   margin-bottom: #{9/$font-size}rem;
-  color: $zd-color-aluminum;
+  color: $zd-color-grey-500;
   width: 100%;
   background: linear-gradient(to bottom, rgba($zd-color-white, 0), rgba($zd-color-white, 0.8));
 }
@@ -34,7 +34,7 @@
 }
 
 .loadingEllipsesItem {
-  background-color: $zd-color-iron !important;
+  background-color: $zd-color-grey-300 !important;
   width: #{4/$font-size}rem;
   height: #{4/$font-size}rem;
   margin-right: #{1/$font-size}rem;
@@ -50,7 +50,7 @@
 
 .historyFetchingText {
   composes: u-backgroundWhite from global;
-  color: $zd-color-dark-gray;
+  color: $zd-color-grey-800;
   border-radius: #{30/$font-size}rem !important;
   box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
   max-width: 90%;
@@ -82,7 +82,7 @@
 
 .footerMobile {
   padding: 0 !important;
-  border-top: $thin-border-size solid $zd-color-gainsboro;
+  border-top: $thin-border-size solid $zd-color-grey-200;
   margin-top: #{12/$font-size}rem !important;
 }
 
@@ -109,7 +109,7 @@
 }
 
 .mobileContainer {
-  composes: u-textSizeMed from global;
+  font-size: $font-size-mobile;
   height: 100% !important;
 }
 
@@ -142,7 +142,7 @@
 .scrollBottomPill {
   height: #{30/$font-size}rem;
   padding: #{7/$font-size}rem #{15/$font-size}rem #{8/$font-size}rem !important;
-  color: $zd-color-oil;
+  color: $zd-color-grey-800;
   bottom: #{145/$font-size}rem;
   left: 50%;
   position: fixed;

@@ -1,4 +1,3 @@
-import CheckboxStyles from 'component/field/Checkbox.scss';
 import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.scss';
 import ScrollContainerStyles from 'component/container/ScrollContainer.scss';
 import AvatarStyles from 'component/Avatar.scss';
@@ -9,7 +8,6 @@ import ZendeskLogoStyles from 'component/ZendeskLogo.scss';
 import NavigationStyles from 'component/frame/Navigation.scss';
 
 export const sharedStyles = `
-  ${CheckboxStyles}
   ${LoadingSpinnerStyles}
   ${ScrollContainerStyles}
   ${AvatarStyles}

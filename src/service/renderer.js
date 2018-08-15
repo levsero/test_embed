@@ -11,6 +11,7 @@ import { settings } from 'service/settings';
 import { win } from 'utility/globals';
 import { updateEmbedAccessible,
   updateArturos } from 'src/redux/modules/base';
+import { FONT_SIZE } from 'constants/shared';
 
 const embedsMap = {
   'chat': chat,
@@ -136,7 +137,7 @@ function init(config, reduxStore = dummyStore) {
     i18n.setLocale(config.locale);
     loadAudio(config);
 
-    const { newChat, newHeight, embeds = {} } = config;
+    const { newChat, embeds = {} } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;
     const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm
       || !!embeds.helpCenterForm
@@ -149,7 +150,6 @@ function init(config, reduxStore = dummyStore) {
     }
 
     const arturos = {
-      newHeight: !!newHeight,
       newChat: !!newChat
     };
 
@@ -246,7 +246,7 @@ function postRenderCallbacks() {
 }
 
 function propagateFontRatio(ratio) {
-  const fontSize = (12 * ratio.toFixed(2)) + 'px';
+  const fontSize = (FONT_SIZE * ratio.toFixed(2)) + 'px';
 
   renderedEmbedsApply((embed) => {
     embed.updateBaseFontSize(fontSize);

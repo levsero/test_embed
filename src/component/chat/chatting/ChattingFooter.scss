@@ -14,6 +14,7 @@
   border-radius: #{4/$font-size}rem;
 
   svg {
+    box-sizing: content-box;
     padding: #{5/$font-size}rem;
     min-width: #{14/$font-size}rem;
     min-height: #{14/$font-size}rem;
@@ -21,26 +22,26 @@
     height: #{14/$font-size}rem;
 
     g {
-      fill: $zd-color-aluminum !important;
+      fill: $zd-color-grey-500 !important;
     }
   }
 
   &:hover, &:active, &:focus {
     cursor: pointer;
-    background: $zd-color-platinum;
+    background: $zd-color-grey-200;
 
     svg > g {
-      fill: $zd-color-dark-gray !important;
+      fill: $zd-color-grey-700 !important;
     }
   }
 }
 
 .iconActive {
   cursor: pointer;
-  background: $zd-color-platinum;
+  background: $zd-color-grey-200;
 
   svg > g {
-    fill: $zd-color-dark-gray !important;
+    fill: $zd-color-grey-700 !important;
   }
 }
 
@@ -57,7 +58,7 @@
   }
 
   &:hover, &:active, &:focus {
-    background: $zd-color-platinum;;
+    background: $zd-color-grey-200;
   }
 }
 
@@ -72,13 +73,13 @@
     padding-right: 0;
 
     path {
-      stroke: $zd-color-aluminum !important;
+      stroke: $zd-color-grey-500 !important;
     }
   }
 
   &:hover, &:active, &:focus {
     svg > path {
-      stroke: $zd-color-dark-gray !important;
+      stroke: $zd-color-grey-700 !important;
     }
   }
 }
@@ -103,14 +104,14 @@
     padding: #{8/$font-size}rem #{7/$font-size}rem #{8/$font-size}rem #{9/$font-size}rem;
 
     path {
-      fill: $zd-color-aluminum !important;
+      fill: $zd-color-grey-500 !important;
     }
   }
 }
 
 .iconDisabled {
   svg > g {
-    fill: $zd-color-iron !important;
+    fill: $zd-color-grey-300 !important;
   }
 
   &:hover, &:active, &:focus {
@@ -118,7 +119,7 @@
     background: none;
 
     svg > g {
-      fill: $zd-color-iron !important;
+      fill: $zd-color-grey-300 !important;
     }
   }
 }

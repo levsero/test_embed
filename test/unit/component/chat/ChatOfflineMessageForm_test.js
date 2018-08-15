@@ -2,8 +2,6 @@ describe('ChatOfflineMessageForm component', () => {
   let ChatOfflineMessageForm;
   const ChatOfflineMessageFormPath = buildSrcPath('component/chat/ChatOfflineMessageForm');
 
-  const Button = noopReactComponent();
-
   beforeEach(() => {
     mockery.enable();
 
@@ -22,8 +20,8 @@ describe('ChatOfflineMessageForm component', () => {
           t: _.identity
         }
       },
-      'component/button/Button': {
-        Button: Button
+      '@zendeskgarden/react-buttons': {
+        Button: noopReactComponent()
       }
     });
 

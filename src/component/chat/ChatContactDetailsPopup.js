@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { TextField, Label, Input, Message } from '@zendeskgarden/react-textfields';
 
 import { keyCodes } from 'utility/keyboard';
 import { document as doc } from 'utility/globals';
@@ -8,13 +9,11 @@ import { i18n } from 'service/i18n';
 import { emailValid } from 'src/util/utils';
 import { isDefaultNickname } from 'src/util/chat';
 import { ChatPopup } from 'component/chat/ChatPopup';
-import { EmailField } from 'component/field/EmailField';
-import { Field } from 'component/field/Field';
 import { Icon } from 'component/Icon';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { ICONS } from 'constants/shared';
+import { ICONS, EMAIL_PATTERN } from 'constants/shared';
+import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
 
-import classNames from 'classnames';
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
 
 import {
@@ -59,7 +58,8 @@ export class ChatContactDetailsPopup extends Component {
       formState: {
         email,
         name: isDefaultNickname(name) ? '' : name
-      }
+      },
+      showErrors: false
     };
 
     this.form = null;
@@ -87,7 +87,14 @@ export class ChatContactDetailsPopup extends Component {
   handleSave = () => {
     const { name, email } = this.state.formState;
 
+    if (!this.state.valid) {
+      this.setState({ showErrors: true });
+      return;
+    }
+
     this.props.rightCtaFn(name, email);
+
+    this.setState({ showErrors: false });
 
     if (doc.activeElement) {
       doc.activeElement.blur();
@@ -95,7 +102,7 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   handleKeyPress = (e) => {
-    if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
+    if (e.charCode === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault();
       this.handleSave();
     }
@@ -117,48 +124,56 @@ export class ChatContactDetailsPopup extends Component {
     return <h4 className={styles.title}>{title}</h4>;
   }
 
-  generateInputClasses = () => {
-    return classNames(
-      { [styles.fieldInputMobile]: this.props.isMobile },
-      { [styles.fieldInputAuthDisabled]: this.props.isAuthenticated }
-    );
-  }
-
-  generateFieldClasses = () => {
-    return classNames(
-      styles.field,
-      { [styles.fieldAuthDisabled]: this.props.isAuthenticated }
-    );
+  renderErrorMessage(value, required, errorString, pattern) {
+    if (shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)) {
+      return <Message validation='error'>{i18n.t(errorString)}</Message>;
+    }
+    return null;
   }
 
   renderNameField = () => {
+    const value = this.state.formState.name;
+    const error = this.renderErrorMessage(value, false, 'embeddable_framework.validation.error.name');
+
     return (
-      <Field
-        fieldContainerClasses={styles.fieldContainer}
-        fieldClasses={this.generateFieldClasses()}
-        labelClasses={styles.fieldLabel}
-        inputClasses={this.generateInputClasses()}
-        label={i18n.t('embeddable_framework.common.textLabel.name')}
-        value={this.state.formState.name}
-        name='name'
-        onKeyPress={this.handleKeyPress}
-        disabled={this.props.isAuthenticated} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.name'), false)}
+        </Label>
+        <Input
+          value={value}
+          name='name'
+          autoComplete='off'
+          onKeyPress={this.handleKeyPress}
+          validation={error ? 'error' : 'none'}
+          disabled={this.props.isAuthenticated} />
+        {error}
+      </TextField>
     );
   }
 
   renderEmailField = () => {
+    const value = this.state.formState.email;
+    const error = this.renderErrorMessage(value,
+      false, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
+
+    /* eslint-disable max-len */
     return (
-      <EmailField
-        fieldContainerClasses={styles.fieldContainer}
-        fieldClasses={this.generateFieldClasses()}
-        labelClasses={styles.fieldLabel}
-        inputClasses={this.generateInputClasses()}
-        label={i18n.t('embeddable_framework.common.textLabel.email')}
-        value={this.state.formState.email}
-        name='email'
-        onKeyPress={this.handleKeyPress}
-        disabled={this.props.isAuthenticated} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.email'), false)}
+        </Label>
+        <Input
+          value={this.state.formState.email}
+          disabled={this.props.isAuthenticated}
+          name='email'
+          onKeyPress={this.handleKeyPress}
+          validation={error ? 'error' : 'none'}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
+        {error}
+      </TextField>
     );
+    /* eslint-enable max-len */
   }
 
   renderFailureScreen = () => {
@@ -226,8 +241,7 @@ export class ChatContactDetailsPopup extends Component {
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.handleSave}
-        rightCtaLabel={i18n.t('embeddable_framework.common.button.save')}
-        rightCtaDisabled={!this.state.valid}>
+        rightCtaLabel={i18n.t('embeddable_framework.common.button.save')}>
         {this.renderForm()}
         {this.renderFailureScreen()}
         {this.renderLoadingSpinner()}

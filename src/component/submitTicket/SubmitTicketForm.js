@@ -7,13 +7,13 @@ import { locals as styles } from './SubmitTicketForm.scss';
 import classNames from 'classnames';
 
 import { AttachmentList } from 'component/attachment/AttachmentList';
-import { Button } from 'component/button/Button';
-import { ButtonSecondary } from 'component/button/ButtonSecondary';
+import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
-import { Field } from 'component/field/Field';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { getCustomFields } from 'utility/fields';
+import { getCustomFields, shouldRenderErrorMessage, renderLabelText } from 'utility/fields';
+import { TextField, Textarea, Label, Input, Message } from '@zendeskgarden/react-textfields';
+import { EMAIL_PATTERN } from 'constants/shared';
 
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
@@ -25,6 +25,8 @@ const initialState = {
   isRTL: i18n.isRTL(),
   isSubmitting: false,
   isValid: false,
+  canSubmit: true,
+  showErrors: false,
   shouldRemoveForm: false,
   showErrorMessage: false
 };
@@ -40,6 +42,7 @@ export class SubmitTicketForm extends Component {
     children: PropTypes.element.isRequired,
     activeTicketForm: PropTypes.object,
     getFrameDimensions: PropTypes.func.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     ticketFormSettings: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     formState: PropTypes.object,
@@ -52,8 +55,7 @@ export class SubmitTicketForm extends Component {
     previewEnabled: PropTypes.bool,
     setFormState: PropTypes.func,
     subjectEnabled: PropTypes.bool,
-    submit: PropTypes.func.isRequired,
-    newHeight: PropTypes.bool.isRequired
+    submit: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -90,7 +92,7 @@ export class SubmitTicketForm extends Component {
 
   componentDidUpdate = () => {
     const form = ReactDOM.findDOMNode(this.refs.form);
-    const isValid = form.checkValidity() && this.attachmentsReady();
+    const canSubmit = this.attachmentsReady();
 
     if (this.refs.formWrapper && this.props.formState && this.state.shouldRemoveForm) {
       _.forEach(form.elements, function(field) {
@@ -117,8 +119,8 @@ export class SubmitTicketForm extends Component {
       }, this);
     }
 
-    if (this.state.isValid !== isValid) {
-      this.setState({ isValid });
+    if (this.state.canSubmit !== canSubmit) {
+      this.setState({ canSubmit });
     }
   }
 
@@ -165,12 +167,15 @@ export class SubmitTicketForm extends Component {
         buttonMessage: sendingButtonMessageString,
         isSubmitting: true
       });
-    }
 
-    this.props.submit(e, {
-      isFormValid: isFormValid,
-      value: this.getFormState()
-    });
+      this.props.submit(e, {
+        isFormValid: isFormValid,
+        value: this.getFormState()
+      });
+    } else {
+      e.preventDefault();
+      this.setState({ showErrors: true });
+    }
   }
 
   openAttachment = () => {
@@ -181,7 +186,7 @@ export class SubmitTicketForm extends Component {
     const form = ReactDOM.findDOMNode(this.refs.form);
 
     return _.chain(form.elements)
-      .reject((field) => field.type === 'submit')
+      .reject((field) => field.type === 'submit' || _.isEmpty(field.name))
       .reduce((result, field) => {
         result[field.name] = (field.type === 'checkbox')
           ? field.checked ? 1 : 0
@@ -266,7 +271,8 @@ export class SubmitTicketForm extends Component {
 
     this.props.setFormState(this.getFormState());
     this.setState({
-      isValid: form.checkValidity() && this.attachmentsReady()
+      isValid: form.checkValidity(),
+      canSubmit: this.attachmentsReady()
     });
   }
 
@@ -301,62 +307,120 @@ export class SubmitTicketForm extends Component {
     this.setState(initialState);
     this.props.setFormState({
       name: formState.name,
-      email: formState.email,
-      clearCheckboxes: true
+      email: formState.email
     });
     this.prefillFormState();
   }
 
   renderSubjectField = () => {
-    const label = i18n.t('embeddable_framework.submitTicket.field.subject.label');
+    const error = this.renderErrorMessage(
+      false,
+      this.props.formState.name,
+      'embeddable_framework.validation.error.input'
+    );
+    const name = 'subject';
 
-    return !this.props.subjectEnabled
-      ? null
-      : <Field
-        key='subject'
-        name='subject'
-        label={label}
-        value={this.props.formState.subject}
-        disabled={this.props.previewEnabled} />;
+    const subjectField = (
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.subject.label'), false)}
+        </Label>
+        <Input
+          key={name}
+          name={name}
+          validation={error ? 'error': ''}
+          value={this.props.formState.subject}
+          disabled={this.props.previewEnabled} />
+      </TextField>
+    );
+
+    return this.props.subjectEnabled
+      ? subjectField
+      : null;
   }
 
   renderEmailField = () => {
-    return (
-      <Field
-        key='email'
-        name='email'
-        type='email'
-        label={i18n.t('embeddable_framework.form.field.email.label')}
-        required={true}
-        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-        value={this.props.formState.email}
-        disabled={this.props.previewEnabled} />
+    const error = this.renderErrorMessage(
+      true,
+      this.props.formState.email,
+      'embeddable_framework.validation.error.email',
+      EMAIL_PATTERN
     );
+    const name = 'email';
+
+    /* eslint-disable max-len */
+    return (
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.form.field.email.label'), true)}
+        </Label>
+        <Input
+          validation={error ? 'error': ''}
+          key={name}
+          name={name}
+          required={true}
+          value={this.props.formState.email}
+          disabled={this.props.previewEnabled}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
+        {error}
+      </TextField>
+    );
+    /* eslint-enable max-len */
   }
 
   renderNameField = () => {
+    const error = this.renderErrorMessage(
+      false,
+      this.props.formState.name,
+      'embeddable_framework.validation.error.name');
+    const name = 'name';
+
     return (
-      <Field
-        key='name'
-        name='name'
-        label={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-        value={this.props.formState.name}
-        disabled={this.props.previewEnabled} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.name.label'), false)}
+        </Label>
+        <Input
+          key={name}
+          name={name}
+          validation={error ? 'error': ''}
+          disabled={this.props.previewEnabled}
+          value={this.props.formState.name} />
+        {error}
+      </TextField>
     );
   }
 
   renderDescriptionField = () => {
+    const error = this.renderErrorMessage(
+      true,
+      this.props.formState.description,
+      'embeddable_framework.validation.error.input');
+    const name = 'description';
+
     return (
-      <Field
-        key='description'
-        name='description'
-        label={i18n.t('embeddable_framework.submitTicket.field.description.label')}
-        required={true}
-        value={this.props.formState.description}
-        input={<textarea rows='5' />}
-        disabled={this.props.previewEnabled} />
+      <TextField>
+        <Label>
+          {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.description.label'), true)}
+        </Label>
+        <Textarea
+          key={name}
+          name={name}
+          validation={error ? 'error': ''}
+          disabled={this.props.previewEnabled}
+          required={true}
+          value={this.props.formState.description}
+          rows='5' />
+        {error}
+      </TextField>
     );
   }
+
+  renderErrorMessage = (required, value, errorString, pattern) => {
+    return shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)
+      ? <Message validation='error'>{i18n.t(errorString)}</Message>
+      : null;
+  };
 
   renderTicketFormBody = () => {
     const { activeTicketForm, ticketFields } = this.props;
@@ -365,7 +429,9 @@ export class SubmitTicketForm extends Component {
       this.props.formState,
       {
         getFrameDimensions: this.props.getFrameDimensions,
-        onChange: this.updateForm
+        onChange: this.updateForm,
+        getFrameContentDocument: this.props.getFrameContentDocument,
+        showErrors: this.state.showErrors
       }
     );
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
@@ -374,9 +440,9 @@ export class SubmitTicketForm extends Component {
 
     return (
       <div ref='formWrapper' className={styles.formWrapper}>
-        <div className={`${styles.ticketFormTitle} ${titleMobileClasses}`}>
+        <h2 className={`${styles.ticketFormTitle} ${titleMobileClasses}`}>
           {activeTicketForm.display_name}
-        </div>
+        </h2>
         {ticketFieldsElem.allFields}
         {this.props.children}
       </div>
@@ -389,7 +455,9 @@ export class SubmitTicketForm extends Component {
       this.props.formState,
       {
         getFrameDimensions: this.props.getFrameDimensions,
-        onChange: this.updateForm
+        getFrameContentDocument: this.props.getFrameContentDocument,
+        onChange: this.updateForm,
+        showErrors: this.state.showErrors
       }
     );
 
@@ -407,13 +475,11 @@ export class SubmitTicketForm extends Component {
   }
 
   renderCancelButton = () => {
-    const { onCancel, fullscreen } = this.props;
-
     return (
-      <ButtonSecondary
-        label={i18n.t(this.state.cancelButtonMessage)}
-        onClick={onCancel}
-        fullscreen={fullscreen} />
+      <Button
+        onClick={this.props.onCancel}>
+        {i18n.t(this.state.cancelButtonMessage)}
+      </Button>
     );
   }
 
@@ -433,7 +499,7 @@ export class SubmitTicketForm extends Component {
   }
 
   render = () => {
-    const { attachmentsEnabled, fullscreen, formTitleKey, hide, newHeight } = this.props;
+    const { attachmentsEnabled, fullscreen, formTitleKey, hide } = this.props;
 
     const form = this.props.activeTicketForm ? this.renderTicketFormBody() : this.renderFormBody();
     const formBody = this.state.shouldRemoveForm ? null : form;
@@ -447,6 +513,7 @@ export class SubmitTicketForm extends Component {
         [styles.containerMobile]: fullscreen
       }
     );
+    const buttonDisabled = !this.state.canSubmit || this.state.isSubmitting;
 
     return (
       <form
@@ -457,7 +524,6 @@ export class SubmitTicketForm extends Component {
         className={`${styles.form} ${hiddenClass}`}>
         <ScrollContainer
           ref='scrollContainer'
-          newHeight={newHeight}
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
           containerClasses={containerClasses}
           getFrameDimensions={this.props.getFrameDimensions}
@@ -465,10 +531,11 @@ export class SubmitTicketForm extends Component {
             <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
               {buttonCancel}
               <Button
-                fullscreen={fullscreen}
-                label={i18n.t(this.state.buttonMessage)}
-                disabled={!this.state.isValid || this.state.isSubmitting}
-                type='submit' />
+                primary={true}
+                disabled={buttonDisabled}
+                type='submit'>
+                {i18n.t(this.state.buttonMessage)}
+              </Button>
             </ButtonGroup>
           }
           fullscreen={fullscreen}>
