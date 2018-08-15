@@ -58,7 +58,12 @@ const checkboxLabelMobileOverrides = isMobile ? css`
     box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
     border-color: ${props => props.focused && `${zdColorGrey600} !important`};
   `
-  : '';
+  : css`
+    &:before {
+      box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+      border-color: ${props => props.focused && `${zdColorGrey600} !important`};
+    }
+  `;
 
 const itemCheckOverrides = isMobile ? css`
   &:before {
@@ -100,13 +105,13 @@ const dropdownOverrides = isMobile ? css`
 
 const genericOverrides = css`
   :hover, :focus {
-    border-color: ${props => !props.validation && `${zdColorGrey600} !important;`};
+    border-color: ${({ validation }) => (!validation || validation === 'none') && `${zdColorGrey600} !important;`};
   }
   :focus {
-    box-shadow: ${({ validation, bare }) => !validation && !bare  && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+    box-shadow: ${({ validation, bare }) => (!validation || validation === 'none') && !bare  && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
   }
-  box-shadow: ${props => props.focused && !props.validation && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-  border-color: ${props => props.focused && !props.validation && `${zdColorGrey600} !important`};
+  box-shadow: ${({ focused, validation }) => focused && (!validation || validation === 'none') && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+  border-color: ${({ focused, validation }) => focused && (!validation || validation === 'none') && `${zdColorGrey600} !important`};
 
   ${mobileOverrides}
 `;
