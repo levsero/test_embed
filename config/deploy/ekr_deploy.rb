@@ -18,7 +18,7 @@ namespace :ac_embeddable_framework do
     logger.info 'Building ac assets'
 
     sh 'npm set progress=false && npm install'
-    sh 'npm run dedupe'
+    sh 'npm dedupe'
     sh 'npm run build-ac'
   end
 
