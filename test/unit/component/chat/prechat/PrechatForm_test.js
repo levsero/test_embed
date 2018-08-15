@@ -900,7 +900,7 @@ describe('PrechatForm component', () => {
   });
 
   describe('isFieldRequired', () => {
-    let mockFallback,
+    let mockRequired,
       mockDepartment,
       mockDepartments,
       component,
@@ -921,40 +921,48 @@ describe('PrechatForm component', () => {
         <PrechatForm form={form} formState={formState} />
       );
 
-      spyOn(component, 'isDepartmentOffline');
-
-      result = component.isFieldRequired(mockFallback);
+      result = component.isFieldRequired(mockRequired);
     });
 
     describe('when a department value exists', () => {
       beforeAll(() => {
-        mockFallback = false;
-        mockDepartment = '12345';
-        mockDepartments = [{ id: 1 }, { id: 2 }];
+        mockRequired = false;
+        mockDepartments = [{ id: 1, status: 'online' }, { id: 2, status: 'offline' }];
       });
 
-      it('calls isDepartmentOffline with expected arguments', () => {
-        expect(component.isDepartmentOffline)
-          .toHaveBeenCalledWith(mockDepartments, mockDepartment);
+      describe('when department is online', () => {
+        beforeAll(() => {
+          mockDepartment = '1';
+        });
+
+        it('returns the required value', () => {
+          expect(result)
+            .toEqual(mockRequired);
+        });
+      });
+
+      describe('when department is offline', () => {
+        beforeAll(() => {
+          mockDepartment = '2';
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
       });
     });
 
     describe('when a department value is an empty string', () => {
       beforeAll(() => {
-        mockFallback = true;
+        mockRequired = true;
         mockDepartment = '';
         mockDepartments = [{ id: 123 }, { id: 420 }];
       });
 
-      it('does not call isDepartmentOffline', () => {
-        expect(component.isDepartmentOffline)
-          .not
-          .toHaveBeenCalled();
-      });
-
-      it('returns the fallback value of true', () => {
+      it('returns the required value of true', () => {
         expect(result)
-          .toEqual(mockFallback);
+          .toEqual(mockRequired);
       });
     });
   });
