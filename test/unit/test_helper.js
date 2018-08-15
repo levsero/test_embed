@@ -103,8 +103,6 @@ global.testRender = (component, nodeMock = {}) => {
   return TestRenderer.create(component, nodeMock);
 };
 
-global.wat = () => 'foo';
-
 global.instanceRender = (component) => {
   const renderer = new ShallowRenderer();
 
