@@ -40,10 +40,6 @@ export class Form extends Component {
     this.form = null;
   }
 
-  componentDidMount = () => {
-    this.setState({ valid: this.isFormValid() });
-  }
-
   isFormValid = () => {
     return this.form.checkValidity() && !_.isEmpty(this.props.formState);
   }
