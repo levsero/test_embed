@@ -13,7 +13,10 @@ const formState = (state = initialState, action) => {
 
   switch (type) {
     case FORM_ON_CHANGE:
-      return payload;
+      return {
+        ...initialState,
+        ...payload
+      };
     case IDENTIFY_RECIEVED:
       return {
         ...state,

@@ -11,7 +11,10 @@ const initialState = {
 const offlineForm = (state = initialState, action) => {
   switch (action.type) {
     case CHAT_OFFLINE_FORM_CHANGED:
-      return action.payload;
+      return {
+        ...initialState,
+        ...action.payload
+      };
     case IDENTIFY_RECIEVED:
       return { ...state, ...action.payload };
     case OFFLINE_FORM_BACK_BUTTON_CLICKED:

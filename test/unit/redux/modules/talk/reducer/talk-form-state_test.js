@@ -36,20 +36,23 @@ describe('talk reducer form state', () => {
     });
 
     describe('when a UPDATE_CALLBACK_FORM action is dispatched', () => {
-      let formState;
+      let mockFormState;
 
       beforeEach(() => {
-        formState = { phone: '+61412345678' };
+        mockFormState = { phone: '+61412345678' };
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_CALLBACK_FORM,
-          payload: formState
+          payload: mockFormState
         });
       });
 
-      it('sets the action payload as the state', () => {
+      it('sets the state to the payload merged with the initial state', () => {
         expect(state)
-          .toEqual(formState);
+          .toEqual({
+            ...mockFormState,
+            name: ''
+          });
       });
     });
   });
