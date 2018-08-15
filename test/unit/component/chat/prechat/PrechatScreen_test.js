@@ -180,6 +180,22 @@ describe('PrechatScreen component', () => {
       });
     });
 
+    describe('when the form data has no information about the visitor', () => {
+      beforeAll(() => {
+        formInfo = {
+          display_name: undefined,
+          name: undefined,
+          email: undefined,
+          phone: undefined
+        };
+      });
+
+      it('does not call setVisitorInfo', () => {
+        expect(setVisitorInfoSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
     describe('when department is specified', () => {
       describe('when department is online', () => {
         beforeAll(() => {
