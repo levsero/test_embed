@@ -79,6 +79,9 @@
   margin-top: #{15/$font-size}rem;
   margin-bottom: #{15/$font-size}rem;
   float: right;
+  max-width: #{200/$font-size}rem !important;
+  padding-right: #{10/$font-size}rem !important;
+  padding-left: #{10/$font-size}rem !important;
 
   [dir='rtl'] & {
     float: left;

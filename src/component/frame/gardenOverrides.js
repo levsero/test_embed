@@ -141,6 +141,9 @@ const getButtonOverrides = (colorVariables, themeColor) => {
     height: ${38/FONT_SIZE}rem !important;
     font-size: ${isMobile && `${15/FONT_SIZE}rem`} !important;
     border-radius: ${isMobile && `${4/FONT_SIZE}rem`} !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 
     :not([disabled]) {
       background-color: ${props => (props.primary) ? themeColor : zdColorWhite} !important;
