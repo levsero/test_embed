@@ -420,9 +420,27 @@ describe('SearchField component', () => {
             .toContain('notSearchedClasses');
         });
 
-        it('renders notSearchedWithLogo class', () => {
-          expect(result.props.className)
-            .toContain('notSearchedWithLogoClasses');
+        describe('when fullscreen is true', () => {
+          beforeAll(() => {
+            mockFullscreen = true;
+          });
+
+          it('does not render notSearchedWithLogo class', () => {
+            expect(result.props.className)
+              .not
+              .toContain('notSearchedWithLogoClasses');
+          });
+        });
+
+        describe('when fullscreen is false', () => {
+          beforeAll(() => {
+            mockFullscreen = false;
+          });
+
+          it('renders notSearchedWithLogo class', () => {
+            expect(result.props.className)
+              .toContain('notSearchedWithLogoClasses');
+          });
         });
       });
 

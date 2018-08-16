@@ -14,7 +14,7 @@
 }
 
 .buttonContainer {
-  composes: u-posRelative from global;
+  composes: u-posRelative, u-marginVS from global;
 }
 
 .footerButton {
