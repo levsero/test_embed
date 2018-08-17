@@ -79,13 +79,15 @@ export class PrechatForm extends Component {
     return _.find(departments, (d) => d.id == departmentId) || {}; // eslint-disable-line eqeqeq
   }
 
-  isFieldRequired = (fallback = false) => {
+  isFieldRequired = (required = false) => {
     const { form, formState } = this.props;
     const isDepartmentSelected = formState.department !== '';
 
-    return (isDepartmentSelected)
-      ? this.isDepartmentOffline(form.departments, formState.department)
-      : fallback;
+    if (isDepartmentSelected) {
+      return this.isDepartmentOffline(form.departments, formState.department) ? true : required;
+    } else {
+      return required;
+    }
   }
 
   handleFormSubmit = (e) => {
