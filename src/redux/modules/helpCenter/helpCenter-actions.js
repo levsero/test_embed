@@ -127,6 +127,11 @@ export function performContextualSearch(done = () => {}, fail = () => {}) {
 
   return (dispatch, getState) => {
     const searchQuery = getSearchQuery(getState());
+
+    if (!searchQuery.query && !searchQuery.label_names) {
+      return;
+    } // eslint-disable-line camelcase
+
     const path = '/api/v2/help_center/articles/embeddable_search.json';
     /* eslint camelcase:0 */
     let query = {
