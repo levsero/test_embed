@@ -1030,7 +1030,8 @@ parts:
       value: "Close"
   - translation:
       key: "embeddable_framework.navigation.menu"
-      title: "The button to open chat menu. Displays at the top right of the widget on mobile only. This text is for screen readers, only the icon is visually shown. (tinyurl.com/y8n63eba)"
+      title: "The button to open chat menu. Displays at the top right of the widget on mobile only. This text is for screen readers, only the icon is visually shown."
+      screenshot: "https://tinyurl.com/y8n63eba"
       value: "Menu"
 
 # Attachments
