@@ -369,6 +369,21 @@ describe('helpCenter redux actions', () => {
       httpPostSpy.calls.reset();
     });
 
+    describe('when searchQuery does not exist', () => {
+      beforeAll(() => {
+        /* eslint camelcase:0 */
+        mockSearchQuery = {
+          query: '',
+          label_names: ''
+        };
+      });
+
+      it('does not make contextual search request', () => {
+        expect(action)
+          .toBeUndefined();
+      });
+    });
+
     describe('when searchQuery has a single search term', () => {
       beforeAll(() => {
         mockSearchQuery = {
@@ -394,7 +409,7 @@ describe('helpCenter redux actions', () => {
     describe('when searchQuery has labels', () => {
       beforeAll(() => {
         mockSearchQuery = {
-          labels: ['y', 'o', 'l', 'o']
+          label_names: 'y, o, l, o'
         };
       });
 
@@ -405,7 +420,7 @@ describe('helpCenter redux actions', () => {
             method: 'get',
             path: '/api/v2/help_center/articles/embeddable_search.json',
             query: jasmine.objectContaining({
-              labels: ['y', 'o', 'l', 'o'],
+              label_names: 'y, o, l, o',
               locale: 'yoloLocale',
               per_page: 3
             })
