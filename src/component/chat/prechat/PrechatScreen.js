@@ -122,13 +122,15 @@ class PrechatScreen extends Component {
       } else {
         this.props.clearDepartment(sendOnlineMessage);
       }
-      this.props.setVisitorInfo(
-        _.omitBy({
-          display_name: info.display_name || info.name,
-          email: info.email,
-          phone: info.phone
-        }, _.isNil)
-      );
+      if (info.display_name || info.name || info.email || info.phone) {
+        this.props.setVisitorInfo(
+          _.omitBy({
+            display_name: info.display_name || info.name,
+            email: info.email,
+            phone: info.phone
+          }, _.isNil)
+        );
+      }
       this.props.handlePrechatFormSubmit(info);
     }
 
