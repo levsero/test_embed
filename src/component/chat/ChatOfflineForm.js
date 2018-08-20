@@ -34,7 +34,8 @@ export class ChatOfflineForm extends Component {
     authUrls: PropTypes.object.isRequired,
     visitor: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    hideZendeskLogo: PropTypes.bool
+    hideZendeskLogo: PropTypes.bool,
+    getFrameContentDocument: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -45,7 +46,8 @@ export class ChatOfflineForm extends Component {
     initiateSocialLogout: () => {},
     socialLogin: {},
     authUrls: {},
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    getFrameContentDocument: () => ({})
   };
 
   constructor(props) {
@@ -337,7 +339,7 @@ export class ChatOfflineForm extends Component {
   renderOperatingHours() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.OPERATING_HOURS) return null;
 
-    const { operatingHours, handleOfflineFormBack } = this.props;
+    const { operatingHours, handleOfflineFormBack, getFrameContentDocument } = this.props;
 
     return (
       <ScrollContainer
@@ -346,6 +348,7 @@ export class ChatOfflineForm extends Component {
         containerClasses={styles.scrollContainerContent}
         title={i18n.t('embeddable_framework.chat.title')}>
         <ChatOperatingHours
+          getFrameContentDocument={getFrameContentDocument}
           handleOfflineFormBack={handleOfflineFormBack}
           operatingHours={operatingHours} />
       </ScrollContainer>

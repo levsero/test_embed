@@ -3,8 +3,9 @@ import { timeFromMinutes } from '../../../../src/util/time';
 describe('ChatOperatingHours component', () => {
   let ChatOperatingHours;
   const ChatOperatingHoursPath = buildSrcPath('component/chat/ChatOperatingHours');
-  const Dropdown = noopReactComponent();
   const Button = noopReactComponent();
+  const SelectField = noopReactComponent();
+  const Item = noopReactComponent();
 
   const mockAccountOperatingHours = {
     account_schedule: [
@@ -86,10 +87,18 @@ describe('ChatOperatingHours component', () => {
         }
       },
       '@zendeskgarden/react-buttons': { Button },
-      'component/field/Dropdown': { Dropdown },
+      '@zendeskgarden/react-select': {
+        SelectField,
+        Label: noopReactComponent(),
+        Item,
+        Select: noopReactComponent()
+      },
       'utility/time': {
         timeFromMinutes: timeFromMinutes
-      }
+      },
+      'src/constants/shared': {
+        FONT_SIZE: 14
+      },
     });
 
     mockery.registerAllowable(ChatOperatingHoursPath);
@@ -202,14 +211,8 @@ describe('ChatOperatingHours component', () => {
 
     it('returns an array of formatted departments', () => {
       const expected = [
-        {
-          name: 'Sales',
-          value: 111
-        },
-        {
-          name: 'Billing',
-          value: 222
-        }
+        <Item key={111}>Sales</Item>,
+        <Item key={222}>Billing</Item>
       ];
 
       expect(result)
@@ -242,7 +245,7 @@ describe('ChatOperatingHours component', () => {
       component = instanceRender(
         <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
       );
-      component.setState({ activeDepartment: 222 });
+      component.setState({ activeDepartment: '222' });
 
       result = component.getSelectedDepartmentSchedule();
     });
@@ -276,19 +279,19 @@ describe('ChatOperatingHours component', () => {
         dropdown = result.props.children[0];
       });
 
-      it('renders a dropdown component', () => {
-        expect(TestUtils.isElementOfType(dropdown, Dropdown))
+      it('renders a SelectField component', () => {
+        expect(TestUtils.isElementOfType(dropdown, SelectField))
           .toEqual(true);
       });
 
       it('passes the formattedDepartments in to the dropdown as options', () => {
-        expect(dropdown.props.options)
+        expect(dropdown.props.children[1].props.options)
           .toEqual(mockFormattedDropdowns);
       });
 
       it('passes the first formattedDepartment in to the dropdown as value', () => {
-        expect(dropdown.props.value)
-          .toEqual(mockFormattedDropdowns[0]);
+        expect(dropdown.props.children[1].props.selectedKey)
+          .toEqual('111');
       });
 
       it('calls renderSchedule with the departments schedule', () => {

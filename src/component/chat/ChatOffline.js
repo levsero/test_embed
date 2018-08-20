@@ -57,6 +57,7 @@ class ChatOffline extends Component {
     operatingHours: PropTypes.object,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
+    getFrameContentDocument: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired
   };
 
@@ -68,12 +69,14 @@ class ChatOffline extends Component {
     isMobile: false,
     hideZendeskLogo: false,
     formSettings: { enabled: false },
-    offlineMessage: {}
+    offlineMessage: {},
+    getFrameContentDocument: () => ({})
   };
 
   renderOfflineForm = () => {
     return (
       <ChatOfflineForm
+        getFrameContentDocument={this.props.getFrameContentDocument}
         initiateSocialLogout={this.props.initiateSocialLogout}
         visitor={this.props.visitor}
         socialLogin={this.props.socialLogin}

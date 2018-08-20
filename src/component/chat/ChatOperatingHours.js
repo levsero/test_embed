@@ -3,15 +3,25 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { Button } from '@zendeskgarden/react-buttons';
-import { Dropdown } from 'component/field/Dropdown';
+import {
+  Select,
+  SelectField,
+  Label,
+  Item } from '@zendeskgarden/react-select';
 import { timeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatOperatingHours.scss';
+import { FONT_SIZE } from 'src/constants/shared';
 
 export class ChatOperatingHours extends Component {
   static propTypes = {
     operatingHours: PropTypes.object.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    getFrameContentDocument: () => ({})
   };
 
   constructor(props, context) {
@@ -23,7 +33,7 @@ export class ChatOperatingHours extends Component {
   componentWillMount = () => {
     if (this.props.operatingHours.department_schedule) {
       this.setState({
-        activeDepartment: this.formatDepartmentsForDropdown()[0].value
+        activeDepartment: this.getDefaultDepartment()
       });
     }
   }
@@ -50,14 +60,17 @@ export class ChatOperatingHours extends Component {
       );
   }
 
+  getDefaultDepartment = () => {
+    const { department_schedule: departmentSchedule } = this.props.operatingHours;
+
+    return _.first(departmentSchedule).id.toString();
+  }
+
   formatDepartmentsForDropdown = () => {
     const { department_schedule: departmentSchedule } = this.props.operatingHours;
 
     return departmentSchedule.map((deptSchedule) => {
-      return {
-        name: deptSchedule.name,
-        value: deptSchedule.id
-      };
+      return <Item key={deptSchedule.id}>{deptSchedule.name}</Item>;
     });
   }
 
@@ -65,7 +78,7 @@ export class ChatOperatingHours extends Component {
     const { department_schedule: schedule } = this.props.operatingHours;
     const departmentKey = this.state.activeDepartment;
 
-    return _.find(schedule, (d) => { return d.id === departmentKey;} );
+    return _.find(schedule, (d) => { return d.id.toString() === departmentKey;} );
   }
 
   renderHours = (daySchedule, dayScheduleIndex) => {
@@ -141,17 +154,21 @@ export class ChatOperatingHours extends Component {
 
     return (
       <div>
-        <Dropdown
-          className={styles.dropdown}
-          menuContainerClassName={styles.dropdownMenuContainer}
-          label={i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
-          labelClasses={styles.dropdownLabel}
-          required={false}
-          name='department'
-          options={departments}
-          value={departments[0]}
-          onChange={this.setActiveDepartment}
-        />
+        <SelectField>
+          <Label>
+            {i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
+          </Label>
+          <Select
+            name='department'
+            selectedKey={String(this.state.activeDepartment)}
+            appendToNode={this.props.getFrameContentDocument().body}
+            onChange={this.setActiveDepartment}
+            popperModifiers={{ flip: { enabled: false }, preventOverflow: { escapeWithReference: true } }}
+            dropdownProps={{ style: { maxHeight: `${140/FONT_SIZE}rem`, overflow: 'auto' }}}
+            options={departments}>
+            {selectedDepartmentSchedule.name}
+          </Select>
+        </SelectField>
         {this.renderSchedule(selectedDepartmentSchedule)}
       </div>
     );

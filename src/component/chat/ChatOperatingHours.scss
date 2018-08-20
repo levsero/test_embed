@@ -32,20 +32,6 @@
   width: 100%;
 }
 
-.dropdown {
-  margin: #{16/$font-size}rem 0;
-}
-
-.dropdownLabel {
-  color: $zd-color-grey-800 !important;
-  font-size: $font-size-lrg;
-}
-
-.dropdownMenuContainer {
-  height: auto !important;
-  max-height: #{200/$font-size}rem;
-}
-
 .hidden {
   composes: u-isHiddenVisually from global;
 }
