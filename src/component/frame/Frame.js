@@ -30,10 +30,9 @@ if (!__DEV__) {
 const scrollingStyleDelay = 50; // small delay so that safari has finished rendering
 const sizingRatio = FONT_SIZE * getZoomSizingRatio();
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
-const zIndex = settings.get('zIndex');
-const isPositionTop = settings.get('position.vertical') === 'top';
 const transitionDuration = 250;
-const defaultMarginTop = isPositionTop && !isMobileBrowser() ? '15px' : 0;
+const isPositionTop = () => settings.get('position.vertical') === 'top';
+const defaultMarginTop = () => isPositionTop() && !isMobileBrowser() ? '15px' : 0;
 
 export class Frame extends Component {
   static propTypes = {
@@ -68,7 +67,7 @@ export class Frame extends Component {
     frameFullWidth: 0,
     frameOffsetWidth: 15,
     frameOffsetHeight: 15,
-    frameStyle: { marginTop: defaultMarginTop },
+    frameStyle: { marginTop: defaultMarginTop() },
     fullscreenable: false,
     hideCloseButton: false,
     name: '',
@@ -197,7 +196,7 @@ export class Frame extends Component {
         left: this.state.visible ? '0px' : '-9999px',
         top: this.state.visible ? '0px' : '-9999px',
         background:'#FFF',
-        zIndex: zIndex
+        zIndex: settings.get('zIndex')
       };
 
       const popoverStyle = {
@@ -314,7 +313,7 @@ export class Frame extends Component {
     const baseStyles = {
       border: 'none',
       background: 'transparent',
-      zIndex: zIndex,
+      zIndex: settings.get('zIndex'),
       transform: 'translateZ(0)',
       position: 'fixed',
       transition: `all ${transitionDuration}ms cubic-bezier(0.645, 0.045, 0.355, 1)`,
@@ -341,7 +340,7 @@ export class Frame extends Component {
     const horizontalOffset = isMobile ? _.get(mobileOffset, 'horizontal', 0) : _.get(offset, 'horizontal', 0);
     const verticalOffset = isMobile ? _.get(mobileOffset, 'vertical', 0) : _.get(offset, 'vertical', 0);
     const horizontalPos = settings.get('position.horizontal') || this.props.position;
-    const verticalPos = isPositionTop ? 'top' : 'bottom';
+    const verticalPos = isPositionTop() ? 'top' : 'bottom';
 
     return {
       [horizontalPos]: horizontalOffset,
