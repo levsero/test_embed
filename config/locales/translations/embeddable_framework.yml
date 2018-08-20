@@ -868,6 +868,11 @@ parts:
       screenshot: "https://drive.google.com/open?id=180OcmT-0BUJUGrc9Bc6Z1UmX7Art4pFx"
       value: "No available agents"
   - translation:
+      key: "embeddable_framework.channelChoice.button.label.no_available_agents_offline_form"
+      title: "The label under a channel option text that describes that there's no available agents (online) to attend to the customer at this time and that there is an offline form available where they can send a message."
+      screenshot: "https://drive.google.com/file/d/1GXxlVLbZj9ix66b3N-QOQC_44b7JihN5/view?usp=sharing"
+      value: "No agents available. Leave us a message"
+  - translation:
       key: "embeddable_framework.channelChoice.button.label.submitTicket"
       title: "The label for the submit ticket option in the list. The same text as embeddable_framework.helpCenter.submitButton.label.submitTicket.message"
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
