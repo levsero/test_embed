@@ -38,8 +38,6 @@ import AgentScreenStyles from 'component/chat/agents/AgentScreen.scss';
 import RatingScreenStyles from 'component/chat/rating/RatingScreen.scss';
 import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss';
 import ContainerStyles from 'component/container/Container.scss';
-import DropdownStyles from 'component/field/Dropdown.scss';
-import DropdownOptionStyles from 'component/field/DropdownOption.scss';
 import FieldStyles from 'component/field/Field.scss';
 import NestedDropdownStyles from 'component/field/NestedDropdown.scss';
 import FlagStyles from 'component/Flag.scss';
@@ -106,8 +104,6 @@ export const webWidgetStyles = `
   ${RatingScreenStyles}
   ${PrechatScreenStyles}
   ${ContainerStyles}
-  ${DropdownStyles}
-  ${DropdownOptionStyles}
   ${FieldStyles}
   ${NestedDropdownStyles}
   ${FlagStyles}

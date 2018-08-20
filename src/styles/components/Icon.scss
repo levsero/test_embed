@@ -206,17 +206,6 @@
   }
 }
 
-.Icon--chevron {
-  svg {
-    fill: $secondary-color;
-    min-width: #{12/$font-size}rem; /* 1 */
-    min-height: #{12/$font-size}rem; /* 1 */
-    height: #{12/$font-size}rem;
-    width: #{12/$font-size}rem;
-    padding: 0;
-  }
-}
-
 .Icon--avatar {
   box-sizing: border-box;
 
