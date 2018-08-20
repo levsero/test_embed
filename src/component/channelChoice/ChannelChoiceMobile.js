@@ -17,7 +17,8 @@ export class ChannelChoiceMobile extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool
+    chatEnabled: PropTypes.bool,
+    chatOfflineAvailable: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -35,7 +36,8 @@ export class ChannelChoiceMobile extends Component {
       formTitleKey,
       talkAvailable,
       talkEnabled,
-      callbackEnabled
+      callbackEnabled,
+      chatOfflineAvailable
     } = this.props;
 
     return (
@@ -53,6 +55,7 @@ export class ChannelChoiceMobile extends Component {
           className={styles.container}
           callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
+          chatOfflineAvailable={chatOfflineAvailable}
           talkEnabled={talkEnabled}
           showCancelButton={false} />
       </ScrollContainer>

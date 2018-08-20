@@ -14,6 +14,7 @@ import { locals as styles } from './HelpCenterMobile.scss';
 
 export class HelpCenterMobile extends Component {
   static propTypes = {
+    chatOfflineAvailable: PropTypes.bool,
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
     chatAvailable: PropTypes.bool,
@@ -144,6 +145,7 @@ export class HelpCenterMobile extends Component {
     return this.props.channelChoice
       ? <div className={styles.channelChoiceContainer}>
         <ChannelChoicePopupMobile
+          chatOfflineAvailable={this.props.chatOfflineAvailable}
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatEnabled={this.props.chatEnabled}
           callbackEnabled={this.props.callbackEnabled}

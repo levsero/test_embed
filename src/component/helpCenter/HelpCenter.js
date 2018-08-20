@@ -90,6 +90,7 @@ class HelpCenter extends Component {
     style: PropTypes.object,
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool,
+    chatOfflineAvailable: PropTypes.bool,
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
     updateFrameSize: PropTypes.func,
@@ -130,6 +131,7 @@ class HelpCenter extends Component {
     style: null,
     submitTicketAvailable: true,
     chatAvailable: false,
+    chatOfflineAvailable: false,
     updateFrameSize: () => {},
     updateChatScreen: () => {},
     handleArticleClick: () => {},
@@ -311,6 +313,7 @@ class HelpCenter extends Component {
     return (
       <HelpCenterDesktop
         ref={(el) => { this.helpCenterDesktop = el; }}
+        chatOfflineAvailable={this.props.chatOfflineAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         isContextualSearchPending={this.props.isContextualSearchPending}
         chatAvailable={this.props.chatAvailable}
@@ -345,6 +348,7 @@ class HelpCenter extends Component {
     return (
       <HelpCenterMobile
         ref={(el) => { this.helpCenterMobile = el; }}
+        chatOfflineAvailable={this.props.chatOfflineAvailable}
         handleOnChangeValue={this.props.handleSearchFieldChange}
         onSearchFieldFocus={this.props.handleSearchFieldFocus}
         submitTicketAvailable={this.props.submitTicketAvailable}
@@ -380,6 +384,7 @@ class HelpCenter extends Component {
     const { chatNotificationCount,
       channelChoice,
       chatAvailable,
+      chatOfflineAvailable,
       isChatting,
       talkAvailable,
       callbackEnabled } = this.props;
@@ -389,15 +394,17 @@ class HelpCenter extends Component {
         return chatNotificationCount > 1
           ? i18n.t('embeddable_framework.chat.button.manyMessages', { plural_number: chatNotificationCount })
           : i18n.t('embeddable_framework.chat.button.oneMessage');
+      } else if (chatOfflineAvailable) {
+        return i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`);
       }
       return i18n.t('embeddable_framework.common.button.chat');
     };
 
     if (isChatting) {
       buttonLabel = renderChatLabel();
-    } else if (channelChoice || (chatAvailable && talkAvailable)) {
+    } else if (channelChoice) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
-    } else if (chatAvailable) {
+    } else if (chatAvailable || chatOfflineAvailable) {
       buttonLabel = renderChatLabel();
     } else if (talkAvailable) {
       buttonLabel = callbackEnabled

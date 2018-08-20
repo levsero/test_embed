@@ -6,6 +6,7 @@ describe('selectors', () => {
     getTalkEnabled,
     getTalkAvailable,
     getShowTicketFormsBackButton,
+    getChatOfflineAvailable,
     settingsChatSuppressValue,
     zopimChatOnlineValue,
     showOfflineFormValue,
@@ -18,26 +19,28 @@ describe('selectors', () => {
     agentAvailabilityValue,
     activeTicketFormValue,
     activeEmbedValue,
-    ticketFormsValue;
+    ticketFormsValue,
+    offlineFormEnabledValue;
+
+  activeEmbedValue = '';
+  offlineFormEnabledValue = false;
+  settingsChatSuppressValue = false;
+  zopimChatOnlineValue = false;
+  showOfflineFormValue = true;
+  helpCenterEmbedValue = false;
+  submitTicketEmbedValue = false;
+  chatEmbedValue = false;
+  zopimChatEmbedValue = false;
+  talkEmbedValue = false;
+  talkEmbeddableConfigEnabledValue = false;
+  agentAvailabilityValue = false;
+  activeTicketFormValue = null;
+  ticketFormsValue = [];
 
   beforeEach(() => {
     mockery.enable();
 
     const selectorsPath = buildSrcPath('redux/modules/selectors');
-
-    activeEmbedValue = '';
-    settingsChatSuppressValue = false;
-    zopimChatOnlineValue = false;
-    showOfflineFormValue = true;
-    helpCenterEmbedValue = false;
-    submitTicketEmbedValue = false;
-    chatEmbedValue = false;
-    zopimChatEmbedValue = false;
-    talkEmbedValue = false;
-    talkEmbeddableConfigEnabledValue = false;
-    agentAvailabilityValue = false;
-    activeTicketFormValue = null;
-    ticketFormsValue = [];
 
     initMockRegistry({
       './base/base-selectors': {
@@ -52,7 +55,8 @@ describe('selectors', () => {
         getSettingsChatSuppress: () => settingsChatSuppressValue
       },
       './chat/chat-selectors': {
-        getShowOfflineChat: () => showOfflineFormValue
+        getShowOfflineChat: () => showOfflineFormValue,
+        getOfflineFormEnabled: () => offlineFormEnabledValue
       },
       './zopimChat/zopimChat-selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue
@@ -78,6 +82,179 @@ describe('selectors', () => {
     getTalkEnabled = selectors.getTalkEnabled;
     getTalkAvailable = selectors.getTalkAvailable;
     getShowTicketFormsBackButton = selectors.getShowTicketFormsBackButton;
+    getChatOfflineAvailable = selectors.getChatOfflineAvailable;
+  });
+
+  describe('getChatOfflineAvailable', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getChatOfflineAvailable();
+    });
+
+    describe('chat enabled status', () => {
+      beforeAll(() => {
+        showOfflineFormValue = true;
+        zopimChatOnlineValue = false;
+        chatEmbedValue = true;
+        offlineFormEnabledValue = true;
+        submitTicketEmbedValue = false;
+      });
+
+      describe('when chat enabled is true', () => {
+        beforeAll(() => {
+          zopimChatEmbedValue = true;
+          settingsChatSuppressValue = false;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when chat enabled is false', () => {
+        beforeAll(() => {
+          zopimChatEmbedValue = false;
+          chatEmbedValue = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('chat online status', () => {
+      beforeAll(() => {
+        settingsChatSuppressValue = false;
+        chatEmbedValue = true;
+        offlineFormEnabledValue = true;
+        submitTicketEmbedValue = false;
+      });
+
+      describe('when chat online is true', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = true;
+          showOfflineFormValue = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('when chat online is false', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = false;
+          showOfflineFormValue = true;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('chat new chat status', () => {
+      beforeAll(() => {
+        showOfflineFormValue = true;
+        zopimChatOnlineValue = false;
+        settingsChatSuppressValue = false;
+        zopimChatEmbedValue = true;
+        offlineFormEnabledValue = true;
+        submitTicketEmbedValue = false;
+      });
+
+      describe('when new chat is true', () => {
+        beforeAll(() => {
+          chatEmbedValue = true;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when new chat is false', () => {
+        beforeAll(() => {
+          chatEmbedValue = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('chat offline form status', () => {
+      beforeAll(() => {
+        showOfflineFormValue = true;
+        zopimChatOnlineValue = false;
+        chatEmbedValue = true;
+        settingsChatSuppressValue = false;
+        submitTicketEmbedValue = false;
+      });
+
+      describe('when chat offline form enabled is true', () => {
+        beforeAll(() => {
+          offlineFormEnabledValue = true;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when chat offline form enabled is false', () => {
+        beforeAll(() => {
+          offlineFormEnabledValue = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('chat submit ticket embed status', () => {
+      beforeAll(() => {
+        showOfflineFormValue = true;
+        zopimChatOnlineValue = false;
+        chatEmbedValue = true;
+        settingsChatSuppressValue = false;
+        offlineFormEnabledValue = true;
+      });
+
+      describe('when submit ticket enabled is true', () => {
+        beforeAll(() => {
+          submitTicketEmbedValue = true;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('when submit ticket enabled is false', () => {
+        beforeAll(() => {
+          submitTicketEmbedValue = false;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+    });
   });
 
   describe('getShowTalkBackButton', () => {
@@ -150,6 +327,8 @@ describe('selectors', () => {
 
     describe('when neither zopimChat or chat are online', () => {
       beforeEach(() => {
+        zopimChatOnlineValue = false;
+        showOfflineFormValue = true;
         result = getChatOnline();
       });
 
@@ -200,6 +379,10 @@ describe('selectors', () => {
     });
 
     describe('when chat is not suppressed', () => {
+      beforeEach(() => {
+        settingsChatSuppressValue = false;
+      });
+
       describe('when zopimChat embed exists', () => {
         beforeEach(() => {
           zopimChatEmbedValue = true;
@@ -226,6 +409,8 @@ describe('selectors', () => {
 
       describe('when neither chat or zopimChat embed exists', () => {
         beforeEach(() => {
+          chatEmbedValue = false;
+          zopimChatEmbedValue = false;
           result = getChatEnabled();
         });
 
@@ -253,10 +438,17 @@ describe('selectors', () => {
     });
 
     describe('when chat is not suppressed', () => {
+      beforeEach(() => {
+        settingsChatSuppressValue = false;
+      });
+
       describe('when zopimChat embed exists', () => {
+        beforeEach(() => {
+          zopimChatEmbedValue = true;
+        });
+
         describe('when zopimChat is online', () => {
           beforeEach(() => {
-            zopimChatEmbedValue = true;
             zopimChatOnlineValue = true;
             result = getChatAvailable();
           });
@@ -269,7 +461,8 @@ describe('selectors', () => {
 
         describe('when zopimChat is offline', () => {
           beforeEach(() => {
-            zopimChatEmbedValue = true;
+            zopimChatOnlineValue = false;
+            showOfflineFormValue = true;
             result = getChatAvailable();
           });
 
@@ -281,9 +474,12 @@ describe('selectors', () => {
       });
 
       describe('when chat embed exists', () => {
+        beforeEach(() => {
+          chatEmbedValue = true;
+        });
+
         describe('when showOfflineForm is false', () => {
           beforeEach(() => {
-            chatEmbedValue = true;
             showOfflineFormValue = false;
             result = getChatAvailable();
           });
@@ -296,7 +492,8 @@ describe('selectors', () => {
 
         describe('when chat is offline', () => {
           beforeEach(() => {
-            chatEmbedValue = true;
+            zopimChatOnlineValue = false;
+            showOfflineFormValue = true;
             result = getChatAvailable();
           });
 
@@ -309,6 +506,8 @@ describe('selectors', () => {
 
       describe('when neither chat or zopimChat embed exists', () => {
         beforeEach(() => {
+          chatEmbedValue = false;
+          zopimChatEmbedValue = false;
           result = getChatEnabled();
         });
 
@@ -321,33 +520,37 @@ describe('selectors', () => {
   });
 
   describe('getTalkEnabled', () => {
-    describe('when embeddableConfigEnabled and talkEmbed are true', () => {
-      let result;
-
-      beforeEach(() => {
-        talkEmbeddableConfigEnabledValue = true;
-        talkEmbedValue = true;
-
-        result = getTalkEnabled();
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toBe(true);
-      });
-    });
-
-    describe('when embeddableConfigEnabled is false', () => {
-      let result;
-
+    describe('when talkEmbed is true', () => {
       beforeEach(() => {
         talkEmbedValue = true;
-        result = getTalkEnabled();
       });
 
-      it('returns false', () => {
-        expect(result)
-          .toBe(false);
+      describe('when embeddableConfigEnabled is true', () => {
+        let result;
+
+        beforeEach(() => {
+          talkEmbeddableConfigEnabledValue = true;
+          result = getTalkEnabled();
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toBe(true);
+        });
+      });
+
+      describe('when embeddableConfigEnabled is false', () => {
+        let result;
+
+        beforeEach(() => {
+          talkEmbeddableConfigEnabledValue = false;
+          result = getTalkEnabled();
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toBe(false);
+        });
       });
     });
 
@@ -355,6 +558,7 @@ describe('selectors', () => {
       let result;
 
       beforeEach(() => {
+        talkEmbedValue = false;
         talkEmbeddableConfigEnabledValue = true;
         result = getTalkEnabled();
       });
@@ -386,6 +590,7 @@ describe('selectors', () => {
 
     describe('when talk is not available', () => {
       beforeEach(() => {
+        talkEmbedValue = false;
         agentAvailabilityValue = true;
         result = getTalkAvailable();
       });
@@ -400,6 +605,7 @@ describe('selectors', () => {
       beforeEach(() => {
         talkEmbeddableConfigEnabledValue = true;
         talkEmbedValue = true;
+        agentAvailabilityValue = false;
         result = getTalkAvailable();
       });
 

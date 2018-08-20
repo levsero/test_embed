@@ -304,10 +304,24 @@ describe('ChannelChoiceMenu component', () => {
       });
     });
 
-    describe('when chatAvailable is false', () => {
+    describe('when chatOfflineAvailable is true', () => {
       beforeAll(() => {
         componentProps = {
-          chatAvailable: false
+          chatOfflineAvailable: true
+        };
+      });
+
+      it('returns the expected string', () => {
+        expect(result)
+          .toEqual('embeddable_framework.channelChoice.button.label.no_available_agents_offline_form');
+      });
+    });
+
+    describe('when chatAvailable and chatOfflineAvailable are false', () => {
+      beforeAll(() => {
+        componentProps = {
+          chatAvailable: false,
+          chatOfflineAvailable: false
         };
       });
 
@@ -410,10 +424,29 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
 
-        describe('when chatAvailable is false', () => {
+        describe('when chatOfflineAvailable is true', () => {
           beforeAll(() => {
             componentProps = {
-              chatAvailable: false
+              chatOfflineAvailable: true
+            };
+          });
+
+          it('has btn class', () => {
+            expect(children.props.className)
+              .toContain('btnClass');
+          });
+
+          it('has btnEnabled class', () => {
+            expect(children.props.className)
+              .toContain('btnEnabledClass');
+          });
+        });
+
+        describe('when chatAvailable and chatOfflineAvailable are false', () => {
+          beforeAll(() => {
+            componentProps = {
+              chatAvailable: false,
+              chatOfflineAvailable: false
             };
           });
 
@@ -439,9 +472,20 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
 
-        describe('when chatAvailable is false', () => {
+        describe('when chatOfflineAvailable is true', () => {
           beforeAll(() => {
-            componentProps = { chatAvailable: false };
+            componentProps = { chatOfflineAvailable: true };
+          });
+
+          it('does not have chatBtnDisabled class', () => {
+            expect(children.props.className)
+              .not.toContain('chatBtnDisabledClass');
+          });
+        });
+
+        describe('when chatAvailable and chatOfflineAvaiable are false', () => {
+          beforeAll(() => {
+            componentProps = { chatAvailable: false, chatOfflineAvaiable: false };
           });
 
           it('has chatBtnDisabled class', () => {
@@ -470,10 +514,29 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
 
-        describe('when chatAvailable is false', () => {
+        describe('when chatOfflineAvailable is true', () => {
           beforeAll(() => {
             componentProps = {
-              chatAvailable: false
+              chatOfflineAvailable: true
+            };
+          });
+
+          it('has newIcon class', () => {
+            expect(children.props.iconClasses)
+              .toContain('newIconClass');
+          });
+
+          it('does not have newIconDisabled class', () => {
+            expect(children.props.iconClasses)
+              .not.toContain('newIconDisabledClass');
+          });
+        });
+
+        describe('when chatAvailable and chatOfflineAvailable are false', () => {
+          beforeAll(() => {
+            componentProps = {
+              chatAvailable: false,
+              chatOfflineAvailable: false
             };
           });
 
