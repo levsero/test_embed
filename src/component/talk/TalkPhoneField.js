@@ -22,6 +22,10 @@ const StyledInput = styled(Input)`
   align-self: center !important;
 `;
 
+const StyledContainer = styled.div`
+ margin-bottom: ${20/FONT_SIZE}rem !important;
+`;
+
 export class TalkPhoneField extends ControlledComponent {
   static propTypes = {
     supportedCountries: PropTypes.array.isRequired,
@@ -160,7 +164,7 @@ export class TalkPhoneField extends ControlledComponent {
     const error = this.renderErrorMessage();
 
     return (
-      <div>
+      <StyledContainer>
         <ThemeProvider
           rtl={this.props.rtl}
           document={this.props.getFrameContentDocument()}
@@ -198,7 +202,7 @@ export class TalkPhoneField extends ControlledComponent {
           </FieldContainer>
         </ThemeProvider>
         {error}
-      </div>
+      </StyledContainer>
     );
   }
 }

@@ -180,12 +180,14 @@ const talkDropdownOverrides = {
       }
 
       height: ${38/FONT_SIZE}rem !important;
+      background-size: ${14/FONT_SIZE}rem !important;
     }
     :focus {
       box-shadow: none !important;
     }
   `,
   'select.item': selectOverrides,
+  'select.label': mobileOverrides
 };
 
 function getGardenOverrides() {
