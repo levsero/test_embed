@@ -49,6 +49,7 @@ class Chat extends Component {
     return (
       <ChatOffline
         ref={(el) => { this.offline = el; }}
+        getFrameContentDocument={this.props.getFrameContentDocument}
         updateFrameSize={this.props.updateFrameSize}
         handleCloseClick={this.props.handleCloseClick}
         isMobile={this.props.isMobile}
