@@ -6,8 +6,7 @@ describe('renderer', () => {
     mockWebWidget,
     mockWebWidgetFactory,
     mockUpdateEmbedAccessible,
-    mockUpdateArturos,
-    loadSoundSpy;
+    mockUpdateArturos;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
@@ -47,7 +46,6 @@ describe('renderer', () => {
     mockChat = embedMocker('mockChat');
     mockWebWidget = embedMocker('mockWebWidget');
     mockWebWidgetFactory = () => mockWebWidget;
-    loadSoundSpy = jasmine.createSpy('loadSound');
 
     mockRegistry = initMockRegistry({
       'embed/launcher/launcher': {
@@ -72,9 +70,6 @@ describe('renderer', () => {
         }
       },
       'lodash': _,
-      'service/audio': {
-        audio: { load: loadSoundSpy }
-      },
       'service/logging': {
         logging: jasmine.createSpyObj('logging', ['init', 'error'])
       },
@@ -414,40 +409,6 @@ describe('renderer', () => {
       it('should call i18n.setLocale with the correct locale', () => {
         expect(mocki18n.setLocale)
           .toHaveBeenCalledWith('en');
-      });
-    });
-
-    describe('loading sounds', () => {
-      describe('when newChat is true', () => {
-        beforeEach(() => {
-          const config = {
-            newChat: true,
-            embeds: { zopimChat: { embed: 'chat' }}
-          };
-
-          renderer.init(config);
-        });
-
-        it('calls loadSound with incoming message sound', () => {
-          expect(loadSoundSpy)
-            .toHaveBeenCalledWith('incoming_message', 'https://v2.zopim.com/widget/sounds/triad_gbd');
-        });
-      });
-
-      describe('when newChat is false', () => {
-        beforeEach(() => {
-          const config = {
-            newChat: false,
-            embeds: { zopimChat: { embed: 'chat' }}
-          };
-
-          renderer.init(config);
-        });
-
-        it('does not call loadSound with incoming message sound', () => {
-          expect(loadSoundSpy)
-            .not.toHaveBeenCalled();
-        });
       });
     });
   });

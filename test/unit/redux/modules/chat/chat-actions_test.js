@@ -32,6 +32,7 @@ let actions,
   mockOn = jasmine.createSpy('on'),
   mockIsLoggingOut,
   showRatingScreen = false,
+  loadSoundSpy = jasmine.createSpy('loadSound'),
   getActiveAgentsSpy = jasmine.createSpy('getActiveAgents'),
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting),
@@ -115,7 +116,10 @@ describe('chat redux actions', () => {
             broadcast: broadcastSpy
           }
         }
-      }
+      },
+      'service/audio': {
+        audio: { load: loadSoundSpy }
+      },
     });
 
     actions = requireUncached(actionsPath);
@@ -684,13 +688,50 @@ describe('chat redux actions', () => {
   describe('getAccountSettings', () => {
     let updateAccountSettingsAction;
 
+    beforeEach(() => {
+      loadSoundSpy.calls.reset();
+    });
+
+    describe('when user sound settings are on', () => {
+      beforeEach(() => {
+        mockAccountSettings = {
+          forms: { pre_chat_form: { required: false } },
+          chat_button: { hide_when_offline: false },
+          sound: { disabled: false }
+        };
+        mockStore.dispatch(actions.getAccountSettings());
+      });
+
+      it('loads the audio', () => {
+        expect(loadSoundSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when user sound settings are off', () => {
+      beforeEach(() => {
+        mockAccountSettings = {
+          forms: { pre_chat_form: { required: false } },
+          chat_button: { hide_when_offline: false },
+          sound: { disabled: true }
+        };
+        mockStore.dispatch(actions.getAccountSettings());
+      });
+
+      it('does not load the audio', () => {
+        expect(loadSoundSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
     describe('when the prechat form is required', () => {
       let updateScreenAction;
 
       beforeEach(() => {
         mockAccountSettings = {
           forms: { pre_chat_form: { required: true } },
-          chat_button: { hide_when_offline: false }
+          chat_button: { hide_when_offline: false },
+          sound: { disabled: true }
         };
         mockStore.dispatch(actions.getAccountSettings());
         updateScreenAction = mockStore.getActions()[0];
@@ -713,7 +754,8 @@ describe('chat redux actions', () => {
         beforeEach(() => {
           mockAccountSettings = {
             forms: { pre_chat_form: { required: true } },
-            chat_button: { hide_when_offline: false }
+            chat_button: { hide_when_offline: false },
+            sound: { disabled: true }
           };
           mockStore.clearActions();
           mockIsChatting = true;
@@ -742,7 +784,8 @@ describe('chat redux actions', () => {
       beforeEach(() => {
         mockAccountSettings = {
           forms: { pre_chat_form: { required: false } },
-          chat_button: { hide_when_offline: false }
+          chat_button: { hide_when_offline: false },
+          sound: { disabled: true }
         };
         mockStore.dispatch(actions.getAccountSettings());
         updateAccountSettingsAction = mockStore.getActions()[0];
@@ -763,7 +806,8 @@ describe('chat redux actions', () => {
       beforeEach(() => {
         mockAccountSettings = {
           forms: { pre_chat_form: { required: false } },
-          chat_button: { hide_when_offline: false }
+          chat_button: { hide_when_offline: false },
+          sound: { disabled: true }
         };
       });
 
