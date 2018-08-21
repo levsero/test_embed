@@ -9,7 +9,8 @@ export class ButtonNav extends Component {
     label: PropTypes.element.isRequired,
     onClick: PropTypes.func,
     position: PropTypes.string,
-    rtl: PropTypes.bool
+    rtl: PropTypes.bool,
+    'aria-label': PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -46,11 +47,12 @@ export class ButtonNav extends Component {
 
     return (
       <div className={styles.container}>
-        <div
+        <button
           onClick={this.props.onClick}
+          aria-label={this.props['aria-label']}
           className={buttonClasses}>
           {this.props.label}
-        </div>
+        </button>
       </div>
     );
   }

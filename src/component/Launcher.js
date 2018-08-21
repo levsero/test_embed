@@ -6,7 +6,6 @@ import { locals as styles } from './Launcher.scss';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-import { keyCodes } from 'utility/keyboard';
 import { getChatAvailable, getTalkAvailable } from 'src/redux/modules/selectors';
 import { settings } from 'service/settings';
 import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
@@ -45,28 +44,6 @@ class Launcher extends Component {
     super(props, context);
 
     this.state = { unreadMessages: 0 };
-  }
-
-  componentDidMount() {
-    const { getFrameContentDocument } = this.props;
-
-    if (getFrameContentDocument) {
-      getFrameContentDocument().addEventListener('keypress', this.handleKeyPress);
-    }
-  }
-
-  componentWillUnmount() {
-    const { getFrameContentDocument } = this.props;
-
-    if (getFrameContentDocument) {
-      getFrameContentDocument().removeEventListener('keypress', this.handleKeyPress);
-    }
-  }
-
-  handleKeyPress = (e) => {
-    if (e.keyCode === keyCodes.ENTER || e.keyCode === keyCodes.SPACE) {
-      this.props.onClick(e);
-    }
   }
 
   setUnreadMessages = (unreadMessages) => {
@@ -188,14 +165,14 @@ class Launcher extends Component {
     }
 
     return (
-      <div className={`${styles.wrapper} ${baseMobileClasses}`}
+      <button className={`${styles.wrapper} ${baseMobileClasses}`}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <Icon
           type={this.getActiveEmbedIconType()}
           className={`${styles.icon} ${iconMobileClasses}`} />
         <span className={`${styles.label} ${labelMobileClasses}`}>{this.getActiveEmbedLabel()}</span>
-      </div>
+      </button>
     );
   }
 }

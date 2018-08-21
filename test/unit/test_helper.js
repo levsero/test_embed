@@ -40,6 +40,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const TestUtils = require('react-dom/test-utils');
 const ShallowRenderer = require('react-test-renderer/shallow');
+const TestRenderer = require('react-test-renderer');
 
 global.React = React;
 global.Component = React.Component;
@@ -96,6 +97,10 @@ global.shallowRender = (component) => {
 
   renderer.render(component);
   return renderer.getRenderOutput();
+};
+
+global.testRender = (component, nodeMock = {}) => {
+  return TestRenderer.create(component, nodeMock);
 };
 
 global.instanceRender = (component) => {

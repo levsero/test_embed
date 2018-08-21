@@ -151,8 +151,8 @@ const getButtonOverrides = (colorVariables, themeColor) => {
       border-color: ${themeColor} !important;
 
       &:hover, &:focus, &:active {
-        background-color: ${props => (props.primary) ? colorVariables.buttonHighlightColorStr : themeColor} !important;
-        color: ${colorVariables.buttonTextColorStr} !important;
+        background-color: ${props => !props.link && ((props.primary) ? colorVariables.buttonHighlightColorStr : themeColor)} !important;
+        color: ${props => !props.link && colorVariables.buttonTextColorStr} !important;
       }
     }
   `;

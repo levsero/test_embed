@@ -43,7 +43,7 @@ export class ZendeskLogo extends Component {
     ].join('');
 
     return (
-      <a href={logoUrl} target='_blank' className={logoClasses}>
+      <a href={logoUrl} target='_blank' className={logoClasses} tabIndex='-1'>
         <Icon type='Icon--zendesk' className={styles.icon} />
         <span className={styles.hidden}>zendesk</span>
       </a>

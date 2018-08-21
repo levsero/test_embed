@@ -25,6 +25,7 @@
     "shallow": true,
     "instanceRender": true,
     "getRenderer": true,
+    "testRender": true,
     "mockObjectDifference": true,
     "actionSpy": true
   },

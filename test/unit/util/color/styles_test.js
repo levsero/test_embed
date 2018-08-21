@@ -16,6 +16,9 @@ describe('styles', () => {
     mockery.enable();
 
     initMockRegistry({
+      'constants/shared': {
+        FONT_SIZE: 14
+      },
       'service/settings': {
         settings: {
           get: (name) => _.get(mockSettingsValue, name, null)
@@ -87,6 +90,9 @@ describe('styles', () => {
             color: #227C7B !important;
             fill: #227C7B !important;
           }
+        }
+        .u-userLauncherColor:not([disabled]):focus {
+          box-shadow: inset 0 0 0 0.21428571428571427rem rgba(34, 124, 123, 0.4) !important;
         }
         .u-launcherColor:not([disabled]):hover {
           background-color: #35F8F4 !important;
@@ -219,6 +225,9 @@ describe('styles', () => {
             color: white !important;
             fill: white !important;
           }
+        }
+        .u-userLauncherColor:not([disabled]):focus {
+          box-shadow: inset 0 0 0 0.21428571428571427rem rgba(255, 255, 255, 0.4) !important;
         }
         .u-launcherColor:not([disabled]):hover {
           background-color: #253241 !important;
@@ -618,6 +627,9 @@ describe('styles', () => {
           color: #6E6E6E !important;
           fill: #6E6E6E !important;
         }
+      }
+      .u-userLauncherColor:not([disabled]):focus {
+        box-shadow: inset 0 0 0 0.21428571428571427rem rgba(110, 110, 110, 0.4) !important;
       }
       .u-launcherColor:not([disabled]):hover {
         background-color: #E6E6E6 !important;

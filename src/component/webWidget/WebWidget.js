@@ -436,6 +436,7 @@ class WebWidget extends Component {
 
   renderHelpCenter = () => {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return;
+    if (this.props.activeEmbed !== helpCenter) return null;
 
     const { helpCenterConfig, submitTicketAvailable, chatAvailable, talkAvailable } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
@@ -475,6 +476,7 @@ class WebWidget extends Component {
 
   renderSubmitTicket = () => {
     if (!this.props.submitTicketAvailable) return;
+    if (this.props.activeEmbed !== submitTicket) return null;
 
     const { submitTicketConfig } = this.props;
     const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : '';

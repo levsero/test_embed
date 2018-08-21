@@ -144,8 +144,8 @@ describe('WebWidget component', () => {
       expect(webWidget.renderHelpCenter().props.className)
         .not.toContain('u-isHidden');
 
-      expect(webWidget.renderSubmitTicket().props.className)
-        .toContain('u-isHidden');
+      expect(webWidget.renderSubmitTicket())
+        .toBeNull();
 
       expect(webWidget.renderChat())
         .toBeFalsy();
@@ -156,27 +156,16 @@ describe('WebWidget component', () => {
         .toBeFalsy();
     });
 
-    describe('when ipm is activated but help center is not available', () => {
-      beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' helpCenterAvailable={false} ipmHelpCenterAvailable={true} />);
-      });
-
-      it('renders help center', () => {
-        expect(webWidget.renderHelpCenter())
-          .not.toBeFalsy();
-      });
-    });
-
     describe('when component is set to submitTicket', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' helpCenterAvailable={true} />);
       });
 
       it('shows submit ticket component', () => {
-        expect(webWidget.renderHelpCenter().props.className)
-          .toContain('u-isHidden');
+        expect(webWidget.renderHelpCenter())
+          .toBe(null);
 
-        expect(webWidget.renderSubmitTicket().props.className)
+        expect(webWidget.renderSubmitTicket())
           .not.toContain('u-isHidden');
 
         expect(webWidget.renderChat())
@@ -195,11 +184,11 @@ describe('WebWidget component', () => {
       });
 
       it('shows chat component', () => {
-        expect(webWidget.renderHelpCenter().props.className)
-          .toContain('u-isHidden');
+        expect(webWidget.renderHelpCenter())
+          .toBe(null);
 
-        expect(webWidget.renderSubmitTicket().props.className)
-          .toContain('u-isHidden');
+        expect(webWidget.renderSubmitTicket())
+          .toBe(null);
 
         expect(webWidget.renderChat())
           .toBeTruthy();

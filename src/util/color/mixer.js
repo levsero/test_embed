@@ -13,6 +13,10 @@ export class ColorMixer {
     );
   };
 
+  alphaColor = (color, alpha) => {
+    return generateColor(color).alpha(alpha);
+  };
+
   buttonColorFrom = (color) => {
     return this._getContrastColor(
       color,
