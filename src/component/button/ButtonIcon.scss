@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-flex u-flexAlignItemsCenter u-isDisabled from global;
+  composes: u-flex u-flexAlignItemsCenter from global;
 
   color: $zd-color-grey-800;
   padding: #{10/$font-size}rem;

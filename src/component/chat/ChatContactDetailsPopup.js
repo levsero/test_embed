@@ -12,7 +12,7 @@ import { ChatPopup } from 'component/chat/ChatPopup';
 import { Icon } from 'component/Icon';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ICONS, EMAIL_PATTERN } from 'constants/shared';
-import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
+import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
 
@@ -137,9 +137,7 @@ export class ChatContactDetailsPopup extends Component {
 
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.name'), false)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.name'), false)}
         <Input
           value={value}
           name='name'
@@ -160,9 +158,7 @@ export class ChatContactDetailsPopup extends Component {
     /* eslint-disable max-len */
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.email'), false)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), false)}
         <Input
           value={this.state.formState.email}
           disabled={this.props.isAuthenticated}

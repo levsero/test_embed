@@ -11,7 +11,7 @@ import { Button } from '@zendeskgarden/react-buttons';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { getCustomFields, shouldRenderErrorMessage, renderLabelText } from 'utility/fields';
+import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/fields';
 import { TextField, Textarea, Label, Input, Message } from '@zendeskgarden/react-textfields';
 import { EMAIL_PATTERN } from 'constants/shared';
 
@@ -322,9 +322,7 @@ export class SubmitTicketForm extends Component {
 
     const subjectField = (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.subject.label'), false)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.submitTicket.field.subject.label'), false)}
         <Input
           key={name}
           name={name}
@@ -351,9 +349,7 @@ export class SubmitTicketForm extends Component {
     /* eslint-disable max-len */
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.form.field.email.label'), true)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.form.field.email.label'), true)}
         <Input
           validation={error ? 'error': ''}
           key={name}
@@ -377,9 +373,7 @@ export class SubmitTicketForm extends Component {
 
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.name.label'), false)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.submitTicket.field.name.label'), false)}
         <Input
           key={name}
           name={name}
@@ -400,9 +394,7 @@ export class SubmitTicketForm extends Component {
 
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.submitTicket.field.description.label'), true)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.submitTicket.field.description.label'), true)}
         <Textarea
           key={name}
           name={name}

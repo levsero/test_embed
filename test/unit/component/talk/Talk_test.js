@@ -7,7 +7,8 @@ describe('Talk component', () => {
     ZendeskLogo = noopReactComponent(),
     Message = noopReactComponent(),
     TextField = noopReactComponent(),
-    renderLabelTextSpy = jasmine.createSpy('renderLabelText'),
+    renderLabelSpy = jasmine.createSpy('renderLabel'),
+    getLabelTextSpy = jasmine.createSpy('getLabelText'),
     shouldRenderErrorMessageSpy = jasmine.createSpy('shouldRenderErrorMessage');
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
@@ -69,8 +70,9 @@ describe('Talk component', () => {
         Message
       },
       'src/util/fields': {
-        renderLabelText: renderLabelTextSpy,
-        shouldRenderErrorMessage: shouldRenderErrorMessageSpy
+        renderLabel: renderLabelSpy,
+        shouldRenderErrorMessage: shouldRenderErrorMessageSpy,
+        getLabelText: getLabelTextSpy
       }
     });
 

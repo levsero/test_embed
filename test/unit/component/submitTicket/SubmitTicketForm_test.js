@@ -7,7 +7,8 @@ describe('SubmitTicketForm component', () => {
     mockAttachmentsListClear,
     scrollToBottomSpy,
     mockFormState,
-    mockShouldRenderErrorMessage;
+    mockShouldRenderErrorMessage,
+    renderLabelSpy = jasmine.createSpy('renderLabel').and.callThrough(_.identity);
   const submitTicketFormPath = buildSrcPath('component/submitTicket/SubmitTicketForm');
   const buttonPath = buildSrcPath('component/button/Button');
   const formParams = {
@@ -19,6 +20,7 @@ describe('SubmitTicketForm component', () => {
     mockFormState = state;
   };
   const Message = noopReactComponent();
+  const Label = noopReactComponent();
 
   beforeEach(() => {
     onSubmit = jasmine.createSpy();
@@ -47,7 +49,7 @@ describe('SubmitTicketForm component', () => {
       '@zendeskgarden/react-textfields': {
         TextField: noopReactComponent(),
         Textarea: noopReactComponent(),
-        Label: noopReactComponent(),
+        Label,
         Input: noopReactComponent(),
         Message
       },
@@ -125,7 +127,7 @@ describe('SubmitTicketForm component', () => {
         }
       },
       'utility/fields': {
-        renderLabelText: (string) => string,
+        renderLabel: renderLabelSpy,
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
         getCustomFields: (fields) => {
           const generateField = (field) => {
@@ -170,6 +172,7 @@ describe('SubmitTicketForm component', () => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
+    renderLabelSpy.calls.reset();
   });
 
   it('displays form title', () => {
@@ -306,8 +309,7 @@ describe('SubmitTicketForm component', () => {
     let result;
 
     describe('when the subject field is enabled', () => {
-      let labelElement,
-        inputElement;
+      let inputElement;
 
       beforeEach(() => {
         const submitTicketForm = instanceRender(
@@ -315,12 +317,12 @@ describe('SubmitTicketForm component', () => {
         );
 
         result = submitTicketForm.renderSubjectField();
-        [labelElement, inputElement] = result.props.children;
+        inputElement = result.props.children[1];
       });
 
       it('renders the subject field with correct label', () => {
-        expect(labelElement.props.children)
-          .toBe('embeddable_framework.submitTicket.field.subject.label');
+        expect(renderLabelSpy)
+          .toHaveBeenCalledWith(Label, 'embeddable_framework.submitTicket.field.subject.label', false);
       });
 
       it('renders the subject field with correct name', () => {
@@ -420,17 +422,13 @@ describe('SubmitTicketForm component', () => {
     });
 
     it('renders the name field', () => {
-      const nameField = formElements[1].firstChild; // first field in form
-
-      expect(nameField.innerHTML)
-        .toBe('embeddable_framework.submitTicket.field.name.label');
+      expect(renderLabelSpy)
+        .toHaveBeenCalledWith(Label, 'embeddable_framework.submitTicket.field.name.label', false);
     });
 
     it('renders the email field', () => {
-      const emailField = formElements[2].firstChild; // second field in form
-
-      expect(emailField.innerHTML)
-        .toBe('embeddable_framework.form.field.email.label');
+      expect(renderLabelSpy)
+        .toHaveBeenCalledWith(Label, 'embeddable_framework.form.field.email.label', true);
     });
 
     it('renders the extra fields defined in the ticket form', () => {

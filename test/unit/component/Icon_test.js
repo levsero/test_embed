@@ -2,7 +2,8 @@ describe('Icon components', function() {
   let Icon,
     IconButton,
     mockRTLValue,
-    ICONS;
+    ICONS,
+    mockIsMobile = false;
 
   const iconPath = buildSrcPath('component/Icon');
   const sharedConstantsPath = buildSrcPath('constants/shared');
@@ -13,7 +14,7 @@ describe('Icon components', function() {
     }
   }
 
-  beforeEach(function() {
+  beforeEach(() => {
     mockery.enable();
 
     mockRTLValue = false;
@@ -68,12 +69,14 @@ describe('Icon components', function() {
       '@zendeskgarden/svg-icons/src/26/file-spreadsheet.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/26/file-zip.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/26/file.svg': DummyIcon,
+      '@zendeskgarden/svg-icons/src/14/previous.svg': DummyIcon,
       'icons/widget-icon_success_contactForm.svg': DummyIcon,
       'icons/widget-icon_success_talk.svg': DummyIcon,
       'icons/widget-icon_talk.svg': DummyIcon,
+      '@zendeskgarden/svg-icons/src/16/x-stroke.svg': DummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
-          return false;
+          return mockIsMobile;
         }
       },
       'service/i18n': {
@@ -108,25 +111,25 @@ describe('Icon components', function() {
 
   describe('Icon', () => {
     it('should not have mobile classes when isMobileBrowser is false', function() {
-      const icon = shallowRender(<Icon type="Icon--zendesk" />);
+      const icon = domRender(<Icon type="Icon--zendesk" />);
 
       expect(icon.props.className)
         .not.toMatch('is-mobile');
     });
 
-    it('should have mobile classes when isMobileBrowser is true', function() {
-      mockery.registerMock('utility/devices', {
-        isMobileBrowser: function isMobileBrowser() {
-          return true;
-        }
+    describe('when mobile is true', () => {
+      let result;
+
+      beforeEach(() => {
+        mockIsMobile = true;
+
+        result = domRender(<Icon type="Icon--zendesk" isMobile={mockIsMobile} />).render();
       });
 
-      Icon = requireUncached(iconPath).Icon;
-
-      const icon = shallowRender(<Icon type="Icon--zendesk" />);
-
-      expect(icon.props.className)
-        .toMatch('is-mobile');
+      it('should have mobile classes', () => {
+        expect(result.props.className)
+          .toMatch('is-mobile');
+      });
     });
   });
 

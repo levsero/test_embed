@@ -23,6 +23,7 @@
 
 .dropzoneChildLabel {
   composes: u-inlineBlock u-alignTop from global;
+  color: $zd-color-grey-600;
 }
 
 .icon {

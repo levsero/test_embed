@@ -1,8 +1,8 @@
 describe('fields', () => {
   let getCustomFields,
     shouldRenderErrorMessage,
-    renderLabelText,
     getDefaultFieldValues,
+    renderLabel,
     mockLocaleIdValue;
 
   const translateSpy = jasmine.createSpy('t').and.callFake(_.identity);
@@ -145,6 +145,9 @@ describe('fields', () => {
         Hint: noopReactComponent(),
         Message
       },
+      '@zendeskgarden/react-select': {
+        Label: noopReactComponent()
+      },
       'component/field/NestedDropdown': {
         NestedDropdown: noopReactComponent()
       },
@@ -169,8 +172,8 @@ describe('fields', () => {
 
     getCustomFields = fields.getCustomFields;
     shouldRenderErrorMessage = fields.shouldRenderErrorMessage;
-    renderLabelText = fields.renderLabelText;
     getDefaultFieldValues = fields.getDefaultFieldValues;
+    renderLabel = fields.renderLabel;
   });
 
   afterEach(() => {
@@ -233,8 +236,8 @@ describe('fields', () => {
       it('should return the field', () => {
         const labelElement = customFields.allFields[0].props.children[0];
 
-        expect(labelElement.props.children)
-          .toBe('What is your query about?');
+        expect(labelElement.props.children.props.children)
+          .toContain('What is your query about?');
       });
     });
 
@@ -280,8 +283,8 @@ describe('fields', () => {
       it('should return the field', () => {
         const labelElement = customFields.allFields[0].props.children[0];
 
-        expect(labelElement.props.children)
-          .toBe('What is your query about?');
+        expect(labelElement.props.children.props.children)
+          .toContain('What is your query about?');
       });
     });
 
@@ -297,8 +300,8 @@ describe('fields', () => {
       it('should return the field', () => {
         const labelElement = customFields.allFields[0].props.children[0];
 
-        expect(labelElement.props.children)
-          .toBe('What is your query about?');
+        expect(labelElement.props.children.props.children)
+          .toContain('What is your query about?');
       });
     });
 
@@ -314,7 +317,7 @@ describe('fields', () => {
         const descriptionElement = customFields.allFields[0].props.children[1];
 
         expect(descriptionElement.props.children)
-          .toBe('this is the description');
+          .toContain('this is the description');
       });
     });
     /* eslint-enable camelcase */
@@ -361,15 +364,15 @@ describe('fields', () => {
         it('should pass through the title', () => {
           const labelElement = customFields.allFields[0].props.children[0];
 
-          expect(labelElement.props.children)
-            .toEqual('Order Details');
+          expect(labelElement.props.children.props.children)
+            .toContain('Order Details');
         });
 
         it('should pass through the `title_in_portal` instead of `title` if it exists', () => {
           const labelElement = customFields.allFields[1].props.children[0];
 
-          expect(labelElement.props.children)
-            .toEqual('What is your query about?');
+          expect(labelElement.props.children.props.children)
+            .toContain('What is your query about?');
         });
       });
 
@@ -515,10 +518,8 @@ describe('fields', () => {
         });
 
         it('has a label', () => {
-          const label = checkboxField.props.children[0];
-
-          expect(label.props.children)
-            .toEqual('Can we call you?');
+          expect(checkboxField.key)
+            .toContain('Can we call you?');
         });
 
         it('has a description', () => {
@@ -661,13 +662,13 @@ describe('fields', () => {
     });
   });
 
-  describe('renderLabelText', () => {
+  describe('renderLabel', () => {
     let result,
       mockLabel,
       mockRequired;
 
     beforeEach(() => {
-      result = renderLabelText(mockLabel, mockRequired);
+      result = renderLabel(noopReactComponent, mockLabel, mockRequired).props.children.props.children;
     });
 
     describe('when field is required', () => {
@@ -678,7 +679,7 @@ describe('fields', () => {
 
       it('returns just the label', () => {
         expect(result)
-          .toEqual('yolo');
+          .toContain('yolo');
       });
     });
 

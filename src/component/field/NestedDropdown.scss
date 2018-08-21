@@ -3,3 +3,10 @@
 .field {
   margin-bottom: $field-margin-bottom !important;
 }
+
+.previous {
+  position: absolute;
+  top: #{13/$font-size}rem;
+  left: #{5/$font-size}rem;
+  color: $zd-color-grey-600;
+}

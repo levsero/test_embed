@@ -1,4 +1,8 @@
-import { zdColorGrey400, zdColorGrey600, zdColorWhite } from '@zendeskgarden/css-variables';
+import {
+  zdColorGrey200,
+  zdColorGrey400,
+  zdColorGrey600,
+  zdColorWhite } from '@zendeskgarden/css-variables';
 import { FONT_SIZE } from 'constants/shared';
 import { css } from 'styled-components';
 import { isMobileBrowser } from 'utility/devices';
@@ -12,6 +16,11 @@ const mobileOverrides = isMobile ? css`
     font-size: ${15/FONT_SIZE}rem !important;
   `
   : '';
+
+const labelOverrides = css`
+  ${mobileOverrides}
+  font-weight: 500 !important;
+`;
 
 const checkboxHintMobileOverrides = isMobile ? css`
     ${mobileOverrides}
@@ -33,38 +42,6 @@ const borderOverrides = isMobile ? css`
   `
   : '';
 
-const checkboxLabelMobileOverrides = isMobile ? css`
-    ${mobileOverrides}
-
-    &:before {
-      width: ${14/FONT_SIZE}rem !important;
-      height: ${14/FONT_SIZE}rem !important;
-      top: ${7/FONT_SIZE}rem !important;
-      margin-top: -${4/FONT_SIZE}rem !important;
-      ${borderOverrides}
-    }
-
-    [dir='ltr'] & {
-      padding-left: ${22/FONT_SIZE}rem !important;
-    }
-
-    [dir='rtl'] & {
-      padding-right: ${22/FONT_SIZE}rem !important;
-    }
-    :focus {
-      box-shadow: 0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;
-    }
-
-    box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-    border-color: ${props => props.focused && `${zdColorGrey600} !important`};
-  `
-  : css`
-    &:before {
-      box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-      border-color: ${props => props.focused && `${zdColorGrey600} !important`};
-    }
-  `;
-
 const itemCheckOverrides = isMobile ? css`
   &:before {
     background-size: ${10/FONT_SIZE}rem !important;
@@ -74,8 +51,12 @@ const itemCheckOverrides = isMobile ? css`
 ` : '';
 
 const selectOverrides = css`
-  :hover, :focus {
+  :focus {
     background-color: ${zdColorGrey400} !important;
+  }
+
+  :hover {
+    background-color: ${zdColorGrey200} !important;
   }
 
   box-shadow: ${props => props.focused && `inset 0 ${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4), inset 0 -${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4) !important`};
@@ -98,7 +79,14 @@ const selectArrowOverrides = css`
   ${arrowOverrides}
 `;
 
-const dropdownOverrides = isMobile ? css`
+const previousSelectArrowOverrides = css`
+  ${selectArrowOverrides}
+  &::before {
+    background: none !important;
+  }
+`;
+
+const dropdownOverrides = isMobileBrowser() ? css`
   ${mobileOverrides}
   max-height: ${300/FONT_SIZE}rem !important;
 ` : '';
@@ -158,6 +146,46 @@ const getButtonOverrides = (colorVariables, themeColor) => {
   `;
 };
 
+const checkboxLabelOverrides = isMobile ? css`
+  ${labelOverrides}
+  &:before {
+    width: ${14/FONT_SIZE}rem !important;
+    height: ${14/FONT_SIZE}rem !important;
+    top: ${7/FONT_SIZE}rem !important;
+    margin-top: -${4/FONT_SIZE}rem !important;
+    ${borderOverrides}
+  }
+
+  [dir='ltr'] & {
+    padding-left: ${22/FONT_SIZE}rem !important;
+  }
+
+  [dir='rtl'] & {
+    padding-right: ${22/FONT_SIZE}rem !important;
+  }
+  :focus {
+    box-shadow: 0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;
+  }
+
+  box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+  border-color: ${props => props.focused && `${zdColorGrey600} !important` };
+`
+  : css`
+  ${labelOverrides}
+
+  :hover:before {
+    border-color: ${zdColorGrey600} !important;
+  }
+
+  &:before {
+    box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`}
+  }
+  :active:before {
+    background-color: rgba(153,153,153, 0.4) !important;
+    border-color: ${zdColorGrey600} !important;
+  }
+`;
+
 const talkDropdownOverrides = {
   'textfields.input': genericOverrides,
   'select.select_view': css`
@@ -196,14 +224,14 @@ function getGardenOverrides() {
     'textfields.text_group': bottomMargin,
     'textfields.textarea': inputOverrides,
     'textfields.input': inputOverrides,
-    'textfields.label': mobileOverrides,
+    'textfields.label': labelOverrides,
     'textfields.message': messageOverrides,
     'select.message': messageOverrides,
     'checkboxes.message': messageOverrides,
     'textfields.hint': mobileOverrides,
     'buttons.button': getButtonOverrides(colorVariables, themeColor),
     'checkboxes.checkbox_view': bottomMargin,
-    'checkboxes.label': checkboxLabelMobileOverrides,
+    'checkboxes.label': checkboxLabelOverrides,
     'checkboxes.hint': checkboxHintMobileOverrides,
     'select.label': mobileOverrides,
     'select.hint': mobileOverrides,
@@ -220,7 +248,7 @@ function getGardenOverrides() {
     'select.dropdown': dropdownOverrides,
     'select.item': selectOverrides,
     'select.next_item': selectArrowOverrides,
-    'select.previous_item': selectArrowOverrides
+    'select.previous_item': previousSelectArrowOverrides
   };
 }
 

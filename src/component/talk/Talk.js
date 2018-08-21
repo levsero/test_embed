@@ -31,7 +31,7 @@ import { getEmbeddableConfig,
   getAverageWaitTimeEnabled,
   getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors';
 import { i18n } from 'service/i18n';
-import { renderLabelText, shouldRenderErrorMessage } from 'src/util/fields';
+import { renderLabel, getLabelText, shouldRenderErrorMessage } from 'src/util/fields';
 
 import { locals as styles } from './Talk.scss';
 
@@ -182,7 +182,7 @@ class Talk extends Component {
     return (
       <TalkPhoneField
         rtl={i18n.isRTL()}
-        label={renderLabelText(phoneLabel, true)}
+        label={getLabelText(phoneLabel, true)}
         required={true}
         onCountrySelect={this.handleCountrySelect}
         libphonenumber={this.props.libphonenumber}
@@ -202,7 +202,7 @@ class Talk extends Component {
 
     return (
       <TextField className={styles.textField}>
-        <Label>{renderLabelText(nameLabel, isRequired)}</Label>
+        {renderLabel(Label, nameLabel, isRequired)}
         <Input
           value={value}
           name='name'
@@ -221,7 +221,7 @@ class Talk extends Component {
 
     return (
       <TextField className={styles.textField}>
-        <Label>{renderLabelText(descriptionLabel, isRequired)}</Label>
+        {renderLabel(Label, descriptionLabel, isRequired)}
         <Textarea
           value={this.props.formState.value}
           rows='4'

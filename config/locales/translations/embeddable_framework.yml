@@ -183,6 +183,12 @@ parts:
       title: "A label that is applied to field labels that are optional. %(label)s is a string for the label of the field and does not need to be translated"
       screenshot: "https://drive.google.com/open?id=1UEw-id8APMxRrgEl-5YwWo6RaeANig_m"
       value: "%(label)s (optional)"
+      obsolete: "2018-08-13"
+  - translation:
+      key: "embeddable_framework.validation.label.new_optional"
+      title: "A label that is applied to field labels that are optional. %(label)s is a string for the label of the field and does not need to be translated"
+      screenshot: "https://drive.google.com/file/d/1rxKRpuKK--cO1UQlI3nBlxwqzjSKBI2a/view?usp=sharing"
+      value: "<strong>%(label)s</strong> (optional)"
 
   # Launcher embed
   - translation:
@@ -683,6 +689,12 @@ parts:
       title: "A title text describing the intent of the following section, it asks if the user would like to rate the prior chat session"
       screenshot: "https://zendesk.box.com/s/v26vtuxkv2uvlr0edh6qxs1aetrttny8"
       value: "Would you like to rate this chat?"
+      obsolete: "2018-08-10"
+  - translation:
+      key: "embeddable_framework.chat.postChat.rating.new_title"
+      title: "A title text describing the intent of the following section, it asks if the user would like to rate the prior chat session"
+      screenshot: "https://drive.google.com/file/d/1V1G9A6M9zgPW04WB5Fnfabfph5_fzWuf/view?usp=sharing"
+      value: "Please rate this chat"
   - translation:
       key: "embeddable_framework.chat.postChat.rating.description"
       title: "A text that describes the intent of the following element. It points the user to leave a comment in the textarea"
@@ -1056,6 +1068,12 @@ parts:
       title: "The label on the form about attaching files. Will wrap as needed. (https://zendesk.box.com/s/iglhqt5vb2ds5pmxujckzvg3pga2r7lz)"
       screenshot: "https://zendesk.box.com/s/iglhqt5vb2ds5pmxujckzvg3pga2r7lz"
       value: "Add file or drop here"
+      obsolete: "2018-08-13"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.button.new_label"
+      title: "The label on the form about attaching files. If your language has more than one plural, please translate as Add up to files: %(files)s"
+      screenshot: "https://drive.google.com/file/d/1GMEKBjR_wZNri-7oZYNbnQttoKmnYbsr/view?usp=sharing"
+      value: "Add up to %(files)s files"
   - translation:
       key: "embeddable_framework.submitTicket.attachments.button.label_mobile"
       title: "The label on the form about attaching files for mobile devices. Will wrap as needed. (https://zendesk.box.com/s/lruwde2mxcqddsdwx2ktk7b9hrd71qcu)"
