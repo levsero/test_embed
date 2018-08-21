@@ -328,7 +328,7 @@ describe('fields', () => {
           .toEqual('22660514');
 
         expect(field2.props.name)
-          .toEqual(10006);
+          .toEqual('10006');
       });
 
       describe('required', () => {
