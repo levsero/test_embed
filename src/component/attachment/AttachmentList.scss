@@ -7,7 +7,11 @@
 
 .container {
   composes: u-block u-marginBS from global;
-  composes: Form-fieldContainer from '../../styles/components/Form.scss';
+  margin-bottom: $spacing-lrg;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
 .label {

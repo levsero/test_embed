@@ -10,7 +10,7 @@
 
 .form {
   composes: u-cf from global;
-  composes: Form from '../../styles/components/Form.scss';
+  margin: 0;
 }
 
 .buttonContainer {
