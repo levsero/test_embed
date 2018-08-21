@@ -54,7 +54,7 @@ export class ChannelChoiceMenu extends Component {
       ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
       : i18n.t('embeddable_framework.channelChoice.button.label.call_us');
     const offlineLabel = (
-      <span>
+      <span className={styles.offlineOptionContainer}>
         <div className={styles.offlineLabelOption}>{optionLabel}</div>
         <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
       </span>
@@ -79,10 +79,10 @@ export class ChannelChoiceMenu extends Component {
     });
 
     return (
-      <li>
+      <li className={styles.listItem}>
         <ButtonIcon
           actionable={talkAvailable}
-          className={buttonStyle}
+          containerStyles={buttonStyle}
           labelClassName={this.props.labelClasses}
           onClick={this.handleNextClick('talk')}
           iconClasses={iconStyle}
@@ -107,9 +107,9 @@ export class ChannelChoiceMenu extends Component {
     );
 
     return (
-      <li>
+      <li className={styles.listItem}>
         <ButtonIcon
-          className={buttonStyle}
+          containerStyles={buttonStyle}
           iconClasses={iconStyle}
           labelClassName={this.props.labelClasses}
           onClick={this.handleNextClick('ticketSubmissionForm')}
@@ -125,7 +125,7 @@ export class ChannelChoiceMenu extends Component {
     const offlineFormKey = 'embeddable_framework.channelChoice.button.label.no_available_agents_offline_form';
     const offlineAvailableLabel = i18n.t(offlineFormKey);
     const offlineLabel = (
-      <span>
+      <span className={styles.offlineOptionContainer}>
         <div className={styles.offlineLabelOption}>{onlineAvailableLabel}</div>
         <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
       </span>
@@ -154,10 +154,10 @@ export class ChannelChoiceMenu extends Component {
     });
 
     return (
-      <li>
+      <li className={styles.listItem}>
         <ButtonIcon
           actionable={showChatChannel}
-          className={buttonStyle}
+          containerStyles={buttonStyle}
           iconClasses={iconStyle}
           labelClassName={this.props.labelClasses}
           onClick={this.handleChatClick()}

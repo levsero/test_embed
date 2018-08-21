@@ -1,25 +1,27 @@
 @import '../../styles/_vars.scss';
 
 .btn {
+  width: 100%;
   padding: 0 !important;
-  margin: 0 #{6/$font-size}rem #{12/$font-size}rem;
-  height: #{75/$font-size}rem;
+  height: #{75/$font-size}rem !important;
   box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.2);
   border-radius: #{4/$font-size}rem;
+  border: none;
+  outline: none;
+  background-color: $zd-color-white !important;
 }
 
 .btnEnabled {
-  &:hover, &:focus, &:active {
-    box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.3);
-    text-decoration: underline;
-  }
+  color: $zd-color-black !important;
 
-  &:hover {
-    background-color: $zd-color-white;
+  &:hover, &:focus, &:active {
+    color: $zd-color-black !important;
+    box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.3) !important;
+    text-decoration: underline !important;
   }
 
   &:focus, &:active {
-    background-color: $zd-color-grey-100;
+    background-color: $zd-color-grey-100 !important;
   }
 }
 
@@ -27,6 +29,14 @@
 .btnDisabled {
   background-color: $zd-color-white !important;
   color: $zd-color-grey-600 !important;
+  line-height: normal !important;
+  text-align: left !important;
+
+  &:hover, &:focus, &:active {
+    box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.2) !important;
+    background-color: $zd-color-white !important;
+    color: $zd-color-grey-600 !important;
+  }
 }
 
 .chatBtnDisabled {
@@ -127,4 +137,16 @@
 .offlineLabelOption {
   color: $zd-color-grey-800;
   margin-bottom: #{5/$font-size}rem;
+}
+
+.offlineOptionContainer {
+  text-align: left;
+
+  [dir='rtl'] & {
+    text-align: right;
+  }
+}
+
+.listItem {
+  padding: 0 #{6/$font-size}rem #{12/$font-size}rem;
 }
