@@ -328,7 +328,7 @@ export class SubmitTicketForm extends Component {
         <Input
           key={name}
           name={name}
-          validation={error ? 'error': ''}
+          validation={error ? 'error': 'none'}
           value={this.props.formState.subject}
           disabled={this.props.previewEnabled} />
       </TextField>
@@ -355,7 +355,7 @@ export class SubmitTicketForm extends Component {
           {renderLabelText(i18n.t('embeddable_framework.form.field.email.label'), true)}
         </Label>
         <Input
-          validation={error ? 'error': ''}
+          validation={error ? 'error': 'none'}
           key={name}
           name={name}
           required={true}
@@ -383,7 +383,7 @@ export class SubmitTicketForm extends Component {
         <Input
           key={name}
           name={name}
-          validation={error ? 'error': ''}
+          validation={error ? 'error': 'none'}
           disabled={this.props.previewEnabled}
           value={this.props.formState.name} />
         {error}
@@ -406,7 +406,7 @@ export class SubmitTicketForm extends Component {
         <Textarea
           key={name}
           name={name}
-          validation={error ? 'error': ''}
+          validation={error ? 'error': 'none'}
           disabled={this.props.previewEnabled}
           required={true}
           value={this.props.formState.description}
