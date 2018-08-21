@@ -73,7 +73,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       fullscreen: isMobileBrowser(),
       key: title,
       landscape: isLandscape(),
-      name: field.id,
+      name: _.toString(field.id),
       label: title,
       errorString: 'embeddable_framework.validation.error.input',
       required: !!field.required_in_portal,
