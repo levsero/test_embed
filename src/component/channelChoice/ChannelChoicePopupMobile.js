@@ -19,7 +19,8 @@ export class ChannelChoicePopupMobile extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool
+    chatEnabled: PropTypes.bool,
+    chatOfflineAvailable: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -57,7 +58,8 @@ export class ChannelChoicePopupMobile extends Component {
       onNextClick,
       talkAvailable,
       talkEnabled,
-      callbackEnabled } = this.props;
+      callbackEnabled,
+      chatOfflineAvailable } = this.props;
 
     return (
       <div onClick={this.handleContainerClick}>
@@ -67,6 +69,7 @@ export class ChannelChoicePopupMobile extends Component {
             chatEnabled={this.props.chatEnabled}
             onNextClick={onNextClick}
             chatAvailable={chatAvailable}
+            chatOfflineAvailable={chatOfflineAvailable}
             callbackEnabled={callbackEnabled}
             talkAvailable={talkAvailable}
             talkEnabled={talkEnabled}

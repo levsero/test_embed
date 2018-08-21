@@ -45,6 +45,7 @@ export const getNotificationCount = (state) => getNotification(state).count;
 export const getPostchatFormSettings = (state) => state.chat.accountSettings.postchatForm;
 export const getPrechatFormSettings = (state) => state.chat.accountSettings.prechatForm;
 export const getOfflineFormSettings = (state) => state.chat.accountSettings.offlineForm;
+export const getOfflineFormEnabled = (state) => getOfflineFormSettings(state).enabled;
 export const getEmailTranscript = (state) => state.chat.emailTranscript;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getRatingSettings = (state) => state.chat.accountSettings.rating;

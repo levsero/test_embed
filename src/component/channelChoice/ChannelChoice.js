@@ -7,6 +7,7 @@ import { ChannelChoiceMobile } from 'component/channelChoice/ChannelChoiceMobile
 export class ChannelChoice extends Component {
   static propTypes = {
     chatAvailable: PropTypes.bool.isRequired,
+    chatOfflineAvailable: PropTypes.bool.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
@@ -39,12 +40,13 @@ export class ChannelChoice extends Component {
   }
 
   renderMobile = () => {
-    const { onCancelClick, chatAvailable, formTitleKey } = this.props;
+    const { onCancelClick, chatAvailable, chatOfflineAvailable, formTitleKey } = this.props;
 
     return (
       <ChannelChoiceMobile
         ref='channelChoiceMobile'
         chatAvailable={chatAvailable}
+        chatOfflineAvailable={chatOfflineAvailable}
         formTitleKey={formTitleKey}
         talkAvailable={this.props.talkAvailable}
         talkEnabled={this.props.talkEnabled}
@@ -63,6 +65,7 @@ export class ChannelChoice extends Component {
       <ChannelChoiceDesktop
         ref='channelChoiceDesktop'
         chatAvailable={this.props.chatAvailable}
+        chatOfflineAvailable={this.props.chatOfflineAvailable}
         formTitleKey={formTitleKey}
         talkAvailable={this.props.talkAvailable}
         talkEnabled={this.props.talkEnabled}

@@ -37,7 +37,8 @@ export class HelpCenterDesktop extends Component {
     talkEnabled: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     updateChatScreen: PropTypes.func,
-    isContextualSearchPending: PropTypes.bool.isRequired
+    isContextualSearchPending: PropTypes.bool.isRequired,
+    chatOfflineAvailable: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -140,6 +141,7 @@ export class HelpCenterDesktop extends Component {
   renderChannelChoice = () => {
     return (this.props.channelChoiceShown)
       ? <ChannelChoicePopupDesktop
+        chatOfflineAvailable={this.props.chatOfflineAvailable}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         callbackEnabled={this.props.callbackEnabled}

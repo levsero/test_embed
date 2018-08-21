@@ -228,6 +228,19 @@ describe('HelpCenter component', () => {
         });
       });
 
+      describe('when chat is offline but offline form is enabled', () => {
+        beforeEach(() => {
+          instanceRender(
+            <HelpCenter chatAvailable={false} chatOfflineAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+          );
+        });
+
+        it('uses the offline label for the button', () => {
+          expect(mockRegistry['service/i18n'].i18n.t)
+            .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`);
+        });
+      });
+
       describe('when talk is online', () => {
         describe('when callback is enabled', () => {
           beforeEach(() => {
@@ -256,10 +269,10 @@ describe('HelpCenter component', () => {
         });
       });
 
-      describe('when chat is offline', () => {
+      describe('when chat is offline and offline form is not enabled', () => {
         beforeEach(() => {
           instanceRender(
-            <HelpCenter chatOnline={false} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+            <HelpCenter chatOnline={false} chatOfflineAvailable={false} buttonLabelKey={buttonLabelKey} channelChoice={false} />
           );
         });
 

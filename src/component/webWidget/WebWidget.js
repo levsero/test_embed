@@ -20,6 +20,7 @@ import { chatNotificationDismissed,
   showStandaloneMobileNotification } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
 import { getChatAvailable,
+  getChatOfflineAvailable,
   getChatEnabled,
   getTalkAvailable,
   getTalkEnabled,
@@ -60,6 +61,7 @@ const mapStateToProps = (state) => {
     talkAvailable: getTalkAvailable(state),
     callbackEnabled: isCallbackEnabled(state),
     chatAvailable: getChatAvailable(state),
+    chatOfflineAvailable: getChatOfflineAvailable(state),
     chatEnabled: getChatEnabled(state),
     oldChat: getZopimChatEmbed(state),
     ticketForms: getTicketForms(state),
@@ -130,7 +132,8 @@ class WebWidget extends Component {
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
-    mobileNotificationsDisabled: PropTypes.bool
+    mobileNotificationsDisabled: PropTypes.bool,
+    chatOfflineAvailable: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -207,8 +210,14 @@ class WebWidget extends Component {
   }
 
   isChannelChoiceAvailable = () => {
-    const { channelChoice, submitTicketAvailable, talkAvailable, chatAvailable, isChatting } = this.props;
-    const availableChannelCount = !!talkAvailable + !!submitTicketAvailable + !!chatAvailable;
+    const { channelChoice,
+      submitTicketAvailable,
+      talkAvailable,
+      chatAvailable,
+      chatOfflineAvailable,
+      isChatting } = this.props;
+    const availableChannelCount = !!talkAvailable + !!submitTicketAvailable +
+      (!!chatAvailable || !!chatOfflineAvailable);
 
     return (channelChoice || talkAvailable) && availableChannelCount > 1 && !isChatting;
   };
@@ -319,7 +328,8 @@ class WebWidget extends Component {
       updateActiveEmbed,
       oldChat,
       chatAvailable,
-      talkAvailable } = this.props;
+      talkAvailable,
+      chatOfflineAvailable } = this.props;
 
     if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
@@ -328,7 +338,7 @@ class WebWidget extends Component {
       }
     } else if (embed) {
       this.setComponent(embed);
-    } else if (chatAvailable) {
+    } else if (chatAvailable || chatOfflineAvailable) {
       this.showChat();
       // TODO: track chat started
       if (!oldChat) {
@@ -438,14 +448,15 @@ class WebWidget extends Component {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return;
     if (this.props.activeEmbed !== helpCenter) return null;
 
-    const { helpCenterConfig, submitTicketAvailable, chatAvailable, talkAvailable } = this.props;
+    const { helpCenterConfig, submitTicketAvailable, chatAvailable, chatOfflineAvailable, talkAvailable } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
-    const showNextButton = submitTicketAvailable || chatAvailable || talkAvailable;
+    const showNextButton = submitTicketAvailable || chatAvailable || chatOfflineAvailable || talkAvailable;
 
     return (
       <div className={classes}>
         <HelpCenter
           ref={helpCenter}
+          chatOfflineAvailable={this.props.chatOfflineAvailable}
           notification={this.props.chatNotification}
           chatEnabled={this.props.chatEnabled}
           talkEnabled={this.props.talkEnabled}
@@ -516,6 +527,7 @@ class WebWidget extends Component {
         ref={channelChoice}
         style={this.props.style}
         chatAvailable={this.props.chatAvailable}
+        chatOfflineAvailable={this.props.chatOfflineAvailable}
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
         callbackEnabled={this.props.callbackEnabled}

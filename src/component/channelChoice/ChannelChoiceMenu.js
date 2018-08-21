@@ -14,6 +14,7 @@ export class ChannelChoiceMenu extends Component {
     buttonClasses: PropTypes.string,
     labelClasses: PropTypes.string,
     talkAvailable: PropTypes.bool,
+    chatOfflineAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool
@@ -26,18 +27,19 @@ export class ChannelChoiceMenu extends Component {
     talkEnabled: false,
     submitTicketAvailable: true,
     chatAvailable: false,
-    chatEnabled: false
+    chatEnabled: false,
+    chatOfflineAvailable: false
   };
 
   constructor(props) {
     super(props);
 
     this.showInitialTalkOption = props.talkAvailable;
-    this.showInitialChatOption = props.chatAvailable;
+    this.showInitialChatOption = props.chatAvailable || props.chatOfflineAvailable;
   }
 
   handleChatClick = () => {
-    return this.props.chatAvailable
+    return this.props.chatAvailable || this.props.chatOfflineAvailable
       ? this.handleNextClick('chat')
       : (e) => e.stopPropagation(); // prevent container from hiding channelChoice
   }
@@ -118,37 +120,43 @@ export class ChannelChoiceMenu extends Component {
   }
 
   renderChatLabel = () => {
-    const { chatAvailable } = this.props;
-    const optionLabel = i18n.t('embeddable_framework.common.button.chat');
+    const { chatAvailable, chatOfflineAvailable } = this.props;
+    const onlineAvailableLabel = i18n.t('embeddable_framework.common.button.chat');
+    const offlineFormKey = 'embeddable_framework.channelChoice.button.label.no_available_agents_offline_form';
+    const offlineAvailableLabel = i18n.t(offlineFormKey);
     const offlineLabel = (
       <span>
-        <div className={styles.offlineLabelOption}>{optionLabel}</div>
+        <div className={styles.offlineLabelOption}>{onlineAvailableLabel}</div>
         <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
       </span>
     );
 
-    return (chatAvailable)
-      ? optionLabel
-      : offlineLabel;
+    if (chatAvailable) {
+      return onlineAvailableLabel;
+    } else if (chatOfflineAvailable) {
+      return offlineAvailableLabel;
+    }
+    return offlineLabel;
   }
 
   renderChatButton = () => {
     if (!this.showInitialChatOption) return null;
 
-    const { chatAvailable, buttonClasses } = this.props;
+    const { chatAvailable, chatOfflineAvailable, buttonClasses } = this.props;
+    const showChatChannel = chatAvailable || chatOfflineAvailable;
     const iconStyle = classNames(styles.iconChat, {
-      [styles.newIcon]: chatAvailable,
-      [styles.newIconDisabled]: !chatAvailable
+      [styles.newIcon]: showChatChannel,
+      [styles.newIconDisabled]: !showChatChannel
     });
     const buttonStyle = classNames(buttonClasses, styles.btn, {
-      [styles.btnEnabled]: chatAvailable,
-      [styles.chatBtnDisabled]: !chatAvailable
+      [styles.btnEnabled]: showChatChannel,
+      [styles.chatBtnDisabled]: !showChatChannel
     });
 
     return (
       <li>
         <ButtonIcon
-          actionable={chatAvailable}
+          actionable={showChatChannel}
           className={buttonStyle}
           iconClasses={iconStyle}
           labelClassName={this.props.labelClasses}

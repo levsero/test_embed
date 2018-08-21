@@ -126,6 +126,7 @@ describe('WebWidget component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+    mockUpdateActiveEmbed.calls.reset();
   });
 
   describe('#render', () => {
@@ -730,6 +731,10 @@ describe('WebWidget component', () => {
       updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
     });
 
+    afterEach(() => {
+      updateBackButtonVisibilitySpy.calls.reset();
+    });
+
     describe('when a param is passed in', () => {
       beforeEach(() => {
         webWidget = instanceRender(
@@ -855,6 +860,37 @@ describe('WebWidget component', () => {
       it('calls updateBackButtonVisibility with true', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
+      });
+    });
+
+    describe('when chat is offline but offline form is available', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+            chatOnline={false}
+            chatAvailable={false}
+            helpCenterAvailable={true}
+            chatOfflineAvailable={true}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            updateActiveEmbed={mockUpdateActiveEmbed} />
+        );
+        webWidget.onNextClick();
+      });
+
+      it('calls updateActiveEmbed with chat', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('chat');
+      });
+
+      it('calls updateBackButtonVisibility with true', () => {
+        expect(updateBackButtonVisibilitySpy)
+          .toHaveBeenCalledWith(true);
+      });
+
+      it('does not call updateActiveEmbed with ticketSubmissionForm', () => {
+        expect(mockUpdateActiveEmbed)
+          .not
+          .toHaveBeenCalledWith('ticketSubmissionForm');
       });
     });
 
@@ -2114,6 +2150,26 @@ describe('WebWidget component', () => {
                 submitTicketAvailable={true}
                 talkAvailable={false}
                 chatAvailable={true}
+                isChatting={isChatting}
+              />
+            );
+          });
+
+          it('returns true', () => {
+            expect(webWidget.isChannelChoiceAvailable())
+              .toEqual(true);
+          });
+        });
+
+        describe('when chat offline and talk are available', () => {
+          beforeEach(() => {
+            webWidget = instanceRender(
+              <WebWidget
+                channelChoice={true}
+                submitTicketAvailable={false}
+                talkAvailable={true}
+                chatAvailable={false}
+                chatOfflineAvailable={true}
                 isChatting={isChatting}
               />
             );

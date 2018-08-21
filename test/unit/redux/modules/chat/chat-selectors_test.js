@@ -47,6 +47,7 @@ describe('chat selectors', () => {
     getStandaloneMobileNotificationVisible,
     getAgentsTyping,
     getAllAgents,
+    getOfflineFormEnabled,
     getFirstMessageTimestamp,
     getCurrentSessionStartTime,
     getSocialLogin,
@@ -54,6 +55,7 @@ describe('chat selectors', () => {
     getIsAuthenticated,
     getZChatVendor,
     getIsLoggingOut,
+
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -157,11 +159,33 @@ describe('chat selectors', () => {
     getIsAuthenticated = selectors.getIsAuthenticated;
     getZChatVendor = selectors.getZChatVendor;
     getIsLoggingOut = selectors.getIsLoggingOut;
+    getOfflineFormEnabled = selectors.getOfflineFormEnabled;
   });
 
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('getOfflineFormEnabled', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getOfflineFormEnabled({
+        chat: {
+          accountSettings: {
+            offlineForm: {
+              enabled: true
+            }
+          }
+        }
+      });
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
   });
 
   describe('getIsLoggingOut', () => {

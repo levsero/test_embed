@@ -18,7 +18,8 @@ export class ChannelChoiceDesktop extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool
+    chatEnabled: PropTypes.bool,
+    chatOfflineAvailable: PropTypes.bool
   };
 
   static defaultProps = {
@@ -42,7 +43,8 @@ export class ChannelChoiceDesktop extends Component {
       handleNextClick,
       talkAvailable,
       talkEnabled,
-      callbackEnabled  } = this.props;
+      callbackEnabled,
+      chatOfflineAvailable } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
 
@@ -55,6 +57,7 @@ export class ChannelChoiceDesktop extends Component {
           talkAvailable={talkAvailable}
           talkEnabled={talkEnabled}
           onNextClick={handleNextClick}
+          chatOfflineAvailable={chatOfflineAvailable}
           chatAvailable={chatAvailable} />
         {divider}
       </div>
