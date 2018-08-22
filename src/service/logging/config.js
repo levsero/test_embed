@@ -43,6 +43,16 @@ const errorMessageBlacklist = [
      Possible reasons include network quality, processing time on the server-side, etc. */
   'timeout of [0-9]+ms exceeded',
 
+  /* Empty error key. Means it cannot be troubleshooted and is thus just noise. */
+  '"error":{}',
+
+  /* Empty extraArgs key in error message message, cannot be troubleshooted and is thus just noise. */
+  '"extraArgs":[{}]',
+
+  /* Happens when a piece of media (video player) loads in the widget and the video
+  is deleted before it's been played.  */
+  'The element has no supported sources',
+
   // Double assurance that this error is not reported
   scriptErrorPattern
 ];
