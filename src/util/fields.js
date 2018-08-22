@@ -167,9 +167,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
 
         return (
           <Checkbox {...checkboxProps}>
-            <div >
-              {renderLabel(CheckboxLabel, title, sharedProps.required, { style: 'margin-top: 1px !important;' })}
-            </div>
+            {renderLabel(CheckboxLabel, title, sharedProps.required, { style: 'margin-top: 1px !important;' })}
             {description}
             {checkboxError}
           </Checkbox>
