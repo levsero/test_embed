@@ -2,9 +2,11 @@
 
 .content {
   composes: u-textCenter u-textHeightMed from global;
+  position: relative;
   font-size: #{14/$font-size}rem !important;
-  margin-top: #{50/$font-size}rem !important;
+  margin-top: #{48/$font-size}rem !important;
   margin-bottom: 80%;
+  top: #{2/$font-size}rem !important;
 }
 
 .contentMobile {
