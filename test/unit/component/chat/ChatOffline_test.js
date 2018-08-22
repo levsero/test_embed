@@ -40,6 +40,9 @@ describe('ChatOffline component', () => {
         getChatOfflineForm: '',
         getOfflineFormFields: ''
       },
+      'src/redux/modules/base/base-selectors': {
+        getWidgetShown: ''
+      },
       'constants/chat': {
         OFFLINE_FORM_SCREENS: {
           OPERATING_HOURS: 'OPERATING_HOURS',

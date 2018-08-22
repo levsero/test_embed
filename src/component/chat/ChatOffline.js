@@ -21,6 +21,7 @@ import { getChatOfflineForm,
   getAuthUrls,
   getChatVisitor,
   getIsAuthenticated } from 'src/redux/modules/chat/chat-selectors';
+import { getWidgetShown } from 'src/redux/modules/base/base-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
 
@@ -34,7 +35,8 @@ const mapStateToProps = (state) => {
     socialLogin: getSocialLogin(state),
     authUrls: getAuthUrls(state),
     visitor: getChatVisitor(state),
-    isAuthenticated: getIsAuthenticated(state)
+    isAuthenticated: getIsAuthenticated(state),
+    widgetShown: getWidgetShown(state)
   };
 };
 
@@ -58,7 +60,8 @@ class ChatOffline extends Component {
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     getFrameContentDocument: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    widgetShown: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -76,6 +79,7 @@ class ChatOffline extends Component {
   renderOfflineForm = () => {
     return (
       <ChatOfflineForm
+        widgetShown={this.props.widgetShown}
         getFrameContentDocument={this.props.getFrameContentDocument}
         initiateSocialLogout={this.props.initiateSocialLogout}
         visitor={this.props.visitor}
