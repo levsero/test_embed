@@ -15,7 +15,7 @@ import { UserProfile } from 'component/chat/UserProfile';
 import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { ICONS, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 import { locals as styles } from './ChatOfflineForm.scss';
-import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
+import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -86,9 +86,7 @@ export class ChatOfflineForm extends Component {
 
     return (
       <TextField className={fieldContainerStyle}>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.name'), isRequired)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.name'), isRequired)}
         <Input
           required={isRequired}
           aria-required={isRequired}
@@ -111,9 +109,7 @@ export class ChatOfflineForm extends Component {
     /* eslint-disable max-len */
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.email'), isRequired)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), isRequired)}
         <Input
           required={isRequired}
           aria-required={isRequired}
@@ -136,9 +132,7 @@ export class ChatOfflineForm extends Component {
 
     return (
       <TextField className={styles.textField}>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.phone_number'), isRequired)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.phone_number'), isRequired)}
         <Input
           required={isRequired}
           aria-required={isRequired}
@@ -159,9 +153,7 @@ export class ChatOfflineForm extends Component {
 
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.message'), isRequired)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.message'), isRequired)}
         <Textarea
           required={isRequired}
           aria-required={isRequired}

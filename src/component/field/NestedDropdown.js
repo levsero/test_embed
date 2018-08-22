@@ -9,8 +9,8 @@ import {
   NextItem,
   PreviousItem,
   Hint,
-  Label,
   Message } from '@zendeskgarden/react-select';
+import { Icon } from 'component/Icon';
 
 import { i18n } from 'service/i18n';
 import { FONT_SIZE } from 'constants/shared';
@@ -21,7 +21,7 @@ export class NestedDropdown extends Component {
   static propTypes = {
     getFrameContentDocument: PropTypes.func.isRequired,
     options: PropTypes.array.isRequired,
-    label: PropTypes.string,
+    label: PropTypes.object.isRequired,
     name: PropTypes.string,
     showError: PropTypes.bool,
     onChange: PropTypes.func,
@@ -30,7 +30,6 @@ export class NestedDropdown extends Component {
   }
 
   static defaultProps = {
-    label: '',
     name: '',
     required: false,
     showError: false,
@@ -127,7 +126,11 @@ export class NestedDropdown extends Component {
     const back = backName ? this.options[backName] : '';
 
     return [
-      <PreviousItem key={`${back.value}-prev`}>{this.findOptionNameFromValue(menu[0].value)}</PreviousItem>,
+
+      <PreviousItem key={`${back.value}-prev`}>
+        <Icon type='Icon--previous' className={styles.previous} />
+        {this.findOptionNameFromValue(menu[0].value)}
+      </PreviousItem>,
       <Separator key={`${menu[0].value}-separator`} />,
       ...items
     ];
@@ -179,7 +182,7 @@ export class NestedDropdown extends Component {
     return (
       <div className={styles.field}>
         <SelectField>
-          <Label>{this.props.label}</Label>
+          {this.props.label}
           <Hint>{this.props.description}</Hint>
           <Select
             isOpen={this.state.isOpen}
@@ -188,7 +191,13 @@ export class NestedDropdown extends Component {
             onChange={this.handleChange}
             options={this.renderMenuItems(this.state.selectedKey)}
             validation={this.props.showError ? 'error': 'none'}
-            dropdownProps={{ style: { maxHeight: `${240/FONT_SIZE}rem`, overflow: 'auto' }}}>
+            dropdownProps={{
+              style: {
+                maxHeight: `${240/FONT_SIZE}rem`,
+                overflow: 'auto',
+                boxShadow: `0 ${10/FONT_SIZE}rem ${30/FONT_SIZE}rem 0 rgba(4, 68, 77, 0.15)`
+              }
+            }}>
             {this.findOptionNameFromValue(this.state.displayedKey) || '-'}
           </Select>
           {this.props.showError &&

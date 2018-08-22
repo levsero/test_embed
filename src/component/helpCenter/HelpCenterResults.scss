@@ -13,7 +13,7 @@
 .item {
   color: $zd-color-grey-800;
   list-style: decimal;
-  font-size: $font-size-lrg;
+  font-size: #{14/$font-size}rem;
   margin-bottom: #{7/$font-size}rem;
   padding-left: #{2/$font-size}rem;
 

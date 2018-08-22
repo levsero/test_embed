@@ -4,6 +4,10 @@ $avatar-size: #{30/$font-size}rem;
 $logout-spacing: #{18/$font-size}rem;
 $avatar-logout-spacing: $avatar-size + $logout-spacing;
 
+.labelText {
+  color: $zd-color-grey-800;
+}
+
 .socialLoginContainer {
   margin-bottom: #{15/$font-size}rem;
 }

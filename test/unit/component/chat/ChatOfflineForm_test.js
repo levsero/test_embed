@@ -95,7 +95,7 @@ describe('ChatOfflineForm component', () => {
       'component/container/ScrollContainer': { ScrollContainer },
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
-        renderLabelText: () => 'someLabel'
+        renderLabel: () => 'someLabel'
       }
     });
 

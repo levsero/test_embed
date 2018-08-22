@@ -76,7 +76,7 @@ describe('ChatContactDetailsPopup component', () => {
       },
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
-        renderLabelText: () => 'someLabel'
+        renderLabel: () => 'someLabel'
       },
       'src/util/chat': {
         isDefaultNickname: () => mockIsDefaultNickname

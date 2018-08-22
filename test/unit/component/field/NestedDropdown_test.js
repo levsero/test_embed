@@ -34,6 +34,7 @@ describe('NestedDropdown component', () => {
   const PreviousItem = noopReactComponent();
   const Separator = noopReactComponent();
   const Message = noopReactComponent();
+  const Icon = noopReactComponent();
   const nestedDropdownPath = buildSrcPath('component/field/NestedDropdown');
 
   beforeEach(() => {
@@ -53,6 +54,9 @@ describe('NestedDropdown component', () => {
         NextItem,
         PreviousItem,
         Message
+      },
+      'component/Icon': {
+        Icon
       },
       'service/i18n': {
         i18n: {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { keyCodes } from 'utility/keyboard';
-import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
+import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { i18n } from 'service/i18n';
 import { EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
@@ -116,9 +116,7 @@ export class ChatEmailTranscriptPopup extends Component {
     /* eslint-disable max-len */
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.email'), true)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), true)}
         <Input
           required={true}
           value={this.state.formState.email}

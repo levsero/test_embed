@@ -65,6 +65,7 @@
 
 .Icon--close {
   padding: 0;
+  color: $zd-color-grey-600;
 
   &.is-mobile {
     display: block;
@@ -72,7 +73,7 @@
   }
 
   svg {
-    fill: $zd-color-grey-400;
+    fill: $zd-color-grey-600;
     min-width: #{10/$font-size}rem; /* 1 */
     min-height: #{10/$font-size}rem; /* 1 */
     height: #{10/$font-size}rem;
@@ -212,11 +213,8 @@
   svg {
     fill: $zd-color-white;
     color: $zd-color-white;
-    min-width: #{15/$font-size}rem; /* 1 */
-    min-height: #{15/$font-size}rem; /* 1 */
-    height: #{15/$font-size}rem;
-    width: #{15/$font-size}rem;
-    padding: #{8/$font-size}rem 0 0;
+    width: #{17/$font-size}rem;
+    padding: #{6/$font-size}rem 0 0;
     display: inline-block;
     position: relative;
   }

@@ -18,7 +18,7 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './PrechatForm.scss';
-import { shouldRenderErrorMessage, renderLabelText } from 'src/util/fields';
+import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 import { FONT_SIZE, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 
 export class PrechatForm extends Component {
@@ -172,9 +172,7 @@ export class PrechatForm extends Component {
 
     return (
       <TextField className={fieldContainerStyle}>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.name'), required)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.name'), required)}
         <Input
           autoComplete='off'
           aria-required={required}
@@ -201,9 +199,7 @@ export class PrechatForm extends Component {
     /* eslint-disable max-len */
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.email'), required)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), required)}
         <Input
           required={required}
           aria-required={required}
@@ -230,9 +226,7 @@ export class PrechatForm extends Component {
 
     return (
       <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.phone_number'), required)}
-        </Label>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.phone_number'), required)}
         <Input
           required={required}
           aria-required={required}
@@ -254,10 +248,8 @@ export class PrechatForm extends Component {
       required, 'embeddable_framework.validation.error.message');
 
     return (
-      <TextField>
-        <Label>
-          {renderLabelText(i18n.t('embeddable_framework.common.textLabel.message'), required)}
-        </Label>
+      <TextField className={styles.textAreaMarginBtn}>
+        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.message'), required)}
         <Textarea
           required={required}
           aria-required={required}
@@ -288,9 +280,7 @@ export class PrechatForm extends Component {
 
     return (
       <SelectField>
-        <SelectLabel>
-          {renderLabelText(departmentSettings.label, required)}
-        </SelectLabel>
+        {renderLabel(SelectLabel, departmentSettings.label, required)}
         <Select
           required={required}
           aria-required={required}

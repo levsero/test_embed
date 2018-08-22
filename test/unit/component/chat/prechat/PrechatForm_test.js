@@ -1,7 +1,8 @@
 describe('PrechatForm component', () => {
   let PrechatForm,
     mockShouldRenderErrorMessage,
-    mockFormValidity;
+    mockFormValidity,
+    renderLabelSpy = jasmine.createSpy('renderLabel').and.callFake(_.identity);
   const PrechatFormPath = buildSrcPath('component/chat/prechat/PrechatForm');
   const UserProfile = noopReactComponent();
   const ScrollContainer = noopReactComponent();
@@ -10,6 +11,7 @@ describe('PrechatForm component', () => {
   const SelectField = noopReactComponent();
   const Item = noopReactComponent();
   const Message = noopReactComponent();
+  const Label =  noopReactComponent();
 
   const mockFormProp = {
     name: { name: 'name', required: true },
@@ -64,7 +66,7 @@ describe('PrechatForm component', () => {
       },
       '@zendeskgarden/react-textfields': {
         TextField,
-        Label: noopReactComponent(),
+        Label,
         Input: noopReactComponent(),
         Textarea: noopReactComponent(),
         Message
@@ -79,7 +81,7 @@ describe('PrechatForm component', () => {
       'component/ZendeskLogo': { ZendeskLogo },
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
-        renderLabelText: _.identity
+        renderLabel: renderLabelSpy
       }
     });
 
@@ -90,6 +92,7 @@ describe('PrechatForm component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+    renderLabelSpy.calls.reset();
   });
 
   describe('render', () => {
@@ -597,9 +600,9 @@ describe('PrechatForm component', () => {
           .toEqual(true);
       });
 
-      it('uses the label prop in the label element', () => {
-        expect(result.props.children[0].props.children)
-          .toEqual(formProp.department.label);
+      it('calls renderLabel with the correct args', () => {
+        expect(renderLabelSpy)
+          .toHaveBeenCalledWith(Label, undefined, false);
       });
 
       describe('dropdown options', () => {

@@ -40,9 +40,10 @@
 .content {
   composes: u-userLinkColor from global;
 
+  margin-bottom: #{16/$font-size}rem;
   word-break: break-word;
   line-height: 1.5;
-  font-size: $font-size-lrg;
+  font-size: #{14/$font-size}rem;
   max-width: #{339/$font-size}rem;
 
   p {

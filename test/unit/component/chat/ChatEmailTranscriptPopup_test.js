@@ -60,7 +60,7 @@ describe('ChatEmailTranscriptPopup component', () => {
       },
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
-        renderLabelText: () => 'someLabel'
+        renderLabel: () => 'someLabel'
       },
       'src/component/Icon': {
         Icon: noop
