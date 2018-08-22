@@ -88,6 +88,7 @@ export class SubmitTicketForm extends Component {
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
     this.prefillFormState();
+    this.updateForm();
   }
 
   componentDidUpdate = () => {
