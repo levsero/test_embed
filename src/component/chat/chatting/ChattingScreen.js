@@ -434,50 +434,48 @@ class ChattingScreen extends Component {
     const emailSet = !!visitor.email;
 
     return (
-      <ScrollContainer
-        ref={(el) => { this.scrollContainer = el; }}
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        onContentScrolled={this.handleChatScreenScrolled}
-        headerContent={this.renderChatHeader()}
-        headerClasses={styles.header}
-        containerClasses={containerClasses}
-        footerClasses={footerClasses}
-        footerContent={this.renderChatFooter()}
-        fullscreen={isMobile}
-        classes={scrollContainerClasses}>
-        <div className={chatLogContainerClasses}>
-          <HistoryLog
-            ref={(el) => { this.chatHistoryLog = el; }}
-            chatHistoryLog={this.props.chatHistoryLog}
-            showAvatar={this.props.showAvatar}
-            agents={this.props.allAgents}
-            firstMessageTimestamp={this.props.firstMessageTimestamp}
-          />
-          <ChatLog
-            showAvatar={this.props.showAvatar}
-            chatLog={this.props.chatLog}
-            lastAgentLeaveEvent={this.props.lastAgentLeaveEvent}
-            agents={this.props.allAgents}
-            chatCommentLeft={!!this.props.rating.comment}
-            goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
-            handleSendMsg={sendMsg}
-            onImageLoad={this.scrollToBottom}
-            conciergeAvatar={this.props.conciergeSettings.avatar_path}
-            showUpdateInfo={!!loginSettings.enabled && !(visitorNameSet || emailSet)}
-            updateInfoOnClick={this.props.showContactDetails}
-            socialLogin={this.props.socialLogin}
-          />
-          {this.renderQueuePosition()}
-          {this.renderAgentTyping(agentsTyping)}
-          {
-            (isMobile)
-              ? this.renderZendeskLogo()
-              : null
-          }
-          {this.renderHistoryFetching()}
-          {this.renderScrollPill()}
-        </div>
-      </ScrollContainer>
+      <div>
+        <ScrollContainer
+          ref={(el) => { this.scrollContainer = el; }}
+          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+          onContentScrolled={this.handleChatScreenScrolled}
+          headerContent={this.renderChatHeader()}
+          headerClasses={styles.header}
+          containerClasses={containerClasses}
+          footerClasses={footerClasses}
+          footerContent={this.renderChatFooter()}
+          fullscreen={isMobile}
+          classes={scrollContainerClasses}>
+          <div className={chatLogContainerClasses}>
+            <HistoryLog
+              ref={(el) => { this.chatHistoryLog = el; }}
+              chatHistoryLog={this.props.chatHistoryLog}
+              showAvatar={this.props.showAvatar}
+              agents={this.props.allAgents}
+              firstMessageTimestamp={this.props.firstMessageTimestamp}
+            />
+            <ChatLog
+              showAvatar={this.props.showAvatar}
+              chatLog={this.props.chatLog}
+              lastAgentLeaveEvent={this.props.lastAgentLeaveEvent}
+              agents={this.props.allAgents}
+              chatCommentLeft={!!this.props.rating.comment}
+              goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
+              handleSendMsg={sendMsg}
+              onImageLoad={this.scrollToBottom}
+              conciergeAvatar={this.props.conciergeSettings.avatar_path}
+              showUpdateInfo={!!loginSettings.enabled && !(visitorNameSet || emailSet)}
+              updateInfoOnClick={this.props.showContactDetails}
+              socialLogin={this.props.socialLogin}
+            />
+            {this.renderQueuePosition()}
+            {this.renderAgentTyping(agentsTyping)}
+            {this.renderHistoryFetching()}
+            {this.renderScrollPill()}
+          </div>
+        </ScrollContainer>
+        {this.renderZendeskLogo()}
+      </div>
     );
   }
 }
