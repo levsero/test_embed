@@ -117,3 +117,11 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
     max-width: #{30/$font-size}rem;
   }
 }
+
+a {
+  display: inline-block;
+
+  &:focus {
+    outline: -webkit-focus-ring-color auto #{5/$font-size}rem;
+  }
+}
