@@ -611,11 +611,11 @@ describe('ChattingScreen component', () => {
       describe('on non-mobile devices', () => {
         it('has desktop specific classes', () => {
           result = component.render();
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .toContain('footerClasses');
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .not.toContain('footerMobileClasses');
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .not.toContain('footerMobileWithLogoClasses');
         });
       });
@@ -629,11 +629,11 @@ describe('ChattingScreen component', () => {
 
         it('has mobile specific classes', () => {
           result = component.render();
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .toContain('footerClasses');
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .toContain('footerMobileClasses');
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .toContain('footerMobileWithLogoClasses');
         });
       });
@@ -648,109 +648,12 @@ describe('ChattingScreen component', () => {
 
         it('has mobile specific classes', () => {
           result = component.render();
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .toContain('footerClasses');
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .toContain('footerMobileClasses');
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .not.toContain('footerMobileWithLogoClasses');
-        });
-      });
-    });
-
-    describe('zendeskLogo', () => {
-      let logo;
-
-      const findLogo = (parent) => {
-        const firstLevelChildren = React.Children.map(
-          parent.props.children, child => child
-        );
-        const secondLevelChildren = React.Children.map(
-          firstLevelChildren[0].props.children, child => child
-        );
-
-        return _.find(secondLevelChildren, child => {
-          return TestUtils.isElementOfType(child, ZendeskLogo);
-        });
-      };
-
-      describe('on non-mobile devices with logo', () => {
-        it('does not render logo', () => {
-          result = component.render();
-          logo = findLogo(result);
-          expect(logo)
-            .toBeFalsy();
-        });
-      });
-
-      describe('on non-mobile devices without logo', () => {
-        beforeEach(() => {
-          component = renderChatComponent({
-            hideZendeskLogo: true
-          });
-        });
-
-        it('does not render logo', () => {
-          result = component.render();
-          logo = findLogo(result);
-          expect(logo)
-            .toBeFalsy();
-        });
-      });
-
-      describe('on mobile devices without logo', () => {
-        beforeEach(() => {
-          component = renderChatComponent({
-            isMobile: true,
-            hideZendeskLogo: true
-          });
-        });
-
-        it('does not render logo', () => {
-          result = component.render();
-          logo = findLogo(result);
-          expect(logo)
-            .toBeFalsy();
-        });
-      });
-
-      describe('on mobile devices with logo and no typing agent', () => {
-        beforeEach(() => {
-          component = renderChatComponent({
-            isMobile: true
-          });
-        });
-
-        it('renders logo', () => {
-          result = component.render();
-          logo = findLogo(result);
-          expect(logo)
-            .toBeTruthy();
-        });
-
-        it('renders logo with mobile specific classes', () => {
-          result = component.render();
-          logo = findLogo(result);
-          expect(logo.props.className)
-            .toContain('zendeskLogoClasses');
-          expect(logo.props.className)
-            .toContain('zendeskLogoChatMobileClasses');
-        });
-      });
-
-      describe('on mobile devices with logo and typing agent', () => {
-        beforeEach(() => {
-          component = renderChatComponent({
-            agentsTyping: [{ nick: 'agent:1', typing: true }],
-            isMobile: true
-          });
-        });
-
-        it('renders logo with mobile specific classes', () => {
-          result = component.render();
-          logo = findLogo(result);
-          expect(logo)
-            .toBeTruthy();
         });
       });
     });
@@ -779,8 +682,9 @@ describe('ChattingScreen component', () => {
       });
 
       it("passes the event to the chatLog component's `lastAgentLeaveEvent` prop", () => {
-        const scrollContainer = component.render().props.children;
-        const chatLog = scrollContainer.props.children[1];
+        const result = component.render();
+        const scrollContainer = result.props.children[0];
+        const chatLog = scrollContainer.props.children.props.children[1];
         const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
 
         expect(lastAgentLeaveEvent)
@@ -799,8 +703,9 @@ describe('ChattingScreen component', () => {
       });
 
       it("passes null to the chatLog component's `lastAgentLeaveEvent` prop", () => {
-        const scrollContainer = component.render().props.children;
-        const chatLog = scrollContainer.props.children[1];
+        const result = component.render();
+        const scrollContainer = result.props.children[0];
+        const chatLog = scrollContainer.props.children.props.children[1];
         const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
 
         expect(lastAgentLeaveEvent)
@@ -814,18 +719,18 @@ describe('ChattingScreen component', () => {
       });
 
       it('adds the scrollContainerMessagesContentDesktop to it', () => {
-        expect(component.render().props.containerClasses)
+        expect(component.render().props.children[0].props.containerClasses)
           .toContain('scrollContainerMessagesContentDesktopClass');
       });
 
       it('does not add the scrollContainerMobile class to it', () => {
-        expect(component.render().props.containerClasses)
+        expect(component.render().props.children[0].props.containerClasses)
           .not
           .toContain('scrollContainerMobileClasses');
       });
 
       it('does not add scrollContainerMessagesContent class to it', () => {
-        expect(component.render().props.containerClasses)
+        expect(component.render().props.children[0].props.containerClasses)
           .not
           .toContain('scrollContainerMessagesContentClass');
       });
@@ -837,18 +742,18 @@ describe('ChattingScreen component', () => {
       });
 
       it('does not add the scrollContainerMessagesContentDesktop to it', () => {
-        expect(component.render().props.containerClasses)
+        expect(component.render().props.children[0].props.containerClasses)
           .not
           .toContain('scrollContainerMessagesContentDesktopClass');
       });
 
       it('adds mobile container classes to scrollContainer', () => {
-        expect(component.render().props.containerClasses)
+        expect(component.render().props.children[0].props.containerClasses)
           .toContain('scrollContainerMobileClasses');
       });
 
       it('adds scrollContainerMessagesContent class to it', () => {
-        expect(component.render().props.containerClasses)
+        expect(component.render().props.children[0].props.containerClasses)
           .toContain('scrollContainerMessagesContentClass');
       });
     });
@@ -860,7 +765,7 @@ describe('ChattingScreen component', () => {
       });
 
       it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(component.render().props.containerClasses)
+        expect(component.render().props.children[0].props.containerClasses)
           .toContain('scrollBarFix');
       });
     });
@@ -872,7 +777,7 @@ describe('ChattingScreen component', () => {
       });
 
       it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(component.render().props.containerClasses)
+        expect(component.render().props.children[0].props.containerClasses)
           .toContain('scrollBarFix');
       });
     });
@@ -883,7 +788,7 @@ describe('ChattingScreen component', () => {
       });
 
       it('has its classes prop to the scroll container style', () => {
-        expect(component.render().props.classes)
+        expect(component.render().props.children[0].props.classes)
           .toEqual('scrollContainerClasses');
       });
     });
@@ -901,7 +806,10 @@ describe('ChattingScreen component', () => {
             visitor={visitor}
           />);
         result = component.render();
-        showUpdateInfoResult = result.props.children.props.children[1].props.showUpdateInfo;
+        const scrollContainer = result.props.children[0];
+        const chatLog = scrollContainer.props.children.props.children[1];
+
+        showUpdateInfoResult = chatLog.props.showUpdateInfo;
       });
 
       describe('when login settings enabled is not true', () => {
@@ -1537,9 +1445,10 @@ describe('ChattingScreen component', () => {
 
     beforeEach(() => {
       const component = instanceRender(<ChattingScreen showContactDetails={spyFn} />);
-      const scrollContainer = component.render().props.children;
+      const result = component.render();
+      const scrollContainer = result.props.children[0];
 
-      chatLog = scrollContainer.props.children[1];
+      chatLog = scrollContainer.props.children.props.children[1];
     });
 
     it('passes showContactDetails prop to ChatLog', () => {
