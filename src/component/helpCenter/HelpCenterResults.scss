@@ -63,7 +63,7 @@
 }
 
 .legend {
-  composes: u-paddingTT Arrange Arrange--middle u-textBody u-textBold from global;
+  composes: u-paddingTT Arrange Arrange--middle u-textBold from global;
 
   color: $zd-color-grey-800;
   font-size: #{14/$font-size}rem !important;

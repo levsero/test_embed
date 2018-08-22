@@ -96,6 +96,6 @@
 }
 
 .footerShadow {
-  border-top: $thin-border-size solid $inactive-color;
+  border-top: $thin-border-size solid $zd-color-grey-200;
   box-shadow: 0 -#{1/$font-size}rem #{3/$font-size}rem rgba($base-shadow, .08);
 }

@@ -16,7 +16,7 @@ $Button-nudge: 5;
   cursor: pointer;
 
   &:disabled {
-    background: $inactive-color;
+    background: $zd-color-grey-200;
   }
   &.is-mobile {
     padding: #{14/$font-size}rem;
