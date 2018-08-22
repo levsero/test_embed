@@ -79,7 +79,7 @@ $Button-nudge: 5;
 
   &:hover, &:active {
     svg {
-      fill: $zd-color-dark-gray;
+      fill: $zd-color-grey-800;
     }
   }
 
@@ -90,12 +90,12 @@ $Button-nudge: 5;
 }
 
 .c-btn--secondary {
-  color: $zd-color-aluminum;
-  border-color: $zd-color-gainsboro !important;
+  color: $zd-color-grey-500;
+  border-color: $zd-color-grey-200 !important;
 
   &:hover, &:active {
-    color: $zd-color-dark-gray !important;
-    background: $zd-color-white-smoke !important;
+    color: $zd-color-grey-800 !important;
+    background: $zd-color-grey-100 !important;
   }
 }
 

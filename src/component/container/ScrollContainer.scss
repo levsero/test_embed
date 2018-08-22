@@ -30,8 +30,8 @@
 
 .header {
   composes: u-paddingVM u-paddingHL from global;
-  background: $zd-color-white-smoke;
-  color: $zd-color-dark-gray;
+  background: $zd-color-grey-100;
+  color: $zd-color-grey-800;
 }
 
 .userHeader {

@@ -122,7 +122,7 @@
   padding-left: #{5/$font-size}rem !important;
 
   svg {
-    fill: $zd-color-dark-gray;
+    fill: $zd-color-grey-800;
     min-width: #{12/$font-size}rem; /* 1 */
     min-height: #{12/$font-size}rem; /* 1 */
     height: #{12/$font-size}rem;
@@ -323,7 +323,7 @@
 }
 .Icon--preview-error {
   path {
-    fill: $zd-color-iron;
+    fill: $zd-color-grey-300;
   }
 }
 
