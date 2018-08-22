@@ -75,6 +75,7 @@ import {
   getChatStandalone,
   getZChatConfig } from 'src/redux/modules/base/base-selectors';
 import { mediator } from 'service/mediator';
+import { audio } from 'service/audio';
 import _ from 'lodash';
 
 const chatTypingTimeout = 2000;
@@ -302,6 +303,12 @@ export function sendChatComment(comment = '') {
   };
 }
 
+const loadAudio = () => {
+  try {
+    audio.load('incoming_message', 'https://v2.zopim.com/widget/sounds/triad_gbd');
+  } catch (_) { }
+};
+
 export function getAccountSettings() {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
@@ -313,6 +320,10 @@ export function getAccountSettings() {
 
     if (!accountSettings.chat_button.hide_when_offline && getChatStandalone(getState()) && !getChatOnline(getState())) {
       mediator.channel.broadcast('newChat.offlineFormOn');
+    }
+
+    if (!accountSettings.sound.disabled) {
+      loadAudio();
     }
 
     dispatch({
