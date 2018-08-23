@@ -307,7 +307,7 @@ class SubmitTicket extends Component {
 
     return _.map(ticketForms, (form, key) => {
       return (
-        <li key={key} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
+        <li key={key} className={`${styles.ticketFormsList} ${mobileClasses}`}>
           <Button link={true} data-id={form.id} onClick={this.handleTicketFormsListClick}>{form.display_name}</Button>
         </li>
       );

@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .ticketFormsList {
-  composes: u-borderBottom u-isActionable u-paddingHN from global;
+  composes: u-userTextDecorationColor u-userTextColor u-borderBottom u-isActionable u-paddingHN from global;
   padding-top: #{18/$font-size}rem;
   padding-bottom: #{18/$font-size}rem;
   line-height: #{18/$font-size};
