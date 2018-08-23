@@ -125,12 +125,10 @@ export class PrechatForm extends Component {
     // by jsdom during unit testing. This sanity check allows our unit tests to pass.
     // See this Github issue: https://github.com/tmpvar/jsdom/issues/544
     setTimeout(() => {
-      const { form, formState } = this.props;
       const valid = !!(this.form.checkValidity && this.form.checkValidity());
-      const deptValid = _.get(form, 'department.required') ? formState.department : true;
 
       // FIXME: This is not tested due to timing pollution on our specs
-      this.setState({ valid: valid && deptValid });
+      this.setState({ valid: valid && this.isDepartmentFieldValid() });
     }, 0);
   }
 
@@ -138,6 +136,13 @@ export class PrechatForm extends Component {
     this.props.onPrechatFormChange({ department: value });
 
     this.handleFormChange();
+  }
+
+  isDepartmentFieldValid = () => {
+    const { form, formState } = this.props;
+
+    return _.get(form, 'department.required') &&
+      _.size(form.departments) > 0 ? formState.department : true;
   }
 
   renderErrorMessage(Component, value, required, errorString, pattern) {
