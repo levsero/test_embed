@@ -50,6 +50,9 @@ function generateUserCSS(color = defaultColor) {
   const colorVariables = getColorVariables(color);
 
   return (`
+    .u-userTextDecorationColor {
+      text-decoration-color: ${colorVariables.baseColor} !important;
+    }
     .u-userColor {
       color: ${colorVariables.baseColor} !important;
     }

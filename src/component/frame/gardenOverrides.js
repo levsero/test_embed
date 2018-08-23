@@ -34,7 +34,9 @@ const checkboxHintMobileOverrides = isMobile ? css`
   `
   : '';
 
-const bottomMargin = css`margin-bottom: ${20/FONT_SIZE}rem !important;`;
+const bottomMargin = css`
+  margin-bottom: ${20/FONT_SIZE}rem !important;
+`;
 
 const borderOverrides = isMobile ? css`
     border-radius: ${4/FONT_SIZE}rem !important;
@@ -146,45 +148,55 @@ const getButtonOverrides = (colorVariables, themeColor) => {
   `;
 };
 
-const checkboxLabelOverrides = isMobile ? css`
-  ${labelOverrides}
-  &:before {
-    width: ${14/FONT_SIZE}rem !important;
-    height: ${14/FONT_SIZE}rem !important;
-    top: ${7/FONT_SIZE}rem !important;
-    margin-top: -${4/FONT_SIZE}rem !important;
-    ${borderOverrides}
-  }
+const checkboxLabelOverrides = isMobile
+  ? css`
+      ${labelOverrides}
+      &:before {
+        width: ${14/FONT_SIZE}rem !important;
+        height: ${14/FONT_SIZE}rem !important;
+        top: ${7/FONT_SIZE}rem !important;
+        margin-top: -${4/FONT_SIZE}rem !important;
+        ${borderOverrides}
+      }
 
-  [dir='ltr'] & {
-    padding-left: ${22/FONT_SIZE}rem !important;
-  }
+      [dir='ltr'] & {
+        padding-left: ${22/FONT_SIZE}rem !important;
+      }
 
-  [dir='rtl'] & {
-    padding-right: ${22/FONT_SIZE}rem !important;
-  }
-  :focus {
-    box-shadow: 0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;
-  }
+      [dir='rtl'] & {
+        padding-right: ${22/FONT_SIZE}rem !important;
+      }
+      :focus {
+        box-shadow: 0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;
+      }
 
-  box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-  border-color: ${props => props.focused && `${zdColorGrey600} !important` };
-`
+      box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+      border-color: ${props => props.focused && `${zdColorGrey600} !important` };
+    `
   : css`
-  ${labelOverrides}
+      ${labelOverrides}
+      /* The & represents the element itself, we specific it 4 times to override Garden styling due to its heavy specificity. */
+      &&&&:hover:before {
+        border-color: ${zdColorGrey600} !important;
+      }
 
-  :hover:before {
-    border-color: ${zdColorGrey600} !important;
-  }
+      &:before {
+        box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+        border-color: ${zdColorGrey400} !important;
+      }
+      :active:before {
+        background-color: rgba(153,153,153, 0.4) !important;
+        border-color: ${zdColorGrey600} !important;
+      }
+    `;
 
-  &:before {
-    box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`}
-  }
-  :active:before {
-    background-color: rgba(153,153,153, 0.4) !important;
-    border-color: ${zdColorGrey600} !important;
-  }
-`;
+const checkboxInputOverrides = (themeColor) => {
+  return css`
+    &:checked ~ :before {
+      background-color: ${themeColor} !important;
+    }
+  `;
+};
 
 const talkDropdownOverrides = {
   'textfields.input': genericOverrides,
@@ -234,6 +246,7 @@ function getGardenOverrides() {
     'buttons.button': getButtonOverrides(colorVariables, themeColor),
     'checkboxes.checkbox_view': bottomMargin,
     'checkboxes.label': checkboxLabelOverrides,
+    'checkboxes.input': checkboxInputOverrides(themeColor),
     'checkboxes.hint': checkboxHintMobileOverrides,
     'select.label': mobileOverrides,
     'select.hint': mobileOverrides,
@@ -241,8 +254,8 @@ function getGardenOverrides() {
     'select.select_view': css`
       ${genericOverrides}
       ${borderOverrides}
-      box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`}
-      border-color: ${props => (props.focused || props.hovered) && `${zdColorGrey600} !important`}
+      box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+      border-color: ${props => (props.focused || props.hovered) && `${zdColorGrey600} !important`};
       ${bottomMargin}
       ${arrowOverrides}
       min-height: ${isMobile ? `${42.5/FONT_SIZE}rem !important` : ''};
