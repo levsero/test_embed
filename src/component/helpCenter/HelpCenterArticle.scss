@@ -1,7 +1,8 @@
 @import '../../styles/_vars.scss';
 
 .title {
-  composes: u-marginBT u-textBold u-textBody u-hsizeAll u-tableCell from global;
+  composes: u-marginBT u-textBold u-hsizeAll u-tableCell from global;
+  color: $zd-color-grey-800;
   font-size: #{18/$font-size}rem !important;
 }
 
@@ -75,7 +76,7 @@
   .wysiwyg-font-size-large,
   .wysiwyg-font-size-x-large {
     font-weight: 600;
-    color: $body-color;
+    color: $zd-color-grey-800;
     margin-bottom: #{5/$font-size}rem;
   }
 
