@@ -108,6 +108,23 @@ describe('ChatOfflineForm component', () => {
     mockery.disable();
   });
 
+  describe('componentDidMount', () => {
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatOfflineForm />);
+
+      spyOn(component, 'validate');
+
+      component.componentDidMount();
+    });
+
+    it('calls validate', () => {
+      expect(component.validate)
+        .toHaveBeenCalled();
+    });
+  });
+
   describe('componentDidUpdate', () => {
     let component,
       mockWidgetShown,
