@@ -16,6 +16,11 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
   position: relative;
   top: #{3/$font-size}rem;
   margin-left: #{5/$font-size}rem;
+  display: inline-block;
+
+  &:focus {
+    outline: -webkit-focus-ring-color auto #{5/$font-size}rem;
+  }
 
   [dir='rtl'] & {
     margin-left: 0;
@@ -115,13 +120,5 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
     min-width: #{30/$font-size}rem;
     max-height: #{30/$font-size}rem;
     max-width: #{30/$font-size}rem;
-  }
-}
-
-a {
-  display: inline-block;
-
-  &:focus {
-    outline: -webkit-focus-ring-color auto #{5/$font-size}rem;
   }
 }
