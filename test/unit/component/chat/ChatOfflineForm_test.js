@@ -108,6 +108,59 @@ describe('ChatOfflineForm component', () => {
     mockery.disable();
   });
 
+  describe('componentDidUpdate', () => {
+    let component,
+      mockWidgetShown,
+      mockPrevProps;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatOfflineForm widgetShown={mockWidgetShown} />);
+
+      spyOn(component, 'validate');
+
+      component.componentDidUpdate(mockPrevProps);
+    });
+
+    describe('when the widget is previously shown', () => {
+      beforeAll(() => {
+        mockPrevProps = { widgetShown: true };
+      });
+
+      it('does not call validate', () => {
+        expect(component.validate)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the widget is previously hidden', () => {
+      beforeAll(() => {
+        mockPrevProps = { widgetShown: false };
+      });
+
+      describe('when the widget is currently shown', () => {
+        beforeAll(() => {
+          mockWidgetShown = true;
+        });
+
+        it('calls validate', () => {
+          expect(component.validate)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when the widget is currently hidden', () => {
+        beforeAll(() => {
+          mockWidgetShown = false;
+        });
+
+        it('does not call validate', () => {
+          expect(component.validate)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
   describe('renderErrorMessage', () => {
     let result,
       mockErrorString;

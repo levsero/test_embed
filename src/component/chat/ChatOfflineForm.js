@@ -36,6 +36,7 @@ export class ChatOfflineForm extends Component {
     isAuthenticated: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     getFrameContentDocument: PropTypes.func.isRequired,
+    widgetShown: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -59,6 +60,12 @@ export class ChatOfflineForm extends Component {
       valid: false,
       showErrors: false
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.widgetShown && this.props.widgetShown) {
+      this.validate();
+    }
   }
 
   getScrollContainerClasses() {
