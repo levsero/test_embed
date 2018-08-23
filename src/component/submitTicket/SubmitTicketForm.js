@@ -325,7 +325,7 @@ export class SubmitTicketForm extends Component {
     const name = 'subject';
 
     const subjectField = (
-      <TextField>
+      <TextField key={name}>
         {renderLabel(Label, i18n.t('embeddable_framework.submitTicket.field.subject.label'), false)}
         <Input
           key={name}
@@ -352,7 +352,7 @@ export class SubmitTicketForm extends Component {
 
     /* eslint-disable max-len */
     return (
-      <TextField>
+      <TextField key={name}>
         {renderLabel(Label, i18n.t('embeddable_framework.form.field.email.label'), true)}
         <Input
           validation={error ? 'error': 'none'}
@@ -376,7 +376,7 @@ export class SubmitTicketForm extends Component {
     const name = 'name';
 
     return (
-      <TextField>
+      <TextField key={name}>
         {renderLabel(Label, i18n.t('embeddable_framework.submitTicket.field.name.label'), false)}
         <Input
           key={name}
@@ -397,7 +397,7 @@ export class SubmitTicketForm extends Component {
     const name = 'description';
 
     return (
-      <TextField>
+      <TextField key={name}>
         {renderLabel(Label, i18n.t('embeddable_framework.submitTicket.field.description.label'), true)}
         <Textarea
           key={name}

@@ -350,7 +350,7 @@ class SubmitTicket extends Component {
       : <ZendeskLogo
         formSuccess={this.props.showNotification}
         rtl={i18n.isRTL()}
-        fullscreen={this.props.fullscreen} />;
+        fullscreen={false} />;
   }
 
   renderAttachmentBox = () => {
