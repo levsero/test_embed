@@ -70,7 +70,7 @@ export class UserProfile extends Component {
 
   renderSocialLoginOptions(authUrls) {
     return _.map(authUrls, (loginUrl, loginType) => (
-      <a className={styles.socialLoginOptions} key={loginType} href={loginUrl} target='_blank'>
+      <a className={styles.socialLoginOptions} title={loginType} key={loginType} href={loginUrl} target='_blank'>
         <Icon type={`Icon--${loginType}`} />
       </a>
     ));
