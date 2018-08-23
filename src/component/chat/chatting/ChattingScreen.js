@@ -380,6 +380,7 @@ class ChattingScreen extends Component {
         className={`${styles.zendeskLogo} ${logoClasses}`}
         rtl={i18n.isRTL()}
         fullscreen={false}
+        utm='webwidgetchat'
       /> : null;
   }
 
