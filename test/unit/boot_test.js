@@ -56,6 +56,9 @@ describe('boot', () => {
       'utility/mobileScaling': {
         initMobileScaling: noop
       },
+      'utility/window': {
+        initResizeMonitor: noop
+      },
       'src/redux/modules/base': {
         handleIdentifyRecieved: noop,
         logout: noop,

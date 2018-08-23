@@ -248,11 +248,15 @@ function hideByZoom(hide) {
   });
 }
 
+function onZoom() {
+}
+
 export const renderer = {
   init: init,
   initIPM: initIPM,
   postRenderCallbacks: postRenderCallbacks,
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
-  hide: hide
+  hide: hide,
+  onZoom
 };
