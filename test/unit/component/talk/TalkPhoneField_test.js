@@ -14,6 +14,28 @@ describe('Render phone field', () => {
   mockCountries = ['US', 'AU', 'ZM', 'BB'];
 
   const phoneFieldPath = buildSrcPath('component/talk/TalkPhoneField');
+  const Input = class extends Component {
+    setCustomValidity = () => {}
+
+    render() {
+      return (
+        <div className={this.props.className}>
+          {this.props.children}
+        </div>
+      );
+    }
+  };
+  const TalkCountryDropdown = class extends Component {
+    selectFocused = () => {}
+
+    render() {
+      return (
+        <div className={this.props.className}>
+          {this.props.children}
+        </div>
+      );
+    }
+  };
 
   beforeEach(() => {
     libphonenumber = require('libphonenumber-js');
@@ -32,7 +54,7 @@ describe('Render phone field', () => {
       '@zendeskgarden/react-textfields': {
         Message,
         FauxInput: noopReactComponent(),
-        Input: noopReactComponent()
+        Input
       },
       'component/Flag': { Flag: noopReactComponent() },
       'component/frame/gardenOverrides': { talkDropdownOverrides: {} },
@@ -41,7 +63,7 @@ describe('Render phone field', () => {
           t: _.identity
         }
       },
-      'component/talk/TalkCountryDropdown': { TalkCountryDropdown: noopReactComponent() },
+      'component/talk/TalkCountryDropdown': { TalkCountryDropdown },
       'constants/shared': {},
       './talkCountries': {
         countriesByIso: {
@@ -345,6 +367,53 @@ describe('Render phone field', () => {
           expect(TestUtils.isElementOfType(result, Message))
             .toEqual(false);
         });
+      });
+    });
+  });
+
+  describe('isValid', () => {
+    let phoneField,
+      mockPhoneValue,
+      mockSelectedKey,
+      mockValidate = jasmine.createSpy('validate');
+
+    beforeEach(() => {
+      phoneField = domRender(
+        <TalkPhoneField
+          getFrameContentDocument={() => document}
+          label='Phone'
+          supportedCountries={['US', 'AU']}
+          country='AU'
+          value='+61430999721'
+          required={true}
+          libphonenumber={libphonenumber}
+          validate={mockValidate} />
+      );
+      mockValidate.calls.reset();
+      phoneField.isValid(mockPhoneValue, mockSelectedKey);
+    });
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockPhoneValue = '+61430999721';
+        mockSelectedKey = 'AU';
+      });
+
+      it('calls validate with true', () => {
+        expect(mockValidate)
+          .toHaveBeenCalledWith(true);
+      });
+    });
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockPhoneValue = '+some random invalid number yo';
+        mockSelectedKey = 'AU';
+      });
+
+      it('calls validate with false', () => {
+        expect(mockValidate)
+          .toHaveBeenCalledWith(false);
       });
     });
   });

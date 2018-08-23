@@ -37,7 +37,8 @@ export class TalkPhoneField extends ControlledComponent {
     country: PropTypes.string,
     value: PropTypes.string,
     onCountrySelect: PropTypes.func,
-    showError: PropTypes.bool
+    showError: PropTypes.bool,
+    validate: PropTypes.func
   };
 
   static defaultProps = {
@@ -47,7 +48,8 @@ export class TalkPhoneField extends ControlledComponent {
     country: '',
     value: '',
     onCountrySelect: () => {},
-    showError: false
+    showError: false,
+    validate: () => {}
   }
 
   constructor(props) {
@@ -116,23 +118,31 @@ export class TalkPhoneField extends ControlledComponent {
     };
   };
 
-  onInputChange = (e) => {
+  isValid = (phoneValue, selectedKey) => {
     const { libphonenumber } = this.props;
-    const { selectedKey } = this.state;
-    const { value } = e.target;
 
-    const { code } = this.getCountryByIso(selectedKey);
-    const inputValue = !_.startsWith(value, code) ? code : this.formatPhoneNumber(selectedKey, value);
-
-    if (libphonenumber.isValidNumber(inputValue, selectedKey)) {
+    if (libphonenumber.isValidNumber(phoneValue, selectedKey)) {
       this.phoneInput.setCustomValidity('');
       this.setState({ valid: true });
+      this.props.validate(true);
     } else {
       this.setState({ valid: false });
       this.phoneInput.setCustomValidity('Error');
+      this.props.validate(false);
     }
+  }
 
-    this.setState({ inputValue, inputChangeTriggered: true });
+  getPhoneValue = (inputValue, selectedKey) => {
+    const { code } = this.getCountryByIso(selectedKey);
+
+    return !_.startsWith(inputValue, code) ? code : this.formatPhoneNumber(selectedKey, inputValue);
+  }
+
+  onInputChange = (e) => {
+    const phoneValue = this.getPhoneValue(e.target.value, this.state.selectedKey);
+
+    this.isValid(phoneValue, this.state.selectedKey);
+    this.setState({ inputValue: phoneValue, inputChangeTriggered: true });
   }
 
   getCountryByIso(iso) {
@@ -152,6 +162,10 @@ export class TalkPhoneField extends ControlledComponent {
       return <Message validation='error'>{i18n.t('embeddable_framework.validation.error.phone')}</Message>;
     }
     return null;
+  }
+
+  componentDidMount = () => {
+    this.isValid(this.state.inputValue, this.state.selectedKey);
   }
 
   render() {

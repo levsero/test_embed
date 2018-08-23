@@ -40,12 +40,12 @@ export class Form extends Component {
     this.form = null;
   }
 
-  isFormValid = () => {
-    return this.form.checkValidity() && !_.isEmpty(this.props.formState);
+  isFormValid = (isCustomValid=true) => {
+    return isCustomValid && this.form.checkValidity() && !_.isEmpty(this.props.formState);
   }
 
-  validate() {
-    this.setState({ valid: this.isFormValid() });
+  validate(isCustomValid=true) {
+    this.setState({ valid: this.isFormValid(isCustomValid) });
   }
 
   handleFormSubmit = (e) => {
