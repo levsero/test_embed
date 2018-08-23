@@ -62,6 +62,10 @@ export class ChatOfflineForm extends Component {
     };
   }
 
+  componentDidMount() {
+    this.validate();
+  }
+
   componentDidUpdate(prevProps) {
     if (!prevProps.widgetShown && this.props.widgetShown) {
       this.validate();
