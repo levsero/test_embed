@@ -845,6 +845,74 @@ describe('PrechatForm component', () => {
     });
   });
 
+  describe('isDepartmentFieldValid', () => {
+    let component,
+      mockForm,
+      mockFormState;
+
+    beforeEach(() => {
+      component = instanceRender(<PrechatForm formState={mockFormState} form={mockForm} />);
+    });
+
+    describe('form prop has no departments', () => {
+      beforeAll(() => {
+        mockForm = mockFormProp;
+      });
+
+      it('returns true', () => {
+        expect(component.isDepartmentFieldValid())
+          .toEqual(true);
+      });
+    });
+
+    describe('department is required', () => {
+      describe('there are no departments', () => {
+        beforeAll(() => {
+          mockForm = {
+            ...mockFormProp,
+            department: { required: true },
+            departments: []
+          };
+        });
+
+        it('returns true', () => {
+          expect(component.isDepartmentFieldValid())
+            .toEqual(true);
+        });
+      });
+
+      describe('there are departments', () => {
+        beforeAll(() => {
+          mockForm = {
+            ...mockFormProp,
+            department: { required: true },
+            departments: ['here']
+          };
+        });
+
+        describe('there is no value for departments in form state', () => {
+          it('returns falsy value', () => {
+            expect(component.isDepartmentFieldValid())
+              .toBeFalsy();
+          });
+        });
+
+        describe('there is a value for departments in form state', () => {
+          beforeAll(() => {
+            mockFormState = {
+              department: 'here'
+            };
+          });
+
+          it('returns truthy', () => {
+            expect(component.isDepartmentFieldValid())
+              .toBeTruthy();
+          });
+        });
+      });
+    });
+  });
+
   describe('isDepartmentOffline', () => {
     let mockDepartments,
       mockDepartmentId,
