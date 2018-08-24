@@ -159,6 +159,10 @@ const checkboxLabelOverrides = isMobile
         ${borderOverrides}
       }
 
+      :hover:before {
+        border-color: ${zdColorGrey600} !important;
+      }
+
       [dir='ltr'] & {
         padding-left: ${22/FONT_SIZE}rem !important;
       }
@@ -194,6 +198,7 @@ const checkboxInputOverrides = (themeColor) => {
   return css`
     &:checked ~ :before {
       background-color: ${themeColor} !important;
+      border-color: ${zdColorGrey600} !important;
     }
   `;
 };
