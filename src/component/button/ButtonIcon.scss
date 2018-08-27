@@ -6,18 +6,9 @@
   color: $zd-color-grey-800;
   padding: #{10/$font-size}rem;
 
-  .Icon svg path {
-    fill: $zd-color-grey-600;
-  }
-
   &:hover, &:focus, &:active {
     background: $zd-color-grey-100;
-    border-radius: #{4/$font-size}rem;
     color: $zd-color-grey-800;
-
-    .Icon svg path {
-      fill: $zd-color-grey-800;
-    }
   }
 }
 
@@ -26,8 +17,6 @@
 }
 
 .icon {
-  composes: Arrange-sizeFit u-pullLeft u-paddingRM from global;
-
   svg {
     min-width: #{16/$font-size}rem;
     min-height: #{16/$font-size}rem;
@@ -37,11 +26,6 @@
     path {
       fill: $zd-color-grey-500;
     }
-  }
-
-  [dir='rtl'] & {
-    padding-right: 0 !important;
-    padding-left: #{15/$font-size}rem !important;
   }
 }
 

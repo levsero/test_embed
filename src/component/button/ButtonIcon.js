@@ -7,7 +7,7 @@ import { locals as styles } from './ButtonIcon.scss';
 export class ButtonIcon extends Component {
   static propTypes = {
     actionable: PropTypes.bool,
-    className: PropTypes.string,
+    containerStyles: PropTypes.string,
     labelClassName: PropTypes.string,
     icon: PropTypes.string,
     iconClasses: PropTypes.string,
@@ -17,7 +17,7 @@ export class ButtonIcon extends Component {
 
   static defaultProps = {
     actionable: true,
-    className: '',
+    containerStyles: '',
     labelClassName: '',
     icon: '',
     iconClasses: '',
@@ -32,24 +32,26 @@ export class ButtonIcon extends Component {
   }
 
   render = () => {
-    const { actionable, className, labelClassName, icon, label } = this.props;
+    const { actionable, containerStyles, labelClassName, icon, label } = this.props;
     const actionableStyles = actionable ? styles.containerActionable : '';
     const buttonClasses = `
       ${styles.container}
+      ${containerStyles}
       ${actionableStyles}
+      ${this.props.icon}
     `;
 
     return (
-      <div
-        onClick={this.handleOnClick}
-        className={`${buttonClasses} ${className}`}>
+      <button
+        className={buttonClasses}
+        onClick={this.handleOnClick}>
         <Icon
           className={`${styles.icon} ${this.props.iconClasses}`}
           type={icon} />
         <span className={`${styles.label} ${labelClassName}`}>
           {label}
         </span>
-      </div>
+      </button>
     );
   }
 }

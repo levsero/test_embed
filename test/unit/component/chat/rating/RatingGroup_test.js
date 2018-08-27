@@ -11,7 +11,7 @@ describe('RatingGroup component', () => {
         ButtonIcon: class extends Component {
           render = () => {
             return (
-              <div className={`${this.props.icon} ${this.props.className}`} />
+              <div className={`${this.props.icon} ${this.props.containerStyles}`} />
             );
           }
         }
@@ -102,74 +102,6 @@ describe('RatingGroup component', () => {
 
         expect(thumbDownNode)
           .not.toContain('ratingIconActive');
-      });
-    });
-
-    describe('when rtl is false', () => {
-      let RatingGroupChildren;
-
-      beforeEach(() => {
-        const component = domRender(<RatingGroup />);
-
-        RatingGroupChildren = ReactDOM.findDOMNode(component).children;
-      });
-
-      describe('thumbs up icon', () => {
-        it('renders first', () => {
-          expect(RatingGroupChildren[0].className)
-            .toContain('Icon--thumbUp');
-        });
-
-        it('has leftRatingIcon classes', () => {
-          expect(RatingGroupChildren[0].className)
-            .toContain('leftRatingIcon');
-        });
-      });
-
-      describe('thumbs down icon', () => {
-        it('renders second', () => {
-          expect(RatingGroupChildren[1].className)
-            .toContain('Icon--thumbDown');
-        });
-
-        it('has ratingIcon classes', () => {
-          expect(RatingGroupChildren[1].className)
-            .toContain('ratingIcon');
-        });
-      });
-    });
-
-    describe('when rtl is true', () => {
-      let RatingGroupChildren;
-
-      beforeEach(() => {
-        const component = domRender(<RatingGroup rtl={true} />);
-
-        RatingGroupChildren = ReactDOM.findDOMNode(component).children;
-      });
-
-      describe('thumbs up icon', () => {
-        it('renders second', () => {
-          expect(RatingGroupChildren[1].className)
-            .toContain('Icon--thumbUp');
-        });
-
-        it('has ratingIcon classes', () => {
-          expect(RatingGroupChildren[1].className)
-            .toContain('ratingIcon');
-        });
-      });
-
-      describe('thumbs down icon', () => {
-        it('renders first', () => {
-          expect(RatingGroupChildren[0].className)
-            .toContain('Icon--thumbDown');
-        });
-
-        it('has leftRatingIcon classes', () => {
-          expect(RatingGroupChildren[0].className)
-            .toContain('leftRatingIcon');
-        });
       });
     });
   });

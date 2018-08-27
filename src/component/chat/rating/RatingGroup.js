@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import { ButtonIcon } from 'component/button/ButtonIcon';
 
@@ -16,13 +15,11 @@ export class RatingGroup extends Component {
   static propTypes = {
     updateRating: PropTypes.func.isRequired,
     rating: PropTypes.string,
-    rtl: PropTypes.bool,
     className: PropTypes.string
   }
 
   static defaultProps = {
     rating: ratings.NOT_SET,
-    rtl: false,
     className: ''
   }
 
@@ -33,14 +30,13 @@ export class RatingGroup extends Component {
   }
 
   renderThumbsUpButton = () => {
-    const { rating, rtl } = this.props;
+    const { rating } = this.props;
     const thumbUpActiveStyle = rating === ratings.GOOD ? styles.ratingIconActive : '';
-    const iconStyles = !rtl ? styles.leftRatingIcon : styles.ratingIcon;
 
     return (
       <ButtonIcon
         key='good'
-        className={`${iconStyles} ${thumbUpActiveStyle}`}
+        containerStyles={`${styles.ratingIcon} ${thumbUpActiveStyle}`}
         iconClasses={styles.icon}
         icon='Icon--thumbUp'
         onClick={() => this.ratingClickedHandler(ratings.GOOD)} />
@@ -48,14 +44,14 @@ export class RatingGroup extends Component {
   }
 
   renderThumbsDownButton = () => {
-    const { rating, rtl } = this.props;
+    const { rating } = this.props;
     const thumbDownActiveStyle = rating === ratings.BAD ? styles.ratingIconActive : '';
-    const iconStyles = !rtl ? styles.ratingIcon : styles.leftRatingIcon;
+    const iconStyles = `${styles.ratingIcon} ${styles.thumbDownIcon}`;
 
     return (
       <ButtonIcon
         key='bad'
-        className={`${iconStyles} ${thumbDownActiveStyle}`}
+        containerStyles={`${iconStyles} ${thumbDownActiveStyle}`}
         iconClasses={styles.icon}
         icon='Icon--thumbDown'
         onClick={() => this.ratingClickedHandler(ratings.BAD)} />
@@ -63,12 +59,10 @@ export class RatingGroup extends Component {
   }
 
   render = () => {
-    const buttons = [this.renderThumbsUpButton(), this.renderThumbsDownButton()];
-    const renderButtons = !this.props.rtl ? buttons : _.reverse(buttons);
-
     return (
-      <div className={`${styles.container} ${this.props.className}`}>
-        {renderButtons}
+      <div className={this.props.className}>
+        {this.renderThumbsUpButton()}
+        {this.renderThumbsDownButton()}
       </div>
     );
   }
