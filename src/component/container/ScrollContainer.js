@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_MARGIN } from 'constants/shared';
 import { isMobileBrowser } from 'utility/devices';
 import Refocus from 'component/Refocus';
 
+import { win } from 'utility/globals';
 import { locals as styles } from './ScrollContainer.scss';
 
 const isMobile = isMobileBrowser();
@@ -20,6 +22,7 @@ export class ScrollContainer extends Component {
     footerClasses: PropTypes.string,
     fullscreen: PropTypes.bool,
     headerContent: PropTypes.element,
+    maxHeight: PropTypes.number,
     scrollShadowVisible: PropTypes.bool,
     title: PropTypes.string.isRequired,
     classes: PropTypes.string,
@@ -34,6 +37,7 @@ export class ScrollContainer extends Component {
     footerContent: [],
     fullscreen: isMobile,
     headerContent: null,
+    maxHeight: MAX_WIDGET_HEIGHT,
     scrollShadowVisible: false,
     onContentScrolled: () => {},
     titleClasses: ''
@@ -104,6 +108,21 @@ export class ScrollContainer extends Component {
     this.setState({ scrollShadowVisible: visible });
   }
 
+  calculateHeight = () => {
+    const winHeight = win.innerHeight;
+    const { maxHeight } = this.props;
+
+    // If the window is smaller then the widget's size
+    if (winHeight < maxHeight) {
+      // cap minimum widget height so it doesn't look too squashed
+      return winHeight > MIN_WIDGET_HEIGHT
+        ? winHeight - WIDGET_MARGIN*2
+        : MIN_WIDGET_HEIGHT - WIDGET_MARGIN*2;
+    }
+
+    return maxHeight;
+  }
+
   renderFooter() {
     const { footerContent, footerClasses, scrollShadowVisible } = this.props;
     const footerShadowClasses = this.state.scrollShadowVisible || scrollShadowVisible ? styles.footerShadow : '';
@@ -145,7 +164,7 @@ export class ScrollContainer extends Component {
     );
 
     return (
-      <div className={scrollContainerClasses}>
+      <div style={{ height: this.calculateHeight() }} className={scrollContainerClasses}>
         <header ref={(el) => {this.header = el;}}
           className={headerClasses}>
           <h1 className={titleClasses}>

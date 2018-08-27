@@ -1,6 +1,10 @@
 // If this changes it also needs to change in styles vars
 export const FONT_SIZE = 14;
 
+export const MAX_WIDGET_HEIGHT = 550;
+export const MIN_WIDGET_HEIGHT = 200;
+export const WIDGET_MARGIN = 15;
+
 // TODO: this is an incomplete list, and should probably include exports for all the other icons we use as well
 export const ICONS = {
   ELLIPSIS:             'Icon--ellipsis',
