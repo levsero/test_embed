@@ -10,6 +10,10 @@ describe('NestedDropdown component', () => {
         value: 'ice cream'
       },
       {
+        name: 'ice',
+        value: 'ice'
+      },
+      {
         name: 'fruits::apple',
         value: 'fruits__apple',
         default: true
@@ -138,6 +142,7 @@ describe('NestedDropdown component', () => {
           .toEqual({
             'pizza': { name: 'pizza', value: 'pizza' },
             'ice cream': { name: 'ice cream', value: 'ice cream' },
+            'ice': { name: 'ice', value: 'ice' },
             'fruits': { name: 'fruits', value: 'fruits-nested' },
             'fruits::apple': { name: 'fruits::apple', value: 'fruits__apple', default: true },
             'fruits::banana': { name: 'fruits::banana', value: 'fruits__banana' },
@@ -161,7 +166,7 @@ describe('NestedDropdown component', () => {
     describe('topLevelMenu', () => {
       it('equals just the items in the initial menu screen', () => {
         expect(topLevelMenu.length)
-          .toEqual(4);
+          .toEqual(5);
       });
     });
   });

@@ -81,7 +81,7 @@ export class NestedDropdown extends Component {
 
   renderItems = (options) => {
     return _.reduce(options, (items, option, name) => {
-      const hasNestedOptions = this.findNestedOptionsByName(name).length > 1;
+      const hasNestedOptions = this.findNestedOptionsByName(name).length > 0;
       const splitName = name.split('::');
       const titleName = splitName[splitName.length-1];
 
@@ -104,7 +104,7 @@ export class NestedDropdown extends Component {
 
   findNestedOptionsByName = (name) => {
     return _.filter(this.options, option => {
-      return _.includes(option.name, name);
+      return _.includes(option.name, name) && _.includes(option.name, '::') && option.name !== name;
     });
   }
 
@@ -145,11 +145,11 @@ export class NestedDropdown extends Component {
     const splitName = selectedKeyOption.name.split('::');
 
     // Handles the next and previous buttons selected
-    if (nestedOptions.length > 1) {
+    if (nestedOptions.length > 0) {
       const backName = splitName.slice(0, -1).join('::');
       const depth = splitName.length + 1;
 
-      return this.formatBackMenu(nestedOptions, backName, depth);
+      return this.formatBackMenu([selectedKeyOption, ...nestedOptions], backName, depth);
     // Handles a nested option selected
     } else if (splitName.length > 1) {
       const menu = this.findNestedMenuByName(selectedKeyOption.name);
