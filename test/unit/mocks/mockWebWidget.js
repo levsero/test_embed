@@ -16,7 +16,7 @@ export default class MockWebWidget extends Component {
     };
   }
 
-  getRootComponent() {
+  getActiveComponent() {
     return this.refs.mockChild;
   }
 

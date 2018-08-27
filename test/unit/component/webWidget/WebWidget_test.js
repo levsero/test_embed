@@ -941,7 +941,7 @@ describe('WebWidget component', () => {
       component = instanceRender(<WebWidget {...componentProps} />);
 
       spyOn(component, 'showHelpCenter');
-      spyOn(component, 'getRootComponent').and.callFake(() => ({
+      spyOn(component, 'getActiveComponent').and.callFake(() => ({
         clearForm: clearFormSpy
       }));
 
@@ -1935,13 +1935,13 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
 
-        spyOn(webWidget, 'getRootComponent');
+        spyOn(webWidget, 'getActiveComponent');
 
         webWidget.onContainerClick();
       });
 
-      it('calls getRootComponent', () => {
-        expect(webWidget.getRootComponent)
+      it('calls getActiveComponent', () => {
+        expect(webWidget.getActiveComponent)
           .toHaveBeenCalled();
       });
 
@@ -1960,13 +1960,13 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='' />);
 
-        spyOn(webWidget, 'getRootComponent');
+        spyOn(webWidget, 'getActiveComponent');
 
         webWidget.onContainerClick();
       });
 
-      it('calls getRootComponent', () => {
-        expect(webWidget.getRootComponent)
+      it('calls getActiveComponent', () => {
+        expect(webWidget.getActiveComponent)
           .toHaveBeenCalled();
       });
 

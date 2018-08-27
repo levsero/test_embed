@@ -239,7 +239,7 @@ describe('embed.webWidget', () => {
 
         frame = webWidget.get().instance;
         faythe = frame.getRootComponent();
-        child = faythe.getRootComponent();
+        child = faythe.getActiveComponent();
         grandchild = child.getChild();
       });
 

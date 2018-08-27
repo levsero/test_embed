@@ -183,9 +183,7 @@ class WebWidget extends Component {
     }
   }
 
-  getActiveComponent = () => this.props.activeEmbed;
-
-  getRootComponent = () => {
+  getActiveComponent = () => {
     const component = this.refs[this.props.activeEmbed];
 
     return component && component.getWrappedInstance ? component.getWrappedInstance() : component;
@@ -378,7 +376,7 @@ class WebWidget extends Component {
       updateBackButtonVisibility,
       updateActiveEmbed,
       resetActiveArticle } = this.props;
-    const rootComponent = this.getRootComponent();
+    const activeComponent = this.getActiveComponent();
     const helpCenterAvailable = this.isHelpCenterAvailable();
     const channelChoiceAvailable = this.isChannelChoiceAvailable();
 
@@ -387,7 +385,7 @@ class WebWidget extends Component {
       resetActiveArticle();
       if (ipmHelpCenterAvailable) updateActiveEmbed(channelChoice);
     } else if (this.props.showTicketFormsBackButton) {
-      rootComponent.clearForm();
+      activeComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
     } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
       updateActiveEmbed(channelChoice);
@@ -403,18 +401,18 @@ class WebWidget extends Component {
 
   onContainerClick = () => {
     const { activeEmbed } = this.props;
-    const rootComponent = this.getRootComponent() || {};
+    const activeComponent = this.getActiveComponent() || {};
 
     if (activeEmbed === noActiveEmbed) return;
 
-    _.attempt(rootComponent.onContainerClick);
+    _.attempt(activeComponent.onContainerClick);
   };
 
   onContainerDragEnter = () => {
     const { activeEmbed } = this.props;
 
     if (activeEmbed === submitTicket || activeEmbed === chat) {
-      this.getRootComponent().handleDragEnter();
+      this.getActiveComponent().handleDragEnter();
     }
   }
 
