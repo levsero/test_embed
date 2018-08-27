@@ -703,7 +703,7 @@ describe('fields', () => {
 
       it('calls i18n translate to include "optional" key', () => {
         expect(translateSpy)
-          .toHaveBeenCalledWith('embeddable_framework.validation.label.optional', { label: 'yolo' });
+          .toHaveBeenCalledWith('embeddable_framework.validation.label.new_optional', { label: 'yolo' });
       });
     });
   });
