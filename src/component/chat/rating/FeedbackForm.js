@@ -61,7 +61,7 @@ export class FeedbackForm extends Component {
     return (
       <div>
         <label className={styles.feedbackMessage}>
-          {feedbackMessage || i18n.t('embeddable_framework.chat.postChat.rating.title')}
+          {feedbackMessage || i18n.t('embeddable_framework.chat.postChat.rating.new_title')}
         </label>
         <RatingGroup
           className={styles.ratingGroup}
