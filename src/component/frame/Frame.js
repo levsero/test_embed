@@ -159,9 +159,20 @@ export class Frame extends Component {
     }, 0);
 
     if (this.child) {
-      this.child.forceUpdate();
-      this.child.nav.forceUpdate();
+      this.forceUpdateWorld();
     }
+  }
+
+  forceUpdateWorld = () => {
+    this.child.forceUpdate();
+    this.child.nav.forceUpdate();
+    const embed = this.getRootComponent();
+
+    if (embed.getActiveComponent) {
+      embed.getActiveComponent().forceUpdate();
+    }
+
+    _.defer(this.forceUpdate.bind(this));
   }
 
   updateFrameTitle = (title) => {

@@ -9,6 +9,7 @@ describe('renderer', () => {
     mockUpdateArturos;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
+  const forceUpdateWorldSpy = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
   const mediatorInitZopimStandaloneSpy = jasmine.createSpy('mediator.initZopimStandalone');
   const mediatorInitSpy = jasmine.createSpy('mediator.init');
@@ -29,7 +30,8 @@ describe('renderer', () => {
     mock.get.and.returnValue({
       instance: {
         updateBaseFontSize: updateBaseFontSize,
-        updateFrameSize: updateFrameSize
+        updateFrameSize: updateFrameSize,
+        forceUpdateWorld: forceUpdateWorldSpy
       }
     });
 
@@ -562,6 +564,33 @@ describe('renderer', () => {
         expect(mockWebWidgetRecentCall.args[1].helpCenterForm.position)
           .toEqual('left');
       });
+    });
+  });
+
+  describe('#onZoom', () => {
+    beforeEach(() => {
+      renderer.init({
+        embeds: {
+          'ticketSubmissionForm': {
+            'embed': 'ticketSubmissionForm'
+          },
+          'launcher': {
+            'embed': 'launcher'
+          }
+        }
+      });
+
+      renderer.onZoom();
+    });
+
+    it('loops over all rendered embeds and calls forceUpdateWorld on them', () => {
+      renderer.propagateFontRatio(2);
+
+      expect(forceUpdateWorldSpy)
+        .toHaveBeenCalled();
+
+      expect(forceUpdateWorldSpy.calls.count())
+        .toEqual(2);
     });
   });
 });

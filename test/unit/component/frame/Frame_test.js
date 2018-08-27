@@ -38,10 +38,11 @@ describe('Frame', () => {
       this.onSubmit = props.onSubmitHandler;
       this.updateFrameSize = props.updateFrameSize;
       this.setOffsetHorizontal = props.setOffsetHorizontal;
+      this.getActiveComponent = () => this.refs.activeComponent;
     }
     componentWillUnmount() {}
     render() {
-      return <div className='mock-component' refs='rootComponent' />;
+      return <div className='mock-component' refs='activeComponent' />;
     }
   }
 
@@ -163,18 +164,12 @@ describe('Frame', () => {
     describe('when frame child exists', () => {
       beforeEach(() => {
         frame = domRender(<Frame>{mockChild}</Frame>);
-        spyOn(frame.getChild(), 'forceUpdate');
-        spyOn(frame.getChild().nav, 'forceUpdate');
+        spyOn(frame, 'forceUpdateWorld');
         frame.updateFrameLocale();
       });
 
-      it('calls forceUpdate on the child', () => {
-        expect(frame.getChild().forceUpdate)
-          .toHaveBeenCalled();
-      });
-
-      it('calls forceUpdate on the child nav', () => {
-        expect(frame.getChild().nav.forceUpdate)
+      it('calls forceUpdateWorld', () => {
+        expect(frame.forceUpdateWorld)
           .toHaveBeenCalled();
       });
     });
@@ -186,6 +181,7 @@ describe('Frame', () => {
 
         jasmine.clock().install();
         frame = domRender(<Frame>{mockChild}</Frame>);
+        spyOn(frame, 'forceUpdateWorld');
         frame.updateFrameLocale();
         documentElem = frame.getContentDocument().documentElement;
 
@@ -210,6 +206,7 @@ describe('Frame', () => {
 
         jasmine.clock().install();
         frame = domRender(<Frame>{mockChild}</Frame>);
+        spyOn(frame, 'forceUpdateWorld');
         frame.updateFrameLocale();
         documentElem = frame.getContentDocument().documentElement;
 
@@ -497,6 +494,39 @@ describe('Frame', () => {
         expect(dispatchSpy)
           .not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('forceUpdateWorld', () => {
+    let frame, rootComponent, activeComponentForceUpdateSpy;
+
+    beforeEach(() => {
+      frame = domRender(<Frame>{mockChild}</Frame>);
+
+      rootComponent = frame.getRootComponent();
+      activeComponentForceUpdateSpy = jasmine.createSpy('activeComponent.forceUpdate');
+
+      spyOn(rootComponent, 'getActiveComponent').and.returnValue({ forceUpdate: activeComponentForceUpdateSpy });
+
+      spyOn(frame.child, 'forceUpdate');
+      spyOn(frame.child.nav, 'forceUpdate');
+
+      frame.forceUpdateWorld();
+    });
+
+    it('calls forceUpdate on the child', () => {
+      expect(frame.child.forceUpdate)
+        .toHaveBeenCalled();
+    });
+
+    it('calls forceUpdate on the child nav', () => {
+      expect(frame.child.nav.forceUpdate)
+        .toHaveBeenCalled();
+    });
+
+    it('calls forceUpdate on the active component', () => {
+      expect(activeComponentForceUpdateSpy)
+        .toHaveBeenCalled();
     });
   });
 

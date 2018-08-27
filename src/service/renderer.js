@@ -249,6 +249,9 @@ function hideByZoom(hide) {
 }
 
 function onZoom() {
+  renderedEmbedsApply((embed) => {
+    embed.forceUpdateWorld();
+  });
 }
 
 export const renderer = {
