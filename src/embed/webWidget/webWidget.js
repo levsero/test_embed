@@ -139,8 +139,8 @@ export default function WebWidgetFactory(name) {
     const rootConfig = _.omit(config, ['ticketSubmissionForm', 'helpCenterForm', 'zopimChat', 'talk']);
     const globalConfig = _.extend(
       configDefaults,
-      submitTicketSettings.config,
       helpCenterSettings.config,
+      submitTicketSettings.config,
       talkConfig,
       chatConfig,
       rootConfig
