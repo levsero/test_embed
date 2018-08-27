@@ -162,7 +162,6 @@ export default function WebWidgetFactory(name) {
       const margin = settings.get('margin');
 
       frameStyle = _.extend({}, frameStyle, {
-        width: 342,
         marginLeft: margin,
         marginRight: margin
       });

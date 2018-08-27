@@ -7,6 +7,8 @@ describe('WebWidget component', () => {
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
   const ChatNotificationPopup = noopReactComponent();
+  const MAX_WIDGET_HEIGHT_NO_SEARCH = 150;
+  const WIDGET_MARGIN = 15;
 
   beforeEach(() => {
     mockery.enable();
@@ -78,6 +80,10 @@ describe('WebWidget component', () => {
         ChannelChoice: noopReactComponent()
       },
       'component/chat/ChatNotificationPopup': { ChatNotificationPopup },
+      'constants/shared': {
+        MAX_WIDGET_HEIGHT_NO_SEARCH,
+        WIDGET_MARGIN
+      },
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
@@ -1451,12 +1457,17 @@ describe('WebWidget component', () => {
     });
 
     describe('when help center is available', () => {
+      let hasSearched, setFixedFrameStylesSpy;
+
       beforeEach(() => {
+        setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
         webWidget = instanceRender(
           <WebWidget
             updateActiveEmbed={updateActiveEmbedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            setFixedFrameStyles={setFixedFrameStylesSpy}
             helpCenterAvailable={true}
+            hasSearched={hasSearched}
             activeEmbed='' />
         );
 
@@ -1467,6 +1478,30 @@ describe('WebWidget component', () => {
       it('calls updateActiveEmbed with help center', () => {
         expect(updateActiveEmbedSpy)
           .toHaveBeenCalledWith('helpCenterForm');
+      });
+
+      describe('when hasSearched is true', () => {
+        beforeAll(() => {
+          hasSearched = true;
+        });
+
+        it('does not call setFixedFrameStyles', () => {
+          expect(setFixedFrameStylesSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when hasSearched is false', () => {
+        beforeAll(() => {
+          hasSearched = false;
+        });
+
+        it('call setFixedFrameStyles with the correct params', () => {
+          expect(setFixedFrameStylesSpy)
+            .toHaveBeenCalledWith({
+              maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
+            });
+        });
       });
 
       describe('when the article view is active', () => {

@@ -82,6 +82,7 @@ class HelpCenter extends Component {
     onNextClick: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     performSearch: PropTypes.func.isRequired,
+    onSearchSuccess: PropTypes.func,
     performImageSearch: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
     showNextButton: PropTypes.bool,
@@ -126,6 +127,7 @@ class HelpCenter extends Component {
     localeFallbacks: [],
     onNextClick: () => {},
     originalArticleButton: true,
+    onSearchSuccess: () => {},
     showBackButton: () => {},
     showNextButton: true,
     style: null,
@@ -178,6 +180,7 @@ class HelpCenter extends Component {
   interactiveSearchSuccessFn = () => {
     this.props.showBackButton(false);
     this.focusField();
+    this.props.onSearchSuccess();
   }
 
   focusField = () => {

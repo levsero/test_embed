@@ -11,6 +11,7 @@ import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
 import { Container } from 'component/container/Container';
 import HelpCenter from 'component/helpCenter/HelpCenter';
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
+import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'constants/shared';
 import { updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility } from 'src/redux/modules/base';
@@ -258,12 +259,17 @@ class WebWidget extends Component {
 
   resetActiveEmbed = () => {
     const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable,
-      chatAvailable, articleViewActive, ipmHelpCenterAvailable } = this.props;
+      chatAvailable, articleViewActive, ipmHelpCenterAvailable, hasSearched, setFixedFrameStyles } = this.props;
     let backButton = false;
 
     if (this.isHelpCenterAvailable()) {
       updateActiveEmbed(helpCenter);
       backButton = articleViewActive;
+      if (!hasSearched) {
+        setFixedFrameStyles({
+          maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
+        });
+      }
     } else if (ipmHelpCenterAvailable && articleViewActive) {
       // we only go into this condition if HC is injected by IPM
       updateActiveEmbed(helpCenter);
@@ -465,6 +471,7 @@ class WebWidget extends Component {
           contextualHelpEnabled={helpCenterConfig.contextualHelpEnabled}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
+          onSearchSuccess={this.props.setFixedFrameStyles}
           showBackButton={this.props.updateBackButtonVisibility}
           showNextButton={showNextButton}
           style={this.props.style}
