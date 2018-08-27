@@ -6,6 +6,8 @@ describe('HelpCenterDesktop component', () => {
   const ChannelChoicePopupDesktop = noopReactComponent();
   const LoadingBarContent = noopReactComponent();
 
+  const MAX_WIDGET_HEIGHT_NO_SEARCH = 150;
+
   beforeEach(() => {
     mockery.enable();
 
@@ -61,6 +63,9 @@ describe('HelpCenterDesktop component', () => {
           footerLogo: 'footerLogoClasses',
           noCustomHeight: 'noCustomHeight'
         }
+      },
+      'constants/shared': {
+        MAX_WIDGET_HEIGHT_NO_SEARCH,
       },
       'service/i18n': {
         i18n: {
@@ -174,9 +179,14 @@ describe('HelpCenterDesktop component', () => {
           mockHasSearched = true;
         });
 
-        it('should not apply any custom height classes', () => {
+        it('does not apply any custom height classes', () => {
           expect(result.props.children[0].props.classes)
             .toEqual('');
+        });
+
+        it('passes undefined through as maxHeight prop to scrollContainer', () => {
+          expect(result.props.children[0].props.maxHeight)
+            .toEqual(undefined);
         });
       });
 
@@ -185,9 +195,14 @@ describe('HelpCenterDesktop component', () => {
           mockHasSearched = false;
         });
 
-        it('should not render the new 550px height', () => {
+        it('does not render the new 550px height', () => {
           expect(result.props.children[0].props.classes)
             .toEqual('noCustomHeight');
+        });
+
+        it('passes the MAX_WIDGET_HEIGHT_NO_SEARCH through as maxHeight prop to scrollContainer', () => {
+          expect(result.props.children[0].props.maxHeight)
+            .toEqual(MAX_WIDGET_HEIGHT_NO_SEARCH);
         });
       });
     });
