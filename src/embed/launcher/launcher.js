@@ -34,8 +34,9 @@ function create(name, config, reduxStore) {
     color: '#659700'
   };
   const frameStyle = {
-    width: '80px',
+    width: '115px',
     height: '50px',
+    minHeight: '50px',
     marginTop: '10px',
     marginBottom: '10px',
     marginLeft: '20px',
@@ -45,6 +46,7 @@ function create(name, config, reduxStore) {
 
   config = _.extend(configDefaults, config);
 
+  const frameOffsetWidth = 5;
   const onClick = (e) => {
     e.preventDefault();
 
@@ -73,11 +75,19 @@ function create(name, config, reduxStore) {
 
     return _.extend({}, frameStyle, result);
   };
+  const adjustWidth = (frameStyle, el) => {
+    const width = Math.max(el.clientWidth, el.offsetWidth);
+
+    return {
+      ...frameStyle,
+      width: (_.isFinite(width) ? width : 0) + frameOffsetWidth
+    };
+  };
 
   const params = {
     css: launcherCSS + generateUserCSS(config.color),
-    frameStyleModifier: isMobileBrowser() ? adjustFrameStyleMargins : () => {},
-    frameOffsetWidth: 5,
+    frameStyleModifier: isMobileBrowser() ? adjustFrameStyleMargins : adjustWidth,
+    frameOffsetWidth,
     frameOffsetHeight: 1,
     frameStyle: frameStyle,
     fullscreenable: false,
