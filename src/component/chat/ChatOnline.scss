@@ -1,14 +1,5 @@
 @import '../../styles/_vars.scss';
 
-.mobileContainer {
-  font-size: $font-size-mobile;
-  height: 100% !important;
-}
-
-.container {
-  height: #{$chat-height/$font-size}rem;
-}
-
 .chatEndPopupDescription {
   composes: u-paddingVL u-paddingLL u-paddingRL from global;
   color: $zd-color-grey-800;

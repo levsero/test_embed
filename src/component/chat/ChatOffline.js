@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { i18n } from 'service/i18n';
-import classNames from 'classnames';
 
 import { Button } from '@zendeskgarden/react-buttons';
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
@@ -98,14 +97,9 @@ class ChatOffline extends Component {
   }
 
   renderChatOfflineScreen = () => {
-    const scrollContainerClasses = classNames(styles.scrollContainer, {
-      [styles.mobileContainer]: this.props.isMobile
-    });
-
     return (
       <ScrollContainer
         ref='scrollContainer'
-        classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
         title={i18n.t('embeddable_framework.chat.title')}>
         <div>

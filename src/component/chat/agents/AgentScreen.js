@@ -61,15 +61,10 @@ class AgentScreen extends Component {
 
   render = () => {
     const { activeAgents, isMobile } = this.props;
-    const scrollContainerClasses = classNames(
-      styles.scrollContainer,
-      { [styles.mobileContainer]: isMobile }
-    );
 
     return (
       <ScrollContainer
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
         footerContent={this.renderBackButton()}
         fullscreen={isMobile}

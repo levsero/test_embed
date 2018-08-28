@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import _ from 'lodash';
 
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -93,12 +92,6 @@ class PrechatScreen extends Component {
     loginSettings: {}
   };
 
-  getScrollContainerClasses() {
-    return classNames(styles.scrollContainer, {
-      [styles.mobileContainer]: this.props.isMobile
-    });
-  }
-
   onPrechatFormComplete = (info) => {
     const selectedDepartment = parseInt(info.department);
     const isSelectedDepartmentOffline = (!!selectedDepartment &&
@@ -141,7 +134,6 @@ class PrechatScreen extends Component {
     return (
       <ScrollContainer
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.isMobile}>
         <ChatOfflineMessageForm
@@ -178,7 +170,6 @@ class PrechatScreen extends Component {
     return (
       <ScrollContainer
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.isMobile}>
         <LoadingSpinner className={styles.loadingSpinner} />

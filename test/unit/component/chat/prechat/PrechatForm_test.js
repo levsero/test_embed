@@ -45,8 +45,7 @@ describe('PrechatForm component', () => {
     initMockRegistry({
       './PrechatForm.scss': {
         locals: {
-          nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass',
-          mobileContainer: 'mobileContainerClass'
+          nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass'
         }
       },
       'src/constants/shared': {
@@ -152,34 +151,6 @@ describe('PrechatForm component', () => {
     it('returns a form component', () => {
       expect(result.type)
         .toEqual('form');
-    });
-
-    describe('scrollContainer.classes', () => {
-      describe('when it is mobile mode', () => {
-        beforeAll(() => {
-          mockIsMobile = true;
-        });
-
-        it('contains mobile styles', () => {
-          const targetElem = result.props.children;
-
-          expect(targetElem.props.classes)
-            .toContain('mobileContainerClass');
-        });
-      });
-
-      describe('when it is desktop mode', () => {
-        beforeAll(() => {
-          mockIsMobile = false;
-        });
-
-        it('does not contain mobile styles', () => {
-          const targetElem = result.props.children;
-
-          expect(targetElem.props.classes)
-            .not.toContain('mobileContainerClass');
-        });
-      });
     });
   });
 

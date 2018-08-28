@@ -93,10 +93,6 @@ class RatingScreen extends Component {
   render = () => {
     const { isMobile } = this.props;
     const { message } = this.props.postChatFormSettings;
-    const scrollContainerClasses = classNames(
-      styles.scrollContainer,
-      { [styles.mobileContainer]: isMobile }
-    );
     const logoFooterClasses = classNames({
       [styles.logoFooter]: !this.props.hideZendeskLogo
     });
@@ -108,7 +104,6 @@ class RatingScreen extends Component {
       <ScrollContainer
         headerContent={this.renderChatHeader()}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
         footerClasses={logoFooterClasses}
         footerContent={this.renderZendeskLogo()}

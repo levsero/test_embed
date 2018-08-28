@@ -17,7 +17,6 @@ describe('RatingScreen component', () => {
     initMockRegistry({
       './RatingScreen.scss': {
         locals: {
-          scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
           logoFooter: 'logoFooterClasses'
         }
@@ -97,11 +96,6 @@ describe('RatingScreen component', () => {
     });
 
     describe('the scroll container wrapper', () => {
-      it('has its classes prop to the scroll container style', () => {
-        expect(component.render().props.classes)
-          .toEqual('scrollContainerClasses');
-      });
-
       it('has its containerClasses prop to the scrollContainerContent style', () => {
         expect(component.render().props.containerClasses)
           .toEqual('scrollContainerContentClasses');

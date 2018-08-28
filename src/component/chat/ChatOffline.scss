@@ -1,25 +1,5 @@
 @import '../../styles/_vars.scss';
 
-.mobileContainer {
-  font-size: $font-size-mobile;
-  height: 100% !important;
-
-  .greeting {
-    font-size: #{16/$font-size}rem !important;
-  }
-}
-
-.container {
-  height: #{$chat-height/$font-size}rem;
-}
-
-.scrollContainer {
-  composes: container;
-
-  display: flex;
-  flex-direction: column;
-}
-
 .scrollContainerContent {
   height: 100%;
   max-height: none;

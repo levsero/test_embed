@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import _ from 'lodash';
 
 import { ButtonPill } from 'component/button/ButtonPill';
@@ -402,13 +401,8 @@ class Chat extends Component {
   }
 
   render = () => {
-    const containerStyle = classNames(
-      styles.container,
-      { [styles.mobileContainer]: this.props.isMobile }
-    );
-
     return (
-      <div className={containerStyle}>
+      <div>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderAgentListScreen()}
