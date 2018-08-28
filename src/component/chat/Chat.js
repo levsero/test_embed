@@ -36,6 +36,10 @@ class Chat extends Component {
     this.offline = null;
   }
 
+  forceUpdate() {
+    this.getActiveComponent().forceUpdate();
+  }
+
   getActiveComponent = () => {
     return (this.online) ? this.online : this.offline;
   }
