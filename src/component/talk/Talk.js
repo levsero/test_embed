@@ -181,6 +181,7 @@ class Talk extends Component {
 
     return (
       <TalkPhoneField
+        validate={(val) => this.form && this.form.validate(val)}
         rtl={i18n.isRTL()}
         label={getLabelText(phoneLabel, true)}
         required={true}

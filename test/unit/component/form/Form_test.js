@@ -32,6 +32,115 @@ describe('Form component', () => {
     mockery.disable();
   });
 
+  describe('isFormValid', () => {
+    let form,
+      result,
+      mockFormState,
+      mockCheckValidity,
+      mockCustomValid;
+
+    beforeEach(() => {
+      form = instanceRender(<Form formState={mockFormState} />);
+      form.form = {
+        checkValidity: () => mockCheckValidity
+      };
+      result = form.isFormValid(mockCustomValid);
+    });
+
+    describe('form checkValidity', () => {
+      beforeAll(() => {
+        mockCustomValid = true;
+        mockFormState = {
+          email: 'yolo'
+        };
+      });
+
+      describe('when overall form is valid', () => {
+        beforeAll(() => {
+          mockCheckValidity = true;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when overall form is not valid', () => {
+        beforeAll(() => {
+          mockCheckValidity = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('form state', () => {
+      beforeAll(() => {
+        mockCustomValid = true;
+        mockCheckValidity = true;
+      });
+
+      describe('when there is form state', () => {
+        beforeAll(() => {
+          mockFormState = {
+            email: 'yolO@yolo.com'
+          };
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when there is no form state', () => {
+        beforeAll(() => {
+          mockFormState = {};
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('custom validity', () => {
+      beforeAll(() => {
+        mockCheckValidity = true;
+        mockFormState = {
+          email: 'yolo@yolo.com'
+        };
+      });
+
+      describe('when customValid is true', () => {
+        beforeAll(() => {
+          mockCustomValid = true;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when customValid is false', () => {
+        beforeAll(() => {
+          mockCustomValid = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+  });
+
   describe('handleFormSubmit', () => {
     let form, onCompletedSpy, preventDefaultSpy;
 
