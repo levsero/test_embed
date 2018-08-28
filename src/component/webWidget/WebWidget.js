@@ -254,19 +254,25 @@ class WebWidget extends Component {
     }
   }
 
+  checkFrameHeight = () => {
+    const { hasSearched, setFixedFrameStyles } = this.props;
+
+    if (!hasSearched) {
+      setFixedFrameStyles({
+        maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
+      });
+    }
+  }
+
   resetActiveEmbed = () => {
     const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable,
-      chatAvailable, articleViewActive, ipmHelpCenterAvailable, hasSearched, setFixedFrameStyles } = this.props;
+      chatAvailable, articleViewActive, ipmHelpCenterAvailable } = this.props;
     let backButton = false;
 
     if (this.isHelpCenterAvailable()) {
       updateActiveEmbed(helpCenter);
       backButton = articleViewActive;
-      if (!hasSearched) {
-        setFixedFrameStyles({
-          maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
-        });
-      }
+      this.checkFrameHeight();
     } else if (ipmHelpCenterAvailable && articleViewActive) {
       // we only go into this condition if HC is injected by IPM
       updateActiveEmbed(helpCenter);
@@ -395,6 +401,7 @@ class WebWidget extends Component {
       updateBackButtonVisibility(helpCenterAvailable);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
+      this.checkFrameHeight();
     } else {
       if (ipmHelpCenterAvailable) resetActiveArticle();
       updateActiveEmbed(channelChoice);

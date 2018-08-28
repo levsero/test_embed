@@ -946,6 +946,7 @@ describe('WebWidget component', () => {
 
       component = instanceRender(<WebWidget {...componentProps} />);
 
+      spyOn(component, 'checkFrameHeight');
       spyOn(component, 'showHelpCenter');
       spyOn(component, 'getActiveComponent').and.callFake(() => ({
         clearForm: clearFormSpy
@@ -1086,6 +1087,11 @@ describe('WebWidget component', () => {
 
       it('calls showHelpCenter', () => {
         expect(component.showHelpCenter)
+          .toHaveBeenCalled();
+      });
+
+      it('calls checkFrameHeight', () => {
+        expect(component.checkFrameHeight)
           .toHaveBeenCalled();
       });
     });
@@ -1457,21 +1463,17 @@ describe('WebWidget component', () => {
     });
 
     describe('when help center is available', () => {
-      let hasSearched, setFixedFrameStylesSpy;
-
       beforeEach(() => {
-        setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
         webWidget = instanceRender(
           <WebWidget
             updateActiveEmbed={updateActiveEmbedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            setFixedFrameStyles={setFixedFrameStylesSpy}
             helpCenterAvailable={true}
-            hasSearched={hasSearched}
             activeEmbed='' />
         );
 
         spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
+        spyOn(webWidget, 'checkFrameHeight');
         webWidget.resetActiveEmbed();
       });
 
@@ -1480,28 +1482,9 @@ describe('WebWidget component', () => {
           .toHaveBeenCalledWith('helpCenterForm');
       });
 
-      describe('when hasSearched is true', () => {
-        beforeAll(() => {
-          hasSearched = true;
-        });
-
-        it('does not call setFixedFrameStyles', () => {
-          expect(setFixedFrameStylesSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when hasSearched is false', () => {
-        beforeAll(() => {
-          hasSearched = false;
-        });
-
-        it('call setFixedFrameStyles with the correct params', () => {
-          expect(setFixedFrameStylesSpy)
-            .toHaveBeenCalledWith({
-              maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
-            });
-        });
+      it('calls checkFrameHeight', () => {
+        expect(webWidget.checkFrameHeight)
+          .toHaveBeenCalled();
       });
 
       describe('when the article view is active', () => {
@@ -1856,6 +1839,45 @@ describe('WebWidget component', () => {
       it('calls showChat with proactive true', () => {
         expect(webWidget.showChat)
           .toHaveBeenCalledWith({ proactive: true });
+      });
+    });
+  });
+
+  describe('checkFrameHeight', () => {
+    let webWidget, hasSearched, setFixedFrameStylesSpy;
+
+    beforeEach(() => {
+      setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
+      webWidget = instanceRender(
+        <WebWidget
+          setFixedFrameStyles={setFixedFrameStylesSpy}
+          hasSearched={hasSearched} />
+      );
+
+      webWidget.checkFrameHeight();
+    });
+
+    describe('when hasSearched is true', () => {
+      beforeAll(() => {
+        hasSearched = true;
+      });
+
+      it('does not call setFixedFrameStyles', () => {
+        expect(setFixedFrameStylesSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when hasSearched is false', () => {
+      beforeAll(() => {
+        hasSearched = false;
+      });
+
+      it('call setFixedFrameStyles with the correct params', () => {
+        expect(setFixedFrameStylesSpy)
+          .toHaveBeenCalledWith({
+            maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
+          });
       });
     });
   });
