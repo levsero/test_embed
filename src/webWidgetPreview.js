@@ -66,7 +66,6 @@ const renderWebWidgetPreview = (options) => {
           formTitleKey={options.titleKey}
           submitTicketSender={() => {}}
           attachmentSender={() => {}}
-          getFrameDimensions={() => {}}
           getFrameContentDocument={() => {}}
           fullscreen={isMobileBrowser()}
           style={containerStyle} />

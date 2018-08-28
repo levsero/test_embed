@@ -60,7 +60,6 @@ class Talk extends Component {
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
     talkConfig: PropTypes.object.isRequired,
-    getFrameDimensions: PropTypes.func.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool,
@@ -413,7 +412,6 @@ class Talk extends Component {
           ref='scrollContainer'
           containerClasses={scrollContainerClasses}
           footerContent={this.renderFooterContent()}
-          getFrameDimensions={this.props.getFrameDimensions}
           title={this.renderFormTitle()}>
           <div className={contentClasses}>
             {this.renderContent()}

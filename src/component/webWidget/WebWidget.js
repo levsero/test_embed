@@ -85,7 +85,6 @@ class WebWidget extends Component {
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
-    getFrameDimensions: PropTypes.func.isRequired,
     helpCenterAvailable: PropTypes.bool,
     helpCenterConfig: PropTypes.object,
     isOnHelpCenterPage: PropTypes.bool,
@@ -437,7 +436,6 @@ class WebWidget extends Component {
         isMobile={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
         handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}
-        getFrameDimensions={this.props.getFrameDimensions}
         position={this.props.position}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
@@ -501,7 +499,6 @@ class WebWidget extends Component {
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
           formTitleKey={submitTicketConfig.formTitleKey}
-          getFrameDimensions={this.props.getFrameDimensions}
           getFrameContentDocument={this.props.getFrameContentDocument}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
@@ -553,8 +550,7 @@ class WebWidget extends Component {
         helpCenterAvailable={this.isHelpCenterAvailable()}
         channelChoiceAvailable={this.isChannelChoiceAvailable()}
         onBackClick={this.onBackClick}
-        getFrameContentDocument={this.props.getFrameContentDocument}
-        getFrameDimensions={this.props.getFrameDimensions} />
+        getFrameContentDocument={this.props.getFrameContentDocument} />
     );
   }
 

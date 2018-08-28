@@ -138,10 +138,6 @@ export class Frame extends Component {
     return this.child;
   }
 
-  getFrameDimensions = () => {
-    return this.state.iframeDimensions;
-  }
-
   getFrameHead = () => {
     return this.getContentDocument().head;
   }
@@ -367,7 +363,6 @@ export class Frame extends Component {
     const newChild = React.cloneElement(this.props.children, {
       setFixedFrameStyles: this.setFixedFrameStyles,
       closeFrame: this.close,
-      getFrameDimensions: this.getFrameDimensions,
       onBackButtonClick: this.back,
       getFrameContentDocument: this.getContentDocument
     });

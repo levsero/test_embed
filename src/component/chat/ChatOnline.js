@@ -74,7 +74,6 @@ class Chat extends Component {
     rating: PropTypes.object.isRequired,
     handleSoundIconClick: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired,
-    getFrameDimensions: PropTypes.func.isRequired,
     sendEmailTranscript: PropTypes.func.isRequired,
     emailTranscript: PropTypes.object.isRequired,
     resetEmailTranscript: PropTypes.func,
@@ -106,7 +105,6 @@ class Chat extends Component {
     events: [],
     handleSoundIconClick: () => {},
     userSoundSettings: true,
-    getFrameDimensions: () => {},
     sendEmailTranscript: () => {},
     emailTranscript: {},
     resetEmailTranscript: () => {},
@@ -262,7 +260,7 @@ class Chat extends Component {
   }
 
   renderAttachmentsBox = () => {
-    const { screen, attachmentsEnabled, getFrameDimensions } = this.props;
+    const { screen, attachmentsEnabled } = this.props;
 
     if (
       screen !== screens.CHATTING_SCREEN ||
@@ -273,7 +271,6 @@ class Chat extends Component {
     return (
       <AttachmentBox
         onDragLeave={this.handleDragLeave}
-        dimensions={getFrameDimensions()}
         onDrop={this.handleDragDrop}
       />
     );

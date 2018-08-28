@@ -47,7 +47,6 @@ class SubmitTicket extends Component {
     errorMsg: PropTypes.string.isRequired,
     formTitleKey: PropTypes.string.isRequired,
     formState: PropTypes.object.isRequired,
-    getFrameDimensions: PropTypes.func.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     loading: PropTypes.bool.isRequired,
@@ -261,7 +260,6 @@ class SubmitTicket extends Component {
         ticketFieldSettings={this.props.ticketFieldSettings}
         submit={this.handleSubmit}
         activeTicketForm={this.props.activeTicketForm}
-        getFrameDimensions={this.props.getFrameDimensions}
         previewEnabled={this.props.previewEnabled}>
         {this.renderErrorMessage()}
       </SubmitTicketForm>
@@ -354,7 +352,6 @@ class SubmitTicket extends Component {
     return this.state.isDragActive && this.props.attachmentsEnabled
       ? <AttachmentBox
         onDragLeave={this.handleDragLeave}
-        dimensions={this.props.getFrameDimensions()}
         onDrop={this.handleOnDrop} />
       : null;
   }

@@ -1261,11 +1261,6 @@ describe('Frame', () => {
           .toBeDefined();
       });
 
-      it('adds getFrameDimensions to the child component', () => {
-        expect(frame.getRootComponent().props.getFrameDimensions)
-          .toBeDefined();
-      });
-
       it('adds css styles to the element', () => {
         expect(frame.getChild().props.baseCSS)
           .toContain('css-prop');

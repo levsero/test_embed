@@ -41,7 +41,6 @@ export class SubmitTicketForm extends Component {
     attachmentSender: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
     activeTicketForm: PropTypes.object,
-    getFrameDimensions: PropTypes.func.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     ticketFormSettings: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
@@ -424,7 +423,6 @@ export class SubmitTicketForm extends Component {
       ticketFields,
       this.props.formState,
       {
-        getFrameDimensions: this.props.getFrameDimensions,
         onChange: this.updateForm,
         getFrameContentDocument: this.props.getFrameContentDocument,
         showErrors: this.state.showErrors
@@ -450,7 +448,6 @@ export class SubmitTicketForm extends Component {
       this.props.ticketFields,
       this.props.formState,
       {
-        getFrameDimensions: this.props.getFrameDimensions,
         getFrameContentDocument: this.props.getFrameContentDocument,
         onChange: this.updateForm,
         showErrors: this.state.showErrors
@@ -523,7 +520,6 @@ export class SubmitTicketForm extends Component {
           ref='scrollContainer'
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
           containerClasses={containerClasses}
-          getFrameDimensions={this.props.getFrameDimensions}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
               {buttonCancel}
