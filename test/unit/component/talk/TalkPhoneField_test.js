@@ -170,11 +170,6 @@ describe('Render phone field', () => {
         expect(phoneField.state.inputValue)
           .toBe('+61');
       });
-
-      it('sets state.inputChangeTriggered to true', () => {
-        expect(phoneField.state.inputChangeTriggered)
-          .toBe(true);
-      });
     });
 
     describe('when the input value does start with the country code', () => {
@@ -185,11 +180,6 @@ describe('Render phone field', () => {
       it('sets state.inputValue to the formatted phone number', () => {
         expect(phoneField.state.inputValue)
           .toBe('+61 432 067 819');
-      });
-
-      it('sets state.inputChangeTriggered to true', () => {
-        expect(phoneField.state.inputChangeTriggered)
-          .toBe(true);
       });
     });
 

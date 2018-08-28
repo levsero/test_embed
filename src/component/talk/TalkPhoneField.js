@@ -64,7 +64,6 @@ export class TalkPhoneField extends ControlledComponent {
       selectedKey,
       inputValue,
       countries: this.formatCountries(props.supportedCountries),
-      inputChangeTriggered: false,
       valid: false
     };
 
@@ -121,6 +120,9 @@ export class TalkPhoneField extends ControlledComponent {
   isValid = (phoneValue, selectedKey) => {
     const { libphonenumber } = this.props;
 
+    // setCustomValidity sets the validity state of the html element.
+    // The validate prop is a custom validator function that let external components
+    // know the validity state of TalkPhoneField.js
     if (libphonenumber.isValidNumber(phoneValue, selectedKey)) {
       this.phoneInput.setCustomValidity('');
       this.setState({ valid: true });
@@ -142,7 +144,7 @@ export class TalkPhoneField extends ControlledComponent {
     const phoneValue = this.getPhoneValue(e.target.value, this.state.selectedKey);
 
     this.isValid(phoneValue, this.state.selectedKey);
-    this.setState({ inputValue: phoneValue, inputChangeTriggered: true });
+    this.setState({ inputValue: phoneValue });
   }
 
   getCountryByIso(iso) {
