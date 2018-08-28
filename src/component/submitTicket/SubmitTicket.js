@@ -67,7 +67,6 @@ class SubmitTicket extends Component {
     ticketFormsAvailable: PropTypes.bool.isRequired,
     ticketFieldsAvailable: PropTypes.bool.isRequired,
     ticketFields: PropTypes.object.isRequired,
-    updateFrameSize: PropTypes.func,
     handleFormChange: PropTypes.func.isRequired,
     handleTicketFormClick: PropTypes.func.isRequired,
     fullscreen: PropTypes.bool.isRequired,
@@ -99,7 +98,6 @@ class SubmitTicket extends Component {
     ticketFormsAvailable: false,
     ticketFields: {},
     activeTicketForm: null,
-    updateFrameSize: () => {},
     activeTicketFormFields: [],
     hasContextuallySearched: false
   };
@@ -171,7 +169,6 @@ class SubmitTicket extends Component {
 
       this.props.onSubmitted(params);
       this.clearForm();
-      this.props.updateFrameSize();
     };
 
     this.props.handleTicketSubmission(uploads, doneCallback, failCallback);
@@ -363,8 +360,6 @@ class SubmitTicket extends Component {
   }
 
   render = () => {
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     const content = (_.isEmpty(this.props.ticketForms) || this.props.activeTicketForm)
       ? this.renderForm()
       : this.renderTicketFormList();

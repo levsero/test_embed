@@ -167,7 +167,9 @@ export class Frame extends Component {
     const embed = this.getRootComponent();
 
     if (embed.getActiveComponent) {
-      embed.getActiveComponent().forceUpdate();
+      const activeComponent = embed.getActiveComponent();
+
+      if (activeComponent) activeComponent.forceUpdate();
     }
 
     _.defer(this.forceUpdate.bind(this));

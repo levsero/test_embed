@@ -104,7 +104,6 @@ class WebWidget extends Component {
     ticketForms: PropTypes.array.isRequired,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
-    updateFrameSize: PropTypes.func,
     getFrameContentDocument: PropTypes.func,
     setFixedFrameStyles: PropTypes.func,
     zopimOnNext: PropTypes.func,
@@ -159,7 +158,6 @@ class WebWidget extends Component {
     ticketFieldSettings: [],
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
-    updateFrameSize: () => {},
     setFixedFrameStyles: () => {},
     talkAvailable: false,
     talkOnline: false,
@@ -435,7 +433,6 @@ class WebWidget extends Component {
     return (
       <Chat
         ref={chat}
-        updateFrameSize={this.props.updateFrameSize}
         getFrameContentDocument={this.props.getFrameContentDocument}
         isMobile={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
@@ -476,7 +473,6 @@ class WebWidget extends Component {
           showNextButton={showNextButton}
           style={this.props.style}
           fullscreen={this.props.fullscreen}
-          updateFrameSize={this.props.updateFrameSize}
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.isChannelChoiceAvailable()}
@@ -518,7 +514,6 @@ class WebWidget extends Component {
           subjectEnabled={this.props.subjectEnabled}
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
-          updateFrameSize={this.props.updateFrameSize}
           fullscreen={this.props.fullscreen} />
       </div>
     );
@@ -554,7 +549,6 @@ class WebWidget extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         style={this.props.style}
         isMobile={this.props.fullscreen}
-        updateFrameSize={this.props.updateFrameSize}
         talkConfig={this.props.talkConfig}
         helpCenterAvailable={this.isHelpCenterAvailable()}
         channelChoiceAvailable={this.isChannelChoiceAvailable()}
@@ -626,8 +620,6 @@ class WebWidget extends Component {
   }
 
   render = () => {
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     const { fullscreen } = this.props;
 
     if (fullscreen && this.props.chatStandaloneMobileNotificationVisible && !this.props.mobileNotificationsDisabled)

@@ -79,7 +79,6 @@ class Chat extends Component {
     emailTranscript: PropTypes.object.isRequired,
     resetEmailTranscript: PropTypes.func,
     visitor: PropTypes.object.isRequired,
-    updateFrameSize: PropTypes.func.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
@@ -114,7 +113,6 @@ class Chat extends Component {
     editContactDetails: {},
     updateChatBackButtonVisibility: () => {},
     updateMenuVisibility: () => {},
-    updateFrameSize: () => {},
     menuVisible: false,
     connection: '',
     loginSettings: {},
@@ -135,8 +133,6 @@ class Chat extends Component {
       showEndChatMenu: false,
       endChatFromFeedbackForm: false
     };
-
-    this.updateFrameSizeTimer = null;
   }
 
   componentDidMount() {
@@ -147,10 +143,6 @@ class Chat extends Component {
     if (!nextProps.chats && !nextProps.events) return;
 
     this.props.updateChatBackButtonVisibility();
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.updateFrameSizeTimer);
   }
 
   toggleMenu = () => {
@@ -417,8 +409,6 @@ class Chat extends Component {
       styles.container,
       { [styles.mobileContainer]: this.props.isMobile }
     );
-
-    this.updateFrameSizeTimer = setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
       <div className={containerStyle}>

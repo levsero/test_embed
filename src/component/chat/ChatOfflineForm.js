@@ -19,7 +19,6 @@ import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
-    updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     operatingHours: PropTypes.object,
@@ -40,7 +39,6 @@ export class ChatOfflineForm extends Component {
   };
 
   static defaultProps = {
-    updateFrameSize: () => {},
     operatingHours: { enabled: false },
     isMobile: false,
     offlineMessage: {},

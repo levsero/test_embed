@@ -18,8 +18,7 @@ export class ChannelChoice extends Component {
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
     talkAvailable: PropTypes.bool,
-    talkEnabled: PropTypes.bool,
-    updateFrameSize: PropTypes.func
+    talkEnabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -31,8 +30,7 @@ export class ChannelChoice extends Component {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
-    chatEnabled: false,
-    updateFrameSize: () => {}
+    chatEnabled: false
   };
 
   handleNextClick = (embed) => {
@@ -78,8 +76,6 @@ export class ChannelChoice extends Component {
   }
 
   render = () => {
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     const channelChoice = this.props.isMobile
       ? this.renderMobile()
       : this.renderDesktop();

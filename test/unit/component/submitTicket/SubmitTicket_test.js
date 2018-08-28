@@ -275,8 +275,7 @@ describe('Submit ticket component', () => {
           handleTicketSubmission={mockHandleTicketSubmission}
           onSubmitted={mockOnSubmitted}
           searchTerm={'a search'}
-          attachmentsEnabled={true}
-          updateFrameSize={noop} />
+          attachmentsEnabled={true} />
       );
       spyOn(submitTicket, 'clearForm');
     });

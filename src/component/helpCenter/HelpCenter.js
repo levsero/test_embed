@@ -94,7 +94,6 @@ class HelpCenter extends Component {
     chatOfflineAvailable: PropTypes.bool,
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
-    updateFrameSize: PropTypes.func,
     updateChatScreen: PropTypes.func,
     handleArticleClick: PropTypes.func.isRequired,
     zendeskHost: PropTypes.string.isRequired,
@@ -134,7 +133,6 @@ class HelpCenter extends Component {
     submitTicketAvailable: true,
     chatAvailable: false,
     chatOfflineAvailable: false,
-    updateFrameSize: () => {},
     updateChatScreen: () => {},
     handleArticleClick: () => {},
     articles: [],
@@ -307,7 +305,6 @@ class HelpCenter extends Component {
         storedImages={this.props.restrictedImages}
         imagesSender={this.props.performImageSearch}
         updateStoredImages={this.props.addRestrictedImage}
-        updateFrameSize={this.props.updateFrameSize}
         fullscreen={this.props.fullscreen} />
     );
   }
@@ -339,7 +336,6 @@ class HelpCenter extends Component {
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.props.searchFieldValue}
-        updateFrameSize={this.props.updateFrameSize}
         updateChatScreen={this.props.updateChatScreen}>
         {this.renderResults()}
         {this.renderArticles()}

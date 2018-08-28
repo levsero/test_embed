@@ -42,7 +42,6 @@ const mapStateToProps = (state) => {
 
 class ChatOffline extends Component {
   static propTypes = {
-    updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     sendOfflineMessage: PropTypes.func.isRequired,
@@ -65,7 +64,6 @@ class ChatOffline extends Component {
   };
 
   static defaultProps = {
-    updateFrameSize: () => {},
     handleCloseClick: () => {},
     sendOfflineMessage: () => {},
     operatingHours: {},
@@ -93,7 +91,6 @@ class ChatOffline extends Component {
         sendOfflineMessage={this.props.sendOfflineMessage}
         chatOfflineFormChanged={this.props.chatOfflineFormChanged}
         operatingHours={this.props.operatingHours}
-        updateFrameSize={this.props.updateFrameSize}
         isAuthenticated={this.props.isAuthenticated}
         isMobile={this.props.isMobile}
         hideZendeskLogo={this.props.hideZendeskLogo} />

@@ -238,7 +238,6 @@ function propagateFontRatio(ratio) {
 
   renderedEmbedsApply((embed) => {
     embed.updateBaseFontSize(fontSize);
-    embed.updateFrameSize();
   });
 }
 

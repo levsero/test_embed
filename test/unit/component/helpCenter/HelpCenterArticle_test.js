@@ -199,38 +199,6 @@ describe('HelpCenterArticle component', () => {
       });
     });
 
-    describe('when the article has images', () => {
-      let mockUpdateFrameSize;
-
-      beforeEach(() => {
-        mockArticle.body += `
-          <img src="imgur.mofo/quit-creepin.png" />
-          <img src="giphy.mofo/thats-sick.jpg" />
-          <img src="giphy.mofo/this-is-important.png" />
-        `;
-
-        mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
-        helpCenterArticle = domRender(
-          <HelpCenterArticle
-            activeArticle={mockArticle}
-            updateFrameSize={mockUpdateFrameSize} />
-        );
-        helpCenterArticle.setState({ foo: 'bar' });
-        content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
-      });
-
-      it('calls `this.props.updateFrameSize` for each image onload event', () => {
-        const imgs = content.getElementsByTagName('img');
-
-        imgs[0].onload();
-        imgs[1].onload();
-        imgs[2].onload();
-
-        expect(mockUpdateFrameSize.calls.count())
-          .toBe(3);
-      });
-    });
-
     describe('when an anchor is present', () => {
       let oldQuerySelector;
 

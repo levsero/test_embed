@@ -36,7 +36,6 @@ export class HelpCenterDesktop extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
-    updateFrameSize: PropTypes.func,
     updateChatScreen: PropTypes.func,
     isContextualSearchPending: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired
@@ -57,7 +56,6 @@ export class HelpCenterDesktop extends Component {
     chatEnabled: false,
     talkAvailable: false,
     talkEnabled: false,
-    updateFrameSize: () => {},
     updateChatScreen: () => {}
   };
 
@@ -185,8 +183,6 @@ export class HelpCenterDesktop extends Component {
   }
 
   render = () => {
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     const customHeightClasses = !this.props.hasSearched ? styles.noCustomHeight : '';
     let footerClasses = '';
 

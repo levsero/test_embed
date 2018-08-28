@@ -127,7 +127,7 @@ const renderPreview = (options) => {
   };
 
   waitForComponent(() => {
-    _.defer(preview.updateFrameSize);
+    _.defer(preview.forceUpdateWorld);
     setColor();
   });
 

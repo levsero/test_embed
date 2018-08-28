@@ -67,13 +67,11 @@ class Talk extends Component {
     channelChoiceAvailable: PropTypes.bool,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
-    updateFrameSize: PropTypes.func,
     libphonenumber: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     hideZendeskLogo: false,
-    updateFrameSize: () => {},
     formState: { phone: '' },
     embeddableConfig: { phoneNumber: '' },
     callback: { error: {} },
@@ -403,8 +401,6 @@ class Talk extends Component {
   }
 
   render = () => {
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     const { isMobile, screen } = this.props;
     const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
     const scrollContainerClasses = classNames({

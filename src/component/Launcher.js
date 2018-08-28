@@ -32,13 +32,10 @@ class Launcher extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    updateFrameSize: PropTypes.func,
     notificationCount: PropTypes.number.isRequired,
     getFrameContentDocument: PropTypes.func,
     updateFrameTitle: PropTypes.func
   };
-
-  static defaultProps = { updateFrameSize: () => {} };
 
   constructor(props, context) {
     super(props, context);
@@ -157,8 +154,6 @@ class Launcher extends Component {
     const shouldShowMobileClasses = mobile && !(this.getNotificationCount() > 0);
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
-
-    setTimeout(() => this.props.updateFrameSize(5, 0), 0);
 
     if (this.props.updateFrameTitle) {
       this.props.updateFrameTitle(this.getTitle());
