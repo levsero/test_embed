@@ -1850,6 +1850,7 @@ describe('WebWidget component', () => {
       setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
       webWidget = instanceRender(
         <WebWidget
+          fullscreen={false}
           setFixedFrameStyles={setFixedFrameStylesSpy}
           hasSearched={hasSearched} />
       );

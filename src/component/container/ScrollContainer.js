@@ -109,6 +109,8 @@ export class ScrollContainer extends Component {
   }
 
   calculateHeight = () => {
+    if (this.props.fullscreen) return null;
+
     const winHeight = win.innerHeight;
     const { maxHeight } = this.props;
 

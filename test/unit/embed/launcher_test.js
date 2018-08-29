@@ -37,6 +37,9 @@ describe('embed.launcher', () => {
           );
         }
       },
+      'constants/shared': {
+        FONT_SIZE: 12
+      },
       'service/beacon': {
         beacon: jasmine.createSpyObj('mockBeacon', ['trackUserAction'])
       },
@@ -314,6 +317,11 @@ describe('embed.launcher', () => {
     });
 
     describe('frameStyleModifier prop', () => {
+      const element = {
+        offsetWidth: 50,
+        clientWidth: 20
+      };
+
       describe('getAdjustedMarginStyles', () => {
         let result;
         const frameStyleProperties = ['width', 'height', 'marginBottom', 'marginRight', 'zIndex'];
@@ -334,7 +342,7 @@ describe('embed.launcher', () => {
           const alice = launcher.get('alice').instance;
           const frameStyleModifier = alice.props.frameStyleModifier;
 
-          result = frameStyleModifier(frameStyle);
+          result = frameStyleModifier(frameStyle, element);
         });
 
         afterEach(() => {
@@ -368,10 +376,6 @@ describe('embed.launcher', () => {
         const frameStyle = {
           width: '10px',
           height: '10px'
-        };
-        const element = {
-          offsetWidth: 50,
-          clientWidth: 20
         };
 
         beforeEach(() => {

@@ -255,9 +255,9 @@ class WebWidget extends Component {
   }
 
   checkFrameHeight = () => {
-    const { hasSearched, setFixedFrameStyles } = this.props;
+    const { hasSearched, setFixedFrameStyles, fullscreen } = this.props;
 
-    if (!hasSearched) {
+    if (!hasSearched && !fullscreen) {
       setFixedFrameStyles({
         maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
       });
