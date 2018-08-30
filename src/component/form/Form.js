@@ -40,12 +40,8 @@ export class Form extends Component {
     this.form = null;
   }
 
-  isFormValid = (isCustomValid=true) => {
-    return isCustomValid && this.form.checkValidity() && !_.isEmpty(this.props.formState);
-  }
-
-  validate(isCustomValid=true) {
-    this.setState({ valid: this.isFormValid(isCustomValid) });
+  componentDidMount = () => {
+    this.validate();
   }
 
   handleFormSubmit = (e) => {
@@ -74,6 +70,14 @@ export class Form extends Component {
         </Button>
       </ButtonGroup>
     );
+  }
+
+  isFormValid = () => {
+    return this.form.checkValidity() && !_.isEmpty(this.props.formState);
+  }
+
+  validate() {
+    this.setState({ valid: this.isFormValid() });
   }
 
   render = () => {

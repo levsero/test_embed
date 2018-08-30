@@ -108,37 +108,6 @@ describe('Form component', () => {
         });
       });
     });
-
-    describe('custom validity', () => {
-      beforeAll(() => {
-        mockCheckValidity = true;
-        mockFormState = {
-          email: 'yolo@yolo.com'
-        };
-      });
-
-      describe('when customValid is true', () => {
-        beforeAll(() => {
-          mockCustomValid = true;
-        });
-
-        it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
-      });
-
-      describe('when customValid is false', () => {
-        beforeAll(() => {
-          mockCustomValid = false;
-        });
-
-        it('returns false', () => {
-          expect(result)
-            .toEqual(false);
-        });
-      });
-    });
   });
 
   describe('handleFormSubmit', () => {
