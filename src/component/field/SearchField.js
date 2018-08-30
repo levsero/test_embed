@@ -5,7 +5,7 @@ import { IconFieldButton } from 'component/button/IconFieldButton';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { Icon } from 'component/Icon';
 import { locals as styles } from './SearchField.scss';
-import { FauxInput, MediaFigure, Input } from '@zendeskgarden/react-textfields';
+import { FauxInput, MediaFigure, Input, Label } from '@zendeskgarden/react-textfields';
 import classNames from 'classnames';
 
 export class SearchField extends Component {
@@ -175,6 +175,7 @@ export class SearchField extends Component {
 
     return (
       <FauxInput mediaLayout={true} className={searchContainerClasses} onClick={this.props.onClick}>
+        <Label className={styles.label}>{i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help')}</Label>
         <Input
           bare={true}
           onChange={this.onChange}

@@ -46,7 +46,8 @@ describe('SearchField component', () => {
       '@zendeskgarden/react-textfields': {
         Input: noopReactComponent(),
         FauxInput: noopReactComponent(),
-        MediaFigure: noopReactComponent()
+        MediaFigure: noopReactComponent(),
+        Label: noopReactComponent()
       }
     });
 
@@ -359,7 +360,7 @@ describe('SearchField component', () => {
       });
 
       it('renders mobileSearchInput class', () => {
-        expect(result.props.children[0].props.className)
+        expect(result.props.children[1].props.className)
           .toContain('mobileSearchInput');
       });
     });

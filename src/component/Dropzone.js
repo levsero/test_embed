@@ -10,7 +10,8 @@ export class Dropzone extends Component {
     onDragEnter: PropTypes.func,
     onDragLeave: PropTypes.func,
     onDrop: PropTypes.func.isRequired,
-    style: PropTypes.object
+    style: PropTypes.object,
+    dropzoneId: PropTypes.string
   };
 
   static defaultProps = {
@@ -19,7 +20,8 @@ export class Dropzone extends Component {
     disableClick: false,
     onDragEnter: () => {},
     onDragLeave: () => {},
-    style: {}
+    style: {},
+    dropzoneId: ''
   };
 
   constructor(props, context) {
@@ -93,7 +95,8 @@ export class Dropzone extends Component {
           style={inputStyle}
           multiple={true}
           ref={(el) => this.fileInputEl = el}
-          onChange={this.onDrop} />
+          onChange={this.onDrop}
+          id={this.props.dropzoneId} />
       </div>
     );
   }

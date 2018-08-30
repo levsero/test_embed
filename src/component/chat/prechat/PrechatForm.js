@@ -276,16 +276,17 @@ export class PrechatForm extends Component {
     const options = _.map(departments, (dept) => {
       return <Item key={dept.id}>{dept.name}</Item>;
     });
-
     const selectedDepartment = this.findDepartment(departments, this.props.formState.department);
     const required = departmentSettings.required;
     const value = selectedDepartment.id ? selectedDepartment.id.toString() : null;
     const error = this.renderErrorMessage(SelectMessage, value,
       required, 'embeddable_framework.validation.error.department');
+    const departmentLabel = departmentSettings.label ?
+      departmentSettings.label : i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment');
 
     return (
       <SelectField>
-        {renderLabel(SelectLabel, departmentSettings.label, required)}
+        {renderLabel(SelectLabel, departmentLabel, required)}
         <Select
           required={required}
           aria-required={required}
