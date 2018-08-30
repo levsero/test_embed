@@ -9,12 +9,14 @@ import { locals as styles } from './ButtonDropzone.scss';
 export class ButtonDropzone extends Component {
   static propTypes = {
     isMobile: PropTypes.bool,
-    onDrop: PropTypes.func
+    onDrop: PropTypes.func,
+    dropzoneId: PropTypes.string
   };
 
   static defaultProps = {
     isMobile: false,
-    onDrop: () => {}
+    onDrop: () => {},
+    dropzoneId: ''
   };
 
   render = () => {
@@ -26,7 +28,8 @@ export class ButtonDropzone extends Component {
       <Dropzone
         onDrop={this.props.onDrop}
         activeClassName={styles.dropzoneActive}
-        className={styles.dropzone}>
+        className={styles.dropzone}
+        dropzoneId={this.props.dropzoneId}>
         <div className={styles.dropzoneChild}>
           <Icon type='Icon--paperclip-small' className={styles.icon} />
           <div className={styles.dropzoneChildLabel}>{label}</div>

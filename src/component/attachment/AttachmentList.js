@@ -29,6 +29,7 @@ export class AttachmentList extends Component {
       attachments: {},
       errorMessage: null
     };
+    this.id = 'dropzone-input';
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -232,14 +233,15 @@ export class AttachmentList extends Component {
     return (
       <div>
         <div className={styles.container}>
-          <label className={styles.label}>
+          <label className={styles.label} htmlFor={this.id}>
             {title}
           </label>
           {attachmentComponents}
           {errorMessage}
           <ButtonDropzone
             onDrop={this.handleOnDrop}
-            isMobile={this.props.fullscreen} />
+            isMobile={this.props.fullscreen}
+            dropzoneId={this.id} />
         </div>
       </div>
     );

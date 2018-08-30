@@ -108,6 +108,7 @@ export class HelpCenterDesktop extends Component {
         noValidate={true}
         className={styles.form}
         onSubmit={this.handleSubmit}>
+
         <SearchField
           ref={(el) => { this.searchField = el; }}
           fullscreen={false}
