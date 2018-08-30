@@ -5,13 +5,13 @@
   composes: u-textCenter from global;
   margin-top: #{5/$font-size}rem;
   margin-bottom: #{10/$font-size}rem;
-  color: $zd-color-grey-500;
+  color: $zd-color-grey-600;
 }
 
 .agentTyping {
   margin-top: #{8/$font-size}rem;
   margin-bottom: #{9/$font-size}rem;
-  color: $zd-color-grey-500;
+  color: $zd-color-grey-600;
   width: 100%;
   background: linear-gradient(to bottom, rgba($zd-color-white, 0), rgba($zd-color-white, 0.8));
 }

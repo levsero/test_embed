@@ -37,14 +37,14 @@
 .item[type='button'] {
   background: none;
   border: none;
-  color: $zd-color-grey-500 !important;
+  color: $zd-color-grey-600 !important;
   outline: none;
   padding: 0 #{15/$font-size}rem;
   text-align: left;
   width: 100%;
 
   path {
-    fill: $zd-color-grey-500;
+    fill: $zd-color-grey-600;
   }
 
   &:hover, &:active, &:focus {
@@ -72,7 +72,7 @@
   border-color: $zd-color-grey-200 !important;
   border-top: 0;
   box-sizing: border-box;
-  color: $zd-color-grey-500 !important;
+  color: $zd-color-grey-600 !important;
   outline: none;
   text-align: left;
   width: 100%;
@@ -99,7 +99,7 @@
   border-color: $zd-color-grey-200 !important;
   border-top: 0;
   box-sizing: border-box;
-  color: $zd-color-grey-500 !important;
+  color: $zd-color-grey-600 !important;
   outline: none;
   padding: #{10/$font-size}rem #{30/$font-size}rem;
   text-align: left;
