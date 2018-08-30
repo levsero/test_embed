@@ -1,6 +1,7 @@
 ## Changelog
 ### 23 August 2018
 - Released a significant upgrade to the Web Widget UI to use Zendesk Garden components and improve accessibility. This includes a larger base font size, improvements to color contrast, resizing, keyboard controls and screenreader support. Learn more [here](https://support.zendesk.com/hc/en-us/articles/360001899447).
+- Released support for domain-level whitelisting. Now customers with a URL that does not contain www or a subdomain can use the whitelist-restricted Help Center content feature.
 
 ### 8 August 2018
 - Released a fix for customers still using the legacy snippet and who have a host-mapped domain hard-coded into their snippet. 
