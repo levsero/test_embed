@@ -361,53 +361,6 @@ describe('Render phone field', () => {
     });
   });
 
-  describe('isValid', () => {
-    let phoneField,
-      mockPhoneValue,
-      mockSelectedKey,
-      mockValidate = jasmine.createSpy('validate');
-
-    beforeEach(() => {
-      phoneField = domRender(
-        <TalkPhoneField
-          getFrameContentDocument={() => document}
-          label='Phone'
-          supportedCountries={['US', 'AU']}
-          country='AU'
-          value='+61430999721'
-          required={true}
-          libphonenumber={libphonenumber}
-          validate={mockValidate} />
-      );
-      mockValidate.calls.reset();
-      phoneField.isValid(mockPhoneValue, mockSelectedKey);
-    });
-
-    describe('when valid', () => {
-      beforeAll(() => {
-        mockPhoneValue = '+61430999721';
-        mockSelectedKey = 'AU';
-      });
-
-      it('calls validate with true', () => {
-        expect(mockValidate)
-          .toHaveBeenCalledWith(true);
-      });
-    });
-
-    describe('when invalid', () => {
-      beforeAll(() => {
-        mockPhoneValue = '+some random invalid number yo';
-        mockSelectedKey = 'AU';
-      });
-
-      it('calls validate with false', () => {
-        expect(mockValidate)
-          .toHaveBeenCalledWith(false);
-      });
-    });
-  });
-
   describe('rendering', () => {
     let phoneField,
       countryDropdown,

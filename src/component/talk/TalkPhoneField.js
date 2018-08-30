@@ -37,8 +37,7 @@ export class TalkPhoneField extends ControlledComponent {
     country: PropTypes.string,
     value: PropTypes.string,
     onCountrySelect: PropTypes.func,
-    showError: PropTypes.bool,
-    validate: PropTypes.func
+    showError: PropTypes.bool
   };
 
   static defaultProps = {
@@ -48,8 +47,7 @@ export class TalkPhoneField extends ControlledComponent {
     country: '',
     value: '',
     onCountrySelect: () => {},
-    showError: false,
-    validate: () => {}
+    showError: false
   }
 
   constructor(props) {
@@ -120,17 +118,12 @@ export class TalkPhoneField extends ControlledComponent {
   isValid = (phoneValue, selectedKey) => {
     const { libphonenumber } = this.props;
 
-    // setCustomValidity sets the validity state of the html element.
-    // The validate prop is a custom validator function that let external components
-    // know the validity state of TalkPhoneField.js
     if (libphonenumber.isValidNumber(phoneValue, selectedKey)) {
       this.phoneInput.setCustomValidity('');
       this.setState({ valid: true });
-      this.props.validate(true);
     } else {
       this.setState({ valid: false });
       this.phoneInput.setCustomValidity('Error');
-      this.props.validate(false);
     }
   }
 
