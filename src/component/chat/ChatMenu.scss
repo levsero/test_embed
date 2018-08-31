@@ -50,6 +50,7 @@
   &:hover, &:active, &:focus {
     color: $zd-color-grey-800 !important;
     background: $zd-color-grey-100 !important;
+    box-shadow: none;
 
     path {
       fill: $zd-color-grey-800;
