@@ -419,4 +419,24 @@ describe('ChatPopup component', () => {
       });
     });
   });
+
+  describe('onEntered', () => {
+    let component, focusSpy;
+
+    beforeEach(() => {
+      component = domRender(<ChatPopup />);
+
+      focusSpy = jasmine.createSpy('focus');
+      component.firstButton = {
+        focus: focusSpy
+      };
+
+      component.onEntered();
+    });
+
+    it('calls focus on the firstButton', () => {
+      expect(focusSpy)
+        .toHaveBeenCalled();
+    });
+  });
 });

@@ -627,17 +627,6 @@ describe('ChatOnline component', () => {
       });
     });
 
-    describe('when the popup should not be shown', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline emailTranscript={{ show: false }} />);
-      });
-
-      it('does not render the component', () => {
-        expect(component.renderChatEmailTranscriptPopup())
-          .toBeUndefined();
-      });
-    });
-
     describe('when props.tryEmailTranscriptAgain is called', () => {
       beforeEach(() => {
         updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');

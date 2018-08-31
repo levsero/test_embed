@@ -49,6 +49,12 @@ export class ChatPopup extends Component {
     showOnlyLeftCta: false
   };
 
+  constructor() {
+    super();
+
+    this.firstButton = null;
+  }
+
   onContainerClick = (e) => {
     e.stopPropagation();
   }
@@ -58,6 +64,12 @@ export class ChatPopup extends Component {
       [styles[orientation + 'CtaBtn']]: true,
       [styles.ctaBtnMobile]: this.props.isMobile
     });
+  }
+
+  onEntered = () => {
+    if (this.firstButton) {
+      this.firstButton.focus();
+    }
   }
 
   renderCta = () => {
@@ -78,6 +90,7 @@ export class ChatPopup extends Component {
     });
     const leftCtaButton = (
       <Button
+        innerRef={(el) => this.firstButton = el}
         onTouchStartDisabled={true}
         className={leftCtaButtonClasses}
         onClick={leftCtaFn}>
@@ -130,6 +143,7 @@ export class ChatPopup extends Component {
         trigger={this.props.show}
         onClick={this.onContainerClick}
         onExited={this.props.onExited}
+        onEntered={this.onEntered}
         direction='up'
         duration={200}
         startPosHeight='-10px'
@@ -160,6 +174,7 @@ export class ChatPopup extends Component {
           endPosHeight='0px'
           className={`${className} ${styles.wrapperMobile}`}
           trigger={show}
+          onEntered={this.onEntered}
           onClick={this.onContainerClick}
           onExited={this.props.onExited}>
           <div className={containerClasses}>

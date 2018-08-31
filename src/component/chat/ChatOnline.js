@@ -328,8 +328,6 @@ class Chat extends Component {
       updateContactDetailsVisibility,
       isAuthenticated, socialLogin } = this.props;
 
-    if (!editContactDetails.show) return;
-
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
     const tryAgainFn = () => updateContactDetailsVisibility(true);
     const saveContactDetailsFn = (name, email) => setVisitorInfo({ display_name: name, email });
@@ -355,8 +353,6 @@ class Chat extends Component {
       sendEmailTranscript,
       updateEmailTranscriptVisibility
     } = this.props;
-
-    if (!emailTranscript.show) return;
 
     const hideEmailTranscriptFn = () => updateEmailTranscriptVisibility(false);
     const tryEmailTranscriptAgain = () => updateEmailTranscriptVisibility(true);
