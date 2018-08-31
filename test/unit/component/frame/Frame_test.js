@@ -532,7 +532,7 @@ describe('Frame', () => {
     describe('when preventClose option is false', () => {
       describe('when on desktop', () => {
         beforeEach(() => {
-          frame = domRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
+          frame = instanceRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
 
           frame.close();
         });
@@ -560,7 +560,7 @@ describe('Frame', () => {
 
       describe('when options.skipOnClose is true', () => {
         beforeEach(() => {
-          frame = domRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
+          frame = instanceRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
 
           spyOn(frame, 'hide');
           frame.close({}, { skipOnClose: true });
@@ -578,7 +578,7 @@ describe('Frame', () => {
         beforeEach(() => {
           mockIsMobileBrowserValue = true;
 
-          frame = domRender(<Frame onClose={mockOnClose} fullscreenable={true}>{mockChild}</Frame>);
+          frame = instanceRender(<Frame onClose={mockOnClose} fullscreenable={true}>{mockChild}</Frame>);
 
           spyOn(frame, 'hide');
           frame.close({});
@@ -618,7 +618,7 @@ describe('Frame', () => {
 
     describe('when preventClose option is true', () => {
       beforeEach(() => {
-        frame = domRender(<Frame onClose={mockOnClose} preventClose={true}>{mockChild}</Frame>);
+        frame = instanceRender(<Frame onClose={mockOnClose} preventClose={true}>{mockChild}</Frame>);
 
         frame.close();
       });
