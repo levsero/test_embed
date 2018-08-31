@@ -130,6 +130,8 @@ class Chat extends Component {
       showEndChatMenu: false,
       endChatFromFeedbackForm: false
     };
+
+    this.menu = null;
   }
 
   componentDidMount() {
@@ -142,8 +144,12 @@ class Chat extends Component {
     this.props.updateChatBackButtonVisibility();
   }
 
-  toggleMenu = () => {
+  toggleMenu = (keypress) => {
     this.props.updateMenuVisibility(!this.props.menuVisible);
+
+    if (!this.props.menuVisible && keypress) {
+      setTimeout(this.menu.focus, 0);
+    }
   }
 
   onContainerClick = () => {
@@ -193,6 +199,7 @@ class Chat extends Component {
 
     return (
       <ChatMenu
+        ref={(el) => this.menu = el}
         show={menuVisible}
         playSound={userSoundSettings}
         disableEndChat={!isChatting}
@@ -321,8 +328,6 @@ class Chat extends Component {
       updateContactDetailsVisibility,
       isAuthenticated, socialLogin } = this.props;
 
-    if (!editContactDetails.show) return;
-
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
     const tryAgainFn = () => updateContactDetailsVisibility(true);
     const saveContactDetailsFn = (name, email) => setVisitorInfo({ display_name: name, email });
@@ -348,8 +353,6 @@ class Chat extends Component {
       sendEmailTranscript,
       updateEmailTranscriptVisibility
     } = this.props;
-
-    if (!emailTranscript.show) return;
 
     const hideEmailTranscriptFn = () => updateEmailTranscriptVisibility(false);
     const tryEmailTranscriptAgain = () => updateEmailTranscriptVisibility(true);

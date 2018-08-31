@@ -627,17 +627,6 @@ describe('ChatOnline component', () => {
       });
     });
 
-    describe('when the popup should not be shown', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline emailTranscript={{ show: false }} />);
-      });
-
-      it('does not render the component', () => {
-        expect(component.renderChatEmailTranscriptPopup())
-          .toBeUndefined();
-      });
-    });
-
     describe('when props.tryEmailTranscriptAgain is called', () => {
       beforeEach(() => {
         updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
@@ -915,6 +904,83 @@ describe('ChatOnline component', () => {
     it('calls updateContactDetailsVisibility with true', () => {
       expect(updateContactDetailsVisibilitySpy)
         .toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('toggleMenu', () => {
+    let component, menuVisible, keypress, focusSpy;
+
+    beforeEach(() => {
+      component = domRender(<ChatOnline menuVisible={menuVisible} />);
+
+      jasmine.clock().install();
+      focusSpy = jasmine.createSpy('focus');
+      component.menu = {
+        focus: focusSpy
+      };
+
+      component.toggleMenu(keypress);
+      jasmine.clock().tick();
+    });
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
+
+    describe('when menuVisibile is false', () => {
+      beforeAll(() => {
+        menuVisible = false;
+      });
+
+      describe('when keypress param is true', () => {
+        beforeAll(() => {
+          keypress = true;
+        });
+
+        it('calls focus on the menu', () => {
+          expect(focusSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when keypress param is false', () => {
+        beforeAll(() => {
+          keypress = false;
+        });
+
+        it('does not call focus on the menu', () => {
+          expect(focusSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when menuVisibile is true', () => {
+      beforeAll(() => {
+        menuVisible = true;
+      });
+
+      describe('when keypress param is true', () => {
+        beforeAll(() => {
+          keypress = true;
+        });
+
+        it('does not call focus on the menu', () => {
+          expect(focusSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when keypress param is false', () => {
+        beforeAll(() => {
+          keypress = false;
+        });
+
+        it('does not call focus on the menu', () => {
+          expect(focusSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
   });
 });

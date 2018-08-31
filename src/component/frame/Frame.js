@@ -355,7 +355,7 @@ export class Frame extends Component {
     this.setState({ childRendered: true });
 
     if (fullscreen) {
-      _.defer(this.applyMobileBodyStyle);
+      setTimeout(this.applyMobileBodyStyle, 0);
     }
   }
 

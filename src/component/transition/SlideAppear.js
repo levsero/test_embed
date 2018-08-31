@@ -17,7 +17,8 @@ export class SlideAppear extends Component {
     startPosHeight: PropTypes.string,
     endPosHeight: PropTypes.string,
     onClick: PropTypes.func,
-    onExited: PropTypes.func
+    onExited: PropTypes.func,
+    onEntered: PropTypes.func
   };
 
   static defaultProps = {
@@ -28,7 +29,8 @@ export class SlideAppear extends Component {
     startPosHeight: '0',
     endPosHeight: '10px',
     onClick: () => {},
-    onExited: () => {}
+    onExited: () => {},
+    onEntered: () => {}
   };
 
   render = () => {
@@ -55,7 +57,13 @@ export class SlideAppear extends Component {
     };
 
     return (
-      <Transition in={this.props.trigger} timeout={duration} unmountOnExit={true} onExited={this.props.onExited}>
+      <Transition
+        in={this.props.trigger}
+        timeout={duration}
+        unmountOnExit={true}
+        mountOnEnter={true}
+        onExited={this.props.onExited}
+        onEntered={this.props.onEntered}>
         {(status) => {
           return (
             <div onClick={this.props.onClick}

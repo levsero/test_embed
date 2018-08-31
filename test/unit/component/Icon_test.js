@@ -7,6 +7,7 @@ describe('Icon components', function() {
 
   const iconPath = buildSrcPath('component/Icon');
   const sharedConstantsPath = buildSrcPath('constants/shared');
+  const ENTER_KEYCODE = 13;
 
   class DummyIcon {
     render() {
@@ -76,6 +77,11 @@ describe('Icon components', function() {
       'utility/devices': {
         isMobileBrowser: function() {
           return mockIsMobile;
+        }
+      },
+      'utility/keyboard': {
+        keyCodes: {
+          ENTER: ENTER_KEYCODE
         }
       },
       'service/i18n': {
@@ -214,6 +220,51 @@ describe('Icon components', function() {
               });
             });
           });
+        });
+      });
+    });
+
+    describe('handleKeyDown', () => {
+      let component, keyCode, stopPropagationSpy, onClickSpy;
+
+      beforeEach(() => {
+        onClickSpy = jasmine.createSpy('onClick');
+        stopPropagationSpy = jasmine.createSpy('stopPropagation');
+
+        component = instanceRender(<IconButton onClick={onClickSpy} />);
+
+        const mockEvent = {
+          keyCode: keyCode,
+          stopPropagation: stopPropagationSpy
+        };
+
+        component.handleKeyDown(mockEvent);
+      });
+
+      it('calls stopPropagation on the event', () => {
+        expect(stopPropagationSpy)
+          .toHaveBeenCalled();
+      });
+
+      describe('when keyCode is the enter key', () => {
+        beforeAll(() => {
+          keyCode = ENTER_KEYCODE;
+        });
+
+        it('calls props.onClick', () => {
+          expect(onClickSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when keyCode is not the enter key', () => {
+        beforeAll(() => {
+          keyCode = 0;
+        });
+
+        it('does not call props.onClick', () => {
+          expect(onClickSpy)
+            .not.toHaveBeenCalled();
         });
       });
     });
