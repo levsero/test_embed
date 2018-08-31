@@ -14,8 +14,6 @@ describe('ChatOffline component', () => {
           container: 'containerClass',
           offlineGreeting: 'offlineGreetingClass',
           submitButton: 'submitButtonClass',
-          scrollContainer: 'scrollContainerClass',
-          mobileContainer: 'mobileContainerClass',
           scrollContainerContent: 'scrollContainerContentClass',
           logoFooter: 'logoFooterClass',
           noZendeskLogoButton: 'noZendeskLogoButton',
@@ -108,39 +106,6 @@ describe('ChatOffline component', () => {
     it('renders ChatOfflineForm', () => {
       expect(TestUtils.isElementOfType(result, ChatOfflineForm))
         .toEqual(true);
-    });
-  });
-
-  describe('renderChatOfflineScreen', () => {
-    let result,
-      mockIsMobile;
-
-    beforeEach(() => {
-      const component = instanceRender(<ChatOffline isMobile={mockIsMobile} />);
-
-      result = component.renderChatOfflineScreen();
-    });
-
-    describe('when it is mobile mode', () => {
-      beforeAll(() => {
-        mockIsMobile = true;
-      });
-
-      it('has mobile styles', () => {
-        expect(result.props.classes)
-          .toContain('mobileContainerClass');
-      });
-    });
-
-    describe('when it is desktop mode', () => {
-      beforeAll(() => {
-        mockIsMobile = false;
-      });
-
-      it('does not have mobile styles', () => {
-        expect(result.props.classes)
-          .not.toContain('mobileContainerClass');
-      });
     });
   });
 });

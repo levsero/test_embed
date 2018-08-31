@@ -9,18 +9,6 @@
   padding-left: #{8/$font-size}rem !important;
 }
 
-.scrollContainer {
-  height: #{$chat-height/$font-size}rem;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.mobileContainer {
-  font-size: $font-size-mobile;
-  height: 100% !important;
-}
-
 .loadingSpinner {
   display: block;
   margin: 50% auto 0;

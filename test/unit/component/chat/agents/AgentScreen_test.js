@@ -17,10 +17,8 @@ describe('AgentScreen component', () => {
           scrollContainerMobile: 'scrollContainerMobileClasses',
           scrollContainerMessagesContent: 'scrollContainerMessagesContentClass',
           scrollContainerMessagesContentDesktop: 'scrollContainerMessagesContentDesktopClass',
-          scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
           agentListBackButton: 'agentListBackButtonClasses',
-          mobileContainer: 'mobileContainerClasses',
           logoFooter: 'logoFooterClasses',
           zendeskLogo: 'zendeskLogoClasses',
           agentListBackButtonWithLogo: 'agentListBackButtonWithLogoClasses'
@@ -83,37 +81,9 @@ describe('AgentScreen component', () => {
       ).render();
     });
 
-    describe('for non mobile devices', () => {
-      beforeAll(() => {
-        isMobile = false;
-      });
-
-      it('does not add the scrollContainerMobile class to it', () => {
-        expect(component.props.classes)
-          .not
-          .toContain('mobileContainerClasses');
-      });
-    });
-
-    describe('for mobile devices', () => {
-      beforeAll(() => {
-        isMobile = true;
-      });
-
-      it('adds mobile classes to the scrollContainer', () => {
-        expect(component.props.classes)
-          .toContain('mobileContainerClasses');
-      });
-    });
-
     describe('the scroll container wrapper', () => {
       beforeAll(() => {
         isMobile = false;
-      });
-
-      it('has its classes prop to the scroll container style', () => {
-        expect(component.props.classes)
-          .toEqual('scrollContainerClasses');
       });
 
       it('has its containerClasses prop to the scrollContainerContent style', () => {

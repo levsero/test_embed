@@ -56,7 +56,7 @@ export default function WebWidgetFactory(name) {
     }, 0);
   };
   const onShow = () => {
-    const rootComponent = getRootComponent();
+    const rootComponent = getActiveComponent();
 
     if (rootComponent) {
       const { submitTicketForm } = rootComponent.refs;
@@ -70,7 +70,7 @@ export default function WebWidgetFactory(name) {
     }
   };
   const onHide = () => {
-    const rootComponent = getRootComponent();
+    const rootComponent = getActiveComponent();
 
     if (rootComponent) {
       if (isMobileBrowser()) {
@@ -92,7 +92,7 @@ export default function WebWidgetFactory(name) {
     getWebWidgetComponent().onBackClick();
   };
   const afterShowAnimate = () => {
-    const rootComponent = getRootComponent();
+    const rootComponent = getActiveComponent();
 
     if (rootComponent && isIE()) {
       if (rootComponent.refs.submitTicketForm) {
@@ -162,7 +162,6 @@ export default function WebWidgetFactory(name) {
       const margin = settings.get('margin');
 
       frameStyle = _.extend({}, frameStyle, {
-        width: 342,
         marginLeft: margin,
         marginRight: margin
       });
@@ -321,8 +320,8 @@ export default function WebWidgetFactory(name) {
 
         embed.instance.updateFrameLocale();
         getWebWidgetComponent().forceUpdate();
-        if (getRootComponent()) {
-          getRootComponent().forceUpdate();
+        if (getActiveComponent()) {
+          getActiveComponent().forceUpdate();
         }
 
         if (!_.isEmpty(ticketForms)) {
@@ -357,8 +356,8 @@ export default function WebWidgetFactory(name) {
     return embed;
   }
 
-  function getRootComponent() {
-    return getWebWidgetComponent().getRootComponent();
+  function getActiveComponent() {
+    return getWebWidgetComponent().getActiveComponent();
   }
 
   function getWebWidgetComponent() {

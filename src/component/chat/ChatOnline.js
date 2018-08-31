@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import _ from 'lodash';
 
 import { ButtonPill } from 'component/button/ButtonPill';
@@ -74,12 +73,10 @@ class Chat extends Component {
     rating: PropTypes.object.isRequired,
     handleSoundIconClick: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired,
-    getFrameDimensions: PropTypes.func.isRequired,
     sendEmailTranscript: PropTypes.func.isRequired,
     emailTranscript: PropTypes.object.isRequired,
     resetEmailTranscript: PropTypes.func,
     visitor: PropTypes.object.isRequired,
-    updateFrameSize: PropTypes.func.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
@@ -107,14 +104,12 @@ class Chat extends Component {
     events: [],
     handleSoundIconClick: () => {},
     userSoundSettings: true,
-    getFrameDimensions: () => {},
     sendEmailTranscript: () => {},
     emailTranscript: {},
     resetEmailTranscript: () => {},
     editContactDetails: {},
     updateChatBackButtonVisibility: () => {},
     updateMenuVisibility: () => {},
-    updateFrameSize: () => {},
     menuVisible: false,
     connection: '',
     loginSettings: {},
@@ -135,8 +130,6 @@ class Chat extends Component {
       showEndChatMenu: false,
       endChatFromFeedbackForm: false
     };
-
-    this.updateFrameSizeTimer = null;
   }
 
   componentDidMount() {
@@ -147,10 +140,6 @@ class Chat extends Component {
     if (!nextProps.chats && !nextProps.events) return;
 
     this.props.updateChatBackButtonVisibility();
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.updateFrameSizeTimer);
   }
 
   toggleMenu = () => {
@@ -270,7 +259,7 @@ class Chat extends Component {
   }
 
   renderAttachmentsBox = () => {
-    const { screen, attachmentsEnabled, getFrameDimensions } = this.props;
+    const { screen, attachmentsEnabled } = this.props;
 
     if (
       screen !== screens.CHATTING_SCREEN ||
@@ -281,7 +270,6 @@ class Chat extends Component {
     return (
       <AttachmentBox
         onDragLeave={this.handleDragLeave}
-        dimensions={getFrameDimensions()}
         onDrop={this.handleDragDrop}
       />
     );
@@ -413,15 +401,8 @@ class Chat extends Component {
   }
 
   render = () => {
-    const containerStyle = classNames(
-      styles.container,
-      { [styles.mobileContainer]: this.props.isMobile }
-    );
-
-    this.updateFrameSizeTimer = setTimeout(() => this.props.updateFrameSize(), 0);
-
     return (
-      <div className={containerStyle}>
+      <div>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderAgentListScreen()}

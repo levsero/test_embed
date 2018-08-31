@@ -459,18 +459,7 @@ describe('Launcher component', () => {
   });
 
   describe('render', () => {
-    const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
     let launcher;
-
-    beforeEach(() => {
-      launcher = domRender(<Launcher updateFrameSize={mockUpdateFrameSize} />);
-    });
-
-    it('should call the updateFrameSize prop on render if it exists', () => {
-      jasmine.clock().tick(0);
-
-      expect(mockUpdateFrameSize).toHaveBeenCalled();
-    });
 
     describe('when props.chatOnline is online', () => {
       beforeEach(() => {

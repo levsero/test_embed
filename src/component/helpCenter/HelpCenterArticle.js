@@ -26,7 +26,6 @@ export class HelpCenterArticle extends Component {
     originalArticleButton: PropTypes.bool,
     handleOriginalArticleClick: PropTypes.func,
     storedImages: PropTypes.object,
-    updateFrameSize: PropTypes.func,
     updateStoredImages: PropTypes.func,
     zendeskHost: PropTypes.string
   };
@@ -37,7 +36,6 @@ export class HelpCenterArticle extends Component {
     originalArticleButton: true,
     handleOriginalArticleClick: () => {},
     storedImages: {},
-    updateFrameSize: () => {},
     updateStoredImages: () => {},
     zendeskHost: ''
   };
@@ -123,14 +121,6 @@ export class HelpCenterArticle extends Component {
       /* eslint-enable no-useless-escape */
 
       container.innerHTML = cleanHtml;
-
-      // When an article has only an image and no body content to resize it,
-      // the framesize is updated before the image has fully loaded. This results
-      // in the article being cut off from the bottom. We ensure here that
-      // `updateFrameSize` is called when each img has loaded and rendered.
-      const imgs = container.getElementsByTagName('img');
-
-      _.forEach(imgs, (img) => img.onload = this.props.updateFrameSize);
     } else {
       container.innerHTML = '';
     }

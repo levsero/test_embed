@@ -415,10 +415,6 @@ class ChattingScreen extends Component {
       [styles.scrollContainerMobile]: isMobile,
       [styles.scrollBarFix]: isFirefox() || isIE()
     });
-    const scrollContainerClasses = classNames(
-      styles.scrollContainer,
-      { [styles.mobileContainer]: isMobile }
-    );
     const chatLogContainerClasses = classNames(
       styles.chatLogContainer,
       { [styles.chatLogContainerMobile]: isMobile }
@@ -445,8 +441,7 @@ class ChattingScreen extends Component {
           containerClasses={containerClasses}
           footerClasses={footerClasses}
           footerContent={this.renderChatFooter()}
-          fullscreen={isMobile}
-          classes={scrollContainerClasses}>
+          fullscreen={isMobile}>
           <div className={chatLogContainerClasses}>
             <HistoryLog
               ref={(el) => { this.chatHistoryLog = el; }}

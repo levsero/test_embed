@@ -340,10 +340,6 @@ export class PrechatForm extends Component {
   }
 
   render = () => {
-    const scrollContainerClasses = classNames(styles.scrollContainer, {
-      [styles.mobileContainer]: this.props.isMobile
-    });
-
     return (
       <form
         noValidate={true}
@@ -353,7 +349,6 @@ export class PrechatForm extends Component {
         className={`${styles.form}`}>
         <ScrollContainer
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          classes={scrollContainerClasses}
           containerClasses={styles.scrollContainerContent}
           footerContent={this.renderSubmitButton()}
           fullscreen={this.props.isMobile}

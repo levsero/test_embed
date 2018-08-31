@@ -37,6 +37,9 @@ describe('embed.launcher', () => {
           );
         }
       },
+      'constants/shared': {
+        FONT_SIZE: 12
+      },
       'service/beacon': {
         beacon: jasmine.createSpyObj('mockBeacon', ['trackUserAction'])
       },
@@ -311,6 +314,13 @@ describe('embed.launcher', () => {
             .toHaveBeenCalled();
         });
       });
+    });
+
+    describe('frameStyleModifier prop', () => {
+      const element = {
+        offsetWidth: 50,
+        clientWidth: 20
+      };
 
       describe('getAdjustedMarginStyles', () => {
         let result;
@@ -332,7 +342,7 @@ describe('embed.launcher', () => {
           const alice = launcher.get('alice').instance;
           const frameStyleModifier = alice.props.frameStyleModifier;
 
-          result = frameStyleModifier(frameStyle);
+          result = frameStyleModifier(frameStyle, element);
         });
 
         afterEach(() => {
@@ -340,20 +350,48 @@ describe('embed.launcher', () => {
           mockZoomSizingRatioValue = 1;
         });
 
-        it('should not omit properties from frameStyle', () => {
+        it('does not omit properties from frameStyle', () => {
           frameStyleProperties.forEach((subject) => {
             expect(_.has(result, subject))
               .toEqual(true);
           });
         });
 
-        it('should adjust valid properties accordingly', () => {
+        it('adjusts valid properties accordingly', () => {
           const getMargin = (value) => {
             return Math.round(value * mockZoomSizingRatioValue) + 'px';
           };
           const expected = {
             marginBottom: getMargin(15),
             marginRight: getMargin(25)
+          };
+
+          expect(result)
+            .toEqual(jasmine.objectContaining(expected));
+        });
+      });
+
+      describe('adjustWidth', () => {
+        let result;
+        const frameStyle = {
+          width: '10px',
+          height: '10px'
+        };
+
+        beforeEach(() => {
+          launcher.create('alice');
+          launcher.render('alice');
+
+          const alice = launcher.get('alice').instance;
+          const frameStyleModifier = alice.props.frameStyleModifier;
+
+          result = frameStyleModifier(frameStyle, element);
+        });
+
+        it('adjust the width using the element', () => {
+          const expected = {
+            width: 55,
+            height: '10px'
           };
 
           expect(result)

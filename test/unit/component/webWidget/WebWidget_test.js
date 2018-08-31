@@ -7,6 +7,8 @@ describe('WebWidget component', () => {
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
   const ChatNotificationPopup = noopReactComponent();
+  const MAX_WIDGET_HEIGHT_NO_SEARCH = 150;
+  const WIDGET_MARGIN = 15;
 
   beforeEach(() => {
     mockery.enable();
@@ -78,6 +80,10 @@ describe('WebWidget component', () => {
         ChannelChoice: noopReactComponent()
       },
       'component/chat/ChatNotificationPopup': { ChatNotificationPopup },
+      'constants/shared': {
+        MAX_WIDGET_HEIGHT_NO_SEARCH,
+        WIDGET_MARGIN
+      },
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
@@ -940,8 +946,9 @@ describe('WebWidget component', () => {
 
       component = instanceRender(<WebWidget {...componentProps} />);
 
+      spyOn(component, 'checkFrameHeight');
       spyOn(component, 'showHelpCenter');
-      spyOn(component, 'getRootComponent').and.callFake(() => ({
+      spyOn(component, 'getActiveComponent').and.callFake(() => ({
         clearForm: clearFormSpy
       }));
 
@@ -1080,6 +1087,11 @@ describe('WebWidget component', () => {
 
       it('calls showHelpCenter', () => {
         expect(component.showHelpCenter)
+          .toHaveBeenCalled();
+      });
+
+      it('calls checkFrameHeight', () => {
+        expect(component.checkFrameHeight)
           .toHaveBeenCalled();
       });
     });
@@ -1461,12 +1473,18 @@ describe('WebWidget component', () => {
         );
 
         spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
+        spyOn(webWidget, 'checkFrameHeight');
         webWidget.resetActiveEmbed();
       });
 
       it('calls updateActiveEmbed with help center', () => {
         expect(updateActiveEmbedSpy)
           .toHaveBeenCalledWith('helpCenterForm');
+      });
+
+      it('calls checkFrameHeight', () => {
+        expect(webWidget.checkFrameHeight)
+          .toHaveBeenCalled();
       });
 
       describe('when the article view is active', () => {
@@ -1825,6 +1843,46 @@ describe('WebWidget component', () => {
     });
   });
 
+  describe('checkFrameHeight', () => {
+    let webWidget, hasSearched, setFixedFrameStylesSpy;
+
+    beforeEach(() => {
+      setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
+      webWidget = instanceRender(
+        <WebWidget
+          fullscreen={false}
+          setFixedFrameStyles={setFixedFrameStylesSpy}
+          hasSearched={hasSearched} />
+      );
+
+      webWidget.checkFrameHeight();
+    });
+
+    describe('when hasSearched is true', () => {
+      beforeAll(() => {
+        hasSearched = true;
+      });
+
+      it('does not call setFixedFrameStyles', () => {
+        expect(setFixedFrameStylesSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when hasSearched is false', () => {
+      beforeAll(() => {
+        hasSearched = false;
+      });
+
+      it('call setFixedFrameStyles with the correct params', () => {
+        expect(setFixedFrameStylesSpy)
+          .toHaveBeenCalledWith({
+            maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
+          });
+      });
+    });
+  });
+
   describe('#isHelpCenterAvailable', () => {
     let webWidget;
 
@@ -1935,13 +1993,13 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
 
-        spyOn(webWidget, 'getRootComponent');
+        spyOn(webWidget, 'getActiveComponent');
 
         webWidget.onContainerClick();
       });
 
-      it('calls getRootComponent', () => {
-        expect(webWidget.getRootComponent)
+      it('calls getActiveComponent', () => {
+        expect(webWidget.getActiveComponent)
           .toHaveBeenCalled();
       });
 
@@ -1960,13 +2018,13 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='' />);
 
-        spyOn(webWidget, 'getRootComponent');
+        spyOn(webWidget, 'getActiveComponent');
 
         webWidget.onContainerClick();
       });
 
-      it('calls getRootComponent', () => {
-        expect(webWidget.getRootComponent)
+      it('calls getActiveComponent', () => {
+        expect(webWidget.getActiveComponent)
           .toHaveBeenCalled();
       });
 

@@ -82,6 +82,7 @@ class HelpCenter extends Component {
     onNextClick: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     performSearch: PropTypes.func.isRequired,
+    onSearchSuccess: PropTypes.func,
     performImageSearch: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
     showNextButton: PropTypes.bool,
@@ -93,7 +94,6 @@ class HelpCenter extends Component {
     chatOfflineAvailable: PropTypes.bool,
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
-    updateFrameSize: PropTypes.func,
     updateChatScreen: PropTypes.func,
     handleArticleClick: PropTypes.func.isRequired,
     zendeskHost: PropTypes.string.isRequired,
@@ -126,13 +126,13 @@ class HelpCenter extends Component {
     localeFallbacks: [],
     onNextClick: () => {},
     originalArticleButton: true,
+    onSearchSuccess: () => {},
     showBackButton: () => {},
     showNextButton: true,
     style: null,
     submitTicketAvailable: true,
     chatAvailable: false,
     chatOfflineAvailable: false,
-    updateFrameSize: () => {},
     updateChatScreen: () => {},
     handleArticleClick: () => {},
     articles: [],
@@ -178,6 +178,7 @@ class HelpCenter extends Component {
   interactiveSearchSuccessFn = () => {
     this.props.showBackButton(false);
     this.focusField();
+    this.props.onSearchSuccess();
   }
 
   focusField = () => {
@@ -304,7 +305,6 @@ class HelpCenter extends Component {
         storedImages={this.props.restrictedImages}
         imagesSender={this.props.performImageSearch}
         updateStoredImages={this.props.addRestrictedImage}
-        updateFrameSize={this.props.updateFrameSize}
         fullscreen={this.props.fullscreen} />
     );
   }
@@ -336,7 +336,6 @@ class HelpCenter extends Component {
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.props.searchFieldValue}
-        updateFrameSize={this.props.updateFrameSize}
         updateChatScreen={this.props.updateChatScreen}>
         {this.renderResults()}
         {this.renderArticles()}

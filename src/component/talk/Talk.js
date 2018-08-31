@@ -60,20 +60,17 @@ class Talk extends Component {
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
     talkConfig: PropTypes.object.isRequired,
-    getFrameDimensions: PropTypes.func.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool,
     channelChoiceAvailable: PropTypes.bool,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
-    updateFrameSize: PropTypes.func,
     libphonenumber: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     hideZendeskLogo: false,
-    updateFrameSize: () => {},
     formState: { phone: '' },
     embeddableConfig: { phoneNumber: '' },
     callback: { error: {} },
@@ -403,8 +400,6 @@ class Talk extends Component {
   }
 
   render = () => {
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     const { isMobile, screen } = this.props;
     const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
     const scrollContainerClasses = classNames({
@@ -417,7 +412,6 @@ class Talk extends Component {
           ref='scrollContainer'
           containerClasses={scrollContainerClasses}
           footerContent={this.renderFooterContent()}
-          getFrameDimensions={this.props.getFrameDimensions}
           title={this.renderFormTitle()}>
           <div className={contentClasses}>
             {this.renderContent()}

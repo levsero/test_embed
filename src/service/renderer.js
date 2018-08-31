@@ -238,7 +238,6 @@ function propagateFontRatio(ratio) {
 
   renderedEmbedsApply((embed) => {
     embed.updateBaseFontSize(fontSize);
-    embed.updateFrameSize();
   });
 }
 
@@ -248,11 +247,18 @@ function hideByZoom(hide) {
   });
 }
 
+function onZoom() {
+  renderedEmbedsApply((embed) => {
+    embed.forceUpdateWorld();
+  });
+}
+
 export const renderer = {
   init: init,
   initIPM: initIPM,
   postRenderCallbacks: postRenderCallbacks,
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
-  hide: hide
+  hide: hide,
+  onZoom
 };

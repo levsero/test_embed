@@ -19,6 +19,7 @@ import {
   handleIdentifyRecieved,
   logout,
   updateEmbeddableConfig } from 'src/redux/modules/base';
+import { initResizeMonitor } from 'utility/window';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout } from 'src/redux/modules/chat';
@@ -335,6 +336,8 @@ const start = (win, doc) => {
     initMobileScaling();
 
     win.addEventListener('click', clickBusterHandler, true);
+  } else {
+    initResizeMonitor(win);
   }
 };
 

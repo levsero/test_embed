@@ -14,12 +14,10 @@ const mapStateToProps = (state) => {
 
 class Chat extends Component {
   static propTypes = {
-    updateFrameSize: PropTypes.func.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     handleCloseClick: PropTypes.func,
-    getFrameDimensions: PropTypes.func,
     position: PropTypes.string,
     onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
@@ -28,8 +26,7 @@ class Chat extends Component {
 
   static defaultProps = {
     isMobile: false,
-    hideZendeskLogo: false,
-    updateFrameSize: () => {}
+    hideZendeskLogo: false
   };
 
   constructor() {
@@ -37,6 +34,10 @@ class Chat extends Component {
 
     this.online = null;
     this.offline = null;
+  }
+
+  forceUpdate() {
+    this.getActiveComponent().forceUpdate();
   }
 
   getActiveComponent = () => {
@@ -50,7 +51,6 @@ class Chat extends Component {
       <ChatOffline
         ref={(el) => { this.offline = el; }}
         getFrameContentDocument={this.props.getFrameContentDocument}
-        updateFrameSize={this.props.updateFrameSize}
         handleCloseClick={this.props.handleCloseClick}
         isMobile={this.props.isMobile}
         hideZendeskLogo={this.props.hideZendeskLogo} />
@@ -77,9 +77,7 @@ class Chat extends Component {
         ref={(el) => { this.online = el; }}
         isMobile={this.props.isMobile}
         position={this.props.position}
-        updateFrameSize={this.props.updateFrameSize}
         getFrameContentDocument={this.props.getFrameContentDocument}
-        getFrameDimensions={this.props.getFrameDimensions}
         updateChatBackButtonVisibility={this.props.updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
         hideZendeskLogo={this.props.hideZendeskLogo} />
@@ -87,8 +85,6 @@ class Chat extends Component {
   }
 
   render() {
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     return (
       <div>
         {this.renderChatOnline()}

@@ -13,6 +13,9 @@ describe('Frame', () => {
     mockWidgetHideAnimationComplete;
 
   const FramePath = buildSrcPath('component/frame/Frame');
+  const MAX_WIDGET_HEIGHT = 550;
+  const MIN_WIDGET_HEIGHT = 150;
+  const WIDGET_WIDTH = 342;
 
   class MockEmbedWrapper extends Component {
     constructor(props, context) {
@@ -36,12 +39,12 @@ describe('Frame', () => {
       super(props);
       this.onClick = props.onClickHandler;
       this.onSubmit = props.onSubmitHandler;
-      this.updateFrameSize = props.updateFrameSize;
       this.setOffsetHorizontal = props.setOffsetHorizontal;
+      this.getActiveComponent = () => this.refs.activeComponent;
     }
     componentWillUnmount() {}
     render() {
-      return <div className='mock-component' refs='rootComponent' />;
+      return <div className='mock-component' refs='activeComponent' />;
     }
   }
 
@@ -109,7 +112,10 @@ describe('Frame', () => {
         widgetHideAnimationComplete: mockWidgetHideAnimationComplete
       },
       'constants/shared': {
-        FONT_SIZE: 14
+        FONT_SIZE: 14,
+        MAX_WIDGET_HEIGHT,
+        MIN_WIDGET_HEIGHT,
+        WIDGET_WIDTH
       },
       'lodash': _,
       'component/Icon': {
@@ -163,18 +169,12 @@ describe('Frame', () => {
     describe('when frame child exists', () => {
       beforeEach(() => {
         frame = domRender(<Frame>{mockChild}</Frame>);
-        spyOn(frame.getChild(), 'forceUpdate');
-        spyOn(frame.getChild().nav, 'forceUpdate');
+        spyOn(frame, 'forceUpdateWorld');
         frame.updateFrameLocale();
       });
 
-      it('calls forceUpdate on the child', () => {
-        expect(frame.getChild().forceUpdate)
-          .toHaveBeenCalled();
-      });
-
-      it('calls forceUpdate on the child nav', () => {
-        expect(frame.getChild().nav.forceUpdate)
+      it('calls forceUpdateWorld', () => {
+        expect(frame.forceUpdateWorld)
           .toHaveBeenCalled();
       });
     });
@@ -186,6 +186,7 @@ describe('Frame', () => {
 
         jasmine.clock().install();
         frame = domRender(<Frame>{mockChild}</Frame>);
+        spyOn(frame, 'forceUpdateWorld');
         frame.updateFrameLocale();
         documentElem = frame.getContentDocument().documentElement;
 
@@ -210,6 +211,7 @@ describe('Frame', () => {
 
         jasmine.clock().install();
         frame = domRender(<Frame>{mockChild}</Frame>);
+        spyOn(frame, 'forceUpdateWorld');
         frame.updateFrameLocale();
         documentElem = frame.getContentDocument().documentElement;
 
@@ -260,132 +262,6 @@ describe('Frame', () => {
       it('sets the fixedStyles state to an empty object', () => {
         expect(frame.state.fixedStyles)
           .toEqual({});
-      });
-    });
-  });
-
-  describe('updateFrameSize', () => {
-    let frame, dimensions;
-    const mockObject = {
-      clientHeight: 80,
-      offsetHeight: 50,
-      clientWidth: 90,
-      offsetWidth: 100
-    };
-    const defaultOffset = 15;
-
-    beforeEach(() => {
-      frame = domRender(<Frame>{mockChild}</Frame>);
-
-      spyOn(frame, 'getRootComponentElement').and.returnValue(mockObject);
-
-      dimensions = frame.updateFrameSize();
-    });
-
-    describe('setting styles', () => {
-      it('should set the height value to the higher height value + the default offset', () => {
-        expect(dimensions.height)
-          .toBe(mockObject.clientHeight + defaultOffset);
-      });
-
-      it('should set the width value to the higher width value + the default offset', () => {
-        expect(dimensions.width)
-          .toBe(mockObject.offsetWidth + defaultOffset);
-      });
-
-      describe('when the offsets are different', () => {
-        const offsetWidth = 50;
-        const offsetHeight = 20;
-
-        beforeEach(() => {
-          frame = domRender(
-            <Frame frameOffsetWidth={offsetWidth} frameOffsetHeight={offsetHeight}>{mockChild}</Frame>
-          );
-
-          dimensions = frame.updateFrameSize();
-        });
-
-        it('should change the height value using the offset prop', () => {
-          expect(mockObject.clientHeight + offsetHeight)
-            .toBe(100);
-        });
-
-        it('should set the width value to the higher width value + the offset prop', () => {
-          expect(mockObject.offsetWidth + offsetWidth)
-            .toBe(150);
-        });
-      });
-    });
-
-    describe('when fullscreen', () => {
-      beforeEach(() => {
-        mockIsMobileBrowserValue = true;
-        window.innerWidth = 100;
-
-        Frame = requireUncached(FramePath).Frame;
-        frame = domRender(<Frame fullscreenable={true}>{mockChild}</Frame>);
-
-        dimensions = frame.updateFrameSize();
-      });
-
-      describe('setting styles', () => {
-        it('should set the width to 100%', () => {
-          expect(dimensions.width)
-            .toBe('100%');
-        });
-
-        it('should set the max-width to the viewport width', () => {
-          expect(dimensions.maxWidth)
-            .toBe(`${window.innerWidth}px`);
-        });
-
-        it('should set the height to 100%', () => {
-          expect(dimensions.height)
-            .toBe('100%');
-        });
-
-        it('should set the zIndex to the default value of 999999', () => {
-          expect(dimensions.zIndex)
-            .toBe(999999);
-        });
-
-        describe('when zIndex is different in settings', () => {
-          beforeEach(() => {
-            mockSettingsValue.zIndex = 100;
-
-            Frame = requireUncached(FramePath).Frame;
-
-            frame = domRender(<Frame fullscreenable={true}>{mockChild}</Frame>);
-            dimensions = frame.updateFrameSize();
-          });
-
-          it('uses the value from settings', () => {
-            expect(dimensions.zIndex)
-              .toBe(100);
-          });
-        });
-      });
-
-      describe('when state.visible is true', () => {
-        it('should set left to 0px', () => {
-          frame.setState({ visible: true });
-
-          dimensions = frame.updateFrameSize();
-
-          expect(dimensions.left)
-            .toBe('0px');
-        });
-      });
-
-      describe('when state.visible is false', () => {
-        it('should set left to -9999px', () => {
-          frame.setState({ visible: false });
-
-          dimensions = frame.updateFrameSize();
-
-          expect(dimensions.left)
-            .toBe('-9999px');
-        });
       });
     });
   });
@@ -497,6 +373,39 @@ describe('Frame', () => {
         expect(dispatchSpy)
           .not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('forceUpdateWorld', () => {
+    let frame, rootComponent, activeComponentForceUpdateSpy;
+
+    beforeEach(() => {
+      frame = domRender(<Frame>{mockChild}</Frame>);
+
+      rootComponent = frame.getRootComponent();
+      activeComponentForceUpdateSpy = jasmine.createSpy('activeComponent.forceUpdate');
+
+      spyOn(rootComponent, 'getActiveComponent').and.returnValue({ forceUpdate: activeComponentForceUpdateSpy });
+
+      spyOn(frame.child, 'forceUpdate');
+      spyOn(frame.child.nav, 'forceUpdate');
+
+      frame.forceUpdateWorld();
+    });
+
+    it('calls forceUpdate on the child', () => {
+      expect(frame.child.forceUpdate)
+        .toHaveBeenCalled();
+    });
+
+    it('calls forceUpdate on the child nav', () => {
+      expect(frame.child.nav.forceUpdate)
+        .toHaveBeenCalled();
+    });
+
+    it('calls forceUpdate on the active component', () => {
+      expect(activeComponentForceUpdateSpy)
+        .toHaveBeenCalled();
     });
   });
 
@@ -711,13 +620,7 @@ describe('Frame', () => {
       beforeEach(() => {
         frame = domRender(<Frame onClose={mockOnClose} preventClose={true}>{mockChild}</Frame>);
 
-        spyOn(frame, 'hide');
         frame.close();
-      });
-
-      it('should not call hide', () => {
-        expect(frame.hide)
-          .not.toHaveBeenCalled();
       });
 
       it('should not call the onClose handler', () => {
@@ -1338,14 +1241,88 @@ describe('Frame', () => {
     });
 
     describe('contructEmbed', () => {
-      it('should add updateFrameSize to the child component', () => {
-        expect(frame.getRootComponent().updateFrameSize)
+      it('adds getFrameContentDocument to the child component', () => {
+        expect(frame.getRootComponent().props.getFrameContentDocument)
           .toBeDefined();
       });
 
-      it('should add css styles to the element', () => {
+      it('adds onBackButtonClick to the child component', () => {
+        expect(frame.getRootComponent().props.onBackButtonClick)
+          .toBeDefined();
+      });
+
+      it('adds setFixedFrameStyles to the child component', () => {
+        expect(frame.getRootComponent().props.setFixedFrameStyles)
+          .toBeDefined();
+      });
+
+      it('adds closeFrame to the child component', () => {
+        expect(frame.getRootComponent().props.closeFrame)
+          .toBeDefined();
+      });
+
+      it('adds css styles to the element', () => {
         expect(frame.getChild().props.baseCSS)
           .toContain('css-prop');
+      });
+    });
+  });
+
+  describe('getDefaultDimensions', () => {
+    let frame, mockFullscreenable;
+
+    const expectedMobileDimensions = {
+      width: '100%',
+      maxWidth: '100%',
+      height: '100%'
+    };
+    const expectedDesktopDimensions = {
+      width: `${WIDGET_WIDTH + 15}px`,
+      height: '100%',
+      maxHeight: `${MAX_WIDGET_HEIGHT + 15}px`,
+      minHeight: `${MIN_WIDGET_HEIGHT}px`
+    };
+
+    beforeEach(() => {
+      frame = domRender(<Frame fullscreenable={mockFullscreenable}>{mockChild}</Frame>);
+    });
+
+    describe('on mobile', () => {
+      beforeEach(() => {
+        mockIsMobileBrowserValue = true;
+      });
+
+      describe('when fullscreenable is true', () => {
+        beforeAll(() => {
+          mockFullscreenable = true;
+        });
+
+        it('returns the expected mobile dimensions', () => {
+          expect(frame.getDefaultDimensions())
+            .toEqual(expectedMobileDimensions);
+        });
+      });
+
+      describe('when fullscreenable is false', () => {
+        beforeAll(() => {
+          mockFullscreenable = false;
+        });
+
+        it('returns the expected desktop dimensions', () => {
+          expect(frame.getDefaultDimensions())
+            .toEqual(expectedDesktopDimensions);
+        });
+      });
+    });
+
+    describe('on desktop', () => {
+      beforeAll(() => {
+        mockIsMobileBrowserValue = false;
+      });
+
+      it('returns the expected mobile dimensions', () => {
+        expect(frame.getDefaultDimensions())
+          .toEqual(expectedDesktopDimensions);
       });
     });
   });

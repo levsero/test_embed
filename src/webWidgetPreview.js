@@ -25,7 +25,8 @@ const defaultOptions = {
     float: 'right',
     width: 342,
     marginTop: '16px',
-    marginRight: '16px'
+    marginRight: '16px',
+    height: 550
   }
 };
 let preview;
@@ -65,7 +66,6 @@ const renderWebWidgetPreview = (options) => {
           formTitleKey={options.titleKey}
           submitTicketSender={() => {}}
           attachmentSender={() => {}}
-          getFrameDimensions={() => {}}
           getFrameContentDocument={() => {}}
           fullscreen={isMobileBrowser()}
           style={containerStyle} />
@@ -89,8 +89,8 @@ const renderWebWidgetPreview = (options) => {
   };
 
   waitForSubmitTicketComponent(() => {
-    _.defer(preview.updateFrameSize);
     setColor(options.color);
+    _.defer(preview.forceUpdateWorld);
   });
 
   return {

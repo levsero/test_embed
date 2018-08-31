@@ -275,8 +275,7 @@ describe('Submit ticket component', () => {
           handleTicketSubmission={mockHandleTicketSubmission}
           onSubmitted={mockOnSubmitted}
           searchTerm={'a search'}
-          attachmentsEnabled={true}
-          updateFrameSize={noop} />
+          attachmentsEnabled={true} />
       );
       spyOn(submitTicket, 'clearForm');
     });
@@ -550,9 +549,8 @@ describe('Submit ticket component', () => {
 
   describe('attachmentBox', () => {
     it('should display the attachment box when isDragActive and attachmentsEnabled are true', () => {
-      const getFrameDimensions = () => { return { height: 500, width: 250 };};
       const submitTicket = domRender(
-        <SubmitTicket attachmentsEnabled={true} getFrameDimensions={getFrameDimensions} />
+        <SubmitTicket attachmentsEnabled={true} />
       );
 
       submitTicket.handleDragEnter();

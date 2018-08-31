@@ -8,7 +8,7 @@ describe('renderer', () => {
     mockUpdateEmbedAccessible,
     mockUpdateArturos;
   const updateBaseFontSize = jasmine.createSpy();
-  const updateFrameSize = jasmine.createSpy();
+  const forceUpdateWorldSpy = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
   const mediatorInitZopimStandaloneSpy = jasmine.createSpy('mediator.initZopimStandalone');
   const mediatorInitSpy = jasmine.createSpy('mediator.init');
@@ -29,7 +29,7 @@ describe('renderer', () => {
     mock.get.and.returnValue({
       instance: {
         updateBaseFontSize: updateBaseFontSize,
-        updateFrameSize: updateFrameSize
+        forceUpdateWorld: forceUpdateWorldSpy
       }
     });
 
@@ -441,12 +441,6 @@ describe('renderer', () => {
 
       expect(updateBaseFontSize.calls.count())
         .toEqual(2);
-
-      expect(updateFrameSize)
-        .toHaveBeenCalled();
-
-      expect(updateFrameSize.calls.count())
-        .toEqual(2);
     });
 
     it('should trigger propagateFontRatio call on orientationchange', () => {
@@ -457,9 +451,6 @@ describe('renderer', () => {
       jasmine.clock().tick(10);
 
       expect(updateBaseFontSize)
-        .toHaveBeenCalled();
-
-      expect(updateFrameSize)
         .toHaveBeenCalled();
     });
 
@@ -472,9 +463,6 @@ describe('renderer', () => {
 
       expect(updateBaseFontSize)
         .toHaveBeenCalled();
-
-      expect(updateFrameSize)
-        .toHaveBeenCalled();
     });
 
     it('should trigger propagateFontRatio call on window load', () => {
@@ -482,18 +470,12 @@ describe('renderer', () => {
 
       expect(updateBaseFontSize)
         .toHaveBeenCalled();
-
-      expect(updateFrameSize)
-        .toHaveBeenCalled();
     });
 
     it('should trigger propagateFontRatio call on dom content loaded', () => {
       dispatchEvent('DOMContentLoaded', document);
 
       expect(updateBaseFontSize)
-        .toHaveBeenCalled();
-
-      expect(updateFrameSize)
         .toHaveBeenCalled();
     });
   });
@@ -562,6 +544,33 @@ describe('renderer', () => {
         expect(mockWebWidgetRecentCall.args[1].helpCenterForm.position)
           .toEqual('left');
       });
+    });
+  });
+
+  describe('#onZoom', () => {
+    beforeEach(() => {
+      renderer.init({
+        embeds: {
+          'ticketSubmissionForm': {
+            'embed': 'ticketSubmissionForm'
+          },
+          'launcher': {
+            'embed': 'launcher'
+          }
+        }
+      });
+
+      renderer.onZoom();
+    });
+
+    it('loops over all rendered embeds and calls forceUpdateWorld on them', () => {
+      renderer.propagateFontRatio(2);
+
+      expect(forceUpdateWorldSpy)
+        .toHaveBeenCalled();
+
+      expect(forceUpdateWorldSpy.calls.count())
+        .toEqual(2);
     });
   });
 });

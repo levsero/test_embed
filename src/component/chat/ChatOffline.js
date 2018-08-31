@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { i18n } from 'service/i18n';
-import classNames from 'classnames';
 
 import { Button } from '@zendeskgarden/react-buttons';
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
@@ -42,7 +41,6 @@ const mapStateToProps = (state) => {
 
 class ChatOffline extends Component {
   static propTypes = {
-    updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     sendOfflineMessage: PropTypes.func.isRequired,
@@ -65,7 +63,6 @@ class ChatOffline extends Component {
   };
 
   static defaultProps = {
-    updateFrameSize: () => {},
     handleCloseClick: () => {},
     sendOfflineMessage: () => {},
     operatingHours: {},
@@ -93,7 +90,6 @@ class ChatOffline extends Component {
         sendOfflineMessage={this.props.sendOfflineMessage}
         chatOfflineFormChanged={this.props.chatOfflineFormChanged}
         operatingHours={this.props.operatingHours}
-        updateFrameSize={this.props.updateFrameSize}
         isAuthenticated={this.props.isAuthenticated}
         isMobile={this.props.isMobile}
         hideZendeskLogo={this.props.hideZendeskLogo} />
@@ -101,14 +97,9 @@ class ChatOffline extends Component {
   }
 
   renderChatOfflineScreen = () => {
-    const scrollContainerClasses = classNames(styles.scrollContainer, {
-      [styles.mobileContainer]: this.props.isMobile
-    });
-
     return (
       <ScrollContainer
         ref='scrollContainer'
-        classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
         title={i18n.t('embeddable_framework.chat.title')}>
         <div>

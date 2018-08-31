@@ -41,10 +41,8 @@ describe('ChattingScreen component', () => {
           footerMobileWithLogo: 'footerMobileWithLogoClasses',
           agentTyping: 'agentTypingClasses',
           agentTypingMobile: 'agentTypingMobileClasses',
-          scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
           scrollBarFix: 'scrollBarFix',
-          mobileContainer: 'mobileContainerClasses',
           logoFooter: 'logoFooterClasses',
           zendeskLogo: 'zendeskLogoClasses',
           zendeskLogoChatMobile: 'zendeskLogoChatMobileClasses',
@@ -779,17 +777,6 @@ describe('ChattingScreen component', () => {
       it('adds the scrollbar fix classes to scrollContainer', () => {
         expect(component.render().props.children[0].props.containerClasses)
           .toContain('scrollBarFix');
-      });
-    });
-
-    describe('the scroll container wrapper', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChattingScreen />);
-      });
-
-      it('has its classes prop to the scroll container style', () => {
-        expect(component.render().props.children[0].props.classes)
-          .toEqual('scrollContainerClasses');
       });
     });
 

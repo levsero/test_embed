@@ -1,12 +1,5 @@
 @import '../../../styles/_vars.scss';
 
-.scrollContainer {
-  height: #{$chat-height/$font-size}rem;
-
-  display: flex;
-  flex-direction: column;
-}
-
 .scrollContainerContent {
   height: 100%;
   max-height: none;
@@ -14,11 +7,6 @@
   margin-left: #{7/$font-size}rem !important;
   padding-right: #{8/$font-size}rem !important;
   padding-left: #{8/$font-size}rem !important;
-}
-
-.mobileContainer {
-  font-size: $font-size-mobile;
-  height: 100% !important;
 }
 
 .zendeskLogo {

@@ -477,52 +477,12 @@ describe('PrechatScreen component', () => {
     beforeEach(() => {
       component = instanceRender(<PrechatScreen />);
 
-      spyOn(component, 'getScrollContainerClasses');
-
       result = component.renderLoadingSpinner();
-    });
-
-    it('calls getScrollContainerClasses', () => {
-      expect(component.getScrollContainerClasses)
-        .toHaveBeenCalled();
     });
 
     it('renders a LoadingSpinner', () => {
       expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner))
         .toEqual(true);
-    });
-  });
-
-  describe('getScrollContainerClasses', () => {
-    let result,
-      mockIsMobile;
-
-    beforeEach(() => {
-      const component = instanceRender(<PrechatScreen isMobile={mockIsMobile} />);
-
-      result = component.getScrollContainerClasses();
-    });
-
-    describe('when it is mobile mode', () => {
-      beforeAll(() => {
-        mockIsMobile = true;
-      });
-
-      it('renders with mobile styles', () => {
-        expect(result)
-          .toContain('mobileContainerClasses');
-      });
-    });
-
-    describe('when it is desktop mode', () => {
-      beforeAll(() => {
-        mockIsMobile = false;
-      });
-
-      it('does not render with mobile styles', () => {
-        expect(result)
-          .not.toContain('mobileContainerClasses');
-      });
     });
   });
 });

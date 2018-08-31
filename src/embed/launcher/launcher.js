@@ -19,12 +19,14 @@ import { generateUserCSS } from 'utility/color/styles';
 import { isMobileBrowser,
   getZoomSizingRatio } from 'utility/devices';
 import { renewToken } from 'src/redux/modules/base';
+import { FONT_SIZE } from 'constants/shared';
 
 const launcherCSS = `${require('globalCSS')} ${launcherStyles}`;
 
 let launchers = {};
 
 function create(name, config, reduxStore) {
+  const isMobile = isMobileBrowser();
   const configDefaults = {
     onClick: () => {},
     position: 'right',
@@ -34,8 +36,8 @@ function create(name, config, reduxStore) {
     color: '#659700'
   };
   const frameStyle = {
-    width: '80px',
-    height: '50px',
+    height: isMobile ? `50/${FONT_SIZE}rem` : '50px',
+    minHeight: isMobile ? `50/${FONT_SIZE}rem` : '50px',
     marginTop: '10px',
     marginBottom: '10px',
     marginLeft: '20px',
@@ -45,6 +47,7 @@ function create(name, config, reduxStore) {
 
   config = _.extend(configDefaults, config);
 
+  const frameOffsetWidth = 5;
   const onClick = (e) => {
     e.preventDefault();
 
@@ -58,7 +61,7 @@ function create(name, config, reduxStore) {
       get(name).instance.updateFrameTitle(title);
     }
   };
-  const adjustFrameStyleMargins = (frameStyle) => {
+  const adjustFrameStyleMargins = (frameStyle, el) => {
     const zoomRatio = getZoomSizingRatio();
     const adjustMargin = (margin) => {
       const adjustedMargin = Math.round(parseInt(margin, 10) * zoomRatio);
@@ -71,13 +74,21 @@ function create(name, config, reduxStore) {
       .mapValues(adjustMargin)
       .value();
 
-    return _.extend({}, frameStyle, result);
+    return _.extend({}, frameStyle, adjustWidth(frameStyle, el), result);
+  };
+  const adjustWidth = (frameStyle, el) => {
+    const width = Math.max(el.clientWidth, el.offsetWidth);
+
+    return {
+      ...frameStyle,
+      width: (_.isFinite(width) ? width : 0) + frameOffsetWidth
+    };
   };
 
   const params = {
     css: launcherCSS + generateUserCSS(config.color),
-    frameStyleModifier: isMobileBrowser() ? adjustFrameStyleMargins : () => {},
-    frameOffsetWidth: 5,
+    frameStyleModifier: isMobileBrowser() ? adjustFrameStyleMargins : adjustWidth,
+    frameOffsetWidth,
     frameOffsetHeight: 1,
     frameStyle: frameStyle,
     fullscreenable: false,

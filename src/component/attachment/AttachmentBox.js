@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropzone } from 'component/Dropzone';
 
 import { Icon } from 'component/Icon';
+import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './AttachmentBox.scss';
 
@@ -16,7 +17,7 @@ export class AttachmentBox extends Component {
   };
 
   static defaultProps = {
-    dimensions: { width: 0, height: 0 },
+    dimensions: { width: WIDGET_WIDTH, height: MAX_WIDGET_HEIGHT },
     onDragLeave: () => {}
   };
 

@@ -20,7 +20,7 @@ import { clickBusterRegister,
 import { win } from 'utility/globals';
 import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
-import { FONT_SIZE } from 'constants/shared';
+import { FONT_SIZE, MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -41,7 +41,6 @@ export class Frame extends Component {
     afterShowAnimate: PropTypes.func,
     css: PropTypes.string,
     frameStyleModifier: PropTypes.func,
-    frameFullWidth: PropTypes.number,
     frameOffsetWidth: PropTypes.number,
     frameOffsetHeight: PropTypes.number,
     frameStyle: PropTypes.object,
@@ -64,7 +63,6 @@ export class Frame extends Component {
     afterShowAnimate: () => {},
     css: '',
     frameStyleModifier: () => {},
-    frameFullWidth: 0,
     frameOffsetWidth: 15,
     frameOffsetHeight: 15,
     frameStyle: { marginTop: defaultMarginTop() },
@@ -140,10 +138,6 @@ export class Frame extends Component {
     return this.child;
   }
 
-  getFrameDimensions = () => {
-    return this.state.iframeDimensions;
-  }
-
   getFrameHead = () => {
     return this.getContentDocument().head;
   }
@@ -159,9 +153,22 @@ export class Frame extends Component {
     }, 0);
 
     if (this.child) {
-      this.child.forceUpdate();
-      this.child.nav.forceUpdate();
+      this.forceUpdateWorld();
     }
+  }
+
+  forceUpdateWorld = () => {
+    this.child.forceUpdate();
+    this.child.nav.forceUpdate();
+    const embed = this.getRootComponent();
+
+    if (embed.getActiveComponent) {
+      const activeComponent = embed.getActiveComponent();
+
+      if (activeComponent) activeComponent.forceUpdate();
+    }
+
+    _.defer(this.forceUpdate.bind(this));
   }
 
   updateFrameTitle = (title) => {
@@ -174,65 +181,26 @@ export class Frame extends Component {
     this.setState({ fixedStyles });
   }
 
-  updateFrameSize = () => {
-    const frameDoc = this.getContentDocument();
-    const fullscreenWidth = `${win.innerWidth}px`;
-
-    if (!frameDoc.firstChild) {
-      return false;
-    }
-
-    const getDimensions = () => {
-      const { frameFullWidth, frameOffsetHeight, frameOffsetWidth, fullscreenable } = this.props;
-      const el = this.getRootComponentElement();
-      const width  = Math.max(el.clientWidth, el.offsetWidth);
-      const height = Math.max(el.clientHeight, el.offsetHeight);
-      const fullscreen = isMobileBrowser() && fullscreenable;
-      // FIXME shouldn't set background & zIndex in a dimensions object
-      const fullscreenStyle = {
-        width: '100%',
-        maxWidth: fullscreenWidth,
-        height: '100%',
-        left: this.state.visible ? '0px' : '-9999px',
-        top: this.state.visible ? '0px' : '-9999px',
-        background:'#FFF',
-        zIndex: settings.get('zIndex')
-      };
-
-      const popoverStyle = {
-        width: (_.isFinite(width) ? width : 0) + frameOffsetWidth,
-        height: (_.isFinite(height) ? height : 0) + frameOffsetHeight
-      };
-
-      // Set a full width frame with a dynamic height
-      if (frameFullWidth) {
-        return {
-          width: '100%',
-          height: (_.isFinite(height) ? height : 0) + frameOffsetHeight
-        };
-      }
-
-      return fullscreen
-        ? fullscreenStyle
-        : popoverStyle;
+  getDefaultDimensions = () => {
+    const { frameOffsetHeight, frameOffsetWidth, fullscreenable } = this.props;
+    const fullscreen = isMobileBrowser() && fullscreenable;
+    const fullscreenStyle = {
+      width: '100%',
+      maxWidth: '100%',
+      height: '100%'
     };
 
-    if (this.props.fullscreenable && isMobileBrowser()) {
-      const fullscreenStyles = [
-        `width: ${fullscreenWidth}`,
-        'height: 100%',
-        'overflow-x: hidden'
-      ].join(';');
+    const popoverStyle = {
+      width: `${WIDGET_WIDTH + frameOffsetWidth}px`,
+      height: '100%',
+      maxHeight: `${MAX_WIDGET_HEIGHT + frameOffsetHeight}px`,
+      minHeight: `${MIN_WIDGET_HEIGHT}px`
+    };
 
-      frameDoc.body.firstChild.setAttribute('style', fullscreenStyles);
-    }
-
-    const dimensions = getDimensions();
-    const frameWin = this.getContentWindow();
-
-    frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
-    return dimensions;
-  }
+    return fullscreen
+      ? fullscreenStyle
+      : popoverStyle;
+  };
 
   updateBaseFontSize = (fontSize) => {
     const htmlElem = this.getContentDocument().documentElement;
@@ -307,9 +275,25 @@ export class Frame extends Component {
     this.child.setButtonColor(color);
   }
 
+  applyMobileBodyStyle = () => {
+    const frameDoc = this.getContentDocument();
+    const fullscreenWidth = `${win.innerWidth}px`;
+
+    const fullscreenStyles = [
+      `width: ${fullscreenWidth}`,
+      'height: 100%',
+      'overflow-x: hidden'
+    ].join(';');
+
+    frameDoc.body.firstChild.setAttribute('style', fullscreenStyles);
+  }
+
   computeIframeStyle = () => {
-    const { iframeDimensions, frameStyle } = this.state;
-    const modifiedStyles = this.props.frameStyleModifier(frameStyle) || frameStyle;
+    const { frameStyle } = this.state;
+    const modifiedStyles = this.child
+      ? this.props.frameStyleModifier(frameStyle, this.getRootComponentElement()) || frameStyle
+      : frameStyle;
+    const fullscreen = isMobileBrowser() && this.props.fullscreenable;
     const baseStyles = {
       border: 'none',
       background: 'transparent',
@@ -320,12 +304,18 @@ export class Frame extends Component {
       transitionProperty: 'opacity, top, bottom',
       opacity: 0
     };
+    const mobileStyles = fullscreen ? {
+      left: this.state.visible ? '0px' : '-9999px',
+      top: this.state.visible ? '0px' : '-9999px',
+      background:'#FFF'
+    } : {};
 
     return _.extend({},
       baseStyles,
+      this.getDefaultDimensions(),
       frameStyle,
       modifiedStyles,
-      iframeDimensions,
+      mobileStyles,
       this.state.fixedStyles
     );
   }
@@ -363,15 +353,16 @@ export class Frame extends Component {
     element.className = `${positionClasses} ${desktopClasses}`;
     ReactDOM.render(embed, element);
     this.setState({ childRendered: true });
+
+    if (fullscreen) {
+      _.defer(this.applyMobileBodyStyle);
+    }
   }
 
   constructEmbed = () => {
-    // Pass down updateFrameSize to children
     const newChild = React.cloneElement(this.props.children, {
-      updateFrameSize: this.updateFrameSize,
       setFixedFrameStyles: this.setFixedFrameStyles,
       closeFrame: this.close,
-      getFrameDimensions: this.getFrameDimensions,
       onBackButtonClick: this.back,
       getFrameContentDocument: this.getContentDocument
     });
@@ -386,7 +377,6 @@ export class Frame extends Component {
           handleBackClick={this.back}
           handleCloseClick={this.close}
           useBackButton={this.props.useBackButton}
-          updateFrameSize={this.updateFrameSize}
           hideCloseButton={this.props.hideCloseButton}
           name={this.props.name}
           fullscreen={this.props.fullscreenable && isMobileBrowser()}>

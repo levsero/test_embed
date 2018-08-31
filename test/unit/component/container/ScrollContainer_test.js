@@ -3,8 +3,12 @@ describe('ScrollContainer component', () => {
     container,
     mockIsFullScreen,
     result,
+    mockWindowHeight,
     mockIsMobile = false;
   const containerPath = buildSrcPath('component/container/ScrollContainer');
+  const MAX_WIDGET_HEIGHT = 550;
+  const MIN_WIDGET_HEIGHT = 150;
+  const WIDGET_MARGIN = 15;
 
   beforeEach(() => {
     mockery.enable();
@@ -29,8 +33,18 @@ describe('ScrollContainer component', () => {
         }
       },
       'component/Refocus': noopReactComponent(),
+      'constants/shared': {
+        MAX_WIDGET_HEIGHT,
+        MIN_WIDGET_HEIGHT,
+        WIDGET_MARGIN
+      },
       'utility/devices': {
         isMobileBrowser: () => mockIsMobile
+      },
+      'utility/globals': {
+        win: {
+          innerHeight: mockWindowHeight
+        }
       }
     });
 
@@ -456,6 +470,60 @@ describe('ScrollContainer component', () => {
 
       expect(expected)
         .toEqual(result);
+    });
+  });
+
+  describe('calculateHeight', () => {
+    let component;
+
+    describe('when on mobile', () => {
+      beforeEach(() => {
+        component = instanceRender(<ScrollContainer fullscreen={true} />);
+      });
+
+      it('returns null', () => {
+        expect(component.calculateHeight())
+          .toEqual(null);
+      });
+    });
+
+    describe('when on desktop', () => {
+      beforeEach(() => {
+        component = instanceRender(<ScrollContainer />);
+      });
+
+      describe('when the window height is above the max height', () => {
+        beforeAll(() => {
+          mockWindowHeight = 600;
+        });
+
+        it('returns the max height', () => {
+          expect(component.calculateHeight())
+            .toEqual(MAX_WIDGET_HEIGHT);
+        });
+      });
+
+      describe('when the window height is below the max height and above the min height', () => {
+        beforeAll(() => {
+          mockWindowHeight = 400;
+        });
+
+        it('returns the value minus the widget margins', () => {
+          expect(component.calculateHeight())
+            .toEqual(400 - WIDGET_MARGIN*2);
+        });
+      });
+
+      describe('when the window height is below the min height', () => {
+        beforeAll(() => {
+          mockWindowHeight = 100;
+        });
+
+        it('returns the min widget value minus the widget margins', () => {
+          expect(component.calculateHeight())
+            .toEqual(MIN_WIDGET_HEIGHT - WIDGET_MARGIN*2);
+        });
+      });
     });
   });
 });

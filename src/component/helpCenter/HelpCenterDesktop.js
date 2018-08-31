@@ -8,6 +8,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { LoadingBarContent } from 'component/loading/LoadingBarContent';
+import { MAX_WIDGET_HEIGHT_NO_SEARCH } from 'constants/shared';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './HelpCenterDesktop.scss';
@@ -35,7 +36,6 @@ export class HelpCenterDesktop extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
-    updateFrameSize: PropTypes.func,
     updateChatScreen: PropTypes.func,
     isContextualSearchPending: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired
@@ -56,7 +56,6 @@ export class HelpCenterDesktop extends Component {
     chatEnabled: false,
     talkAvailable: false,
     talkEnabled: false,
-    updateFrameSize: () => {},
     updateChatScreen: () => {}
   };
 
@@ -185,8 +184,6 @@ export class HelpCenterDesktop extends Component {
   }
 
   render = () => {
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     const customHeightClasses = !this.props.hasSearched ? styles.noCustomHeight : '';
     let footerClasses = '';
 
@@ -205,6 +202,7 @@ export class HelpCenterDesktop extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           classes={customHeightClasses}
+          maxHeight={this.props.hasSearched ? undefined : MAX_WIDGET_HEIGHT_NO_SEARCH}
           footerClasses={footerClasses}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}>

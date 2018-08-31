@@ -11,6 +11,7 @@ import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
 import { Container } from 'component/container/Container';
 import HelpCenter from 'component/helpCenter/HelpCenter';
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
+import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'constants/shared';
 import { updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility } from 'src/redux/modules/base';
@@ -84,7 +85,6 @@ class WebWidget extends Component {
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
-    getFrameDimensions: PropTypes.func.isRequired,
     helpCenterAvailable: PropTypes.bool,
     helpCenterConfig: PropTypes.object,
     isOnHelpCenterPage: PropTypes.bool,
@@ -103,7 +103,6 @@ class WebWidget extends Component {
     ticketForms: PropTypes.array.isRequired,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
-    updateFrameSize: PropTypes.func,
     getFrameContentDocument: PropTypes.func,
     setFixedFrameStyles: PropTypes.func,
     zopimOnNext: PropTypes.func,
@@ -158,7 +157,6 @@ class WebWidget extends Component {
     ticketFieldSettings: [],
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
-    updateFrameSize: () => {},
     setFixedFrameStyles: () => {},
     talkAvailable: false,
     talkOnline: false,
@@ -183,9 +181,7 @@ class WebWidget extends Component {
     }
   }
 
-  getActiveComponent = () => this.props.activeEmbed;
-
-  getRootComponent = () => {
+  getActiveComponent = () => {
     const component = this.refs[this.props.activeEmbed];
 
     return component && component.getWrappedInstance ? component.getWrappedInstance() : component;
@@ -258,6 +254,16 @@ class WebWidget extends Component {
     }
   }
 
+  checkFrameHeight = () => {
+    const { hasSearched, setFixedFrameStyles, fullscreen } = this.props;
+
+    if (!hasSearched && !fullscreen) {
+      setFixedFrameStyles({
+        maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
+      });
+    }
+  }
+
   resetActiveEmbed = () => {
     const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable,
       chatAvailable, articleViewActive, ipmHelpCenterAvailable } = this.props;
@@ -266,6 +272,7 @@ class WebWidget extends Component {
     if (this.isHelpCenterAvailable()) {
       updateActiveEmbed(helpCenter);
       backButton = articleViewActive;
+      this.checkFrameHeight();
     } else if (ipmHelpCenterAvailable && articleViewActive) {
       // we only go into this condition if HC is injected by IPM
       updateActiveEmbed(helpCenter);
@@ -378,7 +385,7 @@ class WebWidget extends Component {
       updateBackButtonVisibility,
       updateActiveEmbed,
       resetActiveArticle } = this.props;
-    const rootComponent = this.getRootComponent();
+    const activeComponent = this.getActiveComponent();
     const helpCenterAvailable = this.isHelpCenterAvailable();
     const channelChoiceAvailable = this.isChannelChoiceAvailable();
 
@@ -387,13 +394,14 @@ class WebWidget extends Component {
       resetActiveArticle();
       if (ipmHelpCenterAvailable) updateActiveEmbed(channelChoice);
     } else if (this.props.showTicketFormsBackButton) {
-      rootComponent.clearForm();
+      activeComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
     } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(helpCenterAvailable);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
+      this.checkFrameHeight();
     } else {
       if (ipmHelpCenterAvailable) resetActiveArticle();
       updateActiveEmbed(channelChoice);
@@ -403,18 +411,18 @@ class WebWidget extends Component {
 
   onContainerClick = () => {
     const { activeEmbed } = this.props;
-    const rootComponent = this.getRootComponent() || {};
+    const activeComponent = this.getActiveComponent() || {};
 
     if (activeEmbed === noActiveEmbed) return;
 
-    _.attempt(rootComponent.onContainerClick);
+    _.attempt(activeComponent.onContainerClick);
   };
 
   onContainerDragEnter = () => {
     const { activeEmbed } = this.props;
 
     if (activeEmbed === submitTicket || activeEmbed === chat) {
-      this.getRootComponent().handleDragEnter();
+      this.getActiveComponent().handleDragEnter();
     }
   }
 
@@ -431,12 +439,10 @@ class WebWidget extends Component {
     return (
       <Chat
         ref={chat}
-        updateFrameSize={this.props.updateFrameSize}
         getFrameContentDocument={this.props.getFrameContentDocument}
         isMobile={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
         handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}
-        getFrameDimensions={this.props.getFrameDimensions}
         position={this.props.position}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
@@ -467,11 +473,11 @@ class WebWidget extends Component {
           contextualHelpEnabled={helpCenterConfig.contextualHelpEnabled}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
+          onSearchSuccess={this.props.setFixedFrameStyles}
           showBackButton={this.props.updateBackButtonVisibility}
           showNextButton={showNextButton}
           style={this.props.style}
           fullscreen={this.props.fullscreen}
-          updateFrameSize={this.props.updateFrameSize}
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.isChannelChoiceAvailable()}
@@ -500,7 +506,6 @@ class WebWidget extends Component {
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
           formTitleKey={submitTicketConfig.formTitleKey}
-          getFrameDimensions={this.props.getFrameDimensions}
           getFrameContentDocument={this.props.getFrameContentDocument}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
@@ -513,7 +518,6 @@ class WebWidget extends Component {
           subjectEnabled={this.props.subjectEnabled}
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
-          updateFrameSize={this.props.updateFrameSize}
           fullscreen={this.props.fullscreen} />
       </div>
     );
@@ -549,13 +553,11 @@ class WebWidget extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         style={this.props.style}
         isMobile={this.props.fullscreen}
-        updateFrameSize={this.props.updateFrameSize}
         talkConfig={this.props.talkConfig}
         helpCenterAvailable={this.isHelpCenterAvailable()}
         channelChoiceAvailable={this.isChannelChoiceAvailable()}
         onBackClick={this.onBackClick}
-        getFrameContentDocument={this.props.getFrameContentDocument}
-        getFrameDimensions={this.props.getFrameDimensions} />
+        getFrameContentDocument={this.props.getFrameContentDocument} />
     );
   }
 
@@ -621,8 +623,6 @@ class WebWidget extends Component {
   }
 
   render = () => {
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     const { fullscreen } = this.props;
 
     if (fullscreen && this.props.chatStandaloneMobileNotificationVisible && !this.props.mobileNotificationsDisabled)
