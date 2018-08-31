@@ -32,9 +32,9 @@ export class ChattingFooter extends Component {
     toggleMenu: () => {}
   }
 
-  handleMenuClick = (e) => {
+  handleMenuClick = (e, keypress) => {
     e.stopPropagation();
-    this.props.toggleMenu();
+    this.props.toggleMenu(keypress);
   }
 
   handleEndChatClick = (e) => {

@@ -46,6 +46,8 @@ export class ChatMenu extends Component {
       soundButtonClicked: false,
       soundButtonHovered: false
     };
+
+    this.firstButton = null;
   }
 
   handleSoundClick = (e) => {
@@ -83,6 +85,10 @@ export class ChatMenu extends Component {
     );
   }
 
+  focus = () => {
+    this.firstButton.focus();
+  }
+
   renderDivider = () => <div className={styles.itemLine} />;
 
   getItemClasses = (disabled = false) => (
@@ -105,6 +111,7 @@ export class ChatMenu extends Component {
     return (
       <Button
         type='button'
+        innerRef={(el) => this.firstButton = el}
         className={`${this.getItemClasses()} ${classes}`}
         onClick={this.handleSoundClick}
         onMouseOver={this.handleSoundMouseOver}

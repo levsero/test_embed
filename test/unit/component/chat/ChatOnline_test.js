@@ -917,4 +917,81 @@ describe('ChatOnline component', () => {
         .toHaveBeenCalledWith(true);
     });
   });
+
+  describe('toggleMenu', () => {
+    let component, menuVisible, keypress, focusSpy;
+
+    beforeEach(() => {
+      component = domRender(<ChatOnline menuVisible={menuVisible} />);
+
+      jasmine.clock().install();
+      focusSpy = jasmine.createSpy('focus');
+      component.menu = {
+        focus: focusSpy
+      };
+
+      component.toggleMenu(keypress);
+      jasmine.clock().tick();
+    });
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
+
+    describe('when menuVisibile is false', () => {
+      beforeAll(() => {
+        menuVisible = false;
+      });
+
+      describe('when keypress param is true', () => {
+        beforeAll(() => {
+          keypress = true;
+        });
+
+        it('calls focus on the menu', () => {
+          expect(focusSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when keypress param is false', () => {
+        beforeAll(() => {
+          keypress = false;
+        });
+
+        it('does not call focus on the menu', () => {
+          expect(focusSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when menuVisibile is true', () => {
+      beforeAll(() => {
+        menuVisible = true;
+      });
+
+      describe('when keypress param is true', () => {
+        beforeAll(() => {
+          keypress = true;
+        });
+
+        it('does not call focus on the menu', () => {
+          expect(focusSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when keypress param is false', () => {
+        beforeAll(() => {
+          keypress = false;
+        });
+
+        it('does not call focus on the menu', () => {
+          expect(focusSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
 });

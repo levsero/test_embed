@@ -5,6 +5,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { i18n } from 'service/i18n';
 import { ICONS } from 'constants/shared';
 import { locals as styles } from './Icon.scss';
+import { keyCodes } from 'utility/keyboard';
 import classNames from 'classnames';
 
 const icons = {
@@ -126,6 +127,13 @@ export class IconButton extends Component {
     this.setState({ showTooltip: false });
   }
 
+  handleKeyDown = (e) => {
+    if (e.keyCode === keyCodes.ENTER) {
+      this.props.onClick(e, true);
+    }
+    e.stopPropagation(); // stops the onClick from also being called
+  }
+
   render() {
     const {
       altText, buttonClassName, disabled, disableTooltip, onClick, ...iconProps
@@ -148,6 +156,7 @@ export class IconButton extends Component {
           type="button"
           className={`${buttonClassName} ${styles.button}`}
           onClick={onClick}
+          onKeyDown={this.handleKeyDown}
           onMouseOver={this.handleMouseOver}
           onMouseOut={this.handleMouseOut}
           title={showTitle ? altText : null}>
