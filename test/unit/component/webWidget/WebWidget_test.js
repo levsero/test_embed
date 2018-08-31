@@ -1844,13 +1844,14 @@ describe('WebWidget component', () => {
   });
 
   describe('checkFrameHeight', () => {
-    let webWidget, hasSearched, setFixedFrameStylesSpy;
+    let webWidget, hasSearched, contextualHelpEnabled, setFixedFrameStylesSpy;
 
     beforeEach(() => {
       setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
       webWidget = instanceRender(
         <WebWidget
           fullscreen={false}
+          helpCenterConfig={{ contextualHelpEnabled }}
           setFixedFrameStyles={setFixedFrameStylesSpy}
           hasSearched={hasSearched} />
       );
@@ -1874,11 +1875,28 @@ describe('WebWidget component', () => {
         hasSearched = false;
       });
 
-      it('call setFixedFrameStyles with the correct params', () => {
-        expect(setFixedFrameStylesSpy)
-          .toHaveBeenCalledWith({
-            maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
-          });
+      describe('when contextual help is on', () => {
+        beforeAll(() => {
+          contextualHelpEnabled = true;
+        });
+
+        it('does not call setFixedFrameStyles', () => {
+          expect(setFixedFrameStylesSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when contextual help is off', () => {
+        beforeAll(() => {
+          contextualHelpEnabled = false;
+        });
+
+        it('call setFixedFrameStyles with the correct params', () => {
+          expect(setFixedFrameStylesSpy)
+            .toHaveBeenCalledWith({
+              maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
+            });
+        });
       });
     });
   });
