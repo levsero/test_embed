@@ -1,4 +1,8 @@
 ## Changelog
+### 31 August 2018
+- Released improvements to CSP support to more closely comply with [Google CSP guidelines] (https://csp.withgoogle.com/docs/adopting-csp.html) including support for the nonce attribute.
+- Fixed an issue where theme color was being overwritten by default green color on contact form
+
 ### 23 August 2018
 - Released a significant upgrade to the Web Widget UI to use Zendesk Garden components and improve accessibility. This includes a larger base font size, improvements to color contrast, resizing, keyboard controls and screenreader support. Learn more [here](https://support.zendesk.com/hc/en-us/articles/360001899447).
 - Released support for domain-level whitelisting. Now customers with a URL that does not contain www or a subdomain can use the whitelist-restricted Help Center content feature.
