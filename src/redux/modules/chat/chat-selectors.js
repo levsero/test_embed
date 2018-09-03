@@ -4,6 +4,7 @@ import {
   AGENT_BOT,
   CHAT_MESSAGE_EVENTS,
   CHAT_SYSTEM_EVENTS,
+  CHAT_STRUCTURED_CONTENT,
   DEPARTMENT_STATUSES,
   WHITELISTED_SOCIAL_LOGINS } from 'constants/chat';
 import { CHATTING_SCREEN } from './chat-screen-types';
@@ -307,8 +308,12 @@ export const getGroupedChatLog = createSelector(
       _.includes(CHAT_SYSTEM_EVENTS, messageOrEvent.type)
     );
 
+    const isStructuredContent = (messageOrEvent) => (
+      _.includes(CHAT_STRUCTURED_CONTENT, messageOrEvent.type)
+    );
+
     const getGroupTimestamp = (messageOrEvent, groupFirstMessageCandidate) => {
-      if (isEvent(messageOrEvent)) {
+      if (isEvent(messageOrEvent) || isStructuredContent(messageOrEvent)) {
         lastUniqueMessageOrEvent = messageOrEvent;
         return messageOrEvent.timestamp;
       }
@@ -330,7 +335,11 @@ export const getGroupedChatLog = createSelector(
       if (!messageOrEvent) { return groupedChatLog; }
 
       const groupTimestamp = getGroupTimestamp(messageOrEvent, lastUniqueMessageOrEvent);
-      const { latestRating, latestRatingRequest, firstVisitorMessageSet } = this;
+      const {
+        latestRating, latestRatingRequest, latestQuickReplies, firstVisitorMessageSet
+      } = this;
+
+      latestQuickReplies.hidden = true;
 
       if (groupTimestamp) {
         (groupedChatLog[groupTimestamp] || (groupedChatLog[groupTimestamp] = [])).push(messageOrEvent);
@@ -356,8 +365,18 @@ export const getGroupedChatLog = createSelector(
         this.latestRatingRequest = messageOrEvent;
       }
 
+      if (messageOrEvent.type === CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES) {
+        messageOrEvent.hidden = false;
+        this.latestQuickReplies = messageOrEvent;
+      }
+
       return groupedChatLog;
-    }).bind({ latestRating: {}, latestRatingRequest: {}, firstVisitorMessageSet: false }), {});
+    }).bind({
+      latestRating: {},
+      latestRatingRequest: {},
+      latestQuickReplies: {},
+      firstVisitorMessageSet: false
+    }), {});
   }
 );
 

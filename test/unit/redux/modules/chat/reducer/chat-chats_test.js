@@ -5,6 +5,7 @@ describe('chat reducer chats', () => {
     actionTypes,
     initialState,
     CHAT_MESSAGE_TYPES,
+    CHAT_STRUCTURED_CONTENT,
     CHAT_SYSTEM_EVENTS;
 
   const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
@@ -13,6 +14,7 @@ describe('chat reducer chats', () => {
   const chatConstants = requireUncached(chatConstantsPath);
 
   CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
+  CHAT_STRUCTURED_CONTENT = chatConstants.CHAT_STRUCTURED_CONTENT;
   CHAT_SYSTEM_EVENTS = chatConstants.CHAT_SYSTEM_EVENTS;
 
   beforeEach(() => {
@@ -21,6 +23,7 @@ describe('chat reducer chats', () => {
     initMockRegistry({
       'constants/chat': {
         CHAT_MESSAGE_TYPES,
+        CHAT_STRUCTURED_CONTENT,
         CHAT_SYSTEM_EVENTS
       }
     });
@@ -386,7 +389,6 @@ describe('chat reducer chats', () => {
       const sdkActionTypes = [
         chatActionTypes.SDK_CHAT_QUEUE_POSITION,
         chatActionTypes.SDK_CHAT_REQUEST_RATING,
-        chatActionTypes.SDK_CHAT_MSG,
         chatActionTypes.SDK_CHAT_RATING,
         chatActionTypes.SDK_CHAT_COMMENT,
         chatActionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -414,6 +416,64 @@ describe('chat reducer chats', () => {
 
             expect(state.get(detail.timestamp))
               .toEqual(jasmine.objectContaining(detail));
+          });
+        });
+      });
+
+      describe('when a websdk/chat.msg action is dispatched', () => {
+        beforeEach(() => {
+          detail = {
+            timestamp: Date.now(),
+            nick: 'agent:smith',
+            display_name: 'Agent Smith',
+          };
+
+          state = reducer(initialState, {
+            type: chatActionTypes.SDK_CHAT_MSG,
+            payload: { detail }
+          });
+        });
+
+        it('adds the message to the chats collection', () => {
+          expect(state.size)
+            .toEqual(1);
+
+          expect(state.get(detail.timestamp))
+            .toEqual(jasmine.objectContaining(detail));
+        });
+
+        describe('and it contains a quick replies structured message', () => {
+          beforeEach(() => {
+            detail = {
+              timestamp: Date.now(),
+              nick: 'agent:smith',
+              display_name: 'Agent Smith',
+              attachments: {
+                type: 'quick_replies',
+                items: [1, 2, 3]
+              }
+            };
+
+            state = reducer(initialState, {
+              type: chatActionTypes.SDK_CHAT_MSG,
+              payload: { detail }
+            });
+          });
+
+          it('adds the message to the chats collection', () => {
+            expect(state.get(detail.timestamp))
+              .toEqual(jasmine.objectContaining(detail));
+          });
+
+          it('adds a quick reply item to the chats collection', () => {
+            const expectedItem = {
+              type: CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES,
+              items: detail.attachments.items,
+              timestamp: detail.timestamp + 1
+            };
+
+            expect(state.get(detail.timestamp + 1))
+              .toEqual(jasmine.objectContaining(expectedItem));
           });
         });
       });

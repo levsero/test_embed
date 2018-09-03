@@ -17,7 +17,7 @@ import {
   CHAT_FILE_REQUEST_FAILURE,
   SET_VISITOR_INFO_REQUEST_SUCCESS
 } from '../chat-action-types';
-import { CHAT_MESSAGE_TYPES, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import { CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_CONTENT, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
 import _ from 'lodash';
 
@@ -38,6 +38,27 @@ const concatChat = (chats, chat) => {
   const timestamp = chat.timestamp || Date.now();
 
   return copy.set(timestamp, { ...chat, timestamp });
+};
+
+const concatQuickReply = (chats, chat) => {
+  const copy = new Map(chats);
+  const timestamp = chat.timestamp || Date.now();
+  const newMsg = chat.attachments.data && chat.attachments.data.message;
+  const chatMessage = {
+    ...chat,
+    timestamp,
+    msg: newMsg || chat.msg
+  };
+  const quickReplies = {
+    type: CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES,
+    items: chat.attachments.items,
+    timestamp: timestamp + 1
+  };
+
+  copy.set(timestamp, chatMessage);
+  copy.set(timestamp + 1, quickReplies);
+
+  return copy;
 };
 
 const concatSDKFile = (chats, chat) => {
@@ -87,10 +108,18 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_REQUEST_RATING:
     case SDK_CHAT_RATING:
     case SDK_CHAT_COMMENT:
-    case SDK_CHAT_MSG:
     case SDK_CHAT_MEMBER_JOIN:
     case SDK_CHAT_MEMBER_LEAVE:
       return concatChat(state, action.payload.detail);
+
+    case SDK_CHAT_MSG:
+      const { detail } = action.payload;
+
+      if (detail.attachments && detail.attachments.type === 'quick_replies') {
+        return concatQuickReply(state, detail);
+      }
+
+      return concatChat(state, detail);
 
     case SDK_CHAT_FILE:
       return concatSDKFile(state, action.payload.detail);
