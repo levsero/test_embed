@@ -19,14 +19,12 @@ import { generateUserCSS } from 'utility/color/styles';
 import { isMobileBrowser,
   getZoomSizingRatio } from 'utility/devices';
 import { renewToken } from 'src/redux/modules/base';
-import { FONT_SIZE } from 'constants/shared';
 
 const launcherCSS = `${require('globalCSS')} ${launcherStyles}`;
 
 let launchers = {};
 
 function create(name, config, reduxStore) {
-  const isMobile = isMobileBrowser();
   const configDefaults = {
     onClick: () => {},
     position: 'right',
@@ -36,8 +34,8 @@ function create(name, config, reduxStore) {
     color: '#659700'
   };
   const frameStyle = {
-    height: isMobile ? `50/${FONT_SIZE}rem` : '50px',
-    minHeight: isMobile ? `50/${FONT_SIZE}rem` : '50px',
+    height: '50px',
+    minHeight: '50px',
     marginTop: '10px',
     marginBottom: '10px',
     marginLeft: '20px',
@@ -61,7 +59,7 @@ function create(name, config, reduxStore) {
       get(name).instance.updateFrameTitle(title);
     }
   };
-  const adjustFrameStyleMargins = (frameStyle, el) => {
+  const adjustStylesForZoom = (frameStyle, el) => {
     const zoomRatio = getZoomSizingRatio();
     const adjustMargin = (margin) => {
       const adjustedMargin = Math.round(parseInt(margin, 10) * zoomRatio);
@@ -74,7 +72,11 @@ function create(name, config, reduxStore) {
       .mapValues(adjustMargin)
       .value();
 
-    return _.extend({}, frameStyle, adjustWidth(frameStyle, el), result);
+    const height = {
+      height: `${50*zoomRatio}px`
+    };
+
+    return _.extend({}, frameStyle, adjustWidth(frameStyle, el), result, height);
   };
   const adjustWidth = (frameStyle, el) => {
     const width = Math.max(el.clientWidth, el.offsetWidth);
@@ -87,7 +89,7 @@ function create(name, config, reduxStore) {
 
   const params = {
     css: launcherCSS + generateUserCSS(config.color),
-    frameStyleModifier: isMobileBrowser() ? adjustFrameStyleMargins : adjustWidth,
+    frameStyleModifier: isMobileBrowser() ? adjustStylesForZoom : adjustWidth,
     frameOffsetWidth,
     frameOffsetHeight: 1,
     frameStyle: frameStyle,
