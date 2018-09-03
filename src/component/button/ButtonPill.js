@@ -33,12 +33,12 @@ export class ButtonPill extends Component {
     const icon = (showIcon) ? <Icon type='Icon--arrow-down' /> : null;
 
     return (
-      <div
+      <button
         onClick={onClick}
         className={buttonStyles}>
         {label}
         {icon}
-      </div>
+      </button>
     );
   }
 }

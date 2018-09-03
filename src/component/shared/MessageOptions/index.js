@@ -21,6 +21,7 @@ export class MessageOptions extends Component {
   render() {
     const optionElems = this.props.optionItems.map((child, index) => {
       const childClasses = classNames(
+        styles.button,
         styles.optionItem,
         this.props.optionItemClasses,
         {
@@ -29,12 +30,12 @@ export class MessageOptions extends Component {
       );
 
       return (
-        <li
+        <button
           key={index}
           className={childClasses}
           onClick={() => this.props.onOptionClick(child)}>
           <a>{child}</a>
-        </li>
+        </button>
       );
     });
 

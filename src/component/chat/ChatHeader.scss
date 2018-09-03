@@ -26,6 +26,7 @@
 
 .avatar:nth-child(1) {
   left: 0;
+  top: 0;
 
   [dir='rtl'] & {
     left: -#{32/$font-size}rem;
@@ -34,6 +35,7 @@
 
 .avatar:nth-child(2) {
   left: #{20/$font-size}rem;
+  top: 0;
 
   [dir='rtl'] & {
     left: -#{52/$font-size}rem;
@@ -42,6 +44,7 @@
 
 .avatar:nth-child(3) {
   left: #{40/$font-size}rem;
+  top: 0;
 
   [dir='rtl'] & {
     left: -#{72/$font-size}rem;
@@ -123,4 +126,8 @@
     margin-left: 0 !important;
     margin-right: #{15/$font-size}rem !important;
   }
+}
+
+.button {
+  composes: u-hiddenButton from global;
 }

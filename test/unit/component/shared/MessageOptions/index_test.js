@@ -45,7 +45,7 @@ describe('MessageOptions component', () => {
 
         it('renders option items correctly', () => {
           response.props.children.forEach((optionItem, index) => {
-            expect(TestUtils.isElementOfType(optionItem, 'li')).toEqual(true);
+            expect(TestUtils.isElementOfType(optionItem, 'button')).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
             const classes = optionItem.props.className;
@@ -71,7 +71,7 @@ describe('MessageOptions component', () => {
 
         it('renders option items correctly', () => {
           response.props.children.forEach((optionItem, index) => {
-            expect(TestUtils.isElementOfType(optionItem, 'li')).toEqual(true);
+            expect(TestUtils.isElementOfType(optionItem, 'button')).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
             const classes = optionItem.props.className;
@@ -100,7 +100,7 @@ describe('MessageOptions component', () => {
 
         it('renders option items correctly', () => {
           response.props.children.forEach((optionItem, index) => {
-            expect(TestUtils.isElementOfType(optionItem, 'li')).toEqual(true);
+            expect(TestUtils.isElementOfType(optionItem, 'button')).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
             const classes = optionItem.props.className;
@@ -143,7 +143,7 @@ describe('MessageOptions component', () => {
 
         it('renders option items correctly', () => {
           response.props.children.forEach((optionItem, index) => {
-            expect(TestUtils.isElementOfType(optionItem, 'li')).toEqual(true);
+            expect(TestUtils.isElementOfType(optionItem, 'button')).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
             const classes = optionItem.props.className;

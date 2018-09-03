@@ -15,3 +15,7 @@
 .icon {
   composes: u-paddingLN from global;
 }
+
+.button {
+  composes: u-hiddenButton from global;
+}

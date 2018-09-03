@@ -129,9 +129,9 @@ export class ChatLog extends Component {
     if (!showUpdateInfo) return;
 
     return (
-      <div onClick={updateInfoOnClick} className={styles.updateInfo}>
+      <button onClick={updateInfoOnClick} className={styles.updateInfo}>
         {i18n.t('embeddable_framework.chat.chatLog.login.updateInfo')}
-      </div>
+      </button>
     );
   }
 

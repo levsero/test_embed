@@ -106,16 +106,16 @@ export class ChatHeader extends Component {
     const { showRating, onAgentDetailsClick } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const ratingButtons = showRating ? this.renderRatingButtons() : null;
-    const agentDetailsClasses = classNames(styles.agentDetails, {
+    const agentDetailsClasses = classNames(styles.agentDetails, styles.button, {
       [styles.clickable]: !!onAgentDetailsClick
     });
 
     return (
       <div className={styles.container}>
-        <div className={agentDetailsClasses} onClick={onAgentDetailsClick}>
+        <button className={agentDetailsClasses} onClick={onAgentDetailsClick}>
           {this.renderAvatarContainer()}
           {this.renderTextContainer()}
-        </div>
+        </button>
         {ratingButtons}
       </div>
     );

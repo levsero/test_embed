@@ -161,8 +161,7 @@ class Launcher extends Component {
 
     return (
       <button className={`${styles.wrapper} ${baseMobileClasses}`}
-        onClick={this.props.onClick}
-        onTouchEnd={this.props.onClick}>
+        onClick={this.props.onClick}>
         <Icon
           type={this.getActiveEmbedIconType()}
           className={`${styles.icon} ${iconMobileClasses}`} />
