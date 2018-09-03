@@ -6,8 +6,9 @@ import { locals as styles } from './ChatLog.scss';
 
 import { ChatGroup } from 'component/chat/chatting/ChatGroup';
 import { EventMessage } from 'component/chat/chatting/EventMessage';
+import { QuickReplies } from 'component/shared/QuickReplies';
 import { Button } from '@zendeskgarden/react-buttons';
-import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import { CHAT_MESSAGE_EVENTS, CHAT_STRUCTURED_CONTENT, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
 export class ChatLog extends Component {
   static propTypes = {
@@ -87,6 +88,18 @@ export class ChatLog extends Component {
             {this.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen)}
           </EventMessage>
         );
+      } else if (_.includes(CHAT_STRUCTURED_CONTENT, chatLogItemType)) {
+        const { type, timestamp, hidden, ...props } = chatLogItem[0];
+
+        if (type === CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES && !hidden) {
+          return (
+            <QuickReplies
+              key={timestamp}
+              handleReplyClick={handleSendMsg}
+              items={props.items}
+            />
+          );
+        }
       }
     });
 

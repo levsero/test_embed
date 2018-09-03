@@ -13,6 +13,7 @@ describe('ChatLog component', () => {
 
   const ChatGroup = noopReactComponent();
   const EventMessage = noopReactComponent();
+  const QuickReplies = noopReactComponent();
   const Button = noopReactComponent();
 
   beforeEach(() => {
@@ -28,6 +29,7 @@ describe('ChatLog component', () => {
     initMockRegistry({
       'component/chat/chatting/ChatGroup': { ChatGroup },
       'component/chat/chatting/EventMessage': { EventMessage },
+      'component/shared/QuickReplies': { QuickReplies },
       '@zendeskgarden/react-buttons': { Button },
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
