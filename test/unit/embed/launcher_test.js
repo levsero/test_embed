@@ -37,9 +37,6 @@ describe('embed.launcher', () => {
           );
         }
       },
-      'constants/shared': {
-        FONT_SIZE: 12
-      },
       'service/beacon': {
         beacon: jasmine.createSpyObj('mockBeacon', ['trackUserAction'])
       },
@@ -322,7 +319,7 @@ describe('embed.launcher', () => {
         clientWidth: 20
       };
 
-      describe('getAdjustedMarginStyles', () => {
+      describe('adjustStylesForZoom', () => {
         let result;
         const frameStyleProperties = ['width', 'height', 'marginBottom', 'marginRight', 'zIndex'];
         const frameStyle = {
@@ -357,13 +354,22 @@ describe('embed.launcher', () => {
           });
         });
 
-        it('adjusts valid properties accordingly', () => {
+        it('adjusts margin properties accordingly', () => {
           const getMargin = (value) => {
             return Math.round(value * mockZoomSizingRatioValue) + 'px';
           };
           const expected = {
             marginBottom: getMargin(15),
             marginRight: getMargin(25)
+          };
+
+          expect(result)
+            .toEqual(jasmine.objectContaining(expected));
+        });
+
+        it('adjusts height property accordingly', () => {
+          const expected = {
+            height: `${50*mockZoomSizingRatioValue}px`
           };
 
           expect(result)
