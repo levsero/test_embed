@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import sanitizeHtml from 'sanitize-html';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -9,8 +10,6 @@ import { parseUrl } from 'utility/utils';
 
 import { locals as styles } from './HelpCenterArticle.scss';
 import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
-
-const sanitizeHtml = require('sanitize-html');
 
 const allowedIframeAttribs = [
   'src', 'allowfullscreen', 'mozallowfullscreen', 'webkitallowfullscreen',

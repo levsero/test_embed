@@ -3,6 +3,7 @@ describe('fields', () => {
     shouldRenderErrorMessage,
     getDefaultFieldValues,
     renderLabel,
+    getStyledLabelText,
     mockLocaleIdValue;
 
   const translateSpy = jasmine.createSpy('t').and.callFake(_.identity);
@@ -163,7 +164,8 @@ describe('fields', () => {
       },
       './fields.scss': {
         locals: {}
-      }
+      },
+      'sanitize-html': (label) => label
     });
 
     mockery.registerAllowable(fieldsPath);
@@ -174,11 +176,68 @@ describe('fields', () => {
     shouldRenderErrorMessage = fields.shouldRenderErrorMessage;
     getDefaultFieldValues = fields.getDefaultFieldValues;
     renderLabel = fields.renderLabel;
+    getStyledLabelText = fields.getStyledLabelText;
   });
 
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('getStyledLabelText', () => {
+    let result,
+      mockLabel,
+      mockRequired;
+
+    beforeEach(() => {
+      result = getStyledLabelText(mockLabel, mockRequired);
+    });
+
+    describe('when label is empty', () => {
+      beforeAll(() => {
+        mockLabel = '';
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when label contains text', () => {
+      beforeAll(() => {
+        mockLabel = 'What Biltong flavour would you like to order?';
+      });
+
+      describe('when it is required', () => {
+        beforeAll(() => {
+          mockRequired = true;
+        });
+
+        it('returns a stringified result', () => {
+          const expected = `<strong>${mockLabel}</strong>`;
+
+          expect(result)
+            .toEqual(expected);
+        });
+      });
+
+      describe('when it is not required', () => {
+        beforeAll(() => {
+          mockRequired = false;
+        });
+
+        it('calls i18n with expected args', () => {
+          const expected = [
+            'embeddable_framework.validation.label.new_optional',
+            { sanitizedLabel: mockLabel }
+          ];
+
+          expect(translateSpy)
+            .toHaveBeenCalledWith(...expected);
+        });
+      });
+    });
   });
 
   describe('getCustomFields', () => {
@@ -235,9 +294,10 @@ describe('fields', () => {
 
       it('should return the field', () => {
         const labelElement = customFields.allFields[0].props.children[0];
+        const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
 
-        expect(labelElement.props.children.props.children)
-          .toContain('What is your query about?');
+        expect(dangerouslySetContent)
+          .toContain('<strong>What is your query about?</strong>');
       });
     });
 
@@ -282,9 +342,10 @@ describe('fields', () => {
 
       it('should return the field', () => {
         const labelElement = customFields.allFields[0].props.children[0];
+        const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
 
-        expect(labelElement.props.children.props.children)
-          .toContain('What is your query about?');
+        expect(dangerouslySetContent)
+          .toContain('<strong>What is your query about?</strong>');
       });
     });
 
@@ -299,9 +360,10 @@ describe('fields', () => {
 
       it('should return the field', () => {
         const labelElement = customFields.allFields[0].props.children[0];
+        const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
 
-        expect(labelElement.props.children.props.children)
-          .toContain('What is your query about?');
+        expect(dangerouslySetContent)
+          .toContain('<strong>What is your query about?</strong>');
       });
     });
 
@@ -363,16 +425,18 @@ describe('fields', () => {
 
         it('should pass through the title', () => {
           const labelElement = customFields.allFields[0].props.children[0];
+          const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
 
-          expect(labelElement.props.children.props.children)
-            .toContain('Order Details');
+          expect(dangerouslySetContent)
+            .toContain('<strong>Order Details</strong>');
         });
 
         it('should pass through the `title_in_portal` instead of `title` if it exists', () => {
           const labelElement = customFields.allFields[1].props.children[0];
+          const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
 
-          expect(labelElement.props.children.props.children)
-            .toContain('What is your query about?');
+          expect(dangerouslySetContent)
+            .toContain('<strong>What is your query about?</strong>');
         });
       });
 
@@ -668,7 +732,10 @@ describe('fields', () => {
       mockRequired;
 
     beforeEach(() => {
-      result = renderLabel(noopReactComponent, mockLabel, mockRequired).props.children.props.children;
+      const element = renderLabel(noopReactComponent, mockLabel, mockRequired);
+      const textContent = element.props.dangerouslySetInnerHTML.__html;
+
+      result = textContent;
     });
 
     describe('when field is required', () => {
@@ -679,7 +746,7 @@ describe('fields', () => {
 
       it('returns just the label', () => {
         expect(result)
-          .toContain('yolo');
+          .toContain('<strong>yolo</strong>');
       });
     });
 
@@ -703,7 +770,7 @@ describe('fields', () => {
 
       it('calls i18n translate to include "optional" key', () => {
         expect(translateSpy)
-          .toHaveBeenCalledWith('embeddable_framework.validation.label.optional', { label: 'yolo' });
+          .toHaveBeenCalledWith('embeddable_framework.validation.label.new_optional', { sanitizedLabel: 'yolo' });
       });
     });
   });
