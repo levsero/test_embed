@@ -29,7 +29,8 @@ import { getChatAvailable,
 import { getArticleViewActive,
   getSearchFieldFocused,
   getHasSearched,
-  getResultsCount } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getResultsCount,
+  getContextualHelpRequestNeeded } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification,
   getIsChatting,
@@ -56,6 +57,7 @@ const mapStateToProps = (state) => {
     helpCenterSearchFocused: getSearchFieldFocused(state),
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
+    contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state),
     activeEmbed: getActiveEmbed(state),
     authenticated: getBaseIsAuthenticated(),
     talkEnabled: getTalkEnabled(state),
@@ -83,6 +85,7 @@ class WebWidget extends Component {
     channelChoice: PropTypes.bool,
     chatNotification: PropTypes.object.isRequired,
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
+    contextualHelpRequestNeeded: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
     helpCenterAvailable: PropTypes.bool,
@@ -139,6 +142,7 @@ class WebWidget extends Component {
     buttonLabelKey: '',
     channelChoice: false,
     chatNotification: { show: false, playSound: false },
+    contextualHelpRequestNeeded: false,
     formTitleKey: 'message',
     fullscreen: true,
     helpCenterAvailable: false,
@@ -255,9 +259,9 @@ class WebWidget extends Component {
   }
 
   checkFrameHeight = () => {
-    const { hasSearched, setFixedFrameStyles, fullscreen, helpCenterConfig } = this.props;
+    const { hasSearched, setFixedFrameStyles, fullscreen, contextualHelpRequestNeeded } = this.props;
 
-    if (!hasSearched && !fullscreen && !helpCenterConfig.contextualHelpEnabled) {
+    if (!hasSearched && !fullscreen && !contextualHelpRequestNeeded) {
       setFixedFrameStyles({
         maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
       });
