@@ -1844,14 +1844,14 @@ describe('WebWidget component', () => {
   });
 
   describe('checkFrameHeight', () => {
-    let webWidget, hasSearched, contextualHelpEnabled, setFixedFrameStylesSpy;
+    let webWidget, hasSearched, contextualHelpRequestNeeded, setFixedFrameStylesSpy;
 
     beforeEach(() => {
       setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
       webWidget = instanceRender(
         <WebWidget
           fullscreen={false}
-          helpCenterConfig={{ contextualHelpEnabled }}
+          contextualHelpRequestNeeded={contextualHelpRequestNeeded}
           setFixedFrameStyles={setFixedFrameStylesSpy}
           hasSearched={hasSearched} />
       );
@@ -1877,7 +1877,7 @@ describe('WebWidget component', () => {
 
       describe('when contextual help is on', () => {
         beforeAll(() => {
-          contextualHelpEnabled = true;
+          contextualHelpRequestNeeded = true;
         });
 
         it('does not call setFixedFrameStyles', () => {
@@ -1888,7 +1888,7 @@ describe('WebWidget component', () => {
 
       describe('when contextual help is off', () => {
         beforeAll(() => {
-          contextualHelpEnabled = false;
+          contextualHelpRequestNeeded = false;
         });
 
         it('call setFixedFrameStyles with the correct params', () => {
