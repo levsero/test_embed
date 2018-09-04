@@ -34,6 +34,7 @@ class Launcher extends Component {
     onClick: PropTypes.func.isRequired,
     notificationCount: PropTypes.number.isRequired,
     getFrameContentDocument: PropTypes.func,
+    forceUpdateWorld: PropTypes.func.isRequired,
     updateFrameTitle: PropTypes.func
   };
 
@@ -41,6 +42,12 @@ class Launcher extends Component {
     super(props, context);
 
     this.state = { unreadMessages: 0 };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.notificationCount !== this.props.notificationCount) {
+      this.props.forceUpdateWorld();
+    }
   }
 
   setUnreadMessages = (unreadMessages) => {

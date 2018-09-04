@@ -362,6 +362,7 @@ export class Frame extends Component {
   constructEmbed = () => {
     const newChild = React.cloneElement(this.props.children, {
       setFixedFrameStyles: this.setFixedFrameStyles,
+      forceUpdateWorld: this.forceUpdateWorld,
       closeFrame: this.close,
       onBackButtonClick: this.back,
       getFrameContentDocument: this.getContentDocument

@@ -158,6 +158,7 @@ function render(name) {
   mediator.channel.subscribe(name + '.setUnreadMsgs', (unreadMsgs) => {
     waitForRootComponent(name, () => {
       getRootComponent(name).setUnreadMessages(unreadMsgs);
+      get(name).instance.forceUpdateWorld();
     });
   });
 }

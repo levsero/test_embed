@@ -1261,6 +1261,11 @@ describe('Frame', () => {
           .toBeDefined();
       });
 
+      it('adds forceUpdateWorld to the child component', () => {
+        expect(frame.getRootComponent().props.forceUpdateWorld)
+          .toBeDefined();
+      });
+
       it('adds css styles to the element', () => {
         expect(frame.getChild().props.baseCSS)
           .toContain('css-prop');
