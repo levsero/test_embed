@@ -22,10 +22,6 @@ export class Refocus extends Component {
     this.focusContainer();
   }
 
-  componentDidUpdate() {
-    this.focusContainer();
-  }
-
   focusContainer = () => {
     if (!this.props.widgetShown) return;
 
