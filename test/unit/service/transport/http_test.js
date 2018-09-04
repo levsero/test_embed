@@ -177,10 +177,12 @@ describe('http', () => {
     });
 
     describe('query string', () => {
+      beforeEach(() => {
+        spyOn(mockMethods, 'query').and.callThrough();
+      });
+
       it('sends a query string if payload contains it', () => {
         payload.query = { hello: 'there' };
-
-        spyOn(mockMethods, 'query').and.callThrough();
 
         http.init(config);
         http.send(payload);
@@ -190,7 +192,7 @@ describe('http', () => {
       });
 
       it('does not send a query string if the payload does not contain it', () => {
-        spyOn(mockMethods, 'query').and.callThrough();
+        payload.query = {};
 
         http.init(config);
         http.send(payload);
@@ -760,6 +762,65 @@ describe('http', () => {
       it('with the specified params', () => {
         expect(mockMethods.send)
           .toHaveBeenCalledWith(payload.params);
+      });
+    });
+  });
+
+  describe('getDynamicHostname', () => {
+    let result,
+      mockConfig,
+      mockUseHostmappingIfAvailable;
+
+    beforeEach(() => {
+      http.init(mockConfig);
+      result = http.getDynamicHostname(mockUseHostmappingIfAvailable);
+    });
+
+    describe('when useHostmappingIfAvailable is true', () => {
+      beforeAll(() => {
+        mockUseHostmappingIfAvailable = true;
+      });
+
+      describe('when config.hostMapping exists', () => {
+        beforeAll(() => {
+          mockConfig = {
+            hostMapping: 'super.mofo.io',
+            zendeskHost: 'dbradfordstaging999.zendesk-staging.com'
+          };
+        });
+
+        it('returns the config.hostMapping', () => {
+          expect(result)
+            .toEqual(mockConfig.hostMapping);
+        });
+      });
+
+      describe('when config.hostMapping does not exist', () => {
+        beforeAll(() => {
+          mockConfig = {
+            zendeskHost: 'dbradfordstaging999.zendesk-staging.com'
+          };
+        });
+
+        it('returns the config.zendeskHost', () => {
+          expect(result)
+            .toEqual(mockConfig.zendeskHost);
+        });
+      });
+    });
+
+    describe('when useHostmappingIfAvailable is false', () => {
+      beforeAll(() => {
+        mockUseHostmappingIfAvailable = false;
+        mockConfig = {
+          hostMapping: 'super.mofo.io',
+          zendeskHost: 'dbradfordstaging999.zendesk-staging.com'
+        };
+      });
+
+      it('returns the config.zendeskHost', () => {
+        expect(result)
+          .toEqual(mockConfig.zendeskHost);
       });
     });
   });

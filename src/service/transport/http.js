@@ -51,7 +51,7 @@ function send(payload, addType = true) {
     request.send(payload.params || {});
   }
 
-  if (payload.query) request.query(payload.query);
+  if (!_.isEmpty(payload.query)) request.query(payload.query);
 
   // in dev, skip the CDN cache by always appending a query string to bust the cache
   if (__DEV__ && payload.method.toUpperCase() === 'GET') {
@@ -153,17 +153,13 @@ function getImage(payload) {
 
 function buildFullUrl(payload) {
   const scheme = payload.forceHttp ? config.insecureScheme : config.scheme;
-  const host = payload.forceHttp ? location.hostname : getHostName(payload.useHostMappingIfAvailable);
+  const host = payload.forceHttp ? location.hostname : getDynamicHostname(payload.useHostMappingIfAvailable);
 
   return scheme + '://' + host + payload.path;
 }
 
-function getHostName(useHostMappingIfAvailable) {
+function getDynamicHostname(useHostMappingIfAvailable) {
   return useHostMappingIfAvailable && config.hostMapping ? config.hostMapping : config.zendeskHost;
-}
-
-function getZendeskHost() {
-  return config.zendeskHost;
 }
 
 function callMeRequest(talkServiceUrl, payload) {
@@ -189,8 +185,8 @@ export const http = {
   sendFile: sendFile,
   getImage: getImage,
   get: send,
-  getZendeskHost: getZendeskHost,
   callMeRequest,
   updateConfig,
-  getConfig
+  getConfig,
+  getDynamicHostname
 };
