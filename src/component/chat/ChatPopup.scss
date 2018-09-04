@@ -116,3 +116,7 @@
     width: #{16/$font-size}rem;
   }
 }
+
+.button {
+  composes: u-hiddenButton from global;
+}

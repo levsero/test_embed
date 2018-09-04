@@ -964,7 +964,7 @@ describe('Talk component', () => {
         });
 
         it('has the correct link text', () => {
-          expect(link.props.children.props.children)
+          expect(link.props.children)
             .toBe('embeddable_framework.talk.offline.link.help_center');
         });
       });
@@ -981,7 +981,7 @@ describe('Talk component', () => {
         });
 
         it('has the correct link text', () => {
-          expect(link.props.children.props.children)
+          expect(link.props.children)
             .toBe('embeddable_framework.common.button.goBack');
         });
       });
@@ -993,7 +993,7 @@ describe('Talk component', () => {
         });
 
         it('has empty link text', () => {
-          expect(link.props.children.props.children)
+          expect(link.props.children)
             .toBe('');
         });
       });

@@ -533,8 +533,8 @@ describe('ChatLog component', () => {
     });
 
     describe('when the showUpdateInfo argument is true', () => {
-      it('returns a div', () => {
-        expect(TestUtils.isElementOfType(component.renderUpdateInfo(true, updateInfoOnClickSpy), 'div'))
+      it('returns a <button> tag', () => {
+        expect(TestUtils.isElementOfType(component.renderUpdateInfo(true, updateInfoOnClickSpy), 'button'))
           .toEqual(true);
       });
 

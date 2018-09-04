@@ -1224,6 +1224,19 @@ th.u-isShown {
   -ms-filter: "alpha(opacity=60)";
 }
 
+.u-hiddenButton {
+  border: none;
+  text-align: initial;
+  width: 100%;
+  background: none;
+}
+
+.u-hiddenButtonFlexibleWidth {
+  border: none;
+  text-align: initial;
+  background: none;
+}
+
 /** @define ButtonGroup */
 
 /*! suit-button-group v2.1.0 | MIT License | github.com/suitcss */

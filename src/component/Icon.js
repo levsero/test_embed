@@ -75,14 +75,14 @@ export class Icon extends Component {
     const icon = icons[this.props.type];
     const iconClasses = classNames(
       styles.container,
+      styles.iconButton,
       this.props.className,
       this.props.type,
       { [styles.mobile]: this.props.isMobile }
     );
 
     return (
-      <span
-        onClick={this.props.onClick}
+      <button onClick={this.props.onClick}
         className={iconClasses}
         type={this.props.type}
         dangerouslySetInnerHTML={{__html: icon}} />

@@ -343,9 +343,7 @@ class Talk extends Component {
         <p className={styles.offlineLabel}>
           {i18n.t('embeddable_framework.talk.offline.label')}
         </p>
-        <p className={styles.offlineLink} onClick={this.props.onBackClick}>
-          <a>{this.getOfflineScreenLink()}</a>
-        </p>
+        <button className={styles.offlineLink} onClick={this.props.onBackClick}>{this.getOfflineScreenLink()}</button>
       </div>
     );
   }

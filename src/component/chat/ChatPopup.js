@@ -40,7 +40,7 @@ export class ChatPopup extends Component {
     leftCtaLabel: '',
     rightCtaLabel: '',
     rightCtaDisabled: false,
-    childrenOnClick: () => {},
+    childrenOnClick: null,
     children: null,
     show: false,
     onExited: () => {},
@@ -130,12 +130,23 @@ export class ChatPopup extends Component {
     );
   }
 
+  renderChildren = () => {
+    const { childrenOnClick, children } = this.props;
+
+    if (childrenOnClick) {
+      return <button onClick={childrenOnClick} className={styles.button}>{children}</button>;
+    } else {
+      return children;
+    }
+  }
+
   renderDefault = () => {
-    const { className, childrenOnClick, children, containerClasses, isMobile } = this.props;
+    const { className, containerClasses, isMobile } = this.props;
     const containerStyles = classNames(containerClasses, {
       [styles.container]: !isMobile,
       [styles.containerMobile]: isMobile
     });
+    const body = this.renderChildren();
 
     return (
       <SlideAppear
@@ -149,7 +160,7 @@ export class ChatPopup extends Component {
         startPosHeight='-10px'
         endPosHeight='0px'>
         <div className={containerStyles}>
-          <div onClick={childrenOnClick}>{children}</div>
+          {body}
           {this.renderCta()}
           {this.renderCloseIcon()}
         </div>
@@ -158,11 +169,12 @@ export class ChatPopup extends Component {
   }
 
   renderMobileOverlay = () => {
-    const { className, childrenOnClick, children, containerClasses, show } = this.props;
+    const { className, containerClasses, show } = this.props;
     const popupContainerClasses = classNames(
       styles.popupContainerMobile,
       { [styles.hidden]: !show }
     );
+    const body = this.renderChildren();
 
     return (
       <div className={popupContainerClasses}>
@@ -178,7 +190,7 @@ export class ChatPopup extends Component {
           onClick={this.onContainerClick}
           onExited={this.props.onExited}>
           <div className={containerClasses}>
-            <div onClick={childrenOnClick}>{children}</div>
+            {body}
             {this.renderCta()}
             {this.renderCloseIcon()}
           </div>

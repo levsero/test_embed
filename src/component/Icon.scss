@@ -7,6 +7,15 @@
 
 .container {
   display: inline-block;
+  composes: u-userColor from global;
+
+  &:hover {
+    color: currentColor;
+  }
+}
+
+.iconButton {
+  composes: u-hiddenButtonFlexibleWidth from global;
 }
 
 .button {

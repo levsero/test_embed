@@ -8,10 +8,11 @@
 }
 
 .updateInfo {
-  color: #007FAB;
+  composes: u-hiddenButton from global;;
+  color: #007fab;
+  display: block !important;
+  position: relative;
   text-align: center;
-  margin-top: #{5/$font-size}rem;
-  margin-bottom: #{10/$font-size}rem;
   cursor: pointer;
   text-decoration: underline;
 }

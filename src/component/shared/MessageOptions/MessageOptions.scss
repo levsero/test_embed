@@ -25,3 +25,8 @@
   border-top-left-radius: #{16/$font-size}rem;
   border-top-right-radius: #{16/$font-size}rem;
 }
+
+.button {
+  composes: u-hiddenButton from global;
+  cursor: pointer;
+}

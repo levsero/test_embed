@@ -30,11 +30,9 @@ export class IconFieldButton extends Component {
     const buttonClasses = classNames(focusedStyles, styles.icon);
 
     return (
-      <div
-        onClick={this.props.onClick}
-        onTouchStart={this.props.onClick}>
-        <Icon type={this.props.icon} className={buttonClasses} />
-      </div>
+      <Icon onClick={this.props.onClick}
+        type={this.props.icon}
+        className={buttonClasses} />
     );
   }
 }
