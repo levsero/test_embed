@@ -38,15 +38,15 @@ describe('logging index', () => {
   });
 
   describe('#init', () => {
-    let mockShouldUseRollbar;
+    let mockGetErrorReportingDisabled;
 
     beforeEach(() => {
-      logging.init(mockShouldUseRollbar);
+      logging.init(mockGetErrorReportingDisabled);
     });
 
-    describe('when shouldUseRollbar is true', () => {
+    describe('when getErrorReportingDisabled is false', () => {
       beforeAll(() => {
-        mockShouldUseRollbar = true;
+        mockGetErrorReportingDisabled = false;
       });
 
       describe('when the browser is IE', () => {
@@ -72,9 +72,9 @@ describe('logging index', () => {
       });
     });
 
-    describe('when shouldUseRollbar is false', () => {
+    describe('when getErrorReportingDisabled is true', () => {
       beforeAll(() => {
-        mockShouldUseRollbar = false;
+        mockGetErrorReportingDisabled = true;
       });
 
       it('does not call init', () => {
@@ -149,29 +149,25 @@ describe('logging index', () => {
       });
 
       describe('when logging service is initialised', () => {
-        describe('when Rollbar is enabled', () => {
+        describe('when getErrorReportingDisabled is false', () => {
           beforeEach(() => {
-            const shouldUseRollbar = true;
-
-            logging.init(shouldUseRollbar);
+            logging.init(false);
             logging.error(errPayload, customData);
           });
 
-          it('should call Rollbar.error', () => {
+          it('calls Rollbar.error', () => {
             expect(rollbarErrorSpy)
               .toHaveBeenCalledWith(errPayload, customData);
           });
         });
 
-        describe('when Rollbar is not enabled', () => {
+        describe('when getErrorReportingDisabled is true', () => {
           beforeEach(() => {
-            const shouldUseRollbar = false;
-
-            logging.init(shouldUseRollbar);
+            logging.init(true);
             logging.error(errPayload, customData);
           });
 
-          it('should not call Rollbar.error', () => {
+          it('calls Rollbar.error', () => {
             expect(rollbarErrorSpy)
               .not.toHaveBeenCalled();
           });

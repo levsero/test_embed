@@ -1,5 +1,6 @@
 describe('boot', () => {
-  let boot;
+  let boot,
+    mockGetErrorReportingDisabled;
   const registerImportSpy = (name, ...methods) => {
     return {
       [name]: jasmine.createSpyObj(name, methods)
@@ -21,6 +22,8 @@ describe('boot', () => {
   beforeEach(() => {
     mockery.enable();
 
+    mockGetErrorReportingDisabled = false;
+
     initMockRegistry({
       'service/beacon': beaconSpy,
       'service/i18n': i18nSpy,
@@ -38,7 +41,8 @@ describe('boot', () => {
                 authenticate: true
               }
             };
-          }
+          },
+          getErrorReportingDisabled: () => mockGetErrorReportingDisabled
         }
       },
       'service/transport': transportSpy,
@@ -148,6 +152,30 @@ describe('boot', () => {
           .toHaveBeenCalledWith(jasmine.objectContaining({
             zendeskHost: 'test2.zendesk.com'
           }));
+      });
+    });
+
+    describe('when settings.getErrorReportingDisabled returns true', () => {
+      beforeEach(() => {
+        mockGetErrorReportingDisabled = true;
+        boot.setupServices({});
+      });
+
+      it('calls logging.init with errorReportingDisabled as true', () => {
+        expect(loggingSpy.logging.init)
+          .toHaveBeenCalledWith(true);
+      });
+    });
+
+    describe('when settings.getErrorReportingDisabled returns false', () => {
+      beforeEach(() => {
+        mockGetErrorReportingDisabled = false;
+        boot.setupServices({});
+      });
+
+      it('calls logging.init with errorReportingDisabled as false', () => {
+        expect(loggingSpy.logging.init)
+          .toHaveBeenCalledWith(false);
       });
     });
   });

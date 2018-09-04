@@ -107,6 +107,7 @@ const setupServices = (reduxStore) => {
   });
 
   settings.init(reduxStore);
+  logging.init(settings.getErrorReportingDisabled());
   GA.init();
 };
 
@@ -214,8 +215,6 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     }
 
     reduxStore.dispatch(updateEmbeddableConfig(res.body));
-    // Remove this code once Rollbar is GA'd
-    logging.init(config.useRollbar);
 
     beacon.setConfig(config);
 
