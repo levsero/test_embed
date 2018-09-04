@@ -109,6 +109,7 @@ const webWidgetStoreDefaults = {
   zIndex: 999999
 };
 const maxLocaleFallbacks = 3;
+let settingsStore = {};
 let webWidgetStore = {};
 let webWidgetCustomizations = false;
 
@@ -127,17 +128,17 @@ const initStore = (settings, options, defaults) => {
 };
 
 function init(reduxStore = { dispatch: () => {} }) {
-  const settings = _.assign({}, win.zESettings);
+  settingsStore = _.assign({}, { errorReportingDisabled: false }, win.zESettings);
 
   // for backwards compatibility with authenticate.
-  if (settings.authenticate) {
-    if (!settings.webWidget) {
-      settings.webWidget = {};
+  if (settingsStore.authenticate) {
+    if (!settingsStore.webWidget) {
+      settingsStore.webWidget = {};
     }
-    settings.webWidget.authenticate = settings.authenticate;
+    settingsStore.webWidget.authenticate = settingsStore.authenticate;
   }
 
-  webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
+  webWidgetStore = initStore(settingsStore.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
 
   // Limit number of fallback locales.
   webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks,
@@ -145,7 +146,7 @@ function init(reduxStore = { dispatch: () => {} }) {
 
   reduxStore.dispatch(updateSettingsChatSuppress(webWidgetStore.chat.suppress));
   reduxStore.dispatch(updateSettings({
-    ...settings,
+    ...settingsStore,
     webWidget: webWidgetStore
   }));
 }
@@ -214,6 +215,10 @@ function getChatAuthSettings() {
   return (authSetting && authSetting.jwtFn) ? authSetting : null;
 }
 
+function getErrorReportingDisabled() {
+  return Boolean(settingsStore.errorReportingDisabled);
+}
+
 function enableCustomizations() {
   webWidgetCustomizations = true;
 }
@@ -225,5 +230,6 @@ export const settings = {
   getTrackSettings,
   getSupportAuthSettings,
   getChatAuthSettings,
+  getErrorReportingDisabled,
   enableCustomizations
 };

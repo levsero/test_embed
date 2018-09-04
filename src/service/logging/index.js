@@ -8,12 +8,14 @@ let rollbar;
 let useRollbar = false;
 let errorServiceInitialised = false;
 
-function init(shouldUseRollbar = false) {
-  useRollbar = !isIE() && shouldUseRollbar;
+function init(errorReportingDisabled = false) {
+  if (!errorReportingDisabled) {
+    useRollbar = !isIE();
 
-  if (useRollbar) {
-    rollbar = Rollbar.init(rollbarConfig);
-    errorServiceInitialised = true;
+    if (useRollbar) {
+      rollbar = Rollbar.init(rollbarConfig);
+      errorServiceInitialised = true;
+    }
   }
 }
 

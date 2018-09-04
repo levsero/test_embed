@@ -177,6 +177,41 @@ describe('settings', () => {
       expect(mockStore.getActions()[1].type)
         .toEqual(mockUpdateSettingsAction);
     });
+
+    describe('when errorReportingDisabled is true', () => {
+      beforeEach(() => {
+        mockRegistry['utility/globals'].win.zESettings = { errorReportingDisabled: true };
+        settings.init();
+      });
+
+      it('sets errorReportingDisabled to true', () => {
+        expect(settings.getErrorReportingDisabled())
+          .toBe(true);
+      });
+    });
+
+    describe('when errorReportingDisabled is false', () => {
+      beforeEach(() => {
+        mockRegistry['utility/globals'].win.zESettings = { errorReportingDisabled: false };
+        settings.init();
+      });
+
+      it('sets errorReportingDisabled to false', () => {
+        expect(settings.getErrorReportingDisabled())
+          .toBe(false);
+      });
+    });
+
+    describe('when errorReportingDisabled is not defined', () => {
+      beforeEach(() => {
+        settings.init();
+      });
+
+      it('sets errorReportingDisabled to false', () => {
+        expect(settings.getErrorReportingDisabled())
+          .toBe(false);
+      });
+    });
   });
 
   describe('#get', () => {
