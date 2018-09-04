@@ -473,7 +473,7 @@ class WebWidget extends Component {
           contextualHelpEnabled={helpCenterConfig.contextualHelpEnabled}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
-          onSearchSuccess={this.props.setFixedFrameStyles}
+          onSearchDone={this.props.setFixedFrameStyles}
           showBackButton={this.props.updateBackButtonVisibility}
           showNextButton={showNextButton}
           style={this.props.style}

@@ -82,7 +82,7 @@ class HelpCenter extends Component {
     onNextClick: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     performSearch: PropTypes.func.isRequired,
-    onSearchSuccess: PropTypes.func,
+    onSearchDone: PropTypes.func,
     performImageSearch: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
     showNextButton: PropTypes.bool,
@@ -126,7 +126,7 @@ class HelpCenter extends Component {
     localeFallbacks: [],
     onNextClick: () => {},
     originalArticleButton: true,
-    onSearchSuccess: () => {},
+    onSearchDone: () => {},
     showBackButton: () => {},
     showNextButton: true,
     style: null,
@@ -178,7 +178,7 @@ class HelpCenter extends Component {
   interactiveSearchSuccessFn = () => {
     this.props.showBackButton(false);
     this.focusField();
-    this.props.onSearchSuccess();
+    this.props.onSearchDone();
   }
 
   focusField = () => {
@@ -219,20 +219,24 @@ class HelpCenter extends Component {
     const localeFallbacks = !_.isEmpty(this.props.localeFallbacks)
       ? this.props.localeFallbacks.slice()
       : [''];
+    const failFn = () => {
+      this.focusField();
+      this.props.onSearchDone();
+    };
     const doneFn = (res) => {
       if (res.ok) {
         if (res.body.count > 0 || _.isEmpty(localeFallbacks)) {
           successFn();
         } else {
           query.locale = localeFallbacks.shift();
-          this.props.performSearch(_.pickBy(query), doneFn, this.focusField);
+          this.props.performSearch(_.pickBy(query), doneFn, failFn);
         }
       } else {
         this.focusField();
       }
     };
 
-    this.props.performSearch(query, doneFn, this.focusField);
+    this.props.performSearch(query, doneFn, failFn);
   }
 
   handleNextClick = (e) => {
