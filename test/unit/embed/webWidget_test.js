@@ -402,11 +402,6 @@ describe('embed.webWidget', () => {
         faythe = webWidget.get().component.props.children;
       });
 
-      it('should pass in zendeskHost from transport.getZendeskHost', () => {
-        expect(faythe.props.zendeskHost)
-          .toEqual('zendesk.host');
-      });
-
       it('should apply the different formTitleKey props to the correct embed props', () => {
         expect(faythe.props.submitTicketConfig.formTitleKey)
           .toEqual('foo');

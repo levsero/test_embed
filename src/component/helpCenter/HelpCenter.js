@@ -96,7 +96,6 @@ class HelpCenter extends Component {
     talkEnabled: PropTypes.bool.isRequired,
     updateChatScreen: PropTypes.func,
     handleArticleClick: PropTypes.func.isRequired,
-    zendeskHost: PropTypes.string.isRequired,
     articleClicked: PropTypes.bool,
     resultsCount: PropTypes.number.isRequired,
     resultsLocale: PropTypes.string.isRequired,

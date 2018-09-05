@@ -214,7 +214,6 @@ export default function WebWidgetFactory(name) {
           submitTicketConfig={submitTicketSettings.config}
           talkConfig={talkConfig}
           talkAvailable={talkAvailable}
-          zendeskHost={http.getZendeskHost()}
           zopimOnNext={zopimOnNext}
           onShowMobile={onShowMobile} />
       </Frame>

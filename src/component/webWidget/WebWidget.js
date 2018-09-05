@@ -111,7 +111,6 @@ class WebWidget extends Component {
     zopimOnNext: PropTypes.func,
     closeFrame: PropTypes.func,
     onBackButtonClick: PropTypes.func,
-    zendeskHost: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
@@ -488,7 +487,6 @@ class WebWidget extends Component {
           callbackEnabled={this.props.callbackEnabled}
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatAvailable={chatAvailable}
-          zendeskHost={this.props.zendeskHost}
           chatNotificationDismissed={this.props.chatNotificationDismissed}
           updateChatScreen={this.props.updateChatScreen} />
       </div>
