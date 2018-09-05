@@ -312,6 +312,12 @@ class WebWidget extends Component {
       return;
     }
 
+    // Handles when the activeEmbed comes from localStorage and it needs to update the frame size
+    if (activeEmbed === helpCenter) {
+      this.checkFrameHeight();
+      return;
+    }
+
     const channelChoiceUnavailable = (activeEmbed === channelChoice && !this.isChannelChoiceAvailable());
     const chatUnavailable = (activeEmbed === chat && !chatAvailable);
     const talkUnavailable = (activeEmbed === talk && !talkAvailable);
