@@ -44,6 +44,11 @@ describe('HelpCenterArticle component', () => {
       },
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      'service/transport': {
+        http: {
+          getDynamicHostname: noop
+        }
       }
     });
 

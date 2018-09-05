@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { parseUrl } from 'utility/utils';
+import { http } from 'service/transport';
 
 import { locals as styles } from './HelpCenterArticle.scss';
 import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
@@ -272,8 +273,9 @@ export class HelpCenterArticle extends Component {
   }
 
   getArticleImages(htmlEl, domain, locale) {
+    const hostname = http.getDynamicHostname(getBaseIsAuthenticated());
     const filterHcImages = (img) => {
-      const pattern = new RegExp(`(${this.props.zendeskHost}|${domain})/hc/`);
+      const pattern = new RegExp(`(${hostname}|${domain})/hc/`);
 
       return pattern.test(img.src);
     };
