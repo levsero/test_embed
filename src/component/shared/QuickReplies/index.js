@@ -4,34 +4,35 @@ import { Button } from '@zendeskgarden/react-buttons';
 
 import { locals as styles } from './QuickReplies.scss';
 
-export class QuickReplies extends Component {
+export class QuickReply extends Component {
   static propTypes = {
-    items: PropTypes.array,
-    handleReplyClick: PropTypes.func
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func
   }
 
   static defaultProps = {
-    items: [],
-    handleReplyClick: () => {}
+    onClick: () => {}
+  }
+
+  render = () => {
+    return (
+      <Button pill={true} size='small' onClick={this.props.onClick}>
+        {this.props.label}
+      </Button>
+    );
+  }
+}
+
+export class QuickReplies extends Component {
+  static propTypes = {
+    children: PropTypes.arrayOf(PropTypes.element).isRequired
   }
 
   render = () => {
     return (
       <div className={styles.scrollContainer}>
         <div className={styles.replyContainer}>
-          {this.props.items.map((item, idx) => {
-            return (
-              <div key={idx} className={styles.item}>
-                <Button
-                  pill={true}
-                  size='small'
-                  onClick={() => this.props.handleReplyClick(item.value)}
-                >
-                  {item.label}
-                </Button>
-              </div>
-            );
-          })}
+          {this.props.children}
         </div>
       </div>
     );

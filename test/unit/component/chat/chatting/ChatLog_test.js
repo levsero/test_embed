@@ -42,6 +42,9 @@ describe('ChatLog component', () => {
       },
       'service/i18n': {
         i18n
+      },
+      'utility/globals': {
+        win: window
       }
     });
 
