@@ -119,6 +119,7 @@ describe('mediator', () => {
         'refreshLocale',
         'zopimChatStarted',
         'zopimChatEnded',
+        'setFrameToDefault',
         'proactiveChat']
     );
 
@@ -151,6 +152,7 @@ describe('mediator', () => {
       c.subscribe(`${names.webWidget}.zopimChatStarted`, webWidgetSub.zopimChatStarted);
       c.subscribe(`${names.webWidget}.zopimChatEnded`, webWidgetSub.zopimChatEnded);
       c.subscribe(`${names.webWidget}.proactiveChat`, webWidgetSub.proactiveChat);
+      c.subscribe(`${names.webWidget}.setFrameToDefault`, webWidgetSub.setFrameToDefault);
 
       c.subscribe(`${names.talk}.show`, talkSub.show);
     };
@@ -209,6 +211,23 @@ describe('mediator', () => {
         expect(beaconSub.trackUserAction)
           .not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('.setHelpCenterSuggestions', () => {
+    const webWidget = 'webWidget';
+    const names = { webWidget };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({ submitTicket: true, helpCenter: true });
+    });
+
+    it('broadcasts webWidget.setFrameToDefault', () => {
+      c.broadcast('.setHelpCenterSuggestions');
+
+      expect(webWidgetSub.setFrameToDefault)
+        .toHaveBeenCalled();
     });
   });
 
