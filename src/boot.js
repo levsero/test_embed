@@ -290,6 +290,7 @@ const setupWidgetApi = (win, reduxStore) => {
   };
   win.zE.setHelpCenterSuggestions = (options) => {
     reduxStore.dispatch(setContextualSuggestionsManually(options));
+    mediator.channel.broadcast('.setHelpCenterSuggestions');
   };
   win.zE.activate = (options) => {
     mediator.channel.broadcast('.activate', options);

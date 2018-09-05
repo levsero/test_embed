@@ -311,6 +311,12 @@ export default function WebWidgetFactory(name) {
       });
     });
 
+    mediator.channel.subscribe(prefix + 'webWidget.setFrameToDefault', () => {
+      waitForRootComponent(() => {
+        embed.instance.setFixedFrameStyles();
+      });
+    });
+
     mediator.channel.subscribe(prefix + 'webWidget.refreshLocale', () => {
       waitForRootComponent(() => {
         const store = embed.store;
