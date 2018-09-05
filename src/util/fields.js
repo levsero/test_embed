@@ -203,7 +203,7 @@ const getStyledLabelText = (label, required) => {
 
   return (required)
     ? `<strong>${sanitizedLabel}</strong>`
-    : i18n.t('embeddable_framework.validation.label.new_optional', { sanitizedLabel });
+    : i18n.t('embeddable_framework.validation.label.new_optional', { label: sanitizedLabel });
 };
 
 const renderLabel = (Component, label, required) => {

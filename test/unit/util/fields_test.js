@@ -230,7 +230,7 @@ describe('fields', () => {
         it('calls i18n with expected args', () => {
           const expected = [
             'embeddable_framework.validation.label.new_optional',
-            { sanitizedLabel: mockLabel }
+            { label: mockLabel }
           ];
 
           expect(translateSpy)
@@ -770,7 +770,7 @@ describe('fields', () => {
 
       it('calls i18n translate to include "optional" key', () => {
         expect(translateSpy)
-          .toHaveBeenCalledWith('embeddable_framework.validation.label.new_optional', { sanitizedLabel: 'yolo' });
+          .toHaveBeenCalledWith('embeddable_framework.validation.label.new_optional', { label: 'yolo' });
       });
     });
   });
