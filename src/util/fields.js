@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import sanitizeHtml from 'sanitize-html';
 
 import { i18n } from 'service/i18n';
 import { NestedDropdown } from 'component/field/NestedDropdown';
@@ -194,18 +195,22 @@ const shouldRenderErrorMessage = (value, required, showErrors, pattern) => {
   return !isValid && showErrors;
 };
 
-const getLabelText = (label, required) => {
-  return (required || !label) ? label : i18n.t('embeddable_framework.validation.label.optional', { label });
+const getStyledLabelText = (label, required) => {
+  if (!label) return null;
+
+  // Disallow all HTML elements in label argument, it will render as pure text
+  const sanitizedLabel = sanitizeHtml(label, { allowedTags: [] });
+
+  return (required)
+    ? `<strong>${sanitizedLabel}</strong>`
+    : i18n.t('embeddable_framework.validation.label.new_optional', { sanitizedLabel });
 };
 
 const renderLabel = (Component, label, required) => {
-  const labelText = getLabelText(label, required);
-  const htmlLabel = <strong>{labelText}</strong>;
+  const labelText = getStyledLabelText(label, required);
 
   return (
-    <Component>
-      {htmlLabel}
-    </Component>
+    <Component dangerouslySetInnerHTML={{ __html: labelText }} />
   );
 };
 
@@ -213,7 +218,7 @@ export {
   getCustomFields,
   shouldRenderErrorMessage,
   renderLabel,
-  getLabelText,
+  getStyledLabelText,
 
   // Exported for testing
   getDefaultFieldValues

@@ -8,7 +8,7 @@ describe('Talk component', () => {
     Message = noopReactComponent(),
     TextField = noopReactComponent(),
     renderLabelSpy = jasmine.createSpy('renderLabel'),
-    getLabelTextSpy = jasmine.createSpy('getLabelText'),
+    getStyledLabelTextSpy = jasmine.createSpy('getLabelText'),
     shouldRenderErrorMessageSpy = jasmine.createSpy('shouldRenderErrorMessage');
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
@@ -72,7 +72,7 @@ describe('Talk component', () => {
       'src/util/fields': {
         renderLabel: renderLabelSpy,
         shouldRenderErrorMessage: shouldRenderErrorMessageSpy,
-        getLabelText: getLabelTextSpy
+        getStyledLabelText: getStyledLabelTextSpy
       }
     });
 
