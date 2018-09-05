@@ -47,7 +47,7 @@ describe('HelpCenterArticle component', () => {
       },
       'service/transport': {
         http: {
-          getDynamicHostname: noop
+          getDynamicHostname: () => 'www.base.com'
         }
       }
     });
@@ -64,7 +64,7 @@ describe('HelpCenterArticle component', () => {
         <h2 name="1">Baz</h2>
         <a href="#foo">inpage link</a>
         <a href="#1">inpage link 2</a>
-        <a class="relative" name="bar" href="/relative/link">relative link</a>
+        <a id="relative" class="relative" name="bar" href="/relative/link">relative link</a>
         <div id="preserved" style="bad styles not allowed">
           This text contains a sub-note<sub>1</sub>
         </div>
@@ -149,16 +149,11 @@ describe('HelpCenterArticle component', () => {
           .toBe('<sup>1</sup>This explains the note');
       });
 
-      it('injects base tag to alter relative links base url', () => {
-        const baseTag = global.document.querySelector('head base');
-        const relativeAnchor = ReactDOM.findDOMNode(helpCenterArticle).querySelector('a[href^="/relative"]');
-        const baseUrl = 'https://' + global.document.zendeskHost;
-
-        expect(baseTag.href)
-          .toMatch(baseUrl);
+      it('rewrites relative urls to include the host name', () => {
+        const relativeAnchor = content.querySelector('#relative');
 
         expect(relativeAnchor.href)
-          .toMatch(baseUrl + '/relative/link');
+          .toEqual('https://www.base.com/relative/link');
       });
     });
 
@@ -267,16 +262,17 @@ describe('HelpCenterArticle component', () => {
         let externalAnchor;
 
         beforeEach(() => {
-          const helpCenterArticleNode = helpCenterArticle.refs.article;
+          const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
+          const content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
 
-          externalAnchor = helpCenterArticleNode.querySelector('a[href^="/relative"]');
+          externalAnchor = content.querySelector('#relative');
 
-          TestUtils.Simulate.click(helpCenterArticleNode, {
+          TestUtils.Simulate.click(content, {
             target: externalAnchor
           });
         });
 
-        it('adds target="_blank"  to anchor', () => {
+        it('adds target="_blank" to anchor', () => {
           expect(externalAnchor.target)
             .toEqual('_blank');
         });
@@ -313,7 +309,8 @@ describe('HelpCenterArticle component', () => {
     });
 
     it('displays an article body if a prop was passed with truthy content body', () => {
-      const helpCenterArticleNode = ReactDOM.findDOMNode(helpCenterArticle);
+      const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
+      const helpCenterArticleNode = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
 
       expect(helpCenterArticleNode.querySelector('#foo').innerHTML)
         .toMatch('Foobar');
@@ -321,7 +318,7 @@ describe('HelpCenterArticle component', () => {
       expect(helpCenterArticleNode.querySelector('a[href="#foo"]').innerHTML)
         .toMatch('inpage link');
 
-      expect(helpCenterArticleNode.querySelector('a[href^="/relative"]').innerHTML)
+      expect(helpCenterArticleNode.querySelector('#relative').innerHTML)
         .toMatch('relative link');
 
       expect(helpCenterArticleNode.querySelector('#preserved').innerHTML)
@@ -594,8 +591,7 @@ describe('HelpCenterArticle component', () => {
           helpCenterArticle = domRender(
             <HelpCenterArticle
               activeArticle={mockArticle}
-              storedImages={storedImages}
-              zendeskHost={mockZendeskHost} />
+              storedImages={storedImages} />
           );
 
           expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
@@ -623,8 +619,7 @@ describe('HelpCenterArticle component', () => {
     beforeEach(() => {
       helpCenterArticle = domRender(
         <HelpCenterArticle
-          activeArticle={mockArticle}
-          zendeskHost={mockZendeskHost} />
+          activeArticle={mockArticle} />
       );
     });
 

@@ -302,7 +302,6 @@ class HelpCenter extends Component {
     return (
       <HelpCenterArticle
         activeArticle={this.props.activeArticle}
-        zendeskHost={this.props.zendeskHost}
         locale={this.props.resultsLocale}
         originalArticleButton={this.props.originalArticleButton}
         handleOriginalArticleClick={this.props.handleOriginalArticleClicked}

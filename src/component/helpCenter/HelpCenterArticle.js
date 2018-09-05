@@ -26,8 +26,7 @@ export class HelpCenterArticle extends Component {
     originalArticleButton: PropTypes.bool,
     handleOriginalArticleClick: PropTypes.func,
     storedImages: PropTypes.object,
-    updateStoredImages: PropTypes.func,
-    zendeskHost: PropTypes.string
+    updateStoredImages: PropTypes.func
   };
 
   static defaultProps = {
@@ -36,8 +35,7 @@ export class HelpCenterArticle extends Component {
     originalArticleButton: true,
     handleOriginalArticleClick: () => {},
     storedImages: {},
-    updateStoredImages: () => {},
-    zendeskHost: ''
+    updateStoredImages: () => {}
   };
 
   constructor(props, context) {
@@ -58,8 +56,6 @@ export class HelpCenterArticle extends Component {
   }
 
   constructArticle = () => {
-    const doc = ReactDOM.findDOMNode(this).ownerDocument;
-    const base = doc.createElement('base');
     const { activeArticle } = this.props;
     const container = ReactDOM.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
@@ -104,11 +100,11 @@ export class HelpCenterArticle extends Component {
       }
     };
 
-    base.href = `https://${document.zendeskHost}`;
-    doc.head.appendChild(base);
-
     if (activeArticle.body) {
-      const body = this.replaceArticleImages(activeArticle, this.state.lastActiveArticleId);
+      const body = this.replaceArticleLinks(
+        this.replaceArticleImages(activeArticle, this.state.lastActiveArticleId)
+      );
+
       let cleanHtml = sanitizeHtml(body, sanitizeHtmlOptions);
 
       // Inject a table wrapper to allow horizontal scrolling
@@ -134,6 +130,13 @@ export class HelpCenterArticle extends Component {
       this.setState({ lastActiveArticleId: activeArticle.id });
       /* eslint-enable */
     }
+  }
+
+  replaceArticleLinks(html) {
+    const domain = http.getDynamicHostname(true);
+
+    return html.replace(/ src="\//g, ` src="https://${domain}/`)
+      .replace(/ href="\//g, ` href="https://${domain}/`);
   }
 
   handleClick = (e) => {
