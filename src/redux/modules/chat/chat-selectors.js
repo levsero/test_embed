@@ -339,8 +339,6 @@ export const getGroupedChatLog = createSelector(
         latestRating, latestRatingRequest, latestQuickReplies, firstVisitorMessageSet
       } = this;
 
-      latestQuickReplies.hidden = true;
-
       if (groupTimestamp) {
         (groupedChatLog[groupTimestamp] || (groupedChatLog[groupTimestamp] = [])).push(messageOrEvent);
       }
@@ -363,6 +361,20 @@ export const getGroupedChatLog = createSelector(
       if (messageOrEvent.type === 'chat.request.rating') {
         delete groupedChatLog[latestRatingRequest.timestamp];
         this.latestRatingRequest = messageOrEvent;
+      }
+
+      if (
+        isMessage(messageOrEvent)
+        || messageOrEvent.type === CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE
+        && (
+          messageOrEvent.nick === latestQuickReplies.nick
+          || !isAgent(messageOrEvent.nick)
+        )
+      ) {
+        // dismiss quick reply only if
+        // - there's a new non-event message
+        // - sender agent or visitor has left the chat
+        latestQuickReplies.hidden = true;
       }
 
       if (messageOrEvent.type === CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES) {

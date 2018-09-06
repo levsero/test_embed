@@ -43,15 +43,17 @@ const concatChat = (chats, chat) => {
 const concatQuickReply = (chats, chat) => {
   const copy = new Map(chats);
   const timestamp = chat.timestamp || Date.now();
-  const newMsg = chat.attachments.data && chat.attachments.data.message;
+  const newMsg = chat.structured_msg.text;
   const chatMessage = {
     ...chat,
     timestamp,
-    msg: newMsg || chat.msg
+    msg: newMsg,
+    options: [] // We do not want options for a quick reply message
   };
   const quickReplies = {
     type: CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES,
-    items: chat.attachments.items,
+    nick: chat.nick,
+    items: _.values(chat.structured_msg.items),
     timestamp: timestamp + 1
   };
 
@@ -115,7 +117,7 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_MSG:
       const { detail } = action.payload;
 
-      if (detail.attachments && detail.attachments.type === 'quick_replies') {
+      if (detail.structured_msg && detail.structured_msg.type === 'quick_reply') {
         return concatQuickReply(state, detail);
       }
 

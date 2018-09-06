@@ -10,8 +10,6 @@ import { QuickReply, QuickReplies } from 'component/shared/QuickReplies';
 import { Button } from '@zendeskgarden/react-buttons';
 import { CHAT_MESSAGE_EVENTS, CHAT_STRUCTURED_CONTENT, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
-import { win } from 'utility/globals';
-
 export class ChatLog extends Component {
   static propTypes = {
     chatLog: PropTypes.object.isRequired,
@@ -91,26 +89,7 @@ export class ChatLog extends Component {
           </EventMessage>
         );
       } else if (_.includes(CHAT_STRUCTURED_CONTENT, chatLogItemType)) {
-        const { type, timestamp, hidden, ...props } = chatLogItem[0];
-
-        if (type === CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES && !hidden) {
-          return (
-            <QuickReplies key={timestamp}>
-              {props.items.map((item, idx) => {
-                let actionFn = () => {};
-                const { action, data } = item;
-
-                if (action.type === 'quick_reply') {
-                  actionFn = () => this.props.handleSendMsg(action.data.value);
-                } else if (action.type === 'open_url') {
-                  actionFn = () => win.open(action.data.url);
-                }
-
-                return <QuickReply key={idx} label={data.label} onClick={actionFn} />;
-              })}
-            </QuickReplies>
-          );
-        }
+        return this.renderStructuredMessage(chatLogItem[0]);
       }
     });
 
@@ -157,6 +136,25 @@ export class ChatLog extends Component {
         {i18n.t('embeddable_framework.chat.chatLog.login.updateInfo')}
       </button>
     );
+  }
+
+  renderStructuredMessage(chatLogItem) {
+    const { type, timestamp, hidden, ...props } = chatLogItem;
+
+    if (hidden) {
+      return null;
+    } else if (type === CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES) {
+      return (
+        <QuickReplies key={timestamp}>
+          {props.items.map((item, idx) => {
+            const { action, text } = item;
+            const actionFn = () => this.props.handleSendMsg(action.value);
+
+            return <QuickReply key={idx} label={text} onClick={actionFn} />;
+          })}
+        </QuickReplies>
+      );
+    }
   }
 
   render() {

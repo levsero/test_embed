@@ -1,5 +1,6 @@
+@import '../../../styles/_vars.scss';
+
 $focusRingWidth: 2px;
-$height: 38px + ($focusRingWidth * 2);
 
 .scrollContainer {
   width: 100%;
@@ -10,13 +11,19 @@ $height: 38px + ($focusRingWidth * 2);
 .replyContainer {
   white-space: nowrap;
   text-align: right;
-  height: $height;
   width: 100%;
   position: relative;
+  padding: $focusRingWidth 0; // to make room for the focus ring
+}
+
+.quickReply {
+  min-width: 0;
+  height: auto !important; // garden override
+  line-height: #{16/$font-size}rem; // garden override, follow MessageBubble
+  padding: #{8/$font-size}rem #{12/$font-size}rem; // follow MessageBubble
 }
 
 .item {
   margin-left: 5px;
   display: inline-block;
-  padding: $focusRingWidth 0; // to make room for the focus ring
 }
