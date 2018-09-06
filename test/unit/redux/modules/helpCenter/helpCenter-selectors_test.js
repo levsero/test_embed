@@ -130,9 +130,26 @@ describe('helpCenter selectors', () => {
         };
       });
 
-      it('returns true', () => {
-        expect(result)
-          .toEqual(true);
+      describe('when getPageKeywords returns a value', () => {
+        beforeAll(() => {
+          mockPageKeywords = 'pageKeyword';
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when getPageKeywords does not return a value', () => {
+        beforeAll(() => {
+          mockPageKeywords = '';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
       });
     });
 

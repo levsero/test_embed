@@ -69,7 +69,7 @@ const getContextualHelpRequestedViaApi = createSelector(
   (manualContextualSuggestions) => {
     const searchTermExists = !!manualContextualSuggestions.query;
     const labelsExist = !!manualContextualSuggestions.labels && manualContextualSuggestions.labels.length > 0;
-    const urlSet = !!manualContextualSuggestions.url;
+    const urlSet = !!manualContextualSuggestions.url && !!getPageKeywords();
 
     return searchTermExists || labelsExist || urlSet;
   }
