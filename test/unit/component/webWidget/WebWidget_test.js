@@ -1296,6 +1296,25 @@ describe('WebWidget component', () => {
             .toHaveBeenCalled();
         });
       });
+
+      describe('when the activeEmbed is helpCenter', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              helpCenterAvailable={true}
+              submitTicketAvailable={true}
+              activeEmbed='helpCenterForm' />
+          );
+
+          spyOn(webWidget, 'checkFrameHeight');
+          webWidget.show();
+        });
+
+        it('calls checkFrameHeight', () => {
+          expect(webWidget.checkFrameHeight)
+            .toHaveBeenCalled();
+        });
+      });
     });
 
     describe('when there is not an active embed', () => {
