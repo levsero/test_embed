@@ -23,6 +23,10 @@ export const CHAT_SYSTEM_EVENTS = {
   CHAT_EVENT_CONTACT_DETAILS_UPDATED: 'chat.contact_details.updated'
 };
 
+export const CHAT_STRUCTURED_CONTENT = {
+  CHAT_QUICK_REPLIES: 'chat.quick_replies'
+};
+
 export const ATTACHMENT_ERROR_TYPES = {
   NOT_SUPPORTED:      'not_supported',
   NOT_ALLOWED:        'not_allowed',

@@ -59,6 +59,7 @@ describe('chat selectors', () => {
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
+    CHAT_STRUCTURED_CONTENT,
     EDIT_CONTACT_DETAILS_SCREEN,
     DEPARTMENT_STATUSES,
     WHITELISTED_SOCIAL_LOGINS,
@@ -72,6 +73,7 @@ describe('chat selectors', () => {
     CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
     CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
+    CHAT_STRUCTURED_CONTENT = requireUncached(chatConstantsPath).CHAT_STRUCTURED_CONTENT;
     AGENT_BOT = requireUncached(chatConstantsPath).AGENT_BOT;
     DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
     WHITELISTED_SOCIAL_LOGINS = requireUncached(chatConstantsPath).WHITELISTED_SOCIAL_LOGINS;
@@ -81,6 +83,7 @@ describe('chat selectors', () => {
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
+        CHAT_STRUCTURED_CONTENT,
         EDIT_CONTACT_DETAILS_SCREEN,
         AGENT_BOT,
         DEPARTMENT_STATUSES,
@@ -1073,11 +1076,12 @@ describe('chat selectors', () => {
           { nick: 'agent:123', type: 'chat.memberjoin', timestamp: 4 },
           { nick: 'agent:123', type: 'chat.msg', msg: 'Hi', timestamp: 5 },
           { nick: 'agent:123', type: 'chat.msg', msg: 'How can I help you?', timestamp: 6 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'My laptop is broken', timestamp: 7 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'Try turning it on and off again', timestamp: 8 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'That fixed it!', timestamp: 9 },
-          { nick: 'visitor', type: 'chat.rating', new_rating: 'good', timestamp: 10 },
-          { nick: 'visitor', type: 'chat.memberleave', timestamp: 11 }
+          { type: 'chat.quick_replies', items: [], timestamp: 7 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'My laptop is broken', timestamp: 8 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'Try turning it on and off again', timestamp: 9 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'That fixed it!', timestamp: 10 },
+          { nick: 'visitor', type: 'chat.rating', new_rating: 'good', timestamp: 11 },
+          { nick: 'visitor', type: 'chat.memberleave', timestamp: 12 }
         ];
 
         mockChatSettings = {
@@ -1092,11 +1096,12 @@ describe('chat selectors', () => {
           2: setIsFirstVisitorMessage([mockChats[1], mockChats[2]], true),
           4: [mockChats[3]],
           5: [mockChats[4], mockChats[5]],
-          7: [mockChats[6]],
+          7: [{ ...mockChats[6], hidden: true }],
           8: [mockChats[7]],
           9: [mockChats[8]],
-          10: [{ ...mockChats[9], isLastRating: true }],
-          11: [mockChats[10]]
+          10: [mockChats[9]],
+          11: [{ ...mockChats[10], isLastRating: true }],
+          12: [mockChats[11]]
         };
 
         result = getGroupedChatLog(mockChatSettings);

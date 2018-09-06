@@ -47,16 +47,15 @@ import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.scss
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss';
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss';
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss';
-import MessageBubbleStyles from 'component/shared/MessageBubble/MessageBubble.scss';
 import MessageErrorStyles from 'component/chat/chatting/MessageError.scss';
-import MessageOptionsStyles from 'component/shared/MessageOptions/MessageOptions.scss';
 import ProgressBarStyles from 'component/attachment/ProgressBar.scss';
 import SearchFieldStyles from 'component/field/SearchField.scss';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss';
-import SuccessNotificationStyles from 'component/shared/SuccessNotification/SuccessNotification.scss';
 import TalkStyles from 'component/talk/Talk.scss';
 import LoadingBarContentStyles from 'component/loading/LoadingBarContent.scss';
+
+import SharedComponentStyles from 'component/shared/styles.js';
 import { sharedStyles } from 'embed/sharedStyles.js';
 import gardenStyles from 'embed/gardenStyles.js';
 
@@ -112,14 +111,12 @@ export const webWidgetStyles = `
   ${IconFieldButtonStyles}
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
-  ${MessageBubbleStyles}
   ${MessageErrorStyles}
-  ${MessageOptionsStyles}
   ${ProgressBarStyles}
   ${SearchFieldStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
-  ${SuccessNotificationStyles}
   ${TalkStyles}
   ${LoadingBarContentStyles}
+  ${SharedComponentStyles}
 `;
