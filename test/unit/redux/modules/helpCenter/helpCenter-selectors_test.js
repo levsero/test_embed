@@ -168,9 +168,26 @@ describe('helpCenter selectors', () => {
             mockIsOnHelpCenterPage = false;
           });
 
-          it('returns true', () => {
-            expect(result)
-              .toEqual(true);
+          describe('when there are valid pageKeywords', () => {
+            beforeAll(() => {
+              mockPageKeywords = 'omg why';
+            });
+
+            it('returns true', () => {
+              expect(result)
+                .toEqual(true);
+            });
+          });
+
+          describe('when there are no valid pageKeywords', () => {
+            beforeAll(() => {
+              mockPageKeywords = '';
+            });
+
+            it('returns false', () => {
+              expect(result)
+                .toEqual(false);
+            });
           });
         });
       });
