@@ -1,0 +1,29 @@
+.cardContainer {
+  border-radius: 8px;
+}
+
+.panelList {
+  list-style: none;
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.panelContainer {
+  display: block;
+  width: 100%;
+  position: relative;
+  overflow: auto;
+}
+
+.panelText {
+  float: left;
+  width: 80%;
+}
+
+.panelImage {
+  float: left;
+  width: 20%;
+}
