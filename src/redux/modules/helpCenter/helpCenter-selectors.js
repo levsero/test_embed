@@ -60,7 +60,7 @@ export const getHasSearched = createSelector(
 const getContextualHelpRequestedViaConfig = createSelector(
   [getHelpCenterContextualEnabled],
   (contextualHelpEnabled) => {
-    return contextualHelpEnabled && !isOnHelpCenterPage();
+    return contextualHelpEnabled && !isOnHelpCenterPage() && !!getPageKeywords();
   }
 );
 
