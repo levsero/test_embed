@@ -1249,7 +1249,7 @@ describe('ChattingScreen component', () => {
       });
 
       it('calls i18n with the expected key and args', () => {
-        const translationKey = 'embeddable_framework.chat.button.manyMessages';
+        const translationKey = 'embeddable_framework.common.notification.manyMessages';
 
         expect(translationSpy)
           .toHaveBeenCalledWith(translationKey, { plural_number: 2 });
@@ -1262,7 +1262,7 @@ describe('ChattingScreen component', () => {
       });
 
       it('calls i18n with the expected key', () => {
-        const translationKey = 'embeddable_framework.chat.button.oneMessage';
+        const translationKey = 'embeddable_framework.common.notification.oneMessage';
 
         expect(translationSpy)
           .toHaveBeenCalledWith(translationKey);

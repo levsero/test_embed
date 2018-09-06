@@ -395,8 +395,8 @@ class ChattingScreen extends Component {
     };
 
     const pillLabel = (notificationCount > 1)
-      ? i18n.t('embeddable_framework.chat.button.manyMessages', { plural_number: notificationCount })
-      : i18n.t('embeddable_framework.chat.button.oneMessage');
+      ? i18n.t('embeddable_framework.common.notification.manyMessages', { plural_number: notificationCount })
+      : i18n.t('embeddable_framework.common.notification.oneMessage');
 
     return (
       <ButtonPill

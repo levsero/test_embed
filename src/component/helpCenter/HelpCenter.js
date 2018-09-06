@@ -393,8 +393,8 @@ class HelpCenter extends Component {
     const renderChatLabel = () => {
       if (chatNotificationCount > 0) {
         return chatNotificationCount > 1
-          ? i18n.t('embeddable_framework.chat.button.manyMessages', { plural_number: chatNotificationCount })
-          : i18n.t('embeddable_framework.chat.button.oneMessage');
+          ? i18n.t('embeddable_framework.common.notification.manyMessages', { plural_number: chatNotificationCount })
+          : i18n.t('embeddable_framework.common.notification.oneMessage');
       } else if (chatOfflineAvailable) {
         return i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`);
       }

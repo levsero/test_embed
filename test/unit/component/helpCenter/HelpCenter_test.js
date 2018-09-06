@@ -155,7 +155,7 @@ describe('HelpCenter component', () => {
 
         it('uses the chat notification label for the button', () => {
           expect(mockRegistry['service/i18n'].i18n.t)
-            .toHaveBeenCalledWith('embeddable_framework.chat.button.oneMessage');
+            .toHaveBeenCalledWith('embeddable_framework.common.notification.oneMessage');
         });
       });
 
@@ -168,7 +168,7 @@ describe('HelpCenter component', () => {
 
         it('uses the chat notification label for the button', () => {
           expect(mockRegistry['service/i18n'].i18n.t)
-            .toHaveBeenCalledWith('embeddable_framework.chat.button.manyMessages', { plural_number: 3 });
+            .toHaveBeenCalledWith('embeddable_framework.common.notification.manyMessages', { plural_number: 3 });
         });
       });
     });
@@ -210,7 +210,7 @@ describe('HelpCenter component', () => {
 
           it('uses the chat notification label for the button', () => {
             expect(mockRegistry['service/i18n'].i18n.t)
-              .toHaveBeenCalledWith('embeddable_framework.chat.button.oneMessage');
+              .toHaveBeenCalledWith('embeddable_framework.common.notification.oneMessage');
           });
         });
 
@@ -223,7 +223,7 @@ describe('HelpCenter component', () => {
 
           it('uses the chat notification label for the button', () => {
             expect(mockRegistry['service/i18n'].i18n.t)
-              .toHaveBeenCalledWith('embeddable_framework.chat.button.manyMessages', { plural_number: 3 });
+              .toHaveBeenCalledWith('embeddable_framework.common.notification.manyMessages', { plural_number: 3 });
           });
         });
       });
