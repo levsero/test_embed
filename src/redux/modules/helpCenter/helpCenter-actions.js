@@ -108,13 +108,13 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
   };
 }
 
-export function contextualSearch() {
+export function contextualSearch(onDone) {
   return (dispatch, getState) => {
     const state = getState();
 
     if (getContextualHelpRequestNeeded(state)) {
       if (getHasPassedAuth(state)) {
-        dispatch(performContextualSearch());
+        dispatch(performContextualSearch(onDone, onDone));
       } else if (getIsAuthenticationPending(state)) {
         dispatch(updateQueue({ performContextualSearch: {} }));
       }
@@ -233,7 +233,7 @@ export function displayArticle(articleId) {
   };
 }
 
-export function setContextualSuggestionsManually(options) {
+export function setContextualSuggestionsManually(options, onDone) {
   return (dispatch, getState) => {
     dispatch({
       type: CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
@@ -241,7 +241,7 @@ export function setContextualSuggestionsManually(options) {
     });
 
     if (getHasWidgetShown(getState())) {
-      dispatch(contextualSearch());
+      dispatch(contextualSearch(onDone));
     }
   };
 }

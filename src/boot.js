@@ -289,8 +289,9 @@ const setupWidgetApi = (win, reduxStore) => {
     reduxStore.dispatch(chatLogout());
   };
   win.zE.setHelpCenterSuggestions = (options) => {
-    reduxStore.dispatch(setContextualSuggestionsManually(options));
-    mediator.channel.broadcast('.setHelpCenterSuggestions');
+    const onDone = () => mediator.channel.broadcast('.setHelpCenterSuggestions');
+
+    reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
   };
   win.zE.activate = (options) => {
     mediator.channel.broadcast('.activate', options);
