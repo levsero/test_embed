@@ -182,7 +182,8 @@ export class TalkPhoneField extends ControlledComponent {
             {({getLabelProps: getFieldLabelProps, getInputProps: getFieldInputProps}) => {
               return (
                 <Fragment>
-                  <Label {...this.getLabelProps(getFieldLabelProps())}>{this.props.label}</Label>
+                  <Label {...this.getLabelProps(getFieldLabelProps())}
+                    dangerouslySetInnerHTML={{ __html: this.props.label }} />
                   <StyledFauxInput
                     {...focused}
                     validation={error ? 'error' : 'none'}
