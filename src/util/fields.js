@@ -3,7 +3,7 @@ import _ from 'lodash';
 import sanitizeHtml from 'sanitize-html';
 
 import { i18n } from 'service/i18n';
-import { NestedDropdown } from 'component/field/NestedDropdown';
+import { NestedDropdown } from 'component/field/Dropdown/NestedDropdown';
 import { isMobileBrowser,
   isLandscape } from 'utility/devices';
 import { TextField, Textarea, Label, Input, Hint, Message } from '@zendeskgarden/react-textfields';
