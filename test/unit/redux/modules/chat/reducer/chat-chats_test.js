@@ -425,7 +425,7 @@ describe('chat reducer chats', () => {
           detail = {
             timestamp: Date.now(),
             nick: 'agent:smith',
-            display_name: 'Agent Smith',
+            display_name: 'Agent Smith'
           };
 
           state = reducer(initialState, {
@@ -448,8 +448,11 @@ describe('chat reducer chats', () => {
               timestamp: Date.now(),
               nick: 'agent:smith',
               display_name: 'Agent Smith',
-              attachments: {
-                type: 'quick_replies',
+              msg: 'wassup', // fallback, discarded
+              options: ['option1', 'option2'], // fallback, discarded
+              structured_msg: {
+                text: 'structured msg text',
+                type: 'quick_reply',
                 items: [1, 2, 3]
               }
             };
@@ -461,14 +464,21 @@ describe('chat reducer chats', () => {
           });
 
           it('adds the message to the chats collection', () => {
+            const expectedMsg = {
+              ...detail,
+              msg: detail.structured_msg.text, // discard fallback
+              options: [] // discard fallback
+            };
+
             expect(state.get(detail.timestamp))
-              .toEqual(jasmine.objectContaining(detail));
+              .toEqual(jasmine.objectContaining(expectedMsg));
           });
 
           it('adds a quick reply item to the chats collection', () => {
             const expectedItem = {
               type: CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES,
-              items: detail.attachments.items,
+              nick: 'agent:smith',
+              items: detail.structured_msg.items,
               timestamp: detail.timestamp + 1
             };
 

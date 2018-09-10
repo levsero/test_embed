@@ -1343,6 +1343,60 @@ describe('chat selectors', () => {
           .toEqual(expectedResult);
       });
     });
+
+    describe('when passed a chat log with agent leaving the chat', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'agent:123', type: 'chat.quick_replies', items: [], timestamp: 1 },
+          { nick: 'agent:123', type: 'chat.memberleave', timestamp: 2 },
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        expectedResult = {
+          1: [{ ...mockChats[0], hidden: true }],
+          2: [mockChats[1]]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('hides quick replies', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
+    });
+
+    describe('when passed a chat log with another agent leaving the chat', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'agent:123', type: 'chat.quick_replies', items: [], timestamp: 1 },
+          { nick: 'agent:456', type: 'chat.memberleave', timestamp: 2 },
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        expectedResult = {
+          1: [{ ...mockChats[0], hidden: false }],
+          2: [mockChats[1]]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('parses the chat log successfully', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
+    });
   });
 
   describe('getChatOnline', () => {

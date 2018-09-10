@@ -348,9 +348,9 @@ describe('ChatLog component', () => {
 
     describe('when passed a chat log with a quick replies message', () => {
       const quickReplies = [
-        { data: { label: 'Laugh' }, action: { type: 'quick_reply', data: { value: 'laugh' } } },
-        { data: { label: 'Cry' }, action: { type: 'quick_reply', data: { value: 'cry' } } },
-        { data: { label: 'Shout' }, action: { type: 'quick_reply', data: { value: 'shout' } } }
+        { text: 'Laugh', action: { type: 'quick_reply', value: 'laugh' } },
+        { text: 'Cry', action: { type: 'quick_reply', value: 'cry' } },
+        { text: 'Shout', action: { type: 'quick_reply', value: 'shout' } }
       ];
       const chatLog = {
         100: [
