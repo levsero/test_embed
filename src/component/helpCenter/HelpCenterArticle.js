@@ -135,8 +135,8 @@ export class HelpCenterArticle extends Component {
   replaceArticleLinks(html) {
     const domain = http.getDynamicHostname(true);
 
-    return html.replace(/ src="\//g, ` src="https://${domain}/`)
-      .replace(/ href="\//g, ` href="https://${domain}/`);
+    return html.replace(/ src="\/(?!\/)/g, ` src="https://${domain}/`)
+      .replace(/ href="\/(?!\/)/g, ` href="https://${domain}/`);
   }
 
   handleClick = (e) => {

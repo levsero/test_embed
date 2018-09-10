@@ -65,6 +65,7 @@ describe('HelpCenterArticle component', () => {
         <a href="#foo">inpage link</a>
         <a href="#1">inpage link 2</a>
         <a id="relative" class="relative" name="bar" href="/relative/link">relative link</a>
+        <a id="protocol-relative" class="protocol-relative" name="pbar" href="//youtube/embed/xyz">protcol relative link</a>
         <div id="preserved" style="bad styles not allowed">
           This text contains a sub-note<sub>1</sub>
         </div>
@@ -122,7 +123,7 @@ describe('HelpCenterArticle component', () => {
 
       it('injects html string on componentDidMount', () => {
         expect(content.children.length)
-          .toEqual(10);
+          .toEqual(11);
 
         expect(content.querySelector('div').style.cssText)
           .toEqual('');
@@ -154,6 +155,13 @@ describe('HelpCenterArticle component', () => {
 
         expect(relativeAnchor.href)
           .toEqual('https://www.base.com/relative/link');
+      });
+
+      it('does not modify protocol-relative urls', () => {
+        const anchor = content.querySelector('#protocol-relative');
+
+        expect(anchor.href)
+          .toEqual('//youtube/embed/xyz');
       });
     });
 
