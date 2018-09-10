@@ -88,7 +88,14 @@ function render(name) {
   scriptTag.innerHTML = snippet;
 
   if (config.brand) {
-    win.$zopim(() => win.$zopim.livechat.addTags(config.brand));
+    const brandCount = config.brandCount;
+
+    // if brandCount is more than 1, call addTag,
+    // if brandCount is not sent down from config, it means we're using old config and we should call addTag
+    // otherwise, skip addTag
+    if (brandCount > 1 || brandCount === undefined) {
+      win.$zopim(() => win.$zopim.livechat.addTags(config.brand));
+    }
   }
 
   if (!config.standalone) {

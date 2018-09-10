@@ -921,6 +921,32 @@ describe('embed.webWidget', () => {
         });
       });
 
+      describe('when brand exists, and brandCount is > 1', () => {
+        beforeEach(() => {
+          webWidget.create('', { zopimChat: chatConfig, brand: 'z3n', brandCount: 2 });
+        });
+
+        it('calls zChat.addTag with the brand', () => {
+          mockChatVendorImport.then((mockZChat) => {
+            expect(mockZChat.addTag.calls.mostRecent().args[0])
+              .toEqual('z3n');
+          });
+        });
+      });
+
+      describe('when brand exists, and brandCount is 1', () => {
+        beforeEach(() => {
+          webWidget.create('', { zopimChat: chatConfig, brand: 'z3n', brandCount: 1 });
+        });
+
+        it('does not call zChat.addTag', () => {
+          mockChatVendorImport.then(() => {
+            expect(zChatAddTagSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+      });
+
       describe('when in staging', () => {
         beforeEach(() => {
           const chatConfig = { zopimId: '123abc', overrideProxy: 'hades.zopim.org' };
