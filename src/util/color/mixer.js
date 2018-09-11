@@ -72,7 +72,7 @@ export class ColorMixer {
   _highlightColor = (color) => {
     const value = ColorMixer.highlightBy;
 
-    return this._isPerceptuallyDark(color)
+    return this._isPerceptuallyLight(color)
       ? color.darken(value.dark)
       : color.lighten(value.light);
   }
@@ -96,7 +96,7 @@ export class ColorMixer {
     return color.level(inContrastTo).substring(0, 2) === 'AA';
   }
 
-  _isPerceptuallyDark = (color) => {
+  _isPerceptuallyLight = (color) => {
     return color.luminosity() > ColorMixer.luminosityThreshold;
   }
 }
