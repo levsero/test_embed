@@ -1,5 +1,6 @@
 describe('styles', () => {
   let generateUserWidgetCSS,
+    generateUserLauncherCSS,
     generateWebWidgetPreviewCSS,
     mockSettingsValue;
 
@@ -27,6 +28,7 @@ describe('styles', () => {
     });
 
     generateUserWidgetCSS = requireUncached(stylesPath).generateUserWidgetCSS;
+    generateUserLauncherCSS = requireUncached(stylesPath).generateUserLauncherCSS;
     generateWebWidgetPreviewCSS = require(stylesPath).generateWebWidgetPreviewCSS;
   });
 
@@ -259,6 +261,66 @@ describe('styles', () => {
     });
   });
 
+  describe('generateUserLauncherCSS', () => {
+    describe('when the color is light', () => {
+      let css;
+
+      beforeEach(() => {
+        css = generateUserLauncherCSS('#58F9F7');
+      });
+
+      describe('u-userLauncherColor', () => {
+        const expectedCss = `
+        .u-userLauncherColor:not([disabled]) {
+          background-color: #58F9F7 !important;
+          color: #186766 !important;
+          fill: #186766 !important;
+          svg {
+            color: #186766 !important;
+            fill: #186766 !important;
+          }
+        }
+        .u-userLauncherColor:not([disabled]):focus {
+          box-shadow: inset 0 0 0 0.21428571428571427rem rgba(24, 103, 102, 0.4) !important;
+        }`;
+
+        it('is calculated to the same color with a darker text color', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+    });
+
+    describe('when the color is not light', () => {
+      let css;
+
+      beforeEach(() => {
+        css = generateUserLauncherCSS('#283646');
+      });
+
+      describe('u-userLauncherColor', () => {
+        const expectedCss = `
+        .u-userLauncherColor:not([disabled]) {
+          background-color: #283646 !important;
+          color: #FFFFFF !important;
+          fill: #FFFFFF !important;
+          svg {
+            color: #FFFFFF !important;
+            fill: #FFFFFF !important;
+          }
+        }
+        .u-userLauncherColor:not([disabled]):focus {
+          box-shadow: inset 0 0 0 0.21428571428571427rem rgba(255, 255, 255, 0.4) !important;
+        }`;
+
+        it('is calculated to the same color with a white highlight', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+    });
+  });
+
   describe('when overriding with zESettings', () => {
     let css;
 
@@ -374,6 +436,58 @@ describe('styles', () => {
       });
     });
 
+    describe('when overriding launcher colours', () => {
+      describe('and the override is valid', () => {
+        const expectedCss = `
+          .u-userLauncherColor:not([disabled]) {
+            background-color: #FFD700 !important;
+            color: #64570E !important;
+            fill: #64570E !important;
+            svg {
+              color: #64570E !important;
+              fill: #64570E !important;
+            }
+          }`;
+
+        it('prefers the launcher colour over the base colour', () => {
+          mockSettingsValue = { color: {
+            theme: baseThemeColor,
+            launcher: '#FFD700'
+          }};
+
+          css = generateUserLauncherCSS();
+
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('and the override is invalid or undefined', () => {
+        const expectedCss = `
+          .u-userLauncherColor:not([disabled]) {
+            background-color: #FF69B4 !important;
+            color: #63163D !important;
+            fill: #63163D !important;
+            svg {
+              color: #63163D !important;
+              fill: #63163D !important;
+            }
+          }`;
+
+        it('falls back to the base colour', () => {
+          mockSettingsValue = { color: {
+            theme: baseThemeColor,
+            launcher: '#SARASA'
+          }};
+
+          css = generateUserLauncherCSS();
+
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+    });
+
     describe('when overriding link colours', () => {
       describe('and the override is valid', () => {
         const expectedCss = `
@@ -474,80 +588,111 @@ describe('styles', () => {
   });
 
   describe('when the color is extremely light (white or almost white)', () => {
-    let css;
+    describe('generateUserWidgetCSS', () => {
+      let css;
 
-    beforeEach(() => {
-      css = generateUserWidgetCSS('#FFFFFF');
-    });
+      beforeEach(() => {
+        css = generateUserWidgetCSS('#FFFFFF');
+      });
 
-    describe('u-userTextColor', () => {
-      const expectedCss = `
-      .u-userTextColor:not([disabled]) {
-        color: #6F6F6F !important;
-        fill: #6F6F6F !important;
-      }
-      .u-userTextColor:not([disabled]):hover,
-      .u-userTextColor:not([disabled]):active,
-      .u-userTextColor:not([disabled]):focus {
-        color: #5E5E5E !important;
-        fill: #5E5E5E !important;
-      }`;
+      describe('u-userTextColor', () => {
+        const expectedCss = `
+        .u-userTextColor:not([disabled]) {
+          color: #6F6F6F !important;
+          fill: #6F6F6F !important;
+        }
+        .u-userTextColor:not([disabled]):hover,
+        .u-userTextColor:not([disabled]):active,
+        .u-userTextColor:not([disabled]):focus {
+          color: #5E5E5E !important;
+          fill: #5E5E5E !important;
+        }`;
 
-      it('is calculated to a darker color with a highlight', () => {
-        expect(trimWhitespace(css))
-          .toContain(trimWhitespace(expectedCss));
+        it('is calculated to a darker color with a highlight', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('u-userBackgroundColor', () => {
+        const expectedCss = `
+        .u-userBackgroundColor:not([disabled]) {
+          background-color: #FFFFFF !important;
+          color: #6F6F6F !important;
+        }
+        .u-userBackgroundColor:not([disabled]):hover,
+        .u-userBackgroundColor:not([disabled]):active,
+        .u-userBackgroundColor:not([disabled]):focus {
+          background-color: #D9D9D9 !important;
+        }`;
+
+        it('is calculated to white and neutral grey for color', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('u-userBorderColor', () => {
+        const expectedCss = `
+        .u-userBorderColor:not([disabled]) {
+          color: #FFFFFF !important;
+          background-color: transparent !important;
+          border-color: #FFFFFF !important;
+        }
+        .u-userBorderColor:not([disabled]):hover,
+        .u-userBorderColor:not([disabled]):active,
+        .u-userBorderColor:not([disabled]):focus {
+          color: #6F6F6F !important;
+          background-color: #FFFFFF !important;
+          border-color: #FFFFFF !important;
+        }`;
+
+        it('is calculated to a lighter color', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('u-userHeaderColor', () => {
+        const expectedCss = `
+        .u-userHeaderColor {
+          background: #FFFFFF !important;
+          color: #6F6F6F !important;
+        }`;
+
+        it('is calculated to the color with a highlight', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
       });
     });
 
-    describe('u-userBackgroundColor', () => {
-      const expectedCss = `
-      .u-userBackgroundColor:not([disabled]) {
-        background-color: #FFFFFF !important;
-        color: #6F6F6F !important;
-      }
-      .u-userBackgroundColor:not([disabled]):hover,
-      .u-userBackgroundColor:not([disabled]):active,
-      .u-userBackgroundColor:not([disabled]):focus {
-        background-color: #D9D9D9 !important;
-      }`;
+    describe('generateUserLauncherCSS', () => {
+      let css;
 
-      it('is calculated to white and neutral grey for color', () => {
-        expect(trimWhitespace(css))
-          .toContain(trimWhitespace(expectedCss));
+      beforeEach(() => {
+        css = generateUserLauncherCSS('#FFFFFF');
       });
-    });
 
-    describe('u-userBorderColor', () => {
-      const expectedCss = `
-      .u-userBorderColor:not([disabled]) {
-        color: #FFFFFF !important;
-        background-color: transparent !important;
-        border-color: #FFFFFF !important;
-      }
-      .u-userBorderColor:not([disabled]):hover,
-      .u-userBorderColor:not([disabled]):active,
-      .u-userBorderColor:not([disabled]):focus {
-        color: #6F6F6F !important;
-        background-color: #FFFFFF !important;
-        border-color: #FFFFFF !important;
-      }`;
+      describe('u-userLauncherColor', () => {
+        const expectedCss = `
+        .u-userLauncherColor:not([disabled]) {
+          background-color: #FFFFFF !important;
+          color: #6F6F6F !important;
+          fill: #6F6F6F !important;
+          svg {
+            color: #6F6F6F !important;
+            fill: #6F6F6F !important;
+          }
+        }
+        .u-userLauncherColor:not([disabled]):focus {
+          box-shadow: inset 0 0 0 0.21428571428571427rem rgba(111, 111, 111, 0.4) !important;
+        }`;
 
-      it('is calculated to a lighter color', () => {
-        expect(trimWhitespace(css))
-          .toContain(trimWhitespace(expectedCss));
-      });
-    });
-
-    describe('u-userHeaderColor', () => {
-      const expectedCss = `
-      .u-userHeaderColor {
-        background: #FFFFFF !important;
-        color: #6F6F6F !important;
-      }`;
-
-      it('is calculated to the color with a highlight', () => {
-        expect(trimWhitespace(css))
-          .toContain(trimWhitespace(expectedCss));
+        it('is calculated to the same color with a darker text and highlight color', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
       });
     });
   });
