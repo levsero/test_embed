@@ -7,7 +7,7 @@ import { FONT_SIZE } from 'constants/shared';
 import { css } from 'styled-components';
 import { isMobileBrowser } from 'utility/devices';
 import { getThemeColor } from 'utility/color/validate';
-import { getColorVariables } from 'utility/color/styles';
+import { getWidgetColorVariables } from 'utility/color/styles';
 
 /* eslint max-len: 0 */
 const isMobile = isMobileBrowser();
@@ -126,7 +126,7 @@ const messageOverrides = isMobile ? css`
   }
 ` : '';
 
-const getButtonOverrides = (colorVariables, themeColor) => {
+const getButtonOverrides = (colorVariables) => {
   return css`
     height: ${38/FONT_SIZE}rem !important;
     font-size: ${isMobile && `${15/FONT_SIZE}rem`} !important;
@@ -136,12 +136,12 @@ const getButtonOverrides = (colorVariables, themeColor) => {
     text-overflow: ellipsis !important;
 
     :not([disabled]) {
-      background-color: ${props => (props.primary) ? themeColor : zdColorWhite} !important;
-      color: ${props => (props.primary) ? colorVariables.buttonTextColorStr : themeColor} !important;
-      border-color: ${themeColor} !important;
+      background-color: ${props => (props.primary) ? colorVariables.buttonColorStr : zdColorWhite} !important;
+      color: ${props => (props.primary) ? colorVariables.buttonTextColorStr : colorVariables.buttonColorStr} !important;
+      border-color: ${colorVariables.buttonColorStr} !important;
 
       &:hover, &:focus, &:active {
-        background-color: ${props => !props.link && ((props.primary) ? colorVariables.buttonHighlightColorStr : themeColor)} !important;
+        background-color: ${props => !props.link && ((props.primary) ? colorVariables.buttonHighlightColorStr : colorVariables.buttonColorStr)} !important;
         color: ${props => !props.link && colorVariables.buttonTextColorStr} !important;
       }
     }
@@ -237,7 +237,7 @@ const talkDropdownOverrides = {
 
 function getGardenOverrides() {
   const themeColor = getThemeColor();
-  const colorVariables = getColorVariables(themeColor);
+  const colorVariables = getWidgetColorVariables(themeColor);
 
   return {
     'textfields.text_group': bottomMargin,
@@ -248,7 +248,7 @@ function getGardenOverrides() {
     'select.message': messageOverrides,
     'checkboxes.message': messageOverrides,
     'textfields.hint': mobileOverrides,
-    'buttons.button': getButtonOverrides(colorVariables, themeColor),
+    'buttons.button': getButtonOverrides(colorVariables),
     'checkboxes.checkbox_view': bottomMargin,
     'checkboxes.label': checkboxLabelOverrides,
     'checkboxes.input': checkboxInputOverrides(themeColor),

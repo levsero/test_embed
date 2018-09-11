@@ -173,7 +173,7 @@ describe('embed.webWidget', () => {
         getZoomSizingRatio: noop
       },
       'utility/color/styles': {
-        generateUserCSS: jasmine.createSpy().and.returnValue('')
+        generateUserWidgetCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue

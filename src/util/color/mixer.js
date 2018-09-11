@@ -1,64 +1,102 @@
 import generateColor from 'color';
 
 export class ColorMixer {
-  static defaultLightYIQ = 190;
-  static almostWhiteYIQ = 240;
+  static highlightBy = { light: 0.1, dark: 0.15 };
+  static mixFactor = 0.25;
+  static darkenFactor = 0.5;
+  static darkenIncreaseBy = 0.1;
+  static luminosityThreshold = 0.15;
 
-  highlightColor = (color) => {
-    return this._getContrastColor(
-      color,
-      this._lightenColor(0.15),
-      this._darkenColor(0.1),
-      this._isLuminosityGreaterThan(0.15)
-    );
-  };
-
-  alphaColor = (color, alpha) => {
-    return generateColor(color).alpha(alpha);
-  };
-
-  buttonColorFrom = (color) => {
-    return this._getContrastColor(
-      color,
-      () => color,
-      () => '#777',
-      this._isColorLight(color, ColorMixer.almostWhiteYIQ)
-    );
-  };
-
-  listColorFrom = (color) => {
-    return this._getContrastColor(color, () => color, this._darkenAndMixColor(0.2, 0.5), this._isColorLight(color));
+  constructor(baseColor) {
+    this.white = generateColor('#FFF');
+    this.black = generateColor('#000');
+    this.neutralColor = generateColor('#7C7C7C');
+    this.baseColor = generateColor(baseColor);
+    this.buttonColor = this.baseColor;
+    this.listColor = this._listColor(this.baseColor);
   }
 
-  foregroundColorFrom = (color) => {
-    return this._getContrastColor(color, () => 'white', this._darkenAndMixColor(0.3, 0.5));
+  getBaseColor = () => {
+    return this.baseColor.hex();
   }
 
-  _darkenColor = (amount) => (color) => color.darken(amount).hexString();
-  _lightenColor = (amount) => (color) => color.lighten(amount).hexString();
+  highlight = (colorStr) => {
+    const color = generateColor(colorStr);
+    const highlighted = this._highlightColor(color);
 
-  _darkenAndMixColor = (mixAmount, darkenAmount, mixColor = 'gray') => (color) => {
-    return color.mix(generateColor(mixColor), mixAmount).darken(darkenAmount).hexString();
-  };
+    return highlighted.hex();
+  }
 
-  _isLuminosityGreaterThan = (amount) => (color) => color.luminosity() > amount;
-
-  _isColorLight = (colorStr, threshold = ColorMixer.defaultLightYIQ) => {
+  alpha = (colorStr, alphaValue) => {
     const color = generateColor(colorStr);
 
-    // YIQ equation from http://24ways.org/2010/calculating-color-contrast
-    const rgb = color.rgb();
-    const redChannel = rgb.r * 299;
-    const greenChannel = rgb.g * 587;
-    const blueChannel = rgb.b * 114;
-    const yiq = (redChannel + greenChannel + blueChannel) / 1000;
+    return color.alpha(alphaValue).string();
+  }
 
-    return yiq > threshold;
-  };
+  getButtonColor = () => {
+    return this.buttonColor.hex();
+  }
 
-  _getContrastColor = (colorStr, lightFn, darkFn, isLight = this._isColorLight(colorStr)) => {
+  getListColor = () => {
+    return this.listColor.hex();
+  }
+
+  uiElementColorFrom = (colorStr) => {
     const color = generateColor(colorStr);
 
-    return isLight ? darkFn(color) : lightFn(color);
-  };
+    return this._uiElementColor(color).hex();
+  }
+
+  foregroundColorFrom = (colorStr) => {
+    const color = generateColor(colorStr);
+
+    return this._foregroundColor(color).hex();
+  }
+
+  _uiElementColor = (color) => {
+    return color.isDark() ? color : this._accentuate(color);
+  }
+
+  _listColor = (color) => {
+    return color.isDark() && this._meetsAccessibilityRequirement(color, this.white)
+      ? color
+      : this._accentuate(color);
+  }
+
+  _foregroundColor = (color) => {
+    return color.isDark() && this._meetsAccessibilityRequirement(color, this.white)
+      ? this.white
+      : this._accentuate(color);
+  }
+
+  _highlightColor = (color) => {
+    const value = ColorMixer.highlightBy;
+
+    return this._isPerceptuallyDark(color)
+      ? color.darken(value.dark)
+      : color.lighten(value.light);
+  }
+
+  _accentuate = (color) => {
+    let tentativeAccentuate = color
+      .mix(this.neutralColor, ColorMixer.mixFactor)
+      .darken(ColorMixer.darkenFactor);
+
+    while (
+      !this._meetsAccessibilityRequirement(color, tentativeAccentuate) &&
+      tentativeAccentuate.hex() !== this.black.hex()
+    ) {
+      tentativeAccentuate = tentativeAccentuate.darken(ColorMixer.darkenIncreaseBy);
+    }
+
+    return tentativeAccentuate;
+  }
+
+  _meetsAccessibilityRequirement = (color, inContrastTo = this.baseColor) => {
+    return color.level(inContrastTo).substring(0, 2) === 'AA';
+  }
+
+  _isPerceptuallyDark = (color) => {
+    return color.luminosity() > ColorMixer.luminosityThreshold;
+  }
 }

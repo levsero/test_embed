@@ -24,7 +24,7 @@ describe('embed.launcher', () => {
         }
       },
       'utility/color/styles': {
-        generateUserCSS: jasmine.createSpy().and.returnValue('')
+        generateUserLauncherCSS: jasmine.createSpy().and.returnValue('')
       },
       'component/Launcher': class extends Component {
         constructor() {

@@ -15,7 +15,7 @@ import Launcher from 'component/Launcher';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
-import { generateUserCSS } from 'utility/color/styles';
+import { generateUserLauncherCSS } from 'utility/color/styles';
 import { isMobileBrowser,
   getZoomSizingRatio } from 'utility/devices';
 import { renewToken } from 'src/redux/modules/base';
@@ -88,7 +88,7 @@ function create(name, config, reduxStore) {
   };
 
   const params = {
-    css: launcherCSS + generateUserCSS(config.color),
+    css: launcherCSS + generateUserLauncherCSS(config.color),
     frameStyleModifier: isMobileBrowser() ? adjustStylesForZoom : adjustWidth,
     frameOffsetWidth,
     frameOffsetHeight: 1,
