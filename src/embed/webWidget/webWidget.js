@@ -148,8 +148,14 @@ export default function WebWidgetFactory(name) {
 
     if (chatAvailable) {
       const authentication = settings.getChatAuthSettings();
+      const { brandCount, brand } = globalConfig;
+      let brandName;
 
-      setupChat({ ...chatConfig, authentication }, reduxStore, globalConfig.brand);
+      if (brandCount > 1 || brandCount === undefined) {
+        brandName = brand;
+      }
+
+      setupChat({ ...chatConfig, authentication }, reduxStore, brandName);
     }
 
     if (talkAvailable) {
