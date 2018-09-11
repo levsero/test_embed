@@ -20,7 +20,7 @@ export class QuickReply extends Component {
     const className = classNames(this.props.className, styles.quickReply);
 
     return (
-      <Button className={className} pill={true} size='small' onClick={this.props.onClick}>
+      <Button className={className} pill={true} onClick={this.props.onClick}>
         {this.props.label}
       </Button>
     );
