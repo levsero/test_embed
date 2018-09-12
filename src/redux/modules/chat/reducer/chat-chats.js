@@ -17,7 +17,7 @@ import {
   CHAT_FILE_REQUEST_FAILURE,
   SET_VISITOR_INFO_REQUEST_SUCCESS
 } from '../chat-action-types';
-import { CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_CONTENT, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import {CHAT_MESSAGE_TYPES, CHAT_CUSTOM_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
 import _ from 'lodash';
 
@@ -51,7 +51,7 @@ const concatQuickReply = (chats, chat) => {
     options: [] // We do not want options for a quick reply message
   };
   const quickReplies = {
-    type: CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES,
+    type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
     nick: chat.nick,
     items: _.values(chat.structured_msg.items),
     timestamp: timestamp + 1

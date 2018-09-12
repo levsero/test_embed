@@ -4,7 +4,7 @@ import {
   AGENT_BOT,
   CHAT_MESSAGE_EVENTS,
   CHAT_SYSTEM_EVENTS,
-  CHAT_STRUCTURED_CONTENT,
+  CHAT_CUSTOM_MESSAGE_EVENTS,
   DEPARTMENT_STATUSES,
   WHITELISTED_SOCIAL_LOGINS } from 'constants/chat';
 import { CHATTING_SCREEN } from './chat-screen-types';
@@ -309,7 +309,7 @@ export const getGroupedChatLog = createSelector(
     );
 
     const isStructuredContent = (messageOrEvent) => (
-      _.includes(CHAT_STRUCTURED_CONTENT, messageOrEvent.type)
+      _.includes(CHAT_CUSTOM_MESSAGE_EVENTS, messageOrEvent.type)
     );
 
     const getGroupTimestamp = (messageOrEvent, groupFirstMessageCandidate) => {
@@ -377,7 +377,7 @@ export const getGroupedChatLog = createSelector(
         latestQuickReplies.hidden = true;
       }
 
-      if (messageOrEvent.type === CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES) {
+      if (messageOrEvent.type === CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES) {
         messageOrEvent.hidden = false;
         this.latestQuickReplies = messageOrEvent;
       }
