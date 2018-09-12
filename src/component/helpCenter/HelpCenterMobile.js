@@ -66,7 +66,7 @@ export class HelpCenterMobile extends Component {
 
     this.state = {
       searchFieldFocused: false,
-      showIntroScreen: !props.contextualHelpEnabled
+      showIntroScreen: !props.contextualHelpEnabled && !props.articleViewActive
     };
 
     this.searchField = null;
