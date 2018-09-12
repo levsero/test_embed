@@ -1,9 +1,15 @@
 import { themeColor, colorFor, defaultColor } from './validate';
 import { ColorMixer } from './mixer';
 import { FONT_SIZE } from 'constants/shared';
+import { settings } from 'service/settings';
 
 function getWidgetColorVariables(color = defaultColor) {
-  const mixer = new ColorMixer(themeColor(color) || defaultColor);
+  const bypassA11y = settings.get('color.bypassAccessibilityRequirement');
+  const mixer = new ColorMixer(
+    themeColor(color) || defaultColor,
+    { bypassA11y: bypassA11y }
+  );
+
   const baseColor = mixer.getBaseColor();
   const baseHighlightColor = mixer.highlight(baseColor);
 
@@ -40,7 +46,12 @@ function getWidgetColorVariables(color = defaultColor) {
 }
 
 function getLauncherColorVariables(color = defaultColor) {
-  const mixer = new ColorMixer(themeColor(color) || defaultColor);
+  const bypassA11y = settings.get('color.bypassAccessibilityRequirement');
+  const mixer = new ColorMixer(
+    themeColor(color) || defaultColor,
+    { bypassA11y: bypassA11y }
+  );
+
   const baseColor = mixer.getBaseColor();
 
   const launcherColorStr = colorFor('launcher', baseColor);

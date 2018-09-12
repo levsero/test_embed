@@ -7,7 +7,8 @@ export class ColorMixer {
   static darkenIncreaseBy = 0.1;
   static luminosityThreshold = 0.15;
 
-  constructor(baseColor) {
+  constructor(baseColor, options = {}) {
+    this.options = options;
     this.white = generateColor('#FFF');
     this.black = generateColor('#000');
     this.neutralColor = generateColor('#7C7C7C');
@@ -93,7 +94,7 @@ export class ColorMixer {
   }
 
   _meetsAccessibilityRequirement = (color, inContrastTo = this.baseColor) => {
-    return color.level(inContrastTo).substring(0, 2) === 'AA';
+    return !!this.options.bypassA11y || color.level(inContrastTo).substring(0, 2) === 'AA';
   }
 
   _isPerceptuallyLight = (color) => {

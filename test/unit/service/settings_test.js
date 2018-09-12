@@ -28,6 +28,9 @@ describe('settings', () => {
       }
     });
     defaults = {
+      color: {
+        bypassAccessibilityRequirement: false
+      },
       contactForm: {
         subject: false,
         attachments: true,
@@ -80,6 +83,11 @@ describe('settings', () => {
       it('has the correct value for helpCenter.originalArticleButton', () => {
         expect(settings.get('helpCenter.originalArticleButton'))
           .toEqual(defaults.helpCenter.originalArticleButton);
+      });
+
+      it('has the correct value for color.bypassAccessibilityRequirement', () => {
+        expect(settings.get('color.bypassAccessibilityRequirement'))
+          .toEqual(defaults.color.bypassAccessibilityRequirement);
       });
 
       it('has the correct value for contactForm.attachments', () => {
