@@ -24,6 +24,7 @@ const optionWhitelist = {
     'color.button',
     'color.header',
     'color.launcher',
+    'color.launcherText',
     'color.articleLinks',
     'color.resultLists',
     'color.bypassAccessibilityRequirement',

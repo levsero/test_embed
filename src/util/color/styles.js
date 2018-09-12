@@ -55,7 +55,10 @@ function getLauncherColorVariables(color = defaultColor) {
   const baseColor = mixer.getBaseColor();
 
   const launcherColorStr = colorFor('launcher', baseColor);
-  const launcherTextColorStr = mixer.foregroundColorFrom(launcherColorStr);
+  const launcherTextColorStr = colorFor(
+    'launcherText',
+    mixer.foregroundColorFrom(launcherColorStr)
+  );
   const launcherFocusRingColorStr = mixer.alpha(launcherTextColorStr, 0.4);
 
   return {
