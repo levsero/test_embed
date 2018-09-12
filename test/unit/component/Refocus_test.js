@@ -22,7 +22,7 @@ describe('Refocus component', () => {
   });
 
   describe('componentDidMount', () => {
-    let element, focusedSpy;
+    let element, focusedSpy, componentObj;
 
     beforeEach(() => {
       focusedSpy = jasmine.createSpy('focus');
@@ -30,7 +30,7 @@ describe('Refocus component', () => {
 
     describe('widgetShown is true', () => {
       beforeEach(() => {
-        testRender(<Refocus widgetShown={true} />, {
+        componentObj = testRender(<Refocus widgetShown={true} />, {
           createNodeMock: () => createNodeMock(element, focusedSpy)
         });
       });
@@ -60,6 +60,23 @@ describe('Refocus component', () => {
       describe('when activeElement is a textarea', () => {
         beforeAll(() => {
           element = 'TEXTAREA';
+        });
+
+        it('this.container doesn\'t receive focus', () => {
+          expect(focusedSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when this.container is the activeElement', () => {
+        beforeAll(() => {
+          // on first load it will focus on itself, test the second update
+          element = 'DIV';
+        });
+
+        beforeEach(() => {
+          focusedSpy.calls.reset();
+          componentObj.update();
         });
 
         it('this.container doesn\'t receive focus', () => {

@@ -22,6 +22,10 @@ export class Refocus extends Component {
     this.focusContainer();
   }
 
+  componentDidUpdate() {
+    this.focusContainer();
+  }
+
   focusContainer = () => {
     if (!this.props.widgetShown) return;
 
@@ -29,7 +33,7 @@ export class Refocus extends Component {
       const activeElem = this.container.ownerDocument.activeElement;
       const reNode = /input|textarea/i;
 
-      if (!reNode.test(activeElem.nodeName)) {
+      if (!reNode.test(activeElem.nodeName) && activeElem !== this.container) {
         this.container.focus();
       }
     }
