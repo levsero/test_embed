@@ -14,6 +14,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ButtonPill } from 'component/button/ButtonPill';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { QuickReply, QuickReplies } from 'component/shared/QuickReplies';
 import { i18n } from 'service/i18n';
 import { isFirefox, isIE } from 'utility/devices';
 import {
@@ -29,7 +30,7 @@ import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { getHasMoreHistory,
   getHistoryRequestStatus,
   getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
-import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
+import {SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS, CHAT_CUSTOM_MESSAGE_EVENTS } from 'constants/chat';
 import { locals as styles } from './ChattingScreen.scss';
 import { isDefaultNickname, isAgent } from 'src/util/chat';
 
@@ -407,6 +408,37 @@ class ChattingScreen extends Component {
     );
   }
 
+  renderQuickReply = () => {
+    const sortedKeys = Object.keys(this.props.chatLog).sort((a, b) => (b - a));
+    const maxKey = sortedKeys[0];
+
+    if (!maxKey) return null;
+
+    let latestChatLog = this.props.chatLog[maxKey][0];
+
+    // If chat.memberjoin is the last chatlog, we check the second last chatlog for quick reply
+    if (latestChatLog.type === 'chat.memberjoin') {
+      latestChatLog = this.props.chatLog[sortedKeys[1]][0];
+    }
+
+    const { timestamp, type, hidden, items } = latestChatLog;
+
+    if (type === CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES && !hidden) {
+      return (
+        <QuickReplies key={timestamp}>
+          {items.map((item, idx) => {
+            const {action, text} = item;
+            const actionFn = () => this.props.sendMsg(action.value);
+
+            return <QuickReply key={idx} label={text} onClick={actionFn} />;
+          })}
+        </QuickReplies>
+      );
+    }
+
+    return null;
+  }
+
   render = () => {
     const { isMobile, sendMsg, loginSettings, visitor, hideZendeskLogo, agentsTyping } = this.props;
     const containerClasses = classNames({
@@ -469,6 +501,8 @@ class ChattingScreen extends Component {
             {this.renderHistoryFetching()}
             {this.renderScrollPill()}
           </div>
+          {this.renderQuickReply()}
+
         </ScrollContainer>
         {this.renderZendeskLogo()}
       </div>

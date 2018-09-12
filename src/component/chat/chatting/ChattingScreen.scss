@@ -101,6 +101,10 @@
   padding-right: #{3/$font-size}rem !important;
 }
 
+.chatLogContainer {
+  min-height: calc(100% - 44px);
+}
+
 .chatLogContainerMobile {
   min-height: 100%;
   display: flex;
