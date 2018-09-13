@@ -32,7 +32,7 @@ const defaultOptions = {
     height: 550
   }
 };
-let preview;
+let preview, frame;
 
 const getComponent = () => {
   return (chatComponent)
@@ -83,6 +83,7 @@ const renderPreview = (options) => {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'chatPreview',
     frameStyle,
+    ref: (el) => { frame = el; },
     disableOffsetHorizontal: true,
     preventClose: true
   };
@@ -94,6 +95,7 @@ const renderPreview = (options) => {
         <Chat
           ref={(chat) => chatComponent = chat}
           updateChatBackButtonVisibility={() => {}}
+          getFrameContentDocument={() => frame.getContentDocument()}
           style={containerStyle} />
       </Container>
     </Frame>
