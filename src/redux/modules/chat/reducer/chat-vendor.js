@@ -1,4 +1,4 @@
-import { CHAT_VENDOR_LOADED } from '../chat-action-types';
+import { CHAT_VENDOR_LOADED, PREVIEWER_LOADED } from '../chat-action-types';
 
 const initialState = {
   zChat: null
@@ -10,6 +10,12 @@ const vendor = (state = initialState, action = {}) => {
   switch (type) {
     case CHAT_VENDOR_LOADED:
       return { ...state, ...payload };
+    case PREVIEWER_LOADED:
+      return {
+        zChat: {
+          getAuthLoginUrl: () => ''
+        }
+      };
     default:
       return state;
   }
