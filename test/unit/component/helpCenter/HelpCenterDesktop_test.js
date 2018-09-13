@@ -163,11 +163,13 @@ describe('HelpCenterDesktop component', () => {
 
     describe('height of HC', () => {
       let helpCenterDesktop,
+        mockArticleViewActive,
         mockHasSearched;
 
       beforeEach(() => {
         helpCenterDesktop = domRender(
           <HelpCenterDesktop
+            articleViewActive={mockArticleViewActive}
             hasSearched={mockHasSearched} />
         );
 
@@ -190,9 +192,26 @@ describe('HelpCenterDesktop component', () => {
         });
       });
 
-      describe('when hasSearched is false', () => {
+      describe('when articleViewActive is true', () => {
+        beforeAll(() => {
+          mockArticleViewActive = true;
+        });
+
+        it('does not apply any custom height classes', () => {
+          expect(result.props.children[0].props.classes)
+            .toEqual('');
+        });
+
+        it('passes undefined through as maxHeight prop to scrollContainer', () => {
+          expect(result.props.children[0].props.maxHeight)
+            .toEqual(undefined);
+        });
+      });
+
+      describe('when hasSearched and mock article view active are false', () => {
         beforeAll(() => {
           mockHasSearched = false;
+          mockArticleViewActive = false;
         });
 
         it('does not render the new 550px height', () => {
@@ -260,6 +279,45 @@ describe('HelpCenterDesktop component', () => {
         });
 
         it('should pass footerLogo class to ScrollContainer', () => {
+          expect(footerClasses)
+            .toBe('footerLogoClasses');
+        });
+      });
+    });
+
+    describe('when props.showNextButton is false and props.articleViewActive is true', () => {
+      describe('when zendesk logo is hidden', () => {
+        beforeEach(() => {
+          helpCenterDesktop = domRender(
+            <HelpCenterDesktop
+              notification={mockNotification}
+              showNextButton={false}
+              articleViewActive={true}
+              hideZendeskLogo={true} />
+          );
+          footerClasses = helpCenterDesktop.refs.scrollContainer.props.footerClasses;
+        });
+
+        it('passes footerArticleView class to ScrollContainer', () => {
+          expect(footerClasses)
+            .toBe('footerArticleViewClasses');
+        });
+      });
+
+      describe('when zendesk logo is not hidden', () => {
+        beforeEach(() => {
+          helpCenterDesktop = domRender(
+            <HelpCenterDesktop
+              notification={mockNotification}
+              showNextButton={false}
+              hasSearched={true}
+              articleViewActive={true}
+              hideZendeskLogo={false} />
+          );
+          footerClasses = helpCenterDesktop.refs.scrollContainer.props.footerClasses;
+        });
+
+        it('passes footerLogo class to ScrollContainer', () => {
           expect(footerClasses)
             .toBe('footerLogoClasses');
         });

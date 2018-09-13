@@ -184,10 +184,11 @@ export class HelpCenterDesktop extends Component {
   }
 
   render = () => {
-    const customHeightClasses = !this.props.hasSearched ? styles.noCustomHeight : '';
+    const fullHeight = this.props.hasSearched || this.props.articleViewActive;
+    const customHeightClasses = !fullHeight ? styles.noCustomHeight : '';
     let footerClasses = '';
 
-    if (!this.props.showNextButton && this.props.hasSearched) {
+    if (!this.props.showNextButton && fullHeight) {
       if (this.props.articleViewActive && this.props.hideZendeskLogo) {
         footerClasses = styles.footerArticleView;
       } else {
@@ -202,7 +203,7 @@ export class HelpCenterDesktop extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           classes={customHeightClasses}
-          maxHeight={this.props.hasSearched ? undefined : MAX_WIDGET_HEIGHT_NO_SEARCH}
+          maxHeight={fullHeight ? undefined : MAX_WIDGET_HEIGHT_NO_SEARCH}
           footerClasses={footerClasses}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}>
