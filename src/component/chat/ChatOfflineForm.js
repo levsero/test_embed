@@ -134,6 +134,8 @@ export class ChatOfflineForm extends Component {
   }
 
   renderPhoneNumberField() {
+    if (_.get(this.props.formFields, 'phone.hidden')) return null;
+
     const isRequired = !!_.get(this.props.formFields, 'phone.required');
     const value = this.props.formState.phone;
     const error = this.renderErrorMessage(value,
