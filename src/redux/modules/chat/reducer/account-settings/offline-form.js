@@ -8,7 +8,8 @@ const initialState = {
     phone: { name: 'phone', required: false },
     message: { name: 'message', required: false }
   },
-  enabled: false
+  enabled: false,
+  message: ''
 };
 
 const offlineForm = (state = initialState, action) => {

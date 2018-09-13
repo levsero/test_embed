@@ -786,12 +786,13 @@ describe('ChatOfflineForm component', () => {
   });
 
   describe('renderOfflineGreeting', () => {
-    let result;
+    let result, greeting = '';
 
     beforeEach(() => {
       const component = instanceRender(
         <ChatOfflineForm
           formState={initialFormState}
+          greeting={greeting}
           offlineMessage={{ screen: 'main' }} />
       );
 
@@ -806,6 +807,28 @@ describe('ChatOfflineForm component', () => {
     it('has the right className', () => {
       expect(result.props.className)
         .toEqual('offlineGreetingClass');
+    });
+
+    describe('when a greeting is passed in', () => {
+      beforeAll(() => {
+        greeting = 'Show me what you got!';
+      });
+
+      it('uses the greeting passed in', () => {
+        expect(result.props.children)
+          .toEqual('Show me what you got!');
+      });
+    });
+
+    describe('when a greeting is not passed in', () => {
+      beforeAll(() => {
+        greeting = '';
+      });
+
+      it('uses the default greeting', () => {
+        expect(result.props.children)
+          .toEqual('embeddable_framework.chat.preChat.offline.greeting');
+      });
     });
   });
 
