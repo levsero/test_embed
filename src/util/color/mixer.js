@@ -2,10 +2,12 @@ import generateColor from 'color';
 
 export class ColorMixer {
   static highlightBy = { light: 0.1, dark: 0.15 };
+  static yiqValues = { r: 299, g: 587, b: 114 };
   static mixFactor = 0.25;
   static darkenFactor = 0.5;
   static darkenIncreaseBy = 0.1;
   static luminosityThreshold = 0.15;
+  static almostWhiteYIQ = 240;
 
   constructor(baseColor, options = {}) {
     this.options = options;
@@ -13,7 +15,7 @@ export class ColorMixer {
     this.black = generateColor('#000');
     this.neutralColor = generateColor('#7C7C7C');
     this.baseColor = generateColor(baseColor);
-    this.buttonColor = this.baseColor;
+    this.buttonColor = this._buttonColor(this.baseColor);
     this.listColor = this._listColor(this.baseColor);
   }
 
@@ -58,6 +60,12 @@ export class ColorMixer {
     return color.isDark() ? color : this._accentuate(color);
   }
 
+  _buttonColor = (color) => {
+    return this._isAlmostWhite(color)
+      ? this.neutralColor
+      : color;
+  }
+
   _listColor = (color) => {
     return color.isDark() && this._meetsAccessibilityRequirement(color, this.white)
       ? color
@@ -97,7 +105,15 @@ export class ColorMixer {
     return !!this.options.bypassA11y || color.level(inContrastTo).substring(0, 2) === 'AA';
   }
 
-  _isPerceptuallyLight = (color) => {
-    return color.luminosity() > ColorMixer.luminosityThreshold;
+  _isPerceptuallyLight = (color, threshold = ColorMixer.luminosityThreshold) => {
+    return color.luminosity() > threshold;
+  }
+
+  _isAlmostWhite = (color) => {
+    const rgb = color.rgb().color;
+    const values = ColorMixer.yiqValues;
+    const yiq = (rgb[0] * values.r + rgb[1] * values.g + rgb[2] * values.b) / 1000;
+
+    return yiq > ColorMixer.almostWhiteYIQ;
   }
 }

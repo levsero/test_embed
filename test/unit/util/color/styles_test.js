@@ -617,16 +617,16 @@ describe('styles', () => {
       describe('u-userBackgroundColor', () => {
         const expectedCss = `
         .u-userBackgroundColor:not([disabled]) {
-          background-color: #FFFFFF !important;
-          color: #6F6F6F !important;
+          background-color: #7C7C7C !important;
+          color: #121212 !important;
         }
         .u-userBackgroundColor:not([disabled]):hover,
         .u-userBackgroundColor:not([disabled]):active,
         .u-userBackgroundColor:not([disabled]):focus {
-          background-color: #D9D9D9 !important;
+          background-color: #696969 !important;
         }`;
 
-        it('is calculated to white and neutral grey for color', () => {
+        it('is calculated to neutral grey and accessible dark for color', () => {
           expect(trimWhitespace(css))
             .toContain(trimWhitespace(expectedCss));
         });
@@ -635,19 +635,19 @@ describe('styles', () => {
       describe('u-userBorderColor', () => {
         const expectedCss = `
         .u-userBorderColor:not([disabled]) {
-          color: #FFFFFF !important;
+          color: #7C7C7C !important;
           background-color: transparent !important;
-          border-color: #FFFFFF !important;
+          border-color: #7C7C7C !important;
         }
         .u-userBorderColor:not([disabled]):hover,
         .u-userBorderColor:not([disabled]):active,
         .u-userBorderColor:not([disabled]):focus {
-          color: #6F6F6F !important;
-          background-color: #FFFFFF !important;
-          border-color: #FFFFFF !important;
+          color: #121212 !important;
+          background-color: #7C7C7C !important;
+          border-color: #7C7C7C !important;
         }`;
 
-        it('is calculated to a lighter color', () => {
+        it('is calculated to neutral grey and accessible dark for color', () => {
           expect(trimWhitespace(css))
             .toContain(trimWhitespace(expectedCss));
         });

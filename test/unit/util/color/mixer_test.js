@@ -81,8 +81,20 @@ describe('ColorMixer', () => {
   });
 
   describe('#getButtonColor', () => {
-    it('returns the same colour as the base', () => {
-      expect(mixer.getButtonColor()).toEqual('#3ACCF5');
+    describe('when the colour is not extremely light', () => {
+      it('returns the same colour as the base', () => {
+        expect(mixer.getButtonColor()).toEqual('#3ACCF5');
+      });
+    });
+
+    describe('when the colour is extremely light or white', () => {
+      beforeEach(() => {
+        mixer = new colorMixer('#FFFFFF');
+      });
+
+      it('returns a neutral grey', () => {
+        expect(mixer.getButtonColor()).toEqual('#7C7C7C');
+      });
     });
   });
 
