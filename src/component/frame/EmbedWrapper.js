@@ -79,7 +79,11 @@ export class EmbedWrapper extends Component {
     // Due to the tabIndex switching based on visibility
     // we need to move focus on the next tick
     setTimeout(() => {
-      getDocumentHost().querySelector('#launcher').contentDocument.querySelector('button').focus();
+      const doc = getDocumentHost().querySelector('#launcher');
+
+      if (doc) {
+        doc.contentDocument.querySelector('button').focus();
+      }
     }, 0);
   }
 
