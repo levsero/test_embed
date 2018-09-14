@@ -1,9 +1,9 @@
 describe('Refocus component', () => {
   let Refocus;
   const refocusPath = buildSrcPath('component/Refocus');
-  const createNodeMock = (nodeName, focusSpy) => ({
+  const createNodeMock = (nodeName, focusSpy, gardenId) => ({
     ownerDocument: {
-      activeElement: { nodeName }
+      activeElement: { nodeName, dataset: { gardenId } }
     },
     focus: focusSpy
   });
@@ -22,7 +22,7 @@ describe('Refocus component', () => {
   });
 
   describe('componentDidMount', () => {
-    let element, focusedSpy, componentObj;
+    let element, gardenId, focusedSpy, componentObj;
 
     beforeEach(() => {
       focusedSpy = jasmine.createSpy('focus');
@@ -31,7 +31,7 @@ describe('Refocus component', () => {
     describe('widgetShown is true', () => {
       beforeEach(() => {
         componentObj = testRender(<Refocus widgetShown={true} />, {
-          createNodeMock: () => createNodeMock(element, focusedSpy)
+          createNodeMock: () => createNodeMock(element, focusedSpy, gardenId)
         });
       });
 
@@ -60,6 +60,18 @@ describe('Refocus component', () => {
       describe('when activeElement is a textarea', () => {
         beforeAll(() => {
           element = 'TEXTAREA';
+        });
+
+        it('this.container doesn\'t receive focus', () => {
+          expect(focusedSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when activeElement is a garden select field', () => {
+        beforeAll(() => {
+          element = 'DIV';
+          gardenId = 'select.select_view';
         });
 
         it('this.container doesn\'t receive focus', () => {
