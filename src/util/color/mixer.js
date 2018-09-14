@@ -1,5 +1,7 @@
 import generateColor from 'color';
 
+let instance = null;
+
 export class ColorMixer {
   static highlightBy = { light: 0.1, dark: 0.15 };
   static yiqValues = { r: 299, g: 587, b: 114 };
@@ -11,6 +13,8 @@ export class ColorMixer {
   static defaultLightYIQ = 190;
 
   constructor(baseColor, options = {}) {
+    if(!!instance) return instance;
+
     this.accents = {};
     this.options = options;
     this.white = generateColor('#FFF');
@@ -20,6 +24,7 @@ export class ColorMixer {
 
     this.buttonColor = this._buttonColor(this.baseColor);
     this.listColor = this._listColor(this.baseColor);
+    instance = this;
   }
 
   getBaseColor = () => {
