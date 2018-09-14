@@ -87,7 +87,10 @@ export class SubmitTicketForm extends Component {
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
     this.prefillFormState();
-    this.updateForm();
+
+    const form = ReactDOM.findDOMNode(this.refs.form);
+
+    this.updateFormValidity(form);
   }
 
   componentDidUpdate = () => {
@@ -266,10 +269,7 @@ export class SubmitTicketForm extends Component {
       : true;
   }
 
-  updateForm = () => {
-    const form = ReactDOM.findDOMNode(this.refs.form);
-
-    this.props.setFormState(this.getFormState());
+  updateFormValidity = (form) => {
     // The `checkValidity` is not available on the form dom element created
     // by jsdom during unit testing. This sanity check allows our unit tests to pass.
     // See this Github issue: https://github.com/tmpvar/jsdom/issues/544
@@ -279,13 +279,19 @@ export class SubmitTicketForm extends Component {
     });
   }
 
+  updateForm = () => {
+    const form = ReactDOM.findDOMNode(this.refs.form);
+
+    this.props.setFormState(this.getFormState());
+    this.updateFormValidity(form);
+  }
+
   resetState = () => {
     this.setState(initialState);
   }
 
   handleOnDrop = (files) => {
     this.refs.attachments.handleOnDrop(files);
-
     setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0);
   }
 
