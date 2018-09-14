@@ -8,13 +8,16 @@ export class ColorMixer {
   static darkenIncreaseBy = 0.1;
   static luminosityThreshold = 0.15;
   static almostWhiteYIQ = 240;
+  static defaultLightYIQ = 190;
 
   constructor(baseColor, options = {}) {
+    this.accents = {};
     this.options = options;
     this.white = generateColor('#FFF');
     this.black = generateColor('#000');
     this.neutralColor = generateColor('#7C7C7C');
     this.baseColor = generateColor(baseColor);
+
     this.buttonColor = this._buttonColor(this.baseColor);
     this.listColor = this._listColor(this.baseColor);
   }
@@ -57,7 +60,7 @@ export class ColorMixer {
   }
 
   _uiElementColor = (color) => {
-    return color.isDark() ? color : this._accentuate(color);
+    return !this._isLight(color) ? color : this._accentuate(color);
   }
 
   _buttonColor = (color) => {
@@ -67,13 +70,13 @@ export class ColorMixer {
   }
 
   _listColor = (color) => {
-    return color.isDark() && this._meetsAccessibilityRequirement(color, this.white)
+    return !this._isLight(color) && this._meetsAccessibilityRequirement(color, this.white)
       ? color
       : this._accentuate(color);
   }
 
   _foregroundColor = (color) => {
-    return color.isDark() && this._meetsAccessibilityRequirement(color, this.white)
+    return !this._isLight(color) && this._meetsAccessibilityRequirement(color, this.white)
       ? this.white
       : this._accentuate(color);
   }
@@ -81,12 +84,14 @@ export class ColorMixer {
   _highlightColor = (color) => {
     const value = ColorMixer.highlightBy;
 
-    return this._isPerceptuallyLight(color)
+    return this._isLight(color)
       ? color.darken(value.dark)
       : color.lighten(value.light);
   }
 
   _accentuate = (color) => {
+    if(!!this.accents[color.hex()]) return this.accents[color.hex()];
+
     let tentativeAccentuate = color
       .mix(this.neutralColor, ColorMixer.mixFactor)
       .darken(ColorMixer.darkenFactor);
@@ -98,6 +103,8 @@ export class ColorMixer {
       tentativeAccentuate = tentativeAccentuate.darken(ColorMixer.darkenIncreaseBy);
     }
 
+    this.accents[color.hex()] = tentativeAccentuate;
+
     return tentativeAccentuate;
   }
 
@@ -105,15 +112,15 @@ export class ColorMixer {
     return !!this.options.bypassA11y || color.level(inContrastTo).substring(0, 2) === 'AA';
   }
 
-  _isPerceptuallyLight = (color, threshold = ColorMixer.luminosityThreshold) => {
-    return color.luminosity() > threshold;
+  _isAlmostWhite = (color) => {
+    return this._isLight(color, ColorMixer.almostWhiteYIQ);
   }
 
-  _isAlmostWhite = (color) => {
+  _isLight = (color, threshold = ColorMixer.defaultLightYIQ) => {
     const rgb = color.rgb().color;
     const values = ColorMixer.yiqValues;
     const yiq = (rgb[0] * values.r + rgb[1] * values.g + rgb[2] * values.b) / 1000;
 
-    return yiq > ColorMixer.almostWhiteYIQ;
+    return yiq > threshold;
   }
 }
