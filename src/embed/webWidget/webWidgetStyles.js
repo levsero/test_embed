@@ -38,7 +38,7 @@ import AgentScreenStyles from 'component/chat/agents/AgentScreen.scss';
 import RatingScreenStyles from 'component/chat/rating/RatingScreen.scss';
 import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss';
 import ContainerStyles from 'component/container/Container.scss';
-import NestedDropdownStyles from 'component/field/NestedDropdown.scss';
+import NestedDropdownStyles from 'component/field/Dropdown/NestedDropdown.scss';
 import FlagStyles from 'component/Flag.scss';
 import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.scss';
 import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss';

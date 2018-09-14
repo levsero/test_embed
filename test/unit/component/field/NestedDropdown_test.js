@@ -2,7 +2,7 @@ describe('NestedDropdown component', () => {
   let NestedDropdown,
     mockOptions = [
       {
-        name: 'pizza',
+        name: 'pizzaName',
         value: 'pizza'
       },
       {
@@ -39,7 +39,9 @@ describe('NestedDropdown component', () => {
   const Separator = noopReactComponent();
   const Message = noopReactComponent();
   const Icon = noopReactComponent();
-  const nestedDropdownPath = buildSrcPath('component/field/NestedDropdown');
+  const nestedDropdownPath = buildSrcPath('component/field/Dropdown/NestedDropdown');
+  const optionNodePath = buildSrcPath('component/field/Dropdown/OptionNode');
+  const OptionNode = requireUncached(optionNodePath);
 
   beforeEach(() => {
     mockery.enable();
@@ -70,6 +72,7 @@ describe('NestedDropdown component', () => {
       'constants/shared': {
         FONT_SIZE: 14
       },
+      'component/field/Dropdown/OptionNode': OptionNode
     });
 
     mockery.registerAllowable(nestedDropdownPath);
@@ -91,13 +94,24 @@ describe('NestedDropdown component', () => {
         );
       });
 
-      it('selectedKey is undefined', () => {
-        expect(component.state.selectedKey)
-          .toEqual(undefined);
+      it('selectedValue is empty', () => {
+        expect(component.state.selectedValue)
+          .toEqual('');
       });
 
-      it('displayedKey is an empty string', () => {
-        expect(component.state.displayedKey)
+      it('displayedName is -', () => {
+        expect(component.state.displayedName)
+          .toEqual('-');
+      });
+
+      it('viewableNode points to the root node', () => {
+        expect(component.state.viewableNode.parentNode)
+          .toBeNull();
+
+        expect(component.state.viewableNode.name)
+          .toEqual('');
+
+        expect(component.state.viewableNode.value)
           .toEqual('');
       });
     });
@@ -105,206 +119,426 @@ describe('NestedDropdown component', () => {
     describe('when a defaultOption is passed in', () => {
       beforeEach(() => {
         component = instanceRender(
-          <NestedDropdown options={mockOptions} defaultOption={{ name: 'pizza', value: 'pizza' }} />
+          <NestedDropdown options={mockOptions} defaultOption={{ name: 'pizzaName', value: 'pizza' }} />
         );
       });
 
-      it('selectedKey is set to the value of the defaultOption', () => {
-        expect(component.state.selectedKey)
+      it('uses provided value', () => {
+        expect(component.state.selectedValue)
           .toEqual('pizza');
       });
 
-      it('displayedKey is set to the value of the defaultOption', () => {
-        expect(component.state.displayedKey)
+      it('uses provided name', () => {
+        expect(component.state.displayedName)
+          .toEqual('pizzaName');
+      });
+
+      it('viewableNode points to the parent of default option', () => {
+        expect(component.state.viewableNode.parentNode)
+          .toBeNull();
+
+        expect(component.state.viewableNode.name)
+          .toEqual('');
+
+        expect(component.state.viewableNode.value)
+          .toEqual('');
+
+        expect(component.state.viewableNode.getChildNode('pizzaName').name)
+          .toEqual('pizzaName');
+
+        expect(component.state.viewableNode.getChildNode('pizzaName').value)
           .toEqual('pizza');
       });
     });
   });
 
-  describe('instance variables', () => {
-    let component,
-      options,
-      items,
-      topLevelMenu;
+  describe('populateGraph', () => {
+    let rootNode,
+      component;
 
     beforeEach(() => {
       component = instanceRender(
         <NestedDropdown options={mockOptions} />
       );
-      options = component.options;
-      items = component.items;
-      topLevelMenu = component.topLevelMenu;
+      rootNode = component.rootNode;
     });
 
-    describe('options', () => {
-      it('equals the options grouped by their name value', () => {
-        expect(options)
-          .toEqual({
-            'pizza': { name: 'pizza', value: 'pizza' },
-            'ice cream': { name: 'ice cream', value: 'ice cream' },
-            'ice': { name: 'ice', value: 'ice' },
-            'fruits': { name: 'fruits', value: 'fruits-nested' },
-            'fruits::apple': { name: 'fruits::apple', value: 'fruits__apple', default: true },
-            'fruits::banana': { name: 'fruits::banana', value: 'fruits__banana' },
-            'vegetable::carrot': { name: 'vegetable::carrot', value: 'vegetable__carrot' },
-            'vegetable': { name: 'vegetable', value: 'vegetable' }
-          });
-      });
+    it('renders the pizzaName option correctly', () => {
+      const optionNode = rootNode.getChildNode('pizzaName');
+
+      expect(optionNode.name)
+        .toEqual('pizzaName');
+
+      expect(optionNode.value)
+        .toEqual('pizza');
+
+      expect(optionNode.hasChildren())
+        .toEqual(false);
     });
 
-    describe('items', () => {
-      it('equals the options converted to the correct item type', () => {
-        _.forEach(items, (option, key) => {
-          const nextItemKeys = key === 'vegetable' || key === 'fruits';
+    it('renders the ice cream option correctly', () => {
+      const optionNode = rootNode.getChildNode('ice cream');
 
-          expect(TestUtils.isElementOfType(option, nextItemKeys ? NextItem : Item))
-            .toEqual(true);
-        });
-      });
+      expect(optionNode.name)
+        .toEqual('ice cream');
+
+      expect(optionNode.value)
+        .toEqual('ice cream');
+
+      expect(optionNode.hasChildren())
+        .toEqual(false);
     });
 
-    describe('topLevelMenu', () => {
-      it('equals just the items in the initial menu screen', () => {
-        expect(topLevelMenu.length)
-          .toEqual(5);
-      });
+    it('renders the ice option correctly', () => {
+      const optionNode = rootNode.getChildNode('ice');
+
+      expect(optionNode.name)
+        .toEqual('ice');
+
+      expect(optionNode.value)
+        .toEqual('ice');
+
+      expect(optionNode.hasChildren())
+        .toEqual(false);
+    });
+
+    it('renders the vegetable nested (selectable) option correctly', () => {
+      const optionNode = rootNode.getChildNode('vegetable');
+
+      expect(optionNode.name)
+        .toEqual('vegetable');
+
+      expect(optionNode.value)
+        .toEqual('vegetable');
+
+      expect(optionNode.hasChildren())
+        .toEqual(true);
+    });
+
+    it('renders the carrot option correctly', () => {
+      const optionNode = rootNode.getChildNode('vegetable').getChildNode('carrot');
+
+      expect(optionNode.name)
+        .toEqual('carrot');
+
+      expect(optionNode.value)
+        .toEqual('vegetable__carrot');
+
+      expect(optionNode.hasChildren())
+        .toEqual(false);
+    });
+
+    it('renders the fruits nested (not selectable) option correctly', () => {
+      const optionNode = rootNode.getChildNode('fruits');
+
+      expect(optionNode.name)
+        .toEqual('fruits');
+
+      expect(optionNode.value)
+        .toEqual('fruits-nested');
+
+      expect(optionNode.hasChildren())
+        .toEqual(true);
+    });
+
+    it('renders the apple option correctly', () => {
+      const optionNode = rootNode.getChildNode('fruits').getChildNode('apple');
+
+      expect(optionNode.name)
+        .toEqual('apple');
+
+      expect(optionNode.value)
+        .toEqual('fruits__apple');
+
+      expect(optionNode.hasChildren())
+        .toEqual(false);
+    });
+
+    it('renders the banana option correctly', () => {
+      const optionNode = rootNode.getChildNode('fruits').getChildNode('banana');
+
+      expect(optionNode.name)
+        .toEqual('banana');
+
+      expect(optionNode.value)
+        .toEqual('fruits__banana');
+
+      expect(optionNode.hasChildren())
+        .toEqual(false);
+    });
+
+    it('does not render an incorrect deep option', () => {
+      const optionNode = rootNode.getChildNode('fruits').getChildNode('carrot');
+
+      expect(optionNode)
+        .toBeUndefined();
     });
   });
 
-  describe('handleChange', () => {
+  describe('handleSelectedItem', () => {
     let component,
-      selectedKey;
+      selectedKey,
+      mockDisplayedName,
+      mockSelectedValue,
+      mockNode;
     const onChangeSpy = jasmine.createSpy('onChange');
 
-    beforeEach(() => {
-      jasmine.clock().install();
+    beforeAll(() => {
       component = instanceRender(
         <NestedDropdown options={mockOptions} onChange={onChangeSpy} />
       );
-      component.setState({ displayedKey: 'initial' });
-      component.handleChange(selectedKey);
+    });
+
+    beforeEach(() => {
+      jasmine.clock().install();
+
+      component.setState({
+        displayeName: mockDisplayedName,
+        selectedValue: mockSelectedValue,
+        viewableNode: mockNode
+      });
+      component.handleSelectedItem(selectedKey);
     });
 
     afterEach(() => {
       jasmine.clock().uninstall();
     });
 
-    it('calls props.onChange', () => {
-      jasmine.clock().tick();
-
-      expect(onChangeSpy)
-        .toHaveBeenCalled();
-    });
-
-    describe('when a key with -prev is passed in', () => {
+    describe('when item selected is a leaf', () => {
       beforeAll(() => {
-        selectedKey = 'apple-prev';
+        mockDisplayedName = '';
+        mockSelectedValue = '';
+        mockNode = component.rootNode;
+        selectedKey = 'pizzaName';
       });
 
-      it('strips off the -prev and saves it as the selectedKey state', () => {
-        expect(component.state.selectedKey)
-          .toEqual('apple');
-      });
-
-      it('does not change the state of the displayedKey', () => {
-        expect(component.state.displayedKey)
-          .toEqual('initial');
-      });
-    });
-
-    describe('when a key with -next is passed in', () => {
-      beforeAll(() => {
-        selectedKey = 'fruit-next';
-      });
-
-      it('strips off the -next and saves it as the selectedKey state', () => {
-        expect(component.state.selectedKey)
-          .toEqual('fruit');
-      });
-
-      it('does not change the state of the displayedKey', () => {
-        expect(component.state.displayedKey)
-          .toEqual('initial');
-      });
-    });
-
-    describe('when another key is passed in', () => {
-      beforeAll(() => {
-        selectedKey = 'pizza';
-      });
-
-      it('saves it as the selectedKey state', () => {
-        expect(component.state.selectedKey)
+      it('updates selected value', () => {
+        expect(component.state.selectedValue)
           .toEqual('pizza');
       });
 
-      it('saves it as the displayedKey state', () => {
-        expect(component.state.displayedKey)
-          .toEqual('pizza');
+      it('updates the displayedName', () => {
+        expect(component.state.displayedName)
+          .toEqual('pizzaName');
+      });
+
+      it('does not update viewableNode since selected item is a leaf node', () => {
+        expect(component.state.viewableNode)
+          .toEqual(mockNode);
+      });
+
+      it('calls props.onChange', () => {
+        jasmine.clock().tick();
+
+        expect(onChangeSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when item selected is not a leaf and not selectable', () => {
+      beforeAll(() => {
+        mockDisplayedName = '';
+        mockSelectedValue = 'someVal';
+        mockNode = component.rootNode;
+        selectedKey = 'fruits';
+      });
+
+      it('updates selected value to be nothing since the option is not selectable', () => {
+        expect(component.state.selectedValue)
+          .toEqual('');
+      });
+
+      it('updates the displayedName', () => {
+        expect(component.state.displayedName)
+          .toEqual('fruits');
+      });
+
+      it('updates viewableNode since selected value is not a leaf', () => {
+        expect(component.state.viewableNode)
+          .toEqual(mockNode.getChildNode('fruits'));
+      });
+
+      it('calls props.onChange', () => {
+        jasmine.clock().tick();
+
+        expect(onChangeSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when item selected is not a leaf and selectable', () => {
+      beforeAll(() => {
+        mockDisplayedName = '';
+        mockSelectedValue = 'someVal';
+        mockNode = component.rootNode;
+        selectedKey = 'vegetable';
+      });
+
+      it('updates selected value since it is selectable', () => {
+        expect(component.state.selectedValue)
+          .toEqual('vegetable');
+      });
+
+      it('updates the displayedName', () => {
+        expect(component.state.displayedName)
+          .toEqual('vegetable');
+      });
+
+      it('updates viewableNode since selected value is not a leaf', () => {
+        expect(component.state.viewableNode)
+          .toEqual(mockNode.getChildNode('vegetable'));
+      });
+
+      it('calls props.onChange', () => {
+        jasmine.clock().tick();
+
+        expect(onChangeSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when item selected is parent', () => {
+      beforeAll(() => {
+        mockDisplayedName = 'apple';
+        mockSelectedValue = 'fruits__apple';
+        mockNode = component.rootNode.getChildNode('fruits');
+        selectedKey = '--prev';
+      });
+
+      it('updates selected value', () => {
+        expect(component.state.selectedValue)
+          .toEqual('');
+      });
+
+      it('updates the displayedName', () => {
+        expect(component.state.displayedName)
+          .toEqual('');
+      });
+
+      it('updates viewableNode since selected value is not a leaf', () => {
+        expect(component.state.viewableNode)
+          .toEqual(mockNode.parentNode);
+      });
+
+      it('calls props.onChange', () => {
+        jasmine.clock().tick();
+
+        expect(onChangeSpy)
+          .toHaveBeenCalled();
       });
     });
   });
 
-  describe('renderMenuItems', () => {
+  describe('renderCurrentLevelItems', () => {
     let component,
-      selectedKey,
       menuItems;
 
     beforeEach(() => {
       component = domRender(
         <NestedDropdown options={mockOptions} />
       );
-      menuItems = component.renderMenuItems(selectedKey);
     });
 
-    describe('when selectedKey is undefined', () => {
-      beforeAll(() => {
-        selectedKey = undefined;
+    describe('when viewableNode is not at root level', () => {
+      beforeEach(() => {
+        component.state.viewableNode = component.rootNode.getChildNode('fruits');
+        menuItems = component.renderCurrentLevelItems();
       });
 
-      it('returns the top level items', () => {
-        expect(menuItems)
-          .toEqual(component.topLevelMenu);
-      });
-    });
-
-    describe('when selectedKey is an NextItem with nested items', () => {
-      beforeAll(() => {
-        selectedKey = 'vegetable';
-      });
-
-      it('returns the menu containing the nested items', () => {
-        expect(menuItems.length)
-          .toEqual(3);
-      });
-
-      it('has a PreviousItem as the first element', () => {
+      it('renders previous item', () => {
         expect(TestUtils.isElementOfType(menuItems[0], PreviousItem))
           .toEqual(true);
+        expect(menuItems[0].key)
+          .toEqual('--prev');
+        expect(menuItems[0].props.children[1])
+          .toEqual('fruits');
       });
 
-      it('has a Seperator as the second element', () => {
+      it('renders Separator', () => {
         expect(TestUtils.isElementOfType(menuItems[1], Separator))
           .toEqual(true);
+        expect(menuItems[1].key)
+          .toEqual('fruits--separator');
       });
 
-      it('has a Item as the third element', () => {
+      it('renders the apple child item', () => {
         expect(TestUtils.isElementOfType(menuItems[2], Item))
           .toEqual(true);
+        expect(menuItems[2].key)
+          .toEqual('apple');
+        expect(menuItems[2].props.children)
+          .toEqual('apple');
+      });
+
+      it('renders the banana child item', () => {
+        expect(TestUtils.isElementOfType(menuItems[3], Item))
+          .toEqual(true);
+        expect(menuItems[3].key)
+          .toEqual('banana');
+        expect(menuItems[3].props.children)
+          .toEqual('banana');
       });
     });
 
-    describe('when selectedKey is an Item within a nested menu', () => {
-      beforeAll(() => {
-        selectedKey = 'vegetable__carrot';
+    describe('when viewableNode is at root level', () => {
+      beforeEach(() => {
+        component.state.viewableNode = component.rootNode;
+        menuItems = component.renderCurrentLevelItems();
       });
 
-      it('returns the currently nested menu', () => {
-        expect(menuItems.length)
-          .toEqual(3);
-
+      it('does not render previous item', () => {
         expect(TestUtils.isElementOfType(menuItems[0], PreviousItem))
+          .toEqual(false);
+      });
+
+      it('does not render Separator', () => {
+        expect(TestUtils.isElementOfType(menuItems[1], Separator))
+          .toEqual(false);
+      });
+
+      it('renders the pizza item', () => {
+        expect(TestUtils.isElementOfType(menuItems[0], Item))
           .toEqual(true);
+        expect(menuItems[0].key)
+          .toEqual('pizzaName');
+        expect(menuItems[0].props.children)
+          .toEqual('pizzaName');
+      });
+
+      it('renders ice cream item', () => {
+        expect(TestUtils.isElementOfType(menuItems[1], Item))
+          .toEqual(true);
+        expect(menuItems[1].key)
+          .toEqual('ice cream');
+        expect(menuItems[1].props.children)
+          .toEqual('ice cream');
+      });
+
+      it('renders the ice item', () => {
+        expect(TestUtils.isElementOfType(menuItems[2], Item))
+          .toEqual(true);
+        expect(menuItems[2].key)
+          .toEqual('ice');
+        expect(menuItems[2].props.children)
+          .toEqual('ice');
+      });
+
+      it('renders the fruit item', () => {
+        expect(TestUtils.isElementOfType(menuItems[3], NextItem))
+          .toEqual(true);
+        expect(menuItems[3].key)
+          .toEqual('fruits');
+        expect(menuItems[3].props.children)
+          .toEqual('fruits');
+      });
+
+      it('renders the vegetable item', () => {
+        expect(TestUtils.isElementOfType(menuItems[4], NextItem))
+          .toEqual(true);
+        expect(menuItems[4].key)
+          .toEqual('vegetable');
+        expect(menuItems[4].props.children)
+          .toEqual('vegetable');
       });
     });
   });
@@ -325,7 +559,7 @@ describe('NestedDropdown component', () => {
         displayedValue = component.render().props.children[0].props.children[2].props.children;
       });
 
-      it('displays the default value of -', () => {
+      it('displays the default value', () => {
         expect(displayedValue)
           .toEqual('-');
       });
@@ -335,13 +569,13 @@ describe('NestedDropdown component', () => {
       let displayedValue;
 
       beforeEach(() => {
-        component.setState({ displayedKey: 'pizza' });
+        component.setState({ displayedName: 'pizzaName' });
         displayedValue = component.render().props.children[0].props.children[2].props.children;
       });
 
       it('displays the name of the value', () => {
         expect(displayedValue)
-          .toEqual('pizza');
+          .toEqual('pizzaName');
       });
     });
 
@@ -349,7 +583,7 @@ describe('NestedDropdown component', () => {
       let displayedValue;
 
       beforeEach(() => {
-        component.setState({ displayedKey: 'fruits__apple' });
+        component.setState({ displayedName: 'apple' });
         displayedValue = component.render().props.children[0].props.children[2].props.children;
       });
 

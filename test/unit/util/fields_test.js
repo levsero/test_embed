@@ -149,7 +149,7 @@ describe('fields', () => {
       '@zendeskgarden/react-select': {
         Label: noopReactComponent()
       },
-      'component/field/NestedDropdown': {
+      'component/field/Dropdown/NestedDropdown': {
         NestedDropdown: noopReactComponent()
       },
       'service/i18n': {
