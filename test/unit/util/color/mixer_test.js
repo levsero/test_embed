@@ -16,7 +16,7 @@ describe('ColorMixer', () => {
     });
 
     colorMixer = require(mixerPath).ColorMixer;
-    mixer = new colorMixer(baseColor);
+    colorMixer.destroy();
 
     colorStr = '#FF69B4';
   });
@@ -24,9 +24,14 @@ describe('ColorMixer', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+    colorMixer.destroy();
   });
 
   describe('instantiation', () => {
+    beforeEach(() => {
+      mixer = new colorMixer(baseColor);
+    });
+
     it('holds a white abstraction in state', () => {
       expect(mixer.white.hex()).toEqual('#FFFFFF');
     });
@@ -53,28 +58,38 @@ describe('ColorMixer', () => {
   });
 
   describe('#getBaseColor', () => {
+    beforeEach(() => {
+      mixer = new colorMixer(baseColor);
+    });
+
     it('returns a string representation of the base color', () => {
       expect(mixer.getBaseColor()).toEqual('#3ACCF5');
     });
   });
 
   describe('#highlight', () => {
+    beforeEach(() => {
+      mixer = new colorMixer(baseColor);
+    });
+
     describe('when the colour is perceptually dark', () => {
       it('intensifies it by lightening it', () => {
-        colorStr = '#101CE3';
-        expect(mixer.highlight(colorStr)).toEqual('#1C28EF');
+        expect(mixer.highlight('#101CE3')).toEqual('#1C28EF');
       });
     });
 
     describe('when the colour is perceptually light', () => {
       it('intensifies it by darkening it', () => {
-        colorStr = '#c1fadb';
-        expect(mixer.highlight(colorStr)).toEqual('#84F5B7');
+        expect(mixer.highlight('#c1fadb')).toEqual('#84F5B7');
       });
     });
   });
 
   describe('#alpha', () => {
+    beforeEach(() => {
+      mixer = new colorMixer(baseColor);
+    });
+
     it('returns a rgba css-valid string with a certain alpha colour', () => {
       expect(mixer.alpha('#101CE3', .2)).toEqual('rgba(16, 28, 227, 0.2)');
     });
@@ -82,6 +97,10 @@ describe('ColorMixer', () => {
 
   describe('#getButtonColor', () => {
     describe('when the colour is not extremely light', () => {
+      beforeEach(() => {
+        mixer = new colorMixer(baseColor);
+      });
+
       it('returns the same colour as the base', () => {
         expect(mixer.getButtonColor()).toEqual('#3ACCF5');
       });
@@ -146,17 +165,21 @@ describe('ColorMixer', () => {
 
       describe('and the accessibility setting is disabled', () => {
         beforeEach(() => {
-          mixer = new colorMixer('#C4C846', { bypassA11y: true });
+          mixer = new colorMixer('#DCE04F', { bypassA11y: true });
         });
 
         it('returns a darker but not necessarily accessible colour', () => {
-          expect(mixer.getListColor()).toEqual('#5B5C28');
+          expect(mixer.getListColor()).toEqual('#6A6C25');
         });
       });
     });
   });
 
   describe('#uiElementColorFrom', () => {
+    beforeEach(() => {
+      mixer = new colorMixer(colorStr);
+    });
+
     describe('when the colour is dark', () => {
       it('returns the same colour', () => {
         expect(mixer.uiElementColorFrom('#515F31')).toEqual('#515F31');
@@ -166,7 +189,7 @@ describe('ColorMixer', () => {
     describe('when the colour is light', () => {
       describe('and the accessibility setting is enabled', () => {
         it('returns an accessible, accentuated colour', () => {
-          expect(mixer.uiElementColorFrom('#C4C846')).toEqual('#4A4B20');
+          expect(mixer.uiElementColorFrom('#DCE04F')).toEqual('#5F6121');
         });
       });
 
@@ -176,7 +199,7 @@ describe('ColorMixer', () => {
         });
 
         it('returns a darker but not necessarily accessible colour', () => {
-          expect(mixer.uiElementColorFrom('#C4C846')).toEqual('#5B5C28');
+          expect(mixer.uiElementColorFrom('#DCE04F')).toEqual('#6A6C25');
         });
       });
     });
@@ -185,6 +208,10 @@ describe('ColorMixer', () => {
   describe('#foregroundColorFrom', () => {
     describe('when the colour is dark', () => {
       describe('and it contrasts enough against white', () => {
+        beforeEach(() => {
+          mixer = new colorMixer(baseColor);
+        });
+
         it('returns white', () => {
           expect(mixer.foregroundColorFrom('#515F31')).toEqual('#FFFFFF');
         });
@@ -211,8 +238,12 @@ describe('ColorMixer', () => {
 
     describe('when the colour is light', () => {
       describe('and the accessibility setting is enabled', () => {
+        beforeEach(() => {
+          mixer = new colorMixer(baseColor);
+        });
+
         it('returns an accessible, accentuated colour', () => {
-          expect(mixer.foregroundColorFrom('#C4C846')).toEqual('#4A4B20');
+          expect(mixer.foregroundColorFrom('#DCE04F')).toEqual('#5F6121');
         });
       });
 
@@ -222,7 +253,7 @@ describe('ColorMixer', () => {
         });
 
         it('returns a darker but not necessarily accessible colour', () => {
-          expect(mixer.foregroundColorFrom('#C4C846')).toEqual('#5B5C28');
+          expect(mixer.foregroundColorFrom('#DCE04F')).toEqual('#6A6C25');
         });
       });
     });

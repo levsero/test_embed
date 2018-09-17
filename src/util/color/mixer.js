@@ -13,7 +13,7 @@ export class ColorMixer {
   static defaultLightYIQ = 190;
 
   constructor(baseColor, options = {}) {
-    if(!!instance) return instance;
+    if (this._isSameColorScheme(baseColor, options)) return instance;
 
     this.accents = {};
     this.options = options;
@@ -25,6 +25,12 @@ export class ColorMixer {
     this.buttonColor = this._buttonColor(this.baseColor);
     this.listColor = this._listColor(this.baseColor);
     instance = this;
+  }
+
+  // '.destroy()' is for the purposes of testing.
+  // No need to use outside test scenarios
+  static destroy = () => {
+    instance = null;
   }
 
   getBaseColor = () => {
@@ -95,7 +101,7 @@ export class ColorMixer {
   }
 
   _accentuate = (color) => {
-    if(!!this.accents[color.hex()]) return this.accents[color.hex()];
+    if (this.accents[color.hex()]) return this.accents[color.hex()];
 
     let tentativeAccentuate = color
       .mix(this.neutralColor, ColorMixer.mixFactor)
@@ -127,5 +133,11 @@ export class ColorMixer {
     const yiq = (rgb[0] * values.r + rgb[1] * values.g + rgb[2] * values.b) / 1000;
 
     return yiq > threshold;
+  }
+
+  _isSameColorScheme = (color, options) => {
+    instance
+      && instance.getBaseColor() === color
+      && instance.options === options;
   }
 }

@@ -413,9 +413,9 @@ describe('styles', () => {
         .u-userHeaderButtonColor:hover,
         .u-userHeaderButtonColor:active,
         .u-userHeaderButtonColor:focus {
-          background: #FF3399 !important;
+          background: #FF8DC6 !important;
           svg {
-            background: #FF3399 !important;
+            background: #FF8DC6 !important;
           }
         }
         .u-userHeaderButtonColorMobile {
@@ -538,8 +538,8 @@ describe('styles', () => {
         .u-userTextColor:not([disabled]):hover,
         .u-userTextColor:not([disabled]):active,
         .u-userTextColor:not([disabled]):focus {
-          color: #27764A !important;
-          fill: #27764A !important;
+          color: #339960 !important;
+          fill: #339960 !important;
         }`;
 
         it('prefers the link colour over the base colour', () => {
@@ -604,8 +604,8 @@ describe('styles', () => {
         .u-userTextColor:not([disabled]):hover,
         .u-userTextColor:not([disabled]):active,
         .u-userTextColor:not([disabled]):focus {
-          color: #5E5E5E !important;
-          fill: #5E5E5E !important;
+          color: #7A7A7A !important;
+          fill: #7A7A7A !important;
         }`;
 
         it('is calculated to a darker color with a highlight', () => {
@@ -623,7 +623,7 @@ describe('styles', () => {
         .u-userBackgroundColor:not([disabled]):hover,
         .u-userBackgroundColor:not([disabled]):active,
         .u-userBackgroundColor:not([disabled]):focus {
-          background-color: #696969 !important;
+          background-color: #888888 !important;
         }`;
 
         it('is calculated to neutral grey and accessible dark for color', () => {
