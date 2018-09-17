@@ -28,6 +28,9 @@ describe('settings', () => {
       }
     });
     defaults = {
+      color: {
+        bypassAccessibilityRequirement: false
+      },
       contactForm: {
         subject: false,
         attachments: true,
@@ -80,6 +83,11 @@ describe('settings', () => {
       it('has the correct value for helpCenter.originalArticleButton', () => {
         expect(settings.get('helpCenter.originalArticleButton'))
           .toEqual(defaults.helpCenter.originalArticleButton);
+      });
+
+      it('has the correct value for color.bypassAccessibilityRequirement', () => {
+        expect(settings.get('color.bypassAccessibilityRequirement'))
+          .toEqual(defaults.color.bypassAccessibilityRequirement);
       });
 
       it('has the correct value for contactForm.attachments', () => {
@@ -255,7 +263,14 @@ describe('settings', () => {
             suppress: true
           },
           color: {
-            theme: '#FF0000'
+            theme: '#FF0000',
+            button: '#0000FF',
+            header: '#00FF00',
+            launcher: '#990000',
+            launcherText: '#009900',
+            articleLinks: '#000099',
+            resultLists: '#660000',
+            bypassAccessibilityRequirement: true
           }
         }
       };
@@ -294,9 +309,44 @@ describe('settings', () => {
         .toBe(true);
     });
 
-    it('returns user setting for color', () => {
+    it('returns user setting for color theme', () => {
       expect(settings.get('color.theme'))
         .toBe('#FF0000');
+    });
+
+    it('returns user setting for color button', () => {
+      expect(settings.get('color.button'))
+        .toBe('#0000FF');
+    });
+
+    it('returns user setting for color header', () => {
+      expect(settings.get('color.header'))
+        .toBe('#00FF00');
+    });
+
+    it('returns user setting for color launcher', () => {
+      expect(settings.get('color.launcher'))
+        .toBe('#990000');
+    });
+
+    it('returns user setting for color launcherText', () => {
+      expect(settings.get('color.launcherText'))
+        .toBe('#009900');
+    });
+
+    it('returns user setting for color articleLinks', () => {
+      expect(settings.get('color.articleLinks'))
+        .toBe('#000099');
+    });
+
+    it('returns user setting for color resultLists', () => {
+      expect(settings.get('color.resultLists'))
+        .toBe('#660000');
+    });
+
+    it('returns user setting for color bypassAccessibilityRequirement', () => {
+      expect(settings.get('color.bypassAccessibilityRequirement'))
+        .toBe(true);
     });
 
     it('returns user setting for contactForm.subject', () => {

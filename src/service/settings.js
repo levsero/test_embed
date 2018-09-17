@@ -24,8 +24,10 @@ const optionWhitelist = {
     'color.button',
     'color.header',
     'color.launcher',
+    'color.launcherText',
     'color.articleLinks',
     'color.resultLists',
+    'color.bypassAccessibilityRequirement',
     'contactForm.attachments',
     'contactForm.fields',
     'contactForm.selectTicketForm',
@@ -59,6 +61,9 @@ const customizationsWhitelist = [
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
+  color: {
+    bypassAccessibilityRequirement: false
+  },
   contactForm: {
     attachments: true,
     fields: [],

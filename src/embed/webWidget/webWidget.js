@@ -15,7 +15,7 @@ import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { http } from 'service/transport';
-import { generateUserCSS } from 'utility/color/styles';
+import { generateUserWidgetCSS } from 'utility/color/styles';
 import { getZoomSizingRatio,
   isIE,
   isMobileBrowser,
@@ -180,7 +180,7 @@ export default function WebWidgetFactory(name) {
     const frameParams = {
       ref: (el) => {embed.instance = el;},
       frameStyle: frameStyle,
-      css: webWidgetCSS + frameBodyCss + generateUserCSS(globalConfig.color),
+      css: webWidgetCSS + frameBodyCss + generateUserWidgetCSS(globalConfig.color),
       position: globalConfig.position,
       fullscreenable: true,
       newChat: chatAvailable,

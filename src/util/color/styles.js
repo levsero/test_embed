@@ -1,30 +1,32 @@
 import { themeColor, colorFor, defaultColor } from './validate';
 import { ColorMixer } from './mixer';
 import { FONT_SIZE } from 'constants/shared';
+import { settings } from 'service/settings';
 
-function getColorVariables(color = defaultColor) {
-  const mixer = new ColorMixer;
-  const baseColor = themeColor(color) || defaultColor;
-  const baseHighlightColor = mixer.highlightColor(baseColor);
+function getWidgetColorVariables(color = defaultColor) {
+  const bypassA11y = settings.get('color.bypassAccessibilityRequirement');
+  const mixer = new ColorMixer(
+    themeColor(color) || defaultColor,
+    { bypassA11y: bypassA11y }
+  );
 
-  const buttonColorStr = colorFor('button', mixer.buttonColorFrom(baseColor));
-  const buttonHighlightColorStr = mixer.highlightColor(buttonColorStr);
+  const baseColor = mixer.getBaseColor();
+  const baseHighlightColor = mixer.highlight(baseColor);
+
+  const buttonColorStr = colorFor('button', mixer.getButtonColor());
+  const buttonHighlightColorStr = mixer.highlight(buttonColorStr);
   const buttonTextColorStr = mixer.foregroundColorFrom(buttonColorStr);
 
-  const listColorStr = colorFor('resultLists', mixer.listColorFrom(baseColor));
-  const listHighlightColorStr = mixer.highlightColor(listColorStr);
+  const listColorStr = colorFor('resultLists', mixer.getListColor());
+  const listHighlightColorStr = mixer.highlight(listColorStr);
 
-  const linkColorStr = colorFor('articleLinks', mixer.listColorFrom(baseColor));
-  const linkTextColorStr = mixer.buttonColorFrom(linkColorStr);
-
-  const launcherColorStr = colorFor('launcher', baseColor);
-  const launcherTextColorStr = mixer.foregroundColorFrom(launcherColorStr);
-  const launcherFocusRingColorStr = mixer.alphaColor(launcherTextColorStr, 0.4).rgbaString();
+  const linkColorStr = colorFor('articleLinks', mixer.getListColor());
+  const linkTextColorStr = mixer.uiElementColorFrom(linkColorStr);
 
   const headerColorStr = colorFor('header', baseColor);
   const headerTextColorStr = mixer.foregroundColorFrom(headerColorStr);
-  const headerFocusRingColorStr = mixer.alphaColor(headerColorStr, 0.4);
-  const headerBackgroundColorStr = mixer.highlightColor(headerColorStr);
+  const headerFocusRingColorStr = mixer.alpha(headerColorStr, 0.4);
+  const headerBackgroundColorStr = mixer.highlight(headerColorStr);
 
   return {
     baseColor,
@@ -36,9 +38,6 @@ function getColorVariables(color = defaultColor) {
     listHighlightColorStr,
     linkColorStr,
     linkTextColorStr,
-    launcherColorStr,
-    launcherTextColorStr,
-    launcherFocusRingColorStr,
     headerColorStr,
     headerTextColorStr,
     headerFocusRingColorStr,
@@ -46,8 +45,31 @@ function getColorVariables(color = defaultColor) {
   };
 }
 
-function generateUserCSS(color = defaultColor) {
-  const colorVariables = getColorVariables(color);
+function getLauncherColorVariables(color = defaultColor) {
+  const bypassA11y = settings.get('color.bypassAccessibilityRequirement');
+  const mixer = new ColorMixer(
+    themeColor(color) || defaultColor,
+    { bypassA11y: bypassA11y }
+  );
+
+  const baseColor = mixer.getBaseColor();
+
+  const launcherColorStr = colorFor('launcher', baseColor);
+  const launcherTextColorStr = colorFor(
+    'launcherText',
+    mixer.foregroundColorFrom(launcherColorStr)
+  );
+  const launcherFocusRingColorStr = mixer.alpha(launcherTextColorStr, 0.4);
+
+  return {
+    launcherColorStr,
+    launcherTextColorStr,
+    launcherFocusRingColorStr
+  };
+}
+
+function generateUserWidgetCSS(color = defaultColor) {
+  const colorVariables = getWidgetColorVariables(color);
 
   return (`
     .u-userTextDecorationColor {
@@ -89,21 +111,6 @@ function generateUserCSS(color = defaultColor) {
     .u-userBackgroundColor:not([disabled]):active,
     .u-userBackgroundColor:not([disabled]):focus {
       background-color: ${colorVariables.buttonHighlightColorStr} !important;
-    }
-    .u-userLauncherColor:not([disabled]) {
-      background-color: ${colorVariables.launcherColorStr} !important;
-      color: ${colorVariables.launcherTextColorStr} !important;
-      fill: ${colorVariables.launcherTextColorStr} !important;
-      svg {
-        color: ${colorVariables.launcherTextColorStr} !important;
-        fill: ${colorVariables.launcherTextColorStr} !important;
-      }
-    }
-    .u-userLauncherColor:not([disabled]):focus {
-      box-shadow: inset 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.launcherFocusRingColorStr.toString()} !important;
-    }
-    .u-launcherColor:not([disabled]):hover {
-      background-color: ${colorVariables.baseHighlightColor} !important;
     }
     .u-userBorderColor:not([disabled]) {
       color: ${colorVariables.buttonColorStr} !important;
@@ -147,8 +154,27 @@ function generateUserCSS(color = defaultColor) {
   `);
 }
 
+function generateUserLauncherCSS(color = defaultColor) {
+  const colorVariables = getLauncherColorVariables(color);
+
+  return (`
+    .u-userLauncherColor:not([disabled]) {
+      background-color: ${colorVariables.launcherColorStr} !important;
+      color: ${colorVariables.launcherTextColorStr} !important;
+      fill: ${colorVariables.launcherTextColorStr} !important;
+      svg {
+        color: ${colorVariables.launcherTextColorStr} !important;
+        fill: ${colorVariables.launcherTextColorStr} !important;
+      }
+    }
+    .u-userLauncherColor:not([disabled]):focus {
+      box-shadow: inset 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.launcherFocusRingColorStr} !important;
+    }
+  `);
+}
+
 function generateWebWidgetPreviewCSS(color) {
-  const colorVariables = getColorVariables(color);
+  const colorVariables = getWidgetColorVariables(color);
 
   return (`
     .u-userBackgroundColor:not([disabled]) {
@@ -183,7 +209,8 @@ function generateWebWidgetPreviewCSS(color) {
 }
 
 export {
-  generateUserCSS,
+  generateUserWidgetCSS,
+  generateUserLauncherCSS,
   generateWebWidgetPreviewCSS,
-  getColorVariables
+  getWidgetColorVariables
 };
