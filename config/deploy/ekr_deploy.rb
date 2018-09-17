@@ -11,6 +11,9 @@ set :ekr_s3_bucket_name, ENV['STATIC_ASSETS_AWS_BUCKET_NAME']
 set :static_assets_domain, ENV['STATIC_ASSETS_DOMAIN']
 set :ekr_base_url, ENV['EKR_BASE_URL']
 set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
+set :previewer_directory, 'web_widget/previews'
+
+PREVIEW_EXPIRY = 600
 
 namespace :ac_embeddable_framework do
   desc 'Build framework ac assets'
@@ -20,6 +23,20 @@ namespace :ac_embeddable_framework do
     sh 'npm set progress=false && npm install'
     sh 'npm dedupe'
     sh 'npm run build-ac'
+    sh 'npm run build:previewer'
+  end
+
+  desc 'Upload previewer assets to Amazon S3'
+  task :upload_preview_assets_to_s3 do
+    s3_deployer.upload_files(
+      'dist', # local folder to look for files
+      fetch(:previewer_directory), # path on S3 where the files will be stored
+      %w(webWidgetPreview.js chatPreview.js), # preview files to upload
+      {
+        cache_control: "public, max-age=#{PREVIEW_EXPIRY}",
+        expires: nil # we don't want to send the expires header
+      } # headers to attach to uploaded S3 objects
+    )
   end
 
   desc 'Release vendored assets to Amazon S3 for asset composer'
@@ -89,3 +106,4 @@ end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
 before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:build_assets'
+after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_preview_assets_to_s3'

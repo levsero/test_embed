@@ -15,6 +15,7 @@
     "build:prod": "webpack --config ./webpack/webpack.prod.js",
     "build:ac": "webpack --config ./webpack/webpack.ac.prod.js",
     "build:ac-validate": "npm run build:ac && npm run size",
+    "build:previewer": "webpack --config ./webpack/webpack.previewer.prod.js",
     "watchConf": "node script/update_watch_config",
     "postwatchConf": "npm run watch",
     "watch": "webpack-dev-server --config ./webpack/webpack.dev.js",

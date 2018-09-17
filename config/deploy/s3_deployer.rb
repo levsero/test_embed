@@ -18,14 +18,14 @@ class S3Deployer
     bucket.object(key).exists?
   end
 
-  def upload_files(local_directory, remote_directory, files)
+  def upload_files(local_directory, remote_directory, files, opts = {})
     put_object("#{remote_directory}/")
 
     files.each do |file|
       object_key = "#{remote_directory}/#{file}"
 
       put_object(object_key)
-      upload_file(object_key, "#{local_directory}/#{file}")
+      upload_file(object_key, "#{local_directory}/#{file}", opts)
     end
   end
 
@@ -46,15 +46,17 @@ class S3Deployer
     bucket.put_object(key: key, server_side_encryption: ENCRYPTION_TYPE)
   end
 
-  def upload_file(object_key, file)
+  def upload_file(object_key, file, opts = {})
     logger.info "upload_file #{file} to #{object_key} on #{bucket_name}"
     bucket.object(object_key)
           .upload_file(
             file,
-            server_side_encryption: ENCRYPTION_TYPE,
-            cache_control: "public, max-age=#{SECONDS_IN_A_YEAR}",
-            expires: expires_header,
-            content_type: "#{content_type_header(file)} charset=utf-8"
+            {
+              server_side_encryption: ENCRYPTION_TYPE,
+              cache_control: "public, max-age=#{SECONDS_IN_A_YEAR}",
+              expires: expires_header,
+              content_type: "#{content_type_header(file)} charset=utf-8"
+            }.merge(opts).delete_if { |_, v| v.nil? }
           )
   end
 
