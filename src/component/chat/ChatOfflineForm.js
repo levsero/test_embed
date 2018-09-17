@@ -28,6 +28,7 @@ export class ChatOfflineForm extends Component {
     offlineMessage: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
+    greeting: PropTypes.string,
     isMobile: PropTypes.bool,
     socialLogin: PropTypes.object.isRequired,
     authUrls: PropTypes.object.isRequired,
@@ -134,6 +135,8 @@ export class ChatOfflineForm extends Component {
   }
 
   renderPhoneNumberField() {
+    if (_.get(this.props.formFields, 'phone.hidden')) return null;
+
     const isRequired = !!_.get(this.props.formFields, 'phone.required');
     const value = this.props.formState.phone;
     const error = this.renderErrorMessage(value,
@@ -215,7 +218,8 @@ export class ChatOfflineForm extends Component {
   }
 
   renderOfflineGreeting() {
-    const offlineGreetingText = i18n.t('embeddable_framework.chat.preChat.offline.greeting');
+    const { greeting } = this.props;
+    const offlineGreetingText = greeting ? greeting : i18n.t('embeddable_framework.chat.preChat.offline.greeting');
 
     return (
       <p className={styles.offlineGreeting}>

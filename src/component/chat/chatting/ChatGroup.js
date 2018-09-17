@@ -46,6 +46,10 @@ export class ChatGroup extends Component {
     this.avatar = new ChatGroupAvatar(props);
   }
 
+  componentWillReceiveProps(props) {
+    this.avatar.updateProps(props);
+  }
+
   renderName = (isAgent, showAvatar, messages) => {
     const name = _.get(messages, '0.display_name');
     const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt;

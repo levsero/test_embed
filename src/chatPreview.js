@@ -12,7 +12,10 @@ import { Frame } from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
 import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat';
 import { OFFLINE_MESSAGE_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
-import { UPDATE_PREVIEWER_SCREEN, UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types';
+import {
+  UPDATE_PREVIEWER_SCREEN,
+  UPDATE_PREVIEWER_SETTINGS,
+  PREVIEWER_LOADED } from 'src/redux/modules/chat/chat-action-types';
 import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
@@ -29,7 +32,7 @@ const defaultOptions = {
     height: 550
   }
 };
-let preview;
+let preview, frame;
 
 const getComponent = () => {
   return (chatComponent)
@@ -66,7 +69,8 @@ const renderPreview = (options) => {
   const allowThrottleActions = (type) => {
     const allowedActions = [
       UPDATE_PREVIEWER_SETTINGS,
-      UPDATE_PREVIEWER_SCREEN
+      UPDATE_PREVIEWER_SCREEN,
+      PREVIEWER_LOADED
     ];
     const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0;
 
@@ -79,6 +83,7 @@ const renderPreview = (options) => {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'chatPreview',
     frameStyle,
+    ref: (el) => { frame = el; },
     disableOffsetHorizontal: true,
     preventClose: true
   };
@@ -90,6 +95,7 @@ const renderPreview = (options) => {
         <Chat
           ref={(chat) => chatComponent = chat}
           updateChatBackButtonVisibility={() => {}}
+          getFrameContentDocument={() => frame.getContentDocument()}
           style={containerStyle} />
       </Container>
     </Frame>
@@ -130,6 +136,8 @@ const renderPreview = (options) => {
     _.defer(preview.forceUpdateWorld);
     setColor();
   });
+
+  store.dispatch({ type: PREVIEWER_LOADED });
 
   return {
     _component: preview,

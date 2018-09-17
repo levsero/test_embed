@@ -84,6 +84,7 @@ class ChatOffline extends Component {
         authUrls={this.props.authUrls}
         formFields={this.props.formFields}
         formState={this.props.formState}
+        greeting={this.props.formSettings.message}
         offlineMessage={this.props.offlineMessage}
         handleOfflineFormBack={this.props.handleOfflineFormBack}
         handleOperatingHoursClick={this.props.handleOperatingHoursClick}

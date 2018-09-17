@@ -109,14 +109,14 @@ describe('ChatGroupAvatar class', () => {
       });
     });
 
-    describe('#userWithAvatar', () => {
+    describe('#_userWithAvatar', () => {
       describe('when the sender is an agent', () => {
         beforeAll(() => {
           isAgent = true;
         });
 
         it('returns false', () => {
-          expect(subject.userWithAvatar()).toEqual(false);
+          expect(subject._userWithAvatar()).toEqual(false);
         });
       });
 
@@ -128,7 +128,7 @@ describe('ChatGroupAvatar class', () => {
           });
 
           it('returns true', () => {
-            expect(subject.userWithAvatar()).toEqual(true);
+            expect(subject._userWithAvatar()).toEqual(true);
           });
         });
 
@@ -139,20 +139,20 @@ describe('ChatGroupAvatar class', () => {
           });
 
           it('returns false', () => {
-            expect(subject.userWithAvatar()).toEqual(false);
+            expect(subject._userWithAvatar()).toEqual(false);
           });
         });
       });
     });
 
-    describe('#hasSocialLoginAvatar', () => {
+    describe('#_hasSocialLoginAvatar', () => {
       describe('when a social login exists', () => {
         beforeAll(() => {
           socialLogin = { avatarPath: 'heynow' };
         });
 
         it('returns true', () => {
-          expect(subject.hasSocialLoginAvatar()).toEqual(true);
+          expect(subject._hasSocialLoginAvatar()).toEqual(true);
         });
       });
 
@@ -162,8 +162,37 @@ describe('ChatGroupAvatar class', () => {
         });
 
         it('returns false', () => {
-          expect(subject.hasSocialLoginAvatar()).toEqual(false);
+          expect(subject._hasSocialLoginAvatar()).toEqual(false);
         });
+      });
+    });
+
+    describe('#updateProps', () => {
+      const newProps = {
+        socialLogin: undefined,
+        showAvatar: true,
+        avatarPath: 'test.com',
+        isAgent: true
+      };
+
+      beforeEach(() => {
+        subject.updateProps(newProps);
+      });
+
+      it('updates the socialLogin property', () => {
+        expect(subject.socialLogin).toEqual(newProps.socialLogin);
+      });
+
+      it('updates the showAvatar property', () => {
+        expect(subject.showAvatar).toEqual(newProps.showAvatar);
+      });
+
+      it('updates the avatarPath property', () => {
+        expect(subject.avatarPath).toEqual(newProps.avatarPath);
+      });
+
+      it('updates the isAgent property', () => {
+        expect(subject.isAgent).toEqual(newProps.isAgent);
       });
     });
   });
