@@ -150,6 +150,16 @@ The widget's `chat` object, which represents the Chat component, has the followi
 
 * [suppress](#suppress)
 
+It also has these additional settings if the [Integrated Chat Experience](https://chat.zendesk.com/hc/en-us/articles/360001024128-Announcing-Web-Widget-Integrated-Chat-Experience-EAP) is turned on.
+
+* [title](#title)
+* [concierge](#concierge)
+* [departments](#department)
+* [prechatForm](#prechatForm)
+* [offlineForm](#offlineForm)
+* [notifications](#notifications)
+* [tags](#tags)
+
 <a name="example-chat-settings"></a>
 #### Example
 
@@ -158,7 +168,11 @@ The widget's `chat` object, which represents the Chat component, has the followi
 window.zESettings = {
   webWidget: {
     chat: {
-      suppress: true
+      suppress: false,
+      tags: ['vip'],
+      notifications: {
+        mobile: false
+      }
     }
   }
 };
@@ -220,16 +234,21 @@ window.zESettings = {
 * [chatLabelOnline](#chatlabelonline)
 * [chatLabelOffline](#chatlabeloffline)
 * [color](#color)
+* [concierge](#concierge)
 * [contactButton](#contactbutton)
 * [contactFormLabel](#contactformlabel)
+* [departments](#department)
 * [fields](#fields)
 * [filter](#filter)
 * [label](#label)
 * [messageButton](#messagebutton)
 * [nickname](#nickname)
+* [notifications](#notifications)
 * [offset](#offset)
 * [originalArticleButton](#originalarticlebutton)
 * [position](#position)
+* [prechatForm](#prechatForm)
+* [offlineForm](#offlineForm)
 * [searchPlaceholder](#searchplaceholder)
 * [selectTicketForm](#selectticketform)
 * [subject](#subject)
@@ -238,7 +257,6 @@ window.zESettings = {
 * [ticketForms](#ticketforms)
 * [title](#title)
 * [zIndex](#zindex)
-
 
 #### attachments
 
@@ -496,6 +514,34 @@ Examples of elements customized using `color` properties:
 * [position](#position)
 * [zIndex](#zindex)
 
+#### concierge
+
+#### set chat:concierge:avatar
+
+Set the chat concierge’s avatar, name and title.
+
+##### Availability
+
+* chat
+
+<a name="example-concierge"></a>
+##### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      concierge: {
+        avatar: 'https://example.com/img/avatar.jpg',
+        name: 'Jane Doe',
+        title: 'Live Support'
+      }
+    }
+  }
+};
+</script>
+```
 
 #### contactButton
 
@@ -564,6 +610,106 @@ window.zESettings = {
 * [chatLabelOnline](#chatlabelonline)
 * [chatLabelOffline](#chatlabeloffline)
 
+#### departments
+
+Display only the specified departments in the pre-chat form. All other departments will be hidden regardless of their status.
+
+Department names are matched in a case-insensitive manner.
+
+If the department names or IDs passed in are invalid the department dropdown menu will not show those options. If no value or valid or null is used the dropdown won't show.
+
+<a name="example-departments-enable"></a>
+##### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      departments: {
+        enable: ['finance', 'hr', 'sales']
+      }
+    }
+  }
+};
+</script>
+```
+
+Set the visitor’s default department for the current session.
+
+Chat requests will be routed to this department unless the visitor selects another department in the pre-chat form or the department is offline.
+
+Department names are matched in a case-insensitive manner.
+
+If the department names or ID is invalid or null the department wil be cleared.
+
+*Note*: If the visitor has already started chatting, changes to the default department will not affect the department of the started chat. The changes to the default department will also not take effect until a page change or refresh. The department of the started chat will persist and be taken as the default department until a page change or refresh, even when the visitor has explicitly ended the chat.
+
+Offline messages will also be routed to this department.
+
+<a name="example-departments-select"></a>
+##### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      departments: {
+        select: 'hr'
+      }
+    }
+  }
+};
+</script>
+```
+
+Set the department label in the offline form and prechat form.
+
+You can use different strings for different locales or use one string for all locales by using an asterisk (*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
+
+<a name="example-departments-label"></a>
+##### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      departments: {
+        label: {
+          'en-US': 'Select a Department',
+          'es': 'Seleccione un departamento'
+        }
+      }
+    }
+  }
+};
+</script>
+```
+
+##### Availability
+
+* chat
+
+<a name="example-departments"></a>
+##### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      departments: {
+        enabled: ['finance', 'hr', 'sales'],
+        selected: 'hr',
+        label: { '*': 'Select a Department' }
+      }
+    }
+  }
+};
+</script>
+```
 
 #### fields
 
@@ -762,6 +908,31 @@ window.zESettings = {
 </script>
 ```
 
+#### notifications
+
+Determines if notifications should show on mobile.
+
+##### Availability
+
+* chat
+
+<a name="example-notifications"></a>
+##### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      notifications: {
+        mobile: false
+      }
+    }
+  }
+};
+</script>
+```
+
 #### offset
 
 Moves the Web Widget vertically and horizontally. The `offset` property consists of an object with `horizontal` and `vertical` properties with '##px' string values.
@@ -838,6 +1009,65 @@ window.zESettings = {
 * [suppress](#suppress)
 * [title](#title)
 
+#### offlineForm
+
+Set the offline form greeting message.
+
+You can use different strings for different locales or use one string for all locales by using an asterisk (*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
+
+##### Availability
+
+* chat
+
+<a name="example-offlineForm"></a>
+##### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      offlineForm: {
+        greeting: {
+          '*': "We aren't online right now, please leave a message",
+          'fr': "Nous ne sommes pas en ligne pour le moment, s'il vous plaît laissez un message"
+        }
+      }
+    }
+  }
+};
+</script>
+```
+
+#### prechatForm
+
+Set the prechat form greeting message.
+
+You can use different strings for different locales or use one string for all locales by using an asterisk (*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
+
+##### Availability
+
+* chat
+
+<a name="example-prechatForm"></a>
+##### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      prechatForm: {
+        greeting: {
+          '*': 'Please fill out the form below to chat with us',
+          'fr': "S'il vous plaît remplir le formulaire ci-dessous pour discuter avec nous"
+        }
+      }
+    }
+  }
+};
+</script>
+```
 
 #### position
 
@@ -1003,7 +1233,9 @@ window.zESettings = {
 
 #### tags
 
-Adds one or more [tags](https://support.zendesk.com/hc/en-us/articles/203662096-Using-tags) to any ticket created with the Web Widget.
+In contact form adds one or more [tags](https://support.zendesk.com/hc/en-us/articles/203662096-Using-tags) to any ticket created with the Web Widget.
+
+In chat adds one or more tags to the visitors chat session.
 
 Note: The tags are visible in the JavaScript console in the user's browser.
 
@@ -1020,6 +1252,9 @@ window.zESettings = {
   webWidget: {
     contactForm: {
       tags: ['website', 'store']
+    },
+    chat: {
+      tags: ['loggedin']
     }
   }
 };
@@ -1115,6 +1350,7 @@ You can use different strings for different locales or use one string for all lo
 
 * contactForm
 * helpCenter
+* chat
 
 <a name="example-title"></a>
 ##### Example
@@ -1132,6 +1368,12 @@ window.zESettings = {
     contactForm: {
       title: {
         '*': 'Feedback'
+      }
+    },
+    chat: {
+      title: {
+        '*': 'Chat with us!',
+        'pl': 'Czat na żywo'
       }
     }
   }
@@ -1170,4 +1412,3 @@ window.zESettings = {
 * [color](#color)
 * [offset](#offset)
 * [position](#position)
-

@@ -153,67 +153,6 @@ Pre-fills an end-user's details on forms inside the Web Widget.
 
 ### Chat
 
-#### set chat:title
-
-Set the title of the chat window.
-
-```JavaScript
-  zE('webWidget:set', 'chat:title', title<string>);
-```
-
-##### Parameters
-
-* `title`: String. The title of the chat window
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:title', "Acme Inc. Support");
-```
-
----
-
-#### set chat:tags
-
-Add tags to the current chat session.
-*Note*: All tags are converted to lowercase.
-
-```JavaScript
-  zE('webWidget:set', 'chat:tags', tag1 [,tag2, ...]);
-```
-
-##### Parameters
-
-* `tag1`: String. A single tag, or
-* `[tag1, tag2, ...]`: Array of strings. Multiple tags
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:tags', ['vip', 'customer', 'support']);
-```
----
-
-#### remove chat:tags
-
-Remove tag(s) from the current chat session.
-
-```JavaScript
-  zE('webWidget:remove', 'chat:tags', tag1 [,tag2, ...]);
-```
-
-##### Parameters
-
-* `tag1`: String. A single tag, or
-* `[tag1, tag2, ...]`: Array of strings. Multiple tags
-
-##### Example
-
-```JavaScript
-  zE('webWidget:remove', 'chat:tags', ['vip', 'enterprise']);
-```
----
-
 #### send chat:message
 
 Make the visitor send a message.  Starts a chat session if one is not already in progress.
@@ -379,38 +318,6 @@ Register a callback to be fired when the number of unread messages changes.  The
 
 ### Chat Departments
 
-#### set chat:departments
-[comment]: <> (This is meant to be used for zopim's departments.filter)
-[comment]: <> (It seemed to me that `set` was clearer as a verb for this)
-[comment]: <> (but I'm on the fence. We could also use 'webWidget:filter', 'chat:departments')
-[comment]: <> (but I'm on the fence.)
-[comment]: <> (We could also use 'webWidget:filter', 'chat:departments')
-
-Display only the specified departments in the pre-chat form. All other departments will be hidden regardless of their status.
-
-Department names are matched in a case-insensitive manner.
-
-Passing in no additional parameters causes all departments to be displayed.  If none of department names or IDs passed in are valid (e.g. an empty string is passed in), or if `null` is passed as the third parameter, the department dropdown menu will be hidden.
-
-```JavaScript
-  zE('webWidget:set', 'chat:departments', department1<int|string|null> [,department2<int|string>, ...]);
-```
-
-##### Parameters
-
-* `department1`: Integer, string or null. A single department, either by name or ID, or
-* `[department1, department2, ...]`: Array of strings or integers. Multiple departments by name or ID
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:departments', ['finance', 'hr', 'sales']);
-
-  // to hide the field:
-  zE('webWidget:set', 'chat:departments',  null);
-```
----
-
 #### set chat:departments:label
 
 Set the department label.
@@ -429,46 +336,6 @@ Set the department label.
   zE('webWidget:set', 'chat:departments:label', 'Select a department');
 ```
 ---
-
-#### set chat:departments:visitorDepartment
-
-Set the visitor’s default department for the current session.
-
-Chat requests will be routed to this department unless the visitor selects another department in the pre-chat form or the department is offline.
-
-*Note*: If the visitor has already started chatting, changes to the default department will not affect the department of the started chat. The changes to the default department will also not take effect until a page change or refresh. The department of the started chat will persist and be taken as the default department until a page change or refresh, even when the visitor has explicitly ended the chat.
-
-Offline messages will also be routed to this department.
-
-```JavaScript
-  zE('webWidget:set', 'chat:departments:visitorDepartment', department<int|string>);
-```
-
-##### Parameters
-
-* `department`: Integer or String. ID or name of the department to be set
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:departments:visitorDepartment', 'Sales');
-```
----
-
-#### clear chat:departments:visitorDepartment
-
-Clear the visitor’s default department.
-
-*Note*: If the visitor has already started chatting, changes to the default department will not affect the department of the started chat. The changes to the default department will also not take effect until a page change or refresh. The department of the started chat will persist and be taken as the default department until a page change or refresh, even when the visitor has explicitly ended the chat.
-
-
-```JavaScript
-  zE('webWidget:clear', 'chat:departments:visitorDepartment');
-```
-
-##### Parameters
-
-None
 
 #### get chat:departments:department
 
@@ -513,121 +380,9 @@ None
 
 ---
 
-
-### Chat Concierge
-
-#### set chat:concierge:avatar
-
-Set the concierge’s avatar.
-
-
-```JavaScript
-  zE('webWidget:set', 'chat:concierge:avatar', path<string>);
-```
-
-##### Parameters
-
-* `path`: String. Contains the avatar's full path
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:concierge:avatar', 'https://example.com/img/avatar.jpg');
-```
----
-
-#### set chat:concierge:name
-
-Set the concierge’s name.
-
-
-```JavaScript
-  zE('webWidget:set', 'chat:concierge:name', name<string>);
-```
-
-##### Parameters
-
-* `name`: String. Contains the concierge's name
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:concierge:name', 'Jane Doe');
-```
----
-
-#### set chat:concierge:title
-
-Set the concierge’s title.
-
-
-```JavaScript
-  zE('webWidget:set', 'chat:concierge:title', title<string>);
-```
-
-##### Parameters
-
-* `title`: String. Contains the concierge's title
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:concierge:title', 'Live Support');
-```
----
-
-### Chat Prechat
-
-#### set chat:prechat:greetings
-
-Set the greeting messages displayed on the chat button for each status on the desktop widget.
-
-Status can be "online" or "offline".
-
-
-```JavaScript
-  zE('webWidget:set', 'chat:prechat:greetings', greetings<hash>);
-```
-
-##### Parameters
-
-* `greetings`: Hash. May contain keys for 'offline' and 'online'
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:prechat:greetings', {
-    online: 'Chat with us',
-    offline: 'Leave us a message'
-  });
-```
----
-
-### Chat Offline
-
-#### set chat:offline:greeting
-
-Set the greeting message displayed on the offline form.
-
-```JavaScript
-  zE('webWidget:set', 'chat:offline:greetings', greeting<string>);
-```
-
-##### Parameters
-
-* `greeting`: String. Contains the greeting for the offline form
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:offline:greeting', "We're currently offline. Please leave us a message");
-```
----
-
-
 ### Chat Visitor
 
-#### set chat:visitor:path
+#### updatePath
 
 Programmatically update visitor’s webpath.
 
@@ -645,37 +400,12 @@ Note: Chat triggers set to run "when a visitor has loaded the chat widget" will 
 
 ```JavaScript
   // Without options
-  zE('webWidget:set', 'chat:visitor:path');
+  zE('webWidget:updatePath');
 
   // With options
-  zE('webWidget:set', 'chat:visitor:path', {
+  zE('webWidget:updatePath', {
     url: 'http://example.com',
     title: "Ready to rock'n'roll!"
   });
-```
----
-
-
-### Chat Mobile
-
-#### set chat:mobile:notifications
-
-Disable/Re-enable the showing of mobile notifications. This method should be called on every page that notifications should be disabled, as they are enabled by default.
-
-Note: the mobile notifications feature is mobile overlay mode only.
-
-
-```JavaScript
-  zE('webWidget:set', 'chat:mobile:notifications', enabled<boolean>);
-```
-
-##### Parameters
-
-* `enabled`: Boolean. The desired state for mobile notifications
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:mobile:notifications', false);
 ```
 ---
