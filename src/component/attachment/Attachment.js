@@ -149,7 +149,7 @@ export class Attachment extends Component {
     );
 
     return (
-      <div className={containerClasses}>
+      <div className={containerClasses} ui-test-id={`attachmentContainer-${this.props.attachmentId}`}>
         <div className={styles.preview}>
           {this.renderPreviewIcon()}
           <div className={styles.description}>
