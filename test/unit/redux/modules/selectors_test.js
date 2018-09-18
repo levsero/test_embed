@@ -7,6 +7,8 @@ describe('selectors', () => {
     getTalkAvailable,
     getShowTicketFormsBackButton,
     getChatOfflineAvailable,
+    getFixedStyles,
+    getIsOnInitialDesktopSearchScreen,
     settingsChatSuppressValue,
     zopimChatOnlineValue,
     showOfflineFormValue,
@@ -20,7 +22,13 @@ describe('selectors', () => {
     activeTicketFormValue,
     activeEmbedValue,
     ticketFormsValue,
-    offlineFormEnabledValue;
+    offlineFormEnabledValue,
+    hasSearched,
+    contextualHelpRequestNeeded,
+    articleViewActive,
+    isMobile,
+    ipmWidget,
+    standaloneMobileNotificationVisible;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -36,6 +44,12 @@ describe('selectors', () => {
   agentAvailabilityValue = false;
   activeTicketFormValue = null;
   ticketFormsValue = [];
+  hasSearched = false;
+  contextualHelpRequestNeeded = false;
+  articleViewActive = false;
+  isMobile = false;
+  ipmWidget = false;
+  standaloneMobileNotificationVisible = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -49,14 +63,16 @@ describe('selectors', () => {
         getSubmitTicketEmbed: () => submitTicketEmbedValue,
         getChatEmbed: () => chatEmbedValue,
         getTalkEmbed: () => talkEmbedValue,
-        getZopimChatEmbed: () => zopimChatEmbedValue
+        getZopimChatEmbed: () => zopimChatEmbedValue,
+        getIPMWidget: () => ipmWidget
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
-        getOfflineFormEnabled: () => offlineFormEnabledValue
+        getOfflineFormEnabled: () => offlineFormEnabledValue,
+        getStandaloneMobileNotificationVisible: () => standaloneMobileNotificationVisible
       },
       './zopimChat/zopimChat-selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue
@@ -68,6 +84,18 @@ describe('selectors', () => {
       './submitTicket/submitTicket-selectors': {
         getActiveTicketForm: () => activeTicketFormValue,
         getTicketForms: () => ticketFormsValue
+      },
+      'utility/devices': {
+        isMobileBrowser: () => isMobile
+      },
+      'src/constants/shared': {
+        MAX_WIDGET_HEIGHT_NO_SEARCH: 150,
+        WIDGET_MARGIN: 15
+      },
+      './helpCenter/helpCenter-selectors': {
+        getHasSearched: () => hasSearched,
+        getContextualHelpRequestNeeded: () => contextualHelpRequestNeeded,
+        getArticleViewActive: () => articleViewActive
       }
     });
 
@@ -83,6 +111,129 @@ describe('selectors', () => {
     getTalkAvailable = selectors.getTalkAvailable;
     getShowTicketFormsBackButton = selectors.getShowTicketFormsBackButton;
     getChatOfflineAvailable = selectors.getChatOfflineAvailable;
+    getFixedStyles = selectors.getFixedStyles;
+    getIsOnInitialDesktopSearchScreen = selectors.getIsOnInitialDesktopSearchScreen;
+  });
+
+  describe('getIsOnInitialDesktopSearchScreen', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getIsOnInitialDesktopSearchScreen();
+    });
+
+    describe('when maxHeight override style exists', () => {
+      beforeAll(() => {
+        isMobile = false;
+        helpCenterEmbedValue = true;
+        hasSearched = false;
+        contextualHelpRequestNeeded = false;
+        articleViewActive = false;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when maxHeight override style does not exist', () => {
+      beforeAll(() => {
+        isMobile = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+  });
+
+  describe('getFixedStyles', () => {
+    let result,
+      mockFrameType;
+
+    beforeEach(() => {
+      result = getFixedStyles({}, mockFrameType);
+    });
+
+    describe('when frame is launcher', () => {
+      beforeAll(() => {
+        mockFrameType = 'launcher';
+      });
+
+      it('returns no styles', () => {
+        expect(result)
+          .toEqual({});
+      });
+    });
+
+    describe('when frame is webWidget', () => {
+      beforeAll(() => {
+        mockFrameType = 'webWidget';
+      });
+
+      describe('when using ipm widget only', () => {
+        beforeAll(() => {
+          ipmWidget = true;
+        });
+
+        afterEach(() => {
+          ipmWidget = false;
+        });
+
+        it('returns no styles', () => {
+          expect(result)
+            .toEqual({});
+        });
+      });
+
+      describe('when on initial search screen', () => {
+        beforeAll(() => {
+          isMobile = false;
+          helpCenterEmbedValue = true;
+          hasSearched = false;
+          contextualHelpRequestNeeded = false;
+          articleViewActive = false;
+        });
+
+        afterEach(() => {
+          helpCenterEmbedValue = false;
+        });
+
+        it('returns maxHeight styles', () => {
+          expect(result)
+            .toEqual({
+              maxHeight: '165px'
+            });
+        });
+      });
+
+      describe('when standaloneMobileNotificationVisible is true', () => {
+        beforeAll(() => {
+          standaloneMobileNotificationVisible = true;
+        });
+
+        afterEach(() => {
+          standaloneMobileNotificationVisible = false;
+        });
+
+        it('returns mobile styles', () => {
+          expect(result)
+            .toEqual({
+              height: '33%',
+              background: 'transparent'
+            });
+        });
+      });
+
+      describe('when no styles are needed', () => {
+        it('returns no styles', () => {
+          expect(result)
+            .toEqual({});
+        });
+      });
+    });
   });
 
   describe('getChatOfflineAvailable', () => {
@@ -262,6 +413,7 @@ describe('selectors', () => {
 
     describe('when no other embeds are available', () => {
       beforeEach(() => {
+        helpCenterEmbedValue = false;
         result = getShowTalkBackButton();
       });
 

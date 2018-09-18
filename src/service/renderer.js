@@ -219,7 +219,11 @@ function renderedEmbedsApply(fn) {
     const currentEmbed = embedsMap[embed.embed].get(name).instance;
 
     if (currentEmbed) {
-      fn(currentEmbed);
+      if (currentEmbed.getWrappedInstance) {
+        fn(currentEmbed.getWrappedInstance());
+      } else {
+        fn(currentEmbed);
+      }
     }
   });
 }

@@ -140,9 +140,7 @@ describe('embed.webWidget', () => {
       './webWidgetStyles.js': {
         webWidgetStyles: 'mockCss'
       },
-      'component/frame/Frame': {
-        Frame: mockFrame
-      },
+      'component/frame/Frame': mockFrame,
       'src/redux/modules/chat': {
         setVisitorInfo: (user) => user
       },
@@ -246,7 +244,7 @@ describe('embed.webWidget', () => {
       it('applies webWidget.scss to the frame factory', () => {
         webWidget.create();
 
-        expect(webWidget.get().component.props.css)
+        expect(webWidget.get().component.props.children.props.css)
           .toContain('mockCss');
       });
 
@@ -342,12 +340,13 @@ describe('embed.webWidget', () => {
           };
 
           webWidget.create('', config);
+          webWidget.render();
 
-          faythe = webWidget.get().component.props.children;
+          faythe = webWidget.get().instance.props.children;
         });
 
         it('passes in ipmHelpCenterAvailable as false', () => {
-          expect(faythe.props.ipmHelpCenterAvailable)
+          expect(faythe.ipmHelpCenterAvailable)
             .toBeFalsy();
         });
       });
@@ -360,8 +359,9 @@ describe('embed.webWidget', () => {
           };
 
           webWidget.create('', config);
+          webWidget.render();
 
-          faythe = webWidget.get().component.props.children;
+          faythe = webWidget.get().instance.props.children;
         });
 
         it('passes in ipmHelpCenterAvailable as true', () => {
@@ -379,8 +379,9 @@ describe('embed.webWidget', () => {
           };
 
           webWidget.create('', config);
+          webWidget.render();
 
-          faythe = webWidget.get().component.props.children;
+          faythe = webWidget.get().instance.props.children;
         });
 
         it('passes in ipmHelpCenterAvailable as false', () => {
@@ -398,8 +399,9 @@ describe('embed.webWidget', () => {
         };
 
         webWidget.create('', config);
+        webWidget.render();
 
-        faythe = webWidget.get().component.props.children;
+        faythe = webWidget.get().instance.props.children;
       });
 
       it('should apply the different formTitleKey props to the correct embed props', () => {
@@ -419,8 +421,9 @@ describe('embed.webWidget', () => {
         beforeEach(() => {
           mockIsMobileBrowser = true;
           webWidget.create();
+          webWidget.render();
 
-          faythe = webWidget.get().component.props.children;
+          faythe = webWidget.get().instance.props.children;
         });
 
         it('switches container styles', () => {

@@ -8,7 +8,6 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { LoadingBarContent } from 'component/loading/LoadingBarContent';
-import { MAX_WIDGET_HEIGHT_NO_SEARCH } from 'constants/shared';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './HelpCenterDesktop.scss';
@@ -38,7 +37,9 @@ export class HelpCenterDesktop extends Component {
     talkEnabled: PropTypes.bool,
     updateChatScreen: PropTypes.func,
     isContextualSearchPending: PropTypes.bool.isRequired,
-    chatOfflineAvailable: PropTypes.bool.isRequired
+    chatOfflineAvailable: PropTypes.bool.isRequired,
+    isOnInitialDesktopSearchScreen: PropTypes.bool,
+    maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object])
   };
 
   static defaultProps = {
@@ -121,13 +122,13 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderHeaderContent = () => {
-    return (this.props.articleViewActive || !this.props.hasSearched)
+    return this.props.isOnInitialDesktopSearchScreen || this.props.articleViewActive
       ? null
       : this.renderForm();
   }
 
   renderBodyForm = () => {
-    return (this.props.articleViewActive || this.props.hasSearched)
+    return !this.props.isOnInitialDesktopSearchScreen
       ? null
       : this.renderForm();
   }
@@ -153,12 +154,12 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderFooterContent = () => {
-    const { channelChoice, showNextButton, hasSearched, articleViewActive } = this.props;
+    const { channelChoice, showNextButton } = this.props;
     const onClickHandler = channelChoice
       ? this.props.onNextClick
       : this.props.handleNextClick;
 
-    return showNextButton && (hasSearched || articleViewActive)
+    return showNextButton && !this.props.isOnInitialDesktopSearchScreen
       ? (
         <div className={styles.buttonContainer}>
           <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
@@ -184,11 +185,10 @@ export class HelpCenterDesktop extends Component {
   }
 
   render = () => {
-    const fullHeight = this.props.hasSearched || this.props.articleViewActive;
-    const customHeightClasses = !fullHeight ? styles.noCustomHeight : '';
+    const customHeightClasses = this.props.isOnInitialDesktopSearchScreen ? styles.noCustomHeight : '';
     let footerClasses = '';
 
-    if (!this.props.showNextButton && fullHeight) {
+    if (!this.props.showNextButton) {
       if (this.props.articleViewActive && this.props.hideZendeskLogo) {
         footerClasses = styles.footerArticleView;
       } else {
@@ -203,7 +203,7 @@ export class HelpCenterDesktop extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           classes={customHeightClasses}
-          maxHeight={fullHeight ? undefined : MAX_WIDGET_HEIGHT_NO_SEARCH}
+          maxHeight={this.props.maxWidgetHeight}
           footerClasses={footerClasses}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}>

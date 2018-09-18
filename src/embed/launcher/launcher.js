@@ -6,11 +6,12 @@ import 'core-js/es6/set';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import { Provider } from 'react-redux';
 
 import { launcherStyles } from './launcherStyles.js';
 import { document,
   getDocumentHost } from 'utility/globals';
-import { Frame } from 'component/frame/Frame';
+import Frame from 'component/frame/Frame';
 import Launcher from 'component/Launcher';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
@@ -22,7 +23,7 @@ import { renewToken } from 'src/redux/modules/base';
 
 const launcherCSS = `${require('globalCSS')} ${launcherStyles}`;
 
-let launchers = {};
+let embed;
 
 function create(name, config, reduxStore) {
   const configDefaults = {
@@ -88,6 +89,7 @@ function create(name, config, reduxStore) {
   };
 
   const params = {
+    ref: (el) => { embed.instance = el.getWrappedInstance(); },
     css: launcherCSS + generateUserLauncherCSS(config.color),
     frameStyleModifier: isMobileBrowser() ? adjustStylesForZoom : adjustWidth,
     frameOffsetWidth,
@@ -101,81 +103,78 @@ function create(name, config, reduxStore) {
   };
 
   const component = (
-    <Frame {...params} store={reduxStore}>
-      <Launcher
-        onClick={onClick}
-        updateFrameTitle={updateFrameTitle}
-        label={`embeddable_framework.launcher.label.${config.labelKey}`} />
-    </Frame>
+    <Provider store={reduxStore}>
+      <Frame {...params} store={reduxStore}>
+        <Launcher
+          onClick={onClick}
+          updateFrameTitle={updateFrameTitle}
+          label={`embeddable_framework.launcher.label.${config.labelKey}`} />
+      </Frame>
+    </Provider>
   );
 
-  launchers[name] = {
+  embed = {
     component: component,
     config: config
   };
 }
 
-function list() {
-  return launchers;
+function get() {
+  return embed;
 }
 
-function get(name) {
-  return launchers[name];
+function getRootComponent() {
+  return get().instance.getRootComponent();
 }
 
-function getRootComponent(name) {
-  return get(name).instance.getRootComponent();
-}
-
-function render(name) {
-  if (launchers[name] && launchers[name].instance) {
-    throw new Error(`Launcher ${name} has already been rendered.`);
+function render() {
+  if (embed && embed.instance) {
+    throw new Error('Launcher has already been rendered.');
   }
 
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  launchers[name].instance = ReactDOM.render(launchers[name].component, element);
+  ReactDOM.render(embed.component, element);
 
-  mediator.channel.subscribe(name + '.hide', (options = {}) => {
-    waitForRootComponent(name, () => {
-      get(name).instance.hide(options);
+  mediator.channel.subscribe('launcher.hide', (options = {}) => {
+    waitForRootComponent(() => {
+      get().instance.hide(options);
     });
   });
 
-  mediator.channel.subscribe(name + '.show', (options = {}) => {
-    waitForRootComponent(name, () => {
-      get(name).instance.show(options);
+  mediator.channel.subscribe('launcher.show', (options = {}) => {
+    waitForRootComponent(() => {
+      get('launcher').instance.show(options);
     });
   });
 
-  mediator.channel.subscribe(name + '.refreshLocale', () => {
-    waitForRootComponent(name, () => {
-      get(name).instance.updateFrameLocale();
-      getRootComponent(name).forceUpdate();
+  mediator.channel.subscribe('launcher.refreshLocale', () => {
+    waitForRootComponent(() => {
+      get().instance.updateFrameLocale();
+      getRootComponent('launcher').forceUpdate();
     });
   });
 
-  mediator.channel.subscribe(name + '.setUnreadMsgs', (unreadMsgs) => {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setUnreadMessages(unreadMsgs);
-      get(name).instance.forceUpdateWorld();
+  mediator.channel.subscribe('launcher.setUnreadMsgs', (unreadMsgs) => {
+    waitForRootComponent(() => {
+      getRootComponent().setUnreadMessages(unreadMsgs);
+      get().instance.forceUpdateWorld();
     });
   });
 }
 
-function waitForRootComponent(name, callback) {
-  if (getRootComponent(name)) {
+function waitForRootComponent(callback) {
+  if (getRootComponent()) {
     callback();
   } else {
     setTimeout(() => {
-      waitForRootComponent(name, callback);
+      waitForRootComponent(callback);
     }, 0);
   }
 }
 
 export const launcher = {
   create: create,
-  list: list,
   get: get,
   render: render
 };

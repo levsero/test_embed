@@ -6,8 +6,6 @@ describe('HelpCenterDesktop component', () => {
   const ChannelChoicePopupDesktop = noopReactComponent();
   const LoadingBarContent = noopReactComponent();
 
-  const MAX_WIDGET_HEIGHT_NO_SEARCH = 150;
-
   beforeEach(() => {
     mockery.enable();
 
@@ -64,9 +62,6 @@ describe('HelpCenterDesktop component', () => {
           noCustomHeight: 'noCustomHeight'
         }
       },
-      'constants/shared': {
-        MAX_WIDGET_HEIGHT_NO_SEARCH,
-      },
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -95,11 +90,11 @@ describe('HelpCenterDesktop component', () => {
     let helpCenterDesktop;
 
     beforeEach(() => {
-      helpCenterDesktop = domRender(<HelpCenterDesktop hasSearched={true} />);
+      helpCenterDesktop = domRender(<HelpCenterDesktop hasSearched={true} showNextButton={true} />);
     });
 
     it('should not show initially', () => {
-      helpCenterDesktop = domRender(<HelpCenterDesktop hasSearched={false} />);
+      helpCenterDesktop = domRender(<HelpCenterDesktop hasSearched={false} showNextButton={false} />);
 
       const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
 
@@ -164,54 +159,26 @@ describe('HelpCenterDesktop component', () => {
     describe('height of HC', () => {
       let helpCenterDesktop,
         mockArticleViewActive,
-        mockHasSearched;
+        mockHasSearched,
+        mockIsOnInitialDesktopSearchScreen,
+        mockMaxWidgetHeight;
 
       beforeEach(() => {
         helpCenterDesktop = domRender(
           <HelpCenterDesktop
             articleViewActive={mockArticleViewActive}
-            hasSearched={mockHasSearched} />
+            hasSearched={mockHasSearched}
+            isOnInitialDesktopSearchScreen={mockIsOnInitialDesktopSearchScreen}
+            maxWidgetHeight={mockMaxWidgetHeight} />
         );
 
         result = helpCenterDesktop.render();
       });
 
-      describe('when hasSearched is true', () => {
+      describe('when isOnInitialDesktopSearchScreen is true', () => {
         beforeAll(() => {
-          mockHasSearched = true;
-        });
-
-        it('does not apply any custom height classes', () => {
-          expect(result.props.children[0].props.classes)
-            .toEqual('');
-        });
-
-        it('passes undefined through as maxHeight prop to scrollContainer', () => {
-          expect(result.props.children[0].props.maxHeight)
-            .toEqual(undefined);
-        });
-      });
-
-      describe('when articleViewActive is true', () => {
-        beforeAll(() => {
-          mockArticleViewActive = true;
-        });
-
-        it('does not apply any custom height classes', () => {
-          expect(result.props.children[0].props.classes)
-            .toEqual('');
-        });
-
-        it('passes undefined through as maxHeight prop to scrollContainer', () => {
-          expect(result.props.children[0].props.maxHeight)
-            .toEqual(undefined);
-        });
-      });
-
-      describe('when hasSearched and mock article view active are false', () => {
-        beforeAll(() => {
-          mockHasSearched = false;
-          mockArticleViewActive = false;
+          mockMaxWidgetHeight = 150;
+          mockIsOnInitialDesktopSearchScreen = true;
         });
 
         it('does not render the new 550px height', () => {
@@ -221,7 +188,24 @@ describe('HelpCenterDesktop component', () => {
 
         it('passes the MAX_WIDGET_HEIGHT_NO_SEARCH through as maxHeight prop to scrollContainer', () => {
           expect(result.props.children[0].props.maxHeight)
-            .toEqual(MAX_WIDGET_HEIGHT_NO_SEARCH);
+            .toEqual(150);
+        });
+      });
+
+      describe('when isOnInitialDesktopSearchScreen is false', () => {
+        beforeAll(() => {
+          mockMaxWidgetHeight = undefined;
+          mockIsOnInitialDesktopSearchScreen = false;
+        });
+
+        it('renders the new 550px height', () => {
+          expect(result.props.children[0].props.classes)
+            .toEqual('');
+        });
+
+        it('passes undefined through as maxHeight prop to scrollContainer', () => {
+          expect(result.props.children[0].props.maxHeight)
+            .toEqual(undefined);
         });
       });
     });
@@ -410,11 +394,11 @@ describe('HelpCenterDesktop component', () => {
         componentProps = { showNextButton: true };
       });
 
-      describe('when hasSearched is true', () => {
+      describe('when isOnInitialDesktopSearchScreen is false', () => {
         beforeAll(() => {
           componentProps = {
             ...componentProps,
-            hasSearched: true
+            isOnInitialDesktopSearchScreen: false
           };
         });
 
@@ -424,26 +408,11 @@ describe('HelpCenterDesktop component', () => {
         });
       });
 
-      describe('when articleViewActive is true', () => {
+      describe('when isOnInitialDesktopSearchScreen is true', () => {
         beforeAll(() => {
           componentProps = {
             ...componentProps,
-            articleViewActive: true
-          };
-        });
-
-        it('returns a div', () => {
-          expect(result.type)
-            .toEqual('div');
-        });
-      });
-
-      describe('when hasSearched and articleViewActive are both false', () => {
-        beforeAll(() => {
-          componentProps = {
-            ...componentProps,
-            articleViewActive: false,
-            hasSearched: false
+            isOnInitialDesktopSearchScreen: true
           };
         });
 
@@ -456,7 +425,10 @@ describe('HelpCenterDesktop component', () => {
 
     describe('when showNextButton is false', () => {
       beforeAll(() => {
-        componentProps = { showNextButton: false };
+        componentProps = {
+          showNextButton: false,
+          isOnInitialDesktopSearchScreen: false
+        };
       });
 
       it('returns null', () => {
@@ -467,25 +439,18 @@ describe('HelpCenterDesktop component', () => {
   });
 
   describe('renderBodyForm', () => {
-    it('is not rendered when user has searched', () => {
-      const component = instanceRender(<HelpCenterDesktop hasSearched={true} />);
-
-      expect(component.renderBodyForm())
-        .toBeNull();
-    });
-
-    it('is not rendered when article view is active', () => {
-      const component = instanceRender(<HelpCenterDesktop articleViewActive={true} />);
-
-      expect(component.renderBodyForm())
-        .toBeNull();
-    });
-
-    it('is rendered when not in article view and user has not searched', () => {
-      const component = instanceRender(<HelpCenterDesktop articleViewActive={false} hasSearched={false} />);
+    it('when isOnInitialDesktopSearchScreen is true', () => {
+      const component = instanceRender(<HelpCenterDesktop isOnInitialDesktopSearchScreen={true} />);
 
       expect(component.renderBodyForm())
         .not.toBeNull();
+    });
+
+    it('when isOnInitialDesktopSearchScreen is false', () => {
+      const component = instanceRender(<HelpCenterDesktop isOnInitialDesktopSearchScreen={false} />);
+
+      expect(component.renderBodyForm())
+        .toBeNull();
     });
   });
 
@@ -536,7 +501,7 @@ describe('HelpCenterDesktop component', () => {
 
     describe('when articleViewActive is true', () => {
       beforeAll(() => {
-        componentProps = { articleViewActive: true };
+        componentProps = { articleViewActive: true, isOnInitialDesktopSearchScreen: false };
       });
 
       it('does not call renderForm', () => {
@@ -545,37 +510,25 @@ describe('HelpCenterDesktop component', () => {
       });
     });
 
-    describe('when articleViewActive is false', () => {
+    describe('when isOnInitialDesktopSearchScreen is true', () => {
       beforeAll(() => {
-        componentProps = { articleViewActive: false };
+        componentProps = { articleViewActive: false, isOnInitialDesktopSearchScreen: true };
       });
 
-      describe('when any searched method is used', () => {
-        beforeAll(() => {
-          _.assignIn(componentProps, {
-            hasContextualSearched: true,
-            hasSearched: true
-          });
-        });
+      it('does not call renderForm', () => {
+        expect(component.renderForm)
+          .not.toHaveBeenCalled();
+      });
+    });
 
-        it('calls renderForm', () => {
-          expect(component.renderForm)
-            .toHaveBeenCalled();
-        });
+    describe('when articleViewActive and isOnInitialDesktopSearchScreen are false', () => {
+      beforeAll(() => {
+        componentProps = { articleViewActive: false, isOnInitialDesktopSearchScreen: false };
       });
 
-      describe('when no searched method is used', () => {
-        beforeAll(() => {
-          _.assignIn(componentProps, {
-            hasContextualSearched: false,
-            hasSearched: false
-          });
-        });
-
-        it('does not call renderForm', () => {
-          expect(component.renderForm)
-            .not.toHaveBeenCalled();
-        });
+      it('calls renderForm', () => {
+        expect(component.renderForm)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -592,42 +545,25 @@ describe('HelpCenterDesktop component', () => {
       component.renderBodyForm();
     });
 
-    describe('when articleViewActive is true', () => {
+    describe('when isOnInitialDesktopSearchScreen is true', () => {
       beforeAll(() => {
-        componentProps = { articleViewActive: true };
+        componentProps = { isOnInitialDesktopSearchScreen: true };
+      });
+
+      it('calls renderForm', () => {
+        expect(component.renderForm)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when isOnInitialDesktopSearchScreen is false', () => {
+      beforeAll(() => {
+        componentProps = { isOnInitialDesktopSearchScreen: false };
       });
 
       it('does not call renderForm', () => {
         expect(component.renderForm)
           .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('when articleViewActive is false', () => {
-      beforeAll(() => {
-        componentProps = { articleViewActive: false };
-      });
-
-      describe('when any searched method is used', () => {
-        beforeAll(() => {
-          _.assignIn(componentProps, { hasSearched: true });
-        });
-
-        it('does not call renderForm', () => {
-          expect(component.renderForm)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when no searched method is used', () => {
-        beforeAll(() => {
-          _.assignIn(componentProps, { hasSearched: false });
-        });
-
-        it('calls renderForm', () => {
-          expect(component.renderForm)
-            .toHaveBeenCalled();
-        });
       });
     });
   });

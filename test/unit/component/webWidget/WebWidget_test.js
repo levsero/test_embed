@@ -7,8 +7,6 @@ describe('WebWidget component', () => {
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
   const ChatNotificationPopup = noopReactComponent();
-  const MAX_WIDGET_HEIGHT_NO_SEARCH = 150;
-  const WIDGET_MARGIN = 15;
 
   beforeEach(() => {
     mockery.enable();
@@ -80,10 +78,6 @@ describe('WebWidget component', () => {
         ChannelChoice: noopReactComponent()
       },
       'component/chat/ChatNotificationPopup': { ChatNotificationPopup },
-      'constants/shared': {
-        MAX_WIDGET_HEIGHT_NO_SEARCH,
-        WIDGET_MARGIN
-      },
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
@@ -284,17 +278,14 @@ describe('WebWidget component', () => {
   describe('dismissStandaloneChatPopup', () => {
     let webWidget,
       chatNotificationDismissedSpy,
-      setFixedFrameStylesSpy,
       closeFrameSpy;
 
     beforeEach(() => {
       chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
-      setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
       closeFrameSpy = jasmine.createSpy('closeFrame');
       webWidget = instanceRender(
         <WebWidget
           chatNotificationDismissed={chatNotificationDismissedSpy}
-          setFixedFrameStyles={setFixedFrameStylesSpy}
           closeFrame={closeFrameSpy} />
       );
 
@@ -311,11 +302,6 @@ describe('WebWidget component', () => {
         const onHide = closeFrameSpy.calls.mostRecent().args[1].onHide;
 
         onHide();
-      });
-
-      it('calls props.setFixedFrameStyles with no parameters', () => {
-        expect(setFixedFrameStylesSpy)
-          .toHaveBeenCalledWith();
       });
 
       it('calls props.chatNotificationDismissed', () => {
@@ -359,18 +345,15 @@ describe('WebWidget component', () => {
 
     describe('when ChatNotificationPopup respond prop is called', () => {
       let chatNotificationRespondSpy,
-        setFixedFrameStylesSpy,
         onShowMobileSpy;
 
       beforeEach(() => {
         chatNotificationRespondSpy = jasmine.createSpy('chatNotificationRespond');
-        setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
         onShowMobileSpy = jasmine.createSpy('onShowMobile');
         webWidget = domRender(
           <WebWidget
             chatNotification={mockChatNotification}
             chatNotificationRespond={chatNotificationRespondSpy}
-            setFixedFrameStyles={setFixedFrameStylesSpy}
             onShowMobile={onShowMobileSpy} />
         );
 
@@ -385,11 +368,6 @@ describe('WebWidget component', () => {
       it('calls props.chatNotificationRespond', () => {
         expect(chatNotificationRespondSpy)
           .toHaveBeenCalled();
-      });
-
-      it('calls props.setFixedFrameStyles with no parameters', () => {
-        expect(setFixedFrameStylesSpy)
-          .toHaveBeenCalledWith();
       });
 
       it('calls props.onShowMobile', () => {
@@ -946,7 +924,6 @@ describe('WebWidget component', () => {
 
       component = instanceRender(<WebWidget {...componentProps} />);
 
-      spyOn(component, 'checkFrameHeight');
       spyOn(component, 'showHelpCenter');
       spyOn(component, 'getActiveComponent').and.callFake(() => ({
         clearForm: clearFormSpy
@@ -1087,11 +1064,6 @@ describe('WebWidget component', () => {
 
       it('calls showHelpCenter', () => {
         expect(component.showHelpCenter)
-          .toHaveBeenCalled();
-      });
-
-      it('calls checkFrameHeight', () => {
-        expect(component.checkFrameHeight)
           .toHaveBeenCalled();
       });
     });
@@ -1296,25 +1268,6 @@ describe('WebWidget component', () => {
             .toHaveBeenCalled();
         });
       });
-
-      describe('when the activeEmbed is helpCenter', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              helpCenterAvailable={true}
-              submitTicketAvailable={true}
-              activeEmbed='helpCenterForm' />
-          );
-
-          spyOn(webWidget, 'checkFrameHeight');
-          webWidget.show();
-        });
-
-        it('calls checkFrameHeight', () => {
-          expect(webWidget.checkFrameHeight)
-            .toHaveBeenCalled();
-        });
-      });
     });
 
     describe('when there is not an active embed', () => {
@@ -1492,18 +1445,12 @@ describe('WebWidget component', () => {
         );
 
         spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
-        spyOn(webWidget, 'checkFrameHeight');
         webWidget.resetActiveEmbed();
       });
 
       it('calls updateActiveEmbed with help center', () => {
         expect(updateActiveEmbedSpy)
           .toHaveBeenCalledWith('helpCenterForm');
-      });
-
-      it('calls checkFrameHeight', () => {
-        expect(webWidget.checkFrameHeight)
-          .toHaveBeenCalled();
       });
 
       describe('when the article view is active', () => {
@@ -1813,25 +1760,17 @@ describe('WebWidget component', () => {
     let webWidget;
 
     describe('when on mobile', () => {
-      let setFixedFrameStylesSpy,
-        showStandaloneMobileNotificationSpy;
+      let showStandaloneMobileNotificationSpy;
 
       beforeEach(() => {
-        setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
         showStandaloneMobileNotificationSpy = jasmine.createSpy('showStandaloneMobileNotification');
         webWidget = instanceRender(
           <WebWidget
             oldChat={false}
             fullscreen={true}
-            setFixedFrameStyles={setFixedFrameStylesSpy}
             showStandaloneMobileNotification={showStandaloneMobileNotificationSpy} />
         );
         webWidget.showProactiveChat();
-      });
-
-      it('calls props.setFixedFrameStyles with correct styles', () => {
-        expect(setFixedFrameStylesSpy)
-          .toHaveBeenCalledWith({ height: '33%', background: 'transparent' });
       });
 
       it('calls showStandaloneMobileNotification', () => {
@@ -1858,64 +1797,6 @@ describe('WebWidget component', () => {
       it('calls showChat with proactive true', () => {
         expect(webWidget.showChat)
           .toHaveBeenCalledWith({ proactive: true });
-      });
-    });
-  });
-
-  describe('checkFrameHeight', () => {
-    let webWidget, hasSearched, contextualHelpRequestNeeded, setFixedFrameStylesSpy;
-
-    beforeEach(() => {
-      setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
-      webWidget = instanceRender(
-        <WebWidget
-          fullscreen={false}
-          contextualHelpRequestNeeded={contextualHelpRequestNeeded}
-          setFixedFrameStyles={setFixedFrameStylesSpy}
-          hasSearched={hasSearched} />
-      );
-
-      webWidget.checkFrameHeight();
-    });
-
-    describe('when hasSearched is true', () => {
-      beforeAll(() => {
-        hasSearched = true;
-      });
-
-      it('does not call setFixedFrameStyles', () => {
-        expect(setFixedFrameStylesSpy)
-          .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('when hasSearched is false', () => {
-      beforeAll(() => {
-        hasSearched = false;
-      });
-
-      describe('when contextual help is on', () => {
-        beforeAll(() => {
-          contextualHelpRequestNeeded = true;
-        });
-
-        it('does not call setFixedFrameStyles', () => {
-          expect(setFixedFrameStylesSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when contextual help is off', () => {
-        beforeAll(() => {
-          contextualHelpRequestNeeded = false;
-        });
-
-        it('call setFixedFrameStyles with the correct params', () => {
-          expect(setFixedFrameStylesSpy)
-            .toHaveBeenCalledWith({
-              maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
-            });
-        });
       });
     });
   });

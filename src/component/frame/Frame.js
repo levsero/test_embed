@@ -6,6 +6,7 @@ import 'core-js/es6/set';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import { StyleSheetManager } from 'styled-components';
 
@@ -20,12 +21,19 @@ import { clickBusterRegister,
 import { win } from 'utility/globals';
 import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
+import { getFixedStyles } from 'src/redux/modules/selectors';
 import { FONT_SIZE, MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
 
 // Unregister lodash from window._
 if (!__DEV__) {
   _.noConflict();
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    fixedStyles: getFixedStyles(state, ownProps.name)
+  };
+};
 
 const scrollingStyleDelay = 50; // small delay so that safari has finished rendering
 const sizingRatio = FONT_SIZE * getZoomSizingRatio();
@@ -34,7 +42,7 @@ const transitionDuration = 250;
 const isPositionTop = () => settings.get('position.vertical') === 'top';
 const defaultMarginTop = () => isPositionTop() && !isMobileBrowser() ? '15px' : 0;
 
-export class Frame extends Component {
+class Frame extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     store: PropTypes.object.isRequired,
@@ -56,7 +64,10 @@ export class Frame extends Component {
     useBackButton: PropTypes.bool,
     transitions: PropTypes.object,
     visible: PropTypes.bool,
-    title: PropTypes.string
+    title: PropTypes.string,
+    fixedStyles: PropTypes.object,
+    updateWidgetShown: PropTypes.func,
+    widgetHideAnimationComplete: PropTypes.func
   }
 
   static defaultProps = {
@@ -79,21 +90,18 @@ export class Frame extends Component {
     useBackButton: false,
     transitions: {},
     visible: true,
-    title: ''
+    title: '',
+    fixedStyles: {},
+    updateWidgetShown: () => {},
+    widgetHideAnimationComplete: () => {}
   }
 
   constructor(props, context) {
     super(props, context);
     this.state = {
       childRendered: false,
-      frameStyle: props.frameStyle,
       hiddenByZoom: false,
-      iframeDimensions: {
-        height: 0,
-        width: 0
-      },
-      visible: props.visible,
-      fixedStyles: {}
+      visible: props.visible
     };
 
     this.child = null;
@@ -177,10 +185,6 @@ export class Frame extends Component {
     this.iframe.title = doc.title = title;
   }
 
-  setFixedFrameStyles = (fixedStyles = {}) => {
-    this.setState({ fixedStyles });
-  }
-
   getDefaultDimensions = () => {
     const { frameOffsetHeight, frameOffsetWidth, fullscreenable } = this.props;
     const fullscreen = isMobileBrowser() && fullscreenable;
@@ -209,7 +213,6 @@ export class Frame extends Component {
   }
 
   show = () => {
-    const { dispatch } = this.props.store;
     const frameFirstChild = this.getRootComponentElement();
 
     this.setState({ visible: true });
@@ -226,23 +229,22 @@ export class Frame extends Component {
     this.props.afterShowAnimate(this);
 
     if (this.props.name !== 'launcher') {
-      dispatch(updateWidgetShown(true));
+      this.props.updateWidgetShown(true);
     }
   }
 
   hide = (options = {}) => {
-    const { dispatch } = this.props.store;
-    const { onHide, store } = this.props;
+    const { onHide } = this.props;
     const hideFinished = () => {
       this.setState({ visible: false });
       onHide(this);
       if (options.onHide) options.onHide();
-      store.dispatch(widgetHideAnimationComplete());
+      this.props.widgetHideAnimationComplete();
     };
 
     hideFinished();
     if (this.props.name !== 'launcher') {
-      dispatch(updateWidgetShown(false));
+      updateWidgetShown(false);
     }
   }
 
@@ -289,7 +291,7 @@ export class Frame extends Component {
   }
 
   computeIframeStyle = () => {
-    const { frameStyle } = this.state;
+    const { frameStyle } = this.props;
     const modifiedStyles = this.child
       ? this.props.frameStyleModifier(frameStyle, this.getRootComponentElement()) || frameStyle
       : frameStyle;
@@ -316,7 +318,7 @@ export class Frame extends Component {
       frameStyle,
       modifiedStyles,
       mobileStyles,
-      this.state.fixedStyles
+      this.props.fixedStyles
     );
   }
 
@@ -361,7 +363,6 @@ export class Frame extends Component {
 
   constructEmbed = () => {
     const newChild = React.cloneElement(this.props.children, {
-      setFixedFrameStyles: this.setFixedFrameStyles,
       forceUpdateWorld: this.forceUpdateWorld,
       closeFrame: this.close,
       onBackButtonClick: this.back,
@@ -448,3 +449,10 @@ export class Frame extends Component {
     );
   }
 }
+
+const actionCreators = {
+  updateWidgetShown,
+  widgetHideAnimationComplete
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Frame);

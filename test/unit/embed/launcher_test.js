@@ -59,9 +59,7 @@ describe('embed.launcher', () => {
       './launcherStyles.js': {
         launcherStyles: 'mockCss'
       },
-      'component/frame/Frame': {
-        Frame: mockFrame
-      },
+      'component/frame/Frame': mockFrame,
       'utility/devices': {
         isMobileBrowser: () => mockIsMobileBrowser,
         getZoomSizingRatio: () => mockZoomSizingRatioValue
@@ -84,20 +82,14 @@ describe('embed.launcher', () => {
 
   describe('create', () => {
     it('should add a new launcher to the internal list', () => {
-      expect(_.keys(launcher.list()).length)
-        .toBe(0);
-
-      launcher.create('alice');
-
-      expect(_.keys(launcher.list()).length)
-        .toBe(1);
-
-      const alice = launcher.get('alice');
+      launcher.create('launcher');
+      launcher.render();
+      const alice = launcher.get();
 
       expect(alice)
         .toBeDefined();
 
-      expect(alice.component)
+      expect(alice.instance)
         .toBeDefined();
 
       expect(alice.config)
@@ -105,9 +97,9 @@ describe('embed.launcher', () => {
     });
 
     it('changes config.labelKey if labelKey is set', () => {
-      launcher.create('alice', { labelKey: 'test_label' });
+      launcher.create('launcher', { labelKey: 'test_label' });
 
-      const alice = launcher.get('alice');
+      const alice = launcher.get();
 
       expect(alice.config.labelKey)
         .toEqual('test_label');
@@ -125,9 +117,10 @@ describe('embed.launcher', () => {
           position: 'test_position',
           visible: true
         };
-        launcher.create('alice', config);
-        alice = launcher.get('alice');
-        frame = alice.component;
+        launcher.create('launcher', config);
+        launcher.render();
+        alice = launcher.get();
+        frame = alice.instance;
         child = frame.props.children;
       });
 
@@ -161,8 +154,8 @@ describe('embed.launcher', () => {
           dispatch: dispatchSpy
         };
         launcher.create('bob', config, reduxStore);
-        bob = launcher.get('bob');
-        frame = bob.component;
+        bob = launcher.get();
+        frame = bob.component.props.children;
         child = frame.props.children;
         child.props.onClick({
           preventDefault: () => {}
@@ -180,13 +173,13 @@ describe('embed.launcher', () => {
     it('should return the correct launcher', () => {
       const config = {
         position: 'test_alice_position',
-        onClick: () => 'alice',
+        onClick: () => 'launcher',
         icon: '',
         visible: true
       };
 
-      launcher.create('alice', config);
-      const alice = launcher.get('alice');
+      launcher.create('launcher', config);
+      const alice = launcher.get();
 
       expect(alice)
         .not.toBeUndefined();
@@ -205,35 +198,35 @@ describe('embed.launcher', () => {
   describe('render', () => {
     it('should throw an exception if launcher does not exist', () => {
       expect(() => {
-        launcher.render('non_existent_launcher');
+        launcher.render();
       }).toThrow();
     });
 
     it('renders a launcher', () => {
-      launcher.create('alice');
-      launcher.render('alice');
+      launcher.create('launcher');
+      launcher.render();
 
-      expect(launcher.get('alice').instance)
+      expect(launcher.get().instance)
         .toBeDefined();
     });
 
     it('should only be allowed to render an launcher once', () => {
-      launcher.create('alice');
+      launcher.create('launcher');
 
       expect(() => {
-        launcher.render('alice');
+        launcher.render();
       }).not.toThrow();
 
       expect(() => {
-        launcher.render('alice');
+        launcher.render();
       }).toThrow();
     });
 
     it('applies launcher styles to the frame', () => {
-      launcher.create('alice');
-      launcher.render('alice');
+      launcher.create('launcher');
+      launcher.render();
 
-      expect(launcher.get('alice').component.props.css)
+      expect(launcher.get().component.props.children.props.css)
         .toContain('mockCss');
     });
 
@@ -244,19 +237,19 @@ describe('embed.launcher', () => {
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        launcher.create('alice', { labelKey: 'test_label' });
-        launcher.render('alice');
-        alice = launcher.get('alice');
-        aliceLauncher = alice.instance.getChild().refs.rootComponent;
+        launcher.create('launcher', { labelKey: 'test_label' });
+        launcher.render();
+        alice = launcher.get();
+        aliceLauncher = alice.instance.getRootComponent();
       });
 
       it('should subscribe to <name>.hide', () => {
         expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('alice.hide', jasmine.any(Function));
+          .toHaveBeenCalledWith('launcher.hide', jasmine.any(Function));
 
         spyOn(alice.instance, 'hide');
 
-        pluckSubscribeCall(mockMediator, 'alice.hide')();
+        pluckSubscribeCall(mockMediator, 'launcher.hide')();
 
         expect(alice.instance.hide)
           .toHaveBeenCalled();
@@ -264,11 +257,11 @@ describe('embed.launcher', () => {
 
       it('should subscribe to <name>.show', () => {
         expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('alice.show', jasmine.any(Function));
+          .toHaveBeenCalledWith('launcher.show', jasmine.any(Function));
 
         spyOn(alice.instance, 'show');
 
-        pluckSubscribeCall(mockMediator, 'alice.show')();
+        pluckSubscribeCall(mockMediator, 'launcher.show')();
 
         expect(alice.instance.show)
           .toHaveBeenCalled();
@@ -279,12 +272,12 @@ describe('embed.launcher', () => {
           spyOn(alice.instance, 'updateFrameLocale');
           spyOn(aliceLauncher, 'forceUpdate');
 
-          pluckSubscribeCall(mockMediator, 'alice.refreshLocale')();
+          pluckSubscribeCall(mockMediator, 'launcher.refreshLocale')();
         });
 
         it('subscribes to <name>.refreshLocale', () => {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('alice.refreshLocale', jasmine.any(Function));
+            .toHaveBeenCalledWith('launcher.refreshLocale', jasmine.any(Function));
         });
 
         it('should call setLabel', () => {
@@ -301,11 +294,11 @@ describe('embed.launcher', () => {
       describe('<name>.setUnreadMsgs', () => {
         it('should subscribe to setUnreadMsgs', () => {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('alice.setUnreadMsgs', jasmine.any(Function));
+            .toHaveBeenCalledWith('launcher.setUnreadMsgs', jasmine.any(Function));
         });
 
         it('should call setLabel', () => {
-          pluckSubscribeCall(mockMediator, 'alice.setUnreadMsgs')();
+          pluckSubscribeCall(mockMediator, 'launcher.setUnreadMsgs')();
 
           expect(aliceLauncher.setUnreadMessages)
             .toHaveBeenCalled();
@@ -333,10 +326,10 @@ describe('embed.launcher', () => {
         beforeEach(() => {
           mockIsMobileBrowser = true;
           mockZoomSizingRatioValue = Math.random();
-          launcher.create('alice');
-          launcher.render('alice');
+          launcher.create('launcher');
+          launcher.render();
 
-          const alice = launcher.get('alice').instance;
+          const alice = launcher.get().instance;
           const frameStyleModifier = alice.props.frameStyleModifier;
 
           result = frameStyleModifier(frameStyle, element);
@@ -385,10 +378,10 @@ describe('embed.launcher', () => {
         };
 
         beforeEach(() => {
-          launcher.create('alice');
-          launcher.render('alice');
+          launcher.create('launcher');
+          launcher.render();
 
-          const alice = launcher.get('alice').instance;
+          const alice = launcher.get().instance;
           const frameStyleModifier = alice.props.frameStyleModifier;
 
           result = frameStyleModifier(frameStyle, element);

@@ -120,6 +120,9 @@ describe('Frame', () => {
       'lodash': _,
       'component/Icon': {
         Icon: noop
+      },
+      'src/redux/modules/selectors': {
+        getFixedStyles: () => {}
       }
     };
 
@@ -127,7 +130,7 @@ describe('Frame', () => {
 
     mockChild = (<MockChildComponent className='mock-component' />);
 
-    Frame = requireUncached(FramePath).Frame;
+    Frame = requireUncached(FramePath).default.WrappedComponent;
   });
 
   afterEach(() => {
@@ -230,44 +233,8 @@ describe('Frame', () => {
     });
   });
 
-  describe('setFixedFrameStyles', () => {
-    let frame, fixedStyles;
-
-    beforeEach(() => {
-      frame = instanceRender(<Frame>{mockChild}</Frame>);
-    });
-
-    describe('when called with an object', () => {
-      beforeEach(() => {
-        fixedStyles = {
-          width: '10px',
-          height: 'auto',
-          background: 'transparent'
-        };
-        frame.setFixedFrameStyles(fixedStyles);
-      });
-
-      it('sets the fixedStyles state', () => {
-        expect(frame.state.fixedStyles)
-          .toEqual(fixedStyles);
-      });
-    });
-
-    describe('when called with no parameters', () => {
-      beforeEach(() => {
-        fixedStyles = {};
-        frame.setFixedFrameStyles(fixedStyles);
-      });
-
-      it('sets the fixedStyles state to an empty object', () => {
-        expect(frame.state.fixedStyles)
-          .toEqual({});
-      });
-    });
-  });
-
   describe('show', () => {
-    let frame, mockOnShow, frameProps, mockAfterShowAnimate, dispatchSpy;
+    let frame, mockOnShow, frameProps, mockAfterShowAnimate;
     const animationDuration = 300;
 
     beforeEach(() => {
@@ -323,16 +290,9 @@ describe('Frame', () => {
 
     describe('when the name is not launcher', () => {
       beforeEach(() => {
-        dispatchSpy = jasmine.createSpy('dispatch');
+        mockUpdateWidgetShown.calls.reset();
 
-        frameProps = {
-          name: 'webWidget',
-          store: {
-            dispatch: dispatchSpy
-          }
-        };
-
-        frame = domRender(<Frame {...frameProps} />);
+        frame = domRender(<Frame name='webWidget' updateWidgetShown={mockUpdateWidgetShown} />);
         frame.show();
       });
 
@@ -340,37 +300,18 @@ describe('Frame', () => {
         expect(mockUpdateWidgetShown)
           .toHaveBeenCalledWith(true);
       });
-
-      it('calls dispatch', () => {
-        expect(dispatchSpy)
-          .toHaveBeenCalled();
-      });
     });
 
     describe('when the name is launcher', () => {
       beforeEach(() => {
-        dispatchSpy = jasmine.createSpy('dispatch');
-
-        frameProps = {
-          name: 'launcher',
-          store: {
-            dispatch: dispatchSpy
-          }
-        };
-
         mockUpdateWidgetShown.calls.reset();
 
-        frame = domRender(<Frame {...frameProps} />);
+        frame = domRender(<Frame name='launcher' updateWidgetShown={mockUpdateWidgetShown} />);
         frame.show();
       });
 
       it('does not call updateWidgetShown', () => {
         expect(mockUpdateWidgetShown)
-          .not.toHaveBeenCalled();
-      });
-
-      it('does not call dispatch', () => {
-        expect(dispatchSpy)
           .not.toHaveBeenCalled();
       });
     });
@@ -410,16 +351,13 @@ describe('Frame', () => {
   });
 
   describe('hide', () => {
-    let frame, mockOnHide, frameProps, dispatchSpy;
+    let frame, mockOnHide, frameProps;
 
     beforeEach(() => {
       mockOnHide = jasmine.createSpy('onHide');
-      dispatchSpy = jasmine.createSpy('dispatch');
       frameProps = {
         onHide: mockOnHide,
-        store: {
-          dispatch: dispatchSpy
-        }
+        widgetHideAnimationComplete: mockWidgetHideAnimationComplete
       };
 
       frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
@@ -447,11 +385,6 @@ describe('Frame', () => {
         .toHaveBeenCalled();
     });
 
-    it('calls dispatch', () => {
-      expect(dispatchSpy)
-        .toHaveBeenCalled();
-    });
-
     describe('when options.onHide is defined', () => {
       let onHideSpy;
 
@@ -469,13 +402,9 @@ describe('Frame', () => {
 
     describe('when the name is not launcher', () => {
       beforeEach(() => {
-        dispatchSpy = jasmine.createSpy('dispatch');
-
         frameProps = {
           name: 'webWidget',
-          store: {
-            dispatch: dispatchSpy
-          }
+          updateWidgetShown: mockUpdateWidgetShown
         };
 
         frame = domRender(<Frame {...frameProps} />);
@@ -486,22 +415,13 @@ describe('Frame', () => {
         expect(mockUpdateWidgetShown)
           .toHaveBeenCalledWith(false);
       });
-
-      it('calls dispatch twice', () => {
-        expect(dispatchSpy.calls.count())
-          .toBe(2);
-      });
     });
 
     describe('when the name is launcher', () => {
       beforeEach(() => {
-        dispatchSpy = jasmine.createSpy('dispatch');
-
         frameProps = {
           name: 'launcher',
-          store: {
-            dispatch: dispatchSpy
-          }
+          updateWidgetShown: mockUpdateWidgetShown
         };
 
         mockUpdateWidgetShown.calls.reset();
@@ -513,11 +433,6 @@ describe('Frame', () => {
       it('does not call updateWidgetShown', () => {
         expect(mockUpdateWidgetShown)
           .not.toHaveBeenCalled();
-      });
-
-      it('does not call dispatch twice', () => {
-        expect(dispatchSpy.calls.count())
-          .not.toBe(2);
       });
     });
   });
@@ -695,7 +610,6 @@ describe('Frame', () => {
 
       beforeEach(() => {
         mockSettingsValue = { zIndex: 10001 };
-        Frame = requireUncached(FramePath).Frame;
 
         frame = domRender(<Frame>{mockChild}</Frame>);
       });
@@ -706,7 +620,7 @@ describe('Frame', () => {
       });
     });
 
-    describe('state.fixedStyles', () => {
+    describe('fixedStyles prop', () => {
       let result;
       const frameStyle = { width: 0, height: 0, background: 'rgb(255, 255, 255)' };
 
@@ -714,8 +628,7 @@ describe('Frame', () => {
         const fixedStyles = { width: '10px', height: 'auto', background: 'transparent' };
 
         beforeEach(() => {
-          frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>);
-          frame.setFixedFrameStyles(fixedStyles);
+          frame = domRender(<Frame frameStyle={frameStyle} fixedStyles={fixedStyles}>{mockChild}</Frame>);
           result = frame.computeIframeStyle();
         });
 
@@ -758,7 +671,6 @@ describe('Frame', () => {
       describe('when settings sets position to top', () => {
         beforeEach(() => {
           mockSettingsValue = { position: { vertical: 'top'} };
-          Frame = requireUncached(FramePath).Frame;
 
           frame = domRender(<Frame>{mockChild}</Frame>);
         });
@@ -799,7 +711,6 @@ describe('Frame', () => {
       describe('when settings sets position', () => {
         beforeEach(() => {
           mockSettingsValue = { position: { horizontal: 'left'} };
-          Frame = requireUncached(FramePath).Frame;
 
           frame = domRender(<Frame>{mockChild}</Frame>);
         });
@@ -849,7 +760,6 @@ describe('Frame', () => {
 
       describe('when on launcher', () => {
         beforeEach(() => {
-          Frame = requireUncached(FramePath).Frame;
           frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
         });
 
@@ -912,7 +822,6 @@ describe('Frame', () => {
 
       describe('when on Web Widget', () => {
         beforeEach(() => {
-          Frame = requireUncached(FramePath).Frame;
           frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
         });
 
@@ -981,7 +890,6 @@ describe('Frame', () => {
 
       describe('when on launcher', () => {
         beforeEach(() => {
-          Frame = requireUncached(FramePath).Frame;
           frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
         });
 
@@ -1044,7 +952,6 @@ describe('Frame', () => {
 
       describe('when on Web Widget', () => {
         beforeEach(() => {
-          Frame = requireUncached(FramePath).Frame;
           frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
         });
 
@@ -1190,7 +1097,6 @@ describe('Frame', () => {
 
       mockLocaleValue = 'fr';
       mockIsRTLValue = true;
-      Frame = requireUncached(FramePath).Frame;
       frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
       doc = frame.getContentWindow().document;
 
@@ -1240,7 +1146,7 @@ describe('Frame', () => {
         .toEqual(true);
     });
 
-    describe('contructEmbed', () => {
+    describe('constructEmbed', () => {
       it('adds getFrameContentDocument to the child component', () => {
         expect(frame.getRootComponent().props.getFrameContentDocument)
           .toBeDefined();
@@ -1248,11 +1154,6 @@ describe('Frame', () => {
 
       it('adds onBackButtonClick to the child component', () => {
         expect(frame.getRootComponent().props.onBackButtonClick)
-          .toBeDefined();
-      });
-
-      it('adds setFixedFrameStyles to the child component', () => {
-        expect(frame.getRootComponent().props.setFixedFrameStyles)
           .toBeDefined();
       });
 
