@@ -6,10 +6,18 @@
   position: relative;
 }
 
+.innerContent {
+  flex-direction: column;
+  display: flex;
+  padding-bottom: #{25/$font-size}rem;
+  height: 100%;
+}
+
 .greeting {
   margin-top: #{6/$font-size}rem;
   font-size: $font-size-lrg;
   color: $zd-color-grey-800;
+  flex-grow: 1;
 }
 
 .button {

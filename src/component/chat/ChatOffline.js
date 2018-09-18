@@ -103,7 +103,7 @@ class ChatOffline extends Component {
         ref='scrollContainer'
         containerClasses={styles.scrollContainerContent}
         title={i18n.t('embeddable_framework.chat.title')}>
-        <div>
+        <div className={styles.innerContent}>
           <p className={styles.greeting}>
             {i18n.t('embeddable_framework.chat.offline.label.noForm')}
           </p>
