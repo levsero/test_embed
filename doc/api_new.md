@@ -22,7 +22,27 @@ All commands follow a basic syntax:
   });
 ```
 
-## General Commands
+The API commands are grouped into different categories. There are general commands that affect the entire widget and channel specific commands for each channel available in the widget.
+
+* [General](#general)
+* [Channels](#channels)
+  * [Chat](#chat)
+  * [Help Center](#helpCenter)
+
+## General
+
+General contains the following API methods:
+
+* get isOpen
+* on show
+* on hide
+* perform hide
+* perform show
+* perform logout
+* perform identify
+* perform prefill
+* perform setLocale
+* perform updateSettings
 
 #### get isOpen
 
@@ -222,7 +242,7 @@ The following example displays the widget in German:
 
 #### perform updateSettings
 
-zE('webWidget:updateSettings', data<hash>);
+zE('webWidget:perform', 'updateSettings', data<hash>);
 
 Updates the Web Widget's [zESettings](https://developer.zendesk.com/embeddables/docs/widget/zesettings). Can update multiple settings at once.
 
@@ -246,8 +266,23 @@ Updates the Web Widget's [zESettings](https://developer.zendesk.com/embeddables/
 ```
 ---
 
+## Channels
 
 ### Chat
+
+Chat contains the following API methods:
+
+* send message
+* get isChatting
+* get departments:department
+* get departments:all
+* perform end
+* perform updatePath
+* on connected
+* on start
+* on end
+* on status
+* on unreadMessages
 
 #### send chat:message
 
@@ -286,6 +321,49 @@ Boolean
 
 ---
 
+#### get chat:departments:department
+
+Return an object containing information about the specified department, including its ID, name and status. Otherwise return `undefined` if the department is not found or not enabled.
+
+```JavaScript
+  zE('webWidget:get', 'chat:departments:department', department<int|string>);
+```
+
+##### Parameters
+
+* `department`: Integer or String. ID or name of the department
+
+##### Example
+
+```JavaScript
+  zE('webWidget:get', 'chat:departments:department', 'Accounting');
+```
+
+##### Return value
+
+* An object containing information about the specified department, including its id, name and status.
+* Otherwise `undefined` if the department is not found or not enabled.
+
+---
+
+#### get chat:departments:all
+
+Return a list of all enabled departments containing information about each department including its id, name and status.
+
+```JavaScript
+  zE('webWidget:get', 'chat:departments:all');
+```
+
+##### Parameters
+
+None
+
+##### Return value
+
+* An array of objects containing information about each department, including its id, name and status.
+
+---
+
 #### perform chat:end
 
 zE('webWidget:perform', 'chat:end');
@@ -296,6 +374,34 @@ End the current chat session.
 
 None
 
+---
+
+#### perform updatePath
+
+Programmatically update visitor’s webpath.
+
+Note: Chat triggers set to run "when a visitor has loaded the chat widget" will be fired when the visitor path is changed.
+
+```JavaScript
+  zE('webWidget:perform', 'chat:visitor:path', options<hash>?);
+```
+
+##### Parameters
+
+* `options`: Hash (optional). If not specified, the current page’s location and title will be used; if specified, the updated page url and title will be taken from the options object
+
+##### Example
+
+```JavaScript
+  // Without options
+  zE('webWidget:perform', 'chat:updatePath');
+
+  // With options
+  zE('webWidget:perform', 'chat:updatePath' {
+    url: 'http://example.com',
+    title: "Ready to rock'n'roll!"
+  });
+```
 ---
 
 #### on chat:connected
@@ -412,101 +518,11 @@ Register a callback to be fired when the number of unread messages changes.  The
 ```
 ---
 
-### Chat Departments
-
-#### set chat:departments:label
-
-Set the department label.
-
-```JavaScript
-  zE('webWidget:set', 'chat:departments:label', label<string>);
-```
-
-##### Parameters
-
-* `label`: String. Label for department selection
-
-##### Example
-
-```JavaScript
-  zE('webWidget:set', 'chat:departments:label', 'Select a department');
-```
----
-
-#### get chat:departments:department
-
-Return an object containing information about the specified department, including its ID, name and status. Otherwise return `undefined` if the department is not found or not enabled.
-
-```JavaScript
-  zE('webWidget:get', 'chat:departments:department', department<int|string>);
-```
-
-##### Parameters
-
-* `department`: Integer or String. ID or name of the department
-
-##### Example
-
-```JavaScript
-  zE('webWidget:get', 'chat:departments:department', 'Accounting');
-```
-
-##### Return value
-
-* An object containing information about the specified department, including its id, name and status.
-* Otherwise `undefined` if the department is not found or not enabled.
-
----
-
-#### get chat:departments:all
-
-Return a list of all enabled departments containing information about each department including its id, name and status.
-
-```JavaScript
-  zE('webWidget:get', 'chat:departments:all');
-```
-
-##### Parameters
-
-None
-
-##### Return value
-
-* An array of objects containing information about each department, including its id, name and status.
-
----
-
-### Chat Visitor
-
-#### updatePath
-
-Programmatically update visitor’s webpath.
-
-Note: Chat triggers set to run "when a visitor has loaded the chat widget" will be fired when the visitor path is changed.
-
-```JavaScript
-  zE('webWidget:set', 'chat:visitor:path', options<hash>?);
-```
-
-##### Parameters
-
-* `options`: Hash (optional). If not specified, the current page’s location and title will be used; if specified, the updated page url and title will be taken from the options object
-
-##### Example
-
-```JavaScript
-  // Without options
-  zE('webWidget:updatePath');
-
-  // With options
-  zE('webWidget:updatePath', {
-    url: 'http://example.com',
-    title: "Ready to rock'n'roll!"
-  });
-```
----
-
 ### Help Center
+
+Help Center contains the following API method:
+
+* perform setSuggestions
 
 #### perform setSuggestions
 
