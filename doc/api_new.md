@@ -2,7 +2,11 @@
 
 As the Web Widget integrates more services, channels and features, we've focused on designing a consistent and coherent API that allows interacting with a wide range of Zendesk channels inside the widget.
 
-Note that to start using this API, you will need to embed the widget using the new snippet, which can be found on the Widget's setup page.
+**Note**: To start using this API, you will need to embed the widget using the new snippet, which can be found on the Widget's setup page.
+
+**Note**: If you're looking for the Widget code for your pages, you can get it from the admin pages of your Zendesk Support account. After signing in to your Zendesk Support account, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
+
+For more information on setting up the Web Widget, this [support article](https://support.zendesk.com/hc/en-us/articles/203908456-Using-Web-Widget-to-embed-customer-service-in-your-website) will guide you through your setup.
 
 All commands follow a basic syntax:
 
@@ -82,6 +86,50 @@ Executes a callback when the widget is hidden.
 
 ---
 
+#### perform hide
+
+The method completely hides all parts of the Widget from the page. You can invoke it before or after page load.
+
+```JavaScript
+  zE('webWidget:perform', 'hide');
+```
+
+##### Parameters
+
+None
+
+##### Example
+
+**Before page load**
+```html
+<script>
+  zE('webWidget:perform', 'hide');
+</script>
+```
+
+**After page load**
+```html
+  <button onclick="zE('webWidget:perform', 'hide')">Hide Web Widget</button>
+```
+
+#### perform show
+
+```JavaScript
+  zE('webWidget:perform', 'show');
+```
+
+The method displays the Widget on the host page in the state it was in when it was hidden.
+
+```html
+<script>
+  zE('webWidget:perform', 'show');
+</script>
+```
+
+Note: The widget will be displayed by default on page load when the Web Widget code snippet is present. You do not need to call `show` to display the widget unless `hide` is used.
+
+---
+
 #### perform logout
 
 [comment]: <> (Not sure about the 'perform' verb here. I've tried a few others)
@@ -146,6 +194,29 @@ Pre-fills an end-user's details on forms inside the Web Widget.
     name: 'Isamu Kurogane',
     email: 'isamu@voltron.com',
   });
+```
+---
+
+#### perform setLocale
+
+zE('webWidget:setLocale', data<string>);
+
+The method takes a locale string as an argument. For a list of supported locales and associated codes, see <https://support.zendesk.com/api/v2/rosetta/locales/public.json>.
+
+By default, the Web Widget is displayed to the end user in a language that matches the browser header of their web browser. If you want to force the Widget to be displayed in a specific language on your website, you can use `zE.setLocale()` to specify the language.
+
+The following example displays the widget in German:
+
+**Note**: This code should be placed immediately after the Web Widget code snippet
+
+##### Parameters
+
+* `data`: String. The locale string to change the widget locale too
+
+##### Example
+
+```JavaScript
+  zE('webWidget:perform', 'setLocale', 'de');
 ```
 ---
 
@@ -433,4 +504,37 @@ Note: Chat triggers set to run "when a visitor has loaded the chat widget" will 
     title: "Ready to rock'n'roll!"
   });
 ```
+---
+
+### Help Center
+
+#### perform setSuggestions
+
+```JavaScript
+  zE('webWidget:perform', 'helpCenter:setSuggestions', options<hash>);
+```
+
+The method enhances the contextual help provided by the Web Widget.
+
+##### Parameters
+
+* `{ url: true }` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page. This function should be called each time you want to set the suggestions. For example, navigating on a single-page app.
+
+* `{ search: 'search string' }` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
+
+* `{ labels: ['label1'] }` -  For Guide Professional customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
+
+**Note**: If you pass both search strings and labels, the labels are ignored.
+
+#### Usage
+
+Add the method in your HTML source code immediately after your Web Widget code snippet. Example:
+
+```html
+<script>
+  zE('webWidget:perform', 'helpCenter:setSuggestions', { search: 'credit card' });
+</script>
+```
+
+The `zE.setHelpCenterSuggestions()` method can be called multiple times, which can be useful in a single-page application.
 ---
