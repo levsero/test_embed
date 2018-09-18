@@ -149,7 +149,32 @@ Pre-fills an end-user's details on forms inside the Web Widget.
 ```
 ---
 
-## Channel-Specific Commands
+#### perform updateSettings
+
+zE('webWidget:updateSettings', data<hash>);
+
+Updates the Web Widget's [zESettings](https://developer.zendesk.com/embeddables/docs/widget/zesettings). Can update multiple settings at once.
+
+##### Parameters
+
+* `data`: Hash. Matches the structue defined in [zESettings](https://developer.zendesk.com/embeddables/docs/widget/zesettings)
+
+##### Example
+
+```JavaScript
+  zE('webWidget:perform', 'updateSettings', {
+    webWidget: {
+      chat: {
+        departments: {
+          enabled: ['finance', 'hr', 'sales'],
+          selected: 'sales'
+        }
+      }
+    }
+  });
+```
+---
+
 
 ### Chat
 
