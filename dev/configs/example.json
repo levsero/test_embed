@@ -1,0 +1,10 @@
+{
+  "zendeskHost": "dev.zd-dev.com",
+  "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6",
+  "talkIntegration": "https://talkintegration-pod999.zendesk-staging.com",
+  "talkNickname": "hola",
+  "sharedSecret": "abc123",
+  "chatSharedSecret": "123abc",
+  "articleId": "123",
+  "gaID": "UA-103023081-1"
+}
