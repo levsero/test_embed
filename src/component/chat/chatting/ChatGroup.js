@@ -102,7 +102,7 @@ export class ChatGroup extends Component {
   }
 
   renderMessageBubble = (chat, isAgent, showAvatar) => {
-    const { msg, options } = chat;
+    const { msg, options, translation } = chat;
     const messageBubbleClasses = classNames({
       [styles.messageBubble]: showAvatar,
       [styles.userBackground]: !isAgent,
@@ -114,6 +114,7 @@ export class ChatGroup extends Component {
         className={messageBubbleClasses}
         message={msg}
         options={options}
+        translatedMessage={translation ? translation.msg : ''}
         handleSendMsg={this.props.handleSendMsg}
       />
     );

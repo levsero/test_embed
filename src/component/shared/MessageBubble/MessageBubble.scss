@@ -28,3 +28,22 @@
     text-decoration: underline;
   }
 }
+
+.translateLink {
+  margin-left: $spacing-tny;
+  transition: 100ms ease;
+  border-bottom: #{1/$font-size}rem solid transparent;
+  text-decoration: none !important;
+
+  [dir='rtl'] & {
+    margin-right: $spacing-tny;
+    margin-left: 0;
+  }
+
+  &:hover {
+    border-color: $zd-color-blue-400;
+    cursor: pointer;
+    text-decoration: none !important;
+  }
+}
+

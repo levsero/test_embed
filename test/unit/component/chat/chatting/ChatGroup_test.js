@@ -220,7 +220,10 @@ describe('ChatGroup component', () => {
         };
         chat = {
           msg: 'Hello how can I help you today?',
-          options: ['foo', 'bar']
+          options: ['foo', 'bar'],
+          translation: {
+            msg: 'someTranslatedMessage'
+          }
         };
       });
 
@@ -237,6 +240,11 @@ describe('ChatGroup component', () => {
       it('passes the options value', () => {
         expect(result.props.options)
           .toEqual(chat.options);
+      });
+
+      it('passes the translatedMessage', () => {
+        expect(result.props.translatedMessage)
+          .toEqual(chat.translation.msg);
       });
 
       it('passes the props.handleSendMsg value', () => {
