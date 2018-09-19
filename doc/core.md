@@ -228,11 +228,13 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
 
 The Web Widget has the following core settings:
 
-* [authenticate](#authenticate)
-* [color](#color)
-* [offset](#offset)
-* [position](#position)
-* [zIndex](#zindex)
+* [authenticate](./settings#authenticate)
+* [color](./settings#color)
+* [offset](./settings#offset)
+* [position](./settings#position)
+* [zIndex](./settings#zindex)
+* [contactOptions](#contactoptions)
+* [launcher](#launcher)
 
 <a name="example-general"></a>
 #### Example
@@ -247,16 +249,15 @@ window.zESettings = {
 </script>
 ```
 
-
-### Contact options settings
+#### Contact options settings
 
 The widget's `contactOptions` object, which represents a component that lets the user choose between starting a chat or submitting a ticket, has the following settings:
 
 * enabled (Boolean)
-* [contactButton](#contactbutton)
-* [chatLabelOnline](#chatlabelonline)
-* [chatLabelOffline](#chatlabeloffline)
-* [contactFormLabel](#contactformlabel)
+* [contactButton](./settings#contactbutton)
+* [chatLabelOnline](./settings#chatlabelonline)
+* [chatLabelOffline](./settings#chatlabeloffline)
+* [contactFormLabel](./settings#contactformlabel)
 
 To learn more about contact options, see [Offering end-users multiple contact options](https://support.zendesk.com/hc/en-us/articles/229167008#topic_spt_fb1_l1b) in the Support Help Center.
 
@@ -276,12 +277,12 @@ window.zESettings = {
 </script>
 ```
 
-### Launcher settings
+#### Launcher settings
 
 The widget's `launcher` object, which represents the launcher button, has the following settings:
 
-* [chatLabel](#chatlabel)
-* [label](#label)
+* [chatLabel](./settings#chatlabel)
+* [label](./settings#label)
 
 <a name="example-launcher-settings"></a>
 #### Example

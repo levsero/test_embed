@@ -235,16 +235,16 @@ The `chat` object has the following settings:
 
 It also has the following additional settings in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access).
 
-* [title](#title)
-* [concierge](#concierge)
-* [departments](#department)
-* [prechatForm](#prechatForm)
-* [offlineForm](#offlineForm)
-* [notifications](#notifications)
-* [tags](#tags)
+* [title](./settings#title)
+* [concierge](./settings#concierge)
+* [departments](./settings#departments)
+* [prechatForm](./settings#prechatForm)
+* [offlineForm](./settings#offlineForm)
+* [notifications](./settings#notifications)
+* [tags](./settings#tags)
 
 <a name="example-chat-settings"></a>
-### Example
+#### Example
 
 ```html
 <script type="text/javascript">

@@ -5,6 +5,20 @@ The Web Widget includes a "Contact us" form that lets users submit their issues 
 
 <img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_enduser_leavemsgattatchment_selected.png" width="200">
 
+
+### Settings
+
+The `contactForm` object has the following settings:
+
+* [attachments](./settings#attachments)
+* [fields](./settings#fields)
+* [selectTicketForm](./settings#selectticketform)
+* [subject](./settings#subject)
+* [suppress](./settings#suppress)
+* [tags](./settings#tags)
+* [ticketForms](./settings#ticketforms)
+* [title](./settings#title)
+
 <a name="example-contact-form"></a>
 ### Example
 
@@ -19,16 +33,3 @@ window.zESettings = {
 };
 </script>
 ```
-
-### Settings
-
-The `contactForm` object has the following settings:
-
-* [attachments](./settings#attachments)
-* [fields](./settings#fields)
-* [selectTicketForm](./settings#selectticketform)
-* [subject](./settings#subject)
-* [suppress](./settings#suppress)
-* [tags](./settings#tags)
-* [ticketForms](./settings#ticketforms)
-* [title](./settings#title)
