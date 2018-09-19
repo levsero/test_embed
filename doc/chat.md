@@ -233,7 +233,7 @@ The `chat` object has the following settings:
 
 * [suppress](#suppress)
 
-It also has the following additional settings if the [Integrated Chat Experience](https://chat.zendesk.com/hc/en-us/articles/360001024128-Announcing-Web-Widget-Integrated-Chat-Experience-EAP) is turned on.
+It also has the following additional settings in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access).
 
 * [title](#title)
 * [concierge](#concierge)
