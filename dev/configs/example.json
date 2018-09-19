@@ -10,6 +10,6 @@
   "user": {
     "name": "Alice Bob",
     "email": "alice.bob+12345@zddev.com",
-    "externalId": 1234
+    "externalId": "1234"
   }
 }
