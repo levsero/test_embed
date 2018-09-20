@@ -316,6 +316,16 @@ parts:
       title: "This is the text that shows in the chat log when user is fetching old messages"
       screenshot: "https://drive.google.com/open?id=1lUBpQbQA5sUMW42VBaAFaEaoE4qsqaZ0"
       value: "Loading messages..."
+  - translation:
+      key: "embeddable_framework.chat.show_original"
+      title: "This is the text that shows the 'Show original' link when a chat message has been translated."
+      screenshot: "https://drive.google.com/file/d/1oGGQ2DythnXZU1k0OCag5V5Y37q1FyuJ/view?usp=sharing"
+      value: "Show original"
+  - translation:
+      key: "embeddable_framework.chat.show_translated"
+      title: "This is the text that shows the 'Show translated' link when a chat message has not been translated."
+      screenshot: "https://drive.google.com/file/d/1pzyWmoeJ2J7-W4Ygqv3ich2_gw9o_LR7/view?usp=sharing"
+      value: "Show translated"
 
   # Chat Web SDK
   - translation:
