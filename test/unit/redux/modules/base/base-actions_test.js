@@ -786,4 +786,18 @@ describe('base redux actions', () => {
       });
     });
   });
+
+  describe('handleCloseButtonClicked', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleCloseButtonClicked());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches a CLOSE_BUTTON_CLICKED event', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CLOSE_BUTTON_CLICKED);
+    });
+  });
 });

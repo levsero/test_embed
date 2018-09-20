@@ -13,6 +13,7 @@ import {
   AUTHENTICATION_TOKEN_REVOKED,
   AUTHENTICATION_TOKEN_NOT_REVOKED,
   AUTHENTICATION_LOGGED_OUT,
+  CLOSE_BUTTON_CLICKED,
   UPDATE_EMBEDDABLE_CONFIG,
   UPDATE_QUEUE,
   REMOVE_FROM_QUEUE
@@ -236,6 +237,12 @@ export const removeFromQueue = (methodName) => {
 export const widgetHideAnimationComplete = () => {
   return {
     type: WIDGET_HIDE_ANIMATION_COMPLETE
+  };
+};
+
+export const handleCloseButtonClicked = () => {
+  return {
+    type: CLOSE_BUTTON_CLICKED
   };
 };
 

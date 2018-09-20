@@ -47,6 +47,9 @@ describe('Navigation', () => {
       'src/redux/modules/chat/chat-actions': {
         updateMenuVisibility: () => {}
       },
+      'src/redux/modules/base/base-actions': {
+        handleCloseButtonClicked: () => {}
+      },
       'constants/shared': {
         ICONS
       }
@@ -215,15 +218,25 @@ describe('Navigation', () => {
   describe('handleCloseClick', () => {
     let navigation;
     const handleCloseClickSpy = jasmine.createSpy('handleCloseClick');
+    const handleCloseButtonClickSpy = jasmine.createSpy('handleCloseButtonClick');
     const stopPropagationSpy = jasmine.createSpy('stopPropagation');
 
     beforeEach(() => {
-      navigation = domRender(<Navigation handleCloseClick={handleCloseClickSpy} />);
+      navigation = domRender(
+        <Navigation
+          handleCloseClick={handleCloseClickSpy}
+          handleCloseButtonClicked={handleCloseButtonClickSpy} />
+      );
       navigation.handleCloseClick({ stopPropagation: stopPropagationSpy });
     });
 
     it('calls handleCloseClick prop', () => {
       expect(handleCloseClickSpy)
+        .toHaveBeenCalled();
+    });
+
+    it('calls handleCloseButtonClick prop', () => {
+      expect(handleCloseButtonClickSpy)
         .toHaveBeenCalled();
     });
 

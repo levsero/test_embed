@@ -14,6 +14,7 @@ import {
   getStandaloneMobileNotificationVisible
 } from 'src/redux/modules/chat/chat-selectors';
 import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
+import { handleCloseButtonClicked } from 'src/redux/modules/base/base-actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -29,6 +30,7 @@ class Navigation extends Component {
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
     handleCloseClick: PropTypes.func,
+    handleCloseButtonClicked: PropTypes.func,
     hideCloseButton: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
     useBackButton: PropTypes.bool,
@@ -42,6 +44,7 @@ class Navigation extends Component {
     fullscreen: false,
     handleBackClick: () => {},
     handleCloseClick: () => {},
+    handleCloseButtonClicked: () => {},
     hideCloseButton: false,
     backButtonVisible: false,
     useBackButton: false,
@@ -76,6 +79,9 @@ class Navigation extends Component {
 
   handleCloseClick = (e) => {
     e.stopPropagation();
+    // Eventually the handleCloseClick prop would be done through redux and we
+    // wouldn't need both of these.
+    this.props.handleCloseButtonClicked();
     this.props.handleCloseClick();
   }
 
@@ -112,7 +118,7 @@ class Navigation extends Component {
       ? <div>
         {this.renderLeftNavButton()}
         {this.renderNavButton({
-          onClick: this.props.handleCloseClick,
+          onClick: this.handleCloseClick,
           'aria-label': i18n.t('embeddable_framework.navigation.close'),
           icon: ICONS.DASH,
           position: 'right',
@@ -123,7 +129,8 @@ class Navigation extends Component {
 }
 
 const actionCreators = {
-  updateMenuVisibility: updateChatMenuVisibility
+  updateMenuVisibility: updateChatMenuVisibility,
+  handleCloseButtonClicked: handleCloseButtonClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Navigation);
