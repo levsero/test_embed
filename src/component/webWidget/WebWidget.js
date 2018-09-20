@@ -297,7 +297,7 @@ class WebWidget extends Component {
   }
 
   show = (viaActivate = false) => {
-    const { activeEmbed, chatAvailable, talkAvailable } = this.props;
+    const { activeEmbed, chatAvailable, chatOfflineAvailable, talkAvailable } = this.props;
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
@@ -320,7 +320,7 @@ class WebWidget extends Component {
     }
 
     const channelChoiceUnavailable = (activeEmbed === channelChoice && !this.isChannelChoiceAvailable());
-    const chatUnavailable = (activeEmbed === chat && !chatAvailable);
+    const chatUnavailable = (activeEmbed === chat && !chatAvailable && !chatOfflineAvailable);
     const talkUnavailable = (activeEmbed === talk && !talkAvailable);
 
     if (
