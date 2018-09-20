@@ -122,7 +122,8 @@ export default function WebWidgetFactory(name) {
       color: '#659700'
     };
     const talkConfig = config.talk;
-    const talkAvailable = !!talkConfig && !settings.get('talk.suppress');
+    const talkAvailable = !!talkConfig && !settings.get('talk.suppress') &&
+      !!_.trim(settings.get('talk.nickname') || talkConfig.nickname);
     const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
     const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
     const chatConfig = config.zopimChat;
