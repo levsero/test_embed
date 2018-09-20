@@ -744,4 +744,46 @@ describe('base redux actions', () => {
       });
     });
   });
+
+  describe('handleOnApiCalled', () => {
+    let action,
+      event;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleOnApiCalled(event, () => {}));
+      action = mockStore.getActions()[0];
+    });
+
+    describe('when event is in the event list', () => {
+      beforeAll(() => {
+        event = 'close';
+      });
+
+      it('dispatches a API_ON_RECIEVED event', () => {
+        expect(action.type)
+          .toEqual(actionTypes.API_ON_RECIEVED);
+      });
+
+      it('dispatches the actions assoicated with it in the actions key', () => {
+        expect(action.payload.actions)
+          .toEqual([ actionTypes.CLOSE_BUTTON_CLICKED ]);
+      });
+    });
+
+    describe('when event is not in the event list', () => {
+      beforeAll(() => {
+        event = 'somethingElse';
+      });
+
+      it('dispatches a API_ON_RECIEVED event', () => {
+        expect(action.type)
+          .toEqual(actionTypes.API_ON_RECIEVED);
+      });
+
+      it('dispatches undefined in the actions key', () => {
+        expect(action.payload.actions)
+          .toEqual(undefined);
+      });
+    });
+  });
 });

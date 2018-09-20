@@ -11,6 +11,7 @@ import reducer from 'src/redux/modules/reducer';
 import onStateChangeFn from 'src/redux/middleware/onStateChange';
 import persist from 'src/redux/middleware/persist';
 import throttle from 'src/redux/middleware/throttle';
+import listen from 'src/redux/middleware/listener';
 
 import { trackAnalytics } from 'src/redux/middleware/analytics';
 import { sendBlips } from 'src/redux/middleware/blip';
@@ -34,6 +35,7 @@ export default function(storeName = 'web_widget', options = {}) {
     thunk,
     onStateChange(onStateChangeFn),
     sendBlips,
+    listen,
     trackAnalytics,
     persist,
     onStateChange(queueCalls)

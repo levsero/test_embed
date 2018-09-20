@@ -22,6 +22,7 @@ describe('base selectors', () => {
     getZopimId,
     mockStoreValue,
     mockIsOnHelpCenterPage,
+    getOnApiListeners,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
   beforeEach(() => {
@@ -68,6 +69,7 @@ describe('base selectors', () => {
     getChatOverrideProxy = selectors.getChatOverrideProxy;
     getZopimId = selectors.getZopimId;
     getZChatConfig = selectors.getZChatConfig;
+    getOnApiListeners = selectors.getOnApiListeners;
   });
 
   describe('getZChatConfig', () => {
@@ -184,6 +186,24 @@ describe('base selectors', () => {
     it('returns the override proxy', () => {
       expect(result)
         .toEqual('yoloo');
+    });
+  });
+
+  describe('getOnApiListeners', () => {
+    let result;
+    const mockState = {
+      base: {
+        onApiListeners: 'listening'
+      }
+    };
+
+    beforeEach(() => {
+      result = getOnApiListeners(mockState);
+    });
+
+    it('returns the override proxy', () => {
+      expect(result)
+        .toEqual('listening');
     });
   });
 

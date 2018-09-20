@@ -5,6 +5,7 @@ import {
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_WIDGET_SHOWN,
   IDENTIFY_RECIEVED,
+  API_ON_RECIEVED,
   WIDGET_HIDE_ANIMATION_COMPLETE,
   AUTHENTICATION_SUCCESS,
   AUTHENTICATION_FAILURE,
@@ -235,5 +236,16 @@ export const removeFromQueue = (methodName) => {
 export const widgetHideAnimationComplete = () => {
   return {
     type: WIDGET_HIDE_ANIMATION_COMPLETE
+  };
+};
+
+export const handleOnApiCalled = (event, callback) => {
+  const listenersMap = {
+    'close': [ CLOSE_BUTTON_CLICKED ]
+  };
+
+  return {
+    type: API_ON_RECIEVED,
+    payload: { callback, actions: listenersMap[event] }
   };
 };
