@@ -91,11 +91,11 @@ export const getIsOnInitialDesktopSearchScreen = (state) => {
   return !!getFixedStyles(state, 'webWidget').maxHeight;
 };
 
-export const maxWidgetHeight = (state, frame = 'webWidget') => {
+export const getMaxWidgetHeight = (state, frame = 'webWidget') => {
   const fixedStyles = getFixedStyles(state, frame);
 
   if (getIsOnInitialDesktopSearchScreen(state) && fixedStyles.maxHeight) {
-    return fixedStyles.maxHeight - WIDGET_MARGIN;
+    return parseInt(fixedStyles.maxHeight) - WIDGET_MARGIN;
   }
 
   return undefined;

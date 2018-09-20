@@ -9,6 +9,7 @@ describe('selectors', () => {
     getChatOfflineAvailable,
     getFixedStyles,
     getIsOnInitialDesktopSearchScreen,
+    getMaxWidgetHeight,
     settingsChatSuppressValue,
     zopimChatOnlineValue,
     showOfflineFormValue,
@@ -50,6 +51,7 @@ describe('selectors', () => {
   isMobile = false;
   ipmWidget = false;
   standaloneMobileNotificationVisible = false;
+  getMaxWidgetHeight = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -113,6 +115,30 @@ describe('selectors', () => {
     getChatOfflineAvailable = selectors.getChatOfflineAvailable;
     getFixedStyles = selectors.getFixedStyles;
     getIsOnInitialDesktopSearchScreen = selectors.getIsOnInitialDesktopSearchScreen;
+    getMaxWidgetHeight = selectors.getMaxWidgetHeight;
+  });
+
+  describe('getMaxWidgetHeight', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getMaxWidgetHeight();
+    });
+
+    describe('when isOnInitialDesktopSearchScreen is true and maxHeight styles are present', () => {
+      beforeAll(() => {
+        isMobile = false;
+        helpCenterEmbedValue = true;
+        hasSearched = false;
+        contextualHelpRequestNeeded = false;
+        articleViewActive = false;
+      });
+
+      it('returns small height', () => {
+        expect(result)
+          .toEqual(150);
+      });
+    });
   });
 
   describe('getIsOnInitialDesktopSearchScreen', () => {
