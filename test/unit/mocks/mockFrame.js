@@ -36,6 +36,8 @@ export class MockFrame extends Component {
     this.renderFrameContent();
   }
 
+  getWrappedInstance = () => this;
+
   updateFrameLocale() {}
 
   getChild() {

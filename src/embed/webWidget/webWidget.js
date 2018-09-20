@@ -6,9 +6,10 @@ import 'core-js/es6/set';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import { Provider } from 'react-redux';
 
 import { webWidgetStyles } from './webWidgetStyles.js';
-import { Frame } from 'component/frame/Frame';
+import Frame from 'component/frame/Frame';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { logging } from 'service/logging';
@@ -178,7 +179,7 @@ export default function WebWidgetFactory(name) {
     }
 
     const frameParams = {
-      ref: (el) => {embed.instance = el;},
+      ref: (el) => {embed.instance = el.getWrappedInstance();},
       frameStyle: frameStyle,
       css: webWidgetCSS + frameBodyCss + generateUserWidgetCSS(globalConfig.color),
       position: globalConfig.position,
@@ -196,33 +197,35 @@ export default function WebWidgetFactory(name) {
       title: i18n.t('embeddable_framework.web_widget.frame.title')
     };
     const component = (
-      <Frame {...frameParams}>
-        <WebWidget
-          attachmentSender={submitTicketSettings.attachmentSender}
-          channelChoice={channelChoice}
-          fullscreen={isMobileBrowser()}
-          helpCenterAvailable={helpCenterAvailable}
-          helpCenterConfig={helpCenterSettings.config}
-          ipmHelpCenterAvailable={ipmHelpCenterAvailable}
-          isOnHelpCenterPage={isOnHelpCenterPage()}
-          hideZendeskLogo={globalConfig.hideZendeskLogo}
-          imagesSender={helpCenterSettings.imagesSenderFn}
-          localeFallbacks={settings.get('helpCenter.localeFallbacks')}
-          onCancel={submitTicketSettings.onCancel}
-          onSubmitted={submitTicketSettings.onSubmitted}
-          originalArticleButton={settings.get('helpCenter.originalArticleButton')}
-          position={globalConfig.position}
-          style={containerStyle}
-          subjectEnabled={settings.get('contactForm.subject')}
-          ticketFormSettings={settings.get('contactForm.ticketForms')}
-          ticketFieldSettings={settings.get('contactForm.fields')}
-          submitTicketAvailable={submitTicketAvailable}
-          submitTicketConfig={submitTicketSettings.config}
-          talkConfig={talkConfig}
-          talkAvailable={talkAvailable}
-          zopimOnNext={zopimOnNext}
-          onShowMobile={onShowMobile} />
-      </Frame>
+      <Provider store={reduxStore}>
+        <Frame {...frameParams}>
+          <WebWidget
+            attachmentSender={submitTicketSettings.attachmentSender}
+            channelChoice={channelChoice}
+            fullscreen={isMobileBrowser()}
+            helpCenterAvailable={helpCenterAvailable}
+            helpCenterConfig={helpCenterSettings.config}
+            ipmHelpCenterAvailable={ipmHelpCenterAvailable}
+            isOnHelpCenterPage={isOnHelpCenterPage()}
+            hideZendeskLogo={globalConfig.hideZendeskLogo}
+            imagesSender={helpCenterSettings.imagesSenderFn}
+            localeFallbacks={settings.get('helpCenter.localeFallbacks')}
+            onCancel={submitTicketSettings.onCancel}
+            onSubmitted={submitTicketSettings.onSubmitted}
+            originalArticleButton={settings.get('helpCenter.originalArticleButton')}
+            position={globalConfig.position}
+            style={containerStyle}
+            subjectEnabled={settings.get('contactForm.subject')}
+            ticketFormSettings={settings.get('contactForm.ticketForms')}
+            ticketFieldSettings={settings.get('contactForm.fields')}
+            submitTicketAvailable={submitTicketAvailable}
+            submitTicketConfig={submitTicketSettings.config}
+            talkConfig={talkConfig}
+            talkAvailable={talkAvailable}
+            zopimOnNext={zopimOnNext}
+            onShowMobile={onShowMobile} />
+        </Frame>
+      </Provider>
     );
 
     embed = {
@@ -313,12 +316,6 @@ export default function WebWidgetFactory(name) {
         if (!embed.instance.state.visible) {
           getWebWidgetComponent().setComponent('zopimChat');
         }
-      });
-    });
-
-    mediator.channel.subscribe(prefix + 'webWidget.setFrameToDefault', () => {
-      waitForRootComponent(() => {
-        embed.instance.setFixedFrameStyles();
       });
     });
 

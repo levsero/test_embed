@@ -97,7 +97,10 @@ describe('HelpCenter component', () => {
       'src/redux/modules/chat/chat-selectors': {
         getNotificationCount: () => 0
       },
-      'src/redux/modules/selectors': {},
+      'src/redux/modules/selectors': {
+        getIsOnInitialDesktopSearchScreen: () => true,
+        getMaxWidgetHeight: () => {}
+      },
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),

@@ -39,9 +39,7 @@ describe('chatPreview file', () => {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'component/frame/Frame': {
-        Frame: mockFrame
-      },
+      'component/frame/Frame': mockFrame,
       'globalCSS': '',
       'component/container/Container': {
         Container: class extends Component {

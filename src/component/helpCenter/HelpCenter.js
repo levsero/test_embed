@@ -37,6 +37,7 @@ import { getActiveArticle,
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount,
   getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+import { getIsOnInitialDesktopSearchScreen, getMaxWidgetHeight } from 'src/redux/modules/selectors';
 import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter';
 
 const mapStateToProps = (state) => {
@@ -60,7 +61,9 @@ const mapStateToProps = (state) => {
     channelChoiceShown: getChannelChoiceShown(state),
     searchFieldValue: getSearchFieldValue(state),
     chatNotificationCount: getNotificationCount(state),
-    isChatting: getIsChatting(state)
+    isChatting: getIsChatting(state),
+    maxWidgetHeight: getMaxWidgetHeight(state, 'webWidget'),
+    isOnInitialDesktopSearchScreen: getIsOnInitialDesktopSearchScreen(state)
   };
 };
 
@@ -82,7 +85,6 @@ class HelpCenter extends Component {
     onNextClick: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     performSearch: PropTypes.func.isRequired,
-    onSearchDone: PropTypes.func,
     performImageSearch: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
     showNextButton: PropTypes.bool,
@@ -113,7 +115,9 @@ class HelpCenter extends Component {
     isChatting: PropTypes.bool,
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpEnabled: PropTypes.bool.isRequired,
-    isContextualSearchComplete: PropTypes.bool.isRequired
+    isContextualSearchComplete: PropTypes.bool.isRequired,
+    maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+    isOnInitialDesktopSearchScreen: PropTypes.bool
   };
 
   static defaultProps = {
@@ -125,7 +129,6 @@ class HelpCenter extends Component {
     localeFallbacks: [],
     onNextClick: () => {},
     originalArticleButton: true,
-    onSearchDone: () => {},
     showBackButton: () => {},
     showNextButton: true,
     style: null,
@@ -145,7 +148,8 @@ class HelpCenter extends Component {
     updateChannelChoiceShown: () => {},
     handleSearchFieldChange: () => {},
     chatNotificationCount: 0,
-    isChatting: false
+    isChatting: false,
+    isOnInitialDesktopSearchScreen: true
   };
 
   constructor(props) {
@@ -177,7 +181,6 @@ class HelpCenter extends Component {
   interactiveSearchSuccessFn = () => {
     this.props.showBackButton(false);
     this.focusField();
-    this.props.onSearchDone();
   }
 
   focusField = () => {
@@ -220,7 +223,6 @@ class HelpCenter extends Component {
       : [''];
     const failFn = () => {
       this.focusField();
-      this.props.onSearchDone();
     };
     const doneFn = (res) => {
       if (res.ok) {
@@ -315,6 +317,7 @@ class HelpCenter extends Component {
     return (
       <HelpCenterDesktop
         ref={(el) => { this.helpCenterDesktop = el; }}
+        isOnInitialDesktopSearchScreen={this.props.isOnInitialDesktopSearchScreen}
         chatOfflineAvailable={this.props.chatOfflineAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         isContextualSearchPending={this.props.isContextualSearchPending}
@@ -338,7 +341,8 @@ class HelpCenter extends Component {
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.props.searchFieldValue}
-        updateChatScreen={this.props.updateChatScreen}>
+        updateChatScreen={this.props.updateChatScreen}
+        maxWidgetHeight={this.props.maxWidgetHeight}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

@@ -198,10 +198,6 @@ function init(embedsAccessible, params = {}) {
     }, 5000);
   }
 
-  c.intercept('.setHelpCenterSuggestions', () => {
-    c.broadcast('webWidget.setFrameToDefault');
-  });
-
   c.intercept('newChat.connected', (_, showOnLoad) => {
     state[`${chat}.connectionPending`] = false;
 

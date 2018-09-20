@@ -4,11 +4,12 @@ import 'core-js/es6/set';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import { Provider } from 'react-redux';
 import createStore from 'src/redux/createStore';
 
 import Chat from 'component/chat/Chat';
 import { Container } from 'component/container/Container';
-import { Frame } from 'component/frame/Frame';
+import Frame from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
 import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat';
 import { OFFLINE_MESSAGE_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
@@ -32,7 +33,7 @@ const defaultOptions = {
     height: 550
   }
 };
-let preview, frame;
+let frame;
 
 const getComponent = () => {
   return (chatComponent)
@@ -83,31 +84,33 @@ const renderPreview = (options) => {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'chatPreview',
     frameStyle,
-    ref: (el) => { frame = el; },
+    ref: (el) => { frame = el.getWrappedInstance(); },
     disableOffsetHorizontal: true,
     preventClose: true
   };
 
   const component = (
-    <Frame {...frameParams} store={store}>
-      <Container
-        style={containerStyle}>
-        <Chat
-          ref={(chat) => chatComponent = chat}
-          updateChatBackButtonVisibility={() => {}}
-          getFrameContentDocument={() => frame.getContentDocument()}
-          style={containerStyle} />
-      </Container>
-    </Frame>
+    <Provider store={store}>
+      <Frame {...frameParams} store={store}>
+        <Container
+          style={containerStyle}>
+          <Chat
+            ref={(chat) => chatComponent = chat}
+            updateChatBackButtonVisibility={() => {}}
+            getFrameContentDocument={() => frame.getContentDocument()}
+            style={containerStyle} />
+        </Container>
+      </Frame>
+    </Provider>
   );
 
   const container = document.createElement('div');
 
   options.element.appendChild(container);
-  preview = ReactDOM.render(component, container);
+  ReactDOM.render(component, container);
 
   const setColor = (color = defaultOptions.color) => {
-    preview.setButtonColor(color);
+    frame.setButtonColor(color);
   };
 
   const updateScreen = (screen) => {
@@ -120,7 +123,7 @@ const renderPreview = (options) => {
 
   const updateLocale = (locale) => {
     i18n.setLocale(locale, true);
-    preview.updateFrameLocale();
+    frame.updateFrameLocale();
     getComponent().getActiveComponent().forceUpdate();
   };
 
@@ -133,14 +136,14 @@ const renderPreview = (options) => {
   };
 
   waitForComponent(() => {
-    _.defer(preview.forceUpdateWorld);
+    _.defer(frame.forceUpdateWorld);
     setColor();
   });
 
   store.dispatch({ type: PREVIEWER_LOADED });
 
   return {
-    _component: preview,
+    _component: frame,
     updateScreen,
     updateSettings,
     updateChatState,

@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
 
 import { getShowOfflineChat,
-  getOfflineFormEnabled } from './chat/chat-selectors';
+  getOfflineFormEnabled,
+  getStandaloneMobileNotificationVisible } from './chat/chat-selectors';
 import { getZopimChatOnline } from './zopimChat/zopimChat-selectors';
 import { getSettingsChatSuppress } from './settings/settings-selectors';
 import { getEmbeddableConfigEnabled, getAgentAvailability } from './talk/talk-selectors';
@@ -11,8 +12,15 @@ import { getActiveEmbed,
   getSubmitTicketEmbed,
   getZopimChatEmbed,
   getTalkEmbed,
-  getChatEmbed as getNewChatEmbed } from './base/base-selectors';
+  getChatEmbed as getNewChatEmbed,
+  getIPMWidget } from './base/base-selectors';
 
+import { getHasSearched,
+  getContextualHelpRequestNeeded,
+  getArticleViewActive } from './helpCenter/helpCenter-selectors';
+import { isMobileBrowser } from 'utility/devices';
+
+import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared';
 /*
  * Terms:
  * Available: When an embed is part of config, not suppressed and has all the conditions to be used.
@@ -20,6 +28,37 @@ import { getActiveEmbed,
  */
 
 const getChatEmbed = (state) => getNewChatEmbed(state) || getZopimChatEmbed(state);
+const getWidgetFixedFrameStyles = createSelector(
+  [getStandaloneMobileNotificationVisible,
+    getHasSearched,
+    getContextualHelpRequestNeeded,
+    getIPMWidget,
+    getArticleViewActive,
+    getHelpCenterEmbed],
+  (standaloneMobileNotificationVisible,
+    hasSearched, contextualHelpRequestNeeded,
+    isUsingIPMWidgetOnly,
+    articleViewActive,
+    helpCenterEnabled) => {
+    if (isUsingIPMWidgetOnly) {
+      return {};
+    }
+
+    if (!isMobileBrowser() && helpCenterEnabled && !hasSearched && !contextualHelpRequestNeeded && !articleViewActive) {
+      return {
+        maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
+      };
+    }
+
+    if (standaloneMobileNotificationVisible) {
+      return {
+        height: '33%',
+        background: 'transparent'
+      };
+    }
+    return {};
+  }
+);
 
 export const getChatOnline = (state) => getZopimChatOnline(state) || !getShowOfflineChat(state);
 
@@ -40,3 +79,24 @@ export const getShowTicketFormsBackButton = createSelector(
     return activeForm && ticketForms.length > 1 && activeEmbed === 'ticketSubmissionForm';
   }
 );
+
+export const getFixedStyles = (state, frame = 'webWidget') => {
+  if (frame === 'webWidget') {
+    return getWidgetFixedFrameStyles(state);
+  }
+  return {};
+};
+
+export const getIsOnInitialDesktopSearchScreen = (state) => {
+  return !!getFixedStyles(state, 'webWidget').maxHeight;
+};
+
+export const maxWidgetHeight = (state, frame = 'webWidget') => {
+  const fixedStyles = getFixedStyles(state, frame);
+
+  if (getIsOnInitialDesktopSearchScreen(state) && fixedStyles.maxHeight) {
+    return fixedStyles.maxHeight - WIDGET_MARGIN;
+  }
+
+  return undefined;
+};

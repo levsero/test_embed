@@ -11,7 +11,6 @@ import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
 import { Container } from 'component/container/Container';
 import HelpCenter from 'component/helpCenter/HelpCenter';
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
-import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'constants/shared';
 import { updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility } from 'src/redux/modules/base';
@@ -107,7 +106,6 @@ class WebWidget extends Component {
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     getFrameContentDocument: PropTypes.func,
-    setFixedFrameStyles: PropTypes.func,
     zopimOnNext: PropTypes.func,
     closeFrame: PropTypes.func,
     onBackButtonClick: PropTypes.func,
@@ -160,7 +158,6 @@ class WebWidget extends Component {
     ticketFieldSettings: [],
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
-    setFixedFrameStyles: () => {},
     talkAvailable: false,
     talkOnline: false,
     zopimOnNext: () => {},
@@ -240,32 +237,13 @@ class WebWidget extends Component {
 
   showProactiveChat = () => {
     if (this.props.fullscreen) {
-      const { setFixedFrameStyles, showStandaloneMobileNotification } = this.props;
-      const frameStyle = {
-        height: '33%',
-        background: 'transparent'
-      };
-
-      setFixedFrameStyles(frameStyle);
-      showStandaloneMobileNotification();
+      this.props.showStandaloneMobileNotification();
     } else {
       const { proactive, show } = this.props.chatNotification;
 
       if (proactive && show) {
         this.showChat({ proactive: true });
       }
-    }
-  }
-
-  checkFrameHeight = () => {
-    const { hasSearched, setFixedFrameStyles, fullscreen, contextualHelpRequestNeeded,
-      articleViewActive
-    } = this.props;
-
-    if (!hasSearched && !fullscreen && !contextualHelpRequestNeeded && !articleViewActive) {
-      setFixedFrameStyles({
-        maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
-      });
     }
   }
 
@@ -277,7 +255,6 @@ class WebWidget extends Component {
     if (this.isHelpCenterAvailable()) {
       updateActiveEmbed(helpCenter);
       backButton = articleViewActive;
-      this.checkFrameHeight();
     } else if (ipmHelpCenterAvailable && articleViewActive) {
       // we only go into this condition if HC is injected by IPM
       updateActiveEmbed(helpCenter);
@@ -310,12 +287,6 @@ class WebWidget extends Component {
     // If zopimChat becomes offline, the activeEmbed resets to "".
     if (activeEmbed === zopimChat) {
       this.props.zopimOnNext();
-      return;
-    }
-
-    // Handles when the activeEmbed comes from localStorage and it needs to update the frame size
-    if (activeEmbed === helpCenter) {
-      this.checkFrameHeight();
       return;
     }
 
@@ -412,7 +383,6 @@ class WebWidget extends Component {
       updateBackButtonVisibility(helpCenterAvailable);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
-      this.checkFrameHeight();
     } else {
       if (ipmHelpCenterAvailable) resetActiveArticle();
       updateActiveEmbed(channelChoice);
@@ -484,7 +454,6 @@ class WebWidget extends Component {
           contextualHelpEnabled={helpCenterConfig.contextualHelpEnabled}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
-          onSearchDone={this.props.setFixedFrameStyles}
           showBackButton={this.props.updateBackButtonVisibility}
           showNextButton={showNextButton}
           style={this.props.style}
@@ -596,7 +565,6 @@ class WebWidget extends Component {
   dismissStandaloneChatPopup = () => {
     const onHide = () => {
       this.props.chatNotificationDismissed();
-      this.props.setFixedFrameStyles();
     };
 
     this.props.closeFrame({}, { onHide });
@@ -606,12 +574,10 @@ class WebWidget extends Component {
     const {
       style,
       chatNotification,
-      chatNotificationRespond,
-      setFixedFrameStyles
+      chatNotificationRespond
     } = this.props;
     const onNotificatonResponded = () => {
       chatNotificationRespond();
-      setFixedFrameStyles();
       this.props.onShowMobile();
       this.showChat({ proactive: true });
     };

@@ -7,10 +7,11 @@ import _ from 'lodash';
 
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
 import { Container } from 'component/container/Container';
-import { Frame } from 'component/frame/Frame';
+import Frame from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 import { settings } from 'service/settings';
+import { Provider } from 'react-redux';
 
 import createStore from 'src/redux/createStore';
 
@@ -29,7 +30,7 @@ const defaultOptions = {
     height: 550
   }
 };
-let preview;
+let frame;
 
 const renderWebWidgetPreview = (options) => {
   options = _.defaultsDeep({}, options, defaultOptions);
@@ -52,34 +53,39 @@ const renderWebWidgetPreview = (options) => {
     name: 'webWidgetPreview',
     frameStyle,
     disableOffsetHorizontal: true,
-    preventClose: true
+    preventClose: true,
+    ref: (el) => { frame = el.getWrappedInstance(); }
   };
 
+  const store = createStore();
+
   const component = (
-    <Frame {...frameParams} store={createStore()}>
-      <Container
-        style={containerStyle}>
-        <SubmitTicket
-          ref={(submitTicket) => submitTicketComponent = submitTicket}
-          viaId={settings.get('viaId')}
-          previewEnabled={true}
-          formTitleKey={options.titleKey}
-          submitTicketSender={() => {}}
-          attachmentSender={() => {}}
-          getFrameContentDocument={() => {}}
-          fullscreen={isMobileBrowser()}
-          style={containerStyle} />
-      </Container>
-    </Frame>
+    <Provider store={store}>
+      <Frame {...frameParams} store={store}>
+        <Container
+          style={containerStyle}>
+          <SubmitTicket
+            ref={(submitTicket) => submitTicketComponent = submitTicket}
+            viaId={settings.get('viaId')}
+            previewEnabled={true}
+            formTitleKey={options.titleKey}
+            submitTicketSender={() => {}}
+            attachmentSender={() => {}}
+            getFrameContentDocument={() => {}}
+            fullscreen={isMobileBrowser()}
+            style={containerStyle} />
+        </Container>
+      </Frame>
+    </Provider>
   );
 
   const container = document.createElement('div');
 
   options.element.appendChild(container);
-  preview = ReactDOM.render(component, container);
+  ReactDOM.render(component, container);
 
   const setColor = (color = defaultOptions.color) => {
-    preview.setButtonColor(color);
+    frame.setButtonColor(color);
   };
 
   const setTitle = (titleKey = defaultOptions.titleKey) => {
@@ -90,13 +96,13 @@ const renderWebWidgetPreview = (options) => {
 
   waitForSubmitTicketComponent(() => {
     setColor(options.color);
-    _.defer(preview.forceUpdateWorld);
+    _.defer(frame.forceUpdateWorld);
   });
 
   return {
     setColor,
     setTitle,
-    _component: preview
+    _component: frame
   };
 };
 
