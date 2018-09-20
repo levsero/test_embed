@@ -1,20 +1,20 @@
 @import '../../../styles/_vars.scss';
 
 $focusRingWidth: 3px;
+$height: 38px + ($focusRingWidth * 2);
+$sliderHorizontalPadding: 16px;
 
-.scrollContainer {
-  width: 100%;
-  padding: 0;
-  overflow-x: auto;
-}
-
-.replyContainer {
-  white-space: nowrap;
+.container {
   text-align: right;
   width: 100%;
   position: relative;
-  padding: $focusRingWidth 0; // to make room for the focus ring
   z-index: 1;
+  height: $height;
+}
+
+.scroll {
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .quickReply {
@@ -22,13 +22,9 @@ $focusRingWidth: 3px;
   height: auto !important; // garden override
   line-height: #{16/$font-size}rem; // garden override, follow MessageBubble
   padding: #{7/$font-size}rem #{12/$font-size}rem; // Different from MessageBubble because of border
+  margin-right: 8px;
 }
 
-.item {
-  margin-left: 8px;
-  display: inline-block;
-}
-
-.item:last-child {
-  margin-right: 3px; // to make room for focus ring
+.quickReply:last-child {
+  margin-right: 0;
 }
