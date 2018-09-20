@@ -35,9 +35,7 @@ describe('webWidgetPreview entry file', () => {
       'react/addons': React,
       'lodash': _,
       'globalCSS': '',
-      'component/frame/Frame': {
-        Frame: mockFrame
-      },
+      'component/frame/Frame': mockFrame,
       'component/container/Container': {
         Container: class extends Component {
           render() {
