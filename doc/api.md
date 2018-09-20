@@ -1,8 +1,8 @@
-## Web Widget API
+## Web Widget API v1
 
-The Web Widget API is a JavaScript API for controlling the display and data passed to the Web Widget. The Web Widget embeds Zendesk functionality such as ticketing, live chat, and Help Center KB searches in a website.
+<span class="alert alert-block alert-warning">This page documents the first version of the Web Widget API, which is still supported. Zendesk introduced a new API structure for greater flexibility. If you're still using v1, consider migrating to the <a href="https://developer.zendesk.com/embeddables/docs/widget/introduction">current version</a>.</span>
 
-The API consists of the following methods:
+The Web Widget API v1 consists of the following methods:
 
 * `zE.setLocale`
 * `zE.identify`
@@ -12,10 +12,6 @@ The API consists of the following methods:
 * `zE.setHelpCenterSuggestions`
 
 You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
-
-**Note**: If you're looking for the Widget code for your pages, you can get it from the admin pages of your Zendesk Support account. After signing in to your Zendesk Support account, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
-
-For more information on setting up the Web Widget, this [support article](https://support.zendesk.com/hc/en-us/articles/203908456-Using-Web-Widget-to-embed-customer-service-in-your-website) will guide you through your setup.
 
 ### zE.setLocale
 
@@ -27,8 +23,6 @@ By default, the Web Widget is displayed to the end user in a language that match
 
 The following example displays the widget in German:
 
-**Note**: This code should be placed immediately after the Web Widget code snippet
-
 ```html
 <script>
   zE(function() {
@@ -36,6 +30,8 @@ The following example displays the widget in German:
   });
 </script>
 ```
+
+**Note**: This code should be placed immediately after the Web Widget code snippet.
 
 ![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_locale.png)
 
@@ -108,7 +104,7 @@ For example, when someone logs into your website, you could call `zE.show()` to 
 </script>
 ```
 
-Note: The widget will be displayed by default on page load when the Web Widget code snippet is present. You do not need to call `zE.show()` to display the widget unless `zE.hide()` is used.
+**Note**: The widget will be displayed by default on page load when the Web Widget code snippet is present. You do not need to call `zE.show()` to display the widget unless `zE.hide()` is used.
 
 ### zE.activate
 
@@ -133,7 +129,7 @@ For example, when someone clicks a 'Contact' button of your website, you could c
   <button onclick="zE.activate({hideOnClose: true});">Contact Us</button>
 ```
 
-Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
+**Note**: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
 
 ### zE.setHelpCenterSuggestions
 

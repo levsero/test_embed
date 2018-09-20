@@ -4,40 +4,6 @@ The Web Widget includes a Help Center component that lets users search for answe
 
 <img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_contextual_help.png" width="200">
 
-### Commands
-
-The Help Center component has the following command:
-
-* perform setSuggestions
-
-#### perform setSuggestions
-
-`zE('webWidget:perform', 'helpCenter:setSuggestions', options<object>);`
-
-Enhances the contextual help provided by the Web Widget.
-
-##### Parameters
-
-* `{ url: true }` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page. This function should be called each time you want to set the suggestions. For example, navigating on a single-page app.
-
-* `{ search: 'search string' }` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
-
-* `{ labels: ['label1'] }` -  For Guide Professional customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
-
-**Note**: If you pass both search strings and labels, the labels are ignored.
-
-##### Usage
-
-Add the method in your HTML source code immediately after your Web Widget code snippet. Example:
-
-```html
-<script>
-  zE('webWidget:perform', 'helpCenter:setSuggestions', { search: 'credit card' });
-</script>
-```
-
-The `zE.setHelpCenterSuggestions()` method can be called multiple times, which can be useful in a single-page application.
-
 
 ### Settings
 
@@ -68,3 +34,39 @@ window.zESettings = {
 };
 </script>
 ```
+
+
+### Commands
+
+The Help Center component has the following command:
+
+* [perform helpCenter:setSuggestions](#perform-helpcenter-setsuggestions)
+
+#### perform helpCenter:setSuggestions
+
+`zE('webWidget:perform', 'helpCenter:setSuggestions', options<object>);`
+
+Enhances the contextual help provided by the Web Widget.
+
+##### Parameters
+
+* `{ url: true }` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page. This function should be called each time you want to set the suggestions. For example, navigating on a single-page app.
+
+* `{ search: 'search string' }` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
+
+* `{ labels: ['label1'] }` -  For Guide Professional customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
+
+**Note**: If you pass both search strings and labels, the labels are ignored.
+
+##### Usage
+
+Add the method in your HTML source code immediately after your Web Widget code snippet. Example:
+
+```html
+<script>
+  zE('webWidget:perform', 'helpCenter:setSuggestions', { search: 'credit card' });
+</script>
+```
+
+The `zE.setHelpCenterSuggestions()` method can be called multiple times, which can be useful in a single-page application.
+

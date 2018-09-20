@@ -1,21 +1,101 @@
 ## Core
 
-Core commands and settings affect the entire widget.
+Core settings and commands affect the entire widget.
+
+
+### Settings
+
+The Web Widget has the following core settings:
+
+* [authenticate](./settings#authenticate)
+* [color](./settings#color)
+* [offset](./settings#offset)
+* [position](./settings#position)
+* [zIndex](./settings#zindex)
+* [contactOptions](#contactoptions)
+* [launcher](#launcher)
+
+<a name="example-general"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    color: { theme: '#78a300' }
+  }
+};
+</script>
+```
+
+#### Contact options settings
+
+The widget's `contactOptions` object, which represents a component that lets the user choose between starting a chat or submitting a ticket, has the following settings:
+
+* enabled (Boolean)
+* [contactButton](./settings#contactbutton)
+* [chatLabelOnline](./settings#chatlabelonline)
+* [chatLabelOffline](./settings#chatlabeloffline)
+* [contactFormLabel](./settings#contactformlabel)
+
+To learn more about contact options, see [Offering end-users multiple contact options](https://support.zendesk.com/hc/en-us/articles/229167008#topic_spt_fb1_l1b) in the Support Help Center.
+
+<a name="example-contact-options"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    contactOptions: {
+      enabled: true,
+      contactButton: { '*': 'Get in touch' }
+    }
+  }
+};
+</script>
+```
+
+#### Launcher settings
+
+The widget's `launcher` object, which represents the launcher button, has the following settings:
+
+* [chatLabel](./settings#chatlabel)
+* [label](./settings#label)
+
+<a name="example-launcher-settings"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    launcher: {
+      chatLabel: {
+        '*': 'Chat now'
+      }
+    }
+  }
+};
+</script>
+```
+
 
 ### Commands
 
 The Web Widget has the following core commands:
 
-* get isOpen
-* on show
-* on hide
-* perform hide
-* perform show
-* perform logout
-* perform identify
-* perform prefill
-* perform setLocale
-* perform updateSettings
+* [get isOpen](#get-isopen)
+* [on show](#on-show)
+* [on hide](#on-hide)
+* [perform hide](#perform-hide)
+* [perform show](#perform-show)
+* [perform logout](#perform-logout)
+* [perform identify](#perform-identify)
+* [perform prefill](#perform-prefill)
+* [perform setLocale](#perform-setlocale)
+* [perform updateSettings](#perform-updatesettings)
+
 
 #### get isOpen
 
@@ -82,6 +162,7 @@ None
 ##### Example
 
 **Before page load**
+
 ```html
 <script>
   zE('webWidget:perform', 'hide');
@@ -89,6 +170,7 @@ None
 ```
 
 **After page load**
+
 ```html
   <button onclick="zE('webWidget:perform', 'hide')">Hide Web Widget</button>
 ```
@@ -222,81 +304,4 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
       }
     }
   });
-```
-
-### Settings
-
-The Web Widget has the following core settings:
-
-* [authenticate](./settings#authenticate)
-* [color](./settings#color)
-* [offset](./settings#offset)
-* [position](./settings#position)
-* [zIndex](./settings#zindex)
-* [contactOptions](#contactoptions)
-* [launcher](#launcher)
-
-<a name="example-general"></a>
-#### Example
-
-```html
-<script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    color: { theme: '#78a300' }
-  }
-};
-</script>
-```
-
-#### Contact options settings
-
-The widget's `contactOptions` object, which represents a component that lets the user choose between starting a chat or submitting a ticket, has the following settings:
-
-* enabled (Boolean)
-* [contactButton](./settings#contactbutton)
-* [chatLabelOnline](./settings#chatlabelonline)
-* [chatLabelOffline](./settings#chatlabeloffline)
-* [contactFormLabel](./settings#contactformlabel)
-
-To learn more about contact options, see [Offering end-users multiple contact options](https://support.zendesk.com/hc/en-us/articles/229167008#topic_spt_fb1_l1b) in the Support Help Center.
-
-<a name="example-contact-options"></a>
-#### Example
-
-```html
-<script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactOptions: {
-      enabled: true,
-      contactButton: { '*': 'Get in touch' }
-    }
-  }
-};
-</script>
-```
-
-#### Launcher settings
-
-The widget's `launcher` object, which represents the launcher button, has the following settings:
-
-* [chatLabel](./settings#chatlabel)
-* [label](./settings#label)
-
-<a name="example-launcher-settings"></a>
-#### Example
-
-```html
-<script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      chatLabel: {
-        '*': 'Chat now'
-      }
-    }
-  }
-};
-</script>
 ```

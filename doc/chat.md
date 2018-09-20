@@ -4,21 +4,58 @@ The Web Widget includes a chat component that lets users chat with an agent. The
 
 <img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_chat_started.png" width="200">
 
+
+### Settings
+
+The `chat` object has the following settings:
+
+* [suppress](./settings#suppress)
+
+In the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access), the `chat` object has the following additional settings:
+
+* [title](./settings#title)
+* [concierge](./settings#concierge)
+* [departments](./settings#departments)
+* [prechatForm](./settings#prechatForm)
+* [offlineForm](./settings#offlineForm)
+* [notifications](./settings#notifications)
+* [tags](./settings#tags)
+
+<a name="example-chat-settings"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      suppress: false,
+      tags: ['vip'],
+      notifications: {
+        mobile: false
+      }
+    }
+  }
+};
+</script>
+```
+
+
 ### Commands
 
 The Chat component has the following commands:
 
-* send message
-* get isChatting
-* get departments:department
-* get departments:all
-* perform end
-* perform updatePath
-* on connected
-* on start
-* on end
-* on status
-* on unreadMessages
+* [send chat:message](#send-chat-message)
+* [get chat:isChatting](#get-chat-ischatting)
+* [get chat:departments:department](#get-chat-departments-department)
+* [get chat:departments:all](#get-chat-departments-all)
+* [perform chat:end](#perform-chat-end)
+* [perform updatePath](#perform-updatepath)
+* [on chat:connected](#on-chat-connected)
+* [on chat:start](#on-chat-start)
+* [on chat:end](#on-chat-end)
+* [on chat:status](#on-chat-status)
+* [on chat:unreadMessages](#on-chat-unreadmessages)
 
 #### send chat:message
 
@@ -42,7 +79,6 @@ Makes the visitor send a message. Starts a chat session if one is not already in
 `zE('webWidget:get', 'chat:isChatting');`
 
 Checks whether a chat session is in progress.
-
 
 ##### Parameters
 
@@ -224,40 +260,4 @@ Registers a callback to be fired when the number of unread messages changes. The
   zE('webWidget:on', 'chat:unreadMessages', (number) => {
     console.log(`It seems you have ${number} unread messages!`);
   });
-```
-
-
-### Settings
-
-The `chat` object has the following settings:
-
-* [suppress](#suppress)
-
-It also has the following additional settings in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access).
-
-* [title](./settings#title)
-* [concierge](./settings#concierge)
-* [departments](./settings#departments)
-* [prechatForm](./settings#prechatForm)
-* [offlineForm](./settings#offlineForm)
-* [notifications](./settings#notifications)
-* [tags](./settings#tags)
-
-<a name="example-chat-settings"></a>
-#### Example
-
-```html
-<script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      suppress: false,
-      tags: ['vip'],
-      notifications: {
-        mobile: false
-      }
-    }
-  }
-};
-</script>
 ```
