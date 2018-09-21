@@ -99,7 +99,7 @@ function initMobileScaling() {
   }, true);
 
   win.addEventListener('orientationchange', () => {
-    mediator.channel.broadcast('.orientationChange');
+    renderer.updateEmbeds();
 
     setTimeout(() => {
       propagateFontRatioChange();

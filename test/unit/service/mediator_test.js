@@ -1146,15 +1146,6 @@ describe('mediator', () => {
           });
         });
       });
-
-      describe('.orientationChange', () => {
-        it('calls update on submitTicket', () => {
-          c.broadcast('.orientationChange');
-
-          expect(webWidgetSub.update)
-            .toHaveBeenCalled();
-        });
-      });
     });
 
     describe('with chat', () => {

@@ -547,7 +547,7 @@ describe('renderer', () => {
     });
   });
 
-  describe('#onZoom', () => {
+  describe('#updateEmbeds', () => {
     beforeEach(() => {
       renderer.init({
         embeds: {
@@ -560,7 +560,7 @@ describe('renderer', () => {
         }
       });
 
-      renderer.onZoom();
+      renderer.updateEmbeds();
     });
 
     it('loops over all rendered embeds and calls forceUpdateWorld on them', () => {

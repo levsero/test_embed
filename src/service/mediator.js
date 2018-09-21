@@ -519,10 +519,6 @@ function init(embedsAccessible, params = {}) {
     resetActiveEmbed();
   });
 
-  c.intercept('.orientationChange', () => {
-    c.broadcast('webWidget.update');
-  });
-
   c.intercept('.onSetLocale', () => {
     c.broadcast(`${chat}.refreshLocale`);
     c.broadcast(`${launcher}.refreshLocale`);

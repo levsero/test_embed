@@ -2,7 +2,7 @@ describe('window', () => {
   let initResizeMonitor;
 
   const windowPath = buildSrcPath('util/window');
-  const onZoomSpy = jasmine.createSpy('onZoom');
+  const updateEmbedsSpy = jasmine.createSpy('updateEmbeds');
 
   beforeEach(() => {
     mockery.enable();
@@ -10,7 +10,7 @@ describe('window', () => {
     initMockRegistry({
       'service/renderer': {
         renderer: {
-          onZoom: onZoomSpy
+          updateEmbeds: updateEmbedsSpy
         }
       }
     });
@@ -52,8 +52,8 @@ describe('window', () => {
           .toHaveBeenCalled();
       });
 
-      it('calls renderer.onZoom', () => {
-        expect(onZoomSpy)
+      it('calls renderer.updateEmbeds', () => {
+        expect(updateEmbedsSpy)
           .toHaveBeenCalled();
       });
     });

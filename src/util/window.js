@@ -5,7 +5,7 @@ import { renderer } from 'service/renderer';
 function initResizeMonitor(win) {
   // Will trigger for both window resize and window zoom
   win.addEventListener('resize', _.debounce(() => {
-    renderer.onZoom();
+    renderer.updateEmbeds();
   }, 10));
 }
 
