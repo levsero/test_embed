@@ -492,7 +492,7 @@ describe('mediator', () => {
         });
 
         describe('when position is top', () => {
-          it('calls hide with `upHide` transition', () => {
+          it('calls hide', () => {
             mockPositionValue.vertical = 'top';
             c.broadcast(`${launcher}.onClick`);
 
@@ -500,25 +500,19 @@ describe('mediator', () => {
 
             const calls = launcherSub.hide.calls;
 
-            expect(calls.mostRecent().args[0])
-              .toEqual(jasmine.objectContaining({ transition: 'upHide' }));
-
             expect(calls.count())
               .toEqual(1);
           });
         });
 
         describe('when position is bottom', () => {
-          it('calls hide with `upHide` transition', () => {
+          it('calls hide', () => {
             mockPositionValue.vertical = 'bottom';
             c.broadcast(`${launcher}.onClick`);
 
             jasmine.clock().tick(0);
 
             const calls = launcherSub.hide.calls;
-
-            expect(calls.mostRecent().args[0])
-              .toEqual(jasmine.objectContaining({ transition: 'downHide' }));
 
             expect(calls.count())
               .toEqual(1);
@@ -1084,14 +1078,11 @@ describe('mediator', () => {
         });
 
         describe('when position is top', () => {
-          it('calls show with `downShow` transition', () => {
+          it('calls show', () => {
             mockPositionValue.vertical = 'top';
             c.broadcast('.activate');
 
             const calls = webWidgetSub.show.calls;
-
-            expect(calls.mostRecent().args[0])
-              .toEqual(jasmine.objectContaining({ transition: 'downShow' }));
 
             expect(calls.count())
               .toEqual(1);
@@ -1099,14 +1090,11 @@ describe('mediator', () => {
         });
 
         describe('when position is bottom', () => {
-          it('calls show with `upShow` transition', () => {
+          it('calls show', () => {
             mockPositionValue.vertical = 'bottom';
             c.broadcast('.activate');
 
             const calls = webWidgetSub.show.calls;
-
-            expect(calls.mostRecent().args[0])
-              .toEqual(jasmine.objectContaining({ transition: 'upShow' }));
 
             expect(calls.count())
               .toEqual(1);
@@ -1135,14 +1123,11 @@ describe('mediator', () => {
         });
 
         describe('when position is top', () => {
-          it('calls show with `downShow` transition', () => {
+          it('calls show', () => {
             mockPositionValue.vertical = 'top';
             c.broadcast('.activate');
 
             const calls = webWidgetSub.show.calls;
-
-            expect(calls.mostRecent().args[0])
-              .toEqual(jasmine.objectContaining({ transition: 'downShow' }));
 
             expect(calls.count())
               .toEqual(1);
@@ -1150,14 +1135,11 @@ describe('mediator', () => {
         });
 
         describe('when position is bottom', () => {
-          it('calls show with `upShow` transition', () => {
+          it('calls show', () => {
             mockPositionValue.vertical = 'bottom';
             c.broadcast('.activate');
 
             const calls = webWidgetSub.show.calls;
-
-            expect(calls.mostRecent().args[0])
-              .toEqual(jasmine.objectContaining({ transition: 'upShow' }));
 
             expect(calls.count())
               .toEqual(1);
@@ -1942,14 +1924,11 @@ describe('mediator', () => {
       });
 
       describe('when position is top', () => {
-        it('calls show with `downShow` transition', () => {
+        it('calls show', () => {
           mockPositionValue.vertical = 'top';
           c.broadcast('.activate');
 
           const calls = webWidgetSub.show.calls;
-
-          expect(calls.mostRecent().args[0])
-            .toEqual(jasmine.objectContaining({ transition: 'downShow' }));
 
           expect(calls.count())
             .toEqual(1);
@@ -1957,14 +1936,11 @@ describe('mediator', () => {
       });
 
       describe('when position is bottom', () => {
-        it('calls show with `upShow` transition', () => {
+        it('calls show', () => {
           mockPositionValue.vertical = 'bottom';
           c.broadcast('.activate');
 
           const calls = webWidgetSub.show.calls;
-
-          expect(calls.mostRecent().args[0])
-            .toEqual(jasmine.objectContaining({ transition: 'upShow' }));
 
           expect(calls.count())
             .toEqual(1);

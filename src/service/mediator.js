@@ -78,14 +78,6 @@ const embedAvailable = () => {
   return helpCenterAvailable() || chatAvailable() || submitTicketAvailable() || talkAvailable();
 };
 
-const getShowAnimation = _.memoize(
-  () => settings.get('position.vertical') === 'top' ? 'downShow' : 'upShow'
-);
-
-const getHideAnimation = _.memoize(
-  () => settings.get('position.vertical') === 'top' ? 'upHide' : 'downHide'
-);
-
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
   _state[`${chat}.isVisible`],
@@ -105,7 +97,7 @@ const resetActiveEmbed = () => {
   } else if (submitTicketAvailable()) {
     state.activeEmbed = submitTicket;
   } else {
-    c.broadcast(`${launcher}.hide`, { transition: 'none' });
+    c.broadcast(`${launcher}.hide`);
   }
 };
 
@@ -138,12 +130,11 @@ const showEmbed = (_state, viaActivate = false) => {
     c.broadcast(`${chat}.show`);
   } else {
     const options = {
-      transition: getShowAnimation(),
       viaActivate
     };
 
     _state[`${_state.activeEmbed}.isVisible`] = true;
-    c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
+    c.broadcast(`${launcher}.hide`);
 
     if (_state.activeEmbed === chat) {
       c.broadcast(`${chat}.show`, options);
@@ -191,7 +182,7 @@ function init(embedsAccessible, params = {}) {
     // connectionPending state just hangs.
     setTimeout(() => {
       if (connectionPending() && embedAvailable()) {
-        show(state, { transition: 'none' });
+        show(state);
         state[`${chat}.connectionPending`] = false;
         state[`${talk}.connectionPending`] = false;
       }
@@ -204,7 +195,7 @@ function init(embedsAccessible, params = {}) {
     // When showOnLoad is true we need to wait for the SDK to tell us
     // if it's chatting or not. The widget will be shown then.
     if (!state[`${talk}.connectionPending`] && !showOnLoad) {
-      show(state, { transition: 'none' });
+      show(state);
     }
   });
 
@@ -213,12 +204,12 @@ function init(embedsAccessible, params = {}) {
 
     if (isMobileBrowser()) showOnLoad = false;
 
-    show(state, { transition: 'none', isChatting, showOnLoad });
+    show(state, { isChatting, showOnLoad });
   });
 
   c.intercept('newChat.newMessage', () => {
     if (!state[`${chat}.userClosed`]) {
-      c.broadcast('webWidget.proactiveChat', { transition: getShowAnimation() });
+      c.broadcast('webWidget.proactiveChat');
       c.broadcast(`${launcher}.hide`);
     }
   });
@@ -246,7 +237,7 @@ function init(embedsAccessible, params = {}) {
         !submitTicketAvailable() &&
         !helpCenterAvailable() &&
         !talkAvailable()) {
-      c.broadcast(`${launcher}.hide`, { transition: 'none' });
+      c.broadcast(`${launcher}.hide`);
       state[`${launcher}.chatHidden`] = true;
     }
   });
@@ -281,7 +272,7 @@ function init(embedsAccessible, params = {}) {
       }
 
       if (embedAvailable() && !state[`${chat}.connectionPending`]) {
-        show(state, { transition: 'none' });
+        show(state);
       }
     }
   });
@@ -359,7 +350,7 @@ function init(embedsAccessible, params = {}) {
     }
 
     if (!submitTicketAvailable() && !helpCenterAvailable() && !talkAvailable() && !state[`${chat}.connectionPending`]) {
-      c.broadcast(`${launcher}.show`, { transition: 'none' });
+      c.broadcast(`${launcher}.show`);
     }
   });
 
@@ -370,7 +361,7 @@ function init(embedsAccessible, params = {}) {
       resetActiveEmbed();
 
       if (embedAvailable() && !state[`${talk}.connectionPending`]) {
-        show(state, { transition: 'none' });
+        show(state);
       }
     }
   });
@@ -440,10 +431,10 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${submitTicket}.onCancelClick`, () => {
     state[`${submitTicket}.isVisible`] = false;
-    c.broadcast('webWidget.hide', { transition: getHideAnimation() });
+    c.broadcast('webWidget.hide');
 
     if (!state['.hideOnClose']) {
-      c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
+      c.broadcast(`${launcher}.show`);
     }
   });
 
@@ -527,7 +518,7 @@ function init(embedsAccessible, params = {}) {
       // was previously hidden with zE.hide()
       if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`] && !state[`${launcher}.chatHidden`]) {
         setTimeout(
-          () => c.broadcast(`${launcher}.show`, { transition: getShowAnimation() }),
+          () => c.broadcast(`${launcher}.show`),
           isMobileBrowser() ? 200 : 0
         );
       }
@@ -571,7 +562,7 @@ function initMessaging() {
       resetActiveEmbed();
 
       if (!state[`${launcher}.userHidden`] && !state[`${chat}.isAccessible`])  {
-        c.broadcast(`${launcher}.show`, { transition: 'none' });
+        c.broadcast(`${launcher}.show`);
       }
     }
   });
