@@ -62,7 +62,7 @@ const customizationsWhitelist = [
 ];
 const webWidgetStoreDefaults = {
   color: {
-    bypassAccessibilityRequirement: false
+    bypassAccessibilityRequirement: true
   },
   contactForm: {
     attachments: true,

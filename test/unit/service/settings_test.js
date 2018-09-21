@@ -29,7 +29,7 @@ describe('settings', () => {
     });
     defaults = {
       color: {
-        bypassAccessibilityRequirement: false
+        bypassAccessibilityRequirement: true
       },
       contactForm: {
         subject: false,
