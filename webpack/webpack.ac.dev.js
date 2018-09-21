@@ -9,7 +9,7 @@ const CWD = process.cwd();
 const webWidgetTemplates = require('../dev/web_widget_templates');
 
 module.exports = () => {
-  const userConfig = process.env.USER_CONFIG || 'example';
+  const userConfig = process.env.USER_CONFIG || 'example-template';
   const config = JSON.parse(
     fs.readFileSync(`./dev/configs/${userConfig}.json`)
   );
