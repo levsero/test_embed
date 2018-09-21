@@ -42,6 +42,7 @@ class S3Deployer
   attr_reader :bucket_name, :logger
 
   def put_object(key)
+    return if object_exists?(key)
     logger.info "put_object #{key} on #{bucket_name}"
     bucket.put_object(key: key, server_side_encryption: ENCRYPTION_TYPE)
   end
