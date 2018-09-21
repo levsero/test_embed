@@ -26,8 +26,6 @@ state[`${launcher}.chatHidden`] = false;
 state[`${submitTicket}.isVisible`] = false;
 state[`${helpCenter}.isVisible`] = false;
 state[`${helpCenter}.isAccessible`] = false;
-state[`${helpCenter}.isSuppressed`] = false;
-state[`${channelChoice}.isVisible`] = false;
 state[`${channelChoice}.isAccessible`] = false;
 state[`${chat}.connectionPending`] = true;
 state[`${chat}.isVisible`] = false;
@@ -42,20 +40,19 @@ state[`${talk}.isAccessible`] = false;
 state[`${talk}.enabled`] = false;
 state[`${talk}.connectionPending`] = true;
 state[`${talk}.isVisible`] = false;
-state[`${talk}.isSuppressed`] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 state['.newChat'] = false;
 
 const talkAvailable = () => {
-  return !state[`${talk}.isSuppressed`] &&
+  return !settings.get('talk.suppress') &&
           state[`${talk}.isAccessible`] &&
           state[`${talk}.enabled`] &&
           !state[`${talk}.connectionPending`];
 };
 
 const helpCenterAvailable = () => {
-  return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
+  return state[`${helpCenter}.isAccessible`] && !settings.get('helpCenter.suppress');
 };
 
 const chatAvailable = () => {
@@ -63,7 +60,7 @@ const chatAvailable = () => {
 };
 
 const submitTicketAvailable = () => {
-  return state[`${submitTicket}.isAccessible`] && !state[`${submitTicket}.isSuppressed`];
+  return state[`${submitTicket}.isAccessible`] && !settings.get('contactForm.suppress');
 };
 
 const channelChoiceAvailable = () => {
@@ -162,14 +159,11 @@ function init(embedsAccessible, params = {}) {
   state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
     (!params.helpCenterSignInRequired || isOnHelpCenterPage());
   state[`${chat}.isAccessible`] = embedsAccessible.chat;
-  state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
-  state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
   state[`${chat}.connectionPending`] = embedsAccessible.chat;
   state[`${talk}.isAccessible`] = embedsAccessible.talk;
   state[`${talk}.connectionPending`] = embedsAccessible.talk;
-  state[`${talk}.isSuppressed`] = settings.get('talk.suppress');
   resetActiveEmbed();
 
   const connectionPending = () => state[`${chat}.connectionPending`]
