@@ -15,6 +15,7 @@ import { getActiveEmbed,
   getChatEmbed as getNewChatEmbed,
   getIPMWidget } from './base/base-selectors';
 
+import { settings } from 'service/settings';
 import { getHasSearched,
   getContextualHelpRequestNeeded,
   getArticleViewActive } from './helpCenter/helpCenter-selectors';
@@ -44,7 +45,10 @@ const getWidgetFixedFrameStyles = createSelector(
       return {};
     }
 
-    if (!isMobileBrowser() && helpCenterEnabled && !hasSearched && !contextualHelpRequestNeeded && !articleViewActive) {
+    const hcSuppressed = settings.get('helpCenter.suppress');
+
+    if (!hcSuppressed && !isMobileBrowser() && helpCenterEnabled && !hasSearched &&
+        !contextualHelpRequestNeeded && !articleViewActive) {
       return {
         maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
       };

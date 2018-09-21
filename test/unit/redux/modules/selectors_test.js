@@ -29,7 +29,8 @@ describe('selectors', () => {
     articleViewActive,
     isMobile,
     ipmWidget,
-    standaloneMobileNotificationVisible;
+    standaloneMobileNotificationVisible,
+    mockHCSuppressed;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -52,6 +53,7 @@ describe('selectors', () => {
   ipmWidget = false;
   standaloneMobileNotificationVisible = false;
   getMaxWidgetHeight = false;
+  mockHCSuppressed = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -98,6 +100,11 @@ describe('selectors', () => {
         getHasSearched: () => hasSearched,
         getContextualHelpRequestNeeded: () => contextualHelpRequestNeeded,
         getArticleViewActive: () => articleViewActive
+      },
+      'service/settings': {
+        settings: {
+          get: () => mockHCSuppressed
+        }
       }
     });
 
@@ -132,6 +139,7 @@ describe('selectors', () => {
         hasSearched = false;
         contextualHelpRequestNeeded = false;
         articleViewActive = false;
+        mockHCSuppressed = false;
       });
 
       it('returns small height', () => {
@@ -155,6 +163,7 @@ describe('selectors', () => {
         hasSearched = false;
         contextualHelpRequestNeeded = false;
         articleViewActive = false;
+        mockHCSuppressed = false;
       });
 
       it('returns true', () => {
@@ -221,6 +230,7 @@ describe('selectors', () => {
           hasSearched = false;
           contextualHelpRequestNeeded = false;
           articleViewActive = false;
+          mockHCSuppressed = false;
         });
 
         afterEach(() => {
@@ -232,6 +242,17 @@ describe('selectors', () => {
             .toEqual({
               maxHeight: '165px'
             });
+        });
+      });
+
+      describe('when HC is suppressed', () => {
+        beforeAll(() => {
+          mockHCSuppressed = true;
+        });
+
+        it('does not return maxHeight styles', () => {
+          expect(result.maxHeight)
+            .toBeFalsy();
         });
       });
 
