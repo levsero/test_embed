@@ -71,6 +71,11 @@ class Navigation extends Component {
     this.props.updateMenuVisibility(!this.props.menuVisible);
   }
 
+  handleCloseClick = (e) => {
+    e.stopPropagation();
+    this.props.handleCloseClick();
+  }
+
   renderLeftNavButton = () => {
     const {
       fullscreen, useMenu, backButtonVisible, useBackButton, handleBackClick
@@ -104,7 +109,7 @@ class Navigation extends Component {
       <div>
         {this.renderLeftNavButton()}
         {this.renderNavButton({
-          onClick: this.props.handleCloseClick,
+          onClick: this.handleCloseClick,
           'aria-label': i18n.t('embeddable_framework.navigation.close'),
           icon: ICONS.DASH,
           position: 'right',

@@ -23,7 +23,6 @@ let chatOpenedBlipSent = false;
 
 state[`${launcher}.userHidden`] = false;
 state[`${launcher}.chatHidden`] = false;
-state[`${launcher}.clickActive`] = false;
 state[`${submitTicket}.isVisible`] = false;
 state[`${helpCenter}.isVisible`] = false;
 state[`${helpCenter}.isAccessible`] = false;
@@ -439,8 +438,6 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept(`${launcher}.onClick`, () => {
-    if (state[`${launcher}.clickActive`] === true) return;
-
     // When opening chat on mobile, directly broadcast a chat.show event.
     // Because zopim can open in a new tab, we need to make sure we don't make a call to `setScrollKiller`.
     // If we do the host page will be frozen when the user exits the zopim chat tab.
@@ -501,13 +498,6 @@ function init(embedsAccessible, params = {}) {
         setScrollKiller(false);
         revertWindowScroll();
 
-        // Fixes a condition where an unintended double click on
-        // an embed on a mobile device causes the launcher to click as well.
-        // The root cause of this is the click event is registered twice on
-        // mobile devices and needs to be handled in a similar way to
-        // clickBusterRegister/clickBusterHandler so that Frame#show does
-        // not get fired twice
-        state[`${launcher}.clickActive`] = true;
         setTimeout(
           () => state[`${launcher}.clickActive`] = false,
           100
