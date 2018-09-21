@@ -126,6 +126,7 @@ describe('Frame', () => {
       }
     };
 
+    jasmine.clock().install();
     initMockRegistry(mockRegistryMocks);
 
     mockChild = (<MockChildComponent className='mock-component' />);
@@ -139,11 +140,20 @@ describe('Frame', () => {
     mockery.disable();
   });
 
+  // force frame document readyState to complete
+  const forceFrameReady = (frame) => {
+    const doc = frame.getContentWindow().document;
+
+    spyOnProperty(doc, 'readyState').and.returnValue('complete');
+    jasmine.clock().tick();
+  };
+
   describe('getRootComponent', () => {
     let frame;
 
     beforeEach(() => {
       frame = domRender(<Frame>{mockChild}</Frame>);
+      forceFrameReady(frame);
     });
 
     it('should return the child component when called', () => {
@@ -157,6 +167,7 @@ describe('Frame', () => {
 
     beforeEach(() => {
       frame = domRender(<Frame name='Nick'>{mockChild}</Frame>);
+      forceFrameReady(frame);
     });
 
     it('should return a react component with the name passed in', () => {
@@ -172,6 +183,7 @@ describe('Frame', () => {
     describe('when frame child exists', () => {
       beforeEach(() => {
         frame = domRender(<Frame>{mockChild}</Frame>);
+        forceFrameReady(frame);
         spyOn(frame, 'forceUpdateWorld');
         frame.updateFrameLocale();
       });
@@ -187,7 +199,6 @@ describe('Frame', () => {
         mockIsRTLValue = true;
         mockLocaleValue = 'ar';
 
-        jasmine.clock().install();
         frame = domRender(<Frame>{mockChild}</Frame>);
         spyOn(frame, 'forceUpdateWorld');
         frame.updateFrameLocale();
@@ -212,7 +223,6 @@ describe('Frame', () => {
         mockIsRTLValue = false;
         mockLocaleValue = 'en-GB';
 
-        jasmine.clock().install();
         frame = domRender(<Frame>{mockChild}</Frame>);
         spyOn(frame, 'forceUpdateWorld');
         frame.updateFrameLocale();
@@ -255,9 +265,8 @@ describe('Frame', () => {
         }
       };
 
-      jasmine.clock().install();
-
       frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
+      forceFrameReady(frame);
 
       frame.show();
     });
@@ -284,7 +293,7 @@ describe('Frame', () => {
 
       const frameContainerStyle = frame.getRootComponentElement().style;
 
-      expect(frameContainerStyle.WebkitOverflowScrolling)
+      expect(frameContainerStyle.webkitOverflowScrolling)
         .toEqual('touch');
     });
 
@@ -322,6 +331,7 @@ describe('Frame', () => {
 
     beforeEach(() => {
       frame = domRender(<Frame>{mockChild}</Frame>);
+      forceFrameReady(frame);
 
       rootComponent = frame.getRootComponent();
       activeComponentForceUpdateSpy = jasmine.createSpy('activeComponent.forceUpdate');
@@ -361,8 +371,7 @@ describe('Frame', () => {
       };
 
       frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
-
-      jasmine.clock().install();
+      forceFrameReady(frame);
 
       frame.setState({ visible: true });
       frame.hide();
@@ -552,6 +561,7 @@ describe('Frame', () => {
       mockOnBack = jasmine.createSpy('onBack');
 
       frame = domRender(<Frame onBack={mockOnBack}>{mockChild}</Frame>);
+      forceFrameReady(frame);
 
       frame.back({ preventDefault: noop });
     });
@@ -575,6 +585,7 @@ describe('Frame', () => {
         beforeEach(() => {
           frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(modifiedFrameStyle);
           frame = domRender(<Frame frameStyleModifier={frameStyleModifierSpy}>{mockChild}</Frame>);
+          forceFrameReady(frame);
           result = frame.computeIframeStyle();
         });
 
@@ -595,6 +606,7 @@ describe('Frame', () => {
         beforeEach(() => {
           frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(undefined);
           frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>);
+          forceFrameReady(frame);
           result = frame.computeIframeStyle();
         });
 
@@ -612,6 +624,7 @@ describe('Frame', () => {
         mockSettingsValue = { zIndex: 10001 };
 
         frame = domRender(<Frame>{mockChild}</Frame>);
+        forceFrameReady(frame);
       });
 
       it('uses the value from settings if it exists', () => {
@@ -629,6 +642,7 @@ describe('Frame', () => {
 
         beforeEach(() => {
           frame = domRender(<Frame frameStyle={frameStyle} fixedStyles={fixedStyles}>{mockChild}</Frame>);
+          forceFrameReady(frame);
           result = frame.computeIframeStyle();
         });
 
@@ -641,6 +655,7 @@ describe('Frame', () => {
       describe('when frameStyleModifier does not exist', () => {
         beforeEach(() => {
           frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>);
+          forceFrameReady(frame);
           result = frame.computeIframeStyle();
         });
 
@@ -658,6 +673,7 @@ describe('Frame', () => {
     describe('vertical', () => {
       beforeEach(() => {
         frame = domRender(<Frame>{mockChild}</Frame>);
+        forceFrameReady(frame);
       });
 
       it('should have bottom classes by default', () => {
@@ -688,6 +704,7 @@ describe('Frame', () => {
     describe('horizontal', () => {
       beforeEach(() => {
         frame = domRender(<Frame>{mockChild}</Frame>);
+        forceFrameReady(frame);
       });
 
       it('should have right classes by default', () => {
@@ -761,6 +778,7 @@ describe('Frame', () => {
       describe('when on launcher', () => {
         beforeEach(() => {
           frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
+          forceFrameReady(frame);
         });
 
         describe('when there is a desktop offset only', () => {
@@ -823,6 +841,7 @@ describe('Frame', () => {
       describe('when on Web Widget', () => {
         beforeEach(() => {
           frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+          forceFrameReady(frame);
         });
 
         describe('where there is a desktop offset only', () => {
@@ -891,6 +910,7 @@ describe('Frame', () => {
       describe('when on launcher', () => {
         beforeEach(() => {
           frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
+          forceFrameReady(frame);
         });
 
         describe('when there is a desktop offset only', () => {
@@ -953,6 +973,7 @@ describe('Frame', () => {
       describe('when on Web Widget', () => {
         beforeEach(() => {
           frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+          forceFrameReady(frame);
         });
 
         describe('when there is a desktop offset only', () => {
@@ -1017,6 +1038,7 @@ describe('Frame', () => {
       beforeEach(() => {
         mockSettingsValue = desktopOnlyOffset;
         frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+        forceFrameReady(frame);
       });
 
       it('adds it to the vertical property', () => {
@@ -1031,6 +1053,7 @@ describe('Frame', () => {
 
     beforeEach(() => {
       frame = domRender(<Frame name='foo'>{mockChild}</Frame>);
+      forceFrameReady(frame);
     });
 
     it('should render an iframe', () => {
@@ -1093,21 +1116,19 @@ describe('Frame', () => {
       doc;
 
     beforeEach(() => {
-      jasmine.clock().install();
-
       mockLocaleValue = 'fr';
       mockIsRTLValue = true;
-      frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
-      doc = frame.getContentWindow().document;
-
-      spyOn(frame, 'updateFrameLocale');
     });
 
     describe('when the iframe\'s document is ready', () => {
       beforeEach(() => {
+        frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
+        doc = frame.getContentWindow().document;
+
+        spyOn(frame, 'updateFrameLocale');
+        spyOnProperty(doc, 'readyState').and.returnValue('complete');
         jasmine.clock().tick(0);
 
-        doc.readyState = 'complete';
         frame.setState({ childRendered: false });
       });
 
@@ -1119,9 +1140,12 @@ describe('Frame', () => {
 
     describe('when the iframe\'s document is not ready', () => {
       beforeEach(() => {
-        jasmine.clock().tick(0);
+        frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
+        doc = frame.getContentWindow().document;
 
-        doc.readyState = 'loading';
+        spyOn(frame, 'updateFrameLocale');
+        spyOnProperty(doc, 'readyState').and.returnValue('loading');
+        jasmine.clock().tick(0);
         frame.setState({ childRendered: false });
       });
 
@@ -1131,45 +1155,53 @@ describe('Frame', () => {
       });
     });
 
-    it('sets rtl and lang attr on the frame', () => {
-      jasmine.clock().tick();
+    describe('on document complete', () => {
+      beforeEach(() => {
+        frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
+        forceFrameReady(frame);
+        jasmine.clock().tick();
 
-      expect(frame.getContentDocument().documentElement.lang)
-        .toBe('fr');
-
-      expect(frame.getContentDocument().documentElement.dir)
-        .toBe('rtl');
-    });
-
-    it('should sets the state childRendered to true', () => {
-      expect(frame.state.childRendered)
-        .toEqual(true);
-    });
-
-    describe('constructEmbed', () => {
-      it('adds getFrameContentDocument to the child component', () => {
-        expect(frame.getRootComponent().props.getFrameContentDocument)
-          .toBeDefined();
+        frame.setState({ childRendered: false });
       });
 
-      it('adds onBackButtonClick to the child component', () => {
-        expect(frame.getRootComponent().props.onBackButtonClick)
-          .toBeDefined();
+      it('sets rtl and lang attr on the frame', () => {
+        expect(frame.getContentDocument().documentElement.lang)
+          .toBe('fr');
+
+        expect(frame.getContentDocument().documentElement.dir)
+          .toBe('rtl');
       });
 
-      it('adds closeFrame to the child component', () => {
-        expect(frame.getRootComponent().props.closeFrame)
-          .toBeDefined();
+      it('should sets the state childRendered to true', () => {
+        expect(frame.state.childRendered)
+          .toEqual(true);
       });
 
-      it('adds forceUpdateWorld to the child component', () => {
-        expect(frame.getRootComponent().props.forceUpdateWorld)
-          .toBeDefined();
-      });
+      describe('constructEmbed', () => {
+        it('adds getFrameContentDocument to the child component', () => {
+          expect(frame.getRootComponent().props.getFrameContentDocument)
+            .toBeDefined();
+        });
 
-      it('adds css styles to the element', () => {
-        expect(frame.getChild().props.baseCSS)
-          .toContain('css-prop');
+        it('adds onBackButtonClick to the child component', () => {
+          expect(frame.getRootComponent().props.onBackButtonClick)
+            .toBeDefined();
+        });
+
+        it('adds closeFrame to the child component', () => {
+          expect(frame.getRootComponent().props.closeFrame)
+            .toBeDefined();
+        });
+
+        it('adds forceUpdateWorld to the child component', () => {
+          expect(frame.getRootComponent().props.forceUpdateWorld)
+            .toBeDefined();
+        });
+
+        it('adds css styles to the element', () => {
+          expect(frame.getChild().props.baseCSS)
+            .toContain('css-prop');
+        });
       });
     });
   });
@@ -1191,6 +1223,7 @@ describe('Frame', () => {
 
     beforeEach(() => {
       frame = domRender(<Frame fullscreenable={mockFullscreenable}>{mockChild}</Frame>);
+      forceFrameReady(frame);
     });
 
     describe('on mobile', () => {

@@ -158,7 +158,7 @@ describe('ChatContactDetailsPopup component', () => {
         beforeEach(() => {
           const mockActiveElement = domRender(<div />);
 
-          document.activeElement = mockActiveElement;
+          spyOnProperty(document, 'activeElement').and.returnValue(mockActiveElement);
 
           spyOn(document.activeElement, 'blur');
 

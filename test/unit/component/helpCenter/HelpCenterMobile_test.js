@@ -278,7 +278,7 @@ describe('HelpCenterMobile component', () => {
       });
 
       it('should have the channehChoiceContainer class on the container div', () => {
-        expect(helpCenterMobileComponent.querySelector('.ChannelChoiceContainer'))
+        expect(helpCenterMobileComponent.querySelector('.channelChoiceContainer'))
           .not.toBeNull();
       });
     });
