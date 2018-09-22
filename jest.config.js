@@ -72,6 +72,7 @@ module.exports = {
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
+    '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/src/__mocks__/fileMock.js',
     '\\.(css|scss)$': 'identity-obj-proxy'
   },
 
@@ -100,7 +101,11 @@ module.exports = {
   // resetModules: false,
 
   // A path to a custom resolver
-  // resolver: null,
+  resolver: 'jest-webpack-resolver',
+
+  jestWebpackResolver: {
+    webpackConfig: './webpack/webpack.common.js'
+  },
 
   // Automatically restore mock state between every test
   // restoreMocks: false,

@@ -109,6 +109,7 @@
     "jasmine-spec-reporter": "^4.2.1",
     "jest": "^23.6.0",
     "jest-dom": "^1.12.1",
+    "jest-webpack-resolver": "^0.3.0",
     "jsdom": "^12.0.0",
     "json-loader": "^0.5.7",
     "jsonwebtoken": "^5.7.0",
