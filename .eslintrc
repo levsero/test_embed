@@ -4,8 +4,12 @@
     "./config/eslint/eslint-es6.js",
     "./config/eslint/eslint-react.js"
   ],
+  "plugins": ["jest"],
   "root": true,
-  "env": { "browser": true },
+  "env": {
+    "browser": true,
+    "jest/globals": true
+  },
   "globals": {
     "__DEV__": true,
     "__EMBEDDABLE_VERSION__": true,
