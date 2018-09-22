@@ -1,45 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './ButtonCard.scss';
-
-class ButtonItem extends Component {
-  static propTypes = {
-    label: PropTypes.string.isRequired
-  }
-
-  render() {
-    return (
-      <button className={styles.buttonItem}>
-        {this.props.label}
-      </button>
-    );
-  }
-}
-
-export class ButtonList extends Component {
-  static propTypes = {
-    contents: PropTypes.array
-  }
-
-  static defaultProps = {
-    contents: []
-  }
-
-  render() {
-    return (
-      <ul className={styles.buttonList}>
-        {this.props.contents.map((button, idx) => {
-          return (
-            <li key={idx}>
-              <ButtonItem label={button.data.label} />
-            </li>
-          );
-        })}
-      </ul>
-    );
-  }
-}
+import { Card } from './pure/Card';
+import { Message } from './pure/Message';
+import { ButtonList } from './pure/ButtonList';
+import { Button } from './pure/Button';
 
 export class ButtonCard extends Component {
   static propTypes = {
@@ -52,11 +17,22 @@ export class ButtonCard extends Component {
   };
 
   render() {
+    const { message, contents } = this.props;
+    const buttons = contents.map(button => {
+      return (
+        <Button label={button.data.label} />
+      );
+    });
+
     return (
-      <div className={styles.cardContainer}>
-        <div className={styles.cardMessage}>{this.props.message}</div>
-        <ButtonList contents={this.props.contents} />
-      </div>
+      <Card>
+        <Message message={message} />
+        {buttons.length > 0
+          ? <ButtonList>
+            {buttons}
+          </ButtonList>
+          : null}
+      </Card>
     );
   }
 }
