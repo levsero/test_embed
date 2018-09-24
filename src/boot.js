@@ -159,7 +159,7 @@ const start = (win, doc) => {
 
   _.extend(win.zEmbed, publicApi, devApi);
 
-  api.handleQueue(document.zEQueue);
+  api.handleQueue(reduxStore, document.zEQueue);
 
   beacon.init();
   win.onunload = identity.unload;

@@ -8,39 +8,99 @@ import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modu
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout } from 'src/redux/modules/chat';
 
-const handleQueue = (queue) => {
+const identifyApi = (reduxStore, user) => {
+  mediator.channel.broadcast('.onIdentify', user);
+
+  reduxStore.dispatch(handleIdentifyRecieved(_.pick(user, ['name', 'email']), _.isString));
+};
+const setLocaleApi = (_, locale) => {
+  i18n.setLocale(locale, true);
+  mediator.channel.broadcast('.onSetLocale', locale);
+};
+const updateSettingsApi = (reduxStore, newSettings) => {
+  reduxStore.dispatch(updateSettings(newSettings));
+};
+const logoutApi = (reduxStore) => {
+  reduxStore.dispatch(logout());
+  mediator.channel.broadcast('.logout');
+  reduxStore.dispatch(chatLogout());
+};
+const setHelpCenterSuggestionsApi = (reduxStore, options) => {
+  const onDone = () => mediator.channel.broadcast('.setHelpCenterSuggestions');
+
+  reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
+};
+const onApi = (reduxStore, event, callback) => {
+  if (_.isFunction(callback)) {
+    reduxStore.dispatch(handleOnApiCalled(event, callback));
+  }
+};
+const handleNewApi = (reduxStore, params) => {
+  const apiStructure = {
+    perform: {
+      hide: () => mediator.channel.broadcast('.hide'),
+      setLocale: setLocaleApi,
+      identify: identifyApi,
+      updateSettings: updateSettingsApi,
+      logout: logoutApi,
+      setHelpCenterSuggestions: setHelpCenterSuggestionsApi
+    },
+    on: onApi
+  };
+  const topMethod = params[0].split(':')[1];
+  const subMethod = params[1];
+  const apiParams = params[2];
+
+  apiStructure[topMethod][subMethod](reduxStore, apiParams);
+};
+
+function handleQueue(reduxStore, queue) {
+  const logApiError = (api, e = {}) => {
+    const err = new Error([
+      'An error occurred in your use of the Zendesk Widget API:',
+      api,
+      'Check out the Developer API docs to make sure you\'re using it correctly',
+      'https://developer.zendesk.com/embeddables/docs/widget/api',
+      e.stack
+    ].join('\n\n'));
+
+    err.special = true;
+    throw err;
+  };
+
   _.forEach(queue, (method) => {
     if (method[0].locale) {
       // Backwards compat with zE({locale: 'zh-CN'}) calls
       i18n.setLocale(method[0].locale);
-    } else {
+    } else if (_.isFunction(method[0])) {
+      // Old API
       try {
         method[0]();
       } catch (e) {
-        const err = new Error([
-          'An error occurred in your use of the Zendesk Widget API:',
-          method[0],
-          'Check out the Developer API docs to make sure you\'re using it correctly',
-          'https://developer.zendesk.com/embeddables/docs/widget/api',
-          e.stack
-        ].join('\n\n'));
-
-        err.special = true;
-        throw err;
+        logApiError(method[0], e);
       }
+    } else if (_.includes(method[0], 'webWidget')){
+      // New API
+      try {
+        handleNewApi(reduxStore, method);
+      } catch (e) {
+        logApiError(`"${method[0]} ${method[1]}"`, e);
+      }
+    } else {
+      logApiError(method);
     }
   });
-};
+}
 
-const handlePostRenderQueue = (win, postRenderQueue) => {
+function handlePostRenderQueue(win, postRenderQueue) {
   _.forEach(postRenderQueue, (method) => {
     win.zE[method[0]](...method[1]);
   });
 
   renderer.postRenderCallbacks();
-};
+}
 
-const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
+function setupWidgetQueue(win, postRenderQueue, reduxStore) {
   let devApi;
 
   // no "fat arrow" because it binds `this` to the scoped environment and does not allow it to be re-set with .bind()
@@ -57,8 +117,6 @@ const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
     identify: postRenderQueueCallback.bind('identify'),
     logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
-    on: postRenderQueueCallback.bind('on'),
-    updateSettings: postRenderQueueCallback.bind('updateSettings'),
     configureIPMWidget: postRenderQueueCallback.bind('configureIPMWidget'),
     showIPMArticle: postRenderQueueCallback.bind('showIPMArticle'),
     hideIPMWidget: postRenderQueueCallback.bind('hideIPMWidget'),
@@ -77,12 +135,20 @@ const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
   }
 
   if (win.zE === win.zEmbed) {
-    win.zE = win.zEmbed = (callback) => {
-      callback();
+    win.zE = win.zEmbed = (...args) => {
+      if (_.isFunction(args[0])) {
+        args[0]();
+      } else {
+        handleNewApi(reduxStore, args);
+      }
     };
   } else {
-    win.zEmbed = (callback) => {
-      callback();
+    win.zEmbed = (...args) => {
+      if (_.isFunction(args[0])) {
+        args[0]();
+      } else {
+        handleNewApi(reduxStore, args);
+      }
     };
   }
 
@@ -90,9 +156,9 @@ const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
     publicApi,
     devApi
   };
-};
+}
 
-const setupZopimQueue = (win) => {
+function setupZopimQueue(win) {
   let $zopim = () => {};
 
   // To enable $zopim api calls to work we need to define the queue callback.
@@ -109,9 +175,9 @@ const setupZopimQueue = (win) => {
     $zopim._ = [];
     $zopim.set._ = [];
   }
-};
+}
 
-const setupIPMApi = (win, reduxStore, embeddableConfig = {}) => {
+function setupIPMApi(win, reduxStore, embeddableConfig = {}) {
   const existingConfig = !_.isEmpty(embeddableConfig.embeds);
   const prefix = existingConfig ? '' : 'ipm.';
 
@@ -129,47 +195,18 @@ const setupIPMApi = (win, reduxStore, embeddableConfig = {}) => {
   win.zE.hideIPMWidget = () => {
     mediator.channel.broadcast(`${prefix}webWidget.hide`);
   };
-};
+}
 
-const setupWidgetApi = (win, reduxStore) => {
-  win.zE.identify = (user) => {
-    mediator.channel.broadcast('.onIdentify', user);
-
-    reduxStore.dispatch(handleIdentifyRecieved(_.pick(user, ['name', 'email']), _.isString));
-  };
-  win.zE.logout = () => {
-    reduxStore.dispatch(logout());
-    mediator.channel.broadcast('.logout');
-    reduxStore.dispatch(chatLogout());
-  };
-  win.zE.setHelpCenterSuggestions = (options) => {
-    const onDone = () => mediator.channel.broadcast('.setHelpCenterSuggestions');
-
-    reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
-  };
-  win.zE.activate = (options) => {
-    mediator.channel.broadcast('.activate', options);
-  };
+function setupWidgetApi(win, reduxStore) {
+  win.zE.identify = (user) => identifyApi(reduxStore, user);
+  win.zE.logout = () => logoutApi(reduxStore);
+  win.zE.setHelpCenterSuggestions = (options) => setHelpCenterSuggestionsApi(reduxStore, options);
+  win.zE.activate = (options) => mediator.channel.broadcast('.activate', options);
   win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
-  win.zE.hide = () => {
-    mediator.channel.broadcast('.hide');
-  };
-  win.zE.show = () => {
-    mediator.channel.broadcast('.show');
-  };
-  win.zE.setLocale = (locale) => {
-    i18n.setLocale(locale, true);
-    mediator.channel.broadcast('.onSetLocale', locale);
-  };
-  win.zE.updateSettings = (newSettings) => {
-    reduxStore.dispatch(updateSettings(newSettings));
-  };
-  win.zE.on = (event, callback) => {
-    if (_.isFunction(callback)) {
-      reduxStore.dispatch(handleOnApiCalled(event, callback));
-    }
-  };
-};
+  win.zE.hide = () => mediator.channel.broadcast('.hide');
+  win.zE.show = () => mediator.channel.broadcast('.show');
+  win.zE.setLocale = (locale) => setLocaleApi(null, locale);
+}
 
 export const api = {
   handleQueue,
