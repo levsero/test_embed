@@ -109,19 +109,42 @@ describe('ChatOfflineForm component', () => {
   });
 
   describe('componentDidMount', () => {
-    let component;
+    let component,
+      mockOfflineMessage;
 
     beforeEach(() => {
-      component = instanceRender(<ChatOfflineForm />);
+      component = instanceRender(<ChatOfflineForm formState={{}} offlineMessage={mockOfflineMessage}/>);
 
       spyOn(component, 'validate');
 
       component.componentDidMount();
     });
 
-    it('calls validate', () => {
-      expect(component.validate)
-        .toHaveBeenCalled();
+    describe('when on main offline form screen', () => {
+      beforeAll(() => {
+        mockOfflineMessage = {
+          screen: mainScreen
+        };
+      });
+
+      it('calls validate', () => {
+        expect(component.validate)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when not on main offline form screen', () => {
+      beforeAll(() => {
+        mockOfflineMessage = {
+          screen: 'someNonMainScreen'
+        };
+      });
+
+      it('does not call validate', () => {
+        expect(component.validate)
+          .not
+          .toHaveBeenCalled();
+      });
     });
   });
 

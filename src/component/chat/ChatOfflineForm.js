@@ -62,7 +62,9 @@ export class ChatOfflineForm extends Component {
   }
 
   componentDidMount() {
-    this.validate();
+    if (this.props.offlineMessage.screen === OFFLINE_FORM_SCREENS.MAIN) {
+      this.validate();
+    }
   }
 
   componentDidUpdate(prevProps) {
