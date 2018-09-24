@@ -43,7 +43,7 @@ namespace :embeddable_framework do
     logger.info 'Building assets'
 
     sh 'npm set progress=false && npm install'
-    sh 'npm run build'
+    sh 'npm run build-previewer'
   end
 
   desc 'Release to Amazon S3'
