@@ -10,7 +10,8 @@ import { ICONS } from 'constants/shared';
 
 import {
   getMenuVisible as getChatMenuVisible,
-  getShowMenu as getShowChatMenu
+  getShowMenu as getShowChatMenu,
+  getStandaloneMobileNotificationVisible
 } from 'src/redux/modules/chat/chat-selectors';
 import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
 
@@ -18,7 +19,8 @@ const mapStateToProps = (state) => {
   return {
     backButtonVisible: state.base.backButtonVisible,
     menuVisible: getChatMenuVisible(state),
-    useMenu: getShowChatMenu(state)
+    useMenu: getShowChatMenu(state),
+    standaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state)
   };
 };
 
@@ -32,7 +34,8 @@ class Navigation extends Component {
     useBackButton: PropTypes.bool,
     useMenu: PropTypes.bool,
     menuVisible: PropTypes.bool,
-    updateMenuVisibility: PropTypes.func
+    updateMenuVisibility: PropTypes.func,
+    standaloneMobileNotificationVisible: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -105,18 +108,17 @@ class Navigation extends Component {
   }
 
   render = () => {
-    return (
-      <div>
+    return (!this.props.standaloneMobileNotificationVisible)
+      ? <div>
         {this.renderLeftNavButton()}
         {this.renderNavButton({
-          onClick: this.handleCloseClick,
+          onClick: this.props.handleCloseClick,
           'aria-label': i18n.t('embeddable_framework.navigation.close'),
           icon: ICONS.DASH,
           position: 'right',
           isVisible: !this.props.hideCloseButton
         })}
-      </div>
-    );
+      </div> : null;
   }
 }
 

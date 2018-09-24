@@ -60,6 +60,41 @@ describe('Navigation', () => {
     mockery.disable();
   });
 
+  describe('render', () => {
+    let result,
+      mockStandaloneMobileNotificationVisible;
+
+    beforeEach(() => {
+      const component = instanceRender(<Navigation
+        standaloneMobileNotificationVisible={mockStandaloneMobileNotificationVisible} />
+      );
+
+      result = component.render();
+    });
+
+    describe('when props.standaloneMobileNotificationVisible is true', () => {
+      beforeAll(() => {
+        mockStandaloneMobileNotificationVisible = true;
+      });
+
+      it('does not render the component', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when props.standaloneMobileNotificationVisible is false', () => {
+      beforeAll(() => {
+        mockStandaloneMobileNotificationVisible = false;
+      });
+
+      it('renders the component', () => {
+        expect(result)
+          .toBeTruthy();
+      });
+    });
+  });
+
   describe('close button', () => {
     let navigation, navigationNode;
 
