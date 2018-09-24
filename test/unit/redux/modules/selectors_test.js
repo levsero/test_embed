@@ -90,7 +90,8 @@ describe('selectors', () => {
       },
       'src/constants/shared': {
         MAX_WIDGET_HEIGHT_NO_SEARCH: 150,
-        WIDGET_MARGIN: 15
+        WIDGET_MARGIN: 15,
+        FONT_SIZE: 14
       },
       './helpCenter/helpCenter-selectors': {
         getIsShowHCIntroState: () => isShowHCIntroState
@@ -256,8 +257,10 @@ describe('selectors', () => {
         it('returns mobile styles', () => {
           expect(result)
             .toEqual({
-              height: '33%',
-              background: 'transparent'
+              height: '23.928571428571427rem',
+              background: 'transparent',
+              bottom: 0,
+              top: 'initial'
             });
         });
       });

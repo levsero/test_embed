@@ -18,6 +18,7 @@ import { getActiveEmbed,
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
+import { FONT_SIZE } from 'src/constants/shared';
 
 import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared';
 /*
@@ -53,7 +54,9 @@ const getWidgetFixedFrameStyles = createSelector(
 
     if (standaloneMobileNotificationVisible) {
       return {
-        height: '33%',
+        height: `${335/FONT_SIZE}rem`,
+        bottom: 0,
+        top: 'initial',
         background: 'transparent'
       };
     }
