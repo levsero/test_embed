@@ -23,6 +23,7 @@ describe('helpCenter selectors', () => {
     getManualContextualSuggestions,
     getSearchQuery,
     getContextualHelpRequestNeeded,
+    getIsShowHCIntroState,
     mockPageKeywords,
     mockIsOnHelpCenterPage,
     mockHelpCenterContextualEnabled;
@@ -81,6 +82,86 @@ describe('helpCenter selectors', () => {
     getManualContextualSuggestions = selectors.getManualContextualSuggestions;
     getSearchQuery = selectors.getSearchQuery;
     getContextualHelpRequestNeeded = selectors.getContextualHelpRequestNeeded;
+    getIsShowHCIntroState = selectors.getIsShowHCIntroState;
+  });
+
+  describe('getIsShowHCIntroState', () => {
+    let result,
+      mockActiveArticle,
+      mockManualContextualSuggestions,
+      mockHasSearched;
+
+    beforeEach(() => {
+      let mockState = {
+        helpCenter: {
+          activeArticle: mockActiveArticle,
+          manualContextualSuggestions: mockManualContextualSuggestions,
+          contextualSearch: {
+            hasSearched: mockHasSearched
+          }
+        }
+      };
+
+      result = getIsShowHCIntroState(mockState);
+    });
+
+    describe('when no searches have been made', () => {
+      beforeAll(() => {
+        mockHasSearched = false;
+      });
+
+      describe('when getContextualHelpRequestNeeded is not needed', () => {
+        beforeAll(() => {
+          mockManualContextualSuggestions = {};
+        });
+
+        describe('when there is no active article', () => {
+          beforeAll(() => {
+            mockActiveArticle = false;
+          });
+
+          it('returns true', () => {
+            expect(result)
+              .toEqual(true);
+          });
+        });
+
+        describe('when there is an active article', () => {
+          beforeAll(() => {
+            mockActiveArticle = true;
+          });
+
+          it('returns false', () => {
+            expect(result)
+              .toEqual(false);
+          });
+        });
+      });
+
+      describe('when getContextualHelpRequestNeeded is needed', () => {
+        beforeAll(() => {
+          mockManualContextualSuggestions = {
+            query: 'yolo'
+          };
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('when searches have been made', () => {
+      beforeAll(() => {
+        mockHasSearched = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
   });
 
   describe('getContextualHelpRequestNeeded', () => {

@@ -24,12 +24,11 @@ describe('selectors', () => {
     activeEmbedValue,
     ticketFormsValue,
     offlineFormEnabledValue,
-    hasSearched,
-    contextualHelpRequestNeeded,
-    articleViewActive,
     isMobile,
     ipmWidget,
-    standaloneMobileNotificationVisible;
+    standaloneMobileNotificationVisible,
+    mockHCSuppressed,
+    isShowHCIntroState;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -45,13 +44,12 @@ describe('selectors', () => {
   agentAvailabilityValue = false;
   activeTicketFormValue = null;
   ticketFormsValue = [];
-  hasSearched = false;
-  contextualHelpRequestNeeded = false;
-  articleViewActive = false;
   isMobile = false;
   ipmWidget = false;
   standaloneMobileNotificationVisible = false;
   getMaxWidgetHeight = false;
+  mockHCSuppressed = false;
+  isShowHCIntroState = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -95,9 +93,12 @@ describe('selectors', () => {
         WIDGET_MARGIN: 15
       },
       './helpCenter/helpCenter-selectors': {
-        getHasSearched: () => hasSearched,
-        getContextualHelpRequestNeeded: () => contextualHelpRequestNeeded,
-        getArticleViewActive: () => articleViewActive
+        getIsShowHCIntroState: () => isShowHCIntroState
+      },
+      'service/settings': {
+        settings: {
+          get: () => mockHCSuppressed
+        }
       }
     });
 
@@ -129,9 +130,8 @@ describe('selectors', () => {
       beforeAll(() => {
         isMobile = false;
         helpCenterEmbedValue = true;
-        hasSearched = false;
-        contextualHelpRequestNeeded = false;
-        articleViewActive = false;
+        mockHCSuppressed = false;
+        isShowHCIntroState = true;
       });
 
       it('returns small height', () => {
@@ -152,9 +152,8 @@ describe('selectors', () => {
       beforeAll(() => {
         isMobile = false;
         helpCenterEmbedValue = true;
-        hasSearched = false;
-        contextualHelpRequestNeeded = false;
-        articleViewActive = false;
+        mockHCSuppressed = false;
+        isShowHCIntroState = true;
       });
 
       it('returns true', () => {
@@ -218,9 +217,8 @@ describe('selectors', () => {
         beforeAll(() => {
           isMobile = false;
           helpCenterEmbedValue = true;
-          hasSearched = false;
-          contextualHelpRequestNeeded = false;
-          articleViewActive = false;
+          mockHCSuppressed = false;
+          isShowHCIntroState = true;
         });
 
         afterEach(() => {
@@ -232,6 +230,17 @@ describe('selectors', () => {
             .toEqual({
               maxHeight: '165px'
             });
+        });
+      });
+
+      describe('when HC is suppressed', () => {
+        beforeAll(() => {
+          mockHCSuppressed = true;
+        });
+
+        it('does not return maxHeight styles', () => {
+          expect(result.maxHeight)
+            .toBeFalsy();
         });
       });
 

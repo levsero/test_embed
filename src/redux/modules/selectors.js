@@ -15,9 +15,8 @@ import { getActiveEmbed,
   getChatEmbed as getNewChatEmbed,
   getIPMWidget } from './base/base-selectors';
 
-import { getHasSearched,
-  getContextualHelpRequestNeeded,
-  getArticleViewActive } from './helpCenter/helpCenter-selectors';
+import { settings } from 'service/settings';
+import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
 
 import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared';
@@ -27,24 +26,26 @@ import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared
  * Enabled: When an embed is part of config, not suppressed but does not have all the conditions to be used
  */
 
+const getHelpCenterEnabled = createSelector(
+  [getHelpCenterEmbed], (helpCenterEmbed) => {
+    return !settings.get('helpCenter.suppress') && helpCenterEmbed;
+  });
+
 const getChatEmbed = (state) => getNewChatEmbed(state) || getZopimChatEmbed(state);
 const getWidgetFixedFrameStyles = createSelector(
   [getStandaloneMobileNotificationVisible,
-    getHasSearched,
-    getContextualHelpRequestNeeded,
     getIPMWidget,
-    getArticleViewActive,
-    getHelpCenterEmbed],
+    getHelpCenterEnabled,
+    getIsShowHCIntroState],
   (standaloneMobileNotificationVisible,
-    hasSearched, contextualHelpRequestNeeded,
     isUsingIPMWidgetOnly,
-    articleViewActive,
-    helpCenterEnabled) => {
+    helpCenterEnabled,
+    isShowHCIntroState) => {
     if (isUsingIPMWidgetOnly) {
       return {};
     }
 
-    if (!isMobileBrowser() && helpCenterEnabled && !hasSearched && !contextualHelpRequestNeeded && !articleViewActive) {
+    if (!isMobileBrowser() && helpCenterEnabled && isShowHCIntroState) {
       return {
         maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
       };
