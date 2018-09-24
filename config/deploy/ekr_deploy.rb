@@ -22,7 +22,7 @@ namespace :ac_embeddable_framework do
 
     sh 'npm set progress=false && npm install'
     sh 'npm dedupe'
-    sh 'npm run build-ac'
+    sh 'npm run build'
     sh 'npm run build:previewer'
   end
 
