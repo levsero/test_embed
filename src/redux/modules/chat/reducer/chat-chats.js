@@ -53,7 +53,7 @@ const concatQuickReply = (chats, chat) => {
   const quickReplies = {
     type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
     nick: chat.nick,
-    items: _.values(chat.structured_msg.quick_replies),
+    items: chat.structured_msg.quick_replies,
     timestamp: timestamp + 1
   };
 

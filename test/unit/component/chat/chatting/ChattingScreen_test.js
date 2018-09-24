@@ -3,6 +3,7 @@ describe('ChattingScreen component', () => {
     isIE,
     isFirefox,
     mockIsAgent,
+    CHAT_CUSTOM_MESSAGE_EVENTS,
     HISTORY_REQUEST_STATUS,
     SCROLL_BOTTOM_THRESHOLD;
 
@@ -17,10 +18,15 @@ describe('ChattingScreen component', () => {
   const ButtonPill = noopReactComponent('ButtonPill');
   const LoadingSpinner = noopReactComponent('LoadingSpinner');
   const ZendeskLogo = noopReactComponent('ZendeskLogo');
+  const QuickReplies = noopReactComponent('QuickReplies');
+  const QuickReply = noopReactComponent('QuickReply');
 
   beforeEach(() => {
     mockery.enable();
 
+    CHAT_CUSTOM_MESSAGE_EVENTS = {
+      CHAT_QUICK_REPLIES: 'chat.quick_replies'
+    };
     HISTORY_REQUEST_STATUS = {
       PENDING: 'pending',
       DONE:    'done',
@@ -86,6 +92,10 @@ describe('ChattingScreen component', () => {
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
       },
+      'component/shared/QuickReplies': {
+        QuickReply,
+        QuickReplies
+      },
       'src/redux/modules/chat': {
         sendMsg: noop,
         handleChatBoxChange: noop,
@@ -104,7 +114,8 @@ describe('ChattingScreen component', () => {
       },
       'constants/chat': {
         SCROLL_BOTTOM_THRESHOLD,
-        HISTORY_REQUEST_STATUS
+        HISTORY_REQUEST_STATUS,
+        CHAT_CUSTOM_MESSAGE_EVENTS
       },
       'service/i18n': {
         i18n: {
@@ -682,7 +693,7 @@ describe('ChattingScreen component', () => {
       it("passes the event to the chatLog component's `lastAgentLeaveEvent` prop", () => {
         const result = component.render();
         const scrollContainer = result.props.children[0];
-        const chatLog = scrollContainer.props.children.props.children[1];
+        const chatLog = scrollContainer.props.children[0].props.children[1];
         const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
 
         expect(lastAgentLeaveEvent)
@@ -703,7 +714,7 @@ describe('ChattingScreen component', () => {
       it("passes null to the chatLog component's `lastAgentLeaveEvent` prop", () => {
         const result = component.render();
         const scrollContainer = result.props.children[0];
-        const chatLog = scrollContainer.props.children.props.children[1];
+        const chatLog = scrollContainer.props.children[0].props.children[1];
         const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
 
         expect(lastAgentLeaveEvent)
@@ -794,7 +805,7 @@ describe('ChattingScreen component', () => {
           />);
         result = component.render();
         const scrollContainer = result.props.children[0];
-        const chatLog = scrollContainer.props.children.props.children[1];
+        const chatLog = scrollContainer.props.children[0].props.children[1];
 
         showUpdateInfoResult = chatLog.props.showUpdateInfo;
       });
@@ -1435,12 +1446,137 @@ describe('ChattingScreen component', () => {
       const result = component.render();
       const scrollContainer = result.props.children[0];
 
-      chatLog = scrollContainer.props.children.props.children[1];
+      chatLog = scrollContainer.props.children[0].props.children[1];
     });
 
     it('passes showContactDetails prop to ChatLog', () => {
       expect(chatLog.props.updateInfoOnClick)
         .toEqual(spyFn);
+    });
+  });
+
+  describe('renderQuickReply', () => {
+    describe('when chatlog.type is CHAT_QUICK_REPLIES', () => {
+      let chatLog;
+
+      beforeEach(() => {
+        chatLog = {
+          1: [{timestamp: 1, type: ''}],
+          2: [{
+            timestamp: 2,
+            type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
+            hidden: true,
+            items: [
+              {
+                action: {
+                  type: 'QuickReplyAction',
+                  value: 'answer 1'
+                },
+                text: 'ANS1'
+              },
+              {
+                action: {
+                  type: 'QuickReplyAction',
+                  value: 'answer 2'
+                },
+                text: 'ANS2'
+              },
+              {
+                action: {
+                  type: 'QuickReplyAction',
+                  value: 'answer 3'
+                },
+                text: 'ANS3'
+              }
+            ]
+          }]
+        };
+      });
+
+      describe('when latest chatlog is memberjoin', () => {
+        let QRComponent;
+
+        beforeEach(() => {
+          const chatLogWithMemberJoin = JSON.parse(JSON.stringify(chatLog));
+
+          // Toggle hidden and add a latest memberjoin chat log
+          chatLogWithMemberJoin[2][0].hidden = false;
+          chatLogWithMemberJoin[3] = [{ timestamp: 3, type: 'chat.memberjoin'}];
+
+          const component = instanceRender(<ChattingScreen chatLog={chatLogWithMemberJoin} />);
+
+          QRComponent = component.renderQuickReply();
+        });
+
+        it('should render QuickReplies Component', () => {
+          expect(TestUtils.isElementOfType(QRComponent, QuickReplies)).toEqual(true);
+        });
+      });
+
+      describe('when it is hidden', () => {
+        it('should return null', () => {
+          const component = instanceRender(<ChattingScreen chatLog={chatLog} />);
+          const QRComponent = component.renderQuickReply();
+
+          expect(QRComponent).toBeNull();
+        });
+      });
+
+      describe('when it is not hidden', () => {
+        let QRComponent;
+        let sendMsgStub = jasmine.createSpy('sendMsg');
+
+        beforeEach(() => {
+          const chatLogWithQRShown = JSON.parse(JSON.stringify(chatLog));
+
+          chatLogWithQRShown[2][0].hidden = false;
+
+          const component = instanceRender(<ChattingScreen chatLog={chatLogWithQRShown} sendMsg={sendMsgStub}/>);
+
+          QRComponent = component.renderQuickReply();
+        });
+
+        afterEach(() => {
+          sendMsgStub.calls.reset();
+        });
+
+        it('should render QuickReplies Component', () => {
+          expect(TestUtils.isElementOfType(QRComponent, QuickReplies)).toEqual(true);
+        });
+
+        it('should render the right number of QuickReply component', () => {
+          expect(QRComponent.props.children.length).toEqual(chatLog[2][0].items.length);
+
+          QRComponent.props.children.forEach((child, idx) => {
+            expect(TestUtils.isElementOfType(child, QuickReply)).toEqual(true);
+          });
+        });
+
+        it('should pass the right props to each QuickReply component', () => {
+          QRComponent.props.children.forEach((child, idx) => {
+            expect(child.props).toEqual(jasmine.objectContaining({
+              label: chatLog[2][0].items[idx].text,
+              onClick: jasmine.any(Function)
+            }));
+          });
+        });
+
+        it('should pass the right value to the onClick prop', () => {
+          QRComponent.props.children.forEach((child, idx) => {
+            child.props.onClick();
+            expect(sendMsgStub).toHaveBeenCalledWith(chatLog[2][0].items[idx].action.value);
+          });
+        });
+      });
+    });
+
+    describe('when chatlog.type is not CHAT_QUICK_REPLIES', () => {
+      it('return null', () => {
+        const component = instanceRender(<ChattingScreen />);
+        const QRComponent = component.renderQuickReply();
+
+        expect(QRComponent).toBeNull();
+      });
     });
   });
 });

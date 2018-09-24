@@ -60,7 +60,7 @@ describe('chat selectors', () => {
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
-    CHAT_STRUCTURED_CONTENT,
+    CHAT_CUSTOM_MESSAGE_EVENTS,
     EDIT_CONTACT_DETAILS_SCREEN,
     DEPARTMENT_STATUSES,
     WHITELISTED_SOCIAL_LOGINS,
@@ -74,7 +74,7 @@ describe('chat selectors', () => {
     CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
     CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
-    CHAT_STRUCTURED_CONTENT = requireUncached(chatConstantsPath).CHAT_STRUCTURED_CONTENT;
+    CHAT_CUSTOM_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_CUSTOM_MESSAGE_EVENTS;
     AGENT_BOT = requireUncached(chatConstantsPath).AGENT_BOT;
     DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
     WHITELISTED_SOCIAL_LOGINS = requireUncached(chatConstantsPath).WHITELISTED_SOCIAL_LOGINS;
@@ -84,7 +84,7 @@ describe('chat selectors', () => {
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
-        CHAT_STRUCTURED_CONTENT,
+        CHAT_CUSTOM_MESSAGE_EVENTS,
         EDIT_CONTACT_DETAILS_SCREEN,
         AGENT_BOT,
         DEPARTMENT_STATUSES,
