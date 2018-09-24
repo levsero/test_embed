@@ -93,7 +93,7 @@ Boolean
 
 `zE('webWidget:get', 'chat:departments:department', department<int|string>);`
 
-Returns an object containing information about the specified department, including its ID, name and status. Otherwise returns `undefined` if the department is not found or not enabled.
+Returns an object containing information about the specified department, including its id, name and status. Otherwise returns `undefined` if the department is not found or not enabled.
 
 ##### Parameters
 

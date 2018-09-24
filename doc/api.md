@@ -1,6 +1,6 @@
 ## Web Widget API v1
 
-<span class="alert alert-block alert-warning">This page documents the first version of the Web Widget API, which is still supported. Zendesk introduced a new API structure for greater flexibility. If you're still using v1, consider migrating to the <a href="https://developer.zendesk.com/embeddables/docs/widget/introduction">current version</a>.</span>
+<span class="alert alert-block alert-warning">This page documents legacy zE methods. Zendesk introduced a new command syntax for greater flexibility. If you're still using these legacy methods, consider migrating to the <a href="https://developer.zendesk.com/embeddables/docs/widget/introduction">command syntax</a>.</span>
 
 The Web Widget API v1 consists of the following methods:
 

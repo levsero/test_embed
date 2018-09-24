@@ -133,7 +133,7 @@ Executes a callback when the widget is shown.
 
 #### on hide
 
-`zE('webWidget:on', 'hide', callback<function>);'
+`zE('webWidget:on', 'hide', callback<function>);`
 
 Executes a callback when the widget is hidden.
 
@@ -180,7 +180,7 @@ None
 
 `zE('webWidget:perform', 'show');`
 
-Displays the widget on the host page in the state it was in when it was hidden.
+Displays the widget on the host page in the state it was in before it was hidden.
 
 The widget is displayed by default on page load. You don't need to call `show` to display the widget unless you use `hide`.
 
