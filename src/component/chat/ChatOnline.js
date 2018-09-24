@@ -314,6 +314,7 @@ class Chat extends Component {
 
     return (
       <RatingScreen
+        isMobile={this.props.isMobile}
         onRatingButtonClick={onRatingButtonClick}
         endChatFromFeedbackForm={this.state.endChatFromFeedbackForm}
       />
