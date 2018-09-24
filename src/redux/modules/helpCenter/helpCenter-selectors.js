@@ -98,3 +98,11 @@ export const getSearchQuery = createSelector(
     return searchQuery;
   }
 );
+
+export const getIsShowHCIntroState = createSelector(
+  [getHasSearched, getContextualHelpRequestNeeded, getArticleViewActive],
+  (hasSearched, contextualHelpRequestNeeded, articleViewActive) => {
+    return !hasSearched && !contextualHelpRequestNeeded && !articleViewActive;
+  }
+);
+
