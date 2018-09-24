@@ -100,7 +100,7 @@ describe('HelpCenterArticle component', () => {
         helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
 
         content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
-        tables = content.querySelectorAll('.table-wrapClasses');
+        tables = content.querySelectorAll('.table-WrapClasses');
       });
 
       it('correctly identifies and finds table elements', () => {

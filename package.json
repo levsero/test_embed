@@ -121,7 +121,7 @@
     "jasmine": "^2.8.0",
     "jasmine-ajax": "git://github.com/pivotal/jasmine-ajax.git#v2.0.0.rc2",
     "jasmine-spec-reporter": "^2.4.0",
-    "jsdom": "~7.2.2",
+    "jsdom": "^12.0.0",
     "json-loader": "^0.5.7",
     "jsonwebtoken": "^5.7.0",
     "mockery": "~1.4.0",

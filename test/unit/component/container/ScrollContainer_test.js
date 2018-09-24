@@ -219,7 +219,7 @@ describe('ScrollContainer component', () => {
   it('should set scrollTop to scrollHeight value when calling `this.scrollToBottom`', () => {
     const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
 
-    scrollContainer.content.scrollHeight = 100;
+    spyOnProperty(scrollContainer.content, 'scrollHeight').and.returnValue(100);
 
     scrollContainer.scrollToBottom();
 
@@ -230,7 +230,7 @@ describe('ScrollContainer component', () => {
   it('sets scrollTop to value when calling `this.scrollTo`', () => {
     const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
 
-    scrollContainer.content.scrollHeight = 100;
+    spyOnProperty(scrollContainer.content, 'scrollHeight').and.returnValue(100);
 
     scrollContainer.scrollTo(80);
 
@@ -263,9 +263,8 @@ describe('ScrollContainer component', () => {
       const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
 
       scrollContainer.content.scrollTop = 10;
-      scrollContainer.content.clientHeight = 20;
-
-      scrollContainer.content.scrollHeight = 30;
+      spyOnProperty(scrollContainer.content, 'clientHeight').and.returnValue(20);
+      spyOnProperty(scrollContainer.content, 'scrollHeight').and.returnValue(30);
 
       expect(scrollContainer.isAtBottom())
         .toEqual(true);
@@ -275,9 +274,8 @@ describe('ScrollContainer component', () => {
       const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
 
       scrollContainer.content.scrollTop = 10;
-      scrollContainer.content.clientHeight = 20;
-
-      scrollContainer.content.scrollHeight = 40;
+      spyOnProperty(scrollContainer.content, 'clientHeight').and.returnValue(20);
+      spyOnProperty(scrollContainer.content, 'scrollHeight').and.returnValue(40);
 
       expect(scrollContainer.isAtBottom())
         .toEqual(false);

@@ -20,8 +20,9 @@ global.requireUncached = require('require-uncached');
 global.mockery = require('mockery');
 
 global.jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 
-global.window = jsdom.jsdom('<html><body></body></html>').defaultView;
+global.window = new JSDOM('<!DOCTYPE html><body></body></html>').window;
 
 global.document = global.window.document;
 global.navigator = global.window.navigator;

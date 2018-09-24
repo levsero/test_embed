@@ -270,11 +270,8 @@ export class SubmitTicketForm extends Component {
   }
 
   updateFormValidity = (form) => {
-    // The `checkValidity` is not available on the form dom element created
-    // by jsdom during unit testing. This sanity check allows our unit tests to pass.
-    // See this Github issue: https://github.com/tmpvar/jsdom/issues/544
     this.setState({
-      isValid: form.checkValidity && form.checkValidity(),
+      isValid: form.checkValidity(),
       canSubmit: this.attachmentsReady()
     });
   }
