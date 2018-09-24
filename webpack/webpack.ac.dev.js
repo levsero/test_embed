@@ -5,10 +5,11 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const common = require('./webpack.ac.common.js');
 const fs = require('fs');
 
-const htmlTemplates = require('../dev/html_templates');
+const CWD = process.cwd();
+const webWidgetTemplates = require('../dev/web_widget_templates');
 
 module.exports = () => {
-  const userConfig = process.env.USER_CONFIG || 'example';
+  const userConfig = process.env.USER_CONFIG || 'example-template';
   const config = JSON.parse(
     fs.readFileSync(`./dev/configs/${userConfig}.json`)
   );
@@ -16,6 +17,10 @@ module.exports = () => {
   return merge(common, {
     mode: 'development',
     devtool: 'eval-source-map',
+    entry: {
+      webWidgetPreview: path.join(CWD, '/src/webWidgetPreview.js'),
+      chatPreview: path.join(CWD, '/src/chatPreview.js')
+    },
     output: {
       filename: '[name].js',
       publicPath: '/'
@@ -27,7 +32,7 @@ module.exports = () => {
       headers: { 'Cache-Control': 'no-cache, no-store' }
     },
     plugins: [
-      ...htmlTemplates(config),
+      ...webWidgetTemplates(config),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(true)
       }),

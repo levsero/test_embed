@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Web Widget Composite</title>
+</head>
+<body>
+  <h1>Web Widget Composite</h1>
+  <%= htmlWebpackPlugin.options.snippet %>
+  <script>
+      zE(function() {
+        zE.devRender({
+          embeds: {
+            talk: {
+              embed: 'talk',
+              props: {
+                nickname: '<%= htmlWebpackPlugin.options.talkNickname %>',
+                serviceUrl: '<%= htmlWebpackPlugin.options.talkIntegration %>'
+              }
+            },
+            helpCenterForm: {
+              embed: 'helpCenter',
+              props: {}
+            },
+            launcher: {
+              embed: 'launcher',
+              props: {
+                position: 'right'
+              }
+            },
+            zopimChat: {
+              embed: 'chat',
+              props: {
+                zopimId: '<%= htmlWebpackPlugin.options.zopimId %>'
+              }
+            },
+            ticketSubmissionForm: {
+              embed: 'submitTicket',
+              props: {}
+            }
+          }
+        });
+      });
+
+      zESettings = {
+        webWidget: {
+          contactOptions: {
+            enabled: true
+          }
+        }
+      }
+  </script>
+</body>
+</html>

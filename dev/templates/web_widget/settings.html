@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Web Widget Settings</title>
+</head>
+<body>
+  <h1>Web Widget Settings</h1>
+  <%= htmlWebpackPlugin.options.snippet %>
+  <script>
+    zE(function() {
+      zE.devRender({
+        webWidgetCustomizations: true,
+        embeds: {
+          helpCenterForm: {
+            embed: 'helpCenter',
+            props: {}
+          },
+          launcher: {
+            embed: 'launcher',
+            props: {
+              position: 'right'
+            }
+          },
+          zopimChat: {
+            embed: 'chat',
+            props: {
+              zopimId: '<%= htmlWebpackPlugin.options.zopimId %>'
+            }
+          },
+          ticketSubmissionForm: {
+            embed: 'submitTicket',
+            props: {
+              attachmentsEnabled: true
+            }
+          }
+        }
+      });
+    });
+
+    window.zESettings = {
+      webWidget: {
+        helpCenter: {
+          originalArticleButton: true,
+          suppress: false,
+          filter: {
+            section: '200154474-Announcements',
+            category: '200053794-General,200212040-Shipping',
+            label_names: 'payment'
+          },
+          title: {
+            '*': 'help center title',
+            'en-US': 'why?'
+          },
+          messageButton: {
+            'en-US': 'Yo',
+            'fr': ':('
+          }
+        },
+        contactOptions: { enabled: true },
+        chat: {
+          suppress: false
+        },
+        contactForm: {
+          attachments: true,
+          title: {
+            '*': 'test',
+            'en-US': 'test2'
+          },
+          tags: ['extra_tag', 'hello']
+        },
+        launcher: {
+          label: {
+            '*': 'hello!',
+            'fr': 'bonjour!'
+          }
+        },
+        color: {
+          theme: '#648297'
+        },
+        zIndex: 10000008
+      }
+    };
+  </script>
+</body>
+</html>

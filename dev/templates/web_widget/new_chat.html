@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Web Widget New Chat</title>
+</head>
+<body>
+  <h1>Web Widget New Chat</h1>
+  <%= htmlWebpackPlugin.options.snippet %>
+  <script>
+    zE(function() {
+      zE.devRender({
+        webWidgetCustomizations: true,
+        newChat: true,
+        embeds: {
+          launcher: {
+            embed: 'launcher',
+            props: {
+              position: 'right'
+            }
+          },
+          zopimChat: {
+            embed: 'chat',
+            props: {
+              zopimId: '<%= htmlWebpackPlugin.options.zopimId %>'
+            }
+          },
+          ticketSubmissionForm: {
+            embed: 'submitTicket',
+            props: {
+              attachmentsEnabled: true
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

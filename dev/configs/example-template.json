@@ -6,5 +6,10 @@
   "sharedSecret": "abc123",
   "chatSharedSecret": "123abc",
   "articleId": "123",
-  "gaID": "UA-103023081-1"
+  "gaID": "UA-103023081-1",
+  "user": {
+    "name": "Alice Bob",
+    "email": "alice.bob+12345@zddev.com",
+    "externalId": "1234"
+  }
 }

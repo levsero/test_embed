@@ -12,10 +12,7 @@ set :ruby_version, File.read('.ruby-version').chomp
 set :email_notification, ['deploys@zendesk.com',
                           'taipan@zendesk.com']
 
-set :framework_files,    ['main.js',
-                          'webWidgetPreview.js',
-                          'chatPreview.js',
-                          'bootstrap.js']
+set :framework_files, ['webWidgetPreview.js', 'chatPreview.js']
 
 set :branch, ENV['REVISION'] || 'master'
 

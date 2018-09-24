@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>chat preview</title>
-    <style>
-      p { line-height:200%; }
-    </style>
-  </head>
-
+<head>
+  <meta charset="UTF-8">
+  <title>Web Widget Chat Preview</title>
+</head>
+<body>
   <body style='background-color:#fff'>
-    <h1>Chat Preview demo</h1>
+    <h1>Web Widget Chat Preview</h1>
     <div id="previewContainer" style="height: 580px; border:1px solid #aaa; position: relative;">
       <div style="float:left;margin:16px;width:400px;">
         <div style="padding-bottom:20px;">
@@ -24,13 +21,13 @@
 
         An example is:
         <pre style="height:300px;overflow:scroll;border:#aaa 1px solid;">
-          {{chatSettings}}
+          <p><%= htmlWebpackPlugin.options.chatSettingsExample %></p>
         </pre>
       </div>
 
     </div>
 
-    <script src="/dist/chatPreview.js"></script>
+    <script src="/chatPreview.js"></script>
     <script>
       window.preview = zEPreview.renderPreview({
         element: document.getElementById('previewContainer')
@@ -51,6 +48,5 @@
         window.preview.updateChatState(event);
       });
     </script>
-
-  </body>
+</body>
 </html>

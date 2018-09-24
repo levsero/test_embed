@@ -4,14 +4,17 @@ const merge = require('webpack-merge');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const common = require('./webpack.common.js');
-const prefix = process.cwd();
+const CWD = process.cwd();
+const previewTemplates = require('../dev/preview_templates');
 
 module.exports = merge(common, {
   mode: 'development',
   entry: {
-    main: path.join(prefix, '/src/main.js'),
-    webWidgetPreview: path.join(prefix, '/src/webWidgetPreview.js'),
-    chatPreview: path.join(prefix, '/src/chatPreview.js')
+    webWidgetPreview: path.join(CWD, '/src/webWidgetPreview.js'),
+    chatPreview: path.join(CWD, '/src/chatPreview.js')
+  },
+  output: {
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -25,15 +28,11 @@ module.exports = merge(common, {
   devServer: {
     host: '0.0.0.0',
     port: 1337,
-    contentBase: 'example',
-    publicPath: '/dist/',
     disableHostCheck: true,
     headers: { 'Cache-Control': 'no-cache, no-store' }
   },
   plugins: [
-    new webpack.optimize.LimitChunkCountPlugin({
-      maxChunks: 1
-    }),
+    ...previewTemplates(),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true)
     }),
