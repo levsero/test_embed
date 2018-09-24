@@ -455,8 +455,7 @@ window.zESettings = {
       button: '#8A0648',
       resultLists: '#691840',
       header: '#203D9D',
-      articleLinks: '#FF4500',
-      bypassAccessibilityRequirement: true
+      articleLinks: '#FF4500'
     }
   }
 };
@@ -466,8 +465,6 @@ window.zESettings = {
 None of these elements are mandatory, and elements that are not defined will be based on either the `theme` color or the color [defined in the settings page](https://support.zendesk.com/hc/en-us/articles/115009692388-Configuring-the-components-in-your-Web-Widget), in that order of priority.
 
 For accessibility, the Web Widget enforces a minimum contrast ratio between colors to ensure the widget meets a minimum 'AA' accessibility rating as specified by the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/TR/WCAG20-TECHS/G18.html).
-
-Set the `bypassAccessibilityRequirement` option to `true` to fall back to a [YIQ-based algorithm](https://en.wikipedia.org/wiki/YIQ), which generates colors based on human perception rather than a numeric contrast ratio.
 
 Set a custom combination of `launcher` and `launcherText` colors to control both the Widget's launcher button's background and foreground.
 
