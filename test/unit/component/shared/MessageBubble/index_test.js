@@ -18,7 +18,12 @@ describe('MessageBubble component', () => {
       'component/shared/MessageOptions': {
         MessageOptions: MessageOptions
       },
-      'react-linkify' : Linkify
+      'react-linkify' : Linkify,
+      'service/i18n': {
+        'i18n': {
+          t: _.identity
+        }
+      }
     });
 
     mockery.registerAllowable(messageBubblePath);
@@ -47,12 +52,12 @@ describe('MessageBubble component', () => {
       });
 
       it('wraps the text content in a linkify component', () => {
-        expect(TestUtils.isElementOfType(response.props.children[0].props.children, Linkify))
+        expect(TestUtils.isElementOfType(response.props.children[0].props.children[0], Linkify))
           .toEqual(true);
       });
 
       it('sets the text content', () => {
-        expect(response.props.children[0].props.children.props.children)
+        expect(response.props.children[0].props.children[0].props.children)
           .toEqual('Test Message');
       });
 
@@ -81,6 +86,107 @@ describe('MessageBubble component', () => {
           expect(response.props.children[0].props.className)
             .toContain('messageBubbleWithOptions');
         });
+      });
+    });
+  });
+
+  describe('#renderTranslateLink', () => {
+    let component,
+      response,
+      mockTranslatedMessage,
+      mockShowOriginal;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <MessageBubble
+          message='Test Message' translatedMessage={mockTranslatedMessage} />
+      );
+      component.state = {
+        showOriginal: mockShowOriginal
+      };
+
+      spyOn(component, 'setState');
+      response = component.renderTranslateLink();
+    });
+
+    describe('when there is no translated message', () => {
+      beforeAll(() => {
+        mockTranslatedMessage = '';
+      });
+
+      it('returns null', () => {
+        expect(response)
+          .toBeFalsy();
+      });
+    });
+
+    describe('when there is a translated message', () => {
+      beforeAll(() => {
+        mockTranslatedMessage = 'yolo';
+      });
+
+      it('returns link', () => {
+        expect(TestUtils.isElementOfType(response, 'a'))
+          .toEqual(true);
+      });
+
+      describe('when showOriginal is true', () => {
+        beforeAll(() => {
+          mockShowOriginal = true;
+        });
+
+        it('returns show translated text', () => {
+          expect(response.props.children)
+            .toEqual('embeddable_framework.chat.show_translated');
+        });
+      });
+
+      describe('when showOriginal is false', () => {
+        beforeAll(() => {
+          mockShowOriginal = false;
+        });
+
+        it('returns show original text', () => {
+          expect(response.props.children)
+            .toEqual('embeddable_framework.chat.show_original');
+        });
+      });
+    });
+  });
+
+  describe('#renderMessage', () => {
+    let component,
+      response,
+      mockShowOriginal;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <MessageBubble
+          message='Test Message' translatedMessage='yo'/>
+      );
+      component.state = { showOriginal: mockShowOriginal };
+      response = component.renderMessage();
+    });
+
+    describe('when showing original', () => {
+      beforeAll(() => {
+        mockShowOriginal = true;
+      });
+
+      it('returns original message', () => {
+        expect(response)
+          .toEqual('Test Message');
+      });
+    });
+
+    describe('when not showing original', () => {
+      beforeAll(() => {
+        mockShowOriginal = false;
+      });
+
+      it('returns translated message', () => {
+        expect(response)
+          .toEqual('yo');
       });
     });
   });
