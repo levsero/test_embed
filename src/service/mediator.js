@@ -23,12 +23,9 @@ let chatOpenedBlipSent = false;
 
 state[`${launcher}.userHidden`] = false;
 state[`${launcher}.chatHidden`] = false;
-state[`${launcher}.clickActive`] = false;
 state[`${submitTicket}.isVisible`] = false;
 state[`${helpCenter}.isVisible`] = false;
 state[`${helpCenter}.isAccessible`] = false;
-state[`${helpCenter}.isSuppressed`] = false;
-state[`${channelChoice}.isVisible`] = false;
 state[`${channelChoice}.isAccessible`] = false;
 state[`${chat}.connectionPending`] = true;
 state[`${chat}.isVisible`] = false;
@@ -43,20 +40,19 @@ state[`${talk}.isAccessible`] = false;
 state[`${talk}.enabled`] = false;
 state[`${talk}.connectionPending`] = true;
 state[`${talk}.isVisible`] = false;
-state[`${talk}.isSuppressed`] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 state['.newChat'] = false;
 
 const talkAvailable = () => {
-  return !state[`${talk}.isSuppressed`] &&
+  return !settings.get('talk.suppress') &&
           state[`${talk}.isAccessible`] &&
           state[`${talk}.enabled`] &&
           !state[`${talk}.connectionPending`];
 };
 
 const helpCenterAvailable = () => {
-  return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
+  return state[`${helpCenter}.isAccessible`] && !settings.get('helpCenter.suppress');
 };
 
 const chatAvailable = () => {
@@ -64,7 +60,7 @@ const chatAvailable = () => {
 };
 
 const submitTicketAvailable = () => {
-  return state[`${submitTicket}.isAccessible`] && !state[`${submitTicket}.isSuppressed`];
+  return state[`${submitTicket}.isAccessible`] && !settings.get('contactForm.suppress');
 };
 
 const channelChoiceAvailable = () => {
@@ -77,14 +73,6 @@ const channelChoiceAvailable = () => {
 const embedAvailable = () => {
   return helpCenterAvailable() || chatAvailable() || submitTicketAvailable() || talkAvailable();
 };
-
-const getShowAnimation = _.memoize(
-  () => settings.get('position.vertical') === 'top' ? 'downShow' : 'upShow'
-);
-
-const getHideAnimation = _.memoize(
-  () => settings.get('position.vertical') === 'top' ? 'upHide' : 'downHide'
-);
 
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
@@ -105,7 +93,7 @@ const resetActiveEmbed = () => {
   } else if (submitTicketAvailable()) {
     state.activeEmbed = submitTicket;
   } else {
-    c.broadcast(`${launcher}.hide`, { transition: 'none' });
+    c.broadcast(`${launcher}.hide`);
   }
 };
 
@@ -138,12 +126,11 @@ const showEmbed = (_state, viaActivate = false) => {
     c.broadcast(`${chat}.show`);
   } else {
     const options = {
-      transition: getShowAnimation(),
       viaActivate
     };
 
     _state[`${_state.activeEmbed}.isVisible`] = true;
-    c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
+    c.broadcast(`${launcher}.hide`);
 
     if (_state.activeEmbed === chat) {
       c.broadcast(`${chat}.show`, options);
@@ -172,14 +159,11 @@ function init(embedsAccessible, params = {}) {
   state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
     (!params.helpCenterSignInRequired || isOnHelpCenterPage());
   state[`${chat}.isAccessible`] = embedsAccessible.chat;
-  state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
-  state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
   state[`${chat}.connectionPending`] = embedsAccessible.chat;
   state[`${talk}.isAccessible`] = embedsAccessible.talk;
   state[`${talk}.connectionPending`] = embedsAccessible.talk;
-  state[`${talk}.isSuppressed`] = settings.get('talk.suppress');
   resetActiveEmbed();
 
   const connectionPending = () => state[`${chat}.connectionPending`]
@@ -191,7 +175,7 @@ function init(embedsAccessible, params = {}) {
     // connectionPending state just hangs.
     setTimeout(() => {
       if (connectionPending() && embedAvailable()) {
-        show(state, { transition: 'none' });
+        show(state);
         state[`${chat}.connectionPending`] = false;
         state[`${talk}.connectionPending`] = false;
       }
@@ -204,7 +188,7 @@ function init(embedsAccessible, params = {}) {
     // When showOnLoad is true we need to wait for the SDK to tell us
     // if it's chatting or not. The widget will be shown then.
     if (!state[`${talk}.connectionPending`] && !showOnLoad) {
-      show(state, { transition: 'none' });
+      show(state);
     }
   });
 
@@ -213,12 +197,12 @@ function init(embedsAccessible, params = {}) {
 
     if (isMobileBrowser()) showOnLoad = false;
 
-    show(state, { transition: 'none', isChatting, showOnLoad });
+    show(state, { isChatting, showOnLoad });
   });
 
   c.intercept('newChat.newMessage', () => {
     if (!state[`${chat}.userClosed`]) {
-      c.broadcast('webWidget.proactiveChat', { transition: getShowAnimation() });
+      c.broadcast('webWidget.proactiveChat');
       c.broadcast(`${launcher}.hide`);
     }
   });
@@ -246,7 +230,7 @@ function init(embedsAccessible, params = {}) {
         !submitTicketAvailable() &&
         !helpCenterAvailable() &&
         !talkAvailable()) {
-      c.broadcast(`${launcher}.hide`, { transition: 'none' });
+      c.broadcast(`${launcher}.hide`);
       state[`${launcher}.chatHidden`] = true;
     }
   });
@@ -281,7 +265,7 @@ function init(embedsAccessible, params = {}) {
       }
 
       if (embedAvailable() && !state[`${chat}.connectionPending`]) {
-        show(state, { transition: 'none' });
+        show(state);
       }
     }
   });
@@ -359,7 +343,7 @@ function init(embedsAccessible, params = {}) {
     }
 
     if (!submitTicketAvailable() && !helpCenterAvailable() && !talkAvailable() && !state[`${chat}.connectionPending`]) {
-      c.broadcast(`${launcher}.show`, { transition: 'none' });
+      c.broadcast(`${launcher}.show`);
     }
   });
 
@@ -370,7 +354,7 @@ function init(embedsAccessible, params = {}) {
       resetActiveEmbed();
 
       if (embedAvailable() && !state[`${talk}.connectionPending`]) {
-        show(state, { transition: 'none' });
+        show(state);
       }
     }
   });
@@ -440,16 +424,14 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${submitTicket}.onCancelClick`, () => {
     state[`${submitTicket}.isVisible`] = false;
-    c.broadcast('webWidget.hide', { transition: getHideAnimation() });
+    c.broadcast('webWidget.hide');
 
     if (!state['.hideOnClose']) {
-      c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
+      c.broadcast(`${launcher}.show`);
     }
   });
 
   c.intercept(`${launcher}.onClick`, () => {
-    if (state[`${launcher}.clickActive`] === true) return;
-
     // When opening chat on mobile, directly broadcast a chat.show event.
     // Because zopim can open in a new tab, we need to make sure we don't make a call to `setScrollKiller`.
     // If we do the host page will be frozen when the user exits the zopim chat tab.
@@ -510,13 +492,6 @@ function init(embedsAccessible, params = {}) {
         setScrollKiller(false);
         revertWindowScroll();
 
-        // Fixes a condition where an unintended double click on
-        // an embed on a mobile device causes the launcher to click as well.
-        // The root cause of this is the click event is registered twice on
-        // mobile devices and needs to be handled in a similar way to
-        // clickBusterRegister/clickBusterHandler so that Frame#show does
-        // not get fired twice
-        state[`${launcher}.clickActive`] = true;
         setTimeout(
           () => state[`${launcher}.clickActive`] = false,
           100
@@ -527,7 +502,7 @@ function init(embedsAccessible, params = {}) {
       // was previously hidden with zE.hide()
       if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`] && !state[`${launcher}.chatHidden`]) {
         setTimeout(
-          () => c.broadcast(`${launcher}.show`, { transition: getShowAnimation() }),
+          () => c.broadcast(`${launcher}.show`),
           isMobileBrowser() ? 200 : 0
         );
       }
@@ -536,10 +511,6 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${submitTicket}.onFormSubmitted`, () => {
     resetActiveEmbed();
-  });
-
-  c.intercept('.orientationChange', () => {
-    c.broadcast('webWidget.update');
   });
 
   c.intercept('.onSetLocale', () => {
@@ -571,7 +542,7 @@ function initMessaging() {
       resetActiveEmbed();
 
       if (!state[`${launcher}.userHidden`] && !state[`${chat}.isAccessible`])  {
-        c.broadcast(`${launcher}.show`, { transition: 'none' });
+        c.broadcast(`${launcher}.show`);
       }
     }
   });

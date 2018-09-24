@@ -1238,11 +1238,6 @@ describe('embed.webWidget', () => {
       });
     });
 
-    it('should subscribe to webWidget.update', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('webWidget.update', jasmine.any(Function));
-    });
-
     describe('when webWidget.refreshLocale is broadcast', () => {
       let embed;
 

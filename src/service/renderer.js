@@ -252,7 +252,7 @@ function hideByZoom(hide) {
   });
 }
 
-function onZoom() {
+function updateEmbeds() {
   renderedEmbedsApply((embed) => {
     embed.forceUpdateWorld();
   });
@@ -265,5 +265,5 @@ export const renderer = {
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
   hide: hide,
-  onZoom
+  updateEmbeds
 };

@@ -176,4 +176,25 @@ describe('Navigation', () => {
       });
     });
   });
+
+  describe('handleCloseClick', () => {
+    let navigation;
+    const handleCloseClickSpy = jasmine.createSpy('handleCloseClick');
+    const stopPropagationSpy = jasmine.createSpy('stopPropagation');
+
+    beforeEach(() => {
+      navigation = domRender(<Navigation handleCloseClick={handleCloseClickSpy} />);
+      navigation.handleCloseClick({ stopPropagation: stopPropagationSpy });
+    });
+
+    it('calls handleCloseClick prop', () => {
+      expect(handleCloseClickSpy)
+        .toHaveBeenCalled();
+    });
+
+    it('calls stopPropagation event', () => {
+      expect(stopPropagationSpy)
+        .toHaveBeenCalled();
+    });
+  });
 });

@@ -343,12 +343,6 @@ export default function WebWidgetFactory(name) {
       });
     });
 
-    mediator.channel.subscribe(prefix + 'webWidget.update', () => {
-      waitForRootComponent(() => {
-        embed.instance.getChild().forceUpdate();
-      });
-    });
-
     mediator.channel.subscribe(prefix + 'zopimChat.setUser', (user) => {
       waitForRootComponent(() => {
         if (embed.embedsAvailable.chat) {
