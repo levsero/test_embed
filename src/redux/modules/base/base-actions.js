@@ -5,6 +5,7 @@ import {
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_WIDGET_SHOWN,
   IDENTIFY_RECIEVED,
+  API_ON_RECIEVED,
   WIDGET_HIDE_ANIMATION_COMPLETE,
   AUTHENTICATION_SUCCESS,
   AUTHENTICATION_FAILURE,
@@ -12,10 +13,12 @@ import {
   AUTHENTICATION_TOKEN_REVOKED,
   AUTHENTICATION_TOKEN_NOT_REVOKED,
   AUTHENTICATION_LOGGED_OUT,
+  CLOSE_BUTTON_CLICKED,
   UPDATE_EMBEDDABLE_CONFIG,
   UPDATE_QUEUE,
   REMOVE_FROM_QUEUE
 } from './base-action-types';
+import { API_ON_CLOSE_NAME } from 'constants/api';
 import { settings } from 'service/settings';
 import { getOAuth,
   getBaseIsAuthenticated,
@@ -235,5 +238,22 @@ export const removeFromQueue = (methodName) => {
 export const widgetHideAnimationComplete = () => {
   return {
     type: WIDGET_HIDE_ANIMATION_COMPLETE
+  };
+};
+
+export const handleCloseButtonClicked = () => {
+  return {
+    type: CLOSE_BUTTON_CLICKED
+  };
+};
+
+export const handleOnApiCalled = (event, callback) => {
+  const listenersMap = {
+    [API_ON_CLOSE_NAME]: [ CLOSE_BUTTON_CLICKED ]
+  };
+
+  return {
+    type: API_ON_RECIEVED,
+    payload: { callback, actions: listenersMap[event] }
   };
 };

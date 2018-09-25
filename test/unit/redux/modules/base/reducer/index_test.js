@@ -30,7 +30,8 @@ describe('base root reducer', () => {
       'queue',
       'embeddableConfig',
       'isAuthenticationPending',
-      'hasWidgetShown'
+      'hasWidgetShown',
+      'onApiListeners'
     ];
 
     it('has the expected substates', () => {

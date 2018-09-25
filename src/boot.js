@@ -18,7 +18,8 @@ import { initMobileScaling } from 'utility/mobileScaling';
 import {
   handleIdentifyRecieved,
   logout,
-  updateEmbeddableConfig } from 'src/redux/modules/base';
+  updateEmbeddableConfig,
+  handleOnApiCalled } from 'src/redux/modules/base';
 import { initResizeMonitor } from 'utility/window';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
@@ -129,6 +130,7 @@ const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
     logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
     updateSettings: postRenderQueueCallback.bind('updateSettings'),
+    on: postRenderQueueCallback.bind('on'),
     configureIPMWidget: postRenderQueueCallback.bind('configureIPMWidget'),
     showIPMArticle: postRenderQueueCallback.bind('showIPMArticle'),
     hideIPMWidget: postRenderQueueCallback.bind('hideIPMWidget'),
@@ -309,6 +311,11 @@ const setupWidgetApi = (win, reduxStore) => {
   };
   win.zE.updateSettings = (newSettings) => {
     reduxStore.dispatch(updateSettings(newSettings));
+  };
+  win.zE.on = (event, callback) => {
+    if (_.isFunction(callback)) {
+      reduxStore.dispatch(handleOnApiCalled(event, callback));
+    }
   };
 };
 

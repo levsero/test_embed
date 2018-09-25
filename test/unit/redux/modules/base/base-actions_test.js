@@ -26,6 +26,7 @@ let actions,
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
+const API_ON_CLOSE_NAME = 'API_ON_CLOSE_NAME';
 
 describe('base redux actions', () => {
   beforeEach(() => {
@@ -39,6 +40,9 @@ describe('base redux actions', () => {
       .and.returnValue({ type: 'widget/chat/CHAT_OPENED' });
 
     initMockRegistry({
+      'constants/api': {
+        API_ON_CLOSE_NAME
+      },
       'src/redux/modules/chat': {
         chatNotificationDismissed: chatNotificationDismissedSpy,
         chatOpened: chatOpenedSpy
@@ -742,6 +746,62 @@ describe('base redux actions', () => {
         expect(action.type)
           .toEqual(actionTypes.AUTHENTICATION_TOKEN_REVOKED);
       });
+    });
+  });
+
+  describe('handleOnApiCalled', () => {
+    let action,
+      event;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleOnApiCalled(event, () => {}));
+      action = mockStore.getActions()[0];
+    });
+
+    describe('when event is in the event list', () => {
+      beforeAll(() => {
+        event = API_ON_CLOSE_NAME;
+      });
+
+      it('dispatches a API_ON_RECIEVED event', () => {
+        expect(action.type)
+          .toEqual(actionTypes.API_ON_RECIEVED);
+      });
+
+      it('dispatches the actions assoicated with it in the actions key', () => {
+        expect(action.payload.actions)
+          .toEqual([ actionTypes.CLOSE_BUTTON_CLICKED ]);
+      });
+    });
+
+    describe('when event is not in the event list', () => {
+      beforeAll(() => {
+        event = 'somethingElse';
+      });
+
+      it('dispatches a API_ON_RECIEVED event', () => {
+        expect(action.type)
+          .toEqual(actionTypes.API_ON_RECIEVED);
+      });
+
+      it('dispatches undefined in the actions key', () => {
+        expect(action.payload.actions)
+          .toEqual(undefined);
+      });
+    });
+  });
+
+  describe('handleCloseButtonClicked', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleCloseButtonClicked());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches a CLOSE_BUTTON_CLICKED event', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CLOSE_BUTTON_CLICKED);
     });
   });
 });

@@ -5,6 +5,7 @@ export const UPDATE_BACK_BUTTON_VISIBILITY = 'widget/base/UPDATE_BACK_BUTTON_VIS
 export const UPDATE_AUTHENTICATED = 'widget/base/UPDATE_AUTHENTICATED';
 export const UPDATE_WIDGET_SHOWN = 'widget/base/UPDATE_WIDGET_SHOWN';
 export const IDENTIFY_RECIEVED = 'widget/base/IDENTIFY_RECIEVED';
+export const API_ON_RECIEVED = 'widget/base/API_ON_RECIEVED';
 export const AUTHENTICATION_SUCCESS = 'widget/base/AUTHENTICATION_SUCCESS';
 export const AUTHENTICATION_FAILURE = 'widget/base/AUTHENTICATION_FAILURE';
 export const AUTHENTICATION_PENDING = 'widget/base/AUTHENTICATION_PENDING';
@@ -14,6 +15,6 @@ export const AUTHENTICATION_LOGGED_OUT = 'widget/base/AUTHENTICATION_LOGGED_OUT'
 export const UPDATE_EMBEDDABLE_CONFIG = 'widget/base/UPDATE_EMBEDDABLE_CONFIG';
 export const UPDATE_QUEUE = 'widget/base/UPDATE_QUEUE';
 export const REMOVE_FROM_QUEUE = 'widget/base/REMOVE_FROM_QUEUE';
-export const LAUNCHER_CLICKED = 'widget/base/LAUNCHER_CLICKED';
+export const CLOSE_BUTTON_CLICKED = 'widget/base/CLOSE_BUTTON_CLICKED';
 // We can also add actions for animation start and show start and complete as needed
 export const WIDGET_HIDE_ANIMATION_COMPLETE = 'widget/base/WIDGET_HIDE_ANIMATION_COMPLETE';

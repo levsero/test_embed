@@ -8,6 +8,7 @@ import arturos from './base-arturos';
 import embeddableConfig from './base-embeddable-config';
 import isAuthenticationPending from './base-is-authentication-pending';
 import queue from './base-queue';
+import onApiListeners from './base-on-api-listeners';
 import hasWidgetShown from './base-has-widget-shown';
 
 export default combineReducers({
@@ -19,6 +20,6 @@ export default combineReducers({
   embeddableConfig,
   isAuthenticationPending,
   queue,
+  onApiListeners,
   hasWidgetShown
 });
-
