@@ -1,6 +1,7 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const chunks = require('../webpack/chunks');
 
 const CHUNKS = [
@@ -12,27 +13,38 @@ const CHUNKS = [
   chunks.WEB_WIDGET_CHUNK
 ];
 const TEMPLATES_PATH = './dev/templates/web_widget';
+const NONCE = 'abc123';
 
 module.exports = function(config) {
   const templates = fs.readdirSync(TEMPLATES_PATH);
-
-  return templates.map((template) => {
-    return new HtmlWebpackPlugin({
-      template: `${TEMPLATES_PATH}/${template}`,
-      filename: template,
-      chunks: CHUNKS,
-      chunksSortMode: 'manual',
-      ...config,
-      hcJwt: generateHcJwt(config.sharedSecret, config.user),
-      chatJwt: generateChatJwt(config.chatSharedSecret, config.user),
-      snippet: snippet(config.zendeskHost)
-    });
+  const plugins = templates.map((template) => {
+    return [
+      new HtmlWebpackPlugin({
+        template: `${TEMPLATES_PATH}/${template}`,
+        filename: template,
+        chunks: CHUNKS,
+        chunksSortMode: 'manual',
+        ...config,
+        hcJwt: generateHcJwt(config.sharedSecret, config.user),
+        chatJwt: generateChatJwt(config.chatSharedSecret, config.user),
+        snippet: snippet(config.zendeskHost)
+      }),
+      new ScriptExtHtmlWebpackPlugin({
+        custom: {
+          test: /\.js$/,
+          attribute: 'nonce',
+          value: NONCE
+        }
+      })
+    ];
   });
+
+  return [].concat(...plugins);
 };
 
 function snippet(zendeskHost) {
   return `
-    <script>
+    <script nonce="${NONCE}">
       window.zEmbed || (function(host) {
         var queue = [];
 

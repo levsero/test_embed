@@ -38,11 +38,6 @@ try "Installing npm packages" "npm install --quiet > /dev/null"
 try "Installing ruby gems" "bundle install --quiet"
 try "Downloading translations" "script/fetch_i18n"
 try "Building Engagement Framework" "npm run build"
-bold "Installing UI Regression Tooling"
-
-try "Installing brew formulae" "brew bundle"
-
-try "Installing webdriverio & webdrivercss" "PKG_CONFIG_PATH=\"/opt/X11/lib/pkgconfig\" npm install webdrivercss webdriverio --quiet > /dev/null"
 
 echo
 bold "All systems are go!"
