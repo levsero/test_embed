@@ -121,7 +121,7 @@ export class ChatGroup extends Component {
   }
 
   renderErrorMessage = (chat, isAgent, showAvatar) => {
-    const { numFailedTries, msg, timestamp, options } = chat;
+    const { numFailedTries, msg, timestamp } = chat;
     const messageError = (numFailedTries === 1)
       ? <MessageError
         errorMessage={i18n.t('embeddable_framework.chat.messagefailed.resend')}
@@ -130,7 +130,7 @@ export class ChatGroup extends Component {
 
     return (
       <div>
-        {this.renderMessageBubble(msg, options, isAgent, showAvatar)}
+        {this.renderMessageBubble(chat, isAgent, showAvatar)}
         <div className={styles.messageErrorContainer}>
           {messageError}
         </div>

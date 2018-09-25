@@ -319,7 +319,7 @@ describe('ChatGroup component', () => {
 
       it('calls renderMessageBubble with expected args', () => {
         expect(component.renderMessageBubble)
-          .toHaveBeenCalledWith(chat.msg, chat.options, isAgent, showAvatar);
+          .toHaveBeenCalledWith(chat, isAgent, showAvatar);
       });
     });
 
