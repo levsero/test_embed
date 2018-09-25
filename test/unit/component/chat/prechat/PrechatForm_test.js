@@ -16,7 +16,7 @@ describe('PrechatForm component', () => {
   const mockFormProp = {
     name: { name: 'name', required: true },
     email: { name: 'email', required: true },
-    phone: { name: 'phone', label: 'Phone Number', required: false, hidden: false },
+    phone: { name: 'phone', label: 'Phone Number', required: false },
     message: { name: 'message', label: 'Message', required: false }
   };
   const mockForm = {
@@ -228,25 +228,20 @@ describe('PrechatForm component', () => {
   describe('renderPhoneField', () => {
     let result,
       mockRenderErrorMessage,
-      mockHidden;
+      mockPhoneEnabled;
 
     beforeEach(() => {
-      const mockForm = {
-        ...mockFormProp,
-        phone: { hidden: mockHidden }
-      };
-
       const component = instanceRender(
-        <PrechatForm form={mockForm} />
+        <PrechatForm form={mockFormProp} phoneEnabled={mockPhoneEnabled} />
       );
 
       spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage);
       result = component.renderPhoneField();
     });
 
-    describe('when phone data attribute hidden is true', () => {
+    describe('when phone enabled attribute is false', () => {
       beforeAll(() => {
-        mockHidden = true;
+        mockPhoneEnabled = false;
       });
 
       it('does not render the phone field', () => {
@@ -255,9 +250,9 @@ describe('PrechatForm component', () => {
       });
     });
 
-    describe('when phone data attribute hidden is false', () => {
+    describe('when phone enabled attribute is true', () => {
       beforeAll(() => {
-        mockHidden = false;
+        mockPhoneEnabled = true;
       });
 
       it('renders the phone field', () => {
