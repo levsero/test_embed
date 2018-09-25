@@ -30,6 +30,7 @@ export class PrechatForm extends Component {
     visitor: PropTypes.object.isRequired,
     onFormCompleted: PropTypes.func,
     loginEnabled: PropTypes.bool,
+    phoneEnabled: PropTypes.bool,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
@@ -47,6 +48,7 @@ export class PrechatForm extends Component {
     visitor: {},
     onFormCompleted: () => {},
     loginEnabled: true,
+    phoneEnabled: true,
     authUrls: {},
     socialLogin: {},
     isMobile: false,
@@ -217,10 +219,9 @@ export class PrechatForm extends Component {
   }
 
   renderPhoneField = () => {
+    if (!this.props.loginEnabled || !this.props.phoneEnabled) return null;
+
     const phoneData = this.props.form.phone;
-
-    if (!this.props.loginEnabled || phoneData.hidden) return null;
-
     const value = this.props.formState.phone;
     const required = phoneData.required;
     const error = this.renderErrorMessage(Message, value, required,
