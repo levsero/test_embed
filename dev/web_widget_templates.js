@@ -27,7 +27,8 @@ module.exports = function(config) {
         ...config,
         hcJwt: generateHcJwt(config.sharedSecret, config.user),
         chatJwt: generateChatJwt(config.chatSharedSecret, config.user),
-        snippet: snippet(config.zendeskHost)
+        snippet: snippet(config.zendeskHost),
+        nonce: NONCE
       }),
       new ScriptExtHtmlWebpackPlugin({
         custom: {
