@@ -1020,12 +1020,13 @@ describe('ChatOfflineForm component', () => {
   describe('renderPhoneNumberField', () => {
     let result,
       mockRenderErrorMessage,
-      hidden = false;
+      mockPhoneEnabled = true;
 
     beforeEach(() => {
-      const mockFormFields = { phone: { required: true, hidden } };
+      const mockFormFields = { phone: { required: true } };
       const component = instanceRender(
         <ChatOfflineForm
+          phoneEnabled={mockPhoneEnabled}
           formState={initialFormState}
           formFields={mockFormFields} />
       );
@@ -1071,9 +1072,9 @@ describe('ChatOfflineForm component', () => {
       });
     });
 
-    describe('when hidden', () => {
+    describe('when phone is not enabled', () => {
       beforeAll(() => {
-        hidden = true;
+        mockPhoneEnabled = false;
       });
 
       it('returns null', () => {

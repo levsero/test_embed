@@ -157,6 +157,7 @@ class PrechatScreen extends Component {
         formState={this.props.preChatFormState}
         onPrechatFormChange={this.props.handlePreChatFormChange}
         loginEnabled={this.props.loginSettings.enabled}
+        phoneEnabled={this.props.loginSettings.phoneEnabled}
         greetingMessage={message}
         isAuthenticated={this.props.isAuthenticated}
         visitor={this.props.visitor}

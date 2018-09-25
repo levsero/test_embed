@@ -15,6 +15,7 @@ import { getChatOfflineForm,
   getOfflineMessage,
   getOfflineFormSettings,
   getOfflineFormFields,
+  getLoginSettings,
   getGroupedOperatingHours,
   getSocialLogin,
   getAuthUrls,
@@ -29,6 +30,7 @@ const mapStateToProps = (state) => {
     formState: getChatOfflineForm(state),
     formFields: getOfflineFormFields(state),
     formSettings: getOfflineFormSettings(state),
+    loginSettings: getLoginSettings(state),
     offlineMessage: getOfflineMessage(state),
     operatingHours: getGroupedOperatingHours(state),
     socialLogin: getSocialLogin(state),
@@ -49,6 +51,7 @@ class ChatOffline extends Component {
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
     formSettings: PropTypes.object.isRequired,
+    loginSettings: PropTypes.object.isRequired,
     offlineMessage: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     authUrls: PropTypes.object.isRequired,
@@ -70,7 +73,8 @@ class ChatOffline extends Component {
     hideZendeskLogo: false,
     formSettings: { enabled: false },
     offlineMessage: {},
-    getFrameContentDocument: () => ({})
+    getFrameContentDocument: () => ({}),
+    loginSettings: {}
   };
 
   renderOfflineForm = () => {
@@ -84,6 +88,7 @@ class ChatOffline extends Component {
         authUrls={this.props.authUrls}
         formFields={this.props.formFields}
         formState={this.props.formState}
+        phoneEnabled={this.props.loginSettings.phoneEnabled}
         greeting={this.props.formSettings.message}
         offlineMessage={this.props.offlineMessage}
         handleOfflineFormBack={this.props.handleOfflineFormBack}

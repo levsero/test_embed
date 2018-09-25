@@ -28,6 +28,7 @@ export class ChatOfflineForm extends Component {
     offlineMessage: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
+    phoneEnabled: PropTypes.bool,
     greeting: PropTypes.string,
     isMobile: PropTypes.bool,
     socialLogin: PropTypes.object.isRequired,
@@ -42,6 +43,7 @@ export class ChatOfflineForm extends Component {
   static defaultProps = {
     operatingHours: { enabled: false },
     isMobile: false,
+    phoneEnabled: true,
     offlineMessage: {},
     initiateSocialLogout: () => {},
     socialLogin: {},
@@ -137,7 +139,7 @@ export class ChatOfflineForm extends Component {
   }
 
   renderPhoneNumberField() {
-    if (_.get(this.props.formFields, 'phone.hidden')) return null;
+    if (!this.props.phoneEnabled) return null;
 
     const isRequired = !!_.get(this.props.formFields, 'phone.required');
     const value = this.props.formState.phone;
