@@ -64,8 +64,8 @@ import {
   getChatOnline,
   getActiveAgents,
   getIsAuthenticated,
-  getZChatVendor,
-  getIsLoggingOut } from 'src/redux/modules/chat/chat-selectors';
+  getIsLoggingOut,
+  getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
 import {
   CHAT_MESSAGE_TYPES,
   AGENT_BOT,
@@ -77,7 +77,7 @@ import {
 import { mediator } from 'service/mediator';
 import { audio } from 'service/audio';
 import _ from 'lodash';
-
+import zChatWithTimeout from 'src/util/zChatWithTimeout';
 const chatTypingTimeout = 2000;
 let history = [];
 
@@ -128,11 +128,10 @@ const sendMsgFailure = (msg, visitor, timestamp) => {
 export function sendMsg(msg, timestamp=Date.now()) {
   return (dispatch, getState) => {
     let visitor = getChatVisitor(getState());
-    const zChat = getZChatVendor(getState());
 
     dispatch(sendMsgRequest(msg, visitor, timestamp));
 
-    zChat.sendChatMsg(msg, (err) => {
+    zChatWithTimeout(getState, 'sendChatMsg')(msg, (err) => {
       visitor = getChatVisitor(getState());
 
       if (!err) {

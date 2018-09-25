@@ -83,3 +83,5 @@ export const SCROLL_BOTTOM_THRESHOLD = 200; // Unit in px
 export const CHAT_STRUCTURED_MESSAGE_TYPE = {
   BUTTON_TEMPLATE: 'ButtonTemplate'
 };
+
+export const TIMEOUT = 5000;
