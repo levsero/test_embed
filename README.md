@@ -40,69 +40,57 @@ Run the following commands inside this folder:
 
 The bootstrap file will do the following:
 
-* Set Node version
-* Install selenium-server globally
 * Run `npm install` to get all dependencies
 * Run `bundle install` to get ruby dependencies
 * Run `npm run build` to generate snippet, framework and example files
 * Download rosetta translation and mappings into `src/translation/ze_translations.js` and `src/translation/ze_localeIdMap.js`
 * Download countries translation into `src/translation/ze_countries.js`
-* Download graphicsmagick, imagemagick & cairo using brew
-* Run npm install webdriverio & webdrivercss (these depend on the above)
 
-To run the embeddables locally type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/webpack-dev-server/](http://localhost:1337/webpack-dev-server/) to test live examples.
+To run the embeddables locally type `npm run dev` in this folder for it to kick off. This will build all the files required to load the Web Widget and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/live.html](http://localhost:1337/live.html) to test the Web Widget live.
 
 We recommended installing the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) extension on your browser.
 
 #### Setting up your own test values
 
-To use your own values in the watch task you can create a new .watch file for the thing you'd like to test. Prefix it with a dash and the name of the group you want to use.
+To use your own values in the dev task you can create a new user config file in dev/configs.
 
 ```bash
-cp config/.watch.example config/.watch-${your_config_name}
+cp dev/configs/example-template.json dev/configs/${yourUserConfigName}.json
 ```
 
-Then edit the values inside the config to point wherever you like. You can then use this config in your watch task by running
+The example template contains the following values:
+```js
+{
+  "zendeskHost": "dev.zd-dev.com",
+  "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6",
+  "talkIntegration": "https://talkintegration-pod999.zendesk-staging.com",
+  "talkNickname": "hola",
+  "sharedSecret": "abc123",
+  "chatSharedSecret": "123abc",
+  "articleId": "123",
+  "gaID": "UA-103023081-1",
+  "user": {
+    "name": "Alice Bob",
+    "email": "alice.bob+12345@zddev.com",
+    "externalId": "1234"
+  }
+}
+```
+
+A good first step would be to change the value of `zendeskHost` to a production Zendesk account host.
+
+Then edit the values inside the config to whatever values you like. You can then use this config in the dev task by running
 
 ```bash
-npm run watchConf ${your_config_name}
+USER_CONFIG={yourConfigName}.json npm run dev
 ```
 
-This will start a watch task using the values found in /config/.watch-${your_config_name}. The next time you start a watch task it will use the file you set last here.
+This will start the dev task using the values found in `dev/configs/${yourConfigName}.json`. If no `USER_CONFIG` variable is passed, the dev task will default to using the `example-template.json` config which uses `dev.zd-dev.com`.
 
-This will allow you to make as many different configurations as you like to test different scenarios with. It's recommended to have one for dev and one for your prod account.
-
-## Getting Started with Asset Composer
-First ensure that the project is bootstrap by following the instructions above.
-
-You will need to setup docker-images. Instructions can be found here: https://github.com/zendesk/docker-images#installation.
-
-Start the `embed_key_registry` application. If the image is not found, zdi will automatically pull it down.
-
-```bash
-zdi embed_key_registry start
-```
-
-Note: You can also run this application in development mode `zdi embed_key_registry -d start` if you wish to debug the `asset_composer.js` script. This will require you cloning and setting up Embed Key Registry. Instructions can be found in the `README.md` on the Github [repositiory](https://github.com/zendesk/embed_key_registry).
-
-Then run the `watch:ac` npm task
-
-```bash
-npm run watch:ac
-```
-
-Or run the `watchConf:ac` npm task with the config you want to use.
-
-```bash
-npm run watchConf:ac ${your_config_name}
-```
-
-Finally navigate to [http://localhost:1337/webpack-dev-server/asset_composer.html](http://localhost:1337/webpack-dev-server/asset_composer.html). The Asset Composer version of the Web Widget should load on the page using the local Embed Key Registry application running in Docker.
-
-View the confluence [documentation](https://zendesk.atlassian.net/wiki/spaces/CE/pages/332529715/End-to-end+development+for+Asset+Composer+Web+Widget) for more details.
+This will allow you to make as many different configurations as you like to test different scenarios with. It's recommended to have one for your production account.
 
 ## Running in Docker
-- Follow above to get `npm run watch` running.
+- Follow above to get `npm run dev` running.
 - Run `zdi embeddable_framework -d restart` in parallel.
 
 ### Building Docker image
@@ -149,23 +137,11 @@ To download the latest translations, run the following command from the root of 
 ./script/fetch_countries
 ```
 
-## Generating a JWT token
-To generate a JWT token for development purposes, run the following command from the root of this project:
-
-```bash
-node ./script/generate-jwt.js <shared_secret>
-```
-
-*`<shared_secret>` = a generated shared secret (e.g `4fcd8ac941baf1b9cf1bf0b8272d5bcf`)*
-
-## Testing CSP
-See the **CSP.md** document for instructions on how to test CSP with the Web Widget.
-
 ## NPM tasks
 Run each task like this: ```npm run <taskname>```
 
 * **build** - Generates snippet and framework in production mode. This means the final source and assets are optimised and no sourcemaps are generated.
-* **watch** - Runs webpack-dashboard and launches a local server that automatically rebuilds the source and refreshes the browser on any changes. Navigate to http://localhost:1337/webpack-dev-server
+* **dev** - Launches a local server that automatically rebuilds the source and refreshes the browser on any changes. Navigate to any of the pages at http://localhost:1337.
 * **test** - Runs all the jasmine unit tests.
 * **lint** - Runs eslint on the *src* and *test* directories.
 
@@ -181,9 +157,6 @@ localStorage["ZD-debug"] = true
 ```
 
 After that when you refresh the page you will start seeing redux logs in your console.
-
-### Using your development version of main.js
-Here is [an article](https://zendesk.atlassian.net/wiki/spaces/CE/pages/111936245/Debugging+on+3rd+party+websites) explaining how we can use burp to hijack the main.js request and point it to a local version.
 
 ## Documenting ADRs
 We will be documenting architectural decisions surrounding this project under `doc/architecture/decisions`.
