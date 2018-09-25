@@ -18,6 +18,7 @@ import {
   UPDATE_QUEUE,
   REMOVE_FROM_QUEUE
 } from './base-action-types';
+import { API_ON_CLOSE_NAME } from 'constants/api';
 import { settings } from 'service/settings';
 import { getOAuth,
   getBaseIsAuthenticated,
@@ -248,7 +249,7 @@ export const handleCloseButtonClicked = () => {
 
 export const handleOnApiCalled = (event, callback) => {
   const listenersMap = {
-    'close': [ CLOSE_BUTTON_CLICKED ]
+    [API_ON_CLOSE_NAME]: [ CLOSE_BUTTON_CLICKED ]
   };
 
   return {

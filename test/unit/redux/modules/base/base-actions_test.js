@@ -26,6 +26,7 @@ let actions,
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
+const API_ON_CLOSE_NAME = 'API_ON_CLOSE_NAME';
 
 describe('base redux actions', () => {
   beforeEach(() => {
@@ -39,6 +40,9 @@ describe('base redux actions', () => {
       .and.returnValue({ type: 'widget/chat/CHAT_OPENED' });
 
     initMockRegistry({
+      'constants/api': {
+        API_ON_CLOSE_NAME
+      },
       'src/redux/modules/chat': {
         chatNotificationDismissed: chatNotificationDismissedSpy,
         chatOpened: chatOpenedSpy
@@ -756,7 +760,7 @@ describe('base redux actions', () => {
 
     describe('when event is in the event list', () => {
       beforeAll(() => {
-        event = 'close';
+        event = API_ON_CLOSE_NAME;
       });
 
       it('dispatches a API_ON_RECIEVED event', () => {
