@@ -82,7 +82,7 @@ A good first step would be to change the value of `zendeskHost` to a production 
 Then edit the values inside the config to whatever values you like. You can then use this config in the dev task by running
 
 ```bash
-USER_CONFIG={yourConfigName}.json npm run dev
+USER_CONFIG={yourConfigName} npm run dev
 ```
 
 This will start the dev task using the values found in `dev/configs/${yourConfigName}.json`. If no `USER_CONFIG` variable is passed, the dev task will default to using the `example-template.json` config which uses `dev.zd-dev.com`.
