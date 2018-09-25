@@ -13,7 +13,9 @@ export class QuickReply extends Component {
     onClick: PropTypes.func,
     className: PropTypes.string,
     onFocus: PropTypes.func,
-    onBlur: PropTypes.func
+    onBlur: PropTypes.func,
+    onMouseDown: PropTypes.func,
+    onMouseUp: PropTypes.func
   }
 
   static defaultProps = {
@@ -24,7 +26,15 @@ export class QuickReply extends Component {
     const className = classNames(this.props.className, styles.quickReply);
 
     return (
-      <Button className={className} pill={true} onClick={this.props.onClick} onFocus={this.props.onFocus} onBlur={this.props.onBlur} onMouseDown={this.props.onMouseDown} onMouseUp={this.props.onMouseUp}>
+      <Button
+        className={className}
+        pill={true}
+        onClick={this.props.onClick}
+        onFocus={this.props.onFocus}
+        onBlur={this.props.onBlur}
+        onMouseDown={this.props.onMouseDown}
+        onMouseUp={this.props.onMouseUp}
+      >
         {this.props.label}
       </Button>
     );
@@ -46,6 +56,7 @@ export class QuickReplies extends Component {
 
   componentDidMount() {
     if (this.container.scrollWidth > this.container.clientWidth) {
+      /* eslint-disable react/no-did-mount-set-state */
       this.setState({
         useCarousel: true
       });
@@ -69,7 +80,7 @@ export class QuickReplies extends Component {
     const sliderSettings = {
       variableWidth: true,
       speed: 300
-    }
+    };
 
     if (this.state.useCarousel) {
       return (

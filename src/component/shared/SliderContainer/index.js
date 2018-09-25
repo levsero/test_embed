@@ -17,6 +17,8 @@ export class SliderContainer extends Component {
     infinite: PropTypes.bool,
     slidesToScroll: PropTypes.number,
     slidesToShow: PropTypes.number,
+    className: PropTypes.string,
+    onClick: PropTypes.func
   }
 
   static defaultProps = {

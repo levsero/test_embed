@@ -15,8 +15,6 @@ describe('ChatLog component', () => {
   const EventMessage = noopReactComponent();
   const Button = noopReactComponent();
 
-  const chatConstants = requireUncached(chatConstantsPath);
-
   beforeEach(() => {
     mockery.enable();
 

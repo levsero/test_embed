@@ -1547,7 +1547,7 @@ describe('ChattingScreen component', () => {
         it('should render the right number of QuickReply component', () => {
           expect(QRComponent.props.children.length).toEqual(chatLog[2][0].items.length);
 
-          QRComponent.props.children.forEach((child, idx) => {
+          QRComponent.props.children.forEach((child) => {
             expect(TestUtils.isElementOfType(child, QuickReply)).toEqual(true);
           });
         });
