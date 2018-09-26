@@ -88,13 +88,13 @@ The Web Widget has the following core commands:
 * [get isOpen](#get-isopen)
 * [on show](#on-show)
 * [on hide](#on-hide)
-* [perform hide](#perform-hide)
-* [perform show](#perform-show)
-* [perform logout](#perform-logout)
-* [perform identify](#perform-identify)
-* [perform prefill](#perform-prefill)
-* [perform setLocale](#perform-setlocale)
-* [perform updateSettings](#perform-updatesettings)
+* [hide](#hide)
+* [show](#show)
+* [logout](#logout)
+* [identify](#identify)
+* [prefill](#prefill)
+* [setLocale](#setlocale)
+* [updateSettings](#updatesettings)
 
 
 #### get isOpen
@@ -149,9 +149,9 @@ Executes a callback when the widget is hidden.
   });
 ```
 
-#### perform hide
+#### hide
 
-`zE('webWidget:perform', 'hide');`
+`zE('webWidget', 'hide');`
 
 Hides all parts of the Widget from the page. You can invoke it before or after page load.
 
@@ -165,20 +165,20 @@ None
 
 ```html
 <script>
-  zE('webWidget:perform', 'hide');
+  zE('webWidget', 'hide');
 </script>
 ```
 
 **After page load**
 
 ```html
-  <button onclick="zE('webWidget:perform', 'hide')">Hide Web Widget</button>
+  <button onclick="zE('webWidget', 'hide')">Hide Web Widget</button>
 ```
 
 
-#### perform show
+#### show
 
-`zE('webWidget:perform', 'show');`
+`zE('webWidget', 'show');`
 
 Displays the widget on the host page in the state it was in before it was hidden.
 
@@ -188,18 +188,14 @@ The widget is displayed by default on page load. You don't need to call `show` t
 
 ```html
 <script>
-  zE('webWidget:perform', 'show');
+  zE('webWidget', 'show');
 </script>
 ```
 
 
-#### perform logout
+#### logout
 
-[comment]: <> (Not sure about the 'perform' verb here. I've tried a few others)
-[comment]: <> (i.e., execute, run, but can't find a better suiting one.)
-[comment]: <> (The same applies for the other perform ones)
-
-`zE('webWidget:perform', 'logout');`
+`zE('webWidget', 'logout');`
 
 Clears an end user's session.
 
@@ -208,9 +204,9 @@ Clears an end user's session.
 None
 
 
-#### perform identify
+#### identify
 
-`zE('webWidget:perform', 'identify', data<object>);`
+`zE('webWidget', 'identify', data<object>);`
 
 Identifies an end user to Zendesk.
 
@@ -227,7 +223,7 @@ The Widget also uses the information to pre-populate the contact or pre-chat cha
 ##### Example
 
 ```javascript
-  zE('webWidget:perform', 'identify', {
+  zE('webWidget', 'identify', {
     name: 'Akira Kogane',
     email: 'akira@voltron.com',
     organization: 'Voltron, Inc.'
@@ -237,9 +233,9 @@ The Widget also uses the information to pre-populate the contact or pre-chat cha
 *Note*: Passing an organization only works for existing organizations in your Zendesk Support account. It does not create a new organization.
 
 
-#### perform prefill
+#### prefill
 
-`zE('webWidget:perform', 'prefill', data<object>);`
+`zE('webWidget', 'prefill', data<object>);`
 
 Pre-fills an end-user's details on forms inside the Web Widget.
 
@@ -250,13 +246,13 @@ Pre-fills an end-user's details on forms inside the Web Widget.
 ##### Example
 
 ```javascript
-  zE('webWidget:perform', 'prefill', {
+  zE('webWidget', 'prefill', {
     name: 'Isamu Kurogane',
     email: 'isamu@voltron.com',
   });
 ```
 
-#### perform setLocale
+#### setLocale
 
 `zE('webWidget:setLocale', data<string>);`
 
@@ -277,13 +273,13 @@ The following example displays the widget in German:
 ##### Example
 
 ```javascript
-  zE('webWidget:perform', 'setLocale', 'de');
+  zE('webWidget', 'setLocale', 'de');
 ```
 
 
-#### perform updateSettings
+#### updateSettings
 
-`zE('webWidget:perform', 'updateSettings', data<object>);`
+`zE('webWidget', 'updateSettings', data<object>);`
 
 Updates the Web Widget's [zESettings](./settings). Can update multiple settings at once.
 
@@ -294,7 +290,7 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
 ##### Example
 
 ```javascript
-  zE('webWidget:perform', 'updateSettings', {
+  zE('webWidget', 'updateSettings', {
     webWidget: {
       chat: {
         departments: {

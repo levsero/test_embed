@@ -49,8 +49,8 @@ The Chat component has the following commands:
 * [get chat:isChatting](#get-chat-ischatting)
 * [get chat:departments:department](#get-chat-departments-department)
 * [get chat:departments:all](#get-chat-departments-all)
-* [perform chat:end](#perform-chat-end)
-* [perform updatePath](#perform-updatepath)
+* [chat:end](#chat-end)
+* [updatePath](#updatepath)
 * [on chat:connected](#on-chat-connected)
 * [on chat:start](#on-chat-start)
 * [on chat:end](#on-chat-end)
@@ -126,9 +126,9 @@ None
 * An array of objects containing information about each department, including its id, name, and status.
 
 
-#### perform chat:end
+#### chat:end
 
-`zE('webWidget:perform', 'chat:end');`
+`zE('webWidget', 'chat:end');`
 
 Ends the current chat session.
 
@@ -137,9 +137,9 @@ Ends the current chat session.
 None
 
 
-#### perform updatePath
+#### updatePath
 
-`zE('webWidget:perform', 'chat:visitor:path', options<object>);`
+`zE('webWidget', 'chat:visitor:path', options<object>);`
 
 Programmatically updates the visitor’s webpath.
 
@@ -153,10 +153,10 @@ Programmatically updates the visitor’s webpath.
 
 ```javascript
   // Without options
-  zE('webWidget:perform', 'chat:updatePath');
+  zE('webWidget', 'chat:updatePath');
 
   // With options
-  zE('webWidget:perform', 'chat:updatePath' {
+  zE('webWidget', 'chat:updatePath' {
     url: 'http://example.com',
     title: "Ready to rock'n'roll!"
   });

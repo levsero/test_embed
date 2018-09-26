@@ -40,11 +40,11 @@ window.zESettings = {
 
 The Help Center component has the following command:
 
-* [perform helpCenter:setSuggestions](#perform-helpcenter-setsuggestions)
+* [helpCenter:setSuggestions](#helpcenter-setsuggestions)
 
-#### perform helpCenter:setSuggestions
+#### helpCenter:setSuggestions
 
-`zE('webWidget:perform', 'helpCenter:setSuggestions', options<object>);`
+`zE('webWidget', 'helpCenter:setSuggestions', options<object>);`
 
 Enhances the contextual help provided by the Web Widget.
 
@@ -64,7 +64,7 @@ Add the method in your HTML source code immediately after your Web Widget code s
 
 ```html
 <script>
-  zE('webWidget:perform', 'helpCenter:setSuggestions', { search: 'credit card' });
+  zE('webWidget', 'helpCenter:setSuggestions', { search: 'credit card' });
 </script>
 ```
 
