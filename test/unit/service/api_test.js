@@ -9,6 +9,7 @@ describe('api', () => {
   const chatLogoutSpy = jasmine.createSpy('chatLogout');
   const setContextualSuggestionsManuallySpy = jasmine.createSpy('setContextualSuggestionsManually');
   const handleOnApiCalledSpy = jasmine.createSpy('handleOnApiCalled');
+  const rendererHideSpy = jasmine.createSpy('rendererHide');
   const dispatch = () => (action) => action();
   const mockStore = {
     dispatch,
@@ -36,7 +37,10 @@ describe('api', () => {
         }
       },
       'service/renderer': {
-        renderer: {}
+        renderer: {
+          hide: rendererHideSpy,
+          postRenderCallbacks: noop
+        }
       },
       'src/redux/modules/base': {
         handleIdentifyRecieved: handleIdentifyRecievedSpy,
@@ -88,11 +92,9 @@ describe('api', () => {
       });
     });
 
-    describe('when the queue method is a string that contains webWidget', () => {
-      let call;
-
+    describe('when the queue method is a string', () => {
       beforeEach(() => {
-        api.handleQueue(mockStore, [ call ]);
+        api.handleQueue(mockStore, [ ['webWidget:perform', 'hide'] ]);
       });
 
       afterEach(() => {
@@ -100,33 +102,83 @@ describe('api', () => {
         handleOnApiCalledSpy.calls.reset();
       });
 
-      describe('when that call is perform hide', () => {
-        beforeAll(() => {
-          call = ['webWidget:perform', 'hide'];
+      it('handles the api call', () => {
+        expect(rendererHideSpy)
+          .toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('setupWidgetQueue', () => {
+    describe('win.zEmbed', () => {
+      let win = { zEmbed: {} };
+
+      beforeEach(() => {
+        api.setupWidgetQueue(win, [], mockStore);
+      });
+
+      describe('when a function is passed into zEmbed', () => {
+        const zEFunctionSpy = jasmine.createSpy();
+
+        beforeEach(() => {
+          win.zEmbed(zEFunctionSpy);
         });
 
-        it('calls mediator hide', () => {
+        it('calls the function passed in', () => {
+          expect(zEFunctionSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when a string is passed into zEmbed', () => {
+        beforeEach(() => {
+          win.zEmbed('webWidget:perform', 'hide');
+        });
+
+        it('handles the api call', () => {
           expect(broadcastSpy)
             .toHaveBeenCalledWith('.hide');
         });
       });
+    });
+  });
 
-      describe('when that call is perform setLocale', () => {
-        beforeAll(() => {
-          call = ['webWidget:perform', 'setLocale', 'fr'];
-        });
+  describe('pre render methods', () => {
+    let call;
 
-        it('calls mediator onSetLocale with the locale', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('.onSetLocale', 'fr');
-        });
+    beforeEach(() => {
+      api.handleQueue(mockStore, [ call ]);
+      api.handlePostRenderQueue({}, [], mockStore);
+    });
 
-        it('calls i18n setLocale with the locale', () => {
-          expect(setLocaleSpy)
-            .toHaveBeenCalledWith('fr', true);
-        });
+    afterEach(() => {
+      broadcastSpy.calls.reset();
+      handleOnApiCalledSpy.calls.reset();
+    });
+
+    describe('when that call is perform hide', () => {
+      beforeAll(() => {
+        call = ['webWidget:perform', 'hide'];
       });
 
+      it('calls renderer hide', () => {
+        expect(rendererHideSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is perform setLocale', () => {
+      beforeAll(() => {
+        call = ['webWidget:perform', 'setLocale', 'fr'];
+      });
+
+      it('calls i18n setLocale with the locale', () => {
+        expect(setLocaleSpy)
+          .toHaveBeenCalledWith('fr');
+      });
+    });
+
+    describe('methods that get queued', () => {
       describe('when that call is perform idenfity', () => {
         const user = { email: 'a2b.c' };
 
@@ -191,11 +243,142 @@ describe('api', () => {
             .toHaveBeenCalledWith(options, jasmine.any(Function));
         });
       });
+    });
+  });
 
-      describe('when that call is on', () => {
-        describe('when third param is not a function', () => {
+  describe('post render methods', () => {
+    let call, result;
+    let win = { zEmbed: {} };
+
+    beforeEach(() => {
+      api.setupWidgetQueue(win, [], mockStore);
+      result = win.zEmbed(...call);
+    });
+
+    afterEach(() => {
+      broadcastSpy.calls.reset();
+      handleOnApiCalledSpy.calls.reset();
+    });
+
+    describe('when that call is perform hide', () => {
+      beforeAll(() => {
+        call = ['webWidget:perform', 'hide'];
+      });
+
+      it('calls mediator hide', () => {
+        expect(broadcastSpy)
+          .toHaveBeenCalledWith('.hide');
+      });
+    });
+
+    describe('when that call is perform setLocale', () => {
+      beforeAll(() => {
+        call = ['webWidget:perform', 'setLocale', 'fr'];
+      });
+
+      it('calls mediator onSetLocale with the locale', () => {
+        expect(broadcastSpy)
+          .toHaveBeenCalledWith('.onSetLocale', 'fr');
+      });
+
+      it('calls i18n setLocale with the locale', () => {
+        expect(setLocaleSpy)
+          .toHaveBeenCalledWith('fr', true);
+      });
+    });
+
+    describe('when that call is perform idenfity', () => {
+      const user = { email: 'a2b.c' };
+
+      beforeAll(() => {
+        call = ['webWidget:perform', 'identify', user];
+      });
+
+      it('calls mediator onIdentify with the user', () => {
+        expect(broadcastSpy)
+          .toHaveBeenCalledWith('.onIdentify', user);
+      });
+
+      it('calls handleIdentifyRecieved with the user', () => {
+        expect(handleIdentifyRecievedSpy)
+          .toHaveBeenCalledWith(user, jasmine.any(Function));
+      });
+    });
+
+    describe('when that call is perform updateSettings', () => {
+      const settings = { webWidget: { color: '#fff' } };
+
+      beforeAll(() => {
+        call = ['webWidget:perform', 'updateSettings', settings];
+      });
+
+      it('calls updateSettings with the settings', () => {
+        expect(updateSettingsSpy)
+          .toHaveBeenCalledWith(settings);
+      });
+    });
+
+    describe('when that call is perform logout', () => {
+      beforeAll(() => {
+        call = ['webWidget:perform', 'logout'];
+      });
+
+      it('calls logout', () => {
+        expect(logoutSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('calls chat logout', () => {
+        expect(chatLogoutSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('calls mediator logout', () => {
+        expect(broadcastSpy)
+          .toHaveBeenCalledWith('.logout');
+      });
+    });
+
+    describe('when that call is perform setHelpCenterSuggestions', () => {
+      const options = { url: true };
+
+      beforeAll(() => {
+        call = ['webWidget:perform', 'setHelpCenterSuggestions', options];
+      });
+
+      it('calls setHelpCenterSuggestions with the options', () => {
+        expect(setContextualSuggestionsManuallySpy)
+          .toHaveBeenCalledWith(options, jasmine.any(Function));
+      });
+    });
+
+    describe('when that call is on', () => {
+      describe('when third param is not a function', () => {
+        beforeAll(() => {
+          call = ['webWidget:on', 'close', null];
+        });
+
+        it('does not call handleOnApiCalled', () => {
+          expect(handleOnApiCalledSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when third param is a function', () => {
+        describe('when event is in the listenersMap', () => {
           beforeAll(() => {
-            call = ['webWidget:on', 'close', null];
+            call = ['webWidget:on', API_ON_CLOSE_NAME, noop];
+          });
+
+          it('calls handleOnApiCalled with the actions associated with the event and callback', () => {
+            expect(handleOnApiCalledSpy)
+              .toHaveBeenCalledWith([CLOSE_BUTTON_CLICKED], noop);
+          });
+        });
+
+        describe('when event is not in the listenersMap', () => {
+          beforeAll(() => {
+            call = ['webWidget:on', 'anotherevent', noop];
           });
 
           it('does not call handleOnApiCalled', () => {
@@ -203,63 +386,29 @@ describe('api', () => {
               .not.toHaveBeenCalled();
           });
         });
-
-        describe('when third param is a function', () => {
-          describe('when event is in the listenersMap', () => {
-            beforeAll(() => {
-              call = ['webWidget:on', API_ON_CLOSE_NAME, noop];
-            });
-
-            it('calls handleOnApiCalled with the actions associated with the event and callback', () => {
-              expect(handleOnApiCalledSpy)
-                .toHaveBeenCalledWith([CLOSE_BUTTON_CLICKED], noop);
-            });
-          });
-
-          describe('when event is not in the listenersMap', () => {
-            beforeAll(() => {
-              call = ['webWidget:on', 'anotherevent', noop];
-            });
-
-            it('does not call handleOnApiCalled', () => {
-              expect(handleOnApiCalledSpy)
-                .not.toHaveBeenCalled();
-            });
-          });
-        });
       });
     });
-  });
 
-  describe('setupWidgetQueue', () => {
-    describe('win.zEmbed', () => {
-      let win = { zEmbed: {} };
-
-      beforeEach(() => {
-        api.setupWidgetQueue(win, [], mockStore);
-      });
-
-      describe('when a function is passed into zEmbed', () => {
-        const zEFunctionSpy = jasmine.createSpy();
-
-        beforeEach(() => {
-          win.zEmbed(zEFunctionSpy);
+    describe('when that call is get', () => {
+      describe('when the param is part of the allowList', () => {
+        beforeAll(() => {
+          call = ['webWidget:get', API_GET_IS_CHATTING_NAME];
         });
 
-        it('calls the function passed in', () => {
-          expect(zEFunctionSpy)
-            .toHaveBeenCalled();
+        it('returns the value corresponding to the param', () => {
+          expect(result)
+            .toBe(isChatting);
         });
       });
 
-      describe('when a string is passed into zEmbed', () => {
-        beforeEach(() => {
-          win.zEmbed('webWidget:perform', 'hide');
+      describe('when the param is not part of the allowList', () => {
+        beforeAll(() => {
+          call = ['webWidget:get', 'something else'];
         });
 
-        it('handles the api call', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('.hide');
+        it('returns undefined', () => {
+          expect(result)
+            .toBe(undefined);
         });
       });
     });

@@ -195,14 +195,14 @@ describe('boot', () => {
     });
 
     describe('when the request succeeds', () => {
-      let doneHandler;
+      let doneHandler, reduxStore;
       let config = {};
 
       beforeEach(() => {
         jasmine.clock().install();
         jasmine.clock().mockDate(new Date());
 
-        let reduxStore = {
+        reduxStore = {
           dispatch: jasmine.createSpy().and.callThrough()
         };
 
@@ -243,9 +243,9 @@ describe('boot', () => {
           .toHaveBeenCalled();
       });
 
-      it('calls handlePostRenderQueue with win and postRenderQueue', () => {
+      it('calls handlePostRenderQueue with win, postRenderQueue and reduxStore', () => {
         expect(apiSpy.api.handlePostRenderQueue)
-          .toHaveBeenCalledWith(win, postRenderQueue);
+          .toHaveBeenCalledWith(win, postRenderQueue, reduxStore);
       });
 
       it('does not call beacon.sendConfigLoadTime', () => {

@@ -125,7 +125,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     }
 
     renderer.init(config, reduxStore);
-    api.handlePostRenderQueue(win, postRenderQueue);
+    api.handlePostRenderQueue(win, postRenderQueue, reduxStore);
   };
   const fail = (error) => {
     if (error.status !== 404) {
