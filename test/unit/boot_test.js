@@ -8,14 +8,13 @@ describe('boot', () => {
   };
   const bootPath = buildSrcPath('boot'),
     beaconSpy = registerImportSpy('beacon', 'setConfig', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
-    i18nSpy = registerImportSpy('i18n', 'init', 'setLocale'),
     identitySpy = registerImportSpy('identity', 'init'),
     loggingSpy = registerImportSpy('logging', 'init', 'error'),
     persistenceSpy = registerImportSpy('persistence', 'store'),
     transportSpy = registerImportSpy('http', 'get', 'init', 'updateConfig'),
-    mediatorSpy = { mediator: registerImportSpy('channel', 'broadcast', 'subscribe') },
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
-    gaSpy = registerImportSpy('GA', 'init');
+    gaSpy = registerImportSpy('GA', 'init'),
+    apiSpy = registerImportSpy('api', 'handleQueue', 'setupWidgetApi', 'setupWidgetQueue', 'setupZopimQueue', 'handlePostRenderQueue');
 
   let updateEmbeddableConfigSpy = jasmine.createSpy('updateEmbeddableConfig');
 
@@ -26,10 +25,10 @@ describe('boot', () => {
 
     initMockRegistry({
       'service/beacon': beaconSpy,
-      'service/i18n': i18nSpy,
       'service/identity': identitySpy,
       'service/logging': loggingSpy,
       'service/persistence': persistenceSpy,
+      'service/api': apiSpy,
       'service/analytics/googleAnalytics': gaSpy,
       'service/settings': {
         settings: {
@@ -46,7 +45,6 @@ describe('boot', () => {
         }
       },
       'service/transport': transportSpy,
-      'service/mediator': mediatorSpy,
       'service/renderer': rendererSpy,
       'src/redux/createStore': () => ({
         dispatch: jasmine.createSpy.and.callThrough()
@@ -64,19 +62,7 @@ describe('boot', () => {
         initResizeMonitor: noop
       },
       'src/redux/modules/base': {
-        handleIdentifyRecieved: noop,
-        logout: noop,
         updateEmbeddableConfig: updateEmbeddableConfigSpy
-      },
-      'src/redux/modules/helpCenter': {
-        displayArticle: noop,
-        setContextualSuggestionsManually: noop
-      },
-      'src/redux/modules/settings': {
-        updateSettings: noop
-      },
-      'src/redux/modules/chat': {
-        chatLogout: noop
       }
     });
 
@@ -216,7 +202,6 @@ describe('boot', () => {
         jasmine.clock().install();
         jasmine.clock().mockDate(new Date());
 
-        spyOn(boot, 'handlePostRenderQueue');
         let reduxStore = {
           dispatch: jasmine.createSpy().and.callThrough()
         };
@@ -259,7 +244,7 @@ describe('boot', () => {
       });
 
       it('calls handlePostRenderQueue with win and postRenderQueue', () => {
-        expect(boot.handlePostRenderQueue)
+        expect(apiSpy.api.handlePostRenderQueue)
           .toHaveBeenCalledWith(win, postRenderQueue);
       });
 
