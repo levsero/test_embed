@@ -13,6 +13,8 @@ describe('api', () => {
   const mockStore = {
     dispatch
   };
+  const CLOSE_BUTTON_CLICKED = 'CLOSE_BUTTON_CLICKED';
+  const API_ON_CLOSE_NAME = 'API_ON_CLOSE_NAME';
 
   beforeEach(() => {
     mockery.enable();
@@ -47,6 +49,12 @@ describe('api', () => {
       },
       'src/redux/modules/chat': {
         chatLogout: chatLogoutSpy
+      },
+      'src/redux/modules/base/base-action-types': {
+        CLOSE_BUTTON_CLICKED
+      },
+      'constants/api': {
+        API_ON_CLOSE_NAME
       }
     });
 
@@ -82,6 +90,7 @@ describe('api', () => {
 
       afterEach(() => {
         broadcastSpy.calls.reset();
+        handleOnApiCalledSpy.calls.reset();
       });
 
       describe('when that call is perform hide', () => {
@@ -189,13 +198,26 @@ describe('api', () => {
         });
 
         describe('when third param is a function', () => {
-          beforeAll(() => {
-            call = ['webWidget:on', 'close', noop];
+          describe('when event is in the listenersMap', () => {
+            beforeAll(() => {
+              call = ['webWidget:on', API_ON_CLOSE_NAME, noop];
+            });
+
+            it('calls handleOnApiCalled with the actions associated with the event and callback', () => {
+              expect(handleOnApiCalledSpy)
+                .toHaveBeenCalledWith([CLOSE_BUTTON_CLICKED], noop);
+            });
           });
 
-          it('calls handleOnApiCalled with the event and callback', () => {
-            expect(handleOnApiCalledSpy)
-              .toHaveBeenCalledWith('close', noop);
+          describe('when event is not in the listenersMap', () => {
+            beforeAll(() => {
+              call = ['webWidget:on', 'anotherevent', noop];
+            });
+
+            it('does not call handleOnApiCalled', () => {
+              expect(handleOnApiCalledSpy)
+                .not.toHaveBeenCalled();
+            });
           });
         });
       });

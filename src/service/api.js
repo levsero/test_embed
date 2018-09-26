@@ -8,6 +8,9 @@ import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modu
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout } from 'src/redux/modules/chat';
 
+import { API_ON_CLOSE_NAME } from 'constants/api';
+import { CLOSE_BUTTON_CLICKED } from 'src/redux/modules/base/base-action-types';
+
 const identifyApi = (reduxStore, user) => {
   mediator.channel.broadcast('.onIdentify', user);
 
@@ -31,8 +34,12 @@ const setHelpCenterSuggestionsApi = (reduxStore, options) => {
   reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
 };
 const onApi = (reduxStore, event, callback) => {
-  if (_.isFunction(callback)) {
-    reduxStore.dispatch(handleOnApiCalled(event, callback));
+  const listenersMap = {
+    [API_ON_CLOSE_NAME]: [ CLOSE_BUTTON_CLICKED ]
+  };
+
+  if (_.isFunction(callback) && listenersMap[event]) {
+    reduxStore.dispatch(handleOnApiCalled(listenersMap[event], callback));
   }
 };
 const handleNewApi = (reduxStore, args) => {
