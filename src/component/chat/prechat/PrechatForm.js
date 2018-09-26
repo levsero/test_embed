@@ -280,7 +280,7 @@ export class PrechatForm extends Component {
     const error = this.renderErrorMessage(SelectMessage, value,
       required, 'embeddable_framework.validation.error.department');
     const departmentLabel = departmentSettings.label ?
-      departmentSettings.label : i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment');
+      departmentSettings.label : i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment');
 
     return (
       <SelectField>
@@ -288,7 +288,7 @@ export class PrechatForm extends Component {
         <Select
           required={required}
           aria-required={required}
-          placeholder={i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
+          placeholder={i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}
           name='department'
           selectedKey={value}
           appendToNode={this.props.getFrameContentDocument().body}
