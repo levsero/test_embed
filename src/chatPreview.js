@@ -18,8 +18,13 @@ import {
   UPDATE_PREVIEWER_SETTINGS,
   PREVIEWER_LOADED } from 'src/redux/modules/chat/chat-action-types';
 import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
+import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
+
+const FRAME_WIDTH = WIDGET_WIDTH + WIDGET_MARGIN;
+const FRAME_HEIGHT = MAX_WIDGET_HEIGHT + WIDGET_MARGIN;
+const BOX_SHADOW_SIZE = 6;
 
 let chatComponent = null;
 const defaultOptions = {
@@ -27,10 +32,10 @@ const defaultOptions = {
   color: '#659700',
   styles: {
     float: 'right',
-    width: 342,
     marginTop: '16px',
     marginRight: '16px',
-    height: 550
+    width: `${FRAME_WIDTH}px`,
+    height: `${FRAME_HEIGHT}px`
   }
 };
 let frame;
@@ -60,11 +65,14 @@ const renderPreview = (options) => {
 
   i18n.setLocale(options.locale);
 
+  const { width } = options.styles;
   const frameStyle = _.extend({}, options.styles, {
-    position: 'relative'
+    position: 'relative',
+    width: `${parseInt(width) + BOX_SHADOW_SIZE*2}px`,
   });
   const containerStyle = {
-    width: frameStyle.width
+    width,
+    margin: `${BOX_SHADOW_SIZE}px`
   };
 
   const allowThrottleActions = (type) => {

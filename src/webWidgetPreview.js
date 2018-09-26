@@ -16,6 +16,11 @@ import { Provider } from 'react-redux';
 import createStore from 'src/redux/createStore';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
+import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
+
+const FRAME_WIDTH = WIDGET_WIDTH + WIDGET_MARGIN;
+const FRAME_HEIGHT = MAX_WIDGET_HEIGHT + WIDGET_MARGIN;
+const BOX_SHADOW_SIZE = 6;
 
 let submitTicketComponent = null;
 const defaultOptions = {
@@ -24,10 +29,10 @@ const defaultOptions = {
   titleKey: 'message',
   styles: {
     float: 'right',
-    width: 342,
     marginTop: '16px',
     marginRight: '16px',
-    height: 550
+    width: `${FRAME_WIDTH}px`,
+    height: `${FRAME_HEIGHT}px`
   }
 };
 let frame;
@@ -41,11 +46,14 @@ const renderWebWidgetPreview = (options) => {
 
   i18n.setLocale(options.locale);
 
+  const { width } = options.styles;
   const frameStyle = _.extend({}, options.styles, {
-    position: 'relative'
+    position: 'relative',
+    width: `${parseInt(width) + BOX_SHADOW_SIZE*2}px`,
   });
   const containerStyle = {
-    width: frameStyle.width
+    width,
+    margin: `${BOX_SHADOW_SIZE}px`
   };
 
   const frameParams = {

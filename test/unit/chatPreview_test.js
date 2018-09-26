@@ -71,6 +71,11 @@ describe('chatPreview file', () => {
       },
       'constants/chat': {
         SDK_ACTION_TYPE_PREFIX: 'websdk'
+      },
+      'src/constants/shared': {
+        MAX_WIDGET_HEIGHT: 550,
+        WIDGET_WIDTH: 342,
+        WIDGET_MARGIN: 15
       }
     });
 
@@ -135,44 +140,53 @@ describe('chatPreview file', () => {
       });
 
       describe('setting the styles', () => {
-        let preview;
+        let preview,
+          expectedStyles;
 
         describe('when a styles object is passed in', () => {
           const styles = {
             float: 'left',
             marginTop: '32px',
             marginLeft: '32px',
-            width: 1
+            width: '100px'
           };
 
           beforeEach(() => {
+            expectedStyles = {
+              ...styles,
+              width: '112px'
+            };
             preview = window.zEPreview.renderPreview({ element, styles })._component;
           });
 
           it('passes updated styles to Frame', () => {
             expect(preview.props.frameStyle)
-              .toEqual(jasmine.objectContaining(styles));
+              .toEqual(jasmine.objectContaining(expectedStyles));
           });
 
           it('applies the correct custom container styles', () => {
             expect(preview.props.children.props.style.width)
-              .toBe(1);
+              .toBe('100px');
           });
         });
 
         describe('when no styles object is passed in', () => {
           beforeEach(() => {
+            expectedStyles = {
+              ...defaultOptions.styles,
+              width: '369px'
+            };
             preview = window.zEPreview.renderPreview({ element })._component;
           });
 
           it('uses default styles', () => {
             expect(preview.props.frameStyle)
-              .toEqual(jasmine.objectContaining(defaultOptions.styles));
+              .toEqual(jasmine.objectContaining(expectedStyles));
           });
 
           it('applies the correct default container styles', () => {
             expect(preview.props.children.props.style.width)
-              .toBe(342);
+              .toBe('357px');
           });
         });
       });
