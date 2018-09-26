@@ -11,10 +11,13 @@ describe('api', () => {
   const handleOnApiCalledSpy = jasmine.createSpy('handleOnApiCalled');
   const dispatch = () => (action) => action();
   const mockStore = {
-    dispatch
+    dispatch,
+    getState: noop
   };
+  const isChatting = true;
   const CLOSE_BUTTON_CLICKED = 'CLOSE_BUTTON_CLICKED';
   const API_ON_CLOSE_NAME = 'API_ON_CLOSE_NAME';
+  const API_GET_IS_CHATTING_NAME = 'API_GET_IS_CHATTING_NAME';
 
   beforeEach(() => {
     mockery.enable();
@@ -50,11 +53,15 @@ describe('api', () => {
       'src/redux/modules/chat': {
         chatLogout: chatLogoutSpy
       },
+      'src/redux/modules/chat/chat-selectors': {
+        getIsChatting: () => isChatting
+      },
       'src/redux/modules/base/base-action-types': {
         CLOSE_BUTTON_CLICKED
       },
       'constants/api': {
-        API_ON_CLOSE_NAME
+        API_ON_CLOSE_NAME,
+        API_GET_IS_CHATTING_NAME
       }
     });
 
