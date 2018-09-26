@@ -35,7 +35,7 @@ const onApi = (reduxStore, event, callback) => {
     reduxStore.dispatch(handleOnApiCalled(event, callback));
   }
 };
-const handleNewApi = (reduxStore, params) => {
+const handleNewApi = (reduxStore, args) => {
   const apiStructure = {
     perform: {
       hide: () => mediator.channel.broadcast('.hide'),
@@ -47,11 +47,19 @@ const handleNewApi = (reduxStore, params) => {
     },
     on: onApi
   };
+  const params = Array.from(args);
   const topMethod = params[0].split(':')[1];
   const subMethod = params[1];
-  const apiParams = params[2];
 
-  apiStructure[topMethod][subMethod](reduxStore, apiParams);
+  if (apiStructure[topMethod][subMethod]) {
+    const apiParams = params.slice(2);
+
+    apiStructure[topMethod][subMethod](reduxStore, ...apiParams);
+  } else {
+    const apiParams = params.slice(1);
+
+    apiStructure[topMethod](reduxStore, ...apiParams);
+  }
 };
 
 function handleQueue(reduxStore, queue) {

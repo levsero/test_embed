@@ -8,6 +8,7 @@ describe('api', () => {
   const logoutSpy = jasmine.createSpy('logout');
   const chatLogoutSpy = jasmine.createSpy('chatLogout');
   const setContextualSuggestionsManuallySpy = jasmine.createSpy('setContextualSuggestionsManually');
+  const handleOnApiCalledSpy = jasmine.createSpy('handleOnApiCalled');
   const dispatch = () => (action) => action();
   const mockStore = {
     dispatch
@@ -34,7 +35,8 @@ describe('api', () => {
       },
       'src/redux/modules/base': {
         handleIdentifyRecieved: handleIdentifyRecievedSpy,
-        logout: logoutSpy
+        logout: logoutSpy,
+        handleOnApiCalled: handleOnApiCalledSpy
       },
       'src/redux/modules/helpCenter': {
         displayArticle: noop,
@@ -171,6 +173,30 @@ describe('api', () => {
         it('calls setHelpCenterSuggestions with the options', () => {
           expect(setContextualSuggestionsManuallySpy)
             .toHaveBeenCalledWith(options, jasmine.any(Function));
+        });
+      });
+
+      describe('when that call is on', () => {
+        describe('when third param is not a function', () => {
+          beforeAll(() => {
+            call = ['webWidget:on', 'close', null];
+          });
+
+          it('does not call handleOnApiCalled', () => {
+            expect(handleOnApiCalledSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when third param is a function', () => {
+          beforeAll(() => {
+            call = ['webWidget:on', 'close', noop];
+          });
+
+          it('calls handleOnApiCalled with the event and callback', () => {
+            expect(handleOnApiCalledSpy)
+              .toHaveBeenCalledWith('close', noop);
+          });
         });
       });
     });
