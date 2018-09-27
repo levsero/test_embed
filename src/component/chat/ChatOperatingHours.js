@@ -156,7 +156,7 @@ export class ChatOperatingHours extends Component {
       <div>
         <SelectField>
           <Label>
-            {i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
+            {i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}
           </Label>
           <Select
             name='department'
