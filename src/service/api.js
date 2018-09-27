@@ -7,10 +7,16 @@ import { handleIdentifyRecieved, logout, handleOnApiCalled } from 'src/redux/mod
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout } from 'src/redux/modules/chat';
+import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 
-import { API_ON_CLOSE_NAME } from 'constants/api';
+import { API_ON_CLOSE_NAME, API_GET_IS_CHATTING_NAME } from 'constants/api';
 import { CLOSE_BUTTON_CLICKED } from 'src/redux/modules/base/base-action-types';
 
+const newAPIPostRenderQueue = [];
+
+const addToPostRenderQueue = (...args) => {
+  newAPIPostRenderQueue.push(args);
+};
 const identifyApi = (reduxStore, user) => {
   mediator.channel.broadcast('.onIdentify', user);
 
@@ -42,18 +48,45 @@ const onApi = (reduxStore, event, callback) => {
     reduxStore.dispatch(handleOnApiCalled(listenersMap[event], callback));
   }
 };
-const handleNewApi = (reduxStore, args) => {
-  const apiStructure = {
-    perform: {
-      hide: () => mediator.channel.broadcast('.hide'),
-      setLocale: setLocaleApi,
-      identify: identifyApi,
-      updateSettings: updateSettingsApi,
-      logout: logoutApi,
-      setHelpCenterSuggestions: setHelpCenterSuggestionsApi
-    },
-    on: onApi
+const getApi = (reduxStore, item) => {
+  const state = reduxStore.getState();
+  const allowlist = {
+    [API_GET_IS_CHATTING_NAME]: getIsChatting
   };
+
+  if (allowlist[item]) {
+    return allowlist[item](state);
+  }
+};
+
+const newApiStructurePostRender = {
+  perform: {
+    hide: () => mediator.channel.broadcast('.hide'),
+    setLocale: setLocaleApi,
+    identify: identifyApi,
+    updateSettings: updateSettingsApi,
+    logout: logoutApi,
+    setHelpCenterSuggestions: setHelpCenterSuggestionsApi,
+  },
+  on: onApi,
+  get: getApi
+};
+const newApiStructurePreRender = {
+  perform: {
+    hide: renderer.hide,
+    setLocale: (_, locale) => i18n.setLocale(locale),
+    identify: (_, ...args) => addToPostRenderQueue(['webWidget:perform', 'identify', ...args]),
+    updateSettings: (_, ...args) => addToPostRenderQueue(['webWidget:perform', 'updateSettings', ...args]),
+    logout: (_, ...args) => addToPostRenderQueue(['webWidget:perform', 'logout', ...args]),
+    setHelpCenterSuggestions: (_, ...args) => {
+      addToPostRenderQueue(['webWidget:perform', 'setHelpCenterSuggestions', ...args]);
+    }
+  },
+  on: onApi,
+  get: (_, ...args) => addToPostRenderQueue(['webWidget:get', ...args])
+};
+
+const handleNewApi = (apiStructure, reduxStore, args) => {
   const params = Array.from(args);
   const topMethod = params[0].split(':')[1];
   const subMethod = params[1];
@@ -61,11 +94,11 @@ const handleNewApi = (reduxStore, args) => {
   if (apiStructure[topMethod][subMethod]) {
     const apiParams = params.slice(2);
 
-    apiStructure[topMethod][subMethod](reduxStore, ...apiParams);
+    return apiStructure[topMethod][subMethod](reduxStore, ...apiParams);
   } else {
     const apiParams = params.slice(1);
 
-    apiStructure[topMethod](reduxStore, ...apiParams);
+    return apiStructure[topMethod](reduxStore, ...apiParams);
   }
 };
 
@@ -97,7 +130,7 @@ function handleQueue(reduxStore, queue) {
     } else if (_.includes(method[0], 'webWidget')){
       // New API
       try {
-        handleNewApi(reduxStore, method);
+        handleNewApi(newApiStructurePreRender, reduxStore, method);
       } catch (e) {
         logApiError(`"${method[0]} ${method[1]}"`, e);
       }
@@ -107,9 +140,13 @@ function handleQueue(reduxStore, queue) {
   });
 }
 
-function handlePostRenderQueue(win, postRenderQueue) {
+function handlePostRenderQueue(win, postRenderQueue, reduxStore) {
   _.forEach(postRenderQueue, (method) => {
     win.zE[method[0]](...method[1]);
+  });
+
+  _.forEach(newAPIPostRenderQueue, (item) => {
+    handleNewApi(newApiStructurePostRender, reduxStore, ...item);
   });
 
   renderer.postRenderCallbacks();
@@ -154,7 +191,7 @@ function setupWidgetQueue(win, postRenderQueue, reduxStore) {
       if (_.isFunction(args[0])) {
         args[0]();
       } else {
-        handleNewApi(reduxStore, args);
+        return handleNewApi(newApiStructurePostRender, reduxStore, args);
       }
     };
   } else {
@@ -162,7 +199,7 @@ function setupWidgetQueue(win, postRenderQueue, reduxStore) {
       if (_.isFunction(args[0])) {
         args[0]();
       } else {
-        handleNewApi(reduxStore, args);
+        return handleNewApi(newApiStructurePostRender, reduxStore, args);
       }
     };
   }
