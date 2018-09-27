@@ -19,7 +19,8 @@ let actions,
   mockLogout = jasmine.createSpy('logout'),
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
-  mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
+  mockSetVisitorInfo = jasmine.createSpy('setVisitorInfo'),
+  mockSendVisitorPath = jasmine.createSpy('sendVisitorPath'),
   mockEndChat = jasmine.createSpy('endChat'),
   mockSendChatRating = jasmine.createSpy('sendChatRating'),
   mockSendChatComment = jasmine.createSpy('sendChatComment'),
@@ -83,6 +84,7 @@ describe('chat redux actions', () => {
             sendTyping: mockSendTyping,
             endChat: mockEndChat,
             setVisitorInfo: mockSetVisitorInfo,
+            sendVisitorPath: mockSendVisitorPath,
             sendChatRating: mockSendChatRating,
             sendChatComment: mockSendChatComment,
             sendFile: mockSendFile,
@@ -516,6 +518,59 @@ describe('chat redux actions', () => {
         expect(mockStore.getActions().map((action) => action.type))
           .not
           .toContain(actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE);
+      });
+    });
+  });
+
+  describe('sendVisitorPath', () => {
+    const page = {
+      title: 'payments',
+      url: 'https://zd.com#payments'
+    };
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.sendVisitorPath(page));
+    });
+
+    it('calls sendVisitorPath on the Web SDK', () => {
+      expect(mockSendVisitorPath)
+        .toHaveBeenCalledWith(page, jasmine.any(Function));
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        const sendVisitorPathArgs = mockSendVisitorPath.calls.mostRecent().args;
+
+        callbackFn = sendVisitorPathArgs[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn();
+        });
+
+        it('dispatches a SEND_VISITOR_PATH_REQUEST_SUCCESS action with the correct payload', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.SEND_VISITOR_PATH_REQUEST_SUCCESS,
+              payload: page
+            });
+        });
+      });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          callbackFn(['error!']);
+        });
+
+        it('dispatches a SEND_VISITOR_PATH_REQUEST_FAILURE action', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.SEND_VISITOR_PATH_REQUEST_FAILURE
+            });
+        });
       });
     });
   });

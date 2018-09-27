@@ -10,6 +10,8 @@ import {
   SET_VISITOR_INFO_REQUEST_PENDING,
   SET_VISITOR_INFO_REQUEST_SUCCESS,
   SET_VISITOR_INFO_REQUEST_FAILURE,
+  SEND_VISITOR_PATH_REQUEST_SUCCESS,
+  SEND_VISITOR_PATH_REQUEST_FAILURE,
   GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
   GET_OPERATING_HOURS_REQUEST_SUCCESS,
   IS_CHATTING,
@@ -235,6 +237,23 @@ export function setVisitorInfo(visitor, timestamp=Date.now()) {
         }
       });
     }
+  };
+}
+
+export function sendVisitorPath(page = {}) {
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
+    zChat && zChat.sendVisitorPath(page, (err) => {
+      if (!err) {
+        dispatch({
+          type: SEND_VISITOR_PATH_REQUEST_SUCCESS,
+          payload: page
+        });
+      } else {
+        dispatch({ type: SEND_VISITOR_PATH_REQUEST_FAILURE });
+      }
+    });
   };
 }
 

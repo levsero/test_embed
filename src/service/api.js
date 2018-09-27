@@ -6,7 +6,7 @@ import { renderer } from 'service/renderer';
 import { handleIdentifyRecieved, logout, handleOnApiCalled } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
-import { chatLogout } from 'src/redux/modules/chat';
+import { chatLogout, sendVisitorPath } from 'src/redux/modules/chat';
 import { getIsChatting, getDepartmentsList, getDepartment } from 'src/redux/modules/chat/chat-selectors';
 
 import {
@@ -43,6 +43,9 @@ const setHelpCenterSuggestionsApi = (reduxStore, options) => {
 
   reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
 };
+const updatePathApi = (reduxStore, page = {}) => {
+  reduxStore.dispatch(sendVisitorPath(page));
+};
 const onApi = (reduxStore, event, callback) => {
   const listenersMap = {
     [API_ON_CLOSE_NAME]: [ CLOSE_BUTTON_CLICKED ]
@@ -76,6 +79,7 @@ const newApiStructurePostRender = {
     updateSettings: updateSettingsApi,
     logout: logoutApi,
     setHelpCenterSuggestions: setHelpCenterSuggestionsApi,
+    updatePath: updatePathApi
   },
   on: onApi,
   get: getApi
@@ -89,7 +93,8 @@ const newApiStructurePreRender = {
     logout: (_, ...args) => addToPostRenderQueue(['webWidget', 'logout', ...args]),
     setHelpCenterSuggestions: (_, ...args) => {
       addToPostRenderQueue(['webWidget', 'setHelpCenterSuggestions', ...args]);
-    }
+    },
+    updatePath: (_, ...args) => addToPostRenderQueue(['webWidget', 'updatePath', ...args])
   },
   on: onApi,
   get: (_, ...args) => addToPostRenderQueue(['webWidget:get', ...args])
@@ -275,5 +280,5 @@ export const api = {
   handlePostRenderQueue,
   setupWidgetQueue,
   setupZopimQueue,
-  setupWidgetApi,
+  setupWidgetApi
 };
