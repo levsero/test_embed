@@ -420,3 +420,13 @@ export const getShowOfflineChat = createSelector(
     return !chatOnline && !isChatting && !showRatingScreen && !isLoggingOut;
   }
 );
+
+export const getDepartment = (state, department) => {
+  return _.find(getDepartmentsList(state), (dept) => {
+    if (_.isString(department)) {
+      return dept.name === department;
+    } else {
+      return dept.id === department;
+    }
+  });
+};

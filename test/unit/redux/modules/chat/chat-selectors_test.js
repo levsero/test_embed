@@ -43,6 +43,7 @@ describe('chat selectors', () => {
     getLoginSettings,
     getDepartments,
     getDepartmentsList,
+    getDepartment,
     getIsProactiveSession,
     getStandaloneMobileNotificationVisible,
     getAgentsTyping,
@@ -151,6 +152,7 @@ describe('chat selectors', () => {
     getLoginSettings = selectors.getLoginSettings;
     getDepartments = selectors.getDepartments;
     getDepartmentsList = selectors.getDepartmentsList;
+    getDepartment = selectors.getDepartment;
     getIsProactiveSession = selectors.getIsProactiveSession;
     getStandaloneMobileNotificationVisible = selectors.getStandaloneMobileNotificationVisible;
     getAgentsTyping = selectors.getAgentsTyping;
@@ -2712,6 +2714,46 @@ describe('chat selectors', () => {
     it('returns the zChat vendor', () => {
       expect(result)
         .toBe('mockZChat');
+    });
+  });
+
+  describe('getDepartment', () => {
+    let result, id;
+    const mockDepartments = [
+      { name: 'hello', id: 123, status: 'online' },
+      { name: 'test', id: 321, status: 'online' }
+    ];
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          departments: mockDepartments
+        }
+      };
+
+      result = getDepartment(mockState, id);
+    });
+
+    describe('when id is a string', () => {
+      beforeAll(() => {
+        id = 'hello';
+      });
+
+      it('finds the department by the name', () => {
+        expect(result)
+          .toBe(mockDepartments[0]);
+      });
+    });
+
+    describe('when id is a number', () => {
+      beforeAll(() => {
+        id = 321;
+      });
+
+      it('finds the department by the id', () => {
+        expect(result)
+          .toBe(mockDepartments[1]);
+      });
     });
   });
 });
