@@ -1,6 +1,6 @@
 describe('boot', () => {
   let boot,
-    mockGetErrorReportingDisabled;
+    mockGetErrorReportingEnabled;
   const registerImportSpy = (name, ...methods) => {
     return {
       [name]: jasmine.createSpyObj(name, methods)
@@ -22,7 +22,7 @@ describe('boot', () => {
   beforeEach(() => {
     mockery.enable();
 
-    mockGetErrorReportingDisabled = false;
+    mockGetErrorReportingEnabled = false;
 
     initMockRegistry({
       'service/beacon': beaconSpy,
@@ -42,7 +42,7 @@ describe('boot', () => {
               }
             };
           },
-          getErrorReportingDisabled: () => mockGetErrorReportingDisabled
+          getErrorReportingEnabled: () => mockGetErrorReportingEnabled
         }
       },
       'service/transport': transportSpy,
@@ -157,7 +157,7 @@ describe('boot', () => {
 
     describe('when settings.getErrorReportingDisabled returns true', () => {
       beforeEach(() => {
-        mockGetErrorReportingDisabled = true;
+        mockGetErrorReportingEnabled = true;
         boot.setupServices({});
       });
 
@@ -169,7 +169,7 @@ describe('boot', () => {
 
     describe('when settings.getErrorReportingDisabled returns false', () => {
       beforeEach(() => {
-        mockGetErrorReportingDisabled = false;
+        mockGetErrorReportingEnabled = false;
         boot.setupServices({});
       });
 

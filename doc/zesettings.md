@@ -42,7 +42,7 @@ window.zESettings = {
 
 ### Error reporting
 
-The Web Widget sends any errors that occur to a reporting service used by Zendesk to help diagnose and address issues. This error reporting can be disabled using the `errorReportingDisabled` setting.
+The Web Widget sends any errors that occur to a reporting service used by Zendesk to help diagnose and address issues. This error reporting can be disabled setting `errorReporting` to `false`.
 
 #### Example
 
@@ -50,7 +50,7 @@ The Web Widget sends any errors that occur to a reporting service used by Zendes
 ```html
 <script type="text/javascript">
 window.zESettings = {
-  errorReportingDisabled: true
+  errorReporting: false
 };
 </script>
 ```

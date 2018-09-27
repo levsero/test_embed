@@ -8,8 +8,8 @@ let rollbar;
 let useRollbar = false;
 let errorServiceInitialised = false;
 
-function init(errorReportingDisabled = false) {
-  if (!errorReportingDisabled) {
+function init(errorReportingEnabled = true) {
+  if (errorReportingEnabled) {
     useRollbar = !isIE();
 
     if (useRollbar) {
