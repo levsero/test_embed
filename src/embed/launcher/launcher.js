@@ -87,10 +87,10 @@ function create(name, config, reduxStore) {
       width: (_.isFinite(width) ? width : 0) + frameOffsetWidth
     };
   };
-
+  const userLauncherCSS = generateUserLauncherCSS(config.color);
   const params = {
     ref: (el) => { embed.instance = el.getWrappedInstance(); },
-    css: launcherCSS + generateUserLauncherCSS(config.color),
+    css: launcherCSS + userLauncherCSS,
     frameStyleModifier: isMobileBrowser() ? adjustStylesForZoom : adjustWidth,
     frameOffsetWidth,
     frameOffsetHeight: 1,

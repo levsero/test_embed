@@ -44,7 +44,7 @@ export class EmbedWrapper extends Component {
   }
 
   setButtonColor = (color) => {
-    const css = generateWebWidgetPreviewCSS(color);
+    const css = generateWebWidgetPreviewCSS({ base: color });
 
     if (css) {
       this.setState({ css });
