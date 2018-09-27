@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { locals as styles } from './ButtonCard.scss';
+
 import { Card } from './pure/Card';
-import { Message } from './pure/Message';
 import { ButtonList } from './pure/ButtonList';
 import { Button } from './pure/Button';
 
 export class ButtonCard extends Component {
   static propTypes = {
-    contents: PropTypes.array.isRequired,
+    children: PropTypes.node.isRequired,
     message: PropTypes.string
   };
 
@@ -17,22 +18,17 @@ export class ButtonCard extends Component {
   };
 
   render() {
-    const { message, contents } = this.props;
-    const buttons = contents.map(button => {
-      return (
-        <Button label={button.data.label} />
-      );
-    });
+    const { message, children } = this.props;
 
     return (
       <Card>
-        <Message message={message} />
-        {buttons.length > 0
-          ? <ButtonList>
-            {buttons}
-          </ButtonList>
-          : null}
+        <div className={styles.message}>{message}</div>
+        <ButtonList>
+          {children}
+        </ButtonList>
       </Card>
     );
   }
 }
+
+export { Button };

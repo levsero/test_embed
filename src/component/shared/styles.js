@@ -5,7 +5,7 @@ import SuccessNotificationStyles  from './SuccessNotification/SuccessNotificatio
 import ButtonStyles               from './StructuredMessage/pure/Button.scss';
 import ButtonListStyles           from './StructuredMessage/pure/ButtonList.scss';
 import CardStyles                 from './StructuredMessage/pure/Card.scss';
-import MessageStyles              from './StructuredMessage/pure/Message.scss';
+import ButtonCardStyles           from './StructuredMessage/ButtonCard.scss';
 
 const styles = `
   ${MessageBubbleStyles}
@@ -15,7 +15,7 @@ const styles = `
   ${ButtonStyles}
   ${ButtonListStyles}
   ${CardStyles}
-  ${MessageStyles}
+  ${ButtonCardStyles}
 `;
 
 export default styles;

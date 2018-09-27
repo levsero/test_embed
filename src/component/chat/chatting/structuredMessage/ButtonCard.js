@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Card } from 'component/shared/StructuredMessage/pure/Card';
-import { Message } from 'component/shared/StructuredMessage/pure/Message';
-import { ButtonList } from 'component/shared/StructuredMessage/pure/ButtonList';
-import { Button } from 'component/shared/StructuredMessage/pure/Button';
+import { ButtonCard as PureButtonCard, Button } from 'component/shared/StructuredMessage/ButtonCard';
 
 const ButtonSchemaPropType = PropTypes.shape({
   text: PropTypes.string.isRequired,
@@ -13,7 +10,7 @@ const ButtonSchemaPropType = PropTypes.shape({
 
 export class ButtonCard extends Component {
     static propTypes = {
-      buttons: PropTypes.arrayOf(ButtonSchemaPropType),
+      buttons: PropTypes.arrayOf(ButtonSchemaPropType).isRequired,
       msg: PropTypes.string
     };
 
@@ -22,20 +19,14 @@ export class ButtonCard extends Component {
     };
 
     render() {
-      const buttons = this.props.buttons.map(button => (
-        <Button label={button.text} />
+      const buttons = this.props.buttons.map((button, index) => (
+        <Button label={button.text} key={index} />
       ));
 
       return (
-        <Card>
-          <Message message={this.props.msg} />
-          {buttons.length > 0
-            ? <ButtonList>
-              {buttons}
-            </ButtonList>
-            : null
-          }
-        </Card>
+        <PureButtonCard message={this.props.msg}>
+          {buttons}
+        </PureButtonCard>
       );
     }
 }
