@@ -7,9 +7,13 @@ import { handleIdentifyRecieved, logout, handleOnApiCalled } from 'src/redux/mod
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout } from 'src/redux/modules/chat';
-import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+import { getIsChatting, getDepartmentsList, getDepartment } from 'src/redux/modules/chat/chat-selectors';
 
-import { API_ON_CLOSE_NAME, API_GET_IS_CHATTING_NAME } from 'constants/api';
+import {
+  API_ON_CLOSE_NAME,
+  API_GET_IS_CHATTING_NAME,
+  API_GET_DEPARTMENTS_ALL_NAME,
+  API_GET_DEPARTMENTS_DEPARTMENT_NAME } from 'constants/api';
 import { CLOSE_BUTTON_CLICKED } from 'src/redux/modules/base/base-action-types';
 
 const newAPIPostRenderQueue = [];
@@ -48,14 +52,19 @@ const onApi = (reduxStore, event, callback) => {
     reduxStore.dispatch(handleOnApiCalled(listenersMap[event], callback));
   }
 };
-const getApi = (reduxStore, item) => {
+const getApi = (reduxStore, ...args) => {
   const state = reduxStore.getState();
   const allowlist = {
-    [API_GET_IS_CHATTING_NAME]: getIsChatting
+    [API_GET_IS_CHATTING_NAME]: getIsChatting,
+    [API_GET_DEPARTMENTS_ALL_NAME]: getDepartmentsList,
+    [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: getDepartment
   };
+  const params = Array.from(args);
+  const item = params[0];
+  const getParams = params.slice(1);
 
   if (allowlist[item]) {
-    return allowlist[item](state);
+    return allowlist[item](state, ...getParams);
   }
 };
 
