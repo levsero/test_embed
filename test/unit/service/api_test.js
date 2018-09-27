@@ -11,6 +11,8 @@ describe('api', () => {
   const setContextualSuggestionsManuallySpy = jasmine.createSpy('setContextualSuggestionsManually');
   const handleOnApiCalledSpy = jasmine.createSpy('handleOnApiCalled');
   const rendererHideSpy = jasmine.createSpy('rendererHide');
+  const endChatSpy = jasmine.createSpy('endChat');
+  const sendMsgSpy = jasmine.createSpy('sendMsg');
   const dispatch = () => (action) => action();
   const mockStore = {
     dispatch,
@@ -57,7 +59,9 @@ describe('api', () => {
       },
       'src/redux/modules/chat': {
         chatLogout: chatLogoutSpy,
-        sendVisitorPath: sendVisitorPathSpy
+        sendVisitorPath: sendVisitorPathSpy,
+        endChat: endChatSpy,
+        sendMsg: sendMsgSpy
       },
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: () => isChatting
@@ -377,6 +381,28 @@ describe('api', () => {
       it('calls sendVisitorPath with the options', () => {
         expect(sendVisitorPathSpy)
           .toHaveBeenCalledWith(options);
+      });
+    });
+
+    describe('when that call is endChat', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'endChat'];
+      });
+
+      it('calls endChat with the options', () => {
+        expect(endChatSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is sendChatMsg', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'sendChatMsg'];
+      });
+
+      it('calls sendMsg with the options', () => {
+        expect(sendMsgSpy)
+          .toHaveBeenCalled();
       });
     });
 
