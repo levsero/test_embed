@@ -94,7 +94,7 @@ describe('api', () => {
 
     describe('when the queue method is a string', () => {
       beforeEach(() => {
-        api.handleQueue(mockStore, [ ['webWidget:perform', 'hide'] ]);
+        api.handleQueue(mockStore, [ ['webWidget', 'hide'] ]);
       });
 
       afterEach(() => {
@@ -132,7 +132,7 @@ describe('api', () => {
 
       describe('when a string is passed into zEmbed', () => {
         beforeEach(() => {
-          win.zEmbed('webWidget:perform', 'hide');
+          win.zEmbed('webWidget', 'hide');
         });
 
         it('handles the api call', () => {
@@ -156,9 +156,9 @@ describe('api', () => {
       handleOnApiCalledSpy.calls.reset();
     });
 
-    describe('when that call is perform hide', () => {
+    describe('when that call is hide', () => {
       beforeAll(() => {
-        call = ['webWidget:perform', 'hide'];
+        call = ['webWidget', 'hide'];
       });
 
       it('calls renderer hide', () => {
@@ -167,9 +167,9 @@ describe('api', () => {
       });
     });
 
-    describe('when that call is perform setLocale', () => {
+    describe('when that call is setLocale', () => {
       beforeAll(() => {
-        call = ['webWidget:perform', 'setLocale', 'fr'];
+        call = ['webWidget', 'setLocale', 'fr'];
       });
 
       it('calls i18n setLocale with the locale', () => {
@@ -179,11 +179,11 @@ describe('api', () => {
     });
 
     describe('methods that get queued', () => {
-      describe('when that call is perform idenfity', () => {
+      describe('when that call is idenfity', () => {
         const user = { email: 'a2b.c' };
 
         beforeAll(() => {
-          call = ['webWidget:perform', 'identify', user];
+          call = ['webWidget', 'identify', user];
         });
 
         it('calls mediator onIdentify with the user', () => {
@@ -197,11 +197,11 @@ describe('api', () => {
         });
       });
 
-      describe('when that call is perform updateSettings', () => {
+      describe('when that call is updateSettings', () => {
         const settings = { webWidget: { color: '#fff' } };
 
         beforeAll(() => {
-          call = ['webWidget:perform', 'updateSettings', settings];
+          call = ['webWidget', 'updateSettings', settings];
         });
 
         it('calls updateSettings with the settings', () => {
@@ -210,9 +210,9 @@ describe('api', () => {
         });
       });
 
-      describe('when that call is perform logout', () => {
+      describe('when that call is logout', () => {
         beforeAll(() => {
-          call = ['webWidget:perform', 'logout'];
+          call = ['webWidget', 'logout'];
         });
 
         it('calls logout', () => {
@@ -231,11 +231,11 @@ describe('api', () => {
         });
       });
 
-      describe('when that call is perform setHelpCenterSuggestions', () => {
+      describe('when that call is setHelpCenterSuggestions', () => {
         const options = { url: true };
 
         beforeAll(() => {
-          call = ['webWidget:perform', 'setHelpCenterSuggestions', options];
+          call = ['webWidget', 'setHelpCenterSuggestions', options];
         });
 
         it('calls setHelpCenterSuggestions with the options', () => {
@@ -260,9 +260,9 @@ describe('api', () => {
       handleOnApiCalledSpy.calls.reset();
     });
 
-    describe('when that call is perform hide', () => {
+    describe('when that call is hide', () => {
       beforeAll(() => {
-        call = ['webWidget:perform', 'hide'];
+        call = ['webWidget', 'hide'];
       });
 
       it('calls mediator hide', () => {
@@ -271,9 +271,9 @@ describe('api', () => {
       });
     });
 
-    describe('when that call is perform setLocale', () => {
+    describe('when that call is setLocale', () => {
       beforeAll(() => {
-        call = ['webWidget:perform', 'setLocale', 'fr'];
+        call = ['webWidget', 'setLocale', 'fr'];
       });
 
       it('calls mediator onSetLocale with the locale', () => {
@@ -287,11 +287,11 @@ describe('api', () => {
       });
     });
 
-    describe('when that call is perform idenfity', () => {
+    describe('when that call is idenfity', () => {
       const user = { email: 'a2b.c' };
 
       beforeAll(() => {
-        call = ['webWidget:perform', 'identify', user];
+        call = ['webWidget', 'identify', user];
       });
 
       it('calls mediator onIdentify with the user', () => {
@@ -305,11 +305,11 @@ describe('api', () => {
       });
     });
 
-    describe('when that call is perform updateSettings', () => {
+    describe('when that call is updateSettings', () => {
       const settings = { webWidget: { color: '#fff' } };
 
       beforeAll(() => {
-        call = ['webWidget:perform', 'updateSettings', settings];
+        call = ['webWidget', 'updateSettings', settings];
       });
 
       it('calls updateSettings with the settings', () => {
@@ -318,9 +318,9 @@ describe('api', () => {
       });
     });
 
-    describe('when that call is perform logout', () => {
+    describe('when that call is logout', () => {
       beforeAll(() => {
-        call = ['webWidget:perform', 'logout'];
+        call = ['webWidget', 'logout'];
       });
 
       it('calls logout', () => {
@@ -339,11 +339,11 @@ describe('api', () => {
       });
     });
 
-    describe('when that call is perform setHelpCenterSuggestions', () => {
+    describe('when that call is setHelpCenterSuggestions', () => {
       const options = { url: true };
 
       beforeAll(() => {
-        call = ['webWidget:perform', 'setHelpCenterSuggestions', options];
+        call = ['webWidget', 'setHelpCenterSuggestions', options];
       });
 
       it('calls setHelpCenterSuggestions with the options', () => {

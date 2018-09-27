@@ -60,7 +60,7 @@ const getApi = (reduxStore, item) => {
 };
 
 const newApiStructurePostRender = {
-  perform: {
+  webwidget: {
     hide: () => mediator.channel.broadcast('.hide'),
     setLocale: setLocaleApi,
     identify: identifyApi,
@@ -72,14 +72,14 @@ const newApiStructurePostRender = {
   get: getApi
 };
 const newApiStructurePreRender = {
-  perform: {
+  webwidget: {
     hide: renderer.hide,
     setLocale: (_, locale) => i18n.setLocale(locale),
-    identify: (_, ...args) => addToPostRenderQueue(['webWidget:perform', 'identify', ...args]),
-    updateSettings: (_, ...args) => addToPostRenderQueue(['webWidget:perform', 'updateSettings', ...args]),
-    logout: (_, ...args) => addToPostRenderQueue(['webWidget:perform', 'logout', ...args]),
+    identify: (_, ...args) => addToPostRenderQueue(['webWidget', 'identify', ...args]),
+    updateSettings: (_, ...args) => addToPostRenderQueue(['webWidget', 'updateSettings', ...args]),
+    logout: (_, ...args) => addToPostRenderQueue(['webWidget', 'logout', ...args]),
     setHelpCenterSuggestions: (_, ...args) => {
-      addToPostRenderQueue(['webWidget:perform', 'setHelpCenterSuggestions', ...args]);
+      addToPostRenderQueue(['webWidget', 'setHelpCenterSuggestions', ...args]);
     }
   },
   on: onApi,
@@ -88,7 +88,8 @@ const newApiStructurePreRender = {
 
 const handleNewApi = (apiStructure, reduxStore, args) => {
   const params = Array.from(args);
-  const topMethod = params[0].split(':')[1];
+  const defaultPath = 'webwidget';
+  const topMethod = params[0].split(':')[1] || defaultPath;
   const subMethod = params[1];
 
   if (apiStructure[topMethod][subMethod]) {
