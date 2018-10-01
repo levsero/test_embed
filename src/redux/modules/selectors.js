@@ -27,12 +27,12 @@ import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared
  * Available: When an embed is part of config, not suppressed and has all the conditions to be used.
  * Enabled: When an embed is part of config, not suppressed but does not have all the conditions to be used
  */
-
-const getHelpCenterEnabled = createSelector(
-  [getHelpCenterEmbed], (helpCenterEmbed) => {
+const getHelpCenterAvailable = createSelector(
+  [getHelpCenterEmbed, getHasPassedAuth],
+  (helpCenterEmbed, hasPassedAuth) => {
     const notSuppressed = !settings.get('helpCenter.suppress');
 
-    return notSuppressed && helpCenterEmbed;
+    return notSuppressed && helpCenterEmbed && hasPassedAuth;
   }
 );
 
@@ -40,21 +40,18 @@ const getChatEmbed = (state) => getNewChatEmbed(state) || getZopimChatEmbed(stat
 const getWidgetFixedFrameStyles = createSelector(
   [getStandaloneMobileNotificationVisible,
     getIPMWidget,
-    getHelpCenterEnabled,
     getIsShowHCIntroState,
-    getHasPassedAuth],
+    getHelpCenterAvailable],
   (standaloneMobileNotificationVisible,
     isUsingIPMWidgetOnly,
-    helpCenterEnabled,
     isShowHCIntroState,
-    hasPassedAuth) => {
-    const helpCenterAvailable = helpCenterEnabled && hasPassedAuth;
+    isHelpCenterAvailable) => {
 
     if (isUsingIPMWidgetOnly) {
       return {};
     }
 
-    if (!isMobileBrowser() && isShowHCIntroState && helpCenterAvailable) {
+    if (!isMobileBrowser() && isShowHCIntroState && isHelpCenterAvailable) {
       return {
         maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
       };
