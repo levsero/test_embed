@@ -13,7 +13,8 @@ import { getActiveEmbed,
   getZopimChatEmbed,
   getTalkEmbed,
   getChatEmbed as getNewChatEmbed,
-  getIPMWidget } from './base/base-selectors';
+  getIPMWidget,
+  getHasPassedAuth } from './base/base-selectors';
 
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
@@ -29,24 +30,31 @@ import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared
 
 const getHelpCenterEnabled = createSelector(
   [getHelpCenterEmbed], (helpCenterEmbed) => {
-    return !settings.get('helpCenter.suppress') && helpCenterEmbed;
-  });
+    const notSuppressed = !settings.get('helpCenter.suppress');
+
+    return notSuppressed && helpCenterEmbed;
+  }
+);
 
 const getChatEmbed = (state) => getNewChatEmbed(state) || getZopimChatEmbed(state);
 const getWidgetFixedFrameStyles = createSelector(
   [getStandaloneMobileNotificationVisible,
     getIPMWidget,
     getHelpCenterEnabled,
-    getIsShowHCIntroState],
+    getIsShowHCIntroState,
+    getHasPassedAuth],
   (standaloneMobileNotificationVisible,
     isUsingIPMWidgetOnly,
     helpCenterEnabled,
-    isShowHCIntroState) => {
+    isShowHCIntroState,
+    hasPassedAuth) => {
+    const helpCenterAvailable = helpCenterEnabled && hasPassedAuth;
+
     if (isUsingIPMWidgetOnly) {
       return {};
     }
 
-    if (!isMobileBrowser() && helpCenterEnabled && isShowHCIntroState) {
+    if (!isMobileBrowser() && isShowHCIntroState && helpCenterAvailable) {
       return {
         maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
       };
@@ -60,6 +68,7 @@ const getWidgetFixedFrameStyles = createSelector(
         background: 'transparent'
       };
     }
+
     return {};
   }
 );

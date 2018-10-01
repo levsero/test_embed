@@ -28,7 +28,8 @@ describe('selectors', () => {
     ipmWidget,
     standaloneMobileNotificationVisible,
     mockHCSuppressed,
-    isShowHCIntroState;
+    isShowHCIntroState,
+    hasPassedAuth;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -50,6 +51,7 @@ describe('selectors', () => {
   getMaxWidgetHeight = false;
   mockHCSuppressed = false;
   isShowHCIntroState = false;
+  hasPassedAuth = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -64,7 +66,8 @@ describe('selectors', () => {
         getChatEmbed: () => chatEmbedValue,
         getTalkEmbed: () => talkEmbedValue,
         getZopimChatEmbed: () => zopimChatEmbedValue,
-        getIPMWidget: () => ipmWidget
+        getIPMWidget: () => ipmWidget,
+        getHasPassedAuth: () => hasPassedAuth
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue
@@ -133,6 +136,7 @@ describe('selectors', () => {
         helpCenterEmbedValue = true;
         mockHCSuppressed = false;
         isShowHCIntroState = true;
+        hasPassedAuth = true;
       });
 
       it('returns small height', () => {
@@ -155,6 +159,7 @@ describe('selectors', () => {
         helpCenterEmbedValue = true;
         mockHCSuppressed = false;
         isShowHCIntroState = true;
+        hasPassedAuth = true;
       });
 
       it('returns true', () => {
@@ -220,6 +225,7 @@ describe('selectors', () => {
           helpCenterEmbedValue = true;
           mockHCSuppressed = false;
           isShowHCIntroState = true;
+          hasPassedAuth = true;
         });
 
         afterEach(() => {
@@ -237,6 +243,17 @@ describe('selectors', () => {
       describe('when HC is suppressed', () => {
         beforeAll(() => {
           mockHCSuppressed = true;
+        });
+
+        it('does not return maxHeight styles', () => {
+          expect(result.maxHeight)
+            .toBeFalsy();
+        });
+      });
+
+      describe('when hasPassedAuth is false', () => {
+        beforeAll(() => {
+          hasPassedAuth = false;
         });
 
         it('does not return maxHeight styles', () => {
