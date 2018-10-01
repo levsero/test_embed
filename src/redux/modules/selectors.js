@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { getShowOfflineChat,
   getOfflineFormEnabled,
+  getIsChatting,
   getStandaloneMobileNotificationVisible } from './chat/chat-selectors';
 import { getZopimChatOnline } from './zopimChat/zopimChat-selectors';
 import { getSettingsChatSuppress } from './settings/settings-selectors';
@@ -15,7 +16,7 @@ import { getActiveEmbed,
   getChatEmbed as getNewChatEmbed,
   getIPMWidget,
   getHasPassedAuth } from './base/base-selectors';
-
+import { isOnHelpCenterPage } from 'utility/pages';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -27,12 +28,12 @@ import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared
  * Available: When an embed is part of config, not suppressed and has all the conditions to be used.
  * Enabled: When an embed is part of config, not suppressed but does not have all the conditions to be used
  */
-const getHelpCenterAvailable = createSelector(
-  [getHelpCenterEmbed, getHasPassedAuth],
-  (helpCenterEmbed, hasPassedAuth) => {
+export const getHelpCenterAvailable = createSelector(
+  [isOnHelpCenterPage, getHelpCenterEmbed, getHasPassedAuth],
+  (onHelpCenterPage, helpCenterEnabled, hasPassedAuth) => {
     const notSuppressed = !settings.get('helpCenter.suppress');
 
-    return notSuppressed && helpCenterEmbed && hasPassedAuth;
+    return helpCenterEnabled && notSuppressed && hasPassedAuth;
   }
 );
 
@@ -46,7 +47,6 @@ const getWidgetFixedFrameStyles = createSelector(
     isUsingIPMWidgetOnly,
     isShowHCIntroState,
     isHelpCenterAvailable) => {
-
     if (isUsingIPMWidgetOnly) {
       return {};
     }
@@ -69,6 +69,9 @@ const getWidgetFixedFrameStyles = createSelector(
     return {};
   }
 );
+const getChannelChoiceEnabled = (state) => {
+  return settings.get('contactOptions').enabled && getSubmitTicketAvailable(state);
+};
 
 export const getChatOnline = (state) => getZopimChatOnline(state) || !getShowOfflineChat(state);
 
@@ -110,3 +113,23 @@ export const getMaxWidgetHeight = (state, frame = 'webWidget') => {
 
   return undefined;
 };
+
+export const getSubmitTicketAvailable = (state) => {
+  return getSubmitTicketEmbed(state) && !settings.get('contactForm.suppress');
+};
+
+export const getChannelChoiceAvailable = createSelector(
+  [getChannelChoiceEnabled,
+    getSubmitTicketAvailable,
+    getTalkAvailable,
+    getChatAvailable,
+    getChatOfflineAvailable,
+    getIsChatting],
+  (channelChoiceEnabled, submitTicketAvailable, talkAvailable, chatAvailable, chatOfflineAvailable, isChatting) => {
+    const channelChoicePrerequisite = (channelChoiceEnabled || talkAvailable);
+    const availableChannelCount = (submitTicketAvailable + talkAvailable + chatAvailable + chatOfflineAvailable);
+    const channelsAvailable = (availableChannelCount > 1);
+
+    return channelChoicePrerequisite && channelsAvailable && !isChatting;
+  }
+);
