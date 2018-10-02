@@ -10,8 +10,12 @@ const ButtonSchemaPropType = PropTypes.shape({
 
 export class ButtonCard extends Component {
     static propTypes = {
+      // Props related to structured message schema
       buttons: PropTypes.arrayOf(ButtonSchemaPropType).isRequired,
-      msg: PropTypes.string
+      msg: PropTypes.string,
+
+      // Other props
+      createAction: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -20,7 +24,7 @@ export class ButtonCard extends Component {
 
     render() {
       const buttons = this.props.buttons.map((button, index) => (
-        <Button label={button.text} key={index} />
+        <Button label={button.text} key={index} onClick={this.props.createAction(button.action)} />
       ));
 
       return (
