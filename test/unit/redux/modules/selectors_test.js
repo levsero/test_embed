@@ -34,7 +34,6 @@ describe('selectors', () => {
     mockIsOnHelpCenterPage,
     mockIsChatting,
     getSubmitTicketAvailable,
-    getChannelChoiceEnabled,
     getChannelChoiceAvailable;
 
   activeEmbedValue = '';
@@ -135,7 +134,6 @@ describe('selectors', () => {
     getMaxWidgetHeight = selectors.getMaxWidgetHeight;
     getHelpCenterAvailable = selectors.getHelpCenterAvailable;
     getSubmitTicketAvailable = selectors.getSubmitTicketAvailable;
-    getChannelChoiceEnabled = selectors.getChannelChoiceEnabled;
     getChannelChoiceAvailable = selectors.getChannelChoiceAvailable;
   });
 
@@ -1031,7 +1029,7 @@ describe('selectors', () => {
         agentAvailabilityValue = false;
 
         // Chat available
-        chatEmbedValue = true
+        chatEmbedValue = true;
         settingsChatSuppressValue = false;
         zopimChatOnlineValue = true;
         showOfflineFormValue = false;
@@ -1060,7 +1058,7 @@ describe('selectors', () => {
         agentAvailabilityValue = true;
 
         // Chat available
-        chatEmbedValue = true
+        chatEmbedValue = true;
         settingsChatSuppressValue = false;
         zopimChatOnlineValue = true;
         showOfflineFormValue = false;
@@ -1089,7 +1087,7 @@ describe('selectors', () => {
         agentAvailabilityValue = false;
 
         // Chat available
-        chatEmbedValue = true
+        chatEmbedValue = true;
         settingsChatSuppressValue = false;
         zopimChatOnlineValue = true;
         showOfflineFormValue = false;
@@ -1136,7 +1134,7 @@ describe('selectors', () => {
         agentAvailabilityValue = true;
 
         // Chat available
-        chatEmbedValue = true
+        chatEmbedValue = true;
         settingsChatSuppressValue = false;
         zopimChatOnlineValue = true;
         showOfflineFormValue = false;

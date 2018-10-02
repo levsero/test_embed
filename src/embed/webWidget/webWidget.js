@@ -202,7 +202,6 @@ export default function WebWidgetFactory(name) {
           <WebWidget
             attachmentSender={submitTicketSettings.attachmentSender}
             fullscreen={isMobileBrowser()}
-            helpCenterAvailable={helpCenterAvailable}
             helpCenterConfig={helpCenterSettings.config}
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
             isOnHelpCenterPage={isOnHelpCenterPage()}

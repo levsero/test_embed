@@ -76,9 +76,9 @@ const mapStateToProps = (state) => {
     hasSearched: getHasSearched(state),
     resultsCount: getResultsCount(state),
     mobileNotificationsDisabled: getSettingsMobileNotificationsDisabled(state),
-    isHelpCenterAvailable: getHelpCenterAvailable(state),
-    isChannelChoiceAvailable: getChannelChoiceAvailable(state),
-    isSubmitTicketAvailable: getSubmitTicketAvailable(state)
+    helpCenterAvailable: getHelpCenterAvailable(state),
+    channelChoiceAvailable: getChannelChoiceAvailable(state),
+    submitTicketAvailable: getSubmitTicketAvailable(state)
   };
 };
 
@@ -92,7 +92,6 @@ class WebWidget extends Component {
     contextualHelpRequestNeeded: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
-    helpCenterAvailable: PropTypes.bool,
     helpCenterConfig: PropTypes.object,
     isOnHelpCenterPage: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
@@ -137,9 +136,9 @@ class WebWidget extends Component {
     ipmHelpCenterAvailable: PropTypes.bool,
     mobileNotificationsDisabled: PropTypes.bool,
     chatOfflineAvailable: PropTypes.bool.isRequired,
-    isHelpCenterAvailable: PropTypes.bool.isRequired,
-    isChannelChoiceAvailable: PropTypes.bool.isRequired,
-    isSubmitTicketAvailable: PropTypes.bool.isRequired
+    helpCenterAvailable: PropTypes.bool.isRequired,
+    channelChoiceAvailable: PropTypes.bool.isRequired,
+    submitTicketAvailable: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -233,18 +232,18 @@ class WebWidget extends Component {
 
   resetActiveEmbed = () => {
     const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable,
-      chatAvailable, articleViewActive, ipmHelpCenterAvailable, isHelpCenterAvailable,
-      isChannelChoiceAvailable, showTicketFormsBackButton } = this.props;
+      chatAvailable, articleViewActive, ipmHelpCenterAvailable, helpCenterAvailable,
+      channelChoiceAvailable, showTicketFormsBackButton } = this.props;
     let backButton = false;
 
-    if (isHelpCenterAvailable) {
+    if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
       backButton = articleViewActive;
     } else if (ipmHelpCenterAvailable && articleViewActive) {
       // we only go into this condition if HC is injected by IPM
       updateActiveEmbed(helpCenter);
       backButton = false;
-    } else if (isChannelChoiceAvailable) {
+    } else if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
     } else if (talkAvailable) {
       updateActiveEmbed(talk);
@@ -259,11 +258,11 @@ class WebWidget extends Component {
   }
 
   show = (viaActivate = false) => {
-    const { activeEmbed, chatAvailable, chatOfflineAvailable, talkAvailable, isChannelChoiceAvailable } = this.props;
+    const { activeEmbed, chatAvailable, chatOfflineAvailable, talkAvailable, channelChoiceAvailable } = this.props;
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
-    if (activeEmbed === submitTicket && chatAvailable && !isChannelChoiceAvailable) {
+    if (activeEmbed === submitTicket && chatAvailable && !channelChoiceAvailable) {
       this.showChat();
       return;
     }
@@ -275,7 +274,7 @@ class WebWidget extends Component {
       return;
     }
 
-    const channelChoiceUnavailable = (activeEmbed === channelChoice && !isChannelChoiceAvailable);
+    const channelChoiceUnavailable = (activeEmbed === channelChoice && !channelChoiceAvailable);
     const chatUnavailable = (activeEmbed === chat && !chatAvailable && !chatOfflineAvailable);
     const talkUnavailable = (activeEmbed === talk && !talkAvailable);
 
@@ -304,9 +303,9 @@ class WebWidget extends Component {
       chatAvailable,
       talkAvailable,
       chatOfflineAvailable,
-      isChannelChoiceAvailable } = this.props;
+      channelChoiceAvailable } = this.props;
 
-    if (isChannelChoiceAvailable) {
+    if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
       if (!ipmHelpCenterAvailable) {
         updateBackButtonVisibility(true);
@@ -332,11 +331,11 @@ class WebWidget extends Component {
 
   onCancelClick = () => {
     const { ipmHelpCenterAvailable, updateActiveEmbed, onCancel, updateBackButtonVisibility,
-      isHelpCenterAvailable, isChannelChoiceAvailable } = this.props;
+      helpCenterAvailable, channelChoiceAvailable } = this.props;
 
-    if (isHelpCenterAvailable) {
+    if (helpCenterAvailable) {
       this.showHelpCenter();
-    } else if (isChannelChoiceAvailable) {
+    } else if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
     }  else {
@@ -354,8 +353,8 @@ class WebWidget extends Component {
       updateBackButtonVisibility,
       updateActiveEmbed,
       resetActiveArticle,
-      isHelpCenterAvailable,
-      isChannelChoiceAvailable } = this.props;
+      helpCenterAvailable,
+      channelChoiceAvailable } = this.props;
     const activeComponent = this.getActiveComponent();
 
     if (activeEmbed === helpCenter) {
@@ -364,11 +363,11 @@ class WebWidget extends Component {
       if (ipmHelpCenterAvailable) updateActiveEmbed(channelChoice);
     } else if (this.props.showTicketFormsBackButton) {
       activeComponent.clearForm();
-      updateBackButtonVisibility(isHelpCenterAvailable || isChannelChoiceAvailable);
-    } else if (isChannelChoiceAvailable && activeEmbed !== channelChoice) {
+      updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
+    } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
       updateActiveEmbed(channelChoice);
-      updateBackButtonVisibility(isHelpCenterAvailable);
-    } else if (isHelpCenterAvailable) {
+      updateBackButtonVisibility(helpCenterAvailable);
+    } else if (helpCenterAvailable) {
       this.showHelpCenter();
     } else {
       if (ipmHelpCenterAvailable) resetActiveArticle();
@@ -399,8 +398,8 @@ class WebWidget extends Component {
 
     const updateChatBackButtonVisibility = () => {
       this.props.updateBackButtonVisibility(
-        this.props.isHelpCenterAvailable ||
-        this.props.isChannelChoiceAvailable
+        this.props.helpCenterAvailable ||
+        this.props.channelChoiceAvailable
       );
     };
 
@@ -422,10 +421,10 @@ class WebWidget extends Component {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return;
     if (this.props.activeEmbed !== helpCenter) return null;
 
-    const { helpCenterConfig, isSubmitTicketAvailable, chatAvailable,
-      chatOfflineAvailable, talkAvailable, isChannelChoiceAvailable } = this.props;
+    const { helpCenterConfig, submitTicketAvailable, chatAvailable,
+      chatOfflineAvailable, talkAvailable, channelChoiceAvailable } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
-    const showNextButton = isSubmitTicketAvailable || chatAvailable || chatOfflineAvailable || talkAvailable;
+    const showNextButton = submitTicketAvailable || chatAvailable || chatOfflineAvailable || talkAvailable;
 
     return (
       <div className={classes}>
@@ -448,9 +447,9 @@ class WebWidget extends Component {
           fullscreen={this.props.fullscreen}
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
-          channelChoice={isChannelChoiceAvailable}
+          channelChoice={channelChoiceAvailable}
           callbackEnabled={this.props.callbackEnabled}
-          submitTicketAvailable={isSubmitTicketAvailable}
+          submitTicketAvailable={submitTicketAvailable}
           chatAvailable={chatAvailable}
           chatNotificationDismissed={this.props.chatNotificationDismissed}
           updateChatScreen={this.props.updateChatScreen} />
@@ -459,7 +458,7 @@ class WebWidget extends Component {
   }
 
   renderSubmitTicket = () => {
-    if (!this.props.isSubmitTicketAvailable) return;
+    if (!this.props.submitTicketAvailable) return null;
     if (this.props.activeEmbed !== submitTicket) return null;
 
     const { submitTicketConfig } = this.props;
@@ -502,7 +501,7 @@ class WebWidget extends Component {
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
         callbackEnabled={this.props.callbackEnabled}
-        submitTicketAvailable={this.props.isSubmitTicketAvailable}
+        submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
@@ -521,8 +520,8 @@ class WebWidget extends Component {
         style={this.props.style}
         isMobile={this.props.fullscreen}
         talkConfig={this.props.talkConfig}
-        helpCenterAvailable={this.props.isHelpCenterAvailable}
-        channelChoiceAvailable={this.props.isChannelChoiceAvailable}
+        helpCenterAvailable={this.props.helpCenterAvailable}
+        channelChoiceAvailable={this.props.channelChoiceAvailable}
         onBackClick={this.onBackClick}
         getFrameContentDocument={this.props.getFrameContentDocument} />
     );

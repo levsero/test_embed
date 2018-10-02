@@ -16,7 +16,6 @@ import { getActiveEmbed,
   getChatEmbed as getNewChatEmbed,
   getIPMWidget,
   getHasPassedAuth } from './base/base-selectors';
-import { isOnHelpCenterPage } from 'utility/pages';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -29,8 +28,8 @@ import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared
  * Enabled: When an embed is part of config, not suppressed but does not have all the conditions to be used
  */
 export const getHelpCenterAvailable = createSelector(
-  [isOnHelpCenterPage, getHelpCenterEmbed, getHasPassedAuth],
-  (onHelpCenterPage, helpCenterEnabled, hasPassedAuth) => {
+  [getHelpCenterEmbed, getHasPassedAuth],
+  (helpCenterEnabled, hasPassedAuth) => {
     const notSuppressed = !settings.get('helpCenter.suppress');
 
     return helpCenterEnabled && notSuppressed && hasPassedAuth;
