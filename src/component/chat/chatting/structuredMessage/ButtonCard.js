@@ -2,24 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { ButtonCard as PureButtonCard, Button } from 'component/shared/StructuredMessage/ButtonCard';
+import { CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat';
+
+const { QUICK_REPLY_ACTION, LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE;
+
+const ActionPropType = PropTypes.shape({
+  type: PropTypes.oneOf([QUICK_REPLY_ACTION, LINK_ACTION]).isRequired,
+  value: PropTypes.string.isRequired
+});
 
 const ButtonSchemaPropType = PropTypes.shape({
   text: PropTypes.string.isRequired,
-  action: PropTypes.object.isRequired
+  action: ActionPropType.isRequired
 });
 
 export class ButtonCard extends Component {
     static propTypes = {
-      // Props related to structured message schema
-      buttons: PropTypes.arrayOf(ButtonSchemaPropType).isRequired,
-      msg: PropTypes.string,
-
+      ...ButtonCard.schemaPropTypes,
       // Other props
       createAction: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
       msg: ''
+    };
+
+    static schemaPropTypes = {
+      buttons: PropTypes.arrayOf(ButtonSchemaPropType).isRequired,
+      msg: PropTypes.string
     };
 
     render() {

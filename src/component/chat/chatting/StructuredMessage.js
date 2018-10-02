@@ -13,7 +13,7 @@ class StructuredMessage extends Component {
     sendMsg: PropTypes.func,
     schema: PropTypes.oneOfType([
       PropTypes.shape(
-        Object.assign({type: PropTypes.string}, ButtonCard.propTypes)
+        Object.assign({type: PropTypes.string.isRequired}, ButtonCard.schemaPropTypes)
       )
     ]).isRequired
   }
