@@ -12,10 +12,13 @@ import { MessageError } from 'component/chat/chatting/MessageError';
 import { ImageMessage } from 'component/chat/chatting/ImageMessage';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 import { ATTACHMENT_ERROR_TYPES,
-  CHAT_MESSAGE_TYPES } from 'constants/chat';
+  CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_MESSAGE_TYPE } from 'constants/chat';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
 import { Icon } from 'component/Icon';
+import StructuredMessage from 'component/chat/chatting/StructuredMessage';
+
+const structuredMessageTypes = Object.values(CHAT_STRUCTURED_MESSAGE_TYPE);
 
 export class ChatGroup extends Component {
   static propTypes = {
@@ -76,7 +79,11 @@ export class ChatGroup extends Component {
       let message;
 
       if (chat.msg) {
-        message = this.renderPrintedMessage(chat, isAgent, showAvatar);
+        if (chat.structured_msg && structuredMessageTypes.includes(chat.structured_msg.type)) {
+          message = this.renderStructuredMessage(chat.structured_msg);
+        } else {
+          message = this.renderPrintedMessage(chat, isAgent, showAvatar);
+        }
       } else if (chat.file || chat.attachment) {
         message = this.renderInlineAttachment(isAgent, chat);
       }
@@ -231,6 +238,10 @@ export class ChatGroup extends Component {
       src={this.avatar.path()}
       fallbackIcon='Icon--agent-avatar'
     />);
+  }
+
+  renderStructuredMessage = (schema) => {
+    return (<StructuredMessage schema={schema} />);
   }
 
   render() {
