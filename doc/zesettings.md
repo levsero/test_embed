@@ -40,6 +40,20 @@ window.zESettings = {
 </script>
 ```
 
+### Error reporting
+
+The Web Widget sends any errors that occur to a reporting service used by Zendesk to help diagnose and address issues. This error reporting can be disabled setting `errorReporting` to `false`.
+
+#### Example
+
+<a name="example-error-reporting"></a>
+```html
+<script type="text/javascript">
+window.zESettings = {
+  errorReporting: false
+};
+</script>
+```
 
 ### Contact form settings
 

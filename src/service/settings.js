@@ -133,7 +133,7 @@ const initStore = (settings, options, defaults) => {
 };
 
 function init(reduxStore = { dispatch: () => {} }) {
-  settingsStore = _.assign({}, { errorReportingDisabled: false }, win.zESettings);
+  settingsStore = _.assign({}, { errorReporting: true }, win.zESettings);
 
   // for backwards compatibility with authenticate.
   if (settingsStore.authenticate) {
@@ -220,8 +220,8 @@ function getChatAuthSettings() {
   return (authSetting && authSetting.jwtFn) ? authSetting : null;
 }
 
-function getErrorReportingDisabled() {
-  return Boolean(settingsStore.errorReportingDisabled);
+function getErrorReportingEnabled() {
+  return Boolean(settingsStore.errorReporting);
 }
 
 function enableCustomizations() {
@@ -235,6 +235,6 @@ export const settings = {
   getTrackSettings,
   getSupportAuthSettings,
   getChatAuthSettings,
-  getErrorReportingDisabled,
+  getErrorReportingEnabled,
   enableCustomizations
 };

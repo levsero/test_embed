@@ -186,38 +186,38 @@ describe('settings', () => {
         .toEqual(mockUpdateSettingsAction);
     });
 
-    describe('when errorReportingDisabled is true', () => {
+    describe('when errorReporting is true', () => {
       beforeEach(() => {
-        mockRegistry['utility/globals'].win.zESettings = { errorReportingDisabled: true };
+        mockRegistry['utility/globals'].win.zESettings = { errorReporting: true };
         settings.init();
       });
 
-      it('sets errorReportingDisabled to true', () => {
-        expect(settings.getErrorReportingDisabled())
+      it('sets errorReporting to true', () => {
+        expect(settings.getErrorReportingEnabled())
           .toBe(true);
       });
     });
 
-    describe('when errorReportingDisabled is false', () => {
+    describe('when errorReporting is false', () => {
       beforeEach(() => {
-        mockRegistry['utility/globals'].win.zESettings = { errorReportingDisabled: false };
+        mockRegistry['utility/globals'].win.zESettings = { errorReporting: false };
         settings.init();
       });
 
-      it('sets errorReportingDisabled to false', () => {
-        expect(settings.getErrorReportingDisabled())
+      it('sets errorReporting to false', () => {
+        expect(settings.getErrorReportingEnabled())
           .toBe(false);
       });
     });
 
-    describe('when errorReportingDisabled is not defined', () => {
+    describe('when errorReporting is not defined', () => {
       beforeEach(() => {
         settings.init();
       });
 
-      it('sets errorReportingDisabled to false', () => {
-        expect(settings.getErrorReportingDisabled())
-          .toBe(false);
+      it('sets errorReporting to true', () => {
+        expect(settings.getErrorReportingEnabled())
+          .toBe(true);
       });
     });
   });

@@ -38,15 +38,15 @@ describe('logging index', () => {
   });
 
   describe('#init', () => {
-    let mockGetErrorReportingDisabled;
+    let mockGetErrorReportingEnabled;
 
     beforeEach(() => {
-      logging.init(mockGetErrorReportingDisabled);
+      logging.init(mockGetErrorReportingEnabled);
     });
 
-    describe('when getErrorReportingDisabled is false', () => {
+    describe('when getErrorReportingEnabled is true', () => {
       beforeAll(() => {
-        mockGetErrorReportingDisabled = false;
+        mockGetErrorReportingEnabled = true;
       });
 
       describe('when the browser is IE', () => {
@@ -72,9 +72,9 @@ describe('logging index', () => {
       });
     });
 
-    describe('when getErrorReportingDisabled is true', () => {
+    describe('when getErrorReportingEnabled is false', () => {
       beforeAll(() => {
-        mockGetErrorReportingDisabled = true;
+        mockGetErrorReportingEnabled = false;
       });
 
       it('does not call init', () => {
@@ -149,9 +149,9 @@ describe('logging index', () => {
       });
 
       describe('when logging service is initialised', () => {
-        describe('when getErrorReportingDisabled is false', () => {
+        describe('when getErrorReportingEnabled is true', () => {
           beforeEach(() => {
-            logging.init(false);
+            logging.init(true);
             logging.error(errPayload, customData);
           });
 
@@ -161,13 +161,13 @@ describe('logging index', () => {
           });
         });
 
-        describe('when getErrorReportingDisabled is true', () => {
+        describe('when getErrorReportingEnabled is false', () => {
           beforeEach(() => {
-            logging.init(true);
+            logging.init(false);
             logging.error(errPayload, customData);
           });
 
-          it('calls Rollbar.error', () => {
+          it('does not call Rollbar.error', () => {
             expect(rollbarErrorSpy)
               .not.toHaveBeenCalled();
           });

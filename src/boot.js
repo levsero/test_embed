@@ -68,7 +68,7 @@ const setupServices = (reduxStore) => {
   });
 
   settings.init(reduxStore);
-  logging.init(settings.getErrorReportingDisabled());
+  logging.init(settings.getErrorReportingEnabled());
   GA.init();
 };
 
