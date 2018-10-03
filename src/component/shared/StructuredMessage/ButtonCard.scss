@@ -1,3 +1,8 @@
+@import '../../../styles/_vars.scss';
+
 .message {
-  background-color: #ccc;
+  composes: messageBubbleWithOptions from '../MessageBubble/MessageBubble.scss';
+
+  background-color: $zd-color-grey-200;
+  max-width: none;
 }

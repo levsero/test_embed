@@ -13,7 +13,7 @@ export class ButtonList extends Component {
       <ul className={styles.buttonList}>
         {this.props.children.map((child, idx) => {
           return (
-            <li key={idx}>
+            <li key={idx} className={styles.buttonItem}>
               {child}
             </li>
           );

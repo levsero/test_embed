@@ -1,5 +1,16 @@
+@import '../../../../styles/_vars.scss';
+
 .button {
-  border: none;
-  padding: 0;
+  composes: button from '../../MessageOptions/MessageOptions.scss';
+  composes: u-userColor u-textTruncate from global;
+
+  width: 100%;
+  padding: 0 #{16/$font-size}rem;
   margin: 0;
+  line-height: #{40/$font-size}rem;
+  text-align: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

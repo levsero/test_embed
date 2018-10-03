@@ -1,3 +1,9 @@
+@import '../../../../styles/_vars.scss';
+
 .card {
-    border-radius: 8px;
+    width: #{240/$font-size}rem;
+}
+
+.card--relativeWidth {
+    width: 90%;
 }
