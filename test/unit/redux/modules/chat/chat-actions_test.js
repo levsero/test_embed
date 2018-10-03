@@ -122,7 +122,7 @@ describe('chat redux actions', () => {
       'service/audio': {
         audio: { load: loadSoundSpy }
       },
-      'src/util/zChatWithTimeout': mockZChatWithTimeout
+      'src/redux/modules/chat/helpers/zChatWithTimeout': mockZChatWithTimeout
     });
 
     actions = requireUncached(actionsPath);

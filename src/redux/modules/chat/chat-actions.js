@@ -77,7 +77,7 @@ import {
 import { mediator } from 'service/mediator';
 import { audio } from 'service/audio';
 import _ from 'lodash';
-import zChatWithTimeout from 'src/util/zChatWithTimeout';
+import zChatWithTimeout from 'src/redux/modules/chat/helpers/zChatWithTimeout';
 const chatTypingTimeout = 2000;
 let history = [];
 

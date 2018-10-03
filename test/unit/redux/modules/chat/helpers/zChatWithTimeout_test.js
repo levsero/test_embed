@@ -24,9 +24,9 @@ describe('zChatWithTimeout', () => {
       }
     });
 
-    zChatWithTimeoutPath = buildSrcPath('util/zChatWithTimeout');
+    zChatWithTimeoutPath = buildSrcPath('redux/modules/chat/helpers/zChatWithTimeout');
     mockery.registerAllowable(zChatWithTimeoutPath);
-    zChatWithTimeout = requireUncached(zChatWithTimeoutPath).zChatWithTimeout;
+    zChatWithTimeout = requireUncached(zChatWithTimeoutPath).default;
 
     zChatWithTimeout(mockGetState, 'sendChatMsg', 10);
   });
