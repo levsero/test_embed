@@ -1,5 +1,6 @@
 @import '../../../styles/_vars.scss';
 @import '../../../styles/mixins.scss';
+@import '../../shared/QuickReplies/QuickReplies.scss';
 
 .queuePosition {
   composes: u-textCenter from global;
@@ -102,7 +103,7 @@
 }
 
 .chatLogContainer {
-  min-height: calc(100% - 44px);
+  min-height: calc(100% - #{$sliderHeight});
 }
 
 .chatLogContainerMobile {

@@ -30,7 +30,7 @@ import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { getHasMoreHistory,
   getHistoryRequestStatus,
   getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
-import {SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS, CHAT_CUSTOM_MESSAGE_EVENTS } from 'constants/chat';
+import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './ChattingScreen.scss';
 import { isDefaultNickname, isAgent } from 'src/util/chat';
 
@@ -44,6 +44,7 @@ const mapStateToProps = (state) => {
     historyRequestStatus: getHistoryRequestStatus(state),
     chatHistoryLog: getGroupedPastChatsBySession(state),
     lastAgentLeaveEvent: selectors.getLastAgentLeaveEvent(state),
+    getQuickRepliesFromChatLog: selectors.getQuickRepliesFromChatLog(state),
     currentMessage: selectors.getCurrentMessage(state),
     screen: selectors.getChatScreen(state),
     concierges: selectors.getCurrentConcierges(state),
@@ -76,6 +77,7 @@ class ChattingScreen extends Component {
     historyRequestStatus: PropTypes.string,
     chatHistoryLog: PropTypes.array,
     lastAgentLeaveEvent: PropTypes.object.isRequired,
+    getQuickRepliesFromChatLog: PropTypes.object,
     currentMessage: PropTypes.string.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
@@ -408,35 +410,26 @@ class ChattingScreen extends Component {
     );
   }
 
+  /**
+   * Render QuickReplies component if `getQuickRepliesFromChatLog` returns a chat log
+   */
   renderQuickReply = () => {
-    const sortedKeys = Object.keys(this.props.chatLog).sort((a, b) => (b - a));
-    const maxKey = sortedKeys[0];
+    const quickReply = this.props.getQuickRepliesFromChatLog;
 
-    if (!maxKey) return null;
+    if (!quickReply) return null;
 
-    let latestChatLog = this.props.chatLog[maxKey][0];
+    const {timestamp, items} = quickReply;
 
-    // If chat.memberjoin is the last chatlog, we check the second last chatlog for quick reply
-    if (latestChatLog.type === 'chat.memberjoin') {
-      latestChatLog = this.props.chatLog[sortedKeys[1]][0];
-    }
+    return (
+      <QuickReplies key={timestamp}>
+        {items.map((item, idx) => {
+          const {action, text} = item;
+          const actionFn = () => this.props.sendMsg(action.value);
 
-    const { timestamp, type, hidden, items } = latestChatLog;
-
-    if (type === CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES && !hidden) {
-      return (
-        <QuickReplies key={timestamp}>
-          {items.map((item, idx) => {
-            const {action, text} = item;
-            const actionFn = () => this.props.sendMsg(action.value);
-
-            return <QuickReply key={idx} label={text} onClick={actionFn} />;
-          })}
-        </QuickReplies>
-      );
-    }
-
-    return null;
+          return <QuickReply key={idx} label={text} onClick={actionFn} />;
+        })}
+      </QuickReplies>
+    );
   }
 
   render = () => {

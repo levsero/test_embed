@@ -9,7 +9,7 @@ $focusRingWidth: 3px;
 
   svg {
     path {
-      stroke: #87929D;
+      stroke: $zd-color-grey-500;
     }
   }
 
@@ -18,7 +18,7 @@ $focusRingWidth: 3px;
 
     svg {
       path {
-        stroke: #2F3941;
+        stroke: $zd-color-grey-800;
       }
     }
   }
@@ -26,10 +26,6 @@ $focusRingWidth: 3px;
 
 .sliderButton:global(.slick-disabled) {
   display: none;
-}
-
-.Icon--chevron-right-fill {
-  color: gray !important;
 }
 
 .sliderButton--left {
@@ -58,11 +54,6 @@ $focusRingWidth: 3px;
     .variableWidth {
        .slick-slide {
         height: auto !important;
-        margin-right: 8px;
-
-        &:last-child {
-          margin-right: 0;
-        }
       }
     }
 

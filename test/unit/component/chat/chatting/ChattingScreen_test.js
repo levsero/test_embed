@@ -1456,70 +1456,37 @@ describe('ChattingScreen component', () => {
   });
 
   describe('renderQuickReply', () => {
-    describe('when chatlog.type is CHAT_QUICK_REPLIES', () => {
-      let chatLog;
+    describe('when quickReply is in last chat log', () => {
+      let quickReplyChatLog;
 
       beforeEach(() => {
-        chatLog = {
-          1: [{timestamp: 1, type: ''}],
-          2: [{
-            timestamp: 2,
-            type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
-            hidden: true,
-            items: [
-              {
-                action: {
-                  type: 'QuickReplyAction',
-                  value: 'answer 1'
-                },
-                text: 'ANS1'
+        quickReplyChatLog = {
+          timestamp: 2,
+          type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
+          items: [
+            {
+              action: {
+                type: 'QuickReplyAction',
+                value: 'answer 1'
               },
-              {
-                action: {
-                  type: 'QuickReplyAction',
-                  value: 'answer 2'
-                },
-                text: 'ANS2'
+              text: 'ANS1'
+            },
+            {
+              action: {
+                type: 'QuickReplyAction',
+                value: 'answer 2'
               },
-              {
-                action: {
-                  type: 'QuickReplyAction',
-                  value: 'answer 3'
-                },
-                text: 'ANS3'
-              }
-            ]
-          }]
+              text: 'ANS2'
+            },
+            {
+              action: {
+                type: 'QuickReplyAction',
+                value: 'answer 3'
+              },
+              text: 'ANS3'
+            }
+          ]
         };
-      });
-
-      describe('when latest chatlog is memberjoin', () => {
-        let QRComponent;
-
-        beforeEach(() => {
-          const chatLogWithMemberJoin = JSON.parse(JSON.stringify(chatLog));
-
-          // Toggle hidden and add a latest memberjoin chat log
-          chatLogWithMemberJoin[2][0].hidden = false;
-          chatLogWithMemberJoin[3] = [{ timestamp: 3, type: 'chat.memberjoin'}];
-
-          const component = instanceRender(<ChattingScreen chatLog={chatLogWithMemberJoin} />);
-
-          QRComponent = component.renderQuickReply();
-        });
-
-        it('should render QuickReplies Component', () => {
-          expect(TestUtils.isElementOfType(QRComponent, QuickReplies)).toEqual(true);
-        });
-      });
-
-      describe('when it is hidden', () => {
-        it('should return null', () => {
-          const component = instanceRender(<ChattingScreen chatLog={chatLog} />);
-          const QRComponent = component.renderQuickReply();
-
-          expect(QRComponent).toBeNull();
-        });
       });
 
       describe('when it is not hidden', () => {
@@ -1527,11 +1494,9 @@ describe('ChattingScreen component', () => {
         let sendMsgStub = jasmine.createSpy('sendMsg');
 
         beforeEach(() => {
-          const chatLogWithQRShown = JSON.parse(JSON.stringify(chatLog));
+          const chatLogWithQRShown = JSON.parse(JSON.stringify(quickReplyChatLog));
 
-          chatLogWithQRShown[2][0].hidden = false;
-
-          const component = instanceRender(<ChattingScreen chatLog={chatLogWithQRShown} sendMsg={sendMsgStub}/>);
+          const component = instanceRender(<ChattingScreen getQuickRepliesFromChatLog={chatLogWithQRShown} sendMsg={sendMsgStub}/>);
 
           QRComponent = component.renderQuickReply();
         });
@@ -1545,7 +1510,7 @@ describe('ChattingScreen component', () => {
         });
 
         it('should render the right number of QuickReply component', () => {
-          expect(QRComponent.props.children.length).toEqual(chatLog[2][0].items.length);
+          expect(QRComponent.props.children.length).toEqual(quickReplyChatLog.items.length);
 
           QRComponent.props.children.forEach((child) => {
             expect(TestUtils.isElementOfType(child, QuickReply)).toEqual(true);
@@ -1555,7 +1520,7 @@ describe('ChattingScreen component', () => {
         it('should pass the right props to each QuickReply component', () => {
           QRComponent.props.children.forEach((child, idx) => {
             expect(child.props).toEqual(jasmine.objectContaining({
-              label: chatLog[2][0].items[idx].text,
+              label: quickReplyChatLog.items[idx].text,
               onClick: jasmine.any(Function)
             }));
           });
@@ -1564,15 +1529,15 @@ describe('ChattingScreen component', () => {
         it('should pass the right value to the onClick prop', () => {
           QRComponent.props.children.forEach((child, idx) => {
             child.props.onClick();
-            expect(sendMsgStub).toHaveBeenCalledWith(chatLog[2][0].items[idx].action.value);
+            expect(sendMsgStub).toHaveBeenCalledWith(quickReplyChatLog.items[idx].action.value);
           });
         });
       });
     });
 
-    describe('when chatlog.type is not CHAT_QUICK_REPLIES', () => {
+    describe('when quickReply is not in last chat log', () => {
       it('return null', () => {
-        const component = instanceRender(<ChattingScreen />);
+        const component = instanceRender(<ChattingScreen getQuickRepliesFromChatLog={null}/>);
         const QRComponent = component.renderQuickReply();
 
         expect(QRComponent).toBeNull();

@@ -1,15 +1,19 @@
 @import '../../../styles/_vars.scss';
 
+// Slider's height: button's line-height + button's padding + button's border-width + $focusRingWidth
 $focusRingWidth: 3px;
-$height: 38px + ($focusRingWidth * 2);
-$sliderHorizontalPadding: 16px;
+$buttonLineHeight: 16/$font-size;
+$buttonPaddingVertical: 7/$font-size;
+$buttonBorderWidth: 1px;
+$buttonInnerHeight: $buttonLineHeight + ($buttonPaddingVertical * 2);
+
+$sliderHeight: calc(#{$buttonInnerHeight}rem + #{$buttonBorderWidth * 2} + #{$focusRingWidth * 2});
 
 .container {
   text-align: right;
   width: 100%;
   position: relative;
   z-index: 1;
-  height: $height;
 }
 
 .scroll {
@@ -20,11 +24,10 @@ $sliderHorizontalPadding: 16px;
 .quickReply {
   min-width: 0;
   height: auto !important; // garden override
-  line-height: #{16/$font-size}rem; // garden override, follow MessageBubble
-  padding: #{7/$font-size}rem #{12/$font-size}rem; // Different from MessageBubble because of border
-  margin-right: 8px;
+  line-height: #{$buttonLineHeight}rem; // garden override, follow MessageBubble
+  padding: #{$buttonPaddingVertical}rem #{12/$font-size}rem; // Different from MessageBubble because of border
 }
 
-.quickReply:last-child {
-  margin-right: 0;
+.separator {
+  margin-right: 8px;
 }

@@ -28,6 +28,7 @@ describe('chat selectors', () => {
     getShowRatingScreen,
     getThemeShowAvatar,
     getLastAgentLeaveEvent,
+    getQuickRepliesFromChatLog,
     getOfflineFormFields,
     getOfflineFormSettings,
     getChatOfflineForm,
@@ -136,6 +137,7 @@ describe('chat selectors', () => {
     getEmailTranscript = selectors.getEmailTranscript;
     getShowRatingScreen = selectors.getShowRatingScreen;
     getLastAgentLeaveEvent = selectors.getLastAgentLeaveEvent;
+    getQuickRepliesFromChatLog = selectors.getQuickRepliesFromChatLog;
     getThemeShowAvatar = selectors.getThemeShowAvatar;
     getOfflineFormFields = selectors.getOfflineFormFields;
     getOfflineFormSettings = selectors.getOfflineFormSettings;
@@ -1078,7 +1080,6 @@ describe('chat selectors', () => {
           { nick: 'agent:123', type: 'chat.memberjoin', timestamp: 4 },
           { nick: 'agent:123', type: 'chat.msg', msg: 'Hi', timestamp: 5 },
           { nick: 'agent:123', type: 'chat.msg', msg: 'How can I help you?', timestamp: 6 },
-          { type: 'chat.quick_replies', items: [], timestamp: 7 },
           { nick: 'visitor', type: 'chat.msg', msg: 'My laptop is broken', timestamp: 8 },
           { nick: 'agent:123', type: 'chat.msg', msg: 'Try turning it on and off again', timestamp: 9 },
           { nick: 'visitor', type: 'chat.msg', msg: 'That fixed it!', timestamp: 10 },
@@ -1098,12 +1099,11 @@ describe('chat selectors', () => {
           2: setIsFirstVisitorMessage([mockChats[1], mockChats[2]], true),
           4: [mockChats[3]],
           5: [mockChats[4], mockChats[5]],
-          7: [{ ...mockChats[6], hidden: true }],
-          8: [mockChats[7]],
-          9: [mockChats[8]],
-          10: [mockChats[9]],
-          11: [{ ...mockChats[10], isLastRating: true }],
-          12: [mockChats[11]]
+          8: [mockChats[6]],
+          9: [mockChats[7]],
+          10: [mockChats[8]],
+          11: [{ ...mockChats[9], isLastRating: true }],
+          12: [mockChats[10]]
         };
 
         result = getGroupedChatLog(mockChatSettings);
@@ -1341,60 +1341,6 @@ describe('chat selectors', () => {
       });
 
       it('invalidates isLastRating value on the previous chat session', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
-    });
-
-    describe('when passed a chat log with agent leaving the chat', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'agent:123', type: 'chat.quick_replies', items: [], timestamp: 1 },
-          { nick: 'agent:123', type: 'chat.memberleave', timestamp: 2 },
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        expectedResult = {
-          1: [{ ...mockChats[0], hidden: true }],
-          2: [mockChats[1]]
-        };
-
-        result = getGroupedChatLog(mockChatSettings);
-      });
-
-      it('hides quick replies', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
-    });
-
-    describe('when passed a chat log with another agent leaving the chat', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'agent:123', type: 'chat.quick_replies', items: [], timestamp: 1 },
-          { nick: 'agent:456', type: 'chat.memberleave', timestamp: 2 },
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        expectedResult = {
-          1: [{ ...mockChats[0], hidden: false }],
-          2: [mockChats[1]]
-        };
-
-        result = getGroupedChatLog(mockChatSettings);
-      });
-
-      it('parses the chat log successfully', () => {
         expect(result)
           .toEqual(expectedResult);
       });
@@ -1970,6 +1916,118 @@ describe('chat selectors', () => {
 
       it('returns the event', () => {
         expect(result).toEqual(validLeaveEvent);
+      });
+    });
+  });
+
+  describe('getQuickRepliesFromChatLog', () => {
+    let result, mockChats, mockState;
+
+    it('has no quickreply in chat log', () => {
+      mockChats = [
+        {type: 'chat.msg', msg: '', timestamp: 2},
+        {nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 30}
+      ];
+
+      mockState = {
+        chat: {
+          chats: {values: () => new Map(mockChats)}
+        }
+      };
+
+      result = getQuickRepliesFromChatLog(mockState);
+
+      expect(result).toBeUndefined;
+    });
+
+    it('has a valid quickreply in chat log', () => {
+      mockChats = [
+        {type: 'chat.msg', msg: '', timestamp: 2},
+        {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30}
+      ];
+
+      mockState = {
+        chat: {
+          chats: {values: () => mockChats}
+        }
+      };
+
+      result = getQuickRepliesFromChatLog(mockState);
+
+      expect(result).toEqual(mockChats[1]);
+    });
+
+    describe('when there are other chat log after quickreply is found', () => {
+      it('there is a non-event message after quickreply', () => {
+        mockChats = [
+          {type: 'chat.msg', msg: '', timestamp: 2},
+          {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30},
+          {type: 'chat.msg', msg: 'hey', timestamp: 32},
+        ];
+
+        mockState = {
+          chat: {
+            chats: {values: () => mockChats}
+          }
+        };
+
+        result = getQuickRepliesFromChatLog(mockState);
+
+        expect(result).toBeUndefined;
+      });
+
+      it('an agent who send the quickreply leaves', () => {
+        mockChats = [
+          {type: 'chat.msg', msg: '', timestamp: 2},
+          {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30},
+          {type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE, nick: 'agent:123', timestamp: 32},
+        ];
+
+        mockState = {
+          chat: {
+            chats: {values: () => mockChats}
+          }
+        };
+
+        result = getQuickRepliesFromChatLog(mockState);
+
+        expect(result).toBeUndefined;
+      });
+
+      it('an agent who did not send the quickreply leaves', () => {
+        mockChats = [
+          {type: 'chat.msg', msg: '', timestamp: 2},
+          {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30},
+          {type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE, nick: 'agent:456', timestamp: 32},
+        ];
+
+        mockState = {
+          chat: {
+            chats: {values: () => mockChats}
+          }
+        };
+
+        result = getQuickRepliesFromChatLog(mockState);
+
+        expect(result).toEqual(mockChats[1]);
+      });
+
+      it('a visitor leaves', () => {
+        mockChats = [
+          {type: 'chat.msg', msg: '', timestamp: 2},
+          {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30},
+          {type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE, nick: 'visitor', timestamp: 32},
+        ];
+
+        mockState = {
+          chat: {
+            chats: {values: () => mockChats}
+          }
+        };
+
+        result = getQuickRepliesFromChatLog(mockState);
+
+        expect(result).toBeUndefined;
       });
     });
   });

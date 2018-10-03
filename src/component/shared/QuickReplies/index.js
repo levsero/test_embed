@@ -64,17 +64,19 @@ export class QuickReplies extends Component {
   }
 
   render = () => {
-    const children = React.Children.map(this.props.children, child =>
-      React.cloneElement(child, {
-        className: classNames(child.props.className, styles.item),
-      })
-    );
+    // Give each child a margin but not the last child
+    const children = React.Children.map(this.props.children, (child, idx) => {
+      return React.cloneElement(child, {
+        className: classNames({
+          [styles.separator]: (idx !== this.props.children.length - 1)
+        })
+      });
+    });
 
     const containerStyle = classNames({
       [styles.container]: true,
       'structuredMessageSlider': true,
       [styles.scroll]: !this.state.useCarousel,
-      [styles.slider]: this.state.useCarousel,
     });
 
     const sliderSettings = {

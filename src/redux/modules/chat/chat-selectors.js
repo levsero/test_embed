@@ -336,7 +336,7 @@ export const getGroupedChatLog = createSelector(
 
       const groupTimestamp = getGroupTimestamp(messageOrEvent, lastUniqueMessageOrEvent);
       const {
-        latestRating, latestRatingRequest, latestQuickReplies, firstVisitorMessageSet
+        latestRating, latestRatingRequest, firstVisitorMessageSet
       } = this;
 
       if (groupTimestamp) {
@@ -363,30 +363,10 @@ export const getGroupedChatLog = createSelector(
         this.latestRatingRequest = messageOrEvent;
       }
 
-      if (
-        isMessage(messageOrEvent)
-        || messageOrEvent.type === CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE
-        && (
-          messageOrEvent.nick === latestQuickReplies.nick
-          || !isAgent(messageOrEvent.nick)
-        )
-      ) {
-        // dismiss quick reply only if
-        // - there's a new non-event message
-        // - sender agent or visitor has left the chat
-        latestQuickReplies.hidden = true;
-      }
-
-      if (messageOrEvent.type === CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES) {
-        messageOrEvent.hidden = false;
-        this.latestQuickReplies = messageOrEvent;
-      }
-
       return groupedChatLog;
     }).bind({
       latestRating: {},
       latestRatingRequest: {},
-      latestQuickReplies: {},
       firstVisitorMessageSet: false
     }), {});
   }
@@ -409,6 +389,35 @@ export const getLastAgentLeaveEvent = createSelector(
     const isLeaveEvent = payload.type === 'chat.memberleave';
 
     if (isLeaveEvent && isAgent(payload.nick)) { return payload; }
+  }
+);
+
+/**
+ * Return quickReplies if it is valid
+ */
+export const getQuickRepliesFromChatLog = createSelector(
+  [getChats],
+  (chats) => {
+    const chatArr = Array.from(chats.values());
+
+    return chatArr.reduce((quickReply, chat) => {
+      if (chat.type === CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES) {
+        return chat;
+      }
+
+      if (quickReply &&
+        _.includes(CHAT_MESSAGE_EVENTS, chat.type)
+        || chat.type === CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE
+        && (
+          chat.nick === (quickReply && quickReply.nick)
+          || !isAgent(chat.nick)
+        )
+      ) {
+        quickReply = null;
+      }
+
+      return quickReply;
+    }, null);
   }
 );
 

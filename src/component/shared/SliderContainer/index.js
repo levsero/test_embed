@@ -77,7 +77,7 @@ export class SliderContainer extends Component {
         showLeftArrow(this.slickTrack);
       }
 
-      // Reset scrollLeft behavior
+      // Browser affect the DOM's scrollLeft when we move the carousel manually via tabbing. This will reset scrollLeft behavior.
       getChild(this.sliderEle, 'slick-list').scrollLeft = 0;
     }
   }
