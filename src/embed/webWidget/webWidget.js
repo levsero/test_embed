@@ -129,8 +129,7 @@ export default function WebWidgetFactory(name) {
     const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
     const chatConfig = config.zopimChat;
     const chatAvailable = !!chatConfig;
-    const channelChoice = settings.get('contactOptions').enabled && submitTicketAvailable;
-    const submitTicketSettings = submitTicketAvailable
+    const submitTicketSettings = (submitTicketAvailable)
       ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
       : {};
     const helpCenterSettings = helpCenterAvailable || config.ipmAllowed
@@ -202,9 +201,7 @@ export default function WebWidgetFactory(name) {
         <Frame {...frameParams}>
           <WebWidget
             attachmentSender={submitTicketSettings.attachmentSender}
-            channelChoice={channelChoice}
             fullscreen={isMobileBrowser()}
-            helpCenterAvailable={helpCenterAvailable}
             helpCenterConfig={helpCenterSettings.config}
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
             isOnHelpCenterPage={isOnHelpCenterPage()}
@@ -219,7 +216,6 @@ export default function WebWidgetFactory(name) {
             subjectEnabled={settings.get('contactForm.subject')}
             ticketFormSettings={settings.get('contactForm.ticketForms')}
             ticketFieldSettings={settings.get('contactForm.fields')}
-            submitTicketAvailable={submitTicketAvailable}
             submitTicketConfig={submitTicketSettings.config}
             talkConfig={talkConfig}
             talkAvailable={talkAvailable}
@@ -237,12 +233,7 @@ export default function WebWidgetFactory(name) {
         helpCenterForm: helpCenterSettings.config,
         ticketSubmissionForm: submitTicketSettings.config
       },
-      embedsAvailable: {
-        helpCenterForm: helpCenterAvailable,
-        ticketSubmissionForm: submitTicketAvailable,
-        chat: chatAvailable,
-        talk: talkAvailable
-      },
+      embedsAvailable: { chat: chatAvailable },
       store: reduxStore
     };
 

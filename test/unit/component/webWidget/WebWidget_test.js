@@ -384,12 +384,16 @@ describe('WebWidget component', () => {
 
   describe('renderChat', () => {
     const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
-    let webWidget;
+    let webWidget,
+      mockIsChannelChoiceAvailable,
+      mockHelpCenterAvailable;
 
     beforeEach(() => {
       webWidget = instanceRender(
         <WebWidget
           updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+          channelChoiceAvailable={mockIsChannelChoiceAvailable}
+          helpCenterAvailable={mockHelpCenterAvailable}
           activeEmbed='chat'
           showOfflineChat={true} />
       );
@@ -399,10 +403,12 @@ describe('WebWidget component', () => {
       let chatComponent;
 
       describe('when isHelpCenterAvailable is true', () => {
-        beforeEach(() => {
-          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
-          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
+        beforeAll(() => {
+          mockIsChannelChoiceAvailable = false;
+          mockHelpCenterAvailable = true;
+        });
 
+        beforeEach(() => {
           chatComponent = webWidget.renderChat();
           chatComponent.props.updateChatBackButtonVisibility();
         });
@@ -414,10 +420,12 @@ describe('WebWidget component', () => {
       });
 
       describe('when isChannelChoiceAvailable is true', () => {
-        beforeEach(() => {
-          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
-          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(true);
+        beforeAll(() => {
+          mockIsChannelChoiceAvailable = true;
+          mockHelpCenterAvailable = false;
+        });
 
+        beforeEach(() => {
           chatComponent = webWidget.renderChat();
           chatComponent.props.updateChatBackButtonVisibility();
         });
@@ -429,10 +437,12 @@ describe('WebWidget component', () => {
       });
 
       describe('when isChannelChoiceAvailable and isHelpCenterAvailable are false', () => {
-        beforeEach(() => {
-          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
-          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
+        beforeAll(() => {
+          mockIsChannelChoiceAvailable = false;
+          mockHelpCenterAvailable = false;
+        });
 
+        beforeEach(() => {
           chatComponent = webWidget.renderChat();
           chatComponent.props.updateChatBackButtonVisibility();
         });
@@ -619,10 +629,10 @@ describe('WebWidget component', () => {
 
     describe('when helpCenter is available', () => {
       beforeEach(() => {
-        webWidget = instanceRender(<WebWidget />);
+        webWidget = instanceRender(<WebWidget helpCenterAvailable={true} />);
 
-        spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
         spyOn(webWidget, 'showHelpCenter');
+
         webWidget.onCancelClick();
       });
 
@@ -635,10 +645,13 @@ describe('WebWidget component', () => {
     describe('when help center is not available', () => {
       describe('when channel choice is available', () => {
         beforeEach(() => {
-          webWidget = instanceRender(<WebWidget updateActiveEmbed={mockUpdateActiveEmbed} />);
+          webWidget = instanceRender(
+            <WebWidget
+              updateActiveEmbed={mockUpdateActiveEmbed}
+              channelChoiceAvailable={true}
+              helpCenterAvailable={false} />
+          );
 
-          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
-          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(true);
           webWidget.onCancelClick();
         });
 
@@ -657,12 +670,11 @@ describe('WebWidget component', () => {
           webWidget = instanceRender(
             <WebWidget
               onCancel={onCancelSpy}
+              helpCenterAvailable={false}
               ipmHelpCenterAvailable={ipmHelpCenterAvailable}
-              updateActiveEmbed={mockUpdateActiveEmbed} />
+              updateActiveEmbed={mockUpdateActiveEmbed}
+              channelChoiceAvailable={false} />
           );
-
-          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
-          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
         });
 
         describe('when IPM help center is not available', () => {
@@ -729,6 +741,7 @@ describe('WebWidget component', () => {
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
+
         webWidget.onNextClick('foo');
       });
 
@@ -749,18 +762,15 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when talk and chat are available', () => {
+    describe('when channelChoice is available', () => {
       beforeEach(() => {
         webWidget = instanceRender(
           <WebWidget
-            helpCenterAvailable={true}
-            talkAvailable={true}
-            talkOnline={true}
-            chatOnline={true}
-            chatAvailable={true}
+            channelChoiceAvailable={true}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
+
         webWidget.onNextClick();
       });
 
@@ -775,27 +785,20 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when talk is available and online', () => {
+    describe('when channelChoice is not available', () => {
       beforeEach(() => {
         webWidget = instanceRender(
           <WebWidget
-            helpCenterAvailable={true}
-            talkAvailable={true}
-            talkOnline={true}
+            channelChoiceAvailable={false}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
         webWidget.onNextClick();
       });
 
-      it('calls updateActiveEmbed with channelChoice', () => {
+      it('does not call updateActiveEmbed with channelChoice', () => {
         expect(mockUpdateActiveEmbed)
-          .toHaveBeenCalledWith('channelChoice');
-      });
-
-      it('calls updateBackButtonVisibility with true', () => {
-        expect(updateBackButtonVisibilitySpy)
-          .toHaveBeenCalledWith(true);
+          .not.toHaveBeenCalledWith('channelChoice');
       });
     });
 
@@ -1306,7 +1309,6 @@ describe('WebWidget component', () => {
               activeEmbed='' />
           );
 
-          webWidget.isHelpCenterAvailable = () => true;
           webWidget.resetActiveEmbed();
         });
 
@@ -1322,10 +1324,10 @@ describe('WebWidget component', () => {
             <WebWidget
               talkAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy}
+              channelChoiceAvailable={true}
               activeEmbed='' />
           );
 
-          webWidget.isChannelChoiceAvailable = () => true;
           webWidget.resetActiveEmbed();
         });
 
@@ -1348,9 +1350,9 @@ describe('WebWidget component', () => {
           webWidget.resetActiveEmbed();
         });
 
-        it('calls updateActiveEmbed with channelChoice', () => {
+        it('calls updateActiveEmbed with talk', () => {
           expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('channelChoice');
+            .toHaveBeenCalledWith('talk');
         });
 
         describe('when no other channels are available', () => {
@@ -1444,7 +1446,6 @@ describe('WebWidget component', () => {
             activeEmbed='' />
         );
 
-        spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
         webWidget.resetActiveEmbed();
       });
 
@@ -1502,6 +1503,7 @@ describe('WebWidget component', () => {
               updateActiveEmbed={updateActiveEmbedSpy}
               ipmHelpCenterAvailable={true}
               articleViewActive={true}
+              helpCenterAvailable={false}
               activeEmbed='' />
           );
 
@@ -1521,12 +1523,11 @@ describe('WebWidget component', () => {
               activeEmbed=''
               chatOnline={true}
               chatAvailable={true}
-              channelChoice={true}
+              channelChoiceAvailable={true}
               submitTicketAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy} />
           );
 
-          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
           webWidget.resetActiveEmbed();
         });
 
@@ -1547,7 +1548,6 @@ describe('WebWidget component', () => {
               channelChoice={false} />
           );
 
-          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
           webWidget.resetActiveEmbed();
         });
 
@@ -1567,7 +1567,6 @@ describe('WebWidget component', () => {
               channelChoice={false} />
           );
 
-          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
           webWidget.resetActiveEmbed();
         });
 
@@ -1587,7 +1586,6 @@ describe('WebWidget component', () => {
               updateActiveEmbed={updateActiveEmbedSpy} />
           );
 
-          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
           webWidget.resetActiveEmbed();
         });
 
@@ -1801,85 +1799,6 @@ describe('WebWidget component', () => {
     });
   });
 
-  describe('#isHelpCenterAvailable', () => {
-    let webWidget;
-
-    describe('when props.helpCenterAvailable is false', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(<WebWidget helpCenterAvailable={false} />);
-      });
-
-      it('returns false', () => {
-        expect(webWidget.isHelpCenterAvailable())
-          .toBe(false);
-      });
-    });
-
-    describe('when props.helpCenterAvailable is true', () => {
-      describe('when hc is not sign-in required', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(<WebWidget helpCenterAvailable={true} />);
-        });
-
-        it('returns true', () => {
-          expect(webWidget.isHelpCenterAvailable())
-            .toBe(true);
-        });
-      });
-
-      describe('when hc is sign-in required', () => {
-        const config = { signInRequired: true };
-
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              helpCenterAvailable={true}
-              authenticated={false}
-              helpCenterConfig={config} />
-          );
-        });
-
-        it('returns false', () => {
-          expect(webWidget.isHelpCenterAvailable())
-            .toBe(false);
-        });
-
-        describe('when hc is authenticated', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                helpCenterAvailable={true}
-                helpCenterConfig={config}
-                authenticated={true} />
-            );
-          });
-
-          it('returns true', () => {
-            expect(webWidget.isHelpCenterAvailable())
-              .toBe(true);
-          });
-        });
-
-        describe('when embedded on a help center', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                helpCenterAvailable={true}
-                helpCenterConfig={config}
-                authenticated={false}
-                isOnHelpCenterPage={true} />
-            );
-          });
-
-          it('returns true', () => {
-            expect(webWidget.isHelpCenterAvailable())
-              .toBe(true);
-          });
-        });
-      });
-    });
-  });
-
   describe('#onContainerClick', () => {
     let webWidget;
 
@@ -1963,7 +1882,13 @@ describe('WebWidget component', () => {
 
     describe('when the activeEmbed is submitTicket', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
+        webWidget = domRender(
+          <WebWidget
+            submitTicketAvailable={true}
+            helpCenterAvailable={true}
+            activeEmbed='ticketSubmissionForm' />
+        );
+
         webWidget.onContainerDragEnter();
       });
 
@@ -1975,7 +1900,13 @@ describe('WebWidget component', () => {
 
     describe('when the activeEmbed is not submitTicket', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed='helpCenter' />);
+        webWidget = domRender(
+          <WebWidget
+            submitTicketAvailable={true}
+            helpCenterAvailable={true}
+            activeEmbed='helpCenter' />
+        );
+
         webWidget.onContainerDragEnter();
       });
 
@@ -2050,152 +1981,6 @@ describe('WebWidget component', () => {
       it('calls updateActiveEmbed with the component name', () => {
         expect(updateActiveEmbedSpy)
           .toHaveBeenCalledWith('helpCenterForm');
-      });
-    });
-  });
-
-  describe('isChannelChoiceAvailable', () => {
-    let webWidget;
-
-    describe('when isChatting is true', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            channelChoice={true}
-            submitTicketAvailable={true}
-            talkAvailable={true}
-            chatAvailable={true}
-            isChatting={true}
-          />
-        );
-      });
-
-      it('returns false', () => {
-        expect(webWidget.isChannelChoiceAvailable())
-          .toEqual(false);
-      });
-    });
-
-    describe('when isChatting is false', () => {
-      const isChatting = false;
-
-      describe('when only channelChoice is available', () => {
-        describe('when no other channels are available', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                channelChoice={true}
-                submitTicketAvailable={false}
-                talkAvailable={false}
-                chatAvailable={false}
-                isChatting={isChatting}
-              />
-            );
-          });
-
-          it('returns false', () => {
-            expect(webWidget.isChannelChoiceAvailable())
-              .toEqual(false);
-          });
-        });
-
-        describe('when only one other channel is available', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                channelChoice={true}
-                submitTicketAvailable={true}
-                talkAvailable={false}
-                chatAvailable={false}
-                isChatting={isChatting}
-              />
-            );
-          });
-
-          it('returns false', () => {
-            expect(webWidget.isChannelChoiceAvailable())
-              .toEqual(false);
-          });
-        });
-
-        describe('when two other channels are available', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                channelChoice={true}
-                submitTicketAvailable={true}
-                talkAvailable={false}
-                chatAvailable={true}
-                isChatting={isChatting}
-              />
-            );
-          });
-
-          it('returns true', () => {
-            expect(webWidget.isChannelChoiceAvailable())
-              .toEqual(true);
-          });
-        });
-
-        describe('when chat offline and talk are available', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                channelChoice={true}
-                submitTicketAvailable={false}
-                talkAvailable={true}
-                chatAvailable={false}
-                chatOfflineAvailable={true}
-                isChatting={isChatting}
-              />
-            );
-          });
-
-          it('returns true', () => {
-            expect(webWidget.isChannelChoiceAvailable())
-              .toEqual(true);
-          });
-        });
-      });
-
-      describe('when only talkAvailable is available', () => {
-        describe('when no other channels are available', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                channelChoice={false}
-                submitTicketAvailable={false}
-                talkAvailable={true}
-                chatAvailable={false}
-                isChatting={isChatting}
-              />
-            );
-          });
-
-          it('returns false', () => {
-            expect(webWidget.isChannelChoiceAvailable())
-              .toEqual(false);
-          });
-        });
-
-        describe('when another channel is available', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                channelChoice={false}
-                submitTicketAvailable={true}
-                talkAvailable={true}
-                chatAvailable={false}
-                isChatting={isChatting}
-              />
-            );
-          });
-
-          it('returns true', () => {
-            expect(webWidget.isChannelChoiceAvailable())
-              .toEqual(true);
-          });
-        });
       });
     });
   });

@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { getShowOfflineChat,
   getOfflineFormEnabled,
+  getIsChatting,
   getStandaloneMobileNotificationVisible } from './chat/chat-selectors';
 import { getZopimChatOnline } from './zopimChat/zopimChat-selectors';
 import { getSettingsChatSuppress } from './settings/settings-selectors';
@@ -13,8 +14,8 @@ import { getActiveEmbed,
   getZopimChatEmbed,
   getTalkEmbed,
   getChatEmbed as getNewChatEmbed,
-  getIPMWidget } from './base/base-selectors';
-
+  getIPMWidget,
+  getHasPassedAuth } from './base/base-selectors';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -26,27 +27,30 @@ import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared
  * Available: When an embed is part of config, not suppressed and has all the conditions to be used.
  * Enabled: When an embed is part of config, not suppressed but does not have all the conditions to be used
  */
+export const getHelpCenterAvailable = createSelector(
+  [getHelpCenterEmbed, getHasPassedAuth],
+  (helpCenterEnabled, hasPassedAuth) => {
+    const notSuppressed = !settings.get('helpCenter.suppress');
 
-const getHelpCenterEnabled = createSelector(
-  [getHelpCenterEmbed], (helpCenterEmbed) => {
-    return !settings.get('helpCenter.suppress') && helpCenterEmbed;
-  });
+    return helpCenterEnabled && notSuppressed && hasPassedAuth;
+  }
+);
 
 const getChatEmbed = (state) => getNewChatEmbed(state) || getZopimChatEmbed(state);
 const getWidgetFixedFrameStyles = createSelector(
   [getStandaloneMobileNotificationVisible,
     getIPMWidget,
-    getHelpCenterEnabled,
-    getIsShowHCIntroState],
+    getIsShowHCIntroState,
+    getHelpCenterAvailable],
   (standaloneMobileNotificationVisible,
     isUsingIPMWidgetOnly,
-    helpCenterEnabled,
-    isShowHCIntroState) => {
+    isShowHCIntroState,
+    isHelpCenterAvailable) => {
     if (isUsingIPMWidgetOnly) {
       return {};
     }
 
-    if (!isMobileBrowser() && helpCenterEnabled && isShowHCIntroState) {
+    if (!isMobileBrowser() && isShowHCIntroState && isHelpCenterAvailable) {
       return {
         maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
       };
@@ -60,9 +64,13 @@ const getWidgetFixedFrameStyles = createSelector(
         background: 'transparent'
       };
     }
+
     return {};
   }
 );
+const getChannelChoiceEnabled = (state) => {
+  return settings.get('contactOptions').enabled && getSubmitTicketAvailable(state);
+};
 
 export const getChatOnline = (state) => getZopimChatOnline(state) || !getShowOfflineChat(state);
 
@@ -104,3 +112,23 @@ export const getMaxWidgetHeight = (state, frame = 'webWidget') => {
 
   return undefined;
 };
+
+export const getSubmitTicketAvailable = (state) => {
+  return getSubmitTicketEmbed(state) && !settings.get('contactForm.suppress');
+};
+
+export const getChannelChoiceAvailable = createSelector(
+  [getChannelChoiceEnabled,
+    getSubmitTicketAvailable,
+    getTalkAvailable,
+    getChatAvailable,
+    getChatOfflineAvailable,
+    getIsChatting],
+  (channelChoiceEnabled, submitTicketAvailable, talkAvailable, chatAvailable, chatOfflineAvailable, isChatting) => {
+    const channelChoicePrerequisite = (channelChoiceEnabled || talkAvailable);
+    const availableChannelCount = (submitTicketAvailable + talkAvailable + chatAvailable + chatOfflineAvailable);
+    const channelsAvailable = (availableChannelCount > 1);
+
+    return channelChoicePrerequisite && channelsAvailable && !isChatting;
+  }
+);

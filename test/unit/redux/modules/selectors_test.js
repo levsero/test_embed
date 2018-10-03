@@ -10,6 +10,7 @@ describe('selectors', () => {
     getFixedStyles,
     getIsOnInitialDesktopSearchScreen,
     getMaxWidgetHeight,
+    getHelpCenterAvailable,
     settingsChatSuppressValue,
     zopimChatOnlineValue,
     showOfflineFormValue,
@@ -27,8 +28,13 @@ describe('selectors', () => {
     isMobile,
     ipmWidget,
     standaloneMobileNotificationVisible,
-    mockHCSuppressed,
-    isShowHCIntroState;
+    mockSettingsGetFn,
+    isShowHCIntroState,
+    hasPassedAuth,
+    mockIsOnHelpCenterPage,
+    mockIsChatting,
+    getSubmitTicketAvailable,
+    getChannelChoiceAvailable;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -48,8 +54,11 @@ describe('selectors', () => {
   ipmWidget = false;
   standaloneMobileNotificationVisible = false;
   getMaxWidgetHeight = false;
-  mockHCSuppressed = false;
+  mockSettingsGetFn = () => false;
   isShowHCIntroState = false;
+  hasPassedAuth = false;
+  mockIsOnHelpCenterPage = false;
+  mockIsChatting = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -64,7 +73,8 @@ describe('selectors', () => {
         getChatEmbed: () => chatEmbedValue,
         getTalkEmbed: () => talkEmbedValue,
         getZopimChatEmbed: () => zopimChatEmbedValue,
-        getIPMWidget: () => ipmWidget
+        getIPMWidget: () => ipmWidget,
+        getHasPassedAuth: () => hasPassedAuth
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue
@@ -72,7 +82,8 @@ describe('selectors', () => {
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
         getOfflineFormEnabled: () => offlineFormEnabledValue,
-        getStandaloneMobileNotificationVisible: () => standaloneMobileNotificationVisible
+        getStandaloneMobileNotificationVisible: () => standaloneMobileNotificationVisible,
+        getIsChatting: () => mockIsChatting
       },
       './zopimChat/zopimChat-selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue
@@ -98,8 +109,11 @@ describe('selectors', () => {
       },
       'service/settings': {
         settings: {
-          get: () => mockHCSuppressed
+          get: mockSettingsGetFn
         }
+      },
+      'utility/pages': {
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPage
       }
     });
 
@@ -118,6 +132,9 @@ describe('selectors', () => {
     getFixedStyles = selectors.getFixedStyles;
     getIsOnInitialDesktopSearchScreen = selectors.getIsOnInitialDesktopSearchScreen;
     getMaxWidgetHeight = selectors.getMaxWidgetHeight;
+    getHelpCenterAvailable = selectors.getHelpCenterAvailable;
+    getSubmitTicketAvailable = selectors.getSubmitTicketAvailable;
+    getChannelChoiceAvailable = selectors.getChannelChoiceAvailable;
   });
 
   describe('getMaxWidgetHeight', () => {
@@ -131,8 +148,9 @@ describe('selectors', () => {
       beforeAll(() => {
         isMobile = false;
         helpCenterEmbedValue = true;
-        mockHCSuppressed = false;
+        mockSettingsGetFn = () => false;
         isShowHCIntroState = true;
+        hasPassedAuth = true;
       });
 
       it('returns small height', () => {
@@ -153,8 +171,9 @@ describe('selectors', () => {
       beforeAll(() => {
         isMobile = false;
         helpCenterEmbedValue = true;
-        mockHCSuppressed = false;
+        mockSettingsGetFn = () => false;
         isShowHCIntroState = true;
+        hasPassedAuth = true;
       });
 
       it('returns true', () => {
@@ -218,8 +237,9 @@ describe('selectors', () => {
         beforeAll(() => {
           isMobile = false;
           helpCenterEmbedValue = true;
-          mockHCSuppressed = false;
+          mockSettingsGetFn = () => false;
           isShowHCIntroState = true;
+          hasPassedAuth = true;
         });
 
         afterEach(() => {
@@ -236,7 +256,18 @@ describe('selectors', () => {
 
       describe('when HC is suppressed', () => {
         beforeAll(() => {
-          mockHCSuppressed = true;
+          mockSettingsGetFn = () => true;
+        });
+
+        it('does not return maxHeight styles', () => {
+          expect(result.maxHeight)
+            .toBeFalsy();
+        });
+      });
+
+      describe('when hasPassedAuth is false', () => {
+        beforeAll(() => {
+          hasPassedAuth = false;
         });
 
         it('does not return maxHeight styles', () => {
@@ -863,6 +894,260 @@ describe('selectors', () => {
       it('returns false', () => {
         expect(result)
           .toBe(false);
+      });
+    });
+  });
+
+  describe('getHelpCenterAvailable', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getHelpCenterAvailable();
+    });
+
+    describe('when helpCenter is enabled', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = true;
+      });
+
+      describe('when helpCenter is suppressed', () => {
+        beforeAll(() => {
+          mockSettingsGetFn = () => true;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('when helpCemter is not suppressed', () => {
+        beforeAll(() => {
+          mockSettingsGetFn = () => false;
+        });
+
+        describe('when the application is authenticated', () => {
+          beforeAll(() => {
+            hasPassedAuth = true;
+          });
+
+          it('returns true', () => {
+            expect(result)
+              .toEqual(true);
+          });
+        });
+
+        describe('when the application is not authenticated', () => {
+          beforeAll(() => {
+            hasPassedAuth = false;
+          });
+
+          it('returns false', () => {
+            expect(result)
+              .toEqual(false);
+          });
+        });
+      });
+    });
+
+    describe('when helpCenter is not enabled', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+  });
+
+  describe('getSubmitTicketAvailable', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getSubmitTicketAvailable();
+    });
+
+    describe('when submitTicketEmbed exists', () => {
+      beforeAll(() => {
+        submitTicketEmbedValue = true;
+      });
+
+      describe('when contactForm is suppressed', () => {
+        beforeAll(() => {
+          mockSettingsGetFn = () => true;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('when contactForm is not suppressed', () => {
+        beforeAll(() => {
+          mockSettingsGetFn = () => false;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('when submitTicketEmbed does not exist', () => {
+      beforeAll(() => {
+        submitTicketEmbedValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+  });
+
+  describe('getChannelChoiceAvailable', () => {
+    let result,
+      channelChoiceSettings;
+
+    beforeEach(() => {
+      result = getChannelChoiceAvailable();
+    });
+
+    describe('when channelChoice is enabled', () => {
+      beforeAll(() => {
+        // ChannelChoice enabled
+        submitTicketEmbedValue = true;
+        channelChoiceSettings = [{ enabled: true }, false];
+
+        // Talk not available
+        talkEmbedValue = false;
+        talkEmbeddableConfigEnabledValue = false;
+        agentAvailabilityValue = false;
+
+        // Chat available
+        chatEmbedValue = true;
+        settingsChatSuppressValue = false;
+        zopimChatOnlineValue = true;
+        showOfflineFormValue = false;
+
+        // Is not chatting
+        mockIsChatting = false;
+
+        mockSettingsGetFn = jasmine.createSpy('settingsFn').and.returnValues(...channelChoiceSettings);
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when talk is enabled', () => {
+      beforeAll(() => {
+        // ChannelChoice disabled
+        submitTicketEmbedValue = false;
+        channelChoiceSettings = [{ enabled: false }, true];
+
+        // Talk available
+        talkEmbedValue = true;
+        talkEmbeddableConfigEnabledValue = true;
+        agentAvailabilityValue = true;
+
+        // Chat available
+        chatEmbedValue = true;
+        settingsChatSuppressValue = false;
+        zopimChatOnlineValue = true;
+        showOfflineFormValue = false;
+
+        // Is not chatting
+        mockIsChatting = false;
+
+        mockSettingsGetFn = jasmine.createSpy('settingsFn').and.returnValues(...channelChoiceSettings);
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when channelChoice and talk is not enabled', () => {
+      beforeAll(() => {
+        // ChannelChoice not enabled
+        submitTicketEmbedValue = false;
+        channelChoiceSettings = [{ enabled: false }, true];
+
+        // Talk not available
+        talkEmbedValue = false;
+        talkEmbeddableConfigEnabledValue = false;
+        agentAvailabilityValue = false;
+
+        // Chat available
+        chatEmbedValue = true;
+        settingsChatSuppressValue = false;
+        zopimChatOnlineValue = true;
+        showOfflineFormValue = false;
+
+        // Is not chatting
+        mockIsChatting = false;
+
+        mockSettingsGetFn = jasmine.createSpy('settingsFn').and.returnValues(...channelChoiceSettings);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when no channels are available', () => {
+      beforeAll(() => {
+        // ChannelChoice not enabled
+        submitTicketEmbedValue = false;
+        channelChoiceSettings = [{ enabled: false }, true];
+
+        // Is not chatting
+        mockIsChatting = false;
+
+        mockSettingsGetFn = jasmine.createSpy('settingsFn').and.returnValues(...channelChoiceSettings);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when either the user or agent is chatting', () => {
+      beforeAll(() => {
+        // ChannelChoice enabled
+        submitTicketEmbedValue = true;
+        channelChoiceSettings = [{ enabled: true }, false];
+
+        // Talk available
+        talkEmbedValue = true;
+        talkEmbeddableConfigEnabledValue = true;
+        agentAvailabilityValue = true;
+
+        // Chat available
+        chatEmbedValue = true;
+        settingsChatSuppressValue = false;
+        zopimChatOnlineValue = true;
+        showOfflineFormValue = false;
+
+        // Is not chatting
+        mockIsChatting = true;
+
+        mockSettingsGetFn = jasmine.createSpy('settingsFn').and.returnValues(...channelChoiceSettings);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
       });
     });
   });
