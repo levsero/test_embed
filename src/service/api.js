@@ -280,5 +280,6 @@ export const api = {
   handlePostRenderQueue,
   setupWidgetQueue,
   setupZopimQueue,
-  setupWidgetApi
+  setupWidgetApi,
+  setupIPMApi
 };
