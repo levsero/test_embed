@@ -5,6 +5,7 @@ describe('api', () => {
   const setLocaleSpy = jasmine.createSpy('setLocale');
   const handleIdentifyRecievedSpy = jasmine.createSpy('handleIdentifyRecieved');
   const updateSettingsSpy = jasmine.createSpy('updateSettings');
+  const sendVisitorPathSpy = jasmine.createSpy('sendVisitorPath');
   const logoutSpy = jasmine.createSpy('logout');
   const chatLogoutSpy = jasmine.createSpy('chatLogout');
   const setContextualSuggestionsManuallySpy = jasmine.createSpy('setContextualSuggestionsManually');
@@ -55,7 +56,8 @@ describe('api', () => {
         updateSettings: updateSettingsSpy
       },
       'src/redux/modules/chat': {
-        chatLogout: chatLogoutSpy
+        chatLogout: chatLogoutSpy,
+        sendVisitorPath: sendVisitorPathSpy
       },
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: () => isChatting
@@ -243,6 +245,19 @@ describe('api', () => {
             .toHaveBeenCalledWith(options, jasmine.any(Function));
         });
       });
+
+      describe('when that call is updatePath', () => {
+        const options = { title: 'payments', url: 'https://zd.com#payments' };
+
+        beforeAll(() => {
+          call = ['webWidget', 'updatePath', options];
+        });
+
+        it('calls sendVisitorPath with the options', () => {
+          expect(sendVisitorPathSpy)
+            .toHaveBeenCalledWith(options);
+        });
+      });
     });
   });
 
@@ -349,6 +364,19 @@ describe('api', () => {
       it('calls setHelpCenterSuggestions with the options', () => {
         expect(setContextualSuggestionsManuallySpy)
           .toHaveBeenCalledWith(options, jasmine.any(Function));
+      });
+    });
+
+    describe('when that call is updatePath', () => {
+      const options = { title: 'payments', url: 'https://zd.com#payments' };
+
+      beforeAll(() => {
+        call = ['webWidget', 'updatePath', options];
+      });
+
+      it('calls sendVisitorPath with the options', () => {
+        expect(sendVisitorPathSpy)
+          .toHaveBeenCalledWith(options);
       });
     });
 
