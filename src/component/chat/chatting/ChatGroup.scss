@@ -63,11 +63,9 @@
 }
 
 .messageErrorContainer {
-  margin-top: #{7/$font-size}rem;
   margin-bottom: $spacing-tny;
   display: inline-block;
   float: right;
-  width: #{202/$font-size}rem;
 
   [dir='rtl'] & {
     float: left;
@@ -77,6 +75,7 @@
 .userBackground {
   composes: u-userBackgroundColorNoHover from global;
   display: inline-block;
+  float: right;
 }
 
 .agentBackground {

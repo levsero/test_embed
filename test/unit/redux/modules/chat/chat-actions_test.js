@@ -17,7 +17,6 @@ let actions,
   mockZChatConfig,
   mockInit = jasmine.createSpy('init'),
   mockLogout = jasmine.createSpy('logout'),
-  mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
   mockEndChat = jasmine.createSpy('endChat'),
@@ -37,8 +36,12 @@ let actions,
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting),
   getIsAuthenticatedSpy = jasmine.createSpy('getIsAuthenticatedSpy').and.callFake(() => mockIsAuthenticated),
-  mockFetchChatHistory = jasmine.createSpy('fetchChatHistory');
+  mockFetchChatHistory = jasmine.createSpy('fetchChatHistory'),
+  mockCallback = jasmine.createSpy('sdkCallback');
 
+let mockZChatWithTimeout = jasmine.createSpy('zChatWithTimeout')
+  .and
+  .returnValue(mockCallback);
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
 const mockVisitor = { display_name: 'Visitor 123', nick: 'visitor' };
@@ -79,7 +82,6 @@ describe('chat redux actions', () => {
         getIsLoggingOut: () => mockIsLoggingOut,
         getZChatVendor: () => {
           return {
-            sendChatMsg: mockSendChatMsg,
             sendTyping: mockSendTyping,
             endChat: mockEndChat,
             setVisitorInfo: mockSetVisitorInfo,
@@ -120,6 +122,7 @@ describe('chat redux actions', () => {
       'service/audio': {
         audio: { load: loadSoundSpy }
       },
+      'src/redux/modules/chat/helpers/zChatWithTimeout': mockZChatWithTimeout
     });
 
     actions = requireUncached(actionsPath);
@@ -230,8 +233,8 @@ describe('chat redux actions', () => {
     });
 
     it('calls sendChatMsg on the Web SDK', () => {
-      expect(mockSendChatMsg)
-        .toHaveBeenCalled();
+      expect(mockZChatWithTimeout.calls.mostRecent().args[1])
+        .toEqual('sendChatMsg');
     });
 
     it('dispatches a CHAT_MSG_REQUEST_SENT action', () => {
@@ -253,9 +256,7 @@ describe('chat redux actions', () => {
       let callbackFn;
 
       beforeEach(() => {
-        const sendMsgCall = mockSendChatMsg.calls.mostRecent().args;
-
-        callbackFn = sendMsgCall[1];
+        callbackFn = mockCallback.calls.mostRecent().args[1];
       });
 
       describe('when there are no errors', () => {
