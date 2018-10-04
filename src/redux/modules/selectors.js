@@ -37,20 +37,29 @@ export const getHelpCenterAvailable = createSelector(
 );
 
 const getChatEmbed = (state) => getNewChatEmbed(state) || getZopimChatEmbed(state);
+const getCanShowHelpCenterIntroState = createSelector(
+  [getIsShowHCIntroState,
+    getHelpCenterAvailable,
+    getActiveEmbed],
+  (isShowHCIntroState,
+    isHelpCenterAvailable,
+    activeEmbed) => {
+    return !isMobileBrowser() && isShowHCIntroState && isHelpCenterAvailable && activeEmbed === 'helpCenterForm';
+  }
+);
+
 const getWidgetFixedFrameStyles = createSelector(
   [getStandaloneMobileNotificationVisible,
     getIPMWidget,
-    getIsShowHCIntroState,
-    getHelpCenterAvailable],
+    getCanShowHelpCenterIntroState],
   (standaloneMobileNotificationVisible,
     isUsingIPMWidgetOnly,
-    isShowHCIntroState,
-    isHelpCenterAvailable) => {
+    canShowHelpCenterIntroState) => {
     if (isUsingIPMWidgetOnly) {
       return {};
     }
 
-    if (!isMobileBrowser() && isShowHCIntroState && isHelpCenterAvailable) {
+    if (canShowHelpCenterIntroState) {
       return {
         maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
       };

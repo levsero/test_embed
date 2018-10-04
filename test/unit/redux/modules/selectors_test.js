@@ -151,6 +151,7 @@ describe('selectors', () => {
         mockSettingsGetFn = () => false;
         isShowHCIntroState = true;
         hasPassedAuth = true;
+        activeEmbedValue = 'helpCenterForm';
       });
 
       it('returns small height', () => {
@@ -174,6 +175,7 @@ describe('selectors', () => {
         mockSettingsGetFn = () => false;
         isShowHCIntroState = true;
         hasPassedAuth = true;
+        activeEmbedValue = 'helpCenterForm';
       });
 
       it('returns true', () => {
@@ -240,6 +242,7 @@ describe('selectors', () => {
           mockSettingsGetFn = () => false;
           isShowHCIntroState = true;
           hasPassedAuth = true;
+          activeEmbedValue = 'helpCenterForm';
         });
 
         afterEach(() => {
@@ -268,6 +271,17 @@ describe('selectors', () => {
       describe('when hasPassedAuth is false', () => {
         beforeAll(() => {
           hasPassedAuth = false;
+        });
+
+        it('does not return maxHeight styles', () => {
+          expect(result.maxHeight)
+            .toBeFalsy();
+        });
+      });
+
+      describe('when activeEmbed is not helpCenterForm', () => {
+        beforeAll(() => {
+          activeEmbedValue = 'chat';
         });
 
         it('does not return maxHeight styles', () => {
