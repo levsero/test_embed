@@ -338,6 +338,10 @@ function init(embedsAccessible, params = {}) {
       return;
     }
 
+    if (state[`${launcher}.userHidden`]) {
+      return;
+    }
+
     if ((state.activeEmbed === submitTicket || !state.activeEmbed) && !helpCenterAvailable()) {
       state.activeEmbed = channelChoiceAvailable() ? channelChoice : chat;
     }
