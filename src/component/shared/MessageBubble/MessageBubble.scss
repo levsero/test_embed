@@ -4,6 +4,10 @@
   composes: u-textBreak u-inlineBlock from global;
   white-space: pre-wrap;
   max-width: #{245/$font-size}rem;
+
+  [dir='rtl'] & {
+    float: left;
+  }
 }
 
 .messageBubble {
