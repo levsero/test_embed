@@ -35,7 +35,7 @@ describe('Refocus component', () => {
         });
       });
 
-      describe('when activeElement is not an input or textarea', () => {
+      describe('when activeElement is not an input or textarea or button', () => {
         beforeAll(() => {
           element = 'DIV';
         });
@@ -60,6 +60,17 @@ describe('Refocus component', () => {
       describe('when activeElement is a textarea', () => {
         beforeAll(() => {
           element = 'TEXTAREA';
+        });
+
+        it('this.container doesn\'t receive focus', () => {
+          expect(focusedSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when activeElement is a button', () => {
+        beforeAll(() => {
+          element = 'BUTTON';
         });
 
         it('this.container doesn\'t receive focus', () => {
