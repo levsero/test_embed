@@ -350,7 +350,7 @@ function init(embedsAccessible, params = {}) {
   c.intercept(`${chat}.onConnected`, () => {
     state[`${chat}.connectionPending`] = false;
 
-    if (!embedVisible(state)) {
+    if (!embedVisible(state) && !state[`${chat}.isChatting`]) {
       resetActiveEmbed();
 
       if (embedAvailable() && !state[`${talk}.connectionPending`]) {
