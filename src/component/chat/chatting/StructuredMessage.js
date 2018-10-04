@@ -18,13 +18,7 @@ class StructuredMessage extends Component {
     ]).isRequired
   }
 
-  constructor() {
-    super();
-
-    this.createAction = this.createAction.bind(this);
-  }
-
-  createAction({ type, value }) {
+  createAction = ({ type, value }) => {
     const { QUICK_REPLY_ACTION, LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE;
 
     switch (type) {
