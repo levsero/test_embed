@@ -7,9 +7,21 @@
   color: $error-color;
   font-size: #{14/$font-size}rem;
   padding-bottom: #{12/$font-size}rem;
-  padding-left: #{35/$font-size}rem;
   padding-top: 0;
-  padding-right: 0;
+  background-size: #{14/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-left: 0;
+    padding-right: #{35/$font-size}rem;
+
+    background-position-x: #{67/$font-size}rem;
+    background-position-y: #{0.28/$font-size}rem;
+  }
+
+  [dir='ltr'] & {
+    padding-left: #{35/$font-size}rem;
+    padding-right: 0;
+  }
 }
 
 .messageErrorLink {
@@ -25,7 +37,6 @@
 .icon {
   display: inline-block;
   position: relative;
-  margin-right: $spacing-tny;
   height: #{14/$font-size}rem;
   width: #{14/$font-size}rem;
   vertical-align: top;
@@ -39,5 +50,10 @@
   [dir='rtl'] & {
     margin-left: $spacing-tny;
     margin-right: 0;
+  }
+
+  [dir='ltr'] & {
+    margin-right: $spacing-tny;
+    margin-left: 0;
   }
 }
