@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
-import { handleIdentifyRecieved, logout, handleOnApiCalled, apiClearForm } from 'src/redux/modules/base';
+import { handlePrefillRecieved, logout, handleOnApiCalled, apiClearForm } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
@@ -37,8 +37,6 @@ const sendChatMsgApi = (reduxStore, msg) => {
 };
 const identifyApi = (reduxStore, user) => {
   mediator.channel.broadcast('.onIdentify', user);
-
-  reduxStore.dispatch(handleIdentifyRecieved(_.pick(user, ['name', 'email']), _.isString));
 };
 const setLocaleApi = (_, locale) => {
   i18n.setLocale(locale, true);
@@ -56,6 +54,9 @@ const setHelpCenterSuggestionsApi = (reduxStore, options) => {
   const onDone = () => mediator.channel.broadcast('.setHelpCenterSuggestions');
 
   reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
+};
+const prefill = (reduxStore, user) => {
+  reduxStore.dispatch(handlePrefillRecieved(_.pick(user, ['name', 'email']), _.isString));
 };
 const updatePathApi = (reduxStore, page = {}) => {
   reduxStore.dispatch(sendVisitorPath(page));
@@ -95,7 +96,8 @@ const newApiStructurePostRender = {
     logout: logoutApi,
     setHelpCenterSuggestions: setHelpCenterSuggestionsApi,
     updatePath: updatePathApi,
-    clear: clearFormState
+    clear: clearFormState,
+    prefill: prefill
   },
   on: onApi,
   get: getApi
@@ -112,7 +114,8 @@ const newApiStructurePreRender = {
       addToPostRenderQueue(['webWidget', 'setHelpCenterSuggestions', ...args]);
     },
     updatePath: (_, ...args) => addToPostRenderQueue(['webWidget', 'updatePath', ...args]),
-    clear: (reduxStore) => clearFormState(reduxStore)
+    clear: (reduxStore) => clearFormState(reduxStore),
+    prefill: prefill
   },
   on: onApi,
   get: (_, ...args) => addToPostRenderQueue(['webWidget:get', ...args])
@@ -287,7 +290,10 @@ function setupIPMApi(win, reduxStore, embeddableConfig = {}) {
 }
 
 function setupWidgetApi(win, reduxStore) {
-  win.zE.identify = (user) => identifyApi(reduxStore, user);
+  win.zE.identify = (user) => {
+    identifyApi(reduxStore, user);
+    prefill(reduxStore, user);
+  };
   win.zE.logout = () => logoutApi(reduxStore);
   win.zE.setHelpCenterSuggestions = (options) => setHelpCenterSuggestionsApi(reduxStore, options);
   win.zE.activate = (options) => mediator.channel.broadcast('.activate', options);

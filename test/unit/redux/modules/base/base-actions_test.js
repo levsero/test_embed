@@ -433,7 +433,7 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('handleIdentifyRecieved', () => {
+  describe('handlePrefillRecieved', () => {
     let action;
     const mockUser = {
       name: 'Harry Potter',
@@ -441,13 +441,13 @@ describe('base redux actions', () => {
     };
 
     beforeEach(() => {
-      mockStore.dispatch(actions.handleIdentifyRecieved(mockUser));
+      mockStore.dispatch(actions.handlePrefillRecieved(mockUser));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type IDENTIFY_RECIEVED', () => {
+    it('dispatches an action of type PREFILL_RECEIVED', () => {
       expect(action.type)
-        .toEqual(actionTypes.IDENTIFY_RECIEVED);
+        .toEqual(actionTypes.PREFILL_RECEIVED);
     });
 
     it('passes the value to the payload', () => {
@@ -459,7 +459,7 @@ describe('base redux actions', () => {
       beforeEach(() => {
         mockUser.email = 'hpotter@hogwarts';
         mockEmailValidValue = false;
-        mockStore.dispatch(actions.handleIdentifyRecieved(mockUser));
+        mockStore.dispatch(actions.handlePrefillRecieved(mockUser));
         action = mockStore.getActions()[1];
       });
 

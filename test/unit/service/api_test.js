@@ -3,7 +3,7 @@ describe('api', () => {
   const apiPath = buildSrcPath('service/api');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const setLocaleSpy = jasmine.createSpy('setLocale');
-  const handleIdentifyRecievedSpy = jasmine.createSpy('handleIdentifyRecieved');
+  const handlePrefillRecievedSpy = jasmine.createSpy('handlePrefillRecieved');
   const updateSettingsSpy = jasmine.createSpy('updateSettings');
   const sendVisitorPathSpy = jasmine.createSpy('sendVisitorPath');
   const apiClearFormSpy = jasmine.createSpy('apiClearForm');
@@ -47,7 +47,7 @@ describe('api', () => {
         }
       },
       'src/redux/modules/base': {
-        handleIdentifyRecieved: handleIdentifyRecievedSpy,
+        handlePrefillRecieved: handlePrefillRecievedSpy,
         logout: logoutSpy,
         handleOnApiCalled: handleOnApiCalledSpy,
         apiClearForm: apiClearFormSpy
@@ -208,9 +208,17 @@ describe('api', () => {
           expect(broadcastSpy)
             .toHaveBeenCalledWith('.onIdentify', user);
         });
+      });
 
-        it('calls handleIdentifyRecieved with the user', () => {
-          expect(handleIdentifyRecievedSpy)
+      describe('when that call is prefill', () => {
+        const user = { email: 'a2b.c' };
+
+        beforeAll(() => {
+          call = ['webWidget', 'prefill', user];
+        });
+
+        it('calls handlePrefillRecieved with the user', () => {
+          expect(handlePrefillRecievedSpy)
             .toHaveBeenCalledWith(user, jasmine.any(Function));
         });
       });
@@ -329,9 +337,17 @@ describe('api', () => {
         expect(broadcastSpy)
           .toHaveBeenCalledWith('.onIdentify', user);
       });
+    });
 
-      it('calls handleIdentifyRecieved with the user', () => {
-        expect(handleIdentifyRecievedSpy)
+    describe('when that call is prefill', () => {
+      const user = { email: 'a2b.c' };
+
+      beforeAll(() => {
+        call = ['webWidget', 'prefill', user];
+      });
+
+      it('calls handlePrefillRecieved with the user', () => {
+        expect(handlePrefillRecievedSpy)
           .toHaveBeenCalledWith(user, jasmine.any(Function));
       });
     });

@@ -4,7 +4,7 @@ import {
   UPDATE_EMBED,
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_WIDGET_SHOWN,
-  IDENTIFY_RECIEVED,
+  PREFILL_RECEIVED,
   API_ON_RECIEVED,
   WIDGET_HIDE_ANIMATION_COMPLETE,
   AUTHENTICATION_SUCCESS,
@@ -208,7 +208,7 @@ export const updateWidgetShown = (show) => {
   };
 };
 
-export const handleIdentifyRecieved = (payload) => {
+export const handlePrefillRecieved = (payload) => {
   let userDetails = payload;
 
   if (!emailValid(payload.email)) {
@@ -216,7 +216,7 @@ export const handleIdentifyRecieved = (payload) => {
   }
 
   return {
-    type: IDENTIFY_RECIEVED,
+    type: PREFILL_RECEIVED,
     payload: userDetails
   };
 };
