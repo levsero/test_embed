@@ -16,10 +16,12 @@ describe('ChatGroup component', () => {
   const MessageError = noopReactComponent();
   const ImageMessage = noopReactComponent();
   const Icon = noopReactComponent();
+  const StructuredMessage = noopReactComponent();
   const ChatGroupAvatar = requireUncached(chatGroupAvatarPath).ChatGroupAvatar;
 
   let chatConstants = requireUncached(chatConstantsPath);
   let CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
+  let CHAT_STRUCTURED_MESSAGE_TYPE = chatConstants.CHAT_STRUCTURED_MESSAGE_TYPE;
 
   beforeEach(() => {
     mockery.enable();
@@ -42,9 +44,11 @@ describe('ChatGroup component', () => {
       'component/chat/chatting/MessageError': { MessageError },
       'component/chat/chatting/ImageMessage': { ImageMessage },
       'component/chat/chatting/ChatGroupAvatar': { ChatGroupAvatar },
+      'component/chat/chatting/StructuredMessage': StructuredMessage,
       'constants/chat': {
         ATTACHMENT_ERROR_TYPES,
-        CHAT_MESSAGE_TYPES
+        CHAT_MESSAGE_TYPES,
+        CHAT_STRUCTURED_MESSAGE_TYPE
       },
       'constants/shared': {
         ICONS,
@@ -514,6 +518,7 @@ describe('ChatGroup component', () => {
 
       spyOn(component, 'renderPrintedMessage');
       spyOn(component, 'renderInlineAttachment');
+      spyOn(component, 'renderStructuredMessage');
 
       result = component.renderChatMessages(isAgent, showAvatar, messages);
     });
@@ -545,6 +550,44 @@ describe('ChatGroup component', () => {
       it('does not call renderInlineAttachment', () => {
         expect(component.renderInlineAttachment)
           .not.toHaveBeenCalledWith();
+      });
+    });
+
+    const structuredMessageTypes = Object.values(CHAT_STRUCTURED_MESSAGE_TYPE);
+
+    structuredMessageTypes.forEach(structuredMessageType => {
+      describe(`when messages contain a chat.msg with ${structuredMessageType} structured message`, () => {
+        beforeAll(() => {
+          isAgent = true;
+          messages = [
+            {
+              type: 'chat.msg',
+              nick: 'agent',
+              display_name: 'Agent 123',
+              msg: 'Hi! Welcome to Zendesk!',
+              structured_msg: {
+                type: structuredMessageType,
+                other_schema_prop: 'prop_1',
+                another_schema_prop: 'prop_2'
+              }
+            }
+          ];
+        });
+
+        it('calls renderStructuredMessage once with expected args', () => {
+          const chatEvent = messages[0];
+
+          expect(component.renderStructuredMessage.calls.count())
+            .toEqual(1);
+
+          expect(component.renderStructuredMessage)
+            .toHaveBeenCalledWith(chatEvent.structured_msg);
+        });
+
+        it('does not call renderPrintedMessage', () => {
+          expect(component.renderPrintedMessage)
+            .not.toHaveBeenCalledWith();
+        });
       });
     });
 
@@ -979,6 +1022,36 @@ describe('ChatGroup component', () => {
           expect(result.props.className)
             .not.toContain('agentAvatarClass');
         });
+      });
+    });
+  });
+
+  describe('#renderStructuredMessage', () => {
+    let result,
+      schema;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatGroup />);
+
+      result = component.renderStructuredMessage(schema);
+    });
+
+    describe('when called', () => {
+      beforeAll(() => {
+        schema = {
+          type: 'SomeType',
+          other_prop: 'prop1'
+        };
+      });
+
+      it('returns a StructuredMessage component', () => {
+        expect(TestUtils.isElementOfType(result, StructuredMessage))
+          .toEqual(true);
+      });
+
+      it('passes the schema value', () => {
+        expect(result.props.schema)
+          .toEqual(schema);
       });
     });
   });

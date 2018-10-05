@@ -85,3 +85,8 @@ export const CHAT_STRUCTURED_MESSAGE_TYPE = {
 };
 
 export const TIMEOUT = 5000;
+
+export const CHAT_STRUCTURED_MESSAGE_ACTION_TYPE = {
+  QUICK_REPLY_ACTION: 'QuickReplyAction',
+  LINK_ACTION: 'LinkAction',
+};
