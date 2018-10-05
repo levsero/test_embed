@@ -23,6 +23,7 @@ describe('base selectors', () => {
     mockStoreValue,
     mockIsOnHelpCenterPage,
     getOnApiListeners,
+    getWidgetDisplayInfo,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
   beforeEach(() => {
@@ -33,6 +34,12 @@ describe('base selectors', () => {
     mockery.registerAllowable(selectorsPath);
 
     initMockRegistry({
+      'constants/shared': {
+        EMBED_MAP: {
+          helpCenterForm: 'helpCenter'
+        },
+        LAUNCHER: 'launcher'
+      },
       'service/persistence': {
         store: {
           get: () => mockStoreValue
@@ -70,6 +77,7 @@ describe('base selectors', () => {
     getZopimId = selectors.getZopimId;
     getZChatConfig = selectors.getZChatConfig;
     getOnApiListeners = selectors.getOnApiListeners;
+    getWidgetDisplayInfo = selectors.getWidgetDisplayInfo;
   });
 
   describe('getZChatConfig', () => {
@@ -706,6 +714,43 @@ describe('base selectors', () => {
     it('calls isTokenValid with correct params', () => {
       expect(isTokenValidSpy)
         .toHaveBeenCalledWith('yolo');
+    });
+  });
+
+  describe('getWidgetDisplayInfo', () => {
+    let widgetShownValue, result;
+
+    beforeEach(() => {
+      const mockState = {
+        base: {
+          widgetShown: widgetShownValue,
+          activeEmbed: 'helpCenterForm'
+        }
+      };
+
+      result = getWidgetDisplayInfo(mockState);
+    });
+
+    describe('when widget is shown', () => {
+      beforeAll(() => {
+        widgetShownValue = true;
+      });
+
+      it('returns the active embed part of the map', () => {
+        expect(result)
+          .toEqual('helpCenter');
+      });
+    });
+
+    describe('when widget is not shown', () => {
+      beforeAll(() => {
+        widgetShownValue = false;
+      });
+
+      it('returns launcher', () => {
+        expect(result)
+          .toEqual('launcher');
+      });
     });
   });
 });
