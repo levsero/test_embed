@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { mediator } from 'service/mediator';
-import { themeColor } from 'utility/color/validate';
+import { getThemeColor } from 'utility/color/validate';
 import { document, win,
   getDocumentHost } from 'utility/globals';
 import { cappedTimeoutCall } from 'utility/utils';
@@ -23,8 +23,8 @@ function create(name, config, store) {
     endpoint: 'v2.zopim.com'
   };
 
-  if (themeColor()) {
-    config.color = themeColor();
+  if (getThemeColor()) {
+    config.color = getThemeColor();
   }
 
   chats[name] = {
@@ -224,7 +224,7 @@ function init(name) {
     );
 
     // configure zopim window
-    zopimLive.theme.setColor(config.color);
+    zopimLive.theme.setColor(config.color && config.color.base);
     zopimLive.theme.setTheme('zendesk');
     zopimWin.setPosition(position);
     zopimWin.setSize(config.size);

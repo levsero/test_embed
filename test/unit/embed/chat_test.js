@@ -93,7 +93,7 @@ describe('embed.chat', () => {
         cappedTimeoutCall: () => {}
       },
       'utility/color/validate': {
-        themeColor: () => {}
+        getThemeColor: () => {}
       },
       'src/redux/modules/settings': {
         updateSettingsChatSuppress: updateSettingsChatSuppressSpy,

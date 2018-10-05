@@ -1,21 +1,22 @@
-import { themeColor, colorFor, defaultColor } from './validate';
+import { themeColor, mainTextColor, colorFor } from './validate';
 import { ColorMixer } from './mixer';
 import { FONT_SIZE } from 'constants/shared';
 import { settings } from 'service/settings';
 
-function getWidgetColorVariables(color = defaultColor) {
+function getWidgetColorVariables(color) {
   const bypassA11y = settings.get('color.bypassAccessibilityRequirement');
   const mixer = new ColorMixer(
-    themeColor(color) || defaultColor,
+    themeColor(color && color.base),
     { bypassA11y: bypassA11y }
   );
 
   const baseColor = mixer.getBaseColor();
+  const textColor = (color && color.text) ? mainTextColor(color.text) : null;
   const baseHighlightColor = mixer.highlight(baseColor);
 
   const buttonColorStr = colorFor('button', mixer.getButtonColor());
   const buttonHighlightColorStr = mixer.highlight(buttonColorStr);
-  const buttonTextColorStr = mixer.foregroundColorFrom(buttonColorStr);
+  const buttonTextColorStr = textColor || mixer.foregroundColorFrom(buttonColorStr);
 
   const listColorStr = colorFor('resultLists', mixer.getListColor());
   const listHighlightColorStr = mixer.highlight(listColorStr);
@@ -24,7 +25,7 @@ function getWidgetColorVariables(color = defaultColor) {
   const linkTextColorStr = mixer.uiElementColorFrom(linkColorStr);
 
   const headerColorStr = colorFor('header', baseColor);
-  const headerTextColorStr = mixer.foregroundColorFrom(headerColorStr);
+  const headerTextColorStr = textColor || mixer.foregroundColorFrom(headerColorStr);
   const headerFocusRingColorStr = mixer.alpha(headerColorStr, 0.4);
   const headerBackgroundColorStr = mixer.highlight(headerColorStr);
 
@@ -45,21 +46,23 @@ function getWidgetColorVariables(color = defaultColor) {
   };
 }
 
-function getLauncherColorVariables(color = defaultColor) {
+function getLauncherColorVariables(color) {
   const bypassA11y = settings.get('color.bypassAccessibilityRequirement');
   const mixer = new ColorMixer(
-    themeColor(color) || defaultColor,
+    themeColor(color && color.base),
     { bypassA11y: bypassA11y }
   );
 
   const baseColor = mixer.getBaseColor();
+  const textColor = mainTextColor(color && color.text);
 
   const launcherColorStr = colorFor('launcher', baseColor);
   const launcherTextColorStr = colorFor(
     'launcherText',
+    textColor,
     mixer.foregroundColorFrom(launcherColorStr)
   );
-  const launcherFocusRingColorStr = mixer.alpha(launcherTextColorStr, 0.4);
+  const launcherFocusRingColorStr = mixer.alpha(launcherTextColorStr, 0.1);
 
   return {
     launcherColorStr,
@@ -68,7 +71,7 @@ function getLauncherColorVariables(color = defaultColor) {
   };
 }
 
-function generateUserWidgetCSS(color = defaultColor) {
+function generateUserWidgetCSS(color) {
   const colorVariables = getWidgetColorVariables(color);
 
   return (`
@@ -154,7 +157,7 @@ function generateUserWidgetCSS(color = defaultColor) {
   `);
 }
 
-function generateUserLauncherCSS(color = defaultColor) {
+function generateUserLauncherCSS(color) {
   const colorVariables = getLauncherColorVariables(color);
 
   return (`

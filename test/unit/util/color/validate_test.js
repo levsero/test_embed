@@ -25,12 +25,6 @@ describe('Colour Validation Utilities', () => {
     mockery.disable();
   });
 
-  describe('defaultColor', () => {
-    it('is the colour we specify', () => {
-      expect(validate.defaultColor).toEqual('#78A300');
-    });
-  });
-
   describe('themeColor', () => {
     describe('with settings', () => {
       it('allows valid hex values from the settings', () => {
@@ -71,7 +65,7 @@ describe('Colour Validation Utilities', () => {
       describe('that are malformed or invalid', () => {
         describe('and a base colour', () => {
           it('prefers the base colour and returns it', () => {
-            mockSettingsValue = { color: { theme: '#OMGWFTBBQ' } };
+            mockSettingsValue = { color: { theme: '#OMGWTFBBQ' } };
 
             expect(validate.themeColor('#efac23'))
               .toEqual('#efac23');
@@ -79,20 +73,20 @@ describe('Colour Validation Utilities', () => {
         });
 
         describe('and without a base colour', () => {
-          it('returns null', () => {
+          it('returns the default widget colour', () => {
             mockSettingsValue = { color: { theme: '#OMGWFTBBQ' } };
 
             expect(validate.themeColor())
-              .toEqual(null);
+              .toEqual('#78A300');
           });
 
           const testColors = ['#aaaa', '#hhh', '#638927384', '0xFFFFFF', 'rgb(255,123,123)'];
 
           _.forEach(testColors, (testColor) => {
-            it(`won't allow an invalid value (i.e., ${testColor}) and returns null`, () => {
+            it(`won't allow an invalid value (${testColor}) and returns the default colour`, () => {
               mockSettingsValue = { color: { theme: testColor } };
               expect(validate.themeColor())
-                .toEqual(null);
+                .toEqual('#78A300');
             });
           });
         });
@@ -111,21 +105,63 @@ describe('Colour Validation Utilities', () => {
         });
 
         describe('with an invalid base colour', () => {
-          it('returns null', () => {
+          it('returns the widget\'s default colour', () => {
             mockSettingsValue = null;
 
             expect(validate.themeColor('#OMGWFTBBQ'))
-              .toEqual(null);
+              .toEqual('#78A300');
           });
         });
       });
 
       describe('without a base colour', () => {
-        it('returns null', () => {
+        it('returns the widget\'s default colour', () => {
           mockSettingsValue = null;
 
           expect(validate.themeColor())
-            .toEqual(null);
+            .toEqual('#78A300');
+        });
+      });
+    });
+  });
+
+  describe('themeColor', () => {
+    describe('with a base colour', () => {
+      describe('with a valid base colour', () => {
+        it('returns the settings colour', () => {
+          mockSettingsValue = { color: { theme: '#eeddff' } };
+
+          expect(validate.themeColor('#bbd39c'))
+            .toEqual('#eeddff');
+        });
+      });
+
+      describe('with an invalid base colour', () => {
+        it('returns it', () => {
+          mockSettingsValue = { color: { theme: '#OMGWFTBBQ' } };
+
+          expect(validate.themeColor('#bbd39c'))
+            .toEqual('#bbd39c');
+        });
+      });
+    });
+
+    describe('without a base colour', () => {
+      describe('with a valid settings colour', () => {
+        it('returns the settings colour', () => {
+          mockSettingsValue = { color: { theme: '#eeddff' } };
+
+          expect(validate.themeColor())
+            .toEqual('#eeddff');
+        });
+      });
+
+      describe('with an invalid settings colour', () => {
+        it('returns the default widget colour', () => {
+          mockSettingsValue = { color: { theme: '#OMGWFTBBQ' } };
+
+          expect(validate.themeColor())
+            .toEqual('#78A300');
         });
       });
     });
@@ -171,12 +207,30 @@ describe('Colour Validation Utilities', () => {
         });
       });
 
+      describe('and multiple fallbacks', () => {
+        it('uses the first valid fallback', () => {
+          mockSettingsValue = { color: { theme: '#llanllwni' } };
+
+          expect(validate.colorFor('setting', '#DAN', '#ON', '#87b195', '#PTO', '#FFFFFF'))
+            .toEqual('#87b195');
+        });
+      });
+
+      describe('and multiple fallbacks that are all invalid', () => {
+        it('returns undefined', () => {
+          mockSettingsValue = { color: { theme: '#llanllwni' } };
+
+          expect(validate.colorFor('setting', '#DAN', '#CHILLIN', '#SOMEWHERE'))
+            .toBeUndefined();
+        });
+      });
+
       describe('and without a fallback', () => {
-        it('returns null', () => {
+        it('returns undefined', () => {
           mockSettingsValue = { color: { theme: '#llanddewibrefi' } };
 
           expect(validate.colorFor('anotherSetting'))
-            .toBeNull();
+            .toBeUndefined();
         });
       });
     });
@@ -192,11 +246,11 @@ describe('Colour Validation Utilities', () => {
       });
 
       describe('and without a fallback', () => {
-        it('returns null', () => {
+        it('returns undefined', () => {
           mockSettingsValue = null;
 
           expect(validate.colorFor('anotherSetting'))
-            .toBeNull();
+            .toBeUndefined();
         });
       });
     });
