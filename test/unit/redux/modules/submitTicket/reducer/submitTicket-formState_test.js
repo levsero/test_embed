@@ -2,7 +2,8 @@ describe('submitTicket reducer formState', () => {
   let reducer,
     actionTypes,
     baseActionTypes,
-    initialState;
+    initialState,
+    state;
 
   beforeAll(() => {
     mockery.enable();
@@ -37,7 +38,6 @@ describe('submitTicket reducer formState', () => {
   });
 
   describe('when an FORM_ON_CHANGE action is dispatched', () => {
-    let state;
     const mockFormState = {
       name: 'Gandalf',
       email: 'abc@123.com'
@@ -61,7 +61,6 @@ describe('submitTicket reducer formState', () => {
   });
 
   describe('when an IDENTIFY_RECIEVED action is dispatched', () => {
-    let state;
     const mockFormState = {
       name: 'Gandalf',
       email: 'abc@123.com'
@@ -80,6 +79,25 @@ describe('submitTicket reducer formState', () => {
     it('appends the state to the payload', () => {
       expect(state)
         .toEqual(_.extend(mockFormState, initialFormState));
+    });
+  });
+
+  describe('when an API_CLEAR_FORM action is dispatched', () => {
+    beforeEach(() => {
+      const mockState = {
+        name: 'Frodo Baggins',
+        subject: 'the one ring',
+        email: 'frodo@theshire.com',
+        description: 'how to get to mordor?'
+      };
+
+      state = reducer(mockState, {
+        type: baseActionTypes.API_CLEAR_FORM
+      });
+    });
+
+    it('resets the formState to initialState', () => {
+      expect(state).toEqual(initialState);
     });
   });
 });

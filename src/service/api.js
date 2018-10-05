@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
-import { handleIdentifyRecieved, logout, handleOnApiCalled } from 'src/redux/modules/base';
+import { handleIdentifyRecieved, logout, handleOnApiCalled, apiClearForm } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath } from 'src/redux/modules/chat';
@@ -79,7 +79,8 @@ const newApiStructurePostRender = {
     updateSettings: updateSettingsApi,
     logout: logoutApi,
     setHelpCenterSuggestions: setHelpCenterSuggestionsApi,
-    updatePath: updatePathApi
+    updatePath: updatePathApi,
+    clear: clearFormState
   },
   on: onApi,
   get: getApi
@@ -94,11 +95,16 @@ const newApiStructurePreRender = {
     setHelpCenterSuggestions: (_, ...args) => {
       addToPostRenderQueue(['webWidget', 'setHelpCenterSuggestions', ...args]);
     },
-    updatePath: (_, ...args) => addToPostRenderQueue(['webWidget', 'updatePath', ...args])
+    updatePath: (_, ...args) => addToPostRenderQueue(['webWidget', 'updatePath', ...args]),
+    clear: (reduxStore) => clearFormState(reduxStore)
   },
   on: onApi,
   get: (_, ...args) => addToPostRenderQueue(['webWidget:get', ...args])
 };
+
+function clearFormState(reduxStore) {
+  reduxStore.dispatch(apiClearForm());
+}
 
 const handleNewApi = (apiStructure, reduxStore, args) => {
   const params = Array.from(args);

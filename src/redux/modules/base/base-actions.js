@@ -16,7 +16,8 @@ import {
   CLOSE_BUTTON_CLICKED,
   UPDATE_EMBEDDABLE_CONFIG,
   UPDATE_QUEUE,
-  REMOVE_FROM_QUEUE
+  REMOVE_FROM_QUEUE,
+  API_CLEAR_FORM
 } from './base-action-types';
 import { settings } from 'service/settings';
 import { getOAuth,
@@ -250,5 +251,11 @@ export const handleOnApiCalled = (actions, callback) => {
   return {
     type: API_ON_RECIEVED,
     payload: { callback, actions }
+  };
+};
+
+export const apiClearForm = () => {
+  return {
+    type: API_CLEAR_FORM
   };
 };
