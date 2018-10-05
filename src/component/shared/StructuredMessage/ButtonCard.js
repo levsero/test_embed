@@ -10,7 +10,8 @@ import { Button } from './pure/Button';
 export class ButtonCard extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    message: PropTypes.string
+    message: PropTypes.string,
+    relativeWidth: PropTypes.bool
   };
 
   static defaultProps = {
@@ -18,10 +19,10 @@ export class ButtonCard extends Component {
   };
 
   render() {
-    const { message, children } = this.props;
+    const { message, children, relativeWidth } = this.props;
 
     return (
-      <Card>
+      <Card relativeWidth={relativeWidth}>
         <div className={styles.message}>{message}</div>
         <ButtonList>
           {children}

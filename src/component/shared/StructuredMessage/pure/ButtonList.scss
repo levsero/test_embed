@@ -2,9 +2,12 @@
   list-style: none;
   margin: 0;
   padding: 0;
+}
 
-  li {
-    margin: 0;
-    padding: 0;
-  }
+.buttonItem {
+  composes: optionItem from '../../MessageOptions/MessageOptions.scss';
+
+  margin: 0;
+  padding: 0;
+  max-width: none;
 }
