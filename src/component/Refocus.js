@@ -30,7 +30,7 @@ export class Refocus extends Component {
 
     if (this.container) {
       const activeElem = this.container.ownerDocument.activeElement;
-      const reNode = /input|textarea/i;
+      const reNode = /input|textarea|button/i;
       const gardenId = activeElem.dataset && activeElem.dataset.gardenId;
       const gardenSelect = gardenId && gardenId.indexOf('select') !== -1;
 
