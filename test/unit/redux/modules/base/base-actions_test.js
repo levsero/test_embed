@@ -71,6 +71,9 @@ describe('base redux actions', () => {
       'src/redux/modules/helpCenter': {
         contextualSearch: contextualSearchSpy
       },
+      'src/constants/shared': {
+        PHONE_PATTERN: /^[0-9]+$/
+      },
       'service/mediator': {
         mediator: {
           channel: {
@@ -437,7 +440,8 @@ describe('base redux actions', () => {
     let action;
     const mockUser = {
       name: 'Harry Potter',
-      email: 'hpotter@hogwarts.edu.uk'
+      email: 'hpotter@hogwarts.edu.uk',
+      phone: '12345678'
     };
 
     beforeEach(() => {
@@ -465,6 +469,24 @@ describe('base redux actions', () => {
 
       it('does not pass through the email in payload', () => {
         expect(action.payload.email)
+          .toBeFalsy();
+      });
+
+      it('still passes through the name in payload', () => {
+        expect(action.payload.name)
+          .toBe(mockUser.name);
+      });
+    });
+
+    describe('when the phone is not valid', () => {
+      beforeEach(() => {
+        mockUser.phone = 'number';
+        mockStore.dispatch(actions.handlePrefillRecieved(mockUser));
+        action = mockStore.getActions()[1];
+      });
+
+      it('does not pass through the phone in payload', () => {
+        expect(action.payload.phone)
           .toBeFalsy();
       });
 

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_ARTUROS,
@@ -30,9 +31,9 @@ import { extractTokenId,
   isTokenRenewable } from 'src/redux/modules/base/helpers/auth';
 import { emailValid } from 'src/util/utils';
 import { mediator } from 'service/mediator';
-import _ from 'lodash';
 import { store } from 'service/persistence';
 import { http } from 'service/transport';
+import { PHONE_PATTERN } from 'src/constants/shared';
 
 function onAuthRequestSuccess(res, id, dispatch) {
   store.set(
@@ -213,6 +214,10 @@ export const handlePrefillRecieved = (payload) => {
 
   if (!emailValid(payload.email)) {
     userDetails = _.omit(userDetails, 'email');
+  }
+
+  if (!PHONE_PATTERN.test(payload.phone)) {
+    userDetails = _.omit(userDetails, 'phone');
   }
 
   return {

@@ -56,7 +56,7 @@ const setHelpCenterSuggestionsApi = (reduxStore, options) => {
   reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
 };
 const prefill = (reduxStore, user) => {
-  reduxStore.dispatch(handlePrefillRecieved(_.pick(user, ['name', 'email']), _.isString));
+  reduxStore.dispatch(handlePrefillRecieved(_.pick(user, ['name', 'email', 'phone']), _.isString));
 };
 const updatePathApi = (reduxStore, page = {}) => {
   reduxStore.dispatch(sendVisitorPath(page));
