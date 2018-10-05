@@ -6,7 +6,7 @@ import { renderer } from 'service/renderer';
 import { handleIdentifyRecieved, logout, handleOnApiCalled } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
-import { chatLogout, sendVisitorPath } from 'src/redux/modules/chat';
+import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
 import { getIsChatting, getDepartmentsList, getDepartment } from 'src/redux/modules/chat/chat-selectors';
 
 import {
@@ -20,6 +20,20 @@ const newAPIPostRenderQueue = [];
 
 const addToPostRenderQueue = (...args) => {
   newAPIPostRenderQueue.push(args);
+};
+const getWidgetChatApiObj = () => {
+  return {
+    endChat: endChatApi,
+    sendChatMsg: sendChatMsgApi
+  };
+};
+const endChatApi = (reduxStore) => {
+  reduxStore.dispatch(endChat());
+};
+const sendChatMsgApi = (reduxStore, msg) => {
+  const message = (_.isString(message)) ? msg : '';
+
+  reduxStore.dispatch(sendMsg(msg));
 };
 const identifyApi = (reduxStore, user) => {
   mediator.channel.broadcast('.onIdentify', user);
@@ -73,6 +87,7 @@ const getApi = (reduxStore, ...args) => {
 
 const newApiStructurePostRender = {
   webwidget: {
+    ...getWidgetChatApiObj(),
     hide: () => mediator.channel.broadcast('.hide'),
     setLocale: setLocaleApi,
     identify: identifyApi,
@@ -86,6 +101,7 @@ const newApiStructurePostRender = {
 };
 const newApiStructurePreRender = {
   webwidget: {
+    ...getWidgetChatApiObj(),
     hide: renderer.hide,
     setLocale: (_, locale) => i18n.setLocale(locale),
     identify: (_, ...args) => addToPostRenderQueue(['webWidget', 'identify', ...args]),
