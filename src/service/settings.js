@@ -113,6 +113,10 @@ const webWidgetStoreDefaults = {
   viaId: 48,
   zIndex: 999999
 };
+const baseDefaults = {
+  errorReporting: true,
+  analytics: true
+};
 const maxLocaleFallbacks = 3;
 let settingsStore = {};
 let webWidgetStore = {};
@@ -133,7 +137,7 @@ const initStore = (settings, options, defaults) => {
 };
 
 function init(reduxStore = { dispatch: () => {} }) {
-  settingsStore = _.assign({}, { errorReporting: true }, win.zESettings);
+  settingsStore = _.assign({}, baseDefaults, win.zESettings);
 
   // for backwards compatibility with authenticate.
   if (settingsStore.authenticate) {

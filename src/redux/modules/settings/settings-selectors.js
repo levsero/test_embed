@@ -3,3 +3,4 @@ export const getSettingsChatDepartment = (state) => state.settings.chat.departme
 export const getSettingsChatDepartmentsEnabled = (state) => state.settings.chat.departments.enabled;
 export const getSettingsMobileNotificationsDisabled = (state) => state.settings.chat.mobileNotificationsDisabled;
 export const getSettingsChatTags = (state) => state.settings.chat.tags;
+export const getAnalyticsDisabled = (state) => !state.settings.analytics;
