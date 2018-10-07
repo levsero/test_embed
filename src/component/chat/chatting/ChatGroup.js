@@ -79,7 +79,7 @@ export class ChatGroup extends Component {
       let message;
 
       if (chat.msg) {
-        if (chat.structured_msg && structuredMessageTypes.includes(chat.structured_msg.type)) {
+        if (chat.structured_msg && _.includes(structuredMessageTypes, chat.structured_msg.type)) {
           message = this.renderStructuredMessage(chat.structured_msg);
         } else {
           message = this.renderPrintedMessage(chat, isAgent, showAvatar);
