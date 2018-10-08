@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import { ButtonCard } from './structuredMessage/ButtonCard';
@@ -13,7 +14,7 @@ class StructuredMessage extends Component {
     sendMsg: PropTypes.func,
     schema: PropTypes.oneOfType([
       PropTypes.shape(
-        Object.assign({type: PropTypes.string.isRequired}, ButtonCard.schemaPropTypes)
+        _.assign({type: PropTypes.string.isRequired}, ButtonCard.schemaPropTypes)
       )
     ]).isRequired
   }
