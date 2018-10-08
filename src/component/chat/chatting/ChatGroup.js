@@ -18,7 +18,7 @@ import { locals as styles } from './ChatGroup.scss';
 import { Icon } from 'component/Icon';
 import StructuredMessage from 'component/chat/chatting/StructuredMessage';
 
-const structuredMessageTypes = Object.values(CHAT_STRUCTURED_MESSAGE_TYPE);
+const structuredMessageTypes = _.values(CHAT_STRUCTURED_MESSAGE_TYPE);
 
 export class ChatGroup extends Component {
   static propTypes = {
