@@ -1,13 +1,10 @@
 import { themeColor, mainTextColor, colorFor } from './validate';
 import { ColorMixer } from './mixer';
 import { FONT_SIZE } from 'constants/shared';
-import { settings } from 'service/settings';
 
 function getWidgetColorVariables(color) {
-  const bypassA11y = settings.get('color.bypassAccessibilityRequirement');
   const mixer = new ColorMixer(
-    themeColor(color && color.base),
-    { bypassA11y: bypassA11y }
+    themeColor(color && color.base)
   );
 
   const baseColor = mixer.getBaseColor();
@@ -47,10 +44,8 @@ function getWidgetColorVariables(color) {
 }
 
 function getLauncherColorVariables(color) {
-  const bypassA11y = settings.get('color.bypassAccessibilityRequirement');
   const mixer = new ColorMixer(
-    themeColor(color && color.base),
-    { bypassA11y: bypassA11y }
+    themeColor(color && color.base)
   );
 
   const baseColor = mixer.getBaseColor();
