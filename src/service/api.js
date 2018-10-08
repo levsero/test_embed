@@ -7,15 +7,31 @@ import { handlePrefillReceived, logout, handleOnApiCalled, apiClearForm } from '
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
-import { getIsChatting, getDepartmentsList, getDepartment } from 'src/redux/modules/chat/chat-selectors';
 import { getWidgetDisplayInfo } from 'src/redux/modules/base/base-selectors';
 import {
+  getIsChatting,
+  getDepartmentsList,
+  getDepartment,
+  getNotificationCount,
+  getChatStatus } from 'src/redux/modules/chat/chat-selectors';
+import {
+  API_ON_CHAT_STATUS_NAME,
   API_ON_CLOSE_NAME,
+  API_ON_CHAT_CONNECTED_NAME,
+  API_ON_CHAT_START_NAME,
+  API_ON_CHAT_END_NAME,
+  API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
   API_GET_DEPARTMENTS_DEPARTMENT_NAME,
   API_GET_DISPLAY_NAME } from 'constants/api';
 import { CLOSE_BUTTON_CLICKED } from 'src/redux/modules/base/base-action-types';
+import {
+  CHAT_CONNECTED,
+  END_CHAT_REQUEST_SUCCESS,
+  NEW_AGENT_MESSAGE_RECEIVED,
+  CHAT_STARTED,
+  SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types';
 
 const newAPIPostRenderQueue = [];
 
@@ -63,14 +79,42 @@ const getWidgetChatApiObj = () => {
   };
 };
 const onApiObj = () => {
-  const onClose = (reduxStore, callback) => {
-    if (_.isFunction(callback)) {
-      reduxStore.dispatch(handleOnApiCalled([CLOSE_BUTTON_CLICKED], callback));
+  const chatEventMap = {
+    [API_ON_CHAT_CONNECTED_NAME]: { actionType: CHAT_CONNECTED },
+    [API_ON_CHAT_END_NAME]: { actionType: END_CHAT_REQUEST_SUCCESS },
+    [API_ON_CHAT_START_NAME]: { actionType: CHAT_STARTED },
+    [API_ON_CHAT_STATUS_NAME]: {
+      actionType: SDK_ACCOUNT_STATUS,
+      selectors: [getChatStatus]
+    },
+    [API_ON_CHAT_UNREAD_MESSAGES_NAME]: {
+      actionType: NEW_AGENT_MESSAGE_RECEIVED,
+      selectors: [getNotificationCount]
     }
+  };
+  const baseEventMap = {
+    [API_ON_CLOSE_NAME]: { actionType: CLOSE_BUTTON_CLICKED }
+  };
+  const eventDispatchWrapperFn = (actionType, selectors = []) => {
+    return (reduxStore, callback) => {
+      if (_.isFunction(callback)) {
+        reduxStore.dispatch(handleOnApiCalled(actionType, selectors, callback));
+      }
+    };
+  };
+  const eventApiReducerFn = (eventMap) => {
+    return _.reduce(eventMap, (apiObj, eventObj, eventName) => {
+      const { actionType, selectors } = eventObj;
+
+      apiObj[eventName] = eventDispatchWrapperFn(actionType, selectors);
+
+      return apiObj;
+    }, {});
   };
 
   return {
-    [API_ON_CLOSE_NAME]: onClose
+    'chat': eventApiReducerFn(chatEventMap),
+    ...eventApiReducerFn(baseEventMap)
   };
 };
 const getApiObj = () => {

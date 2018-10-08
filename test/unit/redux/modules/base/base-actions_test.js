@@ -795,10 +795,18 @@ describe('base redux actions', () => {
   });
 
   describe('handleOnApiCalled', () => {
-    let action;
+    let action,
+      mockActionType,
+      selectorSpy,
+      callbackSpy;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.handleOnApiCalled(['onclose'], () => {}));
+      mockActionType = 'widget/chat/CHAT_CONNECTED';
+      selectorSpy = jasmine.createSpy('arbitrarySelector');
+      callbackSpy = jasmine.createSpy('arbitraryCallback');
+
+      mockStore.dispatch(actions.handleOnApiCalled(mockActionType, selectorSpy, callbackSpy));
+
       action = mockStore.getActions()[0];
     });
 
@@ -808,9 +816,27 @@ describe('base redux actions', () => {
           .toEqual(actionTypes.API_ON_RECEIVED);
       });
 
-      it('dispatches the actions in payload', () => {
-        expect(action.payload.actions)
-          .toEqual(['onclose']);
+      it('has the actionType property in the payload', () => {
+        expect(action.payload.actionType)
+          .toEqual(mockActionType);
+      });
+
+      it('has the selectors property in the payload', () => {
+        const selectors = action.payload.selectors;
+
+        selectors();
+
+        expect(selectorSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('has the callback property in the payload', () => {
+        const callback = action.payload.callback;
+
+        callback();
+
+        expect(callbackSpy)
+          .toHaveBeenCalled();
       });
     });
   });

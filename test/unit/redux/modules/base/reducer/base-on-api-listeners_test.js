@@ -36,7 +36,8 @@ describe('base reducer on api listeners', () => {
       action = {
         type: actionTypes.API_ON_RECEIVED,
         payload: {
-          actions: [ 'LAUNCHER_CLICK' ],
+          actionType: 'LAUNCHER_CLICK',
+          selectors: [],
           callback: () => {}
         }
       };
@@ -46,27 +47,43 @@ describe('base reducer on api listeners', () => {
 
     describe('when state does not contain the new action in the payload', () => {
       beforeAll(() => {
-        oldState = { WIDGET_CLOSE_BUTTON_CLICKED: [() => {}] };
+        oldState = {
+          WIDGET_CLOSE_BUTTON_CLICKED: {
+            callbackList: [() => {}],
+            selectors: []
+          }
+        };
       });
 
       it('sets the new action as a key on the state', () => {
-        expect(state.LAUNCHER_CLICK.length)
+        expect(state.LAUNCHER_CLICK)
+          .toBeTruthy();
+
+        expect(state.LAUNCHER_CLICK.callbackList.length)
           .toEqual(1);
       });
 
       it('does not change any other keys', () => {
-        expect(state.WIDGET_CLOSE_BUTTON_CLICKED.length)
+        expect(state.WIDGET_CLOSE_BUTTON_CLICKED)
+          .toBeTruthy();
+
+        expect(state.WIDGET_CLOSE_BUTTON_CLICKED.callbackList.length)
           .toEqual(1);
       });
     });
 
     describe('when state already contains the new action in the payload', () => {
       beforeAll(() => {
-        oldState = { LAUNCHER_CLICK: [() => {}] };
+        oldState = {
+          LAUNCHER_CLICK: {
+            callbackList: [() => {}],
+            selectors: []
+          }
+        };
       });
 
       it('adds the new function to the old ones', () => {
-        expect(state.LAUNCHER_CLICK.length)
+        expect(state.LAUNCHER_CLICK.callbackList.length)
           .toEqual(2);
       });
     });

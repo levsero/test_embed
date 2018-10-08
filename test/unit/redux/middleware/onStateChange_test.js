@@ -22,6 +22,8 @@ describe('onStateChange middleware', () => {
   const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity);
   const clearDepartmentSpy = jasmine.createSpy('clearDepartment');
   const setDepartmentSpy = jasmine.createSpy('setDepartment');
+  const handleIsChattingSpy = jasmine.createSpy('handleIsChatting');
+  const handleChatConnectedSpy = jasmine.createSpy('handleChatConnected');
   const path = buildSrcPath('redux/middleware/onStateChange');
   let initialTimestamp = 80;
   let mockDepartmentLists = [];
@@ -55,7 +57,9 @@ describe('onStateChange middleware', () => {
         getIsChatting: getIsChattingSpy,
         updateLastAgentMessageSeenTimestamp: updateLastAgentMessageSeenTimestampSpy,
         clearDepartment: clearDepartmentSpy,
-        setDepartment: setDepartmentSpy
+        setDepartment: setDepartmentSpy,
+        handleChatConnected: handleChatConnectedSpy,
+        handleIsChatting: handleIsChattingSpy
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
@@ -88,9 +92,10 @@ describe('onStateChange middleware', () => {
         getLastAgentMessageSeenTimestamp: () => mockLastAgentMessageSeenTimestamp,
         getChatScreen: () => mockChatScreen,
         getIsProactiveSession: () => mockIsProactiveSession,
-        getIsChatting: () => mockIsChatting,
+        getIsChatting: (state) => _.get(state, 'isChatting', mockIsChatting),
         getActiveAgents: getActiveAgentsSpy,
-        getDepartmentsList: () => mockDepartmentLists
+        getDepartmentsList: () => mockDepartmentLists,
+        getNotificationCount: (array) => _.get(_.last(array), 'notificationCount')
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartment: () => mockGetSettingsChatDepartment,
@@ -102,7 +107,9 @@ describe('onStateChange middleware', () => {
         SDK_CHAT_MEMBER_LEAVE: 'SDK_CHAT_MEMBER_LEAVE',
         CHAT_AGENT_INACTIVE: 'CHAT_AGENT_INACTIVE',
         CHAT_SOCIAL_LOGIN_SUCCESS: 'CHAT_SOCIAL_LOGIN_SUCCESS',
-        SDK_VISITOR_UPDATE: 'SDK_VISITOR_UPDATE'
+        SDK_VISITOR_UPDATE: 'SDK_VISITOR_UPDATE',
+        CHAT_STARTED: 'CHAT_STARTED',
+        CHAT_CONNECTED: 'CHAT_CONNECTED'
       },
       'src/constants/chat': {
         CONNECTION_STATUSES: {
@@ -156,6 +163,11 @@ describe('onStateChange middleware', () => {
           stateChangeFn(connectingState, connectingState, {}, dispatchSpy);
         });
 
+        it('does dispatch the event CHAT_CONNECTED', () => {
+          expect(dispatchSpy)
+            .not.toHaveBeenCalledWith({ type: 'CHAT_CONNECTED' });
+        });
+
         it('does not dispatch the getAccountSettings action', () => {
           expect(getAccountSettingsSpy)
             .not.toHaveBeenCalled();
@@ -175,6 +187,11 @@ describe('onStateChange middleware', () => {
       describe('when chat has connected', () => {
         beforeEach(() => {
           stateChangeFn(connectingState, connectedState, {}, dispatchSpy);
+        });
+
+        it('dispatches the event CHAT_CONNECTED', () => {
+          expect(dispatchSpy)
+            .toHaveBeenCalledWith({ type: 'CHAT_CONNECTED' });
         });
 
         it('dispatches the getAccountSettings action creator', () => {
@@ -1150,6 +1167,62 @@ describe('onStateChange middleware', () => {
         it('does not call dispatch', () => {
           expect(dispatchSpy)
             .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('onChatStarted', () => {
+      let prevState,
+        currState,
+        dispatchSpy;
+
+      beforeEach(() => {
+        dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
+      });
+
+      describe('when chat has previously initiated', () => {
+        beforeEach(() => {
+          prevState = { isChatting: true };
+          currState = { isChatting: true };
+
+          stateChangeFn(prevState, currState, {}, dispatchSpy);
+        });
+
+        it('does not call handleIsChatting', () => {
+          expect(handleIsChattingSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when chat has not been previously initiated', () => {
+        beforeAll(() => {
+          prevState = { isChatting: false };
+        });
+
+        describe('when chat is being initiated', () => {
+          beforeEach(() => {
+            currState = { isChatting: true };
+
+            stateChangeFn(prevState, currState, {}, dispatchSpy);
+          });
+
+          it('dispatches the event CHAT_STARTED', () => {
+            expect(dispatchSpy)
+              .toHaveBeenCalledWith({ type: 'CHAT_STARTED' });
+          });
+        });
+
+        describe('when chat is not being initiated', () => {
+          beforeEach(() => {
+            currState = { isChatting: false };
+
+            stateChangeFn(prevState, currState, {}, dispatchSpy);
+          });
+
+          it('does not dispatch the event CHAT_STARTED', () => {
+            expect(dispatchSpy)
+              .not.toHaveBeenCalledWith({ type: 'CHAT_STARTED' });
+          });
         });
       });
     });

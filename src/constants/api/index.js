@@ -1,5 +1,10 @@
 // on api params
 export const API_ON_CLOSE_NAME = 'close';
+export const API_ON_CHAT_CONNECTED_NAME = 'connected';
+export const API_ON_CHAT_END_NAME = 'end';
+export const API_ON_CHAT_START_NAME = 'start';
+export const API_ON_CHAT_STATUS_NAME = 'status';
+export const API_ON_CHAT_UNREAD_MESSAGES_NAME = 'unreadMessages';
 
 // get api params
 export const API_GET_IS_CHATTING_NAME = 'isChatting';
