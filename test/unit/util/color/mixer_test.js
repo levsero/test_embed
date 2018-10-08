@@ -139,16 +139,6 @@ describe('ColorMixer', () => {
             expect(mixer.getListColor()).toEqual('#1D0522');
           });
         });
-
-        describe('and the accessibility setting is disabled', () => {
-          beforeEach(() => {
-            mixer = new colorMixer('#CC04FB', { bypassA11y: true });
-          });
-
-          it('returns the same colour', () => {
-            expect(mixer.getListColor()).toEqual('#CC04FB');
-          });
-        });
       });
     });
 
@@ -160,16 +150,6 @@ describe('ColorMixer', () => {
 
         it('returns an accessible, accentuated colour', () => {
           expect(mixer.getListColor()).toEqual('#4A4B20');
-        });
-      });
-
-      describe('and the accessibility setting is disabled', () => {
-        beforeEach(() => {
-          mixer = new colorMixer('#DCE04F', { bypassA11y: true });
-        });
-
-        it('returns a darker but not necessarily accessible colour', () => {
-          expect(mixer.getListColor()).toEqual('#6A6C25');
         });
       });
     });
@@ -190,16 +170,6 @@ describe('ColorMixer', () => {
       describe('and the accessibility setting is enabled', () => {
         it('returns an accessible, accentuated colour', () => {
           expect(mixer.uiElementColorFrom('#DCE04F')).toEqual('#5F6121');
-        });
-      });
-
-      describe('and the accessibility setting is disabled', () => {
-        beforeEach(() => {
-          mixer = new colorMixer(baseColor, { bypassA11y: true });
-        });
-
-        it('returns a darker but not necessarily accessible colour', () => {
-          expect(mixer.uiElementColorFrom('#DCE04F')).toEqual('#6A6C25');
         });
       });
     });
@@ -223,16 +193,6 @@ describe('ColorMixer', () => {
             expect(mixer.foregroundColorFrom('#CC04FB')).toEqual('#1D0522');
           });
         });
-
-        describe('and the accessibility setting is disabled', () => {
-          beforeEach(() => {
-            mixer = new colorMixer(baseColor, { bypassA11y: true });
-          });
-
-          it('returns white', () => {
-            expect(mixer.foregroundColorFrom('#CC04FB')).toEqual('#FFFFFF');
-          });
-        });
       });
     });
 
@@ -244,16 +204,6 @@ describe('ColorMixer', () => {
 
         it('returns an accessible, accentuated colour', () => {
           expect(mixer.foregroundColorFrom('#DCE04F')).toEqual('#5F6121');
-        });
-      });
-
-      describe('and the accessibility setting is disabled', () => {
-        beforeEach(() => {
-          mixer = new colorMixer(baseColor, { bypassA11y: true });
-        });
-
-        it('returns a darker but not necessarily accessible colour', () => {
-          expect(mixer.foregroundColorFrom('#DCE04F')).toEqual('#6A6C25');
         });
       });
     });

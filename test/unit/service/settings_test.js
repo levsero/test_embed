@@ -28,9 +28,6 @@ describe('settings', () => {
       }
     });
     defaults = {
-      color: {
-        bypassAccessibilityRequirement: true
-      },
       contactForm: {
         subject: false,
         attachments: true,
@@ -83,11 +80,6 @@ describe('settings', () => {
       it('has the correct value for helpCenter.originalArticleButton', () => {
         expect(settings.get('helpCenter.originalArticleButton'))
           .toEqual(defaults.helpCenter.originalArticleButton);
-      });
-
-      it('has the correct value for color.bypassAccessibilityRequirement', () => {
-        expect(settings.get('color.bypassAccessibilityRequirement'))
-          .toEqual(defaults.color.bypassAccessibilityRequirement);
       });
 
       it('has the correct value for contactForm.attachments', () => {
@@ -269,8 +261,7 @@ describe('settings', () => {
             launcher: '#990000',
             launcherText: '#009900',
             articleLinks: '#000099',
-            resultLists: '#660000',
-            bypassAccessibilityRequirement: true
+            resultLists: '#660000'
           }
         }
       };
@@ -342,11 +333,6 @@ describe('settings', () => {
     it('returns user setting for color resultLists', () => {
       expect(settings.get('color.resultLists'))
         .toBe('#660000');
-    });
-
-    it('returns user setting for color bypassAccessibilityRequirement', () => {
-      expect(settings.get('color.bypassAccessibilityRequirement'))
-        .toBe(true);
     });
 
     it('returns user setting for contactForm.subject', () => {

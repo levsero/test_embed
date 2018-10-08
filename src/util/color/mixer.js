@@ -120,7 +120,7 @@ export class ColorMixer {
   }
 
   _meetsAccessibilityRequirement = (color, inContrastTo = this.baseColor) => {
-    return !!this.options.bypassA11y || color.level(inContrastTo).substring(0, 2) === 'AA';
+    return color.level(inContrastTo).substring(0, 2) === 'AA';
   }
 
   _isAlmostWhite = (color) => {
