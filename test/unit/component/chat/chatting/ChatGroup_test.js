@@ -553,7 +553,7 @@ describe('ChatGroup component', () => {
       });
     });
 
-    const structuredMessageTypes = Object.values(CHAT_STRUCTURED_MESSAGE_TYPE);
+    const structuredMessageTypes = _.values(CHAT_STRUCTURED_MESSAGE_TYPE);
 
     structuredMessageTypes.forEach(structuredMessageType => {
       describe(`when messages contain a chat.msg with ${structuredMessageType} structured message`, () => {
