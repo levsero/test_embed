@@ -2,6 +2,7 @@ describe('analytics middleware', () => {
   let trackAnalytics,
     GASpy,
     mockIsAgent = false,
+    analyticsDisabled = false,
     loadtime;
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED';
   const SDK_CHAT_MEMBER_JOIN = 'widget/chat/SDK_CHAT_MEMBER_JOIN';
@@ -23,6 +24,9 @@ describe('analytics middleware', () => {
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: (prevState) => prevState.isChatting,
         getDepartments: (prevState) => prevState.departments
+      },
+      'src/redux/modules/settings/settings-selectors': {
+        getAnalyticsDisabled: () => analyticsDisabled
       },
       'src/redux/modules/base/base-action-types': {
         UPDATE_ACTIVE_EMBED
@@ -334,6 +338,31 @@ describe('analytics middleware', () => {
       it('call GA.track with the correct params', () => {
         expect(GASpy.track)
           .toHaveBeenCalledWith('Chat Request Form Submitted', 'Support');
+      });
+    });
+
+    describe('analytics are disabled', () => {
+      beforeEach(() => {
+        const payload = {
+          detail: {
+            new_rating: null, // eslint-disable-line camelcase
+            timestamp: loadtime + 10000
+          }
+        };
+
+        analyticsDisabled = true;
+
+        action = {
+          type: SDK_CHAT_RATING,
+          payload
+        };
+        trackAnalytics({ getState: () => {} })(noop)(action);
+      });
+
+      it('does not call GA.track', () => {
+        expect(GASpy.track)
+          .not
+          .toHaveBeenCalled();
       });
     });
   });

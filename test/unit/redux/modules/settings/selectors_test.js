@@ -3,7 +3,8 @@ describe('settings selectors', () => {
     getSettingsChatDepartment,
     getSettingsChatDepartmentsEnabled,
     getSettingsMobileNotificationsDisabled,
-    getSettingsChatTags;
+    getSettingsChatTags,
+    getAnalyticsDisabled;
 
   beforeEach(() => {
     mockery.enable();
@@ -19,6 +20,7 @@ describe('settings selectors', () => {
     getSettingsChatDepartmentsEnabled = selectors.getSettingsChatDepartmentsEnabled;
     getSettingsMobileNotificationsDisabled = selectors.getSettingsMobileNotificationsDisabled;
     getSettingsChatTags = selectors.getSettingsChatTags;
+    getAnalyticsDisabled = selectors.getAnalyticsDisabled;
   });
 
   describe('getSettingsChatTags', () => {
@@ -120,6 +122,25 @@ describe('settings selectors', () => {
     it('returns ["bin tapi"]', () => {
       expect(result)
         .toEqual(['bin tapi']);
+    });
+  });
+
+  describe('getAnalyticsDisabled', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        settings: {
+          analytics: false
+        }
+      };
+
+      result = getAnalyticsDisabled(mockState);
+    });
+
+    it('returns the inverse of the analytics value', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 });

@@ -8,6 +8,7 @@ import { SDK_CHAT_MEMBER_JOIN,
   PRE_CHAT_FORM_SUBMIT } from 'src/redux/modules/chat/chat-action-types';
 import { getIsChatting,
   getDepartments } from 'src/redux/modules/chat/chat-selectors';
+import { getAnalyticsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { isAgent } from 'src/util/chat';
 
 const loadtime = Date.now();
@@ -62,6 +63,11 @@ export function trackAnalytics({ getState }) {
   return (next) => (action) => {
     const { type, payload } = action;
     const prevState = getState();
+
+    if (getAnalyticsDisabled(prevState)) {
+      return next(action);
+    }
+
     // To avoid resending events during the replay when the page is refreshed.
     const isAfterLoadTime = _.get(payload, 'detail.timestamp') > loadtime;
 
