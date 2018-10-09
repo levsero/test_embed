@@ -10,6 +10,8 @@ import isAuthenticationPending from './base-is-authentication-pending';
 import queue from './base-queue';
 import onApiListeners from './base-on-api-listeners';
 import hasWidgetShown from './base-has-widget-shown';
+import webWidgetVisible from './web-widget-visibility';
+import launcherVisible from './launcher-visibility';
 
 export default combineReducers({
   activeEmbed,
@@ -21,5 +23,7 @@ export default combineReducers({
   isAuthenticationPending,
   queue,
   onApiListeners,
-  hasWidgetShown
+  hasWidgetShown,
+  webWidgetVisible,
+  launcherVisible
 });

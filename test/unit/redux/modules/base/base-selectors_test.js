@@ -25,6 +25,7 @@ describe('base selectors', () => {
     getOnApiListeners,
     getConfigColor,
     getWidgetDisplayInfo,
+    getFrameVisible,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
   beforeEach(() => {
@@ -79,7 +80,11 @@ describe('base selectors', () => {
     getZChatConfig = selectors.getZChatConfig;
     getOnApiListeners = selectors.getOnApiListeners;
     getWidgetDisplayInfo = selectors.getWidgetDisplayInfo;
+<<<<<<< HEAD
     getConfigColor = selectors.getConfigColor;
+=======
+    getFrameVisible = selectors.getFrameVisible;
+>>>>>>> Set up initial reducers and selectors for Web Widget Visible and Launcher Visible state
   });
 
   describe('getZChatConfig', () => {
@@ -775,6 +780,43 @@ describe('base selectors', () => {
     it('returns the color in expected format', () => {
       expect(result)
         .toEqual({ base: 'blue', text: 'deep' });
+    });
+  });
+
+  describe('getFrameVisible', () => {
+    let result, frame;
+
+    beforeEach(() => {
+      const mockState = {
+        base: {
+          webWidgetVisible: true,
+          launcherVisible: false
+        }
+      };
+
+      result = getFrameVisible(mockState, frame);
+    });
+
+    describe('when frame is webWidget', () => {
+      beforeAll(() => {
+        frame = 'webWidget';
+      });
+
+      it('returns the web widget visible state', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when frame is launcher', () => {
+      beforeAll(() => {
+        frame = 'launcher';
+      });
+
+      it('returns the launcher visible state', () => {
+        expect(result)
+          .toEqual(false);
+      });
     });
   });
 });

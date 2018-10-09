@@ -31,7 +31,9 @@ describe('base root reducer', () => {
       'embeddableConfig',
       'isAuthenticationPending',
       'hasWidgetShown',
-      'onApiListeners'
+      'onApiListeners',
+      'webWidgetVisible',
+      'launcherVisible'
     ];
 
     it('has the expected substates', () => {

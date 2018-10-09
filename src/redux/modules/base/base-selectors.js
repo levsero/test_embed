@@ -4,6 +4,9 @@ import { createSelector } from 'reselect';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { EMBED_MAP, LAUNCHER } from 'constants/shared';
 
+const getWebWidgetVisible = (state) => state.base.webWidgetVisible;
+const getLauncherVisible = (state) => state.base.launcherVisible;
+
 export const getSubmitTicketEmbed = (state) => !!state.base.embeds.ticketSubmissionForm;
 export const getZopimChatEmbed = (state) => !!state.base.embeds.zopimChat;
 export const getChatEmbed = (state) => !!state.base.embeds.chat;
@@ -13,6 +16,13 @@ export const getActiveEmbed = (state) => state.base.activeEmbed;
 export const getWidgetShown = (state) => state.base.widgetShown;
 export const getIPMWidget = (state) => !!state.base.embeds.ipmWidget;
 export const getOnApiListeners = (state) => state.base.onApiListeners;
+
+export const getFrameVisible = (state, frame = 'webWidget') => {
+  if (frame === 'webWidget') {
+    return getWebWidgetVisible(state);
+  }
+  return getLauncherVisible(state);
+};
 
 export const getChatStandalone = (state) => {
   const otherProducts = getSubmitTicketEmbed(state) ||
