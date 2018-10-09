@@ -6,6 +6,7 @@ describe('api', () => {
   const handleIdentifyRecievedSpy = jasmine.createSpy('handleIdentifyRecieved');
   const updateSettingsSpy = jasmine.createSpy('updateSettings');
   const sendVisitorPathSpy = jasmine.createSpy('sendVisitorPath');
+  const apiClearFormSpy = jasmine.createSpy('apiClearForm');
   const logoutSpy = jasmine.createSpy('logout');
   const chatLogoutSpy = jasmine.createSpy('chatLogout');
   const setContextualSuggestionsManuallySpy = jasmine.createSpy('setContextualSuggestionsManually');
@@ -48,7 +49,8 @@ describe('api', () => {
       'src/redux/modules/base': {
         handleIdentifyRecieved: handleIdentifyRecievedSpy,
         logout: logoutSpy,
-        handleOnApiCalled: handleOnApiCalledSpy
+        handleOnApiCalled: handleOnApiCalledSpy,
+        apiClearForm: apiClearFormSpy
       },
       'src/redux/modules/helpCenter': {
         displayArticle: noop,
@@ -181,6 +183,16 @@ describe('api', () => {
       it('calls i18n setLocale with the locale', () => {
         expect(setLocaleSpy)
           .toHaveBeenCalledWith('fr');
+      });
+    });
+
+    describe('when the call is clear', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'clear'];
+      });
+
+      it('calls apiClearForm', () => {
+        expect(apiClearFormSpy).toHaveBeenCalled();
       });
     });
 

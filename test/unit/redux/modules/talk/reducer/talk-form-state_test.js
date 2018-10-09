@@ -1,6 +1,7 @@
 describe('talk reducer form state', () => {
   let reducer,
     actionTypes,
+    baseActionTypes,
     initialState;
 
   beforeAll(() => {
@@ -8,9 +9,11 @@ describe('talk reducer form state', () => {
 
     const reducerPath = buildSrcPath('redux/modules/talk/reducer/talk-form-state');
     const actionTypesPath = buildSrcPath('redux/modules/talk/talk-action-types');
+    const baseActionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
+    baseActionTypes = requireUncached(baseActionTypesPath);
 
     initialState = reducer(undefined, { type: '' });
   });
@@ -53,6 +56,23 @@ describe('talk reducer form state', () => {
             ...mockFormState,
             name: ''
           });
+      });
+    });
+
+    describe('when an API_CLEAR_FORM action is dispatched', () => {
+      beforeEach(() => {
+        const mockState = {
+          name: 'Frodo Baggins',
+          phone: '+61412369874'
+        };
+
+        state = reducer(mockState, {
+          type: baseActionTypes.API_CLEAR_FORM
+        });
+      });
+
+      it('resets the formState to initialState', () => {
+        expect(state).toEqual(initialState);
       });
     });
   });

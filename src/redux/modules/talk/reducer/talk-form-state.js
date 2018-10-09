@@ -1,4 +1,5 @@
 import { UPDATE_CALLBACK_FORM } from '../talk-action-types';
+import { API_CLEAR_FORM } from '../../base/base-action-types';
 
 const initialState = {
   name: '',
@@ -12,6 +13,8 @@ const formState = (state = initialState, action) => {
         ...initialState,
         ...action.payload
       };
+    case API_CLEAR_FORM:
+      return initialState;
     default:
       return state;
   }

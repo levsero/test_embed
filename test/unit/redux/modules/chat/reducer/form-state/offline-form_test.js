@@ -25,18 +25,17 @@ describe('chat reducer formState offlineForm', () => {
 
   describe('reducer', () => {
     let state;
+    const mockInitialState = {
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+    };
 
     describe('initial state', () => {
-      const expected = {
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-      };
-
       it('is set to an object with expected structure', () => {
         expect(initialState)
-          .toEqual(expected);
+          .toEqual(mockInitialState);
       });
     });
 
@@ -116,6 +115,25 @@ describe('chat reducer formState offlineForm', () => {
 
         expect(state)
           .toEqual(expected);
+      });
+    });
+
+    describe('when an API_CLEAR_FORM action is dispatched', () => {
+      beforeEach(() => {
+        const mockState = {
+          name: 'Frodo Baggins',
+          phone: '123456789',
+          email: 'frodo@theshire.com',
+          message: 'one walk to rule them all'
+        };
+
+        state = reducer(mockState, {
+          type: baseActionTypes.API_CLEAR_FORM
+        });
+      });
+
+      it('resets the form state to initialState', () => {
+        expect(state).toEqual(initialState);
       });
     });
   });

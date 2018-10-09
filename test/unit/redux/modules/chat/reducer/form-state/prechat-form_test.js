@@ -76,5 +76,17 @@ describe('chat reducer formState preChatForm', () => {
         });
       });
     });
+
+    describe('when an action of type API_CLEAR_FORM is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(mockFormState, {
+          type: baseActionTypes.API_CLEAR_FORM
+        });
+      });
+
+      it('resets the form state to initialState', () => {
+        expect(state).toEqual(initialState);
+      });
+    });
   });
 });
