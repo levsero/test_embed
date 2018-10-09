@@ -130,7 +130,7 @@ const getButtonOverrides = (colorVariables) => {
   return css`
     height: ${38/FONT_SIZE}rem !important;
     font-size: ${isMobile && `${15/FONT_SIZE}rem`} !important;
-    border-radius: ${props => !props.pill &&isMobile && `${4/FONT_SIZE}rem`} !important;
+    border-radius: ${props => !props.pill && isMobile && `${4/FONT_SIZE}rem`} !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -141,8 +141,8 @@ const getButtonOverrides = (colorVariables) => {
       border-color: ${colorVariables.buttonColorStr} !important;
 
       &:hover, &:focus, &:active {
-        background-color: ${props => !props.link && ((props.primary) ? colorVariables.buttonHighlightColorStr : colorVariables.buttonColorStr)} !important;
-        color: ${props => !props.link && colorVariables.buttonTextColorStr} !important;
+        background-color: ${props => !props.link && !isMobile && ((props.primary) ? colorVariables.buttonHighlightColorStr : colorVariables.buttonColorStr)} !important;
+        color: ${props => !props.link && !isMobile && colorVariables.buttonTextColorStr} !important;
       }
     }
   `;
