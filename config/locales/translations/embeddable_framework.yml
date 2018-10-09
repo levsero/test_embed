@@ -387,7 +387,7 @@ parts:
       key: "embeddable_framework.chat.form.common.dropdown.chooseDepartment"
       title: "The default text for the dropdown to select a department in the pre chat form"
       screenshot: "https://drive.google.com/file/d/15rteLrYRXt68voCQH95er0lLTkADQseY/view?usp=sharing"
-      value: "Choose a Department"
+      value: "Choose a department"
   - translation:
       key: "embeddable_framework.chat.form.editContact.button.save"
       title: "A button to confirm and save all details placed in a form modal of Edit contact Details"
