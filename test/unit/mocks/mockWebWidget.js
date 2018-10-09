@@ -54,7 +54,6 @@ class MockWebWidgetChild extends Component {
     this.contextualSearch = noop;
     this.performSearch = noop;
     this.focusField = noop;
-    this.hideVirtualKeyboard = noop;
     this.updateUser = noop;
     this.setLoading = noop;
     this.state = {
@@ -81,7 +80,6 @@ class MockWebWidgetGrandchild extends Component {
   constructor() {
     super();
     this.resetTicketFormVisibility = noop;
-    this.hideVirtualKeyboard = noop;
     this.focusField = noop;
   }
   render() {

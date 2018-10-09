@@ -146,10 +146,6 @@ export class SubmitTicketForm extends Component {
     if (element) element.focus();
   }
 
-  hideVirtualKeyboard = () => {
-    this.setState({ shouldRemoveForm: true });
-  }
-
   failedToSubmit = () => {
     this.setState({
       isSubmitting: false,
