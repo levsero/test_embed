@@ -57,3 +57,15 @@ export const GA_CATEGORY = 'Zendesk Web Widget';
 // Email regular expression from http://emailregex.com/
 export const EMAIL_PATTERN = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // eslint-disable-line
 export const PHONE_PATTERN = /^[0-9]+$/;
+
+// maps 'activeEmbed' value to customer facing names
+export const EMBED_MAP = {
+  ticketSubmissionForm: 'contactForm',
+  helpCenterForm: 'helpCenter',
+  zopimChat: 'chat',
+  chat: 'chat',
+  talk: 'talk',
+  channelChoice: 'contactOptions'
+};
+
+export const LAUNCHER = 'launcher';

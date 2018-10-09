@@ -8,12 +8,13 @@ import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modu
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
 import { getIsChatting, getDepartmentsList, getDepartment } from 'src/redux/modules/chat/chat-selectors';
-
+import { getWidgetDisplayInfo } from 'src/redux/modules/base/base-selectors';
 import {
   API_ON_CLOSE_NAME,
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
-  API_GET_DEPARTMENTS_DEPARTMENT_NAME } from 'constants/api';
+  API_GET_DEPARTMENTS_DEPARTMENT_NAME,
+  API_GET_DISPLAY_NAME } from 'constants/api';
 import { CLOSE_BUTTON_CLICKED } from 'src/redux/modules/base/base-action-types';
 
 const newAPIPostRenderQueue = [];
@@ -75,7 +76,8 @@ const getApi = (reduxStore, ...args) => {
   const allowlist = {
     [API_GET_IS_CHATTING_NAME]: getIsChatting,
     [API_GET_DEPARTMENTS_ALL_NAME]: getDepartmentsList,
-    [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: getDepartment
+    [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: getDepartment,
+    [API_GET_DISPLAY_NAME]: getWidgetDisplayInfo
   };
   const params = Array.from(args);
   const item = params[0];

@@ -68,6 +68,9 @@ describe('api', () => {
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: () => isChatting
       },
+      'src/redux/modules/base/base-selectors': {
+        getWidgetDisplayInfo: noop
+      },
       'src/redux/modules/base/base-action-types': {
         CLOSE_BUTTON_CLICKED
       },
