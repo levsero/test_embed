@@ -4,21 +4,34 @@
 $focusRingWidth: 3px;
 $buttonLineHeight: 16/$font-size;
 $buttonPaddingVertical: 7/$font-size;
-$buttonBorderWidth: 1px;
+$buttonBorderWidth: 1/$font-size;
 $buttonInnerHeight: $buttonLineHeight + ($buttonPaddingVertical * 2);
 
-$sliderHeight: calc(#{$buttonInnerHeight}rem + #{$buttonBorderWidth * 2} + #{$focusRingWidth * 2});
+// scrollBufferHeight hides the scrollbar
+$scrollBufferHeight: 10/$font-size;
+$mobileSliderHeight: $buttonInnerHeight + $buttonBorderWidth * 2;
+
+$sliderHeight: calc(#{$mobileSliderHeight}rem + #{$focusRingWidth * 2});
 
 .container {
   text-align: right;
   width: 100%;
   position: relative;
   z-index: 1;
+
+  &.mobile {
+    height: #{$mobileSliderHeight}rem;
+    overflow: hidden;
+
+    .scroll {
+      height: #{$mobileSliderHeight + $scrollBufferHeight}rem;
+      overflow-x: auto;
+    }
+  }
 }
 
 .scroll {
   white-space: nowrap;
-  overflow-x: auto;
 }
 
 .quickReply {
@@ -26,8 +39,13 @@ $sliderHeight: calc(#{$buttonInnerHeight}rem + #{$buttonBorderWidth * 2} + #{$fo
   height: auto !important; // garden override
   line-height: #{$buttonLineHeight}rem; // garden override, follow MessageBubble
   padding: #{$buttonPaddingVertical}rem #{12/$font-size}rem; // Different from MessageBubble because of border
+  border-width: #{$buttonBorderWidth}rem; // garden override
 }
 
 .separator {
-  margin-right: 8px;
+  margin-right: #{8/$font-size}rem;
+}
+
+.lastSeparator {
+  margin-right: #{$buttonBorderWidth}rem; // prevent cutoff of the last element
 }
