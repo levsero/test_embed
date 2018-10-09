@@ -95,6 +95,7 @@ The Web Widget has the following core commands:
 * [prefill](#prefill)
 * [setLocale](#setlocale)
 * [updateSettings](#updatesettings)
+* [clear](#clear)
 
 
 #### get isOpen
@@ -301,3 +302,14 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
     }
   });
 ```
+
+
+#### Clear
+
+`zE('webWidget', 'clear');`
+
+Clears all forms in the Web Widget.
+
+##### Parameters
+
+None
