@@ -44,10 +44,10 @@ describe('chat reducer formState preChatForm', () => {
       });
     });
 
-    describe('when an action of type IDENTIFY_RECIEVED is dispatched', () => {
+    describe('when an action of type PREFILL_RECEIVED is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: baseActionTypes.IDENTIFY_RECIEVED,
+          type: baseActionTypes.PREFILL_RECEIVED,
           payload: mockFormState
         });
       });
@@ -65,7 +65,7 @@ describe('chat reducer formState preChatForm', () => {
 
         beforeEach(() => {
           state = reducer(state, {
-            type: baseActionTypes.IDENTIFY_RECIEVED,
+            type: baseActionTypes.PREFILL_RECEIVED,
             payload: mockFormUpdate
           });
         });

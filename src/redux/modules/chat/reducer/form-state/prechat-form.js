@@ -1,5 +1,5 @@
 import { PRE_CHAT_FORM_ON_CHANGE } from '../../chat-action-types';
-import { IDENTIFY_RECIEVED, API_CLEAR_FORM } from '../../../base/base-action-types';
+import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types';
 
 const initialState = {
   name: '',
@@ -13,7 +13,7 @@ const preChatForm = (state = initialState, action = {}) => {
   const { type, payload } = action;
 
   switch (type) {
-    case IDENTIFY_RECIEVED:
+    case PREFILL_RECEIVED:
     case PRE_CHAT_FORM_ON_CHANGE:
       return { ...state, ...payload };
     case API_CLEAR_FORM:

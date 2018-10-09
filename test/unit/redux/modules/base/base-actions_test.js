@@ -71,6 +71,9 @@ describe('base redux actions', () => {
       'src/redux/modules/helpCenter': {
         contextualSearch: contextualSearchSpy
       },
+      'src/constants/shared': {
+        PHONE_PATTERN: /^[0-9]+$/
+      },
       'service/mediator': {
         mediator: {
           channel: {
@@ -433,21 +436,22 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('handleIdentifyRecieved', () => {
+  describe('handlePrefillRecieved', () => {
     let action;
     const mockUser = {
       name: 'Harry Potter',
-      email: 'hpotter@hogwarts.edu.uk'
+      email: 'hpotter@hogwarts.edu.uk',
+      phone: '12345678'
     };
 
     beforeEach(() => {
-      mockStore.dispatch(actions.handleIdentifyRecieved(mockUser));
+      mockStore.dispatch(actions.handlePrefillRecieved(mockUser));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type IDENTIFY_RECIEVED', () => {
+    it('dispatches an action of type PREFILL_RECEIVED', () => {
       expect(action.type)
-        .toEqual(actionTypes.IDENTIFY_RECIEVED);
+        .toEqual(actionTypes.PREFILL_RECEIVED);
     });
 
     it('passes the value to the payload', () => {
@@ -459,12 +463,30 @@ describe('base redux actions', () => {
       beforeEach(() => {
         mockUser.email = 'hpotter@hogwarts';
         mockEmailValidValue = false;
-        mockStore.dispatch(actions.handleIdentifyRecieved(mockUser));
+        mockStore.dispatch(actions.handlePrefillRecieved(mockUser));
         action = mockStore.getActions()[1];
       });
 
       it('does not pass through the email in payload', () => {
         expect(action.payload.email)
+          .toBeFalsy();
+      });
+
+      it('still passes through the name in payload', () => {
+        expect(action.payload.name)
+          .toBe(mockUser.name);
+      });
+    });
+
+    describe('when the phone is not valid', () => {
+      beforeEach(() => {
+        mockUser.phone = 'number';
+        mockStore.dispatch(actions.handlePrefillRecieved(mockUser));
+        action = mockStore.getActions()[1];
+      });
+
+      it('does not pass through the phone in payload', () => {
+        expect(action.payload.phone)
           .toBeFalsy();
       });
 

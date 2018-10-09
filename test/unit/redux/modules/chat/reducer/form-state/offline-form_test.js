@@ -62,7 +62,7 @@ describe('chat reducer formState offlineForm', () => {
       });
     });
 
-    describe('when a IDENTIFY_RECIEVED action is dispatched', () => {
+    describe('when a PREFILL_RECEIVED action is dispatched', () => {
       let mockFormState;
 
       beforeEach(() => {
@@ -72,7 +72,7 @@ describe('chat reducer formState offlineForm', () => {
         };
 
         state = reducer({ phone: '12345678' }, {
-          type: baseActionTypes.IDENTIFY_RECIEVED,
+          type: baseActionTypes.PREFILL_RECEIVED,
           payload: mockFormState
         });
       });

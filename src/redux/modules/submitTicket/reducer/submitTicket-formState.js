@@ -1,5 +1,5 @@
 import { FORM_ON_CHANGE } from '../submitTicket-action-types';
-import { IDENTIFY_RECIEVED, API_CLEAR_FORM } from '../../base/base-action-types';
+import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../base/base-action-types';
 
 const initialState = {
   name: '',
@@ -17,7 +17,7 @@ const formState = (state = initialState, action) => {
         ...initialState,
         ...payload
       };
-    case IDENTIFY_RECIEVED:
+    case PREFILL_RECEIVED:
       return {
         ...state,
         ...payload

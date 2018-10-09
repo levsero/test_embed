@@ -1,10 +1,11 @@
+import _ from 'lodash';
 import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_ARTUROS,
   UPDATE_EMBED,
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_WIDGET_SHOWN,
-  IDENTIFY_RECIEVED,
+  PREFILL_RECEIVED,
   API_ON_RECIEVED,
   WIDGET_HIDE_ANIMATION_COMPLETE,
   AUTHENTICATION_SUCCESS,
@@ -30,9 +31,9 @@ import { extractTokenId,
   isTokenRenewable } from 'src/redux/modules/base/helpers/auth';
 import { emailValid } from 'src/util/utils';
 import { mediator } from 'service/mediator';
-import _ from 'lodash';
 import { store } from 'service/persistence';
 import { http } from 'service/transport';
+import { PHONE_PATTERN } from 'src/constants/shared';
 
 function onAuthRequestSuccess(res, id, dispatch) {
   store.set(
@@ -208,15 +209,19 @@ export const updateWidgetShown = (show) => {
   };
 };
 
-export const handleIdentifyRecieved = (payload) => {
+export const handlePrefillRecieved = (payload) => {
   let userDetails = payload;
 
   if (!emailValid(payload.email)) {
     userDetails = _.omit(userDetails, 'email');
   }
 
+  if (!PHONE_PATTERN.test(payload.phone)) {
+    userDetails = _.omit(userDetails, 'phone');
+  }
+
   return {
-    type: IDENTIFY_RECIEVED,
+    type: PREFILL_RECEIVED,
     payload: userDetails
   };
 };

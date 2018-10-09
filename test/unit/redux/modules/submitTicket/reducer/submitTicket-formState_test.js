@@ -60,7 +60,7 @@ describe('submitTicket reducer formState', () => {
     });
   });
 
-  describe('when an IDENTIFY_RECIEVED action is dispatched', () => {
+  describe('when an PREFILL_RECEIVED action is dispatched', () => {
     const mockFormState = {
       name: 'Gandalf',
       email: 'abc@123.com'
@@ -71,7 +71,7 @@ describe('submitTicket reducer formState', () => {
 
     beforeEach(() => {
       state = reducer(initialFormState, {
-        type: baseActionTypes.IDENTIFY_RECIEVED,
+        type: baseActionTypes.PREFILL_RECEIVED,
         payload: mockFormState
       });
     });
