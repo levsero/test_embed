@@ -24,7 +24,7 @@ import { getZoomSizingRatio,
 import { document, getDocumentHost, win } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
-import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
+import { getChatNotification, getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
 import { setVisitorInfo,
   chatNotificationDismissed,
   fetchConversationHistory,
@@ -281,14 +281,12 @@ export default function WebWidgetFactory(name) {
 
     mediator.channel.subscribe(prefix + 'webWidget.hideChatNotification', () => {
       const state = embed.store.getState();
-      const { show, proactive } = getChatNotification(state);
+      const { show } = getChatNotification(state);
 
-      if (show) {
-        if (isMobileBrowser() && proactive && getActiveEmbed(state) === '') {
-          getWebWidgetComponent().dismissStandaloneChatPopup();
-        } else {
-          embed.store.dispatch(chatNotificationDismissed());
-        }
+      if (getStandaloneMobileNotificationVisible(state)) {
+        getWebWidgetComponent().dismissStandaloneChatPopup();
+      } else if (show) {
+        embed.store.dispatch(chatNotificationDismissed());
       }
     });
 
