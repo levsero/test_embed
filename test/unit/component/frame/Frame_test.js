@@ -123,6 +123,9 @@ describe('Frame', () => {
       },
       'src/redux/modules/selectors': {
         getFixedStyles: () => {}
+      },
+      'src/redux/modules/base/base-selectors': {
+        getFrameVisible: () => {}
       }
     };
 
@@ -271,11 +274,6 @@ describe('Frame', () => {
       frame.show();
     });
 
-    it('sets `visible` state to true', () => {
-      expect(frame.state.visible)
-        .toEqual(true);
-    });
-
     it('triggers onShow callback', () => {
       expect(mockOnShow)
         .toHaveBeenCalled();
@@ -373,15 +371,9 @@ describe('Frame', () => {
       frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
       forceFrameReady(frame);
 
-      frame.setState({ visible: true });
       frame.hide();
 
       jasmine.clock().tick(300);
-    });
-
-    it('sets `visible` state to false', () => {
-      expect(frame.state.visible)
-        .toEqual(false);
     });
 
     it('triggers props.callbacks.onHide if set', () => {
@@ -1049,10 +1041,10 @@ describe('Frame', () => {
   });
 
   describe('render', () => {
-    let frame;
+    let frame, visibleValue = true;
 
     beforeEach(() => {
-      frame = domRender(<Frame name='foo'>{mockChild}</Frame>);
+      frame = domRender(<Frame visible={visibleValue} name='foo'>{mockChild}</Frame>);
       forceFrameReady(frame);
     });
 
@@ -1087,8 +1079,8 @@ describe('Frame', () => {
     });
 
     describe('when not visible', () => {
-      beforeEach(() => {
-        frame.setState({ visible: false });
+      beforeAll(() => {
+        visibleValue = false;
       });
 
       it('should not have `--active` in classes', () => {
@@ -1104,9 +1096,6 @@ describe('Frame', () => {
       it('has the correct animation styles applied to it', () => {
         expect(frame.iframe.style.getPropertyValue('opacity'))
           .toEqual('0');
-
-        expect(frame.iframe.style.getPropertyValue('bottom'))
-          .toEqual('-20px');
       });
     });
   });

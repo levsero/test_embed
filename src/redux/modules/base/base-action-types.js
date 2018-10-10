@@ -19,3 +19,4 @@ export const CLOSE_BUTTON_CLICKED = 'widget/base/CLOSE_BUTTON_CLICKED';
 // We can also add actions for animation start and show start and complete as needed
 export const WIDGET_HIDE_ANIMATION_COMPLETE = 'widget/base/WIDGET_HIDE_ANIMATION_COMPLETE';
 export const API_CLEAR_FORM = 'widget/base/API_CLEAR_FORM';
+export const LAUNCHER_CLICKED = 'widget/base/LAUNCHER_CLICKED';

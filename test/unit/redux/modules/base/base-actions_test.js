@@ -854,4 +854,18 @@ describe('base redux actions', () => {
         .toEqual(actionTypes.CLOSE_BUTTON_CLICKED);
     });
   });
+
+  describe('launcherClicked', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.launcherClicked());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches a LAUNCHER_CLICKED event', () => {
+      expect(action.type)
+        .toEqual(actionTypes.LAUNCHER_CLICKED);
+    });
+  });
 });

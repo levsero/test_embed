@@ -11,6 +11,7 @@ import { settings } from 'service/settings';
 import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
+import { launcherClicked } from 'src/redux/modules/base/';
 
 const mapStateToProps = (state) => {
   return {
@@ -35,7 +36,8 @@ class Launcher extends Component {
     notificationCount: PropTypes.number.isRequired,
     getFrameContentDocument: PropTypes.func,
     forceUpdateWorld: PropTypes.func.isRequired,
-    updateFrameTitle: PropTypes.func
+    updateFrameTitle: PropTypes.func,
+    launcherClicked: PropTypes.func.isRequired
   };
 
   constructor(props, context) {
@@ -179,7 +181,7 @@ class Launcher extends Component {
 
     return (
       <button className={`${styles.wrapper} ${baseMobileClasses}`}
-        onClick={this.props.onClick}>
+        onClick={(e) => { this.props.onClick(e); this.props.launcherClicked(); }}>
         <Icon
           type={type}
           flipX={shouldFlipX}
@@ -190,4 +192,8 @@ class Launcher extends Component {
   }
 }
 
-export default connect(mapStateToProps, {}, null, { withRef: true })(Launcher);
+const actionCreators = {
+  launcherClicked
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Launcher);

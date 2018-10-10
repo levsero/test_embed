@@ -22,6 +22,7 @@ import { win } from 'utility/globals';
 import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
 import { getFixedStyles, getColor, getPosition } from 'src/redux/modules/selectors';
+import { getFrameVisible } from 'src/redux/modules/base/base-selectors';
 import { FONT_SIZE, MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
 
 // Unregister lodash from window._
@@ -33,7 +34,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     fixedStyles: getFixedStyles(state, ownProps.name),
     color: getColor(state),
-    position: getPosition(state)
+    position: getPosition(state),
+    visible: getFrameVisible(state, ownProps.name)
   };
 };
 
@@ -105,9 +107,7 @@ class Frame extends Component {
     super(props, context);
     this.state = {
       childRendered: false,
-      hiddenByZoom: false,
-      visible: props.visible,
-      forceUpdateEmbed: false
+      hiddenByZoom: false
     };
 
     this.child = null;
@@ -227,8 +227,6 @@ class Frame extends Component {
   show = () => {
     const frameFirstChild = this.getRootComponentElement();
 
-    this.setState({ visible: true });
-
     setTimeout(() => {
       const existingStyle = frameFirstChild.style;
 
@@ -248,7 +246,6 @@ class Frame extends Component {
   hide = (options = {}) => {
     const { onHide } = this.props;
     const hideFinished = () => {
-      this.setState({ visible: false });
       onHide(this);
       if (options.onHide) options.onHide();
       this.props.widgetHideAnimationComplete();
@@ -323,8 +320,8 @@ class Frame extends Component {
       opacity: 0
     };
     const mobileStyles = fullscreen ? {
-      left: this.state.visible ? '0px' : '-9999px',
-      top: this.state.visible ? '0px' : '-9999px',
+      left: this.props.visible ? '0px' : '-9999px',
+      top: this.props.visible ? '0px' : '-9999px',
       background:'#FFF'
     } : {};
 
@@ -435,8 +432,8 @@ class Frame extends Component {
   render = () => {
     const iframeNamespace = 'zEWidget';
     const frameClasses = `${iframeNamespace}-${this.props.name}`;
-    const activeClasses = this.state.visible ? `${frameClasses}--active` : '';
-    const tabIndex = this.state.visible ? '0' : '-1';
+    const activeClasses = this.props.visible ? `${frameClasses}--active` : '';
+    const tabIndex = this.props.visible ? '0' : '-1';
     const transitionStyles = {
       entering: {
         opacity: 0,
@@ -456,7 +453,7 @@ class Frame extends Component {
     };
 
     return (
-      <Transition in={this.state.visible} timeout={transitionDuration}>
+      <Transition in={this.props.visible} timeout={transitionDuration}>
         {(status) => (
           <iframe
             title={this.props.title || this.props.name}

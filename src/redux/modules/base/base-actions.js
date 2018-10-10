@@ -18,7 +18,8 @@ import {
   UPDATE_EMBEDDABLE_CONFIG,
   UPDATE_QUEUE,
   REMOVE_FROM_QUEUE,
-  API_CLEAR_FORM
+  API_CLEAR_FORM,
+  LAUNCHER_CLICKED
 } from './base-action-types';
 import { settings } from 'service/settings';
 import { getOAuth,
@@ -272,5 +273,11 @@ export const handleOnApiCalled = (actionType, selectors=[], callback) => {
 export const apiClearForm = () => {
   return {
     type: API_CLEAR_FORM
+  };
+};
+
+export const launcherClicked = () => {
+  return {
+    type: LAUNCHER_CLICKED
   };
 };

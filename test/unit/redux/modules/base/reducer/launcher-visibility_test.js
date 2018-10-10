@@ -26,4 +26,38 @@ describe('base reducer launcher visibility', () => {
         .toEqual(true);
     });
   });
+
+  describe('when an LAUNCHER_CLICKED action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      const action = {
+        type: actionTypes.LAUNCHER_CLICKED
+      };
+
+      state = reducer(initialState, action);
+    });
+
+    it('is set to false', () => {
+      expect(state)
+        .toEqual(false);
+    });
+  });
+
+  describe('when an CLOSE_BUTTON_CLICKED action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      const action = {
+        type: actionTypes.CLOSE_BUTTON_CLICKED
+      };
+
+      state = reducer(initialState, action);
+    });
+
+    it('is set to true', () => {
+      expect(state)
+        .toEqual(true);
+    });
+  });
 });
