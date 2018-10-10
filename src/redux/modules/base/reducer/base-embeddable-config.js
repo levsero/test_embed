@@ -28,6 +28,8 @@ const embeddableConfig = (state = initialState, action) => {
   switch (type) {
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
+        ...state,
+        ipmAllowed: payload.ipmAllowed,
         embeds: {
           helpCenterForm: {
             props: {

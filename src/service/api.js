@@ -3,7 +3,12 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
-import { handlePrefillReceived, logout, handleOnApiCalled, apiClearForm } from 'src/redux/modules/base';
+import {
+  handlePrefillRecieved,
+  logout,
+  handleOnApiCalled,
+  apiClearForm,
+  activateRecieved } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
@@ -360,7 +365,10 @@ function setupWidgetApi(win, reduxStore) {
   };
   win.zE.logout = () => logoutApi(reduxStore);
   win.zE.setHelpCenterSuggestions = (options) => setHelpCenterSuggestionsApi(reduxStore, options);
-  win.zE.activate = (options) => mediator.channel.broadcast('.activate', options);
+  win.zE.activate = (options) => {
+    mediator.channel.broadcast('.activate', options);
+    reduxStore.dispatch(activateRecieved());
+  };
   win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
   win.zE.hide = () => mediator.channel.broadcast('.hide');
   win.zE.show = () => mediator.channel.broadcast('.show');

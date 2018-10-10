@@ -19,7 +19,9 @@ import {
   UPDATE_QUEUE,
   REMOVE_FROM_QUEUE,
   API_CLEAR_FORM,
-  LAUNCHER_CLICKED
+  LAUNCHER_CLICKED,
+  WIDGET_INITIALISED,
+  ACTIVATE_RECIEVED
 } from './base-action-types';
 import { settings } from 'service/settings';
 import { getOAuth,
@@ -277,7 +279,15 @@ export const apiClearForm = () => {
 };
 
 export const launcherClicked = () => {
+
+export const widgetInitialised = () => {
   return {
-    type: LAUNCHER_CLICKED
+    type: WIDGET_INITIALISED
+  };
+};
+
+export const activateRecieved = () => {
+  return {
+    type: ACTIVATE_RECIEVED
   };
 };

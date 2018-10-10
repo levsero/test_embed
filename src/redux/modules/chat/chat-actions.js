@@ -671,7 +671,7 @@ export function setChatHistoryHandler() {
   return (_, getState) => {
     const zChat = getZChatVendor(getState());
 
-    zChat.on('history', (data) => {
+    zChat && zChat.on('history', (data) => {
       const eventData = (data.nick === EVENT_TRIGGER)
         ? { ...data, nick: AGENT_BOT }
         : data;

@@ -6,7 +6,7 @@ import { getThemeColor } from 'utility/color/validate';
 import { document, win,
   getDocumentHost } from 'utility/globals';
 import { cappedTimeoutCall } from 'utility/utils';
-import { updateZopimChatStatus } from 'src/redux/modules/zopimChat';
+import { updateZopimChatStatus, zopimHide } from 'src/redux/modules/zopimChat';
 import { updateSettingsChatSuppress, resetSettingsChatSuppress } from 'src/redux/modules/settings';
 
 let chats = {};
@@ -131,24 +131,24 @@ function render(name) {
 }
 
 function init(name) {
-  let zopimShow, zopimHide;
+  let originalZopimShow, originalZopimHide;
   let zopimApiOverwritten = false;
   const chat = get(name);
   const config = chat.config;
   const overwriteZopimApi = () => {
     if (!zopimApiOverwritten) {
-      zopimShow = win.$zopim.livechat.window.show;
-      zopimHide = win.$zopim.livechat.window.hide;
+      originalZopimShow = win.$zopim.livechat.window.show;
+      originalZopimHide = win.$zopim.livechat.window.hide;
       zopimApiOverwritten = true;
 
       win.$zopim.livechat.window.show = () => {
         mediator.channel.broadcast('.zopimShow');
-        zopimShow();
+        originalZopimShow();
       };
 
       win.$zopim.livechat.window.hide = () => {
-        mediator.channel.broadcast('.zopimHide');
-        zopimHide();
+        get(name).store.dispatch(zopimHide());
+        originalZopimHide();
       };
     }
   };

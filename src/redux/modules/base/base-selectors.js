@@ -16,6 +16,7 @@ export const getActiveEmbed = (state) => state.base.activeEmbed;
 export const getWidgetShown = (state) => state.base.widgetShown;
 export const getIPMWidget = (state) => !!state.base.embeds.ipmWidget;
 export const getOnApiListeners = (state) => state.base.onApiListeners;
+export const getWidgetInitialised = (state) => state.base.widgetInitialised;
 
 export const getFrameVisible = (state, frame = 'webWidget') => {
   if (frame === 'webWidget') {

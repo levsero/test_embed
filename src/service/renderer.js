@@ -9,7 +9,8 @@ import { logging } from 'service/logging';
 import { settings } from 'service/settings';
 import { win } from 'utility/globals';
 import { updateEmbedAccessible,
-  updateArturos } from 'src/redux/modules/base';
+  updateArturos,
+  widgetInitialised } from 'src/redux/modules/base';
 import { FONT_SIZE } from 'constants/shared';
 
 const embedsMap = {
@@ -149,6 +150,7 @@ function init(config, reduxStore = dummyStore) {
     renderedEmbeds = parsedConfig;
 
     initMediator(config);
+    reduxStore.dispatch(widgetInitialised(arturos));
 
     initialised = true;
 

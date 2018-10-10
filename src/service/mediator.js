@@ -81,22 +81,6 @@ const embedVisible = (_state) => _.some([
   _state[`${talk}.isVisible`]
 ]);
 
-const resetActiveEmbed = () => {
-  if (helpCenterAvailable()) {
-    state.activeEmbed = helpCenter;
-  } else if (channelChoiceAvailable()) {
-    state.activeEmbed = channelChoice;
-  } else if (talkAvailable()) {
-    state.activeEmbed = talk;
-  } else if (chatAvailable()) {
-    state.activeEmbed = (state['.newChat']) ? newChat : chat;
-  } else if (submitTicketAvailable()) {
-    state.activeEmbed = submitTicket;
-  } else {
-    c.broadcast(`${launcher}.hide`);
-  }
-};
-
 const trackChatStarted = () => {
   if (!chatOpenedBlipSent) {
     c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
@@ -164,7 +148,6 @@ function init(embedsAccessible, params = {}) {
   state[`${chat}.connectionPending`] = embedsAccessible.chat;
   state[`${talk}.isAccessible`] = embedsAccessible.talk;
   state[`${talk}.connectionPending`] = embedsAccessible.talk;
-  resetActiveEmbed();
 
   const connectionPending = () => state[`${chat}.connectionPending`]
                                || state[`${talk}.connectionPending`];
@@ -260,10 +243,6 @@ function init(embedsAccessible, params = {}) {
     state[`${talk}.isAccessible`] = availability;
 
     if (!embedVisible(state)) {
-      if (state.activeEmbed !== chat) {
-        resetActiveEmbed();
-      }
-
       if (embedAvailable() && !state[`${chat}.connectionPending`]) {
         show(state);
       }
@@ -279,8 +258,6 @@ function init(embedsAccessible, params = {}) {
     state[`${launcher}.userHidden`] = false;
     state[`${talk}.isVisible`] = false;
 
-    resetActiveEmbed();
-
     c.broadcast(`${chat}.hide`);
     c.broadcast('webWidget.hide');
 
@@ -293,7 +270,6 @@ function init(embedsAccessible, params = {}) {
     c.broadcast('beacon.trackUserAction', 'api', 'activate');
 
     if (!embedVisible(state)) {
-      resetActiveEmbed();
       state['.hideOnClose'] = !!options.hideOnClose;
       // New chat might still be connecting when activate on page is processed.
       if (embedAvailable() || (state[`${chat}.connectionPending`] && state['.newChat'])) {
@@ -307,28 +283,6 @@ function init(embedsAccessible, params = {}) {
           : showEmbed(state, true);
       }
     }
-  });
-
-  c.intercept('.zopimShow', () => {
-    c.broadcast('webWidget.hide');
-
-    /*
-      zopim opens up in a seperate tab on mobile,
-      we shouldn't hide launcher and,
-      there is no concept of zopim visibility
-    */
-    if (!isMobileBrowser()) {
-      c.broadcast(`${launcher}.hide`);
-      state[`${chat}.isVisible`] = true;
-    }
-
-    state.activeEmbed = chat;
-  });
-
-  c.intercept('.zopimHide', () => {
-    c.broadcast(`${launcher}.show`);
-    state[`${chat}.isVisible`] = false;
-    resetActiveEmbed();
   });
 
   c.intercept(`${chat}.onOnline`, () => {
@@ -355,8 +309,6 @@ function init(embedsAccessible, params = {}) {
     state[`${chat}.connectionPending`] = false;
 
     if (!embedVisible(state) && !state[`${chat}.isChatting`]) {
-      resetActiveEmbed();
-
       if (embedAvailable() && !state[`${talk}.connectionPending`]) {
         show(state);
       }
@@ -368,9 +320,6 @@ function init(embedsAccessible, params = {}) {
     // about when chat comes offline after being online
     if (!state[`${chat}.isChatting`] && state[`${chat}.isOnline`]) {
       state[`${chat}.isOnline`] = false;
-      if (state.activeEmbed === chat) {
-        resetActiveEmbed();
-      }
     }
   });
 
@@ -399,7 +348,6 @@ function init(embedsAccessible, params = {}) {
         !embedVisible(state) &&
         !state[`${chat}.userClosed`] &&
         !isMobileBrowser()) {
-      resetActiveEmbed();
       state.activeEmbed = chat;
       state[`${chat}.isVisible`] = true;
       c.broadcast(`${chat}.show`);
@@ -513,10 +461,6 @@ function init(embedsAccessible, params = {}) {
     }
   );
 
-  c.intercept(`${submitTicket}.onFormSubmitted`, () => {
-    resetActiveEmbed();
-  });
-
   c.intercept('.onSetLocale', () => {
     c.broadcast(`${chat}.refreshLocale`);
     c.broadcast(`${launcher}.refreshLocale`);
@@ -543,8 +487,6 @@ function initMessaging() {
   c.intercept('authentication.onSuccess', () => {
     state[`${helpCenter}.isAccessible`] = true;
     if (!embedVisible(state) && helpCenterAvailable()) {
-      resetActiveEmbed();
-
       if (!state[`${launcher}.userHidden`] && !state[`${chat}.isAccessible`])  {
         c.broadcast(`${launcher}.show`);
       }

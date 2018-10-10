@@ -230,35 +230,8 @@ class WebWidget extends Component {
     }
   }
 
-  resetActiveEmbed = () => {
-    const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable,
-      chatAvailable, articleViewActive, ipmHelpCenterAvailable, helpCenterAvailable,
-      channelChoiceAvailable, showTicketFormsBackButton } = this.props;
-    let backButton = false;
-
-    if (helpCenterAvailable) {
-      updateActiveEmbed(helpCenter);
-      backButton = articleViewActive;
-    } else if (ipmHelpCenterAvailable && articleViewActive) {
-      // we only go into this condition if HC is injected by IPM
-      updateActiveEmbed(helpCenter);
-      backButton = false;
-    } else if (channelChoiceAvailable) {
-      updateActiveEmbed(channelChoice);
-    } else if (talkAvailable) {
-      updateActiveEmbed(talk);
-    } else if (chatAvailable || chatStandalone) {
-      this.showChat();
-    } else {
-      updateActiveEmbed(submitTicket);
-      backButton = showTicketFormsBackButton;
-    }
-
-    updateBackButtonVisibility(backButton);
-  }
-
-  show = (viaActivate = false) => {
-    const { activeEmbed, chatAvailable, chatOfflineAvailable, talkAvailable, channelChoiceAvailable } = this.props;
+  show = () => {
+    const { activeEmbed, chatAvailable, channelChoiceAvailable } = this.props;
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
@@ -273,18 +246,6 @@ class WebWidget extends Component {
       this.props.zopimOnNext();
       return;
     }
-
-    const channelChoiceUnavailable = (activeEmbed === channelChoice && !channelChoiceAvailable);
-    const chatUnavailable = (activeEmbed === chat && !chatAvailable && !chatOfflineAvailable);
-    const talkUnavailable = (activeEmbed === talk && !talkAvailable);
-
-    if (
-      this.noActiveEmbed() ||
-      viaActivate ||
-      chatUnavailable ||
-      talkUnavailable ||
-      channelChoiceUnavailable
-    ) this.resetActiveEmbed();
   }
 
   showHelpCenter = () => {

@@ -31,12 +31,19 @@ import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared
  * Available: When an embed is part of config, not suppressed and has all the conditions to be used.
  * Enabled: When an embed is part of config, not suppressed but does not have all the conditions to be used
  */
-export const getHelpCenterAvailable = createSelector(
-  [getHelpCenterEmbed, getHasPassedAuth],
-  (helpCenterEnabled, hasPassedAuth) => {
+const getHelpCenterEnabled = createSelector(
+  [getHelpCenterEmbed],
+  (helpCenterEmbed) => {
     const notSuppressed = !settings.get('helpCenter.suppress');
 
-    return helpCenterEnabled && notSuppressed && hasPassedAuth;
+    return helpCenterEmbed && notSuppressed;
+  }
+);
+
+export const getHelpCenterAvailable = createSelector(
+  [getHelpCenterEnabled, getHasPassedAuth],
+  (helpCenterEnabled, hasPassedAuth) => {
+    return helpCenterEnabled && hasPassedAuth;
   }
 );
 
@@ -157,5 +164,12 @@ export const getPosition = createSelector(
   [getEmbeddableConfig, getChatThemePosition],
   (embeddableConfig, chatThemePosition) => {
     return (embeddableConfig.cp4 && chatThemePosition) ? chatThemePosition : embeddableConfig.position;
+  }
+);
+
+export const getIpmHelpCenterAllowed = createSelector(
+  [getHelpCenterEmbed, getEmbeddableConfig],
+  (helpCenterEnabled, config) => {
+    return !helpCenterEnabled && config.ipmAllowed;
   }
 );

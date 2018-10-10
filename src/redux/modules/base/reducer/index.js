@@ -12,6 +12,7 @@ import onApiListeners from './base-on-api-listeners';
 import hasWidgetShown from './base-has-widget-shown';
 import webWidgetVisible from './web-widget-visibility';
 import launcherVisible from './launcher-visibility';
+import widgetInitialised from './base-widget-initialised';
 
 export default combineReducers({
   activeEmbed,
@@ -25,5 +26,6 @@ export default combineReducers({
   onApiListeners,
   hasWidgetShown,
   webWidgetVisible,
-  launcherVisible
+  launcherVisible,
+  widgetInitialised
 });
