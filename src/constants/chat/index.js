@@ -14,6 +14,10 @@ export const CHAT_MESSAGE_EVENTS = {
   CHAT_EVENT_FILE:  'chat.file'
 };
 
+export const CHAT_CUSTOM_MESSAGE_EVENTS = {
+  CHAT_QUICK_REPLIES: 'chat.quick_replies'
+};
+
 export const CHAT_SYSTEM_EVENTS = {
   CHAT_EVENT_MEMBERJOIN:      'chat.memberjoin',
   CHAT_EVENT_MEMBERLEAVE:     'chat.memberleave',
@@ -21,10 +25,6 @@ export const CHAT_SYSTEM_EVENTS = {
   CHAT_EVENT_RATING:          'chat.rating',
   CHAT_EVENT_REQUEST_RATING:  'chat.request.rating',
   CHAT_EVENT_CONTACT_DETAILS_UPDATED: 'chat.contact_details.updated'
-};
-
-export const CHAT_STRUCTURED_CONTENT = {
-  CHAT_QUICK_REPLIES: 'chat.quick_replies'
 };
 
 export const ATTACHMENT_ERROR_TYPES = {

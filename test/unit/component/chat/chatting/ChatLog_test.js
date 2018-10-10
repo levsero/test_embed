@@ -13,12 +13,7 @@ describe('ChatLog component', () => {
 
   const ChatGroup = noopReactComponent();
   const EventMessage = noopReactComponent();
-  const QuickReplies = noopReactComponent();
-  const QuickReply = noopReactComponent();
   const Button = noopReactComponent();
-
-  const chatConstants = requireUncached(chatConstantsPath);
-  let CHAT_STRUCTURED_CONTENT = chatConstants.CHAT_STRUCTURED_CONTENT;
 
   beforeEach(() => {
     mockery.enable();
@@ -33,15 +28,10 @@ describe('ChatLog component', () => {
     initMockRegistry({
       'component/chat/chatting/ChatGroup': { ChatGroup },
       'component/chat/chatting/EventMessage': { EventMessage },
-      'component/shared/QuickReplies': {
-        QuickReplies,
-        QuickReply
-      },
       '@zendeskgarden/react-buttons': { Button },
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
-        CHAT_SYSTEM_EVENTS,
-        CHAT_STRUCTURED_CONTENT
+        CHAT_SYSTEM_EVENTS
       },
       './ChatLog.scss': {
         locals: {
@@ -50,9 +40,6 @@ describe('ChatLog component', () => {
       },
       'service/i18n': {
         i18n
-      },
-      'utility/globals': {
-        win: window
       }
     });
 
@@ -329,54 +316,6 @@ describe('ChatLog component', () => {
 
       it('returns a collection with the correct number of elements', () => {
         expect(result.length).toEqual(7);
-      });
-
-      it('returns a collection containing elements of the correct type', () => {
-        result.forEach((element, idx) => {
-          expect(TestUtils.isElementOfType(element, expectedResult[idx].component)).toEqual(true);
-        });
-      });
-
-      it('passes the expected props to each component', () => {
-        result.forEach((element, idx) => {
-          expect(element.props).toEqual(jasmine.objectContaining(
-            expectedResult[idx].props
-          ));
-        });
-      });
-    });
-
-    describe('when passed a chat log with a quick replies message', () => {
-      const quickReplies = [
-        { text: 'Laugh', action: { type: 'quick_reply', value: 'laugh' } },
-        { text: 'Cry', action: { type: 'quick_reply', value: 'cry' } },
-        { text: 'Shout', action: { type: 'quick_reply', value: 'shout' } }
-      ];
-      const chatLog = {
-        100: [
-          { timestamp: 100, nick: 'visitor', type: 'chat.msg', msg: 'Hello' },
-          { timestamp: 200, nick: 'visitor', type: 'chat.msg', msg: 'Help please' },
-          { timestamp: 300, nick: 'visitor', type: 'chat.msg', msg: 'My cat is on fire' }
-        ],
-        400: [{ timestamp: 400, nick: 'agent:123', type: 'chat.msg', msg: 'What can do you?' }],
-        500: [{ timestamp: 500, type: CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES, hidden: false, items: quickReplies }]
-      };
-      const expectedResult = [
-        { component: ChatGroup, props: { isAgent: false, messages: chatLog[100], avatarPath: undefined }},
-        { component: ChatGroup, props: { isAgent: true, messages: chatLog[400], avatarPath: '/path/to/avatar' }},
-        { component: QuickReplies, props: {} }
-      ];
-
-      let result;
-
-      beforeEach(() => {
-        const component = domRender(<ChatLog chatLog={chatLog} agents={agents} />);
-
-        result = component.renderChatLog();
-      });
-
-      it('returns a collection with the correct number of elements', () => {
-        expect(result.length).toEqual(3);
       });
 
       it('returns a collection containing elements of the correct type', () => {

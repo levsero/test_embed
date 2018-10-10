@@ -5,7 +5,7 @@ describe('chat reducer chats', () => {
     actionTypes,
     initialState,
     CHAT_MESSAGE_TYPES,
-    CHAT_STRUCTURED_CONTENT,
+    CHAT_CUSTOM_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS;
 
   const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
@@ -14,7 +14,7 @@ describe('chat reducer chats', () => {
   const chatConstants = requireUncached(chatConstantsPath);
 
   CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
-  CHAT_STRUCTURED_CONTENT = chatConstants.CHAT_STRUCTURED_CONTENT;
+  CHAT_CUSTOM_MESSAGE_EVENTS = chatConstants.CHAT_CUSTOM_MESSAGE_EVENTS;
   CHAT_SYSTEM_EVENTS = chatConstants.CHAT_SYSTEM_EVENTS;
 
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('chat reducer chats', () => {
     initMockRegistry({
       'constants/chat': {
         CHAT_MESSAGE_TYPES,
-        CHAT_STRUCTURED_CONTENT,
+        CHAT_CUSTOM_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS
       }
     });
@@ -451,9 +451,9 @@ describe('chat reducer chats', () => {
               msg: 'wassup', // fallback, discarded
               options: ['option1', 'option2'], // fallback, discarded
               structured_msg: {
-                text: 'structured msg text',
-                type: 'quick_reply',
-                items: [1, 2, 3]
+                type: 'QuickReplies',
+                msg: 'structured msg text',
+                quick_replies: [1, 2, 3]
               }
             };
 
@@ -466,7 +466,7 @@ describe('chat reducer chats', () => {
           it('adds the message to the chats collection', () => {
             const expectedMsg = {
               ...detail,
-              msg: detail.structured_msg.text, // discard fallback
+              msg: detail.structured_msg.msg, // discard fallback
               options: [] // discard fallback
             };
 
@@ -476,9 +476,9 @@ describe('chat reducer chats', () => {
 
           it('adds a quick reply item to the chats collection', () => {
             const expectedItem = {
-              type: CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES,
+              type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
               nick: 'agent:smith',
-              items: detail.structured_msg.items,
+              items: detail.structured_msg.quick_replies,
               timestamp: detail.timestamp + 1
             };
 

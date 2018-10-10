@@ -1,29 +1,33 @@
 @import '../../../styles/_vars.scss';
 
-$focusRingWidth: 2px;
+// Slider's height: button's line-height + button's padding + button's border-width + $focusRingWidth
+$focusRingWidth: 3px;
+$buttonLineHeight: 16/$font-size;
+$buttonPaddingVertical: 7/$font-size;
+$buttonBorderWidth: 1px;
+$buttonInnerHeight: $buttonLineHeight + ($buttonPaddingVertical * 2);
 
-.scrollContainer {
-  width: 100%;
-  padding: 0;
-  overflow-x: auto;
-}
+$sliderHeight: calc(#{$buttonInnerHeight}rem + #{$buttonBorderWidth * 2} + #{$focusRingWidth * 2});
 
-.replyContainer {
-  white-space: nowrap;
+.container {
   text-align: right;
   width: 100%;
   position: relative;
-  padding: $focusRingWidth 0; // to make room for the focus ring
+  z-index: 1;
+}
+
+.scroll {
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .quickReply {
   min-width: 0;
   height: auto !important; // garden override
-  line-height: #{16/$font-size}rem; // garden override, follow MessageBubble
-  padding: #{8/$font-size}rem #{12/$font-size}rem; // follow MessageBubble
+  line-height: #{$buttonLineHeight}rem; // garden override, follow MessageBubble
+  padding: #{$buttonPaddingVertical}rem #{12/$font-size}rem; // Different from MessageBubble because of border
 }
 
-.item {
-  margin-left: 5px;
-  display: inline-block;
+.separator {
+  margin-right: 8px;
 }

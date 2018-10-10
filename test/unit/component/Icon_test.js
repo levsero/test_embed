@@ -54,6 +54,8 @@ describe('Icon components', function() {
       '@zendeskgarden/svg-icons/src/12/check-sm-stroke.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/attachment.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/checkmark-fill.svg': DummyIcon,
+      '@zendeskgarden/svg-icons/src/16/chevron-left-fill.svg': DummyIcon,
+      '@zendeskgarden/svg-icons/src/16/chevron-right-fill.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/error-fill.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/error.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/link-external.svg': DummyIcon,

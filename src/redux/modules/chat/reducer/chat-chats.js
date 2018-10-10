@@ -17,7 +17,7 @@ import {
   CHAT_FILE_REQUEST_FAILURE,
   SET_VISITOR_INFO_REQUEST_SUCCESS
 } from '../chat-action-types';
-import { CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_CONTENT, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import {CHAT_MESSAGE_TYPES, CHAT_CUSTOM_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
 import _ from 'lodash';
 
@@ -43,7 +43,7 @@ const concatChat = (chats, chat) => {
 const concatQuickReply = (chats, chat) => {
   const copy = new Map(chats);
   const timestamp = chat.timestamp || Date.now();
-  const newMsg = chat.structured_msg.text;
+  const newMsg = chat.structured_msg.msg;
   const chatMessage = {
     ...chat,
     timestamp,
@@ -51,9 +51,9 @@ const concatQuickReply = (chats, chat) => {
     options: [] // We do not want options for a quick reply message
   };
   const quickReplies = {
-    type: CHAT_STRUCTURED_CONTENT.CHAT_QUICK_REPLIES,
+    type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
     nick: chat.nick,
-    items: _.values(chat.structured_msg.items),
+    items: chat.structured_msg.quick_replies,
     timestamp: timestamp + 1
   };
 
@@ -117,7 +117,7 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_MSG:
       const { detail } = action.payload;
 
-      if (detail.structured_msg && detail.structured_msg.type === 'quick_reply') {
+      if (detail.structured_msg && detail.structured_msg.type === 'QuickReplies') {
         return concatQuickReply(state, detail);
       }
 
