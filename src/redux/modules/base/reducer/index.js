@@ -13,6 +13,7 @@ import hasWidgetShown from './base-has-widget-shown';
 import webWidgetVisible from './web-widget-visibility';
 import launcherVisible from './launcher-visibility';
 import widgetInitialised from './base-widget-initialised';
+import hidden from './base-hidden';
 
 export default combineReducers({
   activeEmbed,
@@ -27,5 +28,6 @@ export default combineReducers({
   hasWidgetShown,
   webWidgetVisible,
   launcherVisible,
-  widgetInitialised
+  widgetInitialised,
+  hidden
 });

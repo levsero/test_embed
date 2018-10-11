@@ -8,7 +8,10 @@ import {
   logout,
   handleOnApiCalled,
   apiClearForm,
-  activateRecieved } from 'src/redux/modules/base';
+  activateRecieved,
+  showReceived,
+  hideReceived,
+  legacyShowReceived } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
@@ -73,6 +76,12 @@ const setHelpCenterSuggestionsApi = (reduxStore, options) => {
 };
 const prefill = (reduxStore, payload) => {
   reduxStore.dispatch(handlePrefillReceived(payload));
+};
+const hideApi = (reduxStore) => {
+  reduxStore.dispatch(hideReceived());
+};
+const showApi = (reduxStore) => {
+  reduxStore.dispatch(showReceived());
 };
 const updatePathApi = (reduxStore, page = {}) => {
   reduxStore.dispatch(sendVisitorPath(page));
@@ -144,8 +153,9 @@ const getApiPostRenderQueue = () => {
 };
 
 const newApiStructurePostRender = {
-  webWidget: {
-    hide: () => mediator.channel.broadcast('.hide'),
+  webwidget: {
+    hide: hideApi,
+    show: showApi,
     setLocale: setLocaleApi,
     identify: identifyApi,
     updateSettings: updateSettingsApi,
@@ -160,8 +170,9 @@ const newApiStructurePostRender = {
   }
 };
 const newApiStructurePreRender = {
-  webWidget: {
-    hide: renderer.hide,
+  webwidget: {
+    hide: hideApi,
+    show: (_, ...args) => addToPostRenderQueue(['webWidget', 'show', ...args]),
     setLocale: (_, locale) => i18n.setLocale(locale),
     identify: (_, ...args) => addToPostRenderQueue(['webWidget', 'identify', ...args]),
     updateSettings: (_, ...args) => addToPostRenderQueue(['webWidget', 'updateSettings', ...args]),
@@ -228,7 +239,7 @@ function handleQueue(reduxStore, queue) {
       } catch (e) {
         logApiError(method[0], e);
       }
-    } else if (_.includes(method[0], 'webWidget')){
+    } else if (_.includes(method[0], 'webWidget')) {
       // New API
       try {
         handleNewApi(newApiStructurePreRender, reduxStore, method);
@@ -264,7 +275,7 @@ function setupWidgetQueue(win, postRenderQueue, reduxStore) {
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
-    hide: renderer.hide,
+    hide: hideApi,
     show: postRenderQueueCallback.bind('show'),
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
     identify: postRenderQueueCallback.bind('identify'),
@@ -370,8 +381,8 @@ function setupWidgetApi(win, reduxStore) {
     reduxStore.dispatch(activateRecieved());
   };
   win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
-  win.zE.hide = () => mediator.channel.broadcast('.hide');
-  win.zE.show = () => mediator.channel.broadcast('.show');
+  win.zE.hide = () => hideApi(reduxStore);
+  win.zE.show = () => reduxStore.dispatch(legacyShowReceived());
   win.zE.setLocale = (locale) => setLocaleApi(null, locale);
 }
 

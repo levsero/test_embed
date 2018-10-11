@@ -218,22 +218,6 @@ function init(embedsAccessible, params = {}) {
     }
   });
 
-  c.intercept('.hide', (_, viaIPM = false) => {
-    if (!viaIPM) {
-      c.broadcast('beacon.trackUserAction', 'api', 'hide');
-    }
-
-    state[`${submitTicket}.isVisible`] = false;
-    state[`${chat}.isVisible`] = false;
-    state[`${helpCenter}.isVisible`] = false;
-    state[`${talk}.isVisible`] = false;
-    state[`${launcher}.userHidden`] = !viaIPM;
-
-    c.broadcast(`${chat}.hide`);
-    c.broadcast(`${launcher}.hide`);
-    c.broadcast('webWidget.hide');
-  });
-
   c.intercept('talk.enabled', (_, enabled) => {
     state[`${talk}.enabled`] = enabled;
     state[`${talk}.connectionPending`] = false;
@@ -245,42 +229,6 @@ function init(embedsAccessible, params = {}) {
     if (!embedVisible(state)) {
       if (embedAvailable() && !state[`${chat}.connectionPending`]) {
         show(state);
-      }
-    }
-  });
-
-  c.intercept(`.show, ${chat}.onError`, () => {
-    c.broadcast('beacon.trackUserAction', 'api', 'show');
-
-    state[`${submitTicket}.isVisible`] = false;
-    state[`${chat}.isVisible`] = false;
-    state[`${helpCenter}.isVisible`] = false;
-    state[`${launcher}.userHidden`] = false;
-    state[`${talk}.isVisible`] = false;
-
-    c.broadcast(`${chat}.hide`);
-    c.broadcast('webWidget.hide');
-
-    if (embedAvailable()) {
-      c.broadcast(`${launcher}.show`);
-    }
-  });
-
-  c.intercept('.activate', (__, options = {}) => {
-    c.broadcast('beacon.trackUserAction', 'api', 'activate');
-
-    if (!embedVisible(state)) {
-      state['.hideOnClose'] = !!options.hideOnClose;
-      // New chat might still be connecting when activate on page is processed.
-      if (embedAvailable() || (state[`${chat}.connectionPending`] && state['.newChat'])) {
-        const chatPending = state[`${chat}.connectionPending`] && state[`${chat}.isAccessible`];
-        const talkPending = state[`${talk}.connectionPending`] && state[`${talk}.isAccessible`];
-
-        // When boot time zE.activate() is used with contact form, talk & chat,
-        // delay showing the embed so that talk and chat has time to come online.
-        (chatPending || talkPending)
-          ? state['.activatePending'] = true
-          : showEmbed(state, true);
       }
     }
   });

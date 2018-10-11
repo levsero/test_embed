@@ -4,8 +4,14 @@ import { createSelector } from 'reselect';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { EMBED_MAP, LAUNCHER } from 'constants/shared';
 
-const getWebWidgetVisible = (state) => state.base.webWidgetVisible;
-const getLauncherVisible = (state) => state.base.launcherVisible;
+const getHiddenByHideAPI = (state) => state.base.hidden.hideApi;
+const getHiddenByActivateAPI = (state) => state.base.hidden.activateApi;
+const getWebWidgetVisible = (state) => {
+  return state.base.webWidgetVisible && !getHiddenByHideAPI(state);
+};
+const getLauncherVisible = (state) => {
+  return state.base.launcherVisible && !getHiddenByHideAPI(state) && !getHiddenByActivateAPI(state);
+};
 
 export const getSubmitTicketEmbed = (state) => !!state.base.embeds.ticketSubmissionForm;
 export const getZopimChatEmbed = (state) => !!state.base.embeds.zopimChat;

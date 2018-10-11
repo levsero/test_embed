@@ -1,28 +1,5 @@
 import _ from 'lodash';
-import {
-  UPDATE_ACTIVE_EMBED,
-  UPDATE_ARTUROS,
-  UPDATE_EMBED,
-  UPDATE_BACK_BUTTON_VISIBILITY,
-  UPDATE_WIDGET_SHOWN,
-  PREFILL_RECEIVED,
-  API_ON_RECEIVED,
-  WIDGET_HIDE_ANIMATION_COMPLETE,
-  AUTHENTICATION_SUCCESS,
-  AUTHENTICATION_FAILURE,
-  AUTHENTICATION_PENDING,
-  AUTHENTICATION_TOKEN_REVOKED,
-  AUTHENTICATION_TOKEN_NOT_REVOKED,
-  AUTHENTICATION_LOGGED_OUT,
-  CLOSE_BUTTON_CLICKED,
-  UPDATE_EMBEDDABLE_CONFIG,
-  UPDATE_QUEUE,
-  REMOVE_FROM_QUEUE,
-  API_CLEAR_FORM,
-  LAUNCHER_CLICKED,
-  WIDGET_INITIALISED,
-  ACTIVATE_RECIEVED
-} from './base-action-types';
+import * as actions from './base-action-types';
 import { settings } from 'service/settings';
 import { getOAuth,
   getBaseIsAuthenticated,
@@ -50,21 +27,21 @@ function onAuthRequestSuccess(res, id, dispatch) {
   );
   mediator.channel.broadcast('authentication.onSuccess');
   dispatch({
-    type: AUTHENTICATION_SUCCESS
+    type: actions.AUTHENTICATION_SUCCESS
   });
 }
 
 function onAuthRequestFailure(res, dispatch) {
   store.remove('zE_oauth');
   dispatch({
-    type: AUTHENTICATION_FAILURE
+    type: actions.AUTHENTICATION_FAILURE
   });
 }
 
 export const authenticate = (webToken) => {
   return (dispatch) => {
     dispatch({
-      type: AUTHENTICATION_PENDING
+      type: actions.AUTHENTICATION_PENDING
     });
 
     const oauth = getOAuth();
@@ -89,7 +66,7 @@ export const authenticate = (webToken) => {
     } else {
       mediator.channel.broadcast('authentication.onSuccess');
       dispatch({
-        type: AUTHENTICATION_SUCCESS
+        type: actions.AUTHENTICATION_SUCCESS
       });
     }
   };
@@ -128,32 +105,32 @@ export const revokeToken = (revokedAt) => {
   if (oauth && oauth.createdAt <= revokedAt) {
     store.remove('zE_oauth');
     return {
-      type: AUTHENTICATION_TOKEN_REVOKED
+      type: actions.AUTHENTICATION_TOKEN_REVOKED
     };
   }
 
   return {
-    type: AUTHENTICATION_TOKEN_NOT_REVOKED
+    type: actions.AUTHENTICATION_TOKEN_NOT_REVOKED
   };
 };
 
 export const logout = () => {
   store.remove('zE_oauth');
   return {
-    type: AUTHENTICATION_LOGGED_OUT
+    type: actions.AUTHENTICATION_LOGGED_OUT
   };
 };
 
 export const updateEmbeddableConfig = (rawEmbeddableConfig) => {
   return {
-    type: UPDATE_EMBEDDABLE_CONFIG,
+    type: actions.UPDATE_EMBEDDABLE_CONFIG,
     payload: rawEmbeddableConfig
   };
 };
 
 export const updateArturos = (payload) => {
   return {
-    type: UPDATE_ARTUROS,
+    type: actions.UPDATE_ARTUROS,
     payload
   };
 };
@@ -167,7 +144,7 @@ export const updateActiveEmbed = (embedName) => {
     }
 
     dispatch({
-      type: UPDATE_ACTIVE_EMBED,
+      type: actions.UPDATE_ACTIVE_EMBED,
       payload: embedName
     });
   };
@@ -175,7 +152,7 @@ export const updateActiveEmbed = (embedName) => {
 
 export const updateEmbedAccessible = (name, accessible) => {
   return {
-    type: UPDATE_EMBED,
+    type: actions.UPDATE_EMBED,
     payload: {
       name,
       params: { accessible }
@@ -185,14 +162,14 @@ export const updateEmbedAccessible = (name, accessible) => {
 
 export const updateBackButtonVisibility = (visible = true) => {
   return {
-    type: UPDATE_BACK_BUTTON_VISIBILITY,
+    type: actions.UPDATE_BACK_BUTTON_VISIBILITY,
     payload: visible
   };
 };
 
 export const updateWidgetShown = (show) => {
   const updateWidgetShownAction = {
-    type: UPDATE_WIDGET_SHOWN,
+    type: actions.UPDATE_WIDGET_SHOWN,
     payload: show
   };
 
@@ -234,60 +211,91 @@ export const handlePrefillReceived = (payload) => {
   }
 
   return {
-    type: PREFILL_RECEIVED,
+    type: actions.PREFILL_RECEIVED,
     payload: { prefillValues, isReadOnly }
   };
 };
 
 export const updateQueue = (payload) => {
   return {
-    type: UPDATE_QUEUE,
+    type: actions.UPDATE_QUEUE,
     payload
   };
 };
 
 export const removeFromQueue = (methodName) => {
   return {
-    type: REMOVE_FROM_QUEUE,
+    type: actions.REMOVE_FROM_QUEUE,
     payload: methodName
   };
 };
 
 export const widgetHideAnimationComplete = () => {
   return {
-    type: WIDGET_HIDE_ANIMATION_COMPLETE
+    type: actions.WIDGET_HIDE_ANIMATION_COMPLETE
   };
 };
 
 export const handleCloseButtonClicked = () => {
   return {
-    type: CLOSE_BUTTON_CLICKED
+    type: actions.CLOSE_BUTTON_CLICKED
   };
 };
 
 export const handleOnApiCalled = (actionType, selectors=[], callback) => {
   return {
-    type: API_ON_RECEIVED,
+    type: actions.API_ON_RECEIVED,
     payload: { actionType, selectors, callback }
   };
 };
 
 export const apiClearForm = () => {
   return {
-    type: API_CLEAR_FORM
+    type: actions.API_CLEAR_FORM
   };
 };
 
 export const launcherClicked = () => {
+  return (dispatch, getState) => {
+    const state = getState();
 
-export const widgetInitialised = () => {
-  return {
-    type: WIDGET_INITIALISED
+    if (getActiveEmbed(state) === 'zopimChat') {
+      mediator.channel.broadcast('zopimChat.show');
+    } else {
+      dispatch({
+        type: actions.LAUNCHER_CLICKED
+      });
+    }
   };
 };
 
-export const activateRecieved = () => {
+export const widgetInitialised = () => {
   return {
-    type: ACTIVATE_RECIEVED
+    type: actions.WIDGET_INITIALISED
+  };
+};
+
+export const activateRecieved = (options = {}) => {
+  return {
+    type: actions.ACTIVATE_RECIEVED,
+    payload: options
+  };
+};
+
+export const hideReceived = () => {
+  return {
+    type: actions.HIDE_RECIEVED
+  };
+};
+
+export const showReceived = () => {
+  return {
+    type: actions.SHOW_RECIEVED
+  };
+};
+
+export const legacyShowReceived = () => {
+  return {
+    type: actions.LEGACY_SHOW_RECIEVED
   };
 };
