@@ -38,6 +38,7 @@ import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules
 import { authenticate, revokeToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
+import { setScrollKiller } from 'utility/scrollHacks';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
@@ -110,6 +111,9 @@ export default function WebWidgetFactory(name) {
   const zopimOnNext = () => {
     mediator.channel.broadcast(prefix + 'helpCenterForm.onNextClick');
     hide();
+    if (isMobileBrowser()) {
+      setScrollKiller(false);
+    }
   };
 
   function create(name, config = {}, reduxStore = {}) {

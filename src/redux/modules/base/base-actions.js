@@ -303,3 +303,9 @@ export const legacyShowReceived = () => {
     type: actions.LEGACY_SHOW_RECIEVED
   };
 };
+
+export const nextButtonClicked = () => {
+  return {
+    type: actions.NEXT_BUTTON_CLICKED
+  };
+};

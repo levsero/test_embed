@@ -2,7 +2,8 @@ import {
   LAUNCHER_CLICKED,
   CLOSE_BUTTON_CLICKED,
   LEGACY_SHOW_RECIEVED,
-  ACTIVATE_RECIEVED } from '../base-action-types';
+  ACTIVATE_RECIEVED,
+  NEXT_BUTTON_CLICKED } from '../base-action-types';
 import { ZOPIM_HIDE, ZOPIM_SHOW } from 'src/redux/modules/zopimChat/zopimChat-action-types';
 import { isMobileBrowser } from 'utility/devices';
 
@@ -20,6 +21,7 @@ const launcherVisible = (state = initialState, action) => {
     case LEGACY_SHOW_RECIEVED:
       return true;
     case ZOPIM_SHOW:
+    case NEXT_BUTTON_CLICKED:
       return isMobileBrowser() ? true : false;
     default:
       return state;

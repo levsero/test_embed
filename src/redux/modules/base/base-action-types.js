@@ -26,3 +26,4 @@ export const API_CLEAR_FORM = 'widget/base/API_CLEAR_FORM';
 export const LAUNCHER_CLICKED = 'widget/base/LAUNCHER_CLICKED';
 export const WIDGET_INITIALISED = 'widget/base/WIDGET_INITIALISED';
 export const BOOT_UP_TIMER_COMPLETE = 'widget/base/BOOT_UP_TIMER_COMPLETE';
+export const NEXT_BUTTON_CLICKED = 'widget/base/NEXT_BUTTON_CLICKED';

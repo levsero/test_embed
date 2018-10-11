@@ -13,7 +13,8 @@ import HelpCenter from 'component/helpCenter/HelpCenter';
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
   updateEmbedAccessible,
-  updateBackButtonVisibility } from 'src/redux/modules/base';
+  updateBackButtonVisibility,
+  nextButtonClicked } from 'src/redux/modules/base';
 import { chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
@@ -117,6 +118,7 @@ class WebWidget extends Component {
     chatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
+    nextButtonClicked: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
@@ -264,7 +266,8 @@ class WebWidget extends Component {
       chatAvailable,
       talkAvailable,
       chatOfflineAvailable,
-      channelChoiceAvailable } = this.props;
+      channelChoiceAvailable,
+      nextButtonClicked } = this.props;
 
     if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
@@ -288,6 +291,8 @@ class WebWidget extends Component {
         updateBackButtonVisibility(true);
       }
     }
+
+    nextButtonClicked();
   }
 
   onCancelClick = () => {
@@ -586,7 +591,8 @@ const actionCreators = {
   chatNotificationDismissed,
   chatNotificationRespond,
   updateChatScreen,
-  showStandaloneMobileNotification
+  showStandaloneMobileNotification,
+  nextButtonClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

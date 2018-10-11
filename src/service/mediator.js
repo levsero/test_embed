@@ -12,7 +12,6 @@ const c = new airwaves.Channel();
 const submitTicket = 'ticketSubmissionForm';
 const launcher = 'launcher';
 const chat = 'zopimChat';
-const newChat = 'newChat';
 const helpCenter = 'helpCenterForm';
 const channelChoice = 'channelChoice';
 const talk = 'talk';
@@ -178,19 +177,6 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
-    if (!isMobileBrowser()) {
-      state[`${chat}.isVisible`] = true;
-    } else {
-      if (!state[`${launcher}.userHidden`]) {
-        c.broadcast(`${launcher}.show`);
-      }
-      setScrollKiller(false);
-    }
-
-    trackChatStarted();
-
-    state[`${helpCenter}.isVisible`] = false;
-    state.activeEmbed = chat;
     c.broadcast(`${chat}.show`);
   });
 
