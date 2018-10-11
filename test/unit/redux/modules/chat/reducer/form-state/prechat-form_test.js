@@ -48,7 +48,7 @@ describe('chat reducer formState preChatForm', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: baseActionTypes.PREFILL_RECEIVED,
-          payload: mockFormState
+          payload: { prefillValues: mockFormState }
         });
       });
 
@@ -66,7 +66,7 @@ describe('chat reducer formState preChatForm', () => {
         beforeEach(() => {
           state = reducer(state, {
             type: baseActionTypes.PREFILL_RECEIVED,
-            payload: mockFormUpdate
+            payload: { prefillValues: mockFormUpdate }
           });
         });
 

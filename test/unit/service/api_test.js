@@ -214,15 +214,18 @@ describe('api', () => {
       });
 
       describe('when that call is prefill', () => {
-        const user = { email: 'a2b.c' };
+        const payload = {
+          name: { value: 'Terence', readOnly: true },
+          email: { value: 'a2b.c' }
+        };
 
         beforeAll(() => {
-          call = ['webWidget', 'prefill', user];
+          call = ['webWidget', 'prefill', payload];
         });
 
         it('calls handlePrefillRecieved with the user', () => {
           expect(handlePrefillRecievedSpy)
-            .toHaveBeenCalledWith(user, jasmine.any(Function));
+            .toHaveBeenCalledWith(payload);
         });
       });
 
@@ -343,15 +346,18 @@ describe('api', () => {
     });
 
     describe('when that call is prefill', () => {
-      const user = { email: 'a2b.c' };
+      const payload = {
+        name: { value: 'T-bone', readOnly: true },
+        email: { value: 'a2b.c' }
+      };
 
       beforeAll(() => {
-        call = ['webWidget', 'prefill', user];
+        call = ['webWidget', 'prefill', payload];
       });
 
       it('calls handlePrefillRecieved with the user', () => {
         expect(handlePrefillRecievedSpy)
-          .toHaveBeenCalledWith(user, jasmine.any(Function));
+          .toHaveBeenCalledWith(payload);
       });
     });
 

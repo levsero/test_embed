@@ -26,6 +26,7 @@ export class ChatOfflineForm extends Component {
     handleOfflineFormBack: PropTypes.func.isRequired,
     handleOperatingHoursClick: PropTypes.func.isRequired,
     offlineMessage: PropTypes.object.isRequired,
+    readOnlyState: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
     phoneEnabled: PropTypes.bool,
@@ -49,7 +50,9 @@ export class ChatOfflineForm extends Component {
     socialLogin: {},
     authUrls: {},
     hideZendeskLogo: false,
-    getFrameContentDocument: () => ({})
+    getFrameContentDocument: () => ({}),
+    formState: {},
+    readOnlyState: {}
   };
 
   constructor(props) {
@@ -89,7 +92,7 @@ export class ChatOfflineForm extends Component {
   }
 
   renderNameField() {
-    const { formFields, formState, authUrls } = this.props;
+    const { formFields, formState, authUrls, readOnlyState } = this.props;
     const isRequired = !!_.get(formFields, 'name.required');
     const value = formState.name;
     const fieldContainerStyle = classNames({
@@ -108,7 +111,8 @@ export class ChatOfflineForm extends Component {
           autoComplete='off'
           onChange={() => {}}
           name='name'
-          validation={error ? 'error' : 'none'} />
+          validation={error ? 'error' : 'none'}
+          readOnly={readOnlyState.name} />
         {error}
       </TextField>
     );
@@ -131,6 +135,7 @@ export class ChatOfflineForm extends Component {
           onChange={() => {}}
           name='email'
           validation={error ? 'error' : 'none'}
+          readOnly={this.props.readOnlyState.email}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
         {error}
       </TextField>
@@ -156,6 +161,7 @@ export class ChatOfflineForm extends Component {
           onChange={() => {}}
           type='tel'
           name='phone'
+          readOnly={this.props.readOnlyState.phone}
           validation={error ? 'error' : 'none'} />
         {error}
       </TextField>

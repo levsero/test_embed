@@ -210,19 +210,29 @@ export const updateWidgetShown = (show) => {
 };
 
 export const handlePrefillRecieved = (payload) => {
-  let userDetails = payload;
+  const { name = {}, email = {}, phone = {} } = payload;
+  const prefillValues = {
+    name: _.toString(name.value),
+    email: '',
+    phone: ''
+  };
+  const isReadOnly = {
+    name: Boolean(name.readOnly),
+    email: Boolean(email.readOnly),
+    phone: Boolean(phone.readOnly)
+  };
 
-  if (!emailValid(payload.email)) {
-    userDetails = _.omit(userDetails, 'email');
+  if (emailValid(email.value)) {
+    prefillValues.email = email.value;
   }
 
-  if (!PHONE_PATTERN.test(payload.phone)) {
-    userDetails = _.omit(userDetails, 'phone');
+  if (PHONE_PATTERN.test(phone.value)) {
+    prefillValues.phone = phone.value;
   }
 
   return {
     type: PREFILL_RECEIVED,
-    payload: userDetails
+    payload: { prefillValues, isReadOnly }
   };
 };
 

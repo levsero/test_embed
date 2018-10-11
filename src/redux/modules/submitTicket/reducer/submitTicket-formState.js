@@ -20,7 +20,7 @@ const formState = (state = initialState, action) => {
     case PREFILL_RECEIVED:
       return {
         ...state,
-        ...payload
+        ...payload.prefillValues
       };
     case API_CLEAR_FORM:
       return initialState;

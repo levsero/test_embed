@@ -73,7 +73,7 @@ describe('chat reducer formState offlineForm', () => {
 
         state = reducer({ phone: '12345678' }, {
           type: baseActionTypes.PREFILL_RECEIVED,
-          payload: mockFormState
+          payload: { prefillValues: mockFormState }
         });
       });
 

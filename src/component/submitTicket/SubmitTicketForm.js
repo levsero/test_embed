@@ -44,7 +44,8 @@ export class SubmitTicketForm extends Component {
     getFrameContentDocument: PropTypes.func.isRequired,
     ticketFormSettings: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
-    formState: PropTypes.object,
+    formState: PropTypes.object.isRequired,
+    readOnlyState: PropTypes.object.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
     hide: PropTypes.bool,
@@ -64,6 +65,7 @@ export class SubmitTicketForm extends Component {
     activeTicketForm: {},
     formTitleKey: 'message',
     formState: {},
+    readOnlyState: {},
     fullscreen: false,
     hide: false,
     maxFileCount: 5,
@@ -321,7 +323,7 @@ export class SubmitTicketForm extends Component {
   renderSubjectField = () => {
     const error = this.renderErrorMessage(
       false,
-      this.props.formState.name,
+      this.props.formState.subject,
       'embeddable_framework.validation.error.input'
     );
     const name = 'subject';
@@ -334,7 +336,8 @@ export class SubmitTicketForm extends Component {
           name={name}
           validation={error ? 'error': 'none'}
           value={this.props.formState.subject}
-          disabled={this.props.previewEnabled} />
+          disabled={this.props.previewEnabled}
+          readOnly={this.props.readOnlyState.subject} />
       </TextField>
     );
 
@@ -362,6 +365,7 @@ export class SubmitTicketForm extends Component {
           name={name}
           required={true}
           value={this.props.formState.email}
+          readOnly={this.props.readOnlyState.email}
           disabled={this.props.previewEnabled}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
         {error}
@@ -385,7 +389,8 @@ export class SubmitTicketForm extends Component {
           name={name}
           validation={error ? 'error': 'none'}
           disabled={this.props.previewEnabled}
-          value={this.props.formState.name} />
+          value={this.props.formState.name}
+          readOnly={this.props.readOnlyState.name} />
         {error}
       </TextField>
     );

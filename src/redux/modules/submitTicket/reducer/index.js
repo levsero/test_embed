@@ -7,6 +7,7 @@ import ticketFields from './submitTicket-fields';
 import activeForm from './submitTicket-activeForm';
 import errorMsg from './submitTicket-errorMsg';
 import notification from './submitTicket-notification';
+import readOnlyState from './submitTicket-readOnlyState';
 
 export default combineReducers({
   formState,
@@ -15,5 +16,6 @@ export default combineReducers({
   ticketFields,
   activeForm,
   errorMsg,
-  notification
+  notification,
+  readOnlyState
 });
