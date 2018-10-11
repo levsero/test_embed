@@ -6,7 +6,7 @@ import {
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_WIDGET_SHOWN,
   PREFILL_RECEIVED,
-  API_ON_RECIEVED,
+  API_ON_RECEIVED,
   WIDGET_HIDE_ANIMATION_COMPLETE,
   AUTHENTICATION_SUCCESS,
   AUTHENTICATION_FAILURE,
@@ -209,7 +209,7 @@ export const updateWidgetShown = (show) => {
   };
 };
 
-export const handlePrefillRecieved = (payload) => {
+export const handlePrefillReceived = (payload) => {
   const { name = {}, email = {}, phone = {} } = payload;
   const prefillValues = {
     name: _.toString(name.value),
@@ -264,7 +264,7 @@ export const handleCloseButtonClicked = () => {
 
 export const handleOnApiCalled = (actions, callback) => {
   return {
-    type: API_ON_RECIEVED,
+    type: API_ON_RECEIVED,
     payload: { callback, actions }
   };
 };

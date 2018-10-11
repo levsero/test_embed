@@ -3,7 +3,7 @@ describe('api', () => {
   const apiPath = buildSrcPath('service/api');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const setLocaleSpy = jasmine.createSpy('setLocale');
-  const handlePrefillRecievedSpy = jasmine.createSpy('handlePrefillRecieved');
+  const handlePrefillReceivedSpy = jasmine.createSpy('handlePrefillReceived');
   const updateSettingsSpy = jasmine.createSpy('updateSettings');
   const sendVisitorPathSpy = jasmine.createSpy('sendVisitorPath');
   const apiClearFormSpy = jasmine.createSpy('apiClearForm');
@@ -47,7 +47,7 @@ describe('api', () => {
         }
       },
       'src/redux/modules/base': {
-        handlePrefillRecieved: handlePrefillRecievedSpy,
+        handlePrefillReceived: handlePrefillReceivedSpy,
         logout: logoutSpy,
         handleOnApiCalled: handleOnApiCalledSpy,
         apiClearForm: apiClearFormSpy
@@ -223,8 +223,8 @@ describe('api', () => {
           call = ['webWidget', 'prefill', payload];
         });
 
-        it('calls handlePrefillRecieved with the user', () => {
-          expect(handlePrefillRecievedSpy)
+        it('calls handlePrefillReceived with the user', () => {
+          expect(handlePrefillReceivedSpy)
             .toHaveBeenCalledWith(payload);
         });
       });
@@ -355,8 +355,8 @@ describe('api', () => {
         call = ['webWidget', 'prefill', payload];
       });
 
-      it('calls handlePrefillRecieved with the user', () => {
-        expect(handlePrefillRecievedSpy)
+      it('calls handlePrefillReceived with the user', () => {
+        expect(handlePrefillReceivedSpy)
           .toHaveBeenCalledWith(payload);
       });
     });

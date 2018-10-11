@@ -27,14 +27,14 @@ describe('base reducer on api listeners', () => {
     });
   });
 
-  describe('when an API_ON_RECIEVED action is dispatched', () => {
+  describe('when an API_ON_RECEIVED action is dispatched', () => {
     let action,
       state,
       oldState;
 
     beforeEach(() => {
       action = {
-        type: actionTypes.API_ON_RECIEVED,
+        type: actionTypes.API_ON_RECEIVED,
         payload: {
           actions: [ 'LAUNCHER_CLICK' ],
           callback: () => {}

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
-import { handlePrefillRecieved, logout, handleOnApiCalled, apiClearForm } from 'src/redux/modules/base';
+import { handlePrefillReceived, logout, handleOnApiCalled, apiClearForm } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
@@ -57,7 +57,7 @@ const setHelpCenterSuggestionsApi = (reduxStore, options) => {
   reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
 };
 const prefill = (reduxStore, payload) => {
-  reduxStore.dispatch(handlePrefillRecieved(payload));
+  reduxStore.dispatch(handlePrefillReceived(payload));
 };
 const updatePathApi = (reduxStore, page = {}) => {
   reduxStore.dispatch(sendVisitorPath(page));

@@ -436,7 +436,7 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('handlePrefillRecieved', () => {
+  describe('handlePrefillReceived', () => {
     let action,
       payload;
 
@@ -448,7 +448,7 @@ describe('base redux actions', () => {
           phone: { value: '12345678' }
         };
 
-        mockStore.dispatch(actions.handlePrefillRecieved(payload));
+        mockStore.dispatch(actions.handlePrefillReceived(payload));
         action = mockStore.getActions()[0];
       });
 
@@ -483,7 +483,7 @@ describe('base redux actions', () => {
         };
 
         mockEmailValidValue = false;
-        mockStore.dispatch(actions.handlePrefillRecieved(payload));
+        mockStore.dispatch(actions.handlePrefillReceived(payload));
         action = mockStore.getActions()[0];
       });
 
@@ -504,7 +504,7 @@ describe('base redux actions', () => {
           phone: { value: 'number' }
         };
 
-        mockStore.dispatch(actions.handlePrefillRecieved(payload));
+        mockStore.dispatch(actions.handlePrefillReceived(payload));
         action = mockStore.getActions()[0];
       });
 
@@ -803,9 +803,9 @@ describe('base redux actions', () => {
     });
 
     describe('when event is in the event list', () => {
-      it('dispatches a API_ON_RECIEVED event', () => {
+      it('dispatches a API_ON_RECEIVED event', () => {
         expect(action.type)
-          .toEqual(actionTypes.API_ON_RECIEVED);
+          .toEqual(actionTypes.API_ON_RECEIVED);
       });
 
       it('dispatches the actions in payload', () => {
