@@ -57,7 +57,7 @@ let chatAccountSettingsFetched = false;
 let chatNotificationTimeout = null;
 
 const onWidgetOpen = (prevState, nextState) => {
-  if (!isMobileBrowser() && getActiveEmbed(nextState) === 'zopimChat') return;
+  if (!isMobileBrowser() || getActiveEmbed(nextState) === 'zopimChat') return;
 
   if (!getWebWidgetVisible(prevState) && getWebWidgetVisible(nextState)) {
     setTimeout(() => {
