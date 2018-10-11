@@ -135,18 +135,6 @@ function render() {
 
   ReactDOM.render(embed.component, element);
 
-  mediator.channel.subscribe('launcher.hide', (options = {}) => {
-    waitForRootComponent(() => {
-      get().instance.hide(options);
-    });
-  });
-
-  mediator.channel.subscribe('launcher.show', (options = {}) => {
-    waitForRootComponent(() => {
-      get('launcher').instance.show(options);
-    });
-  });
-
   mediator.channel.subscribe('launcher.refreshLocale', () => {
     waitForRootComponent(() => {
       get().instance.updateFrameLocale();

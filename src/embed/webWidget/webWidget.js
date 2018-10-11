@@ -44,7 +44,6 @@ const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
 export default function WebWidgetFactory(name) {
   let embed = null;
-  let resetEmbedOnShow = false;
   let prefix = '';
 
   if (name) {
@@ -262,21 +261,6 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupMediator() {
-    mediator.channel.subscribe(prefix + 'webWidget.show', (options = {}) => {
-      waitForRootComponent(() => {
-        // If the embed is already opened don't try to reset the state with activate
-        if (embed.instance.state.visible && options.viaActivate) return;
-
-        // Stop stupid host page scrolling
-        // when trying to focus HelpCenter's search field.
-        setTimeout(() => {
-          getWebWidgetComponent().show(options.viaActivate || resetEmbedOnShow);
-          embed.instance.show(options);
-          resetEmbedOnShow = false;
-        }, 0);
-      });
-    });
-
     mediator.channel.subscribe(prefix + 'webWidget.proactiveChat', (options = {}) => {
       embed.instance.show(options);
       getWebWidgetComponent().showProactiveChat();
@@ -293,10 +277,6 @@ export default function WebWidgetFactory(name) {
       }
     });
 
-    mediator.channel.subscribe(prefix + 'webWidget.hide', (options = {}) => {
-      hide(options);
-    });
-
     mediator.channel.subscribe(prefix + 'webWidget.zopimChatEnded', () => {
       waitForRootComponent(() => {
         // Reset the active component state
@@ -306,7 +286,7 @@ export default function WebWidgetFactory(name) {
 
     mediator.channel.subscribe(prefix + 'webWidget.zopimChatStarted', () => {
       waitForRootComponent(() => {
-        if (!embed.instance.state.visible) {
+        if (!embed.instance.props.visible) {
           getWebWidgetComponent().setComponent('zopimChat');
         }
       });
@@ -438,7 +418,6 @@ export default function WebWidgetFactory(name) {
       userActionPayload = createUserActionPayload(userActionPayload, params);
       beacon.trackUserAction('submitTicket', 'send', 'ticketSubmissionForm', userActionPayload);
       mediator.channel.broadcast(prefix + 'ticketSubmissionForm.onFormSubmitted');
-      resetEmbedOnShow = true;
     };
     const getTicketFormsFromConfig = _.memoize((config) => {
       const settingTicketForms = settings.get('contactForm.ticketForms');
