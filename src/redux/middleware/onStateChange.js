@@ -115,13 +115,13 @@ const handleNewAgentMessage = (nextState, dispatch) => {
 
     if (recentMessage && getUserSoundSettings(nextState)) {
       audio.play('incoming_message');
+      dispatch(newAgentMessageReceived(agentMessage));
     }
 
     if (_.size(getChatMessagesByAgent(nextState)) === 1 && !getHasSearched(nextState)) {
       dispatch(updateActiveEmbed('chat'));
     }
 
-    dispatch(newAgentMessageReceived(agentMessage));
     startChatNotificationTimer(agentMessage);
 
     if (!widgetShown && recentMessage && agentMessage.proactive && !(isMobile && isMobileNotificationsDisabled)) {
