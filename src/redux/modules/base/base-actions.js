@@ -309,3 +309,9 @@ export const nextButtonClicked = () => {
     type: actions.NEXT_BUTTON_CLICKED
   };
 };
+
+export const cancelButtonClicked = () => {
+  return {
+    type: actions.CANCEL_BUTTON_CLICKED
+  };
+};

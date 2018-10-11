@@ -14,7 +14,8 @@ import SubmitTicket from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  nextButtonClicked } from 'src/redux/modules/base';
+  nextButtonClicked,
+  cancelButtonClicked } from 'src/redux/modules/base';
 import { chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
@@ -98,7 +99,6 @@ class WebWidget extends Component {
     hideZendeskLogo: PropTypes.bool,
     localeFallbacks: PropTypes.array,
     oldChat: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func,
     onSubmitted: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
@@ -119,6 +119,7 @@ class WebWidget extends Component {
     chatNotificationRespond: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     nextButtonClicked: PropTypes.func.isRequired,
+    cancelButtonClicked: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
@@ -154,7 +155,6 @@ class WebWidget extends Component {
     isOnHelpCenterPage: false,
     hideZendeskLogo: false,
     localeFallbacks: [],
-    onCancel: () => {},
     onSubmitted: () => {},
     originalArticleButton: true,
     position: 'right',
@@ -296,7 +296,7 @@ class WebWidget extends Component {
   }
 
   onCancelClick = () => {
-    const { ipmHelpCenterAvailable, updateActiveEmbed, onCancel, updateBackButtonVisibility,
+    const { updateActiveEmbed, cancelButtonClicked, updateBackButtonVisibility,
       helpCenterAvailable, channelChoiceAvailable } = this.props;
 
     if (helpCenterAvailable) {
@@ -305,10 +305,7 @@ class WebWidget extends Component {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
     }  else {
-      if (!ipmHelpCenterAvailable) {
-        updateActiveEmbed('');
-      }
-      onCancel();
+      cancelButtonClicked();
     }
   }
 
@@ -592,7 +589,8 @@ const actionCreators = {
   chatNotificationRespond,
   updateChatScreen,
   showStandaloneMobileNotification,
-  nextButtonClicked
+  nextButtonClicked,
+  cancelButtonClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

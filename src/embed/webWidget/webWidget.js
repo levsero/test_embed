@@ -212,7 +212,6 @@ export default function WebWidgetFactory(name) {
             hideZendeskLogo={globalConfig.hideZendeskLogo}
             imagesSender={helpCenterSettings.imagesSenderFn}
             localeFallbacks={settings.get('helpCenter.localeFallbacks')}
-            onCancel={submitTicketSettings.onCancel}
             onSubmitted={submitTicketSettings.onSubmitted}
             originalArticleButton={settings.get('helpCenter.originalArticleButton')}
             position={globalConfig.position}
@@ -441,9 +440,6 @@ export default function WebWidgetFactory(name) {
       mediator.channel.broadcast(prefix + 'ticketSubmissionForm.onFormSubmitted');
       resetEmbedOnShow = true;
     };
-    const onCancel = () => {
-      mediator.channel.broadcast(prefix + 'ticketSubmissionForm.onCancelClick');
-    };
     const getTicketFormsFromConfig = _.memoize((config) => {
       const settingTicketForms = settings.get('contactForm.ticketForms');
 
@@ -473,8 +469,7 @@ export default function WebWidgetFactory(name) {
       ticketForms,
       customFields,
       attachmentSender,
-      onSubmitted,
-      onCancel
+      onSubmitted
     };
   }
 

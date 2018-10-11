@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
-import { setScrollKiller } from 'utility/scrollHacks';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { emailValid } from 'utility/utils';
 
@@ -178,15 +177,6 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
     c.broadcast(`${chat}.show`);
-  });
-
-  c.intercept(`${submitTicket}.onCancelClick`, () => {
-    state[`${submitTicket}.isVisible`] = false;
-    c.broadcast('webWidget.hide');
-
-    if (!state['.hideOnClose']) {
-      c.broadcast(`${launcher}.show`);
-    }
   });
 
   c.intercept(`${launcher}.onClick`, () => {
