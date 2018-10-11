@@ -5,7 +5,6 @@ import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS } from 'src/redux/modules/cha
 import { UPDATE_TALK_AGENT_AVAILABILITY } from 'src/redux/modules/talk/talk-action-types';
 import { ZOPIM_CHAT_ON_STATUS_UPDATE, ZOPIM_HIDE } from 'src/redux/modules/zopimChat/zopimChat-action-types';
 import { AUTHENTICATION_SUCCESS, AUTHENTICATION_FAILURE } from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { getFrameVisible } from 'src/redux/modules/base/base-selectors';
 import { updateActiveEmbed,
   updateBackButtonVisibility } from 'src/redux/modules/base';
 import { chatStandalone } from 'src/redux/modules/base/base-selectors';
@@ -14,7 +13,8 @@ import { getChatAvailable,
   getChannelChoiceAvailable,
   getHelpCenterAvailable,
   getShowTicketFormsBackButton,
-  getIpmHelpCenterAllowed } from 'src/redux/modules/selectors';
+  getIpmHelpCenterAllowed,
+  getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 
 const getActiveEmbed = (state, dispatch) => {
@@ -59,7 +59,7 @@ export default function queueCalls(prevState, nextState, action, dispatch = () =
     AUTHENTICATION_FAILURE
   ];
 
-  if (!getFrameVisible(state, 'webWidget') && _.includes(actions, type)) {
+  if (!getWebWidgetVisible(state) && _.includes(actions, type)) {
     getActiveEmbed(state, dispatch);
   }
 }

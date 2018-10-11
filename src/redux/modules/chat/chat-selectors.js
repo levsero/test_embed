@@ -6,7 +6,8 @@ import {
   CHAT_SYSTEM_EVENTS,
   CHAT_CUSTOM_MESSAGE_EVENTS,
   DEPARTMENT_STATUSES,
-  WHITELISTED_SOCIAL_LOGINS } from 'constants/chat';
+  WHITELISTED_SOCIAL_LOGINS,
+  CONNECTION_STATUSES } from 'constants/chat';
 import { CHATTING_SCREEN } from './chat-screen-types';
 
 import { i18n } from 'service/i18n';
@@ -34,6 +35,7 @@ export const getAgentsTyping = (state) => {
 export const getAllAgents = (state) => _.extend({}, getActiveAgents(state),  getInactiveAgents(state));
 export const getSocialLogin = (state) => state.chat.socialLogin;
 export const getConnection = (state) => state.chat.connection;
+export const getChatConnected = (state) => getConnection(state) === CONNECTION_STATUSES.CONNECTED;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getCurrentSessionStartTime = (state) => state.chat.currentSessionStartTime;
 export const getChatOnline = (state) => _.includes(['online', 'away'], getChatStatus(state));

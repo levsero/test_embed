@@ -4,15 +4,8 @@ import { createSelector } from 'reselect';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { EMBED_MAP, LAUNCHER } from 'constants/shared';
 
-const getHiddenByHideAPI = (state) => state.base.hidden.hideApi;
-const getHiddenByActivateAPI = (state) => state.base.hidden.activateApi;
-const getWebWidgetVisible = (state) => {
-  return state.base.webWidgetVisible && !getHiddenByHideAPI(state);
-};
-const getLauncherVisible = (state) => {
-  return state.base.launcherVisible && !getHiddenByHideAPI(state) && !getHiddenByActivateAPI(state);
-};
-
+export const getHiddenByHideAPI = (state) => state.base.hidden.hideApi;
+export const getHiddenByActivateAPI = (state) => state.base.hidden.activateApi;
 export const getSubmitTicketEmbed = (state) => !!state.base.embeds.ticketSubmissionForm;
 export const getZopimChatEmbed = (state) => !!state.base.embeds.zopimChat;
 export const getChatEmbed = (state) => !!state.base.embeds.chat;
@@ -23,13 +16,7 @@ export const getWidgetShown = (state) => state.base.widgetShown;
 export const getIPMWidget = (state) => !!state.base.embeds.ipmWidget;
 export const getOnApiListeners = (state) => state.base.onApiListeners;
 export const getWidgetInitialised = (state) => state.base.widgetInitialised;
-
-export const getFrameVisible = (state, frame = 'webWidget') => {
-  if (frame === 'webWidget') {
-    return getWebWidgetVisible(state);
-  }
-  return getLauncherVisible(state);
-};
+export const getBootupTimeout = (state) => state.base.bootupTimeout;
 
 export const getChatStandalone = (state) => {
   const otherProducts = getSubmitTicketEmbed(state) ||

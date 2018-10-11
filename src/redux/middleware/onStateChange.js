@@ -37,12 +37,12 @@ import { getActiveEmbed,
   getWidgetShown,
   getIPMWidget,
   getHelpCenterEmbed,
-  getSubmitTicketEmbed,
-  getWebWidgetVisible } from 'src/redux/modules/base/base-selectors';
+  getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
 import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
+import { getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
   setWindowScroll,

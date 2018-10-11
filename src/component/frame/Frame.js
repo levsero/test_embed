@@ -21,8 +21,7 @@ import { clickBusterRegister,
 import { win } from 'utility/globals';
 import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
-import { getFixedStyles, getColor, getPosition } from 'src/redux/modules/selectors';
-import { getFrameVisible } from 'src/redux/modules/base/base-selectors';
+import { getFixedStyles, getColor, getPosition, getFrameVisible } from 'src/redux/modules/selectors';
 import { FONT_SIZE, MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
 
 // Unregister lodash from window._

@@ -270,8 +270,12 @@ export const launcherClicked = () => {
 };
 
 export const widgetInitialised = () => {
-  return {
-    type: actions.WIDGET_INITIALISED
+  return (dispatch) => {
+    dispatch({
+      type: actions.WIDGET_INITIALISED
+    });
+
+    setTimeout(() => dispatch({ type: actions.BOOT_UP_TIMER_COMPLETE }), 5000);
   };
 };
 

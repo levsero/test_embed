@@ -14,6 +14,7 @@ import webWidgetVisible from './web-widget-visibility';
 import launcherVisible from './launcher-visibility';
 import widgetInitialised from './base-widget-initialised';
 import hidden from './base-hidden';
+import bootupTimeout from './base-bootupTimeout';
 
 export default combineReducers({
   activeEmbed,
@@ -29,5 +30,6 @@ export default combineReducers({
   webWidgetVisible,
   launcherVisible,
   widgetInitialised,
-  hidden
+  hidden,
+  bootupTimeout
 });
