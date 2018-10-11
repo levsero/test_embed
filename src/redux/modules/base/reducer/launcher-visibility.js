@@ -6,6 +6,7 @@ import {
   NEXT_BUTTON_CLICKED,
   CANCEL_BUTTON_CLICKED } from '../base-action-types';
 import { ZOPIM_HIDE, ZOPIM_SHOW } from 'src/redux/modules/zopimChat/zopimChat-action-types';
+import { PROACTIVE_CHAT_RECEIVED } from 'src/redux/modules/chat/chat-action-types';
 import { isMobileBrowser } from 'utility/devices';
 
 const initialState = true;
@@ -16,6 +17,7 @@ const launcherVisible = (state = initialState, action) => {
   switch (type) {
     case LAUNCHER_CLICKED:
     case ACTIVATE_RECIEVED:
+    case PROACTIVE_CHAT_RECEIVED:
       return false;
     case CLOSE_BUTTON_CLICKED:
     case ZOPIM_HIDE:

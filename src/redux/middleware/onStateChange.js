@@ -114,7 +114,7 @@ const handleNewAgentMessage = (nextState, dispatch) => {
     startChatNotificationTimer(agentMessage);
 
     if (!widgetShown && recentMessage && agentMessage.proactive && !(isMobile && isMobileNotificationsDisabled)) {
-      mediator.channel.broadcast('newChat.newMessage');
+      mediator.channel.broadcast('newChat.newMessage', dispatch);
     }
   }
 };

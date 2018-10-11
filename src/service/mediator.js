@@ -16,7 +16,7 @@ state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
 
 function init() {
-  c.intercept('newChat.newMessage', (dispatch) => {
+  c.intercept('newChat.newMessage', (_, dispatch) => {
     if (!state[`${chat}.userClosed`]) {
       c.broadcast('webWidget.proactiveChat');
       dispatch(proactiveMessageRecieved());
