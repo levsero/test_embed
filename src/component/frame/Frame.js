@@ -15,9 +15,7 @@ import { locals as styles } from './Frame.scss';
 import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { clickBusterRegister,
-  getZoomSizingRatio,
-  isMobileBrowser } from 'utility/devices';
+import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
@@ -256,22 +254,6 @@ class Frame extends Component {
     }
   }
 
-  close = (e = {}, options = {}) => {
-    if (this.props.preventClose) return;
-
-    // e.touches added for automation testing mobile browsers
-    // which is firing 'click' event on iframe close
-    if (isMobileBrowser() && e.touches) {
-      clickBusterRegister(e.touches[0].clientX, e.touches[0].clientY);
-    }
-
-    this.hide({ onHide: options.onHide });
-
-    if (!options.skipOnClose) {
-      this.props.onClose(this, options);
-    }
-  }
-
   back = (e) => {
     e.preventDefault();
     this.props.onBack(this);
@@ -394,7 +376,7 @@ class Frame extends Component {
           generateUserCSS={this.props.generateUserCSS}
           reduxStore={this.props.store}
           handleBackClick={this.back}
-          handleCloseClick={this.close}
+          preventClose={this.props.preventClose}
           useBackButton={this.props.useBackButton}
           hideCloseButton={this.props.hideCloseButton}
           name={this.props.name}

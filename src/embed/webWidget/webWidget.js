@@ -104,9 +104,6 @@ export default function WebWidgetFactory(name) {
       rootComponent.focusField();
     }
   };
-  const onClose = () => {
-    mediator.channel.broadcast(prefix + 'webWidget.onClose');
-  };
   const zopimOnNext = () => {
     mediator.channel.broadcast(prefix + 'helpCenterForm.onNextClick');
     hide();
@@ -195,7 +192,6 @@ export default function WebWidgetFactory(name) {
       name: name,
       afterShowAnimate,
       onHide,
-      onClose,
       onBack,
       title: i18n.t('embeddable_framework.web_widget.frame.title')
     };
