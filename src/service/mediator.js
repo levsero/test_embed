@@ -3,9 +3,7 @@ import _ from 'lodash';
 
 import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
-import { setScrollKiller,
-  setWindowScroll,
-  revertWindowScroll } from 'utility/scrollHacks';
+import { setScrollKiller } from 'utility/scrollHacks';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { emailValid } from 'utility/utils';
 
@@ -40,7 +38,6 @@ state[`${talk}.isAccessible`] = false;
 state[`${talk}.enabled`] = false;
 state[`${talk}.connectionPending`] = true;
 state[`${talk}.isVisible`] = false;
-state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 state['.newChat'] = false;
 
@@ -121,18 +118,6 @@ const showEmbed = (_state, viaActivate = false) => {
     } else {
       c.broadcast('webWidget.show', options);
     }
-  }
-
-  if (isMobileBrowser() && _state.activeEmbed !== chat) {
-    /**
-     * This timeout ensures the embed is displayed
-     * before the scrolling happens on the host page
-     * so that the user doesn't see the host page jump
-     */
-    setTimeout(() => {
-      setWindowScroll(0);
-      setScrollKiller(true);
-    }, 0);
   }
 };
 
@@ -332,20 +317,9 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept(`${launcher}.onClick`, () => {
-    // When opening chat on mobile, directly broadcast a chat.show event.
-    // Because zopim can open in a new tab, we need to make sure we don't make a call to `setScrollKiller`.
-    // If we do the host page will be frozen when the user exits the zopim chat tab.
-    // Note: `showEmbed` will invoke `setScrollKiller`.
     if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
     }
-
-    /**
-     * This timeout mitigates the Ghost Click produced when the launcher
-     * button is on the left, using a mobile device with small screen
-     * e.g. iPhone4. It's not a bulletproof solution, but it helps
-     */
-    setTimeout(() => showEmbed(state), 0);
   });
 
   c.intercept(`${chat}.onHide`, (_broadcast) => {
@@ -388,16 +362,6 @@ function init(embedsAccessible, params = {}) {
     ['webWidget.onClose',
       `${chat}.onHide`].join(','),
     () => {
-      if (isMobileBrowser()) {
-        setScrollKiller(false);
-        revertWindowScroll();
-
-        setTimeout(
-          () => state[`${launcher}.clickActive`] = false,
-          100
-        );
-      }
-
       // Fix for when a pro-active message is recieved which opens the zopim window but the launcher
       // was previously hidden with zE.hide()
       if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`] && !state[`${launcher}.chatHidden`]) {
