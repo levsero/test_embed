@@ -5,7 +5,7 @@ import {
   ACTIVATE_RECIEVED,
   CANCEL_BUTTON_CLICKED } from '../base-action-types';
 import { ZOPIM_SHOW } from 'src/redux/modules/zopimChat/zopimChat-action-types';
-import { PROACTIVE_CHAT_RECEIVED } from 'src/redux/modules/chat/chat-action-types';
+import { PROACTIVE_CHAT_RECEIVED, CHAT_WINDOW_OPEN_ON_NAVIGATE } from 'src/redux/modules/chat/chat-action-types';
 
 const initialState = false;
 
@@ -16,6 +16,7 @@ const webWidgetVisible = (state = initialState, action) => {
     case LAUNCHER_CLICKED:
     case ACTIVATE_RECIEVED:
     case PROACTIVE_CHAT_RECEIVED:
+    case CHAT_WINDOW_OPEN_ON_NAVIGATE:
       return true;
     case CLOSE_BUTTON_CLICKED:
     case ZOPIM_SHOW:

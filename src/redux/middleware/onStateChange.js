@@ -6,7 +6,9 @@ import { getAccountSettings,
   getOperatingHours,
   getIsChatting,
   clearDepartment,
-  setDepartment } from 'src/redux/modules/chat';
+  setDepartment,
+  chatOpened,
+  chatWindowOpenOnNavigate } from 'src/redux/modules/chat';
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base';
 import { IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
@@ -49,6 +51,7 @@ import { setScrollKiller,
   revertWindowScroll } from 'utility/scrollHacks';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
+const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed');
 const createdAtTimestamp = Date.now();
 let chatAccountSettingsFetched = false;
 let chatNotificationTimeout = null;
@@ -64,6 +67,14 @@ const onWidgetOpen = (prevState, nextState) => {
   } else {
     setScrollKiller(false);
     revertWindowScroll();
+  }
+};
+
+const onChatOpen = (prevState, nextState, dispatch) => {
+  const widgetShown = getWidgetShown(prevState);
+
+  if (widgetShown && getActiveEmbed(prevState) !== 'chat' && getActiveEmbed(nextState) === 'chat') {
+    dispatch(chatOpened());
   }
 };
 
@@ -146,11 +157,10 @@ const onChatConnected = (prevState, nextState, dispatch) => {
 
 const onChatStatus = (action, dispatch) => {
   if (action.type === IS_CHATTING) {
-    mediator.channel.broadcast('newChat.isChatting', action.payload, showOnLoad);
     if (action.payload) {
-      let activeEmbed = _.get(store.get('store'), 'activeEmbed', '');
+      let activeEmbed = storedActiveEmbed;
 
-      if (activeEmbed === 'zopimChat') activeEmbed = 'chat';
+      if (storedActiveEmbed === 'zopimChat') activeEmbed = 'chat';
 
       const timestamp = _.get(store.get('store'), 'lastAgentMessageSeenTimestamp');
 
@@ -158,7 +168,13 @@ const onChatStatus = (action, dispatch) => {
         dispatch(updateLastAgentMessageSeenTimestamp(timestamp));
       }
 
-      dispatch(updateActiveEmbed(activeEmbed));
+      if (activeEmbed) {
+        dispatch(updateActiveEmbed(activeEmbed));
+      }
+
+      if (showOnLoad) {
+        dispatch(chatWindowOpenOnNavigate());
+      }
     }
   }
 };
@@ -300,4 +316,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onAgentLeave(prevState, action, dispatch);
   onVisitorUpdate(action, dispatch);
   onWidgetOpen(prevState, nextState);
+  onChatOpen(prevState, nextState, dispatch);
 }

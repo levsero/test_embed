@@ -136,13 +136,7 @@ export const updateArturos = (payload) => {
 };
 
 export const updateActiveEmbed = (embedName) => {
-  return (dispatch, getState) => {
-    const widgetShown = getState().base.widgetShown;
-
-    if (widgetShown && embedName === 'chat') {
-      dispatch(chatOpened());
-    }
-
+  return (dispatch) => {
     dispatch({
       type: actions.UPDATE_ACTIVE_EMBED,
       payload: embedName
@@ -175,13 +169,8 @@ export const updateWidgetShown = (show) => {
 
   return (dispatch, getState) => {
     const state = getState();
-    const activeEmbed = getActiveEmbed(state);
 
     dispatch(updateWidgetShownAction);
-
-    if (activeEmbed === 'chat' && show) {
-      dispatch(chatOpened());
-    }
 
     if (!getHasContextuallySearched(state) && show) {
       dispatch(contextualSearch());

@@ -611,6 +611,12 @@ export function proactiveMessageRecieved() {
   };
 }
 
+export function chatWindowOpenOnNavigate() {
+  return {
+    type: actions.CHAT_WINDOW_OPEN_ON_NAVIGATE
+  };
+}
+
 // TODO: Remove this function.
 // It was added temporarily when transitioning to use dynamic import()
 // for the chat-web-sdk
