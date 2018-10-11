@@ -115,8 +115,16 @@ class Frame extends Component {
     this.renderFrameContent();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.color, this.props.color)) {
+  componentWillReceiveProps = (nextProps) => {
+    const prevProps = this.props;
+
+    if (prevProps.visible && !nextProps.visible) {
+      this.hide();
+    } else if (!prevProps.visible && nextProps.visible) {
+      this.show();
+    }
+
+    if (!_.isEqual(nextProps.color, prevProps.color)) {
       this.setCustomCSS(this.generateUserCSSWithColor(nextProps.color));
     }
   }
