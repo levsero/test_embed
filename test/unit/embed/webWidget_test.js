@@ -22,8 +22,10 @@ describe('embed.webWidget', () => {
     mockStore,
     mockWebWidget,
     mockChatNotification,
+    mockStandaloneMobileNotificationVisible,
     mockState,
-    mockChatVendorImport;
+    mockChatVendorImport,
+    chatNotificationDismissedSpy;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const revokeTokenSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
@@ -57,6 +59,7 @@ describe('embed.webWidget', () => {
       getState: () => mockState, dispatch: mockStoreDispatch
     };
     mockChatNotification = { show: false, proactive: false };
+    mockStandaloneMobileNotificationVisible = false;
     mockChatVendorImport = Promise.resolve({
       on: zChatOnSpy,
       init: zChatInitSpy,
@@ -68,6 +71,7 @@ describe('embed.webWidget', () => {
         };
       }
     });
+    chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
 
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
     mockWebWidget = requireUncached(buildTestPath('unit/mocks/mockWebWidget'));
@@ -142,7 +146,8 @@ describe('embed.webWidget', () => {
       },
       'component/frame/Frame': mockFrame,
       'src/redux/modules/chat': {
-        setVisitorInfo: (user) => user
+        setVisitorInfo: (user) => user,
+        chatNotificationDismissed: chatNotificationDismissedSpy
       },
       'src/redux/modules/talk': {
         resetTalkScreen: resetTalkScreenSpy,
@@ -156,7 +161,8 @@ describe('embed.webWidget', () => {
         getActiveEmbed: () => mockActiveEmbed
       },
       'src/redux/modules/chat/chat-selectors': {
-        getChatNotification: () => mockChatNotification
+        getChatNotification: () => mockChatNotification,
+        getStandaloneMobileNotificationVisible: () => mockStandaloneMobileNotificationVisible
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen
@@ -1229,6 +1235,67 @@ describe('embed.webWidget', () => {
 
         it('should not call getTicketForms', () => {
           expect(getTicketFormsSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when webWidget.hideChatNotification is broadcast', () => {
+      beforeEach(() => {
+        webWidget.create('', {}, mockStore);
+        webWidget.render();
+        frame = webWidget.get().instance;
+        component = frame.getRootComponent();
+
+        spyOn(component, 'dismissStandaloneChatPopup');
+      });
+
+      describe('when a chat standalone mobile notification is visible', () => {
+        beforeEach(() => {
+          mockStandaloneMobileNotificationVisible = true;
+          pluckSubscribeCall(mockMediator, 'webWidget.hideChatNotification')();
+        });
+
+        it('calls dismissStandaloneChatPopup on the Web Widget component', () => {
+          expect(component.dismissStandaloneChatPopup)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when a chat notification is visible', () => {
+        beforeEach(() => {
+          mockStandaloneMobileNotificationVisible = false;
+          mockChatNotification = { show: true };
+
+          pluckSubscribeCall(mockMediator, 'webWidget.hideChatNotification')();
+        });
+
+        it('calls chatNotificationDismissed action', () => {
+          expect(chatNotificationDismissedSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call dismissStandaloneChatPopup on the Web Widget component', () => {
+          expect(component.dismissStandaloneChatPopup)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when a chat notification is not visible', () => {
+        beforeEach(() => {
+          mockStandaloneMobileNotificationVisible = false;
+          mockChatNotification = { show: false };
+
+          pluckSubscribeCall(mockMediator, 'webWidget.hideChatNotification')();
+        });
+
+        it('does not call chatNotificationDismissed action', () => {
+          expect(chatNotificationDismissedSpy)
+            .not.toHaveBeenCalled();
+        });
+
+        it('does not call dismissStandaloneChatPopup on the Web Widget component', () => {
+          expect(component.dismissStandaloneChatPopup)
             .not.toHaveBeenCalled();
         });
       });
