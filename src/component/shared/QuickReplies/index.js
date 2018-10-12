@@ -43,7 +43,8 @@ export class QuickReply extends Component {
 
 export class QuickReplies extends Component {
   static propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element).isRequired
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    isMobile: PropTypes.bool
   }
 
   constructor(props) {
@@ -55,6 +56,8 @@ export class QuickReplies extends Component {
   }
 
   componentDidMount() {
+    if (this.props.isMobile) return;
+
     if (this.container.scrollWidth > this.container.clientWidth) {
       /* eslint-disable react/no-did-mount-set-state */
       this.setState({
@@ -63,12 +66,24 @@ export class QuickReplies extends Component {
     }
   }
 
+  /**
+   * Stop scroll propagation to prevent scroll callback in ScrollContainer
+   * from  firing
+   */
+  stopScrollingPropagation(e) {
+    e.stopPropagation();
+    return;
+  }
+
   render = () => {
     // Give each child a margin but not the last child
     const children = React.Children.map(this.props.children, (child, idx) => {
+      const lastChildIndex = this.props.children.length - 1;
+
       return React.cloneElement(child, {
         className: classNames({
-          [styles.separator]: (idx !== this.props.children.length - 1)
+          [styles.separator]: (idx !== lastChildIndex),
+          [styles.lastSeparator]: (idx === lastChildIndex)
         })
       });
     });
@@ -76,7 +91,7 @@ export class QuickReplies extends Component {
     const containerStyle = classNames({
       [styles.container]: true,
       'structuredMessageSlider': true,
-      [styles.scroll]: !this.state.useCarousel,
+      [styles.mobile]: this.props.isMobile
     });
 
     const sliderSettings = {
@@ -94,8 +109,10 @@ export class QuickReplies extends Component {
       );
     } else {
       return (
-        <div className={containerStyle} ref={(el) => {this.container = el;}}>
-          {children}
+        <div className={containerStyle} ref={(el) => {this.container = el;}} onScroll={this.stopScrollingPropagation}>
+          <div className={styles.scroll}>
+            {children}
+          </div>
         </div>
       );
     }

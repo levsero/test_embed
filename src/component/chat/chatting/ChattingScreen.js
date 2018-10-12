@@ -421,7 +421,7 @@ class ChattingScreen extends Component {
     const {timestamp, items} = quickReply;
 
     return (
-      <QuickReplies key={timestamp}>
+      <QuickReplies key={timestamp} isMobile={this.props.isMobile}>
         {items.map((item, idx) => {
           const {action, text} = item;
           const actionFn = () => this.props.sendMsg(action.value);
