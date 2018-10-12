@@ -2,6 +2,8 @@
 
 .container {
   composes: u-inlineBlock from global;
+  background: $zd-color-grey-200;
+  border-radius: #{8/$font-size}rem;
 
   img {
     max-width: #{180/$font-size}rem;
