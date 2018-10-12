@@ -19,6 +19,7 @@ import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
+    title: PropTypes.string.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     operatingHours: PropTypes.object,
@@ -197,7 +198,7 @@ export class ChatOfflineForm extends Component {
         ref='scrollContainer'
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
-        title={i18n.t('embeddable_framework.chat.title')}>
+        title={this.props.title}>
         <SuccessNotification
           icon={ICONS.SUCCESS_CONTACT_FORM}
           isMobile={this.props.isMobile} />
@@ -219,7 +220,7 @@ export class ChatOfflineForm extends Component {
         ref='scrollContainer'
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.loadingSpinnerContainer}
-        title={i18n.t('embeddable_framework.chat.title')}>
+        title={this.props.title}>
         <div className={styles.loadingSpinner}>
           <LoadingSpinner />
         </div>
@@ -338,7 +339,7 @@ export class ChatOfflineForm extends Component {
           classes={this.getScrollContainerClasses()}
           containerClasses={styles.scrollContainerContent}
           footerContent={this.renderSubmitButton()}
-          title={i18n.t('embeddable_framework.chat.title')}
+          title={this.props.title}
           scrollShadowVisible={true}>
           {this.renderOfflineGreeting()}
           {this.renderOperatingHoursLink()}
@@ -361,7 +362,7 @@ export class ChatOfflineForm extends Component {
         ref='scrollContainer'
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
-        title={i18n.t('embeddable_framework.chat.title')}>
+        title={this.props.title}>
         <ChatOperatingHours
           getFrameContentDocument={getFrameContentDocument}
           handleOfflineFormBack={handleOfflineFormBack}

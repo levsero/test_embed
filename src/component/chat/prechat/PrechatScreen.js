@@ -33,6 +33,7 @@ import {
   getSocialLogin,
   getChatVisitor,
   getIsAuthenticated,
+  getChatTitle,
   getReadOnlyState } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './PrechatScreen.scss';
 
@@ -52,7 +53,8 @@ const mapStateToProps = (state) => {
     chatVisitor: getChatVisitor(state),
     readOnlyState: getReadOnlyState(state),
     preChatFormState: getPreChatFormState(state),
-    isAuthenticated: getIsAuthenticated(state)
+    isAuthenticated: getIsAuthenticated(state),
+    title: getChatTitle(state)
   };
 };
 
@@ -81,7 +83,8 @@ class PrechatScreen extends Component {
     socialLogin: PropTypes.object.isRequired,
     loginSettings: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    title: PropTypes.string
   };
 
   static defaultProps = {
@@ -92,7 +95,8 @@ class PrechatScreen extends Component {
     clearDepartment: () => {},
     resetCurrentMessage: () => {},
     preChatFormSettings: {},
-    loginSettings: {}
+    loginSettings: {},
+    title: ''
   };
 
   onPrechatFormComplete = (info) => {
@@ -133,10 +137,14 @@ class PrechatScreen extends Component {
     this.props.resetCurrentMessage();
   }
 
+  getTitle() {
+    return this.props.title || i18n.t('embeddable_framework.chat.title');
+  }
+
   renderChatOfflineForm() {
     return (
       <ScrollContainer
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        title={this.getTitle()}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.isMobile}>
         <ChatOfflineMessageForm
@@ -151,6 +159,7 @@ class PrechatScreen extends Component {
 
     return (
       <PrechatForm
+        title={this.getTitle()}
         getFrameContentDocument={this.props.getFrameContentDocument}
         authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
@@ -174,7 +183,7 @@ class PrechatScreen extends Component {
   renderLoadingSpinner() {
     return (
       <ScrollContainer
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        title={this.getTitle()}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.isMobile}>
         <LoadingSpinner className={styles.loadingSpinner} />
