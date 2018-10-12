@@ -5,6 +5,8 @@ describe('ChatOffline component', () => {
   const Button = noopReactComponent();
   const ChatOfflineForm = noopReactComponent();
 
+  const mockTitle = 'My custom title';
+
   beforeEach(() => {
     mockery.enable();
 
@@ -95,10 +97,11 @@ describe('ChatOffline component', () => {
   });
 
   describe('renderOfflineForm', () => {
-    let result;
+    let result,
+      titleProp;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOffline />);
+      const component = instanceRender(<ChatOffline title={titleProp} />);
 
       result = component.renderOfflineForm();
     });
@@ -106,6 +109,61 @@ describe('ChatOffline component', () => {
     it('renders ChatOfflineForm', () => {
       expect(TestUtils.isElementOfType(result, ChatOfflineForm))
         .toEqual(true);
+    });
+
+    describe('when title is provided', () => {
+      beforeAll(() => {
+        titleProp = mockTitle;
+      });
+
+      it('passes the correct title down', () => {
+        expect(result.props.title)
+          .toEqual(mockTitle);
+      });
+    });
+
+    describe('when title is not provided', () => {
+      beforeAll(() => {
+        titleProp = '';
+      });
+
+      it('passes the default title down', () => {
+        expect(result.props.title)
+          .toBeTruthy();
+      });
+    });
+  });
+
+  describe('renderChatOfflineScreen', () => {
+    let result,
+      titleProp;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatOffline title={titleProp} />);
+
+      result = component.renderChatOfflineScreen();
+    });
+
+    describe('when title is provided', () => {
+      beforeAll(() => {
+        titleProp = mockTitle;
+      });
+
+      it('passes the correct title down', () => {
+        expect(result.props.title)
+          .toEqual(mockTitle);
+      });
+    });
+
+    describe('when title is not provided', () => {
+      beforeAll(() => {
+        titleProp = '';
+      });
+
+      it('passes the default title down', () => {
+        expect(result.props.title)
+          .toBeTruthy();
+      });
     });
   });
 });

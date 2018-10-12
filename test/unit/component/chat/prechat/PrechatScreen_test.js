@@ -21,6 +21,8 @@ describe('PrechatScreen component', () => {
 
   const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
 
+  const mockTitle = 'My custom title';
+
   beforeEach(() => {
     mockery.enable();
 
@@ -440,10 +442,11 @@ describe('PrechatScreen component', () => {
   });
 
   describe('renderChatOfflineForm', () => {
-    let result;
+    let result,
+      titleProp;
 
     beforeEach(() => {
-      const component = instanceRender(<PrechatScreen />);
+      const component = instanceRender(<PrechatScreen title={titleProp} />);
 
       result = component.renderChatOfflineForm();
     });
@@ -452,14 +455,41 @@ describe('PrechatScreen component', () => {
       expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
         .toEqual(true);
     });
+
+    describe('when title is provided', () => {
+      beforeAll(() => {
+        titleProp = mockTitle;
+      });
+
+      it('passes the correct title down', () => {
+        expect(result.props.title)
+          .toEqual(mockTitle);
+      });
+    });
+
+    describe('when title is not provided', () => {
+      beforeAll(() => {
+        titleProp = '';
+      });
+
+      it('passes the default title down', () => {
+        expect(result.props.title)
+          .toBeTruthy();
+      });
+    });
   });
 
   describe('renderPreChatForm', () => {
-    let result;
+    let result,
+      titleProp;
 
     beforeEach(() => {
       const prechatFormSettings = { form: {}, message: '' };
-      const component = instanceRender(<PrechatScreen prechatFormSettings={prechatFormSettings} />);
+      const component = instanceRender(
+        <PrechatScreen
+          title={titleProp}
+          prechatFormSettings={prechatFormSettings} />
+      );
 
       result = component.renderPreChatForm();
     });
@@ -468,14 +498,37 @@ describe('PrechatScreen component', () => {
       expect(TestUtils.isElementOfType(result, PrechatForm))
         .toEqual(true);
     });
+
+    describe('when title is provided', () => {
+      beforeAll(() => {
+        titleProp = mockTitle;
+      });
+
+      it('passes the correct title down', () => {
+        expect(result.props.title)
+          .toEqual(mockTitle);
+      });
+    });
+
+    describe('when title is not provided', () => {
+      beforeAll(() => {
+        titleProp = '';
+      });
+
+      it('passes the default title down', () => {
+        expect(result.props.title)
+          .toBeTruthy();
+      });
+    });
   });
 
   describe('renderLoadingSpinner', () => {
     let result,
-      component;
+      component,
+      titleProp;
 
     beforeEach(() => {
-      component = instanceRender(<PrechatScreen />);
+      component = instanceRender(<PrechatScreen title={titleProp} />);
 
       result = component.renderLoadingSpinner();
     });
@@ -483,6 +536,28 @@ describe('PrechatScreen component', () => {
     it('renders a LoadingSpinner', () => {
       expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner))
         .toEqual(true);
+    });
+
+    describe('when title is provided', () => {
+      beforeAll(() => {
+        titleProp = mockTitle;
+      });
+
+      it('passes the correct title down', () => {
+        expect(result.props.title)
+          .toEqual(mockTitle);
+      });
+    });
+
+    describe('when title is not provided', () => {
+      beforeAll(() => {
+        titleProp = '';
+      });
+
+      it('passes the default title down', () => {
+        expect(result.props.title)
+          .toBeTruthy();
+      });
     });
   });
 });
