@@ -10,8 +10,11 @@ import {
   updateZopimChatStatus,
   zopimHide,
   zopimConnectionUpdate,
-  zopimShow } from 'src/redux/modules/zopimChat';
+  zopimShow,
+  zopimOnClose,
+  zopimIsChatting } from 'src/redux/modules/zopimChat';
 import { updateSettingsChatSuppress, resetSettingsChatSuppress } from 'src/redux/modules/settings';
+import { updateActiveEmbed } from 'src/redux/modules/base';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -138,6 +141,7 @@ function init(name) {
   let originalZopimShow, originalZopimHide;
   let zopimApiOverwritten = false;
   const chat = get(name);
+  const store = chat.store;
   const config = chat.config;
   const overwriteZopimApi = () => {
     if (!zopimApiOverwritten) {
@@ -164,26 +168,27 @@ function init(name) {
       mediator.channel.broadcast(`${name}.onOffline`);
     }
 
-    get(name).store.dispatch(updateZopimChatStatus(status));
+    store.dispatch(updateZopimChatStatus(status));
   };
   const onUnreadMsgs = (unreadMessageCount) => {
     mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
   };
   const onChatStart = () => {
     mediator.channel.broadcast(`${name}.onChatStart`);
-    get(name).store.dispatch(updateSettingsChatSuppress(false));
+    store.dispatch(updateSettingsChatSuppress(false));
   };
   const onChatEnd = () => {
     mediator.channel.broadcast(`${name}.onChatEnd`);
-    get(name).store.dispatch(resetSettingsChatSuppress());
+    store.dispatch(resetSettingsChatSuppress());
   };
   const onHide = () => {
     mediator.channel.broadcast(`${name}.onHide`);
+    store.dispatch(zopimOnClose());
     win.$zopim(() => win.$zopim.livechat.hideAll());
   };
   const onConnected = () => {
     mediator.channel.broadcast(`${name}.onConnected`);
-    get(name).store.dispatch(zopimConnectionUpdate());
+    store.dispatch(zopimConnectionUpdate());
     overwriteZopimApi();
   };
 
@@ -196,7 +201,10 @@ function init(name) {
     cappedTimeoutCall(() => {
       if (zopimWin.getDisplay() || zopimLive.isChatting()) {
         mediator.channel.broadcast(`${name}.onIsChatting`);
-        get(name).store.dispatch(updateSettingsChatSuppress(false));
+
+        store.dispatch(zopimIsChatting(zopimWin.getDisplay()));
+        store.dispatch(updateActiveEmbed('zopimChat'));
+        store.dispatch(updateSettingsChatSuppress(false));
 
         return true;
       }
