@@ -40,6 +40,12 @@
   position: relative;
 }
 
+.flipX {
+  & > svg {
+    transform: scaleX(-1);
+  }
+}
+
 .tooltip-base {
   composes: c-tooltip c-arrow from global;
   position: absolute;
