@@ -2074,7 +2074,7 @@ describe('mediator', () => {
         .toEqual(1);
     });
 
-    it('broadcasts webWidget.zopimChatStarted when zopimChat.onUnreadMsg is recieved', () => {
+    it('broadcasts webWidget.zopimChatStarted when zopimChat.onUnreadMsg is received', () => {
       c.broadcast('zopimChat.onConnected');
       c.broadcast('zopimChat.onUnreadMsgs', 1);
 
@@ -2082,21 +2082,21 @@ describe('mediator', () => {
         .toHaveBeenCalled();
     });
 
-    it('broadcasts webWidget.zopimChatEnded when zopimChat.onChatEnd is recieved', () => {
+    it('broadcasts webWidget.zopimChatEnded when zopimChat.onChatEnd is received', () => {
       c.broadcast('zopimChat.onChatEnd');
 
       expect(webWidgetSub.zopimChatEnded)
         .toHaveBeenCalled();
     });
 
-    it('should broadcast webWidget.refreshLocale when onSetLocale is recieved', () => {
+    it('should broadcast webWidget.refreshLocale when onSetLocale is received', () => {
       c.broadcast('.onSetLocale');
 
       expect(webWidgetSub.refreshLocale)
         .toHaveBeenCalled();
     });
 
-    it('broadcasts webWidget.zopimChatStarted with true when zopimChat.onIsChatting is recieved', () => {
+    it('broadcasts webWidget.zopimChatStarted with true when zopimChat.onIsChatting is received', () => {
       c.broadcast('zopimChat.onIsChatting');
 
       expect(webWidgetSub.zopimChatStarted)

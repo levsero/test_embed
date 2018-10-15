@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { API_ON_RECIEVED } from '../base-action-types';
+import { API_ON_RECEIVED } from '../base-action-types';
 
 const initialState = {};
 
@@ -7,7 +7,7 @@ const onApiListeners = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case API_ON_RECIEVED:
+    case API_ON_RECEIVED:
       const { callback, actions } = payload;
       let newState = _.cloneDeep(state);
 

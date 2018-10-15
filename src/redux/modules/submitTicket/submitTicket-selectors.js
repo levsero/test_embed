@@ -4,6 +4,7 @@ import _ from 'lodash';
 const getTicketFieldsResponse = (state) => state.submitTicket.ticketFields;
 
 export const getFormState = (state) => state.submitTicket.formState;
+export const getReadOnlyState = (state) => state.submitTicket.readOnlyState;
 export const getLoading = (state) => state.submitTicket.loading;
 export const getTicketForms = (state) => state.submitTicket.ticketForms;
 export const getTicketFormsAvailable = (state) => getTicketForms(state).length > 0;

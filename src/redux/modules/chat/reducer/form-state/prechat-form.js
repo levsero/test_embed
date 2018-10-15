@@ -14,6 +14,10 @@ const preChatForm = (state = initialState, action = {}) => {
 
   switch (type) {
     case PREFILL_RECEIVED:
+      return {
+        ...state,
+        ...payload.prefillValues
+      };
     case PRE_CHAT_FORM_ON_CHANGE:
       return { ...state, ...payload };
     case API_CLEAR_FORM:

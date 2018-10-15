@@ -30,6 +30,7 @@ const mapStateToProps = (state) => {
     formState: selectors.getFormState(state),
     loading: selectors.getLoading(state),
     ticketForms: selectors.getTicketForms(state),
+    readOnlyState: selectors.getReadOnlyState(state),
     ticketFormsAvailable: selectors.getTicketFormsAvailable(state),
     ticketFields: selectors.getTicketFields(state),
     ticketFieldsAvailable: selectors.getTicketFieldsAvailable(state),
@@ -47,6 +48,7 @@ class SubmitTicket extends Component {
     errorMsg: PropTypes.string.isRequired,
     formTitleKey: PropTypes.string.isRequired,
     formState: PropTypes.object.isRequired,
+    readOnlyState: PropTypes.object.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     loading: PropTypes.bool.isRequired,
@@ -255,6 +257,7 @@ class SubmitTicket extends Component {
         getFrameContentDocument={this.props.getFrameContentDocument}
         maxFileSize={this.props.maxFileSize}
         formState={this.props.formState}
+        readOnlyState={this.props.readOnlyState}
         setFormState={this.props.handleFormChange}
         ticketFormSettings={activeTicketFormPrefill}
         ticketFieldSettings={this.props.ticketFieldSettings}

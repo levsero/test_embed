@@ -9,14 +9,19 @@ const initialState = {
 };
 
 const offlineForm = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case CHAT_OFFLINE_FORM_CHANGED:
       return {
         ...initialState,
-        ...action.payload
+        ...payload
       };
     case PREFILL_RECEIVED:
-      return { ...state, ...action.payload };
+      return {
+        ...state,
+        ...payload.prefillValues
+      };
     case OFFLINE_FORM_BACK_BUTTON_CLICKED:
       return { ...state, message: '' };
     case API_CLEAR_FORM:

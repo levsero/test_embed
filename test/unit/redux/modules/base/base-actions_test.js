@@ -436,63 +436,86 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('handlePrefillRecieved', () => {
-    let action;
-    const mockUser = {
-      name: 'Harry Potter',
-      email: 'hpotter@hogwarts.edu.uk',
-      phone: '12345678'
-    };
+  describe('handlePrefillReceived', () => {
+    let action,
+      payload;
 
-    beforeEach(() => {
-      mockStore.dispatch(actions.handlePrefillRecieved(mockUser));
-      action = mockStore.getActions()[0];
-    });
+    describe('when invoked normally', () => {
+      beforeEach(() => {
+        payload = {
+          name: { value: 'Harry Potter', readOnly: true },
+          email: { value: 'hpotter@hogwarts.edu.uk', readOnly: false },
+          phone: { value: '12345678' }
+        };
 
-    it('dispatches an action of type PREFILL_RECEIVED', () => {
-      expect(action.type)
-        .toEqual(actionTypes.PREFILL_RECEIVED);
-    });
+        mockStore.dispatch(actions.handlePrefillReceived(payload));
+        action = mockStore.getActions()[0];
+      });
 
-    it('passes the value to the payload', () => {
-      expect(action.payload)
-        .toEqual(mockUser);
+      it('dispatches an action of type PREFILL_RECEIVED', () => {
+        expect(action.type)
+          .toEqual(actionTypes.PREFILL_RECEIVED);
+      });
+
+      it('passes the expected values payload', () => {
+        const expected = {
+          prefillValues: {
+            name: 'Harry Potter',
+            email: 'hpotter@hogwarts.edu.uk',
+            phone: '12345678'
+          },
+          isReadOnly: {
+            name: true,
+            email: false,
+            phone: false
+          }
+        };
+
+        expect(action.payload)
+          .toEqual(expected);
+      });
     });
 
     describe('when the email is not valid', () => {
       beforeEach(() => {
-        mockUser.email = 'hpotter@hogwarts';
+        payload = {
+          email: { value: 'hpotter@hogwarts' }
+        };
+
         mockEmailValidValue = false;
-        mockStore.dispatch(actions.handlePrefillRecieved(mockUser));
-        action = mockStore.getActions()[1];
+        mockStore.dispatch(actions.handlePrefillReceived(payload));
+        action = mockStore.getActions()[0];
       });
 
       it('does not pass through the email in payload', () => {
-        expect(action.payload.email)
-          .toBeFalsy();
+        expect(action.payload.prefillValues.email)
+          .toEqual('');
       });
 
       it('still passes through the name in payload', () => {
-        expect(action.payload.name)
-          .toBe(mockUser.name);
+        expect(action.payload.prefillValues.name)
+          .toEqual('');
       });
     });
 
     describe('when the phone is not valid', () => {
       beforeEach(() => {
-        mockUser.phone = 'number';
-        mockStore.dispatch(actions.handlePrefillRecieved(mockUser));
-        action = mockStore.getActions()[1];
+        payload = {
+          phone: { value: 'number' }
+        };
+
+        mockStore.dispatch(actions.handlePrefillReceived(payload));
+        action = mockStore.getActions()[0];
       });
 
       it('does not pass through the phone in payload', () => {
-        expect(action.payload.phone)
-          .toBeFalsy();
+        expect(action.payload.prefillValues.phone)
+          .toEqual('');
       });
 
       it('still passes through the name in payload', () => {
-        expect(action.payload.name)
-          .toBe(mockUser.name);
+        expect(action.payload.prefillValues.name)
+          .toEqual('');
       });
     });
   });
@@ -780,9 +803,9 @@ describe('base redux actions', () => {
     });
 
     describe('when event is in the event list', () => {
-      it('dispatches a API_ON_RECIEVED event', () => {
+      it('dispatches a API_ON_RECEIVED event', () => {
         expect(action.type)
-          .toEqual(actionTypes.API_ON_RECIEVED);
+          .toEqual(actionTypes.API_ON_RECEIVED);
       });
 
       it('dispatches the actions in payload', () => {

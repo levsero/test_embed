@@ -6,7 +6,7 @@ import {
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_WIDGET_SHOWN,
   PREFILL_RECEIVED,
-  API_ON_RECIEVED,
+  API_ON_RECEIVED,
   WIDGET_HIDE_ANIMATION_COMPLETE,
   AUTHENTICATION_SUCCESS,
   AUTHENTICATION_FAILURE,
@@ -209,20 +209,30 @@ export const updateWidgetShown = (show) => {
   };
 };
 
-export const handlePrefillRecieved = (payload) => {
-  let userDetails = payload;
+export const handlePrefillReceived = (payload) => {
+  const { name = {}, email = {}, phone = {} } = payload;
+  const prefillValues = {
+    name: _.toString(name.value),
+    email: '',
+    phone: ''
+  };
+  const isReadOnly = {
+    name: Boolean(name.readOnly),
+    email: Boolean(email.readOnly),
+    phone: Boolean(phone.readOnly)
+  };
 
-  if (!emailValid(payload.email)) {
-    userDetails = _.omit(userDetails, 'email');
+  if (emailValid(email.value)) {
+    prefillValues.email = email.value;
   }
 
-  if (!PHONE_PATTERN.test(payload.phone)) {
-    userDetails = _.omit(userDetails, 'phone');
+  if (PHONE_PATTERN.test(phone.value)) {
+    prefillValues.phone = phone.value;
   }
 
   return {
     type: PREFILL_RECEIVED,
-    payload: userDetails
+    payload: { prefillValues, isReadOnly }
   };
 };
 
@@ -254,7 +264,7 @@ export const handleCloseButtonClicked = () => {
 
 export const handleOnApiCalled = (actions, callback) => {
   return {
-    type: API_ON_RECIEVED,
+    type: API_ON_RECEIVED,
     payload: { callback, actions }
   };
 };

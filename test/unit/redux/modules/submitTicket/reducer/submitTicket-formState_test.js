@@ -72,7 +72,7 @@ describe('submitTicket reducer formState', () => {
     beforeEach(() => {
       state = reducer(initialFormState, {
         type: baseActionTypes.PREFILL_RECEIVED,
-        payload: mockFormState
+        payload: { prefillValues: mockFormState }
       });
     });
 

@@ -20,13 +20,15 @@ import { getChatOfflineForm,
   getSocialLogin,
   getAuthUrls,
   getChatVisitor,
-  getIsAuthenticated } from 'src/redux/modules/chat/chat-selectors';
+  getIsAuthenticated,
+  getReadOnlyState } from 'src/redux/modules/chat/chat-selectors';
 import { getWidgetShown } from 'src/redux/modules/base/base-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
 
 const mapStateToProps = (state) => {
   return {
+    readOnlyState: getReadOnlyState(state),
     formState: getChatOfflineForm(state),
     formFields: getOfflineFormFields(state),
     formSettings: getOfflineFormSettings(state),
@@ -48,6 +50,7 @@ class ChatOffline extends Component {
     sendOfflineMessage: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired,
     handleOperatingHoursClick: PropTypes.func.isRequired,
+    readOnlyState: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
     formSettings: PropTypes.object.isRequired,
@@ -87,6 +90,7 @@ class ChatOffline extends Component {
         socialLogin={this.props.socialLogin}
         authUrls={this.props.authUrls}
         formFields={this.props.formFields}
+        readOnlyState={this.props.readOnlyState}
         formState={this.props.formState}
         phoneEnabled={this.props.loginSettings.phoneEnabled}
         greeting={this.props.formSettings.message}

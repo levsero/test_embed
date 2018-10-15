@@ -32,7 +32,8 @@ import {
   getAuthUrls,
   getSocialLogin,
   getChatVisitor,
-  getIsAuthenticated } from 'src/redux/modules/chat/chat-selectors';
+  getIsAuthenticated,
+  getReadOnlyState } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './PrechatScreen.scss';
 
 const mapStateToProps = (state) => {
@@ -49,6 +50,7 @@ const mapStateToProps = (state) => {
     visitor: getChatVisitor(state),
     socialLogin: getSocialLogin(state),
     chatVisitor: getChatVisitor(state),
+    readOnlyState: getReadOnlyState(state),
     preChatFormState: getPreChatFormState(state),
     isAuthenticated: getIsAuthenticated(state)
   };
@@ -65,6 +67,7 @@ class PrechatScreen extends Component {
     sendMsg: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     visitor: PropTypes.object.isRequired,
+    readOnlyState: PropTypes.object.isRequired,
     preChatFormState: PropTypes.object,
     handlePreChatFormChange: PropTypes.func,
     clearDepartment: PropTypes.func,
@@ -154,6 +157,7 @@ class PrechatScreen extends Component {
         chatVisitor={this.props.visitor}
         initiateSocialLogout={this.props.initiateSocialLogout}
         form={form}
+        readOnlyState={this.props.readOnlyState}
         formState={this.props.preChatFormState}
         onPrechatFormChange={this.props.handlePreChatFormChange}
         loginEnabled={this.props.loginSettings.enabled}

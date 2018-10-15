@@ -25,6 +25,7 @@ export class PrechatForm extends Component {
   static propTypes = {
     form: PropTypes.object,
     formState: PropTypes.object,
+    readOnlyState: PropTypes.object.isRequired,
     onPrechatFormChange: PropTypes.func,
     greetingMessage: PropTypes.string,
     visitor: PropTypes.object.isRequired,
@@ -43,6 +44,7 @@ export class PrechatForm extends Component {
   static defaultProps = {
     form: {},
     formState: {},
+    readOnlyState: {},
     onPrechatFormChange: () => {},
     greetingMessage: '',
     visitor: {},
@@ -160,7 +162,7 @@ export class PrechatForm extends Component {
   }
 
   renderNameField = () => {
-    const { loginEnabled, form, formState, authUrls } = this.props;
+    const { loginEnabled, form, formState, authUrls, readOnlyState } = this.props;
 
     if (!loginEnabled) return null;
 
@@ -181,6 +183,7 @@ export class PrechatForm extends Component {
           autoComplete='off'
           aria-required={required}
           required={required}
+          readOnly={readOnlyState.name}
           value={value}
           onChange={() => {}}
           name={nameData.name}
@@ -208,6 +211,7 @@ export class PrechatForm extends Component {
           required={required}
           aria-required={required}
           value={value}
+          readOnly={this.props.readOnlyState.email}
           onChange={() => {}}
           name={emailData.name}
           validation={error ? 'error' : 'none'}
@@ -234,6 +238,7 @@ export class PrechatForm extends Component {
           required={required}
           aria-required={required}
           value={value}
+          readOnly={this.props.readOnlyState.phone}
           onChange={() => {}}
           type='tel'
           name={phoneData.name}
