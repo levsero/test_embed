@@ -7,7 +7,6 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
 import { PrechatForm } from 'component/chat/prechat/PrechatForm';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { i18n } from 'service/i18n';
 import { DEPARTMENT_STATUSES } from 'constants/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import {
@@ -84,7 +83,7 @@ class PrechatScreen extends Component {
     loginSettings: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -95,8 +94,7 @@ class PrechatScreen extends Component {
     clearDepartment: () => {},
     resetCurrentMessage: () => {},
     preChatFormSettings: {},
-    loginSettings: {},
-    title: ''
+    loginSettings: {}
   };
 
   onPrechatFormComplete = (info) => {
@@ -137,14 +135,10 @@ class PrechatScreen extends Component {
     this.props.resetCurrentMessage();
   }
 
-  getTitle() {
-    return this.props.title || i18n.t('embeddable_framework.chat.title');
-  }
-
   renderChatOfflineForm() {
     return (
       <ScrollContainer
-        title={this.getTitle()}
+        title={this.props.title}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.isMobile}>
         <ChatOfflineMessageForm
@@ -159,7 +153,7 @@ class PrechatScreen extends Component {
 
     return (
       <PrechatForm
-        title={this.getTitle()}
+        title={this.props.title}
         getFrameContentDocument={this.props.getFrameContentDocument}
         authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
@@ -183,7 +177,7 @@ class PrechatScreen extends Component {
   renderLoadingSpinner() {
     return (
       <ScrollContainer
-        title={this.getTitle()}
+        title={this.props.title}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.isMobile}>
         <LoadingSpinner className={styles.loadingSpinner} />

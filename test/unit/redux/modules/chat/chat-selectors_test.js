@@ -2801,23 +2801,42 @@ describe('chat selectors', () => {
   });
 
   describe('getChatTitle', () => {
-    let result;
+    let result,
+      titleSetting;
     const mockTitle = 'My custom title';
-    const mockAccountSettings = {
-      chatWindow: {
-        title: mockTitle
-      }
-    };
 
     beforeEach(() => {
       result = getChatTitle({
-        chat: { accountSettings: mockAccountSettings }
+        chat: {
+          accountSettings: {
+            chatWindow: {
+              title: titleSetting
+            }
+          }
+        }
       });
     });
 
-    it('returns the title for the chat window', () => {
-      expect(result)
-        .toEqual(mockTitle);
+    describe('when title is provided', () => {
+      beforeAll(() => {
+        titleSetting = mockTitle;
+      });
+
+      it('returns the provided title', () => {
+        expect(result)
+          .toEqual(mockTitle);
+      });
+    });
+
+    describe('when title is not provided', () => {
+      beforeAll(() => {
+        titleSetting = null;
+      });
+
+      it('returns the default title', () => {
+        expect(result)
+          .toEqual('embeddable_framework.chat.title');
+      });
     });
   });
 

@@ -68,7 +68,7 @@ class ChatOffline extends Component {
     getFrameContentDocument: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     widgetShown: PropTypes.bool.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -80,18 +80,13 @@ class ChatOffline extends Component {
     formSettings: { enabled: false },
     offlineMessage: {},
     getFrameContentDocument: () => ({}),
-    loginSettings: {},
-    title: ''
+    loginSettings: {}
   };
-
-  getTitle() {
-    return this.props.title || i18n.t('embeddable_framework.chat.title');
-  }
 
   renderOfflineForm = () => {
     return (
       <ChatOfflineForm
-        title={this.getTitle()}
+        title={this.props.title}
         widgetShown={this.props.widgetShown}
         getFrameContentDocument={this.props.getFrameContentDocument}
         initiateSocialLogout={this.props.initiateSocialLogout}
@@ -120,7 +115,7 @@ class ChatOffline extends Component {
       <ScrollContainer
         ref='scrollContainer'
         containerClasses={styles.scrollContainerContent}
-        title={this.getTitle()}>
+        title={this.props.title}>
         <div className={styles.innerContent}>
           <p className={styles.greeting}>
             {i18n.t('embeddable_framework.chat.offline.label.noForm')}

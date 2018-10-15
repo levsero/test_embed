@@ -97,11 +97,10 @@ describe('ChatOffline component', () => {
   });
 
   describe('renderOfflineForm', () => {
-    let result,
-      titleProp;
+    let result;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOffline title={titleProp} />);
+      const component = instanceRender(<ChatOffline title={mockTitle} />);
 
       result = component.renderOfflineForm();
     });
@@ -111,59 +110,24 @@ describe('ChatOffline component', () => {
         .toEqual(true);
     });
 
-    describe('when title is provided', () => {
-      beforeAll(() => {
-        titleProp = mockTitle;
-      });
-
-      it('passes the correct title down', () => {
-        expect(result.props.title)
-          .toEqual(mockTitle);
-      });
-    });
-
-    describe('when title is not provided', () => {
-      beforeAll(() => {
-        titleProp = '';
-      });
-
-      it('passes the default title down', () => {
-        expect(result.props.title)
-          .toBeTruthy();
-      });
+    it('renders with the correct title', () => {
+      expect(result.props.title)
+        .toEqual(mockTitle);
     });
   });
 
   describe('renderChatOfflineScreen', () => {
-    let result,
-      titleProp;
+    let result;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOffline title={titleProp} />);
+      const component = instanceRender(<ChatOffline title={mockTitle} />);
 
       result = component.renderChatOfflineScreen();
     });
 
-    describe('when title is provided', () => {
-      beforeAll(() => {
-        titleProp = mockTitle;
-      });
-
-      it('passes the correct title down', () => {
-        expect(result.props.title)
-          .toEqual(mockTitle);
-      });
-    });
-
-    describe('when title is not provided', () => {
-      beforeAll(() => {
-        titleProp = '';
-      });
-
-      it('passes the default title down', () => {
-        expect(result.props.title)
-          .toBeTruthy();
-      });
+    it('renders with the correct title', () => {
+      expect(result.props.title)
+        .toEqual(mockTitle);
     });
   });
 });
