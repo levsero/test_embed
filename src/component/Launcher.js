@@ -161,6 +161,10 @@ class Launcher extends Component {
     const shouldShowMobileClasses = mobile && !(this.getNotificationCount() > 0);
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
+    const type = this.getActiveEmbedIconType();
+    // Question mark needs to be flipped in Arabic
+    // https://zendesk.atlassian.net/browse/CE-4044
+    const shouldFlipX = type === 'Icon' && i18n.getLocale() === 'ar';
 
     if (this.props.updateFrameTitle) {
       this.props.updateFrameTitle(this.getTitle());
@@ -170,7 +174,8 @@ class Launcher extends Component {
       <button className={`${styles.wrapper} ${baseMobileClasses}`}
         onClick={this.props.onClick}>
         <Icon
-          type={this.getActiveEmbedIconType()}
+          type={type}
+          flipX={shouldFlipX}
           className={`${styles.icon} ${iconMobileClasses}`} />
         <span className={`${styles.label} ${labelMobileClasses}`}>{this.getActiveEmbedLabel()}</span>
       </button>

@@ -1,6 +1,7 @@
 describe('Launcher component', () => {
   let Launcher,
-    mockChatSuppressedValue;
+    mockChatSuppressedValue,
+    mockLocale = 'en';
   const launcherPath = buildSrcPath('component/Launcher');
 
   beforeEach(() => {
@@ -29,7 +30,8 @@ describe('Launcher component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: _.identity
+          t: _.identity,
+          getLocale: () => mockLocale
         }
       },
       'src/redux/modules/base/base-selectors': {
@@ -545,6 +547,60 @@ describe('Launcher component', () => {
       it('returns the value from the props', () => {
         expect(result)
           .toEqual(5);
+      });
+    });
+  });
+
+  describe('flipX', () => {
+    let launcher,
+      mockIconType,
+      rendered;
+
+    beforeEach(() => {
+      launcher = instanceRender(<Launcher />);
+      launcher.getActiveEmbedIconType = jasmine.createSpy('getActiveEmbedIconType').and.returnValue(mockIconType);
+      rendered = launcher.render();
+    });
+
+    describe('when the icon type is Icon and locale is ar', () => {
+      beforeAll(() => {
+        mockIconType = 'Icon';
+        mockLocale = 'ar';
+      });
+
+      it('renders the launcher with flipped icon', () => {
+        const targetElem = rendered.props.children[0];
+
+        expect(targetElem.props.flipX)
+          .toBe(true);
+      });
+    });
+
+    describe('when the icon type is Icon and locale is not ar', () => {
+      beforeAll(() => {
+        mockIconType = 'Icon';
+        mockLocale = 'en';
+      });
+
+      it('does not renders the launcher with flipped icon', () => {
+        const targetElem = rendered.props.children[0];
+
+        expect(targetElem.props.flipX)
+          .toBe(false);
+      });
+    });
+
+    describe('when the icon type is not Icon and locale is not ar', () => {
+      beforeAll(() => {
+        mockIconType = 'Icon--chat';
+        mockLocale = 'en';
+      });
+
+      it('does not renders the launcher with flipped icon', () => {
+        const targetElem = rendered.props.children[0];
+
+        expect(targetElem.props.flipX)
+          .toBe(false);
       });
     });
   });
