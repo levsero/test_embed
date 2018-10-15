@@ -114,7 +114,6 @@ describe('embed.launcher', () => {
       beforeEach(() => {
         config = {
           onClick: jasmine.createSpy(),
-          position: 'test_position',
           visible: true
         };
         launcher.create('launcher', config);

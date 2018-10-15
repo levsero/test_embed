@@ -3,6 +3,8 @@ import { createSelector } from 'reselect';
 import { getShowOfflineChat,
   getOfflineFormEnabled,
   getIsChatting,
+  getThemeColor as getChatThemeColor,
+  getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible } from './chat/chat-selectors';
 import { getZopimChatOnline } from './zopimChat/zopimChat-selectors';
 import { getSettingsChatSuppress } from './settings/settings-selectors';
@@ -15,6 +17,8 @@ import { getActiveEmbed,
   getTalkEmbed,
   getChatEmbed as getNewChatEmbed,
   getIPMWidget,
+  getEmbeddableConfig,
+  getConfigColor,
   getHasPassedAuth } from './base/base-selectors';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
@@ -139,5 +143,19 @@ export const getChannelChoiceAvailable = createSelector(
     const channelsAvailable = (availableChannelCount > 1);
 
     return channelChoicePrerequisite && channelsAvailable && !isChatting;
+  }
+);
+
+export const getColor = createSelector(
+  [getEmbeddableConfig, getConfigColor, getChatThemeColor],
+  (embeddableConfig, configColor, chatThemeColor) => {
+    return (embeddableConfig.cp4 && chatThemeColor) ? chatThemeColor : configColor;
+  }
+);
+
+export const getPosition = createSelector(
+  [getEmbeddableConfig, getChatThemePosition],
+  (embeddableConfig, chatThemePosition) => {
+    return (embeddableConfig.cp4 && chatThemePosition) ? chatThemePosition : embeddableConfig.position;
   }
 );

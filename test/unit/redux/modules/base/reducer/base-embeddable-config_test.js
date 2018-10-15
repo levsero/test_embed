@@ -36,7 +36,11 @@ describe('base reducer embeddable config', () => {
                 overrideProxy: ''
               }
             }
-          }
+          },
+          cp4: false,
+          position: 'right',
+          color: '#659700',
+          textColor: undefined
         });
     });
   });
@@ -59,7 +63,11 @@ describe('base reducer embeddable config', () => {
                 zopimId: 'yoloId'
               }
             }
-          }
+          },
+          cp4: true,
+          position: 'left',
+          color: 'white',
+          textColor: 'black'
         }
       };
 
@@ -82,7 +90,11 @@ describe('base reducer embeddable config', () => {
                 overrideProxy: ''
               }
             }
-          }
+          },
+          cp4: true,
+          color: 'white',
+          textColor: 'black',
+          position: 'left'
         });
     });
   });

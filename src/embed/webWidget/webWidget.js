@@ -181,8 +181,8 @@ export default function WebWidgetFactory(name) {
     const frameParams = {
       ref: (el) => {embed.instance = el.getWrappedInstance();},
       frameStyle: frameStyle,
-      css: webWidgetCSS + frameBodyCss + generateUserWidgetCSS(globalConfig.color),
-      position: globalConfig.position,
+      css: webWidgetCSS + frameBodyCss,
+      generateUserCSS: generateUserWidgetCSS,
       fullscreenable: true,
       newChat: chatAvailable,
       store: reduxStore,

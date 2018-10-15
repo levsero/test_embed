@@ -34,6 +34,12 @@ describe('selectors', () => {
     mockIsOnHelpCenterPage,
     mockIsChatting,
     getSubmitTicketAvailable,
+    getColor,
+    getPosition,
+    embeddableConfig,
+    configColor,
+    chatThemeColor,
+    chatThemePosition,
     getChannelChoiceAvailable;
 
   activeEmbedValue = '';
@@ -59,6 +65,10 @@ describe('selectors', () => {
   hasPassedAuth = false;
   mockIsOnHelpCenterPage = false;
   mockIsChatting = false;
+  embeddableConfig = {};
+  configColor = {};
+  chatThemeColor = {};
+  chatThemePosition = {};
 
   beforeEach(() => {
     mockery.enable();
@@ -74,7 +84,9 @@ describe('selectors', () => {
         getTalkEmbed: () => talkEmbedValue,
         getZopimChatEmbed: () => zopimChatEmbedValue,
         getIPMWidget: () => ipmWidget,
-        getHasPassedAuth: () => hasPassedAuth
+        getHasPassedAuth: () => hasPassedAuth,
+        getEmbeddableConfig: () => embeddableConfig,
+        getConfigColor: () => configColor
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue
@@ -83,7 +95,9 @@ describe('selectors', () => {
         getShowOfflineChat: () => showOfflineFormValue,
         getOfflineFormEnabled: () => offlineFormEnabledValue,
         getStandaloneMobileNotificationVisible: () => standaloneMobileNotificationVisible,
-        getIsChatting: () => mockIsChatting
+        getIsChatting: () => mockIsChatting,
+        getThemeColor: () => chatThemeColor,
+        getThemePosition: () => chatThemePosition
       },
       './zopimChat/zopimChat-selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue
@@ -135,6 +149,8 @@ describe('selectors', () => {
     getHelpCenterAvailable = selectors.getHelpCenterAvailable;
     getSubmitTicketAvailable = selectors.getSubmitTicketAvailable;
     getChannelChoiceAvailable = selectors.getChannelChoiceAvailable;
+    getColor = selectors.getColor;
+    getPosition = selectors.getPosition;
   });
 
   describe('getMaxWidgetHeight', () => {
@@ -1162,6 +1178,71 @@ describe('selectors', () => {
       it('returns false', () => {
         expect(result)
           .toEqual(false);
+      });
+    });
+  });
+
+  describe('getColor', () => {
+    let result;
+
+    describe('when cp4 config', () => {
+      beforeEach(() => {
+        embeddableConfig = { cp4: true };
+        chatThemeColor = 'blue';
+
+        result = getColor();
+      });
+
+      it('returns chat theme color', () => {
+        expect(result)
+          .toBe('blue');
+      });
+    });
+
+    describe('when not cp4 config', () => {
+      beforeEach(() => {
+        embeddableConfig = { cp4: false };
+        chatThemeColor = 'blue';
+        configColor = 'white';
+
+        result = getColor();
+      });
+
+      it('returns config color', () => {
+        expect(result)
+          .toBe('white');
+      });
+    });
+  });
+
+  describe('getPosition', () => {
+    let result;
+
+    describe('when cp4 config', () => {
+      beforeEach(() => {
+        embeddableConfig = { cp4: true, position: 'left' };
+        chatThemePosition = 'right';
+
+        result = getPosition();
+      });
+
+      it('returns chat theme postion', () => {
+        expect(result)
+          .toBe('right');
+      });
+    });
+
+    describe('when not cp4 config', () => {
+      beforeEach(() => {
+        embeddableConfig = { position: 'left' };
+        chatThemePosition = 'right';
+
+        result = getPosition();
+      });
+
+      it('returns config position', () => {
+        expect(result)
+          .toBe('left');
       });
     });
   });

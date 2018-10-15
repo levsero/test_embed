@@ -1265,4 +1265,25 @@ describe('Frame', () => {
       });
     });
   });
+
+  describe('setCustomCSS', () => {
+    let frame;
+
+    beforeEach(() => {
+      frame = domRender(<Frame generateUserCSS={_.identity} color='black'>{mockChild}</Frame>);
+      spyOn(frame, 'setCustomCSS');
+    });
+
+    it('calls setCustomCSS if the colors change', () => {
+      frame.componentWillReceiveProps({ color: 'white' });
+      expect(frame.setCustomCSS)
+        .toHaveBeenCalledWith('white');
+    });
+
+    it('does not call setCustomCSS if the colors do not change', () => {
+      frame.componentWillReceiveProps({ color: 'black' });
+      expect(frame.setCustomCSS)
+        .not.toHaveBeenCalled();
+    });
+  });
 });

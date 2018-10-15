@@ -21,7 +21,7 @@ import { clickBusterRegister,
 import { win } from 'utility/globals';
 import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
-import { getFixedStyles } from 'src/redux/modules/selectors';
+import { getFixedStyles, getColor, getPosition } from 'src/redux/modules/selectors';
 import { FONT_SIZE, MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
 
 // Unregister lodash from window._
@@ -31,7 +31,9 @@ if (!__DEV__) {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    fixedStyles: getFixedStyles(state, ownProps.name)
+    fixedStyles: getFixedStyles(state, ownProps.name),
+    color: getColor(state),
+    position: getPosition(state)
   };
 };
 
@@ -67,7 +69,9 @@ class Frame extends Component {
     title: PropTypes.string,
     fixedStyles: PropTypes.object,
     updateWidgetShown: PropTypes.func,
-    widgetHideAnimationComplete: PropTypes.func
+    widgetHideAnimationComplete: PropTypes.func,
+    color: PropTypes.object,
+    generateUserCSS: PropTypes.func
   }
 
   static defaultProps = {
@@ -93,7 +97,8 @@ class Frame extends Component {
     title: '',
     fixedStyles: {},
     updateWidgetShown: () => {},
-    widgetHideAnimationComplete: () => {}
+    widgetHideAnimationComplete: () => {},
+    generateUserCSS: () => {}
   }
 
   constructor(props, context) {
@@ -101,7 +106,8 @@ class Frame extends Component {
     this.state = {
       childRendered: false,
       hiddenByZoom: false,
-      visible: props.visible
+      visible: props.visible,
+      forceUpdateEmbed: false
     };
 
     this.child = null;
@@ -110,6 +116,12 @@ class Frame extends Component {
 
   componentDidMount = () => {
     this.renderFrameContent();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(nextProps.color, this.props.color)) {
+      this.setCustomCSS(this.generateUserCSSWithColor(nextProps.color));
+    }
   }
 
   componentDidUpdate = () => {
@@ -277,6 +289,10 @@ class Frame extends Component {
     this.child.setButtonColor(color);
   }
 
+  setCustomCSS = (css) => {
+    this.child.setCustomCSS(css);
+  }
+
   applyMobileBodyStyle = () => {
     const frameDoc = this.getContentDocument();
     const fullscreenWidth = `${win.innerWidth}px`;
@@ -361,6 +377,10 @@ class Frame extends Component {
     }
   }
 
+  generateUserCSSWithColor = (color) => {
+    return this.props.generateUserCSS(color);
+  }
+
   constructEmbed = () => {
     const newChild = React.cloneElement(this.props.children, {
       forceUpdateWorld: this.forceUpdateWorld,
@@ -374,7 +394,8 @@ class Frame extends Component {
         <EmbedWrapper
           ref={(el) => { this.child = el; }}
           document={this.getContentDocument()}
-          baseCSS={`${this.props.css} ${baseFontCSS}`}
+          baseCSS={`${this.props.css} ${this.generateUserCSSWithColor(this.props.color)} ${baseFontCSS}`}
+          generateUserCSS={this.props.generateUserCSS}
           reduxStore={this.props.store}
           handleBackClick={this.back}
           handleCloseClick={this.close}
