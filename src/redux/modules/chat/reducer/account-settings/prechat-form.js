@@ -6,6 +6,7 @@ const initialState = {
     name: { name: 'name', required: false },
     email: { name: 'email', required: false },
     phone: { name: 'phone', required: false },
+    department: { name: 'department', required: false },
     message: { name: 'message', required: false }
   },
   message: '',

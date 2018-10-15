@@ -44,7 +44,6 @@ function init() {
   });
 
   c.intercept(`${chat}.onHide`, () => {
-    state[`${chat}.isVisible`] = false;
     state[`${chat}.unreadMsgs`] = 0;
 
     // Reset .userClosed to false if chat ended

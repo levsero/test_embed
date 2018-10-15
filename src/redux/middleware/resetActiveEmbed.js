@@ -7,7 +7,7 @@ import { ZOPIM_CHAT_ON_STATUS_UPDATE, ZOPIM_HIDE } from 'src/redux/modules/zopim
 import { AUTHENTICATION_SUCCESS, AUTHENTICATION_FAILURE } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 import { updateActiveEmbed,
   updateBackButtonVisibility } from 'src/redux/modules/base';
-import { chatStandalone } from 'src/redux/modules/base/base-selectors';
+import { getChatStandalone, getZopimChatEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatAvailable,
   getTalkAvailable,
   getChannelChoiceAvailable,
@@ -33,8 +33,13 @@ const getActiveEmbed = (state, dispatch) => {
     activeEmbed = 'channelChoice';
   } else if (getTalkAvailable(state)) {
     activeEmbed = 'talk';
-  } else if (getChatAvailable(state) || chatStandalone) {
-    this.showChat();
+  } else if (getChatAvailable(state) || getChatStandalone(state)) {
+    // old chat
+    if (getZopimChatEmbed(state)) {
+      activeEmbed = 'zopimChat';
+    } else {
+      activeEmbed = 'chat';
+    }
   } else {
     activeEmbed = 'ticketSubmissionForm';
     backButton = getShowTicketFormsBackButton(state);

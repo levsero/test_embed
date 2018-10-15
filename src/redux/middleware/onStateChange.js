@@ -8,7 +8,9 @@ import { getAccountSettings,
   clearDepartment,
   setDepartment,
   chatOpened,
-  chatWindowOpenOnNavigate } from 'src/redux/modules/chat';
+  chatWindowOpenOnNavigate,
+  chatHideLauncherWhenOffline,
+  chatShowLauncherWhenOnline } from 'src/redux/modules/chat';
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base';
 import { IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
@@ -39,7 +41,8 @@ import { getActiveEmbed,
   getWidgetShown,
   getIPMWidget,
   getHelpCenterEmbed,
-  getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
+  getSubmitTicketEmbed,
+  getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
 import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
@@ -227,11 +230,16 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
 const onChatStatusChange = (prevState, nextState, dispatch) => {
   if (getChatStatus(prevState) !== getChatStatus(nextState)) {
     if (getChatOnline(nextState)) {
-      mediator.channel.broadcast('newChat.online');
+      if (getChatStandalone(nextState)) {
+        dispatch(chatShowLauncherWhenOnline());
+      }
     } else {
       const hideLauncher = !getOfflineFormSettings(nextState).enabled;
 
-      mediator.channel.broadcast('newChat.offline', hideLauncher);
+      if (hideLauncher) {
+        dispatch(chatHideLauncherWhenOffline());
+      }
+
       if (getSubmitTicketEmbed(nextState) && !getIsChattingState(nextState) && getActiveEmbed(nextState) === 'chat') {
         dispatch(updateActiveEmbed('ticketSubmissionForm'));
       }

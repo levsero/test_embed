@@ -617,6 +617,18 @@ export function chatWindowOpenOnNavigate() {
   };
 }
 
+export function chatHideLauncherWhenOffline() {
+  return {
+    type: actions.CHAT_HIDE_LAUNCHER_WHEN_OFFLINE
+  };
+}
+
+export function chatShowLauncherWhenOnline() {
+  return {
+    type: actions.CHAT_SHOW_LAUNCHER_WHEN_ONLINE
+  };
+}
+
 // TODO: Remove this function.
 // It was added temporarily when transitioning to use dynamic import()
 // for the chat-web-sdk
