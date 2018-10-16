@@ -3,11 +3,14 @@ import _ from 'lodash';
 import { WIDGET_INITIALISED, ACTIVATE_RECIEVED } from 'src/redux/modules/base/base-action-types';
 import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types';
 import { UPDATE_TALK_AGENT_AVAILABILITY } from 'src/redux/modules/talk/talk-action-types';
-import { ZOPIM_CHAT_ON_STATUS_UPDATE, ZOPIM_HIDE } from 'src/redux/modules/zopimChat/zopimChat-action-types';
-import { AUTHENTICATION_SUCCESS, AUTHENTICATION_FAILURE } from 'src/redux/modules/helpCenter/helpCenter-action-types';
+import {
+  ZOPIM_CHAT_ON_STATUS_UPDATE,
+  ZOPIM_END_CHAT,
+  ZOPIM_HIDE } from 'src/redux/modules/zopimChat/zopimChat-action-types';
+import { AUTHENTICATION_SUCCESS } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 import { updateActiveEmbed,
   updateBackButtonVisibility } from 'src/redux/modules/base';
-import { getChatStandalone, getZopimChatEmbed } from 'src/redux/modules/base/base-selectors';
+import { getChatStandalone, getZopimChatEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatAvailable,
   getTalkAvailable,
   getChannelChoiceAvailable,
@@ -16,8 +19,37 @@ import { getChatAvailable,
   getIpmHelpCenterAllowed,
   getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { getZopimChatOnline, getZopimIsChatting } from 'src/redux/modules/zopimChat/zopimChat-selectors';
 
-const getActiveEmbed = (state, dispatch) => {
+const shouldResetForChat = (type, state) => {
+  const activeEmbed = getActiveEmbed(state);
+  const chatActions = [
+    SDK_CONNECTION_UPDATE,
+    SDK_ACCOUNT_STATUS
+  ];
+
+  if (_.includes(chatActions, type) && (activeEmbed === 'chat' || activeEmbed === 'channelChoice')) {
+    return true;
+  }
+  return false;
+};
+
+const shouldResetForZopimChat = (type, state) => {
+  const activeEmbed = getActiveEmbed(state);
+  const zopimChatActions = [
+    ZOPIM_CHAT_ON_STATUS_UPDATE,
+    ZOPIM_END_CHAT
+  ];
+  const zopimChatGoneOffline = _.includes(zopimChatActions, type) && !getZopimChatOnline(state);
+  const isChatting = getZopimIsChatting(state);
+
+  if ((zopimChatGoneOffline && !isChatting) && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
+    return true;
+  }
+  return false;
+};
+
+const setNewActiveEmbed = (state, dispatch) => {
   let backButton = false;
   let activeEmbed = '';
   const articleViewActive = getArticleViewActive(state);
@@ -45,6 +77,8 @@ const getActiveEmbed = (state, dispatch) => {
     backButton = getShowTicketFormsBackButton(state);
   }
 
+  console.log(activeEmbed);
+
   dispatch(updateActiveEmbed(activeEmbed));
   dispatch(updateBackButtonVisibility(backButton));
 };
@@ -52,19 +86,18 @@ const getActiveEmbed = (state, dispatch) => {
 export default function queueCalls(prevState, nextState, action, dispatch = () => {}) {
   const { type } = action;
   const state = prevState;
-  const actions = [
-    SDK_CONNECTION_UPDATE,
+  const alwaysUpdateActions = [
     UPDATE_TALK_AGENT_AVAILABILITY,
     WIDGET_INITIALISED,
-    ZOPIM_CHAT_ON_STATUS_UPDATE,
-    SDK_ACCOUNT_STATUS,
     ZOPIM_HIDE,
     ACTIVATE_RECIEVED,
-    AUTHENTICATION_SUCCESS,
-    AUTHENTICATION_FAILURE
+    AUTHENTICATION_SUCCESS
   ];
 
-  if (!getWebWidgetVisible(state) && _.includes(actions, type)) {
-    getActiveEmbed(state, dispatch);
+  const chatReset = shouldResetForChat(type, nextState);
+  const zopimChatReset = shouldResetForZopimChat(type, nextState);
+
+  if (!getWebWidgetVisible(state) && (_.includes(alwaysUpdateActions, type) || chatReset || zopimChatReset)) {
+    setNewActiveEmbed(state, dispatch);
   }
 }

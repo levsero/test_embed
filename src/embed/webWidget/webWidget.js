@@ -273,13 +273,6 @@ export default function WebWidgetFactory(name) {
       }
     });
 
-    mediator.channel.subscribe(prefix + 'webWidget.zopimChatEnded', () => {
-      waitForRootComponent(() => {
-        // Reset the active component state
-        getWebWidgetComponent().setComponent('');
-      });
-    });
-
     mediator.channel.subscribe(prefix + 'webWidget.zopimChatStarted', () => {
       waitForRootComponent(() => {
         if (!embed.instance.props.visible) {

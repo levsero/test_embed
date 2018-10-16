@@ -4,7 +4,8 @@ import {
   ZOPIM_SHOW,
   ZOPIM_CONNECTED,
   ZOPIM_ON_CLOSE,
-  ZOPIM_IS_CHATTING } from './zopimChat-action-types';
+  ZOPIM_IS_CHATTING,
+  ZOPIM_END_CHAT } from './zopimChat-action-types';
 
 export function updateZopimChatStatus(status) {
   return {
@@ -41,5 +42,11 @@ export function zopimIsChatting(open) {
   return {
     type: ZOPIM_IS_CHATTING,
     payload: open
+  };
+}
+
+export function zopimEndChat() {
+  return {
+    type: ZOPIM_END_CHAT
   };
 }
