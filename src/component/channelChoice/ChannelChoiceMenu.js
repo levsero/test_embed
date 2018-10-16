@@ -48,6 +48,11 @@ export class ChannelChoiceMenu extends Component {
     return () => this.props.onNextClick(embed);
   }
 
+  getIconFlipX = () => {
+    // Needs to flip icons for Arabic and Hebrew
+    return ['ar', 'he'].includes(i18n.getLocale());
+  }
+
   renderTalkLabel = () => {
     const { callbackEnabled, talkAvailable } = this.props;
     const optionLabel = (callbackEnabled)
@@ -87,6 +92,7 @@ export class ChannelChoiceMenu extends Component {
           onClick={this.handleNextClick('talk')}
           iconClasses={iconStyle}
           label={this.renderTalkLabel()}
+          flipX={this.getIconFlipX()}
           icon={'Icon--channelChoice-talk'} />
       </li>
     );
@@ -114,6 +120,7 @@ export class ChannelChoiceMenu extends Component {
           labelClassName={this.props.labelClasses}
           onClick={this.handleNextClick('ticketSubmissionForm')}
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
+          flipX={this.getIconFlipX()}
           icon={'Icon--channelChoice-contactForm'} />
       </li>
     );
@@ -162,6 +169,7 @@ export class ChannelChoiceMenu extends Component {
           labelClassName={this.props.labelClasses}
           onClick={this.handleChatClick()}
           label={this.renderChatLabel()}
+          flipX={this.getIconFlipX()}
           icon={'Icon--channelChoice-chat'} />
       </li>
     );

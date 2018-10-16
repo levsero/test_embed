@@ -12,7 +12,8 @@ export class ButtonIcon extends Component {
     icon: PropTypes.string,
     iconClasses: PropTypes.string,
     label: PropTypes.node,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    flipX: PropTypes.bool
   };
 
   static defaultProps = {
@@ -22,7 +23,8 @@ export class ButtonIcon extends Component {
     icon: '',
     iconClasses: '',
     label: null,
-    onClick: () => {}
+    onClick: () => {},
+    flipX: false
   };
 
   handleOnClick = () => {
@@ -32,7 +34,7 @@ export class ButtonIcon extends Component {
   }
 
   render = () => {
-    const { actionable, containerStyles, labelClassName, icon, label } = this.props;
+    const { actionable, containerStyles, labelClassName, icon, label, flipX } = this.props;
     const actionableStyles = actionable ? styles.containerActionable : '';
     const buttonClasses = `
       ${styles.container}
@@ -47,6 +49,7 @@ export class ButtonIcon extends Component {
         onClick={this.handleOnClick}>
         <Icon
           className={`${styles.icon} ${this.props.iconClasses}`}
+          flipX={flipX}
           type={icon} />
         <span className={`${styles.label} ${labelClassName}`}>
           {label}
