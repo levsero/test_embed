@@ -766,12 +766,6 @@ describe('ChatGroup component', () => {
         it('passes the correct imgSrc prop to the component', () => {
           expect(result.props.file.url).toEqual(chat.file.url);
         });
-
-        it('renders the component without a placeholder element', () => {
-          expect(result.props).toEqual(jasmine.objectContaining({
-            placeholderEl: null
-          }));
-        });
       });
     });
 
@@ -905,11 +899,6 @@ describe('ChatGroup component', () => {
 
           it('passes the correct imgSrc prop to the component', () => {
             expect(result.props.file.url).toEqual(chat.file.url);
-          });
-
-          it('renders the component with an Attachment as the placeholder element', () => {
-            expect(TestUtils.isElementOfType(result.props.placeholderEl, Attachment))
-              .toEqual(true);
           });
         });
       });
