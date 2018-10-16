@@ -77,8 +77,6 @@ const setNewActiveEmbed = (state, dispatch) => {
     backButton = getShowTicketFormsBackButton(state);
   }
 
-  console.log(activeEmbed);
-
   dispatch(updateActiveEmbed(activeEmbed));
   dispatch(updateBackButtonVisibility(backButton));
 };

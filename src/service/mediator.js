@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import { emailValid } from 'utility/utils';
 import { proactiveMessageRecieved } from 'src/redux/modules/chat';
+import { zopimProactiveMessageRecieved } from 'src/redux/modules/zopimChat';
 
 const c = new airwaves.Channel();
 
@@ -23,14 +24,21 @@ function init() {
     }
   });
 
-  c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
+  c.intercept(`${chat}.onUnreadMsgs`, (__, count, store) => {
     state[`${chat}.unreadMsgs`] = count;
 
     c.broadcast(`${launcher}.setUnreadMsgs`, state[`${chat}.unreadMsgs`]);
+
+    if (count > 0 && !state[`${chat}.userClosed`]) {
+      store.dispatch(zopimProactiveMessageRecieved());
+    }
   });
 
-  c.intercept(`${chat}.onIsChatting`, () => {
+  c.intercept(`${chat}.onIsChatting`, (__, display) => {
     c.broadcast('webWidget.zopimChatStarted');
+    if (display) {
+      c.broadcast(`${chat}.show`);
+    }
   });
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
@@ -54,8 +62,6 @@ function init() {
 
   c.intercept(`${chat}.onChatEnd`, () => {
     state[`${chat}.chatEnded`] = true;
-
-    c.broadcast('webWidget.zopimChatEnded');
   });
 
   c.intercept('webWidget.onClose', () => {

@@ -59,6 +59,7 @@ function show(name, showWindow = false) {
       }
     } else {
       win.$zopim.livechat.window.show();
+      get(name).store.dispatch(zopimShow());
     }
 
     // TODO remove when zopim has release mobile notifications
@@ -172,7 +173,7 @@ function init(name) {
     store.dispatch(updateZopimChatStatus(status));
   };
   const onUnreadMsgs = (unreadMessageCount) => {
-    mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
+    mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount, store);
   };
   const onChatStart = () => {
     mediator.channel.broadcast(`${name}.onChatStart`);
@@ -200,19 +201,19 @@ function init(name) {
     const zopimLive = win.$zopim.livechat;
     const zopimWin = zopimLive.window;
 
+    zopimLive.hideAll();
+
     cappedTimeoutCall(() => {
       if (zopimWin.getDisplay() || zopimLive.isChatting()) {
-        mediator.channel.broadcast(`${name}.onIsChatting`);
+        mediator.channel.broadcast(`${name}.onIsChatting`, zopimWin.getDisplay());
 
-        store.dispatch(zopimIsChatting(zopimWin.getDisplay()));
+        store.dispatch(zopimIsChatting());
         store.dispatch(updateActiveEmbed('zopimChat'));
         store.dispatch(updateSettingsChatSuppress(false));
 
         return true;
       }
     }, 1000, 10);
-
-    zopimLive.hideAll();
 
     zopimWin.onHide(onHide);
     zopimLive.setLanguage(i18n.getLocale());
