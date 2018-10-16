@@ -137,18 +137,13 @@
 }
 
 .Icon--paperclip-small {
-  padding-right: #{5/$font-size}rem;
-
   svg {
     min-width: #{16/$font-size}rem; /* 1 */
     min-height: #{16/$font-size}rem; /* 1 */
     height: #{16/$font-size}rem;
     width: #{16/$font-size}rem;
-
-    path {
-      transform-origin: center;
-      transform: rotate(45deg);
-    }
+    transform-origin: center;
+    transform: rotate(45deg);
   }
 }
 
