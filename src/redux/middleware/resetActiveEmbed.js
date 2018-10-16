@@ -1,13 +1,15 @@
 import _ from 'lodash';
 
-import { WIDGET_INITIALISED, ACTIVATE_RECIEVED } from 'src/redux/modules/base/base-action-types';
+import {
+  WIDGET_INITIALISED,
+  ACTIVATE_RECIEVED,
+  AUTHENTICATION_SUCCESS } from 'src/redux/modules/base/base-action-types';
 import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types';
 import { UPDATE_TALK_AGENT_AVAILABILITY } from 'src/redux/modules/talk/talk-action-types';
 import {
   ZOPIM_CHAT_ON_STATUS_UPDATE,
   ZOPIM_END_CHAT,
   ZOPIM_HIDE } from 'src/redux/modules/zopimChat/zopimChat-action-types';
-import { AUTHENTICATION_SUCCESS } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 import { updateActiveEmbed,
   updateBackButtonVisibility } from 'src/redux/modules/base';
 import { getChatStandalone, getZopimChatEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
@@ -81,7 +83,7 @@ const setNewActiveEmbed = (state, dispatch) => {
   dispatch(updateBackButtonVisibility(backButton));
 };
 
-export default function queueCalls(prevState, nextState, action, dispatch = () => {}) {
+export default function resetActiveEmbed(prevState, nextState, action, dispatch = () => {}) {
   const { type } = action;
   const state = prevState;
   const alwaysUpdateActions = [
