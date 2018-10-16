@@ -162,9 +162,15 @@ class Launcher extends Component {
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
     const type = this.getActiveEmbedIconType();
-    // Question mark needs to be flipped in Arabic
-    // https://zendesk.atlassian.net/browse/CE-4044
-    const shouldFlipX = type === 'Icon' && i18n.getLocale() === 'ar';
+    /**
+     * - Question mark needs to be flipped in Arabic: https://zendesk.atlassian.net/browse/CE-4044
+     * - Chat icon needs to be flipped in Arabic & Hebrew: https://zendesk.atlassian.net/browse/CE-4045
+     */
+    const locale = i18n.getLocale();
+    const shouldFlipX = (
+      (type === 'Icon' && locale === 'ar') ||
+      (type === 'Icon--chat' && ['ar', 'he'].includes(locale))
+    );
 
     if (this.props.updateFrameTitle) {
       this.props.updateFrameTitle(this.getTitle());

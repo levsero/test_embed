@@ -562,6 +562,13 @@ describe('Launcher component', () => {
       rendered = launcher.render();
     });
 
+    it('does not renders the launcher with flipped icon', () => {
+      const targetElem = rendered.props.children[0];
+
+      expect(targetElem.props.flipX)
+        .toBe(false);
+    });
+
     describe('when the icon type is Icon and locale is ar', () => {
       beforeAll(() => {
         mockIconType = 'Icon';
@@ -576,31 +583,31 @@ describe('Launcher component', () => {
       });
     });
 
-    describe('when the icon type is Icon and locale is not ar', () => {
+    describe('when the icon type is Icon--chat and locale is ar', () => {
       beforeAll(() => {
-        mockIconType = 'Icon';
-        mockLocale = 'en';
+        mockIconType = 'Icon--chat';
+        mockLocale = 'ar';
       });
 
-      it('does not renders the launcher with flipped icon', () => {
+      it('renders the launcher with flipped icon', () => {
         const targetElem = rendered.props.children[0];
 
         expect(targetElem.props.flipX)
-          .toBe(false);
+          .toBe(true);
       });
     });
 
-    describe('when the icon type is not Icon and locale is not ar', () => {
+    describe('when the icon type is Icon--chat and locale is he', () => {
       beforeAll(() => {
         mockIconType = 'Icon--chat';
-        mockLocale = 'en';
+        mockLocale = 'he';
       });
 
-      it('does not renders the launcher with flipped icon', () => {
+      it('renders the launcher with flipped icon', () => {
         const targetElem = rendered.props.children[0];
 
         expect(targetElem.props.flipX)
-          .toBe(false);
+          .toBe(true);
       });
     });
   });
