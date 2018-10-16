@@ -22,12 +22,6 @@ const newAPIPostRenderQueue = [];
 const addToPostRenderQueue = (...args) => {
   newAPIPostRenderQueue.push(args);
 };
-const getWidgetChatApiObj = () => {
-  return {
-    endChat: endChatApi,
-    sendChatMsg: sendChatMsgApi
-  };
-};
 const endChatApi = (reduxStore) => {
   reduxStore.dispatch(endChat());
 };
@@ -62,65 +56,77 @@ const prefill = (reduxStore, payload) => {
 const updatePathApi = (reduxStore, page = {}) => {
   reduxStore.dispatch(sendVisitorPath(page));
 };
-const onApi = (reduxStore, event, callback) => {
-  const listenersMap = {
-    [API_ON_CLOSE_NAME]: [ CLOSE_BUTTON_CLICKED ]
+const getWidgetChatApiObj = () => {
+  return {
+    end: endChatApi,
+    send: sendChatMsgApi
   };
-
-  if (_.isFunction(callback) && listenersMap[event]) {
-    reduxStore.dispatch(handleOnApiCalled(listenersMap[event], callback));
-  }
 };
-const getApi = (reduxStore, ...args) => {
-  const state = reduxStore.getState();
-  const allowlist = {
-    [API_GET_IS_CHATTING_NAME]: getIsChatting,
-    [API_GET_DEPARTMENTS_ALL_NAME]: getDepartmentsList,
-    [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: getDepartment,
-    [API_GET_DISPLAY_NAME]: getWidgetDisplayInfo
+const onApiObj = () => {
+  const onClose = (reduxStore, callback) => {
+    if (_.isFunction(callback)) {
+      reduxStore.dispatch(handleOnApiCalled([CLOSE_BUTTON_CLICKED], callback));
+    }
   };
-  const params = Array.from(args);
-  const item = params[0];
-  const getParams = params.slice(1);
 
-  if (allowlist[item]) {
-    return allowlist[item](state, ...getParams);
-  }
+  return {
+    [API_ON_CLOSE_NAME]: onClose
+  };
+};
+const getApiObj = () => {
+  return {
+    chat: {
+      [API_GET_IS_CHATTING_NAME]: (reduxStore, ...args) => getIsChatting(reduxStore.getState(), ...args),
+      [API_GET_DEPARTMENTS_ALL_NAME]: (reduxStore, ...args) => getDepartmentsList(reduxStore.getState(), ...args),
+      [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: (reduxStore, ...args) => getDepartment(reduxStore.getState(), ...args),
+    },
+    [API_GET_DISPLAY_NAME]: (reduxStore, ...args) => getWidgetDisplayInfo(reduxStore.getState(), ...args)
+  };
+};
+const getApiPostRenderQueue = () => {
+  const postRenderCallback = (_, ...args) => addToPostRenderQueue(['webWidget:get', ...args]);
+
+  return {
+    [API_GET_IS_CHATTING_NAME]: postRenderCallback,
+    [API_GET_DEPARTMENTS_ALL_NAME]: postRenderCallback,
+    [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: postRenderCallback,
+    [API_GET_DISPLAY_NAME]: postRenderCallback
+  };
 };
 
 const newApiStructurePostRender = {
-  webwidget: {
-    ...getWidgetChatApiObj(),
+  webWidget: {
     hide: () => mediator.channel.broadcast('.hide'),
     setLocale: setLocaleApi,
     identify: identifyApi,
     updateSettings: updateSettingsApi,
     logout: logoutApi,
-    setHelpCenterSuggestions: setHelpCenterSuggestionsApi,
+    setSuggestions: setHelpCenterSuggestionsApi,
     updatePath: updatePathApi,
     clear: clearFormState,
-    prefill: prefill
-  },
-  on: onApi,
-  get: getApi
+    prefill: prefill,
+    chat: getWidgetChatApiObj(),
+    on: onApiObj(),
+    get: getApiObj()
+  }
 };
 const newApiStructurePreRender = {
-  webwidget: {
-    ...getWidgetChatApiObj(),
+  webWidget: {
     hide: renderer.hide,
     setLocale: (_, locale) => i18n.setLocale(locale),
     identify: (_, ...args) => addToPostRenderQueue(['webWidget', 'identify', ...args]),
     updateSettings: (_, ...args) => addToPostRenderQueue(['webWidget', 'updateSettings', ...args]),
     logout: (_, ...args) => addToPostRenderQueue(['webWidget', 'logout', ...args]),
-    setHelpCenterSuggestions: (_, ...args) => {
-      addToPostRenderQueue(['webWidget', 'setHelpCenterSuggestions', ...args]);
+    setSuggestions: (_, ...args) => {
+      addToPostRenderQueue(['webWidget', 'setSuggestions', ...args]);
     },
     updatePath: (_, ...args) => addToPostRenderQueue(['webWidget', 'updatePath', ...args]),
     clear: (reduxStore) => clearFormState(reduxStore),
-    prefill: prefill
-  },
-  on: onApi,
-  get: (_, ...args) => addToPostRenderQueue(['webWidget:get', ...args])
+    prefill: prefill,
+    chat: getWidgetChatApiObj(),
+    on: onApiObj(),
+    get: getApiPostRenderQueue(),
+  }
 };
 
 function clearFormState(reduxStore) {
@@ -128,20 +134,24 @@ function clearFormState(reduxStore) {
 }
 
 const handleNewApi = (apiStructure, reduxStore, args) => {
+  const getApiFunction = (methodAccessors) => {
+    const keys = _.flatten(methodAccessors.map((accessor => {
+      return accessor.split(':');
+    }))).join('.');
+
+    return _.get(apiStructure, keys, () => {});
+  };
   const params = Array.from(args);
-  const defaultPath = 'webwidget';
-  const topMethod = params[0].split(':')[1] || defaultPath;
-  const subMethod = params[1];
 
-  if (apiStructure[topMethod][subMethod]) {
-    const apiParams = params.slice(2);
+  /*
+   Assume the first two arguments provided by the user will be method accessor params.
+   Any subsequent parameters provided will be additional data for whatever api they are calling (eg. callbacks).
+  */
+  const methodAccessorParams = params.slice(0, 2);
+  const apiMethodParams = params.slice(2);
+  const apiFunction = getApiFunction(methodAccessorParams);
 
-    return apiStructure[topMethod][subMethod](reduxStore, ...apiParams);
-  } else {
-    const apiParams = params.slice(1);
-
-    return apiStructure[topMethod](reduxStore, ...apiParams);
-  }
+  return apiFunction(reduxStore, ...apiMethodParams);
 };
 
 function handleQueue(reduxStore, queue) {

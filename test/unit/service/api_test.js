@@ -267,7 +267,7 @@ describe('api', () => {
         const options = { url: true };
 
         beforeAll(() => {
-          call = ['webWidget', 'setHelpCenterSuggestions', options];
+          call = ['webWidget', 'setSuggestions', options];
         });
 
         it('calls setHelpCenterSuggestions with the options', () => {
@@ -399,7 +399,7 @@ describe('api', () => {
       const options = { url: true };
 
       beforeAll(() => {
-        call = ['webWidget', 'setHelpCenterSuggestions', options];
+        call = ['webWidget', 'setSuggestions', options];
       });
 
       it('calls setHelpCenterSuggestions with the options', () => {
@@ -423,7 +423,7 @@ describe('api', () => {
 
     describe('when that call is endChat', () => {
       beforeAll(() => {
-        call = ['webWidget', 'endChat'];
+        call = ['webWidget', 'chat:end'];
       });
 
       it('calls endChat with the options', () => {
@@ -434,7 +434,7 @@ describe('api', () => {
 
     describe('when that call is sendChatMsg', () => {
       beforeAll(() => {
-        call = ['webWidget', 'sendChatMsg'];
+        call = ['webWidget', 'chat:send'];
       });
 
       it('calls sendMsg with the options', () => {
@@ -483,7 +483,7 @@ describe('api', () => {
     describe('when that call is get', () => {
       describe('when the param is part of the allowList', () => {
         beforeAll(() => {
-          call = ['webWidget:get', API_GET_IS_CHATTING_NAME];
+          call = ['webWidget:get', `chat:${API_GET_IS_CHATTING_NAME}`];
         });
 
         it('returns the value corresponding to the param', () => {
