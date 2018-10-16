@@ -1,31 +1,7 @@
 describe('base selectors', () => {
-  let getZopimChatEmbed,
-    getHelpCenterEmbed,
-    getTalkEmbed,
-    getActiveEmbed,
-    getChatEmbed,
-    getWidgetShown,
-    getIPMWidget,
-    getChatStandalone,
-    getOAuth,
-    getAuthToken,
-    getBaseIsAuthenticated,
-    getQueue,
-    getEmbeddableConfig,
-    getHelpCenterContextualEnabled,
-    getHelpCenterSignInRequired,
-    getIsAuthenticationPending,
-    getHasWidgetShown,
-    getHasPassedAuth,
-    getChatOverrideProxy,
-    getZChatConfig,
-    getZopimId,
+  let selectors,
     mockStoreValue,
     mockIsOnHelpCenterPage,
-    getOnApiListeners,
-    getConfigColor,
-    getWidgetDisplayInfo,
-    getFrameVisible,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
   beforeEach(() => {
@@ -57,34 +33,8 @@ describe('base selectors', () => {
 
     const selectors = requireUncached(selectorsPath);
 
-    getIsAuthenticationPending = selectors.getIsAuthenticationPending;
-    getZopimChatEmbed = selectors.getZopimChatEmbed;
-    getActiveEmbed = selectors.getActiveEmbed;
-    getHelpCenterEmbed = selectors.getHelpCenterEmbed;
-    getTalkEmbed = selectors.getTalkEmbed;
-    getChatEmbed = selectors.getChatEmbed;
-    getWidgetShown = selectors.getWidgetShown;
-    getChatStandalone = selectors.getChatStandalone;
-    getIPMWidget = selectors.getIPMWidget;
-    getOAuth = selectors.getOAuth;
-    getAuthToken = selectors.getAuthToken;
-    getBaseIsAuthenticated = selectors.getBaseIsAuthenticated;
-    getQueue = selectors.getQueue;
-    getEmbeddableConfig = selectors.getEmbeddableConfig;
-    getHelpCenterContextualEnabled = selectors.getHelpCenterContextualEnabled;
-    getHelpCenterSignInRequired = selectors.getHelpCenterSignInRequired;
-    getHasWidgetShown = selectors.getHasWidgetShown;
-    getHasPassedAuth = selectors.getHasPassedAuth;
-    getChatOverrideProxy = selectors.getChatOverrideProxy;
-    getZopimId = selectors.getZopimId;
-    getZChatConfig = selectors.getZChatConfig;
-    getOnApiListeners = selectors.getOnApiListeners;
-    getWidgetDisplayInfo = selectors.getWidgetDisplayInfo;
-<<<<<<< HEAD
-    getConfigColor = selectors.getConfigColor;
-=======
-    getFrameVisible = selectors.getFrameVisible;
->>>>>>> Set up initial reducers and selectors for Web Widget Visible and Launcher Visible state
+    selectors = requireUncached(selectorsPath);
+
   });
 
   describe('getZChatConfig', () => {
@@ -92,7 +42,7 @@ describe('base selectors', () => {
       mockState;
 
     beforeEach(() => {
-      result = getZChatConfig(mockState);
+      result = selectors.getZChatConfig(mockState);
     });
 
     describe('when overrideProxy exists', () => {
@@ -169,7 +119,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getZopimId(mockState);
+      result = selectors.getZopimId(mockState);
     });
 
     it('returns the chat key', () => {
@@ -195,7 +145,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatOverrideProxy(mockState);
+      result = selectors.getChatOverrideProxy(mockState);
     });
 
     it('returns the override proxy', () => {
@@ -213,12 +163,32 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getOnApiListeners(mockState);
+      result = selectors.getOnApiListeners(mockState);
     });
 
     it('returns the override proxy', () => {
       expect(result)
         .toEqual('listening');
+    });
+  });
+
+  describe('getHiddenByHideAPI', () => {
+    let result;
+    const mockState = {
+      base: {
+        hidden: {
+          hideApi: true
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = selectors.getHiddenByHideAPI(mockState);
+    });
+
+    it('returns the override proxy', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 
@@ -241,7 +211,7 @@ describe('base selectors', () => {
           }
         }
       };
-      result = getHasPassedAuth(mockState);
+      result = selectors.getHasPassedAuth(mockState);
     });
 
     describe('isAuthenticated', () => {
@@ -342,7 +312,7 @@ describe('base selectors', () => {
           hasWidgetShown: true
         }
       };
-      result = getHasWidgetShown(mockState);
+      result = selectors.getHasWidgetShown(mockState);
     });
 
     it('returns true', () => {
@@ -361,7 +331,7 @@ describe('base selectors', () => {
           isAuthenticationPending: true
         }
       };
-      result = getIsAuthenticationPending(mockState);
+      result = selectors.getIsAuthenticationPending(mockState);
     });
 
     it('returns true', () => {
@@ -388,7 +358,7 @@ describe('base selectors', () => {
           }
         }
       };
-      result = getHelpCenterSignInRequired(mockState);
+      result = selectors.getHelpCenterSignInRequired(mockState);
     });
 
     it('returns true', () => {
@@ -415,7 +385,7 @@ describe('base selectors', () => {
           }
         }
       };
-      result = getHelpCenterContextualEnabled(mockState);
+      result = selectors.getHelpCenterContextualEnabled(mockState);
     });
 
     it('returns true', () => {
@@ -434,7 +404,7 @@ describe('base selectors', () => {
           embeddableConfig: 'yoloConfig'
         }
       };
-      result = getEmbeddableConfig(mockState);
+      result = selectors.getEmbeddableConfig(mockState);
     });
 
     it('returns the embeddableConfig', () => {
@@ -455,7 +425,7 @@ describe('base selectors', () => {
           }
         }
       };
-      result = getQueue(mockState);
+      result = selectors.getQueue(mockState);
     });
 
     it('returns the queue', () => {
@@ -475,7 +445,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getActiveEmbed(mockState);
+      result = selectors.getActiveEmbed(mockState);
     });
 
     it('returns the current active embed', () => {
@@ -495,7 +465,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getZopimChatEmbed(mockState);
+      result = selectors.getZopimChatEmbed(mockState);
     });
 
     it('returns the current state of embed.zopimChat', () => {
@@ -515,7 +485,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getHelpCenterEmbed(mockState);
+      result = selectors.getHelpCenterEmbed(mockState);
     });
 
     it('returns the current state of embed.helpCenterForm', () => {
@@ -535,7 +505,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getTalkEmbed(mockState);
+      result = selectors.getTalkEmbed(mockState);
     });
 
     it('returns the current state of embed.talk', () => {
@@ -555,7 +525,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatEmbed(mockState);
+      result = selectors.getChatEmbed(mockState);
     });
 
     it('returns the current state of embed.chat', () => {
@@ -573,7 +543,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getWidgetShown(mockState);
+      result = selectors.electorsgetWidgetShown(mockState);
     });
 
     it('returns the current state of widgetShown', () => {
@@ -596,7 +566,7 @@ describe('base selectors', () => {
           }
         };
 
-        result = getChatStandalone(mockState);
+        result = selectors.getChatStandalone(mockState);
       });
 
       it('returns true for the state of chatStandalone', () => {
@@ -617,7 +587,7 @@ describe('base selectors', () => {
             }
           };
 
-          result = getChatStandalone(mockState);
+          result = selectors.getChatStandalone(mockState);
         });
 
         it('returns false for the state of chatStandalone', () => {
@@ -646,7 +616,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = getIPMWidget(mockState);
+      result = selectors.getIPMWidget(mockState);
     });
 
     it('returns whether IPM widget is activated', () => {
@@ -660,7 +630,7 @@ describe('base selectors', () => {
 
     beforeEach(() => {
       mockStoreValue = 'someAuth';
-      result = getOAuth();
+      result = selectors.getOAuth();
     });
 
     it('returns correct oauth details', () => {
@@ -673,7 +643,7 @@ describe('base selectors', () => {
     let result;
 
     beforeEach(() => {
-      result = getAuthToken();
+      result = selectors.getAuthToken();
     });
 
     describe('when token does exist', () => {
@@ -715,7 +685,7 @@ describe('base selectors', () => {
   describe('getBaseIsAuthenticated', () => {
     beforeEach(() => {
       mockStoreValue = 'yolo';
-      getBaseIsAuthenticated();
+      selectors.getBaseIsAuthenticated();
     });
 
     it('calls isTokenValid with correct params', () => {
@@ -735,7 +705,7 @@ describe('base selectors', () => {
         }
       };
 
-      result = getWidgetDisplayInfo(mockState);
+      result = selectors.getWidgetDisplayInfo(mockState);
     });
 
     describe('when widget is shown', () => {
@@ -774,7 +744,7 @@ describe('base selectors', () => {
           }
         }
       };
-      result = getConfigColor(mockState);
+      result = selectors.getConfigColor(mockState);
     });
 
     it('returns the color in expected format', () => {
@@ -794,7 +764,7 @@ describe('base selectors', () => {
         }
       };
 
-      result = getFrameVisible(mockState, frame);
+      result = selectors.getFrameVisible(mockState, frame);
     });
 
     describe('when frame is webWidget', () => {

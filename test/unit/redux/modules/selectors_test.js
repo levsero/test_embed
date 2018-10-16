@@ -40,7 +40,8 @@ describe('selectors', () => {
     configColor,
     chatThemeColor,
     chatThemePosition,
-    getChannelChoiceAvailable;
+    getChannelChoiceAvailable,
+    selectors;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -133,7 +134,7 @@ describe('selectors', () => {
 
     mockery.registerAllowable(selectorsPath);
 
-    const selectors = requireUncached(selectorsPath);
+    selectors = requireUncached(selectorsPath);
 
     getChatAvailable = selectors.getChatAvailable;
     getChatEnabled = selectors.getChatEnabled;
