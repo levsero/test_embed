@@ -3,7 +3,17 @@ function zeroPad(number) {
 }
 
 function formatHours(number, is24Hour) {
-  const hours = (!is24Hour && number > 12) ? number - 12 : number;
+  let hours;
+
+  if (is24Hour) {
+    hours = number === 24 ? 0 : number;
+  } else {
+    if (number === 0) {
+      hours = 12;
+    } else {
+      hours = number > 12 ? number - 12 : number;
+    }
+  }
 
   return zeroPad(hours);
 }
@@ -13,7 +23,7 @@ function timeFromMinutes(minuteString, am, pm) {
   const hours = Math.floor(minutesFromMidnight / 60);
   const minutes = minutesFromMidnight % 60;
   const is24Hour = !am || !pm;
-  const amOrPm = hours >= 12 ? pm : am;
+  const amOrPm = hours >= 12 && hours !== 24 ? pm : am;
   const period = !is24Hour ? amOrPm : '';
 
   return {
@@ -23,4 +33,12 @@ function timeFromMinutes(minuteString, am, pm) {
   };
 }
 
-export { timeFromMinutes };
+function i18nTimeFromMinutes(minuteString, formatter) {
+  const minutesFromMidnight = parseInt(minuteString, 10);
+  const hours = Math.floor(minutesFromMidnight / 60);
+  const minutes = minutesFromMidnight % 60;
+
+  return formatter.format(new Date(2018, 10, 15, hours, minutes, 0));
+}
+
+export { timeFromMinutes, i18nTimeFromMinutes };

@@ -1,7 +1,8 @@
-import { timeFromMinutes } from '../../../../src/util/time';
+import { timeFromMinutes, i18nTimeFromMinutes } from '../../../../src/util/time';
 
 describe('ChatOperatingHours component', () => {
   let ChatOperatingHours;
+  let locale = 'en';
   const ChatOperatingHoursPath = buildSrcPath('component/chat/ChatOperatingHours');
   const Button = noopReactComponent();
   const SelectField = noopReactComponent();
@@ -83,7 +84,8 @@ describe('ChatOperatingHours component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: _.identity
+          t: (...args) => args,
+          getLocale: () => locale
         }
       },
       '@zendeskgarden/react-buttons': { Button },
@@ -94,7 +96,8 @@ describe('ChatOperatingHours component', () => {
         Select: noopReactComponent()
       },
       'utility/time': {
-        timeFromMinutes: timeFromMinutes
+        timeFromMinutes: timeFromMinutes,
+        i18nTimeFromMinutes: i18nTimeFromMinutes
       },
       'src/constants/shared': {
         FONT_SIZE: 14
@@ -148,8 +151,8 @@ describe('ChatOperatingHours component', () => {
       });
 
       it('has the right content', () => {
-        expect(title.props.dangerouslySetInnerHTML)
-          .toEqual({ __html: 'embeddable_framework.chat.operatingHours.label.title' });
+        expect(title.props.dangerouslySetInnerHTML.__html[0])
+          .toEqual('embeddable_framework.chat.operatingHours.label.title');
       });
     });
 
@@ -163,6 +166,23 @@ describe('ChatOperatingHours component', () => {
       it('is contained in the right element', () => {
         expect(list.type).toEqual('dl');
       });
+    });
+  });
+
+  describe('strips am/pm suffix for locales that use a 24-hour clock', () => {
+    let component,
+      result;
+
+    it('has has am/pm for English', () => {
+      locale = 'ja';
+      component = instanceRender(
+        <ChatOperatingHours
+          operatingHours={mockAccountOperatingHours} />
+      );
+      result = component.render();
+
+      expect(result.props.children[1].props.children[1].props.children[1])
+        .toEqual({ openingTime: '07:36', closingTime: '13:09' });
     });
   });
 
@@ -190,7 +210,7 @@ describe('ChatOperatingHours component', () => {
     });
 
     it('has the right children prop', () => {
-      expect(result.props.children).toEqual('embeddable_framework.common.button.goBack');
+      expect(result.props.children[0]).toEqual('embeddable_framework.common.button.goBack');
     });
 
     it('has the right onClick prop', () => {
@@ -407,8 +427,8 @@ describe('ChatOperatingHours component', () => {
         });
 
         it('contains a string with the range of hours', () => {
-          expect(openDayRange.props.children)
-            .toEqual('embeddable_framework.chat.operatingHours.label.hourRange');
+          expect(openDayRange.props.children[0])
+            .toEqual('embeddable_framework.chat.operatingHours.label.timeRange');
         });
       });
 
@@ -420,7 +440,7 @@ describe('ChatOperatingHours component', () => {
         });
 
         it('comes up as closed', () => {
-          expect(closedDay.props.children)
+          expect(closedDay.props.children[0])
             .toEqual('embeddable_framework.chat.operatingHours.label.closed');
         });
       });

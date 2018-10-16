@@ -96,13 +96,35 @@ describe('time', () => {
         });
       });
 
-      describe('when the time is exactly midnight', () => {
+      describe('when the time is exactly midnight (0 minutes)', () => {
         beforeAll(() => {
           timeInMinutes = 0;
+          amString = 'am';
+          pmString = 'pm';
         });
 
         it('formats the time in 12-hour time style', () => {
-          expect(result.time).toEqual('00:00');
+          expect(result.time).toEqual('12:00');
+        });
+
+        it('recognises that the time should be the time in 12-hour style', () => {
+          expect(result.is24Hour).toEqual(false);
+        });
+
+        it('passes the right period', () => {
+          expect(result.period).toEqual('am');
+        });
+      });
+
+      describe('when the time is exactly midnight (1440 minutes)', () => {
+        beforeAll(() => {
+          timeInMinutes = 1440;
+          amString = 'am';
+          pmString = 'pm';
+        });
+
+        it('formats the time in 12-hour time style', () => {
+          expect(result.time).toEqual('12:00');
         });
 
         it('recognises that the time should be the time in 12-hour style', () => {

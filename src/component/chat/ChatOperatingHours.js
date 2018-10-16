@@ -8,7 +8,7 @@ import {
   SelectField,
   Label,
   Item } from '@zendeskgarden/react-select';
-import { timeFromMinutes } from 'utility/time';
+import { i18nTimeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatOperatingHours.scss';
 import { FONT_SIZE } from 'src/constants/shared';
@@ -41,21 +41,17 @@ export class ChatOperatingHours extends Component {
   daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
   hourRange = (range) => {
-    const am = _.trim(i18n.t('embeddable_framework.chat.operatingHours.label.am'));
-    const pm = _.trim(i18n.t('embeddable_framework.chat.operatingHours.label.pm'));
-    const open = timeFromMinutes(range.start, am, pm);
-    const closed = timeFromMinutes(range.end, am, pm);
+    const open = i18nTimeFromMinutes(range.start, this.i18nDateTimeFormat);
+    const closed = i18nTimeFromMinutes(range.end, this.i18nDateTimeFormat);
 
     // special state for when operating hours are for the full day
     return (range.start === 0 && range.end === 1440) ?
       i18n.t('embeddable_framework.chat.operatingHours.label.openAllDay') :
       i18n.t(
-        'embeddable_framework.chat.operatingHours.label.hourRange',
+        'embeddable_framework.chat.operatingHours.label.timeRange',
         {
-          openingHour: open.time,
-          openingPeriod: open.period,
-          closingHour: closed.time,
-          closingPeriod: closed.period
+          openingTime: open,
+          closingTime: closed
         }
       );
   }
@@ -184,6 +180,11 @@ export class ChatOperatingHours extends Component {
       'embeddable_framework.chat.operatingHours.label.title',
       { timezone: `<span>(${operatingHours.timezone})</span>` }
     );
+
+    this.i18nDateTimeFormat = Intl.DateTimeFormat(i18n.getLocale(), {
+      hour: 'numeric',
+      minute: 'numeric'
+    });
 
     return (
       <div className={styles.container}>
