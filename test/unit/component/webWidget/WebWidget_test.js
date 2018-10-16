@@ -669,7 +669,7 @@ describe('WebWidget component', () => {
           onCancelSpy = jasmine.createSpy('onCancelSpy');
           webWidget = instanceRender(
             <WebWidget
-              onCancel={onCancelSpy}
+              cancelButtonClicked={onCancelSpy}
               helpCenterAvailable={false}
               ipmHelpCenterAvailable={ipmHelpCenterAvailable}
               updateActiveEmbed={mockUpdateActiveEmbed}
@@ -690,11 +690,6 @@ describe('WebWidget component', () => {
             expect(onCancelSpy)
               .toHaveBeenCalled();
           });
-
-          it('calls updateActiveEmbed with an empty string', () => {
-            expect(mockUpdateActiveEmbed)
-              .toHaveBeenCalledWith('');
-          });
         });
 
         describe('when IPM help center is available', () => {
@@ -709,11 +704,6 @@ describe('WebWidget component', () => {
           it('calls onCancel prop', () => {
             expect(onCancelSpy)
               .toHaveBeenCalled();
-          });
-
-          it('does not set update active embed', () => {
-            expect(mockUpdateActiveEmbed)
-              .not.toHaveBeenCalled();
           });
         });
       });
@@ -1157,7 +1147,6 @@ describe('WebWidget component', () => {
               activeEmbed='zopimChat'
               zopimOnNext={zopimOnNextSpy} />
           );
-          spyOn(webWidget, 'resetActiveEmbed');
 
           webWidget.show();
         });

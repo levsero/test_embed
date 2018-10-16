@@ -164,6 +164,7 @@ class WebWidget extends Component {
     ticketFieldSettings: [],
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
+    nextButtonClicked: () => {},
     talkAvailable: false,
     talkOnline: false,
     zopimOnNext: () => {},
