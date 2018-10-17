@@ -6,8 +6,7 @@ import {
 
 const initialState = {
   hideApi: false,
-  activateApi: false,
-  chat: false
+  activateApi: false
 };
 
 const hidden = (state = initialState, action) => {
