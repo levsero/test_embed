@@ -51,7 +51,6 @@ function create(name, config, reduxStore) {
     e.preventDefault();
 
     beacon.trackUserAction('launcher', 'click', name);
-    mediator.channel.broadcast(name + '.onClick');
     // Re-authenticate user if their oauth token is within 20 minutes of expiring
     reduxStore.dispatch(renewToken());
   };

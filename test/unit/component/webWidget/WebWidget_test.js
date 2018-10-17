@@ -675,46 +675,24 @@ describe('WebWidget component', () => {
               updateActiveEmbed={mockUpdateActiveEmbed}
               channelChoiceAvailable={false} />
           );
+
+          webWidget.onCancelClick();
         });
 
-        describe('when IPM help center is not available', () => {
-          beforeEach(() => {
-            webWidget.onCancelClick();
-          });
-
-          beforeAll(() => {
-            ipmHelpCenterAvailable = false;
-          });
-
-          it('calls onCancel prop', () => {
-            expect(onCancelSpy)
-              .toHaveBeenCalled();
-          });
-        });
-
-        describe('when IPM help center is available', () => {
-          beforeEach(() => {
-            webWidget.onCancelClick();
-          });
-
-          beforeAll(() => {
-            ipmHelpCenterAvailable = true;
-          });
-
-          it('calls onCancel prop', () => {
-            expect(onCancelSpy)
-              .toHaveBeenCalled();
-          });
+        it('calls cancelButtonClicked prop', () => {
+          expect(onCancelSpy)
+            .toHaveBeenCalled();
         });
       });
     });
   });
 
   describe('#onNextClick', () => {
-    let webWidget, updateBackButtonVisibilitySpy;
+    let webWidget, updateBackButtonVisibilitySpy, nextButtonClickedSpy;
 
     beforeEach(() => {
       updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
+      nextButtonClickedSpy = jasmine.createSpy('nextButtonClicked');
     });
 
     afterEach(() => {
@@ -728,6 +706,7 @@ describe('WebWidget component', () => {
             chatOnline={true}
             oldChat={true}
             helpCenterAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -750,6 +729,11 @@ describe('WebWidget component', () => {
             .toHaveBeenCalledWith('zopimChat');
         });
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when channelChoice is available', () => {
@@ -757,6 +741,7 @@ describe('WebWidget component', () => {
         webWidget = instanceRender(
           <WebWidget
             channelChoiceAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -773,6 +758,11 @@ describe('WebWidget component', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when channelChoice is not available', () => {
@@ -780,6 +770,7 @@ describe('WebWidget component', () => {
         webWidget = instanceRender(
           <WebWidget
             channelChoiceAvailable={false}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -790,6 +781,11 @@ describe('WebWidget component', () => {
         expect(mockUpdateActiveEmbed)
           .not.toHaveBeenCalledWith('channelChoice');
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when chat is online', () => {
@@ -799,6 +795,7 @@ describe('WebWidget component', () => {
             chatOnline={true}
             chatAvailable={true}
             helpCenterAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -814,6 +811,11 @@ describe('WebWidget component', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when chat is offline', () => {
@@ -823,6 +825,7 @@ describe('WebWidget component', () => {
             chatOnline={false}
             chatAvailable={false}
             helpCenterAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -838,6 +841,11 @@ describe('WebWidget component', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when chat is offline but offline form is available', () => {
@@ -848,6 +856,7 @@ describe('WebWidget component', () => {
             chatAvailable={false}
             helpCenterAvailable={true}
             chatOfflineAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -869,6 +878,11 @@ describe('WebWidget component', () => {
           .not
           .toHaveBeenCalledWith('ticketSubmissionForm');
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when ipm is activated', () => {
@@ -876,6 +890,7 @@ describe('WebWidget component', () => {
         webWidget = instanceRender(
           <WebWidget
             ipmHelpCenterAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -890,6 +905,11 @@ describe('WebWidget component', () => {
       it('does not update back button visibility', () => {
         expect(updateBackButtonVisibilitySpy)
           .not.toHaveBeenCalled();
+      });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
       });
     });
   });
