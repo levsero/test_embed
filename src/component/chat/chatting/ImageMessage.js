@@ -24,8 +24,8 @@ export class ImageMessage extends Component {
 
   componentDidMount() {
     this.thumbnail = new window.Image();
-    this.thumbnail.src = this.props.file.url;
     this.thumbnail.onload = this.onLoad;
+    this.thumbnail.src = this.props.file.url;
   }
 
   onLoad = () => {
