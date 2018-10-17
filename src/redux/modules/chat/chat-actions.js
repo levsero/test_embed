@@ -617,15 +617,9 @@ export function chatWindowOpenOnNavigate() {
   };
 }
 
-export function chatHideLauncherWhenOffline() {
+export function chatConnected() {
   return {
-    type: actions.CHAT_HIDE_LAUNCHER_WHEN_OFFLINE
-  };
-}
-
-export function chatShowLauncherWhenOnline() {
-  return {
-    type: actions.CHAT_SHOW_LAUNCHER_WHEN_ONLINE
+    type: actions.CHAT_CONNECTED
   };
 }
 

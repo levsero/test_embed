@@ -9,8 +9,7 @@ import { getAccountSettings,
   setDepartment,
   chatOpened,
   chatWindowOpenOnNavigate,
-  chatHideLauncherWhenOffline,
-  chatShowLauncherWhenOnline } from 'src/redux/modules/chat';
+  chatConnected } from 'src/redux/modules/chat';
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base';
 import { IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
@@ -25,7 +24,6 @@ import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
   getConnection,
-  getOfflineFormSettings,
   getChatOnline,
   getChatStatus,
   getChatScreen,
@@ -41,8 +39,7 @@ import { getActiveEmbed,
   getWidgetShown,
   getIPMWidget,
   getHelpCenterEmbed,
-  getSubmitTicketEmbed,
-  getChatStandalone } from 'src/redux/modules/base/base-selectors';
+  getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
 import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
@@ -152,6 +149,7 @@ const onChatConnected = (prevState, nextState, dispatch) => {
       dispatch(getAccountSettings());
       dispatch(getIsChatting());
       dispatch(getOperatingHours());
+      dispatch(chatConnected());
       chatAccountSettingsFetched = true;
       mediator.channel.broadcast('newChat.connected', showOnLoad);
     }
@@ -229,17 +227,7 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
 
 const onChatStatusChange = (prevState, nextState, dispatch) => {
   if (getChatStatus(prevState) !== getChatStatus(nextState)) {
-    if (getChatOnline(nextState)) {
-      if (getChatStandalone(nextState)) {
-        dispatch(chatShowLauncherWhenOnline());
-      }
-    } else {
-      const hideLauncher = !getOfflineFormSettings(nextState).enabled;
-
-      if (hideLauncher) {
-        dispatch(chatHideLauncherWhenOffline());
-      }
-
+    if (!getChatOnline(nextState)) {
       if (getSubmitTicketEmbed(nextState) && !getIsChattingState(nextState) && getActiveEmbed(nextState) === 'chat') {
         dispatch(updateActiveEmbed('ticketSubmissionForm'));
       }

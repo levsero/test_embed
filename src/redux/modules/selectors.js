@@ -6,6 +6,7 @@ import { getShowOfflineChat,
   getThemeColor as getChatThemeColor,
   getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible,
+  getOfflineFormSettings,
   getChatConnected as getNewChatConnected } from './chat/chat-selectors';
 import { getZopimChatOnline, getZopimChatConnected } from './zopimChat/zopimChat-selectors';
 import { getSettingsChatSuppress } from './settings/settings-selectors';
@@ -97,6 +98,8 @@ const getWidgetFixedFrameStyles = createSelector(
     return {};
   }
 );
+const getLauncherVisibleState = (state) => state.base.launcherVisible;
+
 const getChannelChoiceEnabled = (state) => {
   return settings.get('contactOptions').enabled && getSubmitTicketAvailable(state);
 };
@@ -110,19 +113,29 @@ export const getChatReady = (state) => !getChatEmbed(state) || getChatConnected(
 export const getChatOfflineAvailable = (state) => getChatEnabled(state) &&
   !getChatOnline(state) && getNewChatEmbed(state) && getOfflineFormEnabled(state) && !getSubmitTicketEmbed(state);
 
-export const getChatAvailable = (state) => getChatEnabled(state) && getChatOnline(state);
+export const getChatAvailable = (state) => {
+  const offlineFormOn = getOfflineFormSettings(state).enabled;
+
+  return getChatEnabled(state) && (getChatOnline(state) || offlineFormOn);
+};
 export const getShowTalkBackButton = (state) => {
   return getHelpCenterEmbed(state) || getChatAvailable(state) || getSubmitTicketEmbed(state);
 };
 export const getTalkEnabled = (state) => getTalkEmbed(state) && getEmbeddableConfigEnabled(state);
 export const getTalkReady = (state) => !getTalkEmbed(state) || getEmbeddableConfigConnected(state);
-export const getTalkAvailable = (state) => getTalkEnabled(state) && getAgentAvailability(state);
+export const getTalkAvailable = (state) => {
+  return getTalkEnabled(state) && getAgentAvailability(state);
+};
 export const getShowTicketFormsBackButton = createSelector(
   [getActiveTicketForm, getTicketForms, getActiveEmbed],
   (activeForm, ticketForms, activeEmbed) => {
     return activeForm && ticketForms.length > 1 && activeEmbed === 'ticketSubmissionForm';
   }
 );
+
+export const getTalkStandalone = (state) => {
+  return getTalkEnabled(state) && !getChatEmbed(state) && !getHelpCenterEmbed(state) && !getSubmitTicketEmbed(state);
+};
 
 export const getFixedStyles = (state, frame = 'webWidget') => {
   if (frame === 'webWidget') {
@@ -196,15 +209,35 @@ const getIsWidgetReady = createSelector(
   }
 );
 
+const getIsChannelAvailable = createSelector(
+  [ getChatAvailable,
+    getTalkAvailable,
+    getHelpCenterAvailable,
+    getSubmitTicketAvailable ],
+  (chatAvailable, talkAvailable, helpCenterAvailable, submitTicketAvailable) => {
+    return chatAvailable || talkAvailable || helpCenterAvailable || submitTicketAvailable;
+  }
+);
+
 export const getWebWidgetVisible = (state) => {
-  return state.base.webWidgetVisible && !getHiddenByHideAPI(state) && getIsWidgetReady(state);
-};
-export const getLauncherVisible = (state) => {
-  return state.base.launcherVisible
+  return state.base.webWidgetVisible
     && !getHiddenByHideAPI(state)
-    && !getHiddenByActivateAPI(state)
     && getIsWidgetReady(state);
 };
+export const getLauncherVisible = createSelector(
+  [ getLauncherVisibleState,
+    getIsChannelAvailable,
+    getHiddenByHideAPI,
+    getHiddenByActivateAPI,
+    getIsWidgetReady ],
+  (launcherVisible, isChannelAvailable, hiddenByHide, hiddenByActivate, isWidgetReady) => {
+    return launcherVisible
+      && isChannelAvailable
+      && !hiddenByHide
+      && !hiddenByActivate
+      && isWidgetReady;
+  }
+);
 
 export const getFrameVisible = (state, frame = 'webWidget') => {
   if (frame === 'webWidget') {

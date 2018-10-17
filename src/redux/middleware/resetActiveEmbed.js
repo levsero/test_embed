@@ -4,7 +4,7 @@ import {
   WIDGET_INITIALISED,
   ACTIVATE_RECIEVED,
   AUTHENTICATION_SUCCESS } from 'src/redux/modules/base/base-action-types';
-import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types';
+import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS, CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types';
 import { UPDATE_TALK_AGENT_AVAILABILITY } from 'src/redux/modules/talk/talk-action-types';
 import {
   ZOPIM_CHAT_ON_STATUS_UPDATE,
@@ -19,6 +19,7 @@ import { getChatAvailable,
   getHelpCenterAvailable,
   getShowTicketFormsBackButton,
   getIpmHelpCenterAllowed,
+  getSubmitTicketAvailable,
   getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getZopimChatOnline, getZopimIsChatting } from 'src/redux/modules/zopimChat/zopimChat-selectors';
@@ -74,7 +75,7 @@ const setNewActiveEmbed = (state, dispatch) => {
     } else {
       activeEmbed = 'chat';
     }
-  } else {
+  } else if (getSubmitTicketAvailable(state)) {
     activeEmbed = 'ticketSubmissionForm';
     backButton = getShowTicketFormsBackButton(state);
   }
@@ -85,13 +86,14 @@ const setNewActiveEmbed = (state, dispatch) => {
 
 export default function resetActiveEmbed(prevState, nextState, action, dispatch = () => {}) {
   const { type } = action;
-  const state = prevState;
+  const state = nextState;
   const alwaysUpdateActions = [
     UPDATE_TALK_AGENT_AVAILABILITY,
     WIDGET_INITIALISED,
     ZOPIM_HIDE,
     ACTIVATE_RECIEVED,
-    AUTHENTICATION_SUCCESS
+    AUTHENTICATION_SUCCESS,
+    CHAT_CONNECTED
   ];
 
   const chatReset = shouldResetForChat(type, nextState);
