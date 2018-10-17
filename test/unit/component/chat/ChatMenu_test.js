@@ -1,5 +1,6 @@
 describe('ChatMenu component', () => {
-  let ChatMenu;
+  let ChatMenu,
+    mockIsRTL = false;
   const chatMenuPath = buildSrcPath('component/chat/ChatMenu');
   const SlideAppear = noopReactComponent('SlideAppear');
   const Icon = noopReactComponent('Icon');
@@ -34,7 +35,8 @@ describe('ChatMenu component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: _.identity
+          t: _.identity,
+          isRTL: () => mockIsRTL
         }
       }
     });
@@ -250,7 +252,7 @@ describe('ChatMenu component', () => {
       it('renders the correct children within the button', () => {
         expectedChildren = [
           'embeddable_framework.chat.options.sound',
-          <Icon key='icon' className='soundIconClass' type='Icon--sound-on' />
+          <Icon key='icon' className='soundIconClass' type='Icon--sound-on' flipX={false} />
         ];
 
         expect(result.props.children)
@@ -266,11 +268,33 @@ describe('ChatMenu component', () => {
       it('renders the correct children within the button', () => {
         expectedChildren = [
           'embeddable_framework.chat.options.sound',
-          <Icon key='icon' className='soundIconClass' type='Icon--sound-off' />
+          <Icon key='icon' className='soundIconClass' type='Icon--sound-off' flipX={false} />
         ];
 
         expect(result.props.children)
           .toEqual(expectedChildren);
+      });
+    });
+
+    describe('when locale is RTL', () => {
+      beforeAll(() => {
+        mockIsRTL = true;
+      });
+
+      it('passes true to the flipX prop in the Icon', () => {
+        expect(result.props.children[1].props.flipX)
+          .toBe(true);
+      });
+    });
+
+    describe('when locale is not RTL', () => {
+      beforeAll(() => {
+        mockIsRTL = false;
+      });
+
+      it('passes false to the flipX prop in the Icon', () => {
+        expect(result.props.children[1].props.flipX)
+          .toBe(false);
       });
     });
   });

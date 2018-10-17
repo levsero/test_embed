@@ -1,13 +1,15 @@
 describe('ChattingFooter component', () => {
   let ChattingFooter,
-    i18n;
+    i18n,
+    mockIsRTL = false;
   const ChattingFooterPath = buildSrcPath('component/chat/chatting/ChattingFooter');
 
   beforeEach(() => {
     mockery.enable();
 
     i18n = {
-      t: jasmine.createSpy().and.callFake((key) => { return key; })
+      t: jasmine.createSpy().and.callFake((key) => { return key; }),
+      isRTL: () => mockIsRTL
     };
 
     initMockRegistry({
@@ -221,6 +223,28 @@ describe('ChattingFooter component', () => {
     it('passes sendChat to onClick handler', () => {
       expect(result.props.onClick)
         .toBe(sendChatSpy);
+    });
+
+    describe('when locale is RTL', () => {
+      beforeAll(() => {
+        mockIsRTL = true;
+      });
+
+      it('passes true to the flipX prop', () => {
+        expect(result.props.flipX)
+          .toBe(true);
+      });
+    });
+
+    describe('when locale is not RTL', () => {
+      beforeAll(() => {
+        mockIsRTL = false;
+      });
+
+      it('passes false to the flipX prop', () => {
+        expect(result.props.flipX)
+          .toBe(false);
+      });
     });
   });
 

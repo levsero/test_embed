@@ -99,6 +99,7 @@ export class ChattingFooter extends Component {
     return (
       <IconButton
         type={ICONS.SEND_CHAT}
+        flipX={i18n.isRTL()}
         disableTooltip={this.props.isMobile}
         altText={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
         className={styles.iconSendChatMobile}

@@ -105,7 +105,7 @@ export class ChatMenu extends Component {
     );
     const children = [
       i18n.t('embeddable_framework.chat.options.sound'),
-      <Icon key='icon' className={styles.soundIcon} type={iconType} />
+      <Icon key='icon' className={styles.soundIcon} type={iconType} flipX={i18n.isRTL()} />
     ];
 
     return (
