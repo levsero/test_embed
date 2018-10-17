@@ -13,7 +13,9 @@ import { IS_CHATTING,
   SDK_CHAT_MEMBER_LEAVE,
   CHAT_AGENT_INACTIVE,
   SDK_VISITOR_UPDATE,
-  CHAT_SOCIAL_LOGIN_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
+  CHAT_SOCIAL_LOGIN_SUCCESS,
+  CHAT_STARTED,
+  CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types';
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
@@ -105,6 +107,8 @@ const onChatConnected = (prevState, nextState, dispatch) => {
     const visitorDepartmentName = getSettingsChatDepartment(nextState);
     const visitorDepartment = _.find(getDepartmentsList(nextState), (dep) => dep.name === visitorDepartmentName);
     const visitorDepartmentId = _.get(visitorDepartment, 'id');
+
+    dispatch({ type: CHAT_CONNECTED });
 
     if (visitorDepartmentId) {
       dispatch(setDepartment(visitorDepartmentId));
@@ -257,7 +261,17 @@ const onVisitorUpdate = ({ type, payload }, dispatch) => {
   }
 };
 
+const onChatStarted = (prevState, nextState, dispatch) => {
+  const previouslyNotChatting = !getIsChattingState(prevState);
+  const currentlyChatting = getIsChattingState(nextState);
+
+  if (previouslyNotChatting && currentlyChatting) {
+    dispatch({ type: CHAT_STARTED });
+  }
+};
+
 export default function onStateChange(prevState, nextState, action = {}, dispatch = () => {}) {
+  onChatStarted(prevState, nextState, dispatch);
   onChatStatusChange(prevState, nextState, dispatch);
   onChatConnected(prevState, nextState, dispatch);
   onChatScreenInteraction(prevState, nextState, dispatch);

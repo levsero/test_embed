@@ -30,30 +30,37 @@ describe('listener middleware', () => {
         };
 
         nextSpy = jasmine.createSpy('nextSpy');
-        action = { type: 'random_type'};
+        action = { type: 'random_type' };
         listen({ getState: () => flatState })(nextSpy)(action);
       });
 
       it('calls next function', () => {
         expect(nextSpy)
-          .toHaveBeenCalledWith({ type: 'random_type'});
+          .toHaveBeenCalledWith({ type: 'random_type' });
       });
     });
 
     describe('action is part of listeners', () => {
-      let actionType;
-      const callbackSpy1 = jasmine.createSpy();
-      const callbackSpy2 = jasmine.createSpy();
+      let actionType,
+        callbackSpy1,
+        callbackSpy2,
+        actionCreatorPromise;
 
       beforeEach(() => {
+        callbackSpy1 = jasmine.createSpy();
+        callbackSpy2 = jasmine.createSpy();
         action = { type: actionType };
+
         const flatState = {
           onApiListeners: {
-            'CLOSE_BUTTON_CLICKED': [ callbackSpy1, callbackSpy2 ]
+            'CLOSE_BUTTON_CLICKED': {
+              callbackList: [ callbackSpy1, callbackSpy2 ],
+              selectors: []
+            }
           }
         };
 
-        listen({ getState: () => flatState })(nextSpy)(action);
+        actionCreatorPromise = listen({ getState: () => flatState })(nextSpy);
       });
 
       describe('action is part of listeners', () => {
@@ -62,11 +69,13 @@ describe('listener middleware', () => {
         });
 
         it('does not call any callbacks from the listeners', () => {
-          expect(callbackSpy1)
-            .not.toHaveBeenCalled();
+          actionCreatorPromise(action).then(() => {
+            expect(callbackSpy1)
+              .not.toHaveBeenCalled();
 
-          expect(callbackSpy2)
-            .not.toHaveBeenCalled();
+            expect(callbackSpy2)
+              .not.toHaveBeenCalled();
+          });
         });
       });
 
@@ -75,12 +84,14 @@ describe('listener middleware', () => {
           actionType = 'CLOSE_BUTTON_CLICKED';
         });
 
-        it('calls all the callbacks of the listeners corrisponding to the action', () => {
-          expect(callbackSpy1)
-            .toHaveBeenCalled();
+        it('calls all the callbacks of the listeners corresponding to the action', () => {
+          actionCreatorPromise(action).then(() => {
+            expect(callbackSpy1)
+              .toHaveBeenCalled();
 
-          expect(callbackSpy2)
-            .toHaveBeenCalled();
+            expect(callbackSpy2)
+              .toHaveBeenCalled();
+          });
         });
       });
     });

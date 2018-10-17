@@ -23,6 +23,17 @@ describe('api', () => {
   const CLOSE_BUTTON_CLICKED = 'CLOSE_BUTTON_CLICKED';
   const API_ON_CLOSE_NAME = 'API_ON_CLOSE_NAME';
   const API_GET_IS_CHATTING_NAME = 'API_GET_IS_CHATTING_NAME';
+  const API_ON_CHAT_STATUS_NAME = 'API_ON_CHAT_STATUS_NAME';
+  const API_ON_CHAT_CONNECTED_NAME = 'API_ON_CHAT_CONNECTED_NAME';
+  const API_ON_CHAT_START_NAME = 'API_ON_CHAT_START_NAME';
+  const API_ON_CHAT_END_NAME = 'API_ON_CHAT_END_NAME';
+  const API_ON_UNREAD_MSGS_NAME = 'API_ON_UNREAD_MSGS_NAME';
+
+  const CHAT_CONNECTED = 'CHAT_CONNECTED';
+  const END_CHAT_REQUEST_SUCCESS = 'END_CHAT_REQUEST_SUCCESS';
+  const NEW_UNREAD_MESSAGE_RECEIVED = 'NEW_UNREAD_MESSAGE_RECEIVED';
+  const CHAT_STARTED = 'CHAT_STARTED';
+  const SDK_ACCOUNT_STATUS = 'SDK_ACCOUNT_STATUS';
 
   beforeEach(() => {
     mockery.enable();
@@ -76,7 +87,19 @@ describe('api', () => {
       },
       'constants/api': {
         API_ON_CLOSE_NAME,
-        API_GET_IS_CHATTING_NAME
+        API_GET_IS_CHATTING_NAME,
+        API_ON_CHAT_STATUS_NAME,
+        API_ON_CHAT_CONNECTED_NAME,
+        API_ON_CHAT_START_NAME,
+        API_ON_CHAT_END_NAME,
+        API_ON_UNREAD_MSGS_NAME
+      },
+      'src/redux/modules/chat/chat-action-types': {
+        CHAT_CONNECTED,
+        END_CHAT_REQUEST_SUCCESS,
+        NEW_UNREAD_MESSAGE_RECEIVED,
+        CHAT_STARTED,
+        SDK_ACCOUNT_STATUS
       }
     });
 
@@ -463,7 +486,7 @@ describe('api', () => {
 
           it('calls handleOnApiCalled with the actions associated with the event and callback', () => {
             expect(handleOnApiCalledSpy)
-              .toHaveBeenCalledWith([CLOSE_BUTTON_CLICKED], noop);
+              .toHaveBeenCalledWith(CLOSE_BUTTON_CLICKED, [], noop);
           });
         });
 

@@ -262,10 +262,10 @@ export const handleCloseButtonClicked = () => {
   };
 };
 
-export const handleOnApiCalled = (actions, callback) => {
+export const handleOnApiCalled = (actionType, selectors=[], callback) => {
   return {
     type: API_ON_RECEIVED,
-    payload: { callback, actions }
+    payload: { actionType, selectors, callback }
   };
 };
 
