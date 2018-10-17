@@ -23,6 +23,7 @@ import { FONT_SIZE, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 
 export class PrechatForm extends Component {
   static propTypes = {
+    title: PropTypes.string.isRequired,
     form: PropTypes.object,
     formState: PropTypes.object,
     readOnlyState: PropTypes.object.isRequired,
@@ -351,7 +352,7 @@ export class PrechatForm extends Component {
         ref={(el) => { this.form = el; }}
         className={`${styles.form}`}>
         <ScrollContainer
-          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+          title={this.props.title}
           containerClasses={styles.scrollContainerContent}
           footerContent={this.renderSubmitButton()}
           fullscreen={this.props.isMobile}

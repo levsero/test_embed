@@ -22,7 +22,8 @@ describe('chat accountSettings reducer', () => {
       'prechatForm',
       'postchatForm',
       'rating',
-      'theme'
+      'theme',
+      'chatWindow'
     ];
     const assertPropertySpec = (property) => {
       it(`it has ${property} sub-state`, () => {

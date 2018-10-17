@@ -8,6 +8,7 @@ import postchatForm from './postchat-form';
 import rating from './rating';
 import theme from './theme';
 import login from './login';
+import chatWindow from './chat-window';
 
 export default combineReducers({
   attachments,
@@ -17,6 +18,7 @@ export default combineReducers({
   postchatForm,
   rating,
   theme,
-  login
+  login,
+  chatWindow,
 });
 

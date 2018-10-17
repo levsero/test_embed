@@ -21,6 +21,8 @@ describe('PrechatScreen component', () => {
 
   const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
 
+  const mockTitle = 'My custom title';
+
   beforeEach(() => {
     mockery.enable();
 
@@ -443,7 +445,7 @@ describe('PrechatScreen component', () => {
     let result;
 
     beforeEach(() => {
-      const component = instanceRender(<PrechatScreen />);
+      const component = instanceRender(<PrechatScreen title={mockTitle} />);
 
       result = component.renderChatOfflineForm();
     });
@@ -452,6 +454,11 @@ describe('PrechatScreen component', () => {
       expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
         .toEqual(true);
     });
+
+    it('renders with the correct title', () => {
+      expect(result.props.title)
+        .toEqual(mockTitle);
+    });
   });
 
   describe('renderPreChatForm', () => {
@@ -459,7 +466,11 @@ describe('PrechatScreen component', () => {
 
     beforeEach(() => {
       const prechatFormSettings = { form: {}, message: '' };
-      const component = instanceRender(<PrechatScreen prechatFormSettings={prechatFormSettings} />);
+      const component = instanceRender(
+        <PrechatScreen
+          title={mockTitle}
+          prechatFormSettings={prechatFormSettings} />
+      );
 
       result = component.renderPreChatForm();
     });
@@ -468,6 +479,11 @@ describe('PrechatScreen component', () => {
       expect(TestUtils.isElementOfType(result, PrechatForm))
         .toEqual(true);
     });
+
+    it('renders with the correct title', () => {
+      expect(result.props.title)
+        .toEqual(mockTitle);
+    });
   });
 
   describe('renderLoadingSpinner', () => {
@@ -475,7 +491,7 @@ describe('PrechatScreen component', () => {
       component;
 
     beforeEach(() => {
-      component = instanceRender(<PrechatScreen />);
+      component = instanceRender(<PrechatScreen title={mockTitle} />);
 
       result = component.renderLoadingSpinner();
     });
@@ -483,6 +499,11 @@ describe('PrechatScreen component', () => {
     it('renders a LoadingSpinner', () => {
       expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner))
         .toEqual(true);
+    });
+
+    it('renders with the correct title', () => {
+      expect(result.props.title)
+        .toEqual(mockTitle);
     });
   });
 });

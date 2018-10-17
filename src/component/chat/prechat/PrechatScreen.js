@@ -7,7 +7,6 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
 import { PrechatForm } from 'component/chat/prechat/PrechatForm';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { i18n } from 'service/i18n';
 import { DEPARTMENT_STATUSES } from 'constants/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import {
@@ -33,6 +32,7 @@ import {
   getSocialLogin,
   getChatVisitor,
   getIsAuthenticated,
+  getChatTitle,
   getReadOnlyState } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './PrechatScreen.scss';
 
@@ -52,7 +52,8 @@ const mapStateToProps = (state) => {
     chatVisitor: getChatVisitor(state),
     readOnlyState: getReadOnlyState(state),
     preChatFormState: getPreChatFormState(state),
-    isAuthenticated: getIsAuthenticated(state)
+    isAuthenticated: getIsAuthenticated(state),
+    title: getChatTitle(state)
   };
 };
 
@@ -81,7 +82,8 @@ class PrechatScreen extends Component {
     socialLogin: PropTypes.object.isRequired,
     loginSettings: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -136,7 +138,7 @@ class PrechatScreen extends Component {
   renderChatOfflineForm() {
     return (
       <ScrollContainer
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        title={this.props.title}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.isMobile}>
         <ChatOfflineMessageForm
@@ -151,6 +153,7 @@ class PrechatScreen extends Component {
 
     return (
       <PrechatForm
+        title={this.props.title}
         getFrameContentDocument={this.props.getFrameContentDocument}
         authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
@@ -174,7 +177,7 @@ class PrechatScreen extends Component {
   renderLoadingSpinner() {
     return (
       <ScrollContainer
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        title={this.props.title}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.isMobile}>
         <LoadingSpinner className={styles.loadingSpinner} />

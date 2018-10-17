@@ -36,6 +36,7 @@ describe('PrechatForm component', () => {
       }
     ]
   };
+  const mockTitle = 'My custom title';
 
   beforeEach(() => {
     mockery.enable();
@@ -100,7 +101,12 @@ describe('PrechatForm component', () => {
       mockIsMobile;
 
     beforeEach(() => {
-      component = instanceRender(<PrechatForm form={mockFormProp} isMobile={mockIsMobile} />);
+      component = instanceRender(
+        <PrechatForm
+          title={mockTitle}
+          form={mockFormProp}
+          isMobile={mockIsMobile} />
+      );
 
       spyOn(component, 'renderGreetingMessage');
       spyOn(component, 'renderUserProfile');
@@ -151,6 +157,13 @@ describe('PrechatForm component', () => {
     it('returns a form component', () => {
       expect(result.type)
         .toEqual('form');
+    });
+
+    it('passes the correct title to ScrollContainer', () => {
+      const targetElem = result.props.children;
+
+      expect(targetElem.props.title)
+        .toEqual(mockTitle);
     });
   });
 

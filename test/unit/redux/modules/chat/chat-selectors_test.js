@@ -57,6 +57,8 @@ describe('chat selectors', () => {
     getIsAuthenticated,
     getZChatVendor,
     getIsLoggingOut,
+    getWindowSettings,
+    getChatTitle,
 
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
@@ -167,6 +169,8 @@ describe('chat selectors', () => {
     getZChatVendor = selectors.getZChatVendor;
     getIsLoggingOut = selectors.getIsLoggingOut;
     getOfflineFormEnabled = selectors.getOfflineFormEnabled;
+    getWindowSettings = selectors.getWindowSettings;
+    getChatTitle = selectors.getChatTitle;
   });
 
   afterEach(() => {
@@ -2772,6 +2776,67 @@ describe('chat selectors', () => {
     it('returns the zChat vendor', () => {
       expect(result)
         .toBe('mockZChat');
+    });
+  });
+
+  describe('getWindowSettings', () => {
+    let result;
+    const mockTitle = 'My custom title';
+    const mockAccountSettings = {
+      chatWindow: {
+        title: mockTitle
+      }
+    };
+
+    beforeEach(() => {
+      result = getWindowSettings({
+        chat: { accountSettings: mockAccountSettings }
+      });
+    });
+
+    it('returns the current state of title', () => {
+      expect(result.title)
+        .toEqual(mockTitle);
+    });
+  });
+
+  describe('getChatTitle', () => {
+    let result,
+      titleSetting;
+    const mockTitle = 'My custom title';
+
+    beforeEach(() => {
+      result = getChatTitle({
+        chat: {
+          accountSettings: {
+            chatWindow: {
+              title: titleSetting
+            }
+          }
+        }
+      });
+    });
+
+    describe('when title is provided', () => {
+      beforeAll(() => {
+        titleSetting = mockTitle;
+      });
+
+      it('returns the provided title', () => {
+        expect(result)
+          .toEqual(mockTitle);
+      });
+    });
+
+    describe('when title is not provided', () => {
+      beforeAll(() => {
+        titleSetting = null;
+      });
+
+      it('returns the default title', () => {
+        expect(result)
+          .toEqual('embeddable_framework.chat.title');
+      });
     });
   });
 

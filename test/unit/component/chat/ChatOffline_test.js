@@ -5,6 +5,8 @@ describe('ChatOffline component', () => {
   const Button = noopReactComponent();
   const ChatOfflineForm = noopReactComponent();
 
+  const mockTitle = 'My custom title';
+
   beforeEach(() => {
     mockery.enable();
 
@@ -98,7 +100,7 @@ describe('ChatOffline component', () => {
     let result;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOffline />);
+      const component = instanceRender(<ChatOffline title={mockTitle} />);
 
       result = component.renderOfflineForm();
     });
@@ -106,6 +108,26 @@ describe('ChatOffline component', () => {
     it('renders ChatOfflineForm', () => {
       expect(TestUtils.isElementOfType(result, ChatOfflineForm))
         .toEqual(true);
+    });
+
+    it('renders with the correct title', () => {
+      expect(result.props.title)
+        .toEqual(mockTitle);
+    });
+  });
+
+  describe('renderChatOfflineScreen', () => {
+    let result;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatOffline title={mockTitle} />);
+
+      result = component.renderChatOfflineScreen();
+    });
+
+    it('renders with the correct title', () => {
+      expect(result.props.title)
+        .toEqual(mockTitle);
     });
   });
 });

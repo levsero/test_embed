@@ -21,6 +21,7 @@ import { getChatOfflineForm,
   getAuthUrls,
   getChatVisitor,
   getIsAuthenticated,
+  getChatTitle,
   getReadOnlyState } from 'src/redux/modules/chat/chat-selectors';
 import { getWidgetShown } from 'src/redux/modules/base/base-selectors';
 
@@ -39,7 +40,8 @@ const mapStateToProps = (state) => {
     authUrls: getAuthUrls(state),
     visitor: getChatVisitor(state),
     isAuthenticated: getIsAuthenticated(state),
-    widgetShown: getWidgetShown(state)
+    widgetShown: getWidgetShown(state),
+    title: getChatTitle(state)
   };
 };
 
@@ -65,7 +67,8 @@ class ChatOffline extends Component {
     hideZendeskLogo: PropTypes.bool,
     getFrameContentDocument: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    widgetShown: PropTypes.bool.isRequired
+    widgetShown: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -83,6 +86,7 @@ class ChatOffline extends Component {
   renderOfflineForm = () => {
     return (
       <ChatOfflineForm
+        title={this.props.title}
         widgetShown={this.props.widgetShown}
         getFrameContentDocument={this.props.getFrameContentDocument}
         initiateSocialLogout={this.props.initiateSocialLogout}
@@ -111,7 +115,7 @@ class ChatOffline extends Component {
       <ScrollContainer
         ref='scrollContainer'
         containerClasses={styles.scrollContainerContent}
-        title={i18n.t('embeddable_framework.chat.title')}>
+        title={this.props.title}>
         <div className={styles.innerContent}>
           <p className={styles.greeting}>
             {i18n.t('embeddable_framework.chat.offline.label.noForm')}

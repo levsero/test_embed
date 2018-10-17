@@ -26,6 +26,8 @@ describe('ChatOfflineForm component', () => {
     message: '',
   };
 
+  const mockTitle = 'My custom title';
+
   beforeEach(() => {
     mockery.enable();
 
@@ -500,11 +502,13 @@ describe('ChatOfflineForm component', () => {
   describe('renderForm', () => {
     let component,
       result,
+      titleProp,
       mockOfflineMessage;
 
     beforeEach(() => {
       component = instanceRender(
         <ChatOfflineForm
+          title={titleProp}
           formState={initialFormState}
           offlineMessage={mockOfflineMessage} />
       );
@@ -523,6 +527,7 @@ describe('ChatOfflineForm component', () => {
 
     describe('when offlineMessage\'s screen is in the main state', () => {
       beforeAll(() => {
+        titleProp = mockTitle;
         mockOfflineMessage = { screen: mainScreen };
       });
 
@@ -570,6 +575,13 @@ describe('ChatOfflineForm component', () => {
         expect(component.getScrollContainerClasses)
           .toHaveBeenCalled();
       });
+
+      it('renders with the correct title', () => {
+        const targetElem = result.props.children;
+
+        expect(targetElem.props.title)
+          .toEqual(mockTitle);
+      });
     });
 
     describe('when offlineMessage\'s screen is not in the main state', () => {
@@ -591,6 +603,7 @@ describe('ChatOfflineForm component', () => {
       beforeEach(() => {
         const component = instanceRender(
           <ChatOfflineForm
+            title={mockTitle}
             formState={initialFormState}
             offlineMessage={{ screen: 'loading' }} />
         );
@@ -604,6 +617,11 @@ describe('ChatOfflineForm component', () => {
 
         expect(TestUtils.isElementOfType(targetElem, LoadingSpinner))
           .toEqual(true);
+      });
+
+      it('renders with the correct title', () => {
+        expect(result.props.title)
+          .toEqual(mockTitle);
       });
     });
 
@@ -644,6 +662,7 @@ describe('ChatOfflineForm component', () => {
 
         const component = instanceRender(
           <ChatOfflineForm
+            title={mockTitle}
             formState={initialFormState}
             offlineMessage={offlineMessageProp}
             handleOfflineFormBack={onFormBackSpy} />
@@ -660,6 +679,11 @@ describe('ChatOfflineForm component', () => {
       it('renders SuccessNotification', () => {
         expect(TestUtils.isElementOfType(result.props.children[0], SuccessNotification))
           .toEqual(true);
+      });
+
+      it('renders with the correct title', () => {
+        expect(result.props.title)
+          .toEqual(mockTitle);
       });
     });
 
@@ -710,6 +734,7 @@ describe('ChatOfflineForm component', () => {
 
         const component = instanceRender(
           <ChatOfflineForm
+            title={mockTitle}
             operatingHours={mockOperatingHours}
             offlineMessage={{ screen: 'operatingHours' }} />
         );
@@ -733,6 +758,11 @@ describe('ChatOfflineForm component', () => {
 
         expect(targetElem.props.operatingHours)
           .toEqual(expected);
+      });
+
+      it('renders with the correct title', () => {
+        expect(result.props.title)
+          .toEqual(mockTitle);
       });
     });
   });
