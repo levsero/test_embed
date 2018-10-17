@@ -275,13 +275,13 @@ export const activateRecieved = (options = {}) => {
   };
 };
 
-export const hideReceived = () => {
+export const hideRecieved = () => {
   return {
     type: actions.HIDE_RECIEVED
   };
 };
 
-export const showReceived = () => {
+export const showRecieved = () => {
   return {
     type: actions.SHOW_RECIEVED
   };

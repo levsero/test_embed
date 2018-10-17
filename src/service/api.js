@@ -9,8 +9,8 @@ import {
   handleOnApiCalled,
   apiClearForm,
   activateRecieved,
-  showReceived,
-  hideReceived,
+  showRecieved,
+  hideRecieved,
   legacyShowReceived } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
@@ -58,6 +58,7 @@ const identifyApi = (reduxStore, user) => {
   mediator.channel.broadcast('.onIdentify', user);
 };
 const setLocaleApi = (_, locale) => {
+  console.log('here');
   i18n.setLocale(locale, true);
   mediator.channel.broadcast('.onSetLocale', locale);
 };
@@ -75,13 +76,13 @@ const setHelpCenterSuggestionsApi = (reduxStore, options) => {
   reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
 };
 const prefill = (reduxStore, payload) => {
-  reduxStore.dispatch(handlePrefillReceived(payload));
+  reduxStore.dispatch(handlePrefillRecieved(payload));
 };
 const hideApi = (reduxStore) => {
-  reduxStore.dispatch(hideReceived());
+  reduxStore.dispatch(hideRecieved());
 };
 const showApi = (reduxStore) => {
-  reduxStore.dispatch(showReceived());
+  reduxStore.dispatch(showRecieved());
 };
 const updatePathApi = (reduxStore, page = {}) => {
   reduxStore.dispatch(sendVisitorPath(page));
@@ -153,7 +154,7 @@ const getApiPostRenderQueue = () => {
 };
 
 const newApiStructurePostRender = {
-  webwidget: {
+  webWidget: {
     hide: hideApi,
     show: showApi,
     setLocale: setLocaleApi,
@@ -170,7 +171,7 @@ const newApiStructurePostRender = {
   }
 };
 const newApiStructurePreRender = {
-  webwidget: {
+  webWidget: {
     hide: hideApi,
     show: (_, ...args) => addToPostRenderQueue(['webWidget', 'show', ...args]),
     setLocale: (_, locale) => i18n.setLocale(locale),

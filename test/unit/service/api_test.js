@@ -3,7 +3,9 @@ describe('api', () => {
   const apiPath = buildSrcPath('service/api');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const setLocaleSpy = jasmine.createSpy('setLocale');
-  const handlePrefillReceivedSpy = jasmine.createSpy('handlePrefillReceived');
+  const handlePrefillRecievedSpy = jasmine.createSpy('handlePrefillRecieved');
+  const showRecievedSpy = jasmine.createSpy('showRecieved');
+  const hideRecievedSpy = jasmine.createSpy('hideRecieved');
   const updateSettingsSpy = jasmine.createSpy('updateSettings');
   const sendVisitorPathSpy = jasmine.createSpy('sendVisitorPath');
   const apiClearFormSpy = jasmine.createSpy('apiClearForm');
@@ -11,7 +13,6 @@ describe('api', () => {
   const chatLogoutSpy = jasmine.createSpy('chatLogout');
   const setContextualSuggestionsManuallySpy = jasmine.createSpy('setContextualSuggestionsManually');
   const handleOnApiCalledSpy = jasmine.createSpy('handleOnApiCalled');
-  const rendererHideSpy = jasmine.createSpy('rendererHide');
   const endChatSpy = jasmine.createSpy('endChat');
   const sendMsgSpy = jasmine.createSpy('sendMsg');
   const dispatch = () => (action) => action();
@@ -53,15 +54,18 @@ describe('api', () => {
       },
       'service/renderer': {
         renderer: {
-          hide: rendererHideSpy,
           postRenderCallbacks: noop
         }
       },
       'src/redux/modules/base': {
-        handlePrefillReceived: handlePrefillReceivedSpy,
+        handlePrefillRecieved: handlePrefillRecievedSpy,
         logout: logoutSpy,
         handleOnApiCalled: handleOnApiCalledSpy,
-        apiClearForm: apiClearFormSpy
+        apiClearForm: apiClearFormSpy,
+        activateRecieved: noop,
+        hideRecieved: hideRecievedSpy,
+        showRecieved: showRecievedSpy,
+        legacyShowRecieved: noop
       },
       'src/redux/modules/helpCenter': {
         displayArticle: noop,
@@ -137,7 +141,7 @@ describe('api', () => {
       });
 
       it('handles the api call', () => {
-        expect(rendererHideSpy)
+        expect(hideRecievedSpy)
           .toHaveBeenCalled();
       });
     });
@@ -170,8 +174,8 @@ describe('api', () => {
         });
 
         it('handles the api call', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('.hide');
+          expect(hideRecievedSpy)
+            .toHaveBeenCalled();
         });
       });
     });
@@ -195,8 +199,19 @@ describe('api', () => {
         call = ['webWidget', 'hide'];
       });
 
-      it('calls renderer hide', () => {
-        expect(rendererHideSpy)
+      it('calls hideRecieved', () => {
+        expect(hideRecievedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is show', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'show'];
+      });
+
+      it('calls showRecieved', () => {
+        expect(showRecievedSpy)
           .toHaveBeenCalled();
       });
     });
@@ -246,8 +261,8 @@ describe('api', () => {
           call = ['webWidget', 'prefill', payload];
         });
 
-        it('calls handlePrefillReceived with the user', () => {
-          expect(handlePrefillReceivedSpy)
+        it('calls handlePrefillRecieved with the user', () => {
+          expect(handlePrefillRecievedSpy)
             .toHaveBeenCalledWith(payload);
         });
       });
@@ -333,9 +348,20 @@ describe('api', () => {
         call = ['webWidget', 'hide'];
       });
 
-      it('calls mediator hide', () => {
-        expect(broadcastSpy)
-          .toHaveBeenCalledWith('.hide');
+      it('calls hideRecieved', () => {
+        expect(hideRecievedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is show', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'show'];
+      });
+
+      it('calls showRecieved', () => {
+        expect(showRecievedSpy)
+          .toHaveBeenCalled();
       });
     });
 
@@ -378,8 +404,8 @@ describe('api', () => {
         call = ['webWidget', 'prefill', payload];
       });
 
-      it('calls handlePrefillReceived with the user', () => {
-        expect(handlePrefillReceivedSpy)
+      it('calls handlePrefillRecieved with the user', () => {
+        expect(handlePrefillRecievedSpy)
           .toHaveBeenCalledWith(payload);
       });
     });

@@ -939,7 +939,7 @@ describe('base redux actions', () => {
     let action;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.hideReceived());
+      mockStore.dispatch(actions.hideRecieved());
       action = mockStore.getActions()[0];
     });
     it('dispatches an action with HIDE_RECIEVED', () => {
@@ -948,11 +948,11 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('showReceived', () => {
+  describe('showRecieved', () => {
     let action;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.showReceived());
+      mockStore.dispatch(actions.showRecieved());
       action = mockStore.getActions()[0];
     });
     it('dispatches an action with SHOW_RECIEVED', () => {
