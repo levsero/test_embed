@@ -28,6 +28,12 @@ export class ChatOperatingHours extends Component {
     super(props, context);
 
     this.state = { activeDepartment: null };
+
+    // Defaults to en-US time locale
+    this.i18nDateTimeFormat = new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric',
+      minute: 'numeric'
+    });
   }
 
   componentWillMount = () => {
@@ -41,6 +47,16 @@ export class ChatOperatingHours extends Component {
   daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
   hourRange = (range) => {
+    const currentLocale = i18n.getLocale();
+
+    if (this.locale !== currentLocale) {
+      this.i18nDateTimeFormat = new Intl.DateTimeFormat(i18n.getLocale(), {
+        hour: 'numeric',
+        minute: 'numeric'
+      });
+      this.locale = i18n.getLocale();
+    }
+
     const open = i18nTimeFromMinutes(range.start, this.i18nDateTimeFormat);
     const closed = i18nTimeFromMinutes(range.end, this.i18nDateTimeFormat);
 
@@ -180,11 +196,6 @@ export class ChatOperatingHours extends Component {
       'embeddable_framework.chat.operatingHours.label.title',
       { timezone: `<span>(${operatingHours.timezone})</span>` }
     );
-
-    this.i18nDateTimeFormat = Intl.DateTimeFormat(i18n.getLocale(), {
-      hour: 'numeric',
-      minute: 'numeric'
-    });
 
     return (
       <div className={styles.container}>
