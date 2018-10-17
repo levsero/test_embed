@@ -49,8 +49,8 @@ export class ChannelChoiceMenu extends Component {
   }
 
   getIconFlipX = () => {
-    // Needs to flip icons for Arabic and Hebrew
-    return ['ar', 'he'].includes(i18n.getLocale());
+    // Needs to flip icons for RTL languages: https://zendesk.atlassian.net/browse/CE-4045
+    return i18n.isRTL();
   }
 
   renderTalkLabel = () => {

@@ -1,6 +1,6 @@
 describe('ChannelChoiceMenu component', () => {
   let ChannelChoiceMenu,
-    mockLocale = 'en';
+    mockIsRTL = false;
 
   const channelChoiceMenuPath = buildSrcPath('component/channelChoice/ChannelChoiceMenu');
 
@@ -25,7 +25,7 @@ describe('ChannelChoiceMenu component', () => {
       'service/i18n': {
         i18n: {
           t: _.identity,
-          getLocale: () => mockLocale
+          isRTL: () => mockIsRTL
         }
       }
     });
@@ -278,9 +278,9 @@ describe('ChannelChoiceMenu component', () => {
           };
         });
 
-        describe('when locale is ar', () => {
+        describe('when locale is RTL', () => {
           beforeAll(() => {
-            mockLocale = 'ar';
+            mockIsRTL = true;
           });
 
           it('flipX is true', () => {
@@ -289,20 +289,9 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
 
-        describe('when locale is he', () => {
+        describe('when locale is not RTL', () => {
           beforeAll(() => {
-            mockLocale = 'he';
-          });
-
-          it('flipX is true', () => {
-            expect(children.props.flipX)
-              .toBe(true);
-          });
-        });
-
-        describe('when locale is not `ar` or `he`', () => {
-          beforeAll(() => {
-            mockLocale = 'zh-CN';
+            mockIsRTL = false;
           });
 
           it('flipX is false', () => {
@@ -604,9 +593,9 @@ describe('ChannelChoiceMenu component', () => {
           };
         });
 
-        describe('when locale is ar', () => {
+        describe('when locale is RTL', () => {
           beforeAll(() => {
-            mockLocale = 'ar';
+            mockIsRTL = true;
           });
 
           it('flipX is true', () => {
@@ -615,20 +604,9 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
 
-        describe('when locale is he', () => {
+        describe('when locale is not RTL', () => {
           beforeAll(() => {
-            mockLocale = 'he';
-          });
-
-          it('flipX is true', () => {
-            expect(children.props.flipX)
-              .toBe(true);
-          });
-        });
-
-        describe('when locale is not `ar` or `he`', () => {
-          beforeAll(() => {
-            mockLocale = 'zh-CN';
+            mockIsRTL = false;
           });
 
           it('flipX is false', () => {
@@ -708,9 +686,9 @@ describe('ChannelChoiceMenu component', () => {
       });
 
       describe('props.flipX', () => {
-        describe('when locale is ar', () => {
+        describe('when locale is RTL', () => {
           beforeAll(() => {
-            mockLocale = 'ar';
+            mockIsRTL = true;
           });
 
           it('flipX is true', () => {
@@ -719,20 +697,9 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
 
-        describe('when locale is he', () => {
+        describe('when locale is not RTL', () => {
           beforeAll(() => {
-            mockLocale = 'he';
-          });
-
-          it('flipX is true', () => {
-            expect(children.props.flipX)
-              .toBe(true);
-          });
-        });
-
-        describe('when locale is not `ar` or `he`', () => {
-          beforeAll(() => {
-            mockLocale = 'zh-CN';
+            mockIsRTL = false;
           });
 
           it('flipX is false', () => {
