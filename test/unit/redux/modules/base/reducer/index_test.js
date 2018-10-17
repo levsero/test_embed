@@ -27,13 +27,16 @@ describe('base root reducer', () => {
       'embeds',
       'backButtonVisible',
       'arturos',
-      'queue',
       'embeddableConfig',
       'isAuthenticationPending',
-      'hasWidgetShown',
+      'queue',
       'onApiListeners',
+      'hasWidgetShown',
       'webWidgetVisible',
-      'launcherVisible'
+      'launcherVisible',
+      'widgetInitialised',
+      'hidden',
+      'bootupTimeout',
     ];
 
     it('has the expected substates', () => {
