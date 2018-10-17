@@ -39,19 +39,17 @@ export class ImageMessage extends Component {
       styles.container,
       this.props.className
     );
+    const imageStyle = {
+      backgroundImage: `url("${this.props.file.url}")`
+    };
 
-    let imageStyle = {};
-
-    if (!this.state.loading) {
-      imageStyle.backgroundImage = `url("${this.props.file.url}")`;
-    }
+    const thumbnailDiv = (<a className={styles.link} target="_blank" href={this.props.file.url}>
+      <div className={imageClasses} style={imageStyle}></div>
+    </a>);
 
     return (
       <div>
-        {this.state.loading && this.props.placeholderEl}
-        <a className={styles.link} target="_blank" href={this.props.file.url}>
-          <div className={imageClasses} style={imageStyle}></div>
-        </a>
+        {this.state.loading ? this.props.placeholderEl : thumbnailDiv}
       </div>
     );
   }

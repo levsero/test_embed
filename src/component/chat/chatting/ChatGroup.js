@@ -208,9 +208,12 @@ export class ChatGroup extends Component {
     }
 
     if (!file.uploading && isImage) {
+      const placeholderEl = !isAgent ? inlineAttachment : null;
+
       return (
         <ImageMessage
           file={file}
+          placeholderEl={placeholderEl}
           onImageLoad={this.props.onImageLoad}
         />
       );
