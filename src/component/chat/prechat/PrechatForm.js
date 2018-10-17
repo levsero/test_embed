@@ -285,8 +285,7 @@ export class PrechatForm extends Component {
     const value = selectedDepartment.id ? selectedDepartment.id.toString() : null;
     const error = this.renderErrorMessage(SelectMessage, value,
       required, 'embeddable_framework.validation.error.department');
-    const departmentLabel = departmentSettings.label ?
-      departmentSettings.label : i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment');
+    const departmentLabel = departmentSettings.label;
 
     return (
       <SelectField>

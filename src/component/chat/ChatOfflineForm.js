@@ -31,7 +31,7 @@ export class ChatOfflineForm extends Component {
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
     phoneEnabled: PropTypes.bool,
-    greeting: PropTypes.string,
+    greeting: PropTypes.string.isRequired,
     isMobile: PropTypes.bool,
     socialLogin: PropTypes.object.isRequired,
     authUrls: PropTypes.object.isRequired,
@@ -230,11 +230,10 @@ export class ChatOfflineForm extends Component {
 
   renderOfflineGreeting() {
     const { greeting } = this.props;
-    const offlineGreetingText = greeting ? greeting : i18n.t('embeddable_framework.chat.preChat.offline.greeting');
 
     return (
       <p className={styles.offlineGreeting}>
-        {offlineGreetingText}
+        {greeting}
       </p>
     );
   }

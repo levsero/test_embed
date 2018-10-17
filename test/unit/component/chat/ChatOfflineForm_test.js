@@ -872,17 +872,6 @@ describe('ChatOfflineForm component', () => {
           .toEqual('Show me what you got!');
       });
     });
-
-    describe('when a greeting is not passed in', () => {
-      beforeAll(() => {
-        greeting = '';
-      });
-
-      it('uses the default greeting', () => {
-        expect(result.props.children)
-          .toEqual('embeddable_framework.chat.preChat.offline.greeting');
-      });
-    });
   });
 
   describe('renderUserProfile', () => {

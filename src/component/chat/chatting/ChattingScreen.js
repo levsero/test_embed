@@ -62,7 +62,8 @@ const mapStateToProps = (state) => {
     loginSettings: selectors.getLoginSettings(state),
     firstMessageTimestamp: selectors.getFirstMessageTimestamp(state),
     socialLogin: selectors.getSocialLogin(state),
-    conciergeSettings: selectors.getConciergeSettings(state)
+    conciergeSettings: selectors.getConciergeSettings(state),
+    title: selectors.getChatTitle(state)
   };
 };
 
@@ -107,7 +108,8 @@ class ChattingScreen extends Component {
     firstMessageTimestamp: PropTypes.number,
     socialLogin: PropTypes.object,
     conciergeSettings: PropTypes.object.isRequired,
-    showContactDetails: PropTypes.func.isRequired
+    showContactDetails: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -459,7 +461,7 @@ class ChattingScreen extends Component {
       <div>
         <ScrollContainer
           ref={(el) => { this.scrollContainer = el; }}
-          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+          title={this.props.title}
           onContentScrolled={this.handleChatScreenScrolled}
           headerContent={this.renderChatHeader()}
           headerClasses={styles.header}
