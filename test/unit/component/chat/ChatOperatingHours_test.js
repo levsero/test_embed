@@ -68,6 +68,27 @@ describe('ChatOperatingHours component', () => {
     timezone: 'Australia/Melbourne'
   };
 
+  beforeAll(() => {
+    spyOn(Intl, 'DateTimeFormat').and.callFake(function(locale) {
+      return {
+        format: (d) => {
+          if (locale === 'en') {
+            const suffix = d.getHours() >= 12 && d.getHours() !== 0 ? 'PM' : 'AM';
+            const hour = d.getHours() % 12 || 12;
+            const minute = d.getMinutes().toString().padStart(2, '0');
+
+            return `${hour}:${minute} ${suffix}`;
+          } else {
+            const hour = d.getHours().toString().padStart(2, '0');
+            const minute = d.getMinutes().toString().padStart(2, '0');
+
+            return `${hour}:${minute}`;
+          }
+        }
+      };
+    });
+  });
+
   beforeEach(() => {
     mockery.enable();
 
