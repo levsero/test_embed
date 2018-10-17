@@ -242,30 +242,6 @@ describe('embed.launcher', () => {
         aliceLauncher = alice.instance.getRootComponent();
       });
 
-      it('should subscribe to <name>.hide', () => {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('launcher.hide', jasmine.any(Function));
-
-        spyOn(alice.instance, 'hide');
-
-        pluckSubscribeCall(mockMediator, 'launcher.hide')();
-
-        expect(alice.instance.hide)
-          .toHaveBeenCalled();
-      });
-
-      it('should subscribe to <name>.show', () => {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('launcher.show', jasmine.any(Function));
-
-        spyOn(alice.instance, 'show');
-
-        pluckSubscribeCall(mockMediator, 'launcher.show')();
-
-        expect(alice.instance.show)
-          .toHaveBeenCalled();
-      });
-
       describe('<name>.refreshLocale', () => {
         beforeEach(() => {
           spyOn(alice.instance, 'updateFrameLocale');
