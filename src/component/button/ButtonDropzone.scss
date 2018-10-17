@@ -28,4 +28,11 @@
 
 .icon {
   composes: u-inlineBlock u-userTextColor from global;
+
+  padding-right: #{5/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-right: 0;
+    padding-left: #{5/$font-size}rem;
+  }
 }
