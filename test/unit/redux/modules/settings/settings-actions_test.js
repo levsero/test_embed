@@ -120,10 +120,8 @@ describe('settings redux actions', () => {
           someSettings = {
             webWidget: {
               chat: {
-                visitor: {
-                  departments: {
-                    department: 'yowrgfwewe'
-                  }
+                departments: {
+                  select: 'yowrgfwewe'
                 }
               }
             }
@@ -213,10 +211,8 @@ describe('settings redux actions', () => {
         someSettings = {
           webWidget: {
             chat: {
-              visitor: {
-                departments: {
-                  department: 'yo'
-                }
+              departments: {
+                select: 'yo'
               }
             }
           }

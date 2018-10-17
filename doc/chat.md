@@ -20,6 +20,7 @@ In the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articl
 * [offlineForm](./settings#offlineForm)
 * [notifications](./settings#notifications)
 * [tags](./settings#tags)
+* [authenticate](./settings#authenticate)
 
 <a name="example-chat-settings"></a>
 #### Example
@@ -32,7 +33,9 @@ window.zESettings = {
       suppress: false,
       tags: ['vip'],
       notifications: {
-        mobile: false
+        mobile: {
+          disable: true
+        }
       }
     }
   }
@@ -45,10 +48,10 @@ window.zESettings = {
 
 The Chat component has the following commands:
 
-* [send chat:message](#send-chat-message)
+* [chat:send](#chat-send)
 * [get chat:isChatting](#get-chat-ischatting)
-* [get chat:departments:department](#get-chat-departments-department)
-* [get chat:departments:all](#get-chat-departments-all)
+* [get chat:department](#get-chat-department)
+* [get chat:departments](#get-chat-departments)
 * [chat:end](#chat-end)
 * [updatePath](#updatepath)
 * [on chat:connected](#on-chat-connected)
@@ -57,9 +60,9 @@ The Chat component has the following commands:
 * [on chat:status](#on-chat-status)
 * [on chat:unreadMessages](#on-chat-unreadmessages)
 
-#### send chat:message
+#### chat:send
 
-`zE('webWidget:send', 'chat:message', message<string>);`
+`zE('webWidget', 'chat:send', message<string>);`
 
 Makes the visitor send a message. Starts a chat session if one is not already in progress.
 
@@ -70,7 +73,9 @@ Makes the visitor send a message. Starts a chat session if one is not already in
 ##### Example
 
 ```javascript
-  zE('webWidget:send', 'chat:message', 'I\'d like the Jambalaya, please');
+<script type="text/javascript">
+zE('webWidget', 'chat:send', 'I\'d like the Jambalaya, please');
+</script>
 ```
 
 
@@ -89,9 +94,9 @@ None
 Boolean
 
 
-#### get chat:departments:department
+#### get chat:department
 
-`zE('webWidget:get', 'chat:departments:department', department<int|string>);`
+`zE('webWidget:get', 'chat:department', department<int|string>);`
 
 Returns an object containing information about the specified department, including its id, name and status. Otherwise returns `undefined` if the department is not found or not enabled.
 
@@ -102,7 +107,9 @@ Returns an object containing information about the specified department, includi
 ##### Example
 
 ```javascript
-  zE('webWidget:get', 'chat:departments:department', 'Accounting');
+<script type="text/javascript">
+zE('webWidget:get', 'chat:department', 'Accounting');
+</script>
 ```
 
 ##### Return value
@@ -111,9 +118,9 @@ Returns an object containing information about the specified department, includi
 * Otherwise `undefined` if the department is not found or not enabled
 
 
-#### get chat:departments:all
+#### get chat:departments
 
-`zE('webWidget:get', 'chat:departments:all');`
+`zE('webWidget:get', 'chat:departments');`
 
 Returns a list of all enabled departments containing information about each department including its id, name and status.
 
@@ -152,14 +159,16 @@ Programmatically updates the visitor’s webpath.
 ##### Example
 
 ```javascript
-  // Without options
-  zE('webWidget', 'chat:updatePath');
+<script type="text/javascript">
+// Without options
+zE('webWidget', 'chat:updatePath');
 
-  // With options
-  zE('webWidget', 'chat:updatePath' {
-    url: 'http://example.com',
-    title: "Ready to rock'n'roll!"
-  });
+// With options
+zE('webWidget', 'chat:updatePath' {
+  url: 'http://example.com',
+  title: "Ready to rock'n'roll!"
+});
+</script>
 ```
 
 
@@ -176,9 +185,11 @@ Registers a callback to be fired when the widget successfully connects to the se
 ##### Example
 
 ```javascript
-  zE('webWidget:on', 'chat:connected', () => {
-    console.log('successfully connected to Zendesk Chat!');
-  });
+<script type="text/javascript">
+zE('webWidget:on', 'chat:connected', () => {
+  console.log('successfully connected to Zendesk Chat!');
+});
+</script>
 ```
 
 
@@ -195,9 +206,11 @@ Registers a callback to be fired when a chat starts.
 ##### Example
 
 ```javascript
-  zE('webWidget:on', 'chat:start', () => {
-    console.log('successfully started a Zendesk Chat!');
-  });
+<script type="text/javascript">
+zE('webWidget:on', 'chat:start', () => {
+  console.log('successfully started a Zendesk Chat!');
+});
+</script>
 ```
 
 
@@ -216,9 +229,11 @@ A chat only ends when the visitor (and not the agent) ends the chat, or when the
 ##### Example
 
 ```javascript
-  zE('webWidget:on', 'chat:end', () => {
-    console.log('successfully ended a Zendesk Chat session!');
-  });
+<script type="text/javascript">
+zE('webWidget:on', 'chat:end', () => {
+  console.log('successfully ended a Zendesk Chat session!');
+});
+</script>
 ```
 
 
@@ -238,9 +253,11 @@ Registers a callback to be fired when the account status changes. The callback w
 ##### Example
 
 ```javascript
-  zE('webWidget:on', 'chat:status', 'offline', () => {
-    console.log('This chat session is now offline');
-  });
+<script type="text/javascript">
+zE('webWidget:on', 'chat:status', 'offline', () => {
+  console.log('This chat session is now offline');
+});
+</script>
 ```
 
 
@@ -257,7 +274,9 @@ Registers a callback to be fired when the number of unread messages changes. The
 ##### Example
 
 ```javascript
-  zE('webWidget:on', 'chat:unreadMessages', (number) => {
-    console.log(`It seems you have ${number} unread messages!`);
-  });
+<script type="text/javascript">
+zE('webWidget:on', 'chat:unreadMessages', (number) => {
+  console.log(`It seems you have ${number} unread messages!`);
+});
+</script>
 ```

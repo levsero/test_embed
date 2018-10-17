@@ -24,7 +24,7 @@ By default, the Web Widget is displayed to the end user in a language that match
 The following example displays the widget in German:
 
 ```html
-<script>
+<script type="text/javascript">
   zE(function() {
     zE.setLocale('de');
   });
@@ -50,7 +50,7 @@ The Widget also uses the information in the `zE.identify()` call to pre-populate
 Note: Passing an `organization` with `zE.identify()` only works for existing organizations in your Zendesk Support account. It does *not* create a new organization.
 
 ```html
-<script>
+<script type="text/javascript">
   zE(function() {
     zE.identify({
       name: 'John Citizen',
@@ -74,7 +74,7 @@ The method completely hides all parts of the Widget from the page. You can invok
 **Before page load**
 
 ```html
-<script>
+<script type="text/javascript">
   zE(function() {
     zE.hide();
   });
@@ -95,7 +95,7 @@ The method displays the Widget on the host page in its starting 'button' state.
 For example, when someone logs into your website, you could call `zE.show()` to conditionally render the widget for authenticated users only:
 
 ```html
-<script>
+<script type="text/javascript">
   if(loggedIn) {
     zE(function() {
       zE.show();
@@ -152,7 +152,7 @@ The method enhances the contextual help provided by the Web Widget.
 Add the method in your HTML source code immediately after your Web Widget code snippet. Example:
 
 ```javascript
-<script>
+<script type="text/javascript">
 zE(function() {
   zE.setHelpCenterSuggestions({ search: 'credit card' });
 });

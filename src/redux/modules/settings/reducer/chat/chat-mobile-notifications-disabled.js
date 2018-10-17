@@ -11,7 +11,7 @@ const mobileNotificationsDisabled = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'webWidget.chat.mobile.notifications.disable', state);
+      return _.get(payload, 'webWidget.chat.notifications.mobile.disable', state);
     default:
       return state;
   }

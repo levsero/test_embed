@@ -86,8 +86,9 @@ window.zESettings = {
 The Web Widget has the following core commands:
 
 * [get isOpen](#get-isopen)
-* [on show](#on-show)
-* [on hide](#on-hide)
+* [get display](#get-display)
+* [on open](#on-open)
+* [on close](#on-close)
 * [hide](#hide)
 * [show](#show)
 * [logout](#logout)
@@ -96,7 +97,16 @@ The Web Widget has the following core commands:
 * [setLocale](#setlocale)
 * [updateSettings](#updatesettings)
 * [clear](#clear)
+* [updatePath](#updatepath)
+* [toggle](#toggle)
+* [popout](#popout)
+* [reset](#reset)
 
+#### get display
+
+`zE('webWidget:get', 'display');`
+
+Gets the current widget display (eg. Help Center).
 
 #### get isOpen
 
@@ -113,9 +123,9 @@ None
 Boolean
 
 
-#### on show
+#### on open
 
-`zE('webWidget:on', 'show', callback<function>);`
+`zE('webWidget:on', 'open', callback<function>);`
 
 Executes a callback when the widget is shown.
 
@@ -126,15 +136,17 @@ Executes a callback when the widget is shown.
 ##### Example
 
 ```javascript
-  zE('webWidget:on', 'show', () => {
-    console.log("The widget has been shown!");
-  });
+<script>
+zE('webWidget:on', 'open', () => {
+  console.log("The widget has been shown!");
+});
+</script>
 ```
 
 
-#### on hide
+#### on close
 
-`zE('webWidget:on', 'hide', callback<function>);`
+`zE('webWidget:on', 'close', callback<function>);`
 
 Executes a callback when the widget is hidden.
 
@@ -145,9 +157,11 @@ Executes a callback when the widget is hidden.
 ##### Example
 
 ```javascript
-  zE('webWidget:on', 'hide', () => {
-    console.log("The widget has been hidden!");
-  });
+<script type="text/javascript">
+zE('webWidget:on', 'close', () => {
+  console.log("The widget has been hidden!");
+});
+</script>
 ```
 
 #### hide
@@ -188,8 +202,8 @@ The widget is displayed by default on page load. You don't need to call `show` t
 ##### Example
 
 ```html
-<script>
-  zE('webWidget', 'show');
+<script type="text/javascript">
+zE('webWidget', 'show');
 </script>
 ```
 
@@ -224,11 +238,13 @@ The Widget also uses the information to pre-populate the contact or pre-chat cha
 ##### Example
 
 ```javascript
-  zE('webWidget', 'identify', {
-    name: 'Akira Kogane',
-    email: 'akira@voltron.com',
-    organization: 'Voltron, Inc.'
-  });
+<script type="text/javascript">
+zE('webWidget', 'identify', {
+  name: 'Akira Kogane',
+  email: 'akira@voltron.com',
+  organization: 'Voltron, Inc.'
+});
+</script>
 ```
 
 *Note*: Passing an organization only works for existing organizations in your Zendesk Support account. It does not create a new organization.
@@ -242,26 +258,38 @@ Pre-fills an end-user's details on forms inside the Web Widget.
 
 ##### Parameters
 
-* `data`: Object. Contains a `name` and `email`.
+* `data`: Object. Contains a `name`, `email` and `phone` objects.
 
 ##### Example
 
 ```javascript
-  zE('webWidget', 'prefill', {
-    name: 'Isamu Kurogane',
-    email: 'isamu@voltron.com',
-  });
+<script type="text/javascript">
+zE('webWidget', 'prefill', {
+  name: {
+    value: 'isamu',
+    readOnly: true // optional
+  },
+  email: {
+    value: 'isamu@voltron.com',
+    readOnly: true // optional
+  },
+  phone: {
+    value: '+61431909749',
+    readOnly: true // optional
+  }
+});
+</script>
 ```
 
 #### setLocale
 
-`zE('webWidget:setLocale', data<string>);`
+`zE('webWidget', 'setLocale', data<string>);`
 
 Sets the widget locale.
 
 The command takes a locale string as an argument. For a list of supported locales and associated codes, see <https://support.zendesk.com/api/v2/rosetta/locales/public.json>.
 
-By default, the Web Widget is displayed to the end user in a language that matches the browser header of their web browser. If you want to force the Widget to be displayed in a specific language on your website, you can use `zE.setLocale()` to specify the language.
+By default, the Web Widget is displayed to the end user in a language that matches the browser header of their web browser. If you want to force the Widget to be displayed in a specific language on your website, you can use `zE('webWidget', 'setLocale', data<string>);` to specify the language.
 
 The following example displays the widget in German:
 
@@ -291,16 +319,18 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
 ##### Example
 
 ```javascript
-  zE('webWidget', 'updateSettings', {
-    webWidget: {
-      chat: {
-        departments: {
-          enabled: ['finance', 'hr', 'sales'],
-          selected: 'sales'
-        }
+<script type="text/javascript">
+zE('webWidget', 'updateSettings', {
+  webWidget: {
+    chat: {
+      departments: {
+        enabled: ['finance', 'hr', 'sales'],
+        selected: 'sales'
       }
     }
-  });
+  }
+});
+</script>
 ```
 
 
@@ -309,6 +339,74 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
 `zE('webWidget', 'clear');`
 
 Clears all forms in the Web Widget.
+
+##### Parameters
+
+None
+
+
+#### updatePath
+
+`zE('webWidget:updatePath');`
+
+Updates the visitor path.
+
+**Note**: This api will also update the path within chat.
+
+##### Parameters
+
+None
+
+
+#### toggle
+
+`zE('webWidget', 'toggle');`
+
+Opens the widget if it was closed or closes the widget if it was opened.
+
+##### Parameters
+
+None
+
+
+#### popout
+
+`zE('webWidget', 'popout');`
+
+Opens a new window that renders a widget.
+
+##### Parameters
+
+None
+
+
+#### reset
+
+`zE('webWidget', 'reset');`
+
+Completely resets the state of the widget.
+
+##### Parameters
+
+None
+
+
+#### close
+
+`zE('webWidget', 'close');`
+
+If the widget is opened, this api will close the widget and show the launcher.
+
+##### Parameters
+
+None
+
+
+#### open
+
+`zE('webWidget', 'open');`
+
+Forces the widget to appear.
 
 ##### Parameters
 
