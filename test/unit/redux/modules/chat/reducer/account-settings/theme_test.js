@@ -25,7 +25,7 @@ describe('chat reducer accountSettings theme', () => {
 
     describe('initial state', () => {
       it('sets the initial state to an empty with an empty message_type property', () => {
-        const expected = { message_type: '' };
+        const expected = { message_type: '', color: '#555555', position: 'br' };
 
         expect(initialState)
           .toEqual(expected);
@@ -36,7 +36,13 @@ describe('chat reducer accountSettings theme', () => {
       beforeEach(() => {
         const mockSettings = {
           theme: {
-            message_type: 'bubble_avatar'
+            message_type: 'bubble_avatar',
+            chat_window: {
+              position: 'bl',
+            },
+            colors: {
+              primary: 'blah'
+            }
           }
         };
 
@@ -48,7 +54,9 @@ describe('chat reducer accountSettings theme', () => {
 
       it('sets the action payload as the state', () => {
         const expected = {
-          message_type: 'bubble_avatar'
+          message_type: 'bubble_avatar',
+          position: 'bl',
+          color: 'blah'
         };
 
         expect(state)
@@ -60,7 +68,13 @@ describe('chat reducer accountSettings theme', () => {
       beforeEach(() => {
         const mockSettings = {
           theme: {
-            message_type: 'bubble_avatar'
+            message_type: 'bubble_avatar',
+            chat_window: {
+              position: 'b',
+            },
+            colors: {
+              primary: 'fasdfasf'
+            }
           }
         };
 
@@ -72,7 +86,9 @@ describe('chat reducer accountSettings theme', () => {
 
       it('sets the action payload as the state', () => {
         const expected = {
-          message_type: 'bubble_avatar'
+          message_type: 'bubble_avatar',
+          position: 'b',
+          color: 'fasdfasf'
         };
 
         expect(state)

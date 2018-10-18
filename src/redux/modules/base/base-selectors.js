@@ -54,12 +54,15 @@ export const getHasPassedAuth = createSelector(
     return isAuthenticated || !helpCenterSignInRequired || isOnHelpCenterPage();
   }
 );
-
 export const getZopimId = createSelector(
   [getEmbeddableConfig],
   (embeddableConfig) => {
     return embeddableConfig.embeds.zopimChat.props.zopimId;
   }
+);
+export const getConfigColor = createSelector(
+  [getEmbeddableConfig],
+  (embeddableConfig) => ({ base: embeddableConfig.color, text: embeddableConfig.textColor })
 );
 export const getChatOverrideProxy = createSelector(
   [getEmbeddableConfig],

@@ -59,6 +59,8 @@ describe('chat selectors', () => {
     getIsLoggingOut,
     getWindowSettings,
     getChatTitle,
+    getThemeColor,
+    getThemePosition,
 
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
@@ -171,6 +173,8 @@ describe('chat selectors', () => {
     getOfflineFormEnabled = selectors.getOfflineFormEnabled;
     getWindowSettings = selectors.getWindowSettings;
     getChatTitle = selectors.getChatTitle;
+    getThemeColor = selectors.getThemeColor;
+    getThemePosition = selectors.getThemePosition;
   });
 
   afterEach(() => {
@@ -2877,6 +2881,46 @@ describe('chat selectors', () => {
         expect(result)
           .toBe(mockDepartments[1]);
       });
+    });
+  });
+
+  describe('getThemeColor', () => {
+    let result;
+    const mockAccountSettings = {
+      theme: {
+        color: '#eeeeee'
+      }
+    };
+
+    beforeEach(() => {
+      result = getThemeColor({
+        chat: { accountSettings: mockAccountSettings }
+      });
+    });
+
+    it('returns the primary color', () => {
+      expect(result.base)
+        .toEqual('#eeeeee');
+    });
+  });
+
+  describe('getThemePosition', () => {
+    let result;
+    const mockAccountSettings = {
+      theme: {
+        position: 'br'
+      }
+    };
+
+    beforeEach(() => {
+      result = getThemePosition({
+        chat: { accountSettings: mockAccountSettings }
+      });
+    });
+
+    it('returns the position', () => {
+      expect(result)
+        .toEqual('right');
     });
   });
 });

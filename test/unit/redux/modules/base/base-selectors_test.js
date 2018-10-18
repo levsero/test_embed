@@ -23,6 +23,7 @@ describe('base selectors', () => {
     mockStoreValue,
     mockIsOnHelpCenterPage,
     getOnApiListeners,
+    getConfigColor,
     getWidgetDisplayInfo,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
@@ -78,6 +79,7 @@ describe('base selectors', () => {
     getZChatConfig = selectors.getZChatConfig;
     getOnApiListeners = selectors.getOnApiListeners;
     getWidgetDisplayInfo = selectors.getWidgetDisplayInfo;
+    getConfigColor = selectors.getConfigColor;
   });
 
   describe('getZChatConfig', () => {
@@ -751,6 +753,28 @@ describe('base selectors', () => {
         expect(result)
           .toEqual('launcher');
       });
+    });
+  });
+
+  describe('getConfigColor', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embeddableConfig: {
+            color: 'blue',
+            textColor: 'deep'
+          }
+        }
+      };
+      result = getConfigColor(mockState);
+    });
+
+    it('returns the color in expected format', () => {
+      expect(result)
+        .toEqual({ base: 'blue', text: 'deep' });
     });
   });
 });

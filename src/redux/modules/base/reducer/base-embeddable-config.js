@@ -15,7 +15,11 @@ const initialState = {
         overrideProxy: ''
       }
     }
-  }
+  },
+  position: 'right', // default position
+  color: '#659700', // default base color
+  textColor: undefined,
+  cp4: false
 };
 
 const embeddableConfig = (state = initialState, action) => {
@@ -37,7 +41,11 @@ const embeddableConfig = (state = initialState, action) => {
               ..._.get(payload, 'embeds.zopimChat.props')
             }
           }
-        }
+        },
+        position: payload.position,
+        color: payload.color || state.color.base,
+        textColor: payload.textColor || state.color.text,
+        cp4: _.get(payload, 'cp4', state.cp4)
       };
     default:
       return state;

@@ -37,7 +37,9 @@ export class EmbedWrapper extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = { css: '' };
+    this.state = {
+      css: ''
+    };
 
     this.embed = null;
     this.nav = null;
@@ -47,8 +49,12 @@ export class EmbedWrapper extends Component {
     const css = generateWebWidgetPreviewCSS({ base: color });
 
     if (css) {
-      this.setState({ css });
+      this.setCustomCSS(css);
     }
+  }
+
+  setCustomCSS = (css) => {
+    this.setState({ css });
   }
 
   getEmbedWrapperProps = (ref) => {

@@ -68,6 +68,17 @@ export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
 export const getWindowSettings = (state) => state.chat.accountSettings.chatWindow;
 export const getChatTitle = (state) => getWindowSettings(state).title || i18n.t('embeddable_framework.chat.title');
+export const getThemeColor = (state) => ({ base: state.chat.accountSettings.theme.color, text: undefined });
+export const getThemePosition = (state) => {
+  const position = state.chat.accountSettings.theme.position;
+
+  switch (position) {
+    case 'br': return 'right';
+    case 'bl': return 'left';
+    default:
+      return undefined;
+  }
+};
 
 export const getFirstMessageTimestamp = (state) => {
   const first = getChats(state).values().next().value;
