@@ -1,7 +1,8 @@
 describe('ImageMessage component', () => {
   let ImageMessage,
     component,
-    sharedPropTypes;
+    sharedPropTypes,
+    mockFile;
 
   const imageMessagePath = buildSrcPath('component/chat/chatting/ImageMessage');
   const sharedTypesPath = buildSrcPath('types/shared');
@@ -11,12 +12,10 @@ describe('ImageMessage component', () => {
   beforeEach(() => {
     mockery.enable();
 
-    sharedPropTypes = requireUncached(sharedTypesPath).sharedPropTypes;
+    sharedPropTypes = requireUncached(sharedTypesPath).default;
 
     initMockRegistry({
-      'types/shared': {
-        sharedPropTypes
-      },
+      'types/shared': sharedPropTypes,
       './ImageMessage.scss': {
         locals: {
           container: 'container',
@@ -36,11 +35,12 @@ describe('ImageMessage component', () => {
 
   describe('shared functionality', () => {
     beforeEach(() => {
-      let mockFile = {
+      mockFile = {
         name: 'test',
         size: 100,
         type: 'image/png',
-        webkitRelativePath: ''
+        webkitRelativePath: '',
+        url: 'https://mockurl.com'
       };
 
       component = domRender(<ImageMessage file={mockFile} onImageLoad={onImageLoadSpy} placeholderEl={placeholderEl} />);
@@ -89,6 +89,18 @@ describe('ImageMessage component', () => {
 
         it('does not render a placeholder element', () => {
           expect(result.props.children).not.toContain(placeholderEl);
+        });
+
+        it('renders an anchor tag', () => {
+          expect(result.props.children.props.href)
+            .toEqual(mockFile.url);
+        });
+
+        it('changes the background image', () => {
+          expect(result.props.children.props.children.props.style)
+            .toEqual(jasmine.objectContaining({
+              backgroundImage: `url("${mockFile.url}")`
+            }));
         });
       });
     });

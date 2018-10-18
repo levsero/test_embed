@@ -10,7 +10,7 @@ export class ImageMessage extends Component {
     className: PropTypes.string,
     placeholderEl: PropTypes.element,
     onImageLoad: PropTypes.func,
-    file: sharedPropTypes.file
+    file: sharedPropTypes.file.isRequired
   };
 
   static defaultProps = {
