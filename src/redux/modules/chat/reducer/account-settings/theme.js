@@ -13,7 +13,7 @@ const theme = (state = initialState, action) => {
       return {
         message_type: action.payload.theme.message_type,
         position: action.payload.theme.chat_window.position,
-        color: action.payload.theme.colors.primary
+        color: _.get(action.payload, 'theme.colors.primary', state.color)
       };
     case UPDATE_PREVIEWER_SETTINGS:
       return {
