@@ -27,7 +27,9 @@ import { getActiveEmbed,
   getHiddenByHideAPI,
   getConfigColor,
   getHiddenByActivateAPI,
-  getBootupTimeout } from './base/base-selectors';
+  getBootupTimeout,
+  getWebWidgetVisible as getBaseWebWidgetVisible,
+  getLauncherVisible as getBaseLauncherVisible } from './base/base-selectors';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -98,8 +100,6 @@ const getWidgetFixedFrameStyles = createSelector(
     return {};
   }
 );
-const getLauncherVisibleState = (state) => state.base.launcherVisible;
-
 const getChannelChoiceEnabled = (state) => {
   return settings.get('contactOptions').enabled && getSubmitTicketAvailable(state);
 };
@@ -199,7 +199,7 @@ export const getIpmHelpCenterAllowed = createSelector(
   }
 );
 
-const getIsWidgetReady = createSelector(
+export const getIsWidgetReady = createSelector(
   [ getTalkReady,
     getChatReady,
     getHelpCenterReady,
@@ -220,12 +220,12 @@ const getIsChannelAvailable = createSelector(
 );
 
 export const getWebWidgetVisible = (state) => {
-  return state.base.webWidgetVisible
+  return getBaseWebWidgetVisible(state)
     && !getHiddenByHideAPI(state)
     && getIsWidgetReady(state);
 };
 export const getLauncherVisible = createSelector(
-  [ getLauncherVisibleState,
+  [ getBaseLauncherVisible,
     getIsChannelAvailable,
     getHiddenByHideAPI,
     getHiddenByActivateAPI,

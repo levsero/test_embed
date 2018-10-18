@@ -31,10 +31,7 @@ describe('base selectors', () => {
       }
     });
 
-    const selectors = requireUncached(selectorsPath);
-
     selectors = requireUncached(selectorsPath);
-
   });
 
   describe('getZChatConfig', () => {
