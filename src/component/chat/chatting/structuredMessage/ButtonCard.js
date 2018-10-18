@@ -1,20 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { ButtonCard as PureButtonCard, Button } from 'component/shared/StructuredMessage/ButtonCard';
-import { CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat';
-
-const { QUICK_REPLY_ACTION, LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE;
-
-const ActionPropType = PropTypes.shape({
-  type: PropTypes.oneOf([QUICK_REPLY_ACTION, LINK_ACTION]).isRequired,
-  value: PropTypes.string.isRequired
-});
-
-const ButtonSchemaPropType = PropTypes.shape({
-  text: PropTypes.string.isRequired,
-  action: ActionPropType.isRequired
-});
+import { ButtonCard as PureButtonCard } from 'component/shared/StructuredMessage/ButtonCard';
+import { Button, ButtonSchemaPropType } from './Button';
 
 export class ButtonCard extends Component {
     static propTypes = {
@@ -33,8 +21,10 @@ export class ButtonCard extends Component {
     };
 
     render() {
+      const {createAction} = this.props;
+
       const buttons = this.props.buttons.map((button, index) => (
-        <Button label={button.text} key={index} onClick={this.props.createAction(button.action)} />
+        <Button {...button} key={index} createAction={createAction} />
       ));
 
       return (
