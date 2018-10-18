@@ -12,6 +12,7 @@ describe('resetActiveEmbed middleware', () => {
     mockShowTicketFormsBackButton = false,
     mockIpmHelpCenterAllowed = false,
     mockArticleViewActive = false,
+    mockSubmitTicketAvailable = true,
     mockWidgetVisible = true;
   const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
   const WIDGET_INITIALISED = 'WIDGET_INITIALISED';
@@ -42,7 +43,8 @@ describe('resetActiveEmbed middleware', () => {
         getHelpCenterAvailable: () => mockHelpCenterAvailable,
         getShowTicketFormsBackButton: () => mockShowTicketFormsBackButton,
         getIpmHelpCenterAllowed: () => mockIpmHelpCenterAllowed,
-        getWebWidgetVisible: () => mockWidgetVisible
+        getWebWidgetVisible: () => mockWidgetVisible,
+        getSubmitTicketAvailable: () => mockSubmitTicketAvailable
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleViewActive: () => mockArticleViewActive
