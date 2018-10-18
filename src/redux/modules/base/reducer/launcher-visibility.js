@@ -8,10 +8,10 @@ import {
 import {
   ZOPIM_HIDE,
   ZOPIM_SHOW,
-  ZOPIM_ON_CLOSE } from 'src/redux/modules/zopimChat/zopimChat-action-types';
+  ZOPIM_ON_CLOSE } from '../../zopimChat/zopimChat-action-types';
 import {
   PROACTIVE_CHAT_RECEIVED,
-  CHAT_WINDOW_OPEN_ON_NAVIGATE } from 'src/redux/modules/chat/chat-action-types';
+  CHAT_WINDOW_OPEN_ON_NAVIGATE } from '../../chat/chat-action-types';
 import { isMobileBrowser } from 'utility/devices';
 
 const initialState = true;
@@ -33,7 +33,7 @@ const launcherVisible = (state = initialState, action) => {
       return true;
     case ZOPIM_SHOW:
     case NEXT_BUTTON_CLICKED:
-      return isMobileBrowser() ? true : false;
+      return isMobileBrowser();
     default:
       return state;
   }
