@@ -7,7 +7,6 @@ import { getAccountSettings,
   getIsChatting,
   clearDepartment,
   setDepartment,
-  chatOpened,
   chatWindowOpenOnNavigate,
   chatConnected } from 'src/redux/modules/chat';
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base';
@@ -44,11 +43,9 @@ import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
 import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
-import { getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { isMobileBrowser } from 'utility/devices';
-import { setScrollKiller,
-  setWindowScroll,
-  revertWindowScroll } from 'utility/scrollHacks';
+import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
+import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed');
@@ -56,27 +53,6 @@ const createdAtTimestamp = Date.now();
 let chatAccountSettingsFetched = false;
 let chatNotificationTimeout = null;
 
-const onWidgetOpen = (prevState, nextState) => {
-  if (!isMobileBrowser() || getActiveEmbed(nextState) === 'zopimChat') return;
-
-  if (!getWebWidgetVisible(prevState) && getWebWidgetVisible(nextState)) {
-    setTimeout(() => {
-      setWindowScroll(0);
-      setScrollKiller(true);
-    }, 0);
-  } else {
-    setScrollKiller(false);
-    revertWindowScroll();
-  }
-};
-
-const onChatOpen = (prevState, nextState, dispatch) => {
-  const widgetShown = getWidgetShown(prevState);
-
-  if (widgetShown && getActiveEmbed(prevState) !== 'chat' && getActiveEmbed(nextState) === 'chat') {
-    dispatch(chatOpened());
-  }
-};
 
 const startChatNotificationTimer = ({ proactive }) => {
   if (chatNotificationTimeout) {

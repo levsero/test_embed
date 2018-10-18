@@ -24,7 +24,9 @@ describe('onStateChange middleware', () => {
   const setDepartmentSpy = jasmine.createSpy('setDepartment');
   const handleIsChattingSpy = jasmine.createSpy('handleIsChatting');
   const handleChatConnectedSpy = jasmine.createSpy('handleChatConnected');
-  const path = buildSrcPath('redux/middleware/onStateChange');
+  const chatConnectedSpy = jasmine.createSpy('chatConnected');
+  const chatWindowOpenOnNavigateSpy = jasmine.createSpy('chatWindowOpenOnNavigateSpy');
+  const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
   let mockDepartmentLists = [];
   let mockGetSettingsChatDepartment = '';
@@ -59,7 +61,9 @@ describe('onStateChange middleware', () => {
         clearDepartment: clearDepartmentSpy,
         setDepartment: setDepartmentSpy,
         handleChatConnected: handleChatConnectedSpy,
-        handleIsChatting: handleIsChattingSpy
+        handleIsChatting: handleIsChattingSpy,
+        chatConnected: chatConnectedSpy,
+        chatWindowOpenOnNavigate: chatWindowOpenOnNavigateSpy
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
@@ -137,7 +141,9 @@ describe('onStateChange middleware', () => {
       },
       'utility/devices': {
         isMobileBrowser() { return mockIsMobileBrowser; }
-      }
+      },
+      'src/redux/middleware/onStateChange/onWidgetOpen': noop,
+      'src/redux/middleware/onStateChange/onChatOpen': noop
     });
 
     stateChangeFn = requireUncached(path).default;
@@ -427,12 +433,13 @@ describe('onStateChange middleware', () => {
               describe('is proactive session', () => {
                 beforeEach(() => {
                   mockIsProactiveSession = true;
+                  mockIsMobileBrowser = false;
                   stateChangeFn(prevState, nextState, {}, dispatchSpy);
                 });
 
                 it('calls mediator with newChat.newMessage', () => {
                   expect(broadcastSpy)
-                    .toHaveBeenCalledWith('newChat.newMessage');
+                    .toHaveBeenCalledWith('newChat.newMessage', dispatchSpy);
                 });
               });
 
@@ -519,6 +526,7 @@ describe('onStateChange middleware', () => {
             beforeEach(() => {
               mockWidgetShown = true;
               mockActiveEmbed = 'helpCenterForm';
+              mockUserSoundSetting = true;
 
               stateChangeFn(prevState, nextState, {}, dispatchSpy);
             });
@@ -672,11 +680,6 @@ describe('onStateChange middleware', () => {
           stateChangeFn(null, null, action, dispatchSpy);
         });
 
-        it('calls mediator with isChatting and the value from the payload and store', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('newChat.isChatting', false, false);
-        });
-
         describe('when the payload is false', () => {
           it('does not dispatches updateActiveEmbed', () => {
             expect(updateActiveEmbedSpy)
@@ -705,7 +708,7 @@ describe('onStateChange middleware', () => {
 
           describe('when the value in the store is zopimChat', () => {
             beforeEach(() => {
-              mockStoreValue = { activeEmbed: 'zopimChat' };
+              mockStoreValue = { activeEmbed: 'zopimChat', widgetShown: true };
               stateChangeFn = requireUncached(path).default;
 
               stateChangeFn(null, null, action, dispatchSpy);
@@ -714,6 +717,11 @@ describe('onStateChange middleware', () => {
             it('dispatches updateActiveEmbed with the chat', () => {
               expect(updateActiveEmbedSpy)
                 .toHaveBeenCalledWith('chat');
+            });
+
+            it('dispatches chatWindowOpenOnNavigate', () => {
+              expect(chatWindowOpenOnNavigateSpy)
+                .toHaveBeenCalled();
             });
           });
 
@@ -816,51 +824,6 @@ describe('onStateChange middleware', () => {
               .not
               .toHaveBeenCalled();
           });
-        });
-
-        describe('when offline form is disabled', () => {
-          beforeEach(() => {
-            stateChangeFn('online', 'offline');
-          });
-
-          it('calls mediator with newChat.offline and true', () => {
-            expect(broadcastSpy)
-              .toHaveBeenCalledWith('newChat.offline', true);
-          });
-        });
-
-        describe('when offline form is enabled', () => {
-          beforeEach(() => {
-            mockOfflineFormSettings = { enabled: true };
-            stateChangeFn('online', 'offline');
-          });
-
-          it('calls mediator with newChat.offline and false', () => {
-            expect(broadcastSpy)
-              .toHaveBeenCalledWith('newChat.offline', false);
-          });
-        });
-      });
-
-      describe('chatStatus goes from offline to online', () => {
-        beforeEach(() => {
-          stateChangeFn('offline', 'online');
-        });
-
-        it('calls mediator with newChat.online', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('newChat.online');
-        });
-      });
-
-      describe('no chatStatus change', () => {
-        beforeEach(() => {
-          stateChangeFn('offline', 'offline');
-        });
-
-        it('does not call mediator', () => {
-          expect(broadcastSpy)
-            .not.toHaveBeenCalled();
         });
       });
     });
