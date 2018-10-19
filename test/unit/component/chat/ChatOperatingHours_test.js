@@ -1,5 +1,3 @@
-import { timeFromMinutes, i18nTimeFromMinutes } from '../../../../src/util/time';
-
 describe('ChatOperatingHours component', () => {
   let ChatOperatingHours;
   let locale = 'en';
@@ -7,6 +5,7 @@ describe('ChatOperatingHours component', () => {
   const Button = noopReactComponent();
   const SelectField = noopReactComponent();
   const Item = noopReactComponent();
+  const i18nTimeFromMinutes = jasmine.createSpy('i18nTimeFromMinutes');
 
   const mockAccountOperatingHours = {
     account_schedule: [
@@ -68,29 +67,10 @@ describe('ChatOperatingHours component', () => {
     timezone: 'Australia/Melbourne'
   };
 
-  beforeAll(() => {
-    spyOn(Intl, 'DateTimeFormat').and.callFake(function(locale) {
-      return {
-        format: (d) => {
-          if (locale === 'en') {
-            const suffix = d.getHours() >= 12 && d.getHours() !== 0 ? 'PM' : 'AM';
-            const hour = d.getHours() % 12 || 12;
-            const minute = d.getMinutes().toString().padStart(2, '0');
-
-            return `${hour}:${minute} ${suffix}`;
-          } else {
-            const hour = d.getHours().toString().padStart(2, '0');
-            const minute = d.getMinutes().toString().padStart(2, '0');
-
-            return `${hour}:${minute}`;
-          }
-        }
-      };
-    });
-  });
-
   beforeEach(() => {
     mockery.enable();
+
+    i18nTimeFromMinutes.calls.reset();
 
     initMockRegistry({
       './ChatOperatingHours.scss': {
@@ -116,10 +96,7 @@ describe('ChatOperatingHours component', () => {
         Item,
         Select: noopReactComponent()
       },
-      'utility/time': {
-        timeFromMinutes: timeFromMinutes,
-        i18nTimeFromMinutes: i18nTimeFromMinutes
-      },
+      'utility/time': { i18nTimeFromMinutes },
       'src/constants/shared': {
         FONT_SIZE: 14
       },
@@ -190,20 +167,21 @@ describe('ChatOperatingHours component', () => {
     });
   });
 
-  describe('strips am/pm suffix for locales that use a 24-hour clock', () => {
-    let component,
-      result;
+  describe('use locales specific clock', () => {
+    let component;
 
-    it('has has am/pm for English', () => {
+    it('passes locale correctly to i18nTimeFromMinutes', () => {
       locale = 'ja';
       component = instanceRender(
         <ChatOperatingHours
           operatingHours={mockAccountOperatingHours} />
       );
-      result = component.render();
+      component.render();
 
-      expect(result.props.children[1].props.children[1].props.children[1])
-        .toEqual({ openingTime: '07:36', closingTime: '13:09' });
+      expect(i18nTimeFromMinutes)
+        .toHaveBeenCalledWith(456, locale);
+      expect(i18nTimeFromMinutes)
+        .toHaveBeenCalledWith(789, locale);
     });
   });
 
