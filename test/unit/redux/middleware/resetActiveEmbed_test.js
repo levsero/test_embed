@@ -192,6 +192,17 @@ describe('resetActiveEmbed middleware', () => {
             action = { type: actionToTest };
           });
 
+          describe('when active embed is ticketSubmissionForm', () => {
+            beforeAll(() => {
+              mockActiveEmbed = 'ticketSubmissionForm';
+            });
+
+            it('calls updateActiveEmbed', () => {
+              expect(updateActiveEmbedSpy)
+                .toHaveBeenCalled();
+            });
+          });
+
           _.forEach(['zopimChat', 'channelChoice'], (activeEmbed) => {
             describe(`when the active embed is ${activeEmbed}`, () => {
               beforeAll(() => {

@@ -58,7 +58,6 @@ const identifyApi = (reduxStore, user) => {
   mediator.channel.broadcast('.onIdentify', user);
 };
 const setLocaleApi = (_, locale) => {
-  console.log('here');
   i18n.setLocale(locale, true);
   mediator.channel.broadcast('.onSetLocale', locale);
 };

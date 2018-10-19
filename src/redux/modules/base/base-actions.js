@@ -6,7 +6,6 @@ import { getOAuth,
   getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { contextualSearch } from 'src/redux/modules/helpCenter';
-import { chatOpened } from 'src/redux/modules/chat';
 import { extractTokenId,
   isTokenRenewable } from 'src/redux/modules/base/helpers/auth';
 import { emailValid } from 'src/util/utils';

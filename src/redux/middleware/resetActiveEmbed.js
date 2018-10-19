@@ -9,7 +9,8 @@ import { UPDATE_TALK_AGENT_AVAILABILITY } from 'src/redux/modules/talk/talk-acti
 import {
   ZOPIM_CHAT_ON_STATUS_UPDATE,
   ZOPIM_END_CHAT,
-  ZOPIM_HIDE } from 'src/redux/modules/zopimChat/zopimChat-action-types';
+  ZOPIM_HIDE,
+  ZOPIM_CONNECTED } from 'src/redux/modules/zopimChat/zopimChat-action-types';
 import { updateActiveEmbed,
   updateBackButtonVisibility } from 'src/redux/modules/base';
 import { getChatStandalone, getZopimChatEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
@@ -31,7 +32,7 @@ const shouldResetForChat = (type, state) => {
     SDK_ACCOUNT_STATUS
   ];
 
-  if (_.includes(chatActions, type) && (activeEmbed === 'chat' || activeEmbed === 'channelChoice')) {
+  if (_.includes(chatActions, type) && _.includes(['chat', 'channelChoice', 'ticketSubmissionForm'], activeEmbed)) {
     return true;
   }
   return false;
@@ -43,10 +44,14 @@ const shouldResetForZopimChat = (type, state) => {
     ZOPIM_CHAT_ON_STATUS_UPDATE,
     ZOPIM_END_CHAT
   ];
-  const zopimChatGoneOffline = _.includes(zopimChatActions, type) && !getZopimChatOnline(state);
+  const actionAllowed = _.includes(zopimChatActions, type);
+  const zopimChatGoneOffline = !isChatting && !getZopimChatOnline(state);
   const isChatting = getZopimIsChatting(state);
 
-  if ((zopimChatGoneOffline && !isChatting) && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
+  if ((zopimChatGoneOffline && actionAllowed) && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
+    return true;
+  }
+  if (actionAllowed && activeEmbed === 'ticketSubmissionForm') {
     return true;
   }
   return false;
@@ -93,7 +98,8 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     ZOPIM_HIDE,
     ACTIVATE_RECIEVED,
     AUTHENTICATION_SUCCESS,
-    CHAT_CONNECTED
+    CHAT_CONNECTED,
+    ZOPIM_CONNECTED
   ];
 
   const chatReset = shouldResetForChat(type, nextState);
