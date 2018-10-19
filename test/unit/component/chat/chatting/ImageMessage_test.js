@@ -19,8 +19,8 @@ describe('ImageMessage component', () => {
       './ImageMessage.scss': {
         locals: {
           container: 'container',
-          link: 'link',
-        }
+          spinner: 'spinner',
+          link: 'link' }
       }
     });
 
@@ -101,6 +101,47 @@ describe('ImageMessage component', () => {
             .toEqual(jasmine.objectContaining({
               backgroundImage: `url("${mockFile.url}")`
             }));
+        });
+      });
+    });
+  });
+
+  describe('without placeholder', () => {
+    beforeEach(() => {
+      mockFile = {
+        name: 'test',
+        size: 100,
+        type: 'image/png',
+        webkitRelativePath: '',
+        url: 'https://mockurl.com'
+      };
+
+      component = domRender(<ImageMessage file={mockFile} onImageLoad={onImageLoadSpy} />);
+    });
+
+    describe('#render', () => {
+      let result;
+
+      describe('when the image has not yet loaded', () => {
+        beforeEach(() => {
+          result = component.render();
+        });
+
+        it('renders the spinner', () => {
+          expect(result.props.children.props.children.props.className)
+            .toContain('spinner');
+        });
+      });
+
+      describe('when the image has loaded', () => {
+        beforeEach(() => {
+          component.setState({ loading: false });
+          result = component.render();
+        });
+
+        it('does not render the spinner', () => {
+          expect(result.props.children.props.children.props.className)
+            .not.toContain('spinner');
         });
       });
     });
