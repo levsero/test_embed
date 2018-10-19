@@ -4,8 +4,8 @@ import {
   LEGACY_SHOW_RECIEVED,
   ACTIVATE_RECIEVED,
   CANCEL_BUTTON_CLICKED } from '../base-action-types';
-import { ZOPIM_SHOW } from 'src/redux/modules/zopimChat/zopimChat-action-types';
-import { PROACTIVE_CHAT_RECEIVED, CHAT_WINDOW_OPEN_ON_NAVIGATE } from 'src/redux/modules/chat/chat-action-types';
+import { ZOPIM_SHOW } from '../../zopimChat/zopimChat-action-types';
+import { PROACTIVE_CHAT_RECEIVED, CHAT_WINDOW_OPEN_ON_NAVIGATE } from '../../chat/chat-action-types';
 
 const initialState = false;
 

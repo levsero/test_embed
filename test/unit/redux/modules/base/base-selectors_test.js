@@ -540,7 +540,7 @@ describe('base selectors', () => {
     };
 
     beforeEach(() => {
-      result = selectors.electorsgetWidgetShown(mockState);
+      result = selectors.getWidgetShown(mockState);
     });
 
     it('returns the current state of widgetShown', () => {

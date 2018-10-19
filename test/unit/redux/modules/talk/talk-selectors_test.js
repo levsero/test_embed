@@ -1,15 +1,5 @@
 describe('talk selectors', () => {
-  let getEmbeddableConfig,
-    getCapability,
-    getAgentAvailability,
-    getFormState,
-    getScreen,
-    getCallback,
-    getAverageWaitTime,
-    getAverageWaitTimeEnabled,
-    getInitialScreen,
-    isCallbackEnabled,
-    mockGetTalkEmbedValue;
+  let selectors, mockGetTalkEmbedValue;
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
 
   beforeEach(() => {
@@ -27,18 +17,7 @@ describe('talk selectors', () => {
 
     mockery.registerAllowable(talkSelectorsPath);
 
-    const selectors = requireUncached(talkSelectorsPath);
-
-    getEmbeddableConfig = selectors.getEmbeddableConfig;
-    getCapability = selectors.getCapability;
-    getAgentAvailability = selectors.getAgentAvailability;
-    getFormState = selectors.getFormState;
-    getScreen = selectors.getScreen;
-    getCallback = selectors.getCallback;
-    getAverageWaitTime = selectors.getAverageWaitTime;
-    getAverageWaitTimeEnabled = selectors.getAverageWaitTimeEnabled;
-    getInitialScreen = selectors.getInitialScreen;
-    isCallbackEnabled = selectors.isCallbackEnabled;
+    selectors = requireUncached(talkSelectorsPath);
   });
 
   describe('getEmbeddableConfig', () => {
@@ -54,7 +33,7 @@ describe('talk selectors', () => {
     };
 
     beforeEach(() => {
-      result = getEmbeddableConfig(mockTalkState);
+      result = selectors.getEmbeddableConfig(mockTalkState);
     });
 
     it('returns the current state of embeddableConfig', () => {
@@ -78,7 +57,7 @@ describe('talk selectors', () => {
     };
 
     beforeEach(() => {
-      result = getCapability(mockTalkState);
+      result = selectors.getCapability(mockTalkState);
     });
 
     it('returns the current state of capability', () => {
@@ -96,7 +75,7 @@ describe('talk selectors', () => {
     };
 
     beforeEach(() => {
-      result = getAgentAvailability(mockTalkState);
+      result = selectors.getAgentAvailability(mockTalkState);
     });
 
     it('returns the current state of agentAvailability', () => {
@@ -114,7 +93,7 @@ describe('talk selectors', () => {
     };
 
     beforeEach(() => {
-      result = getFormState(mockTalkState);
+      result = selectors.getFormState(mockTalkState);
     });
 
     it('returns the current state of formState', () => {
@@ -132,7 +111,7 @@ describe('talk selectors', () => {
     };
 
     beforeEach(() => {
-      result = getScreen(mockTalkState);
+      result = selectors.getScreen(mockTalkState);
     });
 
     it('returns the current state of screen', () => {
@@ -154,7 +133,7 @@ describe('talk selectors', () => {
     };
 
     beforeEach(() => {
-      result = getCallback(mockTalkState);
+      result = selectors.getCallback(mockTalkState);
     });
 
     it('returns the current state of phoneNumber', () => {
@@ -176,7 +155,7 @@ describe('talk selectors', () => {
     };
 
     beforeEach(() => {
-      result = getAverageWaitTime(mockTalkState);
+      result = selectors.getAverageWaitTime(mockTalkState);
     });
 
     it('returns the current state of averageWaitTime', () => {
@@ -194,7 +173,7 @@ describe('talk selectors', () => {
     };
 
     beforeEach(() => {
-      result = getAverageWaitTimeEnabled(mockTalkState);
+      result = selectors.getAverageWaitTimeEnabled(mockTalkState);
     });
 
     it('returns the current state of averageWaitTimeEnabled', () => {
@@ -212,7 +191,7 @@ describe('talk selectors', () => {
     };
 
     beforeEach(() => {
-      result = getInitialScreen(mockTalkState);
+      result = selectors.getInitialScreen(mockTalkState);
     });
 
     it('returns the current correct screen for the current state of capability', () => {
@@ -232,7 +211,7 @@ describe('talk selectors', () => {
           }
         };
 
-        result = isCallbackEnabled(mockTalkState);
+        result = selectors.isCallbackEnabled(mockTalkState);
       });
 
       it('returns true', () => {
@@ -249,7 +228,7 @@ describe('talk selectors', () => {
           }
         };
 
-        result = isCallbackEnabled(mockTalkState);
+        result = selectors.isCallbackEnabled(mockTalkState);
       });
 
       it('returns true', () => {
@@ -266,13 +245,32 @@ describe('talk selectors', () => {
           }
         };
 
-        result = isCallbackEnabled(mockTalkState);
+        result = selectors.isCallbackEnabled(mockTalkState);
       });
 
       it('returns false', () => {
         expect(result)
           .toEqual(false);
       });
+    });
+  });
+
+  describe('getEmbeddableConfigConnected', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockTalkState = {
+        talk: {
+          embeddableConfig: { connected: true }
+        }
+      };
+
+      result = selectors.getEmbeddableConfigConnected(mockTalkState);
+    });
+
+    it('returns the state of embeddableConfig.connected', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 });

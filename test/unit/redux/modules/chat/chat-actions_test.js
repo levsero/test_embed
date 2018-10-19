@@ -1891,4 +1891,32 @@ describe('chat redux actions', () => {
         .toEqual(mockPayload);
     });
   });
+
+  describe('proactiveMessageRecieved', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.proactiveMessageRecieved());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type PROACTIVE_CHAT_RECEIVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.PROACTIVE_CHAT_RECEIVED);
+    });
+  });
+
+  describe('chatWindowOpenOnNavigate', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.chatWindowOpenOnNavigate());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type CHAT_WINDOW_OPEN_ON_NAVIGATE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CHAT_WINDOW_OPEN_ON_NAVIGATE);
+    });
+  });
 });
