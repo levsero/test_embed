@@ -100,7 +100,8 @@ describe('Icon components', function() {
           button: 'button',
           altText: 'altText',
           tooltip: 'tooltip',
-          tooltipShown: 'tooltipShown'
+          tooltipShown: 'tooltipShown',
+          flipX: 'flipX'
         }
       }
     });
@@ -124,6 +125,13 @@ describe('Icon components', function() {
         .not.toMatch('is-mobile');
     });
 
+    it('should not have flipX classes when flipX is false', function() {
+      const icon = domRender(<Icon type="Icon--zendesk" />);
+
+      expect(icon.props.className)
+        .not.toMatch('flipX');
+    });
+
     describe('when mobile is true', () => {
       let result;
 
@@ -136,6 +144,19 @@ describe('Icon components', function() {
       it('should have mobile classes', () => {
         expect(result.props.className)
           .toMatch('is-mobile');
+      });
+    });
+
+    describe('when flipX is true', () => {
+      let result;
+
+      beforeEach(() => {
+        result = domRender(<Icon type="Icon--zendesk" flipX={true} />).render();
+      });
+
+      it('should have flipX classes', () => {
+        expect(result.props.className)
+          .toMatch('flipX');
       });
     });
   });

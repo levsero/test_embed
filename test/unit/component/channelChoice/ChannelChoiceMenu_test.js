@@ -1,5 +1,6 @@
 describe('ChannelChoiceMenu component', () => {
-  let ChannelChoiceMenu;
+  let ChannelChoiceMenu,
+    mockIsRTL = false;
 
   const channelChoiceMenuPath = buildSrcPath('component/channelChoice/ChannelChoiceMenu');
 
@@ -22,7 +23,10 @@ describe('ChannelChoiceMenu component', () => {
       },
       'component/button/ButtonIcon': { ButtonIcon },
       'service/i18n': {
-        i18n: { t: _.identity }
+        i18n: {
+          t: _.identity,
+          isRTL: () => mockIsRTL
+        }
       }
     });
 
@@ -263,6 +267,36 @@ describe('ChannelChoiceMenu component', () => {
           it('has newIconDisabled class', () => {
             expect(children.props.iconClasses)
               .toContain('newIconDisabledClass');
+          });
+        });
+      });
+
+      describe('props.flipX', () => {
+        beforeAll(() => {
+          componentProps = {
+            talkAvailable: true
+          };
+        });
+
+        describe('when locale is RTL', () => {
+          beforeAll(() => {
+            mockIsRTL = true;
+          });
+
+          it('flipX is true', () => {
+            expect(children.props.flipX)
+              .toBe(true);
+          });
+        });
+
+        describe('when locale is not RTL', () => {
+          beforeAll(() => {
+            mockIsRTL = false;
+          });
+
+          it('flipX is false', () => {
+            expect(children.props.flipX)
+              .toBe(false);
           });
         });
       });
@@ -551,6 +585,36 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
       });
+
+      describe('props.flipX', () => {
+        beforeAll(() => {
+          componentProps = {
+            chatAvailable: true
+          };
+        });
+
+        describe('when locale is RTL', () => {
+          beforeAll(() => {
+            mockIsRTL = true;
+          });
+
+          it('flipX is true', () => {
+            expect(children.props.flipX)
+              .toBe(true);
+          });
+        });
+
+        describe('when locale is not RTL', () => {
+          beforeAll(() => {
+            mockIsRTL = false;
+          });
+
+          it('flipX is false', () => {
+            expect(children.props.flipX)
+              .toBe(false);
+          });
+        });
+      });
     });
 
     describe('when showInitialChatOption is false', () => {
@@ -619,6 +683,30 @@ describe('ChannelChoiceMenu component', () => {
       it('passes the expected string to props.icon', () => {
         expect(children.props.icon)
           .toEqual('Icon--channelChoice-contactForm');
+      });
+
+      describe('props.flipX', () => {
+        describe('when locale is RTL', () => {
+          beforeAll(() => {
+            mockIsRTL = true;
+          });
+
+          it('flipX is true', () => {
+            expect(children.props.flipX)
+              .toBe(true);
+          });
+        });
+
+        describe('when locale is not RTL', () => {
+          beforeAll(() => {
+            mockIsRTL = false;
+          });
+
+          it('flipX is false', () => {
+            expect(children.props.flipX)
+              .toBe(false);
+          });
+        });
       });
     });
 

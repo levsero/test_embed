@@ -66,11 +66,13 @@ export class Icon extends Component {
     className: PropTypes.string,
     isMobile: PropTypes.bool,
     onClick: PropTypes.func,
-    type: PropTypes.string
+    type: PropTypes.string,
+    flipX: PropTypes.bool
   };
 
   static defaultProps = {
-    isMobile: isMobileBrowser()
+    isMobile: isMobileBrowser(),
+    flipX: false
   };
 
   render() {
@@ -79,7 +81,10 @@ export class Icon extends Component {
       styles.container,
       this.props.className,
       this.props.type,
-      { [styles.mobile]: this.props.isMobile }
+      {
+        [styles.mobile]: this.props.isMobile,
+        [styles.flipX]: this.props.flipX
+      }
     );
 
     return (

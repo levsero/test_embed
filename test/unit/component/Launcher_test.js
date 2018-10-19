@@ -1,6 +1,8 @@
 describe('Launcher component', () => {
   let Launcher,
-    mockChatSuppressedValue;
+    mockChatSuppressedValue,
+    mockLocale = 'en',
+    mockIsRTL = false;
   const launcherPath = buildSrcPath('component/Launcher');
 
   beforeEach(() => {
@@ -29,7 +31,9 @@ describe('Launcher component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: _.identity
+          t: _.identity,
+          getLocale: () => mockLocale,
+          isRTL: () => mockIsRTL
         }
       },
       'src/redux/modules/base/base-selectors': {
@@ -545,6 +549,69 @@ describe('Launcher component', () => {
       it('returns the value from the props', () => {
         expect(result)
           .toEqual(5);
+      });
+    });
+  });
+
+  describe('flipX', () => {
+    let launcher,
+      mockIconType,
+      rendered;
+
+    beforeEach(() => {
+      launcher = instanceRender(<Launcher />);
+      launcher.getActiveEmbedIconType = jasmine.createSpy('getActiveEmbedIconType').and.returnValue(mockIconType);
+      rendered = launcher.render();
+    });
+
+    it('does not renders the launcher with flipped icon', () => {
+      const targetElem = rendered.props.children[0];
+
+      expect(targetElem.props.flipX)
+        .toBe(false);
+    });
+
+    describe('when the icon type is Icon, locale is RTL and not Hebrew', () => {
+      beforeAll(() => {
+        mockIconType = 'Icon';
+        mockIsRTL = true;
+        mockLocale = 'ar';
+      });
+
+      it('renders the launcher with flipped icon', () => {
+        const targetElem = rendered.props.children[0];
+
+        expect(targetElem.props.flipX)
+          .toBe(true);
+      });
+    });
+
+    describe('when the icon type is Icon, locale is Hebrew', () => {
+      beforeAll(() => {
+        mockIconType = 'Icon';
+        mockIsRTL = true;
+        mockLocale = 'he';
+      });
+
+      it('does not render the launcher with flipped icon', () => {
+        const targetElem = rendered.props.children[0];
+
+        expect(targetElem.props.flipX)
+          .toBe(false);
+      });
+    });
+
+    describe('when the icon type is Icon--chat and locale is RTL', () => {
+      beforeAll(() => {
+        mockIconType = 'Icon--chat';
+        mockIsRTL = true;
+      });
+
+      it('renders the launcher with flipped icon', () => {
+        const targetElem = rendered.props.children[0];
+
+        expect(targetElem.props.flipX)
+          .toBe(true);
       });
     });
   });

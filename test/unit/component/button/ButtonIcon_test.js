@@ -107,5 +107,18 @@ describe('ButtonIcon', () => {
           .not.toBeNull();
       });
     });
+
+    describe('when props.flipX are passed in', () => {
+      let component;
+
+      beforeEach(() => {
+        component = domRender(<ButtonIcon flipX={true} />);
+      });
+
+      it('passes the prop to icon', () => {
+        expect(component.props.flipX)
+          .toBe(true);
+      });
+    });
   });
 });

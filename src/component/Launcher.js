@@ -161,6 +161,17 @@ class Launcher extends Component {
     const shouldShowMobileClasses = mobile && !(this.getNotificationCount() > 0);
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
+    const type = this.getActiveEmbedIconType();
+    /**
+     * - Question mark needs to be flipped in RTL languages except Hebrew: https://zendesk.atlassian.net/browse/CE-4044
+     * - Chat icon needs to be flipped in all RTL languages: https://zendesk.atlassian.net/browse/CE-4045
+     */
+    const locale = i18n.getLocale();
+    const isRTL = i18n.isRTL();
+    const shouldFlipX = (
+      (type === 'Icon' && isRTL && locale !== 'he') ||
+      (type === 'Icon--chat' && isRTL)
+    );
 
     if (this.props.updateFrameTitle) {
       this.props.updateFrameTitle(this.getTitle());
@@ -170,7 +181,8 @@ class Launcher extends Component {
       <button className={`${styles.wrapper} ${baseMobileClasses}`}
         onClick={this.props.onClick}>
         <Icon
-          type={this.getActiveEmbedIconType()}
+          type={type}
+          flipX={shouldFlipX}
           className={`${styles.icon} ${iconMobileClasses}`} />
         <span className={`${styles.label} ${labelMobileClasses}`}>{this.getActiveEmbedLabel()}</span>
       </button>
