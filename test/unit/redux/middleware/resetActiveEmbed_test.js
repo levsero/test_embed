@@ -13,6 +13,7 @@ describe('resetActiveEmbed middleware', () => {
     mockIpmHelpCenterAllowed = false,
     mockArticleViewActive = false,
     mockSubmitTicketAvailable = true,
+    mockIsChatting,
     mockWidgetVisible = true;
   const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
   const WIDGET_INITIALISED = 'WIDGET_INITIALISED';
@@ -53,6 +54,9 @@ describe('resetActiveEmbed middleware', () => {
         getZopimChatOnline: () => mockZopimChatOnline,
         getZopimIsChatting: () => mockZopimIsChatting
       },
+      'src/redux/modules/chat/chat-selectors': {
+        getIsChatting: () => mockIsChatting
+      },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
         updateBackButtonVisibility: updateBackButtonVisibilitySpy
@@ -85,20 +89,20 @@ describe('resetActiveEmbed middleware', () => {
   });
 
   describe('resetActiveEmbed', () => {
-    const alwaysUpdateActions = [
+    const updateActions = [
       UPDATE_TALK_AGENT_AVAILABILITY,
       WIDGET_INITIALISED,
       ZOPIM_HIDE,
       ACTIVATE_RECEIVED,
-      AUTHENTICATION_SUCCESS
+      AUTHENTICATION_SUCCESS,
+      ZOPIM_END_CHAT
     ];
     const chatActions = [
       SDK_CONNECTION_UPDATE,
       SDK_ACCOUNT_STATUS
     ];
     const zopimChatActions = [
-      ZOPIM_CHAT_ON_STATUS_UPDATE,
-      ZOPIM_END_CHAT
+      ZOPIM_CHAT_ON_STATUS_UPDATE
     ];
     let prevState,
       nextState,
@@ -113,7 +117,7 @@ describe('resetActiveEmbed middleware', () => {
         mockWidgetVisible = true;
       });
 
-      _.forEach(alwaysUpdateActions, (actionToTest) => {
+      _.forEach(updateActions, (actionToTest) => {
         describe(`when action type is ${actionToTest}`, () => {
           beforeAll(() => {
             action = { type: actionToTest };
@@ -132,15 +136,51 @@ describe('resetActiveEmbed middleware', () => {
         mockWidgetVisible = false;
       });
 
-      _.forEach(alwaysUpdateActions, (actionToTest) => {
+      _.forEach(updateActions, (actionToTest) => {
         describe(`when action type is ${actionToTest}`, () => {
           beforeAll(() => {
             action = { type: actionToTest };
           });
 
-          it('calls updateActiveEmbed', () => {
-            expect(updateActiveEmbedSpy)
-              .toHaveBeenCalled();
+          describe('when activeEmbed is zopimChat and zopimIsChatting is true', () => {
+            beforeAll(() => {
+              mockActiveEmbed = 'zopimChat';
+              mockZopimIsChatting = true;
+            });
+
+            afterAll(() => {
+              mockActiveEmbed = 'ticketSubmissionForm';
+              mockZopimIsChatting = false;
+            });
+
+            it('does not call updateActiveEmbed', () => {
+              expect(updateActiveEmbedSpy)
+                .not.toHaveBeenCalled();
+            });
+          });
+
+          describe('when activeEmbed is chat and isChatting is true', () => {
+            beforeAll(() => {
+              mockActiveEmbed = 'chat';
+              mockIsChatting = true;
+            });
+
+            afterAll(() => {
+              mockActiveEmbed = 'ticketSubmissionForm';
+              mockIsChatting = false;
+            });
+
+            it('does not call updateActiveEmbed', () => {
+              expect(updateActiveEmbedSpy)
+                .not.toHaveBeenCalled();
+            });
+          });
+
+          describe('when neither zopimChat or chat is chatting', () => {
+            it('calls updateActiveEmbed', () => {
+              expect(updateActiveEmbedSpy)
+                .toHaveBeenCalled();
+            });
           });
         });
       });

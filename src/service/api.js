@@ -4,7 +4,7 @@ import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
 import {
-  handlePrefillRecieved,
+  handlePrefillReceived,
   logout,
   handleOnApiCalled,
   apiClearForm,
@@ -75,7 +75,7 @@ const setHelpCenterSuggestionsApi = (reduxStore, options) => {
   reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
 };
 const prefill = (reduxStore, payload) => {
-  reduxStore.dispatch(handlePrefillRecieved(payload));
+  reduxStore.dispatch(handlePrefillReceived(payload));
 };
 const hideApi = (reduxStore) => {
   reduxStore.dispatch(hideRecieved());
@@ -382,7 +382,7 @@ function setupWidgetApi(win, reduxStore) {
   };
   win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
   win.zE.hide = () => hideApi(reduxStore);
-  win.zE.show = () => reduxStore.dispatch(legacyShowReceived());
+  win.zE.show = reduxStore.dispatch(legacyShowReceived());
   win.zE.setLocale = (locale) => setLocaleApi(null, locale);
 }
 

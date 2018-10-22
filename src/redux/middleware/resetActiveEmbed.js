@@ -24,6 +24,7 @@ import { getChatAvailable,
   getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getZopimChatOnline, getZopimIsChatting } from 'src/redux/modules/zopimChat/zopimChat-selectors';
+import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state);
@@ -41,8 +42,7 @@ const shouldResetForChat = (type, state) => {
 const shouldResetForZopimChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state);
   const zopimChatActions = [
-    ZOPIM_CHAT_ON_STATUS_UPDATE,
-    ZOPIM_END_CHAT
+    ZOPIM_CHAT_ON_STATUS_UPDATE
   ];
   const actionAllowed = _.includes(zopimChatActions, type);
   const isChatting = getZopimIsChatting(state);
@@ -92,20 +92,24 @@ const setNewActiveEmbed = (state, dispatch) => {
 export default function resetActiveEmbed(prevState, nextState, action, dispatch = () => {}) {
   const { type } = action;
   const state = nextState;
-  const alwaysUpdateActions = [
+  const updateActions = [
     UPDATE_TALK_AGENT_AVAILABILITY,
     WIDGET_INITIALISED,
     ZOPIM_HIDE,
     ACTIVATE_RECEIVED,
     AUTHENTICATION_SUCCESS,
     CHAT_CONNECTED,
-    ZOPIM_CONNECTED
+    ZOPIM_CONNECTED,
+    ZOPIM_END_CHAT
   ];
 
+  const isZopimChatting = getZopimIsChatting(state) && getActiveEmbed(state) === 'zopimChat';
+  const isNewChatChatting = getIsChatting(state) && getActiveEmbed(state) === 'chat';
+  const shouldReset = _.includes(updateActions, type) && !isZopimChatting && !isNewChatChatting;
   const chatReset = shouldResetForChat(type, nextState);
   const zopimChatReset = shouldResetForZopimChat(type, nextState);
 
-  if (!getWebWidgetVisible(state) && (_.includes(alwaysUpdateActions, type) || chatReset || zopimChatReset)) {
+  if (!getWebWidgetVisible(state) && (shouldReset || chatReset || zopimChatReset)) {
     setNewActiveEmbed(state, dispatch);
   }
 }
