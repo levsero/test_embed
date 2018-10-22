@@ -348,7 +348,15 @@ function setupIPMApi(win, reduxStore, embeddableConfig = {}) {
 function setupWidgetApi(win, reduxStore) {
   win.zE.identify = (user) => {
     identifyApi(reduxStore, user);
-    prefill(reduxStore, user);
+
+    if (!user || (!user.email || !user.name)) return;
+
+    const prefillUser = {
+      name: { value: user.name },
+      email: { value: user.email }
+    };
+
+    prefill(reduxStore, prefillUser);
   };
   win.zE.logout = () => logoutApi(reduxStore);
   win.zE.setHelpCenterSuggestions = (options) => setHelpCenterSuggestionsApi(reduxStore, options);

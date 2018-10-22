@@ -527,4 +527,45 @@ describe('api', () => {
       });
     });
   });
+
+  describe('legacy apis', () => {
+    let win = { zE: {} };
+    const user = {
+      name: 'Jane Doe',
+      email: 'a@b.c'
+    };
+
+    beforeEach(() => {
+      api.setupWidgetApi(win, mockStore);
+      handlePrefillReceivedSpy.calls.reset();
+    });
+
+    describe('zE.identify', () => {
+      beforeEach(() => {
+        win.zE.identify(user);
+      });
+
+      it('calls the function passed in', () => {
+        expect(broadcastSpy)
+          .toHaveBeenCalledWith('.onIdentify', user);
+      });
+
+      it('calls handlePrefillReceived with the formatted user object', () => {
+        const expected = {
+          name: { value: 'Jane Doe' },
+          email: { value: 'a@b.c' }
+        };
+
+        expect(handlePrefillReceivedSpy)
+          .toHaveBeenCalled();
+
+        // Can't do toHaveBeenCalledWith because comparing to a object that
+        // I don't have the reference to.
+        const params = handlePrefillReceivedSpy.calls.mostRecent().args[0];
+
+        expect(params)
+          .toEqual(expected);
+      });
+    });
+  });
 });
