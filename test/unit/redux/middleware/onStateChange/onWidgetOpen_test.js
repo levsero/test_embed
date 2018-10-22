@@ -20,7 +20,7 @@ describe('onWidgetOpen', () => {
       'utility/devices': {
         isMobileBrowser: () => mockIsMobile
       },
-      'src/redux/modules/base': {
+      'src/redux/modules/base/base-selectors': {
         getActiveEmbed: (state) => state.activeEmbed
       },
       'src/redux/modules/selectors': {

@@ -88,8 +88,11 @@ const handleNewAgentMessage = (nextState, dispatch) => {
     const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState);
     const isMobile = isMobileBrowser();
 
-    if (recentMessage && getUserSoundSettings(nextState)) {
-      audio.play('incoming_message');
+    if (recentMessage) {
+      if (getUserSoundSettings(nextState)) {
+        audio.play('incoming_message');
+      }
+
       dispatch(newAgentMessageReceived(agentMessage));
     }
 

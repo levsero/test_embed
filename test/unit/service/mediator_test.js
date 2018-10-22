@@ -25,6 +25,9 @@ describe('mediator', () => {
       },
       'utility/utils': {
         emailValid: () => mockEmailValid
+      },
+      'utility/devices': {
+        isMobileBrowser: () => false
       }
     });
 

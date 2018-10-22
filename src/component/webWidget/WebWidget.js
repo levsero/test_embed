@@ -240,14 +240,6 @@ class WebWidget extends Component {
     // replace it when it's next opened.
     if (activeEmbed === submitTicket && chatAvailable && !channelChoiceAvailable) {
       this.showChat();
-      return;
-    }
-
-    // If zopimChat is the active embed, we need to show the chat window regardless online or offline.
-    // If zopimChat becomes offline, the activeEmbed resets to "".
-    if (activeEmbed === zopimChat) {
-      this.props.zopimOnNext();
-      return;
     }
   }
 

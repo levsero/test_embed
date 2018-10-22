@@ -1,5 +1,5 @@
 import { isMobileBrowser } from 'utility/devices';
-import { getActiveEmbed } from 'src/redux/modules/base';
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { setScrollKiller,
   setWindowScroll,

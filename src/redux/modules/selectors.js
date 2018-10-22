@@ -6,7 +6,6 @@ import { getShowOfflineChat,
   getThemeColor as getChatThemeColor,
   getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible,
-  getOfflineFormSettings,
   getChatConnected as getNewChatConnected } from './chat/chat-selectors';
 import { getZopimChatOnline, getZopimChatConnected } from './zopimChat/zopimChat-selectors';
 import { getSettingsChatSuppress } from './settings/settings-selectors';
@@ -114,7 +113,7 @@ export const getChatOfflineAvailable = (state) => getChatEnabled(state) &&
   !getChatOnline(state) && getNewChatEmbed(state) && getOfflineFormEnabled(state) && !getSubmitTicketEmbed(state);
 
 export const getChatAvailable = (state) => {
-  const offlineFormOn = getOfflineFormSettings(state).enabled;
+  const offlineFormOn = getChatOfflineAvailable(state);
 
   return getChatEnabled(state) && (getChatOnline(state) || offlineFormOn);
 };

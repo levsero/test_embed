@@ -59,6 +59,8 @@ export default function WebWidgetFactory(name) {
   const onShow = () => {
     const rootComponent = getActiveComponent();
 
+    getWebWidgetComponent().show();
+
     if (rootComponent) {
       const { submitTicketForm } = rootComponent.refs;
 

@@ -1153,29 +1153,6 @@ describe('WebWidget component', () => {
             .toHaveBeenCalledWith('chat');
         });
       });
-
-      describe('when the activeEmbed is zopimChat and zopimChat is offline', () => {
-        let zopimOnNextSpy;
-
-        beforeEach(() => {
-          zopimOnNextSpy = jasmine.createSpy('zopimOnNext');
-          webWidget = domRender(
-            <WebWidget
-              submitTicketAvailable={true}
-              updateActiveEmbed={noop}
-              chatOnline={false}
-              activeEmbed='zopimChat'
-              zopimOnNext={zopimOnNextSpy} />
-          );
-
-          webWidget.show();
-        });
-
-        it('calls zopimOnNext', () => {
-          expect(zopimOnNextSpy)
-            .toHaveBeenCalled();
-        });
-      });
     });
   });
 

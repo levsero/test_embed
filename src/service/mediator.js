@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { emailValid } from 'utility/utils';
 import { proactiveMessageRecieved } from 'src/redux/modules/chat';
 import { zopimProactiveMessageRecieved } from 'src/redux/modules/zopimChat';
+import { isMobileBrowser } from 'utility/devices';
 
 const c = new airwaves.Channel();
 
@@ -29,7 +30,7 @@ function init() {
 
     c.broadcast(`${launcher}.setUnreadMsgs`, state[`${chat}.unreadMsgs`]);
 
-    if (count > 0 && !state[`${chat}.userClosed`]) {
+    if (count > 0 && !state[`${chat}.userClosed`] && !isMobileBrowser()) {
       store.dispatch(zopimProactiveMessageRecieved());
     }
   });
@@ -61,6 +62,10 @@ function init() {
   });
 
   c.intercept(`${chat}.onChatEnd`, () => {
+    state[`${chat}.chatEnded`] = true;
+  });
+
+  c.intercept(`${chat}.onHide`, () => {
     state[`${chat}.chatEnded`] = true;
   });
 
