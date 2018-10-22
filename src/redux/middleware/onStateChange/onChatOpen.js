@@ -1,7 +1,7 @@
 import {
   getWidgetShown,
   getActiveEmbed } from 'src/redux/modules/base/base-selectors';
-import { chatOpened } from 'src/redux/modules/base';
+import { chatOpened } from 'src/redux/modules/chat';
 
 export default function onChatOpen(prevState, nextState, dispatch) {
   const widgetShown = getWidgetShown(prevState);
@@ -9,4 +9,4 @@ export default function onChatOpen(prevState, nextState, dispatch) {
   if (widgetShown && getActiveEmbed(prevState) !== 'chat' && getActiveEmbed(nextState) === 'chat') {
     dispatch(chatOpened());
   }
-};
+}

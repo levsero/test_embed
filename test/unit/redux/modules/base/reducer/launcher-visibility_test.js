@@ -21,7 +21,7 @@ describe('base reducer launcher visibility', () => {
 
   falseReturns = [
     actionTypes.LAUNCHER_CLICKED,
-    actionTypes.ACTIVATE_RECIEVED,
+    actionTypes.ACTIVATE_RECEIVED,
     chatActionTypes.PROACTIVE_CHAT_RECEIVED,
     chatActionTypes.CHAT_WINDOW_OPEN_ON_NAVIGATE,
   ];
@@ -29,7 +29,7 @@ describe('base reducer launcher visibility', () => {
   trueReturns = [
     actionTypes.CLOSE_BUTTON_CLICKED,
     zopimActionTypes.ZOPIM_HIDE,
-    actionTypes.LEGACY_SHOW_RECIEVED,
+    actionTypes.LEGACY_SHOW_RECEIVED,
     actionTypes.CANCEL_BUTTON_CLICKED,
     zopimActionTypes.ZOPIM_ON_CLOSE
   ];

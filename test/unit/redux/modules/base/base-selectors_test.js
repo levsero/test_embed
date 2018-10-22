@@ -749,41 +749,4 @@ describe('base selectors', () => {
         .toEqual({ base: 'blue', text: 'deep' });
     });
   });
-
-  describe('getFrameVisible', () => {
-    let result, frame;
-
-    beforeEach(() => {
-      const mockState = {
-        base: {
-          webWidgetVisible: true,
-          launcherVisible: false
-        }
-      };
-
-      result = selectors.getFrameVisible(mockState, frame);
-    });
-
-    describe('when frame is webWidget', () => {
-      beforeAll(() => {
-        frame = 'webWidget';
-      });
-
-      it('returns the web widget visible state', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
-
-    describe('when frame is launcher', () => {
-      beforeAll(() => {
-        frame = 'launcher';
-      });
-
-      it('returns the launcher visible state', () => {
-        expect(result)
-          .toEqual(false);
-      });
-    });
-  });
 });

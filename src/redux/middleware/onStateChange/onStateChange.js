@@ -53,7 +53,6 @@ const createdAtTimestamp = Date.now();
 let chatAccountSettingsFetched = false;
 let chatNotificationTimeout = null;
 
-
 const startChatNotificationTimer = ({ proactive }) => {
   if (chatNotificationTimeout) {
     clearTimeout(chatNotificationTimeout);

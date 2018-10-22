@@ -1,8 +1,8 @@
 import {
   LAUNCHER_CLICKED,
   CLOSE_BUTTON_CLICKED,
-  LEGACY_SHOW_RECIEVED,
-  ACTIVATE_RECIEVED,
+  LEGACY_SHOW_RECEIVED,
+  ACTIVATE_RECEIVED,
   NEXT_BUTTON_CLICKED,
   CANCEL_BUTTON_CLICKED } from '../base-action-types';
 import {
@@ -21,13 +21,13 @@ const launcherVisible = (state = initialState, action) => {
 
   switch (type) {
     case LAUNCHER_CLICKED:
-    case ACTIVATE_RECIEVED:
+    case ACTIVATE_RECEIVED:
     case PROACTIVE_CHAT_RECEIVED:
     case CHAT_WINDOW_OPEN_ON_NAVIGATE:
       return false;
     case CLOSE_BUTTON_CLICKED:
     case ZOPIM_HIDE:
-    case LEGACY_SHOW_RECIEVED:
+    case LEGACY_SHOW_RECEIVED:
     case CANCEL_BUTTON_CLICKED:
     case ZOPIM_ON_CLOSE:
       return true;

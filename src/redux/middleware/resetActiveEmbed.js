@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import {
   WIDGET_INITIALISED,
-  ACTIVATE_RECIEVED,
+  ACTIVATE_RECEIVED,
   AUTHENTICATION_SUCCESS } from 'src/redux/modules/base/base-action-types';
 import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS, CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types';
 import { UPDATE_TALK_AGENT_AVAILABILITY } from 'src/redux/modules/talk/talk-action-types';
@@ -45,10 +45,10 @@ const shouldResetForZopimChat = (type, state) => {
     ZOPIM_END_CHAT
   ];
   const actionAllowed = _.includes(zopimChatActions, type);
-  const zopimChatGoneOffline = !isChatting && !getZopimChatOnline(state);
   const isChatting = getZopimIsChatting(state);
+  const zopimChatGoneOffline = !isChatting && !getZopimChatOnline(state);
 
-  if ((zopimChatGoneOffline && actionAllowed) && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
+  if (zopimChatGoneOffline && actionAllowed && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
     return true;
   }
   if (actionAllowed && activeEmbed === 'ticketSubmissionForm') {
@@ -96,7 +96,7 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     UPDATE_TALK_AGENT_AVAILABILITY,
     WIDGET_INITIALISED,
     ZOPIM_HIDE,
-    ACTIVATE_RECIEVED,
+    ACTIVATE_RECEIVED,
     AUTHENTICATION_SUCCESS,
     CHAT_CONNECTED,
     ZOPIM_CONNECTED

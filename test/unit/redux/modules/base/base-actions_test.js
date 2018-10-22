@@ -798,9 +798,9 @@ describe('base redux actions', () => {
     });
 
     describe('when event is in the event list', () => {
-      it('dispatches a API_ON_RECIEVED event', () => {
+      it('dispatches a API_ON_RECEIVED event', () => {
         expect(action.type)
-          .toEqual(actionTypes.API_ON_RECIEVED);
+          .toEqual(actionTypes.API_ON_RECEIVED);
       });
 
       it('has the actionType property in the payload', () => {
@@ -913,9 +913,9 @@ describe('base redux actions', () => {
         mockStore.dispatch(actions.activateRecieved(mockOptions));
         action = mockStore.getActions()[0];
       });
-      it('dispatches an action with ACTIVATE_RECIEVED', () => {
+      it('dispatches an action with ACTIVATE_RECEIVED', () => {
         expect(action.type)
-          .toEqual(actionTypes.ACTIVATE_RECIEVED);
+          .toEqual(actionTypes.ACTIVATE_RECEIVED);
       });
       it('dispatches the correct payload', () => {
         expect(action.payload)
@@ -942,9 +942,9 @@ describe('base redux actions', () => {
       mockStore.dispatch(actions.hideRecieved());
       action = mockStore.getActions()[0];
     });
-    it('dispatches an action with HIDE_RECIEVED', () => {
+    it('dispatches an action with HIDE_RECEIVED', () => {
       expect(action.type)
-        .toEqual(actionTypes.HIDE_RECIEVED);
+        .toEqual(actionTypes.HIDE_RECEIVED);
     });
   });
 
@@ -955,9 +955,9 @@ describe('base redux actions', () => {
       mockStore.dispatch(actions.showRecieved());
       action = mockStore.getActions()[0];
     });
-    it('dispatches an action with SHOW_RECIEVED', () => {
+    it('dispatches an action with SHOW_RECEIVED', () => {
       expect(action.type)
-        .toEqual(actionTypes.SHOW_RECIEVED);
+        .toEqual(actionTypes.SHOW_RECEIVED);
     });
   });
 
@@ -968,9 +968,9 @@ describe('base redux actions', () => {
       mockStore.dispatch(actions.legacyShowReceived());
       action = mockStore.getActions()[0];
     });
-    it('dispatches an action with LEGACY_SHOW_RECIEVED', () => {
+    it('dispatches an action with LEGACY_SHOW_RECEIVED', () => {
       expect(action.type)
-        .toEqual(actionTypes.LEGACY_SHOW_RECIEVED);
+        .toEqual(actionTypes.LEGACY_SHOW_RECEIVED);
     });
   });
   describe('nextButtonClicked', () => {

@@ -16,7 +16,7 @@ describe('resetActiveEmbed middleware', () => {
     mockWidgetVisible = true;
   const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
   const WIDGET_INITIALISED = 'WIDGET_INITIALISED';
-  const ACTIVATE_RECIEVED = 'ACTIVATE_RECIEVED';
+  const ACTIVATE_RECEIVED = 'ACTIVATE_RECEIVED';
   const UPDATE_TALK_AGENT_AVAILABILITY = 'UPDATE_TALK_AGENT_AVAILABILITY';
   const SDK_CONNECTION_UPDATE = 'SDK_CONNECTION_UPDATE';
   const SDK_ACCOUNT_STATUS = 'SDK_ACCOUNT_STATUS';
@@ -58,7 +58,7 @@ describe('resetActiveEmbed middleware', () => {
         updateBackButtonVisibility: updateBackButtonVisibilitySpy
       },
       'src/redux/modules/base/base-action-types': {
-        WIDGET_INITIALISED, ACTIVATE_RECIEVED, AUTHENTICATION_SUCCESS
+        WIDGET_INITIALISED, ACTIVATE_RECEIVED, AUTHENTICATION_SUCCESS
       },
       'src/redux/modules/chat/chat-action-types': {
         SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS
@@ -89,7 +89,7 @@ describe('resetActiveEmbed middleware', () => {
       UPDATE_TALK_AGENT_AVAILABILITY,
       WIDGET_INITIALISED,
       ZOPIM_HIDE,
-      ACTIVATE_RECIEVED,
+      ACTIVATE_RECEIVED,
       AUTHENTICATION_SUCCESS
     ];
     const chatActions = [

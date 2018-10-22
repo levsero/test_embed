@@ -269,26 +269,26 @@ export const widgetInitialised = () => {
 
 export const activateRecieved = (options = {}) => {
   return {
-    type: actions.ACTIVATE_RECIEVED,
+    type: actions.ACTIVATE_RECEIVED,
     payload: options
   };
 };
 
 export const hideRecieved = () => {
   return {
-    type: actions.HIDE_RECIEVED
+    type: actions.HIDE_RECEIVED
   };
 };
 
 export const showRecieved = () => {
   return {
-    type: actions.SHOW_RECIEVED
+    type: actions.SHOW_RECEIVED
   };
 };
 
 export const legacyShowReceived = () => {
   return {
-    type: actions.LEGACY_SHOW_RECIEVED
+    type: actions.LEGACY_SHOW_RECEIVED
   };
 };
 

@@ -6,7 +6,7 @@ import { setScrollKiller,
   revertWindowScroll } from 'utility/scrollHacks';
 
 export default function onWidgetOpen(prevState, nextState) {
-  if (!isMobileBrowser() || getActiveEmbed(nextState) == 'zopimChat') return;
+  if (!isMobileBrowser() || getActiveEmbed(nextState) === 'zopimChat') return;
 
   if (!getWebWidgetVisible(prevState) && getWebWidgetVisible(nextState)) {
     setTimeout(() => {
@@ -17,4 +17,4 @@ export default function onWidgetOpen(prevState, nextState) {
     setScrollKiller(false);
     revertWindowScroll();
   }
-};
+}

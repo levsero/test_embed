@@ -2676,7 +2676,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getWindowSettings({
+      result = selectors.getWindowSettings({
         chat: { accountSettings: mockAccountSettings }
       });
     });
@@ -2693,7 +2693,7 @@ describe('chat selectors', () => {
     const mockTitle = 'My custom title';
 
     beforeEach(() => {
-      result = getChatTitle({
+      result = selectors.getChatTitle({
         chat: {
           accountSettings: {
             chatWindow: {
@@ -2776,7 +2776,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getThemeColor({
+      result = selectors.getThemeColor({
         chat: { accountSettings: mockAccountSettings }
       });
     });
@@ -2796,7 +2796,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getThemePosition({
+      result = selectors.getThemePosition({
         chat: { accountSettings: mockAccountSettings }
       });
     });

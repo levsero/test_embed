@@ -35,7 +35,7 @@ describe('base reducer hidden', () => {
         hideApi: false,
         activateApi: true
       };
-      state = reducer(undefined, { type: actionTypes.ACTIVATE_RECIEVED,
+      state = reducer(undefined, { type: actionTypes.ACTIVATE_RECEIVED,
         payload: {
           hideOnClose: true
         }
@@ -56,7 +56,7 @@ describe('base reducer hidden', () => {
           activateApi: false
         };
 
-        state = reducer(undefined, {type: actionTypes.ACTIVATE_RECIEVED,
+        state = reducer(undefined, {type: actionTypes.ACTIVATE_RECEIVED,
           payload: {
             hideOnClose: false
           }
@@ -70,7 +70,7 @@ describe('base reducer hidden', () => {
     });
   });
 
-  describe('when HIDE_RECIEVED is passed', () => {
+  describe('when HIDE_RECEIVED is passed', () => {
     beforeEach(() => {
       expectedState = {
         hideApi: true,
@@ -78,7 +78,7 @@ describe('base reducer hidden', () => {
       };
 
       state = reducer(undefined, {
-        type: actionTypes.HIDE_RECIEVED,
+        type: actionTypes.HIDE_RECEIVED,
         payload: {}
       });
     });
@@ -89,10 +89,10 @@ describe('base reducer hidden', () => {
     });
   });
 
-  describe('when LEGACY_SHOW_RECIEVED is passed', () => {
+  describe('when LEGACY_SHOW_RECEIVED is passed', () => {
     beforeEach(() => {
       state = reducer(undefined, {
-        type: actionTypes.LEGACY_SHOW_RECIEVED,
+        type: actionTypes.LEGACY_SHOW_RECEIVED,
         payload: {}
       });
     });
@@ -103,10 +103,10 @@ describe('base reducer hidden', () => {
     });
   });
 
-  describe('when SHOW_RECIEVED is passed', () => {
+  describe('when SHOW_RECEIVED is passed', () => {
     beforeEach(() => {
       state = reducer(undefined, {
-        type: actionTypes.SHOW_RECIEVED,
+        type: actionTypes.SHOW_RECEIVED,
         payload: {}
       });
     });

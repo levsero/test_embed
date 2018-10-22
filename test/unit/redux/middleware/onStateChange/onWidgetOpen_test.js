@@ -13,7 +13,7 @@ describe('onWidgetOpen', () => {
     mockNextWebWidgetVisible;
 
   beforeEach(() => {
-    mockery.enable()
+    mockery.enable();
     jasmine.clock().install();
 
     initMockRegistry({
@@ -34,6 +34,7 @@ describe('onWidgetOpen', () => {
     });
 
     const path = buildSrcPath('redux/middleware/onStateChange/onWidgetOpen');
+
     onWidgetOpen = requireUncached(path).default;
 
     prevState = {

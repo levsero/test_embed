@@ -18,7 +18,7 @@ describe('onChatOpen', () => {
         getWidgetShown: (state) => state.widgetShown,
         getActiveEmbed: (state) => state.activeEmbed
       },
-      'src/redux/modules/base': {
+      'src/redux/modules/chat': {
         chatOpened: chatOpenedSpy
       }
     });
@@ -34,6 +34,7 @@ describe('onChatOpen', () => {
     };
 
     const path = buildSrcPath('redux/middleware/onStateChange/onChatOpen');
+
     onChatOpen = requireUncached(path).default;
 
     onChatOpen(prevState, nextState, dispatchSpy);
@@ -44,7 +45,7 @@ describe('onChatOpen', () => {
     dispatchSpy.calls.reset();
 
     mockery.disable();
-    mockery.deregisterAll()
+    mockery.deregisterAll();
   });
 
   describe('when widget not shown', () => {

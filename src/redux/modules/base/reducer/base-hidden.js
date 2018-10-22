@@ -1,8 +1,8 @@
 import {
-  ACTIVATE_RECIEVED,
-  LEGACY_SHOW_RECIEVED,
-  SHOW_RECIEVED,
-  HIDE_RECIEVED } from '../base-action-types';
+  ACTIVATE_RECEIVED,
+  LEGACY_SHOW_RECEIVED,
+  SHOW_RECEIVED,
+  HIDE_RECEIVED } from '../base-action-types';
 
 const initialState = {
   hideApi: false,
@@ -13,7 +13,7 @@ const hidden = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case ACTIVATE_RECIEVED:
+    case ACTIVATE_RECEIVED:
       if (payload.hideOnClose) {
         return {
           ...state,
@@ -21,13 +21,13 @@ const hidden = (state = initialState, action) => {
         };
       }
       return state;
-    case HIDE_RECIEVED:
+    case HIDE_RECEIVED:
       return {
         ...state,
         hideApi: true
       };
-    case LEGACY_SHOW_RECIEVED:
-    case SHOW_RECIEVED:
+    case LEGACY_SHOW_RECEIVED:
+    case SHOW_RECEIVED:
       return initialState;
     default:
       return state;
