@@ -6,6 +6,7 @@ import ButtonStyles               from './StructuredMessage/pure/Button.scss';
 import ButtonListStyles           from './StructuredMessage/pure/ButtonList.scss';
 import CardStyles                 from './StructuredMessage/pure/Card.scss';
 import ButtonCardStyles           from './StructuredMessage/ButtonCard.scss';
+import PanelCardStyles            from './StructuredMessage/PanelCard.scss';
 import SliderContainerStyles      from './SliderContainer/SliderContainer.scss';
 
 const styles = `
@@ -17,6 +18,7 @@ const styles = `
   ${ButtonListStyles}
   ${CardStyles}
   ${ButtonCardStyles}
+  ${PanelCardStyles}
   ${SliderContainerStyles}
 `;
 
