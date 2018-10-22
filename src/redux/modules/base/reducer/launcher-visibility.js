@@ -4,7 +4,10 @@ import {
   LEGACY_SHOW_RECEIVED,
   ACTIVATE_RECEIVED,
   NEXT_BUTTON_CLICKED,
-  CANCEL_BUTTON_CLICKED } from '../base-action-types';
+  CANCEL_BUTTON_CLICKED,
+  OPEN_RECEIVED,
+  CLOSE_RECEIVED,
+  TOGGLE_RECEIVED } from '../base-action-types';
 import {
   ZOPIM_HIDE,
   ZOPIM_SHOW,
@@ -25,6 +28,7 @@ const launcherVisible = (state = initialState, action) => {
     case ACTIVATE_RECEIVED:
     case PROACTIVE_CHAT_RECEIVED:
     case CHAT_WINDOW_OPEN_ON_NAVIGATE:
+    case OPEN_RECEIVED:
       return false;
     case CLOSE_BUTTON_CLICKED:
     case ZOPIM_HIDE:
@@ -32,10 +36,13 @@ const launcherVisible = (state = initialState, action) => {
     case CANCEL_BUTTON_CLICKED:
     case ZOPIM_ON_CLOSE:
     case CHAT_NOTIFICATION_DISMISSED:
+    case CLOSE_RECEIVED:
       return true;
     case ZOPIM_SHOW:
     case NEXT_BUTTON_CLICKED:
       return isMobileBrowser();
+    case TOGGLE_RECEIVED:
+      return !state;
     default:
       return state;
   }

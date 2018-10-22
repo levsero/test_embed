@@ -1046,4 +1046,46 @@ describe('base redux actions', () => {
         .toEqual(actionTypes.CANCEL_BUTTON_CLICKED);
     });
   });
+
+  describe('openReceived', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.openReceived());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with OPEN_RECEIVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.OPEN_RECEIVED);
+    });
+  });
+
+  describe('closeReceived', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.closeReceived());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with CLOSE_RECEIVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CLOSE_RECEIVED);
+    });
+  });
+
+  describe('toggleReceived', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.toggleReceived());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with TOGGLE_RECEIVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.TOGGLE_RECEIVED);
+    });
+  });
 });

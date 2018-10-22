@@ -11,7 +11,10 @@ import {
   activateRecieved,
   showRecieved,
   hideRecieved,
-  legacyShowReceived } from 'src/redux/modules/base';
+  legacyShowReceived,
+  openReceived,
+  closeReceived,
+  toggleReceived } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
@@ -56,6 +59,15 @@ const sendChatMsgApi = (reduxStore, msg) => {
 };
 const identifyApi = (reduxStore, user) => {
   mediator.channel.broadcast('.onIdentify', user);
+};
+const openApi = (reduxStore) => {
+  reduxStore.dispatch(openReceived());
+};
+const closeApi = (reduxStore) => {
+  reduxStore.dispatch(closeReceived());
+};
+const toggleApi = (reduxStore) => {
+  reduxStore.dispatch(toggleReceived());
 };
 const setLocaleApi = (_, locale) => {
   i18n.setLocale(locale, true);
@@ -156,6 +168,9 @@ const newApiStructurePostRender = {
   webWidget: {
     hide: hideApi,
     show: showApi,
+    open: openApi,
+    close: closeApi,
+    toggle: toggleApi,
     setLocale: setLocaleApi,
     identify: identifyApi,
     updateSettings: updateSettingsApi,
@@ -173,6 +188,9 @@ const newApiStructurePreRender = {
   webWidget: {
     hide: hideApi,
     show: (_, ...args) => addToPostRenderQueue(['webWidget', 'show', ...args]),
+    open: openApi,
+    close: closeApi,
+    toggle: toggleApi,
     setLocale: (_, locale) => i18n.setLocale(locale),
     identify: (_, ...args) => addToPostRenderQueue(['webWidget', 'identify', ...args]),
     updateSettings: (_, ...args) => addToPostRenderQueue(['webWidget', 'updateSettings', ...args]),

@@ -5,6 +5,9 @@ describe('api', () => {
   const setLocaleSpy = jasmine.createSpy('setLocale');
   const handlePrefillReceivedSpy = jasmine.createSpy('handlePrefillReceived');
   const showRecievedSpy = jasmine.createSpy('showRecieved');
+  const openReceivedSpy = jasmine.createSpy('openRecieved');
+  const closeReceivedSpy = jasmine.createSpy('closeRecieved');
+  const toggleReceivedSpy = jasmine.createSpy('toggleRecieved');
   const hideRecievedSpy = jasmine.createSpy('hideRecieved');
   const updateSettingsSpy = jasmine.createSpy('updateSettings');
   const sendVisitorPathSpy = jasmine.createSpy('sendVisitorPath');
@@ -65,7 +68,10 @@ describe('api', () => {
         activateRecieved: noop,
         hideRecieved: hideRecievedSpy,
         showRecieved: showRecievedSpy,
-        legacyShowRecieved: noop
+        legacyShowRecieved: noop,
+        openReceived: openReceivedSpy,
+        closeReceived: closeReceivedSpy,
+        toggleReceived: toggleReceivedSpy
       },
       'src/redux/modules/helpCenter': {
         displayArticle: noop,
@@ -216,6 +222,39 @@ describe('api', () => {
       });
     });
 
+    describe('when that call is open', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'open'];
+      });
+
+      it('calls openReceived', () => {
+        expect(openReceivedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is close', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'close'];
+      });
+
+      it('calls closeReceived', () => {
+        expect(closeReceivedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is toggle', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'toggle'];
+      });
+
+      it('calls toggleReceived', () => {
+        expect(toggleReceivedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
     describe('when that call is setLocale', () => {
       beforeAll(() => {
         call = ['webWidget', 'setLocale', 'fr'];
@@ -361,6 +400,39 @@ describe('api', () => {
 
       it('calls showRecieved', () => {
         expect(showRecievedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is open', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'open'];
+      });
+
+      it('calls openReceived', () => {
+        expect(openReceivedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is close', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'close'];
+      });
+
+      it('calls closeReceived', () => {
+        expect(closeReceivedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is toggle', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'toggle'];
+      });
+
+      it('calls toggleReceived', () => {
+        expect(toggleReceivedSpy)
           .toHaveBeenCalled();
       });
     });

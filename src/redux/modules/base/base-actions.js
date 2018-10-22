@@ -300,6 +300,23 @@ export const legacyShowReceived = () => {
   };
 };
 
+export const openReceived = () => {
+  return {
+    type: actions.OPEN_RECEIVED
+  };
+};
+
+export const closeReceived = () => {
+  return {
+    type: actions.CLOSE_RECEIVED
+  };
+};
+export const toggleReceived = () => {
+  return {
+    type: actions.TOGGLE_RECEIVED
+  };
+};
+
 export const nextButtonClicked = () => {
   return {
     type: actions.NEXT_BUTTON_CLICKED
