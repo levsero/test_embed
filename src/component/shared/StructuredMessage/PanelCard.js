@@ -12,7 +12,7 @@ const PanelPropType = PropTypes.shape({
   heading: PropTypes.string.isRequired,
   paragraph: PropTypes.string,
   imageUrl: PropTypes.string,
-  imageAspectRatio: PropTypes.string,
+  imageAspectRatio: PropTypes.number,
   headingLineClamp: PropTypes.number,
   paragraphLineClamp: PropTypes.number,
   onClick: PropTypes.func
@@ -29,8 +29,7 @@ export class PanelCard extends Component {
     panel: {
       headingLineClamp: 2,
       paragraphLineClamp: 2,
-      // 2:1 aspect ratio
-      imageAspectRatio: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAGDJU8cAAAAAXNSR0IArs4c6QAAABBJREFUCB1jePn67X8GEAEAJUYHgdKj8T4AAAAASUVORK5CYII='
+      imageAspectRatio: 2
     }
   };
 
@@ -41,11 +40,13 @@ export class PanelCard extends Component {
       backgroundImage: `url(${panel.imageUrl})`
     };
 
+    const aspectRatioStyle = {
+      paddingBottom: `${1/panel.imageAspectRatio*100}%`
+    }
+
     return (
       <div className={styles.imageContainer}>
-        <img
-          className={styles.aspectRatioStub}
-          src={panel.imageAspectRatio} />
+        <div className={styles.aspectRatioStub} style={aspectRatioStyle}/>
         <div className={styles.imagePlaceholder}>
           <Icon type="Icon--image-stroke" />
         </div>
@@ -58,10 +59,7 @@ export class PanelCard extends Component {
   renderPanelContent(panel) {
     const headingStyle = classNames(
       styles.panelHeading,
-      styles.lineClamp,
-      {
-        [styles.panelHeaderMargin]: panel.paragraph
-      }
+      styles.lineClamp
     );
     const paragraphStyle = classNames(styles.panelParagraph, styles.lineClamp);
 
@@ -76,16 +74,19 @@ export class PanelCard extends Component {
     return (
       <div className={styles.panelContent}>
         <div className={headingStyle} style={headingLineClampStyle}>{panel.heading}</div>
-        <div className={paragraphStyle} style={paragraphLineClampStyle}>{panel.paragraph}</div>
+        {
+          (panel.paragraph) ? (
+            <div className={paragraphStyle} style={paragraphLineClampStyle}>{panel.paragraph}</div>
+          ): null
+        }
       </div>
-    )
+    );
   }
 
   render() {
     const panelStyles = classNames(styles.panelBasic, {
       [styles.panel]: !this.props.children.length,
       [styles.panelWithButtons]: this.props.children.length,
-      [styles.noPadding]: true,
       [styles.hasLink]: this.props.panel.onClick
     });
 

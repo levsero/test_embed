@@ -15,7 +15,7 @@ describe('Pure PanelCard Component', () => {
     {
       headingLineClamp: 2,
       paragraphLineClamp: 2,
-      imageAspectRatio: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAGDJU8cAAAAAXNSR0IArs4c6QAAABBJREFUCB1jePn67X8GEAEAJUYHgdKj8T4AAAAASUVORK5CYII='
+      imageAspectRatio: 2
     }
   };
 
@@ -194,7 +194,7 @@ describe('Pure PanelCard Component', () => {
           ...mockProps.panel,
           headingLineClamp: 3,
           paragraphLineClamp: 5,
-          imageAspectRatio: 'image.png'
+          imageAspectRatio: 4/3
         };
       });
 
@@ -217,6 +217,16 @@ describe('Pure PanelCard Component', () => {
       const response = component.renderPanelImage({imageUrl: 'image.png'});
 
       expect(response).not.toEqual(undefined);
+    });
+
+    it('should give the correct aspect ratio style', () => {
+      const component = instanceRender(<PanelCard />);
+      const response = component.renderPanelImage({
+        imageUrl: 'image.png',
+        imageAspectRatio: 4/3
+      });
+
+      expect(response.props.children[0].props.style).toEqual({paddingBottom: '75%'});
     });
   });
 
@@ -252,7 +262,7 @@ describe('Pure PanelCard Component', () => {
           ...mockProps.panel,
           headingLineClamp: 3,
           paragraphLineClamp: 5,
-          imageAspectRatio: 'image.png'
+          imageAspectRatio: 10/6
         };
       });
 
@@ -261,20 +271,6 @@ describe('Pure PanelCard Component', () => {
           ...mockProps.panel
         });
       });
-    });
-
-    it('heading should not have panelHeaderMargin class when panel.paragraph is undefined', () => {
-      const component = instanceRender(<PanelCard />);
-      const response = component.renderPanelContent({});
-
-      expect(response.props.children[0].className).not.toContain('panelHeaderMargin');
-    });
-
-    it('heading should have panelHeaderMargin class when panel.paragraph is defined', () => {
-      const component = instanceRender(<PanelCard />);
-      const response = component.renderPanelContent({paragraph: 'this is a paragraph'});
-
-      expect(response.props.children[0].props.className).toContain('panelHeaderMargin');
     });
   });
 });

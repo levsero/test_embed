@@ -69,4 +69,4 @@ describe('Button Component', () => {
       expect(result.props.onClick).toEqual(mockActionSpy);
     });
   });
-})
+});

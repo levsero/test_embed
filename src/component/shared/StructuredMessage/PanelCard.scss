@@ -6,6 +6,7 @@
   background: white;
   width: 100%;
   max-width: none;
+  padding: 0;
 }
 
 .panel {
@@ -35,6 +36,7 @@
 
 .panelParagraph {
   color: $zd-color-grey-600;
+  margin-top: #{4/$font-size}rem;
 }
 
 .imageContainer {
@@ -75,7 +77,6 @@
 }
 
 .aspectRatioStub {
-  display: 'block';
   width: 100%;
   visibility: hidden;
 }
@@ -86,12 +87,4 @@
   /*! autoprefixer: off */
   -webkit-box-orient: vertical;
   /*! autoprefixer: on */
-}
-
-.noPadding {
-  padding: 0;
-}
-
-.panelHeaderMargin {
-  margin-bottom: #{4/$font-size}rem;
 }
