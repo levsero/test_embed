@@ -1006,9 +1006,9 @@ describe('base redux actions', () => {
           .toEqual(actionTypes.HIDE_RECEIVED);
       });
 
-      it('does not call mediator', () => {
+      it('calls mediator .hide', () => {
         expect(broadcastSpy)
-          .not.toHaveBeenCalled();
+          .toHaveBeenCalledWith('.hide');
       });
     });
   });
@@ -1038,6 +1038,11 @@ describe('base redux actions', () => {
     it('dispatches an action with LEGACY_SHOW_RECEIVED', () => {
       expect(action.type)
         .toEqual(actionTypes.LEGACY_SHOW_RECEIVED);
+    });
+
+    it('calls mediator .show', () => {
+      expect(broadcastSpy)
+        .toHaveBeenCalledWith('.show');
     });
   });
 

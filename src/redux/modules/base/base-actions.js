@@ -286,6 +286,10 @@ export const hideRecieved = () => {
   return (dispatch, getState) => {
     const state = getState();
 
+    // Handle zopim chat standalone.
+    mediator.channel.broadcast('.hide');
+
+    // Handle with other embeds.
     if (getActiveEmbed(state) === 'zopimChat') {
       mediator.channel.broadcast('zopimChat.hide');
     }
@@ -303,6 +307,8 @@ export const showRecieved = () => {
 };
 
 export const legacyShowReceived = () => {
+  mediator.channel.broadcast('.show');
+
   return {
     type: actions.LEGACY_SHOW_RECEIVED
   };
