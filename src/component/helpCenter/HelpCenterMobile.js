@@ -249,7 +249,7 @@ export class HelpCenterMobile extends Component {
   renderChildContent() {
     const { children, isContextualSearchPending, articleViewActive } = this.props;
 
-    if (this.state.showIntroScreen) return null;
+    if (this.state.showIntroScreen && !articleViewActive) return null;
 
     return (isContextualSearchPending && !articleViewActive)
       ? <LoadingBarContent containerClasses={styles.loadingBarContent} />
