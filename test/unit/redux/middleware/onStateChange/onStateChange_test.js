@@ -26,6 +26,7 @@ describe('onStateChange middleware', () => {
   const handleChatConnectedSpy = jasmine.createSpy('handleChatConnected');
   const chatConnectedSpy = jasmine.createSpy('chatConnected');
   const chatWindowOpenOnNavigateSpy = jasmine.createSpy('chatWindowOpenOnNavigateSpy');
+  const activateRecievedSpy = jasmine.createSpy('activateRecieved');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
   let mockDepartmentLists = [];
@@ -67,7 +68,8 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
-        updateBackButtonVisibility: updateBackButtonVisibilitySpy
+        updateBackButtonVisibility: updateBackButtonVisibilitySpy,
+        activateRecieved: activateRecievedSpy
       },
       'service/audio': {
         audio: {
@@ -578,11 +580,6 @@ describe('onStateChange middleware', () => {
             mockIPMWidget = true;
           });
 
-          it('calls mediator to show ipm widget', () => {
-            expect(broadcastSpy)
-              .toHaveBeenCalledWith('ipm.webWidget.show');
-          });
-
           it('hides back button', () => {
             expect(updateBackButtonVisibilitySpy)
               .toHaveBeenCalledWith(false);
@@ -599,9 +596,9 @@ describe('onStateChange middleware', () => {
               mockWidgetShown = false;
             });
 
-            it('calls mediator to show main widget', () => {
-              expect(broadcastSpy)
-                .toHaveBeenCalledWith('.activate');
+            it('calls activate', () => {
+              expect(activateRecievedSpy)
+                .toHaveBeenCalled();
             });
           });
 

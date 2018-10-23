@@ -170,8 +170,6 @@ function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
 
   parsedConfig = addPropsToConfig('ipmWidget', config, parsedConfig, reduxStore);
   renderEmbeds(parsedConfig, config, reduxStore);
-
-  mediator.initIPMStandalone();
 }
 
 function initMediator(config) {

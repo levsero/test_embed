@@ -29,7 +29,7 @@ describe('base reducer hidden', () => {
     });
   });
 
-  describe('when ACTIVATE_RECEIVED is passed and hideOnClose is true', () => {
+  describe('when ACTIVATE_RECEIVED is passed', () => {
     beforeEach(() => {
       expectedState = {
         hideApi: false,
@@ -74,7 +74,7 @@ describe('base reducer hidden', () => {
     beforeEach(() => {
       expectedState = {
         hideApi: true,
-        activateApi: false
+        activateApi: true
       };
 
       state = reducer(undefined, {

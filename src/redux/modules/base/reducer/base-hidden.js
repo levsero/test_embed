@@ -16,14 +16,17 @@ const hidden = (state = initialState, action) => {
     case ACTIVATE_RECEIVED:
       if (payload.hideOnClose) {
         return {
-          ...state,
+          hideApi: false,
           activateApi: true
         };
       }
-      return state;
-    case HIDE_RECEIVED:
       return {
         ...state,
+        hideApi: false
+      };
+    case HIDE_RECEIVED:
+      return {
+        activateApi: true,
         hideApi: true
       };
     case LEGACY_SHOW_RECEIVED:

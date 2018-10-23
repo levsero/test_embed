@@ -239,7 +239,7 @@ export const getLauncherVisible = createSelector(
 );
 
 export const getFrameVisible = (state, frame = 'webWidget') => {
-  if (frame === 'webWidget') {
+  if (frame === 'webWidget' || frame === 'ipmWidget') {
     return getWebWidgetVisible(state);
   }
   return getLauncherVisible(state);

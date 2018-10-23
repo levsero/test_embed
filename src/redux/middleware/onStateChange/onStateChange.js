@@ -9,7 +9,10 @@ import { getAccountSettings,
   setDepartment,
   chatWindowOpenOnNavigate,
   chatConnected } from 'src/redux/modules/chat';
-import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base';
+import {
+  updateActiveEmbed,
+  updateBackButtonVisibility,
+  activateRecieved } from 'src/redux/modules/base';
 import { IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
   SDK_CHAT_MEMBER_LEAVE,
@@ -227,16 +230,11 @@ const onArticleDisplayed = (prevState, nextState, dispatch) => {
 
   if (!prevDisplay && nextDisplay) {
     const ipmWidget = getIPMWidget(prevState);
+    const isBackButtonVisible = ipmWidget ? false : getHelpCenterEmbed(prevState);
+    const widgetShown = getWidgetShown(prevState);
 
-    if (ipmWidget) {
-      mediator.channel.broadcast('ipm.webWidget.show');
-      dispatch(updateBackButtonVisibility(false));
-    } else {
-      const widgetShown = getWidgetShown(prevState);
-
-      dispatch(updateBackButtonVisibility(getHelpCenterEmbed(prevState)));
-      if (!widgetShown) mediator.channel.broadcast('.activate');
-    }
+    dispatch(updateBackButtonVisibility(isBackButtonVisible));
+    if (!widgetShown) dispatch(activateRecieved());
   }
 };
 

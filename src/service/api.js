@@ -343,7 +343,6 @@ function setupZopimQueue(win) {
 
 function setupIPMApi(win, reduxStore, embeddableConfig = {}) {
   const existingConfig = !_.isEmpty(embeddableConfig.embeds);
-  const prefix = existingConfig ? '' : 'ipm.';
 
   win.zE.configureIPMWidget = (config) => {
     if (!existingConfig) {
@@ -354,10 +353,10 @@ function setupIPMApi(win, reduxStore, embeddableConfig = {}) {
     reduxStore.dispatch(displayArticle(articleId));
   };
   win.zE.showIPMWidget = () => {
-    mediator.channel.broadcast(`${prefix}webWidget.show`);
+    reduxStore.dispatch(activateRecieved());
   };
   win.zE.hideIPMWidget = () => {
-    mediator.channel.broadcast(`${prefix}webWidget.hide`);
+    hideApi(reduxStore);
   };
 }
 
@@ -382,7 +381,7 @@ function setupWidgetApi(win, reduxStore) {
   };
   win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
   win.zE.hide = () => hideApi(reduxStore);
-  win.zE.show = reduxStore.dispatch(legacyShowReceived());
+  win.zE.show = () => { reduxStore.dispatch(legacyShowReceived()); };
   win.zE.setLocale = (locale) => setLocaleApi(null, locale);
 }
 
