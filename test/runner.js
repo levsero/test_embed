@@ -16,4 +16,6 @@ if (env !== 'test') {
 }
 
 jRunner.loadConfigFile('test/jasmine.json');
-jRunner.execute();
+// Support running of specific tests:
+// https://jasmine.github.io/2.3/node.html#section-24
+jRunner.execute(process.argv.slice(2));

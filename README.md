@@ -106,6 +106,23 @@ We use the [Jasmine](http://jasmine.github.io/) framework for all our unit tests
 npm run lint && npm t
 ```
 
+To run specific tests, specify either paths to the test files or glob patterns after `npm t`.
+
+Examples:
+```bash
+# Single file
+npm t test/unit/boot_test.js
+
+# Multiple files
+npm t test/unit/boot_test.js test/unit/chatPreview_test.js
+
+# Single pattern
+npm t test/unit/*_test.js
+
+# Multiple patterns
+npm t test/unit/component/chat/**/*_test.js test/unit/component/talk/**/*_test.js
+```
+
 To debug in tests, run the `test:debug` task: `npm run test:debug`. This task uses the built-in cli node.js debugger. To set a breakpoint from the source code, place a `debugger` statement on the line you want to pause execution. To inspect the value of variables run the `repl` command at a breakpoint. For more information please view the [documentation](https://nodejs.org/api/debugger.html#debugger_information).
 
 *NOTE: The node debugger will always automatically break at the first line, just run `continue` (or `c`) to resume execution.*
