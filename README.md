@@ -87,7 +87,7 @@ USER_CONFIG={yourConfigName} npm run dev
 
 This will start the dev task using the values found in `dev/configs/${yourConfigName}.json`. If no `USER_CONFIG` variable is passed, the dev task will default to using the `example-template.json` config which uses `dev.zd-dev.com`.
 
-This will allow you to make as many different configurations as you like to test different scenarios with. It's recommended to have one for your production account.
+This will allow you to make as many different configurations as you like to test different scenarios with. It is recommended to have one for your production account.
 
 ## Running in Docker
 - Follow above to get `npm run dev` running.
