@@ -24,6 +24,7 @@ describe('base reducer launcher visibility', () => {
     actionTypes.ACTIVATE_RECEIVED,
     chatActionTypes.PROACTIVE_CHAT_RECEIVED,
     chatActionTypes.CHAT_WINDOW_OPEN_ON_NAVIGATE,
+    actionTypes.OPEN_RECEIVED
   ];
 
   trueReturns = [
@@ -32,7 +33,8 @@ describe('base reducer launcher visibility', () => {
     actionTypes.LEGACY_SHOW_RECEIVED,
     actionTypes.CANCEL_BUTTON_CLICKED,
     zopimActionTypes.ZOPIM_ON_CLOSE,
-    chatActionTypes.CHAT_NOTIFICATION_DISMISSED
+    chatActionTypes.CHAT_NOTIFICATION_DISMISSED,
+    actionTypes.CLOSE_RECEIVED
   ];
 
   variableReturns = [
@@ -96,6 +98,34 @@ describe('base reducer launcher visibility', () => {
         it(`testing: ${element}`, () => {
           expect(state).toEqual(true);
         });
+      });
+    });
+  });
+
+  describe('when action is TOGGLE_RECEIVED', () => {
+    describe('when the state is set to true', () => {
+      beforeEach(() => {
+        state = reducer(true, {
+          type: actionTypes.TOGGLE_RECEIVED
+        });
+      });
+
+      it('inverts the state', () => {
+        expect(state)
+          .toEqual(false);
+      });
+    });
+
+    describe('when the state is set to false', () => {
+      beforeEach(() => {
+        state = reducer(false, {
+          type: actionTypes.TOGGLE_RECEIVED
+        });
+      });
+
+      it('inverts the state', () => {
+        expect(state)
+          .toEqual(true);
       });
     });
   });
