@@ -268,9 +268,17 @@ export const widgetInitialised = () => {
 };
 
 export const activateRecieved = (options = {}) => {
-  return {
-    type: actions.ACTIVATE_RECEIVED,
-    payload: options
+  return (dispatch, getState) => {
+    const state = getState();
+
+    if (getActiveEmbed(state) === 'zopimChat') {
+      mediator.channel.broadcast('zopimChat.show');
+    } else {
+      dispatch({
+        type: actions.ACTIVATE_RECEIVED,
+        payload: options
+      });
+    }
   };
 };
 

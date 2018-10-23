@@ -935,14 +935,31 @@ describe('base redux actions', () => {
         action = mockStore.getActions()[0];
       });
 
-      it('dispatches an action with ACTIVATE_RECEIVED', () => {
-        expect(action.type)
-          .toEqual(actionTypes.ACTIVATE_RECEIVED);
+      describe('when the activeEmbed is zopimChat', () => {
+        beforeAll(() => {
+          mockActiveEmbed = 'zopimChat';
+        });
+
+        it('calls mediator zopimChat.show', () => {
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('zopimChat.show');
+        });
       });
 
-      it('dispatches the correct payload', () => {
-        expect(action.payload)
-          .toEqual(mockOptions);
+      describe('when the activeEmbed is not zopimChat', () => {
+        beforeAll(() => {
+          mockActiveEmbed = 'helpCenterForm';
+        });
+
+        it('dispatches an action with ACTIVATE_RECEIVED', () => {
+          expect(action.type)
+            .toEqual(actionTypes.ACTIVATE_RECEIVED);
+        });
+
+        it('dispatches the correct payload', () => {
+          expect(action.payload)
+            .toEqual(mockOptions);
+        });
       });
     });
 
