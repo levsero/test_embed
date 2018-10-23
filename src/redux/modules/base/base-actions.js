@@ -283,8 +283,16 @@ export const activateRecieved = (options = {}) => {
 };
 
 export const hideRecieved = () => {
-  return {
-    type: actions.HIDE_RECEIVED
+  return (dispatch, getState) => {
+    const state = getState();
+
+    if (getActiveEmbed(state) === 'zopimChat') {
+      mediator.channel.broadcast('zopimChat.hide');
+    }
+
+    dispatch({
+      type: actions.HIDE_RECEIVED
+    });
   };
 };
 

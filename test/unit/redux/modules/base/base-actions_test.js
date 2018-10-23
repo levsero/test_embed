@@ -985,9 +985,31 @@ describe('base redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action with HIDE_RECEIVED', () => {
-      expect(action.type)
-        .toEqual(actionTypes.HIDE_RECEIVED);
+    describe('when the activeEmbed is zopimChat', () => {
+      beforeAll(() => {
+        mockActiveEmbed = 'zopimChat';
+      });
+
+      it('calls mediator zopimChat.hide', () => {
+        expect(broadcastSpy)
+          .toHaveBeenCalledWith('zopimChat.hide');
+      });
+    });
+
+    describe('when the activeEmbed is not zopimChat', () => {
+      beforeAll(() => {
+        mockActiveEmbed = 'helpCenterForm';
+      });
+
+      it('dispatches an action with HIDE_RECEIVED', () => {
+        expect(action.type)
+          .toEqual(actionTypes.HIDE_RECEIVED);
+      });
+
+      it('does not call mediator', () => {
+        expect(broadcastSpy)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 
