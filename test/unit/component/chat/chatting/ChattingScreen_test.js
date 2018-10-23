@@ -21,6 +21,8 @@ describe('ChattingScreen component', () => {
   const QuickReplies = noopReactComponent('QuickReplies');
   const QuickReply = noopReactComponent('QuickReply');
 
+  const mockTitle = 'My custom title';
+
   beforeEach(() => {
     mockery.enable();
 
@@ -595,6 +597,7 @@ describe('ChattingScreen component', () => {
     }) => (
       instanceRender(
         <ChattingScreen
+          title={mockTitle}
           ratingSettings={{ enabled: ratingsEnabled }}
           activeAgents={agents}
           isMobile={isMobile}
@@ -613,6 +616,11 @@ describe('ChattingScreen component', () => {
       it('has a props.socialLogin value', () => {
         expect(component.props.socialLogin)
           .toEqual({ avatarPath: 'heynow' });
+      });
+
+      it('has a props.title value', () => {
+        expect(component.props.title)
+          .toEqual(mockTitle);
       });
     });
 
