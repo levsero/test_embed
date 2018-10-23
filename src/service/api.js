@@ -377,7 +377,7 @@ function setupWidgetApi(win, reduxStore) {
   win.zE.setHelpCenterSuggestions = (options) => setHelpCenterSuggestionsApi(reduxStore, options);
   win.zE.activate = (options) => {
     mediator.channel.broadcast('.activate', options);
-    reduxStore.dispatch(activateRecieved());
+    reduxStore.dispatch(activateRecieved(options));
   };
   win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
   win.zE.hide = () => hideApi(reduxStore);

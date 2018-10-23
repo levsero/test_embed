@@ -273,12 +273,12 @@ export const activateRecieved = (options = {}) => {
 
     if (getActiveEmbed(state) === 'zopimChat') {
       mediator.channel.broadcast('zopimChat.show');
-    } else {
-      dispatch({
-        type: actions.ACTIVATE_RECEIVED,
-        payload: options
-      });
     }
+
+    dispatch({
+      type: actions.ACTIVATE_RECEIVED,
+      payload: options
+    });
   };
 };
 
