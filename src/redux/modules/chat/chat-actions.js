@@ -1,63 +1,4 @@
-import {
-  UPDATE_PREVIEWER_SCREEN,
-  UPDATE_PREVIEWER_SETTINGS,
-  END_CHAT_REQUEST_SUCCESS,
-  END_CHAT_REQUEST_FAILURE,
-  CHAT_MSG_REQUEST_SENT,
-  CHAT_MSG_REQUEST_SUCCESS,
-  CHAT_MSG_REQUEST_FAILURE,
-  CHAT_BOX_CHANGED,
-  SET_VISITOR_INFO_REQUEST_PENDING,
-  SET_VISITOR_INFO_REQUEST_SUCCESS,
-  SET_VISITOR_INFO_REQUEST_FAILURE,
-  SEND_VISITOR_PATH_REQUEST_SUCCESS,
-  SEND_VISITOR_PATH_REQUEST_FAILURE,
-  GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-  GET_OPERATING_HOURS_REQUEST_SUCCESS,
-  IS_CHATTING,
-  CHAT_RATING_REQUEST_SUCCESS,
-  CHAT_RATING_REQUEST_FAILURE,
-  CHAT_NOTIFICATION_DISMISSED,
-  CHAT_NOTIFICATION_RESPONDED,
-  UPDATE_CHAT_SCREEN,
-  NEW_AGENT_MESSAGE_RECEIVED,
-  CHAT_OPENED,
-  CHAT_RATING_COMMENT_REQUEST_SUCCESS,
-  CHAT_RATING_COMMENT_REQUEST_FAILURE,
-  CHAT_FILE_REQUEST_SENT,
-  CHAT_FILE_REQUEST_SUCCESS,
-  CHAT_FILE_REQUEST_FAILURE,
-  SOUND_ICON_CLICKED,
-  EMAIL_TRANSCRIPT_SUCCESS,
-  EMAIL_TRANSCRIPT_FAILURE,
-  EMAIL_TRANSCRIPT_REQUEST_SENT,
-  RESET_EMAIL_TRANSCRIPT,
-  CHAT_OFFLINE_FORM_CHANGED,
-  PRE_CHAT_FORM_ON_CHANGE,
-  PRE_CHAT_FORM_SUBMIT,
-  UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
-  UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
-  UPDATE_CHAT_MENU_VISIBILITY,
-  OFFLINE_FORM_REQUEST_FAILURE,
-  OFFLINE_FORM_REQUEST_SUCCESS,
-  OFFLINE_FORM_REQUEST_SENT,
-  OFFLINE_FORM_BACK_BUTTON_CLICKED,
-  OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED,
-  CHAT_RECONNECT,
-  UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
-  RESET_CURRENT_MESSAGE,
-  SHOW_STANDALONE_MOBILE_NOTIFICATION,
-  CHAT_ALL_AGENTS_INACTIVE,
-  HISTORY_REQUEST_SENT,
-  HISTORY_REQUEST_SUCCESS,
-  HISTORY_REQUEST_FAILURE,
-  CHAT_SOCIAL_LOGOUT_PENDING,
-  CHAT_SOCIAL_LOGOUT_SUCCESS,
-  CHAT_SOCIAL_LOGOUT_FAILURE,
-  CHAT_VENDOR_LOADED,
-  CHAT_USER_LOGGING_OUT,
-  CHAT_USER_LOGGED_OUT
-} from './chat-action-types';
+import * as actions from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
   getChatVisitor,
@@ -98,7 +39,7 @@ const sendMsgRequest = (msg, visitor, timestamp) => {
     zChat.sendTyping(false);
 
     dispatch({
-      type: CHAT_MSG_REQUEST_SENT,
+      type: actions.CHAT_MSG_REQUEST_SENT,
       payload: {
         ...getChatMessagePayload(msg, visitor, timestamp),
         status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
@@ -109,7 +50,7 @@ const sendMsgRequest = (msg, visitor, timestamp) => {
 
 const sendMsgSuccess = (msg, visitor, timestamp) => {
   return {
-    type: CHAT_MSG_REQUEST_SUCCESS,
+    type: actions.CHAT_MSG_REQUEST_SUCCESS,
     payload: {
       ...getChatMessagePayload(msg, visitor, timestamp),
       status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS
@@ -119,7 +60,7 @@ const sendMsgSuccess = (msg, visitor, timestamp) => {
 
 const sendMsgFailure = (msg, visitor, timestamp) => {
   return {
-    type: CHAT_MSG_REQUEST_FAILURE,
+    type: actions.CHAT_MSG_REQUEST_FAILURE,
     payload: {
       ...getChatMessagePayload(msg, visitor, timestamp),
       status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE
@@ -153,10 +94,10 @@ export const endChat = (callback=() => {}) => {
       if (!err) {
         const activeAgents = getActiveAgents(getState());
 
-        dispatch({ type: CHAT_ALL_AGENTS_INACTIVE, payload: activeAgents });
-        dispatch({ type: END_CHAT_REQUEST_SUCCESS });
+        dispatch({ type: actions.CHAT_ALL_AGENTS_INACTIVE, payload: activeAgents });
+        dispatch({ type: actions.END_CHAT_REQUEST_SUCCESS });
       } else {
-        dispatch({ type: END_CHAT_REQUEST_FAILURE });
+        dispatch({ type: actions.END_CHAT_REQUEST_FAILURE });
       }
 
       callback();
@@ -177,21 +118,21 @@ export const endChatViaPostChatScreen = () => {
 
 export const updateChatScreen = (screen) => {
   return {
-    type: UPDATE_CHAT_SCREEN,
+    type: actions.UPDATE_CHAT_SCREEN,
     payload: { screen }
   };
 };
 
 export const handleSoundIconClick = (settings) => {
   return {
-    type: SOUND_ICON_CLICKED,
+    type: actions.SOUND_ICON_CLICKED,
     payload: settings
   };
 };
 
 export function resetCurrentMessage() {
   return {
-    type: RESET_CURRENT_MESSAGE
+    type: actions.RESET_CURRENT_MESSAGE
   };
 }
 
@@ -202,7 +143,7 @@ export function handleChatBoxChange(msg) {
     const zChat = getZChatVendor(getState());
 
     dispatch({
-      type: CHAT_BOX_CHANGED,
+      type: actions.CHAT_BOX_CHANGED,
       payload: msg
     });
 
@@ -221,18 +162,18 @@ export function setVisitorInfo(visitor, timestamp=Date.now()) {
 
     if (!getIsAuthenticated(getState())) {
       dispatch({
-        type: SET_VISITOR_INFO_REQUEST_PENDING,
+        type: actions.SET_VISITOR_INFO_REQUEST_PENDING,
         payload: { ...visitor, timestamp }
       });
 
       zChat && zChat.setVisitorInfo(visitor, (err) => {
         if (!err) {
           dispatch({
-            type: SET_VISITOR_INFO_REQUEST_SUCCESS,
+            type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
             payload: { ...visitor, timestamp }
           });
         } else {
-          dispatch({ type: SET_VISITOR_INFO_REQUEST_FAILURE });
+          dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE });
         }
       });
     }
@@ -246,11 +187,11 @@ export function sendVisitorPath(page = {}) {
     zChat && zChat.sendVisitorPath(page, (err) => {
       if (!err) {
         dispatch({
-          type: SEND_VISITOR_PATH_REQUEST_SUCCESS,
+          type: actions.SEND_VISITOR_PATH_REQUEST_SUCCESS,
           payload: page
         });
       } else {
-        dispatch({ type: SEND_VISITOR_PATH_REQUEST_FAILURE });
+        dispatch({ type: actions.SEND_VISITOR_PATH_REQUEST_FAILURE });
       }
     });
   };
@@ -261,19 +202,19 @@ export function sendEmailTranscript(email) {
     const zChat = getZChatVendor(getState());
 
     dispatch({
-      type: EMAIL_TRANSCRIPT_REQUEST_SENT,
+      type: actions.EMAIL_TRANSCRIPT_REQUEST_SENT,
       payload: email
     });
 
     zChat.sendEmailTranscript(email, (err) => {
       if (!err) {
         dispatch({
-          type: EMAIL_TRANSCRIPT_SUCCESS,
+          type: actions.EMAIL_TRANSCRIPT_SUCCESS,
           payload: email
         });
       } else {
         dispatch({
-          type: EMAIL_TRANSCRIPT_FAILURE,
+          type: actions.EMAIL_TRANSCRIPT_FAILURE,
           payload: email
         });
       }
@@ -283,7 +224,7 @@ export function sendEmailTranscript(email) {
 
 export function resetEmailTranscript() {
   return {
-    type: RESET_EMAIL_TRANSCRIPT
+    type: actions.RESET_EMAIL_TRANSCRIPT
   };
 }
 
@@ -294,11 +235,11 @@ export function sendChatRating(rating = null) {
     zChat.sendChatRating(rating, (err) => {
       if (!err) {
         dispatch({
-          type: CHAT_RATING_REQUEST_SUCCESS,
+          type: actions.CHAT_RATING_REQUEST_SUCCESS,
           payload: rating
         });
       } else {
-        dispatch({ type: CHAT_RATING_REQUEST_FAILURE });
+        dispatch({ type: actions.CHAT_RATING_REQUEST_FAILURE });
       }
     });
   };
@@ -311,11 +252,11 @@ export function sendChatComment(comment = '') {
     zChat.sendChatComment(comment, (err) => {
       if (!err) {
         dispatch({
-          type: CHAT_RATING_COMMENT_REQUEST_SUCCESS,
+          type: actions.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
           payload: comment
         });
       } else {
-        dispatch({ type: CHAT_RATING_COMMENT_REQUEST_FAILURE });
+        dispatch({ type: actions.CHAT_RATING_COMMENT_REQUEST_FAILURE });
       }
     });
   };
@@ -345,7 +286,7 @@ export function getAccountSettings() {
     }
 
     dispatch({
-      type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
+      type: actions.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
       payload: accountSettings
     });
   };
@@ -358,7 +299,7 @@ export function getOperatingHours() {
 
     if (operatingHours) {
       dispatch({
-        type: GET_OPERATING_HOURS_REQUEST_SUCCESS,
+        type: actions.GET_OPERATING_HOURS_REQUEST_SUCCESS,
         payload: operatingHours
       });
     }
@@ -371,18 +312,18 @@ export function getIsChatting() {
     const isChatting = zChat.isChatting();
 
     dispatch({
-      type: IS_CHATTING,
+      type: actions.IS_CHATTING,
       payload: isChatting
     });
   };
 }
 
 export function chatNotificationDismissed() {
-  return { type: CHAT_NOTIFICATION_DISMISSED };
+  return { type: actions.CHAT_NOTIFICATION_DISMISSED };
 }
 
 export function chatNotificationRespond() {
-  return { type: CHAT_NOTIFICATION_RESPONDED };
+  return { type: actions.CHAT_NOTIFICATION_RESPONDED };
 }
 
 export function sendAttachments(fileList) {
@@ -399,7 +340,7 @@ export function sendAttachments(fileList) {
       };
 
       dispatch({
-        type: CHAT_FILE_REQUEST_SENT,
+        type: actions.CHAT_FILE_REQUEST_SENT,
         payload: {
           ...basePayload,
           // _.assign is intentionally used here as 'file' is an instance of the
@@ -413,7 +354,7 @@ export function sendAttachments(fileList) {
       zChat.sendFile(file, (err, data) => {
         if (!err) {
           dispatch({
-            type: CHAT_FILE_REQUEST_SUCCESS,
+            type: actions.CHAT_FILE_REQUEST_SUCCESS,
             payload: {
               ...basePayload,
               file: _.assign(file, {
@@ -424,7 +365,7 @@ export function sendAttachments(fileList) {
           });
         } else {
           dispatch({
-            type: CHAT_FILE_REQUEST_FAILURE,
+            type: actions.CHAT_FILE_REQUEST_FAILURE,
             payload: {
               ...basePayload,
               file: _.assign(file, {
@@ -440,16 +381,16 @@ export function sendAttachments(fileList) {
 }
 
 export function newAgentMessageReceived(chat) {
-  return { type: NEW_AGENT_MESSAGE_RECEIVED, payload: chat };
+  return { type: actions.NEW_AGENT_MESSAGE_RECEIVED, payload: chat };
 }
 
 export function chatOpened() {
-  return { type: CHAT_OPENED };
+  return { type: actions.CHAT_OPENED };
 }
 
 export function chatOfflineFormChanged(formState) {
   return {
-    type: CHAT_OFFLINE_FORM_CHANGED,
+    type: actions.CHAT_OFFLINE_FORM_CHANGED,
     payload: formState
   };
 }
@@ -480,34 +421,34 @@ export function clearDepartment(successCallback = () => {}) {
 
 export function handlePreChatFormChange(state) {
   return {
-    type: PRE_CHAT_FORM_ON_CHANGE,
+    type: actions.PRE_CHAT_FORM_ON_CHANGE,
     payload: state
   };
 }
 
 export function updateContactDetailsVisibility(bool) {
   return {
-    type: UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
+    type: actions.UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
     payload: bool
   };
 }
 
 export function updateEmailTranscriptVisibility(bool) {
   return {
-    type: UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
+    type: actions.UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
     payload: bool
   };
 }
 
 export function handleOfflineFormBack() {
   return {
-    type: OFFLINE_FORM_BACK_BUTTON_CLICKED
+    type: actions.OFFLINE_FORM_BACK_BUTTON_CLICKED
   };
 }
 
 export function handleOperatingHoursClick() {
   return {
-    type: OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED
+    type: actions.OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED
   };
 }
 
@@ -518,17 +459,17 @@ export function sendOfflineMessage(
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
 
-    dispatch({ type: OFFLINE_FORM_REQUEST_SENT });
+    dispatch({ type: actions.OFFLINE_FORM_REQUEST_SENT });
 
     zChat.sendOfflineMsg(formState, (err) => {
       if (!err) {
         dispatch({
-          type: OFFLINE_FORM_REQUEST_SUCCESS,
+          type: actions.OFFLINE_FORM_REQUEST_SUCCESS,
           payload: formState
         });
         successCallback();
       } else {
-        dispatch({ type: OFFLINE_FORM_REQUEST_FAILURE });
+        dispatch({ type: actions.OFFLINE_FORM_REQUEST_FAILURE });
         failureCallback();
       }
     });
@@ -537,7 +478,7 @@ export function sendOfflineMessage(
 
 export function updateMenuVisibility(visible) {
   return {
-    type: UPDATE_CHAT_MENU_VISIBILITY,
+    type: actions.UPDATE_CHAT_MENU_VISIBILITY,
     payload: visible
   };
 }
@@ -549,27 +490,27 @@ export function handleReconnect() {
     zChat.reconnect();
 
     dispatch({
-      type: CHAT_RECONNECT
+      type: actions.CHAT_RECONNECT
     });
   };
 }
 
 export function updateLastAgentMessageSeenTimestamp(timestamp) {
   return {
-    type: UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
+    type: actions.UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
     payload: timestamp
   };
 }
 
 export function showStandaloneMobileNotification() {
-  return { type: SHOW_STANDALONE_MOBILE_NOTIFICATION };
+  return { type: actions.SHOW_STANDALONE_MOBILE_NOTIFICATION };
 }
 
 export const fetchConversationHistory = () => {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
 
-    dispatch({ type: HISTORY_REQUEST_SENT });
+    dispatch({ type: actions.HISTORY_REQUEST_SENT });
 
     zChat.fetchChatHistory((err, data) => {
       /*
@@ -578,12 +519,12 @@ export const fetchConversationHistory = () => {
       */
       if (err) {
         dispatch({
-          type: HISTORY_REQUEST_FAILURE,
+          type: actions.HISTORY_REQUEST_FAILURE,
           payload: err
         });
       } else {
         dispatch({
-          type: HISTORY_REQUEST_SUCCESS,
+          type: actions.HISTORY_REQUEST_SUCCESS,
           payload: { ...data, history }
         });
       }
@@ -595,14 +536,14 @@ export const fetchConversationHistory = () => {
 
 export const updatePreviewerScreen = (screen) => {
   return {
-    type: UPDATE_PREVIEWER_SCREEN,
+    type: actions.UPDATE_PREVIEWER_SCREEN,
     payload: screen
   };
 };
 
 export const updatePreviewerSettings = (settings) => {
   return {
-    type: UPDATE_PREVIEWER_SETTINGS,
+    type: actions.UPDATE_PREVIEWER_SETTINGS,
     payload: settings
   };
 };
@@ -611,19 +552,19 @@ export function initiateSocialLogout() {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
 
-    dispatch({ type: CHAT_SOCIAL_LOGOUT_PENDING });
+    dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_PENDING });
 
     zChat.doAuthLogout((err) => {
       (err)
-        ? dispatch({ type: CHAT_SOCIAL_LOGOUT_FAILURE })
-        : dispatch({ type: CHAT_SOCIAL_LOGOUT_SUCCESS });
+        ? dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_FAILURE })
+        : dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_SUCCESS });
     });
   };
 }
 
 export function handlePrechatFormSubmit(info) {
   return {
-    type: PRE_CHAT_FORM_SUBMIT,
+    type: actions.PRE_CHAT_FORM_SUBMIT,
     payload: info
   };
 }
@@ -638,7 +579,7 @@ export function chatLogout() {
     if (isAuthenticated) {
       zChat.endChat(() => {
         dispatch({
-          type: CHAT_USER_LOGGING_OUT
+          type: actions.CHAT_USER_LOGGING_OUT
         });
 
         zChat.logout();
@@ -648,7 +589,7 @@ export function chatLogout() {
 
           if (connectionStatus === CONNECTION_STATUSES.CONNECTED && isLoggingOut) {
             dispatch({
-              type: CHAT_USER_LOGGED_OUT
+              type: actions.CHAT_USER_LOGGED_OUT
             });
           }
         });
@@ -659,8 +600,26 @@ export function chatLogout() {
 
 export function handleChatVendorLoaded(vendor) {
   return {
-    type: CHAT_VENDOR_LOADED,
+    type: actions.CHAT_VENDOR_LOADED,
     payload: vendor
+  };
+}
+
+export function proactiveMessageRecieved() {
+  return {
+    type: actions.PROACTIVE_CHAT_RECEIVED
+  };
+}
+
+export function chatWindowOpenOnNavigate() {
+  return {
+    type: actions.CHAT_WINDOW_OPEN_ON_NAVIGATE
+  };
+}
+
+export function chatConnected() {
+  return {
+    type: actions.CHAT_CONNECTED
   };
 }
 
@@ -671,7 +630,7 @@ export function setChatHistoryHandler() {
   return (_, getState) => {
     const zChat = getZChatVendor(getState());
 
-    zChat.on('history', (data) => {
+    zChat && zChat.on('history', (data) => {
       const eventData = (data.nick === EVENT_TRIGGER)
         ? { ...data, nick: AGENT_BOT }
         : data;

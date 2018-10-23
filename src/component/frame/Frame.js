@@ -15,13 +15,11 @@ import { locals as styles } from './Frame.scss';
 import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { clickBusterRegister,
-  getZoomSizingRatio,
-  isMobileBrowser } from 'utility/devices';
+import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
-import { getFixedStyles, getColor, getPosition } from 'src/redux/modules/selectors';
+import { getFixedStyles, getColor, getPosition, getFrameVisible } from 'src/redux/modules/selectors';
 import { FONT_SIZE, MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
 
 // Unregister lodash from window._
@@ -33,7 +31,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     fixedStyles: getFixedStyles(state, ownProps.name),
     color: getColor(state),
-    position: getPosition(state)
+    position: getPosition(state),
+    visible: getFrameVisible(state, ownProps.name)
   };
 };
 
@@ -58,7 +57,6 @@ class Frame extends Component {
     hideCloseButton: PropTypes.bool,
     name: PropTypes.string,
     onBack: PropTypes.func,
-    onClose: PropTypes.func,
     onHide: PropTypes.func,
     onShow: PropTypes.func,
     position: PropTypes.string,
@@ -85,7 +83,6 @@ class Frame extends Component {
     hideCloseButton: false,
     name: '',
     onBack: () => {},
-    onClose: () => {},
     onHide: () => {},
     onShow: () => {},
     position: 'right',
@@ -105,9 +102,7 @@ class Frame extends Component {
     super(props, context);
     this.state = {
       childRendered: false,
-      hiddenByZoom: false,
-      visible: props.visible,
-      forceUpdateEmbed: false
+      hiddenByZoom: false
     };
 
     this.child = null;
@@ -118,8 +113,16 @@ class Frame extends Component {
     this.renderFrameContent();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.color, this.props.color)) {
+  componentWillReceiveProps = (nextProps) => {
+    const prevProps = this.props;
+
+    if (prevProps.visible && !nextProps.visible) {
+      this.hide();
+    } else if (!prevProps.visible && nextProps.visible) {
+      this.show();
+    }
+
+    if (!_.isEqual(nextProps.color, prevProps.color)) {
       this.setCustomCSS(this.generateUserCSSWithColor(nextProps.color));
     }
   }
@@ -227,8 +230,6 @@ class Frame extends Component {
   show = () => {
     const frameFirstChild = this.getRootComponentElement();
 
-    this.setState({ visible: true });
-
     setTimeout(() => {
       const existingStyle = frameFirstChild.style;
 
@@ -246,33 +247,14 @@ class Frame extends Component {
   }
 
   hide = (options = {}) => {
-    const { onHide } = this.props;
-    const hideFinished = () => {
-      this.setState({ visible: false });
-      onHide(this);
-      if (options.onHide) options.onHide();
-      this.props.widgetHideAnimationComplete();
-    };
+    const { onHide, updateWidgetShown } = this.props;
 
-    hideFinished();
+    onHide(this);
+    if (options.onHide) options.onHide();
+    this.props.widgetHideAnimationComplete();
+
     if (this.props.name !== 'launcher') {
       updateWidgetShown(false);
-    }
-  }
-
-  close = (e = {}, options = {}) => {
-    if (this.props.preventClose) return;
-
-    // e.touches added for automation testing mobile browsers
-    // which is firing 'click' event on iframe close
-    if (isMobileBrowser() && e.touches) {
-      clickBusterRegister(e.touches[0].clientX, e.touches[0].clientY);
-    }
-
-    this.hide({ onHide: options.onHide });
-
-    if (!options.skipOnClose) {
-      this.props.onClose(this, options);
     }
   }
 
@@ -323,8 +305,8 @@ class Frame extends Component {
       opacity: 0
     };
     const mobileStyles = fullscreen ? {
-      left: this.state.visible ? '0px' : '-9999px',
-      top: this.state.visible ? '0px' : '-9999px',
+      left: this.props.visible ? '0px' : '-9999px',
+      top: this.props.visible ? '0px' : '-9999px',
       background:'#FFF'
     } : {};
 
@@ -384,7 +366,6 @@ class Frame extends Component {
   constructEmbed = () => {
     const newChild = React.cloneElement(this.props.children, {
       forceUpdateWorld: this.forceUpdateWorld,
-      closeFrame: this.close,
       onBackButtonClick: this.back,
       getFrameContentDocument: this.getContentDocument
     });
@@ -398,7 +379,7 @@ class Frame extends Component {
           generateUserCSS={this.props.generateUserCSS}
           reduxStore={this.props.store}
           handleBackClick={this.back}
-          handleCloseClick={this.close}
+          preventClose={this.props.preventClose}
           useBackButton={this.props.useBackButton}
           hideCloseButton={this.props.hideCloseButton}
           name={this.props.name}
@@ -435,8 +416,8 @@ class Frame extends Component {
   render = () => {
     const iframeNamespace = 'zEWidget';
     const frameClasses = `${iframeNamespace}-${this.props.name}`;
-    const activeClasses = this.state.visible ? `${frameClasses}--active` : '';
-    const tabIndex = this.state.visible ? '0' : '-1';
+    const activeClasses = this.props.visible ? `${frameClasses}--active` : '';
+    const tabIndex = this.props.visible ? '0' : '-1';
     const transitionStyles = {
       entering: {
         opacity: 0,
@@ -456,7 +437,7 @@ class Frame extends Component {
     };
 
     return (
-      <Transition in={this.state.visible} timeout={transitionDuration}>
+      <Transition in={this.props.visible} timeout={transitionDuration}>
         {(status) => (
           <iframe
             title={this.props.title || this.props.name}

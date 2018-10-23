@@ -198,6 +198,9 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/chat/chat-action-types': {
         AUTHENTICATION_STARTED
+      },
+      'utility/scrollHacks': {
+        setScrollKiller: noop
       }
     });
 
@@ -1007,117 +1010,6 @@ describe('embed.webWidget', () => {
       mockMediator = mockRegistry['service/mediator'].mediator;
       webWidget.create('', {}, mockStore);
       webWidget.render();
-    });
-
-    it('should subscribe to webWidget.show', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('webWidget.show', jasmine.any(Function));
-    });
-
-    describe('when webWidget.show is dispatched', () => {
-      beforeEach(() => {
-        frame = webWidget.get().instance;
-        component = frame.getRootComponent();
-
-        spyOn(frame, 'show');
-        spyOn(component, 'show');
-      });
-
-      describe('when a ticket has recently been submitted', () => {
-        const config = { ticketSubmissionForm: { arbitrary: 'data' } };
-        const params = {
-          searchTerm: 'blah',
-          searchLocale: 'en-US',
-          email: 'bob@bob.com',
-          attachmentsCount: 1,
-          attachmentTypes: ['file'],
-          res: { body: { request: { id: 1 } } }
-        };
-
-        beforeEach(() => {
-          webWidget.create('', config, mockStore);
-          webWidget.render();
-
-          const frame = webWidget.get().instance;
-
-          component = frame.getRootComponent();
-          component.props.onSubmitted(params);
-
-          spyOn(component, 'show');
-
-          pluckSubscribeCall(mockMediator, 'webWidget.show')();
-          jasmine.clock().tick(0);
-        });
-
-        it('calls show with true on the component', () => {
-          expect(component.show)
-            .toHaveBeenCalledWith(true);
-        });
-      });
-
-      describe('when the embed is visible and called via activate', () => {
-        beforeEach(() => {
-          frame.setState({ visible: true });
-          pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
-          jasmine.clock().tick(0);
-        });
-
-        it('does not call show on webWidget', () => {
-          expect(component.show)
-            .not.toHaveBeenCalled();
-        });
-
-        it('does not call show on Frame', () => {
-          expect(frame.show)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when the embed is visible', () => {
-        beforeEach(() => {
-          frame.setState({ visible: true });
-          pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: false });
-          jasmine.clock().tick(0);
-        });
-
-        it('calls show on webWidget with false', () => {
-          expect(component.show)
-            .toHaveBeenCalledWith(false);
-        });
-
-        it('calls show on Frame with an options of viaActivate of false', () => {
-          expect(frame.show)
-            .toHaveBeenCalledWith({ viaActivate: false });
-        });
-      });
-
-      describe('when it is called with activate', () => {
-        beforeEach(() => {
-          frame.setState({ visible: false });
-          pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
-          jasmine.clock().tick(0);
-        });
-
-        it('calls show on webWidget with true', () => {
-          expect(component.show)
-            .toHaveBeenCalledWith(true);
-        });
-
-        it('calls show on Frame with an options of viaActivate of true', () => {
-          expect(frame.show)
-            .toHaveBeenCalledWith({ viaActivate: true });
-        });
-      });
-    });
-
-    it('should subscribe to webWidget.hide', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('webWidget.hide', jasmine.any(Function));
-    });
-
-    it('should subscribe to webWidget.zopimChatEnded', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('webWidget.zopimChatEnded', jasmine.any(Function));
     });
 
     it('should subscribe to webWidget.zopimChatStarted', () => {

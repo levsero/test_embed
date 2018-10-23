@@ -1,67 +1,7 @@
 import Map from 'core-js/library/es6/map';
 
 describe('chat selectors', () => {
-  let getActiveAgents,
-    getAttachmentsEnabled,
-    getConciergeSettings,
-    getCurrentConcierges,
-    getConnection,
-    getCurrentMessage,
-    getChatEvents,
-    getChatMessages,
-    getChatMessagesByAgent,
-    getChatNotification,
-    getChatOnline,
-    getChatRating,
-    getChatScreen,
-    getChatStatus,
-    getChatVisitor,
-    getGroupedChatLog,
-    getIsChatting,
-    getNotificationCount,
-    getPostchatFormSettings,
-    getPrechatFormSettings,
-    getPrechatFormFields,
-    getRatingSettings,
-    getUserSoundSettings,
-    getEmailTranscript,
-    getShowRatingScreen,
-    getThemeShowAvatar,
-    getLastAgentLeaveEvent,
-    getQuickRepliesFromChatLog,
-    getOfflineFormFields,
-    getOfflineFormSettings,
-    getChatOfflineForm,
-    getShowOfflineChat,
-    getPreChatFormState,
-    getQueuePosition,
-    getEditContactDetails,
-    getOfflineMessage,
-    getMenuVisible,
-    getShowMenu,
-    getOperatingHours,
-    getGroupedOperatingHours,
-    getLoginSettings,
-    getDepartments,
-    getDepartmentsList,
-    getDepartment,
-    getIsProactiveSession,
-    getStandaloneMobileNotificationVisible,
-    getAgentsTyping,
-    getAllAgents,
-    getOfflineFormEnabled,
-    getFirstMessageTimestamp,
-    getCurrentSessionStartTime,
-    getSocialLogin,
-    getAuthUrls,
-    getIsAuthenticated,
-    getZChatVendor,
-    getIsLoggingOut,
-    getWindowSettings,
-    getChatTitle,
-    getThemeColor,
-    getThemePosition,
-
+  let selectors,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -69,7 +9,8 @@ describe('chat selectors', () => {
     EDIT_CONTACT_DETAILS_SCREEN,
     DEPARTMENT_STATUSES,
     WHITELISTED_SOCIAL_LOGINS,
-    AGENT_BOT;
+    AGENT_BOT,
+    CONNECTION_STATUSES;
 
   beforeEach(() => {
     mockery.enable();
@@ -83,6 +24,7 @@ describe('chat selectors', () => {
     AGENT_BOT = requireUncached(chatConstantsPath).AGENT_BOT;
     DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
     WHITELISTED_SOCIAL_LOGINS = requireUncached(chatConstantsPath).WHITELISTED_SOCIAL_LOGINS;
+    CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES;
     CHATTING_SCREEN = 'chatlog';
 
     initMockRegistry({
@@ -93,7 +35,8 @@ describe('chat selectors', () => {
         EDIT_CONTACT_DETAILS_SCREEN,
         AGENT_BOT,
         DEPARTMENT_STATUSES,
-        WHITELISTED_SOCIAL_LOGINS
+        WHITELISTED_SOCIAL_LOGINS,
+        CONNECTION_STATUSES
       },
       './chat-screen-types': {
         CHATTING_SCREEN
@@ -113,68 +56,8 @@ describe('chat selectors', () => {
     const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');
 
     mockery.registerAllowable(chatSelectorsPath);
-    const selectors = requireUncached(chatSelectorsPath);
 
-    getActiveAgents = selectors.getActiveAgents;
-    getAttachmentsEnabled = selectors.getAttachmentsEnabled;
-    getCurrentConcierges = selectors.getCurrentConcierges;
-    getConciergeSettings = selectors.getConciergeSettings;
-    getConnection = selectors.getConnection;
-    getCurrentMessage = selectors.getCurrentMessage;
-    getChatEvents = selectors.getChatEvents;
-    getChatMessages = selectors.getChatMessages;
-    getChatMessagesByAgent = selectors.getChatMessagesByAgent;
-    getChatNotification = selectors.getChatNotification;
-    getChatOnline = selectors.getChatOnline;
-    getChatRating = selectors.getChatRating;
-    getChatScreen = selectors.getChatScreen;
-    getChatStatus = selectors.getChatStatus;
-    getChatVisitor = selectors.getChatVisitor;
-    getGroupedChatLog = selectors.getGroupedChatLog;
-    getIsChatting = selectors.getIsChatting;
-    getNotificationCount = selectors.getNotificationCount;
-    getPostchatFormSettings = selectors.getPostchatFormSettings;
-    getPrechatFormFields = selectors.getPrechatFormFields;
-    getPrechatFormSettings = selectors.getPrechatFormSettings;
-    getRatingSettings = selectors.getRatingSettings;
-    getUserSoundSettings = selectors.getUserSoundSettings;
-    getEmailTranscript = selectors.getEmailTranscript;
-    getShowRatingScreen = selectors.getShowRatingScreen;
-    getLastAgentLeaveEvent = selectors.getLastAgentLeaveEvent;
-    getQuickRepliesFromChatLog = selectors.getQuickRepliesFromChatLog;
-    getThemeShowAvatar = selectors.getThemeShowAvatar;
-    getOfflineFormFields = selectors.getOfflineFormFields;
-    getOfflineFormSettings = selectors.getOfflineFormSettings;
-    getChatOfflineForm = selectors.getChatOfflineForm;
-    getShowOfflineChat = selectors.getShowOfflineChat;
-    getPreChatFormState = selectors.getPreChatFormState;
-    getQueuePosition = selectors.getQueuePosition;
-    getEditContactDetails = selectors.getEditContactDetails;
-    getOperatingHours = selectors.getOperatingHours;
-    getGroupedOperatingHours = selectors.getGroupedOperatingHours;
-    getOfflineMessage = selectors.getOfflineMessage;
-    getMenuVisible = selectors.getMenuVisible;
-    getShowMenu = selectors.getShowMenu;
-    getLoginSettings = selectors.getLoginSettings;
-    getDepartments = selectors.getDepartments;
-    getDepartmentsList = selectors.getDepartmentsList;
-    getDepartment = selectors.getDepartment;
-    getIsProactiveSession = selectors.getIsProactiveSession;
-    getStandaloneMobileNotificationVisible = selectors.getStandaloneMobileNotificationVisible;
-    getAgentsTyping = selectors.getAgentsTyping;
-    getAllAgents = selectors.getAllAgents;
-    getFirstMessageTimestamp = selectors.getFirstMessageTimestamp;
-    getCurrentSessionStartTime = selectors.getCurrentSessionStartTime;
-    getSocialLogin = selectors.getSocialLogin;
-    getAuthUrls = selectors.getAuthUrls;
-    getIsAuthenticated = selectors.getIsAuthenticated;
-    getZChatVendor = selectors.getZChatVendor;
-    getIsLoggingOut = selectors.getIsLoggingOut;
-    getOfflineFormEnabled = selectors.getOfflineFormEnabled;
-    getWindowSettings = selectors.getWindowSettings;
-    getChatTitle = selectors.getChatTitle;
-    getThemeColor = selectors.getThemeColor;
-    getThemePosition = selectors.getThemePosition;
+    selectors = requireUncached(chatSelectorsPath);
   });
 
   afterEach(() => {
@@ -186,7 +69,7 @@ describe('chat selectors', () => {
     let result;
 
     beforeEach(() => {
-      result = getOfflineFormEnabled({
+      result = selectors.getOfflineFormEnabled({
         chat: {
           accountSettings: {
             offlineForm: {
@@ -207,7 +90,7 @@ describe('chat selectors', () => {
     let result;
 
     beforeEach(() => {
-      result = getIsLoggingOut({
+      result = selectors.getIsLoggingOut({
         chat: {
           isLoggingOut: true
         }
@@ -226,7 +109,7 @@ describe('chat selectors', () => {
 
     beforeEach(() => {
       mockCurrentSessionStartTime = 123;
-      result = getCurrentSessionStartTime({
+      result = selectors.getCurrentSessionStartTime({
         chat: {
           currentSessionStartTime: mockCurrentSessionStartTime
         }
@@ -250,7 +133,7 @@ describe('chat selectors', () => {
         }
       };
 
-      result = getDepartments({
+      result = selectors.getDepartments({
         chat: {
           departments: mockDepartments
         }
@@ -272,7 +155,7 @@ describe('chat selectors', () => {
         { status: 'online' }
       ];
 
-      result = getDepartmentsList({
+      result = selectors.getDepartmentsList({
         chat: {
           departments: mockDepartments
         }
@@ -289,7 +172,7 @@ describe('chat selectors', () => {
     let result;
 
     beforeEach(() => {
-      result = getIsAuthenticated({
+      result = selectors.getIsAuthenticated({
         chat: {
           isAuthenticated: true
         }
@@ -322,7 +205,7 @@ describe('chat selectors', () => {
         mockChats = [{ nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }];
         mockConciergeSettings = { avatar_path: '' };
 
-        result = getChatNotification({
+        result = selectors.getChatNotification({
           chat: {
             notification: mockNotification,
             agents: mockAgents,
@@ -366,7 +249,7 @@ describe('chat selectors', () => {
         mockChats = [{ nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }];
         mockConciergeSettings = { avatar_path: 'www.zen.desk/avatar.jpeg' };
 
-        result = getChatNotification({
+        result = selectors.getChatNotification({
           chat: {
             notification: mockNotification,
             agents: mockAgents,
@@ -393,7 +276,7 @@ describe('chat selectors', () => {
         mockChats = [{ nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }];
         mockConciergeSettings = { avatar_path: 'www.zen.desk/avatar.jpeg' };
 
-        result = getChatNotification({
+        result = selectors.getChatNotification({
           chat: {
             notification: mockNotification,
             agents: mockAgents,
@@ -450,7 +333,7 @@ describe('chat selectors', () => {
     let state;
 
     beforeEach(() => {
-      result = getPrechatFormFields(state);
+      result = selectors.getPrechatFormFields(state);
     });
 
     describe('enabled departments', () => {
@@ -736,7 +619,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getOfflineFormFields({
+      result = selectors.getOfflineFormFields({
         chat: {
           accountSettings: mockAccountSettings
         }
@@ -768,7 +651,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getRatingSettings(mockChatSettings);
+      result = selectors.getRatingSettings(mockChatSettings);
     });
 
     it('returns the value of accountSettings.rating', () => {
@@ -787,7 +670,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getQueuePosition(mockChatSettings);
+      result = selectors.getQueuePosition(mockChatSettings);
     });
 
     it('returns the value of chat.queuePosition', () => {
@@ -807,7 +690,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getPrechatFormSettings(mockChatSettings);
+      result = selectors.getPrechatFormSettings(mockChatSettings);
     });
 
     it('returns the value of accountSettings.prechatForm', () => {
@@ -827,7 +710,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getOfflineFormSettings(mockChatSettings);
+      result = selectors.getOfflineFormSettings(mockChatSettings);
     });
 
     it('returns the value of accountSettings.offlineForm', () => {
@@ -845,7 +728,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getIsChatting(mockChatSettings);
+      result = selectors.getIsChatting(mockChatSettings);
     });
 
     it('returns the current state of is_chatting', () => {
@@ -866,7 +749,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getEmailTranscript(mockChatSettings);
+      result = selectors.getEmailTranscript(mockChatSettings);
     });
 
     it('returns the current state of emailTranscript', () => {
@@ -888,7 +771,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatVisitor(mockChatSettings);
+      result = selectors.getChatVisitor(mockChatSettings);
     });
 
     it('returns the current state of chat.visitor', () => {
@@ -909,7 +792,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getPostchatFormSettings({
+      result = selectors.getPostchatFormSettings({
         chat: { accountSettings: mockAccountSettings }
       });
     });
@@ -934,7 +817,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getConnection(mockChatSettings);
+      result = selectors.getConnection(mockChatSettings);
     });
 
     it('returns the current state of connection', () => {
@@ -952,7 +835,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatStatus(mockChatSettings);
+      result = selectors.getChatStatus(mockChatSettings);
     });
 
     it('returns the current state of account_status', () => {
@@ -970,7 +853,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getUserSoundSettings(mockChatSettings);
+      result = selectors.getUserSoundSettings(mockChatSettings);
     });
 
     it('returns the current state of is_chatting', () => {
@@ -992,7 +875,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatMessagesByAgent(mockChatSettings);
+      result = selectors.getChatMessagesByAgent(mockChatSettings);
     });
 
     it('returns the chats from only agents', () => {
@@ -1020,7 +903,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatMessages(mockChatSettings);
+      result = selectors.getChatMessages(mockChatSettings);
     });
 
     it('returns only whitelisted message types chats', () => {
@@ -1051,7 +934,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatEvents(mockChatSettings);
+      result = selectors.getChatEvents(mockChatSettings);
     });
 
     it('returns only whitelisted event type chats', () => {
@@ -1114,7 +997,7 @@ describe('chat selectors', () => {
           12: [mockChats[10]]
         };
 
-        result = getGroupedChatLog(mockChatSettings);
+        result = selectors.getGroupedChatLog(mockChatSettings);
       });
 
       it('adds sets the isFirstVisitorMessage property to true on the first group of messages made by the visitor', () => {
@@ -1156,7 +1039,7 @@ describe('chat selectors', () => {
           5: [mockChats[4], mockChats[5], mockChats[6]]
         };
 
-        result = getGroupedChatLog(mockChatSettings);
+        result = selectors.getGroupedChatLog(mockChatSettings);
       });
 
       it('parses the chat log successfully', () => {
@@ -1183,7 +1066,7 @@ describe('chat selectors', () => {
           2: setIsFirstVisitorMessage([mockChats[1]], true)
         };
 
-        result = getGroupedChatLog(mockChatSettings);
+        result = selectors.getGroupedChatLog(mockChatSettings);
       });
 
       it('parses the chat log successfully', () => {
@@ -1210,7 +1093,7 @@ describe('chat selectors', () => {
           2: [mockChats[1]]
         };
 
-        result = getGroupedChatLog(mockChatSettings);
+        result = selectors.getGroupedChatLog(mockChatSettings);
       });
 
       it('parses the chat log successfully', () => {
@@ -1239,7 +1122,7 @@ describe('chat selectors', () => {
           4: [mockChats[3]]
         };
 
-        result = getGroupedChatLog(mockChatSettings);
+        result = selectors.getGroupedChatLog(mockChatSettings);
       });
 
       it('filters out the invalid chats', () => {
@@ -1275,7 +1158,7 @@ describe('chat selectors', () => {
           6: [{ ...mockChats[5], isLastRating: true }]
         };
 
-        result = getGroupedChatLog(mockChatSettings);
+        result = selectors.getGroupedChatLog(mockChatSettings);
       });
 
       it('adds an isLastRating property to the last rating event', () => {
@@ -1309,7 +1192,7 @@ describe('chat selectors', () => {
           6: [mockChats[5]]
         };
 
-        result = getGroupedChatLog(mockChatSettings);
+        result = selectors.getGroupedChatLog(mockChatSettings);
       });
 
       it('filters out all except the final rating request', () => {
@@ -1345,7 +1228,7 @@ describe('chat selectors', () => {
           6: [mockChats[5]]
         };
 
-        result = getGroupedChatLog(mockChatSettings);
+        result = selectors.getGroupedChatLog(mockChatSettings);
       });
 
       it('invalidates isLastRating value on the previous chat session', () => {
@@ -1364,7 +1247,7 @@ describe('chat selectors', () => {
           chat: { account_status: 'online' }
         };
 
-        result = getChatOnline(mockState);
+        result = selectors.getChatOnline(mockState);
       });
 
       it('returns true', () => {
@@ -1379,7 +1262,7 @@ describe('chat selectors', () => {
           chat: { account_status: 'away' }
         };
 
-        result = getChatOnline(mockState);
+        result = selectors.getChatOnline(mockState);
       });
 
       it('returns true', () => {
@@ -1394,7 +1277,7 @@ describe('chat selectors', () => {
           chat: { account_status: 'offline' }
         };
 
-        result = getChatOnline(mockState);
+        result = selectors.getChatOnline(mockState);
       });
 
       it('returns false', () => {
@@ -1413,7 +1296,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatRating(mockChatSettings);
+      result = selectors.getChatRating(mockChatSettings);
     });
 
     it('returns the current state of rating', () => {
@@ -1443,7 +1326,7 @@ describe('chat selectors', () => {
         }
       };
 
-      result = getConciergeSettings(mockSettings);
+      result = selectors.getConciergeSettings(mockSettings);
     });
 
     describe('when an avatarPath is set via zESettings', () => {
@@ -1490,7 +1373,7 @@ describe('chat selectors', () => {
       mockChatSettings;
 
     beforeEach(() => {
-      result = getCurrentConcierges(mockChatSettings);
+      result = selectors.getCurrentConcierges(mockChatSettings);
     });
 
     describe('when there is no agent', () => {
@@ -1589,7 +1472,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getActiveAgents(mockChatSettings);
+      result = selectors.getActiveAgents(mockChatSettings);
     });
 
     it('returns the current state of agents with triggers filtered out', () => {
@@ -1609,7 +1492,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatScreen(mockChatSettings);
+      result = selectors.getChatScreen(mockChatSettings);
     });
 
     it('returns the current state of screen', () => {
@@ -1627,7 +1510,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getCurrentMessage(mockChatSettings);
+      result = selectors.getCurrentMessage(mockChatSettings);
     });
 
     it('returns the current state of currentMessage', () => {
@@ -1650,7 +1533,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getAttachmentsEnabled(mockChatSettings);
+      result = selectors.getAttachmentsEnabled(mockChatSettings);
     });
 
     it('returns the current state of attachmentsEnabled', () => {
@@ -1670,7 +1553,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getNotificationCount(mockChatSettings);
+      result = selectors.getNotificationCount(mockChatSettings);
     });
 
     it('returns the current state of the notification\'s count', () => {
@@ -1702,7 +1585,7 @@ describe('chat selectors', () => {
     describe('when a rating has been submitted', () => {
       beforeEach(() => {
         mockState.chat.rating.value = 'good';
-        result = getShowRatingScreen(mockState);
+        result = selectors.getShowRatingScreen(mockState);
       });
 
       it('returns false', () => {
@@ -1713,7 +1596,7 @@ describe('chat selectors', () => {
     describe('when ratings are disabled', () => {
       beforeEach(() => {
         mockState.chat.accountSettings.rating.enabled = false;
-        result = getShowRatingScreen(mockState);
+        result = selectors.getShowRatingScreen(mockState);
       });
 
       it('returns false', () => {
@@ -1724,7 +1607,7 @@ describe('chat selectors', () => {
     describe('when there are no agents in the chat', () => {
       beforeEach(() => {
         mockState.chat.agents = [];
-        result = getShowRatingScreen(mockState);
+        result = selectors.getShowRatingScreen(mockState);
       });
 
       it('returns false', () => {
@@ -1735,7 +1618,7 @@ describe('chat selectors', () => {
     describe('when ratings.disableEndScreen is true', () => {
       beforeEach(() => {
         mockState.chat.rating.disableEndScreen = true;
-        result = getShowRatingScreen(mockState);
+        result = selectors.getShowRatingScreen(mockState);
       });
 
       it('returns false', () => {
@@ -1745,7 +1628,7 @@ describe('chat selectors', () => {
 
     describe('when a rating has not been submitted, ratings are enabled and there are agents in the chat', () => {
       beforeEach(() => {
-        result = getShowRatingScreen(mockState);
+        result = selectors.getShowRatingScreen(mockState);
       });
 
       it('returns true', () => {
@@ -1768,7 +1651,7 @@ describe('chat selectors', () => {
       };
 
       beforeEach(() => {
-        result = getThemeShowAvatar(mockChatSettings);
+        result = selectors.getThemeShowAvatar(mockChatSettings);
       });
 
       it(`returns the ${expectation} from the current state of message_type`, () => {
@@ -1813,7 +1696,7 @@ describe('chat selectors', () => {
           }
         }
       };
-      result = getChatOfflineForm(mockChatSettings);
+      result = selectors.getChatOfflineForm(mockChatSettings);
     });
 
     it('returns the current state of the notification\'s count', () => {
@@ -1833,7 +1716,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getLastAgentLeaveEvent(mockChatSettings);
+        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
       });
 
       it('returns undefined', () => {
@@ -1854,7 +1737,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getLastAgentLeaveEvent(mockChatSettings);
+        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
       });
 
       it('returns undefined', () => {
@@ -1875,7 +1758,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getLastAgentLeaveEvent(mockChatSettings);
+        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
       });
 
       it('returns undefined', () => {
@@ -1896,7 +1779,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getLastAgentLeaveEvent(mockChatSettings);
+        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
       });
 
       it('returns undefined', () => {
@@ -1919,7 +1802,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getLastAgentLeaveEvent(mockChatSettings);
+        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
       });
 
       it('returns the event', () => {
@@ -1943,7 +1826,7 @@ describe('chat selectors', () => {
         }
       };
 
-      result = getQuickRepliesFromChatLog(mockState);
+      result = selectors.getQuickRepliesFromChatLog(mockState);
 
       expect(result).toBeUndefined;
     });
@@ -1960,7 +1843,7 @@ describe('chat selectors', () => {
         }
       };
 
-      result = getQuickRepliesFromChatLog(mockState);
+      result = selectors.getQuickRepliesFromChatLog(mockState);
 
       expect(result).toEqual(mockChats[1]);
     });
@@ -1979,7 +1862,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getQuickRepliesFromChatLog(mockState);
+        result = selectors.getQuickRepliesFromChatLog(mockState);
 
         expect(result).toBeUndefined;
       });
@@ -1997,7 +1880,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getQuickRepliesFromChatLog(mockState);
+        result = selectors.getQuickRepliesFromChatLog(mockState);
 
         expect(result).toBeUndefined;
       });
@@ -2015,7 +1898,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getQuickRepliesFromChatLog(mockState);
+        result = selectors.getQuickRepliesFromChatLog(mockState);
 
         expect(result).toEqual(mockChats[1]);
       });
@@ -2033,7 +1916,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getQuickRepliesFromChatLog(mockState);
+        result = selectors.getQuickRepliesFromChatLog(mockState);
 
         expect(result).toBeUndefined;
       });
@@ -2068,7 +1951,7 @@ describe('chat selectors', () => {
     describe('when user is logging out', () => {
       beforeEach(() => {
         mockState.chat.isLoggingOut = true;
-        result = getShowOfflineChat(mockState);
+        result = selectors.getShowOfflineChat(mockState);
       });
 
       it('returns false', () => {
@@ -2080,7 +1963,7 @@ describe('chat selectors', () => {
     describe('when chat is online', () => {
       beforeEach(() => {
         mockState.chat.account_status = 'online';
-        result = getShowOfflineChat(mockState);
+        result = selectors.getShowOfflineChat(mockState);
       });
 
       it('returns false', () => {
@@ -2092,7 +1975,7 @@ describe('chat selectors', () => {
     describe('when isChatting is true', () => {
       beforeEach(() => {
         mockState.chat.is_chatting = true;
-        result = getShowOfflineChat(mockState);
+        result = selectors.getShowOfflineChat(mockState);
       });
 
       it('returns false', () => {
@@ -2104,7 +1987,7 @@ describe('chat selectors', () => {
     describe('when a rating has not been left', () => {
       beforeEach(() => {
         mockState.chat.rating.value = null;
-        result = getShowOfflineChat(mockState);
+        result = selectors.getShowOfflineChat(mockState);
       });
 
       it('returns false', () => {
@@ -2115,7 +1998,7 @@ describe('chat selectors', () => {
 
     describe('when chat is offline, isChatting is true, not logging out, and a rating has been left', () => {
       beforeEach(() => {
-        result = getShowOfflineChat(mockState);
+        result = selectors.getShowOfflineChat(mockState);
       });
 
       it('returns true', () => {
@@ -2137,7 +2020,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getPreChatFormState(mockChatSettings);
+      result = selectors.getPreChatFormState(mockChatSettings);
     });
 
     it('returns the current state of the pre chat form', () => {
@@ -2159,7 +2042,7 @@ describe('chat selectors', () => {
           }
         }
       };
-      result = getEditContactDetails(mockChatSettings);
+      result = selectors.getEditContactDetails(mockChatSettings);
     });
 
     it('returns the current state of the edit contact details', () => {
@@ -2178,7 +2061,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getOperatingHours(mockOperatingHours);
+      result = selectors.getOperatingHours(mockOperatingHours);
     });
 
     it('returns the current state of operatingHours', () => {
@@ -2207,7 +2090,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getGroupedOperatingHours(mockState);
+      result = selectors.getGroupedOperatingHours(mockState);
     });
 
     it('returns the current state of operatingHours', () => {
@@ -2239,7 +2122,7 @@ describe('chat selectors', () => {
           }
         }
       };
-      result = getOfflineMessage(mockChatSettings);
+      result = selectors.getOfflineMessage(mockChatSettings);
     });
 
     it('returns the current state of the offlineMessage', () => {
@@ -2257,7 +2140,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getMenuVisible(mockState);
+      result = selectors.getMenuVisible(mockState);
     });
 
     it('returns the current state of menuVisible', () => {
@@ -2280,7 +2163,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getShowMenu(mockState);
+        result = selectors.getShowMenu(mockState);
       });
 
       it('returns true', () => {
@@ -2300,7 +2183,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getShowMenu(mockState);
+        result = selectors.getShowMenu(mockState);
       });
 
       it('returns false', () => {
@@ -2320,7 +2203,7 @@ describe('chat selectors', () => {
           }
         };
 
-        result = getShowMenu(mockState);
+        result = selectors.getShowMenu(mockState);
       });
 
       it('returns false', () => {
@@ -2342,7 +2225,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getLoginSettings(mockState);
+      result = selectors.getLoginSettings(mockState);
     });
 
     it('returns the current state of login', () => {
@@ -2360,7 +2243,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getStandaloneMobileNotificationVisible(mockState);
+      result = selectors.getStandaloneMobileNotificationVisible(mockState);
     });
 
     it('retuns the current state of standaloneMobileNotificationVisible', () => {
@@ -2374,7 +2257,7 @@ describe('chat selectors', () => {
     let createSession = (...chats) => {
       let mockState = { chat: { chats: new Map(chats) } };
 
-      return getIsProactiveSession(mockState);
+      return selectors.getIsProactiveSession(mockState);
     };
 
     describe('no visitor interaction', () => {
@@ -2487,7 +2370,7 @@ describe('chat selectors', () => {
       mockState;
 
     beforeEach(() => {
-      result = getAgentsTyping(mockState);
+      result = selectors.getAgentsTyping(mockState);
     });
 
     describe('when the state does not contain any entries', () => {
@@ -2568,7 +2451,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getAllAgents(mockChatSettings);
+      result = selectors.getAllAgents(mockChatSettings);
     });
 
     it('returns all agents in the current state', () => {
@@ -2595,7 +2478,7 @@ describe('chat selectors', () => {
       };
 
     beforeEach(() => {
-      result = getFirstMessageTimestamp(mockChatSettings);
+      result = selectors.getFirstMessageTimestamp(mockChatSettings);
     });
 
     it('returns the first chat message timestamp', () => {
@@ -2605,7 +2488,7 @@ describe('chat selectors', () => {
 
     describe('no chats', () => {
       beforeEach(() => {
-        result = getFirstMessageTimestamp({ chat: {chats: new Map()}});
+        result = selectors.getFirstMessageTimestamp({ chat: {chats: new Map()}});
       });
 
       it('returns null', () => {
@@ -2629,7 +2512,7 @@ describe('chat selectors', () => {
       };
 
     beforeEach(() => {
-      result = getSocialLogin(mockChatSettings);
+      result = selectors.getSocialLogin(mockChatSettings);
     });
 
     it('returns the current state of socialLogin', () => {
@@ -2643,7 +2526,7 @@ describe('chat selectors', () => {
       mockChatSettings;
 
     beforeEach(() => {
-      result = getAuthUrls(mockChatSettings);
+      result = selectors.getAuthUrls(mockChatSettings);
     });
 
     describe('when there are no enabled social media', () => {
@@ -2774,7 +2657,7 @@ describe('chat selectors', () => {
         }
       };
 
-      result = getZChatVendor(mockChatSettings);
+      result = selectors.getZChatVendor(mockChatSettings);
     });
 
     it('returns the zChat vendor', () => {
@@ -2793,7 +2676,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getWindowSettings({
+      result = selectors.getWindowSettings({
         chat: { accountSettings: mockAccountSettings }
       });
     });
@@ -2810,7 +2693,7 @@ describe('chat selectors', () => {
     const mockTitle = 'My custom title';
 
     beforeEach(() => {
-      result = getChatTitle({
+      result = selectors.getChatTitle({
         chat: {
           accountSettings: {
             chatWindow: {
@@ -2858,7 +2741,7 @@ describe('chat selectors', () => {
         }
       };
 
-      result = getDepartment(mockState, id);
+      result = selectors.getDepartment(mockState, id);
     });
 
     describe('when id is a string', () => {
@@ -2893,7 +2776,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getThemeColor({
+      result = selectors.getThemeColor({
         chat: { accountSettings: mockAccountSettings }
       });
     });
@@ -2913,7 +2796,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getThemePosition({
+      result = selectors.getThemePosition({
         chat: { accountSettings: mockAccountSettings }
       });
     });
@@ -2921,6 +2804,44 @@ describe('chat selectors', () => {
     it('returns the position', () => {
       expect(result)
         .toEqual('right');
+    });
+  });
+
+  describe('getChatConnected', () => {
+    let result,
+      mockChatSettings,
+      connection;
+
+    beforeEach(() => {
+      mockChatSettings = {
+        chat: {
+          connection: connection
+        }
+      };
+
+      result = selectors.getChatConnected(mockChatSettings);
+    });
+
+    describe('when status is connected', () => {
+      beforeAll(() => {
+        connection = CONNECTION_STATUSES.CONNECTED;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toBe(true);
+      });
+    });
+
+    describe('when status is not connected', () => {
+      beforeAll(() => {
+        connection = CONNECTION_STATUSES.CLOSED;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
     });
   });
 });

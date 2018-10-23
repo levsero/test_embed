@@ -7,6 +7,7 @@ import { ButtonNav } from 'component/button/ButtonNav';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
+import { clickBusterRegister } from 'utility/devices';
 
 import {
   getMenuVisible as getChatMenuVisible,
@@ -33,6 +34,7 @@ class Navigation extends Component {
     handleCloseButtonClicked: PropTypes.func,
     hideCloseButton: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
+    preventClose: PropTypes.bool,
     useBackButton: PropTypes.bool,
     useMenu: PropTypes.bool,
     menuVisible: PropTypes.bool,
@@ -47,6 +49,7 @@ class Navigation extends Component {
     handleCloseButtonClicked: () => {},
     hideCloseButton: false,
     backButtonVisible: false,
+    preventClose: false,
     useBackButton: false,
     updateMenuVisibility: () => {},
     menuVisible: false,
@@ -78,11 +81,17 @@ class Navigation extends Component {
   }
 
   handleCloseClick = (e) => {
+    if (this.props.preventClose) return;
+
     e.stopPropagation();
-    // Eventually the handleCloseClick prop would be done through redux and we
-    // wouldn't need both of these.
+
     this.props.handleCloseButtonClicked();
-    this.props.handleCloseClick();
+
+    // e.touches added for automation testing mobile browsers
+    // which is firing 'click' event on iframe close
+    if (this.props.fullscreen && e.touches) {
+      clickBusterRegister(e.touches[0].clientX, e.touches[0].clientY);
+    }
   }
 
   renderLeftNavButton = () => {

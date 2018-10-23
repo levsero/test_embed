@@ -3,7 +3,15 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
-import { handlePrefillReceived, logout, handleOnApiCalled, apiClearForm } from 'src/redux/modules/base';
+import {
+  handlePrefillReceived,
+  logout,
+  handleOnApiCalled,
+  apiClearForm,
+  activateRecieved,
+  showRecieved,
+  hideRecieved,
+  legacyShowReceived } from 'src/redux/modules/base';
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
@@ -68,6 +76,12 @@ const setHelpCenterSuggestionsApi = (reduxStore, options) => {
 };
 const prefill = (reduxStore, payload) => {
   reduxStore.dispatch(handlePrefillReceived(payload));
+};
+const hideApi = (reduxStore) => {
+  reduxStore.dispatch(hideRecieved());
+};
+const showApi = (reduxStore) => {
+  reduxStore.dispatch(showRecieved());
 };
 const updatePathApi = (reduxStore, page = {}) => {
   reduxStore.dispatch(sendVisitorPath(page));
@@ -140,7 +154,8 @@ const getApiPostRenderQueue = () => {
 
 const newApiStructurePostRender = {
   webWidget: {
-    hide: () => mediator.channel.broadcast('.hide'),
+    hide: hideApi,
+    show: showApi,
     setLocale: setLocaleApi,
     identify: identifyApi,
     updateSettings: updateSettingsApi,
@@ -156,7 +171,8 @@ const newApiStructurePostRender = {
 };
 const newApiStructurePreRender = {
   webWidget: {
-    hide: renderer.hide,
+    hide: hideApi,
+    show: (_, ...args) => addToPostRenderQueue(['webWidget', 'show', ...args]),
     setLocale: (_, locale) => i18n.setLocale(locale),
     identify: (_, ...args) => addToPostRenderQueue(['webWidget', 'identify', ...args]),
     updateSettings: (_, ...args) => addToPostRenderQueue(['webWidget', 'updateSettings', ...args]),
@@ -223,7 +239,7 @@ function handleQueue(reduxStore, queue) {
       } catch (e) {
         logApiError(method[0], e);
       }
-    } else if (_.includes(method[0], 'webWidget')){
+    } else if (_.includes(method[0], 'webWidget')) {
       // New API
       try {
         handleNewApi(newApiStructurePreRender, reduxStore, method);
@@ -259,7 +275,7 @@ function setupWidgetQueue(win, postRenderQueue, reduxStore) {
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
-    hide: renderer.hide,
+    hide: hideApi,
     show: postRenderQueueCallback.bind('show'),
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
     identify: postRenderQueueCallback.bind('identify'),
@@ -327,7 +343,6 @@ function setupZopimQueue(win) {
 
 function setupIPMApi(win, reduxStore, embeddableConfig = {}) {
   const existingConfig = !_.isEmpty(embeddableConfig.embeds);
-  const prefix = existingConfig ? '' : 'ipm.';
 
   win.zE.configureIPMWidget = (config) => {
     if (!existingConfig) {
@@ -338,10 +353,10 @@ function setupIPMApi(win, reduxStore, embeddableConfig = {}) {
     reduxStore.dispatch(displayArticle(articleId));
   };
   win.zE.showIPMWidget = () => {
-    mediator.channel.broadcast(`${prefix}webWidget.show`);
+    reduxStore.dispatch(activateRecieved());
   };
   win.zE.hideIPMWidget = () => {
-    mediator.channel.broadcast(`${prefix}webWidget.hide`);
+    hideApi(reduxStore);
   };
 }
 
@@ -360,10 +375,13 @@ function setupWidgetApi(win, reduxStore) {
   };
   win.zE.logout = () => logoutApi(reduxStore);
   win.zE.setHelpCenterSuggestions = (options) => setHelpCenterSuggestionsApi(reduxStore, options);
-  win.zE.activate = (options) => mediator.channel.broadcast('.activate', options);
+  win.zE.activate = (options) => {
+    mediator.channel.broadcast('.activate', options);
+    reduxStore.dispatch(activateRecieved(options));
+  };
   win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
-  win.zE.hide = () => mediator.channel.broadcast('.hide');
-  win.zE.show = () => mediator.channel.broadcast('.show');
+  win.zE.hide = () => hideApi(reduxStore);
+  win.zE.show = () => { reduxStore.dispatch(legacyShowReceived()); };
   win.zE.setLocale = (locale) => setLocaleApi(null, locale);
 }
 

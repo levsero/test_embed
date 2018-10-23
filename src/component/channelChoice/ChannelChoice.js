@@ -8,7 +8,6 @@ export class ChannelChoice extends Component {
   static propTypes = {
     chatAvailable: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired,
-    onCancelClick: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
     hideZendeskLogo: PropTypes.bool,
@@ -38,7 +37,7 @@ export class ChannelChoice extends Component {
   }
 
   renderMobile = () => {
-    const { onCancelClick, chatAvailable, chatOfflineAvailable, formTitleKey } = this.props;
+    const { chatAvailable, chatOfflineAvailable, formTitleKey } = this.props;
 
     return (
       <ChannelChoiceMobile
@@ -51,8 +50,7 @@ export class ChannelChoice extends Component {
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
-        handleNextClick={this.handleNextClick}
-        handleCancelClick={onCancelClick} />
+        handleNextClick={this.handleNextClick} />
     );
   }
 

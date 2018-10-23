@@ -6,8 +6,13 @@ import { getAccountSettings,
   getOperatingHours,
   getIsChatting,
   clearDepartment,
-  setDepartment } from 'src/redux/modules/chat';
-import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base';
+  setDepartment,
+  chatWindowOpenOnNavigate,
+  chatConnected } from 'src/redux/modules/chat';
+import {
+  updateActiveEmbed,
+  updateBackButtonVisibility,
+  activateRecieved } from 'src/redux/modules/base';
 import { IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
   SDK_CHAT_MEMBER_LEAVE,
@@ -21,7 +26,6 @@ import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
   getConnection,
-  getOfflineFormSettings,
   getChatOnline,
   getChatStatus,
   getChatScreen,
@@ -43,8 +47,11 @@ import { store } from 'service/persistence';
 import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { isMobileBrowser } from 'utility/devices';
+import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
+import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
+const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed');
 const createdAtTimestamp = Date.now();
 let chatAccountSettingsFetched = false;
 let chatNotificationTimeout = null;
@@ -84,19 +91,22 @@ const handleNewAgentMessage = (nextState, dispatch) => {
     const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState);
     const isMobile = isMobileBrowser();
 
-    if (recentMessage && getUserSoundSettings(nextState)) {
-      audio.play('incoming_message');
+    if (recentMessage) {
+      if (getUserSoundSettings(nextState)) {
+        audio.play('incoming_message');
+      }
+
+      dispatch(newAgentMessageReceived(agentMessage));
     }
 
     if (_.size(getChatMessagesByAgent(nextState)) === 1 && !getHasSearched(nextState)) {
       dispatch(updateActiveEmbed('chat'));
     }
 
-    dispatch(newAgentMessageReceived(agentMessage));
     startChatNotificationTimer(agentMessage);
 
     if (!widgetShown && recentMessage && agentMessage.proactive && !(isMobile && isMobileNotificationsDisabled)) {
-      mediator.channel.broadcast('newChat.newMessage');
+      mediator.channel.broadcast('newChat.newMessage', dispatch);
     }
   }
 };
@@ -120,6 +130,7 @@ const onChatConnected = (prevState, nextState, dispatch) => {
       dispatch(getAccountSettings());
       dispatch(getIsChatting());
       dispatch(getOperatingHours());
+      dispatch(chatConnected());
       chatAccountSettingsFetched = true;
       mediator.channel.broadcast('newChat.connected', showOnLoad);
     }
@@ -128,11 +139,10 @@ const onChatConnected = (prevState, nextState, dispatch) => {
 
 const onChatStatus = (action, dispatch) => {
   if (action.type === IS_CHATTING) {
-    mediator.channel.broadcast('newChat.isChatting', action.payload, showOnLoad);
     if (action.payload) {
-      let activeEmbed = _.get(store.get('store'), 'activeEmbed', '');
+      let activeEmbed = storedActiveEmbed;
 
-      if (activeEmbed === 'zopimChat') activeEmbed = 'chat';
+      if (storedActiveEmbed === 'zopimChat') activeEmbed = 'chat';
 
       const timestamp = _.get(store.get('store'), 'lastAgentMessageSeenTimestamp');
 
@@ -140,7 +150,13 @@ const onChatStatus = (action, dispatch) => {
         dispatch(updateLastAgentMessageSeenTimestamp(timestamp));
       }
 
-      dispatch(updateActiveEmbed(activeEmbed));
+      if (activeEmbed) {
+        dispatch(updateActiveEmbed(activeEmbed));
+      }
+
+      if (showOnLoad) {
+        dispatch(chatWindowOpenOnNavigate());
+      }
     }
   }
 };
@@ -192,12 +208,7 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
 
 const onChatStatusChange = (prevState, nextState, dispatch) => {
   if (getChatStatus(prevState) !== getChatStatus(nextState)) {
-    if (getChatOnline(nextState)) {
-      mediator.channel.broadcast('newChat.online');
-    } else {
-      const hideLauncher = !getOfflineFormSettings(nextState).enabled;
-
-      mediator.channel.broadcast('newChat.offline', hideLauncher);
+    if (!getChatOnline(nextState)) {
       if (getSubmitTicketEmbed(nextState) && !getIsChattingState(nextState) && getActiveEmbed(nextState) === 'chat') {
         dispatch(updateActiveEmbed('ticketSubmissionForm'));
       }
@@ -219,16 +230,11 @@ const onArticleDisplayed = (prevState, nextState, dispatch) => {
 
   if (!prevDisplay && nextDisplay) {
     const ipmWidget = getIPMWidget(prevState);
+    const isBackButtonVisible = ipmWidget ? false : getHelpCenterEmbed(prevState);
+    const widgetShown = getWidgetShown(prevState);
 
-    if (ipmWidget) {
-      mediator.channel.broadcast('ipm.webWidget.show');
-      dispatch(updateBackButtonVisibility(false));
-    } else {
-      const widgetShown = getWidgetShown(prevState);
-
-      dispatch(updateBackButtonVisibility(getHelpCenterEmbed(prevState)));
-      if (!widgetShown) mediator.channel.broadcast('.activate');
-    }
+    dispatch(updateBackButtonVisibility(isBackButtonVisible));
+    if (!widgetShown) dispatch(activateRecieved());
   }
 };
 
@@ -281,4 +287,6 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onChatEnd(nextState, action, dispatch);
   onAgentLeave(prevState, action, dispatch);
   onVisitorUpdate(action, dispatch);
+  onWidgetOpen(prevState, nextState);
+  onChatOpen(prevState, nextState, dispatch);
 }

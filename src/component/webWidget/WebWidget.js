@@ -13,7 +13,9 @@ import HelpCenter from 'component/helpCenter/HelpCenter';
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
   updateEmbedAccessible,
-  updateBackButtonVisibility } from 'src/redux/modules/base';
+  updateBackButtonVisibility,
+  nextButtonClicked,
+  cancelButtonClicked } from 'src/redux/modules/base';
 import { chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
@@ -97,7 +99,6 @@ class WebWidget extends Component {
     hideZendeskLogo: PropTypes.bool,
     localeFallbacks: PropTypes.array,
     oldChat: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func,
     onSubmitted: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
@@ -110,13 +111,14 @@ class WebWidget extends Component {
     ticketFormSettings: PropTypes.array,
     getFrameContentDocument: PropTypes.func,
     zopimOnNext: PropTypes.func,
-    closeFrame: PropTypes.func,
     onBackButtonClick: PropTypes.func,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
+    nextButtonClicked: PropTypes.func.isRequired,
+    cancelButtonClicked: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
@@ -152,7 +154,6 @@ class WebWidget extends Component {
     isOnHelpCenterPage: false,
     hideZendeskLogo: false,
     localeFallbacks: [],
-    onCancel: () => {},
     onSubmitted: () => {},
     originalArticleButton: true,
     position: 'right',
@@ -162,10 +163,10 @@ class WebWidget extends Component {
     ticketFieldSettings: [],
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
+    nextButtonClicked: () => {},
     talkAvailable: false,
     talkOnline: false,
     zopimOnNext: () => {},
-    closeFrame: () => {},
     onBackButtonClick: () => {},
     talkConfig: {},
     resetActiveArticle: () => {},
@@ -230,61 +231,14 @@ class WebWidget extends Component {
     }
   }
 
-  resetActiveEmbed = () => {
-    const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable,
-      chatAvailable, articleViewActive, ipmHelpCenterAvailable, helpCenterAvailable,
-      channelChoiceAvailable, showTicketFormsBackButton } = this.props;
-    let backButton = false;
-
-    if (helpCenterAvailable) {
-      updateActiveEmbed(helpCenter);
-      backButton = articleViewActive;
-    } else if (ipmHelpCenterAvailable && articleViewActive) {
-      // we only go into this condition if HC is injected by IPM
-      updateActiveEmbed(helpCenter);
-      backButton = false;
-    } else if (channelChoiceAvailable) {
-      updateActiveEmbed(channelChoice);
-    } else if (talkAvailable) {
-      updateActiveEmbed(talk);
-    } else if (chatAvailable || chatStandalone) {
-      this.showChat();
-    } else {
-      updateActiveEmbed(submitTicket);
-      backButton = showTicketFormsBackButton;
-    }
-
-    updateBackButtonVisibility(backButton);
-  }
-
-  show = (viaActivate = false) => {
-    const { activeEmbed, chatAvailable, chatOfflineAvailable, talkAvailable, channelChoiceAvailable } = this.props;
+  show = () => {
+    const { activeEmbed, chatAvailable, channelChoiceAvailable } = this.props;
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
     if (activeEmbed === submitTicket && chatAvailable && !channelChoiceAvailable) {
       this.showChat();
-      return;
     }
-
-    // If zopimChat is the active embed, we need to show the chat window regardless online or offline.
-    // If zopimChat becomes offline, the activeEmbed resets to "".
-    if (activeEmbed === zopimChat) {
-      this.props.zopimOnNext();
-      return;
-    }
-
-    const channelChoiceUnavailable = (activeEmbed === channelChoice && !channelChoiceAvailable);
-    const chatUnavailable = (activeEmbed === chat && !chatAvailable && !chatOfflineAvailable);
-    const talkUnavailable = (activeEmbed === talk && !talkAvailable);
-
-    if (
-      this.noActiveEmbed() ||
-      viaActivate ||
-      chatUnavailable ||
-      talkUnavailable ||
-      channelChoiceUnavailable
-    ) this.resetActiveEmbed();
   }
 
   showHelpCenter = () => {
@@ -303,7 +257,8 @@ class WebWidget extends Component {
       chatAvailable,
       talkAvailable,
       chatOfflineAvailable,
-      channelChoiceAvailable } = this.props;
+      channelChoiceAvailable,
+      nextButtonClicked } = this.props;
 
     if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
@@ -327,10 +282,12 @@ class WebWidget extends Component {
         updateBackButtonVisibility(true);
       }
     }
+
+    nextButtonClicked();
   }
 
   onCancelClick = () => {
-    const { ipmHelpCenterAvailable, updateActiveEmbed, onCancel, updateBackButtonVisibility,
+    const { updateActiveEmbed, cancelButtonClicked, updateBackButtonVisibility,
       helpCenterAvailable, channelChoiceAvailable } = this.props;
 
     if (helpCenterAvailable) {
@@ -339,10 +296,7 @@ class WebWidget extends Component {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
     }  else {
-      if (!ipmHelpCenterAvailable) {
-        updateActiveEmbed('');
-      }
-      onCancel();
+      cancelButtonClicked();
     }
   }
 
@@ -409,7 +363,6 @@ class WebWidget extends Component {
         getFrameContentDocument={this.props.getFrameContentDocument}
         isMobile={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}
         position={this.props.position}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
@@ -505,7 +458,6 @@ class WebWidget extends Component {
         chatEnabled={this.props.chatEnabled}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
-        onCancelClick={this.props.closeFrame}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
@@ -550,11 +502,7 @@ class WebWidget extends Component {
   }
 
   dismissStandaloneChatPopup = () => {
-    const onHide = () => {
-      this.props.chatNotificationDismissed();
-    };
-
-    this.props.closeFrame({}, { onHide });
+    this.props.chatNotificationDismissed();
   }
 
   renderStandaloneChatPopup() {
@@ -625,7 +573,9 @@ const actionCreators = {
   chatNotificationDismissed,
   chatNotificationRespond,
   updateChatScreen,
-  showStandaloneMobileNotification
+  showStandaloneMobileNotification,
+  nextButtonClicked,
+  cancelButtonClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

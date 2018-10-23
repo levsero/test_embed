@@ -1,5 +1,5 @@
 describe('Navigation', () => {
-  let Navigation;
+  let Navigation, mockClickBusterRegister;
 
   const navigationPath = buildSrcPath('component/frame/Navigation');
 
@@ -8,6 +8,8 @@ describe('Navigation', () => {
 
     const sharedConstantsPath = buildSrcPath('constants/shared');
     const ICONS = requireUncached(sharedConstantsPath).ICONS;
+
+    mockClickBusterRegister = jasmine.createSpy('clickBusterRegister');
 
     initMockRegistry({
       'React': React,
@@ -52,6 +54,9 @@ describe('Navigation', () => {
       },
       'constants/shared': {
         ICONS
+      },
+      'utility/devices': {
+        clickBusterRegister: mockClickBusterRegister
       }
     });
 
@@ -216,33 +221,89 @@ describe('Navigation', () => {
   });
 
   describe('handleCloseClick', () => {
-    let navigation;
-    const handleCloseClickSpy = jasmine.createSpy('handleCloseClick');
+    let navigation, fullscreen, preventClose;
     const handleCloseButtonClickSpy = jasmine.createSpy('handleCloseButtonClick');
     const stopPropagationSpy = jasmine.createSpy('stopPropagation');
 
     beforeEach(() => {
       navigation = domRender(
         <Navigation
-          handleCloseClick={handleCloseClickSpy}
+          preventClose={preventClose}
+          fullscreen={fullscreen}
           handleCloseButtonClicked={handleCloseButtonClickSpy} />
       );
       navigation.handleCloseClick({ stopPropagation: stopPropagationSpy });
     });
 
-    it('calls handleCloseClick prop', () => {
-      expect(handleCloseClickSpy)
-        .toHaveBeenCalled();
-    });
-
-    it('calls handleCloseButtonClick prop', () => {
-      expect(handleCloseButtonClickSpy)
-        .toHaveBeenCalled();
+    afterEach(() => {
+      handleCloseButtonClickSpy.calls.reset();
     });
 
     it('calls stopPropagation event', () => {
       expect(stopPropagationSpy)
         .toHaveBeenCalled();
+    });
+
+    describe('when preventClose option is false', () => {
+      beforeAll(() => {
+        preventClose = false;
+      });
+
+      describe('when on desktop', () => {
+        beforeAll(() => {
+          fullscreen = false;
+        });
+
+        it('calls handleCloseButtonClick prop', () => {
+          expect(handleCloseButtonClickSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when on mobile', () => {
+        let mockEvent;
+
+        beforeAll(() => {
+          fullscreen = true;
+        });
+
+        it('calls handleCloseButtonClick prop', () => {
+          expect(handleCloseButtonClickSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call clickBusterRegister', () => {
+          expect(mockClickBusterRegister)
+            .not.toHaveBeenCalledWith();
+        });
+
+        describe('when there is a touch event', () => {
+          beforeEach(() => {
+            mockEvent = {
+              stopPropagation: () => {},
+              touches: [{ clientX: 1, clientY: 1 }]
+            };
+
+            navigation.handleCloseClick(mockEvent);
+          });
+
+          it('calls clickBusterRegister', () => {
+            expect(mockClickBusterRegister)
+              .toHaveBeenCalledWith(1, 1);
+          });
+        });
+      });
+    });
+
+    describe('when preventClose option is true', () => {
+      beforeAll(() => {
+        preventClose = true;
+      });
+
+      it('does not call handleCloseButtonClick prop', () => {
+        expect(handleCloseButtonClickSpy)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 });

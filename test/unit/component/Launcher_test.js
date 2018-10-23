@@ -56,6 +56,9 @@ describe('Launcher component', () => {
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatSuppress: noop
       },
+      'src/redux/modules/base/': {
+        launcherClicked: noop
+      },
       'utility/keyboard': {
         keyCodes: {
           'SPACE': 32,

@@ -6,8 +6,16 @@ import { getThemeColor } from 'utility/color/validate';
 import { document, win,
   getDocumentHost } from 'utility/globals';
 import { cappedTimeoutCall } from 'utility/utils';
-import { updateZopimChatStatus } from 'src/redux/modules/zopimChat';
+import {
+  updateZopimChatStatus,
+  zopimHide,
+  zopimConnectionUpdate,
+  zopimShow,
+  zopimOnClose,
+  zopimIsChatting,
+  zopimEndChat } from 'src/redux/modules/zopimChat';
 import { updateSettingsChatSuppress, resetSettingsChatSuppress } from 'src/redux/modules/settings';
+import { updateActiveEmbed } from 'src/redux/modules/base';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -51,6 +59,7 @@ function show(name, showWindow = false) {
       }
     } else {
       win.$zopim.livechat.window.show();
+      get(name).store.dispatch(zopimShow());
     }
 
     // TODO remove when zopim has release mobile notifications
@@ -131,24 +140,25 @@ function render(name) {
 }
 
 function init(name) {
-  let zopimShow, zopimHide;
+  let originalZopimShow, originalZopimHide;
   let zopimApiOverwritten = false;
   const chat = get(name);
+  const store = chat.store;
   const config = chat.config;
   const overwriteZopimApi = () => {
     if (!zopimApiOverwritten) {
-      zopimShow = win.$zopim.livechat.window.show;
-      zopimHide = win.$zopim.livechat.window.hide;
+      originalZopimShow = win.$zopim.livechat.window.show;
+      originalZopimHide = win.$zopim.livechat.window.hide;
       zopimApiOverwritten = true;
 
       win.$zopim.livechat.window.show = () => {
-        mediator.channel.broadcast('.zopimShow');
-        zopimShow();
+        get(name).store.dispatch(zopimShow());
+        originalZopimShow();
       };
 
       win.$zopim.livechat.window.hide = () => {
-        mediator.channel.broadcast('.zopimHide');
-        zopimHide();
+        get(name).store.dispatch(zopimHide());
+        originalZopimHide();
       };
     }
   };
@@ -160,25 +170,28 @@ function init(name) {
       mediator.channel.broadcast(`${name}.onOffline`);
     }
 
-    get(name).store.dispatch(updateZopimChatStatus(status));
+    store.dispatch(updateZopimChatStatus(status));
   };
   const onUnreadMsgs = (unreadMessageCount) => {
-    mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
+    mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount, store);
   };
   const onChatStart = () => {
     mediator.channel.broadcast(`${name}.onChatStart`);
-    get(name).store.dispatch(updateSettingsChatSuppress(false));
+    store.dispatch(updateSettingsChatSuppress(false));
   };
   const onChatEnd = () => {
     mediator.channel.broadcast(`${name}.onChatEnd`);
-    get(name).store.dispatch(resetSettingsChatSuppress());
+    store.dispatch(resetSettingsChatSuppress());
+    store.dispatch(zopimEndChat());
   };
   const onHide = () => {
     mediator.channel.broadcast(`${name}.onHide`);
+    store.dispatch(zopimOnClose());
     win.$zopim(() => win.$zopim.livechat.hideAll());
   };
   const onConnected = () => {
     mediator.channel.broadcast(`${name}.onConnected`);
+    store.dispatch(zopimConnectionUpdate());
     overwriteZopimApi();
   };
 
@@ -188,16 +201,19 @@ function init(name) {
     const zopimLive = win.$zopim.livechat;
     const zopimWin = zopimLive.window;
 
+    zopimLive.hideAll();
+
     cappedTimeoutCall(() => {
       if (zopimWin.getDisplay() || zopimLive.isChatting()) {
-        mediator.channel.broadcast(`${name}.onIsChatting`);
-        get(name).store.dispatch(updateSettingsChatSuppress(false));
+        mediator.channel.broadcast(`${name}.onIsChatting`, zopimWin.getDisplay());
+
+        store.dispatch(zopimIsChatting());
+        store.dispatch(updateActiveEmbed('zopimChat'));
+        store.dispatch(updateSettingsChatSuppress(false));
 
         return true;
       }
     }, 1000, 10);
-
-    zopimLive.hideAll();
 
     zopimWin.onHide(onHide);
     zopimLive.setLanguage(i18n.getLocale());

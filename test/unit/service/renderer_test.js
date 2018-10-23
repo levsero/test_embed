@@ -6,13 +6,13 @@ describe('renderer', () => {
     mockWebWidget,
     mockWebWidgetFactory,
     mockUpdateEmbedAccessible,
-    mockUpdateArturos;
+    mockUpdateArturos,
+    widgetInitialisedSpy;
   const updateBaseFontSize = jasmine.createSpy();
   const forceUpdateWorldSpy = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
   const mediatorInitZopimStandaloneSpy = jasmine.createSpy('mediator.initZopimStandalone');
   const mediatorInitSpy = jasmine.createSpy('mediator.init');
-  const mediatorInitIPMStandaloneSpy = jasmine.createSpy('mediator.initIPMStandalone');
   const mockTrackSettings = { webWidget: 'foo' };
   const FONT_SIZE = 14;
 
@@ -41,6 +41,7 @@ describe('renderer', () => {
 
     mockUpdateEmbedAccessible = jasmine.createSpy();
     mockUpdateArturos = jasmine.createSpy();
+    widgetInitialisedSpy = jasmine.createSpy();
 
     mockLauncher = embedMocker('mockLauncher');
     mockChat = embedMocker('mockChat');
@@ -65,8 +66,7 @@ describe('renderer', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe']),
           init: mediatorInitSpy,
           initMessaging: jasmine.createSpy(),
-          initZopimStandalone: mediatorInitZopimStandaloneSpy,
-          initIPMStandalone: mediatorInitIPMStandaloneSpy
+          initZopimStandalone: mediatorInitZopimStandaloneSpy
         }
       },
       'lodash': _,
@@ -88,7 +88,8 @@ describe('renderer', () => {
       },
       'src/redux/modules/base': {
         updateEmbedAccessible: mockUpdateEmbedAccessible,
-        updateArturos: mockUpdateArturos
+        updateArturos: mockUpdateArturos,
+        widgetInitialised: widgetInitialisedSpy
       }
     });
 
@@ -147,6 +148,9 @@ describe('renderer', () => {
 
       expect(mockUpdateEmbedAccessible)
         .toHaveBeenCalledWith(jasmine.any(String), true);
+
+      expect(widgetInitialisedSpy)
+        .toHaveBeenCalled();
 
       expect(mockChat.create)
         .toHaveBeenCalledWith('zopimChat', jasmine.any(Object), jasmine.any(Object));
@@ -498,9 +502,6 @@ describe('renderer', () => {
       const hcProps = configJSON.embeds.helpCenterForm.props;
 
       renderer.initIPM(configJSON);
-
-      expect(mediatorInitIPMStandaloneSpy)
-        .toHaveBeenCalled();
 
       const mockWebWidgetRecentCall = mockWebWidget.create.calls.mostRecent();
 

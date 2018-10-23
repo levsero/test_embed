@@ -8,6 +8,7 @@ describe('embed.chat', () => {
   const updateZopimChatStatusSpy = jasmine.createSpy('updateZopimChatStatus');
   const updateSettingsChatSuppressSpy = jasmine.createSpy('updateSettingsChatSuppress');
   const resetSettingsChatSuppressSpy = jasmine.createSpy('resetSettingsChatSuppress');
+  const zopimEndChatSpy = jasmine.createSpy('zopimEndChat');
 
   const mockGlobals = {
     document: global.document,
@@ -83,7 +84,13 @@ describe('embed.chat', () => {
         }
       },
       'src/redux/modules/zopimChat': {
-        updateZopimChatStatus: updateZopimChatStatusSpy
+        updateZopimChatStatus: updateZopimChatStatusSpy,
+        zopimOnClose: noop,
+        zopimHide: noop,
+        zopimConnectionUpdate: noop,
+        zopimShow: noop,
+        zopimIsChatting: noop,
+        zopimEndChat: zopimEndChatSpy
       },
       'utility/devices': {
         isMobileBrowser: () => mockIsMobileBrowserValue
@@ -98,6 +105,9 @@ describe('embed.chat', () => {
       'src/redux/modules/settings': {
         updateSettingsChatSuppress: updateSettingsChatSuppressSpy,
         resetSettingsChatSuppress: resetSettingsChatSuppressSpy
+      },
+      'src/redux/modules/base': {
+        updateActiveEmbed: noop
       }
     });
 
@@ -327,7 +337,7 @@ describe('embed.chat', () => {
           onUnreadMsgsCall.args[0](count);
 
           expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('dave.onUnreadMsgs', count);
+            .toHaveBeenCalledWith('dave.onUnreadMsgs', count, jasmine.any(Object));
         });
       });
 
@@ -361,6 +371,11 @@ describe('embed.chat', () => {
           expect(resetSettingsChatSuppressSpy)
             .toHaveBeenCalled();
         });
+
+        it('calls zopimEndChat', () => {
+          expect(zopimEndChatSpy)
+            .toHaveBeenCalled();
+        });
       });
 
       describe('zopim.onError', () => {
@@ -376,7 +391,7 @@ describe('embed.chat', () => {
     describe('mediator subscriptions', () => {
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        chat.create(chatName, {zopimId: zopimId});
+        chat.create(chatName, {zopimId: zopimId}, { dispatch: noop });
         chat.render(chatName);
       });
 
@@ -416,7 +431,7 @@ describe('embed.chat', () => {
 
       describe('<name>.show', () => {
         it('should call zopim.button.show()', () => {
-          chat.create('dave', { zopimId: zopimId, standalone: true });
+          chat.create('dave', { zopimId: zopimId, standalone: true }, { dispatch: noop });
 
           pluckSubscribeCall(mockMediator, 'dave.show')();
 

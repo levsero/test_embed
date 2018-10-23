@@ -5,7 +5,6 @@ describe('Frame', () => {
     mockIsMobileBrowserValue,
     mockChild,
     mockSettingsValue,
-    mockClickBusterRegister,
     mockIsRTLValue,
     mockLocaleValue,
     mockZoomSizingRatioValue,
@@ -62,7 +61,6 @@ describe('Frame', () => {
       zIndex: 999999,
       position: { vertical: 'bottom' }
     };
-    mockClickBusterRegister = jasmine.createSpy('clickBusterRegister');
 
     mockUpdateWidgetShown = jasmine.createSpy('updateWidgetShown');
     mockWidgetHideAnimationComplete = jasmine.createSpy('widgetHideAnimationComplete');
@@ -89,8 +87,7 @@ describe('Frame', () => {
         isMobileBrowser: () => mockIsMobileBrowserValue,
         isFirefox: () => {
           return false;
-        },
-        clickBusterRegister: mockClickBusterRegister
+        }
       },
       'service/i18n': {
         i18n: {
@@ -123,6 +120,9 @@ describe('Frame', () => {
       },
       'src/redux/modules/selectors': {
         getFixedStyles: () => {}
+      },
+      'src/redux/modules/base/base-selectors': {
+        getFrameVisible: () => {}
       }
     };
 
@@ -271,11 +271,6 @@ describe('Frame', () => {
       frame.show();
     });
 
-    it('sets `visible` state to true', () => {
-      expect(frame.state.visible)
-        .toEqual(true);
-    });
-
     it('triggers onShow callback', () => {
       expect(mockOnShow)
         .toHaveBeenCalled();
@@ -373,15 +368,9 @@ describe('Frame', () => {
       frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
       forceFrameReady(frame);
 
-      frame.setState({ visible: true });
       frame.hide();
 
       jasmine.clock().tick(300);
-    });
-
-    it('sets `visible` state to false', () => {
-      expect(frame.state.visible)
-        .toEqual(false);
     });
 
     it('triggers props.callbacks.onHide if set', () => {
@@ -441,114 +430,6 @@ describe('Frame', () => {
 
       it('does not call updateWidgetShown', () => {
         expect(mockUpdateWidgetShown)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe('close', () => {
-    let frame, mockOnClose;
-
-    beforeEach(() => {
-      mockOnClose = jasmine.createSpy('onClose');
-    });
-
-    describe('when preventClose option is false', () => {
-      describe('when on desktop', () => {
-        beforeEach(() => {
-          frame = instanceRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
-
-          frame.close();
-        });
-
-        it('should call the onClose prop', () => {
-          expect(mockOnClose)
-            .toHaveBeenCalled();
-        });
-
-        describe('when options.onHide is defined', () => {
-          const onHide = () => {};
-
-          beforeEach(() => {
-            spyOn(frame, 'hide');
-
-            frame.close({}, { onHide });
-          });
-
-          it('calls hide with onHide callback', () => {
-            expect(frame.hide)
-              .toHaveBeenCalledWith(jasmine.objectContaining({ onHide }));
-          });
-        });
-      });
-
-      describe('when options.skipOnClose is true', () => {
-        beforeEach(() => {
-          frame = instanceRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
-
-          spyOn(frame, 'hide');
-          frame.close({}, { skipOnClose: true });
-        });
-
-        it('does not call the onClose handler', () => {
-          expect(mockOnClose)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when on mobile', () => {
-        let mockEvent;
-
-        beforeEach(() => {
-          mockIsMobileBrowserValue = true;
-
-          frame = instanceRender(<Frame onClose={mockOnClose} fullscreenable={true}>{mockChild}</Frame>);
-
-          spyOn(frame, 'hide');
-          frame.close({});
-        });
-
-        it('should call hide without the close transition', () => {
-          expect(frame.hide)
-            .toHaveBeenCalled();
-        });
-
-        it('should call the onClose handler', () => {
-          expect(mockOnClose)
-            .toHaveBeenCalled();
-        });
-
-        it('should not call clickBusterRegister', () => {
-          expect(mockClickBusterRegister)
-            .not.toHaveBeenCalledWith();
-        });
-
-        describe('when there is a touch event', () => {
-          beforeEach(() => {
-            mockEvent = {
-              touches: [{ clientX: 1, clientY: 1 }]
-            };
-
-            frame.close(mockEvent);
-          });
-
-          it('should call clickBusterRegister', () => {
-            expect(mockClickBusterRegister)
-              .toHaveBeenCalledWith(1, 1);
-          });
-        });
-      });
-    });
-
-    describe('when preventClose option is true', () => {
-      beforeEach(() => {
-        frame = instanceRender(<Frame onClose={mockOnClose} preventClose={true}>{mockChild}</Frame>);
-
-        frame.close();
-      });
-
-      it('should not call the onClose handler', () => {
-        expect(mockOnClose)
           .not.toHaveBeenCalled();
       });
     });
@@ -1049,10 +930,10 @@ describe('Frame', () => {
   });
 
   describe('render', () => {
-    let frame;
+    let frame, visibleValue = true;
 
     beforeEach(() => {
-      frame = domRender(<Frame name='foo'>{mockChild}</Frame>);
+      frame = domRender(<Frame visible={visibleValue} name='foo'>{mockChild}</Frame>);
       forceFrameReady(frame);
     });
 
@@ -1087,8 +968,8 @@ describe('Frame', () => {
     });
 
     describe('when not visible', () => {
-      beforeEach(() => {
-        frame.setState({ visible: false });
+      beforeAll(() => {
+        visibleValue = false;
       });
 
       it('should not have `--active` in classes', () => {
@@ -1104,9 +985,6 @@ describe('Frame', () => {
       it('has the correct animation styles applied to it', () => {
         expect(frame.iframe.style.getPropertyValue('opacity'))
           .toEqual('0');
-
-        expect(frame.iframe.style.getPropertyValue('bottom'))
-          .toEqual('-20px');
       });
     });
   });
@@ -1185,11 +1063,6 @@ describe('Frame', () => {
 
         it('adds onBackButtonClick to the child component', () => {
           expect(frame.getRootComponent().props.onBackButtonClick)
-            .toBeDefined();
-        });
-
-        it('adds closeFrame to the child component', () => {
-          expect(frame.getRootComponent().props.closeFrame)
             .toBeDefined();
         });
 

@@ -6,6 +6,15 @@ describe('base root reducer', () => {
 
     const reducerPath = buildSrcPath('redux/modules/base/reducer/index');
 
+    initMockRegistry({
+      'utility/devices': {
+        isMobileBrowser: () => false
+      },
+      'src/redux/modules/helpCenter/helpCenter-action-types': {},
+      'src/redux/modules/zopimChat/zopimChat-action-types': {},
+      'src/redux/modules/submitTicket/submitTicket-action-types': {}
+    });
+
     reducer = requireUncached(reducerPath).default;
   });
 
@@ -27,11 +36,16 @@ describe('base root reducer', () => {
       'embeds',
       'backButtonVisible',
       'arturos',
-      'queue',
       'embeddableConfig',
       'isAuthenticationPending',
+      'queue',
+      'onApiListeners',
       'hasWidgetShown',
-      'onApiListeners'
+      'webWidgetVisible',
+      'launcherVisible',
+      'widgetInitialised',
+      'hidden',
+      'bootupTimeout',
     ];
 
     it('has the expected substates', () => {

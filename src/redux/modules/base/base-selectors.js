@@ -4,6 +4,8 @@ import { createSelector } from 'reselect';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { EMBED_MAP, LAUNCHER } from 'constants/shared';
 
+export const getHiddenByHideAPI = (state) => state.base.hidden.hideApi;
+export const getHiddenByActivateAPI = (state) => state.base.hidden.activateApi;
 export const getSubmitTicketEmbed = (state) => !!state.base.embeds.ticketSubmissionForm;
 export const getZopimChatEmbed = (state) => !!state.base.embeds.zopimChat;
 export const getChatEmbed = (state) => !!state.base.embeds.chat;
@@ -13,6 +15,10 @@ export const getActiveEmbed = (state) => state.base.activeEmbed;
 export const getWidgetShown = (state) => state.base.widgetShown;
 export const getIPMWidget = (state) => !!state.base.embeds.ipmWidget;
 export const getOnApiListeners = (state) => state.base.onApiListeners;
+export const getWidgetInitialised = (state) => state.base.widgetInitialised;
+export const getBootupTimeout = (state) => state.base.bootupTimeout;
+export const getWebWidgetVisible = (state) => state.base.webWidgetVisible;
+export const getLauncherVisible = (state) => state.base.launcherVisible;
 
 export const getChatStandalone = (state) => {
   const otherProducts = getSubmitTicketEmbed(state) ||

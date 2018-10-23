@@ -17,7 +17,8 @@ const initialState = {
   enabled: false,
   nickname: '',
   phoneNumber: '',
-  supportedCountries: []
+  supportedCountries: [],
+  connected: false
 };
 
 const embeddableConfig = (state = initialState, action) => {
@@ -32,7 +33,8 @@ const embeddableConfig = (state = initialState, action) => {
         ...payload,
         supportedCountries: _.pull(supportedCountries, '', null),
         capability: capabilityMap[payload.capability],
-        enabled: payload.enabled === true
+        enabled: payload.enabled === true,
+        connected: true
       };
     default:
       return state;

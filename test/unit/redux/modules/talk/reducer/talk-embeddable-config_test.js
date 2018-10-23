@@ -35,7 +35,8 @@ describe('talk reducer embeddable-config', () => {
             enabled: false,
             nickname: '',
             phoneNumber: '',
-            supportedCountries: []
+            supportedCountries: [],
+            connected: false
           });
       });
     });
@@ -57,7 +58,13 @@ describe('talk reducer embeddable-config', () => {
 
       describe('when the capability is callback form', () => {
         beforeEach(() => {
-          expected = { ...config, supportedCountries: ['CA', 'ID'], capability: capabilityTypes.CALLBACK_ONLY, enabled: true };
+          expected = {
+            ...config,
+            supportedCountries: ['CA', 'ID'],
+            capability: capabilityTypes.CALLBACK_ONLY,
+            enabled: true,
+            connected: true
+          };
 
           state = reducer(initialState, {
             type: actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG,
@@ -74,7 +81,13 @@ describe('talk reducer embeddable-config', () => {
       describe('when the capability is phone only', () => {
         beforeEach(() => {
           config.capability = '1';
-          expected = { ...config, supportedCountries: ['CA', 'ID'], capability: capabilityTypes.PHONE_ONLY, enabled: true };
+          expected = {
+            ...config,
+            supportedCountries: ['CA', 'ID'],
+            capability: capabilityTypes.PHONE_ONLY,
+            enabled: true,
+            connected: true
+          };
 
           state = reducer(initialState, {
             type: actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG,
@@ -91,7 +104,13 @@ describe('talk reducer embeddable-config', () => {
       describe('when the capability is callback form and phone', () => {
         beforeEach(() => {
           config.capability = '2';
-          expected = { ...config, supportedCountries: ['CA', 'ID'], capability: capabilityTypes.CALLBACK_AND_PHONE, enabled: true };
+          expected = {
+            ...config,
+            supportedCountries: ['CA', 'ID'],
+            capability: capabilityTypes.CALLBACK_AND_PHONE,
+            enabled: true,
+            connected: true
+          };
 
           state = reducer(initialState, {
             type: actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG,

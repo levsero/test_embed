@@ -2,16 +2,21 @@ describe('base reducer activeEmbed', () => {
   let reducer,
     actionTypes,
     getArticleSuccess,
+    zopimShow,
     initialState;
 
   beforeAll(() => {
     mockery.enable();
 
     getArticleSuccess = 'getArticleSuccess';
+    zopimShow = 'zopimChat';
 
     initMockRegistry({
       'src/redux/modules/helpCenter/helpCenter-action-types': {
         GET_ARTICLE_REQUEST_SUCCESS: getArticleSuccess
+      },
+      'src/redux/modules/zopimChat/zopimChat-action-types': {
+        ZOPIM_SHOW: zopimShow
       }
     });
 
@@ -19,9 +24,9 @@ describe('base reducer activeEmbed', () => {
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
+    actionTypes = requireUncached(actionTypesPath);
 
     initialState = reducer(undefined, { type: '' });
-    actionTypes = requireUncached(actionTypesPath);
   });
 
   afterAll(() => {
@@ -67,6 +72,21 @@ describe('base reducer activeEmbed', () => {
     it('sets the helpCenterForm as the state', () => {
       expect(state)
         .toEqual('helpCenterForm');
+    });
+  });
+
+  describe('when an ZOPIM_SHOW action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: zopimShow
+      });
+    });
+
+    it('sets the zopimChat as the state', () => {
+      expect(state)
+        .toEqual('zopimChat');
     });
   });
 });

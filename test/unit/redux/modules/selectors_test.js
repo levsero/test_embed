@@ -1,17 +1,5 @@
 describe('selectors', () => {
-  let getShowTalkBackButton,
-    getChatEnabled,
-    getChatAvailable,
-    getChatOnline,
-    getTalkEnabled,
-    getTalkAvailable,
-    getShowTicketFormsBackButton,
-    getChatOfflineAvailable,
-    getFixedStyles,
-    getIsOnInitialDesktopSearchScreen,
-    getMaxWidgetHeight,
-    getHelpCenterAvailable,
-    settingsChatSuppressValue,
+  let settingsChatSuppressValue,
     zopimChatOnlineValue,
     showOfflineFormValue,
     helpCenterEmbedValue,
@@ -33,14 +21,19 @@ describe('selectors', () => {
     hasPassedAuth,
     mockIsOnHelpCenterPage,
     mockIsChatting,
-    getSubmitTicketAvailable,
-    getColor,
-    getPosition,
-    embeddableConfig,
     configColor,
     chatThemeColor,
     chatThemePosition,
-    getChannelChoiceAvailable;
+    newChatConnectedValue,
+    zopimChatConnectedValue,
+    embeddableConfigConnectedValue,
+    embeddableConfigValue,
+    hiddenByHideAPIValue,
+    hiddenByActivateAPIValue,
+    bootupTimeoutValue,
+    webWidgetVisibleValue,
+    launcherVisibleValue,
+    selectors;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -59,16 +52,18 @@ describe('selectors', () => {
   isMobile = false;
   ipmWidget = false;
   standaloneMobileNotificationVisible = false;
-  getMaxWidgetHeight = false;
   mockSettingsGetFn = () => false;
   isShowHCIntroState = false;
   hasPassedAuth = false;
   mockIsOnHelpCenterPage = false;
   mockIsChatting = false;
-  embeddableConfig = {};
+  embeddableConfigValue = {};
   configColor = {};
   chatThemeColor = {};
   chatThemePosition = {};
+  bootupTimeoutValue = false;
+  webWidgetVisibleValue = false;
+  launcherVisibleValue = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -85,8 +80,13 @@ describe('selectors', () => {
         getZopimChatEmbed: () => zopimChatEmbedValue,
         getIPMWidget: () => ipmWidget,
         getHasPassedAuth: () => hasPassedAuth,
-        getEmbeddableConfig: () => embeddableConfig,
-        getConfigColor: () => configColor
+        getConfigColor: () => configColor,
+        getEmbeddableConfig: () => embeddableConfigValue,
+        getHiddenByHideAPI: () => hiddenByHideAPIValue,
+        getHiddenByActivateAPI: () => hiddenByActivateAPIValue,
+        getBootupTimeout: () => bootupTimeoutValue,
+        getWebWidgetVisible: () => webWidgetVisibleValue,
+        getLauncherVisible: () => launcherVisibleValue
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue
@@ -97,14 +97,18 @@ describe('selectors', () => {
         getStandaloneMobileNotificationVisible: () => standaloneMobileNotificationVisible,
         getIsChatting: () => mockIsChatting,
         getThemeColor: () => chatThemeColor,
-        getThemePosition: () => chatThemePosition
+        getThemePosition: () => chatThemePosition,
+        getChatConnected: () => newChatConnectedValue,
+        getOfflineFormSettings: () => ({ enabled: offlineFormEnabledValue })
       },
       './zopimChat/zopimChat-selectors': {
-        getZopimChatOnline: () => zopimChatOnlineValue
+        getZopimChatOnline: () => zopimChatOnlineValue,
+        getZopimChatConnected: () => zopimChatConnectedValue
       },
       './talk/talk-selectors': {
         getEmbeddableConfigEnabled: () => talkEmbeddableConfigEnabledValue,
-        getAgentAvailability: () => agentAvailabilityValue
+        getAgentAvailability: () => agentAvailabilityValue,
+        getEmbeddableConfigConnected: () => embeddableConfigConnectedValue
       },
       './submitTicket/submitTicket-selectors': {
         getActiveTicketForm: () => activeTicketFormValue,
@@ -133,31 +137,14 @@ describe('selectors', () => {
 
     mockery.registerAllowable(selectorsPath);
 
-    const selectors = requireUncached(selectorsPath);
-
-    getChatAvailable = selectors.getChatAvailable;
-    getChatEnabled = selectors.getChatEnabled;
-    getChatOnline = selectors.getChatOnline;
-    getShowTalkBackButton = selectors.getShowTalkBackButton;
-    getTalkEnabled = selectors.getTalkEnabled;
-    getTalkAvailable = selectors.getTalkAvailable;
-    getShowTicketFormsBackButton = selectors.getShowTicketFormsBackButton;
-    getChatOfflineAvailable = selectors.getChatOfflineAvailable;
-    getFixedStyles = selectors.getFixedStyles;
-    getIsOnInitialDesktopSearchScreen = selectors.getIsOnInitialDesktopSearchScreen;
-    getMaxWidgetHeight = selectors.getMaxWidgetHeight;
-    getHelpCenterAvailable = selectors.getHelpCenterAvailable;
-    getSubmitTicketAvailable = selectors.getSubmitTicketAvailable;
-    getChannelChoiceAvailable = selectors.getChannelChoiceAvailable;
-    getColor = selectors.getColor;
-    getPosition = selectors.getPosition;
+    selectors = requireUncached(selectorsPath);
   });
 
   describe('getMaxWidgetHeight', () => {
     let result;
 
     beforeEach(() => {
-      result = getMaxWidgetHeight();
+      result = selectors.getMaxWidgetHeight();
     });
 
     describe('when isOnInitialDesktopSearchScreen is true and maxHeight styles are present', () => {
@@ -181,7 +168,7 @@ describe('selectors', () => {
     let result;
 
     beforeEach(() => {
-      result = getIsOnInitialDesktopSearchScreen();
+      result = selectors.getIsOnInitialDesktopSearchScreen();
     });
 
     describe('when maxHeight override style exists', () => {
@@ -217,7 +204,7 @@ describe('selectors', () => {
       mockFrameType;
 
     beforeEach(() => {
-      result = getFixedStyles({}, mockFrameType);
+      result = selectors.getFixedStyles({}, mockFrameType);
     });
 
     describe('when frame is launcher', () => {
@@ -339,7 +326,7 @@ describe('selectors', () => {
     let result;
 
     beforeEach(() => {
-      result = getChatOfflineAvailable();
+      result = selectors.getChatOfflineAvailable();
     });
 
     describe('chat enabled status', () => {
@@ -510,22 +497,13 @@ describe('selectors', () => {
   describe('getShowTalkBackButton', () => {
     let result;
 
-    describe('when no other embeds are available', () => {
-      beforeEach(() => {
-        helpCenterEmbedValue = false;
-        result = getShowTalkBackButton();
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
+    beforeEach(() => {
+      result = selectors.getShowTalkBackButton();
     });
 
     describe('when helpCenter is available', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         helpCenterEmbedValue = true;
-        result = getShowTalkBackButton();
       });
 
       it('returns true', () => {
@@ -535,10 +513,9 @@ describe('selectors', () => {
     });
 
     describe('when zopimChat is available', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         zopimChatEmbedValue = true;
         zopimChatOnlineValue = true;
-        result = getShowTalkBackButton();
       });
 
       it('returns true', () => {
@@ -548,10 +525,9 @@ describe('selectors', () => {
     });
 
     describe('when showOfflineForm is false', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         chatEmbedValue = true;
         showOfflineFormValue = false;
-        result = getShowTalkBackButton();
       });
 
       it('returns true', () => {
@@ -561,9 +537,8 @@ describe('selectors', () => {
     });
 
     describe('when submitTicket is available', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         submitTicketEmbedValue = true;
-        result = getShowTalkBackButton();
       });
 
       it('returns true', () => {
@@ -580,7 +555,7 @@ describe('selectors', () => {
       beforeEach(() => {
         zopimChatOnlineValue = false;
         showOfflineFormValue = true;
-        result = getChatOnline();
+        result = selectors.getChatOnline();
       });
 
       it('returns false', () => {
@@ -592,7 +567,7 @@ describe('selectors', () => {
     describe('when zopimChat is online', () => {
       beforeEach(() => {
         zopimChatOnlineValue = true;
-        result = getChatOnline();
+        result = selectors.getChatOnline();
       });
 
       it('returns true', () => {
@@ -604,7 +579,7 @@ describe('selectors', () => {
     describe('when showOfflineForm is false', () => {
       beforeEach(() => {
         showOfflineFormValue = false;
-        result = getChatOnline();
+        result = selectors.getChatOnline();
       });
 
       it('returns true', () => {
@@ -620,7 +595,7 @@ describe('selectors', () => {
     describe('when chat is suppressed', () => {
       beforeEach(() => {
         settingsChatSuppressValue = true;
-        result = getChatEnabled();
+        result = selectors.getChatEnabled();
       });
 
       it('returns false', () => {
@@ -637,7 +612,7 @@ describe('selectors', () => {
       describe('when zopimChat embed exists', () => {
         beforeEach(() => {
           zopimChatEmbedValue = true;
-          result = getChatEnabled();
+          result = selectors.getChatEnabled();
         });
 
         it('returns true', () => {
@@ -649,7 +624,7 @@ describe('selectors', () => {
       describe('when chat embed exists', () => {
         beforeEach(() => {
           chatEmbedValue = true;
-          result = getChatEnabled();
+          result = selectors.getChatEnabled();
         });
 
         it('returns true', () => {
@@ -662,7 +637,7 @@ describe('selectors', () => {
         beforeEach(() => {
           chatEmbedValue = false;
           zopimChatEmbedValue = false;
-          result = getChatEnabled();
+          result = selectors.getChatEnabled();
         });
 
         it('returns false', () => {
@@ -679,7 +654,7 @@ describe('selectors', () => {
     describe('when chat is suppressed', () => {
       beforeEach(() => {
         settingsChatSuppressValue = true;
-        result = getChatAvailable();
+        result = selectors.getChatAvailable();
       });
 
       it('returns false', () => {
@@ -701,7 +676,7 @@ describe('selectors', () => {
         describe('when zopimChat is online', () => {
           beforeEach(() => {
             zopimChatOnlineValue = true;
-            result = getChatAvailable();
+            result = selectors.getChatAvailable();
           });
 
           it('returns true', () => {
@@ -713,8 +688,9 @@ describe('selectors', () => {
         describe('when zopimChat is offline', () => {
           beforeEach(() => {
             zopimChatOnlineValue = false;
+            offlineFormEnabledValue = false;
             showOfflineFormValue = true;
-            result = getChatAvailable();
+            result = selectors.getChatAvailable();
           });
 
           it('returns false', () => {
@@ -732,7 +708,7 @@ describe('selectors', () => {
         describe('when showOfflineForm is false', () => {
           beforeEach(() => {
             showOfflineFormValue = false;
-            result = getChatAvailable();
+            result = selectors.getChatAvailable();
           });
 
           it('returns true', () => {
@@ -745,7 +721,7 @@ describe('selectors', () => {
           beforeEach(() => {
             zopimChatOnlineValue = false;
             showOfflineFormValue = true;
-            result = getChatAvailable();
+            result = selectors.getChatAvailable();
           });
 
           it('returns false', () => {
@@ -759,7 +735,7 @@ describe('selectors', () => {
         beforeEach(() => {
           chatEmbedValue = false;
           zopimChatEmbedValue = false;
-          result = getChatEnabled();
+          result = selectors.getChatEnabled();
         });
 
         it('returns false', () => {
@@ -781,7 +757,7 @@ describe('selectors', () => {
 
         beforeEach(() => {
           talkEmbeddableConfigEnabledValue = true;
-          result = getTalkEnabled();
+          result = selectors.getTalkEnabled();
         });
 
         it('returns true', () => {
@@ -795,7 +771,7 @@ describe('selectors', () => {
 
         beforeEach(() => {
           talkEmbeddableConfigEnabledValue = false;
-          result = getTalkEnabled();
+          result = selectors.getTalkEnabled();
         });
 
         it('returns false', () => {
@@ -811,7 +787,7 @@ describe('selectors', () => {
       beforeEach(() => {
         talkEmbedValue = false;
         talkEmbeddableConfigEnabledValue = true;
-        result = getTalkEnabled();
+        result = selectors.getTalkEnabled();
       });
 
       it('returns false', () => {
@@ -830,7 +806,7 @@ describe('selectors', () => {
         talkEmbedValue = true;
         agentAvailabilityValue = true;
 
-        result = getTalkAvailable();
+        result = selectors.getTalkAvailable();
       });
 
       it('returns true', () => {
@@ -843,7 +819,7 @@ describe('selectors', () => {
       beforeEach(() => {
         talkEmbedValue = false;
         agentAvailabilityValue = true;
-        result = getTalkAvailable();
+        result = selectors.getTalkAvailable();
       });
 
       it('returns false', () => {
@@ -857,7 +833,7 @@ describe('selectors', () => {
         talkEmbeddableConfigEnabledValue = true;
         talkEmbedValue = true;
         agentAvailabilityValue = false;
-        result = getTalkAvailable();
+        result = selectors.getTalkAvailable();
       });
 
       it('returns false', () => {
@@ -876,7 +852,7 @@ describe('selectors', () => {
         activeTicketFormValue = 1;
         ticketFormsValue = [1, 2, 3];
 
-        result = getShowTicketFormsBackButton();
+        result = selectors.getShowTicketFormsBackButton();
       });
 
       it('returns true', () => {
@@ -890,7 +866,7 @@ describe('selectors', () => {
         activeEmbedValue = 'chat';
         activeTicketFormValue = 1;
         ticketFormsValue = [1, 2, 3];
-        result = getShowTicketFormsBackButton();
+        result = selectors.getShowTicketFormsBackButton();
       });
 
       it('returns false', () => {
@@ -904,7 +880,7 @@ describe('selectors', () => {
         activeEmbedValue = 'ticketSubmissionForm';
         activeTicketFormValue = null;
         ticketFormsValue = [1, 2, 3];
-        result = getShowTicketFormsBackButton();
+        result = selectors.getShowTicketFormsBackButton();
       });
 
       it('returns false', () => {
@@ -918,7 +894,7 @@ describe('selectors', () => {
         activeEmbedValue = 'ticketSubmissionForm';
         activeTicketFormValue = 1;
         ticketFormsValue = [1];
-        result = getShowTicketFormsBackButton();
+        result = selectors.getShowTicketFormsBackButton();
       });
 
       it('returns false', () => {
@@ -932,7 +908,7 @@ describe('selectors', () => {
     let result;
 
     beforeEach(() => {
-      result = getHelpCenterAvailable();
+      result = selectors.getHelpCenterAvailable();
     });
 
     describe('when helpCenter is enabled', () => {
@@ -992,11 +968,311 @@ describe('selectors', () => {
     });
   });
 
+  describe('getHelpCenterReady', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getHelpCenterReady();
+    });
+
+    describe('when helpCenter is not enabled', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = false;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when helpCenter is enabled by not authenitcated', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when helpCenter is enabled and authenticated', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = true;
+        hasPassedAuth = true;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('getChatConnected', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getChatConnected();
+    });
+
+    describe('when zopimChatConnected is true', () => {
+      beforeAll(() => {
+        zopimChatConnectedValue = true;
+        newChatConnectedValue = false;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when newChatConnected is true', () => {
+      beforeAll(() => {
+        zopimChatConnectedValue = false;
+        newChatConnectedValue = true;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when zopimChatConnected and newChatConnected are false', () => {
+      beforeAll(() => {
+        newChatConnectedValue = false;
+        zopimChatConnectedValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+  });
+
+  describe('getChatReady', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getChatReady();
+    });
+
+    describe('when getChatEmbed is false', () => {
+      beforeAll(() => {
+        zopimChatEmbedValue = false;
+        chatEmbedValue = false;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when getChatEmbed and getChatConnected are false', () => {
+      beforeAll(() => {
+        zopimChatConnectedValue = false;
+        newChatConnectedValue = false;
+        zopimChatEmbedValue = true;
+        chatEmbedValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getChatConnected is true', () => {
+      beforeAll(() => {
+        zopimChatEmbedValue = true;
+        newChatConnectedValue = true;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('getTalkReady', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getTalkReady();
+    });
+
+    describe('when getTalkEmbed is false', () => {
+      beforeAll(() => {
+        talkEmbedValue = false;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when getTalkEmbed and getEmbeddableConfigConnected are false', () => {
+      beforeAll(() => {
+        talkEmbedValue = true;
+        embeddableConfigConnectedValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getEmbeddableConfigConnected is false', () => {
+      beforeAll(() => {
+        talkEmbedValue = true;
+        embeddableConfigConnectedValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('getIsWidgetReady', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getIsWidgetReady();
+    });
+
+    describe('when getTalkReady is false', () => {
+      beforeAll(() => {
+        talkEmbedValue = true;
+        embeddableConfigConnectedValue = false;
+      });
+
+      afterAll(() => {
+        talkEmbedValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getChatReady is false', () => {
+      beforeAll(() => {
+        zopimChatConnectedValue = false;
+        newChatConnectedValue = false;
+        zopimChatEmbedValue = true;
+        chatEmbedValue = true;
+      });
+
+      afterAll(() => {
+        chatEmbedValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getHelpCenterReady is false', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = true;
+      });
+
+      afterAll(() => {
+        helpCenterEmbedValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when all embeds are ready', () => {
+      beforeAll(() => {
+        talkEmbedValue = false;
+        chatEmbedValue = false;
+        zopimChatEmbedValue = false;
+        helpCenterEmbedValue = false;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when embeds are not ready but bootup timeout is finished', () => {
+      beforeAll(() => {
+        bootupTimeoutValue = true;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('getIpmHelpCenterAllowed', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getIpmHelpCenterAllowed();
+    });
+
+    describe('when helpCenterEmbed is true', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when helpCenterEmbed is false', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = false;
+        embeddableConfigValue = { ipmAllowed: false };
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+
+      describe('when config.ipm is true', () => {
+        beforeAll(() => {
+          helpCenterEmbedValue = false;
+          embeddableConfigValue = { ipmAllowed: true };
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+    });
+  });
+
   describe('getSubmitTicketAvailable', () => {
     let result;
 
     beforeEach(() => {
-      result = getSubmitTicketAvailable();
+      result = selectors.getSubmitTicketAvailable();
     });
 
     describe('when submitTicketEmbed exists', () => {
@@ -1044,7 +1320,7 @@ describe('selectors', () => {
       channelChoiceSettings;
 
     beforeEach(() => {
-      result = getChannelChoiceAvailable();
+      result = selectors.getChannelChoiceAvailable();
     });
 
     describe('when channelChoice is enabled', () => {
@@ -1187,10 +1463,10 @@ describe('selectors', () => {
 
     describe('when cp4 config', () => {
       beforeEach(() => {
-        embeddableConfig = { cp4: true };
+        embeddableConfigValue = { cp4: true };
         chatThemeColor = 'blue';
 
-        result = getColor();
+        result = selectors.getColor();
       });
 
       it('returns chat theme color', () => {
@@ -1201,11 +1477,11 @@ describe('selectors', () => {
 
     describe('when not cp4 config', () => {
       beforeEach(() => {
-        embeddableConfig = { cp4: false };
+        embeddableConfigValue = { cp4: false };
         chatThemeColor = 'blue';
         configColor = 'white';
 
-        result = getColor();
+        result = selectors.getColor();
       });
 
       it('returns config color', () => {
@@ -1215,15 +1491,75 @@ describe('selectors', () => {
     });
   });
 
+  describe('getWebWidgetVisible', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getWebWidgetVisible();
+    });
+
+    describe('when getBaseWebWidgetVisible is false', () => {
+      beforeAll(() => {
+        webWidgetVisibleValue = false;
+      });
+
+      afterAll(() => {
+        webWidgetVisibleValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getIsWidgetReady is false', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = true;
+        hasPassedAuth = false;
+        bootupTimeoutValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getHiddenByHideAPI is true', () => {
+      beforeAll(() => {
+        hiddenByHideAPIValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getBaseWebWidgetVisible and getIsWidgetReady is true', () => {
+      beforeAll(() => {
+        webWidgetVisibleValue = true;
+        hiddenByHideAPIValue = false;
+        bootupTimeoutValue = true;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+  });
+
   describe('getPosition', () => {
     let result;
 
     describe('when cp4 config', () => {
       beforeEach(() => {
-        embeddableConfig = { cp4: true, position: 'left' };
+        embeddableConfigValue = { cp4: true, position: 'left' };
         chatThemePosition = 'right';
 
-        result = getPosition();
+        result = selectors.getPosition();
       });
 
       it('returns chat theme postion', () => {
@@ -1234,15 +1570,98 @@ describe('selectors', () => {
 
     describe('when not cp4 config', () => {
       beforeEach(() => {
-        embeddableConfig = { position: 'left' };
+        embeddableConfigValue = { position: 'left' };
         chatThemePosition = 'right';
 
-        result = getPosition();
+        result = selectors.getPosition();
       });
 
       it('returns config position', () => {
         expect(result)
           .toBe('left');
+      });
+    });
+  });
+
+  describe('getLauncherVisible', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getLauncherVisible();
+    });
+
+    describe('when getBaseLauncherVisible is false', () => {
+      beforeAll(() => {
+        launcherVisibleValue = false;
+      });
+
+      afterAll(() => {
+        launcherVisibleValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getIsWidgetReady is false', () => {
+      beforeAll(() => {
+        helpCenterEmbedValue = true;
+        hasPassedAuth = false;
+        bootupTimeoutValue = false;
+      });
+
+      beforeAll(() => {
+        helpCenterEmbedValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getHiddenByActivateAPI is true', () => {
+      beforeAll(() => {
+        hiddenByActivateAPIValue = true;
+      });
+
+      afterAll(() => {
+        hiddenByActivateAPIValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getHiddenByHideAPI is true', () => {
+      beforeAll(() => {
+        hiddenByHideAPIValue = true;
+      });
+
+      afterAll(() => {
+        hiddenByHideAPIValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when getBaseWebWidgetVisible and getIsWidgetReady is true', () => {
+      beforeAll(() => {
+        webWidgetVisibleValue = true;
+        hiddenByHideAPIValue = false;
+        bootupTimeoutValue = true;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
       });
     });
   });

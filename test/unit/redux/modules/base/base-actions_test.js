@@ -4,7 +4,6 @@ import thunk from 'redux-thunk';
 
 let actions,
   actionTypes,
-  chatActionTypes,
   chatNotificationDismissedSpy,
   chatOpenedSpy,
   mockEmailValidValue,
@@ -97,14 +96,12 @@ describe('base redux actions', () => {
 
     const actionsPath = buildSrcPath('redux/modules/base');
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
-    const chatActionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
     mockery.registerAllowable(actionsPath);
     mockery.registerAllowable(actionTypesPath);
 
     actions = requireUncached(actionsPath);
     actionTypes = requireUncached(actionTypesPath);
-    chatActionTypes = requireUncached(chatActionTypesPath);
 
     mockStore = createMockStore({ base: {} });
   });
@@ -117,6 +114,8 @@ describe('base redux actions', () => {
     contextualSearchSpy.calls.reset();
     mockery.disable();
     mockery.deregisterAll();
+
+    jasmine.clock().uninstall();
   });
 
   describe('updateEmbeddableConfig', () => {
@@ -233,18 +232,13 @@ describe('base redux actions', () => {
           actionList = mockStore.getActions();
         });
 
-        it('dispatches an action of type CHAT_OPENED', () => {
-          expect(actionList[0].type)
-            .toEqual(chatActionTypes.CHAT_OPENED);
-        });
-
         it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
-          expect(actionList[1].type)
+          expect(actionList[0].type)
             .toEqual(actionTypes.UPDATE_ACTIVE_EMBED);
         });
 
         it('has the embed in the payload', () => {
-          expect(actionList[1].payload)
+          expect(actionList[0].payload)
             .toEqual(embed);
         });
       });
@@ -409,11 +403,6 @@ describe('base redux actions', () => {
         it('has the value of true in the payload', () => {
           expect(actionList[0].payload)
             .toEqual(true);
-        });
-
-        it('dispatches an action of CHAT_OPENED', () => {
-          expect(actionList[1].type)
-            .toEqual(chatActionTypes.CHAT_OPENED);
         });
       });
 
@@ -852,6 +841,209 @@ describe('base redux actions', () => {
     it('dispatches a CLOSE_BUTTON_CLICKED event', () => {
       expect(action.type)
         .toEqual(actionTypes.CLOSE_BUTTON_CLICKED);
+    });
+  });
+
+  describe('launcherClicked', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.launcherClicked());
+      action = mockStore.getActions()[0];
+    });
+
+    describe('when the activeEmbed is not zopimChat', () => {
+      beforeAll(() => {
+        mockActiveEmbed = 'helpCenterForm';
+      });
+
+      it('dispatches a LAUNCHER_CLICKED event', () => {
+        expect(action.type)
+          .toEqual(actionTypes.LAUNCHER_CLICKED);
+      });
+    });
+
+    describe('when the activeEmbed is zopimChat', () => {
+      beforeAll(() => {
+        mockActiveEmbed = 'zopimChat';
+      });
+
+      it('calls mediator zopimChat.show', () => {
+        expect(broadcastSpy)
+          .toHaveBeenCalledWith('zopimChat.show');
+      });
+    });
+  });
+
+  describe('apiClearForm', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.apiClearForm());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with API_CLEAR_FORM', () => {
+      expect(action.type)
+        .toEqual(actionTypes.API_CLEAR_FORM);
+    });
+  });
+
+  describe('widgetInitialised', () => {
+    let actionInit,
+      actionBootUp;
+
+    beforeEach(() => {
+      jasmine.clock().install();
+      mockStore.dispatch(actions.widgetInitialised());
+      actionInit = mockStore.getActions()[0];
+      actionBootUp = mockStore.getActions()[1];
+    });
+
+    it('dispatches an action with WIDGET_INITIALISED', () => {
+      expect(actionInit.type)
+        .toEqual(actionTypes.WIDGET_INITIALISED);
+    });
+
+    it('has not dispatched a second action', () => {
+      expect(actionBootUp).toEqual(undefined);
+    });
+
+    describe('After 5 seconds', () => {
+      beforeEach(() => {
+        jasmine.clock().tick(5000);
+        actionBootUp = mockStore.getActions()[1];
+      });
+
+      it('dispatches an action with BOOT_UP_TIMER_COMPLETE', () => {
+        expect(actionBootUp.type)
+          .toEqual(actionTypes.BOOT_UP_TIMER_COMPLETE);
+      });
+    });
+  });
+
+  describe('activateReceived', () => {
+    let action,
+      mockOptions;
+
+    describe('with parameter', () => {
+      beforeEach(() => {
+        mockOptions = {
+          value: true
+        };
+        mockStore.dispatch(actions.activateRecieved(mockOptions));
+        action = mockStore.getActions()[0];
+      });
+
+      describe('when the activeEmbed is zopimChat', () => {
+        beforeAll(() => {
+          mockActiveEmbed = 'zopimChat';
+        });
+
+        it('calls mediator zopimChat.show', () => {
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('zopimChat.show');
+        });
+      });
+
+      describe('when the activeEmbed is not zopimChat', () => {
+        beforeAll(() => {
+          mockActiveEmbed = 'helpCenterForm';
+        });
+
+        it('dispatches an action with ACTIVATE_RECEIVED', () => {
+          expect(action.type)
+            .toEqual(actionTypes.ACTIVATE_RECEIVED);
+        });
+
+        it('dispatches the correct payload', () => {
+          expect(action.payload)
+            .toEqual(mockOptions);
+        });
+      });
+    });
+
+    describe('with no parameter', () => {
+      beforeEach(() => {
+        mockOptions = {};
+        mockStore.dispatch(actions.activateRecieved());
+        action = mockStore.getActions()[0];
+      });
+
+      it('dispatches the correct payload', () => {
+        expect(action.payload)
+          .toEqual(mockOptions);
+      });
+    });
+  });
+
+  describe('hideRecieved', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.hideRecieved());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with HIDE_RECEIVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.HIDE_RECEIVED);
+    });
+  });
+
+  describe('showRecieved', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.showRecieved());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with SHOW_RECEIVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.SHOW_RECEIVED);
+    });
+  });
+
+  describe('legacyShowReceived', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.legacyShowReceived());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with LEGACY_SHOW_RECEIVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.LEGACY_SHOW_RECEIVED);
+    });
+  });
+
+  describe('nextButtonClicked', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.nextButtonClicked());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with NEXT_BUTTON_CLICKED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.NEXT_BUTTON_CLICKED);
+    });
+  });
+
+  describe('cancelButtonClicked', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.cancelButtonClicked());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with CANCEL_BUTTON_CLICKED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CANCEL_BUTTON_CLICKED);
     });
   });
 });

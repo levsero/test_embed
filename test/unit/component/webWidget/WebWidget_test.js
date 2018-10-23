@@ -292,22 +292,9 @@ describe('WebWidget component', () => {
       webWidget.dismissStandaloneChatPopup();
     });
 
-    it('calls props.closeFrame with onHide callback', () => {
-      expect(closeFrameSpy)
-        .toHaveBeenCalledWith({}, { onHide: jasmine.any(Function) });
-    });
-
-    describe('when frame onHide is fired', () => {
-      beforeEach(() => {
-        const onHide = closeFrameSpy.calls.mostRecent().args[1].onHide;
-
-        onHide();
-      });
-
-      it('calls props.chatNotificationDismissed', () => {
-        expect(chatNotificationDismissedSpy)
-          .toHaveBeenCalled();
-      });
+    it('calls props.chatNotificationDismissed', () => {
+      expect(chatNotificationDismissedSpy)
+        .toHaveBeenCalled();
     });
   });
 
@@ -669,62 +656,30 @@ describe('WebWidget component', () => {
           onCancelSpy = jasmine.createSpy('onCancelSpy');
           webWidget = instanceRender(
             <WebWidget
-              onCancel={onCancelSpy}
+              cancelButtonClicked={onCancelSpy}
               helpCenterAvailable={false}
               ipmHelpCenterAvailable={ipmHelpCenterAvailable}
               updateActiveEmbed={mockUpdateActiveEmbed}
               channelChoiceAvailable={false} />
           );
+
+          webWidget.onCancelClick();
         });
 
-        describe('when IPM help center is not available', () => {
-          beforeEach(() => {
-            webWidget.onCancelClick();
-          });
-
-          beforeAll(() => {
-            ipmHelpCenterAvailable = false;
-          });
-
-          it('calls onCancel prop', () => {
-            expect(onCancelSpy)
-              .toHaveBeenCalled();
-          });
-
-          it('calls updateActiveEmbed with an empty string', () => {
-            expect(mockUpdateActiveEmbed)
-              .toHaveBeenCalledWith('');
-          });
-        });
-
-        describe('when IPM help center is available', () => {
-          beforeEach(() => {
-            webWidget.onCancelClick();
-          });
-
-          beforeAll(() => {
-            ipmHelpCenterAvailable = true;
-          });
-
-          it('calls onCancel prop', () => {
-            expect(onCancelSpy)
-              .toHaveBeenCalled();
-          });
-
-          it('does not set update active embed', () => {
-            expect(mockUpdateActiveEmbed)
-              .not.toHaveBeenCalled();
-          });
+        it('calls cancelButtonClicked prop', () => {
+          expect(onCancelSpy)
+            .toHaveBeenCalled();
         });
       });
     });
   });
 
   describe('#onNextClick', () => {
-    let webWidget, updateBackButtonVisibilitySpy;
+    let webWidget, updateBackButtonVisibilitySpy, nextButtonClickedSpy;
 
     beforeEach(() => {
       updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
+      nextButtonClickedSpy = jasmine.createSpy('nextButtonClicked');
     });
 
     afterEach(() => {
@@ -738,6 +693,7 @@ describe('WebWidget component', () => {
             chatOnline={true}
             oldChat={true}
             helpCenterAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -760,6 +716,11 @@ describe('WebWidget component', () => {
             .toHaveBeenCalledWith('zopimChat');
         });
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when channelChoice is available', () => {
@@ -767,6 +728,7 @@ describe('WebWidget component', () => {
         webWidget = instanceRender(
           <WebWidget
             channelChoiceAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -783,6 +745,11 @@ describe('WebWidget component', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when channelChoice is not available', () => {
@@ -790,6 +757,7 @@ describe('WebWidget component', () => {
         webWidget = instanceRender(
           <WebWidget
             channelChoiceAvailable={false}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -800,6 +768,11 @@ describe('WebWidget component', () => {
         expect(mockUpdateActiveEmbed)
           .not.toHaveBeenCalledWith('channelChoice');
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when chat is online', () => {
@@ -809,6 +782,7 @@ describe('WebWidget component', () => {
             chatOnline={true}
             chatAvailable={true}
             helpCenterAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -824,6 +798,11 @@ describe('WebWidget component', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when chat is offline', () => {
@@ -833,6 +812,7 @@ describe('WebWidget component', () => {
             chatOnline={false}
             chatAvailable={false}
             helpCenterAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -848,6 +828,11 @@ describe('WebWidget component', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when chat is offline but offline form is available', () => {
@@ -858,6 +843,7 @@ describe('WebWidget component', () => {
             chatAvailable={false}
             helpCenterAvailable={true}
             chatOfflineAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -879,6 +865,11 @@ describe('WebWidget component', () => {
           .not
           .toHaveBeenCalledWith('ticketSubmissionForm');
       });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when ipm is activated', () => {
@@ -886,6 +877,7 @@ describe('WebWidget component', () => {
         webWidget = instanceRender(
           <WebWidget
             ipmHelpCenterAvailable={true}
+            nextButtonClicked={nextButtonClickedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -900,6 +892,11 @@ describe('WebWidget component', () => {
       it('does not update back button visibility', () => {
         expect(updateBackButtonVisibilitySpy)
           .not.toHaveBeenCalled();
+      });
+
+      it('calls nextButtonClicked', () => {
+        expect(nextButtonClickedSpy)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -1124,45 +1121,6 @@ describe('WebWidget component', () => {
     });
 
     describe('when there is an active embed', () => {
-      describe('when the activeEmbed is chat and it becomes unavailable', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              updateActiveEmbed={noop}
-              activeEmbed={'chat'}
-              chatAvailable={false} />
-          );
-
-          spyOn(webWidget, 'resetActiveEmbed');
-          webWidget.show();
-        });
-
-        it('calls resetActiveEmbed', () => {
-          expect(webWidget.resetActiveEmbed)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when viaActivate is true', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              helpCenterAvailable={true}
-              updateActiveEmbed={noop}
-              activeEmbed='chat' />
-          );
-
-          spyOn(webWidget, 'resetActiveEmbed');
-
-          webWidget.show(true);
-        });
-
-        it('calls resetActiveEmbed', () => {
-          expect(webWidget.resetActiveEmbed)
-            .toHaveBeenCalled();
-        });
-      });
-
       describe('when the activeEmbed is submit ticket and chat is online', () => {
         beforeEach(() => {
           webWidget = domRender(
@@ -1180,458 +1138,6 @@ describe('WebWidget component', () => {
         it('sets the activeEmbed to chat', () => {
           expect(updateActiveEmbedSpy)
             .toHaveBeenCalledWith('chat');
-        });
-      });
-
-      describe('when the activeEmbed is zopimChat and zopimChat is offline', () => {
-        let zopimOnNextSpy;
-
-        beforeEach(() => {
-          zopimOnNextSpy = jasmine.createSpy('zopimOnNext');
-          webWidget = domRender(
-            <WebWidget
-              submitTicketAvailable={true}
-              updateActiveEmbed={noop}
-              chatOnline={false}
-              activeEmbed='zopimChat'
-              zopimOnNext={zopimOnNextSpy} />
-          );
-          spyOn(webWidget, 'resetActiveEmbed');
-
-          webWidget.show();
-        });
-
-        it('does not call resetActiveEmbed', () => {
-          expect(webWidget.resetActiveEmbed)
-            .not.toHaveBeenCalled();
-        });
-
-        it('calls zopimOnNext', () => {
-          expect(zopimOnNextSpy)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when the activeEmbed is channelChoice and zopimChat is offline', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              submitTicketAvailable={true}
-              updateActiveEmbed={noop}
-              chatOnline={false}
-              activeEmbed='channelChoice' />
-          );
-          spyOn(webWidget, 'resetActiveEmbed');
-
-          webWidget.show();
-        });
-
-        it('calls resetActiveEmbed', () => {
-          expect(webWidget.resetActiveEmbed)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when the activeEmbed is talk and talkAvailable is false', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              submitTicketAvailable={true}
-              updateActiveEmbed={noop}
-              talkAvailable={false}
-              activeEmbed='talk' />
-          );
-          spyOn(webWidget, 'resetActiveEmbed');
-
-          webWidget.show();
-        });
-
-        it('calls resetActiveEmbed', () => {
-          expect(webWidget.resetActiveEmbed)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when the activeEmbed is channelChoice and talkAvailable is false', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              submitTicketAvailable={true}
-              updateActiveEmbed={noop}
-              talkAvailable={false}
-              activeEmbed='channelChoice' />
-          );
-
-          spyOn(webWidget, 'resetActiveEmbed');
-          webWidget.show();
-        });
-
-        it('calls resetActiveEmbed', () => {
-          expect(webWidget.resetActiveEmbed)
-            .toHaveBeenCalled();
-        });
-      });
-    });
-
-    describe('when there is not an active embed', () => {
-      beforeEach(() => {
-        webWidget = domRender(
-          <WebWidget updateActiveEmbed={updateActiveEmbedSpy} activeEmbed='' />
-        );
-
-        spyOn(webWidget, 'resetActiveEmbed');
-        webWidget.show();
-      });
-
-      it('calls resetActiveEmbed', () => {
-        expect(webWidget.resetActiveEmbed)
-          .toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe('#resetActiveEmbed', () => {
-    let webWidget, updateActiveEmbedSpy, updateBackButtonVisibilitySpy;
-
-    beforeEach(() => {
-      updateActiveEmbedSpy = jasmine.createSpy();
-      updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
-    });
-
-    describe('when Talk is available', () => {
-      describe('when HelpCenter is available', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              talkAvailable={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              helpCenterAvailable={true}
-              activeEmbed='' />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateActiveEmbed with helpCenterForm', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('helpCenterForm');
-        });
-      });
-
-      describe('when ChannelChoice is available', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              talkAvailable={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              channelChoiceAvailable={true}
-              activeEmbed='' />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateActiveEmbed with channelChoice', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('channelChoice');
-        });
-      });
-
-      describe('when neither HelpCenter or ChannelChoice is available', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              talkAvailable={true}
-              talkOnline={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              activeEmbed='' />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateActiveEmbed with talk', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('talk');
-        });
-
-        describe('when no other channels are available', () => {
-          beforeEach(() => {
-            webWidget = domRender(
-              <WebWidget
-                talkAvailable={true}
-                talkOnline={true}
-                submitTicketAvailable={false}
-                updateActiveEmbed={updateActiveEmbedSpy}
-                activeEmbed='' />
-            );
-
-            webWidget.resetActiveEmbed();
-          });
-
-          it('calls updateActiveEmbed with talk', () => {
-            expect(updateActiveEmbedSpy)
-              .toHaveBeenCalledWith('talk');
-          });
-        });
-      });
-    });
-
-    describe('when Talk is not available', () => {
-      describe('when Chat is available', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              chatAvailable={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              activeEmbed='' />
-          );
-
-          spyOn(webWidget, 'showChat');
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls showChat', () => {
-          expect(webWidget.showChat)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when Chat is standalone', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              chatStandalone={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              activeEmbed='' />
-          );
-
-          spyOn(webWidget, 'showChat');
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls showChat', () => {
-          expect(webWidget.showChat)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when there are no embeds available apart from contactForm', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              updateActiveEmbed={updateActiveEmbedSpy}
-              activeEmbed='' />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateActiveEmbed with ticketSubmissionForm', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('ticketSubmissionForm');
-        });
-      });
-    });
-
-    describe('when help center is available', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            updateActiveEmbed={updateActiveEmbedSpy}
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            helpCenterAvailable={true}
-            activeEmbed='' />
-        );
-
-        webWidget.resetActiveEmbed();
-      });
-
-      it('calls updateActiveEmbed with help center', () => {
-        expect(updateActiveEmbedSpy)
-          .toHaveBeenCalledWith('helpCenterForm');
-      });
-
-      describe('when the article view is active', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              articleViewActive={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-              helpCenterAvailable={true}
-              activeEmbed='' />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateBackButtonVisibility with true', () => {
-          expect(updateBackButtonVisibilitySpy)
-            .toHaveBeenCalledWith(true);
-        });
-      });
-
-      describe('when the article view is not active', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              articleViewActive={false}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-              helpCenterAvailable={true}
-              activeEmbed='' />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateBackButtonVisibility with false', () => {
-          expect(updateBackButtonVisibilitySpy)
-            .toHaveBeenCalledWith(false);
-        });
-      });
-    });
-
-    describe('when help center is not available', () => {
-      describe('when widget is activated by ipm and in article view', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              updateActiveEmbed={updateActiveEmbedSpy}
-              ipmHelpCenterAvailable={true}
-              articleViewActive={true}
-              helpCenterAvailable={false}
-              activeEmbed='' />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateActiveEmbed with helpCenterForm', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('helpCenterForm');
-        });
-      });
-
-      describe('when channelChoice is available', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              activeEmbed=''
-              chatOnline={true}
-              chatAvailable={true}
-              channelChoiceAvailable={true}
-              submitTicketAvailable={true}
-              updateActiveEmbed={updateActiveEmbedSpy} />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateActiveEmbed with channelChoice', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('channelChoice');
-        });
-      });
-
-      describe('when chat is online', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              activeEmbed=''
-              chatOnline={true}
-              chatAvailable={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              channelChoice={false} />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateActiveEmbed with chat', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('chat');
-        });
-      });
-
-      describe('when chat is standalone', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              activeEmbed=''
-              chatStandalone={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              channelChoice={false} />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateActiveEmbed with chat', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('chat');
-        });
-      });
-
-      describe('when chat is offline', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              activeEmbed=''
-              chatOnline={false}
-              chatAvailable={false}
-              updateActiveEmbed={updateActiveEmbedSpy} />
-          );
-
-          webWidget.resetActiveEmbed();
-        });
-
-        it('calls updateActiveEmbed with submit ticket', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('ticketSubmissionForm');
-        });
-
-        describe('when showTicketFormsBackButton is false', () => {
-          beforeEach(() => {
-            webWidget = domRender(
-              <WebWidget
-                activeEmbed=''
-                chatOnline={false}
-                chatAvailable={false}
-                showTicketFormsBackButton={false}
-                updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-                updateActiveEmbed={updateActiveEmbedSpy} />);
-
-            webWidget.resetActiveEmbed();
-          });
-
-          it('does not show the back button', () => {
-            expect(updateBackButtonVisibilitySpy)
-              .toHaveBeenCalledWith(false);
-          });
-        });
-
-        describe('when showTicketFormsBackButton is true', () => {
-          beforeEach(() => {
-            webWidget = domRender(
-              <WebWidget
-                activeEmbed=''
-                chatOnline={false}
-                chatAvailable={false}
-                showTicketFormsBackButton={true}
-                updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-                updateActiveEmbed={updateActiveEmbedSpy} />);
-
-            webWidget.resetActiveEmbed();
-          });
-
-          it('shows the back button', () => {
-            expect(updateBackButtonVisibilitySpy)
-              .toHaveBeenCalledWith(true);
-          });
         });
       });
     });

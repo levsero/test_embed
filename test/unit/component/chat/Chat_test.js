@@ -14,6 +14,9 @@ describe('ChatOffline component', () => {
       'component/chat/ChatOnline': ChatOnline,
       'src/redux/modules/chat/chat-selectors': {
         getShowOfflineChat: ''
+      },
+      'src/redux/modules/base': {
+        cancelButtonClicked: noop
       }
     });
 

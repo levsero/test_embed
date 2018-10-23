@@ -8,10 +8,11 @@ import { store } from 'service/persistence';
 import { getEnvironment } from 'src/util/utils';
 
 import reducer from 'src/redux/modules/reducer';
-import onStateChangeFn from 'src/redux/middleware/onStateChange';
+import onStateChangeFn from 'src/redux/middleware/onStateChange/onStateChange';
 import persist from 'src/redux/middleware/persist';
 import throttle from 'src/redux/middleware/throttle';
 import listen from 'src/redux/middleware/listener';
+import resetActiveEmbed from 'src/redux/middleware/resetActiveEmbed';
 
 import { trackAnalytics } from 'src/redux/middleware/analytics';
 import { sendBlips } from 'src/redux/middleware/blip';
@@ -36,6 +37,7 @@ export default function(storeName = 'web_widget', options = {}) {
     onStateChange(onStateChangeFn),
     sendBlips,
     listen,
+    onStateChange(resetActiveEmbed),
     trackAnalytics,
     persist,
     onStateChange(queueCalls)

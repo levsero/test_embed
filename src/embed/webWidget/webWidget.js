@@ -38,12 +38,12 @@ import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules
 import { authenticate, revokeToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
+import { setScrollKiller } from 'utility/scrollHacks';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
 export default function WebWidgetFactory(name) {
   let embed = null;
-  let resetEmbedOnShow = false;
   let prefix = '';
 
   if (name) {
@@ -59,6 +59,8 @@ export default function WebWidgetFactory(name) {
   const onShow = () => {
     const rootComponent = getActiveComponent();
 
+    getWebWidgetComponent().show();
+
     if (rootComponent) {
       const { submitTicketForm } = rootComponent.refs;
 
@@ -72,6 +74,8 @@ export default function WebWidgetFactory(name) {
   };
   const onHide = () => {
     const rootComponent = getActiveComponent();
+
+    mediator.channel.broadcast('webWidget.onClose');
 
     if (rootComponent) {
       if (isMobileBrowser()) {
@@ -104,12 +108,12 @@ export default function WebWidgetFactory(name) {
       rootComponent.focusField();
     }
   };
-  const onClose = () => {
-    mediator.channel.broadcast(prefix + 'webWidget.onClose');
-  };
   const zopimOnNext = () => {
     mediator.channel.broadcast(prefix + 'helpCenterForm.onNextClick');
     hide();
+    if (isMobileBrowser()) {
+      setScrollKiller(false);
+    }
   };
 
   function create(name, config = {}, reduxStore = {}) {
@@ -192,7 +196,6 @@ export default function WebWidgetFactory(name) {
       name: name,
       afterShowAnimate,
       onHide,
-      onClose,
       onBack,
       title: i18n.t('embeddable_framework.web_widget.frame.title')
     };
@@ -208,7 +211,6 @@ export default function WebWidgetFactory(name) {
             hideZendeskLogo={globalConfig.hideZendeskLogo}
             imagesSender={helpCenterSettings.imagesSenderFn}
             localeFallbacks={settings.get('helpCenter.localeFallbacks')}
-            onCancel={submitTicketSettings.onCancel}
             onSubmitted={submitTicketSettings.onSubmitted}
             originalArticleButton={settings.get('helpCenter.originalArticleButton')}
             position={globalConfig.position}
@@ -259,21 +261,6 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupMediator() {
-    mediator.channel.subscribe(prefix + 'webWidget.show', (options = {}) => {
-      waitForRootComponent(() => {
-        // If the embed is already opened don't try to reset the state with activate
-        if (embed.instance.state.visible && options.viaActivate) return;
-
-        // Stop stupid host page scrolling
-        // when trying to focus HelpCenter's search field.
-        setTimeout(() => {
-          getWebWidgetComponent().show(options.viaActivate || resetEmbedOnShow);
-          embed.instance.show(options);
-          resetEmbedOnShow = false;
-        }, 0);
-      });
-    });
-
     mediator.channel.subscribe(prefix + 'webWidget.proactiveChat', (options = {}) => {
       embed.instance.show(options);
       getWebWidgetComponent().showProactiveChat();
@@ -290,20 +277,9 @@ export default function WebWidgetFactory(name) {
       }
     });
 
-    mediator.channel.subscribe(prefix + 'webWidget.hide', (options = {}) => {
-      hide(options);
-    });
-
-    mediator.channel.subscribe(prefix + 'webWidget.zopimChatEnded', () => {
-      waitForRootComponent(() => {
-        // Reset the active component state
-        getWebWidgetComponent().setComponent('');
-      });
-    });
-
     mediator.channel.subscribe(prefix + 'webWidget.zopimChatStarted', () => {
       waitForRootComponent(() => {
-        if (!embed.instance.state.visible) {
+        if (!embed.instance.props.visible) {
           getWebWidgetComponent().setComponent('zopimChat');
         }
       });
@@ -435,10 +411,6 @@ export default function WebWidgetFactory(name) {
       userActionPayload = createUserActionPayload(userActionPayload, params);
       beacon.trackUserAction('submitTicket', 'send', 'ticketSubmissionForm', userActionPayload);
       mediator.channel.broadcast(prefix + 'ticketSubmissionForm.onFormSubmitted');
-      resetEmbedOnShow = true;
-    };
-    const onCancel = () => {
-      mediator.channel.broadcast(prefix + 'ticketSubmissionForm.onCancelClick');
     };
     const getTicketFormsFromConfig = _.memoize((config) => {
       const settingTicketForms = settings.get('contactForm.ticketForms');
@@ -469,8 +441,7 @@ export default function WebWidgetFactory(name) {
       ticketForms,
       customFields,
       attachmentSender,
-      onSubmitted,
-      onCancel
+      onSubmitted
     };
   }
 

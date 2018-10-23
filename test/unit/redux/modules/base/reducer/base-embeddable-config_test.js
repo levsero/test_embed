@@ -4,7 +4,6 @@ describe('base reducer embeddable config', () => {
     initialState;
 
   beforeAll(() => {
-    mockery.enable();
     const reducerPath = buildSrcPath('redux/modules/base/reducer/base-embeddable-config');
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
@@ -12,11 +11,6 @@ describe('base reducer embeddable config', () => {
 
     initialState = reducer(undefined, { type: ''});
     actionTypes = requireUncached(actionTypesPath);
-  });
-
-  afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
   });
 
   describe('initial state', () => {
@@ -52,6 +46,7 @@ describe('base reducer embeddable config', () => {
       let action = {
         type: actionTypes.UPDATE_EMBEDDABLE_CONFIG,
         payload: {
+          ipmAllowed: true,
           embeds: {
             helpCenterForm: {
               props: {
@@ -77,6 +72,7 @@ describe('base reducer embeddable config', () => {
     it('reduces to the correct embeddable config state', () => {
       expect(state)
         .toEqual({
+          ipmAllowed: true,
           embeds: {
             helpCenterForm: {
               props: {
