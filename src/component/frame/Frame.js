@@ -55,6 +55,7 @@ class Frame extends Component {
     frameStyle: PropTypes.object,
     fullscreenable: PropTypes.bool,
     hideCloseButton: PropTypes.bool,
+    alwaysShow: PropTypes.bool,
     name: PropTypes.string,
     onBack: PropTypes.func,
     onHide: PropTypes.func,
@@ -82,6 +83,7 @@ class Frame extends Component {
     fullscreenable: false,
     hideCloseButton: false,
     name: '',
+    alwaysShow: false,
     onBack: () => {},
     onHide: () => {},
     onShow: () => {},
@@ -437,7 +439,7 @@ class Frame extends Component {
     };
 
     return (
-      <Transition in={this.props.visible} timeout={transitionDuration}>
+      <Transition in={this.props.visible || this.props.alwaysShow} timeout={transitionDuration}>
         {(status) => (
           <iframe
             title={this.props.title || this.props.name}

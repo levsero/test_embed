@@ -60,6 +60,7 @@ const renderWebWidgetPreview = (options) => {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'webWidgetPreview',
     frameStyle,
+    alwaysShow: true,
     disableOffsetHorizontal: true,
     preventClose: true,
     ref: (el) => { frame = el.getWrappedInstance(); }

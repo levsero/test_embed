@@ -92,6 +92,7 @@ const renderPreview = (options) => {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'chatPreview',
     frameStyle,
+    alwaysShow: true,
     ref: (el) => { frame = el.getWrappedInstance(); },
     disableOffsetHorizontal: true,
     preventClose: true
