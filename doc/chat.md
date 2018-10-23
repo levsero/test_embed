@@ -122,7 +122,7 @@ zE('webWidget:get', 'chat:department', 'Accounting');
 
 `zE('webWidget:get', 'chat:departments');`
 
-Returns a list of all enabled departments containing information about each department including its id, name and status.
+Returns a list of all enabled departments containing information about each department including its `id`, `name` and `status`.
 
 ##### Parameters
 
@@ -130,7 +130,7 @@ None
 
 ##### Return value
 
-* An array of objects containing information about each department, including its id, name, and status.
+* An array of objects containing information about each department, including its `id`, `name`, and `status`.
 
 
 #### chat:end
@@ -146,7 +146,7 @@ None
 
 #### updatePath
 
-`zE('webWidget', 'chat:visitor:path', options<object>);`
+`zE('webWidget', 'updatePath', options<object>);`
 
 Programmatically updates the visitor’s webpath.
 
