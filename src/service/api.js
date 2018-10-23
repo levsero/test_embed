@@ -293,7 +293,7 @@ function setupWidgetQueue(win, postRenderQueue, reduxStore) {
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
-    hide: hideApi,
+    hide: () => hideApi(reduxStore),
     show: postRenderQueueCallback.bind('show'),
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
     identify: postRenderQueueCallback.bind('identify'),
