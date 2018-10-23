@@ -57,7 +57,6 @@ class Frame extends Component {
     hideCloseButton: PropTypes.bool,
     name: PropTypes.string,
     onBack: PropTypes.func,
-    onClose: PropTypes.func,
     onHide: PropTypes.func,
     onShow: PropTypes.func,
     position: PropTypes.string,
@@ -84,7 +83,6 @@ class Frame extends Component {
     hideCloseButton: false,
     name: '',
     onBack: () => {},
-    onClose: () => {},
     onHide: () => {},
     onShow: () => {},
     position: 'right',
@@ -368,7 +366,6 @@ class Frame extends Component {
   constructEmbed = () => {
     const newChild = React.cloneElement(this.props.children, {
       forceUpdateWorld: this.forceUpdateWorld,
-      closeFrame: this.close,
       onBackButtonClick: this.back,
       getFrameContentDocument: this.getContentDocument
     });

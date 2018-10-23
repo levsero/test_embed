@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import ChatOffline from 'component/chat/ChatOffline';
 import ChatOnline from 'component/chat/ChatOnline';
 import { getShowOfflineChat } from 'src/redux/modules/chat/chat-selectors';
+import { cancelButtonClicked } from 'src/redux/modules/base';
 
 const mapStateToProps = (state) => {
   return {
@@ -17,7 +18,7 @@ class Chat extends Component {
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    handleCloseClick: PropTypes.func,
+    cancelButtonClicked: PropTypes.func,
     position: PropTypes.string,
     onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
@@ -51,7 +52,7 @@ class Chat extends Component {
       <ChatOffline
         ref={(el) => { this.offline = el; }}
         getFrameContentDocument={this.props.getFrameContentDocument}
-        handleCloseClick={this.props.handleCloseClick}
+        handleCloseClick={this.props.cancelButtonClicked}
         isMobile={this.props.isMobile}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
@@ -94,4 +95,4 @@ class Chat extends Component {
   }
 }
 
-export default connect(mapStateToProps, null, null, { withRef: true })(Chat);
+export default connect(mapStateToProps, { cancelButtonClicked } , null, { withRef: true })(Chat);

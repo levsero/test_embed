@@ -292,22 +292,9 @@ describe('WebWidget component', () => {
       webWidget.dismissStandaloneChatPopup();
     });
 
-    it('calls props.closeFrame with onHide callback', () => {
-      expect(closeFrameSpy)
-        .toHaveBeenCalledWith({}, { onHide: jasmine.any(Function) });
-    });
-
-    describe('when frame onHide is fired', () => {
-      beforeEach(() => {
-        const onHide = closeFrameSpy.calls.mostRecent().args[1].onHide;
-
-        onHide();
-      });
-
-      it('calls props.chatNotificationDismissed', () => {
-        expect(chatNotificationDismissedSpy)
-          .toHaveBeenCalled();
-      });
+    it('calls props.chatNotificationDismissed', () => {
+      expect(chatNotificationDismissedSpy)
+        .toHaveBeenCalled();
     });
   });
 

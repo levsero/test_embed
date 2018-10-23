@@ -111,7 +111,6 @@ class WebWidget extends Component {
     ticketFormSettings: PropTypes.array,
     getFrameContentDocument: PropTypes.func,
     zopimOnNext: PropTypes.func,
-    closeFrame: PropTypes.func,
     onBackButtonClick: PropTypes.func,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
@@ -168,7 +167,6 @@ class WebWidget extends Component {
     talkAvailable: false,
     talkOnline: false,
     zopimOnNext: () => {},
-    closeFrame: () => {},
     onBackButtonClick: () => {},
     talkConfig: {},
     resetActiveArticle: () => {},
@@ -365,7 +363,6 @@ class WebWidget extends Component {
         getFrameContentDocument={this.props.getFrameContentDocument}
         isMobile={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}
         position={this.props.position}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
@@ -461,7 +458,6 @@ class WebWidget extends Component {
         chatEnabled={this.props.chatEnabled}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
-        onCancelClick={this.props.closeFrame}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
@@ -506,11 +502,7 @@ class WebWidget extends Component {
   }
 
   dismissStandaloneChatPopup = () => {
-    const onHide = () => {
-      this.props.chatNotificationDismissed();
-    };
-
-    this.props.closeFrame({}, { onHide });
+    this.props.chatNotificationDismissed();
   }
 
   renderStandaloneChatPopup() {

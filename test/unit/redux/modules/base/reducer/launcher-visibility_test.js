@@ -31,7 +31,8 @@ describe('base reducer launcher visibility', () => {
     zopimActionTypes.ZOPIM_HIDE,
     actionTypes.LEGACY_SHOW_RECEIVED,
     actionTypes.CANCEL_BUTTON_CLICKED,
-    zopimActionTypes.ZOPIM_ON_CLOSE
+    zopimActionTypes.ZOPIM_ON_CLOSE,
+    chatActionTypes.CHAT_NOTIFICATION_DISMISSED
   ];
 
   variableReturns = [

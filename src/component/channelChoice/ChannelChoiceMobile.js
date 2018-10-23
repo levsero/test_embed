@@ -10,7 +10,6 @@ import { i18n } from 'service/i18n';
 export class ChannelChoiceMobile extends Component {
   static propTypes = {
     handleNextClick: PropTypes.func.isRequired,
-    handleCancelClick: PropTypes.func.isRequired,
     formTitleKey: PropTypes.string.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
@@ -31,7 +30,6 @@ export class ChannelChoiceMobile extends Component {
   render = () => {
     const {
       handleNextClick,
-      handleCancelClick,
       chatAvailable,
       formTitleKey,
       talkAvailable,
@@ -51,13 +49,11 @@ export class ChannelChoiceMobile extends Component {
           chatEnabled={this.props.chatEnabled}
           chatAvailable={chatAvailable}
           onNextClick={handleNextClick}
-          onCancelClick={handleCancelClick}
           className={styles.container}
           callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
           chatOfflineAvailable={chatOfflineAvailable}
-          talkEnabled={talkEnabled}
-          showCancelButton={false} />
+          talkEnabled={talkEnabled} />
       </ScrollContainer>
     );
   }
