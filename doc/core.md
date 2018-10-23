@@ -85,7 +85,6 @@ window.zESettings = {
 
 The Web Widget has the following core commands:
 
-* [get isOpen](#get-isopen)
 * [get display](#get-display)
 * [on open](#on-open)
 * [on close](#on-close)
@@ -108,20 +107,6 @@ The Web Widget has the following core commands:
 
 Gets the current widget display (eg. Help Center).
 
-#### get isOpen
-
-`zE('webWidget:get', 'isOpen');`
-
-Gets the current visibility of the widget.
-
-##### Parameters
-
-None
-
-##### Return value
-
-Boolean
-
 
 #### on open
 
@@ -135,8 +120,8 @@ Executes a callback when the widget is shown.
 
 ##### Example
 
-```javascript
-<script>
+```html
+<script type="text/javascript">
 zE('webWidget:on', 'open', () => {
   console.log("The widget has been shown!");
 });
@@ -156,7 +141,7 @@ Executes a callback when the widget is hidden.
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget:on', 'close', () => {
   console.log("The widget has been hidden!");
@@ -179,15 +164,15 @@ None
 **Before page load**
 
 ```html
-<script>
-  zE('webWidget', 'hide');
+<script type="text/javascript">
+zE('webWidget', 'hide');
 </script>
 ```
 
 **After page load**
 
 ```html
-  <button onclick="zE('webWidget', 'hide')">Hide Web Widget</button>
+<button onclick="zE('webWidget', 'hide')">Hide Web Widget</button>
 ```
 
 
@@ -237,7 +222,7 @@ The Widget also uses the information to pre-populate the contact or pre-chat cha
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget', 'identify', {
   name: 'Akira Kogane',
@@ -262,7 +247,7 @@ Pre-fills an end-user's details on forms inside the Web Widget.
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget', 'prefill', {
   name: {
@@ -297,12 +282,14 @@ The following example displays the widget in German:
 
 ##### Parameters
 
-* `data`: String. The locale string to change the widget locale too
+* `data`: String. The locale string to change the widget locale to.
 
 ##### Example
 
-```javascript
-  zE('webWidget', 'setLocale', 'de');
+```html
+<script type="text/javascript">
+zE('webWidget', 'setLocale', 'de');
+</script>
 ```
 
 
@@ -318,7 +305,7 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget', 'updateSettings', {
   webWidget: {

@@ -4,7 +4,7 @@ This page documents all the available settings of the `window.zESettings` object
 
 The following example shows the `offset` property of the `webWidget` parent object:
 
-```javascript
+```html
 <script type="text/javascript">
 window.zESettings = {
   webWidget: {
@@ -16,7 +16,7 @@ window.zESettings = {
 
 The following example shows the `departments` setting of the `chat` child object:
 
-```javascript
+```html
 <script type="text/javascript">
 window.zESettings = {
   webWidget: {
@@ -132,7 +132,7 @@ window.zESettings = {
 
 Tokens expire after two hours. You can remove them from local storage sooner by running the following function when the user logs out:
 
-```javascript
+```html
 <script type="text/javascript">
 zE(function() {
   zE.logout();
@@ -192,8 +192,8 @@ window.zESettings = {
   webWidget: {
     helpCenter: {
       chatButton: {
-        'fr': 'Discutez avec une personne',
-        '*': 'Chat with a person now'
+        'fr': 'Discute avec nous',
+        '*': 'Chat with us'
       }
     }
   }
@@ -495,6 +495,7 @@ Displays only the specified departments in the pre-chat form. All other departme
 Department names are matched in a case-insensitive manner.
 
 If the department names or IDs passed in are invalid, the department dropdown menu will not show those options. If no value or valid or null is used, the dropdown won't appear.
+#### Example
 
 <a name="example-departments-enabled"></a>
 
@@ -525,6 +526,7 @@ If the department names or ID is invalid or null the department will be cleared.
 **Note**: If the visitor has already started chatting, changes to the default department will not affect the department of the started chat. The changes to the default department will also not take effect until a page change or refresh. The department of the started chat will persist and be taken as the default department until a page change or refresh, even when the visitor has explicitly ended the chat.
 
 Offline messages will also be routed to this department.
+#### Example
 
 <a name="example-departments-select"></a>
 
@@ -549,6 +551,7 @@ Sets the department label in the offline form and prechat form.
 You can use different strings for different locales or use one string for all locales by using an asterisk (*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 <a name="example-departments-label"></a>
+#### Example
 
 ```html
 <script type="text/javascript">
@@ -567,7 +570,7 @@ window.zESettings = {
 </script>
 ```
 
-#### Example
+#### All together
 
 <a name="example-departments"></a>
 
@@ -601,7 +604,7 @@ Pre-populates the value of one or more text fields in the contact form.
 
 For a default system field, specify the field name as the field `id`. Example:
 
-```javascript
+```js
 fields: [
   { id: 'description', prefill: { '*': 'My text' } }
 ]
@@ -609,7 +612,7 @@ fields: [
 
 For a custom field, specify the custom field's id as the `id`. To get the id, see [List Ticket Fields](https://developer.zendesk.com/rest_api/docs/core/ticket_fields#list-ticket-fields) in the Zendesk API docs. Example:
 
-```javascript
+```js
 fields: [
   { id: 2142225, prefill: { '*': 'My text' } }
 ]
@@ -1133,7 +1136,7 @@ window.zESettings = {
 
 ### tags
 
-In `contactForm``, adds one or more [tags](https://support.zendesk.com/hc/en-us/articles/203662096-Using-tags) to any ticket created with the Web Widget.
+In `contactForm`, adds one or more [tags](https://support.zendesk.com/hc/en-us/articles/203662096-Using-tags) to any ticket created with the Web Widget.
 
 In `chat`, adds one or more tags to the visitors chat session.
 
@@ -1187,7 +1190,7 @@ If you list more than one ticket form, a dropdown menu appears in the contact fo
 
 Ticket forms are listed by id. Example:
 
-```javascript
+```js
 ticketForms: [
   {id: 426353},
   {id: 429981}
@@ -1198,13 +1201,13 @@ To get a ticket form id, see [List Ticket Forms](https://developer.zendesk.com/r
 
 You can include the [fields](#fields) object to pre-populate one or more fields in one or more ticket forms. Example:
 
-```javascript
-<script type="text/javascript">
+
+```js
 ticketForms: [
- {
-   id: 426353,
-   fields: [
-     {
+  {
+    id: 426353,
+    fields: [
+      {
         id: 'description',
         prefill: {
           '*': 'My field text'
@@ -1214,7 +1217,6 @@ ticketForms: [
   },
   ...
 ]
-</script>
 ```
 
 <a name="example-ticketforms"></a>
@@ -1328,7 +1330,7 @@ window.zESettings = {
 * [offset](#offset)
 * [position](#position)
 
-### Analytics
+### analytics
 
 Specifies whether to enable or disable Google Analytics tracking.
 

@@ -72,7 +72,7 @@ Makes the visitor send a message. Starts a chat session if one is not already in
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget', 'chat:send', 'I\'d like the Jambalaya, please');
 </script>
@@ -106,7 +106,7 @@ Returns an object containing information about the specified department, includi
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget:get', 'chat:department', 'Accounting');
 </script>
@@ -158,13 +158,13 @@ Programmatically updates the visitor’s webpath.
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 // Without options
-zE('webWidget', 'chat:updatePath');
+zE('webWidget', 'updatePath');
 
 // With options
-zE('webWidget', 'chat:updatePath' {
+zE('webWidget', 'updatePath', {
   url: 'http://example.com',
   title: "Ready to rock'n'roll!"
 });
@@ -184,7 +184,7 @@ Registers a callback to be fired when the widget successfully connects to the se
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget:on', 'chat:connected', () => {
   console.log('successfully connected to Zendesk Chat!');
@@ -205,7 +205,7 @@ Registers a callback to be fired when a chat starts.
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget:on', 'chat:start', () => {
   console.log('successfully started a Zendesk Chat!');
@@ -228,7 +228,7 @@ A chat only ends when the visitor (and not the agent) ends the chat, or when the
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget:on', 'chat:end', () => {
   console.log('successfully ended a Zendesk Chat session!');
@@ -239,7 +239,7 @@ zE('webWidget:on', 'chat:end', () => {
 
 #### on chat:status
 
-`zE('webWidget:on', 'chat:status', status<string>, callback<function>);`
+`zE('webWidget:on', 'chat:status', (status<string>) => {});`
 
 Registers a callback to be fired when the account status changes. The callback will also be called once when this function is executed.
 
@@ -247,15 +247,14 @@ Registers a callback to be fired when the account status changes. The callback w
 
 ##### Parameters
 
-* `status`: String. One of 'online'|'away'|'offline'
-* `callback`: Function. The callback to perform on status
+* `callback`: Function. The callback to perform on unread messages. Contains one parameter, `status`, a string choosing one of 'online'|'away'|'offline'
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:status', 'offline', () => {
-  console.log('This chat session is now offline');
+zE('webWidget:on', 'chat:status', (status) => {
+  console.log('This chat session is now', status);
 });
 </script>
 ```
@@ -273,7 +272,7 @@ Registers a callback to be fired when the number of unread messages changes. The
 
 ##### Example
 
-```javascript
+```html
 <script type="text/javascript">
 zE('webWidget:on', 'chat:unreadMessages', (number) => {
   console.log(`It seems you have ${number} unread messages!`);

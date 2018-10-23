@@ -29,7 +29,7 @@ Always use spaces for tabs and indent **2** spaces.
 
 Always use `const` and `let` over `var`, preferably `const` unless mutability is required.
 
-```javascript
+```js
 let thisWillChange;         // Good
 const thisWontChange = 10;  // Good
 
@@ -42,7 +42,7 @@ var dontDoThis;             // Bad!
 
 Always pad object literals with a space at the beginning and end.
 
-```javascript
+```js
 const x = { someVar }
 ```
 
@@ -50,7 +50,7 @@ const x = { someVar }
 
 Always use the ES6 object literal shorthand if possible.
 
-```javascript
+```js
 const key = 'value';
 const foo = { key };
 
@@ -61,7 +61,7 @@ const foo = { key };
 
 Always multi-line object literal initialisation if there are 2 or more properties.
 
-```javascript
+```js
 const obj = {
   key: 'val',
   foo: 'bar',
@@ -73,7 +73,7 @@ const obj = {
 
 Always use single quotes for strings.
 
-```javascript
+```js
 const good = 'foo';
 const bad = "foo";
 ```
@@ -82,7 +82,7 @@ const bad = "foo";
 
 Always favour ES6 string interpolation over old style `+` concatenation.
 
-```javascript
+```js
 const foo = 'bar';
 
 const foobar = `foo ${foo}`; // good
@@ -97,7 +97,7 @@ Always append semicolons to the end of statements (this isn't ruby...).
 
 Always leave a new line after declaring variables and beginning the next part of the logic.
 
-```javascript
+```js
 let something;
 const foo = 'bar';
 
@@ -112,7 +112,7 @@ if (someFn()) {
 
 Never leave an empty code block.
 
-```javascript
+```js
 if () {
   // nothing..
 }
@@ -122,7 +122,7 @@ if () {
 
 Never leave more than **1** new line.
 
-```javascript
+```js
 // This will throw a eslint error
 const foo = 'hello';
 
@@ -134,7 +134,7 @@ someFn(foo);
 
 Never leave padding new lines in a function.
 
-```javascript
+```js
 function foo() {
 
   const foo = 'bar';
@@ -148,7 +148,7 @@ function foo() {
 
 Always prefer dot notation unless unavoidable.
 
-```javascript
+```js
 const foo = {
   'bar': 'bar',
   'foo-bar': 'foobar'
@@ -167,7 +167,7 @@ soneFn(foo[getKey()])       // unavoidable
 
 Always use triple equals `===` for comparisons.
 
-```javascript
+```js
 if (foo === bar) {
   // Good
 }
@@ -181,7 +181,7 @@ if (foo == bar) {
 
 Try to multi-line long statements that reduce readability.
 
-```javascript
+```js
 const toBeOrNotToBe = foo === bar ||
                       myName === 'anthony' ||
                       true !== false;
@@ -195,7 +195,7 @@ const someThingos = someVar === thisThingyMagingy
 
 Use ES6 fat-arrow notation for both anonymous functions and function expressions.
 
-```javascript
+```js
 // anonymous function
 mediator.channel.subscribe('someEvent', (params) => {
  // ...
@@ -211,7 +211,7 @@ const foo = () => {
 
 Use the ES6 shorthand expression if the function simply returns some value.
 
-```javascript
+```js
 const isThisThingAvailable = () => isThingOnline && isThingVisible;
 
 // isThisThingAvailable() implicitly returns isThingOnline && isThingVisible
@@ -221,7 +221,7 @@ const isThisThingAvailable = () => isThingOnline && isThingVisible;
 
 Use function expressions for functions local to a scope that are not exported.
 
-```javascript
+```js
 const someLocalFileMethod = () => {
   // ...
 };
@@ -252,7 +252,7 @@ npm install package-name --save
 
 Use ES6 `import` statements over require if possible.
 
-```javascript
+```js
 import React from 'react';
 ```
 
@@ -260,7 +260,7 @@ import React from 'react';
 
 Export Classes, Functions, Variables and Objects individually in an export statement.
 
-```javascript
+```js
 class foo {
   ...
 }
@@ -268,7 +268,7 @@ class foo {
 export { foo };
 ```
 
-```javascript
+```js
 function foo() {
   ...
 }
@@ -285,20 +285,20 @@ export {
 
 When importing either from an internal or external module, try to import only what function(s) or module(s) are actually required.
 
-```javascript
+```js
 import { FooComponent } from 'component/FooComponent';
 ```
 
 *Note: the lodash library is an exception to this rule as we typically use a range of different functions from it.*
 
-```javascript
+```js
 // always import the whole library
 import _ from 'lodash';
 ```
 
 When importing modules, make sure that they are imported in alphabetical order by the path/names.
 
-```javascript
+```js
 import { Container } from 'component/Container';
 import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
 import { i18n } from 'service/i18n';
@@ -313,7 +313,7 @@ import { isMobileBrowser } from 'utility/devices';
 
 Define components using ES7 Classes that extend from `React.Component`.
 
-```javascript
+```js
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -339,7 +339,7 @@ export {
 
 Component `propTypes` must be defined for each prop as a static object literal that is added to the class.
 
-```javascript
+```js
 class NewComponent extends Component { ... }
 
 NewComponent.propTypes = {
@@ -350,7 +350,7 @@ NewComponent.propTypes = {
 
 For all optional (non-required) props, a default value must be supplied to the `defaultProps` static object literal.
 
-```javascript
+```js
 NewComponent.defaultProps = {
   bar: false
 };

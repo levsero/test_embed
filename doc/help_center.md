@@ -63,8 +63,8 @@ Enhances the contextual help provided by the Web Widget.
 Add the method in your HTML source code immediately after your Web Widget code snippet. Example:
 
 ```html
-<script>
-  zE('webWidget', 'helpCenter:setSuggestions', { search: 'credit card' });
+<script type="text/javascript">
+zE('webWidget', 'helpCenter:setSuggestions', { search: 'credit card' });
 </script>
 ```
 

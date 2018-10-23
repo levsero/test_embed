@@ -25,9 +25,9 @@ The following example displays the widget in German:
 
 ```html
 <script type="text/javascript">
-  zE(function() {
-    zE.setLocale('de');
-  });
+zE(function() {
+  zE.setLocale('de');
+});
 </script>
 ```
 
@@ -51,13 +51,13 @@ Note: Passing an `organization` with `zE.identify()` only works for existing org
 
 ```html
 <script type="text/javascript">
-  zE(function() {
-    zE.identify({
-      name: 'John Citizen',
-      email: 'john@example.com',
-      organization: 'VIP'
-    });
+zE(function() {
+  zE.identify({
+    name: 'John Citizen',
+    email: 'john@example.com',
+    organization: 'VIP'
   });
+});
 </script>
 ```
 
@@ -75,16 +75,16 @@ The method completely hides all parts of the Widget from the page. You can invok
 
 ```html
 <script type="text/javascript">
-  zE(function() {
-    zE.hide();
-  });
+zE(function() {
+  zE.hide();
+});
 </script>
 ```
 
 **After page load**
 
 ```html
-  <button onclick="zE.hide();">Hide Web Widget</button>
+<button onclick="zE.hide();">Hide Web Widget</button>
 ```
 ### zE.show
 
@@ -96,11 +96,11 @@ For example, when someone logs into your website, you could call `zE.show()` to 
 
 ```html
 <script type="text/javascript">
-  if(loggedIn) {
-    zE(function() {
-      zE.show();
-    });
-  }
+if(loggedIn) {
+  zE(function() {
+    zE.show();
+  });
+}
 </script>
 ```
 
@@ -120,13 +120,13 @@ For example, when someone clicks a 'Contact' button of your website, you could c
 **Default**
 
 ```html
-  <button onclick="zE.activate();">Contact Us</button>
+<button onclick="zE.activate();">Contact Us</button>
 ```
 
 **With Options**
 
 ```html
-  <button onclick="zE.activate({hideOnClose: true});">Contact Us</button>
+<button onclick="zE.activate({hideOnClose: true});">Contact Us</button>
 ```
 
 **Note**: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
@@ -151,7 +151,7 @@ The method enhances the contextual help provided by the Web Widget.
 
 Add the method in your HTML source code immediately after your Web Widget code snippet. Example:
 
-```javascript
+```html
 <script type="text/javascript">
 zE(function() {
   zE.setHelpCenterSuggestions({ search: 'credit card' });
