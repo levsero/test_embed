@@ -7,7 +7,7 @@ import { ButtonNav } from 'component/button/ButtonNav';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
-import { clickBusterRegister} from 'utility/devices';
+import { clickBusterRegister } from 'utility/devices';
 
 import {
   getMenuVisible as getChatMenuVisible,

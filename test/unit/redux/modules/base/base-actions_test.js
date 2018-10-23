@@ -114,6 +114,8 @@ describe('base redux actions', () => {
     contextualSearchSpy.calls.reset();
     mockery.disable();
     mockery.deregisterAll();
+
+    jasmine.clock().uninstall();
   });
 
   describe('updateEmbeddableConfig', () => {
@@ -850,9 +852,26 @@ describe('base redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches a LAUNCHER_CLICKED event', () => {
-      expect(action.type)
-        .toEqual(actionTypes.LAUNCHER_CLICKED);
+    describe('when the activeEmbed is not zopimChat', () => {
+      beforeAll(() => {
+        mockActiveEmbed = 'helpCenterForm';
+      });
+
+      it('dispatches a LAUNCHER_CLICKED event', () => {
+        expect(action.type)
+          .toEqual(actionTypes.LAUNCHER_CLICKED);
+      });
+    });
+
+    describe('when the activeEmbed is zopimChat', () => {
+      beforeAll(() => {
+        mockActiveEmbed = 'zopimChat';
+      });
+
+      it('calls mediator zopimChat.show', () => {
+        expect(broadcastSpy)
+          .toHaveBeenCalledWith('zopimChat.show');
+      });
     });
   });
 
@@ -875,6 +894,7 @@ describe('base redux actions', () => {
       actionBootUp;
 
     beforeEach(() => {
+      jasmine.clock().install();
       mockStore.dispatch(actions.widgetInitialised());
       actionInit = mockStore.getActions()[0];
       actionBootUp = mockStore.getActions()[1];
@@ -889,16 +909,17 @@ describe('base redux actions', () => {
       expect(actionBootUp).toEqual(undefined);
     });
 
-    // TODO - Add The Delay [TimP]
-    // describe('After 5 seconds', () => {
-    //  beforeEach(() => {
-    //    actionBootUp = mockStore.getActions()[1];
-    //  });
-    //  it('dispatches an action with BOOT_UP_TIMER_COMPLETE', () => {
-    //    expect(actionBootUp.type)
-    //      .toEqual(actionTypes.BOOT_UP_TIMER_COMPLETE);
-    //  });
-    // });
+    describe('After 5 seconds', () => {
+      beforeEach(() => {
+        jasmine.clock().tick(5000);
+        actionBootUp = mockStore.getActions()[1];
+      });
+
+      it('dispatches an action with BOOT_UP_TIMER_COMPLETE', () => {
+        expect(actionBootUp.type)
+          .toEqual(actionTypes.BOOT_UP_TIMER_COMPLETE);
+      });
+    });
   });
 
   describe('activateReceived', () => {
@@ -913,21 +934,25 @@ describe('base redux actions', () => {
         mockStore.dispatch(actions.activateRecieved(mockOptions));
         action = mockStore.getActions()[0];
       });
+
       it('dispatches an action with ACTIVATE_RECEIVED', () => {
         expect(action.type)
           .toEqual(actionTypes.ACTIVATE_RECEIVED);
       });
+
       it('dispatches the correct payload', () => {
         expect(action.payload)
           .toEqual(mockOptions);
       });
     });
+
     describe('with no parameter', () => {
       beforeEach(() => {
         mockOptions = {};
         mockStore.dispatch(actions.activateRecieved());
         action = mockStore.getActions()[0];
       });
+
       it('dispatches the correct payload', () => {
         expect(action.payload)
           .toEqual(mockOptions);
@@ -942,6 +967,7 @@ describe('base redux actions', () => {
       mockStore.dispatch(actions.hideRecieved());
       action = mockStore.getActions()[0];
     });
+
     it('dispatches an action with HIDE_RECEIVED', () => {
       expect(action.type)
         .toEqual(actionTypes.HIDE_RECEIVED);
@@ -955,6 +981,7 @@ describe('base redux actions', () => {
       mockStore.dispatch(actions.showRecieved());
       action = mockStore.getActions()[0];
     });
+
     it('dispatches an action with SHOW_RECEIVED', () => {
       expect(action.type)
         .toEqual(actionTypes.SHOW_RECEIVED);
@@ -968,11 +995,13 @@ describe('base redux actions', () => {
       mockStore.dispatch(actions.legacyShowReceived());
       action = mockStore.getActions()[0];
     });
+
     it('dispatches an action with LEGACY_SHOW_RECEIVED', () => {
       expect(action.type)
         .toEqual(actionTypes.LEGACY_SHOW_RECEIVED);
     });
   });
+
   describe('nextButtonClicked', () => {
     let action;
 
@@ -980,11 +1009,13 @@ describe('base redux actions', () => {
       mockStore.dispatch(actions.nextButtonClicked());
       action = mockStore.getActions()[0];
     });
+
     it('dispatches an action with NEXT_BUTTON_CLICKED', () => {
       expect(action.type)
         .toEqual(actionTypes.NEXT_BUTTON_CLICKED);
     });
   });
+
   describe('cancelButtonClicked', () => {
     let action;
 
@@ -992,6 +1023,7 @@ describe('base redux actions', () => {
       mockStore.dispatch(actions.cancelButtonClicked());
       action = mockStore.getActions()[0];
     });
+
     it('dispatches an action with CANCEL_BUTTON_CLICKED', () => {
       expect(action.type)
         .toEqual(actionTypes.CANCEL_BUTTON_CLICKED);

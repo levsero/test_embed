@@ -251,7 +251,7 @@ describe('Navigation', () => {
 
       describe('when on desktop', () => {
         beforeAll(() => {
-          fullscreen = true;
+          fullscreen = false;
         });
 
         it('calls handleCloseButtonClick prop', () => {

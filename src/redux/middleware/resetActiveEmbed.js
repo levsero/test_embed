@@ -28,30 +28,36 @@ import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state);
-  const chatActions = [
+  const eligibleChatActions = [
     SDK_CONNECTION_UPDATE,
     SDK_ACCOUNT_STATUS
   ];
+  const eligibleActiveEmbeds = [
+    'chat',
+    'channelChoice',
+    'ticketSubmissionForm'
+  ];
+  const isChatActionEligible = _.includes(eligibleChatActions, type);
+  const isActiveEmbedEligible = _.includes(eligibleActiveEmbeds, activeEmbed);
 
-  if (_.includes(chatActions, type) && _.includes(['chat', 'channelChoice', 'ticketSubmissionForm'], activeEmbed)) {
-    return true;
-  }
-  return false;
+  return isChatActionEligible && isActiveEmbedEligible;
 };
 
 const shouldResetForZopimChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state);
-  const zopimChatActions = [
+  const eligibleZopimChatActions = [
     ZOPIM_CHAT_ON_STATUS_UPDATE
   ];
-  const actionAllowed = _.includes(zopimChatActions, type);
+  const isZopimChatActionEligible = _.includes(eligibleZopimChatActions, type);
   const isChatting = getZopimIsChatting(state);
   const zopimChatGoneOffline = !isChatting && !getZopimChatOnline(state);
 
-  if (zopimChatGoneOffline && actionAllowed && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
+  if (zopimChatGoneOffline
+      && isZopimChatActionEligible
+      && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
     return true;
   }
-  if (actionAllowed && activeEmbed === 'ticketSubmissionForm') {
+  if (isZopimChatActionEligible && activeEmbed === 'ticketSubmissionForm') {
     return true;
   }
   return false;
