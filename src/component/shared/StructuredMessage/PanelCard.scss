@@ -41,8 +41,8 @@
 
 .imageContainer {
   position: relative;
-  border-top-left-radius: #{14/$font-size}rem; // Less rounded than messageBubble
-  border-top-right-radius: #{14/$font-size}rem; // Less rounded than messageBubble
+  border-top-left-radius: #{15/$font-size}rem; // Less rounded than messageBubble
+  border-top-right-radius: #{15/$font-size}rem; // Less rounded than messageBubble
   overflow: hidden;
 }
 
@@ -84,6 +84,8 @@
 .lineClamp {
   overflow: hidden;
   display: -webkit-box;
+  text-overflow: ellipsis;
+  width: 100%;
   /*! autoprefixer: off */
   -webkit-box-orient: vertical;
   /*! autoprefixer: on */

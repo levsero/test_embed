@@ -2,12 +2,16 @@ describe('Pure PanelCard Component', () => {
   let PanelCard;
 
   const panelCardPath = buildSrcPath('component/shared/StructuredMessage/PanelCard');
+  const constantPath = buildSrcPath('constants/shared');
 
+  const FONT_SIZE = requireUncached(constantPath).FONT_SIZE;
   const Card = noopReactComponent();
   const ButtonList = noopReactComponent();
   const Icon = noopReactComponent();
 
   const onClickSpy = jasmine.createSpy('onClick');
+  const isFirefoxSpy = jasmine.createSpy('isFirefox');
+  const isIESpy = jasmine.createSpy('isIE');
 
   const expectedDefaultProps = {
     children: [],
@@ -44,6 +48,13 @@ describe('Pure PanelCard Component', () => {
       },
       'component/Icon': {
         Icon
+      },
+      'constants/shared': {
+        FONT_SIZE
+      },
+      'utility/devices': {
+        isFirefox: isFirefoxSpy,
+        isIE: isIESpy
       }
     });
 
@@ -56,6 +67,8 @@ describe('Pure PanelCard Component', () => {
     mockery.disable();
 
     onClickSpy.calls.reset();
+    isFirefoxSpy.calls.reset();
+    isIESpy.calls.reset();
   });
 
   it('has correct default value', () => {
@@ -231,11 +244,13 @@ describe('Pure PanelCard Component', () => {
   });
 
   describe('.renderPanelContent', () => {
-    let mockProps = {
+    const originalProps = {
       panel: {
-        heading: 'This is a header'
+        heading: 'This is a header',
+        paragraph: 'This is a paragraph'
       }
     };
+    let mockProps = { ...originalProps };
     let component;
 
     beforeEach(() => {
@@ -243,6 +258,10 @@ describe('Pure PanelCard Component', () => {
       spyOn(component, 'renderPanelContent');
 
       component.render();
+    });
+
+    afterEach(() => {
+      mockProps = { ... originalProps };
     });
 
     it('should call renderPanelContent', () => {
@@ -269,6 +288,84 @@ describe('Pure PanelCard Component', () => {
       it('should call renderPanelContent with overwritten params', () => {
         expect(component.renderPanelContent).toHaveBeenCalledWith({
           ...mockProps.panel
+        });
+      });
+    });
+
+    describe('Setting max height for header and paragraph', () => {
+      let component;
+
+      beforeEach(() => {
+        mockProps.panel = {
+          ...mockProps.panel,
+          headingLineClamp: 3,
+          paragraphLineClamp: 5,
+          imageAspectRatio: 10 / 6
+        };
+
+        component = instanceRender(<PanelCard {...mockProps} />);
+      });
+
+      describe('Browser is not IE and firefox', () => {
+        beforeAll(() => {
+          isFirefoxSpy.and.returnValue(false);
+          isIESpy.and.returnValue(false);
+        });
+
+        it('should set max height "auto" for header', () => {
+          const response = component.renderPanelContent(mockProps.panel);
+
+          expect(response.props.children[0].props.style.maxHeight)
+            .toEqual('auto');
+        });
+
+        it('should set max height "auto" for paragraph', () => {
+          const response = component.renderPanelContent(mockProps.panel);
+
+          expect(response.props.children[1].props.style.maxHeight)
+            .toEqual('auto');
+        });
+      });
+
+      describe('Browser is IE', () => {
+        beforeAll(() => {
+          isFirefoxSpy.and.returnValue(false);
+          isIESpy.and.returnValue(true);
+        });
+
+        it('should set calculated max height for header', () => {
+          const response = component.renderPanelContent(mockProps.panel);
+
+          expect(response.props.children[0].props.style.maxHeight)
+            .toEqual(`${16 * mockProps.panel.headingLineClamp / FONT_SIZE}rem`);
+        });
+
+        it('should set calculated max height for paragraph', () => {
+          const response = component.renderPanelContent(mockProps.panel);
+
+          expect(response.props.children[1].props.style.maxHeight)
+            .toEqual(`${16 * mockProps.panel.paragraphLineClamp / FONT_SIZE}rem`);
+        });
+      });
+
+      describe('Browser is Firefox', () => {
+        beforeAll(() => {
+          isFirefoxSpy.and.returnValue(true);
+          isIESpy.and.returnValue(false);
+        });
+
+        it('should set calculated max height for header', () => {
+          const response = component.renderPanelContent(mockProps.panel);
+
+          expect(response.props.children[0].props.style.maxHeight)
+            .toEqual(`${16 * mockProps.panel.headingLineClamp / FONT_SIZE}rem`);
+        });
+
+        it('should set calculated max height for paragraph', () => {
+          const response = component.renderPanelContent(mockProps.panel);
+
+          expect(response.props.children[1].props.style.maxHeight)
+            .toEqual(`${16 * mockProps.panel.paragraphLineClamp / FONT_SIZE}rem`);
         });
       });
     });

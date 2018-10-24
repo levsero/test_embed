@@ -7,6 +7,8 @@ import {locals as styles} from './PanelCard.scss';
 import { Card } from './pure/Card';
 import { ButtonList } from './pure/ButtonList';
 import { Icon } from 'component/Icon';
+import { isFirefox, isIE } from 'utility/devices';
+import { FONT_SIZE } from 'constants/shared';
 
 const PanelPropType = PropTypes.shape({
   heading: PropTypes.string.isRequired,
@@ -17,6 +19,11 @@ const PanelPropType = PropTypes.shape({
   paragraphLineClamp: PropTypes.number,
   onClick: PropTypes.func
 });
+
+// We calculate a max height for browsers that don't support line-clamp
+const _calculateMaxHeight = function(noOfLines) {
+  return (isFirefox() || isIE()) ? `${16 * noOfLines / FONT_SIZE}rem` : 'auto';
+};
 
 export class PanelCard extends Component {
   static propTypes = {
@@ -42,7 +49,7 @@ export class PanelCard extends Component {
 
     const aspectRatioStyle = {
       paddingBottom: `${1/panel.imageAspectRatio*100}%`
-    }
+    };
 
     return (
       <div className={styles.imageContainer}>
@@ -65,10 +72,12 @@ export class PanelCard extends Component {
 
     // For line truncation
     const headingLineClampStyle = {
-      WebkitLineClamp: panel.headingLineClamp
+      WebkitLineClamp: panel.headingLineClamp,
+      maxHeight: _calculateMaxHeight(panel.headingLineClamp)
     };
     const paragraphLineClampStyle = {
-      WebkitLineClamp: panel.paragraphLineClamp
+      WebkitLineClamp: panel.paragraphLineClamp,
+      maxHeight: _calculateMaxHeight(panel.paragraphLineClamp)
     };
 
     return (
