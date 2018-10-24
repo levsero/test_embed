@@ -24,7 +24,7 @@ module.exports = merge(common, {
     [chunks.COMMON_VENDOR_CHUNK]: [
       'lodash', 'react', 'react-dom', 'redux', 'core-js'
     ],
-    [chunks.CHAT_VENDOR_CHUNK]: ['chat-web-sdk'],
+    [chunks.CHAT_VENDOR_CHUNK]: ['chat-web-sdk', 'react-slick'],
     [chunks.TALK_VENDOR_CHUNK]: ['libphonenumber-js', 'socket.io-client']
   },
   optimization: {

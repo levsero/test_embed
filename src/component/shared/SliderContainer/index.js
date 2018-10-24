@@ -1,13 +1,20 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {IconButton} from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
-import Slider from 'react-slick';
 
 import {locals as styles} from './SliderContainer.scss';
 
 import {Icon} from 'component/Icon';
+import { getSliderVendor } from 'src/redux/modules/chat/chat-selectors';
+
+const mapStateToProps = (state) => {
+  return {
+    slider: getSliderVendor(state)
+  };
+};
 
 export class SliderContainer extends Component {
   static propTypes = {
@@ -18,7 +25,8 @@ export class SliderContainer extends Component {
     slidesToScroll: PropTypes.number,
     slidesToShow: PropTypes.number,
     className: PropTypes.string,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    slider: PropTypes.func
   }
 
   static defaultProps = {
@@ -83,6 +91,8 @@ export class SliderContainer extends Component {
   }
 
   render() {
+    const Slider = this.props.slider;
+
     const pills = React.Children.map(this.props.children, (child, index) => {
       return React.cloneElement(child, {
         className: classNames(child.props.className, styles.item),
@@ -324,3 +334,5 @@ function calculateChildWidth(child) {
 
   return slickSlideEle.clientWidth + getComputedStyle(slickSlideEle, 'margin-right', true);
 }
+
+export default connect(mapStateToProps, null, null, {withRef: true})(SliderContainer);

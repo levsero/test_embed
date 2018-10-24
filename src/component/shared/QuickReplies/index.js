@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { locals as styles } from './QuickReplies.scss';
 
-import { SliderContainer as Slider } from '../SliderContainer';
+import Slider from '../SliderContainer';
 
 export class QuickReply extends Component {
   static propTypes = {
