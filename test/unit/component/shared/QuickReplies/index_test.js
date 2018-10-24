@@ -4,15 +4,21 @@ describe('QuickReplies Component', () => {
   const quickRepliesPath = buildSrcPath('component/shared/QuickReplies');
   const Slider = noopReactComponent();
 
+  const smallContainer = {
+    scrollWidth: 1,
+    clientWidth: 2
+  };
+  const largeContainer = {
+    scrollWidth: 2,
+    clientWidth: 1
+  };
+
   beforeEach(() => {
     mockery.enable();
 
     initMockRegistry({
       './QuickReplies.scss': {
-        locals: {
-          messageBubbleWithOptions: 'messageBubbleWithOptions',
-          messageBubble: 'messageBubble'
-        }
+        locals: {}
       },
       '../SliderContainer': {
         SliderContainer: Slider
@@ -47,28 +53,25 @@ describe('QuickReplies Component', () => {
 
       it('state.useCarousel should be false', () => {
         component.componentDidMount();
-        expect(component.state.useCarousel).toEqual(false);
+        expect(component.state.useCarousel)
+          .toEqual(false);
       });
     });
 
     it('state.useCarousel should be false if container.scrollWidth is less than container.clientWidth', () => {
-      component.container = {
-        scrollWidth: 1,
-        clientWidth: 2
-      };
+      component.container = smallContainer;
 
       component.componentDidMount();
-      expect(component.state.useCarousel).toEqual(false);
+      expect(component.state.useCarousel)
+        .toEqual(false);
     });
 
     it('state.useCarousel should be true if container.scrollWidth is greater than container.clientWidth', () => {
-      component.container = {
-        scrollWidth: 2,
-        clientWidth: 1
-      };
+      component.container = largeContainer;
 
       component.componentDidMount();
-      expect(component.state.useCarousel).toEqual(true);
+      expect(component.state.useCarousel)
+        .toEqual(true);
     });
   });
 
@@ -80,29 +83,25 @@ describe('QuickReplies Component', () => {
     });
 
     it('does not render Slider component when state.useCarousel is false', () => {
-      component.container = {
-        scrollWidth: 1,
-        clientWidth: 2
-      };
+      component.container = smallContainer;
 
       component.componentDidMount();
 
       const result = component.render();
 
-      expect(TestUtils.isElementOfType(result.props.children, Slider)).toEqual(false);
+      expect(TestUtils.isElementOfType(result.props.children, Slider))
+        .toEqual(false);
     });
 
     it('render Slider component when state.useCarousel is true', () => {
-      component.container = {
-        scrollWidth: 2,
-        clientWidth: 1
-      };
+      component.container = largeContainer;
 
       component.componentDidMount();
 
       const result = component.render();
 
-      expect(TestUtils.isElementOfType(result.props.children, Slider)).toEqual(true);
+      expect(TestUtils.isElementOfType(result.props.children, Slider))
+        .toEqual(true);
     });
   });
 });
