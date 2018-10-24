@@ -71,6 +71,12 @@ describe('selectors', () => {
     const selectorsPath = buildSrcPath('redux/modules/selectors');
 
     initMockRegistry({
+      'constants/shared': {
+        EMBED_MAP: {
+          helpCenterForm: 'helpCenter'
+        },
+        LAUNCHER: 'launcher'
+      },
       './base/base-selectors': {
         getActiveEmbed: () => activeEmbedValue,
         getHelpCenterEmbed: () => helpCenterEmbedValue,
@@ -1662,6 +1668,46 @@ describe('selectors', () => {
       it('returns true', () => {
         expect(result)
           .toEqual(true);
+      });
+    });
+  });
+
+  describe('getWidgetDisplayInfo', () => {
+    let result;
+
+    beforeAll(() => {
+      hasPassedAuth = true;
+      helpCenterEmbedValue = true;
+      hiddenByHideAPIValue = false;
+      hiddenByActivateAPIValue = false;
+      bootupTimeoutValue = true;
+      mockSettingsGetFn = () => false;
+      activeEmbedValue = 'helpCenterForm';
+    });
+
+    beforeEach(() => {
+      result = selectors.getWidgetDisplayInfo();
+    });
+
+    describe('when launcher is visible', () => {
+      beforeAll(() => {
+        launcherVisibleValue = true;
+      });
+
+      it('returns launcher', () => {
+        expect(result)
+          .toEqual('launcher');
+      });
+    });
+
+    describe('when launcher is not visible', () => {
+      beforeAll(() => {
+        launcherVisibleValue = false;
+      });
+
+      it('returns the active embed part of the map', () => {
+        expect(result)
+          .toEqual('helpCenter');
       });
     });
   });
