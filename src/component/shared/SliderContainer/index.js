@@ -40,36 +40,40 @@ export class SliderContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.windowWidth = 0;
-    this.childrenWidth = 0;
-    this.currentSlide = 0;
+    this.currentPageIndex = 0;
 
-    this.isLast = false;
+    /**
+     * @typedef {Object} PageInfo
+     * @property {boolean} canGoToPrevPage indicates whether it is possible to go to the previous page
+     * @property {boolean} canGoToNextPage indicates whether it is possible to go to the next page
+     * @property {number} cssTransformVal value of CSS transform to go to the page
+     */
+
+    /**
+     * List of the slider's pages info. The list item index will correspond
+     * to the a page position (i.e. item index `1` will have the value of
+     * the second page's info).
+     * @type {Array.<PageInfo>}
+     */
+    this.pages = [];
+
+    /**
+     * Map an item index to the page index where the item is in
+     * @type {Object.<number, number>}
+     */
+    this.itemIndexToPageIndex = {};
+
     this.isAnimating = false;
 
     this.isFocused = false;
     this.isMouseDown = false;
-
-    // Store how much the slick-track has moved to the left
-    this.cache = 0;
-
-    // Store all the transition info into pointerArr
-    this.pointerArr = [];
   }
 
   componentDidMount() {
     if (this.props.variableWidth) {
       this.sliderEle = ReactDOM.findDOMNode(this.slider);
 
-      // width of the window where the children can be seen
-      this.windowWidth = this.sliderEle.clientWidth;
-
-      // the total width of the children
-      this.childrenWidth = this.props.children.reduce((width, child, index) => {
-        const slickSliderEle = getParent(this[`child${index}`], 'slick-slide');
-
-        return width += slickSliderEle.clientWidth + getComputedStyle(slickSliderEle, 'marginRight', true);
-      }, this.childrenWidth);
+      this.calculatePagesInfo();
 
       // slick track where the animation takes place
       this.slickTrack = getParent(this.child0, 'slick-track');
@@ -78,16 +82,120 @@ export class SliderContainer extends Component {
 
   componentDidUpdate() {
     if (this.props.variableWidth) {
-      if (this.isLast) {
-        // Arrows have to be manually toggled because the "last" flag is
-        // calculated outside of the plugin
-        hideRightArrow(this.slickTrack);
-        showLeftArrow(this.slickTrack);
-      }
+      // when slider arrow is clicked, the component is re-rendered
+      // (due to parent component re-render) which caused the arrows
+      // to go back to original state (i.e. prev arrow hidden and next
+      // arrow shown). Updating the slider arrows here to make sure
+      // that the arrows are in the correct state.
+      this.updateSliderArrows(this.currentPageIndex);
 
       // Browser affect the DOM's scrollLeft when we move the carousel manually via tabbing. This will reset scrollLeft behavior.
       getChild(this.sliderEle, 'slick-list').scrollLeft = 0;
     }
+  }
+
+  calculatePagesInfo() {
+    // width of the window where the children can be seen
+    const windowWidth = this.sliderEle.clientWidth;
+
+    let currPageWidth = 0;
+    let currPageIndex = 0;
+    let prevSiblingsWidth = 0; // total width of the previous siblings
+
+    this.pages.push({
+      canGoToPrevPage: false,
+      canGoToNextPage: true,
+      cssTransformVal: 0
+    });
+
+    for (let itemIndex = 0; itemIndex < this.props.children.length; itemIndex++) {
+      const itemWidth = calculateChildWidth(this[`child${itemIndex}`]);
+
+      currPageWidth += itemWidth;
+
+      if (currPageWidth <= windowWidth) {
+        this.itemIndexToPageIndex[itemIndex] = currPageIndex;
+      } else {
+        this.itemIndexToPageIndex[itemIndex] = ++currPageIndex;
+
+        this.pages.push({
+          canGoToPrevPage: true,
+          canGoToNextPage: true,
+          cssTransformVal: prevSiblingsWidth
+        });
+
+        currPageWidth = itemWidth;
+      }
+
+      prevSiblingsWidth += itemWidth;
+    }
+
+    const lastPage = this.pages[this.pages.length - 1];
+
+    lastPage.canGoToNextPage = false;
+    lastPage.cssTransformVal = prevSiblingsWidth - windowWidth;
+  }
+
+  goTo = (pageIndex) => {
+    if (
+      pageIndex === this.currentPageIndex
+      || this.isAnimating
+      || pageIndex < 0
+      || pageIndex >= this.pages.length
+    ) {
+      return;
+    }
+
+    if (this.props.variableWidth) {
+      const {
+        cssTransformVal
+      } = this.pages[pageIndex];
+
+      this.slickTrack.style.transition = this.isFocused ? '' : `transform ${this.props.speed}ms ease 0s`;
+      this.slickTrack.style.transform = `translate3d(${-(cssTransformVal)}px, 0, 0)`;
+
+      this.updateSliderArrows(pageIndex);
+      this.animateLock();
+    } else {
+      this.slider.slickGoTo(pageIndex, this.isFocused);
+    }
+
+    this.currentPageIndex = pageIndex;
+  }
+
+  updateSliderArrows = (pageIndex) => {
+    const {
+      canGoToPrevPage,
+      canGoToNextPage
+    } = this.pages[pageIndex];
+
+    if (canGoToPrevPage) {
+      showPrevArrow(this.slickTrack);
+    } else {
+      hidePrevArrow(this.slickTrack);
+    }
+
+    if (canGoToNextPage) {
+      showNextArrow(this.slickTrack);
+    } else {
+      hideNextArrow(this.slickTrack);
+    }
+  }
+
+  goNext = () => {
+    this.goTo(this.currentPageIndex + 1);
+  }
+
+  goPrev = () => {
+    this.goTo(this.currentPageIndex - 1);
+  }
+
+  animateLock = () => {
+    this.isAnimating = !this.isFocused;
+
+    setTimeout(() => {
+      this.isAnimating = false;
+    }, this.props.speed);
   }
 
   render() {
@@ -116,31 +224,9 @@ export class SliderContainer extends Component {
             return;
           }
 
-          if (index === 0) {
-            this.slider.slickGoTo(0, true);
-            this.currentSlide = 0;
-            this.isLast = false;
-            this.pointerArr = [];
-            this.slickTrack.style.transition = '';
+          const pageIndex = this.itemIndexToPageIndex[index];
 
-            // If immediate scroll reaches the end
-            this.slickTrack.style.transform = 'translate3d(0, 0, 0)';
-            showRightArrow(this.slickTrack);
-          }
-
-          // Check for the current intersecting item
-          let totalItemWidth = 0;
-
-          for (let i = 0; i <= index; i++) {
-            const itemWidth = calculateChildWidth(this[`child${i}`]);
-            const transitedWidth = getTransformX(this.slickTrack);
-
-            if (totalItemWidth + itemWidth > this.windowWidth + transitedWidth) {
-              goRight();
-            } else {
-              totalItemWidth += itemWidth;
-            }
-          }
+          this.goTo(pageIndex);
         },
         onBlur: () => {
           this.isFocused = false;
@@ -155,7 +241,7 @@ export class SliderContainer extends Component {
         <IconButton
           size="small"
           className={classNames(styles.sliderButton, styles['sliderButton--right'], className)}
-          onClick={(this.props.variableWidth ? goRight : onClick)}
+          onClick={(this.props.variableWidth ? this.goNext : onClick)}
         >
           <Icon type="Icon--chevron-right-fill" />
         </IconButton>
@@ -168,92 +254,11 @@ export class SliderContainer extends Component {
         <IconButton
           size="small"
           className={classNames(styles.sliderButton, styles['sliderButton--left'], className)}
-          onClick={(this.props.variableWidth ? goLeft : onClick)}
+          onClick={(this.props.variableWidth ? this.goPrev : onClick)}
         >
           <Icon type="Icon--chevron-left-fill" />
         </IconButton>
       );
-    };
-
-    const goRight = () => {
-      if (this.isAnimating) return;
-
-      let totalItemWidth = 0;
-
-      // Calculate intersecting item
-      for (let i = 0; i < this.props.children.length; i++) {
-        const itemWidth = calculateChildWidth(this[`child${i}`]);
-        const transitedWidth = getTransformX(this.slickTrack);
-
-        if (totalItemWidth + itemWidth > this.windowWidth + transitedWidth) {
-          // count if remaining item can fit
-          const remainingWidth = this.props.children.slice(i).reduce((width, child, index) => {
-            return width += calculateChildWidth(this[`child${i + index}`]);
-          }, 0);
-
-          // if can fit, slide the remaing items in
-          if (remainingWidth <= this.windowWidth) {
-            // we also add in the buffer space for focus ring
-            const slidingDist = this.childrenWidth - this.windowWidth + 6;
-
-            if (!this.isFocused) {
-              this.slickTrack.style.transition = `transform ${this.props.speed}ms ease 0s`;
-            }
-            this.slickTrack.style.transform = `translate3d(${-(slidingDist)}px, 0, 0)`;
-
-            hideRightArrow(this.slickTrack);
-
-            this.pointerArr.push({
-              index: this.currentSlide,
-              type: 'width',
-              value: -(transitedWidth)
-            });
-
-            this.isLast = true;
-          } else {
-            // else cannot fit, we just scroll to the intersecting item
-            this.pointerArr.push({
-              index: this.currentSlide
-            });
-            this.slider.slickGoTo(i, this.isFocused);
-            this.currentSlide = i;
-          }
-
-          animateLock();
-
-          return;
-        } else {
-          totalItemWidth += itemWidth;
-        }
-      }
-    };
-
-    const goLeft = () => {
-      if (this.isAnimating) return;
-
-      const {index = 0, type = '', value = ''} = this.pointerArr.pop() || {};
-
-      if (type === 'width') {
-        if (!this.isFocused) {
-          this.slickTrack.style.transition = `transform ${this.props.speed}ms ease 0s`;
-        }
-        this.slickTrack.style.transform = `translate3d(${value}px, 0, 0)`;
-      } else {
-        this.slider.slickGoTo(index, this.isFocused);
-        this.currentSlide = index;
-      }
-
-      animateLock();
-
-      this.isLast = false;
-    };
-
-    const animateLock = () => {
-      this.isAnimating = (this.isFocused) ? false : true;
-
-      setTimeout(() => {
-        this.isAnimating = false;
-      }, this.props.speed);
     };
 
     const sliderSettings = {
@@ -279,25 +284,20 @@ export class SliderContainer extends Component {
   }
 }
 
-function hideRightArrow(slickTrack) {
+function hideNextArrow(slickTrack) {
   slickTrack.parentElement.nextSibling.classList.add('slick-disabled');
 }
 
-function showRightArrow(slickTrack) {
+function hidePrevArrow(slickTrack) {
+  slickTrack.parentElement.previousSibling.classList.add('slick-disabled');
+}
+
+function showNextArrow(slickTrack) {
   slickTrack.parentElement.nextSibling.classList.remove('slick-disabled');
 }
 
-function showLeftArrow(slickTrack) {
+function showPrevArrow(slickTrack) {
   slickTrack.parentElement.previousSibling.classList.remove('slick-disabled');
-}
-
-/**
- * Get the x translation
- */
-function getTransformX(ele) {
-  const currentTransform = getComputedStyle(ele, 'transform').replace(/[^0-9\-.,]/g, '').split(',');
-
-  return Math.abs(currentTransform[4]);
 }
 
 /**
