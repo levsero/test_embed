@@ -163,7 +163,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
           : null;
         const checkboxProps = {
           ...sharedProps,
-          validation: checkboxError ? 'error': 'none',
+          validation: checkboxError ? 'error': 'none'
         };
 
         return (
