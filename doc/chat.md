@@ -186,7 +186,7 @@ Registers a callback to be fired when the widget successfully connects to the se
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:connected', () => {
+zE('webWidget:on', 'chat:connected', function() {
   console.log('successfully connected to Zendesk Chat!');
 });
 </script>
@@ -207,7 +207,7 @@ Registers a callback to be fired when a chat starts.
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:start', () => {
+zE('webWidget:on', 'chat:start', function() {
   console.log('successfully started a Zendesk Chat!');
 });
 </script>
@@ -230,7 +230,7 @@ A chat only ends when the visitor (and not the agent) ends the chat, or when the
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:end', () => {
+zE('webWidget:on', 'chat:end', function() {
   console.log('successfully ended a Zendesk Chat session!');
 });
 </script>
@@ -239,7 +239,7 @@ zE('webWidget:on', 'chat:end', () => {
 
 #### on chat:status
 
-`zE('webWidget:on', 'chat:status', (status<string>) => {});`
+`zE('webWidget:on', 'chat:status', function(status<string>) {});`
 
 Registers a callback to be fired when the account status changes. The callback will also be called once when this function is executed.
 
@@ -247,13 +247,13 @@ Registers a callback to be fired when the account status changes. The callback w
 
 ##### Parameters
 
-* `callback`: Function. The callback to perform on unread messages. Contains one parameter, `status`, a string choosing one of 'online'|'away'|'offline'
+* `callback`: Function. The callback to perform on unread messages. Contains one parameter, `status`, a string that can be one of 'online'|'away'|'offline'
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:status', (status) => {
+zE('webWidget:on', 'chat:status', function(status) {
   console.log('This chat session is now', status);
 });
 </script>
@@ -262,7 +262,7 @@ zE('webWidget:on', 'chat:status', (status) => {
 
 #### on chat:unreadMessages
 
-`zE('webWidget:on', 'chat:unreadMessages', (number<int>) => {});`
+`zE('webWidget:on', 'chat:unreadMessages', function(number<int>) {});`
 
 Registers a callback to be fired when the number of unread messages changes. The callback will also be called once when this function is executed.
 
@@ -274,7 +274,7 @@ Registers a callback to be fired when the number of unread messages changes. The
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:unreadMessages', (number) => {
+zE('webWidget:on', 'chat:unreadMessages', function(number) {
   console.log(`It seems you have ${number} unread messages!`);
 });
 </script>
