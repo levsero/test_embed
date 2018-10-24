@@ -18,7 +18,7 @@ import {
 import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
-import { getWidgetDisplayInfo } from 'src/redux/modules/base/base-selectors';
+import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
   getIsChatting,
   getDepartmentsList,

@@ -33,6 +33,7 @@ import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
 import { FONT_SIZE } from 'src/constants/shared';
+import { EMBED_MAP, LAUNCHER } from 'constants/shared';
 
 import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared';
 /*
@@ -244,3 +245,14 @@ export const getFrameVisible = (state, frame = 'webWidget') => {
   }
   return getLauncherVisible(state);
 };
+
+export const getWidgetDisplayInfo = createSelector(
+  [getLauncherVisible, getActiveEmbed],
+  (launcherVisible, activeEmbed) => {
+    if (!launcherVisible) {
+      return EMBED_MAP[activeEmbed];
+    } else {
+      return LAUNCHER;
+    }
+  }
+);

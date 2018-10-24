@@ -2,7 +2,6 @@ import { store } from 'service/persistence';
 import { isTokenValid } from 'src/redux/modules/base/helpers/auth';
 import { createSelector } from 'reselect';
 import { isOnHelpCenterPage } from 'utility/pages';
-import { EMBED_MAP, LAUNCHER } from 'constants/shared';
 
 export const getHiddenByHideAPI = (state) => state.base.hidden.hideApi;
 export const getHiddenByActivateAPI = (state) => state.base.hidden.activateApi;
@@ -85,15 +84,5 @@ export const getZChatConfig = createSelector(
       ...(overrideProxy && { override_proxy: overrideProxy })
     };
     /* eslint-enable camelcase */
-  }
-);
-export const getWidgetDisplayInfo = createSelector(
-  [getWidgetShown, getActiveEmbed],
-  (widgetShown, activeEmbed) => {
-    if (widgetShown) {
-      return EMBED_MAP[activeEmbed];
-    } else {
-      return LAUNCHER;
-    }
   }
 );
