@@ -59,6 +59,7 @@ describe('webWidgetPreview entry file', () => {
       'service/settings': {
         settings: { get: noop }
       },
+      'src/polyfills': {},
       'embed/webWidget/webWidget.scss': '',
       'embed/webWidget/webWidgetStyles.js': '',
       'src/redux/createStore': noop,

@@ -4,49 +4,56 @@
   <meta charset="UTF-8">
   <title>Web Widget Chat Preview</title>
 </head>
-<body>
-  <body style='background-color:#fff'>
-    <h1>Web Widget Chat Preview</h1>
-    <div id="previewContainer" style="height: 580px; border:1px solid #aaa; position: relative;">
-      <div style="float:left;margin:16px;width:400px;">
-        <div style="padding-bottom:20px;">
-          Screen: <select onchange="window.preview.updateScreen(this.value)">
-            <option value="widget/chat/CHATTING_SCREEN">Chat Log</option>
-            <option value="widget/chat/PRECHAT_SCREEN">Pre Chat Form</option>
-            <option value="widget/chat/OFFLINE_MESSAGE_SCREEN">Offline Form</option>
-          </select>
-        </div>
+<body style='background-color:#fff'>
+  <h1>Web Widget Chat Preview</h1>
+  <div id="previewContainer" style="height: 580px; border:1px solid #aaa; position: relative;">
+    <div style="float:left;margin:16px;width:400px;">
+      <div style="padding-bottom:20px;">
+        Screen: <select onchange="window.preview.updateScreen(this.value)">
+          <option value="widget/chat/CHATTING_SCREEN">Chat Log</option>
+          <option value="widget/chat/PRECHAT_SCREEN">Pre Chat Form</option>
+          <option value="widget/chat/OFFLINE_MESSAGE_SCREEN">Offline Form</option>
+        </select>
+      </div>
       <div>
         To update settings call <code>window.preview.updateSettings</code> with a JSON payload to represent account settings.
 
         An example is:
-        <pre style="height:300px;overflow:scroll;border:#aaa 1px solid;">
-          <p><%= htmlWebpackPlugin.options.chatSettingsExample %></p>
-        </pre>
+        <div>
+          <textarea id="settings" style="width: 100%" rows="30"><%= htmlWebpackPlugin.options.chatSettingsExample %></textarea>
+        </div>
+        <button id="apply">Apply settings</button>
       </div>
-
     </div>
+  </div>
 
-    <script src="/chatPreview.js"></script>
-    <script>
-      window.preview = zEPreview.renderPreview({
-        element: document.getElementById('previewContainer')
-      });
+  <script src="/chatPreview.js"></script>
+  <script>
+    window.preview = zEPreview.renderPreview({
+      element: document.getElementById('previewContainer')
+    });
 
-      const events = [
-        { type: "account_status", detail: "online" },
-        { type: "visitor_update", detail: { email: "", display_name: "Visitor 85153315" } },
-        { type: "connection_update", detail: "connected" },
-        { type: "chat", detail: {timestamp: 1525325772386, nick: "visitor", type: "chat.memberjoin", display_name: "Visitor 1525325771"} },
-        { type: "chat", detail: {timestamp: 1525325926444, nick: "visitor", type: "chat.msg", display_name: "Visitor 1525325926", msg: "hey"} },
-        { type: "chat", detail: {timestamp: 1525325936518, nick: "agent:1689357", type: "chat.memberjoin", display_name: "Briana Coppard"} },
-        { type: "chat", detail: {timestamp: 1525325939026, nick: "agent:1689357", type: "chat.msg", display_name: "Briana Coppard", msg: "hey"} },
-        { type: "agent_update", detail: {avatar_path: "https://v2assets.zopim.io/2EkTn0An31opxOLXuGgRCy5nPnSNmpe6-agents-1689357?1524707165289", display_name: "Briana Coppard", title: "Customer Service", nick: "agent:1689357"} },
-      ]
+    document.getElementById('apply').addEventListener('click', function() {
+      var settings = document.getElementById('settings').value;
+      var settingsObject = new Function('return ' + settings).call({});
 
-      events.forEach((event) => {
-        window.preview.updateChatState(event);
-      });
-    </script>
+      preview.updateSettings(settingsObject);
+    });
+
+    var events = [
+      { type: "account_status", detail: "online" },
+      { type: "visitor_update", detail: { email: "", display_name: "Visitor 85153315" } },
+      { type: "connection_update", detail: "connected" },
+      { type: "chat", detail: {timestamp: 1525325772386, nick: "visitor", type: "chat.memberjoin", display_name: "Visitor 1525325771"} },
+      { type: "chat", detail: {timestamp: 1525325926444, nick: "visitor", type: "chat.msg", display_name: "Visitor 1525325926", msg: "hey"} },
+      { type: "chat", detail: {timestamp: 1525325936518, nick: "agent:1689357", type: "chat.memberjoin", display_name: "Briana Coppard"} },
+      { type: "chat", detail: {timestamp: 1525325939026, nick: "agent:1689357", type: "chat.msg", display_name: "Briana Coppard", msg: "hey"} },
+      { type: "agent_update", detail: {avatar_path: "https://v2assets.zopim.io/2EkTn0An31opxOLXuGgRCy5nPnSNmpe6-agents-1689357?1524707165289", display_name: "Briana Coppard", title: "Customer Service", nick: "agent:1689357"} },
+    ]
+
+    events.forEach(function(event) {
+      window.preview.updateChatState(event);
+    });
+  </script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+import 'src/polyfills';
 import 'core-js/es6/map';
 import 'core-js/es6/set';
 
@@ -19,6 +20,8 @@ import {
   PREVIEWER_LOADED } from 'src/redux/modules/chat/chat-action-types';
 import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
+
+import { generateUserWidgetCSS } from 'utility/color/styles';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
 
@@ -83,7 +86,7 @@ const renderPreview = (options) => {
     ];
     const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0;
 
-    return isSDKActionType || allowedActions.includes(type);
+    return isSDKActionType || _.includes(allowedActions, type);
   };
 
   const store = createStore('chatpreview', { throttleEvents: true, allowedActionsFn: allowThrottleActions });
@@ -95,7 +98,8 @@ const renderPreview = (options) => {
     alwaysShow: true,
     ref: (el) => { frame = el.getWrappedInstance(); },
     disableOffsetHorizontal: true,
-    preventClose: true
+    preventClose: true,
+    generateUserCSS: generateUserWidgetCSS
   };
 
   const component = (

@@ -1,16 +1,30 @@
 describe('base reducer embeddable config', () => {
   let reducer,
     actionTypes,
-    initialState;
+    initialState,
+    UPDATE_PREVIEWER_SETTINGS = 'blah';
 
   beforeAll(() => {
+    mockery.enable();
+
+    initMockRegistry({
+      'src/redux/modules/chat/chat-action-types': {
+        UPDATE_PREVIEWER_SETTINGS
+      }
+    });
+
     const reducerPath = buildSrcPath('redux/modules/base/reducer/base-embeddable-config');
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
+    actionTypes = requireUncached(actionTypesPath);
 
     initialState = reducer(undefined, { type: ''});
-    actionTypes = requireUncached(actionTypesPath);
+  });
+
+  afterAll(() => {
+    mockery.disable();
+    mockery.deregisterAll();
   });
 
   describe('initial state', () => {
@@ -36,6 +50,23 @@ describe('base reducer embeddable config', () => {
           color: '#659700',
           textColor: undefined
         });
+    });
+  });
+
+  describe('when UPDATE_PREVIEWER_SETTINGS action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      let action = {
+        type: UPDATE_PREVIEWER_SETTINGS
+      };
+
+      state = reducer(initialState, action);
+    });
+
+    it('reduces to the correct embeddable config state', () => {
+      expect(state.cp4)
+        .toEqual(true);
     });
   });
 
