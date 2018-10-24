@@ -173,7 +173,7 @@ window.zESettings = {
 
 Replaces the default string on the button in the Help Center form that opens the Chat interface.
 
-![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_chat_btn.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/chatButton.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -215,7 +215,7 @@ window.zESettings = {
 
 Replaces the default string on the launcher button when Chat is enabled and Help Center is not.
 
-![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_chat_label.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/chatLabel.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -366,9 +366,9 @@ Examples of elements customized using `color` properties:
 
 ![Widget launcher](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_color_launcher.png)
 
-![Search results](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_color_results.png)
+![Search results](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/color1.png)
 
-![Article view](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_color_article.png)
+![Article view](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/color2.png)
 
 #### Related settings
 
@@ -408,7 +408,7 @@ window.zESettings = {
 
 Replaces the default string on the button that opens the contact options component, which lets the user choose between starting a chat or submitting a ticket.
 
-![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_contact_options.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/contactButton.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -690,7 +690,7 @@ For more examples, see [Limiting search results](https://support.zendesk.com/hc/
 
 Replaces the default string on the launcher button.
 
-![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_launcher.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/label.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -725,7 +725,7 @@ window.zESettings = {
 
 Replaces the default string on the button in the Help Center form that opens the contact form.
 
-![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_message_btn.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/messageButton.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -872,6 +872,8 @@ window.zESettings = {
 
 Hides the "View Original Article" button.
 
+![Original Article Button](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/originalArticleButton.png)
+
 #### Availability
 
 * [helpCenter](./help_center)
@@ -997,6 +999,8 @@ window.zESettings = {
 ### searchPlaceholder
 
 Replaces the placeholder text displayed in the Help Center search box that says "How can we help?"
+
+![Search Placeholder](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/searchPlaceholder.png)
 
 #### Availability
 
@@ -1251,7 +1255,7 @@ window.zESettings = {
 
 Replaces the default title string with a custom string.
 
-![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_title.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/title.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 

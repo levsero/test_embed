@@ -38,6 +38,8 @@ The widget's `contactOptions` object, which represents a component that lets the
 * [chatLabelOffline](./settings#chatlabeloffline)
 * [contactFormLabel](./settings#contactformlabel)
 
+![Contact Options](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/contactOptions.png)
+
 To learn more about contact options, see [Offering end-users multiple contact options](https://support.zendesk.com/hc/en-us/articles/229167008#topic_spt_fb1_l1b) in the Support Help Center.
 
 <a name="example-contact-options"></a>
