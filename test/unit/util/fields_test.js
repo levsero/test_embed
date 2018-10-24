@@ -778,14 +778,14 @@ describe('fields', () => {
   describe('getDefaultFieldValues', () => {
     describe('when the element has an existing value', () => {
       const testDataList = [
-        { type: 'text',        value: 'a',    expectation: 'a' },
-        { type: 'subject',     value: 'b',    expectation: 'b' },
-        { type: 'integer',     value: 1,      expectation: 1 },
-        { type: 'decimal',     value: 1.1,    expectation: 1.1 },
-        { type: 'textarea',    value: 'a\tb', expectation: 'a\tb' },
-        { type: 'description', value: 'blah', expectation: 'blah' },
-        { type: 'checkbox',    value: true,   expectation: true },
-        { type: 'tagger',      value: 'bob',  expectation: 'bob' }
+        { type: 'text',        value: 'a',    expectation: { value: 'a' } },
+        { type: 'subject',     value: 'b',    expectation: { value: 'b' } },
+        { type: 'integer',     value: 1,      expectation: { value: 1 } },
+        { type: 'decimal',     value: 1.1,    expectation: { value: 1.1 } },
+        { type: 'textarea',    value: 'a\tb', expectation: { value: 'a\tb' } },
+        { type: 'description', value: 'blah', expectation: { value: 'blah' } },
+        { type: 'checkbox',    value: true,   expectation: { checked: true } },
+        { type: 'tagger',      value: 'bob',  expectation: { value: 'bob' } }
       ];
       const assertFieldUsesExistingValue = (type, value, expectation) => {
         it(`returns '${expectation}' for ${type} field type`, () => {
@@ -806,14 +806,14 @@ describe('fields', () => {
 
     describe('when the element does not have an existing value', () => {
       const testDataList = [
-        { type: 'text',        expectation: '' },
-        { type: 'subject',     expectation: '' },
-        { type: 'integer',     expectation: '' },
-        { type: 'decimal',     expectation: '' },
-        { type: 'textarea',    expectation: '' },
-        { type: 'description', expectation: '' },
-        { type: 'checkbox',    expectation: false },
-        { type: 'tagger',      expectation: undefined }
+        { type: 'text',        expectation: { value: '' } },
+        { type: 'subject',     expectation: { value: '' } },
+        { type: 'integer',     expectation: { value: '' } },
+        { type: 'decimal',     expectation: { value: '' } },
+        { type: 'textarea',    expectation: { value: '' } },
+        { type: 'description', expectation: { value: '' } },
+        { type: 'checkbox',    expectation: { checked: false } },
+        { type: 'tagger',      expectation: { value: undefined } }
       ];
       const assertFieldUsesDefaultValue = (type, expectation) => {
         it(`returns '${expectation}' for ${type} field type`, () => {
