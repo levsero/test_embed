@@ -68,6 +68,7 @@ export const getLoginSettings = (state) => state.chat.accountSettings.login;
 export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
 export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
+export const getSliderVendor = (state) => state.chat.vendor.slider;
 export const getWindowSettings = (state) => state.chat.accountSettings.chatWindow;
 export const getChatTitle = (state) => getWindowSettings(state).title || i18n.t('embeddable_framework.chat.title');
 export const getThemeColor = (state) => ({ base: state.chat.accountSettings.theme.color, text: undefined });

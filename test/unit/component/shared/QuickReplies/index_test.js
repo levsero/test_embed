@@ -20,9 +20,7 @@ describe('QuickReplies Component', () => {
       './QuickReplies.scss': {
         locals: {}
       },
-      '../SliderContainer': {
-        SliderContainer: Slider
-      }
+      '../SliderContainer': Slider
     });
 
     mockery.registerAllowable(quickRepliesPath);

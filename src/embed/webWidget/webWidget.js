@@ -446,8 +446,8 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupChat(config, store, brand) {
-    const onSuccess = (zChat) => {
-      store.dispatch(handleChatVendorLoaded({ zChat }));
+    const onSuccess = (zChat, slider) => {
+      store.dispatch(handleChatVendorLoaded({ zChat, slider: slider.default }));
       store.dispatch(setChatHistoryHandler());
 
       zChat.on('error', (e) => {
@@ -498,8 +498,8 @@ export default function WebWidgetFactory(name) {
       logging.error(err);
     };
 
-    import('chat-web-sdk')
-      .then(onSuccess)
+    Promise.all([import('chat-web-sdk'), import('react-slick')])
+      .then((arr)=> onSuccess(...arr))
       .catch(onFailure);
   }
 
