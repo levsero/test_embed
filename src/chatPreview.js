@@ -161,7 +161,8 @@ const renderPreview = (options) => {
     updateSettings,
     updateChatState,
     setColor,
-    updateLocale
+    updateLocale,
+    waitForComponent
   };
 };
 
