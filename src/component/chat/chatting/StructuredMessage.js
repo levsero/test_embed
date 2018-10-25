@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import { ButtonCard } from './structuredMessage/ButtonCard';
+import { PanelCard } from './structuredMessage/PanelCard';
 import { CHAT_STRUCTURED_MESSAGE_TYPE, CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat';
 import { sendMsg } from 'src/redux/modules/chat';
 
@@ -15,6 +16,9 @@ class StructuredMessage extends Component {
     schema: PropTypes.oneOfType([
       PropTypes.shape(
         _.assign({type: PropTypes.string.isRequired}, ButtonCard.schemaPropTypes)
+      ),
+      PropTypes.shape(
+        _.assign({type: PropTypes.string.isRequired}, PanelCard.schemaPropTypes)
       )
     ]).isRequired
   }
@@ -40,6 +44,9 @@ class StructuredMessage extends Component {
         const { buttons, msg } = this.props.schema;
 
         return <ButtonCard buttons={buttons} msg={msg} createAction={this.createAction} />;
+
+      case CHAT_STRUCTURED_MESSAGE_TYPE.PANEL_TEMPLATE:
+        return <PanelCard {...this.props.schema} createAction={this.createAction} />;
     }
   }
 }

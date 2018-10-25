@@ -58,6 +58,7 @@ describe('Icon components', function() {
       '@zendeskgarden/svg-icons/src/16/chevron-right-fill.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/error-fill.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/error.svg': DummyIcon,
+      '@zendeskgarden/svg-icons/src/16/image-stroke.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/link-external.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/14/remove.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/16/trash-fill.svg': DummyIcon,

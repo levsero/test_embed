@@ -5,6 +5,7 @@ describe('StructuredMessage component', () => {
   const chatConstantsPath = buildSrcPath('constants/chat');
 
   const ButtonCard = noopReactComponent();
+  const PanelCard = noopReactComponent();
 
   const sendMsgSpy = jasmine.createSpy('sendMsg');
   const openSpy = jasmine.createSpy('open');
@@ -18,6 +19,7 @@ describe('StructuredMessage component', () => {
 
     initMockRegistry({
       './structuredMessage/ButtonCard': { ButtonCard },
+      './structuredMessage/PanelCard': { PanelCard },
       'constants/chat': {
         CHAT_STRUCTURED_MESSAGE_TYPE,
         CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
@@ -127,6 +129,35 @@ describe('StructuredMessage component', () => {
       it('passes the createAction value', () => {
         expect(result.props.createAction)
           .toEqual(component.createAction);
+      });
+    });
+
+    describe('schema type is PanelTemplate', () => {
+      beforeAll(() => {
+        schema = {
+          type: CHAT_STRUCTURED_MESSAGE_TYPE.PANEL_TEMPLATE,
+          buttons: [],
+          panel: {
+            heading: 'header 1',
+            paragraph: 'this is a paragraph'
+          }
+        };
+      });
+
+      it('returns a PanelCard component', () => {
+        expect(TestUtils.isElementOfType(result, PanelCard)).toEqual(true);
+      });
+
+      it('passes the buttons value', () => {
+        expect(result.props.buttons).toEqual(schema.buttons);
+      });
+
+      it('passes the panel object', () => {
+        expect(result.props.panel).toEqual(schema.panel);
+      });
+
+      it('passes the createAction value', () => {
+        expect(result.props.createAction).toEqual(component.createAction);
       });
     });
   });

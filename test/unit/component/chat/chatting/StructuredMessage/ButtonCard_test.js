@@ -17,12 +17,11 @@ describe('ButtonCard component', () => {
 
     initMockRegistry({
       'component/shared/StructuredMessage/ButtonCard': {
-        ButtonCard: PureButtonCard,
+        ButtonCard: PureButtonCard
+      },
+      './Button': {
         Button
-      },
-      'constants/chat': {
-        CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
-      },
+      }
     });
 
     mockery.registerAllowable(buttonCardPath);
@@ -80,38 +79,6 @@ describe('ButtonCard component', () => {
 
       result.props.children.forEach(child => {
         expect(TestUtils.isElementOfType(child, Button)).toEqual(true);
-      });
-    });
-
-    it('passes the correct label props to the Button components', () => {
-      result.props.children.forEach((child, index) => {
-        expect(child.props.label).toEqual(componentProps.buttons[index].text);
-      });
-    });
-
-    it('passes the correct onClick props to the Button components', () => {
-      const buttonActions = componentProps.buttons.map(buttonSchema => buttonSchema.action);
-      const expectedParams = {};
-
-      // making createAction returns predefined spy depending on the call parameter
-      buttonActions.forEach((buttonAction, index) => {
-        const stringifiedParam = JSON.stringify(buttonAction);
-
-        expectedParams[stringifiedParam] = jasmine.createSpy(`mockAction${index}`);
-      });
-      createActionSpy.and.callFake(function(param) {
-        const stringifiedParam = JSON.stringify(param);
-
-        return expectedParams[stringifiedParam];
-      });
-
-      // render again after createAction is spyed by returning correct value
-      result = component.render();
-
-      result.props.children.forEach((child, index) => {
-        const stringifiedActionParam = JSON.stringify(componentProps.buttons[index].action);
-
-        expect(child.props.onClick).toEqual(expectedParams[stringifiedActionParam]);
       });
     });
   });
