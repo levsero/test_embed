@@ -776,6 +776,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/qz684sm4avuiwz0z6ggvc5impq1e7v0m"
       value: "Type a message here.."
   - translation:
+      key: "embeddable_framework.chat.chatBox.placeholder.type_your_message"
+      title: "A placeholder text that is displayed in the chat launcher badge when there is no content"
+      screenshot: "https://drive.google.com/file/d/1Dea0PqY15FzEBElJCBob1-EvhnmF3apr/view?usp=sharing"
+      value: "Type your message here"
+  - translation:
       key: "embeddable_framework.chat.agentList.button.backToChat"
       title: "A button that is presented at the bottom of the window when the user wants to go back to chatting"
       screenshot: "https://zendesk.box.com/s/7py8p1xvv56q7bc053rsnvs6id1rraet"
