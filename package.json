@@ -15,7 +15,7 @@
     "build": "npm run build-setup:prod && npm run build:prod",
     "build-previewer": "npm run build-setup:prod && npm run build:previewer",
     "test": "jest",
-    "test:watch": "jest -- --watch",
+    "test:watch": "npm run test -- --watch",
     "test:old": "node test/runner.js",
     "test:ci": "NODE_ENV=test node test/runner.js && npm run test",
     "test:debug": "node debug test/runner.js",
