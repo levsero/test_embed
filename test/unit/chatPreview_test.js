@@ -56,6 +56,7 @@ describe('chatPreview file', () => {
       'service/i18n': {
         i18n: i18nSpy
       },
+      'src/polyfills': {},
       'src/redux/modules/chat': {
         updatePreviewerScreen: updatePreviewerScreenSpy,
         updatePreviewerSettings: updatePreviewerSettingsSpy
@@ -76,6 +77,9 @@ describe('chatPreview file', () => {
         MAX_WIDGET_HEIGHT: 550,
         WIDGET_WIDTH: 342,
         WIDGET_MARGIN: 15
+      },
+      'utility/color/styles': {
+        generateUserWidgetCSS: _.identity
       }
     });
 

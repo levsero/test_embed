@@ -1,4 +1,6 @@
 import { UPDATE_EMBEDDABLE_CONFIG } from '../base-action-types';
+import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types';
+
 import _ from 'lodash';
 
 const initialState = {
@@ -26,6 +28,11 @@ const embeddableConfig = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case UPDATE_PREVIEWER_SETTINGS:
+      return {
+        ...state,
+        cp4: true
+      };
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
         ...state,
