@@ -27,7 +27,9 @@ export class NestedDropdown extends Component {
     showError: PropTypes.bool,
     onChange: PropTypes.func,
     description: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    formState: PropTypes.object.required,
+    defaultOption: PropTypes.object
   }
 
   static defaultProps = {
@@ -36,7 +38,8 @@ export class NestedDropdown extends Component {
     showError: false,
     description: '',
     onChange: () => {},
-    getFrameContentDocument: () => ({})
+    getFrameContentDocument: () => ({}),
+    formState: {}
   }
 
   constructor(props) {
@@ -54,6 +57,23 @@ export class NestedDropdown extends Component {
       viewableNode: node,
       displayedName: names.length > 0 ? names[names.length - 1] : '-'
     };
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const { name, defaultOption } = this.props;
+    const newDropdownVal = nextProps.formState[name];
+    const oldDropdownVal = this.props.formState[name];
+
+    if (newDropdownVal === oldDropdownVal || this.state.isOpen || !!newDropdownVal) return;
+
+    const names = defaultOption ? defaultOption.name.split('::') : [];
+    const node = this.findDefaultNode(names);
+
+    this.setState({
+      selectedValue: defaultOption ? defaultOption.value : '',
+      viewableNode: node,
+      displayedName: names.length > 0 ? names[names.length - 1] : '-'
+    });
   }
 
   findDefaultNode = (names) => {
@@ -157,7 +177,9 @@ export class NestedDropdown extends Component {
       selectedValue = viewableNode.value;
     } else {
       selectedValue = '';
+      displayedName = '';
     }
+
     this.setState({ selectedValue, viewableNode, displayedName });
     setTimeout(this.props.onChange, 0);
   }
