@@ -24,6 +24,7 @@ import {
   sendChatRating,
   updateChatScreen,
   resetCurrentMessage,
+  markAsRead,
   fetchConversationHistory } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
@@ -109,7 +110,8 @@ class ChattingScreen extends Component {
     conciergeSettings: PropTypes.object.isRequired,
     showContactDetails: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    profileConfig: PropTypes.object.isRequired
+    profileConfig: PropTypes.object.isRequired,
+    markAsRead: PropTypes.func
   };
 
   static defaultProps = {
@@ -138,7 +140,8 @@ class ChattingScreen extends Component {
     socialLogin: {},
     conciergeSettings: {},
     showContactDetails: () => {},
-    profileConfig: {}
+    profileConfig: {},
+    markAsRead: () => {}
   };
 
   constructor(props) {
@@ -206,7 +209,7 @@ class ChattingScreen extends Component {
 
     if (newMessage && isAgent(lastUserMessage)) {
       (scrollCloseToBottom)
-        ? this.setState({ notificationCount: 0 })
+        ? this.resetNotificationCount()
         : this.setState({ notificationCount: this.state.notificationCount + 1 });
     }
 
@@ -242,8 +245,13 @@ class ChattingScreen extends Component {
     }
 
     if (this.isScrollCloseToBottom()) {
-      this.setState({ notificationCount: 0 });
+      this.resetNotificationCount();
     }
+  }
+
+  resetNotificationCount() {
+    this.props.markAsRead();
+    this.setState({ notificationCount: 0 });
   }
 
   renderQueuePosition = () => {
@@ -398,7 +406,7 @@ class ChattingScreen extends Component {
     const containerStyles = (this.props.isMobile) ? styles.scrollBottomPillMobile : styles.scrollBottomPill;
     const goToBottomFn = () => {
       this.scrollToBottom();
-      this.setState({ notificationCount: 0 });
+      this.resetNotificationCount();
     };
 
     const pillLabel = (notificationCount > 1)
@@ -522,7 +530,8 @@ const actionCreators = {
   resetCurrentMessage,
   handleChatBoxChange,
   sendAttachments,
-  sendChatRating
+  sendChatRating,
+  markAsRead
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChattingScreen);

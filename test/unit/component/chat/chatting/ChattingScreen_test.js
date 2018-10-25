@@ -13,6 +13,7 @@ describe('ChattingScreen component', () => {
   const translationSpy = jasmine.createSpy('translation').and.callFake(_.identity);
   const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage');
   const isDefaultNicknameSpy = jasmine.createSpy('isDefaultNicknameSpy').and.returnValue(false);
+  const markAsReadSpy = jasmine.createSpy('markAsRead');
 
   const Button = noopReactComponent('Button');
   const ButtonPill = noopReactComponent('ButtonPill');
@@ -103,7 +104,8 @@ describe('ChattingScreen component', () => {
         sendMsg: noop,
         handleChatBoxChange: noop,
         updateChatScreen: updateChatScreenSpy,
-        resetCurrentMessage: resetCurrentMessageSpy
+        resetCurrentMessage: resetCurrentMessageSpy,
+        markAsRead: markAsReadSpy
       },
       'src/redux/modules/chat/chat-selectors': {
         getPrechatFormFields: noop
@@ -146,6 +148,7 @@ describe('ChattingScreen component', () => {
 
     updateChatScreenSpy.calls.reset();
     translationSpy.calls.reset();
+    markAsReadSpy.calls.reset();
   });
 
   describe('componentWillUpdate', () => {
@@ -395,6 +398,7 @@ describe('ChattingScreen component', () => {
 
       spyOn(component, 'scrollToBottom');
       spyOn(component, 'setState');
+      spyOn(component, 'resetNotificationCount');
 
       component.didUpdateNewEntry(mockPrevProps);
     });
@@ -421,11 +425,9 @@ describe('ChattingScreen component', () => {
             mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(true);
           });
 
-          it('calls setState with expected args', () => {
-            const expected = { notificationCount: 0 };
-
-            expect(component.setState)
-              .toHaveBeenCalledWith(expected);
+          it('resets the notification count', () => {
+            expect(component.resetNotificationCount)
+              .toHaveBeenCalled();
           });
         });
 
@@ -1341,6 +1343,7 @@ describe('ChattingScreen component', () => {
       component.setState({ notificationCount: mockNotificationCount });
 
       spyOn(component, 'scrollToBottom');
+      spyOn(component, 'resetNotificationCount');
 
       result = component.renderScrollPill();
     });
@@ -1354,6 +1357,13 @@ describe('ChattingScreen component', () => {
         result.props.onClick();
 
         expect(component.scrollToBottom)
+          .toHaveBeenCalled();
+      });
+
+      it('resets the notification count', () => {
+        result.props.onClick();
+
+        expect(component.resetNotificationCount)
           .toHaveBeenCalled();
       });
     });
@@ -1478,13 +1488,14 @@ describe('ChattingScreen component', () => {
         component.isScrollCloseToBottom = () => true;
 
         spyOn(component, 'setState');
+        spyOn(component, 'resetNotificationCount');
 
         component.handleChatScreenScrolled();
       });
 
-      it('calls setState with expected args', () => {
-        expect(component.setState)
-          .toHaveBeenCalledWith({ notificationCount: 0 });
+      it('resets the notification count', () => {
+        expect(component.resetNotificationCount)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -1646,6 +1657,30 @@ describe('ChattingScreen component', () => {
 
         expect(QRComponent).toBeNull();
       });
+    });
+  });
+
+  describe('resetNotificationCount', () => {
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChattingScreen markAsRead={markAsReadSpy} />);
+
+      spyOn(component, 'setState');
+
+      component.resetNotificationCount();
+    });
+
+    it('should call markAsRead', () => {
+      expect(markAsReadSpy)
+        .toHaveBeenCalled();
+    });
+
+    it('should setState with the expected args', () => {
+      const expected = { notificationCount: 0 };
+
+      expect(component.setState)
+        .toHaveBeenCalledWith(expected);
     });
   });
 });
