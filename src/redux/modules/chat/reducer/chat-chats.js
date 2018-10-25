@@ -117,7 +117,7 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_MSG:
       const { detail } = action.payload;
 
-      if (detail.structured_msg && detail.structured_msg.type === 'QuickReplies') {
+      if (detail.structured_msg && detail.structured_msg.type === 'QUICK_REPLIES') {
         return concatQuickReply(state, detail);
       }
 

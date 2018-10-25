@@ -451,7 +451,7 @@ describe('chat reducer chats', () => {
               msg: 'wassup', // fallback, discarded
               options: ['option1', 'option2'], // fallback, discarded
               structured_msg: {
-                type: 'QuickReplies',
+                type: 'QUICK_REPLIES',
                 msg: 'structured msg text',
                 quick_replies: [1, 2, 3]
               }

@@ -81,13 +81,13 @@ export const JWT_ERROR = 'jwt verification error';
 export const SCROLL_BOTTOM_THRESHOLD = 200; // Unit in px
 
 export const CHAT_STRUCTURED_MESSAGE_TYPE = {
-  BUTTON_TEMPLATE: 'ButtonTemplate',
-  PANEL_TEMPLATE: 'PanelTemplate'
+  BUTTON_TEMPLATE: 'BUTTON_TEMPLATE',
+  PANEL_TEMPLATE: 'PANEL_TEMPLATE'
 };
 
 export const TIMEOUT = 5000;
 
 export const CHAT_STRUCTURED_MESSAGE_ACTION_TYPE = {
-  QUICK_REPLY_ACTION: 'QuickReplyAction',
-  LINK_ACTION: 'LinkAction',
+  QUICK_REPLY_ACTION: 'QUICK_REPLY_ACTION',
+  LINK_ACTION: 'LINK_ACTION',
 };
