@@ -1,6 +1,6 @@
-describe('api', () => {
+describe('webWidgetApi', () => {
   let api;
-  const apiPath = buildSrcPath('service/api');
+  const apiPath = buildSrcPath('service/api/webWidgetApi');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const setLocaleSpy = jasmine.createSpy('setLocale');
   const handlePrefillReceivedSpy = jasmine.createSpy('handlePrefillReceived');
@@ -114,7 +114,7 @@ describe('api', () => {
     });
 
     mockery.registerAllowable(apiPath);
-    api = requireUncached(apiPath).api;
+    api = requireUncached(apiPath).webWidgetApi;
   });
 
   afterEach(() => {

@@ -5,7 +5,8 @@ import { identity } from 'service/identity';
 import { logging } from 'service/logging';
 import { store } from 'service/persistence';
 import { renderer } from 'service/renderer';
-import { api } from 'service/api';
+import { webWidgetApi } from 'service/api/webWidgetApi';
+import { zopimApi } from 'service/api/zopimApi';
 import { settings } from 'service/settings';
 import { http } from 'service/transport';
 import { GA } from 'service/analytics/googleAnalytics';
@@ -94,7 +95,7 @@ const filterEmbeds = (config) => {
   return config;
 };
 
-const getConfig = (win, postRenderQueue, reduxStore) => {
+const getConfig = (win, postRenderQueue, zopimQueue, reduxStore) => {
   if (win.zESkipWebWidget) return;
 
   const configLoadStart = Date.now();
@@ -110,7 +111,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     beacon.setConfig(config);
 
     if (config.ipmAllowed) {
-      api.setupIPMApi(win, reduxStore, config);
+      webWidgetApi.setupIPMApi(win, reduxStore, config);
     }
 
     // Only send 1/10 times
@@ -124,8 +125,13 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       beacon.trackSettings(settings.getTrackSettings());
     }
 
+    if (config.newChat) {
+      zopimApi.setUpZopimApiMethods(win, reduxStore);
+      zopimApi.handleZopimQueue(zopimQueue);
+    }
+
     renderer.init(config, reduxStore);
-    api.handlePostRenderQueue(win, postRenderQueue, reduxStore);
+    webWidgetApi.handlePostRenderQueue(win, postRenderQueue, reduxStore);
   };
   const fail = (error) => {
     if (error.status !== 404) {
@@ -151,22 +157,23 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 const start = (win, doc) => {
   const reduxStore = createStore();
   const postRenderQueue = [];
-  const { publicApi, devApi } = api.setupWidgetQueue(win, postRenderQueue, reduxStore);
+  const zopimQueue = [];
+  const { publicApi, devApi } = webWidgetApi.setupWidgetQueue(win, postRenderQueue, reduxStore);
 
   boot.setupIframe(window.frameElement, doc);
   boot.setupServices(reduxStore);
-  api.setupZopimQueue(win);
+  zopimApi.setupZopimQueue(win, zopimQueue);
 
   _.extend(win.zEmbed, publicApi, devApi);
 
-  api.handleQueue(reduxStore, document.zEQueue);
+  webWidgetApi.handleQueue(reduxStore, document.zEQueue);
 
   beacon.init();
   win.onunload = identity.unload;
 
-  api.setupWidgetApi(win, reduxStore);
+  webWidgetApi.setupWidgetApi(win, reduxStore);
 
-  boot.getConfig(win, postRenderQueue, reduxStore, devApi);
+  boot.getConfig(win, postRenderQueue, zopimQueue, reduxStore, devApi);
 
   displayOssAttribution();
 

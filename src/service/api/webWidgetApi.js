@@ -340,25 +340,6 @@ function setupWidgetQueue(win, postRenderQueue, reduxStore) {
   };
 }
 
-function setupZopimQueue(win) {
-  let $zopim = () => {};
-
-  // To enable $zopim api calls to work we need to define the queue callback.
-  // When we inject the snippet we remove the queue method and just inject
-  // the script tag.
-  if (!win.$zopim) {
-    $zopim = win.$zopim = (callback) => {
-      $zopim._.push(callback);
-    };
-
-    $zopim.set = (callback) => {
-      $zopim.set._.push(callback);
-    };
-    $zopim._ = [];
-    $zopim.set._ = [];
-  }
-}
-
 function setupIPMApi(win, reduxStore, embeddableConfig = {}) {
   const existingConfig = !_.isEmpty(embeddableConfig.embeds);
 
@@ -403,11 +384,10 @@ function setupWidgetApi(win, reduxStore) {
   win.zE.setLocale = (locale) => setLocaleApi(null, locale);
 }
 
-export const api = {
+export const webWidgetApi = {
   handleQueue,
   handlePostRenderQueue,
   setupWidgetQueue,
-  setupZopimQueue,
   setupWidgetApi,
   setupIPMApi
 };
