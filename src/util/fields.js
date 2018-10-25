@@ -22,11 +22,11 @@ const getDefaultFieldValues = (elementType, existingValue) => {
     case 'decimal':
     case 'textarea':
     case 'description':
-      return existingValue || '';
+      return { value: existingValue || '' };
     case 'checkbox':
-      return existingValue || false;
+      return { checked: existingValue || false };
     default:
-      return existingValue;
+      return { value: existingValue };
   }
 };
 
@@ -77,7 +77,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       errorString: 'embeddable_framework.validation.error.input',
       required: !!field.required_in_portal,
       'aria-required': !!field.required_in_portal,
-      value: getDefaultFieldValues(field.type, formState[field.id])
+      ...getDefaultFieldValues(field.type, formState[field.id])
     };
     const { visible_in_portal: visible, editable_in_portal: editable } = field; // eslint-disable-line camelcase
 
@@ -106,7 +106,8 @@ const getCustomFields = (customFields, formState, options = {}) => {
           showError: renderError,
           options: field.custom_field_options,
           defaultOption,
-          label: renderLabel(DropdownLabel, sharedProps.label, sharedProps.required)
+          label: renderLabel(DropdownLabel, sharedProps.label, sharedProps.required),
+          formState
         };
 
         return <NestedDropdown {...dropdownProps} />;

@@ -152,6 +152,118 @@ describe('NestedDropdown component', () => {
     });
   });
 
+  describe('componentWillReceiveProps', () => {
+    let component,
+      oldMockFormState,
+      newMockFormState,
+      mockIsOpen;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <NestedDropdown formState={oldMockFormState} name={123} options={mockOptions} defaultOption={{ name: 'pizzaName', value: 'pizza' }} />
+      );
+      component.state = {
+        isOpen: mockIsOpen
+      };
+      spyOn(component, 'setState');
+      component.componentWillReceiveProps({
+        formState: newMockFormState,
+        defaultOption: { name: 'pizzaName', value: 'pizza' }
+      });
+    });
+
+    describe('when there is no old selected dropdown value', () => {
+      beforeAll(() => {
+        oldMockFormState = {
+          123: ''
+        };
+      });
+
+      describe('when there is no new selected dropdown value', () => {
+        beforeAll(() => {
+          newMockFormState = {
+            123: ''
+          };
+        });
+
+        it('does not change state', () => {
+          expect(component.setState)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when there is a new dropdown selected value', () => {
+        beforeAll(() => {
+          newMockFormState = {
+            123: 'val'
+          };
+        });
+
+        it('does not change state', () => {
+          expect(component.setState)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when there is an old selected dropdown value', () => {
+      beforeAll(() => {
+        oldMockFormState = {
+          123: 'val'
+        };
+      });
+
+      describe('when there is no new selected dropdown value', () => {
+        beforeAll(() => {
+          newMockFormState = {
+            123: ''
+          };
+        });
+
+        describe('when dropdown is open', () => {
+          beforeAll(() => {
+            mockIsOpen = true;
+          });
+
+          it('does not change state', () => {
+            expect(component.setState)
+              .not
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('when dropdown is not open', () => {
+          beforeAll(() => {
+            mockIsOpen = false;
+          });
+
+          it('resets dropdown state', () => {
+            expect(component.setState)
+              .toHaveBeenCalledWith(jasmine.objectContaining({
+                selectedValue: 'pizza',
+              }));
+          });
+        });
+      });
+
+      describe('when there is a new dropdown selected value', () => {
+        beforeAll(() => {
+          newMockFormState = {
+            123: 'val2'
+          };
+        });
+
+        it('does not change state', () => {
+          expect(component.setState)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
   describe('populateGraph', () => {
     let rootNode,
       component;
@@ -348,9 +460,9 @@ describe('NestedDropdown component', () => {
           .toEqual('');
       });
 
-      it('updates the displayedName', () => {
+      it('updates the displayedName to be nothing since the option is not selectable', () => {
         expect(component.state.displayedName)
-          .toEqual('fruits');
+          .toEqual('');
       });
 
       it('updates viewableNode since selected value is not a leaf', () => {
