@@ -17,7 +17,12 @@ import {
   CHAT_FILE_REQUEST_FAILURE,
   SET_VISITOR_INFO_REQUEST_SUCCESS
 } from '../chat-action-types';
-import {CHAT_MESSAGE_TYPES, CHAT_CUSTOM_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import {
+  CHAT_MESSAGE_TYPES,
+  CHAT_CUSTOM_MESSAGE_EVENTS,
+  CHAT_SYSTEM_EVENTS,
+  CHAT_STRUCTURED_MESSAGE_TYPE
+} from 'constants/chat';
 
 import _ from 'lodash';
 
@@ -117,7 +122,7 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_MSG:
       const { detail } = action.payload;
 
-      if (detail.structured_msg && detail.structured_msg.type === 'QUICK_REPLIES') {
+      if (detail.structured_msg && detail.structured_msg.type === CHAT_STRUCTURED_MESSAGE_TYPE.QUICK_REPLIES) {
         return concatQuickReply(state, detail);
       }
 
