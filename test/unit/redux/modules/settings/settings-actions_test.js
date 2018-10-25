@@ -78,6 +78,64 @@ describe('settings redux actions', () => {
       addTagSpy.calls.reset();
     });
 
+    describe('when passed badge layout settings', () => {
+      let mockLayout, expected, result;
+
+      beforeEach(() => {
+        expected = {
+          type: actionTypes.UPDATE_SETTINGS,
+          payload: {
+            webWidget: {
+              launcher: {
+                badge: {
+                  layout: mockLayout
+                }
+              }
+            }
+          }
+        };
+
+        result = mockStore.getActions()[0];
+      });
+
+      describe('when the layout is setting is valid', () => {
+        beforeAll(() => {
+          mockLayout = 'image_only';
+
+          someSettings = {
+            launcher: {
+              badge: {
+                layout: mockLayout
+              }
+            }
+          };
+        });
+
+        it('adds the layout to the payload', () => {
+          expect(result).toEqual(expected);
+        });
+      });
+
+      describe('whent the layout setting is invalid', () => {
+        beforeAll(() => {
+          mockLayout = 'herp_derp';
+
+          someSettings = {
+            launcher: {
+              badge: {
+                layout: mockLayout
+              }
+            }
+          };
+        });
+
+        it('changes the layout to null and adds it to the payload', () => {
+          expect(result).not.toEqual(expected);
+          expect(result.payload.webWidget.launcher.badge.layout).toEqual(null);
+        });
+      });
+    });
+
     describe('when chat is connected', () => {
       beforeAll(() => {
         mockGetConnection = CONNECTION_STATUSES.CONNECTED;

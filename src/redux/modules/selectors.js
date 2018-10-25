@@ -327,12 +327,7 @@ export const getFrameStyle = (state, frame) => {
       marginRight: '20px',
       zIndex: settings.get('zIndex') - 1
     };
-
-    if (!getShowChatBadgeLauncher(state)) {
-      return defaultFrameStyle;
-    }
-
-    return {
+    const chatBadgeFrameStyle = {
       ...defaultFrameStyle,
       height: '210px',
       minHeight: '210px',
@@ -343,5 +338,9 @@ export const getFrameStyle = (state, frame) => {
       marginLeft: '7px',
       marginRight: '7px'
     };
+
+    return (getShowChatBadgeLauncher(state))
+      ? chatBadgeFrameStyle
+      : defaultFrameStyle;
   }
 };

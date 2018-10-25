@@ -7,6 +7,7 @@ describe('chat selectors', () => {
     mockSettingsChatOfflineForm,
     mockSettingsPrechatForm,
     mockTranslation,
+    mockBadgeSettings,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -58,7 +59,8 @@ describe('chat selectors', () => {
         getSettingsChatTitle: () => mockSettingsChatTitle,
         getSettingsChatOfflineForm: () => mockSettingsChatOfflineForm,
         getSettingsChatPrechatForm: () => mockSettingsPrechatForm,
-        getSettingsChatProfileCard: _.identity
+        getSettingsChatProfileCard: _.identity,
+        getSettingsLauncherBadge: () => mockBadgeSettings
       },
       'service/i18n': {
         i18n: {
@@ -86,26 +88,87 @@ describe('chat selectors', () => {
     mockery.disable();
   });
 
-  describe('getBannerSettings', () => {
+  describe('getLauncherBadgeSettings', () => {
     let result;
+    let mockAccountLabel;
+    let mockAccountSettings;
 
     beforeEach(() => {
-      result = selectors.getBannerSettings({
+      mockAccountSettings = {
+        image: 'http://img.com/img.png',
+        label: mockAccountLabel,
+        layout: 'image_right'
+      };
+
+      result = selectors.getLauncherBadgeSettings({
         chat: {
           accountSettings: {
-            banner: {
-              img: 'http://img.com/img.png'
-            }
+            banner: mockAccountSettings
           }
         }
       });
     });
 
-    it('returns banner settings', () => {
-      expect(result)
-        .toEqual({
-          img: 'http://img.com/img.png'
+    describe('when there are no zESettings', () => {
+      beforeAll(() => {
+        mockAccountLabel = 'account label';
+        mockBadgeSettings = null;
+      });
+
+      it('returns the account settings', () => {
+        expect(result).toEqual(mockAccountSettings);
+      });
+    });
+
+    describe('when there are settings', () => {
+      beforeAll(() => {
+        mockAccountLabel = 'account label';
+        mockTranslation = 'settings label';
+        mockBadgeSettings = {
+          label: {
+            '*': mockTranslation
+          },
+          layout: 'text_only',
+          image: 'https://img.example.com/settings.png'
+        };
+      });
+
+      it('returns the zESettings instead of the account settings', () => {
+        expect(result).toEqual({
+          label: mockTranslation,
+          layout: 'text_only',
+          image: 'https://img.example.com/settings.png'
         });
+      });
+
+      describe('when the zESettings label is missing the right translation', () => {
+        beforeAll(() => {
+          mockAccountLabel = 'account label';
+          mockTranslation = null;
+        });
+
+        it('falls back to the account label', () => {
+          expect(result).toEqual({
+            label: mockAccountLabel,
+            layout: 'text_only',
+            image: 'https://img.example.com/settings.png'
+          });
+        });
+
+        describe('when the account label is null', () => {
+          beforeAll(() => {
+            mockAccountLabel = null;
+          });
+
+          it('falls back to the default translation', () => {
+            expect(result).toEqual({
+              label: 'embeddable_framework.chat.badge.label',
+              layout: 'text_only',
+              image: 'https://img.example.com/settings.png'
+            });
+          });
+        });
+      });
     });
   });
 

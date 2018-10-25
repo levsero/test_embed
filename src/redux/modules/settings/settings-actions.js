@@ -31,6 +31,8 @@ const handleDepartmentChange = (visitorDepartmentId, dispatch) => {
 export function updateSettings(settings) {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
+    const oldTags = getSettingsChatTags(getState());
+    const state = getState();
 
     if (!_.get(settings, 'webWidget')) {
       settings = {
@@ -40,14 +42,13 @@ export function updateSettings(settings) {
       };
     }
 
-    const oldTags = getSettingsChatTags(getState());
+    const layout = _.get(settings, 'webWidget.launcher.badge.layout');
 
-    dispatch({
-      type: UPDATE_SETTINGS,
-      payload: settings
-    });
+    if (layout) {
+      settings.webWidget.launcher.badge.layout = validateLayout(layout);
+    }
 
-    const state = getState();
+    dispatch({ type: UPDATE_SETTINGS, payload: settings });
 
     if (getConnection(state) === CONNECTION_STATUSES.CONNECTED) {
       const visitorDepartmentName = _.get(settings, 'webWidget.chat.departments.select', '');
@@ -64,3 +65,15 @@ export function updateSettings(settings) {
     }
   };
 }
+
+const validateLayout = (layout) => {
+  const VALID_LAYOUTS = [
+    'image_only',
+    'text_only',
+    'image_right',
+    'image_left'
+  ];
+
+  layout = layout.toLowerCase();
+  return _.find(VALID_LAYOUTS, (validLayout) => validLayout === layout) || null;
+};

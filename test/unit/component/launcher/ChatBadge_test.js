@@ -96,34 +96,23 @@ describe('ChatBadge component', () => {
     onSendSpy.calls.reset();
   });
 
-  describe('renderText', () => {
+  describe('renderLabel', () => {
     let result,
       mockBannerSettings = {};
 
     beforeEach(() => {
       component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-      result = component.renderText();
+      result = component.renderLabel();
     });
 
-    describe('when there is custom text', () => {
+    describe('the label prop', () => {
       beforeAll(() => {
-        mockBannerSettings.text = 'customText';
+        mockBannerSettings.label = 'customText';
       });
 
-      it('renders custom text', () => {
+      it('renders the label', () => {
         expect(result.props.children)
           .toEqual('customText');
-      });
-    });
-
-    describe('when there is no custom text', () => {
-      beforeAll(() => {
-        mockBannerSettings.text = '';
-      });
-
-      it('renders standard text', () => {
-        expect(result.props.children)
-          .toEqual('embeddable_framework.helpCenter.label.link.chat');
       });
     });
 
@@ -226,9 +215,9 @@ describe('ChatBadge component', () => {
         result = component.renderContent();
       });
 
-      it('calls renderText then renderImage', () => {
+      it('calls renderLabel then renderImage', () => {
         expect(result[0].key)
-          .toEqual('text');
+          .toEqual('label');
         expect(result[1].key)
           .toEqual('image');
       });
@@ -241,11 +230,11 @@ describe('ChatBadge component', () => {
         result = component.renderContent();
       });
 
-      it('calls renderImage then renderText', () => {
+      it('calls renderImage then renderLabel', () => {
         expect(result[0].key)
           .toEqual('image');
         expect(result[1].key)
-          .toEqual('text');
+          .toEqual('label');
       });
     });
 
@@ -253,13 +242,13 @@ describe('ChatBadge component', () => {
       beforeEach(() => {
         mockBannerSettings.layout = 'text_only';
         component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-        spyOn(component, 'renderText');
+        spyOn(component, 'renderLabel');
         spyOn(component, 'renderImage');
         result = component.renderContent();
       });
 
-      it('calls renderText only', () => {
-        expect(component.renderText)
+      it('calls renderLabel only', () => {
+        expect(component.renderLabel)
           .toHaveBeenCalled();
         expect(component.renderImage)
           .not
@@ -271,13 +260,13 @@ describe('ChatBadge component', () => {
       beforeEach(() => {
         mockBannerSettings.layout = 'image_only';
         component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-        spyOn(component, 'renderText');
+        spyOn(component, 'renderLabel');
         spyOn(component, 'renderImage');
         result = component.renderContent();
       });
 
       it('calls renderImage only', () => {
-        expect(component.renderText)
+        expect(component.renderLabel)
           .not
           .toHaveBeenCalled();
         expect(component.renderImage)
