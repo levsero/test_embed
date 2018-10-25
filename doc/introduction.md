@@ -11,7 +11,7 @@ The Web Widget API consists of commands and settings, which are described in the
 
 All commands follow the same basic syntax:
 
-```js 
+```js
 zE('webWidget:<action>', '<event|property>', <parameters>);
 ```
 
@@ -19,7 +19,7 @@ zE('webWidget:<action>', '<event|property>', <parameters>);
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'show', () => {
+zE('webWidget:on', 'show', function() {
   console.log("The widget has been shown!");
 });
 </script>
