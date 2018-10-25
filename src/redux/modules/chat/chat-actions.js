@@ -667,3 +667,11 @@ export function setStatusForcefully(status) {
     payload: status
   };
 }
+
+export function markAsRead() {
+  return (_, getState) => {
+    const zChat = getZChatVendor(getState());
+
+    zChat.markAsRead();
+  };
+}

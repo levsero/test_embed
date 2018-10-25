@@ -41,6 +41,7 @@ let actions,
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting),
   getIsAuthenticatedSpy = jasmine.createSpy('getIsAuthenticatedSpy').and.callFake(() => mockIsAuthenticated),
   mockFetchChatHistory = jasmine.createSpy('fetchChatHistory'),
+  mockMarkAsRead = jasmine.createSpy('markAsRead'),
   mockCallback = jasmine.createSpy('sdkCallback');
 
 let mockZChatWithTimeout = jasmine.createSpy('zChatWithTimeout')
@@ -102,6 +103,7 @@ describe('chat redux actions', () => {
             getAccountSettings: () => mockAccountSettings,
             getOperatingHours: () => mockOperatingHours,
             fetchChatHistory: mockFetchChatHistory,
+            markAsRead: mockMarkAsRead,
             on: mockOn,
             getAuthLoginUrl: (key) => `www.foo.com/${key}/bar-baz`,
             doAuthLogout: (cb) => cb(mockDoAuthLogoutArgs),
@@ -2014,6 +2016,17 @@ describe('chat redux actions', () => {
     it('dispatches the correct payload', () => {
       expect(action.payload)
         .toEqual('online');
+    });
+  });
+
+  describe('markAsRead', () => {
+    beforeEach(() => {
+      mockStore.dispatch(actions.markAsRead());
+    });
+
+    it('calls markAsRead on the Web SDK', () => {
+      expect(mockMarkAsRead)
+        .toHaveBeenCalled();
     });
   });
 });
