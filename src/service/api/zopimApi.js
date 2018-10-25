@@ -10,7 +10,10 @@ import {
   hideApi,
   showApi,
   displayApi,
-  isChattingApi
+  isChattingApi,
+  prefill,
+  updatePathApi,
+  logoutApi
 } from 'src/service/api/apis';
 
 let zopimExistsOnPage = false;
@@ -91,7 +94,12 @@ function setUpZopimApiMethods(win, store) {
           };
 
           updateSettingsApi(store, newSettings);
-        }
+        },
+        setName: (newName) => prefill(store, { name: { value: newName } }),
+        setEmail: (newEmail) => prefill(store, { email: { value: newEmail } }),
+        setPhone: (newPhone) => prefill(store, { phone: { value: newPhone } }),
+        sendVisitorPath: (page) => updatePathApi(store, page),
+        clearAll: () => logoutApi(store)
       }
     };
   }
