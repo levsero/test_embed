@@ -7,7 +7,7 @@ describe('chat reducer chats', () => {
     CHAT_MESSAGE_TYPES,
     CHAT_CUSTOM_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
-    CHAT_STRUCTURED_MESSAGE_TYPE;
+    CHAT_STRUCTURED_CONTENT_TYPE;
 
   const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
   const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
@@ -17,7 +17,7 @@ describe('chat reducer chats', () => {
   CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
   CHAT_CUSTOM_MESSAGE_EVENTS = chatConstants.CHAT_CUSTOM_MESSAGE_EVENTS;
   CHAT_SYSTEM_EVENTS = chatConstants.CHAT_SYSTEM_EVENTS;
-  CHAT_STRUCTURED_MESSAGE_TYPE = chatConstants.CHAT_STRUCTURED_MESSAGE_TYPE;
+  CHAT_STRUCTURED_CONTENT_TYPE = chatConstants.CHAT_STRUCTURED_CONTENT_TYPE;
 
   beforeEach(() => {
     mockery.enable();
@@ -27,7 +27,7 @@ describe('chat reducer chats', () => {
         CHAT_MESSAGE_TYPES,
         CHAT_CUSTOM_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
-        CHAT_STRUCTURED_MESSAGE_TYPE
+        CHAT_STRUCTURED_CONTENT_TYPE
       }
     });
 
@@ -454,7 +454,7 @@ describe('chat reducer chats', () => {
               msg: 'wassup', // fallback, discarded
               options: ['option1', 'option2'], // fallback, discarded
               structured_msg: {
-                type: CHAT_STRUCTURED_MESSAGE_TYPE.QUICK_REPLIES,
+                type: CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES,
                 msg: 'structured msg text',
                 quick_replies: [1, 2, 3]
               }
