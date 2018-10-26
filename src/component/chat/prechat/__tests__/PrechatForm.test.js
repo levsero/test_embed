@@ -13,6 +13,7 @@ const mockFormProp = {
 test('renders a greeting message', () => {
   const { queryByText } = render(
     <PrechatForm
+      title='title'
       greetingMessage='Hi there this is a greeting message'
       initiateSocialLogout={() => {}}
       isAuthenticated={false}
@@ -27,6 +28,7 @@ test('renders a greeting message', () => {
 test('renders the expected fields', () => {
   const { queryByLabelText } = render(
     <PrechatForm
+      title='title'
       initiateSocialLogout={() => {}}
       isAuthenticated={false}
       form={mockFormProp}
@@ -52,6 +54,7 @@ test('renders fields as optional if required is false', () => {
   };
   const { queryByLabelText } = render(
     <PrechatForm
+      title='title'
       initiateSocialLogout={() => {}}
       isAuthenticated={false}
       form={formProp}
@@ -68,15 +71,17 @@ test('renders fields as optional if required is false', () => {
     .toBeInTheDocument();
 });
 
-test('does not render phone if hidden is true', () => {
+test('does not render phoneEnabled is true', () => {
   let formProp = {
     ...mockFormProp,
     phone: { name: 'phone', required: false, hidden: true },
   };
   const { queryByLabelText } = render(
     <PrechatForm
+      title='title'
       initiateSocialLogout={() => {}}
       isAuthenticated={false}
+      phoneEnabled={false}
       form={formProp}
     />
   );
@@ -88,6 +93,7 @@ test('does not render phone if hidden is true', () => {
 test('does not render contact information if loginEnabled is false', () => {
   const { queryByLabelText } = render(
     <PrechatForm
+      title='title'
       loginEnabled={false}
       initiateSocialLogout={() => {}}
       isAuthenticated={false}
@@ -113,6 +119,7 @@ describe('validation', () => {
     };
     const { getByText, queryByText } = render(
       <PrechatForm
+        title='title'
         initiateSocialLogout={() => {}}
         isAuthenticated={false}
         form={formProp}
@@ -140,6 +147,7 @@ describe('validation', () => {
     };
     const { getByText, queryByText } = render(
       <PrechatForm
+        title='title'
         initiateSocialLogout={() => {}}
         isAuthenticated={false}
         form={formProp}
@@ -158,6 +166,7 @@ describe('validation', () => {
   it('validates phone number value is a valid phone number', () => {
     const { getByText, queryByText } = render(
       <PrechatForm
+        title='title'
         initiateSocialLogout={() => {}}
         isAuthenticated={false}
         form={mockFormProp}
@@ -185,6 +194,7 @@ test('submits expected form data', () => {
   const formHandler = jest.fn();
   const { getByText } = render(
     <PrechatForm
+      title='title'
       initiateSocialLogout={() => {}}
       isAuthenticated={false}
       form={mockFormProp}

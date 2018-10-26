@@ -8,5 +8,3 @@ jest.mock('translation/ze_translations');
 jest.mock('translation/ze_localeIdMap');
 
 jest.mock('component/Refocus');
-
-window.__EMBEDDABLE_VERSION__ = 1;
