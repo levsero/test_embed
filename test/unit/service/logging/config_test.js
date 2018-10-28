@@ -162,7 +162,7 @@ describe('logging config', () => {
     blacklistedErrors.forEach((blacklistedError) => {
       const { pattern, validStrings, invalidStrings = [] } = blacklistedError;
 
-      describe(pattern, () => {
+      describe(`${pattern}`, () => {
         patternExistSpec(pattern);
 
         describe('when error strings are valid', () => {
