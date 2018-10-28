@@ -14,13 +14,14 @@
     "build:previewer": "webpack --config ./webpack/webpack.previewer.prod.js",
     "build": "npm run build-setup:prod && npm run build:prod",
     "build-previewer": "npm run build-setup:prod && npm run build:previewer",
-    "test": "node test/runner.js",
-    "test:ci": "NODE_ENV=test node test/runner.js && npm run jest",
+    "test": "jest",
+    "test:watch": "jest -- --watch",
+    "test:old": "node test/runner.js",
+    "test:ci": "NODE_ENV=test node test/runner.js && npm run test",
     "test:debug": "node debug test/runner.js",
     "lint": "eslint src test --ignore-pattern=src/translation/*.js",
     "lint-fix": "eslint --fix src test --ignore-pattern=src/translation/*.js",
-    "size": "bundlesize",
-    "jest": "jest"
+    "size": "bundlesize"
   },
   "bundlesize": [
     {
