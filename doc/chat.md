@@ -1,8 +1,7 @@
 ## Chat
 
 The Web Widget includes a chat component that lets users chat with an agent. The component is represented by the `chat` object of `webWidget`.
-
-<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_chat_started.png" width="200">
+![image](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/chatWidget.png)
 
 
 ### Settings

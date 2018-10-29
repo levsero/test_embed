@@ -33,7 +33,7 @@ zE(function() {
 
 **Note**: This code should be placed immediately after the Web Widget code snippet.
 
-![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_locale.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/zE.SetLocale.png)
 
 ### zE.identify
 
@@ -63,7 +63,7 @@ zE(function() {
 
 The Widget contact form pre-populated using the data in `zE.identify()`:
 
-![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_identify.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/zE.Identify.png)
 
 ### zE.hide
 

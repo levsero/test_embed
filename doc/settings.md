@@ -364,7 +364,7 @@ Set a custom combination of `launcher` and `launcherText` colors to control both
 
 Examples of elements customized using `color` properties:
 
-![Widget launcher](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_color_launcher.png)
+![Widget launcher](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/settings.color.png)
 
 ![Search results](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/color1.png)
 
@@ -1040,6 +1040,8 @@ Replaces the text in the contact form that prompts the end user to select a tick
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
+![image](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/selectTicketForm.png)
+
 #### Availability
 
 * [contactForm](./tickets)
@@ -1060,8 +1062,6 @@ window.zESettings = {
 };
 </script>
 ```
-
-![image](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_select_form.png)
 
 #### Related settings
 
