@@ -32,6 +32,7 @@ describe('webWidgetApi', () => {
   const API_ON_CHAT_START_NAME = 'API_ON_CHAT_START_NAME';
   const API_ON_CHAT_END_NAME = 'API_ON_CHAT_END_NAME';
   const API_ON_UNREAD_MSGS_NAME = 'API_ON_UNREAD_MSGS_NAME';
+  const API_ON_OPEN_NAME = 'API_ON_OPEN_NAME';
 
   const CHAT_CONNECTED = 'CHAT_CONNECTED';
   const END_CHAT_REQUEST_SUCCESS = 'END_CHAT_REQUEST_SUCCESS';
@@ -102,7 +103,8 @@ describe('webWidgetApi', () => {
         API_ON_CHAT_CONNECTED_NAME,
         API_ON_CHAT_START_NAME,
         API_ON_CHAT_END_NAME,
-        API_ON_UNREAD_MSGS_NAME
+        API_ON_UNREAD_MSGS_NAME,
+        API_ON_OPEN_NAME
       },
       'src/redux/modules/chat/chat-action-types': {
         CHAT_CONNECTED,
@@ -344,7 +346,7 @@ describe('webWidgetApi', () => {
         const options = { url: true };
 
         beforeAll(() => {
-          call = ['webWidget', 'setSuggestions', options];
+          call = ['webWidget', 'helpCenter:setSuggestions', options];
         });
 
         it('calls setHelpCenterSuggestions with the options', () => {
