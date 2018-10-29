@@ -12,7 +12,7 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 
 | **$zopim.livechat syntax** | **zE syntax** |
 | -------------------------- | ------------------------------------------- |
-| badge.hide | zE(‘webWidget’, ‘hide’) |
+| button.hide | zE(‘webWidget’, ‘hide’) |
 | button.show | zE(‘webWidget’, ‘show’) |
 | window.toggle | zE(‘webWidget’, ‘toggle’) |
 | window.hide | zE(‘webWidget’, ‘hide’) |
@@ -82,27 +82,17 @@ zE(‘webWidget’, ‘prefill’, {
 | theme.reload | zE(‘webWidget’, ‘updateSettings’, settings) |
 | theme.setProfileCardConfig | zE(‘webWidget’, ‘updateSettings’, settings) |
 | setDisableGoogleAnalytics | zESettings.analytics |
-| setGreetings | zESettings.webWidget.launcher.chatLabel
-zESettings.webWidget.launcher.label |
+| setGreetings | zESettings.webWidget.launcher.chatLabel|label |
 | setStatus | zESettings.webWidget.chat.suppress |
 | button.setHideWhenOffline | zESettings.webWidget.chat.suppress |
 
-## Badge
+## Concierge
 
 | $zopim.livechat syntax | zE syntax |
 | --- | --- |
-| badge.setLayout | zESettings.webWidget.launcher.badge.layout |
-| badge.setImage | zESettings.webWidget.launcher.badge.image  |
-| badge.setColor | zESettings.webWidget.color.launcher |
-| badge.setText | zESettings.webWidget.launcher.badge.label |
-
-## Concierge
-
-| $zopim.livechat syntax | zE syntax                                      |
-| --- | --- |
-| concierge.setAvatar    | zESettings.webWidget.chat.concierge.avatar |
-| concierge.setName      | zESettings.webWidget.chat.concierge.name   |
-| concierge.setTitle     | zESettings.webWidget.chat.concierge.title  |
+| concierge.setAvatar | zESettings.webWidget.chat.concierge.avatar |
+| concierge.setName | zESettings.webWidget.chat.concierge.name |
+| concierge.setTitle | zESettings.webWidget.chat.concierge.title |
 
 ## Departments
 
@@ -148,5 +138,9 @@ If this is blocking a use case for you, please let us know what you are trying t
 | $zopim.livechat syntax | zE syntax |
 | --- | --- |
 | authenticate | zESettings.webWidget.authenticate.chat  |
+| badge.setLayout | zESettings.webWidget.launcher.badge.layout |
+| badge.setImage | zESettings.webWidget.launcher.badge.image  |
+| badge.setColor | zESettings.webWidget.color.launcher |
+| badge.setText | zESettings.webWidget.launcher.badge.label |
 | setDefaultImplicitConsent | zESettings.cookies |
 | window.popout | zE(‘webWidget’, ‘popout’) |
