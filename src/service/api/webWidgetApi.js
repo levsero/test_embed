@@ -35,8 +35,11 @@ import {
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
   API_GET_DEPARTMENTS_DEPARTMENT_NAME,
-  API_GET_DISPLAY_NAME } from 'constants/api';
-import { CLOSE_BUTTON_CLICKED } from 'src/redux/modules/base/base-action-types';
+  API_GET_DISPLAY_NAME,
+  API_ON_OPEN_NAME } from 'constants/api';
+import {
+  CLOSE_BUTTON_CLICKED,
+  LAUNCHER_CLICKED } from 'src/redux/modules/base/base-action-types';
 import {
   CHAT_CONNECTED,
   END_CHAT_REQUEST_SUCCESS,
@@ -104,6 +107,7 @@ const getWidgetChatApiObj = () => {
     send: sendChatMsgApi
   };
 };
+
 const onApiObj = () => {
   const chatEventMap = {
     [API_ON_CHAT_CONNECTED_NAME]: { actionType: CHAT_CONNECTED },
@@ -118,9 +122,12 @@ const onApiObj = () => {
       selectors: [getNotificationCount]
     }
   };
+
   const baseEventMap = {
-    [API_ON_CLOSE_NAME]: { actionType: CLOSE_BUTTON_CLICKED }
+    [API_ON_CLOSE_NAME]: { actionType: CLOSE_BUTTON_CLICKED },
+    [API_ON_OPEN_NAME]: { actionType: LAUNCHER_CLICKED }
   };
+
   const eventDispatchWrapperFn = (actionType, selectors = []) => {
     return (reduxStore, callback) => {
       if (_.isFunction(callback)) {
@@ -128,6 +135,7 @@ const onApiObj = () => {
       }
     };
   };
+
   const eventApiReducerFn = (eventMap) => {
     return _.reduce(eventMap, (apiObj, eventObj, eventName) => {
       const { actionType, selectors } = eventObj;
@@ -143,6 +151,7 @@ const onApiObj = () => {
     ...eventApiReducerFn(baseEventMap)
   };
 };
+
 const getApiObj = () => {
   return {
     chat: {
