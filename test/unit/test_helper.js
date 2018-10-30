@@ -180,3 +180,9 @@ global.actionSpy = (name, type) => {
 
 global.__DEV__ = true;
 global.__EMBEDDABLE_VERSION__ = 'bob1337';
+
+global.shallowObjectValuesNull = (object) => {
+  _.keys(object).forEach(key => {
+    expect(object[key]).toBeNull();
+  });
+};

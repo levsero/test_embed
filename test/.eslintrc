@@ -27,7 +27,8 @@
     "getRenderer": true,
     "testRender": true,
     "mockObjectDifference": true,
-    "actionSpy": true
+    "actionSpy": true,
+    "shallowObjectValuesNull": true
   },
   "rules": {
     "max-len": 0,

@@ -44,9 +44,8 @@ describe('settings chat reducer', () => {
         .toBeDefined();
     });
 
-    it('has the avatarPath sub state', () => {
-      expect(state.avatarPath)
-        .toBeDefined();
+    it('has the concierge sub state', () => {
+      expect(state.concierge).toBeDefined();
     });
 
     it('has the mobile notifications disabled state', () => {
@@ -57,6 +56,18 @@ describe('settings chat reducer', () => {
     it('has the tags state', () => {
       expect(state.tags)
         .toBeDefined();
+    });
+
+    it('has the title state', () => {
+      expect(state.title).toBeDefined();
+    });
+
+    it('has the prechat form sub state', () => {
+      expect(state.prechatForm).toBeDefined();
+    });
+
+    it('has the offline form sub state', () => {
+      expect(state.offlineForm).toBeDefined();
     });
   });
 });

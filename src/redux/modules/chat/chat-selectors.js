@@ -12,14 +12,14 @@ import { CHATTING_SCREEN } from './chat-screen-types';
 
 import { i18n } from 'service/i18n';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
-import { getSettingsChatDepartmentsEnabled,
-  getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
-
-const getFormFields = (settings) => {
-  const { form } = settings;
-
-  return _.keyBy(_.values(form), 'name');
-};
+import {
+  getSettingsChatDepartmentsEnabled,
+  getSettingsChatDepartment,
+  getSettingsChatConcierge,
+  getSettingsChatOfflineForm,
+  getSettingsChatPrechatForm,
+  getSettingsChatTitle
+} from 'src/redux/modules/settings/settings-selectors';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
 
@@ -46,9 +46,6 @@ export const getChatVisitor = (state) => state.chat.visitor;
 export const getIsChatting = (state) => state.chat.is_chatting;
 export const getNotificationCount = (state) => getNotification(state).count;
 export const getPostchatFormSettings = (state) => state.chat.accountSettings.postchatForm;
-export const getPrechatFormSettings = (state) => state.chat.accountSettings.prechatForm;
-export const getOfflineFormSettings = (state) => state.chat.accountSettings.offlineForm;
-export const getOfflineFormEnabled = (state) => getOfflineFormSettings(state).enabled;
 export const getEmailTranscript = (state) => state.chat.emailTranscript;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getRatingSettings = (state) => state.chat.accountSettings.rating;
@@ -70,7 +67,6 @@ export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
 export const getSliderVendor = (state) => state.chat.vendor.slider;
 export const getWindowSettings = (state) => state.chat.accountSettings.chatWindow;
-export const getChatTitle = (state) => getWindowSettings(state).title || i18n.t('embeddable_framework.chat.title');
 export const getThemeColor = (state) => ({ base: state.chat.accountSettings.theme.color, text: undefined });
 export const getThemePosition = (state) => {
   const position = state.chat.accountSettings.theme.position;
@@ -82,6 +78,24 @@ export const getThemePosition = (state) => {
       return undefined;
   }
 };
+export const getChatAccountSettingsConcierge = (state) => state.chat.accountSettings.concierge;
+export const getChatAccountSettingsOfflineForm = (state) => state.chat.accountSettings.offlineForm;
+export const getOfflineFormEnabled = (state) => getOfflineFormSettings(state).enabled;
+export const getChatAccountSettingsPrechatForm = (state) => state.chat.accountSettings.prechatForm;
+
+export const getChatAccountSettingsTitle = createSelector(
+  getWindowSettings,
+  (windowSettings) => (
+    windowSettings.title || i18n.t('embeddable_framework.chat.title')
+  )
+);
+
+export const getChatTitle = createSelector(
+  [getSettingsChatTitle, getChatAccountSettingsTitle],
+  (settingsChatTitle, chatAccountSettingsTitle) => (
+    settingsChatTitle || chatAccountSettingsTitle
+  )
+);
 
 export const getFirstMessageTimestamp = (state) => {
   const first = getChats(state).values().next().value;
@@ -117,15 +131,26 @@ export const getActiveAgents = createSelector(
   }
 );
 
-export const getConciergeSettings = (state) => {
-  let concierge = _.cloneDeep(state.chat.accountSettings.concierge);
+export const getConciergeSettings = createSelector(
+  [getSettingsChatConcierge, getChatAccountSettingsConcierge],
+  (settingsChatConcierge, chatAccountSettingsConcierge) => {
+    let concierge = { ...chatAccountSettingsConcierge };
 
-  if (state.settings.chat.avatarPath) {
-    concierge.avatar_path = state.settings.chat.avatarPath;
+    if (settingsChatConcierge) {
+      if (settingsChatConcierge.avatarPath) {
+        concierge.avatar_path = settingsChatConcierge.avatarPath;
+      }
+      if (settingsChatConcierge.name) {
+        concierge.display_name = settingsChatConcierge.name;
+      }
+      if (settingsChatConcierge.title) {
+        concierge.title = settingsChatConcierge.title;
+      }
+    }
+
+    return concierge;
   }
-
-  return concierge;
-};
+);
 
 export const getCurrentConcierges = createSelector(
   [getActiveAgents, getConciergeSettings],
@@ -144,6 +169,60 @@ export const getCurrentConcierges = createSelector(
       return agent;
     });
   }
+);
+
+export const getOfflineFormSettings = createSelector(
+  [getSettingsChatOfflineForm, getChatAccountSettingsOfflineForm],
+  (settingsChatOfflineForm, accountSettingsOfflineForm) => (
+    {
+      ...accountSettingsOfflineForm,
+      ...settingsChatOfflineForm,
+      message: (
+        _.get(settingsChatOfflineForm, 'greeting', null) ||
+        _.get(accountSettingsOfflineForm, 'message', null) ||
+        i18n.t('embeddable_framework.chat.preChat.offline.greeting')
+      )
+    }
+  )
+);
+
+export const getPrechatFormSettings = createSelector(
+  [getSettingsChatPrechatForm, getChatAccountSettingsPrechatForm],
+  (settingsChatPrechatForm, accountSettingsPrechatForm) => (
+    {
+      ...accountSettingsPrechatForm,
+      ...settingsChatPrechatForm,
+      message: (
+        _.get(settingsChatPrechatForm, 'greeting', null) ||
+        _.get(accountSettingsPrechatForm, 'message', null)
+      )
+    }
+  )
+);
+
+const extractFormFields = (settings) => (
+  _.keyBy(_.values(settings.form), 'name')
+);
+
+const getDefaultFormFields = createSelector(
+  getPrechatFormSettings, extractFormFields
+);
+
+const getFormFields = createSelector(
+  [getDefaultFormFields, getSettingsChatPrechatForm],
+  (defaultFields, prechatFormSettings) => (
+    {
+      ...defaultFields,
+      department: {
+        ...defaultFields.department,
+        label: (
+          _.get(prechatFormSettings, 'departmentLabel', null) ||
+          _.get(defaultFields, 'department.label', null) ||
+          i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')
+        )
+      }
+    }
+  )
 );
 
 export const getIsProactiveSession = (state) => {
@@ -197,8 +276,7 @@ export const getChatNotification = createSelector(
 );
 
 export const getOfflineFormFields = createSelector(
-  [getOfflineFormSettings],
-  getFormFields
+  getOfflineFormSettings, extractFormFields
 );
 
 export const getDepartments = (state) => state.chat.departments;
@@ -207,14 +285,19 @@ export const getDepartmentsList = (state) => _.values(state.chat.departments);
 
 export const getPrechatFormFields = createSelector(
   [
-    getPrechatFormSettings,
+    getFormFields,
     getDepartmentsList,
     getOfflineFormSettings,
     getSettingsChatDepartmentsEnabled,
     getSettingsChatDepartment
   ],
-  (prechatSettings, departments, offlineFormSettings, settingsChatDepartmentsEnabled, selectedDepartmentSetting) => {
-    const formsByKey = getFormFields(prechatSettings);
+  (
+    formFields,
+    departments,
+    offlineFormSettings,
+    settingsChatDepartmentsEnabled,
+    selectedDepartmentSetting
+  ) => {
     let firstOnlineDepartment = true;
     const filterDepartments = (departments) => _.filter(departments, (department) => {
       return settingsChatDepartmentsEnabled.includes(department.name) ||
@@ -248,7 +331,7 @@ export const getPrechatFormFields = createSelector(
           { department: department.name }
         );
       } else {
-        if (firstOnlineDepartment && _.get(formsByKey, 'department.required', false) && !selectedDepartment) {
+        if (firstOnlineDepartment && _.get(formFields, 'department.required', false) && !selectedDepartment) {
           departmentOption.default = true;
           firstOnlineDepartment = false;
         }
@@ -256,7 +339,7 @@ export const getPrechatFormFields = createSelector(
       return departmentOption;
     });
 
-    return _.extend({}, formsByKey, { departments: departmentOptions });
+    return _.extend({}, formFields, { departments: departmentOptions });
   }
 );
 

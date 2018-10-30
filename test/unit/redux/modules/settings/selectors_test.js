@@ -4,7 +4,43 @@ describe('settings selectors', () => {
     getSettingsChatDepartmentsEnabled,
     getSettingsMobileNotificationsDisabled,
     getSettingsChatTags,
-    getAnalyticsDisabled;
+    getAnalyticsDisabled,
+    getSettingsChatConcierge,
+    getSettingsChatOfflineForm,
+    getSettingsChatPrechatForm,
+    getSettingsChatTitle,
+    result,
+    mockState;
+
+  beforeAll(() => {
+    mockState = {
+      settings: {
+        analytics: false,
+        chat: {
+          title: 'something pithy',
+          tags: ['yolo', 'yolo2'],
+          mobileNotificationsDisabled: true,
+          suppress: true,
+          department: 'yolo',
+          departments: {
+            enabled: ['bin tapi'],
+          },
+          concierge: {
+            avatarPath: 'https://www.example.com/myPic.jpg',
+            title: 'Some title',
+            name: 'Mr McGee'
+          },
+          prechatForm: {
+            departmentLabel: 'the guild of calamitous intent',
+            greeting: 'wazzup?!'
+          },
+          offlineForm: {
+            greeting: 'no admittance except on party business'
+          }
+        }
+      }
+    };
+  });
 
   beforeEach(() => {
     mockery.enable();
@@ -21,18 +57,14 @@ describe('settings selectors', () => {
     getSettingsMobileNotificationsDisabled = selectors.getSettingsMobileNotificationsDisabled;
     getSettingsChatTags = selectors.getSettingsChatTags;
     getAnalyticsDisabled = selectors.getAnalyticsDisabled;
+    getSettingsChatConcierge = selectors.getSettingsChatConcierge;
+    getSettingsChatOfflineForm = selectors.getSettingsChatOfflineForm;
+    getSettingsChatPrechatForm = selectors.getSettingsChatPrechatForm;
+    getSettingsChatTitle = selectors.getSettingsChatTitle;
   });
 
   describe('getSettingsChatTags', () => {
-    let result;
-
     beforeEach(() => {
-      const mockState = {
-        settings: {
-          chat: { tags: ['yolo', 'yolo2'] }
-        }
-      };
-
       result = getSettingsChatTags(mockState);
     });
 
@@ -43,15 +75,7 @@ describe('settings selectors', () => {
   });
 
   describe('getSettingsMobileNotificationsDisabled', () => {
-    let result;
-
     beforeEach(() => {
-      const mockState = {
-        settings: {
-          chat: { mobileNotificationsDisabled: true }
-        }
-      };
-
       result = getSettingsMobileNotificationsDisabled(mockState);
     });
 
@@ -62,37 +86,18 @@ describe('settings selectors', () => {
   });
 
   describe('getSettingsChatSuppress', () => {
-    let result,
-      mockSuppress;
-
     beforeEach(() => {
-      mockSuppress = true;
-
-      const mockState = {
-        settings: {
-          chat: { suppress: mockSuppress }
-        }
-      };
-
       result = getSettingsChatSuppress(mockState);
     });
 
     it('returns true', () => {
       expect(result)
-        .toEqual(mockSuppress);
+        .toEqual(true);
     });
   });
 
   describe('getSettingsChatDepartment', () => {
-    let result;
-
     beforeEach(() => {
-      const mockState = {
-        settings: {
-          chat: { department: 'yolo' }
-        }
-      };
-
       result = getSettingsChatDepartment(mockState);
     });
 
@@ -103,19 +108,7 @@ describe('settings selectors', () => {
   });
 
   describe('getSettingsChatDepartmentsEnabled', () => {
-    let result;
-
     beforeEach(() => {
-      const mockState = {
-        settings: {
-          chat: {
-            departments: {
-              enabled: ['bin tapi']
-            }
-          }
-        }
-      };
-
       result = getSettingsChatDepartmentsEnabled(mockState);
     });
 
@@ -126,21 +119,62 @@ describe('settings selectors', () => {
   });
 
   describe('getAnalyticsDisabled', () => {
-    let result;
-
     beforeEach(() => {
-      const mockState = {
-        settings: {
-          analytics: false
-        }
-      };
-
       result = getAnalyticsDisabled(mockState);
     });
 
     it('returns the inverse of the analytics value', () => {
       expect(result)
         .toEqual(true);
+    });
+  });
+
+  describe('getSettingsChatConcierge', () => {
+    beforeEach(() => {
+      result = getSettingsChatConcierge(mockState);
+    });
+
+    it('returns the chat settings concierge state', () => {
+      expect(result).toEqual({
+        avatarPath: 'https://www.example.com/myPic.jpg',
+        title: 'Some title',
+        name: 'Mr McGee'
+      });
+    });
+  });
+
+  describe('getSettingsChatOfflineForm', () => {
+    beforeEach(() => {
+      result = getSettingsChatOfflineForm(mockState);
+    });
+
+    it('returns the the chat offline form settings', () => {
+      expect(result).toEqual({
+        greeting: 'no admittance except on party business'
+      });
+    });
+  });
+
+  describe('getSettingsChatPrechatForm', () => {
+    beforeEach(() => {
+      result = getSettingsChatPrechatForm(mockState);
+    });
+
+    it('returns the prechat form settings', () => {
+      expect(result).toEqual({
+        departmentLabel: 'the guild of calamitous intent',
+        greeting: 'wazzup?!'
+      });
+    });
+  });
+
+  describe('getSettingsChatTitle', () => {
+    beforeEach(() => {
+      result = getSettingsChatTitle(mockState);
+    });
+
+    it('returns the chat title setting', () => {
+      expect(result).toEqual('something pithy');
     });
   });
 });

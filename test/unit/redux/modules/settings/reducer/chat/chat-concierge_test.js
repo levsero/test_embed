@@ -1,4 +1,4 @@
-describe('chat concierge avatar reducer', () => {
+describe('chat concierge reducer', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -6,7 +6,7 @@ describe('chat concierge avatar reducer', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/chat-concierge-avatar');
+    const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/chat-concierge');
     const actionTypesPath = buildSrcPath('redux/modules/settings/settings-action-types');
 
     reducer = requireUncached(reducerPath).default;
@@ -22,13 +22,12 @@ describe('chat concierge avatar reducer', () => {
 
   describe('reducer', () => {
     describe('initial state', () => {
-      it('is set to null', () => {
-        expect(initialState)
-          .toBeNull();
+      it('an object with null values', () => {
+        shallowObjectValuesNull(initialState);
       });
     });
 
-    describe('when a UPDATE_SETTINGS action is dispatched', () => {
+    describe('when an UPDATE_SETTINGS action is dispatched', () => {
       let payload,
         state;
 
@@ -39,35 +38,37 @@ describe('chat concierge avatar reducer', () => {
         });
       });
 
-      describe('when the avatarPath is set', () => {
+      describe('when valid properties are set', () => {
+        const mockState = {
+          avatarPath: 'https://i.imgur.com/3mZBYfn.jpg',
+          title: 'Some title',
+          name: 'Mr McGee'
+        };
+
         beforeAll(() => {
           payload = {
             webWidget: {
               chat: {
-                concierge: {
-                  avatarPath: 'https://i.imgur.com/3mZBYfn.jpg'
-                }
+                concierge: mockState
               }
             }
           };
         });
 
-        it('adds a department with the payload data', () => {
-          expect(state)
-            .toEqual('https://i.imgur.com/3mZBYfn.jpg');
+        it('adds the payload data', () => {
+          expect(state).toEqual(mockState);
         });
       });
 
-      describe('when the avatarPath is not set', () => {
+      describe('when an irrelevant property is set', () => {
         beforeAll(() => {
           payload = {
-            whatevs: { }
+            whatevs: { foo: 'bar' }
           };
         });
 
         it('keeps its initial state', () => {
-          expect(state)
-            .toBeNull();
+          expect(state).toEqual(initialState);
         });
       });
     });

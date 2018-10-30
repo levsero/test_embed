@@ -2,6 +2,10 @@ import Map from 'core-js/library/es6/map';
 
 describe('chat selectors', () => {
   let selectors,
+    mockConciergeOverideSettings,
+    mockSettingsChatTitle,
+    mockSettingsChatOfflineForm,
+    mockSettingsPrechatForm,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -46,7 +50,11 @@ describe('chat selectors', () => {
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartmentsEnabled: (state) => _.get(state, 'settings.chat.departments.enabled', []),
-        getSettingsChatDepartment: (state) => _.get(state, 'settings.chat.department', '')
+        getSettingsChatDepartment: (state) => _.get(state, 'settings.chat.department', ''),
+        getSettingsChatConcierge: (state) => _.get(state, 'settings.chat.concierge', mockConciergeOverideSettings),
+        getSettingsChatTitle: () => mockSettingsChatTitle,
+        getSettingsChatOfflineForm: () => mockSettingsChatOfflineForm,
+        getSettingsChatPrechatForm: () => mockSettingsPrechatForm,
       },
       'service/i18n': {
         i18n: { t: _.identity }
@@ -214,7 +222,9 @@ describe('chat selectors', () => {
           },
           settings: {
             chat: {
-              avatarPath: null
+              concierge: {
+                avatarPath: null
+              }
             }
           }
         });
@@ -258,7 +268,9 @@ describe('chat selectors', () => {
           },
           settings: {
             chat: {
-              avatarPath: null
+              concierge: {
+                avatarPath: null
+              }
             }
           }
         });
@@ -285,13 +297,15 @@ describe('chat selectors', () => {
           },
           settings: {
             chat: {
-              avatarPath: null
+              concierge: {
+                avatarPath: null
+              }
             }
           }
         });
       });
 
-      it('returns an object with the company\'s avatar path', () => {
+      it("returns an object with the company's avatar path", () => {
         expect(result.avatar_path)
           .toEqual('www.zen.desk/avatar.jpeg');
       });
@@ -684,7 +698,9 @@ describe('chat selectors', () => {
     const mockChatSettings = {
       chat: {
         accountSettings: {
-          prechatForm: 'foo'
+          prechatForm: {
+            message: 'default greeting'
+          }
         }
       }
     };
@@ -693,18 +709,38 @@ describe('chat selectors', () => {
       result = selectors.getPrechatFormSettings(mockChatSettings);
     });
 
-    it('returns the value of accountSettings.prechatForm', () => {
-      expect(result)
-        .toEqual('foo');
+    describe('when there are no override settings', () => {
+      it('returns the value of accountSettings.prechatForm', () => {
+        expect(result).toEqual({ message: 'default greeting' });
+      });
+    });
+
+    describe('when there are override settings', () => {
+      beforeAll(() => {
+        mockSettingsPrechatForm = {
+          departmentLabel: 'cool department',
+          greeting: 'hello!'
+        };
+      });
+
+      it('returns the override settings instead of the account settings', () => {
+        expect(result).toEqual({
+          message: 'hello!',
+          greeting: 'hello!',
+          departmentLabel: 'cool department'
+        });
+      });
     });
   });
 
-  describe('getOfflineFormSettings', () => {
+  describe('offline form settings' , () => {
     let result;
     const mockChatSettings = {
       chat: {
         accountSettings: {
-          offlineForm: 'bar'
+          offlineForm: {
+            message: 'default greeting'
+          }
         }
       }
     };
@@ -713,9 +749,25 @@ describe('chat selectors', () => {
       result = selectors.getOfflineFormSettings(mockChatSettings);
     });
 
-    it('returns the value of accountSettings.offlineForm', () => {
-      expect(result)
-        .toEqual('bar');
+    describe('getOfflineFormSettings', () => {
+      describe('when there are no override settings', () => {
+        it('returns the default account settings', () => {
+          expect(result).toEqual({ message: 'default greeting' });
+        });
+      });
+
+      describe('when there are user override settings', () => {
+        beforeAll(() => {
+          mockSettingsChatOfflineForm = { greeting: 'user override greeting' };
+        });
+
+        it('returns the override value', () => {
+          expect(result).toEqual({
+            message: 'user override greeting',
+            greeting: 'user override greeting'
+          });
+        });
+      });
     });
   });
 
@@ -1305,23 +1357,25 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getConciergeSettings', () => {
+  describe('chat concierge', () => {
     let result,
-      settingsAvatarPath,
       mockSettings;
+    const mockDefaultSettings = {
+      avatar_path: 'https://i.imgur.com/moKYjJx.jpg',
+      display_name: 'default name',
+      title: 'default title'
+    };
+    const mockOverridenSettings = {
+      avatar_path: 'https://img.example.com/qwerty.jpg',
+      title: 'some title',
+      display_name: 'the mighty monarch!'
+    };
 
     beforeEach(() => {
       mockSettings = {
         chat: {
           accountSettings: {
-            concierge: {
-              avatar_path: 'https://i.imgur.com/moKYjJx.jpg'
-            }
-          }
-        },
-        settings: {
-          chat: {
-            avatarPath: settingsAvatarPath
+            concierge: mockDefaultSettings
           }
         }
       };
@@ -1329,133 +1383,134 @@ describe('chat selectors', () => {
       result = selectors.getConciergeSettings(mockSettings);
     });
 
-    describe('when an avatarPath is set via zESettings', () => {
-      beforeAll(() => {
-        settingsAvatarPath = 'https://i.imgur.com/3mZBYfn.jpg';
-      });
-
-      it('returns the overriden path as an avatar_path', () => {
-        expect(result)
-          .toEqual({ avatar_path: 'https://i.imgur.com/3mZBYfn.jpg' });
+    describe('chatAccountSettingsConcierge', () => {
+      it('returns the account concierge settings', () => {
+        expect(result).toEqual(mockDefaultSettings);
       });
     });
 
-    describe('when there is no override via zESettings', () => {
-      beforeAll(() => {
-        settingsAvatarPath = null;
+    describe('getConciergeSettings', () => {
+      describe('when concierge attributes are set via zESettings', () => {
+        beforeAll(() => {
+          mockConciergeOverideSettings = {
+            avatarPath: 'https://img.example.com/qwerty.jpg',
+            title: 'some title',
+            name: 'the mighty monarch!'
+          };
+        });
+
+        it('returns the overriden attributes', () => {
+          expect(result).toEqual(mockOverridenSettings);
+        });
       });
 
-      it('returns the overriden path as an avatar_path', () => {
-        expect(result)
-          .toEqual({ avatar_path: 'https://i.imgur.com/moKYjJx.jpg' });
+      describe('when there is no override via zESettings', () => {
+        beforeAll(() => {
+          mockConciergeOverideSettings = {
+            avatarPath: null,
+            title: null,
+            name: null
+          };
+        });
+
+        it('returns the default path as an avatar_path', () => {
+          expect(result).toEqual(mockDefaultSettings);
+        });
       });
     });
 
-    describe('the state.chat.accountSettings.concierge state', () => {
-      beforeAll(() => {
-        settingsAvatarPath = null;
+    describe('getCurrentConcierges', () => {
+      let result,
+        mockChatSettings;
+
+      beforeEach(() => {
+        result = selectors.getCurrentConcierges(mockChatSettings);
       });
 
-      it('does not copy it by reference', () => {
-        expect(result)
-          .not.toBe(mockSettings.chat.accountSettings.concierge);
-      });
-
-      it('contains the same data', () => {
-        expect(result)
-          .toEqual(mockSettings.chat.accountSettings.concierge);
-      });
-    });
-  });
-
-  describe('getCurrentConcierges', () => {
-    let result,
-      mockChatSettings;
-
-    beforeEach(() => {
-      result = selectors.getCurrentConcierges(mockChatSettings);
-    });
-
-    describe('when there is no agent', () => {
-      beforeAll(() => {
-        mockChatSettings = {
-          chat: {
-            agents: new Map(),
-            accountSettings: { concierge: 'foo.bar' }
-          },
-          settings: {
+      describe('when there is no agent', () => {
+        beforeAll(() => {
+          mockChatSettings = {
             chat: {
-              avatarPath: null
-            }
-          }
-        };
-      });
-
-      it('returns account concierge in an array', () => {
-        expect(result)
-          .toEqual(['foo.bar']);
-      });
-    });
-
-    describe('when agent does not have custom avatar', () => {
-      beforeAll(() => {
-        mockChatSettings = {
-          chat: {
-            agents: new Map([
-              ['1', { display_name: 'hello', title: 'hello' }]
-            ]),
-            accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
-          },
-          settings: {
-            chat: {
-              avatarPath: null
-            }
-          }
-        };
-      });
-
-      it('returns agent concierges with account avatar in an array', () => {
-        expect(result)
-          .toEqual([
-            {
-              display_name: 'hello',
-              title: 'hello',
-              avatar_path: 'https://company.com/avatar.gif'
-            }
-          ]);
-      });
-    });
-
-    describe('when there are multiple agents', () => {
-      beforeAll(() => {
-        mockChatSettings = {
-          chat: {
-            agents: new Map([
-              ['1', { display_name: 'hello', title: 'hello', avatar_path: 'https://hello.com/hello.gif' }],
-              ['2', { avatar_path: 'https://yolo.com/yolo.gif' }]
-            ]),
-            accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
-          },
-          settings: {
-            chat: {
-              avatarPath: null
-            }
-          }
-        };
-      });
-
-      it('returns all agents in an array', () => {
-        expect(result)
-          .toEqual([
-            {
-              display_name: 'hello',
-              title: 'hello',
-              avatar_path: 'https://hello.com/hello.gif'
+              agents: new Map(),
+              accountSettings: {
+                concierge: {
+                  avatar_path: 'foo.bar'
+                }
+              }
             },
-            {
-              avatar_path: 'https://yolo.com/yolo.gif'
+            settings: {
+              chat: {
+                avatarPath: null
+              }
             }
-          ]);
+          };
+        });
+
+        it('returns account concierge in an array', () => {
+          expect(result).toEqual([{avatar_path: 'foo.bar'}]);
+        });
+      });
+
+      describe('when agent does not have custom avatar', () => {
+        beforeAll(() => {
+          mockChatSettings = {
+            chat: {
+              agents: new Map([
+                ['1', { display_name: 'hello', title: 'hello' }]
+              ]),
+              accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
+            },
+            settings: {
+              chat: {
+                avatarPath: null
+              }
+            }
+          };
+        });
+
+        it('returns agent concierges with account avatar in an array', () => {
+          expect(result)
+            .toEqual([
+              {
+                display_name: 'hello',
+                title: 'hello',
+                avatar_path: 'https://company.com/avatar.gif'
+              }
+            ]);
+        });
+      });
+
+      describe('when there are multiple agents', () => {
+        beforeAll(() => {
+          mockChatSettings = {
+            chat: {
+              agents: new Map([
+                ['1', { display_name: 'hello', title: 'hello', avatar_path: 'https://hello.com/hello.gif' }],
+                ['2', { avatar_path: 'https://yolo.com/yolo.gif' }]
+              ]),
+              accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
+            },
+            settings: {
+              chat: {
+                avatarPath: null
+              }
+            }
+          };
+        });
+
+        it('returns all agents in an array', () => {
+          expect(result)
+            .toEqual([
+              {
+                display_name: 'hello',
+                title: 'hello',
+                avatar_path: 'https://hello.com/hello.gif'
+              },
+              {
+                avatar_path: 'https://yolo.com/yolo.gif'
+              }
+            ]);
+        });
       });
     });
   });
@@ -2689,11 +2744,12 @@ describe('chat selectors', () => {
 
   describe('getChatTitle', () => {
     let result,
-      titleSetting;
+      titleSetting,
+      mockSettings;
     const mockTitle = 'My custom title';
 
     beforeEach(() => {
-      result = selectors.getChatTitle({
+      mockSettings = {
         chat: {
           accountSettings: {
             chatWindow: {
@@ -2701,28 +2757,59 @@ describe('chat selectors', () => {
             }
           }
         }
+      };
+    });
+
+    describe('getChatAccountSettingsTitle', () => {
+      beforeEach(() => {
+        result = selectors.getChatAccountSettingsTitle(mockSettings);
+      });
+
+      describe('when title is provided by the account settings', () => {
+        beforeAll(() => {
+          titleSetting = mockTitle;
+        });
+
+        it('returns the title', () => {
+          expect(result).toEqual(mockTitle);
+        });
+      });
+
+      describe('when title is not provided by the account settings', () => {
+        beforeAll(() => {
+          titleSetting = null;
+        });
+
+        it('returns the default title', () => {
+          expect(result).toEqual('embeddable_framework.chat.title');
+        });
       });
     });
 
-    describe('when title is provided', () => {
-      beforeAll(() => {
+    describe('getChatTitle', () => {
+      beforeEach(() => {
         titleSetting = mockTitle;
+        result = selectors.getChatTitle(mockSettings);
       });
 
-      it('returns the provided title', () => {
-        expect(result)
-          .toEqual(mockTitle);
-      });
-    });
+      describe('when there is an override setting', () => {
+        beforeAll(() => {
+          mockSettingsChatTitle = 'My override custom title!';
+        });
 
-    describe('when title is not provided', () => {
-      beforeAll(() => {
-        titleSetting = null;
+        it('returns the override title value', () => {
+          expect(result).toEqual(mockSettingsChatTitle);
+        });
       });
 
-      it('returns the default title', () => {
-        expect(result)
-          .toEqual('embeddable_framework.chat.title');
+      describe('when there is no override setting', () => {
+        beforeAll(() => {
+          mockSettingsChatTitle = null;
+        });
+
+        it('returns the title from the account settings', () => {
+          expect(result).toEqual(mockTitle);
+        });
       });
     });
   });
