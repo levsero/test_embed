@@ -4,6 +4,7 @@ import {
   CONTEXTUAL_SEARCH_REQUEST_FAILURE,
   SEARCH_REQUEST_SUCCESS
 } from '../helpCenter-action-types';
+import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types';
 
 const initialState = {
   hasSearched: false,
@@ -25,6 +26,7 @@ const contextualSearch = (state = initialState, action) => {
         ...state,
         screen: type
       };
+    case API_CLEAR_HC_SEARCHES:
     case SEARCH_REQUEST_SUCCESS:
       return initialState;
     default:

@@ -1,5 +1,6 @@
 describe('webWidgetApi', () => {
-  let api;
+  let api,
+    mockGetLauncherVisible;
   const apiPath = buildSrcPath('service/api/webWidgetApi');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const setLocaleSpy = jasmine.createSpy('setLocale');
@@ -10,6 +11,7 @@ describe('webWidgetApi', () => {
   const hideSpy = jasmine.createSpy('hide');
   const updateSettingsSpy = jasmine.createSpy('updateSettings');
   const updatePathSpy = jasmine.createSpy('updatePath');
+  const resetWidgetSpy = jasmine.createSpy('apiResetWidget');
   const logoutSpy = jasmine.createSpy('logout');
   const identifySpy = jasmine.createSpy('identify');
   const prefillSpy = jasmine.createSpy('prefill');
@@ -62,8 +64,12 @@ describe('webWidgetApi', () => {
         }
       },
       'src/redux/modules/base': {
+        apiResetWidget: resetWidgetSpy,
         activateRecieved: noop,
         legacyShowRecieved: noop
+      },
+      'src/redux/modules/base/base-selectors': {
+        getLauncherVisible: () => mockGetLauncherVisible
       },
       'src/redux/modules/helpCenter': {
         displayArticle: noop
@@ -275,6 +281,33 @@ describe('webWidgetApi', () => {
       });
     });
 
+    describe('when that call is reset', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'reset'];
+      });
+
+      describe('and getLauncherVisible is true', () => {
+        beforeAll(() => {
+          mockGetLauncherVisible = true;
+          resetWidgetSpy.calls.reset();
+        });
+
+        it('calls resetWidget', () => {
+          expect(resetWidgetSpy).toHaveBeenCalled();
+        });
+      });
+
+      describe('and getLauncherVisible is false', () => {
+        beforeAll(() => {
+          mockGetLauncherVisible = false;
+          resetWidgetSpy.calls.reset();
+        });
+        it('does not call resetWidget', () => {
+          expect(resetWidgetSpy).not.toHaveBeenCalled();
+        });
+      });
+    });
+
     describe('methods that get queued', () => {
       describe('when that call is identity', () => {
         const user = { email: 'a2b.c' };
@@ -422,6 +455,34 @@ describe('webWidgetApi', () => {
       it('calls toggleApi', () => {
         expect(toggleSpy)
           .toHaveBeenCalled();
+      });
+    });
+
+    describe('when that call is reset', () => {
+      beforeAll(() => {
+        call = ['webWidget', 'reset'];
+      });
+
+      describe('and getLauncherVisible is true', () => {
+        beforeAll(() => {
+          mockGetLauncherVisible = true;
+          resetWidgetSpy.calls.reset();
+        });
+
+        it('calls resetWidget', () => {
+          expect(resetWidgetSpy).toHaveBeenCalled();
+        });
+      });
+
+      describe('and getLauncherVisible is false', () => {
+        beforeAll(() => {
+          mockGetLauncherVisible = false;
+          resetWidgetSpy.calls.reset();
+        });
+
+        it('does not call resetWidget', () => {
+          expect(resetWidgetSpy).not.toHaveBeenCalled();
+        });
       });
     });
 

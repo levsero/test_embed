@@ -1,4 +1,4 @@
-import { UPDATE_WIDGET_SHOWN } from '../base-action-types';
+import { UPDATE_WIDGET_SHOWN, API_RESET_WIDGET } from '../base-action-types';
 
 const initialState = false;
 const hasWidgetShown = (state = initialState, action) => {
@@ -10,6 +10,8 @@ const hasWidgetShown = (state = initialState, action) => {
         return true;
       }
       return state;
+    case API_RESET_WIDGET:
+      return initialState;
     default:
       return state;
   }

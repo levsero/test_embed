@@ -1,6 +1,7 @@
 describe('helpCenter reducer searchTerm', () => {
   let reducer,
     actionTypes,
+    baseActionTypes,
     initialState;
 
   beforeAll(() => {
@@ -8,11 +9,13 @@ describe('helpCenter reducer searchTerm', () => {
 
     const reducerPath = buildSrcPath('redux/modules/helpCenter/reducer/helpCenter-searchTerm');
     const actionTypesPath = buildSrcPath('redux/modules/helpCenter/helpCenter-action-types');
+    const baseActionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);
+    baseActionTypes = requireUncached(baseActionTypesPath);
   });
 
   afterAll(() => {
@@ -177,6 +180,33 @@ describe('helpCenter reducer searchTerm', () => {
     it('does not change the previous state', () => {
       expect(state.previous)
         .toEqual(initialStateObj.previous);
+    });
+  });
+
+  describe('when an API_CLEAR_HC_SEARCHES action is dispatched', () => {
+    let state;
+    const
+      initialStateObj = {
+        current: 'foobar',
+        previous: 'foobar'
+      },
+      expected = {
+        current: '',
+        previous: ''
+      };
+
+    beforeEach(() => {
+      state = reducer(initialStateObj, {
+        type: baseActionTypes.API_CLEAR_HC_SEARCHES,
+        payload: {
+          searchTerm: 'baz'
+        }
+      });
+    });
+
+    it('resets to default, regardless of input', () => {
+      expect(state)
+        .toEqual(expected);
     });
   });
 });

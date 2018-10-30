@@ -251,6 +251,22 @@ export const apiClearForm = () => {
   };
 };
 
+export const apiClearHcSearches = () => {
+  return {
+    type: actions.API_CLEAR_HC_SEARCHES
+  };
+};
+
+export const apiResetWidget = () => {
+  return (dispatch) => {
+    dispatch(apiClearForm());
+    dispatch(apiClearHcSearches());
+    dispatch({
+      type: actions.API_RESET_WIDGET
+    });
+  };
+};
+
 export const executeApiOnOpenCallback = () => {
   return {
     type: actions.EXECUTE_API_ON_OPEN_CALLBACK

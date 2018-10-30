@@ -5,7 +5,8 @@ import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
 import {
   activateRecieved,
-  legacyShowReceived } from 'src/redux/modules/base';
+  legacyShowReceived,
+  apiResetWidget } from 'src/redux/modules/base';
 import { displayArticle } from 'src/redux/modules/helpCenter';
 import {
   API_GET_IS_CHATTING_NAME,
@@ -34,6 +35,7 @@ import {
   getDepartmentApi,
   getAllDepartmentsApi
 } from 'src/service/api/apis';
+import { getLauncherVisible } from 'src/redux/modules/base/base-selectors';
 
 const newAPIPostRenderQueue = [];
 
@@ -89,7 +91,8 @@ const newApiStructurePostRender = {
     get: getApiObj(),
     helpCenter: {
       setSuggestions: setHelpCenterSuggestionsApi
-    }
+    },
+    reset: resetWidget
   }
 };
 
@@ -106,6 +109,7 @@ const newApiStructurePreRender = {
     logout: (_, ...args) => addToPostRenderQueue(['webWidget', 'logout', ...args]),
     updatePath: (_, ...args) => addToPostRenderQueue(['webWidget', 'updatePath', ...args]),
     clear: (reduxStore) => clearFormState(reduxStore),
+    reset: (reduxStore) => resetWidget(reduxStore),
     prefill: prefill,
     chat: getWidgetChatApiObj(),
     on: onApiObj(),
@@ -117,6 +121,14 @@ const newApiStructurePreRender = {
     }
   }
 };
+
+function resetWidget(reduxStore) {
+  const state = reduxStore.getState();
+
+  if (getLauncherVisible(state)) {
+    reduxStore.dispatch(apiResetWidget());
+  }
+}
 
 const handleNewApi = (apiStructure, reduxStore, args) => {
   const getApiFunction = (methodAccessors) => {

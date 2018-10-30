@@ -62,7 +62,7 @@ describe('base redux actions', () => {
       'src/redux/modules/base/base-selectors': {
         getOAuth: () => mockOAuth,
         getBaseIsAuthenticated: () => mockBaseIsAuthenticated,
-        getActiveEmbed: () => mockActiveEmbed
+        getActiveEmbed: () => mockActiveEmbed,
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getHasContextuallySearched: () => mockHasContextuallySearched
@@ -321,6 +321,72 @@ describe('base redux actions', () => {
     it('has the value of true in the payload', () => {
       expect(action.payload)
         .toEqual(true);
+    });
+  });
+
+  describe('apiResetWidget', () => {
+    let actionList;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.apiResetWidget());
+      actionList = mockStore.getActions();
+    });
+
+    it('dispatches an action of type API_CLEAR_FORM First', () => {
+      expect(actionList[0].type).toEqual(actionTypes.API_CLEAR_FORM);
+    });
+
+    it('dispatches an action of type API_CLEAR_HC_SEARCHES Second', () => {
+      expect(actionList[1].type).toEqual(actionTypes.API_CLEAR_HC_SEARCHES);
+    });
+
+    it('dispatches an action of type API_RESET_WIDGET Third', () => {
+      expect(actionList[2].type).toEqual(actionTypes.API_RESET_WIDGET);
+    });
+  });
+
+  describe('apiClearHcSearches', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.apiClearHcSearches());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type API_CLEAR_HC_SEARCHES', () => {
+      expect(action.type).toEqual( actionTypes.API_CLEAR_HC_SEARCHES );
+    });
+  });
+
+  describe('apiResetWidget', () => {
+    let actionList;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.apiResetWidget());
+      actionList = mockStore.getActions();
+    });
+
+    it('dispatches an action of type API_CLEAR_FORM First', () => {
+      expect(actionList[0].type).toEqual( actionTypes.API_CLEAR_FORM );
+    });
+
+    it('dispatches an action of type API_CLEAR_HC_SEARCHES Second', () => {
+      expect(actionList[1].type).toEqual( actionTypes.API_CLEAR_HC_SEARCHES );
+    });
+
+    it('dispatches an action of type API_RESET_WIDGET Third', () => {
+      expect(actionList[2].type).toEqual( actionTypes.API_RESET_WIDGET );
+    });
+  });
+  describe('apiClearHcSearches', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.apiClearHcSearches());
+      action = mockStore.getActions()[0];
+    });
+    it('dispatches an action of type API_CLEAR_HC_SEARCHES', () => {
+      expect(action.type).toEqual( actionTypes.API_CLEAR_HC_SEARCHES );
     });
   });
 

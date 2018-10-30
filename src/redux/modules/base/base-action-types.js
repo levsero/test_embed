@@ -26,6 +26,8 @@ export const CLOSE_BUTTON_CLICKED = 'widget/base/CLOSE_BUTTON_CLICKED';
 // We can also add actions for animation start and show start and complete as needed
 export const WIDGET_HIDE_ANIMATION_COMPLETE = 'widget/base/WIDGET_HIDE_ANIMATION_COMPLETE';
 export const API_CLEAR_FORM = 'widget/base/API_CLEAR_FORM';
+export const API_RESET_WIDGET = 'widget/base/API_RESET_WIDGET';
+export const API_CLEAR_HC_SEARCHES = 'widget/base/API_RESET_HC_SEARCHES';
 export const LAUNCHER_CLICKED = 'widget/base/LAUNCHER_CLICKED';
 export const WIDGET_INITIALISED = 'widget/base/WIDGET_INITIALISED';
 export const BOOT_UP_TIMER_COMPLETE = 'widget/base/BOOT_UP_TIMER_COMPLETE';

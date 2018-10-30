@@ -41,4 +41,20 @@ describe('base reducer widgetShown', () => {
         .toEqual(true);
     });
   });
+
+  describe('when an API_CLEAR_HC_SEARCHES action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.API_CLEAR_HC_SEARCHES,
+        payload: true
+      });
+    });
+
+    it('return initial state (false) as the state has been reset', () => {
+      expect(state)
+        .toEqual(false);
+    });
+  });
 });

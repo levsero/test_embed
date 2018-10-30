@@ -1,6 +1,7 @@
 describe('helpCenter reducer contextualSearch', () => {
   let reducer,
     actionTypes,
+    baseActionTypes,
     initialState;
 
   beforeAll(() => {
@@ -8,11 +9,13 @@ describe('helpCenter reducer contextualSearch', () => {
 
     const reducerPath = buildSrcPath('redux/modules/helpCenter/reducer/helpCenter-contextualSearch');
     const actionTypesPath = buildSrcPath('redux/modules/helpCenter/helpCenter-action-types');
+    const baseActionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);
+    baseActionTypes = requireUncached(baseActionTypesPath);
   });
 
   afterAll(() => {
@@ -97,6 +100,29 @@ describe('helpCenter reducer contextualSearch', () => {
         expect(state)
           .toEqual(jasmine.objectContaining(initialState));
       });
+    });
+  });
+
+  describe('API_CLEAR_HC_SEARCHES', () => {
+    let mockState,
+      mockAction,
+      state;
+
+    beforeAll(() => {
+      mockState = {
+        hasSearched: true,
+        screen: 'asd'
+      };
+
+      mockAction = {
+        type: baseActionTypes.API_CLEAR_HC_SEARCHES
+      };
+      state = reducer(mockState, mockAction);
+    });
+
+    it('resets to default, regardless of input', () => {
+      expect(state)
+        .toEqual(jasmine.objectContaining(initialState));
     });
   });
 });

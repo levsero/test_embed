@@ -81,4 +81,31 @@ describe('base reducer has widget shown reducer', () => {
       });
     });
   });
+
+  describe('when API_RESET_WIDGET action is dispatched', () => {
+    let action,
+      state,
+      mockPayload,
+      mockState = initialState;
+
+    beforeEach(() => {
+      action = {
+        type: actionTypes.API_RESET_WIDGET,
+        payload: mockPayload
+      };
+
+      state = reducer(mockState, action);
+    });
+
+    describe('when payload is true', () => {
+      beforeAll(() => {
+        mockPayload = true;
+      });
+
+      it('resets to default, regardless of input', () => {
+        expect(state)
+          .toEqual(false);
+      });
+    });
+  });
 });

@@ -9,6 +9,7 @@ import {
   GET_ARTICLE_REQUEST_SUCCESS,
   GET_ARTICLE_REQUEST_FAILURE
 } from '../helpCenter-action-types';
+import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types';
 
 const initialState = false;
 
@@ -26,7 +27,8 @@ const loading = (state = initialState, action) => {
     case SEARCH_REQUEST_FAILURE:
     case CONTEXTUAL_SEARCH_REQUEST_FAILURE:
     case GET_ARTICLE_REQUEST_FAILURE:
-      return false;
+    case API_CLEAR_HC_SEARCHES:
+      return initialState;
     default:
       return state;
   }

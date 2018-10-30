@@ -1,6 +1,7 @@
 describe('helpCenter reducer totalUserSearches', () => {
   let reducer,
     actionTypes,
+    baseActionTypes,
     initialState;
 
   beforeAll(() => {
@@ -8,11 +9,13 @@ describe('helpCenter reducer totalUserSearches', () => {
 
     const reducerPath = buildSrcPath('redux/modules/helpCenter/reducer/helpCenter-totalUserSearches');
     const actionTypesPath = buildSrcPath('redux/modules/helpCenter/helpCenter-action-types');
+    const baseActionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);
+    baseActionTypes = requireUncached(baseActionTypesPath);
   });
 
   afterAll(() => {
@@ -67,6 +70,21 @@ describe('helpCenter reducer totalUserSearches', () => {
     });
 
     it('sets the state to 0', () => {
+      expect(state)
+        .toEqual(0);
+    });
+  });
+
+  describe('when a API_CLEAR_HC_SEARCHES action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(4, {
+        type: baseActionTypes.API_CLEAR_HC_SEARCHES
+      });
+    });
+
+    it('resets to default, regardless of input', () => {
       expect(state)
         .toEqual(0);
     });
