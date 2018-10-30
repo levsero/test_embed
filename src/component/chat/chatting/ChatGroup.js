@@ -67,7 +67,7 @@ export class ChatGroup extends Component {
   }
 
   renderChatMessages = (isAgent, showAvatar, messages) => {
-    const messageClasses = classNames(
+    let messageClasses = classNames(
       styles.message,
       {
         [styles.messageUser]: !isAgent,
@@ -80,6 +80,11 @@ export class ChatGroup extends Component {
 
       if (chat.msg) {
         if (chat.structured_msg && _.includes(structuredMessageTypes, chat.structured_msg.type)) {
+          messageClasses = classNames(
+            messageClasses,
+            styles.structuredMessageContainer
+          );
+
           message = this.renderStructuredMessage(chat.structured_msg);
         } else {
           message = this.renderPrintedMessage(chat, isAgent, showAvatar);

@@ -4,6 +4,6 @@
   composes: messageBubbleWithOptions from '../MessageBubble/MessageBubble.scss';
 
   background-color: $zd-color-grey-200;
-  max-width: none;
+  max-width: none !important;
   width: 100%;
 }

@@ -74,7 +74,8 @@ describe('ChatGroup component', () => {
           nameAvatar: 'nameAvatarClass',
           nameNoAvatar: 'nameNoAvatarClass',
           fadeIn: 'fadeInClass',
-          fadeUp: 'fadeUpClass'
+          fadeUp: 'fadeUpClass',
+          structuredMessageContainer: 'structuredMessageContainerClass'
         }
       }
     });
@@ -587,6 +588,10 @@ describe('ChatGroup component', () => {
         it('does not call renderPrintedMessage', () => {
           expect(component.renderPrintedMessage)
             .not.toHaveBeenCalledWith();
+        });
+
+        it('append the structuredMessageContainer class ', ()=> {
+          expect(result[0].props.children.props.className).toContain('structuredMessageContainerClass');
         });
       });
     });
