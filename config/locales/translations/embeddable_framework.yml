@@ -495,6 +495,11 @@ parts:
       screenshot: "https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47"
       value: "%(openingHour)s %(openingPeriod)s to %(closingHour)s %(closingPeriod)s"
   - translation:
+      key: "embeddable_framework.chat.operatingHours.label.timeRange"
+      title: "The range for a customer's operating hours on any given day."
+      screenshot: "https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47"
+      value: "%(openingTime)s to %(closingTime)s"
+  - translation:
       key: "embeddable_framework.chat.operatingHours.label.openAllDay"
       title: "This is shown in place of an hour range when a customer's operating hours are for the whole day: midnight to midnight"
       screenshot: "https://drive.google.com/open?id=1Y2D0hg8EB7auSRRThpDhIoXbzIxV9cqT"
