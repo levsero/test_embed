@@ -15,7 +15,7 @@ describe('webWidgetApi', () => {
   const prefillSpy = jasmine.createSpy('prefill');
   const clearFormStateSpy = jasmine.createSpy('clearFormState');
   const setHelpCenterSuggestionsSpy = jasmine.createSpy('setHelpCenterSuggestions');
-  const handleOnApiCalledSpy = jasmine.createSpy('handleOnApiCalled');
+  const onApiSpy = jasmine.createSpy('onApi');
   const endChatSpy = jasmine.createSpy('endChat');
   const sendMsgSpy = jasmine.createSpy('sendMsg');
   const dispatch = () => (action) => action();
@@ -62,7 +62,6 @@ describe('webWidgetApi', () => {
         }
       },
       'src/redux/modules/base': {
-        handleOnApiCalled: handleOnApiCalledSpy,
         activateRecieved: noop,
         legacyShowRecieved: noop
       },
@@ -110,7 +109,8 @@ describe('webWidgetApi', () => {
         showApi: showSpy,
         updatePathApi: updatePathSpy,
         clearFormState: clearFormStateSpy,
-        isChattingApi: () => isChatting
+        isChattingApi: () => isChatting,
+        onApiObj: onApiSpy
       }
     });
 
@@ -144,7 +144,6 @@ describe('webWidgetApi', () => {
 
       afterEach(() => {
         broadcastSpy.calls.reset();
-        handleOnApiCalledSpy.calls.reset();
       });
 
       it('handles the api call', () => {
@@ -198,7 +197,6 @@ describe('webWidgetApi', () => {
 
     afterEach(() => {
       broadcastSpy.calls.reset();
-      handleOnApiCalledSpy.calls.reset();
     });
 
     describe('when that call is hide', () => {
@@ -370,7 +368,6 @@ describe('webWidgetApi', () => {
 
     afterEach(() => {
       broadcastSpy.calls.reset();
-      handleOnApiCalledSpy.calls.reset();
     });
 
     describe('when that call is hide', () => {
@@ -541,39 +538,13 @@ describe('webWidgetApi', () => {
     });
 
     describe('when that call is on', () => {
-      describe('when third param is not a function', () => {
-        beforeAll(() => {
-          call = ['webWidget:on', 'close', null];
-        });
-
-        it('does not call handleOnApiCalled', () => {
-          expect(handleOnApiCalledSpy)
-            .not.toHaveBeenCalled();
-        });
+      beforeAll(() => {
+        call = ['webWidget:on', 'close', () => {}];
       });
 
-      describe('when third param is a function', () => {
-        describe('when event is in the listenersMap', () => {
-          beforeAll(() => {
-            call = ['webWidget:on', API_ON_CLOSE_NAME, noop];
-          });
-
-          it('calls handleOnApiCalled with the actions associated with the event and callback', () => {
-            expect(handleOnApiCalledSpy)
-              .toHaveBeenCalledWith(CLOSE_BUTTON_CLICKED, [], noop);
-          });
-        });
-
-        describe('when event is not in the listenersMap', () => {
-          beforeAll(() => {
-            call = ['webWidget:on', 'anotherevent', noop];
-          });
-
-          it('does not call handleOnApiCalled', () => {
-            expect(handleOnApiCalledSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
+      it('calls onApi', () => {
+        expect(onApiSpy)
+          .toHaveBeenCalled();
       });
     });
 
