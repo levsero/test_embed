@@ -29,9 +29,10 @@ export class ImageMessage extends Component {
   }
 
   onLoad = () => {
-    this.thumbnail = null;
-    this.setState({ loading: false });
-    this.props.onImageLoad();
+    this.setState({ loading: false }, () => {
+      this.thumbnail = null;
+      this.props.onImageLoad();
+    });
   }
 
   render() {
