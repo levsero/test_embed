@@ -1,7 +1,23 @@
 import _ from 'lodash';
-import { toggleReceived } from 'src/redux/modules/base';
+import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
+import {
+  endChatApi,
+  sendChatMsgApi,
+  openApi,
+  closeApi,
+  toggleApi,
+  updateSettingsApi,
+  hideApi,
+  showApi,
+  displayApi,
+  isChattingApi
+} from 'src/service/api/apis';
 
 let zopimExistsOnPage = false;
+
+function setZopimExistsOnPage(val) {
+  zopimExistsOnPage = val;
+}
 
 function setupZopimQueue(win, queue) {
   let $zopim = () => {};
@@ -31,7 +47,50 @@ function setUpZopimApiMethods(win, store) {
     win.$zopim = {
       livechat: {
         window: {
-          toggle: () => { store.dispatch(toggleReceived()); }
+          toggle: () => toggleApi(store),
+          hide: () => hideApi(store),
+          show: () => openApi(store),
+          getDisplay: () => displayApi(store)
+        },
+        button: {
+          hide: () => hideApi(store),
+          show: () => {
+            showApi(store);
+            closeApi(store);
+          }
+        },
+        hideAll: () => hideApi(store),
+        set: (newSettings) => updateSettingsApi(store, newSettings),
+        isChatting: () => isChattingApi(store),
+        say: (msg) => sendChatMsgApi(store, msg),
+        endChat: () => endChatApi(store),
+        removeTags: (...tagsToRemove) => {
+          const oldTags = getSettingsChatTags(store.getState());
+          const newTags = oldTags.filter((oldTag) => {
+            return !_.includes(tagsToRemove, oldTag);
+          });
+
+          const newSettings = {
+            webWidget: {
+              chat: {
+                tags: newTags
+              }
+            }
+          };
+
+          updateSettingsApi(store, newSettings);
+        },
+        addTags: (...tagsToAdd) => {
+          const oldTags = getSettingsChatTags(store.getState());
+          const newSettings = {
+            webWidget: {
+              chat: {
+                tags: [...oldTags, ...tagsToAdd]
+              }
+            }
+          };
+
+          updateSettingsApi(store, newSettings);
         }
       }
     };
@@ -54,5 +113,6 @@ function handleZopimQueue(queue) {
 export const zopimApi = {
   setupZopimQueue,
   handleZopimQueue,
-  setUpZopimApiMethods
+  setUpZopimApiMethods,
+  setZopimExistsOnPage
 };

@@ -4,23 +4,11 @@ import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
 import {
-  handlePrefillReceived,
-  logout,
   handleOnApiCalled,
-  apiClearForm,
   activateRecieved,
-  showRecieved,
-  hideRecieved,
-  legacyShowReceived,
-  openReceived,
-  closeReceived,
-  toggleReceived } from 'src/redux/modules/base';
-import { displayArticle, setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
-import { updateSettings } from 'src/redux/modules/settings';
-import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
-import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
+  legacyShowReceived } from 'src/redux/modules/base';
+import { displayArticle } from 'src/redux/modules/helpCenter';
 import {
-  getIsChatting,
   getDepartmentsList,
   getDepartment,
   getNotificationCount,
@@ -46,61 +34,32 @@ import {
   NEW_AGENT_MESSAGE_RECEIVED,
   CHAT_STARTED,
   SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types';
+import {
+  endChatApi,
+  sendChatMsgApi,
+  identifyApi,
+  openApi,
+  closeApi,
+  toggleApi,
+  setLocaleApi,
+  updateSettingsApi,
+  logoutApi,
+  setHelpCenterSuggestionsApi,
+  prefill,
+  hideApi,
+  showApi,
+  updatePathApi,
+  clearFormState,
+  displayApi,
+  isChattingApi
+} from 'src/service/api/apis';
 
 const newAPIPostRenderQueue = [];
 
 const addToPostRenderQueue = (...args) => {
   newAPIPostRenderQueue.push(args);
 };
-const endChatApi = (reduxStore) => {
-  reduxStore.dispatch(endChat());
-};
-const sendChatMsgApi = (reduxStore, msg) => {
-  const message = (_.isString(message)) ? msg : '';
 
-  reduxStore.dispatch(sendMsg(msg));
-};
-const identifyApi = (reduxStore, user) => {
-  mediator.channel.broadcast('.onIdentify', user);
-};
-const openApi = (reduxStore) => {
-  reduxStore.dispatch(openReceived());
-};
-const closeApi = (reduxStore) => {
-  reduxStore.dispatch(closeReceived());
-};
-const toggleApi = (reduxStore) => {
-  reduxStore.dispatch(toggleReceived());
-};
-const setLocaleApi = (_, locale) => {
-  i18n.setLocale(locale, true);
-  mediator.channel.broadcast('.onSetLocale', locale);
-};
-const updateSettingsApi = (reduxStore, newSettings) => {
-  reduxStore.dispatch(updateSettings(newSettings));
-};
-const logoutApi = (reduxStore) => {
-  reduxStore.dispatch(logout());
-  mediator.channel.broadcast('.logout');
-  reduxStore.dispatch(chatLogout());
-};
-const setHelpCenterSuggestionsApi = (reduxStore, options) => {
-  const onDone = () => mediator.channel.broadcast('.setHelpCenterSuggestions');
-
-  reduxStore.dispatch(setContextualSuggestionsManually(options, onDone));
-};
-const prefill = (reduxStore, payload) => {
-  reduxStore.dispatch(handlePrefillReceived(payload));
-};
-const hideApi = (reduxStore) => {
-  reduxStore.dispatch(hideRecieved());
-};
-const showApi = (reduxStore) => {
-  reduxStore.dispatch(showRecieved());
-};
-const updatePathApi = (reduxStore, page = {}) => {
-  reduxStore.dispatch(sendVisitorPath(page));
-};
 const getWidgetChatApiObj = () => {
   return {
     end: endChatApi,
@@ -155,11 +114,11 @@ const onApiObj = () => {
 const getApiObj = () => {
   return {
     chat: {
-      [API_GET_IS_CHATTING_NAME]: (reduxStore, ...args) => getIsChatting(reduxStore.getState(), ...args),
+      [API_GET_IS_CHATTING_NAME]: isChattingApi,
       [API_GET_DEPARTMENTS_ALL_NAME]: (reduxStore, ...args) => getDepartmentsList(reduxStore.getState(), ...args),
       [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: (reduxStore, ...args) => getDepartment(reduxStore.getState(), ...args),
     },
-    [API_GET_DISPLAY_NAME]: (reduxStore, ...args) => getWidgetDisplayInfo(reduxStore.getState(), ...args)
+    [API_GET_DISPLAY_NAME]: displayApi
   };
 };
 const getApiPostRenderQueue = () => {
@@ -219,10 +178,6 @@ const newApiStructurePreRender = {
     }
   }
 };
-
-function clearFormState(reduxStore) {
-  reduxStore.dispatch(apiClearForm());
-}
 
 const handleNewApi = (apiStructure, reduxStore, args) => {
   const getApiFunction = (methodAccessors) => {

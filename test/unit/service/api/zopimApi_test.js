@@ -1,7 +1,7 @@
 describe('zopimApi', () => {
   let zopimApi;
   const apiPath = buildSrcPath('service/api/zopimApi');
-  const toggleReceivedSpy = jasmine.createSpy('toggleRecieved');
+  const toggleSpy = jasmine.createSpy('toggle');
   const dispatch = () => (action) => action();
   const mockStore = { dispatch };
 
@@ -9,8 +9,11 @@ describe('zopimApi', () => {
     mockery.enable();
 
     initMockRegistry({
-      'src/redux/modules/base': {
-        toggleReceived: toggleReceivedSpy
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsChatTags: noop
+      },
+      'src/service/api/apis': {
+        toggleApi: toggleSpy
       }
     });
 
@@ -109,8 +112,8 @@ describe('zopimApi', () => {
         mockWin.$zopim.livechat.window.toggle();
       });
 
-      it('calls toggleReceived', () => {
-        expect(toggleReceivedSpy)
+      it('calls toggle api', () => {
+        expect(toggleSpy)
           .toHaveBeenCalled();
       });
     });
