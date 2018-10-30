@@ -3,18 +3,18 @@ describe('webWidgetApi', () => {
   const apiPath = buildSrcPath('service/api/webWidgetApi');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const setLocaleSpy = jasmine.createSpy('setLocale');
-  const handlePrefillReceivedSpy = jasmine.createSpy('handlePrefillReceived');
-  const showRecievedSpy = jasmine.createSpy('showRecieved');
-  const openReceivedSpy = jasmine.createSpy('openRecieved');
-  const closeReceivedSpy = jasmine.createSpy('closeRecieved');
-  const toggleReceivedSpy = jasmine.createSpy('toggleRecieved');
-  const hideRecievedSpy = jasmine.createSpy('hideRecieved');
+  const showSpy = jasmine.createSpy('show');
+  const openSpy = jasmine.createSpy('open');
+  const closeSpy = jasmine.createSpy('close');
+  const toggleSpy = jasmine.createSpy('toggle');
+  const hideSpy = jasmine.createSpy('hide');
   const updateSettingsSpy = jasmine.createSpy('updateSettings');
-  const sendVisitorPathSpy = jasmine.createSpy('sendVisitorPath');
-  const apiClearFormSpy = jasmine.createSpy('apiClearForm');
+  const updatePathSpy = jasmine.createSpy('updatePath');
   const logoutSpy = jasmine.createSpy('logout');
-  const chatLogoutSpy = jasmine.createSpy('chatLogout');
-  const setContextualSuggestionsManuallySpy = jasmine.createSpy('setContextualSuggestionsManually');
+  const identifySpy = jasmine.createSpy('identify');
+  const prefillSpy = jasmine.createSpy('prefill');
+  const clearFormStateSpy = jasmine.createSpy('clearFormState');
+  const setHelpCenterSuggestionsSpy = jasmine.createSpy('setHelpCenterSuggestions');
   const handleOnApiCalledSpy = jasmine.createSpy('handleOnApiCalled');
   const endChatSpy = jasmine.createSpy('endChat');
   const sendMsgSpy = jasmine.createSpy('sendMsg');
@@ -62,33 +62,14 @@ describe('webWidgetApi', () => {
         }
       },
       'src/redux/modules/base': {
-        handlePrefillReceived: handlePrefillReceivedSpy,
-        logout: logoutSpy,
         handleOnApiCalled: handleOnApiCalledSpy,
-        apiClearForm: apiClearFormSpy,
         activateRecieved: noop,
-        hideRecieved: hideRecievedSpy,
-        showRecieved: showRecievedSpy,
-        legacyShowRecieved: noop,
-        openReceived: openReceivedSpy,
-        closeReceived: closeReceivedSpy,
-        toggleReceived: toggleReceivedSpy
+        legacyShowRecieved: noop
       },
       'src/redux/modules/helpCenter': {
-        displayArticle: noop,
-        setContextualSuggestionsManually: setContextualSuggestionsManuallySpy
-      },
-      'src/redux/modules/settings': {
-        updateSettings: updateSettingsSpy
-      },
-      'src/redux/modules/chat': {
-        chatLogout: chatLogoutSpy,
-        sendVisitorPath: sendVisitorPathSpy,
-        endChat: endChatSpy,
-        sendMsg: sendMsgSpy
+        displayArticle: noop
       },
       'src/redux/modules/chat/chat-selectors': {
-        getIsChatting: () => isChatting
       },
       'src/redux/modules/selectors': {
         getWidgetDisplayInfo: noop
@@ -112,6 +93,24 @@ describe('webWidgetApi', () => {
         NEW_UNREAD_MESSAGE_RECEIVED,
         CHAT_STARTED,
         SDK_ACCOUNT_STATUS
+      },
+      'src/service/api/apis': {
+        endChatApi: endChatSpy,
+        sendChatMsgApi: sendMsgSpy,
+        identifyApi: identifySpy,
+        openApi: openSpy,
+        closeApi: closeSpy,
+        toggleApi: toggleSpy,
+        setLocaleApi: setLocaleSpy,
+        updateSettingsApi: updateSettingsSpy,
+        logoutApi: logoutSpy,
+        setHelpCenterSuggestionsApi: setHelpCenterSuggestionsSpy,
+        prefill: prefillSpy,
+        hideApi: hideSpy,
+        showApi: showSpy,
+        updatePathApi: updatePathSpy,
+        clearFormState: clearFormStateSpy,
+        isChattingApi: () => isChatting
       }
     });
 
@@ -149,7 +148,7 @@ describe('webWidgetApi', () => {
       });
 
       it('handles the api call', () => {
-        expect(hideRecievedSpy)
+        expect(hideSpy)
           .toHaveBeenCalled();
       });
     });
@@ -182,7 +181,7 @@ describe('webWidgetApi', () => {
         });
 
         it('handles the api call', () => {
-          expect(hideRecievedSpy)
+          expect(hideSpy)
             .toHaveBeenCalled();
         });
       });
@@ -207,8 +206,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'hide'];
       });
 
-      it('calls hideRecieved', () => {
-        expect(hideRecievedSpy)
+      it('calls hideApi', () => {
+        expect(hideSpy)
           .toHaveBeenCalled();
       });
     });
@@ -218,8 +217,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'show'];
       });
 
-      it('calls showRecieved', () => {
-        expect(showRecievedSpy)
+      it('calls showApi', () => {
+        expect(showSpy)
           .toHaveBeenCalled();
       });
     });
@@ -229,8 +228,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'open'];
       });
 
-      it('calls openReceived', () => {
-        expect(openReceivedSpy)
+      it('calls openApi', () => {
+        expect(openSpy)
           .toHaveBeenCalled();
       });
     });
@@ -240,8 +239,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'close'];
       });
 
-      it('calls closeReceived', () => {
-        expect(closeReceivedSpy)
+      it('calls closeApi', () => {
+        expect(closeSpy)
           .toHaveBeenCalled();
       });
     });
@@ -251,8 +250,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'toggle'];
       });
 
-      it('calls toggleReceived', () => {
-        expect(toggleReceivedSpy)
+      it('calls toggleApi', () => {
+        expect(toggleSpy)
           .toHaveBeenCalled();
       });
     });
@@ -273,13 +272,13 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'clear'];
       });
 
-      it('calls apiClearForm', () => {
-        expect(apiClearFormSpy).toHaveBeenCalled();
+      it('calls clearFormState', () => {
+        expect(clearFormStateSpy).toHaveBeenCalled();
       });
     });
 
     describe('methods that get queued', () => {
-      describe('when that call is idenfity', () => {
+      describe('when that call is identity', () => {
         const user = { email: 'a2b.c' };
 
         beforeAll(() => {
@@ -287,8 +286,8 @@ describe('webWidgetApi', () => {
         });
 
         it('calls mediator onIdentify with the user', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('.onIdentify', user);
+          expect(identifySpy)
+            .toHaveBeenCalledWith(mockStore, user);
         });
       });
 
@@ -302,9 +301,9 @@ describe('webWidgetApi', () => {
           call = ['webWidget', 'prefill', payload];
         });
 
-        it('calls handlePrefillReceived with the user', () => {
-          expect(handlePrefillReceivedSpy)
-            .toHaveBeenCalledWith(payload);
+        it('calls prefill api with the user', () => {
+          expect(prefillSpy)
+            .toHaveBeenCalledWith(mockStore, payload);
         });
       });
 
@@ -317,7 +316,7 @@ describe('webWidgetApi', () => {
 
         it('calls updateSettings with the settings', () => {
           expect(updateSettingsSpy)
-            .toHaveBeenCalledWith(settings);
+            .toHaveBeenCalledWith(mockStore, settings);
         });
       });
 
@@ -330,16 +329,6 @@ describe('webWidgetApi', () => {
           expect(logoutSpy)
             .toHaveBeenCalled();
         });
-
-        it('calls chat logout', () => {
-          expect(chatLogoutSpy)
-            .toHaveBeenCalled();
-        });
-
-        it('calls mediator logout', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('.logout');
-        });
       });
 
       describe('when that call is setHelpCenterSuggestions', () => {
@@ -350,8 +339,8 @@ describe('webWidgetApi', () => {
         });
 
         it('calls setHelpCenterSuggestions with the options', () => {
-          expect(setContextualSuggestionsManuallySpy)
-            .toHaveBeenCalledWith(options, jasmine.any(Function));
+          expect(setHelpCenterSuggestionsSpy)
+            .toHaveBeenCalledWith(mockStore, options);
         });
       });
 
@@ -362,9 +351,9 @@ describe('webWidgetApi', () => {
           call = ['webWidget', 'updatePath', options];
         });
 
-        it('calls sendVisitorPath with the options', () => {
-          expect(sendVisitorPathSpy)
-            .toHaveBeenCalledWith(options);
+        it('calls updatePathApi with the options', () => {
+          expect(updatePathSpy)
+            .toHaveBeenCalledWith(mockStore, options);
         });
       });
     });
@@ -389,8 +378,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'hide'];
       });
 
-      it('calls hideRecieved', () => {
-        expect(hideRecievedSpy)
+      it('calls hideApi', () => {
+        expect(hideSpy)
           .toHaveBeenCalled();
       });
     });
@@ -400,8 +389,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'show'];
       });
 
-      it('calls showRecieved', () => {
-        expect(showRecievedSpy)
+      it('calls showApi', () => {
+        expect(showSpy)
           .toHaveBeenCalled();
       });
     });
@@ -411,8 +400,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'open'];
       });
 
-      it('calls openReceived', () => {
-        expect(openReceivedSpy)
+      it('calls openApi', () => {
+        expect(openSpy)
           .toHaveBeenCalled();
       });
     });
@@ -422,8 +411,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'close'];
       });
 
-      it('calls closeReceived', () => {
-        expect(closeReceivedSpy)
+      it('calls close', () => {
+        expect(closeSpy)
           .toHaveBeenCalled();
       });
     });
@@ -433,8 +422,8 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'toggle'];
       });
 
-      it('calls toggleReceived', () => {
-        expect(toggleReceivedSpy)
+      it('calls toggleApi', () => {
+        expect(toggleSpy)
           .toHaveBeenCalled();
       });
     });
@@ -444,18 +433,13 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'setLocale', 'fr'];
       });
 
-      it('calls mediator onSetLocale with the locale', () => {
-        expect(broadcastSpy)
-          .toHaveBeenCalledWith('.onSetLocale', 'fr');
-      });
-
       it('calls i18n setLocale with the locale', () => {
         expect(setLocaleSpy)
-          .toHaveBeenCalledWith('fr', true);
+          .toHaveBeenCalledWith(mockStore, 'fr');
       });
     });
 
-    describe('when that call is idenfity', () => {
+    describe('when that call is identify', () => {
       const user = { email: 'a2b.c' };
 
       beforeAll(() => {
@@ -463,8 +447,8 @@ describe('webWidgetApi', () => {
       });
 
       it('calls mediator onIdentify with the user', () => {
-        expect(broadcastSpy)
-          .toHaveBeenCalledWith('.onIdentify', user);
+        expect(identifySpy)
+          .toHaveBeenCalledWith(mockStore, user);
       });
     });
 
@@ -478,9 +462,9 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'prefill', payload];
       });
 
-      it('calls handlePrefillReceived with the user', () => {
-        expect(handlePrefillReceivedSpy)
-          .toHaveBeenCalledWith(payload);
+      it('calls prefill api with the user', () => {
+        expect(prefillSpy)
+          .toHaveBeenCalledWith(mockStore, payload);
       });
     });
 
@@ -493,7 +477,7 @@ describe('webWidgetApi', () => {
 
       it('calls updateSettings with the settings', () => {
         expect(updateSettingsSpy)
-          .toHaveBeenCalledWith(settings);
+          .toHaveBeenCalledWith(mockStore, settings);
       });
     });
 
@@ -506,16 +490,6 @@ describe('webWidgetApi', () => {
         expect(logoutSpy)
           .toHaveBeenCalled();
       });
-
-      it('calls chat logout', () => {
-        expect(chatLogoutSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('calls mediator logout', () => {
-        expect(broadcastSpy)
-          .toHaveBeenCalledWith('.logout');
-      });
     });
 
     describe('when that call is setHelpCenterSuggestions', () => {
@@ -526,8 +500,8 @@ describe('webWidgetApi', () => {
       });
 
       it('calls setHelpCenterSuggestions with the options', () => {
-        expect(setContextualSuggestionsManuallySpy)
-          .toHaveBeenCalledWith(options, jasmine.any(Function));
+        expect(setHelpCenterSuggestionsSpy)
+          .toHaveBeenCalledWith(mockStore, options);
       });
     });
 
@@ -538,9 +512,9 @@ describe('webWidgetApi', () => {
         call = ['webWidget', 'updatePath', options];
       });
 
-      it('calls sendVisitorPath with the options', () => {
-        expect(sendVisitorPathSpy)
-          .toHaveBeenCalledWith(options);
+      it('calls updatePath with the options', () => {
+        expect(updatePathSpy)
+          .toHaveBeenCalledWith(mockStore, options);
       });
     });
 
@@ -637,17 +611,12 @@ describe('webWidgetApi', () => {
 
     beforeEach(() => {
       api.setupWidgetApi(win, mockStore);
-      handlePrefillReceivedSpy.calls.reset();
+      prefillSpy.calls.reset();
     });
 
     describe('zE.identify', () => {
       beforeEach(() => {
         win.zE.identify(user);
-      });
-
-      it('calls the function passed in', () => {
-        expect(broadcastSpy)
-          .toHaveBeenCalledWith('.onIdentify', user);
       });
 
       it('calls handlePrefillReceived with the formatted user object', () => {
@@ -656,12 +625,12 @@ describe('webWidgetApi', () => {
           email: { value: 'a@b.c' }
         };
 
-        expect(handlePrefillReceivedSpy)
+        expect(prefillSpy)
           .toHaveBeenCalled();
 
         // Can't do toHaveBeenCalledWith because comparing to a object that
         // I don't have the reference to.
-        const params = handlePrefillReceivedSpy.calls.mostRecent().args[0];
+        const params = prefillSpy.calls.mostRecent().args[1];
 
         expect(params)
           .toEqual(expected);
