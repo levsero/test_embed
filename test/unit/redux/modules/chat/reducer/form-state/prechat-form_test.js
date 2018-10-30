@@ -44,6 +44,20 @@ describe('chat reducer formState preChatForm', () => {
       });
     });
 
+    describe('when an action of type VISITOR_DEFAULT_DEPARTMENT_SELECTED is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: chatActionTypes.VISITOR_DEFAULT_DEPARTMENT_SELECTED,
+          payload: mockFormState
+        });
+      });
+
+      it('sets the action payload as the state', () => {
+        expect(state)
+          .toEqual(mockFormState);
+      });
+    });
+
     describe('when an action of type PREFILL_RECEIVED is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {

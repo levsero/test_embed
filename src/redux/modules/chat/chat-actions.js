@@ -396,10 +396,17 @@ export function chatOfflineFormChanged(formState) {
 }
 
 export function setDepartment(departmentId, successCallback, errCallback) {
-  return (_, getState) => {
+  return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
 
     zChat.setVisitorDefaultDepartment(departmentId, (err) => {
+      dispatch({
+        type: actions.VISITOR_DEFAULT_DEPARTMENT_SELECTED,
+        payload: {
+          department: departmentId
+        }
+      });
+
       if (!err) {
         successCallback();
       } else {

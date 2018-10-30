@@ -589,30 +589,15 @@ describe('chat selectors', () => {
           };
         });
 
-        describe('and the department is online', () => {
-          it('sets the expected department to enabled', () => {
-            result.departments.forEach((department) => {
-              if (department.name === 'Design') {
-                expect(department.default)
-                  .toEqual(true);
-              } else {
-                expect(department.default)
-                  .toBeFalsy();
-              }
-            });
-          });
-        });
-
-        describe('and the department is offline', () => {
-          beforeAll(() => {
-            state.settings.chat.department = 'Engineering';
-          });
-
-          it('does not set a selected department', () => {
-            result.departments.forEach((department) => {
+        it('sets the expected department to enabled', () => {
+          result.departments.forEach((department) => {
+            if (department.name === 'Design') {
+              expect(department.default)
+                .toEqual(true);
+            } else {
               expect(department.default)
                 .toBeFalsy();
-            });
+            }
           });
         });
       });

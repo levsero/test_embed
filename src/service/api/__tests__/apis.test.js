@@ -22,7 +22,9 @@ import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
   getIsChatting,
   getChatStatus,
-  getNotificationCount
+  getNotificationCount,
+  getDepartment,
+  getDepartmentsList
 } from 'src/redux/modules/chat/chat-selectors';
 
 const mockActionValue = Date.now();
@@ -236,6 +238,24 @@ test('isChattingApi calls getIsChatting', () => {
   apis.isChattingApi(store, 123);
 
   expect(getIsChatting)
+    .toHaveBeenCalledWith(store.getState(), 123);
+});
+
+test('getDepartmentApi calls getDepartment', () => {
+  const store = { getState: jest.fn(() => {}) };
+
+  apis.getDepartmentApi(store, 123);
+
+  expect(getDepartment)
+    .toHaveBeenCalledWith(store.getState(), 123);
+});
+
+test('getAllDepartmentsApi calls getDepartmentsList', () => {
+  const store = { getState: jest.fn(() => {}) };
+
+  apis.getAllDepartmentsApi(store, 123);
+
+  expect(getDepartmentsList)
     .toHaveBeenCalledWith(store.getState(), 123);
 });
 

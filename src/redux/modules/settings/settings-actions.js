@@ -63,8 +63,10 @@ export function updateSettings(settings) {
     const state = getState();
 
     if (getConnection(state) === CONNECTION_STATUSES.CONNECTED) {
-      const visitorDepartmentName = _.get(settings, 'webWidget.chat.visitor.departments.department', '');
-      const visitorDepartment = _.find(getDepartmentsList(state), (dep) => dep.name === visitorDepartmentName);
+      const visitorDepartmentName = _.get(settings, 'webWidget.chat.departments.select', '');
+      const visitorDepartment = _.find(
+        getDepartmentsList(state),
+        (dep) => dep.name === visitorDepartmentName || dep.id === visitorDepartmentName);
       const visitorDepartmentId = _.get(visitorDepartment, 'id');
 
       handleDepartmentChange(visitorDepartmentId, dispatch);

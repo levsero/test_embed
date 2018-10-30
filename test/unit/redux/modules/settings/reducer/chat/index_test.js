@@ -34,13 +34,13 @@ describe('settings chat reducer', () => {
         .toBeDefined();
     });
 
-    it('has the department sub state', () => {
-      expect(state.department)
+    it('has the departments enabled sub state', () => {
+      expect(state.departments.enabled)
         .toBeDefined();
     });
 
-    it('has the departments enabled sub state', () => {
-      expect(state.departments.enabled)
+    it('has the departments select sub state', () => {
+      expect(state.departments.select)
         .toBeDefined();
     });
 

@@ -1,4 +1,4 @@
-describe('chat reducer department', () => {
+describe('chat reducer departments select', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -6,7 +6,7 @@ describe('chat reducer department', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/chat-department');
+    const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/chat-departments-select');
     const actionTypesPath = buildSrcPath('redux/modules/settings/settings-action-types');
 
     reducer = requireUncached(reducerPath).default;
@@ -58,10 +58,8 @@ describe('chat reducer department', () => {
         someSettings = {
           webWidget: {
             chat: {
-              visitor: {
-                departments: {
-                  department: 'Dep'
-                }
+              departments: {
+                select: 'Dep'
               }
             }
           }

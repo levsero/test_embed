@@ -240,15 +240,13 @@ describe('settings', () => {
             concierge: {
               avatarPath: 'https://i.imgur.com/3mZBYfn.jpg'
             },
-            visitor: {
-              departments: {
-                department: 'yolo'
-              }
-            },
             mobile: {
               notifications: {
                 disable: true
               }
+            },
+            departments: {
+              select: 'yolo'
             }
           },
           talk: {
@@ -275,7 +273,7 @@ describe('settings', () => {
     });
 
     it('returns chat department settings', () => {
-      expect(settings.get('chat.visitor.departments.department'))
+      expect(settings.get('chat.departments.select'))
         .toBe('yolo');
     });
 

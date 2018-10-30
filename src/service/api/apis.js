@@ -26,6 +26,8 @@ import {
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
+  getDepartment,
+  getDepartmentsList,
   getIsChatting,
   getNotificationCount,
   getChatStatus } from 'src/redux/modules/chat/chat-selectors';
@@ -108,6 +110,10 @@ export const clearFormState = (reduxStore) => {
 export const displayApi = (reduxStore, ...args) => getWidgetDisplayInfo(reduxStore.getState(), ...args);
 
 export const isChattingApi = (reduxStore, ...args) => getIsChatting(reduxStore.getState(), ...args);
+
+export const getDepartmentApi =  (reduxStore, ...args) => getDepartment(reduxStore.getState(), ...args);
+
+export const getAllDepartmentsApi = (reduxStore, ...args) => getDepartmentsList(reduxStore.getState(), ...args);
 
 export const onApiObj = () => {
   const chatEventMap = {
