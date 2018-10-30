@@ -232,5 +232,40 @@ describe('setupZopimQueue', () => {
           });
       });
     });
+
+    test('setName method', () => {
+      mockWin.$zopim.livechat.setName('wayne');
+
+      expect(apis.prefill)
+        .toHaveBeenCalledWith(mockStore, { name: { value: 'wayne' }});
+    });
+
+    test('setEmail method', () => {
+      mockWin.$zopim.livechat.setEmail('wayne@see.com');
+
+      expect(apis.prefill)
+        .toHaveBeenCalledWith(mockStore, { email: { value: 'wayne@see.com' }});
+    });
+
+    test('setPhone method', () => {
+      mockWin.$zopim.livechat.setPhone('011111');
+
+      expect(apis.prefill)
+        .toHaveBeenCalledWith(mockStore, { phone: { value: '011111' }});
+    });
+
+    test('clearAll method', () => {
+      mockWin.$zopim.livechat.clearAll();
+
+      expect(apis.logoutApi)
+        .toHaveBeenCalled();
+    });
+
+    test('sendVisitorPath method', () => {
+      mockWin.$zopim.livechat.sendVisitorPath(123);
+
+      expect(apis.updatePathApi)
+        .toHaveBeenCalledWith(mockStore, 123);
+    });
   });
 });
