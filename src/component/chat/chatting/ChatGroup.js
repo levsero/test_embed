@@ -12,13 +12,13 @@ import { MessageError } from 'component/chat/chatting/MessageError';
 import { ImageMessage } from 'component/chat/chatting/ImageMessage';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 import { ATTACHMENT_ERROR_TYPES,
-  CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_MESSAGE_TYPE } from 'constants/chat';
+  CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
 import { Icon } from 'component/Icon';
 import StructuredMessage from 'component/chat/chatting/StructuredMessage';
 
-const structuredMessageTypes = _.values(CHAT_STRUCTURED_MESSAGE_TYPE);
+const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE);
 
 export class ChatGroup extends Component {
   static propTypes = {

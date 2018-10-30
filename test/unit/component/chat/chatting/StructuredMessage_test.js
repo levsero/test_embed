@@ -11,7 +11,7 @@ describe('StructuredMessage component', () => {
   const openSpy = jasmine.createSpy('open');
 
   const chatConstants = requireUncached(chatConstantsPath);
-  let CHAT_STRUCTURED_MESSAGE_TYPE = chatConstants.CHAT_STRUCTURED_MESSAGE_TYPE;
+  let CHAT_STRUCTURED_CONTENT_TYPE = chatConstants.CHAT_STRUCTURED_CONTENT_TYPE;
   let CHAT_STRUCTURED_MESSAGE_ACTION_TYPE = chatConstants.CHAT_STRUCTURED_MESSAGE_ACTION_TYPE;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('StructuredMessage component', () => {
       './structuredMessage/ButtonCard': { ButtonCard },
       './structuredMessage/PanelCard': { PanelCard },
       'constants/chat': {
-        CHAT_STRUCTURED_MESSAGE_TYPE,
+        CHAT_STRUCTURED_CONTENT_TYPE,
         CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
       },
       'src/redux/modules/chat': {
@@ -105,7 +105,7 @@ describe('StructuredMessage component', () => {
     describe('schema type is ButtonTemplate', () => {
       beforeAll(() => {
         schema = {
-          type: CHAT_STRUCTURED_MESSAGE_TYPE.BUTTON_TEMPLATE,
+          type: CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE.BUTTON_TEMPLATE,
           buttons: [],
           msg: 'Hello!'
         };
@@ -135,7 +135,7 @@ describe('StructuredMessage component', () => {
     describe('schema type is PanelTemplate', () => {
       beforeAll(() => {
         schema = {
-          type: CHAT_STRUCTURED_MESSAGE_TYPE.PANEL_TEMPLATE,
+          type: CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE.PANEL_TEMPLATE,
           buttons: [],
           panel: {
             heading: 'header 1',

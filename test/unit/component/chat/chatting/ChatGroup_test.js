@@ -21,7 +21,7 @@ describe('ChatGroup component', () => {
 
   let chatConstants = requireUncached(chatConstantsPath);
   let CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
-  let CHAT_STRUCTURED_MESSAGE_TYPE = chatConstants.CHAT_STRUCTURED_MESSAGE_TYPE;
+  let CHAT_STRUCTURED_CONTENT_TYPE = chatConstants.CHAT_STRUCTURED_CONTENT_TYPE;
 
   beforeEach(() => {
     mockery.enable();
@@ -48,7 +48,7 @@ describe('ChatGroup component', () => {
       'constants/chat': {
         ATTACHMENT_ERROR_TYPES,
         CHAT_MESSAGE_TYPES,
-        CHAT_STRUCTURED_MESSAGE_TYPE
+        CHAT_STRUCTURED_CONTENT_TYPE
       },
       'constants/shared': {
         ICONS,
@@ -553,7 +553,7 @@ describe('ChatGroup component', () => {
       });
     });
 
-    const structuredMessageTypes = _.values(CHAT_STRUCTURED_MESSAGE_TYPE);
+    const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE);
 
     structuredMessageTypes.forEach(structuredMessageType => {
       describe(`when messages contain a chat.msg with ${structuredMessageType} structured message`, () => {

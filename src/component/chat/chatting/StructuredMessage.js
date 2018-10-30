@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { ButtonCard } from './structuredMessage/ButtonCard';
 import { PanelCard } from './structuredMessage/PanelCard';
-import { CHAT_STRUCTURED_MESSAGE_TYPE, CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat';
+import { CHAT_STRUCTURED_CONTENT_TYPE, CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat';
 import { sendMsg } from 'src/redux/modules/chat';
 
 import { win } from 'utility/globals';
@@ -38,6 +38,7 @@ class StructuredMessage extends Component {
 
   render() {
     const {schema: {type}} = this.props;
+    const CHAT_STRUCTURED_MESSAGE_TYPE = CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE;
 
     switch (type) {
       case CHAT_STRUCTURED_MESSAGE_TYPE.BUTTON_TEMPLATE:
