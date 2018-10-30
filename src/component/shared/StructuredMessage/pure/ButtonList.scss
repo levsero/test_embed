@@ -11,3 +11,9 @@
   padding: 0;
   max-width: none;
 }
+
+.overwriteState {
+  &:hover, &:active, &:focus {
+    background-color: transparent !important;
+  }
+}

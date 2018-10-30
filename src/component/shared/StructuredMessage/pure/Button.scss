@@ -14,3 +14,10 @@
     text-decoration: underline;
   }
 }
+
+.overwriteState {
+  &:hover, &:active, &:focus {
+    background-color: transparent !important;
+    text-decoration: none;
+  }
+}
