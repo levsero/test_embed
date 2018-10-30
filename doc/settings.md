@@ -554,8 +554,7 @@ window.zESettings = {
     chat: {
       departments: {
         enabled: ['finance', 'hr', 'sales'],
-        selected: 'hr',
-        label: { '*': 'Select a Department' }
+        selected: 'hr'
       }
     }
   }
