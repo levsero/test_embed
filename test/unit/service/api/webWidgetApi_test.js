@@ -335,7 +335,7 @@ describe('webWidgetApi', () => {
         const options = { url: true };
 
         beforeAll(() => {
-          call = ['webWidget', 'setSuggestions', options];
+          call = ['webWidget', 'helpCenter:setSuggestions', options];
         });
 
         it('calls setHelpCenterSuggestions with the options', () => {

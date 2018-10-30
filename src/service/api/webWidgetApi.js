@@ -143,13 +143,15 @@ const newApiStructurePostRender = {
     identify: identifyApi,
     updateSettings: updateSettingsApi,
     logout: logoutApi,
-    setSuggestions: setHelpCenterSuggestionsApi,
     updatePath: updatePathApi,
     clear: clearFormState,
     prefill: prefill,
     chat: getWidgetChatApiObj(),
     on: onApiObj(),
-    get: getApiObj()
+    get: getApiObj(),
+    helpCenter: {
+      setSuggestions: setHelpCenterSuggestionsApi
+    }
   }
 };
 const newApiStructurePreRender = {
@@ -163,15 +165,17 @@ const newApiStructurePreRender = {
     identify: (_, ...args) => addToPostRenderQueue(['webWidget', 'identify', ...args]),
     updateSettings: (_, ...args) => addToPostRenderQueue(['webWidget', 'updateSettings', ...args]),
     logout: (_, ...args) => addToPostRenderQueue(['webWidget', 'logout', ...args]),
-    setSuggestions: (_, ...args) => {
-      addToPostRenderQueue(['webWidget', 'setSuggestions', ...args]);
-    },
     updatePath: (_, ...args) => addToPostRenderQueue(['webWidget', 'updatePath', ...args]),
     clear: (reduxStore) => clearFormState(reduxStore),
     prefill: prefill,
     chat: getWidgetChatApiObj(),
     on: onApiObj(),
     get: getApiPostRenderQueue(),
+    helpCenter: {
+      setSuggestions: (_, ...args) => (
+        addToPostRenderQueue(['webWidget', 'helpCenter:setSuggestions', ...args])
+      )
+    }
   }
 };
 
