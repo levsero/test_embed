@@ -480,7 +480,6 @@ The `departments` setting has the following properties:
 | -------- | ------ | -----------
 | enabled   | array  | Displays the specified departments in the pre-chat form
 | select   | string | Sets the visitor’s default department for the current session
-| label    | object | Sets the department label in the offline form and prechat form
 
 The properties can be used singly or in any combination.
 
@@ -537,32 +536,6 @@ window.zESettings = {
     chat: {
       departments: {
         select: 'hr'
-      }
-    }
-  }
-};
-</script>
-```
-
-#### departments.label
-
-Sets the department label in the offline form and prechat form.
-
-You can use different strings for different locales or use one string for all locales by using an asterisk (*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
-
-<a name="example-departments-label"></a>
-#### Example
-
-```html
-<script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      departments: {
-        label: {
-          'en-US': 'Select a Department',
-          'es': 'Seleccione un departamento'
-        }
       }
     }
   }
