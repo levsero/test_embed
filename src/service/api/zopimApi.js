@@ -14,7 +14,9 @@ import {
   prefill,
   updatePathApi,
   logoutApi,
-  onApiObj
+  onApiObj,
+  getDepartmentApi,
+  getAllDepartmentsApi
 } from 'src/service/api/apis';
 import {
   API_ON_CHAT_CONNECTED_NAME,
@@ -118,7 +120,50 @@ function setUpZopimApiMethods(win, store) {
         setOnChatStart: (callback) => onApis.chat[API_ON_CHAT_START_NAME](store, callback),
         setOnChatEnd: (callback) => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
         setOnStatus: (callback) => onApis.chat[API_ON_CHAT_STATUS_NAME](store, callback),
-        setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback)
+        setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback),
+        departments: {
+          getDepartment: (id) => getDepartmentApi(store, id),
+          getAllDepartments: () => getAllDepartmentsApi(store),
+          filter: (...filteredDepartments) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  departments: {
+                    enabled: [...filteredDepartments]
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          },
+          setVisitorDepartment: (nameOrId) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  departments: {
+                    select: nameOrId
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          },
+          clearVisitorDepartment: () => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  departments: {
+                    select: ''
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          }
+        }
       }
     };
   }

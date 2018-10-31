@@ -308,7 +308,7 @@ export const getPrechatFormFields = createSelector(
       : departments;
     const selectedDepartment = selectedDepartmentSetting
       ? _.find(validDepartments, (dept) => {
-        return dept.name === selectedDepartmentSetting && dept.status === DEPARTMENT_STATUSES.ONLINE;
+        return dept.name === selectedDepartmentSetting || dept.id === selectedDepartmentSetting;
       })
       : null;
 

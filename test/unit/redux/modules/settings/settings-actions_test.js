@@ -88,10 +88,8 @@ describe('settings redux actions', () => {
         beforeAll(() => {
           someSettings = {
             chat: {
-              visitor: {
-                departments: {
-                  department: 'yo'
-                }
+              departments: {
+                select: 'yo'
               }
             }
           };

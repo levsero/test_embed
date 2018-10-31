@@ -1279,6 +1279,11 @@ describe('chat redux actions', () => {
             .not
             .toHaveBeenCalled();
         });
+
+        it('dispatches a VISITOR_DEFAULT_DEPARTMENT_SELECTED action', () => {
+          expect(mockStore.getActions().map((action) => action.type))
+            .toContain(actionTypes.VISITOR_DEFAULT_DEPARTMENT_SELECTED);
+        });
       });
 
       describe('when there are errors', () => {

@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 
 import enabled from './chat-departments-enabled';
+import select from './chat-departments-select';
+
 import suppress from './chat-suppress';
-import department from './chat-department';
 import concierge from './chat-concierge';
 import prechatForm from './chat-prechat-form';
 import offlineForm from './chat-offline-form';
@@ -12,12 +13,11 @@ import tags from './chat-tags';
 
 export default combineReducers({
   suppress,
-  department,
   concierge,
   prechatForm,
   offlineForm,
   title,
-  departments: combineReducers({ enabled }),
+  departments: combineReducers({ enabled, select }),
   mobileNotificationsDisabled,
   tags
 });

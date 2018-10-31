@@ -8,10 +8,6 @@ import {
   legacyShowReceived } from 'src/redux/modules/base';
 import { displayArticle } from 'src/redux/modules/helpCenter';
 import {
-  getDepartmentsList,
-  getDepartment,
-} from 'src/redux/modules/chat/chat-selectors';
-import {
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
   API_GET_DEPARTMENTS_DEPARTMENT_NAME,
@@ -35,7 +31,9 @@ import {
   clearFormState,
   displayApi,
   isChattingApi,
-  onApiObj
+  onApiObj,
+  getDepartmentApi,
+  getAllDepartmentsApi
 } from 'src/service/api/apis';
 
 const newAPIPostRenderQueue = [];
@@ -55,8 +53,8 @@ const getApiObj = () => {
   return {
     chat: {
       [API_GET_IS_CHATTING_NAME]: isChattingApi,
-      [API_GET_DEPARTMENTS_ALL_NAME]: (reduxStore, ...args) => getDepartmentsList(reduxStore.getState(), ...args),
-      [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: (reduxStore, ...args) => getDepartment(reduxStore.getState(), ...args),
+      [API_GET_DEPARTMENTS_ALL_NAME]: getAllDepartmentsApi,
+      [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: getDepartmentApi
     },
     [API_GET_DISPLAY_NAME]: displayApi
   };

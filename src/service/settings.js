@@ -18,7 +18,7 @@ const optionWhitelist = {
     'chat.concierge.avatarPath',
     'chat.departments.enabled',
     'chat.suppress',
-    'chat.visitor.departments.department',
+    'chat.departments.select',
     'chat.mobile.notifications.disable',
     'chat.prechatForm.departmentLabel',
     'chat.title',
@@ -85,14 +85,10 @@ const webWidgetStoreDefaults = {
       avatarPath: null
     },
     departments: {
-      enabled: []
+      enabled: [],
+      select: ''
     },
     suppress: false,
-    visitor: {
-      departments: {
-        department: ''
-      }
-    },
     mobile: {
       notifications: {
         disable: false

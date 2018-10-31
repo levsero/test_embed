@@ -21,9 +21,9 @@ describe('settings selectors', () => {
           tags: ['yolo', 'yolo2'],
           mobileNotificationsDisabled: true,
           suppress: true,
-          department: 'yolo',
           departments: {
             enabled: ['bin tapi'],
+            select: 'yolo'
           },
           concierge: {
             avatarPath: 'https://www.example.com/myPic.jpg',

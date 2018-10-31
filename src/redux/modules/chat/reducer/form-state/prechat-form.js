@@ -1,4 +1,4 @@
-import { PRE_CHAT_FORM_ON_CHANGE } from '../../chat-action-types';
+import { PRE_CHAT_FORM_ON_CHANGE, VISITOR_DEFAULT_DEPARTMENT_SELECTED } from '../../chat-action-types';
 import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types';
 
 const initialState = {
@@ -19,6 +19,7 @@ const preChatForm = (state = initialState, action = {}) => {
         ...payload.prefillValues
       };
     case PRE_CHAT_FORM_ON_CHANGE:
+    case VISITOR_DEFAULT_DEPARTMENT_SELECTED:
       return { ...state, ...payload };
     case API_CLEAR_FORM:
       return initialState;

@@ -155,6 +155,67 @@ describe('setupZopimQueue', () => {
         .toHaveBeenCalled();
     });
 
+    describe('departments', () => {
+      test('getAllDepartments method', () => {
+        mockWin.$zopim.livechat.departments.getAllDepartments();
+
+        expect(apis.getAllDepartmentsApi)
+          .toHaveBeenCalled();
+      });
+
+      test('getDepartment method', () => {
+        mockWin.$zopim.livechat.departments.getDepartment(1);
+
+        expect(apis.getDepartmentApi)
+          .toHaveBeenCalledWith(mockStore, 1);
+      });
+
+      test('filter method', () => {
+        mockWin.$zopim.livechat.departments.filter(1, 2, 3);
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                departments: {
+                  enabled: [1, 2, 3]
+                }
+              }
+            }
+          });
+      });
+
+      test('setVisitorDepartment method', () => {
+        mockWin.$zopim.livechat.departments.setVisitorDepartment('sales');
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                departments: {
+                  select: 'sales'
+                }
+              }
+            }
+          });
+      });
+
+      test('clearVisitorDepartment method', () => {
+        mockWin.$zopim.livechat.departments.clearVisitorDepartment();
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                departments: {
+                  select: ''
+                }
+              }
+            }
+          });
+      });
+    });
+
     test('say method', () => {
       mockWin.$zopim.livechat.say('duran duran');
 
