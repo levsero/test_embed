@@ -3,9 +3,7 @@ import * as nullChatSDK from '../nullZChat';
 /* eslint-disable no-console */
 describe('the null object pattern version of zChat', () => {
   beforeEach(() => {
-    console.warn = () => {};
-
-    jest.spyOn(console, 'warn');
+    console.warn = jest.fn();
   });
 
   const chat = { zChat: nullChatSDK.nullZChat };
