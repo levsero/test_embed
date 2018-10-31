@@ -1,17 +1,26 @@
 describe('chat vendor reducer', () => {
   let reducer,
     actionTypes,
-    initialState;
+    initialState,
+    nullZChatSDK;
 
   beforeAll(() => {
     mockery.enable();
 
+    const nullZChatSDKPath = buildSrcPath('util/nullZChat');
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-vendor');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
-    reducer = requireUncached(reducerPath).default;
+    nullZChatSDK = requireUncached(nullZChatSDKPath).nullZChatSDK;
     actionTypes = requireUncached(actionTypesPath);
 
+    initMockRegistry({
+      'src/util/nullZChat': {
+        nullZChat: nullZChatSDK
+      }
+    });
+
+    reducer = requireUncached(reducerPath).default;
     initialState = reducer(undefined, { type: '' });
   });
 
@@ -23,11 +32,11 @@ describe('chat vendor reducer', () => {
   describe('reducer', () => {
     let state;
     const mockInitialState = {
-      zChat: null
+      zChat: nullZChatSDK
     };
 
     describe('initial state', () => {
-      it('is set to an expected object', () => {
+      it('is set to a null object', () => {
         expect(initialState)
           .toEqual(mockInitialState);
       });

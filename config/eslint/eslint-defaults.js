@@ -34,6 +34,7 @@ module.exports = {
     ],
     'no-trailing-spaces': 2,
     'no-mixed-spaces-and-tabs': 2,
+    'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
     'eol-last': 2,
     'no-spaced-func': 2,
     'camelcase': 2,
