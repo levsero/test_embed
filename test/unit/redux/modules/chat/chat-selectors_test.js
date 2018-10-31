@@ -6,6 +6,7 @@ describe('chat selectors', () => {
     mockSettingsChatTitle,
     mockSettingsChatOfflineForm,
     mockSettingsPrechatForm,
+    mockTranslation,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -57,7 +58,10 @@ describe('chat selectors', () => {
         getSettingsChatPrechatForm: () => mockSettingsPrechatForm,
       },
       'service/i18n': {
-        i18n: { t: _.identity }
+        i18n: {
+          t: _.identity,
+          getSettingTranslation: () => mockTranslation
+        }
       },
     });
 
@@ -710,24 +714,35 @@ describe('chat selectors', () => {
     });
 
     describe('when there are no override settings', () => {
+      beforeAll(() => {
+        mockTranslation = null;
+      });
+
       it('returns the value of accountSettings.prechatForm', () => {
-        expect(result).toEqual({ message: 'default greeting' });
+        expect(result).toEqual({
+          message: 'default greeting',
+          departmentLabel: ''
+        });
       });
     });
 
     describe('when there are override settings', () => {
       beforeAll(() => {
+        mockTranslation = 'some mock value';
         mockSettingsPrechatForm = {
-          departmentLabel: 'cool department',
-          greeting: 'hello!'
+          departmentLabel: {
+            '*': mockTranslation
+          },
+          greeting: {
+            '*': mockTranslation
+          }
         };
       });
 
       it('returns the override settings instead of the account settings', () => {
         expect(result).toEqual({
-          message: 'hello!',
-          greeting: 'hello!',
-          departmentLabel: 'cool department'
+          message: mockTranslation,
+          departmentLabel: mockTranslation
         });
       });
     });
@@ -751,6 +766,10 @@ describe('chat selectors', () => {
 
     describe('getOfflineFormSettings', () => {
       describe('when there are no override settings', () => {
+        beforeAll(() => {
+          mockTranslation = null;
+        });
+
         it('returns the default account settings', () => {
           expect(result).toEqual({ message: 'default greeting' });
         });
@@ -758,13 +777,17 @@ describe('chat selectors', () => {
 
       describe('when there are user override settings', () => {
         beforeAll(() => {
-          mockSettingsChatOfflineForm = { greeting: 'user override greeting' };
+          mockTranslation = 'user override greeting';
+          mockSettingsChatOfflineForm = {
+            greeting: {
+              '*': mockTranslation
+            }
+          };
         });
 
         it('returns the override value', () => {
           expect(result).toEqual({
             message: 'user override greeting',
-            greeting: 'user override greeting'
           });
         });
       });
@@ -1358,17 +1381,11 @@ describe('chat selectors', () => {
   });
 
   describe('chat concierge', () => {
-    let result,
-      mockSettings;
+    let result, mockSettings, mockOverridenSettings;
     const mockDefaultSettings = {
       avatar_path: 'https://i.imgur.com/moKYjJx.jpg',
       display_name: 'default name',
       title: 'default title'
-    };
-    const mockOverridenSettings = {
-      avatar_path: 'https://img.example.com/qwerty.jpg',
-      title: 'some title',
-      display_name: 'the mighty monarch!'
     };
 
     beforeEach(() => {
@@ -1392,9 +1409,19 @@ describe('chat selectors', () => {
     describe('getConciergeSettings', () => {
       describe('when concierge attributes are set via zESettings', () => {
         beforeAll(() => {
+          mockTranslation = 'some translated text';
+
+          mockOverridenSettings = {
+            avatar_path: 'https://img.example.com/qwerty.jpg',
+            title: mockTranslation,
+            display_name: 'the mighty monarch!'
+          };
+
           mockConciergeOverideSettings = {
             avatarPath: 'https://img.example.com/qwerty.jpg',
-            title: 'some title',
+            title: {
+              '*': mockTranslation
+            },
             name: 'the mighty monarch!'
           };
         });
@@ -1406,6 +1433,7 @@ describe('chat selectors', () => {
 
       describe('when there is no override via zESettings', () => {
         beforeAll(() => {
+          mockTranslation = null;
           mockConciergeOverideSettings = {
             avatarPath: null,
             title: null,
@@ -2794,17 +2822,21 @@ describe('chat selectors', () => {
 
       describe('when there is an override setting', () => {
         beforeAll(() => {
-          mockSettingsChatTitle = 'My override custom title!';
+          mockTranslation = 'my custom chat title';
+          mockSettingsChatTitle = {
+            '*': mockTranslation
+          };
         });
 
         it('returns the override title value', () => {
-          expect(result).toEqual(mockSettingsChatTitle);
+          expect(result).toEqual(mockTranslation);
         });
       });
 
       describe('when there is no override setting', () => {
         beforeAll(() => {
           mockSettingsChatTitle = null;
+          mockTranslation = null;
         });
 
         it('returns the title from the account settings', () => {

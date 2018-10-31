@@ -215,6 +215,15 @@ const getFallbackTranslation = (key) => {
   return fallbackTranslations[key];
 };
 
+// Retrieves the correct translation from the passed map of settings translations.
+// You can pass an optional context string for better error messages.
+const getSettingTranslation = (translations, context = null) => {
+  if (_.isEmpty(translations)) return;
+  const errorText = 'Missing translation string' + (context ? ` in ${context}.` : '.');
+
+  return translations[getLocale()] || translations['*'] || errorText;
+};
+
 export const i18n = {
   t: translate,
   getLocaleId: getLocaleId,
@@ -222,5 +231,6 @@ export const i18n = {
   getLocale: getLocale,
   isRTL: isRTL,
   setCustomTranslations: setCustomTranslations,
-  setFallbackTranslations: setFallbackTranslations
+  setFallbackTranslations: setFallbackTranslations,
+  getSettingTranslation: getSettingTranslation
 };
