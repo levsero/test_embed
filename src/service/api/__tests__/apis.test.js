@@ -1,5 +1,7 @@
 import * as apis from '../apis';
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
+import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
+import * as constants from 'constants/api';
 
 const chatActions = require('src/redux/modules/chat/chat-actions');
 const settingsActions = require('src/redux/modules/settings/settings-actions');
@@ -17,7 +19,11 @@ jest.mock('src/redux/modules/chat/chat-selectors');
 import { mediator } from 'service/mediator';
 import { i18n } from 'service/i18n';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
-import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getIsChatting,
+  getChatStatus,
+  getNotificationCount
+} from 'src/redux/modules/chat/chat-selectors';
 
 const mockActionValue = Date.now();
 const mockAction = jest.fn(() => mockActionValue);
@@ -231,4 +237,142 @@ test('isChattingApi calls getIsChatting', () => {
 
   expect(getIsChatting)
     .toHaveBeenCalledWith(store.getState(), 123);
+});
+
+describe('onApi', () => {
+  let on,
+    callback;
+
+  beforeEach(() => {
+    callback = jest.fn(() => 123);
+    on = apis.onApiObj();
+  });
+
+  test('if no callback is passed, do nothing', () => {
+    on[constants.API_ON_CLOSE_NAME](mockStore, 123);
+
+    expect(mockStore.dispatch)
+      .not.toHaveBeenCalled();
+  });
+
+  test('API_ON_OPEN_NAME dispatches LAUNCHER_CLICKED', () => {
+    on[constants.API_ON_OPEN_NAME](mockStore, callback);
+
+    expect(mockStore.dispatch)
+      .toBeCalledWith(expect.objectContaining(
+        {
+          type: baseActionTypes.API_ON_RECEIVED,
+          payload: expect.objectContaining(
+            {
+              actionType: baseActionTypes.LAUNCHER_CLICKED,
+              callback
+            }
+          )
+        }
+      ));
+  });
+
+  test('API_ON_CLOSE_NAME dispatches CLOSE_BUTTON_CLICKED', () => {
+    on[constants.API_ON_CLOSE_NAME](mockStore, callback);
+
+    expect(mockStore.dispatch)
+      .toBeCalledWith(expect.objectContaining(
+        {
+          type: baseActionTypes.API_ON_RECEIVED,
+          payload: expect.objectContaining(
+            {
+              actionType: baseActionTypes.CLOSE_BUTTON_CLICKED,
+              callback
+            }
+          )
+        }
+      ));
+  });
+
+  test('API_ON_CHAT_CONNECTED_NAME dispatches CHAT_CONNECTED', () => {
+    on.chat[constants.API_ON_CHAT_CONNECTED_NAME](mockStore, callback);
+
+    expect(mockStore.dispatch)
+      .toBeCalledWith(expect.objectContaining(
+        {
+          type: baseActionTypes.API_ON_RECEIVED,
+          payload: expect.objectContaining(
+            {
+              actionType: chatActionTypes.CHAT_CONNECTED,
+              callback
+            }
+          )
+        }
+      ));
+  });
+
+  test('API_ON_CHAT_END_NAME dispatches END_CHAT_REQUEST_SUCCESS', () => {
+    on.chat[constants.API_ON_CHAT_END_NAME](mockStore, callback);
+
+    expect(mockStore.dispatch)
+      .toBeCalledWith(expect.objectContaining(
+        {
+          type: baseActionTypes.API_ON_RECEIVED,
+          payload: expect.objectContaining(
+            {
+              actionType: chatActionTypes.END_CHAT_REQUEST_SUCCESS,
+              callback
+            }
+          )
+        }
+      ));
+  });
+
+  test('API_ON_CHAT_START_NAME dispatches CHAT_STARTED', () => {
+    on.chat[constants.API_ON_CHAT_START_NAME](mockStore, callback);
+
+    expect(mockStore.dispatch)
+      .toBeCalledWith(expect.objectContaining(
+        {
+          type: baseActionTypes.API_ON_RECEIVED,
+          payload: expect.objectContaining(
+            {
+              actionType: chatActionTypes.CHAT_STARTED,
+              callback
+            }
+          )
+        }
+      ));
+  });
+
+  test('API_ON_CHAT_STATUS_NAME dispatches SDK_ACCOUNT_STATUS', () => {
+    on.chat[constants.API_ON_CHAT_STATUS_NAME](mockStore, callback);
+
+    expect(mockStore.dispatch)
+      .toBeCalledWith(expect.objectContaining(
+        {
+          type: baseActionTypes.API_ON_RECEIVED,
+          payload: expect.objectContaining(
+            {
+              actionType: chatActionTypes.SDK_ACCOUNT_STATUS,
+              callback,
+              selectors: [getChatStatus]
+            }
+          )
+        }
+      ));
+  });
+
+  test('API_ON_CHAT_UNREAD_MESSAGES_NAME dispatches NEW_AGENT_MESSAGE_RECEIVED', () => {
+    on.chat[constants.API_ON_CHAT_UNREAD_MESSAGES_NAME](mockStore, callback);
+
+    expect(mockStore.dispatch)
+      .toBeCalledWith(expect.objectContaining(
+        {
+          type: baseActionTypes.API_ON_RECEIVED,
+          payload: expect.objectContaining(
+            {
+              actionType: chatActionTypes.NEW_AGENT_MESSAGE_RECEIVED,
+              callback,
+              selectors: [getNotificationCount]
+            }
+          )
+        }
+      ));
+  });
 });

@@ -13,8 +13,18 @@ import {
   isChattingApi,
   prefill,
   updatePathApi,
-  logoutApi
+  logoutApi,
+  onApiObj
 } from 'src/service/api/apis';
+import {
+  API_ON_CHAT_CONNECTED_NAME,
+  API_ON_CHAT_START_NAME,
+  API_ON_CHAT_END_NAME,
+  API_ON_CHAT_STATUS_NAME,
+  API_ON_CHAT_UNREAD_MESSAGES_NAME,
+  API_ON_CLOSE_NAME,
+  API_ON_OPEN_NAME
+} from 'constants/api';
 
 let zopimExistsOnPage = false;
 
@@ -47,13 +57,17 @@ function setupZopimQueue(win, queue) {
 
 function setUpZopimApiMethods(win, store) {
   if (!zopimExistsOnPage) {
+    const onApis = onApiObj();
+
     win.$zopim = {
       livechat: {
         window: {
           toggle: () => toggleApi(store),
           hide: () => hideApi(store),
           show: () => openApi(store),
-          getDisplay: () => displayApi(store)
+          getDisplay: () => displayApi(store),
+          onHide: (callback) => onApis[API_ON_CLOSE_NAME](store, callback),
+          onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback)
         },
         button: {
           hide: () => hideApi(store),
@@ -99,7 +113,12 @@ function setUpZopimApiMethods(win, store) {
         setEmail: (newEmail) => prefill(store, { email: { value: newEmail } }),
         setPhone: (newPhone) => prefill(store, { phone: { value: newPhone } }),
         sendVisitorPath: (page) => updatePathApi(store, page),
-        clearAll: () => logoutApi(store)
+        clearAll: () => logoutApi(store),
+        setOnConnected: (callback) => onApis.chat[API_ON_CHAT_CONNECTED_NAME](store, callback),
+        setOnChatStart: (callback) => onApis.chat[API_ON_CHAT_START_NAME](store, callback),
+        setOnChatEnd: (callback) => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
+        setOnStatus: (callback) => onApis.chat[API_ON_CHAT_STATUS_NAME](store, callback),
+        setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback)
       }
     };
   }

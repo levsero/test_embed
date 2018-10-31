@@ -4,36 +4,19 @@ import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
 import {
-  handleOnApiCalled,
   activateRecieved,
   legacyShowReceived } from 'src/redux/modules/base';
 import { displayArticle } from 'src/redux/modules/helpCenter';
 import {
   getDepartmentsList,
   getDepartment,
-  getNotificationCount,
-  getChatStatus } from 'src/redux/modules/chat/chat-selectors';
+} from 'src/redux/modules/chat/chat-selectors';
 import {
-  API_ON_CHAT_STATUS_NAME,
-  API_ON_CLOSE_NAME,
-  API_ON_CHAT_CONNECTED_NAME,
-  API_ON_CHAT_START_NAME,
-  API_ON_CHAT_END_NAME,
-  API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
   API_GET_DEPARTMENTS_DEPARTMENT_NAME,
-  API_GET_DISPLAY_NAME,
-  API_ON_OPEN_NAME } from 'constants/api';
-import {
-  CLOSE_BUTTON_CLICKED,
-  LAUNCHER_CLICKED } from 'src/redux/modules/base/base-action-types';
-import {
-  CHAT_CONNECTED,
-  END_CHAT_REQUEST_SUCCESS,
-  NEW_AGENT_MESSAGE_RECEIVED,
-  CHAT_STARTED,
-  SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types';
+  API_GET_DISPLAY_NAME
+} from 'constants/api';
 import {
   endChatApi,
   sendChatMsgApi,
@@ -51,7 +34,8 @@ import {
   updatePathApi,
   clearFormState,
   displayApi,
-  isChattingApi
+  isChattingApi,
+  onApiObj
 } from 'src/service/api/apis';
 
 const newAPIPostRenderQueue = [];
@@ -67,50 +51,6 @@ const getWidgetChatApiObj = () => {
   };
 };
 
-const onApiObj = () => {
-  const chatEventMap = {
-    [API_ON_CHAT_CONNECTED_NAME]: { actionType: CHAT_CONNECTED },
-    [API_ON_CHAT_END_NAME]: { actionType: END_CHAT_REQUEST_SUCCESS },
-    [API_ON_CHAT_START_NAME]: { actionType: CHAT_STARTED },
-    [API_ON_CHAT_STATUS_NAME]: {
-      actionType: SDK_ACCOUNT_STATUS,
-      selectors: [getChatStatus]
-    },
-    [API_ON_CHAT_UNREAD_MESSAGES_NAME]: {
-      actionType: NEW_AGENT_MESSAGE_RECEIVED,
-      selectors: [getNotificationCount]
-    }
-  };
-
-  const baseEventMap = {
-    [API_ON_CLOSE_NAME]: { actionType: CLOSE_BUTTON_CLICKED },
-    [API_ON_OPEN_NAME]: { actionType: LAUNCHER_CLICKED }
-  };
-
-  const eventDispatchWrapperFn = (actionType, selectors = []) => {
-    return (reduxStore, callback) => {
-      if (_.isFunction(callback)) {
-        reduxStore.dispatch(handleOnApiCalled(actionType, selectors, callback));
-      }
-    };
-  };
-
-  const eventApiReducerFn = (eventMap) => {
-    return _.reduce(eventMap, (apiObj, eventObj, eventName) => {
-      const { actionType, selectors } = eventObj;
-
-      apiObj[eventName] = eventDispatchWrapperFn(actionType, selectors);
-
-      return apiObj;
-    }, {});
-  };
-
-  return {
-    'chat': eventApiReducerFn(chatEventMap),
-    ...eventApiReducerFn(baseEventMap)
-  };
-};
-
 const getApiObj = () => {
   return {
     chat: {
@@ -121,6 +61,7 @@ const getApiObj = () => {
     [API_GET_DISPLAY_NAME]: displayApi
   };
 };
+
 const getApiPostRenderQueue = () => {
   const postRenderCallback = (_, ...args) => addToPostRenderQueue(['webWidget:get', ...args]);
 
@@ -154,6 +95,7 @@ const newApiStructurePostRender = {
     }
   }
 };
+
 const newApiStructurePreRender = {
   webWidget: {
     hide: hideApi,
