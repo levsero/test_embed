@@ -328,5 +328,52 @@ describe('setupZopimQueue', () => {
       expect(apis.updatePathApi)
         .toHaveBeenCalledWith(mockStore, 123);
     });
+
+    describe('concierge', () => {
+      test('setAvatar method', () => {
+        mockWin.$zopim.livechat.concierge.setAvatar('123');
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                concierge: {
+                  avatarPath: '123'
+                }
+              }
+            }
+          });
+      });
+
+      test('setName method', () => {
+        mockWin.$zopim.livechat.concierge.setName('123');
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                concierge: {
+                  name: '123'
+                }
+              }
+            }
+          });
+      });
+
+      test('setTitle method', () => {
+        mockWin.$zopim.livechat.concierge.setTitle('123');
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                concierge: {
+                  title: { '*': '123' }
+                }
+              }
+            }
+          });
+      });
+    });
   });
 });
