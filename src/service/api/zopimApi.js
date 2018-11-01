@@ -163,6 +163,49 @@ function setUpZopimApiMethods(win, store) {
 
             updateSettingsApi(store, newSettings);
           }
+        },
+        concierge: {
+          setAvatar: (path) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  concierge: {
+                    avatarPath: path
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          },
+          setName: (name) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  concierge: {
+                    name
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          },
+          setTitle: (title) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  concierge: {
+                    title: {
+                      '*': title
+                    }
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          }
         }
       }
     };
