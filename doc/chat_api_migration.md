@@ -30,7 +30,6 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 
 | $zopim.livechat syntax | zE syntax |
 | --- | --- |
-| authenticate | zESettings.webWidget.authenticate.chat |
 | setName* | zE('webWidget', 'prefill', { name: { value: 'John Doe' [, readOnly: true|false] }}) |
 | setEmail* | zE('webWidget', 'prefill', { email: { value: 'john@doe.com' [, readOnly: true|false] }}) |
 | setPhone* | zE('webWidget', 'prefill', { phone: { value: '12345678' [, readOnly: true|false] }}) |
