@@ -59,7 +59,6 @@ function show(name, showWindow = false) {
       }
     } else {
       win.$zopim.livechat.window.show();
-      get(name).store.dispatch(zopimShow());
     }
 
     // TODO remove when zopim has release mobile notifications
