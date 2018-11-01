@@ -212,7 +212,7 @@ export class ChatGroup extends Component {
 
       return (
         <ImageMessage
-          imgSrc={file.url}
+          file={file}
           placeholderEl={placeholderEl}
           onImageLoad={this.props.onImageLoad}
         />

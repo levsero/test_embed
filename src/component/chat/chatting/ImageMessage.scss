@@ -1,20 +1,33 @@
 @import '../../../styles/_vars.scss';
 
 .container {
-  composes: u-inlineBlock from global;
-
-  img {
-    max-width: #{180/$font-size}rem;
-    max-height: #{180/$font-size}rem;
-    border: #{1/$font-size}rem solid $zd-color-grey-300;
-    border-radius: #{8/$font-size}rem;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: $zd-color-grey-200;
+  border: #{1/$font-size}rem solid $zd-color-grey-300;
+  border-radius: #{8/$font-size}rem;
+  background-position: center;
+  background-size: cover;
+  width: #{150/$font-size}rem;
+  height: #{113/$font-size}rem;
 }
 
 .link {
   composes: u-linkClean from global;
 }
 
-.hidden {
-  composes: u-isHidden from global;
+.spinner {
+  height: #{28/$font-size}rem;
+  width: #{28/$font-size}rem;
+  animation: rotate 0.8s infinite linear;
+  border: #{3/$font-size}rem solid $zd-color-grey-500;
+  border-right-color: transparent;
+  border-radius: 50%;
+}
+
+@keyframes rotate {
+  0%    { transform: rotate(0deg); }
+  100%  { transform: rotate(360deg); }
 }

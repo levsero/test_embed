@@ -763,8 +763,8 @@ describe('ChatGroup component', () => {
           expect(TestUtils.isElementOfType(result, ImageMessage)).toEqual(true);
         });
 
-        it('passes the correct imgSrc prop to the component', () => {
-          expect(result.props.imgSrc).toEqual(chat.file.url);
+        it('passes the correct file prop to the component', () => {
+          expect(result.props.file).toEqual(chat.file);
         });
 
         it('renders the component without a placeholder element', () => {
@@ -903,8 +903,8 @@ describe('ChatGroup component', () => {
             expect(TestUtils.isElementOfType(result, ImageMessage)).toEqual(true);
           });
 
-          it('passes the correct imgSrc prop to the component', () => {
-            expect(result.props.imgSrc).toEqual(chat.file.url);
+          it('passes the correct file prop to the component', () => {
+            expect(result.props.file).toEqual(chat.file);
           });
 
           it('renders the component with an Attachment as the placeholder element', () => {
