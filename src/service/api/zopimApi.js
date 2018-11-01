@@ -206,6 +206,30 @@ function setUpZopimApiMethods(win, store) {
 
             updateSettingsApi(store, newSettings);
           }
+        },
+        theme: {
+          setProfileCardConfig: (settings) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  profileCard: {}
+                }
+              }
+            };
+            const { profileCard } = newSettings.webWidget.chat;
+
+            if (_.isBoolean(settings.avatar)) {
+              profileCard.avatar = settings.avatar;
+            }
+            if (_.isBoolean(settings.title)) {
+              profileCard.title = settings.title;
+            }
+            if (_.isBoolean(settings.rating)) {
+              profileCard.rating = settings.rating;
+            }
+
+            updateSettingsApi(store, newSettings);
+          }
         }
       }
     };

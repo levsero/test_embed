@@ -5,6 +5,7 @@ import select from './chat-departments-select';
 
 import suppress from './chat-suppress';
 import concierge from './chat-concierge';
+import profileCard from './chat-profile-card';
 import prechatForm from './chat-prechat-form';
 import offlineForm from './chat-offline-form';
 import title from './chat-title';
@@ -19,5 +20,6 @@ export default combineReducers({
   title,
   departments: combineReducers({ enabled, select }),
   mobileNotificationsDisabled,
-  tags
+  tags,
+  profileCard
 });

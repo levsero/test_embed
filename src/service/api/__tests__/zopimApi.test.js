@@ -375,5 +375,63 @@ describe('setupZopimQueue', () => {
           });
       });
     });
+
+    describe('theme', () => {
+      test('setProfileCardConfig', () => {
+        mockWin.$zopim.livechat.theme.setProfileCardConfig({
+          avatar: true,
+          title: false,
+          rating: true
+        });
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                profileCard: {
+                  avatar: true,
+                  title: false,
+                  rating: true
+                }
+              }
+            }
+          });
+      });
+
+      test('setProfileCardConfig with invalid values', () => {
+        mockWin.$zopim.livechat.theme.setProfileCardConfig({
+          avatar: 123,
+          rating: false
+        });
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                profileCard: {
+                  rating: false
+                }
+              }
+            }
+          });
+      });
+
+      test('setProfileCardConfig with missing values', () => {
+        mockWin.$zopim.livechat.theme.setProfileCardConfig({
+          avatar: true
+        });
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                profileCard: {
+                  avatar: true
+                }
+              }
+            }
+          });
+      });
+    });
   });
 });

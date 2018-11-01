@@ -18,7 +18,8 @@ import {
   getSettingsChatConcierge,
   getSettingsChatOfflineForm,
   getSettingsChatPrechatForm,
-  getSettingsChatTitle
+  getSettingsChatTitle,
+  getSettingsChatProfileCard
 } from 'src/redux/modules/settings/settings-selectors';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
@@ -67,6 +68,11 @@ export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
 export const getSliderVendor = (state) => state.chat.vendor.slider;
 export const getWindowSettings = (state) => state.chat.accountSettings.chatWindow;
+export const getShowProfileAvatar = (state) => getSettingsChatProfileCard(state).avatar;
+export const getShowProfileTitle = (state) => getSettingsChatProfileCard(state).title;
+export const getShowProfileRating = (state) => {
+  return getRatingSettings(state).enabled && getSettingsChatProfileCard(state).rating;
+};
 export const getThemeColor = (state) => ({ base: state.chat.accountSettings.theme.color, text: undefined });
 export const getThemePosition = (state) => {
   const position = state.chat.accountSettings.theme.position;

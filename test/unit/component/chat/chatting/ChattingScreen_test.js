@@ -589,16 +589,16 @@ describe('ChattingScreen component', () => {
   describe('#render', () => {
     let component, result;
     const renderChatComponent = ({
-      ratingsEnabled = false,
       agents = {},
       isMobile = false,
       hideZendeskLogo = false,
+      showProfileRating = false,
       socialLogin = { avatarPath: 'heynow' }
     }) => (
       instanceRender(
         <ChattingScreen
           title={mockTitle}
-          ratingSettings={{ enabled: ratingsEnabled }}
+          showProfileRating={showProfileRating}
           activeAgents={agents}
           isMobile={isMobile}
           hideZendeskLogo={hideZendeskLogo}
@@ -1100,7 +1100,7 @@ describe('ChattingScreen component', () => {
 
   describe('renderChatHeader', () => {
     let agentJoined,
-      ratingSettings,
+      showProfileRating,
       agents,
       updateChatScreenSpy,
       chatHeaderComponent;
@@ -1110,7 +1110,7 @@ describe('ChattingScreen component', () => {
 
       const component = instanceRender(
         <ChattingScreen
-          ratingSettings={ratingSettings}
+          showProfileRating={showProfileRating}
           agentJoined={agentJoined}
           activeAgents={agents}
           updateChatScreen={updateChatScreenSpy} />
@@ -1150,7 +1150,7 @@ describe('ChattingScreen component', () => {
 
       describe('when rating settings enabled', () => {
         beforeAll(() => {
-          ratingSettings = { enabled: true };
+          showProfileRating = true;
         });
 
         it('shows rating', () => {
@@ -1161,7 +1161,7 @@ describe('ChattingScreen component', () => {
 
       describe('when rating settings not enabled', () => {
         beforeAll(() => {
-          ratingSettings = { enabled: false };
+          showProfileRating = false;
         });
 
         it('does not show rating', () => {
@@ -1178,7 +1178,7 @@ describe('ChattingScreen component', () => {
 
       describe('when rating settings enabled', () => {
         beforeAll(() => {
-          ratingSettings = { enabled: true };
+          showProfileRating = true;
         });
 
         it('does not show rating', () => {
@@ -1189,7 +1189,7 @@ describe('ChattingScreen component', () => {
 
       describe('when rating settings not enabled', () => {
         beforeAll(() => {
-          ratingSettings = { enabled: false };
+          showProfileRating = false;
         });
 
         it('does not show rating', () => {

@@ -54,7 +54,6 @@ const mapStateToProps = (state) => {
     agentsTyping: selectors.getAgentsTyping(state),
     rating: selectors.getChatRating(state),
     visitor: selectors.getChatVisitor(state),
-    ratingSettings: selectors.getRatingSettings(state),
     showAvatar: selectors.getThemeShowAvatar(state),
     queuePosition: selectors.getQueuePosition(state),
     menuVisible: selectors.getMenuVisible(state),
@@ -63,7 +62,10 @@ const mapStateToProps = (state) => {
     firstMessageTimestamp: selectors.getFirstMessageTimestamp(state),
     socialLogin: selectors.getSocialLogin(state),
     conciergeSettings: selectors.getConciergeSettings(state),
-    title: selectors.getChatTitle(state)
+    title: selectors.getChatTitle(state),
+    showProfileAvatar: selectors.getShowProfileAvatar(state),
+    showProfileTitle: selectors.getShowProfileTitle(state),
+    showProfileRating: selectors.getShowProfileRating(state)
   };
 };
 
@@ -94,7 +96,6 @@ class ChattingScreen extends Component {
     agentsTyping: PropTypes.array.isRequired,
     visitor: PropTypes.object.isRequired,
     rating: PropTypes.object.isRequired,
-    ratingSettings: PropTypes.object.isRequired,
     toggleMenu: PropTypes.func.isRequired,
     showAvatar: PropTypes.bool.isRequired,
     handlePreChatFormChange: PropTypes.func,
@@ -109,7 +110,10 @@ class ChattingScreen extends Component {
     socialLogin: PropTypes.object,
     conciergeSettings: PropTypes.object.isRequired,
     showContactDetails: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    showProfileAvatar: PropTypes.bool.isRequired,
+    showProfileTitle: PropTypes.bool.isRequired,
+    showProfileRating: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -125,7 +129,6 @@ class ChattingScreen extends Component {
     historyRequestStatus: '',
     chatHistoryLog: [],
     lastAgentLeaveEvent: {},
-    ratingSettings: { enabled: false },
     allAgents: {},
     activeAgents: {},
     menuVisible: false,
@@ -138,7 +141,10 @@ class ChattingScreen extends Component {
     firstMessageTimestamp: null,
     socialLogin: {},
     conciergeSettings: {},
-    showContactDetails: () => {}
+    showContactDetails: () => {},
+    showProfileAvatar: true,
+    showProfileRating: false,
+    showProfileTitle: true
   };
 
   constructor(props) {
@@ -356,11 +362,13 @@ class ChattingScreen extends Component {
       sendChatRating,
       concierges,
       agentJoined,
-      ratingSettings,
       updateChatScreen,
-      activeAgents
+      activeAgents,
+      showProfileRating,
+      showProfileAvatar,
+      showProfileTitle
     } = this.props;
-    const showRating = ratingSettings.enabled && agentJoined;
+    const showRating = showProfileRating && agentJoined;
     const onAgentDetailsClick = _.size(activeAgents) > 0
       ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
       : null;
@@ -368,6 +376,8 @@ class ChattingScreen extends Component {
     return (
       <ChatHeader
         showRating={showRating}
+        showTitle={showProfileTitle}
+        showAvatar={showProfileAvatar}
         rating={rating.value}
         updateRating={sendChatRating}
         concierges={concierges}
