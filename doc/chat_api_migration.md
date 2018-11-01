@@ -95,7 +95,7 @@ zESettings.webWidget.chat.profileCard.rating
 | setDisableGoogleAnalytics | zESettings.analytics |
 | setGreetings | zESettings.webWidget.launcher.chatLabel|label |
 | setStatus | zESettings.webWidget.chat.suppress |
-| button.setHideWhenOffline | zESettings.webWidget.chat.suppress |
+| button.setHideWhenOffline | zESettings.webWidget.launcher.setHideWhenChatOffline |
 
 ### Concierge
 
