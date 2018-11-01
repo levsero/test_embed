@@ -10,7 +10,7 @@ import { isDefaultNickname } from 'src/util/chat';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { Icon } from 'component/Icon';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { ICONS, EMAIL_PATTERN } from 'constants/shared';
+import { ICONS, NAME_PATTERN, EMAIL_PATTERN } from 'constants/shared';
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
