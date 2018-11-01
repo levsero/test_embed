@@ -51,6 +51,7 @@ zE('webWidget', 'prefill', {
 
 | $zopim.livechat syntax | zE syntax |
 | --- | --- |
+<<<<<<< HEAD
 | setOnConnected | zE('webWidget:on', 'chat:connected', () => {}) |
 | setOnChatStart | zE('webWidget:on', 'chat:start', () => {}) |
 | setOnChatEnd | zE('webWidget:on', 'chat.end', () => {}) |
@@ -58,6 +59,15 @@ zE('webWidget', 'prefill', {
 | setOnUnreadMsgs | zE('webWidget:on', 'chat.unreadMsgs', (msgs) => {}) |
 | window.onShow | zE('webWidget:on', 'open', () => {}) |
 | window.onHide | zE('webWidget:on', 'close', () => {}) |
+=======
+| setOnConnected | zE(‘webWidget:on’, ‘chat:connected’, function() {}) |
+| setOnChatStart | zE(‘webWidget:on’, ‘chat:start’, function() {}) |
+| setOnChatEnd | zE(‘webWidget:on’, 'chat.end', () => {}) |
+| setOnStatus | zE(‘webWidget:on’, 'chat.status’, function(status) {}) |
+| setOnUnreadMsgs | zE(‘webWidget:on’, 'chat.unreadMsgs’, function(msgs) {}) |
+| window.onShow | zE(‘webWidget:on’, ‘open’, function() {}) |
+| window.onHide | zE('webWidget:on', 'close', function() {}) |
+>>>>>>> Update doc/chat_api_migration.md
 
 ### Customization APIs
 
