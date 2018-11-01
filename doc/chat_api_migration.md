@@ -90,7 +90,7 @@ zE('webWidget', 'prefill', {
 
 | $zopim.livechat syntax | zE syntax |
 | --- | --- |
-| concierge.setAvatar | zESettings.webWidget.chat.concierge.avatar |
+| concierge.setAvatar | zESettings.webWidget.chat.concierge.avatarPath |
 | concierge.setName | zESettings.webWidget.chat.concierge.name |
 | concierge.setTitle | zESettings.webWidget.chat.concierge.title |
 
@@ -103,7 +103,7 @@ zE('webWidget', 'prefill', {
 | departments.clearVisitorDepartment | zESettings.webWidget.chat.departments.select |
 | departments.getDepartment | zE('webWidget:get', 'chat:department', id or name) |
 | departments.getAllDepartments | zE('webWidget:get', 'chat:departments') |
-| departments.setLabel | zESettings.webWidget.chat.departments.label |
+| departments.setLabel | zESettings.webWidget.chat.prechatForm.departmentLabel |
 
 ### What APIs are not supported
 
