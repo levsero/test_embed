@@ -76,14 +76,14 @@ zE('webWidget', 'prefill', {
 | button.setOffsetVerticalMobile   | zESettings.webWidget.offset.mobile.vertical |
 | button.setOffsetHorizontal | zESettings.webWidget.offset.horizontal |
 | button.setOffsetHorizontalMobile | zESettings.webWidget.offset.mobile.horizontal |
-| button.setPosition | zESettings.webWidget.position |
-| button.setPositionMobile | zESettings.webWidget.position |
+| button.setPosition* | zESettings.webWidget.position |
+| button.setPositionMobile* | zESettings.webWidget.position |
 | button.setColor | zESettings.webWidget.color.launcher |
 | window.setColor | zESettings.webWidget.color.theme |
 | window.setTitle | zESettings.webWidget.chat.title |
 | window.setOffsetVertical | zESettings.webWidget.offset.vertical |
 | window.setOffsetHorizontal | zESettings.webWidget.offset.horizontal |
-| window.setPosition | zESettings.webWidget.position |
+| window.setPosition* | zESettings.webWidget.position |
 | prechatForm.setGreetings | zESettings.webWidget.chat.prechatForm.greeting |
 | offlineForm.setGreetings | zESettings.webWidget.chat.offlineForm.greeting |
 | mobileNotifications.setDisabled  | zESettings.webWidget.chat.mobile.notifications.disable |
@@ -96,6 +96,8 @@ zESettings.webWidget.chat.profileCard.rating
 | setGreetings | zESettings.webWidget.launcher.chatLabel|label |
 | setStatus | zESettings.webWidget.chat.suppress |
 | button.setHideWhenOffline | zESettings.webWidget.launcher.setHideWhenChatOffline |
+
+\* All of the position values supported in the legacy Chat Widget can be used excluding `tm` (Top middle), and `bm` (Bottom middle). See the complete list of position values in the [legacy Chat documentation](https://api.zopim.com/files/meshim/widget/controllers/liveChatAPI/Button-js.html#$zopim.livechat.button.setPosition).
 
 ### Concierge
 
