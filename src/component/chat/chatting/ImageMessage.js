@@ -41,8 +41,6 @@ export class ImageMessage extends Component {
       this.props.className
     );
 
-    const spinnerClass = classNames(styles.spinner);
-
     const imageStyle = {
       backgroundImage: `url("${this.props.file.url}")`
     };
@@ -53,7 +51,7 @@ export class ImageMessage extends Component {
 
     const placeholder = this.props.placeholderEl ||
       (<div className={imageClasses}>
-        <div className={spinnerClass} />
+        <div className={styles.spinner} />
       </div>);
 
     return (
