@@ -198,8 +198,7 @@ describe('onStateChange middleware', () => {
         });
 
         it('dispatches the event CHAT_CONNECTED', () => {
-          expect(dispatchSpy)
-            .toHaveBeenCalledWith({ type: 'CHAT_CONNECTED' });
+          expect(chatConnectedSpy).toHaveBeenCalledTimes(1);
         });
 
         it('dispatches the getAccountSettings action creator', () => {
