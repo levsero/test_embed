@@ -90,7 +90,10 @@ zE('webWidget', 'prefill', {
 | mobileNotifications.setDisabled  | zESettings.webWidget.chat.mobile.notifications.disable |
 | theme.setColor | zESettings.webWidget.color.theme |
 | theme.reload | zE('webWidget', 'updateSettings', settings) |
-| theme.setProfileCardConfig | zE('webWidget', 'updateSettings', settings) |
+| theme.setProfileCardConfig | zESettings.webWidget.chat.profileCard.avatar,
+zESettings.webWidget.chat.profileCard.title,
+zESettings.webWidget.chat.profileCard.rating
+ |
 | setDisableGoogleAnalytics | zESettings.analytics |
 | setGreetings | zESettings.webWidget.launcher.chatLabel|label |
 | setStatus | zESettings.webWidget.chat.suppress |
