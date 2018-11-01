@@ -19,8 +19,7 @@ import { IS_CHATTING,
   CHAT_AGENT_INACTIVE,
   SDK_VISITOR_UPDATE,
   CHAT_SOCIAL_LOGIN_SUCCESS,
-  CHAT_STARTED,
-  CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types';
+  CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types';
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
@@ -118,7 +117,7 @@ const onChatConnected = (prevState, nextState, dispatch) => {
     const visitorDepartment = _.find(getDepartmentsList(nextState), (dep) => dep.name === visitorDepartmentName);
     const visitorDepartmentId = _.get(visitorDepartment, 'id');
 
-    dispatch({ type: CHAT_CONNECTED });
+    dispatch(chatConnected());
 
     if (visitorDepartmentId) {
       dispatch(setDepartment(visitorDepartmentId));
@@ -130,7 +129,6 @@ const onChatConnected = (prevState, nextState, dispatch) => {
       dispatch(getAccountSettings());
       dispatch(getIsChatting());
       dispatch(getOperatingHours());
-      dispatch(chatConnected());
       chatAccountSettingsFetched = true;
       mediator.channel.broadcast('newChat.connected', showOnLoad);
     }
