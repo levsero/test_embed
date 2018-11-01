@@ -89,7 +89,6 @@ zE('webWidget', 'prefill', {
 | offlineForm.setGreetings | zESettings.webWidget.chat.offlineForm.greeting |
 | mobileNotifications.setDisabled  | zESettings.webWidget.chat.mobile.notifications.disable |
 | theme.setColor | zESettings.webWidget.color.theme |
-| theme.reload | zE('webWidget', 'updateSettings', settings) |
 | theme.setProfileCardConfig | zESettings.webWidget.chat.profileCard.avatar,
 zESettings.webWidget.chat.profileCard.title,
 zESettings.webWidget.chat.profileCard.rating
@@ -142,6 +141,7 @@ If this is blocking a use case for you, please let us know what you are trying t
 | getEmail | As above |
 | getPhone | As above |
 | setSize | As above |
+| theme.reload | zE('webWidget', 'updateSettings', settings) |
 | theme.setFontConfig | Chat themes are no longer available |
 | theme.setTheme | As above |
 | cookieLaw.comply | Cookie law format is changing |
@@ -151,6 +151,8 @@ If this is blocking a use case for you, please let us know what you are trying t
 | $zopim.livechat syntax | zE syntax |
 | --- | --- |
 | authenticate | zESettings.webWidget.authenticate.chat  |
+| badge.hide | zE('webWidget', 'hide')
+| badge.show | zE('webWidget', 'show')
 | badge.setLayout | zESettings.webWidget.launcher.badge.layout |
 | badge.setImage | zESettings.webWidget.launcher.badge.image  |
 | badge.setColor | zESettings.webWidget.color.launcher |
