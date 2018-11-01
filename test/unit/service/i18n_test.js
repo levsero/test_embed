@@ -533,4 +533,74 @@ describe('i18n', () => {
       });
     });
   });
+
+  describe('getSettingTranslation', () => {
+    let translations, context, result, locale;
+
+    beforeEach(() => {
+      i18n.setLocale(locale, true);
+      result = i18n.getSettingTranslation(translations, context);
+    });
+
+    describe('when the translations object is empty', () => {
+      it('returns undefined', () => {
+        expect(result).toEqual(undefined);
+      });
+    });
+
+    describe('when the translations object is not empty', () => {
+      beforeAll(() => {
+        translations = {
+          'de': 'Achtung! Schnell!',
+          '*': 'Move it!'
+        };
+      });
+
+      describe('when the translations object contains the locale', () => {
+        beforeAll(() => {
+          locale = 'de';
+        });
+
+        it('returns the correct translation', () => {
+          expect(result).toEqual(translations['de']);
+        });
+      });
+
+      describe('when the translations object does not contain the locale', () => {
+        beforeAll(() => {
+          locale = 'fr';
+        });
+
+        it('returns the default * locale value', () => {
+          expect(result).toEqual(translations['*']);
+        });
+
+        describe('when the translations object is missing a default locale', () => {
+          beforeAll(() => {
+            locale = 'ar';
+            translations = {
+              'de': 'hallo',
+              'jp': 'konichiha'
+            };
+          });
+
+          describe('when a context string has not been passed', () => {
+            it('returns a default "translation missing" string', () => {
+              expect(result).toEqual('Missing translation string.');
+            });
+          });
+
+          describe('when a context string has been passed', () => {
+            beforeAll(() => {
+              context = 'test settings';
+            });
+
+            it('returns a contextual "translation missing" string', () => {
+              expect(result).toEqual(`Missing translation string in ${context}.`);
+            });
+          });
+        });
+      });
+    });
+  });
 });

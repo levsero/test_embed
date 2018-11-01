@@ -93,7 +93,8 @@ export const getChatAccountSettingsTitle = createSelector(
 export const getChatTitle = createSelector(
   [getSettingsChatTitle, getChatAccountSettingsTitle],
   (settingsChatTitle, chatAccountSettingsTitle) => (
-    settingsChatTitle || chatAccountSettingsTitle
+    i18n.getSettingTranslation(settingsChatTitle, 'chat title setting') ||
+    chatAccountSettingsTitle
   )
 );
 
@@ -144,7 +145,9 @@ export const getConciergeSettings = createSelector(
         concierge.display_name = settingsChatConcierge.name;
       }
       if (settingsChatConcierge.title) {
-        concierge.title = settingsChatConcierge.title;
+        concierge.title = i18n.getSettingTranslation(
+          settingsChatConcierge.title, 'chat concierge title setting'
+        );
       }
     }
 
@@ -173,31 +176,39 @@ export const getCurrentConcierges = createSelector(
 
 export const getOfflineFormSettings = createSelector(
   [getSettingsChatOfflineForm, getChatAccountSettingsOfflineForm],
-  (settingsChatOfflineForm, accountSettingsOfflineForm) => (
-    {
+  (settingsChatOfflineForm, accountSettingsOfflineForm) => {
+    const greeting = _.get(settingsChatOfflineForm, 'greeting', null);
+
+    return {
       ...accountSettingsOfflineForm,
-      ...settingsChatOfflineForm,
       message: (
-        _.get(settingsChatOfflineForm, 'greeting', null) ||
+        i18n.getSettingTranslation(greeting, 'chat offline form settings') ||
         _.get(accountSettingsOfflineForm, 'message', null) ||
         i18n.t('embeddable_framework.chat.preChat.offline.greeting')
       )
-    }
-  )
+    };
+  }
 );
 
 export const getPrechatFormSettings = createSelector(
   [getSettingsChatPrechatForm, getChatAccountSettingsPrechatForm],
-  (settingsChatPrechatForm, accountSettingsPrechatForm) => (
-    {
+  (settingsChatPrechatForm, accountSettingsPrechatForm) => {
+    const greeting = _.get(settingsChatPrechatForm, 'greeting', null);
+    const departmentLabel = _.get(settingsChatPrechatForm, 'departmentLabel', null);
+    const errorContext = 'prechat form settings';
+
+    return {
       ...accountSettingsPrechatForm,
-      ...settingsChatPrechatForm,
       message: (
-        _.get(settingsChatPrechatForm, 'greeting', null) ||
-        _.get(accountSettingsPrechatForm, 'message', null)
+        i18n.getSettingTranslation(greeting, errorContext) ||
+        _.get(accountSettingsPrechatForm, 'message', '')
+      ),
+      departmentLabel: (
+        i18n.getSettingTranslation(departmentLabel, errorContext) ||
+        _.get(accountSettingsPrechatForm, 'departmentLabel', '')
       )
-    }
-  )
+    };
+  }
 );
 
 const extractFormFields = (settings) => (
@@ -210,19 +221,21 @@ const getDefaultFormFields = createSelector(
 
 const getFormFields = createSelector(
   [getDefaultFormFields, getSettingsChatPrechatForm],
-  (defaultFields, prechatFormSettings) => (
-    {
+  (defaultFields, prechatFormSettings) => {
+    const departmentLabel = _.get(prechatFormSettings, 'departmentLabel', null);
+
+    return {
       ...defaultFields,
       department: {
         ...defaultFields.department,
         label: (
-          _.get(prechatFormSettings, 'departmentLabel', null) ||
+          i18n.getSettingTranslation(departmentLabel, 'prechat form settings') ||
           _.get(defaultFields, 'department.label', null) ||
           i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')
         )
       }
-    }
-  )
+    };
+  }
 );
 
 export const getIsProactiveSession = (state) => {
