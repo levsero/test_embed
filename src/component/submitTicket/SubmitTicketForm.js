@@ -360,6 +360,7 @@ export class SubmitTicketForm extends Component {
           key={name}
           name={name}
           required={true}
+          onChange={() => {}}
           value={this.props.formState.email}
           readOnly={this.props.readOnlyState.email}
           disabled={this.props.previewEnabled}
@@ -386,6 +387,7 @@ export class SubmitTicketForm extends Component {
           validation={error ? 'error': 'none'}
           disabled={this.props.previewEnabled}
           value={this.props.formState.name}
+          onChange={() => {}}
           readOnly={this.props.readOnlyState.name} />
         {error}
       </TextField>
@@ -409,6 +411,7 @@ export class SubmitTicketForm extends Component {
           disabled={this.props.previewEnabled}
           required={true}
           value={this.props.formState.description}
+          onChange={() => {}}
           rows='5' />
         {error}
       </TextField>
