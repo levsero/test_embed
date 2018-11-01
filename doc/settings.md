@@ -396,7 +396,7 @@ window.zESettings = {
       concierge: {
         avatarPath: 'https://example.com/img/avatar.jpg',
         name: 'Jane Doe',
-        title: 'Live Support'
+        title: { '*': 'Live support' }
       }
     }
   }
