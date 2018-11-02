@@ -114,6 +114,65 @@ describe('setupZopimQueue', () => {
         expect(apis.displayApi)
           .toHaveBeenCalled();
       });
+
+      test('setTitle', () => {
+        const title = 'title';
+
+        mockWin.$zopim.livechat.window.setTitle(title);
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                title: {
+                  '*': title
+                }
+              }
+            }
+          });
+      });
+    });
+
+    describe('prechatForm', () => {
+      test('setGreetings', () => {
+        const greeting = 'greeting';
+
+        mockWin.$zopim.livechat.prechatForm.setGreetings(greeting);
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                prechatForm: {
+                  greeting: {
+                    '*': greeting
+                  }
+                }
+              }
+            }
+          });
+      });
+    });
+
+    describe('offlineForm', () => {
+      test('setGreetings', () => {
+        const greeting = 'greeting';
+
+        mockWin.$zopim.livechat.offlineForm.setGreetings(greeting);
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                offlineForm: {
+                  greeting: {
+                    '*': greeting
+                  }
+                }
+              }
+            }
+          });
+      });
     });
 
     describe('button', () => {
@@ -209,6 +268,25 @@ describe('setupZopimQueue', () => {
               chat: {
                 departments: {
                   select: ''
+                }
+              }
+            }
+          });
+      });
+
+      test('setLabel method', () => {
+        const label = 'da prechat form dep label';
+
+        mockWin.$zopim.livechat.departments.setLabel(label);
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                prechatForm: {
+                  departmentLabel: {
+                    '*': label
+                  }
                 }
               }
             }
