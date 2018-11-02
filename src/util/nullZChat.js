@@ -1,4 +1,10 @@
 let nullZChat = null;
+let shouldWarn = true;
+const timeBetweenWarnings = 2000;
+
+function resetShouldWarn() {
+  shouldWarn = true;
+}
 
 if (typeof Proxy !== 'undefined') {
   nullZChat = new Proxy(new Object(), {
@@ -6,13 +12,22 @@ if (typeof Proxy !== 'undefined') {
       if (prop === 'toJSON') return {};
 
       return (_data) => {
-        /* eslint-disable max-len, no-console */
-        console.warn('You are trying to use a Zendesk Web Widget API method that is native to the Widget\'s Integrated Chat experience.');
-        console.warn('Please go to your Zendesk Widget admin settings and enable the Integrated Chat option to enable this API call.');
+        if (shouldWarn) {
+          /* eslint-disable max-len, no-console */
+          console.warn('You are trying to use a Zendesk Web Widget API method that is native to the Widget\'s Integrated Chat experience.');
+          console.warn('Please go to your Zendesk Widget admin settings and enable the Integrated Chat option to enable this API call.');
+          shouldWarn = false;
+        } else {
+          setTimeout(resetShouldWarn, timeBetweenWarnings);
+        }
         return false;
       };
     }
   });
 }
 
-export { nullZChat };
+export {
+  nullZChat,
+
+  resetShouldWarn // for testing purposes
+};
