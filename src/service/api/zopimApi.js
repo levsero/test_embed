@@ -69,7 +69,54 @@ function setUpZopimApiMethods(win, store) {
           show: () => openApi(store),
           getDisplay: () => displayApi(store),
           onHide: (callback) => onApis[API_ON_CLOSE_NAME](store, callback),
-          onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback)
+          onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback),
+          setTitle: (title) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  title: {
+                    '*': title
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          }
+        },
+        prechatForm: {
+          setGreetings: (msg) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  prechatForm: {
+                    greeting: {
+                      '*': msg
+                    }
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          }
+        },
+        offlineForm: {
+          setGreetings: (msg) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  offlineForm: {
+                    greeting: {
+                      '*': msg
+                    }
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          }
         },
         button: {
           hide: () => hideApi(store),
@@ -122,6 +169,21 @@ function setUpZopimApiMethods(win, store) {
         setOnStatus: (callback) => onApis.chat[API_ON_CHAT_STATUS_NAME](store, callback),
         setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback),
         departments: {
+          setLabel: (label) => {
+            const newSettings = {
+              webWidget: {
+                chat: {
+                  prechatForm: {
+                    departmentLabel: {
+                      '*': label
+                    }
+                  }
+                }
+              }
+            };
+
+            updateSettingsApi(store, newSettings);
+          },
           getDepartment: (id) => getDepartmentApi(store, id),
           getAllDepartments: () => getAllDepartmentsApi(store),
           filter: (...filteredDepartments) => {
