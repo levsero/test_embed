@@ -100,13 +100,23 @@ export class PanelCard extends Component {
     });
 
     const panel = {...PanelCard.defaultProps.panel, ...this.props.panel};
-
-    return (
-      <Card>
+    const renderPanel = (panel.onClick) ?
+      (
         <button className={panelStyles} onClick={panel.onClick}>
           {this.renderPanelImage(panel)}
           {this.renderPanelContent(panel)}
         </button>
+      ) :
+      (
+        <div className={panelStyles}>
+          {this.renderPanelImage(panel)}
+          {this.renderPanelContent(panel)}
+        </div>
+      );
+
+    return (
+      <Card>
+        {renderPanel}
 
         <ButtonList>
           {this.props.children}

@@ -78,24 +78,47 @@ describe('Pure PanelCard Component', () => {
   });
 
   describe('Render the parent and child elements', () => {
-    let result;
+    let result,
+      props = {};
 
     beforeEach(() => {
-      const component = instanceRender(<PanelCard />);
+      const component = instanceRender(<PanelCard {...props}/>);
 
       result = component.render();
+    });
+
+    afterEach(() => {
+      props = {};
     });
 
     it('returns a Card component', ()=> {
       expect(TestUtils.isElementOfType(result, Card)).toEqual(true);
     });
 
-    it('returns button element as one of the children', () => {
+    describe('when props.panel.onClick is valid', () => {
+      beforeAll(() => {
+        props = {
+          panel: {
+            onClick: onClickSpy
+          }
+        };
+      });
+
+      it('returns button element as one of the children', () => {
+        const foundChild = result.props.children.some((child) => {
+          return TestUtils.isElementOfType(child, 'button');
+        });
+
+        expect(foundChild).toEqual(true);
+      });
+    });
+
+    it('does not return button element as one of the children', () => {
       const foundChild = result.props.children.some((child) => {
         return TestUtils.isElementOfType(child, 'button');
       });
 
-      expect(foundChild).toEqual(true);
+      expect(foundChild).toEqual(false);
     });
 
     it('returns ButtonList component as one of the children', () => {
@@ -107,22 +130,20 @@ describe('Pure PanelCard Component', () => {
     });
   });
 
-  describe('Button element should receive the correct props', () => {
-    let button;
+  describe('Panel element should receive the correct props', () => {
+    let panel;
     let props = {};
 
     beforeEach(() => {
       const component = instanceRender(<PanelCard {...props}/>);
       const result = component.render();
 
-      button = result.props.children.find((child) => {
-        return TestUtils.isElementOfType(child, 'button');
-      });
+      panel = result.props.children[0];
     });
 
     describe('classname prop', () => {
       it('has .panel when there is no children', () => {
-        expect(button.props.className).toContain('panel');
+        expect(panel.props.className).toContain('panel');
       });
 
       describe('when there is children', () => {
@@ -133,16 +154,16 @@ describe('Pure PanelCard Component', () => {
         });
 
         it('has .panelWithButtons', () => {
-          expect(button.props.className).toContain('panelWithButtons');
+          expect(panel.props.className).toContain('panelWithButtons');
         });
 
         it('has no .panel', () => {
-          expect(button.props.className.split(' ')).not.toContain('panel');
+          expect(panel.props.className.split(' ')).not.toContain('panel');
         });
       });
 
       it('has no .hasLink when there is props.panel.onClick is invalid', () => {
-        expect(button.props.className).not.toContain('hasLink');
+        expect(panel.props.className).not.toContain('hasLink');
       });
 
       describe('where props.panel.onClick is valid', () => {
@@ -155,7 +176,7 @@ describe('Pure PanelCard Component', () => {
         });
 
         it('has .hasLink', () => {
-          expect(button.props.className).toContain('hasLink');
+          expect(panel.props.className).toContain('hasLink');
         });
       });
     });
@@ -170,7 +191,7 @@ describe('Pure PanelCard Component', () => {
       });
 
       it('pass the onClick prop to button', () => {
-        expect(button.props.onClick).toEqual(onClickSpy);
+        expect(panel.props.onClick).toEqual(onClickSpy);
       });
     });
   });
