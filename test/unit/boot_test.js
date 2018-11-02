@@ -199,7 +199,6 @@ describe('boot', () => {
     describe('when the request succeeds', () => {
       let doneHandler, reduxStore;
       let config = {};
-      const zopimQueue = [];
 
       beforeEach(() => {
         jasmine.clock().install();
@@ -209,7 +208,7 @@ describe('boot', () => {
           dispatch: jasmine.createSpy().and.callThrough()
         };
 
-        boot.getConfig(win, postRenderQueue, zopimQueue, reduxStore);
+        boot.getConfig(win, postRenderQueue, reduxStore);
         doneHandler = mockGetCalls.mostRecent().args[0].callbacks.done;
 
         Math.random = jasmine.createSpy('random').and.returnValue(1);
@@ -284,7 +283,7 @@ describe('boot', () => {
 
         it('calls zopimApi setUpZopimApiMethods with the zopimQueue', () => {
           expect(zopimApiSpy.zopimApi.handleZopimQueue)
-            .toHaveBeenCalledWith(zopimQueue);
+            .toHaveBeenCalledWith(win);
         });
       });
 
