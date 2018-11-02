@@ -26,6 +26,8 @@ describe('the null object pattern version of zChat', () => {
     test('it only warns once (which consists of two warnings)', () => {
       chat.zChat.whoa();
       chat.zChat.doubleWhoa();
+      chat.zChat.tripleWhoa();
+      chat.zChat.omgSoManyFunctionsBeingFired();
       expect(console.warn).toHaveBeenCalledTimes(2);
     });
   });
