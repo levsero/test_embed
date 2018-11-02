@@ -56,6 +56,7 @@ describe('chat selectors', () => {
         getSettingsChatTitle: () => mockSettingsChatTitle,
         getSettingsChatOfflineForm: () => mockSettingsChatOfflineForm,
         getSettingsChatPrechatForm: () => mockSettingsPrechatForm,
+        getSettingsChatProfileCard: _.identity
       },
       'service/i18n': {
         i18n: {

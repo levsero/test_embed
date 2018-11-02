@@ -11,52 +11,77 @@ const profileCard = (settings) => {
   };
 };
 
-describe('getShowProfileRating', () => {
-  const ratingSettings = (enabled) => {
-    return {
-      chat: {
-        accountSettings: {
-          rating: { enabled }
-        }
+const ratingSettings = (enabled) => {
+  return {
+    chat: {
+      accountSettings: {
+        rating: { enabled }
       }
-    };
+    }
   };
-  const profileRating = (rating) => {
-    return profileCard({ rating });
-  };
+};
 
-  it('returns false if ratings in account settings is disabled', () => {
-    const result = selectors.getShowProfileRating(_.merge(profileRating(true), ratingSettings(false)));
+const profileRating = (rating) => {
+  return profileCard({ rating });
+};
 
-    expect(result)
-      .toBeFalsy();
+describe('getProfileConfig', () => {
+  describe('rating', () => {
+    describe('account settings rating is false', () => {
+      it('returns false even if ratings in profile rating is true', () => {
+        const result = selectors.getProfileConfig(_.merge(profileRating(true), ratingSettings(false)));
+
+        expect(result.rating)
+          .toBeFalsy();
+      });
+    });
+
+    describe('account settings rating is true', () => {
+      it('returns true if ratings in profile card is true', () => {
+        const result = selectors.getProfileConfig(_.merge(profileRating(true), ratingSettings(true)));
+
+        expect(result.rating)
+          .toBeTruthy();
+      });
+
+      it('returns false if ratings in profile card is false', () => {
+        const result = selectors.getProfileConfig(_.merge(profileRating(false), ratingSettings(true)));
+
+        expect(result.rating)
+          .toBeFalsy();
+      });
+    });
   });
 
-  it('returns false if ratings in profile card is false', () => {
-    const result = selectors.getShowProfileRating(_.merge(profileRating(false), ratingSettings(true)));
+  describe('title', () => {
+    it('returns false if settings is false', () => {
+      const result = selectors.getProfileConfig(_.merge(ratingSettings(true), profileCard({ title: false })));
 
-    expect(result)
-      .toBeFalsy();
+      expect(result.title)
+        .toBe(false);
+    });
+
+    it('returns true if settings is true', () => {
+      const result = selectors.getProfileConfig(_.merge(ratingSettings(true), profileCard({ title: true })));
+
+      expect(result.title)
+        .toBe(true);
+    });
   });
 
-  it('returns true if ratings in profile card is and ratings is enabled in account settings', () => {
-    const result = selectors.getShowProfileRating(_.merge(profileRating(true), ratingSettings(true)));
+  describe('avatar', () => {
+    it('returns false if settings is false', () => {
+      const result = selectors.getProfileConfig(_.merge(ratingSettings(true), profileCard({ avatar: false })));
 
-    expect(result)
-      .toBeTruthy();
+      expect(result.avatar)
+        .toBe(false);
+    });
+
+    it('returns true if settings is true', () => {
+      const result = selectors.getProfileConfig(_.merge(ratingSettings(true), profileCard({ avatar: true })));
+
+      expect(result.avatar)
+        .toBe(true);
+    });
   });
-});
-
-test('getShowProfileTitle', () => {
-  const result = selectors.getShowProfileTitle(profileCard({ title: false }));
-
-  expect(result)
-    .toBe(false);
-});
-
-test('getShowProfileAvatar', () => {
-  const result = selectors.getShowProfileAvatar(profileCard({ avatar: true }));
-
-  expect(result)
-    .toBe(true);
 });

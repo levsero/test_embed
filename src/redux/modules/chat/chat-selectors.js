@@ -68,11 +68,6 @@ export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
 export const getSliderVendor = (state) => state.chat.vendor.slider;
 export const getWindowSettings = (state) => state.chat.accountSettings.chatWindow;
-export const getShowProfileAvatar = (state) => getSettingsChatProfileCard(state).avatar;
-export const getShowProfileTitle = (state) => getSettingsChatProfileCard(state).title;
-export const getShowProfileRating = (state) => {
-  return getRatingSettings(state).enabled && getSettingsChatProfileCard(state).rating;
-};
 export const getThemeColor = (state) => ({ base: state.chat.accountSettings.theme.color, text: undefined });
 export const getThemePosition = (state) => {
   const position = state.chat.accountSettings.theme.position;
@@ -88,6 +83,17 @@ export const getChatAccountSettingsConcierge = (state) => state.chat.accountSett
 export const getChatAccountSettingsOfflineForm = (state) => state.chat.accountSettings.offlineForm;
 export const getOfflineFormEnabled = (state) => getOfflineFormSettings(state).enabled;
 export const getChatAccountSettingsPrechatForm = (state) => state.chat.accountSettings.prechatForm;
+
+export const getProfileConfig = createSelector(
+  [getSettingsChatProfileCard, getRatingSettings],
+  (settingsChatProfileCard, ratingSettings) => (
+    {
+      avatar: settingsChatProfileCard.avatar,
+      title: settingsChatProfileCard.title,
+      rating: ratingSettings.enabled && settingsChatProfileCard.rating
+    }
+  )
+);
 
 export const getChatAccountSettingsTitle = createSelector(
   getWindowSettings,

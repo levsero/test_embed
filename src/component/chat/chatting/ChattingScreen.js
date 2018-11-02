@@ -63,9 +63,7 @@ const mapStateToProps = (state) => {
     socialLogin: selectors.getSocialLogin(state),
     conciergeSettings: selectors.getConciergeSettings(state),
     title: selectors.getChatTitle(state),
-    showProfileAvatar: selectors.getShowProfileAvatar(state),
-    showProfileTitle: selectors.getShowProfileTitle(state),
-    showProfileRating: selectors.getShowProfileRating(state)
+    profileConfig: selectors.getProfileConfig(state)
   };
 };
 
@@ -111,9 +109,7 @@ class ChattingScreen extends Component {
     conciergeSettings: PropTypes.object.isRequired,
     showContactDetails: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    showProfileAvatar: PropTypes.bool.isRequired,
-    showProfileTitle: PropTypes.bool.isRequired,
-    showProfileRating: PropTypes.bool.isRequired
+    profileConfig: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -142,9 +138,7 @@ class ChattingScreen extends Component {
     socialLogin: {},
     conciergeSettings: {},
     showContactDetails: () => {},
-    showProfileAvatar: true,
-    showProfileRating: false,
-    showProfileTitle: true
+    profileConfig: {}
   };
 
   constructor(props) {
@@ -364,11 +358,9 @@ class ChattingScreen extends Component {
       agentJoined,
       updateChatScreen,
       activeAgents,
-      showProfileRating,
-      showProfileAvatar,
-      showProfileTitle
+      profileConfig
     } = this.props;
-    const showRating = showProfileRating && agentJoined;
+    const showRating = profileConfig.rating && agentJoined;
     const onAgentDetailsClick = _.size(activeAgents) > 0
       ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
       : null;
@@ -376,8 +368,8 @@ class ChattingScreen extends Component {
     return (
       <ChatHeader
         showRating={showRating}
-        showTitle={showProfileTitle}
-        showAvatar={showProfileAvatar}
+        showTitle={profileConfig.title}
+        showAvatar={profileConfig.avatar}
         rating={rating.value}
         updateRating={sendChatRating}
         concierges={concierges}
