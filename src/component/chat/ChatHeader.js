@@ -17,6 +17,8 @@ export class ChatHeader extends Component {
     updateRating: PropTypes.func,
     rating: PropTypes.string,
     showRating: PropTypes.bool,
+    showAvatar: PropTypes.bool,
+    showTitle: PropTypes.bool,
     onAgentDetailsClick: PropTypes.func
   };
 
@@ -24,7 +26,9 @@ export class ChatHeader extends Component {
     updateRating: () => {},
     rating: null,
     concierges: [{}],
-    showRating: false
+    showRating: false,
+    showAvatar: true,
+    showTitle: true
   };
 
   renderAvatars = (concierges) => {
@@ -103,9 +107,10 @@ export class ChatHeader extends Component {
   }
 
   render = () => {
-    const { showRating, onAgentDetailsClick } = this.props;
-    // Title in chat refers to the byline and display_name refers to the display title
+    const { showTitle, showAvatar, showRating, onAgentDetailsClick } = this.props;
     const ratingButtons = showRating ? this.renderRatingButtons() : null;
+    const avatar = showAvatar ? this.renderAvatarContainer() : null;
+    const textContainer = showTitle ? this.renderTextContainer() : null;
     const agentDetailsClasses = classNames(styles.agentDetails, styles.button, {
       [styles.clickable]: !!onAgentDetailsClick
     });
@@ -113,8 +118,8 @@ export class ChatHeader extends Component {
     return (
       <div className={styles.container}>
         <button className={agentDetailsClasses} onClick={onAgentDetailsClick}>
-          {this.renderAvatarContainer()}
-          {this.renderTextContainer()}
+          {avatar}
+          {textContainer}
         </button>
         {ratingButtons}
       </div>

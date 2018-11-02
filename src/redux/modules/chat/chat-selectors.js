@@ -18,7 +18,8 @@ import {
   getSettingsChatConcierge,
   getSettingsChatOfflineForm,
   getSettingsChatPrechatForm,
-  getSettingsChatTitle
+  getSettingsChatTitle,
+  getSettingsChatProfileCard
 } from 'src/redux/modules/settings/settings-selectors';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
@@ -82,6 +83,17 @@ export const getChatAccountSettingsConcierge = (state) => state.chat.accountSett
 export const getChatAccountSettingsOfflineForm = (state) => state.chat.accountSettings.offlineForm;
 export const getOfflineFormEnabled = (state) => getOfflineFormSettings(state).enabled;
 export const getChatAccountSettingsPrechatForm = (state) => state.chat.accountSettings.prechatForm;
+
+export const getProfileConfig = createSelector(
+  [getSettingsChatProfileCard, getRatingSettings],
+  (settingsChatProfileCard, ratingSettings) => (
+    {
+      avatar: settingsChatProfileCard.avatar,
+      title: settingsChatProfileCard.title,
+      rating: ratingSettings.enabled && settingsChatProfileCard.rating
+    }
+  )
+);
 
 export const getChatAccountSettingsTitle = createSelector(
   getWindowSettings,

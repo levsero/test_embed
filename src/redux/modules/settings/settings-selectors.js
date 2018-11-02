@@ -10,3 +10,4 @@ export const getSettingsChatConcierge = (state) => state.settings.chat.concierge
 export const getSettingsChatOfflineForm = (state) => state.settings.chat.offlineForm;
 export const getSettingsChatPrechatForm = (state) => state.settings.chat.prechatForm;
 export const getSettingsChatTitle = (state) => state.settings.chat.title;
+export const getSettingsChatProfileCard = (state) => state.settings.chat.profileCard;
