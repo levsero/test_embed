@@ -15,7 +15,7 @@ describe('zopim events', () => {
     zopimApi.setUpZopimApiMethods(mockWin, mockStore);
   });
 
-  test('onShow dispatches the LAUNCHER_CLICKED action', () => {
+  test('onShow dispatches the EXECUTE_API_ON_OPEN_CALLBACK action', () => {
     mockWin.$zopim.livechat.window.onShow(callback);
 
     expect(mockStore.dispatch)
@@ -24,7 +24,7 @@ describe('zopim events', () => {
           type: baseActionTypes.API_ON_RECEIVED,
           payload: expect.objectContaining(
             {
-              actionType: baseActionTypes.LAUNCHER_CLICKED,
+              actionType: baseActionTypes.EXECUTE_API_ON_OPEN_CALLBACK,
               callback
             }
           )

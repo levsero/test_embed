@@ -845,11 +845,11 @@ describe('base redux actions', () => {
   });
 
   describe('launcherClicked', () => {
-    let action;
+    let dispatchedActions;
 
     beforeEach(() => {
       mockStore.dispatch(actions.launcherClicked());
-      action = mockStore.getActions()[0];
+      dispatchedActions = mockStore.getActions();
     });
 
     describe('when the activeEmbed is not zopimChat', () => {
@@ -858,8 +858,13 @@ describe('base redux actions', () => {
       });
 
       it('dispatches a LAUNCHER_CLICKED event', () => {
-        expect(action.type)
+        expect(dispatchedActions[0].type)
           .toEqual(actionTypes.LAUNCHER_CLICKED);
+      });
+
+      it('dispatches an EXECUTE_API_ON_OPEN_CALLBACK event', () => {
+        expect(dispatchedActions[1].type).
+          toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
       });
     });
 
@@ -871,6 +876,11 @@ describe('base redux actions', () => {
       it('calls mediator zopimChat.show', () => {
         expect(broadcastSpy)
           .toHaveBeenCalledWith('zopimChat.show');
+      });
+
+      it('dispatches an EXECUTE_API_ON_OPEN_CALLBACK event', () => {
+        expect(dispatchedActions[0].type).
+          toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
       });
     });
   });
@@ -1113,6 +1123,19 @@ describe('base redux actions', () => {
     it('dispatches an action with TOGGLE_RECEIVED', () => {
       expect(action.type)
         .toEqual(actionTypes.TOGGLE_RECEIVED);
+    });
+  });
+
+  describe('executeApiOnOpenCallback', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.executeApiOnOpenCallback());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches a EXECUTE_API_ON_OPEN_CALLBACK event', () => {
+      expect(action.type).toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
     });
   });
 });
