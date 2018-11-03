@@ -114,7 +114,7 @@ Gets the current widget display (eg. Help Center).
 
 `zE('webWidget:on', 'open', callback<function>);`
 
-Executes a callback when the widget is shown.
+Executes a callback when the widget is opened.
 
 ##### Parameters
 
@@ -125,7 +125,7 @@ Executes a callback when the widget is shown.
 ```html
 <script type="text/javascript">
 zE('webWidget:on', 'open', function() {
-  console.log("The widget has been shown!");
+  console.log("The widget has been opened!");
 });
 </script>
 ```
@@ -135,7 +135,7 @@ zE('webWidget:on', 'open', function() {
 
 `zE('webWidget:on', 'close', callback<function>);`
 
-Executes a callback when the widget is hidden.
+Executes a callback when the widget is closed.
 
 ##### Parameters
 
@@ -146,7 +146,7 @@ Executes a callback when the widget is hidden.
 ```html
 <script type="text/javascript">
 zE('webWidget:on', 'close', function() {
-  console.log("The widget has been hidden!");
+  console.log("The widget has been closed!");
 });
 </script>
 ```
