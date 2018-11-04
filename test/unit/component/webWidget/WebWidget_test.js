@@ -86,7 +86,7 @@ describe('WebWidget component', () => {
       'src/redux/modules/chat': {
         chatNotificationDismissed: noop,
         updateChatScreen: noop,
-        hideChatNotification: noop
+        proactiveChatNotificationDismissed: noop
       },
       'src/redux/modules/helpCenter': {
         resetActiveArticle: noop
@@ -278,23 +278,23 @@ describe('WebWidget component', () => {
 
   describe('dismissStandaloneChatPopup', () => {
     let webWidget,
-      chatNotificationDismissedSpy,
+      proactiveChatNotificationDismissedSpy,
       closeFrameSpy;
 
     beforeEach(() => {
-      chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
+      proactiveChatNotificationDismissedSpy = jasmine.createSpy('proactiveChatNotificationDismissed');
       closeFrameSpy = jasmine.createSpy('closeFrame');
       webWidget = instanceRender(
         <WebWidget
-          chatNotificationDismissed={chatNotificationDismissedSpy}
+          proactiveChatNotificationDismissed={proactiveChatNotificationDismissedSpy}
           closeFrame={closeFrameSpy} />
       );
 
       webWidget.dismissStandaloneChatPopup();
     });
 
-    it('calls props.chatNotificationDismissed', () => {
-      expect(chatNotificationDismissedSpy)
+    it('calls props.proactiveChatNotificationDismissed', () => {
+      expect(proactiveChatNotificationDismissedSpy)
         .toHaveBeenCalled();
     });
   });
@@ -446,7 +446,7 @@ describe('WebWidget component', () => {
   describe('renderChatNotification', () => {
     let result,
       chatNotification,
-      hideChatNotificationSpy,
+      chatNotificationDismissedSpy,
       chatNotificationRespondSpy;
 
     describe('when props.chatNotificationRespond is called', () => {
@@ -480,13 +480,13 @@ describe('WebWidget component', () => {
 
     describe('when props.chatNotificationDismissed is called', () => {
       beforeEach(() => {
-        hideChatNotificationSpy = jasmine.createSpy('hideChatNotification');
+        chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
 
         result = instanceRender(
           <WebWidget
             activeEmbed='helpCenterForm'
             hasSearched={true}
-            hideChatNotification={hideChatNotificationSpy} />
+            chatNotificationDismissed={chatNotificationDismissedSpy} />
         );
 
         const chatNotification = result.renderChatNotification();
@@ -494,8 +494,8 @@ describe('WebWidget component', () => {
         chatNotification.props.chatNotificationDismissed();
       });
 
-      it('calls hideChatNotification', () => {
-        expect(hideChatNotificationSpy)
+      it('calls chatNotificationDismissed', () => {
+        expect(chatNotificationDismissedSpy)
           .toHaveBeenCalled();
       });
     });

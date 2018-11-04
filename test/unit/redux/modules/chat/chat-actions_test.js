@@ -945,6 +945,20 @@ describe('chat redux actions', () => {
     });
   });
 
+  describe('proactiveChatNotificationDismissed', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.proactiveChatNotificationDismissed());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type PROACTIVE_CHAT_NOTIFICATION_DISMISSED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.PROACTIVE_CHAT_NOTIFICATION_DISMISSED);
+    });
+  });
+
   describe('chatNotificationRespond', () => {
     let action;
 

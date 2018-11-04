@@ -26,7 +26,7 @@ import { isOnHelpCenterPage } from 'utility/pages';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification, getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
 import { setVisitorInfo,
-  hideChatNotification,
+  chatNotificationDismissed,
   fetchConversationHistory,
   handleChatVendorLoaded,
   setChatHistoryHandler } from 'src/redux/modules/chat';
@@ -273,7 +273,7 @@ export default function WebWidgetFactory(name) {
       if (getStandaloneMobileNotificationVisible(state)) {
         getWebWidgetComponent().dismissStandaloneChatPopup();
       } else if (show) {
-        embed.store.dispatch(hideChatNotification());
+        embed.store.dispatch(chatNotificationDismissed());
       }
     });
 

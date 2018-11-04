@@ -16,10 +16,10 @@ import { updateActiveEmbed,
   updateBackButtonVisibility,
   nextButtonClicked,
   cancelButtonClicked } from 'src/redux/modules/base';
-import { chatNotificationDismissed,
+import { proactiveChatNotificationDismissed,
+  chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
-  hideChatNotification,
   showStandaloneMobileNotification } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
 import { getChatAvailable,
@@ -116,6 +116,7 @@ class WebWidget extends Component {
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
+    proactiveChatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     nextButtonClicked: PropTypes.func.isRequired,
@@ -141,8 +142,7 @@ class WebWidget extends Component {
     chatOfflineAvailable: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
     channelChoiceAvailable: PropTypes.bool.isRequired,
-    submitTicketAvailable: PropTypes.bool.isRequired,
-    hideChatNotification: PropTypes.func.isRequired
+    submitTicketAvailable: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -176,7 +176,7 @@ class WebWidget extends Component {
     onShowMobile: () => {},
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
-    hideChatNotification: () => {}
+    proactiveChatNotificationDismissed: () => {}
   };
 
   setComponent = (activeComponent) => {
@@ -500,12 +500,12 @@ class WebWidget extends Component {
         notification={this.props.chatNotification}
         shouldShow={shouldShow}
         chatNotificationRespond={onNotificatonResponded}
-        chatNotificationDismissed={this.props.hideChatNotification} />
+        chatNotificationDismissed={this.props.chatNotificationDismissed} />
     );
   }
 
   dismissStandaloneChatPopup = () => {
-    this.props.chatNotificationDismissed();
+    this.props.proactiveChatNotificationDismissed();
   }
 
   renderStandaloneChatPopup() {
@@ -579,7 +579,7 @@ const actionCreators = {
   showStandaloneMobileNotification,
   nextButtonClicked,
   cancelButtonClicked,
-  hideChatNotification
+  proactiveChatNotificationDismissed
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

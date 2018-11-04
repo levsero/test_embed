@@ -33,7 +33,7 @@ describe('base reducer launcher visibility', () => {
     actionTypes.LEGACY_SHOW_RECEIVED,
     actionTypes.CANCEL_BUTTON_CLICKED,
     zopimActionTypes.ZOPIM_ON_CLOSE,
-    chatActionTypes.CHAT_NOTIFICATION_DISMISSED,
+    chatActionTypes.PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
     actionTypes.CLOSE_RECEIVED
   ];
 

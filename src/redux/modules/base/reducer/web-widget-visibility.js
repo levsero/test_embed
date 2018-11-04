@@ -11,7 +11,7 @@ import { ZOPIM_SHOW } from '../../zopimChat/zopimChat-action-types';
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
-  CHAT_NOTIFICATION_DISMISSED } from '../../chat/chat-action-types';
+  PROACTIVE_CHAT_NOTIFICATION_DISMISSED } from '../../chat/chat-action-types';
 
 const initialState = false;
 
@@ -29,7 +29,7 @@ const webWidgetVisible = (state = initialState, action) => {
     case ZOPIM_SHOW:
     case LEGACY_SHOW_RECEIVED:
     case CANCEL_BUTTON_CLICKED:
-    case CHAT_NOTIFICATION_DISMISSED:
+    case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
     case CLOSE_RECEIVED:
       return false;
     case TOGGLE_RECEIVED:
