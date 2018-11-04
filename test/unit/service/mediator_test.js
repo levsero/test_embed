@@ -42,7 +42,7 @@ describe('mediator', () => {
 
     launcherSub = jasmine.createSpyObj(
       'launcher',
-      ['setUnreadMsgs']
+      ['setUnreadMsgs', 'updateSettings']
     );
 
     chatSub = jasmine.createSpyObj(
@@ -52,13 +52,14 @@ describe('mediator', () => {
 
     webWidgetSub = jasmine.createSpyObj(
       'webWidget',
-      ['refreshLocale', 'zopimChatStarted', 'proactiveChat']
+      ['refreshLocale', 'zopimChatStarted', 'proactiveChat', 'updateSettings']
     );
 
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
 
       c.subscribe(`${names.launcher}.setUnreadMsgs`, launcherSub.setUnreadMsgs);
+      c.subscribe(`${names.launcher}.updateSettings`, launcherSub.updateSettings);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.hide`, chatSub.hide);
@@ -67,6 +68,7 @@ describe('mediator', () => {
       c.subscribe(`${names.chat}.refreshLocale`, chatSub.refreshLocale);
 
       c.subscribe(`${names.webWidget}.refreshLocale`, webWidgetSub.refreshLocale);
+      c.subscribe(`${names.webWidget}.updateSettings`, webWidgetSub.updateSettings);
       c.subscribe(`${names.webWidget}.zopimChatStarted`, webWidgetSub.zopimChatStarted);
       c.subscribe(`${names.webWidget}.proactiveChat`, webWidgetSub.proactiveChat);
     };
@@ -202,6 +204,36 @@ describe('mediator', () => {
 
     it('should broadcast zopimChat.refreshLocale', () => {
       expect(chatSub.refreshLocale)
+        .toHaveBeenCalled();
+    });
+  });
+
+  /* ****************************************** *
+  *                 ON UPDATE SETTINGS         *
+  * ****************************************** */
+
+  describe('.onUpdateSettings', () => {
+    const launcher = 'launcher';
+    const webWidget = 'webWidget';
+    const names = {
+      launcher,
+      webWidget
+    };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({ submitTicket: true, helpCenter: false });
+
+      c.broadcast('.onUpdateSettings');
+    });
+
+    it('should broadcast webWidget.updateSettings', () => {
+      expect(webWidgetSub.updateSettings)
+        .toHaveBeenCalled();
+    });
+
+    it('should broadcast launcher.updateSettings', () => {
+      expect(launcherSub.updateSettings)
         .toHaveBeenCalled();
     });
   });

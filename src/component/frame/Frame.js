@@ -131,6 +131,7 @@ class Frame extends Component {
 
   componentDidUpdate = () => {
     this.renderFrameContent();
+    this.setCustomCSS(this.generateUserCSSWithColor(this.props.color));
   }
 
   componentWillUnmount = () => {
@@ -274,7 +275,7 @@ class Frame extends Component {
   }
 
   setCustomCSS = (css) => {
-    this.child.setCustomCSS(css);
+    if (this.child) this.child.setCustomCSS(css);
   }
 
   applyMobileBodyStyle = () => {
@@ -378,7 +379,6 @@ class Frame extends Component {
           ref={(el) => { this.child = el; }}
           document={this.getContentDocument()}
           baseCSS={`${this.props.css} ${this.generateUserCSSWithColor(this.props.color)} ${baseFontCSS}`}
-          generateUserCSS={this.props.generateUserCSS}
           reduxStore={this.props.store}
           handleBackClick={this.back}
           preventClose={this.props.preventClose}

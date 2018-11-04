@@ -37,6 +37,7 @@ import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
+import { settings } from 'service/settings';
 
 import { handleOnApiCalled } from 'src/redux/modules/base/base-actions';
 
@@ -73,6 +74,10 @@ export const setLocaleApi = (_, locale) => {
 
 export const updateSettingsApi = (reduxStore, newSettings) => {
   reduxStore.dispatch(updateSettings(newSettings));
+};
+
+export const updateSettingsLegacyApi = (newSettings, callback=()=>{}) => {
+  settings.updateSettingsLegacy(newSettings, callback);
 };
 
 export const logoutApi = (reduxStore) => {

@@ -15,8 +15,10 @@ jest.mock('service/mediator');
 jest.mock('service/i18n');
 jest.mock('src/redux/modules/selectors');
 jest.mock('src/redux/modules/chat/chat-selectors');
+jest.mock('service/settings');
 
 import { mediator } from 'service/mediator';
+import { settings } from 'service/settings';
 import { i18n } from 'service/i18n';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
@@ -29,6 +31,25 @@ import {
 
 const mockActionValue = Date.now();
 const mockAction = jest.fn(() => mockActionValue);
+
+describe('updateSettingsLegacyApi', () => {
+  let newSettings;
+
+  beforeEach(() => {
+    newSettings = {
+      offset: {
+        horizontal: 10
+      }
+    };
+  });
+
+  it('dispatches the endChat action', () => {
+    apis.updateSettingsLegacyApi(newSettings);
+
+    expect(settings.updateSettingsLegacy)
+      .toHaveBeenCalledWith(newSettings, expect.any(Function));
+  });
+});
 
 describe('endChatApi', () => {
   beforeEach(() => {

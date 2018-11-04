@@ -25,6 +25,11 @@ describe('settings', () => {
       },
       'utility/utils': {
         objectDifference: mockObjectDifference
+      },
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast'])
+        }
       }
     });
     defaults = {
@@ -632,6 +637,53 @@ describe('settings', () => {
         expect(chatAuthSettings)
           .toBeNull();
       });
+    });
+  });
+
+  describe('updateSettingsLegacy', () => {
+    let mockSettings = {},
+      callbackSpy;
+
+    beforeEach(() => {
+      mockSettings.webWidget = {
+        offset: {
+          horizontal: 0
+        }
+      };
+      mockRegistry['utility/globals'].win.zESettings = mockSettings;
+      settings.init();
+
+      const newSettings = {
+        offset: {
+          vertical: 0,
+          horizontal: 10,
+          mobile: {
+            vertical: 10,
+            horizontal: 100
+          }
+        }
+      };
+
+      callbackSpy = jasmine.createSpy('callback');
+
+      settings.updateSettingsLegacy(newSettings, callbackSpy);
+    });
+
+    it('calls callback', () => {
+      expect(callbackSpy)
+        .toHaveBeenCalled();
+    });
+
+    it('updates legacy settings object', () => {
+      expect(settings.get('offset.vertical'))
+        .toEqual(0);
+      expect(settings.get('offset.horizontal'))
+        .toEqual(10);
+      expect(settings.get('offset.mobile'))
+        .toEqual({
+          vertical: 10,
+          horizontal: 100
+        });
     });
   });
 });

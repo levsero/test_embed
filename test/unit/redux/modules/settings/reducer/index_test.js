@@ -33,5 +33,10 @@ describe('settings reducer', () => {
       expect(state.chat)
         .toBeDefined();
     });
+
+    it('has the launcher sub state', () => {
+      expect(state.launcher)
+        .toBeDefined();
+    });
   });
 });

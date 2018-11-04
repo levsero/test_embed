@@ -79,6 +79,11 @@ function init() {
     c.broadcast('webWidget.refreshLocale');
   });
 
+  c.intercept('.onUpdateSettings', () => {
+    c.broadcast('webWidget.updateSettings');
+    c.broadcast(`${launcher}.updateSettings`);
+  });
+
   initMessaging();
 }
 

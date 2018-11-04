@@ -4,6 +4,7 @@ import { win } from 'utility/globals';
 import { objectDifference } from 'utility/utils';
 import { updateSettingsChatSuppress,
   updateSettings } from 'src/redux/modules/settings';
+import { mediator } from 'service/mediator';
 
 const optionWhitelist = {
   webWidget: [
@@ -232,6 +233,12 @@ function enableCustomizations() {
   webWidgetCustomizations = true;
 }
 
+function updateSettingsLegacy(newSettings, callback=() => {}) {
+  _.merge(webWidgetStore, newSettings);
+  callback();
+  mediator.channel.broadcast('.onUpdateSettings');
+}
+
 export const settings = {
   init,
   get,
@@ -240,5 +247,6 @@ export const settings = {
   getSupportAuthSettings,
   getChatAuthSettings,
   getErrorReportingEnabled,
-  enableCustomizations
+  enableCustomizations,
+  updateSettingsLegacy
 };

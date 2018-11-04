@@ -232,6 +232,17 @@ describe('Launcher component', () => {
         });
       });
 
+      describe('when chat is available but chat is offline', () => {
+        beforeEach(() => {
+          launcher = instanceRender(<Launcher activeEmbed='chat' chatAvailable={true} chatOfflineAvailable={true}  label='some-label' />);
+        });
+
+        it('returns props.label', () => {
+          expect(launcher.getActiveEmbedLabel())
+            .toBe('some-label');
+        });
+      });
+
       describe('when chat is not available', () => {
         let getLabelSpy;
 
@@ -335,6 +346,19 @@ describe('Launcher component', () => {
       });
     });
 
+    describe('when only chat is available but chat is offline', () => {
+      beforeEach(() => {
+        const launcher = instanceRender(<Launcher chatAvailable={true} chatOfflineAvailable={true} />);
+
+        result = launcher.getIconType();
+      });
+
+      it('returns the string Icon', () => {
+        expect(result)
+          .toEqual('Icon');
+      });
+    });
+
     describe('when only talk is available', () => {
       beforeEach(() => {
         const launcher = instanceRender(<Launcher talkAvailable={true} />);
@@ -385,6 +409,17 @@ describe('Launcher component', () => {
         it('returns the string Icon--chat', () => {
           expect(launcher.getActiveEmbedIconType())
             .toBe('Icon--chat');
+        });
+      });
+
+      describe('when chat is available but chat is offline', () => {
+        beforeEach(() => {
+          launcher = instanceRender(<Launcher activeEmbed='zopimChat' chatAvailable={true} chatOfflineAvailable={true} />);
+        });
+
+        it('returns the value of getIcon', () => {
+          expect(launcher.getActiveEmbedIconType())
+            .toBe('Icon');
         });
       });
 
