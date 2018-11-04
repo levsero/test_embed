@@ -85,7 +85,8 @@ describe('WebWidget component', () => {
       },
       'src/redux/modules/chat': {
         chatNotificationDismissed: noop,
-        updateChatScreen: noop
+        updateChatScreen: noop,
+        hideChatNotification: noop
       },
       'src/redux/modules/helpCenter': {
         resetActiveArticle: noop
@@ -445,8 +446,8 @@ describe('WebWidget component', () => {
   describe('renderChatNotification', () => {
     let result,
       chatNotification,
-      chatNotificationRespondSpy,
-      chatNotificationDismissedSpy;
+      hideChatNotificationSpy,
+      chatNotificationRespondSpy;
 
     describe('when props.chatNotificationRespond is called', () => {
       beforeEach(() => {
@@ -479,13 +480,13 @@ describe('WebWidget component', () => {
 
     describe('when props.chatNotificationDismissed is called', () => {
       beforeEach(() => {
-        chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
+        hideChatNotificationSpy = jasmine.createSpy('hideChatNotification');
 
         result = instanceRender(
           <WebWidget
             activeEmbed='helpCenterForm'
             hasSearched={true}
-            chatNotificationDismissed={chatNotificationDismissedSpy} />
+            hideChatNotification={hideChatNotificationSpy} />
         );
 
         const chatNotification = result.renderChatNotification();
@@ -493,8 +494,8 @@ describe('WebWidget component', () => {
         chatNotification.props.chatNotificationDismissed();
       });
 
-      it('calls chatNotificationDismissed', () => {
-        expect(chatNotificationDismissedSpy)
+      it('calls hideChatNotification', () => {
+        expect(hideChatNotificationSpy)
           .toHaveBeenCalled();
       });
     });

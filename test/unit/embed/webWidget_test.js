@@ -25,7 +25,7 @@ describe('embed.webWidget', () => {
     mockStandaloneMobileNotificationVisible,
     mockState,
     mockChatVendorImport,
-    chatNotificationDismissedSpy;
+    hideChatNotificationSpy;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const revokeTokenSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
@@ -71,7 +71,7 @@ describe('embed.webWidget', () => {
         };
       }
     });
-    chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
+    hideChatNotificationSpy = jasmine.createSpy('hideChatNotification');
 
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
     mockWebWidget = requireUncached(buildTestPath('unit/mocks/mockWebWidget'));
@@ -147,7 +147,7 @@ describe('embed.webWidget', () => {
       'component/frame/Frame': mockFrame,
       'src/redux/modules/chat': {
         setVisitorInfo: (user) => user,
-        chatNotificationDismissed: chatNotificationDismissedSpy
+        hideChatNotification: hideChatNotificationSpy
       },
       'src/redux/modules/talk': {
         resetTalkScreen: resetTalkScreenSpy,
@@ -1162,8 +1162,8 @@ describe('embed.webWidget', () => {
           pluckSubscribeCall(mockMediator, 'webWidget.hideChatNotification')();
         });
 
-        it('calls chatNotificationDismissed action', () => {
-          expect(chatNotificationDismissedSpy)
+        it('calls hideChatNotification action', () => {
+          expect(hideChatNotificationSpy)
             .toHaveBeenCalled();
         });
 
@@ -1181,8 +1181,8 @@ describe('embed.webWidget', () => {
           pluckSubscribeCall(mockMediator, 'webWidget.hideChatNotification')();
         });
 
-        it('does not call chatNotificationDismissed action', () => {
-          expect(chatNotificationDismissedSpy)
+        it('does not call hideChatNotification action', () => {
+          expect(hideChatNotificationSpy)
             .not.toHaveBeenCalled();
         });
 

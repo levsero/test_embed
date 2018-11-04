@@ -19,6 +19,7 @@ import { updateActiveEmbed,
 import { chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
+  hideChatNotification,
   showStandaloneMobileNotification } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
 import { getChatAvailable,
@@ -140,7 +141,8 @@ class WebWidget extends Component {
     chatOfflineAvailable: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
     channelChoiceAvailable: PropTypes.bool.isRequired,
-    submitTicketAvailable: PropTypes.bool.isRequired
+    submitTicketAvailable: PropTypes.bool.isRequired,
+    hideChatNotification: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -173,7 +175,8 @@ class WebWidget extends Component {
     articleViewActive: false,
     onShowMobile: () => {},
     ipmHelpCenterAvailable: false,
-    mobileNotificationsDisabled: false
+    mobileNotificationsDisabled: false,
+    hideChatNotification: () => {}
   };
 
   setComponent = (activeComponent) => {
@@ -497,7 +500,7 @@ class WebWidget extends Component {
         notification={this.props.chatNotification}
         shouldShow={shouldShow}
         chatNotificationRespond={onNotificatonResponded}
-        chatNotificationDismissed={this.props.chatNotificationDismissed} />
+        chatNotificationDismissed={this.props.hideChatNotification} />
     );
   }
 
@@ -575,7 +578,8 @@ const actionCreators = {
   updateChatScreen,
   showStandaloneMobileNotification,
   nextButtonClicked,
-  cancelButtonClicked
+  cancelButtonClicked,
+  hideChatNotification
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

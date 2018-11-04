@@ -322,6 +322,10 @@ export function chatNotificationDismissed() {
   return { type: actions.CHAT_NOTIFICATION_DISMISSED };
 }
 
+export function hideChatNotification() {
+  return { type: actions.HIDE_CHAT_NOTIFICATION };
+}
+
 export function chatNotificationRespond() {
   return { type: actions.CHAT_NOTIFICATION_RESPONDED };
 }
