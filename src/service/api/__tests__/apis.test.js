@@ -275,7 +275,7 @@ describe('onApi', () => {
       .not.toHaveBeenCalled();
   });
 
-  test('API_ON_OPEN_NAME dispatches LAUNCHER_CLICKED', () => {
+  test('API_ON_OPEN_NAME dispatches EXECUTE_API_ON_OPEN_CALLBACK', () => {
     on[constants.API_ON_OPEN_NAME](mockStore, callback);
 
     expect(mockStore.dispatch)
@@ -284,7 +284,7 @@ describe('onApi', () => {
           type: baseActionTypes.API_ON_RECEIVED,
           payload: expect.objectContaining(
             {
-              actionType: baseActionTypes.LAUNCHER_CLICKED,
+              actionType: baseActionTypes.EXECUTE_API_ON_OPEN_CALLBACK,
               callback
             }
           )

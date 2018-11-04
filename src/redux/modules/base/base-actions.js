@@ -251,6 +251,12 @@ export const apiClearForm = () => {
   };
 };
 
+export const executeApiOnOpenCallback = () => {
+  return {
+    type: actions.EXECUTE_API_ON_OPEN_CALLBACK
+  };
+};
+
 export const launcherClicked = () => {
   return (dispatch, getState) => {
     const state = getState();
@@ -258,10 +264,9 @@ export const launcherClicked = () => {
     if (getActiveEmbed(state) === 'zopimChat') {
       mediator.channel.broadcast('zopimChat.show');
     } else {
-      dispatch({
-        type: actions.LAUNCHER_CLICKED
-      });
+      dispatch({ type: actions.LAUNCHER_CLICKED });
     }
+    dispatch(executeApiOnOpenCallback());
   };
 };
 

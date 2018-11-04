@@ -11,8 +11,7 @@ import {
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
   API_GET_DEPARTMENTS_DEPARTMENT_NAME,
-  API_GET_DISPLAY_NAME
-} from 'constants/api';
+  API_GET_DISPLAY_NAME } from 'constants/api';
 import {
   endChatApi,
   sendChatMsgApi,

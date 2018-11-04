@@ -31,3 +31,4 @@ export const WIDGET_INITIALISED = 'widget/base/WIDGET_INITIALISED';
 export const BOOT_UP_TIMER_COMPLETE = 'widget/base/BOOT_UP_TIMER_COMPLETE';
 export const NEXT_BUTTON_CLICKED = 'widget/base/NEXT_BUTTON_CLICKED';
 export const CANCEL_BUTTON_CLICKED = 'widget/base/CANCEL_BUTTON_CLICKED';
+export const EXECUTE_API_ON_OPEN_CALLBACK = 'widget/base/EXECUTE_API_ON_OPEN_CALLBACK';
