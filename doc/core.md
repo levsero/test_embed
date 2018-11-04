@@ -100,7 +100,6 @@ The Web Widget has the following core commands:
 * [clear](#clear)
 * [updatePath](#updatepath)
 * [toggle](#toggle)
-* [popout](#popout)
 * [reset](#reset)
 
 #### get display
@@ -352,17 +351,6 @@ None
 `zE('webWidget', 'toggle');`
 
 Opens the widget if it was closed or closes the widget if it was opened.
-
-##### Parameters
-
-None
-
-
-#### popout
-
-`zE('webWidget', 'popout');`
-
-Opens a new window that renders a widget.
 
 ##### Parameters
 
