@@ -38,13 +38,13 @@ describe('chat reducer mobile notifications disabled', () => {
       });
     });
 
-    describe('when disable is true', () => {
+    describe('when mobile notifications are set to true', () => {
       beforeAll(() => {
         someSettings = {
           webWidget: {
             chat: {
-              mobile: {
-                notifications: {
+              notifications: {
+                mobile: {
                   disable: true
                 }
               }
@@ -59,13 +59,15 @@ describe('chat reducer mobile notifications disabled', () => {
       });
     });
 
-    describe('when disable is false', () => {
+    describe('when mobile notifications are set to false', () => {
       beforeAll(() => {
         someSettings = {
           webWidget: {
             chat: {
               notifications: {
-                disable: false
+                mobile: {
+                  disable: false
+                }
               }
             }
           }

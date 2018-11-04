@@ -19,13 +19,14 @@ const optionWhitelist = {
     'chat.departments.enabled',
     'chat.suppress',
     'chat.departments.select',
-    'chat.mobile.notifications.disable',
+    'chat.notifications.mobile.disable',
     'chat.prechatForm.departmentLabel',
     'chat.title',
     'chat.prechatForm.greeting',
     'chat.offlineForm.greeting',
     'chat.concierge.title',
     'chat.concierge.name',
+    'chat.tags',
     'color.theme',
     'color.button',
     'color.header',
@@ -89,11 +90,12 @@ const webWidgetStoreDefaults = {
       select: ''
     },
     suppress: false,
-    mobile: {
-      notifications: {
+    notifications: {
+      mobile: {
         disable: false
       }
-    }
+    },
+    tags: []
   },
   launcher: {},
   margin: 8,

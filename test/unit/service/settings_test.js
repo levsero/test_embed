@@ -240,8 +240,8 @@ describe('settings', () => {
             concierge: {
               avatarPath: 'https://i.imgur.com/3mZBYfn.jpg'
             },
-            mobile: {
-              notifications: {
+            notifications: {
+              mobile: {
                 disable: true
               }
             },
@@ -278,7 +278,7 @@ describe('settings', () => {
     });
 
     it('returns mobile notifications disable settings', () => {
-      expect(settings.get('chat.mobile.notifications.disable'))
+      expect(settings.get('chat.notifications.mobile.disable'))
         .toBe(true);
     });
 
