@@ -75,21 +75,34 @@ export class ChatHeader extends Component {
     );
   }
 
-  renderTextContainer = () => {
-    const { concierges } = this.props;
-    const defaultTitleText = i18n.t('embeddable_framework.chat.header.default.title');
-    const titleText = _.get(concierges[0], 'display_name') || defaultTitleText;
+  textContainerStyle = () => {
+    const { concierges, showAvatar, showTitle } = this.props;
+
+    if (!showTitle) {
+      return { visibility: 'hidden' };
+    }
+
+    if (!showAvatar) {
+      return null;
+    }
 
     const basePadding = 22;
     const paddingAvatarModifier = 20;
     const numAvatars = Math.min(concierges.length, 3);
     const paddingAdjustment = basePadding + (numAvatars * paddingAvatarModifier);
-    const rtlPaddingStyle = (i18n.isRTL())
+
+    return (i18n.isRTL())
       ? { paddingRight: `${paddingAdjustment/FONT_SIZE}rem` }
       : { paddingLeft: `${paddingAdjustment/FONT_SIZE}rem` };
+  }
+
+  renderTextContainer = () => {
+    const { concierges } = this.props;
+    const defaultTitleText = i18n.t('embeddable_framework.chat.header.default.title');
+    const titleText = _.get(concierges[0], 'display_name') || defaultTitleText;
 
     return (
-      <div className={styles.textContainer} style={rtlPaddingStyle}>
+      <div data-testid="header-text-container" className={styles.textContainer} style={this.textContainerStyle()}>
         <h2 className={styles.title}>{titleText}</h2>
         {this.renderSubText()}
       </div>
@@ -110,10 +123,14 @@ export class ChatHeader extends Component {
     const { showTitle, showAvatar, showRating, onAgentDetailsClick } = this.props;
     const ratingButtons = showRating ? this.renderRatingButtons() : null;
     const avatar = showAvatar ? this.renderAvatarContainer() : null;
-    const textContainer = showTitle ? this.renderTextContainer() : null;
+    const textContainer = this.renderTextContainer();
     const agentDetailsClasses = classNames(styles.agentDetails, styles.button, {
       [styles.clickable]: !!onAgentDetailsClick
     });
+
+    if (!showAvatar && !showTitle && !showRating) {
+      return null;
+    }
 
     return (
       <div className={styles.container}>
