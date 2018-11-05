@@ -1,5 +1,5 @@
 let nullZChat = null;
-let shouldWarn = true;
+let shouldWarn = false;
 const timeBetweenWarnings = 2000;
 
 function resetShouldWarn() {

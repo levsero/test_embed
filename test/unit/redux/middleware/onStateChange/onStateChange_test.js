@@ -28,6 +28,7 @@ describe('onStateChange middleware', () => {
   const chatWindowOpenOnNavigateSpy = jasmine.createSpy('chatWindowOpenOnNavigateSpy');
   const handleZopimQueueSpy = jasmine.createSpy('handleZopimQueue');
   const activateRecievedSpy = jasmine.createSpy('activateRecieved');
+  const resetShouldWarnSpy = jasmine.createSpy('resetShouldWarn');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
   let mockDepartmentLists = [];
@@ -119,6 +120,9 @@ describe('onStateChange middleware', () => {
         CHAT_STARTED: 'CHAT_STARTED',
         CHAT_CONNECTED: 'CHAT_CONNECTED'
       },
+      'src/redux/modules/base/base-action-types': {
+        UPDATE_EMBEDDABLE_CONFIG: 'UPDATE_EMBEDDABLE_CONFIG'
+      },
       'src/constants/chat': {
         CONNECTION_STATUSES: {
           CONNECTING: 'connecting'
@@ -155,7 +159,10 @@ describe('onStateChange middleware', () => {
         win: mockWin
       },
       'src/redux/middleware/onStateChange/onWidgetOpen': noop,
-      'src/redux/middleware/onStateChange/onChatOpen': noop
+      'src/redux/middleware/onStateChange/onChatOpen': noop,
+      'src/util/nullZChat': {
+        resetShouldWarn: resetShouldWarnSpy
+      }
     });
 
     stateChangeFn = requireUncached(path).default;
@@ -1207,6 +1214,68 @@ describe('onStateChange middleware', () => {
           it('does not dispatch the event CHAT_STARTED', () => {
             expect(dispatchSpy)
               .not.toHaveBeenCalledWith({ type: 'CHAT_STARTED' });
+          });
+        });
+      });
+    });
+
+    describe('onUpdateEmbeddableConfig', () => {
+      beforeEach(() => {
+        resetShouldWarnSpy.calls.reset();
+      });
+
+      describe('when the action is not UPDATE_EMBEDDABLE_CONFIG', () => {
+        beforeEach(() => {
+          const action = {
+            type: 'NOT_UPDATE_EMBEDDABLE_CONFIG',
+            payload: {
+              newChat: false
+            }
+          };
+
+          stateChangeFn(null, null, action);
+        });
+
+        it('does not call resetShouldWarn', () => {
+          expect(resetShouldWarnSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when the action is UPDATE_EMBEDDABLE_CONFIG', () => {
+        describe('when newChat is not on', () => {
+          beforeEach(() => {
+            const action = {
+              type: 'UPDATE_EMBEDDABLE_CONFIG',
+              payload: {
+                newChat: false
+              }
+            };
+
+            stateChangeFn(null, null, action);
+          });
+
+          it('calls resetShouldWarn', () => {
+            expect(resetShouldWarnSpy)
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('when newChat is true', () => {
+          beforeEach(() => {
+            const action = {
+              type: 'UPDATE_EMBEDDABLE_CONFIG',
+              payload: {
+                newChat: true
+              }
+            };
+
+            stateChangeFn(null, null, action);
+          });
+
+          it('does not call resetShouldWarn', () => {
+            expect(resetShouldWarnSpy)
+              .not.toHaveBeenCalled();
           });
         });
       });
