@@ -15,7 +15,7 @@ describe('boot', () => {
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
     gaSpy = registerImportSpy('GA', 'init'),
     apiSpy = registerImportSpy('webWidgetApi', 'handleQueue', 'setupWidgetApi', 'setupWidgetQueue', 'setupZopimQueue', 'handlePostRenderQueue'),
-    zopimApiSpy = registerImportSpy('zopimApi', 'setupZopimQueue', 'handleZopimQueue', 'setUpZopimApiMethods');
+    zopimApiSpy = registerImportSpy('zopimApi', 'setupZopimQueue', 'setUpZopimApiMethods');
 
   let updateEmbeddableConfigSpy = jasmine.createSpy('updateEmbeddableConfig');
 
@@ -264,11 +264,6 @@ describe('boot', () => {
           expect(zopimApiSpy.zopimApi.setUpZopimApiMethods)
             .not.toHaveBeenCalled();
         });
-
-        it('does not call zopimApi handleZopimQueue', () => {
-          expect(zopimApiSpy.zopimApi.handleZopimQueue)
-            .not.toHaveBeenCalled();
-        });
       });
 
       describe('when newChat is part of config', () => {
@@ -279,11 +274,6 @@ describe('boot', () => {
         it('calls zopimApi setUpZopimApiMethods with the win and reduxStore', () => {
           expect(zopimApiSpy.zopimApi.setUpZopimApiMethods)
             .toHaveBeenCalledWith(win, reduxStore);
-        });
-
-        it('calls zopimApi setUpZopimApiMethods with the zopimQueue', () => {
-          expect(zopimApiSpy.zopimApi.handleZopimQueue)
-            .toHaveBeenCalledWith(win);
         });
       });
 

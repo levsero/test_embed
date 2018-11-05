@@ -127,7 +127,6 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     if (config.newChat) {
       zopimApi.setUpZopimApiMethods(win, reduxStore);
-      zopimApi.handleZopimQueue(win);
     }
 
     renderer.init(config, reduxStore);
