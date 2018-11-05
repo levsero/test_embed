@@ -6,6 +6,7 @@ import {
   SEARCH_REQUEST_FAILURE,
   SEARCH_REQUEST_SENT
 } from '../helpCenter-action-types';
+import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types';
 
 const initialState = {
   current: '',
@@ -30,6 +31,8 @@ const searchTerm = (state = initialState, action) => {
         ...state,
         current: payload.searchTerm
       };
+    case API_CLEAR_HC_SEARCHES:
+      return initialState;
     default:
       return state;
   }

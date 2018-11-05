@@ -1,6 +1,7 @@
 describe('helpCenter reducer manualContextualSuggestions', () => {
   let reducer,
     actionTypes,
+    baseActionTypes,
     initialState;
 
   beforeAll(() => {
@@ -8,11 +9,13 @@ describe('helpCenter reducer manualContextualSuggestions', () => {
 
     const reducerPath = buildSrcPath('redux/modules/helpCenter/reducer/helpCenter-manualContextualSuggestions');
     const actionTypesPath = buildSrcPath('redux/modules/helpCenter/helpCenter-action-types');
+    const baseActionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);
+    baseActionTypes = requireUncached(baseActionTypesPath);
   });
 
   afterAll(() => {
@@ -100,6 +103,45 @@ describe('helpCenter reducer manualContextualSuggestions', () => {
             labels: [],
             url: true
           });
+      });
+    });
+  });
+
+  describe('when API_CLEAR_HC_SEARCHES', () => {
+    let mockAction,
+      mockState,
+      state;
+
+    beforeEach(() => {
+      mockState = {
+        query: 'Hello David, my name is HAL',
+        labels: ['destroy', 'all', 'humans'],
+        url: 'DoYouTrustMe.com'
+      };
+
+      state = reducer(mockState, mockAction);
+    });
+
+    describe('labels provided', () => {
+      beforeAll(() => {
+        mockAction = {
+          type: baseActionTypes.API_CLEAR_HC_SEARCHES,
+          payload: {
+            labels: ['yo', 'this', 'a', 'label'],
+            url: true
+          }
+        };
+      });
+
+      it('resets to default, regardless of input', () => {
+        const expected = {
+          query: '',
+          labels: [],
+          url: false
+        };
+
+        expect(state)
+          .toEqual(expected);
       });
     });
   });
