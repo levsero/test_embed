@@ -260,7 +260,7 @@ zE('webWidget', 'prefill', {
     readOnly: true // optional
   },
   phone: {
-    value: '+61431909749',
+    value: '61431909749',
     readOnly: true // optional
   }
 });
