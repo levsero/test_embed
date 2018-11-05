@@ -15,7 +15,7 @@ describe('boot', () => {
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
     gaSpy = registerImportSpy('GA', 'init'),
     apiSpy = registerImportSpy('webWidgetApi', 'handleQueue', 'setupWidgetApi', 'setupWidgetQueue', 'setupZopimQueue', 'handlePostRenderQueue'),
-    zopimApiSpy = registerImportSpy('zopimApi', 'setupZopimQueue', 'handleZopimQueue', 'setUpZopimApiMethods');
+    zopimApiSpy = registerImportSpy('zopimApi', 'setupZopimQueue', 'setUpZopimApiMethods');
 
   let updateEmbeddableConfigSpy = jasmine.createSpy('updateEmbeddableConfig');
 
@@ -199,7 +199,6 @@ describe('boot', () => {
     describe('when the request succeeds', () => {
       let doneHandler, reduxStore;
       let config = {};
-      const zopimQueue = [];
 
       beforeEach(() => {
         jasmine.clock().install();
@@ -209,7 +208,7 @@ describe('boot', () => {
           dispatch: jasmine.createSpy().and.callThrough()
         };
 
-        boot.getConfig(win, postRenderQueue, zopimQueue, reduxStore);
+        boot.getConfig(win, postRenderQueue, reduxStore);
         doneHandler = mockGetCalls.mostRecent().args[0].callbacks.done;
 
         Math.random = jasmine.createSpy('random').and.returnValue(1);
@@ -265,11 +264,6 @@ describe('boot', () => {
           expect(zopimApiSpy.zopimApi.setUpZopimApiMethods)
             .not.toHaveBeenCalled();
         });
-
-        it('does not call zopimApi handleZopimQueue', () => {
-          expect(zopimApiSpy.zopimApi.handleZopimQueue)
-            .not.toHaveBeenCalled();
-        });
       });
 
       describe('when newChat is part of config', () => {
@@ -280,11 +274,6 @@ describe('boot', () => {
         it('calls zopimApi setUpZopimApiMethods with the win and reduxStore', () => {
           expect(zopimApiSpy.zopimApi.setUpZopimApiMethods)
             .toHaveBeenCalledWith(win, reduxStore);
-        });
-
-        it('calls zopimApi setUpZopimApiMethods with the zopimQueue', () => {
-          expect(zopimApiSpy.zopimApi.handleZopimQueue)
-            .toHaveBeenCalledWith(zopimQueue);
         });
       });
 

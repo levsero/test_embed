@@ -95,7 +95,7 @@ const filterEmbeds = (config) => {
   return config;
 };
 
-const getConfig = (win, postRenderQueue, zopimQueue, reduxStore) => {
+const getConfig = (win, postRenderQueue, reduxStore) => {
   if (win.zESkipWebWidget) return;
 
   const configLoadStart = Date.now();
@@ -127,7 +127,6 @@ const getConfig = (win, postRenderQueue, zopimQueue, reduxStore) => {
 
     if (config.newChat) {
       zopimApi.setUpZopimApiMethods(win, reduxStore);
-      zopimApi.handleZopimQueue(zopimQueue);
     }
 
     renderer.init(config, reduxStore);
@@ -157,12 +156,11 @@ const getConfig = (win, postRenderQueue, zopimQueue, reduxStore) => {
 const start = (win, doc) => {
   const reduxStore = createStore();
   const postRenderQueue = [];
-  const zopimQueue = [];
   const { publicApi, devApi } = webWidgetApi.setupWidgetQueue(win, postRenderQueue, reduxStore);
 
   boot.setupIframe(window.frameElement, doc);
   boot.setupServices(reduxStore);
-  zopimApi.setupZopimQueue(win, zopimQueue);
+  zopimApi.setupZopimQueue(win);
 
   _.extend(win.zEmbed, publicApi, devApi);
 
@@ -173,7 +171,7 @@ const start = (win, doc) => {
 
   webWidgetApi.setupWidgetApi(win, reduxStore);
 
-  boot.getConfig(win, postRenderQueue, zopimQueue, reduxStore, devApi);
+  boot.getConfig(win, postRenderQueue, reduxStore, devApi);
 
   displayOssAttribution();
 
