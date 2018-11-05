@@ -35,7 +35,9 @@ describe('analytics reducer', () => {
         state = reducer(initialState, {
           type: actionTypes.UPDATE_SETTINGS,
           payload: {
-            analytics: false
+            webWidget: {
+              analytics: false
+            }
           }
         });
       });

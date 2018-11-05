@@ -8,6 +8,10 @@ const chatSettings = (newSettings) => {
   return settings({ chat: newSettings });
 };
 
+const launcherSettings = (newSettings) => {
+  return settings({ launcher: newSettings });
+};
+
 test('getSettingsChatSuppress', () => {
   const result = selectors.getSettingsChatSuppress(chatSettings({ suppress: true }));
 
@@ -119,4 +123,15 @@ test('getSettingsChatProfileCard', () => {
 
   expect(result)
     .toEqual({ x: 1 });
+});
+
+test('getSettingsLauncherSetHideWhenChatOffline', () => {
+  const result = selectors.getSettingsLauncherSetHideWhenChatOffline(
+    launcherSettings({
+      setHideWhenChatOffline: true
+    })
+  );
+
+  expect(result)
+    .toEqual(true);
 });

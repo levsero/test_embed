@@ -1132,6 +1132,24 @@ describe('embed.webWidget', () => {
       });
     });
 
+    describe('when webWidget.updateSettings is broadcast', () => {
+      let embed;
+
+      beforeEach(() => {
+        webWidget.create('', {}, mockStore);
+        embed = webWidget.get();
+        webWidget.render();
+
+        spyOn(embed.instance, 'forceUpdateWorld');
+        pluckSubscribeCall(mockMediator, 'webWidget.updateSettings')();
+      });
+
+      it('should call forceUpdateWorld', () => {
+        expect(embed.instance.forceUpdateWorld)
+          .toHaveBeenCalled();
+      });
+    });
+
     describe('when webWidget.hideChatNotification is broadcast', () => {
       beforeEach(() => {
         webWidget.create('', {}, mockStore);

@@ -8,7 +8,7 @@ const tags = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'analytics', state);
+      return _.get(payload, 'webWidget.analytics', state);
     default:
       return state;
   }

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { updateSettingsChatSuppress } from 'src/redux/modules/settings';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 import {
   endChatApi,
@@ -7,6 +8,7 @@ import {
   closeApi,
   toggleApi,
   updateSettingsApi,
+  updateSettingsLegacyApi,
   hideApi,
   showApi,
   displayApi,
@@ -27,6 +29,8 @@ import {
   API_ON_CLOSE_NAME,
   API_ON_OPEN_NAME
 } from 'constants/api';
+
+import { i18n } from 'service/i18n';
 
 function zopimExistsOnPage(win) {
   return !!win.$zopim;
@@ -55,6 +59,7 @@ function setupZopimQueue(win) {
     $zopim._setByWW = true;
   }
 }
+
 function handleZopimQueue(win) {
   if (!_.get(win.$zopim, '_setByWW', false))
     return;
@@ -71,6 +76,102 @@ function handleZopimQueue(win) {
   _.set(win.$zopim, 'flushed', true);
 }
 
+const updateSettings = (store, s, val) => {
+  const newSettings = _.set({}, s, val);
+
+  updateSettingsApi(store, newSettings);
+};
+
+const updateSettingsLegacy = (s, val, callback=() => {}) => {
+  const newSettings = _.set({}, s, val);
+
+  updateSettingsLegacyApi(newSettings, callback);
+};
+
+const getPositionVals = (position) => {
+  const mapPositions = {
+    'b': 'bottom',
+    't': 'top',
+    'm': null,
+    'r': 'right',
+    'l': 'left'
+  };
+
+  return [mapPositions[position[0]], mapPositions[position[1]]];
+};
+
+const setPositionApi = (position) => {
+  const [verticalVal, horizontalVal] = getPositionVals(position);
+
+  if (horizontalVal) updateSettingsLegacy('position.horizontal', horizontalVal);
+  if (verticalVal) updateSettingsLegacy('position.vertical', verticalVal);
+};
+
+const setOffsetApi = {
+  setOffsetVertical: (dist) => updateSettingsLegacy('offset.vertical', dist),
+  setOffsetHorizontal: (dist) => updateSettingsLegacy('offset.horizontal', dist)
+};
+
+const setOffsetMobileApi = {
+  setOffsetVerticalMobile: (dist) => updateSettingsLegacy('offset.mobile.vertical', dist),
+  setOffsetHorizontalMobile: (dist) => updateSettingsLegacy('offset.mobile.horizontal', dist)
+};
+
+const setGreetingsApi = (greetings) => {
+  const onlineGreeting = _.get(greetings, 'online');
+  const offlineGreeting = _.get(greetings, 'offline');
+
+  const callback = () => {
+    i18n.setCustomTranslations();
+  };
+
+  if (_.isString(onlineGreeting)) {
+    updateSettingsLegacy('launcher.chatLabel.*', onlineGreeting, callback);
+  }
+
+  if (_.isString(offlineGreeting)) {
+    updateSettingsLegacy('launcher.label.*', offlineGreeting, callback);
+  }
+};
+
+const setProfileCardConfigApi = (store) => (settings) => {
+  const newSettings = {
+    webWidget: {
+      chat: {
+        profileCard: {}
+      }
+    }
+  };
+  const { profileCard } = newSettings.webWidget.chat;
+
+  if (_.isBoolean(settings.avatar)) {
+    profileCard.avatar = settings.avatar;
+  }
+  if (_.isBoolean(settings.title)) {
+    profileCard.title = settings.title;
+  }
+  if (_.isBoolean(settings.rating)) {
+    profileCard.rating = settings.rating;
+  }
+
+  updateSettingsApi(store, newSettings);
+};
+
+const removeTagsApi = (store) => (...tagsToRemove) => {
+  const oldTags = getSettingsChatTags(store.getState());
+  const newTags = oldTags.filter((oldTag) => {
+    return !_.includes(tagsToRemove, oldTag);
+  });
+
+  updateSettings(store, 'webWidget.chat.tags', newTags);
+};
+
+const addTagsApi = (store) => (...tagsToAdd) => {
+  const oldTags = getSettingsChatTags(store.getState());
+
+  updateSettings(store, 'webWidget.chat.tags', [...oldTags, ...tagsToAdd]);
+};
+
 function setUpZopimApiMethods(win, store) {
   win.$zopim = win.$zopim || {};
 
@@ -85,229 +186,70 @@ function setUpZopimApiMethods(win, store) {
         getDisplay: () => displayApi(store),
         onHide: (callback) => onApis[API_ON_CLOSE_NAME](store, callback),
         onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback),
-        setTitle: (title) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                title: {
-                  '*': title
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        }
+        setTitle: (title) => updateSettings(store, 'webWidget.chat.title.*', title),
+        ...setOffsetApi
       },
       prechatForm: {
-        setGreetings: (msg) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                prechatForm: {
-                  greeting: {
-                    '*': msg
-                  }
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        }
+        setGreetings: (msg) => updateSettings(store, 'webWidget.chat.prechatForm.greeting.*', msg)
       },
       offlineForm: {
-        setGreetings: (msg) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                offlineForm: {
-                  greeting: {
-                    '*': msg
-                  }
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        }
+        setGreetings: (msg) => updateSettings(store, 'webWidget.chat.offlineForm.greeting.*', msg)
       },
       button: {
         hide: () => hideApi(store),
         show: () => {
           showApi(store);
           closeApi(store);
-        }
+        },
+        setHideWhenOffline: (bool) => updateSettings(store, 'webWidget.launcher.setHideWhenChatOffline', bool),
+        setPosition: setPositionApi,
+        setPositionMobile: setPositionApi,
+        setColor: (color) => updateSettingsLegacy('color.launcher', color),
+        ...setOffsetApi,
+        ...setOffsetMobileApi
       },
+      theme: {
+        setColor: (color) => updateSettingsLegacy('color.theme', color),
+        reload: () => {},
+        setProfileCardConfig: setProfileCardConfigApi(store)
+      },
+      mobileNotifications: {
+        setDisabled: (bool) => updateSettings(store, 'webWidget.chat.notifications.mobile.disable', bool)
+      },
+      departments: {
+        setLabel: (label) => updateSettings(store, 'webWidget.chat.prechatForm.departmentLabel.*', label),
+        getDepartment: (id) => getDepartmentApi(store, id),
+        getAllDepartments: () => getAllDepartmentsApi(store),
+        filter: (...deps) => updateSettings(store, 'webWidget.chat.departments.enabled', [...deps]),
+        setVisitorDepartment: (nameOrId) => updateSettings(store, 'webWidget.chat.departments.select', nameOrId),
+        clearVisitorDepartment: () => updateSettings(store, 'webWidget.chat.departments.select', ''),
+      },
+      concierge: {
+        setAvatar: (path) => updateSettings(store, 'webWidget.chat.concierge.avatarPath', path),
+        setName: (name) => updateSettings(store, 'webWidget.chat.concierge.name', name),
+        setTitle: (title) => updateSettings(store, 'webWidget.chat.concierge.title.*', title)
+      },
+      setColor: (color) => updateSettingsLegacy('color.theme', color),
       hideAll: () => hideApi(store),
       set: (newSettings) => updateSettingsApi(store, newSettings),
       isChatting: () => isChattingApi(store),
       say: (msg) => sendChatMsgApi(store, msg),
       endChat: () => endChatApi(store),
-      removeTags: (...tagsToRemove) => {
-        const oldTags = getSettingsChatTags(store.getState());
-        const newTags = oldTags.filter((oldTag) => {
-          return !_.includes(tagsToRemove, oldTag);
-        });
-
-        const newSettings = {
-          webWidget: {
-            chat: {
-              tags: newTags
-            }
-          }
-        };
-
-        updateSettingsApi(store, newSettings);
-      },
-      addTags: (...tagsToAdd) => {
-        const oldTags = getSettingsChatTags(store.getState());
-        const newSettings = {
-          webWidget: {
-            chat: {
-              tags: [...oldTags, ...tagsToAdd]
-            }
-          }
-        };
-
-        updateSettingsApi(store, newSettings);
-      },
+      addTags: addTagsApi(store),
+      removeTags: removeTagsApi(store),
       setName: (newName) => prefill(store, { name: { value: newName } }),
       setEmail: (newEmail) => prefill(store, { email: { value: newEmail } }),
       setPhone: (newPhone) => prefill(store, { phone: { value: newPhone } }),
       sendVisitorPath: (page) => updatePathApi(store, page),
       clearAll: () => logoutApi(store),
+      setStatus: (status) => { store.dispatch(updateSettingsChatSuppress(status !== 'online')); },
+      setDisableGoogleAnalytics: (bool) => updateSettings(store, 'webWidget.analytics', !bool),
+      setGreetings: setGreetingsApi,
       setOnConnected: (callback) => onApis.chat[API_ON_CHAT_CONNECTED_NAME](store, callback),
       setOnChatStart: (callback) => onApis.chat[API_ON_CHAT_START_NAME](store, callback),
       setOnChatEnd: (callback) => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
       setOnStatus: (callback) => onApis.chat[API_ON_CHAT_STATUS_NAME](store, callback),
-      setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback),
-      departments: {
-        setLabel: (label) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                prechatForm: {
-                  departmentLabel: {
-                    '*': label
-                  }
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        },
-        getDepartment: (id) => getDepartmentApi(store, id),
-        getAllDepartments: () => getAllDepartmentsApi(store),
-        filter: (...filteredDepartments) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                departments: {
-                  enabled: [...filteredDepartments]
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        },
-        setVisitorDepartment: (nameOrId) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                departments: {
-                  select: nameOrId
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        },
-        clearVisitorDepartment: () => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                departments: {
-                  select: ''
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        }
-      },
-      concierge: {
-        setAvatar: (path) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                concierge: {
-                  avatarPath: path
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        },
-        setName: (name) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                concierge: {
-                  name
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        },
-        setTitle: (title) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                concierge: {
-                  title: {
-                    '*': title
-                  }
-                }
-              }
-            }
-          };
-
-          updateSettingsApi(store, newSettings);
-        }
-      },
-      theme: {
-        setProfileCardConfig: (settings) => {
-          const newSettings = {
-            webWidget: {
-              chat: {
-                profileCard: {}
-              }
-            }
-          };
-          const { profileCard } = newSettings.webWidget.chat;
-
-          if (_.isBoolean(settings.avatar)) {
-            profileCard.avatar = settings.avatar;
-          }
-          if (_.isBoolean(settings.title)) {
-            profileCard.title = settings.title;
-          }
-          if (_.isBoolean(settings.rating)) {
-            profileCard.rating = settings.rating;
-          }
-
-          updateSettingsApi(store, newSettings);
-        }
-      }
+      setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback)
     };
   }
 }

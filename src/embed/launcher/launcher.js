@@ -134,6 +134,12 @@ function render() {
 
   ReactDOM.render(embed.component, element);
 
+  mediator.channel.subscribe('launcher.updateSettings', () => {
+    waitForRootComponent(() => {
+      embed.instance.forceUpdateWorld();
+    });
+  });
+
   mediator.channel.subscribe('launcher.refreshLocale', () => {
     waitForRootComponent(() => {
       get().instance.updateFrameLocale();

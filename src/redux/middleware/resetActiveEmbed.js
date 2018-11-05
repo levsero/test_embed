@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { UPDATE_SETTINGS_CHAT_SUPPRESS } from 'src/redux/modules/settings/settings-action-types';
 import {
   WIDGET_INITIALISED,
   ACTIVATE_RECEIVED,
@@ -106,7 +107,8 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     AUTHENTICATION_SUCCESS,
     CHAT_CONNECTED,
     ZOPIM_CONNECTED,
-    ZOPIM_END_CHAT
+    ZOPIM_END_CHAT,
+    UPDATE_SETTINGS_CHAT_SUPPRESS
   ];
 
   const isZopimChatting = getZopimIsChatting(state) && getActiveEmbed(state) === 'zopimChat';

@@ -1,8 +1,18 @@
 import { zopimApi } from '../zopimApi';
 
 jest.mock('src/service/api/apis');
+jest.mock('src/redux/modules/settings', () => ({
+  updateSettingsChatSuppress: jest.fn()
+}));
+jest.mock('service/i18n', () => ({
+  i18n: {
+    setCustomTranslations: jest.fn()
+  }
+}));
 
+import * as settingsActions from 'src/redux/modules/settings';
 import * as apis from 'src/service/api/apis';
+import { i18n } from 'service/i18n';
 
 const mockStore = {
   dispatch: jest.fn()
@@ -172,6 +182,32 @@ describe('setUpZopimApiMethods', () => {
           }
         });
     });
+
+    test('setOffsetVertical', () => {
+      const vertical = 10;
+
+      mockWin.$zopim.livechat.window.setOffsetVertical(vertical);
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          offset: {
+            vertical
+          }
+        }, expect.any(Function));
+    });
+
+    test('setOffsetHorizontal', () => {
+      const horizontal = 10;
+
+      mockWin.$zopim.livechat.window.setOffsetHorizontal(horizontal);
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          offset: {
+            horizontal
+          }
+        }, expect.any(Function));
+    });
   });
 
   describe('prechatForm', () => {
@@ -217,14 +253,14 @@ describe('setUpZopimApiMethods', () => {
   });
 
   describe('button', () => {
-    test('hide method', () => {
+    test('hide', () => {
       mockWin.$zopim.livechat.button.hide();
 
       expect(apis.hideApi)
         .toHaveBeenCalled();
     });
 
-    test('show method', () => {
+    test('show', () => {
       mockWin.$zopim.livechat.button.show();
 
       expect(apis.showApi)
@@ -232,35 +268,289 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.closeApi)
         .toHaveBeenCalled();
     });
+
+    test('setHideWhenOffline', () => {
+      mockWin.$zopim.livechat.button.setHideWhenOffline(true);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            launcher: {
+              setHideWhenChatOffline: true
+            }
+          }
+        });
+    });
+
+    describe('setPosition', () => {
+      let isMobile = false,
+        position;
+
+      beforeEach(() => {
+        if (isMobile) {
+          mockWin.$zopim.livechat.button.setPositionMobile(position);
+        } else {
+          mockWin.$zopim.livechat.button.setPosition(position);
+        }
+      });
+
+      describe('when on desktop', () => {
+        beforeAll(() => {
+          isMobile = false;
+          position = 'tm';
+        });
+
+        it('renders top', () => {
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenCalledWith({
+              position: {
+                vertical: 'top'
+              }
+            }, expect.any(Function));
+        });
+      });
+
+      describe('when on mobile', () => {
+        beforeAll(() => {
+          isMobile = true;
+          position = 'bm';
+        });
+
+        it('renders bottom', () => {
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenCalledWith({
+              position: {
+                vertical: 'bottom'
+              }
+            }, expect.any(Function));
+        });
+      });
+
+      describe('when user wants bottom right', () => {
+        beforeAll(() => {
+          position = 'br';
+        });
+
+        it('renders bottom right', () => {
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenNthCalledWith(2, {
+              position: {
+                vertical: 'bottom'
+              }
+            }, expect.any(Function));
+
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenNthCalledWith(1, {
+              position: {
+                horizontal: 'right'
+              }
+            }, expect.any(Function));
+        });
+      });
+
+      describe('when user wants top left', () => {
+        beforeAll(() => {
+          position = 'tl';
+        });
+
+        it('renders top left', () => {
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenNthCalledWith(2, {
+              position: {
+                vertical: 'top'
+              }
+            }, expect.any(Function));
+
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenNthCalledWith(1, {
+              position: {
+                horizontal: 'left'
+              }
+            }, expect.any(Function));
+        });
+      });
+    });
+
+    test('setColor', () => {
+      const color = '#ffffff';
+
+      mockWin.$zopim.livechat.button.setColor(color);
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          color: {
+            launcher: color
+          }
+        }, expect.any(Function));
+    });
+
+    test('setOffsetVertical', () => {
+      const vertical = 10;
+
+      mockWin.$zopim.livechat.button.setOffsetVertical(vertical);
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          offset: {
+            vertical
+          }
+        }, expect.any(Function));
+    });
+
+    test('setOffsetHorizontal', () => {
+      const horizontal = 10;
+
+      mockWin.$zopim.livechat.button.setOffsetHorizontal(horizontal);
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          offset: {
+            horizontal
+          }
+        }, expect.any(Function));
+    });
+
+    test('setOffsetVerticalMobile', () => {
+      const vertical = 10;
+
+      mockWin.$zopim.livechat.button.setOffsetVerticalMobile(vertical);
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          offset: {
+            mobile: {
+              vertical
+            }
+          }
+        }, expect.any(Function));
+    });
+
+    test('setOffsetHorizontalMobile', () => {
+      const horizontal = 10;
+
+      mockWin.$zopim.livechat.button.setOffsetHorizontalMobile(horizontal);
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          offset: {
+            mobile: {
+              horizontal
+            }
+          }
+        }, expect.any(Function));
+    });
   });
 
-  test('hideAll method', () => {
-    mockWin.$zopim.livechat.hideAll();
+  describe('theme', () => {
+    test('setColor', () => {
+      const color = '#ffffff';
 
-    expect(apis.hideApi)
-      .toHaveBeenCalled();
+      mockWin.$zopim.livechat.theme.setColor(color);
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          color: {
+            theme: color
+          }
+        }, expect.any(Function));
+    });
+
+    describe('setProfileCardConfig', () => {
+      test('setProfileCardConfig', () => {
+        mockWin.$zopim.livechat.theme.setProfileCardConfig({
+          avatar: true,
+          title: false,
+          rating: true
+        });
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                profileCard: {
+                  avatar: true,
+                  title: false,
+                  rating: true
+                }
+              }
+            }
+          });
+      });
+
+      test('setProfileCardConfig with invalid values', () => {
+        mockWin.$zopim.livechat.theme.setProfileCardConfig({
+          avatar: 123,
+          rating: false
+        });
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                profileCard: {
+                  rating: false
+                }
+              }
+            }
+          });
+      });
+
+      test('setProfileCardConfig with missing values', () => {
+        mockWin.$zopim.livechat.theme.setProfileCardConfig({
+          avatar: true
+        });
+
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              chat: {
+                profileCard: {
+                  avatar: true
+                }
+              }
+            }
+          });
+      });
+    });
   });
 
-  test('set method', () => {
-    mockWin.$zopim.livechat.set({ x: 1 });
+  describe('mobileNotifications', () => {
+    test('setDisabled', () => {
+      mockWin.$zopim.livechat.mobileNotifications.setDisabled(true);
 
-    expect(apis.updateSettingsApi)
-      .toHaveBeenCalledWith(mockStore, { x: 1 });
-  });
-
-  test('isChatting method', () => {
-    mockWin.$zopim.livechat.isChatting();
-
-    expect(apis.isChattingApi)
-      .toHaveBeenCalled();
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            chat: {
+              notifications: {
+                mobile: {
+                  disable: true
+                }
+              }
+            }
+          }
+        });
+    });
   });
 
   describe('departments', () => {
-    test('getAllDepartments method', () => {
-      mockWin.$zopim.livechat.departments.getAllDepartments();
+    test('setLabel method', () => {
+      const label = 'da prechat form dep label';
 
-      expect(apis.getAllDepartmentsApi)
-        .toHaveBeenCalled();
+      mockWin.$zopim.livechat.departments.setLabel(label);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            chat: {
+              prechatForm: {
+                departmentLabel: {
+                  '*': label
+                }
+              }
+            }
+          }
+        });
     });
 
     test('getDepartment method', () => {
@@ -268,6 +558,13 @@ describe('setUpZopimApiMethods', () => {
 
       expect(apis.getDepartmentApi)
         .toHaveBeenCalledWith(mockStore, 1);
+    });
+
+    test('getAllDepartments method', () => {
+      mockWin.$zopim.livechat.departments.getAllDepartments();
+
+      expect(apis.getAllDepartmentsApi)
+        .toHaveBeenCalled();
     });
 
     test('filter method', () => {
@@ -314,74 +611,6 @@ describe('setUpZopimApiMethods', () => {
           }
         });
     });
-
-    test('setLabel method', () => {
-      const label = 'da prechat form dep label';
-
-      mockWin.$zopim.livechat.departments.setLabel(label);
-
-      expect(apis.updateSettingsApi)
-        .toHaveBeenCalledWith(mockStore, {
-          webWidget: {
-            chat: {
-              prechatForm: {
-                departmentLabel: {
-                  '*': label
-                }
-              }
-            }
-          }
-        });
-    });
-  });
-
-  test('say method', () => {
-    mockWin.$zopim.livechat.say('duran duran');
-
-    expect(apis.sendChatMsgApi)
-      .toHaveBeenCalledWith(mockStore, 'duran duran');
-  });
-
-  test('endChat method', () => {
-    mockWin.$zopim.livechat.endChat();
-
-    expect(apis.endChatApi)
-      .toHaveBeenCalled();
-  });
-
-  test('setName method', () => {
-    mockWin.$zopim.livechat.setName('wayne');
-
-    expect(apis.prefill)
-      .toHaveBeenCalledWith(mockStore, { name: { value: 'wayne' }});
-  });
-
-  test('setEmail method', () => {
-    mockWin.$zopim.livechat.setEmail('wayne@see.com');
-
-    expect(apis.prefill)
-      .toHaveBeenCalledWith(mockStore, { email: { value: 'wayne@see.com' }});
-  });
-
-  test('setPhone method', () => {
-    mockWin.$zopim.livechat.setPhone('011111');
-
-    expect(apis.prefill)
-      .toHaveBeenCalledWith(mockStore, { phone: { value: '011111' }});
-  });
-
-  test('clearAll method', () => {
-    mockWin.$zopim.livechat.clearAll();
-
-    expect(apis.logoutApi)
-      .toHaveBeenCalled();
-  });
-
-  test('sendVisitorPath method', () => {
-    mockWin.$zopim.livechat.sendVisitorPath(123);
-
-    expect(apis.updatePathApi)
-      .toHaveBeenCalledWith(mockStore, 123);
   });
 
   describe('concierge', () => {
@@ -431,104 +660,321 @@ describe('setUpZopimApiMethods', () => {
     });
   });
 
-  describe('theme', () => {
-    test('setProfileCardConfig', () => {
-      mockWin.$zopim.livechat.theme.setProfileCardConfig({
-        avatar: true,
-        title: false,
-        rating: true
-      });
+  test('setColor', () => {
+    const color = '#ffffff';
 
-      expect(apis.updateSettingsApi)
-        .toHaveBeenCalledWith(mockStore, {
-          webWidget: {
-            chat: {
-              profileCard: {
-                avatar: true,
-                title: false,
-                rating: true
-              }
-            }
-          }
-        });
-    });
+    mockWin.$zopim.livechat.setColor(color);
 
-    test('setProfileCardConfig with invalid values', () => {
-      mockWin.$zopim.livechat.theme.setProfileCardConfig({
-        avatar: 123,
-        rating: false
-      });
-
-      expect(apis.updateSettingsApi)
-        .toHaveBeenCalledWith(mockStore, {
-          webWidget: {
-            chat: {
-              profileCard: {
-                rating: false
-              }
-            }
-          }
-        });
-    });
-
-    test('setProfileCardConfig with missing values', () => {
-      mockWin.$zopim.livechat.theme.setProfileCardConfig({
-        avatar: true
-      });
-
-      expect(apis.updateSettingsApi)
-        .toHaveBeenCalledWith(mockStore, {
-          webWidget: {
-            chat: {
-              profileCard: {
-                avatar: true
-              }
-            }
-          }
-        });
-    });
-  });
-});
-
-describe('tags', () => {
-  const mockWin = {},
-    store = {
-      getState: () => ({
-        settings: {
-          chat: {
-            tags: ['old', 'state', 'zopim']
-          }
+    expect(apis.updateSettingsLegacyApi)
+      .toHaveBeenCalledWith({
+        color: {
+          theme: color
         }
-      })
-    };
-
-  beforeEach(() => {
-    zopimApi.setUpZopimApiMethods(mockWin, store);
+      }, expect.any(Function));
   });
 
-  test('addTags adds tags sent as parameter', () => {
-    mockWin.$zopim.livechat.addTags('zopim2', 'another');
+  test('hideAll', () => {
+    mockWin.$zopim.livechat.hideAll();
+
+    expect(apis.hideApi)
+      .toHaveBeenCalled();
+  });
+
+  test('set', () => {
+    mockWin.$zopim.livechat.set({ x: 1 });
 
     expect(apis.updateSettingsApi)
-      .toHaveBeenCalledWith(store, {
-        webWidget: {
-          chat: {
-            tags: ['old', 'state', 'zopim', 'zopim2', 'another']
-          }
-        }
-      });
+      .toHaveBeenCalledWith(mockStore, { x: 1 });
   });
 
-  test('removeTags removes tags sent as parameter', () => {
-    mockWin.$zopim.livechat.removeTags('zopim', 'another');
+  test('isChatting', () => {
+    mockWin.$zopim.livechat.isChatting();
 
-    expect(apis.updateSettingsApi)
-      .toHaveBeenCalledWith(store, {
-        webWidget: {
-          chat: {
-            tags: ['old', 'state']
+    expect(apis.isChattingApi)
+      .toHaveBeenCalled();
+  });
+
+  test('say', () => {
+    mockWin.$zopim.livechat.say('duran duran');
+
+    expect(apis.sendChatMsgApi)
+      .toHaveBeenCalledWith(mockStore, 'duran duran');
+  });
+
+  test('endChat', () => {
+    mockWin.$zopim.livechat.endChat();
+
+    expect(apis.endChatApi)
+      .toHaveBeenCalled();
+  });
+
+  describe('tags', () => {
+    const mockWin = {},
+      store = {
+        getState: () => ({
+          settings: {
+            chat: {
+              tags: ['old', 'state', 'zopim']
+            }
           }
-        }
+        })
+      };
+
+    beforeEach(() => {
+      zopimApi.setUpZopimApiMethods(mockWin, store);
+    });
+
+    test('addTags adds tags sent as parameter', () => {
+      mockWin.$zopim.livechat.addTags('zopim2', 'another');
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(store, {
+          webWidget: {
+            chat: {
+              tags: ['old', 'state', 'zopim', 'zopim2', 'another']
+            }
+          }
+        });
+    });
+
+    test('removeTags removes tags sent as parameter', () => {
+      mockWin.$zopim.livechat.removeTags('zopim', 'another');
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(store, {
+          webWidget: {
+            chat: {
+              tags: ['old', 'state']
+            }
+          }
+        });
+    });
+  });
+
+  test('setName', () => {
+    mockWin.$zopim.livechat.setName('wayne');
+
+    expect(apis.prefill)
+      .toHaveBeenCalledWith(mockStore, { name: { value: 'wayne' }});
+  });
+
+  test('setEmail', () => {
+    mockWin.$zopim.livechat.setEmail('wayne@see.com');
+
+    expect(apis.prefill)
+      .toHaveBeenCalledWith(mockStore, { email: { value: 'wayne@see.com' }});
+  });
+
+  test('setPhone', () => {
+    mockWin.$zopim.livechat.setPhone('011111');
+
+    expect(apis.prefill)
+      .toHaveBeenCalledWith(mockStore, { phone: { value: '011111' }});
+  });
+
+  test('sendVisitorPath', () => {
+    mockWin.$zopim.livechat.sendVisitorPath(123);
+
+    expect(apis.updatePathApi)
+      .toHaveBeenCalledWith(mockStore, 123);
+  });
+
+  test('clearAll', () => {
+    mockWin.$zopim.livechat.clearAll();
+
+    expect(apis.logoutApi)
+      .toHaveBeenCalled();
+  });
+
+  describe('setStatus', () => {
+    let status;
+
+    beforeEach(() => {
+      mockWin.$zopim.livechat.setStatus(status);
+    });
+
+    describe('when online', () => {
+      beforeAll(() => {
+        status = 'online';
       });
+
+      it('calls updateSettingsChatSuppress with false', () => {
+        expect(settingsActions.updateSettingsChatSuppress)
+          .toHaveBeenCalledWith(false);
+      });
+    });
+
+    describe('when offline', () => {
+      beforeAll(() => {
+        status = 'offline';
+      });
+
+      it('calls updateSettingsChatSuppress with true', () => {
+        expect(settingsActions.updateSettingsChatSuppress)
+          .toHaveBeenCalledWith(true);
+      });
+    });
+
+    describe('when invalid value passed', () => {
+      beforeAll(() => {
+        status = 'offlwefhwouefhowhine';
+      });
+
+      it('calls updateSettingsChatSuppress with true', () => {
+        expect(settingsActions.updateSettingsChatSuppress)
+          .toHaveBeenCalledWith(true);
+      });
+    });
+  });
+
+  describe('setDisableGoogleAnalytics', () => {
+    let val;
+
+    beforeEach(() => {
+      mockWin.$zopim.livechat.setDisableGoogleAnalytics(val);
+    });
+
+    describe('when set to true', () => {
+      beforeAll(() => {
+        val = true;
+      });
+
+      it('sets analytics to false', () => {
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              analytics: false
+            }
+          });
+      });
+    });
+
+    describe('when set to false', () => {
+      beforeAll(() => {
+        val = false;
+      });
+
+      it('sets analytics to true', () => {
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              analytics: true
+            }
+          });
+      });
+    });
+  });
+
+  describe('setGreetings', () => {
+    let mockGreetings;
+
+    beforeEach(() => {
+      mockWin.$zopim.livechat.setGreetings(mockGreetings);
+      apis.updateSettingsLegacyApi.mock.calls.forEach(call => call[1]());
+    });
+
+    describe('when both online and offline vals provided', () => {
+      beforeAll(() => {
+        mockGreetings = {
+          online: 'online yo',
+          offline: 'offline yo'
+        };
+      });
+
+      it('sets chatLabel correctly', () => {
+        expect(apis.updateSettingsLegacyApi)
+          .toHaveBeenNthCalledWith(1, {
+            launcher: {
+              chatLabel: {
+                '*': 'online yo'
+              }
+            }
+          }, expect.any(Function));
+      });
+
+      it('sets label correctly', () => {
+        expect(apis.updateSettingsLegacyApi)
+          .toHaveBeenNthCalledWith(2, {
+            launcher: {
+              label: {
+                '*': 'offline yo'
+              }
+            }
+          }, expect.any(Function));
+      });
+
+      it('should send two callbacks', () => {
+        expect(i18n.setCustomTranslations.mock.calls.length)
+          .toEqual(2);
+      });
+    });
+
+    describe('when both online only provided', () => {
+      beforeAll(() => {
+        mockGreetings = {
+          online: 'online yo'
+        };
+      });
+
+      it('sets chatLabel correctly', () => {
+        expect(apis.updateSettingsLegacyApi)
+          .toHaveBeenCalledWith({
+            launcher: {
+              chatLabel: {
+                '*': 'online yo'
+              }
+            }
+          }, expect.any(Function));
+      });
+
+      it('should send one callback', () => {
+        expect(i18n.setCustomTranslations.mock.calls.length)
+          .toEqual(1);
+      });
+    });
+
+    describe('when both offline only provided', () => {
+      beforeAll(() => {
+        mockGreetings = {
+          offline: 'offline yo'
+        };
+      });
+
+      it('sets label correctly', () => {
+        expect(apis.updateSettingsLegacyApi)
+          .toHaveBeenCalledWith({
+            launcher: {
+              label: {
+                '*': 'offline yo'
+              }
+            }
+          }, expect.any(Function));
+      });
+
+      it('should send one callback', () => {
+        expect(i18n.setCustomTranslations.mock.calls.length)
+          .toEqual(1);
+      });
+    });
+
+    describe('when invalid values provided', () => {
+      beforeAll(() => {
+        mockGreetings = {
+          online: 10,
+          offline: null
+        };
+      });
+
+      it('does not update settings', () => {
+        expect(apis.updateSettingsLegacyApi)
+          .not
+          .toHaveBeenCalled();
+      });
+
+      it('should send no callbacks', () => {
+        expect(i18n.setCustomTranslations.mock.calls.length)
+          .toEqual(0);
+      });
+    });
   });
 });

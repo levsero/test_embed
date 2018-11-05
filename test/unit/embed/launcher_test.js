@@ -242,6 +242,19 @@ describe('embed.launcher', () => {
         aliceLauncher = alice.instance.getRootComponent();
       });
 
+      describe('when webWidget.updateSettings is broadcast', () => {
+        beforeEach(() => {
+          spyOn(alice.instance, 'forceUpdateWorld');
+
+          pluckSubscribeCall(mockMediator, 'launcher.updateSettings')();
+        });
+
+        it('subscribes to <name>.updateSettings', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('launcher.updateSettings', jasmine.any(Function));
+        });
+      });
+
       describe('<name>.refreshLocale', () => {
         beforeEach(() => {
           spyOn(alice.instance, 'updateFrameLocale');

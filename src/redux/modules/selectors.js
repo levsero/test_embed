@@ -8,7 +8,8 @@ import { getShowOfflineChat,
   getStandaloneMobileNotificationVisible,
   getChatConnected as getNewChatConnected } from './chat/chat-selectors';
 import { getZopimChatOnline, getZopimChatConnected } from './zopimChat/zopimChat-selectors';
-import { getSettingsChatSuppress } from './settings/settings-selectors';
+import { getSettingsChatSuppress,
+  getSettingsLauncherSetHideWhenChatOffline } from './settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
   getAgentAvailability,
@@ -28,7 +29,8 @@ import { getActiveEmbed,
   getHiddenByActivateAPI,
   getBootupTimeout,
   getWebWidgetVisible as getBaseWebWidgetVisible,
-  getLauncherVisible as getBaseLauncherVisible } from './base/base-selectors';
+  getLauncherVisible as getBaseLauncherVisible,
+  getChatStandalone } from './base/base-selectors';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -224,18 +226,28 @@ export const getWebWidgetVisible = (state) => {
     && !getHiddenByHideAPI(state)
     && getIsWidgetReady(state);
 };
+
+const getShouldHideLauncher = createSelector(
+  [getSettingsLauncherSetHideWhenChatOffline, getChatOnline, getChatStandalone],
+  (hideLauncherWhenChatOffline, isChatOnline, isChatStandalone) => {
+    return hideLauncherWhenChatOffline && !isChatOnline && isChatStandalone;
+  }
+);
+
 export const getLauncherVisible = createSelector(
   [ getBaseLauncherVisible,
     getIsChannelAvailable,
     getHiddenByHideAPI,
     getHiddenByActivateAPI,
-    getIsWidgetReady ],
-  (launcherVisible, isChannelAvailable, hiddenByHide, hiddenByActivate, isWidgetReady) => {
+    getIsWidgetReady,
+    getShouldHideLauncher ],
+  (launcherVisible, isChannelAvailable, hiddenByHide, hiddenByActivate, isWidgetReady, shouldHideLauncher) => {
     return launcherVisible
       && isChannelAvailable
       && !hiddenByHide
       && !hiddenByActivate
-      && isWidgetReady;
+      && isWidgetReady
+      && !shouldHideLauncher;
   }
 );
 

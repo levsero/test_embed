@@ -33,6 +33,8 @@ describe('selectors', () => {
     bootupTimeoutValue,
     webWidgetVisibleValue,
     launcherVisibleValue,
+    settingsLauncherSetHideWhenChatOfflineValue,
+    chatStandaloneValue,
     selectors;
 
   activeEmbedValue = '';
@@ -64,6 +66,8 @@ describe('selectors', () => {
   bootupTimeoutValue = false;
   webWidgetVisibleValue = false;
   launcherVisibleValue = false;
+  settingsLauncherSetHideWhenChatOfflineValue = false;
+  chatStandaloneValue = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -92,10 +96,12 @@ describe('selectors', () => {
         getHiddenByActivateAPI: () => hiddenByActivateAPIValue,
         getBootupTimeout: () => bootupTimeoutValue,
         getWebWidgetVisible: () => webWidgetVisibleValue,
-        getLauncherVisible: () => launcherVisibleValue
+        getLauncherVisible: () => launcherVisibleValue,
+        getChatStandalone: () => chatStandaloneValue
       },
       './settings/settings-selectors': {
-        getSettingsChatSuppress: () => settingsChatSuppressValue
+        getSettingsChatSuppress: () => settingsChatSuppressValue,
+        getSettingsLauncherSetHideWhenChatOffline: () => settingsLauncherSetHideWhenChatOfflineValue
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
@@ -1668,6 +1674,35 @@ describe('selectors', () => {
       it('returns true', () => {
         expect(result)
           .toEqual(true);
+      });
+    });
+
+    describe('shouldHideLauncher', () => {
+      beforeAll(() => {
+        webWidgetVisibleValue = true;
+        hiddenByHideAPIValue = false;
+        bootupTimeoutValue = true;
+      });
+
+      describe('when we should hide the launcher', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = false;
+          showOfflineFormValue = true;
+          chatStandaloneValue = true;
+          settingsLauncherSetHideWhenChatOfflineValue = true;
+        });
+
+        afterEach(() => {
+          zopimChatOnlineValue = true;
+          showOfflineFormValue = false;
+          chatStandaloneValue = false;
+          settingsLauncherSetHideWhenChatOfflineValue = false;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
       });
     });
   });

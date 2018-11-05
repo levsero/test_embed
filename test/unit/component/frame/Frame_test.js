@@ -24,6 +24,9 @@ describe('Frame', () => {
         forceUpdate: noop
       };
     }
+
+    setCustomCSS() {}
+
     render() {
       const newChild = React.cloneElement(this.props.children, {
         ref: 'rootComponent'
@@ -159,6 +162,28 @@ describe('Frame', () => {
     it('should return the child component when called', () => {
       expect(frame.getRootComponent().props.className)
         .toEqual('mock-component');
+    });
+  });
+
+  describe('componentDidUpdate', () => {
+    let frame;
+
+    beforeEach(() => {
+      frame = domRender(<Frame color='#ffffff'>{mockChild}</Frame>);
+      forceFrameReady(frame);
+      spyOn(frame, 'setCustomCSS');
+      spyOn(frame, 'generateUserCSSWithColor');
+      frame.componentDidUpdate();
+    });
+
+    it('calls setCustomCSS', () => {
+      expect(frame.setCustomCSS)
+        .toHaveBeenCalled();
+    });
+
+    it('calls generateUserCSSWithColor with correct colour', () => {
+      expect(frame.generateUserCSSWithColor)
+        .toHaveBeenCalledWith('#ffffff');
     });
   });
 

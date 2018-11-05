@@ -24,6 +24,7 @@ describe('resetActiveEmbed middleware', () => {
   const ZOPIM_CHAT_ON_STATUS_UPDATE = 'ZOPIM_CHAT_ON_STATUS_UPDATE';
   const ZOPIM_END_CHAT = 'ZOPIM_END_CHAT';
   const ZOPIM_HIDE = 'ZOPIM_HIDE';
+  const UPDATE_SETTINGS_CHAT_SUPPRESS = 'UPDATE_SETTINGS_CHAT_SUPPRESS';
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
   const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
@@ -72,6 +73,9 @@ describe('resetActiveEmbed middleware', () => {
       },
       'src/redux/modules/zopimChat/zopimChat-action-types': {
         ZOPIM_CHAT_ON_STATUS_UPDATE, ZOPIM_END_CHAT, ZOPIM_HIDE
+      },
+      'src/redux/modules/settings/settings-action-types': {
+        UPDATE_SETTINGS_CHAT_SUPPRESS
       }
     });
 
@@ -95,7 +99,8 @@ describe('resetActiveEmbed middleware', () => {
       ZOPIM_HIDE,
       ACTIVATE_RECEIVED,
       AUTHENTICATION_SUCCESS,
-      ZOPIM_END_CHAT
+      ZOPIM_END_CHAT,
+      UPDATE_SETTINGS_CHAT_SUPPRESS
     ];
     const chatActions = [
       SDK_CONNECTION_UPDATE,

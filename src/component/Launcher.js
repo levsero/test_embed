@@ -6,11 +6,12 @@ import { locals as styles } from './Launcher.scss';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-import { getChatAvailable, getTalkAvailable } from 'src/redux/modules/selectors';
+import { getChatAvailable, getTalkAvailable, getChatOfflineAvailable } from 'src/redux/modules/selectors';
 import { settings } from 'service/settings';
 import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
 import { launcherClicked } from 'src/redux/modules/base/';
 
 const mapStateToProps = (state) => {
@@ -20,7 +21,8 @@ const mapStateToProps = (state) => {
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
     talkAvailable: getTalkAvailable(state) && !settings.get('talk.suppress'),
     callbackEnabled: isCallbackEnabled(state),
-    notificationCount: getNotificationCount(state)
+    notificationCount: getNotificationCount(state),
+    chatOfflineAvailable: getChatOfflineAvailable(state)
   };
 };
 
@@ -37,7 +39,8 @@ class Launcher extends Component {
     getFrameContentDocument: PropTypes.func,
     forceUpdateWorld: PropTypes.func.isRequired,
     updateFrameTitle: PropTypes.func,
-    launcherClicked: PropTypes.func.isRequired
+    launcherClicked: PropTypes.func.isRequired,
+    chatOfflineAvailable: PropTypes.bool.isRequired
   };
 
   constructor(props, context) {
@@ -108,7 +111,12 @@ class Launcher extends Component {
         return i18n.t(label);
       case 'chat':
       case 'zopimChat':
-        if (this.props.chatAvailable) return i18n.t('embeddable_framework.launcher.label.chat');
+        if (this.props.chatOfflineAvailable) {
+          return i18n.t(label);
+        }
+        if (this.props.chatAvailable) {
+          return i18n.t('embeddable_framework.launcher.label.chat');
+        }
         return this.getLabel();
       case 'talk':
         return this.getTalkLabel();
@@ -133,10 +141,10 @@ class Launcher extends Component {
   }
 
   getIconType = () => {
-    const { talkAvailable, chatAvailable } = this.props;
+    const { talkAvailable, chatAvailable, chatOfflineAvailable } = this.props;
 
     if (chatAvailable && talkAvailable) return 'Icon';
-    if (chatAvailable) return 'Icon--chat';
+    if (chatAvailable && !chatOfflineAvailable) return 'Icon--chat';
     if (talkAvailable) return 'Icon--launcher-talk';
 
     return 'Icon';
@@ -148,13 +156,17 @@ class Launcher extends Component {
         return 'Icon';
       case 'chat':
       case 'zopimChat':
-        if (this.props.chatAvailable) return 'Icon--chat';
+        if (this.props.chatAvailable && !this.props.chatOfflineAvailable) return 'Icon--chat';
         return this.getIconType();
       case 'talk':
         return 'Icon--launcher-talk';
       default:
         return this.getIconType();
     }
+  }
+
+  getActiveComponent = () => {
+    return this;
   }
 
   render = () => {
