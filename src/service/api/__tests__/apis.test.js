@@ -43,7 +43,7 @@ describe('updateSettingsLegacyApi', () => {
     };
   });
 
-  it('dispatches the endChat action', () => {
+  it('calls settings.updateSettingsLegacy', () => {
     apis.updateSettingsLegacyApi(newSettings);
 
     expect(settings.updateSettingsLegacy)
