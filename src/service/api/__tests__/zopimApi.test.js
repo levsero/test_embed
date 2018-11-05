@@ -300,7 +300,7 @@ describe('setUpZopimApiMethods', () => {
           position = 'tm';
         });
 
-        it('renders top', () => {
+        it('calls updateSettingsLegacyApi with top', () => {
           expect(apis.updateSettingsLegacyApi)
             .toHaveBeenCalledWith({
               position: {
@@ -316,7 +316,7 @@ describe('setUpZopimApiMethods', () => {
           position = 'bm';
         });
 
-        it('renders bottom', () => {
+        it('calls updateSettingsLegacyApi with bottom', () => {
           expect(apis.updateSettingsLegacyApi)
             .toHaveBeenCalledWith({
               position: {
@@ -326,12 +326,12 @@ describe('setUpZopimApiMethods', () => {
         });
       });
 
-      describe('when user wants bottom right', () => {
+      describe('when the param is br', () => {
         beforeAll(() => {
           position = 'br';
         });
 
-        it('renders bottom right', () => {
+        it('calls updateSettingsLegacyApi with bottom right', () => {
           expect(apis.updateSettingsLegacyApi)
             .toHaveBeenNthCalledWith(2, {
               position: {
@@ -348,12 +348,12 @@ describe('setUpZopimApiMethods', () => {
         });
       });
 
-      describe('when user wants top left', () => {
+      describe('when the param is tl', () => {
         beforeAll(() => {
           position = 'tl';
         });
 
-        it('renders top left', () => {
+        it('calls updateSettingsLegacyApi with top left', () => {
           expect(apis.updateSettingsLegacyApi)
             .toHaveBeenNthCalledWith(2, {
               position: {
@@ -903,7 +903,7 @@ describe('setUpZopimApiMethods', () => {
           }, expect.any(Function));
       });
 
-      it('should send two callbacks', () => {
+      it('sends two callbacks', () => {
         expect(i18n.setCustomTranslations.mock.calls.length)
           .toEqual(2);
       });
@@ -927,7 +927,7 @@ describe('setUpZopimApiMethods', () => {
           }, expect.any(Function));
       });
 
-      it('should send one callback', () => {
+      it('sends one callback', () => {
         expect(i18n.setCustomTranslations.mock.calls.length)
           .toEqual(1);
       });
@@ -951,7 +951,7 @@ describe('setUpZopimApiMethods', () => {
           }, expect.any(Function));
       });
 
-      it('should send one callback', () => {
+      it('send one callback', () => {
         expect(i18n.setCustomTranslations.mock.calls.length)
           .toEqual(1);
       });
