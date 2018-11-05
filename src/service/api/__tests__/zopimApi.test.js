@@ -455,6 +455,19 @@ describe('setUpZopimApiMethods', () => {
         }, expect.any(Function));
     });
 
+    test('setColors', () => {
+      const color = '#ffffff';
+
+      mockWin.$zopim.livechat.theme.setColors({ primary: color });
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          color: {
+            theme: color
+          }
+        }, expect.any(Function));
+    });
+
     describe('setProfileCardConfig', () => {
       test('setProfileCardConfig', () => {
         mockWin.$zopim.livechat.theme.setProfileCardConfig({

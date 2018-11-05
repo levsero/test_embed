@@ -172,6 +172,12 @@ const addTagsApi = (store) => (...tagsToAdd) => {
   updateSettings(store, 'webWidget.chat.tags', [...oldTags, ...tagsToAdd]);
 };
 
+const setColorApi = (color) => {
+  if (!_.isString(color)) return;
+
+  updateSettingsLegacy('color.theme', color);
+};
+
 function setUpZopimApiMethods(win, store) {
   win.$zopim = win.$zopim || {};
 
@@ -209,7 +215,12 @@ function setUpZopimApiMethods(win, store) {
         ...setOffsetMobileApi
       },
       theme: {
-        setColor: (color) => updateSettingsLegacy('color.theme', color),
+        setColor: (color) => setColorApi(color),
+        setColors: (options) => {
+          if (!options.primary) return;
+
+          setColorApi(options.primary);
+        },
         reload: () => {},
         setProfileCardConfig: setProfileCardConfigApi(store)
       },
