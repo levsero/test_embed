@@ -77,7 +77,8 @@ zE('webWidget', 'prefill', {
 | prechatForm.setGreetings | zESettings.webWidget.chat.prechatForm.greeting |
 | offlineForm.setGreetings | zESettings.webWidget.chat.offlineForm.greeting |
 | mobileNotifications.setDisabled  | zESettings.webWidget.chat.notifications.mobile.disable |
-| theme.setColor | zESettings.webWidget.color.theme |
+| theme.setColor* | zESettings.webWidget.color.theme |
+| theme.setColors* | zESettings.webWidget.color.theme |
 | theme.setProfileCardConfig | zESettings.webWidget.chat.profileCard.avatar,
 zESettings.webWidget.chat.profileCard.title,
 zESettings.webWidget.chat.profileCard.rating
@@ -88,6 +89,10 @@ zESettings.webWidget.chat.profileCard.rating
 | button.setHideWhenOffline | zESettings.webWidget.launcher.setHideWhenChatOffline |
 
 \* All of the position values supported in the legacy Chat Widget can be used excluding `tm` (Top middle), and `bm` (Bottom middle). See the complete list of position values in the [legacy Chat documentation](https://api.zopim.com/files/meshim/widget/controllers/liveChatAPI/Button-js.html#$zopim.livechat.button.setPosition).
+
+\* `$zopim.livechat.theme.setColor` supports the primary color only.
+
+\* `$zopim.livechat.theme.setColors` supports the primary color only.
 
 ### Concierge
 
