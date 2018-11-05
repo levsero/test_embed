@@ -34,7 +34,6 @@ Available settings:
 
 * [attachments](#attachments)
 * [authenticate](#authenticate)
-* [badge](#badge)
 * [chatButton](#chatbutton)
 * [chatLabel](#chatlabel)
 * [chatLabelOnline](#chatlabelonline)
@@ -139,35 +138,6 @@ zE(function() {
 });
 </script>
 ```
-
-### badge
-Gives the use access to customize the launcher badge.
-
-#### Availability
-
-* [Core widget setting](./core)
-
-#### Example
-
-```html
-<script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      badge: {
-        layout: 'right',
-        image: 'https://animagewebsite.com/img.png',
-        label: {
-          '*': 'Launcher',
-          'fr': 'Lanceur'
-        }
-      }
-    }
-  }
-};
-</script>
-```
-
 
 ### chatButton
 
