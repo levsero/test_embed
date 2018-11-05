@@ -20,6 +20,7 @@ import { IS_CHATTING,
   SDK_VISITOR_UPDATE,
   CHAT_SOCIAL_LOGIN_SUCCESS,
   CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types';
+import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types';
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
@@ -48,6 +49,7 @@ import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-s
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
+import { resetShouldWarn } from 'src/util/nullZChat';
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
 
@@ -277,6 +279,16 @@ const onChatStarted = (prevState, nextState, dispatch) => {
   }
 };
 
+const onUpdateEmbeddableConfig = (action) => {
+  if (action.type === UPDATE_EMBEDDABLE_CONFIG) {
+    if (action.payload) {
+      if (!action.payload.newChat) {
+        resetShouldWarn();
+      }
+    }
+  }
+};
+
 export default function onStateChange(prevState, nextState, action = {}, dispatch = () => {}) {
   onChatStarted(prevState, nextState, dispatch);
   onChatStatusChange(prevState, nextState, dispatch);
@@ -290,4 +302,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onVisitorUpdate(action, dispatch);
   onWidgetOpen(prevState, nextState);
   onChatOpen(prevState, nextState, dispatch);
+  onUpdateEmbeddableConfig(action);
 }
