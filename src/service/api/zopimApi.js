@@ -52,9 +52,12 @@ function setupZopimQueue(win) {
     };
     $zopim._ = [];
     $zopim.set._ = [];
+    $zopim._setByWW = true;
   }
 }
 function handleZopimQueue(win) {
+  if (!_.get(win.$zopim, '_setByWW', false))
+    return;
   _.forEach(_.get(win.$zopim, '_', []), (method) => {
     try {
       method();

@@ -9,30 +9,51 @@ const mockStore = {
 };
 
 describe('handleZopimQueue', () => {
-  it('calls queue item if it is function', () => {
-    const methodSpy = jest.fn();
-    const win = {
-      $zopim: {
-        _: [methodSpy]
-      }
-    };
+  describe('queue was set up by web widget', () => {
+    it('calls queue item if it is function', () => {
+      const methodSpy = jest.fn();
+      const win = {
+        $zopim: {
+          _: [methodSpy],
+          _setByWW: true
+        }
+      };
 
-    zopimApi.handleZopimQueue(win);
+      zopimApi.handleZopimQueue(win);
 
-    expect(methodSpy)
-      .toHaveBeenCalled();
+      expect(methodSpy)
+        .toHaveBeenCalled();
+    });
+
+    it('throws an error if queue item is not function', () => {
+      const win = {
+        $zopim: {
+          _: [undefined],
+          _setByWW: true
+        }
+      };
+
+      expect(() => {
+        zopimApi.handleZopimQueue(win);
+      }).toThrowError('An error occurred in your use of the $zopim Widget API');
+    });
   });
 
-  it('throws an error if queue item is not function', () => {
-    const win = {
-      $zopim: {
-        _: [undefined]
-      }
-    };
+  describe('queue was not set up by web widget', () => {
+    it('does call queue item', () => {
+      const methodSpy = jest.fn();
+      const win = {
+        $zopim: {
+          _: [methodSpy],
+          _setByWW: false
+        }
+      };
 
-    expect(() => {
       zopimApi.handleZopimQueue(win);
-    }).toThrowError('An error occurred in your use of the $zopim Widget API');
+
+      expect(methodSpy)
+        .not.toHaveBeenCalled();
+    });
   });
 });
 
@@ -58,6 +79,11 @@ describe('setupZopimQueue', () => {
       it('a set function queue', () => {
         expect(mockWin.$zopim.set._)
           .toEqual([]);
+      });
+
+      it('a set by web widget flag', () => {
+        expect(mockWin.$zopim._setByWW)
+          .toEqual(true);
       });
     });
 
