@@ -9,7 +9,8 @@ describe('utils', () => {
     emailValid,
     referrerPolicyUrl,
     getEnvironment,
-    cappedTimeoutCall;
+    cappedTimeoutCall,
+    isValidUrl;
 
   const mockGlobals = {
     win: {},
@@ -59,12 +60,53 @@ describe('utils', () => {
     referrerPolicyUrl = require(utilPath).referrerPolicyUrl;
     getEnvironment = require(utilPath).getEnvironment;
     cappedTimeoutCall = require(utilPath).cappedTimeoutCall;
+    isValidUrl = require(utilPath).isValidUrl;
   });
 
   afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('isValidUrl', () => {
+    it('returns true for valid urls', () => {
+      const validUrls = [
+        'https://www.example.com/arm/bottle.html',
+        'https://www.example.com/',
+        'http://example.com/apparatus/alarm#boundary',
+        'http://www.example.com/bat?appliance=bee&berry=amusement',
+        'http://example.edu/',
+        'http://example.net/?brother=aftermath',
+        'ftp://google.com'
+      ];
+
+      validUrls.forEach(url => {
+        expect(isValidUrl(url))
+          .toEqual(true);
+      });
+    });
+
+    it('returns false for invalid urls', () => {
+      const invalidUrls = [
+        null,
+        undefined,
+        10,
+        23.9,
+        true,
+        'noop',
+        'hello.com',
+        'localhost',
+        'http//google',
+        '255.255.255.255'
+      ];
+
+      invalidUrls.forEach(url => {
+        if (isValidUrl(url)) {
+          fail(`${url} returned true when it is actually invalid.`);
+        }
+      });
+    });
   });
 
   describe('splitPath()', () => {
