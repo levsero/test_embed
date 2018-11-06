@@ -131,9 +131,10 @@ describe('setupZopimQueue', () => {
 });
 
 describe('setUpZopimApiMethods', () => {
-  const mockWin = {};
+  let mockWin;
 
   beforeEach(() => {
+    mockWin = {};
     zopimApi.setUpZopimApiMethods(mockWin, mockStore);
   });
 
@@ -773,11 +774,25 @@ describe('setUpZopimApiMethods', () => {
       .toHaveBeenCalled();
   });
 
-  test('set', () => {
-    mockWin.$zopim.livechat.set({ x: 1 });
+  describe('set', () => {
+    let options = {};
 
-    expect(apis.updateSettingsApi)
-      .toHaveBeenCalledWith(mockStore, { x: 1 });
+    beforeEach(() => {
+      mockWin.$zopim.livechat.setName = jest.fn();
+      mockWin.$zopim.livechat.setEmail = jest.fn();
+      mockWin.$zopim.livechat.set(options);
+    });
+
+    describe('when name is a param', () => {
+      beforeAll(() => {
+        options.name = 'yolo';
+      });
+
+      it('calls $zopim.livechat.setName', () => {
+        expect(mockWin.$zopim.livechat.setName)
+          .toHaveBeenCalledWith('yolo');
+      });
+    });
   });
 
   test('isChatting', () => {

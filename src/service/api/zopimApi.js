@@ -18,7 +18,8 @@ import {
   logoutApi,
   onApiObj,
   getDepartmentApi,
-  getAllDepartmentsApi
+  getAllDepartmentsApi,
+  setLocaleApi
 } from 'src/service/api/apis';
 import {
   API_ON_CHAT_CONNECTED_NAME,
@@ -179,6 +180,20 @@ const setColorTheme = (color) => {
   updateSettingsLegacy('color.theme', color);
 };
 
+const setApi = (store, win, options) => {
+  if (options.name) {
+    win.$zopim.livechat.setName(options.name);
+  }
+
+  if (options.email) {
+    win.$zopim.livechat.setEmail(options.email);
+  }
+
+  if (options.language) {
+    setLocaleApi(store, options.language);
+  }
+};
+
 function setUpZopimApiMethods(win, store) {
   win.$zopim = win.$zopim || {};
 
@@ -245,7 +260,7 @@ function setUpZopimApiMethods(win, store) {
       },
       setColor: (color) => updateSettingsLegacy('color.theme', color),
       hideAll: () => hideApi(store),
-      set: (newSettings) => updateSettingsApi(store, newSettings),
+      set: (options) => setApi(store, win, options),
       isChatting: () => isChattingApi(store),
       say: (msg) => sendChatMsgApi(store, msg),
       endChat: () => endChatApi(store),

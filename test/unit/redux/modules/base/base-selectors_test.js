@@ -720,7 +720,7 @@ describe('base selectors', () => {
       result = selectors.getLocale(mockState);
     });
 
-    it('returns ar', () => {
+    it('returns the expected locale', () => {
       expect(result)
         .toEqual('ar');
     });

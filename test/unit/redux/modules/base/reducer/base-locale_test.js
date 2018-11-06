@@ -29,7 +29,7 @@ describe('base reducer locale', () => {
       });
     });
 
-    it('set to ar', () => {
+    it('sets the expected locale', () => {
       expect(state)
         .toEqual('ar');
     });

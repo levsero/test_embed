@@ -521,8 +521,7 @@ describe('base redux actions', () => {
           },
           isReadOnly: {
             name: true,
-            email: false,
-            phone: false
+            email: false
           }
         };
 
@@ -544,12 +543,12 @@ describe('base redux actions', () => {
 
       it('does not pass through the email in payload', () => {
         expect(action.payload.prefillValues.email)
-          .toEqual('');
+          .toBeFalsy();
       });
 
-      it('still passes through the name in payload', () => {
+      it('does not pass through the name in payload', () => {
         expect(action.payload.prefillValues.name)
-          .toEqual('');
+          .toBeFalsy();
       });
     });
 
@@ -565,12 +564,12 @@ describe('base redux actions', () => {
 
       it('does not pass through the phone in payload', () => {
         expect(action.payload.prefillValues.phone)
-          .toEqual('');
+          .toBeFalsy();
       });
 
-      it('still passes through the name in payload', () => {
+      it('does not pass through the name in payload', () => {
         expect(action.payload.prefillValues.name)
-          .toEqual('');
+          .toBeFalsy();
       });
     });
   });
