@@ -208,6 +208,86 @@ describe('setUpZopimApiMethods', () => {
           }
         }, expect.any(Function));
     });
+
+    test('setColor', () => {
+      const color = '#ffffff';
+
+      mockWin.$zopim.livechat.window.setColor(color);
+
+      expect(apis.updateSettingsLegacyApi)
+        .toHaveBeenCalledWith({
+          color: {
+            theme: color
+          }
+        }, expect.any(Function));
+    });
+
+    describe('setPosition', () => {
+      let position;
+
+      beforeEach(() => {
+        mockWin.$zopim.livechat.window.setPosition(position);
+      });
+
+      describe('when the param is tm', () => {
+        beforeAll(() => {
+          position = 'tm';
+        });
+
+        it('calls updateSettingsLegacyApi with top', () => {
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenCalledWith({
+              position: {
+                vertical: 'top'
+              }
+            }, expect.any(Function));
+        });
+      });
+
+      describe('when the param is br', () => {
+        beforeAll(() => {
+          position = 'br';
+        });
+
+        it('calls updateSettingsLegacyApi with bottom right', () => {
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenNthCalledWith(2, {
+              position: {
+                vertical: 'bottom'
+              }
+            }, expect.any(Function));
+
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenNthCalledWith(1, {
+              position: {
+                horizontal: 'right'
+              }
+            }, expect.any(Function));
+        });
+      });
+
+      describe('when the param is tl', () => {
+        beforeAll(() => {
+          position = 'tl';
+        });
+
+        it('calls updateSettingsLegacyApi with top left', () => {
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenNthCalledWith(2, {
+              position: {
+                vertical: 'top'
+              }
+            }, expect.any(Function));
+
+          expect(apis.updateSettingsLegacyApi)
+            .toHaveBeenNthCalledWith(1, {
+              position: {
+                horizontal: 'left'
+              }
+            }, expect.any(Function));
+        });
+      });
+    });
   });
 
   describe('prechatForm', () => {

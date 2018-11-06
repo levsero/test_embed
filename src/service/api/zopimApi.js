@@ -88,7 +88,7 @@ const updateSettingsLegacy = (s, val, callback=() => {}) => {
   updateSettingsLegacyApi(newSettings, callback);
 };
 
-const getPositionVals = (position) => {
+const setPositionApi = (position) => {
   const mapPositions = {
     'b': 'bottom',
     't': 'top',
@@ -96,15 +96,16 @@ const getPositionVals = (position) => {
     'r': 'right',
     'l': 'left'
   };
+  const verticalVal = mapPositions[position[0]];
+  const horizontalVal = mapPositions[position[1]];
 
-  return [mapPositions[position[0]], mapPositions[position[1]]];
-};
+  if (horizontalVal === 'left' || horizontalVal === 'right') {
+    updateSettingsLegacy('position.horizontal', horizontalVal);
+  }
 
-const setPositionApi = (position) => {
-  const [verticalVal, horizontalVal] = getPositionVals(position);
-
-  if (horizontalVal) updateSettingsLegacy('position.horizontal', horizontalVal);
-  if (verticalVal) updateSettingsLegacy('position.vertical', verticalVal);
+  if (verticalVal === 'top' || verticalVal === 'bottom') {
+    updateSettingsLegacy('position.vertical', verticalVal);
+  }
 };
 
 const setOffsetApi = {
@@ -172,7 +173,7 @@ const addTagsApi = (store) => (...tagsToAdd) => {
   updateSettings(store, 'webWidget.chat.tags', [...oldTags, ...tagsToAdd]);
 };
 
-const setColorApi = (color) => {
+const setColorTheme = (color) => {
   if (!_.isString(color)) return;
 
   updateSettingsLegacy('color.theme', color);
@@ -193,6 +194,8 @@ function setUpZopimApiMethods(win, store) {
         onHide: (callback) => onApis[API_ON_CLOSE_NAME](store, callback),
         onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback),
         setTitle: (title) => updateSettings(store, 'webWidget.chat.title.*', title),
+        setColor: (color) => setColorTheme(color),
+        setPosition: setPositionApi,
         ...setOffsetApi
       },
       prechatForm: {
@@ -215,11 +218,11 @@ function setUpZopimApiMethods(win, store) {
         ...setOffsetMobileApi
       },
       theme: {
-        setColor: (color) => setColorApi(color),
+        setColor: (color) => setColorTheme(color),
         setColors: (options) => {
           if (!options.primary) return;
 
-          setColorApi(options.primary);
+          setColorTheme(options.primary);
         },
         reload: () => {},
         setProfileCardConfig: setProfileCardConfigApi(store)
