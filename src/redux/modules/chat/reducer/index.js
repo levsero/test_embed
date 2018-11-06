@@ -31,6 +31,7 @@ import socialLogin from './chat-social-login';
 import isAuthenticated from './chat-is-authenticated';
 import vendor from './chat-vendor';
 import isLoggingOut from './chat-is-logging-out';
+import forcedStatus from './chat-forced-status';
 
 const combinedReducers = combineReducers({
   accountSettings,
@@ -62,7 +63,8 @@ const combinedReducers = combineReducers({
   socialLogin,
   isAuthenticated,
   vendor,
-  isLoggingOut
+  isLoggingOut,
+  forcedStatus
 });
 
 export default function reducer(state, action) {

@@ -1300,15 +1300,57 @@ describe('chat selectors', () => {
   });
 
   describe('getChatOnline', () => {
-    let result;
+    let result,
+      mockState = {
+        chat: {}
+      };
 
-    describe('when the agent is online', () => {
-      beforeEach(() => {
-        const mockState = {
-          chat: { account_status: 'online' }
-        };
+    beforeEach(() => {
+      result = selectors.getChatOnline(mockState);
+    });
 
-        result = selectors.getChatOnline(mockState);
+    describe('status has not forcefully modified', () => {
+      beforeAll(() => {
+        mockState.chat.forcedStatus = null;
+      });
+
+      describe('when the agent is online', () => {
+        beforeAll(() => {
+          mockState.chat.account_status = 'online';
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when the agent is away', () => {
+        beforeAll(() => {
+          mockState.chat.account_status = 'away';
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when the agent is offline', () => {
+        beforeAll(() => {
+          mockState.chat.account_status = 'offline';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('forcefully set status to online', () => {
+      beforeAll(() => {
+        mockState.chat.forcedStatus = 'online';
       });
 
       it('returns true', () => {
@@ -1317,28 +1359,9 @@ describe('chat selectors', () => {
       });
     });
 
-    describe('when the agent is away', () => {
-      beforeEach(() => {
-        const mockState = {
-          chat: { account_status: 'away' }
-        };
-
-        result = selectors.getChatOnline(mockState);
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
-
-    describe('when the agent is offline', () => {
-      beforeEach(() => {
-        const mockState = {
-          chat: { account_status: 'offline' }
-        };
-
-        result = selectors.getChatOnline(mockState);
+    describe('forcefully set status to offline', () => {
+      beforeAll(() => {
+        mockState.chat.forcedStatus = 'offline';
       });
 
       it('returns false', () => {

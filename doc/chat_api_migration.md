@@ -85,7 +85,7 @@ zESettings.webWidget.chat.profileCard.rating
  |
 | setDisableGoogleAnalytics | zESettings.analytics |
 | setGreetings | zESettings.webWidget.launcher.chatLabel|label |
-| setStatus | zESettings.webWidget.chat.suppress |
+| setStatus | Supported |
 | button.setHideWhenOffline | zESettings.webWidget.launcher.setHideWhenChatOffline |
 
 \* All of the position values supported in the legacy Chat Widget can be used excluding `tm` (Top middle), and `bm` (Bottom middle). See the complete list of position values in the [legacy Chat documentation](https://api.zopim.com/files/meshim/widget/controllers/liveChatAPI/Button-js.html#$zopim.livechat.button.setPosition).

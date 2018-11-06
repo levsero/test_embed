@@ -1,8 +1,8 @@
 import { zopimApi } from '../zopimApi';
 
 jest.mock('src/service/api/apis');
-jest.mock('src/redux/modules/settings', () => ({
-  updateSettingsChatSuppress: jest.fn()
+jest.mock('src/redux/modules/chat', () => ({
+  setStatusForcefully: jest.fn()
 }));
 jest.mock('service/i18n', () => ({
   i18n: {
@@ -10,7 +10,7 @@ jest.mock('service/i18n', () => ({
   }
 }));
 
-import * as settingsActions from 'src/redux/modules/settings';
+import * as chatActions from 'src/redux/modules/chat';
 import * as apis from 'src/service/api/apis';
 import { i18n } from 'service/i18n';
 
@@ -811,9 +811,9 @@ describe('setUpZopimApiMethods', () => {
         status = 'online';
       });
 
-      it('calls updateSettingsChatSuppress with false', () => {
-        expect(settingsActions.updateSettingsChatSuppress)
-          .toHaveBeenCalledWith(false);
+      it('calls setStatusForcefully with \'online\'', () => {
+        expect(chatActions.setStatusForcefully)
+          .toHaveBeenCalledWith('online');
       });
     });
 
@@ -822,9 +822,9 @@ describe('setUpZopimApiMethods', () => {
         status = 'offline';
       });
 
-      it('calls updateSettingsChatSuppress with true', () => {
-        expect(settingsActions.updateSettingsChatSuppress)
-          .toHaveBeenCalledWith(true);
+      it('calls setStatusForcefully with \'offline\'', () => {
+        expect(chatActions.setStatusForcefully)
+          .toHaveBeenCalledWith('offline');
       });
     });
 
@@ -833,9 +833,10 @@ describe('setUpZopimApiMethods', () => {
         status = 'offlwefhwouefhowhine';
       });
 
-      it('calls updateSettingsChatSuppress with true', () => {
-        expect(settingsActions.updateSettingsChatSuppress)
-          .toHaveBeenCalledWith(true);
+      it('does not call setStatusForcefully', () => {
+        expect(chatActions.setStatusForcefully)
+          .not
+          .toHaveBeenCalled();
       });
     });
   });

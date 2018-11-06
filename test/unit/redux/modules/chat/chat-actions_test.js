@@ -1924,4 +1924,23 @@ describe('chat redux actions', () => {
         .toEqual(actionTypes.CHAT_WINDOW_OPEN_ON_NAVIGATE);
     });
   });
+
+  describe('setStatusForcefully', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.setStatusForcefully('online'));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type API_FORCE_STATUS_CALLED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.API_FORCE_STATUS_CALLED);
+    });
+
+    it('dispatches the correct payload', () => {
+      expect(action.payload)
+        .toEqual('online');
+    });
+  });
 });

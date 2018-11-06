@@ -23,7 +23,7 @@ import {
 } from 'src/redux/modules/settings/settings-selectors';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
-
+const getForcedStatus = (state) => state.chat.forcedStatus;
 const getChats = (state) => state.chat.chats;
 const getNotification = (state) => state.chat.notification;
 const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_type;
@@ -39,7 +39,17 @@ export const getConnection = (state) => state.chat.connection;
 export const getChatConnected = (state) => getConnection(state) === CONNECTION_STATUSES.CONNECTED;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getCurrentSessionStartTime = (state) => state.chat.currentSessionStartTime;
-export const getChatOnline = (state) => _.includes(['online', 'away'], getChatStatus(state));
+export const getChatOnline = (state) => {
+  const forcedStatus = getForcedStatus(state);
+
+  if (forcedStatus === 'online') {
+    return true;
+  } else if (forcedStatus === 'offline') {
+    return false;
+  }
+
+  return _.includes(['online', 'away'], getChatStatus(state));
+};
 export const getChatRating = (state) => state.chat.rating;
 export const getChatScreen = (state) => state.chat.screen;
 export const getChatStatus = (state) => state.chat.account_status;

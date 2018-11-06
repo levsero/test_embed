@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { updateSettingsChatSuppress } from 'src/redux/modules/settings';
+import { setStatusForcefully } from 'src/redux/modules/chat';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 import {
   endChatApi,
@@ -253,7 +253,11 @@ function setUpZopimApiMethods(win, store) {
       setPhone: (newPhone) => prefill(store, { phone: { value: newPhone } }),
       sendVisitorPath: (page) => updatePathApi(store, page),
       clearAll: () => logoutApi(store),
-      setStatus: (status) => { store.dispatch(updateSettingsChatSuppress(status !== 'online')); },
+      setStatus: (status) => {
+        if (status !== 'online' && status !== 'offline') return;
+
+        store.dispatch(setStatusForcefully(status));
+      },
       setDisableGoogleAnalytics: (bool) => updateSettings(store, 'webWidget.analytics', !bool),
       setGreetings: setGreetingsApi,
       setOnConnected: (callback) => onApis.chat[API_ON_CHAT_CONNECTED_NAME](store, callback),
