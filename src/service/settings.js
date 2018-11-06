@@ -156,8 +156,10 @@ function init(reduxStore = { dispatch: () => {} }) {
 
   reduxStore.dispatch(updateSettingsChatSuppress(webWidgetStore.chat.suppress));
   reduxStore.dispatch(updateSettings({
-    ...settingsStore,
-    webWidget: webWidgetStore
+    webWidget: {
+      ...webWidgetStore,
+      ...settingsStore
+    }
   }));
 }
 

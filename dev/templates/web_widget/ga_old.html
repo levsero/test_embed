@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Widget Google Analytics</title>
+</head>
+<body>
+  <h1>Web Widget Google Analytics</h1>
+  <%= htmlWebpackPlugin.options.snippet %>
+
+  <script nonce="<%= htmlWebpackPlugin.options.nonce %>">
+    zESettings = {
+      analytics: true
+    }
+  </script>
+
+  <script type="text/javascript" nonce="<%= htmlWebpackPlugin.options.nonce %>">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '<%= htmlWebpackPlugin.options.gaID %>']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+</body>
+</html>
