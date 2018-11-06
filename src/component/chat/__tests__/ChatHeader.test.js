@@ -75,8 +75,8 @@ describe('showRating', () => {
 });
 
 describe('showTitle', () => {
-  it('does not render the agent name and title if it is false', () => {
-    const { queryByText } = render(<ChatHeader
+  it('hides the agent name and title if it is false', () => {
+    const { getByTestId } = render(<ChatHeader
       concierges={[
         {
           avatar: 'https://example.com/snake',
@@ -87,10 +87,8 @@ describe('showTitle', () => {
       showTitle={false}
     />);
 
-    expect(queryByText('Jedi Knight'))
-      .not.toBeInTheDocument();
-    expect(queryByText('Luke Skywalker'))
-      .not.toBeInTheDocument();
+    expect(getByTestId('header-text-container').style.visibility)
+      .toEqual('hidden');
   });
 });
 
@@ -110,4 +108,22 @@ describe('showAvatar', () => {
     expect(container.querySelector('.Icon--avatar'))
       .not.toBeInTheDocument();
   });
+});
+
+test('it renders nothing when avatar, title and rating are false', () => {
+  const { container } = render(<ChatHeader
+    concierges={[
+      {
+        avatar: 'https://example.com/snake',
+        display_name: 'Luke Skywalker',
+        title: 'Jedi Knight'
+      }
+    ]}
+    showAvatar={false}
+    showRating={false}
+    showTitle={false}
+  />);
+
+  expect(container.innerHTML)
+    .toEqual('');
 });
