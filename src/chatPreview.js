@@ -20,7 +20,7 @@ import {
   PREVIEWER_LOADED } from 'src/redux/modules/chat/chat-action-types';
 import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
-
+import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
 import { generateUserWidgetCSS } from 'utility/color/styles';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
@@ -80,7 +80,8 @@ const renderPreview = (options) => {
     const allowedActions = [
       UPDATE_PREVIEWER_SETTINGS,
       UPDATE_PREVIEWER_SCREEN,
-      PREVIEWER_LOADED
+      PREVIEWER_LOADED,
+      LOCALE_SET
     ];
     const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0;
 
