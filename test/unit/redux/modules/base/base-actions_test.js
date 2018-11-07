@@ -897,16 +897,21 @@ describe('base redux actions', () => {
   });
 
   describe('handleCloseButtonClicked', () => {
-    let action;
+    let dispatchedActions;
 
     beforeEach(() => {
       mockStore.dispatch(actions.handleCloseButtonClicked());
-      action = mockStore.getActions()[0];
+      dispatchedActions = mockStore.getActions();
     });
 
     it('dispatches a CLOSE_BUTTON_CLICKED event', () => {
-      expect(action.type)
+      expect(dispatchedActions[0].type)
         .toEqual(actionTypes.CLOSE_BUTTON_CLICKED);
+    });
+
+    it('dispatches a EXECUTE_API_ON_CLOSE_CALLBACK event', () => {
+      expect(dispatchedActions[1].type)
+        .toEqual(actionTypes.EXECUTE_API_ON_CLOSE_CALLBACK);
     });
   });
 
@@ -1202,6 +1207,20 @@ describe('base redux actions', () => {
 
     it('dispatches a EXECUTE_API_ON_OPEN_CALLBACK event', () => {
       expect(action.type).toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
+    });
+  });
+
+  describe('executeApiOnCloseCallback', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.executeApiOnCloseCallback());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches a EXECUTE_API_ON_CLOSE_CALLBACK event', () => {
+      expect(action.type)
+        .toEqual(actionTypes.EXECUTE_API_ON_CLOSE_CALLBACK);
     });
   });
 });

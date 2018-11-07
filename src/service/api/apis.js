@@ -31,7 +31,7 @@ import {
   getIsChatting,
   getNotificationCount,
   getChatStatus } from 'src/redux/modules/chat/chat-selectors';
-import { CLOSE_BUTTON_CLICKED, EXECUTE_API_ON_OPEN_CALLBACK } from 'src/redux/modules/base/base-action-types';
+import { EXECUTE_API_ON_CLOSE_CALLBACK, EXECUTE_API_ON_OPEN_CALLBACK } from 'src/redux/modules/base/base-action-types';
 import { updateSettings } from 'src/redux/modules/settings';
 import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 
@@ -135,7 +135,7 @@ export const onApiObj = () => {
     }
   };
   const baseEventMap = {
-    [API_ON_CLOSE_NAME]: { actionType: CLOSE_BUTTON_CLICKED },
+    [API_ON_CLOSE_NAME]: { actionType: EXECUTE_API_ON_CLOSE_CALLBACK },
     [API_ON_OPEN_NAME]: { actionType: EXECUTE_API_ON_OPEN_CALLBACK }
   };
   const eventDispatchWrapperFn = (actionType, selectors = []) => {

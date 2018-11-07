@@ -32,7 +32,7 @@ describe('zopim events', () => {
       ));
   });
 
-  test('onHide dispatches the CLOSE_BUTTON_CLICKED action', () => {
+  test('onHide dispatches the EXECUTE_API_ON_CLOSE_CALLBACK action', () => {
     mockWin.$zopim.livechat.window.onHide(callback);
 
     expect(mockStore.dispatch)
@@ -41,7 +41,7 @@ describe('zopim events', () => {
           type: baseActionTypes.API_ON_RECEIVED,
           payload: expect.objectContaining(
             {
-              actionType: baseActionTypes.CLOSE_BUTTON_CLICKED,
+              actionType: baseActionTypes.EXECUTE_API_ON_CLOSE_CALLBACK,
               callback
             }
           )
