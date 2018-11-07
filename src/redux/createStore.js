@@ -44,7 +44,9 @@ export default function(storeName = 'web_widget', options = {}) {
   ];
   let storeEnhancers;
 
-  if (enableLogging) {
+  const test = process.env.NODE_ENV === 'test';
+
+  if (enableLogging && !test) {
     storeEnhancers = devToolsExtension
       ? [applyMiddleware(...middlewares, reduxCatchLogger), devToolsExtension]
       : [applyMiddleware(...middlewares, reduxCatchLogger, logger)];
