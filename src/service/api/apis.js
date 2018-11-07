@@ -41,6 +41,8 @@ import { settings } from 'service/settings';
 
 import { handleOnApiCalled } from 'src/redux/modules/base/base-actions';
 
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+
 export const endChatApi = (reduxStore) => {
   reduxStore.dispatch(endChat());
 };
@@ -51,20 +53,38 @@ export const sendChatMsgApi = (reduxStore, msg) => {
   reduxStore.dispatch(sendMsg(message));
 };
 
-export const identifyApi = (reduxStore, user) => {
+export const identifyApi = (_reduxStore, user) => {
   mediator.channel.broadcast('.onIdentify', user);
 };
 
 export const openApi = (reduxStore) => {
-  reduxStore.dispatch(openReceived());
+  const state = reduxStore.getState();
+
+  if (getActiveEmbed(state) === 'zopimChat') {
+    mediator.channel.broadcast('zopimChat.show');
+  } else {
+    reduxStore.dispatch(openReceived());
+  }
 };
 
 export const closeApi = (reduxStore) => {
+  const state = reduxStore.getState();
+
+  if (getActiveEmbed(state) === 'zopimChat') {
+    mediator.channel.broadcast('zopimChat.hide');
+  }
+
   reduxStore.dispatch(closeReceived());
 };
 
 export const toggleApi = (reduxStore) => {
-  reduxStore.dispatch(toggleReceived());
+  const state = reduxStore.getState();
+
+  if (getActiveEmbed(state) === 'zopimChat') {
+    mediator.channel.broadcast('zopimChat.toggle');
+  } else {
+    reduxStore.dispatch(toggleReceived());
+  }
 };
 
 export const setLocaleApi = (_, locale) => {
