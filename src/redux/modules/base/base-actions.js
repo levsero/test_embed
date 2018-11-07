@@ -246,6 +246,8 @@ export const handleOnApiCalled = (actionType, selectors=[], callback) => {
 };
 
 export const apiClearForm = () => {
+  mediator.channel.broadcast('.clear');
+
   return {
     type: actions.API_CLEAR_FORM
   };

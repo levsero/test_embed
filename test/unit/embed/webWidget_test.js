@@ -1064,6 +1064,37 @@ describe('embed.webWidget', () => {
             .toHaveBeenCalled();
         });
       });
+
+      describe('webWidget.clearAttachments', () => {
+        beforeEach(() => {
+          pluckSubscribeCall(mockMediator, 'webWidget.clearAttachments');
+        });
+
+        it('subscribes to webWidget.clearAttachments', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('webWidget.clearAttachments', jasmine.any(Function));
+        });
+
+        describe('when webWidget.clearAttachments is dispatched', () => {
+          let child;
+
+          beforeEach(() => {
+            webWidget.create('', {}, mockStore);
+            webWidget.render();
+
+            child = webWidget.get().instance.getRootComponent().getActiveComponent();
+
+            spyOn(child, 'clearAttachments');
+
+            pluckSubscribeCall(mockMediator, 'webWidget.clearAttachments')();
+          });
+
+          it('calls clearAttachments on the child', () => {
+            expect(child.clearAttachments)
+              .toHaveBeenCalled();
+          });
+        });
+      });
     });
 
     describe('when webWidget.refreshLocale is broadcast', () => {

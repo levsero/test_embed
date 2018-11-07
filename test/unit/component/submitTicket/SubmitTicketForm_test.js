@@ -305,6 +305,40 @@ describe('SubmitTicketForm component', () => {
     });
   });
 
+  describe('clearAttachments', () => {
+    let attachmentsEnabled;
+
+    beforeEach(() => {
+      const submitTicketForm = domRender(
+        <SubmitTicketForm
+          attachmentsEnabled={attachmentsEnabled} />);
+
+      submitTicketForm.clearAttachments();
+    });
+
+    describe('when attachments are enabled', () => {
+      beforeAll(() => {
+        attachmentsEnabled = true;
+      });
+
+      it('calls attachment list clear', () => {
+        expect(mockAttachmentsListClear)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when attachments are not enabled', () => {
+      beforeAll(() => {
+        attachmentsEnabled = false;
+      });
+
+      it('does not call attachment list clear', () => {
+        expect(mockAttachmentsListClear)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('#renderSubjectField', () => {
     let result;
 

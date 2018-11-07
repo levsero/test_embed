@@ -73,6 +73,10 @@ function init() {
     state[`${chat}.userClosed`] = true;
   });
 
+  c.intercept('.clear', () => {
+    c.broadcast('webWidget.clearAttachments');
+  });
+
   c.intercept('.onSetLocale', () => {
     c.broadcast(`${chat}.refreshLocale`);
     c.broadcast(`${launcher}.refreshLocale`);

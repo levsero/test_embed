@@ -266,6 +266,14 @@ export default function WebWidgetFactory(name) {
       getWebWidgetComponent().showProactiveChat();
     });
 
+    mediator.channel.subscribe(prefix + 'webWidget.clearAttachments', () => {
+      const submitTicket = getWebWidgetComponent().getSubmitTicketComponent();
+
+      if (submitTicket) {
+        submitTicket.clearAttachments();
+      }
+    });
+
     mediator.channel.subscribe(prefix + 'webWidget.hideChatNotification', () => {
       const state = embed.store.getState();
       const { show } = getChatNotification(state);

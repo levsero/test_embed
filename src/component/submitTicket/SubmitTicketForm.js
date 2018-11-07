@@ -304,9 +304,7 @@ export class SubmitTicketForm extends Component {
       }
     });
 
-    if (this.props.attachmentsEnabled) {
-      this.refs.attachments.clear();
-    }
+    this.clearAttachments();
 
     this.setState(initialState);
     this.props.setFormState({
@@ -314,6 +312,12 @@ export class SubmitTicketForm extends Component {
       email: formState.email
     });
     this.prefillFormState();
+  }
+
+  clearAttachments = () => {
+    if (this.props.attachmentsEnabled) {
+      this.refs.attachments.clear();
+    }
   }
 
   renderSubjectField = () => {
