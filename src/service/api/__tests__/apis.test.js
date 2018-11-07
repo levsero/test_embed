@@ -8,7 +8,8 @@ const settingsActions = require('src/redux/modules/settings/settings-actions');
 const baseActions = require('src/redux/modules/base/base-actions');
 const hcActions = require('src/redux/modules/helpCenter/helpCenter-actions');
 const mockStore = {
-  dispatch: jest.fn()
+  dispatch: jest.fn(),
+  getState: jest.fn()
 };
 
 jest.mock('service/mediator');
@@ -16,6 +17,7 @@ jest.mock('service/i18n');
 jest.mock('src/redux/modules/selectors');
 jest.mock('src/redux/modules/chat/chat-selectors');
 jest.mock('service/settings');
+jest.mock('src/redux/modules/base/base-selectors');
 
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -28,9 +30,13 @@ import {
   getDepartment,
   getDepartmentsList
 } from 'src/redux/modules/chat/chat-selectors';
+import * as baseSelectors from 'src/redux/modules/base/base-selectors';
 
 const mockActionValue = Date.now();
 const mockAction = jest.fn(() => mockActionValue);
+const setActiveEmbed = (activeEmbed) => {
+  baseSelectors.getActiveEmbed = jest.fn(() => activeEmbed);
+};
 
 describe('updateSettingsLegacyApi', () => {
   let newSettings;
@@ -101,11 +107,104 @@ test('identify calls mediator', () => {
     .toHaveBeenCalledWith('.onIdentify', { x: 1 });
 });
 
-test('openApi dispatches the openReceived action', () => {
-  apis.openApi(mockStore);
+describe('openApi', () => {
+  const setupTestData = (activeEmbed) => {
+    setActiveEmbed(activeEmbed);
+    apis.openApi(mockStore);
+  };
 
-  expect(mockStore.dispatch)
-    .toHaveBeenCalledWith({ type: baseActionTypes.OPEN_RECEIVED });
+  describe('when the active embed is not zopim chat', () => {
+    beforeEach(() => {
+      setupTestData('something');
+    });
+
+    it('dispatches the openReceived action', () => {
+      expect(mockStore.dispatch)
+        .toHaveBeenCalledWith({ type: baseActionTypes.OPEN_RECEIVED });
+
+      expect(mediator.channel.broadcast)
+        .not.toHaveBeenCalledWith('zopimChat.show');
+    });
+  });
+
+  describe('when the active embed is zopim chat', () => {
+    beforeEach(() => {
+      setupTestData('zopimChat');
+    });
+
+    it('broadcasts "zopimChat.show" on mediator', () => {
+      expect(mockStore.dispatch).not.toHaveBeenCalled();
+
+      expect(mediator.channel.broadcast)
+        .toHaveBeenCalledWith('zopimChat.show');
+    });
+  });
+});
+
+describe('closeApi', () => {
+  const setupTestData = (activeEmbed) => {
+    setActiveEmbed(activeEmbed);
+    apis.closeApi(mockStore);
+  };
+
+  describe('when the active embed is not zopim chat', () => {
+    beforeEach(() => {
+      setupTestData('totallynotzopimchat');
+    });
+
+    it('only dispatches the closedReceived action', () => {
+      expect(mockStore.dispatch)
+        .toHaveBeenCalledWith({ type: baseActionTypes.CLOSE_RECEIVED });
+
+      expect(mediator.channel.broadcast).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('when the active embed is zopim chat', () => {
+    beforeEach(() => {
+      setupTestData('zopimChat');
+    });
+
+    it('dispatches the closedReceived action and broadcasts "zopimChat.hide" on mediator', () => {
+      expect(mockStore.dispatch)
+        .toHaveBeenCalledWith({ type: baseActionTypes.CLOSE_RECEIVED });
+
+      expect(mediator.channel.broadcast).toHaveBeenCalledWith('zopimChat.hide');
+    });
+  });
+});
+
+describe('toggleApi', () => {
+  const setupTestData = (activeEmbed) => {
+    setActiveEmbed(activeEmbed);
+    apis.toggleApi(mockStore);
+  };
+
+  describe('when the active embed is not zopim chat', () => {
+    beforeEach(() => {
+      setupTestData('totallyNotZopim');
+    });
+
+    it('only dispatches the toggleReceived action', () => {
+      expect(mockStore.dispatch)
+        .toHaveBeenCalledWith({ type: baseActionTypes.TOGGLE_RECEIVED });
+
+      expect(mediator.channel.broadcast).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('when the active embed is zopim chat', () => {
+    beforeEach(() => {
+      setupTestData('zopimChat');
+    });
+
+    it('only broadcasts "zopimChat.toggle" on mediator', () => {
+      expect(mockStore.dispatch).not.toHaveBeenCalled();
+
+      expect(mediator.channel.broadcast)
+        .toHaveBeenCalledWith('zopimChat.toggle');
+    });
+  });
 });
 
 test('closeApi dispatches the closeReceived action', () => {

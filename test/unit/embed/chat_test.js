@@ -9,6 +9,8 @@ describe('embed.chat', () => {
   const updateSettingsChatSuppressSpy = jasmine.createSpy('updateSettingsChatSuppress');
   const resetSettingsChatSuppressSpy = jasmine.createSpy('resetSettingsChatSuppress');
   const zopimEndChatSpy = jasmine.createSpy('zopimEndChat');
+  const closeApiSpy = jasmine.createSpy('closeApi');
+  const openApiSpy = jasmine.createSpy('openApi');
 
   const mockGlobals = {
     document: global.document,
@@ -108,6 +110,10 @@ describe('embed.chat', () => {
       },
       'src/redux/modules/base': {
         updateActiveEmbed: noop
+      },
+      'src/service/api/apis': {
+        closeApi: closeApiSpy,
+        openApi: openApiSpy
       }
     });
 
@@ -444,6 +450,39 @@ describe('embed.chat', () => {
 
           expect(mockZopim.livechat.mobileNotifications.setDisabled)
             .toHaveBeenCalledWith(false);
+        });
+      });
+
+      describe('<name>.toggle', () => {
+        afterEach(() => {
+          closeApiSpy.calls.reset();
+          openApiSpy.calls.reset();
+        });
+
+        describe('when the widget is visible', () => {
+          beforeEach(() => {
+            mockZopim.livechat.window.getDisplay = () => true;
+          });
+
+          it('calls closeApi', () => {
+            pluckSubscribeCall(mockMediator, 'dave.toggle')();
+
+            expect(closeApiSpy).toHaveBeenCalled();
+            expect(openApiSpy).not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when the widget is invisible', () => {
+          beforeEach(() => {
+            mockZopim.livechat.window.getDisplay = () => false;
+          });
+
+          it('calls openApi', () => {
+            pluckSubscribeCall(mockMediator, 'dave.toggle')();
+
+            expect(openApiSpy).toHaveBeenCalled();
+            expect(closeApiSpy).not.toHaveBeenCalled();
+          });
         });
       });
 

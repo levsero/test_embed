@@ -16,6 +16,7 @@ import {
   zopimEndChat } from 'src/redux/modules/zopimChat';
 import { updateSettingsChatSuppress, resetSettingsChatSuppress } from 'src/redux/modules/settings';
 import { updateActiveEmbed } from 'src/redux/modules/base';
+import { closeApi, openApi } from 'src/service/api/apis';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -79,6 +80,18 @@ function hide() {
   });
 }
 
+function toggle(name) {
+  win.$zopim(() => {
+    const store = get(name).store;
+
+    if (win.$zopim.livechat.window.getDisplay()) {
+      closeApi(store);
+    } else {
+      openApi(store);
+    }
+  });
+}
+
 function render(name) {
   const config = get(name).config;
   const zopimId = config.zopimId;
@@ -118,6 +131,7 @@ function render(name) {
   mediator.channel.subscribe(`${name}.show`, () => show(name));
   mediator.channel.subscribe(`${name}.hide`, () => hide());
   mediator.channel.subscribe(`${name}.activate`, () => show(name, true));
+  mediator.channel.subscribe(`${name}.toggle`, () => toggle(name));
 
   mediator.channel.subscribe(`${name}.refreshLocale`, () => {
     win.$zopim && win.$zopim(() => {
