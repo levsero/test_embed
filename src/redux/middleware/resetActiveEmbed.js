@@ -59,7 +59,7 @@ const shouldResetForZopimChat = (type, state) => {
       && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
     return true;
   }
-  if (isZopimChatActionEligible && activeEmbed === 'ticketSubmissionForm') {
+  if (isZopimChatActionEligible && (activeEmbed === 'ticketSubmissionForm' || activeEmbed === '')) {
     return true;
   }
   return false;
