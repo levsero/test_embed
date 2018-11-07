@@ -58,7 +58,8 @@ describe('ChattingScreen component', () => {
           noAgentTyping: 'noAgentTypingClass',
           noAgentTypingMobile: 'noAgentTypingMobileClass',
           scrollBottomPill: 'scrollBottomPillClass',
-          scrollBottomPillMobile: 'scrollBottomPillMobileClass'
+          scrollBottomPillMobile: 'scrollBottomPillMobileClass',
+          headerMargin: 'headerMargin'
         }
       },
       'component/loading/LoadingSpinner': {
@@ -593,7 +594,8 @@ describe('ChattingScreen component', () => {
       isMobile = false,
       hideZendeskLogo = false,
       profileConfig = {},
-      socialLogin = { avatarPath: 'heynow' }
+      socialLogin = { avatarPath: 'heynow' },
+      agentJoined = false
     }) => (
       instanceRender(
         <ChattingScreen
@@ -602,7 +604,8 @@ describe('ChattingScreen component', () => {
           activeAgents={agents}
           isMobile={isMobile}
           hideZendeskLogo={hideZendeskLogo}
-          socialLogin={socialLogin} />
+          socialLogin={socialLogin}
+          agentJoined={agentJoined} />
       )
     );
 
@@ -621,6 +624,99 @@ describe('ChattingScreen component', () => {
       it('has a props.title value', () => {
         expect(component.props.title)
           .toEqual(mockTitle);
+      });
+    });
+
+    describe('container classnames', () => {
+      describe('headerMargin', () => {
+        describe('when profile config avatar is true', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              profileConfig: {
+                avatar: true
+              }
+            });
+
+            result = component.render();
+          });
+
+          it('renders headerMargin', () => {
+            expect(result.props.children[0].props.containerClasses)
+              .toContain('headerMargin');
+          });
+        });
+
+        describe('when profile config has no properties', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              profileConfig: {}
+            });
+
+            result = component.render();
+          });
+
+          it('does not render headerMargin', () => {
+            expect(result.props.children[0].props.containerClasses)
+              .not
+              .toContain('headerMargin');
+          });
+        });
+
+        describe('when profile config has only false properties', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              profileConfig: {
+                title: false,
+                rating: false
+              }
+            });
+
+            result = component.render();
+          });
+
+          it('does not render headerMargin', () => {
+            expect(result.props.children[0].props.containerClasses)
+              .not
+              .toContain('headerMargin');
+          });
+        });
+
+        describe('when profile config has rating set to true but there is no agent', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              profileConfig: {
+                rating: true
+              },
+              agentJoined: false
+            });
+
+            result = component.render();
+          });
+
+          it('does not render headerMargin', () => {
+            expect(result.props.children[0].props.containerClasses)
+              .not
+              .toContain('headerMargin');
+          });
+        });
+
+        describe('when profile config has rating set to true and there is an agent', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              profileConfig: {
+                rating: true
+              },
+              agentJoined: true
+            });
+
+            result = component.render();
+          });
+
+          it('renders headerMargin', () => {
+            expect(result.props.children[0].props.containerClasses)
+              .toContain('headerMargin');
+          });
+        });
       });
     });
 
