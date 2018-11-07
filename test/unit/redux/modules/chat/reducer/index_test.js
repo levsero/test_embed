@@ -33,7 +33,8 @@ describe('chat root reducer', () => {
     'visitor',
     'isAuthenticated',
     'vendor',
-    'isLoggingOut'
+    'isLoggingOut',
+    'forcedStatus'
   ];
 
   beforeAll(() => {

@@ -647,3 +647,10 @@ export function setChatHistoryHandler() {
     });
   };
 }
+
+export function setStatusForcefully(status) {
+  return {
+    type: actions.API_FORCE_STATUS_CALLED,
+    payload: status
+  };
+}

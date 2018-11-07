@@ -1,5 +1,6 @@
 import { SDK_ACTION_TYPE_PREFIX } from '../../../../src/constants/chat';
 
+export const API_FORCE_STATUS_CALLED = 'widget/chat/API_FORCE_STATUS_CALLED';
 export const END_CHAT_REQUEST_SUCCESS = 'widget/chat/END_CHAT_REQUEST_SUCCESS';
 export const END_CHAT_REQUEST_FAILURE = 'widget/chat/END_CHAT_REQUEST_FAILURE';
 export const CHAT_MSG_REQUEST_SENT = 'widget/chat/CHAT_MSG_REQUEST_SENT';
