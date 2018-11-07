@@ -24,7 +24,7 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 | say | zE('webWidget', 'chat:send', msg) |
 | endChat | zE('webWidget', 'chat:end') |
 | hideAll | zE('webWidget', 'hide') |
-| set | zE('webWidget', 'updateSettings', settings) |
+| set | zE('webWidget', 'prefill', data<object>) and zE('webWidget', 'setLocale', data<string>) |
 
 ### Visitor Information
 
@@ -79,10 +79,7 @@ zE('webWidget', 'prefill', {
 | mobileNotifications.setDisabled  | zESettings.webWidget.chat.notifications.mobile.disable |
 | theme.setColor* | zESettings.webWidget.color.theme |
 | theme.setColors* | zESettings.webWidget.color.theme |
-| theme.setProfileCardConfig | zESettings.webWidget.chat.profileCard.avatar,
-zESettings.webWidget.chat.profileCard.title,
-zESettings.webWidget.chat.profileCard.rating
- |
+| theme.setProfileCardConfig | zESettings.webWidget.chat.profileCard.avatar, zESettings.webWidget.chat.profileCard.title, zESettings.webWidget.chat.profileCard.rating|
 | setDisableGoogleAnalytics | zESettings.analytics |
 | setGreetings | zESettings.webWidget.launcher.chatLabel|label |
 | setStatus | Supported |
@@ -137,7 +134,7 @@ If this is blocking a use case for you, please let us know what you are trying t
 | getEmail | As above |
 | getPhone | As above |
 | setSize | As above |
-| theme.reload | zE('webWidget', 'updateSettings', settings) |
+| theme.reload | theme API calls are applied automatically and do not require this subsequent call |
 | theme.setFontConfig | Chat themes are no longer available |
 | theme.setTheme | As above |
 | cookieLaw.comply | Cookie law format is changing |

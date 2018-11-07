@@ -179,20 +179,20 @@ export const updateWidgetShown = (show) => {
 
 export const handlePrefillReceived = (payload) => {
   const { name = {}, email = {}, phone = {} } = payload;
-  const isReadOnly = {
-    name: false,
-    email: false,
-    phone: false,
-    ...((name.readOnly === true) && { name: name.readOnly }),
-    ...((email.readOnly === true) && { email: email.readOnly }),
-    ...((phone.readOnly === true) && { phone: phone.readOnly })
-  };
+  let prefillValues = {};
+  let isReadOnly = {};
 
-  let prefillValues = {
-    name: '',
-    email: '',
-    phone: ''
-  };
+  if (typeof name.readOnly === 'boolean') {
+    isReadOnly.name = name.readOnly;
+  }
+
+  if (typeof email.readOnly === 'boolean') {
+    isReadOnly.email = email.readOnly;
+  }
+
+  if (typeof phone.readOnly === 'boolean') {
+    isReadOnly.phone = phone.readOnly;
+  }
 
   if (_.isString(name.value)) {
     prefillValues.name = name.value;
