@@ -4,7 +4,6 @@ import { sprintf } from 'sprintf-js';
 import { settings } from 'service/settings';
 import zETranslations from 'translation/ze_translations';
 import zELocaleIdMap from 'translation/ze_localeIdMap';
-import { mediator } from 'service/mediator';
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
 import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors';
 
@@ -53,7 +52,6 @@ function setLocale(str = 'en-US') {
     type: LOCALE_SET,
     payload: locale
   });
-  mediator.channel.broadcast('.onSetLocale', locale);
 }
 
 function translate(key, params = {}) {

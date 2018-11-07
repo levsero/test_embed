@@ -128,6 +128,11 @@ describe('setLocale', () => {
     expect(i18n.setLocale)
       .toHaveBeenCalledWith('en');
   });
+
+  it('calls mediator', () => {
+    expect(mediator.channel.broadcast)
+      .toHaveBeenCalledWith('.onSetLocale');
+  });
 });
 
 describe('updateSettingsApi', () => {

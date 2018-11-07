@@ -80,6 +80,9 @@ describe('chatPreview file', () => {
       },
       'utility/color/styles': {
         generateUserWidgetCSS: _.identity
+      },
+      'src/redux/modules/base/base-action-types': {
+        LOCALE_SET: 'LOCALE_SET'
       }
     });
 

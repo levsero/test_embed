@@ -83,11 +83,6 @@ describe('i18n', () => {
       '../../config/locales/translations/embeddable_framework.yml': {
         parts: [translationFromFile]
       },
-      'service/mediator': {
-        mediator: {
-          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
-        }
-      },
       'src/redux/modules/base/base-action-types': {
         LOCALE_SET: 'LOCALE_SET'
       },
