@@ -56,6 +56,7 @@ class MockWebWidgetChild extends Component {
     this.focusField = noop;
     this.updateUser = noop;
     this.setLoading = noop;
+    this.clearAttachments = noop;
     this.state = {
       topics: [],
       searchCount: 0,

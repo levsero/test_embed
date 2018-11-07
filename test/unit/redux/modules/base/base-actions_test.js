@@ -963,6 +963,11 @@ describe('base redux actions', () => {
       expect(action.type)
         .toEqual(actionTypes.API_CLEAR_FORM);
     });
+
+    it('broadcasts .clear to mediator', () => {
+      expect(broadcastSpy)
+        .toHaveBeenCalledWith('.clear');
+    });
   });
 
   describe('widgetInitialised', () => {

@@ -122,6 +122,10 @@ class SubmitTicket extends Component {
     }
   }
 
+  clearAttachments = () => {
+    this.refs.submitTicketForm.clearAttachments();
+  }
+
   handleSubmit = (e, data) => {
     e.preventDefault();
 

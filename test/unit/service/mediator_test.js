@@ -52,7 +52,7 @@ describe('mediator', () => {
 
     webWidgetSub = jasmine.createSpyObj(
       'webWidget',
-      ['refreshLocale', 'zopimChatStarted', 'proactiveChat', 'updateSettings']
+      ['refreshLocale', 'zopimChatStarted', 'proactiveChat', 'updateSettings', 'clearAttachments']
     );
 
     initSubscriptionSpies = function(names) {
@@ -71,6 +71,7 @@ describe('mediator', () => {
       c.subscribe(`${names.webWidget}.updateSettings`, webWidgetSub.updateSettings);
       c.subscribe(`${names.webWidget}.zopimChatStarted`, webWidgetSub.zopimChatStarted);
       c.subscribe(`${names.webWidget}.proactiveChat`, webWidgetSub.proactiveChat);
+      c.subscribe(`${names.webWidget}.clearAttachments`, webWidgetSub.clearAttachments);
     };
   });
 
@@ -234,6 +235,31 @@ describe('mediator', () => {
 
     it('should broadcast launcher.updateSettings', () => {
       expect(launcherSub.updateSettings)
+        .toHaveBeenCalled();
+    });
+  });
+
+  /* ****************************************** *
+  *                  CLEAR API                  *
+  * ****************************************** */
+
+  describe('.clear', () => {
+    const launcher = 'launcher';
+    const webWidget = 'webWidget';
+    const names = {
+      launcher,
+      webWidget
+    };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({ submitTicket: true, helpCenter: true });
+
+      c.broadcast('.clear');
+    });
+
+    it('broadcasts webWidget.clearAttachments', () => {
+      expect(webWidgetSub.clearAttachments)
         .toHaveBeenCalled();
     });
   });
