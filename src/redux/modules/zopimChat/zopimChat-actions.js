@@ -8,7 +8,7 @@ import {
   ZOPIM_IS_CHATTING,
   ZOPIM_END_CHAT } from './zopimChat-action-types';
 import { getWebWidgetVisible } from 'src/redux/modules/selectors';
-import { updateActiveEmbed } from 'src/redux/modules/base';
+import { updateActiveEmbed, executeApiOnCloseCallback } from 'src/redux/modules/base';
 
 export function updateZopimChatStatus(status) {
   return {
@@ -36,8 +36,12 @@ export function zopimConnectionUpdate() {
 }
 
 export function zopimOnClose() {
-  return {
-    type: ZOPIM_ON_CLOSE
+  return (dispatch) => {
+    dispatch({
+      type: ZOPIM_ON_CLOSE
+    });
+
+    dispatch(executeApiOnCloseCallback());
   };
 }
 

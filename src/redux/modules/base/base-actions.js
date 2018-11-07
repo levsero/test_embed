@@ -232,9 +232,19 @@ export const widgetHideAnimationComplete = () => {
   };
 };
 
-export const handleCloseButtonClicked = () => {
+export const executeApiOnCloseCallback = () => {
   return {
-    type: actions.CLOSE_BUTTON_CLICKED
+    type: actions.EXECUTE_API_ON_CLOSE_CALLBACK
+  };
+};
+
+export const handleCloseButtonClicked = () => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.CLOSE_BUTTON_CLICKED
+    });
+
+    dispatch(executeApiOnCloseCallback());
   };
 };
 

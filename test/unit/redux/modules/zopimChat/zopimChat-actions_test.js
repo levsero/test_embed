@@ -7,6 +7,7 @@ let actions,
   mockWidgetVisible;
 
 const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed').and.returnValue({ type: 'someActionType' });
+const executeApiOnCloseCallbackSpy = jasmine.createSpy('executeApiOnCloseCallback').and.returnValue({ type: 'someActionType' });
 const broadcastSpy = jasmine.createSpy('channel.broadcast');
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -23,7 +24,8 @@ describe('zopimChat redux actions', () => {
         getWebWidgetVisible: () => mockWidgetVisible
       },
       'src/redux/modules/base': {
-        updateActiveEmbed: updateActiveEmbedSpy
+        updateActiveEmbed: updateActiveEmbedSpy,
+        executeApiOnCloseCallback: executeApiOnCloseCallbackSpy
       },
       'service/mediator': {
         mediator: {
@@ -113,16 +115,21 @@ describe('zopimChat redux actions', () => {
   });
 
   describe('zopimOnClose', () => {
-    let action;
+    let dispatchedActions;
 
     beforeEach(() => {
       mockStore.dispatch(actions.zopimOnClose());
-      action = mockStore.getActions()[0];
+      dispatchedActions = mockStore.getActions();
     });
 
     it('dispatches an action of type ZOPIM_ON_CLOSE', () => {
-      expect(action.type)
+      expect(dispatchedActions[0].type)
         .toEqual(actionTypes.ZOPIM_ON_CLOSE);
+    });
+
+    it('dispatches executeApiOnCloseCallback', () => {
+      expect(executeApiOnCloseCallbackSpy)
+        .toHaveBeenCalled();
     });
   });
 

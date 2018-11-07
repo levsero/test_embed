@@ -312,7 +312,7 @@ describe('onApi', () => {
       ));
   });
 
-  test('API_ON_CLOSE_NAME dispatches CLOSE_BUTTON_CLICKED', () => {
+  test('API_ON_CLOSE_NAME dispatches EXECUTE_API_ON_CLOSE_CALLBACK', () => {
     on[constants.API_ON_CLOSE_NAME](mockStore, callback);
 
     expect(mockStore.dispatch)
@@ -321,7 +321,7 @@ describe('onApi', () => {
           type: baseActionTypes.API_ON_RECEIVED,
           payload: expect.objectContaining(
             {
-              actionType: baseActionTypes.CLOSE_BUTTON_CLICKED,
+              actionType: baseActionTypes.EXECUTE_API_ON_CLOSE_CALLBACK,
               callback
             }
           )
