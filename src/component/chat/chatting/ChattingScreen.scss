@@ -122,9 +122,12 @@
   padding-left: #{8/$font-size}rem !important;
 }
 
+.headerMargin {
+  margin-top: #{58/$font-size}rem;
+}
+
 .scrollContainerMessagesContent {
   composes: scrollContainerContent;
-  margin-top: #{58/$font-size}rem;
 }
 
 .scrollContainerMessagesContentDesktop {

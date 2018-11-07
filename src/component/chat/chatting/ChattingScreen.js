@@ -437,8 +437,16 @@ class ChattingScreen extends Component {
   }
 
   render = () => {
-    const { isMobile, sendMsg, loginSettings, visitor, hideZendeskLogo, agentsTyping } = this.props;
+    const { isMobile,
+      sendMsg,
+      loginSettings,
+      visitor,
+      hideZendeskLogo,
+      agentsTyping,
+      profileConfig,
+      agentJoined } = this.props;
     const containerClasses = classNames({
+      [styles.headerMargin]: profileConfig.avatar || profileConfig.title || (profileConfig.rating && agentJoined),
       [styles.scrollContainerMessagesContent]: isMobile,
       [styles.scrollContainerMessagesContentDesktop]: !isMobile,
       [styles.scrollContainerMobile]: isMobile,
