@@ -132,6 +132,45 @@ describe('HelpCenter component', () => {
     mockery.disable();
   });
 
+  describe('componentDidUpdate', () => {
+    let helpCenter,
+      articles,
+      setIntroScreenSpy;
+
+    beforeEach(() => {
+      setIntroScreenSpy = jasmine.createSpy('setIntroScreen');
+      helpCenter = domRender(<HelpCenter
+        articles={articles} />);
+      helpCenter.helpCenterMobile = {
+        setIntroScreen: setIntroScreenSpy
+      };
+      helpCenter.componentDidUpdate();
+    });
+
+    describe('when there are no articles', () => {
+      beforeAll(() => {
+        articles = [];
+      });
+
+      it('does not call setIntroScreen', () => {
+        expect(setIntroScreenSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when there are articles', () => {
+      beforeAll(() => {
+        articles = ['yeah', 'some', 'articles'];
+      });
+
+      it('calls setIntroScreen', () => {
+        expect(setIntroScreenSpy)
+          .toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('render', () => {
     let buttonLabelKey = 'contact';
 
