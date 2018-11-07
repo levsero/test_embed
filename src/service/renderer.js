@@ -12,6 +12,7 @@ import { updateEmbedAccessible,
   updateArturos,
   widgetInitialised } from 'src/redux/modules/base';
 import { FONT_SIZE } from 'constants/shared';
+import { setLocaleApi } from 'src/service/api/apis';
 
 const embedsMap = {
   'chat': chat,
@@ -126,7 +127,10 @@ function init(config, reduxStore = dummyStore) {
 
     i18n.setCustomTranslations();
     i18n.setFallbackTranslations();
-    i18n.setLocale(config.locale);
+
+    if (!i18n.getLocale()) {
+      setLocaleApi(reduxStore, config.locale);
+    }
 
     const { newChat, embeds = {} } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;

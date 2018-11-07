@@ -46,6 +46,7 @@ describe('base root reducer', () => {
       'widgetInitialised',
       'hidden',
       'bootupTimeout',
+      'locale'
     ];
 
     it('has the expected substates', () => {

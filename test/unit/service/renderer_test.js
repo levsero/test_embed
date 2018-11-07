@@ -7,9 +7,11 @@ describe('renderer', () => {
     mockWebWidgetFactory,
     mockUpdateEmbedAccessible,
     mockUpdateArturos,
-    widgetInitialisedSpy;
+    widgetInitialisedSpy,
+    mockLocale;
   const updateBaseFontSize = jasmine.createSpy();
   const forceUpdateWorldSpy = jasmine.createSpy();
+  const setLocaleApiSpy = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
   const mediatorInitZopimStandaloneSpy = jasmine.createSpy('mediator.initZopimStandalone');
   const mediatorInitSpy = jasmine.createSpy('mediator.init');
@@ -57,9 +59,13 @@ describe('renderer', () => {
       },
       'embed/webWidget/webWidget': mockWebWidgetFactory,
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', [
-          'setCustomTranslations', 'setLocale', 't', 'setFallbackTranslations'
-        ])
+        i18n: {
+          setCustomTranslations: jasmine.createSpy(),
+          setLocale: jasmine.createSpy(),
+          t: jasmine.createSpy(),
+          setFallbackTranslations: jasmine.createSpy(),
+          getLocale: () => mockLocale
+        }
       },
       'service/mediator': {
         mediator: {
@@ -90,6 +96,9 @@ describe('renderer', () => {
         updateEmbedAccessible: mockUpdateEmbedAccessible,
         updateArturos: mockUpdateArturos,
         widgetInitialised: widgetInitialisedSpy
+      },
+      'src/service/api/apis': {
+        setLocaleApi: setLocaleApiSpy
       }
     });
 
@@ -99,6 +108,7 @@ describe('renderer', () => {
 
   afterEach(() => {
     jasmine.clock().uninstall();
+    setLocaleApiSpy.calls.reset();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -391,12 +401,10 @@ describe('renderer', () => {
     });
 
     describe('initialising services', () => {
-      let mockSettings,
-        mocki18n;
+      let mockSettings;
 
       beforeEach(() => {
         mockSettings = mockRegistry['service/settings'].settings;
-        mocki18n = mockRegistry['service/i18n'].i18n;
         global.window.zESettings = {};
 
         renderer.init({
@@ -410,9 +418,27 @@ describe('renderer', () => {
           .toHaveBeenCalled();
       });
 
-      it('should call i18n.setLocale with the correct locale', () => {
-        expect(mocki18n.setLocale)
-          .toHaveBeenCalledWith('en');
+      describe('when locale has not been set', () => {
+        beforeAll(() => {
+          mockLocale = null;
+        });
+
+        it('should call i18n.setLocale with the correct locale', () => {
+          expect(setLocaleApiSpy)
+            .toHaveBeenCalledWith(jasmine.any(Object), 'en');
+        });
+      });
+
+      describe('when locale has been set', () => {
+        beforeAll(() => {
+          mockLocale = 'ar';
+        });
+
+        it('does not call i18n.setLocale', () => {
+          expect(setLocaleApiSpy)
+            .not
+            .toHaveBeenCalled();
+        });
       });
     });
   });

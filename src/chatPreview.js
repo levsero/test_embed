@@ -66,8 +66,6 @@ const renderPreview = (options) => {
     throw new Error('A DOM element is required to render the Preview into.');
   }
 
-  i18n.setLocale(options.locale);
-
   const { width } = options.styles;
   const frameStyle = _.extend({}, options.styles, {
     position: 'relative',
@@ -90,6 +88,9 @@ const renderPreview = (options) => {
   };
 
   const store = createStore('chatpreview', { throttleEvents: true, allowedActionsFn: allowThrottleActions });
+
+  i18n.init(store);
+  i18n.setLocale(options.locale);
 
   const frameParams = {
     css: `${require('globalCSS')} ${webWidgetStyles}`,

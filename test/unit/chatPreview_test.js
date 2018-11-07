@@ -16,7 +16,7 @@ describe('chatPreview file', () => {
   const updatePreviewerSettingsSpy = jasmine.createSpy('updatePreviewerSettings');
   const dispatchSpy = jasmine.createSpy('dispatch');
   const createStoreSpy = jasmine.createSpy().and.callFake(() => ({ dispatch: dispatchSpy }));
-  const i18nSpy = jasmine.createSpyObj('i18n', ['setLocale']);
+  const i18nSpy = jasmine.createSpyObj('i18n', ['init', 'setLocale']);
   const chatForceUpdateSpy = jasmine.createSpy('chat.forceUpdate');
 
   beforeEach(() => {

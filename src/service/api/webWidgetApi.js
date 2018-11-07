@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
 import {
@@ -103,7 +102,7 @@ const newApiStructurePreRender = {
     open: openApi,
     close: closeApi,
     toggle: toggleApi,
-    setLocale: (_, locale) => i18n.setLocale(locale),
+    setLocale: setLocaleApi,
     identify: (_, ...args) => addToPostRenderQueue(['webWidget', 'identify', ...args]),
     updateSettings: (_, ...args) => addToPostRenderQueue(['webWidget', 'updateSettings', ...args]),
     logout: (_, ...args) => addToPostRenderQueue(['webWidget', 'logout', ...args]),
@@ -168,7 +167,7 @@ function handleQueue(reduxStore, queue) {
   _.forEach(queue, (method) => {
     if (method[0].locale) {
       // Backwards compat with zE({locale: 'zh-CN'}) calls
-      i18n.setLocale(method[0].locale);
+      setLocaleApi(reduxStore, method[0].locale);
     } else if (_.isFunction(method[0])) {
       // Old API
       try {
@@ -211,7 +210,7 @@ function setupWidgetQueue(win, postRenderQueue, reduxStore) {
   };
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,
-    setLocale: i18n.setLocale,
+    setLocale: (locale) => setLocaleApi(reduxStore, locale),
     hide: () => hideApi(reduxStore),
     show: postRenderQueueCallback.bind('show'),
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
@@ -300,7 +299,7 @@ function setupWidgetApi(win, reduxStore) {
   win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
   win.zE.hide = () => hideApi(reduxStore);
   win.zE.show = () => { reduxStore.dispatch(legacyShowReceived()); };
-  win.zE.setLocale = (locale) => setLocaleApi(null, locale);
+  win.zE.setLocale = (locale) => setLocaleApi(reduxStore, locale);
 }
 
 export const webWidgetApi = {

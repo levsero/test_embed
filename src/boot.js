@@ -17,7 +17,7 @@ import { appendMetaTag,
 import { initMobileScaling } from 'utility/mobileScaling';
 import { updateEmbeddableConfig } from 'src/redux/modules/base';
 import { initResizeMonitor } from 'utility/window';
-
+import { i18n } from 'service/i18n';
 import createStore from 'src/redux/createStore';
 
 const setReferrerMetas = (iframe, doc) => {
@@ -158,6 +158,7 @@ const start = (win, doc) => {
   const postRenderQueue = [];
   const { publicApi, devApi } = webWidgetApi.setupWidgetQueue(win, postRenderQueue, reduxStore);
 
+  i18n.init(reduxStore);
   boot.setupIframe(window.frameElement, doc);
   boot.setupServices(reduxStore);
   zopimApi.setupZopimQueue(win);

@@ -23,6 +23,7 @@ export const UPDATE_EMBEDDABLE_CONFIG = 'widget/base/UPDATE_EMBEDDABLE_CONFIG';
 export const UPDATE_QUEUE = 'widget/base/UPDATE_QUEUE';
 export const REMOVE_FROM_QUEUE = 'widget/base/REMOVE_FROM_QUEUE';
 export const CLOSE_BUTTON_CLICKED = 'widget/base/CLOSE_BUTTON_CLICKED';
+export const LOCALE_SET = 'widget/base/LOCALE_SET';
 // We can also add actions for animation start and show start and complete as needed
 export const WIDGET_HIDE_ANIMATION_COMPLETE = 'widget/base/WIDGET_HIDE_ANIMATION_COMPLETE';
 export const API_CLEAR_FORM = 'widget/base/API_CLEAR_FORM';
