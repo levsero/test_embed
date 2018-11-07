@@ -6,6 +6,7 @@ describe('ChatContactDetailsPopup component', () => {
     mockShouldRenderErrorMessage,
     mockIsDefaultNickname,
     ICONS,
+    updateFnSpy,
     EDIT_CONTACT_DETAILS_SCREEN,
     EDIT_CONTACT_DETAILS_LOADING_SCREEN,
     EDIT_CONTACT_DETAILS_ERROR_SCREEN;
@@ -35,7 +36,6 @@ describe('ChatContactDetailsPopup component', () => {
     EDIT_CONTACT_DETAILS_ERROR_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_ERROR_SCREEN;
 
     mockFormValidity = false;
-    mockEmailValid = true;
     mockIsDefaultNickname = false;
 
     initMockRegistry({
@@ -117,7 +117,7 @@ describe('ChatContactDetailsPopup component', () => {
 
   describe('handleSave', () => {
     let component,
-      mockState,
+      mockProps,
       rightCtaFnSpy;
 
     beforeEach(() => {
@@ -126,27 +126,25 @@ describe('ChatContactDetailsPopup component', () => {
       component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
 
       spyOn(component, 'setState');
-      component.state = mockState;
+      component.props = {...component.props, ...mockProps};
       component.handleSave();
     });
 
     describe('when form is invalid', () => {
       beforeAll(() => {
-        mockState = {
-          formState: {},
-          valid: false
-        };
+        mockEmailValid = false;
       });
 
       it('shows error', () => {
         expect(component.setState)
-          .toHaveBeenCalledWith({ showErrors: true });
+          .toHaveBeenCalledWith({ showEmailError: true });
       });
     });
 
     describe('when form is valid', () => {
       beforeAll(() => {
-        mockState = { valid: true, formState: { name: 'bob', email: 'bob@zd.com' } };
+        mockProps = { contactDetails: {display_name: 'bob', email: 'bob@zd.com' }};
+        mockEmailValid = true;
       });
 
       it('calls props.rightCtaFn with form state name and email', () => {
@@ -217,24 +215,72 @@ describe('ChatContactDetailsPopup component', () => {
   });
 
   describe('handleFormChange', () => {
-    let component;
+    let component,
+      mockProps;
 
     beforeEach(() => {
-      component = instanceRender(<ChatContactDetailsPopup />);
-      mockFormValidity = true;
+      updateFnSpy = jasmine.createSpy('updateFn');
+
+      component = instanceRender(<ChatContactDetailsPopup updateFn = {updateFnSpy} contactDetails={mockProps} />);
       component.form = mockForm;
-
-      component.handleFormChange({ target: { name: 'name', value: 'bob' } });
     });
 
-    it('sets state.valid using form.checkValidity()', () => {
-      expect(component.state.valid)
-        .toBe(true);
+    afterEach(() => {
+      updateFnSpy.calls.reset();
     });
 
-    it('sets state.formState for target field', () => {
-      expect(component.state.formState)
-        .toEqual({ name: 'bob', email: '' });
+    describe('when form is valid', () => {
+      beforeEach(() => {
+        mockProps = {
+          display_name: 'Joey',
+          email: 'hello@world.com'
+        };
+
+        component.state.showEmailError = true;
+
+        component.handleFormChange({
+          target: {
+            name: 'display_name',
+            value: 'bob'
+          }
+        });
+      });
+
+      it('updates state.showEmailError as false via emailValid', () => {
+        expect(component.state.showEmailError)
+          .toBe(false);
+      });
+
+      it('attempt to update redux with new target name field', () => {
+        expect(updateFnSpy)
+          .toHaveBeenCalledWith('bob', 'hello@world.com');
+      });
+    });
+
+    describe('when form is invalid', () => {
+      beforeEach(() =>{
+        mockProps = {
+          display_name: 'Joey',
+          email: 'blarg'
+        };
+        component.state.showEmailError = true;
+        component.handleFormChange({
+          target: {
+            name: 'email',
+            value: 'bob'
+          }
+        });
+      });
+
+      it('leaves state.showEmailError as true via emailValid', () => {
+        expect(component.state.showEmailError)
+          .toBe(false);
+      });
+
+      it('attempt to update redux with new target email field', () => {
+        expect(updateFnSpy)
+          .toHaveBeenCalledWith('Joey', 'bob');
+      });
     });
   });
 
@@ -242,11 +288,16 @@ describe('ChatContactDetailsPopup component', () => {
     let component,
       mockContactDetails;
 
+    afterEach(() => {
+      updateFnSpy.calls.reset();
+    });
+
     describe('when contact details have been entered into the popup before', () => {
       beforeEach(() => {
+        updateFnSpy = jasmine.createSpy('updateFn');
         mockContactDetails = { display_name: 'guy', email: 'guy@guys.com' };
 
-        component = instanceRender(<ChatContactDetailsPopup contactDetails={mockContactDetails} />);
+        component = instanceRender(<ChatContactDetailsPopup contactDetails={mockContactDetails} updateFn={updateFnSpy} />);
 
         component.componentWillReceiveProps({
           visitor: { display_name: 'bob', email: 'bob@bob.com' },
@@ -254,22 +305,18 @@ describe('ChatContactDetailsPopup component', () => {
         });
       });
 
-      it('sets name form state to the display_name passed in via the contactDetails prop', () => {
-        expect(component.state.formState.name)
-          .toEqual('guy');
-      });
-
-      it('sets name form state to the email passed in via the contactDetails prop', () => {
-        expect(component.state.formState.email)
-          .toEqual('guy@guys.com');
+      it('attempts to update the contactDetails redux with the input values', () => {
+        expect(updateFnSpy)
+          .toHaveBeenCalledWith('guy', 'guy@guys.com');
       });
     });
 
     describe('when contact details have not been entered into the popup before', () => {
       beforeEach(() => {
-        mockContactDetails = {};
+        updateFnSpy = jasmine.createSpy('updateFn');
+        mockContactDetails = { display_name: null, email: null };
 
-        component = instanceRender(<ChatContactDetailsPopup contactDetails={mockContactDetails} />);
+        component = instanceRender(<ChatContactDetailsPopup contactDetails={mockContactDetails} updateFn={updateFnSpy} />);
 
         component.componentWillReceiveProps({
           visitor: { display_name: 'bob', email: 'bob@bob.com' },
@@ -278,9 +325,9 @@ describe('ChatContactDetailsPopup component', () => {
       });
 
       describe('when the name is not the default chat name', () => {
-        it('sets name form state to the display_name visitor prop passed in', () => {
-          expect(component.state.formState.name)
-            .toEqual('bob');
+        it('attempts to update the contactDetails with the visitor prop', () => {
+          expect(updateFnSpy)
+            .toHaveBeenCalledWith('bob', 'bob@bob.com');
         });
       });
 
@@ -292,45 +339,15 @@ describe('ChatContactDetailsPopup component', () => {
           component.componentWillReceiveProps({ visitor: { display_name: 'Visitor 12345' }, contactDetails: {} });
         });
 
-        it('sets name form state to an empty string', () => {
-          expect(component.state.formState.name)
-            .toEqual('');
+        it('sets name in contactDetails redux to an empty string', () => {
+          expect(updateFnSpy)
+            .toHaveBeenCalledWith('', '');
         });
       });
 
-      it('sets email form state to the email visitor prop passed in', () => {
-        expect(component.state.formState.email)
-          .toEqual('bob@bob.com');
-      });
-    });
-
-    describe('when user is still entering contact details', () => {
-      beforeEach(() => {
-        mockContactDetails = { display_name: 'guy', email: 'guy@guys.com' };
-
-        component = instanceRender(<ChatContactDetailsPopup contactDetails={mockContactDetails} />);
-
-        component.state = {
-          formState: {
-            name: 'I am not done yet',
-            email: 'still@notdone.yet'
-          }
-        };
-
-        component.componentWillReceiveProps({
-          visitor: { display_name: 'bob', email: 'bob@bob.com' },
-          contactDetails: mockContactDetails
-        });
-      });
-
-      it('uses component state for the email field', () => {
-        expect(component.state.formState.email)
-          .toEqual('still@notdone.yet');
-      });
-
-      it('uses component state for the name field', () => {
-        expect(component.state.formState.name)
-          .toEqual('I am not done yet');
+      it('attempts to update the contactDetails to the visitor prop passed in', () => {
+        expect(updateFnSpy)
+          .toHaveBeenCalledWith('bob', 'bob@bob.com');
       });
     });
   });
@@ -543,17 +560,6 @@ describe('ChatContactDetailsPopup component', () => {
     it('renders a TextField component', () => {
       expect(TestUtils.isElementOfType(result, TextField))
         .toEqual(true);
-    });
-
-    describe('when invalid', () => {
-      beforeAll(() => {
-        mockShouldRenderErrorMessage = true;
-      });
-
-      it('renders field in an error state', () => {
-        expect(result.props.children[1].props.validation)
-          .toEqual('error');
-      });
     });
   });
 });

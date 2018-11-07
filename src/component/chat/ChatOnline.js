@@ -25,7 +25,8 @@ import {
   handleReconnect,
   updateMenuVisibility,
   updateContactDetailsVisibility,
-  updateEmailTranscriptVisibility } from 'src/redux/modules/chat';
+  updateEmailTranscriptVisibility,
+  updateContactDetailsFields } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './ChatOnline.scss';
@@ -81,6 +82,7 @@ class Chat extends Component {
     editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
     updateEmailTranscriptVisibility: PropTypes.func.isRequired,
+    updateContactDetailsFields: PropTypes.func,
     updateChatBackButtonVisibility: PropTypes.func,
     updateMenuVisibility: PropTypes.func,
     menuVisible: PropTypes.bool,
@@ -327,12 +329,14 @@ class Chat extends Component {
       visitor,
       isMobile,
       updateContactDetailsVisibility,
+      updateContactDetailsFields,
       isAuthenticated, socialLogin } = this.props;
 
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
     const tryAgainFn = () => updateContactDetailsVisibility(true);
     const saveContactDetailsFn = (name, email) => setVisitorInfo({ display_name: name, email });
     const isAuthenticatedAtAll = isAuthenticated || _.get(socialLogin, 'authenticated', false);
+    const updateDetailsFn = (name, email) => updateContactDetailsFields({display_name: name, email});
 
     return (
       <ChatContactDetailsPopup
@@ -343,6 +347,7 @@ class Chat extends Component {
         leftCtaFn={hideContactDetailsFn}
         rightCtaFn={saveContactDetailsFn}
         tryAgainFn={tryAgainFn}
+        updateFn={updateDetailsFn}
         visitor={visitor}
         isAuthenticated={isAuthenticatedAtAll} />
     );
@@ -433,7 +438,8 @@ const actionCreators = {
   updateMenuVisibility,
   handleReconnect,
   updateContactDetailsVisibility,
-  updateEmailTranscriptVisibility
+  updateEmailTranscriptVisibility,
+  updateContactDetailsFields
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

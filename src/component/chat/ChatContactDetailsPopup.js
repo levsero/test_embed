@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { TextField, Label, Input, Message } from '@zendeskgarden/react-textfields';
-
 import { keyCodes } from 'utility/keyboard';
 import { document as doc } from 'utility/globals';
 import { i18n } from 'service/i18n';
@@ -30,6 +29,7 @@ export class ChatContactDetailsPopup extends Component {
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
     tryAgainFn: PropTypes.func,
+    updateFn: PropTypes.func,
     show: PropTypes.bool,
     isMobile: PropTypes.bool,
     visitor: PropTypes.object,
@@ -42,6 +42,7 @@ export class ChatContactDetailsPopup extends Component {
     leftCtaFn: () => {},
     rightCtaFn: () => {},
     tryAgainFn: () => {},
+    updateFn: () => {},
     show: false,
     isMobile: false,
     visitor: {},
@@ -53,48 +54,48 @@ export class ChatContactDetailsPopup extends Component {
     const email = props.contactDetails.email || _.get(props.visitor, 'email', '');
     const name = props.contactDetails.display_name || _.get(props.visitor, 'display_name', '');
 
+    this.props.updateFn(
+      isDefaultNickname(name) ? '' : name,
+      email
+    );
+
     this.state = {
-      valid: emailValid(email, { allowEmpty: true }),
-      formState: {
-        email,
-        name: isDefaultNickname(name) ? '' : name
-      },
-      showErrors: false
+      showEmailError: emailValid(email, {
+        allowEmpty: true
+      })
     };
 
     this.form = null;
   }
 
   componentWillReceiveProps(nextProps) {
-    // The component state must be shown first because it the user's typed values that have
-    // not been saved yet. If this does not exist yet, then we must show the previously submitted
-    // contact details. If this does not exist either, then we must show any existing visitor info
-    // details we have (eg. this can be sourced via zE.identify()).
-    const email = this.state.formState.email || nextProps.contactDetails.email || _.get(nextProps.visitor, 'email', '');
-    const name = this.state.formState.name ||
-      nextProps.contactDetails.display_name ||
-      _.get(nextProps.visitor, 'display_name', '');
+    // Check if the ContactDetails values are null, if so, use the stored Visitor info instead
+    const { display_name: nextName, email: nextEmail } = nextProps.contactDetails;
+    const visitorName = _.get(nextProps.visitor, 'display_name', '');
+    const visitorEmail = _.get(nextProps.visitor, 'email', '');
 
-    this.setState({
-      valid: emailValid(email, { allowEmpty: true }),
-      formState: {
-        email,
-        name: isDefaultNickname(name) ? '' : name
-      }
-    });
+    if (_.isNil(nextName) && _.isNil(nextEmail)) {
+      this.props.updateFn(visitorName, visitorEmail);
+    }
+    else if (isDefaultNickname(nextName)) {
+      this.props.updateFn('', nextEmail);
+    }
   }
 
   handleSave = () => {
-    const { name, email } = this.state.formState;
+    const { display_name: name, email } = this.props.contactDetails;
+    const isEmailError = !emailValid(email, {
+      allowEmpty: true
+    });
 
-    if (!this.state.valid) {
-      this.setState({ showErrors: true });
+    if (isEmailError) {
+      this.setState({
+        showEmailError: true
+      });
       return;
     }
 
     this.props.rightCtaFn(name, email);
-
-    this.setState({ showErrors: false });
 
     if (doc.activeElement) {
       doc.activeElement.blur();
@@ -110,12 +111,22 @@ export class ChatContactDetailsPopup extends Component {
 
   handleFormChange = (e) => {
     const { name, value } = e.target;
-    const fieldState = { [name]: value };
+    const newState = {
+      ...this.props.contactDetails,
+      [name]: value
+    };
 
-    this.setState({
-      valid: this.form.checkValidity(),
-      formState: { ...this.state.formState, ...fieldState }
-    });
+    // We only want this to clear an existing error
+    if (this.state.showEmailError) {
+      this.setState({
+        showEmailError: !emailValid(newState.email, {allowEmpty: true})
+      });
+    }
+
+    this.props.updateFn(
+      newState.display_name,
+      newState.email,
+    );
   }
 
   renderTitle = () => {
@@ -124,43 +135,45 @@ export class ChatContactDetailsPopup extends Component {
     return <h4 className={styles.title}>{title}</h4>;
   }
 
-  renderErrorMessage(value, required, errorString, pattern) {
-    if (shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)) {
+  renderErrorMessage(value, required, isError, errorString, pattern) {
+    if (shouldRenderErrorMessage(value, required, isError, pattern)) {
       return <Message validation='error'>{i18n.t(errorString)}</Message>;
     }
     return null;
   }
 
   renderNameField = () => {
-    const value = this.state.formState.name;
-    const error = this.renderErrorMessage(value, false, 'embeddable_framework.validation.error.name');
+    const value = (_.isNil(this.props.contactDetails.display_name))
+      ? '' : this.props.contactDetails.display_name;
 
     return (
       <TextField>
         {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.name'), false)}
         <Input
-          value={value}
-          name='name'
+          defaultValue={value}
+          name='display_name'
           autoComplete='off'
           onKeyPress={this.handleKeyPress}
-          validation={error ? 'error' : 'none'}
           disabled={this.props.isAuthenticated} />
-        {error}
       </TextField>
     );
   }
 
   renderEmailField = () => {
-    const value = this.state.formState.email;
+    const value = (_.isNil(this.props.contactDetails.email))
+      ? '' : this.props.contactDetails.email;
     const error = this.renderErrorMessage(value,
-      false, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
+      false,
+      this.state.showEmailError,
+      'embeddable_framework.validation.error.email',
+      EMAIL_PATTERN);
 
     /* eslint-disable max-len */
     return (
       <TextField>
         {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), false)}
         <Input
-          value={this.state.formState.email}
+          defaultValue={value}
           disabled={this.props.isAuthenticated}
           name='email'
           onKeyPress={this.handleKeyPress}

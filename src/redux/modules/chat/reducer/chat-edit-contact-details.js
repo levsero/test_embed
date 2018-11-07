@@ -7,14 +7,16 @@ import {
   SET_VISITOR_INFO_REQUEST_SUCCESS,
   SET_VISITOR_INFO_REQUEST_PENDING,
   SDK_ERROR,
-  UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY
+  UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
+  UPDATE_CHAT_CONTACT_DETAILS_INFO
 } from '../chat-action-types';
+import { API_CLEAR_FORM } from '../../base/base-action-types';
 
 const initialState = {
   status: EDIT_CONTACT_DETAILS_SCREEN,
   show: false,
-  display_name: '',
-  email: '',
+  display_name: null,
+  email: null,
   error: false
 };
 
@@ -50,6 +52,14 @@ const editContactDetails = (state = initialState, action) => {
         status: EDIT_CONTACT_DETAILS_SCREEN,
         show: payload
       };
+    case UPDATE_CHAT_CONTACT_DETAILS_INFO:
+      return {
+        ...state,
+        display_name: payload.display_name,
+        email: payload.email
+      };
+    case API_CLEAR_FORM:
+      return initialState;
     default:
       return state;
   }
