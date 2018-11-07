@@ -267,7 +267,7 @@ describe('webWidgetApi', () => {
 
       it('calls i18n setLocale with the locale', () => {
         expect(setLocaleSpy)
-          .toHaveBeenCalledWith('fr');
+          .toHaveBeenCalledWith(jasmine.any(Object), 'fr');
       });
     });
 

@@ -706,4 +706,23 @@ describe('base selectors', () => {
         .toEqual({ base: 'blue', text: 'deep' });
     });
   });
+
+  describe('getLocale', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          locale: 'ar'
+        }
+      };
+      result = selectors.getLocale(mockState);
+    });
+
+    it('returns ar', () => {
+      expect(result)
+        .toEqual('ar');
+    });
+  });
 });

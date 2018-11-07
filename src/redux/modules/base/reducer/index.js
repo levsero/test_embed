@@ -15,6 +15,7 @@ import launcherVisible from './launcher-visibility';
 import widgetInitialised from './base-widget-initialised';
 import hidden from './base-hidden';
 import bootupTimeout from './base-bootupTimeout';
+import locale from './base-locale';
 
 export default combineReducers({
   activeEmbed,
@@ -31,5 +32,6 @@ export default combineReducers({
   launcherVisible,
   widgetInitialised,
   hidden,
-  bootupTimeout
+  bootupTimeout,
+  locale
 });

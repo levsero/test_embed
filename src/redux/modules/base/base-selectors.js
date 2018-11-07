@@ -18,6 +18,7 @@ export const getWidgetInitialised = (state) => state.base.widgetInitialised;
 export const getBootupTimeout = (state) => state.base.bootupTimeout;
 export const getWebWidgetVisible = (state) => state.base.webWidgetVisible;
 export const getLauncherVisible = (state) => state.base.launcherVisible;
+export const getLocale = (state) => state.base.locale;
 
 export const getChatStandalone = (state) => {
   const otherProducts = getSubmitTicketEmbed(state) ||

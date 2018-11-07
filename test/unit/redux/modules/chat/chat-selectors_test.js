@@ -47,7 +47,8 @@ describe('chat selectors', () => {
         CHATTING_SCREEN
       },
       'src/redux/modules/base/base-selectors': {
-        getActiveEmbed: (state) => state.base.embed
+        getActiveEmbed: (state) => state.base.embed,
+        getLocale: () => 'en-US'
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartmentsEnabled: (state) => _.get(state, 'settings.chat.departments.enabled', []),

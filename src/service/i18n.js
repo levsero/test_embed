@@ -4,6 +4,9 @@ import { sprintf } from 'sprintf-js';
 import { settings } from 'service/settings';
 import zETranslations from 'translation/ze_translations';
 import zELocaleIdMap from 'translation/ze_localeIdMap';
+import { mediator } from 'service/mediator';
+import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
+import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors';
 
 const keyLookupTable = {
   launcherLabel: [
@@ -35,22 +38,31 @@ const keyLookupTable = {
 };
 
 let fallbackTranslations;
-let currentLocale;
+let store;
 
-// The force argument is for post-render setLocale function so that
-// it can override the locale if it has previously been set.
-function setLocale(str = 'en-US', force = false) {
-  if (!currentLocale || force) {
-    currentLocale = parseLocale(str);
-  }
+function init(s) {
+  store = s;
+}
+
+function setLocale(str = 'en-US') {
+  if (!store) return;
+
+  const locale = parseLocale(str);
+
+  store.dispatch({
+    type: LOCALE_SET,
+    payload: locale
+  });
+  mediator.channel.broadcast('.onSetLocale', locale);
 }
 
 function translate(key, params = {}) {
-  const keyForLocale = `${key}.${currentLocale}`;
+  const locale = getLocale();
+  const keyForLocale = `${key}.${locale}`;
   const translation = _.get(zETranslations, keyForLocale);
 
   if (_.isUndefined(translation)) {
-    return sprintf(getFallbackTranslation(key), params) || getMissingTranslationString(key, currentLocale);
+    return sprintf(getFallbackTranslation(key), params) || getMissingTranslationString(key, locale);
   }
 
   return interpolateTranslation(translation, params);
@@ -65,15 +77,16 @@ function setCustomTranslations() {
 }
 
 function getLocale() {
-  return currentLocale;
+  if (!store) return '';
+  return getLocaleState(store.getState());
 }
 
 function getLocaleId() {
-  return zELocaleIdMap[currentLocale];
+  return zELocaleIdMap[getLocale()];
 }
 
 function isRTL() {
-  return !!zETranslations.rtl[currentLocale];
+  return !!zETranslations.rtl[getLocale()];
 }
 
 // private
@@ -232,5 +245,6 @@ export const i18n = {
   isRTL: isRTL,
   setCustomTranslations: setCustomTranslations,
   setFallbackTranslations: setFallbackTranslations,
-  getSettingTranslation: getSettingTranslation
+  getSettingTranslation: getSettingTranslation,
+  init: init
 };

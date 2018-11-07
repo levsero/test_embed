@@ -15,7 +15,8 @@ describe('boot', () => {
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
     gaSpy = registerImportSpy('GA', 'init'),
     apiSpy = registerImportSpy('webWidgetApi', 'handleQueue', 'setupWidgetApi', 'setupWidgetQueue', 'setupZopimQueue', 'handlePostRenderQueue'),
-    zopimApiSpy = registerImportSpy('zopimApi', 'setupZopimQueue', 'setUpZopimApiMethods');
+    zopimApiSpy = registerImportSpy('zopimApi', 'setupZopimQueue', 'setUpZopimApiMethods'),
+    initSpy = jasmine.createSpy('init');
 
   let updateEmbeddableConfigSpy = jasmine.createSpy('updateEmbeddableConfig');
 
@@ -44,6 +45,11 @@ describe('boot', () => {
             };
           },
           getErrorReportingEnabled: () => mockGetErrorReportingEnabled
+        }
+      },
+      'service/i18n': {
+        i18n: {
+          init: initSpy
         }
       },
       'service/transport': transportSpy,

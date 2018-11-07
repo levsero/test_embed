@@ -1,6 +1,7 @@
 describe('i18n', () => {
   let i18n,
     mockRegistry,
+    mockLocale = '',
     stringKeyFromFile = 'string.key.from.yml.file',
     stringValueFromFile = 'Hello',
     translationFromFile = {
@@ -81,11 +82,31 @@ describe('i18n', () => {
       'sprintf-js': require('sprintf-js'),
       '../../config/locales/translations/embeddable_framework.yml': {
         parts: [translationFromFile]
+      },
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
+      'src/redux/modules/base/base-action-types': {
+        LOCALE_SET: 'LOCALE_SET'
+      },
+      'src/redux/modules/base/base-selectors': {
+        getLocale: () => mockLocale
       }
     });
 
     mockery.registerAllowable(i18nPath);
     i18n = requireUncached(i18nPath).i18n;
+
+    const mockStore = {
+      getState: () => {},
+      dispatch: (action) => {
+        mockLocale = action.payload;
+      }
+    };
+
+    i18n.init(mockStore);
   });
 
   afterEach(() => {
@@ -105,7 +126,7 @@ describe('i18n', () => {
       describe('when the string does not contain variables', () => {
         const testLocales = (translationMap, label) => {
           _.forEach(translationMap, (result, locale) => {
-            i18n.setLocale(locale, true);
+            i18n.setLocale(locale);
 
             expect(i18n.t(`embeddable_framework.launcher.label.${label}`))
               .toBe(result);

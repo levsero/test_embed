@@ -51,7 +51,7 @@ describe('webWidgetPreview entry file', () => {
       },
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['setLocale'])
+        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale'])
       },
       'utility/devices': {
         isMobileBrowser: noop

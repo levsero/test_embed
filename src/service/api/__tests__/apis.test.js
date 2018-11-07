@@ -117,17 +117,16 @@ test('closeApi dispatches the closeReceived action', () => {
 
 describe('setLocale', () => {
   beforeEach(() => {
-    apis.setLocaleApi('fdasfsd', 'en');
+    const setLocale = jest.fn(() => 'setLocale');
+
+    baseActions.setLocale = setLocale;
+
+    apis.setLocaleApi(mockStore, 'en');
   });
 
   it('updates i18n', () => {
     expect(i18n.setLocale)
-      .toHaveBeenCalledWith('en', true);
-  });
-
-  it('calls mediator and updates i18n', () => {
-    expect(mediator.channel.broadcast)
-      .toHaveBeenCalledWith('.onSetLocale', 'en');
+      .toHaveBeenCalledWith('en');
   });
 });
 

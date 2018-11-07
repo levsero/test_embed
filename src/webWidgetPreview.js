@@ -45,6 +45,9 @@ const renderWebWidgetPreview = (options) => {
     throw new Error('A DOM element is required to render the Web Widget Preview into.');
   }
 
+  const store = createStore();
+
+  i18n.init(store);
   i18n.setLocale(options.locale);
 
   const { width } = options.styles;
@@ -66,8 +69,6 @@ const renderWebWidgetPreview = (options) => {
     preventClose: true,
     ref: (el) => { frame = el.getWrappedInstance(); }
   };
-
-  const store = createStore();
 
   const component = (
     <Provider store={store}>

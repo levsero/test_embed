@@ -11,7 +11,7 @@ import {
 import { CHATTING_SCREEN } from './chat-screen-types';
 
 import { i18n } from 'service/i18n';
-import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+import { getActiveEmbed, getLocale } from 'src/redux/modules/base/base-selectors';
 import {
   getSettingsChatDepartmentsEnabled,
   getSettingsChatDepartment,
@@ -106,15 +106,15 @@ export const getProfileConfig = createSelector(
 );
 
 export const getChatAccountSettingsTitle = createSelector(
-  getWindowSettings,
-  (windowSettings) => (
+  [getWindowSettings, getLocale],
+  (windowSettings, __) => (
     windowSettings.title || i18n.t('embeddable_framework.chat.title')
   )
 );
 
 export const getChatTitle = createSelector(
-  [getSettingsChatTitle, getChatAccountSettingsTitle],
-  (settingsChatTitle, chatAccountSettingsTitle) => (
+  [getSettingsChatTitle, getChatAccountSettingsTitle, getLocale],
+  (settingsChatTitle, chatAccountSettingsTitle, __) => (
     i18n.getSettingTranslation(settingsChatTitle, 'chat title setting') ||
     chatAccountSettingsTitle
   )
@@ -155,8 +155,8 @@ export const getActiveAgents = createSelector(
 );
 
 export const getConciergeSettings = createSelector(
-  [getSettingsChatConcierge, getChatAccountSettingsConcierge],
-  (settingsChatConcierge, chatAccountSettingsConcierge) => {
+  [getSettingsChatConcierge, getChatAccountSettingsConcierge, getLocale],
+  (settingsChatConcierge, chatAccountSettingsConcierge, __) => {
     let concierge = { ...chatAccountSettingsConcierge };
 
     if (settingsChatConcierge) {
@@ -197,8 +197,8 @@ export const getCurrentConcierges = createSelector(
 );
 
 export const getOfflineFormSettings = createSelector(
-  [getSettingsChatOfflineForm, getChatAccountSettingsOfflineForm],
-  (settingsChatOfflineForm, accountSettingsOfflineForm) => {
+  [getSettingsChatOfflineForm, getChatAccountSettingsOfflineForm, getLocale],
+  (settingsChatOfflineForm, accountSettingsOfflineForm, __) => {
     const greeting = _.get(settingsChatOfflineForm, 'greeting', null);
 
     return {
@@ -213,8 +213,8 @@ export const getOfflineFormSettings = createSelector(
 );
 
 export const getPrechatFormSettings = createSelector(
-  [getSettingsChatPrechatForm, getChatAccountSettingsPrechatForm],
-  (settingsChatPrechatForm, accountSettingsPrechatForm) => {
+  [getSettingsChatPrechatForm, getChatAccountSettingsPrechatForm, getLocale],
+  (settingsChatPrechatForm, accountSettingsPrechatForm, __) => {
     const greeting = _.get(settingsChatPrechatForm, 'greeting', null);
     const departmentLabel = _.get(settingsChatPrechatForm, 'departmentLabel', null);
     const errorContext = 'prechat form settings';
@@ -242,8 +242,8 @@ const getDefaultFormFields = createSelector(
 );
 
 const getFormFields = createSelector(
-  [getDefaultFormFields, getSettingsChatPrechatForm],
-  (defaultFields, prechatFormSettings) => {
+  [getDefaultFormFields, getSettingsChatPrechatForm, getLocale],
+  (defaultFields, prechatFormSettings, __) => {
     const departmentLabel = _.get(prechatFormSettings, 'departmentLabel', null);
 
     return {
@@ -324,14 +324,16 @@ export const getPrechatFormFields = createSelector(
     getDepartmentsList,
     getOfflineFormSettings,
     getSettingsChatDepartmentsEnabled,
-    getSettingsChatDepartment
+    getSettingsChatDepartment,
+    getLocale
   ],
   (
     formFields,
     departments,
     offlineFormSettings,
     settingsChatDepartmentsEnabled,
-    selectedDepartmentSetting
+    selectedDepartmentSetting,
+    __
   ) => {
     let firstOnlineDepartment = true;
     const filterDepartments = (departments) => _.filter(departments, (department) => {
