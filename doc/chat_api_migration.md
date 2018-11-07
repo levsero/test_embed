@@ -24,7 +24,9 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 | say | zE('webWidget', 'chat:send', msg) |
 | endChat | zE('webWidget', 'chat:end') |
 | hideAll | zE('webWidget', 'hide') |
-| set | zE('webWidget', 'prefill', data<object>) and zE('webWidget', 'setLocale', data<string>) |
+| set* | zE('webWidget', 'prefill', data<object>) and zE('webWidget', 'setLocale', data<string>) |
+
+\* $zopim.livechat.set() currently supports the following APIs: name, email and language.
 
 ### Visitor Information
 
