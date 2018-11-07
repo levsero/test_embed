@@ -20,6 +20,8 @@ import {
 import { mediator } from 'service/mediator';
 import { audio } from 'service/audio';
 import _ from 'lodash';
+import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils';
+
 import zChatWithTimeout from 'src/redux/modules/chat/helpers/zChatWithTimeout';
 const chatTypingTimeout = 2000;
 let history = [];
@@ -180,9 +182,13 @@ export function setVisitorInfo(visitor, timestamp=Date.now()) {
   };
 }
 
-export function sendVisitorPath(page = {}) {
+export function sendVisitorPath(options = {}) {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
+    let page = {};
+
+    page.title = _.isString(options.title) ? options.title : getPageTitle();
+    page.url = isValidUrl(options.url) ? options.url : getHostUrl();
 
     zChat && zChat.sendVisitorPath(page, (err) => {
       if (!err) {

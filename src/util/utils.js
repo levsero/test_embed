@@ -143,6 +143,16 @@ function getEnvironment() {
   }
 }
 
+function getHostUrl() {
+  return location.toString();
+}
+
+function isValidUrl(url) {
+  const a = parseUrl(url);
+
+  return !!(a.host && a.host !== location.host);
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -157,5 +167,7 @@ export {
   sha1,
   emailValid,
   referrerPolicyUrl,
-  getEnvironment
+  getEnvironment,
+  getHostUrl,
+  isValidUrl
 };

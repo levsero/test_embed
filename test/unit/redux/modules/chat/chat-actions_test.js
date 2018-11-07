@@ -15,6 +15,9 @@ let actions,
   mockChatOnline,
   mockDoAuthLogoutArgs,
   mockZChatConfig,
+  mockIsValidUrl,
+  mockPageTitle,
+  mockHostUrl,
   mockInit = jasmine.createSpy('init'),
   mockLogout = jasmine.createSpy('logout'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
@@ -124,7 +127,12 @@ describe('chat redux actions', () => {
       'service/audio': {
         audio: { load: loadSoundSpy }
       },
-      'src/redux/modules/chat/helpers/zChatWithTimeout': mockZChatWithTimeout
+      'src/redux/modules/chat/helpers/zChatWithTimeout': mockZChatWithTimeout,
+      'src/util/utils': {
+        getPageTitle: () => mockPageTitle,
+        getHostUrl: () => mockHostUrl,
+        isValidUrl: () => mockIsValidUrl
+      }
     });
 
     actions = requireUncached(actionsPath);
@@ -524,18 +532,80 @@ describe('chat redux actions', () => {
   });
 
   describe('sendVisitorPath', () => {
-    const page = {
-      title: 'payments',
-      url: 'https://zd.com#payments'
-    };
+    let page = {};
 
     beforeEach(() => {
+      mockPageTitle = 'mockTitle';
+      mockHostUrl = 'mockHostUrl';
+
       mockStore.dispatch(actions.sendVisitorPath(page));
     });
 
-    it('calls sendVisitorPath on the Web SDK', () => {
-      expect(mockSendVisitorPath)
-        .toHaveBeenCalledWith(page, jasmine.any(Function));
+    describe('when the param url is valid', () => {
+      beforeAll(() => {
+        page.url = 'https://zd.com#payments';
+        mockIsValidUrl = true;
+      });
+
+      describe('when the param title is valid', () => {
+        beforeAll(() => {
+          page.title = 'title';
+        });
+
+        it('calls sendVisitorPath on the Web SDK', () => {
+          expect(mockSendVisitorPath)
+            .toHaveBeenCalledWith(page, jasmine.any(Function));
+        });
+      });
+
+      describe('when the param title is invalid', () => {
+        beforeAll(() => {
+          page.title = undefined;
+        });
+
+        it('calls sendVisitorPath on the Web SDK', () => {
+          expect(mockSendVisitorPath)
+            .toHaveBeenCalledWith({
+              ...page,
+              title: mockPageTitle
+            }, jasmine.any(Function));
+        });
+      });
+    });
+
+    describe('when the param url is invalid', () => {
+      beforeAll(() => {
+        page.url = 'https//zd.com#payments';
+        mockIsValidUrl = false;
+      });
+
+      describe('when the param title is valid', () => {
+        beforeAll(() => {
+          page.title = 'title';
+        });
+
+        it('calls sendVisitorPath on the Web SDK', () => {
+          expect(mockSendVisitorPath)
+            .toHaveBeenCalledWith({
+              ...page,
+              url: mockHostUrl
+            }, jasmine.any(Function));
+        });
+      });
+
+      describe('when the param title is invalid', () => {
+        beforeAll(() => {
+          page.title = undefined;
+        });
+
+        it('calls sendVisitorPath on the Web SDK', () => {
+          expect(mockSendVisitorPath)
+            .toHaveBeenCalledWith({
+              url: mockHostUrl,
+              title: mockPageTitle
+            }, jasmine.any(Function));
+        });
+      });
     });
 
     describe('Web SDK callback', () => {
@@ -556,7 +626,10 @@ describe('chat redux actions', () => {
           expect(mockStore.getActions())
             .toContain({
               type: actionTypes.SEND_VISITOR_PATH_REQUEST_SUCCESS,
-              payload: page
+              payload: {
+                title: 'mockTitle',
+                url: 'mockHostUrl'
+              }
             });
         });
       });
