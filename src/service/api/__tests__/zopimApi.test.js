@@ -9,10 +9,12 @@ jest.mock('service/i18n', () => ({
     setCustomTranslations: jest.fn()
   }
 }));
+jest.mock('service/logging/tracker');
 
 import * as chatActions from 'src/redux/modules/chat';
 import * as apis from 'src/service/api/apis';
 import { i18n } from 'service/i18n';
+import tracker from 'service/logging/tracker';
 
 const mockStore = {
   dispatch: jest.fn()
@@ -1085,5 +1087,34 @@ describe('setUpZopimApiMethods', () => {
           .toEqual(0);
       });
     });
+  });
+});
+
+describe('instrumentation', () => {
+  const mockWin = {};
+
+  beforeEach(() => {
+    zopimApi.setUpZopimApiMethods(mockWin, mockStore);
+  });
+
+  it('instruments the zopim apis', () => {
+    expect(tracker.addTo)
+      .toHaveBeenCalledWith(mockWin.$zopim.livechat, '$zopim.livechat');
+    expect(tracker.addTo)
+      .toHaveBeenCalledWith(mockWin.$zopim.livechat.window, '$zopim.livechat.window');
+    expect(tracker.addTo)
+      .toHaveBeenCalledWith(mockWin.$zopim.livechat.button, '$zopim.livechat.button');
+    expect(tracker.addTo)
+      .toHaveBeenCalledWith(mockWin.$zopim.livechat.departments, '$zopim.livechat.departments');
+    expect(tracker.addTo)
+      .toHaveBeenCalledWith(mockWin.$zopim.livechat.concierge, '$zopim.livechat.concierge');
+    expect(tracker.addTo)
+      .toHaveBeenCalledWith(mockWin.$zopim.livechat.theme, '$zopim.livechat.theme');
+    expect(tracker.addTo)
+      .toHaveBeenCalledWith(mockWin.$zopim.livechat.mobileNotifications, '$zopim.livechat.mobileNotifications');
+    expect(tracker.addTo)
+      .toHaveBeenCalledWith(mockWin.$zopim.livechat.offlineForm, '$zopim.livechat.offlineForm');
+    expect(tracker.addTo)
+      .toHaveBeenCalledWith(mockWin.$zopim.livechat.prechatForm, '$zopim.livechat.prechatForm');
   });
 });
