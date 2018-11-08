@@ -57,6 +57,19 @@ describe('chat reducer standalone mobile notification visible', () => {
       });
     });
 
+    describe('when a PROACTIVE_CHAT_NOTIFICATION_DISMISSED action is dispatched', () => {
+      beforeEach(() => {
+        const action = { type: actionTypes.PROACTIVE_CHAT_NOTIFICATION_DISMISSED };
+
+        state = reducer(initialState, action);
+      });
+
+      it('sets the state to false', () => {
+        expect(state)
+          .toBe(false);
+      });
+    });
+
     describe('when a CHAT_NOTIFICATION_RESPONDED action is dispatched', () => {
       beforeEach(() => {
         const action = { type: actionTypes.CHAT_NOTIFICATION_RESPONDED };

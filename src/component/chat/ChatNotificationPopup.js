@@ -21,7 +21,8 @@ export class ChatNotificationPopup extends Component {
 
   static defaultProps = {
     className: '',
-    isMobile: false
+    isMobile: false,
+    resultsCount: 0
   }
 
   constructor() {

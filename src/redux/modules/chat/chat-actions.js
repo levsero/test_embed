@@ -328,6 +328,10 @@ export function chatNotificationDismissed() {
   return { type: actions.CHAT_NOTIFICATION_DISMISSED };
 }
 
+export function proactiveChatNotificationDismissed() {
+  return { type: actions.PROACTIVE_CHAT_NOTIFICATION_DISMISSED };
+}
+
 export function chatNotificationRespond() {
   return { type: actions.CHAT_NOTIFICATION_RESPONDED };
 }

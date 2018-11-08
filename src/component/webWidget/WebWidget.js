@@ -16,7 +16,8 @@ import { updateActiveEmbed,
   updateBackButtonVisibility,
   nextButtonClicked,
   cancelButtonClicked } from 'src/redux/modules/base';
-import { chatNotificationDismissed,
+import { proactiveChatNotificationDismissed,
+  chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
   showStandaloneMobileNotification } from 'src/redux/modules/chat';
@@ -115,6 +116,7 @@ class WebWidget extends Component {
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
+    proactiveChatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     nextButtonClicked: PropTypes.func.isRequired,
@@ -173,7 +175,8 @@ class WebWidget extends Component {
     articleViewActive: false,
     onShowMobile: () => {},
     ipmHelpCenterAvailable: false,
-    mobileNotificationsDisabled: false
+    mobileNotificationsDisabled: false,
+    proactiveChatNotificationDismissed: () => {}
   };
 
   setComponent = (activeComponent) => {
@@ -502,7 +505,7 @@ class WebWidget extends Component {
   }
 
   dismissStandaloneChatPopup = () => {
-    this.props.chatNotificationDismissed();
+    this.props.proactiveChatNotificationDismissed();
   }
 
   renderStandaloneChatPopup() {
@@ -575,7 +578,8 @@ const actionCreators = {
   updateChatScreen,
   showStandaloneMobileNotification,
   nextButtonClicked,
-  cancelButtonClicked
+  cancelButtonClicked,
+  proactiveChatNotificationDismissed
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

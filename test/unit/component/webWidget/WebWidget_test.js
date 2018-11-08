@@ -85,7 +85,8 @@ describe('WebWidget component', () => {
       },
       'src/redux/modules/chat': {
         chatNotificationDismissed: noop,
-        updateChatScreen: noop
+        updateChatScreen: noop,
+        proactiveChatNotificationDismissed: noop
       },
       'src/redux/modules/helpCenter': {
         resetActiveArticle: noop
@@ -277,23 +278,23 @@ describe('WebWidget component', () => {
 
   describe('dismissStandaloneChatPopup', () => {
     let webWidget,
-      chatNotificationDismissedSpy,
+      proactiveChatNotificationDismissedSpy,
       closeFrameSpy;
 
     beforeEach(() => {
-      chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
+      proactiveChatNotificationDismissedSpy = jasmine.createSpy('proactiveChatNotificationDismissed');
       closeFrameSpy = jasmine.createSpy('closeFrame');
       webWidget = instanceRender(
         <WebWidget
-          chatNotificationDismissed={chatNotificationDismissedSpy}
+          proactiveChatNotificationDismissed={proactiveChatNotificationDismissedSpy}
           closeFrame={closeFrameSpy} />
       );
 
       webWidget.dismissStandaloneChatPopup();
     });
 
-    it('calls props.chatNotificationDismissed', () => {
-      expect(chatNotificationDismissedSpy)
+    it('calls props.proactiveChatNotificationDismissed', () => {
+      expect(proactiveChatNotificationDismissedSpy)
         .toHaveBeenCalled();
     });
   });
@@ -445,8 +446,8 @@ describe('WebWidget component', () => {
   describe('renderChatNotification', () => {
     let result,
       chatNotification,
-      chatNotificationRespondSpy,
-      chatNotificationDismissedSpy;
+      chatNotificationDismissedSpy,
+      chatNotificationRespondSpy;
 
     describe('when props.chatNotificationRespond is called', () => {
       beforeEach(() => {
