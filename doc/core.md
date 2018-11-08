@@ -1,4 +1,4 @@
-## Core
+## Core API
 
 Core settings and commands affect the entire widget.
 

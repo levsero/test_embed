@@ -1,4 +1,4 @@
-## Help Center
+## Help Center API
 
 The Web Widget includes a Help Center component that lets users search for answers in an organization's Help Center. The component is represented by the `helpCenter` object of `webWidget`.
 
