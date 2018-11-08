@@ -26,7 +26,7 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 | hideAll | zE('webWidget', 'hide') |
 | set* | zE('webWidget', 'prefill', data<object>) and zE('webWidget', 'setLocale', data<string>) |
 
-\* $zopim.livechat.set() currently supports the following APIs: name, email and language.
+\* `$zopim.livechat.set()` currently supports the following APIs: name, email and language.
 
 ### Visitor Information
 
@@ -131,15 +131,16 @@ Below is a list of the $zopim.livechat APIs that are not supported in the Web Wi
 | bubble.setTitle | As above |
 | bubble.setText | As above |
 | bubble.setColor | As above |
-| getName | Due to low adoption of these APIs in the standalone Chat widget, they won't be migrated over to the new experience.
-If this is blocking a use case for you, please let us know what you are trying to achieve in the comments below |
+| getName | Due to low adoption of these APIs in the standalone Chat widget, they won't be migrated over to the new experience. If this is blocking a use case for you, please let us know what you are trying to achieve in the comments below. |
 | getEmail | As above |
 | getPhone | As above |
 | setSize | As above |
-| theme.reload | theme API calls are applied automatically and do not require this subsequent call |
+| theme.reload | Theme API calls are applied automatically and do not require this subsequent call |
 | theme.setFontConfig | Chat themes are no longer available |
 | theme.setTheme | As above |
 | cookieLaw.comply | Cookie law format is changing |
+
+
 
 #### Planned
 
