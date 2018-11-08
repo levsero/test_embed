@@ -1,4 +1,4 @@
-## Talk
+## Talk API
 
 The Web Widget includes a Talk component that lets users talk to an agent. The component is represented by the `talk` object of `webWidget`.
 

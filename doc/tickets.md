@@ -1,5 +1,5 @@
 
-## Tickets
+## Tickets API
 
 The Web Widget includes a "Contact us" form that lets users submit their issues as tickets in Support. The form is represented by the `contactForm` object of `webWidget`.
 
