@@ -2,8 +2,7 @@
 
 The Web Widget includes a Talk component that lets users talk to an agent. The component is represented by the `talk` object of `webWidget`.
 
-![Talk Component Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/talkWidget.png)
-
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/talkWidget.png" alt="Talk Component Example" width="250px">
 
 ### Settings
 

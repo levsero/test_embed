@@ -143,7 +143,7 @@ zE(function() {
 
 Replaces the default string on the button in the Help Center form that opens the Chat interface.
 
-![Chat Button Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/chatButton.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/chatButton.png" alt="Chat Button Example" width="250px">
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -334,11 +334,11 @@ Set a custom combination of `launcher` and `launcherText` colors to control both
 
 Examples of elements customized using `color` properties:
 
-![Widget launcher Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/settings.color.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/settings.color.png" alt="Widget launcher Example" width="300px">
 
-![Search results Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/color1.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/color1.png" alt="Search results Example" width="350px">
 
-![Article View Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/color2.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/color2.png" alt="Article View Example" width="350px">
 
 #### Related settings
 
@@ -378,7 +378,7 @@ window.zESettings = {
 
 Replaces the default string on the button that opens the contact options component, which lets the user choose between starting a chat or submitting a ticket.
 
-![Contact Button Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/contactButton.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/contactButton.png" alt="Contact Button Example" width="250px">
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -667,7 +667,7 @@ window.zESettings = {
 
 Replaces the default string on the button in the Help Center form that opens the contact form.
 
-![Message Button Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/messageButton.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/messageButton.png" alt="Message Button Example" width="250px">
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -814,7 +814,7 @@ window.zESettings = {
 
 Hides the "View Original Article" button.
 
-![Original Article Button Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/originalArticleButton.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/originalArticleButton.png" alt="Original Article Button Example" width="250px">
 
 #### Availability
 
@@ -942,7 +942,7 @@ window.zESettings = {
 
 Replaces the placeholder text displayed in the Help Center search box that says "How can we help?"
 
-![Search Placeholder Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/searchPlaceholder.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/searchPlaceholder.png" alt="Search Placeholder Example" width="250px">
 
 #### Availability
 
@@ -982,7 +982,7 @@ Replaces the text in the contact form that prompts the end user to select a tick
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
-![Select Ticket Form Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/selectTicketForm.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/selectTicketForm.png" alt="Select Ticket Form Example" width="250px">
 
 #### Availability
 
@@ -1197,7 +1197,7 @@ window.zESettings = {
 
 Replaces the default title string with a custom string.
 
-![Title Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/title.png)
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/title.png" alt="Title Example" width="250px">
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
