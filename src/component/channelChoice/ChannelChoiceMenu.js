@@ -38,6 +38,11 @@ export class ChannelChoiceMenu extends Component {
     this.showInitialChatOption = props.chatAvailable || props.chatOfflineAvailable;
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.showInitialTalkOption = nextProps.talkAvailable;
+    this.showInitialChatOption = nextProps.chatAvailable || nextProps.chatOfflineAvailable;
+  }
+
   handleChatClick = () => {
     return this.props.chatAvailable || this.props.chatOfflineAvailable
       ? this.handleNextClick('chat')
