@@ -122,6 +122,10 @@ export class SliderContainer extends Component {
             this.isLast = false;
             this.pointerArr = [];
             this.slickTrack.style.transition = '';
+
+            // If immediate scroll reaches the end
+            this.slickTrack.style.transform = 'translate3d(0, 0, 0)';
+            showRightArrow(this.slickTrack);
           }
 
           // Check for the current intersecting item
@@ -276,6 +280,10 @@ export class SliderContainer extends Component {
 
 function hideRightArrow(slickTrack) {
   slickTrack.parentElement.nextSibling.classList.add('slick-disabled');
+}
+
+function showRightArrow(slickTrack) {
+  slickTrack.parentElement.nextSibling.classList.remove('slick-disabled');
 }
 
 function showLeftArrow(slickTrack) {
