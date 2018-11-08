@@ -1,117 +1,100 @@
 describe('time', () => {
-  let timeFromMinutes;
+  let i18nTimeFromMinutes;
   const timePath = buildSrcPath('util/time');
+  const dateTimeFormatterSpy = jasmine.createSpy('dateTimeFormatterSpy');
 
   beforeEach(() => {
-    timeFromMinutes = requireUncached(timePath).timeFromMinutes;
+    ({ i18nTimeFromMinutes } = requireUncached(timePath));
   });
 
-  describe('#timeFromMinutes', () => {
-    let result,
-      timeInMinutes,
-      amString,
-      pmString;
+  describe('#i18nTimeFromMinutes', () => {
+    let timeInMinutes,
+      locale;
+
+    const defaultLocale = 'en-US';
+
+    beforeAll(() => {
+      spyOn(Intl, 'DateTimeFormat').and.returnValue({ format: dateTimeFormatterSpy });
+    });
 
     beforeEach(() => {
-      result = timeFromMinutes(timeInMinutes, amString, pmString);
+      Intl.DateTimeFormat.calls.reset();
+      dateTimeFormatterSpy.calls.reset();
+
+      if (locale) {
+        i18nTimeFromMinutes(timeInMinutes, locale);
+      } else {
+        i18nTimeFromMinutes(timeInMinutes);
+      }
     });
 
-    describe('when the time is 24-hour time (military style)', () => {
+    describe('when a different locale is set (ja)', () => {
+      beforeAll(() => {
+        timeInMinutes = 0;
+        locale = 'ja';
+      });
+
+      afterAll(() => {
+        locale = null;
+      });
+
+      it('calls the formatter and factory correctly', () => {
+        expect(Intl.DateTimeFormat).toHaveBeenCalledWith(locale, jasmine.any(Object));
+      });
+    });
+
+    describe('when the time is before noon', () => {
+      beforeAll(() => {
+        timeInMinutes = 280;
+      });
+
+      it('calls the formatter and factory correctly', () => {
+        expect(Intl.DateTimeFormat).toHaveBeenCalledWith(defaultLocale, jasmine.any(Object));
+        expect(dateTimeFormatterSpy).toHaveBeenCalledWith(new Date(2018, 10, 15, 4, 40, 0));
+      });
+    });
+
+    describe('when the time is after noon', () => {
       beforeAll(() => {
         timeInMinutes = 1000;
-        amString = '';
-        pmString = 'somethingThatShouldBeIgnored';
       });
 
-      it('formats the time in 24-hour time style', () => {
-        expect(result.time).toEqual('16:40');
-      });
-
-      it('recognises that the time should be the time in 24-hour style', () => {
-        expect(result.is24Hour).toEqual(true);
-      });
-
-      it('passes no am/pm value', () => {
-        expect(result.period).toEqual('');
+      it('calls the formatter and factory correctly', () => {
+        expect(Intl.DateTimeFormat).toHaveBeenCalledWith(defaultLocale, jasmine.any(Object));
+        expect(dateTimeFormatterSpy).toHaveBeenCalledWith(new Date(2018, 10, 15, 16, 40, 0));
       });
     });
 
-    describe('when the time is 12-hour time (civilian style)', () => {
+    describe('when the time is exactly noon', () => {
       beforeAll(() => {
-        amString = 'am';
-        pmString = 'pm';
+        timeInMinutes = 720;
       });
 
-      describe('when the time is before noon', () => {
-        beforeAll(() => {
-          timeInMinutes = 280;
-        });
+      it('calls the formatter and factory correctly', () => {
+        expect(Intl.DateTimeFormat).toHaveBeenCalledWith(defaultLocale, jasmine.any(Object));
+        expect(dateTimeFormatterSpy).toHaveBeenCalledWith(new Date(2018, 10, 15, 12, 0, 0));
+      });
+    });
 
-        it('formats the time in 12-hour time style', () => {
-          expect(result.time).toEqual('04:40');
-        });
-
-        it('recognises that the time should be the time in 12-hour style', () => {
-          expect(result.is24Hour).toEqual(false);
-        });
-
-        it('passes the right period', () => {
-          expect(result.period).toEqual('am');
-        });
+    describe('when the time is exactly midnight (0 minutes)', () => {
+      beforeAll(() => {
+        timeInMinutes = 0;
       });
 
-      describe('when the time is after noon', () => {
-        beforeAll(() => {
-          timeInMinutes = 1000;
-        });
+      it('calls the formatter and factory correctly', () => {
+        expect(Intl.DateTimeFormat).toHaveBeenCalledWith(defaultLocale, jasmine.any(Object));
+        expect(dateTimeFormatterSpy).toHaveBeenCalledWith(new Date(2018, 10, 15, 0, 0, 0));
+      });
+    });
 
-        it('formats the time in 12-hour time style', () => {
-          expect(result.time).toEqual('04:40');
-        });
-
-        it('recognises that the time should be the time in 12-hour style', () => {
-          expect(result.is24Hour).toEqual(false);
-        });
-
-        it('passes the right period', () => {
-          expect(result.period).toEqual('pm');
-        });
+    describe('when the time is exactly midnight (1440 minutes)', () => {
+      beforeAll(() => {
+        timeInMinutes = 1440;
       });
 
-      describe('when the time is exactly noon', () => {
-        beforeAll(() => {
-          timeInMinutes = 720;
-        });
-
-        it('formats the time in 12-hour time style', () => {
-          expect(result.time).toEqual('12:00');
-        });
-
-        it('recognises that the time should be the time in 12-hour style', () => {
-          expect(result.is24Hour).toEqual(false);
-        });
-
-        it('passes the right period', () => {
-          expect(result.period).toEqual('pm');
-        });
-      });
-
-      describe('when the time is exactly midnight', () => {
-        beforeAll(() => {
-          timeInMinutes = 0;
-        });
-
-        it('formats the time in 12-hour time style', () => {
-          expect(result.time).toEqual('00:00');
-        });
-
-        it('recognises that the time should be the time in 12-hour style', () => {
-          expect(result.is24Hour).toEqual(false);
-        });
-
-        it('passes the right period', () => {
-          expect(result.period).toEqual('am');
-        });
+      it('calls the formatter and factory correctly', () => {
+        expect(Intl.DateTimeFormat).toHaveBeenCalledWith(defaultLocale, jasmine.any(Object));
+        expect(dateTimeFormatterSpy).toHaveBeenCalledWith(new Date(2018, 10, 15, 24, 0, 0));
       });
     });
   });
