@@ -88,6 +88,9 @@ function init() {
     c.broadcast(`${launcher}.updateSettings`);
   });
 
+  c.intercept('.show', () => {
+    c.broadcast(`${chat}.hide`);
+  });
   initMessaging();
 }
 
