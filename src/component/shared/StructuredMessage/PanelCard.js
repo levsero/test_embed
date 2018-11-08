@@ -20,6 +20,25 @@ const PanelPropType = PropTypes.shape({
   onClick: PropTypes.func
 });
 
+/**
+ * A HOC to return the body of the Panel
+ */
+const PanelBody = ({className, onClick, children}) => {
+  if (onClick) {
+    return (
+      <button className={className} onClick={onClick}>
+        {children}
+      </button>
+    );
+  }
+
+  return (
+    <div className={className}>
+      {children}
+    </div>
+  );
+};
+
 // We calculate a max height for browsers that don't support line-clamp
 const _calculateMaxHeight = function(noOfLines) {
   return (isFirefox() || isIE()) ? `${16 * noOfLines / FONT_SIZE}rem` : 'auto';
@@ -100,23 +119,13 @@ export class PanelCard extends Component {
     });
 
     const panel = {...PanelCard.defaultProps.panel, ...this.props.panel};
-    const renderPanel = (panel.onClick) ?
-      (
-        <button className={panelStyles} onClick={panel.onClick}>
-          {this.renderPanelImage(panel)}
-          {this.renderPanelContent(panel)}
-        </button>
-      ) :
-      (
-        <div className={panelStyles}>
-          {this.renderPanelImage(panel)}
-          {this.renderPanelContent(panel)}
-        </div>
-      );
 
     return (
       <Card>
-        {renderPanel}
+        <PanelBody className={panelStyles} onClick={panel.onClick}>
+          {this.renderPanelImage(panel)}
+          {this.renderPanelContent(panel)}
+        </PanelBody>
 
         <ButtonList>
           {this.props.children}
