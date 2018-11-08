@@ -1,4 +1,5 @@
 import { CHAT_NOTIFICATION_DISMISSED,
+  CHAT_NOTIFICATION_RESET,
   NEW_AGENT_MESSAGE_RECEIVED,
   CHAT_OPENED } from '../chat-action-types';
 
@@ -28,6 +29,7 @@ const notification = (state = initialState, action) => {
         count: state.count + 1
       };
     case CHAT_OPENED:
+    case CHAT_NOTIFICATION_RESET:
       return { ...state, show: false, count: 0 };
     default:
       return state;

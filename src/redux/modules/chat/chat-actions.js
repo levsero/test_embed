@@ -332,6 +332,10 @@ export function chatNotificationRespond() {
   return { type: actions.CHAT_NOTIFICATION_RESPONDED };
 }
 
+export function chatNotificationReset() {
+  return { type: actions.CHAT_NOTIFICATION_RESET };
+}
+
 export function sendAttachments(fileList) {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
