@@ -2,6 +2,7 @@ describe('chat reducer editContactDetails', () => {
   let reducer,
     actionTypes,
     initialState,
+    baseActionTypes,
     EDIT_CONTACT_DETAILS_SCREEN,
     EDIT_CONTACT_DETAILS_LOADING_SCREEN,
     EDIT_CONTACT_DETAILS_ERROR_SCREEN;
@@ -12,6 +13,7 @@ describe('chat reducer editContactDetails', () => {
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-edit-contact-details');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
     const chatConstantsPath = basePath('src/constants/chat');
+    const baseActionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
     EDIT_CONTACT_DETAILS_LOADING_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_LOADING_SCREEN;
@@ -29,6 +31,7 @@ describe('chat reducer editContactDetails', () => {
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);
+    baseActionTypes = requireUncached(baseActionTypesPath);
   });
 
   afterAll(() => {
@@ -44,8 +47,8 @@ describe('chat reducer editContactDetails', () => {
         const expected = {
           status: EDIT_CONTACT_DETAILS_SCREEN,
           show: false,
-          display_name: '',
-          email: '',
+          display_name: null,
+          email: null,
           error: false
         };
 
@@ -143,6 +146,32 @@ describe('chat reducer editContactDetails', () => {
       it('sets state.show with payload data', () => {
         expect(state.show)
           .toEqual(payload);
+      });
+    });
+
+    describe('when a API_CLEAR_FORM action is dispatched', () => {
+      let payload = {
+          display_name: 'Why did this pass?',
+          email: 'this@shouldntEx.ist'
+        },
+        mockState = {
+          status: EDIT_CONTACT_DETAILS_SCREEN,
+          show: true,
+          display_name: 'Bobby',
+          email: 'Hey@LookAnEm.ail',
+          error: false
+        };
+
+      beforeEach(() => {
+        state = reducer(mockState, {
+          type: baseActionTypes.API_CLEAR_FORM,
+          payload: payload
+        });
+      });
+
+      it('sets the state to its initial values', () => {
+        expect(state)
+          .toEqual(initialState);
       });
     });
 

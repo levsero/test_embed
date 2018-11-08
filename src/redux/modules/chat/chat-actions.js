@@ -453,6 +453,13 @@ export function updateEmailTranscriptVisibility(bool) {
   };
 }
 
+export function updateContactDetailsFields(state) {
+  return {
+    type: actions.UPDATE_CHAT_CONTACT_DETAILS_INFO,
+    payload: state
+  };
+}
+
 export function handleOfflineFormBack() {
   return {
     type: actions.OFFLINE_FORM_BACK_BUTTON_CLICKED
