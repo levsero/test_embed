@@ -140,7 +140,7 @@ Below is a list of the $zopim.livechat APIs that are not supported in the Web Wi
 | theme.setTheme | As above |
 | cookieLaw.comply | Cookie law format is changing |
 
-
+### What APIs are coming soon
 
 #### Planned
 
