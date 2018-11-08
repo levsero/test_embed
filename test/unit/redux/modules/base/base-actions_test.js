@@ -1029,6 +1029,11 @@ describe('base redux actions', () => {
           expect(broadcastSpy)
             .toHaveBeenCalledWith('zopimChat.show');
         });
+
+        it('does not dispatch an action', () => {
+          expect(action)
+            .toEqual(undefined);
+        });
       });
 
       describe('when the activeEmbed is not zopimChat', () => {
@@ -1039,6 +1044,11 @@ describe('base redux actions', () => {
         it('dispatches an action with ACTIVATE_RECEIVED', () => {
           expect(action.type)
             .toEqual(actionTypes.ACTIVATE_RECEIVED);
+        });
+
+        it('does not call mediator zopimChat.show', () => {
+          expect(broadcastSpy)
+            .not.toHaveBeenCalled();
         });
 
         it('dispatches the correct payload', () => {
