@@ -681,6 +681,8 @@ export function markAsRead() {
 
     zChat.markAsRead();
 
+    dispatch(chatNotificationReset());
+
     const timestamp = _.get(_.last(getChatMessagesByAgent(state)), 'timestamp');
     const previousTimestamp = getLastAgentMessageSeenTimestamp(state);
 

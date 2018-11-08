@@ -64,7 +64,9 @@ const mapStateToProps = (state) => {
     socialLogin: selectors.getSocialLogin(state),
     conciergeSettings: selectors.getConciergeSettings(state),
     title: selectors.getChatTitle(state),
-    profileConfig: selectors.getProfileConfig(state)
+    profileConfig: selectors.getProfileConfig(state),
+    notificationCount: selectors.getNotificationCount(state),
+    visible: selectors.isInChattingScreen(state)
   };
 };
 
@@ -111,7 +113,9 @@ class ChattingScreen extends Component {
     showContactDetails: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     profileConfig: PropTypes.object.isRequired,
-    markAsRead: PropTypes.func
+    notificationCount: PropTypes.number,
+    markAsRead: PropTypes.func,
+    visible: PropTypes.bool
   };
 
   static defaultProps = {
@@ -141,15 +145,13 @@ class ChattingScreen extends Component {
     conciergeSettings: {},
     showContactDetails: () => {},
     profileConfig: {},
-    markAsRead: () => {}
+    notificationCount: 0,
+    markAsRead: () => {},
+    visible: false
   };
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      notificationCount: 0
-    };
 
     this.chatHistoryLog = null;
 
@@ -207,10 +209,11 @@ class ChattingScreen extends Component {
     const lastUserMessage = _.get(_.last(this.props.chats), 'nick');
     const scrollCloseToBottom = this.isScrollCloseToBottom();
 
-    if (newMessage && isAgent(lastUserMessage)) {
-      (scrollCloseToBottom)
-        ? this.resetNotificationCount()
-        : this.setState({ notificationCount: this.state.notificationCount + 1 });
+    if (
+      this.props.visible && scrollCloseToBottom &&
+      (newMessage && isAgent(lastUserMessage) || !prevProps.visible)
+    ) {
+      this.props.markAsRead();
     }
 
     if ((newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor')) ||
@@ -244,14 +247,9 @@ class ChattingScreen extends Component {
       this.props.fetchConversationHistory();
     }
 
-    if (this.isScrollCloseToBottom()) {
-      this.resetNotificationCount();
+    if (this.props.visible && this.isScrollCloseToBottom()) {
+      this.props.markAsRead();
     }
-  }
-
-  resetNotificationCount() {
-    this.props.markAsRead();
-    this.setState({ notificationCount: 0 });
   }
 
   renderQueuePosition = () => {
@@ -400,13 +398,14 @@ class ChattingScreen extends Component {
   }
 
   renderScrollPill = () => {
-    if (this.state.notificationCount === 0) return null;
+    if (this.props.notificationCount === 0) return null;
+    if (this.isScrollCloseToBottom()) return null;
 
-    const { notificationCount } = this.state;
+    const { notificationCount } = this.props;
     const containerStyles = (this.props.isMobile) ? styles.scrollBottomPillMobile : styles.scrollBottomPill;
     const goToBottomFn = () => {
       this.scrollToBottom();
-      this.resetNotificationCount();
+      this.props.markAsRead();
     };
 
     const pillLabel = (notificationCount > 1)
