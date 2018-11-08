@@ -6,6 +6,7 @@ describe('mediator', () => {
     webWidgetSub,
     chatSub,
     mockEmailValid,
+    mockIsString,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -28,6 +29,12 @@ describe('mediator', () => {
       },
       'utility/devices': {
         isMobileBrowser: () => false
+      },
+      'lodash': {
+        isString: () => mockIsString
+      },
+      'src/util/utils': {
+
       }
     });
 
@@ -86,6 +93,8 @@ describe('mediator', () => {
   * ****************************************** */
 
   describe('.onIdentify', () => {
+    let params;
+
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const beacon = 'beacon';
@@ -99,9 +108,10 @@ describe('mediator', () => {
     beforeEach(() => {
       initSubscriptionSpies(names);
       mediator.init({ submitTicket: true, helpCenter: false });
+      spyOn(console, 'warn');
     });
 
-    describe('when email is valid', () => {
+    describe('when email and name are valid', () => {
       let params;
 
       beforeEach(() => {
@@ -111,6 +121,7 @@ describe('mediator', () => {
         };
 
         mockEmailValid = true;
+        mockIsString = true;
 
         c.broadcast('.onIdentify', params);
       });
@@ -127,55 +138,91 @@ describe('mediator', () => {
     });
 
     describe('when email is invalid', () => {
-      let params;
-
       beforeEach(() => {
-        spyOn(console, 'warn');
-
         params = {
           name: 'James Dean',
           email: 'james@dean'
         };
 
         mockEmailValid = false;
+        mockIsString = true;
 
         c.broadcast('.onIdentify', params);
       });
 
-      it('should not broadcast beacon.identify with given params', () => {
+      it('does not not broadcast beacon.identify', () => {
         expect(beaconSub.identify)
           .not.toHaveBeenCalled();
       });
 
-      it('should show a warning', () => {
+      it('shows a warning with "invalid email passed into zE.identify"', () => {
         expect(console.warn) // eslint-disable-line no-console
+          .toHaveBeenCalledWith('invalid email passed into zE.identify', params.email);
+      });
+
+      it('broadcasts chat.setUser', () => {
+        expect(chatSub.setUser)
           .toHaveBeenCalled();
       });
+    });
 
-      describe('when name is valid', () => {
-        it('should broadcast chat.setUser with name', () => {
-          expect(chatSub.setUser)
-            .toHaveBeenCalledWith({ name: params.name });
-        });
+    describe('when name is invalid', () => {
+      beforeEach(() => {
+        params = {
+          name: undefined,
+          email: 'james@dean.com'
+        };
+
+        mockIsString = false;
+        mockEmailValid = true;
+        reset(chatSub.setUser);
+
+        c.broadcast('.onIdentify', params);
       });
 
-      describe('when name is invalid', () => {
-        beforeEach(() => {
-          params = {
-            name: undefined,
-            email: 'james@dean'
-          };
+      it('does not broadcast beacon.identify', () => {
+        expect(beaconSub.identify)
+          .not.toHaveBeenCalled();
+      });
 
-          mockEmailValid = false;
-          reset(chatSub.setUser);
+      it('shows a warning with "invalid name passed into zE.identify"', () => {
+        expect(console.warn) // eslint-disable-line no-console
+          .toHaveBeenCalledWith('invalid name passed into zE.identify', params.name);
+      });
 
-          c.broadcast('.onIdentify', params);
-        });
+      it('broadcasts chat.setUser', () => {
+        expect(chatSub.setUser)
+          .toHaveBeenCalled();
+      });
+    });
 
-        it('should not broadcast chat.setUser', () => {
-          expect(chatSub.setUser)
-            .not.toHaveBeenCalled();
-        });
+    describe('when both are invalid', () => {
+      beforeEach(() => {
+        params = {
+          name: null,
+          email: null
+        };
+
+        mockEmailValid = false;
+        mockIsString = false;
+        reset(chatSub.setUser);
+
+        c.broadcast('.onIdentify', params);
+      });
+
+      it('does not broadcast beacon.identify', () => {
+        expect(beaconSub.identify)
+          .not.toHaveBeenCalled();
+      });
+
+      it('show a warning with "invalid params passed into zE.identify"', () => {
+        expect(console.warn) // eslint-disable-line no-console
+          .toHaveBeenCalledWith('invalid params passed into zE.identify', params);
+      });
+
+      it('broadcasts chat.setUser', () => {
+        expect(chatSub.setUser)
+          .not.toHaveBeenCalled();
       });
     });
   });

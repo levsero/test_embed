@@ -93,15 +93,20 @@ function init() {
 
 function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
-    if (emailValid(params.email)) {
+    const isEmailValid = emailValid(params.email),
+      isNameValid = _.isString(params.name);
+
+    if (isEmailValid && isNameValid) {
       c.broadcast('beacon.identify', params);
+      c.broadcast(`${chat}.setUser`, params);
+    } else if (isEmailValid) {
+      console.warn('invalid name passed into zE.identify', params.name); // eslint-disable-line no-console
+      c.broadcast(`${chat}.setUser`, params);
+    } else if (isNameValid) {
+      console.warn('invalid email passed into zE.identify', params.email); // eslint-disable-line no-console
       c.broadcast(`${chat}.setUser`, params);
     } else {
       console.warn('invalid params passed into zE.identify', params); // eslint-disable-line no-console
-
-      if (_.isString(params.name)) {
-        c.broadcast(`${chat}.setUser`, { name: params.name });
-      }
     }
   });
 }

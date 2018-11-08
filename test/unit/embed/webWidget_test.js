@@ -201,6 +201,9 @@ describe('embed.webWidget', () => {
       },
       'utility/scrollHacks': {
         setScrollKiller: noop
+      },
+      'src/util/utils': {
+
       }
     });
 
