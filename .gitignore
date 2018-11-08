@@ -15,3 +15,4 @@ REVISION
 vendor/
 dev/configs/*.json
 !dev/configs/*-template.json
+dev/templates/web_widget/*.html
