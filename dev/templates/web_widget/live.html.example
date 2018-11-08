@@ -7,5 +7,7 @@
 <body>
   <h1>Web Widget Local</h1>
   <%= htmlWebpackPlugin.options.snippet %>
+  <script nonce="<%= htmlWebpackPlugin.options.nonce %>">
+  </script>
 </body>
 </html>
