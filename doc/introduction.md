@@ -51,7 +51,7 @@ window.zESettings = {
 The settings are grouped into core settings that affect the entire widget and channel-specific settings.
 
 * [Core](./core#settings)
-* [Tickets](./tickets#settings)
+* [Contact Form](./contact_form#settings)
 * [Help Center](./help_center#settings)
 * [Chat](./chat#settings)
 * [Talk](./talk#settings)

@@ -1,9 +1,9 @@
 
-## Tickets API
+## Contact Form API
 
 The Web Widget includes a "Contact us" form that lets users submit their issues as tickets in Support. The form is represented by the `contactForm` object of `webWidget`.
 
-![Ticket Component Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/contactForm.png)
+![Contact Form Component Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/contactForm.png)
 
 
 ### Settings

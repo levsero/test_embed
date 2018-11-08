@@ -70,7 +70,7 @@ Disables attaching files to tickets submitted through the Web Widget.
 
 #### Availability
 
-* [contactForm](./tickets)
+* [contactForm](./contact_form)
 
 <a name="example-attachments"></a>
 #### Example
@@ -540,7 +540,7 @@ Pre-populates the value of one or more text fields in the contact form.
 
 #### Availability
 
-* [contactForm](./tickets)
+* [contactForm](./contact_form)
 
 #### Usage
 
@@ -986,7 +986,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactForm](./tickets)
+* [contactForm](./contact_form)
 
 <a name="example-selectticketform"></a>
 #### Example
@@ -1022,7 +1022,7 @@ Inserts a Subject field in the contact form. The form doesn't have one by defaul
 
 #### Availability
 
-* [contactForm](./tickets)
+* [contactForm](./contact_form)
 
 <a name="example-subject"></a>
 #### Example
@@ -1057,7 +1057,7 @@ Suppresses the Help Center, Chat, Talk, or contact form in the Web Widget on tha
 #### Availability
 
 * [chat](./chat)
-* [contactForm](./tickets)
+* [contactForm](./contact_form)
 * [helpCenter](./help_center)
 * [talk](./talk)
 
@@ -1090,7 +1090,7 @@ Note: The tags are visible in the JavaScript console in the user's browser.
 
 #### Availability
 
-* [contactForm](./tickets)
+* [contactForm](./contact_form)
 * [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access)
 
 <a name="example-tags"></a>
@@ -1128,7 +1128,7 @@ Specifies one or more [ticket forms](https://support.zendesk.com/hc/en-us/articl
 
 #### Availability
 
-* [contactForm](./tickets)
+* [contactForm](./contact_form)
 
 #### Usage
 
@@ -1203,7 +1203,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactForm](./tickets)
+* [contactForm](./contact_form)
 * [helpCenter](./help_center)
 * [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access)
 
