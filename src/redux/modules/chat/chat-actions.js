@@ -5,6 +5,8 @@ import {
   getShowRatingScreen,
   getIsChatting as getIsChattingState,
   getChatOnline,
+  getChatMessagesByAgent,
+  getLastAgentMessageSeenTimestamp,
   getActiveAgents,
   getIsAuthenticated,
   getIsLoggingOut,
@@ -673,9 +675,17 @@ export function setStatusForcefully(status) {
 }
 
 export function markAsRead() {
-  return (_, getState) => {
-    const zChat = getZChatVendor(getState());
+  return (dispatch, getState) => {
+    const state = getState();
+    const zChat = getZChatVendor(state);
 
     zChat.markAsRead();
+
+    const timestamp = _.get(_.last(getChatMessagesByAgent(state)), 'timestamp');
+    const previousTimestamp = getLastAgentMessageSeenTimestamp(state);
+
+    if (timestamp && timestamp > previousTimestamp) {
+      dispatch(updateLastAgentMessageSeenTimestamp(timestamp));
+    }
   };
 }
