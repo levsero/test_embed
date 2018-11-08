@@ -40,7 +40,7 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 
 \* You can set the name, phone, and email at the same time using the new prefill API. To set multiple attributes concurrently, provide a prefill object that has a key for each attribute. Example:
 
-```javascript=
+```
 zE('webWidget', 'prefill', {
     name: { … },
     email: { … },
