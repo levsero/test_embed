@@ -250,6 +250,17 @@ describe('resetActiveEmbed middleware', () => {
             });
           });
 
+          describe('when active embed is empty string', () => {
+            beforeAll(() => {
+              mockActiveEmbed = '';
+            });
+
+            it('calls updateActiveEmbed', () => {
+              expect(updateActiveEmbedSpy)
+                .toHaveBeenCalled();
+            });
+          });
+
           _.forEach(['zopimChat', 'channelChoice'], (activeEmbed) => {
             describe(`when the active embed is ${activeEmbed}`, () => {
               beforeAll(() => {
