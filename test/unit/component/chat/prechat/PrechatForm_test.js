@@ -50,6 +50,7 @@ describe('PrechatForm component', () => {
         }
       },
       'src/constants/shared': {
+        NAME_PATTERN: /.+/,
         EMAIL_PATTERN: /.+/,
         PHONE_PATTERN: /.+/,
         FONT_SIZE: 14

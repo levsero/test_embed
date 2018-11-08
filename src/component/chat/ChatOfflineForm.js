@@ -118,6 +118,7 @@ export class ChatOfflineForm extends Component {
           onChange={() => {}}
           name='name'
           validation={error ? 'error' : 'none'}
+          pattern={NAME_PATTERN.source}
           readOnly={readOnlyState.name} />
         {error}
       </TextField>
@@ -176,6 +177,7 @@ export class ChatOfflineForm extends Component {
           type='tel'
           name='phone'
           readOnly={this.props.readOnlyState.phone}
+          pattern={PHONE_PATTERN.source}
           validation={error ? 'error' : 'none'} />
         {error}
       </TextField>

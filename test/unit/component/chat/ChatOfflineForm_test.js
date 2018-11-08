@@ -91,7 +91,9 @@ describe('ChatOfflineForm component', () => {
       'src/constants/shared': {
         ICONS: {
           SUCCESS_CONTACT_FORM: 'icon'
-        }
+        },
+        NAME_PATTERN: /.+/,
+        PHONE_PATTERN: /.+/
       },
       'component/ZendeskLogo': { ZendeskLogo },
       'component/container/ScrollContainer': { ScrollContainer },

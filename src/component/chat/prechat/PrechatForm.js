@@ -193,6 +193,7 @@ export class PrechatForm extends Component {
           value={value}
           onChange={() => {}}
           name={nameData.name}
+          pattern={NAME_PATTERN.source}
           validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
@@ -256,6 +257,7 @@ export class PrechatForm extends Component {
           onChange={() => {}}
           type='tel'
           name={phoneData.name}
+          pattern={PHONE_PATTERN.source}
           validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
