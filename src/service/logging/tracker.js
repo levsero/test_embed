@@ -19,7 +19,13 @@ tracker.getTrackableFunction = function(func, name, that) {
 
 tracker.track = function(name, ...args) {
   if (tracker.send && !_.includes(blacklist, name)) {
-    beacon.trackUserAction('api', name, null, { args: args });
+    let methodArgs = _.map(args, (arg) => _.isFunction(arg) ? '<callback function>' : arg);
+
+    if (methodArgs.length === 1) {
+      methodArgs = methodArgs[0];
+    }
+
+    beacon.trackUserAction('api', name, null, { args: methodArgs });
   }
 };
 

@@ -29,7 +29,25 @@ describe('enabled', () => {
 
     expect(beacon.trackUserAction)
       .toHaveBeenCalledWith('api', 'webWidget.prefill', null,
-        { args: [{ x: 1 }] }
+        { args: { x: 1 } }
+      );
+  });
+
+  it('sends to beacon with array arguments', () => {
+    tracker.track('webWidget.prefill', [1, 2]);
+
+    expect(beacon.trackUserAction)
+      .toHaveBeenCalledWith('api', 'webWidget.prefill', null,
+        { args: [1, 2] }
+      );
+  });
+
+  it('handles function arguments', () => {
+    tracker.track('webWidget.prefill', () => {});
+
+    expect(beacon.trackUserAction)
+      .toHaveBeenCalledWith('api', 'webWidget.prefill', null,
+        { args: '<callback function>' }
       );
   });
 

@@ -147,9 +147,8 @@ const handleNewApi = (apiStructure, reduxStore, args) => {
   const methodAccessorParams = params.slice(0, 2);
   const apiMethodParams = params.slice(2);
   const apiFunction = getApiFunction(methodAccessorParams);
-  const trackParams = _.isFunction(apiMethodParams[0]) ? ['<callback function>'] : apiMethodParams;
 
-  tracker.track(`${methodAccessorParams[0]}.${methodAccessorParams[1]}`, ...trackParams);
+  tracker.track(`${methodAccessorParams[0]}.${methodAccessorParams[1]}`, ...apiMethodParams);
 
   return apiFunction(reduxStore, ...apiMethodParams);
 };

@@ -747,7 +747,7 @@ describe('webWidgetApi', () => {
 
       it('tracks the call', () => {
         expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget:on.close', '<callback function>');
+          .toHaveBeenCalledWith('webWidget:on.close', jasmine.any(Function));
       });
     });
 
