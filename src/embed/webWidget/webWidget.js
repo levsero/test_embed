@@ -39,6 +39,7 @@ import { authenticate, revokeToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
+import { emailValid } from 'src/util/utils';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
@@ -325,10 +326,13 @@ export default function WebWidgetFactory(name) {
     mediator.channel.subscribe(prefix + 'zopimChat.setUser', (user) => {
       waitForRootComponent(() => {
         if (embed.embedsAvailable.chat) {
-          // Fallback to empty string because Chat SDK doesn't accept "undefined"
-          const { name = '', email = '' } = user;
+          // Fallback to null or empty string because Chat SDK doesn't accept "undefined" or "null"
+          const validUser = {};
 
-          embed.store.dispatch(setVisitorInfo({ display_name: name, email })); // eslint-disable-line camelcase
+          if (_.isString(user.name)) validUser.display_name = user.name; // eslint-disable-line camelcase
+          if (emailValid(user.email)) validUser.email = user.email;
+
+          embed.store.dispatch(setVisitorInfo(validUser));
         }
       });
     });
