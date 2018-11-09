@@ -48,6 +48,7 @@ describe('chat selectors', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: (state) => state.base.embed,
+        getWidgetShown: (state) => state.base.widgetShown,
         getLocale: () => 'en-US'
       },
       'src/redux/modules/settings/settings-selectors': {
@@ -2970,6 +2971,143 @@ describe('chat selectors', () => {
       it('returns false', () => {
         expect(result)
           .toBe(false);
+      });
+    });
+  });
+
+  describe('isInChattingScreen', () => {
+    let result,
+      mockState,
+      mockEmbed,
+      mockWidgetShown,
+      mockScreen;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embed: mockEmbed,
+          widgetShown: mockWidgetShown
+        },
+        chat: {
+          screen: mockScreen
+        }
+      };
+
+      result = selectors.isInChattingScreen(mockState);
+    });
+
+    describe('when widget is shown', () => {
+      beforeAll(() => {
+        mockWidgetShown = true;
+      });
+
+      describe('when screen is CHATTING_SCREEN', () => {
+        beforeAll(() => {
+          mockScreen = CHATTING_SCREEN;
+        });
+
+        describe('when embed is chat', () => {
+          beforeAll(() => {
+            mockEmbed = 'chat';
+          });
+
+          it('returns true', () => {
+            expect(result)
+              .toBe(true);
+          });
+        });
+
+        describe('when embed is not chat', () => {
+          beforeAll(() => {
+            mockEmbed = 'helpCenter';
+          });
+
+          it('returns false', () => {
+            expect(result)
+              .toBe(false);
+          });
+        });
+      });
+
+      describe('when screen is not CHATTING_SCREEN', () => {
+        beforeAll(() => {
+          mockScreen = 'other screen';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toBe(false);
+        });
+      });
+    });
+
+    describe('when widget is not shown', () => {
+      beforeAll(() => {
+        mockWidgetShown = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+  });
+
+  describe('hasUnseenAgentMessage', () => {
+    let result,
+      mockState,
+      mockTimestamp;
+
+    beforeEach(() => {
+      mockState = {
+        chat: {
+          lastAgentMessageSeenTimestamp: mockTimestamp,
+          chats: {
+            values: () => [
+              { nick: 'agent:123', type: 'chat.msg', timestamp: 1 },
+              { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 },
+              { nick: 'agent:123', type: 'chat.msg', timestamp: 5 },
+              { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }
+            ]
+          }
+        }
+      };
+
+      result = selectors.hasUnseenAgentMessage(mockState);
+    });
+
+    describe('when there is last seen timestamp', () => {
+      describe('when last seen timestamp is before last agent timestamp', () => {
+        beforeAll(() => {
+          mockTimestamp = 6;
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toBe(true);
+        });
+      });
+
+      describe('when last seen timestamp is after last agent timestamp', () => {
+        beforeAll(() => {
+          mockTimestamp = 8;
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toBe(false);
+        });
+      });
+    });
+
+    describe('when there is no last seen timestamp', () => {
+      beforeAll(() => {
+        mockTimestamp = undefined;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toBe(true);
       });
     });
   });

@@ -581,15 +581,12 @@ export const getDepartment = (state, department) => {
   });
 };
 
-export const isInChattingScreen = (state) => {
-  const screen = getChatScreen(state);
-  const embed = getActiveEmbed(state);
-  const widgetShown = getWidgetShown(state);
-
-  return widgetShown && screen === CHATTING_SCREEN && embed === 'chat';
-};
+export const isInChattingScreen = createSelector(
+  [getChatScreen, getActiveEmbed, getWidgetShown],
+  (screen, embed, widgetShown) => widgetShown && screen === CHATTING_SCREEN && embed === 'chat'
+);
 
 export const hasUnseenAgentMessage = createSelector(
   [getChatMessagesByAgent, getLastAgentMessageSeenTimestamp],
-  (messages, timestamp) => !!_.find(messages, message => message.timestamp > timestamp)
+  (messages, timestamp) => !timestamp || !!_.find(messages, message => message.timestamp > timestamp)
 );
