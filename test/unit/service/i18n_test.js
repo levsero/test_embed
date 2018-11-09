@@ -551,11 +551,11 @@ describe('i18n', () => {
   });
 
   describe('getSettingTranslation', () => {
-    let translations, context, result, locale;
+    let translations, result, locale;
 
     beforeEach(() => {
       i18n.setLocale(locale, true);
-      result = i18n.getSettingTranslation(translations, context);
+      result = i18n.getSettingTranslation(translations);
     });
 
     describe('when the translations object is empty', () => {
@@ -600,20 +600,9 @@ describe('i18n', () => {
             };
           });
 
-          describe('when a context string has not been passed', () => {
-            it('returns a default "translation missing" string', () => {
-              expect(result).toEqual('Missing translation string.');
-            });
-          });
-
-          describe('when a context string has been passed', () => {
-            beforeAll(() => {
-              context = 'test settings';
-            });
-
-            it('returns a contextual "translation missing" string', () => {
-              expect(result).toEqual(`Missing translation string in ${context}.`);
-            });
+          it('returns null', () => {
+            expect(result)
+              .toEqual(null);
           });
         });
       });
