@@ -38,6 +38,54 @@ describe('ChannelChoiceMenu component', () => {
     mockery.disable();
   });
 
+  describe('componentWillReceiveProps', () => {
+    const setupTestData = (props) => {
+      const component = instanceRender(
+        <ChannelChoiceMenu />
+      );
+
+      component.componentWillReceiveProps(props);
+
+      return component;
+    };
+
+    describe('when chat is available', () => {
+      it('sets component.showInitialChatOption to true', () => {
+        const props = {
+          chatAvailable: true
+        };
+
+        expect(setupTestData(props).showInitialChatOption)
+          .toEqual(true);
+      });
+    });
+
+    describe('when chat offline is available', () => {
+      it('sets component.showInitialChatOption to true', () => {
+        const props = {
+          chatOfflineAvailable: true
+        };
+        const component = setupTestData(props);
+
+        expect(component.showInitialChatOption)
+          .toEqual(true);
+      });
+    });
+
+    describe('when chat option should not show', () => {
+      it('sets component.showInitialChatOption to true', () => {
+        const props = {
+          chatOfflineAvailable: false,
+          chatAvailable: false
+        };
+        const component = setupTestData(props);
+
+        expect(component.showInitialChatOption)
+          .toEqual(false);
+      });
+    });
+  });
+
   describe('render', () => {
     let component;
 
