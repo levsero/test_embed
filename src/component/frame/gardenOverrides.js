@@ -102,6 +102,7 @@ const genericOverrides = css`
   }
   box-shadow: ${({ focused, validation }) => focused && (!validation || validation === 'none') && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
   border-color: ${({ focused, validation }) => focused && (!validation || validation === 'none') && `${zdColorGrey600} !important`};
+  cursor: ${({ readOnly }) => readOnly ? 'default' : 'auto'}
 
   ${mobileOverrides}
 `;
