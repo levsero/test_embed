@@ -39,6 +39,7 @@ describe('onStateChange middleware', () => {
   let mockMobileNotificationsDisabled = false;
   let mockIsMobileBrowser = false;
   let mockWin = 123456;
+  let mockHasUnseenAgentMessage;
 
   beforeEach(() => {
     mockery.enable();
@@ -54,6 +55,7 @@ describe('onStateChange middleware', () => {
     mockIsProactiveSession = false;
     mockSubmitTicketAvailable = false;
     mockIsChatting = false;
+    mockHasUnseenAgentMessage = false;
 
     initMockRegistry({
       'src/redux/modules/chat': {
@@ -104,7 +106,8 @@ describe('onStateChange middleware', () => {
         getIsChatting: (state) => _.get(state, 'isChatting', mockIsChatting),
         getActiveAgents: getActiveAgentsSpy,
         getDepartmentsList: () => mockDepartmentLists,
-        getNotificationCount: (array) => _.get(_.last(array), 'notificationCount')
+        getNotificationCount: (array) => _.get(_.last(array), 'notificationCount'),
+        hasUnseenAgentMessage: () => mockHasUnseenAgentMessage
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartment: () => mockGetSettingsChatDepartment,
@@ -378,7 +381,7 @@ describe('onStateChange middleware', () => {
 
         describe('when there are no unseen messages', () => {
           beforeEach(() => {
-            mockStoreValue = { lastAgentMessageSeenTimestamp: 80 };
+            mockHasUnseenAgentMessage = false;
             mockUserSoundSetting = true;
 
             stateChangeFn(prevState, nextState, {}, dispatchSpy);
@@ -402,55 +405,36 @@ describe('onStateChange middleware', () => {
 
         describe('when there are unseen messages', () => {
           beforeEach(() => {
-            mockStoreValue = { lastAgentMessageSeenTimestamp: 65 };
+            mockHasUnseenAgentMessage = true;
           });
 
-          describe('when audio settings are off', () => {
-            beforeEach(() => {
-              mockUserSoundSetting = false;
+          describe('messages are recent', () => {
+            beforeAll(() => {
+              initialTimestamp = 60;
+            });
 
+            beforeEach(() => {
               stateChangeFn(prevState, nextState, {}, dispatchSpy);
             });
 
-            it('does not call sound', () => {
-              expect(audioPlaySpy)
-                .not.toHaveBeenCalled();
+            it('dispatches newAgentMessageReceived with new agent message', () => {
+              expect(newAgentMessageReceivedSpy)
+                .toHaveBeenCalledWith({ proactive: mockIsProactiveSession, nick: 'agent:007', msg: 'latest', timestamp: 70 });
             });
           });
 
-          describe('when audio settings are on', () => {
+          describe('messages are not recent', () => {
+            beforeAll(() => {
+              initialTimestamp = 80;
+            });
+
             beforeEach(() => {
-              mockUserSoundSetting = true;
+              stateChangeFn(prevState, nextState, {}, dispatchSpy);
             });
 
-            describe('messages are recent', () => {
-              beforeAll(() => {
-                initialTimestamp = 60;
-              });
-
-              beforeEach(() => {
-                stateChangeFn(prevState, nextState, {}, dispatchSpy);
-              });
-
-              it('calls sound', () => {
-                expect(audioPlaySpy)
-                  .toHaveBeenCalled();
-              });
-            });
-
-            describe('messages are not recent', () => {
-              beforeEach(() => {
-                stateChangeFn(prevState, nextState, {}, dispatchSpy);
-              });
-
-              beforeAll(() => {
-                initialTimestamp = 80;
-              });
-
-              it('does not call sound', () => {
-                expect(audioPlaySpy)
-                  .not.toHaveBeenCalled();
-              });
+            it('does not dispatch newAgentMessageReceived', () => {
+              expect(newAgentMessageReceivedSpy)
+                .not.toHaveBeenCalled();
             });
           });
 
@@ -462,6 +446,32 @@ describe('onStateChange middleware', () => {
             describe('messages are recent', () => {
               beforeAll(() => {
                 initialTimestamp = 60;
+              });
+
+              describe('when audio settings are off', () => {
+                beforeEach(() => {
+                  mockUserSoundSetting = false;
+
+                  stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                });
+
+                it('does not call sound', () => {
+                  expect(audioPlaySpy)
+                    .not.toHaveBeenCalled();
+                });
+              });
+
+              describe('when audio settings are on', () => {
+                beforeEach(() => {
+                  mockUserSoundSetting = true;
+
+                  stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                });
+
+                it('calls sound', () => {
+                  expect(audioPlaySpy)
+                    .toHaveBeenCalled();
+                });
               });
 
               describe('is proactive session', () => {
@@ -529,6 +539,11 @@ describe('onStateChange middleware', () => {
                 expect(broadcastSpy)
                   .not.toHaveBeenCalledWith('newChat.newMessage');
               });
+
+              it('does not call sound', () => {
+                expect(audioPlaySpy)
+                  .not.toHaveBeenCalled();
+              });
             });
 
             describe('when the first message comes from the first agent', () => {
@@ -565,11 +580,6 @@ describe('onStateChange middleware', () => {
               stateChangeFn(prevState, nextState, {}, dispatchSpy);
             });
 
-            it('dispatches newAgentMessageReceived with new agent message', () => {
-              expect(newAgentMessageReceivedSpy)
-                .toHaveBeenCalledWith({ proactive: mockIsProactiveSession, nick: 'agent:007', msg: 'latest', timestamp: 70 });
-            });
-
             it('does not call mediator', () => {
               expect(broadcastSpy)
                 .not.toHaveBeenCalled();
@@ -584,8 +594,13 @@ describe('onStateChange middleware', () => {
               stateChangeFn(prevState, nextState, {}, dispatchSpy);
             });
 
-            it('does not dispatch newAgentMessageReceived', () => {
-              expect(newAgentMessageReceivedSpy)
+            it('does not dispatch updateActiveEmbed', () => {
+              expect(updateActiveEmbedSpy)
+                .not.toHaveBeenCalled();
+            });
+
+            it('does not call mediator', () => {
+              expect(broadcastSpy)
                 .not.toHaveBeenCalled();
             });
           });
@@ -852,87 +867,6 @@ describe('onStateChange middleware', () => {
             expect(updateActiveEmbedSpy)
               .not
               .toHaveBeenCalled();
-          });
-        });
-      });
-    });
-
-    describe('onChatScreenInteraction', () => {
-      const nextState = [{ nick: 'agent', timestamp: 160 }];
-      const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
-
-      beforeEach(() => {
-        mockChatScreen = 'chatting';
-        mockWidgetShown = true;
-        mockActiveEmbed = 'chat';
-        mockLastAgentMessageSeenTimestamp = 100;
-
-        updateLastAgentMessageSeenTimestampSpy.calls.reset();
-      });
-
-      describe('when in chatting screen', () => {
-        describe('when new agent message timestamp is larger than stored timestamp', () => {
-          beforeEach(() => {
-            stateChangeFn([], nextState, {}, dispatchSpy);
-          });
-
-          it('dispatches updateLastAgentMessageSeenTimestamp', () => {
-            expect(updateLastAgentMessageSeenTimestampSpy)
-              .toHaveBeenCalledWith(160);
-          });
-        });
-
-        describe('when new agent message timestamp is smaller than stored timestamp', () => {
-          beforeEach(() => {
-            mockLastAgentMessageSeenTimestamp = 180;
-
-            stateChangeFn([], nextState, {}, dispatchSpy);
-          });
-
-          it('does not dispatch updateLastAgentMessageSeenTimestamp', () => {
-            expect(updateLastAgentMessageSeenTimestampSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-      });
-
-      describe('when not in chatting screen', () => {
-        describe('when chat screen is not chat', () => {
-          beforeEach(() => {
-            mockChatScreen = 'something';
-
-            stateChangeFn([], nextState, {}, dispatchSpy);
-          });
-
-          it('does not dispatch updateLastAgentMessageSeenTimestamp', () => {
-            expect(updateLastAgentMessageSeenTimestampSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-
-        describe('when widget is not shown', () => {
-          beforeEach(() => {
-            mockWidgetShown = false;
-
-            stateChangeFn([], nextState, {}, dispatchSpy);
-          });
-
-          it('does not dispatch updateLastAgentMessageSeenTimestamp', () => {
-            expect(updateLastAgentMessageSeenTimestampSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-
-        describe('when active embed is not chat', () => {
-          beforeEach(() => {
-            mockActiveEmbed = 'not_chat';
-
-            stateChangeFn([], nextState, {}, dispatchSpy);
-          });
-
-          it('does not dispatch updateLastAgentMessageSeenTimestamp', () => {
-            expect(updateLastAgentMessageSeenTimestampSpy)
-              .not.toHaveBeenCalled();
           });
         });
       });
