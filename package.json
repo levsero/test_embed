@@ -17,7 +17,7 @@
     "test": "NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test npm run test -- --watch",
     "test:old": "node test/runner.js",
-    "test:ci": "NODE_ENV=test node test/runner.js && npm run test",
+    "test:ci": "NODE_ENV=test npm run test && node test/runner.js",
     "test:debug": "node debug test/runner.js",
     "lint": "eslint src test --ignore-pattern=src/translation/*.js",
     "lint-fix": "eslint --fix src test --ignore-pattern=src/translation/*.js",

@@ -16,6 +16,7 @@ describe('boot', () => {
     gaSpy = registerImportSpy('GA', 'init'),
     apiSpy = registerImportSpy('webWidgetApi', 'handleQueue', 'setupWidgetApi', 'setupWidgetQueue', 'setupZopimQueue', 'handlePostRenderQueue'),
     zopimApiSpy = registerImportSpy('zopimApi', 'setupZopimQueue', 'setUpZopimApiMethods'),
+    trackerSpy = jasmine.createSpyObj('tracker', ['send']),
     initSpy = jasmine.createSpy('init');
 
   let updateEmbeddableConfigSpy = jasmine.createSpy('updateEmbeddableConfig');
@@ -33,6 +34,7 @@ describe('boot', () => {
       'service/api/webWidgetApi': apiSpy,
       'service/api/zopimApi': zopimApiSpy,
       'service/analytics/googleAnalytics': gaSpy,
+      'service/logging/tracker': trackerSpy,
       'service/settings': {
         settings: {
           get: noop,
