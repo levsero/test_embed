@@ -63,6 +63,7 @@ Available settings:
 * [title](#title)
 * [zIndex](#zindex)
 * [analytics](#analytics)
+* [errorReporting](#errorreporting)
 
 ### attachments
 
@@ -1294,3 +1295,20 @@ window.zESettings = {
 </script>
 ```
 
+### errorReporting
+
+The Web Widget sends any errors that occur to a reporting service used by Zendesk to help diagnose and address issues. This error reporting can be disabled setting `errorReporting` to `false`.
+
+#### Availability
+
+* [Core widget setting](./core)
+
+#### Usage
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  errorReporting: true
+};
+</script>
+```
