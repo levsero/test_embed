@@ -3,8 +3,7 @@
 
 The Web Widget includes a "Contact us" form that lets users submit their issues as tickets in Support. The form is represented by the `contactForm` object of `webWidget`.
 
-![Contact Form Component Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/contactForm.png)
-
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/contactForm.png" alt="Contact Form Component Example" width="250px">
 
 ### Settings
 

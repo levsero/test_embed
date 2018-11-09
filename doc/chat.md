@@ -1,8 +1,8 @@
 ## Chat API
 
 The Web Widget includes a chat component that lets users chat with an agent. The component is represented by the `chat` object of `webWidget`.
-![Chat Component Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/chatWidget.png)
 
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/chatWidget.png" alt="Chat Component Example" width="250px">
 
 ### Settings
 
