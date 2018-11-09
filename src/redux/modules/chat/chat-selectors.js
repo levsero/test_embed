@@ -115,7 +115,7 @@ export const getChatAccountSettingsTitle = createSelector(
 export const getChatTitle = createSelector(
   [getSettingsChatTitle, getChatAccountSettingsTitle, getLocale],
   (settingsChatTitle, chatAccountSettingsTitle, __) => (
-    i18n.getSettingTranslation(settingsChatTitle, 'chat title setting') ||
+    i18n.getSettingTranslation(settingsChatTitle) ||
     chatAccountSettingsTitle
   )
 );
@@ -168,7 +168,7 @@ export const getConciergeSettings = createSelector(
       }
       if (settingsChatConcierge.title) {
         concierge.title = i18n.getSettingTranslation(
-          settingsChatConcierge.title, 'chat concierge title setting'
+          settingsChatConcierge.title
         );
       }
     }
@@ -204,7 +204,7 @@ export const getOfflineFormSettings = createSelector(
     return {
       ...accountSettingsOfflineForm,
       message: (
-        i18n.getSettingTranslation(greeting, 'chat offline form settings') ||
+        i18n.getSettingTranslation(greeting) ||
         _.get(accountSettingsOfflineForm, 'message', null) ||
         i18n.t('embeddable_framework.chat.preChat.offline.greeting')
       )
@@ -217,16 +217,15 @@ export const getPrechatFormSettings = createSelector(
   (settingsChatPrechatForm, accountSettingsPrechatForm, __) => {
     const greeting = _.get(settingsChatPrechatForm, 'greeting', null);
     const departmentLabel = _.get(settingsChatPrechatForm, 'departmentLabel', null);
-    const errorContext = 'prechat form settings';
 
     return {
       ...accountSettingsPrechatForm,
       message: (
-        i18n.getSettingTranslation(greeting, errorContext) ||
+        i18n.getSettingTranslation(greeting) ||
         _.get(accountSettingsPrechatForm, 'message', '')
       ),
       departmentLabel: (
-        i18n.getSettingTranslation(departmentLabel, errorContext) ||
+        i18n.getSettingTranslation(departmentLabel) ||
         _.get(accountSettingsPrechatForm, 'departmentLabel', '')
       )
     };
@@ -251,7 +250,7 @@ const getFormFields = createSelector(
       department: {
         ...defaultFields.department,
         label: (
-          i18n.getSettingTranslation(departmentLabel, 'prechat form settings') ||
+          i18n.getSettingTranslation(departmentLabel) ||
           _.get(defaultFields, 'department.label', null) ||
           i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')
         )
