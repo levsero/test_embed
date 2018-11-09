@@ -1,4 +1,16 @@
 ## Changelog
+### 8 November 2018
+- [Major Widget API](https://developer.zendesk.com/embeddables/docs/widget/introduction) refresh released!
+
+### 8 October 2018
+- Released an [update to the color contrast algorithm](https://support.zendesk.com/hc/en-us/articles/360001963507-Web-Widget-Automatic-Color-Contrast-Update) to meet accessibility WCAG 2.0 guidelines
+
+### 5 October 2018
+- Released a [new Widget Admin feature](https://support.zendesk.com/hc/en-us/articles/360001963507-Web-Widget-Automatic-Color-Contrast-Update) to allow customers to customize the theme text color (which applies to launcher, header, button text color throughout the Widget) and override the potential impact of automated color contrast applied by the Widget
+
+### 20 September 2018
+- Added launcherText for [color settings API](https://developer.zendesk.com/embeddables/docs/widget/settings#color) which sets the color of the Widget launcher text only
+
 ### 31 August 2018
 - Released improvements to CSP support to more closely comply with [Google CSP guidelines] (https://csp.withgoogle.com/docs/adopting-csp.html) including support for the nonce attribute.
 - Fixed an issue where theme color was being overwritten by default green color on contact form
