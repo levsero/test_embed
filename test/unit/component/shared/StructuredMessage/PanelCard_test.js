@@ -23,6 +23,13 @@ describe('Pure PanelCard Component', () => {
     }
   };
 
+  const mockProps = {
+    panel: {
+      heading: 'This is a header',
+      paragraph: 'This is a paragraph'
+    }
+  };
+
   beforeEach(() => {
     mockery.enable();
 
@@ -77,52 +84,68 @@ describe('Pure PanelCard Component', () => {
     expect(component.props).toEqual(expectedDefaultProps);
   });
 
-  describe('Render the parent and child elements', () => {
-    let result;
+  describe('when props are empty', () => {
+    let result,
+      props = {};
 
     beforeEach(() => {
-      const component = instanceRender(<PanelCard />);
+      const component = instanceRender(<PanelCard {...props} />);
 
       result = component.render();
     });
 
-    it('returns a Card component', ()=> {
+    it('parent element should be Card component', () => {
       expect(TestUtils.isElementOfType(result, Card)).toEqual(true);
     });
 
-    it('returns button element as one of the children', () => {
-      const foundChild = result.props.children.some((child) => {
-        return TestUtils.isElementOfType(child, 'button');
-      });
+    it('first child element should be div element', () => {
+      const firstChild = result.props.children[0];
 
-      expect(foundChild).toEqual(true);
+      expect(TestUtils.isElementOfType(firstChild, 'div'));
     });
 
-    it('returns ButtonList component as one of the children', () => {
-      const foundChild = result.props.children.some((child) => {
-        return TestUtils.isElementOfType(child, ButtonList);
-      });
+    it('second child element should be ButtonList component', () => {
+      const secondChild = result.props.children[1];
 
-      expect(foundChild).toEqual(true);
+      expect(TestUtils.isElementOfType(secondChild, ButtonList));
     });
   });
 
-  describe('Button element should receive the correct props', () => {
-    let button;
+  describe('when props.panel.onClick is valid', () => {
+    let result,
+      props = {
+        panel: {
+          onClick: onClickSpy
+        }
+      };
+
+    beforeEach(() => {
+      const component = instanceRender(<PanelCard {...props} />);
+
+      result = component.render();
+    });
+
+    it('first child element should be button element', () => {
+      const firstChild = result.props.children[0];
+
+      expect(TestUtils.isElementOfType(firstChild, 'button'));
+    });
+  });
+
+  describe('Panel element should receive the correct props', () => {
+    let panel;
     let props = {};
 
     beforeEach(() => {
       const component = instanceRender(<PanelCard {...props}/>);
       const result = component.render();
 
-      button = result.props.children.find((child) => {
-        return TestUtils.isElementOfType(child, 'button');
-      });
+      panel = result.props.children[0];
     });
 
     describe('classname prop', () => {
       it('has .panel when there is no children', () => {
-        expect(button.props.className).toContain('panel');
+        expect(panel.props.className).toContain('panel');
       });
 
       describe('when there is children', () => {
@@ -133,16 +156,16 @@ describe('Pure PanelCard Component', () => {
         });
 
         it('has .panelWithButtons', () => {
-          expect(button.props.className).toContain('panelWithButtons');
+          expect(panel.props.className).toContain('panelWithButtons');
         });
 
         it('has no .panel', () => {
-          expect(button.props.className.split(' ')).not.toContain('panel');
+          expect(panel.props.className.split(' ')).not.toContain('panel');
         });
       });
 
       it('has no .hasLink when there is props.panel.onClick is invalid', () => {
-        expect(button.props.className).not.toContain('hasLink');
+        expect(panel.props.className).not.toContain('hasLink');
       });
 
       describe('where props.panel.onClick is valid', () => {
@@ -155,7 +178,7 @@ describe('Pure PanelCard Component', () => {
         });
 
         it('has .hasLink', () => {
-          expect(button.props.className).toContain('hasLink');
+          expect(panel.props.className).toContain('hasLink');
         });
       });
     });
@@ -170,17 +193,12 @@ describe('Pure PanelCard Component', () => {
       });
 
       it('pass the onClick prop to button', () => {
-        expect(button.props.onClick).toEqual(onClickSpy);
+        expect(panel.props.onClick).toEqual(onClickSpy);
       });
     });
   });
 
-  describe('.renderPanelImage', () => {
-    let mockProps = {
-      panel: {
-        heading: 'This is a header'
-      }
-    };
+  describe('.renderPanelImage with default panel props', () => {
     let component;
 
     beforeEach(() => {
@@ -198,23 +216,6 @@ describe('Pure PanelCard Component', () => {
       expect(component.renderPanelImage).toHaveBeenCalledWith({
         ...expectedDefaultProps.panel,
         ...mockProps.panel
-      });
-    });
-
-    describe('Overwrite default values', () => {
-      beforeAll(() => {
-        mockProps.panel = {
-          ...mockProps.panel,
-          headingLineClamp: 3,
-          paragraphLineClamp: 5,
-          imageAspectRatio: 4/3
-        };
-      });
-
-      it('should call renderPanelImage with overwritten params', () => {
-        expect(component.renderPanelImage).toHaveBeenCalledWith({
-          ...mockProps.panel
-        });
       });
     });
 
@@ -243,14 +244,32 @@ describe('Pure PanelCard Component', () => {
     });
   });
 
-  describe('.renderPanelContent', () => {
-    const originalProps = {
+  describe('.renderPanelImage with custom panel props', () => {
+    const customProps = {
       panel: {
-        heading: 'This is a header',
-        paragraph: 'This is a paragraph'
+        ...mockProps.panel,
+        headingLineClamp: 3,
+        paragraphLineClamp: 5,
+        imageAspectRatio: 4 / 3
       }
     };
-    let mockProps = { ...originalProps };
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<PanelCard {...customProps} />);
+      spyOn(component, 'renderPanelImage');
+
+      component.render();
+    });
+
+    it('should call renderPanelImage with overwritten params', () => {
+      expect(component.renderPanelImage).toHaveBeenCalledWith({
+        ...customProps.panel
+      });
+    });
+  });
+
+  describe('.renderPanelContent with default params', () => {
     let component;
 
     beforeEach(() => {
@@ -258,10 +277,6 @@ describe('Pure PanelCard Component', () => {
       spyOn(component, 'renderPanelContent');
 
       component.render();
-    });
-
-    afterEach(() => {
-      mockProps = { ... originalProps };
     });
 
     it('should call renderPanelContent', () => {
@@ -274,99 +289,99 @@ describe('Pure PanelCard Component', () => {
         ...mockProps.panel
       });
     });
+  });
 
-    describe('Overwrite default values', () => {
+  describe('.renderPanelContent with custom panel props', () => {
+    const customProps = {
+      panel: {
+        ...mockProps.panel,
+        headingLineClamp: 3,
+        paragraphLineClamp: 5,
+        imageAspectRatio: 10 / 6
+      }
+    };
+
+    it('should call renderPanelContent with overwritten params', () => {
+      const component = instanceRender(<PanelCard {...customProps} />);
+
+      spyOn(component, 'renderPanelContent');
+
+      component.render();
+
+      expect(component.renderPanelContent).toHaveBeenCalledWith({
+        ...customProps.panel
+      });
+    });
+  });
+
+  describe('.renderPanelContent with different browser support', () => {
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<PanelCard {...mockProps} />);
+      component.render();
+    });
+
+    describe('Browser is not IE and firefox', () => {
       beforeAll(() => {
-        mockProps.panel = {
-          ...mockProps.panel,
-          headingLineClamp: 3,
-          paragraphLineClamp: 5,
-          imageAspectRatio: 10/6
-        };
+        isFirefoxSpy.and.returnValue(false);
+        isIESpy.and.returnValue(false);
       });
 
-      it('should call renderPanelContent with overwritten params', () => {
-        expect(component.renderPanelContent).toHaveBeenCalledWith({
-          ...mockProps.panel
-        });
+      it('should set max height "auto" for header', () => {
+        const response = component.renderPanelContent(mockProps.panel);
+
+        expect(response.props.children[0].props.style.maxHeight)
+          .toEqual('auto');
+      });
+
+      it('should set max height "auto" for paragraph', () => {
+        const response = component.renderPanelContent(mockProps.panel);
+
+        expect(response.props.children[1].props.style.maxHeight)
+          .toEqual('auto');
       });
     });
 
-    describe('Setting max height for header and paragraph', () => {
-      let component;
-
-      beforeEach(() => {
-        mockProps.panel = {
-          ...mockProps.panel,
-          headingLineClamp: 3,
-          paragraphLineClamp: 5,
-          imageAspectRatio: 10 / 6
-        };
-
-        component = instanceRender(<PanelCard {...mockProps} />);
+    describe('Browser is IE', () => {
+      beforeAll(() => {
+        isFirefoxSpy.and.returnValue(false);
+        isIESpy.and.returnValue(true);
       });
 
-      describe('Browser is not IE and firefox', () => {
-        beforeAll(() => {
-          isFirefoxSpy.and.returnValue(false);
-          isIESpy.and.returnValue(false);
-        });
+      it('should set calculated max height for header', () => {
+        const response = component.renderPanelContent(mockProps.panel);
 
-        it('should set max height "auto" for header', () => {
-          const response = component.renderPanelContent(mockProps.panel);
-
-          expect(response.props.children[0].props.style.maxHeight)
-            .toEqual('auto');
-        });
-
-        it('should set max height "auto" for paragraph', () => {
-          const response = component.renderPanelContent(mockProps.panel);
-
-          expect(response.props.children[1].props.style.maxHeight)
-            .toEqual('auto');
-        });
+        expect(response.props.children[0].props.style.maxHeight)
+          .toEqual(`${16 * mockProps.panel.headingLineClamp / FONT_SIZE}rem`);
       });
 
-      describe('Browser is IE', () => {
-        beforeAll(() => {
-          isFirefoxSpy.and.returnValue(false);
-          isIESpy.and.returnValue(true);
-        });
+      it('should set calculated max height for paragraph', () => {
+        const response = component.renderPanelContent(mockProps.panel);
 
-        it('should set calculated max height for header', () => {
-          const response = component.renderPanelContent(mockProps.panel);
+        expect(response.props.children[1].props.style.maxHeight)
+          .toEqual(`${16 * mockProps.panel.paragraphLineClamp / FONT_SIZE}rem`);
+      });
+    });
 
-          expect(response.props.children[0].props.style.maxHeight)
-            .toEqual(`${16 * mockProps.panel.headingLineClamp / FONT_SIZE}rem`);
-        });
-
-        it('should set calculated max height for paragraph', () => {
-          const response = component.renderPanelContent(mockProps.panel);
-
-          expect(response.props.children[1].props.style.maxHeight)
-            .toEqual(`${16 * mockProps.panel.paragraphLineClamp / FONT_SIZE}rem`);
-        });
+    describe('Browser is Firefox', () => {
+      beforeAll(() => {
+        isFirefoxSpy.and.returnValue(true);
+        isIESpy.and.returnValue(false);
       });
 
-      describe('Browser is Firefox', () => {
-        beforeAll(() => {
-          isFirefoxSpy.and.returnValue(true);
-          isIESpy.and.returnValue(false);
-        });
+      it('should set calculated max height for header', () => {
+        const response = component.renderPanelContent(mockProps.panel);
 
-        it('should set calculated max height for header', () => {
-          const response = component.renderPanelContent(mockProps.panel);
+        expect(response.props.children[0].props.style.maxHeight)
+          .toEqual(`${16 * mockProps.panel.headingLineClamp / FONT_SIZE}rem`);
+      });
 
-          expect(response.props.children[0].props.style.maxHeight)
-            .toEqual(`${16 * mockProps.panel.headingLineClamp / FONT_SIZE}rem`);
-        });
+      it('should set calculated max height for paragraph', () => {
+        const response = component.renderPanelContent(mockProps.panel);
 
-        it('should set calculated max height for paragraph', () => {
-          const response = component.renderPanelContent(mockProps.panel);
-
-          expect(response.props.children[1].props.style.maxHeight)
-            .toEqual(`${16 * mockProps.panel.paragraphLineClamp / FONT_SIZE}rem`);
-        });
+        expect(response.props.children[1].props.style.maxHeight)
+          .toEqual(`${16 * mockProps.panel.paragraphLineClamp / FONT_SIZE}rem`);
       });
     });
   });
