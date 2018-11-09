@@ -34,7 +34,7 @@ import { getChatMessagesByAgent,
   getIsChatting as getIsChattingState,
   getActiveAgents,
   getDepartmentsList,
-  getMessageAfterLastSeen } from 'src/redux/modules/chat/chat-selectors';
+  hasUnseenAgentMessage } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed,
   getHasSearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
@@ -92,14 +92,14 @@ const handleNewAgentMessage = (nextState, dispatch) => {
   const isMobile = isMobileBrowser();
 
   if (recentMessage) {
-    if (getUserSoundSettings(nextState)) {
-      audio.play('incoming_message');
-    }
-
     dispatch(newAgentMessageReceived(agentMessage));
   }
 
   if (!widgetShown || otherEmbedOpen) {
+    if (recentMessage && getUserSoundSettings(nextState)) {
+      audio.play('incoming_message');
+    }
+
     if (_.size(getChatMessagesByAgent(nextState)) === 1 && !getHasSearched(nextState)) {
       dispatch(updateActiveEmbed('chat'));
     }
@@ -160,17 +160,6 @@ const onChatStatus = (action, dispatch) => {
       }
     }
   }
-};
-
-const hasUnseenAgentMessage = (state) => {
-  const timestamp = _.get(store.get('store'), 'lastAgentMessageSeenTimestamp');
-
-  if (!timestamp) {
-    return true;
-  }
-
-  // check if any of the agent messages came after the last stored timestamp
-  return getMessageAfterLastSeen(state);
 };
 
 const onNewChatMessage = (prevState, nextState, dispatch) => {

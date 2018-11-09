@@ -589,7 +589,7 @@ export const isInChattingScreen = (state) => {
   return widgetShown && screen === CHATTING_SCREEN && embed === 'chat';
 };
 
-export const getMessageAfterLastSeen = createSelector(
+export const hasUnseenAgentMessage = createSelector(
   [getChatMessagesByAgent, getLastAgentMessageSeenTimestamp],
-  (messages, timestamp) => _.find(messages, message => message.timestamp > timestamp)
+  (messages, timestamp) => !!_.find(messages, message => message.timestamp > timestamp)
 );
