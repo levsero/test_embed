@@ -398,23 +398,64 @@ describe('ChattingScreen component', () => {
 
       spyOn(component, 'scrollToBottom');
       spyOn(component, 'setState');
-      spyOn(component, 'resetNotificationCount');
 
       component.didUpdateNewEntry(mockPrevProps);
+    });
+
+    describe('when chatting screen is previously hidden and now visible', () => {
+      beforeAll(() => {
+        mockPrevProps = {
+          chats: [],
+          events: [],
+          visible: false
+        };
+        componentProps = {
+          chats: [],
+          events: [],
+          visible: true,
+          markAsRead: markAsReadSpy
+        };
+        mockIsScrollCloseToBottom =  jasmine.createSpy('isScrollCloseToBottom').and.returnValue(true);
+      });
+
+      describe('when scroll is at bottom', () => {
+        beforeAll(() => {
+          mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(true);
+        });
+
+        it('calls markAsRead', () => {
+          expect(markAsReadSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when scroll is not at bottom', () => {
+        beforeAll(() => {
+          mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(false);
+        });
+
+        it('does not call markAsRead', () => {
+          expect(markAsReadSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
 
     describe('when it is a new log entry', () => {
       beforeAll(() => {
         mockPrevProps = {
           chats: [{ nick: 'visitor', type: 'chat.msg' }],
-          events: []
+          events: [],
+          visible: true
         };
         componentProps = {
           chats: [
             { nick: 'visitor', type: 'chat.msg' },
             { nick: 'agent:123', type: 'chat.msg' }
           ],
-          events: []
+          events: [],
+          visible: true,
+          markAsRead: markAsReadSpy
         };
       });
 
@@ -425,8 +466,8 @@ describe('ChattingScreen component', () => {
             mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(true);
           });
 
-          it('resets the notification count', () => {
-            expect(component.resetNotificationCount)
+          it('calls markAsRead', () => {
+            expect(markAsReadSpy)
               .toHaveBeenCalled();
           });
         });
@@ -437,11 +478,9 @@ describe('ChattingScreen component', () => {
             mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(false);
           });
 
-          it('calls setState with expected args', () => {
-            const expected = { notificationCount: 1 };
-
-            expect(component.setState)
-              .toHaveBeenCalledWith(expected);
+          it('does not call markAsRead', () => {
+            expect(markAsReadSpy)
+              .not.toHaveBeenCalled();
           });
         });
       });
@@ -1335,22 +1374,55 @@ describe('ChattingScreen component', () => {
     let result,
       component,
       componentProps,
+      mockIsScrollCloseToBottom,
       mockNotificationCount;
 
     beforeEach(() => {
-      component = instanceRender(<ChattingScreen {...componentProps} />);
+      component = instanceRender(
+        <ChattingScreen
+          notificationCount={mockNotificationCount}
+          {...componentProps} />
+      );
       component.scrollContainer = { getScrollHeight: noop };
-      component.setState({ notificationCount: mockNotificationCount });
+      component.isScrollCloseToBottom = () => mockIsScrollCloseToBottom;
 
       spyOn(component, 'scrollToBottom');
-      spyOn(component, 'resetNotificationCount');
 
       result = component.renderScrollPill();
     });
 
-    describe('when onClick is called', () => {
+    describe('when notification count is 0', () => {
+      beforeAll(() => {
+        mockNotificationCount = 0;
+        mockIsScrollCloseToBottom = false;
+      });
+
+      it('does not render', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when scroll is near bottom', () => {
       beforeAll(() => {
         mockNotificationCount = 1;
+        mockIsScrollCloseToBottom = true;
+      });
+
+      it('does not render', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when onClick is called', () => {
+      beforeAll(() => {
+        mockIsScrollCloseToBottom = false;
+        mockNotificationCount = 1;
+        componentProps = {
+          markAsRead: markAsReadSpy,
+          visible: true
+        };
       });
 
       it('sets and calls the relevant items', () => {
@@ -1360,10 +1432,10 @@ describe('ChattingScreen component', () => {
           .toHaveBeenCalled();
       });
 
-      it('resets the notification count', () => {
+      it('calls markAsRead', () => {
         result.props.onClick();
 
-        expect(component.resetNotificationCount)
+        expect(markAsReadSpy)
           .toHaveBeenCalled();
       });
     });
@@ -1474,28 +1546,46 @@ describe('ChattingScreen component', () => {
     });
 
     describe('when scroll is close to the bottom', () => {
+      let mockVisible;
+
       beforeEach(() => {
         fetchConversationHistorySpy = jasmine.createSpy('fetchConversationHistory');
 
         mockProps = {
           hasMoreHistory: true,
           historyRequestStatus: 'done',
-          fetchConversationHistory: fetchConversationHistorySpy
+          fetchConversationHistory: fetchConversationHistorySpy,
+          markAsRead: markAsReadSpy,
+          visible: mockVisible
         };
 
         component = instanceRender(<ChattingScreen {...mockProps} />);
         component.scrollContainer = { isAtTop: noop };
         component.isScrollCloseToBottom = () => true;
 
-        spyOn(component, 'setState');
-        spyOn(component, 'resetNotificationCount');
-
         component.handleChatScreenScrolled();
       });
 
-      it('resets the notification count', () => {
-        expect(component.resetNotificationCount)
-          .toHaveBeenCalled();
+      describe('when chatting screen is visible', () => {
+        beforeAll(() => {
+          mockVisible = true;
+        });
+
+        it('calls markAsRead', () => {
+          expect(markAsReadSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when chatting screen is hidden', () => {
+        beforeAll(() => {
+          mockVisible = false;
+        });
+
+        it('does not call markAsRead', () => {
+          expect(markAsReadSpy)
+            .not.toHaveBeenCalled();
+        });
       });
     });
   });
@@ -1657,30 +1747,6 @@ describe('ChattingScreen component', () => {
 
         expect(QRComponent).toBeNull();
       });
-    });
-  });
-
-  describe('resetNotificationCount', () => {
-    let component;
-
-    beforeEach(() => {
-      component = instanceRender(<ChattingScreen markAsRead={markAsReadSpy} />);
-
-      spyOn(component, 'setState');
-
-      component.resetNotificationCount();
-    });
-
-    it('should call markAsRead', () => {
-      expect(markAsReadSpy)
-        .toHaveBeenCalled();
-    });
-
-    it('should setState with the expected args', () => {
-      const expected = { notificationCount: 0 };
-
-      expect(component.setState)
-        .toHaveBeenCalledWith(expected);
     });
   });
 });
