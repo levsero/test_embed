@@ -104,7 +104,11 @@ export class ChatOfflineForm extends Component {
 
     return (
       <TextField className={fieldContainerStyle}>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.name'), isRequired)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.common.textLabel.name'),
+          isRequired || !!readOnlyState.name
+        )}
         <Input
           required={isRequired}
           aria-required={isRequired}
@@ -128,7 +132,11 @@ export class ChatOfflineForm extends Component {
     /* eslint-disable max-len */
     return (
       <TextField>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), isRequired)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.common.textLabel.email'),
+          isRequired || !!this.props.readOnlyState.email
+        )}
         <Input
           required={isRequired}
           aria-required={isRequired}
@@ -154,7 +162,11 @@ export class ChatOfflineForm extends Component {
 
     return (
       <TextField className={styles.textField}>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.phone_number'), isRequired)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.common.textLabel.phone_number'),
+          isRequired || !!this.props.readOnlyState.phone
+        )}
         <Input
           required={isRequired}
           aria-required={isRequired}

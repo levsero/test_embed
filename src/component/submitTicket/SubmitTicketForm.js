@@ -384,7 +384,11 @@ export class SubmitTicketForm extends Component {
 
     return (
       <TextField key={name}>
-        {renderLabel(Label, i18n.t('embeddable_framework.submitTicket.field.name.label'), false)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.submitTicket.field.name.label'),
+          false || !!this.props.readOnlyState.name
+        )}
         <Input
           key={name}
           name={name}

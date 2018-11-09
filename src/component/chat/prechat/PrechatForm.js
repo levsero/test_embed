@@ -179,7 +179,11 @@ export class PrechatForm extends Component {
 
     return (
       <TextField className={fieldContainerStyle}>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.name'), required)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.common.textLabel.name'),
+          required || !!readOnlyState.name
+        )}
         <Input
           autoComplete='off'
           aria-required={required}
@@ -207,7 +211,11 @@ export class PrechatForm extends Component {
     /* eslint-disable max-len */
     return (
       <TextField>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), required)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.common.textLabel.email'),
+          required || !!this.props.readOnlyState.email
+        )}
         <Input
           required={required}
           aria-required={required}
@@ -234,7 +242,11 @@ export class PrechatForm extends Component {
 
     return (
       <TextField>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.phone_number'), required)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.common.textLabel.phone_number'),
+          required || !!this.props.readOnlyState.phone
+        )}
         <Input
           required={required}
           aria-required={required}
