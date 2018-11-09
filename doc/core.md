@@ -335,15 +335,16 @@ None
 
 #### updatePath
 
-`zE('webWidget:updatePath');`
+`zE('webWidget', 'updatePath', data<object>);`
 
-Updates the visitor path.
+Updates the visitor path by setting the title to the current user's page title and url to the user's current url.
 
 **Note**: This api will also update the path within chat.
 
 ##### Parameters
 
-None
+
+* `data`: Object. This object accepts two optional string parameters: `title` and `url`.
 
 
 #### toggle
