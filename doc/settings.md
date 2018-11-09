@@ -1280,6 +1280,8 @@ window.zESettings = {
 
 Specifies whether to enable or disable Google Analytics tracking.
 
+**Note**: The currently supported events can be found [here](https://support.zendesk.com/hc/en-us/community/posts/360003215947-New-Feature-Google-Analytics-for-Chat-in-the-Web-Widget)
+
 #### Availability
 
 * [Core widget setting](./core)
