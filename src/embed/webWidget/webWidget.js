@@ -39,7 +39,7 @@ import { authenticate, revokeToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
-import { emailValid } from 'src/util/utils';
+import { nameValid, emailValid } from 'src/util/utils';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
@@ -329,7 +329,7 @@ export default function WebWidgetFactory(name) {
           // Fallback to null or empty string because Chat SDK doesn't accept "undefined" or "null"
           const validUser = {};
 
-          if (_.isString(user.name)) validUser.display_name = user.name; // eslint-disable-line camelcase
+          if (nameValid(user.name)) validUser.display_name = user.name; // eslint-disable-line camelcase
           if (emailValid(user.email)) validUser.email = user.email;
 
           embed.store.dispatch(setVisitorInfo(validUser));

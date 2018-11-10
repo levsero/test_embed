@@ -5,8 +5,8 @@ describe('mediator', () => {
     launcherSub,
     webWidgetSub,
     chatSub,
+    mockNameValid,
     mockEmailValid,
-    mockIsString,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -25,13 +25,11 @@ describe('mediator', () => {
         zopimProactiveMessageRecieved: jasmine.createSpy().and.returnValue(false)
       },
       'utility/utils': {
+        nameValid: () => mockNameValid,
         emailValid: () => mockEmailValid
       },
       'utility/devices': {
         isMobileBrowser: () => false
-      },
-      'lodash': {
-        isString: () => mockIsString
       },
       'src/util/utils': {
 
@@ -121,7 +119,7 @@ describe('mediator', () => {
         };
 
         mockEmailValid = true;
-        mockIsString = true;
+        mockNameValid = true;
 
         c.broadcast('.onIdentify', params);
       });
@@ -145,7 +143,7 @@ describe('mediator', () => {
         };
 
         mockEmailValid = false;
-        mockIsString = true;
+        mockNameValid = true;
 
         c.broadcast('.onIdentify', params);
       });
@@ -173,7 +171,7 @@ describe('mediator', () => {
           email: 'james@dean.com'
         };
 
-        mockIsString = false;
+        mockNameValid = false;
         mockEmailValid = true;
         reset(chatSub.setUser);
 
@@ -204,7 +202,7 @@ describe('mediator', () => {
         };
 
         mockEmailValid = false;
-        mockIsString = false;
+        mockNameValid = false;
         reset(chatSub.setUser);
 
         c.broadcast('.onIdentify', params);
