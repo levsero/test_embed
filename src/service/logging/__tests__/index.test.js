@@ -2,10 +2,15 @@ import Rollbar from 'vendor/rollbar.umd.min.js';
 import _ from 'lodash';
 
 jest.mock('utility/devices');
+jest.mock('vendor/rollbar.umd.min.js');
 
 const devices = require('utility/devices');
 
 import { logging, setInitialise } from '../index';
+
+beforeEach(() => {
+  setInitialise(false);
+});
 
 describe('#init', () => {
   const createLogger = (enabled) => logging.init(enabled);
@@ -50,10 +55,16 @@ describe('#error', () => {
       visible: false
     }
   };
+  const rollbarError = jest.fn();
 
   beforeEach(() => {
     console.error = jest.fn();
-    setInitialise(false); // reset it to initial state
+    devices.isIE = jest.fn(() => false);
+    Rollbar.init = jest.fn(() => {
+      return {
+        error: rollbarError
+      };
+    });
   });
 
   describe('when environment is in dev mode', () => {
@@ -93,7 +104,7 @@ describe('#error', () => {
       });
 
       it('does not call rollbar.error', () => {
-        expect(Rollbar.errorSpy)
+        expect(rollbarError)
           .not.toHaveBeenCalled();
       });
     });
@@ -106,7 +117,7 @@ describe('#error', () => {
         });
 
         it('calls Rollbar.error', () => {
-          expect(Rollbar.errorSpy)
+          expect(rollbarError)
             .toHaveBeenCalledWith(errPayload, customData);
         });
       });
@@ -118,7 +129,7 @@ describe('#error', () => {
         });
 
         it('does not call Rollbar.error', () => {
-          expect(Rollbar.errorSpy)
+          expect(rollbarError)
             .not.toHaveBeenCalled();
         });
       });
