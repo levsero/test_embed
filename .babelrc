@@ -1,4 +1,9 @@
 {
   "presets": ["env", "react", "stage-2"],
-  "ignore": ["src/translation/*.js"]
+  "ignore": ["src/translation/*.js"],
+  "env": {
+    "test": {
+      "plugins": ["dynamic-import-node"]
+    }
+  }
 }

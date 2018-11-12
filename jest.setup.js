@@ -6,4 +6,6 @@ jest.mock('translation/ze_localeIdMap');
 
 jest.mock('component/Refocus');
 jest.mock('src/embed/webWidget/webWidgetStyles');
+jest.mock('src/embed/launcher/launcherStyles');
+jest.mock('src/embed/sharedStyles');
 jest.mock('globalCSS');
