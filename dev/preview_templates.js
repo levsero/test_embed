@@ -9,7 +9,7 @@ const CHUNKS_MAP = {
 const TEMPLATES_PATH = './dev/templates/previews';
 
 module.exports = function() {
-  const templates = fs.readdirSync(TEMPLATES_PATH);
+  const templates = fs.readdirSync(TEMPLATES_PATH).filter((file) => file.endsWith('.html'));
 
   return templates.map((template) => {
     return new HtmlWebpackPlugin({
