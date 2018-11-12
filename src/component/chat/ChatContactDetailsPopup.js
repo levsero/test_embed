@@ -90,16 +90,10 @@ export class ChatContactDetailsPopup extends Component {
       allowEmpty: true
     });
 
-    if (isNameError) {
+    if (isNameError || isEmailError) {
       this.setState({
-        showNameError: true
-      });
-      return;
-    }
-
-    if (isEmailError) {
-      this.setState({
-        showEmailError: true
+        showNameError: isNameError,
+        showEmailError: isEmailError
       });
       return;
     }

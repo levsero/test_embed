@@ -141,7 +141,10 @@ describe('ChatContactDetailsPopup component', () => {
 
       it('shows error', () => {
         expect(component.setState)
-          .toHaveBeenCalledWith({ showNameError: true });
+          .toHaveBeenCalledWith({
+            showNameError: true,
+            showEmailError: false
+          });
       });
     });
 
@@ -153,7 +156,10 @@ describe('ChatContactDetailsPopup component', () => {
 
       it('shows error', () => {
         expect(component.setState)
-          .toHaveBeenCalledWith({ showEmailError: true });
+          .toHaveBeenCalledWith({
+            showNameError: false,
+            showEmailError: true
+          });
       });
     });
 
