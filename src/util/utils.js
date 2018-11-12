@@ -113,8 +113,10 @@ function emailValid(email, options = { allowEmpty: false }) {
   return EMAIL_PATTERN.test(email) || validEmpty;
 }
 
-function nameValid(name) {
-  return _.isString(name) && NAME_PATTERN.test(name);
+function nameValid(name, options = { allowEmpty: false }) {
+  const validEmpty = options.allowEmpty && name === '';
+
+  return _.isString(name) && NAME_PATTERN.test(name) || validEmpty;
 }
 
 function referrerPolicyUrl(policy, url) {

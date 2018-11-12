@@ -415,6 +415,13 @@ describe('utils', () => {
       expect(nameValid(name))
         .toEqual(false);
     }));
+
+    describe('when allowEmpty is true', () => {
+      it('returns true for an empty string', () => {
+        expect(nameValid('', { allowEmpty: true }))
+          .toEqual(true);
+      });
+    });
   });
 
   describe('referrerPolicyUrl', () => {
