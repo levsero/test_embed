@@ -16,6 +16,7 @@ import { getTotalUserSearches,
   getActiveArticle,
   getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+import { getWebWidgetVisible } from 'src/redux/modules/base/base-selectors';
 
 import { i18n } from 'service/i18n';
 
@@ -99,6 +100,10 @@ export function sendBlips({ getState }) {
         sendTalkCallbackRequestBlip(prevState);
         break;
       case UPDATE_ACTIVE_EMBED:
+        if (!getWebWidgetVisible(prevState)) {
+          break;
+        }
+
         if (payload === 'talk' && !talkOpenedBlipSent) {
           sendTalkOpenedBlip(prevState);
           talkOpenedBlipSent = true;
