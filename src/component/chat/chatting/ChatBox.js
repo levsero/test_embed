@@ -4,6 +4,7 @@ import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields';
 
 import { i18n } from 'service/i18n';
 import { keyCodes } from 'utility/keyboard';
+import { isIos } from 'utility/devices';
 
 import { locals as styles } from './ChatBox.scss';
 import classNames from 'classnames';
@@ -33,6 +34,14 @@ export class ChatBox extends Component {
     this.props.handleChatBoxChange(value);
   }
 
+  handleInput = () => {
+    const locale = i18n.getLocale();
+
+    if (isIos() && /^ja/.test(locale) && this.textArea.scrollIntoViewIfNeeded) {
+      this.textArea.scrollIntoViewIfNeeded();
+    }
+  }
+
   render = () => {
     const placeholder = i18n.t('embeddable_framework.chat.chatBox.placeholder.typeMessageHere');
     const inputClasses = classNames(
@@ -48,9 +57,11 @@ export class ChatBox extends Component {
             {placeholder}
           </Label>
           <Textarea
+            innerRef={(el) => this.textArea = el}
             value={this.props.currentMessage}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown}
+            onInput={this.handleInput}
             className={inputClasses}
             placeholder={placeholder}
             name='chatBox'
