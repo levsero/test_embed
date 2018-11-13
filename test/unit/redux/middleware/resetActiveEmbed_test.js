@@ -26,6 +26,7 @@ describe('resetActiveEmbed middleware', () => {
   const ZOPIM_HIDE = 'ZOPIM_HIDE';
   const UPDATE_SETTINGS_CHAT_SUPPRESS = 'UPDATE_SETTINGS_CHAT_SUPPRESS';
   const API_RESET_WIDGET = 'API_RESET_WIDGET';
+  const GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS = 'GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS';
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
   const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
@@ -67,7 +68,7 @@ describe('resetActiveEmbed middleware', () => {
         WIDGET_INITIALISED, ACTIVATE_RECEIVED, AUTHENTICATION_SUCCESS, API_RESET_WIDGET
       },
       'src/redux/modules/chat/chat-action-types': {
-        SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS
+        SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS, GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
       },
       'src/redux/modules/talk/talk-action-types': {
         UPDATE_TALK_AGENT_AVAILABILITY
@@ -102,7 +103,8 @@ describe('resetActiveEmbed middleware', () => {
       AUTHENTICATION_SUCCESS,
       ZOPIM_END_CHAT,
       UPDATE_SETTINGS_CHAT_SUPPRESS,
-      API_RESET_WIDGET
+      API_RESET_WIDGET,
+      GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
     ];
     const chatActions = [
       SDK_CONNECTION_UPDATE,

@@ -8,6 +8,7 @@ import {
   API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types';
 import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS, CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types';
 import { UPDATE_TALK_AGENT_AVAILABILITY } from 'src/redux/modules/talk/talk-action-types';
+import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
 import {
   ZOPIM_CHAT_ON_STATUS_UPDATE,
   ZOPIM_END_CHAT,
@@ -110,7 +111,8 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     ZOPIM_CONNECTED,
     ZOPIM_END_CHAT,
     UPDATE_SETTINGS_CHAT_SUPPRESS,
-    API_RESET_WIDGET
+    API_RESET_WIDGET,
+    GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
   ];
 
   const isZopimChatting = getZopimIsChatting(state) && getActiveEmbed(state) === 'zopimChat';
