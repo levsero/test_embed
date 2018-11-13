@@ -20,7 +20,6 @@ describe('webWidgetApi', () => {
   const onApiSpy = jasmine.createSpy('onApi');
   const endChatSpy = jasmine.createSpy('endChat');
   const sendMsgSpy = jasmine.createSpy('sendMsg');
-  const trackerSpy = jasmine.createSpyObj('trackerSpy', ['addTo', 'track']);
   const dispatch = () => (action) => action();
   const mockStore = {
     dispatch,
@@ -43,10 +42,6 @@ describe('webWidgetApi', () => {
   const CHAT_STARTED = 'CHAT_STARTED';
   const SDK_ACCOUNT_STATUS = 'SDK_ACCOUNT_STATUS';
 
-  afterEach(() => {
-    trackerSpy.track.calls.reset();
-  });
-
   beforeEach(() => {
     mockery.enable();
 
@@ -68,7 +63,6 @@ describe('webWidgetApi', () => {
           postRenderCallbacks: noop
         }
       },
-      'service/logging/tracker': trackerSpy,
       'src/redux/modules/base': {
         apiResetWidget: resetWidgetSpy,
         activateRecieved: noop,
@@ -162,11 +156,6 @@ describe('webWidgetApi', () => {
         expect(hideSpy)
           .toHaveBeenCalled();
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.hide');
-      });
     });
   });
 
@@ -214,7 +203,6 @@ describe('webWidgetApi', () => {
 
     afterEach(() => {
       broadcastSpy.calls.reset();
-      trackerSpy.track.calls.reset();
     });
 
     describe('when that call is hide', () => {
@@ -225,11 +213,6 @@ describe('webWidgetApi', () => {
       it('calls hideApi', () => {
         expect(hideSpy)
           .toHaveBeenCalled();
-      });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.hide');
       });
     });
 
@@ -242,11 +225,6 @@ describe('webWidgetApi', () => {
         expect(showSpy)
           .toHaveBeenCalled();
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.show');
-      });
     });
 
     describe('when that call is open', () => {
@@ -257,11 +235,6 @@ describe('webWidgetApi', () => {
       it('calls openApi', () => {
         expect(openSpy)
           .toHaveBeenCalled();
-      });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.open');
       });
     });
 
@@ -274,11 +247,6 @@ describe('webWidgetApi', () => {
         expect(closeSpy)
           .toHaveBeenCalled();
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.close');
-      });
     });
 
     describe('when that call is toggle', () => {
@@ -289,11 +257,6 @@ describe('webWidgetApi', () => {
       it('calls toggleApi', () => {
         expect(toggleSpy)
           .toHaveBeenCalled();
-      });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.toggle');
       });
     });
 
@@ -306,11 +269,6 @@ describe('webWidgetApi', () => {
         expect(setLocaleSpy)
           .toHaveBeenCalledWith(jasmine.any(Object), 'fr');
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.setLocale', 'fr');
-      });
     });
 
     describe('when the call is clear', () => {
@@ -320,11 +278,6 @@ describe('webWidgetApi', () => {
 
       it('calls clearFormState', () => {
         expect(clearFormStateSpy).toHaveBeenCalled();
-      });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.clear');
       });
     });
 
@@ -383,11 +336,6 @@ describe('webWidgetApi', () => {
           expect(prefillSpy)
             .toHaveBeenCalledWith(mockStore, payload);
         });
-
-        it('tracks the call', () => {
-          expect(trackerSpy.track)
-            .toHaveBeenCalledWith('webWidget.prefill', payload);
-        });
       });
 
       describe('when that call is updateSettings', () => {
@@ -401,11 +349,6 @@ describe('webWidgetApi', () => {
           expect(updateSettingsSpy)
             .toHaveBeenCalledWith(mockStore, settings);
         });
-
-        it('tracks the call', () => {
-          expect(trackerSpy.track)
-            .toHaveBeenCalledWith('webWidget.updateSettings', settings);
-        });
       });
 
       describe('when that call is logout', () => {
@@ -416,11 +359,6 @@ describe('webWidgetApi', () => {
         it('calls logout', () => {
           expect(logoutSpy)
             .toHaveBeenCalled();
-        });
-
-        it('tracks the call', () => {
-          expect(trackerSpy.track)
-            .toHaveBeenCalledWith('webWidget.logout');
         });
       });
 
@@ -435,11 +373,6 @@ describe('webWidgetApi', () => {
           expect(setHelpCenterSuggestionsSpy)
             .toHaveBeenCalledWith(mockStore, options);
         });
-
-        it('tracks the call', () => {
-          expect(trackerSpy.track)
-            .toHaveBeenCalledWith('webWidget.helpCenter:setSuggestions', options);
-        });
       });
 
       describe('when that call is updatePath', () => {
@@ -452,11 +385,6 @@ describe('webWidgetApi', () => {
         it('calls updatePathApi with the options', () => {
           expect(updatePathSpy)
             .toHaveBeenCalledWith(mockStore, options);
-        });
-
-        it('tracks the call', () => {
-          expect(trackerSpy.track)
-            .toHaveBeenCalledWith('webWidget.updatePath', options);
         });
       });
     });
@@ -484,11 +412,6 @@ describe('webWidgetApi', () => {
         expect(hideSpy)
           .toHaveBeenCalled();
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.hide');
-      });
     });
 
     describe('when that call is show', () => {
@@ -499,11 +422,6 @@ describe('webWidgetApi', () => {
       it('calls showApi', () => {
         expect(showSpy)
           .toHaveBeenCalled();
-      });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.show');
       });
     });
 
@@ -516,11 +434,6 @@ describe('webWidgetApi', () => {
         expect(openSpy)
           .toHaveBeenCalled();
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.open');
-      });
     });
 
     describe('when that call is close', () => {
@@ -532,11 +445,6 @@ describe('webWidgetApi', () => {
         expect(closeSpy)
           .toHaveBeenCalled();
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.close');
-      });
     });
 
     describe('when that call is toggle', () => {
@@ -547,11 +455,6 @@ describe('webWidgetApi', () => {
       it('calls toggleApi', () => {
         expect(toggleSpy)
           .toHaveBeenCalled();
-      });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.toggle');
       });
     });
 
@@ -592,11 +495,6 @@ describe('webWidgetApi', () => {
         expect(setLocaleSpy)
           .toHaveBeenCalledWith(mockStore, 'fr');
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.setLocale', 'fr');
-      });
     });
 
     describe('when that call is identify', () => {
@@ -626,11 +524,6 @@ describe('webWidgetApi', () => {
         expect(prefillSpy)
           .toHaveBeenCalledWith(mockStore, payload);
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.prefill', payload);
-      });
     });
 
     describe('when that call is updateSettings', () => {
@@ -644,11 +537,6 @@ describe('webWidgetApi', () => {
         expect(updateSettingsSpy)
           .toHaveBeenCalledWith(mockStore, settings);
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.updateSettings', settings);
-      });
     });
 
     describe('when that call is logout', () => {
@@ -659,11 +547,6 @@ describe('webWidgetApi', () => {
       it('calls logout', () => {
         expect(logoutSpy)
           .toHaveBeenCalled();
-      });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.logout');
       });
     });
 
@@ -678,11 +561,6 @@ describe('webWidgetApi', () => {
         expect(setHelpCenterSuggestionsSpy)
           .toHaveBeenCalledWith(mockStore, options);
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.setSuggestions', options);
-      });
     });
 
     describe('when that call is updatePath', () => {
@@ -696,11 +574,6 @@ describe('webWidgetApi', () => {
         expect(updatePathSpy)
           .toHaveBeenCalledWith(mockStore, options);
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.updatePath', options);
-      });
     });
 
     describe('when that call is endChat', () => {
@@ -711,11 +584,6 @@ describe('webWidgetApi', () => {
       it('calls endChat with the options', () => {
         expect(endChatSpy)
           .toHaveBeenCalled();
-      });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.chat:end');
       });
     });
 
@@ -728,11 +596,6 @@ describe('webWidgetApi', () => {
         expect(sendMsgSpy)
           .toHaveBeenCalled();
       });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget.chat:send');
-      });
     });
 
     describe('when that call is on', () => {
@@ -743,11 +606,6 @@ describe('webWidgetApi', () => {
       it('calls onApi', () => {
         expect(onApiSpy)
           .toHaveBeenCalled();
-      });
-
-      it('tracks the call', () => {
-        expect(trackerSpy.track)
-          .toHaveBeenCalledWith('webWidget:on.close', jasmine.any(Function));
       });
     });
 
@@ -760,11 +618,6 @@ describe('webWidgetApi', () => {
         it('returns the value corresponding to the param', () => {
           expect(result)
             .toBe(isChatting);
-        });
-
-        it('tracks the call', () => {
-          expect(trackerSpy.track)
-            .toHaveBeenCalledWith(`webWidget:get.chat:${API_GET_IS_CHATTING_NAME}`);
         });
       });
 
@@ -793,18 +646,9 @@ describe('webWidgetApi', () => {
       prefillSpy.calls.reset();
     });
 
-    afterEach(() => {
-      trackerSpy.addTo.calls.reset();
-    });
-
     describe('zE.identify', () => {
       beforeEach(() => {
         win.zE.identify(user);
-      });
-
-      it('calls tracker on win.zE', () => {
-        expect(trackerSpy.addTo)
-          .toHaveBeenCalledWith(win.zE, 'zE');
       });
 
       it('calls handlePrefillReceived with the formatted user object', () => {
