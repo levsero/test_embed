@@ -214,11 +214,11 @@ function setupWidgetQueue(win, postRenderQueue, reduxStore) {
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,
     setLocale: (locale) => {
-      tracker.enqueue('zE.setLocale', locale);
+      tracker.track('zE.setLocale', locale);
       setLocaleApi(reduxStore, locale);
     },
     hide: () => {
-      tracker.enqueue('zE.hide');
+      tracker.track('zE.hide');
       hideApi(reduxStore);
     },
     show: postRenderQueueCallback.bind('show'),

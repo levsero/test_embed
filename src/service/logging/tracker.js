@@ -20,6 +20,9 @@ tracker.getTrackableFunction = function(func, name, that) {
 };
 
 tracker.track = function(name, ...args) {
+  if (!this.send) {
+    this.enqueue(name, ...args);
+  }
   if (tracker.send && !_.includes(blacklist, name)) {
     let methodArgs = _.map(args, (arg) => _.isFunction(arg) ? '<callback function>' : arg);
 
@@ -52,6 +55,11 @@ tracker.flush = function() {
     this.track(item.name, ...item.args);
   });
   this.queue = [];
+};
+
+tracker.enable = function() {
+  this.send = true;
+  this.flush();
 };
 
 export default tracker;

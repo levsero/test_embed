@@ -5,6 +5,7 @@ jest.mock('service/beacon');
 import { beacon } from 'service/beacon';
 
 beforeEach(() => {
+  tracker.send = false;
   tracker.queue = [];
 });
 
@@ -122,6 +123,27 @@ describe('enabled', () => {
         expect(beacon.trackUserAction)
           .toHaveBeenNthCalledWith(3, 'api', 'method3', null, { args: '<callback function>' });
       });
+    });
+  });
+
+  describe('disabled to enabled', () => {
+    beforeEach(() => {
+      tracker.send = false;
+      tracker.track('api1', 1, 2, 3);
+      tracker.track('api2');
+    });
+
+    it('does not track if send is false', () => {
+      expect(beacon.trackUserAction)
+        .not.toHaveBeenCalled();
+    });
+
+    it('tracks everything once enabled', () => {
+      tracker.enable();
+      expect(beacon.trackUserAction)
+        .toHaveBeenNthCalledWith(1, 'api', 'api1', null, { args: [1, 2, 3] });
+      expect(beacon.trackUserAction)
+        .toHaveBeenNthCalledWith(2, 'api', 'api2', null, { args: null });
     });
   });
 });
