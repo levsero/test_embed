@@ -52,6 +52,7 @@ import { win } from 'utility/globals';
 import { resetShouldWarn } from 'src/util/nullZChat';
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
+import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed');
@@ -292,6 +293,7 @@ const onUpdateEmbeddableConfig = (action) => {
 export default function onStateChange(prevState, nextState, action = {}, dispatch = () => {}) {
   onChatStarted(prevState, nextState, dispatch);
   onChatStatusChange(prevState, nextState, dispatch);
+  onZopimChatStateChange(prevState, nextState, dispatch);
   onChatConnected(prevState, nextState, dispatch);
   onChatScreenInteraction(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);

@@ -91,6 +91,8 @@ describe('embed.chat', () => {
         zopimHide: noop,
         zopimConnectionUpdate: noop,
         zopimShow: noop,
+        zopimClose: noop,
+        zopimOpen: noop,
         zopimIsChatting: noop,
         zopimEndChat: zopimEndChatSpy
       },

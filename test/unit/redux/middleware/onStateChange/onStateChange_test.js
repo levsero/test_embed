@@ -128,6 +128,9 @@ describe('onStateChange middleware', () => {
           CONNECTING: 'connecting'
         }
       },
+      'src/redux/middleware/onStateChange/onZopimStateChange': {
+        onZopimChatStateChange: noop
+      },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleDisplayed: _.identity,
         getHasSearched: () => mockHasSearched

@@ -29,7 +29,8 @@ describe('base reducer web widget visibility', () => {
     actionTypes.ACTIVATE_RECEIVED,
     chatActionTypes.PROACTIVE_CHAT_RECEIVED,
     chatActionTypes.CHAT_WINDOW_OPEN_ON_NAVIGATE,
-    actionTypes.OPEN_RECEIVED
+    actionTypes.OPEN_RECEIVED,
+    zopimActionTypes.ZOPIM_CHAT_GONE_OFFLINE
   ];
 
   beforeEach(() => {

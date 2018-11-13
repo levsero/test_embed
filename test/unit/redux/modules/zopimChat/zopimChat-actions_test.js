@@ -100,6 +100,48 @@ describe('zopimChat redux actions', () => {
     });
   });
 
+  describe('zopimOpen', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.zopimOpen());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type ZOPIM_ON_OPEN', () => {
+      expect(action.type)
+        .toEqual(actionTypes.ZOPIM_ON_OPEN);
+    });
+  });
+
+  describe('zopimClose', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.zopimClose());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type ZOPIM_ON_CLOSE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.ZOPIM_ON_CLOSE);
+    });
+  });
+
+  describe('zopimChatGoneOffline', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.zopimChatGoneOffline());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type ZOPIM_CHAT_GONE_OFFLINE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.ZOPIM_CHAT_GONE_OFFLINE);
+    });
+  });
+
   describe('zopimConnectionUpdate', () => {
     let action;
 

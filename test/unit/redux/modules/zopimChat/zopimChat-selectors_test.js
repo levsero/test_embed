@@ -1,7 +1,8 @@
 describe('zopimChat selectors', () => {
   let getZopimChatStatus,
     getZopimChatConnected,
-    getZopimIsChatting;
+    getZopimIsChatting,
+    getZopimChatOpen;
 
   beforeEach(() => {
     mockery.enable();
@@ -15,6 +16,7 @@ describe('zopimChat selectors', () => {
     getZopimChatStatus = selectors.getZopimChatStatus;
     getZopimChatConnected = selectors.getZopimChatConnected;
     getZopimIsChatting = selectors.getZopimIsChatting;
+    getZopimChatOpen = selectors.getZopimChatOpen;
   });
 
   describe('getZopimChatStatus', () => {
@@ -68,6 +70,24 @@ describe('zopimChat selectors', () => {
     it('returns the current state of zopimChat.isChatting', () => {
       expect(result)
         .toEqual(false);
+    });
+  });
+
+  describe('getZopimChatOpen', () => {
+    let result;
+    const mockState = {
+      zopimChat: {
+        isOpen: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getZopimChatOpen(mockState);
+    });
+
+    it('returns the current state of zopimChat.isOpen', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 });

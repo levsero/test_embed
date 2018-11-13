@@ -7,7 +7,11 @@ import { getShowOfflineChat,
   getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible,
   getChatConnected as getNewChatConnected } from './chat/chat-selectors';
-import { getZopimChatOnline, getZopimChatConnected } from './zopimChat/zopimChat-selectors';
+import { getZopimChatOnline,
+  getZopimChatConnected,
+  getZopimIsChatting,
+  getZopimChatOpen,
+} from './zopimChat/zopimChat-selectors';
 import { getSettingsChatSuppress,
   getSettingsLauncherSetHideWhenChatOffline } from './settings/settings-selectors';
 import {
@@ -114,6 +118,11 @@ export const getChatReady = (state) => !getChatEmbed(state) || getChatConnected(
 
 export const getChatOfflineAvailable = (state) => getChatEnabled(state) &&
   !getChatOnline(state) && getNewChatEmbed(state) && getOfflineFormEnabled(state) && !getSubmitTicketEmbed(state);
+
+export const getResetToContactFormOnChatOffline = (state) =>
+  !getZopimChatOnline(state) && !getZopimIsChatting(state)
+  && getSubmitTicketEmbed(state) && getZopimChatOpen(state)
+  && getActiveEmbed(state) === 'ticketSubmissionForm';
 
 export const getChatAvailable = (state) => {
   const offlineFormOn = getChatOfflineAvailable(state);

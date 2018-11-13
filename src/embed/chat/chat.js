@@ -13,7 +13,9 @@ import {
   zopimShow,
   zopimOnClose,
   zopimIsChatting,
-  zopimEndChat } from 'src/redux/modules/zopimChat';
+  zopimEndChat,
+  zopimOpen,
+  zopimClose } from 'src/redux/modules/zopimChat';
 import { updateSettingsChatSuppress, resetSettingsChatSuppress } from 'src/redux/modules/settings';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { closeApi, openApi } from 'src/service/api/apis';
@@ -52,7 +54,10 @@ function get(name) {
 
 function show(name, showWindow = false) {
   win.$zopim(() => {
-    if (get(name).config.standalone) {
+    const chat = get(name);
+    const store = chat.store;
+
+    if (chat.config.standalone) {
       if (showWindow) {
         win.$zopim.livechat.window.show();
       } else {
@@ -60,6 +65,7 @@ function show(name, showWindow = false) {
       }
     } else {
       win.$zopim.livechat.window.show();
+      store.dispatch(zopimOpen());
     }
 
     // TODO remove when zopim has release mobile notifications
@@ -69,9 +75,13 @@ function show(name, showWindow = false) {
   });
 }
 
-function hide() {
+function hide(name) {
   win.$zopim(() => {
+    const chat = get(name);
+    const store = chat.store;
+
     win.$zopim.livechat.hideAll();
+    store.dispatch(zopimClose());
 
     // TODO remove when zopim has release mobile notifications
     if (win.$zopim.livechat.mobileNotifications) {
@@ -129,7 +139,7 @@ function render(name) {
   }
 
   mediator.channel.subscribe(`${name}.show`, () => show(name));
-  mediator.channel.subscribe(`${name}.hide`, () => hide());
+  mediator.channel.subscribe(`${name}.hide`, () => hide(name));
   mediator.channel.subscribe(`${name}.activate`, () => show(name, true));
   mediator.channel.subscribe(`${name}.toggle`, () => toggle(name));
 
@@ -165,12 +175,12 @@ function init(name) {
       zopimApiOverwritten = true;
 
       win.$zopim.livechat.window.show = () => {
-        get(name).store.dispatch(zopimShow());
+        store.dispatch(zopimShow());
         originalZopimShow();
       };
 
       win.$zopim.livechat.window.hide = () => {
-        get(name).store.dispatch(zopimHide());
+        store.dispatch(zopimHide());
         originalZopimHide();
       };
     }
@@ -217,12 +227,15 @@ function init(name) {
     zopimLive.hideAll();
 
     cappedTimeoutCall(() => {
+      if (zopimLive.isChatting()) {
+        store.dispatch(zopimIsChatting());
+        store.dispatch(updateSettingsChatSuppress(false));
+      }
+
       if (zopimWin.getDisplay() || zopimLive.isChatting()) {
         mediator.channel.broadcast(`${name}.onIsChatting`, zopimWin.getDisplay());
 
-        store.dispatch(zopimIsChatting());
         store.dispatch(updateActiveEmbed('zopimChat'));
-        store.dispatch(updateSettingsChatSuppress(false));
 
         return true;
       }

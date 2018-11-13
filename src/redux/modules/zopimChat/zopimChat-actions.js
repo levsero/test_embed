@@ -6,7 +6,9 @@ import {
   ZOPIM_CONNECTED,
   ZOPIM_ON_CLOSE,
   ZOPIM_IS_CHATTING,
-  ZOPIM_END_CHAT } from './zopimChat-action-types';
+  ZOPIM_END_CHAT,
+  ZOPIM_CHAT_GONE_OFFLINE,
+  ZOPIM_ON_OPEN } from './zopimChat-action-types';
 import { getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { updateActiveEmbed, executeApiOnCloseCallback } from 'src/redux/modules/base';
 
@@ -54,6 +56,26 @@ export function zopimIsChatting() {
 export function zopimEndChat() {
   return {
     type: ZOPIM_END_CHAT
+  };
+}
+
+export function zopimChatGoneOffline() {
+  return {
+    type: ZOPIM_CHAT_GONE_OFFLINE
+  };
+}
+
+export function zopimOpen()
+{
+  return {
+    type: ZOPIM_ON_OPEN
+  };
+}
+
+export function zopimClose()
+{
+  return {
+    type: ZOPIM_ON_CLOSE
   };
 }
 
