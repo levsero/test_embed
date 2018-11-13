@@ -16,7 +16,7 @@ const TEMPLATES_PATH = './dev/templates/web_widget';
 const NONCE = 'abc123';
 
 module.exports = function(config) {
-  const templates = fs.readdirSync(TEMPLATES_PATH);
+  const templates = fs.readdirSync(TEMPLATES_PATH).filter((file) => file.endsWith('.html'));
   const plugins = templates.map((template) => {
     return [
       new HtmlWebpackPlugin({
