@@ -108,8 +108,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     }
 
     if (config.track) {
-      tracker.send = true;
-      tracker.flush();
+      tracker.enable();
     }
 
     reduxStore.dispatch(updateEmbeddableConfig(res.body));
