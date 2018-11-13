@@ -6,9 +6,11 @@ const blacklist = [
   'webWidget.identify'
 ];
 
-const tracker = {};
+const tracker = {
+  queue: []
+};
 
-tracker.send = !__DEV__;
+tracker.send = false;
 
 tracker.getTrackableFunction = function(func, name, that) {
   return function() {
@@ -23,6 +25,8 @@ tracker.track = function(name, ...args) {
 
     if (methodArgs.length === 1) {
       methodArgs = methodArgs[0];
+    } else if (methodArgs.length === 0) {
+      methodArgs = null;
     }
 
     beacon.trackUserAction('api', name, null, { args: methodArgs });
@@ -34,9 +38,20 @@ tracker.addTo = function(object, prefix) {
     const attr = object[name];
 
     if (_.isFunction(attr)){
-      object[name] = tracker.getTrackableFunction(attr, `${prefix}.${name}`, object);
+      object[name] = this.getTrackableFunction(attr, `${prefix}.${name}`, object);
     }
   }
+};
+
+tracker.enqueue = function(name, ...args) {
+  this.queue.push({ name, args });
+};
+
+tracker.flush = function() {
+  _.forEach(this.queue, (item) => {
+    this.track(item.name, ...item.args);
+  });
+  this.queue = [];
 };
 
 export default tracker;

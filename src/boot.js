@@ -107,7 +107,10 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       http.updateConfig({ hostMapping: config.hostMapping });
     }
 
-    tracker.send = config.track;
+    if (config.track) {
+      tracker.send = true;
+      tracker.flush();
+    }
 
     reduxStore.dispatch(updateEmbeddableConfig(res.body));
 
