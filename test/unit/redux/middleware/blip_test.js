@@ -33,6 +33,9 @@ describe('blip middleware', () => {
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: (prevState) => prevState.isChatting
       },
+      'src/redux/modules/base/base-selectors': {
+        getWebWidgetVisible: (prevState) => prevState.webWidgetVisible
+      },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getTotalUserSearches: (prevState) => prevState.totalUserSearches,
         getSearchTerm: (prevState) => prevState.searchTerm,
@@ -125,6 +128,7 @@ describe('blip middleware', () => {
       let flatState,
         mockChatEmbed,
         mockIsChatting,
+        mockWebWidgetVisible,
         payload;
 
       beforeEach(() => {
@@ -135,7 +139,8 @@ describe('blip middleware', () => {
           averageWaitTime: 10,
           agentAvailability: true,
           chatEmbed: mockChatEmbed,
-          isChatting: mockIsChatting
+          isChatting: mockIsChatting,
+          webWidgetVisible: mockWebWidgetVisible
         };
 
         beaconSpy.trackUserAction.calls.reset();
@@ -153,7 +158,7 @@ describe('blip middleware', () => {
           mockIsChatting = true;
         });
 
-        it('should not send chatOpened blip', () => {
+        it('does not send chatOpened blip', () => {
           expect(beaconSpy.trackUserAction)
             .not
             .toHaveBeenCalled();
@@ -180,11 +185,24 @@ describe('blip middleware', () => {
         describe('payload is chat', () => {
           beforeAll(() => {
             payload = 'chat';
+            mockWebWidgetVisible = false;
           });
 
-          it('calls trackUserAction with the correct params', () => {
+          it('does not send chatOpened blip', () => {
             expect(beaconSpy.trackUserAction)
-              .toHaveBeenCalledWith('chat', 'opened', 'newChat');
+              .not
+              .toHaveBeenCalled();
+          });
+
+          describe('web widget is visible', () => {
+            beforeAll(() => {
+              mockWebWidgetVisible = true;
+            });
+
+            it('calls trackUserAction with the correct params', () => {
+              expect(beaconSpy.trackUserAction)
+                .toHaveBeenCalledWith('chat', 'opened', 'newChat');
+            });
           });
         });
       });
@@ -192,20 +210,33 @@ describe('blip middleware', () => {
       describe('payload is talk', () => {
         beforeAll(() => {
           payload = 'talk';
+          mockWebWidgetVisible = false;
         });
 
-        it('calls trackUserAction with the correct params', () => {
-          const expectedValue = {
-            supportedCountries: '1, 10, 9, 89',
-            nickname: 'Support',
-            phoneNumber: '+61430919721',
-            averageWaitTime: 10,
-            agentAvailability: true,
-            locale: 'US'
-          };
-
+        it('does not send talkOpened blip', () => {
           expect(beaconSpy.trackUserAction)
-            .toHaveBeenCalledWith('talk', 'opened', 'phoneNumber', expectedValue);
+            .not
+            .toHaveBeenCalled();
+        });
+
+        describe('web widget is visible', () => {
+          beforeAll(() => {
+            mockWebWidgetVisible = true;
+          });
+
+          it('calls trackUserAction with the correct params', () => {
+            const expectedValue = {
+              supportedCountries: '1, 10, 9, 89',
+              nickname: 'Support',
+              phoneNumber: '+61430919721',
+              averageWaitTime: 10,
+              agentAvailability: true,
+              locale: 'US'
+            };
+
+            expect(beaconSpy.trackUserAction)
+              .toHaveBeenCalledWith('talk', 'opened', 'phoneNumber', expectedValue);
+          });
         });
       });
     });
