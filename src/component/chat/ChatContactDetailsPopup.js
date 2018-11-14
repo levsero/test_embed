@@ -60,8 +60,10 @@ export class ChatContactDetailsPopup extends Component {
     );
 
     this.state = {
-      showNameError: nameValid(name),
-      showEmailError: emailValid(email, {
+      showNameError: !nameValid(name, {
+        allowEmpty: true
+      }),
+      showEmailError: !emailValid(email, {
         allowEmpty: true
       })
     };
@@ -85,7 +87,9 @@ export class ChatContactDetailsPopup extends Component {
 
   handleSave = () => {
     const { display_name: name, email } = this.props.contactDetails;
-    const isNameError = !nameValid(name);
+    const isNameError = !nameValid(name, {
+      allowEmpty: true
+    });
     const isEmailError = !emailValid(email, {
       allowEmpty: true
     });
@@ -122,13 +126,13 @@ export class ChatContactDetailsPopup extends Component {
     // We only want this to clear an existing error
     if (this.state.showNameError) {
       this.setState({
-        showNameError: !nameValid(name)
+        showNameError: !nameValid(name, { alloweEmpty: true })
       });
     }
 
     if (this.state.showEmailError) {
       this.setState({
-        showEmailError: !emailValid(newState.email, {allowEmpty: true})
+        showEmailError: !emailValid(newState.email, { allowEmpty: true })
       });
     }
 
