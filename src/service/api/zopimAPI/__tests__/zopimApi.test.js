@@ -1,4 +1,4 @@
-import { zopimApi } from '../zopimApi';
+import zopimApi from '..';
 
 jest.mock('src/service/api/apis');
 jest.mock('src/redux/modules/chat', () => ({

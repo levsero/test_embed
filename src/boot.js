@@ -5,8 +5,8 @@ import { identity } from 'service/identity';
 import { logging } from 'service/logging';
 import { store } from 'service/persistence';
 import { renderer } from 'service/renderer';
-import { webWidgetApi } from 'service/api/webWidgetApi';
-import { zopimApi } from 'service/api/zopimApi';
+import webWidgetApi from 'service/api/webWidgetApi';
+import zopimApi from 'service/api/zopimApi';
 import { settings } from 'service/settings';
 import { http } from 'service/transport';
 import { GA } from 'service/analytics/googleAnalytics';
@@ -116,7 +116,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     beacon.setConfig(config);
 
     if (config.ipmAllowed) {
-      webWidgetApi.setupIPMApi(win, reduxStore, config);
+      webWidgetApi.apiSetup(win, reduxStore, config);
     }
 
     // Only send 1/10 times
@@ -135,7 +135,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     }
 
     renderer.init(config, reduxStore);
-    webWidgetApi.handlePostRenderQueue(win, postRenderQueue, reduxStore);
+    webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore);
   };
   const fail = (error) => {
     if (error.status !== 404) {
@@ -161,7 +161,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 const start = (win, doc) => {
   const reduxStore = createStore();
   const postRenderQueue = [];
-  const { publicApi, devApi } = webWidgetApi.setupWidgetQueue(win, postRenderQueue, reduxStore);
+  const { publicApi, devApi } = webWidgetApi.legacyApiSetupQueue(win, postRenderQueue, reduxStore);
 
   i18n.init(reduxStore);
   boot.setupIframe(window.frameElement, doc);
@@ -170,12 +170,12 @@ const start = (win, doc) => {
 
   _.extend(win.zEmbed, publicApi, devApi);
 
-  webWidgetApi.handleQueue(reduxStore, document.zEQueue);
+  webWidgetApi.apisExecuteQueue(reduxStore, document.zEQueue);
 
   beacon.init();
   win.onunload = identity.unload;
 
-  webWidgetApi.setupWidgetApi(win, reduxStore);
+  webWidgetApi.legacyApiSetup(win, reduxStore);
 
   boot.getConfig(win, postRenderQueue, reduxStore, devApi);
 

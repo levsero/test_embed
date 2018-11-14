@@ -24,7 +24,7 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
-import { zopimApi } from 'service/api/zopimApi';
+import zopimApi from 'service/api/zopimApi';
 import { getChatMessagesByAgent,
   getConnection,
   getChatOnline,

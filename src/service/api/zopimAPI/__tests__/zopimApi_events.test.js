@@ -1,5 +1,5 @@
 import 'utility/i18n_test_helper';
-import { zopimApi } from '../zopimApi';
+import zopimApi from '..';
 
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';

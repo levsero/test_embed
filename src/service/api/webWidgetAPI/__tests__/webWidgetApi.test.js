@@ -1,4 +1,4 @@
-import { webWidgetApi as api  } from '../webWidgetApi';
+import api from '..';
 import * as apis from 'service/api/apis';
 import tracker from 'service/logging/tracker';
 import { apiResetWidget } from 'src/redux/modules/base';
@@ -18,12 +18,14 @@ const mockStore = {
   getState: jest.fn()
 };
 
-describe('handleQueue', () => {
+describe('apisExecuteQueue', () => {
   describe('when the queue method is a function', () => {
     const queueSpy = jest.fn();
 
     beforeEach(() => {
-      api.handleQueue(null, [ [ queueSpy ] ]);
+      api.apisExecuteQueue(null, [
+        [queueSpy]
+      ]);
     });
 
     it('calls the function in the queue', () => {
@@ -34,7 +36,9 @@ describe('handleQueue', () => {
 
   describe('when the queue method is a string', () => {
     beforeEach(() => {
-      api.handleQueue(mockStore, [ ['webWidget', 'hide'] ]);
+      api.apisExecuteQueue(mockStore, [
+        ['webWidget', 'hide']
+      ]);
     });
 
     it('handles the api call', () => {
@@ -49,12 +53,12 @@ describe('handleQueue', () => {
   });
 });
 
-describe('setupWidgetQueue', () => {
+describe('legacyApiSetupQueue', () => {
   describe('win.zEmbed', () => {
     let win = { zEmbed: {} };
 
     beforeEach(() => {
-      api.setupWidgetQueue(win, [], mockStore);
+      api.legacyApiSetupQueue(win, [], mockStore);
     });
 
     describe('when a function is passed into zEmbed', () => {
@@ -85,8 +89,8 @@ describe('setupWidgetQueue', () => {
 
 describe('pre render methods', () => {
   const enqueue = (call) => {
-    api.handleQueue(mockStore, [call]);
-    api.handlePostRenderQueue({}, [], mockStore);
+    api.apisExecuteQueue(mockStore, [call]);
+    api.apisExecutePostRenderQueue({}, [], mockStore);
   };
 
   describe('when that call is hide', () => {
@@ -349,7 +353,7 @@ describe('post render methods', () => {
   let win = { zEmbed: {} };
 
   const callAfterRender = (call) => {
-    api.setupWidgetQueue(win, [], mockStore);
+    api.legacyApiSetupQueue(win, [], mockStore);
     result = win.zEmbed(...call);
   };
 
@@ -658,7 +662,7 @@ describe('legacy apis', () => {
   };
 
   beforeEach(() => {
-    api.setupWidgetApi(win, mockStore);
+    api.legacyApiSetup(win, mockStore);
   });
 
   describe('zE.identify', () => {

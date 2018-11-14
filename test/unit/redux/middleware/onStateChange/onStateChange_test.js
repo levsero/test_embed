@@ -148,9 +148,7 @@ describe('onStateChange middleware', () => {
         }
       },
       'service/api/zopimApi': {
-        zopimApi: {
-          handleZopimQueue: handleZopimQueueSpy
-        }
+        handleZopimQueue: handleZopimQueueSpy
       },
       'src/redux/modules/chat/chat-screen-types': {
         CHATTING_SCREEN: 'chatting'
