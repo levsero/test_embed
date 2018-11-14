@@ -1,0 +1,13 @@
+@import "../../styles/_vars.scss";
+
+.container {
+  margin-bottom: #{15 / $font-size}rem;
+}
+
+.channelIcon {
+  padding-right: #{5 / $font-size}rem;
+
+  [dir="rtl"] & {
+    padding-left: #{5 / $font-size}rem;
+  }
+}

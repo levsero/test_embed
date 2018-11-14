@@ -32,6 +32,7 @@ import UserProfileStyles from 'component/chat/UserProfile.scss';
 import ChatOfflineStyles from 'component/chat/ChatOffline.scss';
 import ChatOperatingHoursStyles from 'component/chat/ChatOperatingHours.scss';
 import ChatOfflineMessageFormStyles from 'component/chat/ChatOfflineMessageForm.scss';
+import ChatMessagingChannelsStyles from 'component/chat/ChatMessagingChannels.scss';
 import ChatOnlineStyles from 'component/chat/ChatOnline.scss';
 import ChattingScreenStyles from 'component/chat/chatting/ChattingScreen.scss';
 import AgentScreenStyles from 'component/chat/agents/AgentScreen.scss';
@@ -96,6 +97,7 @@ export const webWidgetStyles = `
   ${ChatOfflineStyles}
   ${UserProfileStyles}
   ${ChatOperatingHoursStyles}
+  ${ChatMessagingChannelsStyles}
   ${ChatOnlineStyles}
   ${ChattingScreenStyles}
   ${AgentScreenStyles}
