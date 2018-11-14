@@ -53,6 +53,8 @@ const icons = {
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
   'Icon--facebook': require('icons/widget-icon_facebook.svg'),
   'Icon--google': require('icons/widget-icon_google-plus.svg'),
+  'Icon--messenger': require('icons/widget-icon_messenger.svg'),
+  'Icon--twitter': require('icons/widget-icon_twitter.svg'),
   'Icon--trash-fill': require('@zendeskgarden/svg-icons/src/16/trash-fill.svg'),
   'Icon--channelChoice-chat': require('icons/widget-icon_channelChoice-chat.svg'),
   'Icon--previous': require('@zendeskgarden/svg-icons/src/14/previous.svg'),

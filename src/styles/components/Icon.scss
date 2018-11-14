@@ -383,6 +383,36 @@
   }
 }
 
+.Icon--messenger {
+  svg {
+    min-width: #{24/$font-size}rem;
+    min-height: #{24/$font-size}rem;
+    max-width: #{24/$font-size}rem;
+    max-height: #{24/$font-size}rem;
+    height: #{24/$font-size}rem;
+    width: #{24/$font-size}rem;
+
+    path {
+      fill: $messenger-blue;
+    }
+  }
+}
+
+.Icon--twitter {
+  svg {
+    min-width: #{24/$font-size}rem;
+    min-height: #{24/$font-size}rem;
+    max-width: #{24/$font-size}rem;
+    max-height: #{24/$font-size}rem;
+    height: #{24/$font-size}rem;
+    width: #{24/$font-size}rem;
+
+    path {
+      fill: $twitter-blue;
+    }
+  }
+}
+
 .Icon--trash-fill {
   svg {
     min-width: #{15/$font-size}rem;
