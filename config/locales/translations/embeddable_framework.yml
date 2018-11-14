@@ -825,6 +825,11 @@ parts:
       title: "A text displayed in the chat log when file sending fails due to an unknown error"
       screenshot: "https://zendesk.box.com/s/lre4eykllgwi4cvu76r336xw8fdupcea"
       value: "Upload failed. Something went wrong. Please try again."
+  - translation:
+      key: "embeddable_framework.chat.messagingChannels.title"
+      title: "The title displayed for the messaging channels in Chat offline form. When end-user click on either the Messenger or Twitter icon, a new tab will open to the respective Facebook page/Twitter direct message where they can get support."
+      screenshot: "https://drive.google.com/open?id=1hA51T2BFOi8Tvw1ULwLlNaiZQpXJMRBP"
+      value: "Contact us here"
 
   # Submit Ticket component
   - translation:
