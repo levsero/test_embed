@@ -30,6 +30,7 @@ import {
   API_ON_CLOSE_NAME,
   API_ON_OPEN_NAME
 } from 'constants/api';
+import tracker from 'service/logging/tracker';
 
 import { i18n } from 'service/i18n';
 
@@ -285,7 +286,21 @@ function setUpZopimApiMethods(win, store) {
       setOnStatus: (callback) => onApis.chat[API_ON_CHAT_STATUS_NAME](store, callback),
       setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback)
     };
+
+    instrumentZopimApis(win);
   }
+}
+
+function instrumentZopimApis(win) {
+  tracker.addTo(win.$zopim.livechat.theme, '$zopim.livechat.theme');
+  tracker.addTo(win.$zopim.livechat.window, '$zopim.livechat.window');
+  tracker.addTo(win.$zopim.livechat.button, '$zopim.livechat.button');
+  tracker.addTo(win.$zopim.livechat.departments, '$zopim.livechat.departments');
+  tracker.addTo(win.$zopim.livechat.concierge, '$zopim.livechat.concierge');
+  tracker.addTo(win.$zopim.livechat.mobileNotifications, '$zopim.livechat.mobileNotifications');
+  tracker.addTo(win.$zopim.livechat.prechatForm, '$zopim.livechat.prechatForm');
+  tracker.addTo(win.$zopim.livechat.offlineForm, '$zopim.livechat.offlineForm');
+  tracker.addTo(win.$zopim.livechat, '$zopim.livechat');
 }
 
 export const zopimApi = {
