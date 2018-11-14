@@ -1,3 +1,4 @@
+import 'utility/i18n_test_helper';
 import { render, fireEvent } from 'react-testing-library';
 import React from 'react';
 

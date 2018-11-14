@@ -38,9 +38,14 @@ function pushError(err, customData) {
   }
 }
 
+function setInitialise(initialise) {
+  errorServiceInitialised = initialise;
+}
+
 module.exports = {
   logging: {
     init,
     error
-  }
+  },
+  setInitialise // for testing only
 };

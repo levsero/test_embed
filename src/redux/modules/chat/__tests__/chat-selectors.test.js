@@ -1,3 +1,5 @@
+import 'utility/i18n_test_helper';
+
 import _ from 'lodash';
 import * as selectors from '../chat-selectors';
 

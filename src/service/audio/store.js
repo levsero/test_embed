@@ -1,6 +1,6 @@
 import { getSupportedAudioType } from 'service/audio/util';
 
-const audioStore = {};
+let audioStore = {};
 
 export function loadSound(key, path) {
   if (audioStore[key]) {
@@ -30,3 +30,6 @@ export function getSound(key) {
   return audioStore[key];
 }
 
+export function clear() {
+  audioStore = {};
+}

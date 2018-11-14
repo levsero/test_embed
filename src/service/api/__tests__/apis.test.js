@@ -1,3 +1,5 @@
+import 'utility/i18n_test_helper';
+
 import * as apis from '../apis';
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
@@ -13,7 +15,6 @@ const mockStore = {
 };
 
 jest.mock('service/mediator');
-jest.mock('service/i18n');
 jest.mock('src/redux/modules/selectors');
 jest.mock('src/redux/modules/chat/chat-selectors');
 jest.mock('service/settings');
@@ -21,7 +22,6 @@ jest.mock('src/redux/modules/base/base-selectors');
 
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
-import { i18n } from 'service/i18n';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
   getIsChatting,
@@ -221,11 +221,6 @@ describe('setLocale', () => {
     baseActions.setLocale = setLocale;
 
     apis.setLocaleApi(mockStore, 'en');
-  });
-
-  it('updates i18n', () => {
-    expect(i18n.setLocale)
-      .toHaveBeenCalledWith('en');
   });
 
   it('calls mediator', () => {

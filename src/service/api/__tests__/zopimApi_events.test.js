@@ -1,3 +1,4 @@
+import 'utility/i18n_test_helper';
 import { zopimApi } from '../zopimApi';
 
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
