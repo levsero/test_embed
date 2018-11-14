@@ -215,7 +215,7 @@ If you have access to your end user's name and email, use this command to pass t
 
 If the user's email doesn't already exist in your Zendesk Support account, a new user record with the details is created.
 
-The Widget also uses the information to pre-populate the contact or pre-chat chat form.
+*Note*: Identify will not pre-populate the user's details in forms inside the Web Widget. To do that, please use [prefill](#prefill).
 
 ##### Parameters
 
