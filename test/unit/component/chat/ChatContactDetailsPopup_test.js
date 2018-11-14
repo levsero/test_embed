@@ -2,6 +2,7 @@ describe('ChatContactDetailsPopup component', () => {
   let ChatContactDetailsPopup,
     mockForm,
     mockFormValidity,
+    mockNameValid,
     mockEmailValid,
     mockShouldRenderErrorMessage,
     mockIsDefaultNickname,
@@ -50,6 +51,7 @@ describe('ChatContactDetailsPopup component', () => {
       },
       'constants/shared': {
         ICONS,
+        NAME_PATTERN: /.+/,
         EMAIL_PATTERN: /.+/
       },
       'constants/chat': {
@@ -72,6 +74,7 @@ describe('ChatContactDetailsPopup component', () => {
         }
       },
       'src/util/utils': {
+        nameValid: () => mockNameValid,
         emailValid: () => mockEmailValid
       },
       'src/util/fields': {
@@ -130,14 +133,33 @@ describe('ChatContactDetailsPopup component', () => {
       component.handleSave();
     });
 
-    describe('when form is invalid', () => {
+    describe('when name in form is invalid', () => {
       beforeAll(() => {
+        mockNameValid = false;
+        mockEmailValid = true;
+      });
+
+      it('shows error', () => {
+        expect(component.setState)
+          .toHaveBeenCalledWith({
+            showNameError: true,
+            showEmailError: false
+          });
+      });
+    });
+
+    describe('when email in form is invalid', () => {
+      beforeAll(() => {
+        mockNameValid = true;
         mockEmailValid = false;
       });
 
       it('shows error', () => {
         expect(component.setState)
-          .toHaveBeenCalledWith({ showEmailError: true });
+          .toHaveBeenCalledWith({
+            showNameError: false,
+            showEmailError: true
+          });
       });
     });
 

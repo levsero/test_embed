@@ -6,6 +6,7 @@ describe('utils', () => {
     objectDifference,
     cssTimeToMs,
     base64encode,
+    nameValid,
     emailValid,
     referrerPolicyUrl,
     getEnvironment,
@@ -25,6 +26,7 @@ describe('utils', () => {
   const constantsPath = buildSrcPath('constants/shared');
 
   let sharedConstants = requireUncached(constantsPath);
+  let NAME_PATTERN = sharedConstants.NAME_PATTERN;
   let EMAIL_PATTERN = sharedConstants.EMAIL_PATTERN;
   let PHONE_PATTERN = sharedConstants.PHONE_PATTERN;
 
@@ -45,7 +47,7 @@ describe('utils', () => {
       },
       'lodash': _,
       'constants/shared': {
-        EMAIL_PATTERN, PHONE_PATTERN
+        NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN
       }
     });
 
@@ -56,6 +58,7 @@ describe('utils', () => {
     cssTimeToMs = require(utilPath).cssTimeToMs;
     nowInSeconds = require(utilPath).nowInSeconds;
     base64encode = require(utilPath).base64encode;
+    nameValid = require(utilPath).nameValid;
     emailValid = require(utilPath).emailValid;
     referrerPolicyUrl = require(utilPath).referrerPolicyUrl;
     getEnvironment = require(utilPath).getEnvironment;
@@ -382,6 +385,40 @@ describe('utils', () => {
     describe('when allowEmpty is true', () => {
       it('returns true for an empty string', () => {
         expect(emailValid('', { allowEmpty: true }))
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('nameValid()', () => {
+    const validNames = [
+      'a'.repeat(255),
+      'b',
+      'xyz'
+    ];
+    const invalidNames = [
+      'a'.repeat(256),
+      '',
+      123,
+      undefined,
+      null,
+      {},
+      []
+    ];
+
+    _.forEach(validNames, (name) => it(`should return true for ${name}`, () => {
+      expect(nameValid(name))
+        .toEqual(true);
+    }));
+
+    _.forEach(invalidNames, (name) => it(`should return false for ${name}`, () => {
+      expect(nameValid(name))
+        .toEqual(false);
+    }));
+
+    describe('when allowEmpty is true', () => {
+      it('returns true for an empty string', () => {
+        expect(nameValid('', { allowEmpty: true }))
           .toEqual(true);
       });
     });

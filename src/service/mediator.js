@@ -1,7 +1,6 @@
 import airwaves from 'airwaves';
-import _ from 'lodash';
 
-import { emailValid } from 'utility/utils';
+import { nameValid, emailValid } from 'utility/utils';
 import { proactiveMessageRecieved } from 'src/redux/modules/chat';
 import { zopimProactiveMessageRecieved } from 'src/redux/modules/zopimChat';
 import { isMobileBrowser } from 'utility/devices';
@@ -97,7 +96,7 @@ function init() {
 function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
     const isEmailValid = emailValid(params.email),
-      isNameValid = _.isString(params.name);
+      isNameValid = nameValid(params.name);
 
     if (isEmailValid && isNameValid) {
       c.broadcast('beacon.identify', params);

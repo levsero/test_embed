@@ -6,6 +6,7 @@ let actions,
   actionTypes,
   chatNotificationDismissedSpy,
   chatOpenedSpy,
+  mockNameValidValue,
   mockEmailValidValue,
   mockStore,
   mockAuthSettings,
@@ -31,6 +32,7 @@ describe('base redux actions', () => {
   beforeEach(() => {
     mockery.enable();
 
+    mockNameValidValue = true;
     mockEmailValidValue = true;
 
     chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed')
@@ -52,6 +54,7 @@ describe('base redux actions', () => {
         isTokenRenewable: mockIsTokenRenewable
       },
       'src/util/utils': {
+        nameValid: () => mockNameValidValue,
         emailValid: () => mockEmailValidValue
       },
       'service/settings': {
@@ -533,7 +536,8 @@ describe('base redux actions', () => {
     describe('when the email is not valid', () => {
       beforeEach(() => {
         payload = {
-          email: { value: 'hpotter@hogwarts' }
+          email: { value: 'hpotter@hogwarts' },
+          name: { value: 'Harry Potter' }
         };
 
         mockEmailValidValue = false;
@@ -546,16 +550,17 @@ describe('base redux actions', () => {
           .toBeFalsy();
       });
 
-      it('does not pass through the name in payload', () => {
+      it('still passes through the name in payload', () => {
         expect(action.payload.prefillValues.name)
-          .toBeFalsy();
+          .toBe('Harry Potter');
       });
     });
 
     describe('when the phone is not valid', () => {
       beforeEach(() => {
         payload = {
-          phone: { value: 'number' }
+          phone: { value: 'number' },
+          name: { value: 'Harry Potter' }
         };
 
         mockStore.dispatch(actions.handlePrefillReceived(payload));
@@ -567,9 +572,32 @@ describe('base redux actions', () => {
           .toBeFalsy();
       });
 
+      it('still passes through the name in payload', () => {
+        expect(action.payload.prefillValues.name)
+          .toBe('Harry Potter');
+      });
+    });
+
+    describe('when the name is not valid', () => {
+      beforeEach(() => {
+        payload = {
+          name: { value: 1 },
+          phone: { value: '12345678' }
+        };
+
+        mockNameValidValue = false;
+        mockStore.dispatch(actions.handlePrefillReceived(payload));
+        action = mockStore.getActions()[0];
+      });
+
       it('does not pass through the name in payload', () => {
         expect(action.payload.prefillValues.name)
           .toBeFalsy();
+      });
+
+      it('still passes through the phone in payload', () => {
+        expect(action.payload.prefillValues.phone)
+          .toEqual('12345678');
       });
     });
   });

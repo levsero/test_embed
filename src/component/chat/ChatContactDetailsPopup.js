@@ -5,12 +5,12 @@ import { TextField, Label, Input, Message } from '@zendeskgarden/react-textfield
 import { keyCodes } from 'utility/keyboard';
 import { document as doc } from 'utility/globals';
 import { i18n } from 'service/i18n';
-import { emailValid } from 'src/util/utils';
+import { nameValid, emailValid } from 'src/util/utils';
 import { isDefaultNickname } from 'src/util/chat';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { Icon } from 'component/Icon';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { ICONS, EMAIL_PATTERN } from 'constants/shared';
+import { ICONS, NAME_PATTERN, EMAIL_PATTERN } from 'constants/shared';
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
@@ -60,7 +60,10 @@ export class ChatContactDetailsPopup extends Component {
     );
 
     this.state = {
-      showEmailError: emailValid(email, {
+      showNameError: !nameValid(name, {
+        allowEmpty: true
+      }),
+      showEmailError: !emailValid(email, {
         allowEmpty: true
       })
     };
@@ -84,13 +87,17 @@ export class ChatContactDetailsPopup extends Component {
 
   handleSave = () => {
     const { display_name: name, email } = this.props.contactDetails;
+    const isNameError = !nameValid(name, {
+      allowEmpty: true
+    });
     const isEmailError = !emailValid(email, {
       allowEmpty: true
     });
 
-    if (isEmailError) {
+    if (isNameError || isEmailError) {
       this.setState({
-        showEmailError: true
+        showNameError: isNameError,
+        showEmailError: isEmailError
       });
       return;
     }
@@ -117,9 +124,15 @@ export class ChatContactDetailsPopup extends Component {
     };
 
     // We only want this to clear an existing error
+    if (this.state.showNameError) {
+      this.setState({
+        showNameError: !nameValid(name, { alloweEmpty: true })
+      });
+    }
+
     if (this.state.showEmailError) {
       this.setState({
-        showEmailError: !emailValid(newState.email, {allowEmpty: true})
+        showEmailError: !emailValid(newState.email, { allowEmpty: true })
       });
     }
 
@@ -145,6 +158,11 @@ export class ChatContactDetailsPopup extends Component {
   renderNameField = () => {
     const value = (_.isNil(this.props.contactDetails.display_name))
       ? '' : this.props.contactDetails.display_name;
+    const error = this.renderErrorMessage(value,
+      false,
+      this.state.showNameError,
+      'embeddable_framework.validation.error.name',
+      NAME_PATTERN);
 
     return (
       <TextField>
@@ -154,7 +172,10 @@ export class ChatContactDetailsPopup extends Component {
           name='display_name'
           autoComplete='off'
           onKeyPress={this.handleKeyPress}
+          validation={error ? 'error' : 'none'}
+          pattern={NAME_PATTERN.source}
           disabled={this.props.isAuthenticated} />
+        {error}
       </TextField>
     );
   }

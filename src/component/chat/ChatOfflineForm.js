@@ -13,7 +13,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 import { UserProfile } from 'component/chat/UserProfile';
 import { SuccessNotification } from 'component/shared/SuccessNotification';
-import { ICONS, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
+import { ICONS, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 import { locals as styles } from './ChatOfflineForm.scss';
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 
@@ -100,7 +100,8 @@ export class ChatOfflineForm extends Component {
       [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0,
       [styles.textField]: _.size(authUrls) === 0
     });
-    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.name');
+    const error = this.renderErrorMessage(value, isRequired,
+      'embeddable_framework.validation.error.name', NAME_PATTERN);
 
     return (
       <TextField className={fieldContainerStyle}>
@@ -117,6 +118,7 @@ export class ChatOfflineForm extends Component {
           onChange={() => {}}
           name='name'
           validation={error ? 'error' : 'none'}
+          pattern={NAME_PATTERN.source}
           readOnly={readOnlyState.name} />
         {error}
       </TextField>
@@ -175,6 +177,7 @@ export class ChatOfflineForm extends Component {
           type='tel'
           name='phone'
           readOnly={this.props.readOnlyState.phone}
+          pattern={PHONE_PATTERN.source}
           validation={error ? 'error' : 'none'} />
         {error}
       </TextField>

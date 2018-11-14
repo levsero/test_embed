@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import * as actions from './base-action-types';
 import { settings } from 'service/settings';
 import { getOAuth,
@@ -8,7 +7,7 @@ import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCen
 import { contextualSearch } from 'src/redux/modules/helpCenter';
 import { extractTokenId,
   isTokenRenewable } from 'src/redux/modules/base/helpers/auth';
-import { emailValid } from 'src/util/utils';
+import { nameValid, emailValid } from 'src/util/utils';
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { http } from 'service/transport';
@@ -194,7 +193,7 @@ export const handlePrefillReceived = (payload) => {
     isReadOnly.phone = phone.readOnly;
   }
 
-  if (_.isString(name.value)) {
+  if (nameValid(name.value)) {
     prefillValues.name = name.value;
   }
 

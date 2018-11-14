@@ -19,7 +19,7 @@ import { i18n } from 'service/i18n';
 
 import { locals as styles } from './PrechatForm.scss';
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
-import { FONT_SIZE, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
+import { FONT_SIZE, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -175,7 +175,8 @@ export class PrechatForm extends Component {
       [styles.textField]: _.size(authUrls) === 0
     });
 
-    const error = this.renderErrorMessage(Message, value, required, 'embeddable_framework.validation.error.name');
+    const error = this.renderErrorMessage(Message, value, required,
+      'embeddable_framework.validation.error.name', NAME_PATTERN);
 
     return (
       <TextField className={fieldContainerStyle}>
@@ -192,6 +193,7 @@ export class PrechatForm extends Component {
           value={value}
           onChange={() => {}}
           name={nameData.name}
+          pattern={NAME_PATTERN.source}
           validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
@@ -255,6 +257,7 @@ export class PrechatForm extends Component {
           onChange={() => {}}
           type='tel'
           name={phoneData.name}
+          pattern={PHONE_PATTERN.source}
           validation={error ? 'error' : 'none'} />
         {error}
       </TextField>
