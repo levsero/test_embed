@@ -419,10 +419,6 @@ describe('ChattingScreen component', () => {
       });
 
       describe('when scroll is at bottom', () => {
-        beforeAll(() => {
-          mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(true);
-        });
-
         it('calls markAsRead', () => {
           expect(markAsReadSpy)
             .toHaveBeenCalled();
