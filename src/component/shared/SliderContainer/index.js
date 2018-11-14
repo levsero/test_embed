@@ -262,8 +262,9 @@ export class SliderContainer extends Component {
       variableWidth: this.props.variableWidth,
       slidesToScroll: this.props.slidesToScroll,
       slidesToShow: this.props.slidesToShow,
+      draggable: false,
       nextArrow: <NextArrow />,
-      prevArrow: <PrevArrow />,
+      prevArrow: <PrevArrow />
     };
 
     return (
