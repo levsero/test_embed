@@ -35,6 +35,7 @@ import {
   getAllDepartmentsApi
 } from 'src/service/api/apis';
 import { getLauncherVisible } from 'src/redux/modules/base/base-selectors';
+import tracker from 'service/logging/tracker';
 
 const newAPIPostRenderQueue = [];
 
@@ -147,6 +148,8 @@ const handleNewApi = (apiStructure, reduxStore, args) => {
   const apiMethodParams = params.slice(2);
   const apiFunction = getApiFunction(methodAccessorParams);
 
+  tracker.track(`${methodAccessorParams[0]}.${methodAccessorParams[1]}`, ...apiMethodParams);
+
   return apiFunction(reduxStore, ...apiMethodParams);
 };
 
@@ -211,9 +214,11 @@ function setupWidgetQueue(win, postRenderQueue, reduxStore) {
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,
     setLocale: (locale) => {
+      tracker.track('zE.setLocale', locale);
       setLocaleApi(reduxStore, locale);
     },
     hide: () => {
+      tracker.track('zE.hide');
       hideApi(reduxStore);
     },
     show: postRenderQueueCallback.bind('show'),
@@ -304,6 +309,7 @@ function setupWidgetApi(win, reduxStore) {
   win.zE.hide = () => hideApi(reduxStore);
   win.zE.show = () => { reduxStore.dispatch(legacyShowReceived()); };
   win.zE.setLocale = (locale) => setLocaleApi(reduxStore, locale);
+  tracker.addTo(win.zE, 'zE');
 }
 
 export const webWidgetApi = {

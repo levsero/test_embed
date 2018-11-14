@@ -19,6 +19,7 @@ import { updateEmbeddableConfig } from 'src/redux/modules/base';
 import { initResizeMonitor } from 'utility/window';
 import { i18n } from 'service/i18n';
 import createStore from 'src/redux/createStore';
+import tracker from 'service/logging/tracker';
 
 const setReferrerMetas = (iframe, doc) => {
   const metaElements = getMetaTagsByName(doc, 'referrer');
@@ -104,6 +105,10 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     if (config.hostMapping) {
       http.updateConfig({ hostMapping: config.hostMapping });
+    }
+
+    if (config.track) {
+      tracker.enable();
     }
 
     reduxStore.dispatch(updateEmbeddableConfig(res.body));
