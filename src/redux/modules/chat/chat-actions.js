@@ -5,6 +5,8 @@ import {
   getShowRatingScreen,
   getIsChatting as getIsChattingState,
   getChatOnline,
+  getChatMessagesByAgent,
+  getLastAgentMessageSeenTimestamp,
   getActiveAgents,
   getIsAuthenticated,
   getIsLoggingOut,
@@ -334,6 +336,10 @@ export function proactiveChatNotificationDismissed() {
 
 export function chatNotificationRespond() {
   return { type: actions.CHAT_NOTIFICATION_RESPONDED };
+}
+
+export function chatNotificationReset() {
+  return { type: actions.CHAT_NOTIFICATION_RESET };
 }
 
 export function sendAttachments(fileList) {
@@ -669,5 +675,23 @@ export function setStatusForcefully(status) {
   return {
     type: actions.API_FORCE_STATUS_CALLED,
     payload: status
+  };
+}
+
+export function markAsRead() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const zChat = getZChatVendor(state);
+
+    zChat.markAsRead();
+
+    dispatch(chatNotificationReset());
+
+    const timestamp = _.get(_.last(getChatMessagesByAgent(state)), 'timestamp');
+    const previousTimestamp = getLastAgentMessageSeenTimestamp(state);
+
+    if (timestamp && timestamp > previousTimestamp) {
+      dispatch(updateLastAgentMessageSeenTimestamp(timestamp));
+    }
   };
 }

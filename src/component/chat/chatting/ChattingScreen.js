@@ -24,6 +24,7 @@ import {
   sendChatRating,
   updateChatScreen,
   resetCurrentMessage,
+  markAsRead,
   fetchConversationHistory } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
@@ -63,7 +64,9 @@ const mapStateToProps = (state) => {
     socialLogin: selectors.getSocialLogin(state),
     conciergeSettings: selectors.getConciergeSettings(state),
     title: selectors.getChatTitle(state),
-    profileConfig: selectors.getProfileConfig(state)
+    profileConfig: selectors.getProfileConfig(state),
+    notificationCount: selectors.getNotificationCount(state),
+    visible: selectors.isInChattingScreen(state)
   };
 };
 
@@ -109,7 +112,10 @@ class ChattingScreen extends Component {
     conciergeSettings: PropTypes.object.isRequired,
     showContactDetails: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    profileConfig: PropTypes.object.isRequired
+    profileConfig: PropTypes.object.isRequired,
+    notificationCount: PropTypes.number,
+    markAsRead: PropTypes.func,
+    visible: PropTypes.bool
   };
 
   static defaultProps = {
@@ -138,15 +144,14 @@ class ChattingScreen extends Component {
     socialLogin: {},
     conciergeSettings: {},
     showContactDetails: () => {},
-    profileConfig: {}
+    profileConfig: {},
+    notificationCount: 0,
+    markAsRead: () => {},
+    visible: false
   };
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      notificationCount: 0
-    };
 
     this.chatHistoryLog = null;
 
@@ -204,10 +209,11 @@ class ChattingScreen extends Component {
     const lastUserMessage = _.get(_.last(this.props.chats), 'nick');
     const scrollCloseToBottom = this.isScrollCloseToBottom();
 
-    if (newMessage && isAgent(lastUserMessage)) {
-      (scrollCloseToBottom)
-        ? this.setState({ notificationCount: 0 })
-        : this.setState({ notificationCount: this.state.notificationCount + 1 });
+    if (
+      this.props.visible && scrollCloseToBottom &&
+      (newMessage && isAgent(lastUserMessage) || !prevProps.visible)
+    ) {
+      this.props.markAsRead();
     }
 
     if ((newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor')) ||
@@ -241,8 +247,8 @@ class ChattingScreen extends Component {
       this.props.fetchConversationHistory();
     }
 
-    if (this.isScrollCloseToBottom()) {
-      this.setState({ notificationCount: 0 });
+    if (this.props.visible && this.isScrollCloseToBottom()) {
+      this.props.markAsRead();
     }
   }
 
@@ -392,13 +398,14 @@ class ChattingScreen extends Component {
   }
 
   renderScrollPill = () => {
-    if (this.state.notificationCount === 0) return null;
+    if (this.props.notificationCount === 0) return null;
+    if (this.isScrollCloseToBottom()) return null;
 
-    const { notificationCount } = this.state;
+    const { notificationCount } = this.props;
     const containerStyles = (this.props.isMobile) ? styles.scrollBottomPillMobile : styles.scrollBottomPill;
     const goToBottomFn = () => {
       this.scrollToBottom();
-      this.setState({ notificationCount: 0 });
+      this.props.markAsRead();
     };
 
     const pillLabel = (notificationCount > 1)
@@ -522,7 +529,8 @@ const actionCreators = {
   resetCurrentMessage,
   handleChatBoxChange,
   sendAttachments,
-  sendChatRating
+  sendChatRating,
+  markAsRead
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChattingScreen);

@@ -11,7 +11,11 @@ import {
 import { CHATTING_SCREEN } from './chat-screen-types';
 
 import { i18n } from 'service/i18n';
-import { getActiveEmbed, getLocale } from 'src/redux/modules/base/base-selectors';
+import {
+  getActiveEmbed,
+  getLocale,
+  getWidgetShown
+} from 'src/redux/modules/base/base-selectors';
 import {
   getSettingsChatDepartmentsEnabled,
   getSettingsChatDepartment,
@@ -575,3 +579,13 @@ export const getDepartment = (state, department) => {
     }
   });
 };
+
+export const isInChattingScreen = createSelector(
+  [getChatScreen, getActiveEmbed, getWidgetShown],
+  (screen, embed, widgetShown) => widgetShown && screen === CHATTING_SCREEN && embed === 'chat'
+);
+
+export const hasUnseenAgentMessage = createSelector(
+  [getChatMessagesByAgent, getLastAgentMessageSeenTimestamp],
+  (messages, timestamp) => !timestamp || !!_.find(messages, message => message.timestamp > timestamp)
+);
