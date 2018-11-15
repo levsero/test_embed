@@ -326,6 +326,11 @@ parts:
       title: "This is the text that shows the 'Show translated' link when a chat message has not been translated."
       screenshot: "https://drive.google.com/file/d/1pzyWmoeJ2J7-W4Ygqv3ich2_gw9o_LR7/view?usp=sharing"
       value: "Show translated"
+  - translation:
+      key: "embeddable_framework.chat.badge.label"
+      title: "The default text shown on the chat badge launcher component. It invites the user to start a chat session"
+      screenshot: "https://drive.google.com/file/d/1HnSe494tl5Y_zkQtTxady_m0toCdUqZo/view?usp=sharing"
+      value: "Chat with us"
 
   # Chat Web SDK
   - translation:
