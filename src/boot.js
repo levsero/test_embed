@@ -161,7 +161,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 const start = (win, doc) => {
   const reduxStore = createStore();
   const postRenderQueue = [];
-  const { publicApi, devApi } = webWidgetApi.legacyApiSetupQueue(win, postRenderQueue, reduxStore);
+  const { publicApi, devApi } = webWidgetApi.setupLegacyApiQueue(win, postRenderQueue, reduxStore);
 
   i18n.init(reduxStore);
   boot.setupIframe(window.frameElement, doc);

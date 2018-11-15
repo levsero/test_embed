@@ -1,19 +1,18 @@
-
 import {
   apisExecuteQueue,
   apisExecutePostRenderQueue,
-  legacyApiSetupQueue
+  setupLegacyApiQueue
 } from './queues';
 import {
   legacyApiSetup,
   apiSetup
-} from './setup';
+} from './setupLegacyApi';
 
 const webWidgetApi = {
   apisExecuteQueue,
   apisExecutePostRenderQueue,
   legacyApiSetup,
-  legacyApiSetupQueue,
+  setupLegacyApiQueue,
   apiSetup
 };
 

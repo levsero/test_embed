@@ -53,12 +53,12 @@ describe('apisExecuteQueue', () => {
   });
 });
 
-describe('legacyApiSetupQueue', () => {
+describe('setupLegacyApiQueue', () => {
   describe('win.zEmbed', () => {
     let win = { zEmbed: {} };
 
     beforeEach(() => {
-      api.legacyApiSetupQueue(win, [], mockStore);
+      api.setupLegacyApiQueue(win, [], mockStore);
     });
 
     describe('when a function is passed into zEmbed', () => {
@@ -353,7 +353,7 @@ describe('post render methods', () => {
   let win = { zEmbed: {} };
 
   const callAfterRender = (call) => {
-    api.legacyApiSetupQueue(win, [], mockStore);
+    api.setupLegacyApiQueue(win, [], mockStore);
     result = win.zEmbed(...call);
   };
 

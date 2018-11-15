@@ -6,15 +6,16 @@ import {
 } from 'constants/api';
 import {
   setLocaleApi,
-  hideApi,
 } from 'src/service/api/apis';
 import { renderer } from 'service/renderer';
 import { apiExecute,
-  apiSetup,
   apiStructurePostRenderSetup,
-  apiStructurePreRenderSetup
-} from './helpers';
-import tracker from 'service/logging/tracker';
+  apiStructurePreRenderSetup,
+} from './setupApi';
+import {
+  setupPublicApi,
+  setupDevApi
+} from './setupLegacyApi';
 import _ from 'lodash';
 
 const newAPIPostRenderQueue = [];
@@ -46,7 +47,7 @@ export function apisExecutePostRenderQueue(win, postRenderQueue, reduxStore) {
   renderer.postRenderCallbacks();
 }
 
-export function legacyApiSetupQueue(win, postRenderQueue, reduxStore) {
+export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
   let devApi;
   const postRenderCallback = (...args) => {
     if (_.isFunction(args[0])) {
@@ -74,40 +75,6 @@ export function legacyApiSetupQueue(win, postRenderQueue, reduxStore) {
   return {
     publicApi,
     devApi
-  };
-}
-
-function setupDevApi(win, reduxStore) {
-  return {
-    devRender: (config) => {
-      if (config.ipmAllowed) {
-        apiSetup(win, reduxStore, config);
-      }
-      renderer.init(config, reduxStore);
-    }
-  };
-}
-
-function setupPublicApi(postRenderQueueCallback, reduxStore) {
-  return {
-    version: __EMBEDDABLE_VERSION__,
-    setLocale: (locale) => {
-      tracker.track('zE.setLocale', locale);
-      setLocaleApi(reduxStore, locale);
-    },
-    hide: () => {
-      tracker.track('zE.hide');
-      hideApi(reduxStore);
-    },
-    show: postRenderQueueCallback.bind('show'),
-    setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
-    identify: postRenderQueueCallback.bind('identify'),
-    logout: postRenderQueueCallback.bind('logout'),
-    activate: postRenderQueueCallback.bind('activate'),
-    configureIPMWidget: postRenderQueueCallback.bind('configureIPMWidget'),
-    showIPMArticle: postRenderQueueCallback.bind('showIPMArticle'),
-    hideIPMWidget: postRenderQueueCallback.bind('hideIPMWidget'),
-    activateIpm: () => {} // no-op until rest of connect code is removed
   };
 }
 

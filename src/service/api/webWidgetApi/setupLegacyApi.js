@@ -65,3 +65,37 @@ export function legacyApiSetup(win, reduxStore) {
   win.zE.setLocale = (locale) => setLocaleApi(reduxStore, locale);
   tracker.addTo(win.zE, 'zE');
 }
+
+export function setupDevApi(win, reduxStore) {
+  return {
+    devRender: (config) => {
+      if (config.ipmAllowed) {
+        apiSetup(win, reduxStore, config);
+      }
+      renderer.init(config, reduxStore);
+    }
+  };
+}
+
+export function setupPublicApi(postRenderQueueCallback, reduxStore) {
+  return {
+    version: __EMBEDDABLE_VERSION__,
+    setLocale: (locale) => {
+      tracker.track('zE.setLocale', locale);
+      setLocaleApi(reduxStore, locale);
+    },
+    hide: () => {
+      tracker.track('zE.hide');
+      hideApi(reduxStore);
+    },
+    show: postRenderQueueCallback.bind('show'),
+    setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
+    identify: postRenderQueueCallback.bind('identify'),
+    logout: postRenderQueueCallback.bind('logout'),
+    activate: postRenderQueueCallback.bind('activate'),
+    configureIPMWidget: postRenderQueueCallback.bind('configureIPMWidget'),
+    showIPMArticle: postRenderQueueCallback.bind('showIPMArticle'),
+    hideIPMWidget: postRenderQueueCallback.bind('hideIPMWidget'),
+    activateIpm: () => {} // no-op until rest of connect code is removed
+  };
+}
