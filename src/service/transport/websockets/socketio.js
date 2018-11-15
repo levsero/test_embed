@@ -5,11 +5,18 @@ import { parseUrl } from 'utility/utils';
 
 const TALK_SERVICE_PATH = '/talk_embeddables_service/socket.io';
 
+function buildQuery(subdomain, nickname) {
+  const encSubdomain = encodeURIComponent(subdomain);
+  const encNickname = encodeURIComponent(nickname);
+
+  return `subdomain=${encSubdomain}&keyword=${encNickname}`;
+}
+
 function connect(io, serviceUrl, nickname) {
   const subdomain = parseUrl(serviceUrl).hostname.split('.')[0];
 
   return io(serviceUrl, {
-    query: `subdomain=${subdomain}&keyword=${nickname}`,
+    query: buildQuery(subdomain, nickname),
     path: TALK_SERVICE_PATH,
     reconnectionAttempts: 6,
     transports: ['websocket']
