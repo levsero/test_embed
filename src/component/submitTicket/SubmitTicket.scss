@@ -42,6 +42,7 @@
 
 .ticketFormsFooter {
   height: #{36/$font-size}rem;
+  min-height: #{36/$font-size}rem;
 }
 
 .ticketFormsFooterMobile {
