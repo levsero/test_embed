@@ -280,10 +280,8 @@ class Frame extends Component {
 
   applyMobileBodyStyle = () => {
     const frameDoc = this.getContentDocument();
-    const fullscreenWidth = `${win.innerWidth}px`;
-
     const fullscreenStyles = [
-      `width: ${fullscreenWidth}`,
+      'width: 100%',
       'height: 100%',
       'overflow-x: hidden'
     ].join(';');
