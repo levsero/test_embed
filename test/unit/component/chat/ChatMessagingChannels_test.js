@@ -10,7 +10,8 @@ describe('ChatMessagingChannels component', () => {
       './ChatMessagingChannels.scss': {
         locals: {
           container: 'containerClass',
-          channelIcon: 'channelIconClass'
+          channelIcon: 'channelIconClass',
+          channelIconMobile: 'channelIconMobileClass'
         }
       },
       'component/Icon': { Icon },
@@ -121,10 +122,14 @@ describe('ChatMessagingChannels component', () => {
   });
 
   describe('renderChannelIcon', () => {
-    let component, result, mockType, mockPageId;
+    let component,
+      result,
+      mockType,
+      mockPageId,
+      mockIsMobile = false;
 
     beforeEach(() => {
-      component = instanceRender(<ChatMessagingChannels />);
+      component = instanceRender(<ChatMessagingChannels isMobile={mockIsMobile} />);
       result = component.renderChannelIcon(mockType, mockPageId);
     });
 
@@ -155,6 +160,30 @@ describe('ChatMessagingChannels component', () => {
 
       it('renders with the correct icon type', () => {
         expect(result.props.children.props.type).toEqual('Icon--twitter');
+      });
+    });
+
+    describe('when isMobile is false', () => {
+      it('renders with the correct style', () => {
+        expect(result.props.className).toContain('channelIconClass');
+      });
+
+      it('passes isMobile prop correctly to Icon', () => {
+        expect(result.props.children.props.isMobile).toEqual(false);
+      });
+    });
+
+    describe('when isMobile is true', () => {
+      beforeAll(() => {
+        mockIsMobile = true;
+      });
+
+      it('renders with the correct style', () => {
+        expect(result.props.className).toContain('channelIconMobileClass');
+      });
+
+      it('passes isMobile prop correctly to Icon', () => {
+        expect(result.props.children.props.isMobile).toEqual(true);
       });
     });
   });

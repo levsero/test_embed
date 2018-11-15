@@ -288,7 +288,9 @@ export class ChatOfflineForm extends Component {
 
   renderMessagingChannels() {
     return (
-      <ChatMessagingChannels channels={this.props.channels} />
+      <ChatMessagingChannels
+        isMobile={this.props.isMobile}
+        channels={this.props.channels} />
     );
   }
 

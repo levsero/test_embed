@@ -396,6 +396,15 @@
       fill: $messenger-blue;
     }
   }
+
+  &.is-mobile svg {
+    min-width: #{40/$font-size}rem;
+    min-height: #{40/$font-size}rem;
+    max-width: #{40/$font-size}rem;
+    max-height: #{40/$font-size}rem;
+    height: #{40/$font-size}rem;
+    width: #{40/$font-size}rem;
+  }
 }
 
 .Icon--twitter {
@@ -410,6 +419,15 @@
     path {
       fill: $twitter-blue;
     }
+  }
+
+  &.is-mobile svg {
+    min-width: #{40/$font-size}rem;
+    min-height: #{40/$font-size}rem;
+    max-width: #{40/$font-size}rem;
+    max-height: #{40/$font-size}rem;
+    height: #{40/$font-size}rem;
+    width: #{40/$font-size}rem;
   }
 }
 

@@ -5,9 +5,17 @@
 }
 
 .channelIcon {
-  padding-right: #{5 / $font-size}rem;
+  padding-right: #{8 / $font-size}rem;
 
   [dir="rtl"] & {
-    padding-left: #{5 / $font-size}rem;
+    padding-left: #{8 / $font-size}rem;
+  }
+}
+
+.channelIconMobile {
+  padding-right: #{12 / $font-size}rem;
+
+  [dir="rtl"] & {
+    padding-left: #{12 / $font-size}rem;
   }
 }

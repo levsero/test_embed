@@ -16,22 +16,26 @@ const URL_PREFIXES = {
 
 export class ChatMessagingChannels extends Component {
   static propTypes = {
-    channels: PropTypes.object
+    channels: PropTypes.object,
+    isMobile: PropTypes.bool
   };
 
   static defaultProps = {
-    channels: {}
+    channels: {},
+    isMobile: false
   };
 
   renderChannelIcon = (type, pageId) => {
+    const { isMobile } = this.props;
+
     return (
       <a
-        className={styles.channelIcon}
+        className={isMobile ? styles.channelIconMobile : styles.channelIcon}
         href={`${URL_PREFIXES[type]}${pageId}`}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Icon type={`Icon--${type}`} />
+        <Icon isMobile={isMobile} type={`Icon--${type}`} />
       </a>
     );
   };
