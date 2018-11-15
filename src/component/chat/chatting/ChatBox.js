@@ -21,6 +21,10 @@ export class ChatBox extends Component {
     currentMessage: ''
   };
 
+  componentDidMount() {
+    this.isIos = isIos();
+  }
+
   handleKeyDown = (e) => {
     if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault();
@@ -37,7 +41,7 @@ export class ChatBox extends Component {
   handleInput = () => {
     const locale = i18n.getLocale();
 
-    if (isIos() && /^ja/.test(locale) && this.textArea.scrollIntoViewIfNeeded) {
+    if (this.isIos && /^ja/.test(locale) && this.textArea.scrollIntoViewIfNeeded) {
       this.textArea.scrollIntoViewIfNeeded();
     }
   }

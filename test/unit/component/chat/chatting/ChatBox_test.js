@@ -107,15 +107,12 @@ describe('ChatBox component', () => {
   describe('handleInput', () => {
     let component;
 
-    beforeEach(() => {
-      component = domRender(<ChatBox />);
-      component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
-    });
-
     describe('when locale is set to `ja` and the user is on iOS Safari', () => {
       beforeEach(() => {
         locale = 'ja';
         isIos = true;
+        component = domRender(<ChatBox />);
+        component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
       });
 
       it('triggers scrollIntoViewIfNeeded on the textArea', () => {
@@ -130,6 +127,8 @@ describe('ChatBox component', () => {
       beforeEach(() => {
         locale = 'ja';
         isIos = false;
+        component = domRender(<ChatBox />);
+        component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
       });
 
       it('does not triggers scrollIntoViewIfNeeded on the textArea', () => {
@@ -144,6 +143,8 @@ describe('ChatBox component', () => {
       beforeEach(() => {
         locale = 'en';
         isIos = true;
+        component = domRender(<ChatBox />);
+        component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
       });
 
       it('does not triggers scrollIntoViewIfNeeded on the textArea', () => {
