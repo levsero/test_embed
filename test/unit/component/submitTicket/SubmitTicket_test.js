@@ -360,23 +360,6 @@ describe('Submit ticket component', () => {
         .toEqual(true);
     });
 
-    describe('when on mobile', () => {
-      beforeAll(() => {
-        mockFullScreen = true;
-      });
-
-      it('renders noZendeskLogoButton class', () => {
-        expect(notification.props.footerContent.props.className)
-          .toContain('noZendeskLogoButton');
-      });
-
-      it('does not render zendeskLogoButton class', () => {
-        expect(notification.props.footerContent.props.className)
-          .not
-          .toContain('zendeskLogoButton');
-      });
-    });
-
     describe('when hideZendeskLogo is true', () => {
       beforeAll(() => {
         mockHideZendeskLogo = true;

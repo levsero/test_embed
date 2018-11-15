@@ -277,8 +277,8 @@ class SubmitTicket extends Component {
     if (!this.props.showNotification) return;
 
     const buttonContainer = classNames({
-      [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.fullscreen),
-      [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.fullscreen
+      [styles.zendeskLogoButton]: !this.props.hideZendeskLogo,
+      [styles.noZendeskLogoButton]: this.props.hideZendeskLogo
     });
     const doneButton = (
       <div className={buttonContainer}>
