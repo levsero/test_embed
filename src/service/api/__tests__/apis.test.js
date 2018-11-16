@@ -4,21 +4,10 @@ import * as apis from '../apis';
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as constants from 'constants/api';
-
-const chatActions = require('src/redux/modules/chat/chat-actions');
-const settingsActions = require('src/redux/modules/settings/settings-actions');
-const baseActions = require('src/redux/modules/base/base-actions');
-const hcActions = require('src/redux/modules/helpCenter/helpCenter-actions');
-const mockStore = {
-  dispatch: jest.fn(),
-  getState: jest.fn()
-};
-
-jest.mock('service/mediator');
-jest.mock('src/redux/modules/selectors');
-jest.mock('src/redux/modules/chat/chat-selectors');
-jest.mock('service/settings');
-jest.mock('src/redux/modules/base/base-selectors');
+import * as chatActions from 'src/redux/modules/chat/chat-actions';
+import * as settingsActions from 'src/redux/modules/settings/settings-actions';
+import * as baseActions from 'src/redux/modules/base/base-actions';
+import * as hcActions from 'src/redux/modules/helpCenter/helpCenter-actions';
 
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -31,6 +20,16 @@ import {
   getDepartmentsList
 } from 'src/redux/modules/chat/chat-selectors';
 import * as baseSelectors from 'src/redux/modules/base/base-selectors';
+
+const mockStore = {
+  dispatch: jest.fn(),
+  getState: jest.fn()
+};
+
+jest.mock('service/mediator');
+jest.mock('src/redux/modules/selectors');
+jest.mock('src/redux/modules/chat/chat-selectors');
+jest.mock('service/settings');
 
 const mockActionValue = Date.now();
 const mockAction = jest.fn(() => mockActionValue);

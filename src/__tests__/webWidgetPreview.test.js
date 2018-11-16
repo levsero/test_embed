@@ -1,4 +1,4 @@
-require('../webWidgetPreview');
+import '../webWidgetPreview';
 
 let preview;
 

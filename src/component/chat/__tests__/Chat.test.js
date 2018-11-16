@@ -6,9 +6,9 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import reducer from 'src/redux/modules/reducer';
+import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import Chat from '../Chat';
 
-const selectors = require('src/redux/modules/chat/chat-selectors');
 const showOfflineChatMock = jest.fn();
 
 selectors.getShowOfflineChat = showOfflineChatMock;
