@@ -84,6 +84,7 @@ export const SDK_CHAT_REQUEST_RATING = `${SDK_ACTION_TYPE_PREFIX}/chat.request.r
 export const SDK_CHAT_RATING = `${SDK_ACTION_TYPE_PREFIX}/chat.rating`;
 export const SDK_CHAT_COMMENT = `${SDK_ACTION_TYPE_PREFIX}/chat.comment`;
 export const SDK_CHAT_TYPING = `${SDK_ACTION_TYPE_PREFIX}/typing`;
+export const SDK_CHAT_LAST_READ = `${SDK_ACTION_TYPE_PREFIX}/last_read`;
 export const SDK_AGENT_UPDATE = `${SDK_ACTION_TYPE_PREFIX}/agent_update`;
 export const SDK_VISITOR_UPDATE = `${SDK_ACTION_TYPE_PREFIX}/visitor_update`;
 export const SDK_DEPARTMENT_UPDATE = `${SDK_ACTION_TYPE_PREFIX}/department_update`;
