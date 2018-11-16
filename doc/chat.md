@@ -47,17 +47,17 @@ window.zESettings = {
 
 The Chat component has the following commands:
 
-* [chat:send](#chat-send)
-* [get chat:isChatting](#get-chat-ischatting)
-* [get chat:department](#get-chat-department)
-* [get chat:departments](#get-chat-departments)
-* [chat:end](#chat-end)
+* [chat:send](#chatsend)
+* [get chat:isChatting](#get-chatischatting)
+* [get chat:department](#get-chatdepartment)
+* [get chat:departments](#get-chatdepartments)
+* [chat:end](#chatend)
 * [updatePath](#updatepath)
-* [on chat:connected](#on-chat-connected)
-* [on chat:start](#on-chat-start)
-* [on chat:end](#on-chat-end)
-* [on chat:status](#on-chat-status)
-* [on chat:unreadMessages](#on-chat-unreadmessages)
+* [on chat:connected](#on-chatconnected)
+* [on chat:start](#on-chatstart)
+* [on chat:end](#on-chatend)
+* [on chat:status](#on-chatstatus)
+* [on chat:unreadMessages](#on-chatunreadmessages)
 
 #### chat:send
 
