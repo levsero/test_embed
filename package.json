@@ -23,6 +23,17 @@
     "lint-fix": "eslint --fix src test --ignore-pattern=src/translation/*.js",
     "size": "bundlesize"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix src test --ignore-pattern=src/translation/*.js",
+      "git add"
+    ]
+  },
   "bundlesize": [
     {
       "path": "dist/web_widget.*.js",
@@ -103,6 +114,7 @@
     "eslint-plugin-jest": "^21.22.1",
     "eslint-plugin-react": "^3.16.1",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^1.1.3",
     "identity-obj-proxy": "^3.0.0",
     "imports-loader": "^0.8.0",
     "jasmine": "^2.8.0",
@@ -115,6 +127,7 @@
     "jsdom": "^12.0.0",
     "json-loader": "^0.5.7",
     "jsonwebtoken": "^5.7.0",
+    "lint-staged": "^8.0.4",
     "mockery": "~1.4.0",
     "node-sass": "4.5.3",
     "optimize-css-assets-webpack-plugin": "^4.0.1",
