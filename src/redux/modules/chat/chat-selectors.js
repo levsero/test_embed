@@ -74,7 +74,6 @@ export const getEditContactDetails = (state) => state.chat.editContactDetails;
 export const getMenuVisible = (state) => state.chat.menuVisible;
 export const getShowMenu = (state) => getActiveEmbed(state) === 'chat' && getChatScreen(state) === CHATTING_SCREEN;
 export const getAgentJoined = (state) => state.chat.agentJoined;
-export const getLastAgentMessageSeenTimestamp = (state) => state.chat.lastAgentMessageSeenTimestamp;
 export const getLastReadTimestamp = (state) => state.chat.lastReadTimestamp;
 export const getOperatingHours = (state) => state.chat.operatingHours;
 export const getLoginSettings = (state) => state.chat.accountSettings.login;

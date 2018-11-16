@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { getAccountSettings,
   newAgentMessageReceived,
   chatNotificationReset,
-  updateLastAgentMessageSeenTimestamp,
   getOperatingHours,
   getIsChatting,
   clearDepartment,
@@ -144,12 +143,6 @@ const onChatStatus = (action, dispatch) => {
       let activeEmbed = storedActiveEmbed;
 
       if (storedActiveEmbed === 'zopimChat') activeEmbed = 'chat';
-
-      const timestamp = _.get(store.get('store'), 'lastAgentMessageSeenTimestamp');
-
-      if (timestamp) {
-        dispatch(updateLastAgentMessageSeenTimestamp(timestamp));
-      }
 
       if (activeEmbed) {
         dispatch(updateActiveEmbed(activeEmbed));

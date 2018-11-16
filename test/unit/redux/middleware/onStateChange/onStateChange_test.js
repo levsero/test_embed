@@ -4,7 +4,6 @@ describe('onStateChange middleware', () => {
     mockActiveEmbed,
     mockOfflineFormSettings,
     mockStoreValue,
-    mockLastAgentMessageSeenTimestamp,
     mockIsProactiveSession,
     mockChatScreen,
     mockSubmitTicketAvailable,
@@ -18,7 +17,6 @@ describe('onStateChange middleware', () => {
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
   const broadcastSpy = jasmine.createSpy('broadcast');
-  const updateLastAgentMessageSeenTimestampSpy = jasmine.createSpy('updateLastAgentMessageSeenTimestamp');
   const chatNotificationResetSpy = jasmine.createSpy('chatNotificationReset');
   const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity);
   const clearDepartmentSpy = jasmine.createSpy('clearDepartment');
@@ -51,7 +49,6 @@ describe('onStateChange middleware', () => {
     mockActiveEmbed = '';
     mockStoreValue = { widgetShown: false };
     mockOfflineFormSettings = { enabled: false };
-    mockLastAgentMessageSeenTimestamp = 123;
     mockChatScreen = '';
     mockIsProactiveSession = false;
     mockSubmitTicketAvailable = false;
@@ -64,7 +61,6 @@ describe('onStateChange middleware', () => {
         newAgentMessageReceived: newAgentMessageReceivedSpy,
         getOperatingHours: getOperatingHoursSpy,
         getIsChatting: getIsChattingSpy,
-        updateLastAgentMessageSeenTimestamp: updateLastAgentMessageSeenTimestampSpy,
         clearDepartment: clearDepartmentSpy,
         setDepartment: setDepartmentSpy,
         handleChatConnected: handleChatConnectedSpy,
@@ -102,7 +98,6 @@ describe('onStateChange middleware', () => {
         getChatOnline: (status) => status === 'online',
         getChatStatus: (status) => status === 'online',
         getOfflineFormSettings: () => mockOfflineFormSettings,
-        getLastAgentMessageSeenTimestamp: () => mockLastAgentMessageSeenTimestamp,
         getChatScreen: () => mockChatScreen,
         getIsProactiveSession: () => mockIsProactiveSession,
         getIsChatting: (state) => _.get(state, 'isChatting', mockIsChatting),
@@ -746,20 +741,6 @@ describe('onStateChange middleware', () => {
             it('dispatches chatWindowOpenOnNavigate', () => {
               expect(chatWindowOpenOnNavigateSpy)
                 .toHaveBeenCalled();
-            });
-          });
-
-          describe('when the store has lastAgentMessageSeenTimestamp', () => {
-            beforeEach(() => {
-              mockStoreValue = { lastAgentMessageSeenTimestamp: 123 };
-              stateChangeFn = requireUncached(path).default;
-
-              stateChangeFn(null, null, action, dispatchSpy);
-            });
-
-            it('dispatches updateLastAgentMessageSeenTimestamp with the timestamp', () => {
-              expect(updateLastAgentMessageSeenTimestampSpy)
-                .toHaveBeenCalledWith(123);
             });
           });
         });

@@ -17,7 +17,6 @@ describe('chat root reducer', () => {
     'inactive',
     'inactiveAgents',
     'is_chatting',
-    'lastAgentMessageSeenTimestamp',
     'lastReadTimestamp',
     'menu',
     'menuVisible',
