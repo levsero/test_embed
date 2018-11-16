@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { getAccountSettings,
   newAgentMessageReceived,
+  chatNotificationReset,
   updateLastAgentMessageSeenTimestamp,
   getOperatingHours,
   getIsChatting,
@@ -34,6 +35,7 @@ import { getChatMessagesByAgent,
   getIsChatting as getIsChattingState,
   getActiveAgents,
   getDepartmentsList,
+  getLastReadTimestamp,
   hasUnseenAgentMessage } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed,
   getHasSearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
@@ -85,17 +87,15 @@ const handleNewAgentMessage = (nextState, dispatch) => {
   const activeEmbed = getActiveEmbed(nextState);
   const widgetShown = getWidgetShown(nextState);
   const otherEmbedOpen = widgetShown && activeEmbed !== 'chat';
-
   const agentMessage = getNewAgentMessage(nextState);
-  const recentMessage = isRecentMessage(agentMessage);
-  const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState);
-  const isMobile = isMobileBrowser();
 
-  if (recentMessage) {
-    dispatch(newAgentMessageReceived(agentMessage));
-  }
+  dispatch(newAgentMessageReceived(agentMessage));
 
   if (!widgetShown || otherEmbedOpen) {
+    const recentMessage = isRecentMessage(agentMessage);
+    const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState);
+    const isMobile = isMobileBrowser();
+
     if (recentMessage && getUserSoundSettings(nextState)) {
       audio.play('incoming_message');
     }
@@ -169,6 +169,15 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
 
   if (newAgentMessage && hasUnseenAgentMessage(nextState)) {
     handleNewAgentMessage(nextState, dispatch);
+  }
+};
+
+const onLastReadTimestampChange = (prevState, nextState, dispatch) => {
+  const prev = getLastReadTimestamp(prevState);
+  const next = getLastReadTimestamp(nextState);
+
+  if (prev !== next && !hasUnseenAgentMessage(nextState)) {
+    dispatch(chatNotificationReset());
   }
 };
 
@@ -257,6 +266,7 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onChatStatusChange(prevState, nextState, dispatch);
   onChatConnected(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
+  onLastReadTimestampChange(prevState, nextState, dispatch);
   onArticleDisplayed(prevState, nextState, dispatch);
   onChatStatus(action, dispatch);
   onChatEnd(nextState, action, dispatch);

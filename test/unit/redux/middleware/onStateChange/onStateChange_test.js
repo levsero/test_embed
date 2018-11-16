@@ -19,6 +19,7 @@ describe('onStateChange middleware', () => {
   const audioPlaySpy = jasmine.createSpy('audioPlay');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const updateLastAgentMessageSeenTimestampSpy = jasmine.createSpy('updateLastAgentMessageSeenTimestamp');
+  const chatNotificationResetSpy = jasmine.createSpy('chatNotificationReset');
   const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity);
   const clearDepartmentSpy = jasmine.createSpy('clearDepartment');
   const setDepartmentSpy = jasmine.createSpy('setDepartment');
@@ -69,7 +70,8 @@ describe('onStateChange middleware', () => {
         handleChatConnected: handleChatConnectedSpy,
         handleIsChatting: handleIsChattingSpy,
         chatConnected: chatConnectedSpy,
-        chatWindowOpenOnNavigate: chatWindowOpenOnNavigateSpy
+        chatWindowOpenOnNavigate: chatWindowOpenOnNavigateSpy,
+        chatNotificationReset: chatNotificationResetSpy
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
@@ -107,6 +109,7 @@ describe('onStateChange middleware', () => {
         getActiveAgents: getActiveAgentsSpy,
         getDepartmentsList: () => mockDepartmentLists,
         getNotificationCount: (array) => _.get(_.last(array), 'notificationCount'),
+        getLastReadTimestamp: (state) => _.get(state, 'lastReadTimestamp'),
         hasUnseenAgentMessage: () => mockHasUnseenAgentMessage
       },
       'src/redux/modules/settings/settings-selectors': {
@@ -408,34 +411,11 @@ describe('onStateChange middleware', () => {
             mockHasUnseenAgentMessage = true;
           });
 
-          describe('messages are recent', () => {
-            beforeAll(() => {
-              initialTimestamp = 60;
-            });
+          it('dispatches newAgentMessageReceived with new agent message', () => {
+            stateChangeFn(prevState, nextState, {}, dispatchSpy);
 
-            beforeEach(() => {
-              stateChangeFn(prevState, nextState, {}, dispatchSpy);
-            });
-
-            it('dispatches newAgentMessageReceived with new agent message', () => {
-              expect(newAgentMessageReceivedSpy)
-                .toHaveBeenCalledWith({ proactive: mockIsProactiveSession, nick: 'agent:007', msg: 'latest', timestamp: 70 });
-            });
-          });
-
-          describe('messages are not recent', () => {
-            beforeAll(() => {
-              initialTimestamp = 80;
-            });
-
-            beforeEach(() => {
-              stateChangeFn(prevState, nextState, {}, dispatchSpy);
-            });
-
-            it('does not dispatch newAgentMessageReceived', () => {
-              expect(newAgentMessageReceivedSpy)
-                .not.toHaveBeenCalled();
-            });
+            expect(newAgentMessageReceivedSpy)
+              .toHaveBeenCalledWith({ proactive: mockIsProactiveSession, nick: 'agent:007', msg: 'latest', timestamp: 70 });
           });
 
           describe('when the embed is not shown', () => {
@@ -1211,6 +1191,55 @@ describe('onStateChange middleware', () => {
             expect(resetShouldWarnSpy)
               .not.toHaveBeenCalled();
           });
+        });
+      });
+    });
+  });
+
+  describe('onLastReadTimestampChange', () => {
+    let
+      prevState = { lastReadTimestamp: 100 },
+      nextState = { lastReadTimestamp: 100 };
+
+    describe('if timestamps are equal', () => {
+      beforeEach(() => {
+        stateChangeFn(prevState, nextState, {});
+      });
+
+      it('does not dispatch chatNotificationReset', () => {
+        expect(chatNotificationResetSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('if timestamps are different', () => {
+      beforeAll(() => {
+        nextState.lastReadTimestamp = 102;
+      });
+
+      describe('if there are unseen messages', () => {
+        beforeEach(() => {
+          mockHasUnseenAgentMessage = true;
+
+          stateChangeFn(prevState, nextState, {});
+        });
+
+        it('does not dispatch chatNotificationReset', () => {
+          expect(chatNotificationResetSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('if there are no unseen messages', () => {
+        beforeEach(() => {
+          mockHasUnseenAgentMessage = false;
+
+          stateChangeFn(prevState, nextState, {});
+        });
+
+        it('does dispatch chatNotificationReset', () => {
+          expect(chatNotificationResetSpy)
+            .toHaveBeenCalled();
         });
       });
     });
