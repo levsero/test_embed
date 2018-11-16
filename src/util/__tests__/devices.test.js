@@ -1,6 +1,7 @@
 /* eslint max-len:0 */
 import * as devices from '../devices';
 import * as globals from 'utility/globals';
+import { clearDOM } from 'utility/test_helpers';
 
 jest.mock('utility/globals');
 
@@ -13,7 +14,7 @@ const createViewportMetaTag = () => {
 };
 
 afterEach(() => {
-  document.getElementsByTagName('html')[0].innerHTML = '';
+  clearDOM();
 });
 
 globals.win = {
