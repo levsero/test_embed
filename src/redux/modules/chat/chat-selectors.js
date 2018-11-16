@@ -75,6 +75,7 @@ export const getMenuVisible = (state) => state.chat.menuVisible;
 export const getShowMenu = (state) => getActiveEmbed(state) === 'chat' && getChatScreen(state) === CHATTING_SCREEN;
 export const getAgentJoined = (state) => state.chat.agentJoined;
 export const getLastAgentMessageSeenTimestamp = (state) => state.chat.lastAgentMessageSeenTimestamp;
+export const getLastReadTimestamp = (state) => state.chat.lastReadTimestamp;
 export const getOperatingHours = (state) => state.chat.operatingHours;
 export const getLoginSettings = (state) => state.chat.accountSettings.login;
 export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
@@ -586,6 +587,6 @@ export const isInChattingScreen = createSelector(
 );
 
 export const hasUnseenAgentMessage = createSelector(
-  [getChatMessagesByAgent, getLastAgentMessageSeenTimestamp],
+  [getChatMessagesByAgent, getLastReadTimestamp],
   (messages, timestamp) => !timestamp || !!_.find(messages, message => message.timestamp > timestamp)
 );
