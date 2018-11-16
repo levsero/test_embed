@@ -21,7 +21,8 @@ export class ChatBox extends Component {
     currentMessage: ''
   };
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.isIos = isIos();
   }
 
