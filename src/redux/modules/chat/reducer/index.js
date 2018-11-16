@@ -25,6 +25,7 @@ import offlineMessage from './chat-offline-message';
 import menuVisible from './chat-menu-visibility';
 import agentJoined from './chat-agent-joined';
 import lastAgentMessageSeenTimestamp from './chat-last-agent-message-seen-timestamp';
+import lastReadTimestamp from './chat-last-read-timestamp';
 import operatingHours from './chat-operating-hours';
 import currentSessionStartTime from './chat-current-session-start-time';
 import socialLogin from './chat-social-login';
@@ -57,6 +58,7 @@ const combinedReducers = combineReducers({
   offlineMessage,
   agentJoined,
   lastAgentMessageSeenTimestamp,
+  lastReadTimestamp,
   operatingHours,
   inactiveAgents,
   currentSessionStartTime,

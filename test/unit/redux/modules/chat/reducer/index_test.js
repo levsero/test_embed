@@ -18,6 +18,7 @@ describe('chat root reducer', () => {
     'inactiveAgents',
     'is_chatting',
     'lastAgentMessageSeenTimestamp',
+    'lastReadTimestamp',
     'menu',
     'menuVisible',
     'notification',
@@ -51,7 +52,8 @@ describe('chat root reducer', () => {
       },
       'src/util/chat': {
         isAgent: {}
-      }
+      },
+      'src/util/nullZChat': noop
     });
 
     reducer = requireUncached(reducerPath).default;
