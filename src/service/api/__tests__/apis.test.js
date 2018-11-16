@@ -1,4 +1,4 @@
-import 'utility/i18n_test_helper';
+import 'utility/i18nTestHelper';
 
 import * as apis from '../apis';
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';

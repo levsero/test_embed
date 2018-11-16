@@ -14,7 +14,7 @@ import {
   getEnvironment,
   isValidUrl
 } from '../utils';
-import { clearDOM } from 'utility/test_helpers';
+import { clearDOM } from 'utility/testHelpers';
 import * as globals from 'utility/globals';
 
 jest.useFakeTimers();
