@@ -17,25 +17,27 @@ afterEach(() => {
   clearDOM();
 });
 
-globals.win = {
-  innerWidth: 980,
-  orientation: 0,
-  XMLHttpRequest: function() {
-    this.withCredentials = true;
-  },
-  screen: {
+beforeEach(() => {
+  globals.win = {
+    innerWidth: 980,
+    orientation: 0,
+    XMLHttpRequest: function() {
+      this.withCredentials = true;
+    },
+    screen: {
+      availWidth: 320,
+      availHeight: 548
+    }
+  };
+  globals.screen = {
     availWidth: 320,
     availHeight: 548
-  }
-};
-globals.screen = {
-  availWidth: 320,
-  availHeight: 548
-};
-globals.document = document;
-globals.navigator = {
-  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36'
-};
+  };
+  globals.document = document;
+  globals.navigator = {
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36'
+  };
+});
 
 describe('isBlacklisted', () => {
   it('returns false if doesn\'t support CORS or user agent has nothing within it blacklisted', () => {
@@ -99,7 +101,11 @@ describe('isBlacklisted', () => {
 });
 
 describe('isLandscape', () => {
-  const win = globals.win;
+  let win;
+
+  beforeEach(() => {
+    win = globals.win;
+  });
 
   it('returns true if win.orientation is 90 degrees', () => {
     win.orientation = 90;
@@ -133,7 +139,11 @@ describe('isDevice', () => {
 });
 
 describe('launcher-scaling', () => {
-  const win = globals.win;
+  let win;
+
+  beforeEach(() => {
+    win = globals.win;
+  });
 
   describe('getDeviceZoom', () => {
     it('returns the correct zoom with no mobile device meta tags', () => {
