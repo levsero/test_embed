@@ -39,3 +39,10 @@ it('renders the contact title', () => {
   expect(webWidgetPreviewBody())
     .toMatch(/Contact us/);
 });
+
+describe('when calling with no element property in options', () => {
+  it('throws an error', () => {
+    expect(() => window.zE.renderWebWidgetPreview())
+      .toThrowError('A DOM element is required to render the Web Widget Preview into');
+  });
+});
