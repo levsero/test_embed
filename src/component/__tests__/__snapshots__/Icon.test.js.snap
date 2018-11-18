@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon renders expected classes 1`] = `
+<span
+  class="container Icon--zendesk"
+  type="Icon--zendesk"
+>
+  test-file-stub
+</span>
+`;
+
+exports[`Icon renders expected flipx classes when flipX is true 1`] = `
+<span
+  class="container Icon--zendesk flipX"
+  type="Icon--zendesk"
+>
+  test-file-stub
+</span>
+`;
+
+exports[`Icon renders expected mobile classes when mobile is true 1`] = `
+<span
+  class="container Icon--zendesk mobile"
+  type="Icon--zendesk"
+>
+  test-file-stub
+</span>
+`;
+
+exports[`IconButton mouseover event does not show tooltip when button is disabled 1`] = `
+<div
+  class="wrapper"
+>
+  <button
+    class=" button"
+    type="button"
+  >
+    <span
+      class="container Icon--zendesk"
+      type="Icon--zendesk"
+    >
+      test-file-stub
+    </span>
+    <span
+      class="altText"
+    >
+      Clickable Icon
+    </span>
+  </button>
+  <div
+    class="tooltip"
+  >
+    Clickable Icon
+  </div>
+</div>
+`;
+
+exports[`IconButton mouseover event does not show tooltip when tooltip is disabled 1`] = `
+<div
+  class="wrapper"
+>
+  <button
+    class=" button"
+    title="Clickable Icon"
+    type="button"
+  >
+    <span
+      class="container Icon--zendesk"
+      type="Icon--zendesk"
+    >
+      test-file-stub
+    </span>
+    <span
+      class="altText"
+    >
+      Clickable Icon
+    </span>
+  </button>
+  <div
+    class="tooltip"
+  >
+    Clickable Icon
+  </div>
+</div>
+`;
+
+exports[`IconButton mouseover event shows tooltip when button and tooltips are enabled 1`] = `
+<div
+  class="wrapper"
+>
+  <button
+    class=" button"
+    type="button"
+  >
+    <span
+      class="container Icon--zendesk"
+      type="Icon--zendesk"
+    >
+      test-file-stub
+    </span>
+    <span
+      class="altText"
+    >
+      Clickable Icon
+    </span>
+  </button>
+  <div
+    class="tooltip tooltipShown tooltipTransition"
+  >
+    Clickable Icon
+  </div>
+</div>
+`;
+
+exports[`IconButton renders expected classes, alt text and Icon 1`] = `
+<div
+  class="wrapper"
+>
+  <button
+    class=" button"
+    title="Clickable Icon"
+    type="button"
+  >
+    <span
+      class="container Icon--zendesk"
+      type="Icon--zendesk"
+    >
+      test-file-stub
+    </span>
+    <span
+      class="altText"
+    >
+      Clickable Icon
+    </span>
+  </button>
+  <div
+    class="tooltip"
+  >
+    Clickable Icon
+  </div>
+</div>
+`;
