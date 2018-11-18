@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div
+    class="container buttonRight "
+  >
+    hmmm
+  </div>
+</div>
+`;
+
+exports[`renders the expected rtl classes 1`] = `
+<div>
+  <div
+    class="container buttonLeft "
+  >
+    rtl test
+  </div>
+</div>
+`;

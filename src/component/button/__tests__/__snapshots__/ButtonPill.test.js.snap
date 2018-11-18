@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon is rendered when showIcon is true 1`] = `
+<div>
+  <button
+    class="pill"
+  >
+    mylabel
+    <span
+      class="container Icon--arrow-down"
+      type="Icon--arrow-down"
+    >
+      test-file-stub
+    </span>
+  </button>
+</div>
+`;
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <button
+    class="pill"
+  >
+    mylabel
+  </button>
+</div>
+`;
+
+exports[`renders the expected mobile classes when fullscreen is true 1`] = `
+<div>
+  <button
+    class="pill fullscreen"
+  >
+    mylabel
+  </button>
+</div>
+`;
+
+exports[`renders the expected rtl classes when rtl is on 1`] = `
+<div>
+  <button
+    class="pill rtl"
+  >
+    mylabel
+  </button>
+</div>
+`;

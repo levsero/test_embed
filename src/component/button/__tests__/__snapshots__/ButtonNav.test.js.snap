@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <button
+      aria-label="blah"
+      class="
+      button
+      desktop
+      left
+      
+      
+    "
+    >
+      <span>
+        this is a label
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`renders the expected left classes 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <button
+      aria-label="blah"
+      class="
+      button
+      desktop
+      left
+      
+      
+    "
+    >
+      <span>
+        this is a label
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`renders the expected mobile classes 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <button
+      aria-label="blah"
+      class="
+      button
+      fullscreen
+      left
+      
+      
+    "
+    >
+      <span>
+        this is a label
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`renders the expected right classes 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <button
+      aria-label="blah"
+      class="
+      button
+      desktop
+      right
+      
+      
+    "
+    >
+      <span>
+        this is a label
+      </span>
+    </button>
+  </div>
+</div>
+`;
