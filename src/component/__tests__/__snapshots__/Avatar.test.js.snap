@@ -1,17 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders a button 1`] = `
-<span
-  class="container avatar  Icon--avatar"
-  type="Icon--avatar"
->
-  test-file-stub
-</span>
+<div>
+  <span
+    class="container avatar  Icon--avatar"
+    type="Icon--avatar"
+  >
+    test-file-stub
+  </span>
+</div>
 `;
 
 exports[`renders an img when src is provided  1`] = `
-<img
-  class="avatar "
-  src="http://sauce"
-/>
+<div>
+  <img
+    class="avatar "
+    src="http://sauce"
+  />
+</div>
 `;

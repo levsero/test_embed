@@ -7,21 +7,21 @@ describe('Icon', () => {
   it('renders expected classes', function() {
     const { container } = render(<Icon type="Icon--zendesk" />);
 
-    expect(container.firstChild)
+    expect(container)
       .toMatchSnapshot();
   });
 
   it('renders expected mobile classes when mobile is true', function() {
     const { container } = render(<Icon type="Icon--zendesk" isMobile={true} />);
 
-    expect(container.firstChild)
+    expect(container)
       .toMatchSnapshot();
   });
 
   it('renders expected flipx classes when flipX is true', function() {
     const { container } = render(<Icon type="Icon--zendesk" flipX={true} />);
 
-    expect(container.firstChild)
+    expect(container)
       .toMatchSnapshot();
   });
 });
@@ -30,7 +30,7 @@ describe('IconButton', () => {
   it('renders expected classes, alt text and Icon', () => {
     const { container } = render(<IconButton type='Icon--zendesk' altText='Clickable Icon' />);
 
-    expect(container.firstChild)
+    expect(container)
       .toMatchSnapshot();
   });
 
@@ -52,7 +52,7 @@ describe('IconButton', () => {
       const button = getButton(container);
 
       fireEvent.mouseOver(button);
-      expect(container.firstChild)
+      expect(container)
         .toMatchSnapshot();
     });
 
@@ -61,7 +61,7 @@ describe('IconButton', () => {
       const button = getButton(container);
 
       fireEvent.mouseOver(button);
-      expect(container.firstChild)
+      expect(container)
         .toMatchSnapshot();
     });
 
@@ -70,7 +70,7 @@ describe('IconButton', () => {
       const button = getButton(container);
 
       fireEvent.mouseOver(button);
-      expect(container.firstChild)
+      expect(container)
         .toMatchSnapshot();
     });
   });
