@@ -1,6 +1,8 @@
 describe('selectors', () => {
   let settingsChatSuppressValue,
     zopimChatOnlineValue,
+    zopimIsChattingValue,
+    zopimChatOpenValue,
     showOfflineFormValue,
     helpCenterEmbedValue,
     submitTicketEmbedValue,
@@ -115,7 +117,9 @@ describe('selectors', () => {
       },
       './zopimChat/zopimChat-selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue,
-        getZopimChatConnected: () => zopimChatConnectedValue
+        getZopimChatConnected: () => zopimChatConnectedValue,
+        getZopimIsChatting: () => zopimIsChattingValue,
+        getZopimChatOpen: () => zopimChatOpenValue
       },
       './talk/talk-selectors': {
         getEmbeddableConfigEnabled: () => talkEmbeddableConfigEnabledValue,
@@ -329,6 +333,105 @@ describe('selectors', () => {
         it('returns no styles', () => {
           expect(result)
             .toEqual({});
+        });
+      });
+    });
+  });
+
+  describe('getResetToContactFormOnChatOffline', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getResetToContactFormOnChatOffline();
+    });
+
+    describe('when all values are correct', () => {
+      beforeAll(() => {
+        zopimChatOnlineValue = false;
+        zopimIsChattingValue = false;
+        submitTicketEmbedValue = true;
+        zopimChatOpenValue = true;
+        activeEmbedValue = 'ticketSubmissionForm';
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+    describe('when values are incorrect', () => {
+      describe('getZopimChatOnline is true', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = true;
+          zopimIsChattingValue = false;
+          submitTicketEmbedValue = true;
+          zopimChatOpenValue = true;
+          activeEmbedValue = 'ticketSubmissionForm';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('getZopimIsChatting is true', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = false;
+          zopimIsChattingValue = true;
+          submitTicketEmbedValue = true;
+          zopimChatOpenValue = true;
+          activeEmbedValue = 'ticketSubmissionForm';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('getSubmitTicketEmbed is false', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = false;
+          zopimIsChattingValue = false;
+          submitTicketEmbedValue = false;
+          zopimChatOpenValue = true;
+          activeEmbedValue = 'ticketSubmissionForm';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('getZopimChatOpen is false', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = false;
+          zopimIsChattingValue = false;
+          submitTicketEmbedValue = true;
+          zopimChatOpenValue = false;
+          activeEmbedValue = 'ticketSubmissionForm';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('getActiveAmbed is not \'ticketSubmissionForm\'', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = false;
+          zopimIsChattingValue = false;
+          submitTicketEmbedValue = true;
+          zopimChatOpenValue = true;
+          activeEmbedValue = 'zopimChat';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
         });
       });
     });

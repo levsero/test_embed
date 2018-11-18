@@ -7,7 +7,9 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED } from '../base-action-types';
-import { ZOPIM_SHOW } from '../../zopimChat/zopimChat-action-types';
+import {
+  ZOPIM_SHOW,
+  ZOPIM_CHAT_GONE_OFFLINE } from '../../zopimChat/zopimChat-action-types';
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
@@ -24,6 +26,7 @@ const webWidgetVisible = (state = initialState, action) => {
     case PROACTIVE_CHAT_RECEIVED:
     case CHAT_WINDOW_OPEN_ON_NAVIGATE:
     case OPEN_RECEIVED:
+    case ZOPIM_CHAT_GONE_OFFLINE:
       return true;
     case CLOSE_BUTTON_CLICKED:
     case ZOPIM_SHOW:
