@@ -9,10 +9,11 @@ describe('connect', () => {
   let args,
     io = jest.fn(() => 'mockReturnValue'),
     mockTalkServiceHostname = 'customer.zendesk.com',
+    nickname = 'Service & Support',
     socket;
 
   beforeEach(() => {
-    socket = socketio.connect(io, `https://${mockTalkServiceHostname}`, 'Support');
+    socket = socketio.connect(io, `https://${mockTalkServiceHostname}`, nickname);
     const calls = io.mock.calls;
 
     args = calls[calls.length - 1];
@@ -26,7 +27,7 @@ describe('connect', () => {
   it('calls io with the correct options', () => {
     expect(args[1])
       .toEqual({
-        query: 'subdomain=customer&keyword=Support',
+        query: 'subdomain=customer&keyword=Service%20%26%20Support',
         path: '/talk_embeddables_service/socket.io',
         reconnectionAttempts: 6,
         transports: ['websocket']
