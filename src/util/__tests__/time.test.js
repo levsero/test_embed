@@ -1,14 +1,11 @@
 import { i18nTimeFromMinutes } from '../time';
-import { default as tz } from 'timezone-mock';
-
-tz.register('UTC');
 
 test.each([
-  [0, 'ja', '10:00'],
-  [280, null, '2:40 PM'],
-  [1000, null, '2:40 AM'],
-  [720, null, '10:00 PM'],
-  [1440, null, '10:00 AM']
+  [0, 'ja', '00:00'],
+  [280, null, '4:40 AM'],
+  [1000, null, '4:40 PM'],
+  [720, null, '12:00 PM'],
+  [1440, null, '12:00 AM']
 ])('i18nTimeFromMinutes(%i, %s)',
   (timeInMinutes, locale, expected) => {
     const result = locale
