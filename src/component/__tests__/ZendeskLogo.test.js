@@ -1,0 +1,39 @@
+import { render } from 'react-testing-library';
+import React from 'react';
+
+import { ZendeskLogo } from '../ZendeskLogo';
+
+test('renders the expected classes', () => {
+  const { container } = render(<ZendeskLogo />);
+
+  expect(container.firstChild)
+    .toMatchSnapshot();
+});
+
+test('does not have the positional classnames when mobile browser is true', () => {
+  const { container } = render(<ZendeskLogo fullscreen={true} />);
+
+  expect(container.firstChild)
+    .toMatchSnapshot();
+});
+
+test('has the positional classnames for mobile browser and formSuccess is true', () => {
+  const { container } = render(<ZendeskLogo formSuccess={true} fullscreen={true} />);
+
+  expect(container.firstChild)
+    .toMatchSnapshot();
+});
+
+test('does not has the rtl classnames when rtl language is false', () => {
+  const { container } = render(<ZendeskLogo formSuccess={true} rtl={false} />);
+
+  expect(container.firstChild)
+    .toMatchSnapshot();
+});
+
+test('has the rtl classnames when rtl language is true', () => {
+  const { container } = render(<ZendeskLogo formSuccess={true} rtl={true} />);
+
+  expect(container.firstChild)
+    .toMatchSnapshot();
+});

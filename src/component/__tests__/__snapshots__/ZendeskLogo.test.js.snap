@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`does not has the rtl classnames when rtl language is false 1`] = `
+<a
+  class="
+      logo
+      formSuccess
+      
+      ltr
+      
+    "
+  href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+  tabindex="-1"
+  target="_blank"
+>
+  <span
+    class="container icon Icon--zendesk"
+    type="Icon--zendesk"
+  >
+    test-file-stub
+  </span>
+  <span
+    class="hidden"
+  >
+    zendesk
+  </span>
+</a>
+`;
+
+exports[`does not have the positional classnames when mobile browser is true 1`] = `
+<a
+  class="
+      logo
+      
+      fullscreen
+      ltr
+      
+    "
+  href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+  tabindex="-1"
+  target="_blank"
+>
+  <span
+    class="container icon Icon--zendesk"
+    type="Icon--zendesk"
+  >
+    test-file-stub
+  </span>
+  <span
+    class="hidden"
+  >
+    zendesk
+  </span>
+</a>
+`;
+
+exports[`has the positional classnames for mobile browser and formSuccess is true 1`] = `
+<a
+  class="
+      logo
+      formSuccess
+      fullscreen
+      ltr
+      
+    "
+  href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+  tabindex="-1"
+  target="_blank"
+>
+  <span
+    class="container icon Icon--zendesk"
+    type="Icon--zendesk"
+  >
+    test-file-stub
+  </span>
+  <span
+    class="hidden"
+  >
+    zendesk
+  </span>
+</a>
+`;
+
+exports[`has the rtl classnames when rtl language is true 1`] = `
+<a
+  class="
+      logo
+      formSuccess
+      
+      rtl
+      
+    "
+  href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+  tabindex="-1"
+  target="_blank"
+>
+  <span
+    class="container icon Icon--zendesk"
+    type="Icon--zendesk"
+  >
+    test-file-stub
+  </span>
+  <span
+    class="hidden"
+  >
+    zendesk
+  </span>
+</a>
+`;
+
+exports[`renders the expected classes 1`] = `
+<a
+  class="
+      logo
+      formSuccess
+      
+      ltr
+      
+    "
+  href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+  tabindex="-1"
+  target="_blank"
+>
+  <span
+    class="container icon Icon--zendesk"
+    type="Icon--zendesk"
+  >
+    test-file-stub
+  </span>
+  <span
+    class="hidden"
+  >
+    zendesk
+  </span>
+</a>
+`;
