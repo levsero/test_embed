@@ -16,7 +16,6 @@ import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices';
-import { win } from 'utility/globals';
 import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
 import { getFixedStyles, getColor, getPosition, getFrameVisible } from 'src/redux/modules/selectors';
@@ -280,10 +279,8 @@ class Frame extends Component {
 
   applyMobileBodyStyle = () => {
     const frameDoc = this.getContentDocument();
-    const fullscreenWidth = `${win.innerWidth}px`;
-
     const fullscreenStyles = [
-      `width: ${fullscreenWidth}`,
+      'width: 100%',
       'height: 100%',
       'overflow-x: hidden'
     ].join(';');

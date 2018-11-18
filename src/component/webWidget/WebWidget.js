@@ -542,14 +542,9 @@ class WebWidget extends Component {
     if (fullscreen && this.props.chatStandaloneMobileNotificationVisible && !this.props.mobileNotificationsDisabled)
       return this.renderStandaloneChatPopup();
 
-    // TODO: Once single iframe is GA'd the containers for each child can be moved
-    // here and this won't be needed to fix dodgy animation.
-    const width = fullscreen ? '100%' : '342px';
-    const style = { width };
-
     return (
       // data-embed is needed for our intergration tests
-      <div style={style} data-embed={this.props.activeEmbed}>
+      <div data-embed={this.props.activeEmbed}>
         <Container
           style={this.props.style}
           fullscreen={fullscreen}
