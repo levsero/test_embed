@@ -25,6 +25,7 @@ describe('embed.webWidget', () => {
     mockStandaloneMobileNotificationVisible,
     mockState,
     mockChatVendorImport,
+    persistenceStoreGetSpy,
     chatNotificationDismissedSpy;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const revokeTokenSpy = jasmine.createSpy();
@@ -71,6 +72,7 @@ describe('embed.webWidget', () => {
         };
       }
     });
+    persistenceStoreGetSpy = jasmine.createSpy('store.get');
     chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
 
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
@@ -137,6 +139,11 @@ describe('embed.webWidget', () => {
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
+      'service/persistence': {
+        store: {
+          get: persistenceStoreGetSpy
         }
       },
       'component/webWidget/WebWidget': mockWebWidget,
@@ -905,6 +912,28 @@ describe('embed.webWidget', () => {
           mockChatVendorImport.then((mockZChat) => {
             expect(mockZChat.init.calls.mostRecent().args[0])
               .toEqual({ account_key: '123abc', override_proxy: 'hades.zopim.org'});
+          });
+        });
+      });
+
+      describe('when in debug mode', () => {
+        beforeEach(() => {
+          persistenceStoreGetSpy.and.callFake((key) => {
+            if (key === 'chatAccountKey') return '456def';
+            if (key === 'chatOverrideProxy') return 'sg08.zopim.com';
+          });
+
+          const chatConfig = { zopimId: '123abc', overrideProxy: 'hades.zopim.org' };
+
+          webWidget.create('', { zopimChat: chatConfig });
+
+          faythe = webWidget.get();
+        });
+
+        it('calls zChat init with the chat key and the override_proxy key from localStorage', () => {
+          mockChatVendorImport.then((mockZChat) => {
+            expect(mockZChat.init.calls.mostRecent().args[0])
+              .toEqual({ account_key: '456def', override_proxy: 'sg08.zopim.com'});
           });
         });
       });
