@@ -41,6 +41,7 @@ import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { nameValid, emailValid } from 'src/util/utils';
+import { zopimApi } from 'service/api/zopimApi';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
@@ -485,6 +486,7 @@ export default function WebWidgetFactory(name) {
         });
       }
       zChat.init(makeChatConfig(config));
+      zopimApi.handleZopimQueue(win);
 
       zChat.setOnFirstReady({
         fetchHistory: () => {

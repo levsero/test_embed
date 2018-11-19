@@ -24,7 +24,6 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
-import zopimApi from 'service/api/zopimApi';
 import { getChatMessagesByAgent,
   getConnection,
   getChatOnline,
@@ -47,7 +46,6 @@ import { store } from 'service/persistence';
 import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { isMobileBrowser } from 'utility/devices';
-import { win } from 'utility/globals';
 import { resetShouldWarn } from 'src/util/nullZChat';
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
@@ -128,7 +126,6 @@ const onChatConnected = (prevState, nextState, dispatch) => {
     }
 
     if (!chatAccountSettingsFetched) {
-      zopimApi.handleZopimQueue(win);
       dispatch(getAccountSettings());
       dispatch(getIsChatting());
       dispatch(getOperatingHours());

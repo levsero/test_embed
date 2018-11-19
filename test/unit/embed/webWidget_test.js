@@ -175,6 +175,11 @@ describe('embed.webWidget', () => {
         CALLBACK_ONLY_SCREEN: callMeScreen
       },
       'chat-web-sdk': mockChatVendorImport,
+      'service/api/zopimApi': {
+        zopimApi: {
+          handleZopimQueue: jasmine.createSpy('handleZopimQ')
+        }
+      },
       'socket.io-client': {},
       'libphonenumber-js': {},
       'utility/devices': {
