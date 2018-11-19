@@ -2307,6 +2307,24 @@ describe('chat selectors', () => {
     });
   });
 
+  describe('getLastReadTimestamp', () => {
+    let result;
+    const mockState = {
+      chat: {
+        lastReadTimestamp: 12345
+      }
+    };
+
+    beforeEach(() => {
+      result = selectors.getLastReadTimestamp(mockState);
+    });
+
+    it('returns the current state of lastReadTimestamp', () => {
+      expect(result)
+        .toEqual(12345);
+    });
+  });
+
   describe('getLoginSettings', () => {
     let result;
     const login = 'login_value';
@@ -3061,7 +3079,7 @@ describe('chat selectors', () => {
     beforeEach(() => {
       mockState = {
         chat: {
-          lastAgentMessageSeenTimestamp: mockTimestamp,
+          lastReadTimestamp: mockTimestamp,
           chats: {
             values: () => [
               { nick: 'agent:123', type: 'chat.msg', timestamp: 1 },

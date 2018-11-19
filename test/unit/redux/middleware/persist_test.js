@@ -15,9 +15,6 @@ describe('persist middleware', () => {
       'src/redux/modules/base/base-action-types': {
         UPDATE_ACTIVE_EMBED: 'update_active_embed',
         UPDATE_WIDGET_SHOWN: 'update_widget_shown'
-      },
-      'src/redux/modules/chat/chat-action-types': {
-        UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP: 'update_last_agent_message_seen_timestamp'
       }
     });
 
@@ -34,8 +31,7 @@ describe('persist middleware', () => {
     const nextSpy = jasmine.createSpy('nextSpy');
     const flatState = {
       chat: {
-        chats: {},
-        lastAgentMessageSeenTimestamp: 12345
+        chats: {}
       },
       base: {
         activeEmbed: 'chat',
@@ -57,7 +53,7 @@ describe('persist middleware', () => {
     });
 
     describe('when the action is included in the actionsToStoreOn array', () => {
-      const actionsToStoreOn = ['update_last_agent_message_seen_timestamp', 'update_widget_shown', 'update_active_embed'];
+      const actionsToStoreOn = ['update_widget_shown', 'update_active_embed'];
 
       actionsToStoreOn.forEach((actionType) => {
         beforeEach(() => {
@@ -69,8 +65,7 @@ describe('persist middleware', () => {
         it(`calls store.set with the parts of base state we want to store for ${actionType}`, () => {
           const expected = {
             activeEmbed: 'chat',
-            widgetShown: true,
-            lastAgentMessageSeenTimestamp: 12345
+            widgetShown: true
           };
 
           expect(storeSetSpy)

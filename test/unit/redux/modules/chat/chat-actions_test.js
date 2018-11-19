@@ -19,7 +19,6 @@ let actions,
   mockPageTitle,
   mockHostUrl,
   mockChatMessagesByAgent,
-  mockLastAgentMessageSeenTimestamp,
   mockInit = jasmine.createSpy('init'),
   mockLogout = jasmine.createSpy('logout'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
@@ -43,7 +42,6 @@ let actions,
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting),
   getIsAuthenticatedSpy = jasmine.createSpy('getIsAuthenticatedSpy').and.callFake(() => mockIsAuthenticated),
   getChatMessagesByAgentSpy = jasmine.createSpy('getChatMessagesByAgent').and.callFake(() => mockChatMessagesByAgent),
-  getLastAgentMessageSeenTimestampSpy = jasmine.createSpy('getLastAgentMessageSeenTimestamp').and.callFake(() => mockLastAgentMessageSeenTimestamp),
   mockFetchChatHistory = jasmine.createSpy('fetchChatHistory'),
   mockMarkAsRead = jasmine.createSpy('markAsRead'),
   mockCallback = jasmine.createSpy('sdkCallback');
@@ -90,7 +88,6 @@ describe('chat redux actions', () => {
         getIsAuthenticated: getIsAuthenticatedSpy,
         getIsLoggingOut: () => mockIsLoggingOut,
         getChatMessagesByAgent: getChatMessagesByAgentSpy,
-        getLastAgentMessageSeenTimestamp: getLastAgentMessageSeenTimestampSpy,
         getZChatVendor: () => {
           return {
             sendTyping: mockSendTyping,
@@ -2055,51 +2052,6 @@ describe('chat redux actions', () => {
     it('dispatches an action of type CHAT_NOTIFICATION_RESET', () => {
       expect(allActions[0].type)
         .toEqual(actionTypes.CHAT_NOTIFICATION_RESET);
-    });
-
-    describe('when timestamp of last agent message > last seen timestamp', () => {
-      beforeAll(() => {
-        mockChatMessagesByAgent = [{
-          timestamp: 1234
-        }];
-        mockLastAgentMessageSeenTimestamp = 1233;
-      });
-
-      it('dispatches an action of type UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP', () => {
-        expect(allActions[1].type)
-          .toEqual(actionTypes.UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP);
-      });
-
-      it('dispatches with timestamp as the payload', () => {
-        expect(allActions[1].payload)
-          .toEqual(1234);
-      });
-    });
-
-    describe('when timestamp of last agent message <= last seen timestamp', () => {
-      beforeAll(() => {
-        mockChatMessagesByAgent = [{
-          timestamp: 1234
-        }];
-        mockLastAgentMessageSeenTimestamp = 1234;
-      });
-
-      it('does not dispatch additional actions', () => {
-        expect(allActions[1])
-          .toBeUndefined();
-      });
-    });
-
-    describe('when there are no agent messages', () => {
-      beforeAll(() => {
-        mockChatMessagesByAgent = [];
-        mockLastAgentMessageSeenTimestamp = 1234;
-      });
-
-      it('does not dispatch additional actions', () => {
-        expect(allActions[1])
-          .toBeUndefined();
-      });
     });
   });
 });

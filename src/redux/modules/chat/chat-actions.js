@@ -5,8 +5,6 @@ import {
   getShowRatingScreen,
   getIsChatting as getIsChattingState,
   getChatOnline,
-  getChatMessagesByAgent,
-  getLastAgentMessageSeenTimestamp,
   getActiveAgents,
   getIsAuthenticated,
   getIsLoggingOut,
@@ -525,13 +523,6 @@ export function handleReconnect() {
   };
 }
 
-export function updateLastAgentMessageSeenTimestamp(timestamp) {
-  return {
-    type: actions.UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
-    payload: timestamp
-  };
-}
-
 export function showStandaloneMobileNotification() {
   return { type: actions.SHOW_STANDALONE_MOBILE_NOTIFICATION };
 }
@@ -686,12 +677,5 @@ export function markAsRead() {
     zChat.markAsRead();
 
     dispatch(chatNotificationReset());
-
-    const timestamp = _.get(_.last(getChatMessagesByAgent(state)), 'timestamp');
-    const previousTimestamp = getLastAgentMessageSeenTimestamp(state);
-
-    if (timestamp && timestamp > previousTimestamp) {
-      dispatch(updateLastAgentMessageSeenTimestamp(timestamp));
-    }
   };
 }
