@@ -1,8 +1,8 @@
 /**
  * 1. Set to a very large number to give the pill shape
  */
-@import '../styles/_vars.scss';
-@import '../styles/mixins.scss';
+@import '../../styles/_vars.scss';
+@import '../../styles/mixins.scss';
 
 $Button-baseFontSize: #{14/$font-size}rem;
 $Button-nudge: 5;
@@ -30,7 +30,7 @@ $Button-nudge: 5;
 }
 
 .icon {
-  composes: Icon from '../styles/components/Icon.scss';
+  composes: Icon from '../../styles/components/Icon.scss';
   composes: Arrange-sizeFit u-textInheritColor u-inlineBlock from global;
   padding-right: #{8/$font-size}rem;
 

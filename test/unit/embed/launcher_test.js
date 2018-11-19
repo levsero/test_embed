@@ -26,7 +26,7 @@ describe('embed.launcher', () => {
       'utility/color/styles': {
         generateUserLauncherCSS: jasmine.createSpy().and.returnValue('')
       },
-      'component/Launcher': class extends Component {
+      'component/launcher/Launcher': class extends Component {
         constructor() {
           super();
           this.setUnreadMessages = jasmine.createSpy('setUnreadMessages');
@@ -50,11 +50,6 @@ describe('embed.launcher', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'service/settings': {
-        settings: {
-          get: () => {}
-        }
-      },
       'globalCSS': '',
       './launcherStyles.js': {
         launcherStyles: 'mockCss'
@@ -67,6 +62,10 @@ describe('embed.launcher', () => {
       'lodash': _,
       'src/redux/modules/base': {
         renewToken: () => mockToken
+      },
+      'constants/launcher': {
+        FRAME_OFFSET_WIDTH: 5,
+        FRAME_OFFSET_HEIGHT: 1
       }
     });
 
@@ -125,11 +124,11 @@ describe('embed.launcher', () => {
 
       it('applies the position from config to frame', () => {
         expect(frame.props.position)
-          .toEqual(config.position);
+          .toEqual(alice.config.position);
       });
 
       it('applies the label from config', () => {
-        expect(child.props.label)
+        expect(child.props.labelKey)
           .toEqual(`embeddable_framework.launcher.label.${alice.config.labelKey}`);
       });
 
@@ -156,7 +155,7 @@ describe('embed.launcher', () => {
         bob = launcher.get();
         frame = bob.component.props.children;
         child = frame.props.children;
-        child.props.onClick({
+        child.props.onClickHandler({
           preventDefault: () => {}
         });
       });
