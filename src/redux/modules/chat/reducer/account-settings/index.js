@@ -9,6 +9,7 @@ import rating from './rating';
 import theme from './theme';
 import login from './login';
 import chatWindow from './chat-window';
+import banner from './banner';
 
 export default combineReducers({
   attachments,
@@ -20,5 +21,6 @@ export default combineReducers({
   theme,
   login,
   chatWindow,
+  banner
 });
 

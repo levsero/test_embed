@@ -27,6 +27,18 @@ const profileRating = (rating) => {
   return profileCard({ rating });
 };
 
+const prechatFormSettings = (required) => {
+  return {
+    chat: {
+      accountSettings: {
+        prechatForm: {
+          required
+        }
+      }
+    }
+  };
+};
+
 describe('getProfileConfig', () => {
   describe('rating', () => {
     describe('account settings rating is false', () => {
@@ -85,5 +97,14 @@ describe('getProfileConfig', () => {
       expect(result.avatar)
         .toBe(true);
     });
+  });
+});
+
+describe('getPrechatFormRequired', () => {
+  it('returns true when prechat form is required', () => {
+    const result = selectors.getPrechatFormRequired(prechatFormSettings(true));
+
+    expect(result)
+      .toEqual(true);
   });
 });

@@ -121,6 +121,20 @@ describe('base redux actions', () => {
     jasmine.clock().uninstall();
   });
 
+  describe('handleChatBadgeMinimize', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleChatBadgeMinimize());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with CHAT_BADGE_MINIMIZED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CHAT_BADGE_MINIMIZED);
+    });
+  });
+
   describe('updateEmbeddableConfig', () => {
     let action,
       mockConfig;

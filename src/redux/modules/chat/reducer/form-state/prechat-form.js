@@ -1,4 +1,7 @@
-import { PRE_CHAT_FORM_ON_CHANGE, VISITOR_DEFAULT_DEPARTMENT_SELECTED } from '../../chat-action-types';
+import {
+  PRE_CHAT_FORM_ON_CHANGE,
+  VISITOR_DEFAULT_DEPARTMENT_SELECTED,
+  CHAT_BADGE_MESSAGE_CHANGED } from '../../chat-action-types';
 import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types';
 
 const initialState = {
@@ -13,6 +16,11 @@ const preChatForm = (state = initialState, action = {}) => {
   const { type, payload } = action;
 
   switch (type) {
+    case CHAT_BADGE_MESSAGE_CHANGED:
+      return {
+        ...state,
+        message: action.payload
+      }
     case PREFILL_RECEIVED:
       return {
         ...state,

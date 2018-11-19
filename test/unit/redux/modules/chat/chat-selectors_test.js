@@ -80,6 +80,29 @@ describe('chat selectors', () => {
     mockery.disable();
   });
 
+  describe('getBannerSettings', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getBannerSettings({
+        chat: {
+          accountSettings: {
+            banner: {
+              img: 'http://img.com/img.png'
+            }
+          }
+        }
+      });
+    });
+
+    it('returns banner settings', () => {
+      expect(result)
+        .toEqual({
+          img: 'http://img.com/img.png'
+        });
+    });
+  });
+
   describe('getOfflineFormEnabled', () => {
     let result;
 
@@ -2919,7 +2942,9 @@ describe('chat selectors', () => {
     let result;
     const mockAccountSettings = {
       theme: {
-        color: '#eeeeee'
+        color: {
+          primary: '#eeeeee'
+        }
       }
     };
 
@@ -3127,6 +3152,30 @@ describe('chat selectors', () => {
         expect(result)
           .toBe(true);
       });
+    });
+  });
+
+  describe('getBadgeColor', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          accountSettings: {
+            theme: {
+              color: {
+                banner: 'yeet'
+              }
+            }
+          }
+        }
+      };
+      result = selectors.getBadgeColor(mockState);
+    });
+
+    it('returns the correct color', () => {
+      expect(result)
+        .toEqual('yeet');
     });
   });
 });

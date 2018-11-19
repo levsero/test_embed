@@ -20,14 +20,6 @@ export const getWebWidgetVisible = (state) => state.base.webWidgetVisible;
 export const getLauncherVisible = (state) => state.base.launcherVisible;
 export const getLocale = (state) => state.base.locale;
 
-export const getChatStandalone = (state) => {
-  const otherProducts = getSubmitTicketEmbed(state) ||
-                        getHelpCenterEmbed(state) ||
-                        getTalkEmbed(state);
-
-  return getChatEmbed(state) && !otherProducts;
-};
-
 export const getOAuth = () => {
   return store.get('zE_oauth');
 };
@@ -41,6 +33,12 @@ export const getHasWidgetShown = (state) => state.base.hasWidgetShown;
 export const getBaseIsAuthenticated = () => isTokenValid(getOAuth());
 export const getIsAuthenticationPending = (state) => state.base.isAuthenticationPending;
 export const getEmbeddableConfig = (state) => state.base.embeddableConfig;
+export const getChatStandalone = createSelector(
+  getEmbeddableConfig,
+  (embeddableConfig) => {
+    return embeddableConfig.embeds.zopimChat.props.standalone;
+  }
+);
 export const getHelpCenterContextualEnabled = createSelector(
   getEmbeddableConfig,
   (embeddableConfig) => {
