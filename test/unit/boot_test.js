@@ -6,6 +6,7 @@ describe('boot', () => {
       [name]: jasmine.createSpyObj(name, methods)
     };
   };
+
   const bootPath = buildSrcPath('boot'),
     beaconSpy = registerImportSpy('beacon', 'setConfig', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
     identitySpy = registerImportSpy('identity', 'init'),
@@ -14,8 +15,8 @@ describe('boot', () => {
     transportSpy = registerImportSpy('http', 'get', 'init', 'updateConfig'),
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
     gaSpy = registerImportSpy('GA', 'init'),
-    apiSpy = registerImportSpy('webWidgetApi', 'handleQueue', 'setupWidgetApi', 'setupWidgetQueue', 'setupZopimQueue', 'handlePostRenderQueue'),
-    zopimApiSpy = registerImportSpy('zopimApi', 'setupZopimQueue', 'setUpZopimApiMethods'),
+    apiSpy = jasmine.createSpyObj('webWidgetApi', ['apisExecutePostRenderQueue', ]),
+    zopimApiSpy = jasmine.createSpyObj('zopimApi', ['setupZopimQueue', 'setUpZopimApiMethods']),
     trackerSpy = jasmine.createSpyObj('tracker', ['send']),
     initSpy = jasmine.createSpy('init');
 
@@ -253,8 +254,8 @@ describe('boot', () => {
           .toHaveBeenCalled();
       });
 
-      it('calls handlePostRenderQueue with win, postRenderQueue and reduxStore', () => {
-        expect(apiSpy.webWidgetApi.handlePostRenderQueue)
+      it('calls apisExecutePostRenderQueue with win, postRenderQueue and reduxStore', () => {
+        expect(apiSpy.apisExecutePostRenderQueue)
           .toHaveBeenCalledWith(win, postRenderQueue, reduxStore);
       });
 
@@ -269,7 +270,7 @@ describe('boot', () => {
         });
 
         it('does not call zopimApi setUpZopimApiMethods', () => {
-          expect(zopimApiSpy.zopimApi.setUpZopimApiMethods)
+          expect(zopimApiSpy.setUpZopimApiMethods)
             .not.toHaveBeenCalled();
         });
       });
@@ -280,7 +281,7 @@ describe('boot', () => {
         });
 
         it('calls zopimApi setUpZopimApiMethods with the win and reduxStore', () => {
-          expect(zopimApiSpy.zopimApi.setUpZopimApiMethods)
+          expect(zopimApiSpy.setUpZopimApiMethods)
             .toHaveBeenCalledWith(win, reduxStore);
         });
       });
