@@ -242,8 +242,6 @@ zE('webWidget:on', 'chat:end', function() {
 
 Registers a callback to be fired when the account status changes. The callback will also be called once when this function is executed.
 
-*Note*: The callback will also be called when a department’s status changes.
-
 ##### Parameters
 
 * `callback`: Function. The callback to perform on unread messages. Contains one parameter, `status`, a string that can be one of 'online'|'away'|'offline'
