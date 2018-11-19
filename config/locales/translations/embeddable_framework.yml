@@ -445,6 +445,16 @@ parts:
       screenshot: "https://drive.google.com/open?id=10RZsDXuiEwpiddTlcs5vfldvG7N9XDTa"
       value: "Closed"
   - translation:
+      key: "embeddable_framework.chat.operatingHours.label.separator.range"
+      title: "Separator used for schedules than span consecutive days"
+      screenshot: "https://drive.google.com/open?id=1nDXoopgGSqhUAwXDHZ6Hz2pC5FCoFOR6"
+      value: " — "
+  - translation:
+      key: "embeddable_framework.chat.operatingHours.label.separator.overall"
+      title: "Separator used to separate non-consecutive days and day ranges"
+      screenshot: "https://drive.google.com/open?id=1YHwWHpjHGTM8Wen3xrztCGVGSbKIXhkF"
+      value: ", "
+  - translation:
       key: "embeddable_framework.chat.operatingHours.label.monday"
       title: "Day of the week for operating hours: Monday"
       screenshot: "https://drive.google.com/open?id=1uKHW4AxDi6cemxhEspEclAnBCI4wxzkb"
