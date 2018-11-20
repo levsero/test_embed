@@ -18,7 +18,8 @@
     "test:watch": "npm run test -- --watch",
     "test:old": "node test/runner.js",
     "test:ci": "npm run test -- --runInBand --ci && NODE_ENV=test node test/runner.js",
-    "test:debug": "node debug test/runner.js",
+    "test:debug:old": "node debug test/runner.js",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
     "lint": "eslint src test --ignore-pattern=src/translation/*.js",
     "lint-fix": "eslint --fix src test --ignore-pattern=src/translation/*.js",
     "size": "bundlesize"
