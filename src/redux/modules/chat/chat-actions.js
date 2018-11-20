@@ -657,7 +657,7 @@ export function setChatHistoryHandler() {
         : data;
       const newEntry = [eventData.timestamp, eventData];
 
-      history.unshift(newEntry);
+      history.push(newEntry);
     });
   };
 }
