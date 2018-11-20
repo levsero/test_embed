@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Widget Popout</title>
+</head>
+<body>
+  <script type='text/javascript'>
+    var head = document.head,
+      parameters = {},
+      queryString = window.location.search,
+      scriptElement = document.createElement("script");
+
+    var stripParameters = function (inputString) {
+      var params = {}, queries;
+
+      inputString = inputString.substring(inputString.indexOf('?') + 1);
+      queries = inputString.split('&');
+
+      queries.forEach(element => {
+        var splitElement = element.split('=');
+
+        if (splitElement !== "") {
+          params[splitElement[0]] = splitElement[1];
+        }
+      });
+
+      return params;
+    };
+
+    window.zEPopout = true;
+    parameters = stripParameters(queryString);
+    scriptElement.id = "ze-snippet";
+    scriptElement.src = "https://static.zdassets.com/ekr/snippet.js";
+
+    if (parameters && typeof parameters === "object") {
+      if (parameters.key) {
+        scriptElement.src += ("?key=" + parameters.key);
+      }
+      // Insert other required parameters below
+      head.appendChild(scriptElement);
+    }
+  </script>
+</body>
+</html>
