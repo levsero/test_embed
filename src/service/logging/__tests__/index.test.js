@@ -1,12 +1,10 @@
 import Rollbar from 'vendor/rollbar.umd.min.js';
+import * as devices from 'utility/devices';
 import _ from 'lodash';
 
-jest.mock('utility/devices');
-jest.mock('vendor/rollbar.umd.min.js');
-
-const devices = require('utility/devices');
-
 import { logging, setInitialise } from '../index';
+
+jest.mock('vendor/rollbar.umd.min.js');
 
 beforeEach(() => {
   setInitialise(false);

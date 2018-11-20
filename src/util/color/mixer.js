@@ -27,12 +27,6 @@ export class ColorMixer {
     instance = this;
   }
 
-  // '.destroy()' is for the purposes of testing.
-  // No need to use outside test scenarios
-  static destroy = () => {
-    instance = null;
-  }
-
   getBaseColor = () => {
     return this.baseColor.hex();
   }

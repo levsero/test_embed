@@ -28,7 +28,7 @@ export class NestedDropdown extends Component {
     onChange: PropTypes.func,
     description: PropTypes.string,
     required: PropTypes.bool,
-    formState: PropTypes.object.required,
+    formState: PropTypes.object.isRequired,
     defaultOption: PropTypes.object
   }
 

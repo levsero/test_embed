@@ -2,16 +2,14 @@ import api from '..';
 import * as apis from 'service/api/apis';
 import tracker from 'service/logging/tracker';
 import { apiResetWidget } from 'src/redux/modules/base';
+import * as baseSelectors from 'src/redux/modules/base/base-selectors';
 import { API_GET_IS_CHATTING_NAME } from 'constants/api';
 
 jest.mock('service/api/apis');
 jest.mock('service/logging/tracker');
-jest.mock('src/redux/modules/base/base-selectors');
 jest.mock('src/redux/modules/base');
 jest.mock('src/service/renderer');
 jest.mock('src/service/mediator');
-
-const baseSelectors = require('src/redux/modules/base/base-selectors');
 
 const mockStore = {
   dispatch: jest.fn(),

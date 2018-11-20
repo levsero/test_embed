@@ -1,4 +1,4 @@
-require('../chatPreview');
+import '../chatPreview';
 
 let preview;
 
