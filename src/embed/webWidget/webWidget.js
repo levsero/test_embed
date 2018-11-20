@@ -16,6 +16,7 @@ import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { http } from 'service/transport';
+import { store } from 'service/persistence';
 import { generateUserWidgetCSS } from 'utility/color/styles';
 import { getZoomSizingRatio,
   isIE,
@@ -535,8 +536,8 @@ export default function WebWidgetFactory(name) {
     const authentication = jwtFn ? { jwt_fn: jwtFn } : null;
 
     return _.omitBy({
-      account_key: config.zopimId,
-      override_proxy: config.overrideProxy,
+      account_key: store.get('chatAccountKey') || config.zopimId,
+      override_proxy: store.get('chatOverrideProxy') || config.overrideProxy,
       authentication,
       activity_window: win
     }, _.isNil);
