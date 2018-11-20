@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`circle can be customized 1`] = `
+<div>
+  <svg
+    class="spinner "
+    height="100"
+    viewBox="0 0 180 180"
+    width="100"
+  >
+    <circle
+      class="u-userStrokeColor circle circleStylesClass"
+      cx="90"
+      cy="90"
+      r="70"
+    />
+  </svg>
+</div>
+`;
+
+exports[`className can be customized 1`] = `
+<div>
+  <svg
+    class="spinner woot"
+    height="100"
+    viewBox="0 0 180 180"
+    width="100"
+  >
+    <circle
+      class="u-userStrokeColor circle "
+      cx="90"
+      cy="90"
+      r="70"
+    />
+  </svg>
+</div>
+`;
+
+exports[`height and width can be customized 1`] = `
+<div>
+  <svg
+    class="spinner "
+    height="68"
+    viewBox="0 0 180 180"
+    width="42"
+  >
+    <circle
+      class="u-userStrokeColor circle "
+      cx="90"
+      cy="90"
+      r="70"
+    />
+  </svg>
+</div>
+`;
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <svg
+    class="spinner "
+    height="100"
+    viewBox="0 0 180 180"
+    width="100"
+  >
+    <circle
+      class="u-userStrokeColor circle "
+      cx="90"
+      cy="90"
+      r="70"
+    />
+  </svg>
+</div>
+`;
+
+exports[`viewBox can be customized 1`] = `
+<div>
+  <svg
+    class="spinner "
+    height="100"
+    viewBox="0 0 100 100"
+    width="100"
+  >
+    <circle
+      class="u-userStrokeColor circle "
+      cx="90"
+      cy="90"
+      r="70"
+    />
+  </svg>
+</div>
+`;

@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`\`fade\` class is there when ios8 1`] = `
+<div>
+  <div
+    class="container "
+  >
+    <div
+      class="
+      circle 
+      fade
+      u-userBackgroundColor
+    "
+    />
+    <div
+      class="
+      circle 
+      fade
+      u-userBackgroundColor
+    "
+    />
+    <div
+      class="
+      circle 
+      fade
+      u-userBackgroundColor
+    "
+    />
+  </div>
+</div>
+`;
+
+exports[`background color class can be disabled 1`] = `
+<div>
+  <div
+    class="container "
+  >
+    <div
+      class="
+      circle 
+      bounce
+      
+    "
+    />
+    <div
+      class="
+      circle 
+      bounce
+      
+    "
+    />
+    <div
+      class="
+      circle 
+      bounce
+      
+    "
+    />
+  </div>
+</div>
+`;
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div
+    class="container "
+  >
+    <div
+      class="
+      circle 
+      bounce
+      u-userBackgroundColor
+    "
+    />
+    <div
+      class="
+      circle 
+      bounce
+      u-userBackgroundColor
+    "
+    />
+    <div
+      class="
+      circle 
+      bounce
+      u-userBackgroundColor
+    "
+    />
+  </div>
+</div>
+`;

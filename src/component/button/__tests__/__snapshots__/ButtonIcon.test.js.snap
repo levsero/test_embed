@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`classes are customizable 1`] = `
+<div>
+  <button
+    class="
+      container
+      
+      
+      Icon--zendesk
+    "
+  >
+    <span
+      class="container icon here there Icon--zendesk flipX"
+      type="Icon--zendesk"
+    >
+      test-file-stub
+    </span>
+    <span
+      class="label "
+    >
+      <span>
+        Label
+      </span>
+    </span>
+  </button>
+</div>
+`;
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <button
+    class="
+      container
+      
+      containerActionable
+      
+    "
+  >
+    <span
+      class="container icon "
+      type=""
+    />
+    <span
+      class="label "
+    >
+      <span>
+        Label
+      </span>
+    </span>
+  </button>
+</div>
+`;
