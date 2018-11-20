@@ -1,5 +1,7 @@
 describe('ChatBox component', () => {
   let ChatBox;
+  let locale = 'en';
+  let isIos = false;
   const chatBoxPath = buildSrcPath('component/chat/chatting/ChatBox');
 
   beforeEach(() => {
@@ -16,7 +18,10 @@ describe('ChatBox component', () => {
         Field: noopReactComponent()
       },
       'service/i18n': {
-        i18n: { t: noop }
+        i18n: {
+          t: noop,
+          getLocale: () => locale
+        }
       },
       '@zendeskgarden/react-textfields': {
         TextField: noopReactComponent(),
@@ -28,7 +33,8 @@ describe('ChatBox component', () => {
           'a': 65,
           'ENTER': 13
         }
-      }
+      },
+      'utility/devices': { isIos: () => isIos }
     });
 
     mockery.registerAllowable(chatBoxPath);
@@ -93,6 +99,58 @@ describe('ChatBox component', () => {
         component.handleKeyDown(event);
 
         expect(sendChatSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('handleInput', () => {
+    let component;
+
+    describe('when locale is set to `ja` and the user is on iOS Safari', () => {
+      beforeEach(() => {
+        locale = 'ja';
+        isIos = true;
+        component = domRender(<ChatBox />);
+        component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
+      });
+
+      it('triggers scrollIntoViewIfNeeded on the textArea', () => {
+        component.handleInput();
+
+        expect(component.textArea.scrollIntoViewIfNeeded)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when locale is set to `ja` and the user is not on iOS Safari', () => {
+      beforeEach(() => {
+        locale = 'ja';
+        isIos = false;
+        component = domRender(<ChatBox />);
+        component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
+      });
+
+      it('does not triggers scrollIntoViewIfNeeded on the textArea', () => {
+        component.handleInput();
+
+        expect(component.textArea.scrollIntoViewIfNeeded)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when locale is set to `en` and the user is on iOS Safari', () => {
+      beforeEach(() => {
+        locale = 'en';
+        isIos = true;
+        component = domRender(<ChatBox />);
+        component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
+      });
+
+      it('does not triggers scrollIntoViewIfNeeded on the textArea', () => {
+        component.handleInput();
+
+        expect(component.textArea.scrollIntoViewIfNeeded)
           .not.toHaveBeenCalled();
       });
     });
