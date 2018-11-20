@@ -38,6 +38,17 @@ export class ChannelChoiceMenu extends Component {
     this.chatAvailableOnMount = props.chatAvailable || props.chatOfflineAvailable;
   }
 
+  componentWillReceiveProps(nextProps) {
+    // If any of the channels come online even once, treat them as
+    // if they were available on mount
+    if (nextProps.chatAvailable || nextProps.chatOfflineAvailable){
+      this.chatAvailableOnMount = true;
+    }
+    if (nextProps.talkAvailable) {
+      this.talkAvailableOnMount = true;
+    }
+  }
+
   handleChatClick = () => {
     return this.props.chatAvailable || this.props.chatOfflineAvailable
       ? this.handleNextClick('chat')
