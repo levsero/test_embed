@@ -777,23 +777,34 @@ describe('setUpZopimApiMethods', () => {
   });
 
   describe('set', () => {
-    let options = {};
-
-    beforeEach(() => {
+    it('calls $zopim.livechat.setName', () => {
       mockWin.$zopim.livechat.setName = jest.fn();
-      mockWin.$zopim.livechat.setEmail = jest.fn();
-      mockWin.$zopim.livechat.set(options);
+
+      mockWin.$zopim.livechat.set({ name: 'yolo' });
+      expect(mockWin.$zopim.livechat.setName)
+        .toHaveBeenCalledWith('yolo');
     });
 
-    describe('when name is a param', () => {
-      beforeAll(() => {
-        options.name = 'yolo';
-      });
+    it('calls $zopim.livechat.setEmail', () => {
+      mockWin.$zopim.livechat.setEmail = jest.fn();
 
-      it('calls $zopim.livechat.setName', () => {
-        expect(mockWin.$zopim.livechat.setName)
-          .toHaveBeenCalledWith('yolo');
-      });
+      mockWin.$zopim.livechat.set({ email: 'a@a.com' });
+      expect(mockWin.$zopim.livechat.setEmail)
+        .toHaveBeenCalledWith('a@a.com');
+    });
+
+    it('calls $zopim.livechat.setColor', () => {
+      mockWin.$zopim.livechat.setColor = jest.fn();
+
+      mockWin.$zopim.livechat.set({ color: '#FFFFFF' });
+      expect(mockWin.$zopim.livechat.setColor)
+        .toHaveBeenCalledWith('#FFFFFF');
+    });
+
+    it('allows setting of language', () => {
+      mockWin.$zopim.livechat.set({ language: 'en' });
+      expect(apis.setLocaleApi)
+        .toHaveBeenCalledWith(mockStore, 'en');
     });
   });
 

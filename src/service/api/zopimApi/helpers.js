@@ -100,13 +100,34 @@ export const setColorTheme = (color) => {
   updateSettingsLegacy('color.theme', color);
 };
 
-export const setApi = (store, win, options) => {
-  if (options.name) {
-    win.$zopim.livechat.setName(options.name);
-  }
+const upperCaseFirstChar = (str) => {
+  str += '';
+  return str.charAt(0).toUpperCase() + str.substring(1);
+};
 
-  if (options.email) {
-    win.$zopim.livechat.setEmail(options.email);
+const supportedSetters = [
+  'color',
+  'name',
+  'email',
+  'phone',
+  'status',
+  'greetings',
+  'disableGoogleAnalytics',
+  'onConnected',
+  'onChatStart',
+  'onChatEnd',
+  'onStatus',
+  'onUnreadMsgs'
+];
+
+export const setApi = (store, win, options) => {
+  for (let name in options) {
+    if (_.includes(supportedSetters, name)) {
+      const methodName = 'set' + upperCaseFirstChar(name);
+      const arg = options[name];
+
+      win.$zopim.livechat[methodName](arg);
+    }
   }
 
   if (options.language) {
