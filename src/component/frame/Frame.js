@@ -18,8 +18,14 @@ import { settings } from 'service/settings';
 import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices';
 import Transition from 'react-transition-group/Transition';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
-import { getFixedStyles, getColor, getPosition, getFrameVisible } from 'src/redux/modules/selectors';
+import {
+  getFixedStyles,
+  getColor,
+  getPosition,
+  getFrameVisible,
+  getFrameStyle } from 'src/redux/modules/selectors';
 import { FONT_SIZE, MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
+import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -29,9 +35,11 @@ if (!__DEV__) {
 const mapStateToProps = (state, ownProps) => {
   return {
     fixedStyles: getFixedStyles(state, ownProps.name),
-    color: getColor(state),
+    color: getColor(state, ownProps.name),
     position: getPosition(state),
-    visible: getFrameVisible(state, ownProps.name)
+    visible: getFrameVisible(state, ownProps.name),
+    chatStandalone: getChatStandalone(state),
+    frameStyle: getFrameStyle(state, ownProps.name)
   };
 };
 
@@ -69,7 +77,8 @@ class Frame extends Component {
     updateWidgetShown: PropTypes.func,
     widgetHideAnimationComplete: PropTypes.func,
     color: PropTypes.object,
-    generateUserCSS: PropTypes.func
+    generateUserCSS: PropTypes.func,
+    chatStandalone: PropTypes.bool
   }
 
   static defaultProps = {
@@ -96,7 +105,8 @@ class Frame extends Component {
     fixedStyles: {},
     updateWidgetShown: () => {},
     widgetHideAnimationComplete: () => {},
-    generateUserCSS: () => {}
+    generateUserCSS: () => {},
+    chatStandalone: false
   }
 
   constructor(props, context) {
@@ -382,7 +392,8 @@ class Frame extends Component {
           useBackButton={this.props.useBackButton}
           hideCloseButton={this.props.hideCloseButton}
           name={this.props.name}
-          fullscreen={this.props.fullscreenable && isMobileBrowser()}>
+          fullscreen={this.props.fullscreenable && isMobileBrowser()}
+          chatStandalone={this.props.chatStandalone}>
           {newChild}
         </EmbedWrapper>
       </StyleSheetManager>

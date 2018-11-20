@@ -1,0 +1,1180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateUserLauncherCSS when the color is light is calculated to the same color with a darker text color 1`] = `
+"
+    .u-userLauncherColor:not([disabled]) {
+      background-color: #58F9F7 !important;
+      color: #186766 !important;
+      fill: #186766 !important;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg {
+      color: #186766;
+      fill: #186766;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg path {
+      fill: #186766;
+    }
+
+    .u-userLauncherColor:not([disabled]):focus {
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(24, 103, 102, 0.1) !important;
+    }
+  "
+`;
+
+exports[`generateUserLauncherCSS when the color is not light is calculated to the same color with a white highlight 1`] = `
+"
+    .u-userLauncherColor:not([disabled]) {
+      background-color: #283646 !important;
+      color: #FFFFFF !important;
+      fill: #FFFFFF !important;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg {
+      color: #FFFFFF;
+      fill: #FFFFFF;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg path {
+      fill: #FFFFFF;
+    }
+
+    .u-userLauncherColor:not([disabled]):focus {
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(255, 255, 255, 0.1) !important;
+    }
+  "
+`;
+
+exports[`generateUserLauncherCSS when the color is set via embeddable config uses the color passed in from config 1`] = `
+"
+    .u-userLauncherColor:not([disabled]) {
+      background-color: #283646 !important;
+      color: #FFFFFF !important;
+      fill: #FFFFFF !important;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg {
+      color: #FFFFFF;
+      fill: #FFFFFF;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg path {
+      fill: #FFFFFF;
+    }
+
+    .u-userLauncherColor:not([disabled]):focus {
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(255, 255, 255, 0.1) !important;
+    }
+  "
+`;
+
+exports[`generateUserWidgetCSS when the color is light calculates the css correctly 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #58F9F7 !important;
+    }
+    .u-userColor {
+      color: #58F9F7 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #186766 !important;
+      fill: #186766 !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #1A7170 !important;
+      fill: #1A7170 !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #186766 !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #186766 !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #186766 !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #58F9F7 !important;
+      color: #186766 !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #58F9F7 !important;
+      color: #186766 !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #27F7F5 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #58F9F7 !important;
+      background-color: transparent !important;
+      border-color: #58F9F7 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #186766 !important;
+      background-color: #58F9F7 !important;
+      border-color: #58F9F7 !important;
+    }
+    .u-userLinkColor a {
+      color: #186766 !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #186766 !important;
+    }
+    .u-userStrokeColor {
+      stroke: #58F9F7 !important;
+    }
+    .u-userHeaderColor {
+      background: #58F9F7 !important;
+      color: #186766 !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #186766 !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #27F7F5 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #27F7F5 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #186766 !important;
+    }
+  "
+`;
+
+exports[`generateUserWidgetCSS when the color is not light u-userTextColor calculates the css correctly 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #283646 !important;
+    }
+    .u-userColor {
+      color: #283646 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #283646 !important;
+      fill: #283646 !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #2C3B4D !important;
+      fill: #2C3B4D !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #283646 !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #283646 !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #283646 !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #283646 !important;
+      color: #FFFFFF !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #283646 !important;
+      color: #FFFFFF !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #2C3B4D !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #283646 !important;
+      background-color: transparent !important;
+      border-color: #283646 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #FFFFFF !important;
+      background-color: #283646 !important;
+      border-color: #283646 !important;
+    }
+    .u-userLinkColor a {
+      color: #283646 !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #283646 !important;
+    }
+    .u-userStrokeColor {
+      stroke: #283646 !important;
+    }
+    .u-userHeaderColor {
+      background: #283646 !important;
+      color: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #2C3B4D !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #2C3B4D !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #FFFFFF !important;
+    }
+  "
+`;
+
+exports[`generateUserWidgetCSS when the color is set via embeddable config uses the color passed in from config 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #283646 !important;
+    }
+    .u-userColor {
+      color: #283646 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #283646 !important;
+      fill: #283646 !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #2C3B4D !important;
+      fill: #2C3B4D !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #283646 !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #283646 !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #283646 !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #283646 !important;
+      color: #FFFFFF !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #283646 !important;
+      color: #FFFFFF !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #2C3B4D !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #283646 !important;
+      background-color: transparent !important;
+      border-color: #283646 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #FFFFFF !important;
+      background-color: #283646 !important;
+      border-color: #283646 !important;
+    }
+    .u-userLinkColor a {
+      color: #283646 !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #283646 !important;
+    }
+    .u-userStrokeColor {
+      stroke: #283646 !important;
+    }
+    .u-userHeaderColor {
+      background: #283646 !important;
+      color: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #2C3B4D !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #2C3B4D !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #FFFFFF !important;
+    }
+  "
+`;
+
+exports[`generateWebWidgetPreviewCSS calculates the colours correctly 1`] = `
+"
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #58F9F7 !important;
+      color: #186766 !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #27F7F5 !important;
+    }
+    .u-userHeaderColor {
+      background: #58F9F7 !important;
+      color: #186766 !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #186766 !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #27F7F5 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #27F7F5 !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #58F9F7 !important;
+      color: #186766 !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding button colours and the override is invalid or undefined falls back to the base colour 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #FF69B4 !important;
+    }
+    .u-userColor {
+      color: #FF69B4 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #63163D !important;
+      fill: #63163D !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #6D1843 !important;
+      fill: #6D1843 !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #63163D !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #63163D !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #63163D !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #FF8DC6 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #FF69B4 !important;
+      background-color: transparent !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #63163D !important;
+      background-color: #FF69B4 !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #63163D !important;
+    }
+    .u-userStrokeColor {
+      stroke: #FF69B4 !important;
+    }
+    .u-userHeaderColor {
+      background: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #63163D !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding button colours and the override is valid prefers the button colour over the base colour 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #FF69B4 !important;
+    }
+    .u-userColor {
+      color: #FF69B4 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #63163D !important;
+      fill: #63163D !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #6D1843 !important;
+      fill: #6D1843 !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #63163D !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #63163D !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #63163D !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #DC143C !important;
+      color: #FFFFFF !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #DC143C !important;
+      color: #FFFFFF !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #EB1D46 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #DC143C !important;
+      background-color: transparent !important;
+      border-color: #DC143C !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #FFFFFF !important;
+      background-color: #DC143C !important;
+      border-color: #DC143C !important;
+    }
+    .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #63163D !important;
+    }
+    .u-userStrokeColor {
+      stroke: #FF69B4 !important;
+    }
+    .u-userHeaderColor {
+      background: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #63163D !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding header colours and the override is invalid or undefined falls back to the base colour 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #FF69B4 !important;
+    }
+    .u-userColor {
+      color: #FF69B4 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #63163D !important;
+      fill: #63163D !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #6D1843 !important;
+      fill: #6D1843 !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #63163D !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #63163D !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #63163D !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #FF8DC6 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #FF69B4 !important;
+      background-color: transparent !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #63163D !important;
+      background-color: #FF69B4 !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #63163D !important;
+    }
+    .u-userStrokeColor {
+      stroke: #FF69B4 !important;
+    }
+    .u-userHeaderColor {
+      background: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #63163D !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding header colours and the override is valid prefers the header colour over the base colour 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #FF69B4 !important;
+    }
+    .u-userColor {
+      color: #FF69B4 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #63163D !important;
+      fill: #63163D !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #6D1843 !important;
+      fill: #6D1843 !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #63163D !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #63163D !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #63163D !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #FF8DC6 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #FF69B4 !important;
+      background-color: transparent !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #63163D !important;
+      background-color: #FF69B4 !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #63163D !important;
+    }
+    .u-userStrokeColor {
+      stroke: #FF69B4 !important;
+    }
+    .u-userHeaderColor {
+      background: #556B2F !important;
+      color: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #5E7634 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #5E7634 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #FFFFFF !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding launcher colours and the override is invalid or undefined falls back to the base colour 1`] = `
+"
+    .u-userLauncherColor:not([disabled]) {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+      fill: #63163D !important;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg {
+      color: #63163D;
+      fill: #63163D;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg path {
+      fill: #63163D;
+    }
+
+    .u-userLauncherColor:not([disabled]):focus {
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(99, 22, 61, 0.1) !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding launcher colours and the override is valid prefers the launcher colour over the base colour 1`] = `
+"
+    .u-userLauncherColor:not([disabled]) {
+      background-color: #FFD700 !important;
+      color: #64570E !important;
+      fill: #64570E !important;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg {
+      color: #64570E;
+      fill: #64570E;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg path {
+      fill: #64570E;
+    }
+
+    .u-userLauncherColor:not([disabled]):focus {
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(100, 87, 14, 0.1) !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding link colours and the override is invalid or undefined falls back to the base colour 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #FF69B4 !important;
+    }
+    .u-userColor {
+      color: #FF69B4 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #63163D !important;
+      fill: #63163D !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #6D1843 !important;
+      fill: #6D1843 !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #63163D !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #63163D !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #63163D !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #FF8DC6 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #FF69B4 !important;
+      background-color: transparent !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #63163D !important;
+      background-color: #FF69B4 !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #63163D !important;
+    }
+    .u-userStrokeColor {
+      stroke: #FF69B4 !important;
+    }
+    .u-userHeaderColor {
+      background: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #63163D !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding link colours and the override is valid prefers the link colour over the base colour 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #FF69B4 !important;
+    }
+    .u-userColor {
+      color: #FF69B4 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #63163D !important;
+      fill: #63163D !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #6D1843 !important;
+      fill: #6D1843 !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #63163D !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #63163D !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #63163D !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #FF8DC6 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #FF69B4 !important;
+      background-color: transparent !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #63163D !important;
+      background-color: #FF69B4 !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userLinkColor a {
+      color: #6B8E23 !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #6B8E23 !important;
+    }
+    .u-userStrokeColor {
+      stroke: #FF69B4 !important;
+    }
+    .u-userHeaderColor {
+      background: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #63163D !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding list colours and the override is invalid or undefined falls back to the base colour 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #FF69B4 !important;
+    }
+    .u-userColor {
+      color: #FF69B4 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #63163D !important;
+      fill: #63163D !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #6D1843 !important;
+      fill: #6D1843 !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #63163D !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #63163D !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #63163D !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #FF8DC6 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #FF69B4 !important;
+      background-color: transparent !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #63163D !important;
+      background-color: #FF69B4 !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #63163D !important;
+    }
+    .u-userStrokeColor {
+      stroke: #FF69B4 !important;
+    }
+    .u-userHeaderColor {
+      background: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #63163D !important;
+    }
+  "
+`;
+
+exports[`when overriding with zESettings when overriding list colours and the override is valid prefers the link colour over the base colour 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #FF69B4 !important;
+    }
+    .u-userColor {
+      color: #FF69B4 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #2E8B57 !important;
+      fill: #2E8B57 !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #339960 !important;
+      fill: #339960 !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #2E8B57 !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #2E8B57 !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #2E8B57 !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #FF8DC6 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #FF69B4 !important;
+      background-color: transparent !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #63163D !important;
+      background-color: #FF69B4 !important;
+      border-color: #FF69B4 !important;
+    }
+    .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #63163D !important;
+    }
+    .u-userStrokeColor {
+      stroke: #FF69B4 !important;
+    }
+    .u-userHeaderColor {
+      background: #FF69B4 !important;
+      color: #63163D !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #FF8DC6 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #63163D !important;
+    }
+  "
+`;
+
+exports[`when the color is extremely light (white or almost white) generateUserLauncherCSS calculates the colours correctly 1`] = `
+"
+    .u-userLauncherColor:not([disabled]) {
+      background-color: #FFFFFF !important;
+      color: #6F6F6F !important;
+      fill: #6F6F6F !important;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg {
+      color: #6F6F6F;
+      fill: #6F6F6F;
+    }
+
+    .u-userLauncherColor:not([disabled]) svg path {
+      fill: #6F6F6F;
+    }
+
+    .u-userLauncherColor:not([disabled]):focus {
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(111, 111, 111, 0.1) !important;
+    }
+  "
+`;
+
+exports[`when the color is extremely light (white or almost white) generateUserWidgetCSS calculates the colours correctly 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #FFFFFF !important;
+    }
+    .u-userColor {
+      color: #FFFFFF !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #6F6F6F !important;
+      fill: #6F6F6F !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #7A7A7A !important;
+      fill: #7A7A7A !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #6F6F6F !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #6F6F6F !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #6F6F6F !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #7C7C7C !important;
+      color: #121212 !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #7C7C7C !important;
+      color: #121212 !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #888888 !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #7C7C7C !important;
+      background-color: transparent !important;
+      border-color: #7C7C7C !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #121212 !important;
+      background-color: #7C7C7C !important;
+      border-color: #7C7C7C !important;
+    }
+    .u-userLinkColor a {
+      color: #6F6F6F !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #6F6F6F !important;
+    }
+    .u-userStrokeColor {
+      stroke: #FFFFFF !important;
+    }
+    .u-userHeaderColor {
+      background: #FFFFFF !important;
+      color: #6F6F6F !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #6F6F6F !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #D9D9D9 !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #D9D9D9 !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #6F6F6F !important;
+    }
+  "
+`;

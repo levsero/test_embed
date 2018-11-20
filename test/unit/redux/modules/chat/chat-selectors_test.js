@@ -3170,6 +3170,7 @@ describe('chat selectors', () => {
           }
         }
       };
+
       result = selectors.getBadgeColor(mockState);
     });
 

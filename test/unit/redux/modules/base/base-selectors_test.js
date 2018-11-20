@@ -163,6 +163,24 @@ describe('base selectors', () => {
     });
   });
 
+  describe('getUserMinimizedChatBadge', () => {
+    let result;
+    const mockState = {
+      base: {
+        isChatBadgeMinimized: true
+      }
+    };
+
+    beforeEach(() => {
+      result = selectors.getUserMinimizedChatBadge(mockState);
+    });
+
+    it('returns the value of isChatBadgeMinimized', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
   describe('getHiddenByHideAPI', () => {
     let result;
     const mockState = {

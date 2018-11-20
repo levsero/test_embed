@@ -20,7 +20,7 @@ const preChatForm = (state = initialState, action = {}) => {
       return {
         ...state,
         message: action.payload
-      }
+      };
     case PREFILL_RECEIVED:
       return {
         ...state,

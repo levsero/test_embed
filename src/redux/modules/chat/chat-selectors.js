@@ -103,7 +103,7 @@ export const getPrechatFormRequired = createSelector(
   [getChatAccountSettingsPrechatForm],
   (accountSettingsPrechatForm) => {
     return accountSettingsPrechatForm.required;
-});
+  });
 
 export const getProfileConfig = createSelector(
   [getSettingsChatProfileCard, getRatingSettings],

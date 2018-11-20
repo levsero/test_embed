@@ -120,7 +120,6 @@ export default function WebWidgetFactory(name) {
 
   function create(name, config = {}, reduxStore = {}) {
     let containerStyle;
-    let frameStyle = {};
     let frameBodyCss = '';
 
     const configDefaults = {
@@ -172,12 +171,6 @@ export default function WebWidgetFactory(name) {
     if (isMobileBrowser()) {
       containerStyle = { width: '100%', minHeight:'100%' };
     } else {
-      const margin = settings.get('margin');
-
-      frameStyle = _.extend({}, frameStyle, {
-        marginLeft: margin,
-        marginRight: margin
-      });
       containerStyle = { width: 342 };
       frameBodyCss = `
         body { padding: 0 7px; }
@@ -186,9 +179,9 @@ export default function WebWidgetFactory(name) {
 
     const frameParams = {
       ref: (el) => {embed.instance = el.getWrappedInstance();},
-      frameStyle: frameStyle,
       css: webWidgetCSS + frameBodyCss,
       generateUserCSS: generateUserWidgetCSS,
+      position: globalConfig.position,
       fullscreenable: true,
       newChat: chatAvailable,
       store: reduxStore,
