@@ -91,6 +91,7 @@ class Frame extends Component {
     frameStyle: { marginTop: defaultMarginTop() },
     fullscreenable: false,
     hideCloseButton: false,
+    hidePopoutButton: false,
     name: '',
     alwaysShow: false,
     onBack: () => {},

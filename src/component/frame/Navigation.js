@@ -53,6 +53,7 @@ class Navigation extends Component {
     handleCloseClick: () => {},
     handleCloseButtonClicked: () => {},
     hideCloseButton: false,
+    hidePopoutButton: false,
     backButtonVisible: false,
     popoutButtonVisible: false,
     preventClose: false,
