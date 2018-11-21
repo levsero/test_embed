@@ -446,7 +446,7 @@ parts:
       value: "Closed"
   - translation:
       key: "embeddable_framework.chat.operatingHours.label.separator.range"
-      title: "Separator used for schedules than span consecutive days"
+      title: "Separator used for schedules that span consecutive days"
       screenshot: "https://drive.google.com/open?id=1nDXoopgGSqhUAwXDHZ6Hz2pC5FCoFOR6"
       value: " — "
   - translation:
