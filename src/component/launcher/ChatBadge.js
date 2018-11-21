@@ -75,6 +75,7 @@ class ChatBadge extends Component {
   renderTitle = () => {
     if (this.props.hideBranding) return;
 
+    // Zendesk branding doesn't need to be translated.
     return <div className={styles.title}>zendesk chat</div>;
   }
 
