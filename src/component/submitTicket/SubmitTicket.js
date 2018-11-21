@@ -323,9 +323,6 @@ class SubmitTicket extends Component {
     const containerClasses = fullscreen
       ? styles.ticketFormsContainerMobile
       : styles.ticketFormsContainer;
-    const footerClasses = fullscreen
-      ? styles.ticketFormsFooterMobile
-      : styles.ticketFormsFooter;
     const titleMobileClasses = fullscreen ? styles.ticketFormsListMobile : '';
 
     return (
@@ -333,9 +330,9 @@ class SubmitTicket extends Component {
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         ref='ticketFormSelector'
         fullscreen={fullscreen}
-        scrollShadowVisible={!fullscreen}
+        scrollShadowVisible={true}
         containerClasses={containerClasses}
-        footerClasses={footerClasses}>
+        footerClasses={styles.ticketFormsFooter}>
         <h2 className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
         </h2>
