@@ -18,7 +18,8 @@ import {
   prefill,
   setHelpCenterSuggestionsApi,
   identifyApi,
-  logoutApi
+  logoutApi,
+  popoutApi
 } from 'src/service/api/apis';
 import {
   API_GET_IS_CHATTING_NAME,
@@ -103,7 +104,8 @@ export const apiStructurePreRenderSetup = (apiAddToPostRenderQueue, getApiPostRe
         setSuggestions: (_, ...args) => (
           apiAddToPostRenderQueue(['webWidget', 'helpCenter:setSuggestions', ...args])
         )
-      }
+      },
+      popout: popoutApi
     }
   };
 };
@@ -129,7 +131,8 @@ export const apiStructurePostRenderSetup = () => {
       helpCenter: {
         setSuggestions: setHelpCenterSuggestionsApi
       },
-      reset: resetWidget
+      reset: resetWidget,
+      popout: popoutApi
     }
   };
 };
