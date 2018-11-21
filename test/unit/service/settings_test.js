@@ -8,14 +8,12 @@ describe('settings', () => {
   const maxLocaleFallbacks = 3;
   const createMockStore = configureMockStore();
   const mockStore = createMockStore();
-  const mockUpdateSettingsChatSuppressAction = 'UPDATE_SETTINGS_CHAT_SUPPRESS';
   const mockUpdateSettingsAction = 'UPDATE_SETTINGS';
 
   beforeEach(() => {
     mockery.enable();
     mockRegistry = initMockRegistry({
       'src/redux/modules/settings': {
-        updateSettingsChatSuppress: () => { return { type: mockUpdateSettingsChatSuppressAction }; },
         updateSettings: () => { return { type: mockUpdateSettingsAction }; }
       },
       'utility/globals': {
@@ -169,17 +167,10 @@ describe('settings', () => {
         .toEqual(['en-US', 'en-AU', 'fr']);
     });
 
-    it('calls updateSettingsChatSuppress', () => {
-      settings.init(mockStore);
-
-      expect(mockStore.getActions()[0].type)
-        .toEqual(mockUpdateSettingsChatSuppressAction);
-    });
-
     it('calls updateSettings', () => {
       settings.init(mockStore);
 
-      expect(mockStore.getActions()[1].type)
+      expect(mockStore.getActions()[0].type)
         .toEqual(mockUpdateSettingsAction);
     });
 

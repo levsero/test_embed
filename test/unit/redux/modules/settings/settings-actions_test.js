@@ -254,41 +254,4 @@ describe('settings redux actions', () => {
       });
     });
   });
-
-  describe('updateSettingsChatSuppress', () => {
-    let action;
-
-    beforeEach(() => {
-      const suppress = true;
-
-      mockStore.dispatch(actions.updateSettingsChatSuppress(suppress));
-      action = mockStore.getActions()[0];
-    });
-
-    it('updates settings for chat suppress to true', () => {
-      const expected = {
-        type: actionTypes.UPDATE_SETTINGS_CHAT_SUPPRESS,
-        payload: true
-      };
-
-      expect(action)
-        .toEqual(expected);
-    });
-  });
-
-  describe('resetSettingsChatSuppress', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.resetSettingsChatSuppress());
-      action = mockStore.getActions()[0];
-    });
-
-    it('resets settings for chat suppress to its original state', () => {
-      const expected = { type: actionTypes.RESET_SETTINGS_CHAT_SUPPRESS };
-
-      expect(action)
-        .toEqual(expected);
-    });
-  });
 });

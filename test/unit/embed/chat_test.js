@@ -6,8 +6,6 @@ describe('embed.chat', () => {
     mockZopim;
 
   const updateZopimChatStatusSpy = jasmine.createSpy('updateZopimChatStatus');
-  const updateSettingsChatSuppressSpy = jasmine.createSpy('updateSettingsChatSuppress');
-  const resetSettingsChatSuppressSpy = jasmine.createSpy('resetSettingsChatSuppress');
   const zopimEndChatSpy = jasmine.createSpy('zopimEndChat');
   const closeApiSpy = jasmine.createSpy('closeApi');
   const openApiSpy = jasmine.createSpy('openApi');
@@ -105,10 +103,6 @@ describe('embed.chat', () => {
       },
       'utility/color/validate': {
         getThemeColor: () => {}
-      },
-      'src/redux/modules/settings': {
-        updateSettingsChatSuppress: updateSettingsChatSuppressSpy,
-        resetSettingsChatSuppress: resetSettingsChatSuppressSpy
       },
       'src/redux/modules/base': {
         updateActiveEmbed: noop
@@ -354,11 +348,6 @@ describe('embed.chat', () => {
           onChatStartCall.args[0](false);
         });
 
-        it('calls updateSettingsChatSuppress with false', () => {
-          expect(updateSettingsChatSuppressSpy)
-            .toHaveBeenCalledWith(false);
-        });
-
         it('broadcasts <name>.onChatStart', () => {
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('dave.onChatStart');
@@ -373,11 +362,6 @@ describe('embed.chat', () => {
         it('broadcasts <name>.onChatEnd', () => {
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('dave.onChatEnd');
-        });
-
-        it('calls resetSettingsChatSuppress', () => {
-          expect(resetSettingsChatSuppressSpy)
-            .toHaveBeenCalled();
         });
 
         it('calls zopimEndChat', () => {

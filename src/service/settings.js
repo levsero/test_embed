@@ -2,8 +2,7 @@ import _ from 'lodash';
 
 import { win } from 'utility/globals';
 import { objectDifference } from 'utility/utils';
-import { updateSettingsChatSuppress,
-  updateSettings } from 'src/redux/modules/settings';
+import { updateSettings } from 'src/redux/modules/settings';
 import { mediator } from 'service/mediator';
 
 const optionWhitelist = {
@@ -154,7 +153,6 @@ function init(reduxStore = { dispatch: () => {} }) {
   webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks,
     maxLocaleFallbacks);
 
-  reduxStore.dispatch(updateSettingsChatSuppress(webWidgetStore.chat.suppress));
   reduxStore.dispatch(updateSettings({
     webWidget: {
       ...webWidgetStore,
