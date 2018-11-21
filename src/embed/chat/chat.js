@@ -16,7 +16,6 @@ import {
   zopimEndChat,
   zopimOpen,
   zopimClose } from 'src/redux/modules/zopimChat';
-import { updateSettingsChatSuppress, resetSettingsChatSuppress } from 'src/redux/modules/settings';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { closeApi, openApi } from 'src/service/api/apis';
 
@@ -200,11 +199,10 @@ function init(name) {
   };
   const onChatStart = () => {
     mediator.channel.broadcast(`${name}.onChatStart`);
-    store.dispatch(updateSettingsChatSuppress(false));
+    store.dispatch(zopimIsChatting());
   };
   const onChatEnd = () => {
     mediator.channel.broadcast(`${name}.onChatEnd`);
-    store.dispatch(resetSettingsChatSuppress());
     store.dispatch(zopimEndChat());
   };
   const onHide = () => {
@@ -229,7 +227,6 @@ function init(name) {
     cappedTimeoutCall(() => {
       if (zopimLive.isChatting()) {
         store.dispatch(zopimIsChatting());
-        store.dispatch(updateSettingsChatSuppress(false));
       }
 
       if (zopimWin.getDisplay() || zopimLive.isChatting()) {

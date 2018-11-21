@@ -1,6 +1,7 @@
 describe('chat reducer suppress', () => {
   let reducer,
     actionTypes,
+    zopimActionTypes,
     initialState,
     settingsGetSpy;
 
@@ -19,11 +20,13 @@ describe('chat reducer suppress', () => {
 
     const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/chat-suppress');
     const actionTypesPath = buildSrcPath('redux/modules/settings/settings-action-types');
+    const zopimActionTypesPath = buildSrcPath('redux/modules/zopimChat/zopimChat-action-types');
 
     reducer = requireUncached(reducerPath).default;
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);
+    zopimActionTypes = requireUncached(zopimActionTypesPath);
   });
 
   afterAll(() => {
@@ -43,34 +46,74 @@ describe('chat reducer suppress', () => {
     });
   });
 
-  describe('when an UPDATE_SETTINGS_CHAT_SUPPRESS action is dispatched', () => {
-    let state;
+  describe('when an UPDATE_SETTINGS action is dispatched', () => {
+    let payload, state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.UPDATE_SETTINGS_CHAT_SUPPRESS,
-        payload: true
+        type: actionTypes.UPDATE_SETTINGS,
+        payload: payload
       });
     });
 
-    it('sets the action payload as the state', () => {
-      expect(state)
-        .toEqual(true);
+    describe('when valid properties are set', () => {
+      beforeAll(() => {
+        payload = {
+          webWidget: {
+            chat: {
+              suppress: true
+            }
+          }
+        };
+      });
+
+      it('updates the value', () => {
+        expect(state).toEqual(true);
+      });
+    });
+
+    describe('when invalid properties are set', () => {
+      beforeAll(() => {
+        payload = {
+          webWidget: {
+            yeah: 'nah'
+          }
+        };
+      });
+
+      it('does nothing', () => {
+        expect(state).toEqual(initialState);
+      });
     });
   });
 
-  describe('when an RESET_SETTINGS_CHAT_SUPPRESS action is dispatched', () => {
-    let state;
+  describe('when an ZOPIM_IS_CHATTING action is dispatched', () => {
+    let payload, state;
 
     beforeEach(() => {
-      const mockCurrentState = true;
-
-      state = reducer(mockCurrentState, { type: actionTypes.RESET_SETTINGS_CHAT_SUPPRESS });
+      state = reducer(true, {
+        type: zopimActionTypes.ZOPIM_IS_CHATTING,
+        payload: payload
+      });
     });
 
-    it('resets the state to its initial value', () => {
-      expect(state)
-        .toEqual(false);
+    it('sets the state to false', () => {
+      expect(state).toEqual(false);
+    });
+  });
+
+  describe('when an ZOPIM_END_CHAT action is dispatched', () => {
+    let payload, state;
+
+    beforeEach(() => {
+      state = reducer(true, {
+        type: zopimActionTypes.ZOPIM_END_CHAT,
+        payload: payload
+      });
+    });
+
+    it('sets the state to the initialState', () => {
+      expect(state).toEqual(initialState);
     });
   });
 });

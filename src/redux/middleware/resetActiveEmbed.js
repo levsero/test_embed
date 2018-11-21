@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { UPDATE_SETTINGS_CHAT_SUPPRESS } from 'src/redux/modules/settings/settings-action-types';
 import {
   WIDGET_INITIALISED,
   ACTIVATE_RECEIVED,
@@ -110,7 +109,6 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     CHAT_CONNECTED,
     ZOPIM_CONNECTED,
     ZOPIM_END_CHAT,
-    UPDATE_SETTINGS_CHAT_SUPPRESS,
     API_RESET_WIDGET,
     GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
   ];
