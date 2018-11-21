@@ -1,0 +1,721 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOfflineAvailable is false 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-chat
+    "
+      >
+        <span
+          class="container icon iconChat newIcon Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Live chat
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvailable & chatOfflineAvailable are true 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-chat
+    "
+      >
+        <span
+          class="container icon iconChat newIcon Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Live chat
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvailable is false 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-chat
+    "
+      >
+        <span
+          class="container icon iconChat newIcon Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          No agents available. Leave us a message
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOfflineAvailable and chatAvailable are false and chatAvailableOnMount is false 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOfflineAvailable and chatAvailable are false and chatAvailableOnMount is true 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn chatBtnDisabled
+      
+      Icon--channelChoice-chat
+    "
+      >
+        <span
+          class="container icon iconChat newIconDisabled Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          <span
+            class="offlineOptionContainer"
+          >
+            <div
+              class="offlineLabelOption"
+            >
+              Live chat
+            </div>
+            <div>
+              No available agents
+            </div>
+          </span>
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when submitTicketAvailable is false 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when submitTicketAvailable is true 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvailable is false and talkAvailableOnMount is false 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvailable is false and talkAvailableOnMount is true 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn talkBtnDisabled
+      
+      Icon--channelChoice-talk
+    "
+      >
+        <span
+          class="container icon iconTalk newIconDisabled Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          <span
+            class="offlineOptionContainer"
+          >
+            <div
+              class="offlineLabelOption"
+            >
+              Call us
+            </div>
+            <div>
+              No available agents
+            </div>
+          </span>
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvailable is true when callbackEnabled is false 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-talk
+    "
+      >
+        <span
+          class="container icon iconTalk newIcon Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Call us
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvailable is true when callbackEnabled is true 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-talk
+    "
+      >
+        <span
+          class="container icon iconTalk newIcon Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Request a callback
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the css classes are correctly set 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      button-class btn btnEnabled
+      containerActionable
+      Icon--channelChoice-talk
+    "
+      >
+        <span
+          class="container icon iconTalk newIcon Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label label-class"
+        >
+          Request a callback
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      button-class btn btnEnabled
+      containerActionable
+      Icon--channelChoice-chat
+    "
+      >
+        <span
+          class="container icon iconChat newIcon Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label label-class"
+        >
+          Live chat
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      button-class btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label label-class"
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly when all buttons show when isRTL returns true it adds a css class 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-talk
+    "
+      >
+        <span
+          class="container icon iconTalk newIcon Icon--channelChoice-talk flipX"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Request a callback
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-chat
+    "
+      >
+        <span
+          class="container icon iconChat newIcon Icon--channelChoice-chat flipX"
+          type="Icon--channelChoice-chat"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Live chat
+        </span>
+      </button>
+    </li>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm flipX"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`rendering renders ChannelChoiceMenu correctly with default props 1`] = `
+<div>
+  <ul>
+    <li
+      class="listItem"
+    >
+      <button
+        class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+      >
+        <span
+          class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <span
+          class="label "
+        >
+          Leave a message
+        </span>
+      </button>
+    </li>
+  </ul>
+</div>
+`;
