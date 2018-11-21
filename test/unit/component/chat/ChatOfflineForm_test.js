@@ -10,6 +10,7 @@ describe('ChatOfflineForm component', () => {
   const LoadingSpinner = noopReactComponent();
   const ChatOperatingHours = noopReactComponent();
   const ChatOfflineMessageForm = noopReactComponent();
+  const ChatMessagingChannels = noopReactComponent();
   const UserProfile = noopReactComponent();
   const ZendeskLogo = noopReactComponent();
   const ScrollContainer = noopReactComponent();
@@ -83,6 +84,9 @@ describe('ChatOfflineForm component', () => {
       },
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
+      },
+      'component/chat/ChatMessagingChannels': {
+        ChatMessagingChannels
       },
       'component/chat/UserProfile': { UserProfile },
       'component/shared/SuccessNotification': {
@@ -518,6 +522,7 @@ describe('ChatOfflineForm component', () => {
       spyOn(component, 'renderSubmitButton');
       spyOn(component, 'renderOfflineGreeting');
       spyOn(component, 'renderOperatingHoursLink');
+      spyOn(component, 'renderMessagingChannels');
       spyOn(component, 'renderPhoneNumberField');
       spyOn(component, 'renderMessageField');
       spyOn(component, 'renderZendeskLogo');
@@ -550,6 +555,11 @@ describe('ChatOfflineForm component', () => {
 
       it('calls renderOperatingHoursLink', () => {
         expect(component.renderOperatingHoursLink)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderMessagingChannels', () => {
+        expect(component.renderMessagingChannels)
           .toHaveBeenCalled();
       });
 
@@ -872,6 +882,35 @@ describe('ChatOfflineForm component', () => {
       it('uses the greeting passed in', () => {
         expect(result.props.children)
           .toEqual('Show me what you got!');
+      });
+    });
+  });
+
+  describe('renderMessagingChannels', () => {
+    let result, channels = {};
+
+    beforeEach(() => {
+      const component = instanceRender(
+        <ChatOfflineForm
+          formState={initialFormState}
+          channels={channels}
+          offlineMessage={{ screen: 'main' }} />
+      );
+
+      result = component.renderMessagingChannels();
+    });
+
+    describe('when channels are passed in', () => {
+      beforeAll(() => {
+        channels = {
+          facebook: { allowed: true, page_id: '123' },
+          twitter: { allowed: false, page_id: '456' }
+        };
+      });
+
+      it('uses the channels passed in', () => {
+        expect(result.props.channels)
+          .toEqual(channels);
       });
     });
   });

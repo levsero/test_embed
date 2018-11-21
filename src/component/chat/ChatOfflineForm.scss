@@ -15,7 +15,7 @@
 
 .offlineGreeting {
   composes: u-marginTT from global;
-  margin-bottom: #{18/$font-size}rem;
+  margin-bottom: #{9/$font-size}rem;
 }
 
 .loadingSpinner {

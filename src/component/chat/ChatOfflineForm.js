@@ -12,6 +12,7 @@ import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 import { UserProfile } from 'component/chat/UserProfile';
+import { ChatMessagingChannels } from 'component/chat/ChatMessagingChannels';
 import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { ICONS, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 import { locals as styles } from './ChatOfflineForm.scss';
@@ -40,6 +41,7 @@ export class ChatOfflineForm extends Component {
     hideZendeskLogo: PropTypes.bool,
     getFrameContentDocument: PropTypes.func.isRequired,
     widgetShown: PropTypes.bool.isRequired,
+    channels: PropTypes.object
   };
 
   static defaultProps = {
@@ -53,7 +55,8 @@ export class ChatOfflineForm extends Component {
     hideZendeskLogo: false,
     getFrameContentDocument: () => ({}),
     formState: {},
-    readOnlyState: {}
+    readOnlyState: {},
+    channels: {}
   };
 
   constructor(props) {
@@ -283,6 +286,14 @@ export class ChatOfflineForm extends Component {
     );
   }
 
+  renderMessagingChannels() {
+    return (
+      <ChatMessagingChannels
+        isMobile={this.props.isMobile}
+        channels={this.props.channels} />
+    );
+  }
+
   handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -357,6 +368,7 @@ export class ChatOfflineForm extends Component {
           scrollShadowVisible={true}>
           {this.renderOfflineGreeting()}
           {this.renderOperatingHoursLink()}
+          {this.renderMessagingChannels()}
           {this.renderUserProfile()}
           {this.renderPhoneNumberField()}
           {this.renderMessageField()}
