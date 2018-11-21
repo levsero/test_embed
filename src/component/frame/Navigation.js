@@ -8,6 +8,8 @@ import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { clickBusterRegister } from 'utility/devices';
+import { getIsPopoutAvailable } from 'src/redux/modules/chat/chat-selectors';
+import { createChatPopoutWindow } from 'src/util/chat';
 
 import {
   getMenuVisible as getChatMenuVisible,
@@ -20,6 +22,7 @@ import { handleCloseButtonClicked } from 'src/redux/modules/base/base-actions';
 const mapStateToProps = (state) => {
   return {
     backButtonVisible: state.base.backButtonVisible,
+    popoutButtonVisible: getIsPopoutAvailable(state),
     menuVisible: getChatMenuVisible(state),
     useMenu: getShowChatMenu(state),
     standaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state)
@@ -33,7 +36,9 @@ class Navigation extends Component {
     handleCloseClick: PropTypes.func,
     handleCloseButtonClicked: PropTypes.func,
     hideCloseButton: PropTypes.bool,
+    hidePopoutButton: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
+    popoutButtonVisible: PropTypes.bool,
     preventClose: PropTypes.bool,
     useBackButton: PropTypes.bool,
     useMenu: PropTypes.bool,
@@ -49,6 +54,7 @@ class Navigation extends Component {
     handleCloseButtonClicked: () => {},
     hideCloseButton: false,
     backButtonVisible: false,
+    popoutButtonVisible: false,
     preventClose: false,
     useBackButton: false,
     updateMenuVisibility: () => {},
@@ -126,6 +132,14 @@ class Navigation extends Component {
     return (!this.props.standaloneMobileNotificationVisible)
       ? <div>
         {this.renderLeftNavButton()}
+        {this.renderNavButton({
+          onClick: createChatPopoutWindow,
+          'aria-label': 'Popout',
+          icon: ICONS.BACK,
+          className: styles.popout,
+          isVisible: this.props.popoutButtonVisible && !this.props.hidePopoutButton,
+          position: 'right'
+        })}
         {this.renderNavButton({
           onClick: this.handleCloseClick,
           'aria-label': i18n.t('embeddable_framework.navigation.close'),

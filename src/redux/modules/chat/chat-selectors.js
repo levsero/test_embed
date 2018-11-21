@@ -14,7 +14,8 @@ import { i18n } from 'service/i18n';
 import {
   getActiveEmbed,
   getLocale,
-  getWidgetShown
+  getWidgetShown,
+  getLauncherVisible
 } from 'src/redux/modules/base/base-selectors';
 import {
   getSettingsChatDepartmentsEnabled,
@@ -25,6 +26,8 @@ import {
   getSettingsChatTitle,
   getSettingsChatProfileCard
 } from 'src/redux/modules/settings/settings-selectors';
+import { isMobileBrowser } from 'utility/devices';
+import { win } from 'utility/globals';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
 const getForcedStatus = (state) => state.chat.forcedStatus;
@@ -79,6 +82,13 @@ export const getOperatingHours = (state) => state.chat.operatingHours;
 export const getLoginSettings = (state) => state.chat.accountSettings.login;
 export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
 export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
+export const getIsPopoutAvailable = (state) =>
+  !getIsAuthenticated(state)
+  && getActiveEmbed(state) === 'chat'
+  && !isMobileBrowser()
+  && !getLauncherVisible(state)
+  && !win.zEPopout;
+
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
 export const getSliderVendor = (state) => state.chat.vendor.slider;
 export const getWindowSettings = (state) => state.chat.accountSettings.chatWindow;

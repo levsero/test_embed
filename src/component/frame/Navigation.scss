@@ -4,3 +4,8 @@
   composes: u-textInheritColor u-userHeaderButtonColor from global;
   composes: AnimColorEaseInOut from '../../styles/components/Animation.scss';
 }
+
+.popout {
+  transform: rotate(135deg);
+  margin-right: #{36/$font-size}rem !important;
+}

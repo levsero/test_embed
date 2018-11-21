@@ -66,6 +66,12 @@ describe('chat selectors', () => {
           getSettingTranslation: () => mockTranslation
         }
       },
+      'utility/devices': {
+
+      },
+      'utility/globals': {
+
+      }
     });
 
     const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');

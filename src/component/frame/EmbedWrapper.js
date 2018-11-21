@@ -19,6 +19,7 @@ export class EmbedWrapper extends Component {
     handleBackClick: PropTypes.func,
     handleCloseClick: PropTypes.func,
     hideCloseButton: PropTypes.bool,
+    hidePopoutButton: PropTypes.bool,
     reduxStore: PropTypes.object.isRequired,
     useBackButton: PropTypes.bool,
     document: PropTypes.object.isRequired
@@ -31,7 +32,8 @@ export class EmbedWrapper extends Component {
     handleBackClick: () => {},
     handleCloseClick: () => {},
     hideCloseButton: false,
-    useBackButton: false
+    useBackButton: false,
+    hidePopoutButton: false
   };
 
   constructor(props, context) {
@@ -113,7 +115,8 @@ export class EmbedWrapper extends Component {
                   handleCloseClick={this.closeEmbed}
                   fullscreen={this.props.fullscreen}
                   useBackButton={this.props.useBackButton}
-                  hideCloseButton={this.props.hideCloseButton} />
+                  hideCloseButton={this.props.hideCloseButton}
+                  hidePopoutButton={this.props.hidePopoutButton} />
                 <div id='Embed' ref={(el) => { this.embed = el; }}>
                   {newChild}
                 </div>

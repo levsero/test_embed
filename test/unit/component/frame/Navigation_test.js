@@ -57,6 +57,9 @@ describe('Navigation', () => {
       },
       'utility/devices': {
         clickBusterRegister: mockClickBusterRegister
+      },
+      'src/util/chat': {
+
       }
     });
 

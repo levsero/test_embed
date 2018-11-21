@@ -23,7 +23,7 @@ import {
   NEW_AGENT_MESSAGE_RECEIVED,
   CHAT_STARTED,
   SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types';
-import { chatLogout, sendVisitorPath, endChat, sendMsg, chatWindowOpenPopout } from 'src/redux/modules/chat';
+import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
   getDepartment,
@@ -31,7 +31,7 @@ import {
   getIsChatting,
   getNotificationCount,
   getChatStatus,
-  getIsAuthenticated
+  getIsPopoutAvailable
 } from 'src/redux/modules/chat/chat-selectors';
 import { EXECUTE_API_ON_CLOSE_CALLBACK, EXECUTE_API_ON_OPEN_CALLBACK } from 'src/redux/modules/base/base-action-types';
 import { updateSettings } from 'src/redux/modules/settings';
@@ -44,8 +44,7 @@ import { createChatPopoutWindow } from 'src/util/chat';
 
 import { handleOnApiCalled } from 'src/redux/modules/base/base-actions';
 
-import {
-  getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 
 export const endChatApi = (reduxStore) => {
   reduxStore.dispatch(endChat());
@@ -129,7 +128,7 @@ export const showApi = (reduxStore) => {
 };
 
 export const popoutApi = (reduxStore) => {
-  if (!getIsAuthenticated(reduxStore.getState())) {
+  if (getIsPopoutAvailable(reduxStore.getState())) {
     createChatPopoutWindow();
   }
 };
