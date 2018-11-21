@@ -23,7 +23,7 @@ import {
   NEW_AGENT_MESSAGE_RECEIVED,
   CHAT_STARTED,
   SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types';
-import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
+import { chatLogout, sendVisitorPath, endChat, sendMsg, chatWindowOpenPopout } from 'src/redux/modules/chat';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
   getDepartment,
@@ -44,7 +44,8 @@ import { createChatPopoutWindow } from 'src/util/chat';
 
 import { handleOnApiCalled } from 'src/redux/modules/base/base-actions';
 
-import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+import {
+  getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 
 export const endChatApi = (reduxStore) => {
   reduxStore.dispatch(endChat());

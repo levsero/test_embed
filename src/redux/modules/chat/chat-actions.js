@@ -651,6 +651,12 @@ export function chatConnected() {
   };
 }
 
+export function chatWindowOpenPopout() {
+  return {
+    type: actions.CHAT_POPOUT
+  };
+}
+
 // TODO: Remove this function.
 // It was added temporarily when transitioning to use dynamic import()
 // for the chat-web-sdk
