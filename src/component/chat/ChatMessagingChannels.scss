@@ -5,17 +5,21 @@
 }
 
 .channelIcon {
+  display: inline-block;
   padding-right: #{8 / $font-size}rem;
 
   [dir="rtl"] & {
+    padding-right: 0;
     padding-left: #{8 / $font-size}rem;
   }
 }
 
 .channelIconMobile {
+  display: inline-block;
   padding-right: #{12 / $font-size}rem;
 
   [dir="rtl"] & {
+    padding-right: 0;
     padding-left: #{12 / $font-size}rem;
   }
 }
