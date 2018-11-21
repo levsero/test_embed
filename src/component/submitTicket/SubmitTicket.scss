@@ -45,10 +45,6 @@
   min-height: #{36/$font-size}rem;
 }
 
-.ticketFormsFooterMobile {
-  height: 0;
-}
-
 .ticketFormsContainerMobile {
   composes: u-paddingHN u-marginHN u-paddingTN from global;
 }

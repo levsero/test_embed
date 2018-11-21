@@ -47,9 +47,9 @@
 
   svg {
     min-width: #{50/$font-size}rem; /* 1 */
-    min-height: #{30/$font-size}rem; /* 1 */
+    min-height: #{26/$font-size}rem; /* 1 */
     width: #{50/$font-size}rem;
-    height: #{30/$font-size}rem;
+    height: #{26/$font-size}rem;
 
     &:hover, &:active, &:focus {
       path {
