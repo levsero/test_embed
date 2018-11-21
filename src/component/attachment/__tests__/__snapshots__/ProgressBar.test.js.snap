@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with expected classes 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="progressBar"
+      style="width: 0%;"
+    />
+  </div>
+</div>
+`;
+
+exports[`renders with expected classes and width 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="progressBar"
+      style="width: 33%;"
+    />
+  </div>
+</div>
+`;
+
+exports[`renders with fake progress bar classes when needed 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="progressBar fakeProgressAnimation"
+      style="width: 25%;"
+    />
+  </div>
+</div>
+`;
