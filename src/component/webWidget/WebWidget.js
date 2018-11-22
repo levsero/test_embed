@@ -354,6 +354,8 @@ class WebWidget extends Component {
     if (this.props.activeEmbed !== chat) return;
 
     const updateChatBackButtonVisibility = () => {
+      if (this.props.chatStandalone) return;
+
       this.props.updateBackButtonVisibility(
         this.props.helpCenterAvailable ||
         this.props.channelChoiceAvailable

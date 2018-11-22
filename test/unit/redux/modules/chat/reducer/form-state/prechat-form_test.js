@@ -58,6 +58,23 @@ describe('chat reducer formState preChatForm', () => {
       });
     });
 
+    describe('when an action of type CHAT_BADGE_MESSAGE_CHANGED is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: chatActionTypes.CHAT_BADGE_MESSAGE_CHANGED,
+          payload: 'yeet'
+        });
+      });
+
+      it('sets the action payload as the state', () => {
+        expect(state)
+          .toEqual({
+            ...initialState,
+            message: 'yeet'
+          });
+      });
+    });
+
     describe('when an action of type PREFILL_RECEIVED is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {

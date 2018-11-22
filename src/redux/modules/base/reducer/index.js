@@ -16,6 +16,7 @@ import widgetInitialised from './base-widget-initialised';
 import hidden from './base-hidden';
 import bootupTimeout from './base-bootupTimeout';
 import locale from './base-locale';
+import isChatBadgeMinimized from './base-is-chat-badge-minimized';
 
 export default combineReducers({
   activeEmbed,
@@ -33,5 +34,6 @@ export default combineReducers({
   widgetInitialised,
   hidden,
   bootupTimeout,
-  locale
+  locale,
+  isChatBadgeMinimized
 });

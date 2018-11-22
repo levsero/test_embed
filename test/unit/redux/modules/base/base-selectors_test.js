@@ -163,6 +163,24 @@ describe('base selectors', () => {
     });
   });
 
+  describe('getUserMinimizedChatBadge', () => {
+    let result;
+    const mockState = {
+      base: {
+        isChatBadgeMinimized: true
+      }
+    };
+
+    beforeEach(() => {
+      result = selectors.getUserMinimizedChatBadge(mockState);
+    });
+
+    it('returns the value of isChatBadgeMinimized', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
   describe('getHiddenByHideAPI', () => {
     let result;
     const mockState = {
@@ -544,56 +562,58 @@ describe('base selectors', () => {
   });
 
   describe('getChatStandalone', () => {
-    let result;
-    const additionalEmbeds = ['talk', 'helpCenterForm', 'ticketSubmissionForm'];
+    let result,
+      mockState;
 
-    describe('when Chat is the only product existing', () => {
-      beforeEach(() => {
-        const mockState = {
+    beforeEach(() => {
+      result = selectors.getChatStandalone(mockState);
+    });
+
+    describe('when chat is standalone', () => {
+      beforeAll(() => {
+        mockState = {
           base: {
-            embeds: {
-              chat: {}
+            embeddableConfig: {
+              embeds: {
+                zopimChat: {
+                  props: {
+                    standalone: true
+                  }
+                }
+              }
             }
           }
         };
-
-        result = selectors.getChatStandalone(mockState);
       });
 
-      it('returns true for the state of chatStandalone', () => {
+      it('returns true', () => {
         expect(result)
           .toEqual(true);
       });
     });
 
-    const refuteChatStandAlone = (embed) => {
-      describe(`when ${embed} exist alongside with Chat`, () => {
-        beforeEach(() => {
-          const mockState = {
-            base: {
+    describe('when chat is not standalone', () => {
+      beforeAll(() => {
+        mockState = {
+          base: {
+            embeddableConfig: {
               embeds: {
-                chat: {},
-                [embed]: {}
+                zopimChat: {
+                  props: {
+                    standalone: false
+                  }
+                }
               }
             }
-          };
-
-          result = selectors.getChatStandalone(mockState);
-        });
-
-        it('returns false for the state of chatStandalone', () => {
-          expect(result)
-            .toEqual(false);
-        });
+          }
+        };
       });
-    };
 
-    it('evalutes at least a single additional embed', () => {
-      expect(additionalEmbeds.length > 0)
-        .toBe(true);
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
     });
-
-    additionalEmbeds.forEach(refuteChatStandAlone);
   });
 
   describe('getIPMWidget', () => {

@@ -25,7 +25,14 @@ describe('chat reducer accountSettings theme', () => {
 
     describe('initial state', () => {
       it('sets the initial state to an empty with an empty message_type property', () => {
-        const expected = { message_type: '', color: '#555555', position: 'br' };
+        const expected = {
+          message_type: '',
+          color: {
+            primary: '#555555',
+            banner: ''
+          },
+          position: 'br'
+        };
 
         expect(initialState)
           .toEqual(expected);
@@ -41,7 +48,8 @@ describe('chat reducer accountSettings theme', () => {
               position: 'bl',
             },
             colors: {
-              primary: 'blah'
+              primary: 'blah',
+              banner: 'yeet'
             }
           }
         };
@@ -56,7 +64,10 @@ describe('chat reducer accountSettings theme', () => {
         const expected = {
           message_type: 'bubble_avatar',
           position: 'bl',
-          color: 'blah'
+          color: {
+            primary: 'blah',
+            banner: 'yeet'
+          }
         };
 
         expect(state)
@@ -88,7 +99,10 @@ describe('chat reducer accountSettings theme', () => {
         const expected = {
           message_type: 'bubble_avatar',
           position: 'b',
-          color: 'fasdfasf'
+          color: {
+            primary: 'fasdfasf',
+            banner: ''
+          }
         };
 
         expect(state)

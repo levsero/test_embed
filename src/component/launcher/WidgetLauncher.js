@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { locals as styles } from './Launcher.scss';
+import { locals as styles } from './WidgetLauncher.scss';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-class Launcher extends Component {
+class WidgetLauncher extends Component {
   static propTypes = {
     activeEmbed: PropTypes.string.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
@@ -208,4 +208,4 @@ const actionCreators = {
   launcherClicked
 };
 
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Launcher);
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WidgetLauncher);
