@@ -31,7 +31,7 @@
   },
   "lint-staged": {
     "src/**/*.js": [
-      "eslint --fix src test --ignore-pattern=src/translation/*.js",
+      "eslint src test --ignore-pattern=src/translation/*.js",
       "git add"
     ]
   },
