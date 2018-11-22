@@ -302,7 +302,7 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
 
 ##### Parameters
 
-* `data`: Object. Matches the structue defined in [zESettings](./settings)
+* `data`: Object. Matches the structure defined in [zESettings](./settings)
 
 ##### Example
 
