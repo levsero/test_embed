@@ -30,7 +30,9 @@ import {
   getDepartmentsList,
   getIsChatting,
   getNotificationCount,
-  getChatStatus } from 'src/redux/modules/chat/chat-selectors';
+  getChatStatus,
+  getIsAuthenticated
+} from 'src/redux/modules/chat/chat-selectors';
 import { EXECUTE_API_ON_CLOSE_CALLBACK, EXECUTE_API_ON_OPEN_CALLBACK } from 'src/redux/modules/base/base-action-types';
 import { updateSettings } from 'src/redux/modules/settings';
 import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
@@ -38,6 +40,7 @@ import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
+import { createChatPopoutWindow } from 'src/util/chat';
 
 import { handleOnApiCalled } from 'src/redux/modules/base/base-actions';
 
@@ -122,6 +125,12 @@ export const hideApi = (reduxStore) => {
 
 export const showApi = (reduxStore) => {
   reduxStore.dispatch(showRecieved());
+};
+
+export const popoutApi = (reduxStore) => {
+  if (!getIsAuthenticated(reduxStore.getState())) {
+    createChatPopoutWindow();
+  }
 };
 
 export const updatePathApi = (reduxStore, page = {}) => {
