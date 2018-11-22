@@ -2,8 +2,8 @@ import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from '../../chat-action-types';
 
 const initialState = {
   layout: 'image_only',
-  img: '',
-  text: 'hello'
+  image: '',
+  text: 'Chat with us'
 };
 
 const banner = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const banner = (state = initialState, action) => {
         ...state,
         layout: bannerInfo.layout,
         text: bannerInfo.text,
-        img: bannerInfo.image_path
+        image: bannerInfo.image_path
       };
     default:
       return state;

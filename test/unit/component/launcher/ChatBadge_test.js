@@ -172,7 +172,7 @@ describe('ChatBadge component', () => {
 
     describe('when custom image is present', () => {
       beforeAll(() => {
-        mockBannerSettings.img = 'http://img.com/img.png';
+        mockBannerSettings.image = 'http://img.com/img.png';
       });
 
       it('renders custom image', () => {
@@ -205,7 +205,7 @@ describe('ChatBadge component', () => {
 
     describe('when custom image is not present', () => {
       beforeAll(() => {
-        mockBannerSettings.img = '';
+        mockBannerSettings.image = '';
       });
 
       it('renders custom image', () => {

@@ -100,13 +100,13 @@ class ChatBadge extends Component {
   renderImage = () => {
     let img = <Icon className={styles.chatIcon} type='Icon--channelChoice-chat' />;
 
-    if (this.props.bannerSettings.img) {
+    if (this.props.bannerSettings.image) {
       const imageClasses = classNames({
         [styles.customImg]: this.props.bannerSettings.layout !== 'image_only',
         [styles.customImgOnly]: this.props.bannerSettings.layout === 'image_only'
       });
 
-      img = <img src={this.props.bannerSettings.img} className={imageClasses} />;
+      img = <img src={this.props.bannerSettings.image} className={imageClasses} />;
     }
 
     return (
@@ -117,18 +117,22 @@ class ChatBadge extends Component {
   }
 
   renderContent = () => {
-    let content = [];
+    const content = [];
 
-    if (this.props.bannerSettings.layout === 'text_only') {
-      content.push(this.renderText());
-    } else if (this.props.bannerSettings.layout === 'image_only') {
-      content.push(this.renderImage());
-    } else if (this.props.bannerSettings.layout === 'image_left') {
-      content.push(this.renderImage());
-      content.push(this.renderText());
-    } else {
-      content.push(this.renderText());
-      content.push(this.renderImage());
+    switch (this.props.bannerSettings.layout) {
+      case 'text_only':
+        content.push(this.renderText());
+        break;
+      case 'image_only':
+        content.push(this.renderImage());
+        break;
+      case 'image_left':
+        content.push(this.renderImage());
+        content.push(this.renderText());
+        break;
+      default:
+        content.push(this.renderText());
+        content.push(this.renderImage());
     }
 
     return content;

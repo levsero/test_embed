@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import _ from 'lodash';
 
 import { getShowOfflineChat,
   getOfflineFormEnabled,
@@ -201,31 +200,11 @@ const getCoreColor = createSelector(
 const getWidgetColor = (state) => getCoreColor(state);
 
 export const getChatBadgeColor = (state) => {
-  const chooseHighestPriorityColor = (colors) => {
-    const index = _.findIndex(colors, (c) => !!c);
-
-    return index !== -1 ? colors[index] : null;
-  };
-
   const configColor = getConfigColor(state);
 
-  /*
-  For base:
-  1. Show color from api
-  2. Show badge color from chat admin
-  3. Show base color widget admin color
-
-  For text:
-  1. Show color from api
-  2. Show text color from widget admin
-  3. Provide nothing - the widget will generate the text color based on base color.
-  */
-  const baseColorCandidates = [settings.get('color.launcher'), getBadgeColor(state), configColor.base];
-  const textColorCandidates = [settings.get('color.launcherText'), configColor.text];
-
   return {
-    base: chooseHighestPriorityColor(baseColorCandidates),
-    text: chooseHighestPriorityColor(textColorCandidates)
+    base: settings.get('color.launcher') || getBadgeColor(state) || configColor.base,
+    text: settings.get('color.launcherText') || configColor.text
   };
 };
 
@@ -348,7 +327,12 @@ export const getFrameStyle = (state, frame) => {
       marginRight: '20px',
       zIndex: settings.get('zIndex') - 1
     };
-    const chatBadgeFrameStyle = {
+
+    if (!getShowChatBadgeLauncher(state)) {
+      return defaultFrameStyle;
+    }
+
+    return {
       ...defaultFrameStyle,
       height: '210px',
       minHeight: '210px',
@@ -359,9 +343,5 @@ export const getFrameStyle = (state, frame) => {
       marginLeft: '7px',
       marginRight: '7px'
     };
-
-    return (getShowChatBadgeLauncher(state))
-      ? chatBadgeFrameStyle
-      : defaultFrameStyle;
   }
 };

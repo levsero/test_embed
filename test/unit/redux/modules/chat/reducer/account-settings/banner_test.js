@@ -40,7 +40,7 @@ describe('banner', () => {
       expect(state)
         .toEqual({
           layout: 'image_left',
-          img: 'http://img.com/img.png',
+          image: 'http://img.com/img.png',
           text: 'chat it up'
         });
     });
