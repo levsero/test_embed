@@ -310,7 +310,7 @@ export const getShowChatBadgeLauncher = createSelector(
 );
 
 export const getFrameStyle = (state, frame) => {
-  if (frame === 'webWidget') {
+  if (frame === 'webWidget' || frame === 'chatPreview' || frame === 'webWidgetPreview') {
     const margin = settings.get('margin');
 
     return {
