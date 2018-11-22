@@ -70,6 +70,11 @@ describe('base reducer on api listeners', () => {
         expect(state.WIDGET_CLOSE_BUTTON_CLICKED.callbackList.length)
           .toEqual(1);
       });
+
+      it('sets the useActionPayload flag on the state', () => {
+        expect(state.WIDGET_CLOSE_BUTTON_CLICKED.useActionPayload)
+          .toBeFalsy();
+      });
     });
 
     describe('when state already contains the new action in the payload', () => {

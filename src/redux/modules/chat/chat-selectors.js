@@ -97,6 +97,8 @@ export const getChatAccountSettingsConcierge = (state) => state.chat.accountSett
 export const getChatAccountSettingsOfflineForm = (state) => state.chat.accountSettings.offlineForm;
 export const getOfflineFormEnabled = (state) => getOfflineFormSettings(state).enabled;
 export const getChatAccountSettingsPrechatForm = (state) => state.chat.accountSettings.prechatForm;
+export const getDepartments = (state) => state.chat.departments;
+export const getDepartmentsList = (state) => _.values(getDepartments(state));
 
 export const getProfileConfig = createSelector(
   [getSettingsChatProfileCard, getRatingSettings],
@@ -316,10 +318,6 @@ export const getChatNotification = createSelector(
 export const getOfflineFormFields = createSelector(
   getOfflineFormSettings, extractFormFields
 );
-
-export const getDepartments = (state) => state.chat.departments;
-
-export const getDepartmentsList = (state) => _.values(state.chat.departments);
 
 export const getPrechatFormFields = createSelector(
   [
