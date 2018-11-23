@@ -99,7 +99,6 @@ class Frame extends Component {
     onShow: () => {},
     position: 'right',
     preventClose: false,
-    hidePopoutButton: false,
     store: { dispatch: () => {} },
     useBackButton: false,
     transitions: {},

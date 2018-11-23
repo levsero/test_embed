@@ -27,6 +27,7 @@ import { getChatAvailable,
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getZopimChatOnline, getZopimIsChatting } from 'src/redux/modules/zopimChat/zopimChat-selectors';
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+import { win } from 'utility/globals';
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state);
@@ -70,7 +71,9 @@ const setNewActiveEmbed = (state, dispatch) => {
   let activeEmbed = '';
   const articleViewActive = getArticleViewActive(state);
 
-  if (getHelpCenterAvailable(state)) {
+  if (win.zEPopout) {
+    activeEmbed = 'chat';
+  } else if (getHelpCenterAvailable(state)) {
     activeEmbed = 'helpCenterForm';
     backButton = articleViewActive;
   } else if (getIpmHelpCenterAllowed(state) && articleViewActive) {

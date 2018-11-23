@@ -122,6 +122,7 @@ export default function WebWidgetFactory(name) {
   function create(name, config = {}, reduxStore = {}) {
     let containerStyle;
     let frameBodyCss = '';
+    let isPopout = win.zEPopout === true;
 
     const configDefaults = {
       position: 'right',
@@ -187,7 +188,8 @@ export default function WebWidgetFactory(name) {
       newChat: chatAvailable,
       store: reduxStore,
       visible: false,
-      useBackButton: true,
+      useBackButton: !isPopout,
+      hideCloseButton: isPopout,
       onShow,
       name: name,
       afterShowAnimate,
