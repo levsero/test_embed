@@ -894,14 +894,16 @@ describe('base redux actions', () => {
     let action,
       mockActionType,
       selectorSpy,
+      payloadTransformerSpy,
       callbackSpy;
 
     beforeEach(() => {
       mockActionType = 'widget/chat/CHAT_CONNECTED';
       selectorSpy = jasmine.createSpy('arbitrarySelector');
       callbackSpy = jasmine.createSpy('arbitraryCallback');
+      payloadTransformerSpy = jasmine.createSpy('optimusPrime');
 
-      mockStore.dispatch(actions.handleOnApiCalled(mockActionType, selectorSpy, true, callbackSpy));
+      mockStore.dispatch(actions.handleOnApiCalled(mockActionType, selectorSpy, callbackSpy, payloadTransformerSpy));
 
       action = mockStore.getActions()[0];
     });
@@ -926,8 +928,8 @@ describe('base redux actions', () => {
           .toHaveBeenCalled();
       });
 
-      it('has the useActionPayload param', () => {
-        expect(action.payload.useActionPayload).toEqual(true);
+      it('has the payloadTransformer param', () => {
+        expect(action.payload.payloadTransformer).toEqual(payloadTransformerSpy);
       });
 
       it('has the callback property in the payload', () => {

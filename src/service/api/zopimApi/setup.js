@@ -3,7 +3,6 @@ import {
   API_ON_CHAT_CONNECTED_NAME,
   API_ON_CHAT_START_NAME,
   API_ON_CHAT_END_NAME,
-  API_ON_CHAT_STATUS_NAME,
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_ON_CLOSE_NAME,
   API_ON_OPEN_NAME
@@ -38,6 +37,7 @@ import {
   addTagsApi,
   removeTagsApi,
   setGreetingsApi,
+  setOnStatusApi
 } from './helpers';
 import tracker from 'service/logging/tracker';
 
@@ -140,7 +140,7 @@ export function setUpZopimApiMethods(win, store) {
       setOnConnected: (callback) => onApis.chat[API_ON_CHAT_CONNECTED_NAME](store, callback),
       setOnChatStart: (callback) => onApis.chat[API_ON_CHAT_START_NAME](store, callback),
       setOnChatEnd: (callback) => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
-      setOnStatus: (callback) => onApis.chat[API_ON_CHAT_STATUS_NAME](store, callback),
+      setOnStatus: (callback) => setOnStatusApi(store, callback),
       setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback)
     };
 

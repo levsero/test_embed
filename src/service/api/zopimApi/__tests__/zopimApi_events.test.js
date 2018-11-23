@@ -118,20 +118,47 @@ describe('zopim events', () => {
       ));
   });
 
-  test('setOnStatus dispatches the SDK_ACCOUNT_STATUS action', () => {
-    mockWin.$zopim.livechat.setOnStatus(callback);
+  describe('setOnStatus', () => {
+    it('dispatches the SDK_ACCOUNT_STATUS and SDK_DEPARTMENT_UPDATE actions', () => {
+      mockWin.$zopim.livechat.setOnStatus(callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.SDK_ACCOUNT_STATUS,
-              callback
-            }
-          )
-        }
-      ));
+      expect(mockStore.dispatch)
+        .toHaveBeenNthCalledWith(1, expect.objectContaining(
+          {
+            type: baseActionTypes.API_ON_RECEIVED,
+            payload: expect.objectContaining(
+              {
+                actionType: chatActionTypes.SDK_ACCOUNT_STATUS,
+                callback
+              }
+            )
+          }
+        ));
+
+      expect(mockStore.dispatch)
+        .toHaveBeenNthCalledWith(2, expect.objectContaining(
+          {
+            type: baseActionTypes.API_ON_RECEIVED,
+            payload: expect.objectContaining(
+              {
+                actionType: chatActionTypes.SDK_DEPARTMENT_UPDATE,
+                callback,
+                selectors: [],
+                payloadTransformer: expect.any(Function)
+              }
+            )
+          }
+        ));
+    });
+
+    it('includes the expected transformer', () => {
+      mockWin.$zopim.livechat.setOnStatus(callback);
+
+      const { payloadTransformer } = mockStore.dispatch.mock.calls[1][0].payload;
+      const sampleSDKPayload = { detail: { status: 'offline' } };
+
+      expect(payloadTransformer(sampleSDKPayload))
+        .toEqual('offline');
+    });
   });
 });
