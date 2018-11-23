@@ -4,7 +4,10 @@ import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS, UPDATE_PREVIEWER_SETTINGS } from 
 const initialState = {
   message_type: '',
   position: 'br',
-  color: '#555555'
+  color: {
+    primary: '#555555',
+    banner: ''
+  }
 };
 
 const theme = (state = initialState, action) => {
@@ -13,13 +16,19 @@ const theme = (state = initialState, action) => {
       return {
         message_type: action.payload.theme.message_type,
         position: action.payload.theme.chat_window.position,
-        color: _.get(action.payload, 'theme.colors.primary', state.color)
+        color: {
+          primary: _.get(action.payload, 'theme.colors.primary', state.color.primary),
+          banner: _.get(action.payload, 'theme.colors.banner', state.color.banner)
+        }
       };
     case UPDATE_PREVIEWER_SETTINGS:
       return {
         message_type: _.get(action.payload, 'theme.message_type', state.message_type),
         position: _.get(action.payload, 'theme.chat_window.position', state.position),
-        color: _.get(action.payload, 'theme.colors.primary', state.color)
+        color: {
+          primary: _.get(action.payload, 'theme.colors.primary', state.color.primary),
+          banner: _.get(action.payload, 'theme.colors.banner', state.color.banner)
+        }
       };
     default:
       return state;

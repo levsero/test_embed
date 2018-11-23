@@ -47,9 +47,9 @@
 
   svg {
     min-width: #{50/$font-size}rem; /* 1 */
-    min-height: #{30/$font-size}rem; /* 1 */
+    min-height: #{26/$font-size}rem; /* 1 */
     width: #{50/$font-size}rem;
-    height: #{30/$font-size}rem;
+    height: #{26/$font-size}rem;
 
     &:hover, &:active, &:focus {
       path {
@@ -380,6 +380,54 @@
     path {
       fill: $google-plus-red;
     }
+  }
+}
+
+.Icon--messenger {
+  svg {
+    min-width: #{24/$font-size}rem;
+    min-height: #{24/$font-size}rem;
+    max-width: #{24/$font-size}rem;
+    max-height: #{24/$font-size}rem;
+    height: #{24/$font-size}rem;
+    width: #{24/$font-size}rem;
+
+    path {
+      fill: $messenger-blue;
+    }
+  }
+
+  &.is-mobile svg {
+    min-width: #{40/$font-size}rem;
+    min-height: #{40/$font-size}rem;
+    max-width: #{40/$font-size}rem;
+    max-height: #{40/$font-size}rem;
+    height: #{40/$font-size}rem;
+    width: #{40/$font-size}rem;
+  }
+}
+
+.Icon--twitter {
+  svg {
+    min-width: #{24/$font-size}rem;
+    min-height: #{24/$font-size}rem;
+    max-width: #{24/$font-size}rem;
+    max-height: #{24/$font-size}rem;
+    height: #{24/$font-size}rem;
+    width: #{24/$font-size}rem;
+
+    path {
+      fill: $twitter-blue;
+    }
+  }
+
+  &.is-mobile svg {
+    min-width: #{40/$font-size}rem;
+    min-height: #{40/$font-size}rem;
+    max-width: #{40/$font-size}rem;
+    max-height: #{40/$font-size}rem;
+    height: #{40/$font-size}rem;
+    width: #{40/$font-size}rem;
   }
 }
 

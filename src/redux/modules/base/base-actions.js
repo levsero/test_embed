@@ -383,3 +383,9 @@ export const cancelButtonClicked = () => {
     type: actions.CANCEL_BUTTON_CLICKED
   };
 };
+
+export const handleChatBadgeMinimize = () => {
+  return {
+    type: actions.CHAT_BADGE_MINIMIZED
+  };
+};

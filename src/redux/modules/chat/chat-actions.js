@@ -447,6 +447,13 @@ export function handlePreChatFormChange(state) {
   };
 }
 
+export function handleChatBadgeMessageChange(message) {
+  return {
+    type: actions.CHAT_BADGE_MESSAGE_CHANGED,
+    payload: message
+  };
+}
+
 export function updateContactDetailsVisibility(bool) {
   return {
     type: actions.UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
@@ -657,7 +664,7 @@ export function setChatHistoryHandler() {
         : data;
       const newEntry = [eventData.timestamp, eventData];
 
-      history.unshift(newEntry);
+      history.push(newEntry);
     });
   };
 }

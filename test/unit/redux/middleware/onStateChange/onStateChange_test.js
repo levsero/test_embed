@@ -25,7 +25,6 @@ describe('onStateChange middleware', () => {
   const handleChatConnectedSpy = jasmine.createSpy('handleChatConnected');
   const chatConnectedSpy = jasmine.createSpy('chatConnected');
   const chatWindowOpenOnNavigateSpy = jasmine.createSpy('chatWindowOpenOnNavigateSpy');
-  const handleZopimQueueSpy = jasmine.createSpy('handleZopimQueue');
   const activateRecievedSpy = jasmine.createSpy('activateRecieved');
   const resetShouldWarnSpy = jasmine.createSpy('resetShouldWarn');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
@@ -148,9 +147,6 @@ describe('onStateChange middleware', () => {
           get: () => mockStoreValue
         }
       },
-      'service/api/zopimApi': {
-        handleZopimQueue: handleZopimQueueSpy
-      },
       'src/redux/modules/chat/chat-screen-types': {
         CHATTING_SCREEN: 'chatting'
       },
@@ -209,11 +205,6 @@ describe('onStateChange middleware', () => {
           expect(broadcastSpy)
             .not.toHaveBeenCalledWith('newChat.connected');
         });
-
-        it('does not handle the zopim queue', () => {
-          expect(handleZopimQueueSpy)
-            .not.toHaveBeenCalled();
-        });
       });
 
       describe('when chat has connected', () => {
@@ -223,11 +214,6 @@ describe('onStateChange middleware', () => {
 
         it('dispatches the event CHAT_CONNECTED', () => {
           expect(chatConnectedSpy).toHaveBeenCalledTimes(1);
-        });
-
-        it('handles the zopim queue', () => {
-          expect(handleZopimQueueSpy)
-            .toHaveBeenCalledWith(mockWin);
         });
 
         it('dispatches the getAccountSettings action creator', () => {
@@ -254,14 +240,8 @@ describe('onStateChange middleware', () => {
           beforeEach(() => {
             getAccountSettingsSpy.calls.reset();
             getIsChattingSpy.calls.reset();
-            handleZopimQueueSpy.calls.reset();
             broadcastSpy.calls.reset();
             stateChangeFn(connectingState, connectedState, {}, dispatchSpy);
-          });
-
-          it('does not handle the zopim queue', () => {
-            expect(handleZopimQueueSpy)
-              .not.toHaveBeenCalled();
           });
 
           it('does not dispatch the getAccountSettings action creator', () => {

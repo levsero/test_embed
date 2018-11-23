@@ -34,13 +34,19 @@ export class ChannelChoiceMenu extends Component {
   constructor(props) {
     super(props);
 
-    this.showInitialTalkOption = props.talkAvailable;
-    this.showInitialChatOption = props.chatAvailable || props.chatOfflineAvailable;
+    this.talkAvailableOnMount = props.talkAvailable;
+    this.chatAvailableOnMount = props.chatAvailable || props.chatOfflineAvailable;
   }
 
   componentWillReceiveProps(nextProps) {
-    this.showInitialTalkOption = nextProps.talkAvailable;
-    this.showInitialChatOption = nextProps.chatAvailable || nextProps.chatOfflineAvailable;
+    // If any of the channels come online even once, treat them as
+    // if they were available on mount
+    if (nextProps.chatAvailable || nextProps.chatOfflineAvailable){
+      this.chatAvailableOnMount = true;
+    }
+    if (nextProps.talkAvailable) {
+      this.talkAvailableOnMount = true;
+    }
   }
 
   handleChatClick = () => {
@@ -76,9 +82,10 @@ export class ChannelChoiceMenu extends Component {
   }
 
   renderTalkButton = () => {
-    if (!this.showInitialTalkOption) return null;
-
     const { talkAvailable, buttonClasses } = this.props;
+
+    if (!this.talkAvailableOnMount && !talkAvailable) return null;
+
     const iconStyle = classNames(styles.iconTalk, {
       [styles.newIcon]: talkAvailable,
       [styles.newIconDisabled]: !talkAvailable
@@ -152,9 +159,12 @@ export class ChannelChoiceMenu extends Component {
   }
 
   renderChatButton = () => {
-    if (!this.showInitialChatOption) return null;
-
     const { chatAvailable, chatOfflineAvailable, buttonClasses } = this.props;
+
+    const showChat = chatAvailable || chatOfflineAvailable;
+
+    if (!this.chatAvailableOnMount && !showChat) return null;
+
     const showChatChannel = chatAvailable || chatOfflineAvailable;
     const iconStyle = classNames(styles.iconChat, {
       [styles.newIcon]: showChatChannel,

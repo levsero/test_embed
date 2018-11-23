@@ -82,7 +82,8 @@ export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
 export const getSliderVendor = (state) => state.chat.vendor.slider;
 export const getWindowSettings = (state) => state.chat.accountSettings.chatWindow;
-export const getThemeColor = (state) => ({ base: state.chat.accountSettings.theme.color, text: undefined });
+export const getThemeColor = (state) => ({ base: state.chat.accountSettings.theme.color.primary, text: undefined });
+export const getBadgeColor = (state) => state.chat.accountSettings.theme.color.banner;
 export const getThemePosition = (state) => {
   const position = state.chat.accountSettings.theme.position;
 
@@ -99,6 +100,12 @@ export const getOfflineFormEnabled = (state) => getOfflineFormSettings(state).en
 export const getChatAccountSettingsPrechatForm = (state) => state.chat.accountSettings.prechatForm;
 export const getDepartments = (state) => state.chat.departments;
 export const getDepartmentsList = (state) => _.values(getDepartments(state));
+
+export const getPrechatFormRequired = createSelector(
+  [getChatAccountSettingsPrechatForm],
+  (accountSettingsPrechatForm) => {
+    return accountSettingsPrechatForm.required;
+  });
 
 export const getProfileConfig = createSelector(
   [getSettingsChatProfileCard, getRatingSettings],
@@ -125,6 +132,8 @@ export const getChatTitle = createSelector(
     chatAccountSettingsTitle
   )
 );
+
+export const getBannerSettings = (state) => state.chat.accountSettings.banner;
 
 export const getFirstMessageTimestamp = (state) => {
   const first = getChats(state).values().next().value;

@@ -1,9 +1,9 @@
-describe('Launcher component', () => {
+describe('WidgetLauncher component', () => {
   let Launcher,
     mockChatSuppressedValue,
     mockLocale = 'en',
     mockIsRTL = false;
-  const launcherPath = buildSrcPath('component/Launcher');
+  const launcherPath = buildSrcPath('component/launcher/WidgetLauncher');
 
   beforeEach(() => {
     mockery.enable();
@@ -23,7 +23,7 @@ describe('Launcher component', () => {
           }
         }
       },
-      './Launcher.scss': {
+      './WidgetLauncher.scss': {
         locals: {
           label: 'labelClasses',
           icon: 'iconClasses'

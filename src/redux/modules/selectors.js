@@ -6,12 +6,12 @@ import { getShowOfflineChat,
   getThemeColor as getChatThemeColor,
   getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible,
-  getChatConnected as getNewChatConnected } from './chat/chat-selectors';
+  getChatConnected as getNewChatConnected,
+  getBadgeColor } from './chat/chat-selectors';
 import { getZopimChatOnline,
   getZopimChatConnected,
   getZopimIsChatting,
-  getZopimChatOpen,
-} from './zopimChat/zopimChat-selectors';
+  getZopimChatOpen } from './zopimChat/zopimChat-selectors';
 import { getSettingsChatSuppress,
   getSettingsLauncherSetHideWhenChatOffline } from './settings/settings-selectors';
 import {
@@ -34,7 +34,8 @@ import { getActiveEmbed,
   getBootupTimeout,
   getWebWidgetVisible as getBaseWebWidgetVisible,
   getLauncherVisible as getBaseLauncherVisible,
-  getChatStandalone } from './base/base-selectors';
+  getChatStandalone,
+  getUserMinimizedChatBadge } from './base/base-selectors';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -189,12 +190,35 @@ export const getChannelChoiceAvailable = createSelector(
   }
 );
 
-export const getColor = createSelector(
+const getCoreColor = createSelector(
   [getEmbeddableConfig, getConfigColor, getChatThemeColor],
   (embeddableConfig, configColor, chatThemeColor) => {
     return (embeddableConfig.cp4 && chatThemeColor) ? chatThemeColor : configColor;
   }
 );
+
+const getWidgetColor = (state) => getCoreColor(state);
+
+export const getChatBadgeColor = (state) => {
+  const configColor = getConfigColor(state);
+
+  return {
+    base: settings.get('color.launcher') || getBadgeColor(state) || configColor.base,
+    text: settings.get('color.launcherText') || configColor.text
+  };
+};
+
+const getLauncherColor = (state) => {
+  return getShowChatBadgeLauncher(state) ? getChatBadgeColor(state) : getCoreColor(state);
+};
+
+export const getColor = (state, frame = 'webWidget') => {
+  if (frame === 'webWidget') {
+    return getWidgetColor(state);
+  }
+
+  return getLauncherColor(state);
+};
 
 export const getPosition = createSelector(
   [getEmbeddableConfig, getChatThemePosition],
@@ -277,3 +301,47 @@ export const getWidgetDisplayInfo = createSelector(
     }
   }
 );
+
+export const getShowChatBadgeLauncher = createSelector(
+  [getUserMinimizedChatBadge, getChatStandalone, getChatOnline],
+  (isMinimizedChatBadge, isChatStandalone, chatOnline) => {
+    return !isMinimizedChatBadge && isChatStandalone && !isMobileBrowser() && chatOnline;
+  }
+);
+
+export const getFrameStyle = (state, frame) => {
+  if (frame === 'webWidget' || frame === 'chatPreview' || frame === 'webWidgetPreview') {
+    const margin = settings.get('margin');
+
+    return {
+      marginLeft: margin,
+      marginRight: margin
+    };
+  } else {
+    const defaultFrameStyle = {
+      height: '50px',
+      minHeight: '50px',
+      marginTop: '10px',
+      marginBottom: '10px',
+      marginLeft: '20px',
+      marginRight: '20px',
+      zIndex: settings.get('zIndex') - 1
+    };
+
+    if (!getShowChatBadgeLauncher(state)) {
+      return defaultFrameStyle;
+    }
+
+    return {
+      ...defaultFrameStyle,
+      height: '210px',
+      minHeight: '210px',
+      width: '254px',
+      minWidth: '254px',
+      marginTop: '7px',
+      marginBottom: '7px',
+      marginLeft: '7px',
+      marginRight: '7px'
+    };
+  }
+};

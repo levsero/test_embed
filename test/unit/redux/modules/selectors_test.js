@@ -37,6 +37,8 @@ describe('selectors', () => {
     launcherVisibleValue,
     settingsLauncherSetHideWhenChatOfflineValue,
     chatStandaloneValue,
+    userMinimizedChatBadgeValue,
+    chatBadgeColorValue,
     selectors;
 
   activeEmbedValue = '';
@@ -70,6 +72,8 @@ describe('selectors', () => {
   launcherVisibleValue = false;
   settingsLauncherSetHideWhenChatOfflineValue = false;
   chatStandaloneValue = false;
+  userMinimizedChatBadgeValue = false;
+  chatBadgeColorValue = '#333';
 
   beforeEach(() => {
     mockery.enable();
@@ -99,7 +103,8 @@ describe('selectors', () => {
         getBootupTimeout: () => bootupTimeoutValue,
         getWebWidgetVisible: () => webWidgetVisibleValue,
         getLauncherVisible: () => launcherVisibleValue,
-        getChatStandalone: () => chatStandaloneValue
+        getChatStandalone: () => chatStandaloneValue,
+        getUserMinimizedChatBadge: () => userMinimizedChatBadgeValue
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue,
@@ -113,7 +118,8 @@ describe('selectors', () => {
         getThemeColor: () => chatThemeColor,
         getThemePosition: () => chatThemePosition,
         getChatConnected: () => newChatConnectedValue,
-        getOfflineFormSettings: () => ({ enabled: offlineFormEnabledValue })
+        getOfflineFormSettings: () => ({ enabled: offlineFormEnabledValue }),
+        getBadgeColor: () => chatBadgeColorValue
       },
       './zopimChat/zopimChat-selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue,
@@ -154,6 +160,159 @@ describe('selectors', () => {
     mockery.registerAllowable(selectorsPath);
 
     selectors = requireUncached(selectorsPath);
+  });
+
+  describe('getFrameStyle', () => {
+    let result,
+      mockFrameType;
+
+    beforeEach(() => {
+      result = selectors.getFrameStyle({}, mockFrameType);
+    });
+
+    describe('when frame type is webWidget', () => {
+      beforeAll(() => {
+        mockFrameType = 'webWidget';
+        mockSettingsGetFn = _.identity;
+      });
+
+      it('returns webWidget frame styles', () => {
+        expect(result)
+          .toEqual({
+            marginLeft: 'margin',
+            marginRight: 'margin'
+          });
+      });
+    });
+
+    describe('when frame type is launcher', () => {
+      beforeAll(() => {
+        mockFrameType = 'launcher';
+      });
+
+      describe('when chat badge should show', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = true;
+          isMobile = false;
+          chatStandaloneValue = true;
+          mockSettingsGetFn = () => 1;
+        });
+
+        it('returns chat badge launcher styles', () => {
+          expect(result)
+            .toEqual({
+              zIndex: 0,
+              height: '210px',
+              minHeight: '210px',
+              width: '254px',
+              minWidth: '254px',
+              marginTop: '7px',
+              marginBottom: '7px',
+              marginLeft: '7px',
+              marginRight: '7px'
+            });
+        });
+      });
+
+      describe('when chat badge should not show', () => {
+        beforeAll(() => {
+          chatStandaloneValue = false;
+          mockSettingsGetFn = () => 1;
+        });
+
+        it('returns chat badge launcher styles', () => {
+          expect(result)
+            .toEqual({
+              height: '50px',
+              minHeight: '50px',
+              marginTop: '10px',
+              marginBottom: '10px',
+              marginLeft: '20px',
+              marginRight: '20px',
+              zIndex: 0
+            });
+        });
+      });
+    });
+  });
+
+  describe('getShowChatBadgeLauncher', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      result = selectors.getShowChatBadgeLauncher(mockState);
+    });
+
+    describe('when not chat standalone', () => {
+      beforeAll(() => {
+        zopimChatOnlineValue = true;
+        userMinimizedChatBadgeValue = false;
+        isMobile = false;
+        chatStandaloneValue = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when on mobile', () => {
+      beforeAll(() => {
+        zopimChatOnlineValue = true;
+        userMinimizedChatBadgeValue = false;
+        isMobile = true;
+        chatStandaloneValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when chat badge minimized', () => {
+      beforeAll(() => {
+        zopimChatOnlineValue = true;
+        userMinimizedChatBadgeValue = true;
+        isMobile = false;
+        chatStandaloneValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when chat not online', () => {
+      beforeAll(() => {
+        zopimChatOnlineValue = false;
+        userMinimizedChatBadgeValue = false;
+        isMobile = false;
+        chatStandaloneValue = true;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when we should show chat badge', () => {
+      beforeAll(() => {
+        zopimChatOnlineValue = true;
+        userMinimizedChatBadgeValue = false;
+        isMobile = false;
+        chatStandaloneValue = true;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
   });
 
   describe('getMaxWidgetHeight', () => {
@@ -1576,32 +1735,143 @@ describe('selectors', () => {
   describe('getColor', () => {
     let result;
 
-    describe('when cp4 config', () => {
-      beforeEach(() => {
-        embeddableConfigValue = { cp4: true };
-        chatThemeColor = 'blue';
+    describe('when frame is WebWidget', () => {
+      describe('when cp4 config', () => {
+        beforeEach(() => {
+          embeddableConfigValue = { cp4: true };
+          chatThemeColor = 'blue';
 
-        result = selectors.getColor();
+          result = selectors.getColor({}, 'webWidget');
+        });
+
+        it('returns chat theme color', () => {
+          expect(result)
+            .toBe('blue');
+        });
       });
 
-      it('returns chat theme color', () => {
-        expect(result)
-          .toBe('blue');
+      describe('when not cp4 config', () => {
+        beforeEach(() => {
+          embeddableConfigValue = { cp4: false };
+          chatThemeColor = 'blue';
+          configColor = 'white';
+
+          result = selectors.getColor({}, 'webWidget');
+        });
+
+        it('returns config color', () => {
+          expect(result)
+            .toBe('white');
+        });
       });
     });
 
-    describe('when not cp4 config', () => {
-      beforeEach(() => {
-        embeddableConfigValue = { cp4: false };
-        chatThemeColor = 'blue';
-        configColor = 'white';
-
-        result = selectors.getColor();
+    describe('when frame is launcher', () => {
+      beforeAll(() => {
+        chatStandaloneValue = false;
       });
 
-      it('returns config color', () => {
-        expect(result)
-          .toBe('white');
+      describe('when chat badge is not shown', () => {
+        describe('when cp4 config', () => {
+          beforeEach(() => {
+            embeddableConfigValue = { cp4: true };
+            chatThemeColor = 'blue';
+
+            result = selectors.getColor({}, 'launcher');
+          });
+
+          it('returns chat theme color', () => {
+            expect(result)
+              .toBe('blue');
+          });
+        });
+
+        describe('when not cp4 config', () => {
+          beforeEach(() => {
+            embeddableConfigValue = { cp4: false };
+            chatThemeColor = 'blue';
+            configColor = 'white';
+
+            result = selectors.getColor({}, 'launcher');
+          });
+
+          it('returns config color', () => {
+            expect(result)
+              .toBe('white');
+          });
+        });
+      });
+
+      describe('when chat badge is shown', () => {
+        beforeAll(() => {
+          zopimChatOnlineValue = true;
+          chatStandaloneValue = true;
+          isMobile = false;
+        });
+
+        beforeEach(() => {
+          result = selectors.getColor({}, 'launcher');
+        });
+
+        describe('when there are settings defined', () => {
+          beforeAll(() => {
+            mockSettingsGetFn = () => '#fff';
+          });
+
+          afterAll(() => {
+            mockSettingsGetFn = () => false;
+          });
+
+          it('returns the settings as the color', () => {
+            expect(result)
+              .toEqual({
+                base: '#fff',
+                text: '#fff'
+              });
+          });
+        });
+
+        describe('when badge color is defined', () => {
+          beforeAll(() => {
+            chatThemeColor = 'blue';
+            configColor = {
+              base: 'white',
+              text: 'blue'
+            };
+            chatBadgeColorValue = 'red';
+          });
+
+          it('sets the base to the badge color', () => {
+            expect(result.base)
+              .toEqual('red');
+          });
+
+          it('sets the text to the config color', () => {
+            expect(result.text)
+              .toEqual('blue');
+          });
+        });
+
+        describe('when badge color is not defined', () => {
+          beforeAll(() => {
+            chatThemeColor = 'blue';
+            configColor = {
+              base: 'white',
+              text: 'blue'
+            };
+            chatBadgeColorValue = undefined;
+          });
+
+          it('sets the base to the config color', () => {
+            expect(result.base)
+              .toEqual('white');
+          });
+
+          it('sets the text to the config color', () => {
+            expect(result.text)
+              .toEqual('blue');
+          });
+        });
       });
     });
   });

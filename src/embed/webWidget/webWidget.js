@@ -41,6 +41,7 @@ import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { nameValid, emailValid } from 'src/util/utils';
+import zopimApi from 'service/api/zopimApi';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
@@ -120,7 +121,6 @@ export default function WebWidgetFactory(name) {
 
   function create(name, config = {}, reduxStore = {}) {
     let containerStyle;
-    let frameStyle = {};
     let frameBodyCss = '';
 
     const configDefaults = {
@@ -172,12 +172,6 @@ export default function WebWidgetFactory(name) {
     if (isMobileBrowser()) {
       containerStyle = { width: '100%', minHeight:'100%' };
     } else {
-      const margin = settings.get('margin');
-
-      frameStyle = _.extend({}, frameStyle, {
-        marginLeft: margin,
-        marginRight: margin
-      });
       containerStyle = { width: 342 };
       frameBodyCss = `
         body { padding: 0 7px; }
@@ -186,9 +180,9 @@ export default function WebWidgetFactory(name) {
 
     const frameParams = {
       ref: (el) => {embed.instance = el.getWrappedInstance();},
-      frameStyle: frameStyle,
       css: webWidgetCSS + frameBodyCss,
       generateUserCSS: generateUserWidgetCSS,
+      position: globalConfig.position,
       fullscreenable: true,
       newChat: chatAvailable,
       store: reduxStore,
@@ -485,6 +479,7 @@ export default function WebWidgetFactory(name) {
         });
       }
       zChat.init(makeChatConfig(config));
+      zopimApi.handleZopimQueue(win);
 
       zChat.setOnFirstReady({
         fetchHistory: () => {

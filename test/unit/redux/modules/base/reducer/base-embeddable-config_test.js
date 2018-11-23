@@ -41,7 +41,8 @@ describe('base reducer embeddable config', () => {
             zopimChat: {
               props: {
                 zopimId: '',
-                overrideProxy: ''
+                overrideProxy: '',
+                standalone: false
               }
             }
           },
@@ -114,7 +115,8 @@ describe('base reducer embeddable config', () => {
             zopimChat: {
               props: {
                 zopimId: 'yoloId',
-                overrideProxy: ''
+                overrideProxy: '',
+                standalone: false
               }
             }
           },

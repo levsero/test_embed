@@ -142,9 +142,9 @@ function generateUserWidgetCSS(color) {
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
       background: ${colorVariables.headerBackgroundColorStr} !important;
-      svg {
-        background: ${colorVariables.headerBackgroundColorStr} !important;
-      }
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: ${colorVariables.headerBackgroundColorStr} !important;
     }
     .u-userHeaderButtonColorMobile {
       fill: ${colorVariables.headerTextColorStr} !important;
@@ -160,11 +160,17 @@ function generateUserLauncherCSS(color) {
       background-color: ${colorVariables.launcherColorStr} !important;
       color: ${colorVariables.launcherTextColorStr} !important;
       fill: ${colorVariables.launcherTextColorStr} !important;
-      svg {
-        color: ${colorVariables.launcherTextColorStr} !important;
-        fill: ${colorVariables.launcherTextColorStr} !important;
-      }
     }
+
+    .u-userLauncherColor:not([disabled]) svg {
+      color: ${colorVariables.launcherTextColorStr};
+      fill: ${colorVariables.launcherTextColorStr};
+    }
+
+    .u-userLauncherColor:not([disabled]) svg path {
+      fill: ${colorVariables.launcherTextColorStr};
+    }
+
     .u-userLauncherColor:not([disabled]):focus {
       box-shadow: inset 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.launcherFocusRingColorStr} !important;
     }
@@ -195,9 +201,9 @@ function generateWebWidgetPreviewCSS(color) {
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
       background: ${colorVariables.headerBackgroundColorStr} !important;
-      svg {
-        background: ${colorVariables.headerBackgroundColorStr} !important;
-      }
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: ${colorVariables.headerBackgroundColorStr} !important;
     }
     .u-userBackgroundColorNoHover {
       background-color: ${colorVariables.buttonColorStr} !important;

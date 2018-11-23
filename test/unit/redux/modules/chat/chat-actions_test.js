@@ -2054,4 +2054,23 @@ describe('chat redux actions', () => {
         .toEqual(actionTypes.CHAT_NOTIFICATION_RESET);
     });
   });
+
+  describe('handleChatBadgeMessageChange', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleChatBadgeMessageChange('yeet'));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type CHAT_BADGE_MESSAGE_CHANGED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CHAT_BADGE_MESSAGE_CHANGED);
+    });
+
+    it('dispatches the correct payload', () => {
+      expect(action.payload)
+        .toEqual('yeet');
+    });
+  });
 });

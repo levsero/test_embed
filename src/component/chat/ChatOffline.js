@@ -96,6 +96,7 @@ class ChatOffline extends Component {
         formFields={this.props.formFields}
         readOnlyState={this.props.readOnlyState}
         formState={this.props.formState}
+        channels={this.props.formSettings.channels}
         phoneEnabled={this.props.loginSettings.phoneEnabled}
         greeting={this.props.formSettings.message}
         offlineMessage={this.props.offlineMessage}

@@ -48,6 +48,24 @@ describe('chat reducer currentMessage', () => {
       });
     });
 
+    describe('when a CHAT_BADGE_MESSAGE_CHANGED action is dispatched', () => {
+      let payload;
+
+      beforeEach(() => {
+        payload = 'im typing here';
+
+        state = reducer(initialState, {
+          type: actionTypes.CHAT_BADGE_MESSAGE_CHANGED,
+          payload: payload
+        });
+      });
+
+      it('updates the state with payload', () => {
+        expect(state)
+          .toEqual(payload);
+      });
+    });
+
     describe('when a PRE_CHAT_FORM_ON_CHANGE action is dispatched', () => {
       let payload;
 

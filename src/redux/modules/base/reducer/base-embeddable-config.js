@@ -14,7 +14,8 @@ const initialState = {
     zopimChat: {
       props: {
         zopimId: '',
-        overrideProxy: ''
+        overrideProxy: '',
+        standalone: false
       }
     }
   },

@@ -1,3 +1,1 @@
-export const UPDATE_SETTINGS_CHAT_SUPPRESS = 'widget/settings/UPDATE_SETTINGS_CHAT_SUPPRESS';
-export const RESET_SETTINGS_CHAT_SUPPRESS = 'widget/settings/RESET_SETTINGS_CHAT_SUPPRESS';
 export const UPDATE_SETTINGS = 'widget/settings/UPDATE_SETTINGS';
