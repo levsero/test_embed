@@ -30,7 +30,8 @@ describe('banner', () => {
           banner: {
             layout: 'image_left',
             image_path: 'http://img.com/img.png',
-            text: 'chat it up'
+            text: 'chat it up',
+            enabled: true
           }
         }
       });
@@ -41,7 +42,8 @@ describe('banner', () => {
         .toEqual({
           layout: 'image_left',
           image: 'http://img.com/img.png',
-          text: 'chat it up'
+          text: 'chat it up',
+          enabled: true
         });
     });
   });
