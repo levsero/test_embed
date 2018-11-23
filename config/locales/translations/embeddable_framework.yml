@@ -1092,6 +1092,10 @@ parts:
       title: "The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon (tinyurl.com/p33xnz2)"
       value: "Close"
   - translation:
+      key: "embeddable_framework.navigation.popout"
+      title: "The link to open the embeddable popout window. Displays at the top right of the widget only when the user is not authenticated, is  not on mobile, and is chatting."
+      value: "Popout"
+  - translation:
       key: "embeddable_framework.navigation.menu"
       title: "The button to open chat menu. Displays at the top right of the widget on mobile only. This text is for screen readers, only the icon is visually shown."
       screenshot: "https://tinyurl.com/y8n63eba"
