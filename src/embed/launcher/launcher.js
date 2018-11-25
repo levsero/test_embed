@@ -83,6 +83,7 @@ function create(name, config={}, reduxStore) {
     frameOffsetHeight: FRAME_OFFSET_HEIGHT,
     fullscreenable: false,
     hideCloseButton: true,
+    hidePopoutButton: true,
     name: name,
     position: position,
     visible: visible

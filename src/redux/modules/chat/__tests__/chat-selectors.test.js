@@ -2,7 +2,11 @@ import 'utility/i18nTestHelper';
 
 import _ from 'lodash';
 import * as selectors from '../chat-selectors';
+jest.mock('utility/globals');
+jest.mock('utility/devices');
 
+const globals = require('utility/globals');
+const devices = require('utility/devices');
 const profileCard = (settings) => {
   return {
     settings: {
@@ -106,5 +110,71 @@ describe('getPrechatFormRequired', () => {
 
     expect(result)
       .toEqual(true);
+  });
+});
+
+describe('getIsPopupVisible', () => {
+  let
+    mockIsMobile,
+    isMobileValue = false,
+    mockState,
+    mockWin = {
+      zEPopout: false
+    };
+
+  beforeEach(() => {
+    mockState = {
+      chat: {
+        isAuthenticated: false
+      },
+      base: {
+        activeEmbed: 'chat',
+        launcherVisible: false
+      }
+    };
+    globals.win = mockWin;
+  });
+
+  mockIsMobile = jest.fn(() => isMobileValue);
+  devices.isMobileBrowser = mockIsMobile;
+
+  describe('when values are correct', () => {
+    it('it renders popup', () => {
+      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(true);
+    });
+  });
+  describe('when activeEmbed is not "chat"', () => {
+    it('does not render popup', () => {
+      mockState.base.activeEmbed = 'boop';
+      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
+    });
+  });
+
+  describe('getIsAuthenticated is true', () => {
+    it('does not render popup', () => {
+      mockState.chat.isAuthenticated = true;
+      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
+    });
+  });
+
+  describe('isMobileBrowser is true', () => {
+    it('does not render popup', () => {
+      isMobileValue = true;
+      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
+    });
+  });
+
+  describe('isLauncherVisible is true', () => {
+    it('does not render popup', () => {
+      mockState.base.launcherVisible = true;
+      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
+    });
+  });
+
+  describe('win.zEPopout is true', () => {
+    it('does not render popup', () => {
+      globals.win.zEPopout = true;
+      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
+    });
   });
 });

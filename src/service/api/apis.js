@@ -31,7 +31,7 @@ import {
   getIsChatting,
   getNotificationCount,
   getChatStatus,
-  getIsAuthenticated
+  getIsPopoutAvailable
 } from 'src/redux/modules/chat/chat-selectors';
 import { EXECUTE_API_ON_CLOSE_CALLBACK, EXECUTE_API_ON_OPEN_CALLBACK } from 'src/redux/modules/base/base-action-types';
 import { updateSettings } from 'src/redux/modules/settings';
@@ -128,7 +128,7 @@ export const showApi = (reduxStore) => {
 };
 
 export const popoutApi = (reduxStore) => {
-  if (!getIsAuthenticated(reduxStore.getState())) {
+  if (getIsPopoutAvailable(reduxStore.getState())) {
     createChatPopoutWindow();
   }
 };

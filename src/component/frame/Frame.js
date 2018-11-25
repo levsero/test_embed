@@ -62,6 +62,7 @@ class Frame extends Component {
     frameStyle: PropTypes.object,
     fullscreenable: PropTypes.bool,
     hideCloseButton: PropTypes.bool,
+    hidePopoutButton: PropTypes.bool,
     alwaysShow: PropTypes.bool,
     name: PropTypes.string,
     onBack: PropTypes.func,
@@ -97,6 +98,7 @@ class Frame extends Component {
     onShow: () => {},
     position: 'right',
     preventClose: false,
+    hidePopoutButton: false,
     store: { dispatch: () => {} },
     useBackButton: false,
     transitions: {},
@@ -391,6 +393,7 @@ class Frame extends Component {
           preventClose={this.props.preventClose}
           useBackButton={this.props.useBackButton}
           hideCloseButton={this.props.hideCloseButton}
+          hidePopoutButton={this.props.hidePopoutButton}
           name={this.props.name}
           fullscreen={this.props.fullscreenable && isMobileBrowser()}
           chatStandalone={this.props.chatStandalone}>
