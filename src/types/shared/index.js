@@ -6,7 +6,7 @@ const file = PropTypes.shape({
   name: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired, // TODO: limit to oneOf a set number of allowed filetypes
-  webkitRelativePath: PropTypes.string.isRequired
+  webkitRelativePath: PropTypes.string
 });
 
 export default {

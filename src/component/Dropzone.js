@@ -82,6 +82,7 @@ export class Dropzone extends Component {
 
     return (
       <div
+        data-testid="dropzone"
         className={dropzoneClasses}
         style={this.props.style}
         onClick={this.onClick}
