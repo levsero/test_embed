@@ -16,13 +16,15 @@ import {
   API_ON_CHAT_CONNECTED_NAME,
   API_ON_CHAT_START_NAME,
   API_ON_CHAT_END_NAME,
-  API_ON_CHAT_UNREAD_MESSAGES_NAME } from 'constants/api';
+  API_ON_CHAT_UNREAD_MESSAGES_NAME,
+  API_ON_CHAT_DEPARTMENT_STATUS } from 'constants/api';
 import {
   CHAT_CONNECTED,
   END_CHAT_REQUEST_SUCCESS,
   NEW_AGENT_MESSAGE_RECEIVED,
   CHAT_STARTED,
-  SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types';
+  SDK_ACCOUNT_STATUS,
+  SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
@@ -161,24 +163,28 @@ export const onApiObj = () => {
     [API_ON_CHAT_UNREAD_MESSAGES_NAME]: {
       actionType: NEW_AGENT_MESSAGE_RECEIVED,
       selectors: [getNotificationCount]
+    },
+    [API_ON_CHAT_DEPARTMENT_STATUS]: {
+      actionType: SDK_DEPARTMENT_UPDATE,
+      useActionPayload: true
     }
   };
   const baseEventMap = {
     [API_ON_CLOSE_NAME]: { actionType: EXECUTE_API_ON_CLOSE_CALLBACK },
     [API_ON_OPEN_NAME]: { actionType: EXECUTE_API_ON_OPEN_CALLBACK }
   };
-  const eventDispatchWrapperFn = (actionType, selectors = []) => {
+  const eventDispatchWrapperFn = (actionType, selectors = [], useActionPayload = false) => {
     return (reduxStore, callback) => {
       if (_.isFunction(callback)) {
-        reduxStore.dispatch(handleOnApiCalled(actionType, selectors, callback));
+        reduxStore.dispatch(handleOnApiCalled(actionType, selectors, useActionPayload, callback));
       }
     };
   };
   const eventApiReducerFn = (eventMap) => {
     return _.reduce(eventMap, (apiObj, eventObj, eventName) => {
-      const { actionType, selectors } = eventObj;
+      const { actionType, selectors, useActionPayload } = eventObj;
 
-      apiObj[eventName] = eventDispatchWrapperFn(actionType, selectors);
+      apiObj[eventName] = eventDispatchWrapperFn(actionType, selectors, useActionPayload);
 
       return apiObj;
     }, {});

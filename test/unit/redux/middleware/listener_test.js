@@ -44,18 +44,21 @@ describe('listener middleware', () => {
       let actionType,
         callbackSpy1,
         callbackSpy2,
-        actionCreatorPromise;
+        actionCreatorPromise,
+        useActionPayload = false,
+        mockPayload = { foo: 'bar' };
 
       beforeEach(() => {
         callbackSpy1 = jasmine.createSpy();
         callbackSpy2 = jasmine.createSpy();
-        action = { type: actionType };
+        action = { type: actionType, payload: mockPayload };
 
         const flatState = {
           onApiListeners: {
             'CLOSE_BUTTON_CLICKED': {
-              callbackList: [ callbackSpy1, callbackSpy2 ],
-              selectors: []
+              callbackList: [callbackSpy1, callbackSpy2],
+              selectors: [],
+              useActionPayload
             }
           }
         };
@@ -91,6 +94,22 @@ describe('listener middleware', () => {
 
             expect(callbackSpy2)
               .toHaveBeenCalled();
+          });
+        });
+
+        describe('when useActionPayload is true', () => {
+          beforeAll(() => {
+            useActionPayload = true;
+          });
+
+          it('appends the payload to the argumentsList array and passes it to the callback', () => {
+            actionCreatorPromise(action).then(() => {
+              expect(callbackSpy1)
+                .toHaveBeenCalledWith(mockPayload);
+
+              expect(callbackSpy2)
+                .toHaveBeenCalledWith(mockPayload);
+            });
           });
         });
       });

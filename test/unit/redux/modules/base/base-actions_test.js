@@ -901,7 +901,7 @@ describe('base redux actions', () => {
       selectorSpy = jasmine.createSpy('arbitrarySelector');
       callbackSpy = jasmine.createSpy('arbitraryCallback');
 
-      mockStore.dispatch(actions.handleOnApiCalled(mockActionType, selectorSpy, callbackSpy));
+      mockStore.dispatch(actions.handleOnApiCalled(mockActionType, selectorSpy, true, callbackSpy));
 
       action = mockStore.getActions()[0];
     });
@@ -924,6 +924,10 @@ describe('base redux actions', () => {
 
         expect(selectorSpy)
           .toHaveBeenCalled();
+      });
+
+      it('has the useActionPayload param', () => {
+        expect(action.payload.useActionPayload).toEqual(true);
       });
 
       it('has the callback property in the payload', () => {
