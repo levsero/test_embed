@@ -7,7 +7,8 @@ import { getShowOfflineChat,
   getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible,
   getChatConnected as getNewChatConnected,
-  getBadgeColor } from './chat/chat-selectors';
+  getBadgeColor,
+  getChatBadgeEnabled } from './chat/chat-selectors';
 import { getZopimChatOnline,
   getZopimChatConnected,
   getZopimIsChatting,
@@ -303,9 +304,14 @@ export const getWidgetDisplayInfo = createSelector(
 );
 
 export const getShowChatBadgeLauncher = createSelector(
-  [getUserMinimizedChatBadge, getChatStandalone, getChatOnline],
-  (isMinimizedChatBadge, isChatStandalone, chatOnline) => {
-    return !isMinimizedChatBadge && isChatStandalone && !isMobileBrowser() && chatOnline;
+  [getUserMinimizedChatBadge, getChatStandalone, getChatOnline, getChatBadgeEnabled, getIsChatting],
+  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting) => {
+    return !isMinimizedChatBadge &&
+      isChatStandalone &&
+      !isMobileBrowser() &&
+      chatOnline &&
+      chatBadgeEnabled &&
+      !isChatting;
   }
 );
 
@@ -327,7 +333,12 @@ export const getFrameStyle = (state, frame) => {
       marginRight: '20px',
       zIndex: settings.get('zIndex') - 1
     };
-    const chatBadgeFrameStyle = {
+
+    if (!getShowChatBadgeLauncher(state)) {
+      return defaultFrameStyle;
+    }
+
+    return {
       ...defaultFrameStyle,
       height: '210px',
       minHeight: '210px',
@@ -338,9 +349,5 @@ export const getFrameStyle = (state, frame) => {
       marginLeft: '7px',
       marginRight: '7px'
     };
-
-    return (getShowChatBadgeLauncher(state))
-      ? chatBadgeFrameStyle
-      : defaultFrameStyle;
   }
 };

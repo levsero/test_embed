@@ -59,8 +59,9 @@ describe('launcher settings reducer', () => {
             webWidget: {
               launcher: {
                 badge: {
+                  image: 'https://img.example.com/firefox.png',
                   label: {
-                    '*': 'my cool badge label'
+                    '*': 'the best browser'
                   }
                 }
               }
@@ -69,14 +70,61 @@ describe('launcher settings reducer', () => {
 
           expectedState = {
             ...initialState,
+            image: 'https://img.example.com/firefox.png',
             label: {
-              '*': 'my cool badge label'
+              '*': 'the best browser'
             }
           };
         });
 
         it('returns the new updated state', () => {
           expect(result).toEqual(expectedState);
+        });
+
+        describe('when the payload contains a layout property', () => {
+          const getPayload = (layout) => ({
+            webWidget: {
+              launcher: {
+                badge: {
+                  layout
+                }
+              }
+            }
+          });
+
+          const getExpectedState = (initialState, layout) => ({
+            ...initialState,
+            layout
+          });
+
+          describe('when the layout is not acceptable', () => {
+            describe('when the layout is empty', () => {
+              payload = getPayload('');
+              expectedState = getExpectedState(initialState, initialState.layout);
+
+              it('returns the layout initial state', () => {
+                expect(result).toEqual(expectedState);
+              });
+            });
+
+            describe('when the layout is not supported', () => {
+              payload = getPayload('herp_derp');
+              expectedState = getExpectedState(initialState, initialState.layout);
+
+              it('returns the layout initial state', () => {
+                expect(result).toEqual(expectedState);
+              });
+            });
+          });
+
+          describe('when the layout is acceptable', () => {
+            payload = getPayload('image_only');
+            expectedState = getExpectedState(initialState, 'image_only');
+
+            it('returns the new updated state', () => {
+              expect(result).toEqual(expectedState);
+            });
+          });
         });
       });
     });

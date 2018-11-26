@@ -15,7 +15,7 @@ const chatConstants = requireUncached(chatConstantsPath);
 const CONNECTION_STATUSES = chatConstants.CONNECTION_STATUSES;
 
 let setDepartmentSpy = jasmine.createSpy('setDepartment').and.returnValue({ type: 'yolo' });
-let clearDepartmentSpy = jasmine.createSpy('clearDepartment').and.returnValue({ type: 'yolo'});
+let clearDepartmentSpy = jasmine.createSpy('clearDepartment').and.returnValue({ type: 'yolo' });
 let addTagSpy = jasmine.createSpy('addTag');
 let removeTagSpy = jasmine.createSpy('removeTag');
 
@@ -76,64 +76,6 @@ describe('settings redux actions', () => {
       clearDepartmentSpy.calls.reset();
       removeTagSpy.calls.reset();
       addTagSpy.calls.reset();
-    });
-
-    describe('when passed badge layout settings', () => {
-      let mockLayout, expected, result;
-
-      beforeEach(() => {
-        expected = {
-          type: actionTypes.UPDATE_SETTINGS,
-          payload: {
-            webWidget: {
-              launcher: {
-                badge: {
-                  layout: mockLayout
-                }
-              }
-            }
-          }
-        };
-
-        result = mockStore.getActions()[0];
-      });
-
-      describe('when the layout is setting is valid', () => {
-        beforeAll(() => {
-          mockLayout = 'image_only';
-
-          someSettings = {
-            launcher: {
-              badge: {
-                layout: mockLayout
-              }
-            }
-          };
-        });
-
-        it('adds the layout to the payload', () => {
-          expect(result).toEqual(expected);
-        });
-      });
-
-      describe('whent the layout setting is invalid', () => {
-        beforeAll(() => {
-          mockLayout = 'herp_derp';
-
-          someSettings = {
-            launcher: {
-              badge: {
-                layout: mockLayout
-              }
-            }
-          };
-        });
-
-        it('changes the layout to null and adds it to the payload', () => {
-          expect(result).not.toEqual(expected);
-          expect(result.payload.webWidget.launcher.badge.layout).toEqual(null);
-        });
-      });
     });
 
     describe('when chat is connected', () => {
@@ -260,7 +202,7 @@ describe('settings redux actions', () => {
         });
       });
 
-      describe('when new tags are not present', () => {});
+      describe('when new tags are not present', () => { });
     });
 
     describe('when chat is not connected', () => {

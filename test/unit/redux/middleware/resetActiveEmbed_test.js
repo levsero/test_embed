@@ -14,7 +14,9 @@ describe('resetActiveEmbed middleware', () => {
     mockArticleViewActive = false,
     mockSubmitTicketAvailable = true,
     mockIsChatting,
-    mockWidgetVisible = true;
+    mockWidgetVisible = true,
+    mockWin = {};
+
   const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
   const WIDGET_INITIALISED = 'WIDGET_INITIALISED';
   const ACTIVATE_RECEIVED = 'ACTIVATE_RECEIVED';
@@ -74,6 +76,9 @@ describe('resetActiveEmbed middleware', () => {
       },
       'src/redux/modules/zopimChat/zopimChat-action-types': {
         ZOPIM_CHAT_ON_STATUS_UPDATE, ZOPIM_END_CHAT, ZOPIM_HIDE
+      },
+      'utility/globals': {
+        win: mockWin
       }
     });
 
@@ -325,6 +330,34 @@ describe('resetActiveEmbed middleware', () => {
       mockWidgetVisible = false;
 
       resetActiveEmbed({}, {}, { type: WIDGET_INITIALISED }, dispatchSpy);
+    });
+
+    describe('when in Popout mode', () => {
+      beforeAll(() => {
+        mockWin.zEPopout = true;
+        resetActiveEmbed({}, {}, {});
+      });
+
+      afterAll(() => {
+        mockWin.zEPopout = false;
+      });
+
+      it('calls "chat"', () => {
+        expect(updateActiveEmbedSpy)
+          .toHaveBeenCalledWith('chat');
+      });
+    });
+
+    describe('when not in Popout mode', () => {
+      beforeAll(() => {
+        mockWin.zEPopout = false;
+        resetActiveEmbed({}, {}, {});
+      });
+
+      it('does not call "chat"', () => {
+        expect(updateActiveEmbedSpy)
+          .not.toHaveBeenCalledWith('chat');
+      });
     });
 
     describe('when Talk is available', () => {

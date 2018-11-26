@@ -26,7 +26,9 @@ describe('embed.webWidget', () => {
     mockState,
     mockChatVendorImport,
     persistenceStoreGetSpy,
-    chatNotificationDismissedSpy;
+    chatNotificationDismissedSpy,
+    mockWin;
+
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const revokeTokenSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
@@ -51,6 +53,7 @@ describe('embed.webWidget', () => {
     mockSupportAuthValue = null;
     mockChatAuthValue = null;
     mockActiveEmbed = '';
+    mockWin = {};
     resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
     zChatInitSpy = jasmine.createSpy('zChatInit');
     authenticateSpy = jasmine.createSpy('authenticate');
@@ -198,7 +201,8 @@ describe('embed.webWidget', () => {
         document: global.document,
         getDocumentHost: () => {
           return document.body;
-        }
+        },
+        win: mockWin
       },
       'src/redux/modules/base' : {
         authenticate: authenticateSpy,
