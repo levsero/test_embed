@@ -13,7 +13,7 @@ set :ekr_base_url, ENV['EKR_BASE_URL']
 set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
 set :previewer_directory, 'web_widget/previews'
 set :previewer_directory_versioned, "web_widget/previews/#{fetch(:version)}"
-set :popout_file_location, 'src/asset/templates/'
+set :popout_file_location, 'src/asset/templates'
 set :popout_file_name, 'popout.html'
 set :preview_files, %i(webWidgetPreview.js chatPreview.js)
 
@@ -51,9 +51,15 @@ namespace :ac_embeddable_framework do
     vendored_assets = ['asset_manifest.json'] + vendored_assets
     s3_deployer.upload_files('dist', release_directory_versioned, vendored_assets)
     s3_deployer.upload_files('dist', fetch(:ekr_s3_release_directory_latest), vendored_assets)
-    s3_deployer.upload_files(fetch(:popout_file_location),
+  end
+
+  desc 'Upload popout assets to S3'
+  task :upload_popout do
+    s3_deployer.upload_files(
+      fetch(:popout_file_location),
       fetch(:ekr_s3_release_directory_latest),
-      [fetch(:popout_file_name)])
+      [fetch(:popout_file_name)]
+    )
   end
 
   desc 'Release the current version to EKR'
