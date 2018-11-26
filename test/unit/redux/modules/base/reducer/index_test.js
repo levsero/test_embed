@@ -47,7 +47,8 @@ describe('base root reducer', () => {
       'hidden',
       'bootupTimeout',
       'locale',
-      'isChatBadgeMinimized'
+      'isChatBadgeMinimized',
+      'afterWidgetShowAnimation'
     ];
 
     it('has the expected substates', () => {

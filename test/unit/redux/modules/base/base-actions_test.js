@@ -17,6 +17,7 @@ let actions,
   mockPersistentStoreValue,
   mockHasContextuallySearched,
   mockActiveEmbed,
+  mockAfterWidgetShowAnimationQueue,
   mockIsTokenRenewable = jasmine.createSpy('isTokenRenewable'),
   persistentStoreRemoveSpy = jasmine.createSpy('remove'),
   persistentStoreSetSpy = jasmine.createSpy('set'),
@@ -34,6 +35,7 @@ describe('base redux actions', () => {
 
     mockNameValidValue = true;
     mockEmailValidValue = true;
+    mockAfterWidgetShowAnimationQueue = [];
 
     chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed')
       .and.returnValue({ type: 'widget/chat/CHAT_NOTIFICATION_DISMISSED' });
@@ -66,6 +68,7 @@ describe('base redux actions', () => {
         getOAuth: () => mockOAuth,
         getBaseIsAuthenticated: () => mockBaseIsAuthenticated,
         getActiveEmbed: () => mockActiveEmbed,
+        getAfterWidgetShowAnimation: () => mockAfterWidgetShowAnimationQueue
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getHasContextuallySearched: () => mockHasContextuallySearched
@@ -957,6 +960,47 @@ describe('base redux actions', () => {
     it('dispatches a EXECUTE_API_ON_CLOSE_CALLBACK event', () => {
       expect(dispatchedActions[1].type)
         .toEqual(actionTypes.EXECUTE_API_ON_CLOSE_CALLBACK);
+    });
+  });
+
+  describe('addToAfterShowAnimationQueue', () => {
+    let dispatchedActions, callback;
+
+    beforeEach(() => {
+      callback = () => 'hello';
+      mockStore.dispatch(actions.addToAfterShowAnimationQueue(callback));
+      dispatchedActions = mockStore.getActions();
+    });
+
+    it('dispatches a ADD_TO_AFTER_SHOW_ANIMATE event', () => {
+      expect(dispatchedActions[0].type)
+        .toEqual(actionTypes.ADD_TO_AFTER_SHOW_ANIMATE);
+    });
+
+    it('dispatches the callback param as the payload', () => {
+      expect(dispatchedActions[0].payload)
+        .toEqual(callback);
+    });
+  });
+
+  describe('widgetShowAnimationComplete', () => {
+    let dispatchedActions, callbackSpy;
+
+    beforeEach(() => {
+      callbackSpy = () => ({ type: 'callbackType' });
+      mockAfterWidgetShowAnimationQueue = [callbackSpy];
+      mockStore.dispatch(actions.widgetShowAnimationComplete());
+      dispatchedActions = mockStore.getActions();
+    });
+
+    it('dispatches functions in the afterWidgetShowAnimationQueue', () => {
+      expect(dispatchedActions[0].type)
+        .toEqual('callbackType');
+    });
+
+    it('dispatches a WIDGET_SHOW_ANIMATION_COMPLETE event', () => {
+      expect(dispatchedActions[1].type)
+        .toEqual(actionTypes.WIDGET_SHOW_ANIMATION_COMPLETE);
     });
   });
 

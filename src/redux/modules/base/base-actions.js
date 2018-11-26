@@ -2,7 +2,8 @@ import * as actions from './base-action-types';
 import { settings } from 'service/settings';
 import { getOAuth,
   getBaseIsAuthenticated,
-  getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+  getActiveEmbed,
+  getAfterWidgetShowAnimation } from 'src/redux/modules/base/base-selectors';
 import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { contextualSearch } from 'src/redux/modules/helpCenter';
 import { extractTokenId,
@@ -225,9 +226,30 @@ export const removeFromQueue = (methodName) => {
   };
 };
 
+export const addToAfterShowAnimationQueue = (method) => {
+  return {
+    type: actions.ADD_TO_AFTER_SHOW_ANIMATE,
+    payload: method
+  };
+};
+
 export const widgetHideAnimationComplete = () => {
   return {
     type: actions.WIDGET_HIDE_ANIMATION_COMPLETE
+  };
+};
+
+export const widgetShowAnimationComplete = () => {
+  return (dispatch, getState) => {
+    const queue = getAfterWidgetShowAnimation(getState());
+
+    queue.forEach((callback) => {
+      dispatch(callback());
+    });
+
+    dispatch({
+      type: actions.WIDGET_SHOW_ANIMATION_COMPLETE
+    });
   };
 };
 

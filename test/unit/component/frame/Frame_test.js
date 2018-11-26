@@ -478,6 +478,44 @@ describe('Frame', () => {
     });
   });
 
+  describe('onShowAnimationComplete', () => {
+    let frame, widgetShowAnimationCompleteSpy, frameName;
+
+    beforeEach(() => {
+      widgetShowAnimationCompleteSpy = jasmine.createSpy('widgetShowAnimationComplete');
+
+      frame = domRender(
+        <Frame widgetShowAnimationComplete={widgetShowAnimationCompleteSpy}
+          name={frameName}>{mockChild}</Frame>
+      );
+      forceFrameReady(frame);
+
+      frame.onShowAnimationComplete({ preventDefault: noop });
+    });
+
+    describe('when frame name is webWidget', () => {
+      beforeAll(() => {
+        frameName = 'webWidget';
+      });
+
+      it('calls props.widgetShowAnimationComplete', () => {
+        expect(widgetShowAnimationCompleteSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when frame name is not webWidget', () => {
+      beforeAll(() => {
+        frameName = 'launcher';
+      });
+
+      it('does not call props.widgetShowAnimationComplete', () => {
+        expect(widgetShowAnimationCompleteSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('computeIframeStyle', () => {
     let frame;
 

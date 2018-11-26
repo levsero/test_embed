@@ -25,8 +25,8 @@ export const REMOVE_FROM_QUEUE = 'widget/base/REMOVE_FROM_QUEUE';
 export const CLOSE_BUTTON_CLICKED = 'widget/base/CLOSE_BUTTON_CLICKED';
 export const LOCALE_SET = 'widget/base/LOCALE_SET';
 export const CHAT_BADGE_MINIMIZED = 'widget/base/CHAT_BADGE_MINIMIZED';
-// We can also add actions for animation start and show start and complete as needed
 export const WIDGET_HIDE_ANIMATION_COMPLETE = 'widget/base/WIDGET_HIDE_ANIMATION_COMPLETE';
+export const WIDGET_SHOW_ANIMATION_COMPLETE = 'widget/base/WIDGET_SHOW_ANIMATION_COMPLETE';
 export const API_CLEAR_FORM = 'widget/base/API_CLEAR_FORM';
 export const API_RESET_WIDGET = 'widget/base/API_RESET_WIDGET';
 export const API_CLEAR_HC_SEARCHES = 'widget/base/API_RESET_HC_SEARCHES';
@@ -38,3 +38,4 @@ export const CANCEL_BUTTON_CLICKED = 'widget/base/CANCEL_BUTTON_CLICKED';
 export const EXECUTE_API_ON_OPEN_CALLBACK = 'widget/base/EXECUTE_API_ON_OPEN_CALLBACK';
 export const EXECUTE_API_ON_CLOSE_CALLBACK = 'widget/base/EXECUTE_API_ON_CLOSE_CALLBACK';
 export const HIDE_LAUNCHER_WHEN_CHAT_OFFLINE = 'widget/base/HIDE_LAUNCHER_WHEN_CHAT_OFFLINE';
+export const ADD_TO_AFTER_SHOW_ANIMATE = 'widget/base/ADD_TO_AFTER_SHOW_ANIMATE';

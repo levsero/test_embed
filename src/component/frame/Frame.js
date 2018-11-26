@@ -17,7 +17,10 @@ import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices';
 import Transition from 'react-transition-group/Transition';
-import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
+import {
+  updateWidgetShown,
+  widgetShowAnimationComplete,
+  widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
 import {
   getFixedStyles,
   getColor,
@@ -82,6 +85,7 @@ class Frame extends Component {
     fixedStyles: PropTypes.object,
     updateWidgetShown: PropTypes.func,
     widgetHideAnimationComplete: PropTypes.func,
+    widgetShowAnimationComplete: PropTypes.func,
     color: PropTypes.object,
     generateUserCSS: PropTypes.func,
     chatStandalone: PropTypes.bool,
@@ -114,6 +118,7 @@ class Frame extends Component {
     fixedStyles: {},
     updateWidgetShown: () => {},
     widgetHideAnimationComplete: () => {},
+    widgetShowAnimationComplete: () => {},
     generateUserCSS: () => {},
     chatStandalone: false
   }
@@ -412,6 +417,12 @@ class Frame extends Component {
     this.injectEmbedIntoFrame(wrapper);
   }
 
+  onShowAnimationComplete = () => {
+    if (this.props.name === 'webWidget') {
+      this.props.widgetShowAnimationComplete();
+    }
+  }
+
   renderFrameContent = () => {
     if (this.state.childRendered) {
       return false;
@@ -457,7 +468,10 @@ class Frame extends Component {
     };
 
     return (
-      <Transition in={this.props.visible || this.props.alwaysShow} timeout={transitionDuration}>
+      <Transition
+        in={this.props.visible || this.props.alwaysShow}
+        timeout={transitionDuration}
+        onEntered={this.onShowAnimationComplete}>
         {(status) => (
           <iframe
             title={this.props.title || this.props.name}
@@ -474,7 +488,8 @@ class Frame extends Component {
 
 const actionCreators = {
   updateWidgetShown,
-  widgetHideAnimationComplete
+  widgetHideAnimationComplete,
+  widgetShowAnimationComplete
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Frame);
