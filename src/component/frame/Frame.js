@@ -24,7 +24,12 @@ import {
   getPosition,
   getFrameVisible,
   getFrameStyle } from 'src/redux/modules/selectors';
-import { FONT_SIZE, MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
+import {
+  FONT_SIZE,
+  MAX_WIDGET_HEIGHT,
+  MIN_WIDGET_HEIGHT,
+  WIDGET_WIDTH,
+  FRAME_TRANSITION_DURATION } from 'constants/shared';
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
 
 // Unregister lodash from window._
@@ -46,7 +51,7 @@ const mapStateToProps = (state, ownProps) => {
 const scrollingStyleDelay = 50; // small delay so that safari has finished rendering
 const sizingRatio = FONT_SIZE * getZoomSizingRatio();
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
-const transitionDuration = 250;
+const transitionDuration = FRAME_TRANSITION_DURATION;
 const isPositionTop = () => settings.get('position.vertical') === 'top';
 const defaultMarginTop = () => isPositionTop() && !isMobileBrowser() ? '15px' : 0;
 
