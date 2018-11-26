@@ -26,6 +26,7 @@ describe('base reducer web widget visibility', () => {
 
   const trueReturns = [
     actionTypes.LAUNCHER_CLICKED,
+    actionTypes.CHAT_BADGE_CLICKED,
     actionTypes.ACTIVATE_RECEIVED,
     chatActionTypes.PROACTIVE_CHAT_RECEIVED,
     chatActionTypes.CHAT_WINDOW_OPEN_ON_NAVIGATE,

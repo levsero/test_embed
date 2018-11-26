@@ -1064,6 +1064,30 @@ describe('base redux actions', () => {
     });
   });
 
+  describe('chatBadgeClicked', () => {
+    let dispatchedActions;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.chatBadgeClicked());
+      dispatchedActions = mockStore.getActions();
+    });
+
+    it('dispatches a CHAT_BADGE_CLICKED event', () => {
+      expect(dispatchedActions[0].type)
+        .toEqual(actionTypes.CHAT_BADGE_CLICKED);
+    });
+
+    it('dispatches a EXECUTE_API_ON_OPEN_CALLBACK event', () => {
+      expect(dispatchedActions[1].type)
+        .toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
+    });
+
+    it('dispatches a ADD_TO_AFTER_SHOW_ANIMATE event', () => {
+      expect(dispatchedActions[2].type)
+        .toEqual(actionTypes.ADD_TO_AFTER_SHOW_ANIMATE);
+    });
+  });
+
   describe('widgetInitialised', () => {
     let actionInit,
       actionBootUp;

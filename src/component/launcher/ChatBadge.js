@@ -11,7 +11,7 @@ import {
   resetCurrentMessage,
   handleChatBadgeMessageChange,
   updateChatScreen } from 'src/redux/modules/chat';
-import { handleChatBadgeMinimize } from 'src/redux/modules/base';
+import { handleChatBadgeMinimize, chatBadgeClicked } from 'src/redux/modules/base';
 import {
   getCurrentMessage,
   getLauncherBadgeSettings,
@@ -42,6 +42,7 @@ class ChatBadge extends Component {
     handleChatBadgeMinimize: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     bannerSettings: PropTypes.object.isRequired,
+    chatBadgeClicked: PropTypes.func.isRequired,
     chatBadgeColor: PropTypes.object,
     prechatFormRequired: PropTypes.bool,
     hideBranding: PropTypes.bool
@@ -140,7 +141,7 @@ class ChatBadge extends Component {
     });
 
     return (
-      <div className={displayClasses}>
+      <div onClick={this.props.chatBadgeClicked} className={displayClasses}>
         <table className={styles.splashTable}>
           <tbody>
             <tr>
@@ -212,13 +213,11 @@ class ChatBadge extends Component {
 
   render = () => {
     return (
-      <div>
-        <div className={styles.container}>
-          {this.renderSplashDisplay()}
-          {this.renderInputContainer()}
-          {this.renderMinimizeButton()}
-          {this.renderTitle()}
-        </div>
+      <div className={styles.container}>
+        {this.renderSplashDisplay()}
+        {this.renderInputContainer()}
+        {this.renderMinimizeButton()}
+        {this.renderTitle()}
       </div>
     );
   }
@@ -229,7 +228,8 @@ const actionCreators = {
   sendMsg,
   handleChatBadgeMessageChange,
   handleChatBadgeMinimize,
-  updateChatScreen
+  updateChatScreen,
+  chatBadgeClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatBadge);

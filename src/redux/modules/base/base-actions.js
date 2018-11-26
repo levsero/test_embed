@@ -226,10 +226,10 @@ export const removeFromQueue = (methodName) => {
   };
 };
 
-export const addToAfterShowAnimationQueue = (method) => {
+export const addToAfterShowAnimationQueue = (callback) => {
   return {
     type: actions.ADD_TO_AFTER_SHOW_ANIMATE,
-    payload: method
+    payload: callback
   };
 };
 
@@ -316,6 +316,14 @@ export const launcherClicked = () => {
       dispatch({ type: actions.LAUNCHER_CLICKED });
     }
     dispatch(executeApiOnOpenCallback());
+  };
+};
+
+export const chatBadgeClicked = () => {
+  return (dispatch) => {
+    dispatch({ type: actions.CHAT_BADGE_CLICKED });
+    dispatch(executeApiOnOpenCallback());
+    dispatch(addToAfterShowAnimationQueue(handleChatBadgeMinimize));
   };
 };
 
