@@ -160,6 +160,8 @@ describe('setUpZopimApiMethods', () => {
 
       expect(apis.openApi)
         .toHaveBeenCalled();
+      expect(apis.showApi)
+        .toHaveBeenCalled();
     });
 
     test('getDisplay method', () => {
@@ -290,6 +292,92 @@ describe('setUpZopimApiMethods', () => {
             }, expect.any(Function));
         });
       });
+    });
+  });
+
+  describe('badge', () => {
+    test('hide method', () => {
+      mockWin.$zopim.livechat.badge.hide();
+
+      expect(apis.hideApi)
+        .toHaveBeenCalled();
+    });
+
+    test('show method', () => {
+      mockWin.$zopim.livechat.badge.show();
+
+      expect(apis.closeApi)
+        .toHaveBeenCalled();
+      expect(apis.showApi)
+        .toHaveBeenCalled();
+    });
+
+    test('setText', () => {
+      const text = 'text';
+
+      mockWin.$zopim.livechat.badge.setText(text);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            launcher: {
+              badge: {
+                label: {
+                  '*': text
+                }
+              }
+            }
+          }
+        });
+    });
+
+    test('setColor', () => {
+      const color = 'color';
+
+      mockWin.$zopim.livechat.badge.setColor(color);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            color: {
+              launcher:  color
+            }
+          }
+        });
+    });
+
+    test('setImage', () => {
+      const image = 'image';
+
+      mockWin.$zopim.livechat.badge.setImage(image);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            launcher: {
+              badge: {
+                image: image
+              }
+            }
+          }
+        });
+    });
+
+    test('setLayout', () => {
+      const layout = 'layout';
+
+      mockWin.$zopim.livechat.badge.setLayout(layout);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            launcher: {
+              badge: {
+                layout:  layout
+              }
+            }
+          }
+        });
     });
   });
 
