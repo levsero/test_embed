@@ -12,8 +12,10 @@ set :static_assets_domain, ENV['STATIC_ASSETS_DOMAIN']
 set :ekr_base_url, ENV['EKR_BASE_URL']
 set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
 set :previewer_directory, 'web_widget/previews'
+set :previewer_directory_versioned, "web_widget/previews/#{fetch(:version)}"
 set :popout_file_location, 'src/asset/templates/'
 set :popout_file_name, 'popout.html'
+set :preview_files, %i(webWidgetPreview.js chatPreview.js)
 
 PREVIEW_EXPIRY = 600
 
@@ -32,8 +34,8 @@ namespace :ac_embeddable_framework do
   task :upload_preview_assets_to_s3 do
     s3_deployer.upload_files(
       'dist', # local folder to look for files
-      fetch(:previewer_directory), # path on S3 where the files will be stored
-      %w(webWidgetPreview.js chatPreview.js), # preview files to upload
+      fetch(:previewer_directory_versioned), # path on S3 where the files will be stored
+      fetch(:preview_files), # preview files to upload
       {
         cache_control: "public, max-age=#{PREVIEW_EXPIRY}",
         expires: nil # we don't want to send the expires header
@@ -56,9 +58,23 @@ namespace :ac_embeddable_framework do
 
   desc 'Release the current version to EKR'
   task :release_to_ekr do
-    raise version_error unless version_exists_on_s3?
+    path = fetch(:ekr_s3_release_directory_versioned)
+    raise version_error(path) unless version_exists_on_s3?(path)
 
     release_to_ekr
+  end
+
+  desc 'Update the previewer assets to latest version'
+  task :update_preview_assets_to_latest do
+    path = fetch(:previewer_directory_versioned)
+    raise version_error(path) unless version_exists_on_s3?(path)
+
+    fetch(:preview_files).each do |file|
+      s3_deployer.copy(
+        "#{fetch(:previewer_directory_versioned)}/#{file}",
+        "#{fetch(:previewer_directory)}/#{file}"
+      )
+    end
   end
 end
 
@@ -91,12 +107,12 @@ def ekr_jwt_payload
   }
 end
 
-def version_exists_on_s3?
-  s3_deployer.object_exists?("#{fetch(:ekr_s3_release_directory_versioned)}/")
+def version_exists_on_s3?(path)
+  s3_deployer.object_exists?("#{path}/")
 end
 
-def version_error
-  "Folder #{fetch(:ekr_s3_release_directory_versioned)} does not exist on the bucket"
+def version_error(path)
+  "Folder #{path} does not exist on the bucket"
 end
 
 def s3_deployer
@@ -112,3 +128,4 @@ end
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
 before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:build_assets'
 after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_preview_assets_to_s3'
+after 'ac_embeddable_framework:release_to_ekr', 'ac_embeddable_framework:update_preview_assets_to_latest'

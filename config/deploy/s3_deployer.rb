@@ -18,6 +18,17 @@ class S3Deployer
     bucket.object(key).exists?
   end
 
+  def copy(src, target)
+    logger.info "copy #{src} to #{target} on #{bucket_name}"
+
+    bucket.client.copy_object(
+      bucket: bucket_name,
+      copy_source: bucket_name + '/' + src,
+      key: target,
+      server_side_encryption: ENCRYPTION_TYPE
+    )
+  end
+
   def upload_files(local_directory, remote_directory, files, opts = {})
     put_object("#{remote_directory}/")
 
