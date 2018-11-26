@@ -7,7 +7,8 @@ import { getShowOfflineChat,
   getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible,
   getChatConnected as getNewChatConnected,
-  getBadgeColor } from './chat/chat-selectors';
+  getBadgeColor,
+  getChatBadgeEnabled } from './chat/chat-selectors';
 import { getZopimChatOnline,
   getZopimChatConnected,
   getZopimIsChatting,
@@ -303,9 +304,14 @@ export const getWidgetDisplayInfo = createSelector(
 );
 
 export const getShowChatBadgeLauncher = createSelector(
-  [getUserMinimizedChatBadge, getChatStandalone, getChatOnline],
-  (isMinimizedChatBadge, isChatStandalone, chatOnline) => {
-    return !isMinimizedChatBadge && isChatStandalone && !isMobileBrowser() && chatOnline;
+  [getUserMinimizedChatBadge, getChatStandalone, getChatOnline, getChatBadgeEnabled, getIsChatting],
+  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting) => {
+    return !isMinimizedChatBadge &&
+      isChatStandalone &&
+      !isMobileBrowser() &&
+      chatOnline &&
+      chatBadgeEnabled &&
+      !isChatting;
   }
 );
 

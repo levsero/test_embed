@@ -144,6 +144,7 @@ export const getChatTitle = createSelector(
 );
 
 export const getBannerSettings = (state) => state.chat.accountSettings.banner;
+export const getChatBadgeEnabled = (state) => getBannerSettings(state).enabled;
 
 export const getFirstMessageTimestamp = (state) => {
   const first = getChats(state).values().next().value;

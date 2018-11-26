@@ -109,6 +109,27 @@ describe('chat selectors', () => {
     });
   });
 
+  describe('getChatBadgeEnabled', () => {
+    let result;
+
+    beforeEach(() => {
+      result = selectors.getChatBadgeEnabled({
+        chat: {
+          accountSettings: {
+            banner: {
+              enabled: true
+            }
+          }
+        }
+      });
+    });
+
+    it('returns the value of banner.enabled', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
   describe('getOfflineFormEnabled', () => {
     let result;
 
