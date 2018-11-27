@@ -160,6 +160,6 @@ export const setOnStatusApi = (store, callback) => {
 
     const payloadTransformer = (payload) => payload.detail.status;
 
-    store.dispatch(handleOnApiCalled(SDK_DEPARTMENT_UPDATE, [], callback, payloadTransformer));
+    store.dispatch(handleOnApiCalled(SDK_DEPARTMENT_UPDATE, [], _.debounce(callback, 0), payloadTransformer));
   }
 };

@@ -142,7 +142,7 @@ describe('zopim events', () => {
             payload: expect.objectContaining(
               {
                 actionType: chatActionTypes.SDK_DEPARTMENT_UPDATE,
-                callback,
+                callback: expect.any(Function),
                 selectors: [],
                 payloadTransformer: expect.any(Function)
               }
@@ -159,6 +159,22 @@ describe('zopim events', () => {
 
       expect(payloadTransformer(sampleSDKPayload))
         .toEqual('offline');
+    });
+
+    it('stores a debounced callback', (done) => {
+      mockWin.$zopim.livechat.setOnStatus(callback);
+
+      const payloadCallback = mockStore.dispatch.mock.calls[1][0].payload.callback;
+
+      payloadCallback();
+      expect(callback)
+        .not.toHaveBeenCalled();
+
+      setTimeout(() => {
+        expect(callback)
+          .toHaveBeenCalled();
+        done();
+      }, 1);
     });
   });
 });
