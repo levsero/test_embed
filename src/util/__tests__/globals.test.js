@@ -4,7 +4,7 @@ test('getZendeskHost returns document.zendeskHost', () => {
   let result;
 
   document.zendeskHost = 'test.zendesk.com';
-  result = globals.getZendeskHost();
+  result = globals.getZendeskHost(document);
 
   expect(result)
     .toEqual('test.zendesk.com');
@@ -17,7 +17,7 @@ test('getZendeskHost returns document.webWidget.id', () => {
 
   document.zendesk = {
     web_widget: { id: 'test3.zendesk.com' } }; // eslint-disable-line camelcase
-  result = globals.getZendeskHost();
+  result = globals.getZendeskHost(document);
 
   expect(result).toEqual('test3.zendesk.com');
 
@@ -28,7 +28,7 @@ test('getZendeskHost returns document.web_widget.id', () => {
   let result;
 
   document.web_widget = { id: 'test2.zendesk.com' }; // eslint-disable-line camelcase
-  result = globals.getZendeskHost();
+  result = globals.getZendeskHost(document);
 
   expect(result).toEqual('test2.zendesk.com');
 

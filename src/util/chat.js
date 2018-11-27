@@ -12,7 +12,7 @@ function isDefaultNickname(name) {
 }
 
 function createChatPopoutWindow() {
-  const subdomain = getZendeskHost();
+  const subdomain = getZendeskHost(document);
   let url = __DEV__ ? `src/asset/templates/popout.html?key=${subdomain}`
     : `https://static-staging.zdassets.com/web_widget/latest/popout.html?key=${subdomain}`;
 
