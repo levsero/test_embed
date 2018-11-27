@@ -52,31 +52,37 @@ describe('chat reducer chats', () => {
     describe('when a CHAT_MSG_REQUEST_SENT action is dispatched', () => {
       let state,
         payload;
+      const timestamp = Date.now();
 
       beforeEach(() => {
         payload = {
-          type: 'chat.msg',
-          timestamp: Date.now(),
-          nick: 'visitor',
-          display_name: 'Visitor 123',
-          msg: 'Hi'
+          detail: {
+            type: 'chat.msg',
+            timestamp,
+            nick: 'visitor',
+            display_name: 'Visitor 123',
+            msg: 'Hi'
+          }
         };
 
         state = reducer(initialState, {
           type: actionTypes.CHAT_MSG_REQUEST_SENT,
-          payload: payload
+          payload: { ...payload, status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING }
         });
       });
 
       it('adds the message to the chats collection', () => {
+        const expectedPayload = {
+          ...payload.detail,
+          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
+          numFailedTries: 0
+        };
+
         expect(state.size)
           .toEqual(1);
 
-        expect(state.get(payload.timestamp))
-          .toEqual(jasmine.objectContaining({
-            timestamp: payload.timestamp,
-            msg: payload.msg
-          }));
+        expect(state.get(timestamp))
+          .toEqual(expectedPayload);
       });
     });
 
@@ -87,10 +93,12 @@ describe('chat reducer chats', () => {
 
       beforeEach(() => {
         payload = {
-          timestamp,
-          msg: 'Hi',
-          nick: 'visitor',
-          display_name: 'Visitor 123'
+          detail: {
+            timestamp,
+            msg: 'Hi',
+            nick: 'visitor',
+            display_name: 'Visitor 123'
+          }
         };
       });
 
@@ -104,7 +112,7 @@ describe('chat reducer chats', () => {
 
         it('adds the message to the chats collection', () => {
           const expectedPayload = {
-            ...payload,
+            ...payload.detail,
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
             numFailedTries: 0
           };
@@ -112,7 +120,7 @@ describe('chat reducer chats', () => {
           expect(state.size)
             .toEqual(1);
 
-          expect(state.get(payload.timestamp))
+          expect(state.get(timestamp))
             .toEqual(expectedPayload);
         });
       });
@@ -142,7 +150,7 @@ describe('chat reducer chats', () => {
 
         it('updates the existing chat in the chats collection', () => {
           const expectedPayload = {
-            ...payload,
+            ...payload.detail,
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
             numFailedTries: 0
           };
@@ -150,7 +158,7 @@ describe('chat reducer chats', () => {
           expect(state.size)
             .toEqual(1);
 
-          expect(state.get(payload.timestamp))
+          expect(state.get(timestamp))
             .toEqual(expectedPayload);
         });
       });
@@ -163,10 +171,12 @@ describe('chat reducer chats', () => {
 
       beforeEach(() => {
         payload = {
-          timestamp,
-          msg: 'Hi',
-          nick: 'visitor',
-          display_name: 'Visitor 123'
+          detail: {
+            timestamp,
+            msg: 'Hi',
+            nick: 'visitor',
+            display_name: 'Visitor 123'
+          }
         };
       });
 
@@ -180,7 +190,7 @@ describe('chat reducer chats', () => {
 
         it('adds the message to the chats collection', () => {
           const expectedPayload = {
-            ...payload,
+            ...payload.detail,
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
             numFailedTries: 1
           };
@@ -188,7 +198,7 @@ describe('chat reducer chats', () => {
           expect(state.size)
             .toEqual(1);
 
-          expect(state.get(payload.timestamp))
+          expect(state.get(timestamp))
             .toEqual(expectedPayload);
         });
       });
@@ -218,7 +228,7 @@ describe('chat reducer chats', () => {
 
         it('updates the existing chat in the chats collection', () => {
           const expectedPayload = {
-            ...payload,
+            ...payload.detail,
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
             numFailedTries: 1
           };
@@ -226,7 +236,7 @@ describe('chat reducer chats', () => {
           expect(state.size)
             .toEqual(1);
 
-          expect(state.get(payload.timestamp))
+          expect(state.get(timestamp))
             .toEqual(expectedPayload);
         });
 
@@ -244,7 +254,7 @@ describe('chat reducer chats', () => {
 
           it('increments number of failed tries by 1', () => {
             const expectedPayload = {
-              ...payload,
+              ...payload.detail,
               status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
               numFailedTries: 2
             };
@@ -252,7 +262,7 @@ describe('chat reducer chats', () => {
             expect(state.size)
               .toEqual(1);
 
-            expect(state.get(payload.timestamp))
+            expect(state.get(timestamp))
               .toEqual(expectedPayload);
           });
         });
@@ -267,12 +277,14 @@ describe('chat reducer chats', () => {
 
       beforeEach(() => {
         sendPayload = {
-          type: 'chat.file',
-          timestamp,
-          nick: 'visitor',
-          display_name: 'Visitor 123',
-          file: {
-            uploading: true
+          detail: {
+            type: 'chat.file',
+            timestamp,
+            nick: 'visitor',
+            display_name: 'Visitor 123',
+            file: {
+              uploading: true
+            }
           }
         };
 
@@ -283,8 +295,8 @@ describe('chat reducer chats', () => {
       });
 
       it('adds the attachment message to the chats collection', () => {
-        expect(state.get(sendPayload.timestamp))
-          .toEqual(sendPayload);
+        expect(state.get(timestamp))
+          .toEqual(sendPayload.detail);
       });
 
       describe('when a CHAT_FILE_REQUEST_SUCCESS action is dispatched', () => {
@@ -292,13 +304,15 @@ describe('chat reducer chats', () => {
 
         beforeEach(() => {
           successPayload = {
-            type: 'chat.file',
-            timestamp,
-            nick: 'visitor',
-            display_name: 'Visitor 123',
-            file: {
-              url: 'http://path/to/file',
-              uploading: false
+            detail: {
+              type: 'chat.file',
+              timestamp,
+              nick: 'visitor',
+              display_name: 'Visitor 123',
+              file: {
+                url: 'http://path/to/file',
+                uploading: false
+              }
             }
           };
         });
@@ -309,7 +323,7 @@ describe('chat reducer chats', () => {
 
           expect(state.get(timestamp))
             .not
-            .toEqual(successPayload);
+            .toEqual(successPayload.detail);
 
           state = reducer(state, {
             type: actionTypes.CHAT_FILE_REQUEST_SUCCESS,
@@ -317,7 +331,7 @@ describe('chat reducer chats', () => {
           });
 
           expect(state.get(timestamp))
-            .toEqual(successPayload);
+            .toEqual(successPayload.detail);
         });
       });
 
@@ -326,13 +340,15 @@ describe('chat reducer chats', () => {
 
         beforeEach(() => {
           failurePayload = {
-            type: 'chat.file',
-            timestamp,
-            nick: 'visitor',
-            display_name: 'Visitor 123',
-            file: {
-              error: { message: 'EXCEED_SIZE_LIMIT' },
-              uploading: false
+            detail: {
+              type: 'chat.file',
+              timestamp,
+              nick: 'visitor',
+              display_name: 'Visitor 123',
+              file: {
+                error: { message: 'EXCEED_SIZE_LIMIT' },
+                uploading: false
+              }
             }
           };
         });
@@ -343,7 +359,7 @@ describe('chat reducer chats', () => {
 
           expect(state.get(timestamp))
             .not
-            .toEqual(failurePayload);
+            .toEqual(failurePayload.detail);
 
           state = reducer(state, {
             type: actionTypes.CHAT_FILE_REQUEST_FAILURE,
@@ -351,7 +367,7 @@ describe('chat reducer chats', () => {
           });
 
           expect(state.get(timestamp))
-            .toEqual(failurePayload);
+            .toEqual(failurePayload.detail);
         });
       });
     });

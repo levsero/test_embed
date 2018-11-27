@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatLog.scss';
 
-import { ChatGroup } from 'component/chat/chatting/ChatGroup';
-import { EventMessage } from 'component/chat/chatting/EventMessage';
+import ChatGroup from 'component/chat/chatting/ChatGroup';
+import EventMessage from 'component/chat/chatting/EventMessage';
 import { Button } from '@zendeskgarden/react-buttons';
-import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import { getChatLog } from 'src/redux/modules/chat/chat-selectors';
+
+const mapStateToProps = (state) => {
+  return {
+    chatLog: getChatLog(state)
+  };
+};
 
 export class ChatLog extends Component {
   static propTypes = {
-    chatLog: PropTypes.object.isRequired,
+    chatLog: PropTypes.array.isRequired,
     lastAgentLeaveEvent: PropTypes.object,
     agents: PropTypes.object,
     chatCommentLeft: PropTypes.bool.isRequired,
@@ -52,14 +59,13 @@ export class ChatLog extends Component {
       isMobile
     } = this.props;
 
-    const chatLogs = _.map(chatLog, (chatLogItem, timestamp) => {
-      // message groups and events are both returned as arrays; we can determine the type of the entire timestamped item 'group' by reading the type value of the first entry
-      const chatLogItemType = _.get(chatLogItem, '0.type');
+    const chatLogEl = _.map(chatLog, (chatGroup) => {
+      const { type, author } = chatGroup;
 
-      if (_.includes(CHAT_MESSAGE_EVENTS, chatLogItemType)) {
-        const chatGroup = chatLogItem;
-        const groupNick = _.get(chatGroup, '0.nick', 'visitor');
-        const isAgent = groupNick.indexOf('agent:') > -1;
+      if (type === 'message') {
+        const timestamp = chatGroup.messages[0];
+        const groupNick = author || 'visitor';
+        const isAgent = author.indexOf('agent:') > -1;
         const avatarPath = _.get(agents, `${groupNick}.avatar_path`) || conciergeAvatar;
         const shouldRenderUpdateInfo = showUpdateInfo && chatGroup.isFirstVisitorMessage;
 
@@ -67,7 +73,7 @@ export class ChatLog extends Component {
           <ChatGroup
             key={timestamp}
             isAgent={isAgent}
-            messages={chatGroup}
+            messageKeys={chatGroup.messages}
             avatarPath={avatarPath}
             showAvatar={showAvatar}
             onImageLoad={onImageLoad}
@@ -78,13 +84,13 @@ export class ChatLog extends Component {
             {this.renderUpdateInfo(shouldRenderUpdateInfo, updateInfoOnClick)}
           </ChatGroup>
         );
-      } else if (_.includes(CHAT_SYSTEM_EVENTS, chatLogItemType)) {
-        const event = chatLogItem[0];
+      } else if (type === 'event') {
+        const event = chatGroup.messages[0];
 
         return (
           <EventMessage
-            event={event}
-            key={timestamp}
+            eventKey={event}
+            key={event}
             chatLogCreatedAt={this.createdTimestamp}
           >
             {this.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen)}
@@ -93,7 +99,7 @@ export class ChatLog extends Component {
       }
     });
 
-    return chatLogs;
+    return chatLogEl;
   }
 
   renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen) {
@@ -148,3 +154,5 @@ export class ChatLog extends Component {
     ) : null;
   }
 }
+
+export default connect(mapStateToProps, {}, null, { withRef: true })(ChatLog);

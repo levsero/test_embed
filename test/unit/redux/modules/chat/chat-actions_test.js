@@ -294,6 +294,7 @@ describe('chat redux actions', () => {
             mockStore.getActions()
               .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SUCCESS)
               .payload
+              .detail
               .msg
           )
             .toEqual(message);
@@ -330,6 +331,7 @@ describe('chat redux actions', () => {
             mockStore.getActions()
               .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_FAILURE)
               .payload
+              .detail
               .msg
           )
             .toEqual(message);
@@ -1084,17 +1086,17 @@ describe('chat redux actions', () => {
         {
           name: 'icecream.png',
           size: 512,
-          type: 'image/png'
+          mime_type: 'image/png'
         },
         {
           name: 'rainbows.jpg',
           size: 128,
-          type: 'image/jpeg'
+          mime_type: 'image/jpeg'
         },
         {
           name: 'tulips.gif',
           size: 64,
-          type: 'image/gif'
+          mime_type: 'image/gif'
         }
       ];
 
@@ -1115,13 +1117,13 @@ describe('chat redux actions', () => {
 
     it('has the correct params in the payload for each file', () => {
       for (var i=0; i < fileList.length; i++) {
-        expect(dispatchedActions[i].payload)
+        expect(dispatchedActions[i].payload.detail)
           .toEqual(jasmine.objectContaining({
             type: 'chat.file',
             timestamp: Date.now(),
             nick: mockVisitor.nick,
             display_name: mockVisitor.display_name,
-            file: {
+            attachment: {
               ...fileList[i],
               uploading: true
             }
@@ -1154,13 +1156,13 @@ describe('chat redux actions', () => {
         });
 
         it('has the correct params in the payload', () => {
-          expect(mostRecentAction.payload)
+          expect(mostRecentAction.payload.detail)
             .toEqual(jasmine.objectContaining({
               type: 'chat.file',
               timestamp: Date.now(),
               nick: mockVisitor.nick,
               display_name: mockVisitor.display_name,
-              file: {
+              attachment: {
                 ...fileList[fileList.length - 1],
                 url: data.url,
                 uploading: false
@@ -1182,13 +1184,13 @@ describe('chat redux actions', () => {
         });
 
         it('has the correct params in the payload', () => {
-          expect(mostRecentAction.payload)
+          expect(mostRecentAction.payload.detail)
             .toEqual(jasmine.objectContaining({
               type: 'chat.file',
               timestamp: Date.now(),
               nick: mockVisitor.nick,
               display_name: mockVisitor.display_name,
-              file: {
+              attachment: {
                 ...fileList[fileList.length - 1],
                 error: err,
                 uploading: false

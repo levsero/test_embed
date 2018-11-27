@@ -44,7 +44,9 @@ const sendMsgRequest = (msg, visitor, timestamp) => {
     dispatch({
       type: actions.CHAT_MSG_REQUEST_SENT,
       payload: {
-        ...getChatMessagePayload(msg, visitor, timestamp),
+        detail: {
+          ...getChatMessagePayload(msg, visitor, timestamp)
+        },
         status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
       }
     });
@@ -55,7 +57,9 @@ const sendMsgSuccess = (msg, visitor, timestamp) => {
   return {
     type: actions.CHAT_MSG_REQUEST_SUCCESS,
     payload: {
-      ...getChatMessagePayload(msg, visitor, timestamp),
+      detail: {
+        ...getChatMessagePayload(msg, visitor, timestamp)
+      },
       status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS
     }
   };
@@ -65,7 +69,9 @@ const sendMsgFailure = (msg, visitor, timestamp) => {
   return {
     type: actions.CHAT_MSG_REQUEST_FAILURE,
     payload: {
-      ...getChatMessagePayload(msg, visitor, timestamp),
+      detail: {
+        ...getChatMessagePayload(msg, visitor, timestamp)
+      },
       status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE
     }
   };
@@ -372,12 +378,15 @@ export function sendAttachments(fileList) {
       dispatch({
         type: actions.CHAT_FILE_REQUEST_SENT,
         payload: {
-          ...basePayload,
-          // _.assign is intentionally used here as 'file' is an instance of the
-          // File class and isn't easily spread over/extended with native methods
-          file: _.assign(file, {
-            uploading: true
-          })
+          detail: {
+            ...basePayload,
+            // _.assign is intentionally used here as 'file' is an instance of the
+            // File class and isn't easily spread over/extended with native methods
+            attachment: _.assign(file, {
+              mime_type: file.type,
+              uploading: true
+            })
+          }
         }
       });
 
@@ -386,22 +395,28 @@ export function sendAttachments(fileList) {
           dispatch({
             type: actions.CHAT_FILE_REQUEST_SUCCESS,
             payload: {
-              ...basePayload,
-              file: _.assign(file, {
-                url: data.url,
-                uploading: false
-              })
+              detail: {
+                ...basePayload,
+                attachment: _.assign(file, {
+                  mime_type: file.type,
+                  url: data.url,
+                  uploading: false
+                })
+              }
             }
           });
         } else {
           dispatch({
             type: actions.CHAT_FILE_REQUEST_FAILURE,
             payload: {
-              ...basePayload,
-              file: _.assign(file, {
-                error: err,
-                uploading: false
-              })
+              detail: {
+                ...basePayload,
+                attachment: _.assign(file, {
+                  mime_type: file.type,
+                  error: err,
+                  uploading: false
+                })
+              }
             }
           });
         }

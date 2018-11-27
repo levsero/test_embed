@@ -5,7 +5,8 @@ const file = PropTypes.shape({
   lastModifiedDate: PropTypes.object, // TODO: verify with _.isDate
   name: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired, // TODO: limit to oneOf a set number of allowed filetypes
+  mime_type: PropTypes.string.isRequired, // eslint-disable-line camelcase
+  // TODO: limit to oneOf a set number of allowed filetypes
   webkitRelativePath: PropTypes.string
 });
 

@@ -28,14 +28,15 @@ import _ from 'lodash';
 
 const initialState = new Map();
 
-const concatContactDetailsUpdated = (chats, payload) => {
+const concatContactDetailsUpdated = (chats, event) => {
   const copy = new Map(chats);
+  const timestamp = event.timestamp || Date.now();
   const contactDetailsUpdated = {
-    timestamp: payload.timestamp,
+    timestamp: timestamp,
     type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_CONTACT_DETAILS_UPDATED
   };
 
-  return copy.set(payload.timestamp, contactDetailsUpdated);
+  return copy.set(timestamp, contactDetailsUpdated);
 };
 
 const concatChat = (chats, chat) => {
@@ -68,35 +69,17 @@ const concatQuickReply = (chats, chat) => {
   return copy;
 };
 
-const concatSDKFile = (chats, chat) => {
-  if (!chat.timestamp) return chats;
-
-  const copy = new Map(chats);
-  const existingItem = copy.get(chat.timestamp) || {};
-  const existingFile = existingItem.file || {
-    lastModified: null,
-    lastModifiedDate: null,
-    webkitRelativePath: ''
-  };
-
-  const file = {
-    ...existingFile,
-    ...chat.attachment,
-    type: chat.attachment.mime_type,
-    uploading: false
-  };
-
-  return copy.set(chat.timestamp, { ...chat, file });
-};
-
 const updateChat = (chats, chat) => {
   const copy = new Map(chats),
-    prevChat = chats.get(chat.timestamp);
+    prevChat = chats.get(chat.detail.timestamp);
 
   const numFailedTries = ((_.get(chat, 'status') === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE) || 0)
     + _.get(prevChat, 'numFailedTries', 0);
 
-  return copy.set(chat.timestamp, { ...prevChat, ...chat, numFailedTries });
+  return copy.set(
+    chat.detail.timestamp,
+    { ...prevChat, ...chat.detail, status: chat.status, numFailedTries }
+  );
 };
 
 const chats = (state = initialState, action) => {
@@ -105,12 +88,9 @@ const chats = (state = initialState, action) => {
     case CHAT_MSG_REQUEST_FAILURE:
     case CHAT_MSG_REQUEST_SENT:
       return updateChat(state, action.payload);
-
     case CHAT_FILE_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SUCCESS:
     case CHAT_FILE_REQUEST_FAILURE:
-      return concatChat(state, action.payload);
-
     case SDK_CHAT_QUEUE_POSITION:
     case SDK_CHAT_REQUEST_RATING:
     case SDK_CHAT_RATING:
@@ -118,7 +98,6 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_MEMBER_JOIN:
     case SDK_CHAT_MEMBER_LEAVE:
       return concatChat(state, action.payload.detail);
-
     case SDK_CHAT_MSG:
       const { detail } = action.payload;
 
@@ -127,10 +106,8 @@ const chats = (state = initialState, action) => {
       }
 
       return concatChat(state, detail);
-
     case SDK_CHAT_FILE:
-      return concatSDKFile(state, action.payload.detail);
-
+      return concatChat(state, action.payload.detail);
     case SET_VISITOR_INFO_REQUEST_SUCCESS:
       return concatContactDetailsUpdated(state, action.payload);
     default:

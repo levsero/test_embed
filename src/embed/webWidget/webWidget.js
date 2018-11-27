@@ -518,6 +518,9 @@ export default function WebWidgetFactory(name) {
             : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`;
         }
 
+        if (data.type === 'chat' && data.detail) {
+          data.detail.timestamp = data.detail.timestamp || Date.now();
+        }
         store.dispatch({ type: actionType, payload: data });
       });
     };

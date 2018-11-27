@@ -7,7 +7,7 @@ import Transition from 'react-transition-group/Transition';
 
 import { ChatBox } from 'component/chat/chatting/ChatBox';
 import { ChattingFooter } from 'component/chat/chatting/ChattingFooter';
-import { ChatLog } from 'component/chat/chatting/ChatLog';
+import ChatLog from 'component/chat/chatting/ChatLog';
 import { HistoryLog } from 'component/chat/chatting/HistoryLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -40,7 +40,6 @@ const mapStateToProps = (state) => {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
     chats: selectors.getChatMessages(state),
     events: selectors.getChatEvents(state),
-    chatLog: selectors.getGroupedChatLog(state),
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
     chatHistoryLog: getGroupedPastChatsBySession(state),
@@ -76,7 +75,6 @@ class ChattingScreen extends Component {
     concierges: PropTypes.array.isRequired,
     chats: PropTypes.array.isRequired,
     events: PropTypes.array.isRequired,
-    chatLog: PropTypes.object.isRequired,
     hasMoreHistory: PropTypes.bool,
     historyRequestStatus: PropTypes.string,
     chatHistoryLog: PropTypes.array,
@@ -504,7 +502,6 @@ class ChattingScreen extends Component {
             <ChatLog
               isMobile={this.props.isMobile}
               showAvatar={this.props.showAvatar}
-              chatLog={this.props.chatLog}
               lastAgentLeaveEvent={this.props.lastAgentLeaveEvent}
               agents={this.props.allAgents}
               chatCommentLeft={!!this.props.rating.comment}

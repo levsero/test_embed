@@ -56,6 +56,9 @@ describe('ChatGroup component', () => {
         ICONS,
         FILETYPE_ICONS
       },
+      'src/redux/modules/chat/chat-selectors': {
+        getGroupMessages: noop
+      },
       'service/i18n': {
         i18n
       },
@@ -639,7 +642,7 @@ describe('ChatGroup component', () => {
         messages = [
           {
             type: 'chat.file',
-            file: {
+            attachment: {
               type: 'image/jpeg',
               name: 'pancakes.jpg',
               size: 1024,
@@ -766,7 +769,7 @@ describe('ChatGroup component', () => {
         beforeAll(() => {
           chat = {
             type: 'chat.file',
-            file: {
+            attachment: {
               type: 'application/pdf',
               name: 'invoice.pdf',
               size: 1024,
@@ -782,7 +785,7 @@ describe('ChatGroup component', () => {
         it('passes the correct props to the child component', () => {
           expect(result.props).toEqual(jasmine.objectContaining({
             downloading: false,
-            file: chat.file,
+            file: chat.attachment,
             isDownloadable: true
           }));
         });
@@ -792,7 +795,7 @@ describe('ChatGroup component', () => {
         beforeAll(() => {
           chat = {
             type: 'chat.file',
-            file: {
+            attachment: {
               type: 'image/jpeg',
               name: 'penguins.jpg',
               size: 1024,
@@ -806,7 +809,7 @@ describe('ChatGroup component', () => {
         });
 
         it('passes the correct file prop to the component', () => {
-          expect(result.props.file).toEqual(chat.file);
+          expect(result.props.file).toEqual(chat.attachment);
         });
 
         it('renders the component without a placeholder element', () => {
@@ -826,7 +829,7 @@ describe('ChatGroup component', () => {
         beforeAll(() => {
           chat = {
             type: 'chat.file',
-            file: {
+            attachment: {
               type: 'application/pdf',
               name: 'manual.pdf',
               size: 1024,
@@ -842,7 +845,7 @@ describe('ChatGroup component', () => {
         it('passes the correct props to the child component', () => {
           expect(result.props).toEqual(jasmine.objectContaining({
             downloading: false,
-            file: chat.file,
+            file: chat.attachment,
             isDownloadable: true
           }));
         });
@@ -853,7 +856,7 @@ describe('ChatGroup component', () => {
           beforeAll(() => {
             chat = {
               type: 'chat.file',
-              file: {
+              attachment: {
                 type: 'application/zip',
                 name: 'sketchy.zip',
                 size: 512,
@@ -878,7 +881,7 @@ describe('ChatGroup component', () => {
           it('passes the correct props to the Attachment component', () => {
             expect(children[0].props).toEqual(jasmine.objectContaining({
               downloading: false,
-              file: chat.file,
+              file: chat.attachment,
               isDownloadable: false,
               uploading: false
             }));
@@ -904,7 +907,7 @@ describe('ChatGroup component', () => {
           beforeAll(() => {
             chat = {
               type: 'chat.file',
-              file: {
+              attachment: {
                 type: 'image/jpeg',
                 name: 'tortoises.jpg',
                 size: 1024,
@@ -920,7 +923,7 @@ describe('ChatGroup component', () => {
           it('passes the correct props to the child component', () => {
             expect(result.props).toEqual(jasmine.objectContaining({
               downloading: false,
-              file: chat.file,
+              file: chat.attachment,
               isDownloadable: false,
               uploading: true
             }));
@@ -931,7 +934,7 @@ describe('ChatGroup component', () => {
           beforeAll(() => {
             chat = {
               type: 'chat.file',
-              file: {
+              attachment: {
                 type: 'image/jpeg',
                 name: 'tortoises.jpg',
                 size: 1024,
@@ -946,7 +949,7 @@ describe('ChatGroup component', () => {
           });
 
           it('passes the correct file prop to the component', () => {
-            expect(result.props.file).toEqual(chat.file);
+            expect(result.props.file).toEqual(chat.attachment);
           });
 
           it('renders the component with an Attachment as the placeholder element', () => {
@@ -961,7 +964,7 @@ describe('ChatGroup component', () => {
       beforeAll(() => {
         chat = {
           type: 'chat.file',
-          file: {
+          attachment: {
             name: 'numbers.xls',
             size: 128,
             uploading: true
@@ -978,7 +981,7 @@ describe('ChatGroup component', () => {
       beforeAll(() => {
         chat = {
           type: 'chat.file',
-          file: {
+          attachment: {
             name: 'readme.nfo',
             size: 64,
             uploading: true

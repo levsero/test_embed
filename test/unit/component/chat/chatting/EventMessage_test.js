@@ -25,6 +25,9 @@ describe('EventMessage component', () => {
           'fadeIn': 'fadeInClass'
         }
       },
+      'src/redux/modules/chat/chat-selectors': {
+        getGroupMessages: noop
+      },
       'service/i18n': {
         i18n
       }

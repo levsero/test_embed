@@ -7,6 +7,7 @@ import agents from './chat-agents';
 import inactiveAgents from './chat-inactive-agents';
 import chats from './chat-chats';
 import chatHistory from './chat-history';
+import chatLog from './chat-log';
 import connection from './chat-connection';
 import currentMessage from './chat-current-message';
 import departments from './chat-departments';
@@ -40,6 +41,7 @@ const combinedReducers = combineReducers({
   agents,
   chats,
   chatHistory,
+  chatLog,
   connection,
   currentMessage,
   departments,
