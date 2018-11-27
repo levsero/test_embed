@@ -149,11 +149,16 @@ export const getChatTitle = createSelector(
 export const getLauncherBadgeSettings = createSelector(
   [getSettingsLauncherBadge, getAccountSettingsLauncherBadge, getLocale],
   (settingsBadge, accountSettingsBadge, _locale) => {
+    const maxLabelLength = 65;
     const settingsLabel = _.get(settingsBadge, 'label', {});
-    const label = (
+    const label = _.truncate(
       i18n.getSettingTranslation(settingsLabel) ||
-      accountSettingsBadge.label ||
-      i18n.t('embeddable_framework.chat.badge.label')
+      accountSettingsBadge.text ||
+      i18n.t('embeddable_framework.chat.badge.label'),
+      {
+        'length': maxLabelLength,
+        'omission': '…'
+      }
     );
 
     return {

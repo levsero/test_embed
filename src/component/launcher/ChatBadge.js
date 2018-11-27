@@ -94,12 +94,20 @@ class ChatBadge extends Component {
   }
 
   renderImage = () => {
-    let img = <Icon className={styles.chatIcon} type='Icon--channelChoice-chat' />;
+    const baseClasses = classNames(
+      styles.chatIcon,
+      {
+        [styles.imgRight]: this.props.bannerSettings.layout === 'image_right',
+        [styles.imgLeft]: this.props.bannerSettings.layout === 'image_left'
+      }
+    );
+
+    let img = <Icon className={baseClasses} type='Icon--channelChoice-chat' />;
 
     if (this.props.bannerSettings.image) {
       const imageClasses = classNames({
         [styles.customImg]: this.props.bannerSettings.layout !== 'image_only',
-        [styles.customImgOnly]: this.props.bannerSettings.layout === 'image_only'
+        [styles.customImgOnly]: this.props.bannerSettings.layout === 'image_only',
       });
 
       img = <img src={this.props.bannerSettings.image} className={imageClasses} />;
@@ -155,16 +163,20 @@ class ChatBadge extends Component {
   renderInputContainer = () => {
     const generateCSSColor = (color) => {
       return `
-        .sendButtonColor svg path {
+        .sendButtonActive svg path {
           fill: ${color.base} !important;
         }
 
-        .sendButtonColor svg {
+        .sendButtonActive svg {
           fill: ${color.base} !important;
         }
       `;
     };
     const css = <style dangerouslySetInnerHTML={{ __html: generateCSSColor(this.props.chatBadgeColor) }} />;
+
+    const sendButtonClasses = classNames(styles.sendButton, {
+      ['sendButtonActive']: this.props.currentMessage.length > 0
+    });
 
     return (
       <div className={styles.inputContainer}>
@@ -178,7 +190,7 @@ class ChatBadge extends Component {
           value={this.props.currentMessage} />
         <Icon
           onClick={this.sendChatMsg}
-          className={styles.sendButton}
+          className={sendButtonClasses}
           type={ICONS.SEND_CHAT}/>
       </div>
     );
