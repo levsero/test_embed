@@ -47,5 +47,5 @@ $sliderHeight: calc(#{$mobileSliderHeight}rem + #{$focusRingWidth * 2});
 }
 
 .lastSeparator {
-  margin-right: #{$buttonBorderWidth}rem; // prevent cutoff of the last element
+  margin-right: calc(#{$buttonBorderWidth}rem + #{$focusRingWidth}); // prevent cutoff of the last element and its focus ring
 }
