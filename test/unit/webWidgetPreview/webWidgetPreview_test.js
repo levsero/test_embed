@@ -175,7 +175,7 @@ describe('webWidgetPreview entry file', () => {
           });
 
           it('passes updated styles to Frame', () => {
-            expect(preview.props.frameStyle)
+            expect(preview.props.customFrameStyle)
               .toEqual(jasmine.objectContaining(expectedStyles));
           });
 
@@ -195,7 +195,7 @@ describe('webWidgetPreview entry file', () => {
           });
 
           it('uses default styles', () => {
-            expect(preview.props.frameStyle)
+            expect(preview.props.customFrameStyle)
               .toEqual(jasmine.objectContaining(expectedStyles));
           });
 

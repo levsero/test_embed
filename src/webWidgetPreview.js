@@ -63,7 +63,7 @@ const renderWebWidgetPreview = (options) => {
   const frameParams = {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'webWidgetPreview',
-    frameStyle,
+    customFrameStyle: frameStyle,
     alwaysShow: true,
     disableOffsetHorizontal: true,
     preventClose: true,

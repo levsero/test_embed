@@ -96,7 +96,7 @@ const renderPreview = (options) => {
   const frameParams = {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'chatPreview',
-    frameStyle,
+    customFrameStyle: frameStyle,
     alwaysShow: true,
     ref: (el) => { frame = el.getWrappedInstance(); },
     disableOffsetHorizontal: true,

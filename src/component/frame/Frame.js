@@ -79,7 +79,8 @@ class Frame extends Component {
     widgetHideAnimationComplete: PropTypes.func,
     color: PropTypes.object,
     generateUserCSS: PropTypes.func,
-    chatStandalone: PropTypes.bool
+    chatStandalone: PropTypes.bool,
+    customFrameStyle: PropTypes.object
   }
 
   static defaultProps = {
@@ -89,6 +90,7 @@ class Frame extends Component {
     frameOffsetWidth: 15,
     frameOffsetHeight: 15,
     frameStyle: { marginTop: defaultMarginTop() },
+    customFrameStyle: {},
     fullscreenable: false,
     hideCloseButton: false,
     hidePopoutButton: false,
@@ -301,7 +303,7 @@ class Frame extends Component {
   }
 
   computeIframeStyle = () => {
-    const { frameStyle } = this.props;
+    const frameStyle = _.defaults({}, this.props.customFrameStyle, this.props.frameStyle);
     const modifiedStyles = this.child
       ? this.props.frameStyleModifier(frameStyle, this.getRootComponentElement()) || frameStyle
       : frameStyle;

@@ -26,6 +26,20 @@ it('creates the iframe for preview', () => {
     .toBeInTheDocument();
 });
 
+it('creates the iframe with the expected styles', () => {
+  expect(webWidgetPreview())
+    .toHaveStyle(`
+      position: relative;
+      float: right;
+      margin-top: 16px;
+      margin-right: 16px;
+      right: 0px;
+      bottom: 0px;
+      width: 369px;
+      height: 565px;
+  `);
+});
+
 it('renders the message title', () => {
   preview.setTitle('message');
 
