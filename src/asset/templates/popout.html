@@ -35,7 +35,7 @@
 
     if (parameters && typeof parameters === "object") {
       if (parameters.key) {
-        scriptElement.src += ("?key=" + parameters.key);
+        scriptElement.src += ("?key=web_widget/" + parameters.key);
       }
       // Insert other required parameters below
       head.appendChild(scriptElement);
