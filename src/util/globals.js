@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const win = window.parent;
 const document = win.document;
 const navigator = win.navigator;
@@ -7,6 +9,12 @@ const referrer = document.referrer;
 function getDocumentHost() {
   return document.body || document.documentElement;
 }
+
+const getZendeskHost = () => {
+  const path = 'web_widget.id';
+
+  return document.zendeskHost || _.get(document.zendesk, path) || _.get(document, path);
+};
 
 // Shim rAF for older browsers that either don't have it or need the prefixed version.
 // Attaching to the iframe window as that's what snabbt looks at.
@@ -30,4 +38,4 @@ function getDocumentHost() {
   }
 }());
 
-export { win, document, navigator, location, getDocumentHost, referrer };
+export { win, document, navigator, location, getDocumentHost, referrer, getZendeskHost };

@@ -1,6 +1,7 @@
 describe('boot', () => {
   let boot,
-    mockGetErrorReportingEnabled;
+    mockGetErrorReportingEnabled,
+    mockHost;
   const registerImportSpy = (name, ...methods) => {
     return {
       [name]: jasmine.createSpyObj(name, methods)
@@ -74,6 +75,9 @@ describe('boot', () => {
       },
       'src/redux/modules/base': {
         updateEmbeddableConfig: updateEmbeddableConfigSpy
+      },
+      'utility/globals': {
+        getZendeskHost: () => mockHost
       }
     });
 
@@ -100,12 +104,12 @@ describe('boot', () => {
 
     describe('zendeskHost', () => {
       beforeEach(() => {
-        document.zendeskHost = 'test.zendesk.com';
+        mockHost = 'test.zendesk.com';
         boot.setupServices({});
       });
 
       afterEach(() => {
-        document.zendeskHost = null;
+        mockHost = null;
       });
 
       it('gets the zendeskHost from document', () => {
@@ -118,12 +122,12 @@ describe('boot', () => {
 
     describe('zendesk.web_widget.id', () => {
       beforeEach(() => {
-        document.zendesk = { web_widget: { id: 'test3.zendesk.com' } }; // eslint-disable-line camelcase
+        mockHost ='test3.zendesk.com';
         boot.setupServices({});
       });
 
       afterEach(() => {
-        document.zendesk = null;
+        mockHost = null;
       });
 
       it('gets the zendeskHost from document', () => {
@@ -136,12 +140,12 @@ describe('boot', () => {
 
     describe('web_widget.id', () => {
       beforeEach(() => {
-        document.web_widget = { id: 'test2.zendesk.com' }; // eslint-disable-line camelcase
+        mockHost = 'test2.zendesk.com'; // eslint-disable-line camelcase
         boot.setupServices({});
       });
 
       afterEach(() => {
-        document.web_widget = null; // eslint-disable-line camelcase
+        mockHost = null; // eslint-disable-line camelcase
       });
 
       it('gets the zendeskHost from document', () => {
@@ -456,7 +460,7 @@ describe('boot', () => {
 
         describe('using zendeskHost', () => {
           beforeEach(() => {
-            document.zendeskHost = 'pizza.zendesk.com';
+            mockHost = 'pizza.zendesk.com';
             failHandler(error);
           });
 
@@ -471,13 +475,13 @@ describe('boot', () => {
           });
 
           afterEach(() => {
-            document.zendeskHost = null;
+            mockHost = null;
           });
         });
 
         describe('using widget.id', () => {
           beforeEach(() => {
-            document.web_widget = { id: 'pepperoni.zendesk.com' }; // eslint-disable-line camelcase
+            mockHost = 'pepperoni.zendesk.com';
             failHandler(error);
           });
 
@@ -492,13 +496,13 @@ describe('boot', () => {
           });
 
           afterEach(() => {
-            document.web_widget = null; // eslint-disable-line camelcase
+            mockHost = null; // eslint-disable-line camelcase
           });
         });
 
         describe('using zendesk.widget.id', () => {
           beforeEach(() => {
-            document.zendesk = { web_widget: { id: 'anchovy.zendesk.com' } }; // eslint-disable-line camelcase
+            mockHost = 'anchovy.zendesk.com';
             failHandler(error);
           });
 
@@ -513,7 +517,7 @@ describe('boot', () => {
           });
 
           afterEach(() => {
-            document.zendesk = null;
+            mockHost = null;
           });
         });
       });

@@ -20,6 +20,7 @@ import { initResizeMonitor } from 'utility/window';
 import { i18n } from 'service/i18n';
 import createStore from 'src/redux/createStore';
 import tracker from 'service/logging/tracker';
+import { getZendeskHost } from 'utility/globals';
 
 const setReferrerMetas = (iframe, doc) => {
   const metaElements = getMetaTagsByName(doc, 'referrer');
@@ -53,12 +54,6 @@ const setupIframe = (iframe, doc) => {
   if (iframe) {
     boot.setReferrerMetas(iframe, doc);
   }
-};
-
-const getZendeskHost = () => {
-  const path = 'web_widget.id';
-
-  return document.zendeskHost || _.get(document.zendesk, path) || _.get(document, path);
 };
 
 const setupServices = (reduxStore) => {
