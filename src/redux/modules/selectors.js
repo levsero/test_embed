@@ -293,12 +293,16 @@ export const getFrameVisible = (state, frame = 'webWidget') => {
 };
 
 export const getWidgetDisplayInfo = createSelector(
-  [getLauncherVisible, getActiveEmbed],
-  (launcherVisible, activeEmbed) => {
-    if (!launcherVisible) {
+  [getLauncherVisible, getWebWidgetVisible, getZopimChatOpen, getActiveEmbed],
+  (launcherVisible, webWidgetVisible, zopimChatOpen, activeEmbed) => {
+    if (webWidgetVisible) {
       return EMBED_MAP[activeEmbed];
-    } else {
+    } else if (zopimChatOpen) {
+      return EMBED_MAP.zopimChat;
+    } else if (launcherVisible) {
       return LAUNCHER;
+    } else {
+      return 'hidden';
     }
   }
 );
