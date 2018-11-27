@@ -7,14 +7,18 @@ import { getShowOfflineChat,
   getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible,
   getChatConnected as getNewChatConnected,
-  getBadgeColor,
+  getBadgeColor as getAccountSettingsBadgeColor,
   getChatBadgeEnabled } from './chat/chat-selectors';
 import { getZopimChatOnline,
   getZopimChatConnected,
   getZopimIsChatting,
   getZopimChatOpen } from './zopimChat/zopimChat-selectors';
-import { getSettingsChatSuppress,
-  getSettingsLauncherSetHideWhenChatOffline } from './settings/settings-selectors';
+import {
+  getSettingsChatSuppress,
+  getSettingsLauncherSetHideWhenChatOffline,
+  getSettingsColorLauncher,
+  getSettingsColorLauncherText
+} from './settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
   getAgentAvailability,
@@ -204,8 +208,8 @@ export const getChatBadgeColor = (state) => {
   const configColor = getConfigColor(state);
 
   return {
-    base: settings.get('color.launcher') || getBadgeColor(state) || configColor.base,
-    text: settings.get('color.launcherText') || configColor.text
+    base: getSettingsColorLauncher(state) || getAccountSettingsBadgeColor(state) || configColor.base,
+    text: getSettingsColorLauncherText(state) || configColor.text
   };
 };
 
