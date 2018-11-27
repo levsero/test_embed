@@ -85,7 +85,8 @@ describe('selectors', () => {
     initMockRegistry({
       'constants/shared': {
         EMBED_MAP: {
-          helpCenterForm: 'helpCenter'
+          helpCenterForm: 'helpCenter',
+          zopimChat: 'chat'
         },
         LAUNCHER: 'launcher'
       },
@@ -2147,6 +2148,8 @@ describe('selectors', () => {
     describe('when launcher is visible', () => {
       beforeAll(() => {
         launcherVisibleValue = true;
+        webWidgetVisibleValue = false;
+        zopimChatOpenValue = false;
       });
 
       it('returns launcher', () => {
@@ -2155,14 +2158,42 @@ describe('selectors', () => {
       });
     });
 
-    describe('when launcher is not visible', () => {
+    describe('when web widget is visible', () => {
       beforeAll(() => {
+        webWidgetVisibleValue = true;
         launcherVisibleValue = false;
+        zopimChatOpenValue = false;
       });
 
       it('returns the active embed part of the map', () => {
         expect(result)
           .toEqual('helpCenter');
+      });
+    });
+
+    describe('when zopim chat is open', () => {
+      beforeAll(() => {
+        zopimChatOpenValue = true;
+        webWidgetVisibleValue = false;
+        launcherVisibleValue = false;
+      });
+
+      it('returns chat', () => {
+        expect(result)
+          .toEqual('chat');
+      });
+    });
+
+    describe('when launcher and web widget is not visible', () => {
+      beforeAll(() => {
+        launcherVisibleValue = false;
+        webWidgetVisibleValue = false;
+        zopimChatOpenValue = false;
+      });
+
+      it('returns hidden', () => {
+        expect(result)
+          .toEqual('hidden');
       });
     });
   });
