@@ -60,7 +60,7 @@ const setupServices = (reduxStore) => {
   identity.init();
 
   http.init({
-    zendeskHost: getZendeskHost(),
+    zendeskHost: getZendeskHost(document),
     version: __EMBEDDABLE_VERSION__
   });
 
@@ -137,7 +137,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       logging.error({
         error: error,
         context: {
-          account: getZendeskHost()
+          account: getZendeskHost(document)
         }
       });
     }

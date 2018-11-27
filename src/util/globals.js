@@ -10,10 +10,10 @@ function getDocumentHost() {
   return document.body || document.documentElement;
 }
 
-const getZendeskHost = () => {
+const getZendeskHost = (doc) => {
   const path = 'web_widget.id';
 
-  return document.zendeskHost || _.get(document.zendesk, path) || _.get(document, path);
+  return doc.zendeskHost || _.get(doc.zendesk, path) || _.get(doc, path);
 };
 
 // Shim rAF for older browsers that either don't have it or need the prefixed version.
