@@ -14,7 +14,7 @@ import {
 import { handleChatBadgeMinimize } from 'src/redux/modules/base';
 import {
   getCurrentMessage,
-  getBannerSettings,
+  getLauncherBadgeSettings,
   getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors';
 import { getChatBadgeColor } from 'src/redux/modules/selectors';
 import { Input } from '@zendeskgarden/react-textfields';
@@ -26,9 +26,9 @@ import { locals as styles } from './ChatBadge.scss';
 const mapStateToProps = (state) => {
   return {
     currentMessage: getCurrentMessage(state),
-    bannerSettings: getBannerSettings(state),
     prechatFormRequired: getPrechatFormRequired(state),
-    chatBadgeColor: getChatBadgeColor(state)
+    chatBadgeColor: getChatBadgeColor(state),
+    bannerSettings: getLauncherBadgeSettings(state)
   };
 };
 
@@ -41,7 +41,7 @@ class ChatBadge extends Component {
     sendMsg: PropTypes.func.isRequired,
     handleChatBadgeMinimize: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
-    bannerSettings: PropTypes.object,
+    bannerSettings: PropTypes.object.isRequired,
     chatBadgeColor: PropTypes.object,
     prechatFormRequired: PropTypes.bool,
     hideBranding: PropTypes.bool
@@ -79,21 +79,17 @@ class ChatBadge extends Component {
     return <div className={styles.title}>zendesk chat</div>;
   }
 
-  renderText = () => {
-    let text = i18n.t('embeddable_framework.helpCenter.label.link.chat');
-
-    if (this.props.bannerSettings.text) {
-      text = this.props.bannerSettings.text;
-    }
-
-    const textClasses = classNames(styles.textContainer, {
+  renderLabel = () => {
+    const labelClasses = classNames(styles.textContainer, {
       [styles.textOnLeft]: this.props.bannerSettings.layout === 'image_right',
       [styles.textOnRight]: this.props.bannerSettings.layout === 'image_left',
       [styles.textOnly]: this.props.bannerSettings.layout === 'text_only'
     });
 
     return (
-      <td key={'text'} className={textClasses}>{text}</td>
+      <td key={'label'} className={labelClasses}>
+        {this.props.bannerSettings.label}
+      </td>
     );
   }
 
@@ -121,17 +117,17 @@ class ChatBadge extends Component {
 
     switch (this.props.bannerSettings.layout) {
       case 'text_only':
-        content.push(this.renderText());
+        content.push(this.renderLabel());
         break;
       case 'image_only':
         content.push(this.renderImage());
         break;
       case 'image_left':
         content.push(this.renderImage());
-        content.push(this.renderText());
+        content.push(this.renderLabel());
         break;
       default:
-        content.push(this.renderText());
+        content.push(this.renderLabel());
         content.push(this.renderImage());
     }
 

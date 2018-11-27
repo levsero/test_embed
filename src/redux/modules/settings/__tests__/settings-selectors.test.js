@@ -135,3 +135,18 @@ test('getSettingsLauncherSetHideWhenChatOffline', () => {
   expect(result)
     .toEqual(true);
 });
+
+test('getSettingsLauncherBadge', () => {
+  const badge = {
+    layout: 'image_left',
+    image: 'https://img.example.com/qwerty.png',
+    label: {
+      '*': 'cool label'
+    }
+  };
+  const result = selectors.getSettingsLauncherBadge(
+    launcherSettings({ badge })
+  );
+
+  expect(result).toEqual(badge);
+});

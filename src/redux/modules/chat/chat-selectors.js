@@ -24,7 +24,8 @@ import {
   getSettingsChatOfflineForm,
   getSettingsChatPrechatForm,
   getSettingsChatTitle,
-  getSettingsChatProfileCard
+  getSettingsChatProfileCard,
+  getSettingsLauncherBadge
 } from 'src/redux/modules/settings/settings-selectors';
 import { isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
@@ -110,6 +111,8 @@ export const getOfflineFormEnabled = (state) => getOfflineFormSettings(state).en
 export const getChatAccountSettingsPrechatForm = (state) => state.chat.accountSettings.prechatForm;
 export const getDepartments = (state) => state.chat.departments;
 export const getDepartmentsList = (state) => _.values(getDepartments(state));
+export const getAccountSettingsLauncherBadge = (state) => state.chat.accountSettings.banner;
+export const getChatBadgeEnabled = (state) => getAccountSettingsLauncherBadge(state).enabled;
 
 export const getPrechatFormRequired = createSelector(
   [getChatAccountSettingsPrechatForm],
@@ -143,8 +146,23 @@ export const getChatTitle = createSelector(
   )
 );
 
-export const getBannerSettings = (state) => state.chat.accountSettings.banner;
-export const getChatBadgeEnabled = (state) => getBannerSettings(state).enabled;
+export const getLauncherBadgeSettings = createSelector(
+  [getSettingsLauncherBadge, getAccountSettingsLauncherBadge, getLocale],
+  (settingsBadge, accountSettingsBadge, _locale) => {
+    const settingsLabel = _.get(settingsBadge, 'label', {});
+    const label = (
+      i18n.getSettingTranslation(settingsLabel) ||
+      accountSettingsBadge.label ||
+      i18n.t('embeddable_framework.chat.badge.label')
+    );
+
+    return {
+      ...accountSettingsBadge,
+      ...settingsBadge,
+      label
+    };
+  }
+);
 
 export const getFirstMessageTimestamp = (state) => {
   const first = getChats(state).values().next().value;

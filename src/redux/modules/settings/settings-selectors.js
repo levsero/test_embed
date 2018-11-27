@@ -12,3 +12,4 @@ export const getSettingsChatPrechatForm = (state) => state.settings.chat.prechat
 export const getSettingsChatTitle = (state) => state.settings.chat.title;
 export const getSettingsChatProfileCard = (state) => state.settings.chat.profileCard;
 export const getSettingsLauncherSetHideWhenChatOffline = (state) => state.settings.launcher.setHideWhenChatOffline;
+export const getSettingsLauncherBadge = (state) => state.settings.launcher.badge;

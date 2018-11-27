@@ -15,7 +15,7 @@ const chatConstants = requireUncached(chatConstantsPath);
 const CONNECTION_STATUSES = chatConstants.CONNECTION_STATUSES;
 
 let setDepartmentSpy = jasmine.createSpy('setDepartment').and.returnValue({ type: 'yolo' });
-let clearDepartmentSpy = jasmine.createSpy('clearDepartment').and.returnValue({ type: 'yolo'});
+let clearDepartmentSpy = jasmine.createSpy('clearDepartment').and.returnValue({ type: 'yolo' });
 let addTagSpy = jasmine.createSpy('addTag');
 let removeTagSpy = jasmine.createSpy('removeTag');
 
@@ -202,7 +202,7 @@ describe('settings redux actions', () => {
         });
       });
 
-      describe('when new tags are not present', () => {});
+      describe('when new tags are not present', () => { });
     });
 
     describe('when chat is not connected', () => {
