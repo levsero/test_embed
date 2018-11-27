@@ -167,7 +167,7 @@ describe('chatPreview file', () => {
           });
 
           it('passes updated styles to Frame', () => {
-            expect(preview.props.frameStyle)
+            expect(preview.props.customFrameStyle)
               .toEqual(jasmine.objectContaining(expectedStyles));
           });
 
@@ -187,7 +187,7 @@ describe('chatPreview file', () => {
           });
 
           it('uses default styles', () => {
-            expect(preview.props.frameStyle)
+            expect(preview.props.customFrameStyle)
               .toEqual(jasmine.objectContaining(expectedStyles));
           });
 

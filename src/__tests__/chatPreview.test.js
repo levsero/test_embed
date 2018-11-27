@@ -29,6 +29,20 @@ it('creates the iframe for preview', (done) => {
   });
 });
 
+it('creates the iframe with the expected styles', () => {
+  expect(chatPreview())
+    .toHaveStyle(`
+      position: relative;
+      float: right;
+      margin-top: 16px;
+      margin-right: 16px;
+      right: 0px;
+      bottom: 0px;
+      width: 369px;
+      height: 565px;
+  `);
+});
+
 it('can update to chatting screen', (done) => {
   preview.updateScreen('widget/chat/CHATTING_SCREEN');
   preview.waitForComponent(() => {
