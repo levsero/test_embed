@@ -27,11 +27,23 @@ class Launcher extends Component {
 
   constructor(props, context) {
     super(props, context);
+
+    this.launcher = null;
   }
 
   handleBadgeClick = (e) => {
     this.props.onClickHandler(e);
     this.props.launcherClicked(e);
+  }
+
+  setUnreadMessages = (msgs) => {
+    if (this.launcher) {
+      this.launcher.getWrappedInstance().setUnreadMessages(msgs);
+    }
+  }
+
+  getActiveComponent = () => {
+    return this;
   }
 
   render = () => {
@@ -40,6 +52,7 @@ class Launcher extends Component {
         <ChatBadge onSend={this.handleBadgeClick} hideBranding={this.props.hideBranding} />
       ) : (
         <WidgetLauncher
+          ref={(el) => { this.launcher = el; }}
           onClick={this.props.onClickHandler}
           updateFrameTitle={this.props.updateFrameTitle}
           label={this.props.labelKey}
@@ -53,4 +66,3 @@ const actionCreators = {
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Launcher);
-

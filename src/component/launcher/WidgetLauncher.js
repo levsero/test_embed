@@ -165,10 +165,6 @@ class WidgetLauncher extends Component {
     }
   }
 
-  getActiveComponent = () => {
-    return this;
-  }
-
   render = () => {
     const mobile = isMobileBrowser();
     const baseMobileClasses = mobile ? styles.wrapperMobile : '';
