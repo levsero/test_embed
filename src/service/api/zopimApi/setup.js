@@ -51,7 +51,10 @@ export function setUpZopimApiMethods(win, store) {
       window: {
         toggle: () => toggleApi(store),
         hide: () => hideApi(store),
-        show: () => openApi(store),
+        show: () => {
+          showApi(store);
+          openApi(store);
+        },
         getDisplay: () => displayApi(store),
         onHide: (callback) => onApis[API_ON_CLOSE_NAME](store, callback),
         onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback),
@@ -59,6 +62,17 @@ export function setUpZopimApiMethods(win, store) {
         setColor: (color) => setColorTheme(color),
         setPosition: setPositionApi,
         ...setOffsetApi
+      },
+      badge: {
+        hide: () => hideApi(store),
+        show: () => {
+          closeApi(store);
+          showApi(store);
+        },
+        setColor: (color) =>  updateSettings(store, 'webWidget.color.launcher', color),
+        setText: (text) => updateSettings(store, 'webWidget.launcher.badge.label.*', text),
+        setImage: (image) => updateSettings(store, 'webWidget.launcher.badge.image', image),
+        setLayout: (layout) => updateSettings(store, 'webWidget.launcher.badge.layout', layout)
       },
       prechatForm: {
         setGreetings: (msg) => updateSettings(store, 'webWidget.chat.prechatForm.greeting.*', msg)
