@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the component 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="splashDisplayContainer splashPadding"
+    >
+      <table
+        class="splashTable"
+      >
+        <tbody>
+          <tr>
+            <td
+              class="textContainer"
+            />
+            <td
+              class="imageContainer"
+            >
+              <span
+                class="container chatIcon Icon--channelChoice-chat"
+                type="Icon--channelChoice-chat"
+              >
+                test-file-stub
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="inputContainer"
+    >
+      <input
+        class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
+        data-garden-id="textfields.input"
+        data-garden-version="3.3.6"
+        placeholder="Type your message here"
+        value=""
+      />
+      <span
+        class="container sendButton Icon--sendChat"
+        type="Icon--sendChat"
+      >
+        test-file-stub
+      </span>
+    </div>
+    <span
+      class="container minimizeButton Icon--dash"
+      type="Icon--dash"
+    >
+      test-file-stub
+    </span>
+    <div
+      class="title"
+    >
+      zendesk chat
+    </div>
+  </div>
+</div>
+`;
+
+exports[`with chatBadgeColor passed in 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="splashDisplayContainer splashPadding"
+    >
+      <style>
+        
+    .src-component-launcher-ChatBadge-splashDisplayContainer {
+      background-color: yellow !important;
+    }
+  
+      </style>
+      <table
+        class="splashTable"
+      >
+        <tbody>
+          <tr>
+            <td
+              class="textContainer"
+            >
+              <style>
+                
+    .src-component-launcher-ChatBadge-textContainer.u-userLauncherColor {
+      background-color: yellow !important;
+    }
+  
+    .src-component-launcher-ChatBadge-textContainer.u-userLauncherColor {
+      color: blue !important;
+    }
+  
+              </style>
+            </td>
+            <td
+              class="imageContainer"
+            >
+              <span
+                class="container chatIcon Icon--channelChoice-chat"
+                type="Icon--channelChoice-chat"
+              >
+                test-file-stub
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="inputContainer"
+    >
+      <input
+        class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
+        data-garden-id="textfields.input"
+        data-garden-version="3.3.6"
+        placeholder="Type your message here"
+        value=""
+      />
+      <span
+        class="container sendButton Icon--sendChat"
+        type="Icon--sendChat"
+      >
+        test-file-stub
+      </span>
+    </div>
+    <span
+      class="container minimizeButton Icon--dash"
+      type="Icon--dash"
+    >
+      test-file-stub
+    </span>
+    <div
+      class="title"
+    >
+      zendesk chat
+    </div>
+  </div>
+</div>
+`;
+
+exports[`with label passed in 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="splashDisplayContainer splashPadding"
+    >
+      <table
+        class="splashTable"
+      >
+        <tbody>
+          <tr>
+            <td
+              class="textContainer"
+            >
+              wanna chat?
+            </td>
+            <td
+              class="imageContainer"
+            >
+              <span
+                class="container chatIcon Icon--channelChoice-chat"
+                type="Icon--channelChoice-chat"
+              >
+                test-file-stub
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="inputContainer"
+    >
+      <input
+        class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
+        data-garden-id="textfields.input"
+        data-garden-version="3.3.6"
+        placeholder="Type your message here"
+        value=""
+      />
+      <span
+        class="container sendButton Icon--sendChat"
+        type="Icon--sendChat"
+      >
+        test-file-stub
+      </span>
+    </div>
+    <span
+      class="container minimizeButton Icon--dash"
+      type="Icon--dash"
+    >
+      test-file-stub
+    </span>
+    <div
+      class="title"
+    >
+      zendesk chat
+    </div>
+  </div>
+</div>
+`;

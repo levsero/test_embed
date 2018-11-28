@@ -40,7 +40,9 @@ describe('selectors', () => {
     userMinimizedChatBadgeValue,
     chatBadgeColorValue,
     chatBadgeEnabled,
-    selectors;
+    selectors,
+    settingsColorLauncher,
+    settingsColorLauncherText;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -76,6 +78,8 @@ describe('selectors', () => {
   userMinimizedChatBadgeValue = false;
   chatBadgeColorValue = '#333';
   chatBadgeEnabled = true;
+  settingsColorLauncher = undefined;
+  settingsColorLauncherText = undefined;
 
   beforeEach(() => {
     mockery.enable();
@@ -111,7 +115,9 @@ describe('selectors', () => {
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue,
-        getSettingsLauncherSetHideWhenChatOffline: () => settingsLauncherSetHideWhenChatOfflineValue
+        getSettingsLauncherSetHideWhenChatOffline: () => settingsLauncherSetHideWhenChatOfflineValue,
+        getSettingsColorLauncher: () => settingsColorLauncher,
+        getSettingsColorLauncherText: () => settingsColorLauncherText
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
@@ -1861,20 +1867,21 @@ describe('selectors', () => {
           result = selectors.getColor({}, 'launcher');
         });
 
-        describe('when there are settings defined', () => {
+        describe('when there are colors defined in redux', () => {
           beforeAll(() => {
-            mockSettingsGetFn = () => '#fff';
+            settingsColorLauncher = 'blue';
+            settingsColorLauncherText = 'yellow';
           });
-
-          afterAll(() => {
-            mockSettingsGetFn = () => false;
+          afterEach(() => {
+            settingsColorLauncher = undefined;
+            settingsColorLauncherText = undefined;
           });
 
           it('returns the settings as the color', () => {
             expect(result)
               .toEqual({
-                base: '#fff',
-                text: '#fff'
+                base: 'blue',
+                text: 'yellow'
               });
           });
         });

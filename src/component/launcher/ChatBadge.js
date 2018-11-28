@@ -22,6 +22,7 @@ import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatBadge.scss';
+import { splashCSS, labelCSS } from './DynamicCssHelpers';
 
 const mapStateToProps = (state) => {
   return {
@@ -89,6 +90,7 @@ class ChatBadge extends Component {
 
     return (
       <td key={'label'} className={labelClasses}>
+        {labelCSS(this.props.chatBadgeColor)}
         {this.props.bannerSettings.label}
       </td>
     );
@@ -120,25 +122,19 @@ class ChatBadge extends Component {
   }
 
   renderContent = () => {
-    const content = [];
-
     switch (this.props.bannerSettings.layout) {
       case 'text_only':
-        content.push(this.renderLabel());
-        break;
-      case 'image_only':
-        content.push(this.renderImage());
-        break;
-      case 'image_left':
-        content.push(this.renderImage());
-        content.push(this.renderLabel());
-        break;
-      default:
-        content.push(this.renderLabel());
-        content.push(this.renderImage());
-    }
+        return [this.renderLabel()];
 
-    return content;
+      case 'image_only':
+        return [this.renderImage()];
+
+      case 'image_left':
+        return [this.renderImage(), this.renderLabel()];
+
+      default:
+        return [this.renderLabel(), this.renderImage()];
+    }
   }
 
   renderSplashDisplay = () => {
@@ -148,6 +144,7 @@ class ChatBadge extends Component {
 
     return (
       <div onClick={this.props.chatBadgeClicked} className={displayClasses}>
+        {splashCSS(this.props.chatBadgeColor)}
         <table className={styles.splashTable}>
           <tbody>
             <tr>

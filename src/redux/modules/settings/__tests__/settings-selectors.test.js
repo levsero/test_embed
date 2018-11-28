@@ -12,6 +12,10 @@ const launcherSettings = (newSettings) => {
   return settings({ launcher: newSettings });
 };
 
+const colorSettings = (newSettings) => {
+  return settings({ color: newSettings });
+};
+
 test('getSettingsChatSuppress', () => {
   const result = selectors.getSettingsChatSuppress(chatSettings({ suppress: true }));
 
@@ -134,6 +138,28 @@ test('getSettingsLauncherSetHideWhenChatOffline', () => {
 
   expect(result)
     .toEqual(true);
+});
+
+test('getSettingsColorLauncher', () => {
+  const result = selectors.getSettingsColorLauncher(
+    colorSettings({
+      launcher: 'blue'
+    })
+  );
+
+  expect(result)
+    .toEqual('blue');
+});
+
+test('getSettingsColorLauncherText', () => {
+  const result = selectors.getSettingsColorLauncherText(
+    colorSettings({
+      launcherText: 'green'
+    })
+  );
+
+  expect(result)
+    .toEqual('green');
 });
 
 test('getSettingsLauncherBadge', () => {
