@@ -45,7 +45,7 @@ describe('listener middleware', () => {
         callbackSpy1,
         callbackSpy2,
         actionCreatorPromise,
-        useActionPayload = false,
+        payloadTransformer = undefined,
         mockPayload = { foo: 'bar' };
 
       beforeEach(() => {
@@ -58,7 +58,7 @@ describe('listener middleware', () => {
             'CLOSE_BUTTON_CLICKED': {
               callbackList: [callbackSpy1, callbackSpy2],
               selectors: [],
-              useActionPayload
+              payloadTransformer
             }
           }
         };
@@ -97,9 +97,9 @@ describe('listener middleware', () => {
           });
         });
 
-        describe('when useActionPayload is true', () => {
+        describe('when payloadTransformer is passed in', () => {
           beforeAll(() => {
-            useActionPayload = true;
+            payloadTransformer = (p) => p;
           });
 
           it('appends the payload to the argumentsList array and passes it to the callback', () => {

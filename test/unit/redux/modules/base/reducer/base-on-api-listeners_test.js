@@ -30,6 +30,7 @@ describe('base reducer on api listeners', () => {
   describe('when an API_ON_RECEIVED action is dispatched', () => {
     let action,
       state,
+      payloadTransformerSpy = jasmine.createSpy('transformer'),
       oldState;
 
     beforeEach(() => {
@@ -38,7 +39,8 @@ describe('base reducer on api listeners', () => {
         payload: {
           actionType: 'LAUNCHER_CLICK',
           selectors: [],
-          callback: () => {}
+          callback: () => {},
+          payloadTransformer: payloadTransformerSpy
         }
       };
 
@@ -63,17 +65,17 @@ describe('base reducer on api listeners', () => {
           .toEqual(1);
       });
 
+      it('sets the payload transformer', () => {
+        expect(state.LAUNCHER_CLICK.payloadTransformer)
+          .toEqual(payloadTransformerSpy);
+      });
+
       it('does not change any other keys', () => {
         expect(state.WIDGET_CLOSE_BUTTON_CLICKED)
           .toBeTruthy();
 
         expect(state.WIDGET_CLOSE_BUTTON_CLICKED.callbackList.length)
           .toEqual(1);
-      });
-
-      it('sets the useActionPayload flag on the state', () => {
-        expect(state.WIDGET_CLOSE_BUTTON_CLICKED.useActionPayload)
-          .toBeFalsy();
       });
     });
 

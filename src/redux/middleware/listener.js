@@ -15,11 +15,11 @@ export default function listen({ getState }) {
       const listeners = getOnApiListeners(state);
 
       if (listeners[type]) {
-        const { callbackList, selectors, useActionPayload } = listeners[type];
+        const { callbackList, selectors, payloadTransformer } = listeners[type];
         const argumentList = selectors.map((selector) => selector(state));
 
-        if (useActionPayload) {
-          argumentList.push(_.get(payload, 'detail', payload));
+        if (_.isFunction(payloadTransformer)) {
+          argumentList.push(payloadTransformer(payload));
         }
 
         callbackList.forEach((callback) => {

@@ -6,6 +6,9 @@ import {
   updateSettingsLegacyApi,
   setLocaleApi
 } from 'src/service/api/apis';
+import { handleOnApiCalled } from 'src/redux/modules/base/base-actions';
+import { SDK_ACCOUNT_STATUS, SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types';
+import { getChatStatus } from 'src/redux/modules/chat/chat-selectors';
 
 export const setPositionApi = (position) => {
   const mapPositions = {
@@ -150,3 +153,13 @@ export const updateSettings = (store, s, val) => {
 export function zopimExistsOnPage(win) {
   return !!win.$zopim;
 }
+
+export const setOnStatusApi = (store, callback) => {
+  if (_.isFunction(callback)) {
+    store.dispatch(handleOnApiCalled(SDK_ACCOUNT_STATUS, [getChatStatus], callback));
+
+    const payloadTransformer = (payload) => payload.detail.status;
+
+    store.dispatch(handleOnApiCalled(SDK_DEPARTMENT_UPDATE, [], _.debounce(callback, 0), payloadTransformer));
+  }
+};

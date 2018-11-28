@@ -8,7 +8,7 @@ const onApiListeners = (state = initialState, action) => {
 
   switch (type) {
     case API_ON_RECEIVED:
-      const { actionType, selectors, callback, useActionPayload } = payload;
+      const { actionType, selectors, callback, payloadTransformer } = payload;
       let newState = _.cloneDeep(state);
 
       if (state[actionType]) {
@@ -17,7 +17,7 @@ const onApiListeners = (state = initialState, action) => {
         newState[actionType] = {
           callbackList: [callback],
           selectors,
-          useActionPayload
+          payloadTransformer
         };
       }
 

@@ -166,25 +166,25 @@ export const onApiObj = () => {
     },
     [API_ON_CHAT_DEPARTMENT_STATUS]: {
       actionType: SDK_DEPARTMENT_UPDATE,
-      useActionPayload: true
+      payloadTransformer: (payload) => payload.detail
     }
   };
   const baseEventMap = {
     [API_ON_CLOSE_NAME]: { actionType: EXECUTE_API_ON_CLOSE_CALLBACK },
     [API_ON_OPEN_NAME]: { actionType: EXECUTE_API_ON_OPEN_CALLBACK }
   };
-  const eventDispatchWrapperFn = (actionType, selectors = [], useActionPayload = false) => {
+  const eventDispatchWrapperFn = (actionType, selectors = [], payloadTransformer) => {
     return (reduxStore, callback) => {
       if (_.isFunction(callback)) {
-        reduxStore.dispatch(handleOnApiCalled(actionType, selectors, useActionPayload, callback));
+        reduxStore.dispatch(handleOnApiCalled(actionType, selectors, callback, payloadTransformer));
       }
     };
   };
   const eventApiReducerFn = (eventMap) => {
     return _.reduce(eventMap, (apiObj, eventObj, eventName) => {
-      const { actionType, selectors, useActionPayload } = eventObj;
+      const { actionType, selectors, payloadTransformer } = eventObj;
 
-      apiObj[eventName] = eventDispatchWrapperFn(actionType, selectors, useActionPayload);
+      apiObj[eventName] = eventDispatchWrapperFn(actionType, selectors, payloadTransformer);
 
       return apiObj;
     }, {});

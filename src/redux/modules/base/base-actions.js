@@ -247,10 +247,10 @@ export const handleCloseButtonClicked = () => {
   };
 };
 
-export const handleOnApiCalled = (actionType, selectors = [], useActionPayload = false, callback) => {
+export const handleOnApiCalled = (actionType, selectors = [], callback, payloadTransformer) => {
   return {
     type: actions.API_ON_RECEIVED,
-    payload: { actionType, selectors, useActionPayload, callback }
+    payload: { actionType, selectors, callback, payloadTransformer }
   };
 };
 

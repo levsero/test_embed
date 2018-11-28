@@ -514,17 +514,29 @@ describe('onApi', () => {
       ));
   });
 
-  test('API_ON_CHAT_DEPARTMENT_STATUS dispatches SDK_DEPARTMENT_UPDATE', () => {
-    on.chat[constants.API_ON_CHAT_DEPARTMENT_STATUS](mockStore, callback);
+  describe('API_ON_CHAT_DEPARTMENT_STATUS', () => {
+    it('dispatches SDK_DEPARTMENT_UPDATE', () => {
+      on.chat[constants.API_ON_CHAT_DEPARTMENT_STATUS](mockStore, callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining({
-        payload: {
-          actionType: chatActionTypes.SDK_DEPARTMENT_UPDATE,
-          callback,
-          selectors: [],
-          useActionPayload: true
-        }
-      }));
+      expect(mockStore.dispatch)
+        .toBeCalledWith(expect.objectContaining({
+          type: baseActionTypes.API_ON_RECEIVED,
+          payload: {
+            actionType: chatActionTypes.SDK_DEPARTMENT_UPDATE,
+            callback,
+            selectors: [],
+            payloadTransformer: expect.any(Function)
+          }
+        }));
+    });
+
+    it('passes expected transformer', () => {
+      on.chat[constants.API_ON_CHAT_DEPARTMENT_STATUS](mockStore, callback);
+      const actionPayload = mockStore.dispatch.mock.calls[0][0].payload;
+      const sampleSDKPayload = { detail: 12345 };
+
+      expect(actionPayload.payloadTransformer(sampleSDKPayload))
+        .toEqual(12345);
+    });
   });
 });
