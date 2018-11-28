@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 export const getSettingsChatSuppress = (state) => state.settings.chat.suppress;
 export const getSettingsChatDepartment = (state) => state.settings.chat.departments.select;
 export const getSettingsChatDepartmentsEnabled = (state) => state.settings.chat.departments.enabled;
@@ -13,5 +15,38 @@ export const getSettingsChatTitle = (state) => state.settings.chat.title;
 export const getSettingsChatProfileCard = (state) => state.settings.chat.profileCard;
 export const getSettingsLauncherSetHideWhenChatOffline = (state) => state.settings.launcher.setHideWhenChatOffline;
 export const getSettingsLauncherBadge = (state) => state.settings.launcher.badge;
-export const getSettingsColorLauncher = (state) => state.settings.color.launcher;
-export const getSettingsColorLauncherText = (state) => state.settings.color.launcherText;
+export const getSettingsColor = (state) => state.settings.color;
+export const getSettingsColorLauncher = (state) => getSettingsColor(state).launcher;
+export const getSettingsColorLauncherText = (state) => getSettingsColor(state).launcherText;
+
+export const getSettingsChatPopout = createSelector(
+  [
+    getSettingsChatTitle,
+    getSettingsChatDepartmentsEnabled,
+    getSettingsChatPrechatForm,
+    getSettingsChatOfflineForm,
+    getSettingsChatConcierge,
+    getSettingsColor,
+  ],
+  (
+    title,
+    departmentsEnabled,
+    prechatForm,
+    offlineForm,
+    concierge,
+    color
+  ) => ({
+    webWidget: {
+      chat: {
+        title,
+        departments: {
+          enabled: departmentsEnabled
+        },
+        prechatForm,
+        offlineForm,
+        concierge
+      },
+      color
+    }
+  })
+);

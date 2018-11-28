@@ -176,3 +176,47 @@ test('getSettingsLauncherBadge', () => {
 
   expect(result).toEqual(badge);
 });
+
+test('getSettingsColor', () => {
+  const mockColor = {
+    color: {
+      theme: '#123456',
+      launcher: '#ffffff'
+    }
+  };
+  const result = selectors.getSettingsColor(settings(mockColor));
+
+  expect(result).toEqual(mockColor.color);
+});
+
+test('getSettingsChatPopout', () => {
+  const mockSettings = {
+    chat: {
+      title: {
+        '*': 'cool chat title'
+      },
+      departments: {
+        enabled: ['fire', 'police']
+      },
+      prechatForm: {
+        label: {
+          '*': 'prechatForm label'
+        }
+      },
+      offlineForm: {
+        label: {
+          '*': 'offlineForm label'
+        }
+      },
+      concierge: {
+        avatarPath: 'http://example.com'
+      }
+    },
+    color: {
+      theme: '#555555'
+    }
+  };
+  const result = selectors.getSettingsChatPopout(settings(mockSettings));
+
+  expect(result).toEqual({ webWidget: mockSettings });
+});
