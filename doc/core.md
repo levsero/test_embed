@@ -300,6 +300,8 @@ zE('webWidget', 'setLocale', 'de');
 
 Updates the Web Widget's [zESettings](./settings). Can update multiple settings at once.
 
+**Note**: This currently only works for Chat features. Further features should be rolled out soon.
+
 ##### Parameters
 
 * `data`: Object. Matches the structure defined in [zESettings](./settings)
