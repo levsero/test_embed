@@ -129,7 +129,10 @@ describe('getIsPopupVisible', () => {
       },
       base: {
         activeEmbed: 'chat',
-        launcherVisible: false
+        launcherVisible: false,
+        arturos: {
+          chatPopout: true
+        }
       }
     };
     globals.win = mockWin;
@@ -174,6 +177,13 @@ describe('getIsPopupVisible', () => {
   describe('win.zEPopout is true', () => {
     it('does not render popup', () => {
       globals.win.zEPopout = true;
+      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
+    });
+  });
+
+  describe('getChatPopoutArturo is false', () => {
+    it('does not render popup', () => {
+      mockState.base.arturos.chatPopout = false;
       expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
     });
   });

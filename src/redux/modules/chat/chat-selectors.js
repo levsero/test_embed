@@ -15,7 +15,8 @@ import {
   getActiveEmbed,
   getLocale,
   getWidgetShown,
-  getLauncherVisible
+  getLauncherVisible,
+  getChatPopoutArturoEnabled
 } from 'src/redux/modules/base/base-selectors';
 import {
   getSettingsChatDepartmentsEnabled,
@@ -84,7 +85,8 @@ export const getLoginSettings = (state) => state.chat.accountSettings.login;
 export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
 export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getIsPopoutAvailable = (state) =>
-  !getIsAuthenticated(state)
+  getChatPopoutArturoEnabled(state)
+  && !getIsAuthenticated(state)
   && getActiveEmbed(state) === 'chat'
   && !isMobileBrowser()
   && !getLauncherVisible(state)
