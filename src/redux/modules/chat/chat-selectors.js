@@ -151,15 +151,13 @@ export const getLauncherBadgeSettings = createSelector(
   (settingsBadge, accountSettingsBadge, _locale) => {
     const maxLabelLength = 65;
     const settingsLabel = _.get(settingsBadge, 'label', {});
-    const label = _.truncate(
-      i18n.getSettingTranslation(settingsLabel) ||
-      accountSettingsBadge.text ||
-      i18n.t('embeddable_framework.chat.badge.label'),
-      {
-        'length': maxLabelLength,
-        'omission': '…'
-      }
-    );
+    const fullLabel = i18n.getSettingTranslation(settingsLabel) ||
+                  accountSettingsBadge.text ||
+                  i18n.t('embeddable_framework.chat.badge.label');
+    const label = _.truncate(fullLabel, {
+      'length': maxLabelLength,
+      'omission': '…'
+    });
 
     return _.mergeWith({}, accountSettingsBadge, settingsBadge, { label: label }, (a, b) => {
       if (b === null) return a;
