@@ -70,3 +70,5 @@ export const EMBED_MAP = {
 };
 
 export const LAUNCHER = 'launcher';
+
+export const FRAME_TRANSITION_DURATION = 250;

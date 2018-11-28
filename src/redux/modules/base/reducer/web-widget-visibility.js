@@ -1,5 +1,6 @@
 import {
   LAUNCHER_CLICKED,
+  CHAT_BADGE_CLICKED,
   CLOSE_BUTTON_CLICKED,
   LEGACY_SHOW_RECEIVED,
   ACTIVATE_RECEIVED,
@@ -22,6 +23,7 @@ const webWidgetVisible = (state = initialState, action) => {
 
   switch (type) {
     case LAUNCHER_CLICKED:
+    case CHAT_BADGE_CLICKED:
     case ACTIVATE_RECEIVED:
     case PROACTIVE_CHAT_RECEIVED:
     case CHAT_WINDOW_OPEN_ON_NAVIGATE:

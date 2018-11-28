@@ -17,14 +17,22 @@ import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices';
 import Transition from 'react-transition-group/Transition';
-import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
+import {
+  updateWidgetShown,
+  widgetShowAnimationComplete,
+  widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
 import {
   getFixedStyles,
   getColor,
   getPosition,
   getFrameVisible,
   getFrameStyle } from 'src/redux/modules/selectors';
-import { FONT_SIZE, MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
+import {
+  FONT_SIZE,
+  MAX_WIDGET_HEIGHT,
+  MIN_WIDGET_HEIGHT,
+  WIDGET_WIDTH,
+  FRAME_TRANSITION_DURATION } from 'constants/shared';
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
 
 // Unregister lodash from window._
@@ -46,7 +54,7 @@ const mapStateToProps = (state, ownProps) => {
 const scrollingStyleDelay = 50; // small delay so that safari has finished rendering
 const sizingRatio = FONT_SIZE * getZoomSizingRatio();
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
-const transitionDuration = 250;
+const transitionDuration = FRAME_TRANSITION_DURATION;
 const isPositionTop = () => settings.get('position.vertical') === 'top';
 const defaultMarginTop = () => isPositionTop() && !isMobileBrowser() ? '15px' : 0;
 
@@ -77,6 +85,7 @@ class Frame extends Component {
     fixedStyles: PropTypes.object,
     updateWidgetShown: PropTypes.func,
     widgetHideAnimationComplete: PropTypes.func,
+    widgetShowAnimationComplete: PropTypes.func,
     color: PropTypes.object,
     generateUserCSS: PropTypes.func,
     chatStandalone: PropTypes.bool,
@@ -109,6 +118,7 @@ class Frame extends Component {
     fixedStyles: {},
     updateWidgetShown: () => {},
     widgetHideAnimationComplete: () => {},
+    widgetShowAnimationComplete: () => {},
     generateUserCSS: () => {},
     chatStandalone: false
   }
@@ -407,6 +417,12 @@ class Frame extends Component {
     this.injectEmbedIntoFrame(wrapper);
   }
 
+  onShowAnimationComplete = () => {
+    if (this.props.name === 'webWidget') {
+      this.props.widgetShowAnimationComplete();
+    }
+  }
+
   renderFrameContent = () => {
     if (this.state.childRendered) {
       return false;
@@ -452,7 +468,10 @@ class Frame extends Component {
     };
 
     return (
-      <Transition in={this.props.visible || this.props.alwaysShow} timeout={transitionDuration}>
+      <Transition
+        in={this.props.visible || this.props.alwaysShow}
+        timeout={transitionDuration}
+        onEntered={this.onShowAnimationComplete}>
         {(status) => (
           <iframe
             title={this.props.title || this.props.name}
@@ -469,7 +488,8 @@ class Frame extends Component {
 
 const actionCreators = {
   updateWidgetShown,
-  widgetHideAnimationComplete
+  widgetHideAnimationComplete,
+  widgetShowAnimationComplete
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Frame);

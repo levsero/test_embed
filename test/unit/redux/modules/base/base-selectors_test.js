@@ -181,6 +181,24 @@ describe('base selectors', () => {
     });
   });
 
+  describe('getAfterWidgetShowAnimation', () => {
+    let result;
+    const mockState = {
+      base: {
+        afterWidgetShowAnimation: []
+      }
+    };
+
+    beforeEach(() => {
+      result = selectors.getAfterWidgetShowAnimation(mockState);
+    });
+
+    it('returns the value of afterWidgetShowAnimation', () => {
+      expect(result)
+        .toEqual([]);
+    });
+  });
+
   describe('getHiddenByHideAPI', () => {
     let result;
     const mockState = {
