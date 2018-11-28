@@ -94,28 +94,26 @@ class ChatBadge extends Component {
   }
 
   renderImage = () => {
-    const baseClasses = classNames(
-      styles.chatIcon,
-      {
-        [styles.imgRight]: this.props.bannerSettings.layout === 'image_right',
-        [styles.imgLeft]: this.props.bannerSettings.layout === 'image_left'
-      }
-    );
+    let imageElement;
+    const { image, layout } = this.props.bannerSettings;
 
-    let img = <Icon className={baseClasses} type='Icon--channelChoice-chat' />;
+    let imgClasses = classNames({
+      [styles.chatIcon]: !image,
+      [styles.imgRight]: layout === 'image_right',
+      [styles.imgLeft]: layout === 'image_left',
+      [styles.customImg]: image && layout !== 'image_only',
+      [styles.customImgOnly]: image && layout === 'image_only'
+    });
 
-    if (this.props.bannerSettings.image) {
-      const imageClasses = classNames({
-        [styles.customImg]: this.props.bannerSettings.layout !== 'image_only',
-        [styles.customImgOnly]: this.props.bannerSettings.layout === 'image_only',
-      });
-
-      img = <img src={this.props.bannerSettings.image} className={imageClasses} />;
+    if (image) {
+      imageElement = <img src={this.props.bannerSettings.image} className={imgClasses} />;
+    } else {
+      imageElement = <Icon className={imgClasses} type='Icon--channelChoice-chat' />;
     }
 
     return (
       <td key={'image'} className={styles.imageContainer}>
-        {img}
+        {imageElement}
       </td>
     );
   }

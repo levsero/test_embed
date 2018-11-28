@@ -168,6 +168,20 @@ describe('chat selectors', () => {
             });
           });
         });
+
+        describe('when the label exceeds a pertinent length', () => {
+          beforeAll(() => {
+            const label = 'what can we do for you?';
+
+            mockAccountLabel = label.repeat(20);
+          });
+
+          it('falls back to the default translation', () => {
+            const truncated = 'what can we do for you?what can we do for you?what can we do for…';
+
+            expect(result.label).toEqual(truncated);
+          });
+        });
       });
     });
   });

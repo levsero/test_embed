@@ -23,6 +23,7 @@
 
 .textOnLeft {
   padding-right: #{3/$font-size}rem;
+  padding-left: #{10/$font-size}rem;
 }
 
 .textOnRight {
@@ -30,7 +31,7 @@
 }
 
 .textOnly {
-  font-size: #{26/$font-size}rem !important;
+  font-size: #{20/$font-size}rem !important;
   text-align: center !important;
 }
 
@@ -83,6 +84,7 @@
 }
 
 .input {
+  color: $zd-color-grey-700;
   display: inline-block;
   vertical-align: top;
   height: #{40/$font-size}rem;
