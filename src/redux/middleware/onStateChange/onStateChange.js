@@ -50,6 +50,7 @@ import { resetShouldWarn } from 'src/util/nullZChat';
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
 import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange';
+import { win } from 'utility/globals';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed');
@@ -175,7 +176,11 @@ const onLastReadTimestampChange = (prevState, nextState, dispatch) => {
 const onChatStatusChange = (prevState, nextState, dispatch) => {
   if (getChatStatus(prevState) !== getChatStatus(nextState)) {
     if (!getChatOnline(nextState)) {
-      if (getSubmitTicketEmbed(nextState) && !getIsChattingState(nextState) && getActiveEmbed(nextState) === 'chat') {
+      if (
+        getSubmitTicketEmbed(nextState)
+        && !getIsChattingState(nextState)
+        && getActiveEmbed(nextState) === 'chat'
+        && !win.zEPopout) {
         dispatch(updateActiveEmbed('ticketSubmissionForm'));
       }
     }
@@ -184,7 +189,10 @@ const onChatStatusChange = (prevState, nextState, dispatch) => {
 
 const onChatEnd = (nextState, action, dispatch) => {
   if (action.type === END_CHAT_REQUEST_SUCCESS) {
-    if (!getChatOnline(nextState) && getSubmitTicketEmbed(nextState)) {
+    if (
+      !getChatOnline(nextState)
+      && getSubmitTicketEmbed(nextState)
+      && !win.zEPopout) {
       dispatch(updateActiveEmbed('ticketSubmissionForm'));
     }
   }
