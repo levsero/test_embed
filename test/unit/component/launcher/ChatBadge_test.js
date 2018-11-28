@@ -33,8 +33,11 @@ describe('ChatBadge component', () => {
           textOnLeft: 'textOnLeft',
           textOnRight: 'textOnRight',
           textOnly: 'textOnly',
+          chatIcon: 'chatIcon',
           customImg: 'customImg',
-          customImgOnly: 'customImgOnly'
+          customImgOnly: 'customImgOnly',
+          imgRight: 'imgRight',
+          imgLeft: 'imgLeft'
         }
       },
       'service/i18n': {
@@ -181,13 +184,31 @@ describe('ChatBadge component', () => {
       });
 
       describe('when layout is not image_only', () => {
-        beforeAll(() => {
-          mockBannerSettings.layout = 'image_right';
+        describe('when layout aligns the image to the right', () => {
+          beforeAll(() => {
+            mockBannerSettings.layout = 'image_right';
+          });
+
+          it('renders customImg class', () => {
+            expect(result.props.children.props.className)
+              .toContain('customImg');
+          });
+
+          it('renders the imgRight class', () => {
+            expect(result.props.children.props.className)
+              .toContain('imgRight');
+          });
         });
 
-        it('renders customImg class', () => {
-          expect(result.props.children.props.className)
-            .toContain('customImg');
+        describe('when layout aligns the image to the left', () => {
+          beforeAll(() => {
+            mockBannerSettings.layout = 'image_left';
+          });
+
+          it('renders the imgLeft class', () => {
+            expect(result.props.children.props.className)
+              .toContain('imgLeft');
+          });
         });
       });
     });
@@ -197,9 +218,14 @@ describe('ChatBadge component', () => {
         mockBannerSettings.image = '';
       });
 
-      it('renders custom image', () => {
+      it('renders an SVG icon', () => {
         expect(TestUtils.isElementOfType(result.props.children, Icon))
           .toEqual(true);
+      });
+
+      it('renders the SVG icon classes', () => {
+        expect(result.props.children.props.className)
+          .toContain('chatIcon');
       });
     });
   });

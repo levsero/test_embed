@@ -8,7 +8,7 @@
   height: #{200/$font-size}rem;
   width: #{245/$font-size}rem;
   margin-left: #{3/$font-size}rem;
-  box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.2);
+  box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.25);
 }
 
 .textContainer {
@@ -17,12 +17,13 @@
   word-wrap: break-word;
   overflow: hidden !important;
   text-overflow: ellipsis;
-  font-size: #{18/$font-size}rem;
+  font-size: #{16/$font-size}rem;
   font-family: Verdana, Geneva, sans-serif;
 }
 
 .textOnLeft {
   padding-right: #{3/$font-size}rem;
+  padding-left: #{10/$font-size}rem;
 }
 
 .textOnRight {
@@ -30,7 +31,7 @@
 }
 
 .textOnly {
-  font-size: #{26/$font-size}rem !important;
+  font-size: #{20/$font-size}rem !important;
   text-align: center !important;
 }
 
@@ -67,8 +68,8 @@
 }
 
 .chatIcon {
-  width: #{105/$font-size}rem;
-  height: #{76/$font-size}rem;
+  width: #{75/$font-size}rem;
+  height: #{54/$font-size}rem;
 
   svg path[class='cls-1'] {
    fill: $zd-color-white;
@@ -83,7 +84,7 @@
 }
 
 .input {
-  composes: placeholderColor from global;
+  color: $zd-color-grey-700;
   display: inline-block;
   vertical-align: top;
   height: #{40/$font-size}rem;
@@ -91,11 +92,13 @@
   padding: 0 #{8/$font-size}rem;
   border: none;
   letter-spacing: #{-0.15/$font-size}rem;
-  font-style: italic;
   font-family: Verdana, Geneva, sans-serif;
   &:hover, &:focus, &:active {
     outline: none !important;
     box-shadow: none !important;
+  }
+  &::placeholder {
+    color: $zd-color-grey-500;
   }
 
   [dir='ltr'] & {
@@ -123,6 +126,21 @@
   [dir='rtl'] & {
     border-top-right-radius: #{8/$font-size}rem;
     transform: scale(-1);
+  }
+  svg {
+    fill: $zd-color-grey-400 !important;
+    path {
+      fill: $zd-color-grey-400 !important;
+    }
+  }
+}
+
+.sendButtonActive {
+  svg {
+    fill: $zd-color-grey-600 !important;
+    path {
+      fill: $zd-color-grey-600 !important;
+    }
   }
 }
 
@@ -165,4 +183,12 @@
   width: #{245/$font-size}rem;
   border-top-left-radius: #{8/$font-size}rem;
   border-top-right-radius: #{8/$font-size}rem;
+}
+
+.imgRight {
+  margin-left: #{5/$font-size}rem;
+}
+
+.imgLeft {
+  margin-right: #{5/$font-size}rem;
 }
