@@ -21,6 +21,8 @@ export const getLauncherVisible = (state) => state.base.launcherVisible;
 export const getLocale = (state) => state.base.locale;
 export const getUserMinimizedChatBadge = (state) => state.base.isChatBadgeMinimized;
 export const getAfterWidgetShowAnimation = (state) => state.base.afterWidgetShowAnimation;
+export const getChatBadgeArturoEnabled = (state) => state.base.arturos.chatBadge;
+export const getChatPopoutArturoEnabled = (state) => state.base.arturos.chatPopout;
 
 export const getOAuth = () => {
   return store.get('zE_oauth');

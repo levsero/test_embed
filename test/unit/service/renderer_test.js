@@ -153,7 +153,9 @@ describe('renderer', () => {
 
       expect(mockUpdateArturos)
         .toHaveBeenCalledWith({
-          newChat: false
+          newChat: false,
+          chatPopout: false,
+          chatBadge: false
         });
 
       expect(mockUpdateEmbedAccessible)

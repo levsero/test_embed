@@ -145,7 +145,9 @@ function init(config, reduxStore = dummyStore) {
     }
 
     const arturos = {
-      newChat: !!newChat
+      newChat: !!newChat,
+      chatPopout: !!config.chatPopout,
+      chatBadge: !!config.chatBadge
     };
 
     reduxStore.dispatch(updateArturos(arturos));

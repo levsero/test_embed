@@ -40,7 +40,8 @@ import { getActiveEmbed,
   getWebWidgetVisible as getBaseWebWidgetVisible,
   getLauncherVisible as getBaseLauncherVisible,
   getChatStandalone,
-  getUserMinimizedChatBadge } from './base/base-selectors';
+  getUserMinimizedChatBadge,
+  getChatBadgeArturoEnabled } from './base/base-selectors';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -312,9 +313,15 @@ export const getWidgetDisplayInfo = createSelector(
 );
 
 export const getShowChatBadgeLauncher = createSelector(
-  [getUserMinimizedChatBadge, getChatStandalone, getChatOnline, getChatBadgeEnabled, getIsChatting],
-  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting) => {
-    return !isMinimizedChatBadge &&
+  [ getUserMinimizedChatBadge,
+    getChatStandalone,
+    getChatOnline,
+    getChatBadgeEnabled,
+    getIsChatting,
+    getChatBadgeArturoEnabled ],
+  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting, arturoEnabled) => {
+    return arturoEnabled &&
+      !isMinimizedChatBadge &&
       isChatStandalone &&
       !isMobileBrowser() &&
       chatOnline &&
