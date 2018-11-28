@@ -16,6 +16,7 @@ const renderComponent = (props = {}) => {
     sendMsg: noop,
     handleChatBadgeMinimize: noop,
     updateChatScreen: noop,
+    chatBadgeClicked: noop,
     bannerSettings: {}
   };
 

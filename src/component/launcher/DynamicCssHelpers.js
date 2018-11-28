@@ -9,7 +9,8 @@ const splashContainerColor = (color) => {
   `;
 };
 
-export const splashCSS = ({ base }) => !_.isEmpty(base) && <style dangerouslySetInnerHTML={{ __html: splashContainerColor(base) }} />;
+export const splashCSS = ({ base }) => (
+  !_.isEmpty(base) && <style dangerouslySetInnerHTML={{ __html: splashContainerColor(base) }} />);
 
 const labelBaseColor = (color) => {
   return `

@@ -2,63 +2,61 @@
 
 exports[`renders the component 1`] = `
 <div>
-  <div>
+  <div
+    class="container"
+  >
     <div
-      class="container"
+      class="splashDisplayContainer splashPadding"
     >
-      <div
-        class="splashDisplayContainer splashPadding"
+      <table
+        class="splashTable"
       >
-        <table
-          class="splashTable"
-        >
-          <tbody>
-            <tr>
-              <td
-                class="textContainer"
-              />
-              <td
-                class="imageContainer"
+        <tbody>
+          <tr>
+            <td
+              class="textContainer"
+            />
+            <td
+              class="imageContainer"
+            >
+              <span
+                class="container chatIcon Icon--channelChoice-chat"
+                type="Icon--channelChoice-chat"
               >
-                <span
-                  class="container chatIcon Icon--channelChoice-chat"
-                  type="Icon--channelChoice-chat"
-                >
-                  test-file-stub
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div
-        class="inputContainer"
-      >
-        <input
-          class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
-          data-garden-id="textfields.input"
-          data-garden-version="3.3.6"
-          placeholder="Type your message here"
-          value=""
-        />
-        <span
-          class="container sendButton Icon--sendChat"
-          type="Icon--sendChat"
-        >
-          test-file-stub
-        </span>
-      </div>
+                test-file-stub
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="inputContainer"
+    >
+      <input
+        class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
+        data-garden-id="textfields.input"
+        data-garden-version="3.3.6"
+        placeholder="Type your message here"
+        value=""
+      />
       <span
-        class="container minimizeButton Icon--dash"
-        type="Icon--dash"
+        class="container sendButton Icon--sendChat"
+        type="Icon--sendChat"
       >
         test-file-stub
       </span>
-      <div
-        class="title"
-      >
-        zendesk chat
-      </div>
+    </div>
+    <span
+      class="container minimizeButton Icon--dash"
+      type="Icon--dash"
+    >
+      test-file-stub
+    </span>
+    <div
+      class="title"
+    >
+      zendesk chat
     </div>
   </div>
 </div>
@@ -66,30 +64,29 @@ exports[`renders the component 1`] = `
 
 exports[`with chatBadgeColor passed in 1`] = `
 <div>
-  <div>
+  <div
+    class="container"
+  >
     <div
-      class="container"
+      class="splashDisplayContainer splashPadding"
     >
-      <div
-        class="splashDisplayContainer splashPadding"
-      >
-        <style>
-          
+      <style>
+        
     .src-component-launcher-ChatBadge-splashDisplayContainer {
       background-color: yellow !important;
     }
   
-        </style>
-        <table
-          class="splashTable"
-        >
-          <tbody>
-            <tr>
-              <td
-                class="textContainer"
-              >
-                <style>
-                  
+      </style>
+      <table
+        class="splashTable"
+      >
+        <tbody>
+          <tr>
+            <td
+              class="textContainer"
+            >
+              <style>
+                
     .src-component-launcher-ChatBadge-textContainer.u-userLauncherColor {
       background-color: yellow !important;
     }
@@ -98,50 +95,49 @@ exports[`with chatBadgeColor passed in 1`] = `
       color: blue !important;
     }
   
-                </style>
-              </td>
-              <td
-                class="imageContainer"
+              </style>
+            </td>
+            <td
+              class="imageContainer"
+            >
+              <span
+                class="container chatIcon Icon--channelChoice-chat"
+                type="Icon--channelChoice-chat"
               >
-                <span
-                  class="container chatIcon Icon--channelChoice-chat"
-                  type="Icon--channelChoice-chat"
-                >
-                  test-file-stub
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div
-        class="inputContainer"
-      >
-        <input
-          class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
-          data-garden-id="textfields.input"
-          data-garden-version="3.3.6"
-          placeholder="Type your message here"
-          value=""
-        />
-        <span
-          class="container sendButton Icon--sendChat"
-          type="Icon--sendChat"
-        >
-          test-file-stub
-        </span>
-      </div>
+                test-file-stub
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="inputContainer"
+    >
+      <input
+        class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
+        data-garden-id="textfields.input"
+        data-garden-version="3.3.6"
+        placeholder="Type your message here"
+        value=""
+      />
       <span
-        class="container minimizeButton Icon--dash"
-        type="Icon--dash"
+        class="container sendButton Icon--sendChat"
+        type="Icon--sendChat"
       >
         test-file-stub
       </span>
-      <div
-        class="title"
-      >
-        zendesk chat
-      </div>
+    </div>
+    <span
+      class="container minimizeButton Icon--dash"
+      type="Icon--dash"
+    >
+      test-file-stub
+    </span>
+    <div
+      class="title"
+    >
+      zendesk chat
     </div>
   </div>
 </div>
@@ -149,65 +145,63 @@ exports[`with chatBadgeColor passed in 1`] = `
 
 exports[`with label passed in 1`] = `
 <div>
-  <div>
+  <div
+    class="container"
+  >
     <div
-      class="container"
+      class="splashDisplayContainer splashPadding"
     >
-      <div
-        class="splashDisplayContainer splashPadding"
+      <table
+        class="splashTable"
       >
-        <table
-          class="splashTable"
-        >
-          <tbody>
-            <tr>
-              <td
-                class="textContainer"
+        <tbody>
+          <tr>
+            <td
+              class="textContainer"
+            >
+              wanna chat?
+            </td>
+            <td
+              class="imageContainer"
+            >
+              <span
+                class="container chatIcon Icon--channelChoice-chat"
+                type="Icon--channelChoice-chat"
               >
-                wanna chat?
-              </td>
-              <td
-                class="imageContainer"
-              >
-                <span
-                  class="container chatIcon Icon--channelChoice-chat"
-                  type="Icon--channelChoice-chat"
-                >
-                  test-file-stub
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div
-        class="inputContainer"
-      >
-        <input
-          class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
-          data-garden-id="textfields.input"
-          data-garden-version="3.3.6"
-          placeholder="Type your message here"
-          value=""
-        />
-        <span
-          class="container sendButton Icon--sendChat"
-          type="Icon--sendChat"
-        >
-          test-file-stub
-        </span>
-      </div>
+                test-file-stub
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="inputContainer"
+    >
+      <input
+        class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
+        data-garden-id="textfields.input"
+        data-garden-version="3.3.6"
+        placeholder="Type your message here"
+        value=""
+      />
       <span
-        class="container minimizeButton Icon--dash"
-        type="Icon--dash"
+        class="container sendButton Icon--sendChat"
+        type="Icon--sendChat"
       >
         test-file-stub
       </span>
-      <div
-        class="title"
-      >
-        zendesk chat
-      </div>
+    </div>
+    <span
+      class="container minimizeButton Icon--dash"
+      type="Icon--dash"
+    >
+      test-file-stub
+    </span>
+    <div
+      class="title"
+    >
+      zendesk chat
     </div>
   </div>
 </div>
