@@ -159,26 +159,12 @@ class ChatBadge extends Component {
   }
 
   renderInputContainer = () => {
-    const generateCSSColor = (color) => {
-      return `
-        .sendButtonActive svg path {
-          fill: ${color.base} !important;
-        }
-
-        .sendButtonActive svg {
-          fill: ${color.base} !important;
-        }
-      `;
-    };
-    const css = <style dangerouslySetInnerHTML={{ __html: generateCSSColor(this.props.chatBadgeColor) }} />;
-
     const sendButtonClasses = classNames(styles.sendButton, {
-      ['sendButtonActive']: this.props.currentMessage.length > 0
+      [styles.sendButtonActive]: this.props.currentMessage.length > 0
     });
 
     return (
       <div className={styles.inputContainer}>
-        {css}
         <Input
           ref={(el) => { this.input = el; }}
           className={styles.input}

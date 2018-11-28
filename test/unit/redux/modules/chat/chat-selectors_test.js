@@ -96,6 +96,7 @@ describe('chat selectors', () => {
     beforeEach(() => {
       mockAccountSettings = {
         image: 'http://img.com/img.png',
+        text: mockAccountLabel,
         label: mockAccountLabel,
         layout: 'image_right'
       };
@@ -136,6 +137,7 @@ describe('chat selectors', () => {
       it('returns the zESettings instead of the account settings', () => {
         expect(result).toEqual({
           label: mockTranslation,
+          text: mockAccountLabel,
           layout: 'text_only',
           image: 'https://img.example.com/settings.png'
         });
@@ -150,6 +152,7 @@ describe('chat selectors', () => {
         it('falls back to the account label', () => {
           expect(result).toEqual({
             label: mockAccountLabel,
+            text: mockAccountLabel,
             layout: 'text_only',
             image: 'https://img.example.com/settings.png'
           });
@@ -163,6 +166,7 @@ describe('chat selectors', () => {
           it('falls back to the default translation', () => {
             expect(result).toEqual({
               label: 'embeddable_framework.chat.badge.label',
+              text: null,
               layout: 'text_only',
               image: 'https://img.example.com/settings.png'
             });

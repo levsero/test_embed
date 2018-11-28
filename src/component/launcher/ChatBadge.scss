@@ -128,9 +128,18 @@
     transform: scale(-1);
   }
   svg {
-    fill: $zd-color-grey-500 !important;
+    fill: $zd-color-grey-400 !important;
     path {
-      fill: $zd-color-grey-500 !important;
+      fill: $zd-color-grey-400 !important;
+    }
+  }
+}
+
+.sendButtonActive {
+  svg {
+    fill: $zd-color-grey-600 !important;
+    path {
+      fill: $zd-color-grey-600 !important;
     }
   }
 }

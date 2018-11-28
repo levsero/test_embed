@@ -153,7 +153,7 @@ export const getLauncherBadgeSettings = createSelector(
     const settingsLabel = _.get(settingsBadge, 'label', {});
     const label = _.truncate(
       i18n.getSettingTranslation(settingsLabel) ||
-      accountSettingsBadge.label ||
+      accountSettingsBadge.text ||
       i18n.t('embeddable_framework.chat.badge.label'),
       {
         'length': maxLabelLength,
