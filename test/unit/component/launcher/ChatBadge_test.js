@@ -108,17 +108,6 @@ describe('ChatBadge component', () => {
       result = component.renderLabel();
     });
 
-    describe('the label prop', () => {
-      beforeAll(() => {
-        mockBannerSettings.label = 'customText';
-      });
-
-      it('renders the label', () => {
-        expect(result.props.children)
-          .toEqual('customText');
-      });
-    });
-
     describe('when layout is image_right', () => {
       beforeAll(() => {
         mockBannerSettings.layout = 'image_right';
