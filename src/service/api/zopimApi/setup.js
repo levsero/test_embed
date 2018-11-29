@@ -7,7 +7,7 @@ import {
   API_ON_CLOSE_NAME,
   API_ON_OPEN_NAME
 } from 'constants/api';
-import { setStatusForcefully } from 'src/redux/modules/chat';
+import { setStatusForcefully, setVisitorInfo } from 'src/redux/modules/chat';
 import {
   endChatApi,
   sendChatMsgApi,
@@ -127,21 +127,21 @@ export function setUpZopimApiMethods(win, store) {
       endChat: () => endChatApi(store),
       addTags: addTagsApi(store),
       removeTags: removeTagsApi(store),
-      setName: (newName) => prefill(store, {
-        name: {
-          value: newName
-        }
-      }),
-      setEmail: (newEmail) => prefill(store, {
-        email: {
-          value: newEmail
-        }
-      }),
-      setPhone: (newPhone) => prefill(store, {
-        phone: {
-          value: newPhone
-        }
-      }),
+      setName(name){
+        store.dispatch(setVisitorInfo({ display_name: name })); // eslint-disable-line camelcase
+
+        prefill(store, { name: { value: name } });
+      },
+      setPhone(phone) {
+        store.dispatch(setVisitorInfo({ phone }));
+
+        prefill(store, { phone: { value: phone } });
+      },
+      setEmail(email) {
+        store.dispatch(setVisitorInfo({ email }));
+
+        prefill(store, { email: { value: email } });
+      },
       sendVisitorPath: (page) => updatePathApi(store, page),
       clearAll: () => logoutApi(store),
       setStatus: (status) => {
