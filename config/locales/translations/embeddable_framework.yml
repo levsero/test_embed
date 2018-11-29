@@ -1305,6 +1305,11 @@ parts:
       value: "https://www.zendesk.com/embeddables/"
       screenshot: "https://zendesk.box.com/s/qmyogztvns6u9t8ti56g4ulbdrakvj81"
       hidden: true
+  - translation:
+      key: "embeddable_framework.zendeskLogo.powered_by_url.chat"
+      title: "URL for the Powered By Zendesk link in the Chat channel of the Web Widget"
+      value: "https://www.zendesk.com/chat/live-chat-widget/"
+      hidden: true
 
   # Talk
   - translation:

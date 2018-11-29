@@ -22,12 +22,14 @@ class Chat extends Component {
     position: PropTypes.string,
     onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
-    updateChatBackButtonVisibility: PropTypes.func.isRequired
+    updateChatBackButtonVisibility: PropTypes.func.isRequired,
+    chatId: PropTypes.string
   };
 
   static defaultProps = {
     isMobile: false,
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    chatId: ''
   };
 
   constructor() {
@@ -54,6 +56,7 @@ class Chat extends Component {
         getFrameContentDocument={this.props.getFrameContentDocument}
         handleCloseClick={this.props.cancelButtonClicked}
         isMobile={this.props.isMobile}
+        chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
@@ -81,6 +84,7 @@ class Chat extends Component {
         getFrameContentDocument={this.props.getFrameContentDocument}
         updateChatBackButtonVisibility={this.props.updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
+        chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }

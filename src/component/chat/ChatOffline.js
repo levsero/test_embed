@@ -65,6 +65,7 @@ class ChatOffline extends Component {
     operatingHours: PropTypes.object,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
+    chatId: PropTypes.string,
     getFrameContentDocument: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     widgetShown: PropTypes.bool.isRequired,
@@ -77,6 +78,7 @@ class ChatOffline extends Component {
     operatingHours: {},
     isMobile: false,
     hideZendeskLogo: false,
+    chatId: '',
     formSettings: { enabled: false },
     offlineMessage: {},
     getFrameContentDocument: () => ({}),
@@ -107,6 +109,7 @@ class ChatOffline extends Component {
         operatingHours={this.props.operatingHours}
         isAuthenticated={this.props.isAuthenticated}
         isMobile={this.props.isMobile}
+        chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }

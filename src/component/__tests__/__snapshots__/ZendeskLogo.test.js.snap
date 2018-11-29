@@ -58,6 +58,35 @@ exports[`does not have the positional classnames when mobile browser is true 1`]
 </div>
 `;
 
+exports[`has the correct logo when chat is true 1`] = `
+<div>
+  <a
+    class="
+      logo
+      formSuccess
+      
+      ltr
+      
+    "
+    href="Missing translation (): embeddable_framework.zendeskLogo.powered_by_url.chat?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=123abc&utm_content=undefined&iref=123abc&lang="
+    tabindex="-1"
+    target="_blank"
+  >
+    <span
+      class="container icon Icon--zendesk"
+      type="Icon--zendesk"
+    >
+      test-file-stub
+    </span>
+    <span
+      class="hidden"
+    >
+      zendesk
+    </span>
+  </a>
+</div>
+`;
+
 exports[`has the positional classnames for mobile browser and formSuccess is true 1`] = `
 <div>
   <a

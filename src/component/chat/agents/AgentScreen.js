@@ -24,19 +24,23 @@ class AgentScreen extends Component {
     isMobile: PropTypes.bool,
     activeAgents: PropTypes.object.isRequired,
     hideZendeskLogo: PropTypes.bool,
+    chatId: PropTypes.string,
     updateChatScreen: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     isMobile: false,
     activeAgents: {},
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    chatId: ''
   };
 
   renderZendeskLogo = () => {
     return !this.props.hideZendeskLogo ?
       <ZendeskLogo
         className={`${styles.zendeskLogo}`}
+        logoLink='chat'
+        chatId={this.props.chatId}
         rtl={i18n.isRTL()}
         fullscreen={false}
       /> : null;

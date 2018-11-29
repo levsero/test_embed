@@ -37,3 +37,10 @@ test('has the rtl classnames when rtl language is true', () => {
   expect(container)
     .toMatchSnapshot();
 });
+
+test('has the correct logo when chat is true', () => {
+  const { container } = render(<ZendeskLogo logoLink='chat' chatId='123abc' />);
+
+  expect(container)
+    .toMatchSnapshot();
+});
