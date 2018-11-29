@@ -207,11 +207,13 @@ const partReducer = (list, part) => {
   return list;
 };
 
-function setFallbackTranslations() {
+function setFallbackTranslations(translationMap, force = false) {
   // Only import the translations yml file in development
   // This saves approx 67kb in bundle size
-  if (__DEV__) {
-    const frameworkYamlFile = require('../../config/locales/translations/embeddable_framework.yml');
+  if (__DEV__ || force) {
+    const frameworkYamlFile = _.isEmpty(translationMap)
+      ? require('../../config/locales/translations/embeddable_framework.yml')
+      : translationMap;
     const translations = parseYamlTranslations(frameworkYamlFile);
 
     if (!_.isEmpty(translations)) {
