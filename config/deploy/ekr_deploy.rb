@@ -12,7 +12,7 @@ set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
 set :previewer_directory, 'web_widget/previews'
 set :previewer_directory_versioned, "web_widget/previews/#{fetch(:version)}"
 set :popout_file_location, 'dist/'
-set :popout_file_name, 'popout.html'
+set :popout_file_name, 'liveChat.html'
 set :preview_files, %i(webWidgetPreview.js chatPreview.js)
 
 PREVIEW_EXPIRY = 600

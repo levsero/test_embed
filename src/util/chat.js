@@ -16,16 +16,16 @@ function createChatPopoutWindow(chatPopoutSettings) {
   let url;
 
   if (__DEV__) {
-    url = 'src/asset/templates/popout.html';
+    url = 'src/asset/templates/liveChat.html';
   } else if (hostName.indexOf('-staging.') !== -1) {
-    url = 'https://static-staging.zdassets.com/web_widget/latest/popout.html';
+    url = 'https://static-staging.zdassets.com/web_widget/latest/liveChat.html';
   } else {
-    url ='https://static.zdassets.com/web_widget/latest/popout.html';
+    url ='https://static.zdassets.com/web_widget/latest/liveChat.html';
   }
 
   url += generateQueryString(chatPopoutSettings);
 
-  win.open(url, 'Web Widget Popout', 'height=500,width=342');
+  win.open(url, 'Web Widget LiveChat', 'height=500,width=342');
 }
 
 function generateQueryString(chatPopoutSettings) {
