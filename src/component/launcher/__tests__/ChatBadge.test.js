@@ -4,10 +4,6 @@ import React from 'react';
 import ChatBadgeConnect from '../ChatBadge';
 const ChatBadge = ChatBadgeConnect.WrappedComponent;
 
-const noop = () => {
-  // noop
-};
-
 const renderComponent = (props = {}) => {
   const defaultProps = {
     onSend: noop,

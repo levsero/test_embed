@@ -17,7 +17,8 @@
     "webdrivercss": true,
     "webdriverio": true,
     "Component": true,
-    "mount": true
+    "mount": true,
+    "noop": true
   },
   "rules": {
     "no-var": 0,
