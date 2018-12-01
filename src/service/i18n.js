@@ -39,6 +39,12 @@ const keyLookupTable = {
 let fallbackTranslations;
 let store;
 
+// reset is only used in tests
+function reset() {
+  store = undefined;
+  fallbackTranslations = undefined;
+}
+
 function init(s) {
   store = s;
 }
@@ -245,5 +251,6 @@ export const i18n = {
   setCustomTranslations: setCustomTranslations,
   setFallbackTranslations: setFallbackTranslations,
   getSettingTranslation: getSettingTranslation,
-  init: init
+  init: init,
+  reset
 };
