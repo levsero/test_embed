@@ -127,17 +127,17 @@ export function setUpZopimApiMethods(win, store) {
       endChat: () => endChatApi(store),
       addTags: addTagsApi(store),
       removeTags: removeTagsApi(store),
-      setName(name){
+      setName: (name) => {
         store.dispatch(setVisitorInfo({ display_name: name })); // eslint-disable-line camelcase
 
         prefill(store, { name: { value: name } });
       },
-      setPhone(phone) {
+      setPhone: (phone) => {
         store.dispatch(setVisitorInfo({ phone }));
 
         prefill(store, { phone: { value: phone } });
       },
-      setEmail(email) {
+      setEmail: (email) => {
         store.dispatch(setVisitorInfo({ email }));
 
         prefill(store, { email: { value: email } });
