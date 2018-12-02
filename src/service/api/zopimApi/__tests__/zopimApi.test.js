@@ -2,7 +2,8 @@ import zopimApi from '..';
 
 jest.mock('src/service/api/apis');
 jest.mock('src/redux/modules/chat', () => ({
-  setStatusForcefully: jest.fn()
+  setStatusForcefully: jest.fn(),
+  setVisitorInfo: jest.fn()
 }));
 jest.mock('service/i18n', () => ({
   i18n: {
@@ -965,6 +966,9 @@ describe('setUpZopimApiMethods', () => {
 
     expect(apis.prefill)
       .toHaveBeenCalledWith(mockStore, { name: { value: 'wayne' }});
+
+    expect(chatActions.setVisitorInfo)
+      .toHaveBeenCalledWith({ display_name: 'wayne' }); // eslint-disable-line camelcase
   });
 
   test('setEmail', () => {
@@ -972,6 +976,8 @@ describe('setUpZopimApiMethods', () => {
 
     expect(apis.prefill)
       .toHaveBeenCalledWith(mockStore, { email: { value: 'wayne@see.com' }});
+    expect(chatActions.setVisitorInfo)
+      .toHaveBeenCalledWith({'email': 'wayne@see.com'});
   });
 
   test('setPhone', () => {
@@ -979,6 +985,8 @@ describe('setUpZopimApiMethods', () => {
 
     expect(apis.prefill)
       .toHaveBeenCalledWith(mockStore, { phone: { value: '011111' }});
+    expect(chatActions.setVisitorInfo)
+      .toHaveBeenCalledWith({ phone: '011111' });
   });
 
   test('sendVisitorPath', () => {
