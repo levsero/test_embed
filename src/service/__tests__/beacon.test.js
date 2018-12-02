@@ -13,10 +13,12 @@ globals.navigator = {
 
 jest.mock('service/transport');
 
-let oldDate;
+let dateNowMock;
 
 beforeEach(() => {
-  oldDate = Date.now;
+  document.title = undefined;
+  document.t = undefined;
+  dateNowMock = jest.spyOn(Date, 'now');
   store.clear('session');
   store.clear();
   beacon.setConfig({
@@ -26,7 +28,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  Date.now = oldDate;
+  dateNowMock.mockRestore();
 });
 
 test('identify', () => {
@@ -172,7 +174,7 @@ describe('sendPageView', () => {
     it('sends the expected payload', () => {
       document.title = 'hello world';
       document.t = 50;
-      Date.now = jest.fn(() => 67);
+      dateNowMock.mockImplementation(() => 67);
       beacon.sendPageView();
 
       expect(http.sendWithMeta)
@@ -197,7 +199,7 @@ describe('sendPageView', () => {
     });
 
     it('sends difference between current time and sessionStorage currentTime as time', () => {
-      Date.now = () => 100;
+      dateNowMock.mockImplementation(() => 100);
       store.set('currentTime', 88, 'session');
       beacon.sendPageView();
 
@@ -320,7 +322,7 @@ describe('sendPageView', () => {
 
     it('sets the time duration', () => {
       store.set('currentTime', 78, 'session');
-      Date.now = () => 100;
+      dateNowMock.mockImplementation(() => 100);
       beacon.sendPageView();
 
       expect(http.sendWithMeta)

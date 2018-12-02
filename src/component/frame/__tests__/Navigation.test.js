@@ -47,7 +47,8 @@ test('can render the popout button', () => {
 });
 
 test('can hide the popout button', () => {
-  selectors.getIsPopoutAvailable = jest.fn(() => false);
+  const spy = jest.spyOn(selectors, 'getIsPopoutAvailable')
+    .mockImplementation(jest.fn(() => false));
   const store = createStore(reducer);
 
   const { container } = render(
@@ -58,4 +59,5 @@ test('can hide the popout button', () => {
 
   expect(container.querySelector('button[aria-label=Popout]'))
     .not.toBeInTheDocument();
+  spy.mockRestore();
 });

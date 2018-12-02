@@ -109,9 +109,10 @@ describe('splitPath()', () => {
 });
 
 describe('getPageKeywords()', () => {
-  let location;
+  let location, originalLocation;
 
   beforeEach(() => {
+    originalLocation = globals.location;
     globals.location = {
       href: 'http://foo.com/anthony/is/awesome',
       pathname: '/anthony/is/awesome',
@@ -119,6 +120,8 @@ describe('getPageKeywords()', () => {
     };
     location = globals.location;
   });
+
+  afterEach(() => globals.location = originalLocation);
 
   it('returns the pathname in the form of space seperated keywords', () => {
     expect(getPageKeywords())
