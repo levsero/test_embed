@@ -57,6 +57,7 @@ The Chat component has the following commands:
 * [on chat:start](#on-chatstart)
 * [on chat:end](#on-chatend)
 * [on chat:status](#on-chatstatus)
+* [on chat:departmentStatus](#on-chatdepartmentstatus)
 * [on chat:unreadMessages](#on-chatunreadmessages)
 
 #### chat:send
@@ -240,11 +241,11 @@ zE('webWidget:on', 'chat:end', function() {
 
 `zE('webWidget:on', 'chat:status', function(status<string>) {});`
 
-Registers a callback to be fired when the account status changes. The callback will also be called once when this function is executed.
+Registers a callback to be fired when the account status changes.
 
 ##### Parameters
 
-* `callback`: Function. The callback to perform on unread messages. Contains one parameter, `status`, a string that can be one of 'online'|'away'|'offline'
+* `callback`: Function. The callback to perform on account status change. Contains one parameter, `status`, a string that can be one of 'online'|'away'|'offline'
 
 ##### Example
 
@@ -256,12 +257,32 @@ zE('webWidget:on', 'chat:status', function(status) {
 </script>
 ```
 
+#### on chat:departmentStatus
+
+`zE('webWidget:on', 'chat:departmentStatus', function(department<object>) {});`
+
+Registers a callback to be fired when a department status changes.
+
+##### Parameters
+
+* `callback`: Function. The callback to perform on each department status change. Contains one parameter, `department`, an object that contains the `name`, `id` and `status` of the changed department.
+
+##### Example
+
+```html
+<script type="text/javascript">
+zE('webWidget:on', 'chat:departmentStatus', function(dept) {
+  console.log('department', dept.name, 'changed to', dept.status);
+});
+</script>
+```
+
 
 #### on chat:unreadMessages
 
 `zE('webWidget:on', 'chat:unreadMessages', function(number<int>) {});`
 
-Registers a callback to be fired when the number of unread messages changes. The callback will also be called once when this function is executed.
+Registers a callback to be fired when the number of unread messages changes.
 
 ##### Parameters
 
