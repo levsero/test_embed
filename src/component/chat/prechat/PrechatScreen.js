@@ -61,6 +61,7 @@ class PrechatScreen extends Component {
   static propTypes = {
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
+    chatId: PropTypes.string,
     updateChatScreen: PropTypes.func.isRequired,
     setDepartment: PropTypes.func.isRequired,
     departments: PropTypes.object,
@@ -89,6 +90,7 @@ class PrechatScreen extends Component {
   static defaultProps = {
     isMobile: false,
     hideZendeskLogo: false,
+    chatId: '',
     departments: {},
     sendOfflineMessage: () => {},
     clearDepartment: () => {},
@@ -170,6 +172,7 @@ class PrechatScreen extends Component {
         visitor={this.props.visitor}
         onFormCompleted={this.onPrechatFormComplete}
         isMobile={this.props.isMobile}
+        chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }

@@ -39,7 +39,8 @@ export class PrechatForm extends Component {
     isAuthenticated: PropTypes.bool.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
-    hideZendeskLogo: PropTypes.bool
+    hideZendeskLogo: PropTypes.bool,
+    chatId: PropTypes.string
   };
 
   static defaultProps = {
@@ -56,6 +57,7 @@ export class PrechatForm extends Component {
     socialLogin: {},
     isMobile: false,
     hideZendeskLogo: false,
+    chatId: '',
     getFrameContentDocument: () => ({})
   };
 
@@ -351,6 +353,8 @@ export class PrechatForm extends Component {
   renderZendeskLogo = () => {
     return !this.props.hideZendeskLogo ?
       <ZendeskLogo
+        chatId={this.props.chatId}
+        logoLink='chat'
         className={`${styles.zendeskLogo}`}
         rtl={i18n.isRTL()}
         fullscreen={false}

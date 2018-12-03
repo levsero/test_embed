@@ -142,7 +142,8 @@ class WebWidget extends Component {
     chatOfflineAvailable: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
     channelChoiceAvailable: PropTypes.bool.isRequired,
-    submitTicketAvailable: PropTypes.bool.isRequired
+    submitTicketAvailable: PropTypes.bool.isRequired,
+    chatId: PropTypes.string
   };
 
   static defaultProps = {
@@ -176,7 +177,8 @@ class WebWidget extends Component {
     onShowMobile: () => {},
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
-    proactiveChatNotificationDismissed: () => {}
+    proactiveChatNotificationDismissed: () => {},
+    chatId: ''
   };
 
   setComponent = (activeComponent) => {
@@ -369,6 +371,7 @@ class WebWidget extends Component {
         isMobile={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
         position={this.props.position}
+        chatId={this.props.chatId}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
       />

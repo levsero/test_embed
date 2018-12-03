@@ -90,6 +90,7 @@ class Chat extends Component {
     connection: PropTypes.string.isRequired,
     loginSettings: PropTypes.object.isRequired,
     hideZendeskLogo: PropTypes.bool,
+    chatId: PropTypes.string,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     chatVisitor: PropTypes.object.isRequired,
@@ -121,6 +122,7 @@ class Chat extends Component {
     sendOfflineMessage: () => {},
     clearDepartment: () => {},
     hideZendeskLogo: false,
+    chatId: '',
     isAuthenticated: false,
     isLoggingOut: false
   };
@@ -227,6 +229,7 @@ class Chat extends Component {
       <PrechatScreen
         getFrameContentDocument={this.props.getFrameContentDocument}
         hideZendeskLogo={this.props.hideZendeskLogo}
+        chatId={this.props.chatId}
         isMobile={this.props.isMobile} />
     );
   }
@@ -248,6 +251,7 @@ class Chat extends Component {
       <ChattingScreen
         toggleMenu={this.toggleMenu}
         showChatEndFn={showChatEndFn}
+        chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
         showContactDetails={this.showContactDetailsFn} />
@@ -390,6 +394,7 @@ class Chat extends Component {
 
     return (
       <AgentScreen
+        chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile} />
     );

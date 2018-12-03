@@ -220,6 +220,7 @@ export default function WebWidgetFactory(name) {
             talkConfig={talkConfig}
             talkAvailable={talkAvailable}
             zopimOnNext={zopimOnNext}
+            chatId={_.get(chatConfig, 'zopimId')}
             onShowMobile={onShowMobile} />
         </Frame>
       </Provider>

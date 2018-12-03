@@ -39,6 +39,7 @@ export class ChatOfflineForm extends Component {
     visitor: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
+    chatId: PropTypes.string,
     getFrameContentDocument: PropTypes.func.isRequired,
     widgetShown: PropTypes.bool.isRequired,
     channels: PropTypes.object
@@ -53,6 +54,7 @@ export class ChatOfflineForm extends Component {
     socialLogin: {},
     authUrls: {},
     hideZendeskLogo: false,
+    chatId: '',
     getFrameContentDocument: () => ({}),
     formState: {},
     readOnlyState: {},
@@ -328,6 +330,7 @@ export class ChatOfflineForm extends Component {
       <ZendeskLogo
         className={`${styles.zendeskLogo}`}
         rtl={i18n.isRTL()}
+        chatId={this.props.chatId}
         fullscreen={false}
       /> : null;
   }

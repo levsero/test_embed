@@ -107,6 +107,7 @@ class ChattingScreen extends Component {
     loginSettings: PropTypes.object.isRequired,
     fetchConversationHistory: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
+    chatId: PropTypes.string,
     firstMessageTimestamp: PropTypes.number,
     socialLogin: PropTypes.object,
     conciergeSettings: PropTypes.object.isRequired,
@@ -140,6 +141,7 @@ class ChattingScreen extends Component {
     visitor: {},
     fetchConversationHistory: () => {},
     hideZendeskLogo: false,
+    chatId: '',
     firstMessageTimestamp: null,
     socialLogin: {},
     conciergeSettings: {},
@@ -393,7 +395,8 @@ class ChattingScreen extends Component {
         className={`${styles.zendeskLogo} ${logoClasses}`}
         rtl={i18n.isRTL()}
         fullscreen={false}
-        utm='webwidgetchat'
+        chatId={this.props.chatId}
+        logoLink='chat'
       /> : null;
   }
 
