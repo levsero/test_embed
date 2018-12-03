@@ -6,12 +6,7 @@
 </head>
 <body>
   <script type='text/javascript'>
-    var head = document.head,
-      parameters = {},
-      queryString = window.location.search,
-      scriptElement = document.createElement("script");
-
-    var stripParameters = function (inputString) {
+    var parseQueryParams = function(inputString) {
       var params = {}, queries;
 
       inputString = inputString.substring(inputString.indexOf('?') + 1);
@@ -20,7 +15,7 @@
       queries.forEach(element => {
         var splitElement = element.split('=');
 
-        if (splitElement !== "") {
+        if (splitElement.length > 1) {
           params[splitElement[0]] = splitElement[1];
         }
       });
@@ -28,18 +23,33 @@
       return params;
     };
 
-    window.zEPopout = true;
-    parameters = stripParameters(queryString);
-    scriptElement.id = "ze-snippet";
-    scriptElement.src = "https://static.zdassets.com/ekr/snippet.js";
+    var parseSettings = function(parameters) {
+      if (!parameters || !parameters.settings) return {};
 
-    if (parameters && typeof parameters === "object") {
-      if (parameters.key) {
-        scriptElement.src += ("?key=web_widget/" + parameters.key);
-      }
-      // Insert other required parameters below
-      head.appendChild(scriptElement);
+      return JSON.parse(window.atob(parameters.settings));
     }
+
+    var loadSnippet = function(parameters) {
+      var head = document.head;
+      var scriptElement = document.createElement('script');
+
+
+      window.zEPopout = true;
+      scriptElement.id = 'ze-snippet';
+      scriptElement.src = 'https://static.zdassets.com/ekr/snippet.js';
+
+      if (parameters && typeof parameters === 'object') {
+        if (parameters.key) {
+          scriptElement.src += ('?key=web_widget/' + parameters.key);
+        }
+        // Insert other required parameters below
+        head.appendChild(scriptElement);
+      }
+    }
+    var queryParams = parseQueryParams(window.location.search);
+    window.zESettings = parseSettings(queryParams);
+
+    loadSnippet(queryParams);
   </script>
 </body>
 </html>

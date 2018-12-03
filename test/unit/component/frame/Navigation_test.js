@@ -46,6 +46,9 @@ describe('Navigation', () => {
         getMenuVisible: () => false,
         getShowMenu: () => false
       },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsChatPopout: () => {}
+      },
       'src/redux/modules/chat/chat-actions': {
         updateMenuVisibility: () => {}
       },
