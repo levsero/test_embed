@@ -304,28 +304,22 @@ describe('setFallbackTranslations', () => {
           .toBe('Hello');
       });
     });
-  });
 
-  describe('provide custom fallback translations', () => {
-    const fallback = {
-      parts: [{
-        translation: {
-          key: 'string.key.from.yml.file',
-          value: 'Hello World'
-        }
-      }]
-    };
+    describe('provide custom fallback translations', () => {
+      const fallback = {
+        parts: [{
+          translation: {
+            key: 'string.key.from.yml.file',
+            value: 'Hello World'
+          }
+        }]
+      };
 
-    it('uses the provided fallback if forced', () => {
-      i18n.setFallbackTranslations(fallback, true);
-      expect(i18n.t('string.key.from.yml.file'))
-        .toBe('Hello World');
-    });
-
-    it('does not use it if not forced', () => {
-      i18n.setFallbackTranslations(fallback);
-      expect(i18n.t('string.key.from.yml.file'))
-        .toEqual('Missing translation (en-US): string.key.from.yml.file');
+      it('uses the provided fallback if provided', () => {
+        i18n.setFallbackTranslations(fallback);
+        expect(i18n.t('string.key.from.yml.file'))
+          .toBe('Hello World');
+      });
     });
   });
 });

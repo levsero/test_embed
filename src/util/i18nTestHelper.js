@@ -5,9 +5,15 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
 
+i18n.init(createStore(reducer));
+
+// Load fallback translations for tests
+const oldVal = global.__DEV__;
 const fallbackPath = path.resolve(__dirname, '../../config/locales/translations/embeddable_framework.yml');
 const fallbackTranslations = yaml.safeLoad(fs.readFileSync(fallbackPath));
 
-i18n.init(createStore(reducer));
-i18n.setFallbackTranslations(fallbackTranslations, true);
+global.__DEV__ = true;
+i18n.setFallbackTranslations(fallbackTranslations);
+global.__DEV__ = oldVal;
+
 i18n.setLocale('en-US');
