@@ -101,7 +101,9 @@ const renderPreview = (options) => {
     ref: (el) => { frame = el.getWrappedInstance(); },
     disableOffsetHorizontal: true,
     preventClose: true,
-    generateUserCSS: generateUserWidgetCSS
+    generateUserCSS: generateUserWidgetCSS,
+    fullscreen: false,
+    isMobile: false
   };
 
   const component = (

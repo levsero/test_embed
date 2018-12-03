@@ -223,7 +223,7 @@ describe('WebWidget component', () => {
         beforeEach(() => {
           webWidget = instanceRender(
             <WebWidget
-              fullscreen={false}
+              isMobile={false}
               chatStandaloneMobileNotificationVisible={true} />
           );
           spyOn(webWidget, 'renderStandaloneChatPopup');
@@ -242,7 +242,7 @@ describe('WebWidget component', () => {
         beforeEach(() => {
           webWidget = instanceRender(
             <WebWidget
-              fullscreen={true}
+              isMobile={true}
               chatStandaloneMobileNotificationVisible={true} />
           );
           spyOn(webWidget, 'renderStandaloneChatPopup');
@@ -259,7 +259,7 @@ describe('WebWidget component', () => {
         beforeEach(() => {
           webWidget = instanceRender(
             <WebWidget
-              fullscreen={true}
+              isMobile={true}
               chatStandaloneMobileNotificationVisible={true}
               mobileNotificationsDisabled={true} />
           );
@@ -296,6 +296,33 @@ describe('WebWidget component', () => {
     it('calls props.proactiveChatNotificationDismissed', () => {
       expect(proactiveChatNotificationDismissedSpy)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('render', () => {
+    let webWidget,
+      container,
+      result,
+      expectedStyle = {
+        left: '50%',
+        transform: 'translate(-50%)'
+      };
+
+    describe('when isPopout (fullscreen is true)', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+            isMobile={false}
+            fullscreen={true} />
+        );
+        result = webWidget.render();
+        container = result.props.children;
+      });
+
+      it('style is the expected popout style', () => {
+        expect(container.props.style)
+          .toEqual(expectedStyle);
+      });
     });
   });
 
@@ -551,13 +578,13 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when props.fullscreen and props.helpCenterSearchFocused are true', () => {
+    describe('when props.isMobile and props.helpCenterSearchFocused are true', () => {
       beforeEach(() => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='helpCenterForm'
             hasSearched={true}
-            fullscreen={true}
+            isMobile={true}
             helpCenterSearchFocused={true}
           />
         );
@@ -571,13 +598,13 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when props.fullscreen is false', () => {
+    describe('when props.isMobile is false', () => {
       beforeEach(() => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='helpCenterForm'
             hasSearched={true}
-            fullscreen={false}
+            isMobile={false}
             helpCenterSearchFocused={true}
           />
         );
@@ -591,13 +618,13 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when props.fullscreen is true and props.helpCenterSearchFocused is false', () => {
+    describe('when props.isMobile is true and props.helpCenterSearchFocused is false', () => {
       beforeEach(() => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='helpCenterForm'
             hasSearched={true}
-            fullscreen={true}
+            isMobile={true}
             helpCenterSearchFocused={false}
           />
         );
@@ -1272,7 +1299,7 @@ describe('WebWidget component', () => {
         webWidget = instanceRender(
           <WebWidget
             oldChat={false}
-            fullscreen={true}
+            isMobile={true}
             showStandaloneMobileNotification={showStandaloneMobileNotificationSpy} />
         );
         webWidget.showProactiveChat();
@@ -1291,7 +1318,7 @@ describe('WebWidget component', () => {
         webWidget = instanceRender(
           <WebWidget
             oldChat={false}
-            fullscreen={false}
+            isMobile={false}
             chatNotification={mockChatNotification} />
         );
 

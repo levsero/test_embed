@@ -1,10 +1,17 @@
 describe('base reducer widgetShown', () => {
   let reducer,
     actionTypes,
-    initialState;
+    initialState,
+    mockIsPopout = false;
 
   beforeAll(() => {
     mockery.enable();
+
+    initMockRegistry({
+      'utility/globals': {
+        isPopout: () => mockIsPopout
+      }
+    });
 
     const reducerPath = buildSrcPath('redux/modules/base/reducer/base-embed-shown');
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
@@ -55,6 +62,36 @@ describe('base reducer widgetShown', () => {
     it('return initial state (false) as the state has been reset', () => {
       expect(state)
         .toEqual(false);
+    });
+  });
+
+  describe('when a WIDGET_INITIALISED action is dispatched', () => {
+    let state, mockState;
+
+    beforeEach(() => {
+      state = reducer(mockState, { type: actionTypes.WIDGET_INITIALISED });
+    });
+
+    describe('when the window is a popout', () => {
+      beforeAll(() => {
+        mockIsPopout = true;
+        mockState = false;
+      });
+
+      it('return true', () => {
+        expect(state).toEqual(true);
+      });
+    });
+
+    describe('when the window is not a popout', () => {
+      beforeAll(() => {
+        mockIsPopout = false;
+        mockState = true;
+      });
+
+      it('return false', () => {
+        expect(state).toEqual(false);
+      });
     });
   });
 });

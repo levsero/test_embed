@@ -100,7 +100,10 @@ describe('ChatOffline component', () => {
     let result;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOffline title={mockTitle} />);
+      const component = instanceRender(<ChatOffline
+        title={mockTitle}
+        fullscreen={true}
+        isMobile={true} />);
 
       result = component.renderOfflineForm();
     });
@@ -114,13 +117,25 @@ describe('ChatOffline component', () => {
       expect(result.props.title)
         .toEqual(mockTitle);
     });
+    it('renders with the correct fullscreen status', () => {
+      expect(result.props.fullscreen)
+        .toEqual(true);
+    });
+
+    it('renders with the correct isMobile status', () => {
+      expect(result.props.isMobile)
+        .toEqual(true);
+    });
   });
 
   describe('renderChatOfflineScreen', () => {
     let result;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOffline title={mockTitle} />);
+      const component = instanceRender(<ChatOffline
+        title={mockTitle}
+        fullscreen={true}
+        isMobile={true}/>);
 
       result = component.renderChatOfflineScreen();
     });
@@ -128,6 +143,16 @@ describe('ChatOffline component', () => {
     it('renders with the correct title', () => {
       expect(result.props.title)
         .toEqual(mockTitle);
+    });
+
+    it('renders with the correct fullscreen status', () => {
+      expect(result.props.fullscreen)
+        .toEqual(true);
+    });
+
+    it('renders with the correct isMobile status', () => {
+      expect(result.props.isMobile)
+        .toEqual(true);
     });
   });
 });

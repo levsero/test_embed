@@ -118,9 +118,7 @@ describe('getIsPopupVisible', () => {
     mockIsMobile,
     isMobileValue = false,
     mockState,
-    mockWin = {
-      zEPopout: false
-    };
+    mockIsPopout = false;
 
   beforeEach(() => {
     mockState = {
@@ -135,12 +133,16 @@ describe('getIsPopupVisible', () => {
         }
       }
     };
-    globals.win = mockWin;
+    globals.isPopout = () => mockIsPopout;
     jest.spyOn(devices, 'isMobileBrowser').mockImplementation(mockIsMobile);
   });
 
   afterEach(() => {
     devices.isMobileBrowser.mockRestore();
+    isMobileValue = false;
+    mockIsPopout = false;
+    globals.isPopout = () => mockIsPopout;
+    mockState.base.launcherVisible = false;
   });
 
   mockIsMobile = jest.fn(() => isMobileValue);
@@ -172,16 +174,28 @@ describe('getIsPopupVisible', () => {
   });
 
   describe('isLauncherVisible is true', () => {
-    it('does not render popup', () => {
+    beforeEach(() => {
       mockState.base.launcherVisible = true;
+    });
+
+    it('does not render popup', () => {
       expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
     });
   });
 
-  describe('win.zEPopout is true', () => {
-    it('does not render popup', () => {
-      globals.win.zEPopout = true;
+  describe('when window is a popout', () => {
+    beforeEach(() => {
+      mockIsPopout = true;
+    });
+
+    it('does not render popout', () => {
       expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
+    });
+  });
+
+  describe('when window is not a popout', () => {
+    it('does render popout', () => {
+      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(true);
     });
   });
 

@@ -17,6 +17,7 @@ class Chat extends Component {
   static propTypes = {
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
+    fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     cancelButtonClicked: PropTypes.func,
     position: PropTypes.string,
@@ -28,6 +29,7 @@ class Chat extends Component {
 
   static defaultProps = {
     isMobile: false,
+    fullscreen: false,
     hideZendeskLogo: false,
     chatId: ''
   };
@@ -57,6 +59,7 @@ class Chat extends Component {
         handleCloseClick={this.props.cancelButtonClicked}
         isMobile={this.props.isMobile}
         chatId={this.props.chatId}
+        fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
@@ -80,6 +83,7 @@ class Chat extends Component {
       <ChatOnline
         ref={(el) => { this.online = el; }}
         isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen}
         position={this.props.position}
         getFrameContentDocument={this.props.getFrameContentDocument}
         updateChatBackButtonVisibility={this.props.updateChatBackButtonVisibility}

@@ -84,11 +84,13 @@ class PrechatScreen extends Component {
     loginSettings: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    fullscreen: PropTypes.bool
   };
 
   static defaultProps = {
     isMobile: false,
+    fullscreen: false,
     hideZendeskLogo: false,
     chatId: '',
     departments: {},
@@ -142,7 +144,8 @@ class PrechatScreen extends Component {
       <ScrollContainer
         title={this.props.title}
         containerClasses={styles.scrollContainerContent}
-        fullscreen={this.props.isMobile}>
+        fullscreen={this.props.fullscreen}
+        isMobile={this.props.isMobile}>
         <ChatOfflineMessageForm
           offlineMessage={this.props.offlineMessage}
           onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)} />
@@ -173,6 +176,7 @@ class PrechatScreen extends Component {
         onFormCompleted={this.onPrechatFormComplete}
         isMobile={this.props.isMobile}
         chatId={this.props.chatId}
+        fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
@@ -182,7 +186,8 @@ class PrechatScreen extends Component {
       <ScrollContainer
         title={this.props.title}
         containerClasses={styles.scrollContainerContent}
-        fullscreen={this.props.isMobile}>
+        fullscreen={this.props.fullscreen}
+        isMobile={this.props.isMobile}>
         <LoadingSpinner className={styles.loadingSpinner} />
       </ScrollContainer>
     );

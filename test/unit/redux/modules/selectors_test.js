@@ -43,7 +43,8 @@ describe('selectors', () => {
     chatBadgeArturoEnabled,
     selectors,
     settingsColorLauncher,
-    settingsColorLauncherText;
+    settingsColorLauncherText,
+    mockIsPopout;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -82,6 +83,7 @@ describe('selectors', () => {
   settingsColorLauncher = undefined;
   settingsColorLauncherText = undefined;
   chatBadgeArturoEnabled = false;
+  mockIsPopout = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -152,6 +154,9 @@ describe('selectors', () => {
       'utility/devices': {
         isMobileBrowser: () => isMobile
       },
+      'utility/globals': {
+        isPopout: () => mockIsPopout
+      },
       'src/constants/shared': {
         MAX_WIDGET_HEIGHT_NO_SEARCH: 150,
         WIDGET_MARGIN: 15,
@@ -195,6 +200,24 @@ describe('selectors', () => {
             marginLeft: 'margin',
             marginRight: 'margin'
           });
+      });
+
+      describe('when window is Popout', () => {
+        beforeAll(() => {
+          mockIsPopout = true;
+        });
+
+        afterAll(() => {
+          mockIsPopout = false;
+        });
+
+        it('margin is zero', () => {
+          expect(result)
+            .toEqual({
+              marginLeft: '0',
+              marginRight: '0'
+            });
+        });
       });
     });
 

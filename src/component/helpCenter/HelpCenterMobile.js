@@ -163,6 +163,7 @@ export class HelpCenterMobile extends Component {
       <SearchField
         ref={(el) => { this.searchField = el; }}
         fullscreen={true}
+        isMobile={true}
         onFocus={this.handleOnFocus}
         onBlur={this.handleOnBlur}
         onChangeValue={this.props.handleOnChangeValue}
@@ -271,6 +272,7 @@ export class HelpCenterMobile extends Component {
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}
           fullscreen={true}
+          isMobile={true}
           containerClasses={containerClasses}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
           {this.renderFormContainer()}

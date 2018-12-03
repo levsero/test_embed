@@ -2,14 +2,14 @@ describe('Frame', () => {
   let Frame,
     mockWindowHeight,
     mockRegistryMocks,
-    mockIsMobileBrowserValue,
     mockChild,
     mockSettingsValue,
     mockIsRTLValue,
     mockLocaleValue,
     mockZoomSizingRatioValue,
     mockUpdateWidgetShown,
-    mockWidgetHideAnimationComplete;
+    mockWidgetHideAnimationComplete,
+    mockIsPopout = false;
 
   const FramePath = buildSrcPath('component/frame/Frame');
   const MAX_WIDGET_HEIGHT = 550;
@@ -53,7 +53,6 @@ describe('Frame', () => {
   beforeEach(() => {
     mockery.enable();
 
-    mockIsMobileBrowserValue = false;
     mockIsRTLValue = false;
     mockLocaleValue = 'en-US';
     mockZoomSizingRatioValue = 1;
@@ -80,14 +79,14 @@ describe('Frame', () => {
         win: {
           innerWidth: 100,
           innerHeight: mockWindowHeight
-        }
+        },
+        isPopout: () => mockIsPopout
       },
       'utility/color/styles': {},
       'utility/devices': {
         getZoomSizingRatio: () => {
           return mockZoomSizingRatioValue;
         },
-        isMobileBrowser: () => mockIsMobileBrowserValue,
         isFirefox: () => {
           return false;
         }
@@ -688,7 +687,7 @@ describe('Frame', () => {
   });
 
   describe('offset', () => {
-    let frame;
+    let frame, mockIsMobile;
     const desktopOnlyOffset = {
       offset: {
         vertical: 31,
@@ -716,12 +715,12 @@ describe('Frame', () => {
 
     describe('when on desktop', () => {
       beforeEach(() => {
-        mockIsMobileBrowserValue = false;
+        mockIsMobile = false;
       });
 
       describe('when on launcher', () => {
         beforeEach(() => {
-          frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
+          frame = domRender(<Frame isMobile={mockIsMobile} name='launcher'>{mockChild}</Frame>);
           forceFrameReady(frame);
         });
 
@@ -784,7 +783,7 @@ describe('Frame', () => {
 
       describe('when on Web Widget', () => {
         beforeEach(() => {
-          frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+          frame = domRender(<Frame name='webWidget' isMobile={mockIsMobile}>{mockChild}</Frame>);
           forceFrameReady(frame);
         });
 
@@ -848,12 +847,12 @@ describe('Frame', () => {
 
     describe('when on mobile', () => {
       beforeEach(() => {
-        mockIsMobileBrowserValue = true;
+        mockIsMobile = true;
       });
 
       describe('when on launcher', () => {
         beforeEach(() => {
-          frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
+          frame = domRender(<Frame isMobile={mockIsMobile} name='launcher'>{mockChild}</Frame>);
           forceFrameReady(frame);
         });
 
@@ -916,7 +915,7 @@ describe('Frame', () => {
 
       describe('when on Web Widget', () => {
         beforeEach(() => {
-          frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+          frame = domRender(<Frame name='webWidget' isMobile={mockIsMobile}>{mockChild}</Frame>);
           forceFrameReady(frame);
         });
 
@@ -1143,7 +1142,7 @@ describe('Frame', () => {
   });
 
   describe('getDefaultDimensions', () => {
-    let frame, mockFullscreenable;
+    let frame, mockFullscreenable, mockIsMobile;
 
     const expectedMobileDimensions = {
       width: '100%',
@@ -1156,15 +1155,22 @@ describe('Frame', () => {
       maxHeight: `${MAX_WIDGET_HEIGHT + 15}px`,
       minHeight: `${MIN_WIDGET_HEIGHT}px`
     };
+    const expectedDesktopPopoutDimensions = {
+      ...expectedMobileDimensions,
+      left: '50%',
+      transform: 'translate(-50%)',
+      background: '#EEE'
+    };
 
     beforeEach(() => {
-      frame = domRender(<Frame fullscreenable={mockFullscreenable}>{mockChild}</Frame>);
+      frame = domRender(<Frame isMobile={mockIsMobile}
+        fullscreen={mockIsPopout} fullscreenable={mockFullscreenable}>{mockChild}</Frame>);
       forceFrameReady(frame);
     });
 
-    describe('on mobile', () => {
-      beforeEach(() => {
-        mockIsMobileBrowserValue = true;
+    describe('when mobile', () => {
+      beforeAll(() => {
+        mockIsMobile = true;
       });
 
       describe('when fullscreenable is true', () => {
@@ -1192,12 +1198,24 @@ describe('Frame', () => {
 
     describe('on desktop', () => {
       beforeAll(() => {
-        mockIsMobileBrowserValue = false;
+        mockIsMobile = false;
       });
 
       it('returns the expected mobile dimensions', () => {
         expect(frame.getDefaultDimensions())
           .toEqual(expectedDesktopDimensions);
+      });
+
+      describe('when Popout', () => {
+        beforeAll(() => {
+          mockIsPopout = true;
+          mockFullscreenable = true;
+        });
+
+        it('returns the expected popout dimensions', () => {
+          expect(frame.getDefaultDimensions())
+            .toEqual(expectedDesktopPopoutDimensions);
+        });
       });
     });
   });

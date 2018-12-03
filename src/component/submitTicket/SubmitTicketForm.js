@@ -48,6 +48,7 @@ export class SubmitTicketForm extends Component {
     readOnlyState: PropTypes.object.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
+    isMobile: PropTypes.bool,
     hide: PropTypes.bool,
     maxFileCount: PropTypes.number,
     maxFileSize: PropTypes.number,
@@ -67,6 +68,7 @@ export class SubmitTicketForm extends Component {
     formState: {},
     readOnlyState: {},
     fullscreen: false,
+    isMobile: false,
     hide: false,
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
@@ -440,7 +442,7 @@ export class SubmitTicketForm extends Component {
         showErrors: this.state.showErrors
       }
     );
-    const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
+    const titleMobileClasses = this.props.isMobile ? styles.ticketFormTitleMobile : '';
 
     ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
 
@@ -505,18 +507,18 @@ export class SubmitTicketForm extends Component {
   }
 
   render = () => {
-    const { attachmentsEnabled, fullscreen, formTitleKey, hide } = this.props;
+    const { attachmentsEnabled, fullscreen, formTitleKey, hide, isMobile } = this.props;
 
     const form = this.props.activeTicketForm ? this.renderTicketFormBody() : this.renderFormBody();
     const formBody = this.state.shouldRemoveForm ? null : form;
-    const buttonCancel = fullscreen ? null : this.renderCancelButton();
+    const buttonCancel = isMobile ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
     const hiddenClass = hide ? styles.hidden : '';
     const containerClasses = classNames(
       styles.container,
       {
         [styles.ticketFormContainer]: this.props.activeTicketForm,
-        [styles.containerMobile]: fullscreen
+        [styles.containerMobile]: isMobile
       }
     );
     const buttonDisabled = !this.state.canSubmit || this.state.isSubmitting;
@@ -546,7 +548,8 @@ export class SubmitTicketForm extends Component {
               </Button>
             </ButtonGroup>
           }
-          fullscreen={fullscreen}>
+          fullscreen={fullscreen}
+          isMobile={isMobile}>
           {formBody}
           {attachments}
         </ScrollContainer>

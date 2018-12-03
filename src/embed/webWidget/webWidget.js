@@ -22,7 +22,7 @@ import { getZoomSizingRatio,
   isIE,
   isMobileBrowser,
   setScaleLock } from 'utility/devices';
-import { document, getDocumentHost, win } from 'utility/globals';
+import { document, getDocumentHost, win, isPopout } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification, getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
@@ -122,7 +122,8 @@ export default function WebWidgetFactory(name) {
   function create(name, config = {}, reduxStore = {}) {
     let containerStyle;
     let frameBodyCss = '';
-    let isPopout = win.zEPopout === true;
+    const popout = isPopout(),
+      isMobile = isMobileBrowser();
 
     const configDefaults = {
       position: 'right',
@@ -170,13 +171,21 @@ export default function WebWidgetFactory(name) {
       setupTalk(talkConfig, reduxStore);
     }
 
-    if (isMobileBrowser()) {
-      containerStyle = { width: '100%', minHeight:'100%' };
+    if (isMobile || popout) {
+      containerStyle = { width: '100%', minHeight:'100%', maxHeight:'100%'  };
     } else {
       containerStyle = { width: 342 };
       frameBodyCss = `
         body { padding: 0 7px; }
       `;
+    }
+
+    if (popout) {
+      containerStyle = {
+        ...containerStyle,
+        maxWidth: '650px',
+        height: '100%'
+      };
     }
 
     const frameParams = {
@@ -185,11 +194,13 @@ export default function WebWidgetFactory(name) {
       generateUserCSS: generateUserWidgetCSS,
       position: globalConfig.position,
       fullscreenable: true,
+      fullscreen: popout,
+      isMobile: isMobile,
       newChat: chatAvailable,
       store: reduxStore,
       visible: false,
-      useBackButton: !isPopout,
-      hideCloseButton: isPopout,
+      useBackButton: !popout,
+      hideCloseButton: popout,
       onShow,
       name: name,
       afterShowAnimate,
@@ -202,7 +213,8 @@ export default function WebWidgetFactory(name) {
         <Frame {...frameParams}>
           <WebWidget
             attachmentSender={submitTicketSettings.attachmentSender}
-            fullscreen={isMobileBrowser()}
+            fullscreen={popout}
+            isMobile={isMobile}
             helpCenterConfig={helpCenterSettings.config}
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
             isOnHelpCenterPage={isOnHelpCenterPage()}
@@ -220,7 +232,7 @@ export default function WebWidgetFactory(name) {
             talkAvailable={talkAvailable}
             zopimOnNext={zopimOnNext}
             chatId={_.get(chatConfig, 'zopimId')}
-            onShowMobile={onShowMobile} />
+            onShowMobile={onShowMobile}/>
         </Frame>
       </Provider>
     );

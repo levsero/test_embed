@@ -86,7 +86,9 @@ function create(name, config={}, reduxStore) {
     hidePopoutButton: true,
     name: name,
     position: position,
-    visible: visible
+    visible: visible,
+    isMobile: isMobile,
+    fullscreen: false
   };
 
   const onClickHandler = (e) => {
@@ -111,7 +113,9 @@ function create(name, config={}, reduxStore) {
           onClickHandler={onClickHandler}
           updateFrameTitle={updateFrameTitle}
           labelKey={`embeddable_framework.launcher.label.${embedConfig.labelKey}`}
-        />
+          hideBranding={config.hideZendeskLogo}
+          fullscreen={false}
+          isMobile={isMobile} />
       </Frame>
     </Provider>
   );

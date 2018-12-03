@@ -63,7 +63,7 @@ function createChatPopoutWindow(chatPopoutSettings) {
   let url;
 
   if (__DEV__) {
-    url = 'src/asset/templates/liveChat.html';
+    url = '/liveChat.html';
   } else if (hostName.indexOf('-staging.') !== -1) {
     url = 'https://static-staging.zdassets.com/web_widget/latest/liveChat.html';
   } else {
@@ -71,8 +71,7 @@ function createChatPopoutWindow(chatPopoutSettings) {
   }
 
   url += generateQueryString(chatPopoutSettings);
-
-  win.open(url, 'Web Widget LiveChat', 'height=500,width=342');
+  win.open(url, 'Web Widget LiveChat', 'height=600,width=400');
 }
 
 function generateQueryString(chatPopoutSettings) {

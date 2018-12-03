@@ -75,7 +75,8 @@ class SubmitTicket extends Component {
     searchTerm: PropTypes.string,
     hasContextuallySearched: PropTypes.bool,
     showNotification: PropTypes.bool.isRequired,
-    activeTicketFormFields: PropTypes.array
+    activeTicketFormFields: PropTypes.array,
+    isMobile: PropTypes.bool
   };
 
   static defaultProps = {
@@ -100,7 +101,8 @@ class SubmitTicket extends Component {
     ticketFields: {},
     activeTicketForm: null,
     activeTicketFormFields: [],
-    hasContextuallySearched: false
+    hasContextuallySearched: false,
+    isMobile: false
   };
 
   constructor(props, context) {
@@ -221,6 +223,7 @@ class SubmitTicket extends Component {
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         fullscreen={this.props.fullscreen}
+        isMobile={this.props.isMobile}
         containerClasses={styles.ticketFormsContainer}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
           <LoadingSpinner />
@@ -267,7 +270,8 @@ class SubmitTicket extends Component {
         ticketFieldSettings={this.props.ticketFieldSettings}
         submit={this.handleSubmit}
         activeTicketForm={this.props.activeTicketForm}
-        previewEnabled={this.props.previewEnabled}>
+        previewEnabled={this.props.previewEnabled}
+        isMobile={this.props.isMobile}>
         {this.renderErrorMessage()}
       </SubmitTicketForm>
     );
@@ -295,17 +299,19 @@ class SubmitTicket extends Component {
       <ScrollContainer
         containerClasses={styles.scrollContainerSuccess}
         title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}
-        footerContent={doneButton}>
+        footerContent={doneButton}
+        fullscreen={this.props.fullscreen}
+        isMobile={this.props.isMobile}>
         <SuccessNotification
           icon={ICONS.SUCCESS_CONTACT_FORM}
-          isMobile={this.props.fullscreen} />
+          isMobile={this.props.isMobile} />
       </ScrollContainer>
     );
   }
 
   renderTicketFormOptions = () => {
     const { ticketForms } = this.props;
-    const mobileClasses = this.props.fullscreen ? styles.ticketFormsListMobile : '';
+    const mobileClasses = this.props.isMobile ? styles.ticketFormsListMobile : '';
 
     return _.map(ticketForms, (form, key) => {
       return (
@@ -319,17 +325,18 @@ class SubmitTicket extends Component {
   renderTicketFormList = () => {
     if (this.props.showNotification) return;
 
-    const { fullscreen } = this.props;
-    const containerClasses = fullscreen
+    const { fullscreen, isMobile } = this.props;
+    const containerClasses = isMobile
       ? styles.ticketFormsContainerMobile
       : styles.ticketFormsContainer;
-    const titleMobileClasses = fullscreen ? styles.ticketFormsListMobile : '';
+    const titleMobileClasses = isMobile ? styles.ticketFormsListMobile : '';
 
     return (
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         ref='ticketFormSelector'
         fullscreen={fullscreen}
+        isMobile={this.props.isMobile}
         scrollShadowVisible={true}
         containerClasses={containerClasses}
         footerClasses={styles.ticketFormsFooter}>

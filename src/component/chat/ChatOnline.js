@@ -95,12 +95,14 @@ class Chat extends Component {
     socialLogin: PropTypes.object.isRequired,
     chatVisitor: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool,
-    isLoggingOut: PropTypes.bool.isRequired
+    isLoggingOut: PropTypes.bool.isRequired,
+    fullscreen: PropTypes.bool
   };
 
   static defaultProps = {
     attachmentsEnabled: false,
     isMobile: false,
+    fullscreen: false,
     onBackButtonClick: () => {},
     rating: {},
     chats: [],
@@ -230,7 +232,8 @@ class Chat extends Component {
         getFrameContentDocument={this.props.getFrameContentDocument}
         hideZendeskLogo={this.props.hideZendeskLogo}
         chatId={this.props.chatId}
-        isMobile={this.props.isMobile} />
+        isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen} />
     );
   }
 
@@ -254,6 +257,7 @@ class Chat extends Component {
         chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen}
         showContactDetails={this.showContactDetailsFn} />
     );
   }
@@ -321,6 +325,7 @@ class Chat extends Component {
     return (
       <RatingScreen
         isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen}
         onRatingButtonClick={onRatingButtonClick}
         endChatFromFeedbackForm={this.state.endChatFromFeedbackForm}
       />
@@ -334,7 +339,8 @@ class Chat extends Component {
       isMobile,
       updateContactDetailsVisibility,
       updateContactDetailsFields,
-      isAuthenticated, socialLogin } = this.props;
+      isAuthenticated,
+      socialLogin } = this.props;
 
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
     const tryAgainFn = () => updateContactDetailsVisibility(true);
@@ -396,7 +402,8 @@ class Chat extends Component {
       <AgentScreen
         chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        isMobile={this.props.isMobile} />
+        isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen} />
     );
   }
 

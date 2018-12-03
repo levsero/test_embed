@@ -78,6 +78,8 @@ describe('RatingScreen component', () => {
           endChat={endChatSpy}
           sendChatRating={sendChatRatingSpy}
           sendChatComment={sendChatCommentSpy}
+          isMobile={true}
+          fullscreen={true}
         />
       );
     });
@@ -99,6 +101,16 @@ describe('RatingScreen component', () => {
       it('has its containerClasses prop to the scrollContainerContent style', () => {
         expect(component.render().props.containerClasses)
           .toEqual('scrollContainerContentClasses');
+      });
+
+      it('has its fullscreen prop to the ScrollContainer style', () => {
+        expect(component.render().props.fullscreen)
+          .toEqual(true);
+      });
+
+      it('has its isMobile prop to the ScrollContainer style', () => {
+        expect(component.render().props.isMobile)
+          .toEqual(true);
       });
     });
 

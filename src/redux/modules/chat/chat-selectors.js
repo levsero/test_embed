@@ -29,7 +29,7 @@ import {
   getSettingsLauncherBadge
 } from 'src/redux/modules/settings/settings-selectors';
 import { isMobileBrowser } from 'utility/devices';
-import { win } from 'utility/globals';
+import { isPopout } from 'utility/globals';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
 const getForcedStatus = (state) => state.chat.forcedStatus;
@@ -77,7 +77,10 @@ export const getOfflineMessage = (state) => state.chat.offlineMessage;
 export const getPreChatFormState = (state) => state.chat.formState.preChatForm;
 export const getEditContactDetails = (state) => state.chat.editContactDetails;
 export const getMenuVisible = (state) => state.chat.menuVisible;
-export const getShowMenu = (state) => getActiveEmbed(state) === 'chat' && getChatScreen(state) === CHATTING_SCREEN;
+export const getShowMenu = (state) =>
+  getActiveEmbed(state) === 'chat'
+  && getChatScreen(state) === CHATTING_SCREEN
+  && !isPopout();
 export const getAgentJoined = (state) => state.chat.agentJoined;
 export const getLastReadTimestamp = (state) => state.chat.lastReadTimestamp;
 export const getOperatingHours = (state) => state.chat.operatingHours;
@@ -90,7 +93,7 @@ export const getIsPopoutAvailable = (state) =>
   && getActiveEmbed(state) === 'chat'
   && !isMobileBrowser()
   && !getLauncherVisible(state)
-  && !win.zEPopout;
+  && !isPopout();
 
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
 export const getSliderVendor = (state) => state.chat.vendor.slider;

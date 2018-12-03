@@ -5,7 +5,6 @@ import { locals as styles } from './WidgetLauncher.scss';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
-import { isMobileBrowser } from 'utility/devices';
 import { getChatAvailable, getTalkAvailable, getChatOfflineAvailable } from 'src/redux/modules/selectors';
 import { settings } from 'service/settings';
 import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
@@ -40,8 +39,13 @@ class WidgetLauncher extends Component {
     forceUpdateWorld: PropTypes.func.isRequired,
     updateFrameTitle: PropTypes.func,
     launcherClicked: PropTypes.func.isRequired,
-    chatOfflineAvailable: PropTypes.bool.isRequired
+    chatOfflineAvailable: PropTypes.bool.isRequired,
+    isMobile: PropTypes.bool
   };
+
+  static defaultProps = {
+    isMobile: false
+  }
 
   constructor(props, context) {
     super(props, context);
@@ -166,9 +170,9 @@ class WidgetLauncher extends Component {
   }
 
   render = () => {
-    const mobile = isMobileBrowser();
-    const baseMobileClasses = mobile ? styles.wrapperMobile : '';
-    const shouldShowMobileClasses = mobile && !(this.getNotificationCount() > 0);
+    const { isMobile } = this.props;
+    const baseMobileClasses = isMobile ? styles.wrapperMobile : '';
+    const shouldShowMobileClasses = isMobile && !(this.getNotificationCount() > 0);
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
     const type = this.getActiveEmbedIconType();

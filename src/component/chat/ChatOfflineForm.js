@@ -42,12 +42,14 @@ export class ChatOfflineForm extends Component {
     chatId: PropTypes.string,
     getFrameContentDocument: PropTypes.func.isRequired,
     widgetShown: PropTypes.bool.isRequired,
-    channels: PropTypes.object
+    channels: PropTypes.object,
+    fullscreen: PropTypes.bool
   };
 
   static defaultProps = {
     operatingHours: { enabled: false },
     isMobile: false,
+    fullscreen: false,
     phoneEnabled: true,
     offlineMessage: {},
     initiateSocialLogout: () => {},
@@ -218,6 +220,8 @@ export class ChatOfflineForm extends Component {
         ref='scrollContainer'
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
+        fullscreen={this.props.fullscreen}
+        isMobile={this.props.isMobile}
         title={this.props.title}>
         <SuccessNotification
           icon={ICONS.SUCCESS_CONTACT_FORM}
@@ -238,6 +242,8 @@ export class ChatOfflineForm extends Component {
     return (
       <ScrollContainer
         ref='scrollContainer'
+        isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen}
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.loadingSpinnerContainer}
         title={this.props.title}>
@@ -369,6 +375,8 @@ export class ChatOfflineForm extends Component {
           classes={this.getScrollContainerClasses()}
           containerClasses={styles.scrollContainerContent}
           footerContent={this.renderSubmitButton()}
+          isMobile={this.props.isMobile}
+          fullscreen={this.props.fullscreen}
           title={this.props.title}
           scrollShadowVisible={true}>
           {this.renderOfflineGreeting()}
@@ -393,6 +401,8 @@ export class ChatOfflineForm extends Component {
     return (
       <ScrollContainer
         ref='scrollContainer'
+        isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen}
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
         title={this.props.title}>

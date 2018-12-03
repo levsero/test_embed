@@ -25,14 +25,16 @@ class AgentScreen extends Component {
     activeAgents: PropTypes.object.isRequired,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
-    updateChatScreen: PropTypes.func.isRequired
+    updateChatScreen: PropTypes.func.isRequired,
+    fullscreen: PropTypes.bool
   };
 
   static defaultProps = {
     isMobile: false,
     activeAgents: {},
     hideZendeskLogo: false,
-    chatId: ''
+    chatId: '',
+    fullscreen: false
   };
 
   renderZendeskLogo = () => {
@@ -64,14 +66,15 @@ class AgentScreen extends Component {
   }
 
   render = () => {
-    const { activeAgents, isMobile } = this.props;
+    const { activeAgents, isMobile, fullscreen } = this.props;
 
     return (
       <ScrollContainer
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         containerClasses={styles.scrollContainerContent}
         footerContent={this.renderBackButton()}
-        fullscreen={isMobile}
+        fullscreen={fullscreen}
+        isMobile={isMobile}
       >
         <AgentList agents={activeAgents} />
         {this.renderZendeskLogo()}

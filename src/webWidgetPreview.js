@@ -10,7 +10,6 @@ import SubmitTicket from 'component/submitTicket/SubmitTicket';
 import { Container } from 'component/container/Container';
 import Frame from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
-import { isMobileBrowser } from 'utility/devices';
 import { settings } from 'service/settings';
 import { Provider } from 'react-redux';
 
@@ -67,7 +66,9 @@ const renderWebWidgetPreview = (options) => {
     alwaysShow: true,
     disableOffsetHorizontal: true,
     preventClose: true,
-    ref: (el) => { frame = el.getWrappedInstance(); }
+    ref: (el) => { frame = el.getWrappedInstance(); },
+    fullscreen: false,
+    isMobile: false
   };
 
   const component = (
@@ -83,8 +84,9 @@ const renderWebWidgetPreview = (options) => {
             submitTicketSender={() => {}}
             attachmentSender={() => {}}
             getFrameContentDocument={() => {}}
-            fullscreen={isMobileBrowser()}
-            style={containerStyle} />
+            fullscreen={false}
+            style={containerStyle}
+            isMobile={false} />
         </Container>
       </Frame>
     </Provider>

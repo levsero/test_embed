@@ -69,7 +69,8 @@ class ChatOffline extends Component {
     getFrameContentDocument: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     widgetShown: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    fullscreen: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -110,6 +111,7 @@ class ChatOffline extends Component {
         isAuthenticated={this.props.isAuthenticated}
         isMobile={this.props.isMobile}
         chatId={this.props.chatId}
+        fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
@@ -119,6 +121,8 @@ class ChatOffline extends Component {
       <ScrollContainer
         ref='scrollContainer'
         containerClasses={styles.scrollContainerContent}
+        isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen}
         title={this.props.title}>
         <div className={styles.innerContent}>
           <p className={styles.greeting}>

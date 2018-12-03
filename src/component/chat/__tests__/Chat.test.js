@@ -19,7 +19,7 @@ afterEach(() => {
   showOfflineChatMock.mockRestore();
 });
 
-const renderChat = () => {
+const renderChat = (fullscreen = false) => {
   const store = createStore(reducer);
 
   return render(
@@ -27,36 +27,58 @@ const renderChat = () => {
       <Chat
         getFrameContentDocument={() => {}}
         updateChatBackButtonVisibility={() => {}}
+        fullscreen={fullscreen}
       />
     </Provider>,
   );
 };
 
 describe('show offline chat is true', () => {
-  let rendered;
-
   beforeEach(() => {
     showOfflineChatMock.mockReturnValue(true);
-    rendered = renderChat();
   });
 
   it('renders the offline form', () => {
-    expect(rendered.getByText('Sorry, we are not online at the moment'))
+    expect(renderChat().getByText('Sorry, we are not online at the moment'))
       .toBeInTheDocument();
+  });
+
+  describe('when is Fullscreen', () => {
+    it('offline form contains fullscreen style class', () => {
+      expect(renderChat(true).getByTestId('scrollcontainer'))
+        .toHaveClass('desktopFullscreen');
+    });
+  });
+
+  describe('when is not fullscreen', () => {
+    it('offline form does not contain fullscreen style class', () => {
+      expect(renderChat(false).getByTestId('scrollcontainer'))
+        .not.toHaveClass('desktopFullscreen');
+    });
   });
 });
 
 describe('show offline chat is false', () => {
-  let rendered;
-
   beforeEach(() => {
     showOfflineChatMock.mockReturnValue(false);
-
-    rendered = renderChat();
   });
 
   it('renders the chatting screen', () => {
-    expect(rendered.getByText('Live Support'))
+    expect(renderChat().getByText('Live Support'))
       .toBeInTheDocument();
+  });
+
+  describe('when is Fullscreen', () => {
+    it('offline form contains fullscreen style class', () => {
+      expect(renderChat(true).getByTestId('scrollcontainer'))
+        .toHaveClass('desktopFullscreen');
+    });
+  });
+
+  describe('when is not fullscreen', () => {
+    it('offline form does not contain fullscreen style class', () => {
+      expect(renderChat(false).getByTestId('scrollcontainer'))
+        .not.toHaveClass('desktopFullscreen');
+    });
   });
 });

@@ -214,7 +214,9 @@ describe('ChatOnline component', () => {
       beforeEach(() => {
         component = instanceRender(
           <ChatOnline
-            screen={prechatScreen} />
+            screen={prechatScreen}
+            isMobile={true}
+            fullscreen={true} />
         );
         result = component.renderPrechatScreen();
       });
@@ -222,6 +224,15 @@ describe('ChatOnline component', () => {
       it('returns a component', () => {
         expect(result)
           .toBeTruthy();
+      });
+      it('component returns valid isMobile value', () => {
+        expect(result.props.isMobile)
+          .toEqual(true);
+      });
+
+      it('component returns valid fullscreen value', () => {
+        expect(result.props.fullscreen)
+          .toEqual(true);
       });
     });
 
@@ -272,27 +283,42 @@ describe('ChatOnline component', () => {
   });
 
   describe('renderPostchatScreen', () => {
-    let component;
+    let component, result;
 
     describe('when state.screen is not `feedback`', () => {
       beforeEach(() => {
         component = instanceRender(<ChatOnline screen={chattingScreen} />);
+        result = component.renderPostchatScreen();
       });
 
       it('does not return anything', () => {
-        expect(component.renderPostchatScreen())
+        expect(result)
           .toBeFalsy();
       });
     });
 
     describe('when state.screen is `feedback`', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOnline screen={feedbackScreen} />);
+        component = instanceRender(<ChatOnline
+          screen={feedbackScreen}
+          isMobile={true}
+          fullscreen={true} />);
+        result = component.renderPostchatScreen();
       });
 
       it('returns a component', () => {
-        expect(component.renderPostchatScreen())
+        expect(result)
           .toBeTruthy();
+      });
+
+      it('component returns valid isMobile value', () => {
+        expect(result.props.isMobile)
+          .toEqual(true);
+      });
+
+      it('component returns valid fullscreen value', () => {
+        expect(result.props.fullscreen)
+          .toEqual(true);
       });
     });
   });
@@ -804,7 +830,9 @@ describe('ChatOnline component', () => {
     beforeEach(() => {
       component = instanceRender(
         <ChatOnline
-          screen={screen} />
+          screen={screen}
+          isMobile={true}
+          fullscreen={true} />
       ).renderAgentListScreen();
     });
 
@@ -826,6 +854,16 @@ describe('ChatOnline component', () => {
 
       it('returns a AgentScreen component', () => {
         expect(TestUtils.isElementOfType(component, AgentScreen))
+          .toEqual(true);
+      });
+
+      it('component returns valid isMobile value', () => {
+        expect(component.props.isMobile)
+          .toEqual(true);
+      });
+
+      it('component returns valid fullscreen value', () => {
+        expect(component.props.fullscreen)
           .toEqual(true);
       });
     });

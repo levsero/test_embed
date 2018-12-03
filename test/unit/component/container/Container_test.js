@@ -26,8 +26,8 @@ describe('Container component', () => {
     mockery.disable();
   });
 
-  it('has mobileClasses when props.fullscreen is true', () => {
-    const container = shallowRender(<Container fullscreen={true} />);
+  it('has mobileClasses when props.isMobile is true', () => {
+    const container = shallowRender(<Container isMobile={true} />);
 
     expect(container.props.className)
       .toMatch('mobileClasses');
@@ -36,7 +36,7 @@ describe('Container component', () => {
       .not.toMatch('desktopClasses');
   });
 
-  it('has desktopClasses when props.fullscreen is false', () => {
+  it('has desktopClasses when props.isMobile is false', () => {
     const container = shallowRender(<Container />);
 
     expect(container.props.className)

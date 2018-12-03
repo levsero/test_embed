@@ -42,6 +42,7 @@ export class ChannelChoiceMobile extends Component {
       <ScrollContainer
         hideZendeskLogo={true}
         fullscreen={true}
+        isMobile={true}
         containerClasses={styles.newContainer}
         title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
         <ChannelChoicePopupMobile

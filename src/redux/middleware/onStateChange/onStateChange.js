@@ -46,8 +46,8 @@ import { resetShouldWarn } from 'src/util/nullZChat';
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
 import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange';
-import { win } from 'utility/globals';
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions';
+import { isPopout } from 'utility/globals';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed');
@@ -168,7 +168,7 @@ const onChatStatusChange = (prevState, nextState, dispatch) => {
         getSubmitTicketEmbed(nextState)
         && !getIsChattingState(nextState)
         && getActiveEmbed(nextState) === 'chat'
-        && !win.zEPopout) {
+        && !isPopout()) {
         dispatch(updateActiveEmbed('ticketSubmissionForm'));
       }
     }
@@ -180,7 +180,7 @@ const onChatEnd = (nextState, action, dispatch) => {
     if (
       !getChatOnline(nextState)
       && getSubmitTicketEmbed(nextState)
-      && !win.zEPopout) {
+      && !isPopout()) {
       dispatch(updateActiveEmbed('ticketSubmissionForm'));
     }
   }
