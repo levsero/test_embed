@@ -331,15 +331,16 @@ class Frame extends Component {
     const mobileStyles = fullscreen ? {
       left: this.props.visible ? '0px' : '-9999px',
       top: this.props.visible ? '0px' : '-9999px',
-      background:'#FFF'
+      background:'#FFF',
+      margin: 0
     } : {};
 
     return _.extend({},
       baseStyles,
       this.getDefaultDimensions(),
       frameStyle,
-      modifiedStyles,
       mobileStyles,
+      modifiedStyles,
       this.props.fixedStyles
     );
   }
