@@ -458,67 +458,13 @@ describe('boot', () => {
       describe('when the error status code is not 404', () => {
         const error = { status: 500 };
 
-        describe('using zendeskHost', () => {
-          beforeEach(() => {
-            mockHost = 'pizza.zendesk.com';
-            failHandler(error);
-          });
-
-          it('calls logging.error', () => {
-            expect(loggingSpy.logging.error)
-              .toHaveBeenCalledWith({
-                error,
-                context: {
-                  account: 'pizza.zendesk.com'
-                }
-              });
-          });
-
-          afterEach(() => {
-            mockHost = null;
-          });
+        beforeEach(() => {
+          failHandler(error);
         });
 
-        describe('using widget.id', () => {
-          beforeEach(() => {
-            mockHost = 'pepperoni.zendesk.com';
-            failHandler(error);
-          });
-
-          it('calls logging.error', () => {
-            expect(loggingSpy.logging.error)
-              .toHaveBeenCalledWith({
-                error,
-                context: {
-                  account: 'pepperoni.zendesk.com'
-                }
-              });
-          });
-
-          afterEach(() => {
-            mockHost = null; // eslint-disable-line camelcase
-          });
-        });
-
-        describe('using zendesk.widget.id', () => {
-          beforeEach(() => {
-            mockHost = 'anchovy.zendesk.com';
-            failHandler(error);
-          });
-
-          it('calls logging.error', () => {
-            expect(loggingSpy.logging.error)
-              .toHaveBeenCalledWith({
-                error,
-                context: {
-                  account: 'anchovy.zendesk.com'
-                }
-              });
-          });
-
-          afterEach(() => {
-            mockHost = null;
-          });
+        it('calls logging.error', () => {
+          expect(loggingSpy.logging.error)
+            .toHaveBeenCalledWith(error);
         });
       });
     });

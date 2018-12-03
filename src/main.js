@@ -14,7 +14,5 @@ try {
     setTimeout(() => boot.start(win, doc), 0);
   }
 } catch (err) {
-  logging.error({
-    error: err
-  });
+  logging.error(err);
 }

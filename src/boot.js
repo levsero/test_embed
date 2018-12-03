@@ -134,12 +134,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
   };
   const fail = (error) => {
     if (error.status !== 404) {
-      logging.error({
-        error: error,
-        context: {
-          account: getZendeskHost(document)
-        }
-      });
+      logging.error(error);
     }
   };
 
