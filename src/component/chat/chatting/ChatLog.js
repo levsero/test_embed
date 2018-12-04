@@ -8,17 +8,24 @@ import { locals as styles } from './ChatLog.scss';
 import ChatGroup from 'component/chat/chatting/ChatGroup';
 import EventMessage from 'component/chat/chatting/EventMessage';
 import { Button } from '@zendeskgarden/react-buttons';
-import { getChatLog } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getChatLog,
+  getFirstVisitorMessage,
+  getShowUpdateVisitorDetails
+} from 'src/redux/modules/chat/chat-selectors';
 
 const mapStateToProps = (state) => {
   return {
-    chatLog: getChatLog(state)
+    chatLog: getChatLog(state),
+    firstVisitorMessage: getFirstVisitorMessage(state),
+    showUpdateInfo: getShowUpdateVisitorDetails(state)
   };
 };
 
 export class ChatLog extends Component {
   static propTypes = {
     chatLog: PropTypes.array.isRequired,
+    firstVisitorMessage: PropTypes.number,
     lastAgentLeaveEvent: PropTypes.object,
     agents: PropTypes.object,
     chatCommentLeft: PropTypes.bool.isRequired,
@@ -46,6 +53,7 @@ export class ChatLog extends Component {
   renderChatLog = () => {
     const {
       chatLog,
+      firstVisitorMessage,
       agents,
       chatCommentLeft,
       goToFeedbackScreen,
@@ -67,7 +75,7 @@ export class ChatLog extends Component {
         const groupNick = author || 'visitor';
         const isAgent = author.indexOf('agent:') > -1;
         const avatarPath = _.get(agents, `${groupNick}.avatar_path`) || conciergeAvatar;
-        const shouldRenderUpdateInfo = showUpdateInfo && chatGroup.isFirstVisitorMessage;
+        const shouldRenderUpdateInfo = showUpdateInfo && firstVisitorMessage === timestamp;
 
         return (
           <ChatGroup

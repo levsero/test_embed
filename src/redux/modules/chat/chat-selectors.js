@@ -27,6 +27,8 @@ import {
   getSettingsChatProfileCard,
   getSettingsLauncherBadge
 } from 'src/redux/modules/settings/settings-selectors';
+import { isDefaultNickname } from 'utility/chat';
+import { isMobileBrowser } from 'utility/devices';
 import { isPopout } from 'utility/globals';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
@@ -59,7 +61,7 @@ export const getChatOnline = (state) => {
   return _.includes(['online', 'away'], getChatStatus(state));
 };
 
-export const getChatLog = (state) => state.chat.chatLog;
+export const getChatLog = (state) => state.chat.chatLog.groups;
 export const getChatMessages = (state, messageKeys) => _.map(messageKeys, (key) => state.chat.chats.get(key));
 
 export const getChatRating = (state) => state.chat.rating;
@@ -576,4 +578,19 @@ export const getGroupMessages = createCachedSelector(
   (chats, messageKeys) => _.map(messageKeys, (key) => chats.get(key))
 )(
   (state, messageKeys) => messageKeys[messageKeys.length - 1]
+);
+
+export const getFirstVisitorMessage = (state) => state.chat.chatLog.firstVisitorMessage;
+export const getLatestRatingRequest = (state) => state.chat.chatLog.latestRatingRequest;
+export const getLatestRating = (state) => state.chat.chatLog.latestRating;
+
+export const getShowUpdateVisitorDetails = createSelector(
+  getLoginSettings,
+  getChatVisitor,
+  (loginSettings, visitor) => {
+    const visitorNameSet = visitor.display_name && !isDefaultNickname(visitor.display_name);
+    const emailSet = !!visitor.email;
+
+    return !!loginSettings.enabled && !(visitorNameSet || emailSet);
+  }
 );

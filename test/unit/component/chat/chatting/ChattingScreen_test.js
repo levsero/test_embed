@@ -132,7 +132,7 @@ describe('ChattingScreen component', () => {
         isIE: () => isIE,
         isFirefox: () => isFirefox
       },
-      'src/util/chat': {
+      'utility/chat': {
         isDefaultNickname: isDefaultNicknameSpy,
         isAgent: () => mockIsAgent
       }
@@ -954,7 +954,7 @@ describe('ChattingScreen component', () => {
       });
     });
 
-    describe('showUpdateInfo', () => {
+    xdescribe('showUpdateInfo', () => {
       let loginSettings,
         visitor,
         result,

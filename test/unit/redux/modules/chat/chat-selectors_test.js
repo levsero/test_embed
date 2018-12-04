@@ -8,6 +8,7 @@ describe('chat selectors', () => {
     mockSettingsPrechatForm,
     mockTranslation,
     mockBadgeSettings,
+    mockIsDefaultNickname,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -70,6 +71,9 @@ describe('chat selectors', () => {
           t: _.identity,
           getSettingTranslation: () => mockTranslation
         }
+      },
+      'utility/chat': {
+        isDefaultNickname: () => mockIsDefaultNickname
       },
       'utility/devices': {
 
@@ -1481,7 +1485,8 @@ describe('chat selectors', () => {
       beforeEach(() => {
         mockChatSettings = {
           chat: {
-            chats: { values: () => [] }
+            chats: new Map(),
+            chatLog: { groups: [] }
           }
         };
 
@@ -1495,14 +1500,17 @@ describe('chat selectors', () => {
 
     describe('when there are no leave events', () => {
       beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 3 }
-        ];
+        mockChats = new Map([
+          [2, { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 }],
+          [3, { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 3 }]
+        ]);
 
         mockChatSettings = {
           chat: {
-            chats: { values: () => mockChats }
+            chats: mockChats,
+            chatLog: {
+              groups: [{ type: 'message', author: 'visitor', messages: [2, 3] }]
+            }
           }
         };
 
@@ -1516,14 +1524,20 @@ describe('chat selectors', () => {
 
     describe("when there are agent leave events but they're not the last one", () => {
       beforeEach(() => {
-        mockChats = [
-          { nick: 'agent:smith', type: 'chat.memberleave', timestamp: 11 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 30 }
-        ];
+        mockChats = new Map([
+          [11, { nick: 'agent:smith', type: 'chat.memberleave', timestamp: 11 }],
+          [30, { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 30 }]
+        ]);
 
         mockChatSettings = {
           chat: {
-            chats: { values: () => mockChats }
+            chats: mockChats,
+            chatLog: {
+              groups: [
+                { type: 'message', author: 'agent:smith', messages: [11] },
+                { type: 'message', author: 'visitor', messages: [30] }
+              ]
+            }
           }
         };
 
@@ -1537,14 +1551,20 @@ describe('chat selectors', () => {
 
     describe('when there are leave events by visitors', () => {
       beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 11 },
-          { nick: 'visitor', type: 'chat.memberleave', timestamp: 30 }
-        ];
+        mockChats = new Map([
+          [11, { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 11 }],
+          [30, { nick: 'visitor', type: 'chat.memberleave', timestamp: 30 }]
+        ]);
 
         mockChatSettings = {
           chat: {
-            chats: { values: () => mockChats }
+            chats: mockChats,
+            chatLog: {
+              groups: [
+                { type: 'message', author: 'visitor', messages: [11] },
+                { type: 'event', author: 'visitor', messages: [30] }
+              ]
+            }
           }
         };
 
@@ -1566,10 +1586,12 @@ describe('chat selectors', () => {
               [11, { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 11 }],
               [30, validLeaveEvent]
             ]),
-            chatLog: [
-              { author: 'visitor', type: 'message', messages: [11] },
-              { author: 'agent:smith', type: 'event', messages: [30] }
-            ]
+            chatLog: {
+              groups: [
+                { author: 'visitor', type: 'message', messages: [11] },
+                { author: 'agent:smith', type: 'event', messages: [30] }
+              ]
+            }
           }
         };
 
@@ -2821,12 +2843,7 @@ describe('chat selectors', () => {
             [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
             [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
             [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
-          ]),
-          chatLog: [
-            { author: 'agent:123', type: 'message', messages: [1] },
-            { author: 'visitor:2', type: 'message', messages: [3] },
-            { author: 'agent:123', type: 'message', messages: [5, 7] }
-          ]
+          ])
         }
       };
 

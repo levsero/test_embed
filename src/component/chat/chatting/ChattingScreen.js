@@ -16,6 +16,7 @@ import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies';
 import { i18n } from 'service/i18n';
+import { isAgent } from 'utility/chat';
 import { isFirefox, isIE } from 'utility/devices';
 import {
   sendMsg,
@@ -33,7 +34,6 @@ import { getHasMoreHistory,
   getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './ChattingScreen.scss';
-import { isDefaultNickname, isAgent } from 'src/util/chat';
 
 const mapStateToProps = (state) => {
   return {
@@ -58,7 +58,6 @@ const mapStateToProps = (state) => {
     queuePosition: selectors.getQueuePosition(state),
     menuVisible: selectors.getMenuVisible(state),
     agentJoined: selectors.getAgentJoined(state),
-    loginSettings: selectors.getLoginSettings(state),
     firstMessageTimestamp: selectors.getFirstMessageTimestamp(state),
     socialLogin: selectors.getSocialLogin(state),
     conciergeSettings: selectors.getConciergeSettings(state),
@@ -93,7 +92,6 @@ class ChattingScreen extends Component {
     luxon: PropTypes.object.isRequired,
     activeAgents: PropTypes.object.isRequired,
     agentsTyping: PropTypes.array.isRequired,
-    visitor: PropTypes.object.isRequired,
     rating: PropTypes.object.isRequired,
     toggleMenu: PropTypes.func.isRequired,
     showAvatar: PropTypes.bool.isRequired,
@@ -101,7 +99,6 @@ class ChattingScreen extends Component {
     menuVisible: PropTypes.bool,
     agentJoined: PropTypes.bool,
     resetCurrentMessage: PropTypes.func,
-    loginSettings: PropTypes.object.isRequired,
     fetchConversationHistory: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
@@ -136,8 +133,6 @@ class ChattingScreen extends Component {
     menuVisible: false,
     agentJoined: false,
     resetCurrentMessage: () => {},
-    loginSettings: {},
-    visitor: {},
     fetchConversationHistory: () => {},
     hideZendeskLogo: false,
     chatId: '',
@@ -448,8 +443,6 @@ class ChattingScreen extends Component {
   render = () => {
     const { isMobile,
       sendMsg,
-      loginSettings,
-      visitor,
       hideZendeskLogo,
       agentsTyping,
       profileConfig,
@@ -473,9 +466,6 @@ class ChattingScreen extends Component {
         [styles.footerMobileWithLogo]: isMobile && !hideZendeskLogo
       }
     );
-
-    const visitorNameSet = visitor.display_name && !isDefaultNickname(visitor.display_name);
-    const emailSet = !!visitor.email;
 
     return (
       <div>
@@ -509,7 +499,6 @@ class ChattingScreen extends Component {
               handleSendMsg={sendMsg}
               onImageLoad={this.scrollToBottom}
               conciergeAvatar={this.props.conciergeSettings.avatar_path}
-              showUpdateInfo={!!loginSettings.enabled && !(visitorNameSet || emailSet)}
               updateInfoOnClick={this.props.showContactDetails}
               socialLogin={this.props.socialLogin}
             />

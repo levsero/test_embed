@@ -30,7 +30,7 @@ const initialState = new Map();
 
 const concatContactDetailsUpdated = (chats, event) => {
   const copy = new Map(chats);
-  const timestamp = event.timestamp || Date.now();
+  const timestamp = event.timestamp;
   const contactDetailsUpdated = {
     timestamp: timestamp,
     type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_CONTACT_DETAILS_UPDATED
@@ -41,14 +41,14 @@ const concatContactDetailsUpdated = (chats, event) => {
 
 const concatChat = (chats, chat) => {
   const copy = new Map(chats);
-  const timestamp = chat.timestamp || Date.now();
+  const timestamp = chat.timestamp;
 
   return copy.set(timestamp, { ...chat, timestamp });
 };
 
 const concatQuickReply = (chats, chat) => {
   const copy = new Map(chats);
-  const timestamp = chat.timestamp || Date.now();
+  const timestamp = chat.timestamp;
   const newMsg = chat.structured_msg.msg;
   const chatMessage = {
     ...chat,
