@@ -1093,7 +1093,7 @@ parts:
       value: "Close"
   - translation:
       key: "embeddable_framework.navigation.popout"
-      title: "The link to open the embeddable popout window. Displays at the top right of the widget only when the user is not authenticated, is  not on mobile, and is chatting."
+      title: "The link to open the embeddable popout window. Displays at the top right of the widget only when the user is not authenticated, is  not on mobile, and is chatting. This string is used by screen readers and will be read out for the visually impaired."
       value: "Popout"
   - translation:
       key: "embeddable_framework.navigation.menu"
