@@ -16,10 +16,10 @@ export default class Carousel extends Component {
   }
 
   render= () => {
-    const containerStyle = classNames('structuredMessageSlider', styles.carouselSlider);
+    const containerClassName = classNames('structuredMessageSlider', styles.carouselSlider);
 
     return (
-      <div className={containerStyle}>
+      <div className={containerClassName}>
         <Slider>
           {this.props.children}
         </Slider>

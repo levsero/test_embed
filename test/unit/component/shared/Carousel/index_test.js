@@ -62,4 +62,4 @@ describe('Carousel Component', () => {
         .toEqual(mockProps.children.length);
     });
   });
-})
+});

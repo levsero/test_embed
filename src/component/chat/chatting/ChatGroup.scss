@@ -1,6 +1,9 @@
 @import '../../../styles/_vars.scss';
 @import '../../../styles/mixins.scss';
 
+$card-width: 240;
+$card-margin: 12;
+
 .container {
   position: relative;
   margin-bottom: #{5/$font-size}rem;
@@ -177,6 +180,10 @@
 
 .structuredMessageContainer {
   width: 100%;
+}
+
+.carouselContainer {
+  width: calc(#{($card-width + $card-margin)/$font-size}rem);
 }
 
 .defaultMessageContainer {

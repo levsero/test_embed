@@ -33,7 +33,7 @@ export class PanelCard extends Component {
 
   static schemaPropTypes = {
     panel: PanelPropType,
-    buttons: PropTypes.arrayOf(ButtonSchemaPropType),
+    buttons: PropTypes.arrayOf(ButtonSchemaPropType)
   }
 
   render() {
