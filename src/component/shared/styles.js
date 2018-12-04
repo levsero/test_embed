@@ -8,6 +8,7 @@ import CardStyles                 from './StructuredMessage/pure/Card.scss';
 import ButtonCardStyles           from './StructuredMessage/ButtonCard.scss';
 import PanelCardStyles            from './StructuredMessage/PanelCard.scss';
 import SliderContainerStyles      from './SliderContainer/SliderContainer.scss';
+import CarouselStyles             from './Carousel/Carousel.scss';
 
 const styles = `
   ${MessageBubbleStyles}
@@ -20,6 +21,7 @@ const styles = `
   ${ButtonCardStyles}
   ${PanelCardStyles}
   ${SliderContainerStyles}
+  ${CarouselStyles}
 `;
 
 export default styles;
