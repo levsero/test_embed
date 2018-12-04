@@ -138,6 +138,9 @@ function generateUserWidgetCSS(color) {
     .u-userHeaderButtonColor {
       fill: ${colorVariables.headerTextColorStr} !important;
     }
+    .u-userHeaderButtonColor svg path {
+      fill: ${colorVariables.headerTextColorStr} !important;
+    }
     .u-userHeaderButtonColor:hover,
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {

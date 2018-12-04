@@ -138,7 +138,7 @@ class Navigation extends Component {
         {this.renderNavButton({
           onClick: () => createChatPopoutWindow(this.props.chatPopoutSettings),
           'aria-label': 'Popout',
-          icon: ICONS.BACK,
+          icon: ICONS.POPOUT,
           className: styles.popout,
           isVisible: this.props.popoutButtonVisible && !this.props.hidePopoutButton,
           position: 'right'

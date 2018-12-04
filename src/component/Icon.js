@@ -11,6 +11,7 @@ import classNames from 'classnames';
 const icons = {
   'Icon': require('icons/widget-icon_help.svg'),
   [ICONS.BACK]: require('icons/widget-icon_back.svg'),
+  [ICONS.POPOUT]: require('icons/widget-icon_popout.svg'),
   [ICONS.DASH]: require('icons/widget-icon_dash.svg'),
   [ICONS.ELLIPSIS]: require('icons/widget-icon_ellipsis.svg'),
   [ICONS.END_CHAT]: require('icons/widget-icon_endChat.svg'),

@@ -139,6 +139,9 @@ exports[`generateUserWidgetCSS when the color is light calculates the css correc
     .u-userHeaderButtonColor {
       fill: #186766 !important;
     }
+    .u-userHeaderButtonColor svg path {
+      fill: #186766 !important;
+    }
     .u-userHeaderButtonColor:hover,
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
@@ -223,6 +226,9 @@ exports[`generateUserWidgetCSS when the color is not light u-userTextColor calcu
     .u-userHeaderButtonColor {
       fill: #FFFFFF !important;
     }
+    .u-userHeaderButtonColor svg path {
+      fill: #FFFFFF !important;
+    }
     .u-userHeaderButtonColor:hover,
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
@@ -305,6 +311,9 @@ exports[`generateUserWidgetCSS when the color is set via embeddable config uses 
       color: #FFFFFF !important;
     }
     .u-userHeaderButtonColor {
+      fill: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor svg path {
       fill: #FFFFFF !important;
     }
     .u-userHeaderButtonColor:hover,
@@ -424,6 +433,9 @@ exports[`when overriding with zESettings when overriding button colours and the 
     .u-userHeaderButtonColor {
       fill: #63163D !important;
     }
+    .u-userHeaderButtonColor svg path {
+      fill: #63163D !important;
+    }
     .u-userHeaderButtonColor:hover,
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
@@ -506,6 +518,9 @@ exports[`when overriding with zESettings when overriding button colours and the 
       color: #63163D !important;
     }
     .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor svg path {
       fill: #63163D !important;
     }
     .u-userHeaderButtonColor:hover,
@@ -592,6 +607,9 @@ exports[`when overriding with zESettings when overriding header colours and the 
     .u-userHeaderButtonColor {
       fill: #63163D !important;
     }
+    .u-userHeaderButtonColor svg path {
+      fill: #63163D !important;
+    }
     .u-userHeaderButtonColor:hover,
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
@@ -674,6 +692,9 @@ exports[`when overriding with zESettings when overriding header colours and the 
       color: #FFFFFF !important;
     }
     .u-userHeaderButtonColor {
+      fill: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor svg path {
       fill: #FFFFFF !important;
     }
     .u-userHeaderButtonColor:hover,
@@ -806,6 +827,9 @@ exports[`when overriding with zESettings when overriding link colours and the ov
     .u-userHeaderButtonColor {
       fill: #63163D !important;
     }
+    .u-userHeaderButtonColor svg path {
+      fill: #63163D !important;
+    }
     .u-userHeaderButtonColor:hover,
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
@@ -888,6 +912,9 @@ exports[`when overriding with zESettings when overriding link colours and the ov
       color: #63163D !important;
     }
     .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor svg path {
       fill: #63163D !important;
     }
     .u-userHeaderButtonColor:hover,
@@ -974,6 +1001,9 @@ exports[`when overriding with zESettings when overriding list colours and the ov
     .u-userHeaderButtonColor {
       fill: #63163D !important;
     }
+    .u-userHeaderButtonColor svg path {
+      fill: #63163D !important;
+    }
     .u-userHeaderButtonColor:hover,
     .u-userHeaderButtonColor:active,
     .u-userHeaderButtonColor:focus {
@@ -1056,6 +1086,9 @@ exports[`when overriding with zESettings when overriding list colours and the ov
       color: #63163D !important;
     }
     .u-userHeaderButtonColor {
+      fill: #63163D !important;
+    }
+    .u-userHeaderButtonColor svg path {
       fill: #63163D !important;
     }
     .u-userHeaderButtonColor:hover,
@@ -1163,6 +1196,9 @@ exports[`when the color is extremely light (white or almost white) generateUserW
       color: #6F6F6F !important;
     }
     .u-userHeaderButtonColor {
+      fill: #6F6F6F !important;
+    }
+    .u-userHeaderButtonColor svg path {
       fill: #6F6F6F !important;
     }
     .u-userHeaderButtonColor:hover,
