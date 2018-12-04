@@ -9,9 +9,15 @@ import reducer from 'src/redux/modules/reducer';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import Chat from '../Chat';
 
-const showOfflineChatMock = jest.fn();
+let showOfflineChatMock;
 
-selectors.getShowOfflineChat = showOfflineChatMock;
+beforeEach(() => {
+  showOfflineChatMock = jest.spyOn(selectors, 'getShowOfflineChat');
+});
+
+afterEach(() => {
+  showOfflineChatMock.mockRestore();
+});
 
 const renderChat = () => {
   const store = createStore(reducer);

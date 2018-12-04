@@ -1,4 +1,8 @@
 import zopimApi from '..';
+import * as chatActions from 'src/redux/modules/chat';
+import * as apis from 'src/service/api/apis';
+import { i18n } from 'service/i18n';
+import tracker from 'service/logging/tracker';
 
 jest.mock('src/service/api/apis');
 jest.mock('src/redux/modules/chat', () => ({
@@ -11,11 +15,6 @@ jest.mock('service/i18n', () => ({
   }
 }));
 jest.mock('service/logging/tracker');
-
-import * as chatActions from 'src/redux/modules/chat';
-import * as apis from 'src/service/api/apis';
-import { i18n } from 'service/i18n';
-import tracker from 'service/logging/tracker';
 
 const mockStore = {
   dispatch: jest.fn()

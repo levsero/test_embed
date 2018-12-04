@@ -1,0 +1,534 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`filename is truncated when it is more than max 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment…ent.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            1 KB
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders expected classes 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            1 KB
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders icon when icon is specified and attachment is not downloadable 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview myicon"
+          type="myicon"
+        />
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            1 KB
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders link when icon is specified and attachment is downloadable 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <a
+          class="link"
+          href="path://to/file"
+          target="_blank"
+        >
+          <span
+            class="container iconPreview myicon"
+            type="myicon"
+          />
+        </a>
+        <div
+          class="description"
+        >
+          <a
+            class="link"
+            href="path://to/file"
+            target="_blank"
+          >
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+          </a>
+          <div
+            class="secondaryText"
+          >
+            <a
+              class="link"
+              href="path://to/file"
+              target="_blank"
+            >
+              <div>
+                <span
+                  class="downloadSize"
+                >
+                  1 KB
+                </span>
+                <span
+                  class="downloadText"
+                >
+                  Download
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders link when it is downloadable 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <a
+          class="link"
+          href="path://to/file"
+          target="_blank"
+        >
+          <span
+            class="container iconPreview Icon--preview-default"
+            type="Icon--preview-default"
+          >
+            test-file-stub
+          </span>
+        </a>
+        <div
+          class="description"
+        >
+          <a
+            class="link"
+            href="path://to/file"
+            target="_blank"
+          >
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+          </a>
+          <div
+            class="secondaryText"
+          >
+            <a
+              class="link"
+              href="path://to/file"
+              target="_blank"
+            >
+              <div>
+                <span
+                  class="downloadSize"
+                >
+                  1 KB
+                </span>
+                <span
+                  class="downloadText"
+                >
+                  Download
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders removal button when it is removable 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            1 KB
+          </div>
+        </div>
+        <span
+          class="container icon Icon--close"
+          type="Icon--close"
+        >
+          test-file-stub
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders uploading text when it is uploading 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            Uploading...
+          </div>
+        </div>
+      </div>
+      <div
+        class="container"
+      >
+        <div
+          class="progressBar"
+          style="width: 0%;"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders with custom class name 1`] = `
+<div>
+  <div>
+    <div
+      class="container custom"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            1 KB
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders with error message 1`] = `
+<div>
+  <div>
+    <div
+      class="containerError Alert-cAvYle index__c-callout--error___E8TxN yXqxN Well-clhnSB index__c-callout___cUpq9 jvFzku"
+      data-garden-id="notifications.alert"
+      data-garden-version="3.1.13"
+      role="alert"
+      type="error"
+    >
+      <div
+        class="previewError Title-kAzUgf index__c-callout__title___264nL clPTca"
+        data-garden-id="notifications.title"
+        data-garden-version="3.1.13"
+      >
+        attachment.jpg
+      </div>
+      <div
+        class="secondaryTextError"
+      >
+        this is incorrect
+      </div>
+      <button
+        class="Close-bksCXL index__c-callout__close___2yt98 ZEnsu"
+        data-garden-id="notifications.close"
+        data-garden-version="3.1.13"
+        type="button"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`size formatting greater than or equal to 1MB displays correctly 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            1 MB
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`size formatting greater than or equal to 1MB includes one decimal place precision 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            1.1 MB
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`size formatting when the file size is less than one kilobyte displays 1 KB 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            1 KB
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`size formatting when the file size is less than one megabyte displays file size in kilobytes 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+      ui-test-id="attachmentContainer-1234"
+    >
+      <div
+        class="preview"
+      >
+        <span
+          class="container iconPreview Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="description"
+        >
+          <div
+            class="previewName"
+          >
+            attachment.jpg
+          </div>
+          <div
+            class="secondaryText"
+          >
+            999 KB
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -39,6 +39,12 @@ const keyLookupTable = {
 let fallbackTranslations;
 let store;
 
+// reset is only used in tests
+function reset() {
+  store = undefined;
+  fallbackTranslations = undefined;
+}
+
 function init(s) {
   store = s;
 }
@@ -207,11 +213,13 @@ const partReducer = (list, part) => {
   return list;
 };
 
-function setFallbackTranslations() {
+function setFallbackTranslations(translationMap) {
   // Only import the translations yml file in development
   // This saves approx 67kb in bundle size
   if (__DEV__) {
-    const frameworkYamlFile = require('../../config/locales/translations/embeddable_framework.yml');
+    const frameworkYamlFile = _.isEmpty(translationMap)
+      ? require('../../config/locales/translations/embeddable_framework.yml')
+      : translationMap;
     const translations = parseYamlTranslations(frameworkYamlFile);
 
     if (!_.isEmpty(translations)) {
@@ -243,5 +251,6 @@ export const i18n = {
   setCustomTranslations: setCustomTranslations,
   setFallbackTranslations: setFallbackTranslations,
   getSettingTranslation: getSettingTranslation,
-  init: init
+  init: init,
+  reset
 };

@@ -9,11 +9,18 @@ jest.mock('src/redux/modules/zopimChat');
 jest.mock('src/redux/modules/selectors');
 
 const dispatch = jest.fn();
+let resetSpy;
 
 zopimSelectors.getZopimChatStatus = jest.fn((value) => value);
 
+beforeEach(() => {
+  resetSpy = jest.spyOn(baseSelectors, 'getResetToContactFormOnChatOffline');
+});
+
+afterEach(() => resetSpy.mockRestore());
+
 test('all values are correct', () => {
-  baseSelectors.getResetToContactFormOnChatOffline = jest.fn(() => true);
+  resetSpy.mockImplementation(jest.fn(() => true));
   onZopimChatStateChange('online', 'offline', dispatch);
 
   expect(dispatch)
@@ -23,7 +30,7 @@ test('all values are correct', () => {
 });
 
 test('getResetToContactFormOnChatOffline returns false', () => {
-  baseSelectors.getResetToContactFormOnChatOffline = jest.fn(() => false);
+  resetSpy.mockImplementation(jest.fn(() => false));
   onZopimChatStateChange('online', 'offline', dispatch);
 
   expect(mediator.channel.broadcast)
@@ -33,7 +40,7 @@ test('getResetToContactFormOnChatOffline returns false', () => {
 });
 
 test('previousState and nextState are identical', () => {
-  baseSelectors.getResetToContactFormOnChatOffline = jest.fn(() => true);
+  resetSpy.mockImplementation(jest.fn(() => true));
   onZopimChatStateChange('online', 'online', dispatch);
 
   expect(mediator.channel.broadcast)

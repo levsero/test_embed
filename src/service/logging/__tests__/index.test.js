@@ -7,6 +7,7 @@ import { logging, setInitialise } from '../index';
 jest.mock('vendor/rollbar.umd.min.js');
 
 beforeEach(() => {
+  devices.isIE = jest.fn(() => false);
   setInitialise(false);
 });
 

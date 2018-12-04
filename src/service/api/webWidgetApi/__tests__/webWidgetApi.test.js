@@ -215,10 +215,15 @@ describe('pre render methods', () => {
 
   describe('when that call is reset', () => {
     describe('and getLauncherVisible is true', () => {
+      let spy;
+
       beforeEach(() => {
-        baseSelectors.getLauncherVisible = jest.fn(() => true);
+        spy = jest.spyOn(baseSelectors, 'getLauncherVisible')
+          .mockImplementation(jest.fn(() => true));
         enqueue(['webWidget', 'reset']);
       });
+
+      afterEach(() => spy.mockRestore());
 
       it('calls resetWidget', () => {
         expect(apiResetWidget)
@@ -227,10 +232,15 @@ describe('pre render methods', () => {
     });
 
     describe('and getLauncherVisible is false', () => {
+      let spy;
+
       beforeEach(() => {
-        baseSelectors.getLauncherVisible = jest.fn(() => false);
+        spy = jest.spyOn(baseSelectors, 'getLauncherVisible')
+          .mockImplementation(jest.fn(() => false));
         enqueue(['webWidget', 'reset']);
       });
+
+      afterEach(() => spy.mockRestore());
 
       it('does not call resetWidget', () => {
         expect(apiResetWidget)
@@ -437,18 +447,26 @@ describe('post render methods', () => {
 
   describe('when that call is reset', () => {
     describe('and getLauncherVisible is true', () => {
+      let spy;
+
       it('calls resetWidget', () => {
-        baseSelectors.getLauncherVisible = jest.fn(() => true);
+        spy = jest.spyOn(baseSelectors, 'getLauncherVisible')
+          .mockImplementation(jest.fn(() => true));
         callAfterRender(['webWidget', 'reset']);
         expect(apiResetWidget).toHaveBeenCalled();
+        spy.mockRestore();
       });
     });
 
     describe('and getLauncherVisible is false', () => {
+      let spy;
+
       it('does not call resetWidget', () => {
-        baseSelectors.getLauncherVisible = jest.fn(() => false);
+        spy = jest.spyOn(baseSelectors, 'getLauncherVisible')
+          .mockImplementation(jest.fn(() => false));
         callAfterRender(['webWidget', 'reset']);
         expect(apiResetWidget).not.toHaveBeenCalled();
+        spy.mockRestore();
       });
     });
   });

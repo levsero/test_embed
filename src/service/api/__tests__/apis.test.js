@@ -57,9 +57,14 @@ describe('updateSettingsLegacyApi', () => {
 });
 
 describe('endChatApi', () => {
+  let spy;
+
   beforeEach(() => {
-    chatActions.endChat = mockAction;
+    spy = jest.spyOn(chatActions, 'endChat')
+      .mockImplementation(mockAction);
   });
+
+  afterEach(() => spy.mockRestore());
 
   it('dispatches the endChat action', () => {
     apis.endChatApi(mockStore);
@@ -70,13 +75,17 @@ describe('endChatApi', () => {
 });
 
 describe('sendChatMsgApi', () => {
-  let sendMsg;
+  let sendMsg,
+    spy;
 
   beforeEach(() => {
     sendMsg = jest.fn();
 
-    chatActions.sendMsg = sendMsg;
+    spy = jest.spyOn(chatActions, 'sendMsg')
+      .mockImplementation(sendMsg);
   });
+
+  afterEach(() => spy.mockRestore());
 
   it('dispatches the sendMsg action', () => {
     apis.sendChatMsgApi(mockStore, 'hello world');
@@ -215,10 +224,6 @@ test('closeApi dispatches the closeReceived action', () => {
 
 describe('setLocale', () => {
   beforeEach(() => {
-    const setLocale = jest.fn(() => 'setLocale');
-
-    baseActions.setLocale = setLocale;
-
     apis.setLocaleApi(mockStore, 'en');
   });
 
@@ -229,8 +234,15 @@ describe('setLocale', () => {
 });
 
 describe('updateSettingsApi', () => {
+  let spy;
+
   beforeEach(() => {
-    settingsActions.updateSettings = mockAction;
+    spy = jest.spyOn(settingsActions, 'updateSettings')
+      .mockImplementation(mockAction);
+  });
+
+  afterEach(() => {
+    spy.mockRestore();
   });
 
   it('dispatches the updateSettings action', () => {
@@ -244,15 +256,21 @@ describe('updateSettingsApi', () => {
 describe('logoutApi', () => {
   let logoutValue = Date.now()
     , chatLogoutValue = Date.now();
+  let baseSpy, chatSpy;
 
   beforeEach(() => {
     const logout = jest.fn(() => logoutValue);
     const chatLogout = jest.fn(() => chatLogoutValue);
 
-    baseActions.logout = logout;
-    chatActions.chatLogout = chatLogout;
+    baseSpy = jest.spyOn(baseActions, 'logout').mockImplementation(logout);
+    chatSpy = jest.spyOn(chatActions, 'chatLogout').mockImplementation(chatLogout);
 
     apis.logoutApi(mockStore);
+  });
+
+  afterEach(() => {
+    baseSpy.mockRestore();
+    chatSpy.mockRestore();
   });
 
   it('dispatches the chatLogout action', () => {
@@ -272,9 +290,14 @@ describe('logoutApi', () => {
 });
 
 describe('setHelpCenterSuggestionsApi', () => {
+  let spy;
+
   beforeEach(() => {
-    hcActions.setContextualSuggestionsManually = mockAction;
+    spy = jest.spyOn(hcActions, 'setContextualSuggestionsManually')
+      .mockImplementation(mockAction);
   });
+
+  afterEach(() => spy.mockRestore());
 
   it('dispatches the setContextualSuggestionsManually action', () => {
     apis.setHelpCenterSuggestionsApi(mockStore, { y: 1 });
@@ -294,9 +317,14 @@ test('prefill dispatches the prefillReceived action', () => {
 });
 
 describe('hideApi', () => {
+  let spy;
+
   beforeEach(() => {
-    baseActions.hideRecieved = mockAction;
+    spy = jest.spyOn(baseActions, 'hideRecieved')
+      .mockImplementation(mockAction);
   });
+
+  afterEach(() => spy.mockRestore());
 
   it('dispatches the hideReceived action', () => {
     apis.hideApi(mockStore);
@@ -325,10 +353,15 @@ test('clearFormState dispatches the apiClearform action', () => {
 });
 
 describe('updatePathApi', () => {
+  let spy;
+
   beforeEach(() => {
-    chatActions.sendVisitorPath = mockAction;
+    spy = jest.spyOn(chatActions, 'sendVisitorPath')
+      .mockImplementation(mockAction);
     apis.updatePathApi(mockStore, 'hello');
   });
+
+  afterEach(() => spy.mockRestore());
 
   it('calls sendVisitorPath with the argument', () => {
     expect(mockAction)
