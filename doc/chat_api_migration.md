@@ -112,6 +112,17 @@ zE('webWidget', 'prefill', {
 | departments.getAllDepartments | zE('webWidget:get', 'chat:departments') |
 | departments.setLabel | zESettings.webWidget.chat.prechatForm.departmentLabel |
 
+### Badge
+
+| $zopim.livechat syntax | zE syntax |
+| --- | --- |
+| badge.hide | zE('webWidget', 'hide')
+| badge.show | zE('webWidget', 'show')
+| badge.setLayout | zESettings.webWidget.launcher.badge.layout |
+| badge.setImage | zESettings.webWidget.launcher.badge.image  |
+| badge.setColor | zESettings.webWidget.color.launcher |
+| badge.setText | zESettings.webWidget.launcher.badge.label |
+
 ### What APIs are not supported
 
 Below is a list of the $zopim.livechat APIs that are not supported in the Web Widget.
@@ -147,11 +158,5 @@ Below is a list of the $zopim.livechat APIs that are not supported in the Web Wi
 | $zopim.livechat syntax | zE syntax |
 | --- | --- |
 | authenticate | zESettings.webWidget.authenticate.chat  |
-| badge.hide | zE('webWidget', 'hide')
-| badge.show | zE('webWidget', 'show')
-| badge.setLayout | zESettings.webWidget.launcher.badge.layout |
-| badge.setImage | zESettings.webWidget.launcher.badge.image  |
-| badge.setColor | zESettings.webWidget.color.launcher |
-| badge.setText | zESettings.webWidget.launcher.badge.label |
 | setDefaultImplicitConsent | zESettings.cookies |
 | window.popout | zE('webWidget', 'popout') |
