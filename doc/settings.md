@@ -34,6 +34,7 @@ Available settings:
 
 * [attachments](#attachments)
 * [authenticate](#authenticate)
+* [badge](#badge)
 * [chatButton](#chatbutton)
 * [chatLabel](#chatlabel)
 * [chatLabelOnline](#chatlabelonline)
@@ -137,6 +138,111 @@ Tokens expire after two hours. You can remove them from local storage sooner by 
 zE(function() {
   zE.logout();
 });
+</script>
+```
+
+### badge
+
+The `badge` setting has the following properties:
+
+| Property | Type   | Description
+| -------- | ------ | -----------
+| label    | object | Sets the label of the badge
+| image    | string | Sets the image of the badge
+| layout   | string | Sets the layout of the badge
+
+#### Availability
+
+* [launcher](./launcher)
+
+#### badge.label
+
+Sets the label of the badge. Will only show if the label is allowed in the layout.
+
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
+
+<a name="example-badgelabel"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    launcher: {
+      badge: {
+        label: {
+          '*': 'Chat with us',
+          'fr': 'Discute avec nous'
+        }
+      }
+    }
+  }
+};
+</script>
+```
+
+#### badge.image
+
+Sets the image of the badge. Will only show if the image is allowed in the layout.
+
+<a name="example-badgeimage"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    launcher: {
+      badge: {
+        image: 'https://example.com/img/avatar.jpg'
+      }
+    }
+  }
+};
+</script>
+```
+
+#### badge.layout
+
+Sets the layout of the badge. Valid values are 'image_right', 'image_left', 'image_only' and 'text_only'. If an invalid value is used it will default to 'image_right'.
+
+<a name="example-badgelayout"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    launcher: {
+      badge: {
+        layout: 'image_only'
+      }
+    }
+  }
+};
+</script>
+```
+
+#### All together
+
+<a name="example-badge"></a>
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    launcher: {
+      badge: {
+        label: {
+          '*': 'Chat with us',
+          'fr': 'Discute avec nous'
+        },
+        image: 'https://example.com/img/avatar.jpg',
+        layout: 'image_left'
+      }
+    }
+  }
+};
 </script>
 ```
 
