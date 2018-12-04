@@ -45,10 +45,23 @@ class StructuredMessage extends Component {
       case CHAT_STRUCTURED_MESSAGE_TYPE.BUTTON_TEMPLATE:
         const { buttons, msg } = this.props.schema;
 
-        return <ButtonCard buttons={buttons} msg={msg} createAction={this.createAction} className={this.props.className}/>;
+        return (
+          <ButtonCard
+            buttons={buttons}
+            msg={msg}
+            createAction={this.createAction}
+            className={this.props.className}
+          />
+        );
 
       case CHAT_STRUCTURED_MESSAGE_TYPE.PANEL_TEMPLATE:
-        return <PanelCard {...this.props.schema} createAction={this.createAction} className={this.props.className} />;
+        return (
+          <PanelCard
+            {...this.props.schema}
+            createAction={this.createAction}
+            className={this.props.className}
+          />
+        );
     }
   }
 }
