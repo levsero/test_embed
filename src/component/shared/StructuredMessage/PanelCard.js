@@ -48,6 +48,7 @@ export class PanelCard extends Component {
   static propTypes = {
     panel: PanelPropType,
     children: PropTypes.node,
+    className: PropTypes.string
   };
 
   static defaultProps = {
@@ -121,7 +122,7 @@ export class PanelCard extends Component {
     const panel = { ...PanelCard.defaultProps.panel, ...this.props.panel };
 
     return (
-      <Card>
+      <Card className={this.props.className}>
         <PanelBody className={panelStyles} onClick={panel.onClick}>
           {this.renderPanelImage(panel)}
           {this.renderPanelContent(panel)}

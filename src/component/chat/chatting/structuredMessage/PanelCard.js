@@ -24,6 +24,7 @@ export class PanelCard extends Component {
   static propTypes = {
     ...PanelCard.schemaPropTypes,
     createAction: PropTypes.func.isRequired,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -32,7 +33,7 @@ export class PanelCard extends Component {
 
   static schemaPropTypes = {
     panel: PanelPropType,
-    buttons: PropTypes.arrayOf(ButtonSchemaPropType)
+    buttons: PropTypes.arrayOf(ButtonSchemaPropType),
   }
 
   render() {
@@ -49,7 +50,7 @@ export class PanelCard extends Component {
     };
 
     return (
-      <PurePanelCard panel={panelProp}>
+      <PurePanelCard panel={panelProp} className={this.props.className}>
         {buttons}
       </PurePanelCard>
     );

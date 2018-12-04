@@ -9,6 +9,7 @@ export class ButtonCard extends Component {
       ...ButtonCard.schemaPropTypes,
       // Other props
       createAction: PropTypes.func.isRequired,
+      className: PropTypes.string
     };
 
     static defaultProps = {
@@ -28,7 +29,7 @@ export class ButtonCard extends Component {
       ));
 
       return (
-        <PureButtonCard message={this.props.msg}>
+        <PureButtonCard message={this.props.msg} className={this.props.className}>
           {buttons}
         </PureButtonCard>
       );
