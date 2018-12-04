@@ -12,7 +12,15 @@ describe('launcher settings reducer', () => {
 
   describe('default state', () => {
     it('is correctly set', () => {
-      expect(defaultState).toEqual({ launcher: '', launcherText: '' });
+      expect(defaultState).toEqual({
+        launcher: '',
+        launcherText: '',
+        theme: '',
+        button: '',
+        resultLists: '',
+        header: '',
+        articleLinks: ''
+      });
     });
   });
 
@@ -33,13 +41,31 @@ describe('launcher settings reducer', () => {
 
     describe('when the payload is a color', () => {
       beforeEach(() => {
-        const payload = { webWidget: { color: { launcher: 'green', launcherText: 'blue' } } };
+        const payload = { webWidget: {
+          color: {
+            launcher: 'green',
+            launcherText: 'blue',
+            theme: 'black',
+            button: 'yellow',
+            resultLists: 'aubergine',
+            header: 'unknown',
+            articleLinks: 'purple'
+          }
+        } };
 
         result = reducer(defaultState, { type, payload });
       });
 
       it('updates the state', () => {
-        expect(result).toEqual({ launcher: 'green', launcherText: 'blue' });
+        expect(result).toEqual({
+          launcher: 'green',
+          launcherText: 'blue',
+          theme: 'black',
+          button: 'yellow',
+          resultLists: 'aubergine',
+          header: 'unknown',
+          articleLinks: 'purple'
+        });
       });
     });
   });
