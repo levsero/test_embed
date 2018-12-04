@@ -262,9 +262,6 @@ describe('onStateChange middleware', () => {
 
         describe('when department supplied via settings', () => {
           beforeAll(() => {
-            setDepartmentSpy.calls.reset();
-            clearDepartmentSpy.calls.reset();
-            mockGetSettingsChatDepartment = 'Department';
             mockDepartmentLists = [
               {
                 name: 'Department',
@@ -273,15 +270,42 @@ describe('onStateChange middleware', () => {
             ];
           });
 
-          it('calls setDepartment with correct args', () => {
-            expect(setDepartmentSpy)
-              .toHaveBeenCalledWith(10);
+          describe('when the department is supplied by name', () => {
+            beforeAll(() => {
+              setDepartmentSpy.calls.reset();
+              clearDepartmentSpy.calls.reset();
+              mockGetSettingsChatDepartment = 'Department';
+            });
+
+            it('calls setDepartment with correct args', () => {
+              expect(setDepartmentSpy)
+                .toHaveBeenCalledWith(10);
+            });
+
+            it('does not call clearDepartment', () => {
+              expect(clearDepartmentSpy)
+                .not
+                .toHaveBeenCalled();
+            });
           });
 
-          it('does not call clearDepartment', () => {
-            expect(clearDepartmentSpy)
-              .not
-              .toHaveBeenCalled();
+          describe('when the department is supplied by id', () => {
+            beforeAll(() => {
+              setDepartmentSpy.calls.reset();
+              clearDepartmentSpy.calls.reset();
+              mockGetSettingsChatDepartment = 10;
+            });
+
+            it('calls setDepartment with correct args', () => {
+              expect(setDepartmentSpy)
+                .toHaveBeenCalledWith(10);
+            });
+
+            it('does not call clearDepartment', () => {
+              expect(clearDepartmentSpy)
+                .not
+                .toHaveBeenCalled();
+            });
           });
         });
 
