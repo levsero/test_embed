@@ -583,6 +583,7 @@ export const getGroupMessages = createCachedSelector(
 export const getFirstVisitorMessage = (state) => state.chat.chatLog.firstVisitorMessage;
 export const getLatestRatingRequest = (state) => state.chat.chatLog.latestRatingRequest;
 export const getLatestRating = (state) => state.chat.chatLog.latestRating;
+export const getLastMessageAuthor = (state) => state.chat.chatLog.lastMessageAuthor;
 
 export const getShowUpdateVisitorDetails = createSelector(
   getLoginSettings,

@@ -14,10 +14,11 @@ import {
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
 
 const initialState = {
-  firstVisitorMessage: null,
-  latestRating: null,
-  latestRatingRequest: null,
-  latestQuickReply: null,
+  firstVisitorMessage: -1,
+  latestRating: -1,
+  latestRatingRequest: -1,
+  latestQuickReply: -1,
+  lastMessageAuthor: '',
   groups: []
 };
 
@@ -78,6 +79,7 @@ const chatLog = (state = initialState, action) => {
       return {
         ...state,
         ...messageExtras,
+        lastMessageAuthor: action.payload.detail.nick,
         groups: updateChatLog(state.groups, action.payload.detail)
       };
     case SDK_CHAT_REQUEST_RATING:

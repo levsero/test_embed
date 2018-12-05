@@ -8,7 +8,7 @@ import Transition from 'react-transition-group/Transition';
 import { ChatBox } from 'component/chat/chatting/ChatBox';
 import { ChattingFooter } from 'component/chat/chatting/ChattingFooter';
 import ChatLog from 'component/chat/chatting/ChatLog';
-import { HistoryLog } from 'component/chat/chatting/HistoryLog';
+import HistoryLog from 'component/chat/chatting/HistoryLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ButtonPill } from 'component/button/ButtonPill';
@@ -29,20 +29,21 @@ import {
   fetchConversationHistory } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
-import { getHasMoreHistory,
-  getHistoryRequestStatus,
-  getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
+import {
+  getHistoryLength,
+  getHasMoreHistory,
+  getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors';
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './ChattingScreen.scss';
 
 const mapStateToProps = (state) => {
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
-    chats: selectors.getChatMessages(state),
-    events: selectors.getChatEvents(state),
+    chatsLength: selectors.getChatsLength(state),
+    historyLength: getHistoryLength(state),
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
-    chatHistoryLog: getGroupedPastChatsBySession(state),
+    lastMessageAuthor: selectors.getLastMessageAuthor(state),
     lastAgentLeaveEvent: selectors.getLastAgentLeaveEvent(state),
     getQuickRepliesFromChatLog: selectors.getQuickRepliesFromChatLog(state),
     currentMessage: selectors.getCurrentMessage(state),
@@ -72,11 +73,11 @@ class ChattingScreen extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
     concierges: PropTypes.array.isRequired,
-    chats: PropTypes.array.isRequired,
-    events: PropTypes.array.isRequired,
+    chatsLength: PropTypes.number.isRequired,
+    historyLength: PropTypes.number.isRequired,
     hasMoreHistory: PropTypes.bool,
     historyRequestStatus: PropTypes.string,
-    chatHistoryLog: PropTypes.array,
+    lastMessageAuthor: PropTypes.string.isRequired,
     lastAgentLeaveEvent: PropTypes.object.isRequired,
     getQuickRepliesFromChatLog: PropTypes.object,
     currentMessage: PropTypes.string.isRequired,
@@ -120,13 +121,10 @@ class ChattingScreen extends Component {
     fullscreen: false,
     concierges: [],
     rating: {},
-    chats: [],
-    events: [],
     agentsTyping: [],
     chatLog: {},
     hasMoreHistory: false,
     historyRequestStatus: '',
-    chatHistoryLog: [],
     lastAgentLeaveEvent: {},
     allAgents: {},
     activeAgents: {},
@@ -149,16 +147,14 @@ class ChattingScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.chatHistoryLog = null;
-
     this.scrollContainer = null;
     this.scrollHeightBeforeUpdate = null;
     this.scrollToBottomTimer = null;
   }
 
   componentDidMount() {
-    const { chats, events, chatHistoryLog } = this.props;
-    const hasMessages = (chats.length + events.length + chatHistoryLog.length) > 0;
+    const { chatsLength, historyLength } = this.props;
+    const hasMessages = (chatsLength + historyLength) > 0;
 
     if (hasMessages) {
       this.scrollToBottom();
@@ -200,9 +196,8 @@ class ChattingScreen extends Component {
   }
 
   didUpdateNewEntry = (prevProps) => {
-    const newMessage = ((this.props.chats.length) - (prevProps.chats.length)) > 0;
-    const newEvent = ((this.props.events.length) - (prevProps.events.length)) > 0;
-    const lastUserMessage = _.get(_.last(this.props.chats), 'nick');
+    const newMessage = (this.props.chatsLength - prevProps.chatsLength) > 0;
+    const lastUserMessage = this.props.lastMessageAuthor;
     const scrollCloseToBottom = this.isScrollCloseToBottom();
 
     if (
@@ -212,8 +207,7 @@ class ChattingScreen extends Component {
       this.props.markAsRead();
     }
 
-    if ((newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor')) ||
-        (newEvent && scrollCloseToBottom)) {
+    if ((newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor'))) {
       this.scrollToBottom();
     }
   }
@@ -482,11 +476,9 @@ class ChattingScreen extends Component {
           isMobile={isMobile}>
           <div className={chatLogContainerClasses}>
             <HistoryLog
-              ref={(el) => { this.chatHistoryLog = el; }}
-              chatHistoryLog={this.props.chatHistoryLog}
-              luxon={this.props.luxon}
               showAvatar={this.props.showAvatar}
               agents={this.props.allAgents}
+              luxon={this.props.luxon}
               firstMessageTimestamp={this.props.firstMessageTimestamp}
             />
             <ChatLog

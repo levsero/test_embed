@@ -1,72 +1,22 @@
-import { createSelector } from 'reselect';
 import _ from 'lodash';
+import { createSelector } from 'reselect';
+import createCachedSelector from 're-reselect';
 
-import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+const getHistory = state => state.chat.chatHistory.chats.entries;
 
-const getPastChats = state => state.chat.chatHistory.chats;
-
-const isMessage = entry => _.includes(CHAT_MESSAGE_EVENTS, entry.type);
-const isEvent = entry => _.includes(CHAT_SYSTEM_EVENTS, entry.type);
-
-const getPastChatsBySession = createSelector(
-  [getPastChats],
-  (chatsMap) => {
-    const chatsArr = [...chatsMap.values()];
-    let session = [];
-
-    return _.reduce(chatsArr, (pastSessions, chat, idx) => {
-      if (chat.first) {
-        session.length && pastSessions.push(session);
-        session = [chat];
-      } else {
-        session.push(chat);
-      }
-
-      if (idx === chatsArr.length - 1) {
-        pastSessions.push(session);
-      }
-
-      return pastSessions;
-    }, []);
-  }
-);
-
-const getGroupedChat = chatsArr => {
-  let lastUniqueEntry;
-
-  const getGroupTimestamp = entry => {
-    if (isEvent(entry)) {
-      lastUniqueEntry = entry;
-    }
-    else if (
-      !lastUniqueEntry ||
-      !isMessage(lastUniqueEntry) ||
-      lastUniqueEntry.nick !== entry.nick
-    ) {
-      lastUniqueEntry = entry;
-    }
-
-    return lastUniqueEntry.timestamp;
-  };
-
-  return _.reduce(chatsArr, (groupedChat, entry) => {
-    const groupTimestamp = getGroupTimestamp(entry);
-
-    if (groupedChat[groupTimestamp]) {
-      groupedChat[groupTimestamp].push(entry);
-    }
-    else {
-      groupedChat[groupTimestamp] = [entry];
-    }
-
-    return groupedChat;
-  }, {});
-};
-
+export const getHistoryLog = state => state.chat.chatHistory.log.entries;
 export const getHasMoreHistory = state => state.chat.chatHistory.hasMore;
 export const getHistoryRequestStatus = state => state.chat.chatHistory.requestStatus;
 
-export const getGroupedPastChatsBySession = createSelector(
-  [getPastChatsBySession],
-  pastSessions => _.map(pastSessions, session => getGroupedChat(session))
+export const getHistoryLength = createSelector(
+  [getHistory],
+  history => history.size
+);
+
+export const getGroupMessages = createCachedSelector(
+  getHistory,
+  (state, messageKeys) => messageKeys,
+  (history, messageKeys) => _.map(messageKeys, (key) => history.get(key))
+)(
+  (state, messageKeys) => messageKeys[messageKeys.length - 1]
 );

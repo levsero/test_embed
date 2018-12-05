@@ -11,8 +11,6 @@ import {
   getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
 import {
   CHAT_MESSAGE_TYPES,
-  AGENT_BOT,
-  EVENT_TRIGGER,
   CONNECTION_STATUSES } from 'src/constants/chat';
 import {
   getChatStandalone,
@@ -680,24 +678,6 @@ export function chatWindowOpenOnNavigate() {
 export function chatConnected() {
   return {
     type: actions.CHAT_CONNECTED
-  };
-}
-
-// TODO: Remove this function.
-// It was added temporarily when transitioning to use dynamic import()
-// for the chat-web-sdk
-export function setChatHistoryHandler() {
-  return (_, getState) => {
-    const zChat = getZChatVendor(getState());
-
-    zChat && zChat.on('history', (data) => {
-      const eventData = (data.nick === EVENT_TRIGGER)
-        ? { ...data, nick: AGENT_BOT }
-        : data;
-      const newEntry = [eventData.timestamp, eventData];
-
-      history.push(newEntry);
-    });
   };
 }
 
