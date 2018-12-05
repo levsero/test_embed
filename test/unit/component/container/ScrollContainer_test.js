@@ -282,22 +282,8 @@ describe('ScrollContainer component', () => {
     });
   });
 
-  it('should change component state when calling `this.setScrollShadowVisible`', () => {
-    const container = domRender(<ScrollContainer fullscreen={true} />);
-
-    expect(container.state.scrollShadowVisible)
-      .toEqual(false);
-
-    container.setScrollShadowVisible(true);
-
-    expect(container.state.scrollShadowVisible)
-      .toEqual(true);
-  });
-
-  it('should have shadow class on footer if content is scrollable', () => {
-    const container = domRender(<ScrollContainer footerContent='foo' fullscreen={true} />);
-
-    container.setState({ scrollShadowVisible: true });
+  it('has shadow class on footer if content is scrollable', () => {
+    const container = domRender(<ScrollContainer footerContent='foo' scrollShadowVisible={true} fullscreen={true} />);
 
     expect(ReactDOM.findDOMNode(container).querySelector('.footerClasses').className)
       .toContain('footerShadowClasses');

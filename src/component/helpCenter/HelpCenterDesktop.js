@@ -57,6 +57,7 @@ export class HelpCenterDesktop extends Component {
     chatEnabled: false,
     talkAvailable: false,
     talkEnabled: false,
+    isOnInitialDesktopSearchScreen: false,
     updateChatScreen: () => {}
   };
 
@@ -73,10 +74,6 @@ export class HelpCenterDesktop extends Component {
         searchInputVal: this.props.searchFieldValue
       });
     }
-
-    const shadowVisible = !(!this.props.showNextButton && this.props.hideZendeskLogo);
-
-    this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
   }
 
   getSearchField() {
@@ -195,6 +192,10 @@ export class HelpCenterDesktop extends Component {
         footerClasses = this.props.hideZendeskLogo ? styles.footer : styles.footerLogo;
       }
     }
+    const shadowVisible = (
+      this.props.showNextButton
+      && !this.props.isOnInitialDesktopSearchScreen
+      && !this.props.hideZendeskLogo);
 
     return (
       <div>
@@ -205,6 +206,7 @@ export class HelpCenterDesktop extends Component {
           classes={customHeightClasses}
           maxHeight={this.props.maxWidgetHeight}
           footerClasses={footerClasses}
+          scrollShadowVisible={shadowVisible}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}>
           {this.renderBodyForm()}

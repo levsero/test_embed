@@ -85,9 +85,6 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidMount = () => {
-    const showShadow = this.props.ticketFields.length > 0 || this.props.attachmentsEnabled;
-
-    this.refs.scrollContainer.setScrollShadowVisible(showShadow);
     this.prefillFormState();
 
     const form = ReactDOM.findDOMNode(this.refs.form);
@@ -523,6 +520,7 @@ export class SubmitTicketForm extends Component {
       }
     );
     const buttonDisabled = !this.state.canSubmit || this.state.isSubmitting;
+    const showShadow = this.props.ticketFields.length > 0 || this.props.attachmentsEnabled;
 
     return (
       <form
@@ -535,6 +533,7 @@ export class SubmitTicketForm extends Component {
           ref='scrollContainer'
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
           containerClasses={containerClasses}
+          scrollShadowVisible={showShadow}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
               {buttonCancel}

@@ -46,7 +46,6 @@ export class ScrollContainer extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = { scrollShadowVisible: false };
     this.scrollTop = 0;
 
     this.content = null;
@@ -104,10 +103,6 @@ export class ScrollContainer extends Component {
     return (this.content.scrollTop + this.content.clientHeight) >= this.content.scrollHeight;
   }
 
-  setScrollShadowVisible = (visible) => {
-    this.setState({ scrollShadowVisible: visible });
-  }
-
   calculateHeight = () => {
     if (this.props.fullscreen) return null;
 
@@ -127,7 +122,7 @@ export class ScrollContainer extends Component {
 
   renderFooter() {
     const { footerContent, footerClasses, scrollShadowVisible } = this.props;
-    const footerShadowClasses = this.state.scrollShadowVisible || scrollShadowVisible ? styles.footerShadow : '';
+    const footerShadowClasses = scrollShadowVisible ? styles.footerShadow : '';
 
     return (
       <footer
