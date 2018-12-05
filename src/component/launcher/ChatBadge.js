@@ -104,6 +104,7 @@ class ChatBadge extends Component {
       [styles.chatIcon]: !image,
       [styles.imgRight]: layout === 'image_right',
       [styles.imgLeft]: layout === 'image_left',
+      [styles.imgOnly]: !image && layout === 'image_only',
       [styles.customImg]: image && layout !== 'image_only',
       [styles.customImgOnly]: image && layout === 'image_only'
     });

@@ -36,6 +36,7 @@ describe('ChatBadge component', () => {
           chatIcon: 'chatIcon',
           customImg: 'customImg',
           customImgOnly: 'customImgOnly',
+          imgOnly: 'imgOnly',
           imgRight: 'imgRight',
           imgLeft: 'imgLeft'
         }
@@ -215,6 +216,17 @@ describe('ChatBadge component', () => {
       it('renders the SVG icon classes', () => {
         expect(result.props.children.props.className)
           .toContain('chatIcon');
+      });
+
+      describe('and layout is image_only', () => {
+        beforeAll(() => {
+          mockBannerSettings.layout = 'image_only';
+        });
+
+        it('renders an "imgOnly" class', () => {
+          expect(result.props.children.props.className)
+            .toContain('imgOnly');
+        });
       });
     });
   });

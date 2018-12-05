@@ -27,7 +27,8 @@
 }
 
 .textOnRight {
-  padding-left: #{3/$font-size}rem;
+  padding-left: #{4/$font-size}rem;
+  padding-right: #{8/$font-size}rem;
 }
 
 .textOnly {
@@ -36,6 +37,7 @@
 }
 
 .imageContainer {
+  padding-top: #{24/$font-size}rem;
   vertical-align: middle;
   text-align: center;
   width: #{100/$font-size}rem;
@@ -179,10 +181,16 @@
 }
 
 .customImgOnly {
-  height: #{160/$font-size}rem;
+  height: #{136/$font-size}rem;
   width: #{245/$font-size}rem;
   border-top-left-radius: #{8/$font-size}rem;
   border-top-right-radius: #{8/$font-size}rem;
+}
+
+.imgOnly {
+  // pad left a tad because centred looks a bit off
+  // humans and their perception quirks!
+  padding-left: #{8/$font-size}rem;
 }
 
 .imgRight {
