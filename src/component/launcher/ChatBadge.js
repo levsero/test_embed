@@ -22,7 +22,7 @@ import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatBadge.scss';
-import { splashCSS, labelCSS } from './DynamicCssHelpers';
+import { labelCSS } from './DynamicCssHelpers';
 
 const mapStateToProps = (state) => {
   return {
@@ -104,6 +104,7 @@ class ChatBadge extends Component {
       [styles.chatIcon]: !image,
       [styles.imgRight]: layout === 'image_right',
       [styles.imgLeft]: layout === 'image_left',
+      [styles.imgOnly]: !image && layout === 'image_only',
       [styles.customImg]: image && layout !== 'image_only',
       [styles.customImgOnly]: image && layout === 'image_only'
     });
@@ -144,7 +145,6 @@ class ChatBadge extends Component {
 
     return (
       <div onClick={this.props.chatBadgeClicked} className={displayClasses}>
-        {splashCSS(this.props.chatBadgeColor)}
         <table className={styles.splashTable}>
           <tbody>
             <tr>

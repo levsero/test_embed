@@ -19,6 +19,7 @@
   text-overflow: ellipsis;
   font-size: #{16/$font-size}rem;
   font-family: Verdana, Geneva, sans-serif;
+  padding: #{10/$font-size}rem 0;
 }
 
 .textOnLeft {
@@ -27,7 +28,8 @@
 }
 
 .textOnRight {
-  padding-left: #{3/$font-size}rem;
+  padding-left: #{4/$font-size}rem;
+  padding-right: #{6/$font-size}rem;
 }
 
 .textOnly {
@@ -80,7 +82,7 @@
   height: #{40/$font-size}rem;
   border-bottom-left-radius: #{8/$font-size}rem;
   border-bottom-right-radius: #{8/$font-size}rem;
-  border-top: #{1/$font-size}rem $zd-color-grey-500 solid;
+  border-top: #{1/$font-size}rem $zd-color-grey-300 solid;
 }
 
 .input {
@@ -179,10 +181,17 @@
 }
 
 .customImgOnly {
-  height: #{160/$font-size}rem;
+  height: #{136/$font-size}rem;
   width: #{245/$font-size}rem;
   border-top-left-radius: #{8/$font-size}rem;
   border-top-right-radius: #{8/$font-size}rem;
+}
+
+.imgOnly {
+  // pad left a tad because centred looks a bit off
+  // humans and their perception quirks!
+  padding-left: #{8/$font-size}rem;
+  margin-top: #{24/$font-size}rem;
 }
 
 .imgRight {

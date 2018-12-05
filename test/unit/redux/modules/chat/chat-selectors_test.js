@@ -181,7 +181,7 @@ describe('chat selectors', () => {
           });
 
           it('falls back to the default translation', () => {
-            const truncated = 'what can we do for you?what can we do for you?what can we do for…';
+            const truncated = 'what can we do for you?what can we do for you?what can we d…';
 
             expect(result.label).toEqual(truncated);
           });

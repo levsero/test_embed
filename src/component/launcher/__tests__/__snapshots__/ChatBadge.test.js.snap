@@ -70,13 +70,6 @@ exports[`with chatBadgeColor passed in 1`] = `
     <div
       class="splashDisplayContainer splashPadding"
     >
-      <style>
-        
-    .src-component-launcher-ChatBadge-splashDisplayContainer {
-      background-color: yellow !important;
-    }
-  
-      </style>
       <table
         class="splashTable"
       >

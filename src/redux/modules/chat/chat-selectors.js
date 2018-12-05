@@ -151,7 +151,7 @@ export const getChatTitle = createSelector(
 export const getLauncherBadgeSettings = createSelector(
   [getSettingsLauncherBadge, getAccountSettingsLauncherBadge, getLocale],
   (settingsBadge, accountSettingsBadge, _locale) => {
-    const maxLabelLength = 65;
+    const maxLabelLength = 60;
     const settingsLabel = _.get(settingsBadge, 'label', {});
     const fullLabel = i18n.getSettingTranslation(settingsLabel) ||
                       accountSettingsBadge.text ||

@@ -1,17 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 
-const splashContainerColor = (color) => {
-  return `
-    .src-component-launcher-ChatBadge-splashDisplayContainer {
-      background-color: ${color} !important;
-    }
-  `;
-};
-
-export const splashCSS = ({ base }) => (
-  !_.isEmpty(base) && <style dangerouslySetInnerHTML={{ __html: splashContainerColor(base) }} />);
-
 const labelBaseColor = (color) => {
   return `
     .src-component-launcher-ChatBadge-textContainer.u-userLauncherColor {
