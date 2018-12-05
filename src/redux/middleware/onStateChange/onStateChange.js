@@ -114,14 +114,15 @@ const handleNewAgentMessage = (nextState, dispatch) => {
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (getConnection(prevState) === CONNECTION_STATUSES.CONNECTING
       && getConnection(nextState) !== CONNECTION_STATUSES.CONNECTING) {
-    const visitorDepartmentName = getSettingsChatDepartment(nextState);
-    const visitorDepartment = _.find(getDepartmentsList(nextState), (dep) => dep.name === visitorDepartmentName);
-    const visitorDepartmentId = _.get(visitorDepartment, 'id');
+    const settingsDefaultDepartment = getSettingsChatDepartment(nextState);
+    const defaultDepartment = _.find(getDepartmentsList(nextState), (dep) => (
+      dep.name === settingsDefaultDepartment || dep.id === settingsDefaultDepartment
+    ));
 
     dispatch(chatConnected());
 
-    if (visitorDepartmentId) {
-      dispatch(setDepartment(visitorDepartmentId));
+    if (defaultDepartment) {
+      dispatch(setDepartment(defaultDepartment.id));
     } else {
       dispatch(clearDepartment());
     }
