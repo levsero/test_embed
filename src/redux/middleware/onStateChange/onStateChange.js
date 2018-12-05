@@ -5,8 +5,6 @@ import { getAccountSettings,
   chatNotificationReset,
   getOperatingHours,
   getIsChatting,
-  clearDepartment,
-  setDepartment,
   chatWindowOpenOnNavigate,
   chatConnected } from 'src/redux/modules/chat';
 import {
@@ -32,7 +30,6 @@ import { getChatMessagesByAgent,
   getUserSoundSettings,
   getIsChatting as getIsChattingState,
   getActiveAgents,
-  getDepartmentsList,
   getLastReadTimestamp,
   hasUnseenAgentMessage } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed,
@@ -43,7 +40,6 @@ import { getActiveEmbed,
   getHelpCenterEmbed,
   getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
 import { store } from 'service/persistence';
-import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { isMobileBrowser } from 'utility/devices';
 import { resetShouldWarn } from 'src/util/nullZChat';
@@ -51,6 +47,7 @@ import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
 import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange';
 import { win } from 'utility/globals';
+import { updateChatSettings } from 'src/redux/modules/settings/settings-actions';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed');
@@ -113,19 +110,9 @@ const handleNewAgentMessage = (nextState, dispatch) => {
 
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (getConnection(prevState) === CONNECTION_STATUSES.CONNECTING
-      && getConnection(nextState) !== CONNECTION_STATUSES.CONNECTING) {
-    const settingsDefaultDepartment = getSettingsChatDepartment(nextState);
-    const defaultDepartment = _.find(getDepartmentsList(nextState), (dep) => (
-      dep.name === settingsDefaultDepartment || dep.id === settingsDefaultDepartment
-    ));
-
+      && getConnection(nextState) === CONNECTION_STATUSES.CONNECTED) {
     dispatch(chatConnected());
-
-    if (defaultDepartment) {
-      dispatch(setDepartment(defaultDepartment.id));
-    } else {
-      dispatch(clearDepartment());
-    }
+    dispatch(updateChatSettings());
 
     if (!chatAccountSettingsFetched) {
       dispatch(getAccountSettings());
