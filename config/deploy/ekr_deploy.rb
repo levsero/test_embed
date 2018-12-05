@@ -122,7 +122,7 @@ end
 def s3_deployer
   bucket_name = fetch(:ekr_s3_bucket_name)
 
-  @s3_deployer ||= S3Deployer.new(credentials, bucket_name, logger)
+  @s3_deployer ||= S3Deployer.new(bucket_name, logger)
 end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
