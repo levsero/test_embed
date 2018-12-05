@@ -22,7 +22,7 @@ import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatBadge.scss';
-import { splashCSS, labelCSS } from './DynamicCssHelpers';
+import { labelCSS } from './DynamicCssHelpers';
 
 const mapStateToProps = (state) => {
   return {
@@ -145,7 +145,6 @@ class ChatBadge extends Component {
 
     return (
       <div onClick={this.props.chatBadgeClicked} className={displayClasses}>
-        {splashCSS(this.props.chatBadgeColor)}
         <table className={styles.splashTable}>
           <tbody>
             <tr>
