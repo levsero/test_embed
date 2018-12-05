@@ -12,7 +12,7 @@ The Web Widget has the following core settings:
 * [offset](./settings#offset)
 * [position](./settings#position)
 * [zIndex](./settings#zindex)
-* [contactOptions](#contactoptions)
+* [contactOptions](#contactOptions)
 * [launcher](#launcher)
 
 <a name="example-general"></a>
@@ -28,7 +28,7 @@ window.zESettings = {
 </script>
 ```
 
-#### Contact options settings
+#### contactOptions
 
 The widget's `contactOptions` object, which represents a component that lets the user choose between starting a chat or submitting a ticket, has the following settings:
 
@@ -58,7 +58,7 @@ window.zESettings = {
 </script>
 ```
 
-#### Launcher settings
+#### launcher
 
 The widget's `launcher` object, which represents the launcher button, has the following settings:
 
