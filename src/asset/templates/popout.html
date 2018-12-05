@@ -33,12 +33,12 @@
       var head = document.head;
       var scriptElement = document.createElement('script');
 
-
       window.zEPopout = true;
       scriptElement.id = 'ze-snippet';
-      scriptElement.src = 'https://static.zdassets.com/ekr/snippet.js';
 
       if (parameters && typeof parameters === 'object') {
+        scriptElement.src = '{{popoutURL}}';
+
         if (parameters.key) {
           scriptElement.src += ('?key=web_widget/' + parameters.key);
         }

@@ -11,10 +11,8 @@ import {
   nameValid,
   emailValid,
   referrerPolicyUrl,
-  getEnvironment,
   isValidUrl
 } from '../utils';
-import { clearDOM } from 'utility/testHelpers';
 import * as globals from 'utility/globals';
 
 jest.useFakeTimers();
@@ -426,47 +424,6 @@ describe('referrerPolicyUrl', () => {
     it('returns the url origin', () => {
       expect(referrerPolicyUrl('strict-origin-when-cross-origin', url))
         .toEqual('http://www.example.com');
-    });
-  });
-});
-
-describe('#getEnvironment', () => {
-  afterEach(() => {
-    clearDOM();
-  });
-
-  describe('when main.js is injected onto the document', () => {
-    describe('when the asset source does not include zd-staging', () => {
-      beforeEach(() => {
-        document.write(`<script
-          id="js-iframe-async"
-          src="assets.zendesk.com"></script>`);
-      });
-
-      it('returns production', () => {
-        expect(getEnvironment())
-          .toEqual('production');
-      });
-    });
-
-    describe('when the asset source includes zd-staging', () => {
-      beforeEach(() => {
-        document.write(`<script
-          id="js-iframe-async"
-          src="assets.zd-staging.com"></script>`);
-      });
-
-      it('returns staging', () => {
-        expect(getEnvironment())
-          .toEqual('staging');
-      });
-    });
-  });
-
-  describe('when main.js is not injected', () => {
-    it('returns production', () => {
-      expect(getEnvironment())
-        .toEqual('production');
     });
   });
 });

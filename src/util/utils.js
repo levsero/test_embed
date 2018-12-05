@@ -5,8 +5,6 @@ import { document as doc,
   location } from 'utility/globals';
 import { NAME_PATTERN, EMAIL_PATTERN } from 'constants/shared';
 
-const zendeskStagingDomain = 'zd-staging';
-
 function parseUrl(url) {
   const anchor = document.createElement('a');
 
@@ -136,19 +134,6 @@ function referrerPolicyUrl(policy, url) {
   }
 }
 
-function getEnvironment() {
-  try {
-    const mainScript = document.getElementById('js-iframe-async') || {};
-    const url = mainScript.src || '';
-
-    return (url.match(zendeskStagingDomain))
-      ? 'staging'
-      : 'production';
-  } catch (e) {
-    return 'production';
-  }
-}
-
 function getHostUrl() {
   return location.toString();
 }
@@ -174,7 +159,6 @@ export {
   nameValid,
   emailValid,
   referrerPolicyUrl,
-  getEnvironment,
   getHostUrl,
   isValidUrl
 };

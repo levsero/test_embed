@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-import { getEnvironment } from 'utility/utils';
-
 /* A generic error message that describes when the browser potentially has no idea
    how the script reached the erroneous state. When the error occurs for some
    browsers like Firefox, Rollbar ignores 'ignoredMessages' attribute which
@@ -86,7 +84,6 @@ const rollbarConfig =  {
   ignoredMessages: errorMessageBlacklist,
   maxItems: 10,
   payload: {
-    environment: getEnvironment(),
     client: {
       javascript: {
         code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase
