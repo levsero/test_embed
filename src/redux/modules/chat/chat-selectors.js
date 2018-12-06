@@ -115,6 +115,7 @@ export const getDepartments = (state) => state.chat.departments;
 export const getDepartmentsList = (state) => _.values(getDepartments(state));
 export const getAccountSettingsLauncherBadge = (state) => state.chat.accountSettings.banner;
 export const getChatBadgeEnabled = (state) => getAccountSettingsLauncherBadge(state).enabled;
+export const getHideBranding = (state) => state.chat.accountSettings.branding.hide_branding;
 
 export const getPrechatFormRequired = createSelector(
   [getChatAccountSettingsPrechatForm],

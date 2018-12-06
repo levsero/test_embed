@@ -22,7 +22,8 @@ const initialState = {
   position: 'right', // default position
   color: '#659700', // default base color
   textColor: undefined,
-  cp4: false
+  cp4: false,
+  hideZendeskLogo: false
 };
 
 const embeddableConfig = (state = initialState, action) => {
@@ -55,7 +56,8 @@ const embeddableConfig = (state = initialState, action) => {
         position: payload.position,
         color: payload.color || state.color.base,
         textColor: payload.textColor || state.color.text,
-        cp4: _.get(payload, 'cp4', state.cp4)
+        cp4: _.get(payload, 'cp4', state.cp4),
+        hideZendeskLogo: _.get(payload, 'hideZendeskLogo', state.hideZendeskLogo)
       };
     default:
       return state;

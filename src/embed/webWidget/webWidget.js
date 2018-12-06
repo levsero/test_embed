@@ -206,7 +206,6 @@ export default function WebWidgetFactory(name) {
             helpCenterConfig={helpCenterSettings.config}
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
             isOnHelpCenterPage={isOnHelpCenterPage()}
-            hideZendeskLogo={globalConfig.hideZendeskLogo}
             imagesSender={helpCenterSettings.imagesSenderFn}
             localeFallbacks={settings.get('helpCenter.localeFallbacks')}
             onSubmitted={submitTicketSettings.onSubmitted}

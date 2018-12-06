@@ -27,6 +27,7 @@ import { getChatAvailable,
   getChatEnabled,
   getTalkAvailable,
   getTalkEnabled,
+  getHideZendeskLogo,
   getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive,
   getSearchFieldFocused,
@@ -81,7 +82,8 @@ const mapStateToProps = (state) => {
     mobileNotificationsDisabled: getSettingsMobileNotificationsDisabled(state),
     helpCenterAvailable: getHelpCenterAvailable(state),
     channelChoiceAvailable: getChannelChoiceAvailable(state),
-    submitTicketAvailable: getSubmitTicketAvailable(state)
+    submitTicketAvailable: getSubmitTicketAvailable(state),
+    hideZendeskLogo: getHideZendeskLogo(state)
   };
 };
 

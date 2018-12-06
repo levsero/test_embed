@@ -98,7 +98,6 @@ function renderEmbeds(parsedConfig, config, reduxStore) {
     try {
       reduxStore.dispatch(updateEmbedAccessible(embedName, true));
       configItem.props.visible = config.embeds && !config.embeds.talk && !config.embeds.zopimChat && !hideLauncher;
-      configItem.props.hideZendeskLogo = config.hideZendeskLogo;
       configItem.props.brand = config.brand;
       configItem.props.color = { base: config.color, text: config.textColor };
       configItem.props.brandCount = config.brandCount;

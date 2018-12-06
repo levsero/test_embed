@@ -4,13 +4,17 @@ import { connect } from 'react-redux';
 
 import ChatBadge  from 'src/component/launcher/ChatBadge';
 import WidgetLauncher from 'src/component/launcher/WidgetLauncher';
-import { getShowChatBadgeLauncher } from 'src/redux/modules/selectors';
+import {
+  getShowChatBadgeLauncher,
+  getHideZendeskLogo
+} from 'src/redux/modules/selectors';
 
 import { launcherClicked } from 'src/redux/modules/base';
 
 const mapStateToProps = (state) => {
   return {
-    showChatBadgeLauncher: getShowChatBadgeLauncher(state)
+    showChatBadgeLauncher: getShowChatBadgeLauncher(state),
+    hideBranding: getHideZendeskLogo(state)
   };
 };
 

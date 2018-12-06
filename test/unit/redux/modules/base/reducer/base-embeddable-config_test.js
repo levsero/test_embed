@@ -49,7 +49,8 @@ describe('base reducer embeddable config', () => {
           cp4: false,
           position: 'right',
           color: '#659700',
-          textColor: undefined
+          textColor: undefined,
+          hideZendeskLogo: false
         });
     });
   });
@@ -94,7 +95,8 @@ describe('base reducer embeddable config', () => {
           cp4: true,
           position: 'left',
           color: 'white',
-          textColor: 'black'
+          textColor: 'black',
+          hideZendeskLogo: true
         }
       };
 
@@ -123,7 +125,8 @@ describe('base reducer embeddable config', () => {
           cp4: true,
           color: 'white',
           textColor: 'black',
-          position: 'left'
+          position: 'left',
+          hideZendeskLogo: true
         });
     });
   });

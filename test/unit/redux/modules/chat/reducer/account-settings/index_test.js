@@ -24,7 +24,8 @@ describe('chat accountSettings reducer', () => {
       'rating',
       'theme',
       'chatWindow',
-      'banner'
+      'banner',
+      'branding'
     ];
     const assertPropertySpec = (property) => {
       it(`it has ${property} sub-state`, () => {
