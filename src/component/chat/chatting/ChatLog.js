@@ -11,6 +11,9 @@ import { Button } from '@zendeskgarden/react-buttons';
 import {
   getChatLog,
   getFirstVisitorMessage,
+  getLatestRating,
+  getLatestRatingRequest,
+  getLatestAgentLeaveEvent,
   getShowUpdateVisitorDetails
 } from 'src/redux/modules/chat/chat-selectors';
 
@@ -18,6 +21,9 @@ const mapStateToProps = (state) => {
   return {
     chatLog: getChatLog(state),
     firstVisitorMessage: getFirstVisitorMessage(state),
+    latestRating: getLatestRating(state),
+    latestRatingRequest: getLatestRatingRequest(state),
+    latestAgentLeaveEvent: getLatestAgentLeaveEvent(state),
     showUpdateInfo: getShowUpdateVisitorDetails(state)
   };
 };
@@ -25,8 +31,10 @@ const mapStateToProps = (state) => {
 export class ChatLog extends Component {
   static propTypes = {
     chatLog: PropTypes.array.isRequired,
-    firstVisitorMessage: PropTypes.number,
-    lastAgentLeaveEvent: PropTypes.object,
+    firstVisitorMessage: PropTypes.number.isRequired,
+    latestRating: PropTypes.number.isRequired,
+    latestRatingRequest: PropTypes.number.isRequired,
+    latestAgentLeaveEvent: PropTypes.number.isRequired,
     agents: PropTypes.object,
     chatCommentLeft: PropTypes.bool.isRequired,
     goToFeedbackScreen: PropTypes.func.isRequired,
@@ -50,72 +58,73 @@ export class ChatLog extends Component {
     this.createdTimestamp = Date.now();
   }
 
-  renderChatLog = () => {
+  renderGroup = (group) => {
     const {
-      chatLog,
-      firstVisitorMessage,
       agents,
-      chatCommentLeft,
-      goToFeedbackScreen,
       showAvatar,
       handleSendMsg,
       onImageLoad,
-      showUpdateInfo,
-      updateInfoOnClick,
       socialLogin,
       conciergeAvatar,
       isMobile
     } = this.props;
 
-    const chatLogEl = _.map(chatLog, (chatGroup) => {
-      const { type, author } = chatGroup;
+    if (group.type === 'message') {
+      const firstMessageKey = group.messages[0];
+      const groupNick = group.author || 'visitor';
+      const isAgent = group.author.indexOf('agent:') > -1;
+      const avatarPath = _.get(agents, `${groupNick}.avatar_path`) || conciergeAvatar;
 
-      if (type === 'message') {
-        const timestamp = chatGroup.messages[0];
-        const groupNick = author || 'visitor';
-        const isAgent = author.indexOf('agent:') > -1;
-        const avatarPath = _.get(agents, `${groupNick}.avatar_path`) || conciergeAvatar;
-        const shouldRenderUpdateInfo = showUpdateInfo && firstVisitorMessage === timestamp;
+      return (
+        <ChatGroup
+          key={firstMessageKey}
+          isAgent={isAgent}
+          messageKeys={group.messages}
+          avatarPath={avatarPath}
+          showAvatar={showAvatar}
+          onImageLoad={onImageLoad}
+          handleSendMsg={handleSendMsg}
+          socialLogin={socialLogin}
+          chatLogCreatedAt={this.createdTimestamp}
+          isMobile={isMobile}>
+          {this.renderUpdateInfo(firstMessageKey)}
+        </ChatGroup>
+      );
+    } else if (group.type === 'event') {
+      const eventKey = group.messages[0];
 
-        return (
-          <ChatGroup
-            key={timestamp}
-            isAgent={isAgent}
-            messageKeys={chatGroup.messages}
-            avatarPath={avatarPath}
-            showAvatar={showAvatar}
-            onImageLoad={onImageLoad}
-            handleSendMsg={handleSendMsg}
-            socialLogin={socialLogin}
-            chatLogCreatedAt={this.createdTimestamp}
-            isMobile={isMobile}>
-            {this.renderUpdateInfo(shouldRenderUpdateInfo, updateInfoOnClick)}
-          </ChatGroup>
-        );
-      } else if (type === 'event') {
-        const event = chatGroup.messages[0];
-
-        return (
-          <EventMessage
-            eventKey={event}
-            key={event}
-            chatLogCreatedAt={this.createdTimestamp}
-          >
-            {this.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen)}
-          </EventMessage>
-        );
-      }
-    });
-
-    return chatLogEl;
+      return (
+        <EventMessage
+          key={eventKey}
+          eventKey={eventKey}
+          chatLogCreatedAt={this.createdTimestamp}>
+          {this.renderRequestRatingButton(eventKey)}
+        </EventMessage>
+      );
+    }
   }
 
-  renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen) {
-    const showButtonForRating = event.isLastRating && event.new_rating && !chatCommentLeft;
+  renderRequestRatingButton(eventKey) {
+    const {
+      agents,
+      chatCommentLeft,
+      goToFeedbackScreen,
+      latestRating,
+      latestRatingRequest,
+      latestAgentLeaveEvent
+    } = this.props;
 
-    if (!this.validEventType(event, showButtonForRating)) return;
+    const isLatestRating = latestRating === eventKey;
+    const isLatestRatingRequest = latestRatingRequest === eventKey;
+    const isLastAgentLeaveEvent = _.size(agents) < 1 && latestAgentLeaveEvent === eventKey;
 
-    const labelKey = (event.type === 'chat.rating')
+    if (!(
+      (isLatestRating && !chatCommentLeft) ||
+      isLatestRatingRequest ||
+      isLastAgentLeaveEvent
+    )) return;
+
+    const labelKey = isLatestRating && !chatCommentLeft
       ? 'embeddable_framework.chat.chatLog.button.leaveComment'
       : 'embeddable_framework.chat.chatLog.button.rateChat';
 
@@ -128,38 +137,22 @@ export class ChatLog extends Component {
     );
   }
 
-  validEventType(event, showButton) {
-    const isChatRating = event.type === 'chat.rating' && showButton;
-    const isChatRequestRating = event.type === 'chat.request.rating';
-    const allAgentsHaveLeft = this.allAgentsHaveLeft(event);
-
-    return isChatRating || isChatRequestRating || allAgentsHaveLeft;
-  }
-
-  allAgentsHaveLeft(event) {
-    const { agents, lastAgentLeaveEvent } = this.props;
-
-    return _.size(agents) < 1 && (lastAgentLeaveEvent && event === lastAgentLeaveEvent);
-  }
-
-  renderUpdateInfo(showUpdateInfo, updateInfoOnClick) {
-    if (!showUpdateInfo) return;
+  renderUpdateInfo(firstMessageKey) {
+    if (!(this.props.showUpdateInfo && this.props.firstVisitorMessage === firstMessageKey)) return;
 
     return (
-      <button onClick={updateInfoOnClick} className={styles.updateInfo}>
+      <button onClick={this.props.updateInfoOnClick} className={styles.updateInfo}>
         {i18n.t('embeddable_framework.chat.chatLog.login.updateInfo')}
       </button>
     );
   }
 
   render() {
-    const chatLogs = this.renderChatLog();
-
-    return chatLogs.length ? (
+    return (
       <div>
-        {chatLogs}
+        {_.map(this.props.chatLog, this.renderGroup)}
       </div>
-    ) : null;
+    );
   }
 }
 

@@ -18,6 +18,7 @@ const initialState = {
   latestRating: -1,
   latestRatingRequest: -1,
   latestQuickReply: -1,
+  latestAgentLeaveEvent: -1,
   lastMessageAuthor: '',
   groups: []
 };
@@ -66,7 +67,7 @@ const chatLog = (state = initialState, action) => {
     case SDK_CHAT_MSG:
       let messageExtras = {};
 
-      if (state.firstVisitorMessage === null) {
+      if (state.firstVisitorMessage === -1) {
         messageExtras.firstVisitorMessage = action.payload.detail.timestamp;
       }
       if (
@@ -97,9 +98,18 @@ const chatLog = (state = initialState, action) => {
     case SDK_CHAT_QUEUE_POSITION:
     case SDK_CHAT_COMMENT:
     case SDK_CHAT_MEMBER_JOIN:
-    case SDK_CHAT_MEMBER_LEAVE:
       return {
         ...state,
+        groups: [...state.groups, newEventGroup(action.payload.detail)]
+      };
+    case SDK_CHAT_MEMBER_LEAVE:
+      const agentLeaveEvent = action.payload.detail.nick.indexOf('agent') > -1
+        ? { latestAgentLeaveEvent: action.payload.detail.timestamp }
+        : {};
+
+      return {
+        ...state,
+        ...agentLeaveEvent,
         groups: [...state.groups, newEventGroup(action.payload.detail)]
       };
     case SET_VISITOR_INFO_REQUEST_SUCCESS:

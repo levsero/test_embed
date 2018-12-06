@@ -44,7 +44,6 @@ const mapStateToProps = (state) => {
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
     lastMessageAuthor: selectors.getLastMessageAuthor(state),
-    lastAgentLeaveEvent: selectors.getLastAgentLeaveEvent(state),
     getQuickRepliesFromChatLog: selectors.getQuickRepliesFromChatLog(state),
     currentMessage: selectors.getCurrentMessage(state),
     concierges: selectors.getCurrentConcierges(state),
@@ -78,7 +77,6 @@ class ChattingScreen extends Component {
     hasMoreHistory: PropTypes.bool,
     historyRequestStatus: PropTypes.string,
     lastMessageAuthor: PropTypes.string.isRequired,
-    lastAgentLeaveEvent: PropTypes.object.isRequired,
     getQuickRepliesFromChatLog: PropTypes.object,
     currentMessage: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
@@ -125,7 +123,6 @@ class ChattingScreen extends Component {
     chatLog: {},
     hasMoreHistory: false,
     historyRequestStatus: '',
-    lastAgentLeaveEvent: {},
     allAgents: {},
     activeAgents: {},
     menuVisible: false,
@@ -484,7 +481,6 @@ class ChattingScreen extends Component {
             <ChatLog
               isMobile={this.props.isMobile}
               showAvatar={this.props.showAvatar}
-              lastAgentLeaveEvent={this.props.lastAgentLeaveEvent}
               agents={this.props.allAgents}
               chatCommentLeft={!!this.props.rating.comment}
               goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}

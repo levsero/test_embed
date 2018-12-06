@@ -497,18 +497,6 @@ export const getShowRatingScreen = createSelector(
   )
 );
 
-export const getLastAgentLeaveEvent = createSelector(
-  [getChats, getChatLog],
-  (chats, chatLog) => {
-    if (_.isEmpty(chatLog)) return;
-
-    const payload = chats.get(_.last(chatLog).messages[0]);
-    const isLeaveEvent = payload.type === 'chat.memberleave';
-
-    if (isLeaveEvent && isAgent(payload.nick)) { return payload; }
-  }
-);
-
 /**
  * Return quickReplies if it is valid
  */
@@ -584,6 +572,7 @@ export const getFirstVisitorMessage = (state) => state.chat.chatLog.firstVisitor
 export const getLatestRatingRequest = (state) => state.chat.chatLog.latestRatingRequest;
 export const getLatestRating = (state) => state.chat.chatLog.latestRating;
 export const getLastMessageAuthor = (state) => state.chat.chatLog.lastMessageAuthor;
+export const getLatestAgentLeaveEvent = (state) => state.chat.chatLog.latestAgentLeaveEvent;
 
 export const getShowUpdateVisitorDetails = createSelector(
   getLoginSettings,
