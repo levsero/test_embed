@@ -5,11 +5,7 @@ class S3Deployer
   ENCRYPTION_TYPE = 'AES256'.freeze
   SECONDS_IN_A_YEAR = 31536000
 
-  def initialize(credentials, bucket_name, logger)
-    Aws.config.update(
-      region: credentials[:region],
-      credentials: credentials[:credentials]
-    )
+  def initialize(bucket_name, logger)
     @bucket_name = bucket_name
     @logger = logger
   end

@@ -25,8 +25,6 @@ set :framework_deploy_path, File.join(fetch(:deploy_to), 'assets', 'embeddable_f
 set :environment, (ENV['RAILS_ENV'] || ENV['RACK_ENV'] || '')
 set :rails_env, fetch(:environment)
 
-set :aws_credentials, Aws::Credentials.new(ENV['AWS_RW_ACCESS_KEY'], ENV['AWS_RW_SECRET_KEY'])
-set :aws_region, ENV['AWS_REGION'] || 'us-east-1'
 set :s3_bucket_name, 'zendesk-embeddable-framework'
 set :s3_release_directory, "releases/#{(fetch(:tag) || fetch(:build_version))}"
 
@@ -48,11 +46,6 @@ namespace :embeddable_framework do
 
   desc 'Release to Amazon S3'
   task :release_to_s3 do
-    Aws.config.update(
-      region: fetch(:aws_region),
-      credentials: fetch(:aws_credentials)
-    )
-
     resource = Aws::S3::Resource.new
     bucket = resource.bucket(fetch(:s3_bucket_name))
     s3_release_directory = fetch(:s3_release_directory)
@@ -78,11 +71,6 @@ namespace :embeddable_framework do
 
   desc 'Deploy from Amazon S3'
   task :deploy_from_s3 do
-    Aws.config.update(
-      region: fetch(:aws_region),
-      credentials: fetch(:aws_credentials)
-    )
-
     resource = Aws::S3::Resource.new
     client = Aws::S3::Client.new
     bucket = resource.bucket(fetch(:s3_bucket_name))

@@ -3,8 +3,6 @@ require 'jwt'
 require_relative './s3_deployer'
 
 set :version, fetch(:branch) || fetch(:local_head_revision)
-set :ekr_aws_credentials, Aws::Credentials.new(ENV['WEB_WIDGET_AWS_ACCESS_KEY'], ENV['WEB_WIDGET_AWS_SECRET_KEY'])
-set :ekr_aws_region, ENV['STATIC_ASSETS_AWS_REGION']
 set :ekr_s3_release_directory_versioned, "web_widget/#{fetch(:version)}"
 set :ekr_s3_release_directory_latest, 'web_widget/latest'
 set :ekr_s3_bucket_name, ENV['STATIC_ASSETS_AWS_BUCKET_NAME']
@@ -122,13 +120,9 @@ def version_error(path)
 end
 
 def s3_deployer
-  credentials = {
-    region: fetch(:ekr_aws_region),
-    credentials: fetch(:ekr_aws_credentials)
-  }
   bucket_name = fetch(:ekr_s3_bucket_name)
 
-  @s3_deployer ||= S3Deployer.new(credentials, bucket_name, logger)
+  @s3_deployer ||= S3Deployer.new(bucket_name, logger)
 end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
