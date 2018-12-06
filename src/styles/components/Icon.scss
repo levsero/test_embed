@@ -99,6 +99,18 @@
   }
 }
 
+.Icon--popout {
+    display: inline-block;
+
+    svg {
+      stroke: none;
+      min-width: #{10/$font-size}rem; /* 1 */
+      min-height: #{10/$font-size}rem; /* 1 */
+      height: #{10/$font-size}rem;
+      width: #{10/$font-size}rem;
+    }
+}
+
 .Icon--back {
   display: block;
   margin-top: #{-2/$font-size}rem;
