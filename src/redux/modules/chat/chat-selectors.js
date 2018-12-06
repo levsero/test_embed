@@ -362,38 +362,50 @@ export const getOfflineFormFields = createSelector(
   getOfflineFormSettings, extractFormFields
 );
 
+export const getEnabledDepartments = createSelector(
+  [getSettingsChatDepartmentsEnabled, getDepartmentsList],
+  (settingsDepartmentsEnabled, departmentsList) => {
+    if (
+      _.isNull(settingsDepartmentsEnabled) ||
+      _.isUndefined(settingsDepartmentsEnabled) ||
+      !_.isArray(settingsDepartmentsEnabled)
+    ) {
+      return departmentsList;
+    } else {
+      return departmentsList.filter((department) => (
+        _.includes(settingsDepartmentsEnabled, department.id) ||
+        _.includes(settingsDepartmentsEnabled, department.name.toLowerCase())
+      ));
+    }
+  }
+);
+
+export const getDefaultSelectedDepartment = createSelector(
+  [getSettingsChatDepartment, getEnabledDepartments],
+  (selectedDepartment, departments) => (
+    _.find(departments, (dept) => (
+      dept.name === selectedDepartment || dept.id === selectedDepartment
+    ))
+  )
+);
+
 export const getPrechatFormFields = createSelector(
   [
     getFormFields,
-    getDepartmentsList,
     getOfflineFormSettings,
-    getSettingsChatDepartmentsEnabled,
-    getSettingsChatDepartment,
+    getDefaultSelectedDepartment,
+    getEnabledDepartments,
     getLocale
   ],
   (
     formFields,
-    departments,
     offlineFormSettings,
-    settingsChatDepartmentsEnabled,
-    selectedDepartmentSetting,
-    __
+    selectedDepartment,
+    enabledDepartments,
+    _locale
   ) => {
     let firstOnlineDepartment = true;
-    const filterDepartments = (departments) => _.filter(departments, (department) => {
-      return settingsChatDepartmentsEnabled.includes(department.name) ||
-        settingsChatDepartmentsEnabled.includes(department.id);
-    });
-    const validDepartments = settingsChatDepartmentsEnabled.length > 0
-      ? filterDepartments(departments)
-      : departments;
-    const selectedDepartment = selectedDepartmentSetting
-      ? _.find(validDepartments, (dept) => {
-        return dept.name === selectedDepartmentSetting || dept.id === selectedDepartmentSetting;
-      })
-      : null;
-
-    const departmentOptions = _.map(validDepartments, (department) => {
+    const departmentOptions = _.map(enabledDepartments, (department) => {
       let departmentOption = {
         ...department,
         value: department.id

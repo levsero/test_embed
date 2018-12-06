@@ -484,89 +484,24 @@ describe('chat selectors', () => {
     ];
     let state;
 
-    beforeEach(() => {
-      result = selectors.getPrechatFormFields(state);
+    beforeAll(() => {
+      state = {
+        chat: {
+          accountSettings: mockAccountSettings,
+          departments: mockDepartments
+        },
+        settings: {
+          chat: {
+            departments: {
+              enabled: null
+            }
+          }
+        }
+      };
     });
 
-    describe('enabled departments', () => {
-      describe('is empty', () => {
-        beforeAll(() => {
-          state = {
-            chat: {
-              accountSettings: mockAccountSettings,
-              departments: mockDepartments
-            },
-            settings: {
-              chat: {
-                departments: {
-                  enabled: []
-                }
-              }
-            }
-          };
-        });
-
-        it('does not filter departments', () => {
-          expect(result.departments.length)
-            .toEqual(3);
-        });
-      });
-
-      describe('is not empty', () => {
-        describe('using ids', () => {
-          beforeAll(() => {
-            state = {
-              chat: {
-                accountSettings: mockAccountSettings,
-                departments: mockDepartments
-              },
-              settings: {
-                chat: {
-                  departments: {
-                    enabled:  [12345, 86734]
-                  }
-                }
-              }
-            };
-          });
-
-          it('filters departments correctly', () => {
-            expect(result.departments.length)
-              .toEqual(2);
-            result.departments.forEach((department) => {
-              expect([12345, 86734].includes(department.id))
-                .toEqual(true);
-            });
-          });
-        });
-
-        describe('using names', () => {
-          beforeAll(() => {
-            state = {
-              chat: {
-                accountSettings: mockAccountSettings,
-                departments: mockDepartments
-              },
-              settings: {
-                chat: {
-                  departments: {
-                    enabled:  ['Design', 'Medicine']
-                  }
-                }
-              }
-            };
-          });
-
-          it('filters departments correctly', () => {
-            expect(result.departments.length)
-              .toEqual(2);
-            result.departments.forEach((department) => {
-              expect([12345, 86734].includes(department.id))
-                .toEqual(true);
-            });
-          });
-        });
-      });
+    beforeEach(() => {
+      result = selectors.getPrechatFormFields(state);
     });
 
     describe('standard form fields', () => {
@@ -596,7 +531,7 @@ describe('chat selectors', () => {
           settings: {
             chat: {
               departments: {
-                enabled:  []
+                enabled: null
               },
               department: ''
             }
@@ -669,7 +604,9 @@ describe('chat selectors', () => {
               },
               settings: {
                 chat: {
-                  department: 'Medicine'
+                  department: 'Medicine',
+                  departments: {
+                    enabled: null                  }
                 }
               }
             };

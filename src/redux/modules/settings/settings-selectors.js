@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect';
+import _ from 'lodash';
 
 export const getSettingsChatSuppress = (state) => state.settings.chat.suppress;
-export const getSettingsChatDepartment = (state) => state.settings.chat.departments.select;
-export const getSettingsChatDepartmentsEnabled = (state) => state.settings.chat.departments.enabled;
+export const getRawSettingsChatDepartment = (state) => state.settings.chat.departments.select;
+export const getRawSettingsChatDepartmentsEnabled = (state) => state.settings.chat.departments.enabled;
 export const getSettingsMobileNotificationsDisabled = (state) => (
   state.settings.chat.mobileNotificationsDisabled
 );
@@ -18,6 +19,26 @@ export const getSettingsLauncherBadge = (state) => state.settings.launcher.badge
 export const getSettingsColor = (state) => state.settings.color;
 export const getSettingsColorLauncher = (state) => getSettingsColor(state).launcher;
 export const getSettingsColorLauncherText = (state) => getSettingsColor(state).launcherText;
+
+export const getSettingsChatDepartmentsEnabled = createSelector(
+  getRawSettingsChatDepartmentsEnabled,
+  (departments) => {
+    if (_.isArray(departments)) {
+      return _.compact(
+        departments.map((department) => validateDepartment(department))
+      );
+    }
+  }
+);
+
+export const getSettingsChatDepartment = createSelector(
+  getRawSettingsChatDepartment,
+  (department) => validateDepartment(department)
+);
+
+const validateDepartment = (department) => (
+  _.isInteger(department) ? department : _.toLower(department)
+);
 
 export const getSettingsChatPopout = createSelector(
   [

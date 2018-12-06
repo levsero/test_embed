@@ -4,7 +4,7 @@ import {
 
 import _ from 'lodash';
 
-const initialState = [];
+const initialState = null;
 
 const department = (state = initialState, action) => {
   const { type, payload } = action;

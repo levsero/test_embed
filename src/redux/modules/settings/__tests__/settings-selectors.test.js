@@ -23,26 +23,74 @@ test('getSettingsChatSuppress', () => {
     .toBe(true);
 });
 
-test('getSettingsChatDepartment', () => {
-  const result = selectors.getSettingsChatDepartment(
+test('getRawSettingsChatDepartment', () => {
+  const result = selectors.getRawSettingsChatDepartment(
     chatSettings({
-      departments: { select: [1, 2, 3] }
+      departments: { select: 'Sales' }
     })
   );
 
   expect(result)
-    .toEqual([1, 2, 3]);
+    .toEqual('Sales');
 });
 
-test('getSettingsChatDepartmentsEnabled', () => {
-  const result = selectors.getSettingsChatDepartmentsEnabled(
+describe('getSettingsChatDepartment', () => {
+  const callSelector = (testData) => (
+    selectors.getSettingsChatDepartment(chatSettings({
+      departments: { select: testData }
+    })
+    )
+  );
+
+  test.each([
+    [1,                                1],
+    ['sales',                    'sales'],
+    ['SALES',                    'sales'],
+    [['Foo', 'Bar'],           'foo,bar'],
+    [{ foo: 'bar' },   '[object object]'],
+    [undefined,                       ''],
+    [null,                            ''],
+    [true,                        'true'],
+    [1.5,                          '1.5']
+  ])('when the input is %p, the output is %p',
+    (value, expected) => {
+      expect(callSelector(value)).toEqual(expected);
+    }
+  );
+});
+
+test('getRawSettingsChatDepartmentsEnabled', () => {
+  const result = selectors.getRawSettingsChatDepartmentsEnabled(
     chatSettings({
-      departments: { enabled: true }
+      departments: { enabled: ['Police', 'Fire'] }
     })
   );
 
-  expect(result)
-    .toBe(true);
+  expect(result).toEqual(['Police', 'Fire']);
+});
+
+describe('getSettingsChatDepartmentsEnabled', () => {
+  const callSelector = (data) => (
+    selectors.getSettingsChatDepartmentsEnabled.resultFunc(data)
+  );
+
+  test.each([
+    [['FIRE'],                      ['fire']],
+    [[12345],                        [12345]],
+    [['Police', 12345],    ['police', 12345]],
+    [[],                                  []],
+    [1,                            undefined],
+    ['string',                     undefined],
+    [{ foo: 'bar' },               undefined],
+    [[[1], 2],                      ['1', 2]],
+    [[{ a: 'b' }, 1], ['[object object]', 1]],
+    [[true, false],        ['true', 'false']],
+    [[undefined, null],                   []]
+  ])('when the input is %p, the output is %p',
+    (value, expected) => {
+      expect(callSelector(value)).toEqual(expected);
+    }
+  );
 });
 
 test('getSettingsMobileNotificationsDisabled', () => {

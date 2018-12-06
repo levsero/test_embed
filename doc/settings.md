@@ -572,7 +572,7 @@ Displays only the specified departments in the pre-chat form. All other departme
 
 Department names are matched in a case-insensitive manner.
 
-If the department names or IDs passed in are invalid, the department dropdown menu will not show those options. If no value or valid or null is used, the dropdown won't appear.
+If the department names or IDs passed in are invalid, the department dropdown menu will not show those options. If an empty array is passed, the dropdown won't appear.
 #### Example
 
 <a name="example-departments-enabled"></a>
