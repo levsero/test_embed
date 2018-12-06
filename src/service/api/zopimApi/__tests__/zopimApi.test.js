@@ -1,5 +1,6 @@
 import zopimApi from '..';
 import * as chatActions from 'src/redux/modules/chat';
+import * as baseActions from 'src/redux/modules/base';
 import * as apis from 'src/service/api/apis';
 import { i18n } from 'service/i18n';
 import tracker from 'service/logging/tracker';
@@ -9,6 +10,10 @@ jest.mock('src/redux/modules/chat', () => ({
   setStatusForcefully: jest.fn(),
   setVisitorInfo: jest.fn()
 }));
+jest.mock('src/redux/modules/base', () => ({
+  badgeHideReceived: jest.fn(),
+  badgeShowReceived: jest.fn()
+}));
 jest.mock('service/i18n', () => ({
   i18n: {
     setCustomTranslations: jest.fn()
@@ -17,7 +22,7 @@ jest.mock('service/i18n', () => ({
 jest.mock('service/logging/tracker');
 
 const mockStore = {
-  dispatch: jest.fn()
+  dispatch: () => {}
 };
 
 describe('handleZopimQueue', () => {
@@ -299,14 +304,14 @@ describe('setUpZopimApiMethods', () => {
     test('hide method', () => {
       mockWin.$zopim.livechat.badge.hide();
 
-      expect(apis.hideApi)
+      expect(baseActions.badgeHideReceived)
         .toHaveBeenCalled();
     });
 
     test('show method', () => {
       mockWin.$zopim.livechat.badge.show();
 
-      expect(apis.closeApi)
+      expect(baseActions.badgeShowReceived)
         .toHaveBeenCalled();
       expect(apis.showApi)
         .toHaveBeenCalled();

@@ -138,6 +138,34 @@ describe('base redux actions', () => {
     });
   });
 
+  describe('badgeHideReceived', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.badgeHideReceived());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with BADGE_HIDE_RECEIVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.BADGE_HIDE_RECEIVED);
+    });
+  });
+
+  describe('badgeShowReceived', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.badgeShowReceived());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with BADGE_SHOW_RECEIVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.BADGE_SHOW_RECEIVED);
+    });
+  });
+
   describe('updateEmbeddableConfig', () => {
     let action,
       mockConfig;
