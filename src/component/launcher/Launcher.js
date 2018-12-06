@@ -29,6 +29,7 @@ class Launcher extends Component {
     super(props, context);
 
     this.launcher = null;
+    this.chatBadge = null;
   }
 
   handleBadgeClick = (e) => {
@@ -46,13 +47,23 @@ class Launcher extends Component {
     return this;
   }
 
+  forceUpdate() {
+    if (this.launcher)
+      this.launcher.forceUpdate();
+    if (this.chatBadge)
+      this.chatBadge.forceUpdate();
+  }
+
   render = () => {
     return (this.props.showChatBadgeLauncher)
       ? (
-        <ChatBadge onSend={this.handleBadgeClick} hideBranding={this.props.hideBranding} />
+        <ChatBadge
+          ref={(el) => this.chatBadge = el}
+          onSend={this.handleBadgeClick}
+          hideBranding={this.props.hideBranding} />
       ) : (
         <WidgetLauncher
-          ref={(el) => { this.launcher = el; }}
+          ref={(el) => this.launcher = el}
           onClick={this.props.onClickHandler}
           updateFrameTitle={this.props.updateFrameTitle}
           label={this.props.labelKey}
