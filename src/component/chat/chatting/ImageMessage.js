@@ -46,7 +46,7 @@ export class ImageMessage extends Component {
     };
 
     const thumbnailDiv = (<a className={styles.link} target="_blank" href={this.props.file.url}>
-      <div className={imageClasses} style={imageStyle}></div>
+      <div className={imageClasses} style={imageStyle} />
     </a>);
 
     const placeholder = this.props.placeholderEl ||

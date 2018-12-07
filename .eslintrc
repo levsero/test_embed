@@ -2,7 +2,8 @@
   "extends": [
     "./config/eslint/eslint-defaults.js",
     "./config/eslint/eslint-es6.js",
-    "./config/eslint/eslint-react.js"
+    "./config/eslint/eslint-react.js",
+    "./config/eslint/eslint-plugin-import.js"
   ],
   "plugins": ["jest"],
   "root": true,

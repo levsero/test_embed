@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import { Provider } from 'react-redux';
 
-import { webWidgetStyles } from './webWidgetStyles.js';
+import { webWidgetStyles } from './webWidgetStyles';
 import Frame from 'component/frame/Frame';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';

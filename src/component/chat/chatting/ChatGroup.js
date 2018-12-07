@@ -135,9 +135,9 @@ export class ChatGroup extends Component {
   renderErrorMessage = (chat, isAgent, showAvatar) => {
     const { numFailedTries, msg, timestamp } = chat;
     const messageError = (numFailedTries === 1)
-      ? <MessageError
+      ? (<MessageError
         errorMessage={i18n.t('embeddable_framework.chat.messagefailed.resend')}
-        handleError={() => this.props.handleSendMsg(msg, timestamp)} />
+        handleError={() => this.props.handleSendMsg(msg, timestamp)} />)
       : <MessageError errorMessage={i18n.t('embeddable_framework.chat.messagefailed.failed_twice')} />;
 
     return (

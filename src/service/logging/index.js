@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Rollbar from 'vendor/rollbar.umd.min.js';
+import Rollbar from 'vendor/rollbar.umd.min.js'; // eslint-disable-line import/extensions
 
 import { isIE } from 'utility/devices';
 import { rollbarConfig } from './config';

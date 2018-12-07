@@ -15,7 +15,7 @@ import { Provider } from 'react-redux';
 
 import createStore from 'src/redux/createStore';
 
-import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
+import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles';
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
 
 const FRAME_WIDTH = WIDGET_WIDTH + WIDGET_MARGIN;

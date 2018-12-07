@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 
 const labelBaseColor = (color) => {
   return `
@@ -25,3 +26,7 @@ export const labelCSS = ({ text, base }) => {
   return <style dangerouslySetInnerHTML={{ __html: (labelBase + labelText) }} />;
 };
 
+labelCSS.propTypes = {
+  text: PropTypes.string,
+  base: PropTypes.string
+};
