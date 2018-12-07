@@ -97,10 +97,10 @@ class Frame extends Component {
     visible: PropTypes.bool,
     title: PropTypes.string,
     fixedStyles: PropTypes.shape({
-      height: PropTypes.string,
-      bottom: PropTypes.number,
-      top: PropTypes.string,
-      background: PropTypes.string,
+      height: marginPropType,
+      bottom:  PropTypes.oneOf([0]),
+      top: PropTypes.oneOf(['initial']),
+      background: PropTypes.oneOf(['transparent']),
       maxHeight: PropTypes.string
     }),
     updateWidgetShown: PropTypes.func,

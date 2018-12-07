@@ -89,19 +89,46 @@ class WebWidget extends Component {
   static propTypes = {
     attachmentSender: PropTypes.func,
     callbackEnabled: PropTypes.bool.isRequired,
-    chatNotification: PropTypes.object.isRequired,
+    chatNotification: PropTypes.shape({
+      avatar_path: PropTypes.string, // eslint-disable-line camelcase
+      count: PropTypes.number,
+      display_name: PropTypes.string, // eslint-disable-line camelcase
+      msg: PropTypes.string,
+      nick: PropTypes.string,
+      proactive: PropTypes.bool,
+      show: PropTypes.bool
+    }).isRequired,
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
-    helpCenterConfig: PropTypes.object,
+    helpCenterConfig: PropTypes.shape({
+      buttonLabelKey: PropTypes.string,
+      color: PropTypes.string,
+      contextualHelpEnabled: PropTypes.bool,
+      formTitleKey: PropTypes.string,
+      position: PropTypes.string,
+      signInRequired: PropTypes.bool
+    }),
     hideZendeskLogo: PropTypes.bool,
     oldChat: PropTypes.bool.isRequired,
     onSubmitted: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
     showTicketFormsBackButton: PropTypes.bool,
-    style: PropTypes.object,
+    style: PropTypes.shape({
+      width: PropTypes.number,
+      minHeight: PropTypes.number
+    }),
     subjectEnabled: PropTypes.bool,
-    submitTicketConfig: PropTypes.object,
+    submitTicketConfig: PropTypes.shape({
+      attachmentsEnabled: PropTypes.bool,
+      color: PropTypes.string,
+      customFields: PropTypes.array,
+      formTitleKey: PropTypes.string,
+      maxFileCount: PropTypes.number,
+      maxFileSize: PropTypes.number,
+      position: PropTypes.string,
+      ticketForms: PropTypes.array,
+    }),
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     getFrameContentDocument: PropTypes.func,
@@ -120,7 +147,10 @@ class WebWidget extends Component {
     chatEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
-    talkConfig: PropTypes.object,
+    talkConfig: PropTypes.shape({
+      serviceUrl: PropTypes.string,
+      nickname: PropTypes.string
+    }),
     resetActiveArticle: PropTypes.func.isRequired,
     articleViewActive: PropTypes.bool.isRequired,
     helpCenterSearchFocused: PropTypes.bool.isRequired,
