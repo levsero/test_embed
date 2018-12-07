@@ -11,7 +11,7 @@ describe('ChatOperatingHours component', () => {
     account_schedule: [
       {
         days: [1, [3, 5], 7],
-        periods: [{start: 456, end: 789}]
+        periods: [{ start: 456, end: 789 }]
       },
       {
         days: [2, 6],
@@ -30,7 +30,7 @@ describe('ChatOperatingHours component', () => {
         schedule: [
           {
             days: [1, [3, 5], 7],
-            periods: [{start: 456, end: 789}]
+            periods: [{ start: 456, end: 789 }]
           },
           {
             days: [2, 6],
@@ -44,7 +44,7 @@ describe('ChatOperatingHours component', () => {
         schedule: [
           {
             days: [1, [3, 5], 7],
-            periods: [{start: 456, end: 789}]
+            periods: [{ start: 456, end: 789 }]
           },
           {
             days: [2, 6],
@@ -66,15 +66,15 @@ describe('ChatOperatingHours component', () => {
         schedule: [
           {
             days: [1, [3, 6]],
-            periods: [{start: 456, end: 789}]
+            periods: [{ start: 456, end: 789 }]
           },
           {
             days: [2],
-            periods: [{start: 800, end: 900}]
+            periods: [{ start: 800, end: 900 }]
           },
           {
             days: [7],
-            periods: [{start: 456, end: 789}, {start: 800, end: 900}]
+            periods: [{ start: 456, end: 789 }, { start: 800, end: 900 }]
           }
         ]
       }

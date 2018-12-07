@@ -1336,13 +1336,13 @@ describe('chat redux actions', () => {
               6: []
             },
             b: {
-              0: [{ start: 0, end: 1}],
-              1: [{ start: 0, end: 1}],
-              2: [{ start: 0, end: 1}],
-              3: [{ start: 0, end: 1}],
-              4: [{ start: 0, end: 1}],
-              5: [{ start: 0, end: 1}],
-              6: [{ start: 0, end: 1}],
+              0: [{ start: 0, end: 1 }],
+              1: [{ start: 0, end: 1 }],
+              2: [{ start: 0, end: 1 }],
+              3: [{ start: 0, end: 1 }],
+              4: [{ start: 0, end: 1 }],
+              5: [{ start: 0, end: 1 }],
+              6: [{ start: 0, end: 1 }],
             }
           },
           timezone: 'Africa/Sao_Tome'

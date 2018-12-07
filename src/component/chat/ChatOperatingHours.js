@@ -38,8 +38,6 @@ export class ChatOperatingHours extends Component {
     }
   }
 
-  daysOfTheWeek = ['', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-
   hourRange = (range) => {
     const currentLocale = i18n.getLocale();
 
@@ -93,7 +91,9 @@ export class ChatOperatingHours extends Component {
   }
 
   renderDayName = (id) => {
-    return i18n.t(`embeddable_framework.chat.operatingHours.label.${this.daysOfTheWeek[id]}`);
+    const daysOfTheWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+    return i18n.t(`embeddable_framework.chat.operatingHours.label.${daysOfTheWeek[id-1]}`);
   }
 
   renderApplicableDays = (days, index) => {

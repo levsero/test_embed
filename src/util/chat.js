@@ -28,7 +28,7 @@ function combineNumbers(numbers) {
 
 const periodsToString = periods => periods.map(period => `${period.start},${period.end}`).toString();
 const stringToPeriods = str => str
-  ? _.chunk(str.split(','), 2).map(arr => ({start: parseInt(arr[0], 10), end: parseInt(arr[1], 10)}))
+  ? _.chunk(str.split(','), 2).map(arr => ({ start: parseInt(arr[0], 10), end: parseInt(arr[1], 10) }))
   : [];
 
 /**
@@ -37,13 +37,13 @@ const stringToPeriods = str => str
  * @return {FormattedSchedule[]}
  */
 function formatSchedule(schedule) {
-  schedule = {...schedule, 7: schedule[0]}; // use 7 for Sunday
+  schedule = { ...schedule, 7: schedule[0] }; // use 7 for Sunday
   delete schedule[0];
 
   return _.chain(schedule)
     .mapValues(periodsToString)
     .invertBy()
-    .map((days, periods) => ({periods: stringToPeriods(periods), days: combineNumbers(days)}))
+    .map((days, periods) => ({ periods: stringToPeriods(periods), days: combineNumbers(days) }))
     .sortBy(['days'])
     .value();
 }

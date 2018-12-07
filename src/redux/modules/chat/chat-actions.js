@@ -305,7 +305,7 @@ export function getOperatingHours() {
     const operatingHours = zChat.getOperatingHours();
 
     if (operatingHours) {
-      const {type, timezone, enabled} = operatingHours;
+      const { type, timezone, enabled } = operatingHours;
 
       if (!enabled) return dispatch({ type: actions.GET_OPERATING_HOURS_REQUEST_SUCCESS, payload: { enabled } });
 
