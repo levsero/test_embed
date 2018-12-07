@@ -24,6 +24,7 @@ module.exports = {
       2,
       'always'
     ],
+    'object-curly-spacing': [2, 'always'],
     'strict': 0,
     'no-case-declarations': 0,
     'no-multiple-empty-lines': [

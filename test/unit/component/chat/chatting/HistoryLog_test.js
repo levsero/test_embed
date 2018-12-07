@@ -6,7 +6,7 @@ describe('HistoryLog component', () => {
     i18n;
 
   let agents = {
-    'agent:123': { display_name: 'Agent123', nick: 'agent:123', typing: false, avatar_path: '/path/to/avatar'}
+    'agent:123': { display_name: 'Agent123', nick: 'agent:123', typing: false, avatar_path: '/path/to/avatar' }
   };
 
   const HistoryLogPath = buildSrcPath('component/chat/chatting/HistoryLog');
@@ -207,13 +207,13 @@ describe('HistoryLog component', () => {
       };
 
       const expectedResult = [
-        { component: EventMessage, props: { event: log[100][0] }},
-        { component: ChatGroup, props: { isAgent: false, messages: log[200], avatarPath: undefined }},
-        { component: EventMessage, props: { event: log[400][0] }},
-        { component: ChatGroup, props: { isAgent: true, messages: log[500], avatarPath: '/path/to/avatar' }},
-        { component: ChatGroup, props: { isAgent: false, messages: log[700], avatarPath: undefined }},
-        { component: EventMessage, props: { event: log[800][0] }},
-        { component: EventMessage, props: { event: log[900][0] }}
+        { component: EventMessage, props: { event: log[100][0] } },
+        { component: ChatGroup, props: { isAgent: false, messages: log[200], avatarPath: undefined } },
+        { component: EventMessage, props: { event: log[400][0] } },
+        { component: ChatGroup, props: { isAgent: true, messages: log[500], avatarPath: '/path/to/avatar' } },
+        { component: ChatGroup, props: { isAgent: false, messages: log[700], avatarPath: undefined } },
+        { component: EventMessage, props: { event: log[800][0] } },
+        { component: EventMessage, props: { event: log[900][0] } }
       ];
 
       beforeEach(() => {

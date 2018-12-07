@@ -19,7 +19,7 @@ describe('base reducer embeddable config', () => {
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
 
-    initialState = reducer(undefined, { type: ''});
+    initialState = reducer(undefined, { type: '' });
   });
 
   afterAll(() => {

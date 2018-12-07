@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {locals as styles} from './PanelCard.scss';
+import { locals as styles } from './PanelCard.scss';
 
 import { Card } from './pure/Card';
 import { ButtonList } from './pure/ButtonList';
@@ -23,7 +23,7 @@ const PanelPropType = PropTypes.shape({
 /**
  * A HOC to return the body of the Panel
  */
-const PanelBody = ({className, onClick, children}) => {
+const PanelBody = ({ className, onClick, children }) => {
   if (onClick) {
     return (
       <button className={className} onClick={onClick}>
@@ -118,7 +118,7 @@ export class PanelCard extends Component {
       [styles.hasLink]: this.props.panel.onClick
     });
 
-    const panel = {...PanelCard.defaultProps.panel, ...this.props.panel};
+    const panel = { ...PanelCard.defaultProps.panel, ...this.props.panel };
 
     return (
       <Card>

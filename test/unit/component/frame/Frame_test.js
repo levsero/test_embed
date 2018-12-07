@@ -630,7 +630,7 @@ describe('Frame', () => {
 
       describe('when settings sets position to top', () => {
         beforeEach(() => {
-          mockSettingsValue = { position: { vertical: 'top'} };
+          mockSettingsValue = { position: { vertical: 'top' } };
 
           frame = domRender(<Frame>{mockChild}</Frame>);
         });
@@ -671,7 +671,7 @@ describe('Frame', () => {
 
       describe('when settings sets position', () => {
         beforeEach(() => {
-          mockSettingsValue = { position: { horizontal: 'left'} };
+          mockSettingsValue = { position: { horizontal: 'left' } };
 
           frame = domRender(<Frame>{mockChild}</Frame>);
         });

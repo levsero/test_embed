@@ -21,7 +21,7 @@ export class ButtonCard extends Component {
     };
 
     render() {
-      const {createAction} = this.props;
+      const { createAction } = this.props;
 
       const buttons = this.props.buttons.map((button, index) => (
         <Button {...button} key={index} createAction={createAction} />

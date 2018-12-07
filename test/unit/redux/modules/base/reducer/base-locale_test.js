@@ -11,7 +11,7 @@ describe('base reducer locale', () => {
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
 
-    initialState = reducer(undefined, {type: ''});
+    initialState = reducer(undefined, { type: '' });
   });
 
   describe('initial state', () => {

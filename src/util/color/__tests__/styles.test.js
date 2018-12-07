@@ -109,7 +109,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           button: '#DC143C'
-        }};
+        } };
 
         css = generateUserWidgetCSS();
 
@@ -123,7 +123,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           button: '#YOYOYO'
-        }};
+        } };
 
         css = generateUserWidgetCSS();
 
@@ -139,7 +139,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           header: '#556B2F'
-        }};
+        } };
 
         css = generateUserWidgetCSS();
 
@@ -153,7 +153,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           header: '#JUJAJU'
-        }};
+        } };
 
         css = generateUserWidgetCSS();
 
@@ -169,7 +169,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           launcher: '#FFD700'
-        }};
+        } };
 
         css = generateUserLauncherCSS();
 
@@ -183,7 +183,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           launcher: '#SARASA'
-        }};
+        } };
 
         css = generateUserLauncherCSS();
 
@@ -199,7 +199,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           articleLinks: '#6B8E23'
-        }};
+        } };
 
         css = generateUserWidgetCSS();
 
@@ -213,7 +213,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           articleLinks: '#MOOMOO'
-        }};
+        } };
 
         css = generateUserWidgetCSS();
 
@@ -229,7 +229,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           resultLists: '#2E8B57'
-        }};
+        } };
 
         css = generateUserWidgetCSS();
 
@@ -243,7 +243,7 @@ describe('when overriding with zESettings', () => {
         mockSettingsValue = { color: {
           theme: baseThemeColor,
           links: '#SNOOPD'
-        }};
+        } };
 
         css = generateUserWidgetCSS();
 

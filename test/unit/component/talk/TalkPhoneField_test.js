@@ -163,7 +163,7 @@ describe('Render phone field', () => {
 
     describe('when the input value does not start with the country code', () => {
       beforeEach(() => {
-        phoneField.onInputChange({ target: { value: '' }});
+        phoneField.onInputChange({ target: { value: '' } });
       });
 
       it('sets state.inputValue to the country code', () => {
@@ -174,7 +174,7 @@ describe('Render phone field', () => {
 
     describe('when the input value does start with the country code', () => {
       beforeEach(() => {
-        phoneField.onInputChange({ target: { value: '+61432067819' }});
+        phoneField.onInputChange({ target: { value: '+61432067819' } });
       });
 
       it('sets state.inputValue to the formatted phone number', () => {
@@ -185,7 +185,7 @@ describe('Render phone field', () => {
 
     describe('when the input value is a valid phone number', () => {
       beforeEach(() => {
-        phoneField.onInputChange({ target: { value: '+61432067819' }});
+        phoneField.onInputChange({ target: { value: '+61432067819' } });
       });
 
       it('calls phoneInput.setCustomValidity with an empty string', () => {
@@ -196,7 +196,7 @@ describe('Render phone field', () => {
 
     describe('when the input value is not a valid phone number', () => {
       beforeEach(() => {
-        phoneField.onInputChange({ target: { value: '+6143206' }});
+        phoneField.onInputChange({ target: { value: '+6143206' } });
       });
 
       it('calls phoneInput.setCustomValidity with an "Error" string', () => {

@@ -352,7 +352,7 @@ describe('renderer', () => {
       describe('newChat is false', () => {
         beforeEach(() => {
           const config = {
-            embeds: { zopimChat: { embed: 'chat' }}
+            embeds: { zopimChat: { embed: 'chat' } }
           };
 
           mockWebWidget.create.calls.reset();
@@ -375,7 +375,7 @@ describe('renderer', () => {
         beforeEach(() => {
           const config = {
             newChat: true,
-            embeds: { zopimChat: { embed: 'chat' }}
+            embeds: { zopimChat: { embed: 'chat' } }
           };
 
           mockWebWidget.create.calls.reset();

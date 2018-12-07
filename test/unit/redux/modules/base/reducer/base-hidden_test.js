@@ -12,7 +12,7 @@ describe('base reducer hidden', () => {
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
 
-    initialState = reducer(undefined, {type: ''});
+    initialState = reducer(undefined, { type: '' });
   });
 
   beforeEach(() => {
@@ -56,7 +56,7 @@ describe('base reducer hidden', () => {
           activateApi: false
         };
 
-        state = reducer(undefined, {type: actionTypes.ACTIVATE_RECEIVED,
+        state = reducer(undefined, { type: actionTypes.ACTIVATE_RECEIVED,
           payload: {
             hideOnClose: false
           }

@@ -920,7 +920,7 @@ describe('embed.webWidget', () => {
         it('calls zChat init with the chat key and the override_proxy key', () => {
           mockChatVendorImport.then((mockZChat) => {
             expect(mockZChat.init.calls.mostRecent().args[0])
-              .toEqual({ account_key: '123abc', override_proxy: 'hades.zopim.org'});
+              .toEqual({ account_key: '123abc', override_proxy: 'hades.zopim.org' });
           });
         });
       });
@@ -942,7 +942,7 @@ describe('embed.webWidget', () => {
         it('calls zChat init with the chat key and the override_proxy key from localStorage', () => {
           mockChatVendorImport.then((mockZChat) => {
             expect(mockZChat.init.calls.mostRecent().args[0])
-              .toEqual({ account_key: '456def', override_proxy: 'sg08.zopim.com'});
+              .toEqual({ account_key: '456def', override_proxy: 'sg08.zopim.com' });
           });
         });
       });
@@ -1288,7 +1288,7 @@ describe('embed.webWidget', () => {
     describe('authentication', () => {
       describe('when there are valid support auth settings', () => {
         beforeEach(() => {
-          webWidget.create('', { helpCenterForm: {} }, {dispatch: () => {}});
+          webWidget.create('', { helpCenterForm: {} }, { dispatch: () => {} });
           mockSupportAuthValue = { jwt: 'token' };
           webWidget.postRender();
         });

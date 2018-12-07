@@ -108,7 +108,7 @@ describe('RatingScreen component', () => {
       });
 
       it('sends the chat rating if it has changed', () => {
-        const newRating = { value: 'updated_rating'};
+        const newRating = { value: 'updated_rating' };
 
         component.sendClick(newRating);
         expect(sendChatRatingSpy).toHaveBeenCalledWith(newRating);

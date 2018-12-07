@@ -162,7 +162,7 @@ export class ChatOperatingHours extends Component {
             appendToNode={this.props.getFrameContentDocument().body}
             onChange={this.setActiveDepartment}
             popperModifiers={{ flip: { enabled: false }, preventOverflow: { escapeWithReference: true } }}
-            dropdownProps={{ style: { maxHeight: `${140/FONT_SIZE}rem`, overflow: 'auto' }}}
+            dropdownProps={{ style: { maxHeight: `${140/FONT_SIZE}rem`, overflow: 'auto' } }}
             options={departments}>
             {selectedDepartmentSchedule.name}
           </Select>
@@ -185,7 +185,7 @@ export class ChatOperatingHours extends Component {
 
     return (
       <div className={styles.container}>
-        <h4 className={styles.title} dangerouslySetInnerHTML={{__html: title}} />
+        <h4 className={styles.title} dangerouslySetInnerHTML={{ __html: title }} />
         {this.renderAccountSchedule()}
         {this.renderDepartmentSchedule()}
         {this.renderBackButton()}

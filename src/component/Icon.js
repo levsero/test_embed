@@ -95,7 +95,7 @@ export class Icon extends Component {
       <span onClick={this.props.onClick}
         className={iconClasses}
         type={this.props.type}
-        dangerouslySetInnerHTML={{__html: icon}} />
+        dangerouslySetInnerHTML={{ __html: icon }} />
     );
   }
 }

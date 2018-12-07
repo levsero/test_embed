@@ -24,7 +24,7 @@ export class ProgressBar extends Component {
       <div className={styles.container}>
         <div
           className={progressBarClasses}
-          style={{width: `${Math.floor(this.props.percentLoaded)}%`}}
+          style={{ width: `${Math.floor(this.props.percentLoaded)}%` }}
         />
       </div>
     );
