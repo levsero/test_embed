@@ -5,7 +5,6 @@ import createLogger from 'redux-logger';
 import reduxCatch from 'redux-catch';
 
 import { store } from 'service/persistence';
-import { getEnvironment } from 'src/util/utils';
 
 import reducer from 'src/redux/modules/reducer';
 import onStateChangeFn from 'src/redux/middleware/onStateChange/onStateChange';
@@ -23,7 +22,7 @@ function loggerTitleFormatter(storeName) {
 }
 
 export default function(storeName = 'web_widget', options = {}) {
-  const enableLogging = __DEV__ || getEnvironment() === 'staging' || store.get('debug');
+  const enableLogging = __DEV__ || store.get('debug');
   const logger = createLogger({
     collapsed: true,
     titleFormatter: loggerTitleFormatter(storeName)

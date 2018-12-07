@@ -12,8 +12,16 @@ function isDefaultNickname(name) {
 }
 
 function createChatPopoutWindow(chatPopoutSettings) {
-  let url = __DEV__ ? 'src/asset/templates/popout.html'
-    : 'https://static-staging.zdassets.com/web_widget/latest/popout.html';
+  const hostName = win.location.hostname;
+  let url;
+
+  if (__DEV__) {
+    url = 'src/asset/templates/popout.html';
+  } else if (hostName.indexOf('-staging.') !== -1) {
+    url = 'https://static-staging.zdassets.com/web_widget/latest/popout.html';
+  } else {
+    url ='https://static.zdassets.com/web_widget/latest/popout.html';
+  }
 
   url += generateQueryString(chatPopoutSettings);
 
