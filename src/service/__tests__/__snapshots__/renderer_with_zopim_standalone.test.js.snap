@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`zopim standalone 1`] = `
+"<script>
+    (function(d,s){var z=$zopim,$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
+    $.async=!0;$.setAttribute('charset','utf-8');
+    $.src='https://v2.zopim.com/?2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
+    z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+  </script>"
+`;
