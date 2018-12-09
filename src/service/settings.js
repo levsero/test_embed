@@ -237,6 +237,11 @@ function enableCustomizations() {
   webWidgetCustomizations = true;
 }
 
+// Only used in testing
+function disableCustomizations() {
+  webWidgetCustomizations = false;
+}
+
 function updateSettingsLegacy(newSettings, callback=() => {}) {
   _.merge(webWidgetStore, newSettings);
   callback();
@@ -252,5 +257,6 @@ export const settings = {
   getChatAuthSettings,
   getErrorReportingEnabled,
   enableCustomizations,
-  updateSettingsLegacy
+  updateSettingsLegacy,
+  disableCustomizations
 };
