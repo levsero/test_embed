@@ -129,7 +129,7 @@ describe('ChatContactDetailsPopup component', () => {
       component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
 
       spyOn(component, 'setState');
-      component.props = {...component.props, ...mockProps};
+      component.props = { ...component.props, ...mockProps };
       component.handleSave();
     });
 
@@ -165,7 +165,7 @@ describe('ChatContactDetailsPopup component', () => {
 
     describe('when form is valid', () => {
       beforeAll(() => {
-        mockProps = { contactDetails: {display_name: 'bob', email: 'bob@zd.com' }};
+        mockProps = { contactDetails: { display_name: 'bob', email: 'bob@zd.com' } };
         mockEmailValid = true;
       });
 

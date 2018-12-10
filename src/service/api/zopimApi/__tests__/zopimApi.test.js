@@ -969,7 +969,7 @@ describe('setUpZopimApiMethods', () => {
     mockWin.$zopim.livechat.setName('wayne');
 
     expect(apis.prefill)
-      .toHaveBeenCalledWith(mockStore, { name: { value: 'wayne' }});
+      .toHaveBeenCalledWith(mockStore, { name: { value: 'wayne' } });
 
     expect(chatActions.setVisitorInfo)
       .toHaveBeenCalledWith({ display_name: 'wayne' }); // eslint-disable-line camelcase
@@ -979,16 +979,16 @@ describe('setUpZopimApiMethods', () => {
     mockWin.$zopim.livechat.setEmail('wayne@see.com');
 
     expect(apis.prefill)
-      .toHaveBeenCalledWith(mockStore, { email: { value: 'wayne@see.com' }});
+      .toHaveBeenCalledWith(mockStore, { email: { value: 'wayne@see.com' } });
     expect(chatActions.setVisitorInfo)
-      .toHaveBeenCalledWith({'email': 'wayne@see.com'});
+      .toHaveBeenCalledWith({ 'email': 'wayne@see.com' });
   });
 
   test('setPhone', () => {
     mockWin.$zopim.livechat.setPhone('011111');
 
     expect(apis.prefill)
-      .toHaveBeenCalledWith(mockStore, { phone: { value: '011111' }});
+      .toHaveBeenCalledWith(mockStore, { phone: { value: '011111' } });
     expect(chatActions.setVisitorInfo)
       .toHaveBeenCalledWith({ phone: '011111' });
   });

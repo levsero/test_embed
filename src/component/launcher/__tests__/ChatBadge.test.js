@@ -16,7 +16,7 @@ const renderComponent = (props = {}) => {
     bannerSettings: {}
   };
 
-  const mergedProps = {...defaultProps, ...props};
+  const mergedProps = { ...defaultProps, ...props };
 
   return render(<ChatBadge {...mergedProps} />);
 };
@@ -38,7 +38,7 @@ test('with chatBadgeColor passed in', () => {
 
 test('with label passed in', () => {
   const bannerSettings = { label: 'wanna chat?' };
-  const { container } = renderComponent({bannerSettings});
+  const { container } = renderComponent({ bannerSettings });
 
   expect(container)
     .toMatchSnapshot();

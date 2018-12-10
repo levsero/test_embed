@@ -141,7 +141,7 @@ describe('Form component', () => {
 
     beforeEach(() => {
       onChangeSpy = jasmine.createSpy('onChange');
-      form = instanceRender(<Form formState={{email: 'a@a.com'}} onChange={onChangeSpy} />);
+      form = instanceRender(<Form formState={{ email: 'a@a.com' }} onChange={onChangeSpy} />);
       formElement = { checkValidity: () => mockFormValidity };
 
       form.form = formElement;

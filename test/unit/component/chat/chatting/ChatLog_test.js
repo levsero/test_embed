@@ -299,13 +299,13 @@ describe('ChatLog component', () => {
       };
 
       const expectedResult = [
-        { component: EventMessage, props: { event: chatLog[100][0] }},
-        { component: ChatGroup, props: { isAgent: false, messages: chatLog[200], avatarPath: undefined }},
-        { component: EventMessage, props: { event: chatLog[400][0] }},
-        { component: ChatGroup, props: { isAgent: true, messages: chatLog[500], avatarPath: '/path/to/avatar' }},
-        { component: ChatGroup, props: { isAgent: false, messages: chatLog[700], avatarPath: undefined }},
-        { component: EventMessage, props: { event: chatLog[800][0] }},
-        { component: EventMessage, props: { event: chatLog[900][0] }}
+        { component: EventMessage, props: { event: chatLog[100][0] } },
+        { component: ChatGroup, props: { isAgent: false, messages: chatLog[200], avatarPath: undefined } },
+        { component: EventMessage, props: { event: chatLog[400][0] } },
+        { component: ChatGroup, props: { isAgent: true, messages: chatLog[500], avatarPath: '/path/to/avatar' } },
+        { component: ChatGroup, props: { isAgent: false, messages: chatLog[700], avatarPath: undefined } },
+        { component: EventMessage, props: { event: chatLog[800][0] } },
+        { component: EventMessage, props: { event: chatLog[900][0] } }
       ];
 
       beforeEach(() => {
@@ -460,7 +460,7 @@ describe('ChatLog component', () => {
 
       describe('when there are other agents left in the chat ', () => {
         agentsLeft = {
-          'agent:jones': { display_name: 'AgentJones', nick: 'agent:jones', typing: false, avatar_path: '/path/to/avatar'}
+          'agent:jones': { display_name: 'AgentJones', nick: 'agent:jones', typing: false, avatar_path: '/path/to/avatar' }
         };
 
         chatLog = {

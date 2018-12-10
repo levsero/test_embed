@@ -17,7 +17,7 @@ describe('rendering', () => {
       onNextClick: jest.fn(),
       callbackEnabled: false
     };
-    const mergedProps = {...defaultProps, ...props};
+    const mergedProps = { ...defaultProps, ...props };
     const component = <ChannelChoiceMenu {...mergedProps} />;
 
     if (renderer) {
@@ -171,7 +171,7 @@ describe('dom interaction', () => {
       onNextClick: jest.fn(),
       callbackEnabled: false
     };
-    const mergedProps = {...defaultProps, ...props};
+    const mergedProps = { ...defaultProps, ...props };
     const component =  <ChannelChoiceMenu {...mergedProps} />;
 
     return render(component);

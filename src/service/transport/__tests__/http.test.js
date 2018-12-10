@@ -223,7 +223,7 @@ describe('#send', () => {
 
       const callback = recentCall[0];
 
-      callback({error: true}, undefined);
+      callback({ error: true }, undefined);
 
       expect(payload.callbacks.fail)
         .toHaveBeenCalled();
@@ -246,7 +246,7 @@ describe('#send', () => {
     const callback = recentCall[0];
 
     expect(() => {
-      callback(null, {ok: true});
+      callback(null, { ok: true });
     }).not.toThrow();
   });
 
@@ -263,7 +263,7 @@ describe('#send', () => {
     const callback = recentCall[0];
 
     expect(() => {
-      callback(null, {ok: true});
+      callback(null, { ok: true });
     }).not.toThrow();
   });
 
@@ -280,7 +280,7 @@ describe('#send', () => {
     const callback = recentCall[0];
 
     expect(() => {
-      callback({error: true}, undefined);
+      callback({ error: true }, undefined);
     }).not.toThrow();
   });
 

@@ -27,7 +27,7 @@ describe('EmbedWrapper', () => {
             querySelector: () => ({
               focus: hostDocumentFocusSpy,
               contentDocument: {
-                querySelector: () => ({focus: noop})
+                querySelector: () => ({ focus: noop })
               }
             })
           };

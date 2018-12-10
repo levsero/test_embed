@@ -179,7 +179,7 @@ export class TalkPhoneField extends ControlledComponent {
           document={this.props.getFrameContentDocument()}
           theme={talkDropdownOverrides}>
           <FieldContainer>
-            {({getLabelProps: getFieldLabelProps, getInputProps: getFieldInputProps}) => {
+            {({ getLabelProps: getFieldLabelProps, getInputProps: getFieldInputProps }) => {
               return (
                 <Fragment>
                   <Label {...this.getLabelProps(getFieldLabelProps())}

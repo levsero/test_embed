@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {IconButton} from '@zendeskgarden/react-buttons';
+import { IconButton } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
 
-import {locals as styles} from './SliderContainer.scss';
+import { locals as styles } from './SliderContainer.scss';
 
-import {Icon} from 'component/Icon';
+import { Icon } from 'component/Icon';
 import { getSliderVendor } from 'src/redux/modules/chat/chat-selectors';
 
 const mapStateToProps = (state) => {
@@ -235,7 +235,7 @@ export class SliderContainer extends Component {
     });
 
     const NextArrow = (props) => {
-      const {className, onClick} = props;
+      const { className, onClick } = props;
 
       return (
         <IconButton
@@ -248,7 +248,7 @@ export class SliderContainer extends Component {
       );
     };
     const PrevArrow = (props) => {
-      const {className, onClick} = props;
+      const { className, onClick } = props;
 
       return (
         <IconButton
@@ -344,4 +344,4 @@ function calculateChildWidth(child) {
   return slickSlideEle.clientWidth + getComputedStyle(slickSlideEle, 'margin-right', true);
 }
 
-export default connect(mapStateToProps, null, null, {withRef: true})(SliderContainer);
+export default connect(mapStateToProps, null, null, { withRef: true })(SliderContainer);

@@ -228,7 +228,7 @@ describe('Pure PanelCard Component', () => {
 
     it('should return not null when imageUrl is defined', () => {
       const component = instanceRender(<PanelCard />);
-      const response = component.renderPanelImage({imageUrl: 'image.png'});
+      const response = component.renderPanelImage({ imageUrl: 'image.png' });
 
       expect(response).not.toEqual(undefined);
     });
@@ -240,7 +240,7 @@ describe('Pure PanelCard Component', () => {
         imageAspectRatio: 4/3
       });
 
-      expect(response.props.children[0].props.style).toEqual({paddingBottom: '75%'});
+      expect(response.props.children[0].props.style).toEqual({ paddingBottom: '75%' });
     });
   });
 

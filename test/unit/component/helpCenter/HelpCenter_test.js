@@ -353,9 +353,9 @@ describe('HelpCenter component', () => {
   });
 
   describe('performing a search', () => {
-    const responsePayloadError = {ok: false, body: {}};
-    const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
-    const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
+    const responsePayloadError = { ok: false, body: {} };
+    const responsePayloadResults = { ok: true, body: { results: [1, 2, 3], count: 3 } };
+    const responsePayloadNoResults = { ok: true, body: { results: [], count: 0 } };
     const searchTerm = 'help me please';
 
     let helpCenter,
@@ -669,7 +669,7 @@ describe('HelpCenter component', () => {
       );
 
       helpCenter.getHelpCenterComponent().getSearchField().getValue = () => searchTerm;
-      helpCenter.performSearchWithLocaleFallback({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
+      helpCenter.performSearchWithLocaleFallback({ query: searchTerm }, helpCenter.interactiveSearchSuccessFn);
 
       mockPerformSearch.calls.mostRecent().args[1](responsePayload);
 

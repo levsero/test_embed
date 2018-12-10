@@ -524,7 +524,7 @@ describe('Submit ticket component', () => {
   it('should pass on fullscreen to submitTicketForm', () => {
     const submitTicket = instanceRender(<SubmitTicket />);
 
-    submitTicket.setState({fullscreen: 'VALUE'});
+    submitTicket.setState({ fullscreen: 'VALUE' });
 
     expect(submitTicket.state.fullscreen)
       .toEqual('VALUE');

@@ -63,13 +63,13 @@ describe('analytics middleware', () => {
     describe('next', () => {
       beforeEach(() => {
         nextSpy = jasmine.createSpy('nextSpy');
-        action = { type: 'random_type'};
+        action = { type: 'random_type' };
         trackAnalytics({ getState: () => ({}) })(nextSpy)(action);
       });
 
       it('calls next function', () => {
         expect(nextSpy)
-          .toHaveBeenCalledWith({ type: 'random_type'});
+          .toHaveBeenCalledWith({ type: 'random_type' });
       });
     });
 

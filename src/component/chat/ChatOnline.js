@@ -340,7 +340,7 @@ class Chat extends Component {
     const tryAgainFn = () => updateContactDetailsVisibility(true);
     const saveContactDetailsFn = (name, email) => setVisitorInfo({ display_name: name, email });
     const isAuthenticatedAtAll = isAuthenticated || _.get(socialLogin, 'authenticated', false);
-    const updateDetailsFn = (name, email) => updateContactDetailsFields({display_name: name, email});
+    const updateDetailsFn = (name, email) => updateContactDetailsFields({ display_name: name, email });
 
     return (
       <ChatContactDetailsPopup

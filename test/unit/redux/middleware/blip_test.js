@@ -75,13 +75,13 @@ describe('blip middleware', () => {
         const flatState = {};
 
         nextSpy = jasmine.createSpy('nextSpy');
-        action = { type: 'random_type'};
+        action = { type: 'random_type' };
         sendBlips({ getState: () => flatState })(nextSpy)(action);
       });
 
       it('calls next function', () => {
         expect(nextSpy)
-          .toHaveBeenCalledWith({ type: 'random_type'});
+          .toHaveBeenCalledWith({ type: 'random_type' });
       });
     });
 

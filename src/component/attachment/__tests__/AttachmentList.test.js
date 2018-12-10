@@ -20,7 +20,7 @@ const renderComponent = (props = {}) => {
     updateForm: jest.fn(),
     maxFileSize: 5 * 1024 * 1024
   };
-  const mergedProps = {...defaultProps, ...props};
+  const mergedProps = { ...defaultProps, ...props };
 
   return render(<AttachmentList {...mergedProps} />);
 };

@@ -16,7 +16,7 @@ describe('root reducer', () => {
 
     const reducerPath = buildSrcPath('redux/modules/reducer');
 
-    const mockReducer = (state) => { return {...state}; };
+    const mockReducer = (state) => { return { ...state }; };
 
     initMockRegistry({
       './base/reducer': mockReducer,
@@ -26,7 +26,7 @@ describe('root reducer', () => {
       './talk/reducer': mockReducer,
       './zopimChat/reducer': mockReducer,
       './submitTicket/reducer': mockReducer,
-      './root/reducer/root': (state) => { return {...state, root: true}; }
+      './root/reducer/root': (state) => { return { ...state, root: true }; }
     });
 
     reducer = requireUncached(reducerPath).default;

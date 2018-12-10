@@ -20,7 +20,7 @@ const renderComponent = (props) => {
     file,
     icon: 'Icon--preview-default'
   };
-  const mergedProps = {...defaultProps, ...props};
+  const mergedProps = { ...defaultProps, ...props };
 
   return render(<Attachment {...mergedProps} />);
 };
@@ -36,7 +36,7 @@ describe('size formatting', () => {
   describe('greater than or equal to 1MB', () => {
     it('displays correctly', () => {
       const { container } = renderComponent({
-        file: {...file, size: 1000000 }
+        file: { ...file, size: 1000000 }
       });
 
       expect(container)
@@ -45,7 +45,7 @@ describe('size formatting', () => {
 
     it('includes one decimal place precision', () => {
       const { container } = renderComponent({
-        file: {...file, size: 1120000 }
+        file: { ...file, size: 1120000 }
       });
 
       expect(container)
@@ -56,7 +56,7 @@ describe('size formatting', () => {
   describe('when the file size is less than one megabyte', () => {
     it('displays file size in kilobytes', () => {
       const { container } = renderComponent({
-        file: {...file, size: 999999 }
+        file: { ...file, size: 999999 }
       });
 
       expect(container)
@@ -67,7 +67,7 @@ describe('size formatting', () => {
   describe('when the file size is less than one kilobyte', () => {
     it('displays 1 KB', () => {
       const { container } = renderComponent({
-        file: {...file, size: 999 }
+        file: { ...file, size: 999 }
       });
 
       expect(container)

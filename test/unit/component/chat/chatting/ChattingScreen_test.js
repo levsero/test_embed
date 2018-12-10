@@ -822,7 +822,7 @@ describe('ChattingScreen component', () => {
     });
 
     describe('when state.lastAgentLeaveEvent contains an event', () => {
-      const leaveEvent = {nick: 'agent:123', type: 'chat.memberleave'};
+      const leaveEvent = { nick: 'agent:123', type: 'chat.memberleave' };
 
       beforeEach(() => {
         component = instanceRender(
@@ -1082,7 +1082,7 @@ describe('ChattingScreen component', () => {
 
     describe('when there is an agent in the chat', () => {
       beforeEach(() => {
-        mockAgents = {'agent123456': { display_name: 'Wayne', typing: false }};
+        mockAgents = { 'agent123456': { display_name: 'Wayne', typing: false } };
         queuePosition = 5;
         const component = instanceRender(<ChattingScreen activeAgents={mockAgents} queuePosition={queuePosition} />);
 

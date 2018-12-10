@@ -9,12 +9,12 @@ describe('ChatOperatingHours component', () => {
 
   const mockAccountOperatingHours = {
     account_schedule: [
-      [{start: 456, end: 789}],
-      [{start: 456, end: 789}],
+      [{ start: 456, end: 789 }],
+      [{ start: 456, end: 789 }],
       [],
-      [{start: 456, end: 789}],
-      [{start: 456, end: 789}],
-      [{start: 456, end: 789}],
+      [{ start: 456, end: 789 }],
+      [{ start: 456, end: 789 }],
+      [{ start: 456, end: 789 }],
       []
     ],
     enabled: true,
@@ -25,23 +25,23 @@ describe('ChatOperatingHours component', () => {
       {
         name: 'Sales',
         id: 111,
-        0: [{start: 456, end: 789}],
-        1: [{start: 456, end: 789}],
+        0: [{ start: 456, end: 789 }],
+        1: [{ start: 456, end: 789 }],
         2: [],
-        3: [{start: 456, end: 789}],
-        4: [{start: 456, end: 789}],
-        5: [{start: 456, end: 789}],
+        3: [{ start: 456, end: 789 }],
+        4: [{ start: 456, end: 789 }],
+        5: [{ start: 456, end: 789 }],
         6: []
       },
       {
         name: 'Billing',
         id: 222,
-        0: [{start: 456, end: 789}],
-        1: [{start: 456, end: 789}],
+        0: [{ start: 456, end: 789 }],
+        1: [{ start: 456, end: 789 }],
         2: [],
-        3: [{start: 456, end: 789}],
-        4: [{start: 456, end: 789}],
-        5: [{start: 456, end: 789}],
+        3: [{ start: 456, end: 789 }],
+        4: [{ start: 456, end: 789 }],
+        5: [{ start: 456, end: 789 }],
         6: []
       }
     ],
@@ -54,13 +54,13 @@ describe('ChatOperatingHours component', () => {
       {
         name: 'Sales',
         id: 111,
-        0: [{start: 456, end: 789}, {start: 800, end: 900}],
-        1: [{start: 456, end: 789}],
-        2: [{start: 800, end: 900}],
-        3: [{start: 456, end: 789}],
-        4: [{start: 456, end: 789}],
-        5: [{start: 456, end: 789}],
-        6: [{start: 456, end: 789}]
+        0: [{ start: 456, end: 789 }, { start: 800, end: 900 }],
+        1: [{ start: 456, end: 789 }],
+        2: [{ start: 800, end: 900 }],
+        3: [{ start: 456, end: 789 }],
+        4: [{ start: 456, end: 789 }],
+        5: [{ start: 456, end: 789 }],
+        6: [{ start: 456, end: 789 }]
       }
     ],
     enabled: true,

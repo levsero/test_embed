@@ -1617,7 +1617,7 @@ describe('chat selectors', () => {
         });
 
         it('returns account concierge in an array', () => {
-          expect(result).toEqual([{avatar_path: 'foo.bar'}]);
+          expect(result).toEqual([{ avatar_path: 'foo.bar' }]);
         });
       });
 
@@ -1690,8 +1690,8 @@ describe('chat selectors', () => {
     const mockChatSettings = {
       chat: {
         agents: new Map([
-          ['agent:123', { nick: 'agent:123'} ],
-          ['agent:trigger', { nick: 'agent:trigger'} ]
+          ['agent:123', { nick: 'agent:123' } ],
+          ['agent:trigger', { nick: 'agent:trigger' } ]
         ])
       }
     };
@@ -2041,13 +2041,13 @@ describe('chat selectors', () => {
 
     it('has no quickreply in chat log', () => {
       mockChats = [
-        {type: 'chat.msg', msg: '', timestamp: 2},
-        {nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 30}
+        { type: 'chat.msg', msg: '', timestamp: 2 },
+        { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 30 }
       ];
 
       mockState = {
         chat: {
-          chats: {values: () => new Map(mockChats)}
+          chats: { values: () => new Map(mockChats) }
         }
       };
 
@@ -2058,13 +2058,13 @@ describe('chat selectors', () => {
 
     it('has a valid quickreply in chat log', () => {
       mockChats = [
-        {type: 'chat.msg', msg: '', timestamp: 2},
-        {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30}
+        { type: 'chat.msg', msg: '', timestamp: 2 },
+        { nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30 }
       ];
 
       mockState = {
         chat: {
-          chats: {values: () => mockChats}
+          chats: { values: () => mockChats }
         }
       };
 
@@ -2076,14 +2076,14 @@ describe('chat selectors', () => {
     describe('when there are other chat log after quickreply is found', () => {
       it('there is a non-event message after quickreply', () => {
         mockChats = [
-          {type: 'chat.msg', msg: '', timestamp: 2},
-          {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30},
-          {type: 'chat.msg', msg: 'hey', timestamp: 32},
+          { type: 'chat.msg', msg: '', timestamp: 2 },
+          { nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30 },
+          { type: 'chat.msg', msg: 'hey', timestamp: 32 },
         ];
 
         mockState = {
           chat: {
-            chats: {values: () => mockChats}
+            chats: { values: () => mockChats }
           }
         };
 
@@ -2094,14 +2094,14 @@ describe('chat selectors', () => {
 
       it('an agent who send the quickreply leaves', () => {
         mockChats = [
-          {type: 'chat.msg', msg: '', timestamp: 2},
-          {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30},
-          {type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE, nick: 'agent:123', timestamp: 32},
+          { type: 'chat.msg', msg: '', timestamp: 2 },
+          { nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30 },
+          { type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE, nick: 'agent:123', timestamp: 32 },
         ];
 
         mockState = {
           chat: {
-            chats: {values: () => mockChats}
+            chats: { values: () => mockChats }
           }
         };
 
@@ -2112,14 +2112,14 @@ describe('chat selectors', () => {
 
       it('an agent who did not send the quickreply leaves', () => {
         mockChats = [
-          {type: 'chat.msg', msg: '', timestamp: 2},
-          {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30},
-          {type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE, nick: 'agent:456', timestamp: 32},
+          { type: 'chat.msg', msg: '', timestamp: 2 },
+          { nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30 },
+          { type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE, nick: 'agent:456', timestamp: 32 },
         ];
 
         mockState = {
           chat: {
-            chats: {values: () => mockChats}
+            chats: { values: () => mockChats }
           }
         };
 
@@ -2130,14 +2130,14 @@ describe('chat selectors', () => {
 
       it('a visitor leaves', () => {
         mockChats = [
-          {type: 'chat.msg', msg: '', timestamp: 2},
-          {nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30},
-          {type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE, nick: 'visitor', timestamp: 32},
+          { type: 'chat.msg', msg: '', timestamp: 2 },
+          { nick: 'agent:123', type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES, msg: 'Pick a choice', timestamp: 30 },
+          { type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE, nick: 'visitor', timestamp: 32 },
         ];
 
         mockState = {
           chat: {
-            chats: {values: () => mockChats}
+            chats: { values: () => mockChats }
           }
         };
 
@@ -2731,7 +2731,7 @@ describe('chat selectors', () => {
 
     describe('no chats', () => {
       beforeEach(() => {
-        result = selectors.getFirstMessageTimestamp({ chat: {chats: new Map()}});
+        result = selectors.getFirstMessageTimestamp({ chat: { chats: new Map() } });
       });
 
       it('returns null', () => {

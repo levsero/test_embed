@@ -8,7 +8,7 @@ describe('base bootupTimeout', () => {
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
-    initialState = reducer(undefined, { type: false});
+    initialState = reducer(undefined, { type: false });
     actionTypes = requireUncached(actionTypesPath);
   });
 

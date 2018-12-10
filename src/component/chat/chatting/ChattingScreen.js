@@ -320,7 +320,7 @@ class ChattingScreen extends Component {
         <Transition in={historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING} timeout={0}>
           {(state) => (
             <div
-              style={{...defaultStyle, ...transitionStyles[state]}}
+              style={{ ...defaultStyle, ...transitionStyles[state] }}
               className={styles.historyFetchingText}>
               {i18n.t('embeddable_framework.chat.fetching_history')}
             </div>
@@ -432,12 +432,12 @@ class ChattingScreen extends Component {
 
     if (!quickReply) return null;
 
-    const {timestamp, items} = quickReply;
+    const { timestamp, items } = quickReply;
 
     return (
       <QuickReplies key={timestamp} isMobile={this.props.isMobile}>
         {items.map((item, idx) => {
-          const {action, text} = item;
+          const { action, text } = item;
           const actionFn = () => this.props.sendMsg(action.value);
 
           return <QuickReply key={idx} label={text} onClick={actionFn} />;

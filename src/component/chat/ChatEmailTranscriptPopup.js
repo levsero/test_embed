@@ -164,7 +164,7 @@ export class ChatEmailTranscriptPopup extends Component {
       'embeddable_framework.chat.emailtranscript.success_message',
       { email: `<strong>${this.props.emailTranscript.email}</strong>` }
     );
-    const message = <div className={styles.resultMessage} dangerouslySetInnerHTML={{__html: successLabel}} />;
+    const message = <div className={styles.resultMessage} dangerouslySetInnerHTML={{ __html: successLabel }} />;
 
     return this.renderResultScreen(message);
   }

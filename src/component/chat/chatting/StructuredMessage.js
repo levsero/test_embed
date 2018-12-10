@@ -15,10 +15,10 @@ class StructuredMessage extends Component {
     sendMsg: PropTypes.func,
     schema: PropTypes.oneOfType([
       PropTypes.shape(
-        _.assign({type: PropTypes.string.isRequired}, ButtonCard.schemaPropTypes)
+        _.assign({ type: PropTypes.string.isRequired }, ButtonCard.schemaPropTypes)
       ),
       PropTypes.shape(
-        _.assign({type: PropTypes.string.isRequired}, PanelCard.schemaPropTypes)
+        _.assign({ type: PropTypes.string.isRequired }, PanelCard.schemaPropTypes)
       )
     ]).isRequired
   }
@@ -37,7 +37,7 @@ class StructuredMessage extends Component {
   }
 
   render() {
-    const {schema: {type}} = this.props;
+    const { schema: { type } } = this.props;
     const CHAT_STRUCTURED_MESSAGE_TYPE = CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE;
 
     switch (type) {

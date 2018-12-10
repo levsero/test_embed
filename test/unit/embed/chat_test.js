@@ -137,7 +137,7 @@ describe('embed.chat', () => {
       const chatName = 'dave';
       const zopimId = 'abc123';
 
-      chat.create(chatName, {zopimId: zopimId});
+      chat.create(chatName, { zopimId: zopimId });
 
       expect(chat.get(chatName).config.zopimId)
         .toEqual(zopimId);
@@ -182,7 +182,7 @@ describe('embed.chat', () => {
 
     it('should inject the zopim bootstrap script into the document', () => {
       mockMediator = mockRegistry['service/mediator'].mediator;
-      chat.create(chatName, {zopimId: zopimId});
+      chat.create(chatName, { zopimId: zopimId });
       chat.render(chatName);
 
       expect(document.querySelectorAll('body > script').length)
@@ -199,7 +199,7 @@ describe('embed.chat', () => {
 
     it('should call zopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility()', () => {
       mockMediator = mockRegistry['service/mediator'].mediator;
-      chat.create(chatName, {zopimId: zopimId});
+      chat.create(chatName, { zopimId: zopimId });
       chat.render(chatName);
 
       expect(mockZopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility)
@@ -254,7 +254,7 @@ describe('embed.chat', () => {
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         mockZopim = mockRegistry['utility/globals'].win.$zopim;
-        chat.create(chatName, {zopimId: zopimId}, { dispatch: noop });
+        chat.create(chatName, { zopimId: zopimId }, { dispatch: noop });
         chat.render(chatName);
 
         const livechat = mockZopim.livechat;
@@ -383,7 +383,7 @@ describe('embed.chat', () => {
     describe('mediator subscriptions', () => {
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        chat.create(chatName, {zopimId: zopimId}, { dispatch: noop });
+        chat.create(chatName, { zopimId: zopimId }, { dispatch: noop });
         chat.render(chatName);
       });
 
