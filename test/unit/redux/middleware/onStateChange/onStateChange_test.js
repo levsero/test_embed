@@ -24,6 +24,7 @@ describe('onStateChange middleware', () => {
   const handleIsChattingSpy = jasmine.createSpy('handleIsChatting');
   const handleChatConnectedSpy = jasmine.createSpy('handleChatConnected');
   const chatConnectedSpy = jasmine.createSpy('chatConnected');
+  const updateChatSettingsSpy = jasmine.createSpy('updateChatSettings');
   const chatWindowOpenOnNavigateSpy = jasmine.createSpy('chatWindowOpenOnNavigateSpy');
   const activateRecievedSpy = jasmine.createSpy('activateRecieved');
   const resetShouldWarnSpy = jasmine.createSpy('resetShouldWarn');
@@ -125,7 +126,8 @@ describe('onStateChange middleware', () => {
       },
       'src/constants/chat': {
         CONNECTION_STATUSES: {
-          CONNECTING: 'connecting'
+          CONNECTING: 'connecting',
+          CONNECTED: 'connected'
         }
       },
       'src/redux/middleware/onStateChange/onZopimStateChange': {
@@ -160,6 +162,9 @@ describe('onStateChange middleware', () => {
       'src/redux/middleware/onStateChange/onChatOpen': noop,
       'src/util/nullZChat': {
         resetShouldWarn: resetShouldWarnSpy
+      },
+      'src/redux/modules/settings/settings-actions': {
+        updateChatSettings: updateChatSettingsSpy
       }
     });
 
@@ -186,7 +191,7 @@ describe('onStateChange middleware', () => {
           stateChangeFn(connectingState, connectingState, {}, dispatchSpy);
         });
 
-        it('does dispatch the event CHAT_CONNECTED', () => {
+        it('does not dispatch the event CHAT_CONNECTED', () => {
           expect(dispatchSpy)
             .not.toHaveBeenCalledWith({ type: 'CHAT_CONNECTED' });
         });
@@ -218,6 +223,11 @@ describe('onStateChange middleware', () => {
 
         it('dispatches the getAccountSettings action creator', () => {
           expect(getAccountSettingsSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('dispatches the updateChatSettings action creator', () => {
+          expect(updateChatSettingsSpy)
             .toHaveBeenCalled();
         });
 
@@ -257,80 +267,6 @@ describe('onStateChange middleware', () => {
           it('does not call mediator with newChat.connected with the store value', () => {
             expect(broadcastSpy)
               .not.toHaveBeenCalledWith('newChat.connected', false);
-          });
-        });
-
-        describe('when department supplied via settings', () => {
-          beforeAll(() => {
-            mockDepartmentLists = [
-              {
-                name: 'Department',
-                id: 10
-              }
-            ];
-          });
-
-          describe('when the department is supplied by name', () => {
-            beforeAll(() => {
-              setDepartmentSpy.calls.reset();
-              clearDepartmentSpy.calls.reset();
-              mockGetSettingsChatDepartment = 'Department';
-            });
-
-            it('calls setDepartment with correct args', () => {
-              expect(setDepartmentSpy)
-                .toHaveBeenCalledWith(10);
-            });
-
-            it('does not call clearDepartment', () => {
-              expect(clearDepartmentSpy)
-                .not
-                .toHaveBeenCalled();
-            });
-          });
-
-          describe('when the department is supplied by id', () => {
-            beforeAll(() => {
-              setDepartmentSpy.calls.reset();
-              clearDepartmentSpy.calls.reset();
-              mockGetSettingsChatDepartment = 10;
-            });
-
-            it('calls setDepartment with correct args', () => {
-              expect(setDepartmentSpy)
-                .toHaveBeenCalledWith(10);
-            });
-
-            it('does not call clearDepartment', () => {
-              expect(clearDepartmentSpy)
-                .not
-                .toHaveBeenCalled();
-            });
-          });
-        });
-
-        describe('when department not supplied via settings', () => {
-          beforeAll(() => {
-            setDepartmentSpy.calls.reset();
-            clearDepartmentSpy.calls.reset();
-            mockGetSettingsChatDepartment = '';
-            mockDepartmentLists = [
-              {
-                name: 'Department',
-                id: 10
-              }
-            ];
-          });
-
-          it('does not call setDepartment', () => {
-            expect(setDepartmentSpy)
-              .not
-              .toHaveBeenCalled();
-          });
-
-          it('calls clearDepartment', () => {
-            expect(clearDepartmentSpy)
-              .toHaveBeenCalled();
           });
         });
       });

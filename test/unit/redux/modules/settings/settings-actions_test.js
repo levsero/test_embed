@@ -6,7 +6,9 @@ let actions,
   mockStore,
   mockGetConnection,
   mockGetDepartmentsList,
-  mockGetSettingsChatTags;
+  mockGetSettingsChatTags,
+  mockGetSettingsChatOldTags,
+  mockGetSettingsChatDepartment;
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -18,6 +20,7 @@ let setDepartmentSpy = jasmine.createSpy('setDepartment').and.returnValue({ type
 let clearDepartmentSpy = jasmine.createSpy('clearDepartment').and.returnValue({ type: 'yolo' });
 let addTagSpy = jasmine.createSpy('addTag');
 let removeTagSpy = jasmine.createSpy('removeTag');
+let getSettingsChatTagsSpy = jasmine.createSpy('getSettingsChatTags');
 
 describe('settings redux actions', () => {
   beforeEach(() => {
@@ -49,7 +52,8 @@ describe('settings redux actions', () => {
         clearDepartment: clearDepartmentSpy
       },
       'src/redux/modules/settings/settings-selectors': {
-        getSettingsChatTags: () => mockGetSettingsChatTags
+        getSettingsChatTags: getSettingsChatTagsSpy,
+        getSettingsChatDepartment: () => mockGetSettingsChatDepartment
       }
     });
 
@@ -68,6 +72,8 @@ describe('settings redux actions', () => {
     let someSettings;
 
     beforeEach(() => {
+      getSettingsChatTagsSpy.and.returnValues(mockGetSettingsChatOldTags, mockGetSettingsChatTags);
+
       mockStore.dispatch(actions.updateSettings(someSettings));
     });
 
@@ -76,11 +82,13 @@ describe('settings redux actions', () => {
       clearDepartmentSpy.calls.reset();
       removeTagSpy.calls.reset();
       addTagSpy.calls.reset();
+      getSettingsChatTagsSpy.calls.reset();
     });
 
     describe('when chat is connected', () => {
       beforeAll(() => {
         mockGetConnection = CONNECTION_STATUSES.CONNECTED;
+        mockGetSettingsChatDepartment = 'yo';
         mockGetDepartmentsList = [{ name: 'yo', id: 123 }, { name: 'yoyo', id: 345 }];
       });
 
@@ -117,13 +125,9 @@ describe('settings redux actions', () => {
 
       describe('when given an invalid department name', () => {
         beforeAll(() => {
+          mockGetSettingsChatDepartment = 'not real';
           someSettings = {
             webWidget: {
-              chat: {
-                departments: {
-                  select: 'yowrgfwewe'
-                }
-              }
             }
           };
         });
@@ -146,6 +150,8 @@ describe('settings redux actions', () => {
 
       describe('when new tags are present', () => {
         beforeAll(() => {
+          mockGetSettingsChatTags = ['firstTagYolo', 'secondTagYolo'];
+          mockGetSettingsChatOldTags = [];
           someSettings = {
             chat: {
               tags: ['firstTagYolo', 'secondTagYolo']
@@ -170,7 +176,8 @@ describe('settings redux actions', () => {
 
         describe('when old tags are present', () => {
           beforeAll(() => {
-            mockGetSettingsChatTags = ['firstTag', 'secondTag'];
+            mockGetSettingsChatOldTags = ['firstTag', 'secondTag'];
+            mockGetSettingsChatTags = [];
           });
 
           it('calls removeTag exactly twice', () => {
@@ -191,7 +198,7 @@ describe('settings redux actions', () => {
 
         describe('when olds tags are not present', () => {
           beforeAll(() => {
-            mockGetSettingsChatTags = [];
+            mockGetSettingsChatOldTags = [];
           });
 
           it('does not call removeTag', () => {
@@ -201,8 +208,6 @@ describe('settings redux actions', () => {
           });
         });
       });
-
-      describe('when new tags are not present', () => { });
     });
 
     describe('when chat is not connected', () => {
