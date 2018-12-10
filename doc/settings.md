@@ -1,6 +1,8 @@
 ## Settings reference
 
-This page documents all the available settings of the `window.zESettings` object. Each setting may be available in one or more objects.
+This page documents all the available settings of the `window.zESettings` object. The `window.zESettings` object is loaded only when the widget boots. If you need to update the settings at run-time, please use the [updateSettings API](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings).
+
+Each setting may be available in one or more objects. For example, the `title` setting is available for the `chat`, `talk`, `contactForm` and `helpCenter` objects, and can be set independently in each.
 
 The following example shows the `offset` property of the `webWidget` parent object:
 
