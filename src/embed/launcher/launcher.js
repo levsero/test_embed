@@ -111,7 +111,7 @@ function create(name, config={}, reduxStore) {
           onClickHandler={onClickHandler}
           updateFrameTitle={updateFrameTitle}
           labelKey={`embeddable_framework.launcher.label.${embedConfig.labelKey}`}
-          hideBranding={config.hideZendeskLogo} />
+        />
       </Frame>
     </Provider>
   );

@@ -10,6 +10,7 @@ import theme from './theme';
 import login from './login';
 import chatWindow from './chat-window';
 import banner from './banner';
+import branding from './branding';
 
 export default combineReducers({
   attachments,
@@ -21,6 +22,7 @@ export default combineReducers({
   theme,
   login,
   chatWindow,
-  banner
+  banner,
+  branding
 });
 

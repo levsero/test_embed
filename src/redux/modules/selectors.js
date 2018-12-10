@@ -8,6 +8,7 @@ import { getShowOfflineChat,
   getStandaloneMobileNotificationVisible,
   getChatConnected as getNewChatConnected,
   getBadgeColor as getAccountSettingsBadgeColor,
+  getHideBranding as getAccountSettingsHideBranding,
   getChatBadgeEnabled } from './chat/chat-selectors';
 import { getZopimChatOnline,
   getZopimChatConnected,
@@ -365,4 +366,8 @@ export const getFrameStyle = (state, frame) => {
       marginRight: '7px'
     };
   }
+};
+
+export const getHideZendeskLogo = (state) => {
+  return getEmbeddableConfig(state).hideZendeskLogo || getAccountSettingsHideBranding(state);
 };

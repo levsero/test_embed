@@ -136,10 +136,14 @@ describe('getIsPopupVisible', () => {
       }
     };
     globals.win = mockWin;
+    jest.spyOn(devices, 'isMobileBrowser').mockImplementation(mockIsMobile);
+  });
+
+  afterEach(() => {
+    devices.isMobileBrowser.mockRestore();
   });
 
   mockIsMobile = jest.fn(() => isMobileValue);
-  devices.isMobileBrowser = mockIsMobile;
 
   describe('when values are correct', () => {
     it('it renders popup', () => {
@@ -187,4 +191,16 @@ describe('getIsPopupVisible', () => {
       expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
     });
   });
+});
+
+test('getHideBranding', () => {
+  expect(selectors.getHideBranding({
+    chat: {
+      accountSettings: {
+        branding: {
+          hide_branding: true
+        }
+      }
+    }
+  })).toEqual(true);
 });
