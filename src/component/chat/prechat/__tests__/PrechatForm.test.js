@@ -189,7 +189,7 @@ test('submits expected form data', () => {
   const formData = {
     email: 'me@zd.com',
     name: 'Homer Simpson',
-    phone: '61422111222',
+    phone: '555-555-5555',
     message: 'This is the message'
   };
   const formHandler = jest.fn();
