@@ -11,6 +11,7 @@ export class Dropzone extends Component {
     onDragLeave: PropTypes.func,
     onDrop: PropTypes.func.isRequired,
     style: PropTypes.object,
+    containerStyle: PropTypes.object,
     dropzoneId: PropTypes.string
   };
 
@@ -21,6 +22,7 @@ export class Dropzone extends Component {
     onDragEnter: () => {},
     onDragLeave: () => {},
     style: {},
+    containerStyle: {},
     dropzoneId: ''
   };
 
@@ -83,21 +85,24 @@ export class Dropzone extends Component {
     return (
       <div
         data-testid="dropzone"
-        className={dropzoneClasses}
-        style={this.props.style}
-        onClick={this.onClick}
         onDragEnter={this.onDragEnter}
         onDragOver={this.onDragOver}
         onDragLeave={this.onDragLeave}
+        style={this.props.containerStyle}
         onDrop={this.onDrop} >
-        {this.props.children}
-        <input
-          type='file'
-          style={inputStyle}
-          multiple={true}
-          ref={(el) => this.fileInputEl = el}
-          onChange={this.onDrop}
-          id={this.props.dropzoneId} />
+        <div
+          onClick={this.onClick}
+          style={this.props.style}
+          className={dropzoneClasses}>
+          {this.props.children}
+          <input
+            type='file'
+            style={inputStyle}
+            multiple={true}
+            ref={(el) => this.fileInputEl = el}
+            onChange={this.onDrop}
+            id={this.props.dropzoneId} />
+        </div>
       </div>
     );
   }

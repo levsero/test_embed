@@ -7,7 +7,7 @@ import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './AttachmentBox.scss';
 
-const dropzoneMargin = 38; // the frames border and padding
+const dropzoneMargin = 19; // the frames border and padding
 
 export class AttachmentBox extends Component {
   static propTypes = {
@@ -26,6 +26,10 @@ export class AttachmentBox extends Component {
       width: `${this.props.dimensions.width - dropzoneMargin}px`,
       height: `${this.props.dimensions.height - dropzoneMargin}px`
     };
+    const dropzoneContainerStyles = {
+      width: `${this.props.dimensions.width}px`,
+      height: `${this.props.dimensions.height}px`
+    };
 
     return (
       <div className={styles.container}>
@@ -34,6 +38,7 @@ export class AttachmentBox extends Component {
           className={styles.dropzone}
           activeClassName={styles.dropzoneActive}
           style={style}
+          containerStyle={dropzoneContainerStyles}
           onDragLeave={this.props.onDragLeave}
           disableClick={true}>
           <div className={styles.dropzoneChild}>

@@ -58,30 +58,33 @@ exports[`allows attaching file 1`] = `
         </div>
       </div>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add up to 5 files
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add up to 5 files
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -129,30 +132,33 @@ exports[`exceed file size 1`] = `
         </div>
       </div>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add up to 5 files
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add up to 5 files
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -402,30 +408,33 @@ exports[`exceed maximum number of files 1`] = `
         You have already reached the limit of (5) attachments
       </div>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add up to 5 files
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add up to 5 files
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -473,30 +482,33 @@ exports[`failed upload 1`] = `
         </div>
       </div>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add up to 5 files
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add up to 5 files
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -1506,30 +1518,33 @@ exports[`picks the correct icon types 1`] = `
         </div>
       </div>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add up to 5 files
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add up to 5 files
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -1549,30 +1564,33 @@ exports[`remove attachment 1`] = `
         Attachments
       </label>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add up to 5 files
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add up to 5 files
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -1592,30 +1610,33 @@ exports[`renders the component 1`] = `
         Attachments
       </label>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add up to 5 files
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add up to 5 files
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -1635,30 +1656,33 @@ exports[`renders the component with mobile styles 1`] = `
         Attachments
       </label>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add file from device
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add file from device
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -1715,30 +1739,33 @@ exports[`successful upload 1`] = `
         </div>
       </div>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add up to 5 files
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add up to 5 files
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -1803,30 +1830,33 @@ exports[`uploading in progress upload 1`] = `
         </div>
       </div>
       <div
-        class="dropzone "
         data-testid="dropzone"
       >
         <div
-          class="dropzoneChild"
+          class="dropzone "
         >
-          <span
-            class="container icon Icon--paperclip-small"
-            type="Icon--paperclip-small"
-          >
-            test-file-stub
-          </span>
           <div
-            class="dropzoneChildLabel"
+            class="dropzoneChild"
           >
-            Add up to 5 files
+            <span
+              class="container icon Icon--paperclip-small"
+              type="Icon--paperclip-small"
+            >
+              test-file-stub
+            </span>
+            <div
+              class="dropzoneChildLabel"
+            >
+              Add up to 5 files
+            </div>
           </div>
+          <input
+            id="dropzone-input"
+            multiple=""
+            style="display: none;"
+            type="file"
+          />
         </div>
-        <input
-          id="dropzone-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
