@@ -62,4 +62,34 @@ describe('base reducer isChatBadgeMinimized', () => {
         .toEqual(true);
     });
   });
+
+  describe('when an BADGE_HIDE_RECEIVED action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.BADGE_HIDE_RECEIVED
+      });
+    });
+
+    it('sets state to true', () => {
+      expect(state)
+        .toEqual(true);
+    });
+  });
+
+  describe('when an BADGE_SHOW_RECEIVED action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(true, {
+        type: actionTypes.BADGE_SHOW_RECEIVED
+      });
+    });
+
+    it('sets state to false', () => {
+      expect(state)
+        .toEqual(false);
+    });
+  });
 });

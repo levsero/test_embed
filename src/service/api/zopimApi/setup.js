@@ -37,7 +37,9 @@ import {
   addTagsApi,
   removeTagsApi,
   setGreetingsApi,
-  setOnStatusApi
+  setOnStatusApi,
+  showBadgeApi,
+  hideBadgeApi
 } from './helpers';
 import tracker from 'service/logging/tracker';
 
@@ -64,9 +66,9 @@ export function setUpZopimApiMethods(win, store) {
         ...setOffsetApi
       },
       badge: {
-        hide: () => hideApi(store),
+        hide: () => hideBadgeApi(store),
         show: () => {
-          closeApi(store);
+          showBadgeApi(store);
           showApi(store);
         },
         setColor: (color) =>  updateSettings(store, 'webWidget.color.launcher', color),

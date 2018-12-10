@@ -419,3 +419,15 @@ export const handleChatBadgeMinimize = () => {
     type: actions.CHAT_BADGE_MINIMIZED
   };
 };
+
+export const badgeHideReceived = () => {
+  return {
+    type: actions.BADGE_HIDE_RECEIVED
+  };
+};
+
+export const badgeShowReceived = () => {
+  return {
+    type: actions.BADGE_SHOW_RECEIVED
+  };
+};

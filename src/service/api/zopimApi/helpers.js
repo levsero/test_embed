@@ -6,7 +6,10 @@ import {
   updateSettingsLegacyApi,
   setLocaleApi
 } from 'src/service/api/apis';
-import { handleOnApiCalled } from 'src/redux/modules/base/base-actions';
+import {
+  handleOnApiCalled,
+  badgeHideReceived,
+  badgeShowReceived } from 'src/redux/modules/base';
 import { SDK_ACCOUNT_STATUS, SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types';
 import { getChatStatus } from 'src/redux/modules/chat/chat-selectors';
 
@@ -162,4 +165,12 @@ export const setOnStatusApi = (store, callback) => {
 
     store.dispatch(handleOnApiCalled(SDK_DEPARTMENT_UPDATE, [], _.debounce(callback, 0), payloadTransformer));
   }
+};
+
+export const showBadgeApi = (store) => {
+  store.dispatch(badgeShowReceived());
+};
+
+export const hideBadgeApi = (store) => {
+  store.dispatch(badgeHideReceived());
 };
