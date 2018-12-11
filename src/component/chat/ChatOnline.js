@@ -26,7 +26,8 @@ import {
   updateMenuVisibility,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateContactDetailsFields } from 'src/redux/modules/chat';
+  updateContactDetailsFields,
+  initiateSocialLogout } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './ChatOnline.scss';
@@ -96,7 +97,8 @@ class Chat extends Component {
     chatVisitor: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool,
     isLoggingOut: PropTypes.bool.isRequired,
-    fullscreen: PropTypes.bool
+    fullscreen: PropTypes.bool,
+    initiateSocialLogout: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -339,8 +341,10 @@ class Chat extends Component {
       isMobile,
       updateContactDetailsVisibility,
       updateContactDetailsFields,
+      authUrls,
       isAuthenticated,
-      socialLogin } = this.props;
+      socialLogin,
+      initiateSocialLogout } = this.props;
 
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
     const tryAgainFn = () => updateContactDetailsVisibility(true);
@@ -359,6 +363,9 @@ class Chat extends Component {
         tryAgainFn={tryAgainFn}
         updateFn={updateDetailsFn}
         visitor={visitor}
+        authUrls={authUrls}
+        socialLogin={socialLogin}
+        initiateSocialLogout={initiateSocialLogout}
         isAuthenticated={isAuthenticatedAtAll} />
     );
   }
@@ -451,7 +458,8 @@ const actionCreators = {
   handleReconnect,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateContactDetailsFields
+  updateContactDetailsFields,
+  initiateSocialLogout
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

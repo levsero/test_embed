@@ -16,6 +16,7 @@ describe('ChatContactDetailsPopup component', () => {
   const LoadingSpinner = noopReactComponent();
   const Message = noopReactComponent();
   const TextField = noopReactComponent();
+  const UserProfile = noopReactComponent();
 
   class ChatPopup extends Component {
     render() {
@@ -60,6 +61,7 @@ describe('ChatContactDetailsPopup component', () => {
         EDIT_CONTACT_DETAILS_ERROR_SCREEN
       },
       'component/chat/ChatPopup': { ChatPopup },
+      'component/chat/UserProfile': { UserProfile },
       'component/loading/LoadingSpinner': { LoadingSpinner },
       'component/Icon': noopReactComponent(),
       '@zendeskgarden/react-textfields': {
