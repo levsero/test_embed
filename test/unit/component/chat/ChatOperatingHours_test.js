@@ -9,14 +9,16 @@ describe('ChatOperatingHours component', () => {
 
   const mockAccountOperatingHours = {
     account_schedule: [
-      [{ start: 456, end: 789 }],
-      [{ start: 456, end: 789 }],
-      [],
-      [{ start: 456, end: 789 }],
-      [{ start: 456, end: 789 }],
-      [{ start: 456, end: 789 }],
-      []
+      {
+        days: [1, [3, 5], 7],
+        periods: [{ start: 456, end: 789 }]
+      },
+      {
+        days: [2, 6],
+        periods: []
+      }
     ],
+    type: 'account',
     enabled: true,
     timezone: 'Australia/Melbourne'
   };
@@ -25,26 +27,33 @@ describe('ChatOperatingHours component', () => {
       {
         name: 'Sales',
         id: 111,
-        0: [{ start: 456, end: 789 }],
-        1: [{ start: 456, end: 789 }],
-        2: [],
-        3: [{ start: 456, end: 789 }],
-        4: [{ start: 456, end: 789 }],
-        5: [{ start: 456, end: 789 }],
-        6: []
+        schedule: [
+          {
+            days: [1, [3, 5], 7],
+            periods: [{ start: 456, end: 789 }]
+          },
+          {
+            days: [2, 6],
+            periods: []
+          }
+        ]
       },
       {
         name: 'Billing',
         id: 222,
-        0: [{ start: 456, end: 789 }],
-        1: [{ start: 456, end: 789 }],
-        2: [],
-        3: [{ start: 456, end: 789 }],
-        4: [{ start: 456, end: 789 }],
-        5: [{ start: 456, end: 789 }],
-        6: []
+        schedule: [
+          {
+            days: [1, [3, 5], 7],
+            periods: [{ start: 456, end: 789 }]
+          },
+          {
+            days: [2, 6],
+            periods: []
+          }
+        ]
       }
     ],
+    type: 'department',
     enabled: true,
     timezone: 'Australia/Melbourne'
   };
@@ -54,15 +63,23 @@ describe('ChatOperatingHours component', () => {
       {
         name: 'Sales',
         id: 111,
-        0: [{ start: 456, end: 789 }, { start: 800, end: 900 }],
-        1: [{ start: 456, end: 789 }],
-        2: [{ start: 800, end: 900 }],
-        3: [{ start: 456, end: 789 }],
-        4: [{ start: 456, end: 789 }],
-        5: [{ start: 456, end: 789 }],
-        6: [{ start: 456, end: 789 }]
+        schedule: [
+          {
+            days: [1, [3, 6]],
+            periods: [{ start: 456, end: 789 }]
+          },
+          {
+            days: [2],
+            periods: [{ start: 800, end: 900 }]
+          },
+          {
+            days: [7],
+            periods: [{ start: 456, end: 789 }, { start: 800, end: 900 }]
+          }
+        ]
       }
     ],
+    type: 'department',
     enabled: true,
     timezone: 'Australia/Melbourne'
   };
@@ -290,7 +307,7 @@ describe('ChatOperatingHours component', () => {
           <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
         );
 
-        spyOn(component, 'getSelectedDepartmentSchedule').and.returnValue('mockSelectedDept');
+        spyOn(component, 'getSelectedDepartmentSchedule').and.returnValue({ schedule: 'mockSelectedDept' });
         spyOn(component, 'formatDepartmentsForDropdown').and.returnValue(mockFormattedDropdowns);
         spyOn(component, 'renderSchedule');
 
@@ -383,7 +400,7 @@ describe('ChatOperatingHours component', () => {
       component = instanceRender(
         <ChatOperatingHours operatingHours={operatingHours} />
       );
-      result = component.renderSchedule(operatingHours.account_schedule || operatingHours.department_schedule[0]);
+      result = component.renderSchedule(operatingHours.account_schedule || operatingHours.department_schedule[0].schedule);
     });
 
     describe('when using an account schedule', () => {
@@ -391,30 +408,32 @@ describe('ChatOperatingHours component', () => {
         operatingHours = mockAccountOperatingHours;
       });
 
-      it('returns a definition pair for every day of the week', () => {
-        expect(result.props.children.length).toEqual(14);
+      it('returns a definition pair for every grouped days of the week', () => {
+        expect(result.props.children.length).toEqual(4);
       });
 
-      _.times(7, (dayIndex) => {
-        beforeEach(() => {
-          dayName = result.props.children[dayIndex];
-          range = result.props.children[dayIndex + 1];
-        });
+      _.times(2, (dayIndex) => {
+        describe(`on group ${dayIndex}`, () => {
+          beforeEach(() => {
+            dayName = result.props.children[dayIndex * 2];
+            range = result.props.children[dayIndex * 2 + 1];
+          });
 
-        it(`contains information about day ${dayIndex} in the right element`, () => {
-          expect(dayName.type).toEqual('dt');
-        });
+          it(`contains information about group ${dayIndex} is the right element`, () => {
+            expect(dayName.type).toEqual('dt');
+          });
 
-        it(`has the right className prop for day ${dayIndex}`, () => {
-          expect(dayName.props.className).toEqual('dayNameClass');
-        });
+          it(`has the right className prop for group ${dayIndex}`, () => {
+            expect(dayName.props.className).toEqual('dayNameClass');
+          });
 
-        it(`has the right className for the hour range on day ${dayIndex}`, () => {
-          expect(range.props.className).toEqual('lastTiming');
-        });
+          it(`has the right className for the hour range on group ${dayIndex}`, () => {
+            expect(range.props.className).toEqual('lastTiming');
+          });
 
-        it(`contains information about the range on day ${dayIndex} in the right element`, () => {
-          expect(range.type).toEqual('dd');
+          it(`contains information about the range on group ${dayIndex} in the right element`, () => {
+            expect(range.type).toEqual('dd');
+          });
         });
       });
 
@@ -435,7 +454,7 @@ describe('ChatOperatingHours component', () => {
         let closedDay;
 
         beforeEach(() => {
-          closedDay = result.props.children[5];
+          closedDay = result.props.children[3];
         });
 
         it('comes up as closed', () => {
@@ -451,20 +470,22 @@ describe('ChatOperatingHours component', () => {
       });
 
       it('returns correct number of day items to render', () => {
-        expect(result.props.children.length).toEqual(15);
+        expect(result.props.children.length).toEqual(7);
       });
 
-      _.times(7, (dayIndex) => {
-        beforeEach(() => {
-          range = result.props.children[dayIndex * 2];
-        });
+      _.times(3, (dayIndex) => {
+        describe(`on group ${dayIndex}`, () => {
+          beforeEach(() => {
+            range = result.props.children[dayIndex * 2 + (dayIndex === 2 ? 2 : 1)];
+          });
 
-        it(`has the right className for the hour range on day ${dayIndex}`, () => {
-          expect(range.props.className).toEqual('lastTiming');
-        });
+          it(`has the right className for the hour range on group ${dayIndex}`, () => {
+            expect(range.props.className).toEqual('lastTiming');
+          });
 
-        it(`contains information about the range on day ${dayIndex} in the right element`, () => {
-          expect(range.type).toEqual('dd');
+          it(`contains information about the range on group ${dayIndex} in the right element`, () => {
+            expect(range.type).toEqual('dd');
+          });
         });
       });
     });

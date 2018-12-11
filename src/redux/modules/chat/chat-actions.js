@@ -21,6 +21,7 @@ import { mediator } from 'service/mediator';
 import { audio } from 'service/audio';
 import _ from 'lodash';
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils';
+import { formatSchedule } from 'src/util/chat';
 
 import zChatWithTimeout from 'src/redux/modules/chat/helpers/zChatWithTimeout';
 const chatTypingTimeout = 2000;
@@ -304,9 +305,24 @@ export function getOperatingHours() {
     const operatingHours = zChat.getOperatingHours();
 
     if (operatingHours) {
+      const { type, timezone, enabled } = operatingHours;
+
+      if (!enabled) return dispatch({ type: actions.GET_OPERATING_HOURS_REQUEST_SUCCESS, payload: { enabled } });
+
+      const formattedOperatingHours = {
+        ...operatingHours,
+        type,
+        enabled,
+        timezone: timezone.replace(/_/g, ' '),
+        ...(type === 'account'
+          ? { account_schedule: formatSchedule(operatingHours.account_schedule) }
+          : { department_schedule: _.mapValues(operatingHours.department_schedule, formatSchedule) }
+        )
+      };
+
       dispatch({
         type: actions.GET_OPERATING_HOURS_REQUEST_SUCCESS,
-        payload: operatingHours
+        payload: formattedOperatingHours
       });
     }
   };

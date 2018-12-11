@@ -42,6 +42,8 @@ let actions,
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting),
   getIsAuthenticatedSpy = jasmine.createSpy('getIsAuthenticatedSpy').and.callFake(() => mockIsAuthenticated),
   getChatMessagesByAgentSpy = jasmine.createSpy('getChatMessagesByAgent').and.callFake(() => mockChatMessagesByAgent),
+  mockformatSchedule,
+  formatScheduleSpy = jasmine.createSpy('formatSchedule').and.callFake(() => mockformatSchedule),
   mockFetchChatHistory = jasmine.createSpy('fetchChatHistory'),
   mockMarkAsRead = jasmine.createSpy('markAsRead'),
   mockCallback = jasmine.createSpy('sdkCallback');
@@ -137,6 +139,9 @@ describe('chat redux actions', () => {
         getPageTitle: () => mockPageTitle,
         getHostUrl: () => mockHostUrl,
         isValidUrl: () => mockIsValidUrl
+      },
+      'src/util/chat': {
+        formatSchedule: formatScheduleSpy
       }
     });
 
@@ -1268,11 +1273,24 @@ describe('chat redux actions', () => {
   describe('getOperatingHours', () => {
     let updateOperatingHoursAction;
 
-    describe('when operating hours enabled', () => {
+    describe('when account typed operating hours enabled', () => {
       beforeEach(() => {
         mockOperatingHours = {
-          account_schedule: [[456]]
+          enabled: true,
+          type: 'account',
+          account_schedule: {
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: [],
+            5: [],
+            6: []
+          },
+          timezone: 'Africa/Sao_Tome'
         };
+
+        mockformatSchedule = 'abc';
 
         mockStore.dispatch(actions.getOperatingHours());
         updateOperatingHoursAction = mockStore.getActions()[0];
@@ -1283,13 +1301,121 @@ describe('chat redux actions', () => {
           .toEqual(actionTypes.GET_OPERATING_HOURS_REQUEST_SUCCESS);
       });
 
-      it('has the value returned from zChat.getOperatingHours() in the payload', () => {
+      it('calls formatSchedule with the account_schedule', () => {
+        expect(formatScheduleSpy)
+          .toHaveBeenCalledWith(mockOperatingHours.account_schedule);
+      });
+
+      it('has the account_schedule formatted by formatSchedule in the payload', () => {
+        const expected = {
+          ...mockOperatingHours,
+          account_schedule: 'abc',
+          timezone: 'Africa/Sao Tome'
+        };
+
         expect(updateOperatingHoursAction.payload)
-          .toEqual(mockOperatingHours);
+          .toEqual(expected);
+      });
+    });
+
+    describe('when department typed operating hours enabled', () => {
+      beforeEach(() => {
+        formatScheduleSpy.calls.reset();
+
+        mockOperatingHours = {
+          enabled: true,
+          type: 'department',
+          department_schedule: {
+            a: {
+              0: [],
+              1: [],
+              2: [],
+              3: [],
+              4: [],
+              5: [],
+              6: []
+            },
+            b: {
+              0: [{ start: 0, end: 1 }],
+              1: [{ start: 0, end: 1 }],
+              2: [{ start: 0, end: 1 }],
+              3: [{ start: 0, end: 1 }],
+              4: [{ start: 0, end: 1 }],
+              5: [{ start: 0, end: 1 }],
+              6: [{ start: 0, end: 1 }],
+            }
+          },
+          timezone: 'Africa/Sao_Tome'
+        };
+
+        mockformatSchedule = 'abc';
+
+        mockStore.dispatch(actions.getOperatingHours());
+        updateOperatingHoursAction = mockStore.getActions()[0];
+      });
+
+      it('dispatches an action of type GET_OPERATING_HOURS_REQUEST_SUCCESS', () => {
+        expect(updateOperatingHoursAction.type)
+          .toEqual(actionTypes.GET_OPERATING_HOURS_REQUEST_SUCCESS);
+      });
+
+      it('calls formatSchedule with each of the department_schedules', () => {
+        expect(formatScheduleSpy).toHaveBeenCalledTimes(2);
+
+        // jasmine.anything()s are due to spy capturing everything _.mapValues provides
+        expect(formatScheduleSpy)
+          .toHaveBeenCalledWith(mockOperatingHours.department_schedule.a, jasmine.anything(), jasmine.anything());
+        expect(formatScheduleSpy)
+          .toHaveBeenCalledWith(mockOperatingHours.department_schedule.b, jasmine.anything(), jasmine.anything());
+      });
+
+      it('has the department_schedule formatted by formatSchedule in the payload', () => {
+        const expected = {
+          ...mockOperatingHours,
+          department_schedule: {
+            a: 'abc',
+            b: 'abc'
+          },
+          timezone: 'Africa/Sao Tome'
+        };
+
+        expect(updateOperatingHoursAction.payload)
+          .toEqual(expected);
       });
     });
 
     describe('when operating hours disabled', () => {
+      beforeEach(() => {
+        mockOperatingHours = {
+          enabled: false,
+          type: 'account',
+          account_schedule: {
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: [],
+            5: [],
+            6: []
+          },
+          timezone: 'Africa/Sao_Tome'
+        };
+        mockStore.dispatch(actions.getOperatingHours());
+        updateOperatingHoursAction = mockStore.getActions()[0];
+      });
+
+      it('dispatches an action of type GET_OPERATING_HOURS_REQUEST_SUCCESS', () => {
+        expect(updateOperatingHoursAction.type)
+          .toEqual(actionTypes.GET_OPERATING_HOURS_REQUEST_SUCCESS);
+      });
+
+      it('only has the enabled property in the payload', () => {
+        expect(updateOperatingHoursAction.payload)
+          .toEqual({ enabled: false });
+      });
+    });
+
+    describe('when operating hours were never set', () => {
       beforeEach(() => {
         mockOperatingHours = undefined;
         mockStore.dispatch(actions.getOperatingHours());

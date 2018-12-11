@@ -446,7 +446,7 @@ export const getGroupedOperatingHours = createSelector(
           const department = _.find(departments, (d) => d.id == key); // eslint-disable-line eqeqeq
 
           return {
-            ...schedule,
+            schedule,
             ...department
           };
         })

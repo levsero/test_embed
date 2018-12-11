@@ -336,6 +336,8 @@ export class ChatOfflineForm extends Component {
   }
 
   validate() {
+    if (!this.offlineForm) return;
+
     const isFormValid = this.offlineForm.checkValidity();
     const isFormStateEmpty = _.isEmpty(this.props.formState);
 
@@ -385,6 +387,8 @@ export class ChatOfflineForm extends Component {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.OPERATING_HOURS) return null;
 
     const { operatingHours, handleOfflineFormBack, getFrameContentDocument } = this.props;
+
+    if (!operatingHours.enabled) return null;
 
     return (
       <ScrollContainer

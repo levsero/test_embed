@@ -38,8 +38,6 @@ export class ChatOperatingHours extends Component {
     }
   }
 
-  daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-
   hourRange = (range) => {
     const currentLocale = i18n.getLocale();
 
@@ -92,33 +90,49 @@ export class ChatOperatingHours extends Component {
     });
   }
 
-  renderDayName = (dayName, index) => {
+  renderDayName = (id) => {
+    const daysOfTheWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+    return i18n.t(`embeddable_framework.chat.operatingHours.label.${daysOfTheWeek[id-1]}`);
+  }
+
+  renderApplicableDays = (days, index) => {
+    const daysString = days.map((day) => {
+      if (Array.isArray(day)) {
+        return day
+          .map(this.renderDayName)
+          .join(i18n.t('embeddable_framework.chat.operatingHours.label.separator.range'));
+      } else {
+        return this.renderDayName(day);
+      }
+    }).join(i18n.t('embeddable_framework.chat.operatingHours.label.separator.overall'));
+
     return (
       <dt className={styles.dayName}
         key={`dt-${index}`}>
-        {i18n.t(`embeddable_framework.chat.operatingHours.label.${dayName}`)}
+        {daysString}
       </dt>
     );
   }
 
   renderSchedule = (schedule) => {
-    const dayElems = this.daysOfTheWeek.reduce((listElemItems, day, index) => {
-      const dayName = this.renderDayName(day, index);
+    const daysElems = _.flatMap(schedule, (item, index) => {
+      const daysElem = this.renderApplicableDays(item.days, index);
       const closed = (
         <dd key={`dd-${index}-closed`} className={styles.lastTiming}>
           {i18n.t('embeddable_framework.chat.operatingHours.label.closed')}
         </dd>
       );
-      const hourTimings = (schedule[index].length > 0)
-        ? this.renderHours(schedule[index], index)
+      const hourTimings = (item.periods.length > 0)
+        ? this.renderHours(item.periods, index)
         : [closed];
 
-      return listElemItems.concat([dayName, ...hourTimings]);
-    }, []);
+      return [daysElem, ...hourTimings];
+    });
 
     return (
       <dl className={styles.dayList}>
-        {dayElems}
+        {daysElems}
       </dl>
     );
   }
@@ -167,7 +181,7 @@ export class ChatOperatingHours extends Component {
             {selectedDepartmentSchedule.name}
           </Select>
         </SelectField>
-        {this.renderSchedule(selectedDepartmentSchedule)}
+        {this.renderSchedule(selectedDepartmentSchedule.schedule)}
       </div>
     );
   }

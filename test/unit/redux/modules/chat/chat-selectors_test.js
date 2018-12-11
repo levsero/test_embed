@@ -2261,7 +2261,7 @@ describe('chat selectors', () => {
           {
             name: 'Design',
             id: 123,
-            0: [456]
+            schedule: [[456]]
           }
         ]
       };
