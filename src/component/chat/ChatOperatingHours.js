@@ -97,11 +97,15 @@ export class ChatOperatingHours extends Component {
   }
 
   renderApplicableDays = (days, index) => {
-    const daysString = days.map(
-      day => Array.isArray(day)
-        ? day.map(this.renderDayName).join(i18n.t('embeddable_framework.chat.operatingHours.label.separator.range'))
-        : this.renderDayName(day)
-    ).join(i18n.t('embeddable_framework.chat.operatingHours.label.separator.overall'));
+    const daysString = days.map((day) => {
+      if (Array.isArray(day)) {
+        return day
+          .map(this.renderDayName)
+          .join(i18n.t('embeddable_framework.chat.operatingHours.label.separator.range'));
+      } else {
+        return this.renderDayName(day);
+      }
+    }).join(i18n.t('embeddable_framework.chat.operatingHours.label.separator.overall'));
 
     return (
       <dt className={styles.dayName}
