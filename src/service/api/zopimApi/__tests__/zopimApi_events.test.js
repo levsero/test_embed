@@ -3,6 +3,7 @@ import 'utility/i18nTestHelper';
 
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
 
 const mockStore = {
   dispatch: jest.fn()
@@ -129,6 +130,7 @@ describe('zopim events', () => {
             payload: expect.objectContaining(
               {
                 actionType: chatActionTypes.SDK_ACCOUNT_STATUS,
+                selectors: [chatSelectors.getChatStatus],
                 callback
               }
             )
@@ -143,22 +145,11 @@ describe('zopim events', () => {
               {
                 actionType: chatActionTypes.SDK_DEPARTMENT_UPDATE,
                 callback: expect.any(Function),
-                selectors: [],
-                payloadTransformer: expect.any(Function)
+                selectors: [chatSelectors.getChatStatus]
               }
             )
           }
         ));
-    });
-
-    it('includes the expected transformer', () => {
-      mockWin.$zopim.livechat.setOnStatus(callback);
-
-      const { payloadTransformer } = mockStore.dispatch.mock.calls[1][0].payload;
-      const sampleSDKPayload = { detail: { status: 'offline' } };
-
-      expect(payloadTransformer(sampleSDKPayload))
-        .toEqual('offline');
     });
 
     it('stores a debounced callback', (done) => {
