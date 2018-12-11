@@ -30,7 +30,7 @@ describe('onStateChange middleware', () => {
   const resetShouldWarnSpy = jasmine.createSpy('resetShouldWarn');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
-  let mockDepartmentLists = [];
+  let mockDepartment;
   let mockGetSettingsChatDepartment = '';
   let mockWidgetShown = false;
   let mockIPMWidget = false;
@@ -102,7 +102,7 @@ describe('onStateChange middleware', () => {
         getIsProactiveSession: () => mockIsProactiveSession,
         getIsChatting: (state) => _.get(state, 'isChatting', mockIsChatting),
         getActiveAgents: getActiveAgentsSpy,
-        getDepartmentsList: () => mockDepartmentLists,
+        getDefaultSelectedDepartment: () => mockDepartment,
         getNotificationCount: (array) => _.get(_.last(array), 'notificationCount'),
         getLastReadTimestamp: (state) => _.get(state, 'lastReadTimestamp'),
         hasUnseenAgentMessage: () => mockHasUnseenAgentMessage

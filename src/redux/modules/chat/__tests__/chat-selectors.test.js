@@ -204,3 +204,102 @@ test('getHideBranding', () => {
     }
   })).toEqual(true);
 });
+
+describe('getEnabledDepartments', () => {
+  const accountDepartments = [
+    { name: 'Earth', id: 1 },
+    { name: 'Wind', id: 2 },
+    { name: 'Fire', id: 3 },
+    { name: 'Water', id: 4 },
+    { name: 'Lelu', id: 5 }
+  ];
+  const callSelector = (testData) => (
+    selectors.getEnabledDepartments.resultFunc(testData, accountDepartments)
+  );
+
+  describe('when zESettings chat enabled departments is malformed', () => {
+    [null, undefined, 'bad input', 12345, { bad: 'input' }].forEach((testData) => {
+      it('returns the unaltered account settings department list', () => {
+        expect(callSelector(testData))
+          .toEqual(accountDepartments);
+      });
+    });
+  });
+
+  describe('when zESettings chat enabled departments is correctly formed', () => {
+    describe('when zESettings chat enabled departments is an empty array', () => {
+      it('returns an empty array', () => {
+        expect(callSelector([])).toEqual([]);
+      });
+    });
+
+    describe('when zESettings chat enabled departments contains values', () => {
+      describe('when those values are department ids', () => {
+        it('returns only departments from the account settings with corresponding ids', () => {
+          expect(callSelector([1, 4])).toEqual([
+            { name: 'Earth', id: 1 },
+            { name: 'Water', id: 4 }
+          ]);
+        });
+      });
+
+      describe('when those values are department names', () => {
+        it('returns only departments from the account settings with corresponding names', () => {
+          expect(callSelector(['fire', 'lelu'])).toEqual([
+            { name: 'Fire', id: 3 },
+            { name: 'Lelu', id: 5 }
+          ]);
+        });
+
+        it('is case insensitve', () => {
+          expect(callSelector(['wind', 'earth'])).toEqual([
+            { name: 'Earth', id: 1 },
+            { name: 'Wind', id: 2 }
+          ]);
+        });
+      });
+    });
+  });
+});
+
+describe('getDefaultSelectedDepartment', () => {
+  const enabledDepartments = [
+    { name: 'police', id: 1 },
+    { name: 'fire', id: 2 }
+  ];
+  const callSelector = (testData) => (
+    selectors.getDefaultSelectedDepartment.resultFunc(testData, enabledDepartments)
+  );
+
+  describe('when the settings chat department is the department name', () => {
+    it('returns that department', () => {
+      expect(callSelector('police')).toEqual({
+        name: 'police',
+        id: 1
+      });
+    });
+  });
+
+  describe('when the settings chat department is the department id', () => {
+    it('returns that department', () => {
+      expect(callSelector(2)).toEqual({
+        name: 'fire',
+        id: 2
+      });
+    });
+  });
+
+  describe("when the settings chat department doesn't exist/bad data is passed", () => {
+    [
+      'fire!',
+      999,
+      ['foo', 'bar'],
+      { foo: 'bar' },
+      true
+    ].forEach((data) => {
+      it('returns undefined', () => {
+        expect(callSelector(data)).toEqual(undefined);
+      });
+    });
+  });
+});

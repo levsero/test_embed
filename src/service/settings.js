@@ -89,7 +89,7 @@ const webWidgetStoreDefaults = {
       avatarPath: null
     },
     departments: {
-      enabled: [],
+      enabled: null,
       select: ''
     },
     suppress: false,

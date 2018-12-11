@@ -21,9 +21,8 @@ describe('chat reducer departments enabled', () => {
   });
 
   describe('initial state', () => {
-    it('is set to empty array', () => {
-      expect(initialState)
-        .toEqual([]);
+    it('is set to null', () => {
+      expect(initialState).toEqual(null);
     });
   });
 
@@ -49,9 +48,8 @@ describe('chat reducer departments enabled', () => {
         };
       });
 
-      it('sets the action payload as the state', () => {
-        expect(state)
-          .toEqual([]);
+      it('sets the action payload to the initial state', () => {
+        expect(state).toEqual(null);
       });
     });
 
