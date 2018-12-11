@@ -76,7 +76,7 @@ export class ChannelChoiceDesktop extends Component {
           footerContent={this.renderZendeskLogo()}
           footerClasses={footerClasses}
           hideZendeskLogo={hideZendeskLogo}
-          title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
+          title={i18n.t(`embeddable_framework.helpCenter.form.title.${formTitleKey}`)}>
           {this.renderBody()}
         </ScrollContainer>
       </div>

@@ -49,6 +49,9 @@ import { isMobileBrowser } from 'utility/devices';
 import { FONT_SIZE } from 'src/constants/shared';
 import { EMBED_MAP, LAUNCHER } from 'constants/shared';
 import { isPopout } from 'utility/globals';
+import { getSettingsLauncherChatLabel, getSettingsLauncherLabel } from './settings/settings-selectors';
+import { getLocale } from 'src/redux/modules/base/base-selectors';
+import { i18n } from 'service/i18n';
 
 import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared';
 /*
@@ -73,6 +76,23 @@ export const getHelpCenterAvailable = createSelector(
 );
 
 export const getHelpCenterReady = (state) => !getHelpCenterEmbed(state) || getHasPassedAuth(state);
+
+export const getLauncherChatLabel = createSelector(
+  [getSettingsLauncherChatLabel, getLocale],
+  (settingsLauncherChatLabel, _locale) => (
+    i18n.getSettingTranslation(settingsLauncherChatLabel) ||
+    i18n.t('embeddable_framework.launcher.label.chat')
+  )
+);
+
+const getLabel = (_, label) => label;
+
+export const getLauncherLabel = createSelector(
+  [getSettingsLauncherLabel, getLocale, getLabel],
+  (settingsLauncherLabel, _locale, label) => (
+    i18n.getSettingTranslation(settingsLauncherLabel) || i18n.t(label)
+  )
+);
 
 const getChatEmbed = (state) => getNewChatEmbed(state) || getZopimChatEmbed(state);
 const getCanShowHelpCenterIntroState = createSelector(

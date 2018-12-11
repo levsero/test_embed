@@ -1,4 +1,5 @@
 import * as selectors from '../selectors';
+import { i18n } from 'service/i18n';
 
 describe('getHideZendeskLogo', () => {
   let state;
@@ -37,5 +38,107 @@ describe('getHideZendeskLogo', () => {
   it('returns false if embeddableConfig hideZendeskLogo and accountSettings hide_branding are false', () => {
     expect(selectors.getHideZendeskLogo(state))
       .toEqual(false);
+  });
+});
+
+describe('getLauncherChatLabel', () => {
+  let state;
+
+  describe('when chatLabel is defined in launcher settings', () => {
+    beforeEach(() => {
+      state = {
+        base: { locale: 'en-US' },
+        settings: {
+          launcher: {
+            settings: {
+              chatLabel: { '*': 'chat label' }
+            }
+          }
+        }
+      };
+    });
+
+    it('returns the chatLabel', () => {
+      expect(selectors.getLauncherChatLabel(state, {}))
+        .toEqual('chat label');
+    });
+  });
+
+  describe('when chatLabel is not defined in launcher settings', () => {
+    beforeEach(() => {
+      state = {
+        base: { locale: 'en-US' },
+        settings: {
+          launcher: {
+            settings: {
+              chatLabel: null
+            }
+          }
+        }
+      };
+      jest.spyOn(i18n, 't')
+        .mockReturnValue('Chat');
+    });
+
+    afterEach(() => {
+      i18n.t.mockRestore();
+    });
+
+    it('returns the value from i18n', () => {
+      expect(selectors.getLauncherChatLabel(state, {}))
+        .toEqual('Chat');
+      expect(i18n.t).toHaveBeenCalledWith('embeddable_framework.launcher.label.chat');
+    });
+  });
+});
+
+describe('getLauncherLabel', () => {
+  let state;
+
+  describe('when label is defined in launcher settings', () => {
+    beforeEach(() => {
+      state = {
+        base: { locale: 'en-US' },
+        settings: {
+          launcher: {
+            settings: {
+              label: { '*': 'launcher label' }
+            }
+          }
+        }
+      };
+    });
+
+    it('returns the label', () => {
+      expect(selectors.getLauncherLabel(state, 'help'))
+        .toEqual('launcher label');
+    });
+  });
+
+  describe('when label is not defined in launcher settings', () => {
+    beforeEach(() => {
+      state = {
+        base: { locale: 'en-US' },
+        settings: {
+          launcher: {
+            settings: {
+              label: null
+            }
+          }
+        }
+      };
+      jest.spyOn(i18n, 't')
+        .mockImplementation(() => 'Help');
+    });
+
+    afterEach(() => {
+      i18n.t.mockRestore();
+    });
+
+    it('returns the value from i18n', () => {
+      expect(selectors.getLauncherLabel(state, 'embeddable_framework.launcher.label.help'))
+        .toEqual('Help');
+      expect(i18n.t).toHaveBeenCalledWith('embeddable_framework.launcher.label.help');
+    });
   });
 });

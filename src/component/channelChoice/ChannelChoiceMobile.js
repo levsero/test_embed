@@ -44,7 +44,7 @@ export class ChannelChoiceMobile extends Component {
         fullscreen={true}
         isMobile={true}
         containerClasses={styles.newContainer}
-        title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
+        title={i18n.t(`embeddable_framework.helpCenter.form.title.${formTitleKey}`)}>
         <ChannelChoicePopupMobile
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatEnabled={this.props.chatEnabled}

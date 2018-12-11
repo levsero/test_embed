@@ -44,7 +44,9 @@ describe('selectors', () => {
     selectors,
     settingsColorLauncher,
     settingsColorLauncherText,
-    mockIsPopout;
+    mockIsPopout,
+    launcherChatLabel,
+    launcherLabel;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -84,6 +86,8 @@ describe('selectors', () => {
   settingsColorLauncherText = undefined;
   chatBadgeArturoEnabled = false;
   mockIsPopout = false;
+  launcherChatLabel = '';
+  launcherLabel = '';
 
   beforeEach(() => {
     mockery.enable();
@@ -97,6 +101,15 @@ describe('selectors', () => {
           zopimChat: 'chat'
         },
         LAUNCHER: 'launcher'
+      },
+      'service/i18n': {
+        i18n: {
+          getSettingTranslation: 'settings label',
+          t: _.identity,
+        }
+      },
+      'src/redux/modules/base/base-selectors': {
+        getLocale: () => 'en-US'
       },
       './base/base-selectors': {
         getActiveEmbed: () => activeEmbedValue,
@@ -122,7 +135,9 @@ describe('selectors', () => {
         getSettingsChatSuppress: () => settingsChatSuppressValue,
         getSettingsChatHideWhenOffline: () => getSettingsChatHideWhenOfflineValue,
         getSettingsColorLauncher: () => settingsColorLauncher,
-        getSettingsColorLauncherText: () => settingsColorLauncherText
+        getSettingsColorLauncherText: () => settingsColorLauncherText,
+        getSettingsLauncherChatLabel: () => launcherChatLabel,
+        getSettingsLauncherLabel: () => launcherLabel,
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
