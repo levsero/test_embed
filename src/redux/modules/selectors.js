@@ -104,7 +104,7 @@ const getWidgetFixedFrameStyles = createSelector(
 
     if (standaloneMobileNotificationVisible) {
       return {
-        height: `${335/FONT_SIZE}rem`,
+        height: `${515/FONT_SIZE}rem`,
         bottom: 0,
         top: 'initial',
         background: 'transparent'

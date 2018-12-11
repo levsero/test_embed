@@ -560,7 +560,7 @@ describe('selectors', () => {
         it('returns mobile styles', () => {
           expect(result)
             .toEqual({
-              height: '23.928571428571427rem',
+              height: '36.785714285714285rem',
               background: 'transparent',
               bottom: 0,
               top: 'initial'
