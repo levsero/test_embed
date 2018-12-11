@@ -58,7 +58,7 @@ function isDefaultNickname(name) {
   return nameRegex.test(name);
 }
 
-function createChatPopoutWindow(chatPopoutSettings) {
+function createChatPopoutWindow(chatPopoutSettings, machineId) {
   const hostName = win.location.hostname;
   let url;
 
@@ -70,15 +70,16 @@ function createChatPopoutWindow(chatPopoutSettings) {
     url ='https://static.zdassets.com/web_widget/latest/liveChat.html';
   }
 
-  url += generateQueryString(chatPopoutSettings);
+  url += generateQueryString(chatPopoutSettings, machineId);
+
   win.open(url, 'Web Widget LiveChat', 'height=600,width=400');
 }
 
-function generateQueryString(chatPopoutSettings) {
+function generateQueryString(chatPopoutSettings, machineId) {
   const subdomain = getZendeskHost(document);
   const settings = win.btoa(JSON.stringify(chatPopoutSettings));
 
-  return `?key=${subdomain}&settings=${settings}`;
+  return `?key=${subdomain}&settings=${settings}&mid=${machineId}`;
 }
 
 export {

@@ -548,7 +548,8 @@ export default function WebWidgetFactory(name) {
       account_key: store.get('chatAccountKey') || config.zopimId,
       override_proxy: store.get('chatOverrideProxy') || config.overrideProxy,
       authentication,
-      activity_window: win
+      activity_window: win,
+      popout: isPopout()
     }, _.isNil);
     /* eslint-enable camelcase */
   }
