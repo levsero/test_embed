@@ -6,8 +6,8 @@ import _ from 'lodash';
 import { dateTime } from 'utility/formatters';
 import { locals as styles } from './HistoryLog.scss';
 
-import HistoryChatGroup from 'component/chat/chatting/HistoryChatGroup';
-import HistoryEventMessage from 'component/chat/chatting/HistoryEventMessage';
+import HistoryChatGroup from 'component/chat/chatting/log/messages/ConnectedHistoryGroup';
+import HistoryEventMessage from 'component/chat/chatting/log/events/ConnectedHistoryEvent';
 import { getHistoryLog } from 'src/redux/modules/chat/chat-history-selectors';
 
 const mapStateToProps = (state) => {

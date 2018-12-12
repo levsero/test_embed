@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatLog.scss';
 
-import ChatGroup from 'component/chat/chatting/ChatGroup';
-import EventMessage from 'component/chat/chatting/EventMessage';
+import ChatGroup from 'component/chat/chatting/log/messages/ConnectedChatGroup';
+import EventMessage from 'component/chat/chatting/log/events/ConnectedChatEvent';
 import { Button } from '@zendeskgarden/react-buttons';
 import {
   getChatLog,

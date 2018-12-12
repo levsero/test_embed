@@ -1,23 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { i18n } from 'service/i18n';
 import { locals as styles } from './EventMessage.scss';
 import classNames from 'classnames';
 
-import { getGroupMessages } from 'src/redux/modules/chat/chat-selectors';
-
-const mapStateToProps = (state, props) => {
-  return {
-    event: getGroupMessages(state, [props.eventKey])[0]
-  };
-};
-
-export class EventMessage extends Component {
+export default class EventMessage extends Component {
   static propTypes = {
     event: PropTypes.object,
-    eventKey: PropTypes.number.isRequired,
     children: PropTypes.object,
     divider: PropTypes.node,
     chatLogCreatedAt: PropTypes.number
@@ -77,5 +67,3 @@ export class EventMessage extends Component {
     );
   }
 }
-
-export default connect(mapStateToProps, {}, null, { withRef: true })(EventMessage);

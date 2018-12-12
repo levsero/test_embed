@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import chatPropTypes from 'types/chat';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { connect } from 'react-redux';
 
 import { Avatar } from 'component/Avatar';
 import { ChatGroupAvatar } from 'component/chat/chatting/ChatGroupAvatar';
@@ -15,7 +14,6 @@ import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 import { ATTACHMENT_ERROR_TYPES,
   CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
 import { i18n } from 'service/i18n';
-import { getGroupMessages } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './ChatGroup.scss';
 import { Icon } from 'component/Icon';
 import StructuredMessage from 'component/chat/chatting/StructuredMessage';
@@ -23,16 +21,9 @@ import Carousel from 'component/chat/chatting/Carousel';
 
 const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE);
 
-const mapStateToProps = (state, props) => {
-  return {
-    messages: getGroupMessages(state, props.messageKeys)
-  };
-};
-
-export class ChatGroup extends Component {
+export default class ChatGroup extends Component {
   static propTypes = {
     messages: PropTypes.arrayOf(chatPropTypes.chatMessage),
-    messageKeys: PropTypes.array,
     isAgent: PropTypes.bool.isRequired,
     showAvatar: PropTypes.bool.isRequired,
     handleSendMsg: PropTypes.func,
@@ -44,7 +35,6 @@ export class ChatGroup extends Component {
 
   static defaultProps = {
     messages: [],
-    messageKeys: [],
     isAgent: false,
     handleSendMsg: () => {},
     onImageLoad: () => {},
@@ -289,5 +279,3 @@ export class ChatGroup extends Component {
     );
   }
 }
-
-export default connect(mapStateToProps, {}, null, { withRef: true })(ChatGroup);
