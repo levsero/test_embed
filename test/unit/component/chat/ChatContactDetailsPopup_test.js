@@ -478,6 +478,7 @@ describe('ChatContactDetailsPopup component', () => {
     describe('when the state is an edit contact details screen', () => {
       beforeEach(() => {
         const mockScreen = EDIT_CONTACT_DETAILS_SCREEN;
+
         component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
         spyOn(component, 'renderUserProfile');
 

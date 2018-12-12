@@ -242,31 +242,12 @@ describe('UserProfile component', () => {
       result = component.renderAuthedProfileField();
     });
 
-    it('renders a child for the avatar, details and logout button', () => {
-      const authContainer = result.props.children[1];
-
-      expect(authContainer.props.children.length > 0)
-        .toBe(true);
-
-      _.forEach(authContainer.props.children, (child) => {
-        expect(child)
-          .toBeTruthy();
-      });
-    });
-
-    it('has a profile with authProfileFieldContainer classes', () => {
-      const authContainer = result.props.children[1];
-      const targetElement = authContainer.props.children[1];
-
-      expect(targetElement.props.className)
-        .toEqual('authProfileFieldContainerClasses');
-    });
-
     describe('when authenitcated via social auth', () => {
       describe('when the screen is pending logout', () => {
         beforeAll(() => {
           componentArgs = {
             socialLogin: {
+              authenticated: true,
               screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING
             }
           };
@@ -279,12 +260,21 @@ describe('UserProfile component', () => {
           expect(TestUtils.isElementOfType(targetElement, LoadingSpinner))
             .toEqual(true);
         });
+
+        it('has a profile with authProfileFieldContainer classes', () => {
+          const authContainer = result.props.children[1];
+          const targetElement = authContainer.props.children[1];
+
+          expect(targetElement.props.className)
+            .toEqual('authProfileFieldContainerClasses');
+        });
       });
 
       describe('when the screen is not pending logout', () => {
         beforeAll(() => {
           componentArgs = {
             socialLogin: {
+              authenticated: true,
               screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_SUCCESS
             }
           };
@@ -296,6 +286,18 @@ describe('UserProfile component', () => {
 
           expect(TestUtils.isElementOfType(targetElement, Icon))
             .toEqual(true);
+        });
+
+        it('renders a child for the avatar, details and logout button', () => {
+          const authContainer = result.props.children[1];
+
+          expect(authContainer.props.children.length > 0)
+            .toBe(true);
+
+          _.forEach(authContainer.props.children, (child) => {
+            expect(child)
+              .toBeTruthy();
+          });
         });
       });
     });

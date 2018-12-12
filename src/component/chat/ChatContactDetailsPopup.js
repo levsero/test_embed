@@ -214,9 +214,9 @@ export class ChatContactDetailsPopup extends Component {
       authUrls,
       socialLogin,
       visitor,
-      initiateSocialLogout
+      initiateSocialLogout,
+      isAuthenticated
     } = this.props;
-    // isAuthenticated
 
     return (
       <UserProfile
@@ -224,7 +224,7 @@ export class ChatContactDetailsPopup extends Component {
         socialLogin={socialLogin}
         visitor={visitor}
         initiateSocialLogout={initiateSocialLogout}
-        isAuthenticated={false}
+        isAuthenticated={isAuthenticated}
         nameField={this.renderNameField()}
         emailField={this.renderEmailField()} />
     );

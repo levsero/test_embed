@@ -31,12 +31,16 @@ export class UserProfile extends Component {
   };
 
   renderAuthedProfileField() {
-    const { isAuthenticated, socialLogin, visitor } = this.props;
-    const { screen, avatarPath } = socialLogin;
+    const { socialLogin, visitor } = this.props;
+    const {
+      authenticated: isSociallyAuthenticated,
+      screen,
+      avatarPath
+    } = socialLogin;
     const { display_name: displayName, email } = visitor;
-    const profileClasses = isAuthenticated
-      ? styles.historyAuthProfileFieldContainer
-      : styles.authProfileFieldContainer;
+    const profileClasses = isSociallyAuthenticated
+      ? styles.authProfileFieldContainer
+      : styles.historyAuthProfileFieldContainer;
     const logoutButton = (screen !== CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING)
       ? <Icon className={styles.logoutIcon}
         type='Icon--trash-fill'
@@ -47,12 +51,15 @@ export class UserProfile extends Component {
       <div>
         <p>{i18n.t('embeddable_framework.chat.form.common.field.social_login.title')}</p>
         <div className={styles.authProfileContainer}>
-          {!isAuthenticated && <Avatar className={styles.avatar} src={avatarPath} fallbackIcon="Icon--agent-avatar" />}
+          {
+            isSociallyAuthenticated &&
+            <Avatar className={styles.avatar} src={avatarPath} fallbackIcon="Icon--agent-avatar" />
+          }
           <div className={profileClasses}>
             <div className={styles.authProfileName}>{displayName}</div>
             <div>{email}</div>
           </div>
-          {!isAuthenticated && logoutButton}
+          {isSociallyAuthenticated && logoutButton}
         </div>
       </div>
     );
