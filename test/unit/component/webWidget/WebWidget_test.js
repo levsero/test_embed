@@ -153,9 +153,11 @@ describe('WebWidget component', () => {
         .toBeFalsy();
     });
 
-    it('does not render the chatPopup component', () => {
-      expect(webWidget.renderChatNotification())
-        .toBeFalsy();
+    it('renders the chatPopup component', () => {
+      const chatNotification = webWidget.renderChatNotification();
+
+      expect(TestUtils.isElementOfType(chatNotification, ChatNotificationPopup))
+        .toEqual(true);
     });
 
     describe('when component is set to submitTicket', () => {
@@ -506,23 +508,6 @@ describe('WebWidget component', () => {
           <WebWidget
             activeEmbed='chat'
             hasSearched={true} />
-        );
-
-        chatNotification = result.renderChatNotification();
-      });
-
-      it('does not render the ChatNotificationPopup component', () => {
-        expect(chatNotification)
-          .toEqual(null);
-      });
-    });
-
-    describe('when helpCenter has not been previously used for search', () => {
-      beforeEach(() => {
-        const result = instanceRender(
-          <WebWidget
-            activeEmbed='helpCenterForm'
-            hasSearched={false} />
         );
 
         chatNotification = result.renderChatNotification();

@@ -491,7 +491,7 @@ class WebWidget extends Component {
 
   renderChatNotification = () => {
     // For now only display notifications inside Help Center
-    if (this.props.activeEmbed !== helpCenter || !this.props.hasSearched) return null;
+    if (this.props.activeEmbed !== helpCenter) return null;
 
     const onNotificatonResponded = () => {
       this.onNextClick(chat);
