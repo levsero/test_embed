@@ -1055,12 +1055,6 @@ parts:
       title: "The title for the help center widget when we are offering articles that are popular in the Help Center"
       value: "Popular articles"
   - translation:
-      key: "embeddable_framework.helpCenter.results.viewMoreLinkText"
-      title: "The button that is displayed after user has searched and there are more then 3 results. Clicking it loads more results."
-      screenshot: "https://zendesk.box.com/s/m8r7h3g7b8nzgz87m3xpah3tzhdqpqqb"
-      value: "View more"
-      obsolete: "2018-04-05"
-  - translation:
       key: "embeddable_framework.helpCenter.results.button.backToChat"
       title: "A button that is displayed at the bottom when the user has chatted prior viewing the current helpcenter article"
       screenshot: "https://zendesk.box.com/s/bgy6121lonubzyv7yj3xvbvrelc5om15"

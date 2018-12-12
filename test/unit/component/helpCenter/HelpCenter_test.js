@@ -92,6 +92,9 @@ describe('HelpCenter component', () => {
       'src/redux/modules/helpCenter': {
         showBackButton: noop
       },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsHelpCenterLocaleFallbacks: noop
+      },
       'src/redux/modules/helpCenter/helpCenter-selectors': {},
       'src/redux/modules/talk/talk-selectors': {},
       'src/redux/modules/chat/chat-selectors': {

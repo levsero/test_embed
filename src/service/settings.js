@@ -80,11 +80,6 @@ const webWidgetStoreDefaults = {
     ticketForms: []
   },
   contactOptions: { enabled: false },
-  helpCenter: {
-    originalArticleButton: true,
-    localeFallbacks: [],
-    suppress: false
-  },
   chat: {
     concierge: {
       avatarPath: null
@@ -121,7 +116,6 @@ const baseDefaults = {
   errorReporting: true,
   analytics: true
 };
-const maxLocaleFallbacks = 3;
 let settingsStore = {};
 let webWidgetStore = {};
 let webWidgetCustomizations = false;
@@ -152,10 +146,6 @@ function init(reduxStore = { dispatch: () => {} }) {
   }
 
   webWidgetStore = initStore(settingsStore.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
-
-  // Limit number of fallback locales.
-  webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks,
-    maxLocaleFallbacks);
 
   reduxStore.dispatch(updateSettings({
     webWidget: {

@@ -5,12 +5,16 @@ import { locals as styles } from './WidgetLauncher.scss';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
-import { getChatAvailable, getTalkAvailable, getChatOfflineAvailable } from 'src/redux/modules/selectors';
-import { settings } from 'service/settings';
-import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import {
-  getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
+  getChatAvailable,
+  getTalkAvailable,
+  getChatOfflineAvailable,
+  getHelpCenterEnabled
+} from 'src/redux/modules/selectors';
+import { settings } from 'service/settings';
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
 import { launcherClicked } from 'src/redux/modules/base/';
 import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors';
 
@@ -18,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     activeEmbed: getActiveEmbed(state),
     chatAvailable: getChatAvailable(state),
-    helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
+    helpCenterAvailable: getHelpCenterEnabled(state),
     talkAvailable: getTalkAvailable(state) && !settings.get('talk.suppress'),
     callbackEnabled: isCallbackEnabled(state),
     notificationCount: getNotificationCount(state),
