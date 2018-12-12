@@ -473,12 +473,13 @@ describe('ChatContactDetailsPopup component', () => {
   });
 
   describe('renderForm', () => {
-    let form;
+    let form, component;
 
     describe('when the state is an edit contact details screen', () => {
       beforeEach(() => {
         const mockScreen = EDIT_CONTACT_DETAILS_SCREEN;
-        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+        component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+        spyOn(component, 'renderUserProfile');
 
         form = component.renderForm();
       });
@@ -486,6 +487,11 @@ describe('ChatContactDetailsPopup component', () => {
       it('renders a form component', () => {
         expect(form)
           .not.toEqual(null);
+      });
+
+      it('calls renderUserProfile', () => {
+        expect(component.renderUserProfile)
+          .toHaveBeenCalled();
       });
     });
 
@@ -543,6 +549,29 @@ describe('ChatContactDetailsPopup component', () => {
         expect(loadingSpinner.props.height)
           .toEqual(32);
       });
+    });
+  });
+
+  describe('renderUserProfile', () => {
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+
+      spyOn(component, 'renderNameField');
+      spyOn(component, 'renderEmailField');
+
+      component.renderUserProfile();
+    });
+
+    it('calls renderNameField', () => {
+      expect(component.renderNameField)
+        .toHaveBeenCalled();
+    });
+
+    it('calls renderEmailField', () => {
+      expect(component.renderEmailField)
+        .toHaveBeenCalled();
     });
   });
 
