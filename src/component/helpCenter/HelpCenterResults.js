@@ -19,7 +19,8 @@ export class HelpCenterResults extends Component {
     previousSearchTerm: PropTypes.string,
     searchFailed: PropTypes.bool,
     showContactButton: PropTypes.bool,
-    hideZendeskLogo: PropTypes.bool
+    hideZendeskLogo: PropTypes.bool,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -40,7 +41,7 @@ export class HelpCenterResults extends Component {
   }
 
   renderResultRow = (article, index) => {
-    const mobileClasses = this.props.fullscreen ? styles.itemMobile : '';
+    const mobileClasses = this.props.isMobile ? styles.itemMobile : '';
 
     return (
       <li key={_.uniqueId('article_')} className={`${styles.item} ${mobileClasses}`}>
@@ -57,7 +58,7 @@ export class HelpCenterResults extends Component {
   renderResults = () => {
     let paddingClasses = '';
     const {
-      fullscreen,
+      isMobile,
       articles,
       locale,
       showContactButton,
@@ -68,7 +69,7 @@ export class HelpCenterResults extends Component {
       paddingClasses = styles.listBottom;
     }
 
-    const mobileClasses = fullscreen ? styles.listMobile : '';
+    const mobileClasses = isMobile ? styles.listMobile : '';
     const articleLinks = _.map(articles, this.renderResultRow);
 
     return (
@@ -79,9 +80,9 @@ export class HelpCenterResults extends Component {
   }
 
   renderContextualNoResults() {
-    const useSearchBarStyles = (this.props.fullscreen) ? styles.useSearchBarTextMobile : styles.useSearchBarTextDesktop;
+    const useSearchBarStyles = (this.props.isMobile) ? styles.useSearchBarTextMobile : styles.useSearchBarTextDesktop;
     const containerStyles = classNames(styles.contextualNoResults, {
-      [styles.contextualNoResultsMobile]: this.props.fullscreen
+      [styles.contextualNoResultsMobile]: this.props.isMobile
     });
 
     return (
@@ -94,10 +95,10 @@ export class HelpCenterResults extends Component {
   }
 
   renderDefaultNoResults() {
-    const noResultsClasses = this.props.fullscreen
+    const noResultsClasses = this.props.isMobile
                            ? styles.noResultsMobile
                            : styles.noResultsDesktop;
-    const paragraphClasses = !this.props.fullscreen ? styles.noResultsParagraphDesktop : '';
+    const paragraphClasses = !this.props.isMobile ? styles.noResultsParagraphDesktop : '';
 
     /* eslint indent:0 */
     const title = this.props.searchFailed

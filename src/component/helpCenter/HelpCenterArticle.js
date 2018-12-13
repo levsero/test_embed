@@ -26,7 +26,8 @@ export class HelpCenterArticle extends Component {
     originalArticleButton: PropTypes.bool,
     handleOriginalArticleClick: PropTypes.func,
     storedImages: PropTypes.object,
-    updateStoredImages: PropTypes.func
+    updateStoredImages: PropTypes.func,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -309,14 +310,14 @@ export class HelpCenterArticle extends Component {
           target='_blank'
           onClick={this.props.handleOriginalArticleClick}
           title={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}>
-          <Icon type='Icon--link-external' isMobile={this.props.fullscreen} />
+          <Icon type='Icon--link-external' isMobile={this.props.isMobile} />
         </a>
       </div>
     );
   }
 
   render = () => {
-    const mobileClasses = this.props.fullscreen ? styles.contentMobile : '';
+    const mobileClasses = this.props.isMobile ? styles.contentMobile : '';
 
     return (
       <div className={`${styles.content} ${mobileClasses}`} lang={this.props.locale} ref='userContent'>

@@ -417,7 +417,8 @@ class WebWidget extends Component {
           submitTicketAvailable={submitTicketAvailable}
           chatAvailable={chatAvailable}
           chatNotificationDismissed={this.props.chatNotificationDismissed}
-          updateChatScreen={this.props.updateChatScreen} />
+          updateChatScreen={this.props.updateChatScreen}
+          isMobile={this.props.isMobile} />
       </div>
     );
   }

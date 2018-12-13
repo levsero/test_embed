@@ -213,9 +213,9 @@ describe('Navigation', () => {
   describe('mobile menu', () => {
     let navigation, navigationNode;
 
-    describe('when props.useMenu is true and fullscreen', () => {
+    describe('when props.useMenu is true and isMobile', () => {
       beforeEach(() => {
-        navigation = domRender(<Navigation useMenu={true} fullscreen={true} />);
+        navigation = domRender(<Navigation useMenu={true} isMobile={true} />);
         navigationNode = ReactDOM.findDOMNode(navigation);
       });
 
@@ -227,7 +227,7 @@ describe('Navigation', () => {
   });
 
   describe('handleCloseClick', () => {
-    let navigation, fullscreen, preventClose;
+    let navigation, isMobile, preventClose;
     const handleCloseButtonClickSpy = jasmine.createSpy('handleCloseButtonClick');
     const stopPropagationSpy = jasmine.createSpy('stopPropagation');
 
@@ -235,7 +235,7 @@ describe('Navigation', () => {
       navigation = domRender(
         <Navigation
           preventClose={preventClose}
-          fullscreen={fullscreen}
+          isMobile={isMobile}
           handleCloseButtonClicked={handleCloseButtonClickSpy} />
       );
       navigation.handleCloseClick({ stopPropagation: stopPropagationSpy });
@@ -257,7 +257,7 @@ describe('Navigation', () => {
 
       describe('when on desktop', () => {
         beforeAll(() => {
-          fullscreen = false;
+          isMobile = false;
         });
 
         it('calls handleCloseButtonClick prop', () => {
@@ -269,8 +269,8 @@ describe('Navigation', () => {
       describe('when on mobile', () => {
         let mockEvent;
 
-        beforeAll(() => {
-          fullscreen = true;
+        beforeEach(() => {
+          isMobile = true;
         });
 
         it('calls handleCloseButtonClick prop', () => {

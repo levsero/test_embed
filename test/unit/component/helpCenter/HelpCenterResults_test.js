@@ -133,9 +133,9 @@ describe('HelpCenterResults component', () => {
   describe('#renderResults', () => {
     let result;
 
-    describe('when fullscreen is true', () => {
+    describe('when isMobile is true', () => {
       beforeEach(() => {
-        component = instanceRender(<HelpCenterResults fullscreen={true} />);
+        component = instanceRender(<HelpCenterResults isMobile={true} />);
         result = component.renderResults();
       });
 
@@ -354,10 +354,10 @@ describe('HelpCenterResults component', () => {
 
   describe('renderContextualNoResults', () => {
     let result,
-      mockFullscreen;
+      mockIsMobile;
 
     beforeEach(() => {
-      const component = instanceRender(<HelpCenterResults fullscreen={mockFullscreen} />);
+      const component = instanceRender(<HelpCenterResults isMobile={mockIsMobile} />);
 
       result = component.renderContextualNoResults();
     });
@@ -373,7 +373,7 @@ describe('HelpCenterResults component', () => {
     describe('useSearchBarStyles', () => {
       describe('when props.fullscreen is true', () => {
         beforeAll(() => {
-          mockFullscreen = true;
+          mockIsMobile = true;
         });
 
         it('renders with useSearchBarTextMobile class', () => {
@@ -386,7 +386,7 @@ describe('HelpCenterResults component', () => {
 
       describe('when props.fullscreen is false', () => {
         beforeAll(() => {
-          mockFullscreen = false;
+          mockIsMobile = false;
         });
 
         it('renders with useSearchBarTextDesktop class', () => {
@@ -401,7 +401,7 @@ describe('HelpCenterResults component', () => {
     describe('containerStyles', () => {
       describe('when props.fullscreen is true', () => {
         beforeAll(() => {
-          mockFullscreen = true;
+          mockIsMobile = true;
         });
 
         it('renders with contextualNoResultsMobile class', () => {
@@ -412,7 +412,7 @@ describe('HelpCenterResults component', () => {
 
       describe('when props.fullscreen is false', () => {
         beforeAll(() => {
-          mockFullscreen = false;
+          mockIsMobile = false;
         });
 
         it('does not render with contextualNoResultsMobile class', () => {

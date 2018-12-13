@@ -17,7 +17,8 @@ describe('chat selectors', () => {
     WHITELISTED_SOCIAL_LOGINS,
     AGENT_BOT,
     CONNECTION_STATUSES,
-    mockIsPopout = false;
+    mockIsPopout = false,
+    mockLauncherVisible = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -51,7 +52,8 @@ describe('chat selectors', () => {
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: (state) => state.base.embed,
         getWidgetShown: (state) => state.base.widgetShown,
-        getLocale: () => 'en-US'
+        getLocale: () => 'en-US',
+        getLauncherVisible: () => mockLauncherVisible
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartmentsEnabled: (state) => _.get(state, 'settings.chat.departments.enabled', []),

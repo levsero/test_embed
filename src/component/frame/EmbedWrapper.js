@@ -22,7 +22,8 @@ export class EmbedWrapper extends Component {
     hidePopoutButton: PropTypes.bool,
     reduxStore: PropTypes.object.isRequired,
     useBackButton: PropTypes.bool,
-    document: PropTypes.object.isRequired
+    document: PropTypes.object.isRequired,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -114,6 +115,7 @@ export class EmbedWrapper extends Component {
                   handleBackClick={this.props.handleBackClick}
                   handleCloseClick={this.closeEmbed}
                   fullscreen={this.props.fullscreen}
+                  isMobile={this.props.isMobile}
                   useBackButton={this.props.useBackButton}
                   hideCloseButton={this.props.hideCloseButton}
                   hidePopoutButton={this.props.hidePopoutButton} />

@@ -48,7 +48,8 @@ class Navigation extends Component {
     updateMenuVisibility: PropTypes.func,
     standaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     chatPopoutSettings: PropTypes.object,
-    zChat: PropTypes.object
+    zChat: PropTypes.object,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -78,13 +79,14 @@ class Navigation extends Component {
           <Icon
             type={options.icon}
             className={styles.icon}
-            isMobile={this.props.fullscreen} />
+            isMobile={this.props.isMobile} />
         }
         rtl={i18n.isRTL()}
         className={options.className}
         aria-label={options['aria-label']}
         position={options.position}
-        fullscreen={this.props.fullscreen} />
+        fullscreen={this.props.fullscreen}
+        isMobile={this.props.isMobile} />
     );
   }
 
@@ -101,17 +103,21 @@ class Navigation extends Component {
 
     // e.touches added for automation testing mobile browsers
     // which is firing 'click' event on iframe close
-    if (this.props.fullscreen && e.touches) {
+    if (this.props.isMobile && e.touches) {
       clickBusterRegister(e.touches[0].clientX, e.touches[0].clientY);
     }
   }
 
   renderLeftNavButton = () => {
     const {
-      fullscreen, useMenu, backButtonVisible, useBackButton, handleBackClick
+      useMenu,
+      backButtonVisible,
+      useBackButton,
+      handleBackClick,
+      isMobile
     } = this.props;
 
-    if (fullscreen && useMenu) {
+    if (isMobile && useMenu) {
       return (
         this.renderNavButton({
           onClick: this.handleMenuClick,

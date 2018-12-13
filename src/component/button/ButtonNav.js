@@ -10,7 +10,8 @@ export class ButtonNav extends Component {
     onClick: PropTypes.func,
     position: PropTypes.string,
     rtl: PropTypes.bool,
-    'aria-label': PropTypes.string.isRequired
+    'aria-label': PropTypes.string.isRequired,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -22,10 +23,10 @@ export class ButtonNav extends Component {
   };
 
   render = () => {
-    const { className, fullscreen, position, rtl } = this.props;
+    const { className, isMobile, fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
     const isRight = (position === 'right');
-    const fullscreenStyles = (fullscreen) ? styles.fullscreen : styles.desktop;
+    const fullscreenStyles = (isMobile || fullscreen) ? styles.fullscreen : styles.desktop;
     const directionStyles = (rtl) ? styles.rtl : '';
     const buttonStyles = styles.button;
     let positionStyles;
