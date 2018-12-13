@@ -499,10 +499,18 @@ describe('SubmitTicketForm component', () => {
   });
 
   describe('handleSubmit', () => {
-    let mockPreventDefault, mockPreviewEnabled, submitTicketForm;
+    let mockPreventDefault,
+      mockPreviewEnabled,
+      submitTicketForm,
+      mockIsMobile = false,
+      mockFullscreen = false;
 
     beforeEach(() => {
-      submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} previewEnabled={mockPreviewEnabled} />);
+      submitTicketForm = domRender(<SubmitTicketForm
+        submit={onSubmit}
+        previewEnabled={mockPreviewEnabled}
+        fullscreen={mockFullscreen}
+        isMobile={mockIsMobile} />);
 
       mockPreventDefault = jasmine.createSpy('preventDefault');
     });

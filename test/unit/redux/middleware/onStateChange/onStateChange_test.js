@@ -8,7 +8,8 @@ describe('onStateChange middleware', () => {
     mockChatScreen,
     mockSubmitTicketAvailable,
     mockIsChatting,
-    mockHasSearched;
+    mockHasSearched,
+    mockIsPopout = false;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
@@ -156,7 +157,8 @@ describe('onStateChange middleware', () => {
         isMobileBrowser() { return mockIsMobileBrowser; }
       },
       'utility/globals': {
-        win: mockWin
+        win: mockWin,
+        isPopout: () => mockIsPopout
       },
       'src/redux/middleware/onStateChange/onWidgetOpen': noop,
       'src/redux/middleware/onStateChange/onChatOpen': noop,
@@ -803,6 +805,37 @@ describe('onStateChange middleware', () => {
                   .toHaveBeenCalled();
               });
             });
+
+            describe('when window is Popout', () => {
+              beforeEach(() => {
+                mockSubmitTicketAvailable = true;
+                mockIsChatting = false;
+                mockActiveEmbed = 'chat';
+                mockIsPopout = true;
+                stateChangeFn('online', 'offline');
+              });
+
+              it('does not update active embed', () => {
+                expect(updateActiveEmbedSpy)
+                  .not
+                  .toHaveBeenCalled();
+              });
+            });
+
+            describe('when window is not Popout', () => {
+              beforeEach(() => {
+                mockSubmitTicketAvailable = true;
+                mockIsChatting = false;
+                mockActiveEmbed = 'chat';
+                mockIsPopout = false;
+                stateChangeFn('online', 'offline');
+              });
+
+              it('does update active embed', () => {
+                expect(updateActiveEmbedSpy)
+                  .toHaveBeenCalled();
+              });
+            });
           });
         });
 
@@ -826,6 +859,7 @@ describe('onStateChange middleware', () => {
 
       beforeEach(() => {
         updateActiveEmbedSpy.calls.reset();
+        mockIsPopout = false;
       });
 
       describe('when action type is END_CHAT_REQUEST_SUCCESS', () => {
@@ -868,6 +902,19 @@ describe('onStateChange middleware', () => {
           it('update active embed to submit ticket', () => {
             expect(updateActiveEmbedSpy)
               .toHaveBeenCalledWith('ticketSubmissionForm');
+          });
+        });
+        describe('when screen is Popout', () => {
+          beforeEach(() => {
+            mockIsPopout = true;
+            stateChangeFn(null, 'offline', {
+              type: actionType
+            });
+          });
+
+          it('does not update active embed', () => {
+            expect(updateActiveEmbedSpy)
+              .not.toHaveBeenCalledWith('ticketSubmissionForm');
           });
         });
       });

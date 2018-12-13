@@ -27,7 +27,8 @@ describe('embed.webWidget', () => {
     mockChatVendorImport,
     persistenceStoreGetSpy,
     chatNotificationDismissedSpy,
-    mockWin;
+    mockWin,
+    mockIsPopout;
 
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const revokeTokenSpy = jasmine.createSpy();
@@ -202,7 +203,8 @@ describe('embed.webWidget', () => {
         getDocumentHost: () => {
           return document.body;
         },
-        win: mockWin
+        win: mockWin,
+        isPopout: () => mockIsPopout
       },
       'src/redux/modules/base' : {
         authenticate: authenticateSpy,
@@ -456,7 +458,35 @@ describe('embed.webWidget', () => {
 
         it('switches container styles', () => {
           expect(faythe.props.style)
-            .toEqual({ minHeight: '100%', width: '100%' });
+            .toEqual({ minHeight: '100%', width: '100%', maxHeight: '100%' });
+        });
+      });
+
+      describe('when is popout', ()=> {
+        let result,
+          expectedResult = {
+            minHeight: '100%',
+            width: '100%',
+            maxHeight: '100%',
+            maxWidth: '650px',
+            height: '100%'
+          };
+
+        beforeEach(() => {
+          mockIsPopout = true;
+          webWidget.create();
+          webWidget.render();
+
+          result = webWidget.get().instance.props.children;
+        });
+
+        afterEach(() => {
+          mockIsPopout = false;
+        });
+
+        it('contains popout styles', () => {
+          expect(result.props.style)
+            .toEqual(expectedResult);
         });
       });
 

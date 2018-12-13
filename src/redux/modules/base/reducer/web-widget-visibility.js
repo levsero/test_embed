@@ -7,7 +7,8 @@ import {
   CANCEL_BUTTON_CLICKED,
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
-  TOGGLE_RECEIVED } from '../base-action-types';
+  TOGGLE_RECEIVED,
+  WIDGET_INITIALISED } from '../base-action-types';
 import {
   ZOPIM_SHOW,
   ZOPIM_CHAT_GONE_OFFLINE } from '../../zopimChat/zopimChat-action-types';
@@ -15,6 +16,7 @@ import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED } from '../../chat/chat-action-types';
+import { isPopout } from 'utility/globals';
 
 const initialState = false;
 
@@ -39,6 +41,8 @@ const webWidgetVisible = (state = initialState, action) => {
       return false;
     case TOGGLE_RECEIVED:
       return !state;
+    case WIDGET_INITIALISED:
+      return isPopout();
     default:
       return state;
   }

@@ -48,6 +48,7 @@ import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
 import { FONT_SIZE } from 'src/constants/shared';
 import { EMBED_MAP, LAUNCHER } from 'constants/shared';
+import { isPopout } from 'utility/globals';
 
 import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared';
 /*
@@ -333,7 +334,7 @@ export const getShowChatBadgeLauncher = createSelector(
 
 export const getFrameStyle = (state, frame) => {
   if (frame === 'webWidget' || frame === 'chatPreview' || frame === 'webWidgetPreview') {
-    const margin = settings.get('margin');
+    const margin = !isPopout() ? settings.get('margin') : '0';
 
     return {
       marginLeft: margin,

@@ -1,5 +1,6 @@
 describe('base root reducer', () => {
-  let reducer;
+  let reducer,
+    mockIsPopout = false;
 
   beforeAll(() => {
     mockery.enable();
@@ -10,9 +11,13 @@ describe('base root reducer', () => {
       'utility/devices': {
         isMobileBrowser: () => false
       },
+      'utility/globals': {
+        isPopout: () => mockIsPopout
+      },
       'src/redux/modules/helpCenter/helpCenter-action-types': {},
       'src/redux/modules/zopimChat/zopimChat-action-types': {},
-      'src/redux/modules/submitTicket/submitTicket-action-types': {}
+      'src/redux/modules/submitTicket/submitTicket-action-types': {},
+      'src/redux/modules/chat/chat-action-types': {}
     });
 
     reducer = requireUncached(reducerPath).default;

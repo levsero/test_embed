@@ -445,7 +445,10 @@ describe('PrechatScreen component', () => {
     let result;
 
     beforeEach(() => {
-      const component = instanceRender(<PrechatScreen title={mockTitle} />);
+      const component = instanceRender(<PrechatScreen
+        title={mockTitle}
+        isMobile={true}
+        fullscreen={true} />);
 
       result = component.renderChatOfflineForm();
     });
@@ -459,6 +462,16 @@ describe('PrechatScreen component', () => {
       expect(result.props.title)
         .toEqual(mockTitle);
     });
+
+    it('renders with the correct fullscreen', () => {
+      expect(result.props.fullscreen)
+        .toEqual(true);
+    });
+
+    it('renders with the correct isMobile', () => {
+      expect(result.props.isMobile)
+        .toEqual(true);
+    });
   });
 
   describe('renderPreChatForm', () => {
@@ -469,7 +482,9 @@ describe('PrechatScreen component', () => {
       const component = instanceRender(
         <PrechatScreen
           title={mockTitle}
-          prechatFormSettings={prechatFormSettings} />
+          prechatFormSettings={prechatFormSettings}
+          isMobile={true}
+          fullscreen={true} />
       );
 
       result = component.renderPreChatForm();
@@ -484,6 +499,16 @@ describe('PrechatScreen component', () => {
       expect(result.props.title)
         .toEqual(mockTitle);
     });
+
+    it('renders with the correct title', () => {
+      expect(result.props.title)
+        .toEqual(mockTitle);
+    });
+
+    it('renders with the correct fullscreen', () => {
+      expect(result.props.fullscreen)
+        .toEqual(true);
+    });
   });
 
   describe('renderLoadingSpinner', () => {
@@ -491,7 +516,10 @@ describe('PrechatScreen component', () => {
       component;
 
     beforeEach(() => {
-      component = instanceRender(<PrechatScreen title={mockTitle} />);
+      component = instanceRender(<PrechatScreen
+        title={mockTitle}
+        isMobile={true}
+        fullscreen={true} />);
 
       result = component.renderLoadingSpinner();
     });
@@ -504,6 +532,16 @@ describe('PrechatScreen component', () => {
     it('renders with the correct title', () => {
       expect(result.props.title)
         .toEqual(mockTitle);
+    });
+
+    it('renders with the correct title', () => {
+      expect(result.props.title)
+        .toEqual(mockTitle);
+    });
+
+    it('renders with the correct fullscreen', () => {
+      expect(result.props.fullscreen)
+        .toEqual(true);
     });
   });
 });

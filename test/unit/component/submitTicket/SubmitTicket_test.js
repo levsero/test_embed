@@ -2,7 +2,6 @@ describe('Submit ticket component', () => {
   let SubmitTicket,
     mockStoreValue,
     mockIsIEValue,
-    mockIsMobileBrowserValue,
     SuccessNotification =  noopReactComponent();
 
   const formParams = {
@@ -37,7 +36,6 @@ describe('Submit ticket component', () => {
   }
 
   beforeEach(() => {
-    mockIsMobileBrowserValue = false;
     mockIsIEValue = false;
     mockStoreValue = false;
 
@@ -50,8 +48,7 @@ describe('Submit ticket component', () => {
         location: location
       },
       'utility/devices': {
-        isIE: () => mockIsIEValue,
-        isMobileBrowser: () => mockIsMobileBrowserValue
+        isIE: () => mockIsIEValue
       },
       './SubmitTicket.scss': {
         locals: {
@@ -174,7 +171,9 @@ describe('Submit ticket component', () => {
           <SubmitTicket
             activeTicketForm={activeTicketForm}
             activeTicketFormFields={mockActiveTicketFormFields}
-            ticketFields={mockTicketFields} />
+            ticketFields={mockTicketFields}
+            isMobile={true}
+            fullscreen={true} />
         );
 
         result = submitTicket.renderForm();
@@ -188,6 +187,16 @@ describe('Submit ticket component', () => {
       it('the passed fields do not match ticket fields from config', () => {
         expect(result.props.ticketFields)
           .not.toEqual(mockTicketFields);
+      });
+
+      it('passes down isMobile', () => {
+        expect(result.props.isMobile)
+          .toEqual(true);
+      });
+
+      it('passes down fullscreen', () => {
+        expect(result.props.fullscreen)
+          .toEqual(true);
       });
     });
 
@@ -344,13 +353,15 @@ describe('Submit ticket component', () => {
   describe('renderNotification', () => {
     let notification,
       mockHideZendeskLogo,
-      mockFullScreen;
+      mockIsMobile,
+      mockIsFullscreen;
 
     beforeEach(() => {
       const submitTicket = domRender(<SubmitTicket
         showNotification={true}
         hideZendeskLogo={mockHideZendeskLogo}
-        fullscreen={mockFullScreen} />);
+        isMobile={mockIsMobile}
+        fullscreen={mockIsFullscreen} />);
 
       notification = submitTicket.renderNotification();
     });
@@ -358,6 +369,28 @@ describe('Submit ticket component', () => {
     it('should render SuccessNotification', () => {
       expect(TestUtils.isElementOfType(notification.props.children, SuccessNotification))
         .toEqual(true);
+    });
+
+    describe('when fullscreen and isMobile are true', () => {
+      beforeAll(() => {
+        mockIsFullscreen = true;
+        mockIsMobile = true;
+      });
+
+      afterAll(() => {
+        mockIsFullscreen = true;
+        mockIsMobile = true;
+      });
+
+      it('passes isMobile to child', () => {
+        expect(notification.props.isMobile)
+          .toEqual(true);
+      });
+
+      it('passes fullscreen to child', () => {
+        expect(notification.props.fullscreen)
+          .toEqual(true);
+      });
     });
 
     describe('when hideZendeskLogo is true', () => {
@@ -380,7 +413,7 @@ describe('Submit ticket component', () => {
     describe('when zendesk logo required', () => {
       beforeAll(() => {
         mockHideZendeskLogo = false;
-        mockFullScreen = false;
+        mockIsMobile = false;
       });
 
       it('renders zendeskLogoButton', () => {
@@ -439,6 +472,29 @@ describe('Submit ticket component', () => {
 
       expect(submitTicket.refs.ticketFormSelector)
         .toBeUndefined();
+    });
+
+    describe('when isMobile and fullscreen are true', () => {
+      let result,
+        ticketForms = [{ id: 1 }];
+
+      beforeEach(() => {
+        result = domRender(<SubmitTicket
+          ticketForms={ticketForms}
+          loading={true}
+          fullscreen={true}
+          isMobile={true} />);
+      });
+
+      it('passes through isMobile', () => {
+        expect(result.props.isMobile)
+          .toEqual(true);
+      });
+
+      it('passes through fullscreen', () => {
+        expect(result.props.fullscreen)
+          .toEqual(true);
+      });
     });
 
     it('is rendered when there is more then one ticket form', () => {
@@ -527,6 +583,17 @@ describe('Submit ticket component', () => {
     submitTicket.setState({ fullscreen: 'VALUE' });
 
     expect(submitTicket.state.fullscreen)
+      .toEqual('VALUE');
+  });
+
+  it('pass isMobile to submitTicketForm', () => {
+    const submitTicket = instanceRender( < SubmitTicket / > );
+
+    submitTicket.setState({
+      isMobile: 'VALUE'
+    });
+
+    expect(submitTicket.state.isMobile)
       .toEqual('VALUE');
   });
 

@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_MARGIN } from 'constants/shared';
-import { isMobileBrowser } from 'utility/devices';
 import Refocus from 'component/Refocus';
 
 import { win } from 'utility/globals';
 import { locals as styles } from './ScrollContainer.scss';
-
-const isMobile = isMobileBrowser();
 
 export class ScrollContainer extends Component {
   static propTypes = {
@@ -21,6 +18,7 @@ export class ScrollContainer extends Component {
     containerClasses: PropTypes.string,
     footerClasses: PropTypes.string,
     fullscreen: PropTypes.bool,
+    isMobile: PropTypes.bool,
     headerContent: PropTypes.element,
     maxHeight: PropTypes.number,
     scrollShadowVisible: PropTypes.bool,
@@ -35,12 +33,13 @@ export class ScrollContainer extends Component {
     containerClasses: '',
     footerClasses: '',
     footerContent: [],
-    fullscreen: isMobile,
     headerContent: null,
     maxHeight: MAX_WIDGET_HEIGHT,
     scrollShadowVisible: false,
     onContentScrolled: () => {},
-    titleClasses: ''
+    titleClasses: '',
+    isMobile: false,
+    fullscreen: false
   };
 
   constructor(props, context) {
@@ -104,7 +103,7 @@ export class ScrollContainer extends Component {
   }
 
   calculateHeight = () => {
-    if (this.props.fullscreen) return null;
+    if (this.props.fullscreen || this.props.isMobile) return null;
 
     const winHeight = win.innerHeight;
     const { maxHeight } = this.props;
@@ -135,33 +134,35 @@ export class ScrollContainer extends Component {
 
   render = () => {
     const {
-      fullscreen,
+      isMobile,
       headerContent,
       containerClasses,
       classes,
-      onContentScrolled
+      onContentScrolled,
+      fullscreen
     } = this.props;
     const headerClasses = classNames(styles.header, styles.userHeader);
-    const titleClasses = classNames(styles.title, this.props.titleClasses, { [styles.titleMobile]: fullscreen });
+    const titleClasses = classNames(styles.title, this.props.titleClasses, { [styles.titleMobile]: isMobile });
     const scrollContainerClasses = classNames(
       classes,
       styles.container,
       styles.flexContainer,
-      { [styles.desktop]: !fullscreen },
-      { [styles.containerDesktop]: !fullscreen },
-      { [styles.mobile]: fullscreen },
+      { [styles.desktop]: !isMobile },
+      { [styles.desktopFullscreen]: !isMobile && fullscreen },
+      { [styles.containerDesktop]: !isMobile && !fullscreen  },
+      { [styles.mobile]: isMobile },
     );
     const contentClasses = classNames(
       styles.content,
       containerClasses,
       {
-        [styles.contentMobile]: fullscreen,
-        [styles.contentBigheader]: headerContent && fullscreen
+        [styles.contentMobile]: isMobile,
+        [styles.contentBigheader]: headerContent && (isMobile || fullscreen)
       }
     );
 
     return (
-      <div style={{ height: this.calculateHeight() }} className={scrollContainerClasses}>
+      <div data-testid="scrollcontainer" style={{ height: this.calculateHeight() }} className={scrollContainerClasses}>
         <header ref={(el) => {this.header = el;}}
           className={headerClasses}>
           <h1 className={titleClasses}>

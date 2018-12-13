@@ -145,7 +145,8 @@ class WebWidget extends Component {
     helpCenterAvailable: PropTypes.bool.isRequired,
     channelChoiceAvailable: PropTypes.bool.isRequired,
     submitTicketAvailable: PropTypes.bool.isRequired,
-    chatId: PropTypes.string
+    chatId: PropTypes.string,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -227,7 +228,7 @@ class WebWidget extends Component {
   }
 
   showProactiveChat = () => {
-    if (this.props.fullscreen) {
+    if (this.props.isMobile) {
       this.props.showStandaloneMobileNotification();
     } else {
       const { proactive, show } = this.props.chatNotification;
@@ -370,7 +371,8 @@ class WebWidget extends Component {
       <Chat
         ref={chat}
         getFrameContentDocument={this.props.getFrameContentDocument}
-        isMobile={this.props.fullscreen}
+        isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
         position={this.props.position}
         chatId={this.props.chatId}
@@ -447,7 +449,8 @@ class WebWidget extends Component {
           subjectEnabled={this.props.subjectEnabled}
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
-          fullscreen={this.props.fullscreen} />
+          fullscreen={this.props.fullscreen}
+          isMobile={this.props.isMobile} />
       </div>
     );
   }
@@ -466,7 +469,7 @@ class WebWidget extends Component {
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
-        isMobile={this.props.fullscreen}
+        isMobile={this.props.isMobile}
         onNextClick={this.setComponent}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
@@ -480,7 +483,7 @@ class WebWidget extends Component {
         ref={talk}
         hideZendeskLogo={this.props.hideZendeskLogo}
         style={this.props.style}
-        isMobile={this.props.fullscreen}
+        isMobile={this.props.isMobile}
         talkConfig={this.props.talkConfig}
         helpCenterAvailable={this.props.helpCenterAvailable}
         channelChoiceAvailable={this.props.channelChoiceAvailable}
@@ -498,14 +501,15 @@ class WebWidget extends Component {
       this.props.chatNotificationRespond();
     };
 
-    const shouldShow = !this.props.fullscreen || !this.props.helpCenterSearchFocused;
+    const shouldShow = !this.props.isMobile || !this.props.helpCenterSearchFocused;
 
     return (
       <ChatNotificationPopup
         resultsCount={this.props.resultsCount}
-        isMobile={this.props.fullscreen}
+        isMobile={this.props.isMobile}
         notification={this.props.chatNotification}
         shouldShow={shouldShow}
+        fullscreen={this.props.fullscreen}
         chatNotificationRespond={onNotificatonResponded}
         chatNotificationDismissed={this.props.chatNotificationDismissed} />
     );
@@ -531,10 +535,11 @@ class WebWidget extends Component {
 
     return (
       <div style={style} data-embed={mobileChatPopup}>
-        <Container style={containerStyle} fullscreen={true}>
+        <Container style={containerStyle} isMobile={true}>
           <ChatNotificationPopup
             isMobile={true}
             notification={notification}
+            fullscreen={this.props.fullscreen}
             shouldShow={true}
             chatNotificationRespond={onNotificatonResponded}
             chatNotificationDismissed={this.dismissStandaloneChatPopup} />
@@ -544,18 +549,35 @@ class WebWidget extends Component {
   }
 
   render = () => {
-    const { fullscreen } = this.props;
+    const {
+      fullscreen,
+      isMobile,
+      style,
+      activeEmbed,
+      position,
+      mobileNotificationsDisabled,
+      chatStandaloneMobileNotificationVisible } = this.props;
 
-    if (fullscreen && this.props.chatStandaloneMobileNotificationVisible && !this.props.mobileNotificationsDisabled)
+    if (isMobile && chatStandaloneMobileNotificationVisible && !mobileNotificationsDisabled) {
       return this.renderStandaloneChatPopup();
+    }
+
+    let containerStyle = (fullscreen && !isMobile) ?
+      {
+        ...style,
+        left: '50%',
+        transform: 'translate(-50%)' // Position the widget in the center
+      } :
+      style;
 
     return (
       // data-embed is needed for our intergration tests
-      <div data-embed={this.props.activeEmbed}>
+      <div data-embed={activeEmbed}>
         <Container
-          style={this.props.style}
+          style={containerStyle}
           fullscreen={fullscreen}
-          position={this.props.position}
+          isMobile={isMobile}
+          position={position}
           onClick={this.onContainerClick}
           onDragEnter={this.onContainerDragEnter}>
           {this.renderSubmitTicket()}

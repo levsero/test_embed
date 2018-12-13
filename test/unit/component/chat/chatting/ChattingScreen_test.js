@@ -625,14 +625,15 @@ describe('ChattingScreen component', () => {
   });
 
   describe('#render', () => {
-    let component, result;
+    let component, result, mockFullscreen, mockIsMobile;
     const renderChatComponent = ({
       agents = {},
-      isMobile = false,
+      isMobile = mockIsMobile,
       hideZendeskLogo = false,
       profileConfig = {},
       socialLogin = { avatarPath: 'heynow' },
-      agentJoined = false
+      agentJoined = false,
+      fullscreen = mockFullscreen
     }) => (
       instanceRender(
         <ChattingScreen
@@ -642,7 +643,8 @@ describe('ChattingScreen component', () => {
           isMobile={isMobile}
           hideZendeskLogo={hideZendeskLogo}
           socialLogin={socialLogin}
-          agentJoined={agentJoined} />
+          agentJoined={agentJoined}
+          fullscreen={fullscreen} />
       )
     );
 
@@ -653,6 +655,16 @@ describe('ChattingScreen component', () => {
     });
 
     describe('props', () => {
+      beforeAll(() => {
+        mockFullscreen = true;
+        mockIsMobile = true;
+      });
+
+      afterAll(() => {
+        mockFullscreen = false;
+        mockIsMobile = false;
+      });
+
       it('has a props.socialLogin value', () => {
         expect(component.props.socialLogin)
           .toEqual({ avatarPath: 'heynow' });
@@ -661,6 +673,16 @@ describe('ChattingScreen component', () => {
       it('has a props.title value', () => {
         expect(component.props.title)
           .toEqual(mockTitle);
+      });
+
+      it('has a props.fullscreen value', () => {
+        expect(component.props.fullscreen)
+          .toEqual(true);
+      });
+
+      it('has a props.isMobile value', () => {
+        expect(component.props.isMobile)
+          .toEqual(true);
       });
     });
 

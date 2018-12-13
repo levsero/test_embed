@@ -16,6 +16,8 @@ const getZendeskHost = (doc) => {
   return doc.zendeskHost || _.get(doc.zendesk, path) || _.get(doc, path);
 };
 
+const isPopout = () => win.zEPopout === true;
+
 // Shim rAF for older browsers that either don't have it or need the prefixed version.
 // Attaching to the iframe window as that's what snabbt looks at.
 (function() {
@@ -38,4 +40,4 @@ const getZendeskHost = (doc) => {
   }
 }());
 
-export { win, document, navigator, location, getDocumentHost, referrer, getZendeskHost };
+export { win, document, navigator, location, getDocumentHost, referrer, getZendeskHost, isPopout };

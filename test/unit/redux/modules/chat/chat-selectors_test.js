@@ -16,7 +16,8 @@ describe('chat selectors', () => {
     DEPARTMENT_STATUSES,
     WHITELISTED_SOCIAL_LOGINS,
     AGENT_BOT,
-    CONNECTION_STATUSES;
+    CONNECTION_STATUSES,
+    mockIsPopout = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -72,7 +73,7 @@ describe('chat selectors', () => {
 
       },
       'utility/globals': {
-
+        isPopout: () => mockIsPopout
       }
     });
 
@@ -2335,6 +2336,28 @@ describe('chat selectors', () => {
       });
     });
 
+    describe('when current window is Popout', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: {
+            screen: CHATTING_SCREEN
+          },
+          base: {
+            embed: 'chat'
+          }
+        };
+
+        mockIsPopout = true;
+
+        result = selectors.getShowMenu(mockState);
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+
     describe('when current chat screen is not CHATTING_SCREEN', () => {
       beforeEach(() => {
         const mockState = {
@@ -2345,6 +2368,8 @@ describe('chat selectors', () => {
             embed: 'chat'
           }
         };
+
+        mockIsPopout = false;
 
         result = selectors.getShowMenu(mockState);
       });

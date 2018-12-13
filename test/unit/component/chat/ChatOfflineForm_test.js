@@ -516,7 +516,9 @@ describe('ChatOfflineForm component', () => {
         <ChatOfflineForm
           title={titleProp}
           formState={initialFormState}
-          offlineMessage={mockOfflineMessage} />
+          offlineMessage={mockOfflineMessage}
+          isMobile={true}
+          fullscreen={true} />
       );
 
       spyOn(component, 'renderSubmitButton');
@@ -594,6 +596,20 @@ describe('ChatOfflineForm component', () => {
         expect(targetElem.props.title)
           .toEqual(mockTitle);
       });
+
+      it('renders with the correct fullscreen value', () => {
+        const targetElem = result.props.children;
+
+        expect(targetElem.props.fullscreen)
+          .toEqual(true);
+      });
+
+      it('renders with the correct isMobile value', () => {
+        const targetElem = result.props.children;
+
+        expect(targetElem.props.isMobile)
+          .toEqual(true);
+      });
     });
 
     describe('when offlineMessage\'s screen is not in the main state', () => {
@@ -617,7 +633,9 @@ describe('ChatOfflineForm component', () => {
           <ChatOfflineForm
             title={mockTitle}
             formState={initialFormState}
-            offlineMessage={{ screen: 'loading' }} />
+            offlineMessage={{ screen: 'loading' }}
+            isMobile={true}
+            fullscreen={true}/>
         );
 
         result = component.renderLoading();
@@ -634,6 +652,16 @@ describe('ChatOfflineForm component', () => {
       it('renders with the correct title', () => {
         expect(result.props.title)
           .toEqual(mockTitle);
+      });
+
+      it('renders with the correct fullscreen value', () => {
+        expect(result.props.fullscreen)
+          .toEqual(true);
+      });
+
+      it('renders with the correct isMobile value', () => {
+        expect(result.props.isMobile)
+          .toEqual(true);
       });
     });
 
@@ -677,7 +705,9 @@ describe('ChatOfflineForm component', () => {
             title={mockTitle}
             formState={initialFormState}
             offlineMessage={offlineMessageProp}
-            handleOfflineFormBack={onFormBackSpy} />
+            handleOfflineFormBack={onFormBackSpy}
+            isMobile={true}
+            fullscreen={true} />
         );
 
         result = component.renderSuccess();
@@ -696,6 +726,15 @@ describe('ChatOfflineForm component', () => {
       it('renders with the correct title', () => {
         expect(result.props.title)
           .toEqual(mockTitle);
+      });
+      it('renders with the correct fullscreen value', () => {
+        expect(result.props.fullscreen)
+          .toEqual(true);
+      });
+
+      it('renders with the correct isMobile value', () => {
+        expect(result.props.isMobile)
+          .toEqual(true);
       });
     });
 
@@ -748,7 +787,9 @@ describe('ChatOfflineForm component', () => {
           <ChatOfflineForm
             title={mockTitle}
             operatingHours={mockOperatingHours}
-            offlineMessage={{ screen: 'operatingHours' }} />
+            offlineMessage={{ screen: 'operatingHours' }}
+            isMobile={true}
+            fullscreen={true} />
         );
 
         result = component.renderOperatingHours();
@@ -775,6 +816,16 @@ describe('ChatOfflineForm component', () => {
       it('renders with the correct title', () => {
         expect(result.props.title)
           .toEqual(mockTitle);
+      });
+
+      it('renders with the correct fullscreen value', () => {
+        expect(result.props.fullscreen)
+          .toEqual(true);
+      });
+
+      it('renders with the correct isMobile value', () => {
+        expect(result.props.isMobile)
+          .toEqual(true);
       });
     });
   });

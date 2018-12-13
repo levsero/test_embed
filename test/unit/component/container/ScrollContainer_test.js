@@ -25,6 +25,7 @@ describe('ScrollContainer component', () => {
           userHeader: 'userHeaderClassesYo',
           container: 'containerClasses',
           containerDesktop: 'containerDesktopClasses',
+          desktopFullscreen: 'desktopFullscreen',
           flexContainer: 'flexContainer',
           desktop: 'desktop',
           mobile: 'mobile',
@@ -38,9 +39,6 @@ describe('ScrollContainer component', () => {
         MIN_WIDGET_HEIGHT,
         WIDGET_MARGIN
       },
-      'utility/devices': {
-        isMobileBrowser: () => mockIsMobile
-      },
       'utility/globals': {
         win: {
           innerHeight: mockWindowHeight
@@ -52,7 +50,7 @@ describe('ScrollContainer component', () => {
 
     ScrollContainer = requireUncached(containerPath).ScrollContainer;
 
-    container = instanceRender(<ScrollContainer fullscreen={mockIsFullScreen} />);
+    container = instanceRender(<ScrollContainer fullscreen={mockIsFullScreen} isMobile={mockIsMobile} />);
     result = container.render();
   });
 
@@ -61,25 +59,35 @@ describe('ScrollContainer component', () => {
     mockery.disable();
   });
 
-  it('should have the `contentMobileClasses` classes when fullscreen is true', () => {
-    const container = shallowRender(<ScrollContainer fullscreen={true} />);
+  it('should have the `contentMobileClasses` classes when isMobile is true', () => {
+    const container = shallowRender(<ScrollContainer isMobile={true} />);
 
     expect(container.props.children[1].props.className)
       .toMatch('contentMobileClasses');
   });
 
-  it('has "container" classes when fullscreen is true', () => {
-    const container = shallowRender(<ScrollContainer fullscreen={true} />);
+  it('has "container" classes when isMobile is true', () => {
+    const container = shallowRender(<ScrollContainer isMobile={true} />);
 
     expect(container.props.className)
       .toMatch('containerClasses');
   });
 
   it('has "containerDesktop" classes when fullscreen is false', () => {
-    const container = shallowRender(<ScrollContainer />);
+    mockIsFullScreen = false;
+    const container = shallowRender(<ScrollContainer fullscreen={mockIsFullScreen} />);
 
     expect(container.props.className)
       .toMatch('containerDesktopClasses');
+  });
+
+  it('has "desktopFullscreen" classes when in popout mode', () => {
+    mockIsFullScreen = true;
+    mockIsMobile = false;
+    const container = shallowRender(<ScrollContainer isMobile={mockIsMobile} fullscreen={mockIsFullScreen} />);
+
+    expect(container.props.className)
+      .toMatch('desktopFullscreen');
   });
 
   it('renders flexContainer class', () => {
@@ -94,6 +102,7 @@ describe('ScrollContainer component', () => {
 
   describe('when on mobile', () => {
     beforeAll(() => {
+      mockIsMobile = true;
       mockIsFullScreen = true;
     });
 
@@ -111,7 +120,7 @@ describe('ScrollContainer component', () => {
 
   describe('when not on mobile', () => {
     beforeAll(() => {
-      mockIsFullScreen = false;
+      mockIsMobile = false;
     });
 
     it('does not render mobile class', () => {
@@ -128,12 +137,11 @@ describe('ScrollContainer component', () => {
 
   describe('titleClasses', () => {
     let container,
-      mockIsFullScreen,
       mockTitleClasses,
       result;
 
     beforeEach(() => {
-      container = instanceRender(<ScrollContainer titleClasses={mockTitleClasses} fullscreen={mockIsFullScreen} />);
+      container = instanceRender(<ScrollContainer titleClasses={mockTitleClasses} isMobile={mockIsMobile} />);
       result = container.render().props.children[0].props.children[0].props.className;
     });
 
@@ -165,9 +173,9 @@ describe('ScrollContainer component', () => {
       });
     });
 
-    describe('when fullscreen is true', () => {
+    describe('when isMobile is true', () => {
       beforeAll(() => {
-        mockIsFullScreen = true;
+        mockIsMobile = true;
       });
 
       it('includes titleMobile in titleClasses', () => {
@@ -176,9 +184,9 @@ describe('ScrollContainer component', () => {
       });
     });
 
-    describe('when fullscreen is false', () => {
+    describe('when isMobile is false', () => {
       beforeAll(() => {
-        mockIsFullScreen = false;
+        mockIsMobile = false;
       });
 
       it('does not include titleMobile in titleClasses', () => {
@@ -202,6 +210,22 @@ describe('ScrollContainer component', () => {
     describe('when fullscreen is false', () => {
       it('should not have `contentBigheader` classes', () => {
         const container = shallowRender(<ScrollContainer fullscreen={false} headerContent={<div />} />);
+
+        expect(container.props.children[1].props.className)
+          .not.toMatch('contentBigheaderClasses');
+      });
+    });
+
+    describe('when isMobile is true', () => {
+      it('has `contentBigheader` classes', () => {
+        const container = shallowRender(<ScrollContainer isMobile={true} headerContent={<div />} />);
+
+        expect(container.props.children[1].props.className)
+          .toMatch('contentBigheaderClasses');
+      });
+
+      it('should not have `contentBigheader` classes', () => {
+        const container = shallowRender(<ScrollContainer isMobile={false} headerContent={<div />} />);
 
         expect(container.props.children[1].props.className)
           .not.toMatch('contentBigheaderClasses');
@@ -462,7 +486,7 @@ describe('ScrollContainer component', () => {
 
     describe('when on mobile', () => {
       beforeEach(() => {
-        component = instanceRender(<ScrollContainer fullscreen={true} />);
+        component = instanceRender(<ScrollContainer isMobile={true} />);
       });
 
       it('returns null', () => {
@@ -506,6 +530,17 @@ describe('ScrollContainer component', () => {
         it('returns the min widget value minus the widget margins', () => {
           expect(component.calculateHeight())
             .toEqual(MIN_WIDGET_HEIGHT - WIDGET_MARGIN*2);
+        });
+      });
+
+      describe('when is fullscreen (popout)', () => {
+        beforeEach(() => {
+          component = instanceRender(<ScrollContainer fullscreen={true} />);
+        });
+
+        it('returns null', () => {
+          expect(component.calculateHeight())
+            .toEqual(null);
         });
       });
     });

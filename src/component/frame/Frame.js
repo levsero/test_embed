@@ -15,7 +15,10 @@ import { locals as styles } from './Frame.scss';
 import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices';
+import {
+  getZoomSizingRatio,
+  isMobileBrowser
+} from 'utility/devices';
 import Transition from 'react-transition-group/Transition';
 import {
   updateWidgetShown,
@@ -89,7 +92,9 @@ class Frame extends Component {
     color: PropTypes.object,
     generateUserCSS: PropTypes.func,
     chatStandalone: PropTypes.bool,
-    customFrameStyle: PropTypes.object
+    customFrameStyle: PropTypes.object,
+    isMobile: PropTypes.bool.isRequired,
+    fullscreen: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -120,7 +125,8 @@ class Frame extends Component {
     widgetHideAnimationComplete: () => {},
     widgetShowAnimationComplete: () => {},
     generateUserCSS: () => {},
-    chatStandalone: false
+    chatStandalone: false,
+    isMobile: false
   }
 
   constructor(props, context) {
@@ -227,13 +233,26 @@ class Frame extends Component {
   }
 
   getDefaultDimensions = () => {
-    const { frameOffsetHeight, frameOffsetWidth, fullscreenable } = this.props;
-    const fullscreen = isMobileBrowser() && fullscreenable;
-    const fullscreenStyle = {
+    const {
+      frameOffsetHeight,
+      frameOffsetWidth,
+      fullscreenable,
+      fullscreen,
+      isMobile } = this.props;
+
+    let fullscreenStyle = {
       width: '100%',
       maxWidth: '100%',
       height: '100%'
     };
+
+    if (fullscreen && !isMobile)
+      fullscreenStyle = {
+        ...fullscreenStyle,
+        left: '50%',
+        transform: 'translate(-50%)',
+        background: '#EEE'
+      };
 
     const popoverStyle = {
       width: `${WIDGET_WIDTH + frameOffsetWidth}px`,
@@ -242,9 +261,11 @@ class Frame extends Component {
       minHeight: `${MIN_WIDGET_HEIGHT}px`
     };
 
-    return fullscreen
-      ? fullscreenStyle
-      : popoverStyle;
+    if ((fullscreen || isMobile) && fullscreenable) {
+      return fullscreenStyle;
+    } else {
+      return popoverStyle;
+    }
   };
 
   updateBaseFontSize = (fontSize) => {
@@ -317,7 +338,7 @@ class Frame extends Component {
     const modifiedStyles = this.child
       ? this.props.frameStyleModifier(frameStyle, this.getRootComponentElement()) || frameStyle
       : frameStyle;
-    const fullscreen = isMobileBrowser() && this.props.fullscreenable;
+    const mobileFullscreen = this.props.isMobile && this.props.fullscreenable;
     const baseStyles = {
       border: 'none',
       background: 'transparent',
@@ -328,7 +349,8 @@ class Frame extends Component {
       transitionProperty: 'opacity, top, bottom',
       opacity: 0
     };
-    const mobileStyles = fullscreen ? {
+
+    const mobileStyles = mobileFullscreen ? {
       left: this.props.visible ? '0px' : '-9999px',
       top: this.props.visible ? '0px' : '-9999px',
       background:'#FFF',
@@ -346,15 +368,14 @@ class Frame extends Component {
   }
 
   getOffsetPosition = (animationOffset = 0) => {
-    const isMobile = isMobileBrowser();
+    const { isMobile, name, position } = this.props;
 
-    if (isMobile && this.props.name === 'webWidget') return {};
-
+    if (isMobile && name === 'webWidget') return {};
     const offset = settings.get('offset');
     const mobileOffset = _.get(offset, 'mobile', {});
     const horizontalOffset = isMobile ? _.get(mobileOffset, 'horizontal', 0) : _.get(offset, 'horizontal', 0);
     const verticalOffset = isMobile ? _.get(mobileOffset, 'vertical', 0) : _.get(offset, 'vertical', 0);
-    const horizontalPos = settings.get('position.horizontal') || this.props.position;
+    const horizontalPos = settings.get('position.horizontal') || position;
     const verticalPos = isPositionTop() ? 'top' : 'bottom';
 
     return {
@@ -364,22 +385,27 @@ class Frame extends Component {
   }
 
   injectEmbedIntoFrame = (embed) => {
+    const { isMobile, fullscreenable, fullscreen } = this.props;
     const doc = this.getContentDocument();
 
     // element within the iframe to inject the embed into
     const element = doc.body.appendChild(doc.createElement('div'));
-
     // element styles
-    const fullscreen = this.props.fullscreenable && isMobileBrowser();
+    const mobileFullscreen = fullscreenable && isMobile;
+
     const position = settings.get('position.horizontal') || this.props.position;
-    const desktopClasses = fullscreen ? '' : styles.desktop;
+    const desktopClasses = mobileFullscreen ? '' : styles.desktop;
     const positionClasses = position === 'left' ? styles.left : styles.right;
+
+    if (fullscreen) {
+      element.style.minWidth = '100%';
+    }
 
     element.className = `${positionClasses} ${desktopClasses}`;
     ReactDOM.render(embed, element);
     this.setState({ childRendered: true });
 
-    if (fullscreen) {
+    if (mobileFullscreen) {
       setTimeout(this.applyMobileBodyStyle, 0);
     }
   }
@@ -408,7 +434,8 @@ class Frame extends Component {
           hideCloseButton={this.props.hideCloseButton}
           hidePopoutButton={this.props.hidePopoutButton}
           name={this.props.name}
-          fullscreen={this.props.fullscreenable && isMobileBrowser()}
+          fullscreen={this.props.fullscreen}
+          isMobile={this.props.isMobile}
           chatStandalone={this.props.chatStandalone}>
           {newChild}
         </EmbedWrapper>

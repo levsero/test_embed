@@ -116,12 +116,14 @@ class ChattingScreen extends Component {
     profileConfig: PropTypes.object.isRequired,
     notificationCount: PropTypes.number,
     markAsRead: PropTypes.func,
-    visible: PropTypes.bool
+    visible: PropTypes.bool,
+    fullscreen: PropTypes.bool
   };
 
   static defaultProps = {
     attachmentsEnabled: false,
     isMobile: false,
+    fullscreen: false,
     concierges: [],
     rating: {},
     chats: [],
@@ -454,7 +456,8 @@ class ChattingScreen extends Component {
       hideZendeskLogo,
       agentsTyping,
       profileConfig,
-      agentJoined } = this.props;
+      agentJoined,
+      fullscreen } = this.props;
     const containerClasses = classNames({
       [styles.headerMargin]: profileConfig.avatar || profileConfig.title || (profileConfig.rating && agentJoined),
       [styles.scrollContainerMessagesContent]: isMobile,
@@ -488,7 +491,8 @@ class ChattingScreen extends Component {
           containerClasses={containerClasses}
           footerClasses={footerClasses}
           footerContent={this.renderChatFooter()}
-          fullscreen={isMobile}>
+          fullscreen={fullscreen}
+          isMobile={isMobile}>
           <div className={chatLogContainerClasses}>
             <HistoryLog
               ref={(el) => { this.chatHistoryLog = el; }}

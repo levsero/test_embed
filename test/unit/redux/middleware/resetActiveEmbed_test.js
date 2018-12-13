@@ -15,7 +15,7 @@ describe('resetActiveEmbed middleware', () => {
     mockSubmitTicketAvailable = true,
     mockIsChatting,
     mockWidgetVisible = true,
-    mockWin = {};
+    mockIsPopout = true;
 
   const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
   const WIDGET_INITIALISED = 'WIDGET_INITIALISED';
@@ -78,7 +78,7 @@ describe('resetActiveEmbed middleware', () => {
         ZOPIM_CHAT_ON_STATUS_UPDATE, ZOPIM_END_CHAT, ZOPIM_HIDE
       },
       'utility/globals': {
-        win: mockWin
+        isPopout: () => mockIsPopout
       }
     });
 
@@ -334,12 +334,12 @@ describe('resetActiveEmbed middleware', () => {
 
     describe('when in Popout mode', () => {
       beforeAll(() => {
-        mockWin.zEPopout = true;
+        mockIsPopout = true;
         resetActiveEmbed({}, {}, {});
       });
 
       afterAll(() => {
-        mockWin.zEPopout = false;
+        mockIsPopout = false;
       });
 
       it('calls "chat"', () => {
@@ -350,7 +350,7 @@ describe('resetActiveEmbed middleware', () => {
 
     describe('when not in Popout mode', () => {
       beforeAll(() => {
-        mockWin.zEPopout = false;
+        mockIsPopout = false;
         resetActiveEmbed({}, {}, {});
       });
 

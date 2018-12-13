@@ -34,3 +34,13 @@ test('getZendeskHost returns document.web_widget.id', () => {
 
   document.web_widget = null; // eslint-disable-line camelcase
 });
+
+test('when window.zEPopout is true, isPopout returns true', () => {
+  window.zEPopout = true;
+  expect(globals.isPopout()).toEqual(true);
+});
+
+test('when window.zEPopout is false, isPopout returns false', () => {
+  window.zEPopout = false;
+  expect(globals.isPopout()).toEqual(false);
+});

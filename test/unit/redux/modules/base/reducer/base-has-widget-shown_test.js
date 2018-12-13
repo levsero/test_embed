@@ -1,10 +1,17 @@
 describe('base reducer has widget shown reducer', () => {
   let reducer,
     actionTypes,
-    initialState;
+    initialState,
+    mockIsPopout = false;
 
   beforeAll(() => {
     mockery.enable();
+
+    initMockRegistry({
+      'utility/globals': {
+        isPopout: () => mockIsPopout
+      }
+    });
 
     const reducerPath = buildSrcPath('redux/modules/base/reducer/base-has-widget-shown');
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');

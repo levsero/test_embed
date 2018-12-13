@@ -9,6 +9,7 @@ export class Container extends Component {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     fullscreen: PropTypes.bool,
+    isMobile: PropTypes.bool,
     onClick: PropTypes.func,
     onDragEnter: PropTypes.func,
     style: PropTypes.object
@@ -18,13 +19,14 @@ export class Container extends Component {
     card: false,
     className: '',
     fullscreen: false,
+    isMobile: false,
     onClick: () => {},
     onDragEnter: () => {},
     style: null
   };
 
   render = () => {
-    const platformClasses = this.props.fullscreen ? styles.mobile : styles.desktop;
+    const platformClasses = this.props.isMobile ? styles.mobile : styles.desktop;
     const styleClasses = this.props.card ? styles.card : '';
 
     return (

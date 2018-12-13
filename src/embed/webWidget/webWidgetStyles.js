@@ -55,6 +55,7 @@ import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss';
 import TalkStyles from 'component/talk/Talk.scss';
 import LoadingBarContentStyles from 'component/loading/LoadingBarContent.scss';
+import FrameStyles from 'component/frame/Frame.scss';
 
 import SharedComponentStyles from 'component/shared/styles.js';
 import { sharedStyles } from 'embed/sharedStyles.js';
@@ -120,5 +121,6 @@ export const webWidgetStyles = `
   ${SubmitTicketFormStyles}
   ${TalkStyles}
   ${LoadingBarContentStyles}
-  ${SharedComponentStyles}
+  ${SharedComponentStyles},
+  ${FrameStyles}
 `;

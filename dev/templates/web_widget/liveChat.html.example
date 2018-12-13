@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Widget Live Chat</title>
+</head>
+<body>
+  <h1>HELLO FREN</h1>
+  <%= htmlWebpackPlugin.options.snippet %>
+  <script type='text/javascript'>
+    var parseQueryParams = function (inputString) {
+      var params = {},
+        queries;
+
+      inputString = inputString.substring(inputString.indexOf('?') + 1);
+      queries = inputString.split('&');
+
+      queries.forEach(element => {
+        var splitElement = element.split('=');
+
+        if (splitElement.length > 1) {
+          params[splitElement[0]] = splitElement[1];
+        }
+      });
+      return params;
+    };
+
+    var parseSettings = function (parameters) {
+      if (!parameters || !parameters.settings) return {};
+
+      return JSON.parse(window.atob(parameters.settings));
+    }
+
+    var loadSnippet = function (parameters) {
+      window.zEPopout = true;
+
+    }
+
+    var queryParams = parseQueryParams(window.location.search);
+    window.zESettings = parseSettings(queryParams);
+
+    loadSnippet(queryParams);
+  </script>
+
+<script nonce="<%= htmlWebpackPlugin.options.nonce %>">
+</script>
+</body>
+</html>

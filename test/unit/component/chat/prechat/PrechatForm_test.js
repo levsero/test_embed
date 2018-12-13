@@ -99,14 +99,16 @@ describe('PrechatForm component', () => {
   describe('render', () => {
     let component,
       result,
-      mockIsMobile;
+      mockIsMobile,
+      mockFullscreen;
 
     beforeEach(() => {
       component = instanceRender(
         <PrechatForm
           title={mockTitle}
           form={mockFormProp}
-          isMobile={mockIsMobile} />
+          isMobile={mockIsMobile}
+          fullscreen={mockFullscreen} />
       );
 
       spyOn(component, 'renderGreetingMessage');
@@ -165,6 +167,32 @@ describe('PrechatForm component', () => {
 
       expect(targetElem.props.title)
         .toEqual(mockTitle);
+    });
+
+    describe('when isMobile and fullscreen are true', () => {
+      beforeAll(() => {
+        mockIsMobile = true;
+        mockFullscreen = true;
+      });
+
+      afterAll(() => {
+        mockIsMobile = false;
+        mockFullscreen = false;
+      });
+
+      it('passes the correct isMobile to ScrollContainer', () => {
+        const targetElem = result.props.children;
+
+        expect(targetElem.props.isMobile)
+          .toEqual(true);
+      });
+
+      it('passes the correct fullscreen to ScrollContainer', () => {
+        const targetElem = result.props.children;
+
+        expect(targetElem.props.fullscreen)
+          .toEqual(true);
+      });
     });
   });
 

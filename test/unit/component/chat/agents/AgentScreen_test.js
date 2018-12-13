@@ -70,12 +70,14 @@ describe('AgentScreen component', () => {
   describe('render', () => {
     let component,
       isMobile = false,
+      fullscreen = false,
       hideZendeskLogo = false;
 
     beforeEach(() => {
       component = instanceRender(
         <AgentScreen
           isMobile={isMobile}
+          fullscreen={fullscreen}
           hideZendeskLogo={hideZendeskLogo}
           updateChatScreen={updateChatScreenSpy} />
       ).render();
@@ -89,6 +91,28 @@ describe('AgentScreen component', () => {
       it('has its containerClasses prop to the scrollContainerContent style', () => {
         expect(component.props.containerClasses)
           .toEqual('scrollContainerContentClasses');
+      });
+
+      describe('when fullscreen and ismobile are true', () => {
+        beforeAll(() => {
+          isMobile = true;
+          fullscreen = true;
+        });
+
+        afterAll(() => {
+          isMobile = false;
+          fullscreen = false;
+        });
+
+        it('has the correct prop for fullscreen', () => {
+          expect(component.props.fullscreen)
+            .toEqual(true);
+        });
+
+        it('has the correct prop for isMobile', () => {
+          expect(component.props.isMobile)
+            .toEqual(true);
+        });
       });
 
       describe('the footerContent', () => {

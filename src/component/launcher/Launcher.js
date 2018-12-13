@@ -26,7 +26,8 @@ class Launcher extends Component {
     labelKey: PropTypes.string,
     launcherClicked: PropTypes.func,
     forceUpdateWorld: PropTypes.func,
-    hideBranding: PropTypes.bool
+    hideBranding: PropTypes.bool,
+    isMobile: PropTypes.bool
   };
 
   constructor(props, context) {
@@ -71,7 +72,8 @@ class Launcher extends Component {
           onClick={this.props.onClickHandler}
           updateFrameTitle={this.props.updateFrameTitle}
           label={this.props.labelKey}
-          forceUpdateWorld={this.props.forceUpdateWorld} />
+          forceUpdateWorld={this.props.forceUpdateWorld}
+          isMobile={this.props.isMobile} />
       );
   }
 }

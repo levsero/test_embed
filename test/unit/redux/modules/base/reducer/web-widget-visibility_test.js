@@ -4,7 +4,8 @@ describe('base reducer web widget visibility', () => {
     actionTypes,
     zopimActionTypes,
     chatActionTypes,
-    initialState;
+    initialState,
+    mockIsPopout = false;
 
   const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
   const zopimActionTypesPath = buildSrcPath('redux/modules/zopimChat/zopimChat-action-types');
@@ -35,6 +36,12 @@ describe('base reducer web widget visibility', () => {
   ];
 
   beforeEach(() => {
+    initMockRegistry({
+      'utility/globals': {
+        isPopout: () => mockIsPopout
+      }
+    });
+
     mockery.enable();
 
     const reducerPath = buildSrcPath('redux/modules/base/reducer/web-widget-visibility');
@@ -112,6 +119,36 @@ describe('base reducer web widget visibility', () => {
       it('inverts the state', () => {
         expect(state)
           .toEqual(true);
+      });
+    });
+  });
+
+  describe('when a WIDGET_INITIALISED action is dispatched', () => {
+    let mockState;
+
+    beforeEach(() => {
+      state = reducer(mockState, { type: actionTypes.WIDGET_INITIALISED });
+    });
+
+    describe('when the window is a popout', () => {
+      beforeAll(() => {
+        mockIsPopout = true;
+        mockState = false;
+      });
+
+      it('return true', () => {
+        expect(state).toEqual(true);
+      });
+    });
+
+    describe('when the window is not a popout', () => {
+      beforeAll(() => {
+        mockIsPopout = false;
+        mockState = true;
+      });
+
+      it('return false', () => {
+        expect(state).toEqual(false);
       });
     });
   });

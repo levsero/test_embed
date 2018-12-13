@@ -40,7 +40,8 @@ export class PrechatForm extends Component {
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    chatId: PropTypes.string
+    chatId: PropTypes.string,
+    fullscreen: PropTypes.bool
   };
 
   static defaultProps = {
@@ -55,10 +56,11 @@ export class PrechatForm extends Component {
     phoneEnabled: true,
     authUrls: {},
     socialLogin: {},
-    isMobile: false,
     hideZendeskLogo: false,
     chatId: '',
-    getFrameContentDocument: () => ({})
+    getFrameContentDocument: () => ({}),
+    isMobile: false,
+    fullscreen: false
   };
 
   constructor() {
@@ -373,7 +375,8 @@ export class PrechatForm extends Component {
           title={this.props.title}
           containerClasses={styles.scrollContainerContent}
           footerContent={this.renderSubmitButton()}
-          fullscreen={this.props.isMobile}
+          fullscreen={this.props.fullscreen}
+          isMobile={this.props.isMobile}
           scrollShadowVisible={true}>
           {this.renderGreetingMessage()}
           {this.renderUserProfile()}
