@@ -36,9 +36,9 @@ describe('rendering', () => {
     });
 
     describe('talkButton', () => {
-      describe('when talkAvailable is true', () => {
+      describe('when talkOnline is true', () => {
         it('when callbackEnabled is true', () => {
-          const props = { talkAvailable: true, callbackEnabled: true };
+          const props = { talkOnline: true, callbackEnabled: true };
           const { container } = renderComponent(props);
 
           expect(container)
@@ -46,7 +46,7 @@ describe('rendering', () => {
         });
 
         it('when callbackEnabled is false', () => {
-          const props = { talkAvailable: true, callbackEnabled: false };
+          const props = { talkOnline: true, callbackEnabled: false };
           const { container } = renderComponent(props);
 
           expect(container)
@@ -54,18 +54,18 @@ describe('rendering', () => {
         });
       });
 
-      describe('when talkAvailable is false', () => {
-        it('and talkAvailableOnMount is false', () => {
-          const { container } = renderComponent({ talkAvailable: false });
+      describe('when talkOnline is false', () => {
+        it('and talkOnlineOnMount is false', () => {
+          const { container } = renderComponent({ talkOnline: false });
 
           expect(container)
             .toMatchSnapshot();
         });
 
-        it('and talkAvailableOnMount is true', () => {
-          const { container, rerender } = renderComponent({ talkAvailable: true });
+        it('and talkOnlineOnMount is true', () => {
+          const { container, rerender } = renderComponent({ talkOnline: true });
 
-          renderComponent({ talkAvailable: false }, rerender);
+          renderComponent({ talkOnline: false }, rerender);
 
           expect(container)
             .toMatchSnapshot();
@@ -136,7 +136,7 @@ describe('rendering', () => {
           submitTicketAvailable: true,
           chatAvailable: true,
           chatOfflineAvailable: true,
-          talkAvailable: true,
+          talkOnline: true,
           callbackEnabled: true,
           labelClasses: 'label-class',
           buttonClasses: 'button-class'
@@ -153,7 +153,7 @@ describe('rendering', () => {
             submitTicketAvailable: true,
             chatAvailable: true,
             chatOfflineAvailable: true,
-            talkAvailable: true,
+            talkOnline: true,
             callbackEnabled: true,
           });
 
@@ -179,7 +179,7 @@ describe('dom interaction', () => {
 
   describe('talk button', () => {
     it('click "talk"', () => {
-      const props = { onNextClick: click, talkAvailable: true, callbackEnabled: true };
+      const props = { onNextClick: click, talkOnline: true, callbackEnabled: true };
       const {
         getByText
       } = component(props);
@@ -191,7 +191,7 @@ describe('dom interaction', () => {
     });
 
     it('click "Call Us"', () => {
-      const props = { onNextClick: click, talkAvailable: true, callbackEnabled: false };
+      const props = { onNextClick: click, talkOnline: true, callbackEnabled: false };
       const {
         getByText
       } = component(props);

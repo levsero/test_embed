@@ -1,5 +1,6 @@
-import * as selectors from '../selectors';
-import { i18n } from 'service/i18n';
+import * as selectors from 'src/redux/modules/selectors';
+import * as screens from 'src/redux/modules/talk/talk-screen-types';
+import { i18n } from 'src/service/i18n';
 
 const stateLauncherSettings = (settings) => {
   return {
@@ -341,5 +342,157 @@ describe('getAttachmentsEnabled', () => {
 
     expect(selectors.getAttachmentsEnabled(state))
       .toBe(false);
+  });
+});
+
+describe('getTalkEnabled', () => {
+  test.each([
+    [true,   true,   false],
+    [true,   false,  false],
+    [false,  false,  false],
+    [false,  true,   true ]
+  ])('when talkSuppressed is %p, && talkEmbed is %p, it returns %p',
+    (suppressed, talkEmbed, expected) => {
+      expect(
+        selectors.getTalkEnabled.resultFunc(suppressed, talkEmbed)
+      ).toEqual(expected);
+    }
+  );
+});
+
+describe('getTalkAvailable', () => {
+  test.each([
+    [true,   true,   true ],
+    [true,   false,  false],
+    [false,  false,  false],
+    [false,  true,   false]
+  ])('when talkEnabled is %p, && configEnabled is %p, it returns %p',
+    (talkEnabled, configEnabled, expected) => {
+      expect(
+        selectors.getTalkAvailable.resultFunc(talkEnabled, configEnabled)
+      ).toEqual(expected);
+    }
+  );
+});
+
+describe('getTalkOnline', () => {
+  test.each([
+    [true,   true,   true ],
+    [true,   false,  false],
+    [false,  false,  false],
+    [false,  true,   false]
+  ])('when talkAvailable is %p, && agentsAvailable is %p, it returns %p',
+    (talkAvailable, agentsAvailable, expected) => {
+      expect(
+        selectors.getTalkOnline.resultFunc(talkAvailable, agentsAvailable)
+      ).toEqual(expected);
+    }
+  );
+});
+
+describe('getTalkTitle', () => {
+  const mockTitle = 'No, you hang up!';
+  const callSelector = (title, screen) => (
+    selectors.getTalkTitle.resultFunc(title, screen)
+  );
+
+  beforeEach(() => {
+    jest.spyOn(i18n, 't');
+    i18n.getSettingTranslation = jest.fn((tran) => tran);
+  });
+
+  describe('when on the SUCCESS_NOTIFICATION_SCREEN', () => {
+    describe('when no setting is passed', () => {
+      it('returns the default translation', () => {
+        callSelector(null, screens.SUCCESS_NOTIFICATION_SCREEN);
+
+        expect(i18n.t).toHaveBeenCalledWith(
+          'embeddable_framework.talk.notify.success.title'
+        );
+      });
+    });
+
+    describe('when a setting is passed', () => {
+      it('returns the setting', () => {
+        const result = callSelector(
+          mockTitle, screens.SUCCESS_NOTIFICATION_SCREEN
+        );
+
+        expect(result).toEqual(mockTitle);
+        expect(i18n.t).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('when on the PHONE_ONLY_SCREEN', () => {
+    describe('when no setting is passed', () => {
+      it('returns the default translation', () => {
+        callSelector(null, screens.PHONE_ONLY_SCREEN);
+
+        expect(i18n.t).toHaveBeenCalledWith(
+          'embeddable_framework.talk.phoneOnly.title'
+        );
+      });
+    });
+
+    describe('when a setting is passed', () => {
+      it('returns the setting', () => {
+        expect(callSelector(mockTitle, screens.PHONE_ONLY_SCREEN))
+          .toEqual(mockTitle);
+      });
+    });
+  });
+
+  describe('when passed any other screen or nonsense', () => {
+    const testScreens = [
+      screens.CALLBACK_ONLY_SCREEN,
+      screens.CALLBACK_AND_PHONE_SCREEN,
+      'NONSENSE_SCREEN'
+    ];
+
+    describe('when no setting is passed', () => {
+      testScreens.forEach((screen) => {
+        it('returns the default translation', () => {
+          callSelector(null, screen);
+
+          expect(i18n.t).toHaveBeenCalledWith(
+            'embeddable_framework.talk.form.title'
+          );
+        });
+      });
+    });
+
+    describe('when a setting is passed', () => {
+      testScreens.forEach((screen) => {
+        it('returns the setting', () => {
+          expect(callSelector(mockTitle, screen))
+            .toEqual(mockTitle);
+        });
+      });
+    });
+  });
+});
+
+describe('getTalkNickname', () => {
+  const config = {
+    props: {
+      nickname: 'Support'
+    }
+  };
+  const callSelector = (setting) => (
+    selectors.getTalkNickname.resultFunc(setting, config)
+  );
+
+  describe('when there is a nickname setting provided', () => {
+    it('returns the setting', () => {
+      expect(callSelector('setting nickname'))
+        .toEqual('setting nickname');
+    });
+  });
+
+  describe('when there is no setting provided', () => {
+    it('returns the default config nickname', () => {
+      expect(callSelector(null)).toEqual('Support');
+    });
   });
 });

@@ -235,7 +235,6 @@ const getFallbackTranslation = (key) => {
 };
 
 // Retrieves the correct translation from the passed map of settings translations.
-// You can pass an optional context string for better error messages.
 const getSettingTranslation = (translations) => {
   if (_.isEmpty(translations)) return;
 

@@ -32,8 +32,6 @@ export class HelpCenterDesktop extends Component {
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
     callbackEnabled: PropTypes.bool.isRequired,
-    talkAvailable: PropTypes.bool,
-    talkEnabled: PropTypes.bool,
     isContextualSearchPending: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired,
     isOnInitialDesktopSearchScreen: PropTypes.bool,
@@ -55,8 +53,6 @@ export class HelpCenterDesktop extends Component {
     showNextButton: true,
     submitTicketAvailable: true,
     chatEnabled: false,
-    talkAvailable: false,
-    talkEnabled: false,
     isOnInitialDesktopSearchScreen: false,
   };
 
@@ -143,9 +139,7 @@ export class HelpCenterDesktop extends Component {
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         callbackEnabled={this.props.callbackEnabled}
-        talkAvailable={this.props.talkAvailable}
         chatAvailable={this.props.chatAvailable}
-        talkEnabled={this.props.talkEnabled}
         onNextClick={this.props.onNextClick} />
       : null;
   }

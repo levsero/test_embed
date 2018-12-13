@@ -5,7 +5,6 @@ import * as types from '../talk-action-types';
 import * as screenTypes from 'src/redux/modules/talk/talk-screen-types';
 import * as baseTypes from 'src/redux/modules/base/base-action-types';
 import { http, socketio } from 'service/transport';
-import { settings } from 'service/settings';
 
 jest.mock('service/transport');
 
@@ -163,7 +162,6 @@ describe('submitTalkCallbackForm', () => {
 
     store.dispatch(
       actions.submitTalkCallbackForm(
-        formState,
         serviceUrl,
         nickname
       )
@@ -204,29 +202,6 @@ describe('submitTalkCallbackForm', () => {
           description: 'Please help me.'
         }
       }]);
-  });
-
-  it('reads nickname from settings and passes it in as keyword', () => {
-    const expectedPayload = {
-      params: {
-        phoneNumber: '+61423456789',
-        additionalInfo: {
-          name: 'Johnny',
-          description: 'Please help me.'
-        },
-        subdomain: 'customer',
-        keyword: 'mahnickname'
-      },
-      callbacks: { done: expect.any(Function), fail: expect.any(Function) }
-    };
-
-    jest.spyOn(settings, 'get').mockImplementation(() => 'mahnickname');
-
-    dispatchAction();
-    expect(http.callMeRequest)
-      .toHaveBeenCalledWith('https://customer.blah.com', expectedPayload);
-
-    settings.get.mockRestore();
   });
 
   it('dispatches expected actions on successful request', () => {

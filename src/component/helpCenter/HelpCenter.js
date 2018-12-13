@@ -15,10 +15,10 @@ import { handleArticleClick,
   performImageSearch,
   handleOriginalArticleClicked,
   addRestrictedImage,
-  updateChannelChoiceShown,
   handleSearchFieldChange,
   handleSearchFieldFocus } from 'src/redux/modules/helpCenter';
-import { getActiveArticle,
+import {
+  getActiveArticle,
   getResultsLocale,
   getSearchLoading,
   getSearchFailed,
@@ -28,10 +28,10 @@ import { getActiveArticle,
   getArticles,
   getArticleViewActive,
   getRestrictedImages,
-  getChannelChoiceShown,
   getSearchFieldValue,
   getIsContextualSearchPending,
-  getIsContextualSearchComplete } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getIsContextualSearchComplete
+} from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount,
   getIsChatting } from 'src/redux/modules/chat/chat-selectors';
@@ -66,7 +66,6 @@ const mapStateToProps = (state, ownProps) => {
     articleViewActive: getArticleViewActive(state),
     articles: getArticles(state),
     restrictedImages: getRestrictedImages(state),
-    channelChoiceShown: getChannelChoiceShown(state),
     searchFieldValue: getSearchFieldValue(state),
     chatNotificationCount: getNotificationCount(state),
     isChatting: getIsChatting(state),
@@ -85,7 +84,6 @@ class HelpCenter extends Component {
     activeArticle: PropTypes.object,
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
-    channelChoiceShown: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool.isRequired,
     previousSearchTerm: PropTypes.string.isRequired,
@@ -103,8 +101,7 @@ class HelpCenter extends Component {
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool,
     chatOfflineAvailable: PropTypes.bool,
-    talkAvailable: PropTypes.bool.isRequired,
-    talkEnabled: PropTypes.bool.isRequired,
+    talkOnline: PropTypes.bool.isRequired,
     updateChatScreen: PropTypes.func,
     handleArticleClick: PropTypes.func.isRequired,
     resultsLocale: PropTypes.string.isRequired,
@@ -114,7 +111,6 @@ class HelpCenter extends Component {
     articleViewActive: PropTypes.bool.isRequired,
     restrictedImages: PropTypes.object.isRequired,
     addRestrictedImage: PropTypes.func,
-    updateChannelChoiceShown: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string.isRequired,
     handleSearchFieldChange: PropTypes.func.isRequired,
     handleSearchFieldFocus: PropTypes.func.isRequired,
@@ -153,7 +149,6 @@ class HelpCenter extends Component {
     activeArticle: null,
     restrictedImages: {},
     addRestrictedImage: () => {},
-    updateChannelChoiceShown: () => {},
     handleSearchFieldChange: () => {},
     chatNotificationCount: 0,
     isChatting: false,
@@ -272,12 +267,6 @@ class HelpCenter extends Component {
     this.props.showBackButton();
   }
 
-  onContainerClick = () => {
-    if (this.props.channelChoiceShown) {
-      this.props.updateChannelChoiceShown(false);
-    }
-  }
-
   renderResults = () => {
     const {
       showNextButton,
@@ -350,10 +339,8 @@ class HelpCenter extends Component {
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
         channelChoice={this.props.channelChoice}
-        channelChoiceShown={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
-        talkEnabled={this.props.talkEnabled}
-        talkAvailable={this.props.talkAvailable}
+        talkOnline={this.props.talkOnline}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
@@ -385,17 +372,14 @@ class HelpCenter extends Component {
         chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         isContextualSearchPending={this.props.isContextualSearchPending}
-        channelChoice={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
-        talkEnabled={this.props.talkEnabled}
-        talkAvailable={this.props.talkAvailable}
+        talkOnline={this.props.talkOnline}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         searchFieldValue={this.props.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}
         title={this.props.title}
-        setChannelChoiceShown={this.props.updateChannelChoiceShown}
         contextualHelpEnabled={this.props.contextualHelpEnabled}
         searchPlaceholder={this.props.searchPlaceholder}>
         {this.renderResults()}
@@ -428,7 +412,7 @@ class HelpCenter extends Component {
       chatAvailable,
       chatOfflineAvailable,
       isChatting,
-      talkAvailable,
+      talkOnline,
       callbackEnabled,
       messageButtonLabel
     } = this.props;
@@ -439,7 +423,7 @@ class HelpCenter extends Component {
       return messageButtonLabel;
     } else if (chatAvailable || chatOfflineAvailable) {
       return this.chatLabel();
-    } else if (talkAvailable) {
+    } else if (talkOnline) {
       return callbackEnabled
         ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
         : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone');
@@ -465,7 +449,6 @@ class HelpCenter extends Component {
 const actionCreators = {
   handleSearchFieldChange,
   handleSearchFieldFocus,
-  updateChannelChoiceShown,
   handleArticleClick,
   performSearch,
   performImageSearch,

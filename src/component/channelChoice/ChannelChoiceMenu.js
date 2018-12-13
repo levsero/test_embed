@@ -13,7 +13,7 @@ export class ChannelChoiceMenu extends Component {
     chatAvailable: PropTypes.bool,
     buttonClasses: PropTypes.string,
     labelClasses: PropTypes.string,
-    talkAvailable: PropTypes.bool,
+    talkOnline: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
   };
@@ -21,7 +21,7 @@ export class ChannelChoiceMenu extends Component {
   static defaultProps = {
     buttonClasses: '',
     labelClasses: '',
-    talkAvailable: false,
+    talkOnline: false,
     submitTicketAvailable: true,
     chatAvailable: false,
     chatOfflineAvailable: false
@@ -30,7 +30,7 @@ export class ChannelChoiceMenu extends Component {
   constructor(props) {
     super(props);
 
-    this.talkAvailableOnMount = props.talkAvailable;
+    this.talkAvailableOnMount = props.talkOnline;
     this.chatAvailableOnMount = props.chatAvailable || props.chatOfflineAvailable;
   }
 
@@ -40,7 +40,7 @@ export class ChannelChoiceMenu extends Component {
     if (nextProps.chatAvailable || nextProps.chatOfflineAvailable){
       this.chatAvailableOnMount = true;
     }
-    if (nextProps.talkAvailable) {
+    if (nextProps.talkOnline) {
       this.talkAvailableOnMount = true;
     }
   }
@@ -61,7 +61,7 @@ export class ChannelChoiceMenu extends Component {
   }
 
   renderTalkLabel = () => {
-    const { callbackEnabled, talkAvailable } = this.props;
+    const { callbackEnabled, talkOnline } = this.props;
     const optionLabel = (callbackEnabled)
       ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
       : i18n.t('embeddable_framework.channelChoice.button.label.call_us');
@@ -72,29 +72,29 @@ export class ChannelChoiceMenu extends Component {
       </span>
     );
 
-    return (talkAvailable)
+    return (talkOnline)
       ? optionLabel
       : offlineLabel;
   }
 
   renderTalkButton = () => {
-    const { talkAvailable, buttonClasses } = this.props;
+    const { talkOnline, buttonClasses } = this.props;
 
-    if (!this.talkAvailableOnMount && !talkAvailable) return null;
+    if (!this.talkAvailableOnMount && !talkOnline) return null;
 
     const iconStyle = classNames(styles.iconTalk, {
-      [styles.newIcon]: talkAvailable,
-      [styles.newIconDisabled]: !talkAvailable
+      [styles.newIcon]: talkOnline,
+      [styles.newIconDisabled]: !talkOnline
     });
     const buttonStyle = classNames(buttonClasses, styles.btn, {
-      [styles.btnEnabled]: talkAvailable,
-      [styles.talkBtnDisabled]: !talkAvailable
+      [styles.btnEnabled]: talkOnline,
+      [styles.talkBtnDisabled]: !talkOnline
     });
 
     return (
       <li className={styles.listItem}>
         <ButtonIcon
-          actionable={talkAvailable}
+          actionable={talkOnline}
           containerStyles={buttonStyle}
           labelClassName={this.props.labelClasses}
           onClick={this.handleNextClick('talk')}

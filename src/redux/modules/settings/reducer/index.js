@@ -7,6 +7,7 @@ import color from './color';
 import helpCenter from './help-center';
 import styling from './styling';
 import contactForm from './contactForm';
+import talk from './talk';
 
 export default combineReducers({
   chat,
@@ -15,5 +16,6 @@ export default combineReducers({
   color,
   helpCenter,
   styling,
-  contactForm
+  contactForm,
+  talk
 });

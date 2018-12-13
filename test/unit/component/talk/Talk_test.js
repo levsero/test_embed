@@ -9,7 +9,10 @@ describe('Talk component', () => {
     TextField = noopReactComponent(),
     renderLabelSpy = jasmine.createSpy('renderLabel'),
     getStyledLabelTextSpy = jasmine.createSpy('getLabelText'),
-    shouldRenderErrorMessageSpy = jasmine.createSpy('shouldRenderErrorMessage');
+    shouldRenderErrorMessageSpy = jasmine.createSpy('shouldRenderErrorMessage'),
+    mockServiceUrl = 'https://talk_service.com',
+    mockNickname = 'Support',
+    mockTitle = 'Some call title';
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
@@ -73,6 +76,11 @@ describe('Talk component', () => {
         renderLabel: renderLabelSpy,
         shouldRenderErrorMessage: shouldRenderErrorMessageSpy,
         getStyledLabelText: getStyledLabelTextSpy
+      },
+      'src/redux/modules/selectors': {
+        getTalkTitle: () => mockTitle,
+        getTalkNickname: () => mockNickname,
+        getTalkServiceUrl: () => mockServiceUrl
       }
     });
 
@@ -247,16 +255,15 @@ describe('Talk component', () => {
   describe('handleFormCompleted', () => {
     let talk,
       form,
-      config,
       submitTalkCallbackFormSpy,
       mockFormValid;
 
     beforeEach(() => {
       submitTalkCallbackFormSpy = jasmine.createSpy('submitTalkCallbackForm');
-      config = { serviceUrl: 'https://talk_service.com', nickname: 'Support' };
       talk = instanceRender(
         <Talk
-          talkConfig={config}
+          nickname={mockNickname}
+          serviceUrl={mockServiceUrl}
           submitTalkCallbackForm={submitTalkCallbackFormSpy} />
       );
       spyOn(talk, 'setState');
@@ -281,12 +288,7 @@ describe('Talk component', () => {
 
       it('calls submitTalkCallbackForm with the form state', () => {
         expect(submitTalkCallbackFormSpy)
-          .toHaveBeenCalledWith({
-            phone: '+61423456789',
-            name: 'John',
-            email: 'john@john.com',
-            description: 'I need help in understanding your products.'
-          }, 'https://talk_service.com', 'Support');
+          .toHaveBeenCalledWith('https://talk_service.com', 'Support');
       });
 
       it('sets showErrors to false', () => {
@@ -650,101 +652,15 @@ describe('Talk component', () => {
       });
     });
 
-    describe('when on the success notification screen', () => {
+    describe('the title', () => {
       beforeEach(() => {
-        talk = domRender(<Talk screen={successNotificationScreen} />);
+        talk = domRender(<Talk title={mockTitle} />);
         scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
       });
 
-      it('shows the success notification scroll container header title', () => {
+      it('renders the title prop', () => {
         expect(scrollContainer.props.title)
-          .toBe('embeddable_framework.talk.notify.success.title');
-      });
-    });
-
-    describe('when on the call me back form screen', () => {
-      beforeEach(() => {
-        talk = domRender(
-          <Talk
-            formTitleKey='formTitle'
-            formState={{ phone: '' }}
-            screen={callbackScreen} />
-        );
-        scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
-      });
-
-      it('shows the form scroll container header title', () => {
-        expect(scrollContainer.props.title)
-          .toBe('embeddable_framework.talk.form.title');
-      });
-    });
-  });
-
-  describe('renderFormTitle', () => {
-    let result;
-
-    describe('when the screen is SUCCESS_NOTIFICATION_SCREEN', () => {
-      beforeEach(() => {
-        const talk = instanceRender(<Talk screen={successNotificationScreen} />);
-
-        result = talk.renderFormTitle();
-      });
-
-      it('returns the successNotificationTitle string', () => {
-        expect(result)
-          .toEqual('embeddable_framework.talk.notify.success.title');
-      });
-    });
-
-    describe('when the screen is CALLBACK_ONLY_SCREEN', () => {
-      beforeEach(() => {
-        const talk = instanceRender(<Talk screen={callbackScreen} />);
-
-        result = talk.renderFormTitle();
-      });
-
-      it('returns the formTitle string', () => {
-        expect(result)
-          .toEqual('embeddable_framework.talk.form.title');
-      });
-    });
-
-    describe('when the screen is PHONE_ONLY_SCREEN', () => {
-      beforeEach(() => {
-        const talk = instanceRender(<Talk screen={phoneOnlyScreen} />);
-
-        result = talk.renderFormTitle();
-      });
-
-      it('returns the phoneOnly screen title string', () => {
-        expect(result)
-          .toEqual('embeddable_framework.talk.phoneOnly.title');
-      });
-    });
-
-    describe('when the screen is CALLBACK_AND_PHONE_SCREEN', () => {
-      beforeEach(() => {
-        const talk = instanceRender(<Talk screen={callbackAndPhoneScreen} />);
-
-        result = talk.renderFormTitle();
-      });
-
-      it('returns the formTitle string', () => {
-        expect(result)
-          .toEqual('embeddable_framework.talk.form.title');
-      });
-    });
-
-    describe('when the screen is unrecognised', () => {
-      beforeEach(() => {
-        const talk = instanceRender(<Talk screen='foo' />);
-
-        result = talk.renderFormTitle();
-      });
-
-      it('returns the formTitle string', () => {
-        expect(result)
-          .toEqual('embeddable_framework.talk.form.title');
+          .toBe(mockTitle);
       });
     });
   });

@@ -15,8 +15,7 @@ export class ChannelChoice extends Component {
     isMobile: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
-    talkAvailable: PropTypes.bool,
-    talkEnabled: PropTypes.bool
+    talkOnline: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -24,8 +23,7 @@ export class ChannelChoice extends Component {
     hideZendeskLogo: false,
     onNextClick: () => {},
     isMobile: false,
-    talkAvailable: false,
-    talkEnabled: false,
+    talkOnline: false,
     submitTicketAvailable: true,
     chatEnabled: false
   };
@@ -43,8 +41,7 @@ export class ChannelChoice extends Component {
         chatAvailable={chatAvailable}
         chatOfflineAvailable={chatOfflineAvailable}
         formTitleKey={formTitleKey}
-        talkAvailable={this.props.talkAvailable}
-        talkEnabled={this.props.talkEnabled}
+        talkOnline={this.props.talkOnline}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
@@ -61,8 +58,7 @@ export class ChannelChoice extends Component {
         chatAvailable={this.props.chatAvailable}
         chatOfflineAvailable={this.props.chatOfflineAvailable}
         formTitleKey={formTitleKey}
-        talkAvailable={this.props.talkAvailable}
-        talkEnabled={this.props.talkEnabled}
+        talkOnline={this.props.talkOnline}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}

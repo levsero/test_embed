@@ -22,13 +22,17 @@ import { proactiveChatNotificationDismissed,
   chatNotificationRespond,
   showStandaloneMobileNotification } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
-import { getChatAvailable,
+import {
+  getChatAvailable,
   getChatOfflineAvailable,
   getChatEnabled,
-  getTalkAvailable,
-  getTalkEnabled,
   getHideZendeskLogo,
-  getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
+  getShowTicketFormsBackButton,
+  getTalkOnline,
+  getHelpCenterAvailable,
+  getChannelChoiceAvailable,
+  getSubmitTicketAvailable
+} from 'src/redux/modules/selectors';
 import {
   getArticleViewActive,
   getSearchFieldFocused,
@@ -46,9 +50,6 @@ import {
   getSettingsMobileNotificationsDisabled,
   getSettingsHelpCenterOriginalArticleButton
 } from 'src/redux/modules/settings/settings-selectors';
-import { getHelpCenterAvailable,
-  getChannelChoiceAvailable,
-  getSubmitTicketAvailable } from 'src/redux/modules/selectors';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -66,8 +67,7 @@ const mapStateToProps = (state) => {
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     activeEmbed: getActiveEmbed(state),
-    talkEnabled: getTalkEnabled(state),
-    talkAvailable: getTalkAvailable(state),
+    talkOnline: getTalkOnline(state),
     callbackEnabled: isCallbackEnabled(state),
     chatAvailable: getChatAvailable(state),
     chatOfflineAvailable: getChatOfflineAvailable(state),
@@ -143,8 +143,7 @@ class WebWidget extends Component {
     activeEmbed: PropTypes.string.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
-    talkAvailable: PropTypes.bool.isRequired,
-    talkEnabled: PropTypes.bool.isRequired,
+    talkOnline: PropTypes.bool.isRequired,
     talkConfig: PropTypes.shape({
       serviceUrl: PropTypes.string,
       nickname: PropTypes.string
@@ -182,7 +181,6 @@ class WebWidget extends Component {
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
     nextButtonClicked: () => {},
-    talkAvailable: false,
     talkOnline: false,
     zopimOnNext: () => {},
     onBackButtonClick: () => {},
@@ -275,7 +273,7 @@ class WebWidget extends Component {
       updateActiveEmbed,
       oldChat,
       chatAvailable,
-      talkAvailable,
+      talkOnline,
       channelChoiceAvailable,
       nextButtonClicked } = this.props;
 
@@ -292,7 +290,7 @@ class WebWidget extends Component {
       if (!oldChat) {
         updateBackButtonVisibility(true);
       }
-    } else if (talkAvailable) {
+    } else if (talkOnline) {
       updateActiveEmbed(talk);
       updateBackButtonVisibility(true);
     } else {
@@ -397,10 +395,15 @@ class WebWidget extends Component {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return;
     if (this.props.activeEmbed !== helpCenter) return null;
 
-    const { helpCenterConfig, submitTicketAvailable, chatAvailable,
-      talkAvailable, channelChoiceAvailable } = this.props;
+    const {
+      helpCenterConfig,
+      submitTicketAvailable,
+      chatAvailable,
+      talkOnline,
+      channelChoiceAvailable
+    } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
-    const showNextButton = submitTicketAvailable || chatAvailable || talkAvailable;
+    const showNextButton = submitTicketAvailable || chatAvailable || talkOnline;
 
     return (
       <div className={classes}>
@@ -409,8 +412,7 @@ class WebWidget extends Component {
           chatOfflineAvailable={this.props.chatOfflineAvailable}
           notification={this.props.chatNotification}
           chatEnabled={this.props.chatEnabled}
-          talkEnabled={this.props.talkEnabled}
-          talkAvailable={this.props.talkAvailable}
+          talkOnline={this.props.talkOnline}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           position={this.props.position}
@@ -473,8 +475,7 @@ class WebWidget extends Component {
         style={this.props.style}
         chatAvailable={this.props.chatAvailable}
         chatOfflineAvailable={this.props.chatOfflineAvailable}
-        talkEnabled={this.props.talkEnabled}
-        talkAvailable={this.props.talkAvailable}
+        talkOnline={this.props.talkOnline}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}

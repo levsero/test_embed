@@ -22,6 +22,9 @@ export const getSettingsLauncherBadge = (state) => state.settings.launcher.badge
 export const getSettingsColor = (state) => state.settings.color;
 export const getSettingsColorLauncher = (state) => getSettingsColor(state).launcher;
 export const getSettingsColorLauncherText = (state) => getSettingsColor(state).launcherText;
+export const getSettingsTalkTitle = (state) => state.settings.talk.title;
+export const getSettingsTalkNickname = (state) => state.settings.talk.nickname;
+export const getSettingsTalkSuppress = (state) => state.settings.talk.suppress;
 export const getStylingZIndex = (state) => state.settings.styling.zIndex;
 export const getStylingPositionVertical = (state) => state.settings.styling.positionVertical;
 export const getStylingPositionHorizontal = (state) => state.settings.styling.positionHorizontal;

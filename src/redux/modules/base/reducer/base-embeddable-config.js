@@ -22,6 +22,13 @@ const initialState = {
         overrideProxy: '',
         standalone: false
       }
+    },
+    talk: {
+      props: {
+        color: '',
+        serviceUrl: '',
+        nickname: ''
+      }
     }
   },
   position: 'right', // default position
@@ -61,6 +68,13 @@ const embeddableConfig = (state = initialState, action) => {
             props: {
               ...state.embeds.ticketSubmissionForm.props,
               ..._.get(payload, 'embeds.ticketSubmissionForm.props')
+            }
+          },
+          talk: {
+            props: {
+              color: _.get(payload, 'embeds.talk.props.color', state.embeds.talk.props.color),
+              serviceUrl: _.get(payload, 'embeds.talk.props.serviceUrl', state.embeds.talk.props.serviceUrl),
+              nickname: _.get(payload, 'embeds.talk.props.nickname', state.embeds.talk.props.nickname)
             }
           }
         },

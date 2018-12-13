@@ -9,6 +9,9 @@ describe('settings reducer', () => {
         settings : {
           get: noop
         }
+      },
+      'src/redux/modules/settings/settings-action-types': {
+        UPDATE_SETTINGS: 'UPDATE_SETTINGS'
       }
     });
 

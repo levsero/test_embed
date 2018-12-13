@@ -324,7 +324,7 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
 </div>
 `;
 
-exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvailable is false and talkAvailableOnMount is false 1`] = `
+exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnline is false and talkOnlineOnMount is false 1`] = `
 <div>
   <ul>
     <li
@@ -355,7 +355,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvail
 </div>
 `;
 
-exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvailable is false and talkAvailableOnMount is true 1`] = `
+exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnline is false and talkOnlineOnMount is true 1`] = `
 <div>
   <ul>
     <li
@@ -421,7 +421,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvail
 </div>
 `;
 
-exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvailable is true when callbackEnabled is false 1`] = `
+exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnline is true when callbackEnabled is false 1`] = `
 <div>
   <ul>
     <li
@@ -476,7 +476,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvail
 </div>
 `;
 
-exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkAvailable is true when callbackEnabled is true 1`] = `
+exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnline is true when callbackEnabled is true 1`] = `
 <div>
   <ul>
     <li
