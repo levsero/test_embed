@@ -5,10 +5,9 @@ let actions,
   actionTypes,
   mockStore,
   mockGetConnection,
-  mockGetDepartmentsList,
   mockGetSettingsChatTags,
   mockGetSettingsChatOldTags,
-  mockGetSettingsChatDepartment;
+  mockDepartment = { name: 'police', id: 1 };
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -39,7 +38,7 @@ describe('settings redux actions', () => {
       },
       'src/redux/modules/chat/chat-selectors': {
         getConnection: () => mockGetConnection,
-        getDepartmentsList: () => mockGetDepartmentsList,
+        getDefaultSelectedDepartment: () => mockDepartment,
         getZChatVendor: () => {
           return {
             addTag: addTagSpy,
@@ -53,7 +52,6 @@ describe('settings redux actions', () => {
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatTags: getSettingsChatTagsSpy,
-        getSettingsChatDepartment: () => mockGetSettingsChatDepartment
       }
     });
 
@@ -88,24 +86,12 @@ describe('settings redux actions', () => {
     describe('when chat is connected', () => {
       beforeAll(() => {
         mockGetConnection = CONNECTION_STATUSES.CONNECTED;
-        mockGetSettingsChatDepartment = 'yo';
-        mockGetDepartmentsList = [{ name: 'yo', id: 123 }, { name: 'yoyo', id: 345 }];
       });
 
       describe('when given valid department name', () => {
-        beforeAll(() => {
-          someSettings = {
-            chat: {
-              departments: {
-                select: 'yo'
-              }
-            }
-          };
-        });
-
         it('calls setDepartment with the correct args', () => {
           expect(setDepartmentSpy)
-            .toHaveBeenCalledWith(123);
+            .toHaveBeenCalledWith(1);
         });
 
         it('dispatches updateSettings action', () => {
@@ -123,28 +109,14 @@ describe('settings redux actions', () => {
         });
       });
 
-      describe('when given an invalid department name', () => {
+      describe('when given no department', () => {
         beforeAll(() => {
-          mockGetSettingsChatDepartment = 'not real';
-          someSettings = {
-            webWidget: {
-            }
-          };
+          mockDepartment = {};
         });
 
         it('calls clearDepartment', () => {
           expect(clearDepartmentSpy)
             .toHaveBeenCalled();
-        });
-
-        it('dispatches updateSettings action', () => {
-          const expected = {
-            type: actionTypes.UPDATE_SETTINGS,
-            payload: someSettings
-          };
-
-          expect(mockStore.getActions()[0])
-            .toEqual(expected);
         });
       });
 

@@ -1,12 +1,16 @@
+import _ from 'lodash';
+
 import {
   UPDATE_SETTINGS
 } from './settings-action-types';
 import { CONNECTION_STATUSES } from 'constants/chat';
-import { getConnection, getDepartmentsList, getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getConnection,
+  getZChatVendor,
+  getDefaultSelectedDepartment
+} from 'src/redux/modules/chat/chat-selectors';
 import { setDepartment, clearDepartment } from 'src/redux/modules/chat/chat-actions';
-import { getSettingsChatTags, getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
-
-import _ from 'lodash';
+import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 
 const handleTagsChange = (zChat, tags, oldTags) => {
   if (!_.isEqual(tags, oldTags) && _.isArray(tags)) {
@@ -61,12 +65,8 @@ export function updateChatSettings(oldTags) {
 
     handleTagsChange(zChat, tags, oldTags);
 
-    const visitorDepartmentName = getSettingsChatDepartment(state);
-    const visitorDepartment = _.find(
-      getDepartmentsList(state),
-      (dep) => dep.name === visitorDepartmentName || dep.id === visitorDepartmentName);
-    const visitorDepartmentId = _.get(visitorDepartment, 'id');
+    const visitorDepartment = getDefaultSelectedDepartment(state);
 
-    handleDepartmentChange(visitorDepartmentId, dispatch);
+    handleDepartmentChange(_.get(visitorDepartment, 'id'), dispatch);
   };
 }

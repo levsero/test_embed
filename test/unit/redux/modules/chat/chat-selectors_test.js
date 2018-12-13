@@ -604,9 +604,10 @@ describe('chat selectors', () => {
               },
               settings: {
                 chat: {
-                  department: 'Medicine',
+                  department: 'medicine',
                   departments: {
-                    enabled: null                  }
+                    enabled: null
+                  }
                 }
               }
             };
