@@ -10,6 +10,7 @@ import { isDefaultNickname } from 'src/util/chat';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { Icon } from 'component/Icon';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
+import { UserProfile } from 'component/chat/UserProfile';
 import { ICONS, NAME_PATTERN, EMAIL_PATTERN } from 'constants/shared';
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 
@@ -23,7 +24,11 @@ import {
 
 export class ChatContactDetailsPopup extends Component {
   static propTypes = {
+    authUrls: PropTypes.object.isRequired,
+    socialLogin: PropTypes.object.isRequired,
     screen: PropTypes.string.isRequired,
+    visitor: PropTypes.object.isRequired,
+    initiateSocialLogout: PropTypes.func.isRequired,
     className: PropTypes.string,
     contactDetails: PropTypes.object,
     leftCtaFn: PropTypes.func,
@@ -32,7 +37,6 @@ export class ChatContactDetailsPopup extends Component {
     updateFn: PropTypes.func,
     show: PropTypes.bool,
     isMobile: PropTypes.bool,
-    visitor: PropTypes.object,
     isAuthenticated: PropTypes.bool
   }
 
@@ -45,7 +49,6 @@ export class ChatContactDetailsPopup extends Component {
     updateFn: () => {},
     show: false,
     isMobile: false,
-    visitor: {},
     isAuthenticated: false
   }
 
@@ -206,6 +209,27 @@ export class ChatContactDetailsPopup extends Component {
     /* eslint-enable max-len */
   }
 
+  renderUserProfile() {
+    const {
+      authUrls,
+      socialLogin,
+      visitor,
+      initiateSocialLogout,
+      isAuthenticated
+    } = this.props;
+
+    return (
+      <UserProfile
+        authUrls={authUrls}
+        socialLogin={socialLogin}
+        visitor={visitor}
+        initiateSocialLogout={initiateSocialLogout}
+        isAuthenticated={isAuthenticated}
+        nameField={this.renderNameField()}
+        emailField={this.renderEmailField()} />
+    );
+  }
+
   renderFailureScreen = () => {
     if (this.props.screen !== EDIT_CONTACT_DETAILS_ERROR_SCREEN) return null;
 
@@ -236,8 +260,7 @@ export class ChatContactDetailsPopup extends Component {
           noValidate={true}
           onChange={this.handleFormChange}>
           {this.renderTitle()}
-          {this.renderNameField()}
-          {this.renderEmailField()}
+          {this.renderUserProfile()}
         </form>
       </div>
     );

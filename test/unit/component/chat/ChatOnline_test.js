@@ -539,17 +539,26 @@ describe('ChatOnline component', () => {
       mockEditContactDetails,
       mockName,
       mockEmail,
+      mockAuthUrls,
+      mockIsAuthenticated,
+      mockInitiateSocialLogout,
       updateContactDetailsVisibilitySpy,
       setVisitorInfoSpy;
 
     beforeEach(() => {
       mockEditContactDetails = { show: true, status: 'error' };
       mockVisitor = { name: 'Terence', email: 'foo@bar.com' };
+      mockAuthUrls = { google: 'https://g.co/auth', facebook: 'https://fb.co/auth' };
+      mockIsAuthenticated = true;
+      mockInitiateSocialLogout = () => {};
 
       const component = instanceRender(
         <ChatOnline
           editContactDetails={mockEditContactDetails}
-          visitor={mockVisitor} />
+          visitor={mockVisitor}
+          authUrls={mockAuthUrls}
+          isAuthenticated={mockIsAuthenticated}
+          initiateSocialLogout={mockInitiateSocialLogout} />
       );
 
       chatContactDetailsPopup = component.renderChatContactDetailsPopup();
@@ -568,6 +577,21 @@ describe('ChatOnline component', () => {
     it('passes an expected object to the popup component\'s visitor prop', () => {
       expect(chatContactDetailsPopup.props.visitor)
         .toEqual(jasmine.objectContaining(mockVisitor));
+    });
+
+    it('passes the correct value to the popup component\'s authUrls prop', () => {
+      expect(chatContactDetailsPopup.props.authUrls)
+        .toEqual(jasmine.objectContaining(mockAuthUrls));
+    });
+
+    it('passes the correct value to the popup component\'s isAuthenticated prop', () => {
+      expect(chatContactDetailsPopup.props.isAuthenticated)
+        .toEqual(mockIsAuthenticated);
+    });
+
+    it('passes the correct value to the popup component\'s initiateSocialLogout prop', () => {
+      expect(chatContactDetailsPopup.props.initiateSocialLogout)
+        .toEqual(mockInitiateSocialLogout);
     });
 
     describe('when props.tryAgainFn is called', () => {
