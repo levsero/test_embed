@@ -315,7 +315,7 @@ zE('webWidget', 'updateSettings', {
     chat: {
       departments: {
         enabled: ['finance', 'hr', 'sales'],
-        selected: 'sales'
+        select: 'sales'
       }
     }
   }

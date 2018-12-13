@@ -595,7 +595,7 @@ window.zESettings = {
 
 Sets the visitor’s default department for the current session.
 
-Chat requests will be routed to this department unless the visitor selects another department in the pre-chat form or the department is offline.
+Chat requests and offline messages will be routed to this department unless the visitor selects another department in the pre-chat form.
 
 Department names are matched in a case-insensitive manner.
 
@@ -603,7 +603,6 @@ If the department names or ID is invalid or null the department will be cleared.
 
 **Note**: If the visitor has already started chatting, changes to the default department will not affect the department of the started chat. The changes to the default department will also not take effect until a page change or refresh. The department of the started chat will persist and be taken as the default department until a page change or refresh, even when the visitor has explicitly ended the chat.
 
-Offline messages will also be routed to this department.
 #### Example
 
 <a name="example-departments-select"></a>
@@ -633,7 +632,7 @@ window.zESettings = {
     chat: {
       departments: {
         enabled: ['finance', 'hr', 'sales'],
-        selected: 'hr'
+        select: 'hr'
       }
     }
   }
