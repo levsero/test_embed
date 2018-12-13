@@ -25,7 +25,11 @@ describe('chat reducer accountSettings login', () => {
 
     describe('initial state', () => {
       it('sets the initial state to an empty object', () => {
-        const expected = { };
+        const expected = {
+          enabled: false,
+          phoneEnabled: false,
+          loginTypes: {}
+        };
 
         expect(initialState)
           .toEqual(expected);

@@ -1,0 +1,681 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`chat log agent attachment 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="container"
+    >
+      <div
+        class="nameNoAvatar"
+      >
+        Agent McAgent
+      </div>
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageAgent"
+        >
+          <div>
+            <div
+              class="container"
+            >
+              <div
+                class="spinner"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log agent join 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="eventMessage"
+    >
+      Agent McAgent joined the chat
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log agent message 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="container"
+    >
+      <div
+        class="nameNoAvatar"
+      >
+        Random display name
+      </div>
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageAgent"
+        >
+          <div
+            class="defaultMessageContainer"
+          >
+            <div>
+              <div
+                class="messageBubble agentBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  blah blah
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log agent stopped typing 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log agent typing 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div
+    class="agentTyping"
+  >
+    <div
+      class="container loadingEllipses"
+    >
+      <div
+        class="
+      circle loadingEllipsesItem
+      bounce
+      
+    "
+      />
+      <div
+        class="
+      circle loadingEllipsesItem
+      bounce
+      
+    "
+      />
+      <div
+        class="
+      circle loadingEllipsesItem
+      bounce
+      
+    "
+      />
+    </div>
+    Mr F is typing
+  </div>
+</div>
+`;
+
+exports[`chat log comment 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="eventMessage"
+    >
+      Comment submitted
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log member join 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="eventMessage"
+    >
+      Chat started
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log member leave 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="eventMessage"
+    >
+      Mugen joined the chat
+    </div>
+    <div
+      class="eventMessage"
+    >
+      Mugen left the chat
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log queue position 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div
+    class="queuePosition"
+  >
+    Queue position: 3
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log rating 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="eventMessage"
+    >
+      Chat rated Good
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log series of actions 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="eventMessage"
+    >
+      Chat started
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageUser"
+        >
+          <div
+            class="defaultMessageContainer"
+          >
+            <span
+              class="container sentIndicator Icon--mini-tick"
+              type="Icon--mini-tick"
+            >
+              test-file-stub
+            </span>
+            <div>
+              <div
+                class="messageBubble userBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  Hi
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="eventMessage"
+    >
+      Jet joined the chat
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="nameNoAvatar"
+      >
+        Jet
+      </div>
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageAgent"
+        >
+          <div>
+            <div
+              class="container"
+            >
+              <div
+                class="spinner"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageAgent"
+        >
+          <div
+            class="defaultMessageContainer"
+          >
+            <div>
+              <div
+                class="messageBubble agentBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  blah blah
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="eventMessage"
+    >
+      Chat rated Good
+      <button
+        class="requestRatingButton Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
+        data-garden-id="buttons.button"
+        data-garden-version="3.6.1"
+        tabindex="0"
+        type="button"
+      >
+        Leave a comment
+      </button>
+    </div>
+    <div
+      class="eventMessage"
+    >
+      Jet left the chat
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log visitor message account settings login enabled displays update info if visitor info is not available 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="container"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageUser"
+        >
+          <div
+            class="defaultMessageContainer"
+          >
+            <div>
+              <div
+                class="messageBubble userBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  Hi
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="updateInfo"
+      >
+        Please update your info
+      </button>
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log visitor message account settings login enabled displays update info if visitor name is default 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="container"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageUser"
+        >
+          <div
+            class="defaultMessageContainer"
+          >
+            <div>
+              <div
+                class="messageBubble userBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  Hi
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="updateInfo"
+      >
+        Please update your info
+      </button>
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log visitor message account settings login enabled does not display update info if visitor email is already set 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="container"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageUser"
+        >
+          <div
+            class="defaultMessageContainer"
+          >
+            <div>
+              <div
+                class="messageBubble userBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  Hi
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log visitor message account settings login enabled does not display update info if visitor name is already set 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="container"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageUser"
+        >
+          <div
+            class="defaultMessageContainer"
+          >
+            <div>
+              <div
+                class="messageBubble userBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  Hi
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log visitor message failure 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="container"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageUser"
+        >
+          <div>
+            <div>
+              <div
+                class="messageBubble userBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  Hi
+                </span>
+              </div>
+            </div>
+            <div
+              class="messageErrorContainer"
+            >
+              <div
+                class="container Alert-cAvYle index__c-callout--error___E8TxN yXqxN Well-clhnSB index__c-callout___cUpq9 jvFzku"
+                data-garden-id="notifications.alert"
+                data-garden-version="3.1.13"
+                role="alert"
+                type="error"
+              >
+                <a
+                  class="messageErrorLink "
+                >
+                  Resend
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log visitor message request 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="container"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageUser"
+        >
+          <div
+            class="defaultMessageContainer"
+          >
+            <div>
+              <div
+                class="messageBubble userBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  Hi
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log visitor message success 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="container"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="message messageUser"
+        >
+          <div
+            class="defaultMessageContainer"
+          >
+            <span
+              class="container sentIndicator Icon--mini-tick"
+              type="Icon--mini-tick"
+            >
+              test-file-stub
+            </span>
+            <div>
+              <div
+                class="messageBubble userBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  Hi
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`update chat header 1`] = `
+<div
+  class="textContainer"
+  data-testid="header-text-container"
+  style="padding-left: 3rem;"
+>
+  <h2
+    class="title"
+  >
+    Mr F
+  </h2>
+  <div
+    class="subTextContainer"
+  >
+    Mistah J
+  </div>
+</div>
+`;

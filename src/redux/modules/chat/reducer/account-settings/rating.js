@@ -8,7 +8,6 @@ const initialState = {
 const rating = (state = initialState, action) => {
   switch (action.type) {
     case GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS:
-      return action.payload.rating;
     case UPDATE_PREVIEWER_SETTINGS:
       return _.get(action.payload, 'rating', state);
     default:

@@ -11,7 +11,6 @@ const isAgent = (nick) => nick.indexOf('agent:') > -1;
 
 const inactiveAgents = (state = initialState, action = {}) => {
   const { type, payload } = action;
-  const nickname = _.get(payload, 'detail.nick');
 
   switch (type) {
     case CHAT_AGENT_INACTIVE:
@@ -25,6 +24,8 @@ const inactiveAgents = (state = initialState, action = {}) => {
       }
       return state;
     case SDK_CHAT_MEMBER_JOIN:
+      const nickname = _.get(payload, 'detail.nick');
+
       if (isAgent(nickname)) {
         _.unset(state, nickname);
       }
