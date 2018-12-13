@@ -384,7 +384,7 @@ export const getDefaultSelectedDepartment = createSelector(
   [getSettingsChatDepartment, getEnabledDepartments],
   (selectedDepartment, departments) => (
     _.find(departments, (dept) => (
-      dept.name === selectedDepartment || dept.id === selectedDepartment
+      dept.name.toLowerCase() === selectedDepartment || dept.id === selectedDepartment
     ))
   )
 );

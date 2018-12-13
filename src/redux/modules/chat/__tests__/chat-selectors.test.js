@@ -265,7 +265,8 @@ describe('getEnabledDepartments', () => {
 describe('getDefaultSelectedDepartment', () => {
   const enabledDepartments = [
     { name: 'police', id: 1 },
-    { name: 'fire', id: 2 }
+    { name: 'fire', id: 2 },
+    { name: 'Medical', id: 3 }
   ];
   const callSelector = (testData) => (
     selectors.getDefaultSelectedDepartment.resultFunc(testData, enabledDepartments)
@@ -276,6 +277,15 @@ describe('getDefaultSelectedDepartment', () => {
       expect(callSelector('police')).toEqual({
         name: 'police',
         id: 1
+      });
+    });
+
+    describe('when the chat department has upper and lower case letters', () => {
+      it("doesn't care", () => {
+        expect(callSelector('medical')).toEqual({
+          name: 'Medical',
+          id: 3
+        });
       });
     });
   });
