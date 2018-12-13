@@ -96,7 +96,10 @@ const handleNewAgentMessage = (nextState, dispatch) => {
       audio.play('incoming_message');
     }
 
-    if (_.size(getChatMessagesByAgent(nextState)) === 1 && !getHasSearched(nextState)) {
+    if (_.size(getChatMessagesByAgent(nextState)) === 1
+      && !isMobile
+      && activeEmbed === 'helpCenterForm'
+      && !getHasSearched(nextState)) {
       dispatch(updateActiveEmbed('chat'));
     }
 

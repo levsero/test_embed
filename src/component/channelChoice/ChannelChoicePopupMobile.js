@@ -8,7 +8,6 @@ import { ChannelChoiceMenu } from 'component/channelChoice/ChannelChoiceMenu';
 export class ChannelChoicePopupMobile extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired,
-    onCancelClick: PropTypes.func.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     className: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,

@@ -463,15 +463,12 @@ describe('onStateChange middleware', () => {
             });
 
             describe('when the first message comes from the first agent', () => {
-              describe('when user has not made a search', () => {
+              describe('when user is not on help center', () => {
                 beforeEach(() => {
                   prevState = [];
                   nextState = [{ nick: 'agent', timestamp: 90, msg: 'yolo' }];
-                  mockHasSearched = false;
                   mockWidgetShown = false;
-                  mockIsMobileBrowser = true;
                   mockMobileNotificationsDisabled = false;
-                  stateChangeFn(prevState, nextState, {}, dispatchSpy);
                 });
 
                 afterEach(() => {
@@ -479,9 +476,59 @@ describe('onStateChange middleware', () => {
                   nextState = [{ nick: 'agent', timestamp: 30 }, { nick: 'agent', timestamp: 60 }, { nick: 'agent:007', msg: 'latest', timestamp: 70 }];
                 });
 
-                it('calls updateActiveEmbed with chat', () => {
-                  expect(updateActiveEmbedSpy)
-                    .toHaveBeenCalledWith('chat');
+                describe('when user is not on help center', () => {
+                  beforeEach(() => {
+                    mockActiveEmbed = 'talk';
+                    stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                  });
+
+                  it('does not call updateActiveEmbed', () => {
+                    expect(updateActiveEmbedSpy)
+                      .not.toHaveBeenCalled();
+                  });
+                });
+
+                describe('when user is on help center', () => {
+                  beforeEach(() => {
+                    mockActiveEmbed = 'helpCenterForm';
+                  });
+
+                  describe('when user has searched', () => {
+                    beforeEach(() => {
+                      mockHasSearched = true;
+                      stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                    });
+
+                    it('does not call updateActiveEmbed', () => {
+                      expect(updateActiveEmbedSpy)
+                        .not.toHaveBeenCalled();
+                    });
+                  });
+
+                  describe('when device is mobile', () => {
+                    beforeEach(() => {
+                      mockIsMobileBrowser = true;
+                      stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                    });
+
+                    it('does not call updateActiveEmbed', () => {
+                      expect(updateActiveEmbedSpy)
+                        .not.toHaveBeenCalled();
+                    });
+                  });
+
+                  describe('when device is not mobile and user has not searched', () => {
+                    beforeEach(() => {
+                      mockIsMobileBrowser = false;
+                      mockHasSearched = false;
+                      stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                    });
+
+                    it('updates active embed to chat', () => {
+                      expect(updateActiveEmbedSpy)
+                        .toHaveBeenCalledWith('chat');
+                    });
+                  });
                 });
               });
             });
