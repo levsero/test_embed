@@ -38,7 +38,9 @@ export class HelpCenterDesktop extends Component {
     isContextualSearchPending: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired,
     isOnInitialDesktopSearchScreen: PropTypes.bool,
-    maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object])
+    maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+    searchPlaceholder: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -111,7 +113,8 @@ export class HelpCenterDesktop extends Component {
           onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
           onSearchIconClick={this.handleSubmit}
-          isLoading={this.props.isLoading} />
+          isLoading={this.props.isLoading}
+          searchPlaceholder={this.props.searchPlaceholder} />
       </form>
     );
   }
@@ -200,7 +203,7 @@ export class HelpCenterDesktop extends Component {
         <ScrollContainer
           ref='scrollContainer'
           hideZendeskLogo={this.props.hideZendeskLogo}
-          title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
+          title={this.props.title}
           classes={customHeightClasses}
           maxHeight={this.props.maxWidgetHeight}
           footerClasses={footerClasses}

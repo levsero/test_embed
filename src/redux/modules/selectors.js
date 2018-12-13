@@ -19,7 +19,11 @@ import {
   getSettingsChatHideWhenOffline,
   getSettingsColorLauncher,
   getSettingsColorLauncherText,
-  getSettingsHelpCenterSuppress
+  getSettingsHelpCenterSuppress,
+  getHelpCenterChatButton,
+  getHelpCenterMessageButton,
+  getHelpCenterSearchPlaceholder,
+  getHelpCenterTitle,
 } from './settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -67,6 +71,38 @@ const getHelpCenterEnabled = createSelector(
   }
 );
 
+const getLabel = (_, label) => label;
+
+export const getSettingsHelpCenterTitle = createSelector(
+  [getHelpCenterTitle, getLocale, getLabel],
+  (helpCenterTitle, _locale, label) => (
+    i18n.getSettingTranslation(helpCenterTitle) || i18n.t(label)
+  )
+);
+
+export const getSettingsHelpCenterSearchPlaceholder = createSelector(
+  [getHelpCenterSearchPlaceholder, getLocale],
+  (helpCenterSearchPlaceholder, _locale) => (
+    i18n.getSettingTranslation(helpCenterSearchPlaceholder) ||
+    i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help')
+  )
+);
+
+export const getSettingsHelpCenterMessageButton = createSelector(
+  [getHelpCenterMessageButton, getLocale, getLabel],
+  (helpCenterMessageButton, _locale, label) => (
+    i18n.getSettingTranslation(helpCenterMessageButton) || i18n.t(label)
+  )
+);
+
+export const getSettingsHelpCenterChatButton = createSelector(
+  [getHelpCenterChatButton, getLocale],
+  (helpCenterChatButton, _locale) => (
+    i18n.getSettingTranslation(helpCenterChatButton) ||
+      i18n.t('embeddable_framework.common.button.chat')
+  )
+);
+
 export const getHelpCenterAvailable = createSelector(
   [getHelpCenterEnabled, getHasPassedAuth],
   (helpCenterEnabled, hasPassedAuth) => {
@@ -83,8 +119,6 @@ export const getLauncherChatLabel = createSelector(
     i18n.t('embeddable_framework.launcher.label.chat')
   )
 );
-
-const getLabel = (_, label) => label;
 
 export const getLauncherLabel = createSelector(
   [getSettingsLauncherLabel, getLocale, getLabel],

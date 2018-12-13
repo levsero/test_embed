@@ -26,10 +26,10 @@ export const getSettingsColorLauncherText = (state) => getSettingsColor(state).l
 export const getSettingsHelpCenterOriginalArticleButton = (state) => state.settings.helpCenter.originalArticleButton;
 export const getSettingsHelpCenterSuppress = (state) => state.settings.helpCenter.suppress;
 export const getSettingsHelpCenterLocaleFallbacks = (state) => state.settings.helpCenter.localeFallbacks;
-export const getSettingsHelpCenterChatButton = (state) => state.settings.helpCenter.chatButton;
-export const getSettingsHelpCenterMessageButton = (state) => state.settings.helpCenter.messageButton;
-export const getSettingsHelpCenterSearchPlaceholder = (state) => state.settings.helpCenter.searchPlaceholder;
-export const getSettingsHelpCenterTitle = (state) => state.settings.helpCenter.title;
+export const getHelpCenterChatButton = (state) => state.settings.helpCenter.chatButton;
+export const getHelpCenterMessageButton = (state) => state.settings.helpCenter.messageButton;
+export const getHelpCenterSearchPlaceholder = (state) => state.settings.helpCenter.searchPlaceholder;
+export const getHelpCenterTitle = (state) => state.settings.helpCenter.title;
 
 const getSectionFilter = (state) => state.settings.helpCenter.sectionFilter;
 const getCategoryFilter = (state) => state.settings.helpCenter.categoryFilter;

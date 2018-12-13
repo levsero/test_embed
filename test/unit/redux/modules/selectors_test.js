@@ -47,8 +47,10 @@ describe('selectors', () => {
     mockIsPopout,
     launcherChatLabel,
     launcherLabel,
-    settingsHelpCenterSuppress;
+    settingsHelpCenterSuppress,
+    settingTranslation;
 
+  settingTranslation = '';
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
   settingsChatSuppressValue = false;
@@ -106,7 +108,7 @@ describe('selectors', () => {
       },
       'service/i18n': {
         i18n: {
-          getSettingTranslation: 'settings label',
+          getSettingTranslation: settingTranslation,
           t: _.identity,
         }
       },
@@ -140,7 +142,11 @@ describe('selectors', () => {
         getSettingsColorLauncherText: () => settingsColorLauncherText,
         getSettingsLauncherChatLabel: () => launcherChatLabel,
         getSettingsLauncherLabel: () => launcherLabel,
-        getSettingsHelpCenterSuppress: () => settingsHelpCenterSuppress
+        getSettingsHelpCenterSuppress: () => settingsHelpCenterSuppress,
+        getHelpCenterChatButton: noop,
+        getHelpCenterMessageButton: noop,
+        getHelpCenterSearchPlaceholder: noop,
+        getHelpCenterTitle: noop
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,

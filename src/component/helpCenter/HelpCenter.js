@@ -35,10 +35,23 @@ import { getActiveArticle,
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount,
   getIsChatting } from 'src/redux/modules/chat/chat-selectors';
-import { getIsOnInitialDesktopSearchScreen, getMaxWidgetHeight } from 'src/redux/modules/selectors';
+import {
+  getIsOnInitialDesktopSearchScreen,
+  getMaxWidgetHeight,
+  getSettingsHelpCenterSearchPlaceholder,
+  getSettingsHelpCenterChatButton,
+  getSettingsHelpCenterMessageButton,
+  getSettingsHelpCenterTitle
+} from 'src/redux/modules/selectors';
 import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const buttonLabelKey = (ownProps.buttonLabelKey || 'message');
+  const messageButtonLabelKey = `embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`;
+
+  const formTitleKey = (ownProps.formTitleKey || 'help');
+  const titleKey = `embeddable_framework.helpCenter.form.title.${formTitleKey}`;
+
   return {
     resultsLocale: getResultsLocale(state),
     activeArticle: getActiveArticle(state),
@@ -59,7 +72,11 @@ const mapStateToProps = (state) => {
     isChatting: getIsChatting(state),
     maxWidgetHeight: getMaxWidgetHeight(state, 'webWidget'),
     isOnInitialDesktopSearchScreen: getIsOnInitialDesktopSearchScreen(state),
-    localeFallbacks: getSettingsHelpCenterLocaleFallbacks(state)
+    localeFallbacks: getSettingsHelpCenterLocaleFallbacks(state),
+    searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
+    chatButtonLabel: getSettingsHelpCenterChatButton(state),
+    messageButtonLabel: getSettingsHelpCenterMessageButton(state, messageButtonLabelKey),
+    title: getSettingsHelpCenterTitle(state, titleKey)
   };
 };
 
@@ -110,7 +127,11 @@ class HelpCenter extends Component {
     isContextualSearchComplete: PropTypes.bool.isRequired,
     maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     isOnInitialDesktopSearchScreen: PropTypes.bool,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
+    searchPlaceholder: PropTypes.string.isRequired,
+    chatButtonLabel: PropTypes.string.isRequired,
+    messageButtonLabel: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -340,10 +361,11 @@ class HelpCenter extends Component {
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
-        formTitleKey={this.props.formTitleKey}
+        title={this.props.title}
         searchFieldValue={this.props.searchFieldValue}
         updateChatScreen={this.props.updateChatScreen}
-        maxWidgetHeight={this.props.maxWidgetHeight}>
+        maxWidgetHeight={this.props.maxWidgetHeight}
+        searchPlaceholder={this.props.searchPlaceholder}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>
@@ -376,49 +398,61 @@ class HelpCenter extends Component {
         searchFieldValue={this.props.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}
-        formTitleKey={this.props.formTitleKey}
+        title={this.props.title}
         setChannelChoiceShown={this.props.updateChannelChoiceShown}
-        contextualHelpEnabled={this.props.contextualHelpEnabled}>
+        contextualHelpEnabled={this.props.contextualHelpEnabled}
+        searchPlaceholder={this.props.searchPlaceholder}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterMobile>
     );
   }
 
-  render = () => {
-    let buttonLabel;
-    const { chatNotificationCount,
+  chatLabel = () => {
+    const {
+      messageButtonLabel,
+      chatButtonLabel,
+      chatNotificationCount,
+      chatOfflineAvailable
+    } = this.props;
+
+    if (chatNotificationCount > 0) {
+      return chatNotificationCount > 1
+        ? i18n.t('embeddable_framework.common.notification.manyMessages', { plural_number: chatNotificationCount })
+        : i18n.t('embeddable_framework.common.notification.oneMessage');
+    } else if (chatOfflineAvailable) {
+      return messageButtonLabel;
+    }
+    return chatButtonLabel;
+  }
+
+  buttonLabel = () => {
+    const {
       channelChoice,
       chatAvailable,
       chatOfflineAvailable,
       isChatting,
       talkAvailable,
-      callbackEnabled } = this.props;
-
-    const renderChatLabel = () => {
-      if (chatNotificationCount > 0) {
-        return chatNotificationCount > 1
-          ? i18n.t('embeddable_framework.common.notification.manyMessages', { plural_number: chatNotificationCount })
-          : i18n.t('embeddable_framework.common.notification.oneMessage');
-      } else if (chatOfflineAvailable) {
-        return i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`);
-      }
-      return i18n.t('embeddable_framework.common.button.chat');
-    };
+      callbackEnabled,
+      messageButtonLabel
+    } = this.props;
 
     if (isChatting) {
-      buttonLabel = renderChatLabel();
+      return this.chatLabel();
     } else if (channelChoice) {
-      buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
+      return messageButtonLabel;
     } else if (chatAvailable || chatOfflineAvailable) {
-      buttonLabel = renderChatLabel();
+      return this.chatLabel();
     } else if (talkAvailable) {
-      buttonLabel = callbackEnabled
+      return callbackEnabled
         ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
         : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone');
-    } else {
-      buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
     }
+    return messageButtonLabel;
+  }
+
+  render = () => {
+    const buttonLabel = this.buttonLabel();
 
     const helpCenter = (this.props.isMobile)
       ? this.renderHelpCenterMobile(buttonLabel)

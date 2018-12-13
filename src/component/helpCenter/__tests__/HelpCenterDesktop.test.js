@@ -14,7 +14,9 @@ const renderHelpCenterDesktop = (props) => {
     search: noop,
     callbackEnabled: false,
     isContextualSearchPending: false,
-    chatOfflineAvailable: false
+    chatOfflineAvailable: false,
+    searchPlaceholder: '',
+    title: ''
   };
 
   const mergedProps = { ...defaultProps, ...props };

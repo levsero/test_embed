@@ -176,18 +176,19 @@ describe('HelpCenter component', () => {
 
   describe('render', () => {
     let buttonLabelKey = 'contact';
+    let component;
 
     describe('when chatting', () => {
       describe('no notifications', () => {
         beforeEach(() => {
-          instanceRender(
-            <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+          component = shallowRender(
+            <HelpCenter chatAvailable={true} chatButtonLabel={'chat button'} channelChoice={false} />
           );
         });
 
         it('uses the chat label for the button', () => {
-          expect(mockRegistry['service/i18n'].i18n.t)
-            .toHaveBeenCalledWith('embeddable_framework.common.button.chat');
+          expect(component.props.children.props.buttonLabel)
+            .toEqual('chat button');
         });
       });
 
@@ -220,14 +221,14 @@ describe('HelpCenter component', () => {
 
     describe('when channel choice is on', () => {
       beforeEach(() => {
-        instanceRender(
-          <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={true} />
+        component = shallowRender(
+          <HelpCenter chatAvailable={true} messageButtonLabel={'message button'} channelChoice={true} />
         );
       });
 
-      it('uses the contact us label for the button', () => {
-        expect(mockRegistry['service/i18n'].i18n.t)
-          .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
+      it('uses the messageButtonLabel for the button', () => {
+        expect(component.props.children.props.buttonLabel)
+          .toContain('message button');
       });
     });
 
@@ -235,14 +236,14 @@ describe('HelpCenter component', () => {
       describe('when chat is online', () => {
         describe('no notifications', () => {
           beforeEach(() => {
-            instanceRender(
-              <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+            component = shallowRender(
+              <HelpCenter chatAvailable={true} chatButtonLabel={'chat button'} channelChoice={false} />
             );
           });
 
           it('uses the chat label for the button', () => {
-            expect(mockRegistry['service/i18n'].i18n.t)
-              .toHaveBeenCalledWith('embeddable_framework.common.button.chat');
+            expect(component.props.children.props.buttonLabel)
+              .toEqual('chat button');
           });
         });
 
@@ -275,14 +276,19 @@ describe('HelpCenter component', () => {
 
       describe('when chat is offline but offline form is enabled', () => {
         beforeEach(() => {
-          instanceRender(
-            <HelpCenter chatAvailable={false} chatOfflineAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+          component = shallowRender(
+            <HelpCenter
+              chatAvailable={false}
+              messageButtonLabel={'message button'}
+              chatOfflineAvailable={true}
+              buttonLabelKey={buttonLabelKey}
+              channelChoice={false} />
           );
         });
 
         it('uses the offline label for the button', () => {
-          expect(mockRegistry['service/i18n'].i18n.t)
-            .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`);
+          expect(component.props.children.props.buttonLabel)
+            .toEqual('message button');
         });
       });
 
@@ -316,14 +322,19 @@ describe('HelpCenter component', () => {
 
       describe('when chat is offline and offline form is not enabled', () => {
         beforeEach(() => {
-          instanceRender(
-            <HelpCenter chatOnline={false} chatOfflineAvailable={false} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+          component = shallowRender(
+            <HelpCenter
+              chatOnline={false}
+              chatOfflineAvailable={false}
+              messageButtonLabel={'message button'}
+              buttonLabelKey={buttonLabelKey}
+              channelChoice={false} />
           );
         });
 
         it('uses the buttonLabelKey label for the button', () => {
-          expect(mockRegistry['service/i18n'].i18n.t)
-            .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`);
+          expect(component.props.children.props.buttonLabel)
+            .toEqual('message button');
         });
       });
     });

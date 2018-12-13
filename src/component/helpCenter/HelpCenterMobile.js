@@ -39,7 +39,9 @@ export class HelpCenterMobile extends Component {
     talkEnabled: PropTypes.bool,
     callbackEnabled: PropTypes.bool.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
-    contextualHelpEnabled: PropTypes.bool.isRequired
+    contextualHelpEnabled: PropTypes.bool.isRequired,
+    searchPlaceholder: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -170,7 +172,8 @@ export class HelpCenterMobile extends Component {
         hasSearched={this.props.hasSearched}
         onSearchIconClick={this.handleSubmit}
         onClick={this.handleSearchBoxClicked}
-        isLoading={this.props.isLoading} />
+        isLoading={this.props.isLoading}
+        searchPlaceholder={this.props.searchPlaceholder} />
     );
   }
 
@@ -268,7 +271,7 @@ export class HelpCenterMobile extends Component {
       <div>
         <ScrollContainer
           ref='scrollContainer'
-          title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
+          title={this.props.title}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}
           fullscreen={true}
