@@ -161,9 +161,7 @@ export const setOnStatusApi = (store, callback) => {
   if (_.isFunction(callback)) {
     store.dispatch(handleOnApiCalled(SDK_ACCOUNT_STATUS, [getChatStatus], callback));
 
-    const payloadTransformer = (payload) => payload.detail.status;
-
-    store.dispatch(handleOnApiCalled(SDK_DEPARTMENT_UPDATE, [], _.debounce(callback, 0), payloadTransformer));
+    store.dispatch(handleOnApiCalled(SDK_DEPARTMENT_UPDATE, [getChatStatus], _.debounce(callback, 0)));
   }
 };
 
