@@ -80,7 +80,8 @@ export const getMenuVisible = (state) => state.chat.menuVisible;
 export const getShowMenu = (state) =>
   getActiveEmbed(state) === 'chat'
   && getChatScreen(state) === CHATTING_SCREEN
-  && !isPopout();
+  && !isPopout()
+  && !getLauncherVisible(state);
 export const getAgentJoined = (state) => state.chat.agentJoined;
 export const getLastReadTimestamp = (state) => state.chat.lastReadTimestamp;
 export const getOperatingHours = (state) => state.chat.operatingHours;

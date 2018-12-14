@@ -117,7 +117,8 @@ class HelpCenter extends Component {
     contextualHelpEnabled: PropTypes.bool.isRequired,
     isContextualSearchComplete: PropTypes.bool.isRequired,
     maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
-    isOnInitialDesktopSearchScreen: PropTypes.bool
+    isOnInitialDesktopSearchScreen: PropTypes.bool,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -181,7 +182,7 @@ class HelpCenter extends Component {
   }
 
   getHelpCenterComponent = () => {
-    return (this.props.fullscreen)
+    return (this.props.isMobile)
       ? this.helpCenterMobile
       : this.helpCenterDesktop;
   }
@@ -215,7 +216,7 @@ class HelpCenter extends Component {
 
     this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
 
-    if (this.props.fullscreen) {
+    if (this.props.isMobile) {
       setTimeout(() => {
         searchField.blur();
       }, 1);
@@ -301,7 +302,8 @@ class HelpCenter extends Component {
         hasContextualSearched={hasContextualSearched}
         isContextualSearchComplete={isContextualSearchComplete}
         showContactButton={showNextButton}
-        hideZendeskLogo={hideZendeskLogo} />
+        hideZendeskLogo={hideZendeskLogo}
+        isMobile={this.props.isMobile} />
     );
   }
 
@@ -317,7 +319,8 @@ class HelpCenter extends Component {
         storedImages={this.props.restrictedImages}
         imagesSender={this.props.performImageSearch}
         updateStoredImages={this.props.addRestrictedImage}
-        fullscreen={this.props.fullscreen} />
+        fullscreen={this.props.fullscreen}
+        isMobile={this.props.isMobile} />
     );
   }
 
@@ -427,7 +430,7 @@ class HelpCenter extends Component {
       buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
     }
 
-    const helpCenter = (this.props.fullscreen)
+    const helpCenter = (this.props.isMobile)
       ? this.renderHelpCenterMobile(buttonLabel)
       : this.renderHelpCenterDesktop(buttonLabel);
 

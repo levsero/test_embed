@@ -582,7 +582,7 @@ describe('HelpCenter component', () => {
     });
 
     it('should call blur and hide the virtual keyboard', () => {
-      const helpCenter = domRender(<HelpCenter performSearch={noop} fullscreen={true} />);
+      const helpCenter = domRender(<HelpCenter performSearch={noop} isMobile={true} />);
       const searchField = helpCenter.getHelpCenterComponent().getSearchField();
 
       searchField.getValue = () => 'valid';
