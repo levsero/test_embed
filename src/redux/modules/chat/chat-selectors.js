@@ -15,7 +15,6 @@ import {
   getActiveEmbed,
   getLocale,
   getWidgetShown,
-  getLauncherVisible,
   getChatPopoutArturoEnabled
 } from 'src/redux/modules/base/base-selectors';
 import {
@@ -90,10 +89,12 @@ export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getIsPopoutAvailable = (state) =>
   getChatPopoutArturoEnabled(state)
   && !getIsAuthenticated(state)
-  && getActiveEmbed(state) === 'chat'
   && !isMobileBrowser()
-  && !getLauncherVisible(state)
+  && getChatOnline(state)
   && !isPopout();
+
+export const getIsPopoutButtonVisible = (state) =>
+  getIsPopoutAvailable(state) && getActiveEmbed(state) === 'chat';
 
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
 export const getSliderVendor = (state) => state.chat.vendor.slider;

@@ -10,7 +10,7 @@ import * as selectors from 'src/redux/modules/chat/chat-selectors';
 const renderComponent = (props) => {
   const store = createStore(reducer);
   const defaultProps = {
-    isMobile: false
+    isMobile: false,
   };
   const actualProps = {
     ...defaultProps,
@@ -64,11 +64,11 @@ test('renders the close button by default', () => {
 
 describe('popout button', () => {
   afterEach(() => {
-    selectors.getIsPopoutAvailable.mockRestore();
+    selectors.getIsPopoutButtonVisible.mockRestore();
   });
 
   it('can be shown', () => {
-    jest.spyOn(selectors, 'getIsPopoutAvailable').mockReturnValue(true);
+    jest.spyOn(selectors, 'getIsPopoutButtonVisible').mockReturnValue(true);
 
     const { container } = renderComponent();
 
@@ -76,7 +76,7 @@ describe('popout button', () => {
   });
 
   it('can be hidden', () => {
-    jest.spyOn(selectors, 'getIsPopoutAvailable')
+    jest.spyOn(selectors, 'getIsPopoutButtonVisible')
       .mockImplementation(jest.fn(() => false));
 
     const { container } = renderComponent({ hideNavigationButtons: true });

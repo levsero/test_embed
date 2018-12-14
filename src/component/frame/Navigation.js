@@ -11,7 +11,7 @@ import { clickBusterRegister } from 'utility/devices';
 import { createChatPopoutWindow } from 'src/util/chat';
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors';
 import {
-  getIsPopoutAvailable,
+  getIsPopoutButtonVisible,
   getZChatVendor,
   getMenuVisible as getChatMenuVisible,
   getShowMenu as getShowChatMenu,
@@ -23,7 +23,7 @@ import { handleCloseButtonClicked } from 'src/redux/modules/base/base-actions';
 const mapStateToProps = (state) => {
   return {
     backButtonVisible: state.base.backButtonVisible,
-    popoutButtonVisible: getIsPopoutAvailable(state),
+    popoutButtonVisible: getIsPopoutButtonVisible(state),
     menuVisible: getChatMenuVisible(state),
     useMenu: getShowChatMenu(state),
     standaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
@@ -140,17 +140,22 @@ class Navigation extends Component {
   }
 
   render = () => {
-    const { fullscreen, isMobile } = this.props;
+    const { fullscreen,
+      isMobile,
+      popoutButtonVisible,
+      hideNavigationButtons,
+      chatPopoutSettings,
+      zChat } = this.props;
 
     return (!this.props.standaloneMobileNotificationVisible)
       ? <div>
         {this.renderLeftNavButton()}
         {this.renderNavButton({
-          onClick: () => createChatPopoutWindow(this.props.chatPopoutSettings, this.props.zChat.getMachineId()),
+          onClick: () => createChatPopoutWindow(chatPopoutSettings, zChat.getMachineId()),
           'aria-label': 'Popout',
           icon: ICONS.POPOUT,
           className: styles.popout,
-          isVisible: this.props.popoutButtonVisible && !this.props.hideNavigationButtons,
+          isVisible: popoutButtonVisible && !hideNavigationButtons,
           position: 'right'
         })}
         {this.renderNavButton({
@@ -158,7 +163,7 @@ class Navigation extends Component {
           'aria-label': i18n.t('embeddable_framework.navigation.close'),
           icon: ICONS.DASH,
           position: 'right',
-          isVisible: !this.props.hideNavigationButtons && (!fullscreen || isMobile)
+          isVisible: !hideNavigationButtons && (!fullscreen || isMobile)
         })}
       </div> : null;
   }

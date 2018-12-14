@@ -24,6 +24,7 @@ import {
   onApiObj,
   getDepartmentApi,
   getAllDepartmentsApi,
+  popoutApi
 } from 'src/service/api/apis';
 import {
   setPositionApi,
@@ -62,6 +63,7 @@ export function setUpZopimApiMethods(win, store) {
         onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback),
         setTitle: (title) => updateSettings(store, 'webWidget.chat.title.*', title),
         setColor: (color) => setColorTheme(color),
+        openPopout: () => popoutApi(store),
         setPosition: setPositionApi,
         ...setOffsetApi
       },
