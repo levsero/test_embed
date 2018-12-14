@@ -131,8 +131,10 @@ export const showApi = (reduxStore) => {
 };
 
 export const popoutApi = (reduxStore) => {
-  if (getIsPopoutAvailable(reduxStore.getState())) {
-    createChatPopoutWindow(getSettingsChatPopout(), getZChatVendor.getMachineId());
+  const reduxState = reduxStore.getState();
+
+  if (getIsPopoutAvailable(reduxState)) {
+    createChatPopoutWindow(getSettingsChatPopout(reduxState), getZChatVendor(reduxState).getMachineId());
   }
 };
 

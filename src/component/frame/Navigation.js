@@ -140,6 +140,8 @@ class Navigation extends Component {
   }
 
   render = () => {
+    const { fullscreen, isMobile } = this.props;
+
     return (!this.props.standaloneMobileNotificationVisible)
       ? <div>
         {this.renderLeftNavButton()}
@@ -156,7 +158,7 @@ class Navigation extends Component {
           'aria-label': i18n.t('embeddable_framework.navigation.close'),
           icon: ICONS.DASH,
           position: 'right',
-          isVisible: !this.props.hideNavigationButtons
+          isVisible: !this.props.hideNavigationButtons && (!fullscreen || isMobile)
         })}
       </div> : null;
   }
