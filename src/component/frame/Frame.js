@@ -72,8 +72,7 @@ class Frame extends Component {
     frameOffsetHeight: PropTypes.number,
     frameStyle: PropTypes.object,
     fullscreenable: PropTypes.bool,
-    hideCloseButton: PropTypes.bool,
-    hidePopoutButton: PropTypes.bool,
+    hideNavigationButtons: PropTypes.bool,
     alwaysShow: PropTypes.bool,
     name: PropTypes.string,
     onBack: PropTypes.func,
@@ -106,8 +105,7 @@ class Frame extends Component {
     frameStyle: { marginTop: defaultMarginTop() },
     customFrameStyle: {},
     fullscreenable: false,
-    hideCloseButton: false,
-    hidePopoutButton: false,
+    hideNavigationButtons: false,
     name: '',
     alwaysShow: false,
     onBack: () => {},
@@ -431,8 +429,7 @@ class Frame extends Component {
           handleBackClick={this.back}
           preventClose={this.props.preventClose}
           useBackButton={this.props.useBackButton}
-          hideCloseButton={this.props.hideCloseButton}
-          hidePopoutButton={this.props.hidePopoutButton}
+          hideNavigationButtons={this.props.hideNavigationButtons}
           name={this.props.name}
           fullscreen={this.props.fullscreen}
           isMobile={this.props.isMobile}
