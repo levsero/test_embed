@@ -118,16 +118,16 @@ describe('getIsPopupVisible', () => {
     mockIsMobile,
     isMobileValue = false,
     mockState,
-    mockIsPopout = false;
+    mockIsPopout = false,
+    mockForcedStatus = 'online';
 
   beforeEach(() => {
     mockState = {
       chat: {
+        forcedStatus: mockForcedStatus,
         isAuthenticated: false
       },
       base: {
-        activeEmbed: 'chat',
-        launcherVisible: false,
         arturos: {
           chatPopout: true
         }
@@ -142,7 +142,7 @@ describe('getIsPopupVisible', () => {
     isMobileValue = false;
     mockIsPopout = false;
     globals.isPopout = () => mockIsPopout;
-    mockState.base.launcherVisible = false;
+    mockForcedStatus = 'online';
   });
 
   mockIsMobile = jest.fn(() => isMobileValue);
@@ -150,12 +150,6 @@ describe('getIsPopupVisible', () => {
   describe('when values are correct', () => {
     it('it renders popup', () => {
       expect(selectors.getIsPopoutAvailable(mockState)).toEqual(true);
-    });
-  });
-  describe('when activeEmbed is not "chat"', () => {
-    it('does not render popup', () => {
-      mockState.base.activeEmbed = 'boop';
-      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
     });
   });
 
@@ -173,22 +167,22 @@ describe('getIsPopupVisible', () => {
     });
   });
 
-  describe('isLauncherVisible is true', () => {
-    beforeEach(() => {
-      mockState.base.launcherVisible = true;
-    });
-
-    it('does not render popup', () => {
-      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
-    });
-  });
-
   describe('when window is a popout', () => {
     beforeEach(() => {
       mockIsPopout = true;
     });
 
     it('does not render popout', () => {
+      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
+    });
+  });
+
+  describe('when chat is not online', () => {
+    beforeAll(() => {
+      mockForcedStatus = 'offline';
+    });
+
+    it('does not render Popout', () => {
       expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
     });
   });
