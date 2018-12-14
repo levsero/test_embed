@@ -410,6 +410,7 @@ class Talk extends Component {
           ref='scrollContainer'
           containerClasses={scrollContainerClasses}
           footerContent={this.renderFooterContent()}
+          isMobile={this.props.isMobile}
           title={this.renderFormTitle()}>
           <div className={contentClasses}>
             {this.renderContent()}
