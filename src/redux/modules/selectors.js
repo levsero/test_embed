@@ -16,7 +16,7 @@ import { getZopimChatOnline,
   getZopimChatOpen } from './zopimChat/zopimChat-selectors';
 import {
   getSettingsChatSuppress,
-  getSettingsLauncherSetHideWhenChatOffline,
+  getSettingsChatHideWhenOffline,
   getSettingsColorLauncher,
   getSettingsColorLauncherText
 } from './settings/settings-selectors';
@@ -134,7 +134,7 @@ export const getResetToContactFormOnChatOffline = (state) =>
   && getActiveEmbed(state) === 'ticketSubmissionForm';
 
 export const getChatAvailable = (state) => {
-  const offlineFormOn = getChatOfflineAvailable(state);
+  const offlineFormOn = getChatOfflineAvailable(state) && !getSettingsChatHideWhenOffline(state);
 
   return getChatEnabled(state) && (getChatOnline(state) || offlineFormOn);
 };
@@ -268,27 +268,18 @@ export const getWebWidgetVisible = (state) => {
     && getIsWidgetReady(state);
 };
 
-const getShouldHideLauncher = createSelector(
-  [getSettingsLauncherSetHideWhenChatOffline, getChatOnline, getChatStandalone],
-  (hideLauncherWhenChatOffline, isChatOnline, isChatStandalone) => {
-    return hideLauncherWhenChatOffline && !isChatOnline && isChatStandalone;
-  }
-);
-
 export const getLauncherVisible = createSelector(
   [ getBaseLauncherVisible,
     getIsChannelAvailable,
     getHiddenByHideAPI,
     getHiddenByActivateAPI,
-    getIsWidgetReady,
-    getShouldHideLauncher ],
-  (launcherVisible, isChannelAvailable, hiddenByHide, hiddenByActivate, isWidgetReady, shouldHideLauncher) => {
+    getIsWidgetReady ],
+  (launcherVisible, isChannelAvailable, hiddenByHide, hiddenByActivate, isWidgetReady) => {
     return launcherVisible
       && isChannelAvailable
       && !hiddenByHide
       && !hiddenByActivate
-      && isWidgetReady
-      && !shouldHideLauncher;
+      && isWidgetReady;
   }
 );
 

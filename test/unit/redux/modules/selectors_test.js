@@ -35,7 +35,7 @@ describe('selectors', () => {
     bootupTimeoutValue,
     webWidgetVisibleValue,
     launcherVisibleValue,
-    settingsLauncherSetHideWhenChatOfflineValue,
+    getSettingsChatHideWhenOfflineValue,
     chatStandaloneValue,
     userMinimizedChatBadgeValue,
     chatBadgeColorValue,
@@ -75,7 +75,7 @@ describe('selectors', () => {
   bootupTimeoutValue = false;
   webWidgetVisibleValue = false;
   launcherVisibleValue = false;
-  settingsLauncherSetHideWhenChatOfflineValue = false;
+  getSettingsChatHideWhenOfflineValue = false;
   chatStandaloneValue = false;
   userMinimizedChatBadgeValue = false;
   chatBadgeColorValue = '#333';
@@ -120,7 +120,7 @@ describe('selectors', () => {
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue,
-        getSettingsLauncherSetHideWhenChatOffline: () => settingsLauncherSetHideWhenChatOfflineValue,
+        getSettingsChatHideWhenOffline: () => getSettingsChatHideWhenOfflineValue,
         getSettingsColorLauncher: () => settingsColorLauncher,
         getSettingsColorLauncherText: () => settingsColorLauncherText
       },
@@ -1082,7 +1082,7 @@ describe('selectors', () => {
           chatEmbedValue = true;
         });
 
-        describe('when showOfflineForm is false', () => {
+        describe('when chat is online', () => {
           beforeEach(() => {
             showOfflineFormValue = false;
             result = selectors.getChatAvailable();
@@ -1098,12 +1098,37 @@ describe('selectors', () => {
           beforeEach(() => {
             zopimChatOnlineValue = false;
             showOfflineFormValue = true;
+            submitTicketEmbedValue = false;
             result = selectors.getChatAvailable();
           });
 
           it('returns false', () => {
             expect(result)
               .toEqual(false);
+          });
+
+          describe('when offline form is enabled', () => {
+            beforeEach(() => {
+              offlineFormEnabledValue = true;
+              result = selectors.getChatAvailable();
+            });
+
+            it('returns true', () => {
+              expect(result)
+                .toEqual(true);
+            });
+
+            describe('when hideWhenOffline is enabled', () => {
+              beforeEach(() => {
+                getSettingsChatHideWhenOfflineValue = true;
+                result = selectors.getChatAvailable();
+              });
+
+              it('returns false', () => {
+                expect(result)
+                  .toEqual(false);
+              });
+            });
           });
         });
       });
@@ -2153,35 +2178,6 @@ describe('selectors', () => {
       it('returns true', () => {
         expect(result)
           .toEqual(true);
-      });
-    });
-
-    describe('shouldHideLauncher', () => {
-      beforeAll(() => {
-        webWidgetVisibleValue = true;
-        hiddenByHideAPIValue = false;
-        bootupTimeoutValue = true;
-      });
-
-      describe('when we should hide the launcher', () => {
-        beforeAll(() => {
-          zopimChatOnlineValue = false;
-          showOfflineFormValue = true;
-          chatStandaloneValue = true;
-          settingsLauncherSetHideWhenChatOfflineValue = true;
-        });
-
-        afterEach(() => {
-          zopimChatOnlineValue = true;
-          showOfflineFormValue = false;
-          chatStandaloneValue = false;
-          settingsLauncherSetHideWhenChatOfflineValue = false;
-        });
-
-        it('returns false', () => {
-          expect(result)
-            .toEqual(false);
-        });
       });
     });
   });

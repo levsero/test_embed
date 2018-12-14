@@ -26,6 +26,7 @@ const optionWhitelist = {
     'chat.offlineForm.greeting',
     'chat.concierge.title',
     'chat.concierge.name',
+    'chat.hideWhenOffline',
     'chat.tags',
     'color.theme',
     'color.button',
