@@ -85,7 +85,7 @@ class WidgetLauncher extends Component {
   }
 
   getLabel = () => {
-    const { helpCenterAvailable, talkAvailable, chatAvailable } = this.props;
+    const { helpCenterAvailable, talkAvailable, chatAvailable, launcherLabel, chatLabel } = this.props;
     const notificationCount = this.getNotificationCount();
 
     if (notificationCount) {
@@ -93,16 +93,17 @@ class WidgetLauncher extends Component {
         ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
         : i18n.t('embeddable_framework.chat.notification');
     } else if (chatAvailable && talkAvailable) {
-      return this.props.launcherLabel;
+      return launcherLabel;
     } else if (chatAvailable && !helpCenterAvailable) {
-      return this.props.chatLabel;
+      return chatLabel;
     } else if (talkAvailable && !helpCenterAvailable) {
       return this.getTalkLabel();
     }
-    return this.props.launcherLabel;
+    return launcherLabel;
   }
 
   getActiveEmbedLabel = () => {
+    const { launcherLabel, chatAvailable, chatLabel, chatOfflineAvailable, activeEmbed } = this.props;
     const notificationCount = this.getNotificationCount();
 
     if (notificationCount) {
@@ -111,17 +112,17 @@ class WidgetLauncher extends Component {
         : i18n.t('embeddable_framework.chat.notification');
     }
 
-    switch (this.props.activeEmbed) {
+    switch (activeEmbed) {
       case 'ticketSubmissionForm':
       case 'helpCenterForm':
-        return this.props.launcherLabel;
+        return launcherLabel;
       case 'chat':
       case 'zopimChat':
-        if (this.props.chatOfflineAvailable) {
-          return this.props.launcherLabel;
+        if (chatOfflineAvailable) {
+          return launcherLabel;
         }
-        if (this.props.chatAvailable) {
-          return this.props.chatLabel;
+        if (chatAvailable) {
+          return chatLabel;
         }
         return this.getLabel();
       case 'talk':
