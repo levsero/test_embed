@@ -47,6 +47,13 @@
       }
     }
     var queryParams = parseQueryParams(window.location.search);
+
+    if (queryParams.mid) {
+      document.cookie = '__zlcpomid=' + queryParams.mid;
+      window.location.href = (window.location.href || '').replace(/([?&])mid=[^&#]+/, '$1');
+      return;
+    }
+
     window.zESettings = parseSettings(queryParams);
 
     loadSnippet(queryParams);

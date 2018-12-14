@@ -8,7 +8,7 @@ import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { clickBusterRegister } from 'utility/devices';
-import { getIsPopoutAvailable } from 'src/redux/modules/chat/chat-selectors';
+import { getIsPopoutAvailable, getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
 import { createChatPopoutWindow } from 'src/util/chat';
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors';
 import {
@@ -26,7 +26,8 @@ const mapStateToProps = (state) => {
     menuVisible: getChatMenuVisible(state),
     useMenu: getShowChatMenu(state),
     standaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
-    chatPopoutSettings: getSettingsChatPopout(state)
+    chatPopoutSettings: getSettingsChatPopout(state),
+    zChat: getZChatVendor(state)
   };
 };
 
@@ -46,7 +47,8 @@ class Navigation extends Component {
     menuVisible: PropTypes.bool,
     updateMenuVisibility: PropTypes.func,
     standaloneMobileNotificationVisible: PropTypes.bool.isRequired,
-    chatPopoutSettings: PropTypes.object
+    chatPopoutSettings: PropTypes.object,
+    zChat: PropTypes.object
   };
 
   static defaultProps = {
@@ -62,7 +64,8 @@ class Navigation extends Component {
     useBackButton: false,
     updateMenuVisibility: () => {},
     menuVisible: false,
-    useMenu: false
+    useMenu: false,
+    zChat: {}
   };
 
   renderNavButton = (options = {}) => {
@@ -136,7 +139,7 @@ class Navigation extends Component {
       ? <div>
         {this.renderLeftNavButton()}
         {this.renderNavButton({
-          onClick: () => createChatPopoutWindow(this.props.chatPopoutSettings),
+          onClick: () => createChatPopoutWindow(this.props.chatPopoutSettings, this.props.zChat.getMachineId()),
           'aria-label': 'Popout',
           icon: ICONS.POPOUT,
           className: styles.popout,

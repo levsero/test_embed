@@ -1,10 +1,25 @@
 import _ from 'lodash';
+import * as globals from 'utility/globals';
 import {
   combineNumbers,
   formatSchedule,
   isDefaultNickname,
-  isAgent
+  isAgent,
+  createChatPopoutWindow
 } from '../chat';
+
+jest.mock('utility/globals');
+
+beforeEach(() => {
+  globals.win = {
+    open: jest.fn(),
+    location: {
+      hostname: 'abc.com'
+    },
+    btoa: (x) => x
+  };
+  globals.getZendeskHost = () => 'a.zendesk.com';
+});
 
 describe('isDefaultNickname', () => {
   const validNames = [
@@ -190,5 +205,16 @@ describe('formatSchedule', () => {
     ];
 
     expect(formatSchedule(input)).toEqual(expected);
+  });
+});
+
+describe('createChatPopoutWindow', () => {
+  it('creates the query string correctly', () => {
+    createChatPopoutWindow('settings', 'machineId');
+
+    const url = 'https://static.zdassets.com/web_widget/latest/liveChat.html?key=a.zendesk.com&settings="settings"&mid=machineId';
+
+    expect(globals.win.open)
+      .toHaveBeenCalledWith(url, 'Web Widget LiveChat', 'height=600,width=400');
   });
 });

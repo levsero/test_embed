@@ -33,11 +33,12 @@ import {
   getIsChatting,
   getNotificationCount,
   getChatStatus,
-  getIsPopoutAvailable
-} from 'src/redux/modules/chat/chat-selectors';
+  getIsPopoutAvailable,
+  getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
 import { EXECUTE_API_ON_CLOSE_CALLBACK, EXECUTE_API_ON_OPEN_CALLBACK } from 'src/redux/modules/base/base-action-types';
 import { updateSettings } from 'src/redux/modules/settings';
 import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
+import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors';
 
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
@@ -131,7 +132,7 @@ export const showApi = (reduxStore) => {
 
 export const popoutApi = (reduxStore) => {
   if (getIsPopoutAvailable(reduxStore.getState())) {
-    createChatPopoutWindow();
+    createChatPopoutWindow(getSettingsChatPopout(), getZChatVendor.getMachineId());
   }
 };
 
