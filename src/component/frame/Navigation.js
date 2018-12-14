@@ -8,10 +8,11 @@ import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { clickBusterRegister } from 'utility/devices';
-import { getIsPopoutAvailable, getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
 import { createChatPopoutWindow } from 'src/util/chat';
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors';
 import {
+  getIsPopoutAvailable,
+  getZChatVendor,
   getMenuVisible as getChatMenuVisible,
   getShowMenu as getShowChatMenu,
   getStandaloneMobileNotificationVisible
@@ -37,8 +38,7 @@ class Navigation extends Component {
     handleBackClick: PropTypes.func,
     handleCloseClick: PropTypes.func,
     handleCloseButtonClicked: PropTypes.func,
-    hideCloseButton: PropTypes.bool,
-    hidePopoutButton: PropTypes.bool,
+    hideNavigationButtons: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
     popoutButtonVisible: PropTypes.bool,
     preventClose: PropTypes.bool,
@@ -57,8 +57,7 @@ class Navigation extends Component {
     handleBackClick: () => {},
     handleCloseClick: () => {},
     handleCloseButtonClicked: () => {},
-    hideCloseButton: false,
-    hidePopoutButton: false,
+    hideNavigationButtons: false,
     backButtonVisible: false,
     popoutButtonVisible: false,
     preventClose: false,
@@ -124,7 +123,7 @@ class Navigation extends Component {
           icon: ICONS.MENU,
           position: 'left',
           'aria-label': i18n.t('embeddable_framework.navigation.menu'),
-          isVisible: true
+          isVisible: !this.props.hideNavigationButtons
         })
       );
     } else {
@@ -149,7 +148,7 @@ class Navigation extends Component {
           'aria-label': 'Popout',
           icon: ICONS.POPOUT,
           className: styles.popout,
-          isVisible: this.props.popoutButtonVisible && !this.props.hidePopoutButton,
+          isVisible: this.props.popoutButtonVisible && !this.props.hideNavigationButtons,
           position: 'right'
         })}
         {this.renderNavButton({
@@ -157,7 +156,7 @@ class Navigation extends Component {
           'aria-label': i18n.t('embeddable_framework.navigation.close'),
           icon: ICONS.DASH,
           position: 'right',
-          isVisible: !this.props.hideCloseButton
+          isVisible: !this.props.hideNavigationButtons
         })}
       </div> : null;
   }

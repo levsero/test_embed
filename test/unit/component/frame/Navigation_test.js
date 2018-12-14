@@ -109,49 +109,6 @@ describe('Navigation', () => {
     });
   });
 
-  describe('close button', () => {
-    let navigation, navigationNode;
-
-    beforeEach(() => {
-      navigation = domRender(<Navigation />);
-      navigationNode = ReactDOM.findDOMNode(navigation);
-    });
-
-    describe('when props.hideCloseButton is false', () => {
-      beforeEach(() => {
-        navigation = domRender(<Navigation hideCloseButton={false} />);
-        navigationNode = ReactDOM.findDOMNode(navigation);
-      });
-
-      it('renders the dash button', () => {
-        expect(navigationNode.querySelector('.Icon--dash'))
-          .not.toBeNull();
-      });
-    });
-
-    describe('when props.hideCloseButton is true', () => {
-      beforeEach(() => {
-        navigation = domRender(<Navigation hideCloseButton={true} />);
-        navigationNode = ReactDOM.findDOMNode(navigation);
-      });
-
-      it('does not render the dash button', () => {
-        expect(navigationNode.querySelector('.Icon--dash'))
-          .toBeNull();
-      });
-    });
-
-    it('renders the dash button icon', () => {
-      expect(navigationNode.querySelector('.Icon--dash'))
-        .not.toBeNull();
-    });
-
-    it('has icon classes', () => {
-      expect(navigationNode.querySelector('.icon'))
-        .not.toBeNull();
-    });
-  });
-
   describe('back button', () => {
     let navigation, navigationNode;
 
