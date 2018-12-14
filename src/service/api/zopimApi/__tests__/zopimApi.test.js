@@ -451,8 +451,8 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi)
         .toHaveBeenCalledWith(mockStore, {
           webWidget: {
-            launcher: {
-              setHideWhenChatOffline: true
+            chat: {
+              hideWhenOffline: true
             }
           }
         });

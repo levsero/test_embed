@@ -88,7 +88,7 @@ export function setUpZopimApiMethods(win, store) {
           showApi(store);
           closeApi(store);
         },
-        setHideWhenOffline: (bool) => updateSettings(store, 'webWidget.launcher.setHideWhenChatOffline', bool),
+        setHideWhenOffline: (bool) => updateSettings(store, 'webWidget.chat.hideWhenOffline', bool),
         setPosition: setPositionApi,
         setPositionMobile: setPositionApi,
         setColor: (color) => updateSettingsLegacy('color.launcher', color),
