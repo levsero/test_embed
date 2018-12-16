@@ -48,6 +48,7 @@ Available settings:
 * [departments](#departments)
 * [fields](#fields)
 * [filter](#filter)
+* [hideWhenOffline](#hidewhenoffline)
 * [label](#label)
 * [messageButton](#messagebutton)
 * [nickname](#nickname)
@@ -735,6 +736,28 @@ For more examples, see [Limiting search results](https://support.zendesk.com/hc/
 * [suppress](#suppress)
 * [title](#title)
 
+### hideWhenOffline
+
+Hides chat offline form when the account status is offline.
+
+#### Availability
+
+* [chat](./chat)
+
+<a name="example-hidewhenoffline"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      hideWhenOffline: true
+    }
+  }
+};
+</script>
+```
 
 ### label
 

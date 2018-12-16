@@ -1,5 +1,4 @@
-import reducer from '../launcher-set-hide-when-chat-offline';
-
+import reducer from '../chat-hideWhenOffline';
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types';
 
 const initialState = () => {
@@ -22,8 +21,8 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
   it('updates the settings', () => {
     const payload = {
       webWidget: {
-        launcher: {
-          setHideWhenChatOffline: true
+        chat: {
+          hideWhenOffline: true
         }
       }
     };

@@ -177,10 +177,10 @@ test('getSettingsChatProfileCard', () => {
     .toEqual({ x: 1 });
 });
 
-test('getSettingsLauncherSetHideWhenChatOffline', () => {
-  const result = selectors.getSettingsLauncherSetHideWhenChatOffline(
-    launcherSettings({
-      setHideWhenChatOffline: true
+test('getSettingsChatHideWhenOffline', () => {
+  const result = selectors.getSettingsChatHideWhenOffline(
+    chatSettings({
+      hideWhenOffline: true
     })
   );
 

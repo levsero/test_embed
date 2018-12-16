@@ -3,15 +3,15 @@ import _ from 'lodash';
 
 const initialState = false;
 
-const setHideWhenChatOffline = (state = initialState, action) => {
+const hideWhenOffline = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return Boolean(_.get(payload, 'webWidget.launcher.setHideWhenChatOffline', state));
+      return Boolean(_.get(payload, 'webWidget.chat.hideWhenOffline', state));
     default:
       return state;
   }
 };
 
-export default setHideWhenChatOffline;
+export default hideWhenOffline;

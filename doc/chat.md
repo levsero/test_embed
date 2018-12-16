@@ -16,6 +16,7 @@ In the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articl
 * [badge](./settings#badge)
 * [concierge](./settings#concierge)
 * [departments](./settings#departments)
+* [hideWhenOffline](./settings#hidewhenoffline)
 * [prechatForm](./settings#prechatForm)
 * [offlineForm](./settings#offlineForm)
 * [notifications](./settings#notifications)

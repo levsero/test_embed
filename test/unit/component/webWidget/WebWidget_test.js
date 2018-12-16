@@ -848,43 +848,6 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when chat is offline but offline form is available', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            chatOnline={false}
-            chatAvailable={false}
-            helpCenterAvailable={true}
-            chatOfflineAvailable={true}
-            nextButtonClicked={nextButtonClickedSpy}
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            updateActiveEmbed={mockUpdateActiveEmbed} />
-        );
-        webWidget.onNextClick();
-      });
-
-      it('calls updateActiveEmbed with chat', () => {
-        expect(mockUpdateActiveEmbed)
-          .toHaveBeenCalledWith('chat');
-      });
-
-      it('calls updateBackButtonVisibility with true', () => {
-        expect(updateBackButtonVisibilitySpy)
-          .toHaveBeenCalledWith(true);
-      });
-
-      it('does not call updateActiveEmbed with ticketSubmissionForm', () => {
-        expect(mockUpdateActiveEmbed)
-          .not
-          .toHaveBeenCalledWith('ticketSubmissionForm');
-      });
-
-      it('calls nextButtonClicked', () => {
-        expect(nextButtonClickedSpy)
-          .toHaveBeenCalled();
-      });
-    });
-
     describe('when ipm is activated', () => {
       beforeEach(() => {
         webWidget = instanceRender(

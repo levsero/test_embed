@@ -7,9 +7,8 @@ describe('settings launcher reducer', () => {
     result = reducer(undefined, {});
   });
 
-  it('includes setHideWhenChatOffline', () => {
-    expect(result.setHideWhenChatOffline)
+  it('includes badge', () => {
+    expect(result.badge)
       .toBeDefined();
   });
 });
-

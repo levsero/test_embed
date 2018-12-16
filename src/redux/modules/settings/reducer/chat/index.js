@@ -11,6 +11,7 @@ import offlineForm from './chat-offline-form';
 import title from './chat-title';
 import mobileNotificationsDisabled from './chat-mobile-notifications-disabled';
 import tags from './chat-tags';
+import hideWhenOffline from './chat-hideWhenOffline';
 
 export default combineReducers({
   suppress,
@@ -21,5 +22,6 @@ export default combineReducers({
   departments: combineReducers({ enabled, select }),
   mobileNotificationsDisabled,
   tags,
-  profileCard
+  profileCard,
+  hideWhenOffline
 });

@@ -264,7 +264,6 @@ class WebWidget extends Component {
       oldChat,
       chatAvailable,
       talkAvailable,
-      chatOfflineAvailable,
       channelChoiceAvailable,
       nextButtonClicked } = this.props;
 
@@ -275,7 +274,7 @@ class WebWidget extends Component {
       }
     } else if (embed) {
       this.setComponent(embed);
-    } else if (chatAvailable || chatOfflineAvailable) {
+    } else if (chatAvailable) {
       this.showChat();
       // TODO: track chat started
       if (!oldChat) {
@@ -387,9 +386,9 @@ class WebWidget extends Component {
     if (this.props.activeEmbed !== helpCenter) return null;
 
     const { helpCenterConfig, submitTicketAvailable, chatAvailable,
-      chatOfflineAvailable, talkAvailable, channelChoiceAvailable } = this.props;
+      talkAvailable, channelChoiceAvailable } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
-    const showNextButton = submitTicketAvailable || chatAvailable || chatOfflineAvailable || talkAvailable;
+    const showNextButton = submitTicketAvailable || chatAvailable || talkAvailable;
 
     return (
       <div className={classes}>
