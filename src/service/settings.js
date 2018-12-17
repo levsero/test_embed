@@ -79,6 +79,7 @@ const webWidgetStoreDefaults = {
     tags: [],
     ticketForms: []
   },
+  helpCenter: {},
   contactOptions: { enabled: false },
   chat: {
     concierge: {
