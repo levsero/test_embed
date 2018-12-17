@@ -5,7 +5,6 @@ describe('settings', () => {
     mockRegistry,
     defaults;
   const settingsPath = buildSrcPath('service/settings');
-  const maxLocaleFallbacks = 3;
   const createMockStore = configureMockStore();
   const mockStore = createMockStore();
   const mockUpdateSettingsAction = 'UPDATE_SETTINGS';
@@ -80,11 +79,6 @@ describe('settings', () => {
           .toEqual(defaults.viaId);
       });
 
-      it('has the correct value for helpCenter.originalArticleButton', () => {
-        expect(settings.get('helpCenter.originalArticleButton'))
-          .toEqual(defaults.helpCenter.originalArticleButton);
-      });
-
       it('has the correct value for contactForm.attachments', () => {
         expect(settings.get('contactForm.attachments'))
           .toEqual(defaults.contactForm.attachments);
@@ -145,26 +139,6 @@ describe('settings', () => {
 
       expect(settings.get('authenticate'))
         .toEqual('foo');
-    });
-
-    it('should limit number of locale fallbacks', () => {
-      mockRegistry['utility/globals'].win.zESettings = {
-        webWidget: {
-          helpCenter: {
-            localeFallbacks: ['en-US', 'en-AU', 'fr', 'zh-CH']
-          }
-        }
-      };
-      settings.init();
-      settings.enableCustomizations();
-
-      const localeFallbacks = settings.get('helpCenter.localeFallbacks');
-
-      expect(localeFallbacks.length)
-        .toBe(maxLocaleFallbacks);
-
-      expect(localeFallbacks)
-        .toEqual(['en-US', 'en-AU', 'fr']);
     });
 
     it('calls updateSettings', () => {
@@ -343,13 +317,6 @@ describe('settings', () => {
       it('returns user setting for helpCenter.localeFallbacks', () => {
         expect(settings.get('helpCenter.localeFallbacks'))
           .toEqual(['fr']);
-      });
-    });
-
-    describe('when web widget customisations are disabled', () => {
-      it('returns user default for helpCenter.localeFallbacks', () => {
-        expect(settings.get('helpCenter.localeFallbacks'))
-          .toEqual(defaults.helpCenter.localeFallbacks);
       });
     });
 
