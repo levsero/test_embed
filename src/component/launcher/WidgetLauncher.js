@@ -9,7 +9,7 @@ import {
   getChatAvailable,
   getTalkAvailable,
   getChatOfflineAvailable,
-  getHelpCenterEnabled
+  getHelpCenterAvailable
 } from 'src/redux/modules/selectors';
 import { settings } from 'service/settings';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     activeEmbed: getActiveEmbed(state),
     chatAvailable: getChatAvailable(state),
-    helpCenterAvailable: getHelpCenterEnabled(state),
+    helpCenterAvailable: getHelpCenterAvailable(state),
     talkAvailable: getTalkAvailable(state) && !settings.get('talk.suppress'),
     callbackEnabled: isCallbackEnabled(state),
     notificationCount: getNotificationCount(state),
