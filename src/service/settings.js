@@ -101,7 +101,7 @@ const webWidgetStoreDefaults = {
     },
     tags: []
   },
-  launcher: {},
+  launcher: { },
   margin: 8,
   offset: {
     horizontal: 0,

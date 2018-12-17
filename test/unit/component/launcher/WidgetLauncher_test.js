@@ -113,7 +113,7 @@ describe('WidgetLauncher component', () => {
         describe('when help center is part of config', () => {
           beforeEach(() => {
             launcher = domRender(
-              <Launcher chatAvailable={true} helpCenterAvailable={true} label='help' />
+              <Launcher chatAvailable={true} helpCenterAvailable={true} launcherLabel='help' />
             );
           });
 
@@ -125,12 +125,12 @@ describe('WidgetLauncher component', () => {
 
         describe('when help center is not of config', () => {
           beforeEach(() => {
-            launcher = domRender(<Launcher chatAvailable={true} helpCenterAvailable={false} />);
+            launcher = domRender(<Launcher chatAvailable={true} helpCenterAvailable={false} chatLabel={'chat label'} />);
           });
 
           it('returns the chat label', () => {
             expect(launcher.getLabel())
-              .toEqual('embeddable_framework.launcher.label.chat');
+              .toEqual('chat label');
           });
         });
       });
@@ -138,7 +138,7 @@ describe('WidgetLauncher component', () => {
       describe('when chat is offline', () => {
         beforeEach(() => {
           launcher = domRender(
-            <Launcher chatOnline={false} label='help' />
+            <Launcher chatOnline={false} launcherLabel='help' />
           );
         });
 
@@ -180,7 +180,7 @@ describe('WidgetLauncher component', () => {
             label = 'Help me Obi Wan Kenobi, you`re my only hope';
             launcher = instanceRender(
               <Launcher
-                label={label}
+                launcherLabel={label}
                 chatAvailable={true}
                 talkAvailable={true} />
             );
@@ -200,7 +200,7 @@ describe('WidgetLauncher component', () => {
 
     describe('when the active embed is contact form', () => {
       beforeEach(() => {
-        launcher = instanceRender(<Launcher label='some-label' activeEmbed='ticketSubmissionForm' />);
+        launcher = instanceRender(<Launcher launcherLabel='some-label' activeEmbed='ticketSubmissionForm' />);
       });
 
       it('returns props.label', () => {
@@ -211,7 +211,7 @@ describe('WidgetLauncher component', () => {
 
     describe('when the active embed is help center', () => {
       beforeEach(() => {
-        launcher = instanceRender(<Launcher label='some-label' activeEmbed='helpCenterForm' />);
+        launcher = instanceRender(<Launcher launcherLabel='some-label' activeEmbed='helpCenterForm' />);
       });
 
       it('returns props.label', () => {
@@ -223,18 +223,18 @@ describe('WidgetLauncher component', () => {
     describe('when the active embed is chat', () => {
       describe('when chat is available', () => {
         beforeEach(() => {
-          launcher = instanceRender(<Launcher activeEmbed='chat' chatAvailable={true}/>);
+          launcher = instanceRender(<Launcher activeEmbed='chat' chatAvailable={true} chatLabel={'chat now'} />);
         });
 
         it('returns the chat label', () => {
           expect(launcher.getActiveEmbedLabel())
-            .toEqual('embeddable_framework.launcher.label.chat');
+            .toEqual('chat now');
         });
       });
 
       describe('when chat is available but chat is offline', () => {
         beforeEach(() => {
-          launcher = instanceRender(<Launcher activeEmbed='chat' chatAvailable={true} chatOfflineAvailable={true}  label='some-label' />);
+          launcher = instanceRender(<Launcher activeEmbed='chat' chatAvailable={true} chatOfflineAvailable={true}  launcherLabel='some-label' />);
         });
 
         it('returns props.label', () => {
@@ -539,9 +539,9 @@ describe('WidgetLauncher component', () => {
   describe('render', () => {
     let launcher;
 
-    describe('when props.chatOnline is online', () => {
+    describe('when props.chatAvailable is online', () => {
       beforeEach(() => {
-        launcher = domRender(<Launcher chatAvailable={true} />);
+        launcher = domRender(<Launcher chatAvailable={true} chatLabel={'chat'} />);
       });
 
       it('should ignore state and set label to online', () => {

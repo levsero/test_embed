@@ -12,8 +12,9 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import {
   getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
 import { launcherClicked } from 'src/redux/modules/base/';
+import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     activeEmbed: getActiveEmbed(state),
     chatAvailable: getChatAvailable(state),
@@ -21,7 +22,9 @@ const mapStateToProps = (state) => {
     talkAvailable: getTalkAvailable(state) && !settings.get('talk.suppress'),
     callbackEnabled: isCallbackEnabled(state),
     notificationCount: getNotificationCount(state),
-    chatOfflineAvailable: getChatOfflineAvailable(state)
+    chatOfflineAvailable: getChatOfflineAvailable(state),
+    chatLabel: getLauncherChatLabel(state),
+    launcherLabel: getLauncherLabel(state, ownProps.label)
   };
 };
 
@@ -32,7 +35,6 @@ class WidgetLauncher extends Component {
     helpCenterAvailable: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
-    label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     notificationCount: PropTypes.number.isRequired,
     getFrameContentDocument: PropTypes.func,
@@ -40,7 +42,9 @@ class WidgetLauncher extends Component {
     updateFrameTitle: PropTypes.func,
     launcherClicked: PropTypes.func.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
+    launcherLabel: PropTypes.string.isRequired,
+    chatLabel: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -81,7 +85,7 @@ class WidgetLauncher extends Component {
   }
 
   getLabel = () => {
-    const { helpCenterAvailable, talkAvailable, chatAvailable, label } = this.props;
+    const { helpCenterAvailable, talkAvailable, chatAvailable, launcherLabel, chatLabel } = this.props;
     const notificationCount = this.getNotificationCount();
 
     if (notificationCount) {
@@ -89,18 +93,17 @@ class WidgetLauncher extends Component {
         ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
         : i18n.t('embeddable_framework.chat.notification');
     } else if (chatAvailable && talkAvailable) {
-      return i18n.t(label);
+      return launcherLabel;
     } else if (chatAvailable && !helpCenterAvailable) {
-      return i18n.t('embeddable_framework.launcher.label.chat');
+      return chatLabel;
     } else if (talkAvailable && !helpCenterAvailable) {
       return this.getTalkLabel();
     }
-
-    return i18n.t(label);
+    return launcherLabel;
   }
 
   getActiveEmbedLabel = () => {
-    const { label } = this.props;
+    const { launcherLabel, chatAvailable, chatLabel, chatOfflineAvailable, activeEmbed } = this.props;
     const notificationCount = this.getNotificationCount();
 
     if (notificationCount) {
@@ -109,17 +112,17 @@ class WidgetLauncher extends Component {
         : i18n.t('embeddable_framework.chat.notification');
     }
 
-    switch (this.props.activeEmbed) {
+    switch (activeEmbed) {
       case 'ticketSubmissionForm':
       case 'helpCenterForm':
-        return i18n.t(label);
+        return launcherLabel;
       case 'chat':
       case 'zopimChat':
-        if (this.props.chatOfflineAvailable) {
-          return i18n.t(label);
+        if (chatOfflineAvailable) {
+          return launcherLabel;
         }
-        if (this.props.chatAvailable) {
-          return i18n.t('embeddable_framework.launcher.label.chat');
+        if (chatAvailable) {
+          return chatLabel;
         }
         return this.getLabel();
       case 'talk':

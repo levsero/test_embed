@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`settings launcher reducer includes expected reducers 1`] = `
+Object {
+  "badge": Object {
+    "image": null,
+    "label": null,
+    "layout": null,
+  },
+  "settings": Object {
+    "chatLabel": null,
+    "label": null,
+  },
+}
+`;
