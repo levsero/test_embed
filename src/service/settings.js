@@ -79,7 +79,6 @@ const webWidgetStoreDefaults = {
     tags: [],
     ticketForms: []
   },
-  helpCenter: {},
   contactOptions: { enabled: false },
   helpCenter: {
     originalArticleButton: true,
