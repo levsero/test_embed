@@ -61,6 +61,7 @@ The Chat component has the following commands:
 * [on chat:status](#on-chatstatus)
 * [on chat:departmentStatus](#on-chatdepartmentstatus)
 * [on chat:unreadMessages](#on-chatunreadmessages)
+* [popout](#popout)
 
 #### chat:send
 
@@ -298,4 +299,24 @@ zE('webWidget:on', 'chat:unreadMessages', function(number) {
   console.log(`It seems you have ${number} unread messages!`);
 });
 </script>
+```
+
+#### popout
+
+`zE('webWidget', 'popout');`
+
+Attempts to open the live chat widget in a new window on desktop.
+
+May not work on some devices or configurations.
+
+Important: Should only be called from a user event listener callback.  See example.
+
+##### Parameters
+
+None
+
+##### Example
+
+```html
+<a href="javascript:void(zE('webWidget', 'popout'))">Open chat in new window</a>
 ```

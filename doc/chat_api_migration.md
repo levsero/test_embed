@@ -18,15 +18,14 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 | window.hide | zE('webWidget', 'hide') |
 | window.show | zE('webWidget', 'open') |
 | window.getDisplay | zE('webWidget:get', 'display') |
+| window.openPopout | zE('webWidget', 'popout') |
 | isChatting | zE('webWidget:get', 'chat:isChatting') |
 | removeTags | zESettings.webWidget.chat.tags |
 | addTags | zESettings.webWidget.chat.tags |
 | say | zE('webWidget', 'chat:send', msg) |
 | endChat | zE('webWidget', 'chat:end') |
 | hideAll | zE('webWidget', 'hide') |
-| set* | zE('webWidget', 'prefill', data<object>) and zE('webWidget', 'setLocale', data<string>) |
-
-\* `$zopim.livechat.set()` currently supports the following APIs: name, email and language.
+| set | zE('webWidget', 'prefill', data<object>) and zE('webWidget', 'setLocale', data<string>) |
 
 ### Visitor Information
 
@@ -159,4 +158,3 @@ Below is a list of the $zopim.livechat APIs that are not supported in the Web Wi
 | --- | --- |
 | authenticate | zESettings.webWidget.authenticate.chat  |
 | setDefaultImplicitConsent | zESettings.cookies |
-| window.popout | zE('webWidget', 'popout') |
