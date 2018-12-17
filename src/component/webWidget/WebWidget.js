@@ -43,10 +43,7 @@ import { getChatNotification,
   getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
-import {
-  getSettingsMobileNotificationsDisabled,
-  getSettingsHelpCenterOriginalArticleButton
-} from 'src/redux/modules/settings/settings-selectors';
+import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { getHelpCenterAvailable,
   getChannelChoiceAvailable,
   getSubmitTicketAvailable } from 'src/redux/modules/selectors';
@@ -86,8 +83,7 @@ const mapStateToProps = (state) => {
     helpCenterAvailable: getHelpCenterAvailable(state),
     channelChoiceAvailable: getChannelChoiceAvailable(state),
     submitTicketAvailable: getSubmitTicketAvailable(state),
-    hideZendeskLogo: getHideZendeskLogo(state),
-    originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state)
+    hideZendeskLogo: getHideZendeskLogo(state)
   };
 };
 
@@ -104,6 +100,7 @@ class WebWidget extends Component {
     helpCenterConfig: PropTypes.object,
     isOnHelpCenterPage: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
+    localeFallbacks: PropTypes.array,
     oldChat: PropTypes.bool.isRequired,
     onSubmitted: PropTypes.func,
     originalArticleButton: PropTypes.bool,
@@ -162,6 +159,7 @@ class WebWidget extends Component {
     helpCenterConfig: {},
     isOnHelpCenterPage: false,
     hideZendeskLogo: false,
+    localeFallbacks: [],
     onSubmitted: () => {},
     originalArticleButton: true,
     position: 'right',
@@ -412,6 +410,7 @@ class WebWidget extends Component {
           style={this.props.style}
           fullscreen={this.props.fullscreen}
           originalArticleButton={this.props.originalArticleButton}
+          localeFallbacks={this.props.localeFallbacks}
           channelChoice={channelChoiceAvailable}
           callbackEnabled={this.props.callbackEnabled}
           submitTicketAvailable={submitTicketAvailable}

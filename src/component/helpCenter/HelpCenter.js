@@ -9,7 +9,6 @@ import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
-import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors';
 import { handleArticleClick,
   performSearch,
   performImageSearch,
@@ -64,8 +63,7 @@ const mapStateToProps = (state) => {
     chatNotificationCount: getNotificationCount(state),
     isChatting: getIsChatting(state),
     maxWidgetHeight: getMaxWidgetHeight(state, 'webWidget'),
-    isOnInitialDesktopSearchScreen: getIsOnInitialDesktopSearchScreen(state),
-    localeFallbacks: getSettingsHelpCenterLocaleFallbacks(state)
+    isOnInitialDesktopSearchScreen: getIsOnInitialDesktopSearchScreen(state)
   };
 };
 

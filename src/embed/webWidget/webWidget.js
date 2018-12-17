@@ -31,7 +31,6 @@ import { setVisitorInfo,
   fetchConversationHistory,
   handleChatVendorLoaded,
   setChatHistoryHandler } from 'src/redux/modules/chat';
-import { getSettingsHelpCenterSuppress } from 'src/redux/modules/settings/settings-selectors';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
@@ -120,7 +119,7 @@ export default function WebWidgetFactory(name) {
     }
   };
 
-  function create(name, config = {}, reduxStore) {
+  function create(name, config = {}, reduxStore = {}) {
     let containerStyle;
     let frameBodyCss = '';
     const popout = isPopout(),
@@ -134,9 +133,7 @@ export default function WebWidgetFactory(name) {
     const talkConfig = config.talk;
     const talkAvailable = !!talkConfig && !settings.get('talk.suppress') &&
       !!_.trim(settings.get('talk.nickname') || talkConfig.nickname);
-    const state = reduxStore.getState();
-
-    const helpCenterAvailable = !!config.helpCenterForm && !getSettingsHelpCenterSuppress(state);
+    const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
     const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
     const chatConfig = config.zopimChat;
     const chatAvailable = !!chatConfig;
@@ -222,6 +219,7 @@ export default function WebWidgetFactory(name) {
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
             isOnHelpCenterPage={isOnHelpCenterPage()}
             imagesSender={helpCenterSettings.imagesSenderFn}
+            localeFallbacks={settings.get('helpCenter.localeFallbacks')}
             onSubmitted={submitTicketSettings.onSubmitted}
             originalArticleButton={settings.get('helpCenter.originalArticleButton')}
             position={globalConfig.position}

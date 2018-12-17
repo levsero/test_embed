@@ -46,8 +46,7 @@ describe('selectors', () => {
     settingsColorLauncherText,
     mockIsPopout,
     launcherChatLabel,
-    launcherLabel,
-    settingsHelpCenterSuppress;
+    launcherLabel;
 
   activeEmbedValue = '';
   offlineFormEnabledValue = false;
@@ -89,7 +88,6 @@ describe('selectors', () => {
   mockIsPopout = false;
   launcherChatLabel = '';
   launcherLabel = '';
-  settingsHelpCenterSuppress = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -140,7 +138,6 @@ describe('selectors', () => {
         getSettingsColorLauncherText: () => settingsColorLauncherText,
         getSettingsLauncherChatLabel: () => launcherChatLabel,
         getSettingsLauncherLabel: () => launcherLabel,
-        getSettingsHelpCenterSuppress: () => settingsHelpCenterSuppress
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
@@ -1336,38 +1333,42 @@ describe('selectors', () => {
         helpCenterEmbedValue = true;
       });
 
-      describe('when the application is authenticated', () => {
+      describe('when helpCenter is suppressed', () => {
         beforeAll(() => {
-          hasPassedAuth = true;
+          mockSettingsGetFn = () => true;
         });
 
-        describe('when helpCenter is not suppressed', () => {
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('when helpCemter is not suppressed', () => {
+        beforeAll(() => {
+          mockSettingsGetFn = () => false;
+        });
+
+        describe('when the application is authenticated', () => {
+          beforeAll(() => {
+            hasPassedAuth = true;
+          });
+
           it('returns true', () => {
             expect(result)
               .toEqual(true);
           });
         });
 
-        describe('when helpCenter is suppressed', () => {
+        describe('when the application is not authenticated', () => {
           beforeAll(() => {
-            settingsHelpCenterSuppress = true;
+            hasPassedAuth = false;
           });
 
-          it('returns true', () => {
+          it('returns false', () => {
             expect(result)
               .toEqual(false);
           });
-        });
-      });
-
-      describe('when the application is not authenticated', () => {
-        beforeAll(() => {
-          hasPassedAuth = false;
-        });
-
-        it('returns false', () => {
-          expect(result)
-            .toEqual(false);
         });
       });
     });
@@ -1741,7 +1742,7 @@ describe('selectors', () => {
 
     describe('when channelChoice is enabled', () => {
       beforeAll(() => {
-      // ChannelChoice enabled
+        // ChannelChoice enabled
         submitTicketEmbedValue = true;
         channelChoiceSettings = [{ enabled: true }, false];
 

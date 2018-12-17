@@ -18,8 +18,7 @@ import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
   getSettingsColorLauncher,
-  getSettingsColorLauncherText,
-  getSettingsHelpCenterSuppress
+  getSettingsColorLauncherText
 } from './settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -61,9 +60,11 @@ import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared
  * Enabled: When an embed is part of config, not suppressed but does not have all the conditions to be used
  */
 const getHelpCenterEnabled = createSelector(
-  [getHelpCenterEmbed, getSettingsHelpCenterSuppress],
-  (helpCenterEmbed, suppress) => {
-    return helpCenterEmbed && !suppress;
+  [getHelpCenterEmbed],
+  (helpCenterEmbed) => {
+    const notSuppressed = !settings.get('helpCenter.suppress');
+
+    return helpCenterEmbed && notSuppressed;
   }
 );
 
