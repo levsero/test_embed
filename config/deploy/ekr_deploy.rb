@@ -95,7 +95,7 @@ def release_to_ekr
     }
   }.to_json
 
-  sh %(curl -v -H "Content-Type: application/json" -H "#{ekr_jwt_header}" -X POST -d '#{params}' #{url})
+  sh %(curl -w '%{http_code}' -v -H "Content-Type: application/json" -H "#{ekr_jwt_header}" -X POST -d '#{params}' #{url} | tail -n1 | grep 200)
 end
 
 def ekr_jwt_header
