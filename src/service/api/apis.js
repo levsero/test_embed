@@ -134,7 +134,11 @@ export const popoutApi = (reduxStore) => {
   const reduxState = reduxStore.getState();
 
   if (getIsPopoutAvailable(reduxState)) {
-    createChatPopoutWindow(getSettingsChatPopout(reduxState), getZChatVendor(reduxState).getMachineId());
+    createChatPopoutWindow(
+      getSettingsChatPopout(reduxState),
+      getZChatVendor(reduxState).getMachineId(),
+      i18n.getLocale()
+    );
   }
 };
 

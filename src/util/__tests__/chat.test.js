@@ -210,9 +210,9 @@ describe('formatSchedule', () => {
 
 describe('createChatPopoutWindow', () => {
   it('creates the query string correctly', () => {
-    createChatPopoutWindow('settings', 'machineId');
+    createChatPopoutWindow('settings', 'machineId', 'defactoLanguage');
 
-    const url = 'https://static.zdassets.com/web_widget/latest/liveChat.html?key=a.zendesk.com&settings="settings"&mid=machineId';
+    const url = 'https://static.zdassets.com/web_widget/latest/liveChat.html?key=a.zendesk.com&settings="settings"&mid=machineId&locale=defactoLanguage';
 
     expect(globals.win.open)
       .toHaveBeenCalledWith(url, 'Web Widget LiveChat', 'height=600,width=400');

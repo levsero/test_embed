@@ -31,13 +31,19 @@
       return JSON.parse(window.atob(parameters.settings));
     }
 
+    var loadLocale = function(locale) {
+      if (locale) {
+        zE('webWidget', 'setLocale', locale);
+      }
+    };
+
     var loadSnippet = function (parameters) {
       window.zEPopout = true;
-
     }
 
     var queryParams = parseQueryParams(window.location.search);
     window.zESettings = parseSettings(queryParams);
+    loadLocale(queryParams.locale);
 
     loadSnippet(queryParams);
   </script>
