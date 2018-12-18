@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { pick } from 'lodash';
+import classnames from 'classnames';
 
 import { PanelCard as PurePanelCard } from 'component/shared/StructuredMessage/PanelCard';
 import { Button, ButtonSchemaPropType } from './Button';
 import { CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat';
+
+import { locals as styles } from './PanelCard.scss';
 
 const { LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE;
 
@@ -24,11 +27,13 @@ export class PanelCard extends Component {
   static propTypes = {
     ...PanelCard.schemaPropTypes,
     createAction: PropTypes.func.isRequired,
-    className: PropTypes.string
+    isMobile: PropTypes.bool.isRequired,
+    inCarousel: PropTypes.bool
   }
 
   static defaultProps = {
-    buttons: []
+    buttons: [],
+    inCarousel: false
   }
 
   static schemaPropTypes = {
@@ -49,8 +54,13 @@ export class PanelCard extends Component {
       onClick: (this.props.panel.action) ? createAction(this.props.panel.action) : null
     };
 
+    const cardClassName = classnames({
+      [styles.mobileInCarousel]: this.props.inCarousel && this.props.isMobile,
+      [styles.mobile]: (!this.props.inCarousel && this.props.isMobile)
+    });
+
     return (
-      <PurePanelCard panel={panelProp} className={this.props.className}>
+      <PurePanelCard panel={panelProp} className={cardClassName}>
         {buttons}
       </PurePanelCard>
     );

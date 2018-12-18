@@ -1,0 +1,9 @@
+@import '../../../../styles/_vars.scss';
+
+.mobile {
+  width: 90%;
+}
+
+.mobileInCarousel {
+  width: calc(100% - #{12/$font-size}rem);
+}
