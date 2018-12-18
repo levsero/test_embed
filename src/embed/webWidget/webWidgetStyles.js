@@ -11,7 +11,6 @@ import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoic
 import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.scss';
 import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoicePopupDesktop.scss';
 import AgentListStyles from 'component/chat/agents/AgentList.scss';
-import CarouselStyles from 'component/chat/chatting/Carousel.scss';
 import ChatBoxStyles from 'component/chat/chatting/ChatBox.scss';
 import ChatPopupStyles from 'component/chat/ChatPopup.scss';
 import ChatNotificationPopupStyles from 'component/chat/ChatNotificationPopup.scss';
@@ -75,7 +74,6 @@ export const webWidgetStyles = `
   ${ButtonIconStyles}
   ${ButtonGroupStyles}
   ${ButtonPillStyles}
-  ${CarouselStyles}
   ${ChannelChoiceMenuStyles}
   ${ChannelChoiceDesktopStyles}
   ${ChannelChoicePopupDesktopStyles}

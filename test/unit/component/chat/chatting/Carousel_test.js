@@ -11,13 +11,7 @@ describe('Carousel Component', () => {
 
     initMockRegistry({
       '../../shared/Carousel': PureCarousel,
-      './StructuredMessage': StructuredMessage,
-      './Carousel.scss': {
-        locals: {
-          panel: 'panel',
-          panelMobile: 'panelMobile'
-        }
-      }
+      './StructuredMessage': StructuredMessage
     });
 
     mockery.registerAllowable(carouselPath);
@@ -69,11 +63,13 @@ describe('Carousel Component', () => {
         const scenarios = [
           {
             schema: mockItem1,
-            className: 'panel'
+            isMobile: false,
+            inCarousel: true
           },
           {
             schema: mockItem2,
-            className: 'panel'
+            isMobile: false,
+            inCarousel: true
           }
         ];
 
@@ -84,26 +80,6 @@ describe('Carousel Component', () => {
             expect(child.props[key])
               .toEqual(scenario[key]);
           }
-        });
-      });
-    });
-
-    describe('Custom Props', () => {
-      describe('isMobile is true', () => {
-        it('should have mobile style for each children', () => {
-          const baseProps = {
-            ...mockProps,
-            isMobile: true
-          };
-
-          component = instanceRender(<Carousel {...baseProps}/>);
-
-          result = component.render();
-
-          result.props.children.forEach((child) => {
-            expect(child.props.className)
-              .toEqual('panel panelMobile');
-          });
         });
       });
     });
