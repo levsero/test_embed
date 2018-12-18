@@ -121,6 +121,6 @@ export const webWidgetStyles = `
   ${SubmitTicketFormStyles}
   ${TalkStyles}
   ${LoadingBarContentStyles}
-  ${SharedComponentStyles},
+  ${SharedComponentStyles}
   ${FrameStyles}
 `;
