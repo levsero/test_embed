@@ -22,7 +22,8 @@ describe('base reducer web widget visibility', () => {
     actionTypes.CANCEL_BUTTON_CLICKED,
     zopimActionTypes.ZOPIM_ON_CLOSE,
     chatActionTypes.PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-    actionTypes.CLOSE_RECEIVED
+    actionTypes.CLOSE_RECEIVED,
+    actionTypes.POPOUT_BUTTON_CLICKED
   ];
 
   const trueReturns = [

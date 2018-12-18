@@ -9,7 +9,8 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  WIDGET_INITIALISED } from '../base-action-types';
+  WIDGET_INITIALISED,
+  POPOUT_BUTTON_CLICKED } from '../base-action-types';
 import {
   ZOPIM_HIDE,
   ZOPIM_SHOW,
@@ -35,6 +36,7 @@ const launcherVisible = (state = initialState, action) => {
     case OPEN_RECEIVED:
       return false;
     case CLOSE_BUTTON_CLICKED:
+    case POPOUT_BUTTON_CLICKED:
     case ZOPIM_HIDE:
     case LEGACY_SHOW_RECEIVED:
     case CANCEL_BUTTON_CLICKED:

@@ -8,7 +8,8 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  WIDGET_INITIALISED } from '../base-action-types';
+  WIDGET_INITIALISED,
+  POPOUT_BUTTON_CLICKED } from '../base-action-types';
 import {
   ZOPIM_SHOW,
   ZOPIM_CHAT_GONE_OFFLINE } from '../../zopimChat/zopimChat-action-types';
@@ -33,6 +34,7 @@ const webWidgetVisible = (state = initialState, action) => {
     case ZOPIM_CHAT_GONE_OFFLINE:
       return true;
     case CLOSE_BUTTON_CLICKED:
+    case POPOUT_BUTTON_CLICKED:
     case ZOPIM_SHOW:
     case LEGACY_SHOW_RECEIVED:
     case CANCEL_BUTTON_CLICKED:
