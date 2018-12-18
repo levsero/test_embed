@@ -96,9 +96,6 @@ describe('embed.webWidget', () => {
       'service/beacon': {
         beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
       },
-      'src/redux/modules/settings/settings-selectors': {
-        getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue
-      },
       'service/i18n': {
         i18n: {
           getLocale: () => 'fr',
@@ -245,7 +242,7 @@ describe('embed.webWidget', () => {
     let faythe;
 
     it('should create the embed component', () => {
-      webWidget.create('', {}, mockStore);
+      webWidget.create();
 
       faythe = webWidget.get();
 
@@ -275,7 +272,7 @@ describe('embed.webWidget', () => {
       });
 
       it('applies webWidget.scss to the frame factory', () => {
-        webWidget.create('', {}, mockStore);
+        webWidget.create();
 
         expect(webWidget.get().component.props.children.props.css)
           .toContain('mockCss');
@@ -372,7 +369,7 @@ describe('embed.webWidget', () => {
             ticketSubmissionForm: { formTitleKey: 'foo' }
           };
 
-          webWidget.create('', config, mockStore);
+          webWidget.create('', config);
           webWidget.render();
 
           faythe = webWidget.get().instance.props.children;
@@ -391,7 +388,7 @@ describe('embed.webWidget', () => {
             ipmAllowed: true
           };
 
-          webWidget.create('', config, mockStore);
+          webWidget.create('', config);
           webWidget.render();
 
           faythe = webWidget.get().instance.props.children;
@@ -411,7 +408,7 @@ describe('embed.webWidget', () => {
             ipmAllowed: true
           };
 
-          webWidget.create('', config, mockStore);
+          webWidget.create('', config);
           webWidget.render();
 
           faythe = webWidget.get().instance.props.children;
@@ -431,7 +428,7 @@ describe('embed.webWidget', () => {
           helpCenterForm: { formTitleKey: 'bar' }
         };
 
-        webWidget.create('', config, mockStore);
+        webWidget.create('', config);
         webWidget.render();
 
         faythe = webWidget.get().instance.props.children;
@@ -453,7 +450,7 @@ describe('embed.webWidget', () => {
       describe('when on mobile', () => {
         beforeEach(() => {
           mockIsMobileBrowser = true;
-          webWidget.create('', {}, mockStore);
+          webWidget.create();
           webWidget.render();
 
           faythe = webWidget.get().instance.props.children;
@@ -477,7 +474,7 @@ describe('embed.webWidget', () => {
 
         beforeEach(() => {
           mockIsPopout = true;
-          webWidget.create('', {}, mockStore);
+          webWidget.create();
           webWidget.render();
 
           result = webWidget.get().instance.props.children;
@@ -569,7 +566,7 @@ describe('embed.webWidget', () => {
           }
         };
 
-        webWidget.create('', config, mockStore);
+        webWidget.create('', config);
 
         faythe = webWidget.get();
         globalConf = faythe.config.global;
@@ -628,14 +625,14 @@ describe('embed.webWidget', () => {
 
     describe('when talk is part of config', () => {
       beforeEach(() => {
-        webWidget.create('', { talk: {} }, mockStore);
+        webWidget.create('', { talk: {} }, { dispatch: () => {} });
       });
 
       describe('when talk is suppressed', () => {
         beforeEach(() => {
           mockTalkSuppressedValue = true;
 
-          webWidget.create('', { talk: {} }, mockStore);
+          webWidget.create('', { talk: {} });
           webWidget.render();
 
           faythe = webWidget.get().instance.getRootComponent();
@@ -778,7 +775,7 @@ describe('embed.webWidget', () => {
       /* eslint-disable camelcase */
       beforeEach(() => {
         chatConfig = { zopimId: '123abc' };
-        mockReduxStore = { dispatch: jasmine.createSpy('dispatch'), getState: mockStore.getState };
+        mockReduxStore = { dispatch: jasmine.createSpy('dispatch') };
         handleChatVendorLoadedSpy = jasmine
           .createSpy('handleChatVendorLoaded')
           .and.returnValue({ type: 'handleChatVendorLoaded' });
@@ -904,7 +901,7 @@ describe('embed.webWidget', () => {
 
       describe('when brand does exist in config', () => {
         beforeEach(() => {
-          webWidget.create('', { zopimChat: chatConfig, brand: 'z3n' }, mockStore);
+          webWidget.create('', { zopimChat: chatConfig, brand: 'z3n' });
         });
 
         it('calls zChat.addTag with the brand', () => {
@@ -917,7 +914,7 @@ describe('embed.webWidget', () => {
 
       describe('when brand exists, and brandCount is > 1', () => {
         beforeEach(() => {
-          webWidget.create('', { zopimChat: chatConfig, brand: 'z3n', brandCount: 2 }, mockStore);
+          webWidget.create('', { zopimChat: chatConfig, brand: 'z3n', brandCount: 2 });
         });
 
         it('calls zChat.addTag with the brand', () => {
@@ -930,7 +927,7 @@ describe('embed.webWidget', () => {
 
       describe('when brand exists, and brandCount is 1', () => {
         beforeEach(() => {
-          webWidget.create('', { zopimChat: chatConfig, brand: 'z3n', brandCount: 1 }, mockStore);
+          webWidget.create('', { zopimChat: chatConfig, brand: 'z3n', brandCount: 1 });
         });
 
         it('does not call zChat.addTag', () => {
@@ -945,7 +942,7 @@ describe('embed.webWidget', () => {
         beforeEach(() => {
           const chatConfig = { zopimId: '123abc', overrideProxy: 'hades.zopim.org' };
 
-          webWidget.create('', { zopimChat: chatConfig }, mockStore);
+          webWidget.create('', { zopimChat: chatConfig });
 
           faythe = webWidget.get();
         });
@@ -967,7 +964,7 @@ describe('embed.webWidget', () => {
 
           const chatConfig = { zopimId: '123abc', overrideProxy: 'hades.zopim.org' };
 
-          webWidget.create('', { zopimChat: chatConfig }, mockStore);
+          webWidget.create('', { zopimChat: chatConfig });
 
           faythe = webWidget.get();
         });
@@ -989,7 +986,7 @@ describe('embed.webWidget', () => {
 
       beforeEach(() => {
         mockTalkConfig = { serviceUrl: 'https://customer.zendesk.com', nickname: 'Support' };
-        mockReduxStore = { getState: mockStore.getState, dispatch: jasmine.createSpy('dispatch') };
+        mockReduxStore = { dispatch: jasmine.createSpy('dispatch') };
         loadTalkVendorsSpy = jasmine.createSpy('loadTalkVendors').and.returnValue({ type: 'loadTalkVendors' });
 
         mockRegistry['src/redux/modules/talk'].loadTalkVendors = loadTalkVendorsSpy;
@@ -1034,7 +1031,7 @@ describe('embed.webWidget', () => {
             formTitleKey: 'test_title'
           };
 
-          webWidget.create('', { helpCenterForm: helpCenterConfig }, mockStore);
+          webWidget.create('', { helpCenterForm: helpCenterConfig });
 
           faythe = webWidget.get();
         });
@@ -1065,7 +1062,7 @@ describe('embed.webWidget', () => {
     });
 
     it('should only be allowed to render an webWidget form once', () => {
-      webWidget.create('', {}, mockStore);
+      webWidget.create();
 
       expect(() => webWidget.render())
         .not.toThrow();
@@ -1321,7 +1318,7 @@ describe('embed.webWidget', () => {
     describe('authentication', () => {
       describe('when there are valid support auth settings', () => {
         beforeEach(() => {
-          webWidget.create('', { helpCenterForm: {} }, mockStore);
+          webWidget.create('', { helpCenterForm: {} }, { dispatch: () => {} });
           mockSupportAuthValue = { jwt: 'token' };
           webWidget.postRender();
         });
@@ -1334,7 +1331,7 @@ describe('embed.webWidget', () => {
 
       describe('when there are not valid support auth settings', () => {
         beforeEach(() => {
-          webWidget.create('', { helpCenterForm: {} }, mockStore);
+          webWidget.create('', { helpCenterForm: {} });
           webWidget.postRender();
         });
 
@@ -1351,7 +1348,9 @@ describe('embed.webWidget', () => {
               tokensRevokedAt: Math.floor(Date.now() / 1000)
             }
           },
-          mockStore);
+          {
+            dispatch: () => {}
+          });
           webWidget.postRender();
         });
 
