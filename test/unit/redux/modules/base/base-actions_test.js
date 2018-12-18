@@ -993,6 +993,20 @@ describe('base redux actions', () => {
     });
   });
 
+  describe('handlePopoutButtonClicked', () => {
+    let dispatchedActions;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handlePopoutButtonClicked());
+      dispatchedActions = mockStore.getActions();
+    });
+
+    it('dispatches a POPOUT_BUTTON_CLICKED event', () => {
+      expect(dispatchedActions[0].type)
+        .toEqual(actionTypes.POPOUT_BUTTON_CLICKED);
+    });
+  });
+
   describe('addToAfterShowAnimationQueue', () => {
     let dispatchedActions, callback;
 

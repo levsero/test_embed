@@ -269,6 +269,12 @@ export const handleCloseButtonClicked = () => {
   };
 };
 
+export const handlePopoutButtonClicked = () => {
+  return {
+    type: actions.POPOUT_BUTTON_CLICKED
+  };
+};
+
 export const handleOnApiCalled = (actionType, selectors = [], callback, payloadTransformer) => {
   return {
     type: actions.API_ON_RECEIVED,

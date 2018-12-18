@@ -18,7 +18,7 @@ import {
   getStandaloneMobileNotificationVisible
 } from 'src/redux/modules/chat/chat-selectors';
 import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
-import { handleCloseButtonClicked } from 'src/redux/modules/base/base-actions';
+import { handleCloseButtonClicked, handlePopoutButtonClicked } from 'src/redux/modules/base/base-actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -36,8 +36,8 @@ class Navigation extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
-    handleCloseClick: PropTypes.func,
-    handleCloseButtonClicked: PropTypes.func,
+    handleCloseButtonClicked: PropTypes.func.isRequired,
+    handlePopoutButtonClicked: PropTypes.func.isRequired,
     hideNavigationButtons: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
     popoutButtonVisible: PropTypes.bool,
@@ -55,8 +55,6 @@ class Navigation extends Component {
   static defaultProps = {
     fullscreen: false,
     handleBackClick: () => {},
-    handleCloseClick: () => {},
-    handleCloseButtonClicked: () => {},
     hideNavigationButtons: false,
     backButtonVisible: false,
     popoutButtonVisible: false,
@@ -87,6 +85,14 @@ class Navigation extends Component {
         fullscreen={this.props.fullscreen}
         isMobile={this.props.isMobile} />
     );
+  }
+
+  handlePopoutClick = () => {
+    const { chatPopoutSettings, zChat } = this.props;
+
+    this.props.handlePopoutButtonClicked();
+
+    createChatPopoutWindow(chatPopoutSettings, zChat.getMachineId());
   }
 
   handleMenuClick = () => {
@@ -143,15 +149,13 @@ class Navigation extends Component {
     const { fullscreen,
       isMobile,
       popoutButtonVisible,
-      hideNavigationButtons,
-      chatPopoutSettings,
-      zChat } = this.props;
+      hideNavigationButtons } = this.props;
 
     return (!this.props.standaloneMobileNotificationVisible)
       ? <div>
         {this.renderLeftNavButton()}
         {this.renderNavButton({
-          onClick: () => createChatPopoutWindow(chatPopoutSettings, zChat.getMachineId()),
+          onClick: this.handlePopoutClick,
           'aria-label': 'Popout',
           icon: ICONS.POPOUT,
           className: styles.popout,
@@ -171,7 +175,8 @@ class Navigation extends Component {
 
 const actionCreators = {
   updateMenuVisibility: updateChatMenuVisibility,
-  handleCloseButtonClicked: handleCloseButtonClicked
+  handleCloseButtonClicked: handleCloseButtonClicked,
+  handlePopoutButtonClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Navigation);
