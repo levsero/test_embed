@@ -314,4 +314,23 @@ describe('getSettingsChatDepartmentsEmpty', () => {
     expect(result)
       .toEqual(false);
   });
+
+  test('getSettingsHelpCenterFilter', () => {
+    const result = selectors.getSettingsHelpCenterFilter(
+      settings({
+        helpCenter: {
+          sectionFilter: 'section',
+          categoryFilter: 'category',
+          labelFilter: 'label'
+        }
+      })
+    );
+
+    expect(result)
+      .toEqual({
+        'category': 'category',
+        'label': 'label',
+        'section': 'section',
+      });
+  });
 });

@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { http } from 'service/transport';
-import { settings } from 'service/settings';
 import { location } from 'utility/globals';
 import { getAuthToken,
   getHasWidgetShown,
@@ -31,11 +30,12 @@ import { SEARCH_REQUEST_SENT,
   CONTEXTUAL_SUGGESTIONS_MANUALLY_SET } from './helpCenter-action-types';
 import { updateQueue } from 'src/redux/modules/base';
 import { isOnHostMappedDomain } from 'utility/pages';
+import { getSettingsHelpCenterFilter } from 'src/redux/modules/settings/settings-selectors';
 
-const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
+const constructHelpCenterPayload = (path, query, doneFn, failFn, filter) => {
   const token = getAuthToken();
   const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:';
-  const queryParams = _.extend(query, settings.get('helpCenter.filter'));
+  const queryParams = _.extend(query, filter);
 
   return {
     method: 'get',
@@ -104,7 +104,9 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
       payload: { searchTerm: query.query, timestamp }
     });
 
-    http.send(constructHelpCenterPayload(path, query, doneFn, failFn));
+    const filter = getSettingsHelpCenterFilter(getState());
+
+    http.send(constructHelpCenterPayload(path, query, doneFn, failFn, filter));
   };
 }
 
@@ -160,7 +162,10 @@ export function performContextualSearch(done = () => {}, fail = () => {}) {
         timestamp
       }
     });
-    http.send(constructHelpCenterPayload(path, query, doneFn, failFn));
+
+    const filter = getSettingsHelpCenterFilter(getState());
+
+    http.send(constructHelpCenterPayload(path, query, doneFn, failFn, filter));
   };
 }
 
