@@ -329,7 +329,7 @@ describe('getSettingsChatDepartmentsEmpty', () => {
     expect(result)
       .toEqual({
         'category': 'category',
-        'label': 'label',
+        'label_names': 'label',
         'section': 'section',
       });
   });

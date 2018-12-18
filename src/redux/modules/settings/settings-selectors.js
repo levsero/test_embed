@@ -39,7 +39,7 @@ export const getSettingsHelpCenterFilter = createSelector(
   [getLabelFilter, getCategoryFilter, getSectionFilter],
   (label, category, section) =>(
     {
-      label,
+      label_names: label, // eslint-disable-line camelcase
       section,
       category
     })
