@@ -136,6 +136,7 @@ class Frame extends Component {
 
     this.child = null;
     this.iframe = null;
+    this.renderQueued = false;
   }
 
   componentDidMount = () => {
@@ -459,13 +460,17 @@ class Frame extends Component {
     // In order for iframe to correctly render in some browsers
     // we need to wait for readyState to be complete
     if (doc.readyState === 'complete') {
+      this.renderQueued = false;
       this.updateFrameLocale();
       this.constructEmbed(html, doc);
       if (this.props.title) {
         this.updateFrameTitle(this.props.title);
       }
     } else {
-      setTimeout(this.renderFrameContent, 0);
+      if (!this.renderQueued) {
+        setTimeout(this.renderFrameContent, 0);
+      }
+      this.renderQueued = true;
     }
   }
 

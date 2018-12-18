@@ -1084,14 +1084,21 @@ describe('Frame', () => {
         doc = frame.getContentWindow().document;
 
         spyOn(frame, 'updateFrameLocale');
+        spyOn(frame, 'renderFrameContent');
         spyOnProperty(doc, 'readyState').and.returnValue('loading');
         jasmine.clock().tick(0);
         frame.setState({ childRendered: false });
       });
 
-      it('should not call updateFrameLocale ', () => {
+      it('does not call updateFrameLocale ', () => {
         expect(frame.updateFrameLocale)
           .not.toHaveBeenCalled();
+      });
+
+      it('queues renderFrameContent at most once', () => {
+        jasmine.clock().tick(0);
+        expect(frame.renderFrameContent)
+          .toHaveBeenCalledTimes(1);
       });
     });
 
