@@ -120,6 +120,7 @@ export const getDepartmentsList = (state) => _.values(getDepartments(state));
 export const getAccountSettingsLauncherBadge = (state) => state.chat.accountSettings.banner;
 export const getChatBadgeEnabled = (state) => getAccountSettingsLauncherBadge(state).enabled;
 export const getHideBranding = (state) => state.chat.accountSettings.branding.hide_branding;
+export const getAccountDefaultDepartmentId = (state) => state.chat.defaultDepartment.id;
 
 export const getPrechatFormRequired = createSelector(
   [getChatAccountSettingsPrechatForm],
@@ -385,12 +386,14 @@ export const getEnabledDepartments = createSelector(
 );
 
 export const getDefaultSelectedDepartment = createSelector(
-  [getSettingsChatDepartment, getEnabledDepartments],
-  (selectedDepartment, departments) => (
-    _.find(departments, (dept) => (
-      dept.name.toLowerCase() === selectedDepartment || dept.id === selectedDepartment
-    ))
-  )
+  [getSettingsChatDepartment, getAccountDefaultDepartmentId, getEnabledDepartments],
+  (settingsDefault, accountDefault, departments) => {
+    const selector = settingsDefault || accountDefault;
+
+    return _.find(departments, (dept) => (
+      dept.name.toLowerCase() === selector || dept.id === selector
+    ));
+  }
 );
 
 export const getPrechatFormFields = createSelector(
@@ -414,10 +417,6 @@ export const getPrechatFormFields = createSelector(
         ...department,
         value: department.id
       };
-
-      if (selectedDepartment && department.name === selectedDepartment.name) {
-        departmentOption.default = true;
-      }
 
       if (department.status === DEPARTMENT_STATUSES.OFFLINE) {
         if (!offlineFormSettings.enabled) {

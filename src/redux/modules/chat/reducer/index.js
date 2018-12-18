@@ -32,6 +32,7 @@ import isAuthenticated from './chat-is-authenticated';
 import vendor from './chat-vendor';
 import isLoggingOut from './chat-is-logging-out';
 import forcedStatus from './chat-forced-status';
+import defaultDepartment from './chat-default-department';
 
 const combinedReducers = combineReducers({
   accountSettings,
@@ -42,6 +43,7 @@ const combinedReducers = combineReducers({
   connection,
   currentMessage,
   departments,
+  defaultDepartment,
   is_chatting: isChatting,
   visitor,
   rating,

@@ -119,5 +119,20 @@ describe('chat reducer formState preChatForm', () => {
         expect(state).toEqual(initialState);
       });
     });
+
+    describe('when an action of type SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE is received', () => {
+      beforeEach(() => {
+        state = reducer(mockFormState, {
+          type: chatActionTypes.SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE,
+          payload: {
+            detail: { id: 123 }
+          }
+        });
+      });
+
+      it('returns a new state with the updated department', () => {
+        expect(state.department).toEqual(123);
+      });
+    });
   });
 });

@@ -109,17 +109,6 @@ describe('settings redux actions', () => {
         });
       });
 
-      describe('when given no department', () => {
-        beforeAll(() => {
-          mockDepartment = {};
-        });
-
-        it('calls clearDepartment', () => {
-          expect(clearDepartmentSpy)
-            .toHaveBeenCalled();
-        });
-      });
-
       describe('when new tags are present', () => {
         beforeAll(() => {
           mockGetSettingsChatTags = ['firstTagYolo', 'secondTagYolo'];

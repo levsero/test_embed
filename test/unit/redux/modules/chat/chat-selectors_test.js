@@ -491,7 +491,8 @@ describe('chat selectors', () => {
       state = {
         chat: {
           accountSettings: mockAccountSettings,
-          departments: mockDepartments
+          departments: mockDepartments,
+          defaultDepartment: 12345
         },
         settings: {
           chat: {
@@ -529,7 +530,8 @@ describe('chat selectors', () => {
         state = {
           chat: {
             accountSettings: mockAccountSettings,
-            departments: mockDepartments
+            departments: mockDepartments,
+            defaultDepartment: { id: null }
           },
           settings: {
             chat: {
@@ -594,88 +596,6 @@ describe('chat selectors', () => {
             for (let i = 0; i < mockDepartments.length; i++) {
               expect(result.departments[i].default)
                 .toBeUndefined();
-            }
-          });
-        });
-
-        describe('when a department is selected in settings', () => {
-          beforeAll(() => {
-            state = {
-              chat: {
-                accountSettings: mockAccountSettings,
-                departments: mockDepartments
-              },
-              settings: {
-                chat: {
-                  department: 'medicine',
-                  departments: {
-                    enabled: null
-                  }
-                }
-              }
-            };
-          });
-
-          it('sets that department instead of the first one to enabled', () => {
-            expect(result.departments[0].default)
-              .toBeFalsy();
-
-            expect(result.departments[2].default)
-              .toBeTruthy();
-          });
-        });
-      });
-    });
-
-    describe('selected department setting', () => {
-      describe('is an empty string', () => {
-        beforeAll(() => {
-          mockAccountSettings.prechatForm.form[3].required = false;
-          state = {
-            chat: {
-              accountSettings: mockAccountSettings,
-              departments: mockDepartments
-            },
-            settings: {
-              chat: {
-                department: ''
-              }
-            }
-          };
-        });
-
-        it('does not set a selected department', () => {
-          result.departments.forEach((department) => {
-            expect(department.default)
-              .toBeFalsy();
-          });
-        });
-      });
-
-      describe('is set to a department', () => {
-        beforeAll(() => {
-          mockAccountSettings.prechatForm.form[3].required = false;
-          state = {
-            chat: {
-              accountSettings: mockAccountSettings,
-              departments: mockDepartments
-            },
-            settings: {
-              chat: {
-                department: 'Design'
-              }
-            }
-          };
-        });
-
-        it('sets the expected department to enabled', () => {
-          result.departments.forEach((department) => {
-            if (department.name === 'Design') {
-              expect(department.default)
-                .toEqual(true);
-            } else {
-              expect(department.default)
-                .toBeFalsy();
             }
           });
         });

@@ -1,23 +1,27 @@
 import _ from 'lodash';
 
-import { getAccountSettings,
+import {
+  getAccountSettings,
   newAgentMessageReceived,
   chatNotificationReset,
   getOperatingHours,
   getIsChatting,
   chatWindowOpenOnNavigate,
-  chatConnected } from 'src/redux/modules/chat';
+  chatConnected
+} from 'src/redux/modules/chat';
 import {
   updateActiveEmbed,
   updateBackButtonVisibility,
   activateRecieved } from 'src/redux/modules/base';
-import { IS_CHATTING,
+import {
+  IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
   SDK_CHAT_MEMBER_LEAVE,
   CHAT_AGENT_INACTIVE,
   SDK_VISITOR_UPDATE,
   CHAT_SOCIAL_LOGIN_SUCCESS,
-  CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types';
+  CHAT_STARTED
+} from 'src/redux/modules/chat/chat-action-types';
 import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types';
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
