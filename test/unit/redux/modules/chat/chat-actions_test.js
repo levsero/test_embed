@@ -1560,7 +1560,8 @@ describe('chat redux actions', () => {
     const mockFormState = {
       name: 'Boromir',
       email: 'boromir@gondor.nw',
-      message: 'One does not simply walk into Mordor'
+      message: 'One does not simply walk into Mordor',
+      phone: '555-555-5555'
     };
 
     beforeEach(() => {
@@ -1600,6 +1601,26 @@ describe('chat redux actions', () => {
         const sendOfflineMsgCalls = mockSendOfflineMsg.calls.mostRecent().args;
 
         callbackFn = sendOfflineMsgCalls[1];
+      });
+
+      describe('when the phone field is blank', () => {
+        beforeAll(() => {
+          mockFormState.phone = '';
+        });
+
+        afterAll(() => {
+          mockFormState.phone = '555-555-5555';
+        });
+
+        beforeEach(() => {
+          callbackFn();
+          action = mockStore.getActions()[1];
+        });
+
+        it('does not include phone field', () => {
+          expect(action.payload.phone)
+            .toBeUndefined();
+        });
       });
 
       describe('when there are no errors', () => {

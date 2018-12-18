@@ -512,11 +512,17 @@ export function sendOfflineMessage(
 
     dispatch({ type: actions.OFFLINE_FORM_REQUEST_SENT });
 
-    zChat.sendOfflineMsg(formState, (err) => {
+    const offlineFormState = { ...formState };
+
+    if (!offlineFormState.phone) {
+      delete offlineFormState.phone;
+    }
+
+    zChat.sendOfflineMsg(offlineFormState, (err) => {
       if (!err) {
         dispatch({
           type: actions.OFFLINE_FORM_REQUEST_SUCCESS,
-          payload: formState
+          payload: offlineFormState
         });
         successCallback();
       } else {
