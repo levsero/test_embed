@@ -186,6 +186,10 @@ $card-margin: 12;
   width: calc(#{($card-width + $card-margin)/$font-size}rem);
 }
 
+.carouselMobileContainer {
+  width: calc(90% + #{$card-margin/$font-size}rem);
+}
+
 .defaultMessageContainer {
   position: relative;
 

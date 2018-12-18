@@ -31,7 +31,8 @@ export class ChatGroup extends Component {
     onImageLoad: PropTypes.func,
     chatLogCreatedAt: PropTypes.number,
     children: PropTypes.object,
-    socialLogin: PropTypes.object
+    socialLogin: PropTypes.object,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -90,7 +91,10 @@ export class ChatGroup extends Component {
         } else if (chat.structured_msg && _.includes(CHAT_STRUCTURED_CONTENT_TYPE.CAROUSEL, chat.structured_msg.type)) {
           messageClasses = classNames(
             messageClasses,
-            styles.carouselContainer
+            {
+              [styles.carouselContainer]: !this.props.isMobile,
+              [styles.carouselMobileContainer]: this.props.isMobile
+            }
           );
 
           message = this.renderCarousel(chat.structured_msg.items);
@@ -254,11 +258,11 @@ export class ChatGroup extends Component {
   }
 
   renderStructuredMessage = (schema) => {
-    return (<StructuredMessage schema={schema} />);
+    return (<StructuredMessage schema={schema} isMobile={this.props.isMobile}/>);
   }
 
   renderCarousel = (items) => {
-    return (<Carousel items={items}/>);
+    return (<Carousel items={items} isMobile={this.props.isMobile}/>);
   }
 
   render() {
