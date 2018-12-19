@@ -50,6 +50,11 @@
         }
         // Insert other required parameters below
         head.appendChild(scriptElement);
+        if (parameters.locale) {
+          scriptElement.onload = function() {
+            loadLocale(queryParams.locale);
+          }
+        }
       }
     };
 
@@ -63,7 +68,6 @@
     window.zESettings = parseSettings(queryParams);
 
     loadSnippet(queryParams);
-    loadLocale(queryParams.locale);
   </script>
 </body>
 </html>
