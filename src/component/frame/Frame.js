@@ -238,6 +238,8 @@ class Frame extends Component {
       fullscreenable,
       fullscreen,
       isMobile } = this.props;
+    const position = settings.get('position.horizontal') || this.props.position;
+    const isLeft = position === 'left';
 
     let fullscreenStyle = {
       width: '100%',
@@ -245,14 +247,13 @@ class Frame extends Component {
       height: '100%'
     };
 
-    if (fullscreen && !isMobile)
+    if (fullscreen && !isMobile) {
       fullscreenStyle = {
         ...fullscreenStyle,
-        left: '50%',
-        transform: 'translate(-50%)',
+        [this.props.position]: isLeft ? fullscreenStyle.position : '50%',
         background: '#EEE'
       };
-
+    }
     const popoverStyle = {
       width: `${WIDGET_WIDTH + frameOffsetWidth}px`,
       height: '100%',
