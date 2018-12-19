@@ -37,6 +37,7 @@ const getNotification = (state) => state.chat.notification;
 const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_type;
 const getOrderedAgents = (state) => state.chat.agents;
 const getInactiveAgents = (state) => state.chat.inactiveAgents;
+const getShowOperatingHours = (state) => state.chat.accountSettings.operatingHours.display_notice;
 
 export const getAgentsTyping = (state) => {
   return _.filter(getActiveAgents(state), (agent, key) => agent.typing && key !== AGENT_BOT);
@@ -441,8 +442,12 @@ export const getPrechatFormFields = createSelector(
 );
 
 export const getGroupedOperatingHours = createSelector(
-  [getOperatingHours, getDepartmentsList],
-  (operatingHours, departments) => {
+  [getOperatingHours, getDepartmentsList, getShowOperatingHours],
+  (operatingHours, departments, showOperatingHours) => {
+    if (!showOperatingHours) {
+      return { enabled: false };
+    }
+
     if (operatingHours.department_schedule) {
       return {
         ...operatingHours,

@@ -2237,41 +2237,74 @@ describe('chat selectors', () => {
   });
 
   describe('getGroupedOperatingHours', () => {
-    let result;
-    const operatingHoursPayload = {
-      department_schedule: {
-        123: [[456]]
-      }
-    };
-    const mockState = {
-      chat: {
-        operatingHours: operatingHoursPayload,
-        departments: [
-          {
-            name: 'Design',
-            id: 123
+    describe('when operating hours are enabled in account settings', () => {
+      let result;
+      const operatingHoursPayload = {
+        department_schedule: {
+          123: [[456]]
+        }
+      };
+      const mockState = {
+        chat: {
+          operatingHours: operatingHoursPayload,
+          departments: [
+            {
+              name: 'Design',
+              id: 123
+            }
+          ],
+          accountSettings: {
+            operatingHours: {
+              display_notice: true
+            }
           }
-        ]
-      }
-    };
-
-    beforeEach(() => {
-      result = selectors.getGroupedOperatingHours(mockState);
-    });
-
-    it('returns the current state of operatingHours', () => {
-      const expected = {
-        department_schedule: [
-          {
-            name: 'Design',
-            id: 123,
-            schedule: [[456]]
-          }
-        ]
+        }
       };
 
-      expect(result)
-        .toEqual(expected);
+      beforeEach(() => {
+        result = selectors.getGroupedOperatingHours(mockState);
+      });
+
+      it('returns the current state of operatingHours', () => {
+        const expected = {
+          department_schedule: [
+            {
+              name: 'Design',
+              id: 123,
+              schedule: [[456]]
+            }
+          ]
+        };
+
+        expect(result)
+          .toEqual(expected);
+      });
+    });
+    describe('when operating hours are not enabled in account settings', () => {
+      let result;
+      const mockState = {
+        chat: {
+          operatingHours: [],
+          accountSettings: {
+            operatingHours: {
+              display_notice: false
+            }
+          }
+        }
+      };
+
+      beforeEach(() => {
+        result = selectors.getGroupedOperatingHours(mockState);
+      });
+
+      it('returns an object with enabled: false', () => {
+        const expected = {
+          enabled: false
+        };
+
+        expect(result)
+          .toEqual(expected);
+      });
     });
   });
 
