@@ -11,6 +11,7 @@ import login from './login';
 import chatWindow from './chat-window';
 import banner from './banner';
 import branding from './branding';
+import operatingHours from './operating-hours';
 
 export default combineReducers({
   attachments,
@@ -23,6 +24,6 @@ export default combineReducers({
   login,
   chatWindow,
   banner,
-  branding
+  branding,
+  operatingHours
 });
-
