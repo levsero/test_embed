@@ -123,8 +123,8 @@ export const webWidgetStyles = `
   ${SubmitTicketFormStyles}
   ${TalkStyles}
   ${LoadingBarContentStyles}
-  ${SharedComponentStyles},
-  ${FrameStyles},
+  ${SharedComponentStyles}
+  ${FrameStyles}
   ${PanelCardStyles}
   ${ButtonCardStyles}
 `;
