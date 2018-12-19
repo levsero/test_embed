@@ -12,7 +12,7 @@
       inputString = inputString.substring(inputString.indexOf('?') + 1);
       queries = inputString.split('&');
 
-      queries.forEach(element => {
+      queries.forEach(function(element) {
         var splitElement = element.split('=');
 
         if (splitElement.length > 1) {
