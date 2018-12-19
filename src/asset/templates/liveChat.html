@@ -29,6 +29,12 @@
       return JSON.parse(window.atob(parameters.settings));
     }
 
+    var loadLocale = function(locale) {
+      if (locale) {
+        zE('webWidget', 'setLocale', locale);
+      }
+    };
+
     var loadSnippet = function(parameters) {
       var head = document.head;
       var scriptElement = document.createElement('script');
@@ -45,7 +51,8 @@
         // Insert other required parameters below
         head.appendChild(scriptElement);
       }
-    }
+    };
+
     var queryParams = parseQueryParams(window.location.search);
 
     if (queryParams.mid) {
@@ -54,6 +61,7 @@
     }
 
     window.zESettings = parseSettings(queryParams);
+    loadLocale(queryParams.locale);
 
     loadSnippet(queryParams);
   </script>

@@ -88,11 +88,17 @@ class Navigation extends Component {
   }
 
   handlePopoutClick = () => {
-    const { chatPopoutSettings, zChat } = this.props;
+    const {
+      chatPopoutSettings,
+      zChat } = this.props;
 
     this.props.handlePopoutButtonClicked();
 
-    createChatPopoutWindow(chatPopoutSettings, zChat.getMachineId());
+    createChatPopoutWindow(
+      chatPopoutSettings,
+      zChat.getMachineId(),
+      i18n.getLocale()
+    );
   }
 
   handleMenuClick = () => {
