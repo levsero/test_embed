@@ -43,9 +43,9 @@
 
     var queryParams = parseQueryParams(window.location.search);
     window.zESettings = parseSettings(queryParams);
-    loadLocale(queryParams.locale);
 
     loadSnippet(queryParams);
+    loadLocale(queryParams.locale);
   </script>
 </body>
 </html>
