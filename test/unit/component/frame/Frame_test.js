@@ -1164,8 +1164,12 @@ describe('Frame', () => {
     };
     const expectedDesktopPopoutDimensions = {
       ...expectedMobileDimensions,
-      left: '50%',
-      transform: 'translate(-50%)',
+      right: '50%',
+      background: '#EEE'
+    };
+    const expectedDesktopPopoutLeftDimensions = {
+      ...expectedMobileDimensions,
+      right: undefined,
       background: '#EEE'
     };
 
@@ -1222,6 +1226,17 @@ describe('Frame', () => {
         it('returns the expected popout dimensions', () => {
           expect(frame.getDefaultDimensions())
             .toEqual(expectedDesktopPopoutDimensions);
+        });
+
+        describe('when position left is true', () => {
+          beforeEach(() => {
+            mockSettingsValue = { position: { horizontal: 'left' } };
+          });
+
+          it('returns the expected popout dimensions', () => {
+            expect(frame.getDefaultDimensions())
+              .toEqual(expectedDesktopPopoutLeftDimensions);
+          });
         });
       });
     });
