@@ -18,17 +18,20 @@ import {
   zopimClose } from 'src/redux/modules/zopimChat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { closeApi, openApi } from 'src/service/api/apis';
+import {
+  getStylingOffsetVertical,
+  getStylingOffsetHorizontal,
+  getStylingPositionVertical
+} from 'src/redux/modules/settings/settings-selectors';
+import { getHorizontalPosition } from 'src/redux/modules/selectors';
 
 let chats = {};
 const styleTag = document.createElement('style');
 
 function create(name, config, store) {
   const configDefaults = {
-    position: 'right',
     color: '#78A300',
     standalone: false,
-    offsetVertical: parseInt(settings.get('offset').vertical), // Zopim api can accept numbers, this trims off the 'px' value
-    offsetHorizontal: parseInt(settings.get('offset').horizontal) + settings.get('margin'),
     size: 'large',
     endpoint: 'v2.zopim.com'
   };
@@ -257,9 +260,10 @@ function init(name) {
 
       return vert + hor;
     };
+    const state = store.getState();
     const position = getZopimPosition(
-      settings.get('position.vertical'),
-      settings.get('position.horizontal') || config.position
+      getStylingPositionVertical(state),
+      getHorizontalPosition(state)
     );
 
     // configure zopim window
@@ -267,8 +271,8 @@ function init(name) {
     zopimLive.theme.setTheme('zendesk');
     zopimWin.setPosition(position);
     zopimWin.setSize(config.size);
-    zopimWin.setOffsetVertical(config.offsetVertical);
-    zopimWin.setOffsetHorizontal(config.offsetHorizontal);
+    zopimWin.setOffsetVertical(getStylingOffsetVertical(state));
+    zopimWin.setOffsetHorizontal(getStylingOffsetHorizontal(state) + settings.get('margin'));
   });
 }
 

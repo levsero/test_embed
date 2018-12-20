@@ -22,14 +22,6 @@ describe('init', () => {
     });
 
     test.each([
-      ['offset', {
-        horizontal: 0,
-        vertical: 0,
-        mobile: {
-          horizontal: 0,
-          vertical: 0
-        }
-      }],
       ['margin', 8],
       ['viaId', 48],
       ['contactForm.attachments', true],
@@ -37,7 +29,6 @@ describe('init', () => {
       ['contactForm.tags', []],
       ['contactForm.ticketForms', []],
       ['contactOptions', { enabled: false }],
-      ['zIndex', 999999],
       ['chat.concierge.avatarPath', null]
     ])(
       '%s defaults to %p',

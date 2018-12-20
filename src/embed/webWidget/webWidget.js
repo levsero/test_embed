@@ -127,7 +127,6 @@ export default function WebWidgetFactory(name) {
       isMobile = isMobileBrowser();
 
     const configDefaults = {
-      position: 'right',
       hideZendeskLogo: false,
       color: '#659700'
     };

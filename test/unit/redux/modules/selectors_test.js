@@ -48,7 +48,8 @@ describe('selectors', () => {
     launcherChatLabel,
     launcherLabel,
     settingsHelpCenterSuppress,
-    settingTranslation;
+    settingTranslation,
+    stylingPositionHorizontal;
 
   settingTranslation = '';
   activeEmbedValue = '';
@@ -92,6 +93,7 @@ describe('selectors', () => {
   launcherChatLabel = '';
   launcherLabel = '';
   settingsHelpCenterSuppress = false;
+  stylingPositionHorizontal = 'right';
 
   beforeEach(() => {
     mockery.enable();
@@ -146,7 +148,9 @@ describe('selectors', () => {
         getHelpCenterChatButton: noop,
         getHelpCenterMessageButton: noop,
         getHelpCenterSearchPlaceholder: noop,
-        getHelpCenterTitle: noop
+        getHelpCenterTitle: noop,
+        getStylingPositionHorizontal: () => stylingPositionHorizontal,
+        getStylingZIndex: () => 1
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
@@ -256,7 +260,6 @@ describe('selectors', () => {
           isMobile = false;
           chatStandaloneValue = true;
           chatBadgeArturoEnabled = true;
-          mockSettingsGetFn = () => 1;
         });
 
         it('returns chat badge launcher styles', () => {
@@ -278,7 +281,6 @@ describe('selectors', () => {
       describe('when chat badge should not show', () => {
         beforeAll(() => {
           chatStandaloneValue = false;
-          mockSettingsGetFn = () => 1;
         });
 
         it('returns chat badge launcher styles', () => {

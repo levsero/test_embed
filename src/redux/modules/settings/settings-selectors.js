@@ -22,6 +22,24 @@ export const getSettingsLauncherBadge = (state) => state.settings.launcher.badge
 export const getSettingsColor = (state) => state.settings.color;
 export const getSettingsColorLauncher = (state) => getSettingsColor(state).launcher;
 export const getSettingsColorLauncherText = (state) => getSettingsColor(state).launcherText;
+export const getStylingZIndex = (state) => state.settings.styling.zIndex;
+export const getStylingPositionVertical = (state) => state.settings.styling.positionVertical;
+export const getStylingPositionHorizontal = (state) => state.settings.styling.positionHorizontal;
+export const getStylingOffsetVertical = (state) => state.settings.styling.offsetVertical;
+export const getStylingOffsetHorizontal = (state) => state.settings.styling.offsetHorizontal;
+const getStylingOffsetMobileVertical = (state) => state.settings.styling.offsetMobileVertical;
+const getStylingOffsetMobileHorizontal = (state) => state.settings.styling.offsetMobileHorizontal;
+
+export const getStylingOffset = (state) => {
+  return {
+    vertical: getStylingOffsetVertical(state),
+    horizontal: getStylingOffsetHorizontal(state),
+    mobile: {
+      vertical: getStylingOffsetMobileVertical(state),
+      horizontal: getStylingOffsetMobileHorizontal(state)
+    }
+  };
+};
 
 export const getSettingsHelpCenterOriginalArticleButton = (state) => state.settings.helpCenter.originalArticleButton;
 export const getSettingsHelpCenterSuppress = (state) => state.settings.helpCenter.suppress;

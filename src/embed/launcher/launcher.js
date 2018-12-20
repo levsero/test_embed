@@ -31,7 +31,6 @@ let embed;
 const getEmbedConfig = (config = {}) => {
   const configDefaults = {
     onClick: () => {},
-    position: 'right',
     icon: 'Icon',
     labelKey: 'help',
     visible: true,
@@ -72,7 +71,7 @@ const adjustStylesForZoom = (frameStyle, el) => {
 
 function create(name, config={}, reduxStore) {
   const embedConfig = getEmbedConfig(config);
-  const { position, visible } = embedConfig;
+  const { visible } = embedConfig;
   const isMobile = isMobileBrowser();
   const params = {
     ref: (el) => { embed.instance = el.getWrappedInstance(); },
@@ -84,7 +83,6 @@ function create(name, config={}, reduxStore) {
     fullscreenable: false,
     hideNavigationButtons: true,
     name: name,
-    position: position,
     visible: visible,
     isMobile: isMobile,
     fullscreen: false

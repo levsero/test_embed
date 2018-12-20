@@ -15,8 +15,7 @@ store.dispatch = jest.fn();
 
 beforeEach(() => {
   mockSettings = {
-    contactOptions: { enabled: false },
-    offset: { vertical: 20, horizontal: 30 }
+    contactOptions: { enabled: false }
   };
   settings.get = (value) => _.get(mockSettings, value, null);
 });

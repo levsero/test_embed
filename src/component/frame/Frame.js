@@ -14,10 +14,8 @@ import { locals as styles } from './Frame.scss';
 
 import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
-import { settings } from 'service/settings';
 import {
   getZoomSizingRatio,
-  isMobileBrowser
 } from 'utility/devices';
 import Transition from 'react-transition-group/Transition';
 import {
@@ -27,7 +25,7 @@ import {
 import {
   getFixedStyles,
   getColor,
-  getPosition,
+  getHorizontalPosition,
   getFrameVisible,
   getFrameStyle } from 'src/redux/modules/selectors';
 import {
@@ -37,6 +35,11 @@ import {
   WIDGET_WIDTH,
   FRAME_TRANSITION_DURATION } from 'constants/shared';
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
+import {
+  getStylingOffset,
+  getStylingPositionVertical,
+  getStylingZIndex
+} from 'src/redux/modules/settings/settings-selectors';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -47,10 +50,13 @@ const mapStateToProps = (state, ownProps) => {
   return {
     fixedStyles: getFixedStyles(state, ownProps.name),
     color: getColor(state, ownProps.name),
-    position: getPosition(state),
+    horizontalPosition: getHorizontalPosition(state),
     visible: getFrameVisible(state, ownProps.name),
     chatStandalone: getChatStandalone(state),
-    frameStyle: getFrameStyle(state, ownProps.name)
+    frameStyle: getFrameStyle(state, ownProps.name),
+    offset: getStylingOffset(state),
+    verticalPosition: getStylingPositionVertical(state),
+    zIndex: getStylingZIndex(state)
   };
 };
 
@@ -58,8 +64,6 @@ const scrollingStyleDelay = 50; // small delay so that safari has finished rende
 const sizingRatio = FONT_SIZE * getZoomSizingRatio();
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 const transitionDuration = FRAME_TRANSITION_DURATION;
-const isPositionTop = () => settings.get('position.vertical') === 'top';
-const defaultMarginTop = () => isPositionTop() && !isMobileBrowser() ? '15px' : 0;
 
 const marginPropType = PropTypes.oneOfType([
   PropTypes.string,
@@ -70,6 +74,14 @@ class Frame extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     store: PropTypes.object.isRequired,
+    offset: PropTypes.shape({
+      horizontal: PropTypes.number,
+      vertical: PropTypes.number,
+      mobile: PropTypes.shape({
+        horizontal: PropTypes.number,
+        vertical: PropTypes.number,
+      })
+    }).isRequired,
     afterShowAnimate: PropTypes.func,
     css: PropTypes.string,
     frameStyleModifier: PropTypes.func,
@@ -83,7 +95,7 @@ class Frame extends Component {
       marginTop: marginPropType,
       minHeight: PropTypes.string,
       zIndex: PropTypes.number
-    }),
+    }).isRequired,
     fullscreenable: PropTypes.bool,
     hideNavigationButtons: PropTypes.bool,
     alwaysShow: PropTypes.bool,
@@ -91,7 +103,8 @@ class Frame extends Component {
     onBack: PropTypes.func,
     onHide: PropTypes.func,
     onShow: PropTypes.func,
-    position: PropTypes.string,
+    horizontalPosition: PropTypes.oneOf(['right', 'left']),
+    verticalPosition: PropTypes.oneOf(['top', 'bottom']),
     preventClose: PropTypes.bool,
     useBackButton: PropTypes.bool,
     visible: PropTypes.bool,
@@ -122,7 +135,8 @@ class Frame extends Component {
       marginTop: marginPropType,
       minHeight: PropTypes.string,
       zIndex: PropTypes.number
-    })
+    }),
+    zIndex: PropTypes.number,
   }
 
   static defaultProps = {
@@ -131,7 +145,6 @@ class Frame extends Component {
     frameStyleModifier: () => {},
     frameOffsetWidth: 15,
     frameOffsetHeight: 15,
-    frameStyle: { marginTop: defaultMarginTop() },
     customFrameStyle: {},
     fullscreenable: false,
     hideNavigationButtons: false,
@@ -140,7 +153,6 @@ class Frame extends Component {
     onBack: () => {},
     onHide: () => {},
     onShow: () => {},
-    position: 'right',
     preventClose: false,
     store: { dispatch: () => {} },
     useBackButton: false,
@@ -265,9 +277,9 @@ class Frame extends Component {
       frameOffsetWidth,
       fullscreenable,
       fullscreen,
-      isMobile } = this.props;
-    const position = settings.get('position.horizontal') || this.props.position;
-    const isLeft = position === 'left';
+      isMobile,
+      horizontalPosition } = this.props;
+    const isLeft = horizontalPosition === 'left';
 
     let fullscreenStyle = {
       width: '100%',
@@ -278,7 +290,7 @@ class Frame extends Component {
     if (fullscreen && !isMobile) {
       fullscreenStyle = {
         ...fullscreenStyle,
-        [this.props.position]: isLeft ? fullscreenStyle.position : '50%',
+        [horizontalPosition]: isLeft ? fullscreenStyle.position : '50%',
         background: '#EEE'
       };
     }
@@ -370,7 +382,7 @@ class Frame extends Component {
     const baseStyles = {
       border: 'none',
       background: 'transparent',
-      zIndex: settings.get('zIndex'),
+      zIndex: this.props.zIndex,
       transform: 'translateZ(0)',
       position: 'fixed',
       transition: `all ${transitionDuration}ms cubic-bezier(0.645, 0.045, 0.355, 1)`,
@@ -396,24 +408,22 @@ class Frame extends Component {
   }
 
   getOffsetPosition = (animationOffset = 0) => {
-    const { isMobile, name, position } = this.props;
+    const { isMobile, name, horizontalPosition, verticalPosition, offset } = this.props;
 
     if (isMobile && name === 'webWidget') return {};
-    const offset = settings.get('offset');
+
     const mobileOffset = _.get(offset, 'mobile', {});
     const horizontalOffset = isMobile ? _.get(mobileOffset, 'horizontal', 0) : _.get(offset, 'horizontal', 0);
     const verticalOffset = isMobile ? _.get(mobileOffset, 'vertical', 0) : _.get(offset, 'vertical', 0);
-    const horizontalPos = settings.get('position.horizontal') || position;
-    const verticalPos = isPositionTop() ? 'top' : 'bottom';
 
     return {
-      [horizontalPos]: horizontalOffset,
-      [verticalPos]: parseInt(verticalOffset) + animationOffset
+      [horizontalPosition]: horizontalOffset,
+      [verticalPosition]: parseInt(verticalOffset) + animationOffset
     };
   }
 
   injectEmbedIntoFrame = (embed) => {
-    const { isMobile, fullscreenable, fullscreen } = this.props;
+    const { isMobile, fullscreenable, fullscreen, horizontalPosition } = this.props;
     const doc = this.getContentDocument();
 
     // element within the iframe to inject the embed into
@@ -421,9 +431,8 @@ class Frame extends Component {
     // element styles
     const mobileFullscreen = fullscreenable && isMobile;
 
-    const position = settings.get('position.horizontal') || this.props.position;
     const desktopClasses = mobileFullscreen ? '' : styles.desktop;
-    const positionClasses = position === 'left' ? styles.left : styles.right;
+    const positionClasses = horizontalPosition === 'left' ? styles.left : styles.right;
 
     if (fullscreen) {
       element.style.minWidth = '100%';

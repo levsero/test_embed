@@ -99,19 +99,10 @@ const webWidgetStoreDefaults = {
   },
   launcher: { },
   margin: 8,
-  offset: {
-    horizontal: 0,
-    vertical: 0,
-    mobile: {
-      horizontal: 0,
-      vertical: 0
-    }
-  },
   talk: {
     suppress: false
   },
-  viaId: 48,
-  zIndex: 999999
+  viaId: 48
 };
 const baseDefaults = {
   errorReporting: true,

@@ -24,6 +24,8 @@ import {
   getHelpCenterMessageButton,
   getHelpCenterSearchPlaceholder,
   getHelpCenterTitle,
+  getStylingPositionHorizontal,
+  getStylingZIndex,
 } from './settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -288,6 +290,13 @@ export const getPosition = createSelector(
   }
 );
 
+export const getHorizontalPosition = createSelector(
+  [getStylingPositionHorizontal, getPosition],
+  (settingsPosition, configPosition) => {
+    return settingsPosition || configPosition;
+  }
+);
+
 export const getIpmHelpCenterAllowed = createSelector(
   [getHelpCenterEmbed, getEmbeddableConfig],
   (helpCenterEnabled, config) => {
@@ -392,7 +401,7 @@ export const getFrameStyle = (state, frame) => {
       marginBottom: '10px',
       marginLeft: '20px',
       marginRight: '20px',
-      zIndex: settings.get('zIndex') - 1
+      zIndex: getStylingZIndex(state) - 1
     };
 
     if (!getShowChatBadgeLauncher(state)) {
