@@ -173,19 +173,19 @@ export default function WebWidgetFactory(name) {
 
     if (isMobile || popout) {
       containerStyle = { width: '100%', minHeight:'100%', maxHeight:'100%'  };
+
+      if (!isMobile) {
+        containerStyle = {
+          ...containerStyle,
+          maxWidth: '650px',
+          height: '100%'
+        };
+      }
     } else {
       containerStyle = { width: 342 };
       frameBodyCss = `
         body { padding: 0 7px; }
       `;
-    }
-
-    if (popout) {
-      containerStyle = {
-        ...containerStyle,
-        maxWidth: '650px',
-        height: '100%'
-      };
     }
 
     const frameParams = {

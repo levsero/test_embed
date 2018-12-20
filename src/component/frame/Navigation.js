@@ -157,6 +157,8 @@ class Navigation extends Component {
       popoutButtonVisible,
       hideNavigationButtons } = this.props;
 
+    const popoutStyle = (isMobile) ? styles.popoutMobile : styles.popoutDesktop;
+
     return (!this.props.standaloneMobileNotificationVisible)
       ? <div>
         {this.renderLeftNavButton()}
@@ -164,7 +166,7 @@ class Navigation extends Component {
           onClick: this.handlePopoutClick,
           'aria-label': 'Popout',
           icon: ICONS.POPOUT,
-          className: styles.popout,
+          className: popoutStyle,
           isVisible: popoutButtonVisible && !hideNavigationButtons,
           position: 'right'
         })}

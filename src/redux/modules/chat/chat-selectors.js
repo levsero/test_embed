@@ -27,7 +27,6 @@ import {
   getSettingsChatProfileCard,
   getSettingsLauncherBadge
 } from 'src/redux/modules/settings/settings-selectors';
-import { isMobileBrowser } from 'utility/devices';
 import { isPopout } from 'utility/globals';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
@@ -90,7 +89,6 @@ export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getIsPopoutAvailable = (state) =>
   getChatPopoutArturoEnabled(state)
   && !getIsAuthenticated(state)
-  && !isMobileBrowser()
   && getChatOnline(state)
   && !isPopout();
 

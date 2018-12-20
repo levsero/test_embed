@@ -6,8 +6,6 @@
 }
 
 .popout {
-  margin-top: #{12/$font-size}rem !important;
-
   [dir='rtl'] & {
     margin-left: #{40/$font-size}rem !important;
   }
@@ -15,4 +13,14 @@
   [dir='ltr'] & {
     margin-right: #{40/$font-size}rem !important;
   }
+}
+
+.popoutMobile {
+  composes: popout;
+  margin-top: #{3/$font-size}rem ! important;
+}
+
+.popoutDesktop {
+  composes: popout;
+  margin-top: #{12/$font-size}rem ! important;
 }
