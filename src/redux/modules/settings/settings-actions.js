@@ -9,7 +9,7 @@ import {
   getZChatVendor,
   getDefaultSelectedDepartment
 } from 'src/redux/modules/chat/chat-selectors';
-import { setDepartment, clearDepartment } from 'src/redux/modules/chat/chat-actions';
+import { setDepartment } from 'src/redux/modules/chat/chat-actions';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 
 const handleTagsChange = (zChat, tags, oldTags) => {
@@ -20,14 +20,6 @@ const handleTagsChange = (zChat, tags, oldTags) => {
     _.forEach(tags, (tag) => {
       zChat.addTag(tag);
     });
-  }
-};
-
-const handleDepartmentChange = (visitorDepartmentId, dispatch) => {
-  if (visitorDepartmentId) {
-    dispatch(setDepartment(visitorDepartmentId));
-  } else {
-    dispatch(clearDepartment());
   }
 };
 
@@ -59,14 +51,14 @@ export function updateSettings(settings) {
 export function updateChatSettings(oldTags) {
   return (dispatch, getState) => {
     const state = getState();
-
     const tags = getSettingsChatTags(state);
     const zChat = getZChatVendor(state);
+    const visitorDepartmentId = _.get(getDefaultSelectedDepartment(state), 'id');
 
     handleTagsChange(zChat, tags, oldTags);
 
-    const visitorDepartment = getDefaultSelectedDepartment(state);
-
-    handleDepartmentChange(_.get(visitorDepartment, 'id'), dispatch);
+    if (visitorDepartmentId) {
+      dispatch(setDepartment(visitorDepartmentId));
+    }
   };
 }

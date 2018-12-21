@@ -90,6 +90,7 @@ export const SDK_VISITOR_UPDATE = `${SDK_ACTION_TYPE_PREFIX}/visitor_update`;
 export const SDK_DEPARTMENT_UPDATE = `${SDK_ACTION_TYPE_PREFIX}/department_update`;
 export const SDK_CONNECTION_UPDATE = `${SDK_ACTION_TYPE_PREFIX}/connection_update`;
 export const SDK_ACCOUNT_STATUS = `${SDK_ACTION_TYPE_PREFIX}/account_status`;
+export const SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE = `${SDK_ACTION_TYPE_PREFIX}/visitor_default_department_update`;
 
 export const SDK_HISTORY_CHAT_MSG = `${SDK_ACTION_TYPE_PREFIX}/history/chat.msg`;
 export const SDK_HISTORY_CHAT_FILE = `${SDK_ACTION_TYPE_PREFIX}/history/chat.file`;

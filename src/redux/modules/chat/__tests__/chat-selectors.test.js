@@ -276,48 +276,80 @@ describe('getDefaultSelectedDepartment', () => {
     { name: 'fire', id: 2 },
     { name: 'Medical', id: 3 }
   ];
-  const callSelector = (testData) => (
-    selectors.getDefaultSelectedDepartment.resultFunc(testData, enabledDepartments)
+  const callSelector = (testSettings, testAccountSettings = null) => (
+    selectors.getDefaultSelectedDepartment.resultFunc(
+      testSettings, testAccountSettings, enabledDepartments
+    )
   );
 
-  describe('when the settings chat department is the department name', () => {
+  describe('when there is only a default department set by the account', () => {
     it('returns that department', () => {
-      expect(callSelector('police')).toEqual({
-        name: 'police',
-        id: 1
-      });
-    });
-
-    describe('when the chat department has upper and lower case letters', () => {
-      it("doesn't care", () => {
-        expect(callSelector('medical')).toEqual({
-          name: 'Medical',
-          id: 3
-        });
-      });
-    });
-  });
-
-  describe('when the settings chat department is the department id', () => {
-    it('returns that department', () => {
-      expect(callSelector(2)).toEqual({
+      expect(callSelector(null, 2)).toEqual({
         name: 'fire',
         id: 2
       });
     });
   });
 
-  describe("when the settings chat department doesn't exist/bad data is passed", () => {
-    [
-      'fire!',
-      999,
-      ['foo', 'bar'],
-      { foo: 'bar' },
-      true
-    ].forEach((data) => {
-      it('returns undefined', () => {
-        expect(callSelector(data)).toEqual(undefined);
+  describe('when there is a selected department in the zESettings', () => {
+    describe('when there is also a default department set by the account', () => {
+      it('returns the zESettings department', () => {
+        expect(callSelector('police', 2)).toEqual({
+          name: 'police',
+          id: 1
+        });
+      });
+    });
+
+    describe('when the settings chat department is the department name', () => {
+      it('returns that department', () => {
+        expect(callSelector('police')).toEqual({
+          name: 'police',
+          id: 1
+        });
+      });
+
+      describe('when the chat department has upper and lower case letters', () => {
+        it("doesn't care", () => {
+          expect(callSelector('medical')).toEqual({
+            name: 'Medical',
+            id: 3
+          });
+        });
+      });
+    });
+
+    describe('when the settings chat department is the department id', () => {
+      it('returns that department', () => {
+        expect(callSelector(2)).toEqual({
+          name: 'fire',
+          id: 2
+        });
+      });
+    });
+
+    describe("when the settings chat department doesn't exist/bad data is passed", () => {
+      [
+        'fire!',
+        999,
+        ['foo', 'bar'],
+        { foo: 'bar' },
+        true
+      ].forEach((data) => {
+        it('returns undefined', () => {
+          expect(callSelector(data)).toEqual(undefined);
+        });
       });
     });
   });
+});
+
+test('getAccountDefaultDepartmentId', () => {
+  const result = selectors.getAccountDefaultDepartmentId({
+    chat: {
+      defaultDepartment: { id: 123456 }
+    }
+  });
+
+  expect(result).toEqual(123456);
 });

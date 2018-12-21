@@ -11,6 +11,7 @@ describe('chat root reducer', () => {
     'currentMessage',
     'currentSessionStartTime',
     'departments',
+    'defaultDepartment',
     'editContactDetails',
     'emailTranscript',
     'formState',
@@ -52,7 +53,8 @@ describe('chat root reducer', () => {
       'src/util/chat': {
         isAgent: {}
       },
-      'src/util/nullZChat': noop
+      'src/util/nullZChat': noop,
+      'src/redux/modules/chat/chat-action-types': noop
     });
 
     reducer = requireUncached(reducerPath).default;

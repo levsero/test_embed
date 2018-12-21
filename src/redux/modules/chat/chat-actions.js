@@ -430,12 +430,7 @@ export function setDepartment(departmentId, successCallback, errCallback) {
     const zChat = getZChatVendor(getState());
 
     zChat.setVisitorDefaultDepartment(departmentId, (err) => {
-      dispatch({
-        type: actions.VISITOR_DEFAULT_DEPARTMENT_SELECTED,
-        payload: {
-          department: departmentId
-        }
-      });
+      dispatch(setDefaultDepartment(departmentId));
 
       if (!err) {
         successCallback();
@@ -447,7 +442,7 @@ export function setDepartment(departmentId, successCallback, errCallback) {
 }
 
 export function clearDepartment(successCallback = () => {}) {
-  return (_, getState) => {
+  return (_dispatch, getState) => {
     const zChat = getZChatVendor(getState());
 
     zChat.clearVisitorDefaultDepartment(() => {
@@ -706,5 +701,14 @@ export function markAsRead() {
     zChat.markAsRead();
 
     dispatch(chatNotificationReset());
+  };
+}
+
+export function setDefaultDepartment(id) {
+  return {
+    type: actions.VISITOR_DEFAULT_DEPARTMENT_SELECTED,
+    payload: {
+      department: id
+    }
   };
 }

@@ -1,7 +1,11 @@
+import _ from 'lodash';
+
 import {
   PRE_CHAT_FORM_ON_CHANGE,
   VISITOR_DEFAULT_DEPARTMENT_SELECTED,
-  CHAT_BADGE_MESSAGE_CHANGED } from '../../chat-action-types';
+  CHAT_BADGE_MESSAGE_CHANGED,
+  SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE
+} from '../../chat-action-types';
 import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types';
 
 const initialState = {
@@ -29,6 +33,11 @@ const preChatForm = (state = initialState, action = {}) => {
     case PRE_CHAT_FORM_ON_CHANGE:
     case VISITOR_DEFAULT_DEPARTMENT_SELECTED:
       return { ...state, ...payload };
+    case SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE:
+      return {
+        ...state,
+        department: _.get(payload, 'detail.id', state.department)
+      };
     case API_CLEAR_FORM:
       return initialState;
     default:
