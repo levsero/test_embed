@@ -79,6 +79,8 @@ class S3Deployer
       'application/javascript;'
     elsif extension == '.json'
       'application/json;'
+    elsif extension == '.html'
+      'text/html'
     else
       ''
     end
