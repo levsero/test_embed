@@ -21,7 +21,8 @@ class StructuredMessage extends Component {
         _.assign({ type: PropTypes.string.isRequired }, PanelCard.schemaPropTypes)
       )
     ]).isRequired,
-    className: PropTypes.string
+    isMobile: PropTypes.bool.isRequired,
+    inCarousel: PropTypes.bool
   }
 
   createAction = ({ type, value }) => {
@@ -50,7 +51,7 @@ class StructuredMessage extends Component {
             buttons={buttons}
             msg={msg}
             createAction={this.createAction}
-            className={this.props.className}
+            isMobile={this.props.isMobile}
           />
         );
 
@@ -59,7 +60,8 @@ class StructuredMessage extends Component {
           <PanelCard
             {...this.props.schema}
             createAction={this.createAction}
-            className={this.props.className}
+            isMobile={this.props.isMobile}
+            inCarousel={this.props.inCarousel}
           />
         );
     }

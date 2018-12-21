@@ -21,6 +21,11 @@ describe('ButtonCard component', () => {
       },
       './Button': {
         Button
+      },
+      './ButtonCard.scss': {
+        locals: {
+          mobile: 'mobile'
+        }
       }
     });
 
@@ -59,26 +64,43 @@ describe('ButtonCard component', () => {
     let component,
       result;
 
-    beforeEach(() => {
-      component = instanceRender(<ButtonCard {...componentProps} createAction={createActionSpy} />);
-      result = component.render();
+    describe('default props', () => {
+      beforeEach(() => {
+        component = instanceRender(<ButtonCard {...componentProps} createAction={createActionSpy} />);
+        result = component.render();
+      });
+
+      it('returns a PureButtonCard component', () => {
+        expect(TestUtils.isElementOfType(result, PureButtonCard))
+          .toEqual(true);
+      });
+
+      it('passes no custom class to PureButtonCard', () => {
+        expect(result.props.className).toEqual('');
+      });
+
+      it('passes the message value', () => {
+        expect(result.props.message)
+          .toEqual(componentProps.msg);
+      });
+
+      it('renders correct number of Button components', () => {
+        expect(result.props.children.length).toEqual(componentProps.buttons.length);
+
+        result.props.children.forEach(child => {
+          expect(TestUtils.isElementOfType(child, Button)).toEqual(true);
+        });
+      });
     });
 
-    it('returns a PureButtonCard component', () => {
-      expect(TestUtils.isElementOfType(result, PureButtonCard))
-        .toEqual(true);
-    });
+    describe('custom props', () => {
+      describe('isMobile', () => {
+        it('should pass mobile class to PureButtonCard', () => {
+          component = instanceRender(<ButtonCard {...{ ...componentProps, isMobile: true }} createAction={createActionSpy} />);
+          result = component.render();
 
-    it('passes the message value', () => {
-      expect(result.props.message)
-        .toEqual(componentProps.msg);
-    });
-
-    it('renders correct number of Button components', () => {
-      expect(result.props.children.length).toEqual(componentProps.buttons.length);
-
-      result.props.children.forEach(child => {
-        expect(TestUtils.isElementOfType(child, Button)).toEqual(true);
+          expect(result.props.className).toEqual('mobile');
+        });
       });
     });
   });

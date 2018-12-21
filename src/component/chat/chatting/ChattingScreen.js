@@ -502,6 +502,7 @@ class ChattingScreen extends Component {
               firstMessageTimestamp={this.props.firstMessageTimestamp}
             />
             <ChatLog
+              isMobile={this.props.isMobile}
               showAvatar={this.props.showAvatar}
               chatLog={this.props.chatLog}
               lastAgentLeaveEvent={this.props.lastAgentLeaveEvent}

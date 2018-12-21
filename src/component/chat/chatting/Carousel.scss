@@ -1,9 +1,0 @@
-@import '../../../styles/_vars.scss';
-
-.panel {
-  margin: 0 auto;
-}
-
-.panelMobile {
-  width: calc(100% - #{12/$font-size}rem) !important;
-}

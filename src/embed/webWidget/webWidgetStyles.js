@@ -11,7 +11,6 @@ import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoic
 import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.scss';
 import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoicePopupDesktop.scss';
 import AgentListStyles from 'component/chat/agents/AgentList.scss';
-import CarouselStyles from 'component/chat/chatting/Carousel.scss';
 import ChatBoxStyles from 'component/chat/chatting/ChatBox.scss';
 import ChatPopupStyles from 'component/chat/ChatPopup.scss';
 import ChatNotificationPopupStyles from 'component/chat/ChatNotificationPopup.scss';
@@ -57,6 +56,8 @@ import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss
 import TalkStyles from 'component/talk/Talk.scss';
 import LoadingBarContentStyles from 'component/loading/LoadingBarContent.scss';
 import FrameStyles from 'component/frame/Frame.scss';
+import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss';
+import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss';
 
 import SharedComponentStyles from 'component/shared/styles.js';
 import { sharedStyles } from 'embed/sharedStyles.js';
@@ -73,7 +74,6 @@ export const webWidgetStyles = `
   ${ButtonIconStyles}
   ${ButtonGroupStyles}
   ${ButtonPillStyles}
-  ${CarouselStyles}
   ${ChannelChoiceMenuStyles}
   ${ChannelChoiceDesktopStyles}
   ${ChannelChoicePopupDesktopStyles}
@@ -123,6 +123,8 @@ export const webWidgetStyles = `
   ${SubmitTicketFormStyles}
   ${TalkStyles}
   ${LoadingBarContentStyles}
-  ${SharedComponentStyles},
+  ${SharedComponentStyles}
   ${FrameStyles}
+  ${PanelCardStyles}
+  ${ButtonCardStyles}
 `;
