@@ -65,6 +65,9 @@ describe('PrechatScreen component', () => {
       'src/redux/modules/chat/chat-selectors': {
         getPrechatFormFields: noop
       },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsChatDepartmentsEmpty: noop
+      },
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen,
@@ -105,7 +108,8 @@ describe('PrechatScreen component', () => {
       formInfo,
       sendOfflineMessageSpy,
       clearDepartmentSpy,
-      mockDepartments;
+      mockDepartments,
+      deptHidden = false;
 
     beforeEach(() => {
       setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo');
@@ -124,6 +128,7 @@ describe('PrechatScreen component', () => {
           handlePrechatFormSubmit={handlePrechatFormSubmitSpy}
           resetCurrentMessage={resetCurrentMessageSpy}
           departments={mockDepartments}
+          departmentFieldHidden={deptHidden}
           sendOfflineMessage={sendOfflineMessageSpy}
           clearDepartment={clearDepartmentSpy} />
       );
@@ -132,6 +137,7 @@ describe('PrechatScreen component', () => {
     });
 
     afterEach(() => {
+      deptHidden = false;
       setVisitorInfoSpy.calls.reset();
       sendMsgSpy.calls.reset();
       setDepartmentSpy.calls.reset();
@@ -305,6 +311,29 @@ describe('PrechatScreen component', () => {
           expect(updateChatScreenSpy)
             .toHaveBeenCalledWith(prechatScreen);
         });
+      });
+    });
+
+    describe('when department field is hidden', () => {
+      beforeAll(() => {
+        formInfo = {
+          display_name: 'Daenerys Targaryen',
+          email: 'mother@of.dragons',
+          phone: '87654321'
+        };
+
+        deptHidden = true;
+        mockDepartments = null;
+      });
+
+      it('does not call clearDepartment', () => {
+        expect(clearDepartmentSpy)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call setDepartment', () => {
+        expect(setDepartmentSpy)
+          .not.toHaveBeenCalled();
       });
     });
 

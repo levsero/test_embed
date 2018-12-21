@@ -268,3 +268,50 @@ test('getSettingsChatPopout', () => {
 
   expect(result).toEqual({ webWidget: mockSettings });
 });
+
+describe('getSettingsChatDepartmentsEmpty', () => {
+  it('returns true when it is an empty array', () => {
+    const result = selectors.getSettingsChatDepartmentsEmpty(
+      settings({
+        chat: {
+          departments: {
+            enabled: []
+          }
+        }
+      })
+    );
+
+    expect(result)
+      .toEqual(true);
+  });
+
+  it('returns false when not an empty array', () => {
+    const result = selectors.getSettingsChatDepartmentsEmpty(
+      settings({
+        chat: {
+          departments: {
+            enabled: [1, 2, 3]
+          }
+        }
+      })
+    );
+
+    expect(result)
+      .toEqual(false);
+  });
+
+  it('returns false when not an array', () => {
+    const result = selectors.getSettingsChatDepartmentsEmpty(
+      settings({
+        chat: {
+          departments: {
+            enabled: null
+          }
+        }
+      })
+    );
+
+    expect(result)
+      .toEqual(false);
+  });
+});

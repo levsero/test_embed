@@ -34,6 +34,15 @@ export const getSettingsChatDepartmentsEnabled = createSelector(
   }
 );
 
+export const getSettingsChatDepartmentsEmpty = createSelector(
+  getRawSettingsChatDepartmentsEnabled,
+  (departments) => {
+    return _.isArray(departments)
+      ? departments.length === 0
+      : false;
+  }
+);
+
 export const getSettingsChatDepartment = createSelector(
   getRawSettingsChatDepartment,
   (department) => validateDepartment(department)

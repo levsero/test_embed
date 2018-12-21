@@ -34,6 +34,7 @@ import {
   getIsAuthenticated,
   getChatTitle,
   getReadOnlyState } from 'src/redux/modules/chat/chat-selectors';
+import { getSettingsChatDepartmentsEmpty } from 'src/redux/modules/settings/settings-selectors';
 import { locals as styles } from './PrechatScreen.scss';
 
 const mapStateToProps = (state) => {
@@ -53,7 +54,8 @@ const mapStateToProps = (state) => {
     readOnlyState: getReadOnlyState(state),
     preChatFormState: getPreChatFormState(state),
     isAuthenticated: getIsAuthenticated(state),
-    title: getChatTitle(state)
+    title: getChatTitle(state),
+    departmentFieldHidden: getSettingsChatDepartmentsEmpty(state)
   };
 };
 
@@ -85,7 +87,8 @@ class PrechatScreen extends Component {
     initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
-    fullscreen: PropTypes.bool
+    fullscreen: PropTypes.bool,
+    departmentFieldHidden: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -98,7 +101,8 @@ class PrechatScreen extends Component {
     clearDepartment: () => {},
     resetCurrentMessage: () => {},
     preChatFormSettings: {},
-    loginSettings: {}
+    loginSettings: {},
+    departmentFieldHidden: false
   };
 
   onPrechatFormComplete = (info) => {
@@ -115,7 +119,9 @@ class PrechatScreen extends Component {
     } else {
       const sendOnlineMessage = () => info.message ? this.props.sendMsg(info.message) : null;
 
-      if (selectedDepartment) {
+      if (this.props.departmentFieldHidden) {
+        if (sendOnlineMessage) sendOnlineMessage();
+      } else if (selectedDepartment) {
         this.props.setDepartment(
           selectedDepartment,
           sendOnlineMessage,
