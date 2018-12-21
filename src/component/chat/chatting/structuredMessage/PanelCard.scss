@@ -5,5 +5,5 @@
 }
 
 .mobileInCarousel {
-  width: calc(100% - #{12/$font-size}rem);
+  width: calc(100% - #{$structure-msg-card-margin/$font-size}rem);
 }
