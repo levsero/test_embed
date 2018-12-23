@@ -9,7 +9,7 @@
     var parseQueryParams = function(inputString) {
       var params = {}, queries;
 
-      inputString = inputString.substring(inputString.indexOf('?') + 1);
+      inputString = inputString.substring(inputString.indexOf('#') + 1);
       queries = inputString.split('&');
 
       queries.forEach(function(element) {
@@ -58,11 +58,11 @@
       }
     };
 
-    var queryParams = parseQueryParams(window.location.search);
+    var queryParams = parseQueryParams(window.location.hash);
 
     if (queryParams.mid) {
       document.cookie = '__zlcpomid=' + queryParams.mid;
-      window.location.href = (window.location.href || '').replace(/([?&])mid=[^&#]+/, '$1');
+      window.location.href = (window.location.href || '').replace(/([#?&])mid=[^&#]+/, '$1');
     }
 
     window.zESettings = parseSettings(queryParams);

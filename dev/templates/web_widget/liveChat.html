@@ -12,7 +12,7 @@
       var params = {},
         queries;
 
-      inputString = inputString.substring(inputString.indexOf('?') + 1);
+      inputString = inputString.substring(inputString.indexOf('#') + 1);
       queries = inputString.split('&');
 
       queries.forEach(function(element) {
@@ -41,9 +41,12 @@
       window.zEPopout = true;
     }
 
-    var queryParams = parseQueryParams(window.location.search);
+    var queryParams = parseQueryParams(window.location.hash);
     window.zESettings = parseSettings(queryParams);
 
+    if (queryParams.mid) {
+      document.cookie = '__zlcpomid=' + queryParams.mid;
+    }
     loadSnippet(queryParams);
     loadLocale(queryParams.locale);
   </script>
