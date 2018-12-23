@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from '../../chat-action-types';
 
 const initialState = {
@@ -7,7 +8,7 @@ const initialState = {
 const operatingHours = (state = initialState, action) => {
   switch (action.type) {
     case GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS:
-      return action.payload.operating_hours;
+      return _.get(action.payload, 'operating_hours', state);
     default:
       return state;
   }
