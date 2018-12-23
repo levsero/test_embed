@@ -77,19 +77,7 @@ exports[`with chatBadgeColor passed in 1`] = `
           <tr>
             <td
               class="textContainer"
-            >
-              <style>
-                
-    .src-component-launcher-ChatBadge-textContainer.u-userLauncherColor {
-      background-color: yellow !important;
-    }
-  
-    .src-component-launcher-ChatBadge-textContainer.u-userLauncherColor {
-      color: blue !important;
-    }
-  
-              </style>
-            </td>
+            />
             <td
               class="imageContainer"
             >
