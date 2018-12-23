@@ -62,7 +62,7 @@ The example template contains the following values:
   "gaID": "UA-103023081-1",
   "user": {
     "name": "Alice Bob",
-    "email": "alice.bob+123@zddev.com",
+    "email": "alice.bob+12345@zddev.com",
     "externalId": "1234"
   }
 }
