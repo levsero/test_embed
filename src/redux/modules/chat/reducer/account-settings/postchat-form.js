@@ -9,12 +9,6 @@ const initialState = {
 const postchatForm = (state = initialState, action) => {
   switch (action.type) {
     case GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS:
-      const { header, message } = action.payload.forms.post_chat_form;
-
-      return {
-        header: _.toString(header),
-        message: _.toString(message)
-      };
     case UPDATE_PREVIEWER_SETTINGS:
       const { header: pHeader, message: pMsg } = _.get(action.payload, 'forms.post_chat_form', state);
 

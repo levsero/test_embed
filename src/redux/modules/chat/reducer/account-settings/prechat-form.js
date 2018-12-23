@@ -17,7 +17,6 @@ const initialState = {
 const prechatForm = (state = initialState, action) => {
   switch (action.type) {
     case GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS:
-      return action.payload.forms.pre_chat_form;
     case UPDATE_PREVIEWER_SETTINGS:
       return _.get(action.payload, 'forms.pre_chat_form', state);
     default:

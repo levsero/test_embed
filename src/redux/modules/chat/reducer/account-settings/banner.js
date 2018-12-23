@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from '../../chat-action-types';
 
 const initialState = {
@@ -13,11 +14,10 @@ const banner = (state = initialState, action) => {
       const bannerInfo = action.payload.banner;
 
       return {
-        ...state,
-        enabled: bannerInfo.enabled,
-        layout: bannerInfo.layout,
-        text: bannerInfo.text,
-        image: bannerInfo.image_path
+        enabled: _.get(bannerInfo, 'enabled', state.enabled),
+        layout: _.get(bannerInfo, 'layout', state.layout),
+        text: _.get(bannerInfo, 'text', state.text),
+        image: _.get(bannerInfo, 'image_path', state.image)
       };
     default:
       return state;
