@@ -7,7 +7,6 @@ describe('embed.webWidget', () => {
     mockContactFormSuppressedValue,
     mockTalkSuppressedValue,
     mockTicketFormsValue,
-    mockAttachmentsEnabledValue,
     mockSupportAuthValue,
     mockChatAuthValue,
     mockFiltersValue,
@@ -50,7 +49,6 @@ describe('embed.webWidget', () => {
     mockTalkSuppressedValue = false;
     mockTicketFormsValue = [],
     mockFiltersValue = [],
-    mockAttachmentsEnabledValue = true,
     mockSupportAuthValue = null;
     mockChatAuthValue = null;
     mockActiveEmbed = '';
@@ -172,8 +170,7 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue,
-        getSettingsContactFormSuppress: () => mockContactFormSuppressedValue,
-        getSettingsContactFormAttachments: () => mockAttachmentsEnabledValue
+        getSettingsContactFormSuppress: () => mockContactFormSuppressedValue
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatNotification: () => mockChatNotification,
@@ -657,8 +654,6 @@ describe('embed.webWidget', () => {
             attachmentsEnabled: true
           };
 
-          mockAttachmentsEnabledValue = false;
-
           webWidget.create('', { ticketSubmissionForm: submitTicketConfig }, mockStore);
 
           faythe = webWidget.get();
@@ -667,11 +662,6 @@ describe('embed.webWidget', () => {
         it('changes config.formTitleKey if formTitleKey is set', () => {
           expect(faythe.config.ticketSubmissionForm.formTitleKey)
             .toEqual('test_title');
-        });
-
-        it('changes config.submitTicketForm.attachmentsEnabled if zESettings.contactForm.attachments is false', () => {
-          expect(faythe.config.ticketSubmissionForm.attachmentsEnabled)
-            .toEqual(false);
         });
       });
 

@@ -119,7 +119,6 @@ class WebWidget extends Component {
       minHeight: PropTypes.number
     }),
     submitTicketConfig: PropTypes.shape({
-      attachmentsEnabled: PropTypes.bool,
       color: PropTypes.string,
       customFields: PropTypes.array,
       formTitleKey: PropTypes.string,
@@ -445,7 +444,6 @@ class WebWidget extends Component {
       <div className={classes}>
         <SubmitTicket
           ref={submitTicket}
-          attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
           formTitleKey={submitTicketConfig.formTitleKey}

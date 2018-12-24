@@ -50,7 +50,9 @@ describe('selectors', () => {
     settingsHelpCenterSuppress,
     settingTranslation,
     stylingPositionHorizontal,
-    contactFormSuppressValue;
+    contactFormSuppressValue,
+    contactFormAttachmentsValue,
+    configAttachmentsEnabledValue;
 
   settingTranslation = '';
   activeEmbedValue = '';
@@ -96,6 +98,8 @@ describe('selectors', () => {
   settingsHelpCenterSuppress = false;
   stylingPositionHorizontal = 'right';
   contactFormSuppressValue = false;
+  contactFormAttachmentsValue = false;
+  configAttachmentsEnabledValue = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -137,7 +141,8 @@ describe('selectors', () => {
         getLauncherVisible: () => launcherVisibleValue,
         getChatStandalone: () => chatStandaloneValue,
         getUserMinimizedChatBadge: () => userMinimizedChatBadgeValue,
-        getChatBadgeArturoEnabled: () => chatBadgeArturoEnabled
+        getChatBadgeArturoEnabled: () => chatBadgeArturoEnabled,
+        getConfigAttachmentsEnabled: () => configAttachmentsEnabledValue
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue,
@@ -153,7 +158,8 @@ describe('selectors', () => {
         getHelpCenterTitle: noop,
         getStylingPositionHorizontal: () => stylingPositionHorizontal,
         getStylingZIndex: () => 1,
-        getSettingsContactFormSuppress: () => contactFormSuppressValue
+        getSettingsContactFormSuppress: () => contactFormSuppressValue,
+        getSettingsContactFormAttachments: () => contactFormAttachmentsValue
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,

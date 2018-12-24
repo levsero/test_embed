@@ -39,9 +39,7 @@ import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
 import { authenticate, revokeToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
-import {
-  getSettingsContactFormSuppress,
-  getSettingsContactFormAttachments } from 'src/redux/modules/settings/settings-selectors';
+import { getSettingsContactFormSuppress } from 'src/redux/modules/settings/settings-selectors';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { nameValid, emailValid } from 'src/util/utils';
@@ -398,13 +396,8 @@ export default function WebWidgetFactory(name) {
       ticketForms: [],
       color: '#659700'
     };
-    const attachmentsSetting = getSettingsContactFormAttachments(store.getState());
 
     config = _.extend({}, submitTicketConfigDefaults, config);
-
-    if (attachmentsSetting === false) {
-      config.attachmentsEnabled = false;
-    }
 
     const attachmentSender = (file, doneFn, failFn, progressFn) => {
       const payload = {

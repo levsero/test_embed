@@ -5,6 +5,11 @@ import _ from 'lodash';
 
 const initialState = {
   embeds: {
+    ticketSubmissionForm: {
+      props: {
+        attachmentsEnabled: true
+      }
+    },
     helpCenterForm: {
       props: {
         contextualHelpEnabled: false,
@@ -50,6 +55,12 @@ const embeddableConfig = (state = initialState, action) => {
             props: {
               ...state.embeds.zopimChat.props,
               ..._.get(payload, 'embeds.zopimChat.props')
+            }
+          },
+          ticketSubmissionForm: {
+            props: {
+              ...state.embeds.ticketSubmissionForm.props,
+              ..._.get(payload, 'embeds.ticketSubmissionForm.props')
             }
           }
         },

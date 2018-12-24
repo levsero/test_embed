@@ -20,6 +20,7 @@ import { isIE } from 'utility/devices';
 import { ICONS } from 'src/constants/shared';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors';
+import { getAttachmentsEnabled } from 'src/redux/modules/selectors';
 import { Alert } from '@zendeskgarden/react-notifications';
 
 import classNames from 'classnames';
@@ -38,7 +39,8 @@ const mapStateToProps = (state) => {
     activeTicketFormFields: selectors.getActiveTicketFormFields(state),
     hasContextuallySearched: getHasContextuallySearched(state),
     showNotification: selectors.getShowNotification(state),
-    subjectEnabled: getSettingsContactFormSubject(state)
+    subjectEnabled: getSettingsContactFormSubject(state),
+    attachmentsEnabled: getAttachmentsEnabled(state)
   };
 };
 
