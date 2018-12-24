@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import { Provider } from 'react-redux';
 
-import { launcherStyles } from './launcherStyles.js';
+import { launcherStyles } from './launcherStyles';
 import { document,
   getDocumentHost } from 'utility/globals';
 import Frame from 'component/frame/Frame';

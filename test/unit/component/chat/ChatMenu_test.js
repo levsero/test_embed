@@ -102,7 +102,7 @@ describe('ChatMenu component', () => {
       component = instanceRender(<ChatMenu />);
 
       onClickSpy = jasmine.createSpy('onClick');
-      children = <div id='child-element'></div>;
+      children = <div id='child-element' />;
       disabled = true;
       spyOn(component, 'getItemClasses').and.returnValue(getItemClassesResult);
       result = component.renderButton(onClickSpy, children, disabled);

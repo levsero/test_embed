@@ -51,7 +51,7 @@ describe('embed.launcher', () => {
         }
       },
       'globalCSS': '',
-      './launcherStyles.js': {
+      './launcherStyles': {
         launcherStyles: 'mockCss'
       },
       'component/frame/Frame': mockFrame,

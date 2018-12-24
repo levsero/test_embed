@@ -42,9 +42,9 @@ export class UserProfile extends Component {
       ? styles.authProfileFieldContainer
       : styles.historyAuthProfileFieldContainer;
     const logoutButton = (screen !== CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING)
-      ? <Icon className={styles.logoutIcon}
+      ? (<Icon className={styles.logoutIcon}
         type='Icon--trash-fill'
-        onClick={this.props.initiateSocialLogout} />
+        onClick={this.props.initiateSocialLogout} />)
       : <LoadingSpinner className={styles.loadingSpinner} />;
 
     return (

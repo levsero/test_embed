@@ -3,6 +3,7 @@ module.exports = {
   'extends': 'eslint:recommended',
   'rules': {
     'jasmine/no-spec-dupes': 0,
+    'import/extensions': 2,
     'padded-blocks': [
       2,
       'never'

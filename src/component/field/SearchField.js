@@ -131,11 +131,11 @@ export class SearchField extends Component {
   renderDesktopSearchOrLoadingIcon = () => {
     const icon = this.props.isLoading
       ? <LoadingEllipses />
-      : <IconFieldButton
+      : (<IconFieldButton
         onClick={this.props.onSearchIconClick}
         focused={this.state.focused}
         icon='Icon--search'
-      />;
+      />);
 
     return (
       <MediaFigure

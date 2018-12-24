@@ -23,7 +23,7 @@ import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/sh
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
 import { generateUserWidgetCSS } from 'utility/color/styles';
 
-import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
+import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles';
 
 const FRAME_WIDTH = WIDGET_WIDTH + WIDGET_MARGIN;
 const FRAME_HEIGHT = MAX_WIDGET_HEIGHT + WIDGET_MARGIN;

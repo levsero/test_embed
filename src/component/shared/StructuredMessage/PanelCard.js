@@ -39,6 +39,12 @@ const PanelBody = ({ className, onClick, children }) => {
   );
 };
 
+PanelBody.propTypes = {
+  className: PropTypes.string,
+  onClick: PropTypes.func,
+  children: PropTypes.obj
+};
+
 // We calculate a max height for browsers that don't support line-clamp
 const _calculateMaxHeight = function(noOfLines) {
   return (isFirefox() || isIE()) ? `${16 * noOfLines / FONT_SIZE}rem` : 'auto';
@@ -77,7 +83,7 @@ export class PanelCard extends Component {
           <Icon type="Icon--image-stroke" />
         </div>
 
-        <div className={styles.image} style={imageStyle}></div>
+        <div className={styles.image} style={imageStyle} />
       </div>
     );
   }
