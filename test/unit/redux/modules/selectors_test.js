@@ -49,7 +49,8 @@ describe('selectors', () => {
     launcherLabel,
     settingsHelpCenterSuppress,
     settingTranslation,
-    stylingPositionHorizontal;
+    stylingPositionHorizontal,
+    contactFormSuppressValue;
 
   settingTranslation = '';
   activeEmbedValue = '';
@@ -94,6 +95,7 @@ describe('selectors', () => {
   launcherLabel = '';
   settingsHelpCenterSuppress = false;
   stylingPositionHorizontal = 'right';
+  contactFormSuppressValue = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -150,7 +152,8 @@ describe('selectors', () => {
         getHelpCenterSearchPlaceholder: noop,
         getHelpCenterTitle: noop,
         getStylingPositionHorizontal: () => stylingPositionHorizontal,
-        getStylingZIndex: () => 1
+        getStylingZIndex: () => 1,
+        getSettingsContactFormSuppress: () => contactFormSuppressValue
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
@@ -1706,7 +1709,7 @@ describe('selectors', () => {
 
       describe('when contactForm is suppressed', () => {
         beforeAll(() => {
-          mockSettingsGetFn = () => true;
+          contactFormSuppressValue = true;
         });
 
         it('returns false', () => {
@@ -1717,7 +1720,7 @@ describe('selectors', () => {
 
       describe('when contactForm is not suppressed', () => {
         beforeAll(() => {
-          mockSettingsGetFn = () => false;
+          contactFormSuppressValue = false;
         });
 
         it('returns true', () => {

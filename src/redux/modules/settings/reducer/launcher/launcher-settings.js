@@ -6,7 +6,7 @@ const initialState = {
   label: null
 };
 
-const setHideWhenChatOffline = (state = initialState, action) => {
+const launcherSettings = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -20,4 +20,4 @@ const setHideWhenChatOffline = (state = initialState, action) => {
   }
 };
 
-export default setHideWhenChatOffline;
+export default launcherSettings;

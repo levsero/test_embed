@@ -26,6 +26,7 @@ import {
   getHelpCenterTitle,
   getStylingPositionHorizontal,
   getStylingZIndex,
+  getSettingsContactFormSuppress
 } from './settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -234,7 +235,7 @@ export const getMaxWidgetHeight = (state, frame = 'webWidget') => {
 };
 
 export const getSubmitTicketAvailable = (state) => {
-  return getSubmitTicketEmbed(state) && !settings.get('contactForm.suppress');
+  return getSubmitTicketEmbed(state) && !getSettingsContactFormSuppress(state);
 };
 
 export const getChannelChoiceAvailable = createSelector(

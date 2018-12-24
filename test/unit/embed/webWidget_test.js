@@ -61,7 +61,8 @@ describe('embed.webWidget', () => {
     mockNicknameValue = null;
     mockStoreDispatch = jasmine.createSpy('dispatch');
     mockStore = {
-      getState: () => mockState, dispatch: mockStoreDispatch
+      getState: () => mockState,
+      dispatch: mockStoreDispatch
     };
     mockChatNotification = { show: false, proactive: false };
     mockStandaloneMobileNotificationVisible = false;
@@ -96,9 +97,6 @@ describe('embed.webWidget', () => {
       'service/beacon': {
         beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
       },
-      'src/redux/modules/settings/settings-selectors': {
-        getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue
-      },
       'service/i18n': {
         i18n: {
           getLocale: () => 'fr',
@@ -129,9 +127,7 @@ describe('embed.webWidget', () => {
                 filter: mockFiltersValue
               },
               contactForm: {
-                suppress: mockContactFormSuppressedValue,
                 ticketForms: mockTicketFormsValue,
-                attachments: mockAttachmentsEnabledValue
               },
               talk: {
                 suppress: mockTalkSuppressedValue,
@@ -173,6 +169,11 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed
+      },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue,
+        getSettingsContactFormSuppress: () => mockContactFormSuppressedValue,
+        getSettingsContactFormAttachments: () => mockAttachmentsEnabledValue
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatNotification: () => mockChatNotification,
@@ -771,14 +772,12 @@ describe('embed.webWidget', () => {
 
     describe('setupChat', () => {
       let chatConfig,
-        mockReduxStore,
         handleChatVendorLoadedSpy,
         setChatHistoryHandlerSpy;
 
       /* eslint-disable camelcase */
       beforeEach(() => {
         chatConfig = { zopimId: '123abc' };
-        mockReduxStore = { dispatch: jasmine.createSpy('dispatch'), getState: mockStore.getState };
         handleChatVendorLoadedSpy = jasmine
           .createSpy('handleChatVendorLoaded')
           .and.returnValue({ type: 'handleChatVendorLoaded' });
@@ -794,13 +793,13 @@ describe('embed.webWidget', () => {
           ...mockRegistry
         });
 
-        webWidget.create('', { zopimChat: chatConfig }, mockReduxStore);
+        webWidget.create('', { zopimChat: chatConfig }, mockStore);
         faythe = webWidget.get();
       });
 
       it('dispatches the handleChatVendorLoaded action creator with zChat vendor', () => {
         mockChatVendorImport.then((mockZChat) => {
-          expect(mockReduxStore.dispatch.calls[0].args[0])
+          expect(mockStoreDispatch.calls[0].args[0])
             .toEqual({ type: 'handleChatVendorLoaded' });
 
           expect(handleChatVendorLoadedSpy.calls.mostRecent().args[0])
@@ -810,7 +809,7 @@ describe('embed.webWidget', () => {
 
       it('dispatches the setChatHistoryHandler action creator', () => {
         mockChatVendorImport.then(() => {
-          expect(mockReduxStore.dispach.calls[1].args[0])
+          expect(mockStoreDispatch.calls[1].args[0])
             .toEqual({ type: 'setChatHistoryHandler' });
 
           expect(setChatHistoryHandlerSpy)
@@ -851,7 +850,7 @@ describe('embed.webWidget', () => {
 
         it('dispatches AUTHENTICATION_STARTED action', () => {
           mockChatVendorImport.then(() => {
-            expect(mockReduxStore.dispatch.calls[2].args[0])
+            expect(mockStoreDispatch.calls[2].args[0])
               .toEqual({ type: AUTHENTICATION_STARTED });
           });
         });
@@ -872,7 +871,7 @@ describe('embed.webWidget', () => {
 
         it('does not dispatch AUTHENTICATION_STARTED action', () => {
           mockChatVendorImport.then(() => {
-            expect(mockReduxStore.dispatch)
+            expect(mockStoreDispatch)
               .not
               .toHaveBeenCalled();
           });
@@ -984,21 +983,19 @@ describe('embed.webWidget', () => {
 
     describe('setupTalk', () => {
       let mockTalkConfig,
-        mockReduxStore,
         loadTalkVendorsSpy;
 
       beforeEach(() => {
         mockTalkConfig = { serviceUrl: 'https://customer.zendesk.com', nickname: 'Support' };
-        mockReduxStore = { getState: mockStore.getState, dispatch: jasmine.createSpy('dispatch') };
         loadTalkVendorsSpy = jasmine.createSpy('loadTalkVendors').and.returnValue({ type: 'loadTalkVendors' });
 
         mockRegistry['src/redux/modules/talk'].loadTalkVendors = loadTalkVendorsSpy;
 
-        webWidget.create('', { talk: mockTalkConfig }, mockReduxStore);
+        webWidget.create('', { talk: mockTalkConfig }, mockStore);
       });
 
       it('dispatches the loadTalkVendors action creator', () => {
-        expect(mockReduxStore.dispatch)
+        expect(mockStoreDispatch)
           .toHaveBeenCalledWith({ type: 'loadTalkVendors' });
       });
 
@@ -1349,7 +1346,7 @@ describe('embed.webWidget', () => {
           webWidget.create('', {
             helpCenterForm: {
               tokensRevokedAt: Math.floor(Date.now() / 1000)
-            }
+            },
           },
           mockStore);
           webWidget.postRender();

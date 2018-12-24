@@ -221,6 +221,7 @@ describe('handleTicketSubmission', () => {
     store.dispatch(actions.handleTicketSubmission([1, 2, 3], done, fail));
     expect(formatters.formatRequestData)
       .toHaveBeenCalledWith(
+        {},
         'formState',
         'ticketFormsAvailable',
         'ticketFields',

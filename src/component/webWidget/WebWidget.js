@@ -118,7 +118,6 @@ class WebWidget extends Component {
       width: PropTypes.number,
       minHeight: PropTypes.number
     }),
-    subjectEnabled: PropTypes.bool,
     submitTicketConfig: PropTypes.shape({
       attachmentsEnabled: PropTypes.bool,
       color: PropTypes.string,
@@ -459,7 +458,6 @@ class WebWidget extends Component {
           position={submitTicketConfig.position}
           showBackButton={this.props.updateBackButtonVisibility}
           style={this.props.style}
-          subjectEnabled={this.props.subjectEnabled}
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
           fullscreen={this.props.fullscreen}

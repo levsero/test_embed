@@ -39,6 +39,9 @@ import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
 import { authenticate, revokeToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
+import {
+  getSettingsContactFormSuppress,
+  getSettingsContactFormAttachments } from 'src/redux/modules/settings/settings-selectors';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { nameValid, emailValid } from 'src/util/utils';
@@ -125,6 +128,7 @@ export default function WebWidgetFactory(name) {
     let frameBodyCss = '';
     const popout = isPopout(),
       isMobile = isMobileBrowser();
+    const state = reduxStore.getState();
 
     const configDefaults = {
       hideZendeskLogo: false,
@@ -133,10 +137,9 @@ export default function WebWidgetFactory(name) {
     const talkConfig = config.talk;
     const talkAvailable = !!talkConfig && !settings.get('talk.suppress') &&
       !!_.trim(settings.get('talk.nickname') || talkConfig.nickname);
-    const state = reduxStore.getState();
 
     const helpCenterAvailable = !!config.helpCenterForm && !getSettingsHelpCenterSuppress(state);
-    const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
+    const submitTicketAvailable = !!config.ticketSubmissionForm && !getSettingsContactFormSuppress(state);
     const chatConfig = config.zopimChat;
     const chatAvailable = !!chatConfig;
     const submitTicketSettings = (submitTicketAvailable)
@@ -225,7 +228,6 @@ export default function WebWidgetFactory(name) {
             originalArticleButton={settings.get('helpCenter.originalArticleButton')}
             position={globalConfig.position}
             style={containerStyle}
-            subjectEnabled={settings.get('contactForm.subject')}
             ticketFormSettings={settings.get('contactForm.ticketForms')}
             ticketFieldSettings={settings.get('contactForm.fields')}
             submitTicketConfig={submitTicketSettings.config}
@@ -396,7 +398,7 @@ export default function WebWidgetFactory(name) {
       ticketForms: [],
       color: '#659700'
     };
-    const attachmentsSetting = settings.get('contactForm.attachments');
+    const attachmentsSetting = getSettingsContactFormAttachments(store.getState());
 
     config = _.extend({}, submitTicketConfigDefaults, config);
 

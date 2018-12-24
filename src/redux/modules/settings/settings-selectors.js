@@ -41,6 +41,12 @@ export const getStylingOffset = (state) => {
   };
 };
 
+export const getSettingsContactFormAttachments = (state) => state.settings.contactForm.settings.attachments;
+export const getSettingsContactFormSubject = (state) => state.settings.contactForm.settings.subject;
+export const getSettingsContactFormSuppress = (state) => state.settings.contactForm.settings.suppress;
+export const getSettingsContactFormTags = (state) => state.settings.contactForm.settings.tags;
+export const getSettingsContactFormTitle = (state) => state.settings.contactForm.settings.title;
+
 export const getSettingsHelpCenterOriginalArticleButton = (state) => state.settings.helpCenter.originalArticleButton;
 export const getSettingsHelpCenterSuppress = (state) => state.settings.helpCenter.suppress;
 export const getSettingsHelpCenterLocaleFallbacks = (state) => state.settings.helpCenter.localeFallbacks;

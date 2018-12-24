@@ -1,13 +1,13 @@
 describe('formatter submitTicket helper', () => {
   let formatRequestData,
     mockStoreValue,
-    mockSettingsValue;
+    mockTagsValue;
 
   const formatterPath = buildSrcPath('redux/modules/submitTicket/helpers/formatter');
 
   beforeEach(() => {
     mockStoreValue = false;
-    mockSettingsValue = false;
+    mockTagsValue = [];
 
     mockery.enable();
 
@@ -18,10 +18,9 @@ describe('formatter submitTicket helper', () => {
           getLocaleId: () => 'fr'
         }
       },
-      'service/settings': {
-        settings: {
-          get: () => mockSettingsValue
-        }
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsContactFormTags: () => mockTagsValue,
+        getSettingsContactFormSubject: () => false
       },
       'service/persistence': {
         store: {
@@ -64,7 +63,7 @@ describe('formatter submitTicket helper', () => {
         subject: formParams.subject
       };
 
-      params = formatRequestData(mockValues);
+      params = formatRequestData({}, mockValues);
     });
 
     it('wraps the data in a request object', () => {
@@ -87,8 +86,8 @@ describe('formatter submitTicket helper', () => {
     });
 
     it('adds any extra tags', () => {
-      mockSettingsValue = 'extra_tag';
-      params = formatRequestData(mockValues);
+      mockTagsValue = 'extra_tag';
+      params = formatRequestData({}, mockValues);
 
       expect(params.request.tags)
         .toContain('extra_tag');
@@ -128,7 +127,7 @@ describe('formatter submitTicket helper', () => {
         it(`formats the name correct based on the email ${email}`, () => {
           mockValues.name = '';
           mockValues.email = email;
-          params = formatRequestData(mockValues);
+          params = formatRequestData({}, mockValues);
 
           expect(params.request.requester.name)
             .toEqual(expected);
@@ -147,7 +146,7 @@ describe('formatter submitTicket helper', () => {
 
     it('trims the subject if it is too long', () => {
       mockValues.description = 'this text is longer then 50 characters xxxxxxxxxxxx';
-      params = formatRequestData(mockValues);
+      params = formatRequestData({}, mockValues);
 
       expect(params.request.subject)
         .toEqual('this text is longer then 50 characters xxxxxxxxxxx...');
@@ -166,7 +165,7 @@ describe('formatter submitTicket helper', () => {
       it('adds submitted from to the description', () => {
         mockStoreValue = true;
 
-        params = formatRequestData(mockValues);
+        params = formatRequestData({}, mockValues);
 
         expect(params.request.comment.body)
           .toBe(formParams.description);
@@ -185,7 +184,7 @@ describe('formatter submitTicket helper', () => {
 
         mockValues['22660514'] = 'mockCustomField';
 
-        params = formatRequestData(mockValues, false, mockCustomField);
+        params = formatRequestData({}, mockValues, false, mockCustomField);
       });
 
       it('should correctly format custom fields', () => {
@@ -224,7 +223,7 @@ describe('formatter submitTicket helper', () => {
           4: 'Cheeseburger'
         };
 
-        params = formatRequestData(mockValues, true, ticketFields, mockTicketForm);
+        params = formatRequestData({}, mockValues, true, ticketFields, mockTicketForm);
       });
 
       it('should correctly format custom fields', () => {
@@ -243,7 +242,7 @@ describe('formatter submitTicket helper', () => {
         beforeEach(() => {
           ticketFields.push({ id: 2, type: 'subject', removable: false });
 
-          params = formatRequestData(mockValues, true, ticketFields, mockTicketForm);
+          params = formatRequestData({}, mockValues, true, ticketFields, mockTicketForm);
         });
 
         it('should correctly format the subject field', () => {

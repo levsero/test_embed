@@ -110,7 +110,8 @@ export function handleTicketSubmission(attachments, done, fail) {
     const ticketFormsAvailable = getTicketFormsAvailable(state);
     const ticketFields = getTicketFieldsState(state);
     const activeTicketForm = getActiveTicketForm(state);
-    const params = formatRequestData(formState, ticketFormsAvailable, ticketFields, activeTicketForm, attachments);
+    const params = formatRequestData(
+      state, formState, ticketFormsAvailable, ticketFields, activeTicketForm, attachments);
 
     const payload = {
       method: 'post',
