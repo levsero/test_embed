@@ -1,8 +1,10 @@
 @import '../../styles/_vars.scss';
 
 .chatEndPopupDescription {
-  composes: u-paddingVL u-paddingLL u-paddingRL from global;
+  composes: u-paddingVL from global;
   color: $zd-color-grey-800;
+  padding-left: #{20/$font-size}rem;
+  padding-right: #{20/$font-size}rem;
 }
 
 .reconnectContainer {

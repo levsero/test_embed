@@ -1,8 +1,10 @@
 @import '../../styles/_vars.scss';
 
 .error {
-  composes: u-textError u-marginVS from global;
+  composes: u-marginVS from global;
   composes: Error from '../../styles/components/Error.scss';
+
+  color: $error-text-color;
 }
 
 .container {
@@ -15,7 +17,8 @@
 }
 
 .label {
-  composes: u-textXHeight from global;
+  /* Force a single line to have exact font height  */
+  line-height: 0.9;
 
   margin-bottom: #{6/$font-size}rem;
   font-weight: 700;

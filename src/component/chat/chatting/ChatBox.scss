@@ -1,7 +1,7 @@
 @import '../../../styles/_vars.scss';
 
 .container {
-  composes: u-alignBottom from global;
+  vertical-align: bottom !important;
   margin: 0 #{1/$font-size}rem;
 
   .fieldMobile {

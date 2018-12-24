@@ -32,11 +32,11 @@
 }
 
 .listBottom {
-  composes: u-paddingBL from global;
+  padding-bottom: #{20/$font-size}rem;
 }
 
 .resultsPadding {
-  composes: u-paddingBL from global;
+  padding-bottom: #{20/$font-size}rem;
 }
 
 .noResults {

@@ -1,7 +1,7 @@
 @import '../styles/_vars.scss';
 
 .flagCustom {
-  composes: u-inline from global;
+  display: inline;
 }
 
 

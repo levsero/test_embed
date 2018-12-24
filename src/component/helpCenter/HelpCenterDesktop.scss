@@ -10,7 +10,7 @@
 }
 
 .footer {
-  composes: u-paddingVN from global;
+  padding: 0 !important;
 }
 
 .footerLogo {

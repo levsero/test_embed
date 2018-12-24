@@ -50,7 +50,6 @@
 }
 
 .historyFetchingText {
-  composes: u-backgroundWhite from global;
   color: $zd-color-grey-800;
   border-radius: #{30/$font-size}rem !important;
   box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
@@ -58,6 +57,7 @@
   height: #{30/$font-size}rem;
   line-height: #{30/$font-size}rem;
   padding: 0 #{12/$font-size}rem;
+  background-color: $zd-color-white;
 }
 
 .zendeskLogo {

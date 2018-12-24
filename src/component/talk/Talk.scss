@@ -94,7 +94,9 @@
 }
 
 .offlineLabel {
-  composes: u-textCenter u-paddingBS from global;
+  composes: u-textCenter from global;
+
+  padding-bottom: $spacing-sml !important;
 }
 
 .offlineLink {

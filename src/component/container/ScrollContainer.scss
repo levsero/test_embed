@@ -33,9 +33,11 @@
 }
 
 .header {
-  composes: u-paddingVM u-paddingHL from global;
+  composes: u-paddingHL from global;
   background: $zd-color-grey-100;
   color: $zd-color-grey-800;
+  padding-top: #{15/$font-size}rem !important;
+  padding-bottom: #{15/$font-size}rem !important;
 }
 
 .userHeader {
@@ -56,11 +58,13 @@
 }
 
 .content {
-  composes: u-paddingHS u-marginHS u-paddingTM from global;
+  composes: u-marginHS u-paddingTM from global;
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
   flex-grow: 1;
+  padding-left: #{10/$font-size}rem !important;
+  padding-right: #{10/$font-size}rem !important;
 
   /*
    * Customise scrollbar for safari/chrome
@@ -80,11 +84,11 @@
 
 .contentMobile {
   -webkit-overflow-scrolling: touch;
-  composes: u-overflowAuto from global;
   box-sizing: border-box;
   height: calc(100% - #{108/$font-size}rem);
   max-height: initial;
   max-width: 100%;
+  overflow: auto;
 
   @media screen and (orientation: landscape) {
     height: auto; /* 1 */
