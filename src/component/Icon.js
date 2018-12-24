@@ -50,7 +50,6 @@ const icons = {
   'Icon--sound-on': require('icons/widget-icon_sound_on.svg'),
   'Icon--thumbDown': require('@zendeskgarden/svg-icons/src/16/thumbs-down-stroke.svg'),
   'Icon--thumbUp': require('@zendeskgarden/svg-icons/src/16/thumbs-up-stroke.svg'),
-  'Icon--tick': require('icons/widget-icon_tick.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
   'Icon--facebook': require('icons/widget-icon_facebook.svg'),
   'Icon--google': require('icons/widget-icon_google-plus.svg'),
