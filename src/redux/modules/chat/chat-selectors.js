@@ -99,6 +99,7 @@ export const getIsPopoutButtonVisible = (state) =>
 
 export const getZChatVendor = (state) => state.chat.vendor.zChat;
 export const getSliderVendor = (state) => state.chat.vendor.slider;
+export const getLuxonVendor = (state) => state.chat.vendor.luxon;
 export const getWindowSettings = (state) => state.chat.accountSettings.chatWindow;
 export const getThemeColor = (state) => ({ base: state.chat.accountSettings.theme.color.primary, text: undefined });
 export const getBadgeColor = (state) => state.chat.accountSettings.theme.color.banner;

@@ -6,12 +6,12 @@ import 'core-js/es6/array';
 import 'core-js/fn/string/virtual/starts-with';
 import 'core-js/fn/string/virtual/repeat';
 import 'core-js/fn/math/trunc';
-import { DateTime } from 'luxon';
 
 import { i18n } from 'service/i18n';
 
-export function dateTime(timestamp, opts = {}) {
-  const ts = toDateTime(timestamp);
+export function dateTime(luxon, timestamp, opts = {}) {
+  const { DateTime } = luxon;
+  const ts = toDateTime(DateTime, timestamp);
 
   if (opts.showToday) {
     const onSameDay = ts.hasSame(Date.now(), 'days');
@@ -25,7 +25,7 @@ export function dateTime(timestamp, opts = {}) {
   return ts.toLocaleString(DateTime.DATETIME_MED);
 }
 
-function toDateTime(timestamp) {
+function toDateTime(DateTime, timestamp) {
   let locale = i18n.getLocale();
   let ts = DateTime.fromMillis(timestamp);
 
