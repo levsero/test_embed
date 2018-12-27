@@ -1,0 +1,33 @@
+@import '../../../styles/_vars.scss';
+
+.carouselSlider {
+  :global(.slick-slider) {
+    margin: 0;
+  }
+
+  :global(.slick-slider) {
+    > button {
+      border: #{1/$font-size}rem solid $zd-color-grey-200 !important;
+      height: #{32/$font-size}rem !important;
+      width: #{32/$font-size}rem !important;
+      box-shadow: 0 #{2/$font-size}rem #{4/$font-size}rem $zd-color-grey-200;
+    }
+
+    > button:nth-of-type(1) {
+      left: -#{30/$font-size}rem;
+    }
+
+    > button:nth-of-type(2) {
+      right: -#{20/$font-size}rem;
+    }
+  }
+
+  :global(.slick-list) {
+    padding: 0;
+    overflow: visible;
+  }
+
+  :global(.slick-slide) {
+    height: auto;
+  }
+}

@@ -179,6 +179,14 @@
   width: 100%;
 }
 
+.carouselContainer {
+  width: calc(#{($structure-msg-card-width + $structure-msg-card-margin)/$font-size}rem);
+}
+
+.carouselMobileContainer {
+  width: calc(90% + #{$structure-msg-card-margin/$font-size}rem);
+}
+
 .defaultMessageContainer {
   position: relative;
 

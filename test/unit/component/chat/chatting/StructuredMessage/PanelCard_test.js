@@ -26,6 +26,12 @@ describe('PanelCard Component', () => {
       },
       'constants/chat': {
         CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
+      },
+      './PanelCard.scss': {
+        locals: {
+          mobileInCarousel: 'mobileInCarousel',
+          mobile: 'mobile'
+        }
       }
     });
 
@@ -75,59 +81,79 @@ describe('PanelCard Component', () => {
       }
     };
 
-    beforeEach(() => {
-      result = instanceRender(<PanelCard {...mockProps} createAction={createActionSpy} />).render();
+    describe('default props', () => {
+      beforeEach(() => {
+        result = instanceRender(<PanelCard {...mockProps} createAction={createActionSpy} />).render();
 
-      const fullPanelProps = {
-        ...mockProps.panel,
-        ...additionalPanelProps
-      };
+        const fullPanelProps = {
+          ...mockProps.panel,
+          ...additionalPanelProps
+        };
 
-      component = instanceRender(<PanelCard panel={fullPanelProps} createAction={createActionSpy}/>);
-    });
+        component = instanceRender(<PanelCard panel={fullPanelProps} createAction={createActionSpy} />);
+      });
 
-    it('returns a PurePanelCard component', () => {
-      expect(TestUtils.isElementOfType(result, PurePanelCard)).toEqual(true);
-    });
+      it('returns a PurePanelCard component', () => {
+        expect(TestUtils.isElementOfType(result, PurePanelCard)).toEqual(true);
+      });
 
-    it('returns the panel prop', () => {
-      expect(result.props.panel).toEqual({
-        ...mockProps.panel,
-        imageUrl: undefined,
-        onClick: null
+      it('passes no custom class to PurePanelCard component', () => {
+        expect(result.props.className).toEqual('');
+      });
+
+      it('returns the panel prop', () => {
+        expect(result.props.panel).toEqual({
+          ...mockProps.panel,
+          imageUrl: undefined,
+          onClick: null
+        });
+      });
+
+      it('returns the panel prop with additional props', () => {
+        const mockActionSpy = jasmine.createSpy('mockActionSpy');
+
+        createActionSpy.and.callFake(() => {
+          return mockActionSpy;
+        });
+
+        const result = component.render();
+
+        expect(result.props.panel).toEqual({
+          ...mockProps.panel,
+          imageUrl: additionalPanelProps.image_url,
+          onClick: mockActionSpy
+        });
+      });
+
+      it('renders correct number of Button components', () => {
+        expect(result.props.children.length).toEqual(mockProps.buttons.length);
+
+        result.props.children.forEach(child => {
+          expect(TestUtils.isElementOfType(child, Button)).toEqual(true);
+        });
+      });
+
+      it('passes correct props to Button component', () => {
+        result.props.children.forEach((child, index) => {
+          expect(child.props.text).toEqual(mockProps.buttons[index].text);
+          expect(child.props.action).toEqual(mockProps.buttons[index].action);
+
+          expect(child.props.createAction).toEqual(createActionSpy);
+        });
       });
     });
 
-    it('returns the panel prop with additional props', () => {
-      const mockActionSpy = jasmine.createSpy('mockActionSpy');
+    describe('custom props', () => {
+      describe('inCarousel and isMobile', () => {
+        it('should pass mobile class if inCarousel is false but isMobile is true', () => {
+          result = instanceRender(<PanelCard {...{ ...mockProps, isMobile: true }} createAction={createActionSpy} />).render();
+          expect(result.props.className).toEqual('mobile');
+        });
 
-      createActionSpy.and.callFake(() => {
-        return mockActionSpy;
-      });
-
-      const result = component.render();
-
-      expect(result.props.panel).toEqual({
-        ...mockProps.panel,
-        imageUrl: additionalPanelProps.image_url,
-        onClick: mockActionSpy
-      });
-    });
-
-    it('renders correct number of Button components', () => {
-      expect(result.props.children.length).toEqual(mockProps.buttons.length);
-
-      result.props.children.forEach(child => {
-        expect(TestUtils.isElementOfType(child, Button)).toEqual(true);
-      });
-    });
-
-    it('passes correct props to Button component', () => {
-      result.props.children.forEach((child, index) => {
-        expect(child.props.text).toEqual(mockProps.buttons[index].text);
-        expect(child.props.action).toEqual(mockProps.buttons[index].action);
-
-        expect(child.props.createAction).toEqual(createActionSpy);
+        it('should pass mobileInCarousel if both inCarousel and isMobile is true', () => {
+          result = instanceRender(<PanelCard {...{ ...mockProps, isMobile: true, inCarousel: true }} createAction={createActionSpy} />).render();
+          expect(result.props.className).toEqual('mobileInCarousel');
+        });
       });
     });
   });

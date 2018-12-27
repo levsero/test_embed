@@ -20,7 +20,9 @@ class StructuredMessage extends Component {
       PropTypes.shape(
         _.assign({ type: PropTypes.string.isRequired }, PanelCard.schemaPropTypes)
       )
-    ]).isRequired
+    ]).isRequired,
+    isMobile: PropTypes.bool.isRequired,
+    inCarousel: PropTypes.bool
   }
 
   createAction = ({ type, value }) => {
@@ -44,10 +46,24 @@ class StructuredMessage extends Component {
       case CHAT_STRUCTURED_MESSAGE_TYPE.BUTTON_TEMPLATE:
         const { buttons, msg } = this.props.schema;
 
-        return <ButtonCard buttons={buttons} msg={msg} createAction={this.createAction} />;
+        return (
+          <ButtonCard
+            buttons={buttons}
+            msg={msg}
+            createAction={this.createAction}
+            isMobile={this.props.isMobile}
+          />
+        );
 
       case CHAT_STRUCTURED_MESSAGE_TYPE.PANEL_TEMPLATE:
-        return <PanelCard {...this.props.schema} createAction={this.createAction} />;
+        return (
+          <PanelCard
+            {...this.props.schema}
+            createAction={this.createAction}
+            isMobile={this.props.isMobile}
+            inCarousel={this.props.inCarousel}
+          />
+        );
     }
   }
 }

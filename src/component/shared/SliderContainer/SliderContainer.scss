@@ -48,21 +48,3 @@ $focusRingWidth: 3px;
     border-radius: 0;
   }
 }
-
-:global {
-  .structuredMessageSlider {
-    .variableWidth {
-       .slick-slide {
-        height: auto !important;
-      }
-    }
-
-    .slick-slider {
-      margin: 0 24px;
-    }
-
-    .slick-list {
-      padding: $focusRingWidth;
-    }
-  }
-}

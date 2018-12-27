@@ -49,3 +49,21 @@ $sliderHeight: calc(#{$mobileSliderHeight}rem + #{$focusRingWidth * 2});
 .lastSeparator {
   margin-right: calc(#{$buttonBorderWidth}rem + #{$focusRingWidth}); // prevent cutoff of the last element and its focus ring
 }
+
+:global {
+  .structuredMessageSlider {
+    .variableWidth {
+      &.slick-slider {
+        margin: 0 22px;
+      }
+
+      .slick-slide {
+        height: auto !important;
+      }
+
+      .slick-list {
+        padding: $focusRingWidth;
+      }
+    }
+  }
+}

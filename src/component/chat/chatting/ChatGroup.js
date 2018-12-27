@@ -17,6 +17,7 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
 import { Icon } from 'component/Icon';
 import StructuredMessage from 'component/chat/chatting/StructuredMessage';
+import Carousel from 'component/chat/chatting/Carousel';
 
 const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE);
 
@@ -30,7 +31,8 @@ export class ChatGroup extends Component {
     onImageLoad: PropTypes.func,
     chatLogCreatedAt: PropTypes.number,
     children: PropTypes.object,
-    socialLogin: PropTypes.object
+    socialLogin: PropTypes.object,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -86,6 +88,16 @@ export class ChatGroup extends Component {
           );
 
           message = this.renderStructuredMessage(chat.structured_msg);
+        } else if (chat.structured_msg && _.includes(CHAT_STRUCTURED_CONTENT_TYPE.CAROUSEL, chat.structured_msg.type)) {
+          messageClasses = classNames(
+            messageClasses,
+            {
+              [styles.carouselContainer]: !this.props.isMobile,
+              [styles.carouselMobileContainer]: this.props.isMobile
+            }
+          );
+
+          message = this.renderCarousel(chat.structured_msg.items);
         } else {
           message = this.renderPrintedMessage(chat, isAgent, showAvatar);
         }
@@ -246,7 +258,11 @@ export class ChatGroup extends Component {
   }
 
   renderStructuredMessage = (schema) => {
-    return (<StructuredMessage schema={schema} />);
+    return (<StructuredMessage schema={schema} isMobile={this.props.isMobile}/>);
+  }
+
+  renderCarousel = (items) => {
+    return (<Carousel items={items} isMobile={this.props.isMobile}/>);
   }
 
   render() {

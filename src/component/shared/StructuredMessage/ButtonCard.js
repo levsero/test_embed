@@ -10,7 +10,7 @@ export class ButtonCard extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     message: PropTypes.string,
-    relativeWidth: PropTypes.bool
+    className: PropTypes.string
   };
 
   static defaultProps = {
@@ -18,10 +18,10 @@ export class ButtonCard extends Component {
   };
 
   render() {
-    const { message, children, relativeWidth } = this.props;
+    const { message, children, className } = this.props;
 
     return (
-      <Card relativeWidth={relativeWidth}>
+      <Card className={className}>
         <div className={styles.message}>{message}</div>
         <ButtonList>
           {children}

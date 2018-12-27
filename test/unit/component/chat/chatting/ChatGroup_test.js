@@ -17,6 +17,7 @@ describe('ChatGroup component', () => {
   const ImageMessage = noopReactComponent();
   const Icon = noopReactComponent();
   const StructuredMessage = noopReactComponent();
+  const Carousel = noopReactComponent();
   const ChatGroupAvatar = requireUncached(chatGroupAvatarPath).ChatGroupAvatar;
 
   let chatConstants = requireUncached(chatConstantsPath);
@@ -45,6 +46,7 @@ describe('ChatGroup component', () => {
       'component/chat/chatting/ImageMessage': { ImageMessage },
       'component/chat/chatting/ChatGroupAvatar': { ChatGroupAvatar },
       'component/chat/chatting/StructuredMessage': StructuredMessage,
+      'component/chat/chatting/Carousel': Carousel,
       'constants/chat': {
         ATTACHMENT_ERROR_TYPES,
         CHAT_MESSAGE_TYPES,
@@ -520,6 +522,7 @@ describe('ChatGroup component', () => {
       spyOn(component, 'renderPrintedMessage');
       spyOn(component, 'renderInlineAttachment');
       spyOn(component, 'renderStructuredMessage');
+      spyOn(component, 'renderCarousel');
 
       result = component.renderChatMessages(isAgent, showAvatar, messages);
     });
@@ -592,6 +595,40 @@ describe('ChatGroup component', () => {
 
         it('append the structuredMessageContainer class ', ()=> {
           expect(result[0].props.children.props.className).toContain('structuredMessageContainerClass');
+        });
+      });
+    });
+
+    const carouselTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CAROUSEL);
+
+    carouselTypes.forEach(carouselType => {
+      describe(`when messages contain a chat.msg with ${carouselType} structured message`, () => {
+        beforeAll(() => {
+          isAgent = true;
+          messages = [
+            {
+              type: 'chat.msg',
+              nick: 'agent',
+              display_name: 'Agent 123',
+              msg: 'Hi! Welcome to Zendesk!',
+              structured_msg: {
+                type: carouselType,
+                items: ['hi']
+              }
+            }
+          ];
+        });
+
+        it('calls renderCarousel once', () => {
+          expect(component.renderCarousel.calls.count())
+            .toEqual(1);
+        });
+
+        it('calls renderCarousel with expected args', () => {
+          const chatEvent = messages[0];
+
+          expect(component.renderCarousel)
+            .toHaveBeenCalledWith(chatEvent.structured_msg.items);
         });
       });
     });
