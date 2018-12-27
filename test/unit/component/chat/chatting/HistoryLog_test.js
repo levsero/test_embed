@@ -244,14 +244,14 @@ describe('HistoryLog component', () => {
 
   describe('renderDivider', () => {
     beforeEach(() => {
-      const component = instanceRender(<HistoryLog />);
+      const component = instanceRender(<HistoryLog luxon='luxon' />);
 
       component.renderDivider(1234);
     });
 
-    it('calls formatter with timestamp and showToday option', () => {
+    it('calls formatter with library, timestamp and showToday option', () => {
       expect(dateTimeSpy)
-        .toHaveBeenCalledWith(1234, { showToday: true });
+        .toHaveBeenCalledWith('luxon', 1234, { showToday: true });
     });
   });
 

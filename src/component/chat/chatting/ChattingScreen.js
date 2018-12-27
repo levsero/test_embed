@@ -55,6 +55,7 @@ const mapStateToProps = (state) => {
     agentsTyping: selectors.getAgentsTyping(state),
     rating: selectors.getChatRating(state),
     visitor: selectors.getChatVisitor(state),
+    luxon: selectors.getLuxonVendor(state),
     showAvatar: selectors.getThemeShowAvatar(state),
     queuePosition: selectors.getQueuePosition(state),
     menuVisible: selectors.getMenuVisible(state),
@@ -93,6 +94,7 @@ class ChattingScreen extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     allAgents: PropTypes.object.isRequired,
+    luxon: PropTypes.object.isRequired,
     activeAgents: PropTypes.object.isRequired,
     agentsTyping: PropTypes.array.isRequired,
     visitor: PropTypes.object.isRequired,
@@ -497,6 +499,7 @@ class ChattingScreen extends Component {
             <HistoryLog
               ref={(el) => { this.chatHistoryLog = el; }}
               chatHistoryLog={this.props.chatHistoryLog}
+              luxon={this.props.luxon}
               showAvatar={this.props.showAvatar}
               agents={this.props.allAgents}
               firstMessageTimestamp={this.props.firstMessageTimestamp}

@@ -38,7 +38,7 @@
   "bundlesize": [
     {
       "path": "dist/web_widget.*.js",
-      "maxSize": "460 KB"
+      "maxSize": "440 KB"
     },
     {
       "path": "dist/common_vendor.*.js",
@@ -50,7 +50,7 @@
     },
     {
       "path": "dist/chat_vendor.*.js",
-      "maxSize": "60 KB"
+      "maxSize": "80 KB"
     }
   ],
   "author": "Zendesk",
