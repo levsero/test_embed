@@ -4,7 +4,7 @@ import { nullZChat } from 'src/util/nullZChat';
 const initialState = {
   zChat: nullZChat,
   slider: null,
-  luxon: null
+  luxon: {}
 };
 
 const vendor = (state = initialState, action = {}) => {
@@ -15,6 +15,7 @@ const vendor = (state = initialState, action = {}) => {
       return { ...state, ...payload };
     case PREVIEWER_LOADED:
       return {
+        ...state,
         zChat: {
           getAuthLoginUrl: () => ''
         }
