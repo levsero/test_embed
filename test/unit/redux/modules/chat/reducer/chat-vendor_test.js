@@ -34,7 +34,7 @@ describe('chat vendor reducer', () => {
     const mockInitialState = {
       zChat: nullZChatSDK,
       slider: null,
-      luxon: null
+      luxon: {}
     };
 
     describe('initial state', () => {
