@@ -20,7 +20,6 @@ const allowedIframeAttribs = [
 export class HelpCenterArticle extends Component {
   static propTypes = {
     activeArticle: PropTypes.object.isRequired,
-    fullscreen: PropTypes.bool,
     locale: PropTypes.string,
     imagesSender: PropTypes.func,
     originalArticleButton: PropTypes.bool,
@@ -31,7 +30,6 @@ export class HelpCenterArticle extends Component {
   };
 
   static defaultProps = {
-    fullscreen: false,
     imagesSender: () => {},
     originalArticleButton: true,
     handleOriginalArticleClick: () => {},

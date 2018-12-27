@@ -35,7 +35,6 @@ export class HelpCenterDesktop extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
-    updateChatScreen: PropTypes.func,
     isContextualSearchPending: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired,
     isOnInitialDesktopSearchScreen: PropTypes.bool,
@@ -58,7 +57,6 @@ export class HelpCenterDesktop extends Component {
     talkAvailable: false,
     talkEnabled: false,
     isOnInitialDesktopSearchScreen: false,
-    updateChatScreen: () => {}
   };
 
   constructor(props, context) {

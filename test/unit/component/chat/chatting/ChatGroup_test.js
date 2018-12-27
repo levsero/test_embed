@@ -1110,9 +1110,6 @@ describe('ChatGroup component', () => {
       display_name: 'Agent 123',
       msg: 'Hello'
     }];
-    const socialLogin = {
-      avatarPath: 'https://i.ytimg.com/vi/otyP039Kbis/hqdefault.jpg'
-    };
 
     beforeEach(() => {
       component = domRender(
@@ -1121,7 +1118,6 @@ describe('ChatGroup component', () => {
           showAvatar={showAvatar}
           messages={messages}
           avatarPath={avatarPath}
-          socialLogin={socialLogin}
         >
           {children}
         </ChatGroup>
@@ -1132,11 +1128,6 @@ describe('ChatGroup component', () => {
       spyOn(component, 'renderAvatar');
 
       component.render();
-    });
-
-    it('has a props.socialLogin value', () => {
-      expect(component.props.socialLogin)
-        .toEqual(socialLogin);
     });
 
     it('contains an avatar property consisting of a ChatGroupAvatar', () => {

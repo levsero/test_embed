@@ -8,7 +8,6 @@ export class Container extends Component {
     card: PropTypes.bool,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
-    fullscreen: PropTypes.bool,
     isMobile: PropTypes.bool,
     onClick: PropTypes.func,
     onDragEnter: PropTypes.func,
@@ -18,7 +17,6 @@ export class Container extends Component {
   static defaultProps = {
     card: false,
     className: '',
-    fullscreen: false,
     isMobile: false,
     onClick: () => {},
     onDragEnter: () => {},

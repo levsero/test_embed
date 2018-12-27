@@ -25,13 +25,11 @@ export class ChatGroup extends Component {
   static propTypes = {
     messages: PropTypes.arrayOf(chatPropTypes.chatMessage),
     isAgent: PropTypes.bool.isRequired,
-    avatarPath: PropTypes.string,
     showAvatar: PropTypes.bool.isRequired,
     handleSendMsg: PropTypes.func,
     onImageLoad: PropTypes.func,
     chatLogCreatedAt: PropTypes.number,
     children: PropTypes.object,
-    socialLogin: PropTypes.object,
     isMobile: PropTypes.bool.isRequired
   };
 

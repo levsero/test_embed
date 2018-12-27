@@ -37,7 +37,6 @@ class WidgetLauncher extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
     notificationCount: PropTypes.number.isRequired,
-    getFrameContentDocument: PropTypes.func,
     forceUpdateWorld: PropTypes.func.isRequired,
     updateFrameTitle: PropTypes.func,
     launcherClicked: PropTypes.func.isRequired,
