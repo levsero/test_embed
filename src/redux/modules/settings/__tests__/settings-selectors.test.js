@@ -315,22 +315,43 @@ describe('getSettingsChatDepartmentsEmpty', () => {
       .toEqual(false);
   });
 
-  test('getSettingsHelpCenterFilter', () => {
-    const result = selectors.getSettingsHelpCenterFilter(
-      settings({
-        helpCenter: {
-          sectionFilter: 'section',
-          categoryFilter: 'category',
-          labelFilter: 'label'
-        }
-      })
-    );
+  describe('getSettingsHelpCenterFilter', () => {
+    describe('when filters are set', () => {
+      it('returns the filters', () => {
+        const result = selectors.getSettingsHelpCenterFilter(
+          settings({
+            helpCenter: {
+              sectionFilter: 'section',
+              categoryFilter: 'category',
+              labelFilter: 'label'
+            }
+          })
+        );
 
-    expect(result)
-      .toEqual({
-        'category': 'category',
-        'label_names': 'label',
-        'section': 'section',
+        expect(result)
+          .toEqual({
+            'category': 'category',
+            'label_names': 'label',
+            'section': 'section',
+          });
       });
+    });
+
+    describe('when filters are not set', () => {
+      it('does not return filters', () => {
+        const result = selectors.getSettingsHelpCenterFilter(
+          settings({
+            helpCenter: {
+              sectionFilter: '',
+              categoryFilter: null,
+              labelFilter: undefined
+            }
+          })
+        );
+
+        expect(result)
+          .toEqual({});
+      });
+    });
   });
 });

@@ -37,12 +37,15 @@ const getLabelFilter = (state) => state.settings.helpCenter.labelFilter;
 
 export const getSettingsHelpCenterFilter = createSelector(
   [getLabelFilter, getCategoryFilter, getSectionFilter],
-  (label, category, section) =>(
-    {
-      label_names: label, // eslint-disable-line camelcase
-      section,
-      category
-    })
+  (label, category, section) =>{
+    const filters = {};
+
+    if (!_.isEmpty(label)) { filters.label_names = label; } // eslint-disable-line camelcase
+    if (!_.isEmpty(section)) { filters.section = section; }
+    if (!_.isEmpty(category)) { filters.category = category; }
+
+    return filters;
+  }
 );
 
 export const getSettingsChatDepartmentsEnabled = createSelector(
