@@ -16,19 +16,16 @@ import {
   getCurrentMessage,
   getLauncherBadgeSettings,
   getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors';
-import { getChatBadgeColor } from 'src/redux/modules/selectors';
 import { Input } from '@zendeskgarden/react-textfields';
 import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatBadge.scss';
-import { labelCSS } from './DynamicCssHelpers';
 
 const mapStateToProps = (state) => {
   return {
     currentMessage: getCurrentMessage(state),
     prechatFormRequired: getPrechatFormRequired(state),
-    chatBadgeColor: getChatBadgeColor(state),
     bannerSettings: getLauncherBadgeSettings(state)
   };
 };
@@ -44,7 +41,6 @@ class ChatBadge extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     bannerSettings: PropTypes.object.isRequired,
     chatBadgeClicked: PropTypes.func.isRequired,
-    chatBadgeColor: PropTypes.object,
     prechatFormRequired: PropTypes.bool,
     hideBranding: PropTypes.bool
   };
@@ -52,10 +48,6 @@ class ChatBadge extends Component {
   static defaultProps = {
     currentMessage: '',
     bannerSettings: {},
-    chatBadgeColor: {
-      text: '',
-      base: ''
-    },
     prechatFormRequired: false,
     hideBranding: false
   };
@@ -90,7 +82,6 @@ class ChatBadge extends Component {
 
     return (
       <td key={'label'} className={labelClasses}>
-        {labelCSS(this.props.chatBadgeColor)}
         {this.props.bannerSettings.label}
       </td>
     );
