@@ -14,11 +14,15 @@ let mockIsOnHostMappedDomainValue,
   mockSearchQuery,
   actions,
   actionTypes,
+  mockFilter,
   updateQueueSpy = jasmine.createSpy('updateQueue').and.returnValue({ type: 'someActionType' }),
   getPageKeywordsSpy = jasmine.createSpy('getPageKeywords').and.returnValue('keywords');
+
 const httpPostSpy = jasmine.createSpy('http.send');
 const httpGetSpy = jasmine.createSpy('http.get');
 const httpImageSpy = jasmine.createSpy('http.getImage');
+
+mockFilter = {};
 
 describe('helpCenter redux actions', () => {
   beforeEach(() => {
@@ -72,6 +76,9 @@ describe('helpCenter redux actions', () => {
       },
       'src/redux/modules/base': {
         updateQueue: updateQueueSpy
+      },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsHelpCenterFilter: () => mockFilter
       }
     });
 
@@ -454,9 +461,9 @@ describe('helpCenter redux actions', () => {
       });
     });
 
-    describe('when help center filters are part of settings', () => {
+    describe('when help center filters are set', () => {
       beforeAll(() => {
-        mockSettingsValue = {
+        mockFilter = {
           section: 'filter'
         };
       });

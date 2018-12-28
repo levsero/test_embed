@@ -32,7 +32,6 @@ describe('init', () => {
       }],
       ['margin', 8],
       ['viaId', 48],
-      ['helpCenter.originalArticleButton', true],
       ['contactForm.attachments', true],
       ['contactForm.subject', false],
       ['contactForm.tags', []],
@@ -89,26 +88,6 @@ describe('init', () => {
 
     expect(settings.get('authenticate'))
       .toEqual('foo');
-  });
-
-  it('limits the number of locale fallbacks', () => {
-    window.zESettings = {
-      webWidget: {
-        helpCenter: {
-          localeFallbacks: ['en-US', 'en-AU', 'fr', 'zh-CH']
-        }
-      }
-    };
-    settings.init();
-    settings.enableCustomizations();
-
-    const localeFallbacks = settings.get('helpCenter.localeFallbacks');
-
-    expect(localeFallbacks.length)
-      .toBe(3);
-
-    expect(localeFallbacks)
-      .toEqual(['en-US', 'en-AU', 'fr']);
   });
 
   it('can set errorReporting to true', () => {
@@ -179,11 +158,6 @@ describe('get', () => {
     settings.init();
   });
 
-  it('returns user setting for helpCenter.originalArticleButton', () => {
-    expect(settings.get('helpCenter.originalArticleButton'))
-      .toBe(false);
-  });
-
   it('returns chat department settings', () => {
     expect(settings.get('chat.departments.select'))
       .toBe('yolo');
@@ -213,25 +187,6 @@ describe('get', () => {
   it('returns user setting for color theme', () => {
     expect(settings.get('color.theme'))
       .toBe('#FF0000');
-  });
-
-  describe('when web widget customisations are enabled', () => {
-    beforeEach(() => {
-      settings.enableCustomizations();
-    });
-
-    it('returns user setting for helpCenter.localeFallbacks', () => {
-      expect(settings.get('helpCenter.localeFallbacks'))
-        .toEqual(['fr']);
-    });
-  });
-
-  describe('when web widget customisations are disabled', () => {
-    it('returns user default for helpCenter.localeFallbacks', () => {
-      settings.disableCustomizations();
-      expect(settings.get('helpCenter.localeFallbacks'))
-        .toEqual([]);
-    });
   });
 
   it('returns a value if it exists in the store', () => {

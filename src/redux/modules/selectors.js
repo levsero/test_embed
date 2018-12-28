@@ -18,7 +18,12 @@ import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
   getSettingsColorLauncher,
-  getSettingsColorLauncherText
+  getSettingsColorLauncherText,
+  getSettingsHelpCenterSuppress,
+  getHelpCenterChatButton,
+  getHelpCenterMessageButton,
+  getHelpCenterSearchPlaceholder,
+  getHelpCenterTitle,
 } from './settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -60,12 +65,42 @@ import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared
  * Enabled: When an embed is part of config, not suppressed but does not have all the conditions to be used
  */
 const getHelpCenterEnabled = createSelector(
-  [getHelpCenterEmbed],
-  (helpCenterEmbed) => {
-    const notSuppressed = !settings.get('helpCenter.suppress');
-
-    return helpCenterEmbed && notSuppressed;
+  [getHelpCenterEmbed, getSettingsHelpCenterSuppress],
+  (helpCenterEmbed, suppress) => {
+    return helpCenterEmbed && !suppress;
   }
+);
+
+const getLabel = (_, label) => label;
+
+export const getSettingsHelpCenterTitle = createSelector(
+  [getHelpCenterTitle, getLocale, getLabel],
+  (helpCenterTitle, _locale, label) => (
+    i18n.getSettingTranslation(helpCenterTitle) || i18n.t(label)
+  )
+);
+
+export const getSettingsHelpCenterSearchPlaceholder = createSelector(
+  [getHelpCenterSearchPlaceholder, getLocale],
+  (helpCenterSearchPlaceholder, _locale) => (
+    i18n.getSettingTranslation(helpCenterSearchPlaceholder) ||
+    i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help')
+  )
+);
+
+export const getSettingsHelpCenterMessageButton = createSelector(
+  [getHelpCenterMessageButton, getLocale, getLabel],
+  (helpCenterMessageButton, _locale, label) => (
+    i18n.getSettingTranslation(helpCenterMessageButton) || i18n.t(label)
+  )
+);
+
+export const getSettingsHelpCenterChatButton = createSelector(
+  [getHelpCenterChatButton, getLocale],
+  (helpCenterChatButton, _locale) => (
+    i18n.getSettingTranslation(helpCenterChatButton) ||
+      i18n.t('embeddable_framework.common.button.chat')
+  )
 );
 
 export const getHelpCenterAvailable = createSelector(
@@ -84,8 +119,6 @@ export const getLauncherChatLabel = createSelector(
     i18n.t('embeddable_framework.launcher.label.chat')
   )
 );
-
-const getLabel = (_, label) => label;
 
 export const getLauncherLabel = createSelector(
   [getSettingsLauncherLabel, getLocale, getLabel],

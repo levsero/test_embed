@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { i18n } from 'service/i18n';
 import { IconFieldButton } from 'component/button/IconFieldButton';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { Icon } from 'component/Icon';
@@ -19,7 +18,8 @@ export class SearchField extends Component {
     onFocus: PropTypes.func,
     onClick: PropTypes.func,
     onSearchIconClick: PropTypes.func,
-    hideZendeskLogo: PropTypes.bool
+    hideZendeskLogo: PropTypes.bool,
+    searchPlaceholder: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -160,7 +160,7 @@ export class SearchField extends Component {
   }
 
   render = () => {
-    const { fullscreen, hideZendeskLogo, hasSearched } = this.props;
+    const { fullscreen, hideZendeskLogo, hasSearched, searchPlaceholder } = this.props;
     const searchContainerClasses = classNames({
       [styles.notSearched]: !hasSearched && hideZendeskLogo,
       [styles.notSearchedWithLogo]: !fullscreen && !hasSearched && !hideZendeskLogo,
@@ -175,7 +175,7 @@ export class SearchField extends Component {
 
     return (
       <FauxInput mediaLayout={true} className={searchContainerClasses} onClick={this.props.onClick}>
-        <Label className={styles.label}>{i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help')}</Label>
+        <Label className={styles.label}>{searchPlaceholder}</Label>
         <Input
           bare={true}
           onChange={this.onChange}
@@ -184,7 +184,7 @@ export class SearchField extends Component {
           onBlur={this.onBlur}
           innerRef={(elem) => { this.searchField = elem; }}
           autoCapitalize='off'
-          placeholder={i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help')}
+          placeholder={searchPlaceholder}
           type='search'
           className={searchInputClasses}
         />

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when UPDATE_SETTINGS is dispatched does not affect values not passed in 1`] = `
+Object {
+  "categoryFilter": null,
+  "chatButton": null,
+  "labelFilter": undefined,
+  "localeFallbacks": Array [],
+  "messageButton": null,
+  "originalArticleButton": true,
+  "searchPlaceholder": null,
+  "sectionFilter": null,
+  "suppress": false,
+  "title": Object {
+    "*": "title text",
+  },
+}
+`;
+
+exports[`when UPDATE_SETTINGS is dispatched updates the settings 1`] = `
+Object {
+  "categoryFilter": "category",
+  "chatButton": Object {
+    "*": "chat button text",
+  },
+  "labelFilter": "label",
+  "localeFallbacks": Array [
+    "fr",
+  ],
+  "messageButton": Object {
+    "*": "messageButton text",
+  },
+  "originalArticleButton": false,
+  "searchPlaceholder": Object {
+    "*": "searchPlaceholder text",
+  },
+  "sectionFilter": "section",
+  "suppress": true,
+  "title": Object {
+    "*": "title text",
+  },
+}
+`;

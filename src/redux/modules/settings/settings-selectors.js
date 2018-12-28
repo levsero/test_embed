@@ -23,6 +23,31 @@ export const getSettingsColor = (state) => state.settings.color;
 export const getSettingsColorLauncher = (state) => getSettingsColor(state).launcher;
 export const getSettingsColorLauncherText = (state) => getSettingsColor(state).launcherText;
 
+export const getSettingsHelpCenterOriginalArticleButton = (state) => state.settings.helpCenter.originalArticleButton;
+export const getSettingsHelpCenterSuppress = (state) => state.settings.helpCenter.suppress;
+export const getSettingsHelpCenterLocaleFallbacks = (state) => state.settings.helpCenter.localeFallbacks;
+export const getHelpCenterChatButton = (state) => state.settings.helpCenter.chatButton;
+export const getHelpCenterMessageButton = (state) => state.settings.helpCenter.messageButton;
+export const getHelpCenterSearchPlaceholder = (state) => state.settings.helpCenter.searchPlaceholder;
+export const getHelpCenterTitle = (state) => state.settings.helpCenter.title;
+
+const getSectionFilter = (state) => state.settings.helpCenter.sectionFilter;
+const getCategoryFilter = (state) => state.settings.helpCenter.categoryFilter;
+const getLabelFilter = (state) => state.settings.helpCenter.labelFilter;
+
+export const getSettingsHelpCenterFilter = createSelector(
+  [getLabelFilter, getCategoryFilter, getSectionFilter],
+  (label, category, section) =>{
+    const filters = {};
+
+    if (!_.isEmpty(label)) { filters.label_names = label; } // eslint-disable-line camelcase
+    if (!_.isEmpty(section)) { filters.section = section; }
+    if (!_.isEmpty(category)) { filters.category = category; }
+
+    return filters;
+  }
+);
+
 export const getSettingsChatDepartmentsEnabled = createSelector(
   getRawSettingsChatDepartmentsEnabled,
   (departments) => {
