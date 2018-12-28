@@ -12,7 +12,6 @@ import { locals as styles } from './ChatHeader.scss';
 
 export class ChatHeader extends Component {
   static propTypes = {
-    title: PropTypes.string,
     concierges: PropTypes.array,
     updateRating: PropTypes.func,
     rating: PropTypes.string,

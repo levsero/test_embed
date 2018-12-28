@@ -19,6 +19,7 @@ module.exports = {
     'react/self-closing-comp': 2,
     'react/sort-comp': 2,
     'react/jsx-wrap-multilines': 2,
-    'react/jsx-no-duplicate-props': 2
+    'react/jsx-no-duplicate-props': 2,
+    'react/no-unused-prop-types': 2
   }
 };

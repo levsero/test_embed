@@ -11,13 +11,11 @@ export class SuccessNotification extends Component {
   static propTypes = {
     isMobile: PropTypes.bool,
     icon: PropTypes.string,
-    hideZendeskLogo: PropTypes.bool
   };
 
   static defaultProps = {
     isMobile: false,
     icon: '',
-    hideZendeskLogo: false
   };
 
   render() {

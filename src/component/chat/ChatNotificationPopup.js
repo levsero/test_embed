@@ -10,7 +10,6 @@ import classNames from 'classnames';
 
 export class ChatNotificationPopup extends Component {
   static propTypes = {
-    className: PropTypes.string,
     isMobile: PropTypes.bool,
     notification: PropTypes.object.isRequired,
     shouldShow: PropTypes.bool.isRequired,
@@ -20,7 +19,6 @@ export class ChatNotificationPopup extends Component {
   }
 
   static defaultProps = {
-    className: '',
     isMobile: false,
     resultsCount: 0
   }

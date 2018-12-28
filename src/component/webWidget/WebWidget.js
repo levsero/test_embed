@@ -29,20 +29,19 @@ import { getChatAvailable,
   getTalkEnabled,
   getHideZendeskLogo,
   getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
-import { getArticleViewActive,
+import {
+  getArticleViewActive,
   getSearchFieldFocused,
-  getHasSearched,
-  getResultsCount,
-  getContextualHelpRequestNeeded } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getBaseIsAuthenticated,
+  getResultsCount
+} from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import {
   getZopimChatEmbed,
   getActiveEmbed,
-  getChatStandalone } from 'src/redux/modules/base/base-selectors';
+  getChatStandalone
+} from 'src/redux/modules/base/base-selectors';
 import { getChatNotification,
-  getIsChatting,
   getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { getHelpCenterAvailable,
   getChannelChoiceAvailable,
@@ -63,9 +62,7 @@ const mapStateToProps = (state) => {
     helpCenterSearchFocused: getSearchFieldFocused(state),
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
-    contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state),
     activeEmbed: getActiveEmbed(state),
-    authenticated: getBaseIsAuthenticated(),
     talkEnabled: getTalkEnabled(state),
     talkAvailable: getTalkAvailable(state),
     callbackEnabled: isCallbackEnabled(state),
@@ -73,11 +70,8 @@ const mapStateToProps = (state) => {
     chatOfflineAvailable: getChatOfflineAvailable(state),
     chatEnabled: getChatEnabled(state),
     oldChat: getZopimChatEmbed(state),
-    ticketForms: getTicketForms(state),
     showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
-    isChatting: getIsChatting(state),
-    hasSearched: getHasSearched(state),
     resultsCount: getResultsCount(state),
     mobileNotificationsDisabled: getSettingsMobileNotificationsDisabled(state),
     helpCenterAvailable: getHelpCenterAvailable(state),
@@ -90,15 +84,11 @@ const mapStateToProps = (state) => {
 class WebWidget extends Component {
   static propTypes = {
     attachmentSender: PropTypes.func,
-    buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
     chatNotification: PropTypes.object.isRequired,
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
-    contextualHelpRequestNeeded: PropTypes.bool,
-    formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
     helpCenterConfig: PropTypes.object,
-    isOnHelpCenterPage: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     localeFallbacks: PropTypes.array,
     oldChat: PropTypes.bool.isRequired,
@@ -109,7 +99,6 @@ class WebWidget extends Component {
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
     submitTicketConfig: PropTypes.object,
-    ticketForms: PropTypes.array.isRequired,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     getFrameContentDocument: PropTypes.func,
@@ -124,7 +113,6 @@ class WebWidget extends Component {
     nextButtonClicked: PropTypes.func.isRequired,
     cancelButtonClicked: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
-    authenticated: PropTypes.bool.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
@@ -134,9 +122,7 @@ class WebWidget extends Component {
     articleViewActive: PropTypes.bool.isRequired,
     helpCenterSearchFocused: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
-    isChatting: PropTypes.bool.isRequired,
     onShowMobile: PropTypes.func,
-    hasSearched: PropTypes.bool.isRequired,
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
@@ -150,14 +136,10 @@ class WebWidget extends Component {
   };
 
   static defaultProps = {
-    buttonLabelKey: '',
     chatNotification: { show: false, playSound: false },
-    contextualHelpRequestNeeded: false,
-    formTitleKey: 'message',
     fullscreen: true,
     helpCenterAvailable: false,
     helpCenterConfig: {},
-    isOnHelpCenterPage: false,
     hideZendeskLogo: false,
     localeFallbacks: [],
     onSubmitted: () => {},

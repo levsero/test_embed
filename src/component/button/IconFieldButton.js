@@ -7,7 +7,6 @@ import classNames from 'classnames';
 
 export class IconFieldButton extends Component {
   static propTypes = {
-    className: PropTypes.string,
     focused: PropTypes.bool,
     fullscreen: PropTypes.bool,
     icon: PropTypes.string,
@@ -15,7 +14,6 @@ export class IconFieldButton extends Component {
   };
 
   static defaultProps = {
-    className: '',
     focused: false,
     fullscreen: false,
     icon: '',

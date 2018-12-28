@@ -15,19 +15,15 @@ export class ChannelChoiceMenu extends Component {
     labelClasses: PropTypes.string,
     talkAvailable: PropTypes.bool,
     chatOfflineAvailable: PropTypes.bool,
-    talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool
   };
 
   static defaultProps = {
     buttonClasses: '',
     labelClasses: '',
     talkAvailable: false,
-    talkEnabled: false,
     submitTicketAvailable: true,
     chatAvailable: false,
-    chatEnabled: false,
     chatOfflineAvailable: false
   };
 
