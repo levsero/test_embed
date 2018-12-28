@@ -1,20 +1,24 @@
-@import '../../../styles/_vars.scss';
+@import '../../../../styles/_vars.scss';
 
-.panelBasic {
-  border: #{1/$font-size}rem $zd-color-grey-200 solid; // messageOptions
+.panel {
+  border: #{1/$font-size}rem $zd-color-grey-200 solid !important; // messageOptions
   text-align: left;
   background: white;
   width: 100%;
   max-width: none !important;
-  padding: 0;
+  padding: 0 !important;
+
+  composes: messageBubble from '../../MessageBubble/MessageBubble.scss';
 }
 
-.panel {
-  composes: messageBubble from '../MessageBubble/MessageBubble.scss';
+.noBorderRadiusTop {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 
-.panelWithButtons {
-  composes: messageBubbleWithOptions from '../MessageBubble/MessageBubble.scss';
+.noBorderRadiusBottom {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 .hasLink:hover {

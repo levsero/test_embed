@@ -5,8 +5,8 @@ import SuccessNotificationStyles  from './SuccessNotification/SuccessNotificatio
 import ButtonStyles               from './StructuredMessage/pure/Button.scss';
 import ButtonListStyles           from './StructuredMessage/pure/ButtonList.scss';
 import CardStyles                 from './StructuredMessage/pure/Card.scss';
+import PanelStyles                from './StructuredMessage/pure/Panel.scss';
 import ButtonCardStyles           from './StructuredMessage/ButtonCard.scss';
-import PanelCardStyles            from './StructuredMessage/PanelCard.scss';
 import SliderContainerStyles      from './SliderContainer/SliderContainer.scss';
 import CarouselStyles             from './Carousel/Carousel.scss';
 
@@ -18,8 +18,8 @@ const styles = `
   ${ButtonStyles}
   ${ButtonListStyles}
   ${CardStyles}
+  ${PanelStyles}
   ${ButtonCardStyles}
-  ${PanelCardStyles}
   ${SliderContainerStyles}
   ${CarouselStyles}
 `;
