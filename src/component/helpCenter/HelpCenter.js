@@ -83,12 +83,10 @@ const mapStateToProps = (state, ownProps) => {
 class HelpCenter extends Component {
   static propTypes = {
     activeArticle: PropTypes.object,
-    buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
     channelChoiceShown: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
-    formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
     previousSearchTerm: PropTypes.string.isRequired,
     hasContextualSearched: PropTypes.bool.isRequired,
@@ -135,10 +133,8 @@ class HelpCenter extends Component {
   };
 
   static defaultProps = {
-    buttonLabelKey: 'message',
     callbackEnabled: false,
     channelChoice: false,
-    formTitleKey: 'help',
     hideZendeskLogo: false,
     localeFallbacks: [],
     onNextClick: () => {},

@@ -19,7 +19,6 @@ export class HelpCenterMobile extends Component {
     buttonLabel: PropTypes.string.isRequired,
     chatAvailable: PropTypes.bool,
     children: PropTypes.node.isRequired,
-    formTitleKey: PropTypes.string,
     hasContextualSearched: PropTypes.bool,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
@@ -47,7 +46,6 @@ export class HelpCenterMobile extends Component {
   static defaultProps = {
     articleViewActive: false,
     chatAvailable: false,
-    formTitleKey: 'help',
     hasContextualSearched: false,
     hasSearched: false,
     hideZendeskLogo: false,

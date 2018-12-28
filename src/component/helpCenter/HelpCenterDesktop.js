@@ -20,7 +20,6 @@ export class HelpCenterDesktop extends Component {
     channelChoiceShown: PropTypes.bool,
     chatAvailable: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    formTitleKey: PropTypes.string,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
     hasSearched: PropTypes.bool,
