@@ -1,11 +1,11 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import onStateChange from 'redux-on-state-change';
 import createLogger from 'redux-logger';
 import reduxCatch from 'redux-catch';
 
 import { store } from 'service/persistence';
 
+import onStateChangeWrapper from 'src/redux/middleware/onStateChange/wrapper';
 import reducer from 'src/redux/modules/reducer';
 import onStateChangeFn from 'src/redux/middleware/onStateChange/onStateChange';
 import persist from 'src/redux/middleware/persist';
@@ -33,13 +33,13 @@ export default function(storeName = 'web_widget', options = {}) {
   const middlewares = [
     throttle(options.throttleEvents, options.allowedActionsFn),
     thunk,
-    onStateChange(onStateChangeFn),
+    onStateChangeWrapper(onStateChangeFn),
     sendBlips,
     listen,
-    onStateChange(resetActiveEmbed),
+    onStateChangeWrapper(resetActiveEmbed),
     trackAnalytics,
     persist,
-    onStateChange(queueCalls)
+    onStateChangeWrapper(queueCalls)
   ];
   let storeEnhancers;
 
