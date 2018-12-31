@@ -174,7 +174,7 @@ describe('Frame', () => {
       forceFrameReady(frame);
     });
 
-    it('should return the child component when called', () => {
+    it('returns the child component when called', () => {
       expect(frame.getRootComponent().props.className)
         .toEqual('mock-component');
     });
@@ -210,7 +210,7 @@ describe('Frame', () => {
       forceFrameReady(frame);
     });
 
-    it('should return a react component with the name passed in', () => {
+    it('returns a react component with the name passed in', () => {
       expect(frame.child.props.name)
         .toEqual('Nick');
     });
@@ -247,12 +247,12 @@ describe('Frame', () => {
         jasmine.clock().tick();
       });
 
-      it('should update html lang attribute', () => {
+      it('updates html lang attribute', () => {
         expect(documentElem.lang)
           .toEqual(mockLocaleValue);
       });
 
-      it('should update html dir attribute to rtl', () => {
+      it('updates html dir attribute to rtl', () => {
         expect(documentElem.dir)
           .toEqual('rtl');
       });
@@ -271,12 +271,12 @@ describe('Frame', () => {
         jasmine.clock().tick();
       });
 
-      it('should update html lang attribute', () => {
+      it('updates html lang attribute', () => {
         expect(documentElem.lang)
           .toEqual(mockLocaleValue);
       });
 
-      it('should update html dir attribute to ltr', () => {
+      it('updates html dir attribute to ltr', () => {
         expect(documentElem.dir)
           .toEqual('ltr');
       });
@@ -487,7 +487,7 @@ describe('Frame', () => {
       frame.back({ preventDefault: noop });
     });
 
-    it('should call props.callbacks.onBack', () => {
+    it('calls props.callbacks.onBack', () => {
       expect(mockOnBack)
         .toHaveBeenCalled();
     });
@@ -548,12 +548,12 @@ describe('Frame', () => {
           result = frame.computeIframeStyle();
         });
 
-        it('modified frameStyle should contain at least 1 property', () => {
+        it('modified frameStyle contains at least 1 property', () => {
           expect(_.keys(modifiedFrameStyle).length)
             .toBeGreaterThan(0);
         });
 
-        it('computeIframeStyle should contain styles from the modification', () => {
+        it('computeIframeStyle contains styles from the modification', () => {
           expect(result)
             .toEqual(jasmine.objectContaining(modifiedFrameStyle));
         });
@@ -569,7 +569,7 @@ describe('Frame', () => {
           result = frame.computeIframeStyle();
         });
 
-        it('computeIframeStyle should contain styles from frameStyle', () => {
+        it('computeIframeStyle contains styles from frameStyle', () => {
           expect(result)
             .toEqual(jasmine.objectContaining(frameStyle));
         });
@@ -603,7 +603,7 @@ describe('Frame', () => {
           result = frame.computeIframeStyle();
         });
 
-        it('computeIframeStyle should contain styles from the modification', () => {
+        it('computeIframeStyle contains styles from the modification', () => {
           expect(result)
             .toEqual(jasmine.objectContaining(fixedStyles));
         });
@@ -616,7 +616,7 @@ describe('Frame', () => {
           result = frame.computeIframeStyle();
         });
 
-        it('computeIframeStyle should contain styles from frameStyle', () => {
+        it('computeIframeStyle contains styles from frameStyle', () => {
           expect(result)
             .toEqual(jasmine.objectContaining(frameStyle));
         });
@@ -631,7 +631,7 @@ describe('Frame', () => {
           renderFrame({ verticalPosition: 'top', horizontalPosition: 'right' });
         });
 
-        it('should have top classes', () => {
+        it('has top classes', () => {
           expect(renderedFrame.getOffsetPosition().top)
             .toBeDefined();
           expect(renderedFrame.getOffsetPosition().bottom)
@@ -659,7 +659,7 @@ describe('Frame', () => {
         beforeEach(() => {
           renderFrame({ verticalPosition: 'top', horizontalPosition: 'left' });
         });
-        it('has left offsett', () => {
+        it('has left offset', () => {
           expect(renderedFrame.getOffsetPosition().left)
             .toBeDefined();
 
@@ -697,7 +697,7 @@ describe('Frame', () => {
             renderFrame({ offset: desktopOnlyOffset });
           });
 
-          it('should apply the customized desktop offsets', () => {
+          it('applies the customized desktop offsets', () => {
             expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(31);
 
@@ -711,7 +711,7 @@ describe('Frame', () => {
             renderFrame({ offset: mobileOnlyOffset });
           });
 
-          it('should not apply customized mobile offsets', () => {
+          it('does not apply customized mobile offsets', () => {
             expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(0);
 
@@ -725,7 +725,7 @@ describe('Frame', () => {
             renderFrame({ offset: desktopAndMobileOffset });
           });
 
-          it('should apply only customized desktop offsets', () => {
+          it('applies only customized desktop offsets', () => {
             expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(102);
 
@@ -739,7 +739,7 @@ describe('Frame', () => {
             renderFrame({ offset: {} });
           });
 
-          it('should default to 0', () => {
+          it('defaults to 0', () => {
             expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(0);
 
@@ -765,7 +765,7 @@ describe('Frame', () => {
               renderFrame({ isMobile: true, offset: desktopOnlyOffset });
             });
 
-            it('should not apply the customized desktop offsets', () => {
+            it('does not apply the customized desktop offsets', () => {
               expect(renderedFrame.getOffsetPosition().bottom)
                 .toBe(0);
 
@@ -779,7 +779,7 @@ describe('Frame', () => {
               renderFrame({ isMobile: true, offset: mobileOnlyOffset });
             });
 
-            it('should apply customized mobile offsets', () => {
+            it('applies customized mobile offsets', () => {
               expect(renderedFrame.getOffsetPosition().bottom)
                 .toBe(200);
 
@@ -793,7 +793,7 @@ describe('Frame', () => {
               renderFrame({ isMobile: true, offset: desktopAndMobileOffset });
             });
 
-            it('should apply only customized mobile offsets', () => {
+            it('applies only customized mobile offsets', () => {
               expect(renderedFrame.getOffsetPosition().bottom)
                 .toBe(200);
 
@@ -807,7 +807,7 @@ describe('Frame', () => {
               renderFrame({ isMobile: true, offset: {} });
             });
 
-            it('should default to 0', () => {
+            it('defaults to 0', () => {
               expect(renderedFrame.getOffsetPosition().bottom)
                 .toBe(0);
 
@@ -835,7 +835,7 @@ describe('Frame', () => {
             renderFrame({ name: 'webWidget', offset: desktopAndMobileOffset });
           });
 
-          it('should apply the customized desktop offsets', () => {
+          it('applies the customized desktop offsets', () => {
             expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(102);
 
@@ -849,7 +849,7 @@ describe('Frame', () => {
             renderFrame({ isMobile: true, name: 'webWidget', offset: desktopAndMobileOffset });
           });
 
-          it('should not apply customized offsets', () => {
+          it('does not apply customized offsets', () => {
             expect(renderedFrame.getOffsetPosition()).toEqual({});
           });
         });
@@ -865,23 +865,23 @@ describe('Frame', () => {
       forceFrameReady(frame);
     });
 
-    it('should render an iframe', () => {
+    it('renders an iframe', () => {
       expect(frame.iframe)
         .toBeDefined();
     });
 
-    it('should assign the correct classes', () => {
+    it('assigns the correct classes', () => {
       expect(frame.iframe.className)
         .toContain('foo');
     });
 
     describe('when visible', () => {
-      it('should have `--active` in classes', () => {
+      it('has `--active` in classes', () => {
         expect(frame.iframe.className)
           .toContain('--active');
       });
 
-      it('should set the tab index to 0', () => {
+      it('sets the tab index to 0', () => {
         expect(frame.iframe.attributes.tabindex.value)
           .toEqual('0');
       });
@@ -900,12 +900,12 @@ describe('Frame', () => {
         visibleValue = false;
       });
 
-      it('should not have `--active` in classes', () => {
+      it('does not have `--active` in classes', () => {
         expect(frame.iframe.className)
           .not.toContain('--active');
       });
 
-      it('should set the tab index to -1', () => {
+      it('sets the tab index to -1', () => {
         expect(frame.iframe.attributes.tabindex.value)
           .toEqual('-1');
       });
@@ -938,7 +938,7 @@ describe('Frame', () => {
         frame.setState({ childRendered: false });
       });
 
-      it('should call updateFrameLocale ', () => {
+      it('calls updateFrameLocale ', () => {
         expect(frame.updateFrameLocale)
           .toHaveBeenCalled();
       });
@@ -985,7 +985,7 @@ describe('Frame', () => {
           .toBe('rtl');
       });
 
-      it('should sets the state childRendered to true', () => {
+      it('sets the state childRendered to true', () => {
         expect(frame.state.childRendered)
           .toEqual(true);
       });
