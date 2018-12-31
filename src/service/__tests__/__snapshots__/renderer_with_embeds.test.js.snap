@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders expected embeds from config 1`] = `
-"<div><iframe title=\\"Opens a widget where you can find more information\\" style=\\"background: transparent; z-index: -1; transform: translateZ(0); position: fixed; opacity: 0; width: 347px; height: 50px; max-height: 551px; min-height: 50px; margin: 10px 20px 10px 20px; top: -9999px;\\" id=\\"launcher\\" tabindex=\\"-1\\" class=\\"zEWidget-launcher \\"></iframe></div><script>
+"<div><iframe title=\\"Opens a widget where you can find more information\\" style=\\"background: transparent; z-index: 999998; transform: translateZ(0); position: fixed; opacity: 0; width: 347px; height: 50px; max-height: 551px; min-height: 50px; margin: 10px 20px 10px 20px; top: -9999px;\\" id=\\"launcher\\" tabindex=\\"-1\\" class=\\"zEWidget-launcher \\"></iframe></div><script>
     (function(d,s){var z=$zopim,$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
     $.async=!0;$.setAttribute('charset','utf-8');
     $.src='https://v2.zopim.com/?2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
     z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
-  </script><div><iframe title=\\"Find more information here\\" style=\\"background: transparent; transform: translateZ(0); position: fixed; opacity: 0; width: 357px; height: 100%; max-height: 565px; min-height: 150px; top: -9999px;\\" id=\\"webWidget\\" tabindex=\\"-1\\" class=\\"zEWidget-webWidget \\"></iframe></div>"
+  </script><div><iframe title=\\"Find more information here\\" style=\\"background: transparent; z-index: 999999; transform: translateZ(0); position: fixed; opacity: 0; width: 357px; height: 100%; max-height: 565px; min-height: 150px; top: -9999px;\\" id=\\"webWidget\\" tabindex=\\"-1\\" class=\\"zEWidget-webWidget \\"></iframe></div>"
 `;

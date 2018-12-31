@@ -3,12 +3,33 @@ describe('embed.chat', () => {
     mockIsMobileBrowserValue,
     mockRegistry,
     mockSettingsValue,
-    mockZopim;
+    mockZopim,
+    mockOffsetVertical,
+    mockOffsetHorizontal,
+    mockHorizontalPosition,
+    mockVerticalPosition;
+
+  beforeEach(()=> {
+    chat = undefined;
+    mockIsMobileBrowserValue = undefined;
+    mockRegistry = undefined;
+    mockSettingsValue = undefined;
+    mockZopim = undefined;
+    mockOffsetVertical = undefined;
+    mockOffsetHorizontal = undefined;
+    mockHorizontalPosition = 'right';
+    mockVerticalPosition = 'bottom';
+  });
 
   const updateZopimChatStatusSpy = jasmine.createSpy('updateZopimChatStatus');
   const zopimEndChatSpy = jasmine.createSpy('zopimEndChat');
   const closeApiSpy = jasmine.createSpy('closeApi');
   const openApiSpy = jasmine.createSpy('openApi');
+
+  const mockStore = {
+    getState: () => ({}),
+    dispatch: noop
+  };
 
   const mockGlobals = {
     document: global.document,
@@ -83,6 +104,14 @@ describe('embed.chat', () => {
           get: (name) => _.get(mockSettingsValue, name, null)
         }
       },
+      'src/redux/modules/settings/settings-selectors': {
+        getStylingOffsetVertical: () => mockOffsetVertical,
+        getStylingOffsetHorizontal: () => mockOffsetHorizontal,
+        getStylingPositionVertical: () => mockVerticalPosition
+      },
+      'src/redux/modules/selectors': {
+        getHorizontalPosition: () => mockHorizontalPosition
+      },
       'src/redux/modules/zopimChat': {
         updateZopimChatStatus: updateZopimChatStatusSpy,
         zopimOnClose: noop,
@@ -137,37 +166,16 @@ describe('embed.chat', () => {
       const chatName = 'dave';
       const zopimId = 'abc123';
 
-      chat.create(chatName, { zopimId: zopimId });
+      chat.create(chatName, { zopimId: zopimId }, mockStore);
 
       expect(chat.get(chatName).config.zopimId)
         .toEqual(zopimId);
-    });
-
-    it('should correctly parse the value for offsetHorizontal', () => {
-      mockSettingsValue = {
-        offset: { horizontal: 20 },
-        margin: 15
-      };
-
-      chat.create('dave');
-
-      expect(chat.get('dave').config.offsetHorizontal)
-        .toEqual(35);
-    });
-
-    it('should correctly grab the value for offsetVertical', () => {
-      mockSettingsValue = { offset: { vertical: '20px' } };
-
-      chat.create('dave');
-
-      expect(chat.get('dave').config.offsetVertical)
-        .toEqual(20);
     });
   });
 
   describe('get', () => {
     it('should return the correct chat', () => {
-      chat.create('dave');
+      chat.create('dave',{}, mockStore);
       const dave = chat.get('dave');
 
       expect(dave)
@@ -182,7 +190,7 @@ describe('embed.chat', () => {
 
     it('should inject the zopim bootstrap script into the document', () => {
       mockMediator = mockRegistry['service/mediator'].mediator;
-      chat.create(chatName, { zopimId: zopimId });
+      chat.create(chatName, { zopimId: zopimId }, mockStore);
       chat.render(chatName);
 
       expect(document.querySelectorAll('body > script').length)
@@ -199,7 +207,7 @@ describe('embed.chat', () => {
 
     it('should call zopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility()', () => {
       mockMediator = mockRegistry['service/mediator'].mediator;
-      chat.create(chatName, { zopimId: zopimId });
+      chat.create(chatName, { zopimId: zopimId }, mockStore);
       chat.render(chatName);
 
       expect(mockZopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility)
@@ -212,7 +220,7 @@ describe('embed.chat', () => {
         const config = { zopimId: '123' };
 
         beforeEach(() => {
-          chat.create(chatName, config);
+          chat.create(chatName, config, mockStore);
           chat.render(chatName);
         });
 
@@ -230,7 +238,7 @@ describe('embed.chat', () => {
         const config = { endpoint, zopimId: '456' };
 
         beforeEach(() => {
-          chat.create(chatName, config);
+          chat.create(chatName, config, mockStore);
           chat.render(chatName);
         });
 
@@ -254,7 +262,7 @@ describe('embed.chat', () => {
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         mockZopim = mockRegistry['utility/globals'].win.$zopim;
-        chat.create(chatName, { zopimId: zopimId }, { dispatch: noop });
+        chat.create(chatName, { zopimId: zopimId }, mockStore);
         chat.render(chatName);
 
         const livechat = mockZopim.livechat;
@@ -383,7 +391,7 @@ describe('embed.chat', () => {
     describe('mediator subscriptions', () => {
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        chat.create(chatName, { zopimId: zopimId }, { dispatch: noop });
+        chat.create(chatName, { zopimId: zopimId }, mockStore);
         chat.render(chatName);
       });
 
@@ -423,7 +431,7 @@ describe('embed.chat', () => {
 
       describe('<name>.show', () => {
         it('should call zopim.button.show()', () => {
-          chat.create('dave', { zopimId: zopimId, standalone: true }, { dispatch: noop });
+          chat.create('dave', { zopimId: zopimId, standalone: true }, mockStore);
 
           pluckSubscribeCall(mockMediator, 'dave.show')();
 
@@ -528,47 +536,50 @@ describe('embed.chat', () => {
         mockZopim = mockRegistry['utility/globals'].win.$zopim;
       });
 
-      describe('when position.vertical setting is defined', () => {
-        it('should set the vertical position', () => {
-          mockSettingsValue.position = { vertical: 'top' };
-          chat.create('doge', { zopimId });
-          chat.render('doge');
+      describe('setPosition', () => {
+        describe('when vertical position is top', () => {
+          it('should set the vertical position', () => {
+            mockVerticalPosition = 'top';
+            chat.create('doge', { zopimId }, mockStore);
+            chat.render('doge');
 
-          expect(mockZopim.livechat.window.setPosition)
-            .toHaveBeenCalledWith('tr');
+            expect(mockZopim.livechat.window.setPosition)
+              .toHaveBeenCalledWith('tr');
+          });
+        });
+
+        describe('when horizontal position setting is left', () => {
+          it('should set the horizontal position', () => {
+            mockHorizontalPosition = 'left';
+            chat.create('doge', { zopimId }, mockStore);
+            chat.render('doge');
+
+            expect(mockZopim.livechat.window.setPosition)
+              .toHaveBeenCalledWith('bl');
+          });
         });
       });
 
-      describe('when position.vertical setting is not defined', () => {
-        it('should default the vertical position to bottom', () => {
-          mockSettingsValue.position = {};
-          chat.create('doge', { zopimId });
+      describe('setOffsetVertical', () => {
+        it('should set the vertical offset', () => {
+          mockOffsetVertical = 10;
+          chat.create('doge', { zopimId }, mockStore);
           chat.render('doge');
 
-          expect(mockZopim.livechat.window.setPosition)
-            .toHaveBeenCalledWith('br');
+          expect(mockZopim.livechat.window.setOffsetVertical)
+            .toHaveBeenCalledWith(10);
         });
       });
 
-      describe('when position.horizontal setting is defined', () => {
-        it('should set the horizontal position', () => {
-          mockSettingsValue.position = { horizontal: 'left' };
-          chat.create('doge', { zopimId });
+      describe('when horizontal position setting is left', () => {
+        it('should set the horizontal offset', () => {
+          mockSettingsValue.margin = 8;
+          mockOffsetHorizontal = 20;
+          chat.create('doge', { zopimId }, mockStore);
           chat.render('doge');
 
-          expect(mockZopim.livechat.window.setPosition)
-            .toHaveBeenCalledWith('bl');
-        });
-      });
-
-      describe('when position.horizontal setting is not defined', () => {
-        it('should use the position in config', () => {
-          mockSettingsValue.position = {};
-          chat.create('doge', { zopimId, position: 'left' });
-          chat.render('doge');
-
-          expect(mockZopim.livechat.window.setPosition)
-            .toHaveBeenCalledWith('bl');
+          expect(mockZopim.livechat.window.setOffsetHorizontal)
+            .toHaveBeenCalledWith(28);
         });
       });
     });

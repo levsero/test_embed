@@ -260,3 +260,40 @@ describe('selectors', () => {
     });
   });
 });
+
+describe('getHorizontalPosition', () => {
+  let state;
+
+  beforeEach(() => {
+    state = {
+      base: {
+        embeddableConfig: {
+          cp4: false,
+          position: 'left'
+        }
+      },
+      chat: {
+        accountSettings: {
+          theme: {}
+        }
+      },
+      settings: {
+        styling: {
+          positionHorizontal: 'right'
+        }
+      }
+    };
+  });
+
+  it('returns from settings if set', () => {
+    expect(selectors.getHorizontalPosition(state))
+      .toEqual('right');
+  });
+
+  it('returns embeddableConfig if settings is not set', () => {
+    state.settings.styling.positionHorizontal = null;
+
+    expect(selectors.getHorizontalPosition(state))
+      .toEqual('left');
+  });
+});

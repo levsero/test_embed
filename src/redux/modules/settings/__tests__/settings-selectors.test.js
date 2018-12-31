@@ -237,6 +237,38 @@ test('getSettingsColor', () => {
   expect(result).toEqual(mockColor.color);
 });
 
+test('getStylingOffset', () => {
+  const mockSettings = {
+    styling: {
+      offsetVertical: 10,
+      offsetHorizontal: 20,
+      offsetMobileVertical: 30,
+      offsetMobileHorizontal: 40
+    }
+  };
+  const result = selectors.getStylingOffset(settings(mockSettings));
+
+  expect(result).toEqual( {
+    horizontal: 20,
+    mobile: {
+      horizontal: 40,
+      vertical: 30,
+    },
+    vertical: 10,
+  });
+});
+
+test('getStylingZIndex', () => {
+  const mockSettings = {
+    styling: {
+      zIndex: 10000
+    }
+  };
+  const result = selectors.getStylingZIndex(settings(mockSettings));
+
+  expect(result).toEqual(10000);
+});
+
 test('getSettingsChatPopout', () => {
   const mockSettings = {
     chat: {

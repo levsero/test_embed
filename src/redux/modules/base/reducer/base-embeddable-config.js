@@ -53,7 +53,7 @@ const embeddableConfig = (state = initialState, action) => {
             }
           }
         },
-        position: payload.position,
+        position: payload.position || state.position,
         color: payload.color || state.color.base,
         textColor: payload.textColor || state.color.text,
         cp4: _.get(payload, 'cp4', state.cp4),

@@ -9,7 +9,9 @@ describe('Frame', () => {
     mockZoomSizingRatioValue,
     mockUpdateWidgetShown,
     mockWidgetHideAnimationComplete,
-    mockIsPopout = false;
+    mockIsPopout = false,
+    renderedFrame,
+    mockHorizontalPosition;
 
   const FramePath = buildSrcPath('component/frame/Frame');
   const MAX_WIDGET_HEIGHT = 550;
@@ -49,10 +51,11 @@ describe('Frame', () => {
       return <div className='mock-component' refs='activeComponent' />;
     }
   }
+  mockHorizontalPosition = 'right';
 
   beforeEach(() => {
     mockery.enable();
-
+    renderedFrame = null;
     mockIsRTLValue = false;
     mockLocaleValue = 'en-US';
     mockZoomSizingRatioValue = 1;
@@ -106,6 +109,7 @@ describe('Frame', () => {
       'component/frame/EmbedWrapper': {
         EmbedWrapper: MockEmbedWrapper
       },
+      'src/redux/modules/settings/settings-selectors': {},
       'src/redux/modules/base/base-actions': {
         updateWidgetShown: mockUpdateWidgetShown,
         widgetHideAnimationComplete: mockWidgetHideAnimationComplete
@@ -150,6 +154,18 @@ describe('Frame', () => {
     jasmine.clock().tick();
   };
 
+  const renderFrame = (props = {}) => {
+    const defaultProps = {
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+      isMobile: false
+    };
+    const mergedProps = { ...defaultProps, ...props };
+
+    renderedFrame = domRender(<Frame {...mergedProps}>{mockChild}</Frame>);
+    forceFrameReady(renderedFrame);
+  };
+
   describe('getRootComponent', () => {
     let frame;
 
@@ -158,7 +174,7 @@ describe('Frame', () => {
       forceFrameReady(frame);
     });
 
-    it('should return the child component when called', () => {
+    it('returns the child component when called', () => {
       expect(frame.getRootComponent().props.className)
         .toEqual('mock-component');
     });
@@ -194,7 +210,7 @@ describe('Frame', () => {
       forceFrameReady(frame);
     });
 
-    it('should return a react component with the name passed in', () => {
+    it('returns a react component with the name passed in', () => {
       expect(frame.child.props.name)
         .toEqual('Nick');
     });
@@ -231,12 +247,12 @@ describe('Frame', () => {
         jasmine.clock().tick();
       });
 
-      it('should update html lang attribute', () => {
+      it('updates html lang attribute', () => {
         expect(documentElem.lang)
           .toEqual(mockLocaleValue);
       });
 
-      it('should update html dir attribute to rtl', () => {
+      it('updates html dir attribute to rtl', () => {
         expect(documentElem.dir)
           .toEqual('rtl');
       });
@@ -255,12 +271,12 @@ describe('Frame', () => {
         jasmine.clock().tick();
       });
 
-      it('should update html lang attribute', () => {
+      it('updates html lang attribute', () => {
         expect(documentElem.lang)
           .toEqual(mockLocaleValue);
       });
 
-      it('should update html dir attribute to ltr', () => {
+      it('updates html dir attribute to ltr', () => {
         expect(documentElem.dir)
           .toEqual('ltr');
       });
@@ -471,7 +487,7 @@ describe('Frame', () => {
       frame.back({ preventDefault: noop });
     });
 
-    it('should call props.callbacks.onBack', () => {
+    it('calls props.callbacks.onBack', () => {
       expect(mockOnBack)
         .toHaveBeenCalled();
     });
@@ -532,12 +548,12 @@ describe('Frame', () => {
           result = frame.computeIframeStyle();
         });
 
-        it('modified frameStyle should contain at least 1 property', () => {
+        it('modified frameStyle contains at least 1 property', () => {
           expect(_.keys(modifiedFrameStyle).length)
             .toBeGreaterThan(0);
         });
 
-        it('computeIframeStyle should contain styles from the modification', () => {
+        it('computeIframeStyle contains styles from the modification', () => {
           expect(result)
             .toEqual(jasmine.objectContaining(modifiedFrameStyle));
         });
@@ -553,7 +569,7 @@ describe('Frame', () => {
           result = frame.computeIframeStyle();
         });
 
-        it('computeIframeStyle should contain styles from frameStyle', () => {
+        it('computeIframeStyle contains styles from frameStyle', () => {
           expect(result)
             .toEqual(jasmine.objectContaining(frameStyle));
         });
@@ -564,13 +580,11 @@ describe('Frame', () => {
       let frame;
 
       beforeEach(() => {
-        mockSettingsValue = { zIndex: 10001 };
-
-        frame = domRender(<Frame>{mockChild}</Frame>);
+        frame = domRender(<Frame zIndex={10001}>{mockChild}</Frame>);
         forceFrameReady(frame);
       });
 
-      it('uses the value from settings if it exists', () => {
+      it('uses the value from props if it exists', () => {
         expect(frame.computeIframeStyle().zIndex)
           .toBe(10001);
       });
@@ -589,7 +603,7 @@ describe('Frame', () => {
           result = frame.computeIframeStyle();
         });
 
-        it('computeIframeStyle should contain styles from the modification', () => {
+        it('computeIframeStyle contains styles from the modification', () => {
           expect(result)
             .toEqual(jasmine.objectContaining(fixedStyles));
         });
@@ -602,7 +616,7 @@ describe('Frame', () => {
           result = frame.computeIframeStyle();
         });
 
-        it('computeIframeStyle should contain styles from frameStyle', () => {
+        it('computeIframeStyle contains styles from frameStyle', () => {
           expect(result)
             .toEqual(jasmine.objectContaining(frameStyle));
         });
@@ -611,75 +625,45 @@ describe('Frame', () => {
   });
 
   describe('getOffsetPosition', () => {
-    let frame;
-
     describe('vertical', () => {
-      beforeEach(() => {
-        frame = domRender(<Frame>{mockChild}</Frame>);
-        forceFrameReady(frame);
-      });
-
-      it('should have bottom classes by default', () => {
-        expect(frame.getOffsetPosition().bottom)
-          .toBeDefined();
-
-        expect(frame.getOffsetPosition().top)
-          .toBeUndefined();
-      });
-
       describe('when settings sets position to top', () => {
         beforeEach(() => {
-          mockSettingsValue = { position: { vertical: 'top' } };
-
-          frame = domRender(<Frame>{mockChild}</Frame>);
+          renderFrame({ verticalPosition: 'top', horizontalPosition: 'right' });
         });
 
-        it('should have top classes', () => {
-          expect(frame.getOffsetPosition().top)
+        it('has top classes', () => {
+          expect(renderedFrame.getOffsetPosition().top)
             .toBeDefined();
-
-          expect(frame.getOffsetPosition().bottom)
+          expect(renderedFrame.getOffsetPosition().bottom)
             .toBeUndefined();
         });
       });
     });
 
     describe('horizontal', () => {
-      beforeEach(() => {
-        frame = domRender(<Frame>{mockChild}</Frame>);
-        forceFrameReady(frame);
-      });
-
-      it('should have right classes by default', () => {
-        expect(frame.getOffsetPosition().right)
-          .toBeDefined();
-
-        expect(frame.getOffsetPosition().left)
-          .toBeUndefined();
-      });
-
-      it('can be changed by the position prop', () => {
-        frame = domRender(<Frame position='left'>{mockChild}</Frame>);
-
-        expect(frame.getOffsetPosition().left)
-          .toBeDefined();
-
-        expect(frame.getOffsetPosition().right)
-          .toBeUndefined();
-      });
-
-      describe('when settings sets position', () => {
+      describe('when set to right', () => {
         beforeEach(() => {
-          mockSettingsValue = { position: { horizontal: 'left' } };
-
-          frame = domRender(<Frame>{mockChild}</Frame>);
+          renderFrame({ verticalPosition: 'top', horizontalPosition: 'right' });
         });
 
-        it('uses that setting over the prop', () => {
-          expect(frame.getOffsetPosition().left)
+        it('has right offset', () => {
+          expect(renderedFrame.getOffsetPosition().right)
             .toBeDefined();
 
-          expect(frame.getOffsetPosition().right)
+          expect(renderedFrame.getOffsetPosition().left)
+            .toBeUndefined();
+        });
+      });
+
+      describe('when set to left', () => {
+        beforeEach(() => {
+          renderFrame({ verticalPosition: 'top', horizontalPosition: 'left' });
+        });
+        it('has left offset', () => {
+          expect(renderedFrame.getOffsetPosition().left)
+            .toBeDefined();
+
+          expect(renderedFrame.getOffsetPosition().right)
             .toBeUndefined();
         });
       });
@@ -687,306 +671,188 @@ describe('Frame', () => {
   });
 
   describe('offset', () => {
-    let frame, mockIsMobile;
     const desktopOnlyOffset = {
-      offset: {
-        vertical: 31,
-        horizontal: 52
-      }
+      vertical: 31,
+      horizontal: 52
     };
     const mobileOnlyOffset = {
-      offset: {
-        mobile: {
-          horizontal: 100,
-          vertical: 200
-        }
+      mobile: {
+        horizontal: 100,
+        vertical: 200
       }
     };
     const desktopAndMobileOffset = {
-      offset: {
-        horizontal: 101,
-        vertical: 102,
-        mobile: {
-          horizontal: 100,
-          vertical: 200
-        }
+      horizontal: 101,
+      vertical: 102,
+      mobile: {
+        horizontal: 100,
+        vertical: 200
       }
     };
 
-    describe('when on desktop', () => {
-      beforeEach(() => {
-        mockIsMobile = false;
-      });
-
-      describe('when on launcher', () => {
-        beforeEach(() => {
-          frame = domRender(<Frame isMobile={mockIsMobile} name='launcher'>{mockChild}</Frame>);
-          forceFrameReady(frame);
-        });
-
+    describe('when not on webWidget', () => {
+      describe('when on desktop', () => {
         describe('when there is a desktop offset only', () => {
           beforeEach(() => {
-            mockSettingsValue = desktopOnlyOffset;
+            renderFrame({ offset: desktopOnlyOffset });
           });
 
-          it('should apply the customized desktop offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
+          it('applies the customized desktop offsets', () => {
+            expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(31);
 
-            expect(frame.getOffsetPosition().right)
+            expect(renderedFrame.getOffsetPosition().right)
               .toBe(52);
           });
         });
 
         describe('when there is a mobile offset only', () => {
           beforeEach(() => {
-            mockSettingsValue = mobileOnlyOffset;
+            renderFrame({ offset: mobileOnlyOffset });
           });
 
-          it('should not apply customized mobile offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
+          it('does not apply customized mobile offsets', () => {
+            expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(0);
 
-            expect(frame.getOffsetPosition().right)
+            expect(renderedFrame.getOffsetPosition().right)
               .toBe(0);
           });
         });
 
         describe('when there are desktop and mobile offsets', () => {
           beforeEach(() => {
-            mockSettingsValue = desktopAndMobileOffset;
+            renderFrame({ offset: desktopAndMobileOffset });
           });
 
-          it('should apply only customized desktop offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
+          it('applies only customized desktop offsets', () => {
+            expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(102);
 
-            expect(frame.getOffsetPosition().right)
+            expect(renderedFrame.getOffsetPosition().right)
               .toBe(101);
           });
         });
 
         describe('when there is no offset', () => {
           beforeEach(() => {
-            mockSettingsValue = {};
+            renderFrame({ offset: {} });
           });
 
-          it('should not apply any offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
+          it('defaults to 0', () => {
+            expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(0);
 
-            expect(frame.getOffsetPosition().right)
+            expect(renderedFrame.getOffsetPosition().right)
               .toBe(0);
+          });
+        });
+
+        describe('when an animationOffset is passed in', () => {
+          beforeEach(() => {
+            renderFrame({ offset: desktopOnlyOffset });
+          });
+
+          it('adds it to the vertical property', () => {
+            expect(renderedFrame.getOffsetPosition(20).bottom)
+              .toBe(51);
+          });
+        });
+
+        describe('when on mobile', () => {
+          describe('when there is a desktop offset only', () => {
+            beforeEach(() => {
+              renderFrame({ isMobile: true, offset: desktopOnlyOffset });
+            });
+
+            it('does not apply the customized desktop offsets', () => {
+              expect(renderedFrame.getOffsetPosition().bottom)
+                .toBe(0);
+
+              expect(renderedFrame.getOffsetPosition().right)
+                .toBe(0);
+            });
+          });
+
+          describe('when there is a mobile offset only', () => {
+            beforeEach(() => {
+              renderFrame({ isMobile: true, offset: mobileOnlyOffset });
+            });
+
+            it('applies customized mobile offsets', () => {
+              expect(renderedFrame.getOffsetPosition().bottom)
+                .toBe(200);
+
+              expect(renderedFrame.getOffsetPosition().right)
+                .toBe(100);
+            });
+          });
+
+          describe('when there are desktop and mobile offsets', () => {
+            beforeEach(() => {
+              renderFrame({ isMobile: true, offset: desktopAndMobileOffset });
+            });
+
+            it('applies only customized mobile offsets', () => {
+              expect(renderedFrame.getOffsetPosition().bottom)
+                .toBe(200);
+
+              expect(renderedFrame.getOffsetPosition().right)
+                .toBe(100);
+            });
+          });
+
+          describe('when there is no offset', () => {
+            beforeEach(() => {
+              renderFrame({ isMobile: true, offset: {} });
+            });
+
+            it('defaults to 0', () => {
+              expect(renderedFrame.getOffsetPosition().bottom)
+                .toBe(0);
+
+              expect(renderedFrame.getOffsetPosition().right)
+                .toBe(0);
+            });
+          });
+
+          describe('when an animationOffset is passed in', () => {
+            beforeEach(() => {
+              renderFrame({ isMobile: true, offset: mobileOnlyOffset });
+            });
+
+            it('adds it to the vertical property', () => {
+              expect(renderedFrame.getOffsetPosition(20).bottom)
+                .toBe(220);
+            });
           });
         });
       });
 
       describe('when on Web Widget', () => {
-        beforeEach(() => {
-          frame = domRender(<Frame name='webWidget' isMobile={mockIsMobile}>{mockChild}</Frame>);
-          forceFrameReady(frame);
-        });
-
-        describe('where there is a desktop offset only', () => {
+        describe('when on mobile', () => {
           beforeEach(() => {
-            mockSettingsValue = desktopOnlyOffset;
+            renderFrame({ name: 'webWidget', offset: desktopAndMobileOffset });
           });
 
-          it('should apply the customized desktop offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(31);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(52);
-          });
-        });
-
-        describe('when there is a mobile offset only', () => {
-          beforeEach(() => {
-            mockSettingsValue = mobileOnlyOffset;
-          });
-
-          it('should not apply customized mobile offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(0);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(0);
-          });
-        });
-
-        describe('where there are desktop and mobile offsets', () => {
-          beforeEach(() => {
-            mockSettingsValue = desktopAndMobileOffset;
-          });
-
-          it('should apply only customized desktop offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
+          it('applies the customized desktop offsets', () => {
+            expect(renderedFrame.getOffsetPosition().bottom)
               .toBe(102);
 
-            expect(frame.getOffsetPosition().right)
+            expect(renderedFrame.getOffsetPosition().right)
               .toBe(101);
           });
         });
 
-        describe('when there is no offset', () => {
+        describe('and on mobile', () => {
           beforeEach(() => {
-            mockSettingsValue = {};
+            renderFrame({ isMobile: true, name: 'webWidget', offset: desktopAndMobileOffset });
           });
 
-          it('should not apply any offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(0);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(0);
+          it('does not apply customized offsets', () => {
+            expect(renderedFrame.getOffsetPosition()).toEqual({});
           });
         });
-      });
-    });
-
-    describe('when on mobile', () => {
-      beforeEach(() => {
-        mockIsMobile = true;
-      });
-
-      describe('when on launcher', () => {
-        beforeEach(() => {
-          frame = domRender(<Frame isMobile={mockIsMobile} name='launcher'>{mockChild}</Frame>);
-          forceFrameReady(frame);
-        });
-
-        describe('when there is a desktop offset only', () => {
-          beforeEach(() => {
-            mockSettingsValue = desktopOnlyOffset;
-          });
-
-          it('should not apply the customized desktop offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(0);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(0);
-          });
-        });
-
-        describe('when there is a mobile offset only', () => {
-          beforeEach(() => {
-            mockSettingsValue = mobileOnlyOffset;
-          });
-
-          it('should apply customized mobile offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(200);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(100);
-          });
-        });
-
-        describe('where there are desktop and mobile offsets', () => {
-          beforeEach(() => {
-            mockSettingsValue = desktopAndMobileOffset;
-          });
-
-          it('should apply only customized mobile offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(200);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(100);
-          });
-        });
-
-        describe('no offset', () => {
-          beforeEach(() => {
-            mockSettingsValue = {};
-          });
-
-          it('should not apply any offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(0);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(0);
-          });
-        });
-      });
-
-      describe('when on Web Widget', () => {
-        beforeEach(() => {
-          frame = domRender(<Frame name='webWidget' isMobile={mockIsMobile}>{mockChild}</Frame>);
-          forceFrameReady(frame);
-        });
-
-        describe('when there is a desktop offset only', () => {
-          beforeEach(() => {
-            mockSettingsValue = desktopOnlyOffset;
-          });
-
-          it('should not apply the customized desktop offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(undefined);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(undefined);
-          });
-        });
-
-        describe('where there is a mobile offset only', () => {
-          beforeEach(() => {
-            mockSettingsValue = mobileOnlyOffset;
-          });
-
-          it('should not apply the customized mobile offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(undefined);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(undefined);
-          });
-        });
-
-        describe('when there are desktop and mobile offsets', () => {
-          beforeEach(() => {
-            mockSettingsValue = desktopAndMobileOffset;
-          });
-
-          it('should not apply any customized offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(undefined);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(undefined);
-          });
-        });
-
-        describe('when there is no offset', () => {
-          beforeEach(() => {
-            mockSettingsValue = {};
-          });
-
-          it('should not apply any offsets', () => {
-            expect(frame.getOffsetPosition().bottom)
-              .toBe(undefined);
-
-            expect(frame.getOffsetPosition().right)
-              .toBe(undefined);
-          });
-        });
-      });
-    });
-
-    describe('when an animationOffset is passed in', () => {
-      beforeEach(() => {
-        mockSettingsValue = desktopOnlyOffset;
-        frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
-        forceFrameReady(frame);
-      });
-
-      it('adds it to the vertical property', () => {
-        expect(frame.getOffsetPosition(20).bottom)
-          .toBe(51);
       });
     });
   });
@@ -995,27 +861,27 @@ describe('Frame', () => {
     let frame, visibleValue = true;
 
     beforeEach(() => {
-      frame = domRender(<Frame visible={visibleValue} name='foo'>{mockChild}</Frame>);
+      frame = domRender(<Frame visible={visibleValue} name='foo' verticalPosition='bottom'>{mockChild}</Frame>);
       forceFrameReady(frame);
     });
 
-    it('should render an iframe', () => {
+    it('renders an iframe', () => {
       expect(frame.iframe)
         .toBeDefined();
     });
 
-    it('should assign the correct classes', () => {
+    it('assigns the correct classes', () => {
       expect(frame.iframe.className)
         .toContain('foo');
     });
 
     describe('when visible', () => {
-      it('should have `--active` in classes', () => {
+      it('has `--active` in classes', () => {
         expect(frame.iframe.className)
           .toContain('--active');
       });
 
-      it('should set the tab index to 0', () => {
+      it('sets the tab index to 0', () => {
         expect(frame.iframe.attributes.tabindex.value)
           .toEqual('0');
       });
@@ -1034,12 +900,12 @@ describe('Frame', () => {
         visibleValue = false;
       });
 
-      it('should not have `--active` in classes', () => {
+      it('does not have `--active` in classes', () => {
         expect(frame.iframe.className)
           .not.toContain('--active');
       });
 
-      it('should set the tab index to -1', () => {
+      it('sets the tab index to -1', () => {
         expect(frame.iframe.attributes.tabindex.value)
           .toEqual('-1');
       });
@@ -1072,7 +938,7 @@ describe('Frame', () => {
         frame.setState({ childRendered: false });
       });
 
-      it('should call updateFrameLocale ', () => {
+      it('calls updateFrameLocale ', () => {
         expect(frame.updateFrameLocale)
           .toHaveBeenCalled();
       });
@@ -1119,7 +985,7 @@ describe('Frame', () => {
           .toBe('rtl');
       });
 
-      it('should sets the state childRendered to true', () => {
+      it('sets the state childRendered to true', () => {
         expect(frame.state.childRendered)
           .toEqual(true);
       });
@@ -1149,7 +1015,7 @@ describe('Frame', () => {
   });
 
   describe('getDefaultDimensions', () => {
-    let frame, mockFullscreenable, mockIsMobile;
+    let mockFullscreenable, mockIsMobile;
 
     const expectedMobileDimensions = {
       width: '100%',
@@ -1169,14 +1035,17 @@ describe('Frame', () => {
     };
     const expectedDesktopPopoutLeftDimensions = {
       ...expectedMobileDimensions,
-      right: undefined,
+      left: undefined,
       background: '#EEE'
     };
 
     beforeEach(() => {
-      frame = domRender(<Frame isMobile={mockIsMobile}
-        fullscreen={mockIsPopout} fullscreenable={mockFullscreenable}>{mockChild}</Frame>);
-      forceFrameReady(frame);
+      renderFrame({
+        isMobile: mockIsMobile,
+        horizontalPosition: mockHorizontalPosition,
+        fullscreen: mockIsPopout,
+        fullscreenable: mockFullscreenable
+      });
     });
 
     describe('when mobile', () => {
@@ -1190,7 +1059,7 @@ describe('Frame', () => {
         });
 
         it('returns the expected mobile dimensions', () => {
-          expect(frame.getDefaultDimensions())
+          expect(renderedFrame.getDefaultDimensions())
             .toEqual(expectedMobileDimensions);
         });
       });
@@ -1201,7 +1070,7 @@ describe('Frame', () => {
         });
 
         it('returns the expected desktop dimensions', () => {
-          expect(frame.getDefaultDimensions())
+          expect(renderedFrame.getDefaultDimensions())
             .toEqual(expectedDesktopDimensions);
         });
       });
@@ -1213,7 +1082,7 @@ describe('Frame', () => {
       });
 
       it('returns the expected mobile dimensions', () => {
-        expect(frame.getDefaultDimensions())
+        expect(renderedFrame.getDefaultDimensions())
           .toEqual(expectedDesktopDimensions);
       });
 
@@ -1224,17 +1093,17 @@ describe('Frame', () => {
         });
 
         it('returns the expected popout dimensions', () => {
-          expect(frame.getDefaultDimensions())
+          expect(renderedFrame.getDefaultDimensions())
             .toEqual(expectedDesktopPopoutDimensions);
         });
 
         describe('when position left is true', () => {
-          beforeEach(() => {
-            mockSettingsValue = { position: { horizontal: 'left' } };
+          beforeAll(() => {
+            mockHorizontalPosition = 'left';
           });
 
           it('returns the expected popout dimensions', () => {
-            expect(frame.getDefaultDimensions())
+            expect(renderedFrame.getDefaultDimensions())
               .toEqual(expectedDesktopPopoutLeftDimensions);
           });
         });
