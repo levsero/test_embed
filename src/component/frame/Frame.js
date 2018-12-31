@@ -61,6 +61,11 @@ const transitionDuration = FRAME_TRANSITION_DURATION;
 const isPositionTop = () => settings.get('position.vertical') === 'top';
 const defaultMarginTop = () => isPositionTop() && !isMobileBrowser() ? '15px' : 0;
 
+const marginPropType = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number
+]);
+
 class Frame extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -70,7 +75,15 @@ class Frame extends Component {
     frameStyleModifier: PropTypes.func,
     frameOffsetWidth: PropTypes.number,
     frameOffsetHeight: PropTypes.number,
-    frameStyle: PropTypes.object,
+    frameStyle: PropTypes.shape({
+      height: PropTypes.string,
+      marginBottom: marginPropType,
+      marginLeft: marginPropType,
+      marginRight: marginPropType,
+      marginTop: marginPropType,
+      minHeight: PropTypes.string,
+      zIndex: PropTypes.number
+    }),
     fullscreenable: PropTypes.bool,
     hideNavigationButtons: PropTypes.bool,
     alwaysShow: PropTypes.bool,
@@ -83,16 +96,33 @@ class Frame extends Component {
     useBackButton: PropTypes.bool,
     visible: PropTypes.bool,
     title: PropTypes.string,
-    fixedStyles: PropTypes.object,
+    fixedStyles: PropTypes.shape({
+      height: marginPropType,
+      bottom:  PropTypes.oneOf([0]),
+      top: PropTypes.oneOf(['initial']),
+      background: PropTypes.oneOf(['transparent']),
+      maxHeight: PropTypes.string
+    }),
     updateWidgetShown: PropTypes.func,
     widgetHideAnimationComplete: PropTypes.func,
     widgetShowAnimationComplete: PropTypes.func,
-    color: PropTypes.object,
+    color: PropTypes.shape({
+      base: PropTypes.string,
+      text: PropTypes.string
+    }),
     generateUserCSS: PropTypes.func,
     chatStandalone: PropTypes.bool,
-    customFrameStyle: PropTypes.object,
     isMobile: PropTypes.bool.isRequired,
-    fullscreen: PropTypes.bool.isRequired
+    fullscreen: PropTypes.bool.isRequired,
+    customFrameStyle: PropTypes.shape({
+      height: PropTypes.string,
+      marginBottom: marginPropType,
+      marginLeft: marginPropType,
+      marginRight: marginPropType,
+      marginTop: marginPropType,
+      minHeight: PropTypes.string,
+      zIndex: PropTypes.number
+    })
   }
 
   static defaultProps = {

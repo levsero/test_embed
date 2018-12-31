@@ -47,9 +47,39 @@ class Navigation extends Component {
     menuVisible: PropTypes.bool,
     updateMenuVisibility: PropTypes.func,
     standaloneMobileNotificationVisible: PropTypes.bool.isRequired,
-    chatPopoutSettings: PropTypes.object,
     zChat: PropTypes.object,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
+    chatPopoutSettings: PropTypes.shape({
+      webWidget: PropTypes.shape({
+        chat:  PropTypes.shape({
+          title: PropTypes.string,
+          departments: PropTypes.shape({
+            enabled: PropTypes.array
+          }),
+          prechatForm: PropTypes.shape({
+            greeting: PropTypes.string
+          }),
+          offlineForm: PropTypes.shape({
+            greeting: PropTypes.string,
+            departmentLabel: PropTypes.string
+          }),
+          concierge: PropTypes.shape({
+            avatarPath: PropTypes.string,
+            name: PropTypes.string,
+            title: PropTypes.string
+          })
+        }),
+        color: PropTypes.shape({
+          articleLinks: PropTypes.string,
+          button: PropTypes.string,
+          header: PropTypes.string,
+          launcher: PropTypes.string,
+          launcherText: PropTypes.string,
+          resultLists: PropTypes.string,
+          theme: PropTypes.string,
+        })
+      })
+    })
   };
 
   static defaultProps = {
