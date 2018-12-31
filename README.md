@@ -1,4 +1,4 @@
-# Embeddable Framework [![Build Status](https://magnum.travis-ci.com/zendesk/embeddable_framework.svg?token=eFe58axP7zq8qUuk6pMA&branch=master)](https://magnum.travis-ci.com/zendesk/embeddable_framework)
+# Embeddable Framework [![Build Status](https://travis-ci.com/zendesk/embeddable_framework.svg?token=qxD282ay7Y6ibWdkzBiB&branch=master)](https://travis-ci.com/zendesk/embeddable_framework)
 
 ## Description
 A 3rd party embeddable framework that handles bringing Zendesk outside of the agent view and onto 3rd party websites.
