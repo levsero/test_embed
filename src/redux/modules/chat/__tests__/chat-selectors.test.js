@@ -160,13 +160,6 @@ describe('getIsPopupVisible', () => {
     });
   });
 
-  describe('isMobileBrowser is true', () => {
-    it('does not render popup', () => {
-      isMobileValue = true;
-      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
-    });
-  });
-
   describe('when window is a popout', () => {
     beforeEach(() => {
       mockIsPopout = true;
