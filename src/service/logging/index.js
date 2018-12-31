@@ -38,14 +38,10 @@ function pushError(err, customData) {
   }
 }
 
-function setInitialise(initialise) {
+export function setInitialise(initialise) {
   errorServiceInitialised = initialise;
 }
-
-module.exports = {
-  logging: {
-    init,
-    error
-  },
-  setInitialise // for testing only
+export const logging = {
+  init,
+  error
 };

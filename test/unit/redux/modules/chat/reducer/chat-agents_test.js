@@ -124,7 +124,7 @@ describe('chat reducer agents', () => {
 
         describe('when the member exists in the state already', () => {
           beforeEach(() => {
-            const currentState = new Map([['agent:mcbob': {}]]);
+            const currentState = new Map([[{ 'agent:mcbob': {} }]]);
 
             state = reducer(currentState, {
               type: actionTypes.SDK_CHAT_MEMBER_JOIN,

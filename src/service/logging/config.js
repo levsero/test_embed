@@ -7,7 +7,7 @@ import _ from 'lodash';
    it in the 'checkIgnore' attribute. */
 const scriptErrorPattern = /^(.)*(Script error).?$/;
 
-const errorMessageBlacklist = [
+export const errorMessageBlacklist = [
   /* Occurs when a request is made to an endpoint of a domain that is different from the origin
      page which is a breach of Same-Origin policy or it doesn't have the appropriate
      Cross-Origin permission. */
@@ -55,7 +55,7 @@ const errorMessageBlacklist = [
   scriptErrorPattern
 ];
 
-const hostBlackList = [
+export const hostBlackList = [
   /* Blacklists the reporting payload if any of the trace does not match these domains.
      E.g. If it does not contain any one of these
       assets.zd-staging.com
@@ -67,13 +67,13 @@ const hostBlackList = [
   /^((?!(.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com)).*)$/
 ];
 
-const checkIgnoreFn = (isUncaught, args) => {
+export const checkIgnoreFn = (isUncaught, args) => {
   const errorMessage = _.get(args, 0, '');
 
   return scriptErrorPattern.test(errorMessage);
 };
 
-const rollbarConfig =  {
+export const rollbarConfig =  {
   accessToken: '94eb0137fdc14471b21b34c5a04f9359',
   captureUncaught: true,
   captureUnhandledRejections: true,
@@ -90,13 +90,4 @@ const rollbarConfig =  {
       }
     }
   }
-};
-
-module.exports = {
-  rollbarConfig,
-
-  // Exported for testing
-  errorMessageBlacklist,
-  hostBlackList,
-  checkIgnoreFn
 };
