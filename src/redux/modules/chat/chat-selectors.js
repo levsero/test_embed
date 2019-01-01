@@ -14,8 +14,7 @@ import { i18n } from 'service/i18n';
 import {
   getActiveEmbed,
   getLocale,
-  getWidgetShown,
-  getChatPopoutArturoEnabled
+  getWidgetShown
 } from 'src/redux/modules/base/base-selectors';
 import {
   getSettingsChatDepartmentsEnabled,
