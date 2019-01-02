@@ -14,8 +14,8 @@ import {
 import { handleChatBadgeMinimize, chatBadgeClicked } from 'src/redux/modules/base';
 import {
   getCurrentMessage,
-  getLauncherBadgeSettings,
   getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors';
+import { getLauncherBadgeSettings } from 'src/redux/modules/selectors';
 import { Input } from '@zendeskgarden/react-textfields';
 import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';

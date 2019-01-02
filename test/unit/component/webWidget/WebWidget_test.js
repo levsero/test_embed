@@ -94,8 +94,9 @@ describe('WebWidget component', () => {
       'src/redux/modules/base/base-selectors': {
         getZopimChatEmbed: noop
       },
-      'src/redux/modules/chat/chat-selectors': {
-        getChatNotification: noop
+      'src/redux/modules/selectors': {
+        getChatNotification: noop,
+        getChatOnline: noop
       },
       'src/redux/modules/chat/chat-screen-types': {
         CHATTING_SCREEN: 'chatting'
@@ -109,14 +110,14 @@ describe('WebWidget component', () => {
       'src/redux/modules/submitTicket/submitTicket-selectors': {
         getTicketForms: noop
       },
-      'src/redux/modules/selectors': {
-        getChatOnline: noop
-      },
       'service/settings': {
         settings: { get: noop }
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsMobileNotificationsDisabled: noop
+      },
+      'src/redux/modules/chat/chat-selectors': {
+
       }
     });
 

@@ -7,8 +7,8 @@ import { CONNECTION_STATUSES } from 'constants/chat';
 import {
   getConnection,
   getZChatVendor,
-  getDefaultSelectedDepartment
 } from 'src/redux/modules/chat/chat-selectors';
+import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors';
 import { setDepartment } from 'src/redux/modules/chat/chat-actions';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 

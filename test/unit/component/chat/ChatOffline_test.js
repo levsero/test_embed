@@ -38,6 +38,8 @@ describe('ChatOffline component', () => {
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatOfflineForm: '',
+      },
+      'src/redux/modules/selectors': {
         getOfflineFormFields: ''
       },
       'src/redux/modules/base/base-selectors': {

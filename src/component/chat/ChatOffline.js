@@ -13,16 +13,17 @@ import { chatOfflineFormChanged,
   initiateSocialLogout } from 'src/redux/modules/chat';
 import { getChatOfflineForm,
   getOfflineMessage,
-  getOfflineFormSettings,
-  getOfflineFormFields,
   getLoginSettings,
   getGroupedOperatingHours,
   getSocialLogin,
   getAuthUrls,
   getChatVisitor,
   getIsAuthenticated,
-  getChatTitle,
   getReadOnlyState } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getChatTitle,
+  getOfflineFormSettings,
+  getOfflineFormFields } from 'src/redux/modules/selectors';
 import { getWidgetShown } from 'src/redux/modules/base/base-selectors';
 
 import { locals as styles } from './ChatOffline.scss';

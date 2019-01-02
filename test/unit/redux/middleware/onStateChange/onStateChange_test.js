@@ -98,15 +98,17 @@ describe('onStateChange middleware', () => {
         },
         getChatOnline: (status) => status === 'online',
         getChatStatus: (status) => status === 'online',
-        getOfflineFormSettings: () => mockOfflineFormSettings,
         getChatScreen: () => mockChatScreen,
         getIsProactiveSession: () => mockIsProactiveSession,
         getIsChatting: (state) => _.get(state, 'isChatting', mockIsChatting),
         getActiveAgents: getActiveAgentsSpy,
-        getDefaultSelectedDepartment: () => mockDepartment,
         getNotificationCount: (array) => _.get(_.last(array), 'notificationCount'),
         getLastReadTimestamp: (state) => _.get(state, 'lastReadTimestamp'),
         hasUnseenAgentMessage: () => mockHasUnseenAgentMessage
+      },
+      'src/redux/modules/selectors': {
+        getOfflineFormSettings: () => mockOfflineFormSettings,
+        getDefaultSelectedDepartment: () => mockDepartment
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartment: () => mockGetSettingsChatDepartment,

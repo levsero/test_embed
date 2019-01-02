@@ -5,7 +5,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from 'src/redux/modules/reducer';
 import Navigation from '../Navigation';
-import * as selectors from 'src/redux/modules/chat/chat-selectors';
+import * as selectors from 'src/redux/modules/selectors/chat-linked-selectors';
 
 const renderComponent = (props) => {
   const store = createStore(reducer);

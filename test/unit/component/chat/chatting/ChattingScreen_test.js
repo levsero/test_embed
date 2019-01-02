@@ -107,7 +107,7 @@ describe('ChattingScreen component', () => {
         resetCurrentMessage: resetCurrentMessageSpy,
         markAsRead: markAsReadSpy
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/redux/modules/selectors': {
         getPrechatFormFields: noop
       },
       'src/redux/modules/chat/chat-history-selectors': {
@@ -135,6 +135,9 @@ describe('ChattingScreen component', () => {
       'utility/chat': {
         isDefaultNickname: isDefaultNicknameSpy,
         isAgent: () => mockIsAgent
+      },
+      'src/redux/modules/chat/chat-selectors': {
+
       }
     });
 

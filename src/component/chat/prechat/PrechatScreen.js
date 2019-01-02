@@ -22,8 +22,6 @@ import {
   initiateSocialLogout } from 'src/redux/modules/chat';
 import {
   getDepartments,
-  getPrechatFormFields,
-  getPrechatFormSettings,
   getChatScreen,
   getPreChatFormState,
   getLoginSettings,
@@ -32,8 +30,11 @@ import {
   getSocialLogin,
   getChatVisitor,
   getIsAuthenticated,
-  getChatTitle,
   getReadOnlyState } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getChatTitle,
+  getPrechatFormSettings,
+  getPrechatFormFields } from 'src/redux/modules/selectors';
 import { getSettingsChatDepartmentsEmpty } from 'src/redux/modules/settings/settings-selectors';
 import { locals as styles } from './PrechatScreen.scss';
 

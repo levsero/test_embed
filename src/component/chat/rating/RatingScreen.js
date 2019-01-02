@@ -17,8 +17,8 @@ import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import {
   getPostchatFormSettings,
   getIsChatting,
-  getCurrentConcierges,
   getChatRating } from 'src/redux/modules/chat/chat-selectors';
+import { getCurrentConcierges } from 'src/redux/modules/selectors';
 import { locals as styles } from './RatingScreen.scss';
 
 const mapStateToProps = (state) => {

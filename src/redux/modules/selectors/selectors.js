@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 
 import {
   getShowOfflineChat,
-  getOfflineFormEnabled,
   getIsChatting,
   getThemeColor as getChatThemeColor,
   getThemePosition as getChatThemePosition,
@@ -11,20 +10,17 @@ import {
   getChatConnected as getNewChatConnected,
   getBadgeColor as getAccountSettingsBadgeColor,
   getHideBranding as getAccountSettingsHideBranding,
-  getChatBadgeEnabled
-} from './chat/chat-selectors';
-import {
-  getZopimChatOnline,
+  getChatBadgeEnabled } from '../chat/chat-selectors';
+import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors';
+import { getZopimChatOnline,
   getZopimChatConnected,
   getZopimIsChatting,
-  getZopimChatOpen
-} from './zopimChat/zopimChat-selectors';
+  getZopimChatOpen } from '../zopimChat/zopimChat-selectors';
 import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
   getSettingsColorLauncher,
   getSettingsColorLauncherText,
-  getSettingsHelpCenterSuppress,
   getHelpCenterChatButton,
   getHelpCenterMessageButton,
   getHelpCenterSearchPlaceholder,
@@ -36,26 +32,21 @@ import {
   getSettingsTalkTitle,
   getSettingsTalkNickname,
   getSettingsTalkSuppress
-} from './settings/settings-selectors';
+} from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
   getAgentAvailability,
-  getEmbeddableConfigConnected,
+  getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
   getScreen
-} from './talk/talk-selectors';
-import {
-  getActiveTicketForm,
-  getTicketForms
-} from './submitTicket/submitTicket-selectors';
-import {
-  getActiveEmbed,
+} from '../talk/talk-selectors';
+import { getActiveTicketForm, getTicketForms } from '../submitTicket/submitTicket-selectors';
+import { getActiveEmbed,
   getHelpCenterEmbed,
   getSubmitTicketEmbed,
   getZopimChatEmbed,
   getTalkEmbed,
   getChatEmbed as getNewChatEmbed,
   getIPMWidget,
-  getHasPassedAuth,
   getEmbeddableConfig,
   getHiddenByHideAPI,
   getConfigColor,
@@ -68,17 +59,24 @@ import {
   getConfigAttachmentsEnabled,
   getLocale,
   getTalkConfig,
-} from './base/base-selectors';
+} from '../base/base-selectors';
+import {
+  getCanShowHelpCenterIntroState,
+  getHelpCenterAvailable,
+  getHelpCenterReady
+} from 'src/redux/modules/selectors/helpCenter-linked-selectors';
+
 import { settings } from 'service/settings';
-import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
+
 import { isMobileBrowser } from 'utility/devices';
 import { FONT_SIZE } from 'src/constants/shared';
 import { EMBED_MAP, LAUNCHER } from 'constants/shared';
 import { isPopout } from 'utility/globals';
-import { getSettingsLauncherChatLabel, getSettingsLauncherLabel } from './settings/settings-selectors';
+import { getSettingsLauncherChatLabel, getSettingsLauncherLabel } from '../settings/settings-selectors';
+import { i18n } from 'service/i18n';
+
 import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared';
 import * as screens from 'src/redux/modules/talk/talk-screen-types';
-import { i18n } from 'src/service/i18n';
 
 /*
  * Terms:
@@ -86,12 +84,6 @@ import { i18n } from 'src/service/i18n';
  * Available: When an embed is part of config, not suppressed and has all the conditions to be used.
  * Online: When all of the above and there are agents to service the request
  */
-const getHelpCenterEnabled = createSelector(
-  [getHelpCenterEmbed, getSettingsHelpCenterSuppress],
-  (helpCenterEmbed, suppress) => {
-    return helpCenterEmbed && !suppress;
-  }
-);
 
 const getLabel = (_, label) => label;
 
@@ -125,15 +117,6 @@ export const getSettingsHelpCenterChatButton = createSelector(
   )
 );
 
-export const getHelpCenterAvailable = createSelector(
-  [getHelpCenterEnabled, getHasPassedAuth],
-  (helpCenterEnabled, hasPassedAuth) => {
-    return helpCenterEnabled && hasPassedAuth;
-  }
-);
-
-export const getHelpCenterReady = (state) => !getHelpCenterEmbed(state) || getHasPassedAuth(state);
-
 export const getLauncherChatLabel = createSelector(
   [getSettingsLauncherChatLabel, getLocale],
   (settingsLauncherChatLabel, _locale) => (
@@ -150,16 +133,6 @@ export const getLauncherLabel = createSelector(
 );
 
 const getChatEmbed = (state) => getNewChatEmbed(state) || getZopimChatEmbed(state);
-const getCanShowHelpCenterIntroState = createSelector(
-  [getIsShowHCIntroState,
-    getHelpCenterAvailable,
-    getActiveEmbed],
-  (isShowHCIntroState,
-    isHelpCenterAvailable,
-    activeEmbed) => {
-    return !isMobileBrowser() && isShowHCIntroState && isHelpCenterAvailable && activeEmbed === 'helpCenterForm';
-  }
-);
 
 const getWidgetFixedFrameStyles = createSelector(
   [getStandaloneMobileNotificationVisible,
@@ -190,6 +163,11 @@ const getWidgetFixedFrameStyles = createSelector(
     return {};
   }
 );
+
+export const getSubmitTicketAvailable = (state) => {
+  return getSubmitTicketEmbed(state) && !getSettingsContactFormSuppress(state);
+};
+
 const getChannelChoiceEnabled = (state) => {
   return settings.get('contactOptions').enabled && getSubmitTicketAvailable(state);
 };
@@ -198,25 +176,33 @@ export const getChatOnline = (state) => getZopimChatOnline(state) || !getShowOff
 export const getChatConnected = (state) => getZopimChatConnected(state) || getNewChatConnected(state);
 
 export const getChatEnabled = (state) => getChatEmbed(state) && !getSettingsChatSuppress(state);
-export const getChatReady = (state) => !getChatEmbed(state) || getChatConnected(state);
+export const getChatReady = createSelector([getChatEmbed, getChatConnected], (chatEmbed, chatConnected) =>
+  !chatEmbed || chatConnected);
 
 export const getChatOfflineAvailable = (state) => getChatEnabled(state) &&
   !getChatOnline(state) && getNewChatEmbed(state) && getOfflineFormEnabled(state) && !getSubmitTicketEmbed(state);
 
-export const getResetToContactFormOnChatOffline = (state) =>
-  !getZopimChatOnline(state) && !getZopimIsChatting(state)
-  && getSubmitTicketEmbed(state) && getZopimChatOpen(state)
-  && getActiveEmbed(state) === 'ticketSubmissionForm';
+export const getResetToContactFormOnChatOffline = createSelector(
+  [getZopimChatOnline, getZopimIsChatting, getSubmitTicketEmbed, getZopimChatOpen, getActiveEmbed],
+  (zopimChatOnline, zopimChatting, submitTicketEmbed, zopimOpen, activeEmbed) =>
+    (
+      !zopimChatOnline && !zopimChatting
+      && submitTicketEmbed && zopimOpen
+      && activeEmbed === 'ticketSubmissionForm'
+    )
+);
 
 export const getChatAvailable = (state) => {
   const offlineFormOn = getChatOfflineAvailable(state) && !getSettingsChatHideWhenOffline(state);
 
   return getChatEnabled(state) && (getChatOnline(state) || offlineFormOn);
 };
-export const getShowTalkBackButton = (state) => {
-  return getHelpCenterEmbed(state) || getChatAvailable(state) || getSubmitTicketEmbed(state);
-};
-export const getTalkReady = (state) => !getTalkEmbed(state) || getEmbeddableConfigConnected(state);
+export const getShowTalkBackButton = createSelector(
+  [getHelpCenterEmbed, getChatAvailable, getSubmitTicketEmbed],
+  (hcEmbed, chatAvailable, submitTicketEmbed) =>
+    hcEmbed|| chatAvailable || submitTicketEmbed
+);
+export const getTalkReady = (state) => !getTalkEmbed(state) || getTalkEmbeddableConfigConnected(state);
 
 export const getTalkEnabled = createSelector(
   [getSettingsTalkSuppress, getTalkEmbed],
@@ -271,10 +257,6 @@ export const getMaxWidgetHeight = (state, frame = 'webWidget') => {
   return undefined;
 };
 
-export const getSubmitTicketAvailable = (state) => {
-  return getSubmitTicketEmbed(state) && !getSettingsContactFormSuppress(state);
-};
-
 export const getChannelChoiceAvailable = createSelector(
   [getChannelChoiceEnabled,
     getSubmitTicketAvailable,
@@ -285,7 +267,7 @@ export const getChannelChoiceAvailable = createSelector(
   (channelChoiceEnabled, submitTicketAvailable, talkAvailable, chatAvailable, chatOfflineAvailable, isChatting) => {
     const channelChoicePrerequisite = (channelChoiceEnabled || talkAvailable);
     const availableChannelCount = (submitTicketAvailable + talkAvailable + chatAvailable + chatOfflineAvailable);
-    const channelsAvailable = (availableChannelCount > 1);
+    const channelsAvailable = availableChannelCount > 1;
 
     return channelChoicePrerequisite && channelsAvailable && !isChatting;
   }
@@ -440,21 +422,21 @@ export const getFrameStyle = (state, frame) => {
       zIndex: getStylingZIndex(state) - 1
     };
 
-    if (!getShowChatBadgeLauncher(state)) {
-      return defaultFrameStyle;
+    if (getShowChatBadgeLauncher(state)) {
+      return {
+        ...defaultFrameStyle,
+        height: '210px',
+        minHeight: '210px',
+        width: '254px',
+        minWidth: '254px',
+        marginTop: '7px',
+        marginBottom: '7px',
+        marginLeft: '7px',
+        marginRight: '7px'
+      };
     }
 
-    return {
-      ...defaultFrameStyle,
-      height: '210px',
-      minHeight: '210px',
-      width: '254px',
-      minWidth: '254px',
-      marginTop: '7px',
-      marginBottom: '7px',
-      marginLeft: '7px',
-      marginRight: '7px'
-    };
+    return defaultFrameStyle;
   }
 };
 

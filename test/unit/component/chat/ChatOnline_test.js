@@ -80,7 +80,7 @@ describe('ChatOnline component', () => {
         updateChatScreen: updateChatScreenSpy,
         resetCurrentMessage: resetCurrentMessageSpy
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/redux/modules/selectors': {
         getPrechatFormFields: noop
       },
       'src/redux/modules/chat/chat-screen-types': {
@@ -104,6 +104,9 @@ describe('ChatOnline component', () => {
       },
       'src/util/chat': {
         isDefaultNickname: noop
+      },
+      'src/redux/modules/chat/chat-selectors': {
+
       }
     });
 

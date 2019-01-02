@@ -42,6 +42,9 @@ describe('RatingScreen component', () => {
       'src/redux/modules/chat/chat-selectors': {
         getPostchatFormSettings: noop
       },
+      'src/redux/modules/selectors': {
+
+      },
       'src/redux/modules/chat/chat-screen-types': {
         CHATTING_SCREEN: 'CHATTING_SCREEN'
       },
