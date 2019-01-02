@@ -2,7 +2,7 @@ describe('EventMessage component', () => {
   let EventMessage,
     i18n;
 
-  const EventMessagePath = buildSrcPath('component/chat/chatting/EventMessage');
+  const EventMessagePath = buildSrcPath('component/chat/chatting/log/events/EventMessage');
   const mockStringValues = {
     'embeddable_framework.chat.chatLog.chatStarted': 'Chat started',
     'embeddable_framework.chat.chatLog.rating.good': 'Good',
@@ -34,7 +34,7 @@ describe('EventMessage component', () => {
     });
 
     mockery.registerAllowable(EventMessagePath);
-    EventMessage = requireUncached(EventMessagePath).EventMessage;
+    EventMessage = requireUncached(EventMessagePath).default;
   });
 
   afterEach(() => {

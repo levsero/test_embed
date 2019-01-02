@@ -5,7 +5,7 @@ describe('ChatGroup component', () => {
     FILETYPE_ICONS,
     i18n;
 
-  const chatGroupPath = buildSrcPath('component/chat/chatting/ChatGroup');
+  const chatGroupPath = buildSrcPath('component/chat/chatting/log/messages/ChatGroup');
   const chatGroupAvatarPath = buildSrcPath('component/chat/chatting/ChatGroupAvatar');
   const chatConstantsPath = buildSrcPath('constants/chat');
   const sharedConstantsPath = buildSrcPath('constants/shared');
@@ -86,7 +86,7 @@ describe('ChatGroup component', () => {
     });
 
     mockery.registerAllowable(chatGroupPath);
-    ChatGroup = requireUncached(chatGroupPath).ChatGroup;
+    ChatGroup = requireUncached(chatGroupPath).default;
   });
 
   afterEach(() => {

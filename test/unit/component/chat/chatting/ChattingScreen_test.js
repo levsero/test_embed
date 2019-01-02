@@ -407,11 +407,15 @@ describe('ChattingScreen component', () => {
         mockPrevProps = {
           chats: [],
           events: [],
+          chatsLength: 0,
+          lastMessageAuthor: '',
           visible: false
         };
         componentProps = {
           chats: [],
           events: [],
+          chatsLength: 0,
+          lastMessageAuthor: '',
           visible: true,
           markAsRead: markAsReadSpy
         };
@@ -442,6 +446,8 @@ describe('ChattingScreen component', () => {
         mockPrevProps = {
           chats: [{ nick: 'visitor', type: 'chat.msg' }],
           events: [],
+          chatsLength: 1,
+          lastMessageAuthor: 'visitor',
           visible: true
         };
         componentProps = {
@@ -450,6 +456,8 @@ describe('ChattingScreen component', () => {
             { nick: 'agent:123', type: 'chat.msg' }
           ],
           events: [],
+          chatsLength: 2,
+          lastMessageAuthor: 'agent:123',
           visible: true,
           markAsRead: markAsReadSpy
         };
@@ -488,7 +496,9 @@ describe('ChattingScreen component', () => {
               { nick: 'visitor', type: 'chat.msg' },
               { nick: 'visitor', type: 'chat.msg' }
             ],
-            events: []
+            events: [],
+            chatsLength: 2,
+            lastMessageAuthor: 'visitor'
           };
           mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(false);
         });
@@ -504,11 +514,15 @@ describe('ChattingScreen component', () => {
       beforeAll(() => {
         mockPrevProps = {
           chats: [{ nick: 'visitor', type: 'chat.msg' }],
-          events: []
+          events: [],
+          chatsLength: 2,
+          lastMessageAuthor: 'visitor'
         };
         componentProps = {
           chats: [{ nick: 'visitor', type: 'chat.msg' }],
-          events: []
+          events: [],
+          chatsLength: 2,
+          lastMessageAuthor: 'visitor'
         };
         mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(false);
       });
@@ -526,7 +540,9 @@ describe('ChattingScreen component', () => {
           events: [
             { timestamp: 73870, nick: 'visitor', type: 'chat.memberjoin', display_name: 'zenguy' },
             { timestamp: 80869, nick: 'agent:450578159', type: 'chat.memberjoin', display_name: 'Terence Liew' }
-          ]
+          ],
+          chatsLength: 2,
+          lastMessageAuthor: ''
         };
         componentProps = {
           chats: [],
@@ -534,7 +550,9 @@ describe('ChattingScreen component', () => {
             { timestamp: 73870, nick: 'visitor', type: 'chat.memberjoin', display_name: 'zenguy' },
             { timestamp: 80869, nick: 'agent:450578159', type: 'chat.memberjoin', display_name: 'Terence Liew' },
             { timestamp: 85011, nick: 'visitor', type: 'chat.rating', display_name: 'zenguy', new_rating: 'good', rating: undefined }
-          ]
+          ],
+          chatsLength: 3,
+          lastMessageAuthor: ''
         };
       });
 
@@ -567,13 +585,15 @@ describe('ChattingScreen component', () => {
           chats: [],
           events: [
             { timestamp: 73870, nick: 'visitor', type: 'chat.memberjoin', display_name: 'zenguy' },
-          ]
+          ],
+          chatsLength: 1
         };
         mockPrevProps = {
           chats: [],
           events: [
             { timestamp: 73870, nick: 'visitor', type: 'chat.memberjoin', display_name: 'zenguy' },
-          ]
+          ],
+          chatsLength: 1
         };
       });
 
@@ -589,20 +609,13 @@ describe('ChattingScreen component', () => {
   });
 
   describe('componentDidMount', () => {
-    let component,
-      chats,
-      events;
-
-    beforeEach(() => {
-      component = instanceRender(<ChattingScreen chats={chats} events={events} />);
-      spyOn(component, 'scrollToBottom');
-      component.componentDidMount();
-    });
+    let component;
 
     describe('when there are chats', () => {
-      beforeAll(() => {
-        chats = [1,2];
-        events = [3];
+      beforeEach(() => {
+        component = instanceRender(<ChattingScreen chatsLength={3} />);
+        spyOn(component, 'scrollToBottom');
+        component.componentDidMount();
       });
 
       it('scrolls to bottom', () => {
@@ -612,9 +625,10 @@ describe('ChattingScreen component', () => {
     });
 
     describe('when there are no chats', () => {
-      beforeAll(() => {
-        chats = [];
-        events = [];
+      beforeEach(() => {
+        component = instanceRender(<ChattingScreen chatsLength={0} />);
+        spyOn(component, 'scrollToBottom');
+        component.componentDidMount();
       });
 
       it('does not scroll to bottom', () => {
@@ -840,48 +854,6 @@ describe('ChattingScreen component', () => {
       it('calls renderChatHeader', () => {
         expect(component.renderChatHeader)
           .toHaveBeenCalled();
-      });
-    });
-
-    describe('when state.lastAgentLeaveEvent contains an event', () => {
-      const leaveEvent = { nick: 'agent:123', type: 'chat.memberleave' };
-
-      beforeEach(() => {
-        component = instanceRender(
-          <ChattingScreen
-            lastAgentLeaveEvent={leaveEvent} />
-        );
-      });
-
-      it("passes the event to the chatLog component's `lastAgentLeaveEvent` prop", () => {
-        const result = component.render();
-        const scrollContainer = result.props.children[0];
-        const chatLog = scrollContainer.props.children[0].props.children[1];
-        const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
-
-        expect(lastAgentLeaveEvent)
-          .toEqual(leaveEvent);
-      });
-    });
-
-    describe('when state.lastAgentLeaveEvent does not contain an event', () => {
-      const leaveEvent = null;
-
-      beforeEach(() => {
-        component = instanceRender(
-          <ChattingScreen
-            lastAgentLeaveEvent={leaveEvent} />
-        );
-      });
-
-      it("passes null to the chatLog component's `lastAgentLeaveEvent` prop", () => {
-        const result = component.render();
-        const scrollContainer = result.props.children[0];
-        const chatLog = scrollContainer.props.children[0].props.children[1];
-        const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
-
-        expect(lastAgentLeaveEvent)
-          .toEqual(null);
       });
     });
 

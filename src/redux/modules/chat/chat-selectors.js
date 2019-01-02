@@ -28,7 +28,6 @@ import {
   getSettingsLauncherBadge
 } from 'src/redux/modules/settings/settings-selectors';
 import { isDefaultNickname } from 'utility/chat';
-import { isMobileBrowser } from 'utility/devices';
 import { isPopout } from 'utility/globals';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
