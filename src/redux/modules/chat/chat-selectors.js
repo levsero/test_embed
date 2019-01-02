@@ -86,8 +86,7 @@ export const getLoginSettings = (state) => state.chat.accountSettings.login;
 export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
 export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
 export const getIsPopoutAvailable = (state) =>
-  getChatPopoutArturoEnabled(state)
-  && !getIsAuthenticated(state)
+  !getIsAuthenticated(state)
   && getChatOnline(state)
   && !isPopout();
 

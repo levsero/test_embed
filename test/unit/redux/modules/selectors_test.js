@@ -378,27 +378,11 @@ describe('selectors', () => {
 
     describe('when chat badge is not enabled', () => {
       beforeAll(() => {
-        zopimChatOnlineValue = false;
+        zopimChatOnlineValue = true;
         userMinimizedChatBadgeValue = false;
         isMobile = false;
         chatStandaloneValue = true;
         chatBadgeEnabled = false;
-        mockIsChatting = false;
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
-    });
-
-    describe('when chat badge arturo is not enabled', () => {
-      beforeAll(() => {
-        zopimChatOnlineValue = false;
-        userMinimizedChatBadgeValue = false;
-        isMobile = false;
-        chatStandaloneValue = true;
-        chatBadgeEnabled = true;
         mockIsChatting = false;
       });
 

@@ -763,25 +763,4 @@ describe('base selectors', () => {
         .toEqual('ar');
     });
   });
-
-  describe('getChatPopoutArturoEnabled', () => {
-    let result,
-      mockState;
-
-    beforeEach(() => {
-      mockState = {
-        base: {
-          arturos: {
-            chatPopout: true
-          }
-        }
-      };
-      result = selectors.getChatPopoutArturoEnabled(mockState);
-    });
-
-    it('returns the value of the chatPopout arturo', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
 });
