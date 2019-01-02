@@ -22,7 +22,7 @@ export class PanelCard extends Component {
   render() {
     const panel = { ...PanelCard.defaultProps.panel, ...this.props.panel };
 
-    panel.roundedBottom = (this.props.children.length) ? false : true;
+    panel.roundedBottom = (this.props.children.length === 0);
 
     return (
       <Card className={this.props.className}>

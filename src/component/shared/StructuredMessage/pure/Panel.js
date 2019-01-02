@@ -9,9 +9,8 @@ import { FONT_SIZE } from 'constants/shared';
 
 /**
  * A HOC to return the outer element of the Panel
- * WHen onClick is valid, outer element is a button instead of div
  */
-const PanelWrapper = ({ className, onClick, children }) => {
+export const PanelWrapper = ({ className, onClick, children }) => {
   if (onClick) {
     return (
       <button className={className} onClick={onClick}>
