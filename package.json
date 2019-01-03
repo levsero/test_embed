@@ -28,7 +28,7 @@
     "lint": "eslint src test --ignore-pattern=src/translation/*.js",
     "lint-fix": "eslint --fix src test --ignore-pattern=src/translation/*.js",
     "size": "bundlesize",
-    "post-install": "replace --silent 'http://' 'https://' ./package-lock.json"
+    "postshrinkwrap": "replace --silent 'http://' 'https://' ./package-lock.json"
   },
   "husky": {
     "hooks": {

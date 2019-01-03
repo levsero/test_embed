@@ -76,12 +76,9 @@ if [ "$installed_node_version" = "$nvm_node_version" ]
 then
   echo "Confirming application dependencies are up to date"
   $npm_command install
-  echo "Ensuring package-lock uses https"
-  $npm_command run post-install
 else
   echo "Node.js version has changed from $installed_node_version to $nvm_node_version, re-installing application dependencies"
   $npm_command rm -rf node_modules && npm install
-  $npm_command run post-install
 fi
 
 
