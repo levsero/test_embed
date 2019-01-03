@@ -10,7 +10,7 @@ exports[`does not has the rtl classnames when rtl language is false 1`] = `
       ltr
       
     "
-    href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+    href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
     tabindex="-1"
     target="_blank"
   >
@@ -39,7 +39,7 @@ exports[`does not have the positional classnames when mobile browser is true 1`]
       ltr
       
     "
-    href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+    href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
     tabindex="-1"
     target="_blank"
   >
@@ -68,7 +68,7 @@ exports[`has the correct logo when chat is true 1`] = `
       ltr
       
     "
-    href="Missing translation (): embeddable_framework.zendeskLogo.powered_by_url.chat?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=123abc&utm_content=undefined&iref=123abc&lang="
+    href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=123abc&utm_content=undefined&iref=123abc&lang=en-US"
     tabindex="-1"
     target="_blank"
   >
@@ -97,7 +97,7 @@ exports[`has the positional classnames for mobile browser and formSuccess is tru
       ltr
       
     "
-    href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+    href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
     tabindex="-1"
     target="_blank"
   >
@@ -126,7 +126,7 @@ exports[`has the rtl classnames when rtl language is true 1`] = `
       rtl
       
     "
-    href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+    href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
     tabindex="-1"
     target="_blank"
   >
@@ -155,7 +155,7 @@ exports[`renders the expected classes 1`] = `
       ltr
       
     "
-    href="[object Object]?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+    href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
     tabindex="-1"
     target="_blank"
   >
