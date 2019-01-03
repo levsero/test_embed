@@ -148,6 +148,8 @@ export class ChatLog extends Component {
   }
 
   render() {
+    if (_.isEmpty(this.props.chatLog)) return null;
+
     return (
       <div>
         {_.map(this.props.chatLog, this.renderGroup)}

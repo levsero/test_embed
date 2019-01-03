@@ -1,7 +1,6 @@
 import {
   SDK_CHAT_MSG,
   SDK_CHAT_FILE,
-  SDK_CHAT_QUEUE_POSITION,
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_MEMBER_LEAVE,
   SDK_CHAT_REQUEST_RATING,
@@ -95,7 +94,6 @@ const chatLog = (state = initialState, action) => {
         latestRating: action.payload.detail.timestamp,
         groups: [...state.groups, newEventGroup(action.payload.detail)]
       };
-    case SDK_CHAT_QUEUE_POSITION:
     case SDK_CHAT_COMMENT:
     case SDK_CHAT_MEMBER_JOIN:
       return {
