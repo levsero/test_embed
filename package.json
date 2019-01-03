@@ -125,7 +125,7 @@
     "babel-plugin-dynamic-import-node": "^2.0.0",
     "bundlesize": "^0.17.0",
     "css-loader": "^0.28.11",
-    "cssstyle": "0.2.30",
+    "cssstyle": "1.1.1",
     "eslint": "^5.11.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jasmine": "^2.8.4",
