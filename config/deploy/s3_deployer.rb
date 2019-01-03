@@ -63,7 +63,7 @@ class S3Deployer
               server_side_encryption: ENCRYPTION_TYPE,
               cache_control: "public, max-age=#{SECONDS_IN_A_YEAR}",
               expires: expires_header,
-              content_type: "#{content_type_header(file)} charset=utf-8"
+              content_type: "#{content_type_header(file)}; charset=utf-8"
             }.merge(opts).delete_if { |_, v| v.nil? }
           )
   end
