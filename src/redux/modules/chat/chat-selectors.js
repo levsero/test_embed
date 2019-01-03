@@ -468,7 +468,7 @@ export const getGroupedOperatingHours = createSelector(
   }
 );
 
-export const getChatMessagesByAgent = createSelector(
+export const getChatMessagesFromAgents = createSelector(
   [getChats],
   (chats) => {
     const chatsArr = Array.from(chats.values());
@@ -550,7 +550,7 @@ export const isInChattingScreen = createSelector(
 );
 
 export const hasUnseenAgentMessage = createSelector(
-  [getChatMessagesByAgent, getLastReadTimestamp],
+  [getChatMessagesFromAgents, getLastReadTimestamp],
   (messages, timestamp) => !timestamp || !!_.find(messages, message => message.timestamp > timestamp)
 );
 

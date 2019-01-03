@@ -90,7 +90,7 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
-        getChatMessagesByAgent: (val) => {
+        getChatMessagesFromAgents: (val) => {
           if (val) {
             return _.identity(val);
           }

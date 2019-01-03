@@ -921,7 +921,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getChatMessagesByAgent', () => {
+  describe('getChatMessagesFromAgents', () => {
     let result;
     const mockChats = [
       { nick: 'agent:123', type: 'chat.msg' },
@@ -934,7 +934,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = selectors.getChatMessagesByAgent(mockChatSettings);
+      result = selectors.getChatMessagesFromAgents(mockChatSettings);
     });
 
     it('returns the chats from only agents', () => {

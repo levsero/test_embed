@@ -26,7 +26,7 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
-import { getChatMessagesByAgent,
+import { getChatMessagesFromAgents,
   getConnection,
   getChatOnline,
   getChatStatus,
@@ -72,7 +72,7 @@ const startChatNotificationTimer = ({ proactive }) => {
 };
 
 const getNewAgentMessage = (state) => {
-  const agentChats = getChatMessagesByAgent(state);
+  const agentChats = getChatMessagesFromAgents(state);
   const newAgentMessage = _.last(agentChats);
   const proactive = getIsProactiveSession(state);
 
@@ -100,7 +100,7 @@ const handleNewAgentMessage = (nextState, dispatch) => {
       audio.play('incoming_message');
     }
 
-    if (_.size(getChatMessagesByAgent(nextState)) === 1
+    if (_.size(getChatMessagesFromAgents(nextState)) === 1
       && !isMobile
       && activeEmbed === 'helpCenterForm'
       && !getHasSearched(nextState)) {
@@ -150,8 +150,8 @@ const onChatStatus = (action, dispatch) => {
 };
 
 const onNewChatMessage = (prevState, nextState, dispatch) => {
-  const prev = getChatMessagesByAgent(prevState);
-  const next = getChatMessagesByAgent(nextState);
+  const prev = getChatMessagesFromAgents(prevState);
+  const next = getChatMessagesFromAgents(nextState);
   const newAgentMessage = next.length > prev.length;
 
   if (newAgentMessage && hasUnseenAgentMessage(nextState)) {
