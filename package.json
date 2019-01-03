@@ -4,7 +4,7 @@
   "description": "3rd party embeddable framework and API",
   "engines": {
     "nvm": ">= 0.33.11",
-    "node": ">= 10.15.0",
+    "node": ">= 8.9.4",
     "npm": ">= 6.5.0"
   },
   "scripts": {
