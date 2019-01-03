@@ -106,7 +106,7 @@ function writeJsonToGlobalFile(globalName, path, json) {
                + ' = '
                + JSON.stringify(json, null, 2);
 
-  fs.writeFile(path, contents, () => {
+  fs.writeFile(path, contents, (err) => {
     console.error(err);
   });
 }
