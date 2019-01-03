@@ -9,13 +9,9 @@ import {
   SDK_HISTORY_CHAT_REQUEST_RATING,
   SDK_HISTORY_CHAT_RATING,
   SDK_HISTORY_CHAT_COMMENT,
-  HISTORY_REQUEST_SUCCESS
 } from '../../chat-action-types';
 
-const initialState = {
-  entries: new Map(),
-  buffer: new Map()
-};
+const initialState = new Map();
 
 const newEntry = (message) => {
   const timestamp = message.timestamp || Date.now();
@@ -37,15 +33,7 @@ const chats = (state = initialState, action) => {
     case SDK_HISTORY_CHAT_COMMENT:
     case SDK_HISTORY_CHAT_MEMBER_JOIN:
     case SDK_HISTORY_CHAT_MEMBER_LEAVE:
-      return {
-        ...state,
-        buffer: new Map([...newEntry(detail), ...state.buffer])
-      };
-    case HISTORY_REQUEST_SUCCESS:
-      return {
-        entries: new Map([...state.buffer, ...state.entries]),
-        buffer: new Map()
-      };
+      return new Map([...newEntry(detail), ...state]);
     default:
       return state;
   }

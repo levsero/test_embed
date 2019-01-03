@@ -475,6 +475,7 @@ class ChattingScreen extends Component {
           isMobile={isMobile}>
           <div className={chatLogContainerClasses}>
             <HistoryLog
+              isMobile={this.props.isMobile}
               showAvatar={this.props.showAvatar}
               agents={this.props.allAgents}
               luxon={this.props.luxon}

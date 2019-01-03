@@ -22,7 +22,8 @@ export class HistoryLog extends Component {
     agents: PropTypes.object,
     showAvatar: PropTypes.bool.isRequired,
     firstMessageTimestamp: PropTypes.number,
-    luxon: PropTypes.object.isRequired
+    luxon: PropTypes.object.isRequired,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -63,6 +64,7 @@ export class HistoryLog extends Component {
             messageKeys={chatGroup.messages}
             avatarPath={avatarPath}
             showAvatar={this.props.showAvatar}
+            isMobile={this.props.isMobile}
             chatLogCreatedAt={this.createdTimestamp}
           />
         );

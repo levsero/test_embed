@@ -21,9 +21,7 @@ describe('chat reducer chatHistory chats', () => {
   describe('reducer', () => {
     describe('initial state', () => {
       it('contains no entries', () => {
-        expect(initialState.entries.size)
-          .toEqual(0);
-        expect(initialState.buffer.size)
+        expect(initialState.size)
           .toEqual(0);
       });
     });
@@ -32,7 +30,7 @@ describe('chat reducer chatHistory chats', () => {
       let state,
         detail;
 
-      describe('when HISTORY_REQUEST_SUCCESS action is dispatched', () => {
+      describe('when SDK_HISTORY_CHAT_MSG action is dispatched', () => {
         beforeEach(() => {
           detail = {
             timestamp: Date.now(),
@@ -40,27 +38,18 @@ describe('chat reducer chatHistory chats', () => {
             display_name: 'Mr Abc'
           };
 
-          const bufferedState = reducer(initialState, {
+          state = reducer(initialState, {
             type: chatActionTypes.SDK_HISTORY_CHAT_MSG,
             payload: { detail }
           });
-
-          state = reducer(bufferedState, {
-            type: chatActionTypes.HISTORY_REQUEST_SUCCESS
-          });
         });
 
-        it('adds the buffered messages to the chats collection', () => {
-          expect(state.entries.size)
+        it('adds the messages to the chats collection', () => {
+          expect(state.size)
             .toEqual(1);
 
-          expect(state.entries.get(detail.timestamp))
+          expect(state.get(detail.timestamp))
             .toEqual(jasmine.objectContaining(detail));
-        });
-
-        it('flushes the buffered messages', () => {
-          expect(state.buffer.size)
-            .toEqual(0);
         });
       });
 
@@ -84,11 +73,11 @@ describe('chat reducer chatHistory chats', () => {
             });
           });
 
-          it('adds the message to the buffer', () => {
-            expect(state.buffer.size)
+          it('adds the message', () => {
+            expect(state.size)
               .toEqual(1);
 
-            expect(state.buffer.get(detail.timestamp))
+            expect(state.get(detail.timestamp))
               .toEqual(jasmine.objectContaining(detail));
           });
         });
@@ -112,11 +101,11 @@ describe('chat reducer chatHistory chats', () => {
             });
           });
 
-          it('adds the message to the buffer', () => {
-            expect(state.buffer.size)
+          it('adds the message', () => {
+            expect(state.size)
               .toEqual(1);
 
-            expect(state.buffer.get(detail.timestamp))
+            expect(state.get(detail.timestamp))
               .toEqual(jasmine.objectContaining(detail));
           });
         });

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
 
-const getHistory = state => state.chat.chatHistory.chats.entries;
+const getHistory = state => state.chat.chatHistory.chats;
 
 export const getHistoryLog = state => state.chat.chatHistory.log.entries;
 export const getHasMoreHistory = state => state.chat.chatHistory.hasMore;
