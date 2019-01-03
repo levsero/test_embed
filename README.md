@@ -40,7 +40,7 @@ Run the following commands inside this folder:
 
 The bootstrap file will do the following:
 
-* Run `npm install` to get all dependencies
+* Run `./setup-environment.sh` to ensure the correct versions of nvm, node, and npm, as well as getting all the latest dependencies.
 * Run `bundle install` to get ruby dependencies
 * Run `npm run build` to generate snippet, framework and example files
 * Download rosetta translation and mappings into `src/translation/ze_translations.js` and `src/translation/ze_localeIdMap.js`
@@ -153,6 +153,9 @@ To download the latest translations, run the following command from the root of 
 ```bash
 ./script/fetch_countries
 ```
+
+## Refreshing node_module dependencies
+Use `./setup-environment.sh` instead of `npm install` to update your node modules to ensure the package-lock stays in sync across computers.
 
 ## NPM tasks
 Run each task like this: ```npm run <taskname>```

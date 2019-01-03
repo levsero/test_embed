@@ -1,14 +1,14 @@
 var when = require('when'),
-    rest = require('rest'),
-    _ = require('lodash'),
-    fs = require('fs'),
-    isAssetComposerBuild = process.argv[2] === 'ac',
-    appRoot = require('app-root-path'),
-    localeIdMapGlobal = 'zELocaleIdMap',
-    translationsGlobal = 'zETranslations',
-    localeIdMapPath = __dirname + "/../src/translation/ze_localeIdMap.js",
-    translationsPath = __dirname + "/../src/translation/ze_translations.js",
-    translationMissingMessage = 'translation%20missing';
+  rest = require('rest'),
+  _ = require('lodash'),
+  fs = require('fs'),
+  isAssetComposerBuild = process.argv[2] === 'ac',
+  appRoot = require('app-root-path'),
+  localeIdMapGlobal = 'zELocaleIdMap',
+  translationsGlobal = 'zETranslations',
+  localeIdMapPath = __dirname + '/../src/translation/ze_localeIdMap.js',
+  translationsPath = __dirname + '/../src/translation/ze_translations.js',
+  translationMissingMessage = 'translation%20missing';
 
 function filterLocales(locales) {
   return _.reject(locales, function(locale) {
@@ -18,6 +18,7 @@ function filterLocales(locales) {
 
 function fetchLocale(locale) {
   var url = locale.url + '?include=translations&packages=embeddable_framework';
+
   return rest(url)
     .then(function(response) {
       process.stdout.write('.');
@@ -105,13 +106,17 @@ function writeJsonToGlobalFile(globalName, path, json) {
                + ' = '
                + JSON.stringify(json, null, 2);
 
-  fs.writeFile(path, contents);
+  fs.writeFile(path, contents, () => {
+    console.error(err);
+  });
 }
 
 function writeJsonToModuleFile(path, json) {
   var contents = 'module.exports = ' + JSON.stringify(json, null, 2);
 
-  fs.writeFile(path, contents);
+  fs.writeFile(path, contents, (err) => {
+    console.error(err);
+  });
 }
 
 function writeJson(path, json, globalName) {

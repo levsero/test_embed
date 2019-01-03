@@ -1,7 +1,7 @@
 import { i18nTimeFromMinutes } from '../time';
 
 test.each([
-  [0, 'ja', '00:00'],
+  [0, null, '12:00 AM'],
   [280, null, '4:40 AM'],
   [1000, null, '4:40 PM'],
   [720, null, '12:00 PM'],
