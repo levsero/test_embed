@@ -118,9 +118,7 @@ class WebWidget extends Component {
       width: PropTypes.number,
       minHeight: PropTypes.number
     }),
-    subjectEnabled: PropTypes.bool,
     submitTicketConfig: PropTypes.shape({
-      attachmentsEnabled: PropTypes.bool,
       color: PropTypes.string,
       customFields: PropTypes.array,
       formTitleKey: PropTypes.string,
@@ -446,7 +444,6 @@ class WebWidget extends Component {
       <div className={classes}>
         <SubmitTicket
           ref={submitTicket}
-          attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
           formTitleKey={submitTicketConfig.formTitleKey}
@@ -459,7 +456,6 @@ class WebWidget extends Component {
           position={submitTicketConfig.position}
           showBackButton={this.props.updateBackButtonVisibility}
           style={this.props.style}
-          subjectEnabled={this.props.subjectEnabled}
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
           fullscreen={this.props.fullscreen}

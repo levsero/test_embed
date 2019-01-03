@@ -49,7 +49,10 @@ describe('selectors', () => {
     launcherLabel,
     settingsHelpCenterSuppress,
     settingTranslation,
-    stylingPositionHorizontal;
+    stylingPositionHorizontal,
+    contactFormSuppressValue,
+    contactFormAttachmentsValue,
+    configAttachmentsEnabledValue;
 
   settingTranslation = '';
   activeEmbedValue = '';
@@ -94,6 +97,9 @@ describe('selectors', () => {
   launcherLabel = '';
   settingsHelpCenterSuppress = false;
   stylingPositionHorizontal = 'right';
+  contactFormSuppressValue = false;
+  contactFormAttachmentsValue = false;
+  configAttachmentsEnabledValue = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -135,7 +141,8 @@ describe('selectors', () => {
         getLauncherVisible: () => launcherVisibleValue,
         getChatStandalone: () => chatStandaloneValue,
         getUserMinimizedChatBadge: () => userMinimizedChatBadgeValue,
-        getChatBadgeArturoEnabled: () => chatBadgeArturoEnabled
+        getChatBadgeArturoEnabled: () => chatBadgeArturoEnabled,
+        getConfigAttachmentsEnabled: () => configAttachmentsEnabledValue
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue,
@@ -150,7 +157,9 @@ describe('selectors', () => {
         getHelpCenterSearchPlaceholder: noop,
         getHelpCenterTitle: noop,
         getStylingPositionHorizontal: () => stylingPositionHorizontal,
-        getStylingZIndex: () => 1
+        getStylingZIndex: () => 1,
+        getSettingsContactFormSuppress: () => contactFormSuppressValue,
+        getSettingsContactFormAttachments: () => contactFormAttachmentsValue
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
@@ -1706,7 +1715,7 @@ describe('selectors', () => {
 
       describe('when contactForm is suppressed', () => {
         beforeAll(() => {
-          mockSettingsGetFn = () => true;
+          contactFormSuppressValue = true;
         });
 
         it('returns false', () => {
@@ -1717,7 +1726,7 @@ describe('selectors', () => {
 
       describe('when contactForm is not suppressed', () => {
         beforeAll(() => {
-          mockSettingsGetFn = () => false;
+          contactFormSuppressValue = false;
         });
 
         it('returns true', () => {

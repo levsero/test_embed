@@ -32,6 +32,11 @@ describe('base reducer embeddable config', () => {
       expect(initialState)
         .toEqual({
           embeds: {
+            ticketSubmissionForm: {
+              props: {
+                attachmentsEnabled: true
+              }
+            },
             helpCenterForm: {
               props: {
                 contextualHelpEnabled: false,
@@ -108,6 +113,11 @@ describe('base reducer embeddable config', () => {
         .toEqual({
           ipmAllowed: true,
           embeds: {
+            ticketSubmissionForm: {
+              props: {
+                attachmentsEnabled: true
+              }
+            },
             helpCenterForm: {
               props: {
                 contextualHelpEnabled: true,

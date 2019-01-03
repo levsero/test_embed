@@ -72,11 +72,7 @@ const customizationsWhitelist = [
 ];
 const webWidgetStoreDefaults = {
   contactForm: {
-    attachments: true,
     fields: [],
-    subject: false,
-    suppress: false,
-    tags: [],
     ticketForms: []
   },
   helpCenter: {},

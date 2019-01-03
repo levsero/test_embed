@@ -137,6 +137,8 @@ describe('Submit ticket component', () => {
       },
       'src/redux/modules/submitTicket': {},
       'src/redux/modules/submitTicket/submitTicket-selectors': {},
+      'src/redux/modules/settings/settings-selectors': {},
+      'src/redux/modules/selectors': {},
       'component/Icon': {
         Icon: noopReactComponent()
       },

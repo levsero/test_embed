@@ -26,6 +26,8 @@ import {
   getHelpCenterTitle,
   getStylingPositionHorizontal,
   getStylingZIndex,
+  getSettingsContactFormSuppress,
+  getSettingsContactFormAttachments
 } from './settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -49,7 +51,8 @@ import { getActiveEmbed,
   getLauncherVisible as getBaseLauncherVisible,
   getChatStandalone,
   getUserMinimizedChatBadge,
-  getChatBadgeArturoEnabled } from './base/base-selectors';
+  getChatBadgeArturoEnabled,
+  getConfigAttachmentsEnabled } from './base/base-selectors';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -234,7 +237,7 @@ export const getMaxWidgetHeight = (state, frame = 'webWidget') => {
 };
 
 export const getSubmitTicketAvailable = (state) => {
-  return getSubmitTicketEmbed(state) && !settings.get('contactForm.suppress');
+  return getSubmitTicketEmbed(state) && !getSettingsContactFormSuppress(state);
 };
 
 export const getChannelChoiceAvailable = createSelector(
@@ -424,4 +427,8 @@ export const getFrameStyle = (state, frame) => {
 
 export const getHideZendeskLogo = (state) => {
   return getEmbeddableConfig(state).hideZendeskLogo || getAccountSettingsHideBranding(state);
+};
+
+export const getAttachmentsEnabled = (state) => {
+  return getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state);
 };

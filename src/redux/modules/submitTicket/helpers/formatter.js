@@ -1,7 +1,9 @@
 import _ from 'lodash';
+import {
+  getSettingsContactFormTags,
+  getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors';
 import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
-import { settings } from 'service/settings';
 import { location } from 'utility/globals';
 
 const findFieldId = (name, ticketFields) => {
@@ -45,12 +47,13 @@ const formatTicketFieldData = (formState, subjectFieldId, descriptionFieldId) =>
   return params;
 };
 
-export const formatRequestData = (formState, ticketFormsAvailable, ticketFields, activeTicketForm, attachments) => {
+export const formatRequestData = (
+  state, formState, ticketFormsAvailable, ticketFields, activeTicketForm, attachments) => {
   const descriptionField = findFieldId('description', ticketFields);
   const descriptionData = ticketFormsAvailable ? formState[descriptionField] : formState.description;
   const subjectField = findFieldId('subject', ticketFields);
   const subjectData = ticketFormsAvailable && subjectField ? formState[subjectField] : formState.subject;
-  const subjectAllowed = settings.get('contactForm.subject') || ticketFormsAvailable;
+  const subjectAllowed = getSettingsContactFormSubject(state) || ticketFormsAvailable;
   const subject = subjectAllowed && !_.isEmpty(subjectData)
     ? subjectData
     : (descriptionData.length <= 50) ? descriptionData : `${descriptionData.slice(0,50)}...`;
@@ -58,7 +61,7 @@ export const formatRequestData = (formState, ticketFormsAvailable, ticketFields,
   return {
     'request': {
       'subject': subject,
-      'tags': ['web_widget'].concat(settings.get('contactForm.tags')),
+      'tags': ['web_widget'].concat(getSettingsContactFormTags(state)),
       'via_id': 48,
       'comment': {
         'body': formatDescriptionField(descriptionData),

@@ -24,9 +24,6 @@ describe('init', () => {
     test.each([
       ['margin', 8],
       ['viaId', 48],
-      ['contactForm.attachments', true],
-      ['contactForm.subject', false],
-      ['contactForm.tags', []],
       ['contactForm.ticketForms', []],
       ['contactOptions', { enabled: false }],
       ['chat.concierge.avatarPath', null]
@@ -244,9 +241,6 @@ describe('getTrackSettings', () => {
     userSettings = {
       webWidget: {
         authenticate: { jwt: 'abc' },
-        contactForm: {
-          attachments: true
-        },
         helpCenter: { originalArticleButton: false }
       }
     };

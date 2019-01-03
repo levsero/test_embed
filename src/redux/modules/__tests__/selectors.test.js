@@ -21,6 +21,29 @@ const stateHelpCenterSettings = (settings) => {
   };
 };
 
+const stateAttachmentSettings = (configAttachments, settingsAttachments) => {
+  return {
+    base: {
+      embeddableConfig: {
+        embeds: {
+          ticketSubmissionForm: {
+            props: {
+              attachmentsEnabled: configAttachments
+            }
+          }
+        }
+      }
+    },
+    settings: {
+      contactForm: {
+        settings: {
+          attachments: settingsAttachments
+        }
+      }
+    }
+  };
+};
+
 describe('selectors', () => {
   let state;
 
@@ -295,5 +318,28 @@ describe('getHorizontalPosition', () => {
 
     expect(selectors.getHorizontalPosition(state))
       .toEqual('left');
+  });
+});
+
+describe('getAttachmentsEnabled', () => {
+  it('returns true when settings and config attachments are enabled', () => {
+    const state = stateAttachmentSettings(true, true);
+
+    expect(selectors.getAttachmentsEnabled(state))
+      .toBe(true);
+  });
+
+  it('returns false when settings attachments are not enabled', () => {
+    const state = stateAttachmentSettings(true, false);
+
+    expect(selectors.getAttachmentsEnabled(state))
+      .toBe(false);
+  });
+
+  it('returns false when config attachments are not enabled', () => {
+    const state = stateAttachmentSettings(false, true);
+
+    expect(selectors.getAttachmentsEnabled(state))
+      .toBe(false);
   });
 });

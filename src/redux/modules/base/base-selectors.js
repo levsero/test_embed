@@ -37,6 +37,9 @@ export const getHasWidgetShown = (state) => state.base.hasWidgetShown;
 export const getBaseIsAuthenticated = () => isTokenValid(getOAuth());
 export const getIsAuthenticationPending = (state) => state.base.isAuthenticationPending;
 export const getEmbeddableConfig = (state) => state.base.embeddableConfig;
+export const getConfigAttachmentsEnabled =(state) => {
+  return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.attachmentsEnabled;
+};
 export const getChatStandalone = createSelector(
   getEmbeddableConfig,
   (embeddableConfig) => {
