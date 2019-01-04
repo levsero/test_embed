@@ -401,7 +401,7 @@ describe('onStateChange middleware', () => {
 
                 it('calls mediator with newChat.newMessage', () => {
                   expect(broadcastSpy)
-                    .toHaveBeenCalledWith('newChat.newMessage', dispatchSpy);
+                    .toHaveBeenCalledWith('newChat.newMessage');
                 });
               });
 

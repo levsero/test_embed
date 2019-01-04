@@ -15,7 +15,8 @@ import {
   zopimIsChatting,
   zopimEndChat,
   zopimOpen,
-  zopimClose } from 'src/redux/modules/zopimChat';
+  zopimClose,
+  zopimUpdateUnreadMessages } from 'src/redux/modules/zopimChat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { closeApi, openApi } from 'src/service/api/apis';
 import {
@@ -201,7 +202,8 @@ function init(name) {
     store.dispatch(updateZopimChatStatus(status));
   };
   const onUnreadMsgs = (unreadMessageCount) => {
-    mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount, store);
+    mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
+    store.dispatch(zopimUpdateUnreadMessages(unreadMessageCount));
   };
   const onChatStart = () => {
     mediator.channel.broadcast(`${name}.onChatStart`);

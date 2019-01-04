@@ -22,6 +22,7 @@ describe('embed.chat', () => {
   });
 
   const updateZopimChatStatusSpy = jasmine.createSpy('updateZopimChatStatus');
+  const zopimUpdateUnreadMessagesSpy = jasmine.createSpy('zopimUpdateUnreadMessages');
   const zopimEndChatSpy = jasmine.createSpy('zopimEndChat');
   const closeApiSpy = jasmine.createSpy('closeApi');
   const openApiSpy = jasmine.createSpy('openApi');
@@ -121,7 +122,8 @@ describe('embed.chat', () => {
         zopimClose: noop,
         zopimOpen: noop,
         zopimIsChatting: noop,
-        zopimEndChat: zopimEndChatSpy
+        zopimEndChat: zopimEndChatSpy,
+        zopimUpdateUnreadMessages: zopimUpdateUnreadMessagesSpy
       },
       'utility/devices': {
         isMobileBrowser: () => mockIsMobileBrowserValue
@@ -379,7 +381,8 @@ describe('embed.chat', () => {
           onUnreadMsgsCall.args[0](count);
 
           expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('dave.onUnreadMsgs', count, jasmine.any(Object));
+            .toHaveBeenCalledWith('dave.onUnreadMsgs', count);
+          expect(zopimUpdateUnreadMessagesSpy).toHaveBeenCalled();
         });
       });
 

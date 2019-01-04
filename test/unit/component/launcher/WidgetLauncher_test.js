@@ -59,6 +59,9 @@ describe('WidgetLauncher component', () => {
       'src/redux/modules/base/': {
         launcherClicked: noop
       },
+      'src/redux/modules/zopimChat/zopimChat-selectors': {
+        getZopimMessageCount: noop
+      },
       'utility/keyboard': {
         keyCodes: {
           'SPACE': 32,
@@ -81,13 +84,9 @@ describe('WidgetLauncher component', () => {
     let launcher;
 
     describe('when there are unreadMessages', () => {
-      beforeEach(() => {
-        launcher = domRender(<Launcher />);
-      });
-
       describe('when there is one unread message', () => {
         beforeEach(() => {
-          launcher.setState({ unreadMessages: 1 });
+          launcher = domRender(<Launcher unreadMessages={1} notificationCount={0} />);
         });
 
         it('returns the single message label', () => {
@@ -98,7 +97,7 @@ describe('WidgetLauncher component', () => {
 
       describe('when there is more then one unread message', () => {
         beforeEach(() => {
-          launcher.setState({ unreadMessages: 2 });
+          launcher = domRender(<Launcher unreadMessages={2} notificationCount={0} />);
         });
 
         it('returns the multiple messages label', () => {
@@ -108,30 +107,28 @@ describe('WidgetLauncher component', () => {
       });
     });
 
-    describe('when there are no unreadMessages', () => {
-      describe('when chat is online', () => {
-        describe('when help center is part of config', () => {
-          beforeEach(() => {
-            launcher = domRender(
-              <Launcher chatAvailable={true} helpCenterAvailable={true} launcherLabel='help' />
-            );
-          });
-
-          it('returns the prop label', () => {
-            expect(launcher.getLabel())
-              .toEqual('help');
-          });
+    describe('when chat is online', () => {
+      describe('when help center is part of config', () => {
+        beforeEach(() => {
+          launcher = domRender(
+            <Launcher chatAvailable={true} helpCenterAvailable={true} launcherLabel='help' />
+          );
         });
 
-        describe('when help center is not of config', () => {
-          beforeEach(() => {
-            launcher = domRender(<Launcher chatAvailable={true} helpCenterAvailable={false} chatLabel={'chat label'} />);
-          });
+        it('returns the prop label', () => {
+          expect(launcher.getLabel())
+            .toEqual('help');
+        });
+      });
 
-          it('returns the chat label', () => {
-            expect(launcher.getLabel())
-              .toEqual('chat label');
-          });
+      describe('when help center is not of config', () => {
+        beforeEach(() => {
+          launcher = domRender(<Launcher chatAvailable={true} helpCenterAvailable={false} chatLabel={'chat label'} />);
+        });
+
+        it('returns the chat label', () => {
+          expect(launcher.getLabel())
+            .toEqual('chat label');
         });
       });
 
@@ -565,9 +562,8 @@ describe('WidgetLauncher component', () => {
 
     describe('when unread messages is greater than 0', () => {
       beforeEach(() => {
-        const launcher = domRender(<Launcher notificationCount={5} />);
+        const launcher = domRender(<Launcher notificationCount={5} unreadMessages={10} />);
 
-        launcher.setState({ unreadMessages: 10 });
         result = launcher.getNotificationCount();
       });
 
@@ -579,7 +575,7 @@ describe('WidgetLauncher component', () => {
 
     describe('when unread messages is 0 and notification count is greater than 0', () => {
       beforeEach(() => {
-        const launcher = domRender(<Launcher notificationCount={5} />);
+        const launcher = domRender(<Launcher notificationCount={5} unreadMessages={0} />);
 
         result = launcher.getNotificationCount();
       });

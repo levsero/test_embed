@@ -16,6 +16,7 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
 import { launcherClicked } from 'src/redux/modules/base/';
 import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors';
+import { getZopimMessageCount } from 'src/redux/modules/zopimChat/zopimChat-selectors';
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -27,7 +28,8 @@ const mapStateToProps = (state, ownProps) => {
     notificationCount: getNotificationCount(state),
     chatOfflineAvailable: getChatOfflineAvailable(state),
     chatLabel: getLauncherChatLabel(state),
-    launcherLabel: getLauncherLabel(state, ownProps.label)
+    launcherLabel: getLauncherLabel(state, ownProps.label),
+    unreadMessages: getZopimMessageCount(state)
   };
 };
 
@@ -46,7 +48,8 @@ class WidgetLauncher extends Component {
     chatOfflineAvailable: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
     launcherLabel: PropTypes.string.isRequired,
-    chatLabel: PropTypes.string.isRequired
+    chatLabel: PropTypes.string.isRequired,
+    unreadMessages: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -55,18 +58,12 @@ class WidgetLauncher extends Component {
 
   constructor(props, context) {
     super(props, context);
-
-    this.state = { unreadMessages: 0 };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.notificationCount !== this.props.notificationCount) {
       this.props.forceUpdateWorld();
     }
-  }
-
-  setUnreadMessages = (unreadMessages) => {
-    this.setState({ unreadMessages });
   }
 
   getTalkLabel = () => {
@@ -78,12 +75,9 @@ class WidgetLauncher extends Component {
   }
 
   getNotificationCount = () => {
-    const { unreadMessages } = this.state;
-    const { notificationCount } = this.props;
+    const { notificationCount, unreadMessages } = this.props;
 
-    // TODO: Remove this once mediator is removed
-    // Only Zopim or Chat SDK will ever have a value greater than 0 at a given time
-    return unreadMessages || notificationCount;
+    return Math.max(notificationCount, unreadMessages);
   }
 
   getLabel = () => {

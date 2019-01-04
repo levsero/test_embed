@@ -154,7 +154,7 @@ function init(config, reduxStore = dummyStore) {
 
     renderedEmbeds = parsedConfig;
 
-    initMediator(config);
+    initMediator(config, reduxStore);
     reduxStore.dispatch(widgetInitialised(arturos));
 
     initialised = true;
@@ -177,13 +177,13 @@ function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
   renderEmbeds(parsedConfig, config, reduxStore);
 }
 
-function initMediator(config) {
+function initMediator(config, store) {
   const embeds = config.embeds;
 
   if (_.get(embeds, 'zopimChat.props.standalone') && !config.newChat) {
     mediator.initZopimStandalone();
   } else if (embeds) {
-    mediator.init();
+    mediator.init(store);
   } else if (!_.isEmpty(embeds)) {
     logging.error({
       error: {
