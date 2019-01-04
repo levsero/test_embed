@@ -553,9 +553,9 @@ exports[`chat log visitor message failure 1`] = `
               class="messageErrorContainer"
             >
               <div
-                class="container Alert-cAvYle index__c-callout--error___E8TxN yXqxN Well-clhnSB index__c-callout___cUpq9 jvFzku"
+                class="container Alert-prppfq-0 index__c-callout--error___E8TxN ktWtOK Well-zk7a8s-0 index__c-callout___cUpq9 mRGBp"
                 data-garden-id="notifications.alert"
-                data-garden-version="3.1.13"
+                data-garden-version="3.2.0"
                 role="alert"
                 type="error"
               >

@@ -360,16 +360,16 @@ exports[`renders with error message 1`] = `
 <div>
   <div>
     <div
-      class="containerError Alert-cAvYle index__c-callout--error___E8TxN yXqxN Well-clhnSB index__c-callout___cUpq9 jvFzku"
+      class="containerError Alert-prppfq-0 index__c-callout--error___E8TxN ktWtOK Well-zk7a8s-0 index__c-callout___cUpq9 mRGBp"
       data-garden-id="notifications.alert"
-      data-garden-version="3.1.13"
+      data-garden-version="3.2.0"
       role="alert"
       type="error"
     >
       <div
-        class="previewError Title-kAzUgf index__c-callout__title___264nL clPTca"
+        class="previewError Title-sc-1329g54-0 index__c-callout__title___264nL fRGHFa"
         data-garden-id="notifications.title"
-        data-garden-version="3.1.13"
+        data-garden-version="3.2.0"
       >
         attachment.jpg
       </div>
@@ -379,9 +379,9 @@ exports[`renders with error message 1`] = `
         this is incorrect
       </div>
       <button
-        class="Close-bksCXL index__c-callout__close___2yt98 ZEnsu"
+        class="Close-oze0eo-0 index__c-callout__close___2yt98 czaHBx"
         data-garden-id="notifications.close"
-        data-garden-version="3.1.13"
+        data-garden-version="3.2.0"
         type="button"
       />
     </div>
