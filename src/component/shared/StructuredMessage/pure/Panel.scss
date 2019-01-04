@@ -7,8 +7,15 @@
   width: 100%;
   max-width: none !important;
   padding: 0 !important;
+  display: block !important;
 
   composes: messageBubble from '../../MessageBubble/MessageBubble.scss';
+
+  // For the whole focus ring to be visible in a list
+  &:focus {
+    position: relative;
+    z-index: 9999;
+  }
 }
 
 .noBorderRadiusTop {
@@ -21,6 +28,10 @@
   border-bottom-right-radius: 0 !important;
 }
 
+.noBorderBottomWidth {
+  border-bottom-width: 0 !important;
+}
+
 .hasLink:hover {
   background: $zd-color-grey-200;
 
@@ -31,6 +42,25 @@
 
 .panelContent {
   padding: #{12/$font-size}rem;
+  overflow: hidden;
+}
+
+.floatedPanelContent {
+  width: calc(100% - #{60/$font-size}rem);
+}
+
+.panelContentImage {
+  width: #{48/$font-size}rem;
+  height: #{48/$font-size}rem;
+  border-radius: #{4/$font-size}rem;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.floatRight {
+  float: right;
 }
 
 .panelHeading {

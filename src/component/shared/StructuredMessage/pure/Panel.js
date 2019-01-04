@@ -43,7 +43,8 @@ export const PanelPropType = PropTypes.shape({
   layout: PropTypes.oneOf(['hero', 'thumbnail']),
   align: PropTypes.oneOf(['left', 'right']),
   roundedTop: PropTypes.bool,
-  roundedBottom: PropTypes.bool
+  roundedBottom: PropTypes.bool,
+  borderBottomWidth: PropTypes.bool
 });
 
 // We calculate a max height for browsers that don't support line-clamp
@@ -63,12 +64,13 @@ export class Panel extends Component {
       imageAspectRatio: 2,
       layout: 'hero',
       roundedTop: false,
-      roundedBottom: false
+      roundedBottom: false,
+      borderBottomWidth: true
     }
   };
 
   renderHeroImage(panel) {
-    if (!panel.imageUrl) return;
+    if (panel.layout !== 'hero' || !panel.imageUrl) return;
 
     const imageStyle = {
       backgroundImage: `url(${panel.imageUrl})`
@@ -107,34 +109,57 @@ export class Panel extends Component {
       maxHeight: _calculateMaxHeight(panel.paragraphLineClamp)
     };
 
+    const contentClassNames = (panel.layout === 'thumbnail') ? classNames(styles.floatedPanelContent, {
+      [styles.floatLeft]: (panel.align === 'right'),
+      [styles.floatRight]: (panel.align === 'left'),
+    }) : '';
+
     return (
       <div className={styles.panelContent}>
-        <div className={headingStyle} style={headingLineClampStyle}>{panel.heading}</div>
-        {
-          (panel.paragraph) ? (
-            <div className={paragraphStyle} style={paragraphLineClampStyle}>{panel.paragraph}</div>
-          ) : null
-        }
+        {this.renderThumbnail(panel)}
+
+        <div className={contentClassNames}>
+          <div className={headingStyle} style={headingLineClampStyle}>{panel.heading}</div>
+          {
+            (panel.paragraph) ? (
+              <div className={paragraphStyle} style={paragraphLineClampStyle}>{panel.paragraph}</div>
+            ) : null
+          }
+        </div>
       </div>
     );
   }
 
-  render() {
-    const panelClassNames = classNames(styles.panel, {
-      [styles.hasLink]: this.props.panel.onClick,
-      [styles.noBorderRadiusTop]: !this.props.panel.roundedTop,
-      [styles.noBorderRadiusBottom]: !this.props.panel.roundedBottom
+  renderThumbnail(panel) {
+    if (panel.layout !== 'thumbnail') return;
+
+    const imageStyles = {
+      backgroundImage: `url(${panel.imageUrl})`
+    };
+
+    const imageClassNames = classNames(styles.panelContentImage, {
+      [styles.floatLeft]: (panel.align === 'left'),
+      [styles.floatRight]: (panel.align === 'right')
     });
 
+    return (
+      <div style={imageStyles} className={imageClassNames} />
+    );
+  }
+
+  render() {
     const panel = { ...Panel.defaultProps.panel, ...this.props.panel };
+
+    const panelClassNames = classNames(styles.panel, {
+      [styles.hasLink]: panel.onClick,
+      [styles.noBorderRadiusTop]: !panel.roundedTop,
+      [styles.noBorderRadiusBottom]: !panel.roundedBottom,
+      [styles.noBorderBottomWidth]: !panel.borderBottomWidth
+    });
 
     return (
       <PanelWrapper className={panelClassNames} onClick={panel.onClick}>
-        {
-          (panel.layout === 'hero') ?
-            this.renderHeroImage(panel)
-            : null
-        }
+        {this.renderHeroImage(panel)}
         {this.renderPanelContent(panel)}
       </PanelWrapper>
     );

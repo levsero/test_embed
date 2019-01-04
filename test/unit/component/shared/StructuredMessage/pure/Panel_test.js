@@ -21,7 +21,8 @@ describe('Pure Panel Component', () => {
       imageAspectRatio: 2,
       layout: 'hero',
       roundedTop: false,
-      roundedBottom: false
+      roundedBottom: false,
+      borderBottomWidth: true
     }
   };
 
@@ -41,7 +42,8 @@ describe('Pure Panel Component', () => {
           panelContent: 'panelContent',
 
           noBorderRadiusTop: 'noBorderRadiusTop',
-          noBorderRadiusBottom: 'noBorderRadiusBottom'
+          noBorderRadiusBottom: 'noBorderRadiusBottom',
+          noBorderBottomWidth: 'noBorderBottomWidth'
         }
       },
       'component/Icon': {
@@ -84,6 +86,7 @@ describe('Pure Panel Component', () => {
       component = instanceRender(<Panel />);
       spyOn(component, 'renderHeroImage');
       spyOn(component, 'renderPanelContent');
+      spyOn(component, 'renderThumbnail');
 
       result = component.render();
     });
@@ -128,7 +131,7 @@ describe('Pure Panel Component', () => {
         const component = instanceRender(<Panel panel={panel} />);
         const result = component.render();
 
-        expect(result.props.children[0]).toBeNull();
+        expect(result.props.children[0]).toBeUndefined();
       });
     });
 
@@ -157,6 +160,19 @@ describe('Pure Panel Component', () => {
         expect(result.props.className).toEqual('panel noBorderRadiusTop');
       });
     });
+
+    describe('borderBottomWidth', () => {
+      it('should have noBorderBottomWidth classname when borderBottomWidth is false', () => {
+        const panel = {
+          borderBottomWidth: false
+        };
+
+        const component = instanceRender(<Panel panel={panel} />);
+        const result = component.render();
+
+        expect(result.props.className).toEqual('panel noBorderRadiusTop noBorderRadiusBottom noBorderBottomWidth');
+      });
+    });
   });
 
   describe('.renderHeroImage', () => {
@@ -182,11 +198,19 @@ describe('Pure Panel Component', () => {
       result;
 
     const panelProps = {
+      ...expectedDefaultProps.panel,
       paragraph: 'text'
     };
 
     beforeEach(() => {
       component = instanceRender(<Panel panel={panelProps}/>);
+      spyOn(component, 'renderThumbnail');
+    });
+
+    it('should call renderThumbnail', () => {
+      result = component.render();
+
+      expect(component.renderThumbnail).toHaveBeenCalledWith(panelProps);
     });
 
     describe('Browser is neither IE nor firefox', () => {
@@ -198,12 +222,12 @@ describe('Pure Panel Component', () => {
       });
 
       it('should set max height "auto" for header', () => {
-        expect(result.props.children[1].props.children[0].props.style.maxHeight)
+        expect(result.props.children[1].props.children[1].props.children[0].props.style.maxHeight)
           .toEqual('auto');
       });
 
       it('should set max height "auto" for paragraph', () => {
-        expect(result.props.children[1].props.children[1].props.style.maxHeight)
+        expect(result.props.children[1].props.children[1].props.children[1].props.style.maxHeight)
           .toEqual('auto');
       });
     });
@@ -217,12 +241,12 @@ describe('Pure Panel Component', () => {
       });
 
       it('should set calculated max height for header', () => {
-        expect(result.props.children[1].props.children[0].props.style.maxHeight)
+        expect(result.props.children[1].props.children[1].props.children[0].props.style.maxHeight)
           .toEqual(`${16 * expectedDefaultProps.panel.headingLineClamp / FONT_SIZE}rem`);
       });
 
       it('should set calculated max height for paragraph', () => {
-        expect(result.props.children[1].props.children[1].props.style.maxHeight)
+        expect(result.props.children[1].props.children[1].props.children[1].props.style.maxHeight)
           .toEqual(`${16 * expectedDefaultProps.panel.paragraphLineClamp / FONT_SIZE}rem`);
       });
     });
@@ -236,12 +260,12 @@ describe('Pure Panel Component', () => {
       });
 
       it('should set calculated max height for header', () => {
-        expect(result.props.children[1].props.children[0].props.style.maxHeight)
+        expect(result.props.children[1].props.children[1].props.children[0].props.style.maxHeight)
           .toEqual(`${16 * expectedDefaultProps.panel.headingLineClamp / FONT_SIZE}rem`);
       });
 
       it('should set calculated max height for paragraph', () => {
-        expect(result.props.children[1].props.children[1].props.style.maxHeight)
+        expect(result.props.children[1].props.children[1].props.children[1].props.style.maxHeight)
           .toEqual(`${16 * expectedDefaultProps.panel.paragraphLineClamp / FONT_SIZE}rem`);
       });
     });
