@@ -1,40 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { ButtonList } from './ButtonCard';
+import { ButtonList } from './pure/ButtonList';
+import { Panel } from './pure/Panel';
 
 import { locals as styles } from './ListCard.scss';
 
-export class ListItem extends Component {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string
-  }
-
-  static defaultProps = {
-    imageUrl: null
-  }
-
-  render() {
-    return (
-      <button className={styles.panelContainer}>
-        <div className={styles.panelText}>
-          <h2>{this.props.title}</h2>
-          <p>{this.props.body}</p>
-        </div>
-        <div className={styles.panelImage}>
-          <img src={this.props.imageUrl} />
-        </div>
-      </button>
-    );
-  }
-}
-
 export class ListCard extends Component {
   static propTypes = {
-    contents: PropTypes.array.isRequired,
-    buttons: PropTypes.array
+    items: PropTypes.array.isRequired,
+    buttons: PropTypes.node.isRequired,
+    createAction: PropTypes.func
   };
 
   static defaultProps = {
@@ -42,18 +18,31 @@ export class ListCard extends Component {
   };
 
   render() {
+    const { items, buttons } = this.props;
+
     return (
       <div className={styles.cardContainer}>
         <ul className={styles.panelList}>
-          {this.props.contents.map((item, idx) => {
+          {items.map((item, idx) => {
+            item.borderBottomWidth = false;
+
+            if (!idx) {
+              item.roundedTop = true;
+            } else if (idx === items.length - 1) {
+              item.roundedBottom = (buttons.length === 0);
+              item.borderBottomWidth = true;
+            }
+
             return (
-              <li key={idx}>
-                <ListItem {...item.data} />
+              <li key={idx} onClick={this.props.createAction}>
+                <Panel panel={item}/>
               </li>
             );
           })}
         </ul>
-        <ButtonList contents={this.props.buttons} />
+        <ButtonList>
+          {buttons}
+        </ButtonList>
       </div>
     );
   }
