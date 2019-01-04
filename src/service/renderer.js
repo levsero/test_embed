@@ -183,28 +183,7 @@ function initMediator(config) {
   if (_.get(embeds, 'zopimChat.props.standalone') && !config.newChat) {
     mediator.initZopimStandalone();
   } else if (embeds) {
-    const signInRequired = embeds.helpCenterForm
-      ? embeds.helpCenterForm.props.signInRequired
-      : false;
-    const submitTicketAccessible = !!embeds.ticketSubmissionForm;
-    const zopimChatAccessible = !!embeds.zopimChat;
-    const channelChoiceAccessible = settings.get('contactOptions').enabled
-                                  && submitTicketAccessible
-                                  && zopimChatAccessible;
-    const params = {
-      hideLauncher: hideLauncher,
-      helpCenterSignInRequired: signInRequired,
-      newChat: !!config.newChat
-    };
-    const embedsAccessible = {
-      submitTicket: submitTicketAccessible,
-      helpCenter: !!embeds.helpCenterForm,
-      chat: zopimChatAccessible,
-      channelChoice: channelChoiceAccessible,
-      talk: !!embeds.talk
-    };
-
-    mediator.init(embedsAccessible, params);
+    mediator.init();
   } else if (!_.isEmpty(embeds)) {
     logging.error({
       error: {
