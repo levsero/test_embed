@@ -74,7 +74,7 @@
     "@zendeskgarden/react-select": "^2.3.0",
     "@zendeskgarden/react-selection": "^4.3.4",
     "@zendeskgarden/react-textfields": "^3.3.0",
-    "@zendeskgarden/react-theming": "^3.1.2",
+    "@zendeskgarden/react-theming": "^3.2.1",
     "@zendeskgarden/svg-icons": "~5.0.0",
     "airwaves": "~0.3.0",
     "async": "^2.6.1",
