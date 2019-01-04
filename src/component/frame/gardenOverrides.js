@@ -155,7 +155,7 @@ const checkboxLabelOverrides = isMobile
       &:before {
         width: ${14/FONT_SIZE}rem !important;
         height: ${14/FONT_SIZE}rem !important;
-        top: ${7/FONT_SIZE}rem !important;
+        top: ${8/FONT_SIZE}rem !important;
         margin-top: -${4/FONT_SIZE}rem !important;
         ${borderOverrides}
       }
