@@ -40,10 +40,13 @@ import { updateSettings } from 'src/redux/modules/settings';
 import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors';
 
+import { chat as zopimChat } from 'embed/chat/chat';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
+import { beacon } from 'service/beacon';
 import { createChatPopoutWindow } from 'src/util/chat';
+import { nameValid, emailValid } from 'utility/utils';
 
 import { handleOnApiCalled } from 'src/redux/modules/base/base-actions';
 
@@ -60,7 +63,21 @@ export const sendChatMsgApi = (reduxStore, msg) => {
 };
 
 export const identifyApi = (_reduxStore, user) => {
-  mediator.channel.broadcast('.onIdentify', user);
+  const isEmailValid = emailValid(user.email),
+    isNameValid = nameValid(user.name);
+
+  if (isEmailValid && isNameValid) {
+    beacon.identify(user);
+    zopimChat.setUser(user);
+  } else if (isEmailValid) {
+    console.warn('invalid name passed into zE.identify', user.name); // eslint-disable-line no-console
+    zopimChat.setUser(user);
+  } else if (isNameValid) {
+    console.warn('invalid email passed into zE.identify', user.email); // eslint-disable-line no-console
+    zopimChat.setUser(user);
+  } else {
+    console.warn('invalid params passed into zE.identify', user); // eslint-disable-line no-console
+  }
 };
 
 export const openApi = (reduxStore) => {

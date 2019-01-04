@@ -24,6 +24,7 @@ import {
   getStylingPositionVertical
 } from 'src/redux/modules/settings/settings-selectors';
 import { getHorizontalPosition } from 'src/redux/modules/selectors';
+import { zopimExistsOnPage } from 'service/api/zopimApi/helpers';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -104,6 +105,20 @@ function toggle(name) {
   });
 }
 
+function setUser(user) {
+  if (!zopimExistsOnPage(win)) return;
+
+  win.$zopim(() => {
+    if (_.isString(user.name)) {
+      win.$zopim.livechat.setName(user.name);
+    }
+
+    if (_.isString(user.email)) {
+      win.$zopim.livechat.setEmail(user.email);
+    }
+  });
+}
+
 function render(name) {
   const config = get(name).config;
   const zopimId = config.zopimId;
@@ -148,18 +163,6 @@ function render(name) {
   mediator.channel.subscribe(`${name}.refreshLocale`, () => {
     win.$zopim && win.$zopim(() => {
       win.$zopim.livechat.setLanguage(i18n.getLocale());
-    });
-  });
-
-  mediator.channel.subscribe(`${name}.setUser`, (user) => {
-    win.$zopim && win.$zopim(() => {
-      if (_.isString(user.name)) {
-        win.$zopim.livechat.setName(user.name);
-      }
-
-      if (_.isString(user.email)) {
-        win.$zopim.livechat.setEmail(user.email);
-      }
     });
   });
 }
@@ -277,8 +280,9 @@ function init(name) {
 }
 
 export const chat = {
-  create: create,
-  list: list,
-  get: get,
-  render: render
+  create,
+  list,
+  get,
+  render,
+  setUser
 };
