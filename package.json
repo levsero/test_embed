@@ -75,7 +75,7 @@
     "@zendeskgarden/react-selection": "^4.3.4",
     "@zendeskgarden/react-textfields": "^3.3.0",
     "@zendeskgarden/react-theming": "^3.1.2",
-    "@zendeskgarden/svg-icons": "~4.0.0",
+    "@zendeskgarden/svg-icons": "~5.0.0",
     "airwaves": "~0.3.0",
     "async": "^2.6.1",
     "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v18.0.0",
