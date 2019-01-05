@@ -446,10 +446,13 @@ export default function WebWidgetFactory(name) {
         return config.ticketForms;
       }
 
-      return _.chain(settingTicketForms)
-        .map((ticketForm) => ticketForm.id)
-        .compact()
-        .value();
+      return _.reduce(settingTicketForms, (result, ticketForm) => {
+        const id = _.get(ticketForm, 'id');
+
+        if (id) { result.push(id); }
+
+        return result;
+      }, []);
     });
 
     const { customFields } = config;

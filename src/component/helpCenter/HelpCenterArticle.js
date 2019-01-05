@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import fp from 'lodash/fp';
 import sanitizeHtml from 'sanitize-html';
 
 import { Icon } from 'component/Icon';
@@ -231,22 +232,26 @@ export class HelpCenterArticle extends Component {
     // If the image has not already been downloaded, then queue up
     // an async request for it. The src attribute is set to empty so we can
     // still render the image while waiting for the response.
-    const pendingImageUrls = _.chain(imgEls)
-      .reject((imgEl) => storedImages[imgEl.src])
-      .map((imgEl) => imgEl.src)
-      .value();
+    const pendingImageUrls = imgEls.reduce((urls, imgEl) => {
+      if (!storedImages[imgEl.src]) {
+        urls.push(imgEl.src);
+      }
 
-    _.forEach(imgEls, (imgEl) => {
+      return urls;
+    }, []);
+
+    imgEls.forEach((imgEl) => {
       // '//:0' ensures that the img src is blank on all browsers.
       // http://stackoverflow.com/questions/19126185/setting-an-image-src-to-empty
       imgEl.src = storedImages[imgEl.src] || '//:0';
     });
 
     if (lastActiveArticleId !== this.props.activeArticle.id) {
-      _.chain(pendingImageUrls)
-        .filter((src) => !this.state.queuedImages.hasOwnProperty(src))
-        .tap(this.queueImageRequests)
-        .value();
+      const reqUrls = pendingImageUrls.filter((url) => (
+        !this.state.queuedImages.hasOwnProperty(url)
+      ));
+
+      this.queueImageRequests(reqUrls);
     }
 
     return htmlEl.outerHTML;
@@ -293,10 +298,10 @@ export class HelpCenterArticle extends Component {
       return img;
     };
 
-    return _.chain(htmlEl.getElementsByTagName('img'))
-      .filter(filterHcImages)
-      .map(addLocaleToPath)
-      .value();
+    return _.flow(
+      fp.filter(filterHcImages),
+      fp.map(addLocaleToPath)
+    )(htmlEl.getElementsByTagName('img'));
   }
 
   renderOriginalArticleButton = () => {

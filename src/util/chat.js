@@ -26,8 +26,8 @@ function combineNumbers(numbers) {
   return result;
 }
 
-const periodsToString = periods => periods.map(period => `${period.start},${period.end}`).toString();
-const stringToPeriods = str => str
+const periodsToString = (periods) => periods.map(period => `${period.start},${period.end}`).toString();
+const stringToPeriods = (str) => str
   ? _.chunk(str.split(','), 2).map(arr => ({ start: parseInt(arr[0], 10), end: parseInt(arr[1], 10) }))
   : [];
 
@@ -39,13 +39,12 @@ const stringToPeriods = str => str
 function formatSchedule(schedule) {
   schedule = { ...schedule, 7: schedule[0] }; // use 7 for Sunday
   delete schedule[0];
+  let preprocessedDates = _.invertBy(_.mapValues(schedule, periodsToString));
 
-  return _.chain(schedule)
-    .mapValues(periodsToString)
-    .invertBy()
-    .map((days, periods) => ({ periods: stringToPeriods(periods), days: combineNumbers(days) }))
-    .sortBy(['days'])
-    .value();
+  return _.sortBy(_.map(preprocessedDates, (days, periods) => ({
+    periods: stringToPeriods(periods),
+    days: combineNumbers(days)
+  })), ['days']);
 }
 
 function isAgent(nick) {

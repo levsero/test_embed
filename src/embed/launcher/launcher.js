@@ -56,12 +56,8 @@ const adjustStylesForZoom = (frameStyle, el) => {
 
     return `${adjustedMargin}px`;
   };
-
-  const result = _.chain(frameStyle)
-    .pick(['marginTop', 'marginBottom', 'marginLeft', 'marginRight'])
-    .mapValues(adjustMargin)
-    .value();
-
+  const margins = _.pick(frameStyle, ['marginTop', 'marginBottom', 'marginLeft', 'marginRight']);
+  const result = _.mapValues(margins, adjustMargin);
   const height = {
     height: `${50*zoomRatio}px`
   };
