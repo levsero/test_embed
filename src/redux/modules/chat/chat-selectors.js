@@ -567,6 +567,14 @@ export const getGroupMessages = createCachedSelector(
   (state, messageKeys) => messageKeys[messageKeys.length - 1]
 );
 
+export const getEventMessage = createCachedSelector(
+  getChats,
+  (state, messageKey) => messageKey,
+  (chats, messageKey) => chats.get(messageKey)
+)(
+  (state, messageKey) => messageKey
+);
+
 export const getFirstVisitorMessage = (state) => state.chat.chatLog.firstVisitorMessage;
 export const getLatestRatingRequest = (state) => state.chat.chatLog.latestRatingRequest;
 export const getLatestRating = (state) => state.chat.chatLog.latestRating;
