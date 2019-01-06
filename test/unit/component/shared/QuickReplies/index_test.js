@@ -20,6 +20,9 @@ describe('QuickReplies Component', () => {
       './QuickReplies.scss': {
         locals: {}
       },
+      '@zendeskgarden/react-buttons': {
+        Button: noopReactComponent()
+      },
       '../SliderContainer': Slider
     });
 

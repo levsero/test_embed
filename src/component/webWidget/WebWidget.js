@@ -115,8 +115,8 @@ class WebWidget extends Component {
     position: PropTypes.string,
     showTicketFormsBackButton: PropTypes.bool,
     style: PropTypes.shape({
-      width: PropTypes.number,
-      minHeight: PropTypes.number
+      width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      minHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     }),
     submitTicketConfig: PropTypes.shape({
       color: PropTypes.string,

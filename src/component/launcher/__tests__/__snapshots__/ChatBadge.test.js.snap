@@ -34,9 +34,10 @@ exports[`renders the component 1`] = `
       class="inputContainer"
     >
       <input
-        class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
+        aria-invalid="false"
+        class="input Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
         data-garden-id="textfields.input"
-        data-garden-version="3.3.6"
+        data-garden-version="3.7.0"
         placeholder="Type your message here"
         value=""
       />
@@ -96,9 +97,10 @@ exports[`with chatBadgeColor passed in 1`] = `
       class="inputContainer"
     >
       <input
-        class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
+        aria-invalid="false"
+        class="input Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
         data-garden-id="textfields.input"
-        data-garden-version="3.3.6"
+        data-garden-version="3.7.0"
         placeholder="Type your message here"
         value=""
       />
@@ -160,9 +162,10 @@ exports[`with label passed in 1`] = `
       class="inputContainer"
     >
       <input
-        class="input Input-eXLwAq text__c-txt__input___2ZeOl iDkfRM"
+        aria-invalid="false"
+        class="input Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
         data-garden-id="textfields.input"
-        data-garden-version="3.3.6"
+        data-garden-version="3.7.0"
         placeholder="Type your message here"
         value=""
       />
