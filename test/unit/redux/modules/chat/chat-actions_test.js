@@ -1086,17 +1086,17 @@ describe('chat redux actions', () => {
         {
           name: 'icecream.png',
           size: 512,
-          mime_type: 'image/png'
+          type: 'image/png'
         },
         {
           name: 'rainbows.jpg',
           size: 128,
-          mime_type: 'image/jpeg'
+          type: 'image/jpeg'
         },
         {
           name: 'tulips.gif',
           size: 64,
-          mime_type: 'image/gif'
+          type: 'image/gif'
         }
       ];
 
@@ -1123,7 +1123,7 @@ describe('chat redux actions', () => {
             timestamp: Date.now(),
             nick: mockVisitor.nick,
             display_name: mockVisitor.display_name,
-            attachment: {
+            file: {
               ...fileList[i],
               uploading: true
             }
@@ -1162,7 +1162,7 @@ describe('chat redux actions', () => {
               timestamp: Date.now(),
               nick: mockVisitor.nick,
               display_name: mockVisitor.display_name,
-              attachment: {
+              file: {
                 ...fileList[fileList.length - 1],
                 url: data.url,
                 uploading: false
@@ -1190,7 +1190,7 @@ describe('chat redux actions', () => {
               timestamp: Date.now(),
               nick: mockVisitor.nick,
               display_name: mockVisitor.display_name,
-              attachment: {
+              file: {
                 ...fileList[fileList.length - 1],
                 error: err,
                 uploading: false

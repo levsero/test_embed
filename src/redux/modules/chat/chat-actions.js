@@ -380,8 +380,7 @@ export function sendAttachments(fileList) {
             ...basePayload,
             // _.assign is intentionally used here as 'file' is an instance of the
             // File class and isn't easily spread over/extended with native methods
-            attachment: _.assign(file, {
-              mime_type: file.type,
+            file: _.assign(file, {
               uploading: true
             })
           }
@@ -395,8 +394,7 @@ export function sendAttachments(fileList) {
             payload: {
               detail: {
                 ...basePayload,
-                attachment: _.assign(file, {
-                  mime_type: file.type,
+                file: _.assign(file, {
                   url: data.url,
                   uploading: false
                 })
@@ -409,8 +407,7 @@ export function sendAttachments(fileList) {
             payload: {
               detail: {
                 ...basePayload,
-                attachment: _.assign(file, {
-                  mime_type: file.type,
+                file: _.assign(file, {
                   error: err,
                   uploading: false
                 })

@@ -99,7 +99,7 @@ export default class ChatGroup extends Component {
         } else {
           message = this.renderPrintedMessage(chat, isAgent, showAvatar);
         }
-      } else if (chat.attachment) {
+      } else if (chat.file || chat.attachment) {
         message = this.renderInlineAttachment(isAgent, chat);
       }
 
@@ -182,7 +182,9 @@ export default class ChatGroup extends Component {
   renderInlineAttachment = (isAgent, chat) => {
     let inlineAttachment;
 
-    const file = chat.attachment;
+    const file = chat.file
+      ? chat.file
+      : { ...chat.attachment, type: chat.attachment.mime_type };
     const extension = file.name.split('.').pop().toUpperCase();
     const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
     const isImage = /(gif|jpe?g|png)$/i.test(extension);
