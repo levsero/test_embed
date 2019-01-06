@@ -15,11 +15,11 @@ const initialState = {
   buffer: []
 };
 
-const newMessageGroup = (author, timestamp, first = false) => ({
+const newMessageGroup = (message) => ({
   type: 'message',
-  author,
-  first,
-  messages: [timestamp]
+  author: message.nick,
+  first: !!message.first,
+  messages: [message.timestamp]
 });
 
 const newEventGroup = (event) => ({
@@ -29,28 +29,16 @@ const newEventGroup = (event) => ({
   messages: [event.timestamp]
 });
 
-const getLastGroup = (groups) => {
-  const index = groups.length > 0 ? groups.length - 1 : null;
-  const group = groups.length > 0 ? groups[index] : {};
+const addMessage = (groups, message) => {
+  const groupsCopy = [...groups];
+  const lastGroup = groupsCopy.pop();
 
-  return [group, index];
-};
-
-const updateChatLog = (groups, chat) => {
-  const [group, lastIndex] = getLastGroup(groups);
-
-  if (group.type === 'message' && group.author === chat.nick) {
-    return groups.map((item, index) => {
-      if (index !== lastIndex) return item;
-
-      return {
-        ...item,
-        messages: [...item.messages, chat.timestamp]
-      };
-    });
+  if (lastGroup && lastGroup.type === 'message' && lastGroup.author === message.nick) {
+    lastGroup.messages.push(message.timestamp);
+    return [...groupsCopy, lastGroup];
   }
 
-  return [...groups, newMessageGroup(chat.nick, chat.timestamp, !!chat.first)];
+  return [...groups, newMessageGroup(message)];
 };
 
 const log = (state = initialState, action) => {
@@ -59,7 +47,7 @@ const log = (state = initialState, action) => {
     case SDK_HISTORY_CHAT_MSG:
       return {
         ...state,
-        buffer: updateChatLog(state.buffer, action.payload.detail)
+        buffer: addMessage(state.buffer, action.payload.detail)
       };
     case SDK_HISTORY_CHAT_QUEUE_POSITION:
     case SDK_HISTORY_CHAT_REQUEST_RATING:

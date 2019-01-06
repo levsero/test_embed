@@ -22,10 +22,10 @@ const initialState = {
   groups: []
 };
 
-const newMessageGroup = (author, timestamp) => ({
+const newMessageGroup = (message) => ({
   type: 'message',
-  author,
-  messages: [timestamp]
+  author: message.nick,
+  messages: [message.timestamp]
 });
 
 const newEventGroup = (event) => ({
@@ -34,28 +34,16 @@ const newEventGroup = (event) => ({
   messages: [event.timestamp]
 });
 
-const getLastGroup = (groups) => {
-  const index = groups.length > 0 ? groups.length - 1 : null;
-  const group = groups.length > 0 ? groups[index] : {};
+const addMessage = (groups, message) => {
+  const groupsCopy = [...groups];
+  const lastGroup = groupsCopy.pop();
 
-  return [group, index];
-};
-
-const updateChatLog = (groups, chat) => {
-  const [group, lastIndex] = getLastGroup(groups);
-
-  if (group.type === 'message' && group.author === chat.nick) {
-    return groups.map((item, index) => {
-      if (index !== lastIndex) return item;
-
-      return {
-        ...item,
-        messages: [...item.messages, chat.timestamp]
-      };
-    });
+  if (lastGroup && lastGroup.type === 'message' && lastGroup.author === message.nick) {
+    lastGroup.messages.push(message.timestamp);
+    return [...groupsCopy, lastGroup];
   }
 
-  return [...groups, newMessageGroup(chat.nick, chat.timestamp)];
+  return [...groups, newMessageGroup(message)];
 };
 
 const chatLog = (state = initialState, action) => {
@@ -80,7 +68,7 @@ const chatLog = (state = initialState, action) => {
         ...state,
         ...messageExtras,
         lastMessageAuthor: action.payload.detail.nick,
-        groups: updateChatLog(state.groups, action.payload.detail)
+        groups: addMessage(state.groups, action.payload.detail)
       };
     case SDK_CHAT_REQUEST_RATING:
       return {
