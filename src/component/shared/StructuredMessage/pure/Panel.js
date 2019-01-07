@@ -119,7 +119,7 @@ export class Panel extends Component {
         {this.renderThumbnail(panel)}
 
         <div className={contentClassNames}>
-          <div className={headingStyle} style={headingLineClampStyle}>{panel.heading}</div>
+          <div className={headingStyle} style={headingLineClampStyle} data-testid="panelHeading">{panel.heading}</div>
           {
             (panel.paragraph) ? (
               <div className={paragraphStyle} style={paragraphLineClampStyle}>{panel.paragraph}</div>
@@ -143,7 +143,7 @@ export class Panel extends Component {
     });
 
     return (
-      <div style={imageStyles} className={imageClassNames} />
+      <div style={imageStyles} className={imageClassNames} data-testid="panelThumbnail"/>
     );
   }
 

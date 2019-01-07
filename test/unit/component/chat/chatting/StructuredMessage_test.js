@@ -214,7 +214,6 @@ describe('StructuredMessage component', () => {
       it('passes the createAction value', () => {
         expect(result.props.createAction).toEqual(component.createAction);
       });
-
-    })
+    });
   });
 });
