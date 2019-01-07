@@ -6,6 +6,7 @@ describe('StructuredMessage component', () => {
 
   const ButtonCard = noopReactComponent();
   const PanelCard = noopReactComponent();
+  const ListCard = noopReactComponent();
 
   const sendMsgSpy = jasmine.createSpy('sendMsg');
   const openSpy = jasmine.createSpy('open');
@@ -20,6 +21,7 @@ describe('StructuredMessage component', () => {
     initMockRegistry({
       './structuredMessage/ButtonCard': { ButtonCard },
       './structuredMessage/PanelCard': { PanelCard },
+      './structuredMessage/ListCard': { ListCard },
       'constants/chat': {
         CHAT_STRUCTURED_CONTENT_TYPE,
         CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
@@ -160,5 +162,59 @@ describe('StructuredMessage component', () => {
         expect(result.props.createAction).toEqual(component.createAction);
       });
     });
+
+    describe('schema type is ListTemplate', () => {
+      beforeAll(() => {
+        schema = {
+          type: CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE.LIST_TEMPLATE,
+          items: [
+            {
+              heading: 'Nsync',
+              paragraph: 'Before they sold out High Life. Umami tattooed sriracha.',
+              image_url: 'https://nsync.com/banner.png',
+              action: {
+                type: 'LINK_ACTION',
+                value: 'https://nsync.com'
+              }
+            },
+            {
+              heading: 'Destiny\'s Child',
+              paragraph: 'Trust fund artisan master cleanse Etsy direct trade rye.',
+              image_url: 'https://destiny.com/banner.png',
+              action: {
+                type: 'LINK_ACTION',
+                value: 'https://destiny.com'
+              }
+            }
+          ],
+          buttons: [
+            {
+              text: 'View more',
+              action: {
+                type: 'QUICK_REPLY_ACTION',
+                value: 'view more'
+              }
+            }
+          ]
+        };
+      });
+
+      it('returns a ListCard component', () => {
+        expect(TestUtils.isElementOfType(result, ListCard)).toEqual(true);
+      });
+
+      it('passes the items value', () => {
+        expect(result.props.items).toEqual(schema.items);
+      });
+
+      it('passes the buttons value', () => {
+        expect(result.props.buttons).toEqual(schema.buttons);
+      });
+
+      it('passes the createAction value', () => {
+        expect(result.props.createAction).toEqual(component.createAction);
+      });
+
+    })
   });
 });

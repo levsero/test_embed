@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { ButtonCard } from './structuredMessage/ButtonCard';
 import { PanelCard } from './structuredMessage/PanelCard';
+import { ListCard } from './structuredMessage/ListCard';
 import { CHAT_STRUCTURED_CONTENT_TYPE, CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat';
 import { sendMsg } from 'src/redux/modules/chat';
 
@@ -62,6 +63,14 @@ class StructuredMessage extends Component {
             createAction={this.createAction}
             isMobile={this.props.isMobile}
             inCarousel={this.props.inCarousel}
+          />
+        );
+
+      case CHAT_STRUCTURED_MESSAGE_TYPE.LIST_TEMPLATE:
+        return (
+          <ListCard
+            {...this.props.schema}
+            createAction={this.createAction}
           />
         );
     }
