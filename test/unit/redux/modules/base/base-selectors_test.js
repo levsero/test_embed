@@ -763,46 +763,4 @@ describe('base selectors', () => {
         .toEqual('ar');
     });
   });
-
-  describe('getChatBadgeArturoEnabled', () => {
-    let result,
-      mockState;
-
-    beforeEach(() => {
-      mockState = {
-        base: {
-          arturos: {
-            chatBadge: true
-          }
-        }
-      };
-      result = selectors.getChatBadgeArturoEnabled(mockState);
-    });
-
-    it('returns the value of the chatBadge arturo', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
-
-  describe('getChatPopoutArturoEnabled', () => {
-    let result,
-      mockState;
-
-    beforeEach(() => {
-      mockState = {
-        base: {
-          arturos: {
-            chatPopout: true
-          }
-        }
-      };
-      result = selectors.getChatPopoutArturoEnabled(mockState);
-    });
-
-    it('returns the value of the chatPopout arturo', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
 });

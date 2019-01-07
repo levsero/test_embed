@@ -40,7 +40,6 @@ describe('selectors', () => {
     userMinimizedChatBadgeValue,
     chatBadgeColorValue,
     chatBadgeEnabled,
-    chatBadgeArturoEnabled,
     selectors,
     settingsColorLauncher,
     settingsColorLauncherText,
@@ -91,7 +90,6 @@ describe('selectors', () => {
   chatBadgeEnabled = true;
   settingsColorLauncher = undefined;
   settingsColorLauncherText = undefined;
-  chatBadgeArturoEnabled = false;
   mockIsPopout = false;
   launcherChatLabel = '';
   launcherLabel = '';
@@ -141,7 +139,6 @@ describe('selectors', () => {
         getLauncherVisible: () => launcherVisibleValue,
         getChatStandalone: () => chatStandaloneValue,
         getUserMinimizedChatBadge: () => userMinimizedChatBadgeValue,
-        getChatBadgeArturoEnabled: () => chatBadgeArturoEnabled,
         getConfigAttachmentsEnabled: () => configAttachmentsEnabledValue
       },
       './settings/settings-selectors': {
@@ -268,7 +265,6 @@ describe('selectors', () => {
           zopimChatOnlineValue = true;
           isMobile = false;
           chatStandaloneValue = true;
-          chatBadgeArturoEnabled = true;
         });
 
         it('returns chat badge launcher styles', () => {
@@ -324,7 +320,6 @@ describe('selectors', () => {
         chatStandaloneValue = false;
         chatBadgeEnabled = true;
         mockIsChatting = false;
-        chatBadgeArturoEnabled = true;
       });
 
       it('returns false', () => {
@@ -341,7 +336,6 @@ describe('selectors', () => {
         chatStandaloneValue = true;
         chatBadgeEnabled = true;
         mockIsChatting = false;
-        chatBadgeArturoEnabled = true;
       });
 
       it('returns false', () => {
@@ -358,7 +352,6 @@ describe('selectors', () => {
         chatStandaloneValue = true;
         chatBadgeEnabled = true;
         mockIsChatting = false;
-        chatBadgeArturoEnabled = true;
       });
 
       it('returns false', () => {
@@ -375,7 +368,6 @@ describe('selectors', () => {
         chatStandaloneValue = true;
         chatBadgeEnabled = true;
         mockIsChatting = false;
-        chatBadgeArturoEnabled = true;
       });
 
       it('returns false', () => {
@@ -386,30 +378,12 @@ describe('selectors', () => {
 
     describe('when chat badge is not enabled', () => {
       beforeAll(() => {
-        zopimChatOnlineValue = false;
+        zopimChatOnlineValue = true;
         userMinimizedChatBadgeValue = false;
         isMobile = false;
         chatStandaloneValue = true;
         chatBadgeEnabled = false;
         mockIsChatting = false;
-        chatBadgeArturoEnabled = true;
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
-    });
-
-    describe('when chat badge arturo is not enabled', () => {
-      beforeAll(() => {
-        zopimChatOnlineValue = false;
-        userMinimizedChatBadgeValue = false;
-        isMobile = false;
-        chatStandaloneValue = true;
-        chatBadgeEnabled = true;
-        mockIsChatting = false;
-        chatBadgeArturoEnabled = false;
       });
 
       it('returns false', () => {
@@ -426,7 +400,6 @@ describe('selectors', () => {
         chatStandaloneValue = true;
         chatBadgeEnabled = true;
         mockIsChatting = true;
-        chatBadgeArturoEnabled = true;
       });
 
       it('returns false', () => {
@@ -443,7 +416,6 @@ describe('selectors', () => {
         chatStandaloneValue = true;
         chatBadgeEnabled = true;
         mockIsChatting = false;
-        chatBadgeArturoEnabled = true;
       });
 
       it('returns true', () => {

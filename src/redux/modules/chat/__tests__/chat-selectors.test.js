@@ -126,11 +126,6 @@ describe('getIsPopupVisible', () => {
       chat: {
         forcedStatus: mockForcedStatus,
         isAuthenticated: false
-      },
-      base: {
-        arturos: {
-          chatPopout: true
-        }
       }
     };
     globals.isPopout = () => mockIsPopout;
@@ -183,13 +178,6 @@ describe('getIsPopupVisible', () => {
   describe('when window is not a popout', () => {
     it('does render popout', () => {
       expect(selectors.getIsPopoutAvailable(mockState)).toEqual(true);
-    });
-  });
-
-  describe('getChatPopoutArturo is false', () => {
-    it('does not render popup', () => {
-      mockState.base.arturos.chatPopout = false;
-      expect(selectors.getIsPopoutAvailable(mockState)).toEqual(false);
     });
   });
 });

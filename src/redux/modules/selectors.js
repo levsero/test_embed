@@ -51,7 +51,6 @@ import { getActiveEmbed,
   getLauncherVisible as getBaseLauncherVisible,
   getChatStandalone,
   getUserMinimizedChatBadge,
-  getChatBadgeArturoEnabled,
   getConfigAttachmentsEnabled } from './base/base-selectors';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
@@ -375,11 +374,9 @@ export const getShowChatBadgeLauncher = createSelector(
     getChatStandalone,
     getChatOnline,
     getChatBadgeEnabled,
-    getIsChatting,
-    getChatBadgeArturoEnabled ],
-  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting, arturoEnabled) => {
-    return arturoEnabled &&
-      !isMinimizedChatBadge &&
+    getIsChatting ],
+  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting) => {
+    return !isMinimizedChatBadge &&
       isChatStandalone &&
       !isMobileBrowser() &&
       chatOnline &&

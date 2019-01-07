@@ -18,7 +18,7 @@ describe('boot', () => {
     gaSpy = registerImportSpy('GA', 'init'),
     apiSpy = jasmine.createSpyObj('webWidgetApi', ['apisExecutePostRenderQueue', ]),
     zopimApiSpy = jasmine.createSpyObj('zopimApi', ['setupZopimQueue', 'setUpZopimApiMethods']),
-    trackerSpy = jasmine.createSpyObj('tracker', ['send']),
+    trackerSpy = jasmine.createSpyObj('tracker', ['send', 'enable']),
     initSpy = jasmine.createSpy('init');
 
   let updateEmbeddableConfigSpy = jasmine.createSpy('updateEmbeddableConfig');
@@ -250,6 +250,11 @@ describe('boot', () => {
 
       it('calls beacon.sendPageView', () => {
         expect(beaconSpy.beacon.sendPageView)
+          .toHaveBeenCalled();
+      });
+
+      it('calls tracker.enable', () => {
+        expect(trackerSpy.enable)
           .toHaveBeenCalled();
       });
 
