@@ -2784,4 +2784,211 @@ describe('chat selectors', () => {
         .toEqual('yeet');
     });
   });
+
+  describe('getChatsLength', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chats: new Map([
+            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+            [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
+            [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
+          ])
+        }
+      };
+
+      result = selectors.getChatsLength(mockState);
+    });
+
+    it('returns the correct size', () => {
+      expect(result)
+        .toEqual(4);
+    });
+  });
+
+  describe('getGroupMessages', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chats: new Map([
+            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+            [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
+            [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
+          ])
+        }
+      };
+
+      result = selectors.getGroupMessages(mockState, [5, 7]);
+    });
+
+    it('returns the messages in the group', () => {
+      expect(result)
+        .toEqual([
+          { nick: 'agent:123', type: 'chat.msg', timestamp: 5 },
+          { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }
+        ]);
+    });
+  });
+
+  describe('getEventMessage', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chats: new Map([
+            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+            [3, { nick: 'visitor:2', type: 'member.join', timestamp: 3 }],
+            [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
+          ])
+        }
+      };
+
+      result = selectors.getEventMessage(mockState, 3);
+    });
+
+    it('returns the correct event message', () => {
+      expect(result)
+        .toEqual({ nick: 'visitor:2', type: 'member.join', timestamp: 3 });
+    });
+  });
+
+  describe('getLatestQuickReply', () => {
+    let result,
+      quickReplyKey;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chats: new Map([
+            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+            [3, { nick: 'visitor:2', type: 'member.join', timestamp: 3 }],
+            [6, { nick: 'agent:123', type: 'chat.msg', timestamp: 6 }],
+            [7, { nick: 'agent:123', type: 'chat.quick_replies', timestamp: 7 }]
+          ]),
+          chatLog: {
+            latestQuickReply: quickReplyKey
+          }
+        }
+      };
+
+      result = selectors.getLatestQuickReply(mockState, quickReplyKey);
+    });
+
+    describe('when the latest quick reply can be shown', () => {
+      beforeAll(() => {
+        quickReplyKey = 7;
+      });
+
+      it('returns the quick reply message', () => {
+        expect(result)
+          .toEqual({ nick: 'agent:123', type: 'chat.quick_replies', timestamp: 7 });
+      });
+    });
+
+    describe('when the latest quick reply cannot be shown', () => {
+      beforeAll(() => {
+        quickReplyKey = -1;
+      });
+
+      it('does not return a quick reply message', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+  });
+
+  describe('getShowUpdateVisitorDetails', () => {
+    let result,
+      loginEnabled,
+      visitorName,
+      visitorEmail;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          accountSettings: {
+            login: {
+              enabled: loginEnabled
+            }
+          },
+          visitor: {
+            display_name: visitorName,
+            email: visitorEmail
+          }
+        }
+      };
+
+      result = selectors.getShowUpdateVisitorDetails(mockState);
+    });
+
+    describe('when login is not enabled', () => {
+      beforeAll(() => {
+        loginEnabled = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+
+    describe('when login is enabled', () => {
+      beforeAll(() => {
+        loginEnabled = true;
+      });
+
+      describe('when visitor email is set', () => {
+        beforeAll(() => {
+          visitorEmail = 'bob@example.com';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toBe(false);
+        });
+      });
+
+      describe('when visitor email is not set', () => {
+        beforeAll(() => {
+          visitorEmail = undefined;
+        });
+
+        describe('and visitor name is set', () => {
+          beforeAll(() => {
+            visitorName = 'Visitor 123';
+          });
+
+          describe('and is a default nickname', () => {
+            beforeAll(() => {
+              mockIsDefaultNickname = true;
+            });
+
+            it('returns true', () => {
+              expect(result)
+                .toBe(true);
+            });
+          });
+
+          describe('and is not a default nickname', () => {
+            beforeAll(() => {
+              mockIsDefaultNickname = false;
+            });
+
+            it('returns false', () => {
+              expect(result)
+                .toBe(false);
+            });
+          });
+        });
+      });
+    });
+  });
 });
