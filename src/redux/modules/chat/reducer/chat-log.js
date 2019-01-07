@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import {
   SDK_CHAT_MSG,
   SDK_CHAT_FILE,
@@ -12,14 +13,86 @@ import {
 } from '../chat-action-types';
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
 
-const initialState = {
-  firstVisitorMessage: -1,
-  latestRating: -1,
-  latestRatingRequest: -1,
-  latestQuickReply: -1,
-  latestAgentLeaveEvent: -1,
-  lastMessageAuthor: '',
-  groups: []
+const firstVisitorMessage = (state = -1, action) => {
+  switch (action.type) {
+    case CHAT_MSG_REQUEST_SENT:
+    case CHAT_FILE_REQUEST_SENT:
+    case SDK_CHAT_FILE:
+    case SDK_CHAT_MSG:
+      if (state === -1) {
+        return action.payload.detail.timestamp;
+      }
+      return state;
+    default:
+      return state;
+  }
+};
+
+const latestRating = (state = -1, action) => {
+  switch (action.type) {
+    case SDK_CHAT_RATING:
+      return action.payload.detail.timestamp;
+    default:
+      return state;
+  }
+};
+
+const latestRatingRequest = (state = -1, action) => {
+  switch (action.type) {
+    case SDK_CHAT_REQUEST_RATING:
+      return action.payload.detail.timestamp;
+    default:
+      return state;
+  }
+};
+
+const latestQuickReply = (state = -1, action) => {
+  switch (action.type) {
+    case CHAT_MSG_REQUEST_SENT:
+    case CHAT_FILE_REQUEST_SENT:
+    case SDK_CHAT_FILE:
+    case SDK_CHAT_MSG:
+      if (
+        action.payload.detail.structured_msg &&
+        action.payload.detail.structured_msg.type === CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES
+      ) {
+        return action.payload.detail.timestamp + 1;
+      }
+
+      return -1;
+    case SDK_CHAT_REQUEST_RATING:
+    case SDK_CHAT_RATING:
+    case SDK_CHAT_COMMENT:
+    case SDK_CHAT_MEMBER_JOIN:
+    case SDK_CHAT_MEMBER_LEAVE:
+    case SET_VISITOR_INFO_REQUEST_SUCCESS:
+      return -1;
+    default:
+      return state;
+  }
+};
+
+const latestAgentLeaveEvent = (state = -1, action) => {
+  switch (action.type) {
+    case SDK_CHAT_MEMBER_LEAVE:
+      return action.payload.detail.nick.indexOf('agent') > -1
+        ? action.payload.detail.timestamp
+        : state;
+    default:
+      return state;
+  }
+};
+
+const lastMessageAuthor = (state = '', action) => {
+  switch (action.type) {
+    case CHAT_MSG_REQUEST_SENT:
+    case CHAT_FILE_REQUEST_SENT:
+    case SDK_CHAT_FILE:
+    case SDK_CHAT_MSG:
+      return action.payload.detail.nick;
+    default:
+      return state;
+  }
 };
 
 const newMessageGroup = (message) => ({
@@ -34,78 +107,43 @@ const newEventGroup = (event) => ({
   messages: [event.timestamp]
 });
 
-const addMessage = (groups, message) => {
-  const groupsCopy = [...groups];
-  const lastGroup = groupsCopy.pop();
-
-  if (lastGroup && lastGroup.type === 'message' && lastGroup.author === message.nick) {
-    lastGroup.messages.push(message.timestamp);
-    return [...groupsCopy, lastGroup];
-  }
-
-  return [...groups, newMessageGroup(message)];
-};
-
-const chatLog = (state = initialState, action) => {
+const groups = (state = [], action) => {
   switch (action.type) {
     case CHAT_MSG_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SENT:
     case SDK_CHAT_FILE:
     case SDK_CHAT_MSG:
-      let messageExtras = {};
+      const message = action.payload.detail;
+      const groupsCopy = [...state];
+      const lastGroup = groupsCopy.pop();
 
-      if (state.firstVisitorMessage === -1) {
-        messageExtras.firstVisitorMessage = action.payload.detail.timestamp;
-      }
-      if (
-        action.payload.detail.structured_msg &&
-        action.payload.detail.structured_msg.type === CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES
-      ) {
-        messageExtras.latestQuickReply = action.payload.detail.timestamp + 1;
+      if (lastGroup && lastGroup.type === 'message' && lastGroup.author === message.nick) {
+        lastGroup.messages.push(message.timestamp);
+        return [...groupsCopy, lastGroup];
       }
 
-      return {
-        ...state,
-        ...messageExtras,
-        lastMessageAuthor: action.payload.detail.nick,
-        groups: addMessage(state.groups, action.payload.detail)
-      };
+      return [...state, newMessageGroup(message)];
     case SDK_CHAT_REQUEST_RATING:
-      return {
-        ...state,
-        latestRatingRequest: action.payload.detail.timestamp,
-        groups: [...state.groups, newEventGroup(action.payload.detail)]
-      };
     case SDK_CHAT_RATING:
-      return {
-        ...state,
-        latestRating: action.payload.detail.timestamp,
-        groups: [...state.groups, newEventGroup(action.payload.detail)]
-      };
     case SDK_CHAT_COMMENT:
     case SDK_CHAT_MEMBER_JOIN:
-      return {
-        ...state,
-        groups: [...state.groups, newEventGroup(action.payload.detail)]
-      };
     case SDK_CHAT_MEMBER_LEAVE:
-      const agentLeaveEvent = action.payload.detail.nick.indexOf('agent') > -1
-        ? { latestAgentLeaveEvent: action.payload.detail.timestamp }
-        : {};
-
-      return {
-        ...state,
-        ...agentLeaveEvent,
-        groups: [...state.groups, newEventGroup(action.payload.detail)]
-      };
+      return [...state, newEventGroup(action.payload.detail)];
     case SET_VISITOR_INFO_REQUEST_SUCCESS:
-      return {
-        ...state,
-        groups: [...state.groups, newEventGroup(action.payload)]
-      };
+      return [...state, newEventGroup(action.payload)];
     default:
       return state;
   }
 };
 
-export default chatLog;
+const chatLogReducer = combineReducers({
+  firstVisitorMessage,
+  latestRating,
+  latestRatingRequest,
+  latestQuickReply,
+  latestAgentLeaveEvent,
+  lastMessageAuthor,
+  groups
+});
+
+export default chatLogReducer;
