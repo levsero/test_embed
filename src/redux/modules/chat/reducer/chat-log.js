@@ -13,22 +13,30 @@ import {
 } from '../chat-action-types';
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
 
-const firstVisitorMessage = (state = -1, action) => {
+const UNSET_TIMESTAMP = -1;
+const initialState = {
+  firstVisitorMessage: UNSET_TIMESTAMP,
+  latestRating: UNSET_TIMESTAMP,
+  latestRatingRequest: UNSET_TIMESTAMP,
+  latestQuickReply: UNSET_TIMESTAMP,
+  latestAgentLeaveEvent: UNSET_TIMESTAMP,
+  lastMessageAuthor: '',
+  groups: []
+};
+
+const firstVisitorMessage = (state = initialState.firstVisitorMessage, action) => {
   switch (action.type) {
     case CHAT_MSG_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SENT:
-    case SDK_CHAT_FILE:
-    case SDK_CHAT_MSG:
-      if (state === -1) {
-        return action.payload.detail.timestamp;
-      }
-      return state;
+      return state === initialState.firstVisitorMessage
+        ? action.payload.detail.timestamp
+        : state;
     default:
       return state;
   }
 };
 
-const latestRating = (state = -1, action) => {
+const latestRating = (state = initialState.latestRating, action) => {
   switch (action.type) {
     case SDK_CHAT_RATING:
       return action.payload.detail.timestamp;
@@ -37,7 +45,7 @@ const latestRating = (state = -1, action) => {
   }
 };
 
-const latestRatingRequest = (state = -1, action) => {
+const latestRatingRequest = (state = initialState.latestRatingRequest, action) => {
   switch (action.type) {
     case SDK_CHAT_REQUEST_RATING:
       return action.payload.detail.timestamp;
@@ -46,30 +54,28 @@ const latestRatingRequest = (state = -1, action) => {
   }
 };
 
-const latestQuickReply = (state = -1, action) => {
+const latestQuickReply = (state = initialState.latestQuickReply, action) => {
   switch (action.type) {
     case SDK_CHAT_MSG:
       const { structured_msg: structMsg, timestamp } = action.payload.detail;
 
       return structMsg && structMsg.type === CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES
         ? timestamp + 1
-        : -1;
+        : UNSET_TIMESTAMP;
     case CHAT_MSG_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SENT:
     case SDK_CHAT_FILE:
     case SDK_CHAT_REQUEST_RATING:
     case SDK_CHAT_RATING:
     case SDK_CHAT_COMMENT:
-    case SDK_CHAT_MEMBER_JOIN:
-    case SDK_CHAT_MEMBER_LEAVE:
     case SET_VISITOR_INFO_REQUEST_SUCCESS:
-      return -1;
+      return UNSET_TIMESTAMP;
     default:
       return state;
   }
 };
 
-const latestAgentLeaveEvent = (state = -1, action) => {
+const latestAgentLeaveEvent = (state = initialState.latestAgentLeaveEvent, action) => {
   switch (action.type) {
     case SDK_CHAT_MEMBER_LEAVE:
       return action.payload.detail.nick.indexOf('agent') > -1
@@ -80,7 +86,7 @@ const latestAgentLeaveEvent = (state = -1, action) => {
   }
 };
 
-const lastMessageAuthor = (state = '', action) => {
+const lastMessageAuthor = (state = initialState.lastMessageAuthor, action) => {
   switch (action.type) {
     case CHAT_MSG_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SENT:
@@ -92,19 +98,13 @@ const lastMessageAuthor = (state = '', action) => {
   }
 };
 
-const newMessageGroup = (message) => ({
-  type: 'message',
-  author: message.nick,
+const newGroup = (message, type) => ({
+  type,
+  author: message.nick || 'system',
   messages: [message.timestamp]
 });
 
-const newEventGroup = (event) => ({
-  type: 'event',
-  author: event.nick || 'system',
-  messages: [event.timestamp]
-});
-
-const groups = (state = [], action) => {
+const groups = (state = initialState.groups, action) => {
   switch (action.type) {
     case CHAT_MSG_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SENT:
@@ -119,15 +119,15 @@ const groups = (state = [], action) => {
         return [...groupsCopy, lastGroup];
       }
 
-      return [...state, newMessageGroup(message)];
+      return [...state, newGroup(message, 'message')];
     case SDK_CHAT_REQUEST_RATING:
     case SDK_CHAT_RATING:
     case SDK_CHAT_COMMENT:
     case SDK_CHAT_MEMBER_JOIN:
     case SDK_CHAT_MEMBER_LEAVE:
-      return [...state, newEventGroup(action.payload.detail)];
+      return [...state, newGroup(action.payload.detail, 'event')];
     case SET_VISITOR_INFO_REQUEST_SUCCESS:
-      return [...state, newEventGroup(action.payload)];
+      return [...state, newGroup(action.payload, 'event')];
     default:
       return state;
   }

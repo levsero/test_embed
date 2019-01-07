@@ -10,44 +10,43 @@ import {
   HISTORY_REQUEST_SUCCESS
 } from '../../chat-action-types';
 
+// History messages are appended to this log in batches to avoid janky re-rendering.
+// Messages are added to the `buffer` array as they are received from the SDK firehose.
+
+// When the `HISTORY_REQUEST_SUCCESS` action is dispatched, the contents of the `buffer` array
+// are appended to the `entries` array, and the `buffer` array is emptied.
+
 const initialState = {
   entries: [],
   buffer: []
 };
 
-const newMessageGroup = (message) => ({
-  type: 'message',
-  author: message.nick,
+const newGroup = (message, type) => ({
+  type,
+  author: message.nick || 'system',
   first: !!message.first,
   messages: [message.timestamp]
 });
-
-const newEventGroup = (event) => ({
-  type: 'event',
-  author: event.nick || 'system',
-  first: !!event.first,
-  messages: [event.timestamp]
-});
-
-const addMessage = (groups, message) => {
-  const groupsCopy = [...groups];
-  const lastGroup = groupsCopy.pop();
-
-  if (lastGroup && lastGroup.type === 'message' && lastGroup.author === message.nick) {
-    lastGroup.messages.push(message.timestamp);
-    return [...groupsCopy, lastGroup];
-  }
-
-  return [...groups, newMessageGroup(message)];
-};
 
 const log = (state = initialState, action) => {
   switch (action.type) {
     case SDK_HISTORY_CHAT_FILE:
     case SDK_HISTORY_CHAT_MSG:
+      const message = action.payload.detail;
+      const groupsCopy = [...state.buffer];
+      const lastGroup = groupsCopy.pop();
+
+      if (lastGroup && lastGroup.type === 'message' && lastGroup.author === message.nick) {
+        lastGroup.messages.push(message.timestamp);
+        return {
+          ...state,
+          buffer: [...groupsCopy, lastGroup]
+        };
+      }
+
       return {
         ...state,
-        buffer: addMessage(state.buffer, action.payload.detail)
+        buffer: [...state.buffer, newGroup(message, 'message')]
       };
     case SDK_HISTORY_CHAT_QUEUE_POSITION:
     case SDK_HISTORY_CHAT_REQUEST_RATING:
@@ -57,11 +56,11 @@ const log = (state = initialState, action) => {
     case SDK_HISTORY_CHAT_MEMBER_LEAVE:
       return {
         ...state,
-        buffer: [...state.buffer, newEventGroup(action.payload.detail)]
+        buffer: [...state.buffer, newGroup(action.payload.detail, 'event')]
       };
     case HISTORY_REQUEST_SUCCESS:
       return {
-        entries: [...state.buffer, ...state.entries],
+        entries: [...state.buffer, ...state.entries], // TODO: merge boundary groups when buffer is flushed
         buffer: []
       };
     default:
