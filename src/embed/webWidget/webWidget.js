@@ -543,6 +543,7 @@ export default function WebWidgetFactory(name) {
     return _.omitBy({
       account_key: store.get('chatAccountKey') || config.zopimId,
       override_proxy: store.get('chatOverrideProxy') || config.overrideProxy,
+      override_auth_server_host: store.get('chatOverrideAuthServerHost'),
       authentication,
       activity_window: win,
       popout: isPopout()
