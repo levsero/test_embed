@@ -386,7 +386,7 @@ export const getEnabledDepartments = createSelector(
 );
 
 export const getDefaultSelectedDepartment = createSelector(
-  [getSettingsChatDepartment, getAccountDefaultDepartmentId, getEnabledDepartments],
+  [getSettingsChatDepartment, getAccountDefaultDepartmentId, getDepartmentsList],
   (settingsDefault, accountDefault, departments) => {
     const selector = settingsDefault || accountDefault;
 
