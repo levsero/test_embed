@@ -1651,7 +1651,7 @@ describe('ChattingScreen component', () => {
   });
 
   describe('renderQuickReply', () => {
-    describe('when quickReply is in last chat log', () => {
+    describe('when there is a latestQuickReply to show', () => {
       let quickReplyChatLog;
 
       beforeEach(() => {
@@ -1691,7 +1691,7 @@ describe('ChattingScreen component', () => {
         beforeEach(() => {
           const chatLogWithQRShown = JSON.parse(JSON.stringify(quickReplyChatLog));
 
-          const component = instanceRender(<ChattingScreen getQuickRepliesFromChatLog={chatLogWithQRShown} sendMsg={sendMsgStub}/>);
+          const component = instanceRender(<ChattingScreen latestQuickReply={chatLogWithQRShown} sendMsg={sendMsgStub}/>);
 
           QRComponent = component.renderQuickReply();
         });
@@ -1730,9 +1730,9 @@ describe('ChattingScreen component', () => {
       });
     });
 
-    describe('when quickReply is not in last chat log', () => {
+    describe('when there is no latestQuickReply to show', () => {
       it('return null', () => {
-        const component = instanceRender(<ChattingScreen getQuickRepliesFromChatLog={null}/>);
+        const component = instanceRender(<ChattingScreen latestQuickReply={null}/>);
         const QRComponent = component.renderQuickReply();
 
         expect(QRComponent).toBeNull();

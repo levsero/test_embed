@@ -97,6 +97,7 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_COMMENT:
     case SDK_CHAT_MEMBER_JOIN:
     case SDK_CHAT_MEMBER_LEAVE:
+    case SDK_CHAT_FILE:
       return concatChat(state, action.payload.detail);
     case SDK_CHAT_MSG:
       const { detail } = action.payload;
@@ -106,8 +107,6 @@ const chats = (state = initialState, action) => {
       }
 
       return concatChat(state, detail);
-    case SDK_CHAT_FILE:
-      return concatChat(state, action.payload.detail);
     case SET_VISITOR_INFO_REQUEST_SUCCESS:
       return concatContactDetailsUpdated(state, action.payload);
     default:

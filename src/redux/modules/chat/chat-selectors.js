@@ -580,6 +580,13 @@ export const getLatestRatingRequest = (state) => state.chat.chatLog.latestRating
 export const getLatestRating = (state) => state.chat.chatLog.latestRating;
 export const getLastMessageAuthor = (state) => state.chat.chatLog.lastMessageAuthor;
 export const getLatestAgentLeaveEvent = (state) => state.chat.chatLog.latestAgentLeaveEvent;
+export const getLatestQuickReplyKey = (state) => state.chat.chatLog.latestQuickReply;
+
+export const getLatestQuickReply = createSelector(
+  getChats,
+  getLatestQuickReplyKey,
+  (chats, latestQuickReply) => chats.get(latestQuickReply)
+);
 
 export const getShowUpdateVisitorDetails = createSelector(
   getLoginSettings,

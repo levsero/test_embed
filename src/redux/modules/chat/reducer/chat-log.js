@@ -48,18 +48,15 @@ const latestRatingRequest = (state = -1, action) => {
 
 const latestQuickReply = (state = -1, action) => {
   switch (action.type) {
+    case SDK_CHAT_MSG:
+      const { structured_msg: structMsg, timestamp } = action.payload.detail;
+
+      return structMsg && structMsg.type === CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES
+        ? timestamp + 1
+        : -1;
     case CHAT_MSG_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SENT:
     case SDK_CHAT_FILE:
-    case SDK_CHAT_MSG:
-      if (
-        action.payload.detail.structured_msg &&
-        action.payload.detail.structured_msg.type === CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES
-      ) {
-        return action.payload.detail.timestamp + 1;
-      }
-
-      return -1;
     case SDK_CHAT_REQUEST_RATING:
     case SDK_CHAT_RATING:
     case SDK_CHAT_COMMENT:

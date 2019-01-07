@@ -44,7 +44,7 @@ const mapStateToProps = (state) => {
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
     lastMessageAuthor: selectors.getLastMessageAuthor(state),
-    getQuickRepliesFromChatLog: selectors.getQuickRepliesFromChatLog(state),
+    latestQuickReply: selectors.getLatestQuickReply(state),
     currentMessage: selectors.getCurrentMessage(state),
     concierges: selectors.getCurrentConcierges(state),
     isChatting: selectors.getIsChatting(state),
@@ -77,7 +77,7 @@ class ChattingScreen extends Component {
     hasMoreHistory: PropTypes.bool,
     historyRequestStatus: PropTypes.string,
     lastMessageAuthor: PropTypes.string.isRequired,
-    getQuickRepliesFromChatLog: PropTypes.object,
+    latestQuickReply: PropTypes.object,
     currentMessage: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
     showChatEndFn: PropTypes.func.isRequired,
@@ -412,10 +412,10 @@ class ChattingScreen extends Component {
   }
 
   /**
-   * Render QuickReplies component if `getQuickRepliesFromChatLog` returns a chat log
+   * Render QuickReplies component if one should be shown
    */
   renderQuickReply = () => {
-    const quickReply = this.props.getQuickRepliesFromChatLog;
+    const quickReply = this.props.latestQuickReply;
 
     if (!quickReply) return null;
 
