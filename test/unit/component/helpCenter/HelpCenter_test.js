@@ -221,14 +221,15 @@ describe('HelpCenter component', () => {
 
     describe('when channel choice is on', () => {
       beforeEach(() => {
+        mockRegistry['service/i18n'].i18n.t.and.returnValue('contact us');
         component = shallowRender(
           <HelpCenter chatAvailable={true} messageButtonLabel={'message button'} channelChoice={true} />
         );
       });
 
-      it('uses the messageButtonLabel for the button', () => {
+      it('shows contact us', () => {
         expect(component.props.children.props.buttonLabel)
-          .toContain('message button');
+          .toContain('contact us');
       });
     });
 
