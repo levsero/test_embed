@@ -1,0 +1,128 @@
+{
+  // Place your embeddable-framwork snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"scope": "javascript,typescript",
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "Describe Test": {
+    "prefix": "describe",
+    "body": [
+      "describe('${1:testName}', () => {",
+      "\tconst result;",
+      "",
+      "\tit('${2:testCriteriaName}', () => {",
+      "\t\tresult = ${3:testCriteria};",
+      "",
+      "\t\texpect(result).toEqual(${4:expectedValue});",
+      "\t});",
+      "});"
+    ],
+    "description": "Test (it) function within Describe"
+  },
+  "Test function": {
+    "prefix": "test",
+    "body": [
+      "test('${1:testName}', () => {",
+      "\tconst result;",
+      "",
+      "\tresult = ${2:testCriteria};",
+      "",
+      "\texpect(result).toEqual(${3:expectedValue});",
+      "});"
+    ],
+    "description": "Test function with an expectation and result"
+  },
+  "Basic Selector": {
+    "prefix": "selector",
+    "body": [
+      "export const ${1:name} = (${2:state}) => ${3:data};"
+    ],
+    "description": "Basic selector with a name, state, and return value"
+  },
+  "ConnectedComponent": {
+    "prefix": "ConnectedComponent",
+    "body": [
+      "import React, { Component } from 'react';",
+      "import PropTypes from 'prop-types';",
+      "import { connnect } from 'react-redux';",
+      "",
+      "const mapStateToProps = (state) => {",
+      "\treturn {${1:mapPropData}};",
+      "};",
+      "",
+      "class ${2:className} extends Component {",
+      "\tstatic propTypes = {",
+      "\t\t${3:propTypeData}",
+      "\t};",
+      "\t",
+      "\tstatic defaultProps = {",
+      "\t\t${4:defaultPropData}",
+      "\t};",
+      "",
+      "\trender = () => {",
+      "\t\treturn (<></>);",
+      "\t}",
+      "}",
+      "",
+      "const actionCreators = {",
+      "\t${5:actionData}",
+      "}",
+      "",
+      "export default connect(mapStateToProps, actionCreators, null, { withRef: true })(${2:className});"
+    ],
+    "description": "Default Connected Component"
+  },
+  "Component": {
+    "prefix": "Component",
+    "body": [
+      "import React, { Component } from 'react';",
+      "import PropTypes from 'prop-types';",
+      "",
+      "class ${2:className} extends Component {",
+      "\tstatic propTypes = {",
+      "\t\t${3:propTypeData}",
+      "\t};",
+      "\t",
+      "\tstatic defaultProps = {",
+      "\t\t${4:defaultPropData}",
+      "\t};",
+      "",
+      "\trender = () => {",
+      "\t\treturn (<></>);",
+      "\t}",
+      "}"
+    ],
+    "description": "Empty Component"
+  },
+  "It test": {
+    "prefix": "it",
+    "body": [
+      "it('${1}', () => {",
+      "\tconst result = ${2:test};",
+      "",
+      "\texpect(result).toEqual(${3:expectedValue});",
+      "});"
+    ],
+    "description": "it test for use within describe"
+  },
+  "Component usage": {
+    "prefix": "<",
+    "body": [
+      "<${1:name} ${2:props}>",
+      "\t${3:body}",
+      "</${1:name}>"
+    ],
+    "description": "Basic component implementation"
+  }
+}
