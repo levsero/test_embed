@@ -108,7 +108,7 @@ class PrechatScreen extends Component {
   onPrechatFormComplete = (info) => {
     const selectedDepartment = parseInt(info.department);
     const isSelectedDepartmentOffline = (!!selectedDepartment &&
-      this.props.departments[selectedDepartment].status !== DEPARTMENT_STATUSES.ONLINE);
+      this.props.departments[selectedDepartment].status === DEPARTMENT_STATUSES.OFFLINE);
 
     if (isSelectedDepartmentOffline) {
       const successCallback = () => this.props.updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN);

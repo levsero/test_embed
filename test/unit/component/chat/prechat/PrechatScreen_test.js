@@ -267,6 +267,68 @@ describe('PrechatScreen component', () => {
         });
       });
 
+      describe('when department is away', () => {
+        beforeAll(() => {
+          formInfo = {
+            display_name: 'Daenerys Targaryen',
+            email: 'mother@of.dragons',
+            phone: '87654321',
+            message: 'bend the knee',
+            department: 12345
+          };
+
+          mockDepartments = {
+            12345: {
+              status: 'away'
+            }
+          };
+        });
+
+        it('calls setDepartment with correct arguments', () => {
+          expect(setDepartmentSpy)
+            .toHaveBeenCalledWith(formInfo.department, jasmine.any(Function), jasmine.any(Function));
+        });
+
+        it('calls setVisitorInfo with the correct arguments', () => {
+          expect(setVisitorInfoSpy)
+            .toHaveBeenCalledWith({
+              display_name: 'Daenerys Targaryen',
+              email: 'mother@of.dragons',
+              phone: '87654321'
+            });
+        });
+
+        it('calls handlePrechatFormSubmit with the form info', () => {
+          expect(handlePrechatFormSubmitSpy)
+            .toHaveBeenCalledWith(formInfo);
+        });
+
+        describe('when there is a message to send', () => {
+          beforeAll(() => {
+            formInfo.message = 'Bend the knee m8.';
+          });
+
+          it('sends an online message', () => {
+            setDepartmentSpy.calls.mostRecent().args[1]();
+            expect(sendMsgSpy)
+              .toHaveBeenCalledWith('Bend the knee m8.');
+          });
+        });
+
+        describe('when there is no message to send', () => {
+          beforeAll(() => {
+            formInfo.message = null;
+          });
+
+          it('does not send online message', () => {
+            setDepartmentSpy.calls.mostRecent().args[1]();
+            expect(sendMsgSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+        });
+      });
+
       describe('when department is offline', () => {
         beforeAll(() => {
           formInfo = {
