@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sessionStarted generates the expected payload 1`] = `
+Object {
+  "payload": Object {
+    "sessionData": Object {
+      "articles": Array [],
+      "fallbackSuggested": false,
+      "requestStatus": null,
+      "resolved": false,
+    },
+    "sessionID": 22222,
+  },
+  "type": "widget/answerBot/SESSION_STARTED",
+}
+`;
