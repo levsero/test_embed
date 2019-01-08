@@ -436,7 +436,7 @@ class HelpCenter extends Component {
     if (isChatting) {
       return this.chatLabel();
     } else if (channelChoice) {
-      return messageButtonLabel;
+      return i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
     } else if (chatAvailable || chatOfflineAvailable) {
       return this.chatLabel();
     } else if (talkAvailable) {
