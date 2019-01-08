@@ -43,6 +43,9 @@ describe('ChatLog component', () => {
       },
       'service/i18n': {
         i18n
+      },
+      'types/chat': {
+        chatLogEntry: 'chatLogEntry'
       }
     });
 

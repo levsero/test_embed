@@ -16,6 +16,7 @@ import {
   getLatestAgentLeaveEvent,
   getShowUpdateVisitorDetails
 } from 'src/redux/modules/chat/chat-selectors';
+import chatPropTypes from 'types/chat';
 
 const mapStateToProps = (state) => {
   return {
@@ -30,7 +31,7 @@ const mapStateToProps = (state) => {
 
 export class ChatLog extends Component {
   static propTypes = {
-    chatLog: PropTypes.array.isRequired,
+    chatLog: PropTypes.arrayOf(chatPropTypes.chatLogEntry),
     firstVisitorMessage: PropTypes.number.isRequired,
     latestRating: PropTypes.number.isRequired,
     latestRatingRequest: PropTypes.number.isRequired,
