@@ -177,6 +177,7 @@ class Frame extends Component {
     this.child = null;
     this.iframe = null;
     this.renderQueued = false;
+    this.queue = [];
   }
 
   componentDidMount = () => {
@@ -187,13 +188,15 @@ class Frame extends Component {
     const prevProps = this.props;
 
     if (prevProps.visible && !nextProps.visible) {
-      this.hide();
+      this.waitForRender(this.hide);
     } else if (!prevProps.visible && nextProps.visible) {
-      this.show();
+      this.waitForRender(this.show);
     }
 
     if (!_.isEqual(nextProps.color, prevProps.color)) {
-      this.setCustomCSS(this.generateUserCSSWithColor(nextProps.color));
+      this.waitForRender(() => {
+        this.setCustomCSS(this.generateUserCSSWithColor(nextProps.color));
+      });
     }
   }
 
@@ -235,6 +238,23 @@ class Frame extends Component {
   getFrameHead = () => {
     return this.getContentDocument().head;
   }
+
+  waitForRender = (callback) => {
+    if (this.child) {
+      callback();
+    } else {
+      this.queue.push(callback);
+    }
+  };
+
+  flushQueue = () => {
+    setTimeout(() => {
+      this.queue.forEach((callback) => {
+        callback();
+      });
+      this.queue = [];
+    }, 0);
+  };
 
   updateFrameLocale = () => {
     const html = this.getContentDocument().documentElement;
@@ -445,6 +465,7 @@ class Frame extends Component {
     if (mobileFullscreen) {
       setTimeout(this.applyMobileBodyStyle, 0);
     }
+    this.flushQueue();
   }
 
   generateUserCSSWithColor = (color) => {

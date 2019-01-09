@@ -8,7 +8,7 @@ const svgoConfig = JSON.stringify({
   plugins: [
     { removeTitle: true },
     { convertPathData: false },
-    { convertStyleToAttrs: false}
+    { convertStyleToAttrs: false }
   ]
 });
 const prefix = process.cwd();

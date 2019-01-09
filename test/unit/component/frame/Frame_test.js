@@ -1116,6 +1116,7 @@ describe('Frame', () => {
 
     beforeEach(() => {
       frame = domRender(<Frame generateUserCSS={_.identity} color='black'>{mockChild}</Frame>);
+      forceFrameReady(frame);
       spyOn(frame, 'setCustomCSS');
     });
 
