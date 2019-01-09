@@ -12,7 +12,6 @@ describe('boot', () => {
     beaconSpy = registerImportSpy('beacon', 'setConfig', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
     identitySpy = registerImportSpy('identity', 'init'),
     loggingSpy = registerImportSpy('logging', 'init', 'error'),
-    persistenceSpy = registerImportSpy('persistence', 'store'),
     transportSpy = registerImportSpy('http', 'get', 'init', 'updateConfig'),
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
     gaSpy = registerImportSpy('GA', 'init'),
@@ -32,7 +31,6 @@ describe('boot', () => {
       'service/beacon': beaconSpy,
       'service/identity': identitySpy,
       'service/logging': loggingSpy,
-      'service/persistence': persistenceSpy,
       'service/api/webWidgetApi': apiSpy,
       'service/api/zopimApi': zopimApiSpy,
       'service/analytics/googleAnalytics': gaSpy,
@@ -78,6 +76,9 @@ describe('boot', () => {
       },
       'utility/globals': {
         getZendeskHost: () => mockHost
+      },
+      'service/persistence': {
+        store: { get: noop }
       }
     });
 
