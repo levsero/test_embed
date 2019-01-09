@@ -19,17 +19,27 @@ import {
   CALLBACK_ONLY_SCREEN,
   PHONE_ONLY_SCREEN,
   CALLBACK_AND_PHONE_SCREEN,
-  SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
-import { updateTalkCallbackForm,
-  submitTalkCallbackForm } from 'src/redux/modules/talk';
-import { getEmbeddableConfig,
+  SUCCESS_NOTIFICATION_SCREEN
+} from 'src/redux/modules/talk/talk-screen-types';
+import {
+  updateTalkCallbackForm,
+  submitTalkCallbackForm
+} from 'src/redux/modules/talk';
+import {
+  getEmbeddableConfig,
   getAgentAvailability,
   getFormState,
   getScreen,
   getCallback,
   getAverageWaitTime,
   getAverageWaitTimeEnabled,
-  getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors';
+  getLibPhoneNumberVendor,
+} from 'src/redux/modules/talk/talk-selectors';
+import {
+  getTalkTitle,
+  getTalkNickname,
+  getTalkServiceUrl
+} from 'src/redux/modules/selectors';
 import { i18n } from 'service/i18n';
 import { renderLabel, getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields';
 
@@ -44,7 +54,10 @@ const mapStateToProps = (state) => {
     callback: getCallback(state),
     averageWaitTime: getAverageWaitTime(state),
     averageWaitTimeEnabled: getAverageWaitTimeEnabled(state),
-    libphonenumber: getLibPhoneNumberVendor(state)
+    libphonenumber: getLibPhoneNumberVendor(state),
+    title: getTalkTitle(state),
+    nickname: getTalkNickname(state),
+    serviceUrl: getTalkServiceUrl(state)
   };
 };
 
@@ -59,14 +72,16 @@ class Talk extends Component {
     agentAvailability: PropTypes.bool.isRequired,
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
-    talkConfig: PropTypes.object.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool,
     channelChoiceAvailable: PropTypes.bool,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
-    libphonenumber: PropTypes.object.isRequired
+    libphonenumber: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    nickname: PropTypes.string.isRequired,
+    serviceUrl: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -93,15 +108,16 @@ class Talk extends Component {
     };
   }
 
-  handleFormCompleted = (formState) => {
+  handleFormCompleted = () => {
     if (!this.form.state.valid) {
       this.setState({ showErrors: true });
       return;
     }
-    this.setState({ showErrors: false });
-    const { serviceUrl, nickname } = this.props.talkConfig;
 
-    this.props.submitTalkCallbackForm(formState, serviceUrl, nickname);
+    const { serviceUrl, nickname, submitTalkCallbackForm } = this.props;
+
+    this.setState({ showErrors: false });
+    submitTalkCallbackForm(serviceUrl, nickname);
   }
 
   handleFormChange = (formState) => {
@@ -188,7 +204,8 @@ class Talk extends Component {
         supportedCountries={this.props.embeddableConfig.supportedCountries}
         country={this.props.formState.country}
         value={value}
-        showError={this.state.showErrors} />
+        showError={this.state.showErrors}
+      />
     );
   }
 
@@ -202,7 +219,7 @@ class Talk extends Component {
       <TextField className={styles.textField}>
         {renderLabel(Label, nameLabel, isRequired)}
         <Input
-          value={value}
+          defaultValue={value}
           name='name'
           validation={error ? 'error' : 'none'}
           required={isRequired} />
@@ -322,19 +339,6 @@ class Talk extends Component {
     }
   }
 
-  renderFormTitle = () => {
-    switch (this.props.screen) {
-      case SUCCESS_NOTIFICATION_SCREEN:
-        return i18n.t('embeddable_framework.talk.notify.success.title');
-      case PHONE_ONLY_SCREEN:
-        return i18n.t('embeddable_framework.talk.phoneOnly.title');
-      case CALLBACK_ONLY_SCREEN:
-      case CALLBACK_AND_PHONE_SCREEN:
-      default:
-        return i18n.t('embeddable_framework.talk.form.title');
-    }
-  }
-
   renderOfflineScreen = () => {
     if (this.props.agentAvailability) return null;
 
@@ -411,7 +415,7 @@ class Talk extends Component {
           containerClasses={scrollContainerClasses}
           footerContent={this.renderFooterContent()}
           isMobile={this.props.isMobile}
-          title={this.renderFormTitle()}>
+          title={this.props.title}>
           <div className={contentClasses}>
             {this.renderContent()}
             {this.renderOfflineScreen()}

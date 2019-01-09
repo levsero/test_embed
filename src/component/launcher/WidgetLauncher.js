@@ -7,11 +7,10 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import {
   getChatAvailable,
-  getTalkAvailable,
+  getTalkOnline,
   getChatOfflineAvailable,
   getHelpCenterAvailable
 } from 'src/redux/modules/selectors';
-import { settings } from 'service/settings';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
@@ -23,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
     activeEmbed: getActiveEmbed(state),
     chatAvailable: getChatAvailable(state),
     helpCenterAvailable: getHelpCenterAvailable(state),
-    talkAvailable: getTalkAvailable(state) && !settings.get('talk.suppress'),
+    talkOnline: getTalkOnline(state),
     callbackEnabled: isCallbackEnabled(state),
     notificationCount: getNotificationCount(state),
     chatOfflineAvailable: getChatOfflineAvailable(state),
@@ -37,7 +36,7 @@ class WidgetLauncher extends Component {
     activeEmbed: PropTypes.string.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
-    talkAvailable: PropTypes.bool.isRequired,
+    talkOnline: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
     notificationCount: PropTypes.number.isRequired,
@@ -88,18 +87,18 @@ class WidgetLauncher extends Component {
   }
 
   getLabel = () => {
-    const { helpCenterAvailable, talkAvailable, chatAvailable, launcherLabel, chatLabel } = this.props;
+    const { helpCenterAvailable, talkOnline, chatAvailable, launcherLabel, chatLabel } = this.props;
     const notificationCount = this.getNotificationCount();
 
     if (notificationCount) {
       return notificationCount > 1
         ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
         : i18n.t('embeddable_framework.chat.notification');
-    } else if (chatAvailable && talkAvailable) {
+    } else if (chatAvailable && talkOnline) {
       return launcherLabel;
     } else if (chatAvailable && !helpCenterAvailable) {
       return chatLabel;
-    } else if (talkAvailable && !helpCenterAvailable) {
+    } else if (talkOnline && !helpCenterAvailable) {
       return this.getTalkLabel();
     }
     return launcherLabel;
@@ -151,11 +150,11 @@ class WidgetLauncher extends Component {
   }
 
   getIconType = () => {
-    const { talkAvailable, chatAvailable, chatOfflineAvailable } = this.props;
+    const { talkOnline, chatAvailable, chatOfflineAvailable } = this.props;
 
-    if (chatAvailable && talkAvailable) return 'Icon';
+    if (chatAvailable && talkOnline) return 'Icon';
     if (chatAvailable && !chatOfflineAvailable) return 'Icon--chat';
-    if (talkAvailable) return 'Icon--launcher-talk';
+    if (talkOnline) return 'Icon--launcher-talk';
 
     return 'Icon';
   }

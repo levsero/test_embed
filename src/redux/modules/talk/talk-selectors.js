@@ -1,5 +1,4 @@
 import _ from 'lodash';
-
 import { CALLBACK_ONLY, CALLBACK_AND_PHONE } from './talk-capability-types';
 
 export const getEmbeddableConfig = (state) => state.talk.embeddableConfig;

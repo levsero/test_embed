@@ -34,8 +34,7 @@ export class HelpCenterMobile extends Component {
     chatEnabled: PropTypes.bool,
     channelChoice: PropTypes.bool,
     setChannelChoiceShown: PropTypes.func,
-    talkAvailable: PropTypes.bool,
-    talkEnabled: PropTypes.bool,
+    talkOnline: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpEnabled: PropTypes.bool.isRequired,
@@ -57,7 +56,6 @@ export class HelpCenterMobile extends Component {
     channelChoice: false,
     setChannelChoiceShown: () => {},
     onNextClick: () => {},
-    talkEnabled: false,
     talkOnline: false
   };
 
@@ -149,8 +147,7 @@ export class HelpCenterMobile extends Component {
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatEnabled={this.props.chatEnabled}
           callbackEnabled={this.props.callbackEnabled}
-          talkAvailable={this.props.talkAvailable}
-          talkEnabled={this.props.talkEnabled}
+          talkOnline={this.props.talkOnline}
           chatAvailable={this.props.chatAvailable}
           onNextClick={this.props.onNextClick}
           onCancelClick={() => this.props.setChannelChoiceShown(false)} />

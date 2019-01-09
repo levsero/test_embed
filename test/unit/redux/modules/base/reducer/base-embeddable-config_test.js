@@ -49,6 +49,13 @@ describe('base reducer embeddable config', () => {
                 overrideProxy: '',
                 standalone: false
               }
+            },
+            talk: {
+              props: {
+                color: '',
+                serviceUrl: '',
+                nickname: ''
+              }
             }
           },
           cp4: false,
@@ -95,6 +102,13 @@ describe('base reducer embeddable config', () => {
               props: {
                 zopimId: 'yoloId'
               }
+            },
+            talk: {
+              props: {
+                nickname: 'bluey',
+                color: '#123123',
+                serviceUrl: 'https://example.com'
+              }
             }
           },
           cp4: true,
@@ -129,6 +143,13 @@ describe('base reducer embeddable config', () => {
                 zopimId: 'yoloId',
                 overrideProxy: '',
                 standalone: false
+              }
+            },
+            talk: {
+              props: {
+                nickname: 'bluey',
+                serviceUrl: 'https://example.com',
+                color: '#123123'
               }
             }
           },

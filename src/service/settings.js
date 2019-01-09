@@ -64,6 +64,7 @@ const optionWhitelist = {
     'position.vertical',
     'talk.nickname',
     'talk.suppress',
+    'talk.title',
     'zIndex'
   ]
 };
@@ -96,7 +97,9 @@ const webWidgetStoreDefaults = {
   launcher: { },
   margin: 8,
   talk: {
-    suppress: false
+    suppress: false,
+    nickname: null,
+    title: {}
   },
   viaId: 48
 };

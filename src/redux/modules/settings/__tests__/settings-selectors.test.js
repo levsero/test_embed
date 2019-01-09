@@ -8,6 +8,10 @@ const chatSettings = (newSettings) => {
   return settings({ chat: newSettings });
 };
 
+const talkSettings = (newSettings) => (
+  settings({ talk: newSettings })
+);
+
 const launcherSettings = (newSettings) => {
   return settings({ launcher: newSettings });
 };
@@ -386,4 +390,30 @@ describe('getSettingsChatDepartmentsEmpty', () => {
       });
     });
   });
+});
+
+test('getSettingsTalkTitle', () => {
+  const title = { '*': 'cool title' };
+  const result = selectors.getSettingsTalkTitle(
+    talkSettings({ title })
+  );
+
+  expect(result).toEqual(title);
+});
+
+test('getSettingsTalkNickname', () => {
+  const nickname = 'Support';
+  const result = selectors.getSettingsTalkNickname(
+    talkSettings({ nickname })
+  );
+
+  expect(result).toEqual(nickname);
+});
+
+test('getSettingsTalkSuppress', () => {
+  const result = selectors.getSettingsTalkSuppress(
+    talkSettings({ suppress: true })
+  );
+
+  expect(result).toEqual(true);
 });

@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { logging } from 'service/logging';
 import { http, socketio } from 'service/transport';
-import { settings } from 'service/settings';
 import { parseUrl } from 'utility/utils';
 import {
   UPDATE_TALK_EMBEDDABLE_CONFIG,
@@ -72,7 +71,7 @@ export function updateTalkCallbackForm(formState) {
   };
 }
 
-export function submitTalkCallbackForm(formState, serviceUrl, nickname) {
+export function submitTalkCallbackForm(serviceUrl, nickname) {
   return (dispatch, getState) => {
     const formState = getFormState(getState());
     const additionalInfo = _.pickBy({
@@ -84,7 +83,7 @@ export function submitTalkCallbackForm(formState, serviceUrl, nickname) {
       phoneNumber: formState.phone,
       additionalInfo,
       subdomain,
-      keyword: settings.get('talk.nickname') || nickname
+      keyword: nickname
     };
     const callbacks = {
       done: () => {

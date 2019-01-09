@@ -11,8 +11,7 @@ export class ChannelChoicePopupMobile extends Component {
     chatAvailable: PropTypes.bool.isRequired,
     className: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
-    talkAvailable: PropTypes.bool,
-    talkEnabled: PropTypes.bool,
+    talkOnline: PropTypes.bool.isRequired,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
     chatOfflineAvailable: PropTypes.bool.isRequired
@@ -21,8 +20,7 @@ export class ChannelChoicePopupMobile extends Component {
   static defaultProps = {
     showCancelButton: true,
     className: '',
-    talkAvailable: false,
-    talkEnabled: false,
+    talkOnline: false,
     submitTicketAvailable: true,
     chatEnabled: false
   };
@@ -34,10 +32,10 @@ export class ChannelChoicePopupMobile extends Component {
       chatAvailable,
       className,
       onNextClick,
-      talkAvailable,
-      talkEnabled,
+      talkOnline,
       callbackEnabled,
-      chatOfflineAvailable } = this.props;
+      chatOfflineAvailable
+    } = this.props;
 
     return (
       <div onClick={this.handleContainerClick}>
@@ -49,10 +47,10 @@ export class ChannelChoicePopupMobile extends Component {
             chatAvailable={chatAvailable}
             chatOfflineAvailable={chatOfflineAvailable}
             callbackEnabled={callbackEnabled}
-            talkAvailable={talkAvailable}
-            talkEnabled={talkEnabled}
+            talkOnline={talkOnline}
             buttonClasses={styles.innerItem}
-            labelClasses={styles.innerItemLabel} />
+            labelClasses={styles.innerItemLabel}
+          />
         </div>
       </div>
     );

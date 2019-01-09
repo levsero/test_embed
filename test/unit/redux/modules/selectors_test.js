@@ -139,7 +139,9 @@ describe('selectors', () => {
         getLauncherVisible: () => launcherVisibleValue,
         getChatStandalone: () => chatStandaloneValue,
         getUserMinimizedChatBadge: () => userMinimizedChatBadgeValue,
-        getConfigAttachmentsEnabled: () => configAttachmentsEnabledValue
+        getConfigAttachmentsEnabled: () => configAttachmentsEnabledValue,
+        getLocale: () => {},
+        getTalkConfig: () => {}
       },
       './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue,
@@ -156,7 +158,10 @@ describe('selectors', () => {
         getStylingPositionHorizontal: () => stylingPositionHorizontal,
         getStylingZIndex: () => 1,
         getSettingsContactFormSuppress: () => contactFormSuppressValue,
-        getSettingsContactFormAttachments: () => contactFormAttachmentsValue
+        getSettingsContactFormAttachments: () => contactFormAttachmentsValue,
+        getSettingsTalkTitle: () => {},
+        getSettingsTalkSuppress: () => {},
+        getSettingsTalkNickname: () => {}
       },
       './chat/chat-selectors': {
         getShowOfflineChat: () => showOfflineFormValue,
@@ -179,7 +184,8 @@ describe('selectors', () => {
       './talk/talk-selectors': {
         getEmbeddableConfigEnabled: () => talkEmbeddableConfigEnabledValue,
         getAgentAvailability: () => agentAvailabilityValue,
-        getEmbeddableConfigConnected: () => embeddableConfigConnectedValue
+        getEmbeddableConfigConnected: () => embeddableConfigConnectedValue,
+        getScreen: () => {}
       },
       './submitTicket/submitTicket-selectors': {
         getActiveTicketForm: () => activeTicketFormValue,
@@ -206,6 +212,13 @@ describe('selectors', () => {
       },
       'utility/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPage
+      },
+      'src/redux/modules/talk/talk-screen-types': {
+      },
+      'src/service/i18n': {
+        i18n: {
+          t: _.identity
+        }
       }
     });
 
@@ -1151,103 +1164,6 @@ describe('selectors', () => {
           expect(result)
             .toEqual(false);
         });
-      });
-    });
-  });
-
-  describe('getTalkEnabled', () => {
-    describe('when talkEmbed is true', () => {
-      beforeEach(() => {
-        talkEmbedValue = true;
-      });
-
-      describe('when embeddableConfigEnabled is true', () => {
-        let result;
-
-        beforeEach(() => {
-          talkEmbeddableConfigEnabledValue = true;
-          result = selectors.getTalkEnabled();
-        });
-
-        it('returns true', () => {
-          expect(result)
-            .toBe(true);
-        });
-      });
-
-      describe('when embeddableConfigEnabled is false', () => {
-        let result;
-
-        beforeEach(() => {
-          talkEmbeddableConfigEnabledValue = false;
-          result = selectors.getTalkEnabled();
-        });
-
-        it('returns false', () => {
-          expect(result)
-            .toBe(false);
-        });
-      });
-    });
-
-    describe('when talkEmbed is false', () => {
-      let result;
-
-      beforeEach(() => {
-        talkEmbedValue = false;
-        talkEmbeddableConfigEnabledValue = true;
-        result = selectors.getTalkEnabled();
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toBe(false);
-      });
-    });
-  });
-
-  describe('getTalkAvailable', () => {
-    let result;
-
-    describe('when talk is available and agent availability is true', () => {
-      beforeEach(() => {
-        talkEmbeddableConfigEnabledValue = true;
-        talkEmbedValue = true;
-        agentAvailabilityValue = true;
-
-        result = selectors.getTalkAvailable();
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toBe(true);
-      });
-    });
-
-    describe('when talk is not available', () => {
-      beforeEach(() => {
-        talkEmbedValue = false;
-        agentAvailabilityValue = true;
-        result = selectors.getTalkAvailable();
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toBe(false);
-      });
-    });
-
-    describe('when agent availability is false', () => {
-      beforeEach(() => {
-        talkEmbeddableConfigEnabledValue = true;
-        talkEmbedValue = true;
-        agentAvailabilityValue = false;
-        result = selectors.getTalkAvailable();
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toBe(false);
       });
     });
   });

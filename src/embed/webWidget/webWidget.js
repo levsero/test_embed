@@ -31,7 +31,10 @@ import { setVisitorInfo,
   fetchConversationHistory,
   handleChatVendorLoaded,
   setChatHistoryHandler } from 'src/redux/modules/chat';
-import { getSettingsHelpCenterSuppress } from 'src/redux/modules/settings/settings-selectors';
+import {
+  getSettingsHelpCenterSuppress,
+  getSettingsContactFormSuppress
+} from 'src/redux/modules/settings/settings-selectors';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
@@ -39,11 +42,14 @@ import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
 import { authenticate, revokeToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
-import { getSettingsContactFormSuppress } from 'src/redux/modules/settings/settings-selectors';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { nameValid, emailValid } from 'src/util/utils';
 import zopimApi from 'service/api/zopimApi';
+import {
+  getTalkNickname,
+  getTalkEnabled
+} from 'src/redux/modules/selectors';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
@@ -121,7 +127,7 @@ export default function WebWidgetFactory(name) {
     }
   };
 
-  function create(name, config = {}, reduxStore) {
+  function create(name, config, reduxStore) {
     let containerStyle;
     let frameBodyCss = '';
     const popout = isPopout(),
@@ -133,10 +139,8 @@ export default function WebWidgetFactory(name) {
       color: '#659700'
     };
     const talkConfig = config.talk;
-    const talkAvailable = !!talkConfig && !settings.get('talk.suppress') &&
-      !!_.trim(settings.get('talk.nickname') || talkConfig.nickname);
-
     const helpCenterAvailable = !!config.helpCenterForm && !getSettingsHelpCenterSuppress(state);
+    const talkEnabled = getTalkEnabled(state);
     const submitTicketAvailable = !!config.ticketSubmissionForm && !getSettingsContactFormSuppress(state);
     const chatConfig = config.zopimChat;
     const chatAvailable = !!chatConfig;
@@ -170,7 +174,7 @@ export default function WebWidgetFactory(name) {
       setupChat({ ...chatConfig, authentication }, reduxStore, brandName);
     }
 
-    if (talkAvailable) {
+    if (talkEnabled) {
       setupTalk(talkConfig, reduxStore);
     }
 
@@ -230,7 +234,6 @@ export default function WebWidgetFactory(name) {
             ticketFieldSettings={settings.get('contactForm.fields')}
             submitTicketConfig={submitTicketSettings.config}
             talkConfig={talkConfig}
-            talkAvailable={talkAvailable}
             zopimOnNext={zopimOnNext}
             chatId={_.get(chatConfig, 'zopimId')}
             onShowMobile={onShowMobile}/>
@@ -531,7 +534,7 @@ export default function WebWidgetFactory(name) {
     store.dispatch(loadTalkVendors(
       [import('socket.io-client'), import('libphonenumber-js')],
       config.serviceUrl,
-      settings.get('talk.nickname') || config.nickname
+      getTalkNickname(store.getState())
     ));
   }
 

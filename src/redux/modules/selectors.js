@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import { createSelector } from 'reselect';
 
-import { getShowOfflineChat,
+import {
+  getShowOfflineChat,
   getOfflineFormEnabled,
   getIsChatting,
   getThemeColor as getChatThemeColor,
@@ -9,11 +11,14 @@ import { getShowOfflineChat,
   getChatConnected as getNewChatConnected,
   getBadgeColor as getAccountSettingsBadgeColor,
   getHideBranding as getAccountSettingsHideBranding,
-  getChatBadgeEnabled } from './chat/chat-selectors';
-import { getZopimChatOnline,
+  getChatBadgeEnabled
+} from './chat/chat-selectors';
+import {
+  getZopimChatOnline,
   getZopimChatConnected,
   getZopimIsChatting,
-  getZopimChatOpen } from './zopimChat/zopimChat-selectors';
+  getZopimChatOpen
+} from './zopimChat/zopimChat-selectors';
 import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
@@ -27,14 +32,23 @@ import {
   getStylingPositionHorizontal,
   getStylingZIndex,
   getSettingsContactFormSuppress,
-  getSettingsContactFormAttachments
+  getSettingsContactFormAttachments,
+  getSettingsTalkTitle,
+  getSettingsTalkNickname,
+  getSettingsTalkSuppress
 } from './settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
   getAgentAvailability,
-  getEmbeddableConfigConnected } from './talk/talk-selectors';
-import { getActiveTicketForm, getTicketForms } from './submitTicket/submitTicket-selectors';
-import { getActiveEmbed,
+  getEmbeddableConfigConnected,
+  getScreen
+} from './talk/talk-selectors';
+import {
+  getActiveTicketForm,
+  getTicketForms
+} from './submitTicket/submitTicket-selectors';
+import {
+  getActiveEmbed,
   getHelpCenterEmbed,
   getSubmitTicketEmbed,
   getZopimChatEmbed,
@@ -51,7 +65,10 @@ import { getActiveEmbed,
   getLauncherVisible as getBaseLauncherVisible,
   getChatStandalone,
   getUserMinimizedChatBadge,
-  getConfigAttachmentsEnabled } from './base/base-selectors';
+  getConfigAttachmentsEnabled,
+  getLocale,
+  getTalkConfig,
+} from './base/base-selectors';
 import { settings } from 'service/settings';
 import { getIsShowHCIntroState } from './helpCenter/helpCenter-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -59,14 +76,15 @@ import { FONT_SIZE } from 'src/constants/shared';
 import { EMBED_MAP, LAUNCHER } from 'constants/shared';
 import { isPopout } from 'utility/globals';
 import { getSettingsLauncherChatLabel, getSettingsLauncherLabel } from './settings/settings-selectors';
-import { getLocale } from 'src/redux/modules/base/base-selectors';
-import { i18n } from 'service/i18n';
-
 import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared';
+import * as screens from 'src/redux/modules/talk/talk-screen-types';
+import { i18n } from 'src/service/i18n';
+
 /*
  * Terms:
- * Available: When an embed is part of config, not suppressed and has all the conditions to be used.
  * Enabled: When an embed is part of config, not suppressed but does not have all the conditions to be used
+ * Available: When an embed is part of config, not suppressed and has all the conditions to be used.
+ * Online: When all of the above and there are agents to service the request
  */
 const getHelpCenterEnabled = createSelector(
   [getHelpCenterEmbed, getSettingsHelpCenterSuppress],
@@ -198,11 +216,29 @@ export const getChatAvailable = (state) => {
 export const getShowTalkBackButton = (state) => {
   return getHelpCenterEmbed(state) || getChatAvailable(state) || getSubmitTicketEmbed(state);
 };
-export const getTalkEnabled = (state) => getTalkEmbed(state) && getEmbeddableConfigEnabled(state);
 export const getTalkReady = (state) => !getTalkEmbed(state) || getEmbeddableConfigConnected(state);
-export const getTalkAvailable = (state) => {
-  return getTalkEnabled(state) && getAgentAvailability(state);
-};
+
+export const getTalkEnabled = createSelector(
+  [getSettingsTalkSuppress, getTalkEmbed],
+  (talkSuppressed, talkEmbed) => (
+    !talkSuppressed && talkEmbed
+  )
+);
+
+export const getTalkAvailable = createSelector(
+  [getTalkEnabled, getEmbeddableConfigEnabled],
+  (talkEnabled, configEnabled) => (
+    talkEnabled && configEnabled
+  )
+);
+
+export const getTalkOnline = createSelector(
+  [getTalkAvailable, getAgentAvailability],
+  (talkAvailable, agentsAvailable) => (
+    talkAvailable && agentsAvailable
+  )
+);
+
 export const getShowTicketFormsBackButton = createSelector(
   [getActiveTicketForm, getTicketForms, getActiveEmbed],
   (activeForm, ticketForms, activeEmbed) => {
@@ -429,3 +465,33 @@ export const getHideZendeskLogo = (state) => {
 export const getAttachmentsEnabled = (state) => {
   return getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state);
 };
+
+export const getTalkTitle = createSelector(
+  [getSettingsTalkTitle, getScreen, getLocale],
+  (settingsTitle, screen, _locale) => {
+    const title = i18n.getSettingTranslation(settingsTitle);
+
+    switch (screen) {
+      case screens.SUCCESS_NOTIFICATION_SCREEN:
+        return title || i18n.t('embeddable_framework.talk.notify.success.title');
+      case screens.PHONE_ONLY_SCREEN:
+        return title || i18n.t('embeddable_framework.talk.phoneOnly.title');
+      case screens.CALLBACK_ONLY_SCREEN:
+      case screens.CALLBACK_AND_PHONE_SCREEN:
+      default:
+        return title || i18n.t('embeddable_framework.talk.form.title');
+    }
+  }
+);
+
+export const getTalkServiceUrl = createSelector(
+  getTalkConfig,
+  (config) => config.props.serviceUrl
+);
+
+export const getTalkNickname = createSelector(
+  [getSettingsTalkNickname, getTalkConfig],
+  (settingsNickname, config) => (
+    settingsNickname || _.get(config, 'props.nickname')
+  )
+);
