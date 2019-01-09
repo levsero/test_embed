@@ -79,7 +79,7 @@ function generateQueryString(chatPopoutSettings, machineId, locale) {
   const subdomain = getZendeskHost(document);
   const settings = win.btoa(JSON.stringify(chatPopoutSettings));
 
-  return `?v=1#key=${subdomain}&settings=${settings}&mid=${machineId}&locale=${locale}`;
+  return `?v=2#key=${subdomain}&settings=${settings}&mid=${machineId}&locale=${locale}`;
 }
 
 export {
