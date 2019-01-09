@@ -34,7 +34,7 @@ try() {
   fi
 }
 
-try "Installing npm packages" "npm install --quiet > /dev/null"
+try "Preparing node, nvm and npm packages" "script/setup-environment.sh"
 try "Installing ruby gems" "bundle install --quiet"
 try "Downloading translations" "script/fetch_i18n"
 try "Building Engagement Framework" "npm run build"
