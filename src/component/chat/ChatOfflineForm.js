@@ -335,7 +335,6 @@ export class ChatOfflineForm extends Component {
     return !this.props.hideZendeskLogo ?
       <ZendeskLogo
         className={`${styles.zendeskLogo}`}
-        rtl={i18n.isRTL()}
         chatId={this.props.chatId}
         fullscreen={false}
       /> : null;

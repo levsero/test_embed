@@ -241,7 +241,7 @@ export class HelpCenterMobile extends Component {
 
   renderZendeskLogo = (hideZendeskLogo) => {
     return !hideZendeskLogo
-      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
+      ? <ZendeskLogo fullscreen={true} />
       : null;
   }
 

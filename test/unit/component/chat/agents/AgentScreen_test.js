@@ -80,7 +80,7 @@ describe('AgentScreen component', () => {
           fullscreen={fullscreen}
           hideZendeskLogo={hideZendeskLogo}
           updateChatScreen={updateChatScreenSpy} />
-      ).render();
+      ).render().props.children[0];
     });
 
     describe('the scroll container wrapper', () => {

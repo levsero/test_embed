@@ -31,7 +31,7 @@ export class ChannelChoiceDesktop extends Component {
   renderZendeskLogo = () => {
     if (this.props.hideZendeskLogo) return null;
 
-    return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
+    return <ZendeskLogo fullscreen={false} />;
   }
 
   renderBody = () => {
@@ -69,12 +69,12 @@ export class ChannelChoiceDesktop extends Component {
         <ScrollContainer
           ref='scrollContainer'
           containerClasses={styles.newChannelChoiceContainer}
-          footerContent={this.renderZendeskLogo()}
           footerClasses={footerClasses}
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${formTitleKey}`)}>
           {this.renderBody()}
         </ScrollContainer>
+        {this.renderZendeskLogo()}
       </div>
     );
   }

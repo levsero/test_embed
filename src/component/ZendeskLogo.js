@@ -12,7 +12,6 @@ export class ZendeskLogo extends Component {
     formSuccess: PropTypes.bool,
     fullscreen: PropTypes.bool,
     logoLink: PropTypes.string,
-    rtl: PropTypes.bool,
     chatId: PropTypes.string
   };
 
@@ -21,7 +20,6 @@ export class ZendeskLogo extends Component {
     formSuccess: false,
     fullscreen: false,
     logoLink: 'embeddables',
-    rtl: false,
     chatId: ''
   };
 
@@ -45,15 +43,13 @@ export class ZendeskLogo extends Component {
   };
 
   render = () => {
-    const { fullscreen, rtl, formSuccess, className } = this.props;
+    const { fullscreen, formSuccess, className } = this.props;
     const screenPosition = (!fullscreen || formSuccess) ? styles.formSuccess : '';
     const position = (fullscreen) ? styles.fullscreen : '';
-    const direction = (rtl) ? styles.rtl : styles.ltr;
     const logoClasses = `
       ${styles.logo}
       ${screenPosition}
       ${position}
-      ${direction}
       ${className}
     `;
 

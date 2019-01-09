@@ -92,24 +92,24 @@ describe('RatingScreen component', () => {
     });
 
     it('returns a component with the FeedbackForm component as the first child', () => {
-      const firstChild = component.render().props.children;
+      const firstChild = component.render().props.children[0].props.children;
 
       expect(TestUtils.isElementOfType(firstChild, FeedbackForm)).toEqual(true);
     });
 
     describe('the scroll container wrapper', () => {
       it('has its containerClasses prop to the scrollContainerContent style', () => {
-        expect(component.render().props.containerClasses)
+        expect(component.render().props.children[0].props.containerClasses)
           .toEqual('scrollContainerContentClasses');
       });
 
       it('has its fullscreen prop to the ScrollContainer style', () => {
-        expect(component.render().props.fullscreen)
+        expect(component.render().props.children[0].props.fullscreen)
           .toEqual(true);
       });
 
       it('has its isMobile prop to the ScrollContainer style', () => {
-        expect(component.render().props.isMobile)
+        expect(component.render().props.children[0].props.isMobile)
           .toEqual(true);
       });
     });
@@ -228,12 +228,12 @@ describe('RatingScreen component', () => {
         });
 
         it('renders logo in footer', () => {
-          expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
+          expect(TestUtils.isElementOfType(result.props.children[1], ZendeskLogo))
             .toBeTruthy();
         });
 
         it('renders footer with correct class', () => {
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .toContain('logoFooterClasses');
         });
       });
@@ -254,12 +254,12 @@ describe('RatingScreen component', () => {
         });
 
         it('does not render logo in footer', () => {
-          expect(result.props.footerContent)
+          expect(result.props.children[1])
             .toBeFalsy();
         });
 
         it('renders footer with correct class', () => {
-          expect(result.props.footerClasses)
+          expect(result.props.children[0].props.footerClasses)
             .not.toContain('logoFooterClasses');
         });
       });

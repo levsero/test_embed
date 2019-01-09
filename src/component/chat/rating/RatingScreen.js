@@ -61,7 +61,6 @@ class RatingScreen extends Component {
     return !this.props.hideZendeskLogo ?
       <ZendeskLogo
         className={`${styles.zendeskLogo}`}
-        rtl={i18n.isRTL()}
         fullscreen={false}
       /> : null;
   }
@@ -103,21 +102,23 @@ class RatingScreen extends Component {
       : 'embeddable_framework.chat.postChat.rating.button.skip';
 
     return (
-      <ScrollContainer
-        headerContent={this.renderChatHeader()}
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        containerClasses={styles.scrollContainerContent}
-        footerClasses={logoFooterClasses}
-        footerContent={this.renderZendeskLogo()}
-        fullscreen={fullscreen}
-        isMobile={isMobile}>
-        <FeedbackForm
-          feedbackMessage={message}
-          rating={this.props.rating}
-          skipClickFn={this.skipClick}
-          sendClickFn={this.sendClick}
-          cancelButtonText={i18n.t(cancelButtonTextKey)} />
-      </ScrollContainer>
+      <div>
+        <ScrollContainer
+          headerContent={this.renderChatHeader()}
+          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+          containerClasses={styles.scrollContainerContent}
+          footerClasses={logoFooterClasses}
+          fullscreen={fullscreen}
+          isMobile={isMobile}>
+          <FeedbackForm
+            feedbackMessage={message}
+            rating={this.props.rating}
+            skipClickFn={this.skipClick}
+            sendClickFn={this.sendClick}
+            cancelButtonText={i18n.t(cancelButtonTextKey)} />
+        </ScrollContainer>
+        {this.renderZendeskLogo()}
+      </div>
     );
   }
 }

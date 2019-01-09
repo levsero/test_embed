@@ -35,15 +35,8 @@
 }
 
 .Icon--zendesk {
-  top: #{10/$font-size}rem;
-
-  margin-left: #{4/$font-size}rem;
-  margin-right: #{13/$font-size}rem;
-
-  [dir='rtl'] & {
-    padding-left: #{3/$font-size}rem;
-    padding-right: #{6/$font-size}rem;
-  }
+  margin-left: #{21/$font-size}rem;
+  margin-right: #{21/$font-size}rem;
 
   svg {
     min-width: #{50/$font-size}rem; /* 1 */

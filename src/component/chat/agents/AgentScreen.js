@@ -43,7 +43,6 @@ class AgentScreen extends Component {
         className={`${styles.zendeskLogo}`}
         logoLink='chat'
         chatId={this.props.chatId}
-        rtl={i18n.isRTL()}
         fullscreen={false}
       /> : null;
   }
@@ -69,16 +68,18 @@ class AgentScreen extends Component {
     const { activeAgents, isMobile, fullscreen } = this.props;
 
     return (
-      <ScrollContainer
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        containerClasses={styles.scrollContainerContent}
-        footerContent={this.renderBackButton()}
-        fullscreen={fullscreen}
-        isMobile={isMobile}
-      >
-        <AgentList agents={activeAgents} />
+      <div>
+        <ScrollContainer
+          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+          containerClasses={styles.scrollContainerContent}
+          footerContent={this.renderBackButton()}
+          fullscreen={fullscreen}
+          isMobile={isMobile}
+        >
+          <AgentList agents={activeAgents} />
+        </ScrollContainer>
         {this.renderZendeskLogo()}
-      </ScrollContainer>
+      </div>
     );
   }
 }

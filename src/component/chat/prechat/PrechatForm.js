@@ -358,7 +358,6 @@ export class PrechatForm extends Component {
         chatId={this.props.chatId}
         logoLink='chat'
         className={`${styles.zendeskLogo}`}
-        rtl={i18n.isRTL()}
         fullscreen={false}
       /> : null;
   }
@@ -383,8 +382,8 @@ export class PrechatForm extends Component {
           {this.renderDepartmentsField()}
           {this.renderPhoneField()}
           {this.renderMessageField()}
-          {this.renderZendeskLogo()}
         </ScrollContainer>
+        {this.renderZendeskLogo()}
       </form>
     );
   }
