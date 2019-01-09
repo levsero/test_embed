@@ -1,6 +1,5 @@
 import airwaves from 'airwaves';
 
-import { nameValid, emailValid } from 'utility/utils';
 import { proactiveMessageRecieved } from 'src/redux/modules/chat';
 import { zopimProactiveMessageRecieved } from 'src/redux/modules/zopimChat';
 import { isMobileBrowser } from 'utility/devices';
@@ -90,27 +89,6 @@ function init() {
   c.intercept('.show', () => {
     c.broadcast(`${chat}.hide`);
   });
-  initMessaging();
-}
-
-function initMessaging() {
-  c.intercept('.onIdentify', (__, params) => {
-    const isEmailValid = emailValid(params.email),
-      isNameValid = nameValid(params.name);
-
-    if (isEmailValid && isNameValid) {
-      c.broadcast('beacon.identify', params);
-      c.broadcast(`${chat}.setUser`, params);
-    } else if (isEmailValid) {
-      console.warn('invalid name passed into zE.identify', params.name); // eslint-disable-line no-console
-      c.broadcast(`${chat}.setUser`, params);
-    } else if (isNameValid) {
-      console.warn('invalid email passed into zE.identify', params.email); // eslint-disable-line no-console
-      c.broadcast(`${chat}.setUser`, params);
-    } else {
-      console.warn('invalid params passed into zE.identify', params); // eslint-disable-line no-console
-    }
-  });
 }
 
 function initZopimStandalone() {
@@ -131,13 +109,10 @@ function initZopimStandalone() {
   c.intercept('.activate', () => {
     c.broadcast(`${chat}.activate`);
   });
-
-  initMessaging();
 }
 
 export const mediator = {
   channel: c,
   init: init,
-  initMessaging: initMessaging,
   initZopimStandalone: initZopimStandalone
 };

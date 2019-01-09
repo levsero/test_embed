@@ -205,10 +205,7 @@ function initMediator(config) {
     };
 
     mediator.init(embedsAccessible, params);
-  } else if (_.isEmpty(embeds)) {
-    // No embeds
-    mediator.initMessaging();
-  } else {
+  } else if (!_.isEmpty(embeds)) {
     logging.error({
       error: {
         message: 'Could not find correct embeds to initialise.'

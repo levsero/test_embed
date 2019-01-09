@@ -9,7 +9,9 @@ import * as settingsActions from 'src/redux/modules/settings/settings-actions';
 import * as baseActions from 'src/redux/modules/base/base-actions';
 import * as hcActions from 'src/redux/modules/helpCenter/helpCenter-actions';
 
+import { chat as zopimChat } from 'embed/chat/chat';
 import { mediator } from 'service/mediator';
+import { beacon } from 'service/beacon';
 import { settings } from 'service/settings';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
@@ -30,6 +32,8 @@ jest.mock('service/mediator');
 jest.mock('src/redux/modules/selectors');
 jest.mock('src/redux/modules/chat/chat-selectors');
 jest.mock('service/settings');
+jest.mock('service/beacon');
+jest.mock('embed/chat/chat');
 
 const mockActionValue = Date.now();
 const mockAction = jest.fn(() => mockActionValue);
@@ -109,10 +113,121 @@ describe('sendChatMsgApi', () => {
   });
 });
 
-test('identify calls mediator', () => {
-  apis.identifyApi(mockStore, { x: 1 });
-  expect(mediator.channel.broadcast)
-    .toHaveBeenCalledWith('.onIdentify', { x: 1 });
+describe('identify', () => {
+  /* eslint-disable no-console */
+  beforeEach(() => {
+    jest.spyOn(console, 'warn');
+    console.warn.mockReturnValue();
+  });
+
+  afterEach(() => {
+    console.warn.mockRestore();
+  });
+
+  describe('when valid', () => {
+    let params;
+
+    beforeEach(() => {
+      params = {
+        name: 'James Dean',
+        email: 'james@dean.com'
+      };
+
+      apis.identifyApi(mockStore, params);
+    });
+
+    it('calls identify and chat setUser', () => {
+      expect(beacon.identify)
+        .toHaveBeenCalledWith(params);
+      expect(zopimChat.setUser)
+        .toHaveBeenCalledWith(params);
+    });
+  });
+
+  describe('when email is invalid', () => {
+    let params;
+
+    beforeEach(() => {
+      params = {
+        name: 'James Dean',
+        email: 'james@dean'
+      };
+
+      apis.identifyApi(mockStore, params);
+    });
+
+    it('does not call identify', () => {
+      expect(beacon.identify)
+        .not.toHaveBeenCalled();
+    });
+
+    it('prints a warning', () => {
+      expect(console.warn)
+        .toHaveBeenCalledWith('invalid email passed into zE.identify', params.email);
+    });
+
+    it('calls chat setUser', () => {
+      expect(zopimChat.setUser)
+        .toHaveBeenCalledWith(params);
+    });
+  });
+
+  describe('when name is invalid', () => {
+    let params;
+
+    beforeEach(() => {
+      params = {
+        name: undefined,
+        email: 'james@dean.com'
+      };
+
+      apis.identifyApi(mockStore, params);
+    });
+
+    it('does not call identify', () => {
+      expect(beacon.identify)
+        .not.toHaveBeenCalled();
+    });
+
+    it('prints a warning', () => {
+      expect(console.warn)
+        .toHaveBeenCalledWith('invalid name passed into zE.identify', params.name);
+    });
+
+    it('calls chat setUser', () => {
+      expect(zopimChat.setUser)
+        .toHaveBeenCalledWith(params);
+    });
+  });
+
+  describe('when both are invalid', () => {
+    let params;
+
+    beforeEach(() => {
+      params = {
+        name: undefined,
+        email: undefined
+      };
+
+      apis.identifyApi(mockStore, params);
+    });
+
+    it('does not call identify', () => {
+      expect(beacon.identify)
+        .not.toHaveBeenCalled();
+    });
+
+    it('prints a warning', () => {
+      expect(console.warn)
+        .toHaveBeenCalledWith('invalid params passed into zE.identify', params);
+    });
+
+    it('does not call chat setUser', () => {
+      expect(zopimChat.setUser)
+        .not.toHaveBeenCalledWith(params);
+    });
+  });
+  /* eslint-enable no-console */
 });
 
 describe('openApi', () => {
