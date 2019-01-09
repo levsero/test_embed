@@ -100,11 +100,12 @@ export class HelpCenterArticle extends Component {
     };
 
     if (activeArticle.body) {
-      const body = this.replaceArticleLinks(
+      let cleanHtml = sanitizeHtml(activeArticle.body, sanitizeHtmlOptions);
+
+      activeArticle.body = cleanHtml;
+      cleanHtml = this.replaceArticleLinks(
         this.replaceArticleImages(activeArticle, this.state.lastActiveArticleId)
       );
-
-      let cleanHtml = sanitizeHtml(body, sanitizeHtmlOptions);
 
       // Inject a table wrapper to allow horizontal scrolling
       /* eslint-disable no-useless-escape */
