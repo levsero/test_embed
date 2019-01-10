@@ -1,0 +1,459 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`channels does not render chat if chat is available 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      Would you like to leave a message so the team can follow up on your question?
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel singleChannel"
+      >
+        <span
+          class="container icon Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Leave a message
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected leading message if only call us is available 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      blah
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel singleChannel"
+      >
+        <span
+          class="container icon Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Call us
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected leading message if only chat is available 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      blah
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel singleChannel"
+      >
+        <span
+          class="container icon Icon--chat"
+          type="Icon--chat"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Live chat
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected leading message if only request callback is available 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      blah
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected leading message if only submit ticket is available 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      blah
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel singleChannel"
+      >
+        <span
+          class="container icon Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Leave a message
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders generic leading message if more than 1 channel is available 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      Choose a way to get in touch:
+    </div>
+    <div
+      class=" optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--chat"
+          type="Icon--chat"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Live chat
+        </div>
+      </div>
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Call us
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders leading message if more than 1 channel is available and useLeadingMessageAsFallback is true 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      hi
+    </div>
+    <div
+      class=" optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--chat"
+          type="Icon--chat"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Live chat
+        </div>
+      </div>
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Call us
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders request callback leading message if request callback and call us are available 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      blah
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel singleChannel"
+      >
+        <span
+          class="container icon Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Request a callback
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders the passed in leading message regardless of other properties 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      blah blah
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel singleChannel"
+      >
+        <span
+          class="container icon Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Leave a message
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      Choose a way to get in touch:
+    </div>
+    <div
+      class=" optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--chat"
+          type="Icon--chat"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Live chat
+        </div>
+      </div>
+    </div>
+    <div
+      class=" optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Request a callback
+        </div>
+      </div>
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Leave a message
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the leading message 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      hello world
+    </div>
+    <div
+      class=" optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--chat"
+          type="Icon--chat"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Live chat
+        </div>
+      </div>
+    </div>
+    <div
+      class=" optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Request a callback
+        </div>
+      </div>
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel "
+      >
+        <span
+          class="container icon Icon--channelChoice-contactForm"
+          type="Icon--channelChoice-contactForm"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Leave a message
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

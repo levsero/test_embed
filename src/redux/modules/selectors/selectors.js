@@ -36,7 +36,9 @@ import {
   getSettingsContactOptionsButton,
   getSettingsContactOptionsChatLabelOnline,
   getSettingsContactOptionsContactFormLabel,
-  getSettingsContactFormTitle
+  getSettingsContactFormTitle,
+  getAnswerBotTitle,
+  getAnswerBotAvatarName
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -524,3 +526,21 @@ export const getTalkNickname = createSelector(
     settingsNickname || _.get(config, 'props.nickname')
   )
 );
+
+export const getSettingsAnswerBotTitle = createSelector(
+  [getAnswerBotTitle, getLocale],
+  (answerBotTitle, _locale) => (
+    i18n.getSettingTranslation(answerBotTitle)
+  )
+);
+
+export const getSettingsAnswerBotAvatarName = createSelector(
+  [getAnswerBotAvatarName, getLocale],
+  (answerBotAvatarName, _locale) => (
+    i18n.getSettingTranslation(answerBotAvatarName)
+  )
+);
+
+export const getChannelAvailable = (state) => {
+  return getSubmitTicketAvailable(state) || getTalkAvailable(state) || getChatAvailable(state);
+};

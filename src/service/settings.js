@@ -7,6 +7,9 @@ import { mediator } from 'service/mediator';
 
 const optionWhitelist = {
   webWidget: [
+    'answerBot.title',
+    'answerBot.avatar.name',
+    'answerBot.avatar.url',
     'authenticate',
     'authenticate.support',
     'authenticate.chat',
@@ -72,6 +75,13 @@ const customizationsWhitelist = [
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
+  answerBot: {
+    avatar: {
+      url: '',
+      name: {}
+    },
+    title: {}
+  },
   contactForm: {
     fields: [],
     ticketForms: []

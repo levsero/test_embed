@@ -47,6 +47,15 @@ const stateContactFormSettings = (settings) => {
   };
 };
 
+const stateAnswerBotSettings = (settings) => {
+  return {
+    base: { locale: 'en-US' },
+    settings: {
+      answerBot: settings
+    }
+  };
+};
+
 const stateAttachmentSettings = (configAttachments, settingsAttachments) => {
   return {
     base: {
@@ -108,6 +117,24 @@ describe('selectors', () => {
     it('returns false if embeddableConfig hideZendeskLogo and accountSettings hide_branding are false', () => {
       expect(selectors.getHideZendeskLogo(state))
         .toEqual(false);
+    });
+  });
+
+  describe('answer bot', () => {
+    test('getSettingsAnswerBotTitle', () => {
+      const state = stateAnswerBotSettings({ title: { '*': 'answer bot title' } });
+      const result = selectors.getSettingsAnswerBotTitle(state);
+
+      expect(result)
+        .toEqual('answer bot title');
+    });
+
+    test('getSettingsAnswerBotAvatarName', () => {
+      const state = stateAnswerBotSettings({ avatar: { name: { '*': 'answer bot name' } } });
+      const result = selectors.getSettingsAnswerBotAvatarName(state);
+
+      expect(result)
+        .toEqual('answer bot name');
     });
   });
 

@@ -1,0 +1,56 @@
+@import 'src/styles/_vars.scss';
+
+.container {
+  margin-bottom: #{7/$font-size}rem;
+}
+
+.title {
+  padding: #{9/$font-size}rem #{10/$font-size}rem #{8/$font-size}rem;
+  line-height: #{15/$font-size}rem;
+}
+
+.channel {
+  composes: u-flex u-flexAlignItemsCenter from global;
+  padding: #{12/$font-size}rem #{16/$font-size}rem;
+
+  &:hover {
+    .icon svg path {
+      stroke: $zd-color-dark-gray;
+    }
+
+    .Icon--channelChoice-talk svg path {
+      stroke: $zd-color-dark-gray;
+    }
+
+    .optionText {
+      text-decoration: underline;
+    }
+  }
+}
+
+.singleChannel {
+  justify-content: center;
+
+  .icon {
+    display: none;
+  }
+}
+
+.icon {
+  composes: u-marginRS from global;
+
+  svg {
+    min-width: #{14/$font-size}rem;
+    width: #{14/$font-size}rem;
+    height: #{14/$font-size}rem;
+
+    path {
+      stroke: $zd-color-aluminum;
+      stroke-width: 1.5px;
+    }
+  }
+}
+
+.optionText {
+  color: #007FAB;
+}
