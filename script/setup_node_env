@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export NVM_DIR="$HOME/.nvm"
-
 pluck_version() {
   ruby -e "require 'json'; puts JSON.parse(STDIN.read)['engines']['$1'].gsub(/[^0-9.]/, '')" < package.json
 }
@@ -10,6 +8,17 @@ nvm_version="$(pluck_version 'nvm')"
 node_version="$(pluck_version 'node')"
 npm_version="$(pluck_version 'npm')"
 nvm_node_version="$(tr -d 'v' < .nvmrc)"
+restart_terminal_required=false
+
+install_nvm() {
+  # use .bash_profile rather than .bashrc so that nvm loads properly on mac
+  curl "https://raw.githubusercontent.com/creationix/nvm/v$nvm_version/install.sh" | PROFILE="$HOME/.bash_profile" sh
+}
+
+reload_nvm_env() {
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+}
 
 if [ "$node_version" != "$nvm_node_version" ]
 then
@@ -20,21 +29,27 @@ then
   echo ""
 fi
 
-# shellcheck source=/dev/null
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-installed_nvm_version=$(command -v nvm >/dev/null 2>&1 && nvm --version)
+if [ ! -d "$HOME/.nvm" ];
+then
+  echo "NVM is not installed yet. Installing version: $nvm_version"
+  install_nvm
+  restart_terminal_required=true
+fi
+
+reload_nvm_env
+installed_nvm_version=$(nvm --version)
 
 if [ "$installed_nvm_version" = "$nvm_version" ]
 then
   echo "NVM version up to date ($nvm_version)"
 else
-  echo "NVM version needs updated to $nvm_version (on $installed_nvm_version)"
-  curl "https://raw.githubusercontent.com/creationix/nvm/v$nvm_version/install.sh" | sh
+  echo "NVM version needs updating to $nvm_version (currently on $installed_nvm_version)"
+  install_nvm
+  reload_nvm_env
+  restart_terminal_required=true
 fi
 
-# shellcheck source=/dev/null
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-nvm use --delete-prefix default --silent
+nvm use default --silent
 
 installed_node_version=$(command -v node >/dev/null 2>&1 && node --version | tr -d 'v')
 
@@ -44,7 +59,7 @@ then
 else
   echo "Node.js version needs updated to $nvm_node_version (on $installed_node_version)"
   nvm install
-  nvm use --delete-prefix "$nvm_node_version" --silent
+  nvm use "$nvm_node_version"
   nvm alias default "$nvm_node_version"
 
   node_binary_file_path=$(nvm which "$nvm_node_version")
@@ -56,6 +71,7 @@ else
   export npm_config_node_version=$nvm_node_version
   export npm_config_prefix=$node_directory_path
   export npm_node_execpath=$node_binary_file_path
+  restart_terminal_required=true
 fi
 
 node_binary_file_path=$(nvm which "$nvm_node_version")
@@ -81,11 +97,7 @@ else
   $npm_command rm -rf node_modules && npm install
 fi
 
-
-node --version > ./node_modules/.version
-
-if [ "$installed_nvm_version" != "$nvm_version" ]
-then
-  echo ""
-  echo "*** Please close this terminal and open a new one to source the newly installed version of NVM ***"
+echo "*** Setup complete! ***"
+if $restart_terminal_required ; then
+  echo "Please restart your terminal window or run 'source $HOME/.bash_profile' to source your newly installed versions of node, nvm and npm"
 fi
