@@ -12,24 +12,6 @@ This repository is maintained by [Team Taipan](https://zendesk.atlassian.net/wik
 We are based in Melbourne, Australia and our timezone is **GMT+10**. You can always check the [time](http://time.is/Melbourne) in Melbourne.
 
 ## Getting Started
-*Note: This assumes you already have node and [nvm](https://github.com/creationix/nvm) installed.*
-
-### Set up NVM
-Ensure `$NVM_DIR` is set and pointing to the location of your nvm installation:
-```
-echo $NVM_DIR
-```
-
-If not already present, add the following line to your bash or zsh profile:
-```
-source $NVM_DIR/nvm.sh
-```
-
-Ensure that you can run nvm from your command line, and then run the following
-
-```bash
-nvm use
-```
 
 ### Run the bootstrap script
 Run the following commands inside this folder:
@@ -40,7 +22,7 @@ Run the following commands inside this folder:
 
 The bootstrap file will do the following:
 
-* Run `./script/setup_node_env` to ensure the correct versions of nvm, node, and npm, as well as getting all the latest dependencies.
+* Run `./script/setup_node_env` to install the correct versions of nvm, node, and npm, as well as all npm dependencies.
 * Run `bundle install` to get ruby dependencies
 * Run `npm run build` to generate snippet, framework and example files
 * Download rosetta translation and mappings into `src/translation/ze_translations.js` and `src/translation/ze_localeIdMap.js`
@@ -49,6 +31,15 @@ The bootstrap file will do the following:
 To run the embeddables locally type `npm run dev` in this folder for it to kick off. This will build all the files required to load the Web Widget and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/live.html](http://localhost:1337/live.html) to test the Web Widget live.
 
 We recommended installing the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) extension on your browser.
+
+#### Keeping node and npm packages up to date
+You can safely run the `./script/setup_node_env` script at any time, even on top of an existing install.
+
+The `./script/setup_node_env` script will ensure that all Dev team members are using the exact same versions of node, npm and npm packages defined in our lock file. We would prefer people to use this script where possible to avoid local environment differences from updating our `package-lock.json` file unnecessarily.
+
+```bash
+./script/setup_node_env
+```
 
 #### Setting up your own test values
 
