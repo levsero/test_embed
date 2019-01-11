@@ -62,6 +62,7 @@
   "author": "Zendesk",
   "license": "All Rights Reserved",
   "dependencies": {
+    "@zendesk/client-i18n-tools": "^10.6.3",
     "@zendeskgarden/css-arrows": "^3.1.0",
     "@zendeskgarden/css-bedrock": "^7.0.14",
     "@zendeskgarden/css-buttons": "6.2.0",
