@@ -91,7 +91,9 @@ export class ChatLog extends Component {
           {this.renderUpdateInfo(firstMessageKey)}
         </ChatGroup>
       );
-    } else if (group.type === 'event') {
+    }
+
+    if (group.type === 'event') {
       const eventKey = group.messages[0];
 
       return (
@@ -139,10 +141,12 @@ export class ChatLog extends Component {
   }
 
   renderUpdateInfo(firstMessageKey) {
-    if (!(this.props.showUpdateInfo && this.props.firstVisitorMessage === firstMessageKey)) return;
+    const { showUpdateInfo, firstVisitorMessage, updateInfoOnClick } = this.props;
+
+    if (!(showUpdateInfo && firstVisitorMessage === firstMessageKey)) return;
 
     return (
-      <button onClick={this.props.updateInfoOnClick} className={styles.updateInfo}>
+      <button onClick={updateInfoOnClick} className={styles.updateInfo}>
         {i18n.t('embeddable_framework.chat.chatLog.login.updateInfo')}
       </button>
     );

@@ -86,12 +86,14 @@ export class HistoryLog extends Component {
   }
 
   render() {
-    return this.props.chatHistoryLog.length ? (
+    if (_.isEmpty(this.props.chatHistoryLog)) return null;
+
+    return (
       <div ref={(el) => { this.container = el; }}>
         {this.renderHistoryLog()}
         {this.renderDivider(this.props.firstMessageTimestamp)}
       </div>
-    ) : null;
+    );
   }
 }
 

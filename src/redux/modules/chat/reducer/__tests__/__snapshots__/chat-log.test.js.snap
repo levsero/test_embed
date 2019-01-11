@@ -77,6 +77,13 @@ Array [
   Object {
     "author": "other_guy",
     "messages": Array [
+      10001,
+    ],
+    "type": "event",
+  },
+  Object {
+    "author": "other_guy",
+    "messages": Array [
       10002,
     ],
     "type": "message",
@@ -94,9 +101,23 @@ Array [
 exports[`chatLog groups messages when a websdk/chat.file action is received when the latest group was a message group from the same author appends the message timestamp to the latest group 1`] = `
 Array [
   Object {
-    "author": "message_guy",
+    "author": "other_guy",
     "messages": Array [
       10001,
+    ],
+    "type": "event",
+  },
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10002,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "message_guy",
+    "messages": Array [
+      10003,
       12345,
     ],
     "type": "message",
@@ -107,9 +128,30 @@ Array [
 exports[`chatLog groups messages when a websdk/chat.file action is received when the latest group was an event group adds a new message group 1`] = `
 Array [
   Object {
-    "author": "some_guy",
+    "author": "other_guy",
+    "messages": Array [
+      10001,
+    ],
+    "type": "event",
+  },
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10002,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "message_guy",
     "messages": Array [
       10003,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "some_guy",
+    "messages": Array [
+      10004,
     ],
     "type": "event",
   },
@@ -125,6 +167,13 @@ Array [
 
 exports[`chatLog groups messages when a websdk/chat.msg action is received when the latest group was a message group from a different author adds a new message group 1`] = `
 Array [
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10001,
+    ],
+    "type": "event",
+  },
   Object {
     "author": "other_guy",
     "messages": Array [
@@ -145,9 +194,23 @@ Array [
 exports[`chatLog groups messages when a websdk/chat.msg action is received when the latest group was a message group from the same author appends the message timestamp to the latest group 1`] = `
 Array [
   Object {
-    "author": "message_guy",
+    "author": "other_guy",
     "messages": Array [
       10001,
+    ],
+    "type": "event",
+  },
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10002,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "message_guy",
+    "messages": Array [
+      10003,
       12345,
     ],
     "type": "message",
@@ -158,9 +221,30 @@ Array [
 exports[`chatLog groups messages when a websdk/chat.msg action is received when the latest group was an event group adds a new message group 1`] = `
 Array [
   Object {
-    "author": "some_guy",
+    "author": "other_guy",
+    "messages": Array [
+      10001,
+    ],
+    "type": "event",
+  },
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10002,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "message_guy",
     "messages": Array [
       10003,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "some_guy",
+    "messages": Array [
+      10004,
     ],
     "type": "event",
   },
@@ -176,6 +260,13 @@ Array [
 
 exports[`chatLog groups messages when a widget/chat/CHAT_FILE_REQUEST_SENT action is received when the latest group was a message group from a different author adds a new message group 1`] = `
 Array [
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10001,
+    ],
+    "type": "event",
+  },
   Object {
     "author": "other_guy",
     "messages": Array [
@@ -196,9 +287,23 @@ Array [
 exports[`chatLog groups messages when a widget/chat/CHAT_FILE_REQUEST_SENT action is received when the latest group was a message group from the same author appends the message timestamp to the latest group 1`] = `
 Array [
   Object {
-    "author": "message_guy",
+    "author": "other_guy",
     "messages": Array [
       10001,
+    ],
+    "type": "event",
+  },
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10002,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "message_guy",
+    "messages": Array [
+      10003,
       12345,
     ],
     "type": "message",
@@ -209,9 +314,30 @@ Array [
 exports[`chatLog groups messages when a widget/chat/CHAT_FILE_REQUEST_SENT action is received when the latest group was an event group adds a new message group 1`] = `
 Array [
   Object {
-    "author": "some_guy",
+    "author": "other_guy",
+    "messages": Array [
+      10001,
+    ],
+    "type": "event",
+  },
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10002,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "message_guy",
     "messages": Array [
       10003,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "some_guy",
+    "messages": Array [
+      10004,
     ],
     "type": "event",
   },
@@ -227,6 +353,13 @@ Array [
 
 exports[`chatLog groups messages when a widget/chat/CHAT_MSG_REQUEST_SENT action is received when the latest group was a message group from a different author adds a new message group 1`] = `
 Array [
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10001,
+    ],
+    "type": "event",
+  },
   Object {
     "author": "other_guy",
     "messages": Array [
@@ -247,9 +380,23 @@ Array [
 exports[`chatLog groups messages when a widget/chat/CHAT_MSG_REQUEST_SENT action is received when the latest group was a message group from the same author appends the message timestamp to the latest group 1`] = `
 Array [
   Object {
-    "author": "message_guy",
+    "author": "other_guy",
     "messages": Array [
       10001,
+    ],
+    "type": "event",
+  },
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10002,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "message_guy",
+    "messages": Array [
+      10003,
       12345,
     ],
     "type": "message",
@@ -260,9 +407,30 @@ Array [
 exports[`chatLog groups messages when a widget/chat/CHAT_MSG_REQUEST_SENT action is received when the latest group was an event group adds a new message group 1`] = `
 Array [
   Object {
-    "author": "some_guy",
+    "author": "other_guy",
+    "messages": Array [
+      10001,
+    ],
+    "type": "event",
+  },
+  Object {
+    "author": "other_guy",
+    "messages": Array [
+      10002,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "message_guy",
     "messages": Array [
       10003,
+    ],
+    "type": "message",
+  },
+  Object {
+    "author": "some_guy",
+    "messages": Array [
+      10004,
     ],
     "type": "event",
   },

@@ -5,13 +5,11 @@ import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
 describe('chatLog', () => {
   let state;
 
-  const initialState = chatLog(undefined, { type: '' });
-  const reduce = (action) => (
-    chatLog(state, action)
-  );
+  const initialState = () => chatLog(undefined, { type: '' });
+  const reduce = (action) => chatLog(state, action);
 
   test('initialState', () => {
-    expect(initialState).toEqual({
+    expect(initialState()).toEqual({
       firstVisitorMessage: -1,
       latestRating: -1,
       latestRatingRequest: -1,
@@ -24,7 +22,7 @@ describe('chatLog', () => {
 
   describe('firstVisitorMessage', () => {
     beforeEach(() => {
-      state = initialState;
+      state = initialState();
     });
 
     describe('when a CHAT_MSG_REQUEST_SENT action is received', () => {
@@ -84,7 +82,7 @@ describe('chatLog', () => {
     describe('when any other action is received', () => {
       it('does not update the state', () => {
         expect(reduce({ type: 'RANDOM_ACT_OF_ACTION' }))
-          .toHaveProperty('firstVisitorMessage', initialState.firstVisitorMessage);
+          .toHaveProperty('firstVisitorMessage', initialState().firstVisitorMessage);
       });
     });
   });
@@ -107,7 +105,7 @@ describe('chatLog', () => {
     describe('when any other action is received', () => {
       it('does not update the state', () => {
         expect(reduce({ type: 'RANDOM_ACT_OF_ACTION' }))
-          .toHaveProperty('latestRating', initialState.latestRating);
+          .toHaveProperty('latestRating', initialState().latestRating);
       });
     });
   });
@@ -130,7 +128,7 @@ describe('chatLog', () => {
     describe('when any other action is received', () => {
       it('does not update the state', () => {
         expect(reduce({ type: 'RANDOM_ACT_OF_ACTION' }))
-          .toHaveProperty('latestRatingRequest', initialState.latestRatingRequest);
+          .toHaveProperty('latestRatingRequest', initialState().latestRatingRequest);
       });
     });
   });
@@ -187,7 +185,7 @@ describe('chatLog', () => {
     describe('when any other action is received', () => {
       it('does not update the state', () => {
         expect(reduce({ type: 'RANDOM_ACT_OF_ACTION' }))
-          .toHaveProperty('latestQuickReply', initialState.latestQuickReply);
+          .toHaveProperty('latestQuickReply', initialState().latestQuickReply);
       });
     });
   });
@@ -218,7 +216,7 @@ describe('chatLog', () => {
 
         it('does not update the state', () => {
           expect(reduce(action))
-            .toHaveProperty('latestAgentLeaveEvent', initialState.latestAgentLeaveEvent);
+            .toHaveProperty('latestAgentLeaveEvent', initialState().latestAgentLeaveEvent);
         });
       });
     });
@@ -226,7 +224,7 @@ describe('chatLog', () => {
     describe('when any other action is received', () => {
       it('does not update the state', () => {
         expect(reduce({ type: 'RANDOM_ACT_OF_ACTION' }))
-          .toHaveProperty('latestAgentLeaveEvent', initialState.latestAgentLeaveEvent);
+          .toHaveProperty('latestAgentLeaveEvent', initialState().latestAgentLeaveEvent);
       });
     });
   });
@@ -254,15 +252,15 @@ describe('chatLog', () => {
     describe('when any other action is received', () => {
       it('does not update the state', () => {
         expect(reduce({ type: 'RANDOM_ACT_OF_ACTION' }))
-          .toHaveProperty('lastMessageAuthor', initialState.lastMessageAuthor);
+          .toHaveProperty('lastMessageAuthor', initialState().lastMessageAuthor);
       });
     });
   });
 
   describe('groups', () => {
     describe('messages', () => {
-      beforeAll(() => {
-        state = initialState;
+      beforeEach(() => {
+        state = initialState();
       });
 
       describe.each([
@@ -281,7 +279,9 @@ describe('chatLog', () => {
         describe('when the latest group was a message group from the same author', () => {
           beforeEach(() => {
             state = { ...state, groups: [
-              { type: 'message', author: 'message_guy', messages: [10001] }
+              { type: 'event', author: 'other_guy', messages: [10001] },
+              { type: 'message', author: 'other_guy', messages: [10002] },
+              { type: 'message', author: 'message_guy', messages: [10003] }
             ] };
           });
 
@@ -294,6 +294,7 @@ describe('chatLog', () => {
         describe('when the latest group was a message group from a different author', () => {
           beforeEach(() => {
             state = { ...state, groups: [
+              { type: 'event', author: 'other_guy', messages: [10001] },
               { type: 'message', author: 'other_guy', messages: [10002] }
             ] };
           });
@@ -307,7 +308,10 @@ describe('chatLog', () => {
         describe('when the latest group was an event group', () => {
           beforeEach(() => {
             state = { ...state, groups: [
-              { type: 'event', author: 'some_guy', messages: [10003] }
+              { type: 'event', author: 'other_guy', messages: [10001] },
+              { type: 'message', author: 'other_guy', messages: [10002] },
+              { type: 'message', author: 'message_guy', messages: [10003] },
+              { type: 'event', author: 'some_guy', messages: [10004] }
             ] };
           });
 
@@ -321,8 +325,8 @@ describe('chatLog', () => {
   });
 
   describe('events', () => {
-    beforeAll(() => {
-      state = initialState;
+    beforeEach(() => {
+      state = initialState();
     });
 
     describe.each([

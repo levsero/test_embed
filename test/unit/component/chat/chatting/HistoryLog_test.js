@@ -248,30 +248,20 @@ describe('HistoryLog component', () => {
     });
   });
 
-  xdescribe('render', () => {
+  describe('render', () => {
     let result;
-    const sessions = [
-      {
-        100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }],
-        200: [
-          { timestamp: 200, nick: 'visitor', type: 'chat.msg', msg: 'Hello' },
-          { timestamp: 300, nick: 'visitor', type: 'chat.msg', msg: 'Help please' }
-        ]
-      },
-      {
-        400: [{ timestamp: 400, nick: 'agent:123', type: 'chat.memberjoin' }],
-        500: [
-          { timestamp: 500, nick: 'agent:123', type: 'chat.msg', msg: 'Hello' },
-          { timestamp: 600, nick: 'agent:123', type: 'chat.msg', msg: 'Turn it on and off again' }
-        ],
-        700: [{ timestamp: 700, nick: 'visitor', type: 'chat.msg', msg: 'Fixed! Thanks' }],
-        800: [{ timestamp: 800, nick: 'visitor', type: 'chat.rating', new_rating: 'good' }],
-        900: [{ timestamp: 900, nick: 'visitor', type: 'chat.memberleave' }]
-      }
+    const log = [
+      { type: 'event', author: 'visitor', messages: [100] },
+      { type: 'message', author: 'visitor', messages: [200,300] },
+      { type: 'event', author: 'agent:123', messages: [400] },
+      { type: 'message', author: 'agent:123', messages: [500,600] },
+      { type: 'message', author: 'visitor', messages: [700] },
+      { type: 'event', author: 'visitor', messages: [800] },
+      { type: 'event', author: 'visitor', messages: [900] },
     ];
 
     beforeEach(() => {
-      const component = domRender(<HistoryLog chatHistoryLog={sessions} agents={agents} />);
+      const component = domRender(<HistoryLog chatHistoryLog={log} agents={agents} />);
 
       result = component.render();
     });
