@@ -28,6 +28,7 @@
     "lint": "eslint src test --ignore-pattern=src/translation/*.js",
     "lint-fix": "eslint --fix src test --ignore-pattern=src/translation/*.js",
     "size": "bundlesize",
+    "fetch-locales": "node ./script/fetch_locales.js",
     "postshrinkwrap": "replace --silent 'http://' 'https://' ./package-lock.json"
   },
   "husky": {
