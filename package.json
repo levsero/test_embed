@@ -15,6 +15,7 @@
     "dev-preview": "webpack-dev-server --config ./webpack/webpack.previewer.dev.js",
     "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && script/fetch_i18n",
     "build:prod": "webpack --config ./webpack/webpack.ac.prod.js",
+    "build:dev": "webpack --config ./webpack/webpack.ac.dev.js",
     "build:validate": "npm run build:prod && npm run size",
     "build:previewer": "webpack --config ./webpack/webpack.previewer.prod.js",
     "build": "npm run build-setup:prod && npm run build:prod",
