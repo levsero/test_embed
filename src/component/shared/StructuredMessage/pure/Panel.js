@@ -40,11 +40,9 @@ export const PanelPropType = PropTypes.shape({
   headingLineClamp: PropTypes.number,
   paragraphLineClamp: PropTypes.number,
   onClick: PropTypes.func,
-  layout: PropTypes.oneOf(['hero', 'thumbnail']),
+  layout: PropTypes.oneOf(['thumbnail']),
   align: PropTypes.oneOf(['left', 'right']),
-  roundedTop: PropTypes.bool,
-  roundedBottom: PropTypes.bool,
-  borderBottomWidth: PropTypes.bool
+  withBorderBottom: PropTypes.bool
 });
 
 // We calculate a max height for browsers that don't support line-clamp
@@ -65,7 +63,7 @@ export class Panel extends Component {
       layout: 'hero',
       roundedTop: false,
       roundedBottom: false,
-      borderBottomWidth: true
+      withBorderBottom: true
     }
   };
 
@@ -154,7 +152,7 @@ export class Panel extends Component {
       [styles.hasLink]: panel.onClick,
       [styles.noBorderRadiusTop]: !panel.roundedTop,
       [styles.noBorderRadiusBottom]: !panel.roundedBottom,
-      [styles.noBorderBottomWidth]: !panel.borderBottomWidth
+      [styles.noBorderBottom]: !panel.withBorderBottom
     });
 
     return (

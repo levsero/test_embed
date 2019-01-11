@@ -6,11 +6,23 @@ import { Panel } from './pure/Panel';
 
 import { locals as styles } from './ListCard.scss';
 
+export const ItemPropType = PropTypes.shape({
+  heading: PropTypes.string.isRequired,
+  paragraph: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string,
+  headingLineClamp: PropTypes.number,
+  onClick: PropTypes.func,
+  layout: PropTypes.oneOf(['hero', 'thumbnail']),
+  align: PropTypes.oneOf(['left', 'right']),
+  roundedTop: PropTypes.bool,
+  roundedBottom: PropTypes.bool,
+  withBorderBottom: PropTypes.bool
+});
+
 export class ListCard extends Component {
   static propTypes = {
-    items: PropTypes.array.isRequired,
-    buttons: PropTypes.node.isRequired,
-    createAction: PropTypes.func
+    items: PropTypes.arrayOf(ItemPropType).isRequired,
+    buttons: PropTypes.node
   };
 
   static defaultProps = {
@@ -24,17 +36,17 @@ export class ListCard extends Component {
       <div className={styles.cardContainer}>
         <ul className={styles.panelList}>
           {items.map((item, idx) => {
-            item.borderBottomWidth = false;
+            item.withBorderBottom = false;
 
             if (!idx) {
               item.roundedTop = true;
             } else if (idx === items.length - 1) {
               item.roundedBottom = (buttons.length === 0);
-              item.borderBottomWidth = true;
+              item.withBorderBottom = true;
             }
 
             return (
-              <li key={idx} onClick={this.props.createAction}>
+              <li key={idx}>
                 <Panel panel={item}/>
               </li>
             );

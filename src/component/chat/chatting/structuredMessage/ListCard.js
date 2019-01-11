@@ -3,17 +3,36 @@ import PropTypes from 'prop-types';
 
 import { ListCard as PureListCard } from 'component/shared/StructuredMessage/ListCard';
 import { Button, ButtonSchemaPropType } from './Button';
+import { CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat';
+
+const { LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE;
+
+const PanelActionPropType = PropTypes.shape({
+  type: PropTypes.oneOf([LINK_ACTION]).isRequired,
+  value: PropTypes.string.isRequired
+});
+
+export const ItemPropType = PropTypes.shape({
+  heading: PropTypes.string.isRequired,
+  paragraph: PropTypes.string.isRequired,
+  image_url: PropTypes.string,
+  action: PanelActionPropType
+});
 
 export class ListCard extends Component {
   static propTypes = {
-    items: PropTypes.array.isRequired,
-    buttons: PropTypes.arrayOf(ButtonSchemaPropType),
+    ...ListCard.schemaPropTypes,
     createAction: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     items: [],
     buttons: [],
+  }
+
+  static schemaPropTypes = {
+    items: PropTypes.arrayOf(ItemPropType).isRequired,
+    buttons: PropTypes.arrayOf(ButtonSchemaPropType)
   }
 
   render() {

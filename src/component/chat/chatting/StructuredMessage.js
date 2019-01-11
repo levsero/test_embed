@@ -20,6 +20,9 @@ class StructuredMessage extends Component {
       ),
       PropTypes.shape(
         _.assign({ type: PropTypes.string.isRequired }, PanelCard.schemaPropTypes)
+      ),
+      PropTypes.shape(
+        _.assign({ type: PropTypes.string.isRequired }, ListCard.schemaPropTypes)
       )
     ]).isRequired,
     isMobile: PropTypes.bool.isRequired,

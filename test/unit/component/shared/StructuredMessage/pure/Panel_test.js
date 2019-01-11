@@ -22,7 +22,7 @@ describe('Pure Panel Component', () => {
       layout: 'hero',
       roundedTop: false,
       roundedBottom: false,
-      borderBottomWidth: true
+      withBorderBottom: true
     }
   };
 
@@ -43,7 +43,7 @@ describe('Pure Panel Component', () => {
 
           noBorderRadiusTop: 'noBorderRadiusTop',
           noBorderRadiusBottom: 'noBorderRadiusBottom',
-          noBorderBottomWidth: 'noBorderBottomWidth'
+          noBorderBottom: 'noBorderBottom'
         }
       },
       'component/Icon': {
@@ -161,16 +161,16 @@ describe('Pure Panel Component', () => {
       });
     });
 
-    describe('borderBottomWidth', () => {
-      it('should have noBorderBottomWidth classname when borderBottomWidth is false', () => {
+    describe('withBorderBottom', () => {
+      it('should have noBorderBottom classname when withBorderBottom is false', () => {
         const panel = {
-          borderBottomWidth: false
+          withBorderBottom: false
         };
 
         const component = instanceRender(<Panel panel={panel} />);
         const result = component.render();
 
-        expect(result.props.className).toEqual('panel noBorderRadiusTop noBorderRadiusBottom noBorderBottomWidth');
+        expect(result.props.className).toEqual('panel noBorderRadiusTop noBorderRadiusBottom noBorderBottom');
       });
     });
   });
