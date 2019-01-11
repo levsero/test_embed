@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { combineReducers } from 'redux';
 import {
   SDK_CHAT_MSG,
@@ -112,11 +113,11 @@ const groups = (state = initialState.groups, action) => {
     case SDK_CHAT_MSG:
       const message = action.payload.detail;
       const groupsCopy = [...state];
-      const lastGroup = groupsCopy.pop();
+      const lastGroup = _.last(groupsCopy);
 
       if (lastGroup && lastGroup.type === 'message' && lastGroup.author === message.nick) {
         lastGroup.messages.push(message.timestamp);
-        return [...groupsCopy, lastGroup];
+        return groupsCopy;
       }
 
       return [...state, newGroup(message, 'message')];

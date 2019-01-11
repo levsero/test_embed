@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   SDK_HISTORY_CHAT_MSG,
   SDK_HISTORY_CHAT_FILE,
@@ -32,14 +33,14 @@ const log = (state = initialState, action) => {
     case SDK_HISTORY_CHAT_FILE:
     case SDK_HISTORY_CHAT_MSG:
       const message = action.payload.detail;
-      const groupsCopy = [...state.buffer];
-      const lastGroup = groupsCopy.pop();
+      const bufferCopy = [...state.buffer];
+      const lastGroup = _.last(bufferCopy);
 
       if (lastGroup && lastGroup.type === 'message' && lastGroup.author === message.nick) {
         lastGroup.messages.push(message.timestamp);
         return {
           ...state,
-          buffer: [...groupsCopy, lastGroup]
+          buffer: bufferCopy
         };
       }
 
