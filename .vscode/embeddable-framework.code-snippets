@@ -124,5 +124,25 @@
       "</${1:name}>"
     ],
     "description": "Basic component implementation"
+  },
+  "Reducer": {
+    "prefix": "reducer",
+    "body": [
+      "const initialState = {",
+      "\t${1:initialStateValues}",
+      "};",
+      "",
+      "const ${2:reducerName} = (state = initialState, action = {}) => {",
+      "\tconst { type, payload } = action;",
+      "",
+      "\tswitch (type) {",
+      "\t\tcase ${3:caseCheck}:",
+      "\t\t\treturn ${4:caseValue};",
+      "\t\tdefault:",
+      "\t\t\treturn state;",
+      "\t}",
+      "};"
+    ],
+    "description": "empty reducer class"
   }
 }
