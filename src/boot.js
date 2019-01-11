@@ -136,6 +136,12 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     }
   };
 
+  const embeddableConfig = store.get('embeddableConfig');
+
+  if (embeddableConfig) {
+    done({ body: embeddableConfig });
+    return;
+  }
   http.get({
     method: 'get',
     path: '/embeddable/config',
