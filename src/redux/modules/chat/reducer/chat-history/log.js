@@ -1,7 +1,6 @@
 import {
   SDK_HISTORY_CHAT_MSG,
   SDK_HISTORY_CHAT_FILE,
-  SDK_HISTORY_CHAT_QUEUE_POSITION,
   SDK_HISTORY_CHAT_MEMBER_JOIN,
   SDK_HISTORY_CHAT_MEMBER_LEAVE,
   SDK_HISTORY_CHAT_REQUEST_RATING,
@@ -48,7 +47,6 @@ const log = (state = initialState, action) => {
         ...state,
         buffer: [...state.buffer, newGroup(message, 'message')]
       };
-    case SDK_HISTORY_CHAT_QUEUE_POSITION:
     case SDK_HISTORY_CHAT_REQUEST_RATING:
     case SDK_HISTORY_CHAT_RATING:
     case SDK_HISTORY_CHAT_COMMENT:
