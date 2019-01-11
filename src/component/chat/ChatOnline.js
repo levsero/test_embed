@@ -36,8 +36,7 @@ import { CONNECTION_STATUSES } from 'constants/chat';
 const mapStateToProps = (state) => {
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
-    chats: selectors.getChatMessages(state),
-    events: selectors.getChatEvents(state),
+    chatsLength: selectors.getChatsLength(state),
     screen: selectors.getChatScreen(state),
     isChatting: selectors.getIsChatting(state),
     visitor: selectors.getChatVisitor(state),
@@ -59,8 +58,7 @@ const mapStateToProps = (state) => {
 class Chat extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
-    chats: PropTypes.array.isRequired,
-    events: PropTypes.array.isRequired,
+    chatsLength: PropTypes.number.isRequired,
     endChatViaPostChatScreen: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
@@ -100,8 +98,6 @@ class Chat extends Component {
     isMobile: false,
     fullscreen: false,
     onBackButtonClick: () => {},
-    chats: [],
-    events: [],
     handleSoundIconClick: () => {},
     userSoundSettings: true,
     sendEmailTranscript: () => {},
@@ -136,12 +132,6 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this.props.updateChatBackButtonVisibility();
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    if (!nextProps.chats && !nextProps.events) return;
-
     this.props.updateChatBackButtonVisibility();
   }
 
@@ -185,7 +175,7 @@ class Chat extends Component {
       loginSettings,
       menuVisible,
       updateMenuVisibility,
-      chats
+      chatsLength
     } = this.props;
     const showChatEndFn = (e) => {
       e.stopPropagation();
@@ -211,7 +201,7 @@ class Chat extends Component {
         contactDetailsOnClick={this.showContactDetailsFn}
         emailTranscriptOnClick={this.showEmailTranscriptFn}
         onSoundClick={toggleSoundFn}
-        emailTranscriptEnabled={chats.length > 0}
+        emailTranscriptEnabled={chatsLength > 0}
         isMobile={isMobile}
         loginEnabled={loginSettings.enabled} />
     );

@@ -946,40 +946,6 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getChatEvents', () => {
-    let result;
-    const mockChats = [
-      { nick: 'visitor', type: 'chat.memberjoin' },
-      { nick: 'visitor', type: 'chat.msg' },
-      { nick: 'visitor', type: 'chat.file' },
-      { nick: 'visitor', type: 'chat.rating' },
-      { nick: 'visitor', type: 'chat.memberleave' }
-    ];
-    const mockChatSettings = {
-      chat: {
-        chats: { values: () => mockChats }
-      }
-    };
-
-    beforeEach(() => {
-      result = selectors.getChatEvents(mockChatSettings);
-    });
-
-    it('returns only whitelisted event type chats', () => {
-      expect(result.length)
-        .toEqual(3);
-
-      expect(result[0].type)
-        .toEqual('chat.memberjoin');
-
-      expect(result[1].type)
-        .toEqual('chat.rating');
-
-      expect(result[2].type)
-        .toEqual('chat.memberleave');
-    });
-  });
-
   describe('getChatOnline', () => {
     let result,
       mockState = {

@@ -61,7 +61,6 @@ export const getChatOnline = (state) => {
 };
 
 export const getChatLog = (state) => state.chat.chatLog.groups;
-export const getChatMessages = (state, messageKeys) => _.map(messageKeys, (key) => state.chat.chats.get(key));
 
 export const getChatRating = (state) => state.chat.rating;
 export const getChatScreen = (state) => state.chat.screen;
@@ -474,18 +473,6 @@ export const getChatMessagesFromAgents = createSelector(
     const chatsArr = Array.from(chats.values());
 
     return _.filter(chatsArr, (message) => _.includes(message.nick, 'agent'));
-  }
-);
-
-export const getChatEvents = createSelector(
-  [getChats],
-  (chats) => {
-    const chatsArr = Array.from(chats.values());
-
-    return _.filter((chatsArr),
-      (chat) =>
-        _.includes(CHAT_SYSTEM_EVENTS, chat.type)
-    );
   }
 );
 
