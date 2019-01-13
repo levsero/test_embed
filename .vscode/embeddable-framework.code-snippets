@@ -19,7 +19,7 @@
     "prefix": "describe",
     "body": [
       "describe('${1:testName}', () => {",
-      "\tconst result;",
+      "\tlet result;",
       "",
       "\tit('${2:testCriteriaName}', () => {",
       "\t\tresult = ${3:testCriteria};",
@@ -34,9 +34,7 @@
     "prefix": "test",
     "body": [
       "test('${1:testName}', () => {",
-      "\tconst result;",
-      "",
-      "\tresult = ${2:testCriteria};",
+      "\tconst result = ${2:testCriteria};",
       "",
       "\texpect(result).toEqual(${3:expectedValue});",
       "});"
