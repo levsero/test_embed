@@ -64,8 +64,6 @@ namespace :ac_embeddable_framework do
 
   desc 'Upload translation assets to S3'
   task :upload_translations_to_s3 do
-    sh 'npm run download'
-
     s3_deployer.upload_translations(
       fetch(:locales_file_location),
       fetch(:ekr_s3_release_directory_latest)
@@ -139,5 +137,6 @@ end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
 before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:build_assets'
+after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_translations_to_s3'
 after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_preview_assets_to_s3'
 after 'ac_embeddable_framework:release_to_ekr', 'ac_embeddable_framework:update_preview_assets_to_latest'
