@@ -1,5 +1,6 @@
+/* eslint no-console: 0 */
 const rest = require('rest');
-const  fs = require('fs');
+const fs = require('fs');
 const localeListPath = __dirname +  '/../src/translation/locales.json';
 
 const generateLocaleList = (locales) => {
@@ -11,18 +12,18 @@ const writeJson = (localeList) => {
 
   fs.writeFile(localeListPath, contents, { flag: 'w' }, (err) => {
     if (err) throw err;
-    console.error('\nlocale list written'); // eslint-disable-line
+    console.error('\nlocale list written');
   });
 };
 
 rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
   .then(function(res) {
-    console.log('\nCreating locales list'); // eslint-disable-line
+    console.log('\nCreating locales list');
     const localeList = generateLocaleList(JSON.parse(res.entity).locales);
 
     writeJson(localeList);
   })
   .catch((err) => {
-    console.log('\nFailed to retrieve locales list:', err); // eslint-disable-line
+    console.log('\nFailed to retrieve locales list:', err);
     throw err;
   });
