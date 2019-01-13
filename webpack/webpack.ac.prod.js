@@ -27,6 +27,10 @@ module.exports = merge(common, {
     new ManifestPlugin({
       fileName: 'asset_manifest.json',
       publicPath: '',
+      filter: (file) => {
+        if (!file.isChunk) return false;
+        return Object.values(chunks).indexOf(file.chunk.name) >= 0;
+      },
       sort: function (a, b) {
         const indexA = CHUNKS.findIndex(chunk => chunk.name === a.chunk.name),
           indexB = CHUNKS.findIndex(chunk => chunk.name === b.chunk.name);
@@ -35,11 +39,10 @@ module.exports = merge(common, {
         if (indexA === -1 || indexB === -1) {
           throw "Found chunk that's not in CHUNKS constant!";
         }
-
         return indexA - indexB;
       },
       generate: function (seed, files) {
-        const assets =  files.map(function (file) {
+        const assets = files.map(function (file) {
           const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name);
           const asset = { path: file.path };
 
