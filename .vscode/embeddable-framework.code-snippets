@@ -19,7 +19,7 @@
     "prefix": "describe",
     "body": [
       "describe('${1:testName}', () => {",
-      "\tconst result;",
+      "\tlet result;",
       "",
       "\tit('${2:testCriteriaName}', () => {",
       "\t\tresult = ${3:testCriteria};",
@@ -34,9 +34,7 @@
     "prefix": "test",
     "body": [
       "test('${1:testName}', () => {",
-      "\tconst result;",
-      "",
-      "\tresult = ${2:testCriteria};",
+      "\tconst result = ${2:testCriteria};",
       "",
       "\texpect(result).toEqual(${3:expectedValue});",
       "});"
@@ -124,5 +122,25 @@
       "</${1:name}>"
     ],
     "description": "Basic component implementation"
+  },
+  "Reducer": {
+    "prefix": "reducer",
+    "body": [
+      "const initialState = {",
+      "\t${1:initialStateValues}",
+      "};",
+      "",
+      "const ${2:reducerName} = (state = initialState, action = {}) => {",
+      "\tconst { type, payload } = action;",
+      "",
+      "\tswitch (type) {",
+      "\t\tcase ${3:caseCheck}:",
+      "\t\t\treturn ${4:caseValue};",
+      "\t\tdefault:",
+      "\t\t\treturn state;",
+      "\t}",
+      "};"
+    ],
+    "description": "empty reducer class"
   }
 }
