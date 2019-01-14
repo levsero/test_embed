@@ -12,7 +12,7 @@ const writeJson = (localeList) => {
 
   fs.writeFile(localeListPath, contents, { flag: 'w' }, (err) => {
     if (err) throw err;
-    console.error('\nlocale list written');
+    console.log('\nlocale list written');
   });
 };
 
@@ -24,6 +24,6 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
     writeJson(localeList);
   })
   .catch((err) => {
-    console.log('\nFailed to retrieve locales list:', err);
+    console.error('\nFailed to retrieve locales list:', err);
     throw err;
   });
