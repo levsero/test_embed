@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
+import createCachedSelector from 're-reselect';
 import {
   AGENT_BOT,
   CHAT_MESSAGE_EVENTS,
@@ -26,6 +27,7 @@ import {
   getSettingsChatProfileCard,
   getSettingsLauncherBadge
 } from 'src/redux/modules/settings/settings-selectors';
+import { isDefaultNickname } from 'utility/chat';
 import { isPopout } from 'utility/globals';
 
 const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
@@ -57,6 +59,9 @@ export const getChatOnline = (state) => {
 
   return _.includes(['online', 'away'], getChatStatus(state));
 };
+
+export const getChatLog = (state) => state.chat.chatLog.groups;
+
 export const getChatRating = (state) => state.chat.rating;
 export const getChatScreen = (state) => state.chat.screen;
 export const getChatStatus = (state) => state.chat.account_status;
@@ -461,112 +466,13 @@ export const getGroupedOperatingHours = createSelector(
     }
   }
 );
-export const getChatMessages = createSelector(
+
+export const getChatMessagesFromAgents = createSelector(
   [getChats],
   (chats) => {
     const chatsArr = Array.from(chats.values());
 
-    return _.filter((chatsArr),
-      (chat) =>
-        _.includes(CHAT_MESSAGE_EVENTS, chat.type)
-    );
-  }
-);
-
-export const getChatMessagesByAgent = createSelector(
-  [getChatMessages],
-  (messages) => {
-    return _.filter(messages, (message) => _.includes(message.nick, 'agent'));
-  }
-);
-
-export const getChatEvents = createSelector(
-  [getChats],
-  (chats) => {
-    const chatsArr = Array.from(chats.values());
-
-    return _.filter((chatsArr),
-      (chat) =>
-        _.includes(CHAT_SYSTEM_EVENTS, chat.type)
-    );
-  }
-);
-
-export const getGroupedChatLog = createSelector(
-  [getChats, getCurrentSessionStartTime],
-  (chats, currentSessionStartTime) => {
-    const chatsArr = _.cloneDeep(Array.from(chats.values()));
-    let lastUniqueMessageOrEvent;
-
-    const isMessage = (messageOrEvent) => (
-      _.includes(CHAT_MESSAGE_EVENTS, messageOrEvent.type)
-    );
-
-    const isEvent = (messageOrEvent) => (
-      _.includes(CHAT_SYSTEM_EVENTS, messageOrEvent.type)
-    );
-
-    const isStructuredContent = (messageOrEvent) => (
-      _.includes(CHAT_CUSTOM_MESSAGE_EVENTS, messageOrEvent.type)
-    );
-
-    const getGroupTimestamp = (messageOrEvent, groupFirstMessageCandidate) => {
-      if (isEvent(messageOrEvent) || isStructuredContent(messageOrEvent)) {
-        lastUniqueMessageOrEvent = messageOrEvent;
-        return messageOrEvent.timestamp;
-      }
-
-      if (isMessage(messageOrEvent)) {
-        if (groupFirstMessageCandidate && isMessage(groupFirstMessageCandidate)) {
-          if (groupFirstMessageCandidate.nick === messageOrEvent.nick) {
-            return groupFirstMessageCandidate.timestamp;
-          }
-        }
-        lastUniqueMessageOrEvent = messageOrEvent;
-        return messageOrEvent.timestamp;
-      }
-
-      return null;
-    };
-
-    return _.reduce(chatsArr, (function(groupedChatLog, messageOrEvent) {
-      if (!messageOrEvent) { return groupedChatLog; }
-
-      const groupTimestamp = getGroupTimestamp(messageOrEvent, lastUniqueMessageOrEvent);
-      const {
-        latestRating, latestRatingRequest, firstVisitorMessageSet
-      } = this;
-
-      if (groupTimestamp) {
-        (groupedChatLog[groupTimestamp] || (groupedChatLog[groupTimestamp] = [])).push(messageOrEvent);
-      }
-
-      if (!firstVisitorMessageSet && isMessage(messageOrEvent) && !isAgent(messageOrEvent.nick)) {
-        groupedChatLog[groupTimestamp].isFirstVisitorMessage = true;
-        this.firstVisitorMessageSet = true;
-      }
-
-      if (messageOrEvent.type === 'chat.rating') {
-        if (currentSessionStartTime && messageOrEvent.timestamp >= currentSessionStartTime) {
-          latestRating.isLastRating = false;
-          messageOrEvent.isLastRating = true;
-          this.latestRating = messageOrEvent;
-        } else {
-          messageOrEvent.isLastRating = false;
-        }
-      }
-
-      if (messageOrEvent.type === 'chat.request.rating') {
-        delete groupedChatLog[latestRatingRequest.timestamp];
-        this.latestRatingRequest = messageOrEvent;
-      }
-
-      return groupedChatLog;
-    }).bind({
-      latestRating: {},
-      latestRatingRequest: {},
-      firstVisitorMessageSet: false
-    }), {});
+    return _.filter(chatsArr, (message) => _.includes(message.nick, 'agent'));
   }
 );
 
@@ -575,19 +481,6 @@ export const getShowRatingScreen = createSelector(
   (rating, ratingSettings, agents) => (
     !rating.value && ratingSettings.enabled && _.size(agents) > 0 && !rating.disableEndScreen
   )
-);
-
-export const getLastAgentLeaveEvent = createSelector(
-  [getGroupedChatLog],
-  (chatLog) => {
-    if (_.isEmpty(chatLog)) return;
-
-    const logValues = _.values(chatLog);
-    const payload = _.last(logValues)[0];
-    const isLeaveEvent = payload.type === 'chat.memberleave';
-
-    if (isLeaveEvent && isAgent(payload.nick)) { return payload; }
-  }
 );
 
 /**
@@ -644,6 +537,51 @@ export const isInChattingScreen = createSelector(
 );
 
 export const hasUnseenAgentMessage = createSelector(
-  [getChatMessagesByAgent, getLastReadTimestamp],
+  [getChatMessagesFromAgents, getLastReadTimestamp],
   (messages, timestamp) => !timestamp || !!_.find(messages, message => message.timestamp > timestamp)
+);
+
+export const getChatsLength = createSelector(
+  [getChats],
+  (chats) => chats.size
+);
+
+export const getGroupMessages = createCachedSelector(
+  getChats,
+  (state, messageKeys) => messageKeys,
+  (chats, messageKeys) => _.map(messageKeys, (key) => chats.get(key))
+)(
+  (state, messageKeys) => messageKeys[messageKeys.length - 1]
+);
+
+export const getEventMessage = createCachedSelector(
+  getChats,
+  (state, messageKey) => messageKey,
+  (chats, messageKey) => chats.get(messageKey)
+)(
+  (state, messageKey) => messageKey
+);
+
+export const getFirstVisitorMessage = (state) => state.chat.chatLog.firstVisitorMessage;
+export const getLatestRatingRequest = (state) => state.chat.chatLog.latestRatingRequest;
+export const getLatestRating = (state) => state.chat.chatLog.latestRating;
+export const getLastMessageAuthor = (state) => state.chat.chatLog.lastMessageAuthor;
+export const getLatestAgentLeaveEvent = (state) => state.chat.chatLog.latestAgentLeaveEvent;
+export const getLatestQuickReplyKey = (state) => state.chat.chatLog.latestQuickReply;
+
+export const getLatestQuickReply = createSelector(
+  getChats,
+  getLatestQuickReplyKey,
+  (chats, latestQuickReply) => chats.get(latestQuickReply)
+);
+
+export const getShowUpdateVisitorDetails = createSelector(
+  getLoginSettings,
+  getChatVisitor,
+  (loginSettings, visitor) => {
+    const visitorNameSet = visitor.display_name && !isDefaultNickname(visitor.display_name);
+    const emailSet = !!visitor.email;
+
+    return !!loginSettings.enabled && !(visitorNameSet || emailSet);
+  }
 );

@@ -1,33 +1,23 @@
 import Map from 'core-js/library/es6/map';
 
 import {
+  SDK_HISTORY_CHAT_MSG,
   SDK_HISTORY_CHAT_FILE,
-  HISTORY_REQUEST_SUCCESS
+  SDK_HISTORY_CHAT_QUEUE_POSITION,
+  SDK_HISTORY_CHAT_MEMBER_JOIN,
+  SDK_HISTORY_CHAT_MEMBER_LEAVE,
+  SDK_HISTORY_CHAT_REQUEST_RATING,
+  SDK_HISTORY_CHAT_RATING,
+  SDK_HISTORY_CHAT_COMMENT,
 } from '../../chat-action-types';
 
 const initialState = new Map();
 
-const concatSDKFile = (chats, chat) => {
-  if (!chat.timestamp) return chats;
+const newEntry = (message) => {
+  const timestamp = message.timestamp || Date.now();
+  const map = new Map().set(timestamp, { ...message, timestamp });
 
-  const existingItem = chats.get(chat.timestamp) || {};
-  const existingFile = existingItem.file || {
-    lastModified: null,
-    lastModifiedDate: null,
-    webkitRelativePath: ''
-  };
-
-  const file = {
-    ...existingFile,
-    ...chat.attachment,
-    type: chat.attachment.mime_type,
-    uploading: false
-  };
-
-  return new Map([
-    ...new Map().set(chat.timestamp, { ...chat, file }),
-    ...chats
-  ]);
+  return map;
 };
 
 const chats = (state = initialState, action) => {
@@ -35,12 +25,15 @@ const chats = (state = initialState, action) => {
   const detail = payload && payload.detail;
 
   switch (type) {
-    case HISTORY_REQUEST_SUCCESS:
-      return new Map([...payload.history, ...state]);
-
     case SDK_HISTORY_CHAT_FILE:
-      return concatSDKFile(state, detail);
-
+    case SDK_HISTORY_CHAT_MSG:
+    case SDK_HISTORY_CHAT_QUEUE_POSITION:
+    case SDK_HISTORY_CHAT_REQUEST_RATING:
+    case SDK_HISTORY_CHAT_RATING:
+    case SDK_HISTORY_CHAT_COMMENT:
+    case SDK_HISTORY_CHAT_MEMBER_JOIN:
+    case SDK_HISTORY_CHAT_MEMBER_LEAVE:
+      return new Map([...newEntry(detail), ...state]);
     default:
       return state;
   }

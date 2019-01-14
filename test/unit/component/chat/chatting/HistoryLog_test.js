@@ -12,8 +12,8 @@ describe('HistoryLog component', () => {
   const HistoryLogPath = buildSrcPath('component/chat/chatting/HistoryLog');
   const chatConstantsPath = buildSrcPath('constants/chat');
 
-  const ChatGroup = noopReactComponent();
-  const EventMessage = noopReactComponent();
+  const HistoryChatGroup = noopReactComponent();
+  const HistoryEventMessage = noopReactComponent();
   const Button = noopReactComponent();
 
   beforeEach(() => {
@@ -29,12 +29,15 @@ describe('HistoryLog component', () => {
     };
 
     initMockRegistry({
-      'component/chat/chatting/ChatGroup': { ChatGroup },
-      'component/chat/chatting/EventMessage': { EventMessage },
+      'component/chat/chatting/log/messages/ConnectedHistoryGroup': HistoryChatGroup,
+      'component/chat/chatting/log/events/ConnectedHistoryEvent': HistoryEventMessage,
       '@zendeskgarden/react-buttons': { Button },
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS
+      },
+      'src/redux/modules/chat/chat-history-selectors': {
+        getHistoryLog: noop
       },
       './HistoryLog.scss': {
         locals: {}
@@ -56,11 +59,11 @@ describe('HistoryLog component', () => {
     mockery.disable();
   });
 
-  describe('#renderPastSession', () => {
+  describe('#renderHistoryLog', () => {
     describe('when passed an empty log arg', () => {
       it('returns empty array', () => {
-        const component = domRender(<HistoryLog showAvatar={true} HistoryLog={{}} agents={{}} />);
-        const log = component.renderPastSession();
+        const component = domRender(<HistoryLog showAvatar={true} chatHistoryLog={[]} agents={{}} />);
+        const log = component.renderHistoryLog();
 
         expect(log).toEqual([]);
       });
@@ -68,58 +71,58 @@ describe('HistoryLog component', () => {
 
     describe('when passed a log with a single message item', () => {
       describe('from a visitor', () => {
-        const log = {
-          100: [{ timestamp: 100, nick: 'visitor', type: 'chat.msg', msg: 'Hello' }]
-        };
+        const log = [
+          { timestamp: 100, author: 'visitor', type: 'message', messages: [100] }
+        ];
         let result;
 
         beforeEach(() => {
-          const component = domRender(<HistoryLog showAvatar={true} />);
+          const component = domRender(<HistoryLog showAvatar={true} chatHistoryLog={log} />);
 
-          result = component.renderPastSession(log);
+          result = component.renderHistoryLog();
         });
 
         it('returns a single element', () => {
           expect(result.length).toEqual(1);
         });
 
-        it('returns an element of type ChatGroup', () => {
-          expect(TestUtils.isElementOfType(result[0], ChatGroup)).toEqual(true);
+        it('returns an element of type HistoryChatGroup', () => {
+          expect(TestUtils.isElementOfType(result[0], HistoryChatGroup)).toEqual(true);
         });
 
         it('is passed the expected props', () => {
           expect(result[0].props).toEqual(jasmine.objectContaining({
             isAgent: false,
-            messages: [{ timestamp: 100, nick: 'visitor', type: 'chat.msg', msg: 'Hello' }],
+            messageKeys: [100],
             avatarPath: undefined
           }));
         });
       });
 
       describe('from an agent', () => {
-        const log = {
-          100: [{ timestamp: 100, nick: 'agent:123', type: 'chat.msg', display_name: 'Agent 123', msg: 'Hello' }]
-        };
+        const log = [
+          { timestamp: 100, author: 'agent:123', type: 'message', messages: [100] }
+        ];
         let result;
 
         beforeEach(() => {
-          const component = domRender(<HistoryLog showAvatar={true} />);
+          const component = domRender(<HistoryLog showAvatar={true} chatHistoryLog={log} />);
 
-          result = component.renderPastSession(log);
+          result = component.renderHistoryLog();
         });
 
         it('returns a single element', () => {
           expect(result.length).toEqual(1);
         });
 
-        it('returns an element of type ChatGroup', () => {
-          expect(TestUtils.isElementOfType(result[0], ChatGroup)).toEqual(true);
+        it('returns an element of type HistoryChatGroup', () => {
+          expect(TestUtils.isElementOfType(result[0], HistoryChatGroup)).toEqual(true);
         });
 
         it('is passed the expected props', () => {
           expect(result[0].props).toEqual(jasmine.objectContaining({
             isAgent: true,
-            messages: [{ display_name: 'Agent 123', timestamp: 100, nick: 'agent:123', type: 'chat.msg', msg: 'Hello' }],
+            messageKeys: [100],
             avatarPath: undefined
           }));
         });
@@ -127,99 +130,89 @@ describe('HistoryLog component', () => {
     });
 
     describe('when passed a log with a grouped collection of messages', () => {
-      const log = {
-        100: [
-          { timestamp: 100, nick: 'visitor', type: 'chat.msg', msg: 'Hello' },
-          { timestamp: 200, nick: 'visitor', type: 'chat.msg', msg: 'Help please' },
-          { timestamp: 300, nick: 'visitor', type: 'chat.msg', msg: 'My cat is on fire' }
-        ]
-      };
+      const log = [
+        { timestamp: 100, author: 'visitor', type: 'message', messages: [100,200,300] }
+      ];
 
       let result;
 
       beforeEach(() => {
-        const component = domRender(<HistoryLog showAvatar={true} />);
+        const component = domRender(<HistoryLog showAvatar={true} chatHistoryLog={log} />);
 
-        result = component.renderPastSession(log);
+        result = component.renderHistoryLog();
       });
 
       it('returns a single element', () => {
         expect(result.length).toEqual(1);
       });
 
-      it('returns an element of type ChatGroup', () => {
-        expect(TestUtils.isElementOfType(result[0], ChatGroup)).toEqual(true);
+      it('returns an element of type HistoryChatGroup', () => {
+        expect(TestUtils.isElementOfType(result[0], HistoryChatGroup)).toEqual(true);
       });
 
       it('is passed the expected props', () => {
         expect(result[0].props).toEqual(jasmine.objectContaining({
           isAgent: false,
-          messages: log[100],
+          messageKeys: [100,200,300],
           avatarPath: undefined
         }));
       });
     });
 
     describe('when passed a log with a single event', () => {
-      const log = {
-        100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }]
-      };
+      const log = [{
+        timestamp: 100, author: 'visitor', type: 'event', messages: [100]
+      }];
 
       let result;
 
       beforeEach(() => {
-        const component = domRender(<HistoryLog showAvatar={true} />);
+        const component = domRender(<HistoryLog showAvatar={true} chatHistoryLog={log} />);
 
-        result = component.renderPastSession(log);
+        result = component.renderHistoryLog();
       });
 
       it('returns a single element', () => {
         expect(result.length).toEqual(1);
       });
 
-      it('returns an element of type EventMessage', () => {
-        expect(TestUtils.isElementOfType(result[0], EventMessage)).toEqual(true);
+      it('returns an element of type HistoryEventMessage', () => {
+        expect(TestUtils.isElementOfType(result[0], HistoryEventMessage)).toEqual(true);
       });
 
       it('is passed the expected props', () => {
         expect(result[0].props).toEqual(jasmine.objectContaining({
-          event: { timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }
+          eventKey: 100
         }));
       });
     });
 
     describe('when passed a log with a series of messages and events', () => {
       let result;
-      const log = {
-        100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }],
-        200: [
-          { timestamp: 200, nick: 'visitor', type: 'chat.msg', msg: 'Hello' },
-          { timestamp: 300, nick: 'visitor', type: 'chat.msg', msg: 'Help please' }
-        ],
-        400: [{ timestamp: 400, nick: 'agent:123', type: 'chat.memberjoin' }],
-        500: [
-          { timestamp: 500, nick: 'agent:123', type: 'chat.msg', msg: 'Hello' },
-          { timestamp: 600, nick: 'agent:123', type: 'chat.msg', msg: 'Turn it on and off again' }
-        ],
-        700: [{ timestamp: 700, nick: 'visitor', type: 'chat.msg', msg: 'Fixed! Thanks' }],
-        800: [{ timestamp: 800, nick: 'visitor', type: 'chat.rating', new_rating: 'good' }],
-        900: [{ timestamp: 900, nick: 'visitor', type: 'chat.memberleave' }]
-      };
+      const log = [
+        { timestamp: 100, author: 'visitor', type: 'event', messages: [100] },
+        { timestamp: 200, author: 'visitor', type: 'message', messages: [200,300] },
+        { timestamp: 400, author: 'agent:123', type: 'event', messages: [400] },
+        { timestamp: 500, author: 'agent:123', type: 'message', messages: [500,600] },
+        { timestamp: 700, author: 'visitor', type: 'message', messages: [700] },
+        { timestamp: 800, author: 'visitor', type: 'event', messages: [800] },
+        { timestamp: 900, author: 'visitor', type: 'event', messages: [900] }
+      ];
 
       const expectedResult = [
-        { component: EventMessage, props: { event: log[100][0] } },
-        { component: ChatGroup, props: { isAgent: false, messages: log[200], avatarPath: undefined } },
-        { component: EventMessage, props: { event: log[400][0] } },
-        { component: ChatGroup, props: { isAgent: true, messages: log[500], avatarPath: '/path/to/avatar' } },
-        { component: ChatGroup, props: { isAgent: false, messages: log[700], avatarPath: undefined } },
-        { component: EventMessage, props: { event: log[800][0] } },
-        { component: EventMessage, props: { event: log[900][0] } }
+        { component: HistoryEventMessage, props: { eventKey: 100 } },
+        { component: HistoryChatGroup, props: { isAgent: false, messageKeys: [200,300], avatarPath: undefined } },
+        { component: HistoryEventMessage, props: { eventKey: 400 } },
+        { component: HistoryChatGroup, props: { isAgent: true, messageKeys: [500,600], avatarPath: '/path/to/avatar' } },
+        { component: HistoryChatGroup, props: { isAgent: false, messageKeys: [700], avatarPath: undefined } },
+        { component: HistoryEventMessage, props: { eventKey: 800 } },
+        { component: HistoryEventMessage, props: { eventKey: 900 } }
       ];
 
       beforeEach(() => {
-        const component = domRender(<HistoryLog agents={agents} />);
+        const component = domRender(<HistoryLog agents={agents} chatHistoryLog={log} />);
 
-        result = component.renderPastSession(log);
+        result = component.renderHistoryLog();
       });
 
       it('returns a collection with the correct number of elements', () => {
@@ -244,7 +237,7 @@ describe('HistoryLog component', () => {
 
   describe('renderDivider', () => {
     beforeEach(() => {
-      const component = instanceRender(<HistoryLog luxon='luxon' />);
+      const component = instanceRender(<HistoryLog chatHistoryLog={[]} luxon='luxon' />);
 
       component.renderDivider(1234);
     });
@@ -257,28 +250,18 @@ describe('HistoryLog component', () => {
 
   describe('render', () => {
     let result;
-    const sessions = [
-      {
-        100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }],
-        200: [
-          { timestamp: 200, nick: 'visitor', type: 'chat.msg', msg: 'Hello' },
-          { timestamp: 300, nick: 'visitor', type: 'chat.msg', msg: 'Help please' }
-        ]
-      },
-      {
-        400: [{ timestamp: 400, nick: 'agent:123', type: 'chat.memberjoin' }],
-        500: [
-          { timestamp: 500, nick: 'agent:123', type: 'chat.msg', msg: 'Hello' },
-          { timestamp: 600, nick: 'agent:123', type: 'chat.msg', msg: 'Turn it on and off again' }
-        ],
-        700: [{ timestamp: 700, nick: 'visitor', type: 'chat.msg', msg: 'Fixed! Thanks' }],
-        800: [{ timestamp: 800, nick: 'visitor', type: 'chat.rating', new_rating: 'good' }],
-        900: [{ timestamp: 900, nick: 'visitor', type: 'chat.memberleave' }]
-      }
+    const log = [
+      { type: 'event', author: 'visitor', messages: [100] },
+      { type: 'message', author: 'visitor', messages: [200,300] },
+      { type: 'event', author: 'agent:123', messages: [400] },
+      { type: 'message', author: 'agent:123', messages: [500,600] },
+      { type: 'message', author: 'visitor', messages: [700] },
+      { type: 'event', author: 'visitor', messages: [800] },
+      { type: 'event', author: 'visitor', messages: [900] },
     ];
 
     beforeEach(() => {
-      const component = domRender(<HistoryLog chatHistoryLog={sessions} agents={agents} />);
+      const component = domRender(<HistoryLog chatHistoryLog={log} agents={agents} />);
 
       result = component.render();
     });

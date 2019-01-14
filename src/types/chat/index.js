@@ -19,6 +19,13 @@ const chatMessage = PropTypes.shape({
   })
 });
 
+const chatLogEntry = PropTypes.shape({
+  type: PropTypes.oneOf(['message', 'event']).isRequired,
+  author: PropTypes.string.isRequired,
+  messages: PropTypes.arrayOf(PropTypes.number)
+});
+
 export default {
-  chatMessage
+  chatMessage,
+  chatLogEntry
 };

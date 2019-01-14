@@ -30,7 +30,7 @@ describe('chat reducer chatHistory chats', () => {
       let state,
         detail;
 
-      describe('when HISTORY_REQUEST_SUCCESS action is dispatched', () => {
+      describe('when SDK_HISTORY_CHAT_MSG action is dispatched', () => {
         beforeEach(() => {
           detail = {
             timestamp: Date.now(),
@@ -38,17 +38,13 @@ describe('chat reducer chatHistory chats', () => {
             display_name: 'Mr Abc'
           };
 
-          const newEntry = [detail.timestamp, detail];
-
           state = reducer(initialState, {
-            type: chatActionTypes.HISTORY_REQUEST_SUCCESS,
-            payload: {
-              history: [newEntry]
-            }
+            type: chatActionTypes.SDK_HISTORY_CHAT_MSG,
+            payload: { detail }
           });
         });
 
-        it('adds the message to the chats collection', () => {
+        it('adds the messages to the chats collection', () => {
           expect(state.size)
             .toEqual(1);
 
@@ -77,7 +73,7 @@ describe('chat reducer chatHistory chats', () => {
             });
           });
 
-          it('adds the message to the chats collection', () => {
+          it('adds the message', () => {
             expect(state.size)
               .toEqual(1);
 
@@ -105,7 +101,7 @@ describe('chat reducer chatHistory chats', () => {
             });
           });
 
-          it('adds the message to the chats collection', () => {
+          it('adds the message', () => {
             expect(state.size)
               .toEqual(1);
 

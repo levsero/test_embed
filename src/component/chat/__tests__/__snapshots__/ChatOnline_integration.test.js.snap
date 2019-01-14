@@ -226,6 +226,15 @@ exports[`chat log rating 1`] = `
       class="eventMessage"
     >
       Chat rated Good
+      <button
+        class="requestRatingButton Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
+        data-garden-id="buttons.button"
+        data-garden-version="3.7.0"
+        tabindex="0"
+        type="button"
+      >
+        Leave a comment
+      </button>
     </div>
   </div>
   <div
@@ -564,45 +573,6 @@ exports[`chat log visitor message failure 1`] = `
                 >
                   Resend
                 </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="noAgentTyping"
-  />
-</div>
-`;
-
-exports[`chat log visitor message request 1`] = `
-<div
-  class="chatLogContainer"
->
-  <div>
-    <div
-      class="container"
-    >
-      <div
-        class="wrapper"
-      >
-        <div
-          class="message messageUser"
-        >
-          <div
-            class="defaultMessageContainer"
-          >
-            <div>
-              <div
-                class="messageBubble userBackground"
-              >
-                <span
-                  class="Linkify"
-                >
-                  Hi
-                </span>
               </div>
             </div>
           </div>

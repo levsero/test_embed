@@ -294,6 +294,7 @@ describe('chat redux actions', () => {
             mockStore.getActions()
               .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SUCCESS)
               .payload
+              .detail
               .msg
           )
             .toEqual(message);
@@ -330,6 +331,7 @@ describe('chat redux actions', () => {
             mockStore.getActions()
               .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_FAILURE)
               .payload
+              .detail
               .msg
           )
             .toEqual(message);
@@ -1115,7 +1117,7 @@ describe('chat redux actions', () => {
 
     it('has the correct params in the payload for each file', () => {
       for (var i=0; i < fileList.length; i++) {
-        expect(dispatchedActions[i].payload)
+        expect(dispatchedActions[i].payload.detail)
           .toEqual(jasmine.objectContaining({
             type: 'chat.file',
             timestamp: Date.now(),
@@ -1154,7 +1156,7 @@ describe('chat redux actions', () => {
         });
 
         it('has the correct params in the payload', () => {
-          expect(mostRecentAction.payload)
+          expect(mostRecentAction.payload.detail)
             .toEqual(jasmine.objectContaining({
               type: 'chat.file',
               timestamp: Date.now(),
@@ -1182,7 +1184,7 @@ describe('chat redux actions', () => {
         });
 
         it('has the correct params in the payload', () => {
-          expect(mostRecentAction.payload)
+          expect(mostRecentAction.payload.detail)
             .toEqual(jasmine.objectContaining({
               type: 'chat.file',
               timestamp: Date.now(),

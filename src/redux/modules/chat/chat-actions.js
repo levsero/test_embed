@@ -11,8 +11,6 @@ import {
   getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
 import {
   CHAT_MESSAGE_TYPES,
-  AGENT_BOT,
-  EVENT_TRIGGER,
   CONNECTION_STATUSES } from 'src/constants/chat';
 import {
   getChatStandalone,
@@ -44,7 +42,9 @@ const sendMsgRequest = (msg, visitor, timestamp) => {
     dispatch({
       type: actions.CHAT_MSG_REQUEST_SENT,
       payload: {
-        ...getChatMessagePayload(msg, visitor, timestamp),
+        detail: {
+          ...getChatMessagePayload(msg, visitor, timestamp)
+        },
         status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
       }
     });
@@ -55,7 +55,9 @@ const sendMsgSuccess = (msg, visitor, timestamp) => {
   return {
     type: actions.CHAT_MSG_REQUEST_SUCCESS,
     payload: {
-      ...getChatMessagePayload(msg, visitor, timestamp),
+      detail: {
+        ...getChatMessagePayload(msg, visitor, timestamp)
+      },
       status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS
     }
   };
@@ -65,7 +67,9 @@ const sendMsgFailure = (msg, visitor, timestamp) => {
   return {
     type: actions.CHAT_MSG_REQUEST_FAILURE,
     payload: {
-      ...getChatMessagePayload(msg, visitor, timestamp),
+      detail: {
+        ...getChatMessagePayload(msg, visitor, timestamp)
+      },
       status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE
     }
   };
@@ -372,12 +376,14 @@ export function sendAttachments(fileList) {
       dispatch({
         type: actions.CHAT_FILE_REQUEST_SENT,
         payload: {
-          ...basePayload,
-          // _.assign is intentionally used here as 'file' is an instance of the
-          // File class and isn't easily spread over/extended with native methods
-          file: _.assign(file, {
-            uploading: true
-          })
+          detail: {
+            ...basePayload,
+            // _.assign is intentionally used here as 'file' is an instance of the
+            // File class and isn't easily spread over/extended with native methods
+            file: _.assign(file, {
+              uploading: true
+            })
+          }
         }
       });
 
@@ -386,22 +392,26 @@ export function sendAttachments(fileList) {
           dispatch({
             type: actions.CHAT_FILE_REQUEST_SUCCESS,
             payload: {
-              ...basePayload,
-              file: _.assign(file, {
-                url: data.url,
-                uploading: false
-              })
+              detail: {
+                ...basePayload,
+                file: _.assign(file, {
+                  url: data.url,
+                  uploading: false
+                })
+              }
             }
           });
         } else {
           dispatch({
             type: actions.CHAT_FILE_REQUEST_FAILURE,
             payload: {
-              ...basePayload,
-              file: _.assign(file, {
-                error: err,
-                uploading: false
-              })
+              detail: {
+                ...basePayload,
+                file: _.assign(file, {
+                  error: err,
+                  uploading: false
+                })
+              }
             }
           });
         }
@@ -665,24 +675,6 @@ export function chatWindowOpenOnNavigate() {
 export function chatConnected() {
   return {
     type: actions.CHAT_CONNECTED
-  };
-}
-
-// TODO: Remove this function.
-// It was added temporarily when transitioning to use dynamic import()
-// for the chat-web-sdk
-export function setChatHistoryHandler() {
-  return (_, getState) => {
-    const zChat = getZChatVendor(getState());
-
-    zChat && zChat.on('history', (data) => {
-      const eventData = (data.nick === EVENT_TRIGGER)
-        ? { ...data, nick: AGENT_BOT }
-        : data;
-      const newEntry = [eventData.timestamp, eventData];
-
-      history.push(newEntry);
-    });
   };
 }
 

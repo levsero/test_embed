@@ -6,6 +6,7 @@ describe('chat root reducer', () => {
     'agentJoined',
     'agents',
     'chatHistory',
+    'chatLog',
     'chats',
     'connection',
     'currentMessage',

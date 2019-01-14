@@ -80,11 +80,13 @@ describe('chat log', () => {
           type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
           payload: {
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-            timestamp: timestamp(),
-            msg: 'Hi',
-            nick: 'visitor',
-            display_name: 'Visitor 123',
-            type: 'chat.msg',
+            detail: {
+              timestamp: timestamp(),
+              msg: 'Hi',
+              nick: 'visitor',
+              display_name: 'Visitor 123',
+              type: 'chat.msg',
+            }
           }
         });
       });
@@ -102,11 +104,13 @@ describe('chat log', () => {
           type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
           payload: {
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-            timestamp: timestamp(),
-            msg: 'Hi',
-            nick: 'visitor',
-            display_name: 'Visitor 123',
-            type: 'chat.msg',
+            detail: {
+              timestamp: timestamp(),
+              msg: 'Hi',
+              nick: 'visitor',
+              display_name: 'Visitor 123',
+              type: 'chat.msg',
+            }
           }
         });
       });
@@ -124,11 +128,13 @@ describe('chat log', () => {
           type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
           payload: {
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-            timestamp: timestamp(),
-            msg: 'Hi',
-            nick: 'visitor',
-            display_name: 'Jill',
-            type: 'chat.msg',
+            detail: {
+              timestamp: timestamp(),
+              msg: 'Hi',
+              nick: 'visitor',
+              display_name: 'Jill',
+              type: 'chat.msg',
+            }
           }
         });
       });
@@ -146,54 +152,74 @@ describe('chat log', () => {
           type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
           payload: {
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-            timestamp: timestamp(),
-            msg: 'Hi',
-            nick: 'visitor',
-            display_name: 'Visitor 123',
-            type: 'chat.msg'
+            detail: {
+              timestamp: timestamp(),
+              msg: 'Hi',
+              nick: 'visitor',
+              display_name: 'Visitor 123',
+              type: 'chat.msg'
+            }
           }
         });
       });
     });
 
-    test('request', () => {
+    test('success', () => {
+      const time = timestamp();
+
       assertChatLog({
         type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
         payload: {
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-          timestamp: timestamp(),
-          msg: 'Hi',
-          nick: 'visitor',
-          display_name: 'Visitor 123',
-          type: 'chat.msg',
+          detail: {
+            timestamp: time,
+            msg: 'Hi',
+            nick: 'visitor',
+            display_name: 'Visitor 123',
+            type: 'chat.msg',
+          }
         }
-      });
-    });
-
-    test('success', () => {
-      assertChatLog({
+      },{
         type: chatActionTypes.CHAT_MSG_REQUEST_SUCCESS,
         payload: {
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
-          timestamp: timestamp(),
-          msg: 'Hi',
-          nick: 'visitor',
-          display_name: 'Visitor 123',
-          type: 'chat.msg',
+          detail: {
+            timestamp: time,
+            msg: 'Hi',
+            nick: 'visitor',
+            display_name: 'Visitor 123',
+            type: 'chat.msg',
+          }
         }
       });
     });
 
     test('failure', () => {
+      const time = timestamp();
+
       assertChatLog({
+        type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
+        payload: {
+          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
+          detail: {
+            timestamp: time,
+            msg: 'Hi',
+            nick: 'visitor',
+            display_name: 'Visitor 123',
+            type: 'chat.msg',
+          }
+        }
+      },{
         type: chatActionTypes.CHAT_MSG_REQUEST_FAILURE,
         payload: {
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
-          timestamp: timestamp(),
-          msg: 'Hi',
-          nick: 'visitor',
-          display_name: 'Visitor 123',
-          type: 'chat.msg',
+          detail: {
+            timestamp: time,
+            msg: 'Hi',
+            nick: 'visitor',
+            display_name: 'Visitor 123',
+            type: 'chat.msg',
+          }
         }
       });
     });
@@ -205,6 +231,7 @@ describe('chat log', () => {
       payload: {
         type: 'chat',
         detail: {
+          timestamp: timestamp(),
           queue_position: 3,
           nick: 'system.queue',
           type: 'chat.queue_position'
@@ -256,6 +283,7 @@ describe('chat log', () => {
         type: chatActionTypes.SDK_AGENT_UPDATE,
         payload: {
           detail: {
+            timestamp: timestamp(),
             display_name: 'Mr F',
             nick: 'agent:456',
             title: 'Mistah J',
@@ -267,6 +295,7 @@ describe('chat log', () => {
         payload: {
           type: 'chat',
           detail: {
+            timestamp: timestamp(),
             typing: true,
             nick: 'agent:456',
             type: 'typing'
@@ -293,6 +322,7 @@ describe('chat log', () => {
         payload: {
           type: 'chat',
           detail: {
+            timestamp: timestamp(),
             typing: true,
             nick: 'agent:456',
             type: 'typing'
@@ -303,6 +333,7 @@ describe('chat log', () => {
         payload: {
           type: 'chat',
           detail: {
+            timestamp: timestamp(),
             typing: false,
             nick: 'agent:456',
             type: 'typing'
@@ -396,6 +427,7 @@ describe('chat log', () => {
         payload: {
           type: 'visitor_update',
           detail: {
+            timestamp: timestamp(),
             display_name: 'Spike',
             email: ''
           }
@@ -421,27 +453,32 @@ describe('chat log', () => {
         type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
         payload: {
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-          timestamp: timestamp(),
-          msg: 'Hi',
-          nick: 'visitor',
-          display_name: 'Spike',
-          type: 'chat.msg',
+          detail: {
+            timestamp: timestamp(),
+            msg: 'Hi',
+            nick: 'visitor',
+            display_name: 'Spike',
+            type: 'chat.msg',
+          }
         }
       }, {
         type: chatActionTypes.CHAT_MSG_REQUEST_SUCCESS,
         payload: {
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
-          timestamp: timestamp() - 1,
-          msg: 'Hi',
-          nick: 'visitor',
-          display_name: 'Spike',
-          type: 'chat.msg',
+          detail: {
+            timestamp: timestamp() - 1,
+            msg: 'Hi',
+            nick: 'visitor',
+            display_name: 'Spike',
+            type: 'chat.msg',
+          }
         }
       }, {
         type: chatActionTypes.SDK_CHAT_QUEUE_POSITION,
         payload: {
           type: 'chat',
           detail: {
+            timestamp: timestamp(),
             queue_position: 1,
             nick: 'system.queue',
             type: 'chat.queue_position'
@@ -452,6 +489,7 @@ describe('chat log', () => {
         payload: {
           type: 'chat',
           detail: {
+            timestamp: timestamp(),
             queue_position: 0,
             nick: 'system.queue',
             type: 'chat.queue_position'
@@ -462,9 +500,9 @@ describe('chat log', () => {
         payload: {
           type: 'chat',
           detail: {
+            timestamp: timestamp(),
             display_name: 'Jet',
             nick: 'agent:4567',
-            timestamp: timestamp(),
             type: 'chat.memberjoin'
           }
         }

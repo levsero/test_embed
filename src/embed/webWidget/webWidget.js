@@ -29,8 +29,7 @@ import { getChatNotification, getStandaloneMobileNotificationVisible } from 'src
 import { setVisitorInfo,
   chatNotificationDismissed,
   fetchConversationHistory,
-  handleChatVendorLoaded,
-  setChatHistoryHandler } from 'src/redux/modules/chat';
+  handleChatVendorLoaded } from 'src/redux/modules/chat';
 import {
   getSettingsHelpCenterSuppress,
   getSettingsContactFormSuppress
@@ -474,7 +473,6 @@ export default function WebWidgetFactory(name) {
   function setupChat(config, store, brand) {
     const onSuccess = (zChat, slider, luxon) => {
       store.dispatch(handleChatVendorLoaded({ zChat, slider: slider.default, luxon }));
-      store.dispatch(setChatHistoryHandler());
 
       zChat.on('error', (e) => {
         if (_.get(e, 'extra.reason') === JWT_ERROR) {
@@ -518,6 +516,9 @@ export default function WebWidgetFactory(name) {
             : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`;
         }
 
+        if (data.type === 'chat' && data.detail) {
+          data.detail.timestamp = data.detail.timestamp || Date.now();
+        }
         store.dispatch({ type: actionType, payload: data });
       });
     };

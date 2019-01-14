@@ -1,9 +1,9 @@
-import Map from 'core-js/library/es6/map';
-
 describe('chat history selectors', () => {
   let getHasMoreHistory,
     getHistoryRequestStatus,
-    getGroupedPastChatsBySession,
+    getHistoryLength,
+    getGroupMessages,
+    getEventMessage,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS;
 
@@ -29,7 +29,9 @@ describe('chat history selectors', () => {
 
     getHasMoreHistory = selectors.getHasMoreHistory;
     getHistoryRequestStatus = selectors.getHistoryRequestStatus;
-    getGroupedPastChatsBySession = selectors.getGroupedPastChatsBySession;
+    getHistoryLength = selectors.getHistoryLength;
+    getGroupMessages = selectors.getGroupMessages;
+    getEventMessage = selectors.getEventMessage;
   });
 
   afterEach(() => {
@@ -75,33 +77,84 @@ describe('chat history selectors', () => {
     });
   });
 
-  describe('getGroupedPastChatsBySession', () => {
+  describe('getHistoryLength', () => {
     let result;
 
     beforeEach(() => {
-      result = getGroupedPastChatsBySession({
+      const mockState = {
         chat: {
           chatHistory: {
             chats: new Map([
-              [1, { chat: 'a', timestamp: 1, first: true }],
-              [2, { chat: 'b', timestamp: 2 }],
-              [3, { chat: 'c', timestamp: 3 }],
-              [4, { chat: 'd', timestamp: 4 }],
-              [5, { chat: 'e', timestamp: 5, first: true }]
+              [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+              [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
+              [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+              [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
             ])
           }
         }
-      });
+      };
+
+      result = getHistoryLength(mockState);
     });
 
-    it('returns grouped chats by session', () => {
-      expect(result.length)
-        .toEqual(2);
+    it('returns the correct size', () => {
+      expect(result)
+        .toEqual(4);
+    });
+  });
+
+  describe('getGroupMessages', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chatHistory: {
+            chats: new Map([
+              [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+              [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
+              [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+              [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
+            ])
+          }
+        }
+      };
+
+      result = getGroupMessages(mockState, [5, 7]);
     });
 
-    it('returns grouped past chats in order', () => {
-      expect(_.map(result[0], (val, key) => key))
-        .toEqual(['1', '2', '3', '4']);
+    it('returns the messages in the group', () => {
+      expect(result)
+        .toEqual([
+          { nick: 'agent:123', type: 'chat.msg', timestamp: 5 },
+          { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }
+        ]);
+    });
+  });
+
+  describe('getEventMessage', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chatHistory: {
+            chats: new Map([
+              [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+              [3, { nick: 'visitor:2', type: 'member.join', timestamp: 3 }],
+              [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+              [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
+            ])
+          }
+        }
+      };
+
+      result = getEventMessage(mockState, 3);
+    });
+
+    it('returns the correct event message', () => {
+      expect(result)
+        .toEqual({ nick: 'visitor:2', type: 'member.join', timestamp: 3 });
     });
   });
 });

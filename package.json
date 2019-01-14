@@ -89,6 +89,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "re-reselect": "^2.2.0",
     "react-linkify": "^0.2.2",
     "react-redux": "^5.0.6",
     "react-slick": "^0.23.1",

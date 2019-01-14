@@ -1,25 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { dateTime } from 'utility/formatters';
 import { locals as styles } from './HistoryLog.scss';
 
-import { ChatGroup } from 'component/chat/chatting/ChatGroup';
-import { EventMessage } from 'component/chat/chatting/EventMessage';
-import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import HistoryChatGroup from 'component/chat/chatting/log/messages/ConnectedHistoryGroup';
+import HistoryEventMessage from 'component/chat/chatting/log/events/ConnectedHistoryEvent';
+import { getHistoryLog } from 'src/redux/modules/chat/chat-history-selectors';
+
+const mapStateToProps = (state) => {
+  return {
+    chatHistoryLog: getHistoryLog(state)
+  };
+};
 
 export class HistoryLog extends Component {
   static propTypes = {
-    chatHistoryLog: PropTypes.array,
+    chatHistoryLog: PropTypes.array.isRequired,
     agents: PropTypes.object,
     showAvatar: PropTypes.bool.isRequired,
     firstMessageTimestamp: PropTypes.number,
-    luxon: PropTypes.object.isRequired
+    luxon: PropTypes.object.isRequired,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
-    chatHistoryLog: [],
     firstMessageTimestamp: null
   };
 
@@ -40,55 +47,54 @@ export class HistoryLog extends Component {
     return <div className={styles.divider}>{format}</div>;
   }
 
-  renderPastSession = (pastChats) => {
-    const {
-      agents,
-      showAvatar
-    } = this.props;
+  renderHistoryLog = () => {
+    const chatLogEl = _.map(this.props.chatHistoryLog, (chatGroup) => {
+      const { type, author, first } = chatGroup;
 
-    return _.map(pastChats, (group, timestamp) => {
-      const groupType = _.get(group, '0.type');
-
-      if (_.includes(CHAT_MESSAGE_EVENTS, groupType)) {
-        const nick = _.get(group, '0.nick', 'visitor');
-        const isAgent = nick.indexOf('agent:') > -1;
-        const avatarPath = _.get(agents, `${nick}.avatar_path`);
+      if (type === 'message') {
+        const timestamp = chatGroup.messages[0];
+        const groupNick = author || 'visitor';
+        const isAgent = author.indexOf('agent:') > -1;
+        const avatarPath = _.get(this.props.agents, `${groupNick}.avatar_path`);
 
         return (
-          <ChatGroup
+          <HistoryChatGroup
             key={timestamp}
             isAgent={isAgent}
-            messages={group}
+            messageKeys={chatGroup.messages}
             avatarPath={avatarPath}
-            showAvatar={showAvatar}
+            showAvatar={this.props.showAvatar}
+            isMobile={this.props.isMobile}
             chatLogCreatedAt={this.createdTimestamp}
           />
         );
-      } else if (_.includes(CHAT_SYSTEM_EVENTS, groupType)) {
+      } else if (type === 'event') {
+        const event = chatGroup.messages[0];
+
         return (
-          <EventMessage
-            key={timestamp}
-            event={group[0]}
-            divider={_.get(group, '0.first') ? this.renderDivider(_.get(group, '0.timestamp')) : null}
+          <HistoryEventMessage
+            eventKey={event}
+            key={event}
             chatLogCreatedAt={this.createdTimestamp}
+            divider={first ? this.renderDivider(event) : null}
           />
         );
       }
     });
+
+    return chatLogEl;
   }
 
   render() {
-    const chatLogs = _.reduce(this.props.chatHistoryLog, (logs, pastChats) => {
-      return logs.concat(this.renderPastSession(pastChats));
-    }, []);
+    if (_.isEmpty(this.props.chatHistoryLog)) return null;
 
-    return chatLogs.length ? (
-      <div
-        ref={(el) => { this.container = el; }}
-      >
-        {chatLogs}
+    return (
+      <div ref={(el) => { this.container = el; }}>
+        {this.renderHistoryLog()}
         {this.renderDivider(this.props.firstMessageTimestamp)}
       </div>
-    ) : null;
+    );
   }
 }
+
+export default connect(mapStateToProps, {}, null, { withRef: true })(HistoryLog);

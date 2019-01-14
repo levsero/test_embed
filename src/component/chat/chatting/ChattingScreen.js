@@ -7,8 +7,8 @@ import Transition from 'react-transition-group/Transition';
 
 import { ChatBox } from 'component/chat/chatting/ChatBox';
 import { ChattingFooter } from 'component/chat/chatting/ChattingFooter';
-import { ChatLog } from 'component/chat/chatting/ChatLog';
-import { HistoryLog } from 'component/chat/chatting/HistoryLog';
+import ChatLog from 'component/chat/chatting/ChatLog';
+import HistoryLog from 'component/chat/chatting/HistoryLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ButtonPill } from 'component/button/ButtonPill';
@@ -16,6 +16,7 @@ import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies';
 import { i18n } from 'service/i18n';
+import { isAgent } from 'utility/chat';
 import { isFirefox, isIE } from 'utility/devices';
 import {
   sendMsg,
@@ -28,24 +29,22 @@ import {
   fetchConversationHistory } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
-import { getHasMoreHistory,
-  getHistoryRequestStatus,
-  getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
+import {
+  getHistoryLength,
+  getHasMoreHistory,
+  getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors';
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './ChattingScreen.scss';
-import { isDefaultNickname, isAgent } from 'src/util/chat';
 
 const mapStateToProps = (state) => {
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
-    chats: selectors.getChatMessages(state),
-    events: selectors.getChatEvents(state),
-    chatLog: selectors.getGroupedChatLog(state),
+    chatsLength: selectors.getChatsLength(state),
+    historyLength: getHistoryLength(state),
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
-    chatHistoryLog: getGroupedPastChatsBySession(state),
-    lastAgentLeaveEvent: selectors.getLastAgentLeaveEvent(state),
-    getQuickRepliesFromChatLog: selectors.getQuickRepliesFromChatLog(state),
+    lastMessageAuthor: selectors.getLastMessageAuthor(state),
+    latestQuickReply: selectors.getLatestQuickReply(state),
     currentMessage: selectors.getCurrentMessage(state),
     concierges: selectors.getCurrentConcierges(state),
     isChatting: selectors.getIsChatting(state),
@@ -59,7 +58,6 @@ const mapStateToProps = (state) => {
     queuePosition: selectors.getQueuePosition(state),
     menuVisible: selectors.getMenuVisible(state),
     agentJoined: selectors.getAgentJoined(state),
-    loginSettings: selectors.getLoginSettings(state),
     firstMessageTimestamp: selectors.getFirstMessageTimestamp(state),
     socialLogin: selectors.getSocialLogin(state),
     conciergeSettings: selectors.getConciergeSettings(state),
@@ -74,14 +72,12 @@ class ChattingScreen extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
     concierges: PropTypes.array.isRequired,
-    chats: PropTypes.array.isRequired,
-    events: PropTypes.array.isRequired,
-    chatLog: PropTypes.object.isRequired,
+    chatsLength: PropTypes.number,
+    historyLength: PropTypes.number,
     hasMoreHistory: PropTypes.bool,
     historyRequestStatus: PropTypes.string,
-    chatHistoryLog: PropTypes.array,
-    lastAgentLeaveEvent: PropTypes.object.isRequired,
-    getQuickRepliesFromChatLog: PropTypes.object,
+    lastMessageAuthor: PropTypes.string.isRequired,
+    latestQuickReply: PropTypes.object,
     currentMessage: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
     showChatEndFn: PropTypes.func.isRequired,
@@ -95,7 +91,6 @@ class ChattingScreen extends Component {
     luxon: PropTypes.object.isRequired,
     activeAgents: PropTypes.object.isRequired,
     agentsTyping: PropTypes.array.isRequired,
-    visitor: PropTypes.object.isRequired,
     rating: PropTypes.object.isRequired,
     toggleMenu: PropTypes.func.isRequired,
     showAvatar: PropTypes.bool.isRequired,
@@ -103,7 +98,6 @@ class ChattingScreen extends Component {
     menuVisible: PropTypes.bool,
     agentJoined: PropTypes.bool,
     resetCurrentMessage: PropTypes.func,
-    loginSettings: PropTypes.object.isRequired,
     fetchConversationHistory: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
@@ -124,22 +118,18 @@ class ChattingScreen extends Component {
     isMobile: false,
     fullscreen: false,
     concierges: [],
+    chatsLength: 0,
+    historyLength: 0,
     rating: {},
-    chats: [],
-    events: [],
     agentsTyping: [],
     chatLog: {},
     hasMoreHistory: false,
     historyRequestStatus: '',
-    chatHistoryLog: [],
-    lastAgentLeaveEvent: {},
     allAgents: {},
     activeAgents: {},
     menuVisible: false,
     agentJoined: false,
     resetCurrentMessage: () => {},
-    loginSettings: {},
-    visitor: {},
     fetchConversationHistory: () => {},
     hideZendeskLogo: false,
     chatId: '',
@@ -156,16 +146,14 @@ class ChattingScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.chatHistoryLog = null;
-
     this.scrollContainer = null;
     this.scrollHeightBeforeUpdate = null;
     this.scrollToBottomTimer = null;
   }
 
   componentDidMount() {
-    const { chats, events, chatHistoryLog } = this.props;
-    const hasMessages = (chats.length + events.length + chatHistoryLog.length) > 0;
+    const { chatsLength, historyLength } = this.props;
+    const hasMessages = (chatsLength + historyLength) > 0;
 
     if (hasMessages) {
       this.scrollToBottom();
@@ -207,9 +195,8 @@ class ChattingScreen extends Component {
   }
 
   didUpdateNewEntry = (prevProps) => {
-    const newMessage = ((this.props.chats.length) - (prevProps.chats.length)) > 0;
-    const newEvent = ((this.props.events.length) - (prevProps.events.length)) > 0;
-    const lastUserMessage = _.get(_.last(this.props.chats), 'nick');
+    const newMessage = (this.props.chatsLength - prevProps.chatsLength) > 0;
+    const lastUserMessage = this.props.lastMessageAuthor;
     const scrollCloseToBottom = this.isScrollCloseToBottom();
 
     if (
@@ -219,8 +206,7 @@ class ChattingScreen extends Component {
       this.props.markAsRead();
     }
 
-    if ((newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor')) ||
-        (newEvent && scrollCloseToBottom)) {
+    if ((newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor'))) {
       this.scrollToBottom();
     }
   }
@@ -426,10 +412,10 @@ class ChattingScreen extends Component {
   }
 
   /**
-   * Render QuickReplies component if `getQuickRepliesFromChatLog` returns a chat log
+   * Render QuickReplies component if one should be shown
    */
   renderQuickReply = () => {
-    const quickReply = this.props.getQuickRepliesFromChatLog;
+    const quickReply = this.props.latestQuickReply;
 
     if (!quickReply) return null;
 
@@ -450,8 +436,6 @@ class ChattingScreen extends Component {
   render = () => {
     const { isMobile,
       sendMsg,
-      loginSettings,
-      visitor,
       hideZendeskLogo,
       agentsTyping,
       profileConfig,
@@ -476,9 +460,6 @@ class ChattingScreen extends Component {
       }
     );
 
-    const visitorNameSet = visitor.display_name && !isDefaultNickname(visitor.display_name);
-    const emailSet = !!visitor.email;
-
     return (
       <div>
         <ScrollContainer
@@ -494,25 +475,21 @@ class ChattingScreen extends Component {
           isMobile={isMobile}>
           <div className={chatLogContainerClasses}>
             <HistoryLog
-              ref={(el) => { this.chatHistoryLog = el; }}
-              chatHistoryLog={this.props.chatHistoryLog}
-              luxon={this.props.luxon}
+              isMobile={this.props.isMobile}
               showAvatar={this.props.showAvatar}
               agents={this.props.allAgents}
+              luxon={this.props.luxon}
               firstMessageTimestamp={this.props.firstMessageTimestamp}
             />
             <ChatLog
               isMobile={this.props.isMobile}
               showAvatar={this.props.showAvatar}
-              chatLog={this.props.chatLog}
-              lastAgentLeaveEvent={this.props.lastAgentLeaveEvent}
               agents={this.props.allAgents}
               chatCommentLeft={!!this.props.rating.comment}
               goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
               handleSendMsg={sendMsg}
               onImageLoad={this.scrollToBottom}
               conciergeAvatar={this.props.conciergeSettings.avatar_path}
-              showUpdateInfo={!!loginSettings.enabled && !(visitorNameSet || emailSet)}
               updateInfoOnClick={this.props.showContactDetails}
               socialLogin={this.props.socialLogin}
             />

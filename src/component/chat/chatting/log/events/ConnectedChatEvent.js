@@ -1,0 +1,9 @@
+import { connect } from 'react-redux';
+import EventMessage from './EventMessage';
+import { getEventMessage } from 'src/redux/modules/chat/chat-selectors';
+
+const mapStateToProps = (state, props) => ({
+  event: getEventMessage(state, props.eventKey)
+});
+
+export default connect(mapStateToProps, {}, null, { withRef: true })(EventMessage);

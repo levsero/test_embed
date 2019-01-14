@@ -179,33 +179,6 @@ describe('ChatOnline component', () => {
     });
   });
 
-  describe('componentWillReceiveProps', () => {
-    let nextProps,
-      component;
-
-    describe('the updateChatBackButtonVisibility prop', () => {
-      let updateChatBackButtonVisibilitySpy;
-
-      beforeEach(() => {
-        updateChatBackButtonVisibilitySpy = jasmine.createSpy('updateChatBackButtonVisibility');
-        component = instanceRender(<ChatOnline updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} screen='screen' chats={[]} events={[]} />);
-        nextProps = {
-          screen: 'screen',
-          chats: [],
-          events: [],
-          agentsTyping: []
-        };
-
-        component.componentWillReceiveProps(nextProps);
-      });
-
-      it('is called', () => {
-        expect(updateChatBackButtonVisibilitySpy)
-          .toHaveBeenCalled();
-      });
-    });
-  });
-
   describe('renderPrechatScreen', () => {
     let component,
       result;

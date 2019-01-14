@@ -8,6 +8,7 @@ describe('chat selectors', () => {
     mockSettingsPrechatForm,
     mockTranslation,
     mockBadgeSettings,
+    mockIsDefaultNickname,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -70,6 +71,9 @@ describe('chat selectors', () => {
           t: _.identity,
           getSettingTranslation: () => mockTranslation
         }
+      },
+      'utility/chat': {
+        isDefaultNickname: () => mockIsDefaultNickname
       },
       'utility/devices': {
 
@@ -917,7 +921,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getChatMessagesByAgent', () => {
+  describe('getChatMessagesFromAgents', () => {
     let result;
     const mockChats = [
       { nick: 'agent:123', type: 'chat.msg' },
@@ -930,7 +934,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = selectors.getChatMessagesByAgent(mockChatSettings);
+      result = selectors.getChatMessagesFromAgents(mockChatSettings);
     });
 
     it('returns the chats from only agents', () => {
@@ -939,357 +943,6 @@ describe('chat selectors', () => {
 
       expect(result[0].nick)
         .toEqual('agent:123');
-    });
-  });
-
-  describe('getChatMessages', () => {
-    let result;
-    const mockChats = [
-      { nick: 'visitor', type: 'chat.memberjoined' },
-      { nick: 'visitor', type: 'chat.msg' },
-      { nick: 'visitor', type: 'chat.file' },
-      { nick: 'visitor', type: 'chat.rating' },
-      { nick: 'visitor', type: 'chat.memberleave' }
-    ];
-    const mockChatSettings = {
-      chat: {
-        chats: { values: () => mockChats }
-      }
-    };
-
-    beforeEach(() => {
-      result = selectors.getChatMessages(mockChatSettings);
-    });
-
-    it('returns only whitelisted message types chats', () => {
-      expect(result.length)
-        .toEqual(2);
-
-      expect(result[0].type)
-        .toEqual('chat.msg');
-
-      expect(result[1].type)
-        .toEqual('chat.file');
-    });
-  });
-
-  describe('getChatEvents', () => {
-    let result;
-    const mockChats = [
-      { nick: 'visitor', type: 'chat.memberjoin' },
-      { nick: 'visitor', type: 'chat.msg' },
-      { nick: 'visitor', type: 'chat.file' },
-      { nick: 'visitor', type: 'chat.rating' },
-      { nick: 'visitor', type: 'chat.memberleave' }
-    ];
-    const mockChatSettings = {
-      chat: {
-        chats: { values: () => mockChats }
-      }
-    };
-
-    beforeEach(() => {
-      result = selectors.getChatEvents(mockChatSettings);
-    });
-
-    it('returns only whitelisted event type chats', () => {
-      expect(result.length)
-        .toEqual(3);
-
-      expect(result[0].type)
-        .toEqual('chat.memberjoin');
-
-      expect(result[1].type)
-        .toEqual('chat.rating');
-
-      expect(result[2].type)
-        .toEqual('chat.memberleave');
-    });
-  });
-
-  describe('getGroupedChatLog', () => {
-    let result,
-      mockChats,
-      mockChatSettings,
-      expectedResult;
-
-    const setIsFirstVisitorMessage = (array, value) => (
-      Object.defineProperty(array, 'isFirstVisitorMessage', { value, enumerable: true })
-    );
-
-    describe('when passed a chat log containing valid messages and events', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 3 },
-          { nick: 'agent:123', type: 'chat.memberjoin', timestamp: 4 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'Hi', timestamp: 5 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'How can I help you?', timestamp: 6 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'My laptop is broken', timestamp: 8 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'Try turning it on and off again', timestamp: 9 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'That fixed it!', timestamp: 10 },
-          { nick: 'visitor', type: 'chat.rating', new_rating: 'good', timestamp: 11 },
-          { nick: 'visitor', type: 'chat.memberleave', timestamp: 12 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats },
-            currentSessionStartTime: 1
-          }
-        };
-
-        expectedResult = {
-          1: [mockChats[0]],
-          2: setIsFirstVisitorMessage([mockChats[1], mockChats[2]], true),
-          4: [mockChats[3]],
-          5: [mockChats[4], mockChats[5]],
-          8: [mockChats[6]],
-          9: [mockChats[7]],
-          10: [mockChats[8]],
-          11: [{ ...mockChats[9], isLastRating: true }],
-          12: [mockChats[10]]
-        };
-
-        result = selectors.getGroupedChatLog(mockChatSettings);
-      });
-
-      it('adds sets the isFirstVisitorMessage property to true on the first group of messages made by the visitor', () => {
-        const firstVisitorMsgGroup = _.find(
-          result,
-          (group) => group[0].type === 'chat.msg' && group[0].nick === 'visitor'
-        );
-
-        expect(firstVisitorMsgGroup.isFirstVisitorMessage)
-          .toEqual(true);
-      });
-
-      it('returns chats with messages from a single user grouped under the first timestamp, and with events ungrouped', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
-    });
-
-    describe('when passed a chat log with many consecutive messages from either visitor or agent', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 1 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hey', timestamp: 2 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Yo', timestamp: 3 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Oi', timestamp: 4 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'What', timestamp: 5 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'Calm down', timestamp: 6 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'What do you want', timestamp: 7 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        expectedResult = {
-          1: setIsFirstVisitorMessage([mockChats[0], mockChats[1], mockChats[2], mockChats[3]], true),
-          5: [mockChats[4], mockChats[5], mockChats[6]]
-        };
-
-        result = selectors.getGroupedChatLog(mockChatSettings);
-      });
-
-      it('parses the chat log successfully', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
-    });
-
-    describe('when passed a chat log which begins with an event', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        expectedResult = {
-          1: [mockChats[0]],
-          2: setIsFirstVisitorMessage([mockChats[1]], true)
-        };
-
-        result = selectors.getGroupedChatLog(mockChatSettings);
-      });
-
-      it('parses the chat log successfully', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
-    });
-
-    describe('when passed a chat log which begins with a message', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 1 },
-          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 2 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        expectedResult = {
-          1: setIsFirstVisitorMessage([mockChats[0]], true),
-          2: [mockChats[1]]
-        };
-
-        result = selectors.getGroupedChatLog(mockChatSettings);
-      });
-
-      it('parses the chat log successfully', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
-    });
-
-    describe('when passed a chat log with non-whitelisted events or messages', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.membercartwheeled', timestamp: 1 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
-          { nick: 'visitor', type: 'chat.package', package: 'suspicious.exe', timestamp: 3 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'Hey', timestamp: 4 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        expectedResult = {
-          2: setIsFirstVisitorMessage([mockChats[1]], true),
-          4: [mockChats[3]]
-        };
-
-        result = selectors.getGroupedChatLog(mockChatSettings);
-      });
-
-      it('filters out the invalid chats', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
-    });
-
-    describe('when passed a chat log with several ratings', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
-          { nick: 'visitor', type: 'chat.rating', new_rating: 'good', timestamp: 4 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'Boo', timestamp: 5 },
-          { nick: 'visitor', type: 'chat.rating', new_rating: 'bad', timestamp: 6 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats },
-            currentSessionStartTime: 1
-          }
-        };
-
-        expectedResult = {
-          1: [mockChats[0]],
-          2: setIsFirstVisitorMessage([mockChats[1]], true),
-          3: [mockChats[2]],
-          4: [{ ...mockChats[3], isLastRating: false }],
-          5: [mockChats[4]],
-          6: [{ ...mockChats[5], isLastRating: true }]
-        };
-
-        result = selectors.getGroupedChatLog(mockChatSettings);
-      });
-
-      it('adds an isLastRating property to the last rating event', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
-    });
-
-    describe('when passed a chat log with several rating requests', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
-          { nick: 'agent:123', type: 'chat.request.rating', timestamp: 4 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Wait', timestamp: 5 },
-          { nick: 'agent:123', type: 'chat.request.rating', timestamp: 6 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        expectedResult = {
-          1: [mockChats[0]],
-          2: setIsFirstVisitorMessage([mockChats[1]], true),
-          3: [mockChats[2]],
-          5: [mockChats[4]],
-          6: [mockChats[5]]
-        };
-
-        result = selectors.getGroupedChatLog(mockChatSettings);
-      });
-
-      it('filters out all except the final rating request', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
-    });
-
-    describe('when passed a chat log with prior sessions with rating requests', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
-          { nick: 'agent:123', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
-          { nick: 'visitor', type: 'chat.rating', new_rating: 'bad', timestamp: 4 },
-          { nick: 'visitor', type: 'chat.memberleave', timestamp: 5 },
-          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 6 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats },
-            currentSessionStartTime: 5
-          }
-        };
-
-        expectedResult = {
-          1: [mockChats[0]],
-          2: setIsFirstVisitorMessage([mockChats[1]], true),
-          3: [mockChats[2]],
-          4: [{ ...mockChats[3], isLastRating: false }],
-          5: [mockChats[4]],
-          6: [mockChats[5]]
-        };
-
-        result = selectors.getGroupedChatLog(mockChatSettings);
-      });
-
-      it('invalidates isLastRating value on the previous chat session', () => {
-        expect(result)
-          .toEqual(expectedResult);
-      });
     });
   });
 
@@ -1788,112 +1441,6 @@ describe('chat selectors', () => {
     it('returns the current state of the notification\'s count', () => {
       expect(result)
         .toEqual(mockChatSettings.chat.formState.offlineForm);
-    });
-  });
-
-  describe('getLastAgentLeaveEvent', () => {
-    let result, mockChats, mockChatSettings;
-
-    describe('when the chat log is empty', () => {
-      beforeEach(() => {
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => [] }
-          }
-        };
-
-        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
-      });
-
-      it('returns undefined', () => {
-        expect(result).toBeUndefined();
-      });
-    });
-
-    describe('when there are no leave events', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 3 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
-      });
-
-      it('returns undefined', () => {
-        expect(result).toBeUndefined();
-      });
-    });
-
-    describe("when there are agent leave events but they're not the last one", () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'agent:smith', type: 'chat.memberleave', timestamp: 11 },
-          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 30 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
-      });
-
-      it('returns undefined', () => {
-        expect(result).toBeUndefined();
-      });
-    });
-
-    describe('when there are leave events by visitors', () => {
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 11 },
-          { nick: 'visitor', type: 'chat.memberleave', timestamp: 30 }
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
-      });
-
-      it('returns undefined', () => {
-        expect(result).toBeUndefined();
-      });
-    });
-
-    describe("when there is an agent leave event as the chat's last event", () => {
-      let validLeaveEvent = { nick: 'agent:smith', type: 'chat.memberleave', timestamp: 30 };
-
-      beforeEach(() => {
-        mockChats = [
-          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 11 },
-          validLeaveEvent
-        ];
-
-        mockChatSettings = {
-          chat: {
-            chats: { values: () => mockChats }
-          }
-        };
-
-        result = selectors.getLastAgentLeaveEvent(mockChatSettings);
-      });
-
-      it('returns the event', () => {
-        expect(result).toEqual(validLeaveEvent);
-      });
     });
   });
 
@@ -3131,14 +2678,12 @@ describe('chat selectors', () => {
       mockState = {
         chat: {
           lastReadTimestamp: mockTimestamp,
-          chats: {
-            values: () => [
-              { nick: 'agent:123', type: 'chat.msg', timestamp: 1 },
-              { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 },
-              { nick: 'agent:123', type: 'chat.msg', timestamp: 5 },
-              { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }
-            ]
-          }
+          chats: new Map([
+            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+            [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
+            [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
+          ])
         }
       };
 
@@ -3203,6 +2748,213 @@ describe('chat selectors', () => {
     it('returns the correct color', () => {
       expect(result)
         .toEqual('yeet');
+    });
+  });
+
+  describe('getChatsLength', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chats: new Map([
+            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+            [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
+            [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
+          ])
+        }
+      };
+
+      result = selectors.getChatsLength(mockState);
+    });
+
+    it('returns the correct size', () => {
+      expect(result)
+        .toEqual(4);
+    });
+  });
+
+  describe('getGroupMessages', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chats: new Map([
+            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+            [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
+            [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
+          ])
+        }
+      };
+
+      result = selectors.getGroupMessages(mockState, [5, 7]);
+    });
+
+    it('returns the messages in the group', () => {
+      expect(result)
+        .toEqual([
+          { nick: 'agent:123', type: 'chat.msg', timestamp: 5 },
+          { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }
+        ]);
+    });
+  });
+
+  describe('getEventMessage', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chats: new Map([
+            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+            [3, { nick: 'visitor:2', type: 'member.join', timestamp: 3 }],
+            [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
+          ])
+        }
+      };
+
+      result = selectors.getEventMessage(mockState, 3);
+    });
+
+    it('returns the correct event message', () => {
+      expect(result)
+        .toEqual({ nick: 'visitor:2', type: 'member.join', timestamp: 3 });
+    });
+  });
+
+  describe('getLatestQuickReply', () => {
+    let result,
+      quickReplyKey;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          chats: new Map([
+            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
+            [3, { nick: 'visitor:2', type: 'member.join', timestamp: 3 }],
+            [6, { nick: 'agent:123', type: 'chat.msg', timestamp: 6 }],
+            [7, { nick: 'agent:123', type: 'chat.quick_replies', timestamp: 7 }]
+          ]),
+          chatLog: {
+            latestQuickReply: quickReplyKey
+          }
+        }
+      };
+
+      result = selectors.getLatestQuickReply(mockState, quickReplyKey);
+    });
+
+    describe('when the latest quick reply can be shown', () => {
+      beforeAll(() => {
+        quickReplyKey = 7;
+      });
+
+      it('returns the quick reply message', () => {
+        expect(result)
+          .toEqual({ nick: 'agent:123', type: 'chat.quick_replies', timestamp: 7 });
+      });
+    });
+
+    describe('when the latest quick reply cannot be shown', () => {
+      beforeAll(() => {
+        quickReplyKey = -1;
+      });
+
+      it('does not return a quick reply message', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+  });
+
+  describe('getShowUpdateVisitorDetails', () => {
+    let result,
+      loginEnabled,
+      visitorName,
+      visitorEmail;
+
+    beforeEach(() => {
+      const mockState = {
+        chat: {
+          accountSettings: {
+            login: {
+              enabled: loginEnabled
+            }
+          },
+          visitor: {
+            display_name: visitorName,
+            email: visitorEmail
+          }
+        }
+      };
+
+      result = selectors.getShowUpdateVisitorDetails(mockState);
+    });
+
+    describe('when login is not enabled', () => {
+      beforeAll(() => {
+        loginEnabled = false;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+
+    describe('when login is enabled', () => {
+      beforeAll(() => {
+        loginEnabled = true;
+      });
+
+      describe('when visitor email is set', () => {
+        beforeAll(() => {
+          visitorEmail = 'bob@example.com';
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toBe(false);
+        });
+      });
+
+      describe('when visitor email is not set', () => {
+        beforeAll(() => {
+          visitorEmail = undefined;
+        });
+
+        describe('and visitor name is set', () => {
+          beforeAll(() => {
+            visitorName = 'Visitor 123';
+          });
+
+          describe('and is a default nickname', () => {
+            beforeAll(() => {
+              mockIsDefaultNickname = true;
+            });
+
+            it('returns true', () => {
+              expect(result)
+                .toBe(true);
+            });
+          });
+
+          describe('and is not a default nickname', () => {
+            beforeAll(() => {
+              mockIsDefaultNickname = false;
+            });
+
+            it('returns false', () => {
+              expect(result)
+                .toBe(false);
+            });
+          });
+        });
+      });
     });
   });
 });

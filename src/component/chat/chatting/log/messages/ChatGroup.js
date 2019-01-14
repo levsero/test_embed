@@ -21,7 +21,7 @@ import Carousel from 'component/chat/chatting/Carousel';
 
 const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE);
 
-export class ChatGroup extends Component {
+export default class ChatGroup extends Component {
   static propTypes = {
     messages: PropTypes.arrayOf(chatPropTypes.chatMessage),
     isAgent: PropTypes.bool.isRequired,
@@ -182,7 +182,9 @@ export class ChatGroup extends Component {
   renderInlineAttachment = (isAgent, chat) => {
     let inlineAttachment;
 
-    const file = chat.file;
+    const file = chat.file
+      ? chat.file
+      : { ...chat.attachment, type: chat.attachment.mime_type };
     const extension = file.name.split('.').pop().toUpperCase();
     const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
     const isImage = /(gif|jpe?g|png)$/i.test(extension);
