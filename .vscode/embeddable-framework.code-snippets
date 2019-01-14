@@ -142,5 +142,19 @@
       "};"
     ],
     "description": "empty reducer class"
+  },
+  "DescribeTestEach": {
+    "prefix": "describeEach",
+    "body": [
+      "describe('${1:funcName}', () => {",
+      "\ttest.each([",
+      "\t\t[${2:testvalue}],",
+      "\t])('${3:title}', (${4:testParams}) => {",
+      "\t\tconst result = ${5:test};",
+      "\t\t",
+      "\t\texpect(result).toEqual(${6:value});",
+      "\t});",
+      "});"
+    ]
   }
 }
