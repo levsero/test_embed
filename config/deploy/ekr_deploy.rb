@@ -15,6 +15,7 @@ set :popout_file_location, 'dist/'
 set :locales_file_location, 'dist/locales'
 set :popout_file_name, 'liveChat.html'
 set :preview_files, %i(webWidgetPreview.js chatPreview.js)
+set :node_env, 'production'
 
 PREVIEW_EXPIRY = 600
 
