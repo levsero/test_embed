@@ -20,7 +20,7 @@ export class Button extends Component {
     });
 
     return (
-      <button className={buttonStyles} onClick={this.props.onClick}>
+      <button className={buttonStyles} onClick={this.props.onClick} title={this.props.label}>
         {this.props.label}
       </button>
     );
