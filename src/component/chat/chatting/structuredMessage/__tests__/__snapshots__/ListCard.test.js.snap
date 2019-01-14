@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render renders the list correctly 1`] = `
+<div>
+  <div
+    class="cardContainer"
+  >
+    <ul
+      class="panelList"
+    >
+      <li>
+        <div
+          class="panel noBorderRadiusBottom noBorderBottom"
+        >
+          <div
+            class="panelContent"
+          >
+            <div
+              class="panelContentImage floatRight"
+              data-testid="panelThumbnail"
+              style="background-image: url(https://nsync.com/banner.png);"
+            />
+            <div
+              class="floatedPanelContent floatLeft"
+            >
+              <div
+                class="panelHeading lineClamp"
+                data-testid="panelHeading"
+                style="max-height: auto;"
+              >
+                Nsync
+              </div>
+              <div
+                class="panelParagraph lineClamp"
+                style="max-height: auto;"
+              >
+                Before they sold out High Life. Umami tattooed sriracha.
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div
+          class="panel noBorderRadiusTop"
+        >
+          <div
+            class="panelContent"
+          >
+            <div
+              class="panelContentImage floatRight"
+              data-testid="panelThumbnail"
+              style="background-image: url(https://destiny.com/banner.png);"
+            />
+            <div
+              class="floatedPanelContent floatLeft"
+            >
+              <div
+                class="panelHeading lineClamp"
+                data-testid="panelHeading"
+                style="max-height: auto;"
+              >
+                Destiny's Child
+              </div>
+              <div
+                class="panelParagraph lineClamp"
+                style="max-height: auto;"
+              >
+                Trust fund artisan master cleanse Etsy direct trade rye.
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <ul
+      class="buttonList"
+    />
+  </div>
+</div>
+`;
