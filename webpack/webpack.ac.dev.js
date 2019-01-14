@@ -55,7 +55,7 @@ module.exports = () => {
       }),
       new I18nPlugin({
         locales: path.join(__dirname, '../src/translation/locales.json'),
-        localesDir: path.join(__dirname, '../src/translation'),
+        localesDir: path.join(__dirname, '../src/translation/locales'),
         source: path.join(__dirname, '../config/locales/translations/embeddable_framework.yml'),
         assetNamePrefix: ('locales/')
       }),
