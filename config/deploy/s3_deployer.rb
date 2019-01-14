@@ -39,7 +39,7 @@ class S3Deployer
   def upload_translations(local_directory, remote_directory)
     Dir.glob("#{local_directory}/*.js") do |file|
       upload_file("#{remote_directory}/#{file.partition('/').last}", file)
-      
+
       logger.info "put_object #{file} on dir #{file.partition('/').last}"
     end
   end

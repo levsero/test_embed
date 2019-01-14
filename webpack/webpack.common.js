@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const I18nPlugin = require('@zendesk/client-i18n-tools/I18nPlugin');
 
 const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp';
 
@@ -102,12 +101,6 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __EMBEDDABLE_VERSION__: JSON.stringify(version)
-    }),
-    new I18nPlugin({
-      locales: path.join(__dirname, '../src/translation/locales.json'),
-      localesDir: path.join(__dirname, '../src/translation'),
-      source: path.join(__dirname, '../config/locales/translations/embeddable_framework.yml'),
-      assetNamePrefix: ('locales/')
-    }),
+    })
   ]
 };

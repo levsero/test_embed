@@ -1,10 +1,12 @@
 const webpack = require('webpack');
+const path = require('path');
 const merge = require('webpack-merge');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const common = require('./webpack.ac.common.js');
 const chunks = require('./chunks');
+const I18nPlugin = require('@zendesk/client-i18n-tools/I18nPlugin');
 
 // Assets must be downloaded in the order specified in CHUNKS
 const CHUNKS = [
@@ -39,6 +41,7 @@ module.exports = merge(common, {
         if (indexA === -1 || indexB === -1) {
           throw "Found chunk that's not in CHUNKS constant!";
         }
+
         return indexA - indexB;
       },
       generate: function (seed, files) {
@@ -61,6 +64,12 @@ module.exports = merge(common, {
     new OptimizeCSSAssetsPlugin({
       cssProcessorOptions: { discardComments: { removeAll: true } },
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false }),
+    new I18nPlugin({
+      locales: path.join(__dirname, '../src/translation/locales.json'),
+      localesDir: path.join(__dirname, '../src/translation'),
+      source: path.join(__dirname, '../config/locales/translations/embeddable_framework.yml'),
+      assetNamePrefix: ('locales/')
+    }),
   ]
 });

@@ -5,6 +5,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const common = require('./webpack.ac.common.js');
 const fs = require('fs');
 const webWidgetTemplates = require('../dev/web_widget_templates');
+const I18nPlugin = require('@zendesk/client-i18n-tools/I18nPlugin');
 
 const CWD = process.cwd();
 const CSP_HEADER = "\
@@ -51,7 +52,13 @@ module.exports = () => {
       new ProgressBarPlugin({
         format: 'Build [:bar] :percent (:elapsed seconds)',
         clear: false
-      })
+      }),
+      new I18nPlugin({
+        locales: path.join(__dirname, '../src/translation/locales.json'),
+        localesDir: path.join(__dirname, '../src/translation'),
+        source: path.join(__dirname, '../config/locales/translations/embeddable_framework.yml'),
+        assetNamePrefix: ('locales/')
+      }),
     ]
   });
 };
