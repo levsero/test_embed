@@ -1,206 +1,81 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render renders the list correctly 1`] = `
-Object {
-  "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <div
-        class="cardContainer"
-      >
-        <ul
-          class="panelList"
-        >
-          <li>
-            <div
-              class="panel noBorderRadiusBottom noBorderBottom"
-            >
-              <div
-                class="panelContent"
-              >
-                <div
-                  class="panelContentImage floatRight"
-                  data-testid="panelThumbnail"
-                  style="background-image: url(https://nsync.com/banner.png);"
-                />
-                <div
-                  class="floatedPanelContent floatLeft"
-                >
-                  <div
-                    class="panelHeading lineClamp"
-                    data-testid="panelHeading"
-                    style="max-height: auto;"
-                  >
-                    Nsync
-                  </div>
-                  <div
-                    class="panelParagraph lineClamp"
-                    style="max-height: auto;"
-                  >
-                    Before they sold out High Life. Umami tattooed sriracha.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div
-              class="panel noBorderRadiusTop"
-            >
-              <div
-                class="panelContent"
-              >
-                <div
-                  class="panelContentImage floatRight"
-                  data-testid="panelThumbnail"
-                  style="background-image: url(https://destiny.com/banner.png);"
-                />
-                <div
-                  class="floatedPanelContent floatLeft"
-                >
-                  <div
-                    class="panelHeading lineClamp"
-                    data-testid="panelHeading"
-                    style="max-height: auto;"
-                  >
-                    Destiny's Child
-                  </div>
-                  <div
-                    class="panelParagraph lineClamp"
-                    style="max-height: auto;"
-                  >
-                    Trust fund artisan master cleanse Etsy direct trade rye.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <ul
-          class="buttonList"
-        />
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div
-      class="cardContainer"
+<div>
+  <div
+    class="cardContainer"
+  >
+    <ul
+      class="panelList"
     >
-      <ul
-        class="panelList"
-      >
-        <li>
+      <li>
+        <div
+          class="panel noBorderRadiusBottom noBorderBottom"
+        >
           <div
-            class="panel noBorderRadiusBottom noBorderBottom"
+            class="panelContent"
           >
             <div
-              class="panelContent"
+              class="panelContentImage floatRight"
+              data-testid="panelThumbnail"
+              style="background-image: url(https://nsync.com/banner.png);"
+            />
+            <div
+              class="floatedPanelContent floatLeft"
             >
               <div
-                class="panelContentImage floatRight"
-                data-testid="panelThumbnail"
-                style="background-image: url(https://nsync.com/banner.png);"
-              />
-              <div
-                class="floatedPanelContent floatLeft"
+                class="panelHeading lineClamp"
+                data-testid="panelHeading"
+                style="max-height: auto;"
               >
-                <div
-                  class="panelHeading lineClamp"
-                  data-testid="panelHeading"
-                  style="max-height: auto;"
-                >
-                  Nsync
-                </div>
-                <div
-                  class="panelParagraph lineClamp"
-                  style="max-height: auto;"
-                >
-                  Before they sold out High Life. Umami tattooed sriracha.
-                </div>
+                Nsync
+              </div>
+              <div
+                class="panelParagraph lineClamp"
+                style="max-height: auto;"
+              >
+                Before they sold out High Life. Umami tattooed sriracha.
               </div>
             </div>
           </div>
-        </li>
-        <li>
+        </div>
+      </li>
+      <li>
+        <div
+          class="panel noBorderRadiusTop"
+        >
           <div
-            class="panel noBorderRadiusTop"
+            class="panelContent"
           >
             <div
-              class="panelContent"
+              class="panelContentImage floatRight"
+              data-testid="panelThumbnail"
+              style="background-image: url(https://destiny.com/banner.png);"
+            />
+            <div
+              class="floatedPanelContent floatLeft"
             >
               <div
-                class="panelContentImage floatRight"
-                data-testid="panelThumbnail"
-                style="background-image: url(https://destiny.com/banner.png);"
-              />
-              <div
-                class="floatedPanelContent floatLeft"
+                class="panelHeading lineClamp"
+                data-testid="panelHeading"
+                style="max-height: auto;"
               >
-                <div
-                  class="panelHeading lineClamp"
-                  data-testid="panelHeading"
-                  style="max-height: auto;"
-                >
-                  Destiny's Child
-                </div>
-                <div
-                  class="panelParagraph lineClamp"
-                  style="max-height: auto;"
-                >
-                  Trust fund artisan master cleanse Etsy direct trade rye.
-                </div>
+                Destiny's Child
+              </div>
+              <div
+                class="panelParagraph lineClamp"
+                style="max-height: auto;"
+              >
+                Trust fund artisan master cleanse Etsy direct trade rye.
               </div>
             </div>
           </div>
-        </li>
-      </ul>
-      <ul
-        class="buttonList"
-      />
-    </div>
-  </div>,
-  "debug": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllBySelectText": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getAllByValue": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getBySelectText": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "getByValue": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllBySelectText": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryAllByValue": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryBySelectText": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "queryByValue": [Function],
-  "rerender": [Function],
-  "unmount": [Function],
-}
+        </div>
+      </li>
+    </ul>
+    <ul
+      class="buttonList"
+    />
+  </div>
+</div>
 `;

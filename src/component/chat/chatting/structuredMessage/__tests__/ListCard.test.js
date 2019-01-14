@@ -42,7 +42,7 @@ describe('render', () => {
   });
 
   it('renders the list correctly', () => {
-    expect(result).toMatchSnapshot();
+    expect(result.container).toMatchSnapshot();
   });
 
   it('heading line clamp should be 1', () => {
