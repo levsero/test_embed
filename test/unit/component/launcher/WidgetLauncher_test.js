@@ -497,7 +497,7 @@ describe('WidgetLauncher component', () => {
     });
   });
 
-  describe('componentWillReceiveProps', () => {
+  describe('componentDidUpdate', () => {
     let launcher, notificationCount, previousNotificationCount;
     const forceUpdateWorldSpy = jasmine.createSpy('forceUpdateWorld');
 
@@ -505,7 +505,7 @@ describe('WidgetLauncher component', () => {
       launcher = domRender(
         <Launcher notificationCount={previousNotificationCount} forceUpdateWorld={forceUpdateWorldSpy} />
       );
-      launcher.componentWillReceiveProps({ notificationCount });
+      launcher.componentDidUpdate({ notificationCount });
     });
 
     describe('when nextProps.notificationCount is the same as props.notificationCount', () => {
