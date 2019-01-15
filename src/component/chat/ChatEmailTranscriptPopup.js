@@ -44,25 +44,26 @@ export class ChatEmailTranscriptPopup extends Component {
 
   constructor(props) {
     super(props);
-    const email = props.emailTranscript.email || _.get(props.visitor, 'email', '');
 
     this.state = {
-      valid: emailValid(email),
-      formState: {
-        email
-      },
+      valid: false,
+      formState: { email: '' },
       showErrors: false
     };
 
     this.form = null;
   }
 
-  componentWillReceiveProps(nextProps) {
-    const email = nextProps.emailTranscript.email || _.get(nextProps.visitor, 'email', '');
+  static getDerivedStateFromProps(props, state) {
+    const email = props.emailTranscript.email || _.get(props.visitor, 'email', '');
 
-    this.setState({
-      formState: { email }
-    });
+    if (email && email !== state.formState.email) {
+      return {
+        valid: emailValid(email),
+        formState: { email }
+      };
+    }
+    return null;
   }
 
   handleSave = (e) => {

@@ -192,7 +192,6 @@ describe('ChatEmailTranscriptPopup component', () => {
       component = instanceRender(<ChatEmailTranscriptPopup />);
       mockFormValidity = true;
       component.form = mockForm;
-
       component.handleFormChange({ target: { name: 'email', value: 'bob@bob.com' } });
     });
 
@@ -207,13 +206,12 @@ describe('ChatEmailTranscriptPopup component', () => {
     });
   });
 
-  describe('componentWillReceiveProps', () => {
+  describe('getDerivedStateFromProps', () => {
     let component;
 
     beforeEach(() => {
-      component = instanceRender(<ChatEmailTranscriptPopup />);
-
-      component.componentWillReceiveProps({ visitor: { email: 'bob@bob.com' }, emailTranscript: {} });
+      component = domRender(<ChatEmailTranscriptPopup />);
+      domRender(<ChatEmailTranscriptPopup visitor={{ email: 'bob@bob.com' }} />);
     });
 
     it('sets email form state to the email visitor prop passed in', () => {
