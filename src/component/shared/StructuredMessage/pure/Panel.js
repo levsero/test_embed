@@ -70,24 +70,10 @@ export class Panel extends Component {
   renderHeroImage(panel) {
     if (panel.layout !== 'hero' || !panel.imageUrl) return;
 
-    const imageStyle = {
-      backgroundImage: `url(${panel.imageUrl})`
-    };
-
-    const aspectRatioStyle = {
-      paddingBottom: `${1 / panel.imageAspectRatio * 100}%`
-    };
-
-    return (
-      <div className={styles.imageContainer}>
-        <div className={styles.aspectRatioStub} style={aspectRatioStyle} />
-        <div className={styles.imagePlaceholder}>
-          <Icon type="Icon--image-stroke" />
-        </div>
-
-        <div className={styles.image} style={imageStyle} />
-      </div>
-    );
+    return this.renderImage({
+      containerClassNames: styles.imageContainer,
+      panel
+    });
   }
 
   renderPanelContent(panel) {
@@ -131,17 +117,38 @@ export class Panel extends Component {
   renderThumbnail(panel) {
     if (panel.layout !== 'thumbnail') return;
 
-    const imageStyles = {
-      backgroundImage: `url(${panel.imageUrl})`
-    };
-
-    const imageClassNames = classNames(styles.panelContentImage, {
+    const containerClassNames = classNames(styles.panelContentImage, {
       [styles.floatLeft]: (panel.align === 'left'),
       [styles.floatRight]: (panel.align === 'right')
     });
 
+    return this.renderImage({
+      containerClassNames,
+      panel
+    });
+  }
+
+  /**
+  * imageAspectRatio is only useful if the parent container cannot set a fixed height
+  */
+  renderImage({ containerClassNames, panel }) {
+    const aspectRatioStyle = {
+      paddingBottom: `${1 / panel.imageAspectRatio * 100}%`
+    };
+
+    const imageStyle = {
+      backgroundImage: `url(${panel.imageUrl})`
+    };
+
     return (
-      <div style={imageStyles} className={imageClassNames} data-testid="panelThumbnail"/>
+      <div className={containerClassNames}>
+        <div className={styles.aspectRatioStub} style={aspectRatioStyle} />
+        <div className={styles.imagePlaceholder}>
+          <Icon type="Icon--image-stroke" />
+        </div>
+
+        <div className={styles.image} style={imageStyle} />
+      </div>
     );
   }
 
