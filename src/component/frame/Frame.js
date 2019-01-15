@@ -186,25 +186,18 @@ class Frame extends Component {
     this.renderFrameContent();
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    const prevProps = this.props;
-
-    if (prevProps.visible && !nextProps.visible) {
-      this.waitForRender(this.hide);
-    } else if (!prevProps.visible && nextProps.visible) {
-      this.waitForRender(this.show);
-    }
-
-    if (!_.isEqual(nextProps.color, prevProps.color)) {
-      this.waitForRender(() => {
-        this.setCustomCSS(this.generateUserCSSWithColor(nextProps.color));
-      });
-    }
-  }
-
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps, _prevState) => {
     this.renderFrameContent();
-    this.setCustomCSS(this.generateUserCSSWithColor(this.props.color));
+
+    if (prevProps.visible && !this.props.visible) {
+      this.hide();
+    } else if (!prevProps.visible && this.props.visible) {
+      this.show();
+    }
+
+    if (this.props.color !== prevProps.color) {
+      this.setCustomCSS(this.generateUserCSSWithColor(this.props.color));
+    }
   }
 
   componentWillUnmount = () => {

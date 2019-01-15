@@ -180,28 +180,6 @@ describe('Frame', () => {
     });
   });
 
-  describe('componentDidUpdate', () => {
-    let frame;
-
-    beforeEach(() => {
-      frame = domRender(<Frame color='#ffffff'>{mockChild}</Frame>);
-      forceFrameReady(frame);
-      spyOn(frame, 'setCustomCSS');
-      spyOn(frame, 'generateUserCSSWithColor');
-      frame.componentDidUpdate();
-    });
-
-    it('calls setCustomCSS', () => {
-      expect(frame.setCustomCSS)
-        .toHaveBeenCalled();
-    });
-
-    it('calls generateUserCSSWithColor with correct colour', () => {
-      expect(frame.generateUserCSSWithColor)
-        .toHaveBeenCalledWith('#ffffff');
-    });
-  });
-
   describe('getChild', () => {
     let frame;
 
@@ -1147,13 +1125,13 @@ describe('Frame', () => {
     });
 
     it('calls setCustomCSS if the colors change', () => {
-      frame.componentWillReceiveProps({ color: 'white' });
+      domRender(<Frame generateUserCSS={_.identity} color='white'>{mockChild}</Frame>);
       expect(frame.setCustomCSS)
         .toHaveBeenCalledWith('white');
     });
 
     it('does not call setCustomCSS if the colors do not change', () => {
-      frame.componentWillReceiveProps({ color: 'black' });
+      domRender(<Frame generateUserCSS={_.identity} color='black'>{mockChild}</Frame>);
       expect(frame.setCustomCSS)
         .not.toHaveBeenCalled();
     });
