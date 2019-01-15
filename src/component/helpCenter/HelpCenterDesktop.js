@@ -128,7 +128,7 @@ export class HelpCenterDesktop extends Component {
 
   renderZendeskLogo = () => {
     return !this.props.hideZendeskLogo
-      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
+      ? <ZendeskLogo fullscreen={false} />
       : null;
   }
 

@@ -1,14 +1,20 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-posAbsoluteCenter from global;
-
+  bottom: 0;
+  left: 0 ;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
   z-index: 100;
 }
 
 .dropzone {
-  composes: u-posAbsolute u-marginAS from global;
   composes: Container--dashed from '../../styles/components/Container.scss';
+
+  position: absolute;
+  margin: #{10/$font-size}rem;
 }
 
 .dropzoneActive {
@@ -17,8 +23,10 @@
 }
 
 .dropzoneChild {
-  composes: u-textCenter u-posRelative u-posCenter--vert from global;
+  composes: u-textCenter u-posRelative from global;
 
+  top: 50%;
+  transform: translateY(-50%);
   font-size: $font-size-lrg;
 }
 

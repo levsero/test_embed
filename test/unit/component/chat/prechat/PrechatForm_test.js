@@ -163,7 +163,7 @@ describe('PrechatForm component', () => {
     });
 
     it('passes the correct title to ScrollContainer', () => {
-      const targetElem = result.props.children;
+      const targetElem = result.props.children[0];
 
       expect(targetElem.props.title)
         .toEqual(mockTitle);
@@ -181,14 +181,14 @@ describe('PrechatForm component', () => {
       });
 
       it('passes the correct isMobile to ScrollContainer', () => {
-        const targetElem = result.props.children;
+        const targetElem = result.props.children[0];
 
         expect(targetElem.props.isMobile)
           .toEqual(true);
       });
 
       it('passes the correct fullscreen to ScrollContainer', () => {
-        const targetElem = result.props.children;
+        const targetElem = result.props.children[0];
 
         expect(targetElem.props.fullscreen)
           .toEqual(true);

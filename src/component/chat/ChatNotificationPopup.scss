@@ -80,10 +80,11 @@
 }
 
 .avatar {
-  composes: u-paddingLN u-marginLM u-inlineBlock from global;
+  composes: u-paddingLN u-inlineBlock from global;
   margin-top: #{11/$font-size}rem;
   margin-bottom: #{11/$font-size}rem;
   margin-right: #{12/$font-size}rem;
+  margin-left: #{15/$font-size}rem;
   height: #{36/$font-size}rem;
   width: #{36/$font-size}rem;
 
@@ -98,6 +99,8 @@
 }
 
 .proactiveAvatar {
-  composes: u-marginVL from global;
   composes: avatar;
+
+  margin-top: #{20/$font-size}rem;
+  margin-bottom: #{20/$font-size}rem;
 }

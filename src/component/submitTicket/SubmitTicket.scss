@@ -46,7 +46,10 @@
 }
 
 .ticketFormsContainerMobile {
-  composes: u-paddingHN u-marginHN u-paddingTN from global;
+  composes: u-paddingHN u-paddingTN from global;
+
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .notify {
@@ -74,7 +77,8 @@
 }
 
 .loadingSpinnerIE {
-  composes: u-paddingBXL u-paddingRXL from global;
+  padding-right: #{25/$font-size}rem;
+  padding-bottom: #{25/$font-size}rem;
 }
 
 .button {

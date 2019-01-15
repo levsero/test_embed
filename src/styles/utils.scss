@@ -11,58 +11,16 @@
 
 $Base-posOffset: $med + 1;
 
-.u-posEnd {
-  right: #{$Base-posOffset/$font-size}rem;
-}
-
 .u-posEnd--flush {
   right: 0;
-}
-
-.u-posEndL {
-  right: #{18/$font-size}rem;
-}
-
-.u-posStart {
-  left: #{$Base-posOffset/$font-size}rem;
 }
 
 .u-posStart--flush {
   left: 0;
 }
 
-.u-posStartL {
-  left: #{18/$font-size}rem;
-}
-
-.u-posCenter {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .u-posStart--vert {
   top: #{$Base-posOffset/$font-size}rem;
-}
-
-.u-posStart--vertFlush {
-  top: 0;
-}
-
-.u-posStart--vertL {
-  top: #{17/$font-size}rem;
-}
-
-.u-posEnd--vert {
-  bottom: #{$Base-posOffset/$font-size}rem;
-}
-
-.u-posCenter--vert {
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.u-posStatic {
-  position: static !important;
 }
 
 .u-posFill {
@@ -70,14 +28,6 @@ $Base-posOffset: $med + 1;
   bottom: 0;
   left: 0;
   right: 0;
-}
-
-/**
- * Overflow
- */
-
-u-overflowAuto {
-  overflow: auto !important;
 }
 
 /**
@@ -102,16 +52,8 @@ u-overflowAuto {
  * L = large 20px
  */
 
-.u-marginAS {
-  margin: $spacing-sml !important;
-}
-
 .u-marginBN {
   margin-bottom: 0 !important;
-}
-
-.u-marginBT {
-  margin-bottom: $spacing-tny !important;
 }
 
 .u-marginBS {
@@ -124,10 +66,6 @@ u-overflowAuto {
 
 .u-marginBL {
   margin-bottom: $spacing-lrg !important;
-}
-
-.u-marginTA {
-  margin-top: auto !important;
 }
 
 .u-marginTT {
@@ -150,72 +88,9 @@ u-overflowAuto {
   margin-top: 0 !important;
 }
 
-.u-marginVT {
-  margin-top: $spacing-tny !important;
-  margin-bottom: $spacing-tny !important;
-}
-
 .u-marginVS {
   margin-top: $spacing-sml !important;
   margin-bottom: $spacing-sml !important;
-}
-
-.u-marginVM {
-  margin-top: $spacing-med !important;
-  margin-bottom: $spacing-med !important;
-}
-
-.u-marginVL {
-  margin-top: $spacing-lrg !important;
-  margin-bottom: $spacing-lrg !important;
-}
-
-.u-marginVXL {
-  margin-top: $spacing-xl !important;
-  margin-bottom: $spacing-xl !important;
-}
-
-.u-marginRS {
-  margin-right: $spacing-sml !important;
-
-  [dir='rtl'] & {
-    margin-right: 0;
-    margin-left: $spacing-sml;
-  }
-}
-
-.u-marginRM {
-  margin-right: $spacing-med !important;
-
-  [dir='rtl'] & {
-    margin-right: 0;
-    margin-left: $spacing-med;
-  }
-}
-
-.u-marginRL {
-  margin-right: $spacing-lrg !important;
-}
-
-.u-marginLT {
-  margin-left: $spacing-tny !important;
-}
-
-.u-marginLS {
-  margin-left: $spacing-sml !important;
-}
-
-.u-marginLM {
-  margin-left: $spacing-med !important;
-}
-
-.u-marginLL {
-  margin-left: $spacing-lrg !important;
-}
-
-.u-marginHT {
-  margin-left: $spacing-tny !important;
-  margin-right: $spacing-tny !important;
 }
 
 .u-marginHS {
@@ -223,36 +98,8 @@ u-overflowAuto {
   margin-right: $spacing-sml !important;
 }
 
-.u-marginHM {
-  margin-left: $spacing-med !important;
-  margin-right: $spacing-med !important;
-}
-
-.u-marginHL {
-  margin-left: $spacing-lrg !important;
-  margin-right: $spacing-lrg !important;
-}
-
-.u-marginHXL {
-  margin-left: $spacing-xl !important;
-  margin-right: $spacing-xl !important;
-}
-
-.u-marginHN {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
 .u-paddingAN {
   padding: 0 !important;
-}
-
-.u-paddingAT {
-  padding: $spacing-tny !important;
-}
-
-.u-paddingAS {
-  padding: $spacing-sml !important;
 }
 
 .u-paddingAL {
@@ -264,39 +111,9 @@ u-overflowAuto {
   padding-right: 0 !important;
 }
 
-.u-paddingHT {
-  padding-left: $spacing-tny !important;
-  padding-right: $spacing-tny !important;
-}
-
-.u-paddingHS {
-  padding-left: $spacing-sml !important;
-  padding-right: $spacing-sml !important;
-}
-
-.u-paddingHM {
-  padding-left: $spacing-med !important;
-  padding-right: $spacing-med !important;
-}
-
 .u-paddingHL {
   padding-left: $spacing-lrg !important;
   padding-right: $spacing-lrg !important;
-}
-
-.u-paddingHXL {
-  padding-left: $spacing-xl !important;
-  padding-right: $spacing-xl !important;
-}
-
-.u-paddingVS {
-  padding-top: $spacing-sml !important;
-  padding-bottom: $spacing-sml !important;
-}
-
-.u-paddingVM {
-  padding-top: $spacing-med !important;
-  padding-bottom: $spacing-med !important;
 }
 
 .u-paddingVL {
@@ -304,156 +121,28 @@ u-overflowAuto {
   padding-bottom: $spacing-lrg !important;
 }
 
-.u-paddingVXL {
-  padding-top: $spacing-xl !important;
-  padding-bottom: $spacing-xl !important;
-}
-
-.u-paddingVN {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.u-paddingR {
-  padding-right: #{25/$font-size}rem;
-
-  [dir='rtl'] & {
-    padding-right: 0;
-    padding-left: #{25/$font-size}rem;
-  }
-}
-
 .u-paddingLN {
   padding-left: 0 !important;
-}
-
-.u-paddingL {
-  padding-left: #{25/$font-size}rem;
-}
-
-.u-paddingLT {
-  padding-left: $spacing-tny;
-}
-
-.u-paddingLS {
-  padding-left: $spacing-sml;
-}
-
-.u-paddingLL {
-  padding-left: $spacing-lrg;
-}
-
-.u-paddingRN {
-  padding-right: 0 !important;
-}
-
-.u-paddingRS {
-  padding-right: $spacing-sml !important;
-
-  [dir='rtl'] & {
-    padding-right: 0;
-    padding-left: $spacing-sml;
-  }
-}
-
-.u-paddingRM {
-  padding-right: $spacing-med !important;
-}
-
-.u-paddingRL {
-  padding-right: $spacing-lrg !important;
-}
-
-.u-paddingRXL {
-  padding-right: $spacing-xl !important;
 }
 
 .u-paddingTT {
   padding-top: $spacing-tny !important;
 }
 
-.u-paddingTS {
-  padding-top: $spacing-sml !important;
-}
-
 .u-paddingTM {
   padding-top: $spacing-med !important;
-}
-
-.u-paddingTL {
-  padding-top: $spacing-lrg !important;
 }
 
 .u-paddingTN {
   padding-top: 0 !important;
 }
 
-.u-paddingBN {
-  padding-bottom: 0 !important;
-}
-
 .u-paddingBT {
   padding-bottom: $spacing-tny !important;
 }
 
-.u-paddingBS {
-  padding-bottom: $spacing-sml !important;
-}
-
-.u-paddingBM {
-  padding-bottom: $spacing-med !important;
-}
-
-.u-paddingBL {
-  padding-bottom: $spacing-lrg !important;
-}
-
-.u-paddingBXL {
-  padding-bottom: $spacing-xl !important;
-}
-
-/**
- * Text properties
- */
-
-.u-textCTA {
-  color: $cta-color;
-}
-
-.u-textError {
-  color: $error-text-color;
-}
-
-.u-textPlaceholder {
-  color: #DADADA;
-}
-
-.u-textSizeSml {
-  font-size: #{13/$font-size}rem !important;
-}
-
-.u-textSizeNml {
-  font-size: #{14/$font-size}rem !important;
-}
-
-.u-textSizeMed {
-  font-size: #{15/$font-size}rem !important;
-}
-
-.u-textSize15 {
-  font-size: #{16/$font-size}rem !important;
-}
-
-.u-textSizeLrg {
-  font-size: #{17/$font-size}rem;
-}
-
 .u-textBold {
   font-weight: 700;
-}
-
-.u-textNormal {
-  font-weight: normal !important;
 }
 
 .u-textHeightMed {
@@ -464,54 +153,9 @@ u-overflowAuto {
   line-height: #{20/$font-size}rem;
 }
 
-/* Force a single line to have exact font height  */
-.u-textXHeight {
-  line-height: 0.9;
-}
-
-.u-textUppercase {
-  text-transform: uppercase;
-}
-
 .u-wordBreakAll {
   word-break: break-all;
   word-break: break-word; /* Non standard for WebKit */
-}
-
-/**
- * States
- */
-
-.u-isSelectable {
-  cursor: text;
-}
-
-.u-isSuccessful {
- color: $cta-color !important;
-
- svg {
-   fill: $cta-color !important;
- }
-}
-
-.u-isError{
- color: $zd-color-cg-red !important;
-}
-
-/**
- * Background
- */
-
-.u-backgroundWhite {
-  background-color: $zd-color-white !important;
-}
-
-/**
- * Misc
- */
-
-.u-flipText {
-  transform: scale(-1);
 }
 
 .u-borderTransparent {
@@ -522,49 +166,12 @@ u-overflowAuto {
   border: none !important;
 }
 
-.u-borderTop {
-  border-top: $thin-border-size solid $base-border-color;
-}
-
-.u-border {
-  border: $thin-border-size solid $base-border-color;
-}
-
 .u-borderBottom {
   border-bottom: $thin-border-size solid $base-border-color;
 }
 
-.u-borderError {
-  border-color: $error-color !important;
-}
-
-.u-zIndex1 {
-  z-index: 1;
-}
-
-
-/**
- * Vertical sizes
- */
-
-.u-vsizeAll {
-  height: 100% !important;
-}
-
-/**
- * Horizontal sizes
- */
-
 .u-hsizeAll {
   width: 100% !important;
-}
-
-/**
- * Clear float utils
- */
-
-.u-clearLeft {
-  clear: left;
 }
 
 /**
@@ -579,20 +186,8 @@ u-overflowAuto {
   justify-content: center !important;
 }
 
-.u-flexJustifyBetween {
-  justify-content: space-between !important;
-}
-
 .u-flexAlignItemsCenter {
   align-items: center !important;
-}
-
-.u-flexAlignItemsBase {
-  align-items: baseline !important;
-}
-
-.u-displayInherit {
-  display: inherit;
 }
 
 /**

@@ -355,7 +355,7 @@ class Talk extends Component {
   renderZendeskLogo = () => {
     if (this.props.hideZendeskLogo || this.props.isMobile) return;
 
-    return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
+    return <ZendeskLogo fullscreen={false} />;
   }
 
   renderFooterContent = () => {

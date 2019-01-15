@@ -1,8 +1,9 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-posAbsolute u-posEnd--flush u-zIndex1 from global;
+  composes: u-posAbsolute u-posEnd--flush from global;
 
+  z-index: 1;
   background-color: $base-color;
   bottom: #{30/$font-size}rem;
   width: calc(100% - #{32/$font-size}rem);

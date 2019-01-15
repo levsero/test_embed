@@ -380,7 +380,6 @@ class ChattingScreen extends Component {
     return !this.props.hideZendeskLogo ?
       <ZendeskLogo
         className={`${styles.zendeskLogo} ${logoClasses}`}
-        rtl={i18n.isRTL()}
         fullscreen={false}
         chatId={this.props.chatId}
         logoLink='chat'

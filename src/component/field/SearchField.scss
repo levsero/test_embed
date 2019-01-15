@@ -47,8 +47,15 @@
 }
 
 .mobileClearInput {
-  composes: u-isActionable u-textCenter u-marginRS from global;
+  composes: u-isActionable u-textCenter from global;
   composes: Icon Icon--clearInput from '../../styles/components/Icon.scss';
+
+  margin-right: #{10/$font-size}rem;
+
+  [dir='rtl'] & {
+    margin-right: 0;
+    margin-left: $spacing-sml;
+  }
 }
 
 .mobileNonSearchIconContainer {
@@ -105,4 +112,3 @@
 .label {
   composes: u-isHiddenVisually from global;
 }
-

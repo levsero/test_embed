@@ -1,9 +1,10 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-paddingAS u-posRelative from global;
+  composes: u-posRelative from global;
   border: $thin-border-size solid $zd-color-grey-300;
   background-color: $zd-color-grey-100;
+  padding: #{10/$font-size}rem;
 }
 
 .containerError {
@@ -50,8 +51,8 @@
 }
 
 .downloadText {
-  composes: u-marginLT from global;
   color: $zd-color-blue-600;
+  margin-left: #{5/$font-size}rem;
 }
 
 .icon {

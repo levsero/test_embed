@@ -55,7 +55,8 @@
 }
 
 .loadingSpinner {
-  composes: Grid-cell--center from global;
+  display: block;
+  margin: 0 auto;
 }
 
 .errorContainer {

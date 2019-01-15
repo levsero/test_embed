@@ -1,13 +1,16 @@
 @import '../../styles/_vars.scss';
 
 .title {
-  composes: u-marginBT u-textBold u-hsizeAll u-tableCell from global;
+  composes: u-textBold u-hsizeAll from global;
+  display: table-cell;
   color: $zd-color-grey-800;
+  margin-bottom: #{5/$font-size}rem;
   font-size: #{18/$font-size}rem !important;
 }
 
 .originalArticleButton {
-  composes: u-tableCell u-alignMiddle from global;
+  composes: u-alignMiddle from global;
+  display: table-cell;
 }
 
 .oldOriginalArticleButton {

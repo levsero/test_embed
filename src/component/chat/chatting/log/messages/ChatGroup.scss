@@ -52,7 +52,7 @@
 }
 
 .attachmentError {
-  composes: u-borderError from global;
+  border-color: $error-color !important;
   background: transparent;
   float: right;
   width: #{202/$font-size}rem;

@@ -5,19 +5,12 @@
 }
 
 .formSuccess {
-  composes: u-posAbsolute u-posEnd--vert from global;
+  position: absolute;
+  bottom: #{6/$font-size}rem;
 }
 
 .fullscreen {
   composes: u-posRelative from global;
-}
-
-.rtl {
-  composes: u-posEnd from global;
-}
-
-.ltr {
-  composes: u-posStart from global;
 }
 
 .hidden {
