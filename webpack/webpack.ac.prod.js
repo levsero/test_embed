@@ -1,12 +1,11 @@
 const webpack = require('webpack');
-const path = require('path');
 const merge = require('webpack-merge');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const common = require('./webpack.ac.common.js');
 const chunks = require('./chunks');
-const I18nPlugin = require('@zendesk/client-i18n-tools/I18nPlugin');
+const I18nPlugin = require('./i18nPlugin.js');
 
 // Assets must be downloaded in the order specified in CHUNKS
 const CHUNKS = [
@@ -64,12 +63,7 @@ module.exports = merge(common, {
     new OptimizeCSSAssetsPlugin({
       cssProcessorOptions: { discardComments: { removeAll: true } },
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false }),
-    new I18nPlugin({
-      locales: path.join(__dirname, '../src/translation/locales.json'),
-      localesDir: path.join(__dirname, '../src/translation/locales'),
-      source: path.join(__dirname, '../config/locales/translations/embeddable_framework.yml'),
-      assetNamePrefix: ('locales/')
-    }),
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: true }),
+    I18nPlugin,
   ]
 });
