@@ -10,7 +10,7 @@ The `chat` object has the following settings:
 
 * [suppress](./settings#suppress)
 
-In the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access), the `chat` object has the following additional settings:
+In the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability), the `chat` object has the following additional settings:
 
 * [title](./settings#title)
 * [badge](./settings#badge)

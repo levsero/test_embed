@@ -463,7 +463,7 @@ Set the chat concierge’s avatar, name, and title.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access)
+* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-concierge"></a>
 #### Example
@@ -565,7 +565,7 @@ The properties can be used singly or in any combination.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access)
+* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 #### departments.enabled
 
@@ -868,7 +868,7 @@ Determines if notifications should show on mobile.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access)
+* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-notifications"></a>
 #### Example
@@ -983,7 +983,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access)
+* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-offlineForm"></a>
 #### Example
@@ -1013,7 +1013,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access)
+* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-prechatForm"></a>
 #### Example
@@ -1213,16 +1213,13 @@ window.zESettings = {
 
 ### tags
 
-In `contactForm`, adds one or more [tags](https://support.zendesk.com/hc/en-us/articles/203662096-Using-tags) to any ticket created with the Web Widget.
-
-In `chat`, adds one or more tags to the visitors chat session.
+Adds one or more tags to the visitor's chat session.
 
 Note: The tags are visible in the JavaScript console in the user's browser.
 
 #### Availability
 
-* [contactForm](./contact_form)
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access)
+* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-tags"></a>
 #### Example
@@ -1231,9 +1228,6 @@ Note: The tags are visible in the JavaScript console in the user's browser.
 <script type="text/javascript">
 window.zESettings = {
   webWidget: {
-    contactForm: {
-      tags: ['website', 'store']
-    },
     chat: {
       tags: ['loggedin']
     }
@@ -1244,12 +1238,6 @@ window.zESettings = {
 
 #### Related settings
 
-* [attachments](#attachments)
-* [fields](#fields)
-* [selectTicketForm](#selectticketform)
-* [subject](#subject)
-* [suppress](#suppress)
-* [ticketForms](#ticketforms)
 * [title](#title)
 
 
@@ -1336,7 +1324,7 @@ You can use different strings for different locales or use one string for all lo
 
 * [contactForm](./contact_form)
 * [helpCenter](./help_center)
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (early access)
+* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-title"></a>
 #### Example
