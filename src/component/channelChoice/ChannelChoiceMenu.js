@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { ButtonIcon } from 'component/button/ButtonIcon';
@@ -20,10 +21,10 @@ class ChannelChoiceMenu extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
-    chatAvailable: PropTypes.bool,
     buttonClasses: PropTypes.string,
     labelClasses: PropTypes.string,
-    talkOnline: PropTypes.bool.isRequired,
+    talkOnline: PropTypes.bool,
+    chatAvailable: PropTypes.bool,
     chatOfflineAvailable: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatOnlineAvailableLabel: PropTypes.string.isRequired,
@@ -39,22 +40,22 @@ class ChannelChoiceMenu extends Component {
     chatOfflineAvailable: false
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    chatWasOnline: false,
+    talkWasOnline: false
+  };
 
-    this.talkAvailableOnMount = props.talkOnline;
-    this.chatAvailableOnMount = props.chatAvailable || props.chatOfflineAvailable;
-  }
+  static getDerivedStateFromProps(props, state) {
+    let newState = {};
 
-  componentWillReceiveProps(nextProps) {
-    // If any of the channels come online even once, treat them as
-    // if they were available on mount
-    if (nextProps.chatAvailable || nextProps.chatOfflineAvailable){
-      this.chatAvailableOnMount = true;
+    if ((props.chatAvailable || props.chatOfflineAvailable) && !state.chatWasOnline) {
+      newState.chatWasOnline = true;
     }
-    if (nextProps.talkOnline) {
-      this.talkAvailableOnMount = true;
+    if (props.talkOnline && !state.talkWasOnline) {
+      newState.talkWasOnline = true;
     }
+
+    return _.isEmpty(newState) ? null : newState;
   }
 
   handleChatClick = () => {
@@ -92,7 +93,7 @@ class ChannelChoiceMenu extends Component {
   renderTalkButton = () => {
     const { talkOnline, buttonClasses } = this.props;
 
-    if (!this.talkAvailableOnMount && !talkOnline) return null;
+    if (!this.state.talkWasOnline && !talkOnline) return null;
 
     const iconStyle = classNames(styles.iconTalk, {
       [styles.newIcon]: talkOnline,
@@ -167,13 +168,11 @@ class ChannelChoiceMenu extends Component {
   }
 
   renderChatButton = () => {
-    const { chatAvailable, chatOfflineAvailable, buttonClasses } = this.props;
-
-    const showChat = chatAvailable || chatOfflineAvailable;
-
-    if (!this.chatAvailableOnMount && !showChat) return null;
-
+    const { chatAvailable, chatOfflineAvailable, buttonClasses, labelClasses } = this.props;
     const showChatChannel = chatAvailable || chatOfflineAvailable;
+
+    if (!this.state.chatWasOnline && !showChatChannel) return null;
+
     const iconStyle = classNames(styles.iconChat, {
       [styles.newIcon]: showChatChannel,
       [styles.newIconDisabled]: !showChatChannel
@@ -189,7 +188,7 @@ class ChannelChoiceMenu extends Component {
           actionable={showChatChannel}
           containerStyles={buttonStyle}
           iconClasses={iconStyle}
-          labelClassName={this.props.labelClasses}
+          labelClassName={labelClasses}
           onClick={this.handleChatClick()}
           label={this.renderChatLabel()}
           flipX={this.getIconFlipX()}
