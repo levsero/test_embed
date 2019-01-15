@@ -152,24 +152,33 @@ describe('NestedDropdown component', () => {
     });
   });
 
-  describe('componentWillReceiveProps', () => {
+  describe('getDerivedStateFromProps', () => {
     let component,
+      initialState,
       oldMockFormState,
       newMockFormState,
       mockIsOpen;
 
+    beforeAll(() => {
+      jasmine.clock().install();
+    });
+
+    afterAll(() => {
+      jasmine.clock().uninstall();
+    });
+
     beforeEach(() => {
-      component = instanceRender(
+      component = domRender(
         <NestedDropdown formState={oldMockFormState} name={123} options={mockOptions} defaultOption={{ name: 'pizzaName', value: 'pizza' }} />
       );
-      component.state = {
+      component.setState({
         isOpen: mockIsOpen
-      };
-      spyOn(component, 'setState');
-      component.componentWillReceiveProps({
-        formState: newMockFormState,
-        defaultOption: { name: 'pizzaName', value: 'pizza' }
       });
+      jasmine.clock().tick();
+
+      domRender(<NestedDropdown formState={newMockFormState} />);
+      jasmine.clock().tick();
+      initialState = component.state;
     });
 
     describe('when there is no old selected dropdown value', () => {
@@ -187,9 +196,8 @@ describe('NestedDropdown component', () => {
         });
 
         it('does not change state', () => {
-          expect(component.setState)
-            .not
-            .toHaveBeenCalled();
+          expect(component.state)
+            .toEqual(initialState);
         });
       });
 
@@ -201,9 +209,8 @@ describe('NestedDropdown component', () => {
         });
 
         it('does not change state', () => {
-          expect(component.setState)
-            .not
-            .toHaveBeenCalled();
+          expect(component.state)
+            .toEqual(initialState);
         });
       });
     });
@@ -228,9 +235,8 @@ describe('NestedDropdown component', () => {
           });
 
           it('does not change state', () => {
-            expect(component.setState)
-              .not
-              .toHaveBeenCalled();
+            expect(component.state)
+              .toEqual(initialState);
           });
         });
 
@@ -240,10 +246,8 @@ describe('NestedDropdown component', () => {
           });
 
           it('resets dropdown state', () => {
-            expect(component.setState)
-              .toHaveBeenCalledWith(jasmine.objectContaining({
-                selectedValue: 'pizza',
-              }));
+            expect(component.state.selectedValue)
+              .toEqual('pizza');
           });
         });
       });
@@ -256,9 +260,8 @@ describe('NestedDropdown component', () => {
         });
 
         it('does not change state', () => {
-          expect(component.setState)
-            .not
-            .toHaveBeenCalled();
+          expect(component.state)
+            .toEqual(initialState);
         });
       });
     });

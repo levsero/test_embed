@@ -18,6 +18,26 @@ import { FONT_SIZE } from 'constants/shared';
 import { locals as styles } from './NestedDropdown.scss';
 import Node from './OptionNode';
 
+const findDefaultNode = (names, rootNode) => {
+  let currNode = rootNode;
+
+  _.forEach(names, (name, i) => {
+    currNode = currNode.getChildNode(name);
+
+    if (!currNode) { // The default option provided does not reach a selectable item so there should be no default.
+      currNode = rootNode;
+      return false;
+    }
+
+    if (i === names.length - 1 && currNode.value.slice(-7) !== '-nested') {
+      currNode = currNode.parentNode;
+      return false;
+    }
+  });
+
+  return currNode;
+};
+
 export class NestedDropdown extends Component {
   static propTypes = {
     getFrameContentDocument: PropTypes.func.isRequired,
@@ -50,50 +70,45 @@ export class NestedDropdown extends Component {
     this.populateGraph(props.options);
 
     const names = defaultOption ? defaultOption.name.split('::') : [];
-    const node = this.findDefaultNode(names);
+    const node = findDefaultNode(names, this.rootNode);
 
     this.state = {
       selectedValue: defaultOption ? defaultOption.value : '',
       viewableNode: node,
-      displayedName: names.length > 0 ? names[names.length - 1] : '-'
+      displayedName: names.length > 0 ? names[names.length - 1] : '-',
+      formState: {}
     };
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    const { name, defaultOption } = this.props;
-    const newDropdownVal = nextProps.formState[name];
-    const oldDropdownVal = this.props.formState[name];
+  static getDerivedStateFromProps(props, state) {
+    const newFormState = props.formState[props.name];
+    const formStateChanged = !_.isEqual(newFormState, state.formState);
 
-    if (newDropdownVal === oldDropdownVal || this.state.isOpen || !!newDropdownVal) return;
+    if (!!newFormState || state.isOpen || !formStateChanged) return null;
 
-    const names = defaultOption ? defaultOption.name.split('::') : [];
-    const node = this.findDefaultNode(names);
+    if (formStateChanged) return { formState: newFormState };
 
-    this.setState({
-      selectedValue: defaultOption ? defaultOption.value : '',
-      viewableNode: node,
-      displayedName: names.length > 0 ? names[names.length - 1] : '-'
-    });
-  }
+    const names = props.defaultOption ? props.defaultOption.name.split('::') : [];
+    const node = findDefaultNode(names, state.viewableNode);
+    let newState = {};
 
-  findDefaultNode = (names) => {
-    let currNode = this.rootNode;
-
-    _.forEach(names, (name, i) => {
-      currNode = currNode.getChildNode(name);
-
-      if (!currNode) { // The default option provided does not reach a selectable item so there should be no default.
-        currNode = this.rootNode;
-        return false;
+    if (node !== state.viewableNode) {
+      return {
+        displayedName: _.last(names) || '-',
+        selectedValue: props.defaultOption.value,
+        viewableNode: node
+      };
+    }
+    if (props.defaultOption) {
+      if (props.defaultOption.value !== state.selectedValue) {
+        newState.selectedValue = props.defaultOption.value;
       }
-
-      if (i === names.length - 1 && currNode.value.slice(-7) !== '-nested') {
-        currNode = currNode.parentNode;
-        return false;
+      if (_.last(names) && _.last(names) !== state.displayedName) {
+        newState.displayedName = _.last(names);
       }
-    });
+    }
 
-    return currNode;
+    return _.isEmpty(newState) ? null : newState;
   }
 
   populateGraph = (optionsList) => {
