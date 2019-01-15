@@ -27,15 +27,11 @@ export class ChatOperatingHours extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = { activeDepartment: null };
-  }
+    const activeDepartment = props.operatingHours.department_schedule
+      ? this.getDefaultDepartment()
+      : null;
 
-  componentWillMount = () => {
-    if (this.props.operatingHours.department_schedule) {
-      this.setState({
-        activeDepartment: this.getDefaultDepartment()
-      });
-    }
+    this.state = { activeDepartment };
   }
 
   hourRange = (range) => {
