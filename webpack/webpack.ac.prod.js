@@ -63,7 +63,7 @@ module.exports = merge(common, {
     new OptimizeCSSAssetsPlugin({
       cssProcessorOptions: { discardComments: { removeAll: true } },
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: true }),
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false }),
     I18nPlugin,
   ]
 });
