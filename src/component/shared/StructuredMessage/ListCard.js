@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
+import { Card } from './pure/Card';
 import { ButtonList } from './pure/ButtonList';
 import { Panel } from './pure/Panel';
 
@@ -22,18 +24,24 @@ export const ItemPropType = PropTypes.shape({
 export class ListCard extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(ItemPropType).isRequired,
-    buttons: PropTypes.node
+    buttons: PropTypes.node,
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
-    buttons: []
+    buttons: [],
+    isMobile: false
   };
 
   render() {
     const { items, buttons } = this.props;
 
+    const cardClass = classnames(styles.cardContainer, {
+      [styles.mobile]: (this.props.isMobile)
+    });
+
     return (
-      <div className={styles.cardContainer}>
+      <Card className={cardClass}>
         <ul className={styles.panelList}>
           {items.map((item, idx) => {
             item.withBorderBottom = false;
@@ -55,7 +63,7 @@ export class ListCard extends Component {
         <ButtonList>
           {buttons}
         </ButtonList>
-      </div>
+      </Card>
     );
   }
 }
