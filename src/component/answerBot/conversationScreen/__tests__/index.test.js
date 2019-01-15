@@ -2,7 +2,7 @@ import 'utility/i18nTestHelper';
 import { render } from 'react-testing-library';
 import React from 'react';
 
-import { PureConversationScreen as ConversationScreen } from '../index';
+import { Component as ConversationScreen } from '../index';
 
 const actions = Object.freeze({
   conversationScreenClosed: jest.fn(),

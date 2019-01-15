@@ -2,7 +2,7 @@ import 'utility/i18nTestHelper';
 import { render } from 'react-testing-library';
 import React from 'react';
 
-import { PureMessageGroup as MessageGroup } from '../index';
+import { Component as MessageGroup } from '../index';
 
 const textMessage = {
   type: 'text',
@@ -19,7 +19,8 @@ const messages = [textMessage];
 const renderComponent = (props = {}) => {
   const defaultProps = {
     messages: messages,
-    isVisitor: false
+    isVisitor: false,
+    agentAvatarName: 'Answer Bot'
   };
 
   const componentProps = {
@@ -46,25 +47,6 @@ describe('bot', () => {
     it('renders agent name', () => {
       const { container } = renderComponent({
         agentAvatarName: 'Bond'
-      });
-
-      expect(container)
-        .toMatchSnapshot();
-    });
-
-    it('renders brand', () => {
-      const { container } = renderComponent({
-        brand: 'The Brand'
-      });
-
-      expect(container)
-        .toMatchSnapshot();
-    });
-
-    it('renders agent name when brand and agent name are supplied', () => {
-      const { container } = renderComponent({
-        brand: 'The Brand',
-        agentAvatarName: 'Korra'
       });
 
       expect(container)
@@ -142,8 +124,6 @@ describe('visitor', () => {
       renderComponent({ lastConversationScreenClosed: 1, isVisitor: true, messages });
       expect(callback1)
         .toHaveBeenCalled();
-      expect(callback3)
-        .not.toHaveBeenCalled();
     });
   });
 });

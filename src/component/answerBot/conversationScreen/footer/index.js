@@ -130,5 +130,5 @@ const connectedComponent = connect(
 
 export {
   connectedComponent as default,
-  Footer as PureFooter
+  Footer as Component
 };

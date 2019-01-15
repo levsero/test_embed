@@ -24,6 +24,7 @@ export const getUserMinimizedChatBadge = (state) => state.base.isChatBadgeMinimi
 export const getAfterWidgetShowAnimation = (state) => state.base.afterWidgetShowAnimation;
 export const getTalkConfig = (state) => state.base.embeddableConfig.embeds.talk;
 export const getBrandLogoUrl = (state) => state.base.embeddableConfig.brandLogoUrl;
+export const getBrand = (state) => state.base.embeddableConfig.brand;
 
 export const getOAuth = () => {
   return store.get('zE_oauth');
@@ -47,10 +48,16 @@ export const getChatStandalone = createSelector(
     return embeddableConfig.embeds.zopimChat.props.standalone;
   }
 );
-export const getHelpCenterContextualEnabled = createSelector(
+export const getAnswerBotEnabled = createSelector(
   getEmbeddableConfig,
   (embeddableConfig) => {
-    return embeddableConfig.embeds.helpCenterForm.props.contextualHelpEnabled;
+    return embeddableConfig.embeds.helpCenterForm.props.answerBotEnabled;
+  }
+);
+export const getHelpCenterContextualEnabled = createSelector(
+  [getEmbeddableConfig, getAnswerBotEnabled],
+  (embeddableConfig, answerBotEnabled) => {
+    return !answerBotEnabled && embeddableConfig.embeds.helpCenterForm.props.contextualHelpEnabled;
   }
 );
 export const getHelpCenterSignInRequired = createSelector(

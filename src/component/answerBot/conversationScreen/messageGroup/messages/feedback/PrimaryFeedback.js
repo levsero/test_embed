@@ -86,5 +86,5 @@ const connectedComponent = connect(null, actionCreators, null, { withRef: true }
 
 export {
   connectedComponent as default,
-  PrimaryFeedback as PurePrimaryFeedback
+  PrimaryFeedback as Component
 };

@@ -2,7 +2,7 @@ import 'utility/i18nTestHelper';
 import { render, fireEvent } from 'react-testing-library';
 import React from 'react';
 
-import { PureChannelChoice as ChannelChoice } from '../index';
+import { Component as ChannelChoice } from '../index';
 
 const actions = Object.freeze({
   updateBackButtonVisibility: jest.fn(),

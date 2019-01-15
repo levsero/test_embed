@@ -37,7 +37,12 @@
 }
 
 .icon {
-  composes: u-marginRS from global;
+  margin-right: $spacing-sml !important;
+
+  [dir='rtl'] & {
+    margin-right: 0;
+    margin-left: $spacing-sml;
+  }
 
   svg {
     min-width: #{14/$font-size}rem;

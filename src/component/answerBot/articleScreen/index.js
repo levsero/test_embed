@@ -22,6 +22,8 @@ import * as rootActions from 'src/redux/modules/answerBot/root/actions/';
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors';
 import * as channelSelectors from 'src/redux/modules/selectors';
 
+import { CONVERSATION_SCREEN } from 'src/constants/answerBot';
+
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ArticleScreen.scss';
 
@@ -121,7 +123,7 @@ class ArticleScreen extends Component {
 
     // Scroll to bottom when user switches back to conversation screen
     saveConversationScroll({ scrollToBottom: true });
-    actions.screenChanged('conversation');
+    actions.screenChanged(CONVERSATION_SCREEN);
   }
 
   handlePopupAppeared = () => {
@@ -162,7 +164,7 @@ class ArticleScreen extends Component {
         <ScrollContainer
           containerClasses={`${this.props.scrollContainerClasses} ${styles.scrollContainer} ${popupStyles}`}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.articleTitleKey}`)}
-          fullscreen={this.props.isMobile}
+          isMobile={this.props.isMobile}
           footerClasses={styles.footer}>
           <HelpCenterArticle
             activeArticle={this.props.article}
@@ -200,5 +202,5 @@ const connectedComponent = connect(mapStateToProps, mapDispatchToProps, null, { 
 
 export {
   connectedComponent as default,
-  ArticleScreen as PureArticleScreen
+  ArticleScreen as Component
 };

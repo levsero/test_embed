@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import Messages from './messages';
 import {
@@ -38,8 +37,7 @@ class MessageGroup extends Component {
     scrollToBottom: PropTypes.func,
     agentAvatarName: PropTypes.string,
     agentAvatarUrl: PropTypes.string,
-    brandLogoUrl: PropTypes.string,
-    brand: PropTypes.string
+    brandLogoUrl: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -49,7 +47,6 @@ class MessageGroup extends Component {
     agentAvatarName: '',
     agentAvatarUrl: '',
     brandLogoUrl: '',
-    brand: ''
   };
 
   constructor(props) {
@@ -187,20 +184,11 @@ class MessageGroup extends Component {
       styles.name,
       { [styles.fadeIn]: this.shouldAnimate() }
     );
-    let name;
-
-    if (this.props.agentAvatarName) {
-      name = this.props.agentAvatarName;
-    } else if (this.props.brand) {
-      name = this.props.brand;
-    } else {
-      name = i18n.t('embeddable_framework.answerBot.bot.name');
-    }
 
     return !this.props.isVisitor ?
       <div className={nameClasses}>
         <div className={styles.nameOnly}>
-          {name}
+          {this.props.agentAvatarName}
         </div>
         <Tag className={styles.tag}>BOT</Tag>
       </div> : null;
@@ -254,5 +242,5 @@ const ConnectedMessageGroup = connect(makeMapStateToProps, {}, null, { withRef: 
 
 export {
   ConnectedMessageGroup as default,
-  MessageGroup as PureMessageGroup
+  MessageGroup as Component
 };

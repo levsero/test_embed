@@ -5,7 +5,7 @@ import React from 'react';
 
 import { http } from 'service/transport';
 
-import { PureArticleScreen } from '../index';
+import { Component as ArticleScreen } from '../index';
 
 http.init({
   zendeskHost: 'a.zendesk.com'
@@ -34,7 +34,7 @@ const renderComponent = (props = {}) => {
 
   const componentProps = _.merge({}, defaultProps, props);
 
-  return render(<PureArticleScreen {...componentProps} />);
+  return render(<ArticleScreen {...componentProps} />);
 };
 
 test('renders the expected classes', () => {

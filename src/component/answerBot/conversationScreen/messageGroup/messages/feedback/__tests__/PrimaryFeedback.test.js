@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { render, fireEvent } from 'react-testing-library';
 import React from 'react';
 
-import { PurePrimaryFeedback as PrimaryFeedback } from '../PrimaryFeedback';
+import { Component as PrimaryFeedback } from '../PrimaryFeedback';
 
 const actions = Object.freeze({
   sessionResolved: jest.fn(),

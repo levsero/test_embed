@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { dispatchChatAccountSettings } from 'utility/testHelpers';
 import { settings } from 'service/settings';
 
-import ChatOnline from '../ChatOnline';
+import ChatOnline from '../../ChatOnline';
 
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat';

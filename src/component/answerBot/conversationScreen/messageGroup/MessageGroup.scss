@@ -2,11 +2,13 @@
 @import 'src/styles/mixins.scss';
 
 .container {
-  composes: u-posRelative u-marginBT from global;
+  composes: u-posRelative from global;
+  margin-bottom: $spacing-tny !important;
 }
 
 .name {
-  composes: u-marginBT u-marginTT from global;
+  composes: u-marginTT from global;
+  margin-bottom: $spacing-tny !important;
   margin-left: #{50/$font-size}rem;
   color: $zd-color-aluminum !important;
   display: flex;

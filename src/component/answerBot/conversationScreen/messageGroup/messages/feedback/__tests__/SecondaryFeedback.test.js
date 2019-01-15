@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { render, fireEvent } from 'react-testing-library';
 import React from 'react';
 
-import { PureSecondaryFeedback as SecondaryFeedback } from '../SecondaryFeedback';
+import { Component as SecondaryFeedback } from '../SecondaryFeedback';
 
 const actions = Object.freeze({
   articleDismissed: jest.fn(),

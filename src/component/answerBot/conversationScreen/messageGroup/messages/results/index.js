@@ -9,6 +9,8 @@ import { MessageBubbleChoices }  from 'component/shared/MessageBubbleChoices';
 import { screenChanged, articleShown } from 'src/redux/modules/answerBot/root/actions/';
 import { articleViewed } from 'src/redux/modules/answerBot/article/actions/';
 
+import { ARTICLE_SCREEN } from 'src/constants/answerBot';
+
 import Text from '../text';
 import { locals as styles } from './style.scss';
 
@@ -29,7 +31,7 @@ class Results extends Component {
     const { sessionID, actions: { screenChanged, articleShown, articleViewed } } = this.props;
 
     articleShown(sessionID, article.id);
-    screenChanged('article');
+    screenChanged(ARTICLE_SCREEN);
     articleViewed(sessionID, article.id);
   }
 
@@ -88,5 +90,5 @@ const connectedComponent = connect(null, mapDispatchToProps, null, { withRef: tr
 
 export {
   connectedComponent as default,
-  Results as PureResults
+  Results as Component
 };

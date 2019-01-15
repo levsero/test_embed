@@ -21,15 +21,13 @@ class ConversationScreen extends Component {
       updateBackButtonVisibility: PropTypes.func.isRequired
     }),
     agentAvatarUrl: PropTypes.string,
-    agentAvatarName: PropTypes.string,
-    brand: PropTypes.string
+    agentAvatarName: PropTypes.string
   };
 
   static defaultProps = {
     scrollToBottom: () => {},
     agentAvatarName: '',
     agentAvatarUrl: '',
-    brand: ''
   };
 
   componentDidMount() {
@@ -53,7 +51,6 @@ class ConversationScreen extends Component {
               scrollToBottom={this.props.scrollToBottom}
               agentAvatarName={this.props.agentAvatarName}
               agentAvatarUrl={this.props.agentAvatarUrl}
-              brand={this.props.brand}
             />
           )
         )}
@@ -81,5 +78,5 @@ const connectedComponent = connect(mapStateToProps, actionCreators, null, { with
 
 export {
   connectedComponent as default,
-  ConversationScreen as PureConversationScreen
+  ConversationScreen as Component
 };

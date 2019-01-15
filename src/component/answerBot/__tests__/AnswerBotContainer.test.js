@@ -2,7 +2,9 @@ import 'utility/i18nTestHelper';
 import { render } from 'react-testing-library';
 import React from 'react';
 
-import { PureAnswerBotContainer as AnswerBotContainer } from '../AnswerBotContainer';
+import { CONVERSATION_SCREEN, ARTICLE_SCREEN } from 'src/constants/answerBot';
+
+import { Component as AnswerBotContainer } from '../AnswerBotContainer';
 
 jest.useFakeTimers();
 
@@ -25,7 +27,7 @@ const renderComponent = (props = {}, renderFn) => {
     currentSessionResolved: false,
     sessionFallbackSuggested: false,
     sessionArticlesLength: 0,
-    currentScreen: 'conversation',
+    currentScreen: CONVERSATION_SCREEN,
     currentMessage: 'current message',
     isInitialSession: true,
     greeted: false,
@@ -68,18 +70,18 @@ describe('sessionStarted', () => {
 describe('scroll position', () => {
   it('saves scroll position when we go from conversation to article', () => {
     const handler = jest.fn();
-    const { rerender } = renderComponent({ saveConversationScroll: handler, currentScreen: 'conversation' });
+    const { rerender } = renderComponent({ saveConversationScroll: handler, currentScreen: CONVERSATION_SCREEN });
 
-    renderComponent({ currentScreen: 'article' }, rerender);
+    renderComponent({ currentScreen: ARTICLE_SCREEN }, rerender);
     expect(handler)
       .toHaveBeenCalled();
   });
 
   it('restores scroll position when we go from article to conversation', () => {
     const handler = jest.fn();
-    const { rerender } = renderComponent({ restoreConversationScroll: handler, currentScreen: 'article' });
+    const { rerender } = renderComponent({ restoreConversationScroll: handler, currentScreen: ARTICLE_SCREEN });
 
-    renderComponent({ currentScreen: 'conversation' }, rerender);
+    renderComponent({ currentScreen: CONVERSATION_SCREEN }, rerender);
     expect(handler)
       .toHaveBeenCalled();
   });
@@ -98,7 +100,7 @@ describe('greeting', () => {
   });
 
   it('does not greet if it is article screen', () => {
-    renderComponent({ currentSessionID: 1234, isInitialSession: true, currentScreen: 'article' });
+    renderComponent({ currentSessionID: 1234, isInitialSession: true, currentScreen: ARTICLE_SCREEN });
 
     expect(actions.botGreeted)
       .not.toHaveBeenCalled();
@@ -121,9 +123,9 @@ describe('greeting', () => {
 
 describe('in-conversation feedback', () => {
   it('shows after going from article to conversation and feedback is required', () => {
-    const { rerender } = renderComponent({ currentSessionID: 1234, currentScreen: 'article' });
+    const { rerender } = renderComponent({ currentSessionID: 1234, currentScreen: ARTICLE_SCREEN });
 
-    renderComponent({ currentSessionID: 1234, currentScreen: 'conversation', isFeedbackRequired: true }, rerender);
+    renderComponent({ currentSessionID: 1234, currentScreen: CONVERSATION_SCREEN, isFeedbackRequired: true }, rerender);
 
     expect(actions.botFeedbackRequested)
       .toHaveBeenCalled();
@@ -136,18 +138,22 @@ describe('in-conversation feedback', () => {
   });
 
   it('does not show if current screen is article screen', () => {
-    const { rerender } = renderComponent({ currentSessionID: 1234, currentScreen: 'article' });
+    const { rerender } = renderComponent({ currentSessionID: 1234, currentScreen: ARTICLE_SCREEN });
 
-    renderComponent({ currentSessionID: 1234, currentScreen: 'article', isFeedbackRequired: true }, rerender);
+    renderComponent({ currentSessionID: 1234, currentScreen: ARTICLE_SCREEN, isFeedbackRequired: true }, rerender);
 
     expect(actions.botFeedbackRequested)
       .not.toHaveBeenCalled();
   });
 
   it('does not show the feedback if feedback is not required', () => {
-    const { rerender } = renderComponent({ currentSessionID: 1234, currentScreen: 'article' });
+    const { rerender } = renderComponent({ currentSessionID: 1234, currentScreen: ARTICLE_SCREEN });
 
-    renderComponent({ currentSessionID: 1234, currentScreen: 'conversation', isFeedbackRequired: false }, rerender);
+    renderComponent({
+      currentSessionID: 1234,
+      currentScreen: CONVERSATION_SCREEN,
+      isFeedbackRequired: false
+    }, rerender);
 
     expect(actions.botFeedbackRequested)
       .not.toHaveBeenCalled();
@@ -165,7 +171,7 @@ describe('initial fallback', () => {
   });
 
   it('does not fire if screen is not conversation screen', () => {
-    renderComponent({ greeted: true, isInitialSession: true, currentSessionID: 1234, currentScreen: 'article' });
+    renderComponent({ greeted: true, isInitialSession: true, currentSessionID: 1234, currentScreen: ARTICLE_SCREEN });
     jest.runAllTimers();
     expect(actions.botInitialFallback)
       .not.toHaveBeenCalled();
@@ -177,7 +183,7 @@ describe('initial fallback', () => {
       greeted: true,
       isInitialSession: true,
       currentSessionID: 1234,
-      currentScreen: 'conversation'
+      currentScreen: CONVERSATION_SCREEN
     });
     jest.runAllTimers();
     expect(actions.botInitialFallback)
@@ -189,7 +195,7 @@ describe('initial fallback', () => {
       greeted: true,
       isInitialSession: true,
       currentSessionID: 1234,
-      currentScreen: 'conversation'
+      currentScreen: CONVERSATION_SCREEN
     });
 
     unmount();
@@ -205,7 +211,7 @@ describe('session fallback', () => {
       greeted: true,
       isInitialSession: true,
       currentSessionID: 1234,
-      currentScreen: 'conversation',
+      currentScreen: CONVERSATION_SCREEN,
       currentRequestStatus: 'REJECTED'
     });
     expect(actions.sessionFallback)
@@ -221,7 +227,7 @@ describe('session fallback', () => {
       greeted: true,
       isInitialSession: true,
       currentSessionID: 1234,
-      currentScreen: 'conversation',
+      currentScreen: CONVERSATION_SCREEN,
       currentRequestStatus: 'COMPLETED',
       sessionArticlesLength: 0
     });
@@ -239,7 +245,7 @@ describe('session fallback', () => {
         greeted: true,
         isInitialSession: true,
         currentSessionID: 1234,
-        currentScreen: 'conversation',
+        currentScreen: CONVERSATION_SCREEN,
         currentRequestStatus: 'COMPLETED',
         sessionArticlesLength: 3
       };

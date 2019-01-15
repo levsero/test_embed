@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="246px" height="246px" viewBox="0 0 246 246" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs></defs>
+    <g id="UI" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Answer-Bot">
+            <polygon id="Fill-1" fill="#D0EEEC" points="0 246 246 246 246 0 0 0"></polygon>
+            <g id="Group" transform="translate(44.000000, 110.000000)" fill="#616788">
+                <path d="M26,13 C26,20.1796568 20.1804332,26 13.0005001,26 C5.81956681,26 0,20.1796568 0,13 C0,5.82034316 5.81956681,0 13.0005001,0 C20.1804332,0 26,5.82034316 26,13 Z" id="Fill-3"></path>
+                <path d="M159,13 C159,20.1796568 153.179657,26 146,26 C138.820343,26 133,20.1796568 133,13 C133,5.82034316 138.820343,0 146,0 C153.179657,0 159,5.82034316 159,13" id="Fill-5"></path>
+            </g>
+        </g>
+    </g>
+</svg>

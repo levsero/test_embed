@@ -18,15 +18,15 @@ import { getLastScroll } from 'src/redux/modules/answerBot/conversation/selector
 import { getCurrentScreen } from 'src/redux/modules/answerBot/root/selectors';
 import { conversationScrollChanged } from 'src/redux/modules/answerBot/conversation/actions';
 import { getSettingsAnswerBotTitle } from 'src/redux/modules/selectors';
-import classNames from 'classnames';
+import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot';
 
+import classNames from 'classnames';
 import { locals as styles } from './AnswerBot.scss';
 
 const SCROLL_TO_BOTTOM_INDICATOR = -1;
 
 class AnswerBot extends Component {
   static propTypes = {
-    brand: PropTypes.string,
     isMobile: PropTypes.bool,
     articleTitleKey: PropTypes.string,
     currentScreen: PropTypes.string.isRequired,
@@ -36,14 +36,13 @@ class AnswerBot extends Component {
       updateBackButtonVisibility: PropTypes.func.isRequired,
       conversationScrollChanged: PropTypes.func.isRequired
     }),
-    title: PropTypes.string
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
     isMobile: false,
     articleTitleKey: 'help',
-    hideZendeskLogo: false,
-    title: ''
+    hideZendeskLogo: false
   };
 
   constructor(props) {
@@ -54,20 +53,20 @@ class AnswerBot extends Component {
 
   componentDidMount() {
     // Restore conversation scroll position after switching back from another embed
-    if (this.props.currentScreen === 'conversation') {
+    if (this.props.currentScreen === CONVERSATION_SCREEN) {
       this.restoreConversationScroll();
     }
   }
 
   componentDidUpdate() {
-    if (this.props.currentScreen === 'article') {
+    if (this.props.currentScreen === ARTICLE_SCREEN) {
       this.props.actions.updateBackButtonVisibility(true);
     }
   }
 
   componentWillUnmount() {
     // Save conversation scroll position before switching to another embed
-    if (this.props.currentScreen === 'conversation') {
+    if (this.props.currentScreen === CONVERSATION_SCREEN) {
       this.saveConversationScroll();
     }
   }
@@ -116,11 +115,11 @@ class AnswerBot extends Component {
         <ScrollContainer
           ref={(el) => { this.conversationContainer = el; }}
           containerClasses={this.containerStyle()}
-          title={this.getTitle()}
-          fullscreen={this.props.isMobile}
+          title={this.props.title}
+          isMobile={this.props.isMobile}
           footerContent={this.renderFooterContent()}
           footerClasses={footerClasses}>
-          <ConversationScreen scrollToBottom={this.scrollToBottom} brand={this.props.brand} />
+          <ConversationScreen scrollToBottom={this.scrollToBottom} />
         </ScrollContainer>
         {this.renderZendeskLogo()}
       </div>
@@ -134,12 +133,6 @@ class AnswerBot extends Component {
         scrollToBottom={this.scrollToBottom}
         isMobile={this.props.isMobile} />
     );
-  }
-
-  getTitle = () => {
-    if (this.props.title) return this.props.title;
-
-    return this.props.brand || i18n.t('embeddable_framework.answerBot.header.title');
   }
 
   scrollToBottom = () => {
@@ -175,11 +168,10 @@ class AnswerBot extends Component {
   render = () => {
     return (
       <AnswerBotContainer
-        brand={this.props.brand}
         restoreConversationScroll={this.restoreConversationScroll}
         saveConversationScroll={this.saveConversationScroll}
       >
-        {this.props.currentScreen === 'article' ? this.articleScreen() : this.conversationScreen()}
+        {this.props.currentScreen === ARTICLE_SCREEN ? this.articleScreen() : this.conversationScreen()}
       </AnswerBotContainer>
     );
   }
@@ -204,5 +196,5 @@ const connectedComponent = connect(mapStateToProps, actionCreators, null, { with
 
 export {
   connectedComponent as default,
-  AnswerBot as PureAnswerBot
+  AnswerBot as Component
 };

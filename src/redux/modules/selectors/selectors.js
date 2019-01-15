@@ -66,7 +66,9 @@ import { getActiveEmbed,
   getConfigAttachmentsEnabled,
   getLocale,
   getTalkConfig,
-  getFormTitleKey
+  getFormTitleKey,
+  getBrand,
+  getAnswerBotEnabled
 } from '../base/base-selectors';
 import {
   getCanShowHelpCenterIntroState,
@@ -132,6 +134,8 @@ export const getContactFormTitle = createSelector(
     i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)
   )
 );
+
+export const getAnswerBotAvailable = getAnswerBotEnabled;
 
 export const getLauncherChatLabel = createSelector(
   [getSettingsLauncherChatLabel, getLocale],
@@ -528,19 +532,21 @@ export const getTalkNickname = createSelector(
 );
 
 export const getSettingsAnswerBotTitle = createSelector(
-  [getAnswerBotTitle, getLocale],
-  (answerBotTitle, _locale) => (
-    i18n.getSettingTranslation(answerBotTitle)
+  [getAnswerBotTitle, getBrand, getLocale],
+  (answerBotTitle, brand, _locale) => (
+    i18n.getSettingTranslation(answerBotTitle) || brand
+      || i18n.t('embeddable_framework.answerBot.header.title')
   )
 );
 
 export const getSettingsAnswerBotAvatarName = createSelector(
-  [getAnswerBotAvatarName, getLocale],
-  (answerBotAvatarName, _locale) => (
-    i18n.getSettingTranslation(answerBotAvatarName)
+  [getAnswerBotAvatarName, getBrand, getLocale],
+  (answerBotAvatarName, brand, _locale) => (
+    i18n.getSettingTranslation(answerBotAvatarName) || brand
+      || i18n.t('embeddable_framework.answerBot.bot.name')
   )
 );
 
 export const getChannelAvailable = (state) => {
-  return getSubmitTicketAvailable(state) || getTalkAvailable(state) || getChatAvailable(state);
+  return getSubmitTicketAvailable(state) || getTalkOnline(state) || getChatAvailable(state);
 };

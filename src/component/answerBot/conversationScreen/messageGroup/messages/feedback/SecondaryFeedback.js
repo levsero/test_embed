@@ -98,5 +98,5 @@ const connectedComponent = connect(mapStateToProps, actionCreators, null, { with
 
 export {
   connectedComponent as default,
-  SecondaryFeedback as PureSecondaryFeedback
+  SecondaryFeedback as Component
 };

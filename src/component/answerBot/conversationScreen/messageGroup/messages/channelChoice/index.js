@@ -9,7 +9,7 @@ import { Icon } from 'component/Icon';
 import {
   getSubmitTicketAvailable,
   getChatAvailable,
-  getTalkAvailable
+  getTalkOnline
 } from 'src/redux/modules/selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import {
@@ -112,7 +112,7 @@ class ChannelChoice extends Component {
   renderChatChoice = () => {
     if (!this.props.chatAvailable) return null;
 
-    return this.renderChannel('Icon--chat', i18n.t('embeddable_framework.common.button.chat'), 'chat');
+    return this.renderChannel('Icon--channelChoice-chat', i18n.t('embeddable_framework.common.button.chat'), 'chat');
   }
 
   renderTalkChoice = () => {
@@ -151,8 +151,8 @@ class ChannelChoice extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  talkAvailable: getTalkAvailable(state),
-  callbackAvailable: getTalkAvailable(state) && isCallbackEnabled(state),
+  talkAvailable: getTalkOnline(state),
+  callbackAvailable: getTalkOnline(state) && isCallbackEnabled(state),
   chatAvailable: getChatAvailable(state),
   oldChat: getZopimChatEmbed(state),
   submitTicketAvailable: getSubmitTicketAvailable(state)
@@ -169,5 +169,5 @@ const connectedComponent = connect(mapStateToProps, actionCreators, null, { with
 
 export {
   connectedComponent as default,
-  ChannelChoice as PureChannelChoice
+  ChannelChoice as Component
 };

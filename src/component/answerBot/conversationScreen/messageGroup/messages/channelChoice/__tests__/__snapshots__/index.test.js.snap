@@ -83,8 +83,8 @@ exports[`channels renders expected leading message if only chat is available 1`]
         class="channel singleChannel"
       >
         <span
-          class="container icon Icon--chat"
-          type="Icon--chat"
+          class="container icon Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
         >
           test-file-stub
         </span>
@@ -163,8 +163,8 @@ exports[`channels renders generic leading message if more than 1 channel is avai
         class="channel "
       >
         <span
-          class="container icon Icon--chat"
-          type="Icon--chat"
+          class="container icon Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
         >
           test-file-stub
         </span>
@@ -215,8 +215,8 @@ exports[`channels renders leading message if more than 1 channel is available an
         class="channel "
       >
         <span
-          class="container icon Icon--chat"
-          type="Icon--chat"
+          class="container icon Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
         >
           test-file-stub
         </span>
@@ -333,8 +333,8 @@ exports[`renders the expected classes 1`] = `
         class="channel "
       >
         <span
-          class="container icon Icon--chat"
-          type="Icon--chat"
+          class="container icon Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
         >
           test-file-stub
         </span>
@@ -404,8 +404,8 @@ exports[`renders the leading message 1`] = `
         class="channel "
       >
         <span
-          class="container icon Icon--chat"
-          type="Icon--chat"
+          class="container icon Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
         >
           test-file-stub
         </span>

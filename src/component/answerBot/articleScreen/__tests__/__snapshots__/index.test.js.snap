@@ -255,20 +255,20 @@ exports[`renders the expected mobile classes 1`] = `
     class="container"
   >
     <div
-      class="container flexContainer desktop desktopFullscreen"
+      class="container flexContainer mobile"
       data-testid="scrollcontainer"
     >
       <header
         class="header userHeader"
       >
         <h1
-          class="title"
+          class="title titleMobile"
         >
           Help
         </h1>
       </header>
       <div
-        class="content  scrollContainer "
+        class="content  scrollContainer  contentMobile"
       >
         <div>
           <div

@@ -49,7 +49,12 @@ const stateContactFormSettings = (settings) => {
 
 const stateAnswerBotSettings = (settings) => {
   return {
-    base: { locale: 'en-US' },
+    base: {
+      locale: 'en-US',
+      embeddableConfig: {
+        brand: undefined
+      }
+    },
     settings: {
       answerBot: settings
     }

@@ -2,7 +2,7 @@ import 'utility/i18nTestHelper';
 import { render, fireEvent } from 'react-testing-library';
 import React from 'react';
 
-import { PureFooter as Footer } from '../index';
+import { Component as Footer } from '../index';
 
 const renderComponent = (props = {}) => {
   const defaultProps = {

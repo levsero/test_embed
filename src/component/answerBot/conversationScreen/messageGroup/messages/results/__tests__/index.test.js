@@ -2,7 +2,7 @@ import 'utility/i18nTestHelper';
 import { render, fireEvent } from 'react-testing-library';
 import React from 'react';
 
-import { PureResults as Results } from '../index';
+import { Component as Results } from '../index';
 
 const actions = Object.freeze({
   screenChanged: jest.fn(),

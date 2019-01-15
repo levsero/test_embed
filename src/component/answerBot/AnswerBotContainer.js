@@ -10,7 +10,9 @@ import * as rootActions from 'src/redux/modules/answerBot/root/actions';
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors';
 import * as botActions from 'src/redux/modules/answerBot/root/actions/bot';
 import * as channelSelectors from 'src/redux/modules/selectors';
+import { getBrand } from 'src/redux/modules/base/base-selectors';
 
+import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot';
 import { i18n } from 'service/i18n';
 
 const INITIAL_FALLBACK_DELAY = 5000;
@@ -113,11 +115,11 @@ class AnswerBotContainer extends Component {
   }
 
   checkCurrentScreen = ({ props }) => {
-    if (props.currentScreen === 'article') {
+    if (props.currentScreen === ARTICLE_SCREEN) {
       // Switching from Conversation to Article screen
       // Note: we do this here instead of in ConversationScreen's componentWillUnmount
       // because the ref to scrollContainer would have been removed by then
-      if (this.props.currentScreen === 'conversation') {
+      if (this.props.currentScreen === CONVERSATION_SCREEN) {
         this.props.saveConversationScroll();
       }
 
@@ -127,7 +129,7 @@ class AnswerBotContainer extends Component {
     // Switching from Article to Conversation screen
     // Note: we do this here instead of in ConversationScreen's componentDidMount
     // because the ref to scrollContainer would not have been created by then
-    if (this.props.currentScreen === 'article') {
+    if (this.props.currentScreen === ARTICLE_SCREEN) {
       this.props.restoreConversationScroll();
     }
 
@@ -147,8 +149,8 @@ class AnswerBotContainer extends Component {
   }
 
   checkRequestFeedback = ({ props }) => {
-    if (this.props.currentScreen === 'article'
-      && props.currentScreen === 'conversation'
+    if (this.props.currentScreen === ARTICLE_SCREEN
+      && props.currentScreen === CONVERSATION_SCREEN
       && props.isFeedbackRequired
     ) {
       this.props.actions.inputDisabled(true);
@@ -334,7 +336,8 @@ const mapStateToProps = (state) => ({
   initialFallbackSuggested: rootSelectors.getInitialFallbackSuggested(state),
   channelAvailable: channelSelectors.getChannelAvailable(state),
   isFeedbackRequired: rootSelectors.isFeedbackRequired(state),
-  sessions: sessionSelectors.getSessions(state)
+  sessions: sessionSelectors.getSessions(state),
+  brand: getBrand(state)
 });
 
 const actionCreators = (dispatch) => ({
@@ -358,5 +361,5 @@ const connectedComponent = connect(
 
 export {
   connectedComponent as default,
-  AnswerBotContainer as PureAnswerBotContainer
+  AnswerBotContainer as Component
 };
