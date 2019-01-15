@@ -6,7 +6,6 @@ describe('ChatGroup component', () => {
     i18n;
 
   const chatGroupPath = buildSrcPath('component/chat/chatting/log/messages/ChatGroup');
-  const chatGroupAvatarPath = buildSrcPath('component/chat/chatting/ChatGroupAvatar');
   const chatConstantsPath = buildSrcPath('constants/chat');
   const sharedConstantsPath = buildSrcPath('constants/shared');
 
@@ -18,7 +17,6 @@ describe('ChatGroup component', () => {
   const Icon = noopReactComponent();
   const StructuredMessage = noopReactComponent();
   const Carousel = noopReactComponent();
-  const ChatGroupAvatar = requireUncached(chatGroupAvatarPath).ChatGroupAvatar;
 
   let chatConstants = requireUncached(chatConstantsPath);
   let CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
@@ -44,7 +42,6 @@ describe('ChatGroup component', () => {
       'component/attachment/Attachment': { Attachment },
       'component/chat/chatting/MessageError': { MessageError },
       'component/chat/chatting/ImageMessage': { ImageMessage },
-      'component/chat/chatting/ChatGroupAvatar': { ChatGroupAvatar },
       'component/chat/chatting/StructuredMessage': StructuredMessage,
       'component/chat/chatting/Carousel': Carousel,
       'constants/chat': {
@@ -697,7 +694,8 @@ describe('ChatGroup component', () => {
         beforeAll(() => {
           componentArgs = {
             showAvatar: true,
-            isAgent: false
+            isAgent: false,
+            socialLogin: { avatarPath: 'path/to/avatar' }
           };
           messages = [
             {
@@ -1048,7 +1046,8 @@ describe('ChatGroup component', () => {
         beforeAll(() => {
           componentArgs = {
             showAvatar: true,
-            isAgent: false
+            isAgent: false,
+            socialLogin: { avatarPath: 'path/to/avatar' }
           };
         });
 
@@ -1128,11 +1127,6 @@ describe('ChatGroup component', () => {
       spyOn(component, 'renderAvatar');
 
       component.render();
-    });
-
-    it('contains an avatar property consisting of a ChatGroupAvatar', () => {
-      expect(component.avatar instanceof ChatGroupAvatar)
-        .toBeTruthy();
     });
 
     it('calls renderName with the correct args', () => {
