@@ -5,6 +5,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const common = require('./webpack.ac.common.js');
 const chunks = require('./chunks');
+const I18nPlugin = require('./i18nPlugin.js');
 
 // Assets must be downloaded in the order specified in CHUNKS
 const CHUNKS = [
@@ -27,6 +28,10 @@ module.exports = merge(common, {
     new ManifestPlugin({
       fileName: 'asset_manifest.json',
       publicPath: '',
+      filter: (file) => {
+        if (!file.isChunk) return false;
+        return Object.values(chunks).indexOf(file.chunk.name) >= 0;
+      },
       sort: function (a, b) {
         const indexA = CHUNKS.findIndex(chunk => chunk.name === a.chunk.name),
           indexB = CHUNKS.findIndex(chunk => chunk.name === b.chunk.name);
@@ -39,7 +44,7 @@ module.exports = merge(common, {
         return indexA - indexB;
       },
       generate: function (seed, files) {
-        const assets =  files.map(function (file) {
+        const assets = files.map(function (file) {
           const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name);
           const asset = { path: file.path };
 
@@ -58,6 +63,7 @@ module.exports = merge(common, {
     new OptimizeCSSAssetsPlugin({
       cssProcessorOptions: { discardComments: { removeAll: true } },
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: true }),
+    I18nPlugin,
   ]
 });

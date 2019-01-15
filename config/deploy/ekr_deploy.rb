@@ -12,6 +12,7 @@ set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
 set :previewer_directory, 'web_widget/previews'
 set :previewer_directory_versioned, "web_widget/previews/#{fetch(:version)}"
 set :popout_file_location, 'dist/'
+set :locales_file_location, 'dist/locales'
 set :popout_file_name, 'liveChat.html'
 set :preview_files, %i(webWidgetPreview.js chatPreview.js)
 
@@ -58,6 +59,14 @@ namespace :ac_embeddable_framework do
       fetch(:popout_file_location),
       fetch(:ekr_s3_release_directory_latest),
       [fetch(:popout_file_name)]
+    )
+  end
+
+  desc 'Upload translation assets to S3'
+  task :upload_translations_to_s3 do
+    s3_deployer.upload_translations(
+      fetch(:locales_file_location),
+      fetch(:ekr_s3_release_directory_latest)
     )
   end
 
@@ -128,5 +137,6 @@ end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
 before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:build_assets'
+after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_translations_to_s3'
 after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_preview_assets_to_s3'
 after 'ac_embeddable_framework:release_to_ekr', 'ac_embeddable_framework:update_preview_assets_to_latest'

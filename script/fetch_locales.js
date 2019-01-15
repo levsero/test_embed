@@ -12,7 +12,7 @@ const writeJson = (localeList) => {
 
   fs.writeFile(localeListPath, contents, { flag: 'w' }, (err) => {
     if (err) throw err;
-    console.log('\nlocale list written');
+    console.log(`\nlocale list written to ${localeListPath}`);
   });
 };
 
