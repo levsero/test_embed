@@ -8,6 +8,7 @@ import helpCenter from './help-center';
 import styling from './styling';
 import contactForm from './contactForm';
 import talk from './talk';
+import contactOptions from './contactOptions';
 
 export default combineReducers({
   chat,
@@ -17,5 +18,6 @@ export default combineReducers({
   helpCenter,
   styling,
   contactForm,
-  talk
+  talk,
+  contactOptions
 });

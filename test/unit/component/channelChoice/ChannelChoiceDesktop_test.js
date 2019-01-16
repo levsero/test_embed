@@ -15,9 +15,7 @@ describe('ChannelChoiceDesktop component', () => {
           footerNoLogo: 'footerNoLogo'
         }
       },
-      'component/channelChoice/ChannelChoiceMenu': {
-        ChannelChoiceMenu: noopReactComponent()
-      },
+      'component/channelChoice/ChannelChoiceMenu': noopReactComponent(),
       'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           render() {

@@ -77,7 +77,9 @@ const webWidgetStoreDefaults = {
     ticketForms: []
   },
   helpCenter: {},
-  contactOptions: { enabled: false },
+  contactOptions: {
+    enabled: false
+  },
   chat: {
     concierge: {
       avatarPath: null
@@ -166,10 +168,7 @@ function getTranslations() {
     helpCenterSearchPlaceholder: webWidgetStore.helpCenter.searchPlaceholder,
     helpCenterTitle: webWidgetStore.helpCenter.title,
     launcherChatLabel: webWidgetStore.launcher.chatLabel,
-    launcherLabel: webWidgetStore.launcher.label,
-    contactOptionsChatLabelOnline: webWidgetStore.contactOptions.chatLabelOnline,
-    contactOptionsChatLabelOffline: webWidgetStore.contactOptions.chatLabelOffline,
-    contactOptionsContactFormLabel: webWidgetStore.contactOptions.contactFormLabel
+    launcherLabel: webWidgetStore.launcher.label
   };
 
   return _.omitBy(translations, _.isUndefined);

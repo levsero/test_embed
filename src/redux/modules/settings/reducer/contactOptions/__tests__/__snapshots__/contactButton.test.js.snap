@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`contactButton, action: DERP DERP 1`] = `null`;
+
+exports[`contactButton, action: undefined 1`] = `null`;
+
+exports[`contactButton, action: widget/settings/UPDATE_SETTINGS 1`] = `null`;
+
+exports[`contactButton, action: widget/settings/UPDATE_SETTINGS 2`] = `
+Object {
+  "*": "button",
+}
+`;

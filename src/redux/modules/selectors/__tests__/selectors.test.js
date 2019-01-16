@@ -1,17 +1,21 @@
 /* eslint-disable camelcase */
 import _ from 'lodash';
-import * as selectors from 'src/redux/modules/selectors/selectors';
 import 'utility/i18nTestHelper';
 import * as globals from 'utility/globals';
 import * as devices from 'utility/devices';
+import { testTranslationStringSelector } from 'src/util/testHelpers';
+
+import * as selectors from 'src/redux/modules/selectors/selectors';
 import * as zopimChatSelectors from 'src/redux/modules/zopimChat/zopimChat-selectors';
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors';
 import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors';
+
 // Cannot mock base-selectors due to reimports.
 import * as screens from 'src/redux/modules/talk/talk-screen-types';
 import { i18n } from 'src/service/i18n';
 import { getModifiedState } from 'src/fixtures/selectors-test-state';
 import { LAUNCHER } from 'constants/shared';
+
 const stateLauncherSettings = (settings) => {
   return {
     base: { locale: 'en-US' },
@@ -994,4 +998,16 @@ describe('getWidgetDisplayInfo', () => {
 
     expect(result).toEqual(expectedValue);
   });
+});
+
+describe('getContactOptionsChatLabelOnline', () => {
+  testTranslationStringSelector(selectors.getContactOptionsChatLabelOnline);
+});
+
+describe('getContactOptionsContactFormLabel', () => {
+  testTranslationStringSelector(selectors.getContactOptionsContactFormLabel);
+});
+
+describe('getContactOptionsButton', () => {
+  testTranslationStringSelector(selectors.getContactOptionsButton);
 });

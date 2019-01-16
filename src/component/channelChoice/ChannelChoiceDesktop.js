@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { locals as styles } from './ChannelChoiceDesktop.scss';
 
-import { ChannelChoiceMenu } from 'component/channelChoice/ChannelChoiceMenu';
+import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';

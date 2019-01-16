@@ -3,7 +3,7 @@ import React from 'react';
 import { i18n } from 'service/i18n';
 import { render, fireEvent } from 'react-testing-library';
 
-import { ChannelChoiceMenu } from '../ChannelChoiceMenu';
+import { Component as ChannelChoiceMenu } from '../ChannelChoiceMenu';
 
 beforeEach(() => {
   i18n.isRTL = () => false;
@@ -15,7 +15,9 @@ describe('rendering', () => {
   const renderComponent = (props = {}, renderer) => {
     const defaultProps = {
       onNextClick: jest.fn(),
-      callbackEnabled: false
+      callbackEnabled: false,
+      chatOnlineAvailableLabel: 'Live chat',
+      submitTicketLabel: 'Leave a message'
     };
     const mergedProps = { ...defaultProps, ...props };
     const component = <ChannelChoiceMenu {...mergedProps} />;
@@ -169,7 +171,9 @@ describe('dom interaction', () => {
   const component = (props = {}) => {
     const defaultProps = {
       onNextClick: jest.fn(),
-      callbackEnabled: false
+      callbackEnabled: false,
+      chatOnlineAvailableLabel: 'Live chat',
+      submitTicketLabel: 'Leave a message'
     };
     const mergedProps = { ...defaultProps, ...props };
     const component =  <ChannelChoiceMenu {...mergedProps} />;

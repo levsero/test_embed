@@ -58,10 +58,10 @@ export const testTranslationStringSelector = (selector) => {
     throw new Error('For testing create selector resultFuncs with arity of 2');
   }
 
-  describe(`${selector.name}`, () => {
+  describe(selector.name, () => {
     test.each([
-      [undefined, null, defaultTranslation],
-      [settingsTranslation, null, settingsTranslation]
+      [undefined,            null,  defaultTranslation ],
+      [settingsTranslation,  null,  settingsTranslation]
     ])('resultFunc(%p, %p) returns %p',
       (settingString, locale, expected) => {
         jest.spyOn(i18n, 't').mockReturnValue(defaultTranslation);

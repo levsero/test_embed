@@ -31,7 +31,11 @@ import {
   getSettingsContactFormAttachments,
   getSettingsTalkTitle,
   getSettingsTalkNickname,
-  getSettingsTalkSuppress
+  getSettingsTalkSuppress,
+  getSettingsContactOptionsEnabled,
+  getSettingsContactOptionsButton,
+  getSettingsContactOptionsChatLabelOnline,
+  getSettingsContactOptionsContactFormLabel
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -169,7 +173,7 @@ export const getSubmitTicketAvailable = (state) => {
 };
 
 const getChannelChoiceEnabled = (state) => {
-  return settings.get('contactOptions').enabled && getSubmitTicketAvailable(state);
+  return getSettingsContactOptionsEnabled(state) && getSubmitTicketAvailable(state);
 };
 
 export const getChatOnline = (state) => getZopimChatOnline(state) || !getShowOfflineChat(state);
@@ -258,19 +262,52 @@ export const getMaxWidgetHeight = (state, frame = 'webWidget') => {
 };
 
 export const getChannelChoiceAvailable = createSelector(
-  [getChannelChoiceEnabled,
+  [
+    getChannelChoiceEnabled,
     getSubmitTicketAvailable,
     getTalkOnline,
     getChatAvailable,
     getChatOfflineAvailable,
-    getIsChatting],
-  (channelChoiceEnabled, submitTicketAvailable, talkOnline, chatAvailable, chatOfflineAvailable, isChatting) => {
-    const channelChoicePrerequisite = (channelChoiceEnabled || talkOnline);
-    const availableChannelCount = (submitTicketAvailable + talkOnline + chatAvailable + chatOfflineAvailable);
+    getIsChatting
+  ],
+  (
+    channelChoiceEnabled,
+    submitTicketAvailable,
+    talkAvailable,
+    chatAvailable,
+    chatOfflineAvailable,
+    isChatting
+  ) => {
+    const channelChoicePrerequisite = channelChoiceEnabled || talkAvailable;
+    const availableChannelCount = submitTicketAvailable + talkAvailable + chatAvailable + chatOfflineAvailable;
     const channelsAvailable = availableChannelCount > 1;
 
     return channelChoicePrerequisite && channelsAvailable && !isChatting;
   }
+);
+
+export const getContactOptionsButton = createSelector(
+  [getSettingsContactOptionsButton, getLocale],
+  (settingsButton, _locale) => (
+    i18n.getSettingTranslation(settingsButton) ||
+    i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact')
+  )
+);
+
+export const getContactOptionsChatLabelOnline = createSelector(
+  [getSettingsContactOptionsChatLabelOnline, getLocale],
+  (settingsLabel, _locale) => (
+    i18n.getSettingTranslation(settingsLabel) ||
+    i18n.t('embeddable_framework.common.button.chat')
+  )
+);
+
+export const getContactOptionsContactFormLabel = createSelector(
+  [getSettingsContactOptionsContactFormLabel, getLocale],
+  (settingsLabel, _locale) => (
+    i18n.getSettingTranslation(settingsLabel) ||
+    i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')
+  )
 );
 
 const getCoreColor = createSelector(
