@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
-import { i18n } from 'service/i18n';
 import {
   updateSettingsApi,
   updateSettingsLegacyApi,
@@ -43,20 +42,16 @@ export const setOffsetMobileApi = {
   setOffsetHorizontalMobile: (dist) => updateSettingsLegacy('offset.mobile.horizontal', dist)
 };
 
-export const setGreetingsApi = (greetings) => {
+export const setGreetingsApi = (store, greetings) => {
   const onlineGreeting = _.get(greetings, 'online');
   const offlineGreeting = _.get(greetings, 'offline');
 
-  const callback = () => {
-    i18n.setCustomTranslations();
-  };
-
   if (_.isString(onlineGreeting)) {
-    updateSettingsLegacy('launcher.chatLabel.*', onlineGreeting, callback);
+    updateSettings(store, 'webWidget.launcher.chatLabel.*', onlineGreeting);
   }
 
   if (_.isString(offlineGreeting)) {
-    updateSettingsLegacy('launcher.label.*', offlineGreeting, callback);
+    updateSettings(store, 'webWidget.launcher.label.*', offlineGreeting);
   }
 };
 
