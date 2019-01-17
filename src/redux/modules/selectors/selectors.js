@@ -200,7 +200,7 @@ export const getChatAvailable = (state) => {
 export const getShowTalkBackButton = createSelector(
   [getHelpCenterEmbed, getChatAvailable, getSubmitTicketEmbed],
   (hcEmbed, chatAvailable, submitTicketEmbed) =>
-    hcEmbed|| chatAvailable || submitTicketEmbed
+    hcEmbed || chatAvailable || submitTicketEmbed
 );
 export const getTalkReady = (state) => !getTalkEmbed(state) || getTalkEmbeddableConfigConnected(state);
 

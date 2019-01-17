@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 
 import reducer from 'src/redux/modules/reducer';
 import Chat from '../Chat';
-import * as selectors from 'src/redux/modules/chat/chat-selectors/chat-reselectors';
+import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors';
 
 let showOfflineChatMock;
 

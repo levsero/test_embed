@@ -1,4 +1,4 @@
-import * as selectors from '../chat-reselectors';
+import * as selectors from '../reselectors';
 import {
   CHAT_MESSAGE_EVENTS,
   CHAT_SYSTEM_EVENTS
@@ -302,5 +302,5 @@ describe('getShowOfflineChat', () => {
 });
 
 describe('hasUnseenAgentMessage', () => {
-
+  // TODO when the selectors have been split
 });

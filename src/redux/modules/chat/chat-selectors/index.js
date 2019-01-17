@@ -1,2 +1,2 @@
-export * from './chat-reselectors';
-export * from './chat-selectors';
+export * from './reselectors';
+export * from './selectors';

@@ -31,7 +31,7 @@ import {
   getLatestQuickReplyKey,
   getInactiveAgents,
   getChatOnline,isAgent,
-} from './chat-selectors';
+} from './selectors';
 import { isDefaultNickname } from 'utility/chat';
 
 export const getPrechatFormRequired = createSelector(

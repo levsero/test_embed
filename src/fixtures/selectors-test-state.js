@@ -18,6 +18,7 @@ const defaultState = {
         },
         submitTicket: {
           ticketSubmissionForm: {
+            props: {}
           }
         }
       },

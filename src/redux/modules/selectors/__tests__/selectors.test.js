@@ -5,8 +5,8 @@ import 'utility/i18nTestHelper';
 import * as globals from 'utility/globals';
 import * as devices from 'utility/devices';
 import * as zopimChatSelectors from 'src/redux/modules/zopimChat/zopimChat-selectors';
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/chat-selectors';
-import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/chat-reselectors';
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors';
+import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors';
 // Cannot mock base-selectors due to reimports.
 import * as screens from 'src/redux/modules/talk/talk-screen-types';
 import { i18n } from 'src/service/i18n';
