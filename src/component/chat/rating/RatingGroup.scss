@@ -6,7 +6,6 @@
   box-sizing: content-box;
   height: #{16/$font-size}rem;
   padding: #{6/$font-size}rem;
-  width: #{16/$font-size}rem;
   border-radius: #{30/$font-size}rem;
   outline: none;
   display: inline-block !important;
@@ -46,7 +45,7 @@
 .thumbDownIcon {
   padding-top: #{8/$font-size}rem;
   padding-bottom: #{4/$font-size}rem;
-  margin-left: #{4/$font-size}rem;
+  margin-left: #{2/$font-size}rem;
 
   [dir='rtl'] & {
     margin-left: 0;
