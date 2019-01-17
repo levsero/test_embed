@@ -21,7 +21,8 @@ module.exports = merge(common, {
   mode: 'production',
   devtool: false,
   output: {
-    filename: '[name].[chunkhash].js'
+    filename: '[name].[chunkhash].js',
+    publicPath: process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest/'
   },
   plugins: [
     new webpack.HashedModuleIdsPlugin(),
