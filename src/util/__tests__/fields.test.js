@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import 'utility/i18nTestHelper';
 import {
   getStyledLabelText,
   shouldRenderErrorMessage,

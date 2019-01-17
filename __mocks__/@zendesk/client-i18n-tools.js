@@ -5,6 +5,6 @@ const t = (key) => {
 };
 
 t.load = (_locale, cb) => cb();
-
+t.locale = 'en-US';
 t.dir = 'ltr';
 module.exports = t;

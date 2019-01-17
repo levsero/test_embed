@@ -1,4 +1,3 @@
-import 'utility/i18nTestHelper';
 import { renderer } from '../renderer';
 import _ from 'lodash';
 import { settings } from 'service/settings';

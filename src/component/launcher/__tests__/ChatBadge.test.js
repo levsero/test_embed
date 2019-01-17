@@ -1,4 +1,3 @@
-import 'utility/i18nTestHelper';
 import { render } from 'react-testing-library';
 import React from 'react';
 import ChatBadgeConnect from '../ChatBadge';
