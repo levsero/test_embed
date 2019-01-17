@@ -5,7 +5,6 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const common = require('./webpack.ac.common.js');
 const fs = require('fs');
 const webWidgetTemplates = require('../dev/web_widget_templates');
-const I18nPlugin = require('./i18nPlugin.js');
 
 const CWD = process.cwd();
 const CSP_HEADER = "\
@@ -52,8 +51,7 @@ module.exports = () => {
       new ProgressBarPlugin({
         format: 'Build [:bar] :percent (:elapsed seconds)',
         clear: false
-      }),
-      I18nPlugin
+      })
     ]
   });
 };

@@ -18,18 +18,6 @@ import { EMAIL_PATTERN } from 'constants/shared';
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
 const cancelButtonMessageString = 'embeddable_framework.common.button.cancel';
-const initialState = {
-  attachments: [],
-  buttonMessage: sendButtonMessageString,
-  cancelButtonMessage: cancelButtonMessageString,
-  isRTL: i18n.isRTL(),
-  isSubmitting: false,
-  isValid: false,
-  canSubmit: true,
-  showErrors: false,
-  shouldRemoveForm: false,
-  showErrorMessage: false
-};
 
 export class SubmitTicketForm extends Component {
   static propTypes = {
@@ -80,7 +68,7 @@ export class SubmitTicketForm extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = _.extend({}, initialState, {
+    this.state = _.extend({}, this.initialState, {
       isValid: props.previewEnabled
     });
   }
@@ -125,6 +113,19 @@ export class SubmitTicketForm extends Component {
     if (this.state.canSubmit !== canSubmit) {
       this.setState({ canSubmit });
     }
+  }
+
+  initialState = {
+    attachments: [],
+    buttonMessage: sendButtonMessageString,
+    cancelButtonMessage: cancelButtonMessageString,
+    isRTL: i18n.isRTL(),
+    isSubmitting: false,
+    isValid: false,
+    canSubmit: true,
+    showErrors: false,
+    shouldRemoveForm: false,
+    showErrorMessage: false
   }
 
   resetTicketFormVisibility = () => {
@@ -280,7 +281,7 @@ export class SubmitTicketForm extends Component {
   }
 
   resetState = () => {
-    this.setState(initialState);
+    this.setState(this.initialState);
   }
 
   handleOnDrop = (files) => {
@@ -304,7 +305,7 @@ export class SubmitTicketForm extends Component {
 
     this.clearAttachments();
 
-    this.setState(initialState);
+    this.setState(this.initialState);
     this.props.setFormState({
       name: formState.name,
       email: formState.email

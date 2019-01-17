@@ -55,6 +55,9 @@ describe('boot', () => {
         }
       },
       'service/transport': transportSpy,
+      '@zendesk/client-i18n-tools': {
+        load: (_, cb) => { cb(); }
+      },
       'service/renderer': rendererSpy,
       'src/redux/createStore': () => ({
         dispatch: jasmine.createSpy.and.callThrough()

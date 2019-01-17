@@ -5,7 +5,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const common = require('./webpack.ac.common.js');
 const chunks = require('./chunks');
-const I18nPlugin = require('./i18nPlugin.js');
 
 // Assets must be downloaded in the order specified in CHUNKS
 const CHUNKS = [
@@ -64,7 +63,6 @@ module.exports = merge(common, {
     new OptimizeCSSAssetsPlugin({
       cssProcessorOptions: { discardComments: { removeAll: true } },
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false }),
-    I18nPlugin,
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
   ]
 });

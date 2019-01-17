@@ -289,7 +289,8 @@ describe('Submit ticket component', () => {
           handleTicketSubmission={mockHandleTicketSubmission}
           onSubmitted={mockOnSubmitted}
           searchTerm={'a search'}
-          attachmentsEnabled={true} />
+          attachmentsEnabled={true}
+          locale={'en-US'} />
       );
       spyOn(submitTicket, 'clearForm');
     });
