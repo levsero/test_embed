@@ -17,7 +17,6 @@ module.exports = merge(common, {
   entry: {
     [chunks.WEB_WIDGET_CHUNK]: path.join(CWD, '/src/main.js'),
     [chunks.TRANSLATIONS_CHUNK]: [
-      path.join(CWD, '/src/translation/ze_translations.js'),
       path.join(CWD, '/src/translation/ze_countries.js'),
       path.join(CWD, '/src/translation/ze_localeIdMap.js')
     ],
