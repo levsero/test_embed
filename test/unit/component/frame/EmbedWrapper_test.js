@@ -58,6 +58,8 @@ describe('EmbedWrapper', () => {
       handleCloseClickMock = jasmine.createSpy();
       instance = domRender(
         <EmbedWrapper
+          popoutButtonVisible={() => {}}
+          reduxStore={{ getState: () => {} }}
           handleCloseClick={handleCloseClickMock}
           baseCSS='.base-css-file {}'>
           <MockChildComponent />

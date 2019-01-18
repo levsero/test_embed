@@ -68,7 +68,8 @@ const renderWebWidgetPreview = (options) => {
     preventClose: true,
     ref: (el) => { frame = el.getWrappedInstance(); },
     fullscreen: false,
-    isMobile: false
+    isMobile: false,
+    isPreview: true
   };
 
   const component = (

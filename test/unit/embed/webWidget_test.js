@@ -178,7 +178,7 @@ describe('embed.webWidget', () => {
       'src/redux/modules/selectors': {
         getTalkEnabled: () => mockTalkRequired,
         getTalkNickname: () => mockNicknameValue,
-        getChatNotification: () => mockChatNotification
+        getChatNotification: () => mockChatNotification,
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen
@@ -226,6 +226,9 @@ describe('embed.webWidget', () => {
         setScrollKiller: noop
       },
       'src/util/utils': {
+
+      },
+      'src/util/chat': {
 
       }
     });

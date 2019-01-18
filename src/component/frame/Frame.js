@@ -137,6 +137,7 @@ class Frame extends Component {
       zIndex: PropTypes.number
     }),
     zIndex: PropTypes.number,
+    isPreview: PropTypes.bool
   }
 
   static defaultProps = {
@@ -164,7 +165,8 @@ class Frame extends Component {
     widgetShowAnimationComplete: () => {},
     generateUserCSS: () => {},
     chatStandalone: false,
-    isMobile: false
+    isMobile: false,
+    isPreview: false
   }
 
   constructor(props, context) {
@@ -493,7 +495,8 @@ class Frame extends Component {
           name={this.props.name}
           fullscreen={this.props.fullscreen}
           isMobile={this.props.isMobile}
-          chatStandalone={this.props.chatStandalone}>
+          chatStandalone={this.props.chatStandalone}
+          isPreview={this.props.isPreview}>
           {newChild}
         </EmbedWrapper>
       </StyleSheetManager>

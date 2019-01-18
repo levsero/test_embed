@@ -8,9 +8,9 @@ import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { clickBusterRegister } from 'utility/devices';
-import { createChatPopoutWindow } from 'src/util/chat';
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors';
-import { getZChatVendor,
+import {
+  getZChatVendor,
   getMenuVisible as getChatMenuVisible,
   getStandaloneMobileNotificationVisible
 } from 'src/redux/modules/chat/chat-selectors';
@@ -18,17 +18,18 @@ import {
   getShowMenu as getShowChatMenu,
   getIsPopoutButtonVisible } from 'src/redux/modules/selectors';
 import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
-import { handleCloseButtonClicked, handlePopoutButtonClicked } from 'src/redux/modules/base/base-actions';
+import { handleCloseButtonClicked } from 'src/redux/modules/base/base-actions';
+import { createChatPopoutWindow } from 'src/util/chat';
 
 const mapStateToProps = (state) => {
   return {
     backButtonVisible: state.base.backButtonVisible,
-    popoutButtonVisible: getIsPopoutButtonVisible(state),
     menuVisible: getChatMenuVisible(state),
     useMenu: getShowChatMenu(state),
     standaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     chatPopoutSettings: getSettingsChatPopout(state),
-    zChat: getZChatVendor(state)
+    zChat: getZChatVendor(state),
+    popoutButtonVisible: getIsPopoutButtonVisible(state)
   };
 };
 
@@ -37,10 +38,8 @@ class Navigation extends Component {
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
     handleCloseButtonClicked: PropTypes.func.isRequired,
-    handlePopoutButtonClicked: PropTypes.func.isRequired,
     hideNavigationButtons: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
-    popoutButtonVisible: PropTypes.bool,
     preventClose: PropTypes.bool,
     useBackButton: PropTypes.bool,
     useMenu: PropTypes.bool,
@@ -79,7 +78,9 @@ class Navigation extends Component {
           theme: PropTypes.string,
         })
       })
-    })
+    }),
+    popoutButtonVisible: PropTypes.bool.isRequired,
+    isPreview: PropTypes.bool
   };
 
   static defaultProps = {
@@ -87,13 +88,13 @@ class Navigation extends Component {
     handleBackClick: () => {},
     hideNavigationButtons: false,
     backButtonVisible: false,
-    popoutButtonVisible: false,
     preventClose: false,
     useBackButton: false,
     updateMenuVisibility: () => {},
     menuVisible: false,
     useMenu: false,
-    zChat: {}
+    zChat: {},
+    isPreview: false
   };
 
   renderNavButton = (options = {}) => {
@@ -120,9 +121,11 @@ class Navigation extends Component {
   handlePopoutClick = () => {
     const {
       chatPopoutSettings,
-      zChat } = this.props;
+      zChat,
+      isPreview
+    } = this.props;
 
-    this.props.handlePopoutButtonClicked();
+    if (!isPreview) return;
 
     createChatPopoutWindow(
       chatPopoutSettings,
@@ -185,7 +188,8 @@ class Navigation extends Component {
     const { fullscreen,
       isMobile,
       popoutButtonVisible,
-      hideNavigationButtons } = this.props;
+      hideNavigationButtons,
+      isPreview } = this.props;
 
     const popoutStyle = (isMobile) ? styles.popoutMobile : styles.popoutDesktop;
 
@@ -197,7 +201,7 @@ class Navigation extends Component {
           'aria-label': 'Popout',
           icon: ICONS.POPOUT,
           className: popoutStyle,
-          isVisible: popoutButtonVisible && !hideNavigationButtons,
+          isVisible: isPreview || (popoutButtonVisible && !hideNavigationButtons),
           position: 'right'
         })}
         {this.renderNavButton({
@@ -213,8 +217,7 @@ class Navigation extends Component {
 
 const actionCreators = {
   updateMenuVisibility: updateChatMenuVisibility,
-  handleCloseButtonClicked: handleCloseButtonClicked,
-  handlePopoutButtonClicked
+  handleCloseButtonClicked: handleCloseButtonClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Navigation);

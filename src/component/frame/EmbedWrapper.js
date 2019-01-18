@@ -22,7 +22,8 @@ export class EmbedWrapper extends Component {
     reduxStore: PropTypes.object.isRequired,
     useBackButton: PropTypes.bool,
     document: PropTypes.object.isRequired,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
+    isPreview: PropTypes.bool
   };
 
   static defaultProps = {
@@ -32,7 +33,8 @@ export class EmbedWrapper extends Component {
     handleBackClick: () => {},
     handleCloseClick: () => {},
     hideNavigationButtons: false,
-    useBackButton: false
+    useBackButton: false,
+    isPreview: false
   };
 
   constructor(props, context) {
@@ -115,7 +117,8 @@ export class EmbedWrapper extends Component {
                   fullscreen={this.props.fullscreen}
                   isMobile={this.props.isMobile}
                   useBackButton={this.props.useBackButton}
-                  hideNavigationButtons={this.props.hideNavigationButtons} />
+                  hideNavigationButtons={this.props.hideNavigationButtons}
+                  isPreview={this.props.isPreview} / >
                 <div id='Embed' ref={(el) => { this.embed = el; }}>
                   {newChild}
                 </div>
