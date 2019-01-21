@@ -336,11 +336,11 @@ export const getIsWidgetReady = createSelector(
 
 const getIsChannelAvailable = createSelector(
   [ getChatAvailable,
-    getTalkAvailable,
+    getTalkOnline,
     getHelpCenterAvailable,
     getSubmitTicketAvailable ],
-  (chatAvailable, talkAvailable, helpCenterAvailable, submitTicketAvailable) => {
-    return chatAvailable || talkAvailable || helpCenterAvailable || submitTicketAvailable;
+  (chatAvailable, talkOnline, helpCenterAvailable, submitTicketAvailable) => {
+    return chatAvailable || talkOnline || helpCenterAvailable || submitTicketAvailable;
   }
 );
 
