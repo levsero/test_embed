@@ -140,10 +140,14 @@ export class Panel extends Component {
       backgroundImage: `url(${panel.imageUrl})`
     };
 
+    const imageClassNames = classNames(styles.imagePlaceholder, {
+      [styles.scaleUp]: (panel.layout === 'hero')
+    });
+
     return (
       <div className={containerClassNames}>
         <div className={styles.aspectRatioStub} style={aspectRatioStyle} />
-        <div className={styles.imagePlaceholder}>
+        <div className={imageClassNames}>
           <Icon type="Icon--image-stroke" />
         </div>
 

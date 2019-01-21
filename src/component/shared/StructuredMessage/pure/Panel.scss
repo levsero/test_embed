@@ -93,9 +93,14 @@
   align-items: center;
   justify-content: center;
 
+  &.scaleUp {
+    svg {
+      transform: scale(2.0);
+    }
+  }
+
   svg {
     color: $zd-color-grey-400;
-    transform: scale(2.0);
   }
 }
 
