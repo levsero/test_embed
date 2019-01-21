@@ -26,7 +26,8 @@ export class SliderContainer extends Component {
     slidesToShow: PropTypes.number,
     className: PropTypes.string,
     onClick: PropTypes.func,
-    slider: PropTypes.func
+    slider: PropTypes.func,
+    arrows: PropTypes.bool
   }
 
   static defaultProps = {
@@ -34,7 +35,8 @@ export class SliderContainer extends Component {
     variableWidth: false,
     infinite: false,
     slidesToScroll: 1,
-    slidesToShow: 1
+    slidesToShow: 1,
+    arrows: true
   }
 
   constructor(props) {
@@ -268,6 +270,7 @@ export class SliderContainer extends Component {
       slidesToScroll: this.props.slidesToScroll,
       slidesToShow: this.props.slidesToShow,
       draggable: false,
+      arrows: this.props.arrows,
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />
     };

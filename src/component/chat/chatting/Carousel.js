@@ -22,7 +22,7 @@ export default class Carousel extends Component {
     });
 
     return (
-      <PureCarousel>
+      <PureCarousel isMobile={this.props.isMobile}>
         {children}
       </PureCarousel>
     );
