@@ -164,6 +164,7 @@ class HelpCenter extends Component {
 
     this.helpCenterMobile = null;
     this.helpCenterDesktop = null;
+    this.helpCenterResults = null;
   }
 
   componentDidUpdate() {
@@ -191,12 +192,18 @@ class HelpCenter extends Component {
 
   interactiveSearchSuccessFn = () => {
     this.props.showBackButton(false);
-    this.focusField();
+    this.focusOnFirstResult();
   }
 
   focusField = () => {
     if (this.helpCenterDesktop) {
       this.helpCenterDesktop.focusField();
+    }
+  }
+
+  focusOnFirstResult() {
+    if (this.helpCenterDesktop && this.helpCenterResults) {
+      this.helpCenterResults.focusField();
     }
   }
 
@@ -244,7 +251,7 @@ class HelpCenter extends Component {
           this.props.performSearch(_.pickBy(query), doneFn, failFn);
         }
       } else {
-        this.focusField();
+        this.focusOnFirstResult();
       }
     };
 
@@ -288,6 +295,7 @@ class HelpCenter extends Component {
 
     return (
       <HelpCenterResults
+        ref={(ref)=> { this.helpCenterResults = ref; }}
         fullscreen={fullscreen}
         articles={articles}
         applyPadding={applyPadding}

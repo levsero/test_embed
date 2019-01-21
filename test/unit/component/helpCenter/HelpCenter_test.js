@@ -375,12 +375,14 @@ describe('HelpCenter component', () => {
 
     let helpCenter,
       focusField,
+      focusOnFirstResult,
       successFn,
       mockPerformSearch,
       query;
 
     beforeEach(() => {
       focusField = jasmine.createSpy('mockFocusField');
+      focusOnFirstResult = jasmine.createSpy('mockFocusOnFirstResult');
       successFn = jasmine.createSpy('mockSuccessFn');
       mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       query = { query: searchTerm, locale: 'en-us' };
@@ -391,6 +393,7 @@ describe('HelpCenter component', () => {
       );
 
       helpCenter.focusField = focusField;
+      helpCenter.focusOnFirstResult = focusOnFirstResult;
       helpCenter.getHelpCenterComponent().getSearchField().getValue = () => 'valid';
     });
 
@@ -519,7 +522,7 @@ describe('HelpCenter component', () => {
           it('should call focusField', () => {
             recentCallArgs[1](responsePayloadError);
 
-            expect(helpCenter.focusField)
+            expect(helpCenter.focusOnFirstResult)
               .toHaveBeenCalled();
           });
         });
@@ -559,7 +562,7 @@ describe('HelpCenter component', () => {
         locale: 'en-US'
       };
 
-      helpCenter.getHelpCenterComponent().focusField = jasmine.createSpy('focusField');
+      helpCenter.focusOnFirstResult = jasmine.createSpy('focusOnFirstResult');
       helpCenter.interactiveSearchSuccessFn(result, query);
     });
 
@@ -568,8 +571,8 @@ describe('HelpCenter component', () => {
         .toHaveBeenCalledWith(false);
     });
 
-    it('calls focusField', () => {
-      expect(helpCenter.getHelpCenterComponent().focusField)
+    it('calls focusFieldSuccessful', () => {
+      expect(helpCenter.focusOnFirstResult)
         .toHaveBeenCalled();
     });
   });

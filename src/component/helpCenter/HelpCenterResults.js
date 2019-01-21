@@ -34,6 +34,18 @@ export class HelpCenterResults extends Component {
     hideZendeskLogo: false
   };
 
+  constructor() {
+    super();
+    this.firstArticleRef = null;
+  }
+
+  focusField() {
+    if (this.firstArticleRef) {
+      this.firstArticleRef.focus();
+      this.firstArticleRef = null;
+    }
+  }
+
   hasInitialSearchResults = () => {
     const { articles } = this.props;
 
@@ -42,10 +54,12 @@ export class HelpCenterResults extends Component {
 
   renderResultRow = (article, index) => {
     const mobileClasses = this.props.isMobile ? styles.itemMobile : '';
+    const ref = index === 0 ? (ref) => { this.firstArticleRef = ref; } : null;
 
     return (
       <li key={_.uniqueId('article_')} className={`${styles.item} ${mobileClasses}`}>
         <a className='u-userTextColor'
+          ref={ref}
           href={article.html_url}
           target='_blank'
           onClick={this.props.handleArticleClick.bind(this, index)}>
