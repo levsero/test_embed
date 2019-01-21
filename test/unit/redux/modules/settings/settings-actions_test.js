@@ -38,13 +38,15 @@ describe('settings redux actions', () => {
       },
       'src/redux/modules/chat/chat-selectors': {
         getConnection: () => mockGetConnection,
-        getDefaultSelectedDepartment: () => mockDepartment,
         getZChatVendor: () => {
           return {
             addTag: addTagSpy,
             removeTag: removeTagSpy
           };
         }
+      },
+      'src/redux/modules/selectors': {
+        getDefaultSelectedDepartment: () => mockDepartment,
       },
       'src/redux/modules/chat/chat-actions': {
         setDepartment: setDepartmentSpy,

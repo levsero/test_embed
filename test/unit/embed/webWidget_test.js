@@ -173,12 +173,12 @@ describe('embed.webWidget', () => {
         getSettingsContactFormSuppress: () => mockContactFormSuppressedValue
       },
       'src/redux/modules/chat/chat-selectors': {
-        getChatNotification: () => mockChatNotification,
         getStandaloneMobileNotificationVisible: () => mockStandaloneMobileNotificationVisible
       },
       'src/redux/modules/selectors': {
         getTalkEnabled: () => mockTalkRequired,
-        getTalkNickname: () => mockNicknameValue
+        getTalkNickname: () => mockNicknameValue,
+        getChatNotification: () => mockChatNotification
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen

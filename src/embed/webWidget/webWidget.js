@@ -25,7 +25,8 @@ import { getZoomSizingRatio,
 import { document, getDocumentHost, win, isPopout } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
-import { getChatNotification, getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
+import { getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
+import { getChatNotification } from 'src/redux/modules/selectors';
 import { setVisitorInfo,
   chatNotificationDismissed,
   fetchConversationHistory,

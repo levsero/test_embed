@@ -39,8 +39,11 @@ describe('AgentScreen component', () => {
       'src/redux/modules/chat': {
         updateChatScreen: updateChatScreenSpy
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/redux/modules/selectors': {
         getPrechatFormFields: noop
+      },
+      'src/redux/modules/chat/chat-selectors': {
+
       },
       'src/redux/modules/chat/chat-history-selectors': {
         getHasMoreHistory: noop

@@ -43,8 +43,8 @@ import {
   getActiveEmbed,
   getChatStandalone
 } from 'src/redux/modules/base/base-selectors';
-import { getChatNotification,
-  getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
+import { getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
+import { getChatNotification } from 'src/redux/modules/selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import {
   getSettingsMobileNotificationsDisabled,

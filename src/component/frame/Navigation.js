@@ -10,13 +10,13 @@ import { ICONS } from 'constants/shared';
 import { clickBusterRegister } from 'utility/devices';
 import { createChatPopoutWindow } from 'src/util/chat';
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors';
-import {
-  getIsPopoutButtonVisible,
-  getZChatVendor,
+import { getZChatVendor,
   getMenuVisible as getChatMenuVisible,
-  getShowMenu as getShowChatMenu,
   getStandaloneMobileNotificationVisible
 } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getShowMenu as getShowChatMenu,
+  getIsPopoutButtonVisible } from 'src/redux/modules/selectors';
 import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
 import { handleCloseButtonClicked, handlePopoutButtonClicked } from 'src/redux/modules/base/base-actions';
 

@@ -28,43 +28,49 @@ import {
   markAsRead,
   fetchConversationHistory } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
-import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import {
   getHistoryLength,
   getHasMoreHistory,
   getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors';
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
+import {
+  getProfileConfig,
+  getChatTitle,
+  getConciergeSettings,
+  getCurrentConcierges,
+  isInChattingScreen } from 'src/redux/modules/selectors';
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './ChattingScreen.scss';
 
 const mapStateToProps = (state) => {
   return {
-    attachmentsEnabled: selectors.getAttachmentsEnabled(state),
-    chatsLength: selectors.getChatsLength(state),
+    attachmentsEnabled: chatSelectors.getAttachmentsEnabled(state),
+    chatsLength: chatSelectors.getChatsLength(state),
     historyLength: getHistoryLength(state),
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
-    lastMessageAuthor: selectors.getLastMessageAuthor(state),
-    latestQuickReply: selectors.getLatestQuickReply(state),
-    currentMessage: selectors.getCurrentMessage(state),
-    concierges: selectors.getCurrentConcierges(state),
-    isChatting: selectors.getIsChatting(state),
-    allAgents: selectors.getAllAgents(state),
-    activeAgents: selectors.getActiveAgents(state),
-    agentsTyping: selectors.getAgentsTyping(state),
-    rating: selectors.getChatRating(state),
-    visitor: selectors.getChatVisitor(state),
-    luxon: selectors.getLuxonVendor(state),
-    showAvatar: selectors.getThemeShowAvatar(state),
-    queuePosition: selectors.getQueuePosition(state),
-    menuVisible: selectors.getMenuVisible(state),
-    agentJoined: selectors.getAgentJoined(state),
-    firstMessageTimestamp: selectors.getFirstMessageTimestamp(state),
-    socialLogin: selectors.getSocialLogin(state),
-    conciergeSettings: selectors.getConciergeSettings(state),
-    title: selectors.getChatTitle(state),
-    profileConfig: selectors.getProfileConfig(state),
-    notificationCount: selectors.getNotificationCount(state),
-    visible: selectors.isInChattingScreen(state)
+    lastMessageAuthor: chatSelectors.getLastMessageAuthor(state),
+    latestQuickReply: chatSelectors.getLatestQuickReply(state),
+    currentMessage: chatSelectors.getCurrentMessage(state),
+    concierges: getCurrentConcierges(state),
+    isChatting: chatSelectors.getIsChatting(state),
+    allAgents: chatSelectors.getAllAgents(state),
+    activeAgents: chatSelectors.getActiveAgents(state),
+    agentsTyping: chatSelectors.getAgentsTyping(state),
+    rating: chatSelectors.getChatRating(state),
+    visitor: chatSelectors.getChatVisitor(state),
+    luxon: chatSelectors.getLuxonVendor(state),
+    showAvatar: chatSelectors.getThemeShowAvatar(state),
+    queuePosition: chatSelectors.getQueuePosition(state),
+    menuVisible: chatSelectors.getMenuVisible(state),
+    agentJoined: chatSelectors.getAgentJoined(state),
+    firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
+    socialLogin: chatSelectors.getSocialLogin(state),
+    conciergeSettings: getConciergeSettings(state),
+    title: getChatTitle(state),
+    profileConfig: getProfileConfig(state),
+    notificationCount: chatSelectors.getNotificationCount(state),
+    visible: isInChattingScreen(state)
   };
 };
 

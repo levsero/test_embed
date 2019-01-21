@@ -62,7 +62,7 @@ describe('PrechatScreen component', () => {
         handlePrechatFormSubmit: handlePrechatFormSubmitSpy,
         resetCurrentMessage: resetCurrentMessageSpy
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/redux/modules/selectors': {
         getPrechatFormFields: noop
       },
       'src/redux/modules/settings/settings-selectors': {
@@ -86,6 +86,9 @@ describe('PrechatScreen component', () => {
       },
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
+      },
+      'src/redux/modules/chat/chat-selectors': {
+
       }
     });
 

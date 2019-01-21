@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import * as actions from '../zopimChat-actions';
 import * as types from '../zopimChat-action-types';
 import * as baseTypes from 'src/redux/modules/base/base-action-types';
-import * as selectors from 'src/redux/modules/selectors';
+import * as selectors from 'src/redux/modules/selectors/selectors';
 import { mediator } from 'service/mediator';
 
 jest.mock('service/mediator');
