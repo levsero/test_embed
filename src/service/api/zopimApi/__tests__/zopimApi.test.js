@@ -2,7 +2,6 @@ import zopimApi from '..';
 import * as chatActions from 'src/redux/modules/chat';
 import * as baseActions from 'src/redux/modules/base';
 import * as apis from 'src/service/api/apis';
-import { i18n } from 'service/i18n';
 import tracker from 'service/logging/tracker';
 
 jest.mock('src/service/api/apis');
@@ -1104,34 +1103,33 @@ describe('setUpZopimApiMethods', () => {
       });
 
       it('sets chatLabel correctly', () => {
-        expect(apis.updateSettingsLegacyApi)
-          .toHaveBeenNthCalledWith(1, {
-            launcher: {
-              chatLabel: {
-                '*': 'online yo'
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              launcher: {
+                chatLabel: {
+                  '*': 'online yo'
+                }
               }
             }
-          }, expect.any(Function));
+          });
       });
 
       it('sets label correctly', () => {
-        expect(apis.updateSettingsLegacyApi)
-          .toHaveBeenNthCalledWith(2, {
-            launcher: {
-              label: {
-                '*': 'offline yo'
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              launcher: {
+                label: {
+                  '*': 'offline yo'
+                }
               }
             }
-          }, expect.any(Function));
-      });
-
-      it('sends two callbacks', () => {
-        expect(i18n.setCustomTranslations.mock.calls.length)
-          .toEqual(2);
+          });
       });
     });
 
-    describe('when both online only provided', () => {
+    describe('when online only provided', () => {
       beforeAll(() => {
         mockGreetings = {
           online: 'online yo'
@@ -1139,23 +1137,20 @@ describe('setUpZopimApiMethods', () => {
       });
 
       it('sets chatLabel correctly', () => {
-        expect(apis.updateSettingsLegacyApi)
-          .toHaveBeenCalledWith({
-            launcher: {
-              chatLabel: {
-                '*': 'online yo'
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              launcher: {
+                chatLabel: {
+                  '*': 'online yo'
+                }
               }
             }
-          }, expect.any(Function));
-      });
-
-      it('sends one callback', () => {
-        expect(i18n.setCustomTranslations.mock.calls.length)
-          .toEqual(1);
+          });
       });
     });
 
-    describe('when both offline only provided', () => {
+    describe('when offline only provided', () => {
       beforeAll(() => {
         mockGreetings = {
           offline: 'offline yo'
@@ -1163,19 +1158,16 @@ describe('setUpZopimApiMethods', () => {
       });
 
       it('sets label correctly', () => {
-        expect(apis.updateSettingsLegacyApi)
-          .toHaveBeenCalledWith({
-            launcher: {
-              label: {
-                '*': 'offline yo'
+        expect(apis.updateSettingsApi)
+          .toHaveBeenCalledWith(mockStore, {
+            webWidget: {
+              launcher: {
+                label: {
+                  '*': 'offline yo'
+                }
               }
             }
-          }, expect.any(Function));
-      });
-
-      it('send one callback', () => {
-        expect(i18n.setCustomTranslations.mock.calls.length)
-          .toEqual(1);
+          });
       });
     });
 
@@ -1188,14 +1180,8 @@ describe('setUpZopimApiMethods', () => {
       });
 
       it('does not update settings', () => {
-        expect(apis.updateSettingsLegacyApi)
-          .not
-          .toHaveBeenCalled();
-      });
-
-      it('should send no callbacks', () => {
-        expect(i18n.setCustomTranslations.mock.calls.length)
-          .toEqual(0);
+        expect(apis.updateSettingsApi)
+          .not.toHaveBeenCalled();
       });
     });
   });

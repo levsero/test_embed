@@ -154,7 +154,7 @@ export function setUpZopimApiMethods(win, store) {
         store.dispatch(setStatusForcefully(status));
       },
       setDisableGoogleAnalytics: (bool) => updateSettings(store, 'webWidget.analytics', !bool),
-      setGreetings: setGreetingsApi,
+      setGreetings: (greeting) => setGreetingsApi(store, greeting),
       setOnConnected: (callback) => onApis.chat[API_ON_CHAT_CONNECTED_NAME](store, callback),
       setOnChatStart: (callback) => onApis.chat[API_ON_CHAT_START_NAME](store, callback),
       setOnChatEnd: (callback) => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
