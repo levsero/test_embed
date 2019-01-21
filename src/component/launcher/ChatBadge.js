@@ -198,10 +198,10 @@ class ChatBadge extends Component {
   render = () => {
     return (
       <div className={styles.container}>
+        {this.renderTitle()}
         {this.renderSplashDisplay()}
         {this.renderInputContainer()}
         {this.renderMinimizeButton()}
-        {this.renderTitle()}
       </div>
     );
   }
