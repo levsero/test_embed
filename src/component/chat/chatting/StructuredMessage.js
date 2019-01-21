@@ -73,6 +73,7 @@ class StructuredMessage extends Component {
         return (
           <ListCard
             {...this.props.schema}
+            isMobile={this.props.isMobile}
             createAction={this.createAction}
           />
         );

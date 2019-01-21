@@ -3,7 +3,7 @@
 exports[`render renders the list correctly 1`] = `
 <div>
   <div
-    class="cardContainer"
+    class="card cardContainer"
   >
     <ul
       class="panelList"
@@ -17,9 +17,26 @@ exports[`render renders the list correctly 1`] = `
           >
             <div
               class="panelContentImage floatRight"
-              data-testid="panelThumbnail"
-              style="background-image: url(https://nsync.com/banner.png);"
-            />
+            >
+              <div
+                class="aspectRatioStub"
+                style="padding-bottom: 50%;"
+              />
+              <div
+                class="imagePlaceholder"
+              >
+                <span
+                  class="container Icon--image-stroke"
+                  type="Icon--image-stroke"
+                >
+                  test-file-stub
+                </span>
+              </div>
+              <div
+                class="image"
+                style="background-image: url(https://nsync.com/banner.png);"
+              />
+            </div>
             <div
               class="floatedPanelContent floatLeft"
             >
@@ -49,9 +66,26 @@ exports[`render renders the list correctly 1`] = `
           >
             <div
               class="panelContentImage floatRight"
-              data-testid="panelThumbnail"
-              style="background-image: url(https://destiny.com/banner.png);"
-            />
+            >
+              <div
+                class="aspectRatioStub"
+                style="padding-bottom: 50%;"
+              />
+              <div
+                class="imagePlaceholder"
+              >
+                <span
+                  class="container Icon--image-stroke"
+                  type="Icon--image-stroke"
+                >
+                  test-file-stub
+                </span>
+              </div>
+              <div
+                class="image"
+                style="background-image: url(https://destiny.com/banner.png);"
+              />
+            </div>
             <div
               class="floatedPanelContent floatLeft"
             >

@@ -16,7 +16,8 @@ export const ItemPropType = PropTypes.shape({
   heading: PropTypes.string.isRequired,
   paragraph: PropTypes.string.isRequired,
   image_url: PropTypes.string,
-  action: PanelActionPropType
+  action: PanelActionPropType.isRequired,
+  isMobile: PropTypes.bool.isRequired
 });
 
 export class ListCard extends Component {
@@ -28,6 +29,7 @@ export class ListCard extends Component {
   static defaultProps = {
     items: [],
     buttons: [],
+    isMobile: false
   }
 
   static schemaPropTypes = {
@@ -45,7 +47,7 @@ export class ListCard extends Component {
     const items = this.props.items.map((item) => {
       return {
         ...item,
-        onClick: (item.action) ? createAction(item.action) : null,
+        onClick: createAction(item.action),
         imageUrl: item.image_url,
         layout: 'thumbnail',
         align: 'right',
@@ -54,7 +56,7 @@ export class ListCard extends Component {
     });
 
     return (
-      <PureListCard items={items} buttons={buttons} />
+      <PureListCard items={items} buttons={buttons} isMobile={this.props.isMobile}/>
     );
   }
 }
