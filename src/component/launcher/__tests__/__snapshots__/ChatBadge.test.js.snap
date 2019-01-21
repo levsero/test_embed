@@ -6,6 +6,11 @@ exports[`renders the component 1`] = `
     class="container"
   >
     <div
+      class="title"
+    >
+      zendesk chat
+    </div>
+    <div
       class="splashDisplayContainer splashPadding"
     >
       <table
@@ -54,11 +59,6 @@ exports[`renders the component 1`] = `
     >
       test-file-stub
     </span>
-    <div
-      class="title"
-    >
-      zendesk chat
-    </div>
   </div>
 </div>
 `;
@@ -69,6 +69,11 @@ exports[`with chatBadgeColor passed in 1`] = `
     class="container"
   >
     <div
+      class="title"
+    >
+      zendesk chat
+    </div>
+    <div
       class="splashDisplayContainer splashPadding"
     >
       <table
@@ -117,11 +122,6 @@ exports[`with chatBadgeColor passed in 1`] = `
     >
       test-file-stub
     </span>
-    <div
-      class="title"
-    >
-      zendesk chat
-    </div>
   </div>
 </div>
 `;
@@ -131,6 +131,11 @@ exports[`with label passed in 1`] = `
   <div
     class="container"
   >
+    <div
+      class="title"
+    >
+      zendesk chat
+    </div>
     <div
       class="splashDisplayContainer splashPadding"
     >
@@ -182,11 +187,6 @@ exports[`with label passed in 1`] = `
     >
       test-file-stub
     </span>
-    <div
-      class="title"
-    >
-      zendesk chat
-    </div>
   </div>
 </div>
 `;
