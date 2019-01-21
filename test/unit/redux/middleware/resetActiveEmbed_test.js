@@ -6,7 +6,7 @@ describe('resetActiveEmbed middleware', () => {
     mockChatStandalone = false,
     mockZopimChatEmbed = false,
     mockChatAvailable = false,
-    mockTalkAvailable = false,
+    mockTalkOnline = false,
     mockChannelChoiceAvailable = false,
     mockHelpCenterAvailable = false,
     mockShowTicketFormsBackButton = false,
@@ -43,7 +43,7 @@ describe('resetActiveEmbed middleware', () => {
       },
       'src/redux/modules/selectors': {
         getChatAvailable: () => mockChatAvailable,
-        getTalkAvailable: () => mockTalkAvailable,
+        getTalkOnline: () => mockTalkOnline,
         getChannelChoiceAvailable: () => mockChannelChoiceAvailable,
         getHelpCenterAvailable: () => mockHelpCenterAvailable,
         getShowTicketFormsBackButton: () => mockShowTicketFormsBackButton,
@@ -362,11 +362,11 @@ describe('resetActiveEmbed middleware', () => {
 
     describe('when Talk is available', () => {
       beforeAll(() => {
-        mockTalkAvailable = true;
+        mockTalkOnline = true;
       });
 
       afterAll(() => {
-        mockTalkAvailable = false;
+        mockTalkOnline = false;
       });
 
       describe('when HelpCenter is available', () => {

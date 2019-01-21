@@ -17,7 +17,7 @@ import { updateActiveEmbed,
   updateBackButtonVisibility } from 'src/redux/modules/base';
 import { getChatStandalone, getZopimChatEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatAvailable,
-  getTalkAvailable,
+  getTalkOnline,
   getChannelChoiceAvailable,
   getHelpCenterAvailable,
   getShowTicketFormsBackButton,
@@ -82,7 +82,7 @@ const setNewActiveEmbed = (state, dispatch) => {
     backButton = false;
   } else if (getChannelChoiceAvailable(state)) {
     activeEmbed = 'channelChoice';
-  } else if (getTalkAvailable(state)) {
+  } else if (getTalkOnline(state)) {
     activeEmbed = 'talk';
   } else if (getChatAvailable(state) || getChatStandalone(state)) {
     // old chat
