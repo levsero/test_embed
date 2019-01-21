@@ -935,10 +935,10 @@ describe('getChannelChoiceAvailable', () => {
       true,   true,   false,  true,   true,   false,  true],
     ['neither channelChoice or talk are available but others are and not chatting',
       false,  true,   false,  true,   true,   false,  false]
-  ])('%p', (channelChoiceEnabled, submitTicketAvailable, talkAvailable,
+  ])('%p', (channelChoiceEnabled, submitTicketAvailable, talkOnline,
     chatAvailable, chatOfflineAvailable, isChatting, expectedValue) => {
     const result = selectors.getChannelChoiceAvailable.resultFunc(
-      channelChoiceEnabled, submitTicketAvailable, talkAvailable, chatAvailable, chatOfflineAvailable, isChatting);
+      channelChoiceEnabled, submitTicketAvailable, talkOnline, chatAvailable, chatOfflineAvailable, isChatting);
 
     expect(result).toEqual(expectedValue);
   });
