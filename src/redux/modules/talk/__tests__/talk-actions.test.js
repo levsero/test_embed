@@ -264,25 +264,26 @@ describe('submitTalkCallbackForm', () => {
 });
 
 describe('loadTalkVendors', () => {
-  const loadTalkVendors = () => {
-    const mockPromises = [
-        Promise.resolve({ default: 'mockio' }),
-        Promise.resolve('mockLibphonenumber')
-      ],
-      mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com',
-      mockNickname = 'koko_the_monkey',
-      store = mockStore({});
+  describe('with a valid nickname', () => {
+    const loadTalkVendors = () => {
+      const mockPromises = [
+          Promise.resolve({ default: 'mockio' }),
+          Promise.resolve('mockLibphonenumber')
+        ],
+        mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com',
+        mockNickname = 'koko_the_monkey',
+        store = mockStore({});
 
-    return {
-      store,
-      response: store.dispatch(actions.loadTalkVendors(mockPromises, mockServiceUrl, mockNickname))
+      return {
+        store,
+        response: store.dispatch(actions.loadTalkVendors(mockPromises, mockServiceUrl, mockNickname))
+      };
     };
-  };
 
-  it('dispatches an action of type TALK_VENDOR_LOADED with the loaded vendors', () => {
-    const { store, response } = loadTalkVendors();
+    it('dispatches an action of type TALK_VENDOR_LOADED with the loaded vendors', async () => {
+      const { store, response } = loadTalkVendors();
 
-    response.then(() => {
+      await response;
       const action = store.getActions()[0];
 
       expect(action.type)
@@ -291,12 +292,12 @@ describe('loadTalkVendors', () => {
       expect(action.payload)
         .toEqual({ io: 'mockio', libphonenumber: 'mockLibphonenumber' });
     });
-  });
 
-  it('calls socketio.connect with the io vendor, service url and nickname', () => {
-    const { response } = loadTalkVendors();
+    it('calls socketio.connect with the io vendor, service url and nickname', async () => {
+      const { response } = loadTalkVendors();
 
-    response.then(() => {
+      await response;
+
       expect(socketio.connect)
         .toHaveBeenCalledWith(
           'mockio',
@@ -304,17 +305,42 @@ describe('loadTalkVendors', () => {
           'koko_the_monkey'
         );
     });
-  });
 
-  it('calls socketio.mapEventsToActions with the socket', (done) => {
-    const { response } = loadTalkVendors();
+    it('calls socketio.mapEventsToActions with the socket', async () => {
+      socketio.connect.mockImplementation(() => 'mockSocket');
 
-    socketio.connect.mockImplementation(() => 'mockSocket');
+      const { response } = loadTalkVendors();
 
-    response.then(() => {
+      await response;
+
       expect(socketio.mapEventsToActions)
         .toHaveBeenCalledWith('mockSocket', expect.any(Object));
-      done();
+    });
+  });
+
+  describe('with an empty nickname', () => {
+    const loadTalkVendors = () => {
+      const mockPromises = [
+          Promise.resolve({ default: 'mockio' }),
+          Promise.resolve('mockLibphonenumber')
+        ],
+        mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com',
+        mockNickname = '',
+        store = mockStore({});
+
+      return {
+        store,
+        response: store.dispatch(actions.loadTalkVendors(mockPromises, mockServiceUrl, mockNickname))
+      };
+    };
+
+    it('does not call socketio.connect', async () => {
+      const { response } = loadTalkVendors();
+
+      await response;
+
+      expect(socketio.connect)
+        .not.toHaveBeenCalled();
     });
   });
 });

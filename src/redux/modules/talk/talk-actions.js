@@ -121,6 +121,7 @@ export function loadTalkVendors(vendors, serviceUrl, nickname) {
   return (dispatch) => {
     const onSuccess = ([{ default: io }, libphonenumber]) => {
       dispatch(handleTalkVendorLoaded({ io, libphonenumber }));
+      if (_.isEmpty(nickname)) return;
 
       const socket = socketio.connect(io, serviceUrl, nickname);
 
