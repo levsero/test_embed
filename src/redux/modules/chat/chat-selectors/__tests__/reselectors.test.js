@@ -118,6 +118,34 @@ describe('getThemeShowAvatar', () => {
 
     expect(result).toEqual(true);
   });
+
+  it('returns true when theme includes CHAT_THEME_SHOW_AVATAR when message_type is \'bubble_avatar\'', () => {
+    result = selectors.getThemeShowAvatar(getModifiedState({
+      chat: {
+        accountSettings: {
+          theme: {
+            message_type: 'bubble_avatar'
+          }
+        }
+      }
+    }));
+
+    expect(result).toEqual(true);
+  });
+
+  it('returns false when theme includes CHAT_THEME_SHOW_AVATAR when message_type is another value', () => {
+    result = selectors.getThemeShowAvatar(getModifiedState({
+      chat: {
+        accountSettings: {
+          theme: {
+            message_type: ''
+          }
+        }
+      }
+    }));
+
+    expect(result).toEqual(false);
+  });
 });
 
 describe('getAuthUrls', () => {

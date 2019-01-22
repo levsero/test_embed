@@ -105,7 +105,7 @@ export const getThemeShowAvatar = createSelector(
   (messageType) => {
     switch (messageType) {
       case 'basic_avatar':
-      case 'buble_avatar': return true;
+      case 'bubble_avatar': return true;
       default:
         return false;
     }
