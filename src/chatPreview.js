@@ -103,7 +103,8 @@ const renderPreview = (options) => {
     preventClose: true,
     generateUserCSS: generateUserWidgetCSS,
     fullscreen: false,
-    isMobile: false
+    isMobile: false,
+    isPreview: true
   };
 
   const component = (

@@ -17,7 +17,8 @@ const vendor = (state = initialState, action = {}) => {
       return {
         ...state,
         zChat: {
-          getAuthLoginUrl: () => ''
+          getAuthLoginUrl: () => '',
+          getMachineId: () => ''
         }
       };
     default:

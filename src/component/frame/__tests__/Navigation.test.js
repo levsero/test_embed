@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import 'utility/i18nTestHelper';
 import { render } from 'react-testing-library';
 import React from 'react';
@@ -11,11 +12,9 @@ const renderComponent = (props) => {
   const store = createStore(reducer);
   const defaultProps = {
     isMobile: false,
+    popoutButtonVisible: true
   };
-  const actualProps = {
-    ...defaultProps,
-    ...props
-  };
+  const actualProps = _.merge({}, defaultProps, props);
 
   return render(
     <Provider store={store}>
