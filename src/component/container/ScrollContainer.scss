@@ -88,7 +88,6 @@
   height: calc(100% - #{108/$font-size}rem);
   max-height: initial;
   max-width: 100%;
-  overflow: auto;
 
   @media screen and (orientation: landscape) {
     height: auto; /* 1 */
