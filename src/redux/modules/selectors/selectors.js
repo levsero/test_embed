@@ -260,13 +260,13 @@ export const getMaxWidgetHeight = (state, frame = 'webWidget') => {
 export const getChannelChoiceAvailable = createSelector(
   [getChannelChoiceEnabled,
     getSubmitTicketAvailable,
-    getTalkAvailable,
+    getTalkOnline,
     getChatAvailable,
     getChatOfflineAvailable,
     getIsChatting],
-  (channelChoiceEnabled, submitTicketAvailable, talkAvailable, chatAvailable, chatOfflineAvailable, isChatting) => {
-    const channelChoicePrerequisite = (channelChoiceEnabled || talkAvailable);
-    const availableChannelCount = (submitTicketAvailable + talkAvailable + chatAvailable + chatOfflineAvailable);
+  (channelChoiceEnabled, submitTicketAvailable, talkOnline, chatAvailable, chatOfflineAvailable, isChatting) => {
+    const channelChoicePrerequisite = (channelChoiceEnabled || talkOnline);
+    const availableChannelCount = (submitTicketAvailable + talkOnline + chatAvailable + chatOfflineAvailable);
     const channelsAvailable = availableChannelCount > 1;
 
     return channelChoicePrerequisite && channelsAvailable && !isChatting;
@@ -336,11 +336,11 @@ export const getIsWidgetReady = createSelector(
 
 const getIsChannelAvailable = createSelector(
   [ getChatAvailable,
-    getTalkAvailable,
+    getTalkOnline,
     getHelpCenterAvailable,
     getSubmitTicketAvailable ],
-  (chatAvailable, talkAvailable, helpCenterAvailable, submitTicketAvailable) => {
-    return chatAvailable || talkAvailable || helpCenterAvailable || submitTicketAvailable;
+  (chatAvailable, talkOnline, helpCenterAvailable, submitTicketAvailable) => {
+    return chatAvailable || talkOnline || helpCenterAvailable || submitTicketAvailable;
   }
 );
 
