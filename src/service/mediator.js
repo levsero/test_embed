@@ -15,18 +15,16 @@ state[`${chat}.unreadMsgs`] = 0;
 state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
 
-function init() {
-  c.intercept('newChat.newMessage', (_, dispatch) => {
+function init(store) {
+  c.intercept('newChat.newMessage', (_) => {
     if (!state[`${chat}.userClosed`]) {
       c.broadcast('webWidget.proactiveChat');
-      dispatch(proactiveMessageRecieved());
+      store.dispatch(proactiveMessageRecieved());
     }
   });
 
-  c.intercept(`${chat}.onUnreadMsgs`, (__, count, store) => {
+  c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
     state[`${chat}.unreadMsgs`] = count;
-
-    c.broadcast(`${launcher}.setUnreadMsgs`, state[`${chat}.unreadMsgs`]);
 
     if (count > 0 && !state[`${chat}.userClosed`] && !isMobileBrowser()) {
       store.dispatch(zopimProactiveMessageRecieved());

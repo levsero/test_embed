@@ -42,12 +42,6 @@ class Launcher extends Component {
     this.props.launcherClicked(e);
   }
 
-  setUnreadMessages = (msgs) => {
-    if (this.launcher) {
-      this.launcher.getWrappedInstance().setUnreadMessages(msgs);
-    }
-  }
-
   getActiveComponent = () => {
     return this;
   }

@@ -277,20 +277,6 @@ describe('embed.launcher', () => {
             .toHaveBeenCalled();
         });
       });
-
-      describe('<name>.setUnreadMsgs', () => {
-        it('should subscribe to setUnreadMsgs', () => {
-          expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('launcher.setUnreadMsgs', jasmine.any(Function));
-        });
-
-        it('should call setLabel', () => {
-          pluckSubscribeCall(mockMediator, 'launcher.setUnreadMsgs')();
-
-          expect(aliceLauncher.setUnreadMessages)
-            .toHaveBeenCalled();
-        });
-      });
     });
 
     describe('frameStyleModifier prop', () => {

@@ -8,7 +8,8 @@ import {
   ZOPIM_IS_CHATTING,
   ZOPIM_END_CHAT,
   ZOPIM_CHAT_GONE_OFFLINE,
-  ZOPIM_ON_OPEN } from './zopimChat-action-types';
+  ZOPIM_ON_OPEN,
+  ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE } from './zopimChat-action-types';
 import { getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { updateActiveEmbed, executeApiOnCloseCallback } from 'src/redux/modules/base';
 
@@ -16,6 +17,13 @@ export function updateZopimChatStatus(status) {
   return {
     type: ZOPIM_CHAT_ON_STATUS_UPDATE,
     payload: status
+  };
+}
+
+export function zopimUpdateUnreadMessages(unreadMessageCount) {
+  return {
+    type: ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE,
+    payload: unreadMessageCount
   };
 }
 

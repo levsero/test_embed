@@ -152,13 +152,6 @@ function render() {
       getRootComponent('launcher').forceUpdate();
     });
   });
-
-  mediator.channel.subscribe('launcher.setUnreadMsgs', (unreadMsgs) => {
-    waitForRootComponent(() => {
-      getRootComponent().setUnreadMessages(unreadMsgs);
-      get().instance.forceUpdateWorld();
-    });
-  });
 }
 
 function waitForRootComponent(callback) {
