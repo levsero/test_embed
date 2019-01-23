@@ -8,7 +8,8 @@ const renderSubmitTicketForm = (props) => {
   const defaultProps = {
     attachmentSender: noop,
     getFrameContentDocument: noop,
-    submit: noop
+    submit: noop,
+    formTitle: 'message'
   };
 
   const mergedProps = { ...defaultProps, ...props };

@@ -5,7 +5,8 @@ const initialState = {
   attachments: true,
   subject: false,
   suppress: false,
-  tags: []
+  tags: [],
+  title: {}
 };
 
 const contactFormSettings = (state = initialState, action) => {
@@ -17,7 +18,8 @@ const contactFormSettings = (state = initialState, action) => {
         attachments: _.get(payload, 'webWidget.contactForm.attachments', state.attachments),
         subject: _.get(payload, 'webWidget.contactForm.subject', state.subject),
         suppress: _.get(payload, 'webWidget.contactForm.suppress', state.suppress),
-        tags: _.get(payload, 'webWidget.contactForm.tags', state.tags)
+        tags: _.get(payload, 'webWidget.contactForm.tags', state.tags),
+        title: _.get(payload, 'webWidget.contactForm.title', state.title)
       };
     default:
       return state;

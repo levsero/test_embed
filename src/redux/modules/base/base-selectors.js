@@ -2,6 +2,7 @@ import { store } from 'service/persistence';
 import { isTokenValid } from 'src/redux/modules/base/helpers/auth';
 import { createSelector } from 'reselect';
 import { isOnHelpCenterPage } from 'utility/pages';
+import _ from 'lodash';
 
 export const getHiddenByHideAPI = (state) => state.base.hidden.hideApi;
 export const getHiddenByActivateAPI = (state) => state.base.hidden.activateApi;
@@ -73,6 +74,12 @@ export const getZopimId = createSelector(
 export const getConfigColor = createSelector(
   [getEmbeddableConfig],
   (embeddableConfig) => ({ base: embeddableConfig.color, text: embeddableConfig.textColor })
+);
+export const getFormTitleKey = createSelector(
+  [getEmbeddableConfig],
+  (embeddableConfig) => (
+    _.get(embeddableConfig, 'embeds.ticketSubmissionForm.props.formTitleKey', 'message')
+  )
 );
 export const getChatOverrideProxy = createSelector(
   [getEmbeddableConfig],

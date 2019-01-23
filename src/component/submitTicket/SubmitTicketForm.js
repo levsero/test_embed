@@ -46,7 +46,7 @@ export class SubmitTicketForm extends Component {
     ticketFieldSettings: PropTypes.array,
     formState: PropTypes.object.isRequired,
     readOnlyState: PropTypes.object.isRequired,
-    formTitleKey: PropTypes.string,
+    formTitle: PropTypes.string.isRequired,
     fullscreen: PropTypes.bool,
     isMobile: PropTypes.bool,
     hide: PropTypes.bool,
@@ -64,7 +64,6 @@ export class SubmitTicketForm extends Component {
     children: <span />,
     ticketFields: [],
     activeTicketForm: {},
-    formTitleKey: 'message',
     formState: {},
     readOnlyState: {},
     fullscreen: false,
@@ -507,7 +506,7 @@ export class SubmitTicketForm extends Component {
   }
 
   render = () => {
-    const { attachmentsEnabled, fullscreen, formTitleKey, hide, isMobile } = this.props;
+    const { attachmentsEnabled, fullscreen, formTitle, hide, isMobile } = this.props;
 
     const form = this.props.activeTicketForm ? this.renderTicketFormBody() : this.renderFormBody();
     const formBody = this.state.shouldRemoveForm ? null : form;
@@ -533,7 +532,7 @@ export class SubmitTicketForm extends Component {
         className={`${styles.form} ${hiddenClass}`}>
         <ScrollContainer
           ref='scrollContainer'
-          title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
+          title={formTitle}
           containerClasses={containerClasses}
           scrollShadowVisible={showShadow}
           footerContent={

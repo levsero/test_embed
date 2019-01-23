@@ -21,6 +21,7 @@ import { ICONS } from 'src/constants/shared';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors';
 import { getAttachmentsEnabled } from 'src/redux/modules/selectors';
+import { getSettingsContactFormTitle } from 'src/redux/modules/settings/settings-selectors';
 import { Alert } from '@zendeskgarden/react-notifications';
 
 import classNames from 'classnames';
@@ -40,7 +41,8 @@ const mapStateToProps = (state) => {
     hasContextuallySearched: getHasContextuallySearched(state),
     showNotification: selectors.getShowNotification(state),
     subjectEnabled: getSettingsContactFormSubject(state),
-    attachmentsEnabled: getAttachmentsEnabled(state)
+    attachmentsEnabled: getAttachmentsEnabled(state),
+    formTitle: getSettingsContactFormTitle(state)
   };
 };
 
@@ -49,7 +51,7 @@ class SubmitTicket extends Component {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     errorMsg: PropTypes.string.isRequired,
-    formTitleKey: PropTypes.string.isRequired,
+    formTitle: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     readOnlyState: PropTypes.object.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
@@ -82,8 +84,8 @@ class SubmitTicket extends Component {
   static defaultProps = {
     attachmentsEnabled: false,
     hideZendeskLogo: false,
-    formTitleKey: 'message',
     handleTicketFormClick: () => {},
+    formTitle: { custom: null, key: 'message' },
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
     onCancel: () => {},
@@ -107,9 +109,17 @@ class SubmitTicket extends Component {
     super(props, context);
 
     this.state = {
-      formTitleKey: props.formTitleKey,
       isDragActive: false
     };
+  }
+
+  getFormTitle = () => {
+    const { formTitle } = this.props;
+
+    return (
+      i18n.getSettingTranslation(formTitle.custom) ||
+      i18n.t(`embeddable_framework.submitTicket.form.title.${formTitle.key}`)
+    );
   }
 
   clearForm = () => {
@@ -192,10 +202,6 @@ class SubmitTicket extends Component {
     this.refs.submitTicketForm.handleOnDrop(files);
   }
 
-  setFormTitleKey = (formTitleKey) => {
-    this.setState({ formTitleKey });
-  }
-
   setTicketForm = (ticketFormId) => {
     const { ticketForms, ticketFormsAvailable } = this.props;
 
@@ -215,13 +221,14 @@ class SubmitTicket extends Component {
   }
 
   renderLoadingSpinner = () => {
+    const { fullscreen, isMobile } = this.props;
     const spinnerIEClasses = isIE() ? styles.loadingSpinnerIE : '';
 
     return (
       <ScrollContainer
-        title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
-        fullscreen={this.props.fullscreen}
-        isMobile={this.props.isMobile}
+        title={this.getFormTitle()}
+        fullscreen={fullscreen}
+        isMobile={isMobile}
         containerClasses={styles.ticketFormsContainer}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
           <LoadingSpinner />
@@ -254,7 +261,7 @@ class SubmitTicket extends Component {
         fullscreen={this.props.fullscreen}
         hide={this.props.showNotification}
         ticketFields={fields}
-        formTitleKey={this.state.formTitleKey}
+        formTitle={this.getFormTitle()}
         attachmentSender={this.props.attachmentSender}
         attachmentsEnabled={this.props.attachmentsEnabled}
         subjectEnabled={this.props.subjectEnabled}
@@ -331,7 +338,7 @@ class SubmitTicket extends Component {
 
     return (
       <ScrollContainer
-        title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
+        title={this.getFormTitle()}
         ref='ticketFormSelector'
         fullscreen={fullscreen}
         isMobile={this.props.isMobile}

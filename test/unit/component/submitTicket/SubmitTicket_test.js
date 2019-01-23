@@ -117,7 +117,8 @@ describe('Submit ticket component', () => {
           getLocaleId: () => 'fr',
           isRTL: noop,
           t: _.identity,
-          getLocale: () => 'en-US'
+          getLocale: () => 'en-US',
+          getSettingTranslation: () => null
         }
       },
       'service/settings': {
