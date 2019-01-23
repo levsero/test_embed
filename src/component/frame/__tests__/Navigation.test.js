@@ -1,12 +1,15 @@
 import _ from 'lodash';
 import 'utility/i18nTestHelper';
-import { render } from 'react-testing-library';
+import { render, fireEvent } from 'react-testing-library';
 import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from 'src/redux/modules/reducer';
-import Navigation from '../Navigation';
+import Navigation, { Navigation as NonConnectedNavigation } from '../Navigation';
 import * as selectors from 'src/redux/modules/selectors/chat-linked-selectors';
+import * as chatUtil from 'src/util/chat';
+
+jest.mock('src/util/chat');
 
 const renderComponent = (props) => {
   const store = createStore(reducer);
@@ -22,6 +25,63 @@ const renderComponent = (props) => {
     </Provider>,
   );
 };
+
+const renderPureComponent = (props) => {
+  const defaultProps = {
+    isMobile: false,
+    popoutButtonVisible: true,
+    standaloneMobileNotificationVisible: false,
+    handleCloseButtonClicked: noop,
+    zChat: { getMachineId: () => 'machine id' },
+    isPreview: false,
+    chatPopoutSettings: {}
+  };
+  const actualProps = _.merge({}, defaultProps, props);
+
+  return render(
+    <NonConnectedNavigation {...actualProps} />
+  );
+};
+
+describe('rendering', () => {
+  describe('with default props', () => {
+    const { container } = renderPureComponent();
+
+    it('renders correctly',() => {
+      expect(container).toMatchSnapshot();
+    });
+  });
+});
+
+describe('actions', () => {
+  describe('clicking popout', () => {
+    describe('when not preview', () => {
+      it('createsTheChatPopout', () => {
+        jest.spyOn(chatUtil, 'createChatPopoutWindow');
+
+        const { container } = renderPureComponent();
+
+        fireEvent.click(container.querySelector('.popoutDesktop'));
+
+        expect(chatUtil.createChatPopoutWindow).toHaveBeenCalledWith({}, 'machine id', 'en-US');
+      });
+    });
+
+    describe('clicking popout', () => {
+      describe('when it is preview', () => {
+        it('createsTheChatPopout', () => {
+          jest.spyOn(chatUtil, 'createChatPopoutWindow');
+
+          const { container } = renderPureComponent({ isPreview: true });
+
+          fireEvent.click(container.querySelector('.popoutDesktop'));
+
+          expect(chatUtil.createChatPopoutWindow).not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+});
 
 describe('menu button', () => {
   beforeEach(() => {

@@ -33,7 +33,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-class Navigation extends Component {
+export class Navigation extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
@@ -125,7 +125,7 @@ class Navigation extends Component {
       isPreview
     } = this.props;
 
-    if (!isPreview) return;
+    if (isPreview) return;
 
     createChatPopoutWindow(
       chatPopoutSettings,
