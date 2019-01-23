@@ -2,6 +2,7 @@ describe('Submit ticket component', () => {
   let SubmitTicket,
     mockStoreValue,
     mockIsIEValue,
+    mockCustomTranslation,
     SuccessNotification =  noopReactComponent();
 
   const formParams = {
@@ -38,6 +39,7 @@ describe('Submit ticket component', () => {
   beforeEach(() => {
     mockIsIEValue = false;
     mockStoreValue = false;
+    mockCustomTranslation = null;
 
     mockery.enable();
 
@@ -118,7 +120,7 @@ describe('Submit ticket component', () => {
           isRTL: noop,
           t: _.identity,
           getLocale: () => 'en-US',
-          getSettingTranslation: () => null
+          getSettingTranslation: () => mockCustomTranslation
         }
       },
       'service/settings': {
@@ -454,6 +456,37 @@ describe('Submit ticket component', () => {
       it('does not return an element', () => {
         expect(notification)
           .toBeFalsy();
+      });
+    });
+  });
+
+  describe('getFormTitle', () => {
+    let title;
+
+    describe('when there is a custom translation', () => {
+      beforeEach(() => {
+        const submitTicket = domRender(<SubmitTicket />);
+
+        mockCustomTranslation = 'Aw yisss!!!';
+        title = submitTicket.getFormTitle();
+      });
+
+      it('returns the custom translation', () => {
+        expect(title).toEqual('Aw yisss!!!');
+      });
+    });
+
+    describe('when there are no custom translations', () => {
+      beforeEach(() => {
+        const submitTicket = domRender(<SubmitTicket />);
+
+        mockCustomTranslation = null;
+        title = submitTicket.getFormTitle();
+      });
+
+      it('returns the i18n translation set by config', () => {
+        expect(title)
+          .toEqual('embeddable_framework.submitTicket.form.title.message');
       });
     });
   });
