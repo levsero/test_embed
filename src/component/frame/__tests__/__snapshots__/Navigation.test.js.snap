@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rendering with default props renders correctly 1`] = `
+<div>
+  <div>
+    <div
+      class="container"
+    >
+      <button
+        aria-label="Popout"
+        class="
+      button
+      desktop
+      right
+      
+      popoutDesktop
+    "
+      >
+        <span
+          class="container icon Icon--popout"
+          type="Icon--popout"
+        >
+          test-file-stub
+        </span>
+      </button>
+    </div>
+    <div
+      class="container"
+    >
+      <button
+        aria-label="Close"
+        class="
+      button
+      desktop
+      right
+      
+      
+    "
+      >
+        <span
+          class="container icon Icon--dash"
+          type="Icon--dash"
+        >
+          test-file-stub
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
