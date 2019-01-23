@@ -1,4 +1,4 @@
-# 3. Use
+# 3. Use Jest
 
 Date: 2018-09-25
 
