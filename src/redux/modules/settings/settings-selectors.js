@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { getFormTitleKey } from '../base/base-selectors';
 import _ from 'lodash';
 
 export const getSettingsMobileNotificationsDisabled = (state) => (
@@ -58,16 +57,6 @@ export const getStylingOffset = (state) => {
 export const getSettingsContactFormAttachments = (state) => state.settings.contactForm.settings.attachments;
 export const getSettingsContactFormSubject = (state) => state.settings.contactForm.settings.subject;
 export const getContactFormTitle = (state) => state.settings.contactForm.settings.title;
-
-export const getSettingsContactFormTitle = createSelector(
-  [getContactFormTitle, getFormTitleKey],
-  (contactFormTitle, formTitleKey) => {
-    return {
-      custom: contactFormTitle,
-      key: formTitleKey
-    };
-  }
-);
 
 export const getSettingsContactFormSuppress = (state) => state.settings.contactForm.settings.suppress;
 export const getSettingsContactFormTags = (state) => state.settings.contactForm.settings.tags;

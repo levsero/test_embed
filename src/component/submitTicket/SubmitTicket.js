@@ -20,8 +20,7 @@ import { isIE } from 'utility/devices';
 import { ICONS } from 'src/constants/shared';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors';
-import { getAttachmentsEnabled } from 'src/redux/modules/selectors';
-import { getSettingsContactFormTitle } from 'src/redux/modules/settings/settings-selectors';
+import { getAttachmentsEnabled, getSettingsContactFormTitle } from 'src/redux/modules/selectors';
 import { Alert } from '@zendeskgarden/react-notifications';
 
 import classNames from 'classnames';
@@ -51,7 +50,7 @@ class SubmitTicket extends Component {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     errorMsg: PropTypes.string.isRequired,
-    formTitle: PropTypes.object.isRequired,
+    formTitle: PropTypes.string.isRequired,
     formState: PropTypes.object.isRequired,
     readOnlyState: PropTypes.object.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
@@ -85,7 +84,7 @@ class SubmitTicket extends Component {
     attachmentsEnabled: false,
     hideZendeskLogo: false,
     handleTicketFormClick: () => {},
-    formTitle: { custom: null, key: 'message' },
+    formTitle: 'Leave a message',
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
     onCancel: () => {},
@@ -111,15 +110,6 @@ class SubmitTicket extends Component {
     this.state = {
       isDragActive: false
     };
-  }
-
-  getFormTitle = () => {
-    const { formTitle } = this.props;
-
-    return (
-      i18n.getSettingTranslation(formTitle.custom) ||
-      i18n.t(`embeddable_framework.submitTicket.form.title.${formTitle.key}`)
-    );
   }
 
   clearForm = () => {
@@ -221,12 +211,12 @@ class SubmitTicket extends Component {
   }
 
   renderLoadingSpinner = () => {
-    const { fullscreen, isMobile } = this.props;
+    const { fullscreen, isMobile, formTitle } = this.props;
     const spinnerIEClasses = isIE() ? styles.loadingSpinnerIE : '';
 
     return (
       <ScrollContainer
-        title={this.getFormTitle()}
+        title={formTitle}
         fullscreen={fullscreen}
         isMobile={isMobile}
         containerClasses={styles.ticketFormsContainer}>
@@ -261,7 +251,7 @@ class SubmitTicket extends Component {
         fullscreen={this.props.fullscreen}
         hide={this.props.showNotification}
         ticketFields={fields}
-        formTitle={this.getFormTitle()}
+        formTitle={this.props.formTitle}
         attachmentSender={this.props.attachmentSender}
         attachmentsEnabled={this.props.attachmentsEnabled}
         subjectEnabled={this.props.subjectEnabled}
@@ -330,7 +320,7 @@ class SubmitTicket extends Component {
   renderTicketFormList = () => {
     if (this.props.showNotification) return;
 
-    const { fullscreen, isMobile } = this.props;
+    const { fullscreen, isMobile, formTitle } = this.props;
     const containerClasses = isMobile
       ? styles.ticketFormsContainerMobile
       : styles.ticketFormsContainer;
@@ -338,7 +328,7 @@ class SubmitTicket extends Component {
 
     return (
       <ScrollContainer
-        title={this.getFormTitle()}
+        title={formTitle}
         ref='ticketFormSelector'
         fullscreen={fullscreen}
         isMobile={this.props.isMobile}
