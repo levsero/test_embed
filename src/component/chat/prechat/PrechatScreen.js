@@ -107,8 +107,11 @@ class PrechatScreen extends Component {
   };
 
   onPrechatFormComplete = (info) => {
-    const selectedDepartment = parseInt(info.department);
-    const isSelectedDepartmentOffline = (!!selectedDepartment &&
+    const currentDepartment = parseInt(info.department);
+    const isSelectedDepartmentUnavailable = (!!currentDepartment && !this.props.departments[currentDepartment]);
+    const selectedDepartment = isSelectedDepartmentUnavailable ? undefined : currentDepartment;
+
+    const isSelectedDepartmentOffline = (!!selectedDepartment && !isSelectedDepartmentUnavailable &&
       this.props.departments[selectedDepartment].status === DEPARTMENT_STATUSES.OFFLINE);
 
     if (isSelectedDepartmentOffline) {
