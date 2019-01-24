@@ -8,9 +8,11 @@ import { mediator } from 'service/mediator';
 import { logging } from 'service/logging';
 import { settings } from 'service/settings';
 import { win } from 'utility/globals';
-import { updateEmbedAccessible,
+import {
+  updateEmbedAccessible,
   updateArturos,
-  widgetInitialised } from 'src/redux/modules/base';
+  widgetInitialised
+} from 'src/redux/modules/base';
 import { FONT_SIZE } from 'constants/shared';
 import { setLocaleApi } from 'src/service/api/apis';
 

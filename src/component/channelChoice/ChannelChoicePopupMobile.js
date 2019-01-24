@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { locals as styles } from './ChannelChoicePopupMobile.scss';
 
-import { ChannelChoiceMenu } from 'component/channelChoice/ChannelChoiceMenu';
+import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu';
 
 export class ChannelChoicePopupMobile extends Component {
   static propTypes = {

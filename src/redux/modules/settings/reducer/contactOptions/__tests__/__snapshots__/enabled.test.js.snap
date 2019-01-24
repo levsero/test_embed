@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`enabled, action: DERP DERP 1`] = `false`;
+
+exports[`enabled, action: undefined 1`] = `false`;
+
+exports[`enabled, action: widget/settings/UPDATE_SETTINGS 1`] = `false`;
+
+exports[`enabled, action: widget/settings/UPDATE_SETTINGS 2`] = `true`;

@@ -41,7 +41,8 @@ import {
   getSettingsHelpCenterSearchPlaceholder,
   getSettingsHelpCenterChatButton,
   getSettingsHelpCenterMessageButton,
-  getSettingsHelpCenterTitle
+  getSettingsHelpCenterTitle,
+  getContactOptionsButton
 } from 'src/redux/modules/selectors';
 import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter';
 
@@ -75,7 +76,8 @@ const mapStateToProps = (state, ownProps) => {
     searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
     chatButtonLabel: getSettingsHelpCenterChatButton(state),
     messageButtonLabel: getSettingsHelpCenterMessageButton(state, messageButtonLabelKey),
-    title: getSettingsHelpCenterTitle(state, titleKey)
+    title: getSettingsHelpCenterTitle(state, titleKey),
+    contactButtonLabel: getContactOptionsButton(state)
   };
 };
 
@@ -125,7 +127,8 @@ class HelpCenter extends Component {
     searchPlaceholder: PropTypes.string.isRequired,
     chatButtonLabel: PropTypes.string.isRequired,
     messageButtonLabel: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    contactButtonLabel: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -422,13 +425,14 @@ class HelpCenter extends Component {
       isChatting,
       talkOnline,
       callbackEnabled,
-      messageButtonLabel
+      messageButtonLabel,
+      contactButtonLabel
     } = this.props;
 
     if (isChatting) {
       return this.chatLabel();
     } else if (channelChoice) {
-      return i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
+      return contactButtonLabel;
     } else if (chatAvailable || chatOfflineAvailable) {
       return this.chatLabel();
     } else if (talkOnline) {

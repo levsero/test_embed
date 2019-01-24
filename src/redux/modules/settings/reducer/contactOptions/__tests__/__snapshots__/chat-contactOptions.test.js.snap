@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`chatContactOptions, action: DERP DERP 1`] = `
+Object {
+  "chatLabelOffline": null,
+  "chatLabelOnline": null,
+}
+`;
+
+exports[`chatContactOptions, action: undefined 1`] = `
+Object {
+  "chatLabelOffline": null,
+  "chatLabelOnline": null,
+}
+`;
+
+exports[`chatContactOptions, action: widget/settings/UPDATE_SETTINGS 1`] = `
+Object {
+  "chatLabelOffline": null,
+  "chatLabelOnline": null,
+}
+`;
+
+exports[`chatContactOptions, action: widget/settings/UPDATE_SETTINGS 2`] = `
+Object {
+  "chatLabelOffline": Object {
+    "*": "offline label",
+  },
+  "chatLabelOnline": Object {
+    "*": "online label",
+  },
+}
+`;

@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 
 import { i18n } from 'service/i18n';
 import { ButtonIcon } from 'component/button/ButtonIcon';
 import { locals as styles } from './ChannelChoiceMenu.scss';
+import {
+  getContactOptionsChatLabelOnline,
+  getContactOptionsContactFormLabel
+} from 'src/redux/modules/selectors';
 
-export class ChannelChoiceMenu extends Component {
+const mapStateToProps = (state) => ({
+  chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
+  submitTicketLabel: getContactOptionsContactFormLabel(state)
+});
+
+class ChannelChoiceMenu extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
@@ -16,6 +26,8 @@ export class ChannelChoiceMenu extends Component {
     talkOnline: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
+    chatOnlineAvailableLabel: PropTypes.string.isRequired,
+    submitTicketLabel: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -109,7 +121,7 @@ export class ChannelChoiceMenu extends Component {
   renderSubmitTicketButton = () => {
     if (!this.props.submitTicketAvailable) return null;
 
-    const { buttonClasses } = this.props;
+    const { buttonClasses, submitTicketLabel } = this.props;
     const iconStyle = classNames(
       styles.newIcon,
       styles.iconSubmitTicket
@@ -127,7 +139,7 @@ export class ChannelChoiceMenu extends Component {
           iconClasses={iconStyle}
           labelClassName={this.props.labelClasses}
           onClick={this.handleNextClick('ticketSubmissionForm')}
-          label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
+          label={submitTicketLabel}
           flipX={this.getIconFlipX()}
           icon={'Icon--channelChoice-contactForm'} />
       </li>
@@ -136,7 +148,7 @@ export class ChannelChoiceMenu extends Component {
 
   renderChatLabel = () => {
     const { chatAvailable, chatOfflineAvailable } = this.props;
-    const onlineAvailableLabel = i18n.t('embeddable_framework.common.button.chat');
+    const onlineAvailableLabel = this.props.chatOnlineAvailableLabel;
     const offlineFormKey = 'embeddable_framework.channelChoice.button.label.no_available_agents_offline_form';
     const offlineAvailableLabel = i18n.t(offlineFormKey);
     const offlineLabel = (
@@ -196,3 +208,10 @@ export class ChannelChoiceMenu extends Component {
     );
   }
 }
+
+const connectedComponent = connect(mapStateToProps, null, null, { withRef: true })(ChannelChoiceMenu);
+
+export {
+  connectedComponent as default,
+  ChannelChoiceMenu as Component
+};

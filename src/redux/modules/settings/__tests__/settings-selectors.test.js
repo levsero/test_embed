@@ -20,6 +20,10 @@ const colorSettings = (newSettings) => {
   return settings({ color: newSettings });
 };
 
+const contactOptionsSettings = (newSettings) => (
+  settings({ contactOptions: newSettings })
+);
+
 test('getSettingsChatSuppress', () => {
   const result = selectors.getSettingsChatSuppress(chatSettings({ suppress: true }));
 
@@ -416,4 +420,46 @@ test('getSettingsTalkSuppress', () => {
   );
 
   expect(result).toEqual(true);
+});
+
+describe('contactOptions selectors', () => {
+  const settings = contactOptionsSettings({
+    enabled: true,
+    contactFormLabel: { '*': 'form label' },
+    contactButton: { '*': 'button' },
+    chat: {
+      chatLabelOnline: { '*': 'online label' },
+      chatLabelOffline: { '*': 'offline label' }
+    }
+  });
+
+  test('getSettingsContactOptionsEnabled', () => {
+    expect(
+      selectors.getSettingsContactOptionsEnabled(settings)
+    ).toEqual(true);
+  });
+
+  test('getSettingsContactOptionsContactFormLabel', () => {
+    expect(
+      selectors.getSettingsContactOptionsContactFormLabel(settings)
+    ).toEqual({ '*': 'form label' });
+  });
+
+  test('getSettingsContactOptionsButton', () => {
+    expect(
+      selectors.getSettingsContactOptionsButton(settings)
+    ).toEqual({ '*': 'button' });
+  });
+
+  test('getSettingsContactOptionsChatLabelOnline', () => {
+    expect(
+      selectors.getSettingsContactOptionsChatLabelOnline(settings)
+    ).toEqual({ '*': 'online label' });
+  });
+
+  test('getSettingsContactOptionsChatLabelOffline', () => {
+    expect(
+      selectors.getSettingsContactOptionsChatLabelOffline(settings)
+    ).toEqual({ '*': 'offline label' });
+  });
 });

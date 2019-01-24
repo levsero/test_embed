@@ -937,6 +937,7 @@ parts:
       value: "Leave a message"
   - translation:
       key: "embeddable_framework.channelChoice.button.label.chat_offline_v2"
+      obsolete: "2019-01-14"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
       screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
       value: "Live chat is offline"

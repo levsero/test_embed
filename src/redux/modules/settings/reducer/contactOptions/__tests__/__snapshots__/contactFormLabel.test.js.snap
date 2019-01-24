@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`contactFormLabel, action: DERP DERP 1`] = `null`;
+
+exports[`contactFormLabel, action: undefined 1`] = `null`;
+
+exports[`contactFormLabel, action: widget/settings/UPDATE_SETTINGS 1`] = `null`;
+
+exports[`contactFormLabel, action: widget/settings/UPDATE_SETTINGS 2`] = `
+Object {
+  "*": "form label",
+}
+`;

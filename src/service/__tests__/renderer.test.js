@@ -101,7 +101,7 @@ const testConfig = () => ({
 });
 
 describe('init', () => {
-  it('calls and render correct embeds from config', () => {
+  it('calls and renders correct embeds from config', () => {
     renderer.init(testConfig());
 
     expect(baseActions.updateArturos)
@@ -175,7 +175,7 @@ describe('init', () => {
   it('handles empty config', () => {
     expect(() => {
       renderer.init({});
-    });
+    }).not.toThrow();
   });
 
   it('does not call renderer.init more than once', () => {

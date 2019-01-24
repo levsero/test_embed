@@ -1,12 +1,14 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 
-export const getSettingsChatSuppress = (state) => state.settings.chat.suppress;
-export const getRawSettingsChatDepartment = (state) => state.settings.chat.departments.select;
-export const getRawSettingsChatDepartmentsEnabled = (state) => state.settings.chat.departments.enabled;
 export const getSettingsMobileNotificationsDisabled = (state) => (
   state.settings.chat.mobileNotificationsDisabled
 );
+
+// CHAT
+export const getRawSettingsChatDepartment = (state) => state.settings.chat.departments.select;
+export const getRawSettingsChatDepartmentsEnabled = (state) => state.settings.chat.departments.enabled;
+export const getSettingsChatSuppress = (state) => state.settings.chat.suppress;
 export const getSettingsChatTags = (state) => state.settings.chat.tags;
 export const getAnalyticsDisabled = (state) => !state.settings.analytics;
 export const getSettingsChatConcierge = (state) => state.settings.chat.concierge;
@@ -15,16 +17,23 @@ export const getSettingsChatPrechatForm = (state) => state.settings.chat.prechat
 export const getSettingsChatTitle = (state) => state.settings.chat.title;
 export const getSettingsChatProfileCard = (state) => state.settings.chat.profileCard;
 export const getSettingsChatHideWhenOffline = (state) => state.settings.chat.hideWhenOffline;
-
 export const getSettingsLauncherChatLabel = (state) => state.settings.launcher.settings.chatLabel;
+
+// LAUNCHER LABEL
 export const getSettingsLauncherLabel = (state) => state.settings.launcher.settings.label;
 export const getSettingsLauncherBadge = (state) => state.settings.launcher.badge;
+
+// COLOR
 export const getSettingsColor = (state) => state.settings.color;
 export const getSettingsColorLauncher = (state) => getSettingsColor(state).launcher;
 export const getSettingsColorLauncherText = (state) => getSettingsColor(state).launcherText;
+
+// TALK
 export const getSettingsTalkTitle = (state) => state.settings.talk.title;
 export const getSettingsTalkNickname = (state) => state.settings.talk.nickname;
 export const getSettingsTalkSuppress = (state) => state.settings.talk.suppress;
+
+// STYLING
 export const getStylingZIndex = (state) => state.settings.styling.zIndex;
 export const getStylingPositionVertical = (state) => state.settings.styling.positionVertical;
 export const getStylingPositionHorizontal = (state) => state.settings.styling.positionHorizontal;
@@ -44,11 +53,26 @@ export const getStylingOffset = (state) => {
   };
 };
 
+// CONTACT FORM
 export const getSettingsContactFormAttachments = (state) => state.settings.contactForm.settings.attachments;
 export const getSettingsContactFormSubject = (state) => state.settings.contactForm.settings.subject;
 export const getSettingsContactFormSuppress = (state) => state.settings.contactForm.settings.suppress;
 export const getSettingsContactFormTags = (state) => state.settings.contactForm.settings.tags;
 
+// CONTACT OPTIONS
+export const getSettingsContactOptionsEnabled = (state) => state.settings.contactOptions.enabled;
+export const getSettingsContactOptionsButton = (state) => state.settings.contactOptions.contactButton;
+export const getSettingsContactOptionsChatLabelOnline = (state) => (
+  state.settings.contactOptions.chat.chatLabelOnline
+);
+export const getSettingsContactOptionsChatLabelOffline = (state) => (
+  state.settings.contactOptions.chat.chatLabelOffline
+);
+export const getSettingsContactOptionsContactFormLabel = (state) => (
+  state.settings.contactOptions.contactFormLabel
+);
+
+// HELP CENTER
 export const getSettingsHelpCenterOriginalArticleButton = (state) => state.settings.helpCenter.originalArticleButton;
 export const getSettingsHelpCenterSuppress = (state) => state.settings.helpCenter.suppress;
 export const getSettingsHelpCenterLocaleFallbacks = (state) => state.settings.helpCenter.localeFallbacks;
@@ -63,7 +87,7 @@ const getLabelFilter = (state) => state.settings.helpCenter.labelFilter;
 
 export const getSettingsHelpCenterFilter = createSelector(
   [getLabelFilter, getCategoryFilter, getSectionFilter],
-  (label, category, section) =>{
+  (label, category, section) => {
     const filters = {};
 
     if (!_.isEmpty(label)) { filters.label_names = label; } // eslint-disable-line camelcase
