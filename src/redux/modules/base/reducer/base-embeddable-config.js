@@ -79,8 +79,8 @@ const embeddableConfig = (state = initialState, action) => {
           }
         },
         position: payload.position || state.position,
-        color: payload.color || state.color.base,
-        textColor: payload.textColor || state.color.text,
+        color: payload.color || _.get(state, 'color.base'),
+        textColor: payload.textColor || _.get(state, 'color.text'),
         cp4: _.get(payload, 'cp4', state.cp4),
         hideZendeskLogo: _.get(payload, 'hideZendeskLogo', state.hideZendeskLogo)
       };

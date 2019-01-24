@@ -2,6 +2,7 @@ describe('Submit ticket component', () => {
   let SubmitTicket,
     mockStoreValue,
     mockIsIEValue,
+    mockCustomTranslation,
     SuccessNotification =  noopReactComponent();
 
   const formParams = {
@@ -38,6 +39,7 @@ describe('Submit ticket component', () => {
   beforeEach(() => {
     mockIsIEValue = false;
     mockStoreValue = false;
+    mockCustomTranslation = null;
 
     mockery.enable();
 
@@ -117,7 +119,8 @@ describe('Submit ticket component', () => {
           getLocaleId: () => 'fr',
           isRTL: noop,
           t: _.identity,
-          getLocale: () => 'en-US'
+          getLocale: () => 'en-US',
+          getSettingTranslation: () => mockCustomTranslation
         }
       },
       'service/settings': {

@@ -56,6 +56,8 @@ export const getStylingOffset = (state) => {
 // CONTACT FORM
 export const getSettingsContactFormAttachments = (state) => state.settings.contactForm.settings.attachments;
 export const getSettingsContactFormSubject = (state) => state.settings.contactForm.settings.subject;
+export const getSettingsContactFormTitle = (state) => state.settings.contactForm.settings.title;
+
 export const getSettingsContactFormSuppress = (state) => state.settings.contactForm.settings.suppress;
 export const getSettingsContactFormTags = (state) => state.settings.contactForm.settings.tags;
 

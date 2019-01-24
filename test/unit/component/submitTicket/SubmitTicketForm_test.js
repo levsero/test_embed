@@ -175,22 +175,11 @@ describe('SubmitTicketForm component', () => {
     renderLabelSpy.calls.reset();
   });
 
-  it('displays form title', () => {
-    domRender(<SubmitTicketForm formTitleKey='testTitle' />);
+  it('displays the form\'s title', () => {
+    domRender(<SubmitTicketForm formTitle='a lovely title' />);
 
     expect(document.getElementById('formTitle').innerHTML)
-      .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
-  });
-
-  it('calls i18n.t with the right parameter to set the form title', () => {
-    const titleKey = 'foo bar';
-
-    spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
-
-    domRender(<SubmitTicketForm formTitleKey={titleKey} />);
-
-    expect(mockRegistry['service/i18n'].i18n.t)
-      .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
+      .toEqual('a lovely title');
   });
 
   it('correctly renders form with noValidate attribute', () => {

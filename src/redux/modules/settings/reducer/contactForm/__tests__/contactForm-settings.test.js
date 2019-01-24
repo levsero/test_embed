@@ -18,7 +18,8 @@ test('initial state', () => {
       attachments: true,
       subject: false,
       suppress: false,
-      tags: []
+      tags: [],
+      'title': {}
     });
 });
 
@@ -30,7 +31,8 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           attachments: false,
           subject: true,
           suppress: true,
-          tags: ['hello']
+          tags: ['hello'],
+          title: { '*': 'wassup' }
         }
       }
     };
@@ -40,7 +42,8 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
         attachments: false,
         subject: true,
         suppress: true,
-        tags: ['hello']
+        tags: ['hello'],
+        title: { '*': 'wassup' }
       });
   });
 });

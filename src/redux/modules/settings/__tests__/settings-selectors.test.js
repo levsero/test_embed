@@ -24,6 +24,10 @@ const contactOptionsSettings = (newSettings) => (
   settings({ contactOptions: newSettings })
 );
 
+const contactFormSettings = (newSettings) => (
+  settings({ contactForm: { settings: newSettings } })
+);
+
 test('getSettingsChatSuppress', () => {
   const result = selectors.getSettingsChatSuppress(chatSettings({ suppress: true }));
 
@@ -275,6 +279,15 @@ test('getStylingZIndex', () => {
   const result = selectors.getStylingZIndex(settings(mockSettings));
 
   expect(result).toEqual(10000);
+});
+
+test('getSettingsContactFormTitle', () => {
+  const result = selectors.getSettingsContactFormTitle(
+    contactFormSettings({ title: 'hello!' })
+  );
+
+  expect(result)
+    .toBe('hello!');
 });
 
 test('getSettingsChatPopout', () => {

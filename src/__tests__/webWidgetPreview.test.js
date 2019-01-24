@@ -57,11 +57,32 @@ describe('default parameters', () => {
       .toHaveTextContent('Leave us a message');
   });
 
-  it('renders the contact title', () => {
-    preview.setTitle('contact');
+  describe('the contact title', () => {
+    it('renders it', () => {
+      preview.setTitle('contact');
 
-    expect(webWidgetPreviewBodyEl())
-      .toHaveTextContent('Contact us');
+      expect(webWidgetPreviewBodyEl())
+        .toHaveTextContent('Contact us');
+    });
+
+    it('updates it', () => {
+      preview.setTitle('message');
+
+      expect(webWidgetPreviewBodyEl())
+        .toHaveTextContent('Leave us a message');
+    });
+
+    it('preserves the widget\'s colour after changing it', () => {
+      preview.setColor('#AABBCC');
+
+      expect(webWidgetPreviewBody())
+        .toMatch('background-color: #AABBCC !important;');
+
+      preview.setTitle('message');
+
+      expect(webWidgetPreviewBody())
+        .toMatch('background-color: #AABBCC !important;');
+    });
   });
 
   it('sets it with default title if no title is passed', () => {

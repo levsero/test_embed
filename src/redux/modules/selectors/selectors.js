@@ -35,7 +35,8 @@ import {
   getSettingsContactOptionsEnabled,
   getSettingsContactOptionsButton,
   getSettingsContactOptionsChatLabelOnline,
-  getSettingsContactOptionsContactFormLabel
+  getSettingsContactOptionsContactFormLabel,
+  getSettingsContactFormTitle
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -63,6 +64,7 @@ import { getActiveEmbed,
   getConfigAttachmentsEnabled,
   getLocale,
   getTalkConfig,
+  getFormTitleKey
 } from '../base/base-selectors';
 import {
   getCanShowHelpCenterIntroState,
@@ -118,6 +120,14 @@ export const getSettingsHelpCenterChatButton = createSelector(
   (helpCenterChatButton, _locale) => (
     i18n.getSettingTranslation(helpCenterChatButton) ||
       i18n.t('embeddable_framework.common.button.chat')
+  )
+);
+
+export const getContactFormTitle = createSelector(
+  [getSettingsContactFormTitle, getFormTitleKey, getLocale],
+  (contactFormTitle, formTitleKey, _locale) => (
+    i18n.getSettingTranslation(contactFormTitle) ||
+    i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)
   )
 );
 

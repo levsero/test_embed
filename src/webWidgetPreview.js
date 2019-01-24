@@ -14,6 +14,7 @@ import { settings } from 'service/settings';
 import { Provider } from 'react-redux';
 
 import createStore from 'src/redux/createStore';
+import { updateEmbeddableConfig } from 'src/redux/modules/base';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles';
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
@@ -25,7 +26,7 @@ const BOX_SHADOW_SIZE = 6;
 let submitTicketComponent = null;
 const defaultOptions = {
   locale: 'en-US',
-  color: '#659700',
+  color: { base: '#659700' },
   titleKey: 'message',
   styles: {
     float: 'right',
@@ -38,11 +39,15 @@ const defaultOptions = {
 let frame;
 
 const renderWebWidgetPreview = (options) => {
+  let currentColor;
+
   options = _.defaultsDeep({}, options, defaultOptions);
 
   if (!options.element) {
     throw new Error('A DOM element is required to render the Web Widget Preview into.');
   }
+
+  currentColor = options.color.base;
 
   const store = createStore();
 
@@ -81,7 +86,6 @@ const renderWebWidgetPreview = (options) => {
             ref={(submitTicket) => submitTicketComponent = submitTicket}
             viaId={settings.get('viaId')}
             previewEnabled={true}
-            formTitleKey={options.titleKey}
             submitTicketSender={() => {}}
             attachmentSender={() => {}}
             getFrameContentDocument={() => {}}
@@ -98,19 +102,28 @@ const renderWebWidgetPreview = (options) => {
   options.element.appendChild(container);
   ReactDOM.render(component, container);
 
-  const setColor = (color = defaultOptions.color) => {
+  const setColor = (color = defaultOptions.color.base) => {
     frame.setButtonColor(color);
+    currentColor = color;
   };
 
   const setTitle = (titleKey = defaultOptions.titleKey) => {
-    waitForSubmitTicketComponent((component) => {
-      component.setFormTitleKey(titleKey);
+    waitForSubmitTicketComponent(() => {
+      const config = {
+        embeds: { ticketSubmissionForm: { props: { formTitleKey: titleKey } } }
+      };
+
+      store.dispatch(updateEmbeddableConfig(config));
+
+      // TODO: We re-set the colour as a temporary measure to deal with the fact that
+      // colour generation and re-generation is still not fully managed by redux
+      // This call should be removed as soon as that work happens.
+      setColor(currentColor);
     });
   };
 
   waitForSubmitTicketComponent(() => {
-    setColor(options.color);
-    _.defer(frame.forceUpdateWorld);
+    setColor(currentColor);
   });
 
   return {
