@@ -76,7 +76,7 @@ export const getConfigColor = createSelector(
   (embeddableConfig) => ({ base: embeddableConfig.color, text: embeddableConfig.textColor })
 );
 export const getFormTitleKey = createSelector(
-  [getEmbeddableConfig],
+  getEmbeddableConfig,
   (embeddableConfig) => (
     _.get(embeddableConfig, 'embeds.ticketSubmissionForm.props.formTitleKey', 'message')
   )

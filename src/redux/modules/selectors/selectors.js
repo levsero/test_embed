@@ -124,8 +124,8 @@ export const getSettingsHelpCenterChatButton = createSelector(
 );
 
 export const getSettingsContactFormTitle = createSelector(
-  [getContactFormTitle, getFormTitleKey],
-  (contactFormTitle, formTitleKey) => (
+  [getContactFormTitle, getFormTitleKey, getLocale],
+  (contactFormTitle, formTitleKey, _locale) => (
     i18n.getSettingTranslation(contactFormTitle) ||
     i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)
   )

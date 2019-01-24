@@ -1,8 +1,6 @@
 import * as selectors from '../settings-selectors';
 import * as baseSelectors from '../../base/base-selectors';
 
-jest.mock('../../base/base-selectors');
-
 let formTitleKeyMock;
 
 beforeEach(() => {
@@ -35,6 +33,10 @@ const colorSettings = (newSettings) => {
 
 const contactOptionsSettings = (newSettings) => (
   settings({ contactOptions: newSettings })
+);
+
+const contactFormSettings = (newSettings) => (
+  settings({ contactForm: { settings: newSettings } })
 );
 
 test('getSettingsChatSuppress', () => {
