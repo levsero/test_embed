@@ -32,7 +32,7 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           subject: true,
           suppress: true,
           tags: ['hello'],
-          'title': {}
+          title: { '*': 'wassup' }
         }
       }
     };
@@ -43,7 +43,7 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
         subject: true,
         suppress: true,
         tags: ['hello'],
-        'title': {}
+        title: { '*': 'wassup' }
       });
   });
 });

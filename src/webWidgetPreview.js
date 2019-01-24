@@ -114,6 +114,10 @@ const renderWebWidgetPreview = (options) => {
       };
 
       store.dispatch(updateEmbeddableConfig(config));
+
+      // TODO: We re-set the colour as a temporary measure to deal with the fact that
+      // colour generation and re-generation is still not fully managed by redux
+      // This call should be removed as soon as that work happens.
       setColor(currentColor);
     });
   };
