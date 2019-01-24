@@ -292,8 +292,8 @@ test('getStylingZIndex', () => {
   expect(result).toEqual(10000);
 });
 
-test('getContactFormTitle', () => {
-  const result = selectors.getContactFormTitle(
+test('getSettingsContactFormTitle', () => {
+  const result = selectors.getSettingsContactFormTitle(
     contactFormSettings({ title: 'hello!' })
   );
 

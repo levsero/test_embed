@@ -309,7 +309,7 @@ describe('selectors', () => {
     });
   });
 
-  describe('getSettingsContactFormTitle', () => {
+  describe('getContactFormTitle', () => {
     let state;
 
     describe('when a custom translation is defined in settings', () => {
@@ -318,7 +318,7 @@ describe('selectors', () => {
       });
 
       it('returns the custom translation', () => {
-        expect(selectors.getSettingsContactFormTitle(state))
+        expect(selectors.getContactFormTitle(state))
           .toEqual('Mamma mia!');
       });
     });
@@ -336,7 +336,7 @@ describe('selectors', () => {
       });
 
       it('returns the value from i18n', () => {
-        expect(selectors.getSettingsContactFormTitle(state))
+        expect(selectors.getContactFormTitle(state))
           .toEqual('Contact Us');
         expect(i18n.t)
           .toHaveBeenCalledWith('embeddable_framework.submitTicket.form.title.message');

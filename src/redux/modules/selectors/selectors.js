@@ -36,7 +36,7 @@ import {
   getSettingsContactOptionsButton,
   getSettingsContactOptionsChatLabelOnline,
   getSettingsContactOptionsContactFormLabel,
-  getContactFormTitle
+  getSettingsContactFormTitle
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled,
@@ -123,8 +123,8 @@ export const getSettingsHelpCenterChatButton = createSelector(
   )
 );
 
-export const getSettingsContactFormTitle = createSelector(
-  [getContactFormTitle, getFormTitleKey, getLocale],
+export const getContactFormTitle = createSelector(
+  [getSettingsContactFormTitle, getFormTitleKey, getLocale],
   (contactFormTitle, formTitleKey, _locale) => (
     i18n.getSettingTranslation(contactFormTitle) ||
     i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)
