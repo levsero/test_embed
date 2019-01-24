@@ -299,16 +299,6 @@ test('getContactFormTitle', () => {
     .toBe('hello!');
 });
 
-test('getSettingsContactFormTitle', () => {
-  formTitleKeyMock.mockReturnValue('contact');
-  const result = selectors.getSettingsContactFormTitle(
-    contactFormSettings({ title: 'hello!' })
-  );
-
-  expect(result)
-    .toEqual({ custom: 'hello!', key: 'contact' });
-});
-
 test('getSettingsChatPopout', () => {
   const mockSettings = {
     chat: {

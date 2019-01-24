@@ -460,37 +460,6 @@ describe('Submit ticket component', () => {
     });
   });
 
-  describe('getFormTitle', () => {
-    let title;
-
-    describe('when there is a custom translation', () => {
-      beforeEach(() => {
-        const submitTicket = domRender(<SubmitTicket />);
-
-        mockCustomTranslation = 'Aw yisss!!!';
-        title = submitTicket.getFormTitle();
-      });
-
-      it('returns the custom translation', () => {
-        expect(title).toEqual('Aw yisss!!!');
-      });
-    });
-
-    describe('when there are no custom translations', () => {
-      beforeEach(() => {
-        const submitTicket = domRender(<SubmitTicket />);
-
-        mockCustomTranslation = null;
-        title = submitTicket.getFormTitle();
-      });
-
-      it('returns the i18n translation set by config', () => {
-        expect(title)
-          .toEqual('embeddable_framework.submitTicket.form.title.message');
-      });
-    });
-  });
-
   describe('ticket forms list', () => {
     let submitTicket;
 

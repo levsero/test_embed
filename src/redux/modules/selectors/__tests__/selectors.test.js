@@ -36,6 +36,17 @@ const stateHelpCenterSettings = (settings) => {
   };
 };
 
+const stateContactFormSettings = (settings) => {
+  return {
+    base: { locale: 'en-US' },
+    settings: {
+      contactForm: {
+        settings: settings
+      }
+    }
+  };
+};
+
 const stateAttachmentSettings = (configAttachments, settingsAttachments) => {
   return {
     base: {
@@ -294,6 +305,41 @@ describe('selectors', () => {
         expect(selectors.getSettingsHelpCenterChatButton(state))
           .toEqual('Help');
         expect(i18n.t).toHaveBeenCalledWith('embeddable_framework.common.button.chat');
+      });
+    });
+  });
+
+  describe('getSettingsContactFormTitle', () => {
+    let state;
+
+    describe('when a custom translation is defined in settings', () => {
+      beforeEach(() => {
+        state = stateContactFormSettings({ title: { '*': 'Mamma mia!' } });
+      });
+
+      it('returns the custom translation', () => {
+        expect(selectors.getSettingsContactFormTitle(state))
+          .toEqual('Mamma mia!');
+      });
+    });
+
+    describe('when a custom translation is not defined in settings', () => {
+      beforeEach(() => {
+        state = stateContactFormSettings({ title: null });
+
+        jest.spyOn(i18n, 't')
+          .mockImplementation(() => 'Contact Us');
+      });
+
+      afterEach(() => {
+        i18n.t.mockRestore();
+      });
+
+      it('returns the value from i18n', () => {
+        expect(selectors.getSettingsContactFormTitle(state))
+          .toEqual('Contact Us');
+        expect(i18n.t)
+          .toHaveBeenCalledWith('embeddable_framework.submitTicket.form.title.message');
       });
     });
   });
