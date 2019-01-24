@@ -377,6 +377,30 @@ describe('PrechatScreen component', () => {
             .toHaveBeenCalledWith(prechatScreen);
         });
       });
+
+      describe('when department is not enabled', () => {
+        beforeAll(() => {
+          formInfo = {
+            display_name: 'Daenerys Targaryen',
+            email: 'mother@of.dragons',
+            phone: '87654321',
+            message: 'bend the knee',
+            department: 12345
+          };
+
+          mockDepartments = {};
+        });
+
+        it('calls clearDepartment', () => {
+          expect(clearDepartmentSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('calls handlePrechatFormSubmit with the form info', () => {
+          expect(handlePrechatFormSubmitSpy)
+            .toHaveBeenCalledWith(formInfo);
+        });
+      });
     });
 
     describe('when department field is hidden', () => {
