@@ -1,15 +1,4 @@
 import * as selectors from '../settings-selectors';
-import * as baseSelectors from '../../base/base-selectors';
-
-let formTitleKeyMock;
-
-beforeEach(() => {
-  formTitleKeyMock = jest.spyOn(baseSelectors, 'getFormTitleKey');
-});
-
-afterEach(() => {
-  formTitleKeyMock.mockRestore();
-});
 
 const settings = (newSettings) => {
   return { settings: newSettings };
