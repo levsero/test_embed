@@ -16,7 +16,7 @@ const writeJson = (localeList) => {
   });
 };
 
-rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
+rest('https://support.zendesk.com/api/v2/locales/apps/web_widget.json')
   .then(function(res) {
     console.log('\nCreating locales list');
     const localeList = generateLocaleList(JSON.parse(res.entity).locales);
