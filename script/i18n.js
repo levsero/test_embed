@@ -8,7 +8,8 @@ var when = require('when'),
   translationsGlobal = 'zETranslations',
   localeIdMapPath = __dirname + '/../src/translation/ze_localeIdMap.js',
   translationsPath = __dirname + '/../src/translation/ze_translations.js',
-  translationMissingMessage = 'translation%20missing';
+  translationMissingMessage = 'translation%20missing',
+  localesEndpoint = 'https://support.zendesk.com/api/v2/locales/apps/web_widget.json';
 
 function filterLocales(locales) {
   return _.reject(locales, function(locale) {
@@ -127,9 +128,9 @@ function writeJson(path, json, globalName) {
   }
 }
 
-console.log('Downloading https://support.zendesk.com/api/v2/rosetta/locales/public.json');
+console.log('Downloading ' + localesEndpoint);
 
-rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
+rest(localesEndpoint)
   .then(function(res) {
     var locales = filterLocales(JSON.parse(res.entity).locales);
     var requests = [];
