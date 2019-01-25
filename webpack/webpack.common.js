@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const I18nPlugin = require('./i18nPlugin.js');
 
 const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp';
 
@@ -101,6 +102,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __EMBEDDABLE_VERSION__: JSON.stringify(version)
-    })
+    }),
+    I18nPlugin
   ]
 };

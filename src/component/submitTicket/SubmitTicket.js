@@ -41,7 +41,8 @@ const mapStateToProps = (state) => {
     showNotification: selectors.getShowNotification(state),
     subjectEnabled: getSettingsContactFormSubject(state),
     attachmentsEnabled: getAttachmentsEnabled(state),
-    formTitle: getContactFormTitle(state)
+    formTitle: getContactFormTitle(state),
+    locale: i18n.getLocale()
   };
 };
 
@@ -51,6 +52,7 @@ class SubmitTicket extends Component {
     attachmentSender: PropTypes.func.isRequired,
     errorMsg: PropTypes.string.isRequired,
     formTitle: PropTypes.string.isRequired,
+    locale: PropTypes.string.isRequired,
     formState: PropTypes.object.isRequired,
     readOnlyState: PropTypes.object.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
@@ -150,7 +152,7 @@ class SubmitTicket extends Component {
         res: res,
         email: _.get(this.props.formState, 'email'),
         searchTerm: this.props.searchTerm,
-        searchLocale: i18n.getLocale(),
+        searchLocale: this.props.locale,
         contextualSearch: this.props.hasContextuallySearched
       };
 

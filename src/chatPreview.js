@@ -113,6 +113,7 @@ const renderPreview = (options) => {
         <Container
           style={containerStyle}>
           <Chat
+            locale={i18n.getLocale()}
             ref={(chat) => chatComponent = chat}
             updateChatBackButtonVisibility={() => {}}
             getFrameContentDocument={() => frame.getContentDocument()}

@@ -1,45 +1,16 @@
 import _ from 'lodash';
 import { sprintf } from 'sprintf-js';
-
-import { settings } from 'service/settings';
-import zETranslations from 'translation/ze_translations';
+import t from '@zendesk/client-i18n-tools';
+import locales from 'translation/locales.json';
 import zELocaleIdMap from 'translation/ze_localeIdMap';
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
 import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors';
 
-const keyLookupTable = {
-  launcherLabel: [
-    'embeddable_framework.launcher.label.help',
-    'embeddable_framework.launcher.label.support',
-    'embeddable_framework.launcher.label.feedback'
-  ],
-  launcherChatLabel: ['embeddable_framework.launcher.label.chat'],
-  helpCenterTitle: [
-    'embeddable_framework.helpCenter.form.title.help',
-    'embeddable_framework.helpCenter.form.title.support',
-    'embeddable_framework.helpCenter.form.title.feedback'
-  ],
-  helpCenterMessageButton: [
-    'embeddable_framework.helpCenter.submitButton.label.submitTicket.message',
-    'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'
-  ],
-  helpCenterContactButton: ['embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'],
-  helpCenterChatButton: ['embeddable_framework.common.button.chat'],
-  contactFormTitle: [
-    'embeddable_framework.submitTicket.form.title.message',
-    'embeddable_framework.submitTicket.form.title.contact'
-  ],
-  contactFormSelectTicketForm: ['embeddable_framework.submitTicket.ticketForms.title'],
-  helpCenterSearchPlaceholder: ['embeddable_framework.helpCenter.search.label.how_can_we_help'],
-};
-
-let fallbackTranslations;
 let store;
 
 // reset is only used in tests
 function reset() {
   store = undefined;
-  fallbackTranslations = undefined;
 }
 
 function init(s) {
@@ -51,30 +22,25 @@ function setLocale(str = 'en-US') {
 
   const locale = parseLocale(str);
 
-  store.dispatch({
-    type: LOCALE_SET,
-    payload: locale
+  t.load(locale, () => {
+    store.dispatch({
+      type: LOCALE_SET,
+      payload: locale
+    });
   });
 }
 
 function translate(key, params = {}) {
+  if (typeof window.I18N === 'undefined' || typeof window.I18N.translations !== 'object') return '';
+  const translation = t(key);
+
   const locale = getLocale();
-  const keyForLocale = `${key}.${locale}`;
-  const translation = _.get(zETranslations, keyForLocale);
 
   if (_.isUndefined(translation)) {
-    return sprintf(getFallbackTranslation(key), params) || getMissingTranslationString(key, locale);
+    return getMissingTranslationString(key, locale);
   }
 
   return interpolateTranslation(translation, params);
-}
-
-function setCustomTranslations() {
-  const customerTranslations = settings.getTranslations();
-
-  if (!_.isEmpty(customerTranslations)) {
-    overrideTranslations(customerTranslations);
-  }
 }
 
 function getLocale() {
@@ -87,7 +53,8 @@ function getLocaleId() {
 }
 
 function isRTL() {
-  return !!zETranslations.rtl[getLocale()];
+  if (typeof window.I18N === 'undefined' || typeof window.I18N.translations !== 'object') return false;
+  return t.dir === 'rtl';
 }
 
 // private
@@ -114,7 +81,6 @@ function regulateLocaleStringCase(locale) {
 }
 
 function parseLocale(str) {
-  const locales = zETranslations.locales;
   const locale = regulateLocaleStringCase(str);
   const lowercaseLocale = locale.toLowerCase();
   const extractLang = (locale) => {
@@ -170,67 +136,6 @@ function parseZhLocale(str) {
   }
 }
 
-function overrideTranslations(newTranslations) {
-  // Override all locales if there are wild card translations.
-  _.forEach(newTranslations, (newTranslation, translationKey) => {
-    const keys = keyLookupTable[translationKey];
-
-    if (newTranslation.hasOwnProperty('*')) {
-      _.forEach(keys, (key) => {
-        const overridenStrings = _.mapValues(_.get(zETranslations, key), () => newTranslation['*']);
-
-        _.set(zETranslations, key, overridenStrings);
-      });
-    }
-
-    // Overrride any other specified locales.
-    for (let locale in newTranslation) {
-      if (locale === '*') continue;
-
-      _.forEach(keys, (key) => {
-        _.set(zETranslations, `${key}.${locale}`, newTranslation[locale]);
-      });
-    }
-  });
-}
-
-const parseYamlTranslations = (filePath) => {
-  if (_.isEmpty(filePath)) return;
-
-  return filePath.parts.reduce(partReducer, {});
-};
-
-const partReducer = (list, part) => {
-  if (_.isEmpty(part)) return;
-
-  const { translation: { key, value } } = part;
-
-  list[key] = value;
-
-  return list;
-};
-
-function setFallbackTranslations(translationMap) {
-  // Only import the translations yml file in development
-  // This saves approx 67kb in bundle size
-  if (__DEV__) {
-    const frameworkYamlFile = _.isEmpty(translationMap)
-      ? require('../../config/locales/translations/embeddable_framework.yml')
-      : translationMap;
-    const translations = parseYamlTranslations(frameworkYamlFile);
-
-    if (!_.isEmpty(translations)) {
-      fallbackTranslations = translations;
-    }
-  }
-}
-
-const getFallbackTranslation = (key) => {
-  if (_.isEmpty(fallbackTranslations)) return false;
-
-  return fallbackTranslations[key];
-};
-
 // Retrieves the correct translation from the passed map of settings translations.
 const getSettingTranslation = (translations) => {
   if (_.isEmpty(translations)) return;
@@ -244,8 +149,8 @@ export const i18n = {
   setLocale: setLocale,
   getLocale: getLocale,
   isRTL: isRTL,
-  setCustomTranslations: setCustomTranslations,
-  setFallbackTranslations: setFallbackTranslations,
+  setCustomTranslations: () => {},
+  setFallbackTranslations: () => {},
   getSettingTranslation: getSettingTranslation,
   init: init,
   reset
