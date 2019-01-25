@@ -113,22 +113,26 @@ function parseZhLocale(str) {
     const middle = parts[1];
 
     if (middle === 'hant') {
-      return 'zh-tw';
+      if (parts[2] === 'mo') {
+        return 'zh-mo';
+      } else {
+        return 'zh-tw';
+      }
     } else if (middle === 'hans') {
-      return 'zh-cn';
+      if (parts[2] === 'sg') {
+        return 'zh-sg';
+      } else {
+        return 'zh-cn';
+      }
     }
   }
 
   switch (str) {
-    case 'zh-sg':
     case 'zh-cn':
     case 'zh-my':
     case 'zh-hans':
     case 'zh':
       return 'zh-cn';
-    case 'zh-mo':
-    case 'zh-tw':
-    case 'zh-hk':
     case 'zh-hant':
       return 'zh-tw';
     default:
