@@ -1,4 +1,7 @@
-import { CHAT_OFFLINE_FORM_CHANGED, OFFLINE_FORM_BACK_BUTTON_CLICKED } from '../../chat-action-types';
+import {
+  CHAT_OFFLINE_FORM_CHANGED,
+  SDK_VISITOR_UPDATE,
+  OFFLINE_FORM_BACK_BUTTON_CLICKED } from '../../chat-action-types';
 import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types';
 
 const initialState = {
@@ -16,6 +19,13 @@ const offlineForm = (state = initialState, action) => {
       return {
         ...initialState,
         ...payload
+      };
+    case SDK_VISITOR_UPDATE:
+      return {
+        ...state,
+        name: payload.detail.display_name,
+        email: payload.detail.email,
+        phone: payload.detail.phone
       };
     case PREFILL_RECEIVED:
       return {

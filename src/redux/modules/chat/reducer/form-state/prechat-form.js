@@ -4,7 +4,8 @@ import {
   PRE_CHAT_FORM_ON_CHANGE,
   VISITOR_DEFAULT_DEPARTMENT_SELECTED,
   CHAT_BADGE_MESSAGE_CHANGED,
-  SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE
+  SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE,
+  SDK_VISITOR_UPDATE
 } from '../../chat-action-types';
 import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types';
 
@@ -29,6 +30,13 @@ const preChatForm = (state = initialState, action = {}) => {
       return {
         ...state,
         ...payload.prefillValues
+      };
+    case SDK_VISITOR_UPDATE:
+      return {
+        ...state,
+        name: payload.detail.display_name,
+        email: payload.detail.email,
+        phone: payload.detail.phone
       };
     case PRE_CHAT_FORM_ON_CHANGE:
     case VISITOR_DEFAULT_DEPARTMENT_SELECTED:

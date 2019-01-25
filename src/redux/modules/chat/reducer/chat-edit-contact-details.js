@@ -8,7 +8,8 @@ import {
   SET_VISITOR_INFO_REQUEST_PENDING,
   SDK_ERROR,
   UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
-  UPDATE_CHAT_CONTACT_DETAILS_INFO
+  UPDATE_CHAT_CONTACT_DETAILS_INFO,
+  SDK_VISITOR_UPDATE
 } from '../chat-action-types';
 import { API_CLEAR_FORM } from '../../base/base-action-types';
 
@@ -45,6 +46,11 @@ const editContactDetails = (state = initialState, action) => {
         ...state,
         status: EDIT_CONTACT_DETAILS_ERROR_SCREEN,
         error: true
+      };
+    case SDK_VISITOR_UPDATE:
+      return {
+        ...state,
+        ...payload.detail
       };
     case UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY:
       return {
