@@ -5,7 +5,10 @@
     "./config/eslint/eslint-react.js",
     "./config/eslint/eslint-plugin-import.js"
   ],
-  "plugins": ["jest"],
+  "plugins": [
+    "jest",
+    "lodash"
+  ],
   "root": true,
   "env": {
     "browser": true,
@@ -23,6 +26,15 @@
   },
   "rules": {
     "no-var": 0,
-    "indent": [2, 2, {"SwitchCase": 1}]
-   }
+    "indent": [2, 2, {"SwitchCase": 1}],
+    "lodash/chaining": [2, "never"]
+   },
+  "overrides": [
+    {
+      "files": ["*.test.js", "*_test.js"],
+      "rules": {
+        "lodash/chaining": "off"
+      }
+    }
+  ]
 }
