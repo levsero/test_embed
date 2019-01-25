@@ -73,14 +73,11 @@ describe('i18n', () => {
       ['zh', 'zh-cn'],
       ['zh-Hant-TW', 'zh-tw'],
       ['zh-Hans-CN', 'zh-cn'],
-      ['zh-Hans-SG', 'zh-cn'],
-      ['zh-Hant-MO', 'zh-tw'],
-      ['zh-sg', 'zh-cn'],
-      ['zh-mo', 'zh-tw'],
+      ['zh-Hans-SG', 'zh-sg'],
+      ['zh-Hant-MO', 'zh-mo'],
       ['zh-TW', 'zh-tw'],
-      ['zh-hk', 'zh-tw'],
       ['nb', 'no'],
-      ['tl', 'fil'],
+      ['tl', 'tl'],
       ['en-AU', 'en-au']
     ])('setLocale(%s) resolves to %s',
       (arg, expected) => {
