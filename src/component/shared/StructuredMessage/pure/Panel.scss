@@ -95,12 +95,15 @@
 
   &.scaleUp {
     svg {
-      transform: scale(2.0);
+      width: #{32/$font-size}rem;
+      height: #{32/$font-size}rem;
     }
   }
 
   svg {
     color: $zd-color-grey-400;
+    width: #{16/$font-size}rem;
+    height: #{16/$font-size}rem;
   }
 }
 
