@@ -78,7 +78,7 @@ describe('i18n', () => {
       ['zh-TW', 'zh-tw'],
       ['nb', 'no'],
       ['nb-NO', 'no'],
-      ['nn-NO', 'no'],
+      ['nn-NO', 'nn'],
       ['tl', 'tl'],
       ['en-AU', 'en-au']
     ])('setLocale(%s) resolves to %s',

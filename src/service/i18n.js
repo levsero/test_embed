@@ -95,7 +95,7 @@ function parseLocale(str) {
     return lowercaseLocale;
   } else if (_.includes(locales, extractedLang)) {
     return extractedLang;
-  } else if (str === 'nb' || str === 'nn' || extractedLang === 'nb' || extractedLang === 'nn') {
+  } else if (str === 'nb' || extractedLang === 'nb') {
     return 'no';
   } else if (str === 'tl') {
     return 'fil';
