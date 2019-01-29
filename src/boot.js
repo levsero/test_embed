@@ -21,7 +21,6 @@ import { i18n } from 'service/i18n';
 import createStore from 'src/redux/createStore';
 import tracker from 'service/logging/tracker';
 import { getZendeskHost } from 'utility/globals';
-import t from '@zendesk/client-i18n-tools';
 
 const setReferrerMetas = (iframe, doc) => {
   const metaElements = getMetaTagsByName(doc, 'referrer');
@@ -128,7 +127,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       zopimApi.setUpZopimApiMethods(win, reduxStore);
     }
 
-    t.load(config.locale, () => {
+    i18n.setLocale(config.locale, () => {
       renderer.init(config, reduxStore);
       webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore);
     });

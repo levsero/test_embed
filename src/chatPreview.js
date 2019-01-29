@@ -141,7 +141,7 @@ const renderPreview = (options) => {
   };
 
   const updateLocale = (locale) => {
-    i18n.setLocale(locale, true);
+    i18n.setLocale(locale);
     frame.updateFrameLocale();
     getComponent().getActiveComponent().forceUpdate();
   };

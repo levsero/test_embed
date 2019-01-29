@@ -17,7 +17,7 @@ function init(s) {
   store = s;
 }
 
-function setLocale(str = 'en-US') {
+function setLocale(str = 'en-US', callback) {
   if (!store) return;
 
   const locale = parseLocale(str);
@@ -27,6 +27,10 @@ function setLocale(str = 'en-US') {
       type: LOCALE_SET,
       payload: locale
     });
+
+    if (callback) {
+      callback();
+    }
   });
 }
 

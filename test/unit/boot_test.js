@@ -51,13 +51,11 @@ describe('boot', () => {
       },
       'service/i18n': {
         i18n: {
-          init: initSpy
+          init: initSpy,
+          setLocale: (_, cb) => { cb(); }
         }
       },
       'service/transport': transportSpy,
-      '@zendesk/client-i18n-tools': {
-        load: (_, cb) => { cb(); }
-      },
       'service/renderer': rendererSpy,
       'src/redux/createStore': () => ({
         dispatch: jasmine.createSpy.and.callThrough()
