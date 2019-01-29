@@ -10,6 +10,7 @@ describe('MessageOptions component', () => {
   ];
 
   const messageOptionsPath = buildSrcPath('component/shared/MessageOptions');
+  const KeyboardFocusButton = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -21,6 +22,9 @@ describe('MessageOptions component', () => {
           lastItemBorders: 'lastItemBorders',
           optionItem: 'optionItem'
         }
+      },
+      'component/shared/KeyboardFocusButton': {
+        KeyboardFocusButton: KeyboardFocusButton
       }
     });
 
@@ -45,7 +49,7 @@ describe('MessageOptions component', () => {
 
         it('renders option items correctly', () => {
           response.props.children.forEach((optionItem, index) => {
-            expect(TestUtils.isElementOfType(optionItem, 'button')).toEqual(true);
+            expect(TestUtils.isElementOfType(optionItem, KeyboardFocusButton)).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
             const classes = optionItem.props.className;
@@ -71,7 +75,7 @@ describe('MessageOptions component', () => {
 
         it('renders option items correctly', () => {
           response.props.children.forEach((optionItem, index) => {
-            expect(TestUtils.isElementOfType(optionItem, 'button')).toEqual(true);
+            expect(TestUtils.isElementOfType(optionItem, KeyboardFocusButton)).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
             const classes = optionItem.props.className;
@@ -100,7 +104,7 @@ describe('MessageOptions component', () => {
 
         it('renders option items correctly', () => {
           response.props.children.forEach((optionItem, index) => {
-            expect(TestUtils.isElementOfType(optionItem, 'button')).toEqual(true);
+            expect(TestUtils.isElementOfType(optionItem, KeyboardFocusButton)).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
             const classes = optionItem.props.className;
@@ -143,7 +147,7 @@ describe('MessageOptions component', () => {
 
         it('renders option items correctly', () => {
           response.props.children.forEach((optionItem, index) => {
-            expect(TestUtils.isElementOfType(optionItem, 'button')).toEqual(true);
+            expect(TestUtils.isElementOfType(optionItem, KeyboardFocusButton)).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
             const classes = optionItem.props.className;

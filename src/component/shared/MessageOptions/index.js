@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton';
 
 import { locals as styles } from './MessageOptions.scss';
 import classNames from 'classnames';
@@ -30,12 +31,12 @@ export class MessageOptions extends Component {
       );
 
       return (
-        <button
+        <KeyboardFocusButton
           key={index}
           className={childClasses}
           onClick={() => this.props.onOptionClick(child)}>
           <a>{child}</a>
-        </button>
+        </KeyboardFocusButton>
       );
     });
 
