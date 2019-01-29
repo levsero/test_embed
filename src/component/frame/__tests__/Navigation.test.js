@@ -32,6 +32,7 @@ const renderPureComponent = (props) => {
     popoutButtonVisible: true,
     standaloneMobileNotificationVisible: false,
     handleCloseButtonClicked: noop,
+    handlePopoutButtonClicked: noop,
     zChat: { getMachineId: () => 'machine id' },
     isPreview: false,
     chatPopoutSettings: {}
@@ -55,21 +56,33 @@ describe('rendering', () => {
 
 describe('actions', () => {
   describe('clicking popout', () => {
-    describe('when not preview', () => {
-      it('createsTheChatPopout', () => {
-        jest.spyOn(chatUtil, 'createChatPopoutWindow');
+    const mockHandlePopoutButtonClicked = jest.fn();
 
-        const { container } = renderPureComponent();
+    beforeEach(() => {
+      jest.spyOn(chatUtil, 'createChatPopoutWindow');
+    });
+
+    describe('when not preview', () => {
+      beforeEach(() => {
+        const container = renderPureComponent({
+          handlePopoutButtonClicked: mockHandlePopoutButtonClicked
+        }).container;
 
         fireEvent.click(container.querySelector('.popoutDesktop'));
+      });
 
+      it('calls createChatPopoutWindow', () => {
         expect(chatUtil.createChatPopoutWindow).toHaveBeenCalledWith({}, 'machine id', 'en-US');
+      });
+
+      it('calls handlePopoutButtonClicked', () => {
+        expect(mockHandlePopoutButtonClicked).toHaveBeenCalled();
       });
     });
 
     describe('clicking popout', () => {
       describe('when it is preview', () => {
-        it('createsTheChatPopout', () => {
+        it('does not call createChatPopoutWindow', () => {
           jest.spyOn(chatUtil, 'createChatPopoutWindow');
 
           const { container } = renderPureComponent({ isPreview: true });
@@ -77,6 +90,10 @@ describe('actions', () => {
           fireEvent.click(container.querySelector('.popoutDesktop'));
 
           expect(chatUtil.createChatPopoutWindow).not.toHaveBeenCalled();
+        });
+
+        it('does not call handlePopoutButtonClicked', () => {
+          expect(mockHandlePopoutButtonClicked).not.toHaveBeenCalled();
         });
       });
     });
