@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import fp from 'lodash/fp';
 import sanitizeHtml from 'sanitize-html';
 
 import { Icon } from 'component/Icon';
@@ -281,27 +280,26 @@ export class HelpCenterArticle extends Component {
 
   getArticleImages(htmlEl, domain, locale) {
     const hostname = http.getDynamicHostname(getBaseIsAuthenticated());
-    const filterHcImages = (img) => {
-      const pattern = new RegExp(`(${hostname}|${domain})/hc/`);
+    const imageEls = htmlEl.getElementsByTagName('img');
+    const imagePattern = new RegExp(`(${hostname}|${domain})/hc/`);
+    const localePattern = /\/hc\/([a-z]{2}|[a-z]{2}-[a-z]{2})\//i;
 
-      return pattern.test(img.src);
-    };
-    const addLocaleToPath = (img) => {
-      // Due to HC ommiting the locale for agent only image attachments. We must
-      // check if the locale is missing from the URL. If it is, then we manually
-      // add it in, otherwise we leave it.
-      const localePattern = /\/hc\/([a-z]{2}|[a-z]{2}-[a-z]{2})\//i;
+    return _.reduce(imageEls, (result, imageEl) => {
+      if (imagePattern.test(imageEl.src)) {
+        if (!localePattern.test(imageEl.src)) {
+          /*
+            Due to HC ommiting the locale for agent-only image attachments: we must
+            check if the locale is missing from the URL. If it is, then we manually
+            add it in, otherwise we leave it.
+          */
+          imageEl.src = imageEl.src.replace('/hc/', `/hc/${locale}/`);
+        }
 
-      if (!localePattern.test(img.src)) {
-        img.src = img.src.replace('/hc/', `/hc/${locale}/`);
+        result.push(imageEl);
       }
-      return img;
-    };
 
-    return _.flow(
-      fp.filter(filterHcImages),
-      fp.map(addLocaleToPath)
-    )(htmlEl.getElementsByTagName('img'));
+      return result;
+    }, []);
   }
 
   renderOriginalArticleButton = () => {
