@@ -179,7 +179,7 @@ const getFormFields = createSelector(
 export const getEnabledDepartments = createSelector(
   [getSettingsChatDepartmentsEnabled, getDepartmentsList],
   (settingsDepartmentsEnabled, departmentsList) => {
-    if (Array.isArray(settingsDepartmentsEnabled) && settingsDepartmentsEnabled.length > 0) {
+    if (Array.isArray(settingsDepartmentsEnabled)) {
       return departmentsList.filter((department) => (
         _.includes(settingsDepartmentsEnabled, department.id) ||
         _.includes(settingsDepartmentsEnabled, department.name.toLowerCase())

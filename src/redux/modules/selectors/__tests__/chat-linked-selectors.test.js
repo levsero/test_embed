@@ -237,28 +237,42 @@ describe('getPrechatFormSettings', () => {
 });
 
 describe('getEnabledDepartments', () => {
-  let result;
+  describe('with enabled departments are listed', () => {
+    it('returns only enabled departments', () => {
+      const result = selectors.getEnabledDepartments(getModifiedState());
 
-  it('Default: Returns enabled departments `pizza` and `burgers`', () => {
-    result = selectors.getEnabledDepartments(getModifiedState());
-
-    expect(result).toEqual([
-      { id: 111, name: 'burgers' },
-      { id: 222, name: 'pizza' }
-    ]);
+      expect(result).toEqual([
+        { id: 111, name: 'burgers' },
+        { id: 222, name: 'pizza' }
+      ]);
+    });
   });
 
-  it('Returns every department when no departments are specified in settings', () => {
-    result = selectors.getEnabledDepartments(
-      getModifiedState({
-        settings: { chat: { departments: { enabled: null } } }
-      }));
+  // TODO fix fixtures _.merge cannot be used
+  // describe('when enabled is an empty array', () => {
+  //   it('returns no department', () => {
+  //     const result = selectors.getEnabledDepartments(
+  //       getModifiedState({
+  //         settings: { chat: { departments: { enabled: [] } } }
+  //       }));
+  //
+  //     expect(result).toEqual([]);
+  //   });
+  // });
 
-    expect(result).toEqual([
-      { id: 111, name: 'burgers' },
-      { id: 222, name: 'pizza' },
-      { id: 333, name: 'thickshakes' }
-    ]);
+  describe('when enabled is not an array', () => {
+    it('returns all departments', () => {
+      const result = selectors.getEnabledDepartments(
+        getModifiedState({
+          settings: { chat: { departments: { enabled: null } } }
+        }));
+
+      expect(result).toEqual([
+        { id: 111, name: 'burgers' },
+        { id: 222, name: 'pizza' },
+        { id: 333, name: 'thickshakes' }
+      ]);
+    });
   });
 });
 
