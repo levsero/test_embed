@@ -44,7 +44,6 @@ describe('embed.webWidget', () => {
 
   beforeEach(() => {
     mockIsOnHelpCenterPageValue = false;
-    mockIsMobileBrowser = false;
     mockIsIE = false;
     mockHelpCenterSuppressedValue = false;
     mockContactFormSuppressedValue = false;
@@ -53,6 +52,8 @@ describe('embed.webWidget', () => {
     mockFiltersValue = [],
     mockSupportAuthValue = null;
     mockChatAuthValue = null;
+    mockIsMobileBrowser = false;
+    mockIsPopout = false;
     mockActiveEmbed = '';
     mockWin = {};
     resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
@@ -264,7 +265,7 @@ describe('embed.webWidget', () => {
     describe('frame props', () => {
       let child, grandchild, frame, mockSetScaleLock;
 
-      beforeEach(() => {
+      const createRender = () => {
         const config = {
           ...mockConfig,
           ticketSubmissionForm: { attachmentsEnabled: true },
@@ -280,6 +281,10 @@ describe('embed.webWidget', () => {
         faythe = frame.getRootComponent();
         child = faythe.getActiveComponent();
         grandchild = child.getChild();
+      };
+
+      beforeEach(() => {
+        createRender();
       });
 
       it('applies webWidget.scss to the frame factory', () => {
@@ -292,6 +297,58 @@ describe('embed.webWidget', () => {
       it('sets the iframe title', () => {
         expect(frame.props.title)
           .toEqual('embeddable_framework.web_widget.frame.title');
+      });
+
+      describe('hideNavigationButtons', () => {
+        beforeEach(() => {
+          mockIsPopout = true;
+          mockIsMobileBrowser = true;
+        });
+
+        describe('when is popout and mobile', () => {
+          it('hides navigation buttons', () => {
+            createRender();
+            expect(frame.props.hideNavigationButtons)
+              .toEqual(true);
+          });
+        });
+
+        describe('when not isPopout', () => {
+          beforeEach(() => {
+            mockIsPopout = false;
+            createRender();
+          });
+
+          it('return false', () => {
+            expect(frame.props.hideNavigationButtons)
+              .toEqual(false);
+          });
+        });
+
+        describe('when not isMobileBrowser', () => {
+          beforeEach(() => {
+            mockIsMobileBrowser = false;
+            createRender();
+          });
+
+          it('return false', () => {
+            expect(frame.props.hideNavigationButtons)
+              .toEqual(false);
+          });
+        });
+
+        describe('when not isPopout and not isMobileBrowser', () => {
+          beforeEach(() => {
+            mockIsMobileBrowser = false;
+            mockIsPopout = false;
+            createRender();
+          });
+
+          it('return false', () => {
+            expect(frame.props.hideNavigationButtons)
+              .toEqual(false);
+          });
+        });
       });
 
       describe('onShow', () => {

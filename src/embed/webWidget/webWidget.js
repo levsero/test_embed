@@ -208,7 +208,7 @@ export default function WebWidgetFactory(name) {
       store: reduxStore,
       visible: false,
       useBackButton: !popout,
-      hideCloseButton: popout,
+      hideNavigationButtons: popout && isMobile,
       onShow,
       name: name,
       afterShowAnimate,
@@ -216,6 +216,7 @@ export default function WebWidgetFactory(name) {
       onBack,
       title: i18n.t('embeddable_framework.web_widget.frame.title')
     };
+
     const component = (
       <Provider store={reduxStore}>
         <Frame {...frameParams}>
