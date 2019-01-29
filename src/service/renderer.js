@@ -126,9 +126,6 @@ function init(config, reduxStore = dummyStore) {
       settings.enableCustomizations();
     }
 
-    i18n.setCustomTranslations();
-    i18n.setFallbackTranslations();
-
     if (!i18n.getLocale()) {
       setLocaleApi(reduxStore, config.locale);
     }

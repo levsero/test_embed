@@ -35,7 +35,8 @@ const renderPureComponent = (props) => {
     handlePopoutButtonClicked: noop,
     zChat: { getMachineId: () => 'machine id' },
     isPreview: false,
-    chatPopoutSettings: {}
+    chatPopoutSettings: {},
+    locale: 'en-US'
   };
   const actualProps = _.merge({}, defaultProps, props);
 

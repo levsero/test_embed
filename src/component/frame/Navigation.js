@@ -29,7 +29,8 @@ const mapStateToProps = (state) => {
     standaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     chatPopoutSettings: getSettingsChatPopout(state),
     zChat: getZChatVendor(state),
-    popoutButtonVisible: getIsPopoutButtonVisible(state)
+    popoutButtonVisible: getIsPopoutButtonVisible(state),
+    locale: i18n.getLocale()
   };
 };
 
@@ -80,6 +81,7 @@ export class Navigation extends Component {
         })
       })
     }),
+    locale: PropTypes.string.isRequired,
     popoutButtonVisible: PropTypes.bool.isRequired,
     isPreview: PropTypes.bool
   };
@@ -123,7 +125,8 @@ export class Navigation extends Component {
     const {
       chatPopoutSettings,
       zChat,
-      isPreview
+      isPreview,
+      locale
     } = this.props;
 
     if (isPreview) return;
@@ -133,7 +136,7 @@ export class Navigation extends Component {
     createChatPopoutWindow(
       chatPopoutSettings,
       zChat.getMachineId(),
-      i18n.getLocale()
+      locale
     );
   }
 

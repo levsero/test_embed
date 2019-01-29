@@ -1,4 +1,3 @@
-import 'utility/i18nTestHelper';
 import _ from 'lodash';
 import { createStore } from 'redux';
 import reducer from 'src/redux/modules/reducer';

@@ -1,4 +1,3 @@
-import 'utility/i18nTestHelper';
 import { renderer } from '../renderer';
 import { settings } from 'service/settings';
 import { createStore } from 'redux';

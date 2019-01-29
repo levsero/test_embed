@@ -158,7 +158,6 @@ export const i18n = {
   getLocale: getLocale,
   isRTL: isRTL,
   setCustomTranslations: () => {},
-  setFallbackTranslations: () => {},
   getSettingTranslation: getSettingTranslation,
   init: init,
   reset

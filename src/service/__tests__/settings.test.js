@@ -1,4 +1,3 @@
-import 'utility/i18nTestHelper';
 import _ from 'lodash';
 import { settings } from '../settings';
 import * as actions from 'src/redux/modules/settings/settings-actions';
