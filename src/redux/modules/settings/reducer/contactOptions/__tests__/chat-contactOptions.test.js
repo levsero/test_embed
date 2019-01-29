@@ -6,8 +6,12 @@ const badPayload = {
   foo: 'bar'
 };
 const goodPayload = {
-  chatLabelOnline: { '*': 'online label' },
-  chatLabelOffline: { '*': 'offline label' },
+  webWidget:{
+    contactOptions: {
+      chatLabelOnline: { '*': 'online label' },
+      chatLabelOffline: { '*': 'offline label' }
+    }
+  }
 };
 
 testReducer(chatContactOptions, [

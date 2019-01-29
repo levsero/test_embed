@@ -164,7 +164,6 @@ function getTranslations() {
     contactFormTitle: webWidgetStore.contactForm.title,
     helpCenterChatButton: webWidgetStore.helpCenter.chatButton,
     helpCenterMessageButton: webWidgetStore.helpCenter.messageButton,
-    helpCenterContactButton: webWidgetStore.contactOptions.contactButton,
     helpCenterSearchPlaceholder: webWidgetStore.helpCenter.searchPlaceholder,
     helpCenterTitle: webWidgetStore.helpCenter.title,
     launcherChatLabel: webWidgetStore.launcher.chatLabel,

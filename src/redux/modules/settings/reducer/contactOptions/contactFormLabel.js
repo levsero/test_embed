@@ -8,7 +8,7 @@ const contactFormLabel = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'contactFormLabel', state);
+      return _.get(payload, 'webWidget.contactOptions.contactFormLabel', state);
     default:
       return state;
   }

@@ -12,8 +12,8 @@ const chatContactOptions = (state = initialState, action) => {
   switch (type) {
     case UPDATE_SETTINGS:
       return {
-        chatLabelOnline: _.get(payload, 'chatLabelOnline', state.chatLabelOnline),
-        chatLabelOffline: _.get(payload, 'chatLabelOffline', state.chatLabelOffline),
+        chatLabelOnline: _.get(payload, 'webWidget.contactOptions.chatLabelOnline', state.chatLabelOnline),
+        chatLabelOffline: _.get(payload, 'webWidget.contactOptions.chatLabelOffline', state.chatLabelOffline),
       };
     default:
       return state;
