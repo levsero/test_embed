@@ -16,10 +16,6 @@ const splitChunkConfig = (name, type = 'initial') => {
 module.exports = merge(common, {
   entry: {
     [chunks.WEB_WIDGET_CHUNK]: path.join(CWD, '/src/main.js'),
-    [chunks.TRANSLATIONS_CHUNK]: [
-      path.join(CWD, '/src/translation/ze_countries.js'),
-      path.join(CWD, '/src/translation/ze_localeIdMap.js')
-    ],
     [chunks.COMMON_VENDOR_CHUNK]: [
       'lodash', 'react', 'react-dom', 'redux', 'core-js'
     ],

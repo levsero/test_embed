@@ -10,7 +10,6 @@ const chunks = require('./chunks');
 const CHUNKS = [
   { name: chunks.RUNTIME_CHUNK },
   { name: chunks.COMMON_VENDOR_CHUNK },
-  { name: chunks.TRANSLATIONS_CHUNK },
   { name: chunks.CHAT_VENDOR_CHUNK, feature: 'chat' },
   { name: chunks.TALK_VENDOR_CHUNK, feature: 'talk' },
   { name: chunks.WEB_WIDGET_CHUNK }
