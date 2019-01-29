@@ -18,7 +18,7 @@ import {
   getShowMenu as getShowChatMenu,
   getIsPopoutButtonVisible } from 'src/redux/modules/selectors';
 import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
-import { handleCloseButtonClicked } from 'src/redux/modules/base/base-actions';
+import { handleCloseButtonClicked, handlePopoutButtonClicked } from 'src/redux/modules/base/base-actions';
 import { createChatPopoutWindow } from 'src/util/chat';
 
 const mapStateToProps = (state) => {
@@ -45,6 +45,7 @@ export class Navigation extends Component {
     useMenu: PropTypes.bool,
     menuVisible: PropTypes.bool,
     updateMenuVisibility: PropTypes.func,
+    handlePopoutButtonClicked: PropTypes.func.isRequired,
     standaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     zChat: PropTypes.object,
     isMobile: PropTypes.bool.isRequired,
@@ -126,6 +127,8 @@ export class Navigation extends Component {
     } = this.props;
 
     if (isPreview) return;
+
+    this.props.handlePopoutButtonClicked();
 
     createChatPopoutWindow(
       chatPopoutSettings,
@@ -217,7 +220,8 @@ export class Navigation extends Component {
 
 const actionCreators = {
   updateMenuVisibility: updateChatMenuVisibility,
-  handleCloseButtonClicked: handleCloseButtonClicked
+  handleCloseButtonClicked: handleCloseButtonClicked,
+  handlePopoutButtonClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Navigation);
