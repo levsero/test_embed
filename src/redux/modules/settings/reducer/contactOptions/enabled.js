@@ -8,7 +8,7 @@ const enabled = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'enabled', state);
+      return _.get(payload, 'webWidget.contactOptions.enabled', state);
     default:
       return state;
   }

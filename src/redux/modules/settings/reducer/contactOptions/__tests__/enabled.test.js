@@ -6,7 +6,11 @@ const badPayload = {
   foo: 'bar'
 };
 const goodPayload = {
-  enabled: true
+  webWidget: {
+    contactOptions: {
+      enabled: true
+    }
+  }
 };
 
 testReducer(enabled, [

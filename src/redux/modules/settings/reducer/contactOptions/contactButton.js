@@ -8,7 +8,7 @@ const contactButton = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'contactButton', state);
+      return _.get(payload, 'webWidget.contactOptions.contactButton', state);
     default:
       return state;
   }

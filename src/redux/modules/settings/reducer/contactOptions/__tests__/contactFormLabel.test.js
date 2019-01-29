@@ -6,7 +6,11 @@ const badPayload = {
   foo: 'bar'
 };
 const goodPayload = {
-  contactFormLabel: { '*': 'form label' }
+  webWidget: {
+    contactOptions: {
+      contactFormLabel: { '*': 'form label' }
+    }
+  }
 };
 
 testReducer(contactFormLabel, [
