@@ -33,8 +33,7 @@ describe('chat vendor reducer', () => {
     let state;
     const mockInitialState = {
       zChat: nullZChatSDK,
-      slider: null,
-      luxon: {}
+      slider: null
     };
 
     describe('initial state', () => {
@@ -50,8 +49,7 @@ describe('chat vendor reducer', () => {
       beforeEach(() => {
         payload = {
           zChat: 'zChatLibrary',
-          slider: 'react-slick',
-          luxon: 'luxon'
+          slider: 'react-slick'
         };
 
         const action = { type: actionTypes.CHAT_VENDOR_LOADED, payload };

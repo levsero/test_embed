@@ -40,7 +40,6 @@ export const getStandaloneMobileNotificationVisible = (state) => chatState(state
 export const getIsAuthenticated = (state) => chatState(state).isAuthenticated;
 export const getZChatVendor = (state) => chatState(state).vendor.zChat;
 export const getSliderVendor = (state) => chatState(state).vendor.slider;
-export const getLuxonVendor = (state) => chatState(state).vendor.luxon;
 export const getWindowSettings = (state) => chatState(state).accountSettings.chatWindow;
 export const getThemeColor = (state) =>
   ({ base: chatState(state).accountSettings.theme.color.primary, text: undefined });

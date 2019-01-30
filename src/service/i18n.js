@@ -47,6 +47,10 @@ function translate(key, params = {}) {
   return interpolateTranslation(translation, params);
 }
 
+function dateTimeFormat(timestamp, options = {}) {
+  return t.dateTimeFormat(options).format(timestamp);
+}
+
 function getLocale() {
   if (!store) return '';
   return getLocaleState(store.getState());
@@ -151,6 +155,7 @@ const getSettingTranslation = (translations) => {
 
 export const i18n = {
   t: translate,
+  dateTimeFormat: dateTimeFormat,
   getLocaleId: getLocaleId,
   setLocale: setLocale,
   getLocale: getLocale,

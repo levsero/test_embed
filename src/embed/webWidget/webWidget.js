@@ -474,8 +474,8 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupChat(config, store, brand) {
-    const onSuccess = (zChat, slider, luxon) => {
-      store.dispatch(handleChatVendorLoaded({ zChat, slider: slider.default, luxon }));
+    const onSuccess = (zChat, slider) => {
+      store.dispatch(handleChatVendorLoaded({ zChat, slider: slider.default }));
 
       zChat.on('error', (e) => {
         if (_.get(e, 'extra.reason') === JWT_ERROR) {
@@ -529,7 +529,7 @@ export default function WebWidgetFactory(name) {
       logging.error(err);
     };
 
-    Promise.all([import('chat-web-sdk'), import('react-slick'), import('luxon')])
+    Promise.all([import('chat-web-sdk'), import('react-slick')])
       .then((arr)=> onSuccess(...arr))
       .catch(onFailure);
   }
