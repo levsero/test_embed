@@ -87,17 +87,15 @@ function regulateLocaleStringCase(locale) {
 function parseLocale(str) {
   const locale = regulateLocaleStringCase(str);
   const lowercaseLocale = locale.toLowerCase();
-  const extractLang = (locale) => {
-    return locale.substring(0, locale.indexOf('-'));
-  };
+  const extractedLang = locale.substring(0, locale.indexOf('-'));
 
   if (_.includes(locales, locale)) {
     return locale;
   } else if (_.includes(locales, lowercaseLocale)) {
     return lowercaseLocale;
-  } else if (_.includes(locales, extractLang(locale))) {
-    return extractLang(locale);
-  } else if (str === 'nb' || str === 'nn') {
+  } else if (_.includes(locales, extractedLang)) {
+    return extractedLang;
+  } else if (str === 'nb' || extractedLang === 'nb') {
     return 'no';
   } else if (str === 'tl') {
     return 'fil';
