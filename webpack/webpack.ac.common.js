@@ -26,7 +26,6 @@ module.exports = merge(common, {
     runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
-        [chunks.TRANSLATIONS_CHUNK]: splitChunkConfig(chunks.TRANSLATIONS_CHUNK),
         [chunks.COMMON_VENDOR_CHUNK]: splitChunkConfig(chunks.COMMON_VENDOR_CHUNK),
         [chunks.CHAT_VENDOR_CHUNK]: splitChunkConfig(chunks.CHAT_VENDOR_CHUNK, 'async'),
         [chunks.TALK_VENDOR_CHUNK]: splitChunkConfig(chunks.TALK_VENDOR_CHUNK, 'async')

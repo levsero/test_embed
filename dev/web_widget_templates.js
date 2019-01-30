@@ -7,7 +7,6 @@ const chunks = require('../webpack/chunks');
 const CHUNKS = [
   chunks.RUNTIME_CHUNK,
   chunks.COMMON_VENDOR_CHUNK,
-  chunks.TRANSLATIONS_CHUNK,
   chunks.CHAT_VENDOR_CHUNK,
   chunks.TALK_VENDOR_CHUNK,
   chunks.WEB_WIDGET_CHUNK
