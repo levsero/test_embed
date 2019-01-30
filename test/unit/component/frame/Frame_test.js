@@ -945,13 +945,25 @@ describe('Frame', () => {
     });
 
     describe('when the iframe\'s document is not ready', () => {
+      let count;
+
       beforeEach(() => {
+        count = 0;
         frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
         doc = frame.getContentWindow().document;
 
         spyOn(frame, 'updateFrameLocale');
-        spyOn(frame, 'renderFrameContent');
-        spyOnProperty(doc, 'readyState').and.returnValue('loading');
+        spyOn(frame, 'renderFrameContent').and.callThrough();
+        spyOn(frame, 'constructEmbed');
+        spyOnProperty(doc, 'readyState').and.callFake(() => {
+          if (count > 3) {
+            // state will become complete after 3rd call
+            return 'complete';
+          } else {
+            count += 1;
+            return 'loading';
+          }
+        });
         jasmine.clock().tick(0);
         frame.setState({ childRendered: false });
       });
@@ -961,9 +973,23 @@ describe('Frame', () => {
           .not.toHaveBeenCalled();
       });
 
-      it('queues renderFrameContent at most once', () => {
+      it('queues renderFrameContent until it is ready', () => {
         jasmine.clock().tick(0);
         expect(frame.renderFrameContent)
+          .toHaveBeenCalledTimes(2);
+      });
+
+      it('only calls constructEmbed once', () => {
+        jasmine.clock().tick(0);
+        expect(frame.constructEmbed)
+          .not.toHaveBeenCalled();
+
+        jasmine.clock().tick(0);
+        expect(frame.constructEmbed)
+          .not.toHaveBeenCalled();
+
+        jasmine.clock().tick(0);
+        expect(frame.constructEmbed)
           .toHaveBeenCalledTimes(1);
       });
     });
