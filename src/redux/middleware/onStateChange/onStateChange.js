@@ -45,10 +45,12 @@ import { getActiveEmbed,
   getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
 import { store } from 'service/persistence';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
+import { getAnswerBotAvailable } from 'src/redux/modules/selectors';
 import { isMobileBrowser } from 'utility/devices';
 import { resetShouldWarn } from 'src/util/nullZChat';
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
+import onChannelChoiceTransition from 'src/redux/middleware/onStateChange/onChannelChoiceTransition';
 import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange';
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions';
 import { isPopout } from 'utility/globals';
@@ -190,6 +192,9 @@ const onChatEnd = (nextState, action, dispatch) => {
       && !isPopout()) {
       dispatch(updateActiveEmbed('ticketSubmissionForm'));
     }
+    if (getAnswerBotAvailable(nextState)) {
+      dispatch(updateBackButtonVisibility(true));
+    }
   }
 };
 
@@ -239,9 +244,14 @@ const onVisitorUpdate = ({ type, payload }, dispatch) => {
 const onChatStarted = (prevState, nextState, dispatch) => {
   const previouslyNotChatting = !getIsChattingState(prevState);
   const currentlyChatting = getIsChattingState(nextState);
+  const answerBot = getAnswerBotAvailable(nextState);
 
   if (previouslyNotChatting && currentlyChatting) {
     dispatch({ type: CHAT_STARTED });
+
+    if (answerBot) {
+      dispatch(updateBackButtonVisibility(false));
+    }
   }
 };
 
@@ -270,4 +280,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onWidgetOpen(prevState, nextState);
   onChatOpen(prevState, nextState, dispatch);
   onUpdateEmbeddableConfig(action);
+  onChannelChoiceTransition(prevState, nextState, action, dispatch);
 }

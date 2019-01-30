@@ -40,7 +40,8 @@ describe('base reducer embeddable config', () => {
             helpCenterForm: {
               props: {
                 contextualHelpEnabled: false,
-                signInRequired: false
+                signInRequired: false,
+                answerBotEnabled: false
               }
             },
             zopimChat: {
@@ -62,7 +63,9 @@ describe('base reducer embeddable config', () => {
           position: 'right',
           color: '#659700',
           textColor: undefined,
-          hideZendeskLogo: false
+          hideZendeskLogo: false,
+          brand: undefined,
+          brandLogoUrl: undefined
         });
     });
   });
@@ -95,7 +98,8 @@ describe('base reducer embeddable config', () => {
           embeds: {
             helpCenterForm: {
               props: {
-                contextualHelpEnabled: true
+                contextualHelpEnabled: true,
+                answerBotEnabled: true
               }
             },
             zopimChat: {
@@ -115,7 +119,9 @@ describe('base reducer embeddable config', () => {
           position: 'left',
           color: 'white',
           textColor: 'black',
-          hideZendeskLogo: true
+          hideZendeskLogo: true,
+          brand: 'hello',
+          brandLogoUrl: 'helloworld'
         }
       };
 
@@ -135,7 +141,8 @@ describe('base reducer embeddable config', () => {
             helpCenterForm: {
               props: {
                 contextualHelpEnabled: true,
-                signInRequired: false
+                signInRequired: false,
+                answerBotEnabled: true
               }
             },
             zopimChat: {
@@ -157,7 +164,9 @@ describe('base reducer embeddable config', () => {
           color: 'white',
           textColor: 'black',
           position: 'left',
-          hideZendeskLogo: true
+          hideZendeskLogo: true,
+          brand: 'hello',
+          brandLogoUrl: 'helloworld'
         });
     });
   });

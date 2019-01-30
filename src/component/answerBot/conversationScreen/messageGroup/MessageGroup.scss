@@ -1,0 +1,56 @@
+@import 'src/styles/_vars.scss';
+@import 'src/styles/mixins.scss';
+
+.container {
+  composes: u-posRelative from global;
+  margin-bottom: $spacing-tny !important;
+}
+
+.name {
+  composes: u-marginTT from global;
+  margin-bottom: $spacing-tny !important;
+  margin-left: #{50/$font-size}rem;
+  color: $zd-color-aluminum !important;
+  display: flex;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: #{40/$font-size}rem;
+  }
+}
+
+.nameOnly {
+  padding-right: #{11/$font-size}rem;
+}
+
+.tag {
+  margin-top: #{-3/$font-size}rem;
+  padding-left: #{6/$font-size}rem;
+  padding-right: #{6/$font-size}rem;
+  border-radius: #{4/$font-size}rem;
+  border: #{1/$font-size}rem solid #c2c8cc;
+  font-size: #{13/$font-size}rem;
+  color: #879298;
+  background: none !important;
+}
+
+.avatar {
+  composes: u-posAbsolute from global;
+  transition: top 300ms ease-in-out;
+  padding-bottom: #{7/$font-size}rem;
+  height: #{32/$font-size}rem;
+  width: #{32/$font-size}rem;
+  background-color: transparent !important;
+
+  svg {
+    border-radius: 50%;
+    min-width: #{32/$font-size}rem;
+    min-height: #{32/$font-size}rem;
+    width: #{32/$font-size}rem;
+    height: #{32/$font-size}rem;
+  }
+}
+
+.fadeIn {
+  @include fade-in(200ms);
+}

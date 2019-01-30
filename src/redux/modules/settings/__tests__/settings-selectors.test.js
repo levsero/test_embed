@@ -476,3 +476,49 @@ describe('contactOptions selectors', () => {
     ).toEqual({ '*': 'offline label' });
   });
 });
+
+test('getAnswerBotTitle', () => {
+  const title = { '*': 'hello' };
+  const result = selectors.getAnswerBotTitle(
+    settings({
+      answerBot: {
+        title
+      }
+    })
+  );
+
+  expect(result)
+    .toEqual(title);
+});
+
+test('getAnswerBotAvatarName', () => {
+  const name = { '*': 'hello' };
+  const result = selectors.getAnswerBotAvatarName(
+    settings({
+      answerBot: {
+        avatar: {
+          name
+        }
+      }
+    })
+  );
+
+  expect(result)
+    .toEqual(name);
+});
+
+test('getSettingsAnswerBotAvatarUrl', () => {
+  const url = 'http://url';
+  const result = selectors.getSettingsAnswerBotAvatarUrl(
+    settings({
+      answerBot: {
+        avatar: {
+          url
+        }
+      }
+    })
+  );
+
+  expect(result)
+    .toEqual(url);
+});

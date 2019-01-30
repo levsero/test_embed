@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`inputDisabled dispatches expected payload 1`] = `
+Object {
+  "payload": true,
+  "type": "widget/answerBot/INPUT_DISABLED",
+}
+`;
+
+exports[`inputDisabled dispatches expected payload 2`] = `
+Object {
+  "payload": false,
+  "type": "widget/answerBot/INPUT_DISABLED",
+}
+`;

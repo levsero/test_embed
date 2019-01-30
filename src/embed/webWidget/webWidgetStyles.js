@@ -58,6 +58,7 @@ import LoadingBarContentStyles from 'component/loading/LoadingBarContent.scss';
 import FrameStyles from 'component/frame/Frame.scss';
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss';
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss';
+import AnswerBotStyles from 'component/answerBot/styles';
 
 import SharedComponentStyles from 'component/shared/styles';
 import { sharedStyles } from 'embed/sharedStyles';
@@ -127,4 +128,5 @@ export const webWidgetStyles = `
   ${FrameStyles}
   ${PanelCardStyles}
   ${ButtonCardStyles}
+  ${AnswerBotStyles}
 `;

@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders as disabled 1`] = `
+<div>
+  <div
+    class="textField fieldDisabled TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-2--input"
+      id="garden-text-field-2--label"
+    >
+      placeholder
+    </label>
+    <textarea
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-2--label"
+      class="input inputDisabled Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl text__is-disabled___3Uekk kpjxwv"
+      data-garden-id="textfields.textarea"
+      data-garden-version="3.7.0"
+      disabled=""
+      id="garden-text-field-2--input"
+      name="inputBox"
+      placeholder="placeholder"
+      rows="3"
+    />
+  </div>
+</div>
+`;
+
+exports[`renders as mobile 1`] = `
+<div>
+  <div
+    class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-4--input"
+      id="garden-text-field-4--label"
+    >
+      placeholder
+    </label>
+    <textarea
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-4--label"
+      class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+      data-garden-id="textfields.textarea"
+      data-garden-version="3.7.0"
+      id="garden-text-field-4--input"
+      name="inputBox"
+      placeholder="placeholder"
+      rows="1"
+    />
+  </div>
+</div>
+`;
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div
+    class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-0--input"
+      id="garden-text-field-0--label"
+    >
+      placeholder
+    </label>
+    <textarea
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-0--label"
+      class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+      data-garden-id="textfields.textarea"
+      data-garden-version="3.7.0"
+      id="garden-text-field-0--input"
+      name="inputBox"
+      placeholder="placeholder"
+      rows="3"
+    />
+  </div>
+</div>
+`;
+
+exports[`renders with value 1`] = `
+<div>
+  <div
+    class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-6--input"
+      id="garden-text-field-6--label"
+    >
+      placeholder
+    </label>
+    <textarea
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-6--label"
+      class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+      data-garden-id="textfields.textarea"
+      data-garden-version="3.7.0"
+      id="garden-text-field-6--input"
+      name="inputBox"
+      placeholder="placeholder"
+      rows="3"
+    >
+      doremi
+    </textarea>
+  </div>
+</div>
+`;

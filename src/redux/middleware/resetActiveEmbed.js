@@ -23,6 +23,7 @@ import { getChatAvailable,
   getShowTicketFormsBackButton,
   getIpmHelpCenterAllowed,
   getSubmitTicketAvailable,
+  getAnswerBotAvailable,
   getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getZopimChatOnline, getZopimIsChatting } from 'src/redux/modules/zopimChat/zopimChat-selectors';
@@ -66,6 +67,15 @@ const shouldResetForZopimChat = (type, state) => {
   return false;
 };
 
+const getChatActiveEmbed = (state) => {
+  // old chat
+  if (getZopimChatEmbed(state)) {
+    return 'zopimChat';
+  } else {
+    return 'chat';
+  }
+};
+
 const setNewActiveEmbed = (state, dispatch) => {
   let backButton = false;
   let activeEmbed = '';
@@ -73,6 +83,17 @@ const setNewActiveEmbed = (state, dispatch) => {
 
   if (isPopout()) {
     activeEmbed = 'chat';
+  } else if (getAnswerBotAvailable(state)) {
+    activeEmbed = 'answerBot';
+    if (articleViewActive) {
+      activeEmbed = 'helpCenterForm';
+      backButton = true;
+    } else if (getZopimIsChatting(state)) {
+      activeEmbed = getChatActiveEmbed(state);
+    } else {
+      activeEmbed = 'answerBot';
+      backButton = false;
+    }
   } else if (getHelpCenterAvailable(state)) {
     activeEmbed = 'helpCenterForm';
     backButton = articleViewActive;
@@ -85,12 +106,7 @@ const setNewActiveEmbed = (state, dispatch) => {
   } else if (getTalkOnline(state)) {
     activeEmbed = 'talk';
   } else if (getChatAvailable(state) || getChatStandalone(state)) {
-    // old chat
-    if (getZopimChatEmbed(state)) {
-      activeEmbed = 'zopimChat';
-    } else {
-      activeEmbed = 'chat';
-    }
+    activeEmbed = getChatActiveEmbed(state);
   } else if (getSubmitTicketAvailable(state)) {
     activeEmbed = 'ticketSubmissionForm';
     backButton = getShowTicketFormsBackButton(state);

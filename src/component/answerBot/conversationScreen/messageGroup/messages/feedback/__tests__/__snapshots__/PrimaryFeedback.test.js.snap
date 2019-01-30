@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="container buttonRight "
+    >
+      <button
+        class="
+      button
+      
+    "
+      >
+        Yes
+      </button>
+      <button
+        class="
+      button
+      
+    "
+      >
+        No, I need help
+      </button>
+    </div>
+  </div>
+</div>
+`;

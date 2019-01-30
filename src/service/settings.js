@@ -7,6 +7,9 @@ import { mediator } from 'service/mediator';
 
 const optionWhitelist = {
   webWidget: [
+    'answerBot.title',
+    'answerBot.avatar.name',
+    'answerBot.avatar.url',
     'authenticate',
     'authenticate.support',
     'authenticate.chat',
@@ -72,6 +75,13 @@ const customizationsWhitelist = [
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
+  answerBot: {
+    avatar: {
+      url: '',
+      name: {}
+    },
+    title: {}
+  },
   contactForm: {
     fields: [],
     ticketForms: []
@@ -103,7 +113,8 @@ const webWidgetStoreDefaults = {
     nickname: null,
     title: {}
   },
-  viaId: 48
+  viaId: 48,
+  viaIdAnswerBot: 67
 };
 const baseDefaults = {
   errorReporting: true,
@@ -174,7 +185,7 @@ function getTranslations() {
 }
 
 function getTrackSettings() {
-  const blacklist = ['margin', 'viaId'];
+  const blacklist = ['margin', 'viaId', 'viaIdAnswerBot'];
   const userSettings = _.omit(webWidgetStore, blacklist);
   const defaults = _.omit(webWidgetStoreDefaults, blacklist);
   const widgetSettings = objectDifference(userSettings, defaults);
