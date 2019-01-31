@@ -8,7 +8,6 @@ import talk from './talk/reducer';
 import helpCenter from './helpCenter/reducer';
 import zopimChat from './zopimChat/reducer';
 import submitTicket from './submitTicket/reducer';
-import answerBot from './answerBot/reducer';
 
 const combinedReducers = combineReducers({
   base,
@@ -17,8 +16,7 @@ const combinedReducers = combineReducers({
   talk,
   helpCenter,
   zopimChat,
-  submitTicket,
-  answerBot
+  submitTicket
 });
 
 export default function reducer(state, action) {

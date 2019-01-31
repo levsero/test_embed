@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 
-import answerBot from './answerBot';
 import chat from './chat';
 import analytics from './analytics';
 import launcher from './launcher';
@@ -12,7 +11,6 @@ import talk from './talk';
 import contactOptions from './contactOptions';
 
 export default combineReducers({
-  answerBot,
   chat,
   analytics,
   launcher,

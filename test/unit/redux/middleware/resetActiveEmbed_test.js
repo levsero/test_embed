@@ -15,7 +15,6 @@ describe('resetActiveEmbed middleware', () => {
     mockSubmitTicketAvailable = true,
     mockIsChatting,
     mockWidgetVisible = true,
-    mockAnswerBotAvailable = false,
     mockIsPopout = true;
 
   const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
@@ -50,8 +49,7 @@ describe('resetActiveEmbed middleware', () => {
         getShowTicketFormsBackButton: () => mockShowTicketFormsBackButton,
         getIpmHelpCenterAllowed: () => mockIpmHelpCenterAllowed,
         getWebWidgetVisible: () => mockWidgetVisible,
-        getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
-        getAnswerBotAvailable: () => mockAnswerBotAvailable
+        getSubmitTicketAvailable: () => mockSubmitTicketAvailable
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleViewActive: () => mockArticleViewActive
@@ -362,77 +360,6 @@ describe('resetActiveEmbed middleware', () => {
       });
     });
 
-    describe('when answer bot is available', () => {
-      beforeAll(() => {
-        mockAnswerBotAvailable = true;
-        mockIsPopout = false;
-      });
-
-      afterAll(() => {
-        mockAnswerBotAvailable = false;
-      });
-
-      it('calls "answerBot"', () => {
-        expect(updateActiveEmbedSpy)
-          .toHaveBeenCalledWith('answerBot');
-      });
-
-      it('dispatches updateBackButtonVisibility with false', () => {
-        expect(updateBackButtonVisibilitySpy)
-          .toHaveBeenCalledWith(false);
-      });
-
-      describe('when the article view is active', () => {
-        beforeAll(() => {
-          mockArticleViewActive = true;
-        });
-
-        afterAll(() => {
-          mockArticleViewActive = false;
-        });
-
-        it('calls updateBackButtonVisibility with true', () => {
-          expect(updateBackButtonVisibilitySpy)
-            .toHaveBeenCalledWith(true);
-        });
-
-        it('calls "helpCenterForm"', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('helpCenterForm');
-        });
-      });
-
-      describe('when there is a chat session on going', () => {
-        beforeAll(() => {
-          mockZopimIsChatting = true;
-        });
-
-        afterAll(() => {
-          mockZopimIsChatting = false;
-        });
-
-        it('calls "chat"', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('chat');
-        });
-
-        describe('when zopim embed is available', () => {
-          beforeAll(() => {
-            mockZopimChatEmbed = true;
-          });
-
-          afterAll(() => {
-            mockZopimChatEmbed = true;
-          });
-
-          it('calls "zopimChat"', () => {
-            expect(updateActiveEmbedSpy)
-              .toHaveBeenCalledWith('zopimChat');
-          });
-        });
-      });
-    });
-
     describe('when Talk is available', () => {
       beforeAll(() => {
         mockTalkOnline = true;
@@ -505,7 +432,6 @@ describe('resetActiveEmbed middleware', () => {
     describe('when Talk is not available', () => {
       describe('when Chat is available', () => {
         beforeAll(() => {
-          mockZopimChatEmbed = false;
           mockChatAvailable = true;
         });
 

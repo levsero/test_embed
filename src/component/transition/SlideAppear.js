@@ -14,7 +14,6 @@ export class SlideAppear extends Component {
     direction: PropTypes.string,
     duration: PropTypes.number,
     trigger: PropTypes.bool,
-    transitionOnMount: PropTypes.bool,
     startPosHeight: PropTypes.string,
     endPosHeight: PropTypes.string,
     onClick: PropTypes.func,
@@ -31,8 +30,7 @@ export class SlideAppear extends Component {
     endPosHeight: '10px',
     onClick: () => {},
     onExited: () => {},
-    onEntered: () => {},
-    transitionOnMount: false
+    onEntered: () => {}
   };
 
   render = () => {
@@ -61,7 +59,6 @@ export class SlideAppear extends Component {
     return (
       <Transition
         in={this.props.trigger}
-        appear={this.props.transitionOnMount}
         timeout={duration}
         unmountOnExit={true}
         mountOnEnter={true}
