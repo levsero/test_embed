@@ -81,6 +81,16 @@ export const getFormTitleKey = createSelector(
     _.get(embeddableConfig, 'embeds.ticketSubmissionForm.props.formTitleKey', 'message')
   )
 );
+
+export const getConfigColorBase = createSelector(
+  [getEmbeddableConfig],
+  (embeddableConfig) => embeddableConfig.color
+);
+
+export const getConfigColorText = createSelector(
+  [getEmbeddableConfig],
+  (embeddableConfig) => embeddableConfig.textColor
+);
 export const getChatOverrideProxy = createSelector(
   [getEmbeddableConfig],
   (embeddableConfig) => {

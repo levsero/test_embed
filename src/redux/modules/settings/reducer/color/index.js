@@ -4,7 +4,7 @@ import _ from 'lodash';
 const initialState = {
   launcher: '',
   launcherText: '',
-  theme: '',
+  theme: null,
   button: '',
   resultLists: '',
   header: '',

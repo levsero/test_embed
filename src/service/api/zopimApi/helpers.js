@@ -95,12 +95,6 @@ export const addTagsApi = (store) => (...tagsToAdd) => {
   updateSettings(store, 'webWidget.chat.tags', [...oldTags, ...tagsToAdd]);
 };
 
-export const setColorTheme = (color) => {
-  if (!_.isString(color)) return;
-
-  updateSettingsLegacy('color.theme', color);
-};
-
 const upperCaseFirstChar = (str) => {
   str += '';
   return str.charAt(0).toUpperCase() + str.substring(1);

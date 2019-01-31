@@ -28,11 +28,9 @@ import {
 } from 'src/service/api/apis';
 import {
   setPositionApi,
-  setColorTheme,
   setOffsetApi,
   updateSettings,
   setOffsetMobileApi,
-  updateSettingsLegacy,
   setProfileCardConfigApi,
   setApi,
   addTagsApi,
@@ -62,7 +60,7 @@ export function setUpZopimApiMethods(win, store) {
         onHide: (callback) => onApis[API_ON_CLOSE_NAME](store, callback),
         onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback),
         setTitle: (title) => updateSettings(store, 'webWidget.chat.title.*', title),
-        setColor: (color) => setColorTheme(color),
+        setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
         openPopout: () => popoutApi(store),
         setPosition: setPositionApi,
         ...setOffsetApi
@@ -93,16 +91,16 @@ export function setUpZopimApiMethods(win, store) {
         setHideWhenOffline: (bool) => updateSettings(store, 'webWidget.chat.hideWhenOffline', bool),
         setPosition: setPositionApi,
         setPositionMobile: setPositionApi,
-        setColor: (color) => updateSettingsLegacy('color.launcher', color),
+        setColor: (color) => updateSettings(store, 'webWidget.color.launcher', color),
         ...setOffsetApi,
         ...setOffsetMobileApi
       },
       theme: {
-        setColor: (color) => setColorTheme(color),
+        setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
         setColors: (options) => {
           if (!options.primary) return;
 
-          setColorTheme(options.primary);
+          updateSettings(store, 'webWidget.color.theme', options.primary);
         },
         reload: () => {},
         setProfileCardConfig: setProfileCardConfigApi(store)
@@ -123,7 +121,7 @@ export function setUpZopimApiMethods(win, store) {
         setName: (name) => updateSettings(store, 'webWidget.chat.concierge.name', name),
         setTitle: (title) => updateSettings(store, 'webWidget.chat.concierge.title.*', title)
       },
-      setColor: (color) => updateSettingsLegacy('color.theme', color),
+      setColor: (color) =>  updateSettings(store, 'webWidget.color.theme', color),
       hideAll: () => hideApi(store),
       set: (options) => setApi(store, win, options),
       isChatting: () => isChattingApi(store),

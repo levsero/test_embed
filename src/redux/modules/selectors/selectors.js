@@ -21,6 +21,7 @@ import {
   getSettingsChatHideWhenOffline,
   getSettingsColorLauncher,
   getSettingsColorLauncherText,
+  getSettingsColorTheme,
   getHelpCenterChatButton,
   getHelpCenterMessageButton,
   getHelpCenterSearchPlaceholder,
@@ -54,6 +55,8 @@ import { getActiveEmbed,
   getIPMWidget,
   getEmbeddableConfig,
   getHiddenByHideAPI,
+  getConfigColorBase,
+  getConfigColorText,
   getConfigColor,
   getHiddenByActivateAPI,
   getBootupTimeout,
@@ -320,10 +323,20 @@ export const getContactOptionsContactFormLabel = createSelector(
   )
 );
 
+const getThemeColor = createSelector(
+  [getConfigColorText, getConfigColorBase, getSettingsColorTheme],
+  (configColorText, configColorBase, settingsColorTheme) => {
+    return {
+      base: settingsColorTheme || configColorBase,
+      text: configColorText
+    };
+  }
+);
+
 const getCoreColor = createSelector(
-  [getEmbeddableConfig, getConfigColor, getChatThemeColor],
-  (embeddableConfig, configColor, chatThemeColor) => {
-    return (embeddableConfig.cp4 && chatThemeColor) ? chatThemeColor : configColor;
+  [getEmbeddableConfig, getThemeColor, getChatThemeColor],
+  (embeddableConfig, themeColor, chatThemeColor) => {
+    return (embeddableConfig.cp4 && chatThemeColor) ? chatThemeColor : themeColor;
   }
 );
 
