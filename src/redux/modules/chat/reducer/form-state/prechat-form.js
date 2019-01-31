@@ -34,9 +34,9 @@ const preChatForm = (state = initialState, action = {}) => {
     case SDK_VISITOR_UPDATE:
       return {
         ...state,
-        name: payload.detail.display_name,
-        email: payload.detail.email,
-        phone: payload.detail.phone
+        name: _.get(payload, 'detail.display_name', state.name),
+        email: _.get(payload, 'detail.email', state.email),
+        phone: _.get(payload, 'detail.phone', state.phone)
       };
     case PRE_CHAT_FORM_ON_CHANGE:
     case VISITOR_DEFAULT_DEPARTMENT_SELECTED:
