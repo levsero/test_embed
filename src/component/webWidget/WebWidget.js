@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
-import AnswerBot from 'component/answerBot';
 import Chat from 'component/chat/Chat';
 import Talk from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
@@ -32,8 +31,7 @@ import {
   getTalkOnline,
   getHelpCenterAvailable,
   getChannelChoiceAvailable,
-  getSubmitTicketAvailable,
-  getAnswerBotAvailable
+  getSubmitTicketAvailable
 } from 'src/redux/modules/selectors';
 import {
   getArticleViewActive,
@@ -43,8 +41,7 @@ import {
 import {
   getZopimChatEmbed,
   getActiveEmbed,
-  getChatStandalone,
-  getWebWidgetVisible
+  getChatStandalone
 } from 'src/redux/modules/base/base-selectors';
 import { getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
 import { getChatNotification } from 'src/redux/modules/selectors';
@@ -53,10 +50,6 @@ import {
   getSettingsMobileNotificationsDisabled,
   getSettingsHelpCenterOriginalArticleButton
 } from 'src/redux/modules/settings/settings-selectors';
-import {
-  screenChanged as updateAnswerBotScreen
-} from 'src/redux/modules/answerBot/root/actions';
-import { CONVERSATION_SCREEN } from 'src/constants/answerBot';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -65,7 +58,6 @@ const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 const talk = 'talk';
 const mobileChatPopup = 'mobileChatPopup';
-const answerBot = 'answerBot';
 const noActiveEmbed = '';
 
 const mapStateToProps = (state) => {
@@ -89,9 +81,7 @@ const mapStateToProps = (state) => {
     channelChoiceAvailable: getChannelChoiceAvailable(state),
     submitTicketAvailable: getSubmitTicketAvailable(state),
     hideZendeskLogo: getHideZendeskLogo(state),
-    originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
-    webWidgetVisible: getWebWidgetVisible(state),
-    answerBotAvailable: getAnswerBotAvailable(state)
+    originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state)
   };
 };
 
@@ -172,10 +162,7 @@ class WebWidget extends Component {
     channelChoiceAvailable: PropTypes.bool.isRequired,
     submitTicketAvailable: PropTypes.bool.isRequired,
     chatId: PropTypes.string,
-    isMobile: PropTypes.bool.isRequired,
-    webWidgetVisible: PropTypes.bool.isRequired,
-    answerBotAvailable: PropTypes.bool.isRequired,
-    updateAnswerBotScreen: PropTypes.func.isRequired
+    isMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -204,10 +191,7 @@ class WebWidget extends Component {
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
     proactiveChatNotificationDismissed: () => {},
-    chatId: '',
-    webWidgetVisible: true,
-    answerBotAvailable: false,
-    updateAnswerBotScreen: () => {}
+    chatId: ''
   };
 
   setComponent = (activeComponent) => {
@@ -320,19 +304,10 @@ class WebWidget extends Component {
   }
 
   onCancelClick = () => {
-    const {
-      updateActiveEmbed,
-      cancelButtonClicked,
-      updateBackButtonVisibility,
-      helpCenterAvailable,
-      channelChoiceAvailable,
-      answerBotAvailable
-    } = this.props;
+    const { updateActiveEmbed, cancelButtonClicked, updateBackButtonVisibility,
+      helpCenterAvailable, channelChoiceAvailable } = this.props;
 
-    if (answerBotAvailable) {
-      updateBackButtonVisibility(false);
-      updateActiveEmbed(answerBot);
-    } else if (helpCenterAvailable) {
+    if (helpCenterAvailable) {
       this.showHelpCenter();
     } else if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
@@ -350,28 +325,19 @@ class WebWidget extends Component {
       updateActiveEmbed,
       resetActiveArticle,
       helpCenterAvailable,
-      answerBotAvailable,
-      updateAnswerBotScreen,
-      showTicketFormsBackButton,
       channelChoiceAvailable } = this.props;
     const activeComponent = this.getActiveComponent();
 
-    if (activeEmbed === answerBot) {
-      updateBackButtonVisibility(false);
-      updateAnswerBotScreen(CONVERSATION_SCREEN);
-    } else if (activeEmbed === helpCenter) {
+    if (activeEmbed === helpCenter) {
       updateBackButtonVisibility(false);
       resetActiveArticle();
       if (ipmHelpCenterAvailable) updateActiveEmbed(channelChoice);
-    } else if (showTicketFormsBackButton) {
+    } else if (this.props.showTicketFormsBackButton) {
       activeComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
     } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(helpCenterAvailable);
-    } else if (answerBotAvailable) {
-      updateBackButtonVisibility(false);
-      updateActiveEmbed(answerBot);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
     } else {
@@ -421,19 +387,6 @@ class WebWidget extends Component {
         chatId={this.props.chatId}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
-      />
-    );
-  }
-
-  renderAnswerBot = () => {
-    if (this.props.activeEmbed !== answerBot) return;
-
-    return (
-      <AnswerBot
-        ref={answerBot}
-        isMobile={this.props.isMobile}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        articleTitleKey={this.props.helpCenterConfig.formTitleKey}
       />
     );
   }
@@ -613,14 +566,11 @@ class WebWidget extends Component {
       activeEmbed,
       position,
       mobileNotificationsDisabled,
-      webWidgetVisible,
       chatStandaloneMobileNotificationVisible } = this.props;
 
     if (isMobile && chatStandaloneMobileNotificationVisible && !mobileNotificationsDisabled) {
       return this.renderStandaloneChatPopup();
     }
-
-    if (!webWidgetVisible) return null;
 
     let containerStyle = (fullscreen && !isMobile) ?
       {
@@ -645,7 +595,6 @@ class WebWidget extends Component {
           {this.renderHelpCenter()}
           {this.renderChannelChoice()}
           {this.renderTalk()}
-          {this.renderAnswerBot()}
           {this.renderChatNotification()}
         </Container>
       </div>
@@ -664,8 +613,7 @@ const actionCreators = {
   showStandaloneMobileNotification,
   nextButtonClicked,
   cancelButtonClicked,
-  proactiveChatNotificationDismissed,
-  updateAnswerBotScreen
+  proactiveChatNotificationDismissed
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

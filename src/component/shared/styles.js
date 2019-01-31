@@ -1,5 +1,4 @@
 import MessageBubbleStyles        from './MessageBubble/MessageBubble.scss';
-import MessageBubbleChoicesStyles from './MessageBubbleChoices/MessageBubbleChoices.scss';
 import MessageOptionsStyles       from './MessageOptions/MessageOptions.scss';
 import QuickRepliesStyles         from './QuickReplies/QuickReplies.scss';
 import SuccessNotificationStyles  from './SuccessNotification/SuccessNotification.scss';
@@ -11,12 +10,10 @@ import ButtonCardStyles           from './StructuredMessage/ButtonCard.scss';
 import SliderContainerStyles      from './SliderContainer/SliderContainer.scss';
 import CarouselStyles             from './Carousel/Carousel.scss';
 import ListCardStyles             from './StructuredMessage/ListCard.scss';
-import InputBoxStyles             from './InputBox/InputBox.scss';
 
 const styles = `
   ${MessageBubbleStyles}
   ${MessageOptionsStyles}
-  ${MessageBubbleChoicesStyles}
   ${QuickRepliesStyles}
   ${SuccessNotificationStyles}
   ${ButtonStyles}
@@ -27,7 +24,6 @@ const styles = `
   ${SliderContainerStyles}
   ${CarouselStyles}
   ${ListCardStyles}
-  ${InputBoxStyles}
 `;
 
 export default styles;

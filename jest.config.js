@@ -111,7 +111,7 @@ module.exports = {
   },
 
   // Automatically restore mock state between every test
-  restoreMocks: true,
+  // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
   // rootDir: null,
@@ -163,7 +163,7 @@ module.exports = {
   // testRunner: "jasmine2",
 
   // This option sets the URL for the jsdom environment. It is reflected in properties such as location.href
-  testURL: 'http://localhost',
+  testURL: "http://localhost",
 
   // Setting this value to "fake" allows the use of fake timers for functions such as "setTimeout"
   // timers: "real",

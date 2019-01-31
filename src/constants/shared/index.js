@@ -67,8 +67,7 @@ export const EMBED_MAP = {
   zopimChat: 'chat',
   chat: 'chat',
   talk: 'talk',
-  channelChoice: 'contactOptions',
-  answerBot: 'answerBot'
+  channelChoice: 'contactOptions'
 };
 
 export const LAUNCHER = 'launcher';

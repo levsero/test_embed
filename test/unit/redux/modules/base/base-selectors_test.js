@@ -396,7 +396,6 @@ describe('base selectors', () => {
 
   describe('getHelpCenterContextualEnabled', () => {
     let result,
-      answerBotEnabled = false,
       mockState;
 
     beforeEach(() => {
@@ -406,8 +405,7 @@ describe('base selectors', () => {
             embeds: {
               helpCenterForm: {
                 props: {
-                  contextualHelpEnabled: true,
-                  answerBotEnabled
+                  contextualHelpEnabled: true
                 }
               }
             }
@@ -417,26 +415,9 @@ describe('base selectors', () => {
       result = selectors.getHelpCenterContextualEnabled(mockState);
     });
 
-    describe('answerBot is disabled', () => {
-      beforeAll(() => {
-        answerBotEnabled = false;
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
-
-    describe('answerBot is enabled', () => {
-      beforeAll(() => {
-        answerBotEnabled = true;
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 

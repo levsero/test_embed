@@ -9,7 +9,7 @@ export class Avatar extends Component {
   static propTypes = {
     className: PropTypes.string,
     src: PropTypes.string,
-    fallbackIcon: PropTypes.string
+    fallbackIcon: PropTypes.string.isRequired
   };
 
   static defaultProps = {

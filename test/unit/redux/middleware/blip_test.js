@@ -8,9 +8,6 @@ describe('blip middleware', () => {
   const ORIGINAL_ARTICLE_CLICKED = 'widget/helpCenter/ORIGINAL_ARTICLE_CLICKED';
   const SEARCH_REQUEST_SUCCESS = 'widget/helpCenter/SEARCH_REQUEST_SUCCESS';
   const SEARCH_REQUEST_FAILURE = 'widget/helpCenter/SEARCH_REQUEST_FAILURE';
-  const ARTICLE_SHOWN = 'widget/answerBot/ARTICLE_SHOWN';
-  const UPDATE_WIDGET_SHOWN = 'widget/base/UPDATE_WIDGET_SHOWN';
-  const SCREEN_CHANGED = 'widget/answerBot/SCREEN_CHANGED';
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/blip');
@@ -37,8 +34,7 @@ describe('blip middleware', () => {
         getIsChatting: (prevState) => prevState.isChatting
       },
       'src/redux/modules/base/base-selectors': {
-        getWebWidgetVisible: (prevState) => prevState.webWidgetVisible,
-        getActiveEmbed: (prevState) => prevState.activeEmbed
+        getWebWidgetVisible: (prevState) => prevState.webWidgetVisible
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getTotalUserSearches: (prevState) => prevState.totalUserSearches,
@@ -58,25 +54,7 @@ describe('blip middleware', () => {
         'SEARCH_REQUEST_FAILURE': SEARCH_REQUEST_FAILURE
       },
       'src/redux/modules/base/base-action-types': {
-        UPDATE_ACTIVE_EMBED: UPDATE_ACTIVE_EMBED,
-        UPDATE_WIDGET_SHOWN: UPDATE_WIDGET_SHOWN
-      },
-      'src/redux/modules/answerBot/sessions/selectors': {
-        getSessionByID: (prevState, id) => prevState.sessions.get(id)
-      },
-      'src/redux/modules/answerBot/root/selectors': {
-        getCurrentQuery: (prevState) => prevState.query,
-        getCurrentDeflection: (prevState) => prevState.deflection,
-        getCurrentArticleID: (prevState) => prevState.articleID,
-        getCurrentScreen: (prevState) => prevState.currentScreen
-      },
-      'src/redux/modules/answerBot/root/action-types': {
-        ARTICLE_SHOWN: ARTICLE_SHOWN,
-        SCREEN_CHANGED: SCREEN_CHANGED
-      },
-      'src/constants/answerBot': {
-        ARTICLE_SCREEN: 'article',
-        CONVERSATION_SCREEN: 'conversation'
+        UPDATE_ACTIVE_EMBED: UPDATE_ACTIVE_EMBED
       }
     });
 
@@ -104,47 +82,6 @@ describe('blip middleware', () => {
       it('calls next function', () => {
         expect(nextSpy)
           .toHaveBeenCalledWith({ type: 'random_type' });
-      });
-    });
-
-    describe('action has type SCREEN_CHANGED', () => {
-      let mockCurrentScreen,
-        mockPayload;
-
-      beforeEach(() => {
-        beaconSpy.trackUserAction.calls.reset();
-        action = { type: SCREEN_CHANGED, payload: mockPayload };
-        nextSpy = jasmine.createSpy('nextSpy');
-
-        const flatState = {
-          currentScreen: mockCurrentScreen
-        };
-
-        sendBlips({ getState: () => flatState })(nextSpy)(action);
-      });
-
-      describe('when the previous answerBot screen is article', () => {
-        beforeAll(() => {
-          mockPayload = 'conversation';
-          mockCurrentScreen = 'article';
-        });
-
-        it('calls trackUserAction', () => {
-          expect(beaconSpy.trackUserAction)
-            .toHaveBeenCalledWith('answerBot', 'userNavigation', 'journey', { from: 'article', to: 'conversation' });
-        });
-      });
-
-      describe('when the previous answerBot screen is not article', () => {
-        beforeAll(() => {
-          mockPayload = 'article';
-          mockCurrentScreen = 'conversation';
-        });
-
-        it('does not call trackUserAction', () => {
-          expect(beaconSpy.trackUserAction)
-            .not.toHaveBeenCalled();
-        });
       });
     });
 
@@ -192,9 +129,6 @@ describe('blip middleware', () => {
         mockChatEmbed,
         mockIsChatting,
         mockWebWidgetVisible,
-        mockActiveEmbed,
-        mockDeflection,
-        mockQuery,
         payload;
 
       beforeEach(() => {
@@ -206,10 +140,7 @@ describe('blip middleware', () => {
           agentAvailability: true,
           chatEmbed: mockChatEmbed,
           isChatting: mockIsChatting,
-          webWidgetVisible: mockWebWidgetVisible,
-          activeEmbed: mockActiveEmbed,
-          deflection: mockDeflection,
-          query: mockQuery
+          webWidgetVisible: mockWebWidgetVisible
         };
 
         beaconSpy.trackUserAction.calls.reset();
@@ -305,42 +236,6 @@ describe('blip middleware', () => {
 
             expect(beaconSpy.trackUserAction)
               .toHaveBeenCalledWith('talk', 'opened', 'phoneNumber', expectedValue);
-          });
-        });
-      });
-
-      describe('channel choice blip', () => {
-        describe('not answerBot context', () => {
-          beforeAll(() => {
-            payload = 'helpCenterForm';
-            mockWebWidgetVisible = true;
-            mockActiveEmbed = 'helpCenterForm';
-          });
-
-          it('does not call trackUserAction', () => {
-            expect(beaconSpy.trackUserAction)
-              .not.toHaveBeenCalled();
-          });
-        });
-
-        describe('answerBot context', () => {
-          beforeAll(() => {
-            payload = 'chat';
-            mockDeflection = { id: 23 };
-            mockQuery = 'hello world';
-            mockWebWidgetVisible = true;
-            mockActiveEmbed = 'answerBot';
-          });
-
-          it('calls trackUserAction with the correct params', () => {
-            const expectedValue = {
-              query: 'hello world',
-              deflectionId: 23,
-              channel: 'chat'
-            };
-
-            expect(beaconSpy.trackUserAction)
-              .toHaveBeenCalledWith('answerBot', 'channelClicked', 'channelChoice', expectedValue);
           });
         });
       });
@@ -535,111 +430,6 @@ describe('blip middleware', () => {
       it('does not call trackUserAction', () => {
         expect(beaconSpy.trackUserAction)
           .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('action has type ARTICLE_SHOWN', () => {
-      let flatState;
-
-      beforeEach(() => {
-        beaconSpy.trackUserAction.calls.reset();
-        nextSpy = jasmine.createSpy('nextSpy');
-        flatState = {
-          sessions: new Map([
-            [123, { deflection: { id: 9 }, query: 'test', articles: [1, 2] }],
-            [789, { deflection: { id: 3 }, query: 'two', articles: [1] }]
-          ])
-        };
-        action = {
-          type: ARTICLE_SHOWN,
-          payload: {
-            sessionID: 123,
-            articleID: 456
-          }
-        };
-        sendBlips({ getState: () => flatState })(nextSpy)(action);
-      });
-
-      it('calls trackUserAction with the correct params', () => {
-        const expectedValue = {
-          query: 'test',
-          resultsCount: 2,
-          articleId: 456,
-          locale: 'US',
-          deflectionId: 9,
-          answerBot: true,
-          uniqueSearchResultClick: false
-        };
-
-        expect(beaconSpy.trackUserAction)
-          .toHaveBeenCalledWith('helpCenter', 'click', 'helpCenterForm', expectedValue);
-      });
-    });
-
-    describe('action has type UPDATE_WIDGET_SHOWN', () => {
-      beforeEach(() => {
-        beaconSpy.trackUserAction.calls.reset();
-        nextSpy = jasmine.createSpy('nextSpy');
-      });
-
-      describe('with payload that is not false', () => {
-        beforeEach(() => {
-          action = {
-            type: UPDATE_WIDGET_SHOWN,
-            payload: true
-          };
-          sendBlips({ getState: () => {} })(nextSpy)(action);
-        });
-
-        it('does not call trackUserAction', () => {
-          expect(beaconSpy.trackUserAction)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('with payload that is false', () => {
-        let flatState;
-
-        describe('currentScreen is article', () => {
-          beforeAll(() => {
-            flatState = {
-              currentScreen: 'article',
-              articleID: 421
-            };
-          });
-
-          beforeEach(() => {
-            action = {
-              type: UPDATE_WIDGET_SHOWN,
-              payload: false
-            };
-            sendBlips({ getState: () => flatState })(nextSpy)(action);
-          });
-
-          it('calls trackUserAction with the expected value', () => {
-            expect(beaconSpy.trackUserAction)
-              .toHaveBeenCalledWith('answerBot', 'articleClosed', 'helpCenterForm', { articleId: 421 });
-          });
-        });
-
-        describe('currentScreen is not article', () => {
-          beforeAll(() => {
-            flatState = { currentScreen: 'convo' };
-          });
-
-          beforeEach(() => {
-            action = {
-              type: UPDATE_WIDGET_SHOWN,
-              payload: false
-            };
-            sendBlips({ getState: () => flatState })(nextSpy)(action);
-          });
-
-          it('does not call trackUserAction', () => {
-            expect(beaconSpy.trackUserAction)
-              .not.toHaveBeenCalled();
-          });
-        });
       });
     });
   });
