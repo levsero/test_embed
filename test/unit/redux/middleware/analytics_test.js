@@ -5,6 +5,7 @@ describe('analytics middleware', () => {
     analyticsDisabled = false,
     loadtime;
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED';
+  const UPDATE_WIDGET_SHOWN = 'widget/base/UPDATE_WIDGET_SHOWN';
   const SDK_CHAT_MEMBER_JOIN = 'widget/chat/SDK_CHAT_MEMBER_JOIN';
   const OFFLINE_FORM_REQUEST_SUCCESS = 'widget/chat/OFFLINE_FORM_REQUEST_SUCCESS';
   const SDK_CHAT_RATING = 'widget/chat/SDK_CHAT_RATING';
@@ -22,14 +23,18 @@ describe('analytics middleware', () => {
         GA: GASpy
       },
       'src/redux/modules/chat/chat-selectors': {
-        getIsChatting: (prevState) => prevState.isChatting,
         getDepartments: (prevState) => prevState.departments
       },
       'src/redux/modules/settings/settings-selectors': {
         getAnalyticsDisabled: () => analyticsDisabled
       },
+      'src/redux/modules/base/base-selectors': {
+        getWebWidgetVisible: (state) => state.webWidgetVisible,
+        getActiveEmbed: (state) => state.activeEmbed
+      },
       'src/redux/modules/base/base-action-types': {
-        UPDATE_ACTIVE_EMBED
+        UPDATE_ACTIVE_EMBED,
+        UPDATE_WIDGET_SHOWN
       },
       'src/redux/modules/chat/chat-action-types': {
         SDK_CHAT_MEMBER_JOIN,
@@ -75,12 +80,14 @@ describe('analytics middleware', () => {
 
     describe('action has type UPDATE_ACTIVE_EMBED', () => {
       let flatState,
-        mockIsChatting,
+        mockWebWidgetVisible,
+        mockActiveEmbed,
         payload;
 
       beforeEach(() => {
         flatState = {
-          isChatting: mockIsChatting
+          activeEmbed: mockActiveEmbed,
+          webWidgetVisible: mockWebWidgetVisible
         };
 
         action = {
@@ -90,9 +97,9 @@ describe('analytics middleware', () => {
         trackAnalytics({ getState: () => flatState })(noop)(action);
       });
 
-      describe('when chatting', () => {
+      describe('when widget is not open', () => {
         beforeAll(() => {
-          mockIsChatting = true;
+          mockWebWidgetVisible = false;
         });
 
         it('does not call GA.track', () => {
@@ -102,9 +109,23 @@ describe('analytics middleware', () => {
         });
       });
 
-      describe('when not chatting', () => {
+      describe('when previous embed is chat', () => {
         beforeAll(() => {
-          mockIsChatting = false;
+          mockWebWidgetVisible = true;
+          mockActiveEmbed = 'chat';
+        });
+
+        it('does not call GA.track', () => {
+          expect(GASpy.track)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when previous embed is not chat', () => {
+        beforeAll(() => {
+          mockWebWidgetVisible = true;
+          mockActiveEmbed = 'not_chat';
         });
 
         describe('payload is not chat', () => {
@@ -122,6 +143,66 @@ describe('analytics middleware', () => {
         describe('payload is chat', () => {
           beforeAll(() => {
             payload = 'chat';
+          });
+
+          it('calls GA.track with the correct name', () => {
+            expect(GASpy.track)
+              .toHaveBeenCalledWith('Chat Opened');
+          });
+        });
+      });
+    });
+
+    describe('action has type UPDATE_WIDGET_SHOWN', () => {
+      let flatState,
+        mockActiveEmbed,
+        payload;
+
+      beforeEach(() => {
+        flatState = {
+          activeEmbed: mockActiveEmbed
+        };
+
+        action = {
+          type: UPDATE_WIDGET_SHOWN,
+          payload
+        };
+        trackAnalytics({ getState: () => flatState })(noop)(action);
+      });
+
+      describe('when payload is false', () => {
+        beforeAll(() => {
+          payload = false;
+          mockActiveEmbed = 'chat';
+        });
+
+        it('does not call GA.track', () => {
+          expect(GASpy.track)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when payload is true', () => {
+        beforeAll(() => {
+          payload = true;
+        });
+
+        describe('when previous embed is not chat', () => {
+          beforeAll(() => {
+            mockActiveEmbed = 'talk';
+          });
+
+          it('does not call GA.track', () => {
+            expect(GASpy.track)
+              .not
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('when previous embed is chat', () => {
+          beforeAll(() => {
+            mockActiveEmbed = 'chat';
           });
 
           it('calls GA.track with the correct name', () => {
