@@ -15,7 +15,7 @@ describe('launcher settings reducer', () => {
       expect(defaultState).toEqual({
         launcher: '',
         launcherText: '',
-        theme: '',
+        theme: null,
         button: '',
         resultLists: '',
         header: '',

@@ -22,6 +22,7 @@ import {
   getSettingsColorLauncher,
   getSettingsColorLauncherText,
   getSettingsColorTheme,
+  getSettingsColor,
   getHelpCenterChatButton,
   getHelpCenterMessageButton,
   getHelpCenterSearchPlaceholder,
@@ -327,8 +328,7 @@ const getThemeColor = createSelector(
   [getConfigColorText, getConfigColorBase, getSettingsColorTheme],
   (configColorText, configColorBase, settingsColorTheme) => {
     return {
-      base: settingsColorTheme || configColorBase,
-      text: configColorText
+      base: settingsColorTheme,
     };
   }
 );
@@ -340,22 +340,58 @@ const getCoreColor = createSelector(
   }
 );
 
-const getWidgetColor = (state) => getCoreColor(state);
+const getWidgetColor = createSelector(
+  [getCoreColor, getSettingsColor],
+  (coreColor, settingsColors) => {
+    return {
+      ...settingsColors,
+      ...coreColor
+    };
+  }
+);
 
-export const getChatBadgeColor = (state) => {
-  const configColor = getConfigColor(state);
+export const getShowChatBadgeLauncher = createSelector(
+  [ getUserMinimizedChatBadge,
+    getChatStandalone,
+    getChatOnline,
+    getChatBadgeEnabled,
+    getIsChatting ],
+  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting) => {
+    return !isMinimizedChatBadge &&
+      isChatStandalone &&
+      !isMobileBrowser() &&
+      chatOnline &&
+      chatBadgeEnabled &&
+      !isChatting;
+  }
+);
 
-  return {
-    base: getSettingsColorLauncher(state) || getAccountSettingsBadgeColor(state) || configColor.base,
-    text: getSettingsColorLauncherText(state) || configColor.text
-  };
-};
+const getBaseColor = createSelector(
+  [getSettingsColorLauncher, getShowChatBadgeLauncher, getAccountSettingsBadgeColor, getConfigColor],
+  (settingsColor, showChatBadge, settingsBadgeColor, configColor) => {
+    const chatBadgeColor = showChatBadge ? settingsBadgeColor : undefined;
 
-const getLauncherColor = (state) => {
-  return getShowChatBadgeLauncher(state) ? getChatBadgeColor(state) : getCoreColor(state);
-};
+    return settingsColor || chatBadgeColor || configColor.base;
+  }
+);
 
-export const getColor = (state, frame = 'webWidget') => {
+const getTextColor = createSelector(
+  [getSettingsColorLauncherText, getConfigColor],
+  (settingsColorLauncherText, configColor) => {
+    return settingsColorLauncherText || configColor.text;
+  }
+);
+
+const getLauncherColor = createSelector(
+  [getBaseColor, getTextColor],
+  (baseColor, textColor) => {
+    return {
+      base: baseColor,
+      launcherText: textColor
+    };
+  });
+
+export const getColor = (state, frame) => {
   if (frame === 'webWidget') {
     return getWidgetColor(state);
   }
@@ -444,22 +480,6 @@ export const getWidgetDisplayInfo = createSelector(
     } else {
       return 'hidden';
     }
-  }
-);
-
-export const getShowChatBadgeLauncher = createSelector(
-  [ getUserMinimizedChatBadge,
-    getChatStandalone,
-    getChatOnline,
-    getChatBadgeEnabled,
-    getIsChatting ],
-  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting) => {
-    return !isMinimizedChatBadge &&
-      isChatStandalone &&
-      !isMobileBrowser() &&
-      chatOnline &&
-      chatBadgeEnabled &&
-      !isChatting;
   }
 );
 

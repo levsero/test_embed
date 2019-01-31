@@ -11,17 +11,17 @@ function getWidgetColorVariables(color) {
   const textColor = (color && color.text) ? mainTextColor(color.text) : null;
   const baseHighlightColor = mixer.highlight(baseColor);
 
-  const buttonColorStr = colorFor('button', mixer.getButtonColor());
+  const buttonColorStr = colorFor(color.button, mixer.getButtonColor());
   const buttonHighlightColorStr = mixer.highlight(buttonColorStr);
   const buttonTextColorStr = textColor || mixer.foregroundColorFrom(buttonColorStr);
 
-  const listColorStr = colorFor('resultLists', mixer.getListColor());
+  const listColorStr = colorFor(color.resultLists, mixer.getListColor());
   const listHighlightColorStr = mixer.highlight(listColorStr);
 
-  const linkColorStr = colorFor('articleLinks', mixer.getListColor());
+  const linkColorStr = colorFor(mixer.getListColor());
   const linkTextColorStr = mixer.uiElementColorFrom(linkColorStr);
 
-  const headerColorStr = colorFor('header', baseColor);
+  const headerColorStr = colorFor(color.header, baseColor);
   const headerTextColorStr = textColor || mixer.foregroundColorFrom(headerColorStr);
   const headerFocusRingColorStr = mixer.alpha(headerColorStr, 0.4);
   const headerBackgroundColorStr = mixer.highlight(headerColorStr);
@@ -51,9 +51,9 @@ function getLauncherColorVariables(color) {
   const baseColor = mixer.getBaseColor();
   const textColor = mainTextColor(color && color.text);
 
-  const launcherColorStr = colorFor('launcher', baseColor);
+  const launcherColorStr = colorFor(color.base, baseColor);
   const launcherTextColorStr = colorFor(
-    'launcherText',
+    color.launcherText,
     textColor,
     mixer.foregroundColorFrom(launcherColorStr)
   );

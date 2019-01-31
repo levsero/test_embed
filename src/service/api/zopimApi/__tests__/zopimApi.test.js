@@ -223,12 +223,14 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.window.setColor(color);
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          color: {
-            theme: color
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            color: {
+              theme: color
+            }
           }
-        }, expect.any(Function));
+        });
     });
 
     describe('setPosition', () => {
@@ -551,12 +553,8 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.button.setColor(color);
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          color: {
-            launcher: color
-          }
-        }, expect.any(Function));
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, { 'webWidget': { 'color': { 'launcher': '#ffffff' } } });
     });
 
     test('setOffsetVertical', () => {
@@ -622,12 +620,13 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.theme.setColor(color);
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          color: {
-            theme: color
-          }
-        }, expect.any(Function));
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            color: {
+              theme: color
+            } }
+        });
     });
 
     test('setColors', () => {
@@ -635,12 +634,14 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.theme.setColors({ primary: color });
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          color: {
-            theme: color
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            color: {
+              theme: color
+            }
           }
-        }, expect.any(Function));
+        });
     });
 
     describe('setProfileCardConfig', () => {
@@ -853,12 +854,12 @@ describe('setUpZopimApiMethods', () => {
 
     mockWin.$zopim.livechat.setColor(color);
 
-    expect(apis.updateSettingsLegacyApi)
-      .toHaveBeenCalledWith({
+    expect(apis.updateSettingsApi)
+      .toHaveBeenCalledWith(mockStore, { webWidget:{
         color: {
           theme: color
         }
-      }, expect.any(Function));
+      } });
   });
 
   test('hideAll', () => {
