@@ -338,13 +338,13 @@ test('closeApi dispatches the closeReceived action', () => {
 
 describe('setLocale', () => {
   beforeEach(() => {
-    i18n.setLocale = jest.fn();
+    i18n.init(mockStore);
     apis.setLocaleApi(mockStore, 'en');
   });
 
   it('calls mediator', () => {
-    expect(i18n.setLocale)
-      .toHaveBeenCalledWith('en');
+    expect(mediator.channel.broadcast)
+      .toHaveBeenCalledWith('.onSetLocale');
   });
 });
 
