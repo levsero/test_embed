@@ -3,7 +3,9 @@ import { createStore } from 'redux';
 import reducer from 'src/redux/modules/reducer';
 import { getLocale } from 'src/redux/modules/base/base-selectors';
 import t from '@zendesk/client-i18n-tools';
+import { mediator } from 'service/mediator';
 
+jest.mock('service/mediator');
 jest.mock('../../../config/locales/translations/embeddable_framework.yml', () => {
   return {
     parts: [{
@@ -55,6 +57,14 @@ describe('i18n', () => {
 
       expect(i18n.getLocale())
         .toEqual('en-US');
+    });
+
+    it('calls mediator', () => {
+      mediator.channel.broadcast = jest.fn();
+      i18n.setLocale();
+
+      expect(mediator.channel.broadcast)
+        .toHaveBeenCalledWith('.onSetLocale');
     });
 
     it('stores it in redux', () => {

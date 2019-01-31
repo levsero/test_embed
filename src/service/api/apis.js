@@ -112,7 +112,6 @@ export const toggleApi = (reduxStore) => {
 
 export const setLocaleApi = (_, locale) => {
   i18n.setLocale(locale);
-  mediator.channel.broadcast('.onSetLocale');
 };
 
 export const updateSettingsApi = (reduxStore, newSettings) => {

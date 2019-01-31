@@ -5,6 +5,7 @@ import locales from 'translation/locales.json';
 import zELocaleIdMap from 'translation/ze_localeIdMap';
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
 import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors';
+import { mediator } from 'service/mediator';
 
 let store;
 
@@ -23,6 +24,8 @@ function setLocale(str = 'en-US', callback) {
   const locale = parseLocale(str);
 
   t.load(locale, () => {
+    mediator.channel.broadcast('.onSetLocale');
+
     store.dispatch({
       type: LOCALE_SET,
       payload: locale

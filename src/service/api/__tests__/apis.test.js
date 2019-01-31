@@ -6,6 +6,7 @@ import * as chatActions from 'src/redux/modules/chat/chat-actions';
 import * as settingsActions from 'src/redux/modules/settings/settings-actions';
 import * as baseActions from 'src/redux/modules/base/base-actions';
 import * as hcActions from 'src/redux/modules/helpCenter/helpCenter-actions';
+import { i18n } from 'service/i18n';
 
 import { chat as zopimChat } from 'embed/chat/chat';
 import { mediator } from 'service/mediator';
@@ -337,12 +338,13 @@ test('closeApi dispatches the closeReceived action', () => {
 
 describe('setLocale', () => {
   beforeEach(() => {
+    i18n.setLocale = jest.fn();
     apis.setLocaleApi(mockStore, 'en');
   });
 
   it('calls mediator', () => {
-    expect(mediator.channel.broadcast)
-      .toHaveBeenCalledWith('.onSetLocale');
+    expect(i18n.setLocale)
+      .toHaveBeenCalledWith('en');
   });
 });
 
