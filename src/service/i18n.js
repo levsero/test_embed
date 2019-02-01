@@ -7,20 +7,23 @@ import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
 import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors';
 
 let store;
-
+let currentLocale;
 // reset is only used in tests
+
 function reset() {
   store = undefined;
+  // currentLocale is used to ensure when booting it respects a previously set locale
+  currentLocale = undefined;
 }
 
 function init(s) {
   store = s;
 }
 
-function setLocale(str = 'en-US', callback) {
+function setLocale(apiLocale, callback, configLocale = 'en-US') {
+  currentLocale = apiLocale || currentLocale;
   if (!store) return;
-
-  const locale = parseLocale(str);
+  const locale = parseLocale(currentLocale || configLocale);
 
   t.load(locale, () => {
     store.dispatch({

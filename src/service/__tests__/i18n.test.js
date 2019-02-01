@@ -50,18 +50,66 @@ describe('i18n', () => {
   });
 
   describe('setLocale', () => {
-    it('defaults setLocale to en-US', () => {
-      i18n.setLocale();
+    describe('with no previously set locale', () => {
+      describe('and no locales are passed in', () => {
+        it('defaults setLocale to en-US', () => {
+          i18n.setLocale();
 
-      expect(i18n.getLocale())
-        .toEqual('en-US');
+          expect(i18n.getLocale())
+            .toEqual('en-US');
+        });
+      });
+
+      describe('and a configLocale is passed in', () => {
+        it('uses the configLocale', () => {
+          i18n.setLocale(undefined, noop, 'de');
+
+          expect(i18n.getLocale())
+            .toEqual('de');
+        });
+      });
+
+      describe('and a apiLocale is passed in', () => {
+        it('uses the apiLocale', () => {
+          i18n.setLocale('pt-BR', noop, 'en-US');
+
+          expect(getLocale(store.getState()))
+            .toEqual('pt-br');
+        });
+      });
     });
 
-    it('stores it in redux', () => {
-      i18n.setLocale('pt-BR');
+    describe('with a previously set locale', () => {
+      beforeEach(() => {
+        i18n.setLocale('en-GB');
+      });
 
-      expect(getLocale(store.getState()))
-        .toEqual('pt-br');
+      describe('and no locales are passed in', () => {
+        it('uses the existing locale', () => {
+          i18n.setLocale();
+
+          expect(i18n.getLocale())
+            .toEqual('en-gb');
+        });
+      });
+
+      describe('and a configLocale is passed in', () => {
+        it('uses the previous local', () => {
+          i18n.setLocale(undefined, noop, 'de');
+
+          expect(i18n.getLocale())
+            .toEqual('en-gb');
+        });
+      });
+
+      describe('and a apiLocale is passed in', () => {
+        it('uses the apiLocale', () => {
+          i18n.setLocale('pt-BR', noop, 'en-US');
+
+          expect(getLocale(store.getState()))
+            .toEqual('pt-br');
+        });
+      });
     });
 
     it.each([
