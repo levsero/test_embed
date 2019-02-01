@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { GA } from 'service/analytics/googleAnalytics';
-import { UPDATE_ACTIVE_EMBED, UPDATE_WIDGET_SHOWN } from 'src/redux/modules/base/base-action-types';
+import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types';
 import { SDK_CHAT_MEMBER_JOIN,
   OFFLINE_FORM_REQUEST_SUCCESS,
   SDK_CHAT_RATING,
@@ -32,10 +32,10 @@ const trackChatOpenedOnUpdateEmbed = (payload, prevState) => {
   }
 };
 
-const trackChatOpenedOnWidgetShown = (widgetShown, prevState) => {
-  const prevEmbed = getActiveEmbed(prevState);
+const trackChatOpenedOnWidgetVisible = (state) => {
+  const embed = getActiveEmbed(state);
 
-  if (prevEmbed === 'chat' && widgetShown) {
+  if (embed === 'chat') {
     trackChatOpened();
   }
 };
@@ -88,9 +88,6 @@ export function trackAnalytics({ getState }) {
       case UPDATE_ACTIVE_EMBED:
         trackChatOpenedOnUpdateEmbed(payload, prevState);
         break;
-      case UPDATE_WIDGET_SHOWN:
-        trackChatOpenedOnWidgetShown(payload, prevState);
-        break;
       case SDK_CHAT_MEMBER_JOIN:
         trackChatServedByOperator(payload, isAfterLoadTime);
         break;
@@ -107,6 +104,12 @@ export function trackAnalytics({ getState }) {
         trackChatRequestFormSubmitted(payload, prevState);
         break;
     }
-    return next(action);
+    const result = next(action);
+    const nextState = getState();
+
+    if (!getWebWidgetVisible(prevState) && getWebWidgetVisible(nextState)) {
+      trackChatOpenedOnWidgetVisible(nextState);
+    }
+    return result;
   };
 }
