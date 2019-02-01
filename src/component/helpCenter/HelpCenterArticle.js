@@ -231,22 +231,26 @@ export class HelpCenterArticle extends Component {
     // If the image has not already been downloaded, then queue up
     // an async request for it. The src attribute is set to empty so we can
     // still render the image while waiting for the response.
-    const pendingImageUrls = _.chain(imgEls)
-      .reject((imgEl) => storedImages[imgEl.src])
-      .map((imgEl) => imgEl.src)
-      .value();
+    const pendingImageUrls = imgEls.reduce((urls, imgEl) => {
+      if (!storedImages[imgEl.src]) {
+        urls.push(imgEl.src);
+      }
 
-    _.forEach(imgEls, (imgEl) => {
+      return urls;
+    }, []);
+
+    imgEls.forEach((imgEl) => {
       // '//:0' ensures that the img src is blank on all browsers.
       // http://stackoverflow.com/questions/19126185/setting-an-image-src-to-empty
       imgEl.src = storedImages[imgEl.src] || '//:0';
     });
 
     if (lastActiveArticleId !== this.props.activeArticle.id) {
-      _.chain(pendingImageUrls)
-        .filter((src) => !this.state.queuedImages.hasOwnProperty(src))
-        .tap(this.queueImageRequests)
-        .value();
+      const reqUrls = pendingImageUrls.filter((url) => (
+        !this.state.queuedImages.hasOwnProperty(url)
+      ));
+
+      this.queueImageRequests(reqUrls);
     }
 
     return htmlEl.outerHTML;
@@ -276,27 +280,26 @@ export class HelpCenterArticle extends Component {
 
   getArticleImages(htmlEl, domain, locale) {
     const hostname = http.getDynamicHostname(getBaseIsAuthenticated());
-    const filterHcImages = (img) => {
-      const pattern = new RegExp(`(${hostname}|${domain})/hc/`);
+    const imageEls = htmlEl.getElementsByTagName('img');
+    const imagePattern = new RegExp(`(${hostname}|${domain})/hc/`);
+    const localePattern = /\/hc\/([a-z]{2}|[a-z]{2}-[a-z]{2})\//i;
 
-      return pattern.test(img.src);
-    };
-    const addLocaleToPath = (img) => {
-      // Due to HC ommiting the locale for agent only image attachments. We must
-      // check if the locale is missing from the URL. If it is, then we manually
-      // add it in, otherwise we leave it.
-      const localePattern = /\/hc\/([a-z]{2}|[a-z]{2}-[a-z]{2})\//i;
+    return _.reduce(imageEls, (result, imageEl) => {
+      if (imagePattern.test(imageEl.src)) {
+        if (!localePattern.test(imageEl.src)) {
+          /*
+            Due to HC ommiting the locale for agent-only image attachments: we must
+            check if the locale is missing from the URL. If it is, then we manually
+            add it in, otherwise we leave it.
+          */
+          imageEl.src = imageEl.src.replace('/hc/', `/hc/${locale}/`);
+        }
 
-      if (!localePattern.test(img.src)) {
-        img.src = img.src.replace('/hc/', `/hc/${locale}/`);
+        result.push(imageEl);
       }
-      return img;
-    };
 
-    return _.chain(htmlEl.getElementsByTagName('img'))
-      .filter(filterHcImages)
-      .map(addLocaleToPath)
-      .value();
+      return result;
+    }, []);
   }
 
   renderOriginalArticleButton = () => {

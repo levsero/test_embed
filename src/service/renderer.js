@@ -74,12 +74,10 @@ function addPropsToConfig(name, config, parsedConfig, reduxStore) {
   // Only send chat to WebWidget if new chat is on. Otherwise use old one.
   if (newChat) webWidgetEmbeds.push('zopimChat');
 
-  const webWidgetConfig = _.chain(parsedConfig)
-    .pick(webWidgetEmbeds)
-    .mapValues('props')
-    .value();
+  const widgetEmbedsConfig = _.pick(parsedConfig, webWidgetEmbeds);
+  const webWidgetConfig = _.mapValues(widgetEmbedsConfig, 'props');
 
-  _.forEach(_.keys(webWidgetConfig), (embed) => {
+  _.keys(webWidgetConfig).forEach((embed) => {
     const name = embed === 'zopimChat' ? 'chat' : embed;
 
     reduxStore.dispatch(updateEmbedAccessible(name, true));

@@ -61,7 +61,7 @@ export class AttachmentList extends Component {
       setLimitError();
     }
 
-    const createAttachmentFn = (file) => {
+    const createAttachment = (file) => {
       const maxSize = Math.round(maxFileSize / 1024 / 1024);
       const errorMessage = (file.size >= maxFileSize)
         ? i18n.t('embeddable_framework.submitTicket.attachments.error.size', { maxSize })
@@ -70,10 +70,7 @@ export class AttachmentList extends Component {
       setTimeout(() => this.createAttachment(file, errorMessage), 0);
     };
 
-    _.chain(files)
-      .slice(0, numFilesToAdd)
-      .forEach(createAttachmentFn)
-      .value();
+    _.slice(files, 0, numFilesToAdd).forEach(createAttachment);
 
     setTimeout(this.props.updateForm, 0);
   }
@@ -151,30 +148,21 @@ export class AttachmentList extends Component {
     return _.map(this.state.attachments, (a) => a.uploadToken);
   }
 
-  filterAttachments = (includeUploading) => {
-    return _.chain(this.state.attachments)
-      .filter((a) => (!a.uploading || includeUploading) && !a.errorMessage);
-  }
+  filterAttachments = (includeUploading) => (
+    _.filter(this.state.attachments, (attachment) => (
+      (!attachment.uploading || includeUploading) && !attachment.errorMessage
+    ))
+  )
 
-  uploadedAttachments = () => {
-    return this.filterAttachments(false).value();
-  }
+  uploadedAttachments = () => this.filterAttachments(false);
 
-  numUploadedAttachments = () => {
-    return this.filterAttachments(false)
-      .size()
-      .value();
-  }
+  numUploadedAttachments = () => _.size(this.filterAttachments(false));
 
-  numValidAttachments = () => {
-    return this.filterAttachments(true)
-      .size()
-      .value();
-  }
+  numValidAttachments = () => _.size(this.filterAttachments(true));
 
-  attachmentsReady = () => {
-    return this.numUploadedAttachments() === _.size(this.state.attachments);
-  }
+  attachmentsReady = () => (
+    this.numUploadedAttachments() === _.size(this.state.attachments)
+  )
 
   clear = () => {
     this.setState({

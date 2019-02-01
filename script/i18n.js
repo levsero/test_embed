@@ -28,28 +28,25 @@ function fetchLocale(locale) {
 }
 
 function generateLocaleIdMap(locales) {
-  return _.chain(locales)
-    .reduce(function(res, el) {
-      res[el.locale] = el.id;
-      return res;
-    }, {})
-    .value();
-}
+  return locales.reduce((idMap, element) => {
+    idMap[element.locale] = element.id;
+    return idMap;
+  }, {});
+};
 
 function getMissingTranslations(translations) {
-  return _.chain(translations)
-    .map(function(translation, key) {
-      return {
+   const missingTranslations = _.map(translations, (translation, key) => (
+      {
         locale: key,
-        strings: _.pickBy(translation, function(string, key) {
-          return key !== 'rtl' && string.indexOf(translationMissingMessage) > -1;
-        })
-      };
-    })
-    .filter(function(translation) {
-      return !_.isEmpty(translation.strings);
-    })
-    .value();
+        strings: _.pickBy(translation, (string, key) => (
+          key !== 'rtl' && string.includes(translationMissingMessage)
+        ))
+      }
+    ));
+
+  return missingTranslations.filter((translation) => (
+    !_.isEmpty(translation.strings)
+  ));
 }
 
 function transformTranslations(translations) {

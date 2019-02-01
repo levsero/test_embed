@@ -176,10 +176,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
     }
   };
 
-  const fields = _.chain(customFields)
-    .map(mapFields)
-    .compact()
-    .value();
+  const fields = _.compact(_.map(customFields, mapFields));
 
   return {
     fields: _.reject(fields, isCheckbox),

@@ -147,14 +147,12 @@ function metaStringToObj(str) {
   if (_.isEmpty(str)) {
     return {};
   } else {
-    return _.chain(str.split(','))
-      .reduce(function(res, item) {
-        const pair = item.trim().split('=');
+    return str.split(',').reduce((res, item) => {
+      const pair = item.trim().split('=');
 
-        res[pair[0]] = pair[1];
-        return res;
-      }, {})
-      .value();
+      res[pair[0]] = pair[1];
+      return res;
+    }, {});
   }
 }
 
@@ -181,12 +179,11 @@ const initViewportMeta = (active) => {
   }
 };
 
-const metaObjToString = (obj) => {
-  return _.chain(obj)
-    .map(function(v, k) { return k + '=' + v; })
-    .value()
-    .join(', ');
-};
+const metaObjToString = (obj) => (
+  _.map(obj, (value, key) => (
+    `${key}=${value}`
+  )).join(', ')
+);
 
 export {
   isLandscape,

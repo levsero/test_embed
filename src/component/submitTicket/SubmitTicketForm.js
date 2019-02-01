@@ -185,16 +185,17 @@ export class SubmitTicketForm extends Component {
   getFormState = () => {
     const form = ReactDOM.findDOMNode(this.refs.form);
 
-    return _.chain(form.elements)
-      .reject((field) => field.type === 'submit' || _.isEmpty(field.name))
-      .reduce((result, field) => {
-        result[field.name] = (field.type === 'checkbox')
-          ? field.checked ? 1 : 0
-          : field.value;
-
+    return _.reduce(form.elements, (result, field) => {
+      if (_.isEmpty(field.name) || field.type === 'submit') {
         return result;
-      },
-      {}).value();
+      } else if (field.type === 'checkbox') {
+        result[field.name] = field.checked ? 1 : 0;
+      } else {
+        result[field.name] = field.value;
+      }
+
+      return result;
+    }, {});
   }
 
   isPrefillValid = (prefill) => {
@@ -219,20 +220,18 @@ export class SubmitTicketForm extends Component {
       return ticketField.id == prefillField.id || // eslint-disable-line eqeqeq
              (ticketField.type === prefillField.id && _.includes(permittedSystemFieldIds, prefillField.id));
     };
-    const mapPrefillFields = (prefillField) => {
+
+    return _.reduce(prefillData, (result, prefillField) => {
       const matchingField = _.find(fields, findMatchingField(prefillField)) || {};
 
       if (_.includes(permittedFieldTypes, matchingField.type)) {
         // Replace ticketField.id where it could be a text instead of an integer
         prefillField.id = matchingField.id;
-        return prefillField;
+        result.push(prefillField);
       }
-    };
 
-    return _.chain(prefillData)
-      .map(mapPrefillFields)
-      .compact()
-      .value();
+      return result;
+    }, []);
   }
 
   // Passed in as params so the tests don't break

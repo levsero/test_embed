@@ -32,13 +32,11 @@ function remove(name, type = 'local') {
 function clear(type = 'local') {
   try {
     const backend = storage(type);
-    const keys = _.chain(_.keys(backend))
-      .filter((key) => {
-        return key.indexOf(prefix) === 0;
-      })
-      .value();
+    const keys = _.keys(backend).filter((key) => (
+      _.includes(key, prefix)
+    ));
 
-    _.forEach(keys, (key) => {
+    keys.forEach((key) => {
       backend.removeItem(key);
     });
   } catch (e) {}

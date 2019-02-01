@@ -118,15 +118,13 @@ export class PrechatForm extends Component {
   }
 
   handleFormChange = () => {
-    const reduceNames = (result, field) => {
-      result[field.name] = field.value;
+    const values = _.reduce(this.form.elements, (result, field) => {
+      if (field.type !== 'submit') {
+        result[field.name] = field.value;
+      }
 
       return result;
-    };
-    const values = _.chain(this.form.elements)
-      .reject((field) => field.type === 'submit')
-      .reduce(reduceNames, {})
-      .value();
+    }, {});
 
     this.props.onPrechatFormChange(values);
 

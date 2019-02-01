@@ -114,17 +114,15 @@ let webWidgetStore = {};
 let webWidgetCustomizations = false;
 
 const initStore = (settings, options, defaults) => {
-  const reduceFn = (res, val) => {
-    if (_.has(settings, val)) {
-      _.set(res, val, _.get(settings, val, null));
+  const store = options.reduce((result, option) => {
+    if (_.has(settings, option)) {
+      _.set(result, option, _.get(settings, option, null));
     }
-    return res;
-  };
 
-  return _.chain(options)
-    .reduce(reduceFn, {})
-    .defaultsDeep(defaults)
-    .value();
+    return result;
+  }, {});
+
+  return _.defaultsDeep(store, defaults);
 };
 
 function init(reduxStore = { dispatch: () => {} }) {
