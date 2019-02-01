@@ -12,6 +12,17 @@ const tracker = {
 
 tracker.send = false;
 
+tracker.suspend = function(cb) {
+  const oldSend = this.send,
+    oldQueue = this.queue;
+
+  this.queue = [];
+  this.send = false;
+  cb();
+  this.send = oldSend;
+  this.queue = oldQueue;
+};
+
 tracker.getTrackableFunction = function(func, name, that) {
   return function() {
     tracker.track(name, ...arguments);
