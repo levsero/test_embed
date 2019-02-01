@@ -127,10 +127,12 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       zopimApi.setUpZopimApiMethods(win, reduxStore);
     }
 
-    i18n.setLocale(config.locale, () => {
+    const renderCallback = () => {
       renderer.init(config, reduxStore);
       webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore);
-    });
+    };
+
+    i18n.setLocale(undefined, renderCallback, config.locale);
   };
   const fail = (error) => {
     if (error.status !== 404) {
