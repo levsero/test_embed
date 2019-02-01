@@ -9,6 +9,8 @@ describe('onStateChange middleware', () => {
     mockSubmitTicketAvailable,
     mockIsChatting,
     mockHasSearched,
+    mockAnswerBotAvailable = false,
+    useArg,
     mockIsPopout = false;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
@@ -18,6 +20,7 @@ describe('onStateChange middleware', () => {
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
   const broadcastSpy = jasmine.createSpy('broadcast');
+  const resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen').and.returnValue('reset talk');
   const chatNotificationResetSpy = jasmine.createSpy('chatNotificationReset');
   const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity);
   const clearDepartmentSpy = jasmine.createSpy('clearDepartment');
@@ -55,6 +58,7 @@ describe('onStateChange middleware', () => {
     mockSubmitTicketAvailable = false;
     mockIsChatting = false;
     mockHasUnseenAgentMessage = false;
+    useArg = false;
 
     initMockRegistry({
       'src/redux/modules/chat': {
@@ -74,6 +78,9 @@ describe('onStateChange middleware', () => {
         updateActiveEmbed: updateActiveEmbedSpy,
         updateBackButtonVisibility: updateBackButtonVisibilitySpy,
         activateRecieved: activateRecievedSpy
+      },
+      'src/redux/modules/talk': {
+        resetTalkScreen: resetTalkScreenSpy
       },
       'service/audio': {
         audio: {
@@ -108,7 +115,8 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/modules/selectors': {
         getOfflineFormSettings: () => mockOfflineFormSettings,
-        getDefaultSelectedDepartment: () => mockDepartment
+        getDefaultSelectedDepartment: () => mockDepartment,
+        getAnswerBotAvailable: () => mockAnswerBotAvailable
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartment: () => mockGetSettingsChatDepartment,
@@ -125,7 +133,8 @@ describe('onStateChange middleware', () => {
         CHAT_CONNECTED: 'CHAT_CONNECTED'
       },
       'src/redux/modules/base/base-action-types': {
-        UPDATE_EMBEDDABLE_CONFIG: 'UPDATE_EMBEDDABLE_CONFIG'
+        UPDATE_EMBEDDABLE_CONFIG: 'UPDATE_EMBEDDABLE_CONFIG',
+        UPDATE_ACTIVE_EMBED: 'UPDATE_ACTIVE_EMBED'
       },
       'src/constants/chat': {
         CONNECTION_STATUSES: {
@@ -141,7 +150,10 @@ describe('onStateChange middleware', () => {
         getHasSearched: () => mockHasSearched
       },
       'src/redux/modules/base/base-selectors': {
-        getActiveEmbed: () => mockActiveEmbed,
+        getActiveEmbed: (arg) => {
+          if (useArg) return arg;
+          return mockActiveEmbed;
+        },
         getWidgetShown: () => mockWidgetShown,
         getSubmitTicketEmbed: () => mockSubmitTicketAvailable,
         getHelpCenterEmbed: () => mockHelpCenterEmbed,
@@ -164,6 +176,7 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/middleware/onStateChange/onWidgetOpen': noop,
       'src/redux/middleware/onStateChange/onChatOpen': noop,
+      'src/redux/middleware/onStateChange/onChannelChoiceTransition': noop,
       'src/util/nullZChat': {
         resetShouldWarn: resetShouldWarnSpy
       },
@@ -584,6 +597,10 @@ describe('onStateChange middleware', () => {
         updateBackButtonVisibilitySpy.calls.reset();
       });
 
+      afterEach(() => {
+        updateBackButtonVisibilitySpy.calls.reset();
+      });
+
       describe('articleDisplayed goes from false to true', () => {
         beforeEach(() => {
           stateChangeFn(false, true, dispatchSpy);
@@ -861,6 +878,7 @@ describe('onStateChange middleware', () => {
 
       beforeEach(() => {
         updateActiveEmbedSpy.calls.reset();
+        updateBackButtonVisibilitySpy.calls.reset();
         mockIsPopout = false;
       });
 
@@ -879,6 +897,31 @@ describe('onStateChange middleware', () => {
             expect(updateActiveEmbedSpy)
               .not
               .toHaveBeenCalled();
+          });
+        });
+
+        describe('when answer bot is available', () => {
+          beforeEach(() => {
+            mockAnswerBotAvailable = true;
+            stateChangeFn(null, 'offline', { type: actionType });
+          });
+
+          it('updates back button visibility to true', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(true);
+          });
+        });
+
+        describe('when answer bot is not available', () => {
+          beforeEach(() => {
+            mockIPMWidget = true;
+            mockAnswerBotAvailable = false;
+            stateChangeFn(null, 'offline', { type: actionType });
+          });
+
+          it('does not update back button visibility', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .not.toHaveBeenCalledWith(true);
           });
         });
 
@@ -1102,6 +1145,7 @@ describe('onStateChange middleware', () => {
 
       beforeEach(() => {
         dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
+        updateBackButtonVisibilitySpy.calls.reset();
       });
 
       describe('when chat has previously initiated', () => {
@@ -1136,6 +1180,34 @@ describe('onStateChange middleware', () => {
           });
         });
 
+        describe('when chat is being initiated and answer bot is available', () => {
+          beforeEach(() => {
+            currState = { isChatting: true };
+            mockAnswerBotAvailable = true;
+
+            stateChangeFn(prevState, currState, {}, dispatchSpy);
+          });
+
+          it('dispatches updateBackButtonVisibility with false', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(false);
+          });
+        });
+
+        describe('when chat is being initiated and answer bot is not available', () => {
+          beforeEach(() => {
+            currState = { isChatting: true };
+            mockAnswerBotAvailable = false;
+
+            stateChangeFn(prevState, currState, {}, dispatchSpy);
+          });
+
+          it('does not dispatch updateBackButtonVisibility', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+
         describe('when chat is not being initiated', () => {
           beforeEach(() => {
             currState = { isChatting: false };
@@ -1146,6 +1218,11 @@ describe('onStateChange middleware', () => {
           it('does not dispatch the event CHAT_STARTED', () => {
             expect(dispatchSpy)
               .not.toHaveBeenCalledWith({ type: 'CHAT_STARTED' });
+          });
+
+          it('does not dispatch updateBackButtonVisibility', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .not.toHaveBeenCalled();
           });
         });
       });

@@ -16,6 +16,12 @@ describe('WebWidget component', () => {
     helpCenterOnContainerClickSpy = jasmine.createSpy('helpCenterOnContainerClick');
     submitTicketOnDragEnterSpy = jasmine.createSpy('submitTicketOnDragEnter');
 
+    class MockAnswerBot extends Component {
+      render() {
+        return <div ref='answerBot' />;
+      }
+    }
+
     class MockHelpCenter extends Component {
       constructor() {
         super();
@@ -70,6 +76,7 @@ describe('WebWidget component', () => {
           }
         }
       },
+      'component/answerBot': connectedComponent(<MockAnswerBot />),
       'component/chat/Chat': connectedComponent(<MockChat />),
       'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
@@ -116,8 +123,13 @@ describe('WebWidget component', () => {
       'src/redux/modules/settings/settings-selectors': {
         getSettingsMobileNotificationsDisabled: noop
       },
-      'src/redux/modules/chat/chat-selectors': {
-
+      'src/redux/modules/chat/chat-selectors': {},
+      'src/redux/modules/answerBot/root/actions': {
+        screenChanged: noop
+      },
+      'src/constants/answerBot': {
+        ARTICLE_SCREEN: 'article',
+        CONVERSATION_SCREEN: 'conversation'
       }
     });
 
@@ -159,6 +171,17 @@ describe('WebWidget component', () => {
 
       expect(TestUtils.isElementOfType(chatNotification, ChatNotificationPopup))
         .toEqual(true);
+    });
+
+    describe('when component is set to answerBot', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='answerBot' />);
+      });
+
+      it('shows the answerBot component', () => {
+        expect(webWidget.renderAnswerBot())
+          .toBeTruthy();
+      });
     });
 
     describe('when component is set to submitTicket', () => {
@@ -907,6 +930,46 @@ describe('WebWidget component', () => {
       }));
 
       component.onBackClick();
+    });
+
+    describe('when the activeEmbed is answerBot', () => {
+      const updateAnswerBotScreen = jasmine.createSpy();
+
+      beforeAll(() => {
+        componentProps = {
+          activeEmbed: 'answerBot',
+          updateAnswerBotScreen
+        };
+      });
+
+      it('calls updateBackButtonVisibility prop', () => {
+        expect(updateBackButtonVisibilitySpy)
+          .toHaveBeenCalled();
+      });
+
+      it('calls updateAnswerBotScreen with conversation', () => {
+        expect(updateAnswerBotScreen)
+          .toHaveBeenCalledWith('conversation');
+      });
+    });
+
+    describe('when answer bot is available but not the active component', () => {
+      beforeAll(() => {
+        componentProps = {
+          answerBotAvailable: true,
+          activeEmbed: 'ticketSubmissionForm'
+        };
+      });
+
+      it('calls updateBackButtonVisibility prop', () => {
+        expect(updateBackButtonVisibilitySpy)
+          .toHaveBeenCalled();
+      });
+
+      it('calls updateActiveEmbed with answerBot', () => {
+        expect(updateActiveEmbedSpy)
+          .toHaveBeenCalledWith('answerBot');
+      });
     });
 
     describe('when the activeEmbed is helpCenter', () => {
