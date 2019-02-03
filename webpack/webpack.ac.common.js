@@ -16,11 +16,6 @@ const splitChunkConfig = (name, type = 'initial') => {
 module.exports = merge(common, {
   entry: {
     [chunks.WEB_WIDGET_CHUNK]: path.join(CWD, '/src/main.js'),
-    [chunks.TRANSLATIONS_CHUNK]: [
-      path.join(CWD, '/src/translation/ze_translations.js'),
-      path.join(CWD, '/src/translation/ze_countries.js'),
-      path.join(CWD, '/src/translation/ze_localeIdMap.js')
-    ],
     [chunks.COMMON_VENDOR_CHUNK]: [
       'lodash', 'react', 'react-dom', 'redux', 'core-js'
     ],
@@ -31,7 +26,6 @@ module.exports = merge(common, {
     runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
-        [chunks.TRANSLATIONS_CHUNK]: splitChunkConfig(chunks.TRANSLATIONS_CHUNK),
         [chunks.COMMON_VENDOR_CHUNK]: splitChunkConfig(chunks.COMMON_VENDOR_CHUNK),
         [chunks.CHAT_VENDOR_CHUNK]: splitChunkConfig(chunks.CHAT_VENDOR_CHUNK, 'async'),
         [chunks.TALK_VENDOR_CHUNK]: splitChunkConfig(chunks.TALK_VENDOR_CHUNK, 'async')
