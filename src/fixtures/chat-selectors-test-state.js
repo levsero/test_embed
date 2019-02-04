@@ -96,7 +96,8 @@ export default {
     },
     vendor: {
       zChat: 'mmm... legacy',
-      slider: 'wheeeeeee'
+      slider: 'wheeeeeee',
+      luxon: 'What am I?'
     },
     visitor: 'Kerrigan',
   }

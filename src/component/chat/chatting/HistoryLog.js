@@ -22,6 +22,7 @@ export class HistoryLog extends Component {
     agents: PropTypes.object,
     showAvatar: PropTypes.bool.isRequired,
     firstMessageTimestamp: PropTypes.number,
+    luxon: PropTypes.object.isRequired,
     isMobile: PropTypes.bool.isRequired
   };
 
@@ -41,7 +42,7 @@ export class HistoryLog extends Component {
   }
 
   renderDivider = (timestamp) => {
-    const format = dateTime(timestamp, { showToday: true });
+    const format = dateTime(this.props.luxon, timestamp, { showToday: true });
 
     return <div className={styles.divider}>{format}</div>;
   }
