@@ -8,7 +8,7 @@ import {
   SDK_CHAT_REQUEST_RATING,
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT,
-  SET_VISITOR_INFO_REQUEST_SUCCESS,
+  CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
   CHAT_MSG_REQUEST_SENT,
   CHAT_FILE_REQUEST_SENT
 } from '../chat-action-types';
@@ -69,7 +69,7 @@ const latestQuickReply = (state = initialState.latestQuickReply, action) => {
     case SDK_CHAT_REQUEST_RATING:
     case SDK_CHAT_RATING:
     case SDK_CHAT_COMMENT:
-    case SET_VISITOR_INFO_REQUEST_SUCCESS:
+    case CHAT_CONTACT_DETAILS_UPDATE_SUCCESS:
       return UNSET_TIMESTAMP;
     default:
       return state;
@@ -127,7 +127,7 @@ const groups = (state = initialState.groups, action) => {
     case SDK_CHAT_MEMBER_JOIN:
     case SDK_CHAT_MEMBER_LEAVE:
       return [...state, newGroup(action.payload.detail, 'event')];
-    case SET_VISITOR_INFO_REQUEST_SUCCESS:
+    case CHAT_CONTACT_DETAILS_UPDATE_SUCCESS:
       return [...state, newGroup(action.payload, 'event')];
     default:
       return state;

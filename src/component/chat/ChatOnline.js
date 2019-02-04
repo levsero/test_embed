@@ -18,7 +18,7 @@ import { i18n } from 'service/i18n';
 import {
   endChatViaPostChatScreen,
   sendAttachments,
-  setVisitorInfo,
+  editContactDetailsSubmitted,
   handleSoundIconClick,
   sendEmailTranscript,
   resetEmailTranscript,
@@ -63,7 +63,7 @@ class Chat extends Component {
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
-    setVisitorInfo: PropTypes.func.isRequired,
+    editContactDetailsSubmitted: PropTypes.func.isRequired,
     onBackButtonClick: PropTypes.func,
     handleReconnect: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
@@ -319,7 +319,7 @@ class Chat extends Component {
 
   renderChatContactDetailsPopup = () => {
     const { editContactDetails,
-      setVisitorInfo,
+      editContactDetailsSubmitted,
       visitor,
       isMobile,
       updateContactDetailsVisibility,
@@ -331,7 +331,7 @@ class Chat extends Component {
 
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
     const tryAgainFn = () => updateContactDetailsVisibility(true);
-    const saveContactDetailsFn = (name, email) => setVisitorInfo({ display_name: name, email });
+    const saveContactDetailsFn = (name, email) => editContactDetailsSubmitted({ display_name: name, email });
     const isAuthenticatedAtAll = isAuthenticated || _.get(socialLogin, 'authenticated', false);
     const updateDetailsFn = (name, email) => updateContactDetailsFields({ display_name: name, email });
 
@@ -432,7 +432,7 @@ class Chat extends Component {
 
 const actionCreators = {
   endChatViaPostChatScreen,
-  setVisitorInfo,
+  editContactDetailsSubmitted,
   sendAttachments,
   handleSoundIconClick,
   sendEmailTranscript,

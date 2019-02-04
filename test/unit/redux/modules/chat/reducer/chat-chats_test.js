@@ -372,13 +372,13 @@ describe('chat reducer chats', () => {
       });
     });
 
-    describe('when a SET_VISITOR_INFO_REQUEST_SUCCESS action is dispatched', () => {
+    describe('when a CHAT_CONTACT_DETAILS_UPDATE_SUCCESS action is dispatched', () => {
       let state;
       const timestamp = Date.now();
 
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
+          type: actionTypes.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
           payload: { timestamp }
         });
       });

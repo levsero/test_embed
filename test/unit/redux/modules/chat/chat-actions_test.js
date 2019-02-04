@@ -457,7 +457,7 @@ describe('chat redux actions', () => {
       info = { email: 'x@x.com' };
       timestamp = Date.now();
 
-      mockStore.dispatch(actions.setVisitorInfo(info, timestamp));
+      mockStore.dispatch(actions.setVisitorInfo(info, () => {}, timestamp));
     });
 
     describe('when not authenticated', () => {
@@ -539,6 +539,62 @@ describe('chat redux actions', () => {
         expect(mockStore.getActions().map((action) => action.type))
           .not
           .toContain(actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE);
+      });
+    });
+  });
+
+  describe('editContactDetailsSubmitted', () => {
+    let info,
+      timestamp;
+
+    beforeEach(() => {
+      mockIsAuthenticated = false;
+      info = { email: 'x@x.com' };
+      timestamp = Date.now();
+      mockSetVisitorInfo.calls.reset();
+
+      mockStore.dispatch(actions.editContactDetailsSubmitted(info));
+    });
+
+    it('calls setVisitorInfo on the Web SDK', () => {
+      expect(mockSetVisitorInfo)
+        .toHaveBeenCalled();
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        const setVisitorInfoCalls = mockSetVisitorInfo.calls.mostRecent().args;
+
+        callbackFn = setVisitorInfoCalls[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn();
+        });
+
+        it('dispatches a CHAT_CONTACT_DETAILS_UPDATE_SUCCESS action with the correct payload', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
+              payload: { email: 'x@x.com', timestamp }
+            });
+        });
+      });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          callbackFn(['error!']);
+        });
+
+        it('does not dispatch a CHAT_CONTACT_DETAILS_UPDATE_SUCCESS action', () => {
+          expect(mockStore.getActions())
+            .not.toContain({
+              type: actionTypes.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS
+            });
+        });
       });
     });
   });

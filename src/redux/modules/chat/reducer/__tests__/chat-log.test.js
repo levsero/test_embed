@@ -174,7 +174,7 @@ describe('chatLog', () => {
       actions.SDK_CHAT_REQUEST_RATING,
       actions.SDK_CHAT_RATING,
       actions.SDK_CHAT_COMMENT,
-      actions.SET_VISITOR_INFO_REQUEST_SUCCESS
+      actions.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS
     ])('when a %s action is received', (actionType) => {
       it('unsets the timestamp from the state', () => {
         expect(reduce({ type: actionType, payload: { detail: { nick: 'system', timestamp: 12345 } } }))
@@ -349,9 +349,9 @@ describe('chatLog', () => {
       });
     });
 
-    describe('when a SET_VISITOR_INFO_REQUEST_SUCCESS action is received', () => {
+    describe('when a CHAT_CONTACT_DETAILS_UPDATE_SUCCESS action is received', () => {
       const action = {
-        type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
+        type: actions.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
         payload: { nick: 'visitor', timestamp: 12345 }
       };
 

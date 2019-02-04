@@ -76,7 +76,7 @@ describe('ChatOnline component', () => {
       'src/redux/modules/chat': {
         sendMsg: noop,
         handleChatBoxChange: noop,
-        setVisitorInfo: noop,
+        editContactDetailsSubmitted: noop,
         updateChatScreen: updateChatScreenSpy,
         resetCurrentMessage: resetCurrentMessageSpy
       },
@@ -519,7 +519,7 @@ describe('ChatOnline component', () => {
       mockIsAuthenticated,
       mockInitiateSocialLogout,
       updateContactDetailsVisibilitySpy,
-      setVisitorInfoSpy;
+      editContactDetailsSubmittedSpy;
 
     beforeEach(() => {
       mockEditContactDetails = { show: true, status: 'error' };
@@ -612,13 +612,13 @@ describe('ChatOnline component', () => {
 
     describe('when props.rightCtaFn is called', () => {
       beforeEach(() => {
-        setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo');
+        editContactDetailsSubmittedSpy = jasmine.createSpy('editContactDetailsSubmitted');
         mockName = 'Terence';
         mockEmail = 'foo@bar.com';
 
         const component = instanceRender(
           <ChatOnline
-            setVisitorInfo={setVisitorInfoSpy}
+            editContactDetailsSubmitted={editContactDetailsSubmittedSpy}
             editContactDetails={mockEditContactDetails} />
         );
         const chatContactDetailsPopup = component.renderChatContactDetailsPopup();
@@ -626,10 +626,10 @@ describe('ChatOnline component', () => {
         chatContactDetailsPopup.props.rightCtaFn(mockName, mockEmail);
       });
 
-      it('calls setVisitorInfo with an expected argument', () => {
+      it('calls editContactDetailsSubmitted with an expected argument', () => {
         const expected = { display_name: mockName, email: mockEmail };
 
-        expect(setVisitorInfoSpy)
+        expect(editContactDetailsSubmittedSpy)
           .toHaveBeenCalledWith(jasmine.objectContaining(expected));
       });
     });
