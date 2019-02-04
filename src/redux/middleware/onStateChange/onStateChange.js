@@ -42,7 +42,8 @@ import { getActiveEmbed,
   getWidgetShown,
   getIPMWidget,
   getHelpCenterEmbed,
-  getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
+  getSubmitTicketEmbed,
+  getHasWidgetShown } from 'src/redux/modules/base/base-selectors';
 import { store } from 'service/persistence';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -86,19 +87,20 @@ const isRecentMessage = (agentMessage) => {
 const handleNewAgentMessage = (nextState, dispatch) => {
   const activeEmbed = getActiveEmbed(nextState);
   const widgetShown = getWidgetShown(nextState);
+  const hasWidgetShown = getHasWidgetShown(nextState);
   const otherEmbedOpen = widgetShown && activeEmbed !== 'chat';
   const agentMessage = getNewAgentMessage(nextState);
+  const recentMessage = isRecentMessage(agentMessage);
 
   dispatch(newAgentMessageReceived(agentMessage));
 
+  if (hasWidgetShown && recentMessage && getUserSoundSettings(nextState)) {
+    audio.play('incoming_message');
+  }
+
   if (!widgetShown || otherEmbedOpen) {
-    const recentMessage = isRecentMessage(agentMessage);
     const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState);
     const isMobile = isMobileBrowser();
-
-    if (recentMessage && getUserSoundSettings(nextState)) {
-      audio.play('incoming_message');
-    }
 
     if (_.size(getChatMessagesFromAgents(nextState)) === 1
       && !isMobile
