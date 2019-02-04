@@ -340,7 +340,7 @@ const getCoreColor = createSelector(
   }
 );
 
-const getWidgetColor = createSelector(
+export const getWidgetColor = createSelector(
   [getCoreColor, getSettingsColor],
   (coreColor, settingsColors) => {
     return {
