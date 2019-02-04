@@ -17,6 +17,25 @@ it('does not track if disabled', () => {
     .not.toHaveBeenCalled();
 });
 
+describe('suspend', () => {
+  beforeEach(() => {
+    tracker.send = true;
+    tracker.suspend(() => {
+      tracker.track('hello');
+    });
+  });
+
+  it('does not track', () => {
+    expect(beacon.trackUserAction)
+      .not.toHaveBeenCalled();
+  });
+
+  it('does not enqueue anything', () => {
+    expect(tracker.queue.length)
+      .toEqual(0);
+  });
+});
+
 describe('enabled', () => {
   beforeEach(() => {
     tracker.send = true;
