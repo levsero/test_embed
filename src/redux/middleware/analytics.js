@@ -6,9 +6,9 @@ import { SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT,
   PRE_CHAT_FORM_SUBMIT } from 'src/redux/modules/chat/chat-action-types';
-import { getIsChatting,
-  getDepartments } from 'src/redux/modules/chat/chat-selectors';
+import { getDepartments } from 'src/redux/modules/chat/chat-selectors';
 import { getAnalyticsDisabled } from 'src/redux/modules/settings/settings-selectors';
+import { getActiveEmbed, getWebWidgetVisible } from 'src/redux/modules/base/base-selectors';
 import { isAgent } from 'src/util/chat';
 
 const loadtime = Date.now();
@@ -19,11 +19,24 @@ const getDepartmentName = (payload, prevState) => {
   return _.get(getDepartments(prevState)[deptId], 'name');
 };
 
-const trackChatOpened = (payload, prevState) => {
-  const isChatting = getIsChatting(prevState);
+const trackChatOpened = () => {
+  GA.track('Chat Opened');
+};
 
-  if (!isChatting && payload === 'chat') {
-    GA.track('Chat Opened');
+const trackChatOpenedOnUpdateEmbed = (payload, prevState) => {
+  const prevEmbed = getActiveEmbed(prevState);
+  const visible = getWebWidgetVisible(prevState);
+
+  if (visible && prevEmbed !== 'chat' && payload === 'chat') {
+    trackChatOpened();
+  }
+};
+
+const trackChatOpenedOnWidgetVisible = (state) => {
+  const embed = getActiveEmbed(state);
+
+  if (embed === 'chat') {
+    trackChatOpened();
   }
 };
 
@@ -73,7 +86,7 @@ export function trackAnalytics({ getState }) {
 
     switch (type) {
       case UPDATE_ACTIVE_EMBED:
-        trackChatOpened(payload, prevState);
+        trackChatOpenedOnUpdateEmbed(payload, prevState);
         break;
       case SDK_CHAT_MEMBER_JOIN:
         trackChatServedByOperator(payload, isAfterLoadTime);
@@ -91,6 +104,12 @@ export function trackAnalytics({ getState }) {
         trackChatRequestFormSubmitted(payload, prevState);
         break;
     }
-    return next(action);
+    const result = next(action);
+    const nextState = getState();
+
+    if (!getWebWidgetVisible(prevState) && getWebWidgetVisible(nextState)) {
+      trackChatOpenedOnWidgetVisible(nextState);
+    }
+    return result;
   };
 }
