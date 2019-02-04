@@ -16,7 +16,7 @@
     "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && script/fetch_i18n",
     "build:prod": "NODE_ENV=production webpack --config ./webpack/webpack.ac.prod.js",
     "build:validate": "npm run build:prod && npm run size",
-    "build:previewer": "webpack --config ./webpack/webpack.previewer.prod.js",
+    "build:previewer": "NODE_ENV=production webpack --config ./webpack/webpack.previewer.prod.js",
     "build": "npm run build-setup:prod && npm run build:prod",
     "build-previewer": "npm run build-setup:prod && npm run build:previewer",
     "test": "TZ=utc jest",
