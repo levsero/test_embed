@@ -3,7 +3,8 @@ import { nullZChat } from 'src/util/nullZChat';
 
 const initialState = {
   zChat: nullZChat,
-  slider: null
+  slider: null,
+  luxon: {}
 };
 
 const vendor = (state = initialState, action = {}) => {
