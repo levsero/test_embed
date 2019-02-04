@@ -12,6 +12,8 @@ module.exports = merge(common, {
   entry: {
     webWidgetPreview: path.join(prefix, '/src/webWidgetPreview.js'),
     chatPreview: path.join(prefix, '/src/chatPreview.js'),
+  },
+  output: {
     publicPath: process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest/'
   },
   plugins: [
