@@ -1,4 +1,3 @@
-import Map from 'core-js/library/es6/map';
 import {
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_TYPING,
