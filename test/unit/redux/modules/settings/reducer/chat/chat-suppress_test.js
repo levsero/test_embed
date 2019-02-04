@@ -2,22 +2,9 @@ describe('chat reducer suppress', () => {
   let reducer,
     actionTypes,
     zopimActionTypes,
-    initialState,
-    settingsGetSpy;
+    initialState;
 
   beforeAll(() => {
-    mockery.enable();
-
-    settingsGetSpy = jasmine.createSpy('settings.get');
-
-    initMockRegistry({
-      'service/settings': {
-        settings: {
-          get: settingsGetSpy
-        }
-      }
-    });
-
     const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/chat-suppress');
     const actionTypesPath = buildSrcPath('redux/modules/settings/settings-action-types');
     const zopimActionTypesPath = buildSrcPath('redux/modules/zopimChat/zopimChat-action-types');
@@ -35,11 +22,6 @@ describe('chat reducer suppress', () => {
   });
 
   describe('initial state', () => {
-    it('calls get on settings with "chat.suppress"', () => {
-      expect(settingsGetSpy)
-        .toHaveBeenCalledWith('chat.suppress');
-    });
-
     it('is set to false', () => {
       expect(initialState)
         .toEqual(false);
