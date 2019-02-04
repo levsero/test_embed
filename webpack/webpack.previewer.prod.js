@@ -11,7 +11,8 @@ module.exports = merge(common, {
   mode: 'production',
   entry: {
     webWidgetPreview: path.join(prefix, '/src/webWidgetPreview.js'),
-    chatPreview: path.join(prefix, '/src/chatPreview.js')
+    chatPreview: path.join(prefix, '/src/chatPreview.js'),
+    publicPath: process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest/'
   },
   plugins: [
     new webpack.DefinePlugin({
