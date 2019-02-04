@@ -86,7 +86,6 @@
     "core-js": "^2.5.1",
     "libphonenumber-js": "~0.4.49",
     "lodash": "^4.17.11",
-    "luxon": "1.2.0",
     "prop-types": "^15.6.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
