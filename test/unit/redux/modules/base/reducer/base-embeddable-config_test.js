@@ -34,7 +34,7 @@ describe('base reducer embeddable config', () => {
           embeds: {
             ticketSubmissionForm: {
               props: {
-                attachmentsEnabled: true
+                attachmentsEnabled: false
               }
             },
             helpCenterForm: {
@@ -108,6 +108,11 @@ describe('base reducer embeddable config', () => {
                 nickname: 'bluey',
                 color: '#123123',
                 serviceUrl: 'https://example.com'
+              }
+            },
+            ticketSubmissionForm: {
+              props: {
+                attachmentsEnabled: true
               }
             }
           },

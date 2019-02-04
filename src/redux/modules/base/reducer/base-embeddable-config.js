@@ -7,7 +7,7 @@ const initialState = {
   embeds: {
     ticketSubmissionForm: {
       props: {
-        attachmentsEnabled: true
+        attachmentsEnabled: false
       }
     },
     helpCenterForm: {
