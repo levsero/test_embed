@@ -9,6 +9,8 @@ The Web Widget includes a Talk component that lets users talk to an agent. The c
 The `talk` object has the following setting:
 
 * [nickname](./settings#nickname)
+* [suppress](./settings#suppress)
+* [title](./settings#title)
 
 <a name="example-talk-settings"></a>
 #### Example
@@ -18,7 +20,11 @@ The `talk` object has the following setting:
 window.zESettings = {
   webWidget: {
     talk: {
-      nickname: 'Sales Support'
+      nickname: 'Sales Support',
+      suppress: false,
+      title: {
+        '*': 'Talk with us!'
+      }
     }
   }
 };

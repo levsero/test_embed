@@ -139,7 +139,7 @@ Tokens expire after two hours. You can remove them from local storage sooner by 
 ```html
 <script type="text/javascript">
 zE(function() {
-  zE.logout();
+  zE('webWidget', 'logout');
 });
 </script>
 ```
@@ -1325,6 +1325,7 @@ You can use different strings for different locales or use one string for all lo
 * [contactForm](./contact_form)
 * [helpCenter](./help_center)
 * [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+* [talk](./talk)
 
 <a name="example-title"></a>
 #### Example
@@ -1348,6 +1349,11 @@ window.zESettings = {
       title: {
         '*': 'Chat with us!',
         'pl': 'Czat na żywo'
+      }
+    },
+    talk: {
+      title: {
+        '*': 'Talk with us!'
       }
     }
   }

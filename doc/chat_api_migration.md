@@ -31,20 +31,26 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 
 | $zopim.livechat syntax | zE syntax |
 | --- | --- |
-| setName* | zE('webWidget', 'prefill', { name: { value: 'John Doe' [, readOnly: true&#124;false] }}) |
-| setEmail* | zE('webWidget', 'prefill', { email: { value: 'john@doe.com' [, readOnly: true&#124;false] }}) |
+| setName* | zE('webWidget', 'prefill', { name: { value: 'John Doe' [, readOnly: true&#124;false] }}), zE('webWidget', 'identify', { name: 'John Doe'}) |
+| setEmail* | zE('webWidget', 'prefill', { email: { value: 'john@doe.com' [, readOnly: true&#124;false] }}), zE('webWidget', 'identify', { email: 'John Doe'}) |
 | setPhone* | zE('webWidget', 'prefill', { phone: { value: '12345678' [, readOnly: true&#124;false] }}) |
 | sendVisitorPath | zE('webWidget', 'updatePath') |
 | clearAll | zE('webWidget', 'logout') |
 
-\* You can set the name, phone, and email at the same time using the new prefill API. To set multiple attributes concurrently, provide a prefill object that has a key for each attribute. Example:
+\* You can identify a user and prefill their details using the [identify](./core#identify) and [prefill](./core#prefill) APIs. **Please note that the `phone` attribute is currently not supported in the identify API.**
 
+To set multiple attributes concurrently, provide a prefill and identify object that has a key for each attribute. Example:
 ```
 zE('webWidget', 'prefill', {
     name: { … },
     email: { … },
     phone: { … }
 })
+
+zE('webWidget', 'identify', {
+    name: '...',
+    email: '...'
+});
 ```
 
 ### Events
