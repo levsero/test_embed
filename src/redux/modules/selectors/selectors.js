@@ -58,7 +58,6 @@ import { getActiveEmbed,
   getHiddenByHideAPI,
   getConfigColorBase,
   getConfigColorText,
-  getConfigColor,
   getHiddenByActivateAPI,
   getBootupTimeout,
   getWebWidgetVisible as getBaseWebWidgetVisible,
@@ -324,19 +323,10 @@ export const getContactOptionsContactFormLabel = createSelector(
   )
 );
 
-const getThemeColor = createSelector(
-  [getConfigColorText, getConfigColorBase, getSettingsColorTheme],
-  (configColorText, configColorBase, settingsColorTheme) => {
-    return {
-      base: settingsColorTheme,
-    };
-  }
-);
-
 const getCoreColor = createSelector(
-  [getEmbeddableConfig, getThemeColor, getChatThemeColor],
-  (embeddableConfig, themeColor, chatThemeColor) => {
-    return (embeddableConfig.cp4 && chatThemeColor) ? chatThemeColor : themeColor;
+  [getEmbeddableConfig, getSettingsColorTheme, getChatThemeColor, getConfigColorBase],
+  (embeddableConfig, settingsColorTheme, chatThemeColor, configColorBase) => {
+    return (embeddableConfig.cp4 && chatThemeColor) ? chatThemeColor : { base: settingsColorTheme || configColorBase };
   }
 );
 
@@ -367,18 +357,18 @@ export const getShowChatBadgeLauncher = createSelector(
 );
 
 const getBaseColor = createSelector(
-  [getSettingsColorLauncher, getShowChatBadgeLauncher, getAccountSettingsBadgeColor, getConfigColor],
-  (settingsColor, showChatBadge, settingsBadgeColor, configColor) => {
+  [getSettingsColorLauncher, getShowChatBadgeLauncher, getAccountSettingsBadgeColor, getConfigColorBase],
+  (settingsColor, showChatBadge, settingsBadgeColor, configColorBase) => {
     const chatBadgeColor = showChatBadge ? settingsBadgeColor : undefined;
 
-    return settingsColor || chatBadgeColor || configColor.base;
+    return settingsColor || chatBadgeColor || configColorBase;
   }
 );
 
 const getTextColor = createSelector(
-  [getSettingsColorLauncherText, getConfigColor],
-  (settingsColorLauncherText, configColor) => {
-    return settingsColorLauncherText || configColor.text;
+  [getSettingsColorLauncherText, getConfigColorText],
+  (settingsColorLauncherText, configColorText) => {
+    return settingsColorLauncherText || configColorText;
   }
 );
 

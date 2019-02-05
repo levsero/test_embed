@@ -238,7 +238,7 @@ const talkDropdownOverrides = {
 
 function getGardenOverrides(colors) {
   const themeColor = getThemeColor();
-  const colorVariables = getWidgetColorVariables({ ...themeColor,...colors });
+  const colorVariables = getWidgetColorVariables({ ...themeColor, ...colors });
 
   return {
     'textfields.text_group': bottomMargin,

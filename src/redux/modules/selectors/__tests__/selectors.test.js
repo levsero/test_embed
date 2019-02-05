@@ -1002,6 +1002,108 @@ describe('getWebWidgetVisible', () => {
   // TODO when the file has been split, it's too painful right now
 });
 
+const stateColorSettings = (
+  colors,
+  cp4 = false
+) => {
+  return {
+    base: {
+      embeddableConfig: {
+        color: '#embeddableConfig',
+        cp4,
+      },
+    },
+    settings: {
+      color: colors
+    },
+    chat: {
+      accountSettings: {
+        theme: {
+          color: {
+            primary: '#chatPrimary'
+          }
+        }
+      }
+    }
+  };
+};
+
+describe('getWidgetColor', () => {
+  describe('when it is not a cp4 account', () => {
+    describe('settings colors and theme are set', () => {
+      it('uses the settings colors', () => {
+        const state = stateColorSettings({
+          theme: '#abcabc',
+          launcher: '#691840',
+          launcherText: '#FF4500',
+          button: '#555555',
+          resultLists: '#111111',
+          header: '#203D9D',
+          articleLinks: '#123123'
+        },
+        false);
+
+        const result = selectors.getWidgetColor(state);
+
+        expect(result).toEqual({
+          'articleLinks': '#123123',
+          'base': '#abcabc',
+          'button': '#555555',
+          'header': '#203D9D',
+          'launcher': '#691840',
+          'launcherText': '#FF4500',
+          'resultLists': '#111111',
+          'theme': '#abcabc'
+        });
+      });
+
+      describe('settings theme is not set', () => {
+        it('uses the embeddableConfig', () => {
+          const state = stateColorSettings({
+            launcher: '#691840'
+          },
+          false);
+
+          const result = selectors.getWidgetColor(state);
+
+          expect(result).toEqual({
+            'launcher': '#691840',
+            'base': '#embeddableConfig'
+          });
+        });
+      });
+    });
+  });
+
+  describe('when it is a cp4 account', () => {
+    const state = stateColorSettings({
+      theme: '#abcabc',
+      launcher: '#691840',
+      launcherText: '#FF4500',
+      button: '#555555',
+      resultLists: '#111111',
+      header: '#203D9D',
+      articleLinks: '#123123'
+    },
+    true);
+
+    it('uses the chat config color', () => {
+      const result = selectors.getWidgetColor(state);
+
+      expect(result).toEqual({
+        'articleLinks': '#123123',
+        'base': '#chatPrimary',
+        'button': '#555555',
+        'header': '#203D9D',
+        'launcher': '#691840',
+        'launcherText': '#FF4500',
+        'resultLists': '#111111',
+        'theme': '#abcabc'
+      });
+    });
+  });
+});
+
 describe('getPosition', () => {
   test.each([
     ['chatPhase 4 and position is set', { cp4: true, position: 'l' }, 'ctp', 'ctp'],
