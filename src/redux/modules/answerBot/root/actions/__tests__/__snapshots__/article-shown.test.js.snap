@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`articleShown dispatches expected payload 1`] = `
+Object {
+  "payload": Object {
+    "articleID": "2",
+    "sessionID": "1",
+  },
+  "type": "widget/answerBot/ARTICLE_SHOWN",
+}
+`;

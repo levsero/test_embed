@@ -163,3 +163,9 @@ export const getSettingsChatPopout = createSelector(
     }
   })
 );
+
+export const getAnswerBotTitle = (state) => state.settings.answerBot.title;
+const getSettingsAnswerBotAvatar = (state) => state.settings.answerBot.avatar;
+
+export const getSettingsAnswerBotAvatarUrl = (state) => getSettingsAnswerBotAvatar(state).url;
+export const getAnswerBotAvatarName = (state) => getSettingsAnswerBotAvatar(state).name;

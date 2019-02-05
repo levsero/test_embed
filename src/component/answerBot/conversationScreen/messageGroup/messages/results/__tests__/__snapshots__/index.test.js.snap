@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div>
+    <div
+      class="message botMessage"
+    >
+      <div>
+        <div
+          class="messageBubble messageBubble botBackground"
+        >
+          <span
+            class="Linkify"
+          >
+            Here are some articles that may help:
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="messageBubble container"
+    >
+      <div
+        class="firstItem optionItem"
+      >
+        <div
+          class="result"
+        >
+          <div
+            class="heading"
+          >
+            <span
+              class="container icon Icon--article"
+              type="Icon--article"
+            />
+            <div
+              class="optionText"
+            >
+              title 123
+            </div>
+          </div>
+          <div
+            class="snippet"
+          >
+            <div>
+              to be filled later 123
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class=" lastItem optionItem"
+      >
+        <div
+          class="result"
+        >
+          <div
+            class="heading"
+          >
+            <span
+              class="container icon Icon--article"
+              type="Icon--article"
+            />
+            <div
+              class="optionText"
+            >
+              title 456
+            </div>
+          </div>
+          <div
+            class="snippet"
+          >
+            <div>
+              to be filled later 456
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

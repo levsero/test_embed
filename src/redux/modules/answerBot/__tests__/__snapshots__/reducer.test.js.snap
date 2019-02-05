@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`answerBot root reducer has the messages sub state 1`] = `
+Object {
+  "conversation": Object {
+    "lastScreenClosed": 0,
+    "lastScroll": 0,
+  },
+  "currentArticle": null,
+  "currentMessage": "",
+  "currentScreen": "conversation",
+  "currentSessionID": null,
+  "greeted": false,
+  "initialFallbackSuggested": false,
+  "inputDisabled": false,
+  "messages": Map {},
+  "sessions": Map {},
+}
+`;

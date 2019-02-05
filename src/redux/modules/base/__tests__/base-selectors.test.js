@@ -2,13 +2,16 @@ import * as selectors from 'src/redux/modules/base/base-selectors';
 
 const mockState = (config) => ({ base: config });
 const mockConfig = (config = {}) => (
-  mockState({
-    embeddableConfig: {
-      embeds: {
-        talk: config.talk,
-        ticketSubmissionForm: config.ticketSubmission
-      }
+  embeddableConfig({
+    embeds: {
+      talk: config.talk,
+      ticketSubmissionForm: config.ticketSubmission
     }
+  })
+);
+const embeddableConfig = (config) => (
+  mockState({
+    embeddableConfig: config
   })
 );
 
@@ -55,4 +58,33 @@ describe('getFormTitleKey', () => {
         .toEqual('message');
     });
   });
+});
+
+test('getBrand', () => {
+  const config = embeddableConfig({ brand: 'x brand' });
+
+  expect(selectors.getBrand(config))
+    .toEqual('x brand');
+});
+
+test('getBrandLogoUrl', () => {
+  const config = embeddableConfig({ brandLogoUrl: 'logo url' });
+
+  expect(selectors.getBrandLogoUrl(config))
+    .toEqual('logo url');
+});
+
+test('getAnswerBotEnabled', () => {
+  const config = embeddableConfig({
+    embeds: {
+      helpCenterForm: {
+        props: {
+          answerBotEnabled: true
+        }
+      }
+    }
+  });
+
+  expect(selectors.getAnswerBotEnabled(config))
+    .toEqual(true);
 });

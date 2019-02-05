@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`on no click displays the reasons 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <h3
+      class="title"
+    >
+      Please tell us why.
+    </h3>
+    <div
+      class="reasonButtons"
+    >
+      <button
+        class="
+      button
+      relatedBtn
+    "
+      >
+        It's related, but it didn't answer my question
+      </button>
+      <button
+        class="
+      button
+      unrelatedBtn
+    "
+      >
+        It's not related to my question
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <h3
+      class="title"
+    >
+      Does this article answer your question?
+    </h3>
+    <div
+      class="container buttonRight optionButtons"
+    >
+      <button
+        class="
+      button
+      
+    "
+      >
+        Yes
+      </button>
+      <button
+        class="
+      button
+      noBtn
+    "
+      >
+        No, I need help
+      </button>
+    </div>
+  </div>
+</div>
+`;

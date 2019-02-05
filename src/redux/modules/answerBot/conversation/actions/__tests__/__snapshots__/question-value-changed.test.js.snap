@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`questionValueChanged dispatches expected payload 1`] = `
+Object {
+  "payload": "hello",
+  "type": "widget/answerBot/QUESTION_VALUE_CHANGED",
+}
+`;

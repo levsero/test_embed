@@ -1,0 +1,270 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bot avatar renders agent avatar 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="name fadeIn"
+    >
+      <div
+        class="nameOnly"
+      >
+        Answer Bot
+      </div>
+      <div
+        class="tag Tag-sc-1x3j99r-0 index__c-tag___PoxLO iyFxBK"
+        data-garden-id="tags.tag_view"
+        data-garden-version="1.2.0"
+      >
+        BOT
+      </div>
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="transitionWrapper"
+        style="opacity: 1; bottom: 0px;"
+      >
+        <div
+          class="wrapper"
+        >
+          <div
+            class="message botMessage"
+          >
+            <div>
+              <div
+                class="messageBubble messageBubble botBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  hello
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img
+      class="avatar avatar fadeIn"
+      src="http://url"
+    />
+  </div>
+</div>
+`;
+
+exports[`bot avatar renders brand logo 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="name fadeIn"
+    >
+      <div
+        class="nameOnly"
+      >
+        Answer Bot
+      </div>
+      <div
+        class="tag Tag-sc-1x3j99r-0 index__c-tag___PoxLO iyFxBK"
+        data-garden-id="tags.tag_view"
+        data-garden-version="1.2.0"
+      >
+        BOT
+      </div>
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="transitionWrapper"
+        style="opacity: 1; bottom: 0px;"
+      >
+        <div
+          class="wrapper"
+        >
+          <div
+            class="message botMessage"
+          >
+            <div>
+              <div
+                class="messageBubble messageBubble botBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  hello
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img
+      class="avatar avatar fadeIn"
+      src="http://url"
+    />
+  </div>
+</div>
+`;
+
+exports[`bot name renders agent name 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="name fadeIn"
+    >
+      <div
+        class="nameOnly"
+      >
+        Bond
+      </div>
+      <div
+        class="tag Tag-sc-1x3j99r-0 index__c-tag___PoxLO iyFxBK"
+        data-garden-id="tags.tag_view"
+        data-garden-version="1.2.0"
+      >
+        BOT
+      </div>
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="transitionWrapper"
+        style="opacity: 1; bottom: 0px;"
+      >
+        <div
+          class="wrapper"
+        >
+          <div
+            class="message botMessage"
+          >
+            <div>
+              <div
+                class="messageBubble messageBubble botBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  hello
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span
+      class="container avatar fadeIn Icon--answerBot"
+      type="Icon--answerBot"
+    >
+      test-file-stub
+    </span>
+  </div>
+</div>
+`;
+
+exports[`renders expected classes and components with default props 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="name fadeIn"
+    >
+      <div
+        class="nameOnly"
+      >
+        Answer Bot
+      </div>
+      <div
+        class="tag Tag-sc-1x3j99r-0 index__c-tag___PoxLO iyFxBK"
+        data-garden-id="tags.tag_view"
+        data-garden-version="1.2.0"
+      >
+        BOT
+      </div>
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="transitionWrapper"
+        style="opacity: 1; bottom: 0px;"
+      >
+        <div
+          class="wrapper"
+        >
+          <div
+            class="message botMessage"
+          >
+            <div>
+              <div
+                class="messageBubble messageBubble botBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  hello
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span
+      class="container avatar fadeIn Icon--answerBot"
+      type="Icon--answerBot"
+    >
+      test-file-stub
+    </span>
+  </div>
+</div>
+`;
+
+exports[`visitor name and avatar renders nothing 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="container"
+    >
+      <div
+        class="transitionWrapper"
+        style="opacity: 1; bottom: 0px;"
+      >
+        <div
+          class="wrapper"
+        >
+          <div
+            class="message userMessage"
+          >
+            <div>
+              <div
+                class="messageBubble messageBubble userBackground"
+              >
+                <span
+                  class="Linkify"
+                >
+                  hello
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

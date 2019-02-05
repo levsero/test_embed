@@ -13,7 +13,8 @@ const initialState = {
     helpCenterForm: {
       props: {
         contextualHelpEnabled: false,
-        signInRequired: false
+        signInRequired: false,
+        answerBotEnabled: false
       }
     },
     zopimChat: {
@@ -35,7 +36,9 @@ const initialState = {
   color: '#659700', // default base color
   textColor: undefined,
   cp4: false,
-  hideZendeskLogo: false
+  hideZendeskLogo: false,
+  brand: undefined,
+  brandLogoUrl: undefined
 };
 
 const embeddableConfig = (state = initialState, action) => {
@@ -82,7 +85,9 @@ const embeddableConfig = (state = initialState, action) => {
         color: payload.color || _.get(state, 'color.base'),
         textColor: payload.textColor || _.get(state, 'color.text'),
         cp4: _.get(payload, 'cp4', state.cp4),
-        hideZendeskLogo: _.get(payload, 'hideZendeskLogo', state.hideZendeskLogo)
+        hideZendeskLogo: _.get(payload, 'hideZendeskLogo', state.hideZendeskLogo),
+        brand: _.get(payload, 'brand', state.brand),
+        brandLogoUrl: _.get(payload, 'brandLogoUrl', state.brandLogoUrl)
       };
     default:
       return state;
