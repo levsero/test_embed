@@ -126,6 +126,9 @@ exports[`generateUserWidgetCSS when the color is light calculates the css correc
     .u-userLinkColor a {
       color: #186766 !important;
     }
+    .u-userLinkColor span {
+      color: #186766 !important;
+    }
     .u-userLinkColor a:hover {
       color: #186766 !important;
     }
@@ -213,6 +216,9 @@ exports[`generateUserWidgetCSS when the color is not light u-userTextColor calcu
     .u-userLinkColor a {
       color: #283646 !important;
     }
+    .u-userLinkColor span {
+      color: #283646 !important;
+    }
     .u-userLinkColor a:hover {
       color: #283646 !important;
     }
@@ -298,6 +304,9 @@ exports[`generateUserWidgetCSS when the color is set via embeddable config uses 
       border-color: #283646 !important;
     }
     .u-userLinkColor a {
+      color: #283646 !important;
+    }
+    .u-userLinkColor span {
       color: #283646 !important;
     }
     .u-userLinkColor a:hover {
@@ -420,6 +429,9 @@ exports[`when overriding with zESettings when overriding button colours and the 
     .u-userLinkColor a {
       color: #63163D !important;
     }
+    .u-userLinkColor span {
+      color: #63163D !important;
+    }
     .u-userLinkColor a:hover {
       color: #63163D !important;
     }
@@ -505,6 +517,9 @@ exports[`when overriding with zESettings when overriding button colours and the 
       border-color: #DC143C !important;
     }
     .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor span {
       color: #63163D !important;
     }
     .u-userLinkColor a:hover {
@@ -594,6 +609,9 @@ exports[`when overriding with zESettings when overriding header colours and the 
     .u-userLinkColor a {
       color: #63163D !important;
     }
+    .u-userLinkColor span {
+      color: #63163D !important;
+    }
     .u-userLinkColor a:hover {
       color: #63163D !important;
     }
@@ -679,6 +697,9 @@ exports[`when overriding with zESettings when overriding header colours and the 
       border-color: #FF69B4 !important;
     }
     .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor span {
       color: #63163D !important;
     }
     .u-userLinkColor a:hover {
@@ -814,6 +835,9 @@ exports[`when overriding with zESettings when overriding link colours and the ov
     .u-userLinkColor a {
       color: #63163D !important;
     }
+    .u-userLinkColor span {
+      color: #63163D !important;
+    }
     .u-userLinkColor a:hover {
       color: #63163D !important;
     }
@@ -899,6 +923,9 @@ exports[`when overriding with zESettings when overriding link colours and the ov
       border-color: #FF69B4 !important;
     }
     .u-userLinkColor a {
+      color: #6B8E23 !important;
+    }
+    .u-userLinkColor span {
       color: #6B8E23 !important;
     }
     .u-userLinkColor a:hover {
@@ -988,6 +1015,9 @@ exports[`when overriding with zESettings when overriding list colours and the ov
     .u-userLinkColor a {
       color: #63163D !important;
     }
+    .u-userLinkColor span {
+      color: #63163D !important;
+    }
     .u-userLinkColor a:hover {
       color: #63163D !important;
     }
@@ -1073,6 +1103,9 @@ exports[`when overriding with zESettings when overriding list colours and the ov
       border-color: #FF69B4 !important;
     }
     .u-userLinkColor a {
+      color: #63163D !important;
+    }
+    .u-userLinkColor span {
       color: #63163D !important;
     }
     .u-userLinkColor a:hover {
@@ -1183,6 +1216,9 @@ exports[`when the color is extremely light (white or almost white) generateUserW
       border-color: #7C7C7C !important;
     }
     .u-userLinkColor a {
+      color: #6F6F6F !important;
+    }
+    .u-userLinkColor span {
       color: #6F6F6F !important;
     }
     .u-userLinkColor a:hover {
