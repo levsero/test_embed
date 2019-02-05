@@ -237,14 +237,14 @@ describe('HistoryLog component', () => {
 
   describe('renderDivider', () => {
     beforeEach(() => {
-      const component = instanceRender(<HistoryLog chatHistoryLog={[]} luxon='luxon' />);
+      const component = instanceRender(<HistoryLog chatHistoryLog={[]} />);
 
       component.renderDivider(1234);
     });
 
-    it('calls formatter with library, timestamp and showToday option', () => {
+    it('calls formatter with timestamp and showToday option', () => {
       expect(dateTimeSpy)
-        .toHaveBeenCalledWith('luxon', 1234, { showToday: true });
+        .toHaveBeenCalledWith(1234, { showToday: true });
     });
   });
 

@@ -1,38 +1,39 @@
-import 'core-js/es6/symbol';
-import 'core-js/es6/object';
-import 'core-js/fn/symbol/iterator';
-import 'core-js/fn/number/is-nan';
-import 'core-js/es6/array';
-import 'core-js/fn/string/virtual/starts-with';
-import 'core-js/fn/string/virtual/repeat';
-import 'core-js/fn/math/trunc';
-
 import { i18n } from 'service/i18n';
+import _ from 'lodash';
 
-export function dateTime(luxon, timestamp, opts = {}) {
-  const { DateTime } = luxon;
-  const ts = toDateTime(DateTime, timestamp);
+const defaultOptions = {
+    showToday: false,
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+  },
+  minuteOptions = {
+    hour: 'numeric',
+    minute: 'numeric'
+  };
 
-  if (opts.showToday) {
-    const onSameDay = ts.hasSame(Date.now(), 'days');
+export function dateTime(timestamp, options = {}) {
+  const mergedOpts = _.merge({}, defaultOptions, options);
+  const messageFormattedDate = i18n.dateTimeFormat(timestamp, mergedOpts);
 
-    if (onSameDay) {
-      const timeFormat = ts.toLocaleString(DateTime.TIME_SIMPLE);
+  if (mergedOpts.showToday && isToday(timestamp)) {
+    const localMinutes = i18n.dateTimeFormat(timestamp, minuteOptions);
 
-      return i18n.t('embeddable_framework.common.today', { time: timeFormat });
-    }
+    return i18n.t('embeddable_framework.common.today', {
+      time: localMinutes
+    });
   }
-  return ts.toLocaleString(DateTime.DATETIME_MED);
+
+  return messageFormattedDate;
 }
 
-function toDateTime(DateTime, timestamp) {
-  let locale = i18n.getLocale();
-  let ts = DateTime.fromMillis(timestamp);
+const isToday = (inStamp) => {
+  const inDate = new Date(inStamp),
+    today = new Date();
 
-  try {
-    return ts.setLocale(locale);
-  } catch (_) {
-    // in case supplied locale is not supported
-    return ts.setLocale('en');
-  }
-}
+  return inDate.getDay() === today.getDay()
+    && inDate.getMonth() === today.getMonth()
+    && inDate.getFullYear() === today.getFullYear();
+};

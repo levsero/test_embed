@@ -1,5 +1,3 @@
-import Map from 'core-js/library/es6/map';
-
 import {
   SDK_HISTORY_CHAT_MSG,
   SDK_HISTORY_CHAT_FILE,

@@ -228,12 +228,6 @@ test('getSliderVendor', () => {
   expect(result).toEqual('wheeeeeee');
 });
 
-test('GetLuxonVendor', () => {
-  const result = selectors.getLuxonVendor(testState);
-
-  expect(result).toEqual('What am I?');
-});
-
 test('getWindowSettings', () => {
   const result = selectors.getWindowSettings(testState);
 

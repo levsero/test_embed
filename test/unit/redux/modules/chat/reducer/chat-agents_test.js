@@ -1,5 +1,3 @@
-import Map from 'core-js/library/es6/map';
-
 describe('chat reducer agents', () => {
   let reducer,
     actionTypes,
