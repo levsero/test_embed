@@ -19,9 +19,7 @@ describe('zChatWithTimeout', () => {
       'src/constants/chat': {
         TIMEOUT: 5000
       },
-      'async': {
-        timeout: mockTimeout
-      }
+      'async/timeout': mockTimeout
     });
 
     zChatWithTimeoutPath = buildSrcPath('redux/modules/chat/helpers/zChatWithTimeout');

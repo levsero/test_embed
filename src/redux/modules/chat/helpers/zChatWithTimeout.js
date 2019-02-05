@@ -1,6 +1,6 @@
 import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
 import { TIMEOUT } from 'src/constants/chat';
-import { timeout as asyncTimeout } from 'async';
+import asyncTimeout from 'async/timeout';
 
 export default function zChatWithTimeout(getState, methodName, timeout=TIMEOUT) {
   const state = getState();
