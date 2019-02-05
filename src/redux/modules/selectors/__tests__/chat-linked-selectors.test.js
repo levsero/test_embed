@@ -473,6 +473,13 @@ describe('getIsPopoutButtonVisible', () => {
       expect(result).toEqual(false);
       globals.isPopout.mockRestore();
     });
+
+    test('when popout button is not enabled in settings', () => {
+      result = selectors.getIsPopoutButtonVisible(getModifiedState(
+        { settings: { navigation: { popoutButton: { enabled: false } } } }
+      ));
+      expect(result).toEqual(false);
+    });
   });
 });
 

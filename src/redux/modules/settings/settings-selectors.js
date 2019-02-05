@@ -56,6 +56,8 @@ export const getStylingOffset = (state) => {
   };
 };
 
+export const getSettingsNavigationPopoutButtonEnabled = (state) => state.settings.navigation.popoutButton.enabled;
+
 // CONTACT FORM
 export const getSettingsContactFormAttachments = (state) => state.settings.contactForm.settings.attachments;
 export const getSettingsContactFormSubject = (state) => state.settings.contactForm.settings.subject;

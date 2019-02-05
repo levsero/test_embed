@@ -105,6 +105,11 @@ const getModifiedState = (inputState) => {
         },
         title: { '*': 'Hello World', },
       },
+      navigation: {
+        popoutButton: {
+          enabled: true
+        }
+      },
       launcher: {
         badge: { label: { '*': 'badgeLabel' } },
         bleep: 'blap'
