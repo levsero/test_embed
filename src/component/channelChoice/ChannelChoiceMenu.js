@@ -8,11 +8,13 @@ import { ButtonIcon } from 'component/button/ButtonIcon';
 import { locals as styles } from './ChannelChoiceMenu.scss';
 import {
   getContactOptionsChatLabelOnline,
+  getContactOptionsChatLabelOffline,
   getContactOptionsContactFormLabel
 } from 'src/redux/modules/selectors';
 
 const mapStateToProps = (state) => ({
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
+  chatOfflineAvailableLabel: getContactOptionsChatLabelOffline(state),
   submitTicketLabel: getContactOptionsContactFormLabel(state)
 });
 
@@ -27,6 +29,7 @@ class ChannelChoiceMenu extends Component {
     chatOfflineAvailable: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatOnlineAvailableLabel: PropTypes.string.isRequired,
+    chatOfflineAvailableLabel: PropTypes.string.isRequired,
     submitTicketLabel: PropTypes.string.isRequired
   };
 
@@ -147,19 +150,18 @@ class ChannelChoiceMenu extends Component {
   }
 
   renderChatLabel = () => {
-    const { chatAvailable, chatOfflineAvailable } = this.props;
-    const onlineAvailableLabel = this.props.chatOnlineAvailableLabel;
+    const { chatAvailable, chatOfflineAvailable, chatOnlineAvailableLabel, chatOfflineAvailableLabel } = this.props;
     const offlineFormKey = 'embeddable_framework.channelChoice.button.label.no_available_agents_offline_form';
     const offlineAvailableLabel = i18n.t(offlineFormKey);
     const offlineLabel = (
       <span className={styles.offlineOptionContainer}>
-        <div className={styles.offlineLabelOption}>{onlineAvailableLabel}</div>
+        <div className={styles.offlineLabelOption}>{chatOfflineAvailableLabel}</div>
         <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
       </span>
     );
 
     if (chatAvailable) {
-      return onlineAvailableLabel;
+      return chatOnlineAvailableLabel;
     } else if (chatOfflineAvailable) {
       return offlineAvailableLabel;
     }

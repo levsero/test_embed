@@ -1050,6 +1050,10 @@ describe('getContactOptionsChatLabelOnline', () => {
   testTranslationStringSelector(selectors.getContactOptionsChatLabelOnline);
 });
 
+describe('getContactOptionsChatLabelOffline', () => {
+  testTranslationStringSelector(selectors.getContactOptionsChatLabelOffline);
+});
+
 describe('getContactOptionsContactFormLabel', () => {
   testTranslationStringSelector(selectors.getContactOptionsContactFormLabel);
 });
