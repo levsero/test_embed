@@ -125,6 +125,9 @@ function generateUserWidgetCSS(color) {
     .u-userLinkColor a {
       color: ${colorVariables.linkColorStr} !important;
     }
+    .u-userLinkColor span {
+      color: ${colorVariables.linkColorStr} !important;
+    }
     .u-userLinkColor a:hover {
       color: ${colorVariables.linkTextColorStr} !important;
     }
