@@ -163,7 +163,9 @@ export function handleChatBoxChange(msg) {
   };
 }
 
-export function setVisitorInfo(visitor, timestamp=Date.now()) {
+// TODO: When tests are ported over to jest find a better way to test timestamp
+// instead of passing it in and using the default for everything in prod.
+export function setVisitorInfo(visitor, successAction, timestamp=Date.now()) {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState());
 
@@ -179,12 +181,22 @@ export function setVisitorInfo(visitor, timestamp=Date.now()) {
             type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
             payload: { ...visitor, timestamp }
           });
+          if (_.isObjectLike(successAction)) dispatch(successAction);
         } else {
           dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE });
         }
       });
     }
   };
+}
+
+export function editContactDetailsSubmitted(visitor) {
+  const successAction = {
+    type: actions.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
+    payload: { ...visitor, timestamp: Date.now() }
+  };
+
+  return setVisitorInfo(visitor, successAction);
 }
 
 export function sendVisitorPath(options = {}) {

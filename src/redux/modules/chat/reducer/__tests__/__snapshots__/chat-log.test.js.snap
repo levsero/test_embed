@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`chatLog events when a SET_VISITOR_INFO_REQUEST_SUCCESS action is received adds a new event group 1`] = `
+exports[`chatLog events when a CHAT_CONTACT_DETAILS_UPDATE_SUCCESS action is received adds a new event group 1`] = `
 Array [
   Object {
     "author": "visitor",

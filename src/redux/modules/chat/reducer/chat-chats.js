@@ -13,7 +13,7 @@ import {
   CHAT_FILE_REQUEST_SENT,
   CHAT_FILE_REQUEST_SUCCESS,
   CHAT_FILE_REQUEST_FAILURE,
-  SET_VISITOR_INFO_REQUEST_SUCCESS
+  CHAT_CONTACT_DETAILS_UPDATE_SUCCESS
 } from '../chat-action-types';
 import {
   CHAT_MESSAGE_TYPES,
@@ -105,7 +105,7 @@ const chats = (state = initialState, action) => {
       }
 
       return concatChat(state, detail);
-    case SET_VISITOR_INFO_REQUEST_SUCCESS:
+    case CHAT_CONTACT_DETAILS_UPDATE_SUCCESS:
       return concatContactDetailsUpdated(state, action.payload);
     default:
       return state;
