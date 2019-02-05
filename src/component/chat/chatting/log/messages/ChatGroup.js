@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import { Avatar } from 'component/Avatar';
-import { ChatGroupAvatar } from 'component/chat/chatting/ChatGroupAvatar';
 import { MessageBubble } from 'component/shared/MessageBubble';
 import { Attachment } from 'component/attachment/Attachment';
 import { MessageError } from 'component/chat/chatting/MessageError';
@@ -29,6 +28,8 @@ export default class ChatGroup extends Component {
     handleSendMsg: PropTypes.func,
     onImageLoad: PropTypes.func,
     chatLogCreatedAt: PropTypes.number,
+    socialLogin: PropTypes.object,
+    avatarPath: PropTypes.string,
     children: PropTypes.object,
     isMobile: PropTypes.bool.isRequired
   };
@@ -39,18 +40,29 @@ export default class ChatGroup extends Component {
     handleSendMsg: () => {},
     onImageLoad: () => {},
     chatLogCreatedAt: 0,
-    socialLogin: {}
+    socialLogin: {},
+    avatarPath: ''
   };
 
   constructor(props) {
     super(props);
 
     this.container = null;
-    this.avatar = new ChatGroupAvatar(props);
   }
 
-  componentWillReceiveProps(props) {
-    this.avatar.updateProps(props);
+  state = {
+    shouldShowAvatar: false
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const hasSocialLoginAvatar = !!props.socialLogin.avatarPath && props.socialLogin.avatarPath !== '';
+    const shouldShowAvatar = props.showAvatar && (props.isAgent || hasSocialLoginAvatar);
+
+    if (shouldShowAvatar !== state.shouldShowAvatar) {
+      return { shouldShowAvatar };
+    }
+
+    return null;
   }
 
   renderName = (isAgent, showAvatar, messages) => {
@@ -107,8 +119,8 @@ export default class ChatGroup extends Component {
       const wrapperClasses = classNames(
         styles.wrapper,
         {
-          [styles.avatarAgentWrapper]: this.avatar.shouldDisplay() && this.avatar.isAgent,
-          [styles.avatarEndUserWrapper]: this.avatar.shouldDisplay() && this.avatar.isEndUser,
+          [styles.avatarAgentWrapper]: this.state.shouldShowAvatar && this.props.isAgent,
+          [styles.avatarEndUserWrapper]: this.state.shouldShowAvatar && !this.props.isAgent,
           [styles.fadeUp]: shouldAnimate
         }
       );
@@ -240,19 +252,22 @@ export default class ChatGroup extends Component {
   }
 
   renderAvatar = (messages) => {
-    if (!this.avatar.shouldDisplay()) return;
+    if (!this.state.shouldShowAvatar) return;
 
     const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt;
+    const avatarPath = this.props.isAgent
+      ? this.props.avatarPath
+      : this.props.socialLogin.avatarPath;
     const avatarClasses = classNames({
       [styles.avatar]: true,
-      [styles.agentAvatar]: this.avatar.isAgent,
-      [styles.endUserAvatar]: this.avatar.isEndUser,
+      [styles.agentAvatar]: this.props.isAgent,
+      [styles.endUserAvatar]: !this.props.isAgent,
       [styles.fadeIn]: shouldAnimate
     });
 
     return (<Avatar
       className={avatarClasses}
-      src={this.avatar.path()}
+      src={avatarPath}
       fallbackIcon='Icon--agent-avatar'
     />);
   }

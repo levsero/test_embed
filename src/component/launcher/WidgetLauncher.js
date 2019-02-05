@@ -60,8 +60,8 @@ class WidgetLauncher extends Component {
     super(props, context);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.notificationCount !== this.props.notificationCount) {
+  componentDidUpdate(prevProps) {
+    if (this.props.notificationCount !== prevProps.notificationCount) {
       this.props.forceUpdateWorld();
     }
   }
