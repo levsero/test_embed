@@ -21,6 +21,8 @@ import {
   getSettingsChatHideWhenOffline,
   getSettingsColorLauncher,
   getSettingsColorLauncherText,
+  getSettingsColorTheme,
+  getSettingsColor,
   getHelpCenterChatButton,
   getHelpCenterMessageButton,
   getHelpCenterSearchPlaceholder,
@@ -54,7 +56,8 @@ import { getActiveEmbed,
   getIPMWidget,
   getEmbeddableConfig,
   getHiddenByHideAPI,
-  getConfigColor,
+  getConfigColorBase,
+  getConfigColorText,
   getHiddenByActivateAPI,
   getBootupTimeout,
   getWebWidgetVisible as getBaseWebWidgetVisible,
@@ -321,28 +324,64 @@ export const getContactOptionsContactFormLabel = createSelector(
 );
 
 const getCoreColor = createSelector(
-  [getEmbeddableConfig, getConfigColor, getChatThemeColor],
-  (embeddableConfig, configColor, chatThemeColor) => {
-    return (embeddableConfig.cp4 && chatThemeColor) ? chatThemeColor : configColor;
+  [getEmbeddableConfig, getSettingsColorTheme, getChatThemeColor, getConfigColorBase],
+  (embeddableConfig, settingsColorTheme, chatThemeColor, configColorBase) => {
+    return (embeddableConfig.cp4 && chatThemeColor) ? chatThemeColor : { base: settingsColorTheme || configColorBase };
   }
 );
 
-const getWidgetColor = (state) => getCoreColor(state);
+export const getWidgetColor = createSelector(
+  [getCoreColor, getSettingsColor],
+  (coreColor, settingsColors) => {
+    return {
+      ...settingsColors,
+      ...coreColor
+    };
+  }
+);
 
-export const getChatBadgeColor = (state) => {
-  const configColor = getConfigColor(state);
+export const getShowChatBadgeLauncher = createSelector(
+  [ getUserMinimizedChatBadge,
+    getChatStandalone,
+    getChatOnline,
+    getChatBadgeEnabled,
+    getIsChatting ],
+  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting) => {
+    return !isMinimizedChatBadge &&
+      isChatStandalone &&
+      !isMobileBrowser() &&
+      chatOnline &&
+      chatBadgeEnabled &&
+      !isChatting;
+  }
+);
 
-  return {
-    base: getSettingsColorLauncher(state) || getAccountSettingsBadgeColor(state) || configColor.base,
-    text: getSettingsColorLauncherText(state) || configColor.text
-  };
-};
+const getBaseColor = createSelector(
+  [getSettingsColorLauncher, getShowChatBadgeLauncher, getAccountSettingsBadgeColor, getConfigColorBase],
+  (settingsColor, showChatBadge, settingsBadgeColor, configColorBase) => {
+    const chatBadgeColor = showChatBadge ? settingsBadgeColor : undefined;
 
-const getLauncherColor = (state) => {
-  return getShowChatBadgeLauncher(state) ? getChatBadgeColor(state) : getCoreColor(state);
-};
+    return settingsColor || chatBadgeColor || configColorBase;
+  }
+);
 
-export const getColor = (state, frame = 'webWidget') => {
+const getTextColor = createSelector(
+  [getSettingsColorLauncherText, getConfigColorText],
+  (settingsColorLauncherText, configColorText) => {
+    return settingsColorLauncherText || configColorText;
+  }
+);
+
+const getLauncherColor = createSelector(
+  [getBaseColor, getTextColor],
+  (baseColor, textColor) => {
+    return {
+      base: baseColor,
+      launcherText: textColor
+    };
+  });
+
+export const getColor = (state, frame) => {
   if (frame === 'webWidget') {
     return getWidgetColor(state);
   }
@@ -431,22 +470,6 @@ export const getWidgetDisplayInfo = createSelector(
     } else {
       return 'hidden';
     }
-  }
-);
-
-export const getShowChatBadgeLauncher = createSelector(
-  [ getUserMinimizedChatBadge,
-    getChatStandalone,
-    getChatOnline,
-    getChatBadgeEnabled,
-    getIsChatting ],
-  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting) => {
-    return !isMinimizedChatBadge &&
-      isChatStandalone &&
-      !isMobileBrowser() &&
-      chatOnline &&
-      chatBadgeEnabled &&
-      !isChatting;
   }
 );
 

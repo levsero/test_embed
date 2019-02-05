@@ -236,9 +236,9 @@ const talkDropdownOverrides = {
   'select.label': mobileOverrides
 };
 
-function getGardenOverrides() {
+function getGardenOverrides(colors) {
   const themeColor = getThemeColor();
-  const colorVariables = getWidgetColorVariables(themeColor);
+  const colorVariables = getWidgetColorVariables({ ...themeColor, ...colors });
 
   return {
     'textfields.text_group': bottomMargin,

@@ -34,6 +34,9 @@ describe('EmbedWrapper', () => {
         }
       },
       'component/frame/Navigation': noopReactComponent(),
+      'src/redux/modules/selectors': {
+        getWidgetColor: noop
+      },
       'lodash': _,
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['isRTL'])

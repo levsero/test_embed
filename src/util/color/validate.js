@@ -1,29 +1,27 @@
-import { settings } from 'service/settings';
 import { _ } from 'lodash';
 
 const defaultColor = '#78A300';
 let selectedThemeColor = { base: defaultColor };
 
 function themeColor(base = null) {
-  let color = colorFor('theme', normalize(base), defaultColor);
+  let color = colorFor(normalize(base), defaultColor);
 
   selectedThemeColor.base = color;
   return color;
 }
 
 function mainTextColor(base = null) {
-  let color = colorFor('text', normalize(base));
+  let color = colorFor(normalize(base));
 
   selectedThemeColor.text = color;
   return color;
 }
 
-function colorFor(element) {
-  let color = normalize(settings.get(`color.${element}`));
-  let fallbacks = Array.prototype.slice.call(arguments, 1);
-  const colorOptions = Array.prototype.concat([color], fallbacks);
+function colorFor() {
+  const colorOptions = arguments;
+  const color = _.find(colorOptions, (option) => { return validatedColor(option); });
 
-  return _.find(colorOptions, (option) => { return validatedColor(option); });
+  return normalize(color);
 }
 
 function validatedColor(color) {

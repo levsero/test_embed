@@ -27,6 +27,9 @@ export const getSettingsLauncherBadge = (state) => state.settings.launcher.badge
 export const getSettingsColor = (state) => state.settings.color;
 export const getSettingsColorLauncher = (state) => getSettingsColor(state).launcher;
 export const getSettingsColorLauncherText = (state) => getSettingsColor(state).launcherText;
+export const getSettingsColorTheme = (state) => getSettingsColor(state).theme;
+export const getSettingsColorResultLists = (state) => getSettingsColor(state).resultLists;
+export const getSettingsColorArticleLinks = (state) => getSettingsColor(state).articleLinks;
 
 // TALK
 export const getSettingsTalkTitle = (state) => state.settings.talk.title;

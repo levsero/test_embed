@@ -10,6 +10,7 @@ import { generateWebWidgetPreviewCSS } from 'utility/color/styles';
 import { i18n } from 'service/i18n';
 import { getGardenOverrides } from './gardenOverrides';
 import { getDocumentHost } from 'utility/globals';
+import { getWidgetColor } from 'src/redux/modules/selectors';
 
 export class EmbedWrapper extends Component {
   static propTypes = {
@@ -104,7 +105,10 @@ export class EmbedWrapper extends Component {
 
     return (
       <Provider store={this.props.reduxStore}>
-        <ThemeProvider theme={getGardenOverrides()} rtl={i18n.isRTL()} document={this.props.document}>
+        <ThemeProvider
+          theme={getGardenOverrides(getWidgetColor(this.props.reduxStore.getState()))}
+          rtl={i18n.isRTL()}
+          document={this.props.document}>
           <FocusJailContainer focusOnMount={false}>
             {({ getContainerProps, containerRef }) => (
               <div {...getContainerProps(this.getEmbedWrapperProps(containerRef))}>

@@ -121,8 +121,14 @@ class Frame extends Component {
     widgetShowAnimationComplete: PropTypes.func,
     color: PropTypes.shape({
       base: PropTypes.string,
-      text: PropTypes.string
-    }),
+      text: PropTypes.string,
+      launcher: PropTypes.string,
+      launcherText: PropTypes.string,
+      button: PropTypes.string,
+      resultLists: PropTypes.string,
+      header: PropTypes.string,
+      articleLinks: PropTypes.string
+    }).isRequired,
     generateUserCSS: PropTypes.func,
     chatStandalone: PropTypes.bool,
     isMobile: PropTypes.bool.isRequired,
