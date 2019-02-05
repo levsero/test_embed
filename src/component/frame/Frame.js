@@ -186,17 +186,19 @@ class Frame extends Component {
     this.renderFrameContent();
   }
 
-  componentDidUpdate = (prevProps, _prevState) => {
+  componentDidUpdate = (prevProps) => {
     this.renderFrameContent();
 
     if (prevProps.visible && !this.props.visible) {
-      this.hide();
+      this.waitForRender(this.hide);
     } else if (!prevProps.visible && this.props.visible) {
-      this.show();
+      this.waitForRender(this.show);
     }
 
     if (this.props.color !== prevProps.color) {
-      this.setCustomCSS(this.generateUserCSSWithColor(this.props.color));
+      this.waitForRender(() => {
+        this.setCustomCSS(this.generateUserCSSWithColor(this.props.color));
+      });
     }
   }
 
