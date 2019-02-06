@@ -73,11 +73,6 @@ describe('ChannelChoiceDesktop component', () => {
           .not.toBeNull();
       });
 
-      it('shows the divider', () => {
-        expect(channelChoiceComponent.querySelector('.hr'))
-          .not.toBeNull();
-      });
-
       it('does not pass the footerNoLogo class to ScrollContainer', () => {
         expect(channelChoiceComponent.querySelector('.footerNoLogo'))
           .toBeNull();
@@ -102,11 +97,6 @@ describe('ChannelChoiceDesktop component', () => {
 
       it('does not have an inner container class', () => {
         expect(channelChoiceComponent.querySelector('.inner'))
-          .toBeNull();
-      });
-
-      it('does not show the divider', () => {
-        expect(channelChoiceComponent.querySelector('.hr'))
           .toBeNull();
       });
 

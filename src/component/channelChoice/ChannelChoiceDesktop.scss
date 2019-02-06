@@ -6,14 +6,6 @@
 
 @import '../../styles/_vars.scss';
 
-.hr {
-  composes: u-paddingAN u-marginTS u-marginBN u-marginHS u-borderNone from global;
-  border-bottom: #{1/$font-size}rem solid $zd-color-grey-200 !important;
-  // ie hacks
-  color: $zd-color-grey-200;
-  min-height: 0;
-}
-
 .inner {
   composes: u-marginBL from global;
 }

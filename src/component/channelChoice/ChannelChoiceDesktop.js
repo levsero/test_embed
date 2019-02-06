@@ -42,7 +42,6 @@ export class ChannelChoiceDesktop extends Component {
       talkOnline,
       callbackEnabled,
       chatOfflineAvailable } = this.props;
-    const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
 
     return (
@@ -55,7 +54,6 @@ export class ChannelChoiceDesktop extends Component {
           onNextClick={handleNextClick}
           chatOfflineAvailable={chatOfflineAvailable}
           chatAvailable={chatAvailable} />
-        {divider}
       </div>
     );
   }
