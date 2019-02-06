@@ -363,11 +363,17 @@ export const getShowChatBadgeLauncher = createSelector(
 );
 
 const getBaseColor = createSelector(
-  [getSettingsColorLauncher, getShowChatBadgeLauncher, getAccountSettingsBadgeColor, getConfigColorBase],
-  (settingsColor, showChatBadge, settingsBadgeColor, configColorBase) => {
+  [
+    getSettingsColorLauncher,
+    getShowChatBadgeLauncher,
+    getAccountSettingsBadgeColor,
+    getConfigColorBase,
+    getSettingsColorTheme
+  ],
+  (settingsColor, showChatBadge, settingsBadgeColor, configColorBase, settingsThemeColor) => {
     const chatBadgeColor = showChatBadge ? settingsBadgeColor : undefined;
 
-    return settingsColor || chatBadgeColor || configColorBase;
+    return settingsColor || settingsThemeColor || chatBadgeColor || configColorBase;
   }
 );
 
