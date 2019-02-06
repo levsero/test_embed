@@ -12,6 +12,8 @@ import {
   SDK_VISITOR_UPDATE
 } from '../chat-action-types';
 import { API_CLEAR_FORM } from '../../base/base-action-types';
+import _ from 'lodash';
+import { getDisplayName } from 'src/util/chat';
 
 const initialState = {
   status: EDIT_CONTACT_DETAILS_SCREEN,
@@ -50,7 +52,8 @@ const editContactDetails = (state = initialState, action) => {
     case SDK_VISITOR_UPDATE:
       return {
         ...state,
-        ...payload.detail
+        ...payload.detail,
+        display_name: getDisplayName(_.get(payload, 'detail.display_name', ''), state.display_name)
       };
     case UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY:
       return {

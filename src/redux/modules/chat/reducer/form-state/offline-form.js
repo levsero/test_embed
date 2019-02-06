@@ -3,6 +3,8 @@ import {
   SDK_VISITOR_UPDATE,
   OFFLINE_FORM_BACK_BUTTON_CLICKED } from '../../chat-action-types';
 import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types';
+import { getDisplayName } from 'src/util/chat';
+import _ from 'lodash';
 
 const initialState = {
   name: '',
@@ -23,7 +25,7 @@ const offlineForm = (state = initialState, action) => {
     case SDK_VISITOR_UPDATE:
       return {
         ...state,
-        name: payload.detail.display_name,
+        name: getDisplayName(_.get(payload, 'detail.display_name', ''), state.name),
         email: payload.detail.email,
         phone: payload.detail.phone
       };
