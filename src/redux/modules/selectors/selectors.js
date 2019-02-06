@@ -362,7 +362,7 @@ export const getShowChatBadgeLauncher = createSelector(
   }
 );
 
-const getBaseColor = createSelector(
+export const getBaseColor = createSelector(
   [
     getSettingsColorLauncher,
     getShowChatBadgeLauncher,
