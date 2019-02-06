@@ -10,16 +10,18 @@ import styling from './styling';
 import contactForm from './contactForm';
 import talk from './talk';
 import contactOptions from './contactOptions';
+import navigation from './navigation';
 
 export default combineReducers({
+  analytics,
   answerBot,
   chat,
-  analytics,
-  launcher,
   color,
-  helpCenter,
-  styling,
   contactForm,
+  contactOptions,
+  helpCenter,
+  launcher,
+  navigation,
+  styling,
   talk,
-  contactOptions
 });

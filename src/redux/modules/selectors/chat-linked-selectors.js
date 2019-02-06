@@ -24,7 +24,8 @@ import {
   getSettingsChatOfflineForm,
   getSettingsChatPrechatForm,
   getSettingsChatDepartmentsEnabled,
-  getSettingsChatDepartment
+  getSettingsChatDepartment,
+  getSettingsNavigationPopoutButtonEnabled
 } from 'src/redux/modules/settings/settings-selectors';
 import {
   DEPARTMENT_STATUSES,
@@ -126,8 +127,11 @@ export const getOfflineFormSettings = createSelector(
   }
 );
 
-export const getIsPopoutButtonVisible = (state) =>
-  getIsPopoutAvailable(state) && getActiveEmbed(state) === 'chat';
+export const getIsPopoutButtonVisible = (state) => {
+  return getSettingsNavigationPopoutButtonEnabled(state)
+    && getIsPopoutAvailable(state)
+    && getActiveEmbed(state) === 'chat';
+};
 
 export const getPrechatFormSettings = createSelector(
   [getSettingsChatPrechatForm, getChatAccountSettingsPrechatForm, getLocale],

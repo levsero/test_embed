@@ -51,6 +51,7 @@ Available settings:
 * [hideWhenOffline](#hidewhenoffline)
 * [label](#label)
 * [messageButton](#messagebutton)
+* [navigation](#navigation)
 * [nickname](#nickname)
 * [notifications](#notifications)
 * [offset](#offset)
@@ -834,6 +835,34 @@ window.zESettings = {
 * [suppress](#suppress)
 * [title](#title)
 
+### navigation
+
+The `navigation` setting has the following properties:
+
+| Property     | Type   | Description
+| ------------ | ------ | -----------
+| popoutButton | bool   | Allows the popout button to be removed from the navigation bar in chat.
+
+#### Availability
+
+* [chat](./chat)
+
+<a name="example-navigation"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    navigation: {
+      popoutButton: {
+        enabled: false
+      }
+    }
+  }
+};
+</script>
+```
 
 ### nickname
 

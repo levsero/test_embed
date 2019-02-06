@@ -54,6 +54,7 @@ const optionWhitelist = {
     'helpCenter.searchPlaceholder',
     'helpCenter.suppress',
     'helpCenter.title',
+    'navigation',
     'launcher.chatLabel',
     'launcher.label',
     'launcher.badge.layout',
