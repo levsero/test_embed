@@ -43,6 +43,7 @@ describe('onStateChange middleware', () => {
   let mockIsMobileBrowser = false;
   let mockWin = 123456;
   let mockHasUnseenAgentMessage;
+  let mockHasWidgetShown = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -157,7 +158,8 @@ describe('onStateChange middleware', () => {
         getWidgetShown: () => mockWidgetShown,
         getSubmitTicketEmbed: () => mockSubmitTicketAvailable,
         getHelpCenterEmbed: () => mockHelpCenterEmbed,
-        getIPMWidget: () => mockIPMWidget
+        getIPMWidget: () => mockIPMWidget,
+        getHasWidgetShown: () => mockHasWidgetShown
       },
       'service/persistence': {
         store: {
@@ -397,13 +399,31 @@ describe('onStateChange middleware', () => {
               describe('when audio settings are on', () => {
                 beforeEach(() => {
                   mockUserSoundSetting = true;
-
-                  stateChangeFn(prevState, nextState, {}, dispatchSpy);
                 });
 
-                it('calls sound', () => {
-                  expect(audioPlaySpy)
-                    .toHaveBeenCalled();
+                describe('when widget has been shown', () => {
+                  beforeEach(() => {
+                    mockHasWidgetShown = true;
+                    stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                  });
+
+                  it('calls sound', () => {
+                    expect(audioPlaySpy)
+                      .toHaveBeenCalled();
+                  });
+                });
+
+                describe('when widget has not been shown', () => {
+                  beforeEach(() => {
+                    mockHasWidgetShown = false;
+                    stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                  });
+
+                  it('does not call sound', () => {
+                    expect(audioPlaySpy)
+                      .not
+                      .toHaveBeenCalled();
+                  });
                 });
               });
 
