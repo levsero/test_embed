@@ -5,7 +5,8 @@ import {
   formatSchedule,
   isDefaultNickname,
   isAgent,
-  createChatPopoutWindow
+  createChatPopoutWindow,
+  getDisplayName
 } from '../chat';
 
 jest.mock('utility/globals');
@@ -216,5 +217,17 @@ describe('createChatPopoutWindow', () => {
 
     expect(globals.win.open)
       .toHaveBeenCalledWith(url, 'Web Widget LiveChat', 'height=600,width=400');
+  });
+});
+
+describe('getDisplayName', () => {
+  it('returns fallback when name is default visitor name', () => {
+    expect(getDisplayName('Visitor 1234', 'blah'))
+      .toEqual('blah');
+  });
+
+  it('returns name when it is not default visitor name', () => {
+    expect(getDisplayName('bruce wayne', 'blah'))
+      .toEqual('bruce wayne');
   });
 });

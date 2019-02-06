@@ -64,11 +64,15 @@ describe('prechat-form', () => {
   });
 
   describe('when a SDK_VISITOR_UPDATE action is dispatched', () => {
-    const newFormState = {
-      display_name: 'Not Terence',
-      email: 'foo@baz',
-      phone: '87654321'
-    };
+    let newFormState = {};
+
+    beforeEach(() => {
+      newFormState = {
+        display_name: 'Not Terence',
+        email: 'foo@baz',
+        phone: '87654321'
+      };
+    });
 
     it('adds the action payload to the state', () => {
       expect(reduce({ type: actions.SDK_VISITOR_UPDATE, payload: { detail: newFormState } }))
@@ -78,6 +82,21 @@ describe('prechat-form', () => {
           email: 'foo@baz',
           phone: '87654321'
         });
+    });
+
+    describe('when a visitor name is passed', () => {
+      beforeEach(() => {
+        newFormState.display_name = 'Visitor 2131231';
+      });
+
+      it('does not update visitor name', () => {
+        expect(reduce({ type: actions.SDK_VISITOR_UPDATE, payload: { detail: newFormState } }))
+          .toEqual({
+            ... initialState,
+            email: 'foo@baz',
+            phone: '87654321'
+          });
+      });
     });
   });
 

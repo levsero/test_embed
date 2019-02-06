@@ -4,6 +4,10 @@ describe('chat form-state reducer', () => {
   beforeAll(() => {
     mockery.enable();
 
+    initMockRegistry({
+      'src/util/chat': {}
+    });
+
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/form-state/index');
 
     reducer = requireUncached(reducerPath).default;

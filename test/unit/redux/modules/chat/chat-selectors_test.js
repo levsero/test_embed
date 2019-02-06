@@ -75,9 +75,7 @@ describe('chat selectors', () => {
       'utility/chat': {
         isDefaultNickname: () => mockIsDefaultNickname
       },
-      'utility/devices': {
-
-      },
+      'utility/devices': {},
       'utility/globals': {
         isPopout: () => mockIsPopout
       }

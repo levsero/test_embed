@@ -57,6 +57,10 @@ function isDefaultNickname(name) {
   return nameRegex.test(name);
 }
 
+function getDisplayName(inName, fallbackName = '') {
+  return isDefaultNickname(inName) ? fallbackName : inName;
+}
+
 function createChatPopoutWindow(chatPopoutSettings, machineId, locale) {
   const hostName = win.location.hostname;
   let url;
@@ -86,7 +90,8 @@ export {
   formatSchedule,
   isDefaultNickname,
   isAgent,
-  createChatPopoutWindow
+  createChatPopoutWindow,
+  getDisplayName
 };
 
 /**

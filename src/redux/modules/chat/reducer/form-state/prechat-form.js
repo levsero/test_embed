@@ -8,6 +8,7 @@ import {
   SDK_VISITOR_UPDATE
 } from '../../chat-action-types';
 import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types';
+import { getDisplayName } from 'src/util/chat';
 
 const initialState = {
   name: '',
@@ -34,7 +35,7 @@ const preChatForm = (state = initialState, action = {}) => {
     case SDK_VISITOR_UPDATE:
       return {
         ...state,
-        name: _.get(payload, 'detail.display_name', state.name),
+        name: getDisplayName(_.get(payload, 'detail.display_name', ''), state.name),
         email: _.get(payload, 'detail.email', state.email),
         phone: _.get(payload, 'detail.phone', state.phone)
       };
