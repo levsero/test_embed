@@ -143,7 +143,7 @@ class Frame extends Component {
       zIndex: PropTypes.number
     }),
     zIndex: PropTypes.number,
-    isPreview: PropTypes.bool
+    isChatPreview: PropTypes.bool
   }
 
   static defaultProps = {
@@ -172,7 +172,7 @@ class Frame extends Component {
     generateUserCSS: () => {},
     chatStandalone: false,
     isMobile: false,
-    isPreview: false
+    isChatPreview: false
   }
 
   constructor(props, context) {
@@ -497,7 +497,7 @@ class Frame extends Component {
           fullscreen={this.props.fullscreen}
           isMobile={this.props.isMobile}
           chatStandalone={this.props.chatStandalone}
-          isPreview={this.props.isPreview}>
+          isChatPreview={this.props.isChatPreview}>
           {newChild}
         </EmbedWrapper>
       </StyleSheetManager>

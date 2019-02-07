@@ -24,7 +24,7 @@ export class EmbedWrapper extends Component {
     useBackButton: PropTypes.bool,
     document: PropTypes.object.isRequired,
     isMobile: PropTypes.bool.isRequired,
-    isPreview: PropTypes.bool
+    isChatPreview: PropTypes.bool
   };
 
   static defaultProps = {
@@ -35,7 +35,7 @@ export class EmbedWrapper extends Component {
     handleCloseClick: () => {},
     hideNavigationButtons: false,
     useBackButton: false,
-    isPreview: false
+    isChatPreview: false
   };
 
   constructor(props, context) {
@@ -122,7 +122,7 @@ export class EmbedWrapper extends Component {
                   isMobile={this.props.isMobile}
                   useBackButton={this.props.useBackButton}
                   hideNavigationButtons={this.props.hideNavigationButtons}
-                  isPreview={this.props.isPreview} / >
+                  isChatPreview={this.props.isChatPreview} / >
                 <div id='Embed' ref={(el) => { this.embed = el; }}>
                   {newChild}
                 </div>

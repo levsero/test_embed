@@ -104,7 +104,7 @@ const renderPreview = (options) => {
     generateUserCSS: generateUserWidgetCSS,
     fullscreen: false,
     isMobile: false,
-    isPreview: true
+    isChatPreview: true
   };
 
   const component = (

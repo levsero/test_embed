@@ -83,7 +83,7 @@ export class Navigation extends Component {
     }),
     locale: PropTypes.string.isRequired,
     popoutButtonVisible: PropTypes.bool.isRequired,
-    isPreview: PropTypes.bool
+    isChatPreview: PropTypes.bool
   };
 
   static defaultProps = {
@@ -97,7 +97,7 @@ export class Navigation extends Component {
     menuVisible: false,
     useMenu: false,
     zChat: {},
-    isPreview: false
+    isChatPreview: false
   };
 
   renderNavButton = (options = {}) => {
@@ -125,11 +125,11 @@ export class Navigation extends Component {
     const {
       chatPopoutSettings,
       zChat,
-      isPreview,
+      isChatPreview,
       locale
     } = this.props;
 
-    if (isPreview) return;
+    if (isChatPreview) return;
 
     this.props.handlePopoutButtonClicked();
 
@@ -195,7 +195,7 @@ export class Navigation extends Component {
       isMobile,
       popoutButtonVisible,
       hideNavigationButtons,
-      isPreview } = this.props;
+      isChatPreview } = this.props;
 
     const popoutStyle = (isMobile) ? styles.popoutMobile : styles.popoutDesktop;
 
@@ -207,7 +207,7 @@ export class Navigation extends Component {
           'aria-label': 'Popout',
           icon: ICONS.POPOUT,
           className: popoutStyle,
-          isVisible: isPreview || (popoutButtonVisible && !hideNavigationButtons),
+          isVisible: isChatPreview || (popoutButtonVisible && !hideNavigationButtons),
           position: 'right'
         })}
         {this.renderNavButton({
