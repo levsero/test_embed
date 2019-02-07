@@ -34,7 +34,7 @@ const renderPureComponent = (props) => {
     handleCloseButtonClicked: noop,
     handlePopoutButtonClicked: noop,
     zChat: { getMachineId: () => 'machine id' },
-    isPreview: false,
+    isChatPreview: false,
     chatPopoutSettings: {},
     locale: 'en-US'
   };
@@ -86,7 +86,7 @@ describe('actions', () => {
         it('does not call createChatPopoutWindow', () => {
           jest.spyOn(chatUtil, 'createChatPopoutWindow');
 
-          const { container } = renderPureComponent({ isPreview: true });
+          const { container } = renderPureComponent({ isChatPreview: true });
 
           fireEvent.click(container.querySelector('.popoutDesktop'));
 
