@@ -24,6 +24,7 @@ import {
   getCurrentQuery,
   getCurrentDeflection,
   getCurrentScreen } from 'src/redux/modules/answerBot/root/selectors';
+import { ZOPIM_ON_OPEN } from 'src/redux/modules/zopimChat/zopimChat-action-types';
 import { i18n } from 'service/i18n';
 
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot';
@@ -78,6 +79,10 @@ const sendTalkOpenedBlip = (state) => {
 
 const sendChatOpenedBlip = () => {
   beacon.trackUserAction('chat', 'opened', 'newChat');
+};
+
+const sendZopimChatOpenedBlip = () => {
+  beacon.trackUserAction('zopimchat', 'opened', 'newZopimChat');
 };
 
 const sendHelpCenterFirstSearchBlip = (state) => {
@@ -188,6 +193,12 @@ export function sendBlips({ getState }) {
       case SEARCH_REQUEST_SUCCESS:
       case SEARCH_REQUEST_FAILURE:
         sendHelpCenterFirstSearchBlip(prevState);
+        break;
+      case  ZOPIM_ON_OPEN:
+        if (!chatOpenedBlipSent) {
+          sendZopimChatOpenedBlip();
+          chatOpenedBlipSent = true;
+        }
         break;
       case ORIGINAL_ARTICLE_CLICKED:
         sendOriginalArticleClickedBlip(prevState);
