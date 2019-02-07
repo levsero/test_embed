@@ -18,7 +18,7 @@ import {
   getPostchatFormSettings,
   getIsChatting,
   getChatRating } from 'src/redux/modules/chat/chat-selectors';
-import { getCurrentConcierges } from 'src/redux/modules/selectors';
+import { getCurrentConcierges, getChatTitle } from 'src/redux/modules/selectors';
 import { locals as styles } from './RatingScreen.scss';
 
 const mapStateToProps = (state) => {
@@ -26,7 +26,8 @@ const mapStateToProps = (state) => {
     postChatFormSettings: getPostchatFormSettings(state),
     isChatting: getIsChatting(state),
     concierges: getCurrentConcierges(state),
-    rating: getChatRating(state)
+    rating: getChatRating(state),
+    title: getChatTitle(state),
   };
 };
 
@@ -44,7 +45,8 @@ class RatingScreen extends Component {
     endChat: PropTypes.func.isRequired,
     sendChatComment: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
-    fullscreen: PropTypes.bool
+    fullscreen: PropTypes.bool,
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -105,7 +107,7 @@ class RatingScreen extends Component {
       <div>
         <ScrollContainer
           headerContent={this.renderChatHeader()}
-          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+          title={this.props.title}
           containerClasses={styles.scrollContainerContent}
           footerClasses={logoFooterClasses}
           fullscreen={fullscreen}
