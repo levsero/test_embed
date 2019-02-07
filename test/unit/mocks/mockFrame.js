@@ -24,7 +24,6 @@ export class MockFrame extends Component {
     this.show = noop;
     this.hide = noop;
     this.setHighlightColor = noop;
-    this.setButtonColor = noop;
     this.forceUpdateWorld = noop;
     this.componentDidUpdate = noop;
     this.getFrameContentDocument = () => {};

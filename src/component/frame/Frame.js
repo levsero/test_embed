@@ -377,10 +377,6 @@ class Frame extends Component {
     this.setState({ hiddenByZoom });
   }
 
-  setButtonColor = (color) => {
-    this.child.setButtonColor(color);
-  }
-
   setCustomCSS = (css) => {
     if (this.child) this.child.setCustomCSS(css);
   }

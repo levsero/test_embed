@@ -15,6 +15,8 @@ import { Provider } from 'react-redux';
 
 import createStore from 'src/redux/createStore';
 import { updateEmbeddableConfig } from 'src/redux/modules/base';
+import { updateSettings } from 'src/redux/modules/settings';
+import { generateUserWidgetCSS } from 'utility/color/styles';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles';
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
@@ -39,15 +41,13 @@ const defaultOptions = {
 let frame;
 
 const renderWebWidgetPreview = (options) => {
-  let currentColor;
-
   options = _.defaultsDeep({}, options, defaultOptions);
 
   if (!options.element) {
     throw new Error('A DOM element is required to render the Web Widget Preview into.');
   }
 
-  currentColor = options.color.base;
+  const color = options.color.base;
 
   const store = createStore();
 
@@ -64,6 +64,8 @@ const renderWebWidgetPreview = (options) => {
     margin: `${BOX_SHADOW_SIZE}px`
   };
 
+  store.dispatch(updateSettings({ color: { theme: color, button: color } }));
+
   const frameParams = {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'webWidgetPreview',
@@ -71,9 +73,11 @@ const renderWebWidgetPreview = (options) => {
     alwaysShow: true,
     disableOffsetHorizontal: true,
     preventClose: true,
+    generateUserCSS: generateUserWidgetCSS,
     ref: (el) => { frame = el.getWrappedInstance(); },
     fullscreen: false,
-    isMobile: false
+    isMobile: false,
+    isPreview: true,
   };
 
   const component = (
@@ -101,9 +105,8 @@ const renderWebWidgetPreview = (options) => {
   options.element.appendChild(container);
   ReactDOM.render(component, container);
 
-  const setColor = (color = defaultOptions.color.base) => {
-    frame.setButtonColor(color);
-    currentColor = color;
+  const setColor = (newColor) => {
+    store.dispatch(updateSettings({ color: { theme: newColor, button: newColor } }));
   };
 
   const setTitle = (titleKey = defaultOptions.titleKey) => {
@@ -113,17 +116,8 @@ const renderWebWidgetPreview = (options) => {
       };
 
       store.dispatch(updateEmbeddableConfig(config));
-
-      // TODO: We re-set the colour as a temporary measure to deal with the fact that
-      // colour generation and re-generation is still not fully managed by redux
-      // This call should be removed as soon as that work happens.
-      setColor(currentColor);
     });
   };
-
-  waitForSubmitTicketComponent(() => {
-    setColor(currentColor);
-  });
 
   return {
     setColor,

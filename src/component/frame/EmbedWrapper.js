@@ -6,7 +6,6 @@ import { KEY_CODES } from '@zendeskgarden/react-selection';
 import { ThemeProvider } from '@zendeskgarden/react-theming';
 
 import Navigation from 'component/frame/Navigation';
-import { generateWebWidgetPreviewCSS } from 'utility/color/styles';
 import { i18n } from 'service/i18n';
 import { getGardenOverrides } from './gardenOverrides';
 import { getDocumentHost } from 'utility/globals';
@@ -47,14 +46,6 @@ export class EmbedWrapper extends Component {
 
     this.embed = null;
     this.nav = null;
-  }
-
-  setButtonColor = (color) => {
-    const css = generateWebWidgetPreviewCSS({ base: color });
-
-    if (css) {
-      this.setCustomCSS(css);
-    }
   }
 
   setCustomCSS = (css) => {
