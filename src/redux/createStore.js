@@ -31,8 +31,8 @@ export default function(storeName = 'web_widget', options = {}) {
   const devToolsExtension = window.parent.__REDUX_DEVTOOLS_EXTENSION__
     && window.parent.__REDUX_DEVTOOLS_EXTENSION__({ name: storeName });
   const middlewares = [
-    throttle(options.throttleEvents, options.allowedActionsFn),
     thunk,
+    throttle(options.throttleEvents, options.allowedActionsFn),
     onStateChangeWrapper(onStateChangeFn),
     sendBlips,
     listen,

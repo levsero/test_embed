@@ -22,6 +22,8 @@ import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
 import { generateUserWidgetCSS } from 'utility/color/styles';
+import { updateSettings as updateColor } from 'src/redux/modules/settings';
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles';
 
@@ -81,8 +83,10 @@ const renderPreview = (options) => {
       UPDATE_PREVIEWER_SETTINGS,
       UPDATE_PREVIEWER_SCREEN,
       PREVIEWER_LOADED,
-      LOCALE_SET
+      LOCALE_SET,
+      UPDATE_SETTINGS
     ];
+
     const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0;
 
     return isSDKActionType || _.includes(allowedActions, type);
@@ -129,7 +133,7 @@ const renderPreview = (options) => {
   ReactDOM.render(component, container);
 
   const setColor = (color = defaultOptions.color) => {
-    frame.setButtonColor(color);
+    store.dispatch(updateColor({ color: { theme: color, button: color } }));
   };
 
   const updateScreen = (screen) => {
@@ -156,9 +160,9 @@ const renderPreview = (options) => {
 
   waitForComponent(() => {
     _.defer(frame.forceUpdateWorld);
-    setColor();
   });
 
+  setColor();
   store.dispatch({ type: PREVIEWER_LOADED });
 
   return {
