@@ -287,7 +287,7 @@ export function sendChatComment(comment = '') {
 
 const loadAudio = () => {
   try {
-    audio.load('incoming_message', 'https://v2.zopim.com/widget/sounds/triad_gbd');
+    audio.load('incoming_message', `${__ASSET_BASE_PATH__}/web_widget/static/chat-incoming-message-notification`);
   } catch (_) { }
 };
 
