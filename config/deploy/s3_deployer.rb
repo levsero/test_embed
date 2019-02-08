@@ -9,7 +9,8 @@ class S3Deployer
     '.js' => 'application/javascript',
     '.json' => 'application/json',
     '.html' => 'text/html',
-    '.png' => 'image/png'
+    '.png' => 'image/png',
+    '.mp3' => 'audio/mpeg'
   }.freeze
 
   def initialize(bucket_name, logger)

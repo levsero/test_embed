@@ -15,7 +15,9 @@ set :popout_file_location, 'dist/'
 set :locales_file_location, 'dist/locales'
 set :popout_file_name, 'liveChat.html'
 set :preview_files, %i(webWidgetPreview.js chatPreview.js)
-set :static_files, 'src/asset/images/flags.png' => 'web_widget/static/flags.png'
+set :static_files,
+  'src/asset/images/flags.png' => 'web_widget/static/flags.png',
+  'src/asset/media/chat-incoming-message-notification.mp3' => 'web_widget/static/chat-incoming-message-notification.mp3'
 
 PREVIEW_EXPIRY = 600
 
