@@ -168,7 +168,6 @@
     "source-map-loader": "^0.2.3",
     "svgo": "^0.7.2",
     "svgo-loader": "^1.1.2",
-    "url-loader": "^1.1.2",
     "webpack": "^4.28.3",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.2.0",

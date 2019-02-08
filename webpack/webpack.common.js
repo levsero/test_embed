@@ -60,10 +60,6 @@ module.exports = {
         ]
       },
       {
-        test: /\.png$/,
-        use: 'url-loader'
-      },
-      {
         test: /\.(yml|yaml)/,
         use: [
           'json-loader',
