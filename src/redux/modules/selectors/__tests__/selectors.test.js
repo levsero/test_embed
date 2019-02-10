@@ -1136,6 +1136,64 @@ describe('getWidgetColor', () => {
   });
 });
 
+const stateLauncherColorSettings = (color) => {
+  return _.merge(stateColorSettings(color), {
+    zopimChat: {},
+    base: {
+      embeddableConfig: {
+        embeds: { zopimChat: { props: { standalone: false } } }
+      }
+    },
+    chat: {
+      agents: {},
+      rating: {},
+      accountSettings: {
+        banner: {},
+        rating: {}
+      }
+    }
+  });
+};
+
+describe('getBaseColor', () => {
+  describe('when chat badge is disabled', () => {
+    describe('color launcher is set', () => {
+      it('uses the color launcher', () => {
+        const state = stateLauncherColorSettings({
+          theme: '#abcabc',
+          launcher: '#691840'
+        });
+
+        const result = selectors.getBaseColor(state);
+
+        expect(result).toEqual('#691840');
+      });
+
+      describe('color launcher is not set', () => {
+        describe('theme color is set', () => {
+          it('uses the theme color', () => {
+            const state = stateLauncherColorSettings({ theme: '#abcabc' });
+
+            const result = selectors.getBaseColor(state);
+
+            expect(result).toEqual('#abcabc');
+          });
+        });
+
+        describe('theme color is not set', () => {
+          it('uses the config color', () => {
+            const state = stateLauncherColorSettings({});
+
+            const result = selectors.getBaseColor(state);
+
+            expect(result).toEqual('#embeddableConfig');
+          });
+        });
+      });
+    });
+  });
+});
+
 describe('getPosition', () => {
   test.each([
     ['chatPhase 4 and position is set', { cp4: true, position: 'l' }, 'ctp', 'ctp'],
