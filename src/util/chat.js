@@ -62,15 +62,12 @@ function getDisplayName(inName, fallbackName = '') {
 }
 
 function createChatPopoutWindow(chatPopoutSettings, machineId, locale) {
-  const hostName = win.location.hostname;
   let url;
 
   if (__DEV__) {
     url = '/liveChat.html';
-  } else if (hostName.indexOf('-staging.') !== -1) {
-    url = 'https://static-staging.zdassets.com/web_widget/latest/liveChat.html';
   } else {
-    url ='https://static.zdassets.com/web_widget/latest/liveChat.html';
+    url = `${__ASSET_BASE_PATH__}/web_widget/latest/liveChat.html`;
   }
 
   url += generateQueryString(chatPopoutSettings, machineId, locale);

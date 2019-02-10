@@ -60,7 +60,7 @@
 .flag-vg, .flag-vi, .flag-vn, .flag-vu, .flag-wf,
 .flag-ws, .flag-ye, .flag-yt, .flag-za, .flag-zm,
 .flag-zw
-{ max-width: 100%; background-size: 100%; background-image: url("https://static-staging.zdassets.com/web_widget/static/flags.png"); }
+{ max-width: 100%; background-size: 100%; background-image: url(#{$asset-base-path}/web_widget/static/flags.png); }
 
 .flag-ad { background-position: 0 0%; background-size: 100%; }
 .flag-ae { background-position: 0 0.416667%; background-size: 100%; }
