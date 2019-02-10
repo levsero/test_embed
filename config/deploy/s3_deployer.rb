@@ -5,6 +5,13 @@ class S3Deployer
   ENCRYPTION_TYPE = 'AES256'.freeze
   SECONDS_IN_A_YEAR = 31536000
 
+  EXTENSIONS = {
+    '.js' => 'application/javascript',
+    '.json' => 'application/json',
+    '.html' => 'text/html',
+    '.png' => 'image/png'
+  }.freeze
+
   def initialize(bucket_name, logger)
     @bucket_name = bucket_name
     @logger = logger
@@ -44,16 +51,6 @@ class S3Deployer
     end
   end
 
-  private
-
-  attr_reader :bucket_name, :logger
-
-  def put_object(key)
-    return if object_exists?(key)
-    logger.info "put_object #{key} on #{bucket_name}"
-    bucket.put_object(key: key, server_side_encryption: ENCRYPTION_TYPE)
-  end
-
   def upload_file(object_key, file, opts = {})
     logger.info "upload_file #{file} to #{object_key} on #{bucket_name}"
     bucket.object(object_key)
@@ -68,22 +65,25 @@ class S3Deployer
           )
   end
 
+  private
+
+  attr_reader :bucket_name, :logger
+
+  def put_object(key)
+    return if object_exists?(key)
+    logger.info "put_object #{key} on #{bucket_name}"
+    bucket.put_object(key: key, server_side_encryption: ENCRYPTION_TYPE)
+  end
+
   def expires_header
     (Time.now + SECONDS_IN_A_YEAR).httpdate
   end
 
   def content_type_header(file)
     extension = File.extname(file)
+    content_type = EXTENSIONS[extension]
 
-    if extension == '.js'
-      'application/javascript;'
-    elsif extension == '.json'
-      'application/json;'
-    elsif extension == '.html'
-      'text/html;'
-    else
-      ''
-    end
+    content_type ? "#{content_type};" : ''
   end
 
   def bucket

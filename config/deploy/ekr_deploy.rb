@@ -15,6 +15,7 @@ set :popout_file_location, 'dist/'
 set :locales_file_location, 'dist/locales'
 set :popout_file_name, 'liveChat.html'
 set :preview_files, %i(webWidgetPreview.js chatPreview.js)
+set :static_files, 'src/asset/images/flags.png' => 'web_widget/static/flags.png'
 
 PREVIEW_EXPIRY = 600
 
@@ -60,6 +61,13 @@ namespace :ac_embeddable_framework do
       fetch(:ekr_s3_release_directory_latest),
       [fetch(:popout_file_name)]
     )
+  end
+
+  desc 'Upload static assets to S3'
+  task :upload_static_assets do
+    fetch(:static_files).each do |file, key|
+      s3_deployer.upload_file(key, file)
+    end
   end
 
   desc 'Upload translation assets to S3'

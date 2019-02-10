@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const I18nPlugin = require('./i18nPlugin.js');
 
 const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp';
+const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com';
 
 const svgoConfig = JSON.stringify({
   plugins: [
@@ -40,7 +41,12 @@ module.exports = {
             }
           },
           'postcss-loader',
-          'sass-loader'
+          {
+            loader: 'sass-loader',
+            options: {
+              data: `$asset-base-path: "${assetBasePath}";`
+            }
+          }
         ]
       },
       {
@@ -58,10 +64,6 @@ module.exports = {
           'raw-loader',
           'svgo-loader?' + svgoConfig
         ]
-      },
-      {
-        test: /\.png$/,
-        use: 'url-loader'
       },
       {
         test: /\.(yml|yaml)/,
@@ -101,7 +103,8 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      __EMBEDDABLE_VERSION__: JSON.stringify(version)
+      __EMBEDDABLE_VERSION__: JSON.stringify(version),
+      __ASSET_BASE_PATH__: JSON.stringify(assetBasePath)
     }),
     I18nPlugin
   ]
