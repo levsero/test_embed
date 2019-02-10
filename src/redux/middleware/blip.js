@@ -82,7 +82,7 @@ const sendChatOpenedBlip = () => {
 };
 
 const sendZopimChatOpenedBlip = () => {
-  beacon.trackUserAction('zopimchat', 'opened', 'newZopimChat');
+  beacon.trackUserAction('chat', 'opened', 'zopimChat');
 };
 
 const sendHelpCenterFirstSearchBlip = (state) => {
