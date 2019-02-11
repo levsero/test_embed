@@ -1109,6 +1109,7 @@ describe('getWidgetColor', () => {
 
   describe('when it is a cp4 account', () => {
     const state = stateColorSettings({
+      base: '#chatPrimary',
       theme: '#abcabc',
       launcher: '#691840',
       launcherText: '#FF4500',
@@ -1124,7 +1125,7 @@ describe('getWidgetColor', () => {
 
       expect(result).toEqual({
         'articleLinks': '#123123',
-        'base': '#chatPrimary',
+        'base': '#abcabc',
         'button': '#555555',
         'header': '#203D9D',
         'launcher': '#691840',
