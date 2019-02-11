@@ -10,12 +10,12 @@ import averageWaitTimeEnabled from './talk-average-wait-time-enabled';
 import vendor from './talk-vendor';
 
 export default combineReducers({
-  embeddableConfig,
   agentAvailability,
-  screen,
-  formState,
-  callback,
   averageWaitTime,
   averageWaitTimeEnabled,
-  vendor
+  callback,
+  embeddableConfig,
+  formState,
+  screen,
+  vendor,
 });

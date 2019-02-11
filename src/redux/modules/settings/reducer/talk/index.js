@@ -13,9 +13,9 @@ const talkSettings = (state = initialState, action) => {
   switch (type) {
     case UPDATE_SETTINGS:
       return {
-        title: _.get(payload, 'webWidget.talk.title', state.title),
+        nickname: _.get(payload, 'webWidget.talk.nickname', state.nickname),
         suppress: _.get(payload, 'webWidget.talk.suppress', state.suppress),
-        nickname: _.get(payload, 'webWidget.talk.nickname', state.nickname)
+        title: _.get(payload, 'webWidget.talk.title', state.title),
       };
     default:
       return state;

@@ -17,13 +17,13 @@ const setHideWhenChatOffline = (state = initialState, action) => {
   switch (type) {
     case UPDATE_SETTINGS:
       return {
-        zIndex: _.get(payload, 'webWidget.zIndex', state.zIndex),
-        positionVertical: _.get(payload, 'webWidget.position.vertical', state.positionVertical),
         positionHorizontal: _.get(payload, 'webWidget.position.horizontal', state.positionHorizontal),
-        offsetVertical: _.get(payload, 'webWidget.offset.vertical', state.offsetVertical),
+        positionVertical: _.get(payload, 'webWidget.position.vertical', state.positionVertical),
         offsetHorizontal: _.get(payload, 'webWidget.offset.horizontal', state.offsetHorizontal),
-        offsetMobileVertical: _.get(payload, 'webWidget.offset.mobile.vertical', state.offsetMobileVertical),
         offsetMobileHorizontal: _.get(payload, 'webWidget.offset.mobile.horizontal', state.offsetMobileHorizontal),
+        offsetMobileVertical: _.get(payload, 'webWidget.offset.mobile.vertical', state.offsetMobileVertical),
+        offsetVertical: _.get(payload, 'webWidget.offset.vertical', state.offsetVertical),
+        zIndex: _.get(payload, 'webWidget.zIndex', state.zIndex),
       };
     default:
       return state;
