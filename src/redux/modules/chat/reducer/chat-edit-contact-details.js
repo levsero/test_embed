@@ -68,10 +68,14 @@ const editContactDetails = (state = initialState, action) => {
         email: payload.email
       };
     case PREFILL_RECEIVED:
+      const prefillData = {};
+
+      if (payload.prefillValues && payload.prefillValues.name) prefillData.display_name = payload.prefillValues.name;
+      if (payload.prefillValues && payload.prefillValues.email) prefillData.email = payload.prefillValues.email;
+
       return {
         ...state,
-        display_name: payload.prefillValues.name,
-        email: payload.prefillValues.email
+        ...prefillData
       };
     case API_CLEAR_FORM:
       return initialState;

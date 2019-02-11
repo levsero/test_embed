@@ -76,21 +76,40 @@ describe('editContactDetails', () => {
   });
 
   describe('when a PREFILL_RECEIVED action is dispatched', () => {
-    let newFormState = {};
-
-    beforeEach(() => {
-      newFormState = {
-        name: 'Not Terence',
-        email: 'foo@example.com'
-      };
-    });
-
-    it('adds the action payload to the state', () => {
-      expect(reduce({ type: baseActions.PREFILL_RECEIVED, payload: { prefillValues: newFormState } }))
-        .toMatchObject({
+    describe('with both a name and an email values', () => {
+      it('adds the action payload to the state', () => {
+        expect(reduce({
+          type: baseActions.PREFILL_RECEIVED,
+          payload: { prefillValues: { name: 'Not Terence', email: 'foo@example.com' } }
+        })).toMatchObject({
           display_name: 'Not Terence',
           email: 'foo@example.com'
         });
+      });
+    });
+
+    describe('with only a name value', () => {
+      it('adds the action payload to the state', () => {
+        expect(reduce({
+          type: baseActions.PREFILL_RECEIVED,
+          payload: { prefillValues: { name: 'Not Terence' } }
+        })).toMatchObject({
+          display_name: 'Not Terence',
+          email: null
+        });
+      });
+    });
+
+    describe('with only an email value', () => {
+      it('adds the action payload to the state', () => {
+        expect(reduce({
+          type: baseActions.PREFILL_RECEIVED,
+          payload: { prefillValues: { email: 'foo@example.com' } }
+        })).toMatchObject({
+          display_name: null,
+          email: 'foo@example.com'
+        });
+      });
     });
   });
 
