@@ -330,9 +330,14 @@ export const getContactOptionsContactFormLabel = createSelector(
 );
 
 const getCoreColor = createSelector(
-  [getEmbeddableConfig, getSettingsColorTheme, getChatThemeColor, getConfigColorBase],
-  (embeddableConfig, settingsColorTheme, chatThemeColor, configColorBase) => {
-    return (embeddableConfig.cp4 && chatThemeColor) ? chatThemeColor : { base: settingsColorTheme || configColorBase };
+  [getEmbeddableConfig, getSettingsColorTheme, getChatThemeColor, getConfigColorBase, getConfigColorText],
+  (embeddableConfig, settingsColorTheme, chatThemeColor, configColorBase, configColorText) => {
+    return (embeddableConfig.cp4 && chatThemeColor) ?
+      { base: (settingsColorTheme || chatThemeColor.base) } :
+      {
+        base: settingsColorTheme || configColorBase,
+        text: configColorText
+      };
   }
 );
 
@@ -368,12 +373,23 @@ export const getBaseColor = createSelector(
     getShowChatBadgeLauncher,
     getAccountSettingsBadgeColor,
     getConfigColorBase,
-    getSettingsColorTheme
+    getSettingsColorTheme,
+    getChatThemeColor,
+    getEmbeddableConfig
   ],
-  (settingsColor, showChatBadge, settingsBadgeColor, configColorBase, settingsThemeColor) => {
+  (
+    settingsColor,
+    showChatBadge,
+    settingsBadgeColor,
+    configColorBase,
+    settingsThemeColor,
+    themeColor,
+    embeddableConfig
+  ) => {
     const chatBadgeColor = showChatBadge ? settingsBadgeColor : undefined;
+    const cp4Color = (embeddableConfig.cp4 && themeColor) ? themeColor.base : null;
 
-    return settingsColor || settingsThemeColor || chatBadgeColor || configColorBase;
+    return settingsColor || settingsThemeColor || cp4Color ||  chatBadgeColor || configColorBase;
   }
 );
 
