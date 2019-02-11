@@ -86,9 +86,9 @@ export const apiStructurePreRenderSetup = (apiAddToPostRenderQueue, getApiPostRe
     webWidget: {
       hide: hideApi,
       show: (_, ...args) => apiAddToPostRenderQueue(['webWidget', 'show', ...args]),
-      open: openApi,
+      open: () => apiAddToPostRenderQueue(['webWidget', 'open']),
       close: closeApi,
-      toggle: toggleApi,
+      toggle: () => apiAddToPostRenderQueue(['webWidget', 'toggle']),
       setLocale: setLocaleApi,
       identify: (_, ...args) => apiAddToPostRenderQueue(['webWidget', 'identify', ...args]),
       updateSettings: (_, ...args) => apiAddToPostRenderQueue(['webWidget', 'updateSettings', ...args]),
