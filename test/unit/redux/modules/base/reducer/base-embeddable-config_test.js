@@ -61,7 +61,7 @@ describe('base reducer embeddable config', () => {
           },
           cp4: false,
           position: 'right',
-          color: '#659700',
+          color: '#1F73B7',
           textColor: undefined,
           hideZendeskLogo: false,
           brand: undefined,

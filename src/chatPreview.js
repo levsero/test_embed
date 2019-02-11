@@ -34,7 +34,7 @@ const BOX_SHADOW_SIZE = 6;
 let chatComponent = null;
 const defaultOptions = {
   locale: 'en-US',
-  color: '#659700',
+  color: '#1F73B7',
   styles: {
     float: 'right',
     marginTop: '16px',
