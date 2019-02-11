@@ -225,7 +225,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
             <div
               class="offlineLabelOption"
             >
-              Live chat
+              Live chat is offline
             </div>
             <div>
               No available agents

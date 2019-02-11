@@ -37,6 +37,7 @@ import {
   getSettingsContactOptionsEnabled,
   getSettingsContactOptionsButton,
   getSettingsContactOptionsChatLabelOnline,
+  getSettingsContactOptionsChatLabelOffline,
   getSettingsContactOptionsContactFormLabel,
   getSettingsContactFormTitle,
   getAnswerBotTitle,
@@ -318,6 +319,14 @@ export const getContactOptionsChatLabelOnline = createSelector(
   (settingsLabel, _locale) => (
     i18n.getSettingTranslation(settingsLabel) ||
     i18n.t('embeddable_framework.common.button.chat')
+  )
+);
+
+export const getContactOptionsChatLabelOffline = createSelector(
+  [getSettingsContactOptionsChatLabelOffline, getLocale],
+  (settingsLabel, _locale) => (
+    i18n.getSettingTranslation(settingsLabel) ||
+    i18n.t('embeddable_framework.channelChoice.button.label.chat_offline_v2')
   )
 );
 

@@ -16,6 +16,7 @@ describe('rendering', () => {
       onNextClick: jest.fn(),
       callbackEnabled: false,
       chatOnlineAvailableLabel: 'Live chat',
+      chatOfflineAvailableLabel: 'Live chat is offline',
       submitTicketLabel: 'Leave a message'
     };
     const mergedProps = { ...defaultProps, ...props };
