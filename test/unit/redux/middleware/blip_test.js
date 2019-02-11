@@ -206,7 +206,7 @@ describe('blip middleware', () => {
         it('calls trackUserAction', () => {
           expect(beaconSpy.trackUserAction.calls.count())
             .toEqual(1);
-          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('zopimchat', 'opened', 'newZopimChat');
+          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', 'zopimChat');
         });
       });
 
@@ -225,7 +225,7 @@ describe('blip middleware', () => {
         it('calls trackUserAction only once', () => {
           expect(beaconSpy.trackUserAction.calls.count())
             .toEqual(1);
-          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('zopimchat', 'opened', 'newZopimChat');
+          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', 'zopimChat');
         });
       });
     });
