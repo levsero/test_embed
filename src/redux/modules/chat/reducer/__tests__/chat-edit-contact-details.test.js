@@ -75,6 +75,25 @@ describe('editContactDetails', () => {
     });
   });
 
+  describe('when a PREFILL_RECEIVED action is dispatched', () => {
+    let newFormState = {};
+
+    beforeEach(() => {
+      newFormState = {
+        name: 'Not Terence',
+        email: 'foo@example.com'
+      };
+    });
+
+    it('adds the action payload to the state', () => {
+      expect(reduce({ type: baseActions.PREFILL_RECEIVED, payload: { prefillValues: newFormState } }))
+        .toMatchObject({
+          display_name: 'Not Terence',
+          email: 'foo@example.com'
+        });
+    });
+  });
+
   describe('when a SDK_VISITOR_UPDATE action is dispatched', () => {
     let newFormState = {};
 
