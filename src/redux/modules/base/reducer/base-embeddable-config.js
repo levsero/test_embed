@@ -33,7 +33,7 @@ const initialState = {
     }
   },
   position: 'right', // default position
-  color: '#659700', // default base color
+  color: '#1F73B7', // default base color
   textColor: undefined,
   cp4: false,
   hideZendeskLogo: false,

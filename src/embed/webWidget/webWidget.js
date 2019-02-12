@@ -137,7 +137,7 @@ export default function WebWidgetFactory(name) {
 
     const configDefaults = {
       hideZendeskLogo: false,
-      color: '#659700'
+      color: '#1F73B7'
     };
     const talkConfig = config.talk;
     const helpCenterAvailable = !!config.helpCenterForm && !getSettingsHelpCenterSuppress(state);
@@ -399,7 +399,7 @@ export default function WebWidgetFactory(name) {
       maxFileCount: 5,
       maxFileSize: 5 * 1024 * 1024, // 5 MB
       ticketForms: [],
-      color: '#659700'
+      color: '#1F73B7'
     };
 
     config = _.extend({}, submitTicketConfigDefaults, config);
@@ -568,7 +568,7 @@ export default function WebWidgetFactory(name) {
       buttonLabelKey: 'message',
       formTitleKey: 'help',
       signInRequired: false,
-      color: '#659700'
+      color: '#1F73B7'
     };
 
     config = _.extend({}, helpCenterConfigDefaults, config);

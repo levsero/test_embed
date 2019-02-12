@@ -103,7 +103,7 @@ describe('default parameters', () => {
     preview.setColor();
 
     expect(webWidgetPreviewBody())
-      .toMatch('background-color: #659700 !important;');
+      .toMatch('background-color: #1F73B7 !important;');
   });
 });
 

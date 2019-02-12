@@ -28,7 +28,7 @@ const BOX_SHADOW_SIZE = 6;
 let submitTicketComponent = null;
 const defaultOptions = {
   locale: 'en-US',
-  color: { base: '#659700' },
+  color: { base: '#1F73B7' },
   titleKey: 'message',
   styles: {
     float: 'right',
