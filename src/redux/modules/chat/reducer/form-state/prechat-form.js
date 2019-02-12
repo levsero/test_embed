@@ -33,10 +33,12 @@ const preChatForm = (state = initialState, action = {}) => {
         ...payload.prefillValues
       };
     case SDK_VISITOR_UPDATE:
+      const payloadEmail = _.get(payload, 'detail.email', '');
+
       return {
         ...state,
         name: getDisplayName(_.get(payload, 'detail.display_name', ''), state.name),
-        email: _.get(payload, 'detail.email', state.email),
+        email: payloadEmail !== '' ? payloadEmail : state.email,
         phone: _.get(payload, 'detail.phone', state.phone)
       };
     case PRE_CHAT_FORM_ON_CHANGE:
