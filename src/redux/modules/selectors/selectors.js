@@ -350,7 +350,7 @@ const getCoreColor = createSelector(
   }
 );
 
-export const getWidgetColor = createSelector(
+const getWidgetColor = createSelector(
   [getCoreColor, getSettingsColor],
   (coreColor, settingsColors) => {
     return {
@@ -376,7 +376,7 @@ export const getShowChatBadgeLauncher = createSelector(
   }
 );
 
-export const getBaseColor = createSelector(
+const getBaseColor = createSelector(
   [
     getSettingsColorLauncher,
     getShowChatBadgeLauncher,

@@ -35,7 +35,7 @@ describe('EmbedWrapper', () => {
       },
       'component/frame/Navigation': noopReactComponent(),
       'src/redux/modules/selectors': {
-        getWidgetColor: noop
+        getColor: noop
       },
       'lodash': _,
       'service/i18n': {
