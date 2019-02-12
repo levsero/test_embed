@@ -7,7 +7,7 @@ import chat from './chat-contactOptions';
 
 export default combineReducers({
   enabled,
+  chat,
   contactButton,
   contactFormLabel,
-  chat
 });

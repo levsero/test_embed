@@ -14,14 +14,14 @@ import tags from './chat-tags';
 import hideWhenOffline from './chat-hideWhenOffline';
 
 export default combineReducers({
-  suppress,
   concierge,
-  prechatForm,
-  offlineForm,
-  title,
   departments: combineReducers({ enabled, select }),
+  hideWhenOffline,
   mobileNotificationsDisabled,
-  tags,
+  offlineForm,
+  prechatForm,
   profileCard,
-  hideWhenOffline
+  suppress,
+  tags,
+  title,
 });

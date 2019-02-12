@@ -22,6 +22,7 @@ const helpCenter = (state = initialState, action) => {
   switch (type) {
     case UPDATE_SETTINGS:
       return {
+        chatButton: _.get(payload, 'webWidget.helpCenter.chatButton', state.chatButton),
         originalArticleButton: Boolean(
           _.get(payload, 'webWidget.helpCenter.originalArticleButton', state.originalArticleButton)
         ),
@@ -33,10 +34,9 @@ const helpCenter = (state = initialState, action) => {
         sectionFilter: _.get(payload, 'webWidget.helpCenter.filter.section', state.sectionFilter),
         categoryFilter: _.get(payload, 'webWidget.helpCenter.filter.category', state.categoryFilter),
         labelFilter: _.get(payload, 'webWidget.helpCenter.filter.label_names', state.labeFilter),
-        chatButton: _.get(payload, 'webWidget.helpCenter.chatButton', state.chatButton),
         messageButton: _.get(payload, 'webWidget.helpCenter.messageButton', state.messageButton),
         searchPlaceholder: _.get(payload, 'webWidget.helpCenter.searchPlaceholder', state.searchPlaceholder),
-        title: _.get(payload, 'webWidget.helpCenter.title', state.title)
+        title: _.get(payload, 'webWidget.helpCenter.title', state.title),
       };
     default:
       return state;

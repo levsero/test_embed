@@ -7,9 +7,9 @@ import isOpen from './zopimChat-isOpen';
 import unreadMessages from './unread-messages';
 
 export default combineReducers({
-  status,
   connected,
   isChatting,
   isOpen,
-  unreadMessages
+  status,
+  unreadMessages,
 });

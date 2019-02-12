@@ -10,12 +10,12 @@ import notification from './submitTicket-notification';
 import readOnlyState from './submitTicket-readOnlyState';
 
 export default combineReducers({
-  formState,
-  loading,
-  ticketForms,
-  ticketFields,
   activeForm,
   errorMsg,
+  formState,
+  loading,
   notification,
-  readOnlyState
+  readOnlyState,
+  ticketFields,
+  ticketForms,
 });
