@@ -23,11 +23,13 @@ const offlineForm = (state = initialState, action) => {
         ...payload
       };
     case SDK_VISITOR_UPDATE:
+      const payloadEmail = _.get(payload, 'detail.email', '');
+
       return {
         ...state,
         name: getDisplayName(_.get(payload, 'detail.display_name', ''), state.name),
-        email: payload.detail.email,
-        phone: payload.detail.phone
+        email: payloadEmail !== '' ? payloadEmail : state.email,
+        phone: _.get(payload, 'detail.phone', state.phone)
       };
     case PREFILL_RECEIVED:
       return {
