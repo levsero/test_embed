@@ -11,7 +11,7 @@ import {
   UPDATE_CHAT_CONTACT_DETAILS_INFO,
   SDK_VISITOR_UPDATE
 } from '../chat-action-types';
-import { API_CLEAR_FORM } from '../../base/base-action-types';
+import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../base/base-action-types';
 import _ from 'lodash';
 import { getDisplayName } from 'src/util/chat';
 
@@ -66,6 +66,12 @@ const editContactDetails = (state = initialState, action) => {
         ...state,
         display_name: payload.display_name,
         email: payload.email
+      };
+    case PREFILL_RECEIVED:
+      return {
+        ...state,
+        display_name: _.get(payload, 'prefillValues.name', state.display_name),
+        email: _.get(payload, 'prefillValues.email', state.email)
       };
     case API_CLEAR_FORM:
       return initialState;
