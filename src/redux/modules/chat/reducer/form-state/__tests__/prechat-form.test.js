@@ -98,6 +98,25 @@ describe('prechat-form', () => {
           });
       });
     });
+
+    describe('when the payload contains an empty string for the email property', () => {
+      beforeEach(() => {
+        newFormState = {
+          display_name: 'Visitor 2131231',
+          email: ''
+        };
+      });
+
+      it('does not update an existing email value', () => {
+        expect(reduce(
+          { type: actions.SDK_VISITOR_UPDATE, payload: { detail: newFormState } },
+          { ...initialState, email: 'prefilled@example.com' }
+        )).toEqual({
+          ...initialState,
+          email: 'prefilled@example.com'
+        });
+      });
+    });
   });
 
   describe('when a API_CLEAR_FORM action is dispatched', () => {
