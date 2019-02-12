@@ -173,6 +173,7 @@ describe('dom interaction', () => {
       onNextClick: jest.fn(),
       callbackEnabled: false,
       chatOnlineAvailableLabel: 'Live chat',
+      chatOfflineAvailableLabel: 'Chat is offline',
       submitTicketLabel: 'Leave a message'
     };
     const mergedProps = { ...defaultProps, ...props };
