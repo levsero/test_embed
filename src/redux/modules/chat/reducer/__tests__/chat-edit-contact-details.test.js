@@ -144,5 +144,24 @@ describe('editContactDetails', () => {
           });
       });
     });
+
+    describe('when the payload contains an empty string for the email property', () => {
+      beforeEach(() => {
+        newFormState = {
+          display_name: 'Visitor 2131231',
+          email: ''
+        };
+      });
+
+      it('does not update an existing email value', () => {
+        expect(reduce(
+          { type: actions.SDK_VISITOR_UPDATE, payload: { detail: newFormState } },
+          { ...initialState, email: 'prefilled@example.com' }
+        )).toEqual({
+          ...initialState,
+          email: 'prefilled@example.com'
+        });
+      });
+    });
   });
 });

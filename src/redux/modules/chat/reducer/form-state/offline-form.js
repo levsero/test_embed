@@ -28,7 +28,7 @@ const offlineForm = (state = initialState, action) => {
       return {
         ...state,
         name: getDisplayName(_.get(payload, 'detail.display_name', ''), state.name),
-        email: payloadEmail !== '' ? payloadEmail : state.email,
+        email: _.isEmpty(payloadEmail) ? state.email : payloadEmail,
         phone: _.get(payload, 'detail.phone', state.phone)
       };
     case PREFILL_RECEIVED:

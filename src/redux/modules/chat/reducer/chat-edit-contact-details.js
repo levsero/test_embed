@@ -50,9 +50,12 @@ const editContactDetails = (state = initialState, action) => {
         error: true
       };
     case SDK_VISITOR_UPDATE:
+      const payloadEmail = _.get(payload, 'detail.email', '');
+
       return {
         ...state,
         ...payload.detail,
+        email: _.isEmpty(payloadEmail) ? state.email : payloadEmail,
         display_name: getDisplayName(_.get(payload, 'detail.display_name', ''), state.display_name)
       };
     case UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY:
