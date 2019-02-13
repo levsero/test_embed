@@ -10,17 +10,17 @@ jest.mock('service/transport');
 
 const mockStore = configureMockStore([thunk]);
 
-test('updateTalkAgentAvailability dispatches expected action', () => {
+test('updateTalkAgentAvailability dispatches TALK_AGENT_AVAILABILITY_SOCKET_EVENT action', () => {
   const expected = {
-    type: types.UPDATE_TALK_AGENT_AVAILABILITY,
-    payload: true
+    type: types.TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
+    payload: { agentAvailability: true }
   };
 
-  expect(actions.updateTalkAgentAvailability(true))
+  expect(actions.updateTalkAgentAvailability({ agentAvailability: true }))
     .toEqual(expected);
 });
 
-test('updateTalkEmbeddableConfig dispatches expected action', () => {
+test('updateTalkEmbeddableConfig dispatches TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT action', () => {
   const mockConfig = {
     agentAvailability: false,
     averageWaitTime: '2',
@@ -33,19 +33,14 @@ test('updateTalkEmbeddableConfig dispatches expected action', () => {
 
   expect(action)
     .toEqual({
-      type: types.UPDATE_TALK_EMBEDDABLE_CONFIG,
-      payload: {
-        capability: '0',
-        enabled: false,
-        nickname: '',
-        phoneNumber: ''
-      }
+      type: types.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
+      payload: mockConfig
     });
 });
 
-test('updateTalkAverageWaitTime dispatches expected action', () => {
+test('updateTalkAverageWaitTime dispatches TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT action', () => {
   const expected = {
-    type: types.UPDATE_TALK_AVERAGE_WAIT_TIME,
+    type: types.TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT,
     payload: '5'
   };
 
@@ -53,17 +48,16 @@ test('updateTalkAverageWaitTime dispatches expected action', () => {
     .toEqual(expected);
 });
 
-test('updateTalkAverageWaitTimeEnabled dispatches expected action', () => {
+test('talkDisconnect dispatches TALK_DISCONNECT_SOCKET_EVENT action', () => {
   const expected = {
-    type: types.UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED,
-    payload: true
+    type: types.TALK_DISCONNECT_SOCKET_EVENT
   };
 
-  expect(actions.updateTalkAverageWaitTimeEnabled(true))
+  expect(actions.talkDisconnect())
     .toEqual(expected);
 });
 
-test('updateTalkScreen dispatches expected action', () => {
+test('updateTalkScreen dispatches UPDATE_TALK_SCREEN action', () => {
   const expected = {
     type: types.UPDATE_TALK_SCREEN,
     payload: screenTypes.SUCCESS_NOTIFICATION_SCREEN

@@ -50,21 +50,6 @@ describe('talkEmbeddableConfigEventToAction', () => {
         .toHaveBeenCalledWith(mockConfig);
     });
 
-    it('dispatches an updateTalkAgentAvailability action', () => {
-      expect(actions.updateTalkAgentAvailability)
-        .toHaveBeenCalledWith(false);
-    });
-
-    it('dispatches an updateTalkAverageWaitTime action', () => {
-      expect(actions.updateTalkAverageWaitTime)
-        .toHaveBeenCalledWith('1');
-    });
-
-    it('dispatches an updateTalkAverageWaitTimeEnabled action', () => {
-      expect(actions.updateTalkAverageWaitTimeEnabled)
-        .toHaveBeenCalledWith(true);
-    });
-
     it('dispatches the resetTalkScreen action', () => {
       expect(actions.resetTalkScreen)
         .toHaveBeenCalled();
@@ -80,13 +65,8 @@ describe('talkEmbeddableConfigEventToAction', () => {
     });
 
     it('dispatches the updateTalkEmbeddableConfig action with enabled as false', () => {
-      expect(actions.updateTalkEmbeddableConfig)
-        .toHaveBeenCalledWith(mockConfig);
-    });
-
-    it('dispatches an updateTalkAgentAvailability action with false', () => {
-      expect(actions.updateTalkAgentAvailability)
-        .toHaveBeenCalledWith(false);
+      expect(actions.talkDisconnect)
+        .toHaveBeenCalled();
     });
   });
 });
@@ -105,43 +85,18 @@ describe('talkAgentAvailabilityEventToAction', () => {
     let callback,
       mockAgentAvailability;
 
-    describe('when agentAvailability is defined', () => {
-      beforeEach(() => {
-        mockAgentAvailability = { agentAvailability: true };
+    beforeEach(() => {
+      mockAgentAvailability = { agentAvailability: true };
 
-        const calls = mockSocket.on.mock.calls;
+      const calls = mockSocket.on.mock.calls;
 
-        callback = calls[calls.length - 1][1];
-        callback(mockAgentAvailability);
-      });
-
-      it('dispatches an agent availability action', () => {
-        expect(actions.updateTalkAgentAvailability)
-          .toHaveBeenCalledWith(true);
-      });
+      callback = calls[calls.length - 1][1];
+      callback(mockAgentAvailability);
     });
 
-    describe('when agentAvailability is undefined', () => {
-      beforeEach(() => {
-        mockAgentAvailability = {};
-        const calls = mockSocket.on.mock.calls;
-
-        callback = calls[calls.length - 1][1];
-        callback(mockAgentAvailability);
-      });
-
-      it('dispatches an agent availability action', () => {
-        expect(actions.updateTalkAgentAvailability)
-          .toHaveBeenCalled();
-
-        expect(mockReduxStore.dispatch)
-          .toHaveBeenCalled();
-      });
-
-      it('dispatches an agent availability action', () => {
-        expect(actions.updateTalkAgentAvailability)
-          .toHaveBeenCalledWith(undefined);
-      });
+    it('dispatches an agent availability action', () => {
+      expect(actions.updateTalkAgentAvailability)
+        .toHaveBeenCalledWith(mockAgentAvailability);
     });
   });
 });
@@ -160,99 +115,21 @@ describe('talkAverageWaitTimeEventToAction', () => {
     let callback,
       mockData;
 
-    describe('when the averageWaitTime and averageWaitTimeSetting and averageWaitTimeEnabled are truthy', () => {
-      beforeEach(() => {
-        mockData = {
-          averageWaitTime: '1',
-          averageWaitTimeSetting: 'exact',
-          averageWaitTimeEnabled: true
-        };
-        const calls = mockSocket.on.mock.calls;
+    beforeEach(() => {
+      mockData = {
+        averageWaitTime: '1',
+        averageWaitTimeSetting: 'exact',
+        averageWaitTimeEnabled: true
+      };
+      const calls = mockSocket.on.mock.calls;
 
-        callback = calls[calls.length - 1][1];
-        callback(mockData);
-      });
-
-      it('dispatches an average wait time change action', () => {
-        expect(actions.updateTalkAverageWaitTime)
-          .toHaveBeenCalledWith('1');
-      });
-
-      it('dispatches an average wait time enabled update action with true', () => {
-        expect(actions.updateTalkAverageWaitTimeEnabled)
-          .toHaveBeenCalledWith(true);
-      });
+      callback = calls[calls.length - 1][1];
+      callback(mockData);
     });
 
-    describe('when the averageWaitTime is undefined', () => {
-      beforeEach(() => {
-        mockData = {
-          averageWaitTimeSetting: 'exact',
-          averageWaitTimeEnabled: false
-        };
-        const calls = mockSocket.on.mock.calls;
-
-        callback = calls[calls.length - 1][1];
-        callback(mockData);
-      });
-
-      it('does not dispatch an average wait time change action', () => {
-        expect(actions.updateTalkAverageWaitTime)
-          .not.toHaveBeenCalled();
-      });
-
-      it('dispatches an average wait time enabled update action with false', () => {
-        expect(actions.updateTalkAverageWaitTimeEnabled)
-          .toHaveBeenCalledWith(false);
-      });
-    });
-
-    describe('when the averageWaitTimeSetting is undefined', () => {
-      beforeEach(() => {
-        mockData = {
-          averageWaitTime: '1',
-          averageWaitTimeEnabled: false
-        };
-        const calls = mockSocket.on.mock.calls;
-
-        callback = calls[calls.length - 1][1];
-        callback(mockData);
-      });
-
-      it('does not dispatch an average wait time change action', () => {
-        expect(actions.updateTalkAverageWaitTime)
-          .not.toHaveBeenCalled();
-      });
-
-      it('dispatches an average wait time enabled update action with false', () => {
-        expect(actions.updateTalkAverageWaitTimeEnabled)
-          .toHaveBeenCalledWith(false);
-      });
-    });
-
-    describe('when the averageWaitTimeEnabled is false', () => {
-      beforeEach(() => {
-        mockData = {
-          averageWaitTime: '1',
-          averageWaitTimeSetting: 'exact',
-          averageWaitTimeEnabled: false
-        };
-
-        const calls = mockSocket.on.mock.calls;
-
-        callback = calls[calls.length - 1][1];
-        callback(mockData);
-      });
-
-      it('does not dispatch an average wait time change action', () => {
-        expect(actions.updateTalkAverageWaitTime)
-          .not.toHaveBeenCalled();
-      });
-
-      it('dispatches an average wait time enabled update action with false', () => {
-        expect(actions.updateTalkAverageWaitTimeEnabled)
-          .toHaveBeenCalledWith(false);
-      });
+    it('dispatches an average wait time change action', () => {
+      expect(actions.updateTalkAverageWaitTime)
+        .toHaveBeenCalledWith(mockData);
     });
   });
 });

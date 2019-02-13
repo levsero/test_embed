@@ -30,15 +30,15 @@ describe('talk reducer agent-availability', () => {
       });
     });
 
-    describe('when a UPDATE_TALK_AGENT_AVAILABILITY action is dispatched', () => {
+    describe('when a TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT action is received', () => {
       let agentAvailability;
 
       beforeEach(() => {
         agentAvailability = true;
 
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_TALK_AGENT_AVAILABILITY,
-          payload: agentAvailability
+          type: actionTypes.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
+          payload: { agentAvailability }
         });
       });
 
@@ -48,11 +48,42 @@ describe('talk reducer agent-availability', () => {
       });
     });
 
+    describe('when a TALK_AGENT_AVAILABILITY_SOCKET_EVENT action is received', () => {
+      let agentAvailability;
+
+      beforeEach(() => {
+        agentAvailability = true;
+
+        state = reducer(initialState, {
+          type: actionTypes.TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
+          payload: { agentAvailability }
+        });
+      });
+
+      it('sets the action payload as the state', () => {
+        expect(state)
+          .toBe(true);
+      });
+    });
+
+    describe('when a TALK_DISCONNECT_SOCKET_EVENT action is received', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.TALK_DISCONNECT_SOCKET_EVENT
+        });
+      });
+
+      it('sets the state to false', () => {
+        expect(state)
+          .toBe(false);
+      });
+    });
+
     describe('when the payload is undefined', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_TALK_AGENT_AVAILABILITY,
-          payload: undefined
+          type: actionTypes.TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
+          payload: { agentAvailability: undefined }
         });
       });
 
