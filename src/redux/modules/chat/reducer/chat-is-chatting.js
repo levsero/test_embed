@@ -3,7 +3,8 @@ import {
   UPDATE_PREVIEWER_SCREEN,
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_MEMBER_LEAVE,
-  END_CHAT_REQUEST_SUCCESS } from '../chat-action-types';
+  END_CHAT_REQUEST_SUCCESS,
+  CHAT_BANNED } from '../chat-action-types';
 
 const initialState = false;
 
@@ -25,6 +26,7 @@ const isChatting = (state = initialState, action) => {
         return false;
       }
       return state;
+    case CHAT_BANNED:
     case END_CHAT_REQUEST_SUCCESS:
       return false;
     default:

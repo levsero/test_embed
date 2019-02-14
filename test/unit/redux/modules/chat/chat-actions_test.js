@@ -1512,6 +1512,14 @@ describe('chat redux actions', () => {
     });
   });
 
+  describe('chatBanned', () => {
+    it('returns CHAT_BANNED', () => {
+      mockStore.dispatch(actions.chatBanned());
+
+      expect(mockStore.getActions()[0]).toEqual({ type: actionTypes.CHAT_BANNED });
+    });
+  });
+
   describe('setDepartment', () => {
     const departmentId = 12345;
     const successCallbackSpy = jasmine.createSpy('successCallback');

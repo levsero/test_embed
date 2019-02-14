@@ -10,7 +10,8 @@ import {
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
   WIDGET_INITIALISED,
-  POPOUT_BUTTON_CLICKED } from '../base-action-types';
+  POPOUT_BUTTON_CLICKED,
+  UPDATE_ACTIVE_EMBED } from '../base-action-types';
 import {
   ZOPIM_HIDE,
   ZOPIM_SHOW,
@@ -18,14 +19,15 @@ import {
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
-  PROACTIVE_CHAT_NOTIFICATION_DISMISSED } from '../../chat/chat-action-types';
+  PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
+  CHAT_BANNED } from '../../chat/chat-action-types';
 import { isMobileBrowser } from 'utility/devices';
 import { isPopout } from 'utility/globals';
 
 const initialState = true;
 
 const launcherVisible = (state = initialState, action) => {
-  const { type } = action;
+  const { type, payload } = action;
 
   switch (type) {
     case LAUNCHER_CLICKED:
@@ -42,6 +44,7 @@ const launcherVisible = (state = initialState, action) => {
     case CANCEL_BUTTON_CLICKED:
     case ZOPIM_ON_CLOSE:
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
+    case CHAT_BANNED:
     case CLOSE_RECEIVED:
       return true;
     case ZOPIM_SHOW:
@@ -51,6 +54,10 @@ const launcherVisible = (state = initialState, action) => {
       return !isPopout();
     case TOGGLE_RECEIVED:
       return !state;
+    case UPDATE_ACTIVE_EMBED:
+      if (payload === '')
+        return false;
+      return state;
     default:
       return state;
   }

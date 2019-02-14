@@ -37,6 +37,7 @@ describe('base reducer launcher visibility', () => {
     zopimActionTypes.ZOPIM_ON_CLOSE,
     chatActionTypes.PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
     actionTypes.CLOSE_RECEIVED,
+    chatActionTypes.CHAT_BANNED,
     actionTypes.POPOUT_BUTTON_CLICKED
   ];
 
@@ -132,6 +133,37 @@ describe('base reducer launcher visibility', () => {
       it('inverts the state', () => {
         expect(state)
           .toEqual(true);
+      });
+    });
+  });
+
+  describe('when a UPDATE_ACTIVE_EMBED action is dispatched', () => {
+    let mockState = 'hello fren',
+      mockPayload,
+      result;
+
+    const getState = () => {
+      return reducer(mockState, {
+        type: actionTypes.UPDATE_ACTIVE_EMBED,
+        payload: mockPayload
+      });
+    };
+
+    describe('when payload is not ""', () => {
+      it('returns current state', () => {
+        mockPayload = 'someValue';
+        result = getState();
+
+        expect(result).toEqual(mockState);
+      });
+    });
+
+    describe('when payload is empty', () => {
+      it('returns false', () => {
+        mockPayload = '';
+        result = getState();
+
+        expect(result).toEqual(false);
       });
     });
   });

@@ -98,5 +98,13 @@ describe('chat reducer notification', () => {
           .toEqual(0);
       });
     });
+
+    describe('when a CHAT_BANNED action is dispatched', () => {
+      it('returns the initialState', () => {
+        const result = reducer('hello fren', { type: actionTypes.CHAT_BANNED });
+
+        expect(result).toEqual(initialState);
+      });
+    });
   });
 });

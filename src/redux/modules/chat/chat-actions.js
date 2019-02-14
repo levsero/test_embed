@@ -440,6 +440,10 @@ export function chatOpened() {
   return { type: actions.CHAT_OPENED };
 }
 
+export function chatBanned() {
+  return { type: actions.CHAT_BANNED };
+}
+
 export function chatOfflineFormChanged(formState) {
   return {
     type: actions.CHAT_OFFLINE_FORM_CHANGED,

@@ -30,6 +30,17 @@ describe('chatLog', () => {
     });
   });
 
+  describe('when a CHAT_BANNED action is received', () => {
+    const mockState = {
+      firstVisitorMessage: 'hey there, pass my PR pls'
+    };
+    const action = { type: actions.CHAT_BANNED };
+
+    it('returns the initial state', () => {
+      expect(chatLog(mockState, action)).toEqual(initialState());
+    });
+  });
+
   describe('firstVisitorMessage', () => {
     beforeEach(() => {
       state = initialState();
