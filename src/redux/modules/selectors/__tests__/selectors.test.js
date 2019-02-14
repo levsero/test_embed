@@ -439,14 +439,15 @@ describe('getAttachmentsEnabled', () => {
 
 describe('getTalkEnabled', () => {
   test.each([
-    [true,   true,   false],
-    [true,   false,  false],
-    [false,  false,  false],
-    [false,  true,   true ]
-  ])('when talkSuppressed is %p, && talkEmbed is %p, it returns %p',
-    (suppressed, talkEmbed, expected) => {
+    [true,   true,   'nickname',  false],
+    [true,   false,  'nickname',  false],
+    [true,   true,   '', false],
+    [false,  false,  undefined, false],
+    [false,  true,   'nick',  true ]
+  ])('when talkSuppressed is %p, && talkEmbed is %p, && talkNickname is %p, it returns %p',
+    (suppressed, talkEmbed, talkNickname, expected) => {
       expect(
-        selectors.getTalkEnabled.resultFunc(suppressed, talkEmbed)
+        selectors.getTalkEnabled.resultFunc(suppressed, talkEmbed, talkNickname)
       ).toEqual(expected);
     }
   );
