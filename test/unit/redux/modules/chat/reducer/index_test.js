@@ -55,7 +55,8 @@ describe('chat root reducer', () => {
         isAgent: {}
       },
       'src/util/nullZChat': noop,
-      'src/redux/modules/chat/chat-action-types': noop
+      'src/redux/modules/chat/chat-action-types': noop,
+      'src/redux/modules/base/base-action-types': noop
     });
 
     reducer = requireUncached(reducerPath).default;

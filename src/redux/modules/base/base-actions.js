@@ -98,14 +98,18 @@ export const renewToken = () => {
   };
 };
 
-export const revokeToken = (revokedAt) => {
+const revokeToken = () => {
+  store.remove('zE_oauth');
+  return {
+    type: actions.AUTHENTICATION_TOKEN_REVOKED
+  };
+};
+
+export const expireToken = (revokedAt) => {
   const oauth = getOAuth();
 
   if (oauth && oauth.createdAt <= revokedAt) {
-    store.remove('zE_oauth');
-    return {
-      type: actions.AUTHENTICATION_TOKEN_REVOKED
-    };
+    return revokeToken();
   }
 
   return {
@@ -113,12 +117,7 @@ export const revokeToken = (revokedAt) => {
   };
 };
 
-export const logout = () => {
-  store.remove('zE_oauth');
-  return {
-    type: actions.AUTHENTICATION_LOGGED_OUT
-  };
-};
+export const logout = () => revokeToken();
 
 export const updateEmbeddableConfig = (rawEmbeddableConfig) => {
   return {

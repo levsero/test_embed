@@ -13,6 +13,7 @@ import {
   CHAT_FILE_REQUEST_SENT
 } from '../chat-action-types';
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types';
 
 const UNSET_TIMESTAMP = -1;
 const initialState = {
@@ -32,6 +33,8 @@ const firstVisitorMessage = (state = initialState.firstVisitorMessage, action) =
       return state === initialState.firstVisitorMessage
         ? action.payload.detail.timestamp
         : state;
+    case API_RESET_WIDGET:
+      return initialState.firstVisitorMessage;
     default:
       return state;
   }
@@ -41,6 +44,8 @@ const latestRating = (state = initialState.latestRating, action) => {
   switch (action.type) {
     case SDK_CHAT_RATING:
       return action.payload.detail.timestamp;
+    case API_RESET_WIDGET:
+      return initialState.latestRating;
     default:
       return state;
   }
@@ -50,6 +55,8 @@ const latestRatingRequest = (state = initialState.latestRatingRequest, action) =
   switch (action.type) {
     case SDK_CHAT_REQUEST_RATING:
       return action.payload.detail.timestamp;
+    case API_RESET_WIDGET:
+      return initialState.latestRatingRequest;
     default:
       return state;
   }
@@ -71,6 +78,8 @@ const latestQuickReply = (state = initialState.latestQuickReply, action) => {
     case SDK_CHAT_COMMENT:
     case CHAT_CONTACT_DETAILS_UPDATE_SUCCESS:
       return UNSET_TIMESTAMP;
+    case API_RESET_WIDGET:
+      return initialState.latestQuickReply;
     default:
       return state;
   }
@@ -82,6 +91,8 @@ const latestAgentLeaveEvent = (state = initialState.latestAgentLeaveEvent, actio
       return action.payload.detail.nick.indexOf('agent') > -1
         ? action.payload.detail.timestamp
         : state;
+    case API_RESET_WIDGET:
+      return initialState.latestAgentLeaveEvent;
     default:
       return state;
   }
@@ -94,6 +105,8 @@ const lastMessageAuthor = (state = initialState.lastMessageAuthor, action) => {
     case SDK_CHAT_FILE:
     case SDK_CHAT_MSG:
       return action.payload.detail.nick;
+    case API_RESET_WIDGET:
+      return initialState.lastMessageAuthor;
     default:
       return state;
   }
@@ -129,6 +142,8 @@ const groups = (state = initialState.groups, action) => {
       return [...state, newGroup(action.payload.detail, 'event')];
     case CHAT_CONTACT_DETAILS_UPDATE_SUCCESS:
       return [...state, newGroup(action.payload, 'event')];
+    case API_RESET_WIDGET:
+      return initialState.groups;
     default:
       return state;
   }

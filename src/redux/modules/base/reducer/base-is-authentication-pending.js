@@ -1,9 +1,10 @@
-import { AUTHENTICATION_PENDING,
+import {
+  AUTHENTICATION_PENDING,
   AUTHENTICATION_SUCCESS,
   AUTHENTICATION_FAILURE,
   AUTHENTICATION_TOKEN_REVOKED,
-  AUTHENTICATION_TOKEN_NOT_REVOKED,
-  AUTHENTICATION_LOGGED_OUT } from '../base-action-types';
+  AUTHENTICATION_TOKEN_NOT_REVOKED
+} from '../base-action-types';
 
 const initialState = false;
 
@@ -17,7 +18,6 @@ const isAuthenticationPending = (state = initialState, action) => {
     case AUTHENTICATION_FAILURE:
     case AUTHENTICATION_TOKEN_REVOKED:
     case AUTHENTICATION_TOKEN_NOT_REVOKED:
-    case AUTHENTICATION_LOGGED_OUT:
       return false;
     default:
       return state;

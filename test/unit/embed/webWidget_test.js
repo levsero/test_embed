@@ -31,7 +31,7 @@ describe('embed.webWidget', () => {
     mockConfig = { talk: { serviceUrl: 'talk.io' } };
 
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
-  const revokeTokenSpy = jasmine.createSpy();
+  const expireTokenSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
   const getTicketFieldsSpy = jasmine.createSpy('ticketFields');
   const zChatAddTagSpy = jasmine.createSpy('zChatAddTag');
@@ -214,7 +214,7 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/base' : {
         authenticate: authenticateSpy,
-        revokeToken: revokeTokenSpy
+        expireToken: expireTokenSpy
       },
       'lodash': _,
       'constants/chat': {
@@ -1497,7 +1497,7 @@ describe('embed.webWidget', () => {
         });
 
         it('calls authentication.revoke with tokensRevokedAt value', () => {
-          expect(revokeTokenSpy)
+          expect(expireTokenSpy)
             .toHaveBeenCalledWith(webWidget.get().config.helpCenterForm.tokensRevokedAt);
         });
       });

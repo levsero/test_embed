@@ -1,5 +1,6 @@
 import chatLog from '../chat-log';
 import * as actions from 'src/redux/modules/chat/chat-action-types';
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types';
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
 
 describe('chatLog', () => {
@@ -17,6 +18,15 @@ describe('chatLog', () => {
       latestAgentLeaveEvent: -1,
       lastMessageAuthor: '',
       groups: []
+    });
+  });
+
+  describe('when an API_RESET_WIDGET action is received', () => {
+    const mockState = { firstVisitorMessage: 'foo bar' };
+    const action = { type: API_RESET_WIDGET };
+
+    it('returns the initial state', () => {
+      expect(chatLog(mockState, action)).toEqual(initialState());
     });
   });
 
