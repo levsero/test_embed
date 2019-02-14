@@ -12,6 +12,7 @@ describe('PrechatForm component', () => {
   const Item = noopReactComponent();
   const Message = noopReactComponent();
   const Label =  noopReactComponent();
+  const Linkify = noopReactComponent('Linkify');
 
   const mockFormProp = {
     name: { name: 'name', required: true },
@@ -72,6 +73,7 @@ describe('PrechatForm component', () => {
         Textarea: noopReactComponent(),
         Message
       },
+      'react-linkify' : Linkify,
       '@zendeskgarden/react-select': {
         SelectField,
         Label: noopReactComponent(),
@@ -258,8 +260,8 @@ describe('PrechatForm component', () => {
       });
 
       it('render a div with the greeting message', () => {
-        expect(result.type)
-          .toEqual('div');
+        expect(TestUtils.isElementOfType(result, Linkify))
+          .toEqual(true);
 
         expect(result.props.children)
           .toEqual(greetingMessage);
