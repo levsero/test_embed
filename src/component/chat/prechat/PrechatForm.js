@@ -9,6 +9,7 @@ import {
   Label as SelectLabel,
   Message as SelectMessage,
   Item } from '@zendeskgarden/react-select';
+import Linkify from 'react-linkify';
 
 import { Button } from '@zendeskgarden/react-buttons';
 import { UserProfile } from 'component/chat/UserProfile';
@@ -160,7 +161,7 @@ export class PrechatForm extends Component {
     const { greetingMessage } = this.props;
 
     return greetingMessage !== ''
-      ? <div className={styles.greetingMessage}>{greetingMessage}</div>
+      ? <Linkify properties={{ target: '_blank' }} className={styles.greetingMessage}>{greetingMessage}</Linkify>
       : null;
   }
 

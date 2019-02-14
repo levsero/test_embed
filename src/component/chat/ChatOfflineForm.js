@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import classNames from 'classnames';
+import Linkify from 'react-linkify';
 import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -258,9 +259,9 @@ export class ChatOfflineForm extends Component {
     const { greeting } = this.props;
 
     return (
-      <p className={styles.offlineGreeting}>
+      <Linkify properties={{ target: '_blank' }} className={styles.offlineGreeting}>
         {greeting}
-      </p>
+      </Linkify>
     );
   }
 

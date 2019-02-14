@@ -16,6 +16,7 @@ describe('ChatOfflineForm component', () => {
   const ScrollContainer = noopReactComponent();
   const TextField = noopReactComponent();
   const Message = noopReactComponent();
+  const Linkify = noopReactComponent('Linkify');
   const mainScreen = 'main';
   const successScreen = 'success';
   const loadingScreen = 'loading';
@@ -59,6 +60,7 @@ describe('ChatOfflineForm component', () => {
         Textarea: noopReactComponent(),
         Message
       },
+      'react-linkify' : Linkify,
       'constants/chat': {
         OFFLINE_FORM_SCREENS: {
           MAIN: mainScreen,
@@ -915,8 +917,8 @@ describe('ChatOfflineForm component', () => {
       result = component.renderOfflineGreeting();
     });
 
-    it('renders a type of <p>', () => {
-      expect(TestUtils.isElementOfType(result, 'p'))
+    it('renders a type of <Linkify>', () => {
+      expect(TestUtils.isElementOfType(result, Linkify))
         .toEqual(true);
     });
 
