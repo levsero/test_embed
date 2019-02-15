@@ -44,7 +44,7 @@ import {
   getAnswerBotAvatarName
 } from '../settings/settings-selectors';
 import {
-  getEmbeddableConfigEnabled,
+  getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
   getAgentAvailability,
   getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
   getScreen
@@ -228,15 +228,22 @@ export const getShowTalkBackButton = createSelector(
 );
 export const getTalkReady = (state) => !getTalkEmbed(state) || getTalkEmbeddableConfigConnected(state);
 
+export const getTalkNickname = createSelector(
+  [getSettingsTalkNickname, getTalkConfig],
+  (settingsNickname, config) => (
+    settingsNickname || _.get(config, 'props.nickname')
+  )
+);
+
 export const getTalkEnabled = createSelector(
-  [getSettingsTalkSuppress, getTalkEmbed],
-  (talkSuppressed, talkEmbed) => (
-    !talkSuppressed && talkEmbed
+  [getSettingsTalkSuppress, getTalkEmbed, getTalkNickname],
+  (talkSuppressed, talkEmbed, nickname) => (
+    !_.isEmpty(nickname) && !talkSuppressed && talkEmbed
   )
 );
 
 export const getTalkAvailable = createSelector(
-  [getTalkEnabled, getEmbeddableConfigEnabled],
+  [getTalkEnabled, getTalkEmbeddableConfigEnabled],
   (talkEnabled, configEnabled) => (
     talkEnabled && configEnabled
   )
@@ -576,13 +583,6 @@ export const getTalkTitle = createSelector(
 export const getTalkServiceUrl = createSelector(
   getTalkConfig,
   (config) => config.props.serviceUrl
-);
-
-export const getTalkNickname = createSelector(
-  [getSettingsTalkNickname, getTalkConfig],
-  (settingsNickname, config) => (
-    settingsNickname || _.get(config, 'props.nickname')
-  )
 );
 
 export const getSettingsAnswerBotTitle = createSelector(
