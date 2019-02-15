@@ -50,19 +50,50 @@ window.zESettings = {
 
 The Chat component has the following commands:
 
-* [chat:send](#chatsend)
-* [get chat:isChatting](#get-chatischatting)
-* [get chat:department](#get-chatdepartment)
-* [get chat:departments](#get-chatdepartments)
-* [chat:end](#chatend)
-* [updatePath](#updatepath)
-* [on chat:connected](#on-chatconnected)
-* [on chat:start](#on-chatstart)
-* [on chat:end](#on-chatend)
-* [on chat:status](#on-chatstatus)
-* [on chat:departmentStatus](#on-chatdepartmentstatus)
-* [on chat:unreadMessages](#on-chatunreadmessages)
-* [popout](#popout)
+- [Chat API](#chat-api)
+  - [Settings](#settings)
+    - [Example](#example)
+  - [Commands](#commands)
+    - [chat:send](#chatsend)
+      - [Parameters](#parameters)
+      - [Example](#example-1)
+    - [get chat:isChatting](#get-chatischatting)
+      - [Parameters](#parameters-1)
+      - [Return value](#return-value)
+    - [get chat:department](#get-chatdepartment)
+      - [Parameters](#parameters-2)
+      - [Example](#example-2)
+      - [Return value](#return-value-1)
+    - [get chat:departments](#get-chatdepartments)
+      - [Parameters](#parameters-3)
+      - [Return value](#return-value-2)
+      - [Example](#example-3)
+    - [chat:end](#chatend)
+      - [Parameters](#parameters-4)
+    - [updatePath](#updatepath)
+      - [Parameters](#parameters-5)
+      - [Example](#example-4)
+    - [on chat:connected](#on-chatconnected)
+      - [Parameters](#parameters-6)
+      - [Example](#example-5)
+    - [on chat:start](#on-chatstart)
+      - [Parameters](#parameters-7)
+      - [Example](#example-6)
+    - [on chat:end](#on-chatend)
+      - [Parameters](#parameters-8)
+      - [Example](#example-7)
+    - [on chat:status](#on-chatstatus)
+      - [Parameters](#parameters-9)
+      - [Example](#example-8)
+    - [on chat:departmentStatus](#on-chatdepartmentstatus)
+      - [Parameters](#parameters-10)
+      - [Example](#example-9)
+    - [on chat:unreadMessages](#on-chatunreadmessages)
+      - [Parameters](#parameters-11)
+      - [Example](#example-10)
+    - [popout](#popout)
+      - [Parameters](#parameters-12)
+      - [Example](#example-11)
 
 #### chat:send
 
@@ -126,7 +157,9 @@ zE('webWidget:get', 'chat:department', 'Accounting');
 
 `zE('webWidget:get', 'chat:departments');`
 
-Returns a list of all enabled departments containing information about each department including its `id`, `name` and `status`.
+Returns a list of all enabled departments containing information about each department including its `id`, `name` and `status`. Returns `undefined` if chat is not connected.
+
+**NOTE:** This function should only be called after the widget is connected (see example).
 
 ##### Parameters
 
@@ -136,6 +169,16 @@ None
 
 * An array of objects containing information about each department, including its `id`, `name`, and `status`.
 
+##### Example
+
+```html
+<script type="text/javascript">
+zE('webWidget:on', 'chat:connected', function() {
+  const departments = zE('webWidget:get', 'chat:departments')
+  departments.forEach((department) => { console.log(department) })
+});
+</script>
+```
 
 #### chat:end
 
