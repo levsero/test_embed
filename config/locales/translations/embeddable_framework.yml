@@ -942,6 +942,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
       value: "Live chat is offline"
   - translation:
+      key: "embeddable_framework.channelChoice.button.label.chat_offline_v3"
+      title: "A notification that appears when a user enters live chat but all agents become unavailable."
+      screenshot: "https://drive.google.com/file/d/1ai96g2HeztA2M4sDlzIC56pOi6lsFKjD/view?usp=sharing"
+      value: "Live chat is offline"
+  - translation:
       key: "embeddable_framework.channelChoice.button.label.request_callback"
       title: "This string should match 'embeddable_framework.talk.form.title'"
       value: "Request a callback"
