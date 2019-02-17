@@ -1061,6 +1061,160 @@ parts:
       screenshot: "https://zendesk.box.com/s/bgy6121lonubzyv7yj3xvbvrelc5om15"
       value: "Back to chat"
 
+  # Answer bot embed
+  - translation:
+      key: "embeddable_framework.answerBot.header.title"
+      title: "Header text that displays a strong font for a string"
+      screenshot: "https://drive.google.com/open?id=1LlwHmAsMPWLMghVacOA8PBK5ifU4gd6_"
+      hidden: true
+      value: "Answer Bot"
+  - translation:
+      key: "embeddable_framework.answerBot.bot.name"
+      title: "Name of Answer Bot displayed during conversation"
+      screenshot: "https://drive.google.com/open?id=1hlQg8etq0UvAsE7WEDG-pwX0Ij9C_YhV"
+      hidden: true
+      value: "Answer Bot"
+  - translation:
+      key: "embeddable_framework.answerBot.inputBox.placeholder"
+      title: "Placeholder text for the input box. If you have formal/informal issues, please translate 'Type a message here...'"
+      screenshot: "https://drive.google.com/open?id=1B0sdjiFOfpyh1aHXN0dYGooYuMSw5IXl"
+      value: "Type your question here..."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.greetings"
+      title: "Initial greetings text when visitor starts new conversation."
+      screenshot: "https://drive.google.com/open?id=1QclhkQZpOygIDwzxI-fZMFPNN9jLaVdW"
+      value: "Hello."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.greetings_with_brand"
+      title: "Initial greetings text when visitor starts new conversation. %(brand)s is a placeholder (s is NOT for plural)"
+      screenshot: "https://drive.google.com/open?id=13ECDMOW7Fo-1kS8gl2bYABqYO27jVxvp"
+      value: "Hi! Welcome to %(brand)s."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.feedback.question"
+      title: "A feedback prompt that is surfaced to the user if they navigated from viewing an article to the answerBot chat without leaving any feedback."
+      screenshot: "https://drive.google.com/file/d/1vgQoMJZzUjSa0HPhYKWuvkmExh7mB4_v/view?usp=sharing"
+      value: "Did the article you viewed help to answer your question?"
+  - translation:
+      key: "embeddable_framework.answerBot.msg.prompt"
+      title: "Initial prompt for visitor query. If you have formal/informal issues, please translate 'Ask me a question and I'll find the answer.'"
+      screenshot: "https://drive.google.com/open?id=1RYJXIlYyg4tkFDmlijIlidvxuMCcZnWE"
+      value: "Ask me a question and I'll find the answer for you."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.initial_fallback"
+      title: "Initial message when visitor doesn't type question within 10s. If you have formal/informal issues, please translate 'Or, please send a request.'"
+      screenshot: "https://drive.google.com/open?id=1dk1m16CokGxBX3zy9xbqRj353iZ4kQBI"
+      value: "Or you can get in touch."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.no_interaction_fallback"
+      title: "Message when visitor doesn't engage within 5s. If you have formal/informal issues, please translate 'Please send a request.'"
+      screenshot: "https://drive.google.com/open?id=1XxgPzysmCKqkSTtwUBYGjchCVBVrHNfO"
+      value: "You can also get in touch."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.prompt_again"
+      title: "Prompt visitor again for new question. If you have formal/informal issues, please translate 'Or ask another question.'"
+      screenshot: "https://drive.google.com/open?id=1iim2qk5qMZ3Caa4b4d_hRXMfEhCyUuo-"
+      value: "Or you can ask another question."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.prompt_again_no_channels_available"
+      title: "Prompt visitor again for new question. If you have formal/informal issues, please translate 'Ask another question.'"
+      screenshot: "https://drive.google.com/open?id=1JAbr4Nc6JNWsMqAhCfrbG5N6A7D72NOh"
+      value: "You can ask another question."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.prompt_again_after_yes"
+      title: "Prompt visitor for new question after Yes feedback is provided. If you have formal/informal issues, please translate 'If there's anything else I can find, just type another question.'"
+      screenshot: "https://drive.google.com/open?id=1JAbr4Nc6JNWsMqAhCfrbG5N6A7D72NOh"
+      value: "If there's anything else I can find for you, just type another question."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.yes_acknowledgement"
+      title: "Confirm message after visitor accepted the suggested article. Marketing line, can be adapted to your language/culture. A possibile alternative is Glad we were able to help."
+      screenshot: "https://drive.google.com/open?id=1qSfBBmgefPRrB0P85g1S6uLnmM8XcEuO"
+      value: "Nice. Knowledge is power."
+  - translation:
+      key: "embeddable_framework.answerBot.msg.no_acknowledgement"
+      title: "Confirm message after visitor rejected the suggested article. If you have formal/informal issues, please translate 'I see. Question is still unresolved.'"
+      screenshot: "https://drive.google.com/open?id=1I-xjIxU6Kfkh2BPTE6Ym2YxS9Y22voIT"
+      value: "I see. Your question is still unresolved."
+  - translation:
+      key: "embeddable_framework.answerBot.article.feedback.title"
+      title: "Title for feedback popup when an article is viewed. If you have formal/informal issues, please translate 'Does this article answer the question?'"
+      screenshot: "https://drive.google.com/open?id=1QJ53RlZC-0HwcJ6co784dEmeC-jlpQwl"
+      value: "Does this article answer your question?"
+  - translation:
+      key: "embeddable_framework.answerBot.article.feedback.yes"
+      title: "Text for Yes button on the feedback popup when an article is viewed"
+      screenshot: "https://drive.google.com/open?id=15tdeQxFEA0rwH92hHLHBGQFhIZ8nx42O"
+      value: "Yes"
+  - translation:
+      key: "embeddable_framework.answerBot.article.feedback.no.need_help"
+      title: "Text for No button on the feedback popup when an article is viewed"
+      screenshot: "https://drive.google.com/open?id=11wbqVU-ut3jlym2-fUqBpKiys9GyoYe0"
+      value: "No, I need help"
+  - translation:
+      key: "embeddable_framework.answerBot.article.feedback.no.reason.title"
+      title: "Title for the rejected reasons on the feedback popup"
+      screenshot: "https://drive.google.com/open?id=1B0NZtj_2oIQaYcRrhMYZcWdeD3Qr7spI"
+      value: "Please tell us why."
+  - translation:
+      key: "embeddable_framework.answerBot.article.feedback.no.reason.related"
+      title: "Text for the reason that is related but didn't answer the question"
+      screenshot: "https://drive.google.com/open?id=1V04D5zUuWaqcL6GhLSOh8cyM461QSI3t"
+      value: "It's related, but it didn't answer my question"
+  - translation:
+      key: "embeddable_framework.answerBot.article.feedback.no.reason.unrelated"
+      title: "Text for the reason that is not related"
+      screenshot: "https://drive.google.com/open?id=1JC3tVBFnvY-JJ_FgZcuN2Y-JuIlLbYyA"
+      value: "It's not related to my question"
+  - translation:
+      key: "embeddable_framework.answerBot.msg.no_articles_fallback"
+      title: "Title for the channel choice message when no articles are returned. If you have formal/informal issues, please stay consistent with what you used in 'embeddable_framework.chat.postChat.rating.title'."
+      screenshot: "https://drive.google.com/open?id=1Gmvrwxza9oBvGqC25OPfNlVXhOHlRKJO"
+      value: "Would you like to get in touch?"
+  - translation:
+      key: "embeddable_framework.answerBot.msg.channel_choice.title"
+      title: "Title for the channel choice message."
+      screenshot: "https://drive.google.com/open?id=1X2f8cAh-OrntKAzHqxTpsNxdstYaPHSd"
+      value: "Choose a way to get in touch:"
+  - translation:
+      key: "embeddable_framework.answerBot.msg.channel_choice.chat_only.title"
+      title: "Leading message when the only channel available is chat."
+      screenshot: "https://drive.google.com/open?id=1TAV47o7lZQe0MQ9rq7e-8fs5-VS1Dg2d"
+      value: "Would you like to chat with someone who can help?"
+  - translation:
+      key: "embeddable_framework.answerBot.msg.channel_choice.request_callback_only.title"
+      title: "Leading message when the only channel available is to request a callback. If you have formal/informal issues, please translate 'Would you like the team to contact you regarding the question?'"
+      screenshot: "https://drive.google.com/open?id=1jweTFpGVPMhdKsNMrFBELvdXgd4vG0o5"
+      value: "Would you like the team to contact you regarding your question?"
+  - translation:
+      key: "embeddable_framework.answerBot.msg.channel_choice.call_us_only.title"
+      title: "Leading message when the only channel available is to call us. If you have formal/informal issues, please translate 'Would you like to contact us regarding the question?'"
+      screenshot: "https://drive.google.com/open?id=1U1JCJ7FkcbAPfpOis944Am_hcgrRR9al"
+      value: "Would you like to contact us regarding your question?"
+  - translation:
+      key: "embeddable_framework.answerBot.msg.channel_choice.submit_ticket_only.title"
+      title: "Leading message when the only channel available is contact form. If you have formal/informal issues, please translate 'Would you like to leave a message so the team can follow up on the question'"
+      screenshot: "https://drive.google.com/open?id=1lIvGGnuPPA4IbmXwg1q3VD8F43zAFKIh"
+      value: "Would you like to leave a message so the team can follow up on your question?"
+  - translation:
+      key: "embeddable_framework.answerBot.results.pending"
+      title: "Text for article results when the bot is searching for articles."
+      screenshot: "https://drive.google.com/open?id=1MkhPL8D3m0JJPBFZiGa5Vj5k_Zf3gxog"
+      value: "Looking for articles..."
+  - translation:
+      key: "embeddable_framework.answerBot.results.no_article"
+      title: "Text for article results when there is no article found."
+      screenshot: "https://drive.google.com/open?id=1hEXPGlotR14QxRy_VV8nONSLFSbOYh_V"
+      value: "I couldn't find any relevant articles."
+  - translation:
+      key: "embeddable_framework.answerBot.results.one_article"
+      title: "Text for article results when there is one article found."
+      screenshot: "https://drive.google.com/open?id=1Tmu3lYAP464BINwvW-UFvbxYRBePQUU-"
+      value: "Here is an article that may help:"
+  - translation:
+      key: "embeddable_framework.answerBot.results.many_article"
+      title: "Text for article results when there are many articles found."
+      screenshot: "https://drive.google.com/open?id=1f2doiiYFBpPGFEWUfqcokkX39pYlr9Bp"
+      value: "Here are some articles that may help:"
+
   # Mobile
   - translation:
       key: "embeddable_framework.helpCenter.label.linkContext.chat"
