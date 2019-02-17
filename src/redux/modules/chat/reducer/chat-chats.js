@@ -21,6 +21,9 @@ import {
   CHAT_SYSTEM_EVENTS,
   CHAT_STRUCTURED_CONTENT_TYPE
 } from 'constants/chat';
+import {
+  API_RESET_WIDGET
+} from 'src/redux/modules/base/base-action-types';
 
 import _ from 'lodash';
 
@@ -107,6 +110,8 @@ const chats = (state = initialState, action) => {
       return concatChat(state, detail);
     case CHAT_CONTACT_DETAILS_UPDATE_SUCCESS:
       return concatContactDetailsUpdated(state, action.payload);
+    case API_RESET_WIDGET:
+      return initialState;
     default:
       return state;
   }

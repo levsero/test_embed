@@ -42,7 +42,7 @@ import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
 import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
-import { authenticate, revokeToken } from 'src/redux/modules/base';
+import { authenticate, expireToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
@@ -382,7 +382,7 @@ export default function WebWidgetFactory(name) {
     const authSetting = settings.getSupportAuthSettings();
 
     if (config.tokensRevokedAt) {
-      embed.store.dispatch(revokeToken(config.tokensRevokedAt));
+      embed.store.dispatch(expireToken(config.tokensRevokedAt));
     }
 
     if (authSetting) {

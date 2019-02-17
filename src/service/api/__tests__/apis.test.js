@@ -369,16 +369,19 @@ describe('updateSettingsApi', () => {
 });
 
 describe('logoutApi', () => {
-  let logoutValue = Date.now()
-    , chatLogoutValue = Date.now();
-  let baseSpy, chatSpy;
+  const logoutValue = Date.now(),
+    chatLogoutValue = Date.now(),
+    resetValue = { type: 'API_RESET_WIDGET' };
+  let baseSpy, chatSpy, resetSpy;
 
   beforeEach(() => {
-    const logout = jest.fn(() => logoutValue);
-    const chatLogout = jest.fn(() => chatLogoutValue);
+    const logout = jest.fn(() => logoutValue),
+      chatLogout = jest.fn(() => chatLogoutValue),
+      apiReset = jest.fn(() => resetValue);
 
     baseSpy = jest.spyOn(baseActions, 'logout').mockImplementation(logout);
     chatSpy = jest.spyOn(chatActions, 'chatLogout').mockImplementation(chatLogout);
+    resetSpy = jest.spyOn(baseActions, 'apiResetWidget').mockImplementation(apiReset);
 
     apis.logoutApi(mockStore);
   });
@@ -386,6 +389,7 @@ describe('logoutApi', () => {
   afterEach(() => {
     baseSpy.mockRestore();
     chatSpy.mockRestore();
+    resetSpy.mockRestore();
   });
 
   it('dispatches the chatLogout action', () => {
@@ -401,6 +405,10 @@ describe('logoutApi', () => {
   it('calls mediator with the expected broadcast', () => {
     expect(mediator.channel.broadcast)
       .toHaveBeenCalledWith('.logout');
+  });
+
+  it('dispatches apiResetWidget', () => {
+    expect(mockStore.dispatch).toHaveBeenCalledWith(resetValue);
   });
 });
 

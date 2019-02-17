@@ -674,9 +674,9 @@ describe('base redux actions', () => {
         .toHaveBeenCalledWith('zE_oauth');
     });
 
-    it('dispatch AUTHENTICATION_LOGGED_OUT', () => {
+    it('dispatches AUTHENTICATION_TOKEN_REVOKED', () => {
       expect(action.type)
-        .toEqual(actionTypes.AUTHENTICATION_LOGGED_OUT);
+        .toEqual(actionTypes.AUTHENTICATION_TOKEN_REVOKED);
     });
   });
 
@@ -867,12 +867,12 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('revokeToken', () => {
+  describe('expireToken', () => {
     let action,
       revokedAt;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.revokeToken(revokedAt));
+      mockStore.dispatch(actions.expireToken(revokedAt));
       action = mockStore.getActions()[0];
     });
 

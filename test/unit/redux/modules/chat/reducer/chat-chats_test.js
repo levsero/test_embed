@@ -7,7 +7,8 @@ describe('chat reducer chats', () => {
     CHAT_MESSAGE_TYPES,
     CHAT_CUSTOM_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
-    CHAT_STRUCTURED_CONTENT_TYPE;
+    CHAT_STRUCTURED_CONTENT_TYPE,
+    API_RESET_WIDGET;
 
   const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
   const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
@@ -18,6 +19,7 @@ describe('chat reducer chats', () => {
   CHAT_CUSTOM_MESSAGE_EVENTS = chatConstants.CHAT_CUSTOM_MESSAGE_EVENTS;
   CHAT_SYSTEM_EVENTS = chatConstants.CHAT_SYSTEM_EVENTS;
   CHAT_STRUCTURED_CONTENT_TYPE = chatConstants.CHAT_STRUCTURED_CONTENT_TYPE;
+  API_RESET_WIDGET = 'API_RESET_WIDGET';
 
   beforeEach(() => {
     mockery.enable();
@@ -28,6 +30,9 @@ describe('chat reducer chats', () => {
         CHAT_CUSTOM_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
         CHAT_STRUCTURED_CONTENT_TYPE
+      },
+      'src/redux/modules/base/base-action-types': {
+        API_RESET_WIDGET
       }
     });
 
@@ -398,6 +403,25 @@ describe('chat reducer chats', () => {
 
         expect(state.get(timestamp))
           .toEqual(expectedPayload);
+      });
+    });
+
+    describe('when an API_RESET_WIDGET action is received', () => {
+      let state;
+      const mockState = { foo: 'bar' };
+
+      beforeEach(() => {
+        state = reducer(mockState, {
+          type: API_RESET_WIDGET
+        });
+      });
+
+      afterEach(() => {
+        initialState.clear();
+      });
+
+      it('returns the initial state', () => {
+        expect(state).toEqual(initialState);
       });
     });
 

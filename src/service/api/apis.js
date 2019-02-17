@@ -47,9 +47,10 @@ import { settings } from 'service/settings';
 import { beacon } from 'service/beacon';
 import { createChatPopoutWindow } from 'src/util/chat';
 import { nameValid, emailValid } from 'utility/utils';
-
-import { handleOnApiCalled } from 'src/redux/modules/base/base-actions';
-
+import {
+  handleOnApiCalled,
+  apiResetWidget
+} from 'src/redux/modules/base/base-actions';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 
 export const endChatApi = (reduxStore) => {
@@ -126,6 +127,7 @@ export const logoutApi = (reduxStore) => {
   reduxStore.dispatch(logout());
   mediator.channel.broadcast('.logout');
   reduxStore.dispatch(chatLogout());
+  reduxStore.dispatch(apiResetWidget());
 };
 
 export const setHelpCenterSuggestionsApi = (reduxStore, options) => {
