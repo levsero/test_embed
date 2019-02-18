@@ -6,7 +6,9 @@ import {
   AUTHENTICATION_SUCCESS,
   API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types';
 import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS, CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types';
-import { UPDATE_TALK_AGENT_AVAILABILITY } from 'src/redux/modules/talk/talk-action-types';
+import {
+  TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
+  TALK_AGENT_AVAILABILITY_SOCKET_EVENT } from 'src/redux/modules/talk/talk-action-types';
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
 import {
   ZOPIM_CHAT_ON_STATUS_UPDATE,
@@ -120,7 +122,8 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
   const { type } = action;
   const state = nextState;
   const updateActions = [
-    UPDATE_TALK_AGENT_AVAILABILITY,
+    TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
+    TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
     WIDGET_INITIALISED,
     ZOPIM_HIDE,
     ACTIVATE_RECEIVED,

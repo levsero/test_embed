@@ -4,10 +4,10 @@ import { logging } from 'service/logging';
 import { http, socketio } from 'service/transport';
 import { parseUrl } from 'utility/utils';
 import {
-  UPDATE_TALK_EMBEDDABLE_CONFIG,
-  UPDATE_TALK_AGENT_AVAILABILITY,
-  UPDATE_TALK_AVERAGE_WAIT_TIME,
-  UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED,
+  TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
+  TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
+  TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT,
+  TALK_DISCONNECT_SOCKET_EVENT,
   UPDATE_TALK_SCREEN,
   UPDATE_CALLBACK_FORM,
   TALK_CALLBACK_REQUEST,
@@ -21,29 +21,28 @@ import { getShowTalkBackButton } from 'src/redux/modules/selectors';
 
 export function updateTalkEmbeddableConfig(config) {
   return {
-    type: UPDATE_TALK_EMBEDDABLE_CONFIG,
-    payload: _.omit(config, ['agentAvailability', 'averageWaitTime'])
+    type: TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
+    payload: config
   };
 }
 
 export function updateTalkAgentAvailability(availability) {
   return {
-    type: UPDATE_TALK_AGENT_AVAILABILITY,
+    type: TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
     payload: availability
   };
 }
 
 export function updateTalkAverageWaitTime(averageWaitTime) {
   return {
-    type: UPDATE_TALK_AVERAGE_WAIT_TIME,
+    type: TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT,
     payload: averageWaitTime
   };
 }
 
-export function updateTalkAverageWaitTimeEnabled(averageWaitTimeEnabled) {
+export function talkDisconnect() {
   return {
-    type: UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED,
-    payload: averageWaitTimeEnabled
+    type: TALK_DISCONNECT_SOCKET_EVENT
   };
 }
 

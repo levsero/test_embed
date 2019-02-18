@@ -103,7 +103,9 @@ test('getCallback returns the callback object', () => {
 
 test('getAverageWaitTime returns the callback object', () => {
   const state = {
-    averageWaitTime: '5'
+    averageWaitTime: {
+      waitTime: '5'
+    }
   };
 
   expect(selectors.getAverageWaitTime(talkConfig(state)))
@@ -112,7 +114,9 @@ test('getAverageWaitTime returns the callback object', () => {
 
 test('getAverageWaitTimeEnabled returns the callback object', () => {
   const state = {
-    averageWaitTimeEnabled: true
+    averageWaitTime: {
+      enabled: true
+    }
   };
 
   expect(selectors.getAverageWaitTimeEnabled(talkConfig(state)))

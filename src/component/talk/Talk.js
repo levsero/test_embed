@@ -160,7 +160,7 @@ class Talk extends Component {
   renderAverageWaitTime = () => {
     const { averageWaitTime, averageWaitTimeEnabled } = this.props;
 
-    if (!averageWaitTimeEnabled) return;
+    if (!averageWaitTimeEnabled || averageWaitTime === '0') return;
 
     const waitTimeForm = parseInt(averageWaitTime, 10) > 1 ? 'Plural' : 'Singular';
     const waitTimeMessage = i18n.t(`embeddable_framework.talk.form.averageWaitTime${waitTimeForm}`, {

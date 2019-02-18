@@ -41,7 +41,20 @@ describe('talk reducer embeddable-config', () => {
       });
     });
 
-    describe('when an UPDATE_TALK_EMBEDDABLE_CONFIG action is dispatched', () => {
+    describe('when an TALK_DISCONNECT_SOCKET_EVENT action is received', () => {
+      beforeEach(() => {
+        state = reducer({ enabled: true }, {
+          type: actionTypes.TALK_DISCONNECT_SOCKET_EVENT
+        });
+      });
+
+      it('sets the enabled state to false', () => {
+        expect(state.enabled)
+          .toEqual(false);
+      });
+    });
+
+    describe('when an TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT action is received', () => {
       let config,
         expected;
 
@@ -67,7 +80,7 @@ describe('talk reducer embeddable-config', () => {
           };
 
           state = reducer(initialState, {
-            type: actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG,
+            type: actionTypes.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
             payload: config
           });
         });
@@ -90,7 +103,7 @@ describe('talk reducer embeddable-config', () => {
           };
 
           state = reducer(initialState, {
-            type: actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG,
+            type: actionTypes.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
             payload: config
           });
         });
@@ -113,7 +126,7 @@ describe('talk reducer embeddable-config', () => {
           };
 
           state = reducer(initialState, {
-            type: actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG,
+            type: actionTypes.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
             payload: config
           });
         });

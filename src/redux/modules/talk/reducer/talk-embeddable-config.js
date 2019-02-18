@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { UPDATE_TALK_EMBEDDABLE_CONFIG } from '../talk-action-types';
+import { TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT, TALK_DISCONNECT_SOCKET_EVENT } from '../talk-action-types';
 import {
   CALLBACK_ONLY,
   PHONE_ONLY,
@@ -23,7 +23,7 @@ const initialState = {
 
 const embeddableConfig = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_TALK_EMBEDDABLE_CONFIG:
+    case TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT:
       const { payload } = action;
       let supportedCountries = payload.supportedCountries;
 
@@ -35,6 +35,11 @@ const embeddableConfig = (state = initialState, action) => {
         capability: capabilityMap[payload.capability],
         enabled: payload.enabled === true,
         connected: true
+      };
+    case TALK_DISCONNECT_SOCKET_EVENT:
+      return {
+        ...state,
+        enabled: false
       };
     default:
       return state;
