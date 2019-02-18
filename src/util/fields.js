@@ -9,13 +9,10 @@ import {
   isLandscape
 } from 'utility/devices';
 import { TextField, Textarea, Label, Input, Hint, Message } from '@zendeskgarden/react-textfields';
-import {
-  Checkbox,
-  Label as CheckboxLabel,
-  Hint as CheckboxHint,
-  Message as CheckboxMessage
-} from '@zendeskgarden/react-checkboxes';
+import { GardenCheckbox } from '@zendeskgarden/react-checkboxes';
+import Checkbox from 'src/component/field/Checkbox';
 import { Label as DropdownLabel } from '@zendeskgarden/react-select';
+import LabelComponent from 'src/component/field/Label';
 
 const getDefaultFieldValues = (elementType, existingValue) => {
   switch (elementType) {
@@ -154,28 +151,22 @@ const getCustomFields = (customFields, formState, options = {}) => {
         );
 
       case 'checkbox':
-        const description = field.description
-          ? <CheckboxHint>{field.description}</CheckboxHint>
-          : '';
-        const checkboxError = renderError
-          ? (
-            <CheckboxMessage validation='error'>
-              {i18n.t('embeddable_framework.validation.error.checkbox')}
-            </CheckboxMessage>
-          )
-          : null;
+        const validation = renderError ? 'error': 'none';
         const checkboxProps = {
           ...sharedProps,
-          validation: checkboxError ? 'error': 'none'
+          validation
         };
 
-        return (
-          <Checkbox {...checkboxProps}>
-            {renderLabel(CheckboxLabel, title, sharedProps.required, { style: 'margin-top: 1px !important;' })}
-            {description}
-            {checkboxError}
-          </Checkbox>
-        );
+        return (<Checkbox
+          key={sharedProps.key}
+          errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
+          renderError={renderError}
+          description={field.description}
+          required={sharedProps.required}
+          validation={validation}
+          title={title}
+          checkboxProps={checkboxProps}
+        />);
     }
   };
 
@@ -208,11 +199,7 @@ const getStyledLabelText = (label, required) => {
 };
 
 const renderLabel = (Component, label, required) => {
-  const labelText = getStyledLabelText(label, required);
-
-  return (
-    <Component dangerouslySetInnerHTML={{ __html: labelText }} />
-  );
+  return (<LabelComponent Component={Component} label={label} required={required} />);
 };
 
 export {
