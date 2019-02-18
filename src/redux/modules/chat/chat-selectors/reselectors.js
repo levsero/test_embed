@@ -70,7 +70,12 @@ export const getActiveAgents = createSelector(
   }
 );
 
-export const getAllAgents = (state) => _.extend({}, getActiveAgents(state), getInactiveAgents(state));
+export const getAllAgents = createSelector(
+  [getActiveAgents, getInactiveAgents],
+  (activeAgents, inactiveAgents) => {
+    return _.extend({}, activeAgents, inactiveAgents);
+  }
+);
 
 export const getAgentsTyping = (state) => {
   return _.filter(getActiveAgents(state), (agent, key) => agent.typing && key !== AGENT_BOT);
