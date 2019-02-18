@@ -436,6 +436,10 @@ class ChattingScreen extends Component {
     );
   }
 
+  goToFeedbackScreen = () => {
+    this.props.updateChatScreen(screens.FEEDBACK_SCREEN);
+  };
+
   render = () => {
     const { isMobile,
       sendMsg,
@@ -488,7 +492,7 @@ class ChattingScreen extends Component {
               showAvatar={this.props.showAvatar}
               agents={this.props.allAgents}
               chatCommentLeft={!!this.props.rating.comment}
-              goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
+              goToFeedbackScreen={this.goToFeedbackScreen}
               handleSendMsg={sendMsg}
               onImageLoad={this.scrollToBottom}
               conciergeAvatar={this.props.conciergeSettings.avatar_path}

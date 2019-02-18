@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -29,7 +29,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export class ChatLog extends Component {
+export class ChatLog extends PureComponent {
   static propTypes = {
     chatLog: PropTypes.arrayOf(chatPropTypes.chatLogEntry),
     firstVisitorMessage: PropTypes.number.isRequired,
