@@ -1027,10 +1027,6 @@ describe('getChannelChoiceAvailable', () => {
   });
 });
 
-describe('getColor', () => {
-  // TODO when the file has been split, it's too painful right now
-});
-
 describe('getWebWidgetVisible', () => {
   // TODO when the file has been split, it's too painful right now
 });
@@ -1041,8 +1037,10 @@ const stateColorSettings = (
 ) => {
   return {
     base: {
+      isChatBadgeMinimized: false,
       embeddableConfig: {
         color: '#embeddableConfig',
+        textColor: '#embeddableConfigText',
         cp4,
       },
     },
@@ -1053,7 +1051,8 @@ const stateColorSettings = (
       accountSettings: {
         theme: {
           color: {
-            primary: '#chatPrimary'
+            primary: '#chatPrimary',
+            banner: '#chatBadgeColor',
           }
         }
       }
@@ -1061,10 +1060,80 @@ const stateColorSettings = (
   };
 };
 
-describe('getWidgetColor', () => {
-  describe('when it is not a cp4 account', () => {
-    describe('settings colors and theme are set', () => {
-      it('uses the settings colors', () => {
+const stateLauncherColorSettings = (color, cp4Enabled = false) => {
+  return _.merge(stateColorSettings(color, cp4Enabled), {
+    zopimChat: {},
+    base: {
+      embeddableConfig: {
+        embeds: { zopimChat: { props: { standalone: true } } }
+      }
+    },
+    chat: {
+      agents: {},
+      rating: {},
+      is_chatting: false,
+      accountSettings: {
+        banner: {
+          enabled: true
+        },
+        rating: {}
+      }
+    }
+  });
+};
+
+describe('getColor', () => {
+  describe('when the frame is a "webWidget"', () => {
+    describe('when it is not a cp4 account', () => {
+      describe('settings colors and theme are set', () => {
+        it('returns the settings colors', () => {
+          const state = stateColorSettings({
+            theme: '#abcabc',
+            launcher: '#691840',
+            launcherText: '#FF4500',
+            button: '#555555',
+            resultLists: '#111111',
+            header: '#203D9D',
+            articleLinks: '#123123'
+          },
+          false);
+
+          const result = selectors.getColor(state, 'webWidget');
+
+          expect(result).toEqual({
+            articleLinks: '#123123',
+            base: '#abcabc',
+            button: '#555555',
+            header: '#203D9D',
+            launcher: '#691840',
+            launcherText: '#FF4500',
+            resultLists: '#111111',
+            theme: '#abcabc',
+            text: '#embeddableConfigText',
+          });
+        });
+
+        describe('when settings theme is not set', () => {
+          it('uses the embeddableConfig color', () => {
+            const state = stateColorSettings({
+              launcher: '#691840'
+            },
+            false);
+
+            const result = selectors.getColor(state, 'webWidget');
+
+            expect(result).toEqual({
+              launcher: '#691840',
+              base: '#embeddableConfig',
+              text: '#embeddableConfigText'
+            });
+          });
+        });
+      });
+    });
+
+    describe('when it is a cp4 account', () => {
+      describe('when settings colors are set', () => {
         const state = stateColorSettings({
           theme: '#abcabc',
           launcher: '#691840',
@@ -1074,121 +1143,131 @@ describe('getWidgetColor', () => {
           header: '#203D9D',
           articleLinks: '#123123'
         },
-        false);
+        true);
 
-        const result = selectors.getWidgetColor(state);
+        it('uses the chat settings color', () => {
+          const result = selectors.getColor(state, 'webWidget');
 
-        expect(result).toEqual({
-          'articleLinks': '#123123',
-          'base': '#abcabc',
-          'button': '#555555',
-          'header': '#203D9D',
-          'launcher': '#691840',
-          'launcherText': '#FF4500',
-          'resultLists': '#111111',
-          'theme': '#abcabc'
+          expect(result).toEqual({
+            articleLinks: '#123123',
+            base: '#abcabc',
+            button: '#555555',
+            header: '#203D9D',
+            launcher: '#691840',
+            launcherText: '#FF4500',
+            resultLists: '#111111',
+            theme: '#abcabc'
+          });
         });
       });
 
-      describe('settings theme is not set', () => {
-        it('uses the embeddableConfig', () => {
-          const state = stateColorSettings({
-            launcher: '#691840'
-          },
-          false);
+      describe('with no settings colors set', () => {
+        const state = stateColorSettings({}, true);
 
-          const result = selectors.getWidgetColor(state);
+        it('uses the chat theme color', () => {
+          const result = selectors.getColor(state, 'webWidget');
 
           expect(result).toEqual({
-            'launcher': '#691840',
-            'base': '#embeddableConfig'
+            base: '#chatPrimary',
           });
         });
       });
     });
   });
 
-  describe('when it is a cp4 account', () => {
-    const state = stateColorSettings({
-      base: '#chatPrimary',
-      theme: '#abcabc',
-      launcher: '#691840',
-      launcherText: '#FF4500',
-      button: '#555555',
-      resultLists: '#111111',
-      header: '#203D9D',
-      articleLinks: '#123123'
-    },
-    true);
+  describe('when the frame is a launcher', () => {
+    describe('when launcherText is set', () => {
+      it('uses the launcherText color', () => {
+        const state = stateLauncherColorSettings({
+          launcherText: '#555555'
+        },
+        false);
 
-    it('uses the chat config color', () => {
-      const result = selectors.getWidgetColor(state);
+        const result = selectors.getColor(state, 'launcher');
 
-      expect(result).toEqual({
-        'articleLinks': '#123123',
-        'base': '#abcabc',
-        'button': '#555555',
-        'header': '#203D9D',
-        'launcher': '#691840',
-        'launcherText': '#FF4500',
-        'resultLists': '#111111',
-        'theme': '#abcabc'
+        expect(result).toEqual({
+          base: '#embeddableConfig',
+          launcherText: '#555555'
+        });
       });
     });
-  });
-});
 
-const stateLauncherColorSettings = (color) => {
-  return _.merge(stateColorSettings(color), {
-    zopimChat: {},
-    base: {
-      embeddableConfig: {
-        embeds: { zopimChat: { props: { standalone: false } } }
-      }
-    },
-    chat: {
-      agents: {},
-      rating: {},
-      accountSettings: {
-        banner: {},
-        rating: {}
-      }
-    }
-  });
-};
-
-describe('getBaseColor', () => {
-  describe('when chat badge is disabled', () => {
-    describe('color launcher is set', () => {
-      it('uses the color launcher', () => {
+    describe('theme and launcher are set', () => {
+      it('uses the launcher color', () => {
         const state = stateLauncherColorSettings({
           theme: '#abcabc',
           launcher: '#691840'
+        },
+        false);
+
+        const result = selectors.getColor(state, 'launcher');
+
+        expect(result).toEqual({
+          base: '#691840',
+          launcherText: '#embeddableConfigText'
         });
-
-        const result = selectors.getBaseColor(state);
-
-        expect(result).toEqual('#691840');
       });
 
-      describe('color launcher is not set', () => {
-        describe('theme color is set', () => {
-          it('uses the theme color', () => {
-            const state = stateLauncherColorSettings({ theme: '#abcabc' });
+      describe('settings launcher is not set', () => {
+        it('uses the settings theme', () => {
+          const state = stateLauncherColorSettings({
+            theme: '#abcabc'
+          },
+          false);
 
-            const result = selectors.getBaseColor(state);
+          const result = selectors.getColor(state, 'launcher');
 
-            expect(result).toEqual('#abcabc');
+          expect(result).toEqual({
+            base: '#abcabc',
+            launcherText: '#embeddableConfigText'
           });
         });
+      });
 
-        describe('theme color is not set', () => {
-          it('uses the config color', () => {
-            const state = stateLauncherColorSettings({});
+      describe('settings colors are not set', () => {
+        describe('and chat badge and cp4 are false', () => {
+          it('uses the embeddableConfig', () => {
+            const state = stateLauncherColorSettings({}, false);
 
-            const result = selectors.getBaseColor(state);
+            const result = selectors.getColor(state, 'launcher');
 
-            expect(result).toEqual('#embeddableConfig');
+            expect(result).toEqual({
+              base: '#embeddableConfig',
+              launcherText: '#embeddableConfigText'
+            });
+          });
+
+          describe('and chat badge is true', () => {
+            beforeEach(() => {
+              jest.spyOn(devices,'isMobileBrowser').mockReturnValue(false);
+              jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(false);
+            });
+
+            describe('and cp4 is true', () => {
+              it('uses the cp4 admin color', () => {
+                const state = stateLauncherColorSettings({}, true);
+
+                const result = selectors.getColor(state, 'launcher');
+
+                expect(result).toEqual({
+                  base: '#chatPrimary',
+                  launcherText: '#embeddableConfigText'
+                });
+              });
+            });
+
+            describe('and cp4 is false', () => {
+              it('uses the chat badge color', () => {
+                const state = stateLauncherColorSettings({}, false);
+
+                const result = selectors.getColor(state, 'launcher');
+
+                expect(result).toEqual({
+                  base: '#chatBadgeColor',
+                  launcherText: '#embeddableConfigText'
+                });
+              });
+            });
           });
         });
       });

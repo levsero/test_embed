@@ -9,7 +9,7 @@ import Navigation from 'component/frame/Navigation';
 import { i18n } from 'service/i18n';
 import { getGardenOverrides } from './gardenOverrides';
 import { getDocumentHost } from 'utility/globals';
-import { getWidgetColor } from 'src/redux/modules/selectors';
+import { getColor } from 'src/redux/modules/selectors';
 
 export class EmbedWrapper extends Component {
   static propTypes = {
@@ -97,7 +97,7 @@ export class EmbedWrapper extends Component {
     return (
       <Provider store={this.props.reduxStore}>
         <ThemeProvider
-          theme={getGardenOverrides(getWidgetColor(this.props.reduxStore.getState()))}
+          theme={getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget'))}
           rtl={i18n.isRTL()}
           document={this.props.document}>
           <FocusJailContainer focusOnMount={false}>
