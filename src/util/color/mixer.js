@@ -1,5 +1,5 @@
 import generateColor from 'color';
-import { zdColorGrey500 } from '../../../node_modules/@zendeskgarden/css-variables/dist/index';
+import { zdColorGrey500, zdColorGrey800 } from '../../../node_modules/@zendeskgarden/css-variables/dist/index';
 
 let instance = null;
 
@@ -76,7 +76,7 @@ export class ColorMixer {
 
   _buttonColor = (color) => {
     return this._isAlmostWhite(color)
-      ? this.neutralColor
+      ? generateColor(zdColorGrey800)
       : color;
   }
 
