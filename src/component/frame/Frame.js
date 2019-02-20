@@ -178,7 +178,7 @@ class Frame extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      childRendered: false,
+      childRendering: false,
       hiddenByZoom: false
     };
 
@@ -442,6 +442,7 @@ class Frame extends Component {
   }
 
   injectEmbedIntoFrame = (embed) => {
+    this.setState({ childRendering: true });
     const { isMobile, fullscreenable, fullscreen, horizontalPosition } = this.props;
     const doc = this.getContentDocument();
 
@@ -459,7 +460,6 @@ class Frame extends Component {
 
     element.className = `${positionClasses} ${desktopClasses}`;
     ReactDOM.render(embed, element);
-    this.setState({ childRendered: true });
 
     if (mobileFullscreen) {
       setTimeout(this.applyMobileBodyStyle, 0);
@@ -509,7 +509,7 @@ class Frame extends Component {
   }
 
   renderFrameContent = () => {
-    if (this.state.childRendered) {
+    if (this.state.childRendering) {
       return false;
     }
 

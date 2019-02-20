@@ -913,7 +913,7 @@ describe('Frame', () => {
         spyOnProperty(doc, 'readyState').and.returnValue('complete');
         jasmine.clock().tick(0);
 
-        frame.setState({ childRendered: false });
+        frame.setState({ childRendering: false });
       });
 
       it('calls updateFrameLocale ', () => {
@@ -943,7 +943,7 @@ describe('Frame', () => {
           }
         });
         jasmine.clock().tick(0);
-        frame.setState({ childRendered: false });
+        frame.setState({ childRendering: false });
       });
 
       it('does not call updateFrameLocale ', () => {
@@ -978,7 +978,7 @@ describe('Frame', () => {
         forceFrameReady(frame);
         jasmine.clock().tick();
 
-        frame.setState({ childRendered: false });
+        frame.setState({ childRendering: false });
       });
 
       it('sets rtl and lang attr on the frame', () => {
@@ -989,8 +989,8 @@ describe('Frame', () => {
           .toBe('rtl');
       });
 
-      it('sets the state childRendered to true', () => {
-        expect(frame.state.childRendered)
+      it('sets the state childRendering to true', () => {
+        expect(frame.state.childRendering)
           .toEqual(true);
       });
 
