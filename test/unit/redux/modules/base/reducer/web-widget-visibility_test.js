@@ -23,7 +23,8 @@ describe('base reducer web widget visibility', () => {
     zopimActionTypes.ZOPIM_ON_CLOSE,
     chatActionTypes.PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
     actionTypes.CLOSE_RECEIVED,
-    actionTypes.POPOUT_BUTTON_CLICKED
+    actionTypes.POPOUT_BUTTON_CLICKED,
+    chatActionTypes.CHAT_BANNED
   ];
 
   const trueReturns = [
@@ -120,6 +121,37 @@ describe('base reducer web widget visibility', () => {
       it('inverts the state', () => {
         expect(state)
           .toEqual(true);
+      });
+    });
+  });
+
+  describe('when a UPDATE_ACTIVE_EMBED is dispatched', () => {
+    let result,
+      mockState = 'hello fren',
+      mockPayload;
+
+    const getState = () => {
+      return reducer(mockState, {
+        type: actionTypes.UPDATE_ACTIVE_EMBED,
+        payload: mockPayload
+      });
+    };
+
+    describe('when payload is not empty', () => {
+      it('returns previous state', () => {
+        mockPayload = 'NOT AN EMPTY STRING';
+        result = getState();
+
+        expect(result).toEqual(mockState);
+      });
+    });
+
+    describe('when payload is empty', () => {
+      it('returns false', () => {
+        mockPayload = '';
+        result = getState();
+
+        expect(result).toEqual(false);
       });
     });
   });

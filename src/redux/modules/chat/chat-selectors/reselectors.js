@@ -253,3 +253,6 @@ export const getIsPopoutAvailable = (state) =>
   !isPopout();
 
 export const getChatConnected = (state) => getConnection(state) === CONNECTION_STATUSES.CONNECTED;
+export const getChatBanned = (state) => getChatConnected && getZChatVendor(state).isBanned();
+export const getConnectionClosedReason = (state) =>
+  getChatConnected ? getZChatVendor(state).getConnectionClosedReason() : '';

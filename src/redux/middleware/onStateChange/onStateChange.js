@@ -51,6 +51,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { resetShouldWarn } from 'src/util/nullZChat';
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
+import onChatConnectionClosed from 'src/redux/middleware/onStateChange/onChatConnectionClosed';
 import onChannelChoiceTransition from 'src/redux/middleware/onStateChange/onChannelChoiceTransition';
 import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange';
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions';
@@ -283,4 +284,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onChatOpen(prevState, nextState, dispatch);
   onUpdateEmbeddableConfig(action);
   onChannelChoiceTransition(prevState, nextState, action, dispatch);
+  onChatConnectionClosed(prevState, nextState, action, dispatch);
 }
