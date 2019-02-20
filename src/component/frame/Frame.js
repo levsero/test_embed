@@ -442,6 +442,7 @@ class Frame extends Component {
   }
 
   injectEmbedIntoFrame = (embed) => {
+    this.setState({ childRendered: true });
     const { isMobile, fullscreenable, fullscreen, horizontalPosition } = this.props;
     const doc = this.getContentDocument();
 
@@ -459,7 +460,6 @@ class Frame extends Component {
 
     element.className = `${positionClasses} ${desktopClasses}`;
     ReactDOM.render(embed, element);
-    this.setState({ childRendered: true });
 
     if (mobileFullscreen) {
       setTimeout(this.applyMobileBodyStyle, 0);
