@@ -9,7 +9,7 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
 }
 
 .socialLoginContainer {
-  margin-bottom: #{15/$font-size}rem;
+  margin-bottom: #{14/$font-size}rem;
 }
 
 .socialLoginOptions {
@@ -29,7 +29,7 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
 }
 
 .defaultProfileFieldsContainer {
-  margin-bottom: #{20/$font-size}rem;
+  margin-bottom: #{16/$font-size}rem;
 }
 
 .authProfileName {

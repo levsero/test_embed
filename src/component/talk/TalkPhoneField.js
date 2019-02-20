@@ -23,7 +23,7 @@ const StyledInput = styled(Input)`
 `;
 
 const StyledContainer = styled.div`
- margin-bottom: ${20/FONT_SIZE}rem !important;
+ margin-bottom: ${16/FONT_SIZE}rem !important;
 `;
 
 export class TalkPhoneField extends ControlledComponent {

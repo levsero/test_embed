@@ -35,7 +35,7 @@ const checkboxHintMobileOverrides = isMobile ? css`
   : '';
 
 const bottomMargin = css`
-  margin-bottom: ${20/FONT_SIZE}rem !important;
+  margin-bottom: ${16/FONT_SIZE}rem !important;
 `;
 
 const borderOverrides = isMobile ? css`
