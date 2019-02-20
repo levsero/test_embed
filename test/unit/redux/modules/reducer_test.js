@@ -8,7 +8,8 @@ describe('root reducer', () => {
     'talk',
     'zopimChat',
     'submitTicket',
-    'settings'
+    'settings',
+    'preview'
   ];
 
   beforeAll(() => {
@@ -26,7 +27,8 @@ describe('root reducer', () => {
       './talk/reducer': mockReducer,
       './zopimChat/reducer': mockReducer,
       './submitTicket/reducer': mockReducer,
-      './root/reducer/root': (state) => { return { ...state, root: true }; }
+      './preview/reducer': mockReducer,
+      './root/reducer/root': (state) => { return { ...state, root: true }; },
     });
 
     reducer = requireUncached(reducerPath).default;

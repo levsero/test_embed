@@ -20,6 +20,7 @@ import {
 import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
 import { handleCloseButtonClicked, handlePopoutButtonClicked } from 'src/redux/modules/base/base-actions';
 import { createChatPopoutWindow } from 'src/util/chat';
+import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selectors';
 
 const mapStateToProps = (state) => {
   return {
@@ -30,7 +31,8 @@ const mapStateToProps = (state) => {
     chatPopoutSettings: getSettingsChatPopout(state),
     zChat: getZChatVendor(state),
     popoutButtonVisible: getIsPopoutButtonVisible(state),
-    locale: i18n.getLocale()
+    locale: i18n.getLocale(),
+    isChatPreview: getIsChatPreviewEnabled(state)
   };
 };
 

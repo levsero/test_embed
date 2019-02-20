@@ -17,7 +17,11 @@ describe('base root reducer', () => {
       'src/redux/modules/helpCenter/helpCenter-action-types': {},
       'src/redux/modules/zopimChat/zopimChat-action-types': {},
       'src/redux/modules/submitTicket/submitTicket-action-types': {},
-      'src/redux/modules/chat/chat-action-types': {}
+      'src/redux/modules/chat/chat-action-types': {},
+      'src/redux/modules/base/helpers/visibility': {
+        updateLauncherVisibilityFromPreviewChange: () => true,
+        updateWebWidgetVisibilityFromPreviewChange: () => false
+      }
     });
 
     reducer = requireUncached(reducerPath).default;

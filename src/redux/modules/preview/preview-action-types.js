@@ -1,0 +1,1 @@
+export const PREVIEW_CHOICE_SELECTED = 'widget/preview/PREVIEW_CHOICE_SELECTED';

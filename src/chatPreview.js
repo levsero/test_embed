@@ -8,9 +8,6 @@ import _ from 'lodash';
 import { Provider } from 'react-redux';
 import createStore from 'src/redux/createStore';
 
-import Chat from 'component/chat/Chat';
-import { Container } from 'component/container/Container';
-import Frame from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
 import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat';
 import { OFFLINE_MESSAGE_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
@@ -19,19 +16,21 @@ import {
   UPDATE_PREVIEWER_SETTINGS,
   PREVIEWER_LOADED } from 'src/redux/modules/chat/chat-action-types';
 import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
-import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
-import { generateUserWidgetCSS } from 'utility/color/styles';
 import { updateSettings as updateColor } from 'src/redux/modules/settings';
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types';
-
-import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles';
+import { choosePreview } from 'src/redux/modules/preview/preview-actions';
+import { CHAT, CHAT_BADGE } from 'src/constants/preview';
+import { PREVIEW_CHOICE_SELECTED } from 'src/redux/modules/preview/preview-action-types';
+import PreviewContainer from 'src/component/preview/PreviewContainer';
+import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared';
 
 const FRAME_WIDTH = WIDGET_WIDTH + WIDGET_MARGIN;
 const FRAME_HEIGHT = MAX_WIDGET_HEIGHT + WIDGET_MARGIN;
 const BOX_SHADOW_SIZE = 6;
 
-let chatComponent = null;
+let previewContainer = null;
+
 const defaultOptions = {
   locale: 'en-US',
   color: '#1F73B7',
@@ -43,19 +42,10 @@ const defaultOptions = {
     height: `${FRAME_HEIGHT}px`
   }
 };
-let frame;
-
-const getComponent = () => {
-  return (chatComponent)
-    ? chatComponent.getWrappedInstance()
-    : null;
-};
 
 const waitForComponent = (callback) => {
-  const component = getComponent();
-
-  if (component !== null) {
-    callback(component);
+  if (previewContainer) {
+    callback();
   } else {
     _.defer(waitForComponent, callback);
   }
@@ -68,6 +58,27 @@ const renderPreview = (options) => {
     throw new Error('A DOM element is required to render the Preview into.');
   }
 
+  const allowThrottleActions = (type) => {
+    const allowedActions = [
+      UPDATE_PREVIEWER_SETTINGS,
+      UPDATE_PREVIEWER_SCREEN,
+      PREVIEWER_LOADED,
+      LOCALE_SET,
+      UPDATE_SETTINGS,
+      PREVIEW_CHOICE_SELECTED
+    ];
+
+    const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0;
+
+    return isSDKActionType || _.includes(allowedActions, type);
+  };
+  const store = createStore('chatpreview', { throttleEvents: true, allowedActionsFn: allowThrottleActions });
+
+  i18n.init(store);
+  i18n.setLocale(options.locale);
+
+  store.dispatch(choosePreview(CHAT));
+
   const { width } = options.styles;
   const frameStyle = _.extend({}, options.styles, {
     position: 'relative',
@@ -78,52 +89,13 @@ const renderPreview = (options) => {
     margin: `${BOX_SHADOW_SIZE}px`
   };
 
-  const allowThrottleActions = (type) => {
-    const allowedActions = [
-      UPDATE_PREVIEWER_SETTINGS,
-      UPDATE_PREVIEWER_SCREEN,
-      PREVIEWER_LOADED,
-      LOCALE_SET,
-      UPDATE_SETTINGS
-    ];
-
-    const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0;
-
-    return isSDKActionType || _.includes(allowedActions, type);
-  };
-
-  const store = createStore('chatpreview', { throttleEvents: true, allowedActionsFn: allowThrottleActions });
-
-  i18n.init(store);
-  i18n.setLocale(options.locale);
-
-  const frameParams = {
-    css: `${require('globalCSS')} ${webWidgetStyles}`,
-    name: 'chatPreview',
-    customFrameStyle: frameStyle,
-    alwaysShow: true,
-    ref: (el) => { frame = el.getWrappedInstance(); },
-    disableOffsetHorizontal: true,
-    preventClose: true,
-    generateUserCSS: generateUserWidgetCSS,
-    fullscreen: false,
-    isMobile: false,
-    isChatPreview: true
-  };
-
   const component = (
     <Provider store={store}>
-      <Frame {...frameParams} store={store}>
-        <Container
-          style={containerStyle}>
-          <Chat
-            locale={i18n.getLocale()}
-            ref={(chat) => chatComponent = chat}
-            updateChatBackButtonVisibility={() => {}}
-            getFrameContentDocument={() => frame.getContentDocument()}
-            style={containerStyle} />
-        </Container>
-      </Frame>
+      <PreviewContainer
+        store={store}
+        frameStyle={frameStyle}
+        containerStyle={containerStyle}
+        ref={(el) => { if (el) previewContainer = el.getWrappedInstance(); }} />
     </Provider>
   );
 
@@ -138,6 +110,12 @@ const renderPreview = (options) => {
 
   const updateScreen = (screen) => {
     store.dispatch(updatePreviewerScreen({ screen, status: screen !== OFFLINE_MESSAGE_SCREEN }));
+
+    if (screen === CHAT_BADGE) {
+      store.dispatch(choosePreview(CHAT_BADGE));
+    } else {
+      store.dispatch(choosePreview(CHAT));
+    }
   };
 
   const updateSettings = (settings) => {
@@ -146,8 +124,7 @@ const renderPreview = (options) => {
 
   const updateLocale = (locale) => {
     i18n.setLocale(locale);
-    frame.updateFrameLocale();
-    getComponent().getActiveComponent().forceUpdate();
+    previewContainer.updateFrameLocale();
   };
 
   const updateChatState = (data) => {
@@ -158,15 +135,10 @@ const renderPreview = (options) => {
     store.dispatch({ type: actionType, payload: data });
   };
 
-  waitForComponent(() => {
-    _.defer(frame.forceUpdateWorld);
-  });
-
   setColor();
   store.dispatch({ type: PREVIEWER_LOADED });
 
   return {
-    _component: frame,
     updateScreen,
     updateSettings,
     updateChatState,

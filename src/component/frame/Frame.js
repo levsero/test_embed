@@ -142,8 +142,7 @@ class Frame extends Component {
       minHeight: PropTypes.string,
       zIndex: PropTypes.number
     }),
-    zIndex: PropTypes.number,
-    isChatPreview: PropTypes.bool
+    zIndex: PropTypes.number
   }
 
   static defaultProps = {
@@ -171,8 +170,7 @@ class Frame extends Component {
     widgetShowAnimationComplete: () => {},
     generateUserCSS: () => {},
     chatStandalone: false,
-    isMobile: false,
-    isChatPreview: false
+    isMobile: false
   }
 
   constructor(props, context) {
@@ -492,8 +490,7 @@ class Frame extends Component {
           name={this.props.name}
           fullscreen={this.props.fullscreen}
           isMobile={this.props.isMobile}
-          chatStandalone={this.props.chatStandalone}
-          isChatPreview={this.props.isChatPreview}>
+          chatStandalone={this.props.chatStandalone}>
           {newChild}
         </EmbedWrapper>
       </StyleSheetManager>
