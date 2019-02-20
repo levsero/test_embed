@@ -366,12 +366,12 @@ class WebWidget extends Component {
     } else if (showTicketFormsBackButton) {
       activeComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
-    } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
-      updateActiveEmbed(channelChoice);
-      updateBackButtonVisibility(helpCenterAvailable);
     } else if (answerBotAvailable) {
       updateBackButtonVisibility(false);
       updateActiveEmbed(answerBot);
+    } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
+      updateActiveEmbed(channelChoice);
+      updateBackButtonVisibility(helpCenterAvailable);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
     } else {
