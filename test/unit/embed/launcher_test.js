@@ -37,9 +37,6 @@ describe('embed.launcher', () => {
           );
         }
       },
-      'service/beacon': {
-        beacon: jasmine.createSpyObj('mockBeacon', ['trackUserAction'])
-      },
       'service/i18n': {
         i18n: {
           t: _.identity

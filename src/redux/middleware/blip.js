@@ -1,5 +1,9 @@
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types';
-import { UPDATE_ACTIVE_EMBED, UPDATE_WIDGET_SHOWN } from 'src/redux/modules/base/base-action-types';
+import {
+  UPDATE_ACTIVE_EMBED,
+  UPDATE_WIDGET_SHOWN,
+  LAUNCHER_CLICKED
+} from 'src/redux/modules/base/base-action-types';
 import {
   ARTICLE_CLICKED,
   ORIGINAL_ARTICLE_CLICKED,
@@ -161,6 +165,12 @@ const sendArticleClosedBlip = (state) => {
   }
 };
 
+const sendLauncherClickBlip = (state) => {
+  const activeEmbed = getActiveEmbed(state);
+
+  beacon.trackUserAction('launcher', 'click', 'launcher', { embedOpen: activeEmbed });
+};
+
 export function sendBlips({ getState }) {
   return (next) => (action) => {
     const { type, payload } = action;
@@ -200,6 +210,9 @@ export function sendBlips({ getState }) {
       case SEARCH_REQUEST_SUCCESS:
       case SEARCH_REQUEST_FAILURE:
         sendHelpCenterFirstSearchBlip(prevState);
+        break;
+      case LAUNCHER_CLICKED:
+        sendLauncherClickBlip(prevState);
         break;
       case  ZOPIM_ON_OPEN:
         if (!chatOpenedBlipSent) {
