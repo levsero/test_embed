@@ -9,6 +9,7 @@ import helpCenter from './helpCenter/reducer';
 import zopimChat from './zopimChat/reducer';
 import submitTicket from './submitTicket/reducer';
 import answerBot from './answerBot/reducer';
+import preview from './preview/reducer';
 
 const combinedReducers = combineReducers({
   base,
@@ -18,7 +19,8 @@ const combinedReducers = combineReducers({
   helpCenter,
   zopimChat,
   submitTicket,
-  answerBot
+  answerBot,
+  preview
 });
 
 export default function reducer(state, action) {

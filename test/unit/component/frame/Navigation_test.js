@@ -42,6 +42,9 @@ describe('Navigation', () => {
           }
         }
       },
+      'src/redux/modules/preview/preview-selectors': {
+        getIsChatPreviewEnabled: () => true
+      },
       'src/redux/modules/chat/chat-selectors': {
         getMenuVisible: () => false
       },

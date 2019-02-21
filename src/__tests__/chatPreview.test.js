@@ -18,7 +18,12 @@ afterEach(() => {
   document.getElementById('preview').remove();
 });
 
-const chatPreview = () => document.getElementById('chatPreview');
+const chatPreview = () => {
+  const webWidgetPreview = document.getElementById('webWidget');
+  const launcherPreview = document.getElementById('launcher');
+
+  return webWidgetPreview || launcherPreview;
+};
 const chatPreviewBody = () => chatPreview().contentWindow.document.body.innerHTML;
 const chatPreviewBodyEl = () => chatPreview().contentWindow.document.body;
 
