@@ -7,7 +7,8 @@ import {
   CHAT_SYSTEM_EVENTS,
   CHAT_CUSTOM_MESSAGE_EVENTS,
   WHITELISTED_SOCIAL_LOGINS,
-  CONNECTION_STATUSES } from 'constants/chat';
+  CONNECTION_STATUSES
+} from 'constants/chat';
 
 import { isPopout } from 'utility/globals';
 import {

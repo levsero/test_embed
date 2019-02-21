@@ -115,11 +115,13 @@ export class Attachment extends Component {
   }
 
   renderAttachmentBox() {
-    const { file,
+    const {
+      file,
       downloading,
       errorMessage,
       isDownloadable,
-      uploading } = this.props;
+      uploading
+    } = this.props;
 
     if (errorMessage) return;
 

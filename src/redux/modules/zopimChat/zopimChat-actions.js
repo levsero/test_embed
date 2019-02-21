@@ -9,7 +9,8 @@ import {
   ZOPIM_END_CHAT,
   ZOPIM_CHAT_GONE_OFFLINE,
   ZOPIM_ON_OPEN,
-  ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE } from './zopimChat-action-types';
+  ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE
+} from './zopimChat-action-types';
 import { getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { updateActiveEmbed, executeApiOnCloseCallback } from 'src/redux/modules/base';
 

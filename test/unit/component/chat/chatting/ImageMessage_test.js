@@ -20,7 +20,8 @@ describe('ImageMessage component', () => {
         locals: {
           container: 'container',
           spinner: 'spinner',
-          link: 'link' }
+          link: 'link'
+        }
       }
     });
 

@@ -4,7 +4,8 @@ import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
 import {
   activateRecieved,
-  legacyShowReceived } from 'src/redux/modules/base';
+  legacyShowReceived
+} from 'src/redux/modules/base';
 import { displayArticle } from 'src/redux/modules/helpCenter';
 import {
   hideApi,
@@ -12,7 +13,8 @@ import {
   logoutApi,
   prefill,
   setHelpCenterSuggestionsApi,
-  setLocaleApi } from 'src/service/api/apis';
+  setLocaleApi
+} from 'src/service/api/apis';
 import tracker from 'service/logging/tracker';
 
 export function apiSetup(win, reduxStore, embeddableConfig = {}) {

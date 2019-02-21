@@ -2,7 +2,8 @@ import {
   ACTIVATE_RECEIVED,
   LEGACY_SHOW_RECEIVED,
   SHOW_RECEIVED,
-  HIDE_RECEIVED } from '../base-action-types';
+  HIDE_RECEIVED
+} from '../base-action-types';
 
 const initialState = {
   hideApi: false,

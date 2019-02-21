@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import {
   getSettingsContactFormTags,
-  getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors';
+  getSettingsContactFormSubject
+} from 'src/redux/modules/settings/settings-selectors';
 import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
 import { location } from 'utility/globals';

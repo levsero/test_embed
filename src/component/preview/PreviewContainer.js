@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { LauncherContainer } from './LauncherContainer';
 import { WebWidgetContainer } from './WebWidgetContainer';
 
-import {
-  getPreviewShowWidget } from 'src/redux/modules/preview/preview-selectors';
+import { getPreviewShowWidget } from 'src/redux/modules/preview/preview-selectors';
 
 const mapStateToProps = (state) => {
   return {

@@ -2,7 +2,8 @@ import {
   zdColorGrey200,
   zdColorGrey400,
   zdColorGrey600,
-  zdColorWhite } from '@zendeskgarden/css-variables';
+  zdColorWhite
+} from '@zendeskgarden/css-variables';
 import { FONT_SIZE } from 'constants/shared';
 import { css } from 'styled-components';
 import { isMobileBrowser } from 'utility/devices';

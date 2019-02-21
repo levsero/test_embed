@@ -288,11 +288,13 @@ describe('chatLog', () => {
 
         describe('when the latest group was a message group from the same author', () => {
           beforeEach(() => {
-            state = { ...state, groups: [
-              { type: 'event', author: 'other_guy', messages: [10001] },
-              { type: 'message', author: 'other_guy', messages: [10002] },
-              { type: 'message', author: 'message_guy', messages: [10003] }
-            ] };
+            state = {
+              ...state, groups: [
+                { type: 'event', author: 'other_guy', messages: [10001] },
+                { type: 'message', author: 'other_guy', messages: [10002] },
+                { type: 'message', author: 'message_guy', messages: [10003] }
+              ]
+            };
           });
 
           test('appends the message timestamp to the latest group', () => {
@@ -303,10 +305,12 @@ describe('chatLog', () => {
 
         describe('when the latest group was a message group from a different author', () => {
           beforeEach(() => {
-            state = { ...state, groups: [
-              { type: 'event', author: 'other_guy', messages: [10001] },
-              { type: 'message', author: 'other_guy', messages: [10002] }
-            ] };
+            state = {
+              ...state, groups: [
+                { type: 'event', author: 'other_guy', messages: [10001] },
+                { type: 'message', author: 'other_guy', messages: [10002] }
+              ]
+            };
           });
 
           test('adds a new message group', () => {
@@ -317,12 +321,14 @@ describe('chatLog', () => {
 
         describe('when the latest group was an event group', () => {
           beforeEach(() => {
-            state = { ...state, groups: [
-              { type: 'event', author: 'other_guy', messages: [10001] },
-              { type: 'message', author: 'other_guy', messages: [10002] },
-              { type: 'message', author: 'message_guy', messages: [10003] },
-              { type: 'event', author: 'some_guy', messages: [10004] }
-            ] };
+            state = {
+              ...state, groups: [
+                { type: 'event', author: 'other_guy', messages: [10001] },
+                { type: 'message', author: 'other_guy', messages: [10002] },
+                { type: 'message', author: 'message_guy', messages: [10003] },
+                { type: 'event', author: 'some_guy', messages: [10004] }
+              ]
+            };
           });
 
           test('adds a new message group', () => {

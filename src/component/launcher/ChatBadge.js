@@ -10,11 +10,13 @@ import {
   sendMsg,
   resetCurrentMessage,
   handleChatBadgeMessageChange,
-  updateChatScreen } from 'src/redux/modules/chat';
+  updateChatScreen
+} from 'src/redux/modules/chat';
 import { handleChatBadgeMinimize, chatBadgeClicked } from 'src/redux/modules/base';
 import {
   getCurrentMessage,
-  getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors';
+  getPrechatFormRequired
+} from 'src/redux/modules/chat/chat-selectors';
 import { getLauncherBadgeSettings } from 'src/redux/modules/selectors';
 import { Input } from '@zendeskgarden/react-textfields';
 import { Icon } from 'component/Icon';

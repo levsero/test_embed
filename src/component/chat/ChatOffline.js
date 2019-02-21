@@ -6,12 +6,15 @@ import { i18n } from 'service/i18n';
 import { Button } from '@zendeskgarden/react-buttons';
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
-import { chatOfflineFormChanged,
+import {
+  chatOfflineFormChanged,
   sendOfflineMessage,
   handleOfflineFormBack,
   handleOperatingHoursClick,
-  initiateSocialLogout } from 'src/redux/modules/chat';
-import { getChatOfflineForm,
+  initiateSocialLogout
+} from 'src/redux/modules/chat';
+import {
+  getChatOfflineForm,
   getOfflineMessage,
   getLoginSettings,
   getGroupedOperatingHours,
@@ -19,11 +22,13 @@ import { getChatOfflineForm,
   getAuthUrls,
   getChatVisitor,
   getIsAuthenticated,
-  getReadOnlyState } from 'src/redux/modules/chat/chat-selectors';
+  getReadOnlyState
+} from 'src/redux/modules/chat/chat-selectors';
 import {
   getChatTitle,
   getOfflineFormSettings,
-  getOfflineFormFields } from 'src/redux/modules/selectors';
+  getOfflineFormFields
+} from 'src/redux/modules/selectors';
 import { getWidgetShown } from 'src/redux/modules/base/base-selectors';
 
 import { locals as styles } from './ChatOffline.scss';

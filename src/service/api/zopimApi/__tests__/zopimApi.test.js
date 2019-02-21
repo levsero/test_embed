@@ -625,7 +625,8 @@ describe('setUpZopimApiMethods', () => {
           webWidget: {
             color: {
               theme: color
-            } }
+            }
+          }
         });
     });
 
@@ -855,11 +856,13 @@ describe('setUpZopimApiMethods', () => {
     mockWin.$zopim.livechat.setColor(color);
 
     expect(apis.updateSettingsApi)
-      .toHaveBeenCalledWith(mockStore, { webWidget:{
-        color: {
-          theme: color
+      .toHaveBeenCalledWith(mockStore, {
+        webWidget:{
+          color: {
+            theme: color
+          }
         }
-      } });
+      });
   });
 
   test('hideAll', () => {

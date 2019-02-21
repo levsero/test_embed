@@ -8,7 +8,8 @@ import {
   setLocaleApi,
 } from 'src/service/api/apis';
 import { renderer } from 'service/renderer';
-import { apiExecute,
+import {
+  apiExecute,
   apiStructurePostRenderSetup,
   apiStructurePreRenderSetup,
 } from './setupApi';

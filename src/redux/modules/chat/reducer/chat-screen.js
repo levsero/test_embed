@@ -1,8 +1,10 @@
-import { UPDATE_CHAT_SCREEN,
+import {
+  UPDATE_CHAT_SCREEN,
   CHAT_NOTIFICATION_RESPONDED,
   SDK_CHAT_MEMBER_JOIN,
   UPDATE_PREVIEWER_SCREEN,
-  PRE_CHAT_FORM_SUBMIT } from '../chat-action-types';
+  PRE_CHAT_FORM_SUBMIT
+} from '../chat-action-types';
 import { CHATTING_SCREEN } from '../chat-screen-types';
 
 const initialState = CHATTING_SCREEN;

@@ -41,17 +41,19 @@ describe('launcher settings reducer', () => {
 
     describe('when the payload is a color', () => {
       beforeEach(() => {
-        const payload = { webWidget: {
-          color: {
-            launcher: 'green',
-            launcherText: 'blue',
-            theme: 'black',
-            button: 'yellow',
-            resultLists: 'aubergine',
-            header: 'unknown',
-            articleLinks: 'purple'
+        const payload = {
+          webWidget: {
+            color: {
+              launcher: 'green',
+              launcherText: 'blue',
+              theme: 'black',
+              button: 'yellow',
+              resultLists: 'aubergine',
+              header: 'unknown',
+              articleLinks: 'purple'
+            }
           }
-        } };
+        };
 
         result = reducer(defaultState, { type, payload });
       });

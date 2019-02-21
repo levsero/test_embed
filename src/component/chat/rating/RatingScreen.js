@@ -12,12 +12,14 @@ import {
   updateChatScreen,
   sendChatRating,
   endChat,
-  sendChatComment } from 'src/redux/modules/chat';
+  sendChatComment
+} from 'src/redux/modules/chat';
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import {
   getPostchatFormSettings,
   getIsChatting,
-  getChatRating } from 'src/redux/modules/chat/chat-selectors';
+  getChatRating
+} from 'src/redux/modules/chat/chat-selectors';
 import { getCurrentConcierges, getChatTitle } from 'src/redux/modules/selectors';
 import { locals as styles } from './RatingScreen.scss';
 

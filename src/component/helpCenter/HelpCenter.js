@@ -10,13 +10,15 @@ import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors';
-import { handleArticleClick,
+import {
+  handleArticleClick,
   performSearch,
   performImageSearch,
   handleOriginalArticleClicked,
   addRestrictedImage,
   handleSearchFieldChange,
-  handleSearchFieldFocus } from 'src/redux/modules/helpCenter';
+  handleSearchFieldFocus
+} from 'src/redux/modules/helpCenter';
 import {
   getActiveArticle,
   getResultsLocale,
@@ -33,8 +35,10 @@ import {
   getIsContextualSearchComplete
 } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getNotificationCount,
-  getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getNotificationCount,
+  getIsChatting
+} from 'src/redux/modules/chat/chat-selectors';
 import {
   getIsOnInitialDesktopSearchScreen,
   getMaxWidgetHeight,

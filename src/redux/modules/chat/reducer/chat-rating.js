@@ -1,11 +1,13 @@
-import { CHAT_RATING_REQUEST_SUCCESS,
+import {
+  CHAT_RATING_REQUEST_SUCCESS,
   CHAT_RATING_COMMENT_REQUEST_SUCCESS,
   END_CHAT_REQUEST_SUCCESS,
   CHAT_RECONNECT,
   UPDATE_PREVIEWER_SCREEN,
   SDK_CHAT_MEMBER_LEAVE,
   SDK_CHAT_RATING,
-  SDK_CHAT_COMMENT } from '../chat-action-types';
+  SDK_CHAT_COMMENT
+} from '../chat-action-types';
 import { isAgent } from 'src/util/chat';
 import { ratings } from 'component/chat/rating/RatingGroup';
 

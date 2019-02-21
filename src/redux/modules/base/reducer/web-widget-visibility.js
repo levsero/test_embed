@@ -9,14 +9,17 @@ import {
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
   WIDGET_INITIALISED,
-  POPOUT_BUTTON_CLICKED } from '../base-action-types';
+  POPOUT_BUTTON_CLICKED
+} from '../base-action-types';
 import {
   ZOPIM_SHOW,
-  ZOPIM_CHAT_GONE_OFFLINE } from '../../zopimChat/zopimChat-action-types';
+  ZOPIM_CHAT_GONE_OFFLINE
+} from '../../zopimChat/zopimChat-action-types';
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
-  PROACTIVE_CHAT_NOTIFICATION_DISMISSED } from '../../chat/chat-action-types';
+  PROACTIVE_CHAT_NOTIFICATION_DISMISSED
+} from '../../chat/chat-action-types';
 import { isPopout } from 'utility/globals';
 
 const initialState = false;

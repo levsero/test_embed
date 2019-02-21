@@ -8,7 +8,8 @@ import {
   hideRecieved,
   openReceived,
   closeReceived,
-  toggleReceived } from 'src/redux/modules/base';
+  toggleReceived
+} from 'src/redux/modules/base';
 import {
   API_ON_CHAT_STATUS_NAME,
   API_ON_CLOSE_NAME,
@@ -17,14 +18,16 @@ import {
   API_ON_CHAT_START_NAME,
   API_ON_CHAT_END_NAME,
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
-  API_ON_CHAT_DEPARTMENT_STATUS } from 'constants/api';
+  API_ON_CHAT_DEPARTMENT_STATUS
+} from 'constants/api';
 import {
   CHAT_CONNECTED,
   END_CHAT_REQUEST_SUCCESS,
   NEW_AGENT_MESSAGE_RECEIVED,
   CHAT_STARTED,
   SDK_ACCOUNT_STATUS,
-  SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types';
+  SDK_DEPARTMENT_UPDATE
+} from 'src/redux/modules/chat/chat-action-types';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
@@ -34,7 +37,8 @@ import {
   getNotificationCount,
   getChatStatus,
   getIsPopoutAvailable,
-  getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
+  getZChatVendor
+} from 'src/redux/modules/chat/chat-selectors';
 import { EXECUTE_API_ON_CLOSE_CALLBACK, EXECUTE_API_ON_OPEN_CALLBACK } from 'src/redux/modules/base/base-action-types';
 import { updateSettings } from 'src/redux/modules/settings';
 import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';

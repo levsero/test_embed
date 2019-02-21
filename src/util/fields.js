@@ -4,14 +4,17 @@ import sanitizeHtml from 'sanitize-html';
 
 import { i18n } from 'service/i18n';
 import { NestedDropdown } from 'component/field/Dropdown/NestedDropdown';
-import { isMobileBrowser,
-  isLandscape } from 'utility/devices';
+import {
+  isMobileBrowser,
+  isLandscape
+} from 'utility/devices';
 import { TextField, Textarea, Label, Input, Hint, Message } from '@zendeskgarden/react-textfields';
 import {
   Checkbox,
   Label as CheckboxLabel,
   Hint as CheckboxHint,
-  Message as CheckboxMessage } from '@zendeskgarden/react-checkboxes';
+  Message as CheckboxMessage
+} from '@zendeskgarden/react-checkboxes';
 import { Label as DropdownLabel } from '@zendeskgarden/react-select';
 
 const getDefaultFieldValues = (elementType, existingValue) => {

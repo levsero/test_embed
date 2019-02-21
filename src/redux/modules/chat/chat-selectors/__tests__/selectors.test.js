@@ -319,10 +319,14 @@ test('getFirstMessageTimestamp', () => {
 });
 
 test('getFirstMessageTimestamp when map is invalid', () => {
-  const invalidState = { chat: { chats: new Map([
-    [undefined],
-    [undefined]
-  ]) } };
+  const invalidState = {
+    chat: {
+      chats: new Map([
+        [undefined],
+        [undefined]
+      ])
+    }
+  };
 
   jest.spyOn(Date, 'now').mockReturnValue('blarp');
 

@@ -5,8 +5,10 @@ import { identity } from 'service/identity';
 import { store } from 'service/persistence';
 import { settings } from 'service/settings';
 import { location } from 'utility/globals';
-import { base64encode,
-  referrerPolicyUrl } from 'utility/utils';
+import {
+  base64encode,
+  referrerPolicyUrl
+} from 'utility/utils';
 
 let config;
 const defaultPayload = {

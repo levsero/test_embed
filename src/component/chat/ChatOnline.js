@@ -27,7 +27,8 @@ import {
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
   updateContactDetailsFields,
-  initiateSocialLogout } from 'src/redux/modules/chat';
+  initiateSocialLogout
+} from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './ChatOnline.scss';
@@ -318,7 +319,8 @@ class Chat extends Component {
   }
 
   renderChatContactDetailsPopup = () => {
-    const { editContactDetails,
+    const {
+      editContactDetails,
       editContactDetailsSubmitted,
       visitor,
       isMobile,
@@ -327,7 +329,8 @@ class Chat extends Component {
       authUrls,
       isAuthenticated,
       socialLogin,
-      initiateSocialLogout } = this.props;
+      initiateSocialLogout
+    } = this.props;
 
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
     const tryAgainFn = () => updateContactDetailsVisibility(true);

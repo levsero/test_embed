@@ -1,10 +1,14 @@
 import _ from 'lodash';
 
-import { win,
-  document as doc } from 'utility/globals';
+import {
+  win,
+  document as doc
+} from 'utility/globals';
 import { renderer } from 'service/renderer';
-import { getDeviceZoom,
-  getZoomSizingRatio } from 'utility/devices';
+import {
+  getDeviceZoom,
+  getZoomSizingRatio
+} from 'utility/devices';
 import { mediator } from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { cappedTimeoutCall } from 'utility/utils';

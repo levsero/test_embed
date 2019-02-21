@@ -10,12 +10,15 @@ import {
   getChatConnected as getNewChatConnected,
   getBadgeColor as getAccountSettingsBadgeColor,
   getHideBranding as getAccountSettingsHideBranding,
-  getChatBadgeEnabled } from '../chat/chat-selectors';
+  getChatBadgeEnabled
+} from '../chat/chat-selectors';
 import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors';
-import { getZopimChatOnline,
+import {
+  getZopimChatOnline,
   getZopimChatConnected,
   getZopimIsChatting,
-  getZopimChatOpen } from '../zopimChat/zopimChat-selectors';
+  getZopimChatOpen
+} from '../zopimChat/zopimChat-selectors';
 import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
@@ -50,7 +53,8 @@ import {
   getScreen
 } from '../talk/talk-selectors';
 import { getActiveTicketForm, getTicketForms } from '../submitTicket/submitTicket-selectors';
-import { getActiveEmbed,
+import {
+  getActiveEmbed,
   getHelpCenterEmbed,
   getSubmitTicketEmbed,
   getZopimChatEmbed,

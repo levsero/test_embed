@@ -34,6 +34,7 @@ module.exports = {
         'max': 1
       }
     ],
+    'object-curly-newline': [2, { 'multiline': true,'consistent': true }],
     'no-trailing-spaces': 2,
     'no-mixed-spaces-and-tabs': 2,
     'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],

@@ -1,6 +1,7 @@
 import {
   ZOPIM_ON_OPEN,
-  ZOPIM_ON_CLOSE } from '../zopimChat-action-types';
+  ZOPIM_ON_CLOSE
+} from '../zopimChat-action-types';
 
 const initialState = false;
 

@@ -8,7 +8,8 @@ import {
   SelectField,
   Label as SelectLabel,
   Message as SelectMessage,
-  Item } from '@zendeskgarden/react-select';
+  Item
+} from '@zendeskgarden/react-select';
 import Linkify from 'react-linkify';
 
 import { Button } from '@zendeskgarden/react-buttons';

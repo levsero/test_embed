@@ -21,19 +21,22 @@ import Transition from 'react-transition-group/Transition';
 import {
   updateWidgetShown,
   widgetShowAnimationComplete,
-  widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
+  widgetHideAnimationComplete
+} from 'src/redux/modules/base/base-actions';
 import {
   getFixedStyles,
   getColor,
   getHorizontalPosition,
   getFrameVisible,
-  getFrameStyle } from 'src/redux/modules/selectors';
+  getFrameStyle
+} from 'src/redux/modules/selectors';
 import {
   FONT_SIZE,
   MAX_WIDGET_HEIGHT,
   MIN_WIDGET_HEIGHT,
   WIDGET_WIDTH,
-  FRAME_TRANSITION_DURATION } from 'constants/shared';
+  FRAME_TRANSITION_DURATION
+} from 'constants/shared';
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import {
   getStylingOffset,
@@ -299,7 +302,8 @@ class Frame extends Component {
       fullscreenable,
       fullscreen,
       isMobile,
-      horizontalPosition } = this.props;
+      horizontalPosition
+    } = this.props;
     const isLeft = horizontalPosition === 'left';
 
     let fullscreenStyle = {

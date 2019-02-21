@@ -1,6 +1,7 @@
 import {
   TICKET_SUBMISSION_REQUEST_FAILURE,
-  TICKET_SUBMISSION_REQUEST_SENT } from '../submitTicket-action-types';
+  TICKET_SUBMISSION_REQUEST_SENT
+} from '../submitTicket-action-types';
 
 const initialState = '';
 

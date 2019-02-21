@@ -1,21 +1,27 @@
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types';
 import { UPDATE_ACTIVE_EMBED, UPDATE_WIDGET_SHOWN } from 'src/redux/modules/base/base-action-types';
-import { ARTICLE_CLICKED,
+import {
+  ARTICLE_CLICKED,
   ORIGINAL_ARTICLE_CLICKED,
   SEARCH_REQUEST_SUCCESS,
-  SEARCH_REQUEST_FAILURE } from 'src/redux/modules/helpCenter/helpCenter-action-types';
+  SEARCH_REQUEST_FAILURE
+} from 'src/redux/modules/helpCenter/helpCenter-action-types';
 import { ARTICLE_SHOWN, SCREEN_CHANGED } from 'src/redux/modules/answerBot/root/action-types';
 import { beacon } from 'service/beacon';
-import { getEmbeddableConfig,
+import {
+  getEmbeddableConfig,
   getAgentAvailability,
   getFormState,
-  getAverageWaitTime } from 'src/redux/modules/talk/talk-selectors';
-import { getTotalUserSearches,
+  getAverageWaitTime
+} from 'src/redux/modules/talk/talk-selectors';
+import {
+  getTotalUserSearches,
   getResultsCount,
   getSearchTerm,
   getArticleClicked,
   getActiveArticle,
-  getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getHasContextuallySearched
+} from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 import { getWebWidgetVisible, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getSessionByID } from 'src/redux/modules/answerBot/sessions/selectors';
@@ -23,7 +29,8 @@ import {
   getCurrentArticleID,
   getCurrentQuery,
   getCurrentDeflection,
-  getCurrentScreen } from 'src/redux/modules/answerBot/root/selectors';
+  getCurrentScreen
+} from 'src/redux/modules/answerBot/root/selectors';
 import { ZOPIM_ON_OPEN } from 'src/redux/modules/zopimChat/zopimChat-action-types';
 import { i18n } from 'service/i18n';
 
