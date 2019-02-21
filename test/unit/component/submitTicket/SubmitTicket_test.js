@@ -148,6 +148,10 @@ describe('Submit ticket component', () => {
       'lodash': _,
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getSearchTerm: () => 'a search.'
+      },
+      'src/redux/modules/base/base-selectors': {
+        getConfigNameFieldRequired: noop,
+        getConfigNameFieldEnabled: noop
       }
     });
 

@@ -34,7 +34,9 @@ describe('base reducer embeddable config', () => {
           embeds: {
             ticketSubmissionForm: {
               props: {
-                attachmentsEnabled: false
+                attachmentsEnabled: false,
+                nameFieldEnabled: true,
+                nameFieldRequired: false
               }
             },
             helpCenterForm: {
@@ -140,7 +142,9 @@ describe('base reducer embeddable config', () => {
           embeds: {
             ticketSubmissionForm: {
               props: {
-                attachmentsEnabled: true
+                attachmentsEnabled: true,
+                nameFieldEnabled: true,
+                nameFieldRequired: false
               }
             },
             helpCenterForm: {

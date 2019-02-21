@@ -20,6 +20,7 @@ import { isIE } from 'utility/devices';
 import { ICONS } from 'src/constants/shared';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors';
+import { getConfigNameFieldRequired, getConfigNameFieldEnabled } from 'src/redux/modules/base/base-selectors';
 import { getAttachmentsEnabled, getContactFormTitle } from 'src/redux/modules/selectors';
 import { Alert } from '@zendeskgarden/react-notifications';
 
@@ -33,6 +34,8 @@ const mapStateToProps = (state) => {
     loading: selectors.getLoading(state),
     ticketForms: selectors.getTicketForms(state),
     readOnlyState: selectors.getReadOnlyState(state),
+    nameFieldRequired: getConfigNameFieldRequired(state),
+    nameFieldEnabled: getConfigNameFieldEnabled(state),
     ticketFormsAvailable: selectors.getTicketFormsAvailable(state),
     ticketFields: selectors.getTicketFields(state),
     activeTicketForm: selectors.getActiveTicketForm(state),
@@ -66,6 +69,8 @@ class SubmitTicket extends Component {
     showBackButton: PropTypes.func,
     subjectEnabled: PropTypes.bool,
     handleTicketSubmission: PropTypes.func.isRequired,
+    nameFieldRequired: PropTypes.bool.isRequired,
+    nameFieldEnabled: PropTypes.bool.isRequired,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     ticketForms: PropTypes.array.isRequired,
@@ -260,6 +265,8 @@ class SubmitTicket extends Component {
         attachmentsEnabled={this.props.attachmentsEnabled}
         subjectEnabled={this.props.subjectEnabled}
         maxFileCount={this.props.maxFileCount}
+        nameFieldRequired={this.props.nameFieldRequired}
+        nameFieldEnabled={this.props.nameFieldEnabled}
         getFrameContentDocument={this.props.getFrameContentDocument}
         maxFileSize={this.props.maxFileSize}
         formState={this.props.formState}

@@ -30,6 +30,8 @@ export class SubmitTicketForm extends Component {
     children: PropTypes.element.isRequired,
     activeTicketForm: PropTypes.object,
     getFrameContentDocument: PropTypes.func.isRequired,
+    nameFieldRequired: PropTypes.bool.isRequired,
+    nameFieldEnabled: PropTypes.bool.isRequired,
     ticketFormSettings: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     formState: PropTypes.object.isRequired,
@@ -59,6 +61,7 @@ export class SubmitTicketForm extends Component {
     hide: false,
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
+    nameFieldEnabled: true,
     onCancel: () => {},
     previewEnabled: false,
     setFormState: () => {},
@@ -374,6 +377,8 @@ export class SubmitTicketForm extends Component {
   }
 
   renderNameField = () => {
+    if (!this.props.nameFieldEnabled) return;
+
     const error = this.renderErrorMessage(
       false,
       this.props.formState.name,
@@ -385,11 +390,12 @@ export class SubmitTicketForm extends Component {
         {renderLabel(
           Label,
           i18n.t('embeddable_framework.submitTicket.field.name.label'),
-          false || !!this.props.readOnlyState.name
+          this.props.nameFieldRequired || !!this.props.readOnlyState.name
         )}
         <Input
           key={name}
           name={name}
+          required={this.props.nameFieldRequired}
           validation={error ? 'error': 'none'}
           disabled={this.props.previewEnabled}
           value={this.props.formState.name}
