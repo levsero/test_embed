@@ -276,7 +276,6 @@ export class SubmitTicketForm extends Component {
   }
 
   updateForm = () => {
-    console.log('==========================');
     const form = ReactDOM.findDOMNode(this.refs.form);
 
     this.props.setFormState(this.getFormState());

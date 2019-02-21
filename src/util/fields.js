@@ -9,10 +9,10 @@ import {
   isLandscape
 } from 'utility/devices';
 import { TextField, Textarea, Label, Input, Hint, Message } from '@zendeskgarden/react-textfields';
-import { GardenCheckbox } from '@zendeskgarden/react-checkboxes';
 import Checkbox from 'src/component/field/Checkbox';
 import { Label as DropdownLabel } from '@zendeskgarden/react-select';
 import LabelComponent from 'src/component/field/Label';
+import Text from 'src/component/field/Text';
 
 const getDefaultFieldValues = (elementType, existingValue) => {
   switch (elementType) {
@@ -35,16 +35,14 @@ const getCustomFields = (customFields, formState, options = {}) => {
     const error = renderErrorMessage(sharedProps, formState);
     const props = {
       ...sharedProps,
-      validation: error ? 'error': 'none'
+      Component: Label,
+      validation: error ? 'error': 'none',
+      errorString: i18n.t(sharedProps.errorString)
     };
 
+    console.log(props);
     return (
-      <TextField key={sharedProps.key}>
-        {renderLabel(Label, sharedProps.label, sharedProps.required)}
-        {renderDescription(sharedProps)}
-        <Input {...props} />
-        {error}
-      </TextField>
+      <Text key={sharedProps.key} {...props} />
     );
   };
   const renderDescription = (field) => {
@@ -63,6 +61,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       ? <Message validation='error'>{i18n.t(fieldProps.errorString)}</Message>
       : null;
   };
+
   const mapFields = (field) => {
     const title = field.title_in_portal || '';
     const sharedProps = {
@@ -157,16 +156,16 @@ const getCustomFields = (customFields, formState, options = {}) => {
           validation
         };
 
-        return (<Checkbox
-          key={sharedProps.key}
-          errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
-          renderError={renderError}
-          description={field.description}
-          required={sharedProps.required}
-          validation={validation}
-          title={title}
-          checkboxProps={checkboxProps}
-        />);
+        return (
+          <Checkbox
+            key={sharedProps.key}
+            errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
+            renderError={renderError}
+            description={field.description}
+            title={getStyledLabelText(title, sharedProps.required)}
+            checkboxProps={checkboxProps}
+          />
+        );
     }
   };
 

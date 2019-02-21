@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Label from 'src/component/field/Label';
 
 import {
   Checkbox as GardenCheckbox,
@@ -9,7 +8,7 @@ import {
   Message as Message
 } from '@zendeskgarden/react-checkboxes';
 
-const Checkbox = ({ title, required, description, renderError, errorString, checkboxProps }) => {
+const Checkbox = ({ title, description, renderError, errorString, checkboxProps }) => {
   const checkboxError = renderError
     ? (
       <Message validation='error'>
@@ -20,7 +19,7 @@ const Checkbox = ({ title, required, description, renderError, errorString, chec
 
   return (
     <GardenCheckbox {...checkboxProps}>
-      <Label Component={CheckboxLabel} label={title} required={required} />
+      <CheckboxLabel dangerouslySetInnerHTML={{ __html: title }} />
       {description && <CheckboxHint>{description}</CheckboxHint>}
       {checkboxError}
     </GardenCheckbox>
@@ -29,11 +28,17 @@ const Checkbox = ({ title, required, description, renderError, errorString, chec
 
 Checkbox.propTypes = {
   title: PropTypes.string.isRequired,
-  required: PropTypes.bool.isRequired,
   description: PropTypes.string,
   renderError: PropTypes.bool.isRequired,
   errorString: PropTypes.string,
-  checkboxProps: PropTypes.shape({})
+  checkboxProps: PropTypes.shape({
+    checked: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.number
+    ]),
+    onChange: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+  })
 };
 
 export default Checkbox;
