@@ -10,6 +10,7 @@ function getWidgetColorVariables(color) {
   const baseColor = mixer.getBaseColor();
   const textColor = (color && color.text) ? mainTextColor(color.text) : null;
   const baseHighlightColor = mixer.highlight(baseColor);
+  const iconColor = mixer.getIconColor();
 
   const buttonColorStr = colorFor(color.button, mixer.getButtonColor());
   const buttonHighlightColorStr = mixer.highlight(buttonColorStr);
@@ -39,7 +40,8 @@ function getWidgetColorVariables(color) {
     headerColorStr,
     headerTextColorStr,
     headerFocusRingColorStr,
-    headerBackgroundColorStr
+    headerBackgroundColorStr,
+    iconColor,
   };
 }
 
@@ -75,6 +77,9 @@ function generateUserWidgetCSS(color) {
     }
     .u-userColor {
       color: ${colorVariables.baseColor} !important;
+    }
+    .u-iconColor {
+      color: ${colorVariables.iconColor} !important;
     }
     .rf-CheckboxGroup__checkbox:checked + span:before,
     .u-userTextColor:not([disabled]) {

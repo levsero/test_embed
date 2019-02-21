@@ -77,6 +77,9 @@ exports[`generateUserWidgetCSS when the color is light calculates the css correc
     .u-userColor {
       color: #58F9F7 !important;
     }
+    .u-iconColor {
+      color: #58F9F7 !important;
+    }
     .rf-CheckboxGroup__checkbox:checked + span:before,
     .u-userTextColor:not([disabled]) {
       color: #186766 !important;
@@ -167,6 +170,9 @@ exports[`generateUserWidgetCSS when the color is not light u-userTextColor calcu
     .u-userColor {
       color: #283646 !important;
     }
+    .u-iconColor {
+      color: #283646 !important;
+    }
     .rf-CheckboxGroup__checkbox:checked + span:before,
     .u-userTextColor:not([disabled]) {
       color: #283646 !important;
@@ -255,6 +261,9 @@ exports[`generateUserWidgetCSS when the color is set via embeddable config uses 
       text-decoration-color: #283646 !important;
     }
     .u-userColor {
+      color: #283646 !important;
+    }
+    .u-iconColor {
       color: #283646 !important;
     }
     .rf-CheckboxGroup__checkbox:checked + span:before,
@@ -402,6 +411,9 @@ exports[`when the color is extremely light (white or almost white) generateUserW
     }
     .u-userColor {
       color: #FFFFFF !important;
+    }
+    .u-iconColor {
+      color: #87929D !important;
     }
     .rf-CheckboxGroup__checkbox:checked + span:before,
     .u-userTextColor:not([disabled]) {

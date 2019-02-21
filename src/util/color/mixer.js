@@ -1,4 +1,5 @@
 import generateColor from 'color';
+import { zdColorGrey500 } from '../../../node_modules/@zendeskgarden/css-variables/dist/index';
 
 let instance = null;
 
@@ -23,6 +24,7 @@ export class ColorMixer {
     this.baseColor = generateColor(baseColor);
 
     this.buttonColor = this._buttonColor(this.baseColor);
+    this.iconColor = this._iconColor(this.baseColor);
     this.listColor = this._listColor(this.baseColor);
     instance = this;
   }
@@ -48,6 +50,10 @@ export class ColorMixer {
     return this.buttonColor.hex();
   }
 
+  getIconColor = () => {
+    return this.iconColor.hex();
+  }
+
   getListColor = () => {
     return this.listColor.hex();
   }
@@ -71,6 +77,12 @@ export class ColorMixer {
   _buttonColor = (color) => {
     return this._isAlmostWhite(color)
       ? this.neutralColor
+      : color;
+  }
+
+  _iconColor = (color) => {
+    return this._isAlmostWhite(color)
+      ? generateColor(zdColorGrey500)
       : color;
   }
 
