@@ -368,23 +368,6 @@ describe('SubmitTicketForm component', () => {
     });
   });
 
-  describe('#renderNameFIeld', () => {
-    let result,
-      inputElement;
-
-    beforeEach(() => {
-      const submitTicketForm = instanceRender(<SubmitTicketForm />);
-
-      result = submitTicketForm.renderNameField();
-      inputElement = result.props.children[1];
-    });
-
-    it('renders the name field with correct name prop', () => {
-      expect(inputElement.props.name)
-        .toBe('name');
-    });
-  });
-
   describe('#renderEmailField', () => {
     let result,
       inputElement;

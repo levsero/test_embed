@@ -42,6 +42,12 @@ export const getEmbeddableConfig = (state) => state.base.embeddableConfig;
 export const getConfigAttachmentsEnabled =(state) => {
   return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.attachmentsEnabled;
 };
+export const getConfigNameFieldEnabled =(state) => {
+  return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.nameFieldEnabled;
+};
+export const getConfigNameFieldRequired =(state) => {
+  return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.nameFieldRequired;
+};
 export const getChatStandalone = createSelector(
   getEmbeddableConfig,
   (embeddableConfig) => {

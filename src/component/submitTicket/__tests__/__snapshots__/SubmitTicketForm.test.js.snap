@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#renderNameField renders the name field with correct name props 1`] = `
+<input
+  aria-invalid="false"
+  aria-labelledby="garden-text-field-0--label"
+  class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+  data-garden-id="textfields.input"
+  data-garden-version="3.7.0"
+  id="garden-text-field-0--input"
+  name="name"
+  value=""
+/>
+`;
+
+exports[`#renderNameField renders the name field with correct name props when it is required 1`] = `
+<input
+  aria-invalid="false"
+  aria-labelledby="garden-text-field-4--label"
+  class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+  data-garden-id="textfields.input"
+  data-garden-version="3.7.0"
+  id="garden-text-field-4--input"
+  name="name"
+  required=""
+  value=""
+/>
+`;

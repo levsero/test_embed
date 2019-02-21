@@ -8,7 +8,9 @@ const renderSubmitTicketForm = (props) => {
     attachmentSender: noop,
     getFrameContentDocument: noop,
     submit: noop,
-    formTitle: 'message'
+    formTitle: 'message',
+    nameFieldRequired: false,
+    nameFieldEnabled: true
   };
 
   const mergedProps = { ...defaultProps, ...props };
@@ -17,6 +19,29 @@ const renderSubmitTicketForm = (props) => {
     <SubmitTicketForm {...mergedProps}/>
   );
 };
+
+describe('#renderNameField', () => {
+  it('renders the name field with correct name props', () => {
+    const { container } = renderSubmitTicketForm();
+
+    expect(container.querySelector('input[name="name"]'))
+      .toMatchSnapshot();
+  });
+
+  it('renders the name field with correct name props when it is required', () => {
+    const { container } = renderSubmitTicketForm({ nameFieldRequired: true });
+
+    expect(container.querySelector('input[name="name"]'))
+      .toMatchSnapshot();
+  });
+
+  it('does not render the name field with it is not enabled', () => {
+    const { container } = renderSubmitTicketForm({ nameFieldEnabled: false });
+
+    expect(container.querySelector('input[name="name"]'))
+      .not.toBeInTheDocument();
+  });
+});
 
 describe('render', () => {
   it('renders scrollContainer without footer when attachments and ticket fields are false', () => {
