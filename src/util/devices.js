@@ -1,8 +1,10 @@
 import _ from 'lodash';
 
-import { document as doc,
+import {
+  document as doc,
   win,
-  navigator } from 'utility/globals';
+  navigator
+} from 'utility/globals';
 
 let clickBusterClicks = [];
 let originalUserScalable = null;

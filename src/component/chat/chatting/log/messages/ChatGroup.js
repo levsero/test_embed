@@ -10,8 +10,10 @@ import { Attachment } from 'component/attachment/Attachment';
 import { MessageError } from 'component/chat/chatting/MessageError';
 import { ImageMessage } from 'component/chat/chatting/ImageMessage';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
-import { ATTACHMENT_ERROR_TYPES,
-  CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
+import {
+  ATTACHMENT_ERROR_TYPES,
+  CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_CONTENT_TYPE
+} from 'constants/chat';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
 import { Icon } from 'component/Icon';

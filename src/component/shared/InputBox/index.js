@@ -45,9 +45,11 @@ export class InputBox extends Component {
     });
     const inputClasses = classNames(
       styles.input,
-      { [styles.inputMobile]: this.props.isMobile,
+      {
+        [styles.inputMobile]: this.props.isMobile,
         [styles.fieldMobile]: this.props.isMobile,
-        [styles.inputDisabled]: disabled }
+        [styles.inputDisabled]: disabled
+      }
     );
 
     return (

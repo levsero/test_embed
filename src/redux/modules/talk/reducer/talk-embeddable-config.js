@@ -4,7 +4,8 @@ import { TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT, TALK_DISCONNECT_SOCKET_EVENT } fro
 import {
   CALLBACK_ONLY,
   PHONE_ONLY,
-  CALLBACK_AND_PHONE } from '../talk-capability-types';
+  CALLBACK_AND_PHONE
+} from '../talk-capability-types';
 
 const capabilityMap = {
   '0': CALLBACK_ONLY,

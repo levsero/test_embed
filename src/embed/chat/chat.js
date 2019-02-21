@@ -3,8 +3,10 @@ import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { mediator } from 'service/mediator';
 import { getThemeColor } from 'utility/color/validate';
-import { document, win,
-  getDocumentHost } from 'utility/globals';
+import {
+  document, win,
+  getDocumentHost
+} from 'utility/globals';
 import { cappedTimeoutCall } from 'utility/utils';
 import {
   updateZopimChatStatus,
@@ -16,7 +18,8 @@ import {
   zopimEndChat,
   zopimOpen,
   zopimClose,
-  zopimUpdateUnreadMessages } from 'src/redux/modules/zopimChat';
+  zopimUpdateUnreadMessages
+} from 'src/redux/modules/zopimChat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { closeApi, openApi } from 'src/service/api/apis';
 import {

@@ -1,8 +1,10 @@
-import { CHAT_NOTIFICATION_DISMISSED,
+import {
+  CHAT_NOTIFICATION_DISMISSED,
   CHAT_NOTIFICATION_RESET,
   NEW_AGENT_MESSAGE_RECEIVED,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-  CHAT_OPENED } from '../chat-action-types';
+  CHAT_OPENED
+} from '../chat-action-types';
 
 const initialState = {
   nick: '',

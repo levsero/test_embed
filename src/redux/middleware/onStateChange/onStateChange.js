@@ -12,7 +12,8 @@ import {
 import {
   updateActiveEmbed,
   updateBackButtonVisibility,
-  activateRecieved } from 'src/redux/modules/base';
+  activateRecieved
+} from 'src/redux/modules/base';
 import {
   IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
@@ -26,7 +27,8 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
-import { getChatMessagesFromAgents,
+import {
+  getChatMessagesFromAgents,
   getConnection,
   getChatOnline,
   getChatStatus,
@@ -35,15 +37,20 @@ import { getChatMessagesFromAgents,
   getIsChatting as getIsChattingState,
   getActiveAgents,
   getLastReadTimestamp,
-  hasUnseenAgentMessage } from 'src/redux/modules/chat/chat-selectors';
-import { getArticleDisplayed,
-  getHasSearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getActiveEmbed,
+  hasUnseenAgentMessage
+} from 'src/redux/modules/chat/chat-selectors';
+import {
+  getArticleDisplayed,
+  getHasSearched
+} from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import {
+  getActiveEmbed,
   getWidgetShown,
   getIPMWidget,
   getHelpCenterEmbed,
   getSubmitTicketEmbed,
-  getHasWidgetShown } from 'src/redux/modules/base/base-selectors';
+  getHasWidgetShown
+} from 'src/redux/modules/base/base-selectors';
 import { store } from 'service/persistence';
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { getAnswerBotAvailable } from 'src/redux/modules/selectors';

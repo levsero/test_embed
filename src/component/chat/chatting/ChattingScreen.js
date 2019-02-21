@@ -26,19 +26,22 @@ import {
   updateChatScreen,
   resetCurrentMessage,
   markAsRead,
-  fetchConversationHistory } from 'src/redux/modules/chat';
+  fetchConversationHistory
+} from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import {
   getHistoryLength,
   getHasMoreHistory,
-  getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors';
+  getHistoryRequestStatus
+} from 'src/redux/modules/chat/chat-history-selectors';
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
 import {
   getProfileConfig,
   getChatTitle,
   getConciergeSettings,
   getCurrentConcierges,
-  isInChattingScreen } from 'src/redux/modules/selectors';
+  isInChattingScreen
+} from 'src/redux/modules/selectors';
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './ChattingScreen.scss';
 
@@ -441,13 +444,15 @@ class ChattingScreen extends Component {
   };
 
   render = () => {
-    const { isMobile,
+    const {
+      isMobile,
       sendMsg,
       hideZendeskLogo,
       agentsTyping,
       profileConfig,
       agentJoined,
-      fullscreen } = this.props;
+      fullscreen
+    } = this.props;
     const containerClasses = classNames({
       [styles.headerMargin]: profileConfig.avatar || profileConfig.title || (profileConfig.rating && agentJoined),
       [styles.scrollContainerMessagesContent]: isMobile,

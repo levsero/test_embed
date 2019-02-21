@@ -8,7 +8,8 @@ import {
 import {
   handleOnApiCalled,
   badgeHideReceived,
-  badgeShowReceived } from 'src/redux/modules/base';
+  badgeShowReceived
+} from 'src/redux/modules/base';
 import { SDK_ACCOUNT_STATUS, SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types';
 import { getChatStatus } from 'src/redux/modules/chat/chat-selectors';
 

@@ -1,7 +1,9 @@
 import { socketio } from '../socketio';
-import { talkEmbeddableConfigEventToAction,
+import {
+  talkEmbeddableConfigEventToAction,
   talkAgentAvailabilityEventToAction,
-  talkAverageWaitTimeEventToAction } from '../events';
+  talkAverageWaitTimeEventToAction
+} from '../events';
 
 jest.mock('../events');
 

@@ -9,8 +9,10 @@ import _ from 'lodash';
 import { Provider } from 'react-redux';
 
 import { launcherStyles } from './launcherStyles';
-import { document,
-  getDocumentHost } from 'utility/globals';
+import {
+  document,
+  getDocumentHost
+} from 'utility/globals';
 import Frame from 'component/frame/Frame';
 import Launcher from 'component/launcher/Launcher';
 import { beacon } from 'service/beacon';
@@ -18,11 +20,13 @@ import { mediator } from 'service/mediator';
 import { generateUserLauncherCSS } from 'utility/color/styles';
 import {
   isMobileBrowser,
-  getZoomSizingRatio } from 'utility/devices';
+  getZoomSizingRatio
+} from 'utility/devices';
 import { renewToken } from 'src/redux/modules/base';
 import {
   FRAME_OFFSET_WIDTH,
-  FRAME_OFFSET_HEIGHT } from 'constants/launcher';
+  FRAME_OFFSET_HEIGHT
+} from 'constants/launcher';
 
 const launcherCSS = `${require('globalCSS')} ${launcherStyles}`;
 

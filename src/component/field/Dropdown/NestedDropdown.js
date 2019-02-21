@@ -9,7 +9,8 @@ import {
   NextItem,
   PreviousItem,
   Hint,
-  Message } from '@zendeskgarden/react-select';
+  Message
+} from '@zendeskgarden/react-select';
 import { Icon } from 'component/Icon';
 
 import { i18n } from 'service/i18n';

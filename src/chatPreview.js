@@ -14,7 +14,8 @@ import { OFFLINE_MESSAGE_SCREEN } from 'src/redux/modules/chat/chat-screen-types
 import {
   UPDATE_PREVIEWER_SCREEN,
   UPDATE_PREVIEWER_SETTINGS,
-  PREVIEWER_LOADED } from 'src/redux/modules/chat/chat-action-types';
+  PREVIEWER_LOADED
+} from 'src/redux/modules/chat/chat-action-types';
 import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types';
 import { updateSettings as updateColor } from 'src/redux/modules/settings';

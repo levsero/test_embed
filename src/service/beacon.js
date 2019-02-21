@@ -4,14 +4,18 @@ import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { http } from 'service/transport';
-import { win,
+import {
+  win,
   document as doc,
-  navigator } from 'utility/globals';
+  navigator
+} from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
-import { nowInSeconds,
+import {
+  nowInSeconds,
   parseUrl,
   referrerPolicyUrl,
-  sha1 } from 'utility/utils';
+  sha1
+} from 'utility/utils';
 
 let config = {
   method: 'GET',

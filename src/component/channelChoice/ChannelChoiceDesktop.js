@@ -41,7 +41,8 @@ export class ChannelChoiceDesktop extends Component {
       handleNextClick,
       talkOnline,
       callbackEnabled,
-      chatOfflineAvailable } = this.props;
+      chatOfflineAvailable
+    } = this.props;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
 
     return (

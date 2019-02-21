@@ -1,6 +1,8 @@
-import { CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
+import {
+  CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_SUCCESS,
-  SEARCH_REQUEST_FAILURE } from '../helpCenter-action-types';
+  SEARCH_REQUEST_FAILURE
+} from '../helpCenter-action-types';
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types';
 
 const initialState = [];

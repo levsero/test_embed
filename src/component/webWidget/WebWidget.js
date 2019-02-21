@@ -12,16 +12,20 @@ import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
 import { Container } from 'component/container/Container';
 import HelpCenter from 'component/helpCenter/HelpCenter';
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
-import { updateActiveEmbed,
+import {
+  updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
   nextButtonClicked,
-  cancelButtonClicked } from 'src/redux/modules/base';
-import { proactiveChatNotificationDismissed,
+  cancelButtonClicked
+} from 'src/redux/modules/base';
+import {
+  proactiveChatNotificationDismissed,
   chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
-  showStandaloneMobileNotification } from 'src/redux/modules/chat';
+  showStandaloneMobileNotification
+} from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
 import {
   getChatAvailable,
@@ -291,7 +295,8 @@ class WebWidget extends Component {
       chatAvailable,
       talkOnline,
       channelChoiceAvailable,
-      nextButtonClicked } = this.props;
+      nextButtonClicked
+    } = this.props;
 
     if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
@@ -353,7 +358,8 @@ class WebWidget extends Component {
       answerBotAvailable,
       updateAnswerBotScreen,
       showTicketFormsBackButton,
-      channelChoiceAvailable } = this.props;
+      channelChoiceAvailable
+    } = this.props;
     const activeComponent = this.getActiveComponent();
 
     if (activeEmbed === answerBot) {
@@ -614,7 +620,8 @@ class WebWidget extends Component {
       position,
       mobileNotificationsDisabled,
       webWidgetVisible,
-      chatStandaloneMobileNotificationVisible } = this.props;
+      chatStandaloneMobileNotificationVisible
+    } = this.props;
 
     if (isMobile && chatStandaloneMobileNotificationVisible && !mobileNotificationsDisabled) {
       return this.renderStandaloneChatPopup();

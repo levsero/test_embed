@@ -8,7 +8,8 @@ import { generateUserLauncherCSS } from 'utility/color/styles';
 
 import {
   FRAME_OFFSET_WIDTH,
-  FRAME_OFFSET_HEIGHT } from 'constants/launcher';
+  FRAME_OFFSET_HEIGHT
+} from 'constants/launcher';
 
 export class LauncherContainer extends Component {
   static propTypes = {

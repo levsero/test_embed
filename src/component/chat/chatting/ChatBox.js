@@ -51,8 +51,10 @@ export class ChatBox extends Component {
     const placeholder = i18n.t('embeddable_framework.chat.chatBox.placeholder.typeMessageHere');
     const inputClasses = classNames(
       styles.input,
-      { [styles.inputMobile]: this.props.isMobile,
-        [styles.fieldMobile]: this.props.isMobile }
+      {
+        [styles.inputMobile]: this.props.isMobile,
+        [styles.fieldMobile]: this.props.isMobile
+      }
     );
 
     return (

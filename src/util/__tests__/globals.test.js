@@ -15,8 +15,7 @@ test('getZendeskHost returns document.zendeskHost', () => {
 test('getZendeskHost returns document.webWidget.id', () => {
   let result;
 
-  document.zendesk = {
-    web_widget: { id: 'test3.zendesk.com' } }; // eslint-disable-line camelcase
+  document.zendesk = { web_widget: { id: 'test3.zendesk.com' } }; // eslint-disable-line camelcase
   result = globals.getZendeskHost(document);
 
   expect(result).toEqual('test3.zendesk.com');

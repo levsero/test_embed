@@ -1,9 +1,11 @@
 import { isMobileBrowser } from 'utility/devices';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getWebWidgetVisible } from 'src/redux/modules/selectors';
-import { setScrollKiller,
+import {
+  setScrollKiller,
   setWindowScroll,
-  revertWindowScroll } from 'utility/scrollHacks';
+  revertWindowScroll
+} from 'utility/scrollHacks';
 
 export default function onWidgetOpen(prevState, nextState) {
   if (!isMobileBrowser() || getActiveEmbed(nextState) === 'zopimChat') return;

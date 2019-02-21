@@ -1,11 +1,13 @@
 import _ from 'lodash';
 import { GA } from 'service/analytics/googleAnalytics';
 import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types';
-import { SDK_CHAT_MEMBER_JOIN,
+import {
+  SDK_CHAT_MEMBER_JOIN,
   OFFLINE_FORM_REQUEST_SUCCESS,
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT,
-  PRE_CHAT_FORM_SUBMIT } from 'src/redux/modules/chat/chat-action-types';
+  PRE_CHAT_FORM_SUBMIT
+} from 'src/redux/modules/chat/chat-action-types';
 import { getDepartments } from 'src/redux/modules/chat/chat-selectors';
 import { getAnalyticsDisabled } from 'src/redux/modules/settings/settings-selectors';
 import { getActiveEmbed, getWebWidgetVisible } from 'src/redux/modules/base/base-selectors';

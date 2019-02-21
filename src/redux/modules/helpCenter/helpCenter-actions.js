@@ -2,16 +2,21 @@ import _ from 'lodash';
 
 import { http } from 'service/transport';
 import { location } from 'utility/globals';
-import { getAuthToken,
+import {
+  getAuthToken,
   getHasWidgetShown,
   getHasPassedAuth,
-  getIsAuthenticationPending } from 'src/redux/modules/base/base-selectors';
-import { getLastSearchTimestamp,
+  getIsAuthenticationPending
+} from 'src/redux/modules/base/base-selectors';
+import {
+  getLastSearchTimestamp,
   getContextualHelpRequestNeeded,
-  getSearchQuery } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getSearchQuery
+} from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { i18n } from 'service/i18n';
 import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter';
-import { SEARCH_REQUEST_SENT,
+import {
+  SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_FAILURE,
   CONTEXTUAL_SEARCH_REQUEST_SENT,
@@ -27,7 +32,8 @@ import { SEARCH_REQUEST_SENT,
   GET_ARTICLE_REQUEST_FAILURE,
   SEARCH_FIELD_CHANGED,
   SEARCH_FIELD_FOCUSED,
-  CONTEXTUAL_SUGGESTIONS_MANUALLY_SET } from './helpCenter-action-types';
+  CONTEXTUAL_SUGGESTIONS_MANUALLY_SET
+} from './helpCenter-action-types';
 import { updateQueue } from 'src/redux/modules/base';
 import { isOnHostMappedDomain } from 'utility/pages';
 import { getSettingsHelpCenterFilter } from 'src/redux/modules/settings/settings-selectors';

@@ -10,10 +10,12 @@ import zopimApi from 'service/api/zopimApi';
 import { settings } from 'service/settings';
 import { http } from 'service/transport';
 import { GA } from 'service/analytics/googleAnalytics';
-import { appendMetaTag,
+import {
+  appendMetaTag,
   clickBusterHandler,
   getMetaTagsByName,
-  isMobileBrowser } from 'utility/devices';
+  isMobileBrowser
+} from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
 import { updateEmbeddableConfig } from 'src/redux/modules/base';
 import { initResizeMonitor } from 'utility/window';

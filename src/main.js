@@ -3,8 +3,10 @@ require('./polyfills');
 import { boot } from './boot';
 import { logging } from 'service/logging';
 import { isBlacklisted } from 'utility/devices';
-import { win,
-  document as doc } from 'utility/globals';
+import {
+  win,
+  document as doc
+} from 'utility/globals';
 
 try {
   if (!isBlacklisted()) {

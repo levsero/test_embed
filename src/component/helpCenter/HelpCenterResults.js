@@ -76,7 +76,8 @@ export class HelpCenterResults extends Component {
       articles,
       locale,
       showContactButton,
-      hideZendeskLogo } = this.props;
+      hideZendeskLogo
+} = this.props;
     const noPaddingClasses = !showContactButton && !hideZendeskLogo && this.hasInitialSearchResults();
 
     if (!noPaddingClasses) {

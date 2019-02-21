@@ -7,7 +7,8 @@ import {
   Select,
   SelectField,
   Label,
-  Item } from '@zendeskgarden/react-select';
+  Item
+} from '@zendeskgarden/react-select';
 import { i18nTimeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatOperatingHours.scss';

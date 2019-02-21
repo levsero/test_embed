@@ -1,13 +1,17 @@
 import * as actions from './base-action-types';
 import { settings } from 'service/settings';
-import { getOAuth,
+import {
+  getOAuth,
   getBaseIsAuthenticated,
   getActiveEmbed,
-  getAfterWidgetShowAnimation } from 'src/redux/modules/base/base-selectors';
+  getAfterWidgetShowAnimation
+} from 'src/redux/modules/base/base-selectors';
 import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { contextualSearch } from 'src/redux/modules/helpCenter';
-import { extractTokenId,
-  isTokenRenewable } from 'src/redux/modules/base/helpers/auth';
+import {
+  extractTokenId,
+  isTokenRenewable
+} from 'src/redux/modules/base/helpers/auth';
 import { nameValid, emailValid } from 'src/util/utils';
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';

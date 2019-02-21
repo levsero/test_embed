@@ -8,13 +8,16 @@ import {
   getActiveAgents,
   getIsAuthenticated,
   getIsLoggingOut,
-  getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
+  getZChatVendor
+} from 'src/redux/modules/chat/chat-selectors';
 import {
   CHAT_MESSAGE_TYPES,
-  CONNECTION_STATUSES } from 'src/constants/chat';
+  CONNECTION_STATUSES
+} from 'src/constants/chat';
 import {
   getChatStandalone,
-  getZChatConfig } from 'src/redux/modules/base/base-selectors';
+  getZChatConfig
+} from 'src/redux/modules/base/base-selectors';
 import { mediator } from 'service/mediator';
 import { audio } from 'service/audio';
 import _ from 'lodash';

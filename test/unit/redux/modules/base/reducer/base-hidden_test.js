@@ -35,7 +35,8 @@ describe('base reducer hidden', () => {
         hideApi: false,
         activateApi: true
       };
-      state = reducer(undefined, { type: actionTypes.ACTIVATE_RECEIVED,
+      state = reducer(undefined, {
+        type: actionTypes.ACTIVATE_RECEIVED,
         payload: {
           hideOnClose: true
         }
@@ -56,7 +57,8 @@ describe('base reducer hidden', () => {
           activateApi: false
         };
 
-        state = reducer(undefined, { type: actionTypes.ACTIVATE_RECEIVED,
+        state = reducer(undefined, {
+          type: actionTypes.ACTIVATE_RECEIVED,
           payload: {
             hideOnClose: false
           }

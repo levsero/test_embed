@@ -18,28 +18,34 @@ import { settings } from 'service/settings';
 import { http } from 'service/transport';
 import { store } from 'service/persistence';
 import { generateUserWidgetCSS } from 'utility/color/styles';
-import { getZoomSizingRatio,
+import {
+  getZoomSizingRatio,
   isIE,
   isMobileBrowser,
-  setScaleLock } from 'utility/devices';
+  setScaleLock
+} from 'utility/devices';
 import { document, getDocumentHost, win, isPopout } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
-import {
-  getChatNotification } from 'src/redux/modules/selectors';
+import { getChatNotification } from 'src/redux/modules/selectors';
 import {
   getStandaloneMobileNotificationVisible
 } from 'src/redux/modules/chat/chat-selectors';
-import { setVisitorInfo,
+import {
+  setVisitorInfo,
   chatNotificationDismissed,
   fetchConversationHistory,
-  handleChatVendorLoaded } from 'src/redux/modules/chat';
+  handleChatVendorLoaded
+} from 'src/redux/modules/chat';
 import {
   getSettingsHelpCenterSuppress,
-  getSettingsContactFormSuppress } from 'src/redux/modules/settings/settings-selectors';
+  getSettingsContactFormSuppress
+} from 'src/redux/modules/settings/settings-selectors';
 import { resetTalkScreen } from 'src/redux/modules/talk';
-import { getTicketForms,
-  getTicketFields } from 'src/redux/modules/submitTicket';
+import {
+  getTicketForms,
+  getTicketFields
+} from 'src/redux/modules/submitTicket';
 import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
 import { authenticate, expireToken } from 'src/redux/modules/base';
@@ -50,7 +56,8 @@ import { nameValid, emailValid } from 'src/util/utils';
 import zopimApi from 'service/api/zopimApi';
 import {
   getTalkNickname,
-  getTalkEnabled } from 'src/redux/modules/selectors';
+  getTalkEnabled
+} from 'src/redux/modules/selectors';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
@@ -320,7 +327,8 @@ export default function WebWidgetFactory(name) {
         const store = embed.store;
         const {
           ticketForms,
-          customFields = {} } = embed.submitTicketSettings;
+          customFields = {}
+        } = embed.submitTicketSettings;
 
         embed.instance.updateFrameLocale();
         getWebWidgetComponent().forceUpdate();

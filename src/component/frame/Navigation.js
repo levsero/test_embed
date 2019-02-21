@@ -16,7 +16,8 @@ import {
 } from 'src/redux/modules/chat/chat-selectors';
 import {
   getShowMenu as getShowChatMenu,
-  getIsPopoutButtonVisible } from 'src/redux/modules/selectors';
+  getIsPopoutButtonVisible
+} from 'src/redux/modules/selectors';
 import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
 import { handleCloseButtonClicked, handlePopoutButtonClicked } from 'src/redux/modules/base/base-actions';
 import { createChatPopoutWindow } from 'src/util/chat';
@@ -193,11 +194,13 @@ export class Navigation extends Component {
   }
 
   render = () => {
-    const { fullscreen,
+    const {
+      fullscreen,
       isMobile,
       popoutButtonVisible,
       hideNavigationButtons,
-      isChatPreview } = this.props;
+      isChatPreview
+    } = this.props;
 
     const popoutStyle = (isMobile) ? styles.popoutMobile : styles.popoutDesktop;
 

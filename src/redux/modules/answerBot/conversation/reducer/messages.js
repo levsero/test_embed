@@ -27,8 +27,10 @@ const messages = (state = initialState, action) => {
     case QUESTION_SUBMITTED_PENDING:
       return addMessage(state, { ...payload, isVisitor: true });
     case QUESTION_SUBMITTED_FULFILLED:
-      const { message, // eslint-disable-line no-unused-vars
-        ...rest } = payload;
+      const {
+        message, // eslint-disable-line no-unused-vars
+        ...rest
+      } = payload;
 
       return addMessage(state, { ...rest, type: 'results' });
     case BOT_MESSAGE:

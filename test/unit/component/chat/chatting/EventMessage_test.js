@@ -44,29 +44,35 @@ describe('EventMessage component', () => {
 
   describe('#renderEventMessage', () => {
     const testCases = [
-      { description: 'member joined event from a visitor',
+      {
+        description: 'member joined event from a visitor',
         event: { nick: 'visitor', type: 'chat.memberjoin' },
         expectedString: 'embeddable_framework.chat.chatLog.chatStarted'
       },
-      { description: 'member joined event from an agent',
+      {
+        description: 'member joined event from an agent',
         event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberjoin' },
         expectedString: 'embeddable_framework.chat.chatLog.agentJoined',
         expectedArgs: { agent: 'Agent 123' }
       },
-      { description: 'member left event from a visitor',
+      {
+        description: 'member left event from a visitor',
         event: { nick: 'visitor', type: 'chat.memberleave' },
         expectedString: 'embeddable_framework.chat.chatLog.chatEnded'
       },
-      { description: 'member left event from an agent',
+      {
+        description: 'member left event from an agent',
         event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberleave' },
         expectedString: 'embeddable_framework.chat.chatLog.agentLeft',
         expectedArgs: { agent: 'Agent 123' }
       },
-      { description: 'rating event with no rating value',
+      {
+        description: 'rating event with no rating value',
         event: { nick: 'visitor', type: 'chat.rating' },
         expectedString: 'embeddable_framework.chat.chatLog.rating.removed'
       },
-      { description: 'chat comment submitted',
+      {
+        description: 'chat comment submitted',
         event: { nick: 'visitor', type: 'chat.comment' },
         expectedString: 'embeddable_framework.chat.chatlog.comment.submitted'
       },
@@ -97,12 +103,14 @@ describe('EventMessage component', () => {
     });
 
     const ratingTestCases = [
-      { description: 'rating event with a "good" rating value',
+      {
+        description: 'rating event with a "good" rating value',
         event: { nick: 'visitor', type: 'chat.rating', new_rating: 'good' },
         expectedString: 'embeddable_framework.chat.chatLog.rating.description',
         expectedArgs: { value: 'Good' }
       },
-      { description: 'rating event with a "bad" rating value',
+      {
+        description: 'rating event with a "bad" rating value',
         event: { nick: 'visitor', type: 'chat.rating', new_rating: 'bad' },
         expectedString: 'embeddable_framework.chat.chatLog.rating.description',
         expectedArgs: { value: 'Bad' }

@@ -3,7 +3,8 @@ import {
   UPDATE_PREVIEWER_SCREEN,
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_MEMBER_LEAVE,
-  END_CHAT_REQUEST_SUCCESS } from '../chat-action-types';
+  END_CHAT_REQUEST_SUCCESS
+} from '../chat-action-types';
 
 const initialState = false;
 

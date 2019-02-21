@@ -5,10 +5,12 @@ import { keyCodes } from 'utility/keyboard';
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { i18n } from 'service/i18n';
-import { EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
+import {
+  EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
   EMAIL_TRANSCRIPT_FAILURE_SCREEN,
   EMAIL_TRANSCRIPT_SCREEN,
-  EMAIL_TRANSCRIPT_LOADING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
+  EMAIL_TRANSCRIPT_LOADING_SCREEN
+} from 'src/redux/modules/chat/chat-screen-types';
 import { ICONS, EMAIL_PATTERN } from 'constants/shared';
 import { locals as styles } from 'component/chat/ChatEmailTranscriptPopup.scss';
 import { emailValid } from 'src/util/utils';

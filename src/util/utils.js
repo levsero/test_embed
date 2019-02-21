@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import jsSha1 from 'sha1';
 
-import { document as doc,
-  location } from 'utility/globals';
+import {
+  document as doc,
+  location
+} from 'utility/globals';
 import { NAME_PATTERN, EMAIL_PATTERN } from 'constants/shared';
 
 function parseUrl(url) {

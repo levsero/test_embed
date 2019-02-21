@@ -2,7 +2,8 @@ import _ from 'lodash';
 import {
   TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-  TALK_DISCONNECT_SOCKET_EVENT } from '../talk-action-types';
+  TALK_DISCONNECT_SOCKET_EVENT
+} from '../talk-action-types';
 
 const initialState = false;
 

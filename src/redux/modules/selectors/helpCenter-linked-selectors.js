@@ -4,7 +4,8 @@ import { isMobileBrowser } from 'utility/devices';
 import {
   getActiveEmbed,
   getHelpCenterEmbed,
-  getHasPassedAuth } from 'src/redux/modules/base/base-selectors';
+  getHasPassedAuth
+} from 'src/redux/modules/base/base-selectors';
 import { getSettingsHelpCenterSuppress } from 'src/redux/modules/settings/settings-selectors';
 
 export const getHelpCenterEnabled = createSelector(

@@ -1,5 +1,7 @@
-import { UPDATE_QUEUE,
-  REMOVE_FROM_QUEUE } from '../base-action-types';
+import {
+  UPDATE_QUEUE,
+  REMOVE_FROM_QUEUE
+} from '../base-action-types';
 
 import _ from 'lodash';
 

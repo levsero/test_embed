@@ -1,6 +1,7 @@
 import {
   AUTHENTICATION_STARTED,
-  AUTHENTICATION_FAILED } from '../chat-action-types';
+  AUTHENTICATION_FAILED
+} from '../chat-action-types';
 
 const initialState = false;
 
