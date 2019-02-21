@@ -9,8 +9,7 @@ import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS, CHAT_CONNECTED } from 'src/r
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
   TALK_AGENT_AVAILABILITY_SOCKET_EVENT } from 'src/redux/modules/talk/talk-action-types';
-import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-  CHAT_BANNED } from 'src/redux/modules/chat/chat-action-types';
+import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
 import {
   ZOPIM_CHAT_ON_STATUS_UPDATE,
   ZOPIM_END_CHAT,
@@ -32,7 +31,6 @@ import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-se
 import { getZopimChatOnline, getZopimIsChatting } from 'src/redux/modules/zopimChat/zopimChat-selectors';
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 import { isPopout } from 'utility/globals';
-import { getChatBanned } from 'src/redux/modules/chat/chat-selectors';
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state);
@@ -109,13 +107,11 @@ const setNewActiveEmbed = (state, dispatch) => {
     activeEmbed = 'channelChoice';
   } else if (getTalkOnline(state)) {
     activeEmbed = 'talk';
-  } else if (getChatAvailable(state) || getChatStandalone(state) && !getChatBanned(state)) {
+  } else if (getChatAvailable(state) || getChatStandalone(state)) {
     activeEmbed = getChatActiveEmbed(state);
   } else if (getSubmitTicketAvailable(state)) {
     activeEmbed = 'ticketSubmissionForm';
     backButton = getShowTicketFormsBackButton(state);
-  } else if (getChatBanned(state)) {
-    activeEmbed = '';
   }
 
   dispatch(updateActiveEmbed(activeEmbed));
@@ -145,7 +141,7 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
   const chatReset = shouldResetForChat(type, nextState);
   const zopimChatReset = shouldResetForZopimChat(type, nextState);
 
-  if (!getWebWidgetVisible(state) && (shouldReset || chatReset || zopimChatReset) || action.type === CHAT_BANNED) {
+  if (!getWebWidgetVisible(state) && (shouldReset || chatReset || zopimChatReset)) {
     setNewActiveEmbed(state, dispatch);
   }
 }

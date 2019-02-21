@@ -98,25 +98,9 @@ describe('chat reducer currentMessage', () => {
         });
       });
 
-      it('returns the initialState', () => {
+      it('updates the state with payload', () => {
         expect(state)
-          .toEqual(initialState);
-      });
-    });
-
-    describe('when a CHAT_BANNED action is dispatched', () => {
-      let payload;
-
-      beforeEach(() => {
-        state = reducer('yolo', {
-          type: actionTypes.CHAT_BANNED,
-          payload: payload
-        });
-      });
-
-      it('returns the initialState', () => {
-        expect(state)
-          .toEqual(initialState);
+          .toEqual('');
       });
     });
   });

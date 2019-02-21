@@ -329,38 +329,6 @@ describe('getShowOfflineChat', () => {
   });
 });
 
-describe('getChatBanned', () => {
-  it('returns the expected value', () => {
-    const result = selectors.getChatBanned(getModifiedState({
-      chat: {
-        vendor: {
-          zChat: {
-            isBanned: () => 'blarg'
-          }
-        }
-      }
-    }));
-
-    expect(result).toEqual('blarg');
-  });
-});
-
-describe('getConnectionClosedReason', () => {
-  it('returns the expected value', () => {
-    const result = selectors.getConnectionClosedReason(getModifiedState({
-      chat: {
-        vendor: {
-          zChat: {
-            getConnectionClosedReason: () => 'helloPersonReadingThis'
-          }
-        }
-      }
-    }));
-
-    expect(result).toEqual('helloPersonReadingThis');
-  });
-});
-
 describe('hasUnseenAgentMessage', () => {
   // TODO when the selectors have been split
 });

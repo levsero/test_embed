@@ -184,8 +184,7 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/modules/settings/settings-actions': {
         updateChatSettings: updateChatSettingsSpy
-      },
-      'src/redux/middleware/onStateChange/onChatConnectionClosed': noop
+      }
     });
 
     stateChangeFn = requireUncached(path).default;

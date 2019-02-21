@@ -77,6 +77,10 @@ describe('chat reducer is_chatting', () => {
     describe('when a SDK_CHAT_MEMBER_LEAVE action is dispatched', () => {
       let payload;
 
+      beforeAll(() => {
+        initialState = true;
+      });
+
       describe('when the member is a visitor', () => {
         beforeEach(() => {
           payload = {
@@ -85,7 +89,7 @@ describe('chat reducer is_chatting', () => {
             }
           };
 
-          state = reducer(true, {
+          state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
             payload: payload
           });
@@ -105,7 +109,7 @@ describe('chat reducer is_chatting', () => {
             }
           };
 
-          state = reducer(true, {
+          state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
             payload: payload
           });
@@ -113,7 +117,7 @@ describe('chat reducer is_chatting', () => {
 
         it('does not change the state', () => {
           expect(state)
-            .toEqual(true);
+            .toEqual(initialState);
         });
       });
     });
@@ -144,18 +148,6 @@ describe('chat reducer is_chatting', () => {
       it('should set the state to the payload', () => {
         expect(state)
           .toEqual(true);
-      });
-    });
-
-    describe('when a CHAT_BANNED action is dispatched', () => {
-      beforeEach(() => {
-        state = reducer('boop', {
-          type: actionTypes.CHAT_BANNED
-        });
-      });
-
-      it('returns the initialState', () => {
-        expect(state).toEqual(initialState);
       });
     });
   });
