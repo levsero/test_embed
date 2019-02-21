@@ -2,8 +2,7 @@ import { CHAT_NOTIFICATION_DISMISSED,
   CHAT_NOTIFICATION_RESET,
   NEW_AGENT_MESSAGE_RECEIVED,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-  CHAT_OPENED,
-  CHAT_BANNED } from '../chat-action-types';
+  CHAT_OPENED } from '../chat-action-types';
 
 const initialState = {
   nick: '',
@@ -34,8 +33,6 @@ const notification = (state = initialState, action) => {
     case CHAT_OPENED:
     case CHAT_NOTIFICATION_RESET:
       return { ...state, show: false, count: 0 };
-    case CHAT_BANNED:
-      return initialState;
     default:
       return state;
   }

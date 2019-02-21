@@ -54,12 +54,7 @@ const defaultState = {
     agents: new Map([]),
     chatting: false,
     enabled: true,
-    status: 'offline',
-    vendor: {
-      zChat: {
-        isBanned: () => false
-      }
-    }
+    status: 'offline'
   },
   helpCenter: {
     contextualSearch: true,

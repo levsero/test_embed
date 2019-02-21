@@ -874,9 +874,7 @@ describe('getChatAvailable', () => {
     } , false],
     ['when settings hide chat offline', {
       settings: { chat: { hideWhenOffline: true } }
-    },false ],
-    ['when banned', {
-      chat: { vendor: { zChat: { isBanned: () => true } } } }, false]
+    },false ]
   ])('%p', (__title, modifier, expectedValue) => {
     const result = selectors.getChatAvailable(getModifiedState(modifier));
 
