@@ -437,29 +437,29 @@ exports[`when the color is extremely light (white or almost white) generateUserW
       fill: #6F6F6F !important;
     }
     .u-userBackgroundColorNoHover {
-      background-color: #7C7C7C !important;
-      color: #121212 !important;
+      background-color: #2F3941 !important;
+      color: #FFFFFF !important;
     }
     .u-userBackgroundColor:not([disabled]) {
-      background-color: #7C7C7C !important;
-      color: #121212 !important;
+      background-color: #2F3941 !important;
+      color: #FFFFFF !important;
     }
     .u-userBackgroundColor:not([disabled]):hover,
     .u-userBackgroundColor:not([disabled]):active,
     .u-userBackgroundColor:not([disabled]):focus {
-      background-color: #888888 !important;
+      background-color: #343F48 !important;
     }
     .u-userBorderColor:not([disabled]) {
-      color: #7C7C7C !important;
+      color: #2F3941 !important;
       background-color: transparent !important;
-      border-color: #7C7C7C !important;
+      border-color: #2F3941 !important;
     }
     .u-userBorderColor:not([disabled]):hover,
     .u-userBorderColor:not([disabled]):active,
     .u-userBorderColor:not([disabled]):focus {
-      color: #121212 !important;
-      background-color: #7C7C7C !important;
-      border-color: #7C7C7C !important;
+      color: #FFFFFF !important;
+      background-color: #2F3941 !important;
+      border-color: #2F3941 !important;
     }
     .u-userLinkColor a {
       color: #6F6F6F !important;

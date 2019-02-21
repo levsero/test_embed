@@ -70,7 +70,7 @@ describe('#getButtonColor', () => {
     });
 
     it('returns a neutral grey', () => {
-      expect(mixer.getButtonColor()).toEqual('#7C7C7C');
+      expect(mixer.getButtonColor()).toEqual('#2F3941');
     });
   });
 });
