@@ -13,7 +13,6 @@
 
 .desktopContainer {
   composes: container;
-  margin-bottom: #{10/$font-size}rem;
 }
 
 .mobileContainer {
@@ -99,10 +98,6 @@
 
 .notSearched {
   composes: u-marginBL from global;
-}
-
-.notSearchedWithLogo {
-  margin-bottom: #{40/$font-size}rem;
 }
 
 .hasSearched {
