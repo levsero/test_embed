@@ -32,14 +32,28 @@ export const noopReactComponent = () => class extends Component {
 
 /*
   For testing reducers (duh).
-  1. Pass it your reducer and an array of different action objects.
-  2. Verify that the generated snapshots match your expectations.
-  3. Enjoy not having to write boilerplate reducer tests.
+  Pass it your reducer and an array of parameter objects.
+  - If parameter object is a flat action payload, the test will use
+  snapshot testing. The action can also be explicitly specified using
+  an `action` key.
+  - If parameter object contains key `initialState`, the value
+  of that key will be used as initial state for the reducer.
+  - If parameter object contains key `expected`, the value
+  of that key will be used to assert against the result of the reducer.
 */
 export const testReducer = (reducer, actions) => {
-  actions.forEach((action) => {
+  actions.forEach((params) => {
+    const { expected, initialState } = params;
+    const action = params.action || params;
+
     test(`${reducer.name}, action: ${action.type}`, () => {
-      expect(reducer(undefined, action)).toMatchSnapshot();
+      const reduced = reducer(initialState, action);
+
+      if ('expected' in params) {
+        expect(reduced).toEqual(expected);
+      } else {
+        expect(reduced).toMatchSnapshot();
+      }
     });
   });
 };

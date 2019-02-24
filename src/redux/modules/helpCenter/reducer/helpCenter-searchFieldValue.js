@@ -10,7 +10,7 @@ const searchFieldValue = (state = initialState, action) => {
     case SEARCH_FIELD_CHANGED:
       return payload;
     case API_CLEAR_HC_SEARCHES:
-      return  initialState;
+      return initialState;
     default:
       return state;
   }
