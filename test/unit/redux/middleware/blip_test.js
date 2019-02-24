@@ -12,6 +12,7 @@ describe('blip middleware', () => {
   const UPDATE_WIDGET_SHOWN = 'widget/base/UPDATE_WIDGET_SHOWN';
   const SCREEN_CHANGED = 'widget/answerBot/SCREEN_CHANGED';
   const ZOPIM_ON_OPEN = 'widget/zopim_chat/ZOPIM_ON_OPEN';
+  const LAUNCHER_CLICKED = 'widget/base/LAUNCHER_CLICKED';
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/blip');
@@ -62,8 +63,9 @@ describe('blip middleware', () => {
         'SEARCH_REQUEST_FAILURE': SEARCH_REQUEST_FAILURE
       },
       'src/redux/modules/base/base-action-types': {
-        UPDATE_ACTIVE_EMBED: UPDATE_ACTIVE_EMBED,
-        UPDATE_WIDGET_SHOWN: UPDATE_WIDGET_SHOWN
+        UPDATE_ACTIVE_EMBED,
+        UPDATE_WIDGET_SHOWN,
+        LAUNCHER_CLICKED
       },
       'src/redux/modules/answerBot/sessions/selectors': {
         getSessionByID: (prevState, id) => prevState.sessions.get(id)
@@ -226,6 +228,25 @@ describe('blip middleware', () => {
           expect(beaconSpy.trackUserAction.calls.count())
             .toEqual(1);
           expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', 'zopimChat');
+        });
+      });
+    });
+
+    describe('action has type LAUNCHER_CLICKED', () => {
+      describe('when called once', () => {
+        beforeEach(() => {
+          action = {
+            type: LAUNCHER_CLICKED
+          };
+
+          beaconSpy.trackUserAction.calls.reset();
+          nextSpy = jasmine.createSpy('nextSpy');
+          sendBlips({ getState: () => ({ activeEmbed: 'answerBot' }) })(nextSpy)(action);
+        });
+
+        it('calls trackUserAction with the correct params', () => {
+          expect(beaconSpy.trackUserAction)
+            .toHaveBeenCalledWith('launcher', 'click', 'launcher', { embedOpen: 'answerBot' });
         });
       });
     });

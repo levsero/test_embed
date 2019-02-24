@@ -15,7 +15,6 @@ import {
 } from 'utility/globals';
 import Frame from 'component/frame/Frame';
 import Launcher from 'component/launcher/Launcher';
-import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
 import { generateUserLauncherCSS } from 'utility/color/styles';
 import {
@@ -91,7 +90,6 @@ function create(name, config={}, reduxStore) {
   const onClickHandler = (e) => {
     e.preventDefault();
 
-    beacon.trackUserAction('launcher', 'click', name);
     mediator.channel.broadcast(name + '.onClick');
     // Re-authenticate user if their oauth token is within 20 minutes of expiring
     reduxStore.dispatch(renewToken());
