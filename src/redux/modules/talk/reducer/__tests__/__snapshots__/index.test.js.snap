@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`includes all expected substates 1`] = `
+Object {
+  "agentAvailability": false,
+  "averageWaitTime": Object {
+    "enabled": false,
+    "waitTime": "0",
+  },
+  "callback": Object {
+    "error": Object {},
+    "isSending": false,
+    "phoneNumber": "",
+  },
+  "embeddableConfig": Object {
+    "averageWaitTimeSetting": null,
+    "capability": "widget/talk/CALLBACK_ONLY",
+    "connected": false,
+    "enabled": false,
+    "nickname": "",
+    "phoneNumber": "",
+    "supportedCountries": Array [],
+  },
+  "formState": Object {
+    "name": "",
+    "phone": "",
+  },
+  "screen": "widget/talk/CALLBACK_ONLY_SCREEN",
+  "vendor": Object {
+    "io": null,
+    "libphonenumber": null,
+  },
+}
+`;
