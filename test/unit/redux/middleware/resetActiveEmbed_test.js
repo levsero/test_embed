@@ -16,7 +16,8 @@ describe('resetActiveEmbed middleware', () => {
     mockIsChatting,
     mockWidgetVisible = true,
     mockAnswerBotAvailable = false,
-    mockIsPopout = true;
+    mockIsPopout = true,
+    mockChatBanned = false;
 
   const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
   const WIDGET_INITIALISED = 'WIDGET_INITIALISED';
@@ -62,7 +63,8 @@ describe('resetActiveEmbed middleware', () => {
         getZopimIsChatting: () => mockZopimIsChatting
       },
       'src/redux/modules/chat/chat-selectors': {
-        getIsChatting: () => mockIsChatting
+        getIsChatting: () => mockIsChatting,
+        getChatBanned: () => mockChatBanned
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
@@ -83,7 +85,9 @@ describe('resetActiveEmbed middleware', () => {
       },
       'utility/globals': {
         isPopout: () => mockIsPopout
-      }
+      },
+      'utility/chat': {},
+      'constants/chat': {}
     });
 
     const path = buildSrcPath('redux/middleware/resetActiveEmbed');
@@ -522,9 +526,10 @@ describe('resetActiveEmbed middleware', () => {
         });
       });
 
-      describe('when Chat is standalone', () => {
+      describe('when Chat is standalone and not banned', () => {
         beforeAll(() => {
           mockChatStandalone = true;
+          mockChatBanned = false;
         });
 
         afterAll(() => {
@@ -534,6 +539,25 @@ describe('resetActiveEmbed middleware', () => {
         it('calls updateActiveEmbed with chat', () => {
           expect(updateActiveEmbedSpy)
             .toHaveBeenCalledWith('chat');
+        });
+      });
+
+      describe('when Chat is Banned and standalone', () => {
+        beforeAll(() => {
+          mockSubmitTicketAvailable = false;
+          mockChatBanned = true;
+          mockChatStandalone = true;
+        });
+
+        afterAll(() => {
+          mockChatBanned = false;
+          mockChatStandalone = false;
+          mockSubmitTicketAvailable = true;
+        });
+
+        it('dispatches with Empty', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('');
         });
       });
 

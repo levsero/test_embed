@@ -10,7 +10,8 @@ import {
   SDK_CHAT_COMMENT,
   CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
   CHAT_MSG_REQUEST_SENT,
-  CHAT_FILE_REQUEST_SENT
+  CHAT_FILE_REQUEST_SENT,
+  CHAT_BANNED
 } from '../chat-action-types';
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat';
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types';
@@ -34,6 +35,7 @@ const firstVisitorMessage = (state = initialState.firstVisitorMessage, action) =
         ? action.payload.detail.timestamp
         : state;
     case API_RESET_WIDGET:
+    case CHAT_BANNED:
       return initialState.firstVisitorMessage;
     default:
       return state;
@@ -45,6 +47,7 @@ const latestRating = (state = initialState.latestRating, action) => {
     case SDK_CHAT_RATING:
       return action.payload.detail.timestamp;
     case API_RESET_WIDGET:
+    case CHAT_BANNED:
       return initialState.latestRating;
     default:
       return state;
@@ -56,6 +59,7 @@ const latestRatingRequest = (state = initialState.latestRatingRequest, action) =
     case SDK_CHAT_REQUEST_RATING:
       return action.payload.detail.timestamp;
     case API_RESET_WIDGET:
+    case CHAT_BANNED:
       return initialState.latestRatingRequest;
     default:
       return state;
@@ -79,6 +83,7 @@ const latestQuickReply = (state = initialState.latestQuickReply, action) => {
     case CHAT_CONTACT_DETAILS_UPDATE_SUCCESS:
       return UNSET_TIMESTAMP;
     case API_RESET_WIDGET:
+    case CHAT_BANNED:
       return initialState.latestQuickReply;
     default:
       return state;
@@ -92,6 +97,7 @@ const latestAgentLeaveEvent = (state = initialState.latestAgentLeaveEvent, actio
         ? action.payload.detail.timestamp
         : state;
     case API_RESET_WIDGET:
+    case CHAT_BANNED:
       return initialState.latestAgentLeaveEvent;
     default:
       return state;
@@ -106,6 +112,7 @@ const lastMessageAuthor = (state = initialState.lastMessageAuthor, action) => {
     case SDK_CHAT_MSG:
       return action.payload.detail.nick;
     case API_RESET_WIDGET:
+    case CHAT_BANNED:
       return initialState.lastMessageAuthor;
     default:
       return state;
@@ -143,6 +150,7 @@ const groups = (state = initialState.groups, action) => {
     case CHAT_CONTACT_DETAILS_UPDATE_SUCCESS:
       return [...state, newGroup(action.payload, 'event')];
     case API_RESET_WIDGET:
+    case CHAT_BANNED:
       return initialState.groups;
     default:
       return state;

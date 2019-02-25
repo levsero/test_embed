@@ -99,3 +99,12 @@ export const CHAT_STRUCTURED_MESSAGE_ACTION_TYPE = {
   QUICK_REPLY_ACTION: 'QUICK_REPLY_ACTION',
   LINK_ACTION: 'LINK_ACTION',
 };
+
+export const CONNECTION_CLOSED_REASON = {
+  UNKNOWN: 'unknown',
+  BANNED: 'banned',
+  IDLE: 'idle_disconnect',
+  SERVER_ERROR: 'server_error',
+  LOGOUT: 'logged_out',
+  AUTH_FAIL: 'authentication_fail'
+};
