@@ -44,7 +44,8 @@
 }
 
 .splashDisplayContainer {
-  height: #{160/$font-size}rem; // Validate
+  overflow: hidden;
+  height: #{160/$font-size}rem;
 }
 
 .splashPadding {
