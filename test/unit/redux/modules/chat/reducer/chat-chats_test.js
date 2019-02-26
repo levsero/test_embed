@@ -425,6 +425,25 @@ describe('chat reducer chats', () => {
       });
     });
 
+    describe('when a CHAT_BANNED action is received', () => {
+      let state;
+      const mockState = { foo: 'bar' };
+
+      beforeEach(() => {
+        state = reducer(mockState, {
+          type: chatActionTypes.CHAT_BANNED
+        });
+      });
+
+      afterEach(() => {
+        initialState.clear();
+      });
+
+      it('returns the initial state', () => {
+        expect(state).toEqual(initialState);
+      });
+    });
+
     describe('chat SDK actions', () => {
       let state,
         detail;

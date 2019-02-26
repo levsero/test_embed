@@ -20,7 +20,8 @@ import {
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
-  PROACTIVE_CHAT_NOTIFICATION_DISMISSED
+  PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
+  CHAT_BANNED
 } from '../../chat/chat-action-types';
 import { isMobileBrowser } from 'utility/devices';
 import { isPopout } from 'utility/globals';
@@ -45,6 +46,7 @@ const launcherVisible = (state = initialState, action) => {
     case CANCEL_BUTTON_CLICKED:
     case ZOPIM_ON_CLOSE:
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
+    case CHAT_BANNED:
     case CLOSE_RECEIVED:
       return true;
     case ZOPIM_SHOW:

@@ -10,7 +10,8 @@ import {
   getChatConnected as getNewChatConnected,
   getBadgeColor as getAccountSettingsBadgeColor,
   getHideBranding as getAccountSettingsHideBranding,
-  getChatBadgeEnabled
+  getChatBadgeEnabled,
+  getChatBanned
 } from '../chat/chat-selectors';
 import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors';
 import {
@@ -223,7 +224,7 @@ export const getResetToContactFormOnChatOffline = createSelector(
 export const getChatAvailable = (state) => {
   const offlineFormOn = getChatOfflineAvailable(state) && !getSettingsChatHideWhenOffline(state);
 
-  return getChatEnabled(state) && (getChatOnline(state) || offlineFormOn);
+  return getChatEnabled(state) && (getChatOnline(state) || offlineFormOn) && !getChatBanned(state);
 };
 export const getShowTalkBackButton = createSelector(
   [getHelpCenterEmbed, getChatAvailable, getSubmitTicketEmbed],
