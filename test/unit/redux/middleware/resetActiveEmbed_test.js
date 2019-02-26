@@ -91,7 +91,10 @@ describe('resetActiveEmbed middleware', () => {
         isPopout: () => mockIsPopout
       },
       'utility/chat': {},
-      'constants/chat': {}
+      'constants/chat': {},
+      'constants/shared': {
+        EMBED_MAP: { 'helpCenterForm': 'helpCenter', 'submitTicketForm': 'contactForm' }
+      },
     });
 
     const path = buildSrcPath('redux/middleware/resetActiveEmbed');
@@ -185,7 +188,7 @@ describe('resetActiveEmbed middleware', () => {
           });
         });
 
-        describe('when action payload contains suppress settings', () => {
+        describe('when action payload does not contain any suppress settings', () => {
           _.forEach(otherSettingsActions, (actionPayload, name) => {
             describe(`without a suppress setting: ${name}`, () => {
               beforeAll(() => {
