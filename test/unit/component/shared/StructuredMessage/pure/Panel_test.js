@@ -8,6 +8,7 @@ describe('Pure Panel Component', () => {
   const FONT_SIZE = requireUncached(constantPath).FONT_SIZE;
 
   const Icon = noopReactComponent();
+  const KeyboardFocusButton = noopReactComponent();
 
   const onClickSpy = jasmine.createSpy('onClick');
   const isFirefoxSpy = jasmine.createSpy('isFirefox');
@@ -51,6 +52,9 @@ describe('Pure Panel Component', () => {
       },
       'constants/shared': {
         FONT_SIZE
+      },
+      'component/shared/KeyboardFocusButton': {
+        KeyboardFocusButton: KeyboardFocusButton
       },
       'utility/devices': {
         isFirefox: isFirefoxSpy,
@@ -284,7 +288,7 @@ describe('Pure Panel Component', () => {
       it('should return button element', () => {
         const result = new PanelWrapper({ onClick: onClickSpy });
 
-        expect(result.type).toEqual('button');
+        expect(TestUtils.isElementOfType(result, KeyboardFocusButton)).toEqual(true);
       });
     });
   });

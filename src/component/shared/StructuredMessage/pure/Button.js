@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton';
 
 import { isMobileBrowser } from 'utility/devices';
 
@@ -20,9 +21,9 @@ export class Button extends Component {
     });
 
     return (
-      <button className={buttonStyles} onClick={this.props.onClick} title={this.props.label}>
+      <KeyboardFocusButton className={buttonStyles} onClick={this.props.onClick} title={this.props.label}>
         {this.props.label}
-      </button>
+      </KeyboardFocusButton>
     );
   }
 }

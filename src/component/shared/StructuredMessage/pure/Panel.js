@@ -6,6 +6,7 @@ import { locals as styles } from './Panel.scss';
 import { Icon } from 'component/Icon';
 import { isFirefox, isIE } from 'utility/devices';
 import { FONT_SIZE } from 'constants/shared';
+import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton';
 
 /**
  * A HOC to return the outer element of the Panel
@@ -13,9 +14,9 @@ import { FONT_SIZE } from 'constants/shared';
 export const PanelWrapper = ({ className, onClick, children }) => {
   if (onClick) {
     return (
-      <button className={className} onClick={onClick}>
+      <KeyboardFocusButton className={className} onClick={onClick}>
         {children}
-      </button>
+      </KeyboardFocusButton>
     );
   }
 
