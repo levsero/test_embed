@@ -31,6 +31,7 @@ describe('resetActiveEmbed middleware', () => {
   const ZOPIM_HIDE = 'ZOPIM_HIDE';
   const API_RESET_WIDGET = 'API_RESET_WIDGET';
   const GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS = 'GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS';
+  const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
   const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
@@ -75,6 +76,9 @@ describe('resetActiveEmbed middleware', () => {
       },
       'src/redux/modules/chat/chat-action-types': {
         SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS, GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
+      },
+      'src/redux/modules/settings/settings-action-types': {
+        UPDATE_SETTINGS
       },
       'src/redux/modules/talk/talk-action-types': {
         TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
@@ -154,6 +158,49 @@ describe('resetActiveEmbed middleware', () => {
         mockWidgetVisible = false;
       });
 
+      describe('when action type is UPDATE_SETTINGS', () => {
+        const suppressActions = {
+          'contactForm.suppress': { webWidget: { contactForm: { suppress: true } } },
+          'helpCenter.suppress': { webWidget: { helpCenter: { suppress: true } } },
+          'chat.hideWhenOffline': { webWidget: { chat: { hideWhenOffline: true } } }
+        };
+        const otherSettingsActions = {
+          'contactForm.blah': { webWidget: { contactForm: { blah: 111 } } },
+          'helpCenter.blah': { webWidget: { helpCenter: { blah: 222 } } },
+          'chat.blah': { webWidget: { chat: { blah: 333 } } }
+        };
+
+        describe('when action payload contains suppress settings', () => {
+          _.forEach(suppressActions, (actionPayload, name) => {
+            describe(`with suppress setting: ${name}`, () => {
+              beforeAll(() => {
+                action = { type: UPDATE_SETTINGS, payload: actionPayload };
+              });
+
+              it('calls updateActiveEmbed', () => {
+                expect(updateActiveEmbedSpy)
+                  .toHaveBeenCalled();
+              });
+            });
+          });
+        });
+
+        describe('when action payload contains suppress settings', () => {
+          _.forEach(otherSettingsActions, (actionPayload, name) => {
+            describe(`without a suppress setting: ${name}`, () => {
+              beforeAll(() => {
+                action = { type: UPDATE_SETTINGS, payload: actionPayload };
+              });
+
+              it('does not call updateActiveEmbed', () => {
+                expect(updateActiveEmbedSpy)
+                  .not.toHaveBeenCalled();
+              });
+            });
+          });
+        });
+      });
+
       _.forEach(updateActions, (actionToTest) => {
         describe(`when action type is ${actionToTest}`, () => {
           beforeAll(() => {
@@ -223,6 +270,17 @@ describe('resetActiveEmbed middleware', () => {
           describe('when the active embed is channelChoice', () => {
             beforeAll(() => {
               mockActiveEmbed = 'channelChoice';
+            });
+
+            it('calls updateActiveEmbed', () => {
+              expect(updateActiveEmbedSpy)
+                .toHaveBeenCalled();
+            });
+          });
+
+          describe('when no embed is active (eg all embeds are suppressed)', () => {
+            beforeAll(() => {
+              mockActiveEmbed = 'nilEmbed';
             });
 
             it('calls updateActiveEmbed', () => {
