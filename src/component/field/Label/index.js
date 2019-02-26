@@ -13,7 +13,7 @@ const Label = ({ Component, label, required }) => {
 
 Label.propTypes = {
   Component: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   required: PropTypes.bool.isRequired,
 };
 

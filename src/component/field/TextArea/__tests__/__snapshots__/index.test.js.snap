@@ -25,16 +25,15 @@ exports[`when not required renders the expected component with an optional tag 1
     >
       description of field
     </div>
-    <input
+    <textarea
       aria-describedby="garden-text-field-2--hint"
       aria-invalid="false"
       aria-labelledby="garden-text-field-2--label"
-      class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
-      data-garden-id="textfields.input"
+      class="Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+      data-garden-id="textfields.textarea"
       data-garden-version="3.7.0"
       id="garden-text-field-2--input"
       name="text"
-      value=""
     />
   </div>
 </div>
@@ -64,16 +63,15 @@ exports[`when required renders the expected component 1`] = `
     >
       description of field
     </div>
-    <input
+    <textarea
       aria-describedby="garden-text-field-0--hint"
       aria-invalid="false"
       aria-labelledby="garden-text-field-0--label"
-      class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
-      data-garden-id="textfields.input"
+      class="Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+      data-garden-id="textfields.textarea"
       data-garden-version="3.7.0"
       id="garden-text-field-0--input"
       name="text"
-      value=""
     />
   </div>
 </div>

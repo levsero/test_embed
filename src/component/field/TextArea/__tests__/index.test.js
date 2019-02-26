@@ -1,7 +1,7 @@
 import { render } from 'react-testing-library';
 import React from 'react';
 
-import Text from '../';
+import TextArea from '../';
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
@@ -17,7 +17,7 @@ const renderComponent = (props = {}) => {
     ...props
   };
 
-  return render(<Text {...mergedProps} />);
+  return render(<TextArea {...mergedProps} />);
 };
 
 describe('when required', () => {

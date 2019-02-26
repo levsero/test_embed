@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render } from 'react-testing-library';
 import {
   getStyledLabelText,
   shouldRenderErrorMessage,
@@ -9,9 +9,8 @@ import {
   getCustomFields
 } from '../fields';
 import { EMAIL_PATTERN } from 'constants/shared';
-import { Message } from '@zendeskgarden/react-textfields';
 import { noopReactComponent } from 'utility/testHelpers';
-import { Checkbox, Message as CheckboxMessage } from '@zendeskgarden/react-checkboxes';
+import { Label } from 'src/component/field';
 
 describe('getStyledLabelText', () => {
   const label = 'What Biltong flavour would you like to order?';
@@ -117,9 +116,8 @@ describe('shouldRenderErrorMessage', () => {
 describe('renderLabel', () => {
   const callRenderLabel = (mockLabel, mockRequired) => {
     const element = renderLabel(noopReactComponent, mockLabel, mockRequired);
-    const textContent = element.props.dangerouslySetInnerHTML.__html;
 
-    return textContent;
+    return element;
   };
 
   describe('when field is required', () => {
@@ -127,7 +125,7 @@ describe('renderLabel', () => {
       const result = callRenderLabel('yolo', true);
 
       expect(result)
-        .toContain('<strong>yolo</strong>');
+        .toEqual(<Label Component={noopReactComponent} label="yolo" required={true} />);
     });
   });
 
@@ -136,7 +134,7 @@ describe('renderLabel', () => {
       const result = callRenderLabel(null, false);
 
       expect(result)
-        .toEqual(null);
+        .toEqual(<Label Component={noopReactComponent} label={null} required={false} />);
     });
   });
 
@@ -145,7 +143,7 @@ describe('renderLabel', () => {
       const result = callRenderLabel('yolo', false);
 
       expect(result)
-        .toEqual('<strong>yolo</strong> (optional)');
+        .toEqual(<Label Component={noopReactComponent} label={'yolo'} required={false} />);
     });
   });
 });
@@ -306,7 +304,10 @@ describe('getCustomFields', () => {
       descriptionFieldPayload,
       subjectFieldPayload
     ];
-    customFields = getCustomFields(payload, {});
+    customFields = getCustomFields(payload, {}, {
+      onChange: noop,
+      showErrors: false,
+    });
   });
 
   it('converts custom field payload into array of React components', () => {
@@ -332,342 +333,12 @@ describe('getCustomFields', () => {
       .toEqual(9);
   });
 
-  /* eslint-disable camelcase */
-  describe('when a field is both visible and editable', () => {
-    beforeEach(() => {
-      subjectFieldPayload.visible_in_portal = true;
-      subjectFieldPayload.editable_in_portal = true;
-
-      payload = [subjectFieldPayload];
-      customFields = getCustomFields(payload, {});
-    });
-
-    it('returns the field', () => {
-      const labelElement = customFields.allFields[0].props.children[0];
-      const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
-
-      expect(dangerouslySetContent)
-        .toContain('<strong>What is your query about?</strong>');
-    });
-  });
-
-  describe('when a field is visible but not editable', () => {
-    beforeEach(() => {
-      subjectFieldPayload.visible_in_portal = true;
-      subjectFieldPayload.editable_in_portal = false;
-
-      payload = [subjectFieldPayload];
-      customFields = getCustomFields(payload, {});
-    });
-
-    it('does not return the field', () => {
-      expect(customFields.allFields.length)
-        .toBe(0);
-    });
-  });
-
-  describe('when a field is not both visible and editable', () => {
-    beforeEach(() => {
-      subjectFieldPayload.visible_in_portal = false;
-      subjectFieldPayload.editable_in_portal = false;
-
-      payload = [subjectFieldPayload];
-      customFields = getCustomFields(payload, {});
-    });
-
-    it('does not return the field', () => {
-      expect(customFields.allFields.length)
-        .toBe(0);
-    });
-  });
-
-  describe('when a fields visible and editable properties are undefined', () => {
-    beforeEach(() => {
-      subjectFieldPayload.visible_in_portal = undefined;
-      subjectFieldPayload.editable_in_portal = undefined;
-
-      payload = [subjectFieldPayload];
-      customFields = getCustomFields(payload, {});
-    });
-
-    it('returns the field', () => {
-      const labelElement = customFields.allFields[0].props.children[0];
-      const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
-
-      expect(dangerouslySetContent)
-        .toContain('<strong>What is your query about?</strong>');
-    });
-  });
-
-  describe('when a field is visible and editable properties are undefined', () => {
-    beforeEach(() => {
-      subjectFieldPayload.visible_in_portal = undefined;
-      subjectFieldPayload.editable_in_portal = undefined;
-
-      payload = [subjectFieldPayload];
-      customFields = getCustomFields(payload, {});
-    });
-
-    it('returns the field', () => {
-      const labelElement = customFields.allFields[0].props.children[0];
-      const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
-
-      expect(dangerouslySetContent)
-        .toContain('<strong>What is your query about?</strong>');
-    });
-  });
-
-  describe('when a description is supplied', () => {
-    beforeEach(() => {
-      subjectFieldPayload.description = 'this is the description';
-
-      payload = [subjectFieldPayload];
-      customFields = getCustomFields(payload, {});
-    });
-
-    it('renders the description', () => {
-      const descriptionElement = customFields.allFields[0].props.children[1];
-
-      expect(descriptionElement.props.children)
-        .toContain('this is the description');
-    });
-  });
-  /* eslint-enable camelcase */
-
-  describe('props', () => {
-    it('passes through the id to name', () => {
-      const field1 = customFields.allFields[0].props.children[2];
-      const field2 = customFields.allFields[1];
-
-      expect(field1.props.name)
-        .toEqual('22660514');
-
-      expect(field2.props.name)
-        .toEqual('10006');
-    });
-
-    describe('required', () => {
-      beforeEach(() => {
-        payload = [textFieldPayload, descriptionFieldPayload];
-        customFields = getCustomFields(payload, {});
-      });
-
-      it('respects the required prop', () => {
-        const inputElement = customFields.allFields[0].props.children[2];
-
-        expect(inputElement.props.required)
-          .toEqual(true);
-      });
-
-      it('respects the `required_in_portal` setting over the `required` one', () => {
-        const inputElement = customFields.allFields[1].props.children[2];
-
-        expect(inputElement.props.required)
-          .toEqual(false);
-      });
-    });
-
-    describe('title', () => {
-      beforeEach(() => {
-        payload = [textareaFieldPayload, subjectFieldPayload];
-        customFields = getCustomFields(payload, {});
-      });
-
-      it('passes through the title', () => {
-        const labelElement = customFields.allFields[0].props.children[0];
-        const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
-
-        expect(dangerouslySetContent)
-          .toContain('<strong>Order Details</strong>');
-      });
-
-      it('passes through the `title_in_portal` instead of `title` if it exists', () => {
-        const labelElement = customFields.allFields[1].props.children[0];
-        const dangerouslySetContent = labelElement.props.dangerouslySetInnerHTML.__html;
-
-        expect(dangerouslySetContent)
-          .toContain('<strong>What is your query about?</strong>');
-      });
-    });
-
-    describe('tagger field', () => {
-      beforeEach(() => {
-        payload = [nestedDropdownFieldPayload, dropdownFieldPayload];
-        customFields = getCustomFields(payload, {});
-      });
-
-      it('passes through options', () => {
-        expect(customFields.allFields[0].props.options)
-          .toEqual(nestedDropdownFieldPayload.custom_field_options);
-      });
-
-      it('sets showError to a falsy value by default', () => {
-        expect(customFields.allFields[0].props.showErrors)
-          .toBeFalsy();
-      });
-
-      describe('when there are errors', () => {
-        beforeEach(() => {
-          payload = [nestedDropdownFieldPayload];
-          customFields = getCustomFields(payload, {}, { showErrors: true });
-        });
-
-        it('sets showError to true', () => {
-          expect(customFields.allFields[0].props.showErrors)
-            .toEqual(true);
-        });
-      });
-    });
-
-    describe('integer field', () => {
-      beforeEach(() => {
-        payload = [integerFieldPayload];
-        customFields = getCustomFields(payload, {});
-      });
-
-      it('passes in a pattern', () => {
-        const inputElement = customFields.allFields[0].props.children[2];
-
-        expect(inputElement.props.pattern)
-          .toBeTruthy();
-      });
-
-      it('is type number', () => {
-        const inputElement = customFields.allFields[0].props.children[2];
-
-        expect(inputElement.props.type)
-          .toEqual('number');
-      });
-
-      it('has a description', () => {
-        const descriptionElement = customFields.allFields[0].props.children[1];
-
-        expect(descriptionElement.props.children)
-          .toEqual('this is the integer description');
-      });
-
-      it('does not have a Message component', () => {
-        expect(ReactTestUtils.isElementOfType(customFields.allFields[0].props.children[3], Message))
-          .toEqual(false);
-      });
-
-      describe('when there are errors', () => {
-        beforeEach(() => {
-          payload = [integerFieldPayload];
-          customFields = getCustomFields(payload, {}, { showErrors: true });
-        });
-
-        it('has a Message component', () => {
-          expect(ReactTestUtils.isElementOfType(customFields.allFields[0].props.children[3], Message))
-            .toEqual(true);
-        });
-      });
-    });
-
-    describe('decimal field', () => {
-      beforeEach(() => {
-        payload = [decimalFieldPayload];
-        customFields = getCustomFields(payload, {});
-      });
-
-      it('passes in a pattern', () => {
-        const inputElement = customFields.allFields[0].props.children[2];
-
-        expect(inputElement.props.pattern)
-          .toBeTruthy();
-      });
-
-      it('is type number', () => {
-        const inputElement = customFields.allFields[0].props.children[2];
-
-        expect(inputElement.props.type)
-          .toEqual('number');
-      });
-
-      it('assigns a step', () => {
-        const inputElement = customFields.allFields[0].props.children[2];
-
-        expect(inputElement.props.step)
-          .toEqual('any');
-      });
-
-      it('has a description', () => {
-        const descriptionElement = customFields.allFields[0].props.children[1];
-
-        expect(descriptionElement.props.children)
-          .toEqual('this is the decimal description');
-      });
-
-      it('does not have a Message component', () => {
-        expect(ReactTestUtils.isElementOfType(customFields.allFields[0].props.children[3], Message))
-          .toEqual(false);
-      });
-
-      describe('when there are errors', () => {
-        beforeEach(() => {
-          payload = [decimalFieldPayload];
-          customFields = getCustomFields(payload, {}, { showErrors: true });
-        });
-
-        it('has a Message component', () => {
-          expect(ReactTestUtils.isElementOfType(customFields.allFields[0].props.children[3], Message))
-            .toEqual(true);
-        });
-      });
-    });
-
-    describe('checkbox field', () => {
-      let checkboxField;
-
-      beforeEach(() => {
-        payload = [checkboxFieldPayload];
-        customFields = getCustomFields(payload, {});
-
-        checkboxField = customFields.allFields[0];
-      });
-
-      it('returns a Checkbox element', () => {
-        expect(checkboxField.type)
-          .toEqual(Checkbox);
-      });
-
-      it('has a label', () => {
-        expect(checkboxField.key)
-          .toContain('Can we call you?');
-      });
-
-      it('has a description', () => {
-        const message = checkboxField.props.children[1];
-
-        expect(message.props.children)
-          .toEqual('this is the description');
-      });
-
-      it('has no error', () => {
-        const message = checkboxField.props.children[1];
-
-        expect(message.props.children)
-          .toEqual('this is the description');
-      });
-
-      it('does not have a Message component', () => {
-        expect(ReactTestUtils.isElementOfType(checkboxField.props.children[2], CheckboxMessage))
-          .toEqual(false);
-      });
-
-      describe('when there are errors', () => {
-        beforeEach(() => {
-          payload = [checkboxFieldPayload];
-          customFields = getCustomFields(payload, {}, { showErrors: true });
-
-          checkboxField = customFields.allFields[0];
-        });
-
-        it('has a Message component', () => {
-          expect(ReactTestUtils.isElementOfType(checkboxField.props.children[2], CheckboxMessage))
-            .toEqual(true);
-        });
-      });
+  it('returns the correct number of components in each key', () => {
+    _.forEach(customFields.allFields, (customField) => {
+      const { container } = render(customField);
+
+      expect(container)
+        .toMatchSnapshot();
     });
   });
 });

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Label as LabelComponent } from '../';
-
-import { TextField, Input, Hint, Message, Label } from '@zendeskgarden/react-textfields';
+import { TextField, Textarea, Label, Hint, Message } from '@zendeskgarden/react-textfields';
 
 const Text = ({
   label,
@@ -20,7 +19,7 @@ const Text = ({
     <TextField>
       <LabelComponent Component={Label} label={label} required={required} />
       {description && <Hint>{description}</Hint>}
-      <Input value={value} onChange={onChange} name={name} pattern={pattern} type={type} />
+      <Textarea value={value} onChange={onChange} name={name} pattern={pattern} type={type} />
       {showErrors && <Message validation='error'>{errorString}</Message>}
     </TextField>
   );

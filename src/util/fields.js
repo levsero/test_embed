@@ -3,16 +3,19 @@ import _ from 'lodash';
 import sanitizeHtml from 'sanitize-html';
 
 import { i18n } from 'service/i18n';
-import { NestedDropdown } from 'component/field/Dropdown/NestedDropdown';
 import {
   isMobileBrowser,
   isLandscape
 } from 'utility/devices';
-import { TextField, Textarea, Label, Input, Hint, Message } from '@zendeskgarden/react-textfields';
-import Checkbox from 'src/component/field/Checkbox';
+import { Label, Message } from '@zendeskgarden/react-textfields';
 import { Label as DropdownLabel } from '@zendeskgarden/react-select';
-import LabelComponent from 'src/component/field/Label';
-import Text from 'src/component/field/Text';
+import {
+  Checkbox,
+  Label as LabelComponent,
+  Text,
+  TextArea,
+  Dropdown,
+} from 'src/component/field';
 
 const getDefaultFieldValues = (elementType, existingValue) => {
   switch (elementType) {
@@ -40,19 +43,15 @@ const getCustomFields = (customFields, formState, options = {}) => {
       errorString: i18n.t(sharedProps.errorString)
     };
 
-    console.log(props);
     return (
       <Text key={sharedProps.key} {...props} />
     );
   };
-  const renderDescription = (field) => {
-    return field.description
-      ? <Hint>{field.description}</Hint>
-      : '';
-  };
+
   const isCheckbox = (field) => {
     return field && field.type === Checkbox;
   };
+
   const renderErrorMessage = (fieldProps, formState) => {
     const { required, showErrors, pattern } = fieldProps;
     const value = formState[fieldProps.name];
@@ -109,7 +108,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
           formState
         };
 
-        return <NestedDropdown {...dropdownProps} />;
+        return <Dropdown {...dropdownProps} />;
 
       case 'integer':
         const integerFieldProps = {
@@ -137,16 +136,11 @@ const getCustomFields = (customFields, formState, options = {}) => {
         const descError = renderErrorMessage(sharedProps, formState);
         const descProps = {
           ...sharedProps,
-          validation: descError ? 'error': 'none'
+          errorString: descError
         };
 
         return (
-          <TextField key={sharedProps.key}>
-            {renderLabel(Label, sharedProps.label, sharedProps.required)}
-            {renderDescription(sharedProps)}
-            <Textarea {...descProps} rows='5' />
-            {descError}
-          </TextField>
+          <TextArea {...descProps} />
         );
 
       case 'checkbox':
