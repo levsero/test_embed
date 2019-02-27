@@ -42,7 +42,7 @@ import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-se
 import { getZopimChatOnline, getZopimIsChatting } from 'src/redux/modules/zopimChat/zopimChat-selectors';
 import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors';
 import { isPopout } from 'utility/globals';
-import { EMBED_MAP } from 'constants/shared';
+import { EMBED_MAP, NIL_EMBED } from 'constants/shared';
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state);
@@ -54,7 +54,7 @@ const shouldResetForChat = (type, state) => {
     'chat',
     'channelChoice',
     'ticketSubmissionForm',
-    'nilEmbed'
+    NIL_EMBED
   ];
   const isChatActionEligible = _.includes(eligibleChatActions, type);
   const isActiveEmbedEligible = _.includes(eligibleActiveEmbeds, activeEmbed);
@@ -76,7 +76,7 @@ const shouldResetForZopimChat = (type, state) => {
       && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
     return true;
   }
-  if (isZopimChatActionEligible && (activeEmbed === 'ticketSubmissionForm' || activeEmbed === '')) {
+  if (isZopimChatActionEligible && (activeEmbed === 'ticketSubmissionForm' || activeEmbed === NIL_EMBED)) {
     return true;
   }
   return false;
@@ -93,7 +93,7 @@ const getChatActiveEmbed = (state) => {
 
 const setNewActiveEmbed = (state, dispatch) => {
   let backButton = false;
-  let activeEmbed = 'nilEmbed';
+  let activeEmbed = NIL_EMBED;
   const articleViewActive = getArticleViewActive(state);
 
   if (isPopout()) {
@@ -126,7 +126,7 @@ const setNewActiveEmbed = (state, dispatch) => {
     activeEmbed = 'ticketSubmissionForm';
     backButton = getShowTicketFormsBackButton(state);
   } else if (getChatBanned(state)) {
-    activeEmbed = '';
+    activeEmbed = NIL_EMBED;
   }
 
   dispatch(updateActiveEmbed(activeEmbed));
