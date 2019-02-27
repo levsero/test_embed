@@ -17,7 +17,7 @@ const renderComponent = (props = {}) => {
     ...props
   };
 
-  return render(<Text {...mergedProps} />);
+  return render(<Text {...mergedProps} inputProps={mergedProps} />);
 };
 
 describe('when required', () => {

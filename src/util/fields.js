@@ -46,7 +46,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
     };
 
     return (
-      <Text key={sharedProps.key} {...props} />
+      <Text key={sharedProps.key} {...props} inputProps={props}/>
     );
   };
 
@@ -128,13 +128,13 @@ const getCustomFields = (customFields, formState, options = {}) => {
 
       case 'textarea':
       case 'description':
-        const descProps = {
+        const textAreaProps = {
           ...sharedProps,
           showError: renderError,
         };
 
         return (
-          <TextArea {...descProps} />
+          <TextArea {...textAreaProps} textareaProps={textAreaProps} />
         );
 
       case 'checkbox':
@@ -144,7 +144,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
             errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
             showError={renderError}
             description={field.description}
-            title={getStyledLabelText(title, sharedProps.required)}
+            label={getStyledLabelText(title, sharedProps.required)}
             checkboxProps={sharedProps}
           />
         );

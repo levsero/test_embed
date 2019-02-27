@@ -7,19 +7,15 @@ const Text = ({
   label,
   required,
   description,
-  value,
-  onChange,
-  name,
   errorString,
-  pattern,
-  type,
-  showError
+  showError,
+  textareaProps
 }) => {
   return (
     <TextField>
       <LabelComponent Component={Label} label={label} required={required} />
       {description && <Hint>{description}</Hint>}
-      <Textarea value={value} onChange={onChange} name={name} pattern={pattern} type={type} />
+      <Textarea {...textareaProps} />
       {showError && <Message validation='error'>{errorString}</Message>}
     </TextField>
   );
@@ -30,12 +26,14 @@ Text.propTypes = {
   required: PropTypes.bool.isRequired,
   showError: PropTypes.bool.isRequired,
   description: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
   errorString: PropTypes.string,
-  value: PropTypes.string,
-  pattern: PropTypes.object,
-  type: PropTypes.string,
+  textareaProps: PropTypes.shape({
+    type: PropTypes.string,
+    pattern: PropTypes.object,
+    value: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+  })
 };
 
 export default Text;

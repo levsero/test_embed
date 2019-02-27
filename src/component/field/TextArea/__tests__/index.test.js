@@ -17,7 +17,7 @@ const renderComponent = (props = {}) => {
     ...props
   };
 
-  return render(<TextArea {...mergedProps} />);
+  return render(<TextArea {...mergedProps} textareaProps={mergedProps} />);
 };
 
 describe('when required', () => {

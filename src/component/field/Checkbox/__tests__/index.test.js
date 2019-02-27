@@ -5,7 +5,7 @@ import Checkbox from '../';
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    title: 'checkbox title',
+    label: 'checkbox title',
     description: 'click to toggle',
     showError: false,
     errorString: 'there is a checkbox error',
