@@ -338,7 +338,7 @@ export const getContactOptionsChatLabelOffline = createSelector(
   [getSettingsContactOptionsChatLabelOffline, getLocale],
   (settingsLabel, _locale) => (
     i18n.getSettingTranslation(settingsLabel) ||
-    i18n.t('embeddable_framework.channelChoice.button.label.chat_offline_v2')
+    i18n.t('embeddable_framework.channelChoice.button.label.chat_offline_v3')
   )
 );
 
