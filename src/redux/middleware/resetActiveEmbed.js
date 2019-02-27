@@ -6,6 +6,7 @@ import {
   AUTHENTICATION_SUCCESS,
   API_RESET_WIDGET
 } from 'src/redux/modules/base/base-action-types';
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types';
 import { SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS, CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types';
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
@@ -35,13 +36,13 @@ import {
   getIpmHelpCenterAllowed,
   getSubmitTicketAvailable,
   getAnswerBotAvailable,
-  getWebWidgetVisible
+  getWebWidgetVisible,
 } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getZopimChatOnline, getZopimIsChatting } from 'src/redux/modules/zopimChat/zopimChat-selectors';
-import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors';
 import { isPopout } from 'utility/globals';
-import { getChatBanned } from 'src/redux/modules/chat/chat-selectors';
+import { EMBED_MAP, NIL_EMBED } from 'constants/shared';
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state);
@@ -52,7 +53,8 @@ const shouldResetForChat = (type, state) => {
   const eligibleActiveEmbeds = [
     'chat',
     'channelChoice',
-    'ticketSubmissionForm'
+    'ticketSubmissionForm',
+    NIL_EMBED
   ];
   const isChatActionEligible = _.includes(eligibleChatActions, type);
   const isActiveEmbedEligible = _.includes(eligibleActiveEmbeds, activeEmbed);
@@ -74,7 +76,7 @@ const shouldResetForZopimChat = (type, state) => {
       && (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')) {
     return true;
   }
-  if (isZopimChatActionEligible && (activeEmbed === 'ticketSubmissionForm' || activeEmbed === '')) {
+  if (isZopimChatActionEligible && (activeEmbed === 'ticketSubmissionForm' || activeEmbed === NIL_EMBED)) {
     return true;
   }
   return false;
@@ -91,7 +93,7 @@ const getChatActiveEmbed = (state) => {
 
 const setNewActiveEmbed = (state, dispatch) => {
   let backButton = false;
-  let activeEmbed = '';
+  let activeEmbed = NIL_EMBED;
   const articleViewActive = getArticleViewActive(state);
 
   if (isPopout()) {
@@ -124,7 +126,7 @@ const setNewActiveEmbed = (state, dispatch) => {
     activeEmbed = 'ticketSubmissionForm';
     backButton = getShowTicketFormsBackButton(state);
   } else if (getChatBanned(state)) {
-    activeEmbed = '';
+    activeEmbed = NIL_EMBED;
   }
 
   dispatch(updateActiveEmbed(activeEmbed));
@@ -132,7 +134,7 @@ const setNewActiveEmbed = (state, dispatch) => {
 };
 
 export default function resetActiveEmbed(prevState, nextState, action, dispatch = () => {}) {
-  const { type } = action;
+  const { type, payload } = action;
   const state = nextState;
   const updateActions = [
     TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
@@ -147,14 +149,23 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     API_RESET_WIDGET,
     GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
   ];
+  const activeEmbed = getActiveEmbed(state);
+  const widgetVisible = getWebWidgetVisible(state);
+  const isZopimChatting = getZopimIsChatting(state) && activeEmbed === 'zopimChat';
+  const isNewChatChatting = getIsChatting(state) && activeEmbed === 'chat';
+  const shouldReset = (_.includes(updateActions, type) && !isZopimChatting && !isNewChatChatting)
+    || shouldResetForChat(type, nextState)
+    || shouldResetForZopimChat(type, nextState);
+  const suppressedEmbeds = type === UPDATE_SETTINGS
+    && _.reduce(payload.webWidget, (result, value, key) => {
+      if (_.get(value, 'suppress') === true || _.get(value, 'hideWhenOffline') === true) result.push(key);
+      return result;
+    }, []);
 
-  const isZopimChatting = getZopimIsChatting(state) && getActiveEmbed(state) === 'zopimChat';
-  const isNewChatChatting = getIsChatting(state) && getActiveEmbed(state) === 'chat';
-  const shouldReset = _.includes(updateActions, type) && !isZopimChatting && !isNewChatChatting;
-  const chatReset = shouldResetForChat(type, nextState);
-  const zopimChatReset = shouldResetForZopimChat(type, nextState);
+  const shouldSuppressActiveEmbed = _.includes(suppressedEmbeds, (EMBED_MAP[activeEmbed] || activeEmbed));
+  const shouldResetForSuppress = widgetVisible ? shouldSuppressActiveEmbed : !_.isEmpty(suppressedEmbeds);
 
-  if (!getWebWidgetVisible(state) && (shouldReset || chatReset || zopimChatReset) || action.type === CHAT_BANNED) {
+  if ((!widgetVisible && shouldReset) || type === CHAT_BANNED || shouldResetForSuppress) {
     setNewActiveEmbed(state, dispatch);
   }
 }
