@@ -32,6 +32,7 @@ describe('resetActiveEmbed middleware', () => {
   const API_RESET_WIDGET = 'API_RESET_WIDGET';
   const GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS = 'GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS';
   const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+  const NIL_EMBED = 'nilEmbed';
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
   const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
@@ -93,7 +94,8 @@ describe('resetActiveEmbed middleware', () => {
       'utility/chat': {},
       'constants/chat': {},
       'constants/shared': {
-        EMBED_MAP: { 'helpCenterForm': 'helpCenter', 'submitTicketForm': 'contactForm' }
+        EMBED_MAP: { 'helpCenterForm': 'helpCenter', 'submitTicketForm': 'contactForm' },
+        NIL_EMBED
       },
     });
 
@@ -324,7 +326,7 @@ describe('resetActiveEmbed middleware', () => {
 
           describe('when active embed is empty string', () => {
             beforeAll(() => {
-              mockActiveEmbed = '';
+              mockActiveEmbed = NIL_EMBED;
             });
 
             it('calls updateActiveEmbed', () => {
@@ -616,9 +618,9 @@ describe('resetActiveEmbed middleware', () => {
           mockSubmitTicketAvailable = true;
         });
 
-        it('dispatches with Empty', () => {
+        it('dispatches with nilEmbed', () => {
           expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('');
+            .toHaveBeenCalledWith(NIL_EMBED);
         });
       });
 
