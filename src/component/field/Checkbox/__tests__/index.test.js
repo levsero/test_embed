@@ -32,7 +32,7 @@ describe('Checkbox', () => {
   });
 
   describe('with an error', () => {
-    it('renders the expected component with an optional tag', () => {
+    it('renders the error field', () => {
       const { container } = renderComponent({ showError: true });
 
       expect(container)
@@ -41,8 +41,8 @@ describe('Checkbox', () => {
   });
 
   describe('with the checkbox ticked', () => {
-    it('renders the expected component with an optional tag', () => {
-      const { container } = renderComponent({ checked: true });
+    it('passes the checked value into the garden checkbox', () => {
+      const { container } = renderComponent({ checked: 1 });
 
       expect(container)
         .toMatchSnapshot();

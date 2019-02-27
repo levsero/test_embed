@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getCustomFields returns the correct number of components in each key 1`] = `
+exports[`getCustomFields renders the correct components for each key 1`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -19,18 +19,21 @@ exports[`getCustomFields returns the correct number of components in each key 1`
     <input
       aria-invalid="false"
       aria-labelledby="garden-text-field-0--label"
+      aria-required="true"
       class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
       data-garden-id="textfields.input"
       data-garden-version="3.7.0"
       id="garden-text-field-0--input"
+      label="Text"
       name="22660514"
+      required=""
       value=""
     />
   </div>
 </div>
 `;
 
-exports[`getCustomFields returns the correct number of components in each key 2`] = `
+exports[`getCustomFields renders the correct components for each key 2`] = `
 <div>
   <div
     class="field"
@@ -78,7 +81,7 @@ exports[`getCustomFields returns the correct number of components in each key 2`
 </div>
 `;
 
-exports[`getCustomFields returns the correct number of components in each key 3`] = `
+exports[`getCustomFields renders the correct components for each key 3`] = `
 <div>
   <div
     class="field"
@@ -126,7 +129,7 @@ exports[`getCustomFields returns the correct number of components in each key 3`
 </div>
 `;
 
-exports[`getCustomFields returns the correct number of components in each key 4`] = `
+exports[`getCustomFields renders the correct components for each key 4`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -145,17 +148,20 @@ exports[`getCustomFields returns the correct number of components in each key 4`
     <textarea
       aria-invalid="false"
       aria-labelledby="garden-text-field-10--label"
+      aria-required="true"
       class="Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
       data-garden-id="textfields.textarea"
       data-garden-version="3.7.0"
       id="garden-text-field-10--input"
+      label="Order Details"
       name="22660524"
+      required=""
     />
   </div>
 </div>
 `;
 
-exports[`getCustomFields returns the correct number of components in each key 5`] = `
+exports[`getCustomFields renders the correct components for each key 5`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -183,12 +189,15 @@ exports[`getCustomFields returns the correct number of components in each key 5`
       aria-describedby="garden-text-field-12--hint"
       aria-invalid="false"
       aria-labelledby="garden-text-field-12--label"
+      aria-required="true"
       class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
       data-garden-id="textfields.input"
       data-garden-version="3.7.0"
       id="garden-text-field-12--input"
+      label="Age"
       name="22823250"
       pattern="/\\\\d+/"
+      required=""
       type="number"
       value=""
     />
@@ -196,7 +205,7 @@ exports[`getCustomFields returns the correct number of components in each key 5`
 </div>
 `;
 
-exports[`getCustomFields returns the correct number of components in each key 6`] = `
+exports[`getCustomFields renders the correct components for each key 6`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -224,12 +233,16 @@ exports[`getCustomFields returns the correct number of components in each key 6`
       aria-describedby="garden-text-field-14--hint"
       aria-invalid="false"
       aria-labelledby="garden-text-field-14--label"
+      aria-required="true"
       class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
       data-garden-id="textfields.input"
       data-garden-version="3.7.0"
       id="garden-text-field-14--input"
+      label="Total Cost"
       name="22823260"
       pattern="/\\\\d*([.,]\\\\d+)?/"
+      required=""
+      step="any"
       type="number"
       value=""
     />
@@ -237,7 +250,7 @@ exports[`getCustomFields returns the correct number of components in each key 6`
 </div>
 `;
 
-exports[`getCustomFields returns the correct number of components in each key 7`] = `
+exports[`getCustomFields renders the correct components for each key 7`] = `
 <div>
   <div
     class="CheckboxView-sc-3qa538-0 checkbox__c-chk___1E1jK lcTuIg"
@@ -281,7 +294,7 @@ exports[`getCustomFields returns the correct number of components in each key 7`
 </div>
 `;
 
-exports[`getCustomFields returns the correct number of components in each key 8`] = `
+exports[`getCustomFields renders the correct components for each key 8`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -301,17 +314,19 @@ exports[`getCustomFields returns the correct number of components in each key 8`
     <textarea
       aria-invalid="false"
       aria-labelledby="garden-text-field-18--label"
+      aria-required="false"
       class="Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
       data-garden-id="textfields.textarea"
       data-garden-version="3.7.0"
       id="garden-text-field-18--input"
+      label="How can we help?"
       name="2284527"
     />
   </div>
 </div>
 `;
 
-exports[`getCustomFields returns the correct number of components in each key 9`] = `
+exports[`getCustomFields renders the correct components for each key 9`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -339,11 +354,14 @@ exports[`getCustomFields returns the correct number of components in each key 9`
       aria-describedby="garden-text-field-20--hint"
       aria-invalid="false"
       aria-labelledby="garden-text-field-20--label"
+      aria-required="true"
       class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
       data-garden-id="textfields.input"
       data-garden-version="3.7.0"
       id="garden-text-field-20--input"
+      label="What is your query about?"
       name="2284528"
+      required=""
       value=""
     />
   </div>

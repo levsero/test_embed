@@ -11,11 +11,13 @@ const Text = ({
   showError,
   textareaProps
 }) => {
+  const validation = showError ? 'error' : 'none';
+
   return (
     <TextField>
       <LabelComponent Component={Label} label={label} required={required} />
       {description && <Hint>{description}</Hint>}
-      <Textarea {...textareaProps} />
+      <Textarea {...textareaProps} validation={validation} />
       {showError && <Message validation='error'>{errorString}</Message>}
     </TextField>
   );

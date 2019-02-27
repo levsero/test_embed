@@ -333,7 +333,7 @@ describe('getCustomFields', () => {
       .toEqual(9);
   });
 
-  it('returns the correct number of components in each key', () => {
+  it('renders the correct components for each key', () => {
     _.forEach(customFields.allFields, (customField) => {
       const { container } = render(customField);
 

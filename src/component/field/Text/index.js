@@ -12,12 +12,14 @@ const Text = ({
   showError,
   inputProps
 }) => {
+  const validation = showError ? 'error' : 'none';
+
   return (
     <TextField>
       <LabelComponent Component={Label} label={label} required={required} />
       {description && <Hint>{description}</Hint>}
-      <Input {...inputProps} />
-      {showError && <Message validation='error'>{errorString}</Message>}
+      <Input {...inputProps} validation={validation} />
+      {showError && <Message validation={validation}>{errorString}</Message>}
     </TextField>
   );
 };

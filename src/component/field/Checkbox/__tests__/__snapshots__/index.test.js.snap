@@ -39,7 +39,7 @@ exports[`Checkbox renders the expected component 1`] = `
 </div>
 `;
 
-exports[`Checkbox with an error renders the expected component with an optional tag 1`] = `
+exports[`Checkbox with an error renders the error field 1`] = `
 <div>
   <div
     class="CheckboxView-sc-3qa538-0 checkbox__c-chk___1E1jK lcTuIg"
@@ -85,7 +85,7 @@ exports[`Checkbox with an error renders the expected component with an optional 
 </div>
 `;
 
-exports[`Checkbox with the checkbox ticked renders the expected component with an optional tag 1`] = `
+exports[`Checkbox with the checkbox ticked passes the checked value into the garden checkbox 1`] = `
 <div>
   <div
     class="CheckboxView-sc-3qa538-0 checkbox__c-chk___1E1jK lcTuIg"

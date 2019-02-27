@@ -20,21 +20,32 @@ const renderComponent = (props = {}) => {
   return render(<TextArea {...mergedProps} textareaProps={mergedProps} />);
 };
 
-describe('when required', () => {
-  it('renders the expected component', () => {
-    const { container } = renderComponent();
+describe('TextArea', () => {
+  describe('when required', () => {
+    it('renders the expected component', () => {
+      const { container } = renderComponent();
 
-    expect(container)
-      .toMatchSnapshot();
+      expect(container)
+        .toMatchSnapshot();
+    });
   });
-});
 
-describe('when not required', () => {
-  it('renders the expected component with an optional tag', () => {
-    const { container } = renderComponent({ required: false });
+  describe('when not required', () => {
+    it('renders the expected component with an optional tag', () => {
+      const { container } = renderComponent({ required: false });
 
-    expect(container)
-      .toMatchSnapshot();
+      expect(container)
+        .toMatchSnapshot();
+    });
+  });
+
+  describe('when showing error', () => {
+    it('renders the expected component with an error message', () => {
+      const { container } = renderComponent({ showError: true });
+
+      expect(container)
+        .toMatchSnapshot();
+    });
   });
 });
 
