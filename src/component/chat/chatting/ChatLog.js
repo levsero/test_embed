@@ -25,7 +25,8 @@ const mapStateToProps = (state) => {
     latestRating: getLatestRating(state),
     latestRatingRequest: getLatestRatingRequest(state),
     latestAgentLeaveEvent: getLatestAgentLeaveEvent(state),
-    showUpdateInfo: getShowUpdateVisitorDetails(state)
+    showUpdateInfo: getShowUpdateVisitorDetails(state),
+    locale: i18n.getLocale()
   };
 };
 
