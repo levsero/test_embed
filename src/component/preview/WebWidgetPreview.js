@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Chat from 'src/component/chat/Chat';
+import { Container } from 'src/component/container/Container';
 import { i18n } from 'service/i18n';
 
 const noop = () => {};
 
 export class WebWidgetPreview extends Component {
+  static propTypes = {
+    containerStyle: PropTypes.shape({
+      margin: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ]),
+      width: PropTypes.string,
+    }),
+    getFrameContentDocument: PropTypes.func
+  };
+
   render() {
     return (
-      <Chat
-        locale={i18n.getLocale()}
-        updateChatBackButtonVisibility={noop}
-        getFrameContentDocument={noop} />
+      <Container style={this.props.containerStyle}>
+        <Chat
+          locale={i18n.getLocale()}
+          updateChatBackButtonVisibility={noop}
+          getFrameContentDocument={this.props.getFrameContentDocument} />
+      </Container>
     );
   }
 }
