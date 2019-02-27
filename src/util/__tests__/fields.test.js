@@ -175,7 +175,7 @@ describe('getDefaultFieldValues', () => {
       ['decimal',     { value: '' }],
       ['textarea',    { value: '' }],
       ['description', { value: '' }],
-      ['checkbox',    { checked: false }],
+      ['checkbox',    { checked: 0 }],
       ['tagger',      { value: undefined }]
     ])('getDefaultFieldValues(%s)',
       (type, expected) => {

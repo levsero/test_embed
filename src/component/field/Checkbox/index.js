@@ -8,20 +8,12 @@ import {
   Message as Message
 } from '@zendeskgarden/react-checkboxes';
 
-const Checkbox = ({ title, description, renderError, errorString, checkboxProps }) => {
-  const checkboxError = renderError
-    ? (
-      <Message validation='error'>
-        {errorString}
-      </Message>
-    )
-    : null;
-
+const Checkbox = ({ title, description, showError, errorString, checkboxProps }) => {
   return (
     <GardenCheckbox {...checkboxProps}>
       <CheckboxLabel dangerouslySetInnerHTML={{ __html: title }} />
       {description && <CheckboxHint>{description}</CheckboxHint>}
-      {checkboxError}
+      {showError && <Message validation='error'>{errorString}</Message>}
     </GardenCheckbox>
   );
 };
@@ -29,13 +21,10 @@ const Checkbox = ({ title, description, renderError, errorString, checkboxProps 
 Checkbox.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
-  renderError: PropTypes.bool.isRequired,
+  showError: PropTypes.bool.isRequired,
   errorString: PropTypes.string,
   checkboxProps: PropTypes.shape({
-    checked: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.number
-    ]),
+    checked: PropTypes.oneOf([0, 1]),
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
   })

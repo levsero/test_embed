@@ -7,7 +7,7 @@ import {
   isMobileBrowser,
   isLandscape
 } from 'utility/devices';
-import { Label, Message } from '@zendeskgarden/react-textfields';
+import { Label } from '@zendeskgarden/react-textfields';
 import { Label as DropdownLabel } from '@zendeskgarden/react-select';
 import {
   Checkbox,
@@ -27,7 +27,7 @@ const getDefaultFieldValues = (elementType, existingValue) => {
     case 'description':
       return { value: existingValue || '' };
     case 'checkbox':
-      return { checked: existingValue || false };
+      return { checked: existingValue || 0 };
     default:
       return { value: existingValue };
   }
@@ -35,12 +35,14 @@ const getDefaultFieldValues = (elementType, existingValue) => {
 
 const getCustomFields = (customFields, formState, options = {}) => {
   const renderField = (sharedProps) => {
-    const error = renderErrorMessage(sharedProps, formState);
+    const { required, showErrors, pattern } = sharedProps;
+    const showError = shouldRenderErrorMessage(formState[sharedProps.name], required, showErrors, pattern);
+
     const props = {
       ...sharedProps,
       Component: Label,
-      validation: error ? 'error': 'none',
-      errorString: i18n.t(sharedProps.errorString)
+      errorString: i18n.t(sharedProps.errorString),
+      showError,
     };
 
     return (
@@ -50,15 +52,6 @@ const getCustomFields = (customFields, formState, options = {}) => {
 
   const isCheckbox = (field) => {
     return field && field.type === Checkbox;
-  };
-
-  const renderErrorMessage = (fieldProps, formState) => {
-    const { required, showErrors, pattern } = fieldProps;
-    const value = formState[fieldProps.name];
-
-    return shouldRenderErrorMessage(value, required, showErrors, pattern)
-      ? <Message validation='error'>{i18n.t(fieldProps.errorString)}</Message>
-      : null;
   };
 
   const mapFields = (field) => {
@@ -77,6 +70,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       'aria-required': !!field.required_in_portal,
       ...getDefaultFieldValues(field.type, formState[field.id])
     };
+
     const { visible_in_portal: visible, editable_in_portal: editable } = field; // eslint-disable-line camelcase
 
     // embeddable/ticket_fields.json will omit the visible_in_portal and editable_in_portal props for valid fields.
@@ -92,6 +86,8 @@ const getCustomFields = (customFields, formState, options = {}) => {
       sharedProps.showErrors
     );
 
+    sharedProps.showError = renderError;
+
     switch (field.type) {
       case 'text':
       case 'subject':
@@ -101,7 +97,6 @@ const getCustomFields = (customFields, formState, options = {}) => {
         const defaultOption = _.find(field.custom_field_options, (option) => option.default);
         const dropdownProps = {
           ...sharedProps,
-          showError: renderError,
           options: field.custom_field_options,
           defaultOption,
           label: renderLabel(DropdownLabel, sharedProps.label, sharedProps.required),
@@ -133,10 +128,9 @@ const getCustomFields = (customFields, formState, options = {}) => {
 
       case 'textarea':
       case 'description':
-        const descError = renderErrorMessage(sharedProps, formState);
         const descProps = {
           ...sharedProps,
-          errorString: descError
+          showError: renderError,
         };
 
         return (
@@ -144,20 +138,14 @@ const getCustomFields = (customFields, formState, options = {}) => {
         );
 
       case 'checkbox':
-        const validation = renderError ? 'error': 'none';
-        const checkboxProps = {
-          ...sharedProps,
-          validation
-        };
-
         return (
           <Checkbox
             key={sharedProps.key}
             errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
-            renderError={renderError}
+            showError={renderError}
             description={field.description}
             title={getStyledLabelText(title, sharedProps.required)}
-            checkboxProps={checkboxProps}
+            checkboxProps={sharedProps}
           />
         );
     }

@@ -7,12 +7,12 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     title: 'checkbox title',
     description: 'click to toggle',
-    renderError: false,
+    showError: false,
     errorString: 'there is a checkbox error',
     checkboxProps: {
       name: '123',
       onChange: noop,
-      checked: false
+      checked: 0
     }
   };
   const mergedProps = {
@@ -33,7 +33,7 @@ describe('Checkbox', () => {
 
   describe('with an error', () => {
     it('renders the expected component with an optional tag', () => {
-      const { container } = renderComponent({ renderError: true });
+      const { container } = renderComponent({ showError: true });
 
       expect(container)
         .toMatchSnapshot();

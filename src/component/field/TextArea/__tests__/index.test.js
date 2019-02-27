@@ -7,7 +7,7 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     label: 'this is a label',
     required: true,
-    showErrors: false,
+    showError: false,
     description: 'description of field',
     onChange: noop,
     name: 'text',

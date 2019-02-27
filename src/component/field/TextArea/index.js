@@ -13,14 +13,14 @@ const Text = ({
   errorString,
   pattern,
   type,
-  showErrors
+  showError
 }) => {
   return (
     <TextField>
       <LabelComponent Component={Label} label={label} required={required} />
       {description && <Hint>{description}</Hint>}
       <Textarea value={value} onChange={onChange} name={name} pattern={pattern} type={type} />
-      {showErrors && <Message validation='error'>{errorString}</Message>}
+      {showError && <Message validation='error'>{errorString}</Message>}
     </TextField>
   );
 };
@@ -28,7 +28,7 @@ const Text = ({
 Text.propTypes = {
   label: PropTypes.string.isRequired,
   required: PropTypes.bool.isRequired,
-  showErrors: PropTypes.bool.isRequired,
+  showError: PropTypes.bool.isRequired,
   description: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
