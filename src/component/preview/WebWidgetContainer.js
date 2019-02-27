@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Frame from 'src/component/frame/Frame';
-import { Container } from 'src/component/container/Container';
 import { WebWidgetPreview } from './WebWidgetPreview';
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles';
 import { generateUserWidgetCSS } from 'utility/color/styles';
@@ -72,9 +71,8 @@ export class WebWidgetContainer extends Component {
         fullscreen={false}
         isMobile={false}
       >
-        <Container style={containerStyle}>
-          <WebWidgetPreview />
-        </Container>
+        <WebWidgetPreview
+          containerStyle={containerStyle} />
       </Frame>
     );
   }
