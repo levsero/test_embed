@@ -333,6 +333,7 @@ describe('getChatBanned', () => {
   it('returns the expected value', () => {
     const result = selectors.getChatBanned(getModifiedState({
       chat: {
+        connection: 'closed',
         vendor: {
           zChat: {
             isBanned: () => 'blarg'
@@ -349,6 +350,7 @@ describe('getConnectionClosedReason', () => {
   it('returns the expected value', () => {
     const result = selectors.getConnectionClosedReason(getModifiedState({
       chat: {
+        connection: 'closed',
         vendor: {
           zChat: {
             getConnectionClosedReason: () => 'helloPersonReadingThis'
