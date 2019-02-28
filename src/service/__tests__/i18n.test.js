@@ -69,7 +69,7 @@ describe('i18n', () => {
         });
       });
 
-      describe('and a apiLocale is passed in', () => {
+      describe('and an apiLocale is passed in', () => {
         it('uses the apiLocale', () => {
           i18n.setLocale('pt-BR', noop, 'en-US');
 
@@ -119,6 +119,7 @@ describe('i18n', () => {
       ['fil-PH', 'fil'],
       ['xx', 'en-US'],
       ['zh', 'zh-cn'],
+      ['zh_TW', 'zh-tw'],
       ['zh-Hant-TW', 'zh-tw'],
       ['zh-Hans-CN', 'zh-cn'],
       ['zh-Hans-SG', 'zh-sg'],
