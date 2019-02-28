@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import * as actions from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -20,11 +22,13 @@ import {
 } from 'src/redux/modules/base/base-selectors';
 import { mediator } from 'service/mediator';
 import { audio } from 'service/audio';
-import _ from 'lodash';
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils';
 import { formatSchedule } from 'src/util/chat';
 
-import zChatWithTimeout from 'src/redux/modules/chat/helpers/zChatWithTimeout';
+import {
+  zChatWithTimeout,
+  canBeIgnored
+} from 'src/redux/modules/chat/helpers/zChatWithTimeout';
 const chatTypingTimeout = 2000;
 let history = [];
 
@@ -35,6 +39,8 @@ const getChatMessagePayload = (msg, visitor, timestamp) => ({
   display_name: visitor.display_name,
   msg
 });
+
+const noop = () => {};
 
 const sendMsgRequest = (msg, visitor, timestamp) => {
   return (dispatch, getState) => {
@@ -78,7 +84,7 @@ const sendMsgFailure = (msg, visitor, timestamp) => {
   };
 };
 
-export function sendMsg(msg, timestamp=Date.now()) {
+export function sendMsg(msg, timestamp = Date.now()) {
   return (dispatch, getState) => {
     let visitor = getChatVisitor(getState());
 
@@ -96,12 +102,10 @@ export function sendMsg(msg, timestamp=Date.now()) {
   };
 }
 
-export const endChat = (callback=() => {}) => {
+export const endChat = (callback = noop) => {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
-
-    zChat.endChat((err) => {
-      if (!err) {
+    zChatWithTimeout(getState, 'endChat')((err) => {
+      if (canBeIgnored(err)) {
         const activeAgents = getActiveAgents(getState());
 
         dispatch({ type: actions.CHAT_ALL_AGENTS_INACTIVE, payload: activeAgents });
@@ -168,18 +172,20 @@ export function handleChatBoxChange(msg) {
 
 // TODO: When tests are ported over to jest find a better way to test timestamp
 // instead of passing it in and using the default for everything in prod.
-export function setVisitorInfo(visitor, successAction, timestamp=Date.now()) {
+export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
+    const state = getState();
+    const zChat = getZChatVendor(state);
+    const isAuthenticated = getIsAuthenticated(state);
 
-    if (!getIsAuthenticated(getState())) {
+    if (!isAuthenticated) {
       dispatch({
         type: actions.SET_VISITOR_INFO_REQUEST_PENDING,
         payload: { ...visitor, timestamp }
       });
 
-      zChat && zChat.setVisitorInfo(visitor, (err) => {
-        if (!err) {
+      zChat && zChatWithTimeout(getState, 'setVisitorInfo')(visitor, (err) => {
+        if (canBeIgnored(err)) {
           dispatch({
             type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
             payload: { ...visitor, timestamp }
@@ -225,14 +231,12 @@ export function sendVisitorPath(options = {}) {
 
 export function sendEmailTranscript(email) {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
-
     dispatch({
       type: actions.EMAIL_TRANSCRIPT_REQUEST_SENT,
       payload: email
     });
 
-    zChat.sendEmailTranscript(email, (err) => {
+    zChatWithTimeout(getState(), 'sendEmailTranscript')(email, (err) => {
       if (!err) {
         dispatch({
           type: actions.EMAIL_TRANSCRIPT_SUCCESS,
@@ -256,10 +260,8 @@ export function resetEmailTranscript() {
 
 export function sendChatRating(rating = null) {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
-
-    zChat.sendChatRating(rating, (err) => {
-      if (!err) {
+    zChatWithTimeout(getState, 'sendChatRating')(rating, (err) => {
+      if (canBeIgnored(err)) {
         dispatch({
           type: actions.CHAT_RATING_REQUEST_SUCCESS,
           payload: rating
@@ -273,10 +275,8 @@ export function sendChatRating(rating = null) {
 
 export function sendChatComment(comment = '') {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
-
-    zChat.sendChatComment(comment, (err) => {
-      if (!err) {
+    zChatWithTimeout(getState, 'sendChatComment')(comment, (err) => {
+      if (canBeIgnored(err)) {
         dispatch({
           type: actions.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
           payload: comment
@@ -377,7 +377,6 @@ export function chatNotificationReset() {
 
 export function sendAttachments(fileList) {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
     const visitor = getChatVisitor(getState());
 
     _.forEach(fileList, file => {
@@ -402,7 +401,7 @@ export function sendAttachments(fileList) {
         }
       });
 
-      zChat.sendFile(file, (err, data) => {
+      zChatWithTimeout(getState, 'sendFile')(file, (err, data) => {
         if (!err) {
           dispatch({
             type: actions.CHAT_FILE_REQUEST_SUCCESS,
@@ -454,11 +453,9 @@ export function chatOfflineFormChanged(formState) {
   };
 }
 
-export function setDepartment(departmentId, successCallback, errCallback) {
+export function setDepartment(departmentId, successCallback = noop, errCallback = noop) {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
-
-    zChat.setVisitorDefaultDepartment(departmentId, (err) => {
+    zChatWithTimeout(getState, 'setVisitorDefaultDepartment')(departmentId, (err) => {
       dispatch(setDefaultDepartment(departmentId));
 
       if (!err) {
@@ -470,11 +467,9 @@ export function setDepartment(departmentId, successCallback, errCallback) {
   };
 }
 
-export function clearDepartment(successCallback = () => {}) {
+export function clearDepartment(successCallback = noop) {
   return (_dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
-
-    zChat.clearVisitorDefaultDepartment(() => {
+    zChatWithTimeout(getState, 'clearVisitorDefaultDepartment')((_error) => {
       successCallback();
     });
   };
@@ -527,13 +522,13 @@ export function handleOperatingHoursClick() {
   };
 }
 
-export function sendOfflineMessage(
+export function sendOfflineMessage
+(
   formState,
-  successCallback = () => {},
-  failureCallback = () => {}) {
+  successCallback = noop,
+  failureCallback = noop
+) {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
-
     dispatch({ type: actions.OFFLINE_FORM_REQUEST_SENT });
 
     const offlineFormState = { ...formState };
@@ -542,7 +537,7 @@ export function sendOfflineMessage(
       delete offlineFormState.phone;
     }
 
-    zChat.sendOfflineMsg(offlineFormState, (err) => {
+    zChatWithTimeout(getState, 'sendOfflineMsg')(offlineFormState, (err) => {
       if (!err) {
         dispatch({
           type: actions.OFFLINE_FORM_REQUEST_SUCCESS,
@@ -582,24 +577,23 @@ export function showStandaloneMobileNotification() {
 
 export const fetchConversationHistory = () => {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
-
     dispatch({ type: actions.HISTORY_REQUEST_SENT });
 
-    zChat.fetchChatHistory((err, data) => {
+    zChatWithTimeout(getState, 'fetchChatHistory')((err, data) => {
       /*
         This callback is invoked either when the API errors out or
         after the next batch of history messages has been passed into firehose.
       */
-      if (err) {
-        dispatch({
-          type: actions.HISTORY_REQUEST_FAILURE,
-          payload: err
-        });
-      } else {
+
+      if (canBeIgnored(err)) {
         dispatch({
           type: actions.HISTORY_REQUEST_SUCCESS,
           payload: { ...data, history }
+        });
+      } else {
+        dispatch({
+          type: actions.HISTORY_REQUEST_FAILURE,
+          payload: err
         });
       }
 
@@ -624,14 +618,14 @@ export const updatePreviewerSettings = (settings) => {
 
 export function initiateSocialLogout() {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState());
-
     dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_PENDING });
 
-    zChat.doAuthLogout((err) => {
-      (err)
-        ? dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_FAILURE })
-        : dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_SUCCESS });
+    zChatWithTimeout(getState, 'doAuthLogout')((err) => {
+      if (!err) {
+        dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_SUCCESS });
+      } else {
+        dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_FAILURE });
+      }
     });
   };
 }

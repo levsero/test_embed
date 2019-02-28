@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sendAttachments dispatches CHAT_FILE_REQUEST_SENT for each file in the list 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "detail": Object {
+        "display_name": "Dio",
+        "file": Object {
+          "name": "super-sekret-accountings.xls",
+          "size": 666,
+          "uploading": false,
+          "url": "dio.example.com",
+        },
+        "nick": "theDio",
+        "timestamp": 123456,
+        "type": "chat.file",
+      },
+    },
+    "type": "widget/chat/CHAT_FILE_REQUEST_SENT",
+  },
+  Object {
+    "payload": Object {
+      "detail": Object {
+        "display_name": "Dio",
+        "file": Object {
+          "name": "super-sekret-accountings.xls",
+          "size": 666,
+          "uploading": false,
+          "url": "dio.example.com",
+        },
+        "nick": "theDio",
+        "timestamp": 123456,
+        "type": "chat.file",
+      },
+    },
+    "type": "widget/chat/CHAT_FILE_REQUEST_SUCCESS",
+  },
+]
+`;
+
+exports[`sendAttachments when there are no errors dispatches CHAT_FILE_REQUEST_SUCCESS for each file in the list 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "detail": Object {
+        "display_name": "Dio",
+        "file": Object {
+          "name": "super-sekret-accountings.xls",
+          "size": 666,
+          "uploading": false,
+          "url": "dio.example.com",
+        },
+        "nick": "theDio",
+        "timestamp": 123456,
+        "type": "chat.file",
+      },
+    },
+    "type": "widget/chat/CHAT_FILE_REQUEST_SENT",
+  },
+  Object {
+    "payload": Object {
+      "detail": Object {
+        "display_name": "Dio",
+        "file": Object {
+          "name": "super-sekret-accountings.xls",
+          "size": 666,
+          "uploading": false,
+          "url": "dio.example.com",
+        },
+        "nick": "theDio",
+        "timestamp": 123456,
+        "type": "chat.file",
+      },
+    },
+    "type": "widget/chat/CHAT_FILE_REQUEST_SUCCESS",
+  },
+]
+`;
+
+exports[`sendAttachments when there is an error dispatches CHAT_FILE_REQUEST_FAILURE for each file in the list 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "detail": Object {
+        "display_name": "Dio",
+        "file": Object {
+          "error": Object {
+            "code": "ETIMEDOUT",
+          },
+          "name": "super-sekret-accountings.xls",
+          "size": 666,
+          "uploading": false,
+          "url": "dio.example.com",
+        },
+        "nick": "theDio",
+        "timestamp": 123456,
+        "type": "chat.file",
+      },
+    },
+    "type": "widget/chat/CHAT_FILE_REQUEST_SENT",
+  },
+  Object {
+    "payload": Object {
+      "detail": Object {
+        "display_name": "Dio",
+        "file": Object {
+          "error": Object {
+            "code": "ETIMEDOUT",
+          },
+          "name": "super-sekret-accountings.xls",
+          "size": 666,
+          "uploading": false,
+          "url": "dio.example.com",
+        },
+        "nick": "theDio",
+        "timestamp": 123456,
+        "type": "chat.file",
+      },
+    },
+    "type": "widget/chat/CHAT_FILE_REQUEST_FAILURE",
+  },
+]
+`;
