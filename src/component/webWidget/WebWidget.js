@@ -134,7 +134,7 @@ class WebWidget extends Component {
     }),
     submitTicketConfig: PropTypes.shape({
       color: PropTypes.string,
-      customFields: PropTypes.array,
+      customFields: PropTypes.object,
       formTitleKey: PropTypes.string,
       maxFileCount: PropTypes.number,
       maxFileSize: PropTypes.number,
