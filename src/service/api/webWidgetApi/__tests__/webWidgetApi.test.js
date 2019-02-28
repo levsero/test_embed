@@ -188,7 +188,7 @@ describe('pre render methods', () => {
 
     it('calls i18n setLocale with the locale', () => {
       expect(apis.setLocaleApi)
-        .toHaveBeenCalledWith(mockStore, 'fr');
+        .toHaveBeenCalledWith('fr');
     });
 
     it('tracks the call', () => {
@@ -478,7 +478,7 @@ describe('post render methods', () => {
 
     it('calls i18n setLocale with the locale', () => {
       expect(apis.setLocaleApi)
-        .toHaveBeenCalledWith(mockStore, 'fr');
+        .toHaveBeenCalledWith('fr');
     });
 
     it('tracks the call', () => {

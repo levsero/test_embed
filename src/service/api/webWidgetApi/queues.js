@@ -96,7 +96,7 @@ export function apisExecuteQueue(reduxStore, queue) {
   _.forEach(queue, (method) => {
     if (method[0].locale) {
       // Backwards compat with zE({locale: 'zh-CN'}) calls
-      setLocaleApi(reduxStore, method[0].locale);
+      setLocaleApi(method[0].locale);
     } else if (_.isFunction(method[0])) {
       // Old API
       try {
