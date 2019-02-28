@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import {
-  IS_CHATTING,
   UPDATE_PREVIEWER_SCREEN,
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_MEMBER_LEAVE,
@@ -15,8 +14,6 @@ const isAgent = (nick) => nick.indexOf('agent:') > -1;
 
 const isChatting = (state = initialState, action) => {
   switch (action.type) {
-    case IS_CHATTING:
-      return action.payload;
     case UPDATE_PREVIEWER_SCREEN:
       return action.payload.status;
     case SDK_CHAT_MEMBER_JOIN:

@@ -13,7 +13,6 @@ export const getInactiveAgents = (state) => chatState(state).inactiveAgents;
 export const getSocialLogin = (state) => chatState(state).socialLogin;
 export const getConnection = (state) => chatState(state).connection;
 export const getCurrentMessage = (state) => chatState(state).currentMessage;
-export const getCurrentSessionStartTime = (state) => chatState(state).currentSessionStartTime;
 export const getChatRating = (state) => chatState(state).rating;
 export const getChatScreen = (state) => chatState(state).screen;
 export const getChatStatus = (state) => chatState(state).account_status;

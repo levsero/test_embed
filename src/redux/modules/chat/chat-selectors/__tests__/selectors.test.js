@@ -66,12 +66,6 @@ test('getCurrentMessage', () => {
   expect(result).toEqual('I can\'t let you do that, Dave');
 });
 
-test('getCurrentSessionStartTime', () => {
-  const result = selectors.getCurrentSessionStartTime(testState);
-
-  expect(result).toEqual('Too Early');
-});
-
 test('getChatRating', () => {
   const result = selectors.getChatRating(testState);
 

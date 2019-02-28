@@ -10,7 +10,6 @@ describe('chat root reducer', () => {
     'chats',
     'connection',
     'currentMessage',
-    'currentSessionStartTime',
     'departments',
     'defaultDepartment',
     'editContactDetails',
