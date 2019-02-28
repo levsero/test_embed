@@ -57,12 +57,6 @@ parts:
       screenshot: "https://zendesk.box.com/s/3sshpz05wv1fv4fj6wwbmsgbpqqu4c7w"
       value: "There was an error processing your request. Please try again later."
   - translation:
-      key: "embeddable_framework.common.textLabel.phone"
-      title: "The label for a generic phone number form field."
-      screenshot: "https://zendesk.box.com/s/9f55ahsc3iizdx5csa61hogh8q7h5kux"
-      value: "Phone number"
-      obsolete: "2018-04-15"
-  - translation:
       key: "embeddable_framework.common.textLabel.phone_number"
       title: "The label for a generic phone number form field. The same as embeddable_framework.common.textLabel.phone but with capitalised N for number"
       screenshot: "https://zendesk.box.com/s/9f55ahsc3iizdx5csa61hogh8q7h5kux"
@@ -179,12 +173,6 @@ parts:
       screenshot: "https://drive.google.com/open?id=19KZ0HHETZ495uIADSltkY4arXFgUufhh"
       value: "Please check this box to proceed."
   - translation:
-      key: "embeddable_framework.validation.label.optional"
-      title: "A label that is applied to field labels that are optional. %(label)s is a string for the label of the field and does not need to be translated"
-      screenshot: "https://drive.google.com/open?id=1UEw-id8APMxRrgEl-5YwWo6RaeANig_m"
-      value: "%(label)s (optional)"
-      obsolete: "2018-08-13"
-  - translation:
       key: "embeddable_framework.validation.label.new_optional"
       title: "A label that is applied to field labels that are optional. %(label)s is a string for the label of the field and does not need to be translated"
       screenshot: "https://drive.google.com/file/d/1rxKRpuKK--cO1UQlI3nBlxwqzjSKBI2a/view?usp=sharing"
@@ -261,11 +249,6 @@ parts:
       title: "The Chat's header text that displays a subText that sits below the title. Please match meshim.widget.controllers.defaultdatanode.defaultdatanode.livechat.settings.concierge.titlestring"
       screenshot: "https://zendesk.box.com/s/0mq2yi7sukwjn4jhbi3rkt6m82komx6h"
       value: "Ask us anything"
-  - translation:
-      key: "embeddable_framework.chat.reconnecting_label"
-      title: "The title that displays in the chat reconnecting message bubble"
-      value: "Reconnecting"
-      obsolete: "2017-05-01"
   - translation:
       key: "embeddable_framework.chat.reconnecting"
       title: "A text displayed on a persistent popup notification when the user's chat session has disconnected. It goes away after successful reconnection"
@@ -413,12 +396,6 @@ parts:
       title: "A button in the pre-chat form that is enabled once the user has filled in the required chat details"
       screenshot: "https://zendesk.box.com/s/ydey48r6d48boxx7m8f231td6rha3mzz"
       value: "Start chat"
-  - translation:
-      key: "embeddable_framework.chat.preChat.online.dropdown.selectDepartment"
-      title: "The default text for the dropdown to select a department in the pre chat form"
-      screenshot: "https://drive.google.com/open?id=13axYwVNISVpj0eb5_r5EnbtXu-Wzo20m"
-      value: "Select department"
-      obsolete: "2018-12-26"
   - translation:
       key: "embeddable_framework.chat.department.offline.label"
       title: "An indicator that a department is offline. The department name will be in the %()s. Do not localize %(department)s"
@@ -675,12 +652,6 @@ parts:
       screenshot: "https://zendesk.box.com/s/jgvtmzdm11ubgnj5ritsx6wuikaveldd"
       value: "Resend"
   - translation:
-      key: "embeddable_framework.chat.chatLog.reconnecting"
-      title: "A text displayed on a persistent popup notification when the user's chat session has disconnected. It goes away after successful reconnection"
-      screenshot: "https://zendesk.box.com/s/2953g3t145nd7u5fngbpoqrhnp5pmx14"
-      value: "Reconnecting"
-      obsolete: "2017-05-01"
-  - translation:
       key: "embeddable_framework.chat.chatLog.reconnect.label"
       title: "A text displayed on a popup that displays when a users chat session has disconnected. Clicking it will reconnect to the session"
       screenshot: "https://drive.google.com/open?id=1gsIhKmw7mc7I7NQs0_1_nv3pO-rjVhS6"
@@ -721,28 +692,10 @@ parts:
       screenshot: "https://zendesk.box.com/s/2mrpr8jwv57m93dx0q4wffzpcoh4oi4y"
       value: "Thank you for chatting with us."
   - translation:
-      key: "embeddable_framework.chat.postChat.rating.title"
-      title: "A title text describing the intent of the following section, it asks if the user would like to rate the prior chat session"
-      screenshot: "https://zendesk.box.com/s/v26vtuxkv2uvlr0edh6qxs1aetrttny8"
-      value: "Would you like to rate this chat?"
-      obsolete: "2018-08-10"
-  - translation:
       key: "embeddable_framework.chat.postChat.rating.new_title"
       title: "A title text describing the intent of the following section, it asks if the user would like to rate the prior chat session"
       screenshot: "https://drive.google.com/file/d/1V1G9A6M9zgPW04WB5Fnfabfph5_fzWuf/view?usp=sharing"
       value: "Please rate this chat"
-  - translation:
-      key: "embeddable_framework.chat.postChat.rating.description"
-      title: "A text that describes the intent of the following element. It points the user to leave a comment in the textarea"
-      screenshot: "https://zendesk.box.com/s/ony1lhy6951mebjnw0ujx2sbo1fokuf9"
-      value: "Leave a comment"
-      obsolete: "2018-07-23"
-  - translation:
-      key: "embeddable_framework.chat.postChat.rating.placeholder.optional"
-      title: "A greyed-out text that is displayed in a textarea to signify that entering text into it is optional"
-      screenshot: "https://zendesk.box.com/s/iccte733qnja3ez1qhnyj80dhzyanzz5"
-      value: "(optional)"
-      obsolete: "2018-07-23"
   - translation:
       key: "embeddable_framework.chat.postChat.rating.plainDescription"
       title: "A text that describes the intent of the following element. It points the user to leave a comment in the textarea"
@@ -778,18 +731,6 @@ parts:
       title: "A text that is displayed on a button that provides the user to navigate to their established chat session in another window"
       screenshot: "https://zendesk.box.com/s/b1slvax56z1lz1u11d1b3duforg9ygti"
       value: "Reply"
-  - translation:
-      key: "embeddable_framework.chat.button.oneMessage"
-      title: "A button that displays a new message notification. When clicked it brings the user to a chat session in another window"
-      screenshot: "https://zendesk.box.com/s/634qfi899tj7f2akkpvlq9pzbvveflyp"
-      value: "1 New Message"
-      obsolete: "2018-07-23"
-  - translation:
-      key: "embeddable_framework.chat.button.manyMessages"
-      title: "A button that displays a variable amount of new messages as a notification. When clicked it brings the user to a chat session in another window. If your language has more than one plural use New messages: %(plural_number)s"
-      screenshot: "https://zendesk.box.com/s/6ygpe29dvmecfxtrdki787km6yywl3ff"
-      value: "%(plural_number)s New Messages"
-      obsolete: "2018-07-23"
   - translation:
       key: "embeddable_framework.chat.chatBox.placeholder.typeMessageHere"
       title: "A placeholder text that is displayed in the chat box when there is no content"
@@ -882,11 +823,6 @@ parts:
       title: "The label on the button to submit the form in the submit ticket form when it's sending, as feedback for the customer so they know that their ticket is sending. Will wrap if to long (tinyurl.com/k8pabo8)"
       value: "Submitting..."
   - translation:
-      key: "embeddable_framework.submitTicket.form.cancelButton.label.cancel"
-      title: "The label on the button to cancel the form in the submit ticket form (tinyurl.com/pd286zm)"
-      value: "Cancel"
-      obsolete: "2018-02-24"
-  - translation:
       key: "embeddable_framework.submitTicket.form.submittedFrom.label"
       title: "The label added to tickets to show what page they were submitted from. %()s stands for string and does not need to be edited as it us part of the placeholder %(url)s. (https://zendesk.box.com/s/xphceiyfi5lod5978fxuwynm9hg0xcs9)"
       screenshot: "https://zendesk.box.com/s/xphceiyfi5lod5978fxuwynm9hg0xcs9"
@@ -936,12 +872,6 @@ parts:
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
       value: "Leave a message"
   - translation:
-      key: "embeddable_framework.channelChoice.button.label.chat_offline_v2"
-      obsolete: "2019-01-14"
-      title: "A notification that appears when a user enters live chat but all agents become unavailable."
-      screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
-      value: "Live chat is offline"
-  - translation:
       key: "embeddable_framework.channelChoice.button.label.chat_offline_v3"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
       screenshot: "https://drive.google.com/file/d/1ai96g2HeztA2M4sDlzIC56pOi6lsFKjD/view?usp=sharing"
@@ -956,11 +886,6 @@ parts:
       title: "This string should match 'embeddable_framework.talk.phoneOnly.title'"
       value: "Call us"
       screenshot: "https://zendesk.box.com/s/wt8jnd0n45bloq03em1pfj9fwdixd5fn"
-  - translation:
-      key: "embeddable_framework.channelChoice.button.label.talk_offline"
-      title: "A notification that appears when channel choice is open and all talk agents become unavailable."
-      value: "Talk is offline"
-      obsolete: "2018-01-26"
   - translation:
       key: "embeddable_framework.channelChoice.button.label.talk_offline_v2"
       title: "A notification that appears when channel choice is open and all talk agents become unavailable."
@@ -1267,18 +1192,6 @@ parts:
       screenshot: "https://zendesk.box.com/s/8mk0lk54gntkwpsfd66l161ubwok8i8g"
       value: "Attachments (%(count)s)"
   - translation:
-      key: "embeddable_framework.submitTicket.attachments.box.label"
-      title: "The label that appears when attaching a file through drag and drop. Will wrap as needed. (https://zendesk.box.com/s/q2pl86lfl5ryxcqm3g0wxksptgh89cna)"
-      screenshot: "https://zendesk.box.com/s/q2pl86lfl5ryxcqm3g0wxksptgh89cna"
-      value: "Drop to attach"
-      obsolete: "2018-02-24"
-  - translation:
-      key: "embeddable_framework.submitTicket.attachments.button.label"
-      title: "The label on the form about attaching files. Will wrap as needed. (https://zendesk.box.com/s/iglhqt5vb2ds5pmxujckzvg3pga2r7lz)"
-      screenshot: "https://zendesk.box.com/s/iglhqt5vb2ds5pmxujckzvg3pga2r7lz"
-      value: "Add file or drop here"
-      obsolete: "2018-08-13"
-  - translation:
       key: "embeddable_framework.submitTicket.attachments.button.new_label"
       title: "The label on the form about attaching files. If your language has more than one plural, please translate as Add up to files: %(files)s"
       screenshot: "https://drive.google.com/file/d/1GMEKBjR_wZNri-7oZYNbnQttoKmnYbsr/view?usp=sharing"
@@ -1410,18 +1323,6 @@ parts:
       screenshot: "https://zendesk.box.com/s/sz5u3z3a3jqu0irva7p9xhoyqlyh57d8"
       value: "Please contact us to reopen your request"
   - translation:
-      key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question"
-      title: "Ask the user for feedback on why the article didn't answer their question. Do not use YOUR question but THE question (or similar) to avoid formal/informal issues."
-      screenshot: "https://zendesk.box.com/s/5hmtud5zlowalr7puxgvra9ur170sgtp"
-      value: "Why didn't the article answer your question?"
-      obsolete: "2017-04-16"
-  - translation:
-      key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question_v2"
-      title: "Ask the user for feedback on why the article didn't answer their question. DO NOT use possessive (your question)"
-      screenshot: "https://zendesk.box.com/s/28bxbvxczuie8znlue2wker28fplpsq7"
-      value: "Why didn't it answer your question?"
-      obsolete: "2017-04-16"
-  - translation:
       key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question_v3"
       title: "Ask the user for feedback on why the article didn't answer their question."
       screenshot: "https://zendesk.box.com/s/omr68ddl72uyayh6ltcm83mja1gqzscb"
@@ -1472,12 +1373,6 @@ parts:
       screenshot: "https://zendesk.box.com/s/lml68kcg4764arfm6mx6nso29zecbu9w"
       value: "Our phone number:"
   - translation:
-      key: "embeddable_framework.talk.form.headerMessage"
-      title: "Header message for the callback form which end-users have to fill"
-      screenshot: "https://zendesk.box.com/s/daa78ojuy0g79iaf8mr01bz2w8pa7zbr"
-      value: "Enter your phone number and we'll call you as soon as we can."
-      obsolete: "2018-02-02"
-  - translation:
       key: "embeddable_framework.talk.form.headerMessage_new"
       title: "Header message for the callback form which end-users have to fill"
       screenshot: "https://zendesk.box.com/s/x81cx971yox9964upzfrwuwefl7z8x78"
@@ -1492,12 +1387,6 @@ parts:
       title: "Average wait time in minutes when the wait time more than 1 minute"
       screenshot: "https://zendesk.box.com/s/bbwmucnfk6rze62gpi0cdsa9hz535b4f"
       value: "Average wait time: %(averageWaitTime)s minutes"
-  - translation:
-      key: "embeddable_framework.talk.notify.success.message"
-      title: "Message confirming the form submission worked properly and that the customer will call back the user on the number specified. Note we pass the number into the screen"
-      screenshot: "https://zendesk.box.com/s/bmf5rszlqchjfz7q5bngvfgrb8yo6aku"
-      value: "Thank you for submitting your request. We'll get back to you soon on %(displayNumber)s"
-      obsolete: "2018-02-02"
   - translation:
       key: "embeddable_framework.talk.notify.success.message_new"
       title: "Message confirming the form submission worked properly and that the customer will call back the user."
@@ -1548,9 +1437,3 @@ parts:
       title: "A link to go back to Help Center when all agents are offline"
       screenshot: "https://zendesk.box.com/s/rtxyqticqshlbje59ufctq1j6g44q0pj"
       value: "Go back to Help Center"
-  - translation:
-      key: "embeddable_framework.talk.offline.link.channel_choice"
-      title: "A link to go back when all agents are offline"
-      screenshot: "https://zendesk.box.com/s/jxaz68nditoaugexan0w9lfupdbmvi0s"
-      value: "Go back"
-      obsolete: "2018-04-09"
