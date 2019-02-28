@@ -5,15 +5,12 @@ import {
 } from 'constants/chat';
 import 'utility/i18nTestHelper';
 import * as globals from 'utility/globals';
-import { map } from 'when';
 import getModifiedState from 'src/fixtures/chat-reselectors-test-state';
 
 describe('getIsPopoutAvailable', () => {
-  let result;
-
   test('when values are correct', () => {
     jest.spyOn(globals, 'isPopout').mockReturnValue(false);
-    result = selectors.getIsPopoutAvailable(getModifiedState());
+    const result = selectors.getIsPopoutAvailable(getModifiedState());
 
     expect(result).toEqual(true);
     globals.isPopout.mockRestore();
@@ -21,20 +18,20 @@ describe('getIsPopoutAvailable', () => {
 
   describe('when values are invalid', () => {
     test('is authenticated', () => {
-      result = selectors.getIsPopoutAvailable(getModifiedState({ chat: { isAuthenticated: true } }));
+      const result = selectors.getIsPopoutAvailable(getModifiedState({ chat: { isAuthenticated: true } }));
 
       expect(result).toEqual(false);
     });
 
     test('chat is offline', () => {
-      result = selectors.getIsPopoutAvailable(getModifiedState({ chat: { forcedStatus: 'offline' } }));
+      const result = selectors.getIsPopoutAvailable(getModifiedState({ chat: { forcedStatus: 'offline' } }));
 
       expect(result).toEqual(false);
     });
 
     test('screen is already a popout', () => {
       jest.spyOn(globals, 'isPopout').mockReturnValue(true);
-      result = selectors.getIsPopoutAvailable(getModifiedState());
+      const result = selectors.getIsPopoutAvailable(getModifiedState());
 
       expect(result).toEqual(false);
       globals.isPopout.mockRestore();
@@ -49,34 +46,26 @@ test('getPrechatFormRequired returns the expected value', () => {
 });
 
 describe('getIsProactiveSession', () => {
-  let result;
-
   it('returns false when no chats exist', () => {
-    result = selectors.getIsProactiveSession(getModifiedState({
-      chat: { chats: new Map([]) }
+    const result = selectors.getIsProactiveSession(getModifiedState({
+      chat: { chats: new Map() }
     }));
 
     expect(result).toEqual(false);
   });
 
   it('returns true when session is proactive', () => {
-    result = selectors.getIsProactiveSession(getModifiedState({
+    const result = selectors.getIsProactiveSession(getModifiedState({
       chat: {
         chats: new Map([
-          [
-            1, {
-              type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
-              nick: 'agent:bob'
-            },
-            2, {
-              type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
-              nick: 'visitor:steve'
-            },
-            3, {
-              type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_COMMENT,
-              nick: 'visitor:steve'
-            },
-          ]
+          [1, {
+            type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
+            nick: 'visitor:steve'
+          }],
+          [2, {
+            type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
+            nick: 'agent:bob'
+          }]
         ])
       }
     }));
@@ -85,23 +74,21 @@ describe('getIsProactiveSession', () => {
   });
 
   it('returns false when visitor began the chat', () => {
-    result = selectors.getIsProactiveSession(getModifiedState({
+    const result = selectors.getIsProactiveSession(getModifiedState({
       chat: {
         chats: new Map([
-          [
-            1, {
-              type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
-              nick: 'visitor:steve'
-            },
-            2, {
-              type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_COMMENT,
-              nick: 'visitor:steve'
-            },
-            3, {
-              type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
-              nick: 'agent:bob'
-            }
-          ]
+          [1, {
+            type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
+            nick: 'visitor:steve'
+          }],
+          [2, {
+            type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_COMMENT,
+            nick: 'visitor:steve'
+          }],
+          [3, {
+            type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
+            nick: 'agent:bob'
+          }]
         ])
       }
     }));
@@ -111,16 +98,14 @@ describe('getIsProactiveSession', () => {
 });
 
 describe('getThemeShowAvatar', () => {
-  let result;
-
   it('returns true when theme includes CHAT_THEME_SHOW_AVATAR when message_type is \'basic_avatar\'', () => {
-    result = selectors.getThemeShowAvatar(getModifiedState());
+    const result = selectors.getThemeShowAvatar(getModifiedState());
 
     expect(result).toEqual(true);
   });
 
   it('returns true when theme includes CHAT_THEME_SHOW_AVATAR when message_type is \'bubble_avatar\'', () => {
-    result = selectors.getThemeShowAvatar(getModifiedState({
+    const result = selectors.getThemeShowAvatar(getModifiedState({
       chat: {
         accountSettings: {
           theme: {
@@ -134,7 +119,7 @@ describe('getThemeShowAvatar', () => {
   });
 
   it('returns false when theme includes CHAT_THEME_SHOW_AVATAR when message_type is another value', () => {
-    result = selectors.getThemeShowAvatar(getModifiedState({
+    const result = selectors.getThemeShowAvatar(getModifiedState({
       chat: {
         accountSettings: {
           theme: {
@@ -149,10 +134,8 @@ describe('getThemeShowAvatar', () => {
 });
 
 describe('getAuthUrls', () => {
-  let result;
-
   test('returns expected values', () => {
-    result = selectors.getAuthUrls(getModifiedState());
+    const result = selectors.getAuthUrls(getModifiedState());
 
     expect(result).toEqual({
       facebook: 'www.foo.com/facebook/bar-baz',
@@ -161,7 +144,7 @@ describe('getAuthUrls', () => {
   });
 
   test('when authenticated, return empty', () => {
-    result = selectors.getAuthUrls(getModifiedState({
+    const result = selectors.getAuthUrls(getModifiedState({
       chat: {
         isAuthenticated: true
       }
@@ -171,7 +154,7 @@ describe('getAuthUrls', () => {
   });
 
   test('when no zChatGetAuthLoginUrl, return empty', () => {
-    result = selectors.getAuthUrls(getModifiedState({
+    const result = selectors.getAuthUrls(getModifiedState({
       chat: {
         vendor: {
           zChat: {
@@ -186,26 +169,22 @@ describe('getAuthUrls', () => {
 });
 
 describe('getActiveAgents', () => {
-  let result;
-
   test('returns the active bot and not the trigger', () => {
-    result = selectors.getActiveAgents(getModifiedState());
+    const result = selectors.getActiveAgents(getModifiedState());
 
     expect(result).toEqual({ 'agent:mcbob': { avatar_path: 'bobPath' } });
   });
 });
 
 describe('getShowRatingScreen', () => {
-  let result;
-
   test('when all values are correct', () => {
-    result = selectors.getShowRatingScreen(getModifiedState());
+    const result = selectors.getShowRatingScreen(getModifiedState());
 
     expect(result).toEqual(true);
   });
 
   test('when rating has already been set', () => {
-    result = selectors.getShowRatingScreen(getModifiedState({
+    const result = selectors.getShowRatingScreen(getModifiedState({
       chat: {
         rating: {
           value: 5
@@ -217,7 +196,7 @@ describe('getShowRatingScreen', () => {
   });
 
   test('when ratingSettings is disabled', () => {
-    result = selectors.getShowRatingScreen(getModifiedState({
+    const result = selectors.getShowRatingScreen(getModifiedState({
       chat: {
         accountSettings: {
           rating: {
@@ -231,9 +210,9 @@ describe('getShowRatingScreen', () => {
   });
 
   test('when there are no agents', () => {
-    result = selectors.getShowRatingScreen(getModifiedState({
+    const result = selectors.getShowRatingScreen(getModifiedState({
       chat: {
-        agents: new map([])
+        agents: new Map()
       }
     }));
 
@@ -241,7 +220,7 @@ describe('getShowRatingScreen', () => {
   });
 
   test('when end-screen is disabled', () => {
-    result = selectors.getShowRatingScreen(getModifiedState({
+    const result = selectors.getShowRatingScreen(getModifiedState({
       chat: {
         rating: {
           disableEndScreen: true
@@ -254,10 +233,8 @@ describe('getShowRatingScreen', () => {
 });
 
 describe('getShowOfflineChat', () => {
-  let result;
-
   test('when values are correct', () => {
-    result = selectors.getShowOfflineChat(getModifiedState({
+    const result = selectors.getShowOfflineChat(getModifiedState({
       chat: {
         forcedStatus: 'offline',
         rating: {
@@ -272,7 +249,7 @@ describe('getShowOfflineChat', () => {
   });
 
   test('when chat is online', () => {
-    result = selectors.getShowOfflineChat(getModifiedState({
+    const result = selectors.getShowOfflineChat(getModifiedState({
       chat: {
         forcedStatus: 'online',
         rating: {
@@ -287,7 +264,7 @@ describe('getShowOfflineChat', () => {
   });
 
   test('when is chatting', () => {
-    result = selectors.getShowOfflineChat(getModifiedState({
+    const result = selectors.getShowOfflineChat(getModifiedState({
       chat: {
         forcedStatus: 'offline',
         is_chatting: true,
@@ -302,7 +279,7 @@ describe('getShowOfflineChat', () => {
   });
 
   test('when should show rating screen', () => {
-    result = selectors.getShowOfflineChat(getModifiedState({
+    const result = selectors.getShowOfflineChat(getModifiedState({
       chat: {
         forcedStatus: 'online',
         isLoggingOut: false,
@@ -314,7 +291,7 @@ describe('getShowOfflineChat', () => {
   });
 
   test('when is logging out', () => {
-    result = selectors.getShowOfflineChat(getModifiedState({
+    const result = selectors.getShowOfflineChat(getModifiedState({
       chat: {
         forcedStatus: 'offline',
         isLoggingOut: true,
@@ -365,4 +342,41 @@ describe('getConnectionClosedReason', () => {
 
 describe('hasUnseenAgentMessage', () => {
   // TODO when the selectors have been split
+});
+
+describe('getChatMessagesFromAgents', () => {
+  it('only returns messages from agents', () => {
+    const state = getModifiedState({
+      chat: {
+        chats: new Map([
+          [1, {
+            type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
+            nick: 'agent:bob'
+          }],
+          [2, {
+            type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
+            nick: 'visitor:steve'
+          }],
+          [3, {
+            type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_COMMENT,
+            nick: 'visitor:steve'
+          }],
+          [4, {
+            type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
+            nick: 'agent:marley'
+          }],
+          [5, {
+            type: 'chat.typing',
+            nick: 'agent:blah'
+          }]
+        ])
+      }
+    });
+    const result = selectors.getChatMessagesFromAgents(state);
+
+    expect(result).toEqual([
+      { type: 'chat.msg', nick: 'agent:bob' },
+      { type: 'chat.msg', nick: 'agent:marley' }
+    ]);
+  });
 });
