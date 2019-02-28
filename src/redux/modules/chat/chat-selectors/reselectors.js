@@ -191,7 +191,8 @@ export const getChatMessagesFromAgents = createSelector(
   (chats) => {
     const chatsArr = Array.from(chats.values());
 
-    return _.filter(chatsArr, (message) => _.includes(message.nick, 'agent'));
+    return _.filter(chatsArr, (message) => (_.includes(message.nick, 'agent')
+      && _.includes(CHAT_MESSAGE_EVENTS, message.type)));
   }
 );
 
