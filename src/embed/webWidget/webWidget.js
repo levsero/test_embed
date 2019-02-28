@@ -401,7 +401,7 @@ export default function WebWidgetFactory(name) {
   function setUpSubmitTicket(config, store) {
     const submitTicketConfigDefaults = {
       position: 'right',
-      customFields: [],
+      customFields: {},
       formTitleKey: 'message',
       attachmentsEnabled: false,
       maxFileCount: 5,
@@ -472,7 +472,7 @@ export default function WebWidgetFactory(name) {
       store.dispatch(getTicketForms(ticketForms, i18n.getLocale()));
     } else if (customFields.ids || customFields.all === true) {
       store.dispatch(getTicketFields(customFields, i18n.getLocale()));
-      config.customFields = [];
+      config.customFields = {};
     }
 
     return {
