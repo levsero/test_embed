@@ -131,25 +131,6 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getCurrentSessionStartTime', () => {
-    let mockCurrentSessionStartTime,
-      result;
-
-    beforeEach(() => {
-      mockCurrentSessionStartTime = 123;
-      result = selectors.getCurrentSessionStartTime({
-        chat: {
-          currentSessionStartTime: mockCurrentSessionStartTime
-        }
-      });
-    });
-
-    it('returns the current session start time', () => {
-      expect(result)
-        .toEqual(123);
-    });
-  });
-
   describe('getDepartments', () => {
     let mockDepartments,
       result;

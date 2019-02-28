@@ -54,7 +54,6 @@ export default {
     ]),
     connection: 'emotional',
     currentMessage: 'I can\'t let you do that, Dave',
-    currentSessionStartTime: 'Too Early',
     defaultDepartment: {
       id: 123456
     },

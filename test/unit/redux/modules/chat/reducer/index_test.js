@@ -10,7 +10,6 @@ describe('chat root reducer', () => {
     'chats',
     'connection',
     'currentMessage',
-    'currentSessionStartTime',
     'departments',
     'defaultDepartment',
     'editContactDetails',
@@ -53,6 +52,11 @@ describe('chat root reducer', () => {
       },
       'src/util/chat': {
         isAgent: {}
+      },
+      'service/persistence': {
+        store: {
+          get: noop
+        }
       },
       'src/util/nullZChat': noop,
       'src/redux/modules/chat/chat-action-types': noop,

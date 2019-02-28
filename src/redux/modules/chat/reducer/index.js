@@ -27,7 +27,6 @@ import menuVisible from './chat-menu-visibility';
 import agentJoined from './chat-agent-joined';
 import lastReadTimestamp from './chat-last-read-timestamp';
 import operatingHours from './chat-operating-hours';
-import currentSessionStartTime from './chat-current-session-start-time';
 import socialLogin from './chat-social-login';
 import isAuthenticated from './chat-is-authenticated';
 import vendor from './chat-vendor';
@@ -45,7 +44,6 @@ const combinedReducers = combineReducers({
   chats,
   connection,
   currentMessage,
-  currentSessionStartTime,
   defaultDepartment,
   departments,
   editContactDetails,
