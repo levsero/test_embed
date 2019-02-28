@@ -2,6 +2,12 @@ describe('persist middleware', () => {
   let persist;
   const storeSetSpy = jasmine.createSpy('store.set');
 
+  const UPDATE_ACTIVE_EMBED = 'UPDATE_ACTIVE_EMBED';
+  const UPDATE_WIDGET_SHOWN = 'UPDATE_WIDGET_SHOWN';
+  const SDK_CHAT_MEMBER_JOIN = 'SDK_CHAT_MEMBER_JOIN';
+  const SDK_CHAT_MEMBER_LEAVE = 'SDK_CHAT_MEMBER_LEAVE';
+  const END_CHAT_REQUEST_SUCCESS = 'END_CHAT_REQUEST_SUCCESS';
+
   beforeEach(() => {
     const persistPath = buildSrcPath('redux/middleware/persist');
 
@@ -13,8 +19,13 @@ describe('persist middleware', () => {
         }
       },
       'src/redux/modules/base/base-action-types': {
-        UPDATE_ACTIVE_EMBED: 'update_active_embed',
-        UPDATE_WIDGET_SHOWN: 'update_widget_shown'
+        UPDATE_ACTIVE_EMBED,
+        UPDATE_WIDGET_SHOWN
+      },
+      'src/redux/modules/chat/chat-action-types': {
+        SDK_CHAT_MEMBER_JOIN,
+        SDK_CHAT_MEMBER_LEAVE,
+        END_CHAT_REQUEST_SUCCESS
       }
     });
 
@@ -31,7 +42,8 @@ describe('persist middleware', () => {
     const nextSpy = jasmine.createSpy('nextSpy');
     const flatState = {
       chat: {
-        chats: {}
+        chats: {},
+        is_chatting: true // eslint-disable-line camelcase
       },
       base: {
         activeEmbed: 'chat',
@@ -53,7 +65,13 @@ describe('persist middleware', () => {
     });
 
     describe('when the action is included in the actionsToStoreOn array', () => {
-      const actionsToStoreOn = ['update_widget_shown', 'update_active_embed'];
+      const actionsToStoreOn = [
+        UPDATE_ACTIVE_EMBED,
+        UPDATE_WIDGET_SHOWN,
+        SDK_CHAT_MEMBER_JOIN,
+        SDK_CHAT_MEMBER_LEAVE,
+        END_CHAT_REQUEST_SUCCESS
+      ];
 
       actionsToStoreOn.forEach((actionType) => {
         beforeEach(() => {
@@ -65,7 +83,8 @@ describe('persist middleware', () => {
         it(`calls store.set with the parts of base state we want to store for ${actionType}`, () => {
           const expected = {
             activeEmbed: 'chat',
-            widgetShown: true
+            widgetShown: true,
+            is_chatting: true // eslint-disable-line camelcase
           };
 
           expect(storeSetSpy)

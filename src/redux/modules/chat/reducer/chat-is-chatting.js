@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   IS_CHATTING,
   UPDATE_PREVIEWER_SCREEN,
@@ -6,8 +7,9 @@ import {
   END_CHAT_REQUEST_SUCCESS,
   CHAT_BANNED
 } from '../chat-action-types';
+import { store } from 'service/persistence';
 
-const initialState = false;
+const initialState = _.get(store.get('store'), 'is_chatting') || false;
 
 const isAgent = (nick) => nick.indexOf('agent:') > -1;
 

@@ -43,10 +43,12 @@ export const noopReactComponent = () => class extends Component {
 */
 export const testReducer = (reducer, actions) => {
   actions.forEach((params) => {
-    const { expected, initialState } = params;
+    const { expected, initialState, extraDesc } = params;
     const action = params.action || params;
+    const basicTestDesc = `${reducer.name}, action: ${action.type}`;
+    const testDesc = extraDesc ? `${basicTestDesc} ${extraDesc}` : basicTestDesc;
 
-    test(`${reducer.name}, action: ${action.type}`, () => {
+    test(testDesc, () => {
       const reduced = reducer(initialState, action);
 
       if ('expected' in params) {
