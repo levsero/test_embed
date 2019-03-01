@@ -8,6 +8,9 @@ describe('base root reducer', () => {
     const reducerPath = buildSrcPath('redux/modules/base/reducer/index');
 
     initMockRegistry({
+      'constants/shared': {
+        NIL_EMBED: 'nilEmbed'
+      },
       'utility/devices': {
         isMobileBrowser: () => false
       },

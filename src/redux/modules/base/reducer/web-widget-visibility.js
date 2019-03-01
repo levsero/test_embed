@@ -22,6 +22,7 @@ import {
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
 } from '../../chat/chat-action-types';
+import { NIL_EMBED } from 'constants/shared';
 import { isPopout } from 'utility/globals';
 
 const initialState = false;
@@ -52,8 +53,7 @@ const webWidgetVisible = (state = initialState, action) => {
     case WIDGET_INITIALISED:
       return isPopout();
     case UPDATE_ACTIVE_EMBED:
-      if (payload === '')
-        return false;
+      if (payload === NIL_EMBED) return false;
       return state;
     default:
       return state;
