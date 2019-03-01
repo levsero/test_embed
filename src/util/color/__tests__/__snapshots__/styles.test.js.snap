@@ -129,7 +129,7 @@ exports[`generateUserWidgetCSS when the color is light calculates the css correc
     .u-userLinkColor a {
       color: #186766 !important;
     }
-    .u-userLinkColor span {
+    .u-userLinkColor a span {
       color: #186766 !important;
     }
     .u-userLinkColor a:hover {
@@ -222,7 +222,7 @@ exports[`generateUserWidgetCSS when the color is not light u-userTextColor calcu
     .u-userLinkColor a {
       color: #283646 !important;
     }
-    .u-userLinkColor span {
+    .u-userLinkColor a span {
       color: #283646 !important;
     }
     .u-userLinkColor a:hover {
@@ -315,7 +315,7 @@ exports[`generateUserWidgetCSS when the color is set via embeddable config uses 
     .u-userLinkColor a {
       color: #283646 !important;
     }
-    .u-userLinkColor span {
+    .u-userLinkColor a span {
       color: #283646 !important;
     }
     .u-userLinkColor a:hover {
@@ -464,7 +464,7 @@ exports[`when the color is extremely light (white or almost white) generateUserW
     .u-userLinkColor a {
       color: #6F6F6F !important;
     }
-    .u-userLinkColor span {
+    .u-userLinkColor a span {
       color: #6F6F6F !important;
     }
     .u-userLinkColor a:hover {

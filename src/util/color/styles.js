@@ -130,7 +130,7 @@ function generateUserWidgetCSS(color) {
     .u-userLinkColor a {
       color: ${colorVariables.linkColorStr} !important;
     }
-    .u-userLinkColor span {
+    .u-userLinkColor a span {
       color: ${colorVariables.linkColorStr} !important;
     }
     .u-userLinkColor a:hover {
