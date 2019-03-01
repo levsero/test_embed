@@ -57,12 +57,14 @@ function getLauncherColorVariables(color) {
     textColor,
     mixer.foregroundColorFrom(launcherColorStr)
   );
-  const launcherFocusRingColorStr = mixer.alpha(launcherTextColorStr, 0.1);
+  const launcherFocusRingColorStr = mixer.alpha(launcherTextColorStr, 0.3);
+  const launcherIsAlmostWhite = mixer.isAlmostWhite(launcherColorStr);
 
   return {
     launcherColorStr,
     launcherTextColorStr,
-    launcherFocusRingColorStr
+    launcherFocusRingColorStr,
+    launcherIsAlmostWhite
   };
 }
 
@@ -160,9 +162,14 @@ function generateUserWidgetCSS(color) {
 
 function generateUserLauncherCSS(color) {
   const colorVariables = getLauncherColorVariables(color);
+  const zdColorGrey300 = '216, 220, 222';
+  const boxShadow = colorVariables.launcherIsAlmostWhite ?
+    `inset 0 0 0 ${3/FONT_SIZE}rem rgba(${zdColorGrey300}, 0.8)`
+    : 'none';
 
   return (`
     .u-userLauncherColor:not([disabled]) {
+      box-shadow: ${boxShadow};
       background-color: ${colorVariables.launcherColorStr} !important;
       color: ${colorVariables.launcherTextColorStr} !important;
       fill: ${colorVariables.launcherTextColorStr} !important;
