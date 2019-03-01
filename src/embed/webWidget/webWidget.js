@@ -39,7 +39,8 @@ import {
 } from 'src/redux/modules/chat';
 import {
   getSettingsHelpCenterSuppress,
-  getSettingsContactFormSuppress
+  getSettingsContactFormSuppress,
+  getSettingsChatConnectionSuppress
 } from 'src/redux/modules/settings/settings-selectors';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import {
@@ -151,7 +152,7 @@ export default function WebWidgetFactory(name) {
     const talkEnabled = getTalkEnabled(state);
     const submitTicketAvailable = !!config.ticketSubmissionForm && !getSettingsContactFormSuppress(state);
     const chatConfig = config.zopimChat;
-    const chatAvailable = !!chatConfig;
+    const chatAvailable = !!chatConfig && !getSettingsChatConnectionSuppress(state);
     const submitTicketSettings = (submitTicketAvailable)
       ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
       : {};

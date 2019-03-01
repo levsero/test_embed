@@ -9,6 +9,7 @@ export const getSettingsMobileNotificationsDisabled = (state) => (
 export const getRawSettingsChatDepartment = (state) => state.settings.chat.departments.select;
 export const getRawSettingsChatDepartmentsEnabled = (state) => state.settings.chat.departments.enabled;
 export const getSettingsChatSuppress = (state) => state.settings.chat.suppress;
+export const getSettingsChatConnectionSuppress = (state) => state.settings.chat.connectionSuppress;
 export const getSettingsChatTags = (state) => state.settings.chat.tags;
 export const getAnalyticsDisabled = (state) => !state.settings.analytics;
 export const getSettingsChatConcierge = (state) => state.settings.chat.concierge;
