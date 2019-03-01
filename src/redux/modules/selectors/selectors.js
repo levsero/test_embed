@@ -45,7 +45,8 @@ import {
   getSettingsContactOptionsContactFormLabel,
   getSettingsContactFormTitle,
   getAnswerBotTitle,
-  getAnswerBotAvatarName
+  getAnswerBotAvatarName,
+  getSettingsChatConnectionSuppress
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
@@ -204,7 +205,8 @@ const getChannelChoiceEnabled = (state) => {
 export const getChatOnline = (state) => getZopimChatOnline(state) || !getShowOfflineChat(state);
 export const getChatConnected = (state) => getZopimChatConnected(state) || getNewChatConnected(state);
 
-export const getChatEnabled = (state) => getChatEmbed(state) && !getSettingsChatSuppress(state);
+export const getChatEnabled = (state) =>
+  getChatEmbed(state) && !getSettingsChatSuppress(state) && !getSettingsChatConnectionSuppress(state);
 export const getChatReady = createSelector([getChatEmbed, getChatConnected], (chatEmbed, chatConnected) =>
   !chatEmbed || chatConnected);
 

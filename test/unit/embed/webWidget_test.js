@@ -171,7 +171,8 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue,
-        getSettingsContactFormSuppress: () => mockContactFormSuppressedValue
+        getSettingsContactFormSuppress: () => mockContactFormSuppressedValue,
+        getSettingsChatConnectionSuppress: () => false
       },
       'src/redux/modules/chat/chat-selectors': {
         getStandaloneMobileNotificationVisible: () => mockStandaloneMobileNotificationVisible

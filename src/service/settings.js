@@ -27,6 +27,7 @@ const optionWhitelist = {
     'chat.title',
     'chat.prechatForm.greeting',
     'chat.offlineForm.greeting',
+    'chat.connectionSuppress',
     'chat.concierge.title',
     'chat.concierge.name',
     'chat.hideWhenOffline',
@@ -100,6 +101,7 @@ const webWidgetStoreDefaults = {
       select: ''
     },
     suppress: false,
+    connectionSuppress: false,
     notifications: {
       mobile: {
         disable: false
