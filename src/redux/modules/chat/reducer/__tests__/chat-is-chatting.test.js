@@ -35,6 +35,14 @@ describe('chatDefaultDepartment initialState', () => {
 testReducer(chatIsChatting, [
   {
     action: {
+      type: actions.IS_CHATTING,
+      payload: true
+    },
+    initialState: false,
+    expected: true
+  },
+  {
+    action: {
       type: actions.SDK_CHAT_MEMBER_JOIN,
       payload: visitorPayload
     },
