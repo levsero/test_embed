@@ -27,6 +27,7 @@ Checkbox.propTypes = {
     checked: PropTypes.oneOf([0, 1]),
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
+    required: PropTypes.bool,
   })
 };
 
