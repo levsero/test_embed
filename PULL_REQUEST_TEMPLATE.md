@@ -13,6 +13,4 @@
 
 ### Risks
 
-#### High / Medium / Low
-
-- Why?
+- %High / Medium / Low. Specify why.%
