@@ -158,7 +158,7 @@ export class ChatPopup extends Component {
         direction='up'
         duration={200}
         startPosHeight='-10px'
-        endPosHeight='0px'>
+        endPosHeight='-5px'>
         <div className={containerStyles}>
           {body}
           {this.renderCta()}
