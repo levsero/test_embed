@@ -445,7 +445,8 @@ export class SubmitTicketForm extends Component {
         onChange: this.updateForm,
         getFrameContentDocument: this.props.getFrameContentDocument,
         showErrors: this.state.showErrors
-      }
+      },
+      activeTicketForm.end_user_conditions
     );
     const titleMobileClasses = this.props.isMobile ? styles.ticketFormTitleMobile : '';
 

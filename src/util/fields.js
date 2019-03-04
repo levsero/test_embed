@@ -32,7 +32,56 @@ const getDefaultFieldValues = (elementType, existingValue) => {
   }
 };
 
-const getCustomFields = (customFields, formState, options = {}) => {
+const setupConditionCheck = (customFields, formState) => {
+  return (fieldId, value) => {
+    const field = _.find(customFields, (field) => field.id === fieldId);
+
+    if (!field) return false;
+
+    if (field.type === 'checkbox') {
+      // classic wants 0 and 1 so we use those as the values but conditions give us true and false
+      return value === !!formState[fieldId];
+    }
+
+    return value === formState[fieldId];
+  };
+};
+
+const getConditionOverrides = (conditions, conditionCheck) => (
+  _.reduce(conditions, (memo, condition) => {
+    const isFulfilled = conditionCheck(condition.parent_field_id, condition.value);
+
+    condition.child_fields.forEach((child) => {
+      // need to check if already set to false in case multiple conditions on hte same element
+      const isVisible = memo[child.id] ? memo[child.id].visible_in_portal && isFulfilled : isFulfilled;
+
+      memo[child.id] = {
+        visible_in_portal: isVisible, // eslint-disable-line camelcase
+        required_in_portal: child.is_required, // eslint-disable-line camelcase
+      };
+    });
+    return memo;
+  }, {})
+);
+
+export const updateConditionalVisibility = (customFields, formState, conditions) => {
+  const conditionCheck = setupConditionCheck(customFields, formState);
+  const conditionOverrides = getConditionOverrides(conditions, conditionCheck);
+
+  const fields = _.map(customFields, (field) => {
+    return { ...field, ...conditionOverrides[field.id] };
+  });
+
+  return fields;
+};
+
+const getCustomFields = (customFields, formState, options, conditions = {}) => {
+  const updatedFields = updateConditionalVisibility(customFields, formState, conditions);
+
+  return getFields(updatedFields, formState, options);
+};
+
+const getFields = (customFields, formState, options) => {
   const renderField = (sharedProps) => {
     const props = {
       ...sharedProps,
