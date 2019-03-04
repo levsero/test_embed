@@ -4,7 +4,8 @@ import {
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_MEMBER_LEAVE,
   END_CHAT_REQUEST_SUCCESS,
-  CHAT_BANNED
+  CHAT_BANNED,
+  IS_CHATTING
 } from '../chat-action-types';
 import { store } from 'service/persistence';
 
@@ -14,6 +15,8 @@ const isAgent = (nick) => nick.indexOf('agent:') > -1;
 
 const isChatting = (state = initialState, action) => {
   switch (action.type) {
+    case IS_CHATTING:
+      return action.payload;
     case UPDATE_PREVIEWER_SCREEN:
       return action.payload.status;
     case SDK_CHAT_MEMBER_JOIN:
