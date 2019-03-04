@@ -412,7 +412,7 @@ const getBaseColor = createSelector(
     const chatBadgeColor = showChatBadge ? settingsBadgeColor : undefined;
     const cp4Color = (embeddableConfig.cp4 && themeColor) ? themeColor.base : null;
 
-    return settingsColor || settingsThemeColor || cp4Color ||  chatBadgeColor || configColorBase;
+    return settingsColor || settingsThemeColor || chatBadgeColor || cp4Color || configColorBase;
   }
 );
 

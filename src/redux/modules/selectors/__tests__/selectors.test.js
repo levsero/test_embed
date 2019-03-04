@@ -1252,7 +1252,7 @@ describe('getColor', () => {
                 const result = selectors.getColor(state, 'launcher');
 
                 expect(result).toEqual({
-                  base: '#chatPrimary',
+                  base: '#chatBadgeColor',
                   launcherText: '#embeddableConfigText'
                 });
               });
