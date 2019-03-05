@@ -339,7 +339,7 @@ test('closeApi dispatches the closeReceived action', () => {
 describe('setLocale', () => {
   beforeEach(() => {
     i18n.init(mockStore);
-    apis.setLocaleApi('en');
+    apis.setLocaleApi(mockStore, 'en');
   });
 
   it('calls mediator', () => {

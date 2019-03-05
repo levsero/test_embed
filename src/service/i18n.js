@@ -82,10 +82,6 @@ function interpolateTranslation(translation, args) {
   }
 }
 
-function regulateDash(locale) {
-  return _.replace(locale, '_', '-');
-}
-
 function regulateLocaleStringCase(locale) {
   const dashIndex = locale.indexOf('-');
 
@@ -96,7 +92,7 @@ function regulateLocaleStringCase(locale) {
 }
 
 function parseLocale(str) {
-  const locale = regulateLocaleStringCase(regulateDash(str));
+  const locale = regulateLocaleStringCase(str);
   const lowercaseLocale = locale.toLowerCase();
   const extractedLang = locale.substring(0, locale.indexOf('-'));
 

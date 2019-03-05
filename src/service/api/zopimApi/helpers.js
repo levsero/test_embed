@@ -2,7 +2,8 @@ import _ from 'lodash';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 import {
   updateSettingsApi,
-  updateSettingsLegacyApi
+  updateSettingsLegacyApi,
+  setLocaleApi
 } from 'src/service/api/apis';
 import {
   handleOnApiCalled,
@@ -104,7 +105,6 @@ const supportedSetters = [
   'color',
   'name',
   'email',
-  'language',
   'phone',
   'status',
   'greetings',
@@ -116,7 +116,7 @@ const supportedSetters = [
   'onUnreadMsgs'
 ];
 
-export const setApi = (win, options) => {
+export const setApi = (store, win, options) => {
   for (let name in options) {
     if (_.includes(supportedSetters, name)) {
       const methodName = 'set' + upperCaseFirstChar(name);
@@ -124,6 +124,10 @@ export const setApi = (win, options) => {
 
       win.$zopim.livechat[methodName](arg);
     }
+  }
+
+  if (options.language) {
+    setLocaleApi(store, options.language);
   }
 };
 

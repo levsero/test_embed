@@ -898,11 +898,9 @@ describe('setUpZopimApiMethods', () => {
     });
 
     it('allows setting of language', () => {
-      jest.spyOn(mockWin.$zopim.livechat, 'setLanguage');
-
       mockWin.$zopim.livechat.set({ language: 'en' });
-      expect(mockWin.$zopim.livechat.setLanguage)
-        .toHaveBeenCalledWith('en');
+      expect(apis.setLocaleApi)
+        .toHaveBeenCalledWith(mockStore, 'en');
     });
   });
 

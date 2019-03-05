@@ -115,7 +115,7 @@ export const toggleApi = (reduxStore) => {
   }
 };
 
-export const setLocaleApi = (locale) => {
+export const setLocaleApi = (_, locale) => {
   i18n.setLocale(locale, () => { mediator.channel.broadcast('.onSetLocale'); });
 };
 
