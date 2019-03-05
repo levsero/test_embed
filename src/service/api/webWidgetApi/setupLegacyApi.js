@@ -64,7 +64,7 @@ export function legacyApiSetup(win, reduxStore) {
   win.zE.show = () => {
     reduxStore.dispatch(legacyShowReceived());
   };
-  win.zE.setLocale = (locale) => setLocaleApi(reduxStore, locale);
+  win.zE.setLocale = setLocaleApi;
   tracker.addTo(win.zE, 'zE');
 }
 
@@ -84,7 +84,7 @@ export function setupPublicApi(postRenderQueueCallback, reduxStore) {
     version: __EMBEDDABLE_VERSION__,
     setLocale: (locale) => {
       tracker.track('zE.setLocale', locale);
-      setLocaleApi(reduxStore, locale);
+      setLocaleApi(locale);
     },
     hide: () => {
       tracker.track('zE.hide');
