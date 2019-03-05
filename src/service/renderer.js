@@ -125,7 +125,7 @@ function init(config, reduxStore = dummyStore) {
     }
 
     if (!i18n.getLocale()) {
-      setLocaleApi(reduxStore, config.locale);
+      setLocaleApi(config.locale);
     }
 
     const { newChat, embeds = {} } = config;
