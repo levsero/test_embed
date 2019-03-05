@@ -122,6 +122,11 @@ parts:
       screenshot: "https://drive.google.com/open?id=1wzf7c06mTD4LgHWyO1oy1yntdUC9cjLC"
       value: "We'll get back to you soon."
   - translation:
+      key: "embeddable_framework.common.error.form_submission_disabled"
+      title: "When users have submitted too many forms, we ask them to wait a little bit before sending another one"
+      screenshot: "https://drive.google.com/file/d/1_30IaNsiWDqF1ljoxiWEzirs_wEFedMv"
+      value: "Please try again later"
+  - translation:
       key: "embeddable_framework.web_widget.frame.title"
       title: "This string is used by screen readers to identify the currently opened Web Widget. The text will be read out for the visually impaired. Capitalization doesn't matter."
       value: "Find more information here"
