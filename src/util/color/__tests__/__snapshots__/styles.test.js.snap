@@ -69,6 +69,99 @@ exports[`generateUserLauncherCSS when the color is set via embeddable config use
   "
 `;
 
+exports[`generateUserWidgetCSS when the color are overidden in settings uses the color passed in from config 1`] = `
+"
+    .u-userTextDecorationColor {
+      text-decoration-color: #283646 !important;
+    }
+    .u-userColor {
+      color: #283646 !important;
+    }
+    .u-iconColor {
+      color: #283646 !important;
+    }
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: #00F !important;
+      fill: #00F !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: #1A1AFF !important;
+      fill: #1A1AFF !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: #00F !important;
+    }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: #00F !important;
+    }
+    .u-userFillCustomColor svg path.customColor,
+    .u-userFillCustomColor svg rect.customColor {
+      fill: #00F !important;
+    }
+    .u-userBackgroundColorNoHover {
+      background-color: #0F0 !important;
+      color: #106F10 !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: #0F0 !important;
+      color: #106F10 !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: #1AFF1A !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: #0F0 !important;
+      background-color: transparent !important;
+      border-color: #0F0 !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: #106F10 !important;
+      background-color: #0F0 !important;
+      border-color: #0F0 !important;
+    }
+    .u-userLinkColor a {
+      color: #F00 !important;
+    }
+    .u-userLinkColor a span {
+      color: #F00 !important;
+    }
+    .u-userLinkColor a:hover {
+      color: #FF0000 !important;
+    }
+    .u-userStrokeColor {
+      stroke: #283646 !important;
+    }
+    .u-userHeaderColor {
+      background: #203D9D !important;
+      color: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor svg path {
+      fill: #FFFFFF !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: #2343AD !important;
+    }
+    .u-userHeaderButtonColor:focus svg {
+      background: #2343AD !important;
+    }
+    .u-userHeaderButtonColorMobile {
+      fill: #FFFFFF !important;
+    }
+  "
+`;
+
 exports[`generateUserWidgetCSS when the color is light calculates the css correctly 1`] = `
 "
     .u-userTextDecorationColor {
