@@ -24,8 +24,7 @@ import {
   onApiObj,
   getDepartmentApi,
   getAllDepartmentsApi,
-  popoutApi,
-  setLocaleApi
+  popoutApi
 } from 'src/service/api/apis';
 import {
   setPositionApi,
@@ -124,7 +123,7 @@ export function setUpZopimApiMethods(win, store) {
       },
       setColor: (color) =>  updateSettings(store, 'webWidget.color.theme', color),
       hideAll: () => hideApi(store),
-      set: (options) => setApi(win, options),
+      set: (options) => setApi(store, win, options),
       isChatting: () => isChattingApi(store),
       say: (msg) => sendChatMsgApi(store, msg),
       endChat: () => endChatApi(store),
@@ -145,7 +144,6 @@ export function setUpZopimApiMethods(win, store) {
 
         prefill(store, { email: { value: email } });
       },
-      setLanguage: setLocaleApi,
       sendVisitorPath: (page) => updatePathApi(store, page),
       clearAll: () => logoutApi(store),
       setStatus: (status) => {

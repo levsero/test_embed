@@ -84,7 +84,7 @@ export function setupPublicApi(postRenderQueueCallback, reduxStore) {
     version: __EMBEDDABLE_VERSION__,
     setLocale: (locale) => {
       tracker.track('zE.setLocale', locale);
-      setLocaleApi(locale);
+      setLocaleApi(reduxStore, locale);
     },
     hide: () => {
       tracker.track('zE.hide');

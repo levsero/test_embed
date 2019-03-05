@@ -348,7 +348,7 @@ describe('init', () => {
         i18n.getLocale.mockReturnValue(null);
         initRender();
         expect(setLocaleApi)
-          .toHaveBeenCalledWith('en');
+          .toHaveBeenCalledWith(store, 'en');
       });
     });
 
