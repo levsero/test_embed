@@ -28,6 +28,7 @@ const optionWhitelist = {
     'chat.prechatForm.greeting',
     'chat.offlineForm.greeting',
     'chat.connectionSuppress',
+    'chat.connectOnDemand',
     'chat.concierge.title',
     'chat.concierge.name',
     'chat.hideWhenOffline',

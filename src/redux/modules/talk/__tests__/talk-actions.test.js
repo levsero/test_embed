@@ -73,6 +73,11 @@ describe('resetTalkScreen', () => {
       talk: {
         embeddableConfig: { capability: 'widget/talk/PHONE_ONLY' }
       },
+      settings: {
+        chat: {}
+      },
+      chat: {},
+      zopimChat: {},
       base: {
         embeds: {
           helpCenterForm: {}
@@ -99,6 +104,12 @@ describe('resetTalkScreen', () => {
       talk: {
         embeddableConfig: { capability: 'widget/talk/CALLBACK_AND_PHONE' }
       },
+      settings: {
+        chat: {
+        }
+      },
+      chat: {},
+      zopimChat: {},
       base: {
         embeds: {}
       },

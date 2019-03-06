@@ -5,6 +5,7 @@ import select from './chat-departments-select';
 
 import suppress from './chat-suppress';
 import connectionSuppress from './chat-connectionSuppress';
+import connectOnDemand from './chat-connectOnDemand';
 import concierge from './chat-concierge';
 import profileCard from './chat-profile-card';
 import prechatForm from './chat-prechat-form';
@@ -17,6 +18,7 @@ import hideWhenOffline from './chat-hideWhenOffline';
 export default combineReducers({
   concierge,
   connectionSuppress,
+  connectOnDemand,
   departments: combineReducers({ enabled, select }),
   hideWhenOffline,
   mobileNotificationsDisabled,

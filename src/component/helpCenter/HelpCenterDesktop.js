@@ -9,8 +9,10 @@ import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { LoadingBarContent } from 'component/loading/LoadingBarContent';
 import { i18n } from 'service/i18n';
+import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 
 import { locals as styles } from './HelpCenterDesktop.scss';
+import classNames from 'classnames';
 
 export class HelpCenterDesktop extends Component {
   static propTypes = {
@@ -37,7 +39,8 @@ export class HelpCenterDesktop extends Component {
     isOnInitialDesktopSearchScreen: PropTypes.bool,
     maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     searchPlaceholder: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    buttonLoading: PropTypes.bool
   };
 
   static defaultProps = {
@@ -54,6 +57,7 @@ export class HelpCenterDesktop extends Component {
     submitTicketAvailable: true,
     chatEnabled: false,
     isOnInitialDesktopSearchScreen: false,
+    buttonLoading: false
   };
 
   constructor(props, context) {
@@ -144,22 +148,53 @@ export class HelpCenterDesktop extends Component {
       : null;
   }
 
-  renderFooterContent = () => {
-    const { channelChoice, showNextButton } = this.props;
+  renderLoadingAnimation = () => {
+    return (
+      <LoadingEllipses
+        useUserColor={false}
+        itemClassName={styles.loadingAnimation} />
+    );
+  }
+
+  renderLoadingButton = () => {
+    const buttonStyles = classNames(
+      styles.button,
+      styles.disabledButton
+    );
+
+    return (
+      <Button
+        primary={true}
+        className={buttonStyles}>
+        {this.renderLoadingAnimation()}
+      </Button>
+    );
+  }
+
+  renderButton = () => {
+    const { channelChoice, buttonLabel, onNextClick, handleNextClick } = this.props;
     const onClickHandler = channelChoice
-      ? this.props.onNextClick
-      : this.props.handleNextClick;
+      ? onNextClick
+      : handleNextClick;
+
+    return (
+      <Button
+        primary={true}
+        onClick={onClickHandler}
+        className={styles.button}>
+        {buttonLabel}
+      </Button>
+    );
+  }
+
+  renderFooterContent = () => {
+    const { showNextButton, buttonLoading } = this.props;
 
     return showNextButton && !this.props.isOnInitialDesktopSearchScreen
       ? (
         <div className={styles.buttonContainer}>
           <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
-            <Button
-              primary={true}
-              onClick={onClickHandler}
-              className={styles.button}>
-              {this.props.buttonLabel}
-            </Button>
+            {buttonLoading ? this.renderLoadingButton() : this.renderButton()}
           </ButtonGroup>
           {this.renderChannelChoice()}
         </div>

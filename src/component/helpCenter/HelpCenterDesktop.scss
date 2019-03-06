@@ -39,3 +39,13 @@
   padding-right: #{10/$font-size}rem !important;
   padding-left: #{10/$font-size}rem !important;
 }
+
+.loadingAnimation {
+  background-color: white !important;
+  width: #{4/$font-size}rem;
+  height: #{4/$font-size}rem;
+}
+
+.disabledButton {
+  cursor: default;
+}

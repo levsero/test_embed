@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render renders button with loading animation 1`] = `
+<footer
+  class="footer  footerShadow"
+>
+  <div
+    class="buttonContainer"
+  >
+    <div
+      class="container buttonRight buttonGroup"
+    >
+      <button
+        class="button disabledButton Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+        data-garden-id="buttons.button"
+        data-garden-version="3.7.0"
+        tabindex="0"
+        type="button"
+      >
+        <div
+          class="container "
+        >
+          <div
+            class="
+      circle loadingAnimation
+      bounce
+      
+    "
+          />
+          <div
+            class="
+      circle loadingAnimation
+      bounce
+      
+    "
+          />
+          <div
+            class="
+      circle loadingAnimation
+      bounce
+      
+    "
+          />
+        </div>
+      </button>
+    </div>
+  </div>
+</footer>
+`;
+
+exports[`render renders expected next button 1`] = `
+<footer
+  class="footer  footerShadow"
+>
+  <div
+    class="buttonContainer"
+  >
+    <div
+      class="container buttonRight buttonGroup"
+    >
+      <button
+        class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+        data-garden-id="buttons.button"
+        data-garden-version="3.7.0"
+        tabindex="0"
+        type="button"
+      >
+        hello world
+      </button>
+    </div>
+  </div>
+</footer>
+`;

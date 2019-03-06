@@ -27,7 +27,12 @@ import {
 import { document, getDocumentHost, win, isPopout } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
-import { getChatNotification } from 'src/redux/modules/selectors';
+import {
+  getChatNotification,
+  getChatConnectionSuppressed,
+  getTalkNickname,
+  getTalkEnabled
+} from 'src/redux/modules/selectors';
 import {
   getStandaloneMobileNotificationVisible
 } from 'src/redux/modules/chat/chat-selectors';
@@ -39,8 +44,7 @@ import {
 } from 'src/redux/modules/chat';
 import {
   getSettingsHelpCenterSuppress,
-  getSettingsContactFormSuppress,
-  getSettingsChatConnectionSuppress
+  getSettingsContactFormSuppress
 } from 'src/redux/modules/settings/settings-selectors';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import {
@@ -55,10 +59,6 @@ import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { nameValid, emailValid } from 'src/util/utils';
 import zopimApi from 'service/api/zopimApi';
-import {
-  getTalkNickname,
-  getTalkEnabled
-} from 'src/redux/modules/selectors';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
@@ -152,7 +152,7 @@ export default function WebWidgetFactory(name) {
     const talkEnabled = getTalkEnabled(state);
     const submitTicketAvailable = !!config.ticketSubmissionForm && !getSettingsContactFormSuppress(state);
     const chatConfig = config.zopimChat;
-    const chatAvailable = !!chatConfig && !getSettingsChatConnectionSuppress(state);
+    const chatAvailable = !!chatConfig && !getChatConnectionSuppressed(state);
     const submitTicketSettings = (submitTicketAvailable)
       ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
       : {};
@@ -171,16 +171,20 @@ export default function WebWidgetFactory(name) {
       rootConfig
     );
 
+    embed = {
+      submitTicketSettings,
+      config: {
+        global: globalConfig,
+        helpCenterForm: helpCenterSettings.config,
+        ticketSubmissionForm: submitTicketSettings.config,
+        zopimChat: chatConfig
+      },
+      embedsAvailable: { chat: chatAvailable },
+      store: reduxStore
+    };
+
     if (chatAvailable) {
-      const authentication = settings.getChatAuthSettings();
-      const { brandCount, brand } = globalConfig;
-      let brandName;
-
-      if (brandCount > 1 || brandCount === undefined) {
-        brandName = brand;
-      }
-
-      setupChat({ ...chatConfig, authentication }, reduxStore, brandName);
+      setupChat();
     }
 
     if (talkEnabled) {
@@ -253,14 +257,7 @@ export default function WebWidgetFactory(name) {
 
     embed = {
       component,
-      submitTicketSettings,
-      config: {
-        global: globalConfig,
-        helpCenterForm: helpCenterSettings.config,
-        ticketSubmissionForm: submitTicketSettings.config
-      },
-      embedsAvailable: { chat: chatAvailable },
-      store: reduxStore
+      ...embed
     };
 
     return this;
@@ -485,7 +482,18 @@ export default function WebWidgetFactory(name) {
     };
   }
 
-  function setupChat(config, store, brand) {
+  function setupChat(config = embed.config.zopimChat, store = embed.store) {
+    const authentication = settings.getChatAuthSettings();
+
+    config = { ...config, authentication };
+
+    const { brandCount, brand } = embed.config.global;
+    let brandName;
+
+    if (brandCount === undefined || brandCount > 1) {
+      brandName = brand;
+    }
+
     const onSuccess = (zChat, slider) => {
       store.dispatch(handleChatVendorLoaded({ zChat, slider: slider.default }));
 
@@ -495,7 +503,7 @@ export default function WebWidgetFactory(name) {
           store.dispatch({
             type: AUTHENTICATION_FAILED
           });
-          setupChat(config, store, brand);
+          setupChat(config, store);
         }
       });
 
@@ -510,14 +518,14 @@ export default function WebWidgetFactory(name) {
       zChat.setOnFirstReady({
         fetchHistory: () => {
           if (_.get(config, 'authentication.jwtFn')) {
-            if (brand) zChat.addTag(brand);
+            if (brandName) zChat.addTag(brandName);
             store.dispatch(fetchConversationHistory());
           }
         }
       });
 
-      if (brand && !_.get(config, 'authentication.jwtFn')) {
-        zChat.addTag(brand);
+      if (brandName && !_.get(config, 'authentication.jwtFn')) {
+        zChat.addTag(brandName);
       }
 
       zChat.getFirehose().on('data', (data) => {
@@ -592,7 +600,8 @@ export default function WebWidgetFactory(name) {
     render,
     get,
     postRender,
-    waitForRootComponent
+    waitForRootComponent,
+    setupChat
   };
 
   return webWidget;

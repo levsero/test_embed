@@ -60,6 +60,7 @@ import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
 import onChatConnectionClosed from 'src/redux/middleware/onStateChange/onChatConnectionClosed';
 import onChannelChoiceTransition from 'src/redux/middleware/onStateChange/onChannelChoiceTransition';
+import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger';
 import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange';
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions';
 import { isPopout } from 'utility/globals';
@@ -292,4 +293,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onUpdateEmbeddableConfig(action);
   onChannelChoiceTransition(prevState, nextState, action, dispatch);
   onChatConnectionClosed(prevState, nextState, action, dispatch);
+  onChatConnectOnDemandTrigger(prevState, action);
 }
