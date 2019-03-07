@@ -171,8 +171,7 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue,
-        getSettingsContactFormSuppress: () => mockContactFormSuppressedValue,
-        getSettingsChatConnectionSuppress: () => false
+        getSettingsContactFormSuppress: () => mockContactFormSuppressedValue
       },
       'src/redux/modules/chat/chat-selectors': {
         getStandaloneMobileNotificationVisible: () => mockStandaloneMobileNotificationVisible
@@ -181,6 +180,7 @@ describe('embed.webWidget', () => {
         getTalkEnabled: () => mockTalkRequired,
         getTalkNickname: () => mockNicknameValue,
         getChatNotification: () => mockChatNotification,
+        getChatConnectionSuppressed: () => false
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen

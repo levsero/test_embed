@@ -46,7 +46,8 @@ import {
   getSettingsContactFormTitle,
   getAnswerBotTitle,
   getAnswerBotAvatarName,
-  getSettingsChatConnectionSuppress
+  getSettingsChatConnectionSuppress,
+  getSettingsChatConnectOnDemand
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
@@ -205,10 +206,28 @@ const getChannelChoiceEnabled = (state) => {
 export const getChatOnline = (state) => getZopimChatOnline(state) || !getShowOfflineChat(state);
 export const getChatConnected = (state) => getZopimChatConnected(state) || getNewChatConnected(state);
 
-export const getChatEnabled = (state) =>
-  getChatEmbed(state) && !getSettingsChatSuppress(state) && !getSettingsChatConnectionSuppress(state);
-export const getChatReady = createSelector([getChatEmbed, getChatConnected], (chatEmbed, chatConnected) =>
-  !chatEmbed || chatConnected);
+export const getChatConnectionSuppressed = createSelector(
+  [getSettingsChatConnectOnDemand, getIsChatting, getChatConnected, getSettingsChatConnectionSuppress],
+  (chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress) => {
+    const chatDelay = chatConnectOnDemand && !isChatting && !chatConnected;
+
+    return chatDelay || chatConnectionSuppress;
+  }
+);
+
+export const getChatEnabled = createSelector(
+  [getChatEmbed, getSettingsChatSuppress, getChatConnectionSuppressed],
+  (chatEmbed, chatSuppress, chatConnectedConnectionSuppressed) => {
+    return chatEmbed && !chatSuppress && !chatConnectedConnectionSuppressed;
+  }
+);
+
+export const getChatReady = createSelector(
+  [getChatEmbed, getChatConnected, getChatConnectionSuppressed],
+  (chatEmbed, chatConnected, chatConnectionSuppressed) => {
+    return !chatEmbed || chatConnected || chatConnectionSuppressed;
+  }
+);
 
 export const getChatOfflineAvailable = (state) => getChatEnabled(state) &&
   !getChatOnline(state) && getNewChatEmbed(state) && getOfflineFormEnabled(state) && !getSubmitTicketEmbed(state);

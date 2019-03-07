@@ -51,6 +51,9 @@ describe('HelpCenterMobile component', () => {
           }
         }
       },
+      'component/loading/LoadingEllipses': {
+        LoadingEllipses: noopReactComponent()
+      },
       '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
       },

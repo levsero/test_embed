@@ -853,6 +853,19 @@ describe('getChatOnline', () => {
   });
 });
 
+describe('getChatConnectionSuppressed', () => {
+  test.each([
+    ['chat delay is enabled',                          true,  false, false, false, true],
+    ['when chatting and connection suppress is false', true, true, true, false, false],
+    ['chat is connection suppressed',                  false, false, false, true, true],
+  ])('%p', (__title, chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress, expectedValue) => {
+    const result = selectors.getChatConnectionSuppressed.resultFunc(
+      chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress);
+
+    expect(result).toEqual(expectedValue);
+  });
+});
+
 describe('getChatEnabled', () => {
   test.each([
     ['defaultstate', {}, true],
@@ -933,11 +946,12 @@ describe('getChatConnected', () => {
 
 describe('getChatReady', () => {
   test.each([
-    ['when chat embed exists and chat is not connected',        true,   false,  false],
-    ['when chat embed doesn\'t exist and chat is connected',    false,  false,  true],
-    ['when chat embed exists exist and chat isn\'t connected',  true,   true,   true],
-  ])('%p', (__title, chatEmbed, chatConnected, expectedValue) => {
-    const result = selectors.getChatReady.resultFunc(chatEmbed,chatConnected);
+    ['when chat embed exists and chat is not connected',        true,   false,  false, false],
+    ['when chat embed doesn\'t exist and chat is connected',    false,  false,  false, true],
+    ['when chat embed exists exist and chat isn\'t connected',  true,   true,   false, true],
+    ['when chat embed exists exist and chat is suppressed',     true,   false,  true,  true],
+  ])('%p', (__title, chatEmbed, chatConnected, chatSupressed, expectedValue) => {
+    const result = selectors.getChatReady.resultFunc(chatEmbed, chatConnected, chatSupressed);
 
     expect(result).toEqual(expectedValue);
   });

@@ -59,4 +59,24 @@ describe('render', () => {
     expect(container.querySelector('footer').className)
       .not.toContain('footerShadow');
   });
+
+  it('renders button with loading animation', () => {
+    const { container } = renderHelpCenterDesktop({
+      showNextButton: true,
+      buttonLoading: true
+    });
+
+    expect(container.querySelector('footer'))
+      .toMatchSnapshot();
+  });
+
+  it('renders expected next button', () => {
+    const { container } = renderHelpCenterDesktop({
+      showNextButton: true,
+      buttonLabel: 'hello world'
+    });
+
+    expect(container.querySelector('footer'))
+      .toMatchSnapshot();
+  });
 });

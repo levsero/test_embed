@@ -77,3 +77,9 @@
     bottom: 0;
   }
 }
+
+.loadingAnimation {
+  background-color: white !important;
+  width: #{4/$font-size}rem;
+  height: #{4/$font-size}rem;
+}

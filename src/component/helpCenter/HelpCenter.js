@@ -37,7 +37,8 @@ import {
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import {
   getNotificationCount,
-  getIsChatting
+  getIsChatting,
+  getChatConnectionConnecting
 } from 'src/redux/modules/chat/chat-selectors';
 import {
   getIsOnInitialDesktopSearchScreen,
@@ -81,7 +82,8 @@ const mapStateToProps = (state, ownProps) => {
     chatButtonLabel: getSettingsHelpCenterChatButton(state),
     messageButtonLabel: getSettingsHelpCenterMessageButton(state, messageButtonLabelKey),
     title: getSettingsHelpCenterTitle(state, titleKey),
-    contactButtonLabel: getContactOptionsButton(state)
+    contactButtonLabel: getContactOptionsButton(state),
+    chatConnecting: getChatConnectionConnecting(state)
   };
 };
 
@@ -132,7 +134,8 @@ class HelpCenter extends Component {
     chatButtonLabel: PropTypes.string.isRequired,
     messageButtonLabel: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    contactButtonLabel: PropTypes.string.isRequired
+    contactButtonLabel: PropTypes.string.isRequired,
+    chatConnecting: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -159,7 +162,8 @@ class HelpCenter extends Component {
     handleSearchFieldChange: () => {},
     chatNotificationCount: 0,
     isChatting: false,
-    isOnInitialDesktopSearchScreen: true
+    isOnInitialDesktopSearchScreen: true,
+    chatConnecting: false
   };
 
   constructor(props) {
@@ -359,6 +363,7 @@ class HelpCenter extends Component {
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
+        buttonLoading={this.props.chatConnecting}
         title={this.props.title}
         searchFieldValue={this.props.searchFieldValue}
         updateChatScreen={this.props.updateChatScreen}
@@ -373,6 +378,7 @@ class HelpCenter extends Component {
   renderHelpCenterMobile = (buttonLabel) => {
     return (
       <HelpCenterMobile
+        buttonLoading={this.props.chatConnecting}
         ref={(el) => { this.helpCenterMobile = el; }}
         chatOfflineAvailable={this.props.chatOfflineAvailable}
         handleOnChangeValue={this.props.handleSearchFieldChange}

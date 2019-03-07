@@ -8,6 +8,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { LoadingBarContent } from 'component/loading/LoadingBarContent';
+import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './HelpCenterMobile.scss';
@@ -39,7 +40,8 @@ export class HelpCenterMobile extends Component {
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpEnabled: PropTypes.bool.isRequired,
     searchPlaceholder: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    buttonLoading: PropTypes.bool
   };
 
   static defaultProps = {
@@ -56,7 +58,8 @@ export class HelpCenterMobile extends Component {
     channelChoice: false,
     setChannelChoiceShown: () => {},
     onNextClick: () => {},
-    talkOnline: false
+    talkOnline: false,
+    buttonLoading: false
   };
 
   constructor(props, context) {
@@ -223,17 +226,41 @@ export class HelpCenterMobile extends Component {
       : this.renderForm();
   }
 
+  renderLoadingAnimation = () => {
+    return (
+      <LoadingEllipses
+        useUserColor={false}
+        itemClassName={styles.loadingAnimation} />
+    );
+  }
+
+  renderLoadingButton = () => {
+    return (
+      <Button
+        primary={true}
+        className={styles.footerButton}>
+        {this.renderLoadingAnimation()}
+      </Button>
+    );
+  }
+
+  renderButton = () => {
+    return (
+      <Button
+        primary={true}
+        className={styles.footerButton}
+        onClick={this.props.handleNextClick}>
+        {this.props.buttonLabel}
+      </Button>
+    );
+  }
+
   renderFooterContent = () => {
     return this.showFooterContent() ?
       (
         <div className={styles.buttonContainer}>
           <ButtonGroup rtl={i18n.isRTL()}>
-            <Button
-              primary={true}
-              className={styles.footerButton}
-              onClick={this.props.handleNextClick}>
-              {this.props.buttonLabel}
-            </Button>
+            {this.props.buttonLoading ? this.renderLoadingButton() : this.renderButton()}
           </ButtonGroup>
         </div>
       ) : null;

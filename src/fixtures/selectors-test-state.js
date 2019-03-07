@@ -75,7 +75,9 @@ const defaultState = {
     },
     chat: {
       suppress: false,
-      enabled: true
+      connectionSuppress: false,
+      enabled: true,
+      connectOnDemand: false
     }
   },
   zopimChat: {
