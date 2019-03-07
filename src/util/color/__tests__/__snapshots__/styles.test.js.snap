@@ -3,6 +3,7 @@
 exports[`generateUserLauncherCSS when the color is light is calculated to the same color with a darker text color 1`] = `
 "
     .u-userLauncherColor:not([disabled]) {
+      box-shadow: none;
       background-color: #58F9F7 !important;
       color: #186766 !important;
       fill: #186766 !important;
@@ -18,7 +19,7 @@ exports[`generateUserLauncherCSS when the color is light is calculated to the sa
     }
 
     .u-userLauncherColor:not([disabled]):focus {
-      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(24, 103, 102, 0.1) !important;
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(24, 103, 102, 0.3) !important;
     }
   "
 `;
@@ -26,6 +27,7 @@ exports[`generateUserLauncherCSS when the color is light is calculated to the sa
 exports[`generateUserLauncherCSS when the color is not light is calculated to the same color with a white highlight 1`] = `
 "
     .u-userLauncherColor:not([disabled]) {
+      box-shadow: none;
       background-color: #283646 !important;
       color: #FFFFFF !important;
       fill: #FFFFFF !important;
@@ -41,7 +43,7 @@ exports[`generateUserLauncherCSS when the color is not light is calculated to th
     }
 
     .u-userLauncherColor:not([disabled]):focus {
-      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(255, 255, 255, 0.1) !important;
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(255, 255, 255, 0.3) !important;
     }
   "
 `;
@@ -49,6 +51,7 @@ exports[`generateUserLauncherCSS when the color is not light is calculated to th
 exports[`generateUserLauncherCSS when the color is set via embeddable config uses the color passed in from config 1`] = `
 "
     .u-userLauncherColor:not([disabled]) {
+      box-shadow: none;
       background-color: #283646 !important;
       color: #FFFFFF !important;
       fill: #FFFFFF !important;
@@ -64,7 +67,7 @@ exports[`generateUserLauncherCSS when the color is set via embeddable config use
     }
 
     .u-userLauncherColor:not([disabled]):focus {
-      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(255, 255, 255, 0.1) !important;
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(255, 255, 255, 0.3) !important;
     }
   "
 `;
@@ -384,6 +387,7 @@ exports[`generateWebWidgetPreviewCSS calculates the colours correctly 1`] = `
 exports[`when the color is extremely light (white or almost white) generateUserLauncherCSS calculates the colours correctly 1`] = `
 "
     .u-userLauncherColor:not([disabled]) {
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(216, 220, 222, 0.8);
       background-color: #FFFFFF !important;
       color: #6F6F6F !important;
       fill: #6F6F6F !important;
@@ -399,7 +403,7 @@ exports[`when the color is extremely light (white or almost white) generateUserL
     }
 
     .u-userLauncherColor:not([disabled]):focus {
-      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(111, 111, 111, 0.1) !important;
+      box-shadow: inset 0 0 0 0.21428571428571427rem rgba(111, 111, 111, 0.3) !important;
     }
   "
 `;

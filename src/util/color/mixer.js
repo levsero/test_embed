@@ -33,6 +33,10 @@ export class ColorMixer {
     return this.baseColor.hex();
   }
 
+  isAlmostWhite = (color) => {
+    return this._isAlmostWhite(generateColor(color));
+  }
+
   highlight = (colorStr) => {
     const color = generateColor(colorStr);
     const highlighted = this._highlightColor(color);
