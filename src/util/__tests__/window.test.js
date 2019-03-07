@@ -7,6 +7,8 @@ const mockWindow = {
   addEventListener: jest.fn()
 };
 
+jest.useFakeTimers();
+
 describe('initResizeMonitor', () => {
   beforeEach(() => {
     initResizeMonitor(mockWindow);
@@ -17,16 +19,19 @@ describe('initResizeMonitor', () => {
       .toHaveBeenCalledWith('resize', expect.any(Function));
   });
 
-  it('throttles calls to renderer.updateEmbeds for every 10 ms', (done) => {
+  it('throttles calls to renderer.updateEmbeds for every 10 ms', () => {
     const fn = mockWindow.addEventListener.mock.calls[0][1];
 
     fn();
     fn();
+    jest.runAllTimers();
+    expect(renderer.updateEmbeds)
+      .toHaveBeenCalledTimes(1);
+
     fn();
-    setTimeout(() => {
-      expect(renderer.updateEmbeds)
-        .toHaveBeenCalledTimes(1);
-      done();
-    }, 15);
+    fn();
+    jest.runAllTimers();
+    expect(renderer.updateEmbeds)
+      .toHaveBeenCalledTimes(2);
   });
 });
