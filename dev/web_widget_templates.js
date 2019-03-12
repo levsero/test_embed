@@ -27,7 +27,8 @@ module.exports = function(config) {
         hcJwt: generateHcJwt(config.sharedSecret, config.user),
         chatJwt: generateChatJwt(config.chatSharedSecret, config.user),
         snippet: snippet(config.zendeskHost),
-        nonce: NONCE
+        nonce: NONCE,
+        links: generateTemplateLinks(templates, template)
       }),
       new ScriptExtHtmlWebpackPlugin({
         custom: {
@@ -86,4 +87,54 @@ function generateChatJwt(sharedSecret, user) {
 
 function generateJwt(sharedSecret, message) {
   return jwt.sign(message, sharedSecret);
+}
+
+function generateTemplateLinks(allTemplates, currentTemplate) {
+  return (`
+    <style>
+      a,
+      a:visited {
+        color: inherit;
+      }
+
+      .template-links ul {
+        padding: 0;
+      }
+
+      .template-links li {
+        display: inline-block;
+        margin-right: 2px;
+      }
+
+      .template-links a {
+        text-decoration: none;
+        padding: 3px 3px 2px;
+        display: block;
+        border: 1px solid white;
+        border-radius: 3px;
+      }
+
+      .selected,
+      .template-links a:hover {
+        background-color: gainsboro;
+        border-color: grey!important;
+      }
+    </style>
+
+    <nav class="template-links">
+      <ul>
+        ${
+          allTemplates.map(template => {
+            return (`
+              <li>
+                <a href="/${template}" ${template === currentTemplate ? 'class="selected"' : ''}>
+                  ${template.split('.')[0].replace('_', ' ')}
+                </a>
+              </li>
+            `);
+          }).join('')
+        }
+      </ul>
+    </nav>
+  `);
 }
