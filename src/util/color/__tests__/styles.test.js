@@ -51,6 +51,29 @@ describe('generateUserWidgetCSS', () => {
         .toMatchSnapshot();
     });
   });
+
+  describe('when the color are overidden in settings', () => {
+    let colors;
+
+    beforeEach(() => {
+      colors = generateUserWidgetCSS({
+        theme: '#0FF',
+        launcher: '#691840',
+        launcherText: '#FF4500',
+        button: '#0F0',
+        resultLists: '#00F',
+        header: '#203D9D',
+        articleLinks: '#F00',
+        base: '#283646',
+        color: '#FF9900',
+      });
+    });
+
+    it('uses the color passed in from config', () => {
+      expect(colors)
+        .toMatchSnapshot();
+    });
+  });
 });
 
 describe('generateUserLauncherCSS', () => {

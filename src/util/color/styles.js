@@ -19,7 +19,7 @@ function getWidgetColorVariables(color) {
   const listColorStr = colorFor(color.resultLists, mixer.getListColor());
   const listHighlightColorStr = mixer.highlight(listColorStr);
 
-  const linkColorStr = colorFor(mixer.getListColor());
+  const linkColorStr = colorFor(color.articleLinks, mixer.getListColor());
   const linkTextColorStr = mixer.uiElementColorFrom(linkColorStr);
 
   const headerColorStr = colorFor(color.header, baseColor);
