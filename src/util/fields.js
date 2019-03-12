@@ -35,14 +35,10 @@ const getDefaultFieldValues = (elementType, existingValue) => {
 
 const getCustomFields = (customFields, formState, options = {}) => {
   const renderField = (sharedProps) => {
-    const { required, showErrors, pattern } = sharedProps;
-    const showError = shouldRenderErrorMessage(formState[sharedProps.name], required, showErrors, pattern);
-
     const props = {
       ...sharedProps,
       Component: Label,
       errorString: i18n.t(sharedProps.errorString),
-      showError,
     };
 
     return (
@@ -65,7 +61,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       landscape: isLandscape(),
       name: _.toString(field.id),
       label: title,
-      errorString: 'embeddable_framework.validation.error.input',
+      errorString: i18n.t('embeddable_framework.validation.error.input'),
       required: !!field.required_in_portal,
       'aria-required': !!field.required_in_portal,
       ...getDefaultFieldValues(field.type, formState[field.id])
@@ -80,13 +76,13 @@ const getCustomFields = (customFields, formState, options = {}) => {
       return null;
     }
 
-    const renderError = shouldRenderErrorMessage(
+    const showError = shouldRenderErrorMessage(
       formState[sharedProps.name],
       sharedProps.required,
       sharedProps.showErrors
     );
 
-    sharedProps.showError = renderError;
+    sharedProps.showError = showError;
 
     switch (field.type) {
       case 'text':
@@ -129,8 +125,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       case 'textarea':
       case 'description':
         const textAreaProps = {
-          ...sharedProps,
-          showError: renderError,
+          ...sharedProps
         };
 
         return (
@@ -142,7 +137,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
           <Checkbox
             key={sharedProps.key}
             errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
-            showError={renderError}
+            showError={showError}
             description={field.description}
             label={getStyledLabelText(title, sharedProps.required)}
             checkboxProps={sharedProps}
