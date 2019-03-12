@@ -133,7 +133,6 @@ const setNewActiveEmbed = (state, dispatch) => {
 
 export default function resetActiveEmbed(prevState, nextState, action, dispatch = () => {}) {
   const { type } = action;
-  const state = nextState;
   const updateActions = [
     TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
     TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
@@ -148,13 +147,13 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
   ];
 
-  const isZopimChatting = getZopimIsChatting(state) && getActiveEmbed(state) === 'zopimChat';
-  const isNewChatChatting = getIsChatting(state) && getActiveEmbed(state) === 'chat';
+  const isZopimChatting = getZopimIsChatting(nextState) && getActiveEmbed(nextState) === 'zopimChat';
+  const isNewChatChatting = getIsChatting(prevState) && getActiveEmbed(prevState) === 'chat';
   const shouldReset = _.includes(updateActions, type) && !isZopimChatting && !isNewChatChatting;
   const chatReset = shouldResetForChat(type, nextState);
   const zopimChatReset = shouldResetForZopimChat(type, nextState);
 
-  if (!getWebWidgetVisible(state) && (shouldReset || chatReset || zopimChatReset) || action.type === CHAT_BANNED) {
-    setNewActiveEmbed(state, dispatch);
+  if (!getWebWidgetVisible(prevState) && (shouldReset || chatReset || zopimChatReset) || action.type === CHAT_BANNED) {
+    setNewActiveEmbed(nextState, dispatch);
   }
 }
