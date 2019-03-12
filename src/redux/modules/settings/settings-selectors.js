@@ -5,6 +5,10 @@ export const getSettingsMobileNotificationsDisabled = (state) => (
   state.settings.chat.mobileNotificationsDisabled
 );
 
+// ROOT
+export const getAnalyticsDisabled = (state) => !state.settings.analytics;
+export const getCookiesDisabled = (state) => !state.settings.cookies;
+
 // CHAT
 export const getRawSettingsChatDepartment = (state) => state.settings.chat.departments.select;
 export const getRawSettingsChatDepartmentsEnabled = (state) => state.settings.chat.departments.enabled;
@@ -12,7 +16,6 @@ export const getSettingsChatSuppress = (state) => state.settings.chat.suppress;
 export const getSettingsChatConnectionSuppress = (state) => state.settings.chat.connectionSuppress;
 export const getSettingsChatConnectOnDemand = (state) => state.settings.chat.connectOnDemand;
 export const getSettingsChatTags = (state) => state.settings.chat.tags;
-export const getAnalyticsDisabled = (state) => !state.settings.analytics;
 export const getSettingsChatConcierge = (state) => state.settings.chat.concierge;
 export const getSettingsChatOfflineForm = (state) => state.settings.chat.offlineForm;
 export const getSettingsChatPrechatForm = (state) => state.settings.chat.prechatForm;

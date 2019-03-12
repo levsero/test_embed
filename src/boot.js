@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { beacon } from 'service/beacon';
 import { identity } from 'service/identity';
 import { logging } from 'service/logging';
-import { store } from 'service/persistence';
+import { store as persistenceStore } from 'service/persistence';
 import { renderer } from 'service/renderer';
 import webWidgetApi from 'service/api/webWidgetApi';
 import zopimApi from 'service/api/zopimApi';
@@ -32,9 +32,9 @@ const setReferrerMetas = (iframe, doc) => {
   _.forEach(referrerMetas, (content) => appendMetaTag(iframeDoc, 'referrer', content));
 
   if (referrerMetas.length > 0) {
-    store.set('referrerPolicy', _.last(referrerMetas), 'session');
+    persistenceStore.set('referrerPolicy', _.last(referrerMetas), 'session');
   } else {
-    store.remove('referrerPolicy', 'session');
+    persistenceStore.remove('referrerPolicy', 'session');
   }
 };
 
@@ -59,6 +59,8 @@ const setupIframe = (iframe, doc) => {
 };
 
 const setupServices = (reduxStore) => {
+  persistenceStore.init(reduxStore);
+  settings.init(reduxStore);
   identity.init();
 
   http.init({
@@ -66,7 +68,6 @@ const setupServices = (reduxStore) => {
     version: __EMBEDDABLE_VERSION__
   });
 
-  settings.init(reduxStore);
   logging.init(settings.getErrorReportingEnabled());
   GA.init();
 };
@@ -142,7 +143,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     }
   };
 
-  const embeddableConfig = store.get('embeddableConfig');
+  const embeddableConfig = persistenceStore.get('embeddableConfig');
 
   if (embeddableConfig) {
     done({ body: embeddableConfig });

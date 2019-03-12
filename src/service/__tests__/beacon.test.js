@@ -3,6 +3,8 @@ import { store } from 'service/persistence';
 import { http } from 'service/transport';
 import { mediator } from 'service/mediator';
 import { i18n } from 'service/i18n';
+import { createStore } from 'redux';
+import reducer from 'src/redux/modules/reducer';
 import * as pages from 'utility/pages';
 import * as globals from 'utility/globals';
 
@@ -19,6 +21,7 @@ beforeEach(() => {
   document.title = undefined;
   document.t = undefined;
   dateNowMock = jest.spyOn(Date, 'now');
+  store.init(createStore(reducer));
   store.clear('session');
   store.clear();
   beacon.setConfig({
