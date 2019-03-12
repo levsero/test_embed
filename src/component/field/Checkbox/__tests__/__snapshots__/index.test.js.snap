@@ -39,87 +39,26 @@ exports[`Checkbox renders the expected component 1`] = `
 </div>
 `;
 
-exports[`Checkbox with an error renders the error field 1`] = `
-<div>
-  <div
-    class="CheckboxView-sc-3qa538-0 checkbox__c-chk___1E1jK lcTuIg"
-    data-garden-id="checkboxes.checkbox_view"
-    data-garden-version="3.4.8"
-  >
-    <input
-      aria-describedby="garden-checkbox-2--hint"
-      aria-labelledby="garden-checkbox-2--label"
-      class="Input-sc-7684p1-0 checkbox__c-chk__input___triCm huNnGl"
-      data-garden-id="checkboxes.input"
-      data-garden-version="3.4.8"
-      id="garden-checkbox-2--input"
-      name="123"
-      tabindex="0"
-      type="checkbox"
-    />
-    <label
-      class="Label-sc-1pzn6zn-0 checkbox__c-chk__label___R6mUZ hVpPIr"
-      data-garden-id="checkboxes.label"
-      data-garden-version="3.4.8"
-      for="garden-checkbox-2--input"
-      id="garden-checkbox-2--label"
-    >
-      checkbox title
-    </label>
-    <div
-      class="Hint-sc-1wv4eaq-0 checkbox__c-chk__hint___1MTmz iWfXKT"
-      data-garden-id="checkboxes.hint"
-      data-garden-version="3.4.8"
-      id="garden-checkbox-2--hint"
-    >
-      click to toggle
-    </div>
-    <div
-      class="Message-sc-8vyn5o-0 checkbox__c-chk__message___1Ex_9 checkbox__c-chk__message--error___2W0Ms DYITY"
-      data-garden-id="checkboxes.message"
-      data-garden-version="3.4.8"
-    >
-      there is a checkbox error
-    </div>
-  </div>
-</div>
+exports[`Checkbox with an error renders the error component 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -118,0 +118,7 @@
++       <div
++         class="Message-sc-8vyn5o-0 checkbox__c-chk__message___1Ex_9 checkbox__c-chk__message--error___2W0Ms DYITY"
++         data-garden-id="checkboxes.message"
++         data-garden-version="3.4.8"
++       >
++         there is a checkbox error
++       </div>
 `;
 
-exports[`Checkbox with the checkbox ticked passes the checked value into the garden checkbox 1`] = `
-<div>
-  <div
-    class="CheckboxView-sc-3qa538-0 checkbox__c-chk___1E1jK lcTuIg"
-    data-garden-id="checkboxes.checkbox_view"
-    data-garden-version="3.4.8"
-  >
-    <input
-      aria-describedby="garden-checkbox-4--hint"
-      aria-labelledby="garden-checkbox-4--label"
-      class="Input-sc-7684p1-0 checkbox__c-chk__input___triCm huNnGl"
-      data-garden-id="checkboxes.input"
-      data-garden-version="3.4.8"
-      id="garden-checkbox-4--input"
-      name="123"
-      tabindex="0"
-      type="checkbox"
-    />
-    <label
-      class="Label-sc-1pzn6zn-0 checkbox__c-chk__label___R6mUZ hVpPIr"
-      data-garden-id="checkboxes.label"
-      data-garden-version="3.4.8"
-      for="garden-checkbox-4--input"
-      id="garden-checkbox-4--label"
-    >
-      checkbox title
-    </label>
-    <div
-      class="Hint-sc-1wv4eaq-0 checkbox__c-chk__hint___1MTmz iWfXKT"
-      data-garden-id="checkboxes.hint"
-      data-garden-version="3.4.8"
-      id="garden-checkbox-4--hint"
-    >
-      click to toggle
-    </div>
-  </div>
-</div>
+exports[`Checkbox with the checkbox ticked renders the expected with the checked value 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -87,0 +87,1 @@
++         checked=""
 `;

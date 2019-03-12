@@ -1,5 +1,7 @@
 import { render } from 'react-testing-library';
 import React from 'react';
+import snapshotDiff from 'snapshot-diff';
+import { IdManager } from '@zendeskgarden/react-selection';
 
 import Text from '../';
 
@@ -17,6 +19,7 @@ const renderComponent = (props = {}) => {
     ...props
   };
 
+  IdManager.setIdCounter(0);
   return render(<Text {...mergedProps} inputProps={mergedProps} />);
 };
 
@@ -32,18 +35,20 @@ describe('Text', () => {
 
   describe('when not required', () => {
     it('renders the expected component with an optional tag', () => {
-      const { container } = renderComponent({ required: false });
+      const defaultComponent = renderComponent();
+      const component = renderComponent({ required: false });
 
-      expect(container)
+      expect(snapshotDiff(defaultComponent, component, { contextLines: 0 }))
         .toMatchSnapshot();
     });
   });
 
   describe('when showing error', () => {
     it('renders the expected component with an error message', () => {
-      const { container } = renderComponent({ showError: true });
+      const defaultComponent = renderComponent();
+      const component = renderComponent({ showError: true });
 
-      expect(container)
+      expect(snapshotDiff(defaultComponent, component, { contextLines: 0 }))
         .toMatchSnapshot();
     });
   });
