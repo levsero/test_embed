@@ -126,7 +126,8 @@ const webWidgetStoreDefaults = {
 };
 const baseDefaults = {
   errorReporting: true,
-  analytics: true
+  analytics: true,
+  cookies: true
 };
 let settingsStore = {};
 let webWidgetStore = {};
