@@ -33,7 +33,9 @@ exports[`renders the expected classes 1`] = `
             <span
               class="container icon Icon--article"
               type="Icon--article"
-            />
+            >
+              test-file-stub
+            </span>
             <div
               class="optionText"
             >
@@ -61,7 +63,9 @@ exports[`renders the expected classes 1`] = `
             <span
               class="container icon Icon--article"
               type="Icon--article"
-            />
+            >
+              test-file-stub
+            </span>
             <div
               class="optionText"
             >
