@@ -70,7 +70,7 @@ export const EMBED_MAP = {
   channelChoice: 'contactOptions',
   answerBot: 'answerBot'
 };
-
+export const NIL_EMBED = 'nilEmbed';
 export const LAUNCHER = 'launcher';
 
 export const FRAME_TRANSITION_DURATION = 250;

@@ -36,9 +36,11 @@ describe('base reducer web widget visibility', () => {
     actionTypes.OPEN_RECEIVED,
     zopimActionTypes.ZOPIM_CHAT_GONE_OFFLINE
   ];
+  const NIL_EMBED = 'nilEmbed';
 
   beforeEach(() => {
     initMockRegistry({
+      'constants/shared': { NIL_EMBED },
       'utility/globals': {
         isPopout: () => mockIsPopout
       }
@@ -137,18 +139,18 @@ describe('base reducer web widget visibility', () => {
       });
     };
 
-    describe('when payload is not empty', () => {
+    describe('when payload is not the nil embed', () => {
       it('returns previous state', () => {
-        mockPayload = 'NOT AN EMPTY STRING';
+        mockPayload = 'AN_EMBED';
         result = getState();
 
         expect(result).toEqual(mockState);
       });
     });
 
-    describe('when payload is empty', () => {
+    describe('when payload is the nil embed', () => {
       it('returns false', () => {
-        mockPayload = '';
+        mockPayload = NIL_EMBED;
         result = getState();
 
         expect(result).toEqual(false);
