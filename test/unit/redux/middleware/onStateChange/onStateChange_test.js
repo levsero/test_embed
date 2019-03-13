@@ -11,7 +11,8 @@ describe('onStateChange middleware', () => {
     mockHasSearched,
     mockAnswerBotAvailable = false,
     useArg,
-    mockIsPopout = false;
+    mockIsPopout = false,
+    mockCookiesDisabled;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
@@ -32,6 +33,7 @@ describe('onStateChange middleware', () => {
   const chatWindowOpenOnNavigateSpy = jasmine.createSpy('chatWindowOpenOnNavigateSpy');
   const activateRecievedSpy = jasmine.createSpy('activateRecieved');
   const resetShouldWarnSpy = jasmine.createSpy('resetShouldWarn');
+  const storeClearSpy = jasmine.createSpy('clear');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
   let mockDepartment;
@@ -121,7 +123,8 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartment: () => mockGetSettingsChatDepartment,
-        getSettingsMobileNotificationsDisabled: () => mockMobileNotificationsDisabled
+        getSettingsMobileNotificationsDisabled: () => mockMobileNotificationsDisabled,
+        getCookiesDisabled: () => mockCookiesDisabled
       },
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING',
@@ -136,6 +139,9 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/base/base-action-types': {
         UPDATE_EMBEDDABLE_CONFIG: 'UPDATE_EMBEDDABLE_CONFIG',
         UPDATE_ACTIVE_EMBED: 'UPDATE_ACTIVE_EMBED'
+      },
+      'src/redux/modules/settings/settings-action-types': {
+        UPDATE_SETTINGS: 'UPDATE_SETTINGS'
       },
       'src/constants/chat': {
         CONNECTION_STATUSES: {
@@ -163,7 +169,8 @@ describe('onStateChange middleware', () => {
       },
       'service/persistence': {
         store: {
-          get: () => mockStoreValue
+          get: () => mockStoreValue,
+          clear: storeClearSpy
         }
       },
       'src/redux/modules/chat/chat-screen-types': {
@@ -1358,6 +1365,54 @@ describe('onStateChange middleware', () => {
           expect(chatNotificationResetSpy)
             .toHaveBeenCalled();
         });
+      });
+    });
+  });
+
+  describe('onCookiePermissionsChange', () => {
+    afterEach(() => {
+      storeClearSpy.calls.reset();
+    });
+
+    describe('when the action is UPDATE_SETTINGS', () => {
+      const mockAction = { type: 'UPDATE_SETTINGS' };
+
+      describe('when cookie permission is denied', () => {
+        beforeEach(() => {
+          mockCookiesDisabled = true;
+
+          stateChangeFn(null, null, mockAction);
+        });
+
+        it('clears the localStorage', () => {
+          expect(storeClearSpy).toHaveBeenCalled();
+        });
+      });
+
+      describe('when cookie permission is given', () => {
+        beforeEach(() => {
+          mockCookiesDisabled = false;
+
+          stateChangeFn(null, null, mockAction);
+        });
+
+        it('it does not clear the localStorage', () => {
+          expect(storeClearSpy).not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when the action is anything else', () => {
+      const mockAction = { type: 'DERP DERP' };
+
+      beforeEach(() => {
+        mockCookiesDisabled = true;
+
+        stateChangeFn(null, null, mockAction);
+      });
+
+      it('does nothing', () => {
+        expect(storeClearSpy).not.toHaveBeenCalled();
       });
     });
   });
