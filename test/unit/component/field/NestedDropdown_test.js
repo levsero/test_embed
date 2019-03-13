@@ -39,7 +39,7 @@ describe('NestedDropdown component', () => {
   const Separator = noopReactComponent();
   const Message = noopReactComponent();
   const Icon = noopReactComponent();
-  const nestedDropdownPath = buildSrcPath('component/field/Dropdown/NestedDropdown');
+  const nestedDropdownPath = buildSrcPath('component/field/Dropdown');
   const optionNodePath = buildSrcPath('component/field/Dropdown/OptionNode');
   const OptionNode = requireUncached(optionNodePath);
 
@@ -76,7 +76,7 @@ describe('NestedDropdown component', () => {
     });
 
     mockery.registerAllowable(nestedDropdownPath);
-    NestedDropdown = requireUncached(nestedDropdownPath).NestedDropdown;
+    NestedDropdown = requireUncached(nestedDropdownPath).default;
   });
 
   afterEach(() => {
