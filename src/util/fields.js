@@ -3,19 +3,19 @@ import _ from 'lodash';
 import sanitizeHtml from 'sanitize-html';
 
 import { i18n } from 'service/i18n';
+import { NestedDropdown } from 'component/field/Dropdown/NestedDropdown';
 import {
   isMobileBrowser,
   isLandscape
 } from 'utility/devices';
-import { Label } from '@zendeskgarden/react-textfields';
-import { Label as DropdownLabel } from '@zendeskgarden/react-select';
+import { TextField, Textarea, Label, Input, Hint, Message } from '@zendeskgarden/react-textfields';
 import {
   Checkbox,
-  Label as LabelComponent,
-  Text,
-  TextArea,
-  Dropdown,
-} from 'src/component/field';
+  Label as CheckboxLabel,
+  Hint as CheckboxHint,
+  Message as CheckboxMessage
+} from '@zendeskgarden/react-checkboxes';
+import { Label as DropdownLabel } from '@zendeskgarden/react-select';
 
 const getDefaultFieldValues = (elementType, existingValue) => {
   switch (elementType) {
@@ -27,7 +27,7 @@ const getDefaultFieldValues = (elementType, existingValue) => {
     case 'description':
       return { value: existingValue || '' };
     case 'checkbox':
-      return { checked: existingValue || 0 };
+      return { checked: existingValue || false };
     default:
       return { value: existingValue };
   }
@@ -35,21 +35,37 @@ const getDefaultFieldValues = (elementType, existingValue) => {
 
 const getCustomFields = (customFields, formState, options = {}) => {
   const renderField = (sharedProps) => {
+    const error = renderErrorMessage(sharedProps, formState);
     const props = {
       ...sharedProps,
-      Component: Label,
-      errorString: i18n.t(sharedProps.errorString),
+      validation: error ? 'error': 'none'
     };
 
     return (
-      <Text key={sharedProps.key} {...props} inputProps={props}/>
+      <TextField key={sharedProps.key}>
+        {renderLabel(Label, sharedProps.label, sharedProps.required)}
+        {renderDescription(sharedProps)}
+        <Input {...props} />
+        {error}
+      </TextField>
     );
   };
-
+  const renderDescription = (field) => {
+    return field.description
+      ? <Hint>{field.description}</Hint>
+      : '';
+  };
   const isCheckbox = (field) => {
     return field && field.type === Checkbox;
   };
+  const renderErrorMessage = (fieldProps, formState) => {
+    const { required, showErrors, pattern } = fieldProps;
+    const value = formState[fieldProps.name];
 
+    return shouldRenderErrorMessage(value, required, showErrors, pattern)
+      ? <Message validation='error'>{i18n.t(fieldProps.errorString)}</Message>
+      : null;
+  };
   const mapFields = (field) => {
     const title = field.title_in_portal || '';
     const sharedProps = {
@@ -61,12 +77,11 @@ const getCustomFields = (customFields, formState, options = {}) => {
       landscape: isLandscape(),
       name: _.toString(field.id),
       label: title,
-      errorString: i18n.t('embeddable_framework.validation.error.input'),
+      errorString: 'embeddable_framework.validation.error.input',
       required: !!field.required_in_portal,
       'aria-required': !!field.required_in_portal,
       ...getDefaultFieldValues(field.type, formState[field.id])
     };
-
     const { visible_in_portal: visible, editable_in_portal: editable } = field; // eslint-disable-line camelcase
 
     // embeddable/ticket_fields.json will omit the visible_in_portal and editable_in_portal props for valid fields.
@@ -76,13 +91,11 @@ const getCustomFields = (customFields, formState, options = {}) => {
       return null;
     }
 
-    const showError = shouldRenderErrorMessage(
+    const renderError = shouldRenderErrorMessage(
       formState[sharedProps.name],
       sharedProps.required,
       sharedProps.showErrors
     );
-
-    sharedProps.showError = showError;
 
     switch (field.type) {
       case 'text':
@@ -93,13 +106,14 @@ const getCustomFields = (customFields, formState, options = {}) => {
         const defaultOption = _.find(field.custom_field_options, (option) => option.default);
         const dropdownProps = {
           ...sharedProps,
+          showError: renderError,
           options: field.custom_field_options,
           defaultOption,
           label: renderLabel(DropdownLabel, sharedProps.label, sharedProps.required),
           formState
         };
 
-        return <Dropdown {...dropdownProps} />;
+        return <NestedDropdown {...dropdownProps} />;
 
       case 'integer':
         const integerFieldProps = {
@@ -124,24 +138,43 @@ const getCustomFields = (customFields, formState, options = {}) => {
 
       case 'textarea':
       case 'description':
-        const textAreaProps = {
-          ...sharedProps
+        const descError = renderErrorMessage(sharedProps, formState);
+        const descProps = {
+          ...sharedProps,
+          validation: descError ? 'error': 'none'
         };
 
         return (
-          <TextArea {...textAreaProps} textareaProps={textAreaProps} />
+          <TextField key={sharedProps.key}>
+            {renderLabel(Label, sharedProps.label, sharedProps.required)}
+            {renderDescription(sharedProps)}
+            <Textarea {...descProps} rows='5' />
+            {descError}
+          </TextField>
         );
 
       case 'checkbox':
+        const description = field.description
+          ? <CheckboxHint>{field.description}</CheckboxHint>
+          : '';
+        const checkboxError = renderError
+          ? (
+            <CheckboxMessage validation='error'>
+              {i18n.t('embeddable_framework.validation.error.checkbox')}
+            </CheckboxMessage>
+          )
+          : null;
+        const checkboxProps = {
+          ...sharedProps,
+          validation: checkboxError ? 'error': 'none'
+        };
+
         return (
-          <Checkbox
-            key={sharedProps.key}
-            errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
-            showError={showError}
-            description={field.description}
-            label={getStyledLabelText(title, sharedProps.required)}
-            checkboxProps={sharedProps}
-          />
+          <Checkbox {...checkboxProps}>
+            {renderLabel(CheckboxLabel, title, sharedProps.required, { style: 'margin-top: 1px !important;' })}
+            {description}
+            {checkboxError}
+          </Checkbox>
         );
     }
   };
@@ -175,7 +208,11 @@ const getStyledLabelText = (label, required) => {
 };
 
 const renderLabel = (Component, label, required) => {
-  return (<LabelComponent Component={Component} label={label} required={required} />);
+  const labelText = getStyledLabelText(label, required);
+
+  return (
+    <Component dangerouslySetInnerHTML={{ __html: labelText }} />
+  );
 };
 
 export {
