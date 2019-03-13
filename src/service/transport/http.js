@@ -83,7 +83,7 @@ function send(payload, addType = true) {
 function sendWithMeta(payload) {
   const commonParams = {
     buid: identity.getBuid(),
-    suid: _.get(identity.getSuid(), 'id', null),
+    suid: identity.getSuid().id,
     version: config.version,
     timestamp: (new Date()).toISOString()
   };

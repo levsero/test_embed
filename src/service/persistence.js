@@ -15,11 +15,22 @@ function init(store) {
 }
 
 const storage = (type) => win[`${type}Storage`];
+const defaults = {
+  suid: {
+    id: null,
+    tabs: []
+  },
+  store: {}
+};
 
 function get(name, type = 'local') {
   try {
-    return deserialize(storage(type).getItem(prefix + name));
+    const data = deserialize(storage(type).getItem(prefix + name));
+
+    return data ? data : defaults[name] || null;
   } catch (e) {}
+
+  return defaults[name];
 }
 
 function set(name, data, type = 'local') {

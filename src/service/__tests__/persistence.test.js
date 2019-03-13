@@ -12,6 +12,11 @@ describe('localStorage', () => {
     store.clear();
   });
 
+  test('get returns defaults when nothing is set', () => {
+    expect(store.get('suid'))
+      .toEqual({ id: null, tabs: [] });
+  });
+
   test('can set then get', () => {
     store.set('here', 1234);
 
