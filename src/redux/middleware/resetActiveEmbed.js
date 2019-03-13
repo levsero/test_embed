@@ -91,6 +91,24 @@ const getChatActiveEmbed = (state) => {
   }
 };
 
+const shouldResetForSuppress = (action, state) => {
+  const { type, payload } = action;
+
+  if (type !== UPDATE_SETTINGS) return false;
+
+  const suppressedEmbeds = _.reduce(payload.webWidget, (result, value, key) => {
+    if (_.get(value, 'suppress') === true || _.get(value, 'hideWhenOffline') === true) {
+      result.push(key);
+    }
+    return result;
+  }, []);
+  const activeEmbed = getActiveEmbed(state);
+  const widgetVisible = getWebWidgetVisible(state);
+  const shouldSuppressActiveEmbed = _.includes(suppressedEmbeds, (EMBED_MAP[activeEmbed] || activeEmbed));
+
+  return widgetVisible ? shouldSuppressActiveEmbed : !_.isEmpty(suppressedEmbeds);
+};
+
 const setNewActiveEmbed = (state, dispatch) => {
   let backButton = false;
   let activeEmbed = NIL_EMBED;
@@ -134,7 +152,7 @@ const setNewActiveEmbed = (state, dispatch) => {
 };
 
 export default function resetActiveEmbed(prevState, nextState, action, dispatch = () => {}) {
-  const { type, payload } = action;
+  const { type } = action;
   const updateActions = [
     TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
     TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
@@ -148,23 +166,14 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     API_RESET_WIDGET,
     GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
   ];
-  const activeEmbed = getActiveEmbed(prevState);
   const widgetVisible = getWebWidgetVisible(prevState);
   const isZopimChatting = getZopimIsChatting(nextState) && getActiveEmbed(nextState) === 'zopimChat';
   const isNewChatChatting = getIsChatting(prevState) && getActiveEmbed(prevState) === 'chat';
   const shouldReset = (_.includes(updateActions, type) && !isZopimChatting && !isNewChatChatting)
     || shouldResetForChat(type, nextState)
     || shouldResetForZopimChat(type, nextState);
-  const suppressedEmbeds = type === UPDATE_SETTINGS
-    && _.reduce(payload.webWidget, (result, value, key) => {
-      if (_.get(value, 'suppress') === true || _.get(value, 'hideWhenOffline') === true) result.push(key);
-      return result;
-    }, []);
 
-  const shouldSuppressActiveEmbed = _.includes(suppressedEmbeds, (EMBED_MAP[activeEmbed] || activeEmbed));
-  const shouldResetForSuppress = widgetVisible ? shouldSuppressActiveEmbed : !_.isEmpty(suppressedEmbeds);
-
-  if ((!widgetVisible && shouldReset) || type === CHAT_BANNED || shouldResetForSuppress) {
+  if ((!widgetVisible && shouldReset) || type === CHAT_BANNED || shouldResetForSuppress(action, prevState)) {
     setNewActiveEmbed(nextState, dispatch);
   }
 }
