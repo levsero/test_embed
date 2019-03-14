@@ -21,6 +21,7 @@ import {
 import { http } from 'service/transport';
 import { formatRequestData } from './helpers/formatter';
 import { i18n } from 'service/i18n';
+import withRateLimiting from 'utility/rateLimiting';
 
 export function handleFormChange(state) {
   return {
@@ -141,9 +142,15 @@ export function handleTicketSubmission(attachments, done, fail) {
       }
     };
 
-    http.send(payload);
     dispatch({
       type: TICKET_SUBMISSION_REQUEST_SENT
+    });
+
+    withRateLimiting(http.send, payload, 'TICKET_SUBMISSION_REQUEST', () => {
+      dispatch({
+        type: TICKET_SUBMISSION_REQUEST_FAILURE,
+        payload: i18n.t('embeddable_framework.submitTicket.notify.message.ratelimited')
+      });
     });
   };
 }
