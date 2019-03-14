@@ -1,4 +1,5 @@
 let globals = require('utility/globals');
+let devices = require('utility/devices');
 
 test('getZendeskHost returns document.zendeskHost', () => {
   let result;
@@ -42,4 +43,36 @@ test('when window.zEPopout is true, isPopout returns true', () => {
 test('when window.zEPopout is false, isPopout returns false', () => {
   window.zEPopout = false;
   expect(globals.isPopout()).toEqual(false);
+});
+
+describe('setReferrerMetas', () => {
+  let mockIframe = { contentDocument: {} },
+    mockMetaTags = [{ content: 'hello' }, { content: 'world' }],
+    mockDoc = { };
+
+  beforeEach(() => {
+    jest.spyOn(devices, 'getMetaTagsByName').mockImplementation(() => mockMetaTags);
+    jest.spyOn(devices, 'appendMetaTag').mockImplementation(() => {});
+    globals.setReferrerMetas(mockIframe, mockDoc);
+  });
+
+  afterEach(() => {
+    devices.getMetaTagsByName.mockRestore();
+    devices.appendMetaTag.mockRestore();
+  });
+
+  describe('', () => {
+    it('appends two referrerMeta values to the iframe doc', () => {
+      expect(devices.appendMetaTag).toHaveBeenCalledTimes(2);
+    });
+
+    it('append the correct meta tags', () => {
+      expect(devices.appendMetaTag).toHaveBeenCalledWith(mockDoc, 'referrer', 'hello');
+      expect(devices.appendMetaTag).toHaveBeenCalledWith(mockDoc, 'referrer', 'world');
+    });
+
+    it('sets the Referrer Policy to the last element', () =>{
+      expect(globals.getReferrerPolicy()).toEqual('world');
+    });
+  });
 });

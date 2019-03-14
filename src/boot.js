@@ -11,9 +11,7 @@ import { settings } from 'service/settings';
 import { http } from 'service/transport';
 import { GA } from 'service/analytics/googleAnalytics';
 import {
-  appendMetaTag,
   clickBusterHandler,
-  getMetaTagsByName,
   isMobileBrowser
 } from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
@@ -22,21 +20,10 @@ import { initResizeMonitor } from 'utility/window';
 import { i18n } from 'service/i18n';
 import createStore from 'src/redux/createStore';
 import tracker from 'service/logging/tracker';
-import { getZendeskHost } from 'utility/globals';
-
-const setReferrerMetas = (iframe, doc) => {
-  const metaElements = getMetaTagsByName(doc, 'referrer');
-  const referrerMetas = _.map(metaElements, (meta) => meta.content);
-  const iframeDoc = iframe.contentDocument;
-
-  _.forEach(referrerMetas, (content) => appendMetaTag(iframeDoc, 'referrer', content));
-
-  if (referrerMetas.length > 0) {
-    persistenceStore.set('referrerPolicy', _.last(referrerMetas), 'session');
-  } else {
-    persistenceStore.remove('referrerPolicy', 'session');
-  }
-};
+import {
+  getZendeskHost,
+  setReferrerMetas
+} from 'utility/globals';
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -54,7 +41,7 @@ const setupIframe = (iframe, doc) => {
   // injecting the appropriate meta tags on the iframe.
   // TODO: When main.js refactor is complete, test this.
   if (iframe) {
-    boot.setReferrerMetas(iframe, doc);
+    setReferrerMetas(iframe, doc);
   }
 };
 
@@ -195,7 +182,6 @@ export const boot = {
   start,
 
   // Exported for testing only.
-  setReferrerMetas,
   setupIframe,
   setupServices,
   getConfig

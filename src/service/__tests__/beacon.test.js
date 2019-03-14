@@ -260,7 +260,8 @@ describe('sendPageView', () => {
     });
 
     it('returns null when referrerPolicy specifies so', () => {
-      store.set('referrerPolicy', 'same-origin', 'session');
+      jest.spyOn(globals, 'getReferrerPolicy').mockReturnValue('same-origin');
+
       beacon.sendPageView();
 
       expect(http.sendWithMeta)
@@ -276,7 +277,8 @@ describe('sendPageView', () => {
     });
 
     it('returns referrer origin when referrerPolicy specifies so', () => {
-      store.set('referrerPolicy', 'strict-origin-when-cross-origin', 'session');
+      jest.spyOn(globals, 'getReferrerPolicy').mockReturnValue('strict-origin-when-cross-origin');
+
       beacon.sendPageView();
 
       expect(http.sendWithMeta)
@@ -294,6 +296,7 @@ describe('sendPageView', () => {
 
   describe('with different referrer', () => {
     beforeEach(() => {
+      jest.spyOn(globals, 'getReferrerPolicy').mockReturnValue('');
       Object.defineProperty(document, 'referrer', {
         value: 'http://www.example.com/path',
         configurable: true
