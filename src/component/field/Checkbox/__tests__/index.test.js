@@ -1,9 +1,11 @@
 import React from 'react';
 import { render } from 'react-testing-library';
+import snapshotDiff from 'snapshot-diff';
+import { IdManager } from '@zendeskgarden/react-selection';
 
 import Checkbox from '../';
 
-const renderComponent = (props = {}) => {
+const renderComponent = (props = {}, checkboxProps = {}) => {
   const defaultProps = {
     label: 'checkbox title',
     description: 'click to toggle',
@@ -12,7 +14,8 @@ const renderComponent = (props = {}) => {
     checkboxProps: {
       name: '123',
       onChange: noop,
-      checked: 0
+      checked: 0,
+      ...checkboxProps
     }
   };
   const mergedProps = {
@@ -20,6 +23,7 @@ const renderComponent = (props = {}) => {
     ...props
   };
 
+  IdManager.setIdCounter(0);
   return render(<Checkbox {...mergedProps} />);
 };
 
@@ -32,19 +36,21 @@ describe('Checkbox', () => {
   });
 
   describe('with an error', () => {
-    it('renders the error field', () => {
-      const { container } = renderComponent({ showError: true });
+    it('renders the error component', () => {
+      const defaultComponent = renderComponent();
+      const component = renderComponent({ showError: true });
 
-      expect(container)
+      expect(snapshotDiff(defaultComponent, component, { contextLines: 0 }))
         .toMatchSnapshot();
     });
   });
 
   describe('with the checkbox ticked', () => {
-    it('passes the checked value into the garden checkbox', () => {
-      const { container } = renderComponent({ checked: 1 });
+    it('renders the expected with the checked value', () => {
+      const defaultComponent = renderComponent();
+      const component = renderComponent({}, { checked: 1 });
 
-      expect(container)
+      expect(snapshotDiff(defaultComponent, component, { contextLines: 0 }))
         .toMatchSnapshot();
     });
   });
