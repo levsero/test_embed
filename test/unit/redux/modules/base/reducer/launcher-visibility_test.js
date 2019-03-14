@@ -50,9 +50,6 @@ describe('base reducer launcher visibility', () => {
     mockery.enable();
 
     initMockRegistry({
-      'constants/shared': {
-        NIL_EMBED: 'nilEmbed'
-      },
       'utility/devices': {
         isMobileBrowser: () => mockIsMobileBrowser
       },
