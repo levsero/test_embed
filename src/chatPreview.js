@@ -75,36 +75,6 @@ const renderPreview = (options) => {
   };
   const store = createStore('chatpreview', { throttleEvents: true, allowedActionsFn: allowThrottleActions });
 
-  i18n.init(store);
-  i18n.setLocale(options.locale);
-
-  store.dispatch(choosePreview(CHAT));
-
-  const { width } = options.styles;
-  const frameStyle = _.extend({}, options.styles, {
-    position: 'relative',
-    width: `${parseInt(width) + BOX_SHADOW_SIZE*2}px`,
-  });
-  const containerStyle = {
-    width,
-    margin: `${BOX_SHADOW_SIZE}px`
-  };
-
-  const component = (
-    <Provider store={store}>
-      <PreviewContainer
-        store={store}
-        frameStyle={frameStyle}
-        containerStyle={containerStyle}
-        ref={(el) => { if (el) previewContainer = el.getWrappedInstance(); }} />
-    </Provider>
-  );
-
-  const container = document.createElement('div');
-
-  options.element.appendChild(container);
-  ReactDOM.render(component, container);
-
   const setColor = (color = defaultOptions.color) => {
     store.dispatch(updateColor({ color: { theme: color, button: color } }));
   };
@@ -124,8 +94,11 @@ const renderPreview = (options) => {
   };
 
   const updateLocale = (locale) => {
-    i18n.setLocale(locale);
-    previewContainer.updateFrameLocale();
+    i18n.setLocale(locale, () => {
+      waitForComponent(() => {
+        previewContainer.updateFrameLocale();
+      });
+    });
   };
 
   const updateChatState = (data) => {
@@ -136,8 +109,40 @@ const renderPreview = (options) => {
     store.dispatch({ type: actionType, payload: data });
   };
 
-  setColor();
-  store.dispatch({ type: PREVIEWER_LOADED });
+  const renderComponent = () => {
+    store.dispatch(choosePreview(CHAT));
+
+    const { width } = options.styles;
+    const frameStyle = _.extend({}, options.styles, {
+      position: 'relative',
+      width: `${parseInt(width) + BOX_SHADOW_SIZE*2}px`,
+    });
+    const containerStyle = {
+      width,
+      margin: `${BOX_SHADOW_SIZE}px`
+    };
+
+    const component = (
+      <Provider store={store}>
+        <PreviewContainer
+          store={store}
+          frameStyle={frameStyle}
+          containerStyle={containerStyle}
+          ref={(el) => { if (el) previewContainer = el.getWrappedInstance(); }} />
+      </Provider>
+    );
+
+    const container = document.createElement('div');
+
+    options.element.appendChild(container);
+    ReactDOM.render(component, container);
+
+    setColor();
+    store.dispatch({ type: PREVIEWER_LOADED });
+  };
+
+  i18n.init(store);
+  i18n.setLocale(options.locale, renderComponent);
 
   return {
     updateScreen,
