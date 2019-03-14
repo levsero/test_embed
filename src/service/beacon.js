@@ -138,7 +138,7 @@ function trackUserAction(category, action, options) {
 }
 
 function trackSettings(settings) {
-  if (!win.zESettings || _.isEmpty(settings) || config.reduceBlipping) return;
+  if (!win.zESettings || _.isEmpty(settings) || config.reduceBlipping || settings.cookies === false) return;
 
   const previousSettings = store.get('settings');
   const expiryTime = nowInSeconds() - 24*60*60;

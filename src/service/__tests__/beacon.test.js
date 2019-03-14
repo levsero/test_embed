@@ -411,10 +411,14 @@ describe('sendPageView', () => {
 describe('trackSettings', () => {
   const settings = { webWidget: { viaId: 48 } };
 
-  it('does not send anything when argument is empty', () => {
-    beacon.trackSettings({});
-    expect(http.sendWithMeta)
-      .not.toHaveBeenCalled();
+  describe('argument guards', () => {
+    [undefined, {}, { cookies: false }].forEach((arg) => {
+      test(`when passed ${JSON.stringify(arg)}, no blips sent`, () => {
+        beacon.trackSettings(arg);
+
+        expect(http.sendWithMeta).not.toHaveBeenCalled();
+      });
+    });
   });
 
   it('sends expected payload', () => {
