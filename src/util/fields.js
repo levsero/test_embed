@@ -11,7 +11,6 @@ import { Label } from '@zendeskgarden/react-textfields';
 import { Label as DropdownLabel } from '@zendeskgarden/react-select';
 import {
   Checkbox,
-  Label as LabelComponent,
   Text,
   TextArea,
   Dropdown,
@@ -175,7 +174,11 @@ const getStyledLabelText = (label, required) => {
 };
 
 const renderLabel = (Component, label, required) => {
-  return (<LabelComponent Component={Component} label={label} required={required} />);
+  const labelText = getStyledLabelText(label, required);
+
+  return (
+    <Component dangerouslySetInnerHTML={{ __html: labelText }} />
+  );
 };
 
 export {

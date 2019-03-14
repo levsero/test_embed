@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Label as LabelComponent } from '../';
+import { renderLabel } from 'utility/fields';
 
 import { TextField, Input, Hint, Message, Label } from '@zendeskgarden/react-textfields';
 
@@ -16,7 +16,7 @@ const Text = ({
 
   return (
     <TextField>
-      <LabelComponent Component={Label} label={label} required={required} />
+      {renderLabel(Label, label, required)}
       {description && <Hint>{description}</Hint>}
       <Input {...inputProps} validation={validation} />
       {showError && <Message validation={validation}>{errorString}</Message>}

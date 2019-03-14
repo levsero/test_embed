@@ -11,6 +11,8 @@ exports[`getCustomFields renders the correct components for each key 1`] = `
       class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
       data-garden-id="textfields.label"
       data-garden-version="3.7.0"
+      for="garden-text-field-0--input"
+      id="garden-text-field-0--label"
     >
       <strong>
         Text
@@ -47,6 +49,8 @@ exports[`getCustomFields renders the correct components for each key 2`] = `
         class="Label-cui6bx-0 cHXOrh Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
         data-garden-id="select.label"
         data-garden-version="2.5.2"
+        for="garden-field-container-2--input"
+        id="garden-field-container-2--label"
       >
         <strong>
           Nested Drop Down
@@ -95,6 +99,8 @@ exports[`getCustomFields renders the correct components for each key 3`] = `
         class="Label-cui6bx-0 cHXOrh Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
         data-garden-id="select.label"
         data-garden-version="2.5.2"
+        for="garden-field-container-6--input"
+        id="garden-field-container-6--label"
       >
         <strong>
           Department
@@ -140,6 +146,8 @@ exports[`getCustomFields renders the correct components for each key 4`] = `
       class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
       data-garden-id="textfields.label"
       data-garden-version="3.7.0"
+      for="garden-text-field-10--input"
+      id="garden-text-field-10--label"
     >
       <strong>
         Order Details
@@ -172,6 +180,8 @@ exports[`getCustomFields renders the correct components for each key 5`] = `
       class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
       data-garden-id="textfields.label"
       data-garden-version="3.7.0"
+      for="garden-text-field-12--input"
+      id="garden-text-field-12--label"
     >
       <strong>
         Age
@@ -216,6 +226,8 @@ exports[`getCustomFields renders the correct components for each key 6`] = `
       class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
       data-garden-id="textfields.label"
       data-garden-version="3.7.0"
+      for="garden-text-field-14--input"
+      id="garden-text-field-14--label"
     >
       <strong>
         Total Cost
@@ -305,6 +317,8 @@ exports[`getCustomFields renders the correct components for each key 8`] = `
       class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
       data-garden-id="textfields.label"
       data-garden-version="3.7.0"
+      for="garden-text-field-18--input"
+      id="garden-text-field-18--label"
     >
       <strong>
         How can we help?
@@ -337,6 +351,8 @@ exports[`getCustomFields renders the correct components for each key 9`] = `
       class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
       data-garden-id="textfields.label"
       data-garden-version="3.7.0"
+      for="garden-text-field-20--input"
+      id="garden-text-field-20--label"
     >
       <strong>
         What is your query about?

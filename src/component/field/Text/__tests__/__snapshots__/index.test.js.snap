@@ -11,6 +11,8 @@ exports[`Text when not required renders the expected component with an optional 
       class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
       data-garden-id="textfields.label"
       data-garden-version="3.7.0"
+      for="garden-text-field-2--input"
+      id="garden-text-field-2--label"
     >
       <strong>
         this is a label
@@ -51,6 +53,8 @@ exports[`Text when required renders the expected component 1`] = `
       class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
       data-garden-id="textfields.label"
       data-garden-version="3.7.0"
+      for="garden-text-field-0--input"
+      id="garden-text-field-0--label"
     >
       <strong>
         this is a label
@@ -91,6 +95,8 @@ exports[`Text when showing error renders the expected component with an error me
       class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
       data-garden-id="textfields.label"
       data-garden-version="3.7.0"
+      for="garden-text-field-4--input"
+      id="garden-text-field-4--label"
     >
       <strong>
         this is a label

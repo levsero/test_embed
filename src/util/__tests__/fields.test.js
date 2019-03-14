@@ -10,7 +10,6 @@ import {
 } from '../fields';
 import { EMAIL_PATTERN } from 'constants/shared';
 import { noopReactComponent } from 'utility/testHelpers';
-import { Label } from 'src/component/field';
 
 describe('getStyledLabelText', () => {
   const label = 'What Biltong flavour would you like to order?';
@@ -117,7 +116,9 @@ describe('renderLabel', () => {
   const callRenderLabel = (mockLabel, mockRequired) => {
     const element = renderLabel(noopReactComponent, mockLabel, mockRequired);
 
-    return element;
+    const textContent = element.props.dangerouslySetInnerHTML.__html;
+
+    return textContent;
   };
 
   describe('when field is required', () => {
@@ -125,16 +126,7 @@ describe('renderLabel', () => {
       const result = callRenderLabel('yolo', true);
 
       expect(result)
-        .toEqual(<Label Component={noopReactComponent} label="yolo" required={true} />);
-    });
-  });
-
-  describe('when label is falsy', () => {
-    it('returns the original value', () => {
-      const result = callRenderLabel(null, false);
-
-      expect(result)
-        .toEqual(<Label Component={noopReactComponent} label={null} required={false} />);
+        .toContain('<strong>yolo</strong>');
     });
   });
 
@@ -143,7 +135,7 @@ describe('renderLabel', () => {
       const result = callRenderLabel('yolo', false);
 
       expect(result)
-        .toEqual(<Label Component={noopReactComponent} label={'yolo'} required={false} />);
+        .toContain('<strong>yolo</strong> (optional)');
     });
   });
 });

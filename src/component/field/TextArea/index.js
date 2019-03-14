@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Label as LabelComponent } from '../';
 import { TextField, Textarea, Label, Hint, Message } from '@zendeskgarden/react-textfields';
+import { renderLabel } from 'utility/fields';
 
 const Text = ({
   label,
@@ -15,7 +15,7 @@ const Text = ({
 
   return (
     <TextField>
-      <LabelComponent Component={Label} label={label} required={required} />
+      {renderLabel(Label, label, required)}
       {description && <Hint>{description}</Hint>}
       <Textarea {...textareaProps} validation={validation} />
       {showError && <Message validation='error'>{errorString}</Message>}
