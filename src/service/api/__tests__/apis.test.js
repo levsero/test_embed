@@ -2,7 +2,7 @@ import * as apis from '../apis';
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as constants from 'constants/api';
-import * as chatActions from 'src/redux/modules/chat/chat-actions';
+import * as chatActions from 'src/redux/modules/chat/chat-actions/actions';
 import * as settingsActions from 'src/redux/modules/settings/settings-actions';
 import * as baseActions from 'src/redux/modules/base/base-actions';
 import * as hcActions from 'src/redux/modules/helpCenter/helpCenter-actions';

@@ -54,7 +54,7 @@ describe('Navigation', () => {
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatPopout: () => {}
       },
-      'src/redux/modules/chat/chat-actions': {
+      'src/redux/modules/chat': {
         updateMenuVisibility: () => {}
       },
       'src/redux/modules/base/base-actions': {

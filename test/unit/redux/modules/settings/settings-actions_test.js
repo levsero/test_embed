@@ -48,7 +48,7 @@ describe('settings redux actions', () => {
       'src/redux/modules/selectors': {
         getDefaultSelectedDepartment: () => mockDepartment,
       },
-      'src/redux/modules/chat/chat-actions': {
+      'src/redux/modules/chat': {
         setDepartment: setDepartmentSpy,
         clearDepartment: clearDepartmentSpy
       },
