@@ -1,0 +1,385 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getCustomFields renders the correct components for each key 1`] = `
+<div>
+  <div
+    class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-0--input"
+      id="garden-text-field-0--label"
+    >
+      <strong>
+        Text
+      </strong>
+    </label>
+    <input
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-0--label"
+      aria-required="true"
+      class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+      data-garden-id="textfields.input"
+      data-garden-version="3.7.0"
+      id="garden-text-field-0--input"
+      label="Text"
+      name="22660514"
+      required=""
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`getCustomFields renders the correct components for each key 2`] = `
+<div>
+  <div
+    class="field"
+  >
+    <div
+      class="SelectGroup-sc-2edjb9-0 jJsRwa TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+      data-garden-id="select.select_group"
+      data-garden-version="2.5.2"
+    >
+      <label
+        class="Label-cui6bx-0 cHXOrh Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+        data-garden-id="select.label"
+        data-garden-version="2.5.2"
+        for="garden-field-container-2--input"
+        id="garden-field-container-2--label"
+      >
+        <strong>
+          Nested Drop Down
+        </strong>
+      </label>
+      <div
+        class="Hint-sc-3w6os0-0 cdjBrT Hint-sc-1pcaoos-0 text__c-txt__hint___2Tn9V RvEHv"
+        data-garden-id="select.hint"
+        data-garden-version="2.5.2"
+        id="garden-field-container-2--hint"
+      />
+      <div
+        aria-haspopup="true"
+        aria-labelledby="garden-field-container-2--label"
+        class="SelectView-gnmjk-0 lcVyfi Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--select___7_VcN hytfkM"
+        data-garden-id="select.select_view"
+        data-garden-version="2.5.2"
+        id="garden-field-container-2--input"
+        role="combobox"
+        tabindex="0"
+      >
+        -
+      </div>
+    </div>
+    <input
+      class="u-isHidden"
+      name="10006"
+      required=""
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`getCustomFields renders the correct components for each key 3`] = `
+<div>
+  <div
+    class="field"
+  >
+    <div
+      class="SelectGroup-sc-2edjb9-0 jJsRwa TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+      data-garden-id="select.select_group"
+      data-garden-version="2.5.2"
+    >
+      <label
+        class="Label-cui6bx-0 cHXOrh Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+        data-garden-id="select.label"
+        data-garden-version="2.5.2"
+        for="garden-field-container-6--input"
+        id="garden-field-container-6--label"
+      >
+        <strong>
+          Department
+        </strong>
+      </label>
+      <div
+        class="Hint-sc-3w6os0-0 cdjBrT Hint-sc-1pcaoos-0 text__c-txt__hint___2Tn9V RvEHv"
+        data-garden-id="select.hint"
+        data-garden-version="2.5.2"
+        id="garden-field-container-6--hint"
+      />
+      <div
+        aria-haspopup="true"
+        aria-labelledby="garden-field-container-6--label"
+        class="SelectView-gnmjk-0 lcVyfi Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--select___7_VcN hytfkM"
+        data-garden-id="select.select_view"
+        data-garden-version="2.5.2"
+        id="garden-field-container-6--input"
+        role="combobox"
+        tabindex="0"
+      >
+        -
+      </div>
+    </div>
+    <input
+      class="u-isHidden"
+      name="22666574"
+      required=""
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`getCustomFields renders the correct components for each key 4`] = `
+<div>
+  <div
+    class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-10--input"
+      id="garden-text-field-10--label"
+    >
+      <strong>
+        Order Details
+      </strong>
+    </label>
+    <textarea
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-10--label"
+      aria-required="true"
+      class="Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+      data-garden-id="textfields.textarea"
+      data-garden-version="3.7.0"
+      id="garden-text-field-10--input"
+      label="Order Details"
+      name="22660524"
+      required=""
+    />
+  </div>
+</div>
+`;
+
+exports[`getCustomFields renders the correct components for each key 5`] = `
+<div>
+  <div
+    class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-12--input"
+      id="garden-text-field-12--label"
+    >
+      <strong>
+        Age
+      </strong>
+    </label>
+    <div
+      class="Hint-sc-1pcaoos-0 text__c-txt__hint___2Tn9V RvEHv"
+      data-garden-id="textfields.hint"
+      data-garden-version="3.7.0"
+      id="garden-text-field-12--hint"
+    >
+      this is the integer description
+    </div>
+    <input
+      aria-describedby="garden-text-field-12--hint"
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-12--label"
+      aria-required="true"
+      class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+      data-garden-id="textfields.input"
+      data-garden-version="3.7.0"
+      id="garden-text-field-12--input"
+      label="Age"
+      name="22823250"
+      pattern="/\\\\d+/"
+      required=""
+      type="number"
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`getCustomFields renders the correct components for each key 6`] = `
+<div>
+  <div
+    class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-14--input"
+      id="garden-text-field-14--label"
+    >
+      <strong>
+        Total Cost
+      </strong>
+    </label>
+    <div
+      class="Hint-sc-1pcaoos-0 text__c-txt__hint___2Tn9V RvEHv"
+      data-garden-id="textfields.hint"
+      data-garden-version="3.7.0"
+      id="garden-text-field-14--hint"
+    >
+      this is the decimal description
+    </div>
+    <input
+      aria-describedby="garden-text-field-14--hint"
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-14--label"
+      aria-required="true"
+      class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+      data-garden-id="textfields.input"
+      data-garden-version="3.7.0"
+      id="garden-text-field-14--input"
+      label="Total Cost"
+      name="22823260"
+      pattern="/\\\\d*([.,]\\\\d+)?/"
+      required=""
+      step="any"
+      type="number"
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`getCustomFields renders the correct components for each key 7`] = `
+<div>
+  <div
+    class="CheckboxView-sc-3qa538-0 checkbox__c-chk___1E1jK lcTuIg"
+    data-garden-id="checkboxes.checkbox_view"
+    data-garden-version="3.4.8"
+  >
+    <input
+      aria-describedby="garden-checkbox-16--hint"
+      aria-labelledby="garden-checkbox-16--label"
+      aria-required="true"
+      class="Input-sc-7684p1-0 checkbox__c-chk__input___triCm huNnGl"
+      data-garden-id="checkboxes.input"
+      data-garden-version="3.4.8"
+      id="garden-checkbox-16--input"
+      label="Can we call you?"
+      name="22823270"
+      required=""
+      tabindex="0"
+      type="checkbox"
+    />
+    <label
+      class="Label-sc-1pzn6zn-0 checkbox__c-chk__label___R6mUZ hVpPIr"
+      data-garden-id="checkboxes.label"
+      data-garden-version="3.4.8"
+      for="garden-checkbox-16--input"
+      id="garden-checkbox-16--label"
+    >
+      <strong>
+        Can we call you?
+      </strong>
+    </label>
+    <div
+      class="Hint-sc-1wv4eaq-0 checkbox__c-chk__hint___1MTmz iWfXKT"
+      data-garden-id="checkboxes.hint"
+      data-garden-version="3.4.8"
+      id="garden-checkbox-16--hint"
+    >
+      this is the description
+    </div>
+  </div>
+</div>
+`;
+
+exports[`getCustomFields renders the correct components for each key 8`] = `
+<div>
+  <div
+    class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-18--input"
+      id="garden-text-field-18--label"
+    >
+      <strong>
+        How can we help?
+      </strong>
+       (optional)
+    </label>
+    <textarea
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-18--label"
+      aria-required="false"
+      class="Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+      data-garden-id="textfields.textarea"
+      data-garden-version="3.7.0"
+      id="garden-text-field-18--input"
+      label="How can we help?"
+      name="2284527"
+    />
+  </div>
+</div>
+`;
+
+exports[`getCustomFields renders the correct components for each key 9`] = `
+<div>
+  <div
+    class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-20--input"
+      id="garden-text-field-20--label"
+    >
+      <strong>
+        What is your query about?
+      </strong>
+    </label>
+    <div
+      class="Hint-sc-1pcaoos-0 text__c-txt__hint___2Tn9V RvEHv"
+      data-garden-id="textfields.hint"
+      data-garden-version="3.7.0"
+      id="garden-text-field-20--hint"
+    >
+      subject description
+    </div>
+    <input
+      aria-describedby="garden-text-field-20--hint"
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-20--label"
+      aria-required="true"
+      class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+      data-garden-id="textfields.input"
+      data-garden-version="3.7.0"
+      id="garden-text-field-20--input"
+      label="What is your query about?"
+      name="2284528"
+      required=""
+      value=""
+    />
+  </div>
+</div>
+`;

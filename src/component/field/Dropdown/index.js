@@ -39,7 +39,7 @@ const findDefaultNode = (names, rootNode) => {
   return currNode;
 };
 
-export class NestedDropdown extends Component {
+export default class NestedDropdown extends Component {
   static propTypes = {
     getFrameContentDocument: PropTypes.func.isRequired,
     options: PropTypes.array.isRequired,
