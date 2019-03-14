@@ -11,7 +11,6 @@ import {
   TOGGLE_RECEIVED,
   WIDGET_INITIALISED,
   POPOUT_BUTTON_CLICKED,
-  UPDATE_ACTIVE_EMBED
 } from '../base-action-types';
 import {
   ZOPIM_HIDE,
@@ -24,14 +23,13 @@ import {
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
 } from '../../chat/chat-action-types';
-import { NIL_EMBED } from 'constants/shared';
 import { isMobileBrowser } from 'utility/devices';
 import { isPopout } from 'utility/globals';
 
 const initialState = true;
 
 const launcherVisible = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type } = action;
 
   switch (type) {
     case LAUNCHER_CLICKED:
@@ -58,9 +56,6 @@ const launcherVisible = (state = initialState, action) => {
       return !isPopout();
     case TOGGLE_RECEIVED:
       return !state;
-    case UPDATE_ACTIVE_EMBED:
-      if (payload === NIL_EMBED) return false;
-      return state;
     default:
       return state;
   }
