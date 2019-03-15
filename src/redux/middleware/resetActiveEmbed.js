@@ -101,7 +101,7 @@ const shouldResetForSuppress = (action, state) => {
   if (type !== UPDATE_SETTINGS) return false;
 
   const suppressedEmbeds = _.reduce(payload.webWidget, (result, value, key) => {
-    if (_.get(value, 'suppress') === true || _.get(value, 'hideWhenOffline') === true) {
+    if (_.hasIn(value, 'suppress') || _.hasIn(value, 'hideWhenOffline')) {
       result.push(key);
     }
     return result;
