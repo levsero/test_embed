@@ -26,11 +26,17 @@
       return params;
     };
 
+    var setPageTitle = function(title) {
+      if (title) {
+        document.title = decodeURI(title);
+      }
+    };
+
     var parseSettings = function (parameters) {
       if (!parameters || !parameters.settings) return {};
 
       return JSON.parse(window.atob(parameters.settings));
-    }
+    };
 
     var loadLocale = function(locale) {
       if (locale) {
@@ -50,6 +56,7 @@
     }
     loadSnippet(queryParams);
     loadLocale(queryParams.locale);
+    setPageTitle(queryParams.title);
   </script>
 </body>
 </html>
