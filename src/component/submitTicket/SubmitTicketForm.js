@@ -380,7 +380,7 @@ export class SubmitTicketForm extends Component {
     if (!this.props.nameFieldEnabled) return;
 
     const error = this.renderErrorMessage(
-      false,
+      this.props.nameFieldRequired,
       this.props.formState.name,
       'embeddable_framework.validation.error.name');
     const name = 'name';
