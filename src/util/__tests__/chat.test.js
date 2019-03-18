@@ -8,6 +8,7 @@ import {
   createChatPopoutWindow,
   getDisplayName
 } from '../chat';
+import { i18n } from 'service/i18n';
 
 jest.mock('utility/globals');
 
@@ -211,12 +212,13 @@ describe('formatSchedule', () => {
 
 describe('createChatPopoutWindow', () => {
   it('creates the query string correctly', () => {
+    jest.spyOn(i18n, 't').mockImplementation(() => 'WebWidgetLiveChat');
     createChatPopoutWindow('settings', 'machineId', 'defactoLanguage');
 
-    const url = 'https://static-staging.zdassets.com/web_widget/latest/liveChat.html?v=2#key=a.zendesk.com&settings="settings"&mid=machineId&locale=defactoLanguage';
+    const url = 'https://static-staging.zdassets.com/web_widget/latest/liveChat.html?v=3#key=a.zendesk.com&settings="settings"&mid=machineId&locale=defactoLanguage&title=WebWidgetLiveChat';
 
     expect(globals.win.open)
-      .toHaveBeenCalledWith(url, 'Web Widget LiveChat', 'height=600,width=400');
+      .toHaveBeenCalledWith(url, 'WebWidgetLiveChat', 'height=600,width=400');
   });
 });
 

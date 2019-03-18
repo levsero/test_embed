@@ -1,5 +1,6 @@
 import { AGENT_BOT } from 'constants/chat';
 import { win, getZendeskHost } from 'utility/globals';
+import { i18n } from 'service/i18n';
 import _ from 'lodash';
 
 /**
@@ -72,14 +73,15 @@ function createChatPopoutWindow(chatPopoutSettings, machineId, locale) {
 
   url += generateQueryString(chatPopoutSettings, machineId, locale);
 
-  win.open(url, 'Web Widget LiveChat', 'height=600,width=400');
+  win.open(url, 'WebWidgetLiveChat', 'height=600,width=400');
 }
 
 function generateQueryString(chatPopoutSettings, machineId, locale) {
   const subdomain = getZendeskHost(document);
   const settings = win.btoa(JSON.stringify(chatPopoutSettings));
+  const title = encodeURI(i18n.t('embeddable_framework.popout.title'));
 
-  return `?v=2#key=${subdomain}&settings=${settings}&mid=${machineId}&locale=${locale}`;
+  return `?v=3#key=${subdomain}&settings=${settings}&mid=${machineId}&locale=${locale}&title=${title}`;
 }
 
 export {
