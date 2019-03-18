@@ -1187,7 +1187,7 @@ parts:
   - translation:
       key: "embeddable_framework.popout.title"
       title: "The name of the Popout chat page, opened via a button while chat is live. Exists separately to the user's prior experience"
-      screenshot: "https://tinyurl.com/y8n63eba"
+      screenshot: "https://drive.google.com/open?id=1ZV3Rn-TE4Zgvr25VFvIJ7z8au986DRKM"
       value: "Web Widget Live Chat"
 
 # Attachments
