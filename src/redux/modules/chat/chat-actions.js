@@ -236,7 +236,7 @@ export function sendEmailTranscript(email) {
       payload: email
     });
 
-    zChatWithTimeout(getState(), 'sendEmailTranscript')(email, (err) => {
+    zChatWithTimeout(getState, 'sendEmailTranscript')(email, (err) => {
       if (!err) {
         dispatch({
           type: actions.EMAIL_TRANSCRIPT_SUCCESS,
