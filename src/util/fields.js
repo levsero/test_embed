@@ -52,7 +52,7 @@ const getConditionOverrides = (conditions, conditionCheck) => (
     const isFulfilled = conditionCheck(condition.parent_field_id, condition.value);
 
     condition.child_fields.forEach((child) => {
-      // need to check if already set to false in case multiple conditions on hte same element
+      // need to check if already set to false in case multiple conditions on the same element
       const isVisible = memo[child.id] ? memo[child.id].visible_in_portal && isFulfilled : isFulfilled;
 
       memo[child.id] = {

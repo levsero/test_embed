@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getCustomFields renders the correct components for each key 1`] = `
+exports[`customFields getCustomFields renders the correct components for each key 1`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -35,7 +35,7 @@ exports[`getCustomFields renders the correct components for each key 1`] = `
 </div>
 `;
 
-exports[`getCustomFields renders the correct components for each key 2`] = `
+exports[`customFields getCustomFields renders the correct components for each key 2`] = `
 <div>
   <div
     class="field"
@@ -85,7 +85,7 @@ exports[`getCustomFields renders the correct components for each key 2`] = `
 </div>
 `;
 
-exports[`getCustomFields renders the correct components for each key 3`] = `
+exports[`customFields getCustomFields renders the correct components for each key 3`] = `
 <div>
   <div
     class="field"
@@ -135,7 +135,7 @@ exports[`getCustomFields renders the correct components for each key 3`] = `
 </div>
 `;
 
-exports[`getCustomFields renders the correct components for each key 4`] = `
+exports[`customFields getCustomFields renders the correct components for each key 4`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -169,7 +169,7 @@ exports[`getCustomFields renders the correct components for each key 4`] = `
 </div>
 `;
 
-exports[`getCustomFields renders the correct components for each key 5`] = `
+exports[`customFields getCustomFields renders the correct components for each key 5`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -215,7 +215,7 @@ exports[`getCustomFields renders the correct components for each key 5`] = `
 </div>
 `;
 
-exports[`getCustomFields renders the correct components for each key 6`] = `
+exports[`customFields getCustomFields renders the correct components for each key 6`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -262,7 +262,7 @@ exports[`getCustomFields renders the correct components for each key 6`] = `
 </div>
 `;
 
-exports[`getCustomFields renders the correct components for each key 7`] = `
+exports[`customFields getCustomFields renders the correct components for each key 7`] = `
 <div>
   <div
     class="CheckboxView-sc-3qa538-0 checkbox__c-chk___1E1jK lcTuIg"
@@ -306,7 +306,7 @@ exports[`getCustomFields renders the correct components for each key 7`] = `
 </div>
 `;
 
-exports[`getCustomFields renders the correct components for each key 8`] = `
+exports[`customFields getCustomFields renders the correct components for each key 8`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -340,7 +340,7 @@ exports[`getCustomFields renders the correct components for each key 8`] = `
 </div>
 `;
 
-exports[`getCustomFields renders the correct components for each key 9`] = `
+exports[`customFields getCustomFields renders the correct components for each key 9`] = `
 <div>
   <div
     class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
@@ -382,4 +382,321 @@ exports[`getCustomFields renders the correct components for each key 9`] = `
     />
   </div>
 </div>
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with form state with allFieldsAsConditions 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -3,5 +3,5 @@
+      "editable_in_portal": true,
+      "id": "22660514",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Text",
+      "type": "text",
+@@ -51,5 +51,5 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+@@ -60,5 +60,5 @@
+      "editable_in_portal": true,
+      "id": "22823250",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Age",
+      "type": "integer",
+@@ -69,5 +69,5 @@
+      "editable_in_portal": true,
+      "id": "22823260",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Total Cost",
+      "type": "decimal",
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with form state with conditionWithMultipleChildren 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -51,5 +51,5 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+@@ -86,5 +86,5 @@
+      "editable_in_portal": true,
+      "id": "2284527",
+-     "required_in_portal": false,
++     "required_in_portal": true,
+      "title_in_portal": "How can we help?",
+      "type": "description",
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with form state with multipleConditions one fulfilled 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -51,5 +51,5 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+@@ -78,8 +78,8 @@
+      "editable_in_portal": true,
+      "id": "22823270",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Can we call you?",
+      "type": "checkbox",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with form state with multipleConditions one fulfilled 2`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -51,5 +51,5 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+@@ -78,5 +78,5 @@
+      "editable_in_portal": true,
+      "id": "22823270",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Can we call you?",
+      "type": "checkbox",
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with form state with multipleConditionsOnSameChild one fulfilled 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -54,5 +54,5 @@
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with form state with multipleConditionsOnSameChild one fulfilled 2`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with form state with singleCondition 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -51,5 +51,5 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with no form state with allFieldsAsConditions 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -3,8 +3,8 @@
+      "editable_in_portal": true,
+      "id": "22660514",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Text",
+      "type": "text",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -28,5 +28,5 @@
+      "title_in_portal": "Nested Drop Down",
+      "type": "tagger",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -46,13 +46,13 @@
+      "title_in_portal": "Department",
+      "type": "tagger",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -60,8 +60,8 @@
+      "editable_in_portal": true,
+      "id": "22823250",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Age",
+      "type": "integer",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -69,8 +69,8 @@
+      "editable_in_portal": true,
+      "id": "22823260",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Total Cost",
+      "type": "decimal",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -81,5 +81,5 @@
+      "title_in_portal": "Can we call you?",
+      "type": "checkbox",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -89,5 +89,5 @@
+      "title_in_portal": "How can we help?",
+      "type": "description",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -98,5 +98,5 @@
+      "title_in_portal": "What is your query about?",
+      "type": "subject",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+  ]
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with no form state with conditionWithMultipleChildren 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -51,8 +51,8 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -86,8 +86,8 @@
+      "editable_in_portal": true,
+      "id": "2284527",
+-     "required_in_portal": false,
++     "required_in_portal": true,
+      "title_in_portal": "How can we help?",
+      "type": "description",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -98,5 +98,5 @@
+      "title_in_portal": "What is your query about?",
+      "type": "subject",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+  ]
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with no form state with multipleConditions 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -51,8 +51,8 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+@@ -78,8 +78,8 @@
+      "editable_in_portal": true,
+      "id": "22823270",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Can we call you?",
+      "type": "checkbox",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with no form state with multipleConditionsOnSameChild 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -54,5 +54,5 @@
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
+`;
+
+exports[`customFields updateConditionalVisibility with conditions with no form state with singleCondition 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -51,8 +51,8 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
+-     "visible_in_portal": true,
++     "visible_in_portal": false,
+    },
+    Object {
 `;
