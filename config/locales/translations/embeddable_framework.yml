@@ -1184,6 +1184,11 @@ parts:
       title: "The button to open chat menu. Displays at the top right of the widget on mobile only. This text is for screen readers, only the icon is visually shown."
       screenshot: "https://tinyurl.com/y8n63eba"
       value: "Menu"
+  - translation:
+      key: "embeddable_framework.popout.title"
+      title: "The name of the Popout chat page, opened via a button while chat is live. Exists separately to the user's prior experience"
+      screenshot: "https://tinyurl.com/y8n63eba"
+      value: "Web Widget Live Chat"
 
 # Attachments
   - translation:
