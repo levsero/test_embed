@@ -108,3 +108,5 @@ export const CONNECTION_CLOSED_REASON = {
   LOGOUT: 'logged_out',
   AUTH_FAIL: 'authentication_fail'
 };
+
+export const MAXIMUM_RECONNECTION_ATTEMPTS = 3;

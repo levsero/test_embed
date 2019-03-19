@@ -51,7 +51,10 @@ import {
   getTicketForms,
   getTicketFields
 } from 'src/redux/modules/submitTicket';
-import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
+import {
+  SDK_ACTION_TYPE_PREFIX, JWT_ERROR,
+  MAXIMUM_RECONNECTION_ATTEMPTS
+} from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
 import { authenticate, expireToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
@@ -494,7 +497,7 @@ export default function WebWidgetFactory(name) {
       brandName = brand;
     }
 
-    const onSuccess = (zChat, slider) => {
+    const onSuccess = (zChat, slider, previousCallCount = 0) => {
       store.dispatch(handleChatVendorLoaded({ zChat, slider: slider.default }));
 
       zChat.on('error', (e) => {
@@ -503,7 +506,10 @@ export default function WebWidgetFactory(name) {
           store.dispatch({
             type: AUTHENTICATION_FAILED
           });
-          setupChat(config, store);
+
+          if (previousCallCount < MAXIMUM_RECONNECTION_ATTEMPTS) {
+            setupChat(config, store, ++previousCallCount);
+          }
         }
       });
 
