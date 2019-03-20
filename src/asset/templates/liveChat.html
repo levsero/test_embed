@@ -29,6 +29,12 @@
       return JSON.parse(window.atob(parameters.settings));
     }
 
+    var setPageTitle = function(title) {
+      if (title) {
+        document.title = decodeURI(title);
+      }
+    };
+
     var loadLocale = function(locale) {
       if (locale) {
         zE('webWidget', 'setLocale', locale);
@@ -67,6 +73,7 @@
 
     window.zESettings = parseSettings(queryParams);
 
+    setPageTitle(queryParams.title);
     loadSnippet(queryParams);
   </script>
 </body>
