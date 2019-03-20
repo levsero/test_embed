@@ -49,11 +49,6 @@ describe('talkEmbeddableConfigEventToAction', () => {
       expect(actions.updateTalkEmbeddableConfig)
         .toHaveBeenCalledWith(mockConfig);
     });
-
-    it('dispatches the resetTalkScreen action', () => {
-      expect(actions.resetTalkScreen)
-        .toHaveBeenCalled();
-    });
   });
 
   describe('when the disconnect socket event is fired', () => {
