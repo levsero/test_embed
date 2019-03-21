@@ -6,7 +6,7 @@ The vast majority of the legacy `$zopim.livechat` APIs are aliased so they'll co
 
 In some cases, subtle differences might exist in how the APIs behave in the Web Widget compared to the Chat widget. For example, the Web Widget doesn't have any separation between its launcher and window, so if you call `hide` or `setOffset` the Web Widget applies it to the entire widget instead of just the launcher or window. Refer to the notes of each API below for more detail.
 
-If you intend to continue using the `$zopim.livechat` syntax for some time before migrating to the new `zE` syntax, refer to [Using the-Chat widget JavaScript API](https://support.zendesk.com/hc/en-us/articles/115007912068-Using-the-Chat-widget-JavaScript-API) in the Support Help Center to understand how to correctly wrap `$zopim.livechat` API calls when using `zE`.
+If you intend to continue using the `$zopim.livechat` syntax for some time before migrating to the new `zE` syntax, refer to [Using the Chat widget JavaScript API](https://support.zendesk.com/hc/en-us/articles/115007912068) in the Support Help Center to understand how to correctly wrap `$zopim.livechat` API calls when using `zE`.
 
 To read detailed descriptions for each API, refer to the [Web Widget developer documentation](https://developer.zendesk.com/embeddables/docs/widget/introduction).
 
