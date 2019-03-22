@@ -63,7 +63,7 @@ describe('chat redux actions', () => {
     mockery.enable();
 
     const chatConstantsPath = buildSrcPath('constants/chat');
-    const actionsPath = buildSrcPath('redux/modules/chat');
+    const actionsPath = buildSrcPath('redux/modules/chat/chat-actions/actions');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
     const screenTypesPath = buildSrcPath('redux/modules/chat/chat-screen-types');
     const chatConstants = requireUncached(chatConstantsPath);

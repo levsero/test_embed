@@ -22,10 +22,7 @@ describe('embed.webWidget', () => {
     mockChatNotification,
     mockStandaloneMobileNotificationVisible,
     mockState,
-    mockChatVendorImport,
-    persistenceStoreGetSpy,
     chatNotificationDismissedSpy,
-    mockWin,
     mockIsPopout,
     mockTalkRequired = true,
     mockConfig = { talk: { serviceUrl: 'talk.io' } };
@@ -34,12 +31,7 @@ describe('embed.webWidget', () => {
   const expireTokenSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
   const getTicketFieldsSpy = jasmine.createSpy('ticketFields');
-  const zChatAddTagSpy = jasmine.createSpy('zChatAddTag');
-  const zChatFirehoseSpy = jasmine.createSpy('zChatFirehose').and.callThrough();
-  const zChatSetOnFirstReadySpy = jasmine.createSpy('zChatSetOnFirstReady').and.callThrough();
-  const zChatOnSpy = jasmine.createSpy('zChatOn');
   const AUTHENTICATION_STARTED = 'widget/chat/AUTHENTICATION_STARTED';
-  const AUTHENTICATION_FAILED = 'widget/chat/AUTHENTICATION_FAILED';
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
 
   beforeEach(() => {
@@ -55,7 +47,6 @@ describe('embed.webWidget', () => {
     mockIsMobileBrowser = false;
     mockIsPopout = false;
     mockActiveEmbed = '';
-    mockWin = {};
     resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
     zChatInitSpy = jasmine.createSpy('zChatInit');
     authenticateSpy = jasmine.createSpy('authenticate');
@@ -65,18 +56,6 @@ describe('embed.webWidget', () => {
     };
     mockChatNotification = { show: false, proactive: false };
     mockStandaloneMobileNotificationVisible = false;
-    mockChatVendorImport = Promise.resolve({
-      on: zChatOnSpy,
-      init: zChatInitSpy,
-      addTag: zChatAddTagSpy,
-      setOnFirstReady: zChatSetOnFirstReadySpy,
-      getFirehose: () => {
-        return {
-          on: zChatFirehoseSpy
-        };
-      }
-    });
-    persistenceStoreGetSpy = jasmine.createSpy('store.get');
     chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
 
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
@@ -101,9 +80,6 @@ describe('embed.webWidget', () => {
           getLocale: () => 'fr',
           t: _.identity
         }
-      },
-      'service/logging': {
-        error: () => {}
       },
       'service/transport': {
         http: {
@@ -143,11 +119,6 @@ describe('embed.webWidget', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'service/persistence': {
-        store: {
-          get: persistenceStoreGetSpy
-        }
-      },
       'component/webWidget/WebWidget': mockWebWidget,
       'globalCSS': '',
       './webWidgetStyles': {
@@ -185,7 +156,6 @@ describe('embed.webWidget', () => {
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen
       },
-      'chat-web-sdk': mockChatVendorImport,
       'service/api/zopimApi': {
         zopimApi: {
           handleZopimQueue: jasmine.createSpy('handleZopimQ')
@@ -210,7 +180,6 @@ describe('embed.webWidget', () => {
         getDocumentHost: () => {
           return document.body;
         },
-        win: mockWin,
         isPopout: () => mockIsPopout
       },
       'src/redux/modules/base' : {
@@ -843,259 +812,6 @@ describe('embed.webWidget', () => {
           webWidget.waitForRootComponent(expectFn);
         });
       });
-    });
-
-    describe('setupChat', () => {
-      let chatConfig,
-        handleChatVendorLoadedSpy,
-        setChatHistoryHandlerSpy;
-
-      /* eslint-disable camelcase */
-      beforeEach(() => {
-        chatConfig = { zopimId: '123abc' };
-        handleChatVendorLoadedSpy = jasmine
-          .createSpy('handleChatVendorLoaded')
-          .and.returnValue({ type: 'handleChatVendorLoaded' });
-        setChatHistoryHandlerSpy = jasmine
-          .createSpy('setChatHistoryHandler')
-          .and.returnValue({ type: 'setChatHistoryHandler' });
-
-        mockRegistry = initMockRegistry({
-          'src/redux/modules/chat': {
-            handleChatVendorLoaded: handleChatVendorLoadedSpy,
-            setChatHistoryHandler: setChatHistoryHandlerSpy
-          },
-          ...mockRegistry
-        });
-
-        webWidget.create('', { ...mockConfig, zopimChat: chatConfig }, mockStore);
-        faythe = webWidget.get();
-      });
-
-      it('dispatches the handleChatVendorLoaded action creator with zChat vendor', () => {
-        mockChatVendorImport.then((mockZChat) => {
-          expect(mockStore.dispatch.calls[0].args[0])
-            .toEqual({ type: 'handleChatVendorLoaded' });
-
-          expect(handleChatVendorLoadedSpy.calls.mostRecent().args[0])
-            .toEqual({ zChat: mockZChat });
-        });
-      });
-
-      it('dispatches the setChatHistoryHandler action creator', () => {
-        mockChatVendorImport.then(() => {
-          expect(mockStore.dispach.calls[1].args[0])
-            .toEqual({ type: 'setChatHistoryHandler' });
-
-          expect(setChatHistoryHandlerSpy)
-            .toHaveBeenCalled();
-        });
-      });
-
-      it('calls zChat init with the chat key', () => {
-        mockChatVendorImport.then((mockZChat) => {
-          expect(mockZChat.init.calls.mostRecent().args[0])
-            .toEqual({ account_key: '123abc' });
-        });
-      });
-
-      it('calls zChat init without the override_proxy key', () => {
-        mockChatVendorImport.then((mockZChat) => {
-          expect(mockZChat.init.calls.mostRecent().args[0])
-            .not.toContain({ override_proxy: jasmine.any(String) });
-        });
-      });
-
-      describe('when authentication exists in the config', () => {
-        beforeEach(() => {
-          const config = {
-            ...mockConfig,
-            zopimChat: chatConfig
-          };
-
-          mockChatAuthValue = { jwtFn: () => {} };
-          webWidget.create('', config, mockStore);
-          faythe = webWidget.get();
-        });
-
-        it('calls zChat init with the authentcation property', () => {
-          mockChatVendorImport.then((mockZChat) => {
-            expect(mockZChat.init.calls.mostRecent().args[0])
-              .toEqual({
-                account_key: '123abc',
-                authentication: { jwt_fn: jasmine.any(Function) }
-              });
-          });
-        });
-
-        it('dispatches AUTHENTICATION_STARTED action', () => {
-          mockChatVendorImport.then(() => {
-            expect(mockStore.dispatch.calls[2].args[0])
-              .toEqual({ type: AUTHENTICATION_STARTED });
-          });
-        });
-      });
-
-      describe('when authentication does not exist in the config', () => {
-        beforeEach(() => {
-          const config = {
-            ...mockConfig,
-            zopimChat: chatConfig
-          };
-
-          webWidget.create('', config, mockStore);
-          faythe = webWidget.get();
-        });
-
-        it('does not call zChat init with the authentcation property', () => {
-          mockChatVendorImport.then((mockZChat) => {
-            expect(mockZChat.init.calls.mostRecent().args[0])
-              .not.toContain({ authentication: { jwt_fn: jasmine.any(Function) } });
-          });
-        });
-
-        it('does not dispatch AUTHENTICATION_STARTED action', () => {
-          mockChatVendorImport.then(() => {
-            expect(mockStore.dispatch)
-              .not
-              .toHaveBeenCalledWith({
-                type: AUTHENTICATION_FAILED
-              });
-          });
-        });
-      });
-
-      it('sets up error handling for chat web sdk', () => {
-        mockChatVendorImport.then((mockZChat) => {
-          expect(mockZChat.on.calls.mostRecent().args)
-            .toEqual(['error', jasmine.any(Function)]);
-        });
-      });
-
-      it('sets up firehose data', () => {
-        mockChatVendorImport.then((mockZChat) => {
-          expect(mockZChat.getFirehose)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when brand does not exist in config', () => {
-        it('does not call zChat.addTag', () => {
-          mockChatVendorImport.then(() => {
-            expect(zChatAddTagSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-      });
-
-      describe('when brand does exist in config', () => {
-        beforeEach(() => {
-          const config = {
-            ...mockConfig,
-            zopimChat: chatConfig,
-            brand: 'z3n'
-          };
-
-          webWidget.create('', config, mockStore);
-        });
-
-        it('calls zChat.addTag with the brand', () => {
-          mockChatVendorImport.then((mockZChat) => {
-            expect(mockZChat.addTag.calls.mostRecent().args[0])
-              .toEqual('z3n');
-          });
-        });
-      });
-
-      describe('when brand exists, and brandCount is > 1', () => {
-        beforeEach(() => {
-          const config = {
-            ...mockConfig,
-            zopimChat: chatConfig,
-            brand: 'z3n',
-            brandCount: 2
-          };
-
-          webWidget.create('', config, mockStore);
-        });
-
-        it('calls zChat.addTag with the brand', () => {
-          mockChatVendorImport.then((mockZChat) => {
-            expect(mockZChat.addTag.calls.mostRecent().args[0])
-              .toEqual('z3n');
-          });
-        });
-      });
-
-      describe('when brand exists, and brandCount is 1', () => {
-        beforeEach(() => {
-          const config = {
-            ...mockConfig,
-            zopimChat: chatConfig,
-            brand: 'z3n',
-            brandCount: 1
-          };
-
-          webWidget.create('', config, mockStore);
-        });
-
-        it('does not call zChat.addTag', () => {
-          mockChatVendorImport.then(() => {
-            expect(zChatAddTagSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-      });
-
-      describe('when in staging', () => {
-        beforeEach(() => {
-          const config = {
-            ...mockConfig,
-            zopimChat: {
-              zopimId: '123abc',
-              overrideProxy: 'hades.zopim.org'
-            }
-          };
-
-          webWidget.create('', config, mockStore);
-          faythe = webWidget.get();
-        });
-
-        it('calls zChat init with the chat key and the override_proxy key', () => {
-          mockChatVendorImport.then((mockZChat) => {
-            expect(mockZChat.init.calls.mostRecent().args[0])
-              .toEqual({ account_key: '123abc', override_proxy: 'hades.zopim.org' });
-          });
-        });
-      });
-
-      describe('when in debug mode', () => {
-        beforeEach(() => {
-          persistenceStoreGetSpy.and.callFake((key) => {
-            if (key === 'chatAccountKey') return '456def';
-            if (key === 'chatOverrideProxy') return 'sg08.zopim.com';
-          });
-
-          const config = {
-            ...mockConfig,
-            zopimChat: {
-              zopimId: '123abc',
-              overrideProxy: 'hades.zopim.org'
-            }
-          };
-
-          webWidget.create('', config, mockStore);
-          faythe = webWidget.get();
-        });
-
-        it('calls zChat init with the chat key and the override_proxy key from localStorage', () => {
-          mockChatVendorImport.then((mockZChat) => {
-            expect(mockZChat.init.calls.mostRecent().args[0])
-              .toEqual({ account_key: '456def', override_proxy: 'sg08.zopim.com' });
-          });
-        });
-      });
-      /* eslint-enable camelcase */
     });
 
     describe('setupTalk', () => {

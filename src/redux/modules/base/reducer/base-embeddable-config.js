@@ -21,8 +21,8 @@ const initialState = {
     },
     zopimChat: {
       props: {
-        zopimId: '',
-        overrideProxy: '',
+        zopimId: null,
+        overrideProxy: null,
         standalone: false
       }
     },
@@ -40,6 +40,7 @@ const initialState = {
   cp4: false,
   hideZendeskLogo: false,
   brand: undefined,
+  brandCount: undefined,
   brandLogoUrl: undefined
 };
 
@@ -89,6 +90,7 @@ const embeddableConfig = (state = initialState, action) => {
         cp4: _.get(payload, 'cp4', state.cp4),
         hideZendeskLogo: _.get(payload, 'hideZendeskLogo', state.hideZendeskLogo),
         brand: _.get(payload, 'brand', state.brand),
+        brandCount: _.get(payload, 'brandCount', state.brandCount),
         brandLogoUrl: _.get(payload, 'brandLogoUrl', state.brandLogoUrl)
       };
     default:

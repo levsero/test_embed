@@ -48,8 +48,8 @@ describe('base reducer embeddable config', () => {
             },
             zopimChat: {
               props: {
-                zopimId: '',
-                overrideProxy: '',
+                zopimId: null,
+                overrideProxy: null,
                 standalone: false
               }
             },
@@ -67,6 +67,7 @@ describe('base reducer embeddable config', () => {
           textColor: undefined,
           hideZendeskLogo: false,
           brand: undefined,
+          brandCount: undefined,
           brandLogoUrl: undefined
         });
     });
@@ -128,6 +129,7 @@ describe('base reducer embeddable config', () => {
           textColor: 'black',
           hideZendeskLogo: true,
           brand: 'hello',
+          brandCount: 2,
           brandLogoUrl: 'helloworld'
         }
       };
@@ -157,7 +159,7 @@ describe('base reducer embeddable config', () => {
             zopimChat: {
               props: {
                 zopimId: 'yoloId',
-                overrideProxy: '',
+                overrideProxy: null,
                 standalone: false
               }
             },
@@ -175,6 +177,7 @@ describe('base reducer embeddable config', () => {
           position: 'left',
           hideZendeskLogo: true,
           brand: 'hello',
+          brandCount: 2,
           brandLogoUrl: 'helloworld'
         });
     });

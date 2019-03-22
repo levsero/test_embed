@@ -293,5 +293,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onUpdateEmbeddableConfig(action);
   onChannelChoiceTransition(prevState, nextState, action, dispatch);
   onChatConnectionClosed(prevState, nextState, action, dispatch);
-  onChatConnectOnDemandTrigger(prevState, action);
+  onChatConnectOnDemandTrigger(prevState, action, dispatch);
 }

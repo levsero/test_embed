@@ -8,7 +8,9 @@ const defaultState = {
       embeds: {
         zopimChat: {
           props: {
-            standalone: true
+            standalone: true,
+            zopimId: '123abc',
+            overrideProxy: null,
           }
         },
         helpCenterForm: {

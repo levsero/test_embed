@@ -22,9 +22,11 @@ export const getLauncherVisible = (state) => state.base.launcherVisible;
 export const getLocale = (state) => state.base.locale;
 export const getUserMinimizedChatBadge = (state) => state.base.isChatBadgeMinimized;
 export const getAfterWidgetShowAnimation = (state) => state.base.afterWidgetShowAnimation;
+export const getChatConfig = (state) => state.base.embeddableConfig.embeds.zopimChat;
 export const getTalkConfig = (state) => state.base.embeddableConfig.embeds.talk;
 export const getBrandLogoUrl = (state) => state.base.embeddableConfig.brandLogoUrl;
 export const getBrand = (state) => state.base.embeddableConfig.brand;
+export const getBrandCount = (state) => state.base.embeddableConfig.brandCount;
 
 export const getOAuth = () => {
   return store.get('zE_oauth');
