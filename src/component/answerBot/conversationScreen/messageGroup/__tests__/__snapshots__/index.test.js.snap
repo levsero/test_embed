@@ -8,18 +8,13 @@ exports[`bot avatar renders agent avatar 1`] = `
     <div
       class="name fadeIn"
     >
-      <div
-        class="nameOnly"
-      >
+      <span>
         Answer Bot
-      </div>
-      <div
-        class="tag Tag-sc-1x3j99r-0 index__c-tag___PoxLO iyFxBK"
-        data-garden-id="tags.tag_view"
-        data-garden-version="1.2.0"
-      >
-        BOT
-      </div>
+      </span>
+        ·  
+      <span>
+        Bot
+      </span>
     </div>
     <div
       class="container"
@@ -65,18 +60,13 @@ exports[`bot avatar renders brand logo 1`] = `
     <div
       class="name fadeIn"
     >
-      <div
-        class="nameOnly"
-      >
+      <span>
         Answer Bot
-      </div>
-      <div
-        class="tag Tag-sc-1x3j99r-0 index__c-tag___PoxLO iyFxBK"
-        data-garden-id="tags.tag_view"
-        data-garden-version="1.2.0"
-      >
-        BOT
-      </div>
+      </span>
+        ·  
+      <span>
+        Bot
+      </span>
     </div>
     <div
       class="container"
@@ -122,18 +112,13 @@ exports[`bot name renders agent name 1`] = `
     <div
       class="name fadeIn"
     >
-      <div
-        class="nameOnly"
-      >
+      <span>
         Bond
-      </div>
-      <div
-        class="tag Tag-sc-1x3j99r-0 index__c-tag___PoxLO iyFxBK"
-        data-garden-id="tags.tag_view"
-        data-garden-version="1.2.0"
-      >
-        BOT
-      </div>
+      </span>
+        ·  
+      <span>
+        Bot
+      </span>
     </div>
     <div
       class="container"
@@ -182,18 +167,13 @@ exports[`renders expected classes and components with default props 1`] = `
     <div
       class="name fadeIn"
     >
-      <div
-        class="nameOnly"
-      >
+      <span>
         Answer Bot
-      </div>
-      <div
-        class="tag Tag-sc-1x3j99r-0 index__c-tag___PoxLO iyFxBK"
-        data-garden-id="tags.tag_view"
-        data-garden-version="1.2.0"
-      >
-        BOT
-      </div>
+      </span>
+        ·  
+      <span>
+        Bot
+      </span>
     </div>
     <div
       class="container"

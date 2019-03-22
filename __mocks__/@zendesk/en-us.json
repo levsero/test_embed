@@ -40,6 +40,7 @@
       "embeddable_framework.answerBot.results.no_article": "I couldn't find any relevant articles.",
       "embeddable_framework.answerBot.results.one_article": "Here is an article that may help:",
       "embeddable_framework.answerBot.results.many_article": "Here are some articles that may help:",
+      "embeddable_framework.answerBot.tag.bot": "Bot",
       "embeddable_framework.common.button.cancel": "Cancel",
       "embeddable_framework.common.button.done": "Done",
       "embeddable_framework.common.button.send": "Send",

@@ -19,21 +19,6 @@
   }
 }
 
-.nameOnly {
-  padding-right: #{11/$font-size}rem;
-}
-
-.tag {
-  margin-top: #{-3/$font-size}rem;
-  padding-left: #{6/$font-size}rem;
-  padding-right: #{6/$font-size}rem;
-  border-radius: #{4/$font-size}rem;
-  border: #{1/$font-size}rem solid #c2c8cc;
-  font-size: #{13/$font-size}rem;
-  color: #879298;
-  background: none !important;
-}
-
 .avatar {
   composes: u-posAbsolute from global;
   transition: top 300ms ease-in-out;
