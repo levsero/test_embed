@@ -11,7 +11,7 @@ exports[`renders the expected classes 1`] = `
       <button
         class="
       button
-      topOption
+      option
     "
       >
         It's related, but it didn't answer my question
@@ -19,7 +19,7 @@ exports[`renders the expected classes 1`] = `
       <button
         class="
       button
-      block
+      option
     "
       >
         It's not related to my question

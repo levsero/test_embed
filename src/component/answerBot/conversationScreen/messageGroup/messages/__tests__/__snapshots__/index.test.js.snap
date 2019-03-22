@@ -147,7 +147,7 @@ exports[`renders expected classes and components with default props for non-visi
             <button
               class="
       button
-      topOption
+      option
     "
             >
               It's related, but it didn't answer my question
@@ -155,7 +155,7 @@ exports[`renders expected classes and components with default props for non-visi
             <button
               class="
       button
-      block
+      option
     "
             >
               It's not related to my question

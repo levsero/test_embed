@@ -58,7 +58,7 @@ export class SecondaryFeedback extends Component {
       <div className={styles.container}>
         <ButtonGroup>
           <FeedbackButton
-            className={styles.topOption}
+            className={styles.option}
             label={i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.related')}
             onClick={this.handleReason(
               2,
@@ -67,7 +67,7 @@ export class SecondaryFeedback extends Component {
           />
           <FeedbackButton
             label={i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.unrelated')}
-            className={styles.block}
+            className={styles.option}
             onClick={this.handleReason(
               1,
               i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.unrelated')
