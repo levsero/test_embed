@@ -49,6 +49,11 @@ describe('talkEmbeddableConfigEventToAction', () => {
       expect(actions.updateTalkEmbeddableConfig)
         .toHaveBeenCalledWith(mockConfig);
     });
+
+    it('dispatches the resetTalk action', () => {
+      expect(actions.resetTalk)
+        .toHaveBeenCalled();
+    });
   });
 
   describe('when the disconnect socket event is fired', () => {
