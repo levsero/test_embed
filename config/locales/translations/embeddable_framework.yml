@@ -1149,6 +1149,11 @@ parts:
       title: "Text for article results when there are many articles found."
       screenshot: "https://drive.google.com/open?id=1f2doiiYFBpPGFEWUfqcokkX39pYlr9Bp"
       value: "Here are some articles that may help:"
+  - translation:
+      key: "embeddable_framework.answerBot.tag.bot"
+      title: "Tag that signifies something is a bot."
+      screenshot: "https://drive.google.com/open?id=1GoxzjL8Wy1T2NcP_Db9Kc9iTsbKF3gU-"
+      value: "Bot"
 
   # Mobile
   - translation:
