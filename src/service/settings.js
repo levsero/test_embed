@@ -11,6 +11,7 @@ const optionAllowList = {
     'answerBot.title',
     'answerBot.avatar.name',
     'answerBot.avatar.url',
+    'answerBot.suppress',
     'authenticate',
     'authenticate.support',
     'authenticate.chat',
@@ -88,7 +89,8 @@ const webWidgetStoreDefaults = {
     title: {},
     search: {
       labels: []
-    }
+    },
+    suppress: false
   },
   contactForm: {
     fields: [],

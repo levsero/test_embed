@@ -538,6 +538,19 @@ test('getAnswerBotSearchLabels', () => {
     .toEqual(['here', 'blah']);
 });
 
+test('getSettingsAnswerBotSuppress', () => {
+  const result = selectors.getSettingsAnswerBotSuppress(
+    settings({
+      answerBot: {
+        suppress: true
+      }
+    })
+  );
+
+  expect(result)
+    .toEqual(true);
+});
+
 test('getSettingsLauncherMobile', () => {
   const result = selectors.getSettingsLauncherMobile(
     settings({

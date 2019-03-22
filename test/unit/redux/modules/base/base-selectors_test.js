@@ -394,52 +394,6 @@ describe('base selectors', () => {
     });
   });
 
-  describe('getHelpCenterContextualEnabled', () => {
-    let result,
-      answerBotEnabled = false,
-      mockState;
-
-    beforeEach(() => {
-      mockState = {
-        base: {
-          embeddableConfig: {
-            embeds: {
-              helpCenterForm: {
-                props: {
-                  contextualHelpEnabled: true,
-                  answerBotEnabled
-                }
-              }
-            }
-          }
-        }
-      };
-      result = selectors.getHelpCenterContextualEnabled(mockState);
-    });
-
-    describe('answerBot is disabled', () => {
-      beforeAll(() => {
-        answerBotEnabled = false;
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
-
-    describe('answerBot is enabled', () => {
-      beforeAll(() => {
-        answerBotEnabled = true;
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
-    });
-  });
-
   describe('getEmbeddableConfig', () => {
     let result,
       mockState;
