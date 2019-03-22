@@ -1,4 +1,4 @@
-import reducer from '../title';
+import reducer from '../search';
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types';
 
 const initialState = () => {
@@ -14,7 +14,7 @@ const reduce = (payload) => {
 
 test('initial state', () => {
   expect(initialState())
-    .toEqual({});
+    .toEqual({ labels: [] });
 });
 
 describe('when UPDATE_SETTINGS is dispatched', () => {
@@ -22,16 +22,14 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
     const payload = {
       webWidget: {
         answerBot: {
-          title: {
-            '*': 'blah'
+          search: {
+            labels: ['hello', 'world']
           }
         }
       }
     };
 
     expect(reduce(payload))
-      .toEqual({
-        '*': 'blah'
-      });
+      .toEqual({ labels: ['hello', 'world'] });
   });
 });

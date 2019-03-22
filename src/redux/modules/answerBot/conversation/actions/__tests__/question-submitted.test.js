@@ -30,6 +30,13 @@ describe('questionSubmitted', () => {
           interactionToken: { y: 2 }
         }]
       ])
+    },
+    settings: {
+      answerBot: {
+        search: {
+          labels: ['this', 'is', 'a', 'label']
+        }
+      }
     }
   };
   const dispatchAction = (newState = {}) => {

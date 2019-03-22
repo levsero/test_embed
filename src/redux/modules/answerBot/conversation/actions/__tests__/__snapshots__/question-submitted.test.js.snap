@@ -145,6 +145,12 @@ exports[`questionSubmitted sends the expected http params 1`] = `
           "enquiry": "hello world",
           "interaction_reference": 8888,
           "interaction_reference_type": 1,
+          "labels": Array [
+            "this",
+            "is",
+            "a",
+            "label",
+          ],
           "via_id": 67,
         },
         "path": "/api/v2/answer_bot/interaction?include=html_body",
