@@ -130,6 +130,24 @@ describe('resetTalkScreen', () => {
   });
 });
 
+describe('resetTalk', () => {
+  const state = {
+    talk: {
+      embeddableConfig: { capability: 'widget/talk/PHONE_ONLY' }
+    },
+  };
+
+  const store = mockStore(state);
+
+  store.dispatch(actions.resetTalk());
+
+  expect(store.getActions())
+    .toEqual([{
+      type: types.UPDATE_TALK_SCREEN,
+      payload: screenTypes.PHONE_ONLY_SCREEN
+    }]);
+});
+
 test('updateTalkCallMeForm dispatches expected actions', () => {
   const formState = {
     phone: '+61423423329',

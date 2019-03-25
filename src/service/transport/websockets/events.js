@@ -2,14 +2,14 @@ import {
   updateTalkEmbeddableConfig,
   updateTalkAgentAvailability,
   updateTalkAverageWaitTime,
-  resetTalkScreen,
+  resetTalk,
   talkDisconnect
 } from 'src/redux/modules/talk';
 
 export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
   socket.on('socket.embeddableConfig', (config) => {
     reduxStore.dispatch(updateTalkEmbeddableConfig(config));
-    reduxStore.dispatch(resetTalkScreen());
+    reduxStore.dispatch(resetTalk());
   });
 
   socket.on('disconnect', () => {

@@ -50,8 +50,8 @@ describe('talkEmbeddableConfigEventToAction', () => {
         .toHaveBeenCalledWith(mockConfig);
     });
 
-    it('dispatches the resetTalkScreen action', () => {
-      expect(actions.resetTalkScreen)
+    it('dispatches the resetTalk action', () => {
+      expect(actions.resetTalk)
         .toHaveBeenCalled();
     });
   });
