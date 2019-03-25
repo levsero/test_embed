@@ -40,7 +40,8 @@ export class HelpCenterDesktop extends Component {
     maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     searchPlaceholder: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    buttonLoading: PropTypes.bool
+    buttonLoading: PropTypes.bool,
+    contextualHelpEnabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -57,7 +58,8 @@ export class HelpCenterDesktop extends Component {
     submitTicketAvailable: true,
     chatEnabled: false,
     isOnInitialDesktopSearchScreen: false,
-    buttonLoading: false
+    buttonLoading: false,
+    contextualHelpEnabled: false
   };
 
   constructor(props, context) {
@@ -98,6 +100,13 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderForm = () => {
+    const { hasSearched, contextualHelpEnabled, hideZendeskLogo } = this.props;
+
+    const customSearchContainerClasses = classNames({
+      [styles.onHelpCenterSmallScreen]: !hasSearched && !contextualHelpEnabled && hideZendeskLogo,
+      [styles.onHelpCenterLargeScreen]: hasSearched || contextualHelpEnabled,
+    });
+
     return (
       <form
         ref='helpCenterForm'
@@ -108,12 +117,14 @@ export class HelpCenterDesktop extends Component {
         <SearchField
           ref={(el) => { this.searchField = el; }}
           fullscreen={false}
-          hideZendeskLogo={this.props.hideZendeskLogo}
+          hideZendeskLogo={hideZendeskLogo}
           onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
           onSearchIconClick={this.handleSubmit}
           isLoading={this.props.isLoading}
-          searchPlaceholder={this.props.searchPlaceholder} />
+          searchPlaceholder={this.props.searchPlaceholder}
+          contextualHelpEnabled={contextualHelpEnabled}
+          customSearchContainerClasses={customSearchContainerClasses} />
       </form>
     );
   }

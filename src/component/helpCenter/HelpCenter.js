@@ -297,10 +297,11 @@ class HelpCenter extends Component {
       isContextualSearchComplete,
       articleViewActive,
       hasSearched,
+      contextualHelpEnabled,
       articles
     } = this.props;
 
-    if (articleViewActive || !hasSearched) return null;
+    if (articleViewActive || (!hasSearched && !contextualHelpEnabled)) return null;
 
     const applyPadding = !showNextButton && !hideZendeskLogo;
 
@@ -318,7 +319,9 @@ class HelpCenter extends Component {
         isContextualSearchComplete={isContextualSearchComplete}
         showContactButton={showNextButton}
         hideZendeskLogo={hideZendeskLogo}
-        isMobile={this.props.isMobile} />
+        isMobile={this.props.isMobile}
+        contextualHelpEnabled={contextualHelpEnabled}
+        hasSearched={hasSearched} />
     );
   }
 
@@ -368,7 +371,8 @@ class HelpCenter extends Component {
         searchFieldValue={this.props.searchFieldValue}
         updateChatScreen={this.props.updateChatScreen}
         maxWidgetHeight={this.props.maxWidgetHeight}
-        searchPlaceholder={this.props.searchPlaceholder}>
+        searchPlaceholder={this.props.searchPlaceholder}
+        contextualHelpEnabled={this.props.contextualHelpEnabled}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

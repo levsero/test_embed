@@ -49,3 +49,11 @@
 .disabledButton {
   cursor: default;
 }
+
+.onHelpCenterSmallScreen {
+  composes: u-marginBL from global;
+}
+
+.onHelpCenterLargeScreen {
+  margin-top: #{10/$font-size}rem;
+}

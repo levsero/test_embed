@@ -10,7 +10,6 @@ import classNames from 'classnames';
 export class SearchField extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
-    hasSearched: PropTypes.bool,
     isLoading: PropTypes.bool,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
@@ -18,7 +17,7 @@ export class SearchField extends Component {
     onFocus: PropTypes.func,
     onClick: PropTypes.func,
     onSearchIconClick: PropTypes.func,
-    hideZendeskLogo: PropTypes.bool,
+    customSearchContainerClasses: PropTypes.string,
     searchPlaceholder: PropTypes.string.isRequired
   };
 
@@ -160,10 +159,8 @@ export class SearchField extends Component {
   }
 
   render = () => {
-    const { fullscreen, hideZendeskLogo, hasSearched, searchPlaceholder } = this.props;
-    const searchContainerClasses = classNames({
-      [styles.notSearched]: !hasSearched && hideZendeskLogo,
-      [styles.hasSearched]: hasSearched,
+    const { customSearchContainerClasses, fullscreen, searchPlaceholder } = this.props;
+    const searchContainerClasses = classNames(customSearchContainerClasses, {
       [styles.mobileContainer]: fullscreen,
       [styles.desktopContainer]: !fullscreen
     });

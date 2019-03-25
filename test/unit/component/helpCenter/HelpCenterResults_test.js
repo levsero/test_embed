@@ -217,13 +217,17 @@ describe('HelpCenterResults component', () => {
   describe('renderNoResults', () => {
     let component,
       mockHasContextualSearched,
-      mockIsContextualSearchComplete;
+      mockIsContextualSearchComplete,
+      mockContextualHelpEnabled,
+      mockHasSearched;
 
     beforeEach(() => {
       component = instanceRender(
         <HelpCenterResults
           hasContextualSearched={mockHasContextualSearched}
-          isContextualSearchComplete={mockIsContextualSearchComplete} />
+          isContextualSearchComplete={mockIsContextualSearchComplete}
+          hasSearched={mockHasSearched}
+          contextualHelpEnabled={mockContextualHelpEnabled} />
       );
 
       spyOn(component, 'renderContextualNoResults');
@@ -282,6 +286,23 @@ describe('HelpCenterResults component', () => {
 
       it('does not call renderContextualNoResults', () => {
         expect(component.renderContextualNoResults)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when props.contextualHelpEnabled is true and props.hasSearched is false', () => {
+      beforeAll(() => {
+        mockContextualHelpEnabled = true;
+        mockHasSearched = false;
+      });
+
+      it('calls renderContextualNoResults', () => {
+        expect(component.renderContextualNoResults)
+          .toHaveBeenCalled();
+      });
+
+      it('does not call renderDefaultNoResults', () => {
+        expect(component.renderDefaultNoResults)
           .not.toHaveBeenCalled();
       });
     });

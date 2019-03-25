@@ -403,11 +403,6 @@ describe('SearchField component', () => {
             .not
             .toContain('notSearchedWithLogoClasses');
         });
-
-        it('renders notSearched class', () => {
-          expect(result.props.className)
-            .toContain('notSearchedClasses');
-        });
       });
 
       describe('when hideZendeskLogo is false', () => {
@@ -456,11 +451,6 @@ describe('SearchField component', () => {
         expect(result.props.className)
           .not
           .toContain('notSearchedWithLogoClasses');
-      });
-
-      it('renders hasSearched class', () => {
-        expect(result.props.className)
-          .toContain('hasSearchedClasses');
       });
     });
   });
