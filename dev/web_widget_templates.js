@@ -67,8 +67,8 @@ function generateHcJwt(sharedSecret, user) {
     name: user.name,
     email: user.email,
     iat: Math.floor(Date.now() / 1000),
-    // returns a random int between 0 and 0xFFFFFF, and then converts it to a string in hex format (base 16).
-    jti: ((Math.random() * 0xFFFFFF) | 0).toString(16)
+    // returns a random float between 0 and 1 in hex format (base 16).
+    jti: Math.random().toString(16).slice(2)
   };
 
   return generateJwt(sharedSecret, message);
