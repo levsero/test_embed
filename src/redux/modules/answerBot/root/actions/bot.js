@@ -6,7 +6,8 @@ import {
   BOT_INITIAL_FALLBACK,
   BOT_CHANNEL_CHOICE,
   BOT_FEEDBACK,
-  BOT_FEEDBACK_REQUESTED
+  BOT_FEEDBACK_REQUESTED,
+  BOT_TYPING
 } from '../action-types';
 
 import {
@@ -106,6 +107,15 @@ export const botFeedbackMessage = (message, callback) => {
       feedbackRelated: true,
       message,
       callback: _.isFunction(callback) ? _.once(callback) : null
+    }
+  };
+};
+
+export const botTyping = () => {
+  return {
+    type: BOT_TYPING,
+    payload: {
+      timestamp: Date.now()
     }
   };
 };

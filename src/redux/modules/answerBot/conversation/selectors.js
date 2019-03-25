@@ -24,9 +24,15 @@ export const getMessageGroupKeys = createSelector(
     let currentGroup = { messageKeys: [], isVisitor: undefined };
     let feedbackMode = false;
     let feedbackChain = [];
+    let lastEntry;
 
     for (let entry of groupMessages) {
       const message = entry[1];
+
+      lastEntry = entry;
+      if (message.type === 'botTyping') {
+        continue;
+      }
 
       if (feedbackMode) {
         if (message.type === 'feedback' || message.feedbackRelated) {
@@ -50,6 +56,9 @@ export const getMessageGroupKeys = createSelector(
 
     if (feedbackChain.length > 0) {
       currentGroup = appendFeedback(feedbackChain, currentGroup, groups);
+    }
+    if (lastEntry && lastEntry[1].type === 'botTyping') {
+      currentGroup = updateGroups(currentGroup, groups, lastEntry);
     }
     appendGroup(groups, currentGroup);
     return groups;

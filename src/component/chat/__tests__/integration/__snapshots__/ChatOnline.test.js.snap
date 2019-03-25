@@ -117,6 +117,8 @@ exports[`chat log agent typing 1`] = `
     class="agentTyping"
   >
     <div
+      aria-busy="true"
+      aria-live="polite"
       class="container loadingEllipses"
     >
       <div

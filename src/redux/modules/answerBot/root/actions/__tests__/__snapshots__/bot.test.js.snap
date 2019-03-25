@@ -112,6 +112,15 @@ Array [
 ]
 `;
 
+exports[`botTyping dispatches expected payload 1`] = `
+Object {
+  "payload": Object {
+    "timestamp": 1531267200000,
+  },
+  "type": "widget/answerBot/BOT_TYPING",
+}
+`;
+
 exports[`botUserMessage dispatches expected payload 1`] = `
 Object {
   "payload": Object {

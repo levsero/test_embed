@@ -7,7 +7,8 @@ import {
   BOT_MESSAGE,
   BOT_CHANNEL_CHOICE,
   BOT_FEEDBACK,
-  BOT_FEEDBACK_REQUESTED
+  BOT_FEEDBACK_REQUESTED,
+  BOT_TYPING
 } from '../../root/action-types';
 
 const initialState = new Map();
@@ -41,6 +42,8 @@ const messages = (state = initialState, action) => {
       return addMessage(state, { ...payload, isVisitor: true, type: 'feedback' });
     case BOT_FEEDBACK_REQUESTED:
       return addMessage(state, { ...payload, type: 'feedbackRequested' });
+    case BOT_TYPING:
+      return addMessage(state, { ...payload, type: 'botTyping' });
     default:
       return state;
   }

@@ -8,8 +8,7 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     currentMessage: 'string',
     questionValueChanged: noop,
-    questionSubmitted: noop,
-    botMessage: noop
+    questionSubmitted: noop
   };
 
   const componentProps = {
@@ -33,14 +32,12 @@ describe('desktop', () => {
   it('does the expected thing on chat submit', () => {
     const questionValueChanged = jest.fn(),
       questionSubmitted = jest.fn(),
-      botMessage = jest.fn(),
       scrollToBottom = jest.fn();
 
     const { getByPlaceholderText } = renderComponent({
       currentMessage: 'send this',
       questionValueChanged,
       questionSubmitted,
-      botMessage,
       scrollToBottom
     });
 
@@ -53,8 +50,6 @@ describe('desktop', () => {
       .toHaveBeenCalledWith('');
     expect(questionSubmitted)
       .toHaveBeenCalledWith('send this');
-    expect(botMessage)
-      .toHaveBeenCalledWith('Looking for articles...');
     expect(scrollToBottom)
       .toHaveBeenCalled();
   });
@@ -74,7 +69,6 @@ describe('mobile', () => {
   it('does the expected thing on chat submit', () => {
     const questionValueChanged = jest.fn(),
       questionSubmitted = jest.fn(),
-      botMessage = jest.fn(),
       scrollToBottom = jest.fn();
 
     const { container } = renderComponent({
@@ -82,7 +76,6 @@ describe('mobile', () => {
       currentMessage: 'send this',
       questionValueChanged,
       questionSubmitted,
-      botMessage,
       scrollToBottom
     });
 
@@ -92,8 +85,6 @@ describe('mobile', () => {
       .toHaveBeenCalledWith('');
     expect(questionSubmitted)
       .toHaveBeenCalledWith('send this');
-    expect(botMessage)
-      .toHaveBeenCalledWith('Looking for articles...');
     expect(scrollToBottom)
       .toHaveBeenCalled();
   });

@@ -33,7 +33,7 @@ export class LoadingEllipses extends Component {
     `;
 
     return (
-      <div className={containerClass}>
+      <div className={containerClass} aria-busy="true" aria-live="polite">
         <div className={ellipsesItemClasses} />
         <div className={ellipsesItemClasses} />
         <div className={ellipsesItemClasses} />

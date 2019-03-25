@@ -26,6 +26,15 @@ Array [
 ]
 `;
 
+exports[`BOT_TYPING updates to expected state 1`] = `
+Array [
+  Object {
+    "timestamp": 123456,
+    "type": "botTyping",
+  },
+]
+`;
+
 exports[`QUESTION_SUBMITTED_FULFILLED updates to expected state 1`] = `
 Array [
   Object {
