@@ -25,7 +25,8 @@ describe('embed.webWidget', () => {
     chatNotificationDismissedSpy,
     mockIsPopout,
     mockTalkRequired = true,
-    mockConfig = { talk: { serviceUrl: 'talk.io' } };
+    mockConfig = { talk: { serviceUrl: 'talk.io' } },
+    mockCookiesDisabled;
 
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const expireTokenSpy = jasmine.createSpy();
@@ -142,7 +143,8 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue,
-        getSettingsContactFormSuppress: () => mockContactFormSuppressedValue
+        getSettingsContactFormSuppress: () => mockContactFormSuppressedValue,
+        getCookiesDisabled: () => mockCookiesDisabled
       },
       'src/redux/modules/chat/chat-selectors': {
         getStandaloneMobileNotificationVisible: () => mockStandaloneMobileNotificationVisible
@@ -1171,25 +1173,75 @@ describe('embed.webWidget', () => {
 
   describe('postRender', () => {
     describe('authentication', () => {
-      describe('when there are valid support auth settings', () => {
-        beforeEach(() => {
-          const config = {
-            ...mockConfig,
-            helpCenterForm: {}
-          };
-
-          webWidget.create('', config, mockStore);
-          mockSupportAuthValue = { jwt: 'token' };
-          webWidget.postRender();
+      describe('when cookies are enabled', () => {
+        beforeAll(() => {
+          mockCookiesDisabled = false;
         });
 
-        it('calls authenticate with the jwt token', () => {
-          expect(authenticateSpy)
-            .toHaveBeenCalledWith('token');
+        describe('when there are valid support auth settings', () => {
+          beforeEach(() => {
+            const config = {
+              ...mockConfig,
+              helpCenterForm: {}
+            };
+
+            webWidget.create('', config, mockStore);
+            mockSupportAuthValue = { jwt: 'token' };
+            webWidget.postRender();
+          });
+
+          it('calls authenticate with the jwt token', () => {
+            expect(authenticateSpy)
+              .toHaveBeenCalledWith('token');
+          });
+        });
+
+        describe('when there are not valid support auth settings', () => {
+          beforeEach(() => {
+            const config = {
+              ...mockConfig,
+              helpCenterForm: {}
+            };
+
+            webWidget.create('', config, mockStore);
+            webWidget.postRender();
+          });
+
+          it('does not call authentication.authenticate with the jwt token', () => {
+            expect(authenticateSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when there is a tokensRevokedAt property in the config', () => {
+          const config = {
+            ...mockConfig,
+            helpCenterForm: {
+              tokensRevokedAt: Math.floor(Date.now() / 1000)
+            }
+          };
+
+          beforeEach(() => {
+            webWidget.create('', config, mockStore);
+            webWidget.postRender();
+          });
+
+          it('calls authentication.revoke with tokensRevokedAt value', () => {
+            expect(expireTokenSpy)
+              .toHaveBeenCalledWith(webWidget.get().config.helpCenterForm.tokensRevokedAt);
+          });
         });
       });
 
-      describe('when there are not valid support auth settings', () => {
+      describe('when cookies are disabled', () => {
+        beforeAll(() => {
+          mockCookiesDisabled = true;
+        });
+
+        afterAll(() => {
+          mockCookiesDisabled = false;
+        });
+
         beforeEach(() => {
           const config = {
             ...mockConfig,
@@ -1201,27 +1253,7 @@ describe('embed.webWidget', () => {
         });
 
         it('does not call authentication.authenticate with the jwt token', () => {
-          expect(authenticateSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when there is a tokensRevokedAt property in the config', () => {
-        const config = {
-          ...mockConfig,
-          helpCenterForm: {
-            tokensRevokedAt: Math.floor(Date.now() / 1000)
-          }
-        };
-
-        beforeEach(() => {
-          webWidget.create('', config, mockStore);
-          webWidget.postRender();
-        });
-
-        it('calls authentication.revoke with tokensRevokedAt value', () => {
-          expect(expireTokenSpy)
-            .toHaveBeenCalledWith(webWidget.get().config.helpCenterForm.tokensRevokedAt);
+          expect(authenticateSpy).not.toHaveBeenCalled();
         });
       });
     });
