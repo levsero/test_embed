@@ -30,6 +30,10 @@ import {
 import { getHorizontalPosition } from 'src/redux/modules/selectors';
 import { zopimExistsOnPage } from 'service/api/zopimApi/helpers';
 import tracker from 'service/logging/tracker';
+import {
+  sendZopimImplicitConsentBlip,
+  sendZopimComplyBlip
+} from 'src/redux/middleware/blip';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -189,7 +193,10 @@ function render(name) {
 }
 
 function init(name) {
-  let originalZopimShow, originalZopimHide;
+  let originalZopimShow,
+    originalZopimHide,
+    originalZopimConsent,
+    originalZopimComply;
   let zopimApiOverwritten = false;
   const chat = get(name);
   const store = chat.store;
@@ -198,6 +205,19 @@ function init(name) {
     if (!zopimApiOverwritten) {
       originalZopimShow = win.$zopim.livechat.window.show;
       originalZopimHide = win.$zopim.livechat.window.hide;
+
+      originalZopimConsent = _.get(
+        win.$zopim.livechat,
+        'cookieLaw.setDefaultImplicitConsent',
+        () => {}
+      );
+
+      originalZopimComply = _.get(
+        win.$zopim.livechat,
+        'cookieLaw.comply',
+        () => {}
+      );
+
       zopimApiOverwritten = true;
 
       win.$zopim.livechat.window.show = () => {
@@ -208,6 +228,16 @@ function init(name) {
       win.$zopim.livechat.window.hide = () => {
         store.dispatch(zopimHide());
         originalZopimHide();
+      };
+
+      win.$zopim.livechat.cookieLaw.setDefaultImplicitConsent = () => {
+        sendZopimImplicitConsentBlip();
+        originalZopimConsent();
+      };
+
+      win.$zopim.livechat.cookieLaw.comply = () => {
+        sendZopimComplyBlip();
+        originalZopimComply();
       };
     }
   };

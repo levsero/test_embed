@@ -446,7 +446,10 @@ export default function WebWidgetFactory(name) {
       };
 
       userActionPayload = createUserActionPayload(userActionPayload, params);
-      beacon.trackUserAction('submitTicket', 'send', 'ticketSubmissionForm', userActionPayload);
+      beacon.trackUserAction('submitTicket', 'send', {
+        label: 'ticketSubmissionForm',
+        value: userActionPayload
+      });
       mediator.channel.broadcast(prefix + 'ticketSubmissionForm.onFormSubmitted');
     };
     const getTicketFormsFromConfig = _.memoize((config) => {
