@@ -9,10 +9,11 @@ The Web Widget has the following core settings:
 
 * [authenticate](./settings#authenticate)
 * [color](./settings#color)
+* [cookies](./settings#cookies)
 * [offset](./settings#offset)
 * [position](./settings#position)
 * [zIndex](./settings#zindex)
-* [contactOptions](#contactOptions)
+* [contactOptions](#contactoptions)
 * [launcher](#launcher)
 
 <a name="example-general"></a>
