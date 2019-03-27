@@ -60,8 +60,10 @@ test('trackUserAction', () => {
   beacon.trackUserAction(
     'mycategory',
     'myaction',
-    'mylabel',
-    'myvalue'
+    {
+      label: 'mylabel',
+      value: 'myvalue'
+    }
   );
 
   expect(http.sendWithMeta)
@@ -138,8 +140,10 @@ describe('init', () => {
     mediator.channel.broadcast('beacon.trackUserAction',
       'mycategory',
       'myaction',
-      'mylabel',
-      'myvalue'
+      {
+        label: 'mylabel',
+        value: 'myvalue'
+      }
     );
 
     expect(http.sendWithMeta)

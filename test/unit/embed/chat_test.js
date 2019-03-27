@@ -147,6 +147,10 @@ describe('embed.chat', () => {
       },
       'service/api/zopimApi/helpers': {
         zopimExistsOnPage: () => true
+      },
+      'src/redux/middleware/blip': {
+        sendZopimImplicitConsentBlip: noop,
+        sendZopimComplyBlip: noop
       }
     });
 

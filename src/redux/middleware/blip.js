@@ -89,7 +89,7 @@ const sendTalkOpenedBlip = (state) => {
   const value = createTalkBlipData(state, getEmbeddableConfig(state).phoneNumber);
 
   beacon.trackUserAction('talk', 'opened', {
-    labe: 'phoneNumber',
+    label: 'phoneNumber',
     value: value
   });
 };
