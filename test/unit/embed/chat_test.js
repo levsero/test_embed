@@ -26,6 +26,10 @@ describe('embed.chat', () => {
   const zopimEndChatSpy = jasmine.createSpy('zopimEndChat');
   const closeApiSpy = jasmine.createSpy('closeApi');
   const openApiSpy = jasmine.createSpy('openApi');
+  const originalImplicitConsentSpy = jasmine.createSpy('setDefaultImplicitConsent');
+  const originalComplySpy = jasmine.createSpy('comply');
+  const implicitConsentBlipSpy = jasmine.createSpy('implicitConsentBlip');
+  const complyBlipSpy = jasmine.createSpy('complyBlip');
 
   const mockStore = {
     getState: () => ({}),
@@ -85,7 +89,11 @@ describe('embed.chat', () => {
       },
       button: jasmine.createSpyObj('button', [
         'show'
-      ])
+      ]),
+      cookieLaw: {
+        setDefaultImplicitConsent: originalImplicitConsentSpy,
+        comply: originalComplySpy
+      }
     };
 
     mockGlobals.win.$zopim = mockZopim;
@@ -149,8 +157,8 @@ describe('embed.chat', () => {
         zopimExistsOnPage: () => true
       },
       'src/redux/middleware/blip': {
-        sendZopimImplicitConsentBlip: noop,
-        sendZopimComplyBlip: noop
+        sendZopimImplicitConsentBlip: implicitConsentBlipSpy,
+        sendZopimComplyBlip: complyBlipSpy
       }
     });
 
@@ -592,6 +600,46 @@ describe('embed.chat', () => {
 
           expect(mockZopim.livechat.window.setOffsetHorizontal)
             .toHaveBeenCalledWith(28);
+        });
+      });
+    });
+
+    describe('overwriteZopimApi', () => {
+      describe('cookieLaw', () => {
+        describe('setDefaultImplicitConsent', () => {
+          it('instruments setDefaultImplicitConsent', () => {
+            chat.overwriteZopimApi(mockStore);
+            mockZopim.livechat.cookieLaw.setDefaultImplicitConsent();
+
+            expect(implicitConsentBlipSpy)
+              .toHaveBeenCalled();
+          });
+
+          it('calls the original zopim setDefaultImplicitConsent', () => {
+            chat.overwriteZopimApi(mockStore);
+            mockZopim.livechat.cookieLaw.setDefaultImplicitConsent();
+
+            expect(originalImplicitConsentSpy)
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('comply', () => {
+          it('instruments comply', () => {
+            chat.overwriteZopimApi(mockStore);
+            mockZopim.livechat.cookieLaw.comply();
+
+            expect(complyBlipSpy)
+              .toHaveBeenCalled();
+          });
+
+          it('calls the original zopim comply', () => {
+            chat.overwriteZopimApi(mockStore);
+            mockZopim.livechat.cookieLaw.comply();
+
+            expect(originalComplySpy)
+              .toHaveBeenCalled();
+          });
         });
       });
     });
