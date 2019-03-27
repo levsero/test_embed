@@ -7,6 +7,7 @@ import { mediator } from 'service/mediator';
 
 const optionWhitelist = {
   webWidget: [
+    'answerBot.search.labels',
     'answerBot.title',
     'answerBot.avatar.name',
     'answerBot.avatar.url',
@@ -83,7 +84,10 @@ const webWidgetStoreDefaults = {
       url: '',
       name: {}
     },
-    title: {}
+    title: {},
+    search: {
+      labels: []
+    }
   },
   contactForm: {
     fields: [],

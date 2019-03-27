@@ -16,6 +16,7 @@ import {
   getCurrentRequestStatus
 } from 'src/redux/modules/answerBot/root/selectors';
 import { getAuthToken } from 'src/redux/modules/base/base-selectors';
+import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors';
 
 import { sessionStarted } from '../../sessions/actions';
 import { inputDisabled } from '../../root/actions';
@@ -76,6 +77,7 @@ export const questionSubmitted = (message) => {
     const sessionID = getSessionID(getState, () => {
       dispatch(sessionStarted());
     });
+    const labels = getAnswerBotSearchLabels(getState());
 
     dispatch(inputDisabled(true));
     dispatch(questionSubmittedPending(message, sessionID));
@@ -101,7 +103,8 @@ export const questionSubmitted = (message) => {
         deflection_channel_id: settings.get('viaIdAnswerBot'),
         interaction_reference: identity.getSuid().id || null,
         interaction_reference_type: WEB_WIDGET_SUID,
-        enquiry: message
+        enquiry: message,
+        labels
       },
       authorization: token ? `Bearer ${token}` : '',
     });

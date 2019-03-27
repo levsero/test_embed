@@ -522,3 +522,18 @@ test('getSettingsAnswerBotAvatarUrl', () => {
   expect(result)
     .toEqual(url);
 });
+
+test('getAnswerBotSearchLabels', () => {
+  const result = selectors.getAnswerBotSearchLabels(
+    settings({
+      answerBot: {
+        search: {
+          labels: ['here', 'blah']
+        }
+      }
+    })
+  );
+
+  expect(result)
+    .toEqual(['here', 'blah']);
+});
