@@ -12,7 +12,8 @@ describe('onStateChange middleware', () => {
     mockAnswerBotAvailable = false,
     useArg,
     mockIsPopout = false,
-    mockCookiesDisabled;
+    mockCookiesDisabled,
+    mockChatEnabled;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
@@ -34,6 +35,7 @@ describe('onStateChange middleware', () => {
   const activateRecievedSpy = jasmine.createSpy('activateRecieved');
   const resetShouldWarnSpy = jasmine.createSpy('resetShouldWarn');
   const storeClearSpy = jasmine.createSpy('clear');
+  const setUpChatSpy = jasmine.createSpy('setUpChat');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
   let mockDepartment;
@@ -62,6 +64,7 @@ describe('onStateChange middleware', () => {
     mockIsChatting = false;
     mockHasUnseenAgentMessage = false;
     useArg = false;
+    mockChatEnabled = true;
 
     initMockRegistry({
       'src/redux/modules/chat': {
@@ -75,7 +78,8 @@ describe('onStateChange middleware', () => {
         handleIsChatting: handleIsChattingSpy,
         chatConnected: chatConnectedSpy,
         chatWindowOpenOnNavigate: chatWindowOpenOnNavigateSpy,
-        chatNotificationReset: chatNotificationResetSpy
+        chatNotificationReset: chatNotificationResetSpy,
+        setUpChat: setUpChatSpy
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
@@ -165,7 +169,8 @@ describe('onStateChange middleware', () => {
         getSubmitTicketEmbed: () => mockSubmitTicketAvailable,
         getHelpCenterEmbed: () => mockHelpCenterEmbed,
         getIPMWidget: () => mockIPMWidget,
-        getHasWidgetShown: () => mockHasWidgetShown
+        getHasWidgetShown: () => mockHasWidgetShown,
+        getChatEmbed: () => mockChatEnabled
       },
       'service/persistence': {
         store: {
@@ -1372,6 +1377,7 @@ describe('onStateChange middleware', () => {
   describe('onCookiePermissionsChange', () => {
     afterEach(() => {
       storeClearSpy.calls.reset();
+      setUpChatSpy.calls.reset();
     });
 
     describe('when the action is UPDATE_SETTINGS', () => {
@@ -1398,6 +1404,44 @@ describe('onStateChange middleware', () => {
 
         it('it does not clear the localStorage', () => {
           expect(storeClearSpy).not.toHaveBeenCalled();
+        });
+
+        describe('when chat is enabled and not connected', () => {
+          beforeEach(() => {
+            mockChatEnabled = true;
+            setUpChatSpy.calls.reset();
+
+            stateChangeFn(null, false, mockAction);
+          });
+
+          it('calls setUpChat', () => {
+            expect(setUpChatSpy).toHaveBeenCalled();
+          });
+        });
+
+        describe('when chat is already connected', () => {
+          beforeEach(() => {
+            setUpChatSpy.calls.reset();
+
+            stateChangeFn(null, true, mockAction);
+          });
+
+          it('does not call setUpChat', () => {
+            expect(setUpChatSpy).not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when chat is not enabled', () => {
+          beforeEach(() => {
+            mockChatEnabled = false;
+            setUpChatSpy.calls.reset();
+
+            stateChangeFn(null, false, mockAction);
+          });
+
+          it('does not call setUpChat', () => {
+            expect(setUpChatSpy).not.toHaveBeenCalled();
+          });
         });
       });
     });

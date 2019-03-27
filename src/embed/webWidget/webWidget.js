@@ -147,7 +147,7 @@ export default function WebWidgetFactory(name) {
     const talkEnabled = getTalkEnabled(state);
     const submitTicketAvailable = !!config.ticketSubmissionForm && !getSettingsContactFormSuppress(state);
     const chatConfig = config.zopimChat;
-    const chatAvailable = !!chatConfig && !getChatConnectionSuppressed(state);
+    const chatAvailable = !!chatConfig && !getChatConnectionSuppressed(state) && !getCookiesDisabled(state);
     const submitTicketSettings = (submitTicketAvailable)
       ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
       : {};

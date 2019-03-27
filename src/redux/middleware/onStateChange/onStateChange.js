@@ -7,7 +7,8 @@ import {
   getOperatingHours,
   getIsChatting,
   chatWindowOpenOnNavigate,
-  chatConnected
+  chatConnected,
+  setUpChat
 } from 'src/redux/modules/chat';
 import {
   updateActiveEmbed,
@@ -49,7 +50,8 @@ import {
   getIPMWidget,
   getHelpCenterEmbed,
   getSubmitTicketEmbed,
-  getHasWidgetShown
+  getHasWidgetShown,
+  getChatEmbed
 } from 'src/redux/modules/base/base-selectors';
 import { store } from 'service/persistence';
 import {
@@ -280,11 +282,13 @@ const onUpdateEmbeddableConfig = (action) => {
   }
 };
 
-const onCookiePermissionsChange = (action, nextState) => {
+const onCookiePermissionsChange = (action, nextState, dispatch) => {
   if (action.type !== UPDATE_SETTINGS) return;
 
   if (getCookiesDisabled(nextState)) {
     store.clear();
+  } else if (getChatEmbed(nextState) && !getConnection(nextState)) {
+    dispatch(setUpChat());
   }
 };
 
@@ -306,5 +310,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onChannelChoiceTransition(prevState, nextState, action, dispatch);
   onChatConnectionClosed(prevState, nextState, action, dispatch);
   onChatConnectOnDemandTrigger(prevState, action, dispatch);
-  onCookiePermissionsChange(action, nextState);
+  onCookiePermissionsChange(action, nextState, dispatch);
 }

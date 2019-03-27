@@ -855,12 +855,20 @@ describe('getChatOnline', () => {
 
 describe('getChatConnectionSuppressed', () => {
   test.each([
-    ['chat delay is enabled',                          true,  false, false, false, true],
-    ['when chatting and connection suppress is false', true, true, true, false, false],
-    ['chat is connection suppressed',                  false, false, false, true, true],
-  ])('%p', (__title, chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress, expectedValue) => {
+    ['chat delay is enabled',                          true,  false, false, false, false, true],
+    ['when chatting and connection suppress is false', true, true, true, false, false, false],
+    ['chat is connection suppressed',                  false, false, false, true, false, true],
+    ['cookies are disabled',                           false, false, false, true, true, true],
+  ])('%p', (
+    __title,
+    chatConnectOnDemand,
+    isChatting,
+    chatConnected,
+    chatConnectionSuppress,
+    cookiesDisabled,
+    expectedValue) => {
     const result = selectors.getChatConnectionSuppressed.resultFunc(
-      chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress);
+      chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled);
 
     expect(result).toEqual(expectedValue);
   });

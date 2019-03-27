@@ -47,7 +47,8 @@ import {
   getAnswerBotTitle,
   getAnswerBotAvatarName,
   getSettingsChatConnectionSuppress,
-  getSettingsChatConnectOnDemand
+  getSettingsChatConnectOnDemand,
+  getCookiesDisabled
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
@@ -207,9 +208,13 @@ export const getChatOnline = (state) => getZopimChatOnline(state) || !getShowOff
 export const getChatConnected = (state) => getZopimChatConnected(state) || getNewChatConnected(state);
 
 export const getChatConnectionSuppressed = createSelector(
-  [getSettingsChatConnectOnDemand, getIsChatting, getChatConnected, getSettingsChatConnectionSuppress],
-  (chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress) => {
-    const chatDelay = chatConnectOnDemand && !isChatting && !chatConnected;
+  [getSettingsChatConnectOnDemand,
+    getIsChatting,
+    getChatConnected,
+    getSettingsChatConnectionSuppress,
+    getCookiesDisabled],
+  (chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled) => {
+    const chatDelay = (chatConnectOnDemand || cookiesDisabled) && !isChatting && !chatConnected;
 
     return chatDelay || chatConnectionSuppress;
   }
