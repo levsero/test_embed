@@ -25,7 +25,7 @@ export class MessageBubble extends Component {
     super(props);
 
     this.state = {
-      showOriginal: true
+      userWantOriginalMessage: undefined
     };
   }
 
@@ -40,25 +40,35 @@ export class MessageBubble extends Component {
     ) : null;
   }
 
+  showTranslation = () => {
+    return (this.props.translatedMessage && this.state.userWantOriginalMessage === undefined) ||
+      this.state.userWantOriginalMessage;
+  }
+
   renderTranslateLink = () => {
     if (!this.props.translatedMessage) return null;
 
-    const translateText = this.state.showOriginal ?
-      i18n.t('embeddable_framework.chat.show_translated') :
-      i18n.t('embeddable_framework.chat.show_original');
+    const showTranslationText = this.showTranslation();
+    const translateText = showTranslationText ?
+      i18n.t('embeddable_framework.chat.show_original') :
+      i18n.t('embeddable_framework.chat.show_translated');
     const onTranslatedMessageClick = () => {
       this.setState({
-        showOriginal: !this.state.showOriginal
+        userWantOriginalMessage: !showTranslationText
       });
     };
 
     return (
-      <a className={styles.translateLink} onClick={onTranslatedMessageClick}>{translateText}</a>
+      <a data-testid="translate_link"
+        className={styles.translateLink}
+        onClick={onTranslatedMessageClick}>
+        {translateText}
+      </a>
     );
   }
 
   renderMessage = () => {
-    if (this.state.showOriginal) {
+    if (!this.showTranslation()) {
       return this.props.message;
     }
     return this.props.translatedMessage;
