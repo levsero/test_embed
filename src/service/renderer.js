@@ -237,10 +237,6 @@ function updateEmbeds() {
   });
 }
 
-function setupChat() {
-  embedsMap.webWidget.setupChat();
-}
-
 export const renderer = {
   init: init,
   initIPM: initIPM,
@@ -248,6 +244,5 @@ export const renderer = {
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
   hide: hide,
-  updateEmbeds,
-  setupChat
+  updateEmbeds
 };

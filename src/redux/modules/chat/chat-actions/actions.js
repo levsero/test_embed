@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import * as actions from './chat-action-types';
-import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
+import * as actions from '../chat-action-types';
+import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from '../chat-screen-types';
 import {
   getChatVisitor,
   getShowRatingScreen,
@@ -24,11 +24,11 @@ import { mediator } from 'service/mediator';
 import { audio } from 'service/audio';
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils';
 import { formatSchedule } from 'src/util/chat';
-
 import {
   zChatWithTimeout,
   canBeIgnored
 } from 'src/redux/modules/chat/helpers/zChatWithTimeout';
+
 const chatTypingTimeout = 2000;
 let history = [];
 

@@ -9,7 +9,7 @@ import {
   getZChatVendor,
 } from 'src/redux/modules/chat/chat-selectors';
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors';
-import { setDepartment } from 'src/redux/modules/chat/chat-actions';
+import { setDepartment } from 'src/redux/modules/chat';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 
 const handleTagsChange = (zChat, tags, oldTags) => {

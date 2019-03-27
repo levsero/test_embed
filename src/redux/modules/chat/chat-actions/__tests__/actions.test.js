@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import * as timeout from 'src/redux/modules/chat/helpers/zChatWithTimeout';
-import * as actions from '../chat-actions';
+import * as actions from '../actions';
 import * as actionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors';
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors';

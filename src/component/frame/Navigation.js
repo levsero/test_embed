@@ -18,7 +18,7 @@ import {
   getShowMenu as getShowChatMenu,
   getIsPopoutButtonVisible
 } from 'src/redux/modules/selectors';
-import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
+import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat';
 import { handleCloseButtonClicked, handlePopoutButtonClicked } from 'src/redux/modules/base/base-actions';
 import { createChatPopoutWindow } from 'src/util/chat';
 import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selectors';

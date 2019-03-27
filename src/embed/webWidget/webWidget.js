@@ -12,11 +12,9 @@ import { webWidgetStyles } from './webWidgetStyles';
 import Frame from 'component/frame/Frame';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
-import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { http } from 'service/transport';
-import { store } from 'service/persistence';
 import { generateUserWidgetCSS } from 'utility/color/styles';
 import {
   getZoomSizingRatio,
@@ -24,7 +22,7 @@ import {
   isMobileBrowser,
   setScaleLock
 } from 'utility/devices';
-import { document, getDocumentHost, win, isPopout } from 'utility/globals';
+import { document, getDocumentHost, isPopout } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import {
@@ -39,8 +37,7 @@ import {
 import {
   setVisitorInfo,
   chatNotificationDismissed,
-  fetchConversationHistory,
-  handleChatVendorLoaded
+  setUpChat
 } from 'src/redux/modules/chat';
 import {
   getSettingsHelpCenterSuppress,
@@ -51,17 +48,11 @@ import {
   getTicketForms,
   getTicketFields
 } from 'src/redux/modules/submitTicket';
-import {
-  SDK_ACTION_TYPE_PREFIX, JWT_ERROR,
-  MAXIMUM_RECONNECTION_ATTEMPTS
-} from 'constants/chat';
-import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
 import { authenticate, expireToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { nameValid, emailValid } from 'src/util/utils';
-import zopimApi from 'service/api/zopimApi';
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
@@ -187,7 +178,7 @@ export default function WebWidgetFactory(name) {
     };
 
     if (chatAvailable) {
-      setupChat();
+      reduxStore.dispatch(setUpChat());
     }
 
     if (talkEnabled) {
@@ -485,103 +476,12 @@ export default function WebWidgetFactory(name) {
     };
   }
 
-  function setupChat(config = embed.config.zopimChat, store = embed.store) {
-    const authentication = settings.getChatAuthSettings();
-
-    config = { ...config, authentication };
-
-    const { brandCount, brand } = embed.config.global;
-    let brandName;
-
-    if (brandCount === undefined || brandCount > 1) {
-      brandName = brand;
-    }
-
-    const onSuccess = (zChat, slider, previousCallCount = 0) => {
-      store.dispatch(handleChatVendorLoaded({ zChat, slider: slider.default }));
-
-      zChat.on('error', (e) => {
-        if (_.get(e, 'extra.reason') === JWT_ERROR) {
-          _.unset(config, 'authentication');
-          store.dispatch({
-            type: AUTHENTICATION_FAILED
-          });
-
-          if (previousCallCount < MAXIMUM_RECONNECTION_ATTEMPTS) {
-            setupChat(config, store, ++previousCallCount);
-          }
-        }
-      });
-
-      if (config.authentication) {
-        store.dispatch({
-          type: AUTHENTICATION_STARTED
-        });
-      }
-      zChat.init(makeChatConfig(config));
-      zopimApi.handleZopimQueue(win);
-
-      zChat.setOnFirstReady({
-        fetchHistory: () => {
-          if (_.get(config, 'authentication.jwtFn')) {
-            if (brandName) zChat.addTag(brandName);
-            store.dispatch(fetchConversationHistory());
-          }
-        }
-      });
-
-      if (brandName && !_.get(config, 'authentication.jwtFn')) {
-        zChat.addTag(brandName);
-      }
-
-      zChat.getFirehose().on('data', (data) => {
-        let actionType;
-
-        if (data.type === 'history') {
-          actionType = `${SDK_ACTION_TYPE_PREFIX}/history/${data.detail.type}`;
-        } else {
-          actionType = data.detail.type
-            ? `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`
-            : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`;
-        }
-
-        if (data.type === 'chat' && data.detail) {
-          data.detail.timestamp = data.detail.timestamp || Date.now();
-        }
-        store.dispatch({ type: actionType, payload: data });
-      });
-    };
-    const onFailure = (err) => {
-      logging.error(err);
-    };
-
-    Promise.all([import('chat-web-sdk'), import('react-slick')])
-      .then((arr)=> onSuccess(...arr))
-      .catch(onFailure);
-  }
-
   function setupTalk(config, store) {
     store.dispatch(loadTalkVendors(
       [import('socket.io-client'), import('libphonenumber-js')],
       config.serviceUrl,
       getTalkNickname(store.getState())
     ));
-  }
-
-  function makeChatConfig(config) {
-    /* eslint-disable camelcase */
-    const jwtFn = _.get(config, 'authentication.jwtFn');
-    const authentication = jwtFn ? { jwt_fn: jwtFn } : null;
-
-    return _.omitBy({
-      account_key: store.get('chatAccountKey') || config.zopimId,
-      override_proxy: store.get('chatOverrideProxy') || config.overrideProxy,
-      override_auth_server_host: store.get('chatOverrideAuthServerHost'),
-      authentication,
-      activity_window: win,
-      popout: isPopout()
-    }, _.isNil);
-    /* eslint-enable camelcase */
   }
 
   function setUpHelpCenter(config) {
@@ -606,8 +506,7 @@ export default function WebWidgetFactory(name) {
     render,
     get,
     postRender,
-    waitForRootComponent,
-    setupChat
+    waitForRootComponent
   };
 
   return webWidget;

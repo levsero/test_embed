@@ -28,7 +28,7 @@ import {
   SDK_ACCOUNT_STATUS,
   SDK_DEPARTMENT_UPDATE
 } from 'src/redux/modules/chat/chat-action-types';
-import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat';
+import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat/chat-actions';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
   getDepartment,

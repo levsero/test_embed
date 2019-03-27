@@ -12,3 +12,20 @@ jest.mock('@zendesk/client-i18n-tools');
 
 window.I18N = { translations: {} };
 global.noop = () => {};
+
+// setup needed for react-slick mocks
+window.matchMedia =
+window.matchMedia ||
+function() {
+  return {
+    matches: false,
+    addListener: function() {},
+    removeListener: function() {}
+  };
+};
+
+window.requestAnimationFrame =
+window.requestAnimationFrame ||
+function(callback) {
+  setTimeout(callback, 0);
+};
