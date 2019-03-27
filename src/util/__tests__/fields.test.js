@@ -6,10 +6,12 @@ import {
   shouldRenderErrorMessage,
   renderLabel,
   getDefaultFieldValues,
-  getCustomFields
+  getCustomFields,
+  updateConditionalVisibility
 } from '../fields';
 import { EMAIL_PATTERN } from 'constants/shared';
 import { noopReactComponent } from 'utility/testHelpers';
+import snapshotDiff from 'snapshot-diff';
 
 describe('getStyledLabelText', () => {
   const label = 'What Biltong flavour would you like to order?';
@@ -178,9 +180,8 @@ describe('getDefaultFieldValues', () => {
   });
 });
 
-describe('getCustomFields', () => {
-  let customFields,
-    payload;
+describe('customFields', () => {
+  let payload, customFields;
 
   /* eslint-disable camelcase */
   const textFieldPayload = {
@@ -192,7 +193,7 @@ describe('getCustomFields', () => {
     editable_in_portal: true
   };
   const nestedDropdownFieldPayload = {
-    id: 10006,
+    id: '10006',
     type: 'tagger',
     title_in_portal: 'Nested Drop Down',
     required_in_portal: true,
@@ -296,41 +297,253 @@ describe('getCustomFields', () => {
       descriptionFieldPayload,
       subjectFieldPayload
     ];
-    customFields = getCustomFields(payload, {}, {
-      onChange: noop,
-      showErrors: false,
+  });
+
+  describe('getCustomFields', () => {
+    beforeEach(() => {
+      customFields = getCustomFields(payload, {}, {
+        onChange: noop,
+        showErrors: false,
+      });
+    });
+
+    it('converts custom field payload into array of React components', () => {
+      _.forEach(customFields.allFields, (customField) => {
+        expect(React.isValidElement(customField))
+          .toBeTruthy();
+      });
+    });
+
+    it('returns an object with allFields, checkboxes and fields', () => {
+      expect(Object.keys(customFields))
+        .toEqual(['fields', 'checkboxes', 'allFields']);
+    });
+
+    it('returns the correct number of components in each key', () => {
+      expect(customFields.checkboxes.length)
+        .toEqual(1);
+
+      expect(customFields.fields.length)
+        .toEqual(8);
+
+      expect(customFields.allFields.length)
+        .toEqual(9);
+    });
+
+    it('renders the correct components for each key', () => {
+      _.forEach(customFields.allFields, (customField) => {
+        const { container } = render(customField);
+
+        expect(container)
+          .toMatchSnapshot();
+      });
     });
   });
 
-  it('converts custom field payload into array of React components', () => {
-    _.forEach(customFields.allFields, (customField) => {
-      expect(React.isValidElement(customField))
-        .toBeTruthy();
+  describe('updateConditionalVisibility',() => {
+    let defaultFields;
+
+    const updateFields = (customFields, formState = {}, conditions = []) => {
+      return updateConditionalVisibility(customFields, formState, conditions);
+    };
+
+    describe('with no conditions',() => {
+      beforeEach(()=> {
+        customFields = updateFields(payload);
+      });
+
+      it('returns all the the fields',() => {
+        expect(customFields).toEqual(payload);
+      });
     });
-  });
 
-  it('returns an object with allFields, checkboxes and fields', () => {
-    expect(Object.keys(customFields))
-      .toEqual(['fields', 'checkboxes', 'allFields']);
-  });
+    describe('with conditions', () => {
+      const singleCondition =  [
+        {
+          parent_field_id:'22823270',
+          value: true,
+          child_fields:[{
+            id: '22660524',
+            is_required: false
+          }]
+        }
+      ];
+      const conditionWithMultipleChildren = [
+        {
+          parent_field_id:'22823270',
+          value: true,
+          child_fields:[{
+            id: '22660524',
+            is_required: false
+          }, {
+            id: '2284528',
+            is_required: true
+          }, {
+            id: '2284527',
+            is_required: true
+          }]
+        }
+      ];
+      const multipleConditions =  [
+        {
+          parent_field_id:'22823270',
+          value: true,
+          child_fields:[{
+            id: '22660524',
+            is_required: false
+          }]
+        }, {
+          parent_field_id: '22660524',
+          value: 'first',
+          child_fields: [{
+            id:'22823270',
+            is_required: false
+          }]
+        }
+      ];
+      const multipleConditionsOnSameChild =  [
+        {
+          parent_field_id:'22823270',
+          value: true,
+          child_fields:[{
+            id: '22660524',
+            is_required: false
+          }]
+        }, {
+          parent_field_id: '22660524',
+          value: 'first',
+          child_fields: [{
+            id:'22660524',
+            is_required: true
+          }]
+        }
+      ];
+      const allFieldsAsConditions =  [
+        {
+          parent_field_id: '22823270',
+          value: true,
+          child_fields:[{
+            id: '22660514',
+            is_required: false
+          }]
+        }, {
+          parent_field_id: '22660514',
+          value: 'text',
+          child_fields: [{
+            id:'10006',
+            is_required: true
+          }]
+        }, {
+          parent_field_id: '10006',
+          value: 'option1__part1',
+          child_fields: [{
+            id:'22666574',
+            is_required: true
+          }]
+        }, {
+          parent_field_id: '22666574',
+          value: 1,
+          child_fields: [{
+            id:'22660524',
+            is_required: false
+          }]
+        }, {
+          parent_field_id: '22660524',
+          value: 'exactly',
+          child_fields: [{
+            id:'22823250',
+            is_required: false
+          }]
+        }, {
+          parent_field_id: '22823250',
+          value: 23,
+          child_fields: [{
+            id:'22823260',
+            is_required: false
+          }]
+        }, {
+          parent_field_id: '22823260',
+          value: 22.23,
+          child_fields: [{
+            id:'2284527',
+            is_required: false
+          }]
+        }, {
+          parent_field_id: '2284527',
+          value: 'a description!',
+          child_fields: [{
+            id:'2284528',
+            is_required: true
+          }]
+        }, {
+          parent_field_id: '2284528',
+          value: 'and a subject?',
+          child_fields: [{
+            id:'22823270',
+            is_required: true
+          }]
+        }
+      ];
 
-  it('returns the correct number of components in each key', () => {
-    expect(customFields.checkboxes.length)
-      .toEqual(1);
+      describe('with no form state', () => {
+        beforeEach(() => {
+          defaultFields = updateConditionalVisibility(payload);
+        });
 
-    expect(customFields.fields.length)
-      .toEqual(8);
+        test.each([
+          ['conditionWithMultipleChildren', conditionWithMultipleChildren],
+          ['singleCondition', singleCondition],
+          ['multipleConditions', multipleConditions],
+          ['multipleConditionsOnSameChild', multipleConditionsOnSameChild],
+          ['allFieldsAsConditions', allFieldsAsConditions]
+        ])('with %s',
+          (_, conditions) => {
+            const fields = updateConditionalVisibility(payload, {}, conditions);
 
-    expect(customFields.allFields.length)
-      .toEqual(9);
-  });
+            expect(snapshotDiff(defaultFields, fields, { contextLines: 2 })).toMatchSnapshot();
+          },
+        );
+      });
 
-  it('renders the correct components for each key', () => {
-    _.forEach(customFields.allFields, (customField) => {
-      const { container } = render(customField);
+      describe('with form state', () => {
+        beforeEach(() => {
+          defaultFields = updateConditionalVisibility(payload);
+        });
+        const conditionFulfilled = {
+          22823270: 1
+        };
+        const bothConditionsFulfilled = {
+          22823270: 1,
+          22660524: 'first'
+        };
+        const allConditionsFulfilled = {
+          22823270: true,
+          22660514: 'text',
+          10006: 'option1__part1',
+          22666574: 1,
+          22660524: 'exactly',
+          22823250: 23,
+          22823260: 22.23,
+          2284527: 'a description!',
+          2284528: 'and a subject?',
+        };
 
-      expect(container)
-        .toMatchSnapshot();
+        test.each([
+          ['conditionWithMultipleChildren', conditionWithMultipleChildren, conditionFulfilled],
+          ['singleCondition', singleCondition, conditionFulfilled],
+          ['multipleConditions one fulfilled', multipleConditions, conditionFulfilled],
+          ['multipleConditionsOnSameChild one fulfilled', multipleConditionsOnSameChild, conditionFulfilled],
+          ['multipleConditions one fulfilled', multipleConditions, bothConditionsFulfilled],
+          ['multipleConditionsOnSameChild one fulfilled', multipleConditionsOnSameChild, bothConditionsFulfilled],
+          ['allFieldsAsConditions', allFieldsAsConditions, allConditionsFulfilled]
+        ])('with %s',
+          (_, conditions, formState) => {
+            const fields = updateConditionalVisibility(payload, formState, conditions);
+
+            expect(snapshotDiff(defaultFields, fields, { contextLines: 2 })).toMatchSnapshot();
+          },
+        );
+      });
     });
   });
 });
