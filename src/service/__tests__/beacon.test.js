@@ -56,33 +56,61 @@ test('identify', () => {
     );
 });
 
-test('trackUserAction', () => {
-  beacon.trackUserAction(
-    'mycategory',
-    'myaction',
-    {
-      label: 'mylabel',
-      value: 'myvalue'
-    }
-  );
-
-  expect(http.sendWithMeta)
-    .toHaveBeenCalledWith(
+describe('trackUserAction', () => {
+  it('calls sendWithMeta with the right arguments', () => {
+    beacon.trackUserAction(
+      'mycategory',
+      'myaction',
       {
-        method: 'GET',
-        path: '/embeddable_blip',
-        type: 'userAction',
-        params: {
-          channel: 'web_widget',
-          userAction: {
-            action: 'myaction',
-            category: 'mycategory',
-            label: 'mylabel',
-            value: 'myvalue'
-          }
-        }
+        label: 'mylabel',
+        value: 'myvalue'
       }
     );
+
+    expect(http.sendWithMeta)
+      .toHaveBeenCalledWith(
+        {
+          method: 'GET',
+          path: '/embeddable_blip',
+          type: 'userAction',
+          params: {
+            channel: 'web_widget',
+            userAction: {
+              action: 'myaction',
+              category: 'mycategory',
+              label: 'mylabel',
+              value: 'myvalue'
+            }
+          }
+        }
+      );
+  });
+
+  it('allows for options', () => {
+    beacon.trackUserAction(
+      'mycategory',
+      'myaction',
+      { channel: 'zendeskSpace' }
+    );
+
+    expect(http.sendWithMeta)
+      .toHaveBeenCalledWith(
+        {
+          method: 'GET',
+          path: '/embeddable_blip',
+          type: 'userAction',
+          params: {
+            channel: 'zendeskSpace',
+            userAction: {
+              action: 'myaction',
+              category: 'mycategory',
+              label: null,
+              value: null
+            }
+          }
+        }
+      );
+  });
 });
 
 test('sendConfigLoadTime', () => {
