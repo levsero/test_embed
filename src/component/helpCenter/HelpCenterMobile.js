@@ -38,7 +38,7 @@ export class HelpCenterMobile extends Component {
     talkOnline: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
-    contextualHelpEnabled: PropTypes.bool.isRequired,
+    contextualHelpRequestNeeded: PropTypes.bool.isRequired,
     searchPlaceholder: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     buttonLoading: PropTypes.bool
@@ -67,7 +67,7 @@ export class HelpCenterMobile extends Component {
 
     this.state = {
       searchFieldFocused: false,
-      showIntroScreen: !props.contextualHelpEnabled && !props.articleViewActive
+      showIntroScreen: !props.contextualHelpRequestNeeded && !props.articleViewActive
     };
 
     this.searchField = null;

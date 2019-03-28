@@ -218,7 +218,7 @@ describe('HelpCenterResults component', () => {
     let component,
       mockHasContextualSearched,
       mockIsContextualSearchComplete,
-      mockContextualHelpEnabled,
+      mockContextualHelpRequestNeeded,
       mockHasSearched;
 
     beforeEach(() => {
@@ -227,7 +227,7 @@ describe('HelpCenterResults component', () => {
           hasContextualSearched={mockHasContextualSearched}
           isContextualSearchComplete={mockIsContextualSearchComplete}
           hasSearched={mockHasSearched}
-          contextualHelpEnabled={mockContextualHelpEnabled} />
+          contextualHelpRequestNeeded={mockContextualHelpRequestNeeded} />
       );
 
       spyOn(component, 'renderContextualNoResults');
@@ -292,7 +292,7 @@ describe('HelpCenterResults component', () => {
 
     describe('when props.contextualHelpEnabled is true and props.hasSearched is false', () => {
       beforeAll(() => {
-        mockContextualHelpEnabled = true;
+        mockContextualHelpRequestNeeded = true;
         mockHasSearched = false;
       });
 
