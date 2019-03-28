@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 
 import { dispatchChatAccountSettings } from 'utility/testHelpers';
 import { settings } from 'service/settings';
+import { store as persistence } from 'service/persistence';
 
 import ChatOnline from '../../ChatOnline';
 
@@ -18,6 +19,7 @@ let store;
 
 beforeEach(() => {
   store = createStore();
+  persistence.init(store);
   settings.init(store);
 });
 
