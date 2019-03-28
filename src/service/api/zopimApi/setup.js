@@ -56,7 +56,7 @@ export function setUpZopimApiMethods(win, store) {
       cookieLaw: {
         comply: noop,
         showPrivacyPanel: noop,
-        setDefaultImplicitConsent: noop
+        setDefaultImplicitConsent: () => updateSettings(store, 'cookies', false)
       },
       window: {
         toggle: () => toggleApi(store),
