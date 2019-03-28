@@ -39,7 +39,6 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import {
   getNotificationCount,
   getIsChatting,
-  getChatConnectionConnecting
 } from 'src/redux/modules/chat/chat-selectors';
 import {
   getIsOnInitialDesktopSearchScreen,
@@ -48,7 +47,8 @@ import {
   getSettingsHelpCenterChatButton,
   getSettingsHelpCenterMessageButton,
   getSettingsHelpCenterTitle,
-  getContactOptionsButton
+  getContactOptionsButton,
+  getChatConnectionConnecting
 } from 'src/redux/modules/selectors';
 import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter';
 

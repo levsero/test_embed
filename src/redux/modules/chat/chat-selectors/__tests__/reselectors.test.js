@@ -6,38 +6,6 @@ import {
 import 'utility/i18nTestHelper';
 import * as globals from 'utility/globals';
 import getModifiedState from 'src/fixtures/chat-reselectors-test-state';
-import { CONNECTION_STATUSES } from 'constants/chat';
-
-describe('getChatConnectionConnecting', () => {
-  const state = (enabled, connection) => getModifiedState({
-    base: {
-      embeds: {
-        chat: enabled
-      }
-    },
-    chat: {
-      connection
-    }
-  });
-
-  test('chat is not enabled', () => {
-    const result = selectors.getChatConnectionConnecting(state(false, ''));
-
-    expect(result).toEqual(false);
-  });
-
-  test('chat is closed', () => {
-    const result = selectors.getChatConnectionConnecting(state(true, CONNECTION_STATUSES.CLOSED));
-
-    expect(result).toEqual(false);
-  });
-
-  test('chat is connecting', () => {
-    const result = selectors.getChatConnectionConnecting(state(true, CONNECTION_STATUSES.CONNECTING));
-
-    expect(result).toEqual(true);
-  });
-});
 
 describe('getIsPopoutAvailable', () => {
   test('when values are correct', () => {
