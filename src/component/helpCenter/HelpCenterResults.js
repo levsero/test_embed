@@ -21,7 +21,7 @@ export class HelpCenterResults extends Component {
     showContactButton: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     isMobile: PropTypes.bool.isRequired,
-    contextualHelpEnabled: PropTypes.bool,
+    contextualHelpRequestNeeded: PropTypes.bool,
     hasSearched: PropTypes.bool
   };
 
@@ -34,7 +34,7 @@ export class HelpCenterResults extends Component {
     searchFailed: false,
     showContactButton: true,
     hideZendeskLogo: false,
-    contextualHelpEnabled: false,
+    contextualHelpRequestNeeded: false,
     hasSearched: false
   };
 
@@ -142,9 +142,9 @@ export class HelpCenterResults extends Component {
   }
 
   renderNoResults = () => {
-    const { hasContextualSearched, isContextualSearchComplete, contextualHelpEnabled, hasSearched } = this.props;
+    const { hasContextualSearched, isContextualSearchComplete, contextualHelpRequestNeeded, hasSearched } = this.props;
 
-    return ((hasContextualSearched && isContextualSearchComplete) || (contextualHelpEnabled && !hasSearched))
+    return ((hasContextualSearched && isContextualSearchComplete) || (contextualHelpRequestNeeded && !hasSearched))
       ? this.renderContextualNoResults()
       : this.renderDefaultNoResults();
   }

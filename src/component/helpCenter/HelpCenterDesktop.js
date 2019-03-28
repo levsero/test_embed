@@ -41,7 +41,7 @@ export class HelpCenterDesktop extends Component {
     searchPlaceholder: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     buttonLoading: PropTypes.bool,
-    contextualHelpEnabled: PropTypes.bool
+    contextualHelpRequestNeeded: PropTypes.bool
   };
 
   static defaultProps = {
@@ -59,7 +59,7 @@ export class HelpCenterDesktop extends Component {
     chatEnabled: false,
     isOnInitialDesktopSearchScreen: false,
     buttonLoading: false,
-    contextualHelpEnabled: false
+    contextualHelpRequestNeeded: false
   };
 
   constructor(props, context) {
@@ -100,11 +100,11 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderForm = () => {
-    const { hasSearched, contextualHelpEnabled, hideZendeskLogo } = this.props;
+    const { hasSearched, contextualHelpRequestNeeded, hideZendeskLogo } = this.props;
 
     const customSearchContainerClasses = classNames({
-      [styles.onHelpCenterSmallScreen]: !hasSearched && !contextualHelpEnabled && hideZendeskLogo,
-      [styles.onHelpCenterLargeScreen]: hasSearched || contextualHelpEnabled,
+      [styles.onHelpCenterSmallScreen]: !hasSearched && !contextualHelpRequestNeeded && hideZendeskLogo,
+      [styles.onHelpCenterLargeScreen]: hasSearched || contextualHelpRequestNeeded,
     });
 
     return (
@@ -123,7 +123,6 @@ export class HelpCenterDesktop extends Component {
           onSearchIconClick={this.handleSubmit}
           isLoading={this.props.isLoading}
           searchPlaceholder={this.props.searchPlaceholder}
-          contextualHelpEnabled={contextualHelpEnabled}
           customSearchContainerClasses={customSearchContainerClasses} />
       </form>
     );

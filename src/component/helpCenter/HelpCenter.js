@@ -32,7 +32,8 @@ import {
   getRestrictedImages,
   getSearchFieldValue,
   getIsContextualSearchPending,
-  getIsContextualSearchComplete
+  getIsContextualSearchComplete,
+  getContextualHelpRequestNeeded
 } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import {
@@ -83,7 +84,8 @@ const mapStateToProps = (state, ownProps) => {
     messageButtonLabel: getSettingsHelpCenterMessageButton(state, messageButtonLabelKey),
     title: getSettingsHelpCenterTitle(state, titleKey),
     contactButtonLabel: getContactOptionsButton(state),
-    chatConnecting: getChatConnectionConnecting(state)
+    chatConnecting: getChatConnectionConnecting(state),
+    contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state)
   };
 };
 
@@ -125,7 +127,7 @@ class HelpCenter extends Component {
     chatNotificationCount: PropTypes.number,
     isChatting: PropTypes.bool,
     isContextualSearchPending: PropTypes.bool.isRequired,
-    contextualHelpEnabled: PropTypes.bool.isRequired,
+    contextualHelpRequestNeeded: PropTypes.bool.isRequired,
     isContextualSearchComplete: PropTypes.bool.isRequired,
     maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     isOnInitialDesktopSearchScreen: PropTypes.bool,
@@ -297,11 +299,11 @@ class HelpCenter extends Component {
       isContextualSearchComplete,
       articleViewActive,
       hasSearched,
-      contextualHelpEnabled,
+      contextualHelpRequestNeeded,
       articles
     } = this.props;
 
-    if (articleViewActive || (!hasSearched && !contextualHelpEnabled)) return null;
+    if (articleViewActive || (!hasSearched && !contextualHelpRequestNeeded)) return null;
 
     const applyPadding = !showNextButton && !hideZendeskLogo;
 
@@ -320,7 +322,7 @@ class HelpCenter extends Component {
         showContactButton={showNextButton}
         hideZendeskLogo={hideZendeskLogo}
         isMobile={this.props.isMobile}
-        contextualHelpEnabled={contextualHelpEnabled}
+        contextualHelpRequestNeeded={contextualHelpRequestNeeded}
         hasSearched={hasSearched} />
     );
   }
@@ -372,7 +374,7 @@ class HelpCenter extends Component {
         updateChatScreen={this.props.updateChatScreen}
         maxWidgetHeight={this.props.maxWidgetHeight}
         searchPlaceholder={this.props.searchPlaceholder}
-        contextualHelpEnabled={this.props.contextualHelpEnabled}>
+        contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>
@@ -405,7 +407,7 @@ class HelpCenter extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}
         title={this.props.title}
-        contextualHelpEnabled={this.props.contextualHelpEnabled}
+        contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}
         searchPlaceholder={this.props.searchPlaceholder}>
         {this.renderResults()}
         {this.renderArticles()}
