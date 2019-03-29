@@ -32,4 +32,13 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
     expect(reduce(payload))
       .toEqual({ labels: ['hello', 'world'] });
   });
+
+  it('returns the default when a different payload is dispatched', () => {
+    expect(reduce({}))
+      .toEqual({ labels: [] });
+  });
+
+  it('returns the current state when other actions are dispatched', () => {
+    expect(reducer({ labels: ['hello'] }, { type: 'something else' })).toEqual({ labels: ['hello'] });
+  });
 });

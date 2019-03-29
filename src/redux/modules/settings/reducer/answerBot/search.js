@@ -8,17 +8,17 @@ const initialState = {
   labels: []
 };
 
-const labels = (state = initialState, action) => {
+const search = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case UPDATE_SETTINGS:
       return {
-        labels: _.get(payload, 'webWidget.answerBot.search.labels', state)
+        labels: _.get(payload, 'webWidget.answerBot.search.labels', state.labels)
       };
     default:
       return state;
   }
 };
 
-export default labels;
+export default search;
