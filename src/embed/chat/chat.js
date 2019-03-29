@@ -30,8 +30,13 @@ import {
 import { getHorizontalPosition } from 'src/redux/modules/selectors';
 import { zopimExistsOnPage } from 'service/api/zopimApi/helpers';
 import tracker from 'service/logging/tracker';
+import {
+  sendZopimImplicitConsentBlip,
+  sendZopimComplyBlip
+} from 'src/redux/middleware/blip';
 
 let chats = {};
+let zopimApiOverwritten = false;
 const styleTag = document.createElement('style');
 
 function create(name, config, store) {
@@ -189,28 +194,9 @@ function render(name) {
 }
 
 function init(name) {
-  let originalZopimShow, originalZopimHide;
-  let zopimApiOverwritten = false;
   const chat = get(name);
   const store = chat.store;
   const config = chat.config;
-  const overwriteZopimApi = () => {
-    if (!zopimApiOverwritten) {
-      originalZopimShow = win.$zopim.livechat.window.show;
-      originalZopimHide = win.$zopim.livechat.window.hide;
-      zopimApiOverwritten = true;
-
-      win.$zopim.livechat.window.show = () => {
-        store.dispatch(zopimShow());
-        originalZopimShow();
-      };
-
-      win.$zopim.livechat.window.hide = () => {
-        store.dispatch(zopimHide());
-        originalZopimHide();
-      };
-    }
-  };
 
   const onStatus = (status) => {
     if (status === 'online' || status === 'away') {
@@ -245,7 +231,7 @@ function init(name) {
   const onConnected = () => {
     mediator.channel.broadcast(`${name}.onConnected`);
     store.dispatch(zopimConnectionUpdate());
-    overwriteZopimApi();
+    overwriteZopimApi(store);
   };
 
   win.$zopim.onError = () => mediator.channel.broadcast(`${name}.onError`);
@@ -307,10 +293,57 @@ function init(name) {
   });
 }
 
+function overwriteZopimApi(store) {
+  let originalZopimShow,
+    originalZopimHide,
+    originalZopimConsent,
+    originalZopimComply;
+
+  if (!zopimApiOverwritten) {
+    originalZopimShow = win.$zopim.livechat.window.show;
+    originalZopimHide = win.$zopim.livechat.window.hide;
+
+    originalZopimConsent = _.get(
+      win.$zopim.livechat,
+      'cookieLaw.setDefaultImplicitConsent',
+      () => {}
+    );
+
+    originalZopimComply = _.get(
+      win.$zopim.livechat,
+      'cookieLaw.comply',
+      () => {}
+    );
+
+    zopimApiOverwritten = true;
+
+    win.$zopim.livechat.window.show = () => {
+      store.dispatch(zopimShow());
+      originalZopimShow();
+    };
+
+    win.$zopim.livechat.window.hide = () => {
+      store.dispatch(zopimHide());
+      originalZopimHide();
+    };
+
+    win.$zopim.livechat.cookieLaw.setDefaultImplicitConsent = () => {
+      sendZopimImplicitConsentBlip();
+      originalZopimConsent();
+    };
+
+    win.$zopim.livechat.cookieLaw.comply = () => {
+      sendZopimComplyBlip();
+      originalZopimComply();
+    };
+  }
+}
+
 export const chat = {
   create,
   list,
   get,
   render,
-  setUser
+  setUser,
+  overwriteZopimApi // for testing purposes
 };

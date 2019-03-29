@@ -571,7 +571,10 @@ describe('embed.webWidget', () => {
             faythe.props.onSubmitted(params);
 
             expect(mockBeacon.trackUserAction)
-              .toHaveBeenCalledWith('submitTicket', 'send', 'ticketSubmissionForm', value);
+              .toHaveBeenCalledWith('submitTicket', 'send', {
+                label: 'ticketSubmissionForm',
+                value: value
+              });
 
             expect(mockMediator.channel.broadcast)
               .toHaveBeenCalledWith('ticketSubmissionForm.onFormSubmitted');
@@ -583,7 +586,10 @@ describe('embed.webWidget', () => {
             faythe.props.onSubmitted(params);
 
             expect(mockBeacon.trackUserAction)
-              .toHaveBeenCalledWith('submitTicket', 'send', 'ticketSubmissionForm', value);
+              .toHaveBeenCalledWith('submitTicket', 'send', {
+                label: 'ticketSubmissionForm',
+                value: value
+              });
 
             expect(mockMediator.channel.broadcast)
               .toHaveBeenCalledWith('ticketSubmissionForm.onFormSubmitted');

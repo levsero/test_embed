@@ -52,36 +52,36 @@ describe('enabled', () => {
     tracker.track('webWidget.prefill', { x: 1 });
 
     expect(beacon.trackUserAction)
-      .toHaveBeenCalledWith('api', 'webWidget.prefill', null,
-        { args: { x: 1 } }
-      );
+      .toHaveBeenCalledWith('api', 'webWidget.prefill', {
+        value: { args: { x: 1 } }
+      });
   });
 
   it('sends to beacon with array arguments', () => {
     tracker.track('webWidget.prefill', [1, 2]);
 
     expect(beacon.trackUserAction)
-      .toHaveBeenCalledWith('api', 'webWidget.prefill', null,
-        { args: [1, 2] }
-      );
+      .toHaveBeenCalledWith('api', 'webWidget.prefill', {
+        value: { args: [1, 2] }
+      });
   });
 
   it('handles function arguments', () => {
     tracker.track('webWidget.prefill', () => {});
 
     expect(beacon.trackUserAction)
-      .toHaveBeenCalledWith('api', 'webWidget.prefill', null,
-        { args: '<callback function>' }
-      );
+      .toHaveBeenCalledWith('api', 'webWidget.prefill', {
+        value: { args: '<callback function>' }
+      });
   });
 
   it('handles no arguments', () => {
     tracker.track('webWidget.blah');
 
     expect(beacon.trackUserAction)
-      .toHaveBeenCalledWith('api', 'webWidget.blah', null,
-        { args: null }
-      );
+      .toHaveBeenCalledWith('api', 'webWidget.blah', {
+        value: { args: null }
+      });
   });
 
   describe('addTo', () => {
@@ -103,9 +103,9 @@ describe('enabled', () => {
       subject.add(5, 9);
 
       expect(beacon.trackUserAction)
-        .toHaveBeenCalledWith('api', 'test.add', null,
-          { args: [5, 9] }
-        );
+        .toHaveBeenCalledWith('api', 'test.add', {
+          value: { args: [5, 9] }
+        });
     });
   });
 
@@ -136,11 +136,17 @@ describe('enabled', () => {
           .toHaveBeenCalledTimes(3);
 
         expect(beacon.trackUserAction)
-          .toHaveBeenNthCalledWith(1, 'api', 'method1', null, { args: [1, 2, 3] });
+          .toHaveBeenNthCalledWith(1, 'api', 'method1', {
+            value: { args: [1, 2, 3] }
+          });
         expect(beacon.trackUserAction)
-          .toHaveBeenNthCalledWith(2, 'api', 'method2', null, { args: null });
+          .toHaveBeenNthCalledWith(2, 'api', 'method2', {
+            value: { args: null }
+          });
         expect(beacon.trackUserAction)
-          .toHaveBeenNthCalledWith(3, 'api', 'method3', null, { args: '<callback function>' });
+          .toHaveBeenNthCalledWith(3, 'api', 'method3', {
+            value: { args: '<callback function>' }
+          });
       });
     });
   });
@@ -160,9 +166,13 @@ describe('enabled', () => {
     it('tracks everything once enabled', () => {
       tracker.enable();
       expect(beacon.trackUserAction)
-        .toHaveBeenNthCalledWith(1, 'api', 'api1', null, { args: [1, 2, 3] });
+        .toHaveBeenNthCalledWith(1, 'api', 'api1', {
+          value: { args: [1, 2, 3] }
+        });
       expect(beacon.trackUserAction)
-        .toHaveBeenNthCalledWith(2, 'api', 'api2', null, { args: null });
+        .toHaveBeenNthCalledWith(2, 'api', 'api2', {
+          value: { args: null }
+        });
     });
   });
 });

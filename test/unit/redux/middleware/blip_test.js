@@ -1,5 +1,7 @@
 describe('blip middleware', () => {
   let sendBlips,
+    sendZopimImplicitConsentBlip,
+    sendZopimComplyBlip,
     beaconSpy,
     i18nSpy;
   const TALK_CALLBACK_SUCCESS = 'widget/talk/TALK_CALLBACK_SUCCESS';
@@ -87,6 +89,8 @@ describe('blip middleware', () => {
     });
 
     sendBlips = requireUncached(blipPath).sendBlips;
+    sendZopimImplicitConsentBlip = requireUncached(blipPath).sendZopimImplicitConsentBlip;
+    sendZopimComplyBlip = requireUncached(blipPath).sendZopimComplyBlip;
   });
 
   afterAll(() => {
@@ -137,7 +141,10 @@ describe('blip middleware', () => {
 
         it('calls trackUserAction', () => {
           expect(beaconSpy.trackUserAction)
-            .toHaveBeenCalledWith('answerBot', 'userNavigation', 'journey', { from: 'article', to: 'conversation' });
+            .toHaveBeenCalledWith('answerBot', 'userNavigation', {
+              label: 'journey',
+              value: { from: 'article', to: 'conversation' }
+            });
         });
       });
 
@@ -189,7 +196,10 @@ describe('blip middleware', () => {
         };
 
         expect(beaconSpy.trackUserAction)
-          .toHaveBeenCalledWith('talk', 'request', 'callbackForm', expectedValue);
+          .toHaveBeenCalledWith('talk', 'request', {
+            label: 'callbackForm',
+            value: expectedValue
+          });
       });
     });
 
@@ -208,7 +218,9 @@ describe('blip middleware', () => {
         it('calls trackUserAction', () => {
           expect(beaconSpy.trackUserAction.calls.count())
             .toEqual(1);
-          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', 'zopimChat');
+          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', {
+            label: 'zopimChat'
+          });
         });
       });
 
@@ -227,7 +239,9 @@ describe('blip middleware', () => {
         it('calls trackUserAction only once', () => {
           expect(beaconSpy.trackUserAction.calls.count())
             .toEqual(1);
-          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', 'zopimChat');
+          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', {
+            label: 'zopimChat'
+          });
         });
       });
     });
@@ -246,7 +260,10 @@ describe('blip middleware', () => {
 
         it('calls trackUserAction with the correct params', () => {
           expect(beaconSpy.trackUserAction)
-            .toHaveBeenCalledWith('launcher', 'click', 'launcher', { embedOpen: 'answerBot' });
+            .toHaveBeenCalledWith('launcher', 'click', {
+              label: 'launcher',
+              value: { embedOpen: 'answerBot' }
+            });
         });
       });
     });
@@ -334,7 +351,9 @@ describe('blip middleware', () => {
 
             it('calls trackUserAction with the correct params', () => {
               expect(beaconSpy.trackUserAction)
-                .toHaveBeenCalledWith('chat', 'opened', 'newChat');
+                .toHaveBeenCalledWith('chat', 'opened', {
+                  label: 'newChat'
+                });
             });
           });
         });
@@ -368,7 +387,10 @@ describe('blip middleware', () => {
             };
 
             expect(beaconSpy.trackUserAction)
-              .toHaveBeenCalledWith('talk', 'opened', 'phoneNumber', expectedValue);
+              .toHaveBeenCalledWith('talk', 'opened', {
+                label: 'phoneNumber',
+                value: expectedValue
+              });
           });
         });
       });
@@ -404,7 +426,10 @@ describe('blip middleware', () => {
             };
 
             expect(beaconSpy.trackUserAction)
-              .toHaveBeenCalledWith('answerBot', 'channelClicked', 'channelChoice', expectedValue);
+              .toHaveBeenCalledWith('answerBot', 'channelClicked', {
+                label: 'channelChoice',
+                value: expectedValue
+              });
           });
         });
       });
@@ -445,7 +470,10 @@ describe('blip middleware', () => {
           };
 
           expect(beaconSpy.trackUserAction)
-            .toHaveBeenCalledWith('helpCenter', 'click', 'helpCenterForm', expectedValue);
+            .toHaveBeenCalledWith('helpCenter', 'click', {
+              label: 'helpCenterForm',
+              value: expectedValue
+            });
         });
       });
 
@@ -487,7 +515,10 @@ describe('blip middleware', () => {
 
         it('calls trackUserAction with the correct params', () => {
           expect(beaconSpy.trackUserAction)
-            .toHaveBeenCalledWith('helpCenter', 'search', 'helpCenterForm', 'i made a query...');
+            .toHaveBeenCalledWith('helpCenter', 'search', {
+              label: 'helpCenterForm',
+              value: 'i made a query...'
+            });
         });
       });
 
@@ -532,7 +563,10 @@ describe('blip middleware', () => {
 
         it('calls trackUserAction with the correct params', () => {
           expect(beaconSpy.trackUserAction)
-            .toHaveBeenCalledWith('helpCenter', 'search', 'helpCenterForm', 'i made a query...');
+            .toHaveBeenCalledWith('helpCenter', 'search', {
+              label: 'helpCenterForm',
+              value: 'i made a query...'
+            });
         });
       });
 
@@ -585,7 +619,10 @@ describe('blip middleware', () => {
         };
 
         expect(beaconSpy.trackUserAction)
-          .toHaveBeenCalledWith('helpCenter', 'viewOriginalArticle', 'helpCenterForm', expectedValue);
+          .toHaveBeenCalledWith('helpCenter', 'viewOriginalArticle', {
+            label: 'helpCenterForm',
+            value: expectedValue
+          });
       });
     });
 
@@ -636,7 +673,10 @@ describe('blip middleware', () => {
         };
 
         expect(beaconSpy.trackUserAction)
-          .toHaveBeenCalledWith('helpCenter', 'click', 'helpCenterForm', expectedValue);
+          .toHaveBeenCalledWith('helpCenter', 'click', {
+            label: 'helpCenterForm',
+            value: expectedValue
+          });
       });
     });
 
@@ -682,7 +722,10 @@ describe('blip middleware', () => {
 
           it('calls trackUserAction with the expected value', () => {
             expect(beaconSpy.trackUserAction)
-              .toHaveBeenCalledWith('answerBot', 'articleClosed', 'helpCenterForm', { articleId: 421 });
+              .toHaveBeenCalledWith('answerBot', 'articleClosed', {
+                label: 'helpCenterForm',
+                value: { articleId: 421 }
+              });
           });
         });
 
@@ -705,6 +748,36 @@ describe('blip middleware', () => {
           });
         });
       });
+    });
+  });
+
+  describe('sendZopimImplicitConsentBlip', () => {
+    beforeEach(() => {
+      sendZopimImplicitConsentBlip();
+    });
+
+    it('calls trackUserAction with the right arguments', () => {
+      expect(beaconSpy.trackUserAction)
+        .toHaveBeenCalledWith('chat', 'cookieLaw', {
+          label: 'zopimChat',
+          value: 'implicitConsent',
+          channel: 'zopim'
+        });
+    });
+  });
+
+  describe('sendZopimComplyBlip', () => {
+    beforeEach(() => {
+      sendZopimComplyBlip();
+    });
+
+    it('calls trackUserAction with the right arguments', () => {
+      expect(beaconSpy.trackUserAction)
+        .toHaveBeenCalledWith('chat', 'cookieLaw', {
+          label: 'zopimChat',
+          value: 'comply',
+          channel: 'zopim'
+        });
     });
   });
 });

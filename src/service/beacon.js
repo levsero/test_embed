@@ -105,23 +105,31 @@ function sendConfigLoadTime(time) {
   http.sendWithMeta(payload);
 }
 
-function trackUserAction(category, action, label = null, value = null) {
+function trackUserAction(category, action, options) {
   if (_.isUndefined(category) || _.isUndefined(action) || config.reduceBlipping) {
     return false;
   }
 
+  const defaults = {
+    label: null,
+    value: null,
+    channel: 'web_widget'
+  };
+
+  options = _.defaults(options, defaults);
+
   const userAction = {
     category: category,
     action: action,
-    label: label,
-    value: value
+    label: options.label,
+    value: options.value
   };
   const payload = {
     type: 'userAction',
     method: config.method,
     path: config.endpoint,
     params: {
-      channel: 'web_widget',
+      channel: options.channel,
       userAction: userAction
     }
   };

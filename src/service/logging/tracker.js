@@ -43,7 +43,9 @@ tracker.track = function(name, ...args) {
       methodArgs = null;
     }
 
-    beacon.trackUserAction('api', name, null, { args: methodArgs });
+    beacon.trackUserAction('api', name, {
+      value: { args: methodArgs }
+    });
   }
 };
 

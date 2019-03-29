@@ -79,39 +79,54 @@ const sendTalkCallbackRequestBlip = (state) => {
     name: name,
     email: email
   };
-  beacon.trackUserAction('talk', 'request', 'callbackForm', value);
+  beacon.trackUserAction('talk', 'request', {
+    label: 'callbackForm',
+    value: value
+  });
 };
 
 const sendTalkOpenedBlip = (state) => {
   const value = createTalkBlipData(state, getEmbeddableConfig(state).phoneNumber);
 
-  beacon.trackUserAction('talk', 'opened', 'phoneNumber', value);
+  beacon.trackUserAction('talk', 'opened', {
+    label: 'phoneNumber',
+    value: value
+  });
 };
 
 const sendChatOpenedBlip = () => {
-  beacon.trackUserAction('chat', 'opened', 'newChat');
+  beacon.trackUserAction('chat', 'opened', { label: 'newChat' });
 };
 
 const sendZopimChatOpenedBlip = () => {
-  beacon.trackUserAction('chat', 'opened', 'zopimChat');
+  beacon.trackUserAction('chat', 'opened', { label: 'zopimChat' });
 };
 
 const sendHelpCenterFirstSearchBlip = (state) => {
   if (getTotalUserSearches(state) === 0) {
-    beacon.trackUserAction('helpCenter', 'search', 'helpCenterForm', getSearchTerm(state));
+    beacon.trackUserAction('helpCenter', 'search', {
+      label: 'helpCenterForm',
+      value: getSearchTerm(state)
+    });
   }
 };
 
 const sendArticleClickedBlip = (state, latestArticle) => {
   if (latestArticle) {
-    beacon.trackUserAction('helpCenter', 'click', 'helpCenterForm', getArticleClickValues(state, latestArticle));
+    beacon.trackUserAction('helpCenter', 'click', {
+      label: 'helpCenterForm',
+      value: getArticleClickValues(state, latestArticle)
+    });
   }
 };
 
 const sendOriginalArticleClickedBlip = (state) => {
   const value = getArticleClickValues(state, getActiveArticle(state));
 
-  beacon.trackUserAction('helpCenter', 'viewOriginalArticle', 'helpCenterForm', value);
+  beacon.trackUserAction('helpCenter', 'viewOriginalArticle', {
+    label: 'helpCenterForm',
+    value: value
+  });
 };
 
 const sendAnswerBotUserNavigation = (prevState, payload) => {
@@ -123,7 +138,10 @@ const sendAnswerBotUserNavigation = (prevState, payload) => {
       to: CONVERSATION_SCREEN
     };
 
-    beacon.trackUserAction('answerBot', 'userNavigation', 'journey', blipValue);
+    beacon.trackUserAction('answerBot', 'userNavigation', {
+      label: 'journey',
+      value: blipValue
+    });
   }
 };
 
@@ -140,17 +158,23 @@ const sendAnswerBotArticleClickedBlip = (state, payload) => {
     answerBot: true
   };
 
-  beacon.trackUserAction('helpCenter', 'click', 'helpCenterForm', trackPayload);
+  beacon.trackUserAction('helpCenter', 'click', {
+    label: 'helpCenterForm',
+    value: trackPayload
+  });
 };
 
 const sendChannelChoiceBlip = (state, payload) => {
   if (getActiveEmbed(state) === 'answerBot') {
     const deflection = getCurrentDeflection(state);
 
-    beacon.trackUserAction('answerBot', 'channelClicked', 'channelChoice', {
-      query: getCurrentQuery(state),
-      deflectionId: deflection && deflection.id,
-      channel: payload
+    beacon.trackUserAction('answerBot', 'channelClicked', {
+      label: 'channelChoice',
+      value: {
+        query: getCurrentQuery(state),
+        deflectionId: deflection && deflection.id,
+        channel: payload
+      }
     });
   }
 };
@@ -159,8 +183,11 @@ const sendArticleClosedBlip = (state) => {
   const screen = getCurrentScreen(state);
 
   if (screen === ARTICLE_SCREEN) {
-    beacon.trackUserAction('answerBot', 'articleClosed', 'helpCenterForm', {
-      articleId: getCurrentArticleID(state)
+    beacon.trackUserAction('answerBot', 'articleClosed', {
+      label: 'helpCenterForm',
+      value: {
+        articleId: getCurrentArticleID(state)
+      }
     });
   }
 };
@@ -168,7 +195,26 @@ const sendArticleClosedBlip = (state) => {
 const sendLauncherClickBlip = (state) => {
   const activeEmbed = getActiveEmbed(state);
 
-  beacon.trackUserAction('launcher', 'click', 'launcher', { embedOpen: activeEmbed });
+  beacon.trackUserAction('launcher', 'click', {
+    label: 'launcher',
+    value: { embedOpen: activeEmbed }
+  });
+};
+
+export const sendZopimImplicitConsentBlip = () => {
+  beacon.trackUserAction('chat', 'cookieLaw', {
+    label: 'zopimChat',
+    value: 'implicitConsent',
+    channel: 'zopim'
+  });
+};
+
+export const sendZopimComplyBlip = () => {
+  beacon.trackUserAction('chat', 'cookieLaw', {
+    label: 'zopimChat',
+    value: 'comply',
+    channel: 'zopim'
+  });
 };
 
 export function sendBlips({ getState }) {
