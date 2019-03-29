@@ -85,8 +85,7 @@ const getFields = (customFields, formState, options) => {
   const renderField = (sharedProps) => {
     const props = {
       ...sharedProps,
-      Component: Label,
-      errorString: i18n.t(sharedProps.errorString),
+      Component: Label
     };
 
     return (
@@ -154,7 +153,7 @@ const getFields = (customFields, formState, options) => {
           ...sharedProps,
           pattern: /\d+/,
           type: 'number',
-          errorString: 'embeddable_framework.validation.error.number'
+          errorString: i18n.t('embeddable_framework.validation.error.number'),
         };
 
         return renderField(integerFieldProps);
@@ -165,7 +164,7 @@ const getFields = (customFields, formState, options) => {
           pattern: /\d*([.,]\d+)?/,
           type: 'number',
           step: 'any',
-          errorString: 'embeddable_framework.validation.error.number'
+          errorString: i18n.t('embeddable_framework.validation.error.number'),
         };
 
         return renderField(decimalFieldProps);
