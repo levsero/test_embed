@@ -79,7 +79,8 @@ function generateChatJwt(sharedSecret, user) {
     name: user.name,
     email: user.email,
     iat: Math.floor(Date.now() / 1000),
-    external_id: user.externalId // eslint-disable-line camelcase
+    exp: Math.floor((Date.now() + 50000) / 1000), // 5min JWT expiry time
+    external_id: user.externalId.toString() // eslint-disable-line camelcase
   };
 
   return generateJwt(sharedSecret, message);
