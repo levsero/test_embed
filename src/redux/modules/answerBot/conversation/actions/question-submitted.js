@@ -1,5 +1,6 @@
 import { settings } from 'service/settings';
 import { identity } from 'service/identity';
+import { i18n } from 'service/i18n';
 import { http } from 'service/transport';
 
 import { WEB_WIDGET_SUID } from 'src/constants/answerBot';
@@ -99,6 +100,7 @@ export const questionSubmitted = (message) => {
       method: 'post',
       path: '/api/v2/answer_bot/interaction?include=html_body',
       params: {
+        locale: i18n.getLocale(),
         via_id: settings.get('viaIdAnswerBot'),
         deflection_channel_id: settings.get('viaIdAnswerBot'),
         interaction_reference: identity.getSuid().id || null,
