@@ -43,7 +43,6 @@ import {
 } from './helpers';
 import tracker from 'service/logging/tracker';
 
-// All deprecated/unsupported api methods will use noop
 const noop = () => {};
 
 export function setUpZopimApiMethods(win, store) {
@@ -112,9 +111,9 @@ export function setUpZopimApiMethods(win, store) {
 
           updateSettings(store, 'webWidget.color.theme', options.primary);
         },
-        reload: () => {},
         setProfileCardConfig: setProfileCardConfigApi(store),
-        setFontConfig: noop
+        setFontConfig: noop,
+        reload: noop
       },
       mobileNotifications: {
         setDisabled: (bool) => updateSettings(store, 'webWidget.chat.notifications.mobile.disable', bool)
