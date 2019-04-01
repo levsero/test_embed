@@ -5,10 +5,12 @@ import { http } from 'service/transport';
 import { settings } from 'service/settings';
 import { identity } from 'service/identity';
 import { store } from 'service/persistence';
+import { i18n } from 'service/i18n';
 import _ from 'lodash';
 
 jest.mock('service/transport');
 jest.mock('service/identity');
+jest.mock('service/i18n');
 
 const mockStore = configureMockStore([thunk]);
 
@@ -16,6 +18,7 @@ settings.init();
 store.set('zE_oauth', {
   token: 'abc123'
 });
+jest.spyOn(i18n, 'getLocale').mockReturnValue('tl');
 
 Date.now = jest.fn(() => 123456789);
 identity.getSuid = jest.fn(() => ({ id: 8888 }));
