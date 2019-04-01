@@ -3,12 +3,15 @@ import _ from 'lodash';
 
 const RATE_LIMITING_QUEUES ='rateRimitingQueues';
 
-const queues = _.get(store.get('store'), RATE_LIMITING_QUEUES, {});
+let queues = _.get(store.get('store'), RATE_LIMITING_QUEUES, {});
+
+export const queuesReset = () => { queues = {}; };
 
 export const exponentialBackoffTime = (attempts) => {
   const numberOfAttempts = attempts.length - 1;
 
   if (numberOfAttempts < 1) return 0;
+  if (numberOfAttempts === 1) return 1000;
   const initialDelay = 1000;
 
   return (initialDelay * Math.pow(2, numberOfAttempts));

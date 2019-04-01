@@ -5,6 +5,7 @@ import * as types from '../submitTicket-action-types';
 import { http } from 'service/transport';
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import * as formatters from '../helpers/formatter';
+import { queuesReset } from 'utility/rateLimiting/helpers';
 
 jest.mock('service/transport');
 jest.mock('src/redux/modules/submitTicket/submitTicket-selectors');
@@ -210,6 +211,7 @@ describe('handleTicketSubmission', () => {
     selectors.getTicketFields = jest.fn(() => 'ticketFields');
     selectors.getActiveTicketForm = jest.fn(() => 'activeTicketForm');
     formatters.formatRequestData.mockReturnValue('params');
+    queuesReset();
   });
 
   it('sends the expected request and action', () => {

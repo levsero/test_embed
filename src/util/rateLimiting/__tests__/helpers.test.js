@@ -3,7 +3,7 @@ import { exponentialBackoffTime, isRateLimited } from '../helpers';
 describe('exponentialBackoffTime', () => {
   test.each([
     ['no values', [], 0],
-    ['single value', [1], 0],
+    ['single value', [1], 1000],
     ['two values', [1, 2], 2000],
     ['three values', [1, 2, 3], 4000],
     ['four values', [1, 2, 3, 4], 8000],

@@ -149,7 +149,7 @@ export function handleTicketSubmission(attachments, done, fail) {
     withRateLimiting(http.send, payload, 'TICKET_SUBMISSION_REQUEST', () => {
       dispatch({
         type: TICKET_SUBMISSION_REQUEST_FAILURE,
-        payload: i18n.t('embeddable_framework.submitTicket.notify.message.ratelimited')
+        payload: i18n.t('embeddable_framework.common.error.form_submission_disabled')
       });
     });
   };
