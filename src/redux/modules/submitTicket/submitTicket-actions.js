@@ -151,6 +151,7 @@ export function handleTicketSubmission(attachments, done, fail) {
         type: TICKET_SUBMISSION_REQUEST_FAILURE,
         payload: i18n.t('embeddable_framework.common.error.form_submission_disabled')
       });
+      fail();
     });
   };
 }

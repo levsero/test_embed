@@ -1,9 +1,8 @@
 import { store } from 'service/persistence';
-import _ from 'lodash';
 
-const RATE_LIMITING_QUEUES ='rateRimitingQueues';
+const RATE_LIMITING_QUEUES = 'rateRimitingQueues';
 
-let queues = _.get(store.get('store'), RATE_LIMITING_QUEUES, {});
+let queues = store.get(RATE_LIMITING_QUEUES) || {};
 
 export const queuesReset = () => { queues = {}; };
 
