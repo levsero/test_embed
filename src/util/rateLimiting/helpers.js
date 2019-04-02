@@ -16,19 +16,17 @@ export const exponentialBackoffTime = (attempts) => {
   return (initialDelay * Math.pow(2, numberOfAttempts - 1));
 };
 
+const hoursInSeconds = (hours) => hours * 60 * 60 * 1000;
+
 export const isRateLimited = (queueName, timestamp) => {
   queues[queueName] = queues[queueName] || [];
   const times = queues[queueName];
   const previousAttempt = times[times.length - 1];
   const timeSinceLastAttempt = previousAttempt ? timestamp - previousAttempt : 0;
+  const delayThreshold = hoursInSeconds(2);
 
-  if (previousAttempt) {
-    // Reset after 2 hours
-    const hours = 2;
-    const delayThreshold = hours * 60 * 60 * 1000;
-
-    if (timeSinceLastAttempt > delayThreshold) times.length = 0;
-  }
+  // Reset after 2 hours
+  if (timeSinceLastAttempt > delayThreshold) times.length = 0;
 
   const timeToWait = exponentialBackoffTime(times);
 
