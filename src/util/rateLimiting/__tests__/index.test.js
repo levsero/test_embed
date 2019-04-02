@@ -27,18 +27,18 @@ describe('rateLimiting', () => {
     });
   });
 
-  describe('when rate limited', () => {
+  describe('when not rate limited', () => {
     beforeEach(() => {
       helpers.isRateLimited.mockReturnValue(false);
 
       rateLimiting(apiCall, 'payload', 'queue', errorCallback);
     });
 
-    it('does not make the api call', () => {
+    it('makes the api call', () => {
       expect(apiCall).toHaveBeenCalledWith('payload');
     });
 
-    it('calls the error callback', () => {
+    it('does not calls the error callback', () => {
       expect(errorCallback).not.toHaveBeenCalled();
     });
   });

@@ -7,13 +7,13 @@ let queues = store.get(RATE_LIMITING_QUEUES) || {};
 export const queuesReset = () => { queues = {}; };
 
 export const exponentialBackoffTime = (attempts) => {
-  const numberOfAttempts = attempts.length - 1;
+  const numberOfAttempts = attempts.length;
 
   if (numberOfAttempts < 1) return 0;
   if (numberOfAttempts === 1) return 1000;
   const initialDelay = 1000;
 
-  return (initialDelay * Math.pow(2, numberOfAttempts));
+  return (initialDelay * Math.pow(2, numberOfAttempts - 1));
 };
 
 export const isRateLimited = (queueName, timestamp) => {
