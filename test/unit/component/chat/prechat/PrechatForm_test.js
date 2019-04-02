@@ -587,7 +587,8 @@ describe('PrechatForm component', () => {
     let renderDepartmentsFieldFn, formProp, result;
     const departments = [
         { name: 'Design', status: 'online', id: 12345, value: 12345 },
-        { name: 'Engineering', status: 'online', id: 56789, value: 56789 }
+        { name: 'Engineering', status: 'online', id: 56789, value: 56789 },
+        { name: 'Offline', disabled: true, status: 'offline', id: 8888, value: 8888 }
       ],
       getRenderDepartmentsFieldFn = (formProp) => (
         instanceRender(<PrechatForm form={formProp} />)
@@ -624,7 +625,7 @@ describe('PrechatForm component', () => {
 
         it('has the right length', () => {
           expect(options.length)
-            .toEqual(2);
+            .toEqual(3);
         });
 
         it('have the type Item', () => {
@@ -639,6 +640,12 @@ describe('PrechatForm component', () => {
             expect(option.props.children)
               .toEqual(departments[index].name);
           });
+        });
+
+        it('sets the disabled property correctly for each item', () => {
+          expect(options[0].props.disabled).toBeFalsy();
+          expect(options[1].props.disabled).toBeFalsy();
+          expect(options[2].props.disabled).toBeTruthy();
         });
       });
 
