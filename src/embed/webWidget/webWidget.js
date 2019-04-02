@@ -380,16 +380,24 @@ export default function WebWidgetFactory(name) {
     if (!embed.config.helpCenterForm) return;
 
     const config = embed.config.helpCenterForm;
-    const authSetting = settings.getSupportAuthSettings();
-    const cookiesDisabled = getCookiesDisabled(embed.store.getState());
 
     if (config.tokensRevokedAt) {
       embed.store.dispatch(expireToken(config.tokensRevokedAt));
     }
 
-    if (authSetting && !cookiesDisabled) {
-      embed.store.dispatch(authenticate(authSetting.jwt));
+    const settingJwtFn = settings.getAuthSettingsJwtFn();
+
+    if (settingJwtFn) {
+      if (_.isFunction(settingJwtFn)) {
+        const callback = (retrievedJwt) => { embed.store.dispatch(authenticate(retrievedJwt)); };
+
+        return settingJwtFn(callback);
+      }
     }
+
+    const settingJwt = settings.getAuthSettingsJwt();
+
+    if (settingJwt) embed.store.dispatch(authenticate(settingJwt));
   }
 
   function setUpSubmitTicket(config, store) {

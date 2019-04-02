@@ -214,18 +214,16 @@ function getTrackSettings() {
   }, _.isEmpty);
 }
 
-function getSupportAuthSettings() {
-  let authSetting = get('authenticate.support');
+function getAuthSettingsJwt() {
+  const authSetting = get('authenticate');
 
-  if (authSetting && authSetting.jwt) {
-    return authSetting;
-  }
+  return (authSetting && authSetting.jwt) ? authSetting.jwt : null;
+}
 
-  // If webWidget.authenticate.support setting is not valid.
-  // Fallback to original webWidget.authenticate setting
-  authSetting = get('authenticate');
+function getAuthSettingsJwtFn() {
+  const authSetting = get('authenticate');
 
-  return (authSetting && authSetting.jwt) ? authSetting : null;
+  return (authSetting && authSetting.jwtFn) ? authSetting.jwtFn : null;
 }
 
 function getChatAuthSettings() {
@@ -258,7 +256,8 @@ export const settings = {
   get,
   getTranslations,
   getTrackSettings,
-  getSupportAuthSettings,
+  getAuthSettingsJwt,
+  getAuthSettingsJwtFn,
   getChatAuthSettings,
   getErrorReportingEnabled,
   enableCustomizations,

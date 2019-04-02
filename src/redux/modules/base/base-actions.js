@@ -99,6 +99,14 @@ export const renewToken = () => {
 
       http.send(payload);
     }
+
+    const settingJwtFn = settings.getAuthSettingsJwtFn();
+
+    if (!oauth && settingJwtFn) {
+      const callback = (jwt) => { dispatch(authenticate(jwt)); };
+
+      return settingJwtFn(callback);
+    }
   };
 };
 
