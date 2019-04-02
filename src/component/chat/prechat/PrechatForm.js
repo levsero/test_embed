@@ -297,7 +297,7 @@ export class PrechatForm extends Component {
     if (_.size(departments) === 0) return null;
 
     const options = _.map(departments, (dept) => {
-      return <Item key={dept.id}>{dept.name}</Item>;
+      return <Item disabled={dept.disabled} key={dept.id}>{dept.name}</Item>;
     });
     const selectedDepartment = this.findDepartment(departments, this.props.formState.department);
     const required = departmentSettings.required;
