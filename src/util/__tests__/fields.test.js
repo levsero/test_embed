@@ -287,24 +287,28 @@ describe('customFields', () => {
 
   beforeEach(() => {
     payload = [
-      textFieldPayload,
-      nestedDropdownFieldPayload,
-      dropdownFieldPayload,
-      textareaFieldPayload,
-      integerFieldPayload,
-      decimalFieldPayload,
-      checkboxFieldPayload,
-      descriptionFieldPayload,
-      subjectFieldPayload
+      { ...textFieldPayload },
+      { ...nestedDropdownFieldPayload },
+      { ...dropdownFieldPayload },
+      { ...textareaFieldPayload },
+      { ...integerFieldPayload },
+      { ...decimalFieldPayload },
+      { ...checkboxFieldPayload },
+      { ...descriptionFieldPayload },
+      { ...subjectFieldPayload }
     ];
   });
 
   describe('getCustomFields', () => {
-    beforeEach(() => {
+    const setupTest = () => {
       customFields = getCustomFields(payload, {}, {
         onChange: noop,
         showErrors: false,
       });
+    };
+
+    beforeEach(() => {
+      setupTest();
     });
 
     it('converts custom field payload into array of React components', () => {
@@ -336,6 +340,29 @@ describe('customFields', () => {
 
         expect(container)
           .toMatchSnapshot();
+      });
+    });
+
+    describe('When editable prop is undefined', () => {
+      beforeEach(() => {
+        _.forEach(payload, (field) => {
+          field.editable_in_portal = false;
+          field.visible_in_portal = false;
+        });
+
+        payload[1].editable_in_portal = undefined;
+        payload[3].visible_in_portal = undefined;
+
+        setupTest();
+
+        customFields.visibleFields =
+          _.remove(customFields.allFields, (field) => {
+            return field.props.trigger === true;
+          });
+      });
+
+      it('return the not-conditional components', () => {
+        expect(customFields.visibleFields.length).toEqual(2);
       });
     });
   });
