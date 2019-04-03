@@ -5,7 +5,7 @@ import { objectDifference } from 'utility/utils';
 import { updateSettings } from 'src/redux/modules/settings';
 import { mediator } from 'service/mediator';
 
-const optionWhitelist = {
+const optionAllowList = {
   webWidget: [
     'answerBot.search.labels',
     'answerBot.title',
@@ -75,7 +75,7 @@ const optionWhitelist = {
     'zIndex'
   ]
 };
-const customizationsWhitelist = [
+const customizationsAllowList = [
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
@@ -155,7 +155,7 @@ function init(reduxStore = { dispatch: () => {} }) {
     settingsStore.webWidget.authenticate = settingsStore.authenticate;
   }
 
-  webWidgetStore = initStore(settingsStore.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
+  webWidgetStore = initStore(settingsStore.webWidget, optionAllowList.webWidget, webWidgetStoreDefaults);
 
   reduxStore.dispatch(updateSettings({
     webWidget: {
@@ -167,7 +167,7 @@ function init(reduxStore = { dispatch: () => {} }) {
 
 function get(path) {
   // TODO: Remove this check when web widget customizations are out of beta.
-  if (customizationsWhitelist.indexOf(path) > -1 &&
+  if (customizationsAllowList.indexOf(path) > -1 &&
       !webWidgetCustomizations) {
     return _.get(webWidgetStoreDefaults, path, null);
   }
@@ -191,9 +191,9 @@ function getTranslations() {
 }
 
 function getTrackSettings() {
-  const blacklist = ['margin', 'viaId', 'viaIdAnswerBot'];
-  const userSettings = _.omit(webWidgetStore, blacklist);
-  const defaults = _.omit(webWidgetStoreDefaults, blacklist);
+  const denyList = ['margin', 'viaId', 'viaIdAnswerBot'];
+  const userSettings = _.omit(webWidgetStore, denyList);
+  const defaults = _.omit(webWidgetStoreDefaults, denyList);
   const widgetSettings = objectDifference(userSettings, defaults);
 
   if (widgetSettings.authenticate) {
