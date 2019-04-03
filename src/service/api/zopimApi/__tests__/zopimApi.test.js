@@ -943,17 +943,24 @@ describe('setUpZopimApiMethods', () => {
       zopimApi.setUpZopimApiMethods(mockWin, store);
     });
 
-    test('addTags adds tags sent as parameter', () => {
-      mockWin.$zopim.livechat.addTags('zopim2', 'another');
+    describe('addTagsApi', () => {
+      [
+        ['zopim2', 'zopim3', 'another'],
+        ['zopim2, zopim3', 'another'],
+        ['zopim2, zopim3, another']
+      ].forEach((args) => {
+        it(`adds the [${args}] tags via updateSettings`, () => {
+          mockWin.$zopim.livechat.addTags(...args);
 
-      expect(apis.updateSettingsApi)
-        .toHaveBeenCalledWith(store, {
-          webWidget: {
-            chat: {
-              tags: ['old', 'state', 'zopim', 'zopim2', 'another']
+          expect(apis.updateSettingsApi).toHaveBeenCalledWith(store, {
+            webWidget: {
+              chat: {
+                tags: ['old', 'state', 'zopim', 'zopim2', 'zopim3', 'another']
+              }
             }
-          }
+          });
         });
+      });
     });
 
     test('removeTags removes tags sent as parameter', () => {
