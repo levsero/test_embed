@@ -197,7 +197,12 @@ function getTrackSettings() {
   const widgetSettings = objectDifference(userSettings, defaults);
 
   if (widgetSettings.authenticate) {
-    widgetSettings.authenticate = true;
+    const authSettings = widgetSettings.authenticate;
+
+    widgetSettings.authenticate = {
+      helpCenter: !!authSettings.jwt || !!_.get(authSettings, 'support.jwt'),
+      chat: !!(authSettings.chat && authSettings.chat.jwtFn)
+    };
   }
 
   return _.omitBy({
