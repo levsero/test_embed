@@ -43,6 +43,9 @@ import {
 } from './helpers';
 import tracker from 'service/logging/tracker';
 
+// All deprecated/unsupported api methods will use noop
+const noop = () => {};
+
 export function setUpZopimApiMethods(win, store) {
   win.$zopim = win.$zopim || {};
 
@@ -50,6 +53,11 @@ export function setUpZopimApiMethods(win, store) {
     const onApis = onApiObj();
 
     win.$zopim.livechat = {
+      cookieLaw: {
+        comply: noop,
+        showPrivacyPanel: noop,
+        setDefaultImplicitConsent: noop
+      },
       window: {
         toggle: () => toggleApi(store),
         hide: () => hideApi(store),
@@ -57,6 +65,7 @@ export function setUpZopimApiMethods(win, store) {
           showApi(store);
           openApi(store);
         },
+        setSize: noop,
         getDisplay: () => displayApi(store),
         onHide: (callback) => onApis[API_ON_CLOSE_NAME](store, callback),
         onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback),
@@ -104,7 +113,8 @@ export function setUpZopimApiMethods(win, store) {
           updateSettings(store, 'webWidget.color.theme', options.primary);
         },
         reload: () => {},
-        setProfileCardConfig: setProfileCardConfigApi(store)
+        setProfileCardConfig: setProfileCardConfigApi(store),
+        setFontConfig: noop
       },
       mobileNotifications: {
         setDisabled: (bool) => updateSettings(store, 'webWidget.chat.notifications.mobile.disable', bool)
@@ -159,7 +169,12 @@ export function setUpZopimApiMethods(win, store) {
       setOnChatStart: (callback) => onApis.chat[API_ON_CHAT_START_NAME](store, callback),
       setOnChatEnd: (callback) => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
       setOnStatus: (callback) => setOnStatusApi(store, callback),
-      setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback)
+      setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback),
+      getName: noop,
+      getEmail: noop,
+      getPhone: noop,
+      setNotes: noop,
+      appendNotes: noop
     };
 
     instrumentZopimApis(win);
@@ -175,5 +190,6 @@ function instrumentZopimApis(win) {
   tracker.addTo(win.$zopim.livechat.mobileNotifications, '$zopim.livechat.mobileNotifications');
   tracker.addTo(win.$zopim.livechat.prechatForm, '$zopim.livechat.prechatForm');
   tracker.addTo(win.$zopim.livechat.offlineForm, '$zopim.livechat.offlineForm');
+  tracker.addTo(win.$zopim.livechat.cookieLaw, '$zopim.livechat.cookieLaw');
   tracker.addTo(win.$zopim.livechat, '$zopim.livechat');
 }

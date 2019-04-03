@@ -49,13 +49,17 @@ tracker.track = function(name, ...args) {
   }
 };
 
+tracker.addToMethod = function(object, name, trackingKey) {
+  const attr = object[name];
+
+  if (_.isFunction(attr)){
+    object[name] = this.getTrackableFunction(attr, trackingKey, object);
+  }
+};
+
 tracker.addTo = function(object, prefix) {
   for (const name in object){
-    const attr = object[name];
-
-    if (_.isFunction(attr)){
-      object[name] = this.getTrackableFunction(attr, `${prefix}.${name}`, object);
-    }
+    tracker.addToMethod(object, name, `${prefix}.${name}`);
   }
 };
 

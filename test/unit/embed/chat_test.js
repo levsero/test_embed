@@ -26,10 +26,7 @@ describe('embed.chat', () => {
   const zopimEndChatSpy = jasmine.createSpy('zopimEndChat');
   const closeApiSpy = jasmine.createSpy('closeApi');
   const openApiSpy = jasmine.createSpy('openApi');
-  const originalImplicitConsentSpy = jasmine.createSpy('setDefaultImplicitConsent');
-  const originalComplySpy = jasmine.createSpy('comply');
-  const implicitConsentBlipSpy = jasmine.createSpy('implicitConsentBlip');
-  const complyBlipSpy = jasmine.createSpy('complyBlip');
+  const trackZopimApisSpy = jasmine.createSpy('trackZopimApis');
 
   const mockStore = {
     getState: () => ({}),
@@ -89,11 +86,7 @@ describe('embed.chat', () => {
       },
       button: jasmine.createSpyObj('button', [
         'show'
-      ]),
-      cookieLaw: {
-        setDefaultImplicitConsent: originalImplicitConsentSpy,
-        comply: originalComplySpy
-      }
+      ])
     };
 
     mockGlobals.win.$zopim = mockZopim;
@@ -154,11 +147,8 @@ describe('embed.chat', () => {
         openApi: openApiSpy
       },
       'service/api/zopimApi/helpers': {
-        zopimExistsOnPage: () => true
-      },
-      'src/redux/middleware/blip': {
-        sendZopimImplicitConsentBlip: implicitConsentBlipSpy,
-        sendZopimComplyBlip: complyBlipSpy
+        zopimExistsOnPage: () => true,
+        trackZopimApis: trackZopimApisSpy
       }
     });
 
@@ -260,6 +250,19 @@ describe('embed.chat', () => {
       chat.render(chatName);
 
       expect(mockZopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility)
+        .toHaveBeenCalled();
+    });
+
+    it('queues up zopim tracking', () => {
+      mockZopim._setByWW = true;
+      mockZopim._ = [];
+      chat.create(chatName, { zopimId: zopimId }, mockStore);
+      chat.render(chatName);
+
+      expect(mockZopim._.length)
+        .toEqual(1);
+      mockZopim._[0]();
+      expect(trackZopimApisSpy)
         .toHaveBeenCalled();
     });
 
@@ -600,46 +603,6 @@ describe('embed.chat', () => {
 
           expect(mockZopim.livechat.window.setOffsetHorizontal)
             .toHaveBeenCalledWith(28);
-        });
-      });
-    });
-
-    describe('overwriteZopimApi', () => {
-      describe('cookieLaw', () => {
-        describe('setDefaultImplicitConsent', () => {
-          it('instruments setDefaultImplicitConsent', () => {
-            chat.overwriteZopimApi(mockStore);
-            mockZopim.livechat.cookieLaw.setDefaultImplicitConsent();
-
-            expect(implicitConsentBlipSpy)
-              .toHaveBeenCalled();
-          });
-
-          it('calls the original zopim setDefaultImplicitConsent', () => {
-            chat.overwriteZopimApi(mockStore);
-            mockZopim.livechat.cookieLaw.setDefaultImplicitConsent();
-
-            expect(originalImplicitConsentSpy)
-              .toHaveBeenCalled();
-          });
-        });
-
-        describe('comply', () => {
-          it('instruments comply', () => {
-            chat.overwriteZopimApi(mockStore);
-            mockZopim.livechat.cookieLaw.comply();
-
-            expect(complyBlipSpy)
-              .toHaveBeenCalled();
-          });
-
-          it('calls the original zopim comply', () => {
-            chat.overwriteZopimApi(mockStore);
-            mockZopim.livechat.cookieLaw.comply();
-
-            expect(originalComplySpy)
-              .toHaveBeenCalled();
-          });
         });
       });
     });

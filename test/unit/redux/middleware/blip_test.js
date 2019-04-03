@@ -1,7 +1,5 @@
 describe('blip middleware', () => {
   let sendBlips,
-    sendZopimImplicitConsentBlip,
-    sendZopimComplyBlip,
     beaconSpy,
     i18nSpy;
   const TALK_CALLBACK_SUCCESS = 'widget/talk/TALK_CALLBACK_SUCCESS';
@@ -89,8 +87,6 @@ describe('blip middleware', () => {
     });
 
     sendBlips = requireUncached(blipPath).sendBlips;
-    sendZopimImplicitConsentBlip = requireUncached(blipPath).sendZopimImplicitConsentBlip;
-    sendZopimComplyBlip = requireUncached(blipPath).sendZopimComplyBlip;
   });
 
   afterAll(() => {
@@ -748,36 +744,6 @@ describe('blip middleware', () => {
           });
         });
       });
-    });
-  });
-
-  describe('sendZopimImplicitConsentBlip', () => {
-    beforeEach(() => {
-      sendZopimImplicitConsentBlip();
-    });
-
-    it('calls trackUserAction with the right arguments', () => {
-      expect(beaconSpy.trackUserAction)
-        .toHaveBeenCalledWith('chat', 'cookieLaw', {
-          label: 'zopimChat',
-          value: 'implicitConsent',
-          channel: 'zopim'
-        });
-    });
-  });
-
-  describe('sendZopimComplyBlip', () => {
-    beforeEach(() => {
-      sendZopimComplyBlip();
-    });
-
-    it('calls trackUserAction with the right arguments', () => {
-      expect(beaconSpy.trackUserAction)
-        .toHaveBeenCalledWith('chat', 'cookieLaw', {
-          label: 'zopimChat',
-          value: 'comply',
-          channel: 'zopim'
-        });
     });
   });
 });

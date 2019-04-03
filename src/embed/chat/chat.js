@@ -28,12 +28,8 @@ import {
   getStylingPositionVertical
 } from 'src/redux/modules/settings/settings-selectors';
 import { getHorizontalPosition } from 'src/redux/modules/selectors';
-import { zopimExistsOnPage } from 'service/api/zopimApi/helpers';
+import { zopimExistsOnPage, trackZopimApis } from 'service/api/zopimApi/helpers';
 import tracker from 'service/logging/tracker';
-import {
-  sendZopimImplicitConsentBlip,
-  sendZopimComplyBlip
-} from 'src/redux/middleware/blip';
 
 let chats = {};
 let zopimApiOverwritten = false;
@@ -137,6 +133,19 @@ function setUser(user) {
   });
 }
 
+// to be able to instrument zopim apis,
+// we need to insert the instrumentation before the queue
+// is executed. To do this, we insert the instrumentation
+// at the start of the zopim queue, which we know is in
+// $zopim._
+function insertInstrumentation() {
+  if (win.$zopim && win.$zopim._setByWW) {
+    win.$zopim._.unshift(() => {
+      trackZopimApis(win);
+    });
+  }
+}
+
 function render(name) {
   const config = get(name).config;
   const zopimId = config.zopimId;
@@ -150,6 +159,7 @@ function render(name) {
   const scriptTag = document.createElement('script');
   const host = getDocumentHost();
 
+  insertInstrumentation();
   host.appendChild(scriptTag);
   scriptTag.innerHTML = snippet;
 
@@ -295,25 +305,11 @@ function init(name) {
 
 function overwriteZopimApi(store) {
   let originalZopimShow,
-    originalZopimHide,
-    originalZopimConsent,
-    originalZopimComply;
+    originalZopimHide;
 
   if (!zopimApiOverwritten) {
     originalZopimShow = win.$zopim.livechat.window.show;
     originalZopimHide = win.$zopim.livechat.window.hide;
-
-    originalZopimConsent = _.get(
-      win.$zopim.livechat,
-      'cookieLaw.setDefaultImplicitConsent',
-      () => {}
-    );
-
-    originalZopimComply = _.get(
-      win.$zopim.livechat,
-      'cookieLaw.comply',
-      () => {}
-    );
 
     zopimApiOverwritten = true;
 
@@ -325,16 +321,6 @@ function overwriteZopimApi(store) {
     win.$zopim.livechat.window.hide = () => {
       store.dispatch(zopimHide());
       originalZopimHide();
-    };
-
-    win.$zopim.livechat.cookieLaw.setDefaultImplicitConsent = () => {
-      sendZopimImplicitConsentBlip();
-      originalZopimConsent();
-    };
-
-    win.$zopim.livechat.cookieLaw.comply = () => {
-      sendZopimComplyBlip();
-      originalZopimComply();
     };
   }
 }
