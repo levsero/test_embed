@@ -234,26 +234,31 @@ describe('getTranslations', () => {
 });
 
 describe('getTrackSettings', () => {
-  let userSettings;
-
-  beforeEach(() => {
-    userSettings = {
+  const generateSettings = (customSettings = {}) => {
+    const userSettings = _.merge({}, {
       webWidget: {
         authenticate: { jwt: 'abc' },
         helpCenter: { originalArticleButton: false }
       }
-    };
+    }, customSettings);
 
     window.zESettings = userSettings;
-    settings.init();
-  });
 
-  it('returns a web Widget Object', () => {
+    return userSettings;
+  };
+
+  it('returns a web widget object', () => {
+    generateSettings();
+    settings.init();
+
     expect(settings.getTrackSettings().webWidget)
       .toBeDefined();
   });
 
   it('filters out unwanted values from the store', () => {
+    generateSettings();
+    settings.init();
+
     expect(settings.getTrackSettings().webWidget.margin)
       .toBeUndefined();
 
@@ -262,19 +267,65 @@ describe('getTrackSettings', () => {
   });
 
   it('filters out default values from the store', () => {
+    generateSettings();
+    settings.init();
+
     expect(settings.getTrackSettings().webWidget.contactForm)
       .toBeUndefined();
   });
 
   it('does not filter out custom values from the store', () => {
+    const userSettings = generateSettings();
+
+    settings.init();
     userSettings.webWidget.authenticate = true;
-    _.unset(userSettings, 'webWidget.contactForm');
 
     expect(settings.getTrackSettings())
-      .toEqual(userSettings);
+      .toEqual({
+        webWidget: {
+          authenticate: {
+            chat: false,
+            helpCenter: true
+          },
+          helpCenter: {
+            originalArticleButton: false
+          }
+        }
+      });
+  });
+
+  it('gives expected payload when chat jwt is available', () => {
+    generateSettings({
+      webWidget: {
+        authenticate: {
+          chat: {
+            jwtFn: () => '1234'
+          }
+        }
+      }
+    });
+    settings.init();
+    expect(settings.getTrackSettings().webWidget.authenticate.chat)
+      .toEqual(true);
+  });
+
+  it('gives expected payload when support jwt is available', () => {
+    generateSettings({
+      webWidget: {
+        authenticate: {
+          support: {
+            jwt: '321414'
+          }
+        }
+      }
+    });
+    settings.init();
+    expect(settings.getTrackSettings().webWidget.authenticate.helpCenter)
+      .toEqual(true);
   });
 
   it('filters out empty objects', () => {
+    generateSettings();
     window.zESettings.emptyThing = {};
     settings.init();
 
