@@ -201,22 +201,6 @@ const sendLauncherClickBlip = (state) => {
   });
 };
 
-export const sendZopimImplicitConsentBlip = () => {
-  beacon.trackUserAction('chat', 'cookieLaw', {
-    label: 'zopimChat',
-    value: 'implicitConsent',
-    channel: 'zopim'
-  });
-};
-
-export const sendZopimComplyBlip = () => {
-  beacon.trackUserAction('chat', 'cookieLaw', {
-    label: 'zopimChat',
-    value: 'comply',
-    channel: 'zopim'
-  });
-};
-
 export function sendBlips({ getState }) {
   return (next) => (action) => {
     const { type, payload } = action;

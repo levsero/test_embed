@@ -11,6 +11,7 @@ import {
 } from 'src/redux/modules/base';
 import { SDK_ACCOUNT_STATUS, SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types';
 import { getChatStatus } from 'src/redux/modules/chat/chat-selectors';
+import tracker from 'service/logging/tracker';
 
 export const setPositionApi = (position) => {
   const mapPositions = {
@@ -161,3 +162,14 @@ export const showBadgeApi = (store) => {
 export const hideBadgeApi = (store) => {
   store.dispatch(badgeHideReceived());
 };
+
+export function trackZopimApis(win) {
+  tracker.addToMethod(win.$zopim.livechat, 'getName', '$zopim.livechat.getName');
+  tracker.addToMethod(win.$zopim.livechat, 'getEmail', '$zopim.livechat.getEmail');
+  tracker.addToMethod(win.$zopim.livechat, 'getPhone', '$zopim.livechat.getPhone');
+  tracker.addToMethod(win.$zopim.livechat, 'appendNotes', '$zopim.livechat.appendNotes');
+  tracker.addToMethod(win.$zopim.livechat, 'setNotes', '$zopim.livechat.setNotes');
+  tracker.addToMethod(win.$zopim.livechat.window, 'setSize', '$zopim.livechat.window.setSize');
+  tracker.addToMethod(win.$zopim.livechat.theme, 'setFontConfig', '$zopim.livechat.theme.setFontConfig');
+  tracker.addTo(win.$zopim.livechat.cookieLaw, '$zopim.livechat.cookieLaw');
+}

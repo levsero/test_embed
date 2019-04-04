@@ -109,6 +109,40 @@ describe('enabled', () => {
     });
   });
 
+  describe('addToMethod', () => {
+    let subject;
+
+    beforeEach(() => {
+      subject = {
+        add: (x, y) => x + y,
+        minus: 123
+      };
+      tracker.addToMethod(subject, 'add', 'testing');
+    });
+
+    test('function still works', () => {
+      expect(subject.add(3, 4))
+        .toEqual(7);
+    });
+
+    test('tracks the function call', () => {
+      subject.add(5, 9);
+
+      expect(beacon.trackUserAction)
+        .toHaveBeenCalledWith('api', 'testing', {
+          value: { args: [5, 9] }
+        });
+    });
+
+    test('ignores non function calls', () => {
+      tracker.addToMethod(subject, 'minus', 'testinghere');
+      subject.minus;
+
+      expect(beacon.trackUserAction)
+        .not.toHaveBeenCalledWith('api', 'testinghere', expect.anything());
+    });
+  });
+
   describe('queueing', () => {
     beforeEach(() => {
       tracker.enqueue('method1', 1, 2, 3);
