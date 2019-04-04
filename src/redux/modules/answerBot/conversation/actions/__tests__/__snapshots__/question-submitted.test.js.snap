@@ -151,7 +151,6 @@ exports[`questionSubmitted sends the expected http params 1`] = `
             "a",
             "label",
           ],
-          "locale": "tl",
           "via_id": 67,
         },
         "path": "/api/v2/answer_bot/interaction?include=html_body",
