@@ -347,14 +347,14 @@ describe('getAuthSettingsJwt', () => {
     return settings.getAuthSettingsJwt();
   };
 
-  describe('when authenticate.jwtFn is defined', () => {
-    it('returns the jwtFn', () => {
+  describe('when authenticate.jwt is defined', () => {
+    it('returns the jwt', () => {
       expect(setupAuthSettingsJwt({ jwt: 'mockJwt' }))
         .toEqual('mockJwt');
     });
   });
 
-  describe('when authenticate.jwtFn is not defined', () => {
+  describe('when authenticate.jwt is not defined', () => {
     it('returns null', () => {
       expect(setupAuthSettingsJwt({}))
         .toBeNull();
@@ -394,6 +394,13 @@ describe('getAuthSettingsJwtFn', () => {
   describe('when authenticate.jwtFn is not defined', () => {
     it('returns null', () => {
       expect(setupAuthSettingsJwtFn({}))
+        .toBeNull();
+    });
+  });
+
+  describe('when authenticate.jwtFn is not a function', () => {
+    it('returns null', () => {
+      expect(setupAuthSettingsJwtFn({ jwtFn: 'jwt-string' }))
         .toBeNull();
     });
   });

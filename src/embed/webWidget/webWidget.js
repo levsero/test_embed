@@ -388,11 +388,9 @@ export default function WebWidgetFactory(name) {
     const settingJwtFn = settings.getAuthSettingsJwtFn();
 
     if (settingJwtFn) {
-      if (_.isFunction(settingJwtFn)) {
-        const callback = (retrievedJwt) => { embed.store.dispatch(authenticate(retrievedJwt)); };
+      const callback = (retrievedJwt) => { embed.store.dispatch(authenticate(retrievedJwt)); };
 
-        return settingJwtFn(callback);
-      }
+      return settingJwtFn(callback);
     }
 
     const settingJwt = settings.getAuthSettingsJwt();

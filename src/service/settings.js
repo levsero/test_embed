@@ -215,15 +215,13 @@ function getTrackSettings() {
 }
 
 function getAuthSettingsJwt() {
-  const authSetting = get('authenticate');
-
-  return (authSetting && authSetting.jwt) ? authSetting.jwt : null;
+  return get('authenticate.jwt') || get('authenticate.support.jwt');
 }
 
 function getAuthSettingsJwtFn() {
-  const authSetting = get('authenticate');
+  const authenticateFn = get('authenticate.jwtFn');
 
-  return (authSetting && authSetting.jwtFn) ? authSetting.jwtFn : null;
+  return _.isFunction(authenticateFn) ? authenticateFn : null;
 }
 
 function getChatAuthSettings() {

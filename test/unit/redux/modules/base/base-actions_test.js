@@ -9,7 +9,7 @@ let actions,
   mockNameValidValue,
   mockEmailValidValue,
   mockStore,
-  mockAuthSettings,
+  mockJwtFn,
   mockOAuth,
   mockBaseIsAuthenticated,
   mockIsTokenValid,
@@ -17,6 +17,7 @@ let actions,
   mockPersistentStoreValue,
   mockHasContextuallySearched,
   mockActiveEmbed,
+  mockIsTokenExpired,
   mockAfterWidgetShowAnimationQueue,
   mockIsTokenRenewable = jasmine.createSpy('isTokenRenewable'),
   persistentStoreRemoveSpy = jasmine.createSpy('remove'),
@@ -53,7 +54,8 @@ describe('base redux actions', () => {
       'src/redux/modules/base/helpers/auth': {
         isTokenValid: () => mockIsTokenValid,
         extractTokenId: () => mockExtractTokenId,
-        isTokenRenewable: mockIsTokenRenewable
+        isTokenRenewable: mockIsTokenRenewable,
+        isTokenExpired: () => mockIsTokenExpired,
       },
       'src/util/utils': {
         nameValid: () => mockNameValidValue,
@@ -61,7 +63,7 @@ describe('base redux actions', () => {
       },
       'service/settings': {
         settings: {
-          getSupportAuthSettings: () => mockAuthSettings
+          getAuthSettingsJwtFn: () => mockJwtFn
         }
       },
       'src/redux/modules/base/base-selectors': {
@@ -741,7 +743,8 @@ describe('base redux actions', () => {
 
   describe('renewToken', () => {
     let zeoauth,
-      renewPayload;
+      renewPayload,
+      jwt;
 
     beforeEach(() => {
       const jwtPayload = {
@@ -750,13 +753,16 @@ describe('base redux actions', () => {
         'name': 'Jim Bob',
         'email': 'jbob@zendesk.com'
       };
-      const body = { jwt: jsonwebtoken.sign(jwtPayload, 'pencil') };
+
+      jwt = jsonwebtoken.sign(jwtPayload, 'pencil');
+      const body = { jwt };
 
       zeoauth = {
         id: '3498589cd03c34be6155b5a6498fe9786985da01', // sha1 hash of jbob@zendesk.com
         token: 'abcde',
         expiry: Math.floor(Date.now() / 1000) + (20 * 60),
-        createdAt: Math.floor(Date.now() / 1000) - (1.6 * 60 * 60)
+        createdAt: Math.floor(Date.now() / 1000) - (1.6 * 60 * 60),
+        webToken: jwt
       };
       renewPayload = {
         body: body.jwt,
@@ -765,8 +771,8 @@ describe('base redux actions', () => {
           'oauth_expiry': zeoauth.expiry
         }
       };
+
       mockOAuth = zeoauth;
-      mockAuthSettings = body;
     });
 
     describe('when the oauth token is renewable', () => {
@@ -817,7 +823,8 @@ describe('base redux actions', () => {
               'id': zeoauth.id,
               'token': 'abcde',
               'expiry': 'someExpiry',
-              'createdAt': 'createdAt'
+              'createdAt': 'createdAt',
+              'webToken': jwt
             });
         });
 
@@ -859,10 +866,39 @@ describe('base redux actions', () => {
         mockIsTokenRenewable.and.returnValue(false);
         mockStore.dispatch(actions.renewToken());
       });
+      describe('and there is no jwtFn', () => {
+        it('should return and not request a new oauth token', () => {
+          expect(httpPostSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
 
-      it('should return and not request a new oauth token', () => {
-        expect(httpPostSpy)
-          .not.toHaveBeenCalled();
+      describe('and there is a jwtFn', () => {
+        beforeEach(() => {
+          mockJwtFn = jasmine.createSpy('mockJwtFn', () => {});
+        });
+
+        describe('and the token is expired', () => {
+          beforeEach(() => {
+            mockIsTokenExpired = true;
+            mockStore.dispatch(actions.renewToken());
+          });
+
+          it('calls the jwtFn',() => {
+            expect(mockJwtFn).toHaveBeenCalledWith(jasmine.any(Function));
+          });
+        });
+
+        describe('and there is no persisted oauth', () => {
+          beforeEach(() => {
+            mockOAuth = undefined;
+            mockStore.dispatch(actions.renewToken());
+          });
+
+          it('calls the jwtFn',() => {
+            expect(mockJwtFn).toHaveBeenCalledWith(jasmine.any(Function));
+          });
+        });
       });
     });
   });

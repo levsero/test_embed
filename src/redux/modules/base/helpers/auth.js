@@ -35,8 +35,18 @@ function isTokenRenewable(token) {
   return false;
 }
 
+function isTokenExpired(token) {
+  if (token && token.expiry) {
+    const now = Math.floor(Date.now() / 1000);
+
+    return token.expiry < now;
+  }
+  return false;
+}
+
 export {
   isTokenValid,
   extractTokenId,
-  isTokenRenewable
+  isTokenRenewable,
+  isTokenExpired
 };
