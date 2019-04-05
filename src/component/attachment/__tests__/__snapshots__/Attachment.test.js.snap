@@ -12,6 +12,7 @@ exports[`filename is truncated when it is more than max 1`] = `
       >
         <span
           class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
           test-file-stub
@@ -48,6 +49,7 @@ exports[`renders expected classes 1`] = `
       >
         <span
           class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
           test-file-stub
@@ -84,6 +86,7 @@ exports[`renders icon when icon is specified and attachment is not downloadable 
       >
         <span
           class="container iconPreview myicon"
+          data-testid="myicon"
           type="myicon"
         />
         <div
@@ -123,6 +126,7 @@ exports[`renders link when icon is specified and attachment is downloadable 1`] 
         >
           <span
             class="container iconPreview myicon"
+            data-testid="myicon"
             type="myicon"
           />
         </a>
@@ -186,6 +190,7 @@ exports[`renders link when it is downloadable 1`] = `
         >
           <span
             class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
             type="Icon--preview-default"
           >
             test-file-stub
@@ -246,6 +251,7 @@ exports[`renders removal button when it is removable 1`] = `
       >
         <span
           class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
           test-file-stub
@@ -266,6 +272,7 @@ exports[`renders removal button when it is removable 1`] = `
         </div>
         <span
           class="container icon Icon--close"
+          data-testid="Icon--close"
           type="Icon--close"
         >
           test-file-stub
@@ -288,6 +295,7 @@ exports[`renders uploading text when it is uploading 1`] = `
       >
         <span
           class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
           test-file-stub
@@ -332,6 +340,7 @@ exports[`renders with custom class name 1`] = `
       >
         <span
           class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
           test-file-stub
@@ -401,6 +410,7 @@ exports[`size formatting greater than or equal to 1MB displays correctly 1`] = `
       >
         <span
           class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
           test-file-stub
@@ -437,6 +447,7 @@ exports[`size formatting greater than or equal to 1MB includes one decimal place
       >
         <span
           class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
           test-file-stub
@@ -473,6 +484,7 @@ exports[`size formatting when the file size is less than one kilobyte displays 1
       >
         <span
           class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
           test-file-stub
@@ -509,6 +521,7 @@ exports[`size formatting when the file size is less than one megabyte displays f
       >
         <span
           class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
           test-file-stub

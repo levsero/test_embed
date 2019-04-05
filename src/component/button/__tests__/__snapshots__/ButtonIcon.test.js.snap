@@ -12,6 +12,7 @@ exports[`classes are customizable 1`] = `
   >
     <span
       class="container icon here there Icon--zendesk flipX"
+      data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
       test-file-stub
@@ -39,6 +40,7 @@ exports[`renders the expected classes 1`] = `
   >
     <span
       class="container icon "
+      data-testid=""
       type=""
     />
     <span

@@ -8,6 +8,7 @@ exports[`icon is rendered when showIcon is true 1`] = `
     mylabel
     <span
       class="container Icon--arrow-down"
+      data-testid="Icon--arrow-down"
       type="Icon--arrow-down"
     >
       test-file-stub

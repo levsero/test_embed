@@ -15,6 +15,7 @@ exports[`does not has the rtl classnames when rtl language is false 1`] = `
   >
     <span
       class="container icon Icon--zendesk"
+      data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
       test-file-stub
@@ -43,6 +44,7 @@ exports[`does not have the positional classnames when mobile browser is true 1`]
   >
     <span
       class="container icon Icon--zendesk"
+      data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
       test-file-stub
@@ -71,6 +73,7 @@ exports[`has the correct logo when chat is true 1`] = `
   >
     <span
       class="container icon Icon--zendesk"
+      data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
       test-file-stub
@@ -99,6 +102,7 @@ exports[`has the positional classnames for mobile browser and formSuccess is tru
   >
     <span
       class="container icon Icon--zendesk"
+      data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
       test-file-stub
@@ -127,6 +131,7 @@ exports[`has the rtl classnames when rtl language is true 1`] = `
   >
     <span
       class="container icon Icon--zendesk"
+      data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
       test-file-stub
@@ -155,6 +160,7 @@ exports[`renders the expected classes 1`] = `
   >
     <span
       class="container icon Icon--zendesk"
+      data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
       test-file-stub

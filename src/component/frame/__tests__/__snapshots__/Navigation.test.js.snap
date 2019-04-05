@@ -18,6 +18,7 @@ exports[`rendering with default props renders correctly 1`] = `
       >
         <span
           class="container icon Icon--popout"
+          data-testid="Icon--popout"
           type="Icon--popout"
         >
           test-file-stub
@@ -39,6 +40,7 @@ exports[`rendering with default props renders correctly 1`] = `
       >
         <span
           class="container icon Icon--dash"
+          data-testid="Icon--dash"
           type="Icon--dash"
         >
           test-file-stub

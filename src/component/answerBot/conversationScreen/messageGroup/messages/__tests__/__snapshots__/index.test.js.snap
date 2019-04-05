@@ -42,6 +42,7 @@ exports[`renders expected classes and components with default props for non-visi
                 >
                   <span
                     class="container icon Icon--article"
+                    data-testid="Icon--article"
                     type="Icon--article"
                   >
                     test-file-stub

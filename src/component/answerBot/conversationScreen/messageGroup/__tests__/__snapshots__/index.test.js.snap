@@ -165,6 +165,7 @@ exports[`bot name renders agent name 1`] = `
     </div>
     <span
       class="container avatar fadeIn Icon--answerBot"
+      data-testid="Icon--answerBot"
       type="Icon--answerBot"
     >
       test-file-stub
@@ -224,6 +225,7 @@ exports[`renders expected classes and components with default props 1`] = `
     </div>
     <span
       class="container avatar fadeIn Icon--answerBot"
+      data-testid="Icon--answerBot"
       type="Icon--answerBot"
     >
       test-file-stub
