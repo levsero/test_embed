@@ -95,6 +95,37 @@ describe('setupChat', () => {
     });
   });
 
+  describe('brands', () => {
+    describe('when a brand exists', () => {
+      it('calls zChat addTags with the current brand if it exists', async () => {
+        dispatchAction();
+
+        await wait(() => {
+          expect(zChat.addTags)
+            .toHaveBeenCalledWith(['ACME']);
+        });
+      });
+    });
+
+    describe('when a brand does not exist', () => {
+      it('does not call zChat addTags', async () => {
+        dispatchAction({
+          base: {
+            embeddableConfig: {
+              brandCount: 1,
+              brand: undefined
+            }
+          }
+        });
+
+        await wait(() => {
+          expect(zChat.addTags)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
   it('calls zopimApi handleZopimQueue with the window', async () => {
     dispatchAction();
 
