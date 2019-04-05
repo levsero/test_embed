@@ -123,9 +123,7 @@ const getFields = (customFields, formState, options) => {
     // embeddable/ticket_fields.json will omit the visible_in_portal and editable_in_portal props for valid fields.
     // While the ticket_forms/show_many.json endpoint will always have them present even for invalid ones. This means
     // we must check if either are undefined or if both are true.
-    // if (!(_.isUndefined(editable) || (editable && visible))) {
-    //   return null;
-    // }
+
     const showError = shouldRenderErrorMessage(
       formState[sharedProps.name],
       sharedProps.required,
