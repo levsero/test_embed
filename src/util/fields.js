@@ -15,7 +15,6 @@ import {
   TextArea,
   Dropdown,
 } from 'src/component/field';
-import { SlideAppear } from 'component/transition/SlideAppear';
 
 const getDefaultFieldValues = (elementType, existingValue) => {
   switch (elementType) {
@@ -40,7 +39,7 @@ const setupConditionCheck = (customFields, formState) => {
     if (!field) return false;
 
     if (field.type === 'checkbox') {
-      // classic wants 0 and 1 so we use those as the values but conditions give us true and false - OH LOOK A COMMENT
+      // classic wants 0 and 1 so we use those as the values but conditions give us true and false
       return value === !!formState[fieldId];
     }
 
@@ -95,7 +94,7 @@ const getFields = (customFields, formState, options) => {
   };
 
   const isCheckbox = (field) => {
-    return _.get(field, 'props.children.type') === Checkbox;
+    return field && field.type === Checkbox;
   };
 
   const mapFields = (field) => {
@@ -117,27 +116,25 @@ const getFields = (customFields, formState, options) => {
 
     const { visible_in_portal: visible, editable_in_portal: editable } = field; // eslint-disable-line camelcase
 
+    // embeddable/ticket_fields.json will omit the visible_in_portal and editable_in_portal props for valid fields.
+    // While the ticket_forms/show_many.json endpoint will always have them present even for invalid ones. This means
+    // we must check if either are undefined or if both are true.
+    if (!(_.isUndefined(editable) || (editable && visible))) {
+      return null;
+    }
+
     const showError = shouldRenderErrorMessage(
       formState[sharedProps.name],
       sharedProps.required,
       sharedProps.showErrors
     );
 
-    const shouldShow = !(!visible || !editable),
-      duration = 150;
-
     sharedProps.showError = showError;
 
     switch (field.type) {
       case 'text':
       case 'subject':
-        return (
-          <SlideAppear
-            key={field.id}
-            duration={duration}
-            trigger={shouldShow}>
-            {renderField(sharedProps)}
-          </SlideAppear>);
+        return renderField(sharedProps);
 
       case 'tagger':
         const defaultOption = _.find(field.custom_field_options, (option) => option.default);
@@ -149,13 +146,7 @@ const getFields = (customFields, formState, options) => {
           formState
         };
 
-        return (
-          <SlideAppear
-            key={field.id}
-            duration={duration}
-            trigger={shouldShow}>
-            <Dropdown {...dropdownProps} />
-          </SlideAppear>);
+        return <Dropdown {...dropdownProps} />;
 
       case 'integer':
         const integerFieldProps = {
@@ -165,13 +156,7 @@ const getFields = (customFields, formState, options) => {
           errorString: i18n.t('embeddable_framework.validation.error.number'),
         };
 
-        return (
-          <SlideAppear
-            key={field.id}
-            duration={duration}
-            trigger={shouldShow}>
-            {renderField(integerFieldProps)}
-          </SlideAppear>);
+        return renderField(integerFieldProps);
 
       case 'decimal':
         const decimalFieldProps = {
@@ -182,13 +167,7 @@ const getFields = (customFields, formState, options) => {
           errorString: i18n.t('embeddable_framework.validation.error.number'),
         };
 
-        return (
-          <SlideAppear
-            key={field.id}
-            duration={duration}
-            trigger={shouldShow}>
-            {renderField(decimalFieldProps)}
-          </SlideAppear>);
+        return renderField(decimalFieldProps);
 
       case 'textarea':
       case 'description':
@@ -197,29 +176,19 @@ const getFields = (customFields, formState, options) => {
         };
 
         return (
-          <SlideAppear
-            key={field.id}
-            duration={duration}
-            trigger={shouldShow}>
-            <TextArea {...textAreaProps} textareaProps = {textAreaProps} />
-          </SlideAppear>
+          <TextArea {...textAreaProps} textareaProps={textAreaProps} />
         );
 
       case 'checkbox':
         return (
-          <SlideAppear
-            key={field.id}
-            duration={duration}
-            trigger={shouldShow}>
-            <Checkbox
-              key={sharedProps.key}
-              errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
-              showError={showError}
-              description={field.description}
-              label={getStyledLabelText(title, sharedProps.required)}
-              checkboxProps={sharedProps}
-            />
-          </SlideAppear>
+          <Checkbox
+            key={sharedProps.key}
+            errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
+            showError={showError}
+            description={field.description}
+            label={getStyledLabelText(title, sharedProps.required)}
+            checkboxProps={sharedProps}
+          />
         );
     }
   };
