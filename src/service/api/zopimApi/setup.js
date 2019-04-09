@@ -111,9 +111,9 @@ export function setUpZopimApiMethods(win, store) {
 
           updateSettings(store, 'webWidget.color.theme', options.primary);
         },
+        reload: noop,
         setProfileCardConfig: setProfileCardConfigApi(store),
-        setFontConfig: noop,
-        reload: noop
+        setFontConfig: noop
       },
       mobileNotifications: {
         setDisabled: (bool) => updateSettings(store, 'webWidget.chat.notifications.mobile.disable', bool)
