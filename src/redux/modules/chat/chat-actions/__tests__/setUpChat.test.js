@@ -8,6 +8,7 @@ import { win } from 'utility/globals';
 import zopimApi from 'service/api/zopimApi';
 import * as zChat from 'chat-web-sdk';
 import slider from 'react-slick';
+import { settings } from 'service/settings';
 
 jest.mock('react-slick');
 jest.mock('chat-web-sdk');
@@ -109,6 +110,34 @@ describe('setupChat', () => {
     await wait(() => {
       expect(zChat.getFirehose)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('adding brand tag', () => {
+    describe('with no jwtFn in settings', () => {
+      it('calls zopimApi handleZopimQueue with the window', async () => {
+        dispatchAction({ base: { embeddableConfig: { brandCount: 2, brand: 'brand 1' } } });
+
+        await wait(() => {
+          expect(zChat.addTag)
+            .toHaveBeenCalledWith('brand 1');
+        });
+      });
+    });
+
+    describe('with a jwtFn in settings', () => {
+      beforeEach(() => {
+        settings.getChatAuthSettings = () => ( { jwtFn: noop });
+      });
+
+      it('calls zopimApi handleZopimQueue with the window', async () => {
+        dispatchAction({ base: { embeddableConfig: { brandCount: 2, brand: 'brand 1' } } });
+
+        await wait(() => {
+          expect(zChat.addTag)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
   });
 });
