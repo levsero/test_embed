@@ -28,7 +28,7 @@ function makeChatConfig(config) {
   return _.omitBy({
     account_key: store.get('chatAccountKey') || config.zopimId,
     override_proxy: store.get('chatOverrideProxy') || config.overrideProxy,
-    override_auth_server_host: store.get('chatOverrideAuthServerHost'),
+    override_auth_server_host: store.get('chatOverrideAuthServerHost') || config.overrideAuthServerHost,
     authentication,
     activity_window: win,
     popout: isPopout()

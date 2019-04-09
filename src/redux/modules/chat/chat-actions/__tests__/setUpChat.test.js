@@ -15,9 +15,9 @@ jest.mock('service/api/zopimApi');
 
 zChat.getFirehose.mockImplementation(() => ({ on: jest.fn() }));
 
-const dispatchAction = () => {
+const dispatchAction = (customState = {}) => {
   const mockStore = configureMockStore([thunk]);
-  const store = mockStore(getModifiedState());
+  const store = mockStore(getModifiedState(customState));
 
   store.dispatch(setUpChat());
 
@@ -48,6 +48,36 @@ describe('setupChat', () => {
         .toHaveBeenCalledWith({
           account_key: '123abc',
           activity_window: win,
+          popout: false
+        });
+    });
+  });
+
+  it('calls zChat init with overrides when they\'re set within the embeddable config', async () => {
+    const stagingState = {
+      base: {
+        embeddableConfig: {
+          embeds: {
+            zopimChat: {
+              props: {
+                overrideProxy: 'staging.example.com',
+                overrideAuthServerHost: 'staging.auth.example.com'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    dispatchAction(stagingState);
+
+    await wait(() => {
+      expect(zChat.init)
+        .toHaveBeenCalledWith({
+          account_key: '123abc',
+          activity_window: win,
+          override_proxy: 'staging.example.com',
+          override_auth_server_host: 'staging.auth.example.com',
           popout: false
         });
     });
