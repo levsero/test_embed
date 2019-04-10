@@ -7,7 +7,8 @@ import { http } from 'service/transport';
 import {
   win,
   document as doc,
-  navigator
+  navigator,
+  getReferrerPolicy
 } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
 import {
@@ -50,8 +51,7 @@ const sendPageView = () => {
   const timeOnLastPage = () => {
     return referrer.origin === url && previousTime ? (now - previousTime) : 0;
   };
-  const referrerPolicy = store.get('referrerPolicy', 'session');
-  const referrerUrl = referrerPolicy ? referrerPolicyUrl(referrerPolicy, referrer.href) : referrer.href;
+  const referrerUrl = getReferrerPolicy() ? referrerPolicyUrl(getReferrerPolicy(), referrer.href) : referrer.href;
   const pageViewParams = referrerUrl ? { referrer: referrerUrl } : {};
   const pageView = {
     time: timeOnLastPage(),
@@ -138,7 +138,7 @@ function trackUserAction(category, action, options) {
 }
 
 function trackSettings(settings) {
-  if (!win.zESettings || _.isEmpty(settings) || config.reduceBlipping) return;
+  if (!win.zESettings || _.isEmpty(settings) || config.reduceBlipping || settings.cookies === false) return;
 
   const previousSettings = store.get('settings');
   const expiryTime = nowInSeconds() - 24*60*60;

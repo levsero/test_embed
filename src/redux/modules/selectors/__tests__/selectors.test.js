@@ -15,6 +15,7 @@ import * as screens from 'src/redux/modules/talk/talk-screen-types';
 import { i18n } from 'src/service/i18n';
 import { getModifiedState } from 'src/fixtures/selectors-test-state';
 import { LAUNCHER } from 'constants/shared';
+import { CONNECTION_STATUSES } from 'constants/chat';
 
 const stateLauncherSettings = (settings) => {
   return {
@@ -855,12 +856,20 @@ describe('getChatOnline', () => {
 
 describe('getChatConnectionSuppressed', () => {
   test.each([
-    ['chat delay is enabled',                          true,  false, false, false, true],
-    ['when chatting and connection suppress is false', true, true, true, false, false],
-    ['chat is connection suppressed',                  false, false, false, true, true],
-  ])('%p', (__title, chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress, expectedValue) => {
+    ['chat delay is enabled',                          true,  false, false, false, false, true],
+    ['when chatting and connection suppress is false', true, true, true, false, false, false],
+    ['chat is connection suppressed',                  false, false, false, true, false, true],
+    ['cookies are disabled',                           false, false, false, true, true, true],
+  ])('%p', (
+    __title,
+    chatConnectOnDemand,
+    isChatting,
+    chatConnected,
+    chatConnectionSuppress,
+    cookiesDisabled,
+    expectedValue) => {
     const result = selectors.getChatConnectionSuppressed.resultFunc(
-      chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress);
+      chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled);
 
     expect(result).toEqual(expectedValue);
   });
@@ -1350,3 +1359,44 @@ describe('getContactOptionsContactFormLabel', () => {
 describe('getContactOptionsButton', () => {
   testTranslationStringSelector(selectors.getContactOptionsButton);
 });
+
+describe('getChatConnectionConnecting', () => {
+  const state = (enabled, connection, cookies = true) => getModifiedState({
+    base: {
+      embeds: {
+        chat: enabled
+      }
+    },
+    chat: {
+      connection
+    },
+    settings: {
+      cookies
+    }
+  });
+
+  test('chat is not enabled', () => {
+    const result = selectors.getChatConnectionConnecting(state(false, ''));
+
+    expect(result).toEqual(false);
+  });
+
+  test('chat is closed', () => {
+    const result = selectors.getChatConnectionConnecting(state(true, CONNECTION_STATUSES.CLOSED));
+
+    expect(result).toEqual(false);
+  });
+
+  test('chat is connecting', () => {
+    const result = selectors.getChatConnectionConnecting(state(true, CONNECTION_STATUSES.CONNECTING));
+
+    expect(result).toEqual(true);
+  });
+
+  test('cookies is disabled', () => {
+    const result = selectors.getChatConnectionConnecting(state(true, CONNECTION_STATUSES.CONNECTING, false));
+
+    expect(result).toEqual(false);
+  });
+});
+

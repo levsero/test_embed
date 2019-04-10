@@ -11,7 +11,8 @@ import {
   getBadgeColor as getAccountSettingsBadgeColor,
   getHideBranding as getAccountSettingsHideBranding,
   getChatBadgeEnabled,
-  getChatBanned
+  getChatBanned,
+  getConnection as getChatConnection
 } from '../chat/chat-selectors';
 import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors';
 import {
@@ -47,7 +48,8 @@ import {
   getAnswerBotTitle,
   getAnswerBotAvatarName,
   getSettingsChatConnectionSuppress,
-  getSettingsChatConnectOnDemand
+  getSettingsChatConnectOnDemand,
+  getCookiesDisabled
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
@@ -90,13 +92,12 @@ import {
 import { settings } from 'service/settings';
 
 import { isMobileBrowser } from 'utility/devices';
-import { FONT_SIZE } from 'src/constants/shared';
-import { EMBED_MAP, LAUNCHER } from 'constants/shared';
+import { FONT_SIZE, EMBED_MAP, LAUNCHER, MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'constants/shared';
+import { CONNECTION_STATUSES } from 'constants/chat';
 import { isPopout } from 'utility/globals';
 import { getSettingsLauncherChatLabel, getSettingsLauncherLabel } from '../settings/settings-selectors';
 import { i18n } from 'service/i18n';
 
-import { MAX_WIDGET_HEIGHT_NO_SEARCH, WIDGET_MARGIN } from 'src/constants/shared';
 import * as screens from 'src/redux/modules/talk/talk-screen-types';
 
 /*
@@ -207,9 +208,13 @@ export const getChatOnline = (state) => getZopimChatOnline(state) || !getShowOff
 export const getChatConnected = (state) => getZopimChatConnected(state) || getNewChatConnected(state);
 
 export const getChatConnectionSuppressed = createSelector(
-  [getSettingsChatConnectOnDemand, getIsChatting, getChatConnected, getSettingsChatConnectionSuppress],
-  (chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress) => {
-    const chatDelay = chatConnectOnDemand && !isChatting && !chatConnected;
+  [getSettingsChatConnectOnDemand,
+    getIsChatting,
+    getChatConnected,
+    getSettingsChatConnectionSuppress,
+    getCookiesDisabled],
+  (chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled) => {
+    const chatDelay = (chatConnectOnDemand || cookiesDisabled) && !isChatting && !chatConnected;
 
     return chatDelay || chatConnectionSuppress;
   }
@@ -630,3 +635,10 @@ export const getSettingsAnswerBotAvatarName = createSelector(
 export const getChannelAvailable = (state) => {
   return getSubmitTicketAvailable(state) || getTalkOnline(state) || getChatAvailable(state);
 };
+
+export const getChatConnectionConnecting = createSelector(
+  [getChatConnection, getNewChatEmbed, getCookiesDisabled],
+  (connection, chatEnabled, cookiesDisabled) => (
+    !cookiesDisabled && chatEnabled && (connection === CONNECTION_STATUSES.CONNECTING || connection === '')
+  )
+);

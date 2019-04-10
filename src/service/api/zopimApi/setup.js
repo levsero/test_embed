@@ -43,7 +43,6 @@ import {
 } from './helpers';
 import tracker from 'service/logging/tracker';
 
-// All deprecated/unsupported api methods will use noop
 const noop = () => {};
 
 export function setUpZopimApiMethods(win, store) {
@@ -56,7 +55,7 @@ export function setUpZopimApiMethods(win, store) {
       cookieLaw: {
         comply: noop,
         showPrivacyPanel: noop,
-        setDefaultImplicitConsent: noop
+        setDefaultImplicitConsent: () => updateSettings(store, 'cookies', false)
       },
       window: {
         toggle: () => toggleApi(store),
@@ -112,7 +111,7 @@ export function setUpZopimApiMethods(win, store) {
 
           updateSettings(store, 'webWidget.color.theme', options.primary);
         },
-        reload: () => {},
+        reload: noop,
         setProfileCardConfig: setProfileCardConfigApi(store),
         setFontConfig: noop
       },

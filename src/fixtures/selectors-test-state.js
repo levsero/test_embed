@@ -69,6 +69,7 @@ const defaultState = {
     }
   },
   settings: {
+    cookies: true,
     styling: {
       zIndex: -10
     },

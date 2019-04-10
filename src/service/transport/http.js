@@ -2,9 +2,11 @@ import _          from 'lodash';
 import superagent from 'superagent';
 
 import { identity } from 'service/identity';
-import { store } from 'service/persistence';
 import { settings } from 'service/settings';
-import { location } from 'utility/globals';
+import {
+  location,
+  getReferrerPolicy
+} from 'utility/globals';
 import {
   base64encode,
   referrerPolicyUrl
@@ -83,12 +85,11 @@ function send(payload, addType = true) {
 function sendWithMeta(payload) {
   const commonParams = {
     buid: identity.getBuid(),
-    suid: identity.getSuid().id || null,
+    suid: identity.getSuid().id,
     version: config.version,
     timestamp: (new Date()).toISOString()
   };
-  const referrerPolicy = store.get('referrerPolicy', 'session');
-  const url = referrerPolicy ? referrerPolicyUrl(referrerPolicy, location.href) : location.href;
+  const url = getReferrerPolicy() ? referrerPolicyUrl(getReferrerPolicy(), location.href) : location.href;
   const urlParams = url ? { url } : {};
 
   _.extend(payload.params, commonParams, urlParams);

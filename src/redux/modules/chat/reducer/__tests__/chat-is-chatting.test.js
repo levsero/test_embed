@@ -1,6 +1,8 @@
 import * as actions from 'src/redux/modules/chat/chat-action-types';
 import { store } from 'service/persistence';
 import { testReducer } from 'src/util/testHelpers';
+import { createStore } from 'redux';
+import reducer from 'src/redux/modules/reducer';
 
 let chatIsChatting = require('../chat-is-chatting').default;
 
@@ -21,11 +23,15 @@ describe('chatDefaultDepartment initialState', () => {
   });
 
   it('sets the state to the value in local storage if it exists', () => {
+    // Simulates the store before the page is refreshed
+    const reduxStore = createStore(reducer);
+
+    store.init(reduxStore);
     store.set('store', { 'is_chatting': true });
     jest.resetModules();
 
     chatIsChatting = require('../chat-is-chatting').default;
-
+    // rerequire simulates page refresh
     expect(chatIsChatting(undefined, { type: '' })).toEqual(true);
 
     store.clear();

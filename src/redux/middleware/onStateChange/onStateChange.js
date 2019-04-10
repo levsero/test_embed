@@ -7,7 +7,8 @@ import {
   getOperatingHours,
   getIsChatting,
   chatWindowOpenOnNavigate,
-  chatConnected
+  chatConnected,
+  setUpChat
 } from 'src/redux/modules/chat';
 import {
   updateActiveEmbed,
@@ -49,10 +50,14 @@ import {
   getIPMWidget,
   getHelpCenterEmbed,
   getSubmitTicketEmbed,
-  getHasWidgetShown
+  getHasWidgetShown,
+  getChatEmbed
 } from 'src/redux/modules/base/base-selectors';
 import { store } from 'service/persistence';
-import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
+import {
+  getSettingsMobileNotificationsDisabled,
+  getCookiesDisabled
+} from 'src/redux/modules/settings/settings-selectors';
 import { getAnswerBotAvailable } from 'src/redux/modules/selectors';
 import { isMobileBrowser } from 'utility/devices';
 import { resetShouldWarn } from 'src/util/nullZChat';
@@ -64,6 +69,7 @@ import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onC
 import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange';
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions';
 import { isPopout } from 'utility/globals';
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed');
@@ -276,6 +282,16 @@ const onUpdateEmbeddableConfig = (action) => {
   }
 };
 
+const onCookiePermissionsChange = (action, nextState, dispatch) => {
+  if (action.type !== UPDATE_SETTINGS) return;
+
+  if (getCookiesDisabled(nextState)) {
+    store.clear();
+  } else if (getChatEmbed(nextState) && !getConnection(nextState)) {
+    dispatch(setUpChat());
+  }
+};
+
 export default function onStateChange(prevState, nextState, action = {}, dispatch = () => {}) {
   onChatStarted(prevState, nextState, dispatch);
   onChatStatusChange(prevState, nextState, dispatch);
@@ -294,4 +310,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onChannelChoiceTransition(prevState, nextState, action, dispatch);
   onChatConnectionClosed(prevState, nextState, action, dispatch);
   onChatConnectOnDemandTrigger(prevState, action, dispatch);
+  onCookiePermissionsChange(action, nextState, dispatch);
 }

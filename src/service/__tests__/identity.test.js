@@ -1,9 +1,14 @@
 import { identity } from '../identity';
 import { store } from 'service/persistence';
+import { createStore } from 'redux';
+import reducer from 'src/redux/modules/reducer';
 
 jest.useFakeTimers();
 
 beforeEach(() => {
+  const reduxStore = createStore(reducer);
+
+  store.init(reduxStore);
   store.clear();
 });
 
