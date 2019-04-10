@@ -34,7 +34,7 @@ function get(name, type = 'local') {
 }
 
 function set(name, data, type = 'local') {
-  if (getCookiesDisabled(reduxStore.getState())) return data;
+  if (reduxStore && getCookiesDisabled(reduxStore.getState())) return data;
 
   try {
     storage(type).setItem(prefix + name, serialize(data));
