@@ -56,7 +56,6 @@ import {
 import { store } from 'service/persistence';
 import {
   getSettingsMobileNotificationsDisabled,
-  getCookiesDisabled
 } from 'src/redux/modules/settings/settings-selectors';
 import { getAnswerBotAvailable } from 'src/redux/modules/selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -283,12 +282,17 @@ const onUpdateEmbeddableConfig = (action) => {
 };
 
 const onCookiePermissionsChange = (action, nextState, dispatch) => {
-  if (action.type !== UPDATE_SETTINGS) return;
+  const settingsCookieValue = _.get(action.payload, 'webWidget.cookies');
 
-  if (getCookiesDisabled(nextState)) {
-    store.clear();
-  } else if (getChatEmbed(nextState) && !getConnection(nextState)) {
-    dispatch(setUpChat());
+  if (action.type !== UPDATE_SETTINGS || settingsCookieValue === undefined) return;
+
+  if (settingsCookieValue === false) {
+    store.disable();
+  } else {
+    store.enable();
+    if (getChatEmbed(nextState) && !getConnection(nextState)) {
+      dispatch(setUpChat());
+    }
   }
 };
 

@@ -1,20 +1,16 @@
 import _ from 'lodash';
 
 import { win } from 'utility/globals';
-import { getCookiesDisabled } from 'src/redux/modules/settings/settings-selectors';
 
 const prefix = 'ZD-';
 
 // TODO: find a better way to differentiate between localStorage
 // and sessionStorage, and refactor everywhere it is used
 
-let reduxStore;
-
-function init(store) {
-  reduxStore = store;
-}
+let enabled = true;
 
 const storage = (type) => win[`${type}Storage`];
+
 const defaults = {
   suid: {
     id: null,
@@ -34,7 +30,7 @@ function get(name, type = 'local') {
 }
 
 function set(name, data, type = 'local') {
-  if (reduxStore && getCookiesDisabled(reduxStore.getState())) return data;
+  if (!enabled) return;
 
   try {
     storage(type).setItem(prefix + name, serialize(data));
@@ -62,6 +58,15 @@ function clear(type = 'local') {
   } catch (e) {}
 }
 
+function enable() {
+  enabled = true;
+}
+
+function disable() {
+  enabled = false;
+  clear();
+}
+
 function serialize(data) {
   if (typeof data === 'object') {
     data = JSON.stringify(data);
@@ -78,9 +83,10 @@ function deserialize(data) {
 }
 
 export const store = {
-  init,
   get: get,
   set: set,
   remove: remove,
-  clear: clear
+  clear: clear,
+  enable: enable,
+  disable: disable
 };

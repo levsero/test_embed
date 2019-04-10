@@ -34,7 +34,8 @@ describe('onStateChange middleware', () => {
   const chatWindowOpenOnNavigateSpy = jasmine.createSpy('chatWindowOpenOnNavigateSpy');
   const activateRecievedSpy = jasmine.createSpy('activateRecieved');
   const resetShouldWarnSpy = jasmine.createSpy('resetShouldWarn');
-  const storeClearSpy = jasmine.createSpy('clear');
+  const storeEnableSpy = jasmine.createSpy('enableStore');
+  const storeDisableSpy = jasmine.createSpy('disableStore');
   const setUpChatSpy = jasmine.createSpy('setUpChat');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
@@ -175,7 +176,8 @@ describe('onStateChange middleware', () => {
       'service/persistence': {
         store: {
           get: () => mockStoreValue,
-          clear: storeClearSpy
+          enable: storeEnableSpy,
+          disable: storeDisableSpy
         }
       },
       'src/redux/modules/chat/chat-screen-types': {
@@ -1376,34 +1378,41 @@ describe('onStateChange middleware', () => {
 
   describe('onCookiePermissionsChange', () => {
     afterEach(() => {
-      storeClearSpy.calls.reset();
+      storeEnableSpy.calls.reset();
+      storeDisableSpy.calls.reset();
       setUpChatSpy.calls.reset();
     });
 
     describe('when the action is UPDATE_SETTINGS', () => {
-      const mockAction = { type: 'UPDATE_SETTINGS' };
+      let mockAction = { type: 'UPDATE_SETTINGS' };
 
       describe('when cookie permission is denied', () => {
         beforeEach(() => {
-          mockCookiesDisabled = true;
+          mockAction = {
+            type: 'UPDATE_SETTINGS',
+            payload: { webWidget: { cookies: false } }
+          };
 
           stateChangeFn(null, null, mockAction);
         });
 
-        it('clears the localStorage', () => {
-          expect(storeClearSpy).toHaveBeenCalled();
+        it('disables and clears the localStorage', () => {
+          expect(storeDisableSpy).toHaveBeenCalled();
         });
       });
 
       describe('when cookie permission is given', () => {
         beforeEach(() => {
-          mockCookiesDisabled = false;
+          mockAction = {
+            type: 'UPDATE_SETTINGS',
+            payload: { webWidget: { cookies: true } }
+          };
 
           stateChangeFn(null, null, mockAction);
         });
 
-        it('it does not clear the localStorage', () => {
-          expect(storeClearSpy).not.toHaveBeenCalled();
+        it('it enables localStorage', () => {
+          expect(storeEnableSpy).toHaveBeenCalled();
         });
 
         describe('when chat is enabled and not connected', () => {
@@ -1456,7 +1465,8 @@ describe('onStateChange middleware', () => {
       });
 
       it('does nothing', () => {
-        expect(storeClearSpy).not.toHaveBeenCalled();
+        expect(storeDisableSpy).not.toHaveBeenCalled();
+        expect(storeEnableSpy).not.toHaveBeenCalled();
       });
     });
   });
