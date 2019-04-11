@@ -59,6 +59,7 @@ Available settings:
 * [originalArticleButton](#originalarticlebutton)
 * [position](#position)
 * [prechatForm](#prechatform)
+* [profileCard](#profilecard)
 * [offlineForm](#offlineform)
 * [searchPlaceholder](#searchplaceholder)
 * [selectTicketForm](#selectticketform)
@@ -468,7 +469,7 @@ window.zESettings = {
   webWidget: {
     color: {
       theme: '#FF69B4',
-      launcher: '#CC3A83',
+      launcher: '#CC3A83', // This will also update the badge
       launcherText: '#E589B7',
       button: '#8A0648',
       resultLists: '#691840',
@@ -803,6 +804,28 @@ window.zESettings = {
 </script>
 ```
 
+### hideWhenChatOffline
+Hides the launcher button when chat is offline
+
+#### Availability
+
+* [launcher](./core#launcher-settings)
+
+<a name="example-hideWhenchatOffline"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings= {
+  webWidget: {
+    launcher: {
+      setHideWhenChatOffline: true
+    }
+  }
+}
+</script>
+```
+
 ### label
 
 Replaces the default string on the launcher button.
@@ -1104,6 +1127,46 @@ window.zESettings = {
           '*': 'Select a department',
           'fr': "S'il vous plaît remplir le formulaire ci-dessous pour discuter avec nous"
         }
+      }
+    }
+  }
+};
+</script>
+```
+
+### profileCard
+
+sets values related to the Agent Profile Card during a chat session.
+
+
+#### Availabiltiy
+
+* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+* Currently only available to be updated during a chat session via the [`updateSettings API`](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings).
+
+profileCard contains three booleans that can be modified:
+
+##### avatar
+Dictates whether to show the agent's avatar.
+
+##### title
+Dictates whether to show the agent's title.
+
+##### rating
+Dictates whether to show the agent's rating.
+
+
+<a name="example-prechatForm"></a>
+#### Example
+```
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    chat: {
+      profileCard: {
+        avatar: true,
+        rating: false,
+        title: true
       }
     }
   }
