@@ -18,8 +18,7 @@ describe('boot', () => {
     apiSpy = jasmine.createSpyObj('webWidgetApi', ['apisExecutePostRenderQueue', ]),
     zopimApiSpy = jasmine.createSpyObj('zopimApi', ['setupZopimQueue', 'setUpZopimApiMethods']),
     trackerSpy = jasmine.createSpyObj('tracker', ['send', 'enable']),
-    initSpy = jasmine.createSpy('init'),
-    persistenceInitSpy = jasmine.createSpy('persistence.init');
+    initSpy = jasmine.createSpy('init');
 
   let updateEmbeddableConfigSpy = jasmine.createSpy('updateEmbeddableConfig');
 
@@ -81,8 +80,7 @@ describe('boot', () => {
       },
       'service/persistence': {
         store: {
-          get: noop,
-          init: persistenceInitSpy
+          get: noop
         },
       }
     });
@@ -105,8 +103,6 @@ describe('boot', () => {
       expect(transportSpy.http.init)
         .toHaveBeenCalled();
       expect(gaSpy.GA.init)
-        .toHaveBeenCalled();
-      expect(persistenceInitSpy)
         .toHaveBeenCalled();
     });
 
