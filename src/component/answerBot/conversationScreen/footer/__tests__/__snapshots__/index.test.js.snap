@@ -80,6 +80,7 @@ exports[`mobile renders the expected classes 1`] = `
       >
         <span
           class="container iconSendAnswerBotMobile Icon--sendChat"
+          data-testid="Icon--sendChat"
           type="Icon--sendChat"
         >
           test-file-stub

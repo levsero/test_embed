@@ -26,6 +26,7 @@ exports[`renders the component 1`] = `
             >
               <span
                 class="container chatIcon Icon--channelChoice-chat"
+                data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
                 test-file-stub
@@ -48,6 +49,7 @@ exports[`renders the component 1`] = `
       />
       <span
         class="container sendButton Icon--sendChat"
+        data-testid="Icon--sendChat"
         type="Icon--sendChat"
       >
         test-file-stub
@@ -55,6 +57,7 @@ exports[`renders the component 1`] = `
     </div>
     <span
       class="container minimizeButton Icon--dash"
+      data-testid="Icon--dash"
       type="Icon--dash"
     >
       test-file-stub
@@ -89,6 +92,7 @@ exports[`with chatBadgeColor passed in 1`] = `
             >
               <span
                 class="container chatIcon Icon--channelChoice-chat"
+                data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
                 test-file-stub
@@ -111,6 +115,7 @@ exports[`with chatBadgeColor passed in 1`] = `
       />
       <span
         class="container sendButton Icon--sendChat"
+        data-testid="Icon--sendChat"
         type="Icon--sendChat"
       >
         test-file-stub
@@ -118,6 +123,7 @@ exports[`with chatBadgeColor passed in 1`] = `
     </div>
     <span
       class="container minimizeButton Icon--dash"
+      data-testid="Icon--dash"
       type="Icon--dash"
     >
       test-file-stub
@@ -154,6 +160,7 @@ exports[`with label passed in 1`] = `
             >
               <span
                 class="container chatIcon Icon--channelChoice-chat"
+                data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
                 test-file-stub
@@ -176,6 +183,7 @@ exports[`with label passed in 1`] = `
       />
       <span
         class="container sendButton Icon--sendChat"
+        data-testid="Icon--sendChat"
         type="Icon--sendChat"
       >
         test-file-stub
@@ -183,6 +191,7 @@ exports[`with label passed in 1`] = `
     </div>
     <span
       class="container minimizeButton Icon--dash"
+      data-testid="Icon--dash"
       type="Icon--dash"
     >
       test-file-stub

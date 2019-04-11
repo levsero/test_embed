@@ -163,6 +163,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
     >
       <span
         class="container icon Icon--zendesk"
+        data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
         test-file-stub
@@ -248,6 +249,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
             >
               <span
                 class="container iconSendAnswerBotMobile Icon--sendChat"
+                data-testid="Icon--sendChat"
                 type="Icon--sendChat"
               >
                 test-file-stub
@@ -280,6 +282,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
     >
       <span
         class="container icon Icon--zendesk"
+        data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
         test-file-stub

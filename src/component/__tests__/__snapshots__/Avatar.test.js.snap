@@ -4,6 +4,7 @@ exports[`renders a button 1`] = `
 <div>
   <span
     class="container avatar  Icon--avatar"
+    data-testid="Icon--avatar"
     type="Icon--avatar"
   >
     test-file-stub

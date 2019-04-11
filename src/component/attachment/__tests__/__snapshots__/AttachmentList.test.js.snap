@@ -22,6 +22,7 @@ exports[`allows attaching file 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -42,6 +43,7 @@ exports[`allows attaching file 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -68,6 +70,7 @@ exports[`allows attaching file 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub
@@ -142,6 +145,7 @@ exports[`exceed file size 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub
@@ -187,6 +191,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -207,6 +212,7 @@ exports[`exceed maximum number of files 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -232,6 +238,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -252,6 +259,7 @@ exports[`exceed maximum number of files 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -277,6 +285,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -297,6 +306,7 @@ exports[`exceed maximum number of files 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -322,6 +332,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -342,6 +353,7 @@ exports[`exceed maximum number of files 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -367,6 +379,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -387,6 +400,7 @@ exports[`exceed maximum number of files 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -418,6 +432,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub
@@ -492,6 +507,7 @@ exports[`failed upload 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub
@@ -537,6 +553,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-pdf"
+              data-testid="Icon--preview-pdf"
               type="Icon--preview-pdf"
             >
               test-file-stub
@@ -557,6 +574,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -582,6 +600,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-zip"
+              data-testid="Icon--preview-zip"
               type="Icon--preview-zip"
             >
               test-file-stub
@@ -602,6 +621,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -627,6 +647,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-presentation"
+              data-testid="Icon--preview-presentation"
               type="Icon--preview-presentation"
             >
               test-file-stub
@@ -647,6 +668,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -672,6 +694,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-zip"
+              data-testid="Icon--preview-zip"
               type="Icon--preview-zip"
             >
               test-file-stub
@@ -692,6 +715,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -717,6 +741,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-document"
+              data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
               test-file-stub
@@ -737,6 +762,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -762,6 +788,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-document"
+              data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
               test-file-stub
@@ -782,6 +809,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -807,6 +835,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-presentation"
+              data-testid="Icon--preview-presentation"
               type="Icon--preview-presentation"
             >
               test-file-stub
@@ -827,6 +856,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -852,6 +882,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-presentation"
+              data-testid="Icon--preview-presentation"
               type="Icon--preview-presentation"
             >
               test-file-stub
@@ -872,6 +903,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -897,6 +929,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -917,6 +950,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -942,6 +976,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -962,6 +997,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -987,6 +1023,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -1007,6 +1044,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1032,6 +1070,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-document"
+              data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
               test-file-stub
@@ -1052,6 +1091,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1077,6 +1117,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-document"
+              data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
               test-file-stub
@@ -1097,6 +1138,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1122,6 +1164,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-document"
+              data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
               test-file-stub
@@ -1142,6 +1185,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1167,6 +1211,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-document"
+              data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
               test-file-stub
@@ -1187,6 +1232,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1212,6 +1258,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-image"
+              data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
               test-file-stub
@@ -1232,6 +1279,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1257,6 +1305,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-image"
+              data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
               test-file-stub
@@ -1277,6 +1326,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1302,6 +1352,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-image"
+              data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
               test-file-stub
@@ -1322,6 +1373,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1347,6 +1399,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-image"
+              data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
               test-file-stub
@@ -1367,6 +1420,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1392,6 +1446,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-default"
+              data-testid="Icon--preview-default"
               type="Icon--preview-default"
             >
               test-file-stub
@@ -1412,6 +1467,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1437,6 +1493,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-default"
+              data-testid="Icon--preview-default"
               type="Icon--preview-default"
             >
               test-file-stub
@@ -1457,6 +1514,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1482,6 +1540,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-default"
+              data-testid="Icon--preview-default"
               type="Icon--preview-default"
             >
               test-file-stub
@@ -1502,6 +1561,7 @@ exports[`picks the correct icon types 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1528,6 +1588,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub
@@ -1574,6 +1635,7 @@ exports[`remove attachment 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub
@@ -1620,6 +1682,7 @@ exports[`renders the component 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub
@@ -1666,6 +1729,7 @@ exports[`renders the component with mobile styles 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub
@@ -1711,6 +1775,7 @@ exports[`successful upload 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -1731,6 +1796,7 @@ exports[`successful upload 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1749,6 +1815,7 @@ exports[`successful upload 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub
@@ -1794,6 +1861,7 @@ exports[`uploading in progress upload 1`] = `
           >
             <span
               class="container iconPreview Icon--preview-spreadsheet"
+              data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
               test-file-stub
@@ -1814,6 +1882,7 @@ exports[`uploading in progress upload 1`] = `
             </div>
             <span
               class="container icon Icon--close"
+              data-testid="Icon--close"
               type="Icon--close"
             >
               test-file-stub
@@ -1840,6 +1909,7 @@ exports[`uploading in progress upload 1`] = `
           >
             <span
               class="container icon Icon--paperclip-small"
+              data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
               test-file-stub

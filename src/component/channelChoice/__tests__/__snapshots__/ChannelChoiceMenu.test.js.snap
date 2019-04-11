@@ -16,6 +16,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
       >
         <span
           class="container icon iconChat newIcon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -40,6 +41,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -71,6 +73,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
       >
         <span
           class="container icon iconChat newIcon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -95,6 +98,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -126,6 +130,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
       >
         <span
           class="container icon iconChat newIcon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -150,6 +155,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -181,6 +187,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -212,6 +219,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
       >
         <span
           class="container icon iconChat newIconDisabled Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -247,6 +255,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -278,6 +287,7 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -309,6 +319,7 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -340,6 +351,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -371,6 +383,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
       >
         <span
           class="container icon iconTalk newIconDisabled Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -406,6 +419,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -437,6 +451,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
       >
         <span
           class="container icon iconTalk newIcon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -461,6 +476,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -492,6 +508,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
       >
         <span
           class="container icon iconTalk newIcon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -516,6 +533,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -547,6 +565,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
       >
         <span
           class="container icon iconTalk newIcon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -571,6 +590,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
       >
         <span
           class="container icon iconChat newIcon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -595,6 +615,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -626,6 +647,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
       >
         <span
           class="container icon iconTalk newIcon Icon--channelChoice-talk flipX"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -650,6 +672,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
       >
         <span
           class="container icon iconChat newIcon Icon--channelChoice-chat flipX"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -674,6 +697,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm flipX"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -705,6 +729,7 @@ exports[`rendering renders ChannelChoiceMenu correctly with default props 1`] = 
       >
         <span
           class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub

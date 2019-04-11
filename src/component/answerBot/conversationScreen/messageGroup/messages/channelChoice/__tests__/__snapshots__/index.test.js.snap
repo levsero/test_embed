@@ -18,6 +18,7 @@ exports[`channels does not render chat if chat is available 1`] = `
       >
         <span
           class="container icon Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -51,6 +52,7 @@ exports[`channels renders expected leading message if only call us is available 
       >
         <span
           class="container icon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -84,6 +86,7 @@ exports[`channels renders expected leading message if only chat is available 1`]
       >
         <span
           class="container icon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -131,6 +134,7 @@ exports[`channels renders expected leading message if only submit ticket is avai
       >
         <span
           class="container icon Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -164,6 +168,7 @@ exports[`channels renders generic leading message if more than 1 channel is avai
       >
         <span
           class="container icon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -183,6 +188,7 @@ exports[`channels renders generic leading message if more than 1 channel is avai
       >
         <span
           class="container icon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -216,6 +222,7 @@ exports[`channels renders leading message if more than 1 channel is available an
       >
         <span
           class="container icon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -235,6 +242,7 @@ exports[`channels renders leading message if more than 1 channel is available an
       >
         <span
           class="container icon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -268,6 +276,7 @@ exports[`channels renders request callback leading message if request callback a
       >
         <span
           class="container icon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -301,6 +310,7 @@ exports[`channels renders the passed in leading message regardless of other prop
       >
         <span
           class="container icon Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -334,6 +344,7 @@ exports[`renders the expected classes 1`] = `
       >
         <span
           class="container icon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -353,6 +364,7 @@ exports[`renders the expected classes 1`] = `
       >
         <span
           class="container icon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -372,6 +384,7 @@ exports[`renders the expected classes 1`] = `
       >
         <span
           class="container icon Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub
@@ -405,6 +418,7 @@ exports[`renders the leading message 1`] = `
       >
         <span
           class="container icon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
           test-file-stub
@@ -424,6 +438,7 @@ exports[`renders the leading message 1`] = `
       >
         <span
           class="container icon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
           test-file-stub
@@ -443,6 +458,7 @@ exports[`renders the leading message 1`] = `
       >
         <span
           class="container icon Icon--channelChoice-contactForm"
+          data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
           test-file-stub

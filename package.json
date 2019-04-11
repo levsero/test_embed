@@ -20,6 +20,7 @@
     "build": "npm run build-setup:prod && npm run build:prod",
     "build-previewer": "npm run build-setup:prod && npm run build:previewer",
     "test": "TZ=utc jest",
+    "test:updateSnapshots": "TZ=utc jest --updateSnapshot",
     "test:watch": "npm run test -- --watch",
     "test:old": "node test/runner.js",
     "test:ci": "npm run test -- --runInBand --ci && NODE_ENV=test node test/runner.js",

@@ -267,6 +267,7 @@ exports[`chat log series of actions 1`] = `
           >
             <span
               class="container sentIndicator Icon--mini-tick"
+              data-testid="Icon--mini-tick"
               type="Icon--mini-tick"
             >
               test-file-stub
@@ -605,6 +606,7 @@ exports[`chat log visitor message success 1`] = `
           >
             <span
               class="container sentIndicator Icon--mini-tick"
+              data-testid="Icon--mini-tick"
               type="Icon--mini-tick"
             >
               test-file-stub
