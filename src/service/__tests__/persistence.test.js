@@ -1,9 +1,20 @@
 import { store } from '../persistence';
 import { win } from 'utility/globals';
+import { createStore } from 'redux';
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types';
+import reducer from 'src/redux/modules/reducer';
+
+const reduxStore = createStore(reducer);
 
 describe('localStorage', () => {
   beforeEach(() => {
+    store.init(reduxStore);
     store.clear();
+  });
+
+  test('get returns defaults when nothing is set', () => {
+    expect(store.get('suid'))
+      .toEqual({ id: null, tabs: [] });
   });
 
   test('can set then get', () => {
@@ -99,6 +110,14 @@ describe('sessionStorage', () => {
       .toEqual('1234');
 
     expect(store.get('world', 'session'))
+      .toBeNull();
+  });
+
+  test('cannot set when cookies setting is false', () => {
+    reduxStore.dispatch({ type: UPDATE_SETTINGS, payload: { webWidget: { cookies: false } } });
+    store.set('cookies', 'blah');
+
+    expect(store.get('cookies'))
       .toBeNull();
   });
 });

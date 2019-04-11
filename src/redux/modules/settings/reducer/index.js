@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import answerBot from './answerBot';
 import chat from './chat';
 import analytics from './analytics';
+import cookies from './cookies';
 import launcher from './launcher';
 import color from './color';
 import helpCenter from './help-center';
@@ -17,6 +18,7 @@ export default combineReducers({
   answerBot,
   chat,
   color,
+  cookies,
   contactForm,
   contactOptions,
   helpCenter,

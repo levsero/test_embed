@@ -1,7 +1,8 @@
 describe('formatter submitTicket helper', () => {
   let formatRequestData,
     mockStoreValue,
-    mockTagsValue;
+    mockTagsValue,
+    mockReferrerPolicy = false;
 
   const formatterPath = buildSrcPath('redux/modules/submitTicket/helpers/formatter');
 
@@ -28,7 +29,8 @@ describe('formatter submitTicket helper', () => {
         }
       },
       'utility/globals': {
-        location: global.window.location
+        location: global.window.location,
+        getReferrerPolicy: () => mockReferrerPolicy
       }
     });
 
@@ -161,10 +163,16 @@ describe('formatter submitTicket helper', () => {
       });
     });
 
-    describe('when stores referrerPolicy is true', () => {
-      it('adds submitted from to the description', () => {
-        mockStoreValue = true;
+    describe('when referrerPolicy is true', () => {
+      beforeAll(() => {
+        mockReferrerPolicy = true;
+      });
 
+      afterAll(() => {
+        mockReferrerPolicy = false;
+      });
+
+      it('adds submitted from to the description', () => {
         params = formatRequestData({}, mockValues);
 
         expect(params.request.comment.body)

@@ -41,7 +41,8 @@ import {
 } from 'src/redux/modules/chat';
 import {
   getSettingsHelpCenterSuppress,
-  getSettingsContactFormSuppress
+  getSettingsContactFormSuppress,
+  getCookiesDisabled
 } from 'src/redux/modules/settings/settings-selectors';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import {
@@ -146,7 +147,7 @@ export default function WebWidgetFactory(name) {
     const talkEnabled = getTalkEnabled(state);
     const submitTicketAvailable = !!config.ticketSubmissionForm && !getSettingsContactFormSuppress(state);
     const chatConfig = config.zopimChat;
-    const chatAvailable = !!chatConfig && !getChatConnectionSuppressed(state);
+    const chatAvailable = !!chatConfig && !getChatConnectionSuppressed(state) && !getCookiesDisabled(state);
     const submitTicketSettings = (submitTicketAvailable)
       ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
       : {};
@@ -380,12 +381,13 @@ export default function WebWidgetFactory(name) {
 
     const config = embed.config.helpCenterForm;
     const authSetting = settings.getSupportAuthSettings();
+    const cookiesDisabled = getCookiesDisabled(embed.store.getState());
 
     if (config.tokensRevokedAt) {
       embed.store.dispatch(expireToken(config.tokensRevokedAt));
     }
 
-    if (authSetting) {
+    if (authSetting && !cookiesDisabled) {
       embed.store.dispatch(authenticate(authSetting.jwt));
     }
   }

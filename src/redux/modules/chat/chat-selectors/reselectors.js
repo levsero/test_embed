@@ -31,10 +31,10 @@ import {
   getConnection,
   getLatestQuickReplyKey,
   getInactiveAgents,
-  getChatOnline,isAgent,
+  getChatOnline,
+  isAgent
 } from './selectors';
 import { isDefaultNickname } from 'utility/chat';
-import { getChatEmbed } from 'src/redux/modules/base/base-selectors';
 export const getPrechatFormRequired = createSelector(
   [getChatAccountSettingsPrechatForm],
   (accountSettingsPrechatForm) => {
@@ -256,12 +256,6 @@ export const getIsPopoutAvailable = (state) =>
 
 export const getChatConnected = (state) => getConnection(state) === CONNECTION_STATUSES.CONNECTED;
 export const getChatConnectionClosed = (state) => getConnection(state) === CONNECTION_STATUSES.CLOSED;
-export const getChatConnectionConnecting = (state) => {
-  const connection = getConnection(state);
-  const chatEnabled = getChatEmbed(state);
-
-  return chatEnabled && (connection === CONNECTION_STATUSES.CONNECTING || getConnection(state) === '');
-};
 // Chat connection will be closed when banned
 export const getChatBanned = (state) => getChatConnectionClosed(state) && getZChatVendor(state).isBanned();
 export const getConnectionClosedReason = (state) =>

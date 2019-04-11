@@ -39,8 +39,9 @@ Available settings:
 * [badge](#badge)
 * [chatButton](#chatbutton)
 * [chatLabel](#chatlabel)
-* [chatLabelOnline](#chatlabelonline)
 * [chatLabelOffline](#chatlabeloffline)
+* [chatLabelOnline](#chatlabelonline)
+* [cookies](#cookies)
 * [color](#color)
 * [concierge](#concierge)
 * [contactButton](#contactbutton)
@@ -392,6 +393,48 @@ window.zESettings = {
 * [chatLabelOffline](#chatlabeloffline)
 * [contactFormLabel](#contactformlabel)
 
+
+### cookies
+
+Controls permission for the widget to use cookies and browser local storage. Please note that the following features will be impacted while permission is denied:
+
+* Chat will be unavailable
+* Help Center authentication will be unavailable
+* Pathfinder data will not be collected
+
+#### Availability
+
+* [Core widget setting](./core)
+
+By default, cookie permission is enabled. The following example shows you how to disable it when the widget first loads:
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  cookies: false
+};
+</script>
+```
+
+You can toggle cookie permissions dynamically in response to a user action by calling the `updateSettings` API:
+
+```html
+<div id="cookie-permissions-banner">
+  Would you like to enable cookies for a better site experience?
+
+  <button id="allow-cookies">Yes please</button>
+</div>
+
+<script>
+var allowCookies = document.getElementById('allow-cookies');
+
+allowCookies.addEventListener('click', function() {
+  zE('webWidget', 'updateSettings', {
+    cookies: true
+  });
+});
+</script>
+```
 
 ### color
 

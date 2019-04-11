@@ -4,8 +4,10 @@ import {
   getSettingsContactFormSubject
 } from 'src/redux/modules/settings/settings-selectors';
 import { i18n } from 'service/i18n';
-import { store } from 'service/persistence';
-import { location } from 'utility/globals';
+import {
+  location,
+  getReferrerPolicy
+} from 'utility/globals';
 
 const findFieldId = (name, ticketFields) => {
   const field = _.find(ticketFields, (field) => {
@@ -27,10 +29,9 @@ const formatDescriptionField = (description) => {
     'embeddable_framework.submitTicket.form.submittedFrom.label',
     { url: location.href }
   );
-  const referrerPolicy = store.get('referrerPolicy', 'session');
   const descriptionUrlStr = `\n\n------------------\n${submittedFrom}`;
 
-  return referrerPolicy ? description : `${description}${descriptionUrlStr}`;
+  return getReferrerPolicy() ? description : `${description}${descriptionUrlStr}`;
 };
 
 const formatTicketFieldData = (formState, subjectFieldId, descriptionFieldId) => {

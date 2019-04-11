@@ -1198,6 +1198,15 @@ describe('setUpZopimApiMethods', () => {
       });
     });
   });
+
+  describe('cookieLaw', () => {
+    test('setDefaultImplicitConsent', () => {
+      mockWin.$zopim.livechat.cookieLaw.setDefaultImplicitConsent();
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, { 'cookies': false });
+    });
+  });
 });
 
 describe('instrumentation', () => {

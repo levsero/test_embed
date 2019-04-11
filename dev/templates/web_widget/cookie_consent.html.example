@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content='width=device-width initial-scale=1' name='viewport'>
+  <title>Web Widget Local - Cookie Consent</title>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+  <script nonce="<%= htmlWebpackPlugin.options.nonce %>" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+</head>
+<body>
+  <div id="content">
+    <h1>Web Widget Local - Cookie Consent</h1>
+  </div>
+<%= htmlWebpackPlugin.options.snippet %>
+<script nonce="<%= htmlWebpackPlugin.options.nonce %>">
+
+  window.cookieconsent.initialise({
+    "palette": {
+      "popup": {
+        "background": "#343c66",
+        "text": "#cfcfe8"
+      },
+      "button": {
+        "background": "#f71559"
+      }
+    },
+    "theme": "classic",
+    "position": "bottom-left",
+    "type": "opt-out",
+    "content": {
+      "deny": "Disable cookies"
+    },
+
+    onInitialise: function (status) {
+      var didConsent = this.hasConsented();
+      if (didConsent) {
+        window.zESettings = {
+          cookies: true
+        }
+        console.log("has previously consented to allowing cookies")
+
+      } else {
+        window.zESettings = {
+          cookies: false
+        }
+        console.log("has previously disabled cookies")
+      }
+    },
+
+    onStatusChange: function() {
+      var didConsent = this.hasConsented();
+      if (didConsent) {
+        zE('webWidget', 'updateSettings', { cookies: true });
+        console.log("cookies enabled");
+
+      } else {
+        zE('webWidget', 'updateSettings', { cookies: false });
+        console.log("cookies disabled");
+      }
+    }
+  });
+
+</script>
+</body>
+</html>

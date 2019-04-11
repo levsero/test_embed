@@ -1,10 +1,27 @@
 import _ from 'lodash';
+import {
+  getMetaTagsByName,
+  appendMetaTag
+} from 'utility/devices';
 
 const win = window.parent;
 const document = win.document;
 const navigator = win.navigator;
 const location = win.location;
-const referrer = document.referrer;
+let referrerPolicy = document.referrer;
+const getReferrerPolicy = () => referrerPolicy;
+
+const setReferrerMetas = (iframe, doc) => {
+  const metaElements = getMetaTagsByName(doc, 'referrer');
+  const referrerMetas = _.map(metaElements, (meta) => meta.content);
+  const iframeDoc = iframe.contentDocument;
+
+  _.forEach(referrerMetas, (content) => appendMetaTag(iframeDoc, 'referrer', content));
+
+  if (referrerMetas.length > 0) {
+    referrerPolicy = _.last(referrerMetas);
+  }
+};
 
 function getDocumentHost() {
   return document.body || document.documentElement;
@@ -40,4 +57,14 @@ const isPopout = () => win.zEPopout === true;
   }
 }());
 
-export { win, document, navigator, location, getDocumentHost, referrer, getZendeskHost, isPopout };
+export {
+  win,
+  document,
+  navigator,
+  location,
+  getDocumentHost,
+  getZendeskHost,
+  isPopout,
+  setReferrerMetas,
+  getReferrerPolicy
+};

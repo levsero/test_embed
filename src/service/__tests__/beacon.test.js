@@ -3,6 +3,8 @@ import { store } from 'service/persistence';
 import { http } from 'service/transport';
 import { mediator } from 'service/mediator';
 import { i18n } from 'service/i18n';
+import { createStore } from 'redux';
+import reducer from 'src/redux/modules/reducer';
 import * as pages from 'utility/pages';
 import * as globals from 'utility/globals';
 
@@ -19,6 +21,7 @@ beforeEach(() => {
   document.title = undefined;
   document.t = undefined;
   dateNowMock = jest.spyOn(Date, 'now');
+  store.init(createStore(reducer));
   store.clear('session');
   store.clear();
   beacon.setConfig({
@@ -257,7 +260,8 @@ describe('sendPageView', () => {
     });
 
     it('returns null when referrerPolicy specifies so', () => {
-      store.set('referrerPolicy', 'same-origin', 'session');
+      jest.spyOn(globals, 'getReferrerPolicy').mockReturnValue('same-origin');
+
       beacon.sendPageView();
 
       expect(http.sendWithMeta)
@@ -273,7 +277,8 @@ describe('sendPageView', () => {
     });
 
     it('returns referrer origin when referrerPolicy specifies so', () => {
-      store.set('referrerPolicy', 'strict-origin-when-cross-origin', 'session');
+      jest.spyOn(globals, 'getReferrerPolicy').mockReturnValue('strict-origin-when-cross-origin');
+
       beacon.sendPageView();
 
       expect(http.sendWithMeta)
@@ -291,6 +296,7 @@ describe('sendPageView', () => {
 
   describe('with different referrer', () => {
     beforeEach(() => {
+      jest.spyOn(globals, 'getReferrerPolicy').mockReturnValue('');
       Object.defineProperty(document, 'referrer', {
         value: 'http://www.example.com/path',
         configurable: true
@@ -408,10 +414,14 @@ describe('sendPageView', () => {
 describe('trackSettings', () => {
   const settings = { webWidget: { viaId: 48 } };
 
-  it('does not send anything when argument is empty', () => {
-    beacon.trackSettings({});
-    expect(http.sendWithMeta)
-      .not.toHaveBeenCalled();
+  describe('argument guards', () => {
+    [undefined, {}, { cookies: false }].forEach((arg) => {
+      test(`when passed ${JSON.stringify(arg)}, no blips sent`, () => {
+        beacon.trackSettings(arg);
+
+        expect(http.sendWithMeta).not.toHaveBeenCalled();
+      });
+    });
   });
 
   it('sends expected payload', () => {
