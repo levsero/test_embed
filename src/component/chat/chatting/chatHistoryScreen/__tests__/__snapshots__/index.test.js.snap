@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChatHistoryScreen when hideZendeskLogo is true has no logo and correct margin 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -128,5 +128,5 @@
+          </header>
+          <div
+-           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
++           class="content footerMargin headerMargin scrollContainerMessagesContentDesktop"
+          >
+            <div>
+@@ -151,28 +151,4 @@
+          />
+        </div>
+-       <a
+-         class="
+-       logo
+-       formSuccess
+-       
+-       zendeskLogo 
+-     "
+-         href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=undefined&iref=id-1012&lang="
+-         tabindex="-1"
+-         target="_blank"
+-       >
+-         <span
+-           class="container icon Icon--zendesk"
+-           data-testid="Icon--zendesk"
+-           type="Icon--zendesk"
+-         >
+-           test-file-stub
+-         </span>
+-         <span
+-           class="hidden"
+-         >
+-           zendesk
+-         </span>
+-       </a>
+      </div>
+    </div>,
+`;
+
+exports[`ChatHistoryScreen when mobile renders mobile classes 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -137,7 +137,6 @@
+      <div>
+        <div
+-         class="container flexContainer desktop containerDesktop"
++         class="container flexContainer mobile"
+          data-testid="scrollcontainer"
+-         style="height: 550px;"
+        >
+          <header
+@@ -145,5 +144,5 @@
+          >
+            <h1
+-             class="title"
++             class="title titleMobile"
+            >
+              this is the title
+@@ -151,9 +150,9 @@
+          </header>
+          <div
+-           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
++           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContent scrollContainerMobile contentMobile"
+          >
+            <div>
+              <div
+-               class="chatLogContainer"
++               class="chatLogContainer chatLogContainerMobile"
+              >
+                <div
+@@ -179,5 +178,5 @@
+        formSuccess
+        
+-       zendeskLogo 
++       zendeskLogo zendeskLogoChatMobile
+      "
+          href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=undefined&iref=id-1012&lang="
+`;
+
+exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
+<div>
+  <div>
+    <div
+      class="container flexContainer desktop containerDesktop"
+      data-testid="scrollcontainer"
+      style="height: 550px;"
+    >
+      <header
+        class="header userHeader"
+      >
+        <h1
+          class="title"
+        >
+          this is the title
+        </h1>
+      </header>
+      <div
+        class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
+      >
+        <div>
+          <div
+            class="chatLogContainer"
+          >
+            <div
+              class="historyFetchingContainer"
+            >
+              <div
+                class="historyFetchingText"
+                style="opacity: 0;"
+              >
+                Loading messages...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer
+        class="footer  "
+      />
+    </div>
+    <a
+      class="
+      logo
+      formSuccess
+      
+      zendeskLogo 
+    "
+      href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=undefined&iref=id-1012&lang="
+      tabindex="-1"
+      target="_blank"
+    >
+      <span
+        class="container icon Icon--zendesk"
+        data-testid="Icon--zendesk"
+        type="Icon--zendesk"
+      >
+        test-file-stub
+      </span>
+      <span
+        class="hidden"
+      >
+        zendesk
+      </span>
+    </a>
+  </div>
+</div>
+`;

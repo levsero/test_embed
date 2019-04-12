@@ -20,7 +20,7 @@ import {
 } from 'src/redux/modules/chat/chat-history-selectors';
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
 import {
-  getChatTitle,
+  getChatHistoryTitle,
 } from 'src/redux/modules/selectors';
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './styles/index.scss';
@@ -34,7 +34,7 @@ const mapStateToProps = (state) => {
     visitor: chatSelectors.getChatVisitor(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
-    title: getChatTitle(state),
+    title: getChatHistoryTitle(state),
   };
 };
 
@@ -42,7 +42,11 @@ class ChatHistoryScreen extends Component {
   static propTypes = {
     historyLength: PropTypes.number,
     hasMoreHistory: PropTypes.bool,
-    historyRequestStatus: PropTypes.string,
+    historyRequestStatus: PropTypes.oneOf([
+      HISTORY_REQUEST_STATUS.PENDING,
+      HISTORY_REQUEST_STATUS.DONE,
+      HISTORY_REQUEST_STATUS.FAIL,
+    ]),
     isMobile: PropTypes.bool,
     allAgents: PropTypes.object.isRequired,
     showAvatar: PropTypes.bool.isRequired,
@@ -50,7 +54,8 @@ class ChatHistoryScreen extends Component {
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
     firstMessageTimestamp: PropTypes.number,
-    fullscreen: PropTypes.bool
+    fullscreen: PropTypes.bool,
+    title: PropTypes.string,
   };
 
   static defaultProps = {
@@ -58,7 +63,6 @@ class ChatHistoryScreen extends Component {
     fullscreen: false,
     concierges: [],
     historyLength: 0,
-    chatLog: {},
     hasMoreHistory: false,
     historyRequestStatus: '',
     allAgents: {},
@@ -191,7 +195,8 @@ class ChatHistoryScreen extends Component {
     const {
       isMobile,
       fullscreen,
-      hideZendeskLogo
+      hideZendeskLogo,
+      title,
     } = this.props;
     const containerClasses = classNames({
       [styles.footerMarginWithLogo]: !hideZendeskLogo,
@@ -211,7 +216,7 @@ class ChatHistoryScreen extends Component {
       <div>
         <ScrollContainer
           ref={(el) => { this.scrollContainer = el; }}
-          title={'chat history'}
+          title={title}
           onContentScrolled={this.handleChatScreenScrolled}
           containerClasses={containerClasses}
           fullscreen={fullscreen}
@@ -238,3 +243,7 @@ const actionCreators = {
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatHistoryScreen);
+export {
+  ChatHistoryScreen as Component
+};
+

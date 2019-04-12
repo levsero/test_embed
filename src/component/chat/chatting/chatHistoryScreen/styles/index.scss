@@ -2,7 +2,6 @@
 @import '../../../../../styles/mixins.scss';
 @import '../../../../shared/QuickReplies/QuickReplies.scss';
 
-
 .historyFetchingContainer {
   composes: u-posAbsolute u-flex u-flexAlignItemsCenter u-flexJustifyCenter from global;
   top: #{110/$font-size}rem;
