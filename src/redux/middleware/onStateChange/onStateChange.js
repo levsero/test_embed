@@ -56,7 +56,7 @@ import {
 import { store } from 'service/persistence';
 import {
   getSettingsMobileNotificationsDisabled,
-  getCookiesDisabled
+  getCookiesDisabled,
 } from 'src/redux/modules/settings/settings-selectors';
 import { getAnswerBotAvailable } from 'src/redux/modules/selectors';
 import { isMobileBrowser } from 'utility/devices';
@@ -282,13 +282,21 @@ const onUpdateEmbeddableConfig = (action) => {
   }
 };
 
-const onCookiePermissionsChange = (action, nextState, dispatch) => {
-  if (action.type !== UPDATE_SETTINGS) return;
+const onCookiePermissionsChange = (action, prevState, nextState, dispatch) => {
+  const cookieValue = _.get(action.payload, 'webWidget.cookies');
+  const validCookieUpdate = cookieValue !== undefined
+    && cookieValue !== !getCookiesDisabled(prevState);
+    // the setting is true = enabled, the selector is true = disabled -_-
 
-  if (getCookiesDisabled(nextState)) {
-    store.clear();
-  } else if (getChatEmbed(nextState) && !getConnection(nextState)) {
-    dispatch(setUpChat());
+  if (action.type !== UPDATE_SETTINGS || !validCookieUpdate) return;
+
+  if (cookieValue === false) {
+    store.disable();
+  } else {
+    store.enable();
+    if (getChatEmbed(nextState) && !getConnection(nextState)) {
+      dispatch(setUpChat());
+    }
   }
 };
 
@@ -310,5 +318,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onChannelChoiceTransition(prevState, nextState, action, dispatch);
   onChatConnectionClosed(prevState, nextState, action, dispatch);
   onChatConnectOnDemandTrigger(prevState, action, dispatch);
-  onCookiePermissionsChange(action, nextState, dispatch);
+  onCookiePermissionsChange(action, prevState, nextState, dispatch);
 }

@@ -6,7 +6,6 @@ import createStore from 'src/redux/createStore';
 import { Provider } from 'react-redux';
 import { http } from 'service/transport';
 import { screenChanged } from 'src/redux/modules/answerBot/root/actions';
-import { store as persistenceStore } from 'service/persistence';
 
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot';
 
@@ -83,9 +82,7 @@ const interaction = jest.fn((options) => {
   /* eslint-enable camelcase */
 });
 
-const setupAnswerBotServerMocks = (store) => {
-  persistenceStore.init(store);
-
+const setupAnswerBotServerMocks = () => {
   http.send = (options) => {
     switch (options.path) {
       case '/api/v2/answer_bot/interaction?include=html_body':
@@ -113,7 +110,7 @@ test('integration', () => {
   </Provider>);
   const textArea = utils.getByPlaceholderText('Type your question here...');
 
-  setupAnswerBotServerMocks(store);
+  setupAnswerBotServerMocks();
 
   // Greeting isn't available immediately
   expect(utils.queryByText('Hello.'))

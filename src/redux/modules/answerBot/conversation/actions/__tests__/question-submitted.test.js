@@ -1,7 +1,5 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { createStore } from 'redux';
-import reducer from 'src/redux/modules/reducer';
 import * as actions from '../question-submitted';
 import { http } from 'service/transport';
 import { settings } from 'service/settings';
@@ -15,7 +13,6 @@ jest.mock('service/identity');
 const mockStore = configureMockStore([thunk]);
 
 settings.init();
-store.init(createStore(reducer));
 store.set('zE_oauth', {
   token: 'abc123'
 });

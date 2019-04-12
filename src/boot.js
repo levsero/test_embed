@@ -46,7 +46,6 @@ const setupIframe = (iframe, doc) => {
 };
 
 const setupServices = (reduxStore) => {
-  persistenceStore.init(reduxStore);
   settings.init(reduxStore);
   identity.init();
 

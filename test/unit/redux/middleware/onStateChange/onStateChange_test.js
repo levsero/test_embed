@@ -34,7 +34,8 @@ describe('onStateChange middleware', () => {
   const chatWindowOpenOnNavigateSpy = jasmine.createSpy('chatWindowOpenOnNavigateSpy');
   const activateRecievedSpy = jasmine.createSpy('activateRecieved');
   const resetShouldWarnSpy = jasmine.createSpy('resetShouldWarn');
-  const storeClearSpy = jasmine.createSpy('clear');
+  const storeEnableSpy = jasmine.createSpy('enableStore');
+  const storeDisableSpy = jasmine.createSpy('disableStore');
   const setUpChatSpy = jasmine.createSpy('setUpChat');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
@@ -175,7 +176,8 @@ describe('onStateChange middleware', () => {
       'service/persistence': {
         store: {
           get: () => mockStoreValue,
-          clear: storeClearSpy
+          enable: storeEnableSpy,
+          disable: storeDisableSpy
         }
       },
       'src/redux/modules/chat/chat-screen-types': {
@@ -1376,71 +1378,93 @@ describe('onStateChange middleware', () => {
 
   describe('onCookiePermissionsChange', () => {
     afterEach(() => {
-      storeClearSpy.calls.reset();
+      storeEnableSpy.calls.reset();
+      storeDisableSpy.calls.reset();
       setUpChatSpy.calls.reset();
     });
 
     describe('when the action is UPDATE_SETTINGS', () => {
-      const mockAction = { type: 'UPDATE_SETTINGS' };
+      let mockAction = { type: 'UPDATE_SETTINGS' },
+        prevState;
 
-      describe('when cookie permission is denied', () => {
+      describe('when the previous cookie value was true', () => {
         beforeEach(() => {
-          mockCookiesDisabled = true;
-
-          stateChangeFn(null, null, mockAction);
+          prevState = true;
+          mockCookiesDisabled = false;
         });
 
-        it('clears the localStorage', () => {
-          expect(storeClearSpy).toHaveBeenCalled();
+        describe('when cookie permission is denied', () => {
+          beforeEach(() => {
+            mockAction = {
+              type: 'UPDATE_SETTINGS',
+              payload: { webWidget: { cookies: false } }
+            };
+
+            stateChangeFn(prevState, null, mockAction);
+          });
+
+          it('disables and clears the localStorage', () => {
+            expect(storeDisableSpy).toHaveBeenCalled();
+          });
         });
       });
 
-      describe('when cookie permission is given', () => {
+      describe('when the previous cookie value was false', () => {
         beforeEach(() => {
-          mockCookiesDisabled = false;
-
-          stateChangeFn(null, null, mockAction);
+          prevState = false;
+          mockCookiesDisabled = true;
         });
 
-        it('it does not clear the localStorage', () => {
-          expect(storeClearSpy).not.toHaveBeenCalled();
-        });
-
-        describe('when chat is enabled and not connected', () => {
+        describe('when cookie permission is given', () => {
           beforeEach(() => {
-            mockChatEnabled = true;
-            setUpChatSpy.calls.reset();
+            mockAction = {
+              type: 'UPDATE_SETTINGS',
+              payload: { webWidget: { cookies: true } }
+            };
 
-            stateChangeFn(null, false, mockAction);
+            stateChangeFn(prevState, null, mockAction);
           });
 
-          it('calls setUpChat', () => {
-            expect(setUpChatSpy).toHaveBeenCalled();
-          });
-        });
-
-        describe('when chat is already connected', () => {
-          beforeEach(() => {
-            setUpChatSpy.calls.reset();
-
-            stateChangeFn(null, true, mockAction);
+          it('it enables localStorage', () => {
+            expect(storeEnableSpy).toHaveBeenCalled();
           });
 
-          it('does not call setUpChat', () => {
-            expect(setUpChatSpy).not.toHaveBeenCalled();
+          describe('when chat is enabled and not connected', () => {
+            beforeEach(() => {
+              mockChatEnabled = true;
+              setUpChatSpy.calls.reset();
+
+              stateChangeFn(prevState, false, mockAction);
+            });
+
+            it('calls setUpChat', () => {
+              expect(setUpChatSpy).toHaveBeenCalled();
+            });
           });
-        });
 
-        describe('when chat is not enabled', () => {
-          beforeEach(() => {
-            mockChatEnabled = false;
-            setUpChatSpy.calls.reset();
+          describe('when chat is already connected', () => {
+            beforeEach(() => {
+              setUpChatSpy.calls.reset();
 
-            stateChangeFn(null, false, mockAction);
+              stateChangeFn(prevState, true, mockAction);
+            });
+
+            it('does not call setUpChat', () => {
+              expect(setUpChatSpy).not.toHaveBeenCalled();
+            });
           });
 
-          it('does not call setUpChat', () => {
-            expect(setUpChatSpy).not.toHaveBeenCalled();
+          describe('when chat is not enabled', () => {
+            beforeEach(() => {
+              mockChatEnabled = false;
+              setUpChatSpy.calls.reset();
+
+              stateChangeFn(prevState, false, mockAction);
+            });
+
+            it('does not call setUpChat', () => {
+              expect(setUpChatSpy).not.toHaveBeenCalled();
+            });
           });
         });
       });
@@ -1456,7 +1480,8 @@ describe('onStateChange middleware', () => {
       });
 
       it('does nothing', () => {
-        expect(storeClearSpy).not.toHaveBeenCalled();
+        expect(storeDisableSpy).not.toHaveBeenCalled();
+        expect(storeEnableSpy).not.toHaveBeenCalled();
       });
     });
   });
