@@ -28,8 +28,7 @@ export function setupZopimQueue(win) {
 }
 
 export function handleZopimQueue(win) {
-  if (!_.get(win.$zopim, '_setByWW', false))
-    return;
+  if (_.get(win.$zopim, '_setByWW') === false || _.get(win.$zopim, 'flushed') === true) return;
 
   _.forEach(_.get(win.$zopim, '_', []), (method) => {
     try {
