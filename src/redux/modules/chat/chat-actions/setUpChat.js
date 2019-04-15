@@ -14,7 +14,6 @@ import {
 import {
   SDK_ACTION_TYPE_PREFIX,
   JWT_ERROR,
-  MAXIMUM_RECONNECTION_ATTEMPTS
 } from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
 import zopimApi from 'service/api/zopimApi';
@@ -51,23 +50,24 @@ export function setUpChat() {
       brandName = brand;
     }
 
-    const onSuccess = (zChat, slider, previousCallCount = 0) => {
+    const onChatImported = (zChat, slider) => {
       dispatch(handleChatVendorLoaded({ zChat, slider: slider.default }));
 
-      zChat.on('error', (e) => {
-        if (_.get(e, 'extra.reason') === JWT_ERROR) {
-          _.unset(config, 'authentication');
-          dispatch({
-            type: AUTHENTICATION_FAILED
-          });
-
-          if (previousCallCount < MAXIMUM_RECONNECTION_ATTEMPTS) {
-            onSuccess(zChat, slider, ++previousCallCount);
-          }
-        }
-      });
-
       if (config.authentication) {
+        const onAuthFailure = (e) => {
+          if (_.get(e, 'extra.reason') === JWT_ERROR) {
+            _.unset(config, 'authentication');
+            dispatch({
+              type: AUTHENTICATION_FAILED
+            });
+
+            zChat.init(makeChatConfig(config));
+            if (brandName) zChat.addTag(brandName);
+          }
+        };
+
+        zChat.on('error', onAuthFailure);
+
         dispatch({
           type: AUTHENTICATION_STARTED
         });
@@ -109,7 +109,7 @@ export function setUpChat() {
     };
 
     Promise.all([import('chat-web-sdk'), import('react-slick')])
-      .then((arr)=> onSuccess(...arr))
+      .then((arr)=> onChatImported(...arr))
       .catch(onFailure);
   };
 }
