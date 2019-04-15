@@ -68,6 +68,13 @@ export const getChatTitle = createSelector(
   )
 );
 
+export const getHistoryTitle = createSelector(
+  [getSettingsChatTitle, getLocale],
+  (settingsChatTitle, __) => (
+    i18n.getSettingTranslation(settingsChatTitle)
+  )
+);
+
 export const getLauncherBadgeSettings = createSelector(
   [getSettingsLauncherBadge, getAccountSettingsLauncherBadge, getLocale],
   (settingsBadge, accountSettingsBadge, _locale) => {

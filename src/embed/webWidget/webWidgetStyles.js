@@ -35,6 +35,7 @@ import ChatOfflineMessageFormStyles from 'component/chat/ChatOfflineMessageForm.
 import ChatMessagingChannelsStyles from 'component/chat/ChatMessagingChannels.scss';
 import ChatOnlineStyles from 'component/chat/ChatOnline.scss';
 import ChattingScreenStyles from 'component/chat/chatting/ChattingScreen.scss';
+import ChattHistoryScreenStyles from 'component/chat/chatting/chatHistoryScreen/styles/index.scss';
 import AgentScreenStyles from 'component/chat/agents/AgentScreen.scss';
 import RatingScreenStyles from 'component/chat/rating/RatingScreen.scss';
 import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss';
@@ -82,6 +83,7 @@ export const webWidgetStyles = `
   ${ChannelChoicePopupMobileStyles}
   ${ChatBoxStyles}
   ${ChatPopupStyles}
+  ${ChattHistoryScreenStyles}
   ${ChatNotificationPopupStyles}
   ${ChatContactDetailsPopupStyles}
   ${ChatEmailTranscriptPopupStyles}
