@@ -7,6 +7,9 @@ Object {
     "label": null,
     "layout": null,
   },
+  "mobile": Object {
+    "labelVisible": false,
+  },
   "settings": Object {
     "chatLabel": null,
     "label": null,
