@@ -4,17 +4,6 @@ import { testReducer } from 'src/util/testHelpers';
 
 let chatIsChatting = require('../chat-is-chatting').default;
 
-const agentPayload = {
-  detail: {
-    nick: 'agent:xxx'
-  }
-};
-const visitorPayload = {
-  detail: {
-    nick: 'visitor:xxx'
-  }
-};
-
 describe('chatDefaultDepartment initialState', () => {
   it('sets the state to false when there is nothing in local storage', () => {
     expect(chatIsChatting(undefined, { type: '' })).toEqual(false);
@@ -43,39 +32,10 @@ testReducer(chatIsChatting, [
   },
   {
     action: {
-      type: actions.SDK_CHAT_MEMBER_JOIN,
-      payload: visitorPayload
+      type: actions.CHAT_MSG_REQUEST_SUCCESS
     },
     initialState: false,
-    expected: true,
-    extraDesc: 'when the payload is from a visitor'
-  },
-  {
-    action: {
-      type: actions.SDK_CHAT_MEMBER_JOIN,
-      payload: agentPayload
-    },
-    initialState: false,
-    expected: false,
-    extraDesc: 'when the payload is from an agent'
-  },
-  {
-    action: {
-      type: actions.SDK_CHAT_MEMBER_LEAVE,
-      payload: visitorPayload
-    },
-    initialState: true,
-    expected: false,
-    extraDesc: 'when the payload is from a visitor'
-  },
-  {
-    action: {
-      type: actions.SDK_CHAT_MEMBER_LEAVE,
-      payload: agentPayload
-    },
-    initialState: true,
-    expected: true,
-    extraDesc: 'when the payload is from an agent'
+    expected: true
   },
   {
     action: {
@@ -84,4 +44,21 @@ testReducer(chatIsChatting, [
     initialState: true,
     expected: false
   },
+  {
+    action: {
+      type: actions.CHAT_BANNED
+    },
+    initialState: true,
+    expected: false
+  },
+  {
+    action: {
+      type: actions.UPDATE_PREVIEWER_SCREEN,
+      payload: {
+        status: false
+      }
+    },
+    initialState: true,
+    expected: false
+  }
 ]);
