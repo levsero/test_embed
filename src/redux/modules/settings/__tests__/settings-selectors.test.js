@@ -537,3 +537,17 @@ test('getAnswerBotSearchLabels', () => {
   expect(result)
     .toEqual(['here', 'blah']);
 });
+
+test('getSettingsLauncherMobile', () => {
+  const result = selectors.getSettingsLauncherMobile(
+    settings({
+      launcher: {
+        mobile: {
+          labelVisible: true
+        }
+      }
+    })
+  );
+
+  expect(result).toEqual({ labelVisible: true });
+});
