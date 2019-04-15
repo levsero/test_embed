@@ -11,7 +11,8 @@ import {
   sendOfflineMessage,
   handleOfflineFormBack,
   handleOperatingHoursClick,
-  initiateSocialLogout
+  initiateSocialLogout,
+  openedChatHistory
 } from 'src/redux/modules/chat';
 import {
   getChatOfflineForm,
@@ -22,14 +23,21 @@ import {
   getAuthUrls,
   getChatVisitor,
   getIsAuthenticated,
-  getReadOnlyState
+  getReadOnlyState,
 } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getChatHistoryLabel
+} from 'src/redux/modules/selectors';
 import {
   getChatTitle,
   getOfflineFormSettings,
   getOfflineFormFields
 } from 'src/redux/modules/selectors';
 import { getWidgetShown } from 'src/redux/modules/base/base-selectors';
+import {
+  getHasChatHistory
+} from 'src/redux/modules/chat/chat-history-selectors';
+import ChatHistoryLink from './ChatHistoryLink';
 
 import { locals as styles } from './ChatOffline.scss';
 
@@ -41,13 +49,15 @@ const mapStateToProps = (state) => {
     formSettings: getOfflineFormSettings(state),
     loginSettings: getLoginSettings(state),
     offlineMessage: getOfflineMessage(state),
+    hasChatHistory: getHasChatHistory(state),
     operatingHours: getGroupedOperatingHours(state),
     socialLogin: getSocialLogin(state),
     authUrls: getAuthUrls(state),
     visitor: getChatVisitor(state),
     isAuthenticated: getIsAuthenticated(state),
     widgetShown: getWidgetShown(state),
-    title: getChatTitle(state)
+    title: getChatTitle(state),
+    chatHistoryLabel: getChatHistoryLabel(state),
   };
 };
 
@@ -76,7 +86,10 @@ class ChatOffline extends Component {
     isAuthenticated: PropTypes.bool.isRequired,
     widgetShown: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
-    fullscreen: PropTypes.bool.isRequired
+    fullscreen: PropTypes.bool.isRequired,
+    hasChatHistory: PropTypes.bool.isRequired,
+    openedChatHistory: PropTypes.func.isRequired,
+    chatHistoryLabel: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -118,7 +131,10 @@ class ChatOffline extends Component {
         isMobile={this.props.isMobile}
         chatId={this.props.chatId}
         fullscreen={this.props.fullscreen}
-        hideZendeskLogo={this.props.hideZendeskLogo} />
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        hasChatHistory={this.props.hasChatHistory}
+        openedChatHistory={this.props.openedChatHistory}
+        chatHistoryLabel={this.props.chatHistoryLabel} />
     );
   }
 
@@ -131,6 +147,11 @@ class ChatOffline extends Component {
         fullscreen={this.props.fullscreen}
         title={this.props.title}>
         <div className={styles.innerContent}>
+          <ChatHistoryLink
+            isAuthenticated={this.props.isAuthenticated}
+            hasChatHistory={this.props.hasChatHistory}
+            openedChatHistory={this.props.openedChatHistory}
+            label={this.props.chatHistoryLabel} / >
           <p className={styles.greeting}>
             {i18n.t('embeddable_framework.chat.offline.label.noForm')}
           </p>
@@ -146,9 +167,9 @@ class ChatOffline extends Component {
   }
 
   render() {
-    return (this.props.formSettings.enabled)
-      ? this.renderOfflineForm()
-      : this.renderChatOfflineScreen();
+    return (this.props.formSettings.enabled) ?
+      this.renderOfflineForm():
+      this.renderChatOfflineScreen();
   }
 }
 
@@ -158,7 +179,8 @@ const actionCreators = {
   handleOfflineFormBack,
   handleOperatingHoursClick,
   getGroupedOperatingHours,
-  initiateSocialLogout
+  initiateSocialLogout,
+  openedChatHistory
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatOffline);

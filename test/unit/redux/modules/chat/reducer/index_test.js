@@ -35,7 +35,8 @@ describe('chat root reducer', () => {
     'isAuthenticated',
     'vendor',
     'isLoggingOut',
-    'forcedStatus'
+    'forcedStatus',
+    'showChatHistory',
   ];
 
   beforeAll(() => {
@@ -60,7 +61,8 @@ describe('chat root reducer', () => {
       },
       'src/util/nullZChat': noop,
       'src/redux/modules/chat/chat-action-types': noop,
-      'src/redux/modules/base/base-action-types': noop
+      'src/redux/modules/base/base-action-types': noop,
+      'src/component/chat/chatting/chatHistoryScreen': {}
     });
 
     reducer = requireUncached(reducerPath).default;

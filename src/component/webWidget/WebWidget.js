@@ -24,7 +24,8 @@ import {
   chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
-  showStandaloneMobileNotification
+  showStandaloneMobileNotification,
+  closedChatHistory
 } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
 import {
@@ -50,7 +51,10 @@ import {
   getChatStandalone,
   getWebWidgetVisible
 } from 'src/redux/modules/base/base-selectors';
-import { getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getStandaloneMobileNotificationVisible,
+  getShowChatHistory
+} from 'src/redux/modules/chat/chat-selectors';
 import { getChatNotification } from 'src/redux/modules/selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import {
@@ -95,7 +99,8 @@ const mapStateToProps = (state) => {
     hideZendeskLogo: getHideZendeskLogo(state),
     originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
     webWidgetVisible: getWebWidgetVisible(state),
-    answerBotAvailable: getAnswerBotAvailable(state)
+    answerBotAvailable: getAnswerBotAvailable(state),
+    showChatHistory: getShowChatHistory(state),
   };
 };
 
@@ -179,7 +184,9 @@ class WebWidget extends Component {
     isMobile: PropTypes.bool.isRequired,
     webWidgetVisible: PropTypes.bool.isRequired,
     answerBotAvailable: PropTypes.bool.isRequired,
-    updateAnswerBotScreen: PropTypes.func.isRequired
+    updateAnswerBotScreen: PropTypes.func.isRequired,
+    closedChatHistory: PropTypes.func.isRequired,
+    showChatHistory: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -358,17 +365,24 @@ class WebWidget extends Component {
       answerBotAvailable,
       updateAnswerBotScreen,
       showTicketFormsBackButton,
-      channelChoiceAvailable
+      channelChoiceAvailable,
+      showChatHistory,
+      closedChatHistory
     } = this.props;
     const activeComponent = this.getActiveComponent();
+    const isShowingChatHistory = (activeEmbed === chat && showChatHistory);
 
     if (activeEmbed === answerBot) {
       updateBackButtonVisibility(false);
       updateAnswerBotScreen(CONVERSATION_SCREEN);
+    } else if (isShowingChatHistory) {
+      closedChatHistory();
     } else if (activeEmbed === helpCenter) {
       updateBackButtonVisibility(false);
       resetActiveArticle();
-      if (ipmHelpCenterAvailable) updateActiveEmbed(channelChoice);
+      if (ipmHelpCenterAvailable) {
+        updateActiveEmbed(channelChoice);
+      }
     } else if (showTicketFormsBackButton) {
       activeComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
@@ -381,7 +395,9 @@ class WebWidget extends Component {
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
     } else {
-      if (ipmHelpCenterAvailable) resetActiveArticle();
+      if (ipmHelpCenterAvailable) {
+        resetActiveArticle();
+      }
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
     }
@@ -671,7 +687,8 @@ const actionCreators = {
   nextButtonClicked,
   cancelButtonClicked,
   proactiveChatNotificationDismissed,
-  updateAnswerBotScreen
+  updateAnswerBotScreen,
+  closedChatHistory
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

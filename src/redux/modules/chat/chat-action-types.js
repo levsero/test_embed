@@ -75,6 +75,8 @@ export const UPDATE_CHAT_CONTACT_DETAILS_INFO = 'widget/chat/UPDATE_CHAT_CONTACT
 export const CHAT_CONTACT_DETAILS_UPDATE_SUCCESS = 'widget/chat/CHAT_CONTACT_DETAILS_UPDATE_SUCCESS';
 export const CHAT_BADGE_MESSAGE_CHANGED = 'widget/chat/CHAT_BADGE_MESSAGE_CHANGED';
 export const CHAT_BANNED = 'widget/chat/CHAT_BANNED';
+export const OPENED_CHAT_HISTORY = 'widget/chat/OPENED_CHAT_HISTORY';
+export const CLOSED_CHAT_HISTORY = 'widget/chat/CLOSED_CHAT_HISTORY';
 
 export const SDK_ERROR = `${SDK_ACTION_TYPE_PREFIX}/error`;
 export const SDK_CHAT_MSG = `${SDK_ACTION_TYPE_PREFIX}/chat.msg`;

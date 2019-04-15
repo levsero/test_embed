@@ -450,6 +450,16 @@ describe('isInChattingScreen', () => {
   });
 });
 
+describe('getChatHistoryLabel', () => {
+  let result;
+
+  it('returns the expected string', () => {
+    result = selectors.getChatHistoryLabel(getModifiedState());
+
+    expect(result).toEqual('View past chats');
+  });
+});
+
 describe('getIsPopoutButtonVisible', () => {
   let result;
 

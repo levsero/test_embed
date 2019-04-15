@@ -84,6 +84,7 @@
       "embeddable_framework.launcher.chat.title": "Opens a widget where you can chat to one of our agents",
       "embeddable_framework.launcher.talk.title": "Opens a widget where you can talk to one of our agents",
       "embeddable_framework.chat.title": "Chat with us",
+      "embeddable_framework.chat.historyLink.label": "View past chats",
       "embeddable_framework.chat.notification": "1 new",
       "embeddable_framework.chat.notification_multiple": "%(count)s new",
       "embeddable_framework.chat.header.title": "Welcome",

@@ -85,6 +85,14 @@ describe('PrechatForm component', () => {
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
         renderLabel: renderLabelSpy
+      },
+      './ChatHistoryLink.scss': {
+        locals: {
+
+        }
+      },
+      'component/Icon': {
+        Icon: noop
       }
     });
 

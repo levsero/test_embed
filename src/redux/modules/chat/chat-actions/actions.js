@@ -150,6 +150,18 @@ export function resetCurrentMessage() {
   };
 }
 
+export function openedChatHistory() {
+  return {
+    type: actions.OPENED_CHAT_HISTORY
+  };
+}
+
+export function closedChatHistory() {
+  return {
+    type: actions.CLOSED_CHAT_HISTORY
+  };
+}
+
 const stopTypingIndicator = _.debounce((zChat) => zChat.sendTyping(false), chatTypingTimeout);
 
 export function handleChatBoxChange(msg) {

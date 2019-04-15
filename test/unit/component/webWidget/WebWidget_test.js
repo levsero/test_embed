@@ -953,6 +953,43 @@ describe('WebWidget component', () => {
       });
     });
 
+    describe('when the activeEmbed is Chat', () => {
+      let closedChatHistorySpy,
+        mockGetShowChatHistory;
+
+      describe('and in ChatHistoryScreen', () => {
+        beforeAll(() => {
+          mockGetShowChatHistory = true;
+          closedChatHistorySpy = jasmine.createSpy('closedChatHistory');
+          componentProps = {
+            activeEmbed: 'chat',
+            closedChatHistory: closedChatHistorySpy,
+            showChatHistory: mockGetShowChatHistory
+          };
+        });
+
+        it('calls closedChatHistory', () => {
+          expect(closedChatHistorySpy).toHaveBeenCalled();
+        });
+      });
+
+      describe('when not in chatHistoryScreen', () => {
+        beforeEach(() =>{
+          mockGetShowChatHistory = false;
+          closedChatHistorySpy = jasmine.createSpy('closedChatHistory');
+          componentProps = {
+            activeEmbed: 'chat',
+            closedChatHistory: closedChatHistorySpy,
+            showChatHistory: mockGetShowChatHistory
+          };
+        });
+
+        it('does not call closedChatHistory', () =>{
+          expect(closedChatHistorySpy).not.toHaveBeenCalled();
+        });
+      });
+    });
+
     describe('when answer bot is available but not the active component', () => {
       beforeAll(() => {
         componentProps = {
