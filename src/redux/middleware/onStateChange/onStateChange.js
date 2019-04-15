@@ -259,11 +259,11 @@ const onVisitorUpdate = ({ type, payload }, dispatch) => {
 };
 
 const onChatStarted = (prevState, nextState, dispatch) => {
-  const previouslyNotChatting = !getIsChattingState(prevState);
+  const previouslyChatting = getIsChattingState(prevState);
   const currentlyChatting = getIsChattingState(nextState);
   const answerBot = getAnswerBotAvailable(nextState);
 
-  if (previouslyNotChatting && currentlyChatting) {
+  if (!previouslyChatting && currentlyChatting) {
     dispatch({ type: CHAT_STARTED });
 
     if (answerBot) {
