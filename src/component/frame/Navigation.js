@@ -56,7 +56,7 @@ export class Navigation extends Component {
     chatPopoutSettings: PropTypes.shape({
       webWidget: PropTypes.shape({
         chat:  PropTypes.shape({
-          title: PropTypes.string,
+          title: PropTypes.object,
           departments: PropTypes.shape({
             enabled: PropTypes.array
           }),
