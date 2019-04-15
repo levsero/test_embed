@@ -1,10 +1,14 @@
 import { isRateLimited } from './helpers';
+import { beacon } from 'service/beacon';
 
-export default (apiCall, payload, name, errorCallback) => {
+export default (apiCall, payload, name, _errorCallback) => {
   const timestamp = Date.now();
 
   if (isRateLimited(name, timestamp)) {
-    return errorCallback();
+    beacon.trackUserAction('api', 'rateLimited', {
+      label: name
+    });
+    // return errorCallback();
   }
 
   return apiCall(payload);
