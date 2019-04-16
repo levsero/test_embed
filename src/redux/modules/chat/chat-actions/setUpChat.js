@@ -77,14 +77,14 @@ export function setUpChat() {
       zChat.setOnFirstReady({
         fetchHistory: () => {
           if (_.get(config, 'authentication.jwtFn')) {
-            if (brandName) zChat.addTag(brandName);
+            if (brandName) zChat.addTags([brandName]);
             dispatch(fetchConversationHistory());
           }
         }
       });
 
       if (brandName && !_.get(config, 'authentication.jwtFn')) {
-        zChat.addTag(brandName);
+        zChat.addTags([brandName]);
       }
 
       zChat.getFirehose().on('data', (data) => {

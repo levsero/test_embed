@@ -266,6 +266,41 @@ describe('embed.chat', () => {
         .toHaveBeenCalled();
     });
 
+    describe('brands', () => {
+      beforeEach(() => {
+        mockZopim = mockRegistry['utility/globals'].win.$zopim;
+      });
+
+      describe('when more than one brand exists', () => {
+        const config = {
+          brand: 'ACME',
+          brandCount: 2
+        };
+
+        beforeEach(() => {
+          chat.create('chatName', config, mockStore);
+          chat.render('chatName');
+        });
+
+        it('adds the brand name as a chat tag', () => {
+          expect(mockZopim.livechat.addTags)
+            .toHaveBeenCalledWith(['ACME']);
+        });
+      });
+
+      describe('when no more than one brand exists', () => {
+        beforeEach(() => {
+          chat.create('chatName', {}, mockStore);
+          chat.render('chatName');
+        });
+
+        it('does not add the brand name as a chat tag', () => {
+          expect(mockZopim.livechat.addTags)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
     describe('zopim.endpoint', () => {
       describe('when the config does not exist', () => {
         const chatName = 'bob';
