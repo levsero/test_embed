@@ -150,8 +150,8 @@ describe('setupChat', () => {
         dispatchAction({ base: { embeddableConfig: { brandCount: 2, brand: 'brand 1' } } });
 
         await wait(() => {
-          expect(zChat.addTag)
-            .toHaveBeenCalledWith('brand 1');
+          expect(zChat.addTags)
+            .toHaveBeenCalledWith(['brand 1']);
         });
       });
     });
@@ -165,7 +165,7 @@ describe('setupChat', () => {
         dispatchAction({ base: { embeddableConfig: { brandCount: 2, brand: 'brand 1' } } });
 
         await wait(() => {
-          expect(zChat.addTag)
+          expect(zChat.addTags)
             .not.toHaveBeenCalled();
         });
       });
