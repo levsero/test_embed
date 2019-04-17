@@ -791,6 +791,11 @@ parts:
       title: "The title displayed for the messaging channels in Chat offline form. When end-user click on either the Messenger or Twitter icon, a new tab will open to the respective Facebook page/Twitter direct message where they can get support."
       screenshot: "https://drive.google.com/open?id=1hA51T2BFOi8Tvw1ULwLlNaiZQpXJMRBP"
       value: "Contact us here"
+  - translation:
+      key: "embeddable_framework.chat.historyLink.label"
+      title: "The label that is displayed to direct the user to the chat history screen. Opens the Chat History screen when clicked."
+      screenshot: "https://drive.google.com/open?id=1DWwYl7gwZQXs6CjsbLLpirUzUZrfeC76"
+      value: "View past chats"
 
   # Submit Ticket component
   - translation:
