@@ -17,6 +17,8 @@ import {
 } from 'src/component/field';
 import { SlideAppear } from 'component/transition/SlideAppear';
 
+const TICKET_FIELD_TRANSITION_DURATION = 150;
+
 const getDefaultFieldValues = (elementType, existingValue) => {
   switch (elementType) {
     case 'text':
@@ -40,7 +42,7 @@ const setupConditionCheck = (customFields, formState) => {
     if (!field) return false;
 
     if (field.type === 'checkbox') {
-      // classic wants 0 and 1 so we use those as the values but conditions give us true and false - OH LOOK A COMMENT
+      // classic wants 0 and 1 so we use those as the values but conditions give us true and false
       return value === !!formState[fieldId];
     }
 
@@ -127,7 +129,7 @@ const getFields = (customFields, formState, options) => {
     // While the ticket_forms/show_many.json endpoint will always have them present even for invalid ones. This means
     // we must check if either are undefined or if both are true.
     const shouldShow = (_.isUndefined(editable) || _.isUndefined(visible)) || (editable && visible),
-      duration = 150;
+      duration = TICKET_FIELD_TRANSITION_DURATION;
 
     sharedProps.showError = showError;
 

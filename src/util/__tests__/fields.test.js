@@ -312,7 +312,7 @@ describe('customFields', () => {
     });
 
     it('converts custom field payload into array of React components', () => {
-      _.forEach(customFields.allFields, (customField) => {
+      customFields.allFields.forEach((customField) => {
         expect(React.isValidElement(customField))
           .toBeTruthy();
       });
@@ -335,7 +335,7 @@ describe('customFields', () => {
     });
 
     it('renders the correct components for each key', () => {
-      _.forEach(customFields.allFields, (customField) => {
+      customFields.allFields.forEach((customField) => {
         const { container } = render(customField);
 
         expect(container)
@@ -345,7 +345,7 @@ describe('customFields', () => {
 
     describe('When editable prop is undefined', () => {
       beforeEach(() => {
-        _.forEach(payload, (field) => {
+        payload.forEach((field) => {
           field.editable_in_portal = false;
           field.visible_in_portal = false;
         });
