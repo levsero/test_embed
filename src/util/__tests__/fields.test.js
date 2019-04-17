@@ -287,28 +287,32 @@ describe('customFields', () => {
 
   beforeEach(() => {
     payload = [
-      textFieldPayload,
-      nestedDropdownFieldPayload,
-      dropdownFieldPayload,
-      textareaFieldPayload,
-      integerFieldPayload,
-      decimalFieldPayload,
-      checkboxFieldPayload,
-      descriptionFieldPayload,
-      subjectFieldPayload
+      { ...textFieldPayload },
+      { ...nestedDropdownFieldPayload },
+      { ...dropdownFieldPayload },
+      { ...textareaFieldPayload },
+      { ...integerFieldPayload },
+      { ...decimalFieldPayload },
+      { ...checkboxFieldPayload },
+      { ...descriptionFieldPayload },
+      { ...subjectFieldPayload }
     ];
   });
 
   describe('getCustomFields', () => {
-    beforeEach(() => {
+    const setupTest = () => {
       customFields = getCustomFields(payload, {}, {
         onChange: noop,
         showErrors: false,
       });
+    };
+
+    beforeEach(() => {
+      setupTest();
     });
 
     it('converts custom field payload into array of React components', () => {
-      _.forEach(customFields.allFields, (customField) => {
+      customFields.allFields.forEach((customField) => {
         expect(React.isValidElement(customField))
           .toBeTruthy();
       });
@@ -331,11 +335,34 @@ describe('customFields', () => {
     });
 
     it('renders the correct components for each key', () => {
-      _.forEach(customFields.allFields, (customField) => {
+      customFields.allFields.forEach((customField) => {
         const { container } = render(customField);
 
         expect(container)
           .toMatchSnapshot();
+      });
+    });
+
+    describe('When editable prop is undefined', () => {
+      beforeEach(() => {
+        payload.forEach((field) => {
+          field.editable_in_portal = false;
+          field.visible_in_portal = false;
+        });
+
+        payload[1].editable_in_portal = undefined;
+        payload[3].visible_in_portal = undefined;
+
+        setupTest();
+
+        customFields.visibleFields =
+          _.remove(customFields.allFields, (field) => {
+            return field.props.trigger === true;
+          });
+      });
+
+      it('return the not-conditional components', () => {
+        expect(customFields.visibleFields.length).toEqual(2);
       });
     });
   });
