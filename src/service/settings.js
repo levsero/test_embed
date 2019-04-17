@@ -63,6 +63,7 @@ const optionAllowList = {
     'launcher.badge.layout',
     'launcher.badge.image',
     'launcher.badge.label',
+    'launcher.mobile.labelVisible',
     'offset.horizontal',
     'offset.vertical',
     'offset.mobile.horizontal',

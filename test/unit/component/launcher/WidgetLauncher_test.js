@@ -54,7 +54,7 @@ describe('WidgetLauncher component', () => {
         getNotification: noop
       },
       'src/redux/modules/settings/settings-selectors': {
-        getSettingsChatSuppress: noop
+        getSettingsLauncherMobile: noop
       },
       'src/redux/modules/base/': {
         launcherClicked: noop
