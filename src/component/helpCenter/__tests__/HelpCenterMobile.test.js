@@ -17,7 +17,8 @@ const renderComponent = (props) => {
     chatOfflineAvailable: false,
     contextualHelpEnabled: false,
     searchPlaceholder: '',
-    title: ''
+    title: '',
+    contextualHelpRequestNeeded: false
   };
 
   const mergedProps = { ...defaultProps, ...props };
