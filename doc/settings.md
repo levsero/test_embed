@@ -1144,7 +1144,7 @@ sets values related to the Agent Profile Card during a chat session.
 * [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 * Currently only available to be updated during a chat session via the [`updateSettings API`](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings).
 
-profileCard contains three booleans that can be modified:
+`profileCard` contains three booleans that can be modified:
 
 ##### avatar
 Dictates whether to show the agent's avatar.
