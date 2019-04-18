@@ -90,10 +90,11 @@ export const removeTagsApi = (store) => (...tagsToRemove) => {
   updateSettings(store, 'webWidget.chat.tags', newTags);
 };
 
-export const addTagsApi = (store) => (...tags) => {
+export const addTagsApi = (store) => (...args) => {
   const oldTags = getSettingsChatTags(store.getState());
+  const tags = _.flattenDeep(args);
   const tagsToAdd = _.flatten(tags.map((tag) => (
-    tag.split(',').map(subTags => subTags.trim())
+    tag.split(',').map(subTag => subTag.trim())
   )));
 
   updateSettings(store, 'webWidget.chat.tags', [...oldTags, ...tagsToAdd]);
