@@ -51,7 +51,7 @@ Available settings:
 * [filter](#filter)
 * [hideWhenOffline](#hidewhenoffline)
 * [label](#label)
-* [labelVisible](#labelVisible)
+* [labelVisible](#labelvisible)
 * [messageButton](#messagebutton)
 * [navigation](#navigation)
 * [nickname](#nickname)
@@ -326,7 +326,7 @@ window.zESettings = {
 #### Related settings
 
 * [label](#label)
-* [labelVisible](#labelVisible)
+* [labelVisible](#labelvisible)
 
 
 ### chatLabelOffline
@@ -838,7 +838,7 @@ window.zESettings = {
 #### Related settings
 
 * [chatLabel](#chatlabel)
-* [labelVisible](#labelVisible)
+* [labelVisible](#labelvisible)
 
 ### labelVisible
 
