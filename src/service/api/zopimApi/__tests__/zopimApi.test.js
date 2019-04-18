@@ -946,8 +946,10 @@ describe('setUpZopimApiMethods', () => {
     describe('addTagsApi', () => {
       [
         ['zopim2', 'zopim3', 'another'],
+        ['zopim2', 'zopim3', '', 'another'],
         ['zopim2, zopim3', 'another'],
         ['zopim2, zopim3, another'],
+        ['zopim2, ', 'zopim3', 'another'],
         [['zopim2', 'zopim3', 'another']],
         [[['zopim2'], 'zopim3', 'another']],
         [[['zopim2', 'zopim3'], 'another']],
