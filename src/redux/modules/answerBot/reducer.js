@@ -6,8 +6,10 @@ import sessions from './sessions/reducer/sessions';
 import currentMessage from './root/reducer/current-message';
 import currentSessionID from './root/reducer/current-session-id';
 import currentArticle from './root/reducer/current-article';
+import currentContextualArticle from './root/reducer/current-contextual-article';
 import currentScreen from './root/reducer/current-screen';
 import greeted from './root/reducer/greeted';
+import contextualSearchShown from './root/reducer/contextual-search-shown';
 import initialFallbackSuggested from './root/reducer/initial-fallback-suggested';
 import inputDisabled from './root/reducer/input-disabled';
 
@@ -21,5 +23,7 @@ export default combineReducers({
   currentScreen,
   greeted,
   initialFallbackSuggested,
-  inputDisabled
+  inputDisabled,
+  contextualSearchShown,
+  currentContextualArticle
 });

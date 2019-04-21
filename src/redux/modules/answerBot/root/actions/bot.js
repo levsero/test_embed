@@ -7,7 +7,8 @@ import {
   BOT_CHANNEL_CHOICE,
   BOT_FEEDBACK,
   BOT_FEEDBACK_REQUESTED,
-  BOT_TYPING
+  BOT_TYPING,
+  BOT_CONTEXTUAL_SEARCH_RESULTS
 } from '../action-types';
 
 import {
@@ -114,6 +115,15 @@ export const botFeedbackMessage = (message, callback) => {
 export const botTyping = () => {
   return {
     type: BOT_TYPING,
+    payload: {
+      timestamp: Date.now()
+    }
+  };
+};
+
+export const botContextualSearchResults = () => {
+  return {
+    type: BOT_CONTEXTUAL_SEARCH_RESULTS,
     payload: {
       timestamp: Date.now()
     }

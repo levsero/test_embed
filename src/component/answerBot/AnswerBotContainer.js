@@ -11,6 +11,7 @@ import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors';
 import * as botActions from 'src/redux/modules/answerBot/root/actions/bot';
 import * as channelSelectors from 'src/redux/modules/selectors';
 import { getBrand } from 'src/redux/modules/base/base-selectors';
+import { getResultsCount } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getAnswerBotDelayChannelChoice } from 'src/redux/modules/settings/settings-selectors';
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot';
 import { i18n } from 'service/i18n';
@@ -38,6 +39,9 @@ class AnswerBotContainer extends Component {
     isFeedbackRequired: PropTypes.bool.isRequired, // eslint-disable-line
     sessions: PropTypes.any.isRequired, // eslint-disable-line
     delayInitialFallback: PropTypes.bool.isRequired, // eslint-disable-line
+    contextualSearchShown: PropTypes.bool, // eslint-disable-line
+    contextualSearchStatus: PropTypes.string, // eslint-disable-line
+    contextualSearchResultsCount: PropTypes.number, // eslint-disable-line
     actions: PropTypes.shape({
       sessionStarted: PropTypes.func.isRequired,
       sessionFallback: PropTypes.func.isRequired,
@@ -48,7 +52,9 @@ class AnswerBotContainer extends Component {
       inputDisabled: PropTypes.func.isRequired,
       botFeedback: PropTypes.func.isRequired,
       botFeedbackRequested: PropTypes.func.isRequired,
-      botFeedbackMessage: PropTypes.func.isRequired
+      botFeedbackMessage: PropTypes.func.isRequired,
+      botTyping: PropTypes.func.isRequired,
+      botContextualSearchResults: PropTypes.func.isRequired
     })
   };
 
@@ -58,6 +64,9 @@ class AnswerBotContainer extends Component {
     restoreConversationScroll: () => {},
     saveConversationScroll: () => {},
     channelAvailable: true,
+    contextualSearchShown: false,
+    contextualSearchStatus: null,
+    contextualSearchResultsCount: 0
   };
 
   constructor(props) {
@@ -217,6 +226,7 @@ class AnswerBotContainer extends Component {
     this
       .runNext(() => this.checkInitialSession(args))
       .runNext(() => this.checkGreetings(args))
+      .runNext(() => this.checkContextualSearch(args))
       .runNext(() => this.checkInitialFallbackSuggested(args))
       .runNext(() => this.checkQuestionValueChanged(args));
 
@@ -235,12 +245,44 @@ class AnswerBotContainer extends Component {
     if (!props.greeted) {
       props.actions.botGreeted();
       props.actions.botMessage(this.greetingMessage());
+      if (props.contextualSearchStatus !== null) {
+        return true;
+      }
       props.actions.botMessage(
         i18n.t('embeddable_framework.answerBot.msg.prompt'),
         () => props.actions.inputDisabled(false)
       );
 
       return false;
+    }
+
+    return true;
+  }
+
+  checkContextualSearch = ({ props }) => {
+    if (props.contextualSearchShown) return true;
+    if (props.initialFallbackSuggested) return true;
+
+    switch (props.contextualSearchStatus) {
+      case 'PENDING':
+        props.actions.botTyping();
+        return false;
+      case 'COMPLETED':
+        props.actions.botMessage(
+          (props.contextualSearchResultsCount > 1)
+            ? i18n.t('embeddable_framework.answerBot.contextualResults.intro.many_articles')
+            : i18n.t('embeddable_framework.answerBot.contextualResults.intro.one_article')
+        );
+        props.actions.botContextualSearchResults();
+        break;
+      case 'NO_RESULTS':
+        if (!props.initialFallbackSuggested) {
+          props.actions.botMessage(
+            i18n.t('embeddable_framework.answerBot.msg.prompt'),
+            () => props.actions.inputDisabled(false)
+          );
+        }
+        break;
     }
 
     return true;
@@ -340,6 +382,9 @@ const mapStateToProps = (state) => ({
   sessions: sessionSelectors.getSessions(state),
   brand: getBrand(state),
   delayInitialFallback: getAnswerBotDelayChannelChoice(state),
+  contextualSearchShown: rootSelectors.getContextualSearchShown(state),
+  contextualSearchStatus: rootSelectors.getContextualSearchStatus(state),
+  contextualSearchResultsCount: getResultsCount(state)
 });
 
 const actionCreators = (dispatch) => ({
@@ -353,7 +398,9 @@ const actionCreators = (dispatch) => ({
     botFeedbackRequested: botActions.botFeedbackRequested,
     botFeedbackMessage: botActions.botFeedbackMessage,
     botInitialFallback: botActions.botInitialFallback,
-    inputDisabled: rootActions.inputDisabled
+    inputDisabled: rootActions.inputDisabled,
+    botTyping: botActions.botTyping,
+    botContextualSearchResults: botActions.botContextualSearchResults
   }, dispatch)
 });
 

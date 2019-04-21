@@ -15,10 +15,24 @@ export const getMessages = createSelector(
   state => state.messages
 );
 
+export const getLastMessage = createSelector(
+  getMessages,
+  (messages) => {
+    const size = messages.size;
+
+    return size  === 0 ? null : Array.from(messages)[size-1][1];
+  }
+);
+
+export const getLastMessageType = createSelector(
+  getLastMessage,
+  (message) => _.get(message, 'type', '')
+);
+
 // Group consecutive messages by isVisitor.
 // Only store the message keys
 export const getMessageGroupKeys = createSelector(
-  [getMessages],
+  getMessages,
   (groupMessages) => {
     let groups = {};
     let currentGroup = { messageKeys: [], isVisitor: undefined };

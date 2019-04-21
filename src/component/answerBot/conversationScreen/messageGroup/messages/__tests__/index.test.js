@@ -7,6 +7,8 @@ import { Provider } from 'react-redux';
 
 import Messages from '../index';
 
+import * as selectors from 'src/redux/modules/helpCenter/helpCenter-selectors';
+
 const resultsMessage = {
   type: 'results',
   articles: [{
@@ -18,6 +20,10 @@ const resultsMessage = {
   }],
   author: 'AUTHOR_BOT',
   sessionID: 1234
+};
+
+const contextualSearchResultsMessage = {
+  type: 'contextualSearchResults'
 };
 
 const textMessage = {
@@ -50,8 +56,13 @@ const botTyping = {
 };
 
 test('renders expected classes and components with default props for non-visitor messages', () => {
-  const messages = [resultsMessage, textMessage, channelChoiceMessage,
+  const messages = [contextualSearchResultsMessage, resultsMessage, textMessage, channelChoiceMessage,
     primaryFeedbackMessage, secondaryFeedbackMessage, botTyping];
+
+  jest.spyOn(selectors, 'getArticles').mockReturnValue([{
+    title: 'contextual search results',
+    body: 'body of contextual search results'
+  }]);
 
   const store = createStore();
   const { container } = render(<Provider store={store}>

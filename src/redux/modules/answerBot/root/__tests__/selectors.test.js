@@ -23,13 +23,15 @@ describe('getCurrentArticle', () => {
   const article2 = { id: 2, body: '456' };
 
   it.each([
-    [1, 2, new Map([ [1, { articles: [article1] }] ]), undefined],
-    [1, 1, new Map([ [1, { articles: [] }] ]), undefined],
-    [1, 1, new Map([ [1, { articles: [article2] }] ]), undefined],
-    [1, 1, new Map([ [1, { articles: [article1] }] ]), article1],
-  ])('fn(%i, %i, %p)',
-    (articleID, sessionID, sessions, expected) => {
+    [null, 1, 2, new Map([ [1, { articles: [article1] }] ]), undefined],
+    [null, 1, 1, new Map([ [1, { articles: [] }] ]), undefined],
+    [null, 1, 1, new Map([ [1, { articles: [article2] }] ]), undefined],
+    [null, 1, 1, new Map([ [1, { articles: [article1] }] ]), article1],
+    [article1, 1, 1, new Map([ [1, { articles: [article2] }] ]), article1],
+  ])('fn(%p, %i, %i, %p)',
+    (contextualArticle, articleID, sessionID, sessions, expected) => {
       const result = selectors.getCurrentArticle.resultFunc(
+        contextualArticle,
         articleID,
         sessionID,
         sessions
@@ -69,13 +71,15 @@ describe('getCurrentArticleSessionID', () => {
 
 describe('isFeedbackRequired', () => {
   it.each([
-    [{ markedAsIrrelevant: true }, 1, 1, false, false],
-    [{ markedAsIrrelevant: false }, 1, 2, false, false],
-    [{ markedAsIrrelevant: false }, 1, 1, true, false],
-    [{ markedAsIrrelevant: false }, 1, 1, false, true]
-  ])('fn(%p, %i, %i, %s)',
-    (article, sessionID, currentSessionID, currentSessionResolved, expected) => {
+    [true, { markedAsIrrelevant: false }, 1, 1, false, false],
+    [null, { markedAsIrrelevant: true }, 1, 1, false, false],
+    [null, { markedAsIrrelevant: false }, 1, 2, false, false],
+    [null, { markedAsIrrelevant: false }, 1, 1, true, false],
+    [null, { markedAsIrrelevant: false }, 1, 1, false, true]
+  ])('fn(%p, %p, %i, %i, %s)',
+    (contextual, article, sessionID, currentSessionID, currentSessionResolved, expected) => {
       const result = selectors.isFeedbackRequired.resultFunc(
+        contextual,
         article,
         sessionID,
         currentSessionID,
@@ -277,4 +281,48 @@ describe('isCurrentSessionResolved', () => {
         .toEqual(false);
     });
   });
+});
+
+test('getGreeted returns the greeted state', () => {
+  const result = selectors.getGreeted(getMockState({ greeted: true }));
+
+  expect(result)
+    .toEqual(true);
+});
+
+test('getInitialFallbackSuggested returns the initialFallbackSuggested state', () => {
+  const result = selectors.getInitialFallbackSuggested(getMockState({ initialFallbackSuggested: true }));
+
+  expect(result)
+    .toEqual(true);
+});
+
+test('getContextualSearchShown returns the contextualSearchShown state', () => {
+  const result = selectors.getContextualSearchShown(getMockState({ contextualSearchShown: true }));
+
+  expect(result)
+    .toEqual(true);
+});
+
+describe('getContextualSearchStatus', () => {
+  it.each([
+    [false, false, null, null, null],
+    [true, true, 'text', 0, 'PENDING'],
+    [false, true, 'text', 0, null],
+    [true, true, 'botTyping', 0, null],
+    [true, false, 'botTyping', 3, 'COMPLETED'],
+    [true, false, 'botTyping', 0, 'NO_RESULTS']
+  ])('fn(%p, %p, %s, %i)',
+    (hasContextuallySearched, searchLoading, lastMessageType, resultsCount, expected) => {
+      const result = selectors.getContextualSearchStatus.resultFunc(
+        hasContextuallySearched,
+        searchLoading,
+        lastMessageType,
+        resultsCount
+      );
+
+      expect(result)
+        .toEqual(expected);
+    },
+  );
 });

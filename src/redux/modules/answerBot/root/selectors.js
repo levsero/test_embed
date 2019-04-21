@@ -2,6 +2,13 @@ import _ from 'lodash';
 
 import { createSelector } from 'reselect';
 import { getSessions } from '../sessions/selectors';
+import {
+  getHasContextuallySearched,
+  getSearchLoading,
+  getResultsCount,
+  getArticles
+} from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { getLastMessageType } from 'src/redux/modules/answerBot/conversation/selectors';
 
 const getState = state => state.answerBot;
 
@@ -56,8 +63,13 @@ export const isCurrentSessionResolved = createSelector(
 );
 
 export const getCurrentArticleID = createSelector(
-  [getState],
+  getState,
   state => _.get(state, 'currentArticle.articleID', null)
+);
+
+const getCurrentContextualArticleID = createSelector(
+  getState,
+  state => _.get(state, 'currentContextualArticle.articleID', null)
 );
 
 export const getCurrentArticleSessionID = createSelector(
@@ -65,9 +77,19 @@ export const getCurrentArticleSessionID = createSelector(
   state => state.currentArticle ? state.currentArticle.sessionID : null
 );
 
+const getCurrentContextualArticle = createSelector(
+  [getCurrentContextualArticleID, getArticles],
+  (articleID, articles) => (
+    articleID
+      ? _.find(articles, { id: articleID })
+      : null
+  )
+);
+
 export const getCurrentArticle = createSelector(
-  [getCurrentArticleID, getCurrentArticleSessionID, getSessions],
-  (articleID, sessionID, sessions) => {
+  [getCurrentContextualArticle, getCurrentArticleID, getCurrentArticleSessionID, getSessions],
+  (contextualArticle, articleID, sessionID, sessions) => {
+    if (contextualArticle) return contextualArticle;
     const session = sessions && sessions.get(sessionID);
     const articles = (session && session.articles) || [];
 
@@ -76,9 +98,16 @@ export const getCurrentArticle = createSelector(
 );
 
 export const isFeedbackRequired = createSelector(
-  [getCurrentArticle, getCurrentArticleSessionID, getCurrentSessionID, isCurrentSessionResolved],
-  (article, sessionID, currentSessionID, currentSessionResolved) => {
-    return sessionID === currentSessionID
+  [
+    getCurrentContextualArticleID,
+    getCurrentArticle,
+    getCurrentArticleSessionID,
+    getCurrentSessionID,
+    isCurrentSessionResolved
+  ],
+  (contextual, article, sessionID, currentSessionID, currentSessionResolved) => {
+    return !contextual
+      && sessionID === currentSessionID
       && !currentSessionResolved
       && !(article && article.markedAsIrrelevant);
   }
@@ -107,4 +136,20 @@ export const getGreeted = createSelector(
 export const getInitialFallbackSuggested = createSelector(
   [getState],
   state => !!state.initialFallbackSuggested
+);
+
+export const getContextualSearchShown = createSelector(
+  getState,
+  state => !!state.contextualSearchShown
+);
+
+export const getContextualSearchStatus = createSelector(
+  [getHasContextuallySearched, getSearchLoading, getLastMessageType, getResultsCount],
+  (hasContextuallySearched, searchLoading, lastMessageType, resultsCount) => {
+    if (!hasContextuallySearched) return null;
+    if (searchLoading && lastMessageType !== 'botTyping') return 'PENDING';
+    if (!searchLoading && resultsCount > 0) return 'COMPLETED';
+    if (!searchLoading && resultsCount === 0) return 'NO_RESULTS';
+    return null;
+  }
 );

@@ -5,8 +5,10 @@ export const BOT_CHANNEL_CHOICE = 'widget/answerBot/BOT_CHANNEL_CHOICE';
 export const BOT_FEEDBACK = 'widget/answerBot/BOT_FEEDBACK';
 export const BOT_FEEDBACK_REQUESTED = 'widget/answerBot/BOT_FEEDBACK_REQUESTED';
 export const BOT_TYPING = 'widget/answerBot/BOT_TYPING';
+export const BOT_CONTEXTUAL_SEARCH_RESULTS = 'widget/answerBot/BOT_CONTEXTUAL_SEARCH_RESULTS';
 
 export const SCREEN_CHANGED = 'widget/answerBot/SCREEN_CHANGED';
 export const ARTICLE_SHOWN = 'widget/answerBot/ARTICLE_SHOWN';
+export const CONTEXTUAL_ARTICLE_SHOWN = 'widget/answerBot/CONTEXTUAL_ARTICLE_SHOWN';
 
 export const INPUT_DISABLED = 'widget/answerBot/INPUT_DISABLED';
