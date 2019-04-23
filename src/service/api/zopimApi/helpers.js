@@ -94,9 +94,20 @@ export const removeTagsApi = (store) => (...tagsToRemove) => {
 export const addTagsApi = (store) => (...args) => {
   const oldTags = getSettingsChatTags(store.getState());
   const tags = _.flattenDeep(args);
-  const tagsToAdd = _.flatten(tags.map((tag) => (
-    tag.split(',').map(subTag => subTag.trim())
-  )));
+
+  const tagsToAdd = tags.reduce((newTags, tag) => {
+    if (_.isEmpty(tag)) return newTags;
+
+    tag.split(',').forEach((subTag) => {
+      const newTag = subTag.trim();
+
+      if (!_.isEmpty(newTag)) {
+        newTags.push(newTag);
+      }
+    });
+
+    return newTags;
+  }, []);
 
   updateSettings(store, 'webWidget.chat.tags', [...oldTags, ...tagsToAdd]);
 };
