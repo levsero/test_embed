@@ -82,10 +82,12 @@ zE('webWidget', 'prefill', {
 | button.setPosition*              | `zESettings.webWidget.position` |
 | button.setPositionMobile*        | `zESettings.webWidget.position` |
 | button.setColor                  | `zESettings.webWidget.color.launcher` |
+| button.setOffsetBottom           | `zESettings.webWidget.offset.vertical` |
 | window.setColor                  | `zESettings.webWidget.color.theme` |
 | window.setTitle                  | `zESettings.webWidget.chat.title` |
 | window.setOffsetVertical         | `zESettings.webWidget.offset.vertical` |
 | window.setOffsetHorizontal       | `zESettings.webWidget.offset.horizontal` |
+| window.setOffsetBottom           | `zESettings.webWidget.offset.vertical` |
 | window.setPosition*              | `zESettings.webWidget.position` |
 | prechatForm.setGreetings         | `zESettings.webWidget.chat.prechatForm.greeting` |
 | offlineForm.setGreetings         | `zESettings.webWidget.chat.offlineForm.greeting` |
