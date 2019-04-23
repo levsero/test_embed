@@ -50,6 +50,7 @@ export function setUpZopimApiMethods(win, store) {
 
   if (_.isUndefined(win.$zopim.livechat)) {
     const onApis = onApiObj();
+    const { setOffsetVertical, setOffsetHorizontal } = setOffsetApi(store);
 
     win.$zopim.livechat = {
       cookieLaw: {
@@ -76,9 +77,11 @@ export function setUpZopimApiMethods(win, store) {
         setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
         openPopout: () => popoutApi(store),
         setPosition: setPositionApi(store),
+        setOffsetHorizontal,
+        setOffsetVertical,
+        setOffsetBottom: setOffsetVertical,
         setBg: noop,
         getSettings: noop,
-        ...setOffsetApi(store)
       },
       badge: {
         hide: () => hideBadgeApi(store),
@@ -107,8 +110,10 @@ export function setUpZopimApiMethods(win, store) {
         setPosition: setPositionApi(store),
         setPositionMobile: setPositionApi(store),
         setColor: (color) => updateSettings(store, 'webWidget.color.launcher', color),
-        ...setOffsetApi(store),
+        setOffsetVertical,
+        setOffsetHorizontal,
         ...setOffsetMobileApi(store),
+        setOffsetBottom: setOffsetVertical,
         useFavicon: noop,
         setTheme: noop,
         setImage: noop

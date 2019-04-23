@@ -207,6 +207,21 @@ describe('setUpZopimApiMethods', () => {
         });
     });
 
+    test('setOffsetBottom', () => {
+      const vertical = 10;
+
+      mockWin.$zopim.livechat.button.setOffsetBottom(vertical);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              vertical: 10
+            }
+          }
+        });
+    });
+
     test('setOffsetHorizontal', () => {
       const horizontal = 10;
 
@@ -587,6 +602,21 @@ describe('setUpZopimApiMethods', () => {
       const vertical = 10;
 
       mockWin.$zopim.livechat.button.setOffsetVertical(vertical);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              vertical: 10
+            }
+          }
+        });
+    });
+
+    test('setOffsetBottom', () => {
+      const vertical = 10;
+
+      mockWin.$zopim.livechat.button.setOffsetBottom(vertical);
 
       expect(apis.updateSettingsApi)
         .toHaveBeenCalledWith(mockStore, {
