@@ -75,10 +75,10 @@ export function setUpZopimApiMethods(win, store) {
         setTitle: (title) => updateSettings(store, 'webWidget.chat.title.*', title),
         setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
         openPopout: () => popoutApi(store),
-        setPosition: setPositionApi,
+        setPosition: setPositionApi(store),
         setBg: noop,
         getSettings: noop,
-        ...setOffsetApi
+        ...setOffsetApi(store)
       },
       badge: {
         hide: () => hideBadgeApi(store),
@@ -104,11 +104,11 @@ export function setUpZopimApiMethods(win, store) {
           closeApi(store);
         },
         setHideWhenOffline: (bool) => updateSettings(store, 'webWidget.chat.hideWhenOffline', bool),
-        setPosition: setPositionApi,
-        setPositionMobile: setPositionApi,
+        setPosition: setPositionApi(store),
+        setPositionMobile: setPositionApi(store),
         setColor: (color) => updateSettings(store, 'webWidget.color.launcher', color),
-        ...setOffsetApi,
-        ...setOffsetMobileApi,
+        ...setOffsetApi(store),
+        ...setOffsetMobileApi(store),
         useFavicon: noop,
         setTheme: noop,
         setImage: noop

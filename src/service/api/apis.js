@@ -47,7 +47,6 @@ import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selec
 import { chat as zopimChat } from 'embed/chat/chat';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
-import { settings } from 'service/settings';
 import { beacon } from 'service/beacon';
 import { createChatPopoutWindow } from 'src/util/chat';
 import { nameValid, emailValid } from 'utility/utils';
@@ -121,10 +120,6 @@ export const setLocaleApi = (locale) => {
 
 export const updateSettingsApi = (reduxStore, newSettings) => {
   reduxStore.dispatch(updateSettings(newSettings));
-};
-
-export const updateSettingsLegacyApi = (newSettings, callback=()=>{}) => {
-  settings.updateSettingsLegacy(newSettings, callback);
 };
 
 export const logoutApi = (reduxStore) => {
