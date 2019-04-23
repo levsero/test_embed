@@ -57,6 +57,10 @@ export function setUpZopimApiMethods(win, store) {
         showPrivacyPanel: noop,
         setDefaultImplicitConsent: () => updateSettings(store, 'cookies', false)
       },
+      unreadflag: {
+        enable: noop,
+        disable: noop
+      },
       window: {
         toggle: () => toggleApi(store),
         hide: () => hideApi(store),
@@ -72,6 +76,8 @@ export function setUpZopimApiMethods(win, store) {
         setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
         openPopout: () => popoutApi(store),
         setPosition: setPositionApi,
+        setBg: noop,
+        getSettings: noop,
         ...setOffsetApi
       },
       badge: {
@@ -102,7 +108,10 @@ export function setUpZopimApiMethods(win, store) {
         setPositionMobile: setPositionApi,
         setColor: (color) => updateSettings(store, 'webWidget.color.launcher', color),
         ...setOffsetApi,
-        ...setOffsetMobileApi
+        ...setOffsetMobileApi,
+        useFavicon: noop,
+        setTheme: noop,
+        setImage: noop
       },
       theme: {
         setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
@@ -113,10 +122,12 @@ export function setUpZopimApiMethods(win, store) {
         },
         reload: noop,
         setProfileCardConfig: setProfileCardConfigApi(store),
-        setFontConfig: noop
+        setFontConfig: noop,
+        setTheme: noop
       },
       mobileNotifications: {
-        setDisabled: (bool) => updateSettings(store, 'webWidget.chat.notifications.mobile.disable', bool)
+        setDisabled: (bool) => updateSettings(store, 'webWidget.chat.notifications.mobile.disable', bool),
+        setIgnoreChatButtonVisibility: noop
       },
       departments: {
         setLabel: (label) => updateSettings(store, 'webWidget.chat.prechatForm.departmentLabel.*', label),
@@ -169,11 +180,25 @@ export function setUpZopimApiMethods(win, store) {
       setOnChatEnd: (callback) => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
       setOnStatus: (callback) => setOnStatusApi(store, callback),
       setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback),
+      bubble: {
+        show: noop,
+        setTitle: noop,
+        setText: noop,
+        setImage: noop,
+        setColor: noop,
+        reset: noop,
+        hide: noop
+      },
       getName: noop,
       getEmail: noop,
       getPhone: noop,
       setNotes: noop,
-      appendNotes: noop
+      appendNotes: noop,
+      setOnGreeting: noop,
+      setOnFlashReady: noop,
+      setDisableSound: noop,
+      freeze: noop,
+      fire: noop
     };
 
     instrumentZopimApis(win);
