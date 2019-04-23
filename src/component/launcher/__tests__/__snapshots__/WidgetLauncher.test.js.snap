@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WidgetLauncher renders the component 1`] = `
+<div>
+  <button
+    class="wrapper "
+  >
+    <span
+      class="container icon  Icon"
+      data-testid="Icon"
+      type="Icon"
+    >
+      test-file-stub
+    </span>
+    <span
+      class="label "
+      data-testid="launcherLabel"
+    >
+      launcherLabel
+    </span>
+  </button>
+</div>
+`;

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mobileSettings mobileSettings, action: ANY_OTHER_ACTION 1`] = `
+Object {
+  "labelVisible": false,
+}
+`;
+
+exports[`mobileSettings mobileSettings, action: widget/settings/UPDATE_SETTINGS 1`] = `
+Object {
+  "labelVisible": true,
+}
+`;
+
+exports[`mobileSettings mobileSettings, action: widget/settings/UPDATE_SETTINGS 2`] = `
+Object {
+  "labelVisible": false,
+}
+`;

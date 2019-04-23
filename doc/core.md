@@ -65,6 +65,8 @@ The widget's `launcher` object, which represents the launcher button, has the fo
 
 * [chatLabel](./settings#chatlabel)
 * [label](./settings#label)
+* mobile
+  * [labelVisible](./settings#labelvisible)
 
 <a name="example-launcher-settings"></a>
 #### Example
@@ -76,6 +78,9 @@ window.zESettings = {
     launcher: {
       chatLabel: {
         '*': 'Chat now'
+      },
+      mobile: {
+        labelVisible: true
       }
     }
   }

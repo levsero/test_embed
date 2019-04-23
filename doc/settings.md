@@ -51,6 +51,7 @@ Available settings:
 * [filter](#filter)
 * [hideWhenOffline](#hidewhenoffline)
 * [label](#label)
+* [labelVisible](#labelvisible)
 * [messageButton](#messagebutton)
 * [navigation](#navigation)
 * [nickname](#nickname)
@@ -159,7 +160,7 @@ The `badge` setting has the following properties:
 
 #### Availability
 
-* [launcher](./launcher)
+* [launcher](./core#launcher-settings)
 
 #### badge.label
 
@@ -323,9 +324,10 @@ window.zESettings = {
 </script>
 ```
 
-#### Related setting
+#### Related settings
 
 * [label](#label)
+* [labelVisible](#labelvisible)
 
 
 ### chatLabelOffline
@@ -856,10 +858,35 @@ window.zESettings = {
 </script>
 ```
 
-#### Related setting
+#### Related settings
 
 * [chatLabel](#chatlabel)
+* [labelVisible](#labelvisible)
 
+### labelVisible
+
+To avoid cluttering the display, the launcher label is not shown on mobile devices by default. You can change this behavior using `labelVisible` under the `mobile` section of the `launcher` settings.
+
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    launcher: {
+      mobile: {
+        labelVisible: true
+      }
+    }
+  }
+};
+</script>
+```
+
+#### Related settings
+
+* [label](#label)
+* [chatLabel](#chatlabel)
 
 ### messageButton
 

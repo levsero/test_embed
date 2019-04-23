@@ -24,9 +24,10 @@ export const getSettingsChatProfileCard = (state) => state.settings.chat.profile
 export const getSettingsChatHideWhenOffline = (state) => state.settings.chat.hideWhenOffline;
 export const getSettingsLauncherChatLabel = (state) => state.settings.launcher.settings.chatLabel;
 
-// LAUNCHER LABEL
+// LAUNCHER
 export const getSettingsLauncherLabel = (state) => state.settings.launcher.settings.label;
 export const getSettingsLauncherBadge = (state) => state.settings.launcher.badge;
+export const getSettingsLauncherMobile = (state) => state.settings.launcher.mobile;
 
 // COLOR
 export const getSettingsColor = (state) => state.settings.color;

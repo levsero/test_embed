@@ -17,6 +17,7 @@ import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
 import { launcherClicked } from 'src/redux/modules/base/';
 import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors';
 import { getZopimMessageCount } from 'src/redux/modules/zopimChat/zopimChat-selectors';
+import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors';
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -29,7 +30,8 @@ const mapStateToProps = (state, ownProps) => {
     chatOfflineAvailable: getChatOfflineAvailable(state),
     chatLabel: getLauncherChatLabel(state),
     launcherLabel: getLauncherLabel(state, ownProps.label),
-    unreadMessages: getZopimMessageCount(state)
+    unreadMessages: getZopimMessageCount(state),
+    showLabelMobile: getSettingsLauncherMobile(state).labelVisible
   };
 };
 
@@ -50,6 +52,7 @@ class WidgetLauncher extends Component {
     launcherLabel: PropTypes.string.isRequired,
     chatLabel: PropTypes.string.isRequired,
     unreadMessages: PropTypes.number.isRequired,
+    showLabelMobile: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -171,7 +174,7 @@ class WidgetLauncher extends Component {
   render = () => {
     const { isMobile } = this.props;
     const baseMobileClasses = isMobile ? styles.wrapperMobile : '';
-    const shouldShowMobileClasses = isMobile && !(this.getNotificationCount() > 0);
+    const shouldShowMobileClasses = isMobile && !(this.getNotificationCount() > 0) && !this.props.showLabelMobile;
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
     const type = this.getActiveEmbedIconType();
@@ -196,8 +199,11 @@ class WidgetLauncher extends Component {
         <Icon
           type={type}
           flipX={shouldFlipX}
-          className={`${styles.icon} ${iconMobileClasses}`} />
-        <span className={`${styles.label} ${labelMobileClasses}`}>{this.getActiveEmbedLabel()}</span>
+          className={`${styles.icon} ${iconMobileClasses}`}
+        />
+        <span className={`${styles.label} ${labelMobileClasses}`} data-testid="launcherLabel">
+          {this.getActiveEmbedLabel()}
+        </span>
       </button>
     );
   }

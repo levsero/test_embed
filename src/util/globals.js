@@ -8,7 +8,9 @@ const win = window.parent;
 const document = win.document;
 const navigator = win.navigator;
 const location = win.location;
-let referrerPolicy = document.referrer;
+
+let referrerPolicy = '';
+
 const getReferrerPolicy = () => referrerPolicy;
 
 const setReferrerMetas = (iframe, doc) => {

@@ -947,7 +947,11 @@ describe('setUpZopimApiMethods', () => {
       [
         ['zopim2', 'zopim3', 'another'],
         ['zopim2, zopim3', 'another'],
-        ['zopim2, zopim3, another']
+        ['zopim2, zopim3, another'],
+        [['zopim2', 'zopim3', 'another']],
+        [[['zopim2'], 'zopim3', 'another']],
+        [[['zopim2', 'zopim3'], 'another']],
+        [[['zopim2, zopim3'], 'another']]
       ].forEach((args) => {
         it(`adds the [${args}] tags via updateSettings`, () => {
           mockWin.$zopim.livechat.addTags(...args);

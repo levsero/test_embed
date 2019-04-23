@@ -25,7 +25,9 @@ const defaultState = {
         }
       },
       color: 'testColor',
-      textColor: 'testTextColor'
+      textColor: 'testTextColor',
+      brandCount: 2,
+      brand: 'ACME'
     },
     embeds: {
       ipmWidget: {
