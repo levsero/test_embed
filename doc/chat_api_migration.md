@@ -14,19 +14,24 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 
 | $zopim.livechat syntax | zE syntax |
 | ---------------------- | --------- |
-| button.hide       | `zE('webWidget', 'hide')` |
-| button.show       | `zE('webWidget', 'show')` |
-| window.toggle     | `zE('webWidget', 'toggle')` |
-| window.hide       | `zE('webWidget', 'hide')` |
-| window.show       | `zE('webWidget', 'open')` |
-| window.getDisplay | `zE('webWidget:get', 'display')` |
-| isChatting        | `zE('webWidget:get', 'chat:isChatting')` |
-| removeTags        | `zESettings.webWidget.chat.tags` |
-| addTags           | `zESettings.webWidget.chat.tags` |
-| say               | `zE('webWidget', 'chat:send', msg)` |
-| endChat           | `zE('webWidget', 'chat:end')` |
-| hideAll           | `zE('webWidget', 'hide')` |
-| set*              | `zE('webWidget', 'prefill', data<object>)` and `zE('webWidget', 'setLocale', data<string>)` |
+| badge.hide                | `zE('webWidget', 'hide')` |
+| badge.show                | `zE('webWidget', 'show')` |
+| button.hide               | `zE('webWidget', 'hide')` |
+| button.show               | `zE('webWidget', 'show')` |
+| endChat                   | `zE('webWidget', 'chat:end')` |
+| hideAll                   | `zE('webWidget', 'hide')` |
+| isChatting                | `zE('webWidget:get', 'chat:isChatting')` |
+| addTags                   | `zESettings.webWidget.chat.tags` |
+| removeTags                | `zESettings.webWidget.chat.tags` |
+| say                       | `zE('webWidget', 'chat:send', msg)` |
+| set*                      | `zE('webWidget', 'prefill', data<object>)` and `zE('webWidget', 'setLocale', data<string>)` |
+| setDefaultImplicitConsent | `zESettings.cookies` |
+| setLanguage               | `zE('webWidget', 'setLocale', data<string>)` |
+| window.popout             | `zE('webWidget', 'popout')` |
+| window.toggle             | `zE('webWidget', 'toggle')` |
+| window.hide               | `zE('webWidget', 'hide')` |
+| window.show               | `zE('webWidget', 'open')` |
+| window.getDisplay         | `zE('webWidget:get', 'display')` |
 
 \* `$zopim.livechat.set()` currently supports the following APIs: name, email and language.
 
@@ -56,9 +61,9 @@ zE('webWidget', 'prefill', {
 | ---------------------- | --------- |
 | setOnConnected  | `zE('webWidget:on', 'chat:connected', () => {})` |
 | setOnChatStart  | `zE('webWidget:on', 'chat:start', () => {})` |
-| setOnChatEnd    | `zE('webWidget:on', 'chat.end', () => {})` |
-| setOnStatus     | `zE('webWidget:on', 'chat.status', (status) => {})` |
-| setOnUnreadMsgs | `zE('webWidget:on', 'chat.unreadMsgs', (msgs) => {})` |
+| setOnChatEnd    | `zE('webWidget:on', 'chat:end', () => {})` |
+| setOnStatus     | `zE('webWidget:on', 'chat:status', (status) => {})` |
+| setOnUnreadMsgs | `zE('webWidget:on', 'chat:unreadMessages', (msgs) => {})` |
 | window.onShow   | `zE('webWidget:on', 'open', () => {})` |
 | window.onHide   | `zE('webWidget:on', 'close', () => {})` |
 
@@ -66,6 +71,10 @@ zE('webWidget', 'prefill', {
 
 | $zopim.livechat syntax           | zE syntax |
 | -------------------------------- | --------- |
+| badge.setColor                   | `zESettings.webWidget.color.launcher` |
+| badge.setLayout                  | `zESettings.webWidget.launcher.badge.layout` |
+| badge.setImage                   | `zESettings.webWidget.launcher.badge.image`  |
+| badge.setText                    | `zESettings.webWidget.launcher.badge.label` |
 | button.setOffsetVertical         | `zESettings.webWidget.offset.vertical` |
 | button.setOffsetVerticalMobile   | `zESettings.webWidget.offset.mobile.vertical` |
 | button.setOffsetHorizontal       | `zESettings.webWidget.offset.horizontal` |
@@ -73,10 +82,12 @@ zE('webWidget', 'prefill', {
 | button.setPosition*              | `zESettings.webWidget.position` |
 | button.setPositionMobile*        | `zESettings.webWidget.position` |
 | button.setColor                  | `zESettings.webWidget.color.launcher` |
+| button.setOffsetBottom           | `zESettings.webWidget.offset.vertical` |
 | window.setColor                  | `zESettings.webWidget.color.theme` |
 | window.setTitle                  | `zESettings.webWidget.chat.title` |
 | window.setOffsetVertical         | `zESettings.webWidget.offset.vertical` |
 | window.setOffsetHorizontal       | `zESettings.webWidget.offset.horizontal` |
+| window.setOffsetBottom           | `zESettings.webWidget.offset.vertical` |
 | window.setPosition*              | `zESettings.webWidget.position` |
 | prechatForm.setGreetings         | `zESettings.webWidget.chat.prechatForm.greeting` |
 | offlineForm.setGreetings         | `zESettings.webWidget.chat.offlineForm.greeting` |
@@ -145,15 +156,6 @@ Below is a list of the $zopim.livechat APIs that are not supported in the Web Wi
 ### What APIs are coming soon
 
 #### Planned
-
 | $zopim.livechat syntax | zE syntax |
 | ---------------------- | --------- |
-| authenticate              | `zESettings.webWidget.authenticate.chat`  |
-| badge.hide                | `zE('webWidget', 'hide')` |
-| badge.show                | `zE('webWidget', 'show')` |
-| badge.setLayout           | `zESettings.webWidget.launcher.badge.layout` |
-| badge.setImage            | `zESettings.webWidget.launcher.badge.image`  |
-| badge.setColor            | `zESettings.webWidget.color.launcher` |
-| badge.setText             | `zESettings.webWidget.launcher.badge.label` |
-| setDefaultImplicitConsent | `zESettings.cookies` |
-| window.popout             | `zE('webWidget', 'popout')` |
+| authenticate           | `zESettings.webWidget.authenticate.chat`  |

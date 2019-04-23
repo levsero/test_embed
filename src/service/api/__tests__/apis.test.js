@@ -11,7 +11,6 @@ import { i18n } from 'service/i18n';
 import { chat as zopimChat } from 'embed/chat/chat';
 import { mediator } from 'service/mediator';
 import { beacon } from 'service/beacon';
-import { settings } from 'service/settings';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
   getIsChatting,
@@ -39,25 +38,6 @@ const mockAction = jest.fn(() => mockActionValue);
 const setActiveEmbed = (activeEmbed) => {
   baseSelectors.getActiveEmbed = jest.fn(() => activeEmbed);
 };
-
-describe('updateSettingsLegacyApi', () => {
-  let newSettings;
-
-  beforeEach(() => {
-    newSettings = {
-      offset: {
-        horizontal: 10
-      }
-    };
-  });
-
-  it('calls settings.updateSettingsLegacy', () => {
-    apis.updateSettingsLegacyApi(newSettings);
-
-    expect(settings.updateSettingsLegacy)
-      .toHaveBeenCalledWith(newSettings, expect.any(Function));
-  });
-});
 
 describe('endChatApi', () => {
   let spy;

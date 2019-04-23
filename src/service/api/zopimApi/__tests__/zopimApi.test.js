@@ -197,12 +197,29 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.window.setOffsetVertical(vertical);
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          offset: {
-            vertical
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              vertical: 10
+            }
           }
-        }, expect.any(Function));
+        });
+    });
+
+    test('setOffsetBottom', () => {
+      const vertical = 10;
+
+      mockWin.$zopim.livechat.button.setOffsetBottom(vertical);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              vertical: 10
+            }
+          }
+        });
     });
 
     test('setOffsetHorizontal', () => {
@@ -210,12 +227,14 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.window.setOffsetHorizontal(horizontal);
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          offset: {
-            horizontal
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              horizontal: 10
+            }
           }
-        }, expect.any(Function));
+        });
     });
 
     test('setColor', () => {
@@ -245,13 +264,15 @@ describe('setUpZopimApiMethods', () => {
           position = 'tm';
         });
 
-        it('calls updateSettingsLegacyApi with top', () => {
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenCalledWith({
-              position: {
-                vertical: 'top'
+        it('calls updateSettingsApi with top', () => {
+          expect(apis.updateSettingsApi)
+            .toHaveBeenCalledWith(mockStore, {
+              webWidget: {
+                position: {
+                  vertical: 'top'
+                }
               }
-            }, expect.any(Function));
+            });
         });
       });
 
@@ -260,20 +281,24 @@ describe('setUpZopimApiMethods', () => {
           position = 'br';
         });
 
-        it('calls updateSettingsLegacyApi with bottom right', () => {
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenNthCalledWith(2, {
-              position: {
-                vertical: 'bottom'
+        it('calls updateSettingsApi with bottom right', () => {
+          expect(apis.updateSettingsApi)
+            .toHaveBeenCalledWith(mockStore, {
+              webWidget: {
+                position: {
+                  vertical: 'bottom'
+                }
               }
-            }, expect.any(Function));
+            });
 
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenNthCalledWith(1, {
-              position: {
-                horizontal: 'right'
+          expect(apis.updateSettingsApi)
+            .toHaveBeenCalledWith(mockStore, {
+              webWidget: {
+                position: {
+                  horizontal: 'right'
+                }
               }
-            }, expect.any(Function));
+            });
         });
       });
 
@@ -282,20 +307,24 @@ describe('setUpZopimApiMethods', () => {
           position = 'tl';
         });
 
-        it('calls updateSettingsLegacyApi with top left', () => {
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenNthCalledWith(2, {
-              position: {
-                vertical: 'top'
+        it('calls updateSettingsApi with top left', () => {
+          expect(apis.updateSettingsApi)
+            .toHaveBeenCalledWith(mockStore, {
+              webWidget: {
+                position: {
+                  vertical: 'top'
+                }
               }
-            }, expect.any(Function));
+            });
 
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenNthCalledWith(1, {
-              position: {
-                horizontal: 'left'
+          expect(apis.updateSettingsApi)
+            .toHaveBeenCalledWith(mockStore, {
+              webWidget: {
+                position: {
+                  horizontal: 'left'
+                }
               }
-            }, expect.any(Function));
+            });
         });
       });
     });
@@ -477,13 +506,15 @@ describe('setUpZopimApiMethods', () => {
           position = 'tm';
         });
 
-        it('calls updateSettingsLegacyApi with top', () => {
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenCalledWith({
-              position: {
-                vertical: 'top'
+        it('calls updateSettingsApi with top', () => {
+          expect(apis.updateSettingsApi)
+            .toHaveBeenCalledWith(mockStore, {
+              webWidget: {
+                position: {
+                  vertical: 'top'
+                }
               }
-            }, expect.any(Function));
+            });
         });
       });
 
@@ -493,13 +524,15 @@ describe('setUpZopimApiMethods', () => {
           position = 'bm';
         });
 
-        it('calls updateSettingsLegacyApi with bottom', () => {
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenCalledWith({
-              position: {
-                vertical: 'bottom'
+        it('calls updateSettingsApi with bottom', () => {
+          expect(apis.updateSettingsApi)
+            .toHaveBeenCalledWith(mockStore, {
+              webWidget: {
+                position: {
+                  vertical: 'bottom'
+                }
               }
-            }, expect.any(Function));
+            });
         });
       });
 
@@ -508,20 +541,24 @@ describe('setUpZopimApiMethods', () => {
           position = 'br';
         });
 
-        it('calls updateSettingsLegacyApi with bottom right', () => {
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenNthCalledWith(2, {
-              position: {
-                vertical: 'bottom'
+        it('calls updateSettingsApi with bottom right', () => {
+          expect(apis.updateSettingsApi)
+            .toHaveBeenCalledWith(mockStore, {
+              webWidget: {
+                position: {
+                  vertical: 'bottom'
+                }
               }
-            }, expect.any(Function));
+            });
 
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenNthCalledWith(1, {
-              position: {
-                horizontal: 'right'
+          expect(apis.updateSettingsApi)
+            .toHaveBeenCalledWith(mockStore, {
+              webWidget: {
+                position: {
+                  horizontal: 'right'
+                }
               }
-            }, expect.any(Function));
+            });
         });
       });
 
@@ -530,20 +567,24 @@ describe('setUpZopimApiMethods', () => {
           position = 'tl';
         });
 
-        it('calls updateSettingsLegacyApi with top left', () => {
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenNthCalledWith(2, {
-              position: {
-                vertical: 'top'
+        it('calls updateSettingsApi with top left', () => {
+          expect(apis.updateSettingsApi)
+            .toHaveBeenNthCalledWith(2, mockStore, {
+              webWidget: {
+                position: {
+                  vertical: 'top'
+                }
               }
-            }, expect.any(Function));
+            });
 
-          expect(apis.updateSettingsLegacyApi)
-            .toHaveBeenNthCalledWith(1, {
-              position: {
-                horizontal: 'left'
+          expect(apis.updateSettingsApi)
+            .toHaveBeenNthCalledWith(1, mockStore, {
+              webWidget: {
+                position: {
+                  horizontal: 'left'
+                }
               }
-            }, expect.any(Function));
+            });
         });
       });
     });
@@ -562,12 +603,29 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.button.setOffsetVertical(vertical);
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          offset: {
-            vertical
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              vertical: 10
+            }
           }
-        }, expect.any(Function));
+        });
+    });
+
+    test('setOffsetBottom', () => {
+      const vertical = 10;
+
+      mockWin.$zopim.livechat.button.setOffsetBottom(vertical);
+
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              vertical: 10
+            }
+          }
+        });
     });
 
     test('setOffsetHorizontal', () => {
@@ -575,12 +633,14 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.button.setOffsetHorizontal(horizontal);
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          offset: {
-            horizontal
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              horizontal: 10
+            }
           }
-        }, expect.any(Function));
+        });
     });
 
     test('setOffsetVerticalMobile', () => {
@@ -588,14 +648,16 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.button.setOffsetVerticalMobile(vertical);
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          offset: {
-            mobile: {
-              vertical
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              mobile: {
+                vertical: 10
+              }
             }
           }
-        }, expect.any(Function));
+        });
     });
 
     test('setOffsetHorizontalMobile', () => {
@@ -603,14 +665,16 @@ describe('setUpZopimApiMethods', () => {
 
       mockWin.$zopim.livechat.button.setOffsetHorizontalMobile(horizontal);
 
-      expect(apis.updateSettingsLegacyApi)
-        .toHaveBeenCalledWith({
-          offset: {
-            mobile: {
-              horizontal
+      expect(apis.updateSettingsApi)
+        .toHaveBeenCalledWith(mockStore, {
+          webWidget: {
+            offset: {
+              mobile: {
+                horizontal: 10
+              }
             }
           }
-        }, expect.any(Function));
+        });
     });
   });
 
@@ -1110,7 +1174,6 @@ describe('setUpZopimApiMethods', () => {
 
     beforeEach(() => {
       mockWin.$zopim.livechat.setGreetings(mockGreetings);
-      apis.updateSettingsLegacyApi.mock.calls.forEach(call => call[1]());
     });
 
     describe('when both online and offline vals provided', () => {

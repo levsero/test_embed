@@ -1,9 +1,6 @@
 import _ from 'lodash';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
-import {
-  updateSettingsApi,
-  updateSettingsLegacyApi
-} from 'src/service/api/apis';
+import { updateSettingsApi } from 'src/service/api/apis';
 import {
   handleOnApiCalled,
   badgeHideReceived,
@@ -13,7 +10,7 @@ import { SDK_ACCOUNT_STATUS, SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/cha
 import { getChatStatus } from 'src/redux/modules/chat/chat-selectors';
 import tracker from 'service/logging/tracker';
 
-export const setPositionApi = (position) => {
+export const setPositionApi = (store) => (position) => {
   const mapPositions = {
     'b': 'bottom',
     't': 'top',
@@ -25,22 +22,26 @@ export const setPositionApi = (position) => {
   const horizontalVal = mapPositions[position[1]];
 
   if (horizontalVal === 'left' || horizontalVal === 'right') {
-    updateSettingsLegacy('position.horizontal', horizontalVal);
+    updateSettings(store, 'webWidget.position.horizontal', horizontalVal);
   }
 
   if (verticalVal === 'top' || verticalVal === 'bottom') {
-    updateSettingsLegacy('position.vertical', verticalVal);
+    updateSettings(store, 'webWidget.position.vertical', verticalVal);
   }
 };
 
-export const setOffsetApi = {
-  setOffsetVertical: (dist) => updateSettingsLegacy('offset.vertical', dist),
-  setOffsetHorizontal: (dist) => updateSettingsLegacy('offset.horizontal', dist)
+export const setOffsetApi = (store) => {
+  return {
+    setOffsetVertical: (dist) => updateSettings(store, 'webWidget.offset.vertical', dist),
+    setOffsetHorizontal: (dist) => updateSettings(store, 'webWidget.offset.horizontal', dist)
+  };
 };
 
-export const setOffsetMobileApi = {
-  setOffsetVerticalMobile: (dist) => updateSettingsLegacy('offset.mobile.vertical', dist),
-  setOffsetHorizontalMobile: (dist) => updateSettingsLegacy('offset.mobile.horizontal', dist)
+export const setOffsetMobileApi = (store) => {
+  return {
+    setOffsetVerticalMobile: (dist) => updateSettings(store, 'webWidget.offset.mobile.vertical', dist),
+    setOffsetHorizontalMobile: (dist) => updateSettings(store, 'webWidget.offset.mobile.horizontal', dist)
+  };
 };
 
 export const setGreetingsApi = (store, greetings) => {
@@ -141,12 +142,6 @@ export const setApi = (win, options) => {
       win.$zopim.livechat[methodName](arg);
     }
   }
-};
-
-export const updateSettingsLegacy = (s, val, callback = () => {}) => {
-  const newSettings = _.set({}, s, val);
-
-  updateSettingsLegacyApi(newSettings, callback);
 };
 
 export const updateSettings = (store, s, val) => {

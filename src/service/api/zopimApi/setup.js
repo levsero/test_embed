@@ -50,12 +50,17 @@ export function setUpZopimApiMethods(win, store) {
 
   if (_.isUndefined(win.$zopim.livechat)) {
     const onApis = onApiObj();
+    const { setOffsetVertical, setOffsetHorizontal } = setOffsetApi(store);
 
     win.$zopim.livechat = {
       cookieLaw: {
         comply: noop,
         showPrivacyPanel: noop,
         setDefaultImplicitConsent: () => updateSettings(store, 'cookies', false)
+      },
+      unreadflag: {
+        enable: noop,
+        disable: noop
       },
       window: {
         toggle: () => toggleApi(store),
@@ -71,8 +76,12 @@ export function setUpZopimApiMethods(win, store) {
         setTitle: (title) => updateSettings(store, 'webWidget.chat.title.*', title),
         setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
         openPopout: () => popoutApi(store),
-        setPosition: setPositionApi,
-        ...setOffsetApi
+        setPosition: setPositionApi(store),
+        setOffsetHorizontal,
+        setOffsetVertical,
+        setOffsetBottom: setOffsetVertical,
+        setBg: noop,
+        getSettings: noop,
       },
       badge: {
         hide: () => hideBadgeApi(store),
@@ -98,11 +107,16 @@ export function setUpZopimApiMethods(win, store) {
           closeApi(store);
         },
         setHideWhenOffline: (bool) => updateSettings(store, 'webWidget.chat.hideWhenOffline', bool),
-        setPosition: setPositionApi,
-        setPositionMobile: setPositionApi,
+        setPosition: setPositionApi(store),
+        setPositionMobile: setPositionApi(store),
         setColor: (color) => updateSettings(store, 'webWidget.color.launcher', color),
-        ...setOffsetApi,
-        ...setOffsetMobileApi
+        setOffsetVertical,
+        setOffsetHorizontal,
+        ...setOffsetMobileApi(store),
+        setOffsetBottom: setOffsetVertical,
+        useFavicon: noop,
+        setTheme: noop,
+        setImage: noop
       },
       theme: {
         setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
@@ -113,10 +127,12 @@ export function setUpZopimApiMethods(win, store) {
         },
         reload: noop,
         setProfileCardConfig: setProfileCardConfigApi(store),
-        setFontConfig: noop
+        setFontConfig: noop,
+        setTheme: noop
       },
       mobileNotifications: {
-        setDisabled: (bool) => updateSettings(store, 'webWidget.chat.notifications.mobile.disable', bool)
+        setDisabled: (bool) => updateSettings(store, 'webWidget.chat.notifications.mobile.disable', bool),
+        setIgnoreChatButtonVisibility: noop
       },
       departments: {
         setLabel: (label) => updateSettings(store, 'webWidget.chat.prechatForm.departmentLabel.*', label),
@@ -169,11 +185,25 @@ export function setUpZopimApiMethods(win, store) {
       setOnChatEnd: (callback) => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
       setOnStatus: (callback) => setOnStatusApi(store, callback),
       setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback),
+      bubble: {
+        show: noop,
+        setTitle: noop,
+        setText: noop,
+        setImage: noop,
+        setColor: noop,
+        reset: noop,
+        hide: noop
+      },
       getName: noop,
       getEmail: noop,
       getPhone: noop,
       setNotes: noop,
-      appendNotes: noop
+      appendNotes: noop,
+      setOnGreeting: noop,
+      setOnFlashReady: noop,
+      setDisableSound: noop,
+      freeze: noop,
+      fire: noop
     };
 
     instrumentZopimApis(win);
