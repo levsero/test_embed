@@ -419,6 +419,60 @@ describe('chat log', () => {
     });
   });
 
+  test('agent member leave with disconnection reason', () => {
+    assertChatLog({
+      type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+      payload: {
+        type: 'chat',
+        detail: {
+          display_name: 'Mugen',
+          nick: 'agent:123',
+          timestamp: timestamp(),
+          type: 'chat.memberjoin'
+        }
+      }
+    }, {
+      type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
+      payload: {
+        type: 'chat',
+        detail: {
+          display_name: 'Mugen',
+          nick: 'agent:123',
+          reason: 'disconnect_user',
+          timestamp: timestamp(),
+          type: 'chat.memberleave'
+        }
+      }
+    });
+  });
+
+  test('agent member leave with non-disconnection reason', () => {
+    assertChatLog({
+      type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+      payload: {
+        type: 'chat',
+        detail: {
+          display_name: 'Mugen',
+          nick: 'agent:123',
+          timestamp: timestamp(),
+          type: 'chat.memberjoin'
+        }
+      }
+    }, {
+      type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
+      payload: {
+        type: 'chat',
+        detail: {
+          display_name: 'Mugen',
+          nick: 'agent:123',
+          reason: 'arbitrary_unknown_reason',
+          timestamp: timestamp(),
+          type: 'chat.memberleave'
+        }
+      }
+    });
+  });
+
   test('series of actions', () => {
     assertChatLog(
       {

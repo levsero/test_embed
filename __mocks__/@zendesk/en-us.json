@@ -164,6 +164,7 @@
       "embeddable_framework.chat.chatLog.chatEnded": "Chat ended",
       "embeddable_framework.chat.chatLog.agentJoined": "%(agent)s joined the chat",
       "embeddable_framework.chat.chatLog.agentLeft": "%(agent)s left the chat",
+      "embeddable_framework.chat.chatLog.agentDisconnected": "%(agent)s was disconnected and has left the chat",
       "embeddable_framework.chat.chatLog.button.leaveComment": "Leave a comment",
       "embeddable_framework.chat.chatLog.button.rateChat": "Rate this chat",
       "embeddable_framework.chat.chatLog.isTyping": "%(agent)s is typing",

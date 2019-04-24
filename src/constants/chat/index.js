@@ -27,6 +27,12 @@ export const CHAT_SYSTEM_EVENTS = {
   CHAT_EVENT_CONTACT_DETAILS_UPDATED: 'chat.contact_details.updated'
 };
 
+export const DISCONNECTION_REASONS = [
+  'disconnect_user',
+  'kick_account',
+  'unauthorized_user'
+];
+
 export const ATTACHMENT_ERROR_TYPES = {
   NOT_SUPPORTED:      'not_supported',
   NOT_ALLOWED:        'not_allowed',
