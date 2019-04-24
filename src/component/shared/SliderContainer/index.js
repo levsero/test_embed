@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { IconButton } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 import { locals as styles } from './SliderContainer.scss';
 
@@ -322,7 +323,7 @@ function getParent(ele, className, found = false, limit = 10) {
  * Find immediate child
  */
 function getChild(ele, className) {
-  return Array.from(ele.children).find((child) =>
+  return _.find(ele.children, (child) =>
     child.classList.contains(className)
   );
 }
