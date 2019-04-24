@@ -56,11 +56,13 @@ const getConditionOverrides = (conditions, conditionCheck) => (
 
     condition.child_fields.forEach((child) => {
       // need to check if already set to false in case multiple conditions on the same element
-      const isVisible = memo[child.id] ? memo[child.id].visible_in_portal || isFulfilled : isFulfilled;
+      const isVisible = (memo[child.id] ? memo[child.id].visible_in_portal || isFulfilled : isFulfilled);
+      const isRequired = (memo[child.id] ? memo[child.id].required_in_portal : false)
+        || (child.is_required && isFulfilled);
 
       memo[child.id] = {
         visible_in_portal: isVisible, // eslint-disable-line camelcase
-        required_in_portal: child.is_required, // eslint-disable-line camelcase
+        required_in_portal: isRequired, // eslint-disable-line camelcase
       };
     });
     return memo;

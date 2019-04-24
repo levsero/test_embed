@@ -533,7 +533,16 @@ Snapshot Diff:
 
 exports[`customFields updateConditionalVisibility with conditions with form state with multipleConditionsOnSameChild one fulfilled 1`] = `
 Snapshot Diff:
-Compared values have no visual difference.
+- First value
++ Second value
+
+@@ -51,5 +51,5 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
+      "title_in_portal": "Order Details",
+      "type": "textarea",
 `;
 
 exports[`customFields updateConditionalVisibility with conditions with form state with multipleConditionsOnSameChild one fulfilled 2`] = `
@@ -571,14 +580,22 @@ Snapshot Diff:
 +     "visible_in_portal": false,
     },
     Object {
-@@ -28,5 +28,5 @@
+@@ -25,8 +25,8 @@
+      "editable_in_portal": true,
+      "id": "10006",
+-     "required_in_portal": true,
++     "required_in_portal": false,
       "title_in_portal": "Nested Drop Down",
       "type": "tagger",
 -     "visible_in_portal": true,
 +     "visible_in_portal": false,
     },
     Object {
-@@ -46,13 +46,13 @@
+@@ -43,16 +43,16 @@
+      "editable_in_portal": true,
+      "id": "22666574",
+-     "required_in_portal": true,
++     "required_in_portal": false,
       "title_in_portal": "Department",
       "type": "tagger",
 -     "visible_in_portal": true,
@@ -617,7 +634,11 @@ Snapshot Diff:
 +     "visible_in_portal": false,
     },
     Object {
-@@ -81,5 +81,5 @@
+@@ -78,8 +78,8 @@
+      "editable_in_portal": true,
+      "id": "22823270",
+-     "required_in_portal": true,
++     "required_in_portal": false,
       "title_in_portal": "Can we call you?",
       "type": "checkbox",
 -     "visible_in_portal": true,
@@ -631,7 +652,11 @@ Snapshot Diff:
 +     "visible_in_portal": false,
     },
     Object {
-@@ -98,5 +98,5 @@
+@@ -95,8 +95,8 @@
+      "editable_in_portal": true,
+      "id": "2284528",
+-     "required_in_portal": true,
++     "required_in_portal": false,
       "title_in_portal": "What is your query about?",
       "type": "subject",
 -     "visible_in_portal": true,
@@ -656,18 +681,18 @@ Snapshot Diff:
 +     "visible_in_portal": false,
     },
     Object {
-@@ -86,8 +86,8 @@
-      "editable_in_portal": true,
-      "id": "2284527",
--     "required_in_portal": false,
-+     "required_in_portal": true,
+@@ -89,5 +89,5 @@
       "title_in_portal": "How can we help?",
       "type": "description",
 -     "visible_in_portal": true,
 +     "visible_in_portal": false,
     },
     Object {
-@@ -98,5 +98,5 @@
+@@ -95,8 +95,8 @@
+      "editable_in_portal": true,
+      "id": "2284528",
+-     "required_in_portal": true,
++     "required_in_portal": false,
       "title_in_portal": "What is your query about?",
       "type": "subject",
 -     "visible_in_portal": true,
@@ -710,7 +735,11 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -54,5 +54,5 @@
+@@ -51,8 +51,8 @@
+      "editable_in_portal": true,
+      "id": "22660524",
+-     "required_in_portal": true,
++     "required_in_portal": false,
       "title_in_portal": "Order Details",
       "type": "textarea",
 -     "visible_in_portal": true,
