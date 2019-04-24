@@ -30,10 +30,11 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 | window.popout             | `zE('webWidget', 'popout')` |
 | window.toggle             | `zE('webWidget', 'toggle')` |
 | window.hide               | `zE('webWidget', 'hide')` |
-| window.show               | `zE('webWidget', 'open')` |
+| window.show*              | `zE('webWidget', 'open')` |
 | window.getDisplay         | `zE('webWidget:get', 'display')` |
 
 \* `$zopim.livechat.set()` currently supports the following APIs: name, email and language.
+\* `$zopim.livechat.window.show()` will show the chat product in the widget by default.
 
 ### Visitor Information
 

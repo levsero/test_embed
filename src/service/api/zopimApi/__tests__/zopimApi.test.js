@@ -11,7 +11,8 @@ jest.mock('src/redux/modules/chat', () => ({
 }));
 jest.mock('src/redux/modules/base', () => ({
   badgeHideReceived: jest.fn(),
-  badgeShowReceived: jest.fn()
+  badgeShowReceived: jest.fn(),
+  updateActiveEmbed: jest.fn()
 }));
 jest.mock('service/i18n', () => ({
   i18n: {
@@ -166,6 +167,8 @@ describe('setUpZopimApiMethods', () => {
         .toHaveBeenCalled();
       expect(apis.showApi)
         .toHaveBeenCalled();
+      expect(baseActions.updateActiveEmbed)
+        .toHaveBeenCalledWith('chat');
     });
 
     test('getDisplay method', () => {

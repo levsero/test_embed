@@ -42,6 +42,7 @@ import {
   hideBadgeApi
 } from './helpers';
 import tracker from 'service/logging/tracker';
+import { updateActiveEmbed } from 'src/redux/modules/base';
 
 const noop = () => {};
 
@@ -68,6 +69,7 @@ export function setUpZopimApiMethods(win, store) {
         show: () => {
           showApi(store);
           openApi(store);
+          store.dispatch(updateActiveEmbed('chat'));
         },
         setSize: noop,
         getDisplay: () => displayApi(store),
