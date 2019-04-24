@@ -533,16 +533,7 @@ Snapshot Diff:
 
 exports[`customFields updateConditionalVisibility with conditions with form state with multipleConditionsOnSameChild one fulfilled 1`] = `
 Snapshot Diff:
-- First value
-+ Second value
-
-@@ -54,5 +54,5 @@
-      "title_in_portal": "Order Details",
-      "type": "textarea",
--     "visible_in_portal": true,
-+     "visible_in_portal": false,
-    },
-    Object {
+Compared values have no visual difference.
 `;
 
 exports[`customFields updateConditionalVisibility with conditions with form state with multipleConditionsOnSameChild one fulfilled 2`] = `
