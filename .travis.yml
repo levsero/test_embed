@@ -16,6 +16,7 @@ env:
   - TASK=build:prod
   - TASK=securityscan SECURITYSCAN=srcclr
   - TASK=validate-i18n
+  - TASK=fossa
 
 before_install:
   - curl -u "$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY" https://zdrepo.jfrog.io/zdrepo/api/npm/npm/auth/zendesk >> ~/.npmrc
@@ -36,6 +37,10 @@ script:
     then
         echo "Validating translation files";
         bundle exec ruby ./script/validate_i18n.rb;
+    elif [[ "$TASK" == "fossa" ]]
+    then
+        echo "Starting Fossa open source scan";
+        ./script/run_fossa.sh;
     else
         echo "Running unit or integration tests";
         npm run $TASK;
