@@ -627,6 +627,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/48nsffvaymmoec3ryv5b6w14kmgbg6pv"
       value: "%(agent)s left the chat"
   - translation:
+      key: "embeddable_framework.chat.chatLog.agentDisconnected"
+      title: "An application message that is displayed in the chat log when an agent leaves a chat due to disconnections"
+      screenshot: "https://drive.google.com/open?id=11uf5HAorwxi1mymRrFoU5Bb-P1gNdffA"
+      value: "%(agent)s was disconnected and has left the chat"
+  - translation:
       key: "embeddable_framework.chat.chatLog.button.leaveComment"
       title: "A text that is displayed on a button that provides the user with the ability to navigate to a rating form"
       screenshot: "https://zendesk.box.com/s/bawjetlh45rha525gnoy1042n78s9hv5"
