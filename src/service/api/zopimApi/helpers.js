@@ -177,6 +177,7 @@ export function trackZopimApis(win) {
   tracker.addToMethod(win.$zopim.livechat, 'appendNotes', '$zopim.livechat.appendNotes');
   tracker.addToMethod(win.$zopim.livechat, 'setNotes', '$zopim.livechat.setNotes');
   tracker.addToMethod(win.$zopim.livechat.window, 'setSize', '$zopim.livechat.window.setSize');
+  tracker.addToMethod(win.$zopim.livechat.window, 'show', '$zopim.livechat.window.show');
   tracker.addToMethod(win.$zopim.livechat.theme, 'setFontConfig', '$zopim.livechat.theme.setFontConfig');
   tracker.addTo(win.$zopim.livechat.cookieLaw, '$zopim.livechat.cookieLaw');
 }
