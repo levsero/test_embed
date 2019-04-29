@@ -6,7 +6,7 @@ The Web Widget includes a Talk component that lets users talk to an agent. The c
 
 ### Settings
 
-The `talk` object has the following setting:
+The `talk` object has the following settings:
 
 * [nickname](./settings#nickname)
 * [suppress](./settings#suppress)
