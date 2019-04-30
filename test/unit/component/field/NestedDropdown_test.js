@@ -90,7 +90,7 @@ describe('NestedDropdown component', () => {
     describe('when no defaultOption is passed in', () => {
       beforeEach(() => {
         component = instanceRender(
-          <NestedDropdown options={mockOptions} />
+          <NestedDropdown required={true} options={mockOptions} />
         );
       });
 
@@ -119,7 +119,7 @@ describe('NestedDropdown component', () => {
     describe('when a defaultOption is passed in', () => {
       beforeEach(() => {
         component = instanceRender(
-          <NestedDropdown options={mockOptions} defaultOption={{ name: 'pizzaName', value: 'pizza' }} />
+          <NestedDropdown required={true} options={mockOptions} defaultOption={{ name: 'pizzaName', value: 'pizza' }} />
         );
       });
 
@@ -169,7 +169,7 @@ describe('NestedDropdown component', () => {
 
     beforeEach(() => {
       component = domRender(
-        <NestedDropdown formState={oldMockFormState} name={123} options={mockOptions} defaultOption={{ name: 'pizzaName', value: 'pizza' }} />
+        <NestedDropdown required={true} formState={oldMockFormState} name={123} options={mockOptions} defaultOption={{ name: 'pizzaName', value: 'pizza' }} />
       );
       component.setState({
         isOpen: mockIsOpen
@@ -273,7 +273,7 @@ describe('NestedDropdown component', () => {
 
     beforeEach(() => {
       component = instanceRender(
-        <NestedDropdown options={mockOptions} />
+        <NestedDropdown required={true} options={mockOptions} />
       );
       rootNode = component.rootNode;
     });
@@ -400,7 +400,7 @@ describe('NestedDropdown component', () => {
 
     beforeAll(() => {
       component = instanceRender(
-        <NestedDropdown options={mockOptions} onChange={onChangeSpy} />
+        <NestedDropdown required={true} options={mockOptions} onChange={onChangeSpy} />
       );
     });
 
@@ -550,7 +550,7 @@ describe('NestedDropdown component', () => {
 
     beforeEach(() => {
       component = domRender(
-        <NestedDropdown options={mockOptions} />
+        <NestedDropdown required={true} options={mockOptions} />
       );
     });
 
