@@ -153,7 +153,7 @@ function render(name) {
   const snippet = `
     (function(d,s){var z=$zopim,$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
     $.async=!0;$.setAttribute('charset','utf-8');
-    $.src='https://${zopimEndpoint}/?${zopimId}';
+    $.src='https://${zopimEndpoint}/w?${zopimId}';
     z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
   `;
   const scriptTag = document.createElement('script');
