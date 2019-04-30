@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { getModifiedState } from 'src/fixtures/selectors-test-state';
@@ -15,6 +16,9 @@ jest.mock('chat-web-sdk');
 jest.mock('service/api/zopimApi');
 
 zChat.getFirehose.mockImplementation(() => ({ on: jest.fn() }));
+zChat.setOnFirstReady.mockImplementation((readyObj) => {
+  _.forEach(readyObj, (val) => val());
+});
 
 const dispatchAction = (customState = {}) => {
   const mockStore = configureMockStore([thunk]);
@@ -90,7 +94,8 @@ describe('setupChat', () => {
     await wait(() => {
       expect(zChat.setOnFirstReady)
         .toHaveBeenCalledWith({
-          fetchHistory: expect.any(Function)
+          fetchHistory: expect.any(Function),
+          ready: expect.any(Function)
         });
     });
   });

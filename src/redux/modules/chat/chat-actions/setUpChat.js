@@ -77,15 +77,15 @@ export function setUpChat() {
       zChat.setOnFirstReady({
         fetchHistory: () => {
           if (_.get(config, 'authentication.jwtFn')) {
-            if (brandName) zChat.addTags([brandName]);
             dispatch(fetchConversationHistory());
           }
+        },
+        // Generic ready function, will fire once zChat is ready.
+        // Can be used for setup that requires zChat to be ready and connected
+        ready: () => {
+          if (brandName) zChat.addTags([brandName]);
         }
       });
-
-      if (brandName && !_.get(config, 'authentication.jwtFn')) {
-        zChat.addTags([brandName]);
-      }
 
       zChat.getFirehose().on('data', (data) => {
         let actionType;
