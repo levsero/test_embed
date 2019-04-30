@@ -61,16 +61,14 @@ export class AttachmentList extends Component {
       setLimitError();
     }
 
-    const createAttachment = (file) => {
+    _.slice(files, 0, numFilesToAdd).forEach((file) => {
       const maxSize = Math.round(maxFileSize / 1024 / 1024);
       const errorMessage = (file.size >= maxFileSize)
         ? i18n.t('embeddable_framework.submitTicket.attachments.error.size', { maxSize })
         : null;
 
       setTimeout(() => this.createAttachment(file, errorMessage), 0);
-    };
-
-    _.slice(files, 0, numFilesToAdd).forEach(createAttachment);
+    });
 
     setTimeout(this.props.updateForm, 0);
   }
