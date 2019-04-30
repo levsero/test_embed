@@ -222,7 +222,7 @@ export default class ChatGroup extends Component {
     );
 
     if (file.error) {
-      const errorType = ATTACHMENT_ERROR_TYPES[file.error.message];
+      const errorType = ATTACHMENT_ERROR_TYPES[file.error.message] || ATTACHMENT_ERROR_TYPES.UNKNOWN_ERROR;
       const errorMessage = i18n.t(`embeddable_framework.chat.attachments.error.${errorType}`);
 
       return (

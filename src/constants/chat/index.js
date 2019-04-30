@@ -34,7 +34,8 @@ export const ATTACHMENT_ERROR_TYPES = {
   INVALID_EXTENSION:  'invalid_extension',
   EXCEED_SIZE_LIMIT:  'exceed_size_limit',
   INTERNAL_ERROR:     'internal_error',
-  UNKNOWN_ERROR:      'unknown_error'
+  UNKNOWN_ERROR:      'unknown_error',
+  INVALID_PLAN:       'not_allowed'
 };
 
 export const EDIT_CONTACT_DETAILS_SCREEN = 'widget/chat/EDIT_CONTACT_DETAILS_SCREEN';
