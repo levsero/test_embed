@@ -2,6 +2,8 @@ import { settings } from 'service/settings';
 import { identity } from 'service/identity';
 import { http } from 'service/transport';
 
+import { isOnHostMappedDomain } from 'utility/pages';
+
 import { WEB_WIDGET_SUID } from 'src/constants/answerBot';
 
 import {
@@ -98,6 +100,7 @@ export const questionSubmitted = (message) => {
       callbacks,
       method: 'post',
       path: '/api/v2/answer_bot/interaction?include=html_body',
+      useHostMappingIfAvailable: isOnHostMappedDomain(),
       params: {
         via_id: settings.get('viaIdAnswerBot'),
         deflection_channel_id: settings.get('viaIdAnswerBot'),
