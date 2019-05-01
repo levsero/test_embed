@@ -11,7 +11,7 @@ import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors';
 import * as botActions from 'src/redux/modules/answerBot/root/actions/bot';
 import * as channelSelectors from 'src/redux/modules/selectors';
 import { getBrand } from 'src/redux/modules/base/base-selectors';
-
+import { getAnswerBotDelayChannelChoice } from 'src/redux/modules/settings/settings-selectors';
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot';
 import { i18n } from 'service/i18n';
 
@@ -37,6 +37,7 @@ class AnswerBotContainer extends Component {
     channelAvailable: PropTypes.bool,
     isFeedbackRequired: PropTypes.bool.isRequired, // eslint-disable-line
     sessions: PropTypes.any.isRequired, // eslint-disable-line
+    delayInitialFallback: PropTypes.bool.isRequired, // eslint-disable-line
     actions: PropTypes.shape({
       sessionStarted: PropTypes.func.isRequired,
       sessionFallback: PropTypes.func.isRequired,
@@ -56,7 +57,7 @@ class AnswerBotContainer extends Component {
     currentRequestStatus: null,
     restoreConversationScroll: () => {},
     saveConversationScroll: () => {},
-    channelAvailable: true
+    channelAvailable: true,
   };
 
   constructor(props) {
@@ -258,7 +259,7 @@ class AnswerBotContainer extends Component {
       this.initialFallbackTimer = window.clearTimeout(this.initialFallbackTimer);
     }
 
-    if (!this.initialFallbackTimer) {
+    if (!this.initialFallbackTimer && !props.delayInitialFallback) {
       this.startInitialFallbackTimer();
     }
 
@@ -337,7 +338,8 @@ const mapStateToProps = (state) => ({
   channelAvailable: channelSelectors.getChannelAvailable(state),
   isFeedbackRequired: rootSelectors.isFeedbackRequired(state),
   sessions: sessionSelectors.getSessions(state),
-  brand: getBrand(state)
+  brand: getBrand(state),
+  delayInitialFallback: getAnswerBotDelayChannelChoice(state),
 });
 
 const actionCreators = (dispatch) => ({

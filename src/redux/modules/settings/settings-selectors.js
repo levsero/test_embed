@@ -173,6 +173,7 @@ export const getSettingsChatPopout = createSelector(
 );
 
 export const getAnswerBotTitle = (state) => state.settings.answerBot.title;
+export const getAnswerBotDelayChannelChoice = (state) => state.settings.answerBot.delayChannelChoice;
 export const getAnswerBotSearchLabels = (state) => state.settings.answerBot.search.labels;
 const getSettingsAnswerBotAvatar = (state) => state.settings.answerBot.avatar;
 
