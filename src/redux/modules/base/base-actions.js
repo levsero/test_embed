@@ -395,14 +395,16 @@ export const legacyShowReceived = () => {
 };
 
 export const openReceived = () => {
-  return {
-    type: actions.OPEN_RECEIVED
+  return (dispatch) => {
+    dispatch({ type: actions.OPEN_RECEIVED });
+    dispatch(executeApiOnOpenCallback());
   };
 };
 
 export const closeReceived = () => {
-  return {
-    type: actions.CLOSE_RECEIVED
+  return (dispatch) => {
+    dispatch({ type: actions.CLOSE_RECEIVED });
+    dispatch(executeApiOnCloseCallback());
   };
 };
 export const toggleReceived = () => {
