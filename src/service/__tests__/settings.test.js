@@ -334,110 +334,80 @@ describe('getTrackSettings', () => {
   });
 });
 
-describe('getSupportAuthSettings', () => {
-  let mockSettings,
-    supportAuthSettings;
-
-  beforeEach(() => {
-    mockSettings = {
+describe('getAuthSettingsJwt', () => {
+  const setupAuthSettingsJwt = (authenticate) => {
+    const mockSettings = {
       webWidget: {
-        authenticate: {
-          support: { jwt: 'abc' }
-        }
+        authenticate
       }
     };
 
     window.zESettings = mockSettings;
     settings.init();
-    supportAuthSettings = settings.getSupportAuthSettings();
+    return settings.getAuthSettingsJwt();
+  };
+
+  describe('when authenticate.jwt is defined', () => {
+    it('returns the jwt', () => {
+      expect(setupAuthSettingsJwt({ jwt: 'mockJwt' }))
+        .toEqual('mockJwt');
+    });
   });
 
-  describe('when authenticate is defined', () => {
-    describe('when authenticate.support is defined', () => {
-      describe('when jwt property is defined', () => {
-        it('returns the auth settings', () => {
-          expect(supportAuthSettings)
-            .toEqual({ jwt: 'abc' });
-        });
-      });
-
-      describe('when jwt property is not defined', () => {
-        beforeEach(() => {
-          mockSettings.webWidget.authenticate.support = {};
-          window.zESettings = mockSettings;
-          settings.init();
-
-          supportAuthSettings = settings.getSupportAuthSettings();
-        });
-
-        describe('when authenticate.jwt property is defined', () => {
-          beforeEach(() => {
-            mockSettings.webWidget.authenticate.jwt = 'abc';
-            window.zESettings = mockSettings;
-            settings.init();
-
-            supportAuthSettings = settings.getSupportAuthSettings();
-          });
-
-          it('returns the auth settings', () => {
-            expect(supportAuthSettings)
-              .toEqual(jasmine.objectContaining({ jwt: 'abc' }));
-          });
-        });
-
-        describe('when jwt property is not defined', () => {
-          it('returns null', () => {
-            expect(supportAuthSettings)
-              .toBeNull();
-          });
-        });
-      });
-    });
-
-    describe('when authenticate.support is not defined', () => {
-      describe('when jwt property is defined', () => {
-        beforeEach(() => {
-          mockSettings.webWidget.authenticate = { jwt: 'abc' };
-          window.zESettings = mockSettings;
-          settings.init();
-
-          supportAuthSettings = settings.getSupportAuthSettings();
-        });
-
-        it('returns the auth settings', () => {
-          expect(supportAuthSettings)
-            .toEqual({ jwt: 'abc' });
-        });
-      });
-
-      describe('when jwt property is not defined', () => {
-        beforeEach(() => {
-          mockSettings.webWidget.authenticate = {};
-          window.zESettings = mockSettings;
-          settings.init();
-
-          supportAuthSettings = settings.getSupportAuthSettings();
-        });
-
-        it('returns null', () => {
-          expect(supportAuthSettings)
-            .toBeNull();
-        });
-      });
+  describe('when authenticate.jwt is not defined', () => {
+    it('returns null', () => {
+      expect(setupAuthSettingsJwt({}))
+        .toBeNull();
     });
   });
 
   describe('when authenticate is not defined', () => {
-    beforeEach(() => {
-      mockSettings.webWidget = {};
-      window.zESettings = mockSettings;
-      settings.init();
-
-      supportAuthSettings = settings.getSupportAuthSettings();
-    });
-
     it('returns null', () => {
-      expect(supportAuthSettings)
+      expect(setupAuthSettingsJwt())
+        .toBeNull();
+    });
+  });
+});
+
+describe('getAuthSettingsJwtFn', () => {
+  const setupAuthSettingsJwtFn = (authenticate) => {
+    const mockSettings = {
+      webWidget: {
+        authenticate
+      }
+    };
+
+    window.zESettings = mockSettings;
+    settings.init();
+    return settings.getAuthSettingsJwtFn();
+  };
+
+  describe('when authenticate.jwtFn is defined', () => {
+    it('returns the jwtFn', () => {
+      const mockJwtFn = () => {};
+
+      expect(setupAuthSettingsJwtFn({ jwtFn: mockJwtFn }))
+        .toEqual(mockJwtFn);
+    });
+  });
+
+  describe('when authenticate.jwtFn is not defined', () => {
+    it('returns null', () => {
+      expect(setupAuthSettingsJwtFn({}))
+        .toBeNull();
+    });
+  });
+
+  describe('when authenticate.jwtFn is not a function', () => {
+    it('returns null', () => {
+      expect(setupAuthSettingsJwtFn({ jwtFn: 'jwt-string' }))
+        .toBeNull();
+    });
+  });
+
+  describe('when authenticate is not defined', () => {
+    it('returns null', () => {
+      expect(setupAuthSettingsJwtFn())
         .toBeNull();
     });
   });

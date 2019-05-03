@@ -7,7 +7,8 @@ describe('embed.webWidget', () => {
     mockContactFormSuppressedValue,
     mockTalkSuppressedValue,
     mockTicketFormsValue,
-    mockSupportAuthValue,
+    mockSupportJwtValue,
+    mockSupportJwtFnValue,
     mockChatAuthValue,
     mockFiltersValue,
     mockFrame,
@@ -43,7 +44,8 @@ describe('embed.webWidget', () => {
     mockTalkSuppressedValue = false;
     mockTicketFormsValue = [],
     mockFiltersValue = [],
-    mockSupportAuthValue = null;
+    mockSupportJwtValue = null;
+    mockSupportJwtFnValue = null;
     mockChatAuthValue = null;
     mockIsMobileBrowser = false;
     mockIsPopout = false;
@@ -111,7 +113,8 @@ describe('embed.webWidget', () => {
               }
             }, value, null);
           },
-          getSupportAuthSettings: () => mockSupportAuthValue,
+          getAuthSettingsJwt: () => mockSupportJwtValue,
+          getAuthSettingsJwtFn: () => mockSupportJwtFnValue,
           getChatAuthSettings: () => mockChatAuthValue
         }
       },
@@ -1173,12 +1176,24 @@ describe('embed.webWidget', () => {
 
   describe('postRender', () => {
     describe('authentication', () => {
-      describe('when cookies are enabled', () => {
-        beforeAll(() => {
-          mockCookiesDisabled = false;
+      describe('when there is a jwt', () => {
+        beforeEach(() => {
+          const config = {
+            ...mockConfig,
+            helpCenterForm: {}
+          };
+
+          webWidget.create('', config, mockStore);
+          mockSupportJwtValue = 'token';
+          webWidget.postRender();
         });
 
-        describe('when there are valid support auth settings', () => {
+        it('calls authenticate with the jwt token', () => {
+          expect(authenticateSpy)
+            .toHaveBeenCalledWith('token');
+        });
+
+        describe('when there is a jwtFn', () => {
           beforeEach(() => {
             const config = {
               ...mockConfig,
@@ -1186,30 +1201,13 @@ describe('embed.webWidget', () => {
             };
 
             webWidget.create('', config, mockStore);
-            mockSupportAuthValue = { jwt: 'token' };
+            mockSupportJwtFnValue = (callback) => { callback('fetchJwt'); };
             webWidget.postRender();
           });
 
           it('calls authenticate with the jwt token', () => {
             expect(authenticateSpy)
-              .toHaveBeenCalledWith('token');
-          });
-        });
-
-        describe('when there are not valid support auth settings', () => {
-          beforeEach(() => {
-            const config = {
-              ...mockConfig,
-              helpCenterForm: {}
-            };
-
-            webWidget.create('', config, mockStore);
-            webWidget.postRender();
-          });
-
-          it('does not call authentication.authenticate with the jwt token', () => {
-            expect(authenticateSpy)
-              .not.toHaveBeenCalled();
+              .toHaveBeenCalledWith('fetchJwt');
           });
         });
 

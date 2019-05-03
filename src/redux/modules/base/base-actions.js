@@ -10,7 +10,8 @@ import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCen
 import { contextualSearch } from 'src/redux/modules/helpCenter';
 import {
   extractTokenId,
-  isTokenRenewable
+  isTokenRenewable,
+  isTokenExpired
 } from 'src/redux/modules/base/helpers/auth';
 import { nameValid, emailValid } from 'src/util/utils';
 import { mediator } from 'service/mediator';
@@ -18,14 +19,15 @@ import { store } from 'service/persistence';
 import { http } from 'service/transport';
 import { PHONE_PATTERN } from 'src/constants/shared';
 
-function onAuthRequestSuccess(res, id, dispatch) {
+function onAuthRequestSuccess(res, id, dispatch, webToken) {
   store.set(
     'zE_oauth',
     {
       'id': id,
       'token': res.body.oauth_token,
       'expiry': res.body.oauth_expiry,
-      'createdAt': res.body.oauth_created_at
+      'createdAt': res.body.oauth_created_at,
+      'webToken': webToken
     }
   );
   mediator.channel.broadcast('authentication.onSuccess');
@@ -60,7 +62,7 @@ export const authenticate = (webToken) => {
         params: { body: webToken },
         timeout: 10000,
         callbacks: {
-          done: (res) => onAuthRequestSuccess(res, webTokenId, dispatch),
+          done: (res) => onAuthRequestSuccess(res, webTokenId, dispatch, webToken),
           fail: (res) => onAuthRequestFailure(res, dispatch)
         }
       };
@@ -81,7 +83,7 @@ export const renewToken = () => {
 
     if (isTokenRenewable(oauth)) {
       const params = {
-        body: settings.getSupportAuthSettings().jwt,
+        body: oauth.webToken,
         token: {
           'oauth_token': oauth.token,
           'oauth_expiry': oauth.expiry
@@ -92,12 +94,20 @@ export const renewToken = () => {
         path: '/embeddable/authenticate/renew',
         params: params,
         callbacks: {
-          done: (res) => onAuthRequestSuccess(res, oauth.id, dispatch),
+          done: (res) => onAuthRequestSuccess(res, oauth.id, dispatch, oauth.webToken),
           fail: (res) => onAuthRequestFailure(res, dispatch)
         }
       };
 
       http.send(payload);
+    }
+
+    const settingsJwtFn = settings.getAuthSettingsJwtFn();
+
+    if (!oauth || isTokenExpired(oauth)) {
+      const callback = (jwt) => { dispatch(authenticate(jwt)); };
+
+      return settingsJwtFn(callback);
     }
   };
 };
