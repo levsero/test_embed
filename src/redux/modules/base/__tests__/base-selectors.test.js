@@ -73,18 +73,3 @@ test('getBrandLogoUrl', () => {
   expect(selectors.getBrandLogoUrl(config))
     .toEqual('logo url');
 });
-
-test('getAnswerBotEnabled', () => {
-  const config = embeddableConfig({
-    embeds: {
-      helpCenterForm: {
-        props: {
-          answerBotEnabled: true
-        }
-      }
-    }
-  });
-
-  expect(selectors.getAnswerBotEnabled(config))
-    .toEqual(true);
-});

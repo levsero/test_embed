@@ -142,6 +142,61 @@ describe('selectors', () => {
       expect(result)
         .toEqual('answer bot name');
     });
+
+    describe('getAnswerBotEnabled', () => {
+      const embeddableConfig = (answerBotEnabled) => (
+        {
+          embeddableConfig: {
+            embeds: {
+              helpCenterForm: {
+                props: {
+                  answerBotEnabled
+                }
+              }
+            }
+          }
+        }
+      );
+
+      test('config is enabled and not suppressed', () => {
+        const result = selectors.getAnswerBotEnabled({
+          base: embeddableConfig(true),
+          settings: {
+            answerBot: {}
+          }
+        });
+
+        expect(result)
+          .toEqual(true);
+      });
+
+      test('config is enabled and suppressed', () => {
+        const result = selectors.getAnswerBotEnabled({
+          base: embeddableConfig(true),
+          settings: {
+            answerBot: {
+              suppress: true
+            }
+          }
+        });
+
+        expect(result)
+          .toEqual(false);
+      });
+
+      test('config is disabled', () => {
+        const result = selectors.getAnswerBotEnabled({
+          base: embeddableConfig(false),
+          settings: {
+            answerBot: {
+            }
+          }
+        });
+
+        expect(result)
+          .toEqual(false);
+      });
+    });
   });
 
   describe('getLauncherChatLabel', () => {

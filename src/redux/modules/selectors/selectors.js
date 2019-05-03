@@ -49,7 +49,8 @@ import {
   getAnswerBotAvatarName,
   getSettingsChatConnectionSuppress,
   getSettingsChatConnectOnDemand,
-  getCookiesDisabled
+  getCookiesDisabled,
+  getSettingsAnswerBotSuppress
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
@@ -80,8 +81,7 @@ import {
   getLocale,
   getTalkConfig,
   getFormTitleKey,
-  getBrand,
-  getAnswerBotEnabled
+  getBrand
 } from '../base/base-selectors';
 import {
   getCanShowHelpCenterIntroState,
@@ -146,8 +146,6 @@ export const getContactFormTitle = createSelector(
     i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)
   )
 );
-
-export const getAnswerBotAvailable = getAnswerBotEnabled;
 
 export const getLauncherChatLabel = createSelector(
   [getSettingsLauncherChatLabel, getLocale],
@@ -631,6 +629,15 @@ export const getSettingsAnswerBotAvatarName = createSelector(
       || i18n.t('embeddable_framework.answerBot.bot.name')
   )
 );
+
+export const getAnswerBotEnabled = createSelector(
+  [getEmbeddableConfig, getSettingsAnswerBotSuppress],
+  (embeddableConfig, suppress) => (
+    !suppress && embeddableConfig.embeds.helpCenterForm.props.answerBotEnabled
+  )
+);
+
+export const getAnswerBotAvailable = getAnswerBotEnabled;
 
 export const getChannelAvailable = (state) => {
   return getSubmitTicketAvailable(state) || getTalkOnline(state) || getChatAvailable(state);

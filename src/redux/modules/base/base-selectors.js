@@ -56,16 +56,10 @@ export const getChatStandalone = createSelector(
     return embeddableConfig.embeds.zopimChat.props.standalone;
   }
 );
-export const getAnswerBotEnabled = createSelector(
+export const getHelpCenterContextualEnabled = createSelector(
   getEmbeddableConfig,
   (embeddableConfig) => {
-    return embeddableConfig.embeds.helpCenterForm.props.answerBotEnabled;
-  }
-);
-export const getHelpCenterContextualEnabled = createSelector(
-  [getEmbeddableConfig, getAnswerBotEnabled],
-  (embeddableConfig, answerBotEnabled) => {
-    return !answerBotEnabled && embeddableConfig.embeds.helpCenterForm.props.contextualHelpEnabled;
+    return embeddableConfig.embeds.helpCenterForm.props.contextualHelpEnabled;
   }
 );
 export const getHelpCenterSignInRequired = createSelector(
