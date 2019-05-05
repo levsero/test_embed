@@ -864,18 +864,32 @@ describe('base redux actions', () => {
     describe('when the oauth token is not renewable', () => {
       beforeEach(() => {
         mockIsTokenRenewable.and.returnValue(false);
-        mockStore.dispatch(actions.renewToken());
       });
+
       describe('and there is no jwtFn', () => {
+        beforeEach(() => {
+          mockStore.dispatch(actions.renewToken());
+        });
+
         it('should return and not request a new oauth token', () => {
-          expect(httpPostSpy)
-            .not.toHaveBeenCalled();
+          expect(mockStore.getActions()).toEqual([]);
+        });
+
+        describe('and the token is expired', () => {
+          beforeEach(() => {
+            mockIsTokenExpired = true;
+            mockStore.dispatch(actions.renewToken());
+          });
+
+          it('does not make any calls',() => {
+            expect(mockStore.getActions()).toEqual([]);
+          });
         });
       });
 
       describe('and there is a jwtFn', () => {
         beforeEach(() => {
-          mockJwtFn = jasmine.createSpy('mockJwtFn', () => {});
+          mockJwtFn = jasmine.createSpy('mockJwtFn', (callback) => { callback(); });
         });
 
         describe('and the token is expired', () => {
