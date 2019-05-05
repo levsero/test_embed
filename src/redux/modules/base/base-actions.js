@@ -104,7 +104,7 @@ export const renewToken = () => {
 
     const settingsJwtFn = settings.getAuthSettingsJwtFn();
 
-    if (!oauth || isTokenExpired(oauth)) {
+    if (settingsJwtFn && (!oauth || isTokenExpired(oauth))) {
       const callback = (jwt) => { dispatch(authenticate(jwt)); };
 
       return settingsJwtFn(callback);
