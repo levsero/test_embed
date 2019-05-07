@@ -88,6 +88,7 @@ export default {
     queuePosition: 1000,
     rating: 9001,
     screen: 'blue',
+    showChatHistory: 'Im not sure',
     socialLogin: 54321,
     standaloneMobileNotificationVisible: 'this is a really long var name',
     userSettings: {

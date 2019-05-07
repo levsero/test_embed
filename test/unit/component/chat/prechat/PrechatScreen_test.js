@@ -89,6 +89,9 @@ describe('PrechatScreen component', () => {
       },
       'src/redux/modules/chat/chat-selectors': {
 
+      },
+      'src/redux/modules/chat/chat-history-selectors': {
+
       }
     });
 

@@ -68,10 +68,10 @@ export const getChatTitle = createSelector(
   )
 );
 
-export const getHistoryTitle = createSelector(
-  [getSettingsChatTitle, getLocale],
-  (settingsChatTitle, __) => (
-    i18n.getSettingTranslation(settingsChatTitle)
+export const getChatHistoryLabel = createSelector(
+  [getLocale],
+  (__) => (
+    i18n.t('embeddable_framework.chat.historyLink.label')
   )
 );
 

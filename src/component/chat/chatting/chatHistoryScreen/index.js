@@ -11,7 +11,7 @@ import { i18n } from 'service/i18n';
 import { isFirefox, isIE } from 'utility/devices';
 import {
   updateChatScreen,
-  fetchConversationHistory
+  fetchConversationHistory,
 } from 'src/redux/modules/chat';
 import {
   getHistoryLength,
@@ -20,7 +20,7 @@ import {
 } from 'src/redux/modules/chat/chat-history-selectors';
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
 import {
-  getChatHistoryTitle,
+  getChatTitle,
 } from 'src/redux/modules/selectors';
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './styles/index.scss';
@@ -34,7 +34,7 @@ const mapStateToProps = (state) => {
     visitor: chatSelectors.getChatVisitor(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
-    title: getChatHistoryTitle(state),
+    title: getChatTitle(state),
   };
 };
 

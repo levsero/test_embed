@@ -442,6 +442,19 @@
   }
 }
 
+.Icon--clock-stroke {
+  svg {
+    color: $zd-color-grey-600;
+    min-width: #{15/$font-size}rem;
+    min-height: #{15/$font-size}rem;
+    height: #{15/$font-size}rem;
+    width: #{15/$font-size}rem;
+    path {
+      fill: $zd-color-grey-400;
+    }
+  }
+}
+
 .Icon--agent-avatar {
   svg rect {
     fill: $zd-color-grey-500;

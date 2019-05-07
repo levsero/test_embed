@@ -38,6 +38,14 @@ const dispatchZChatWithTimeoutAction = (action, ...callbackArgs) => {
   };
 };
 
+const dispatchAction = (action) => {
+  const store = mockStore(stateWithZChat);
+
+  store.dispatch(action);
+
+  return store.getActions()[0];
+};
+
 describe('endChat', () => {
   const payload = { agent: 'smith' };
 
@@ -692,5 +700,21 @@ describe('editContactDetailsSubmitted', () => {
       type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
       payload: { ...mockVisitor, timestamp: Date.now() }
     });
+  });
+});
+
+describe('openedChatHistory', () => {
+  it('dispatches OPENED_CHAT_HISTORY', () => {
+    const result = dispatchAction(actions.openedChatHistory());
+
+    expect(result).toEqual({ type: actionTypes.OPENED_CHAT_HISTORY });
+  });
+});
+
+describe('closedChatHistory', () => {
+  it('dispatches CLOSED_CHAT_HISTORY', () => {
+    const result = dispatchAction(actions.closedChatHistory());
+
+    expect(result).toEqual({ type: actionTypes.CLOSED_CHAT_HISTORY });
   });
 });

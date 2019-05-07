@@ -2,6 +2,7 @@ describe('chat history selectors', () => {
   let getHasMoreHistory,
     getHistoryRequestStatus,
     getHistoryLength,
+    getHasChatHistory,
     getGroupMessages,
     getEventMessage,
     CHAT_MESSAGE_EVENTS,
@@ -30,6 +31,7 @@ describe('chat history selectors', () => {
     getHasMoreHistory = selectors.getHasMoreHistory;
     getHistoryRequestStatus = selectors.getHistoryRequestStatus;
     getHistoryLength = selectors.getHistoryLength;
+    getHasChatHistory = selectors.getHasChatHistory;
     getGroupMessages = selectors.getGroupMessages;
     getEventMessage = selectors.getEventMessage;
   });
@@ -155,6 +157,43 @@ describe('chat history selectors', () => {
     it('returns the correct event message', () => {
       expect(result)
         .toEqual({ nick: 'visitor:2', type: 'member.join', timestamp: 3 });
+    });
+  });
+
+  describe('getHasChatHistory', () => {
+    let result;
+
+    const getResult = (entries) => {
+      return getHasChatHistory({
+        chat: {
+          chatHistory: {
+            chats: new Map(entries)
+          }
+        }
+      });
+    };
+
+    describe('when chat log entries are greater than zero', () => {
+      it('returns true', () => {
+        result = getResult([{}, {}]);
+
+        expect(result).toEqual(true);
+      });
+    });
+
+    describe('when chat log entries are zero', () => {
+      it('returns false', () => {
+        result = getResult([]);
+
+        expect(result).toEqual(false);
+      });
+    });
+    describe('when chat log entries are null', () => {
+      it('returns false', () => {
+        result = getResult(null);
+
+        expect(result).toEqual(false);
+      });
     });
   });
 });

@@ -312,6 +312,12 @@ test('getFirstMessageTimestamp', () => {
   expect(result).toEqual(1);
 });
 
+test('getShowChatHistory', () => {
+  const result = selectors.getShowChatHistory(testState);
+
+  expect(result).toEqual('Im not sure');
+});
+
 test('getFirstMessageTimestamp when map is invalid', () => {
   const invalidState = {
     chat: {

@@ -4,12 +4,17 @@ import { connect } from 'react-redux';
 
 import ChatOffline from 'component/chat/ChatOffline';
 import ChatOnline from 'component/chat/ChatOnline';
-import { getShowOfflineChat } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getShowOfflineChat,
+  getShowChatHistory
+} from 'src/redux/modules/chat/chat-selectors';
 import { cancelButtonClicked } from 'src/redux/modules/base';
+import ChatHistoryScreen from 'src/component/chat/chatting/chatHistoryScreen';
 
 const mapStateToProps = (state) => {
   return {
-    showOfflineChat: getShowOfflineChat(state)
+    showOfflineChat: getShowOfflineChat(state),
+    showChatHistory: getShowChatHistory(state)
   };
 };
 
@@ -24,7 +29,8 @@ class Chat extends Component {
     onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
     updateChatBackButtonVisibility: PropTypes.func.isRequired,
-    chatId: PropTypes.string
+    chatId: PropTypes.string,
+    showChatHistory: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -49,21 +55,6 @@ class Chat extends Component {
     return (this.online) ? this.online : this.offline;
   }
 
-  renderChatOffline = () => {
-    if (!this.props.showOfflineChat) return;
-
-    return (
-      <ChatOffline
-        ref={(el) => { this.offline = el; }}
-        getFrameContentDocument={this.props.getFrameContentDocument}
-        handleCloseClick={this.props.cancelButtonClicked}
-        isMobile={this.props.isMobile}
-        chatId={this.props.chatId}
-        fullscreen={this.props.fullscreen}
-        hideZendeskLogo={this.props.hideZendeskLogo} />
-    );
-  }
-
   onContainerClick = () => {
     if (!this.props.showOfflineChat) {
       this.online.getWrappedInstance().onContainerClick();
@@ -76,8 +67,20 @@ class Chat extends Component {
     }
   }
 
+  renderChatHistory = () => {
+    if (!this.props.showChatHistory) return;
+
+    return (
+      <ChatHistoryScreen
+        fullscreen={this.props.fullscreen}
+        isMobile={this.props.isMobile}
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        chatId={this.props.chatId} />
+    );
+  }
+
   renderChatOnline = () => {
-    if (this.props.showOfflineChat) return;
+    if (this.props.showOfflineChat || this.props.showChatHistory) return;
 
     return (
       <ChatOnline
@@ -93,9 +96,25 @@ class Chat extends Component {
     );
   }
 
+  renderChatOffline = () => {
+    if (!this.props.showOfflineChat || this.props.showChatHistory) return;
+
+    return (
+      <ChatOffline
+        ref={(el) => { this.offline = el; }}
+        getFrameContentDocument={this.props.getFrameContentDocument}
+        handleCloseClick={this.props.cancelButtonClicked}
+        isMobile={this.props.isMobile}
+        chatId={this.props.chatId}
+        fullscreen={this.props.fullscreen}
+        hideZendeskLogo={this.props.hideZendeskLogo} />
+    );
+  }
+
   render() {
     return (
       <div>
+        {this.renderChatHistory()}
         {this.renderChatOnline()}
         {this.renderChatOffline()}
       </div>

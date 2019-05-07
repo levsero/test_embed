@@ -106,6 +106,12 @@ describe('ChatOfflineForm component', () => {
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
         renderLabel: () => 'someLabel'
+      },
+      './ChatHistoryLink.scss': {
+        locals: {}
+      },
+      'component/Icon': {
+        Icon: noop
       }
     });
 

@@ -15,6 +15,7 @@ export const getConnection = (state) => chatState(state).connection;
 export const getCurrentMessage = (state) => chatState(state).currentMessage;
 export const getChatRating = (state) => chatState(state).rating;
 export const getChatScreen = (state) => chatState(state).screen;
+export const getShowChatHistory = (state) => chatState(state).showChatHistory;
 export const getChatStatus = (state) => chatState(state).account_status;
 export const getChatVisitor = (state) => chatState(state).visitor;
 export const getIsChatting = (state) => chatState(state).is_chatting;
