@@ -33,7 +33,8 @@ const renderComponent = (props = {}, renderFn) => {
     greeted: false,
     initialFallbackSuggested: false,
     isFeedbackRequired: false,
-    actions
+    actions,
+    delayInitialFallback: false,
   };
   const componentProps = {
     ...defaultProps,
@@ -161,13 +162,32 @@ describe('in-conversation feedback', () => {
 });
 
 describe('initial fallback', () => {
-  it('fires fallback suggestion after a delay on startup', () => {
-    renderComponent({ greeted: true, isInitialSession: true, currentSessionID: 1234, currentScreen: 'conversation' });
-    jest.runAllTimers();
-    expect(actions.botChannelChoice)
-      .toHaveBeenCalledWith('Or you can get in touch.');
-    expect(actions.botInitialFallback)
-      .toHaveBeenCalled();
+  describe('and delayInitialFallback is false', () => {
+    it('fire fallback suggestion after a delay on startup', () => {
+      renderComponent({ greeted: true, isInitialSession: true, currentSessionID: 1234, currentScreen: 'conversation' });
+      jest.runAllTimers();
+      expect(actions.botChannelChoice)
+        .toHaveBeenCalledWith('Or you can get in touch.');
+      expect(actions.botInitialFallback)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('and delayInitialFallback is true', () => {
+    it('does not fires fallback', () => {
+      renderComponent({
+        greeted: true,
+        isInitialSession: true,
+        currentSessionID: 1234,
+        currentScreen: 'conversation',
+        delayInitialFallback: true
+      });
+      jest.runAllTimers();
+      expect(actions.botChannelChoice)
+        .not.toHaveBeenCalledWith('Or you can get in touch.');
+      expect(actions.botInitialFallback)
+        .not.toHaveBeenCalled();
+    });
   });
 
   it('does not fire if screen is not conversation screen', () => {
