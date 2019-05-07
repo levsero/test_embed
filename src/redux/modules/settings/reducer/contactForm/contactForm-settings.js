@@ -6,7 +6,8 @@ const initialState = {
   subject: false,
   suppress: false,
   tags: [],
-  title: {}
+  title: {},
+  selectTicketForm: {}
 };
 
 const contactFormSettings = (state = initialState, action) => {
@@ -15,6 +16,7 @@ const contactFormSettings = (state = initialState, action) => {
   switch (type) {
     case UPDATE_SETTINGS:
       return {
+        selectTicketForm: _.get(payload, 'webWidget.contactForm.selectTicketForm', state.selectTicketForm),
         attachments: _.get(payload, 'webWidget.contactForm.attachments', state.attachments),
         subject: _.get(payload, 'webWidget.contactForm.subject', state.subject),
         suppress: _.get(payload, 'webWidget.contactForm.suppress', state.suppress),
