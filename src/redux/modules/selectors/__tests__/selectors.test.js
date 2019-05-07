@@ -431,6 +431,41 @@ describe('selectors', () => {
       });
     });
   });
+
+  describe('getSelectTicketFormLabel', () => {
+    let state;
+
+    describe('when a custom translation is defined in settings', () => {
+      beforeEach(() => {
+        state = stateContactFormSettings({ selectTicketForm: { '*': 'Mamma mia!' } });
+      });
+
+      it('returns the custom translation', () => {
+        expect(selectors.getSelectTicketFormLabel(state))
+          .toEqual('Mamma mia!');
+      });
+    });
+
+    describe('when a custom translation is not defined in settings', () => {
+      beforeEach(() => {
+        state = stateContactFormSettings({ title: null });
+
+        jest.spyOn(i18n, 't')
+          .mockImplementation(() => 'Contact Us');
+      });
+
+      afterEach(() => {
+        i18n.t.mockRestore();
+      });
+
+      it('returns the value from i18n', () => {
+        expect(selectors.getSelectTicketFormLabel(state))
+          .toEqual('Contact Us');
+        expect(i18n.t)
+          .toHaveBeenCalledWith('embeddable_framework.submitTicket.ticketForms.title');
+      });
+    });
+  });
 });
 
 describe('getHorizontalPosition', () => {

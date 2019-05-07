@@ -290,6 +290,15 @@ test('getSettingsContactFormTitle', () => {
     .toBe('hello!');
 });
 
+test('getSettingsSelectTicketFormLabel', () => {
+  const result = selectors.getSettingsSelectTicketFormLabel(
+    contactFormSettings({ selectTicketForm: 'hello!' })
+  );
+
+  expect(result)
+    .toBe('hello!');
+});
+
 test('getSettingsChatPopout', () => {
   const mockSettings = {
     chat: {
