@@ -65,10 +65,14 @@ export default class NestedDropdown extends Component {
 
   constructor(props) {
     super();
-    const { defaultOption } = props;
+    const { defaultOption, required, options } = props;
 
     this.rootNode = new Node();
-    this.populateGraph(props.options);
+    if (!required) {
+      options.unshift({ name: '-', value: '' });
+    }
+
+    this.populateGraph(options);
 
     const names = defaultOption ? defaultOption.name.split('::') : [];
     const node = findDefaultNode(names, this.rootNode);
