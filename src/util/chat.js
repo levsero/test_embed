@@ -81,7 +81,7 @@ function generateQueryString(chatPopoutSettings, machineId, locale) {
   const settings = win.btoa(JSON.stringify(chatPopoutSettings));
   const title = encodeURI(i18n.t('embeddable_framework.popout.title'));
 
-  return `?v=3#key=${subdomain}&settings=${settings}&mid=${machineId}&locale=${locale}&title=${title}`;
+  return `?v=5#key=${subdomain}&settings=${settings}&mid=${machineId}&locale=${locale}&title=${title}`;
 }
 
 export {
