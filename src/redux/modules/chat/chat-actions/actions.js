@@ -653,28 +653,25 @@ export function chatLogout() {
   return (dispatch, getState) => {
     const state = getState();
     const zChat = getZChatVendor(state);
-    const isAuthenticated = getIsAuthenticated(state);
     const zChatConfig = getZChatConfig(state);
 
-    if (isAuthenticated) {
-      zChat.endChat(() => {
-        dispatch({
-          type: actions.CHAT_USER_LOGGING_OUT
-        });
-
-        zChat.logout();
-        zChat.init(zChatConfig);
-        zChat.on('connection_update', (connectionStatus) => {
-          const isLoggingOut = getIsLoggingOut(getState());
-
-          if (connectionStatus === CONNECTION_STATUSES.CONNECTED && isLoggingOut) {
-            dispatch({
-              type: actions.CHAT_USER_LOGGED_OUT
-            });
-          }
-        });
+    zChat.endChat(() => {
+      dispatch({
+        type: actions.CHAT_USER_LOGGING_OUT
       });
-    }
+
+      zChat.logoutForAll();
+      zChat.init(zChatConfig);
+      zChat.on('connection_update', (connectionStatus) => {
+        const isLoggingOut = getIsLoggingOut(getState());
+
+        if (connectionStatus === CONNECTION_STATUSES.CONNECTED && isLoggingOut) {
+          dispatch({
+            type: actions.CHAT_USER_LOGGED_OUT
+          });
+        }
+      });
+    });
   };
 }
 
