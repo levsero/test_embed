@@ -1185,7 +1185,8 @@ Dictates whether to show the agent's rating.
 
 <a name="example-prechatForm"></a>
 #### Example
-```
+
+```html
 <script type="text/javascript">
 window.zESettings = {
   webWidget: {
