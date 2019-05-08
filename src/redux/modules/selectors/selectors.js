@@ -50,7 +50,8 @@ import {
   getSettingsChatConnectionSuppress,
   getSettingsChatConnectOnDemand,
   getCookiesDisabled,
-  getSettingsAnswerBotSuppress
+  getSettingsAnswerBotSuppress,
+  getSettingsSelectTicketFormLabel
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
@@ -144,6 +145,14 @@ export const getContactFormTitle = createSelector(
   (contactFormTitle, formTitleKey, _locale) => (
     i18n.getSettingTranslation(contactFormTitle) ||
     i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)
+  )
+);
+
+export const getSelectTicketFormLabel = createSelector(
+  [getSettingsSelectTicketFormLabel, getLocale],
+  (settingsSelectTicketFormLabel, _locale) => (
+    i18n.getSettingTranslation(settingsSelectTicketFormLabel) ||
+    i18n.t('embeddable_framework.submitTicket.ticketForms.title')
   )
 );
 

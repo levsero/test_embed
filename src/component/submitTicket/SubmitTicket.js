@@ -21,7 +21,7 @@ import { ICONS } from 'src/constants/shared';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors';
 import { getConfigNameFieldRequired, getConfigNameFieldEnabled } from 'src/redux/modules/base/base-selectors';
-import { getAttachmentsEnabled, getContactFormTitle } from 'src/redux/modules/selectors';
+import { getAttachmentsEnabled, getContactFormTitle, getSelectTicketFormLabel } from 'src/redux/modules/selectors';
 import { Alert } from '@zendeskgarden/react-notifications';
 
 import classNames from 'classnames';
@@ -45,7 +45,8 @@ const mapStateToProps = (state) => {
     subjectEnabled: getSettingsContactFormSubject(state),
     attachmentsEnabled: getAttachmentsEnabled(state),
     formTitle: getContactFormTitle(state),
-    locale: i18n.getLocale()
+    locale: i18n.getLocale(),
+    selectTicketFormLabel: getSelectTicketFormLabel(state)
   };
 };
 
@@ -84,7 +85,8 @@ class SubmitTicket extends Component {
     hasContextuallySearched: PropTypes.bool,
     showNotification: PropTypes.bool.isRequired,
     activeTicketFormFields: PropTypes.array,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
+    selectTicketFormLabel: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -331,7 +333,7 @@ class SubmitTicket extends Component {
   renderTicketFormList = () => {
     if (this.props.showNotification) return;
 
-    const { fullscreen, isMobile, formTitle } = this.props;
+    const { fullscreen, isMobile, formTitle, selectTicketFormLabel } = this.props;
     const containerClasses = isMobile
       ? styles.ticketFormsContainerMobile
       : styles.ticketFormsContainer;
@@ -347,7 +349,7 @@ class SubmitTicket extends Component {
         containerClasses={containerClasses}
         footerClasses={styles.ticketFormsFooter}>
         <h2 className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
-          {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
+          {selectTicketFormLabel}
         </h2>
         <ul>
           {this.renderTicketFormOptions()}
