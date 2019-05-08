@@ -215,7 +215,7 @@ describe('createChatPopoutWindow', () => {
     jest.spyOn(i18n, 't').mockImplementation(() => 'WebWidgetLiveChat');
     createChatPopoutWindow('settings', 'machineId', 'defactoLanguage');
 
-    const url = 'https://static-staging.zdassets.com/web_widget/latest/liveChat.html?v=3#key=a.zendesk.com&settings="settings"&mid=machineId&locale=defactoLanguage&title=WebWidgetLiveChat';
+    const url = 'https://static-staging.zdassets.com/web_widget/latest/liveChat.html?v=5#key=a.zendesk.com&settings="settings"&mid=machineId&locale=defactoLanguage&title=WebWidgetLiveChat';
 
     expect(globals.win.open)
       .toHaveBeenCalledWith(url, 'WebWidgetLiveChat', 'height=600,width=400');
