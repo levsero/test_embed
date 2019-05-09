@@ -44,7 +44,9 @@ window.zESettings = {
 };
 </script>
 ```
+**_NOTE:_** The Integrated Chat feature must be enabled in Zendesk Support under Admin > Channels > Widget > Customization tab for the `chat` API settings to work.
 
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/adminIntegratedChat.png" alt="Integrated Chat toggle" width="250px">
 
 ### Commands
 
