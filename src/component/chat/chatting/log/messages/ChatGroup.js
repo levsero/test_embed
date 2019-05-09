@@ -19,6 +19,7 @@ import { locals as styles } from './ChatGroup.scss';
 import { Icon } from 'component/Icon';
 import StructuredMessage from 'component/chat/chatting/StructuredMessage';
 import Carousel from 'component/chat/chatting/Carousel';
+import { logging } from 'service/logging';
 
 const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE);
 
@@ -222,7 +223,18 @@ export default class ChatGroup extends Component {
     );
 
     if (file.error) {
-      const errorType = ATTACHMENT_ERROR_TYPES[file.error.message] || ATTACHMENT_ERROR_TYPES.UNKNOWN_ERROR;
+      let errorType = ATTACHMENT_ERROR_TYPES[file.error.message];
+
+      /*
+        Temporary rollbar reporting so we can figure out what's causing unhandled
+        file upload errors to appear even though the uploads are actually getting though
+        https://support.zendesk.com/agent/tickets/4508043
+      */
+      if (_.isUndefined(errorType)) {
+        logging.error(new Error('CE-5315'), file);
+        errorType = ATTACHMENT_ERROR_TYPES.UNKNOWN_ERROR;
+      }
+
       const errorMessage = i18n.t(`embeddable_framework.chat.attachments.error.${errorType}`);
 
       return (
