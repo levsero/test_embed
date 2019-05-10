@@ -12,12 +12,14 @@ import { wait } from 'react-testing-library';
 import { chat as zopimChat } from 'embed/chat/chat';
 import { mediator } from 'service/mediator';
 import { beacon } from 'service/beacon';
+import { identity } from 'service/identity';
 import * as baseSelectors from 'src/redux/modules/base/base-selectors';
 import createStore from 'src/redux/createStore';
 
 jest.mock('service/mediator');
 jest.mock('service/settings');
 jest.mock('service/beacon');
+jest.mock('service/identity');
 jest.mock('embed/chat/chat');
 
 const mockActionValue = Date.now();
@@ -116,6 +118,8 @@ describe('identify', () => {
     it('calls identify and chat setUser', () => {
       expect(beacon.identify)
         .toHaveBeenCalledWith(params);
+      expect(identity.setUserIdentity)
+        .toHaveBeenCalledWith(params.name, params.email);
       expect(zopimChat.setUser)
         .toHaveBeenCalledWith(params);
     });

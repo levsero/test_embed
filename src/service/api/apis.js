@@ -46,6 +46,7 @@ import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selec
 
 import { chat as zopimChat } from 'embed/chat/chat';
 import { i18n } from 'service/i18n';
+import { identity } from 'service/identity';
 import { mediator } from 'service/mediator';
 import { beacon } from 'service/beacon';
 import { createChatPopoutWindow } from 'src/util/chat';
@@ -72,6 +73,7 @@ export const identifyApi = (_reduxStore, user) => {
 
   if (isEmailValid && isNameValid) {
     beacon.identify(user);
+    identity.setUserIdentity(user.name, user.email);
     zopimChat.setUser(user);
   } else if (isEmailValid) {
     console.warn('invalid name passed into zE.identify', user.name); // eslint-disable-line no-console

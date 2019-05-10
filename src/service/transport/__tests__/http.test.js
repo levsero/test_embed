@@ -1,4 +1,6 @@
 import { http } from '../http';
+import { identity } from 'service/identity';
+import { base64decode } from 'utility/utils';
 import superagent from 'superagent';
 
 jest.mock('superagent');
@@ -339,6 +341,56 @@ describe('#send', () => {
     it('uses the hostmapped domain', () => {
       expect(urlArg)
         .toEqual(expect.stringContaining('help.x.yz'));
+    });
+  });
+});
+
+describe('sendWithMeta', () => {
+  let base64result;
+
+  const payload = {
+    method: 'get',
+    path: 'https://www.example.com/test',
+    params: {}
+  };
+  const config = {
+    scheme: 'https',
+    zendeskHost: 'test.zendesk.host'
+  };
+  const userInfo = {
+    name: 'Bob',
+    email: 'bob@example.com'
+  };
+
+  describe('when identity is not set', () => {
+    beforeEach(() => {
+      http.init(config);
+      http.sendWithMeta(payload);
+
+      base64result = base64decode(superagent.__mostRecent().query.mock.calls[0][0].data);
+    });
+
+    it('does NOT include identity data in the base64 encoded payload', () => {
+      const { identity } = JSON.parse(base64result);
+
+      expect(identity).toBeUndefined();
+    });
+  });
+
+  describe('when identity is set', () => {
+    beforeEach(() => {
+      identity.setUserIdentity(userInfo.name, userInfo.email);
+
+      http.init(config);
+      http.sendWithMeta(payload);
+
+      base64result = base64decode(superagent.__mostRecent().query.mock.calls[0][0].data);
+    });
+
+    it('includes the identity data in the base64 encoded payload', () => {
+      const { identity } = JSON.parse(base64result);
+
+      expect(identity).toEqual(userInfo);
     });
   });
 });

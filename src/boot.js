@@ -106,8 +106,6 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       beacon.sendConfigLoadTime(Date.now() - configLoadStart);
     }
 
-    beacon.sendPageView();
-
     if (win.zESettings) {
       beacon.trackSettings(settings.getTrackSettings());
     }
@@ -119,6 +117,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     const renderCallback = () => {
       renderer.init(config, reduxStore);
       webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore);
+      beacon.sendPageView();
     };
 
     i18n.setLocale(undefined, renderCallback, config.locale);
