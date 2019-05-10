@@ -1378,44 +1378,30 @@ describe('base redux actions', () => {
   });
 
   describe('openReceived', () => {
-    let actionOne,
-      actionTwo;
+    let action;
 
     beforeEach(() => {
       mockStore.dispatch(actions.openReceived());
-      actionOne = mockStore.getActions()[0];
-      actionTwo = mockStore.getActions()[1];
+      action = mockStore.getActions()[0];
     });
 
     it('dispatches an action with OPEN_RECEIVED', () => {
-      expect(actionOne.type)
+      expect(action.type)
         .toEqual(actionTypes.OPEN_RECEIVED);
-    });
-
-    it('dispatches an action with EXECUTE_API_ON_OPEN_CALLBACK', () => {
-      expect(actionTwo.type)
-        .toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
     });
   });
 
   describe('closeReceived', () => {
-    let actionOne,
-      actionTwo;
+    let action;
 
     beforeEach(() => {
       mockStore.dispatch(actions.closeReceived());
-      actionOne = mockStore.getActions()[0];
-      actionTwo = mockStore.getActions()[1];
+      action = mockStore.getActions()[0];
     });
 
     it('dispatches an action with CLOSE_RECEIVED', () => {
-      expect(actionOne.type)
+      expect(action.type)
         .toEqual(actionTypes.CLOSE_RECEIVED);
-    });
-
-    it('dispatches an action with EXECUTE_API_ON_CLOSE_CALLBACK', () => {
-      expect(actionTwo.type)
-        .toEqual(actionTypes.EXECUTE_API_ON_CLOSE_CALLBACK);
     });
   });
 
