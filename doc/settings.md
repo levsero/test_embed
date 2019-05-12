@@ -34,6 +34,7 @@ window.zESettings = {
 
 Available settings:
 
+* [analytics](#analytics)
 * [attachments](#attachments)
 * [authenticate](#authenticate)
 * [badge](#badge)
@@ -47,6 +48,7 @@ Available settings:
 * [contactButton](#contactbutton)
 * [contactFormLabel](#contactformlabel)
 * [departments](#departments)
+* [errorReporting](#errorreporting)
 * [fields](#fields)
 * [filter](#filter)
 * [hideWhenOffline](#hidewhenoffline)
@@ -70,8 +72,26 @@ Available settings:
 * [ticketForms](#ticketforms)
 * [title](#title)
 * [zIndex](#zindex)
-* [analytics](#analytics)
-* [errorReporting](#errorreporting)
+
+### analytics
+
+Specifies whether to enable or disable Google Analytics tracking.
+
+**Note**: For information on currently supported events, see [Google Analytics for Chat in the Web Widget](https://support.zendesk.com/hc/en-us/community/posts/360003215947-New-Feature-Google-Analytics-for-Chat-in-the-Web-Widget)
+
+#### Availability
+
+* [Core widget setting](./core)
+
+#### Usage
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  analytics: true
+};
+</script>
+```
 
 ### attachments
 
@@ -684,6 +704,23 @@ window.zESettings = {
       }
     }
   }
+};
+</script>
+```
+### errorReporting
+
+The Web Widget sends any errors that occur to a reporting service used by Zendesk to help diagnose and address issues. This error reporting can be disabled setting `errorReporting` to `false`.
+
+#### Availability
+
+* [Core widget setting](./core)
+
+#### Usage
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  errorReporting: true
 };
 </script>
 ```
@@ -1563,41 +1600,3 @@ window.zESettings = {
 * [color](#color)
 * [offset](#offset)
 * [position](#position)
-
-### analytics
-
-Specifies whether to enable or disable Google Analytics tracking.
-
-**Note**: The currently supported events can be found [here](https://support.zendesk.com/hc/en-us/community/posts/360003215947-New-Feature-Google-Analytics-for-Chat-in-the-Web-Widget)
-
-#### Availability
-
-* [Core widget setting](./core)
-
-#### Usage
-
-```html
-<script type="text/javascript">
-window.zESettings = {
-  analytics: true
-};
-</script>
-```
-
-### errorReporting
-
-The Web Widget sends any errors that occur to a reporting service used by Zendesk to help diagnose and address issues. This error reporting can be disabled setting `errorReporting` to `false`.
-
-#### Availability
-
-* [Core widget setting](./core)
-
-#### Usage
-
-```html
-<script type="text/javascript">
-window.zESettings = {
-  errorReporting: true
-};
-</script>
-```
