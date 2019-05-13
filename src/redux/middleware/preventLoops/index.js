@@ -20,8 +20,6 @@ export default (_store) => next => action => {
       label: action.type,
       value: prevAction.type
     });
-    // console.error('Possible infinite loop detected! Please contact zendesk support with code snippet used on this site.');
-    // return;
   }
   prevAction = action;
   return next(action);
