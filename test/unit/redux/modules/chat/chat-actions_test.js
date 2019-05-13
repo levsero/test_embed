@@ -115,7 +115,7 @@ describe('chat redux actions', () => {
             getAuthLoginUrl: (key) => `www.foo.com/${key}/bar-baz`,
             doAuthLogout: (cb) => cb(mockDoAuthLogoutArgs),
             init: mockInit,
-            logout: mockLogout
+            logoutForAll: mockLogout
           };
         }
       },
@@ -1333,24 +1333,6 @@ describe('chat redux actions', () => {
             });
           });
         });
-      });
-    });
-
-    describe('when not authenticated', () => {
-      beforeAll(() => {
-        mockIsAuthenticated = false;
-      });
-
-      it('does not call endChat', () => {
-        expect(mockEndChat)
-          .not
-          .toHaveBeenCalled();
-      });
-
-      it('does not call logout', () => {
-        expect(mockLogout)
-          .not
-          .toHaveBeenCalled();
       });
     });
   });
