@@ -328,8 +328,10 @@ class ChattingScreen extends Component {
     const { currentMessage, sendMsg, resetCurrentMessage, handleChatBoxChange, isMobile, menuVisible } = this.props;
 
     const sendChatFn = () => {
-      if (_.isEmpty(currentMessage)) return;
-      sendMsg(currentMessage);
+      if (!_.isEmpty(currentMessage.trim())) {
+        sendMsg(currentMessage);
+      }
+
       resetCurrentMessage();
     };
 
