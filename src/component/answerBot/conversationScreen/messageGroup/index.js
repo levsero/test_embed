@@ -16,8 +16,8 @@ import { isMobileBrowser } from 'utility/devices';
 
 import { Avatar } from 'src/component/Avatar';
 import { locals as styles } from './MessageGroup.scss';
-import { Tag } from '@zendeskgarden/react-tags';
 import classNames from 'classnames';
+import { i18n } from 'service/i18n';
 
 const makeMapStateToProps = () => {
   const getGroupMessages = makeGetGroupMessages();
@@ -187,10 +187,15 @@ class MessageGroup extends Component {
 
     return !this.props.isVisitor ?
       <div className={nameClasses}>
-        <div className={styles.nameOnly}>
+        <span>
           {this.props.agentAvatarName}
-        </div>
-        <Tag className={styles.tag}>BOT</Tag>
+        </span>
+        &nbsp;
+        &middot;
+        &nbsp;
+        <span>
+          {i18n.t('embeddable_framework.answerBot.tag.bot')}
+        </span>
       </div> : null;
   }
 
