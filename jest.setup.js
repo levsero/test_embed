@@ -4,6 +4,7 @@ import 'react-testing-library/cleanup-after-each';
 jest.mock('translation/ze_localeIdMap');
 
 jest.mock('component/Refocus');
+jest.mock('src/redux/middleware/preventLoops/index');
 jest.mock('src/embed/webWidget/webWidgetStyles');
 jest.mock('src/embed/launcher/launcherStyles');
 jest.mock('src/embed/sharedStyles');
