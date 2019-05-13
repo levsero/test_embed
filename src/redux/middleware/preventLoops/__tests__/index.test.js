@@ -21,7 +21,7 @@ const getAction = (actionType = 'fake_action') => {
 };
 
 describe('preventLoops', () => {
-  describe('with less than 100 actions', () => {
+  describe('with fewer than 100 actions', () => {
     beforeEach(() => {
       Array.from({ length: 25 }).forEach(() => {
         preventLoops({ getState: noop })(jest.fn())(getAction());
@@ -56,7 +56,7 @@ describe('preventLoops', () => {
       });
     });
 
-    it('calls the logger for each action', () => {
+    it('does not call the logger for any action', () => {
       expect(logging.error).not.toHaveBeenCalled();
       expect(beacon.trackUserAction).not.toHaveBeenCalled();
     });
