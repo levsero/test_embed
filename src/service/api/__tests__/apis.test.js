@@ -7,28 +7,15 @@ import * as settingsActions from 'src/redux/modules/settings/settings-actions';
 import * as baseActions from 'src/redux/modules/base/base-actions';
 import * as hcActions from 'src/redux/modules/helpCenter/helpCenter-actions';
 import { i18n } from 'service/i18n';
+import { wait } from 'react-testing-library';
 
 import { chat as zopimChat } from 'embed/chat/chat';
 import { mediator } from 'service/mediator';
 import { beacon } from 'service/beacon';
-import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
-import {
-  getIsChatting,
-  getChatStatus,
-  getNotificationCount,
-  getDepartment,
-  getDepartmentsList
-} from 'src/redux/modules/chat/chat-selectors';
 import * as baseSelectors from 'src/redux/modules/base/base-selectors';
-
-const mockStore = {
-  dispatch: jest.fn(),
-  getState: jest.fn()
-};
+import createStore from 'src/redux/createStore';
 
 jest.mock('service/mediator');
-jest.mock('src/redux/modules/selectors');
-jest.mock('src/redux/modules/chat/chat-selectors');
 jest.mock('service/settings');
 jest.mock('service/beacon');
 jest.mock('embed/chat/chat');
@@ -40,28 +27,36 @@ const setActiveEmbed = (activeEmbed) => {
 };
 
 describe('endChatApi', () => {
-  let spy;
+  let spy,
+    store;
 
   beforeEach(() => {
     spy = jest.spyOn(chatActions, 'endChat')
       .mockImplementation(mockAction);
+    store = createStore();
+
+    store.dispatch = jest.fn();
   });
 
   afterEach(() => spy.mockRestore());
 
   it('dispatches the endChat action', () => {
-    apis.endChatApi(mockStore);
+    apis.endChatApi(store);
 
-    expect(mockStore.dispatch)
+    expect(store.dispatch)
       .toHaveBeenCalledWith(mockActionValue);
   });
 });
 
 describe('sendChatMsgApi', () => {
   let sendMsg,
-    spy;
+    spy,
+    store;
 
   beforeEach(() => {
+    store = createStore();
+
+    store.dispatch = jest.fn();
     sendMsg = jest.fn();
 
     spy = jest.spyOn(chatActions, 'sendMsg')
@@ -71,21 +66,21 @@ describe('sendChatMsgApi', () => {
   afterEach(() => spy.mockRestore());
 
   it('dispatches the sendMsg action', () => {
-    apis.sendChatMsgApi(mockStore, 'hello world');
+    apis.sendChatMsgApi(store, 'hello world');
 
-    expect(mockStore.dispatch)
+    expect(store.dispatch)
       .toHaveBeenCalledWith(sendMsg('hello world'));
   });
 
   it('calls send message with the message', () => {
-    apis.sendChatMsgApi(mockStore, 'hello world');
+    apis.sendChatMsgApi(store, 'hello world');
 
     expect(sendMsg)
       .toHaveBeenCalledWith('hello world');
   });
 
   it('defaults to empty string if message is not a string', () => {
-    apis.sendChatMsgApi(mockStore, undefined);
+    apis.sendChatMsgApi(store, undefined);
 
     expect(sendMsg)
       .toHaveBeenCalledWith('');
@@ -93,8 +88,11 @@ describe('sendChatMsgApi', () => {
 });
 
 describe('identify', () => {
+  let store;
+
   /* eslint-disable no-console */
   beforeEach(() => {
+    store = createStore();
     jest.spyOn(console, 'warn');
     console.warn.mockReturnValue();
   });
@@ -112,7 +110,7 @@ describe('identify', () => {
         email: 'james@dean.com'
       };
 
-      apis.identifyApi(mockStore, params);
+      apis.identifyApi(store, params);
     });
 
     it('calls identify and chat setUser', () => {
@@ -132,7 +130,7 @@ describe('identify', () => {
         email: 'james@dean'
       };
 
-      apis.identifyApi(mockStore, params);
+      apis.identifyApi(store, params);
     });
 
     it('does not call identify', () => {
@@ -160,7 +158,7 @@ describe('identify', () => {
         email: 'james@dean.com'
       };
 
-      apis.identifyApi(mockStore, params);
+      apis.identifyApi(store, params);
     });
 
     it('does not call identify', () => {
@@ -188,7 +186,7 @@ describe('identify', () => {
         email: undefined
       };
 
-      apis.identifyApi(mockStore, params);
+      apis.identifyApi(store, params);
     });
 
     it('does not call identify', () => {
@@ -210,85 +208,90 @@ describe('identify', () => {
 });
 
 describe('openApi', () => {
-  const setupTestData = (activeEmbed) => {
-    setActiveEmbed(activeEmbed);
-    apis.openApi(mockStore);
-  };
+  let store;
 
   describe('when the active embed is not zopim chat', () => {
     beforeEach(() => {
-      setupTestData('something');
+      store = createStore();
+      store.dispatch = jest.fn();
+      baseActions.openReceived = jest.fn();
+      setActiveEmbed('something');
+      apis.openApi(store);
     });
 
     it('dispatches the openReceived action', () => {
-      expect(mockStore.dispatch)
-        .toHaveBeenCalledWith({ type: baseActionTypes.OPEN_RECEIVED });
-
-      expect(mediator.channel.broadcast)
-        .not.toHaveBeenCalledWith('zopimChat.show');
+      expect(baseActions.openReceived).toHaveBeenCalled();
+      expect(mediator.channel.broadcast).not.toHaveBeenCalledWith('zopimChat.show');
     });
   });
 
   describe('when the active embed is zopim chat', () => {
     beforeEach(() => {
-      setupTestData('zopimChat');
+      store = createStore();
+      store.dispatch = jest.fn();
+      baseActions.openReceived = jest.fn();
+      setActiveEmbed('zopimChat');
+      apis.openApi(store);
     });
 
     it('broadcasts "zopimChat.show" on mediator', () => {
-      expect(mockStore.dispatch).not.toHaveBeenCalled();
-
-      expect(mediator.channel.broadcast)
-        .toHaveBeenCalledWith('zopimChat.show');
+      expect(baseActions.openReceived).not.toHaveBeenCalled();
+      expect(mediator.channel.broadcast).toHaveBeenCalledWith('zopimChat.show');
     });
   });
 });
 
 describe('closeApi', () => {
-  const setupTestData = (activeEmbed) => {
-    setActiveEmbed(activeEmbed);
-    apis.closeApi(mockStore);
-  };
+  let store;
 
   describe('when the active embed is not zopim chat', () => {
     beforeEach(() => {
-      setupTestData('totallynotzopimchat');
+      store = createStore();
+      store.dispatch = jest.fn();
+      baseActions.closeReceived = jest.fn();
+      setActiveEmbed('not zopim');
+      apis.closeApi(store);
     });
 
-    it('only dispatches the closedReceived action', () => {
-      expect(mockStore.dispatch)
-        .toHaveBeenCalledWith({ type: baseActionTypes.CLOSE_RECEIVED });
-
-      expect(mediator.channel.broadcast).not.toHaveBeenCalled();
+    it('dispatches only closedReceived action', async () => {
+      expect(mediator.channel.broadcast).not.toHaveBeenCalledWith('zopimChat.hide');
+      expect(baseActions.closeReceived).toHaveBeenCalled();
     });
   });
 
   describe('when the active embed is zopim chat', () => {
     beforeEach(() => {
-      setupTestData('zopimChat');
+      store = createStore();
+      store.dispatch = jest.fn();
+      baseActions.closeReceived = jest.fn();
+      setActiveEmbed('zopimChat');
+      apis.closeApi(store);
     });
 
     it('dispatches the closedReceived action and broadcasts "zopimChat.hide" on mediator', () => {
-      expect(mockStore.dispatch)
-        .toHaveBeenCalledWith({ type: baseActionTypes.CLOSE_RECEIVED });
-
+      expect(baseActions.closeReceived).toHaveBeenCalled();
       expect(mediator.channel.broadcast).toHaveBeenCalledWith('zopimChat.hide');
     });
   });
 });
 
 describe('toggleApi', () => {
+  let store;
   const setupTestData = (activeEmbed) => {
     setActiveEmbed(activeEmbed);
-    apis.toggleApi(mockStore);
+    apis.toggleApi(store);
   };
 
   describe('when the active embed is not zopim chat', () => {
     beforeEach(() => {
+      store = createStore();
+
+      store.dispatch = jest.fn();
       setupTestData('totallyNotZopim');
     });
 
     it('only dispatches the toggleReceived action', () => {
-      expect(mockStore.dispatch)
+      expect(store.dispatch)
         .toHaveBeenCalledWith({ type: baseActionTypes.TOGGLE_RECEIVED });
 
       expect(mediator.channel.broadcast).not.toHaveBeenCalled();
@@ -297,11 +300,14 @@ describe('toggleApi', () => {
 
   describe('when the active embed is zopim chat', () => {
     beforeEach(() => {
+      store = createStore();
+
+      store.dispatch = jest.fn();
       setupTestData('zopimChat');
     });
 
     it('only broadcasts "zopimChat.toggle" on mediator', () => {
-      expect(mockStore.dispatch).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalled();
 
       expect(mediator.channel.broadcast)
         .toHaveBeenCalledWith('zopimChat.toggle');
@@ -310,15 +316,19 @@ describe('toggleApi', () => {
 });
 
 test('closeApi dispatches the closeReceived action', () => {
-  apis.closeApi(mockStore);
+  const store = createStore();
 
-  expect(mockStore.dispatch)
-    .toHaveBeenCalledWith({ type: baseActionTypes.CLOSE_RECEIVED });
+  store.dispatch = jest.fn();
+  baseActions.closeReceived = jest.fn();
+  apis.closeApi(store);
+
+  expect(baseActions.closeReceived)
+    .toHaveBeenCalled();
 });
 
 describe('setLocale', () => {
   beforeEach(() => {
-    i18n.init(mockStore);
+    i18n.init(createStore());
     apis.setLocaleApi('en');
   });
 
@@ -329,11 +339,14 @@ describe('setLocale', () => {
 });
 
 describe('updateSettingsApi', () => {
-  let spy;
+  let spy, store;
 
   beforeEach(() => {
     spy = jest.spyOn(settingsActions, 'updateSettings')
       .mockImplementation(mockAction);
+    store = createStore();
+
+    store.dispatch = jest.fn();
   });
 
   afterEach(() => {
@@ -341,9 +354,9 @@ describe('updateSettingsApi', () => {
   });
 
   it('dispatches the updateSettings action', () => {
-    apis.updateSettingsApi(mockStore);
+    apis.updateSettingsApi(store);
 
-    expect(mockStore.dispatch)
+    expect(store.dispatch)
       .toHaveBeenCalledWith(mockActionValue);
   });
 });
@@ -352,9 +365,12 @@ describe('logoutApi', () => {
   const logoutValue = Date.now(),
     chatLogoutValue = Date.now(),
     resetValue = { type: 'API_RESET_WIDGET' };
-  let baseSpy, chatSpy, resetSpy;
+  let baseSpy, chatSpy, resetSpy, store;
 
   beforeEach(() => {
+    store = createStore();
+
+    store.dispatch = jest.fn();
     const logout = jest.fn(() => logoutValue),
       chatLogout = jest.fn(() => chatLogoutValue),
       apiReset = jest.fn(() => resetValue);
@@ -363,7 +379,7 @@ describe('logoutApi', () => {
     chatSpy = jest.spyOn(chatActions, 'chatLogout').mockImplementation(chatLogout);
     resetSpy = jest.spyOn(baseActions, 'apiResetWidget').mockImplementation(apiReset);
 
-    apis.logoutApi(mockStore);
+    apis.logoutApi(store);
   });
 
   afterEach(() => {
@@ -373,12 +389,12 @@ describe('logoutApi', () => {
   });
 
   it('dispatches the chatLogout action', () => {
-    expect(mockStore.dispatch)
+    expect(store.dispatch)
       .toHaveBeenCalledWith(chatLogoutValue);
   });
 
   it('dispatches the logout action', () => {
-    expect(mockStore.dispatch)
+    expect(store.dispatch)
       .toHaveBeenCalledWith(logoutValue);
   });
 
@@ -388,14 +404,18 @@ describe('logoutApi', () => {
   });
 
   it('dispatches apiResetWidget', () => {
-    expect(mockStore.dispatch).toHaveBeenCalledWith(resetValue);
+    expect(store.dispatch).toHaveBeenCalledWith(resetValue);
   });
 });
 
 describe('setHelpCenterSuggestionsApi', () => {
-  let spy;
+  let spy,
+    store;
 
   beforeEach(() => {
+    store = createStore();
+
+    store.dispatch = jest.fn();
     spy = jest.spyOn(hcActions, 'setContextualSuggestionsManually')
       .mockImplementation(mockAction);
   });
@@ -403,26 +423,33 @@ describe('setHelpCenterSuggestionsApi', () => {
   afterEach(() => spy.mockRestore());
 
   it('dispatches the setContextualSuggestionsManually action', () => {
-    apis.setHelpCenterSuggestionsApi(mockStore, { y: 1 });
+    apis.setHelpCenterSuggestionsApi(store, { y: 1 });
 
-    expect(mockStore.dispatch)
+    expect(store.dispatch)
       .toHaveBeenCalledWith(mockActionValue);
   });
 });
 
 test('prefill dispatches the prefillReceived action', () => {
-  apis.prefill(mockStore, { name: 'Wayne', email: 'w@a.com' });
+  const store = createStore();
 
-  expect(mockStore.dispatch)
+  store.dispatch = jest.fn();
+  apis.prefill(store, { name: 'Wayne', email: 'w@a.com' });
+
+  expect(store.dispatch)
     .toHaveBeenCalledWith(expect.objectContaining(
       { type: baseActionTypes.PREFILL_RECEIVED }
     ));
 });
 
 describe('hideApi', () => {
-  let spy;
+  let spy,
+    store;
 
   beforeEach(() => {
+    store = createStore();
+
+    store.dispatch = jest.fn();
     spy = jest.spyOn(baseActions, 'hideRecieved')
       .mockImplementation(mockAction);
   });
@@ -430,38 +457,49 @@ describe('hideApi', () => {
   afterEach(() => spy.mockRestore());
 
   it('dispatches the hideReceived action', () => {
-    apis.hideApi(mockStore);
+    apis.hideApi(store);
 
-    expect(mockStore.dispatch)
+    expect(store.dispatch)
       .toHaveBeenCalledWith(mockActionValue);
   });
 });
 
 test('showApi dispatches the showReceived action', () => {
-  apis.showApi(mockStore);
+  const store = createStore();
 
-  expect(mockStore.dispatch)
+  store.dispatch = jest.fn();
+
+  apis.showApi(store);
+
+  expect(store.dispatch)
     .toHaveBeenCalledWith(expect.objectContaining(
       { type: baseActionTypes.SHOW_RECEIVED }
     ));
 });
 
 test('clearFormState dispatches the apiClearform action', () => {
-  apis.clearFormState(mockStore);
+  const store = createStore();
 
-  expect(mockStore.dispatch)
+  store.dispatch = jest.fn();
+
+  apis.clearFormState(store);
+
+  expect(store.dispatch)
     .toHaveBeenCalledWith(expect.objectContaining(
       { type: baseActionTypes.API_CLEAR_FORM }
     ));
 });
 
 describe('updatePathApi', () => {
-  let spy;
+  let spy,
+    store;
 
   beforeEach(() => {
     spy = jest.spyOn(chatActions, 'sendVisitorPath')
       .mockImplementation(mockAction);
-    apis.updatePathApi(mockStore, 'hello');
+    store = createStore();
+    store.dispatch = jest.fn();
+    apis.updatePathApi(store, 'hello');
   });
 
   afterEach(() => spy.mockRestore());
@@ -472,207 +510,206 @@ describe('updatePathApi', () => {
   });
 
   it('dispatches the sendVisitorPath action', () => {
-    expect(mockStore.dispatch)
+    expect(store.dispatch)
       .toHaveBeenCalledWith(mockActionValue);
   });
 });
 
 test('displayApi calls getWidgetDisplayInfo', () => {
-  const store = { getState: jest.fn() };
+  const store = createStore();
 
-  apis.displayApi(store, 123);
+  expect(apis.displayApi(store))
+    .toEqual('hidden');
 
-  expect(getWidgetDisplayInfo)
-    .toHaveBeenCalledWith(store.getState(), 123);
+  store.dispatch({ type: baseActionTypes.UPDATE_ACTIVE_EMBED, payload: 'helpCenterForm' });
+  store.dispatch({ type: baseActionTypes.BOOT_UP_TIMER_COMPLETE });
+  store.dispatch({ type: baseActionTypes.LAUNCHER_CLICKED });
+
+  expect(apis.displayApi(store))
+    .toEqual('helpCenter');
 });
 
-test('isChattingApi calls getIsChatting', () => {
-  const store = { getState: jest.fn() };
+test('isChattingApi', () => {
+  const store = createStore();
 
-  apis.isChattingApi(store, 123);
+  expect(apis.isChattingApi(store))
+    .toEqual(false);
 
-  expect(getIsChatting)
-    .toHaveBeenCalledWith(store.getState(), 123);
+  store.dispatch({
+    type: chatActionTypes.IS_CHATTING,
+    payload: true
+  });
+
+  expect(apis.isChattingApi(store))
+    .toEqual(true);
 });
 
-test('getDepartmentApi calls getDepartment', () => {
-  const store = { getState: jest.fn(() => {}) };
+test('getDepartmentApi', () => {
+  const store = createStore();
 
-  apis.getDepartmentApi(store, 123);
+  expect(apis.getDepartmentApi(store, 'yeetDepartment'))
+    .not.toBeDefined();
+  expect(apis.getDepartmentApi(store, 11))
+    .not.toBeDefined();
+  expect(apis.getDepartmentApi(store, 'blerg'))
+    .not.toBeDefined();
+  expect(apis.getDepartmentApi(store, 1000))
+    .not.toBeDefined();
 
-  expect(getDepartment)
-    .toHaveBeenCalledWith(store.getState(), 123);
+  store.dispatch({
+    type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
+    payload: { detail: { id: 10, name: 'yeetDepartment' } }
+  });
+
+  store.dispatch({
+    type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
+    payload: { detail: { id: 11, name: 'notYeetDepartment' } }
+  });
+
+  expect(apis.getDepartmentApi(store, 'yeetDepartment'))
+    .toEqual({ 'id': 10, 'name': 'yeetDepartment' });
+  expect(apis.getDepartmentApi(store, 11))
+    .toEqual({ 'id': 11, 'name': 'notYeetDepartment' });
+  expect(apis.getDepartmentApi(store, 'blerg'))
+    .not.toBeDefined();
+  expect(apis.getDepartmentApi(store, 1000))
+    .not.toBeDefined();
 });
 
-test('getAllDepartmentsApi calls getDepartmentsList', () => {
-  const store = { getState: jest.fn(() => {}) };
+test('getAllDepartmentsApi', () => {
+  const store = createStore();
 
-  apis.getAllDepartmentsApi(store, 123);
+  expect(apis.getAllDepartmentsApi(store, 123).length)
+    .toEqual(0);
 
-  expect(getDepartmentsList)
-    .toHaveBeenCalledWith(store.getState(), 123);
+  store.dispatch({
+    type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
+    payload: { detail: { id: 10, name: ['yeetDepartment'] } }
+  });
+
+  expect(apis.getAllDepartmentsApi(store, 123))
+    .toEqual([{ 'id': 10, 'name': ['yeetDepartment'] }]);
 });
 
 describe('onApi', () => {
   let on,
-    callback;
+    callback,
+    store;
 
   beforeEach(() => {
+    store = createStore();
     callback = jest.fn(() => 123);
     on = apis.onApiObj();
   });
 
   test('if no callback is passed, do nothing', () => {
-    on[constants.API_ON_CLOSE_NAME](mockStore, 123);
+    const dispatch = store.dispatch;
 
-    expect(mockStore.dispatch)
+    store.dispatch = jest.fn();
+    on[constants.API_ON_CLOSE_NAME](store, 123);
+
+    expect(store.dispatch)
       .not.toHaveBeenCalled();
+    store.dispatch = dispatch;
   });
 
-  test('API_ON_OPEN_NAME dispatches EXECUTE_API_ON_OPEN_CALLBACK', () => {
-    on[constants.API_ON_OPEN_NAME](mockStore, callback);
+  describe('callback for API_ON_OPEN_NAME', () => {
+    test('callback fired when open event is fired', async () => {
+      on[constants.API_ON_OPEN_NAME](store, callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: baseActionTypes.EXECUTE_API_ON_OPEN_CALLBACK,
-              callback
-            }
-          )
-        }
-      ));
+      expect(callback).not.toHaveBeenCalled();
+      store.dispatch({ type: baseActionTypes.EXECUTE_API_ON_OPEN_CALLBACK });
+
+      await wait(() => {
+        expect(callback).toHaveBeenCalled();
+      });
+    });
   });
 
-  test('API_ON_CLOSE_NAME dispatches EXECUTE_API_ON_CLOSE_CALLBACK', () => {
-    on[constants.API_ON_CLOSE_NAME](mockStore, callback);
+  describe('callback for API_ON_CLOSE_NAME', () => {
+    test('callback fired when close event is fired', async () => {
+      on[constants.API_ON_CLOSE_NAME](store, callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: baseActionTypes.EXECUTE_API_ON_CLOSE_CALLBACK,
-              callback
-            }
-          )
-        }
-      ));
+      expect(callback).not.toHaveBeenCalled();
+      store.dispatch({ type: baseActionTypes.EXECUTE_API_ON_CLOSE_CALLBACK });
+
+      await wait(() => {
+        expect(callback).toHaveBeenCalled();
+      });
+    });
   });
 
-  test('API_ON_CHAT_CONNECTED_NAME dispatches CHAT_CONNECTED', () => {
-    on.chat[constants.API_ON_CHAT_CONNECTED_NAME](mockStore, callback);
+  test('callback for API_ON_CHAT_CONNECTED_NAME', async () => {
+    on.chat[constants.API_ON_CHAT_CONNECTED_NAME](store, callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.CHAT_CONNECTED,
-              callback
-            }
-          )
-        }
-      ));
+    expect(callback).not.toHaveBeenCalled();
+    store.dispatch({ type: chatActionTypes.CHAT_CONNECTED });
+
+    await wait(() => {
+      expect(callback).toHaveBeenCalled();
+    });
   });
 
-  test('API_ON_CHAT_END_NAME dispatches END_CHAT_REQUEST_SUCCESS', () => {
-    on.chat[constants.API_ON_CHAT_END_NAME](mockStore, callback);
+  test('callback for API_ON_CHAT_END_NAME', async () => {
+    on.chat[constants.API_ON_CHAT_END_NAME](store, callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.END_CHAT_REQUEST_SUCCESS,
-              callback
-            }
-          )
-        }
-      ));
+    expect(callback).not.toHaveBeenCalled();
+    store.dispatch({ type: chatActionTypes.END_CHAT_REQUEST_SUCCESS });
+
+    await wait(() => {
+      expect(callback).toHaveBeenCalled();
+    });
   });
 
-  test('API_ON_CHAT_START_NAME dispatches CHAT_STARTED', () => {
-    on.chat[constants.API_ON_CHAT_START_NAME](mockStore, callback);
+  test('callback for API_ON_CHAT_START_NAME', async () => {
+    on.chat[constants.API_ON_CHAT_START_NAME](store, callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.CHAT_STARTED,
-              callback
-            }
-          )
-        }
-      ));
+    expect(callback).not.toHaveBeenCalled();
+    store.dispatch({ type: chatActionTypes.CHAT_STARTED });
+
+    await wait(() => {
+      expect(callback).toHaveBeenCalled();
+    });
   });
 
-  test('API_ON_CHAT_STATUS_NAME dispatches SDK_ACCOUNT_STATUS', () => {
-    on.chat[constants.API_ON_CHAT_STATUS_NAME](mockStore, callback);
+  test('callback for API_ON_CHAT_STATUS_NAME', async () => {
+    on.chat[constants.API_ON_CHAT_STATUS_NAME](store, callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.SDK_ACCOUNT_STATUS,
-              callback,
-              selectors: [getChatStatus]
-            }
-          )
-        }
-      ));
+    expect(callback).not.toHaveBeenCalled();
+    store.dispatch({ type: chatActionTypes.SDK_ACCOUNT_STATUS, payload: { detail: 'yeetStat' } });
+
+    await wait(() => {
+      expect(callback).toHaveBeenCalledWith('yeetStat');
+    });
   });
 
-  test('API_ON_CHAT_UNREAD_MESSAGES_NAME dispatches NEW_AGENT_MESSAGE_RECEIVED', () => {
-    on.chat[constants.API_ON_CHAT_UNREAD_MESSAGES_NAME](mockStore, callback);
+  test('callback for API_ON_CHAT_UNREAD_MESSAGES_NAME', async () => {
+    on.chat[constants.API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.NEW_AGENT_MESSAGE_RECEIVED,
-              callback,
-              selectors: [getNotificationCount]
-            }
-          )
-        }
-      ));
-  });
-
-  describe('API_ON_CHAT_DEPARTMENT_STATUS', () => {
-    it('dispatches SDK_DEPARTMENT_UPDATE', () => {
-      on.chat[constants.API_ON_CHAT_DEPARTMENT_STATUS](mockStore, callback);
-
-      expect(mockStore.dispatch)
-        .toBeCalledWith(expect.objectContaining({
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: {
-            actionType: chatActionTypes.SDK_DEPARTMENT_UPDATE,
-            callback,
-            selectors: [],
-            payloadTransformer: expect.any(Function)
-          }
-        }));
+    expect(callback).not.toHaveBeenCalled();
+    store.dispatch({
+      type: chatActionTypes.NEW_AGENT_MESSAGE_RECEIVED,
+      payload: {
+        proactive: true,
+        nick: 'black hole',
+        display_name: 'black hole', // eslint-disable-line camelcase
+        msg: 'check it'
+      }
     });
 
-    it('passes expected transformer', () => {
-      on.chat[constants.API_ON_CHAT_DEPARTMENT_STATUS](mockStore, callback);
-      const actionPayload = mockStore.dispatch.mock.calls[0][0].payload;
-      const sampleSDKPayload = { detail: 12345 };
+    await wait(() => {
+      expect(callback).toHaveBeenCalledWith(1);
+    });
+  });
 
-      expect(actionPayload.payloadTransformer(sampleSDKPayload))
-        .toEqual(12345);
+  test('callback for API_ON_CHAT_DEPARTMENT_STATUS', async () => {
+    on.chat[constants.API_ON_CHAT_DEPARTMENT_STATUS](store, callback);
+
+    expect(callback).not.toHaveBeenCalled();
+    store.dispatch({ type: chatActionTypes.SDK_DEPARTMENT_UPDATE, payload: { detail: { id: 1 } } });
+
+    await wait(() => {
+      expect(callback).toHaveBeenCalledWith({ id: 1 });
     });
   });
 });
