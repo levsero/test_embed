@@ -19,6 +19,7 @@ let actions,
   mockActiveEmbed,
   mockIsTokenExpired,
   mockAfterWidgetShowAnimationQueue,
+  mockWebWidgetVisible,
   mockIsTokenRenewable = jasmine.createSpy('isTokenRenewable'),
   persistentStoreRemoveSpy = jasmine.createSpy('remove'),
   persistentStoreSetSpy = jasmine.createSpy('set'),
@@ -70,7 +71,8 @@ describe('base redux actions', () => {
         getOAuth: () => mockOAuth,
         getBaseIsAuthenticated: () => mockBaseIsAuthenticated,
         getActiveEmbed: () => mockActiveEmbed,
-        getAfterWidgetShowAnimation: () => mockAfterWidgetShowAnimationQueue
+        getAfterWidgetShowAnimation: () => mockAfterWidgetShowAnimationQueue,
+        getWebWidgetVisible: () => mockWebWidgetVisible
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getHasContextuallySearched: () => mockHasContextuallySearched
@@ -1378,44 +1380,80 @@ describe('base redux actions', () => {
   });
 
   describe('openReceived', () => {
-    let actionOne,
-      actionTwo;
+    describe('widget is open', () => {
+      beforeAll(() => {
+        mockWebWidgetVisible = true;
+      });
 
-    beforeEach(() => {
-      mockStore.dispatch(actions.openReceived());
-      actionOne = mockStore.getActions()[0];
-      actionTwo = mockStore.getActions()[1];
+      it('does not dispatch any actions', () => {
+        mockStore.dispatch(actions.openReceived());
+        expect(mockStore.getActions())
+          .toEqual([]);
+      });
     });
 
-    it('dispatches an action with OPEN_RECEIVED', () => {
-      expect(actionOne.type)
-        .toEqual(actionTypes.OPEN_RECEIVED);
-    });
+    describe('widget is closed', () => {
+      let actionOne,
+        actionTwo;
 
-    it('dispatches an action with EXECUTE_API_ON_OPEN_CALLBACK', () => {
-      expect(actionTwo.type)
-        .toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
+      beforeAll(() => {
+        mockWebWidgetVisible = false;
+      });
+
+      beforeEach(() => {
+        mockStore.dispatch(actions.openReceived());
+        actionOne = mockStore.getActions()[0];
+        actionTwo = mockStore.getActions()[1];
+      });
+
+      it('dispatches an action with OPEN_RECEIVED', () => {
+        expect(actionOne.type)
+          .toEqual(actionTypes.OPEN_RECEIVED);
+      });
+
+      it('dispatches an action with EXECUTE_API_ON_OPEN_CALLBACK', () => {
+        expect(actionTwo.type)
+          .toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
+      });
     });
   });
 
   describe('closeReceived', () => {
-    let actionOne,
-      actionTwo;
+    describe('widget is close', () => {
+      beforeAll(() => {
+        mockWebWidgetVisible = false;
+      });
 
-    beforeEach(() => {
-      mockStore.dispatch(actions.closeReceived());
-      actionOne = mockStore.getActions()[0];
-      actionTwo = mockStore.getActions()[1];
+      it('does not dispatch any actions', () => {
+        mockStore.dispatch(actions.closeReceived());
+        expect(mockStore.getActions())
+          .toEqual([]);
+      });
     });
 
-    it('dispatches an action with CLOSE_RECEIVED', () => {
-      expect(actionOne.type)
-        .toEqual(actionTypes.CLOSE_RECEIVED);
-    });
+    describe('widget is open', () => {
+      let actionOne,
+        actionTwo;
 
-    it('dispatches an action with EXECUTE_API_ON_CLOSE_CALLBACK', () => {
-      expect(actionTwo.type)
-        .toEqual(actionTypes.EXECUTE_API_ON_CLOSE_CALLBACK);
+      beforeAll(() => {
+        mockWebWidgetVisible = true;
+      });
+
+      beforeEach(() => {
+        mockStore.dispatch(actions.closeReceived());
+        actionOne = mockStore.getActions()[0];
+        actionTwo = mockStore.getActions()[1];
+      });
+
+      it('dispatches an action with CLOSE_RECEIVED', () => {
+        expect(actionOne.type)
+          .toEqual(actionTypes.CLOSE_RECEIVED);
+      });
+
+      it('dispatches an action with EXECUTE_API_ON_CLOSE_CALLBACK', () => {
+        expect(actionTwo.type)
+          .toEqual(actionTypes.EXECUTE_API_ON_CLOSE_CALLBACK);
+      });
     });
   });
 

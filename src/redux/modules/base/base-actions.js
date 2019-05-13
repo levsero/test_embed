@@ -4,7 +4,8 @@ import {
   getOAuth,
   getBaseIsAuthenticated,
   getActiveEmbed,
-  getAfterWidgetShowAnimation
+  getAfterWidgetShowAnimation,
+  getWebWidgetVisible
 } from 'src/redux/modules/base/base-selectors';
 import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { contextualSearch } from 'src/redux/modules/helpCenter';
@@ -405,16 +406,20 @@ export const legacyShowReceived = () => {
 };
 
 export const openReceived = () => {
-  return (dispatch) => {
-    dispatch({ type: actions.OPEN_RECEIVED });
-    dispatch(executeApiOnOpenCallback());
+  return (dispatch, getState) => {
+    if (!getWebWidgetVisible(getState())) {
+      dispatch({ type: actions.OPEN_RECEIVED });
+      dispatch(executeApiOnOpenCallback());
+    }
   };
 };
 
 export const closeReceived = () => {
-  return (dispatch) => {
-    dispatch({ type: actions.CLOSE_RECEIVED });
-    dispatch(executeApiOnCloseCallback());
+  return (dispatch, getState) => {
+    if (getWebWidgetVisible(getState())) {
+      dispatch({ type: actions.CLOSE_RECEIVED });
+      dispatch(executeApiOnCloseCallback());
+    }
   };
 };
 export const toggleReceived = () => {
