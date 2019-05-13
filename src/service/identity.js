@@ -4,6 +4,11 @@ import _ from 'lodash';
 const timeToExpire = 1000*60*15; // 15 Minutes
 const tabTimeToExpire = 1000*30; // 30 Seconds
 
+let userIdentity = {
+  name: null,
+  email: null
+};
+
 const hex = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
 const generateUid = () => _.times(8, () => hex()).join('');
@@ -55,6 +60,14 @@ function getSuid() {
     : setSuid(generateUid(), expiry, 1, 0);
 }
 
+function setUserIdentity(name = null, email = null) {
+  userIdentity = { name, email };
+}
+
+function getUserIdentity() {
+  return userIdentity;
+}
+
 function unload() {
   const now = Date.now();
   const suid = store.get('suid');
@@ -68,6 +81,8 @@ function unload() {
 export const identity = {
   getBuid: getBuid,
   getSuid: getSuid,
+  setUserIdentity: setUserIdentity,
+  getUserIdentity: getUserIdentity,
   init: init,
   unload: unload
 };

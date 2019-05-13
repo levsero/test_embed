@@ -89,10 +89,23 @@ function sendWithMeta(payload) {
     version: config.version,
     timestamp: (new Date()).toISOString()
   };
+
+  const { name, email } = identity.getUserIdentity();
+  let identityParams = {};
+
+  if (name || email) {
+    let innerIdentity = {};
+
+    if (name) innerIdentity.name = name;
+    if (email) innerIdentity.email = email;
+
+    identityParams = { identity: innerIdentity };
+  }
+
   const url = getReferrerPolicy() ? referrerPolicyUrl(getReferrerPolicy(), location.href) : location.href;
   const urlParams = url ? { url } : {};
 
-  _.extend(payload.params, commonParams, urlParams);
+  _.extend(payload.params, commonParams, identityParams, urlParams);
 
   payload.query = {
     type: payload.type,
