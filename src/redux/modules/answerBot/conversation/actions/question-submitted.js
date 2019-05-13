@@ -1,5 +1,6 @@
 import { settings } from 'service/settings';
 import { identity } from 'service/identity';
+import { i18n } from 'service/i18n';
 import { http } from 'service/transport';
 
 import { isOnHostMappedDomain } from 'utility/pages';
@@ -74,6 +75,42 @@ function getSessionID(getState, createSessionCallback) {
   return getCurrentSessionID(getState());
 }
 
+function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
+  const token = getAuthToken();
+
+  const callbacks = {
+    done: (res) => {
+      if (res.body.deflection_articles.length || !locale) {
+        dispatch(questionSubmittedFulfilled(res.body, sessionID));
+      } else if (locale) {
+        sendQuery(enquiry, labels, null, dispatch, sessionID);
+      }
+    },
+    fail: (err) => {
+      dispatch(questionSubmittedRejected(err, sessionID));
+    }
+  };
+
+  /* eslint-disable camelcase */
+  http.send({
+    callbacks,
+    method: 'post',
+    path: '/api/v2/answer_bot/interaction?include=html_body',
+    useHostMappingIfAvailable: isOnHostMappedDomain(),
+    params: {
+      via_id: settings.get('viaIdAnswerBot'),
+      deflection_channel_id: settings.get('viaIdAnswerBot'),
+      interaction_reference: identity.getSuid().id || null,
+      interaction_reference_type: WEB_WIDGET_SUID,
+      locale,
+      enquiry,
+      labels
+    },
+    authorization: token ? `Bearer ${token}` : '',
+  });
+  /* eslint-enable camelcase */
+}
+
 export const questionSubmitted = (message) => {
   return (dispatch, getState) => {
     const sessionID = getSessionID(getState, () => {
@@ -84,33 +121,6 @@ export const questionSubmitted = (message) => {
     dispatch(inputDisabled(true));
     dispatch(questionSubmittedPending(message, sessionID));
 
-    const callbacks = {
-      done: (res) => {
-        dispatch(questionSubmittedFulfilled(res.body, sessionID));
-      },
-      fail: (err) => {
-        dispatch(questionSubmittedRejected(err, sessionID));
-      }
-    };
-
-    const token = getAuthToken();
-
-    /* eslint-disable camelcase */
-    http.send({
-      callbacks,
-      method: 'post',
-      path: '/api/v2/answer_bot/interaction?include=html_body',
-      useHostMappingIfAvailable: isOnHostMappedDomain(),
-      params: {
-        via_id: settings.get('viaIdAnswerBot'),
-        deflection_channel_id: settings.get('viaIdAnswerBot'),
-        interaction_reference: identity.getSuid().id || null,
-        interaction_reference_type: WEB_WIDGET_SUID,
-        enquiry: message,
-        labels
-      },
-      authorization: token ? `Bearer ${token}` : '',
-    });
-    /* eslint-enable camelcase */
+    sendQuery(message, labels, i18n.getLocale(), dispatch, sessionID);
   };
 };
