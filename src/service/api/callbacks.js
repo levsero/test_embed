@@ -1,10 +1,19 @@
 import _ from 'lodash';
 
-import { API_ON_OPEN_NAME, API_ON_CLOSE_NAME } from 'constants/api';
+import {
+  API_ON_OPEN_NAME,
+  API_ON_CLOSE_NAME,
+  API_ON_CHAT_CONNECTED_NAME,
+  API_ON_CHAT_END_NAME,
+  API_ON_CHAT_START_NAME
+} from 'constants/api';
 
 const callbacksRegistry = {
   [API_ON_OPEN_NAME]: [],
-  [API_ON_CLOSE_NAME]: []
+  [API_ON_CLOSE_NAME]: [],
+  [API_ON_CHAT_CONNECTED_NAME]: [],
+  [API_ON_CHAT_END_NAME]: [],
+  [API_ON_CHAT_START_NAME]: []
 };
 
 const eventExists = (eventName) => _.has(callbacksRegistry, eventName);

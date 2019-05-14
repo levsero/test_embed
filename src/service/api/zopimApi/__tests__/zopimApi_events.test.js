@@ -3,6 +3,12 @@ import zopimApi from '..';
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
+import * as callbacks from 'service/api/callbacks';
+import {
+  API_ON_CHAT_END_NAME,
+  API_ON_CHAT_START_NAME,
+  API_ON_CHAT_CONNECTED_NAME
+} from 'constants/api';
 
 const mockStore = {
   dispatch: jest.fn()
@@ -32,55 +38,31 @@ describe('zopim events', () => {
     });
   });
 
-  test('setOnConnected dispatches the CHAT_CONNECTED action', () => {
+  test('setOnConnected callback', () => {
     mockWin.$zopim.livechat.setOnConnected(callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.CHAT_CONNECTED,
-              callback
-            }
-          )
-        }
-      ));
+    callbacks.fireEventsFor(API_ON_CHAT_CONNECTED_NAME);
+
+    expect(callback)
+      .toHaveBeenCalled();
   });
 
-  test('setOnChatStart dispatches the CHAT_STARTED action', () => {
+  test('setOnChatStart callback', () => {
     mockWin.$zopim.livechat.setOnChatStart(callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.CHAT_STARTED,
-              callback
-            }
-          )
-        }
-      ));
+    callbacks.fireEventsFor(API_ON_CHAT_START_NAME);
+
+    expect(callback)
+      .toHaveBeenCalled();
   });
 
-  test('setOnChatEnd dispatches the END_CHAT_REQUEST_SUCCESS action', () => {
+  test('setOnChatEnd callback', () => {
     mockWin.$zopim.livechat.setOnChatEnd(callback);
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.END_CHAT_REQUEST_SUCCESS,
-              callback
-            }
-          )
-        }
-      ));
+    callbacks.fireEventsFor(API_ON_CHAT_END_NAME);
+
+    expect(callback)
+      .toHaveBeenCalled();
   });
 
   test('setOnUnreadMsgs dispatches the NEW_AGENT_MESSAGE_RECEIVED action', () => {

@@ -8,7 +8,8 @@ import {
   getIsChatting,
   chatWindowOpenOnNavigate,
   chatConnected,
-  setUpChat
+  setUpChat,
+  chatStarted
 } from 'src/redux/modules/chat';
 import {
   updateActiveEmbed,
@@ -21,8 +22,7 @@ import {
   SDK_CHAT_MEMBER_LEAVE,
   CHAT_AGENT_INACTIVE,
   SDK_VISITOR_UPDATE,
-  CHAT_SOCIAL_LOGIN_SUCCESS,
-  CHAT_STARTED
+  CHAT_SOCIAL_LOGIN_SUCCESS
 } from 'src/redux/modules/chat/chat-action-types';
 import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types';
 import { CONNECTION_STATUSES } from 'src/constants/chat';
@@ -264,7 +264,7 @@ const onChatStarted = (prevState, nextState, dispatch) => {
   const answerBot = getAnswerBotAvailable(nextState);
 
   if (!previouslyChatting && currentlyChatting) {
-    dispatch({ type: CHAT_STARTED });
+    dispatch(chatStarted());
 
     if (answerBot) {
       dispatch(updateBackButtonVisibility(false));

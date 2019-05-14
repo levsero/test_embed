@@ -28,6 +28,8 @@ import {
   zChatWithTimeout,
   canBeIgnored
 } from 'src/redux/modules/chat/helpers/zChatWithTimeout';
+import { API_ON_CHAT_CONNECTED_NAME, API_ON_CHAT_END_NAME, API_ON_CHAT_START_NAME } from 'constants/api';
+import * as callbacks from 'service/api/callbacks';
 
 const chatTypingTimeout = 2000;
 let history = [];
@@ -110,6 +112,7 @@ export const endChat = (callback = noop) => {
 
         dispatch({ type: actions.CHAT_ALL_AGENTS_INACTIVE, payload: activeAgents });
         dispatch({ type: actions.END_CHAT_REQUEST_SUCCESS });
+        callbacks.fireEventsFor(API_ON_CHAT_END_NAME);
       } else {
         dispatch({ type: actions.END_CHAT_REQUEST_FAILURE });
       }
@@ -695,9 +698,19 @@ export function chatWindowOpenOnNavigate() {
   };
 }
 
+export function chatStarted() {
+  return (dispatch) => {
+    dispatch({ type: actions.CHAT_STARTED });
+    callbacks.fireEventsFor(API_ON_CHAT_START_NAME);
+  };
+}
+
 export function chatConnected() {
-  return {
-    type: actions.CHAT_CONNECTED
+  return (dispatch) => {
+    dispatch({
+      type: actions.CHAT_CONNECTED
+    });
+    callbacks.fireEventsFor(API_ON_CHAT_CONNECTED_NAME);
   };
 }
 

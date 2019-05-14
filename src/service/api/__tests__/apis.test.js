@@ -648,7 +648,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_CONNECTED_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    store.dispatch({ type: chatActionTypes.CHAT_CONNECTED });
+    callbacks.fireEventsFor(constants.API_ON_CHAT_CONNECTED_NAME);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -659,7 +659,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_END_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    store.dispatch({ type: chatActionTypes.END_CHAT_REQUEST_SUCCESS });
+    callbacks.fireEventsFor(constants.API_ON_CHAT_END_NAME);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -670,7 +670,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_START_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    store.dispatch({ type: chatActionTypes.CHAT_STARTED });
+    callbacks.fireEventsFor(constants.API_ON_CHAT_START_NAME);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();

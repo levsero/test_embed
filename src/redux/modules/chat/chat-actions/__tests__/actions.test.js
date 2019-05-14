@@ -6,6 +6,12 @@ import * as actions from '../actions';
 import * as actionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors';
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors';
+import * as callbacks from 'service/api/callbacks';
+import {
+  API_ON_CHAT_CONNECTED_NAME,
+  API_ON_CHAT_START_NAME,
+  API_ON_CHAT_END_NAME
+} from 'constants/api';
 
 const timeoutError = { code: 'ETIMEDOUT' };
 const otherError = { code: 'DERP DERP', message: 'I gone derped up' };
@@ -79,11 +85,14 @@ describe('endChat', () => {
 
   describe('when there are no errors', () => {
     it('dispatches CHAT_ALL_AGENTS_INACTIVE and END_CHAT_REQUEST_SUCCESS', () => {
+      jest.spyOn(callbacks, 'fireEventsFor');
       const { store } = dispatchZChatWithTimeoutAction(
         actions.endChat()
       );
 
       expect(store.getActions()).toEqual(happyPathActions);
+      expect(callbacks.fireEventsFor)
+        .toHaveBeenCalledWith(API_ON_CHAT_END_NAME);
     });
 
     verifyCallbackCalled();
@@ -92,12 +101,15 @@ describe('endChat', () => {
   describe('when there is an error', () => {
     describe("when it's a timeout error", () => {
       it('dispatches CHAT_ALL_AGENTS_INACTIVE and END_CHAT_REQUEST_SUCCESS', () => {
+        jest.spyOn(callbacks, 'fireEventsFor');
         const { store } = dispatchZChatWithTimeoutAction(
           actions.endChat(),
           timeoutError
         );
 
         expect(store.getActions()).toEqual(happyPathActions);
+        expect(callbacks.fireEventsFor)
+          .toHaveBeenCalledWith(API_ON_CHAT_END_NAME);
       });
 
       verifyCallbackCalled();
@@ -721,4 +733,24 @@ describe('closedChatHistory', () => {
 
     expect(result).toEqual({ type: actionTypes.CLOSED_CHAT_HISTORY });
   });
+});
+
+test('chatConnected', () => {
+  jest.spyOn(callbacks, 'fireEventsFor');
+  const result = dispatchAction(actions.chatConnected());
+
+  expect(callbacks.fireEventsFor)
+    .toHaveBeenCalledWith(API_ON_CHAT_CONNECTED_NAME);
+  expect(result)
+    .toEqual({ type: actionTypes.CHAT_CONNECTED });
+});
+
+test('chatStarted', () => {
+  jest.spyOn(callbacks, 'fireEventsFor');
+  const result = dispatchAction(actions.chatStarted());
+
+  expect(callbacks.fireEventsFor)
+    .toHaveBeenCalledWith(API_ON_CHAT_START_NAME);
+  expect(result)
+    .toEqual({ type: actionTypes.CHAT_STARTED });
 });

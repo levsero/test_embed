@@ -21,10 +21,7 @@ import {
   API_ON_CHAT_DEPARTMENT_STATUS
 } from 'constants/api';
 import {
-  CHAT_CONNECTED,
-  END_CHAT_REQUEST_SUCCESS,
   NEW_AGENT_MESSAGE_RECEIVED,
-  CHAT_STARTED,
   SDK_ACCOUNT_STATUS,
   SDK_DEPARTMENT_UPDATE
 } from 'src/redux/modules/chat/chat-action-types';
@@ -179,9 +176,6 @@ export const getAllDepartmentsApi = (reduxStore, ...args) => getDepartmentsList(
 
 export const onApiObj = () => {
   const chatEventMap = {
-    [API_ON_CHAT_CONNECTED_NAME]: { actionType: CHAT_CONNECTED },
-    [API_ON_CHAT_END_NAME]: { actionType: END_CHAT_REQUEST_SUCCESS },
-    [API_ON_CHAT_START_NAME]: { actionType: CHAT_STARTED },
     [API_ON_CHAT_STATUS_NAME]: {
       actionType: SDK_ACCOUNT_STATUS,
       selectors: [getChatStatus]
@@ -213,7 +207,12 @@ export const onApiObj = () => {
   };
 
   return {
-    'chat': eventApiReducerFn(chatEventMap),
+    'chat': {
+      [API_ON_CHAT_CONNECTED_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CHAT_CONNECTED_NAME),
+      [API_ON_CHAT_END_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CHAT_END_NAME),
+      [API_ON_CHAT_START_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CHAT_START_NAME),
+      ...eventApiReducerFn(chatEventMap)
+    },
     [API_ON_OPEN_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_OPEN_NAME),
     [API_ON_CLOSE_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CLOSE_NAME)
   };

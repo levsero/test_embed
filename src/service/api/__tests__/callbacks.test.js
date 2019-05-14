@@ -1,5 +1,5 @@
 import * as callbacks from '../callbacks';
-import { API_ON_OPEN_NAME, API_ON_CLOSE_NAME } from 'constants/api';
+import { API_ON_OPEN_NAME, API_ON_CLOSE_NAME, API_ON_CHAT_CONNECTED_NAME } from 'constants/api';
 
 test('invalid event name', () => {
   const callbackSpy = jest.fn();
@@ -39,16 +39,18 @@ describe('valid event', () => {
   });
 
   test('multiple callbacks registered for multiple events', () => {
-    const callbackSpys = [jest.fn(), jest.fn(), jest.fn()];
+    const callbackSpys = [jest.fn(), jest.fn(), jest.fn(), jest.fn()];
 
     callbacks.registerCallback(callbackSpys[0], API_ON_OPEN_NAME);
     callbacks.registerCallback(callbackSpys[1], API_ON_OPEN_NAME);
     callbacks.registerCallback(callbackSpys[2], API_ON_CLOSE_NAME);
+    callbacks.registerCallback(callbackSpys[3], API_ON_CHAT_CONNECTED_NAME);
 
     callbacks.fireEventsFor(API_ON_CLOSE_NAME);
     expect(callbackSpys[0]).not.toHaveBeenCalled();
     expect(callbackSpys[1]).not.toHaveBeenCalled();
     expect(callbackSpys[2]).toHaveBeenCalled();
+    expect(callbackSpys[3]).not.toHaveBeenCalled();
 
     callbackSpys.forEach(cb => cb.mockClear());
 
@@ -56,5 +58,14 @@ describe('valid event', () => {
     expect(callbackSpys[0]).toHaveBeenCalled();
     expect(callbackSpys[1]).toHaveBeenCalled();
     expect(callbackSpys[2]).not.toHaveBeenCalled();
+    expect(callbackSpys[3]).not.toHaveBeenCalled();
+
+    callbackSpys.forEach(cb => cb.mockClear());
+
+    callbacks.fireEventsFor(API_ON_CHAT_CONNECTED_NAME);
+    expect(callbackSpys[0]).not.toHaveBeenCalled();
+    expect(callbackSpys[1]).not.toHaveBeenCalled();
+    expect(callbackSpys[2]).not.toHaveBeenCalled();
+    expect(callbackSpys[3]).toHaveBeenCalled();
   });
 });
