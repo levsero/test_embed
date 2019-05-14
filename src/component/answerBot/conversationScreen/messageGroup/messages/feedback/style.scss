@@ -4,11 +4,8 @@
   margin-bottom: #{7/$font-size}rem;
 }
 
-.block {
-  display: block;
-}
-
-.topOption {
+.option {
+  composes: u-pullRight from global;
   display: block;
   margin-bottom: #{7/$font-size}rem !important;
 }
