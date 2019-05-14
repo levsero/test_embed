@@ -25,11 +25,13 @@ let actions,
   persistentStoreSetSpy = jasmine.createSpy('set'),
   httpPostSpy = jasmine.createSpy('http'),
   broadcastSpy = jasmine.createSpy('broadcast'),
-  contextualSearchSpy = jasmine.createSpy('contextualSearch').and.returnValue({ type: 'someActionType' });
+  contextualSearchSpy = jasmine.createSpy('contextualSearch').and.returnValue({ type: 'someActionType' }),
+  fireWidgetEventSpy = jasmine.createSpy('fireWidgetEvent');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
 const API_ON_CLOSE_NAME = 'API_ON_CLOSE_NAME';
+const API_ON_OPEN_NAME = 'API_ON_OPEN_NAME';
 
 describe('base redux actions', () => {
   beforeEach(() => {
@@ -46,7 +48,11 @@ describe('base redux actions', () => {
 
     initMockRegistry({
       'constants/api': {
-        API_ON_CLOSE_NAME
+        API_ON_CLOSE_NAME,
+        API_ON_OPEN_NAME
+      },
+      'service/api/callbacks': {
+        fireWidgetEvent: fireWidgetEventSpy
       },
       'src/redux/modules/chat': {
         chatNotificationDismissed: chatNotificationDismissedSpy,
@@ -1034,14 +1040,18 @@ describe('base redux actions', () => {
       dispatchedActions = mockStore.getActions();
     });
 
+    afterEach(() => {
+      fireWidgetEventSpy.calls.reset();
+    });
+
+    it('fires off widget close event', () => {
+      expect(fireWidgetEventSpy)
+        .toHaveBeenCalledWith(API_ON_CLOSE_NAME);
+    });
+
     it('dispatches a CLOSE_BUTTON_CLICKED event', () => {
       expect(dispatchedActions[0].type)
         .toEqual(actionTypes.CLOSE_BUTTON_CLICKED);
-    });
-
-    it('dispatches a EXECUTE_API_ON_CLOSE_CALLBACK event', () => {
-      expect(dispatchedActions[1].type)
-        .toEqual(actionTypes.EXECUTE_API_ON_CLOSE_CALLBACK);
     });
   });
 
@@ -1108,6 +1118,15 @@ describe('base redux actions', () => {
       dispatchedActions = mockStore.getActions();
     });
 
+    afterEach(() => {
+      fireWidgetEventSpy.calls.reset();
+    });
+
+    it('fires off widget open event', () => {
+      expect(fireWidgetEventSpy)
+        .toHaveBeenCalledWith(API_ON_OPEN_NAME);
+    });
+
     describe('when the activeEmbed is not zopimChat', () => {
       beforeAll(() => {
         mockActiveEmbed = 'helpCenterForm';
@@ -1116,11 +1135,6 @@ describe('base redux actions', () => {
       it('dispatches a LAUNCHER_CLICKED event', () => {
         expect(dispatchedActions[0].type)
           .toEqual(actionTypes.LAUNCHER_CLICKED);
-      });
-
-      it('dispatches an EXECUTE_API_ON_OPEN_CALLBACK event', () => {
-        expect(dispatchedActions[1].type).
-          toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
       });
     });
 
@@ -1134,9 +1148,9 @@ describe('base redux actions', () => {
           .toHaveBeenCalledWith('zopimChat.show');
       });
 
-      it('dispatches an EXECUTE_API_ON_OPEN_CALLBACK event', () => {
-        expect(dispatchedActions[0].type).
-          toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
+      it('fires off widget open event', () => {
+        expect(fireWidgetEventSpy)
+          .toHaveBeenCalledWith(API_ON_OPEN_NAME);
       });
     });
   });
@@ -1168,18 +1182,22 @@ describe('base redux actions', () => {
       dispatchedActions = mockStore.getActions();
     });
 
+    afterEach(() => {
+      fireWidgetEventSpy.calls.reset();
+    });
+
+    it('fires off widget open event', () => {
+      expect(fireWidgetEventSpy)
+        .toHaveBeenCalledWith(API_ON_OPEN_NAME);
+    });
+
     it('dispatches a CHAT_BADGE_CLICKED event', () => {
       expect(dispatchedActions[0].type)
         .toEqual(actionTypes.CHAT_BADGE_CLICKED);
     });
 
-    it('dispatches a EXECUTE_API_ON_OPEN_CALLBACK event', () => {
-      expect(dispatchedActions[1].type)
-        .toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
-    });
-
     it('dispatches a ADD_TO_AFTER_SHOW_ANIMATE event', () => {
-      expect(dispatchedActions[2].type)
+      expect(dispatchedActions[1].type)
         .toEqual(actionTypes.ADD_TO_AFTER_SHOW_ANIMATE);
     });
   });
@@ -1393,8 +1411,7 @@ describe('base redux actions', () => {
     });
 
     describe('widget is closed', () => {
-      let actionOne,
-        actionTwo;
+      let action;
 
       beforeAll(() => {
         mockWebWidgetVisible = false;
@@ -1402,18 +1419,21 @@ describe('base redux actions', () => {
 
       beforeEach(() => {
         mockStore.dispatch(actions.openReceived());
-        actionOne = mockStore.getActions()[0];
-        actionTwo = mockStore.getActions()[1];
+        action = mockStore.getActions()[0];
+      });
+
+      afterEach(() => {
+        fireWidgetEventSpy.calls.reset();
       });
 
       it('dispatches an action with OPEN_RECEIVED', () => {
-        expect(actionOne.type)
+        expect(action.type)
           .toEqual(actionTypes.OPEN_RECEIVED);
       });
 
-      it('dispatches an action with EXECUTE_API_ON_OPEN_CALLBACK', () => {
-        expect(actionTwo.type)
-          .toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
+      it('fires off widget open event', () => {
+        expect(fireWidgetEventSpy)
+          .toHaveBeenCalledWith(API_ON_OPEN_NAME);
       });
     });
   });
@@ -1432,8 +1452,7 @@ describe('base redux actions', () => {
     });
 
     describe('widget is open', () => {
-      let actionOne,
-        actionTwo;
+      let action;
 
       beforeAll(() => {
         mockWebWidgetVisible = true;
@@ -1441,18 +1460,21 @@ describe('base redux actions', () => {
 
       beforeEach(() => {
         mockStore.dispatch(actions.closeReceived());
-        actionOne = mockStore.getActions()[0];
-        actionTwo = mockStore.getActions()[1];
+        action = mockStore.getActions()[0];
+      });
+
+      afterEach(() => {
+        fireWidgetEventSpy.calls.reset();
       });
 
       it('dispatches an action with CLOSE_RECEIVED', () => {
-        expect(actionOne.type)
+        expect(action.type)
           .toEqual(actionTypes.CLOSE_RECEIVED);
       });
 
-      it('dispatches an action with EXECUTE_API_ON_CLOSE_CALLBACK', () => {
-        expect(actionTwo.type)
-          .toEqual(actionTypes.EXECUTE_API_ON_CLOSE_CALLBACK);
+      it('fires off widget close event', () => {
+        expect(fireWidgetEventSpy)
+          .toHaveBeenCalledWith(API_ON_CLOSE_NAME);
       });
     });
   });
@@ -1468,33 +1490,6 @@ describe('base redux actions', () => {
     it('dispatches an action with TOGGLE_RECEIVED', () => {
       expect(action.type)
         .toEqual(actionTypes.TOGGLE_RECEIVED);
-    });
-  });
-
-  describe('executeApiOnOpenCallback', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.executeApiOnOpenCallback());
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches a EXECUTE_API_ON_OPEN_CALLBACK event', () => {
-      expect(action.type).toEqual(actionTypes.EXECUTE_API_ON_OPEN_CALLBACK);
-    });
-  });
-
-  describe('executeApiOnCloseCallback', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.executeApiOnCloseCallback());
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches a EXECUTE_API_ON_CLOSE_CALLBACK event', () => {
-      expect(action.type)
-        .toEqual(actionTypes.EXECUTE_API_ON_CLOSE_CALLBACK);
     });
   });
 });

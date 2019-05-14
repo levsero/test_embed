@@ -39,7 +39,6 @@ import {
   getIsPopoutAvailable,
   getZChatVendor
 } from 'src/redux/modules/chat/chat-selectors';
-import { EXECUTE_API_ON_CLOSE_CALLBACK, EXECUTE_API_ON_OPEN_CALLBACK } from 'src/redux/modules/base/base-action-types';
 import { updateSettings } from 'src/redux/modules/settings';
 import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors';
@@ -56,6 +55,7 @@ import {
   apiResetWidget
 } from 'src/redux/modules/base/base-actions';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+import * as callbacks from 'service/api/callbacks';
 
 export const endChatApi = (reduxStore) => {
   reduxStore.dispatch(endChat());
@@ -195,10 +195,6 @@ export const onApiObj = () => {
       payloadTransformer: (payload) => payload.detail
     }
   };
-  const baseEventMap = {
-    [API_ON_CLOSE_NAME]: { actionType: EXECUTE_API_ON_CLOSE_CALLBACK },
-    [API_ON_OPEN_NAME]: { actionType: EXECUTE_API_ON_OPEN_CALLBACK }
-  };
   const eventDispatchWrapperFn = (actionType, selectors = [], payloadTransformer) => {
     return (reduxStore, callback) => {
       if (_.isFunction(callback)) {
@@ -218,6 +214,7 @@ export const onApiObj = () => {
 
   return {
     'chat': eventApiReducerFn(chatEventMap),
-    ...eventApiReducerFn(baseEventMap)
+    [API_ON_OPEN_NAME]: (__, cb) => callbacks.registerCallback(cb, API_ON_OPEN_NAME),
+    [API_ON_CLOSE_NAME]: (__, cb) => callbacks.registerCallback(cb, API_ON_CLOSE_NAME)
   };
 };

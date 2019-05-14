@@ -19,6 +19,8 @@ import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { http } from 'service/transport';
 import { PHONE_PATTERN } from 'src/constants/shared';
+import { API_ON_OPEN_NAME, API_ON_CLOSE_NAME } from 'constants/api';
+import * as callbacks from 'service/api/callbacks';
 
 function onAuthRequestSuccess(res, id, dispatch, webToken) {
   store.set(
@@ -267,19 +269,13 @@ export const widgetShowAnimationComplete = () => {
   };
 };
 
-export const executeApiOnCloseCallback = () => {
-  return {
-    type: actions.EXECUTE_API_ON_CLOSE_CALLBACK
-  };
-};
-
 export const handleCloseButtonClicked = () => {
   return (dispatch) => {
     dispatch({
       type: actions.CLOSE_BUTTON_CLICKED
     });
 
-    dispatch(executeApiOnCloseCallback());
+    callbacks.fireWidgetEvent(API_ON_CLOSE_NAME);
   };
 };
 
@@ -320,12 +316,6 @@ export const apiResetWidget = () => {
   };
 };
 
-export const executeApiOnOpenCallback = () => {
-  return {
-    type: actions.EXECUTE_API_ON_OPEN_CALLBACK
-  };
-};
-
 export const launcherClicked = () => {
   return (dispatch, getState) => {
     const state = getState();
@@ -335,14 +325,15 @@ export const launcherClicked = () => {
     } else {
       dispatch({ type: actions.LAUNCHER_CLICKED });
     }
-    dispatch(executeApiOnOpenCallback());
+
+    callbacks.fireWidgetEvent(API_ON_OPEN_NAME);
   };
 };
 
 export const chatBadgeClicked = () => {
   return (dispatch) => {
     dispatch({ type: actions.CHAT_BADGE_CLICKED });
-    dispatch(executeApiOnOpenCallback());
+    callbacks.fireWidgetEvent(API_ON_OPEN_NAME);
     dispatch(addToAfterShowAnimationQueue(handleChatBadgeMinimize));
   };
 };
@@ -409,7 +400,7 @@ export const openReceived = () => {
   return (dispatch, getState) => {
     if (!getWebWidgetVisible(getState())) {
       dispatch({ type: actions.OPEN_RECEIVED });
-      dispatch(executeApiOnOpenCallback());
+      callbacks.fireWidgetEvent(API_ON_OPEN_NAME);
     }
   };
 };
@@ -418,7 +409,7 @@ export const closeReceived = () => {
   return (dispatch, getState) => {
     if (getWebWidgetVisible(getState())) {
       dispatch({ type: actions.CLOSE_RECEIVED });
-      dispatch(executeApiOnCloseCallback());
+      callbacks.fireWidgetEvent(API_ON_CLOSE_NAME);
     }
   };
 };

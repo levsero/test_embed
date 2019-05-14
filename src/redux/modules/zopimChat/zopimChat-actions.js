@@ -12,7 +12,9 @@ import {
   ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE
 } from './zopimChat-action-types';
 import { getWebWidgetVisible } from 'src/redux/modules/selectors';
-import { updateActiveEmbed, executeApiOnCloseCallback } from 'src/redux/modules/base';
+import { updateActiveEmbed } from 'src/redux/modules/base';
+import * as callbacks from 'service/api/callbacks';
+import { API_ON_CLOSE_NAME } from 'constants/api';
 
 export function updateZopimChatStatus(status) {
   return {
@@ -52,7 +54,7 @@ export function zopimOnClose() {
       type: ZOPIM_ON_CLOSE
     });
 
-    dispatch(executeApiOnCloseCallback());
+    callbacks.fireWidgetEvent(API_ON_CLOSE_NAME);
   };
 }
 

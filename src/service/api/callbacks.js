@@ -18,5 +18,5 @@ export const registerCallback = (cb, eventName) => {
 export const fireWidgetEvent = (eventName) => {
   if (!eventExists(eventName)) return;
 
-  callbacksRegistry[eventName].forEach(cb => cb());
+  callbacksRegistry[eventName].forEach(cb => _.isFunction(cb) ? cb() : null);
 };

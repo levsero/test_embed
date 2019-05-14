@@ -15,6 +15,7 @@ import { beacon } from 'service/beacon';
 import { identity } from 'service/identity';
 import * as baseSelectors from 'src/redux/modules/base/base-selectors';
 import createStore from 'src/redux/createStore';
+import * as callbacks from 'service/api/callbacks';
 
 jest.mock('service/mediator');
 jest.mock('service/settings');
@@ -622,7 +623,7 @@ describe('onApi', () => {
       on[constants.API_ON_OPEN_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      store.dispatch({ type: baseActionTypes.EXECUTE_API_ON_OPEN_CALLBACK });
+      callbacks.fireWidgetEvent(constants.API_ON_OPEN_NAME);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();
@@ -635,7 +636,7 @@ describe('onApi', () => {
       on[constants.API_ON_CLOSE_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      store.dispatch({ type: baseActionTypes.EXECUTE_API_ON_CLOSE_CALLBACK });
+      callbacks.fireWidgetEvent(constants.API_ON_CLOSE_NAME);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();

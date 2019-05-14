@@ -16,38 +16,20 @@ describe('zopim events', () => {
     zopimApi.setUpZopimApiMethods(mockWin, mockStore);
   });
 
-  test('onShow dispatches the EXECUTE_API_ON_OPEN_CALLBACK action', () => {
-    mockWin.$zopim.livechat.window.onShow(callback);
-
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: baseActionTypes.EXECUTE_API_ON_OPEN_CALLBACK,
-              callback
-            }
-          )
-        }
-      ));
+  test('onShow fire widget open event', async () => {
+    expect(callback).not.toHaveBeenCalled();
+    mockWin.$zopim.livechat.window.onHide(callback);
+    await(() => {
+      expect(callback).toHaveBeenCalled();
+    });
   });
 
-  test('onHide dispatches the EXECUTE_API_ON_CLOSE_CALLBACK action', () => {
+  test('onHide fire widget close event', async () => {
+    expect(callback).not.toHaveBeenCalled();
     mockWin.$zopim.livechat.window.onHide(callback);
-
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: baseActionTypes.EXECUTE_API_ON_CLOSE_CALLBACK,
-              callback
-            }
-          )
-        }
-      ));
+    await(() => {
+      expect(callback).toHaveBeenCalled();
+    });
   });
 
   test('setOnConnected dispatches the CHAT_CONNECTED action', () => {
