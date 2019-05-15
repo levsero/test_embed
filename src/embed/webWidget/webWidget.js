@@ -151,11 +151,9 @@ export default function WebWidgetFactory(name) {
     const submitTicketSettings = (submitTicketAvailable)
       ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
       : {};
-    const helpCenterSettings = helpCenterAvailable || config.ipmAllowed
-      ? setUpHelpCenter(config.helpCenterForm)
-      : {};
-    // if HC is unavailable but IPM requested it, ipmHelpCenterAvailable will be true
-    const ipmHelpCenterAvailable = !helpCenterAvailable && config.ipmAllowed;
+    const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
+    // if HC is unavailable, then IPM help center is available
+    const ipmHelpCenterAvailable = !helpCenterAvailable;
     const rootConfig = _.omit(config, ['ticketSubmissionForm', 'helpCenterForm', 'zopimChat', 'talk']);
     const globalConfig = _.extend(
       configDefaults,

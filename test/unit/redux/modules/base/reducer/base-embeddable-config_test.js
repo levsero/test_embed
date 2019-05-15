@@ -97,7 +97,6 @@ describe('base reducer embeddable config', () => {
       let action = {
         type: actionTypes.UPDATE_EMBEDDABLE_CONFIG,
         payload: {
-          ipmAllowed: true,
           embeds: {
             helpCenterForm: {
               props: {
@@ -140,7 +139,6 @@ describe('base reducer embeddable config', () => {
     it('reduces to the correct embeddable config state', () => {
       expect(state)
         .toEqual({
-          ipmAllowed: true,
           embeds: {
             ticketSubmissionForm: {
               props: {

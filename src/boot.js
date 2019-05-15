@@ -97,9 +97,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     beacon.setConfig(config);
 
-    if (config.ipmAllowed) {
-      webWidgetApi.apiSetup(win, reduxStore, config);
-    }
+    webWidgetApi.apiSetup(win, reduxStore, config);
 
     // Only send 1/10 times
     if (Math.random() <= 0.1) {

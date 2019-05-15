@@ -429,8 +429,7 @@ describe('embed.webWidget', () => {
         beforeEach(() => {
           const config = {
             ...mockConfig,
-            ticketSubmissionForm: { formTitleKey: 'foo' },
-            ipmAllowed: true
+            ticketSubmissionForm: { formTitleKey: 'foo' }
           };
 
           webWidget.create('', config, mockStore);
@@ -450,8 +449,7 @@ describe('embed.webWidget', () => {
           const config = {
             ...mockConfig,
             ticketSubmissionForm: { formTitleKey: 'foo' },
-            helpCenterForm: { formTitleKey: 'bar' },
-            ipmAllowed: true
+            helpCenterForm: { formTitleKey: 'bar' }
           };
 
           webWidget.create('', config, mockStore);

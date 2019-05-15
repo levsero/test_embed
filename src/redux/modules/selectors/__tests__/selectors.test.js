@@ -691,7 +691,7 @@ describe('getFrameStyle', () => {
 
   beforeEach(() => {
     result = null;
-    frames = ['webWidget', 'chatPreview', 'webWidgetPreview'];
+    frames = ['ipmWidget', 'webWidget', 'chatPreview', 'webWidgetPreview'];
   });
 
   const testFrames = (expectedResult) => {
@@ -905,7 +905,7 @@ describe('getChatOfflineAvailable', () => {
       ['chat is not enabled in settings',     { settings: { chat: { suppress: true } } }],
       ['offlineForm is disabled in settings', { chat: { accountSettings: { offlineForm: { enabled: false } } } }],
       ['submissionForm embed exists',         { base: { embeds: { ticketSubmissionForm: {} } } }]
-    ])('%p', (__title ,input) => {
+    ])('%p', (_title ,input) => {
       result = selectors.getChatOfflineAvailable(getModifiedState(input));
 
       expect(result).toEqual(false);
@@ -1094,11 +1094,10 @@ describe('getIsWidgetReady', () => {
 
 describe('getIpmHelpCenterAllowed', () => {
   test.each([
-    ['helpCenter is disabled and ipm is allowed, return true', false, { ipmAllowed: true }, true],
-    ['helpCenter is enabled and ipm is allowed, return false', true, { ipmAllowed: true }, false],
-    ['helpCenter is disabled and ipm is disabled, return false', false, { ipmAllowed: false }, false],
-  ])('%p', (__title, helpCenterEnabled, config, expectedValue) => {
-    const result = selectors.getIpmHelpCenterAllowed.resultFunc(helpCenterEnabled, config);
+    ['helpCenter is disabled, return true', false, true],
+    ['helpCenter is enabled, return false', true, false],
+  ])('%p', (__title, helpCenterEnabled, expectedValue) => {
+    const result = selectors.getIpmHelpCenterAllowed.resultFunc(helpCenterEnabled);
 
     expect(result).toEqual(expectedValue);
   });
