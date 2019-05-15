@@ -55,17 +55,11 @@ export const errorMessageBlacklist = [
   scriptErrorPattern
 ];
 
-export const hostBlackList = [
-  /* Blacklists the reporting payload if any of the trace does not match these domains.
-     E.g. If it does not contain any one of these
-      assets.zd-staging.com
-      static.zd-staging.com
-      static-staging.zd-staging.com
-      assets.zendesk.com
-      ...
-  */
-  /^((?!(.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com)).*)$/
-];
+export const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/];
+
+if (__DEV__) {
+  hostAllowList.push('localhost', '127.0.0.1');
+}
 
 export const checkIgnoreFn = (isUncaught, args) => {
   const errorMessage = _.get(args, 0, '');
@@ -74,16 +68,17 @@ export const checkIgnoreFn = (isUncaught, args) => {
 };
 
 export const rollbarConfig =  {
+  enabled: true,
   accessToken: '94eb0137fdc14471b21b34c5a04f9359',
   captureUncaught: true,
   captureUnhandledRejections: true,
   checkIgnore: checkIgnoreFn,
   endpoint: 'https://rollbar-eu.zendesk.com/api/1/item/',
-  hostBlackList: hostBlackList,
-  hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com'],
+  hostWhitelist: hostAllowList,
   ignoredMessages: errorMessageBlacklist,
   maxItems: 10,
   payload: {
+    environment: __EMBEDDABLE_ENV__,
     client: {
       javascript: {
         code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase

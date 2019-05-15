@@ -5,6 +5,7 @@ const I18nPlugin = require('./i18nPlugin.js');
 
 const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp';
 const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com';
+const embeddableEnv = process.env.NODE_ENV || 'development';
 
 const svgoConfig = JSON.stringify({
   plugins: [
@@ -104,6 +105,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __EMBEDDABLE_VERSION__: JSON.stringify(version),
+      __EMBEDDABLE_ENV__: JSON.stringify(embeddableEnv),
       __ASSET_BASE_PATH__: JSON.stringify(assetBasePath)
     }),
     I18nPlugin

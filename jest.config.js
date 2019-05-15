@@ -57,6 +57,7 @@ module.exports = {
   // A set of global variables that need to be available in all test environments
   globals: {
     __EMBEDDABLE_VERSION__: 1,
+    __EMBEDDABLE_ENV__: 'test',
     __DEV__: false,
     __ASSET_BASE_PATH__: 'https://static-staging.zdassets.com'
   },
