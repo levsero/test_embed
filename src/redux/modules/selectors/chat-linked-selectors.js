@@ -14,7 +14,8 @@ import {
   getChatAccountSettingsPrechatForm,
   getDepartmentsList,
   getActiveAgents,
-  getIsPopoutAvailable
+  getIsPopoutAvailable,
+  getShowChatHistory
 } from 'src/redux/modules/chat/chat-selectors';
 import {
   getSettingsChatProfileCard,
@@ -33,11 +34,19 @@ import {
 import {
   getActiveEmbed,
   getLocale,
-  getWidgetShown
+  getWidgetShown,
+  getBackButtonVisible
 } from 'src/redux/modules/base/base-selectors';
 import { isPopout } from 'utility/globals';
 
 /* eslint-disable camelcase */
+
+export const getShowBackButton = createSelector(
+  [getShowChatHistory, getBackButtonVisible],
+  (showChatHistory, backButtonVisible) => {
+    return showChatHistory || backButtonVisible;
+  }
+);
 
 export const getShowMenu = (state) =>
   getActiveEmbed(state) === 'chat' &&
