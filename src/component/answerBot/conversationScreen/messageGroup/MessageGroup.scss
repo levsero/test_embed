@@ -11,7 +11,6 @@
   margin-bottom: $spacing-tny !important;
   margin-left: #{50/$font-size}rem;
   color: $zd-color-aluminum !important;
-  display: flex;
 
   [dir='rtl'] & {
     margin-left: 0;
