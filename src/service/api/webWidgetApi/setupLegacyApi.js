@@ -71,9 +71,7 @@ export function legacyApiSetup(win, reduxStore) {
 export function setupDevApi(win, reduxStore) {
   return {
     devRender: (config) => {
-      if (config.ipmAllowed) {
-        apiSetup(win, reduxStore, config);
-      }
+      apiSetup(win, reduxStore, config);
       renderer.init(config, reduxStore);
     }
   };

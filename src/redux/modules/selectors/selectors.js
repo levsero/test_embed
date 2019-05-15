@@ -486,9 +486,9 @@ export const getHorizontalPosition = createSelector(
 );
 
 export const getIpmHelpCenterAllowed = createSelector(
-  [getHelpCenterEmbed, getEmbeddableConfig],
-  (helpCenterEnabled, config) => {
-    return !helpCenterEnabled && config.ipmAllowed;
+  getHelpCenterEmbed,
+  (helpCenterEnabled) => {
+    return !helpCenterEnabled;
   }
 );
 
@@ -556,7 +556,7 @@ export const getWidgetDisplayInfo = createSelector(
 );
 
 export const getFrameStyle = (state, frame) => {
-  if (frame === 'webWidget' || frame === 'chatPreview' || frame === 'webWidgetPreview') {
+  if (frame === 'webWidget' || frame === 'ipmWidget' || frame === 'chatPreview' || frame === 'webWidgetPreview') {
     const margin = !isPopout() ? settings.get('margin') : '0';
 
     return {
