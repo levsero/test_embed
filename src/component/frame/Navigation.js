@@ -16,7 +16,8 @@ import {
 } from 'src/redux/modules/chat/chat-selectors';
 import {
   getShowMenu as getShowChatMenu,
-  getIsPopoutButtonVisible
+  getIsPopoutButtonVisible,
+  getShowBackButton
 } from 'src/redux/modules/selectors';
 import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat';
 import { handleCloseButtonClicked, handlePopoutButtonClicked } from 'src/redux/modules/base/base-actions';
@@ -25,7 +26,7 @@ import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selec
 
 const mapStateToProps = (state) => {
   return {
-    backButtonVisible: state.base.backButtonVisible,
+    backButtonVisible: getShowBackButton(state),
     menuVisible: getChatMenuVisible(state),
     useMenu: getShowChatMenu(state),
     standaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
