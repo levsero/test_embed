@@ -59,11 +59,6 @@ describe('ChatGroup component', () => {
       'service/i18n': {
         i18n
       },
-      'service/logging': {
-        logging: {
-          error: () => {}
-        }
-      },
       './ChatGroup.scss': {
         locals: {
           wrapper: 'wrapperClass',
