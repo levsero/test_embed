@@ -180,7 +180,7 @@ global.actionSpy = (name, type) => {
 
 global.__DEV__ = true;
 global.__EMBEDDABLE_VERSION__ = 'bob1337';
-global.__EMBEDDABLE_ENV__ = 'test';
+global.__EMBEDDABLE_FRAMEWORK_ENV__ = 'test';
 global.__ASSET_BASE_PATH__ = 'https://static-staging.zdassets.com';
 
 global.shallowObjectValuesNull = (object) => {

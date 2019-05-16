@@ -17,7 +17,7 @@
   "globals": {
     "__DEV__": true,
     "__EMBEDDABLE_VERSION__": true,
-    "__EMBEDDABLE_ENV__": true,
+    "__EMBEDDABLE_FRAMEWORK_ENV__": true,
     "__ASSET_BASE_PATH__": true,
     "addCustomCommands": true,
     "webdrivercss": true,

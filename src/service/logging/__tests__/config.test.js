@@ -1,8 +1,4 @@
-import _ from 'lodash';
-import {
-  hostAllowList,
-  checkIgnoreFn
-} from '../config';
+import { hostAllowList } from '../config';
 
 describe('hostAllowList', () => {
   const regex = () => new RegExp(hostAllowList[0]);
