@@ -846,58 +846,7 @@ describe('ChatGroup component', () => {
         });
 
         describe('when the file contains a server returned error', () => {
-          describe('when the error is in the list of known errors' , () => {
-            let children;
-
-            beforeAll(() => {
-              chat = {
-                type: 'chat.file',
-                file: {
-                  type: 'application/zip',
-                  name: 'sketchy.zip',
-                  size: 512,
-                  error: { message: 'INVALID_EXTENSION' },
-                  uploading: false
-                }
-              };
-            });
-
-            beforeEach(() => {
-              children = result.props.children;
-            });
-
-            it('returns a group of components', () => {
-              expect(result.props.children).toBeDefined();
-            });
-
-            it('returns an Attachment component', () => {
-              expect(TestUtils.isElementOfType(children[0], Attachment)).toEqual(true);
-            });
-
-            it('passes the correct props to the Attachment component', () => {
-              expect(children[0].props).toEqual(jasmine.objectContaining({
-                downloading: false,
-                file: chat.file,
-                isDownloadable: false,
-                uploading: false
-              }));
-            });
-
-            it('returns a wrapped MessageError component', () => {
-              expect(TestUtils.isElementOfType(
-                children[1].props.children, MessageError)
-              ).toEqual(true);
-            });
-
-            it('passes the correct props to the MessageError component', () => {
-              expect(children[1].props.children.props)
-                .toEqual(jasmine.objectContaining({
-                  errorMessage: 'embeddable_framework.chat.attachments.error.invalid_extension'
-                }));
-            });
-          });
-
-          describe('when the error is not in the list of known errors', () => {
+          describe('when the error does not contain a message', () => {
             let children;
 
             beforeAll(() => {
@@ -907,7 +856,7 @@ describe('ChatGroup component', () => {
                   type: 'application/gif',
                   name: 'funnycat.gif',
                   size: 512,
-                  error: { message: 'DERPY DERP' },
+                  error: { key: 'value' },
                   uploading: false
                 }
               };
@@ -917,11 +866,89 @@ describe('ChatGroup component', () => {
               children = result.props.children;
             });
 
-            it('falls back to a default "something went wrong" error message', () => {
-              expect(children[1].props.children.props)
-                .toEqual(jasmine.objectContaining({
-                  errorMessage: 'embeddable_framework.chat.attachments.error.unknown_error'
+            it('does not return a group of components', () => {
+              expect(children).toBeUndefined();
+            });
+          });
+
+          describe('when the error contains a message', () => {
+            describe('when the error is in the list of known errors', () => {
+              let children;
+
+              beforeAll(() => {
+                chat = {
+                  type: 'chat.file',
+                  file: {
+                    type: 'application/zip',
+                    name: 'sketchy.zip',
+                    size: 512,
+                    error: { message: 'INVALID_EXTENSION' },
+                    uploading: false
+                  }
+                };
+              });
+
+              beforeEach(() => {
+                children = result.props.children;
+              });
+
+              it('returns a group of components', () => {
+                expect(result.props.children).toBeDefined();
+              });
+
+              it('returns an Attachment component', () => {
+                expect(TestUtils.isElementOfType(children[0], Attachment)).toEqual(true);
+              });
+
+              it('passes the correct props to the Attachment component', () => {
+                expect(children[0].props).toEqual(jasmine.objectContaining({
+                  downloading: false,
+                  file: chat.file,
+                  isDownloadable: false,
+                  uploading: false
                 }));
+              });
+
+              it('returns a wrapped MessageError component', () => {
+                expect(TestUtils.isElementOfType(
+                  children[1].props.children, MessageError)
+                ).toEqual(true);
+              });
+
+              it('passes the correct props to the MessageError component', () => {
+                expect(children[1].props.children.props)
+                  .toEqual(jasmine.objectContaining({
+                    errorMessage: 'embeddable_framework.chat.attachments.error.invalid_extension'
+                  }));
+              });
+            });
+
+            describe('when the error is not in the list of known errors', () => {
+              let children;
+
+              beforeAll(() => {
+                chat = {
+                  type: 'chat.file',
+                  file: {
+                    type: 'application/gif',
+                    name: 'funnycat.gif',
+                    size: 512,
+                    error: { message: 'DERPY DERP' },
+                    uploading: false
+                  }
+                };
+              });
+
+              beforeEach(() => {
+                children = result.props.children;
+              });
+
+              it('falls back to a default "something went wrong" error message', () => {
+                expect(children[1].props.children.props)
+                  .toEqual(jasmine.objectContaining({
+                    errorMessage: 'embeddable_framework.chat.attachments.error.unknown_error'
+                  }));
+              });
             });
           });
         });
