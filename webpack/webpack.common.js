@@ -5,7 +5,7 @@ const I18nPlugin = require('./i18nPlugin.js');
 
 const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp';
 const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com';
-const embeddableEnv = process.env.NODE_ENV || 'development';
+const embeddableEnv = process.env.EMBEDDABLE_ENV || process.env.NODE_ENV || 'development';
 
 const svgoConfig = JSON.stringify({
   plugins: [
