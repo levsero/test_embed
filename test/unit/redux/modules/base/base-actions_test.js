@@ -26,7 +26,7 @@ let actions,
   httpPostSpy = jasmine.createSpy('http'),
   broadcastSpy = jasmine.createSpy('broadcast'),
   contextualSearchSpy = jasmine.createSpy('contextualSearch').and.returnValue({ type: 'someActionType' }),
-  fireWidgetEventSpy = jasmine.createSpy('fireWidgetEvent');
+  fireEventsForSpy = jasmine.createSpy('fireEventsFor');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -52,7 +52,7 @@ describe('base redux actions', () => {
         API_ON_OPEN_NAME
       },
       'service/api/callbacks': {
-        fireWidgetEvent: fireWidgetEventSpy
+        fireEventsFor: fireEventsForSpy
       },
       'src/redux/modules/chat': {
         chatNotificationDismissed: chatNotificationDismissedSpy,
@@ -1041,11 +1041,11 @@ describe('base redux actions', () => {
     });
 
     afterEach(() => {
-      fireWidgetEventSpy.calls.reset();
+      fireEventsForSpy.calls.reset();
     });
 
     it('fires off widget close event', () => {
-      expect(fireWidgetEventSpy)
+      expect(fireEventsForSpy)
         .toHaveBeenCalledWith(API_ON_CLOSE_NAME);
     });
 
@@ -1119,11 +1119,11 @@ describe('base redux actions', () => {
     });
 
     afterEach(() => {
-      fireWidgetEventSpy.calls.reset();
+      fireEventsForSpy.calls.reset();
     });
 
     it('fires off widget open event', () => {
-      expect(fireWidgetEventSpy)
+      expect(fireEventsForSpy)
         .toHaveBeenCalledWith(API_ON_OPEN_NAME);
     });
 
@@ -1149,7 +1149,7 @@ describe('base redux actions', () => {
       });
 
       it('fires off widget open event', () => {
-        expect(fireWidgetEventSpy)
+        expect(fireEventsForSpy)
           .toHaveBeenCalledWith(API_ON_OPEN_NAME);
       });
     });
@@ -1183,11 +1183,11 @@ describe('base redux actions', () => {
     });
 
     afterEach(() => {
-      fireWidgetEventSpy.calls.reset();
+      fireEventsForSpy.calls.reset();
     });
 
     it('fires off widget open event', () => {
-      expect(fireWidgetEventSpy)
+      expect(fireEventsForSpy)
         .toHaveBeenCalledWith(API_ON_OPEN_NAME);
     });
 
@@ -1423,7 +1423,7 @@ describe('base redux actions', () => {
       });
 
       afterEach(() => {
-        fireWidgetEventSpy.calls.reset();
+        fireEventsForSpy.calls.reset();
       });
 
       it('dispatches an action with OPEN_RECEIVED', () => {
@@ -1432,7 +1432,7 @@ describe('base redux actions', () => {
       });
 
       it('fires off widget open event', () => {
-        expect(fireWidgetEventSpy)
+        expect(fireEventsForSpy)
           .toHaveBeenCalledWith(API_ON_OPEN_NAME);
       });
     });
@@ -1464,7 +1464,7 @@ describe('base redux actions', () => {
       });
 
       afterEach(() => {
-        fireWidgetEventSpy.calls.reset();
+        fireEventsForSpy.calls.reset();
       });
 
       it('dispatches an action with CLOSE_RECEIVED', () => {
@@ -1473,7 +1473,7 @@ describe('base redux actions', () => {
       });
 
       it('fires off widget close event', () => {
-        expect(fireWidgetEventSpy)
+        expect(fireEventsForSpy)
           .toHaveBeenCalledWith(API_ON_CLOSE_NAME);
       });
     });

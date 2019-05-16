@@ -5,7 +5,7 @@ test('invalid event name', () => {
   const callbackSpy = jest.fn();
 
   callbacks.registerCallback(callbackSpy, API_ON_OPEN_NAME);
-  callbacks.fireWidgetEvent('yolo');
+  callbacks.fireEventsFor('yolo');
 
   expect(callbackSpy)
     .not
@@ -19,7 +19,7 @@ describe('valid event', () => {
 
     callbacks.registerCallback(callbackSpyOne, API_ON_OPEN_NAME);
     callbacks.registerCallback(callbackSpyTwo, API_ON_OPEN_NAME);
-    callbacks.fireWidgetEvent(API_ON_OPEN_NAME);
+    callbacks.fireEventsFor(API_ON_OPEN_NAME);
 
     expect(callbackSpyOne)
       .toHaveBeenCalled();
@@ -31,7 +31,7 @@ describe('valid event', () => {
     const callbackSpy = jest.fn();
 
     callbacks.registerCallback(callbackSpy, API_ON_OPEN_NAME);
-    callbacks.fireWidgetEvent(API_ON_CLOSE_NAME);
+    callbacks.fireEventsFor(API_ON_CLOSE_NAME);
 
     expect(callbackSpy)
       .not
@@ -45,14 +45,14 @@ describe('valid event', () => {
     callbacks.registerCallback(callbackSpys[1], API_ON_OPEN_NAME);
     callbacks.registerCallback(callbackSpys[2], API_ON_CLOSE_NAME);
 
-    callbacks.fireWidgetEvent(API_ON_CLOSE_NAME);
+    callbacks.fireEventsFor(API_ON_CLOSE_NAME);
     expect(callbackSpys[0]).not.toHaveBeenCalled();
     expect(callbackSpys[1]).not.toHaveBeenCalled();
     expect(callbackSpys[2]).toHaveBeenCalled();
 
     callbackSpys.forEach(cb => cb.mockClear());
 
-    callbacks.fireWidgetEvent(API_ON_OPEN_NAME);
+    callbacks.fireEventsFor(API_ON_OPEN_NAME);
     expect(callbackSpys[0]).toHaveBeenCalled();
     expect(callbackSpys[1]).toHaveBeenCalled();
     expect(callbackSpys[2]).not.toHaveBeenCalled();

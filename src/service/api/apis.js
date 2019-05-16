@@ -214,7 +214,7 @@ export const onApiObj = () => {
 
   return {
     'chat': eventApiReducerFn(chatEventMap),
-    [API_ON_OPEN_NAME]: (__, cb) => callbacks.registerCallback(cb, API_ON_OPEN_NAME),
-    [API_ON_CLOSE_NAME]: (__, cb) => callbacks.registerCallback(cb, API_ON_CLOSE_NAME)
+    [API_ON_OPEN_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_OPEN_NAME),
+    [API_ON_CLOSE_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CLOSE_NAME)
   };
 };

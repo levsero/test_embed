@@ -275,7 +275,7 @@ export const handleCloseButtonClicked = () => {
       type: actions.CLOSE_BUTTON_CLICKED
     });
 
-    callbacks.fireWidgetEvent(API_ON_CLOSE_NAME);
+    callbacks.fireEventsFor(API_ON_CLOSE_NAME);
   };
 };
 
@@ -326,14 +326,14 @@ export const launcherClicked = () => {
       dispatch({ type: actions.LAUNCHER_CLICKED });
     }
 
-    callbacks.fireWidgetEvent(API_ON_OPEN_NAME);
+    callbacks.fireEventsFor(API_ON_OPEN_NAME);
   };
 };
 
 export const chatBadgeClicked = () => {
   return (dispatch) => {
     dispatch({ type: actions.CHAT_BADGE_CLICKED });
-    callbacks.fireWidgetEvent(API_ON_OPEN_NAME);
+    callbacks.fireEventsFor(API_ON_OPEN_NAME);
     dispatch(addToAfterShowAnimationQueue(handleChatBadgeMinimize));
   };
 };
@@ -400,7 +400,7 @@ export const openReceived = () => {
   return (dispatch, getState) => {
     if (!getWebWidgetVisible(getState())) {
       dispatch({ type: actions.OPEN_RECEIVED });
-      callbacks.fireWidgetEvent(API_ON_OPEN_NAME);
+      callbacks.fireEventsFor(API_ON_OPEN_NAME);
     }
   };
 };
@@ -409,7 +409,7 @@ export const closeReceived = () => {
   return (dispatch, getState) => {
     if (getWebWidgetVisible(getState())) {
       dispatch({ type: actions.CLOSE_RECEIVED });
-      callbacks.fireWidgetEvent(API_ON_CLOSE_NAME);
+      callbacks.fireEventsFor(API_ON_CLOSE_NAME);
     }
   };
 };

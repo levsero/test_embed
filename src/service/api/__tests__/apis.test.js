@@ -623,7 +623,7 @@ describe('onApi', () => {
       on[constants.API_ON_OPEN_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      callbacks.fireWidgetEvent(constants.API_ON_OPEN_NAME);
+      callbacks.fireEventsFor(constants.API_ON_OPEN_NAME);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();
@@ -636,7 +636,7 @@ describe('onApi', () => {
       on[constants.API_ON_CLOSE_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      callbacks.fireWidgetEvent(constants.API_ON_CLOSE_NAME);
+      callbacks.fireEventsFor(constants.API_ON_CLOSE_NAME);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();

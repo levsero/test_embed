@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { API_ON_OPEN_NAME, API_ON_CLOSE_NAME } from 'constants/api';
 
-let callbacksRegistry = {
+const callbacksRegistry = {
   [API_ON_OPEN_NAME]: [],
   [API_ON_CLOSE_NAME]: []
 };
@@ -15,7 +15,7 @@ export const registerCallback = (cb, eventName) => {
   callbacksRegistry[eventName].push(cb);
 };
 
-export const fireWidgetEvent = (eventName) => {
+export const fireEventsFor = (eventName) => {
   if (!eventExists(eventName)) return;
 
   callbacksRegistry[eventName].forEach(cb => _.isFunction(cb) ? cb() : null);
