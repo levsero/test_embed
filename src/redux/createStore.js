@@ -11,6 +11,7 @@ import onStateChangeFn from 'src/redux/middleware/onStateChange/onStateChange';
 import persist from 'src/redux/middleware/persist';
 import throttle from 'src/redux/middleware/throttle';
 import listen from 'src/redux/middleware/listener';
+import preventLoops from 'src/redux/middleware/preventLoops';
 import resetActiveEmbed from 'src/redux/middleware/resetActiveEmbed';
 
 import { trackAnalytics } from 'src/redux/middleware/analytics';
@@ -32,6 +33,7 @@ export default function(storeName = 'web_widget', options = {}) {
     && window.parent.__REDUX_DEVTOOLS_EXTENSION__({ name: storeName });
   const middlewares = [
     thunk,
+    preventLoops,
     throttle(options.throttleEvents, options.allowedActionsFn),
     onStateChangeWrapper(onStateChangeFn),
     sendBlips,
