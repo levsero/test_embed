@@ -164,7 +164,7 @@ export const setOnStatusApi = (store, callback) => {
     };
 
     callbacks.registerCallback(wrappedCallbackWithArgs, CHAT_STATUS_EVENT);
-    callbacks.registerCallback(_.debounce(wrappedCallbackWithArgs, 0), CHAT_DEPARTMENT_STATUS_EVENT);
+    callbacks.registerCallback(callback, CHAT_DEPARTMENT_STATUS_EVENT);
   }
 };
 

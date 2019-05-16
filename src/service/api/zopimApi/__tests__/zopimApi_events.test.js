@@ -113,10 +113,11 @@ describe('zopim events', () => {
       expect(callback).not.toHaveBeenCalled();
 
       callbacks.fireEventsFor(CHAT_STATUS_EVENT);
-      callbacks.fireEventsFor(CHAT_DEPARTMENT_STATUS_EVENT);
+      callbacks.fireEventsFor(CHAT_DEPARTMENT_STATUS_EVENT, ['someActionPayloadData']);
 
       await wait(() => {
         expect(callback).toHaveBeenCalledWith('yeetStat');
+        expect(callback).toHaveBeenCalledWith('someActionPayloadData');
         expect(callback).toHaveBeenCalledTimes(2);
       });
     });
