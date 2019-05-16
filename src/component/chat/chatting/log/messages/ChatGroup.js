@@ -221,7 +221,7 @@ export default class ChatGroup extends Component {
       />
     );
 
-    if (file.error) {
+    if (file.error && file.error.message) {
       const errorType = ATTACHMENT_ERROR_TYPES[file.error.message] || ATTACHMENT_ERROR_TYPES.UNKNOWN_ERROR;
       const errorMessage = i18n.t(`embeddable_framework.chat.attachments.error.${errorType}`);
 
