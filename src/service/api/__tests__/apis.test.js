@@ -2,6 +2,7 @@ import * as apis from '../apis';
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as constants from 'constants/api';
+import * as eventConstants from 'constants/event';
 import * as chatActions from 'src/redux/modules/chat/chat-actions/actions';
 import * as settingsActions from 'src/redux/modules/settings/settings-actions';
 import * as baseActions from 'src/redux/modules/base/base-actions';
@@ -623,7 +624,7 @@ describe('onApi', () => {
       on[constants.API_ON_OPEN_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      callbacks.fireEventsFor(constants.API_ON_OPEN_NAME);
+      callbacks.fireEventsFor(eventConstants.WIDGET_OPENED_EVENT);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();
@@ -636,7 +637,7 @@ describe('onApi', () => {
       on[constants.API_ON_CLOSE_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      callbacks.fireEventsFor(constants.API_ON_CLOSE_NAME);
+      callbacks.fireEventsFor(eventConstants.WIDGET_CLOSED_EVENT);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();
@@ -648,7 +649,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_CONNECTED_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    callbacks.fireEventsFor(constants.API_ON_CHAT_CONNECTED_NAME);
+    callbacks.fireEventsFor(eventConstants.CHAT_CONNECTED_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -659,7 +660,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_END_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    callbacks.fireEventsFor(constants.API_ON_CHAT_END_NAME);
+    callbacks.fireEventsFor(eventConstants.CHAT_ENDED_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -670,7 +671,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_START_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    callbacks.fireEventsFor(constants.API_ON_CHAT_START_NAME);
+    callbacks.fireEventsFor(eventConstants.CHAT_STARTED_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -682,7 +683,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled();
     store.dispatch({ type: chatActionTypes.SDK_ACCOUNT_STATUS, payload: { detail: 'yeetStat' } });
-    callbacks.fireEventsFor(constants.API_ON_CHAT_STATUS_NAME);
+    callbacks.fireEventsFor(eventConstants.CHAT_STATUS_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith('yeetStat');
@@ -702,7 +703,7 @@ describe('onApi', () => {
         msg: 'check it'
       }
     });
-    callbacks.fireEventsFor(constants.API_ON_CHAT_UNREAD_MESSAGES_NAME);
+    callbacks.fireEventsFor(eventConstants.CHAT_UNREAD_MESSAGES_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith(1);
@@ -714,7 +715,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled();
     store.dispatch({ type: chatActionTypes.SDK_DEPARTMENT_UPDATE, payload: { detail: { id: 1 } } });
-    callbacks.fireEventsFor(constants.API_ON_CHAT_DEPARTMENT_STATUS, [{ id: 1 }]);
+    callbacks.fireEventsFor(eventConstants.CHAT_DEPARTMENT_STATUS_EVENT, [{ id: 1 }]);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith({ id: 1 });

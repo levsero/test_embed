@@ -1,15 +1,15 @@
 import * as callbacks from '../callbacks';
 import {
-  API_ON_OPEN_NAME,
-  API_ON_CLOSE_NAME,
-  API_ON_CHAT_CONNECTED_NAME,
-  API_ON_CHAT_DEPARTMENT_STATUS
-} from 'constants/api';
+  WIDGET_OPENED_EVENT,
+  WIDGET_CLOSED_EVENT,
+  CHAT_CONNECTED_EVENT,
+  CHAT_DEPARTMENT_STATUS_EVENT
+} from 'constants/event';
 
 test('invalid event name', () => {
   const callbackSpy = jest.fn();
 
-  callbacks.registerCallback(callbackSpy, API_ON_OPEN_NAME);
+  callbacks.registerCallback(callbackSpy, WIDGET_OPENED_EVENT);
   callbacks.fireEventsFor('yolo');
 
   expect(callbackSpy)
@@ -22,9 +22,9 @@ describe('valid event', () => {
     const callbackSpyOne = jest.fn();
     const callbackSpyTwo = jest.fn();
 
-    callbacks.registerCallback(callbackSpyOne, API_ON_OPEN_NAME);
-    callbacks.registerCallback(callbackSpyTwo, API_ON_OPEN_NAME);
-    callbacks.fireEventsFor(API_ON_OPEN_NAME);
+    callbacks.registerCallback(callbackSpyOne, WIDGET_OPENED_EVENT);
+    callbacks.registerCallback(callbackSpyTwo, WIDGET_OPENED_EVENT);
+    callbacks.fireEventsFor(WIDGET_OPENED_EVENT);
 
     expect(callbackSpyOne)
       .toHaveBeenCalled();
@@ -35,8 +35,8 @@ describe('valid event', () => {
   test('callback not registered', () => {
     const callbackSpy = jest.fn();
 
-    callbacks.registerCallback(callbackSpy, API_ON_OPEN_NAME);
-    callbacks.fireEventsFor(API_ON_CLOSE_NAME);
+    callbacks.registerCallback(callbackSpy, WIDGET_OPENED_EVENT);
+    callbacks.fireEventsFor(WIDGET_CLOSED_EVENT);
 
     expect(callbackSpy)
       .not
@@ -46,12 +46,12 @@ describe('valid event', () => {
   test('multiple callbacks registered for multiple events', () => {
     const callbackSpys = [jest.fn(), jest.fn(), jest.fn(), jest.fn()];
 
-    callbacks.registerCallback(callbackSpys[0], API_ON_OPEN_NAME);
-    callbacks.registerCallback(callbackSpys[1], API_ON_OPEN_NAME);
-    callbacks.registerCallback(callbackSpys[2], API_ON_CLOSE_NAME);
-    callbacks.registerCallback(callbackSpys[3], API_ON_CHAT_CONNECTED_NAME);
+    callbacks.registerCallback(callbackSpys[0], WIDGET_OPENED_EVENT);
+    callbacks.registerCallback(callbackSpys[1], WIDGET_OPENED_EVENT);
+    callbacks.registerCallback(callbackSpys[2], WIDGET_CLOSED_EVENT);
+    callbacks.registerCallback(callbackSpys[3], CHAT_CONNECTED_EVENT);
 
-    callbacks.fireEventsFor(API_ON_CLOSE_NAME);
+    callbacks.fireEventsFor(WIDGET_CLOSED_EVENT);
     expect(callbackSpys[0]).not.toHaveBeenCalled();
     expect(callbackSpys[1]).not.toHaveBeenCalled();
     expect(callbackSpys[2]).toHaveBeenCalled();
@@ -59,7 +59,7 @@ describe('valid event', () => {
 
     callbackSpys.forEach(cb => cb.mockClear());
 
-    callbacks.fireEventsFor(API_ON_OPEN_NAME);
+    callbacks.fireEventsFor(WIDGET_OPENED_EVENT);
     expect(callbackSpys[0]).toHaveBeenCalled();
     expect(callbackSpys[1]).toHaveBeenCalled();
     expect(callbackSpys[2]).not.toHaveBeenCalled();
@@ -67,7 +67,7 @@ describe('valid event', () => {
 
     callbackSpys.forEach(cb => cb.mockClear());
 
-    callbacks.fireEventsFor(API_ON_CHAT_CONNECTED_NAME);
+    callbacks.fireEventsFor(CHAT_CONNECTED_EVENT);
     expect(callbackSpys[0]).not.toHaveBeenCalled();
     expect(callbackSpys[1]).not.toHaveBeenCalled();
     expect(callbackSpys[2]).not.toHaveBeenCalled();
@@ -77,8 +77,8 @@ describe('valid event', () => {
   test('fireEventsFor with arguments', () => {
     const callbackSpy = jest.fn();
 
-    callbacks.registerCallback(callbackSpy, API_ON_CHAT_DEPARTMENT_STATUS);
-    callbacks.fireEventsFor(API_ON_CHAT_DEPARTMENT_STATUS, ['yeet', 10]);
+    callbacks.registerCallback(callbackSpy, CHAT_DEPARTMENT_STATUS_EVENT);
+    callbacks.fireEventsFor(CHAT_DEPARTMENT_STATUS_EVENT, ['yeet', 10]);
 
     expect(callbackSpy).toHaveBeenCalledWith('yeet', 10);
   });

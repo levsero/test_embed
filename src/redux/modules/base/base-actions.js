@@ -19,7 +19,7 @@ import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { http } from 'service/transport';
 import { PHONE_PATTERN } from 'src/constants/shared';
-import { API_ON_OPEN_NAME, API_ON_CLOSE_NAME } from 'constants/api';
+import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT } from 'constants/event';
 import * as callbacks from 'service/api/callbacks';
 
 function onAuthRequestSuccess(res, id, dispatch, webToken) {
@@ -275,7 +275,7 @@ export const handleCloseButtonClicked = () => {
       type: actions.CLOSE_BUTTON_CLICKED
     });
 
-    callbacks.fireEventsFor(API_ON_CLOSE_NAME);
+    callbacks.fireEventsFor(WIDGET_CLOSED_EVENT);
   };
 };
 
@@ -319,14 +319,14 @@ export const launcherClicked = () => {
       dispatch({ type: actions.LAUNCHER_CLICKED });
     }
 
-    callbacks.fireEventsFor(API_ON_OPEN_NAME);
+    callbacks.fireEventsFor(WIDGET_OPENED_EVENT);
   };
 };
 
 export const chatBadgeClicked = () => {
   return (dispatch) => {
     dispatch({ type: actions.CHAT_BADGE_CLICKED });
-    callbacks.fireEventsFor(API_ON_OPEN_NAME);
+    callbacks.fireEventsFor(WIDGET_OPENED_EVENT);
     dispatch(addToAfterShowAnimationQueue(handleChatBadgeMinimize));
   };
 };
@@ -393,7 +393,7 @@ export const openReceived = () => {
   return (dispatch, getState) => {
     if (!getWebWidgetVisible(getState())) {
       dispatch({ type: actions.OPEN_RECEIVED });
-      callbacks.fireEventsFor(API_ON_OPEN_NAME);
+      callbacks.fireEventsFor(WIDGET_OPENED_EVENT);
     }
   };
 };
@@ -402,7 +402,7 @@ export const closeReceived = () => {
   return (dispatch, getState) => {
     if (getWebWidgetVisible(getState())) {
       dispatch({ type: actions.CLOSE_RECEIVED });
-      callbacks.fireEventsFor(API_ON_CLOSE_NAME);
+      callbacks.fireEventsFor(WIDGET_CLOSED_EVENT);
     }
   };
 };

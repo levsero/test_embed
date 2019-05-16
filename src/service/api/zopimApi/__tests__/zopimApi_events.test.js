@@ -5,13 +5,13 @@ import createStore from 'src/redux/createStore';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as callbacks from 'service/api/callbacks';
 import {
-  API_ON_CHAT_END_NAME,
-  API_ON_CHAT_START_NAME,
-  API_ON_CHAT_CONNECTED_NAME,
-  API_ON_CHAT_UNREAD_MESSAGES_NAME,
-  API_ON_CHAT_DEPARTMENT_STATUS,
-  API_ON_CHAT_STATUS_NAME
-} from 'constants/api';
+  CHAT_ENDED_EVENT,
+  CHAT_STARTED_EVENT,
+  CHAT_CONNECTED_EVENT,
+  CHAT_UNREAD_MESSAGES_EVENT,
+  CHAT_DEPARTMENT_STATUS_EVENT,
+  CHAT_STATUS_EVENT
+} from 'constants/event';
 
 const setup = () => {
   const mockWin = {};
@@ -53,7 +53,7 @@ describe('zopim events', () => {
 
     mockWin.$zopim.livechat.setOnConnected(callback);
 
-    callbacks.fireEventsFor(API_ON_CHAT_CONNECTED_NAME);
+    callbacks.fireEventsFor(CHAT_CONNECTED_EVENT);
 
     expect(callback)
       .toHaveBeenCalled();
@@ -64,7 +64,7 @@ describe('zopim events', () => {
 
     mockWin.$zopim.livechat.setOnChatStart(callback);
 
-    callbacks.fireEventsFor(API_ON_CHAT_START_NAME);
+    callbacks.fireEventsFor(CHAT_STARTED_EVENT);
 
     expect(callback)
       .toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe('zopim events', () => {
 
     mockWin.$zopim.livechat.setOnChatEnd(callback);
 
-    callbacks.fireEventsFor(API_ON_CHAT_END_NAME);
+    callbacks.fireEventsFor(CHAT_ENDED_EVENT);
 
     expect(callback)
       .toHaveBeenCalled();
@@ -96,7 +96,7 @@ describe('zopim events', () => {
         msg: 'check it'
       }
     });
-    callbacks.fireEventsFor(API_ON_CHAT_UNREAD_MESSAGES_NAME);
+    callbacks.fireEventsFor(CHAT_UNREAD_MESSAGES_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith(1);
@@ -112,8 +112,8 @@ describe('zopim events', () => {
       mockWin.$zopim.livechat.setOnStatus(callback);
       expect(callback).not.toHaveBeenCalled();
 
-      callbacks.fireEventsFor(API_ON_CHAT_STATUS_NAME);
-      callbacks.fireEventsFor(API_ON_CHAT_DEPARTMENT_STATUS);
+      callbacks.fireEventsFor(CHAT_STATUS_EVENT);
+      callbacks.fireEventsFor(CHAT_DEPARTMENT_STATUS_EVENT);
 
       await wait(() => {
         expect(callback).toHaveBeenCalledWith('yeetStat');

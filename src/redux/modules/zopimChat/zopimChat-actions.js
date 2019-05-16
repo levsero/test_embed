@@ -14,7 +14,7 @@ import {
 import { getWebWidgetVisible } from 'src/redux/modules/selectors';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import * as callbacks from 'service/api/callbacks';
-import { API_ON_CLOSE_NAME } from 'constants/api';
+import { WIDGET_CLOSED_EVENT } from 'constants/event';
 
 export function updateZopimChatStatus(status) {
   return {
@@ -54,7 +54,7 @@ export function zopimOnClose() {
       type: ZOPIM_ON_CLOSE
     });
 
-    callbacks.fireEventsFor(API_ON_CLOSE_NAME);
+    callbacks.fireEventsFor(WIDGET_CLOSED_EVENT);
   };
 }
 

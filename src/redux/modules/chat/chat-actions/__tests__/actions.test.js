@@ -8,11 +8,11 @@ import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors';
 import * as callbacks from 'service/api/callbacks';
 import {
-  API_ON_CHAT_CONNECTED_NAME,
-  API_ON_CHAT_START_NAME,
-  API_ON_CHAT_END_NAME,
-  API_ON_CHAT_UNREAD_MESSAGES_NAME
-} from 'constants/api';
+  CHAT_CONNECTED_EVENT,
+  CHAT_STARTED_EVENT,
+  CHAT_ENDED_EVENT,
+  CHAT_UNREAD_MESSAGES_EVENT
+} from 'constants/event';
 
 const timeoutError = { code: 'ETIMEDOUT' };
 const otherError = { code: 'DERP DERP', message: 'I gone derped up' };
@@ -93,7 +93,7 @@ describe('endChat', () => {
 
       expect(store.getActions()).toEqual(happyPathActions);
       expect(callbacks.fireEventsFor)
-        .toHaveBeenCalledWith(API_ON_CHAT_END_NAME);
+        .toHaveBeenCalledWith(CHAT_ENDED_EVENT);
     });
 
     verifyCallbackCalled();
@@ -110,7 +110,7 @@ describe('endChat', () => {
 
         expect(store.getActions()).toEqual(happyPathActions);
         expect(callbacks.fireEventsFor)
-          .toHaveBeenCalledWith(API_ON_CHAT_END_NAME);
+          .toHaveBeenCalledWith(CHAT_ENDED_EVENT);
       });
 
       verifyCallbackCalled();
@@ -741,7 +741,7 @@ test('chatConnected', () => {
   const result = dispatchAction(actions.chatConnected());
 
   expect(callbacks.fireEventsFor)
-    .toHaveBeenCalledWith(API_ON_CHAT_CONNECTED_NAME);
+    .toHaveBeenCalledWith(CHAT_CONNECTED_EVENT);
   expect(result)
     .toEqual({ type: actionTypes.CHAT_CONNECTED });
 });
@@ -751,7 +751,7 @@ test('chatStarted', () => {
   const result = dispatchAction(actions.chatStarted());
 
   expect(callbacks.fireEventsFor)
-    .toHaveBeenCalledWith(API_ON_CHAT_START_NAME);
+    .toHaveBeenCalledWith(CHAT_STARTED_EVENT);
   expect(result)
     .toEqual({ type: actionTypes.CHAT_STARTED });
 });
@@ -761,7 +761,7 @@ test('newAgentReceived', () => {
   const result = dispatchAction(actions.newAgentMessageReceived('yeet'));
 
   expect(callbacks.fireEventsFor)
-    .toHaveBeenCalledWith(API_ON_CHAT_UNREAD_MESSAGES_NAME);
+    .toHaveBeenCalledWith(CHAT_UNREAD_MESSAGES_EVENT);
   expect(result)
     .toEqual({ type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload: 'yeet' });
 });

@@ -6,7 +6,7 @@ import * as baseTypes from 'src/redux/modules/base/base-action-types';
 import * as selectors from 'src/redux/modules/selectors/selectors';
 import * as callbacks from 'service/api/callbacks';
 import { mediator } from 'service/mediator';
-import { API_ON_CLOSE_NAME } from 'constants/api';
+import { WIDGET_CLOSED_EVENT } from 'constants/event';
 
 jest.mock('service/mediator');
 
@@ -93,7 +93,7 @@ test('zopimOnClose dispatches expected action', () => {
   expect(store.getActions())
     .toEqual([ { type: types.ZOPIM_ON_CLOSE } ]);
   expect(callbacks.fireEventsFor)
-    .toHaveBeenCalledWith(API_ON_CLOSE_NAME);
+    .toHaveBeenCalledWith(WIDGET_CLOSED_EVENT);
 });
 
 describe('zopimProactiveMessageRecieved', () => {

@@ -20,6 +20,16 @@ import {
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_ON_CHAT_DEPARTMENT_STATUS
 } from 'constants/api';
+import {
+  WIDGET_OPENED_EVENT,
+  WIDGET_CLOSED_EVENT,
+  CHAT_CONNECTED_EVENT,
+  CHAT_ENDED_EVENT,
+  CHAT_STARTED_EVENT,
+  CHAT_STATUS_EVENT,
+  CHAT_UNREAD_MESSAGES_EVENT,
+  CHAT_DEPARTMENT_STATUS_EVENT
+} from 'constants/event';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat/chat-actions';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
@@ -169,20 +179,20 @@ export const getAllDepartmentsApi = (reduxStore, ...args) => getDepartmentsList(
 export const onApiObj = () => {
   return {
     'chat': {
-      [API_ON_CHAT_CONNECTED_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CHAT_CONNECTED_NAME),
-      [API_ON_CHAT_END_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CHAT_END_NAME),
-      [API_ON_CHAT_START_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CHAT_START_NAME),
+      [API_ON_CHAT_CONNECTED_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, CHAT_CONNECTED_EVENT),
+      [API_ON_CHAT_END_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, CHAT_ENDED_EVENT),
+      [API_ON_CHAT_START_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, CHAT_STARTED_EVENT),
       [API_ON_CHAT_DEPARTMENT_STATUS]: (_reduxStore, cb) => {
-        callbacks.registerCallback(cb, API_ON_CHAT_DEPARTMENT_STATUS);
+        callbacks.registerCallback(cb, CHAT_DEPARTMENT_STATUS_EVENT);
       },
       [API_ON_CHAT_UNREAD_MESSAGES_NAME]: (store, cb) => {
-        callbacks.registerCallback(() => cb(getNotificationCount(store.getState())), API_ON_CHAT_UNREAD_MESSAGES_NAME);
+        callbacks.registerCallback(() => cb(getNotificationCount(store.getState())), CHAT_UNREAD_MESSAGES_EVENT);
       },
       [API_ON_CHAT_STATUS_NAME]: (store, cb) => {
-        callbacks.registerCallback(() => cb(getChatStatus(store.getState())), API_ON_CHAT_STATUS_NAME);
+        callbacks.registerCallback(() => cb(getChatStatus(store.getState())), CHAT_STATUS_EVENT);
       }
     },
-    [API_ON_OPEN_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_OPEN_NAME),
-    [API_ON_CLOSE_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CLOSE_NAME)
+    [API_ON_OPEN_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, WIDGET_OPENED_EVENT),
+    [API_ON_CLOSE_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, WIDGET_CLOSED_EVENT)
   };
 };

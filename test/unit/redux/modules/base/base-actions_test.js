@@ -30,8 +30,8 @@ let actions,
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
-const API_ON_CLOSE_NAME = 'API_ON_CLOSE_NAME';
-const API_ON_OPEN_NAME = 'API_ON_OPEN_NAME';
+const WIDGET_CLOSED_EVENT = 'WIDGET_CLOSED_EVENT';
+const WIDGET_OPENED_EVENT = 'WIDGET_OPENED_EVENT';
 
 describe('base redux actions', () => {
   beforeEach(() => {
@@ -47,9 +47,9 @@ describe('base redux actions', () => {
       .and.returnValue({ type: 'widget/chat/CHAT_OPENED' });
 
     initMockRegistry({
-      'constants/api': {
-        API_ON_CLOSE_NAME,
-        API_ON_OPEN_NAME
+      'constants/event': {
+        WIDGET_CLOSED_EVENT,
+        WIDGET_OPENED_EVENT
       },
       'service/api/callbacks': {
         fireEventsFor: fireEventsForSpy
@@ -993,7 +993,7 @@ describe('base redux actions', () => {
 
     it('fires off widget close event', () => {
       expect(fireEventsForSpy)
-        .toHaveBeenCalledWith(API_ON_CLOSE_NAME);
+        .toHaveBeenCalledWith(WIDGET_CLOSED_EVENT);
     });
 
     it('dispatches a CLOSE_BUTTON_CLICKED event', () => {
@@ -1071,7 +1071,7 @@ describe('base redux actions', () => {
 
     it('fires off widget open event', () => {
       expect(fireEventsForSpy)
-        .toHaveBeenCalledWith(API_ON_OPEN_NAME);
+        .toHaveBeenCalledWith(WIDGET_OPENED_EVENT);
     });
 
     describe('when the activeEmbed is not zopimChat', () => {
@@ -1097,7 +1097,7 @@ describe('base redux actions', () => {
 
       it('fires off widget open event', () => {
         expect(fireEventsForSpy)
-          .toHaveBeenCalledWith(API_ON_OPEN_NAME);
+          .toHaveBeenCalledWith(WIDGET_OPENED_EVENT);
       });
     });
   });
@@ -1135,7 +1135,7 @@ describe('base redux actions', () => {
 
     it('fires off widget open event', () => {
       expect(fireEventsForSpy)
-        .toHaveBeenCalledWith(API_ON_OPEN_NAME);
+        .toHaveBeenCalledWith(WIDGET_OPENED_EVENT);
     });
 
     it('dispatches a CHAT_BADGE_CLICKED event', () => {
@@ -1380,7 +1380,7 @@ describe('base redux actions', () => {
 
       it('fires off widget open event', () => {
         expect(fireEventsForSpy)
-          .toHaveBeenCalledWith(API_ON_OPEN_NAME);
+          .toHaveBeenCalledWith(WIDGET_OPENED_EVENT);
       });
     });
   });
@@ -1421,7 +1421,7 @@ describe('base redux actions', () => {
 
       it('fires off widget close event', () => {
         expect(fireEventsForSpy)
-          .toHaveBeenCalledWith(API_ON_CLOSE_NAME);
+          .toHaveBeenCalledWith(WIDGET_CLOSED_EVENT);
       });
     });
   });

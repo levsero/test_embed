@@ -29,11 +29,11 @@ import {
   canBeIgnored
 } from 'src/redux/modules/chat/helpers/zChatWithTimeout';
 import {
-  API_ON_CHAT_CONNECTED_NAME,
-  API_ON_CHAT_END_NAME,
-  API_ON_CHAT_START_NAME,
-  API_ON_CHAT_UNREAD_MESSAGES_NAME
-} from 'constants/api';
+  CHAT_CONNECTED_EVENT,
+  CHAT_ENDED_EVENT,
+  CHAT_STARTED_EVENT,
+  CHAT_UNREAD_MESSAGES_EVENT
+} from 'constants/event';
 import * as callbacks from 'service/api/callbacks';
 
 const chatTypingTimeout = 2000;
@@ -117,7 +117,7 @@ export const endChat = (callback = noop) => {
 
         dispatch({ type: actions.CHAT_ALL_AGENTS_INACTIVE, payload: activeAgents });
         dispatch({ type: actions.END_CHAT_REQUEST_SUCCESS });
-        callbacks.fireEventsFor(API_ON_CHAT_END_NAME);
+        callbacks.fireEventsFor(CHAT_ENDED_EVENT);
       } else {
         dispatch({ type: actions.END_CHAT_REQUEST_FAILURE });
       }
@@ -458,7 +458,7 @@ export function sendAttachments(fileList) {
 export function newAgentMessageReceived(chat) {
   return (dispatch) => {
     dispatch({ type: actions.NEW_AGENT_MESSAGE_RECEIVED, payload: chat });
-    callbacks.fireEventsFor(API_ON_CHAT_UNREAD_MESSAGES_NAME);
+    callbacks.fireEventsFor(CHAT_UNREAD_MESSAGES_EVENT);
   };
 }
 
@@ -709,7 +709,7 @@ export function chatWindowOpenOnNavigate() {
 export function chatStarted() {
   return (dispatch) => {
     dispatch({ type: actions.CHAT_STARTED });
-    callbacks.fireEventsFor(API_ON_CHAT_START_NAME);
+    callbacks.fireEventsFor(CHAT_STARTED_EVENT);
   };
 }
 
@@ -718,7 +718,7 @@ export function chatConnected() {
     dispatch({
       type: actions.CHAT_CONNECTED
     });
-    callbacks.fireEventsFor(API_ON_CHAT_CONNECTED_NAME);
+    callbacks.fireEventsFor(CHAT_CONNECTED_EVENT);
   };
 }
 

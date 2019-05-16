@@ -127,7 +127,7 @@ describe('chat redux actions', () => {
           CONNECTED: 'connected'
         }
       },
-      'constants/api': {},
+      'constants/event': {},
       'service/mediator': {
         mediator: {
           channel: {

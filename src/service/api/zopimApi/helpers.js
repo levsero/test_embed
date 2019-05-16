@@ -7,7 +7,7 @@ import {
   badgeShowReceived
 } from 'src/redux/modules/base';
 import * as callbacks from 'service/api/callbacks';
-import { API_ON_CHAT_STATUS_NAME, API_ON_CHAT_DEPARTMENT_STATUS } from 'constants/api';
+import { CHAT_STATUS_EVENT, CHAT_DEPARTMENT_STATUS_EVENT } from 'constants/event';
 
 import tracker from 'service/logging/tracker';
 
@@ -163,8 +163,8 @@ export const setOnStatusApi = (store, callback) => {
       callback(chatStatus);
     };
 
-    callbacks.registerCallback(wrappedCallbackWithArgs, API_ON_CHAT_STATUS_NAME);
-    callbacks.registerCallback(_.debounce(wrappedCallbackWithArgs, 0), API_ON_CHAT_DEPARTMENT_STATUS);
+    callbacks.registerCallback(wrappedCallbackWithArgs, CHAT_STATUS_EVENT);
+    callbacks.registerCallback(_.debounce(wrappedCallbackWithArgs, 0), CHAT_DEPARTMENT_STATUS_EVENT);
   }
 };
 

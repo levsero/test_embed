@@ -22,17 +22,17 @@ import {
   SDK_ACCOUNT_STATUS
 } from 'src/redux/modules/chat/chat-action-types';
 import * as callbacks from 'service/api/callbacks';
-import { API_ON_CHAT_STATUS_NAME, API_ON_CHAT_DEPARTMENT_STATUS } from 'constants/api';
+import { CHAT_STATUS_EVENT, CHAT_DEPARTMENT_STATUS_EVENT } from 'constants/event';
 import zopimApi from 'service/api/zopimApi';
 import { win, isPopout } from 'utility/globals';
 
 function fireWidgetChatEvent(action) {
   switch (action.type) {
     case SDK_DEPARTMENT_UPDATE:
-      callbacks.fireEventsFor(API_ON_CHAT_DEPARTMENT_STATUS, [action.payload.detail]);
+      callbacks.fireEventsFor(CHAT_DEPARTMENT_STATUS_EVENT, [action.payload.detail]);
       break;
     case SDK_ACCOUNT_STATUS:
-      callbacks.fireEventsFor(API_ON_CHAT_STATUS_NAME);
+      callbacks.fireEventsFor(CHAT_STATUS_EVENT);
       break;
   }
 }
