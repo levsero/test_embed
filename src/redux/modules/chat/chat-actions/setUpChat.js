@@ -15,9 +15,27 @@ import {
   SDK_ACTION_TYPE_PREFIX,
   JWT_ERROR,
 } from 'constants/chat';
-import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
+import {
+  AUTHENTICATION_STARTED,
+  AUTHENTICATION_FAILED,
+  SDK_DEPARTMENT_UPDATE,
+  SDK_ACCOUNT_STATUS
+} from 'src/redux/modules/chat/chat-action-types';
+import * as callbacks from 'service/api/callbacks';
+import { API_ON_CHAT_STATUS_NAME, API_ON_CHAT_DEPARTMENT_STATUS } from 'constants/api';
 import zopimApi from 'service/api/zopimApi';
 import { win, isPopout } from 'utility/globals';
+
+function fireWidgetChatEvent(action) {
+  switch (action.type) {
+    case SDK_DEPARTMENT_UPDATE:
+      callbacks.fireEventsFor(API_ON_CHAT_DEPARTMENT_STATUS, [action.payload.detail]);
+      break;
+    case SDK_ACCOUNT_STATUS:
+      callbacks.fireEventsFor(API_ON_CHAT_STATUS_NAME);
+      break;
+  }
+}
 
 function makeChatConfig(config) {
   /* eslint-disable camelcase */
@@ -101,7 +119,10 @@ export function setUpChat() {
         if (data.type === 'chat' && data.detail) {
           data.detail.timestamp = data.detail.timestamp || Date.now();
         }
-        dispatch({ type: actionType, payload: data });
+        const chatAction = { type: actionType, payload: data };
+
+        dispatch(chatAction);
+        fireWidgetChatEvent(chatAction);
       });
     };
     const onFailure = (err) => {

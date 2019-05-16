@@ -5,7 +5,6 @@ export const UPDATE_BACK_BUTTON_VISIBILITY = 'widget/base/UPDATE_BACK_BUTTON_VIS
 export const UPDATE_AUTHENTICATED = 'widget/base/UPDATE_AUTHENTICATED';
 export const UPDATE_WIDGET_SHOWN = 'widget/base/UPDATE_WIDGET_SHOWN';
 export const PREFILL_RECEIVED = 'widget/base/PREFILL_RECEIVED';
-export const API_ON_RECEIVED = 'widget/base/API_ON_RECEIVED';
 export const OPEN_RECEIVED = 'widget/base/OPEN_RECEIVED';
 export const CLOSE_RECEIVED = 'widget/base/CLOSE_RECEIVED';
 export const TOGGLE_RECEIVED = 'widget/base/TOGGLE_RECEIVED';

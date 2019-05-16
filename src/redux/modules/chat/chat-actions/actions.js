@@ -28,7 +28,12 @@ import {
   zChatWithTimeout,
   canBeIgnored
 } from 'src/redux/modules/chat/helpers/zChatWithTimeout';
-import { API_ON_CHAT_CONNECTED_NAME, API_ON_CHAT_END_NAME, API_ON_CHAT_START_NAME } from 'constants/api';
+import {
+  API_ON_CHAT_CONNECTED_NAME,
+  API_ON_CHAT_END_NAME,
+  API_ON_CHAT_START_NAME,
+  API_ON_CHAT_UNREAD_MESSAGES_NAME
+} from 'constants/api';
 import * as callbacks from 'service/api/callbacks';
 
 const chatTypingTimeout = 2000;
@@ -451,7 +456,10 @@ export function sendAttachments(fileList) {
 }
 
 export function newAgentMessageReceived(chat) {
-  return { type: actions.NEW_AGENT_MESSAGE_RECEIVED, payload: chat };
+  return (dispatch) => {
+    dispatch({ type: actions.NEW_AGENT_MESSAGE_RECEIVED, payload: chat });
+    callbacks.fireEventsFor(API_ON_CHAT_UNREAD_MESSAGES_NAME);
+  };
 }
 
 export function chatOpened() {

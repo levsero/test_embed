@@ -682,6 +682,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled();
     store.dispatch({ type: chatActionTypes.SDK_ACCOUNT_STATUS, payload: { detail: 'yeetStat' } });
+    callbacks.fireEventsFor(constants.API_ON_CHAT_STATUS_NAME);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith('yeetStat');
@@ -701,6 +702,7 @@ describe('onApi', () => {
         msg: 'check it'
       }
     });
+    callbacks.fireEventsFor(constants.API_ON_CHAT_UNREAD_MESSAGES_NAME);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith(1);
@@ -712,6 +714,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled();
     store.dispatch({ type: chatActionTypes.SDK_DEPARTMENT_UPDATE, payload: { detail: { id: 1 } } });
+    callbacks.fireEventsFor(constants.API_ON_CHAT_DEPARTMENT_STATUS, [{ id: 1 }]);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith({ id: 1 });

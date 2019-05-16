@@ -979,59 +979,6 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('handleOnApiCalled', () => {
-    let action,
-      mockActionType,
-      selectorSpy,
-      payloadTransformerSpy,
-      callbackSpy;
-
-    beforeEach(() => {
-      mockActionType = 'widget/chat/CHAT_CONNECTED';
-      selectorSpy = jasmine.createSpy('arbitrarySelector');
-      callbackSpy = jasmine.createSpy('arbitraryCallback');
-      payloadTransformerSpy = jasmine.createSpy('optimusPrime');
-
-      mockStore.dispatch(actions.handleOnApiCalled(mockActionType, selectorSpy, callbackSpy, payloadTransformerSpy));
-
-      action = mockStore.getActions()[0];
-    });
-
-    describe('when event is in the event list', () => {
-      it('dispatches a API_ON_RECEIVED event', () => {
-        expect(action.type)
-          .toEqual(actionTypes.API_ON_RECEIVED);
-      });
-
-      it('has the actionType property in the payload', () => {
-        expect(action.payload.actionType)
-          .toEqual(mockActionType);
-      });
-
-      it('has the selectors property in the payload', () => {
-        const selectors = action.payload.selectors;
-
-        selectors();
-
-        expect(selectorSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('has the payloadTransformer param', () => {
-        expect(action.payload.payloadTransformer).toEqual(payloadTransformerSpy);
-      });
-
-      it('has the callback property in the payload', () => {
-        const callback = action.payload.callback;
-
-        callback();
-
-        expect(callbackSpy)
-          .toHaveBeenCalled();
-      });
-    });
-  });
-
   describe('handleCloseButtonClicked', () => {
     let dispatchedActions;
 

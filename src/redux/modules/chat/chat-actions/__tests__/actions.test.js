@@ -10,7 +10,8 @@ import * as callbacks from 'service/api/callbacks';
 import {
   API_ON_CHAT_CONNECTED_NAME,
   API_ON_CHAT_START_NAME,
-  API_ON_CHAT_END_NAME
+  API_ON_CHAT_END_NAME,
+  API_ON_CHAT_UNREAD_MESSAGES_NAME
 } from 'constants/api';
 
 const timeoutError = { code: 'ETIMEDOUT' };
@@ -753,4 +754,14 @@ test('chatStarted', () => {
     .toHaveBeenCalledWith(API_ON_CHAT_START_NAME);
   expect(result)
     .toEqual({ type: actionTypes.CHAT_STARTED });
+});
+
+test('newAgentReceived', () => {
+  jest.spyOn(callbacks, 'fireEventsFor');
+  const result = dispatchAction(actions.newAgentMessageReceived('yeet'));
+
+  expect(callbacks.fireEventsFor)
+    .toHaveBeenCalledWith(API_ON_CHAT_UNREAD_MESSAGES_NAME);
+  expect(result)
+    .toEqual({ type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload: 'yeet' });
 });

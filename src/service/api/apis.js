@@ -20,21 +20,16 @@ import {
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_ON_CHAT_DEPARTMENT_STATUS
 } from 'constants/api';
-import {
-  NEW_AGENT_MESSAGE_RECEIVED,
-  SDK_ACCOUNT_STATUS,
-  SDK_DEPARTMENT_UPDATE
-} from 'src/redux/modules/chat/chat-action-types';
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat/chat-actions';
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors';
 import {
   getDepartment,
   getDepartmentsList,
   getIsChatting,
-  getNotificationCount,
-  getChatStatus,
   getIsPopoutAvailable,
-  getZChatVendor
+  getZChatVendor,
+  getNotificationCount,
+  getChatStatus
 } from 'src/redux/modules/chat/chat-selectors';
 import { updateSettings } from 'src/redux/modules/settings';
 import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter';
@@ -47,10 +42,7 @@ import { mediator } from 'service/mediator';
 import { beacon } from 'service/beacon';
 import { createChatPopoutWindow } from 'src/util/chat';
 import { nameValid, emailValid } from 'utility/utils';
-import {
-  handleOnApiCalled,
-  apiResetWidget
-} from 'src/redux/modules/base/base-actions';
+import { apiResetWidget } from 'src/redux/modules/base/base-actions';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import * as callbacks from 'service/api/callbacks';
 
@@ -175,43 +167,20 @@ export const getDepartmentApi =  (reduxStore, ...args) => getDepartment(reduxSto
 export const getAllDepartmentsApi = (reduxStore, ...args) => getDepartmentsList(reduxStore.getState(), ...args);
 
 export const onApiObj = () => {
-  const chatEventMap = {
-    [API_ON_CHAT_STATUS_NAME]: {
-      actionType: SDK_ACCOUNT_STATUS,
-      selectors: [getChatStatus]
-    },
-    [API_ON_CHAT_UNREAD_MESSAGES_NAME]: {
-      actionType: NEW_AGENT_MESSAGE_RECEIVED,
-      selectors: [getNotificationCount]
-    },
-    [API_ON_CHAT_DEPARTMENT_STATUS]: {
-      actionType: SDK_DEPARTMENT_UPDATE,
-      payloadTransformer: (payload) => payload.detail
-    }
-  };
-  const eventDispatchWrapperFn = (actionType, selectors = [], payloadTransformer) => {
-    return (reduxStore, callback) => {
-      if (_.isFunction(callback)) {
-        reduxStore.dispatch(handleOnApiCalled(actionType, selectors, callback, payloadTransformer));
-      }
-    };
-  };
-  const eventApiReducerFn = (eventMap) => {
-    return _.reduce(eventMap, (apiObj, eventObj, eventName) => {
-      const { actionType, selectors, payloadTransformer } = eventObj;
-
-      apiObj[eventName] = eventDispatchWrapperFn(actionType, selectors, payloadTransformer);
-
-      return apiObj;
-    }, {});
-  };
-
   return {
     'chat': {
       [API_ON_CHAT_CONNECTED_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CHAT_CONNECTED_NAME),
       [API_ON_CHAT_END_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CHAT_END_NAME),
       [API_ON_CHAT_START_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CHAT_START_NAME),
-      ...eventApiReducerFn(chatEventMap)
+      [API_ON_CHAT_DEPARTMENT_STATUS]: (_reduxStore, cb) => {
+        callbacks.registerCallback(cb, API_ON_CHAT_DEPARTMENT_STATUS);
+      },
+      [API_ON_CHAT_UNREAD_MESSAGES_NAME]: (store, cb) => {
+        callbacks.registerCallback(() => cb(getNotificationCount(store.getState())), API_ON_CHAT_UNREAD_MESSAGES_NAME);
+      },
+      [API_ON_CHAT_STATUS_NAME]: (store, cb) => {
+        callbacks.registerCallback(() => cb(getChatStatus(store.getState())), API_ON_CHAT_STATUS_NAME);
+      }
     },
     [API_ON_OPEN_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_OPEN_NAME),
     [API_ON_CLOSE_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, API_ON_CLOSE_NAME)

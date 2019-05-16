@@ -1,28 +1,36 @@
+import { wait } from 'react-testing-library';
 import zopimApi from '..';
 
-import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
+import createStore from 'src/redux/createStore';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
 import * as callbacks from 'service/api/callbacks';
 import {
   API_ON_CHAT_END_NAME,
   API_ON_CHAT_START_NAME,
-  API_ON_CHAT_CONNECTED_NAME
+  API_ON_CHAT_CONNECTED_NAME,
+  API_ON_CHAT_UNREAD_MESSAGES_NAME,
+  API_ON_CHAT_DEPARTMENT_STATUS,
+  API_ON_CHAT_STATUS_NAME
 } from 'constants/api';
 
-const mockStore = {
-  dispatch: jest.fn()
+const setup = () => {
+  const mockWin = {};
+  const callback = jest.fn(() => 123);
+  const store = createStore();
+
+  zopimApi.setUpZopimApiMethods(mockWin, store);
+
+  return {
+    mockWin,
+    store,
+    callback
+  };
 };
 
 describe('zopim events', () => {
-  const mockWin = {};
-  let callback = jest.fn(() => 123);
-
-  beforeEach(() => {
-    zopimApi.setUpZopimApiMethods(mockWin, mockStore);
-  });
-
   test('onShow fire widget open event', async () => {
+    const { callback, mockWin } = setup();
+
     expect(callback).not.toHaveBeenCalled();
     mockWin.$zopim.livechat.window.onHide(callback);
     await(() => {
@@ -31,6 +39,8 @@ describe('zopim events', () => {
   });
 
   test('onHide fire widget close event', async () => {
+    const { callback, mockWin } = setup();
+
     expect(callback).not.toHaveBeenCalled();
     mockWin.$zopim.livechat.window.onHide(callback);
     await(() => {
@@ -39,6 +49,8 @@ describe('zopim events', () => {
   });
 
   test('setOnConnected callback', () => {
+    const { callback, mockWin } = setup();
+
     mockWin.$zopim.livechat.setOnConnected(callback);
 
     callbacks.fireEventsFor(API_ON_CHAT_CONNECTED_NAME);
@@ -48,6 +60,8 @@ describe('zopim events', () => {
   });
 
   test('setOnChatStart callback', () => {
+    const { callback, mockWin } = setup();
+
     mockWin.$zopim.livechat.setOnChatStart(callback);
 
     callbacks.fireEventsFor(API_ON_CHAT_START_NAME);
@@ -57,6 +71,8 @@ describe('zopim events', () => {
   });
 
   test('setOnChatEnd callback', () => {
+    const { callback, mockWin } = setup();
+
     mockWin.$zopim.livechat.setOnChatEnd(callback);
 
     callbacks.fireEventsFor(API_ON_CHAT_END_NAME);
@@ -65,70 +81,44 @@ describe('zopim events', () => {
       .toHaveBeenCalled();
   });
 
-  test('setOnUnreadMsgs dispatches the NEW_AGENT_MESSAGE_RECEIVED action', () => {
-    mockWin.$zopim.livechat.setOnUnreadMsgs(callback);
+  test('setOnUnreadMsgs callback', async () => {
+    const { callback, mockWin, store } = setup();
 
-    expect(mockStore.dispatch)
-      .toBeCalledWith(expect.objectContaining(
-        {
-          type: baseActionTypes.API_ON_RECEIVED,
-          payload: expect.objectContaining(
-            {
-              actionType: chatActionTypes.NEW_AGENT_MESSAGE_RECEIVED,
-              callback
-            }
-          )
-        }
-      ));
+    mockWin.$zopim.livechat.setOnUnreadMsgs(callback);
+    expect(callback).not.toHaveBeenCalled();
+
+    store.dispatch({
+      type: chatActionTypes.NEW_AGENT_MESSAGE_RECEIVED,
+      payload: {
+        proactive: true,
+        nick: 'black hole',
+        display_name: 'black hole', // eslint-disable-line camelcase
+        msg: 'check it'
+      }
+    });
+    callbacks.fireEventsFor(API_ON_CHAT_UNREAD_MESSAGES_NAME);
+
+    await wait(() => {
+      expect(callback).toHaveBeenCalledWith(1);
+    });
   });
 
   describe('setOnStatus', () => {
-    it('dispatches the SDK_ACCOUNT_STATUS and SDK_DEPARTMENT_UPDATE actions', () => {
+    it('dispatches the SDK_ACCOUNT_STATUS and SDK_DEPARTMENT_UPDATE actions', async () => {
+      const { callback, mockWin, store } = setup();
+
+      store.dispatch({ type: chatActionTypes.SDK_ACCOUNT_STATUS, payload: { detail: 'yeetStat' } });
+
       mockWin.$zopim.livechat.setOnStatus(callback);
+      expect(callback).not.toHaveBeenCalled();
 
-      expect(mockStore.dispatch)
-        .toHaveBeenNthCalledWith(1, expect.objectContaining(
-          {
-            type: baseActionTypes.API_ON_RECEIVED,
-            payload: expect.objectContaining(
-              {
-                actionType: chatActionTypes.SDK_ACCOUNT_STATUS,
-                selectors: [chatSelectors.getChatStatus],
-                callback
-              }
-            )
-          }
-        ));
+      callbacks.fireEventsFor(API_ON_CHAT_STATUS_NAME);
+      callbacks.fireEventsFor(API_ON_CHAT_DEPARTMENT_STATUS);
 
-      expect(mockStore.dispatch)
-        .toHaveBeenNthCalledWith(2, expect.objectContaining(
-          {
-            type: baseActionTypes.API_ON_RECEIVED,
-            payload: expect.objectContaining(
-              {
-                actionType: chatActionTypes.SDK_DEPARTMENT_UPDATE,
-                callback: expect.any(Function),
-                selectors: [chatSelectors.getChatStatus]
-              }
-            )
-          }
-        ));
-    });
-
-    it('stores a debounced callback', (done) => {
-      mockWin.$zopim.livechat.setOnStatus(callback);
-
-      const payloadCallback = mockStore.dispatch.mock.calls[1][0].payload.callback;
-
-      payloadCallback();
-      expect(callback)
-        .not.toHaveBeenCalled();
-
-      setTimeout(() => {
-        expect(callback)
-          .toHaveBeenCalled();
-        done();
-      }, 1);
+      await wait(() => {
+        expect(callback).toHaveBeenCalledWith('yeetStat');
+        expect(callback).toHaveBeenCalledTimes(2);
+      });
     });
   });
 });

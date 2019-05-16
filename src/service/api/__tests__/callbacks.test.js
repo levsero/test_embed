@@ -1,5 +1,10 @@
 import * as callbacks from '../callbacks';
-import { API_ON_OPEN_NAME, API_ON_CLOSE_NAME, API_ON_CHAT_CONNECTED_NAME } from 'constants/api';
+import {
+  API_ON_OPEN_NAME,
+  API_ON_CLOSE_NAME,
+  API_ON_CHAT_CONNECTED_NAME,
+  API_ON_CHAT_DEPARTMENT_STATUS
+} from 'constants/api';
 
 test('invalid event name', () => {
   const callbackSpy = jest.fn();
@@ -67,5 +72,14 @@ describe('valid event', () => {
     expect(callbackSpys[1]).not.toHaveBeenCalled();
     expect(callbackSpys[2]).not.toHaveBeenCalled();
     expect(callbackSpys[3]).toHaveBeenCalled();
+  });
+
+  test('fireEventsFor with arguments', () => {
+    const callbackSpy = jest.fn();
+
+    callbacks.registerCallback(callbackSpy, API_ON_CHAT_DEPARTMENT_STATUS);
+    callbacks.fireEventsFor(API_ON_CHAT_DEPARTMENT_STATUS, ['yeet', 10]);
+
+    expect(callbackSpy).toHaveBeenCalledWith('yeet', 10);
   });
 });

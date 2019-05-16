@@ -285,13 +285,6 @@ export const handlePopoutButtonClicked = () => {
   };
 };
 
-export const handleOnApiCalled = (actionType, selectors = [], callback, payloadTransformer) => {
-  return {
-    type: actions.API_ON_RECEIVED,
-    payload: { actionType, selectors, callback, payloadTransformer }
-  };
-};
-
 export const apiClearForm = () => {
   mediator.channel.broadcast('.clear');
 
