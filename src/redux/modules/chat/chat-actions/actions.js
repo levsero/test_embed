@@ -389,6 +389,7 @@ export function chatNotificationReset() {
 
 export function sendAttachments(fileList) {
   return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
     const visitor = getChatVisitor(getState());
 
     _.forEach(fileList, file => {
@@ -413,7 +414,7 @@ export function sendAttachments(fileList) {
         }
       });
 
-      zChatWithTimeout(getState, 'sendFile')(file, (err, data) => {
+      zChat.sendFile(file, (err, data) => {
         if (!err) {
           dispatch({
             type: actions.CHAT_FILE_REQUEST_SUCCESS,
