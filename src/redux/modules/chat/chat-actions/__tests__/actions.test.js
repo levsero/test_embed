@@ -12,10 +12,13 @@ const otherError = { code: 'DERP DERP', message: 'I gone derped up' };
 const mockStore = configureMockStore([thunk]);
 const invoker = jest.fn();
 const mockTimeout = jest.fn(() => invoker);
+const sendFile = jest.fn();
 const stateWithZChat = {
   chat: {
     vendor: {
-      zChat: {}
+      zChat: {
+        sendFile
+      }
     }
   }
 };
@@ -385,35 +388,36 @@ describe('sendAttachments', () => {
   });
 
   it('dispatches CHAT_FILE_REQUEST_SENT for each file in the list', () => {
-    const { store } = dispatchZChatWithTimeoutAction(
-      actions.sendAttachments(mockFileList),
-      null,
-      mockData
-    );
+    const store = mockStore(stateWithZChat);
 
+    store.dispatch(actions.sendAttachments(mockFileList));
     expect(store.getActions()).toMatchSnapshot();
   });
 
   describe('when there are no errors', () => {
     it('dispatches CHAT_FILE_REQUEST_SUCCESS for each file in the list', () => {
-      const { store } = dispatchZChatWithTimeoutAction(
-        actions.sendAttachments(mockFileList),
-        null,
-        mockData
-      );
+      const store = mockStore(stateWithZChat);
 
+      store.dispatch(actions.sendAttachments(mockFileList));
+
+      const call = sendFile.mock.calls[0];
+      const callback = call[1];
+
+      callback(null, mockData);
       expect(store.getActions()).toMatchSnapshot();
     });
   });
 
   describe('when there is an error', () => {
     it('dispatches CHAT_FILE_REQUEST_FAILURE for each file in the list', () => {
-      const { store } = dispatchZChatWithTimeoutAction(
-        actions.sendAttachments(mockFileList),
-        timeoutError,
-        mockData
-      );
+      const store = mockStore(stateWithZChat);
 
+      store.dispatch(actions.sendAttachments(mockFileList));
+
+      const call = sendFile.mock.calls[0];
+      const callback = call[1];
+
+      callback(new Error('some error'), mockData);
       expect(store.getActions()).toMatchSnapshot();
     });
   });
