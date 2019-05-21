@@ -36,7 +36,8 @@ const renderPureComponent = (props) => {
     zChat: { getMachineId: () => 'machine id' },
     isChatPreview: false,
     chatPopoutSettings: {},
-    locale: 'en-US'
+    locale: 'en-US',
+    handleOnCloseFocusChange: noop
   };
   const actualProps = _.merge({}, defaultProps, props);
 

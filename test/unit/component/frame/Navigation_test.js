@@ -192,12 +192,14 @@ describe('Navigation', () => {
     let navigation, isMobile, preventClose;
     const handleCloseButtonClickSpy = jasmine.createSpy('handleCloseButtonClick');
     const stopPropagationSpy = jasmine.createSpy('stopPropagation');
+    const handleOnCloseFocusChangeSpy = jasmine.createSpy('handleOnCloseFocusChange');
 
     beforeEach(() => {
       navigation = domRender(
         <Navigation
           preventClose={preventClose}
           isMobile={isMobile}
+          handleOnCloseFocusChange={handleOnCloseFocusChangeSpy}
           handleCloseButtonClicked={handleCloseButtonClickSpy} />
       );
       navigation.handleCloseClick({ stopPropagation: stopPropagationSpy });
@@ -226,6 +228,11 @@ describe('Navigation', () => {
           expect(handleCloseButtonClickSpy)
             .toHaveBeenCalled();
         });
+      });
+
+      it('calls handleOnCloseFocusChangeSpy prop', () => {
+        expect(handleOnCloseFocusChangeSpy)
+          .toHaveBeenCalled();
       });
 
       describe('when on mobile', () => {

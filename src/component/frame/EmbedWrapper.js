@@ -17,7 +17,6 @@ export class EmbedWrapper extends Component {
     children: PropTypes.object,
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
-    handleCloseClick: PropTypes.func,
     hideNavigationButtons: PropTypes.bool,
     reduxStore: PropTypes.object.isRequired,
     useBackButton: PropTypes.bool,
@@ -30,7 +29,6 @@ export class EmbedWrapper extends Component {
     children: undefined,
     fullscreen: false,
     handleBackClick: () => {},
-    handleCloseClick: () => {},
     hideNavigationButtons: false,
     useBackButton: false,
     isChatPreview: false
@@ -68,14 +66,13 @@ export class EmbedWrapper extends Component {
         }
 
         if (keyCode === KEY_CODES.ESCAPE) {
-          this.closeEmbed();
+          this.handleOnCloseFocusChange();
         }
       }
     };
   }
 
-  closeEmbed = () => {
-    this.props.handleCloseClick();
+  handleOnCloseFocusChange = () => {
     // Due to the tabIndex switching based on visibility
     // we need to move focus on the next tick
     setTimeout(() => {
@@ -107,7 +104,7 @@ export class EmbedWrapper extends Component {
                 <Navigation
                   ref={(el) => { this.nav = el; }}
                   handleBackClick={this.props.handleBackClick}
-                  handleCloseClick={this.closeEmbed}
+                  handleOnCloseFocusChange={this.handleOnCloseFocusChange}
                   fullscreen={this.props.fullscreen}
                   isMobile={this.props.isMobile}
                   useBackButton={this.props.useBackButton}
