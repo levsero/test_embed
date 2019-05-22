@@ -21,9 +21,14 @@ jest.mock('service/i18n', () => ({
 }));
 jest.mock('service/logging/tracker');
 
-const mockStore = {
-  dispatch: () => {}
-};
+let mockStore, state = jest.fn();
+
+beforeEach(() => {
+  mockStore = {
+    dispatch: jest.fn(),
+    getState: state
+  };
+});
 
 describe('handleZopimQueue', () => {
   describe('queue was set up by web widget', () => {
@@ -160,15 +165,52 @@ describe('setUpZopimApiMethods', () => {
         .toHaveBeenCalled();
     });
 
-    test('show method', () => {
-      mockWin.$zopim.livechat.window.show();
+    describe('show method', () => {
+      beforeEach(() => {
+        mockWin.$zopim.livechat.window.show();
+      });
 
-      expect(apis.openApi)
-        .toHaveBeenCalled();
-      expect(apis.showApi)
-        .toHaveBeenCalled();
-      expect(baseActions.updateActiveEmbed)
-        .toHaveBeenCalledWith('chat');
+      describe('when chat is online', () => {
+        beforeAll(() => {
+          state = () => {
+            return { chat: { account_status: 'online' } }; // eslint-disable-line camelcase
+          };
+        });
+
+        it('calls the openApi method', () => {
+          expect(apis.openApi)
+            .toHaveBeenCalled();
+        });
+        it('calls the showApi method', () => {
+          expect(apis.showApi)
+            .toHaveBeenCalled();
+        });
+        it('updates the active embed', () => {
+          expect(baseActions.updateActiveEmbed)
+            .toHaveBeenCalledWith('chat');
+        });
+      });
+
+      describe('when chat is not online', () => {
+        beforeAll(() => {
+          state = () => {
+            return { chat: { account_status: 'away' } }; // eslint-disable-line camelcase
+          };
+        });
+
+        it('calls the openApi method', () => {
+          expect(apis.openApi)
+            .toHaveBeenCalled();
+        });
+        it('calls the showApi method', () => {
+          expect(apis.showApi)
+            .toHaveBeenCalled();
+        });
+        it('does not update the active embed', () => {
+          expect(baseActions.updateActiveEmbed)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
 
     test('getDisplay method', () => {
