@@ -6,8 +6,8 @@ if (__DEV__) {
 }
 
 export const checkIgnoreFn = () => {
-  // throttles error notifications so that only 1 in 10000 errors is sent through to rollbar
-  return Math.floor(Math.random() * 10000) !== 0;
+  // throttles error notifications so that only 1 in 1000 errors is sent through to rollbar
+  return Math.floor(Math.random() * 1000) !== 0;
 };
 
 export const rollbarConfig =  {
