@@ -7,7 +7,8 @@ const mockFormProp = {
   name: { name: 'name', required: true },
   email: { name: 'email', required: true },
   phone: { name: 'phone', label: 'Phone Number', required: false, hidden: false },
-  message: { name: 'message', label: 'Message', required: false }
+  message: { name: 'message', label: 'Message', required: false },
+  department: { name: 'department', label: 'department', required: false }
 };
 
 const renderPrechatForm = (inProps = {}) => {
@@ -99,6 +100,38 @@ test('does not render contact information if loginEnabled is false', () => {
     .not.toBeInTheDocument();
   expect(queryByLabelText(/Phone Number/))
     .not.toBeInTheDocument();
+});
+
+describe('submit button', () => {
+  it('has the `Start chat` string when an online department is selected', () => {
+    let formProp = {
+      ...mockFormProp,
+      departments: [{ name: 'department', id: 123, status: 'online' }]
+    };
+
+    const { queryByText } = renderPrechatForm({
+      form: formProp,
+      formState: { department: 123 }
+    });
+
+    expect(queryByText('Start chat'))
+      .toBeInTheDocument();
+  });
+
+  it('has the `Send message` string when an offline department is selected', () => {
+    let formProp = {
+      ...mockFormProp,
+      departments: [{ name: 'department', id: 123, status: 'offline' }],
+    };
+
+    const { queryByText } = renderPrechatForm({
+      form: formProp,
+      formState: { department: 123 }
+    });
+
+    expect(queryByText('Send message'))
+      .toBeInTheDocument();
+  });
 });
 
 describe('ChatHistoryLink', () => {
