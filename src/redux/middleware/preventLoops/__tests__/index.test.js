@@ -23,7 +23,7 @@ const getAction = (actionType = 'fake_action') => {
 describe('preventLoops', () => {
   describe('with fewer than 100 actions', () => {
     beforeEach(() => {
-      Array.from({ length: 25 }).forEach(() => {
+      Array.from({ length: 90 }).forEach(() => {
         preventLoops({ getState: noop })(jest.fn())(getAction());
       });
     });
@@ -36,14 +36,14 @@ describe('preventLoops', () => {
 
   describe('with a total of more than 100 actions calls', () => {
     beforeEach(() => {
-      Array.from({ length: 79 }).forEach(() => {
+      Array.from({ length: 30 }).forEach(() => {
         preventLoops({ getState: noop })(jest.fn())(getAction());
       });
     });
 
-    it('calls the logger for each action', () => {
-      expect(logging.error).toHaveBeenCalledTimes(5);
-      expect(beacon.trackUserAction).toHaveBeenCalledTimes(5);
+    it('calls the logger a single time', () => {
+      expect(logging.error).toHaveBeenCalledTimes(1);
+      expect(beacon.trackUserAction).toHaveBeenCalledTimes(1);
     });
   });
 
