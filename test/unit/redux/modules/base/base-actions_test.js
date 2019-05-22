@@ -1338,9 +1338,18 @@ describe('base redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
+    afterEach(() => {
+      fireEventsForSpy.calls.reset();
+    });
+
     it('dispatches an action with CANCEL_BUTTON_CLICKED', () => {
       expect(action.type)
         .toEqual(actionTypes.CANCEL_BUTTON_CLICKED);
+    });
+
+    it('fires callbacks for WIDGET_CLOSED_EVENT', () => {
+      expect(fireEventsForSpy)
+        .toHaveBeenCalledWith(WIDGET_CLOSED_EVENT);
     });
   });
 

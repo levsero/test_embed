@@ -418,11 +418,15 @@ export const nextButtonClicked = () => {
   };
 };
 
-export const cancelButtonClicked = () => {
-  return {
-    type: actions.CANCEL_BUTTON_CLICKED
-  };
-};
+export const cancelButtonClicked = () => (
+  (dispatch, _getState) => {
+    dispatch({
+      type: actions.CANCEL_BUTTON_CLICKED
+    });
+
+    callbacks.fireFor(WIDGET_CLOSED_EVENT);
+  }
+);
 
 export const handleChatBadgeMinimize = () => {
   return {
