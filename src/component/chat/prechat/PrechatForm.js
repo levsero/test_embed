@@ -346,12 +346,18 @@ export class PrechatForm extends Component {
   }
 
   renderSubmitButton() {
+    const { form, formState } = this.props;
+
+    const label = this.isDepartmentOffline(form.departments, formState.department)
+      ? i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')
+      : i18n.t('embeddable_framework.chat.preChat.online.button.startChat');
+
     return (
       <Button
         primary={true}
         className={styles.submitBtn}
         type='submit'>
-        {i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
+        {label}
       </Button>
     );
   }
