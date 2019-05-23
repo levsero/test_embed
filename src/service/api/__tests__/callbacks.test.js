@@ -45,33 +45,31 @@ describe('valid event', () => {
 
   test('multiple callbacks registered for multiple events', () => {
     const callbackSpys = [jest.fn(), jest.fn(), jest.fn(), jest.fn()];
+    const events = [WIDGET_OPENED_EVENT, WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_CONNECTED_EVENT];
+    const runExpectedCalls = (statuses) => {
+      statuses.forEach((status, i) => {
+        if (status) {
+          expect(callbackSpys[i]).toHaveBeenCalled();
+        } else {
+          expect(callbackSpys[i]).not.toHaveBeenCalled();
+        }
+      });
+    };
 
-    callbacks.registerCallback(callbackSpys[0], WIDGET_OPENED_EVENT);
-    callbacks.registerCallback(callbackSpys[1], WIDGET_OPENED_EVENT);
-    callbacks.registerCallback(callbackSpys[2], WIDGET_CLOSED_EVENT);
-    callbacks.registerCallback(callbackSpys[3], CHAT_CONNECTED_EVENT);
+    events.forEach((event, i) => {
+      callbacks.registerCallback(callbackSpys[i], event);
+    });
 
-    callbacks.fireEventsFor(WIDGET_CLOSED_EVENT);
-    expect(callbackSpys[0]).not.toHaveBeenCalled();
-    expect(callbackSpys[1]).not.toHaveBeenCalled();
-    expect(callbackSpys[2]).toHaveBeenCalled();
-    expect(callbackSpys[3]).not.toHaveBeenCalled();
-
+    callbacks.fireFor(WIDGET_CLOSED_EVENT);
+    runExpectedCalls([false, false, true, false]);
     callbackSpys.forEach(cb => cb.mockClear());
 
-    callbacks.fireEventsFor(WIDGET_OPENED_EVENT);
-    expect(callbackSpys[0]).toHaveBeenCalled();
-    expect(callbackSpys[1]).toHaveBeenCalled();
-    expect(callbackSpys[2]).not.toHaveBeenCalled();
-    expect(callbackSpys[3]).not.toHaveBeenCalled();
-
+    callbacks.fireFor(WIDGET_OPENED_EVENT);
+    runExpectedCalls([true, true, false, false]);
     callbackSpys.forEach(cb => cb.mockClear());
 
-    callbacks.fireEventsFor(CHAT_CONNECTED_EVENT);
-    expect(callbackSpys[0]).not.toHaveBeenCalled();
-    expect(callbackSpys[1]).not.toHaveBeenCalled();
-    expect(callbackSpys[2]).not.toHaveBeenCalled();
-    expect(callbackSpys[3]).toHaveBeenCalled();
+    callbacks.fireFor(CHAT_CONNECTED_EVENT);
+    runExpectedCalls([false, false, false, true]);
   });
 
   test('fireFor with arguments', () => {
