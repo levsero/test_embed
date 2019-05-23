@@ -29,10 +29,10 @@ import { win, isPopout } from 'utility/globals';
 function fireWidgetChatEvent(action) {
   switch (action.type) {
     case SDK_DEPARTMENT_UPDATE:
-      callbacks.fireEventsFor(CHAT_DEPARTMENT_STATUS_EVENT, [action.payload.detail]);
+      callbacks.fireFor(CHAT_DEPARTMENT_STATUS_EVENT, [action.payload.detail]);
       break;
     case SDK_ACCOUNT_STATUS:
-      callbacks.fireEventsFor(CHAT_STATUS_EVENT);
+      callbacks.fireFor(CHAT_STATUS_EVENT);
       break;
   }
 }
