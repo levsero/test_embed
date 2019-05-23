@@ -86,13 +86,13 @@ test('zopimClose dispatches expected action', () => {
 });
 
 test('zopimOnClose dispatches expected action', () => {
-  jest.spyOn(callbacks, 'fireEventsFor');
+  jest.spyOn(callbacks, 'fireFor');
   const store = mockStore({});
 
   store.dispatch(actions.zopimOnClose());
   expect(store.getActions())
     .toEqual([ { type: types.ZOPIM_ON_CLOSE } ]);
-  expect(callbacks.fireEventsFor)
+  expect(callbacks.fireFor)
     .toHaveBeenCalledWith(WIDGET_CLOSED_EVENT);
 });
 

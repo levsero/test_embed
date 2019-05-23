@@ -117,7 +117,7 @@ export const endChat = (callback = noop) => {
 
         dispatch({ type: actions.CHAT_ALL_AGENTS_INACTIVE, payload: activeAgents });
         dispatch({ type: actions.END_CHAT_REQUEST_SUCCESS });
-        callbacks.fireEventsFor(CHAT_ENDED_EVENT);
+        callbacks.fireFor(CHAT_ENDED_EVENT);
       } else {
         dispatch({ type: actions.END_CHAT_REQUEST_FAILURE });
       }
@@ -458,7 +458,7 @@ export function sendAttachments(fileList) {
 export function newAgentMessageReceived(chat) {
   return (dispatch) => {
     dispatch({ type: actions.NEW_AGENT_MESSAGE_RECEIVED, payload: chat });
-    callbacks.fireEventsFor(CHAT_UNREAD_MESSAGES_EVENT);
+    callbacks.fireFor(CHAT_UNREAD_MESSAGES_EVENT);
   };
 }
 
@@ -709,7 +709,7 @@ export function chatWindowOpenOnNavigate() {
 export function chatStarted() {
   return (dispatch) => {
     dispatch({ type: actions.CHAT_STARTED });
-    callbacks.fireEventsFor(CHAT_STARTED_EVENT);
+    callbacks.fireFor(CHAT_STARTED_EVENT);
   };
 }
 
@@ -718,7 +718,7 @@ export function chatConnected() {
     dispatch({
       type: actions.CHAT_CONNECTED
     });
-    callbacks.fireEventsFor(CHAT_CONNECTED_EVENT);
+    callbacks.fireFor(CHAT_CONNECTED_EVENT);
   };
 }
 

@@ -54,7 +54,7 @@ export function zopimOnClose() {
       type: ZOPIM_ON_CLOSE
     });
 
-    callbacks.fireEventsFor(WIDGET_CLOSED_EVENT);
+    callbacks.fireFor(WIDGET_CLOSED_EVENT);
   };
 }
 

@@ -10,7 +10,7 @@ test('invalid event name', () => {
   const callbackSpy = jest.fn();
 
   callbacks.registerCallback(callbackSpy, WIDGET_OPENED_EVENT);
-  callbacks.fireEventsFor('yolo');
+  callbacks.fireFor('yolo');
 
   expect(callbackSpy)
     .not
@@ -24,7 +24,7 @@ describe('valid event', () => {
 
     callbacks.registerCallback(callbackSpyOne, WIDGET_OPENED_EVENT);
     callbacks.registerCallback(callbackSpyTwo, WIDGET_OPENED_EVENT);
-    callbacks.fireEventsFor(WIDGET_OPENED_EVENT);
+    callbacks.fireFor(WIDGET_OPENED_EVENT);
 
     expect(callbackSpyOne)
       .toHaveBeenCalled();
@@ -36,7 +36,7 @@ describe('valid event', () => {
     const callbackSpy = jest.fn();
 
     callbacks.registerCallback(callbackSpy, WIDGET_OPENED_EVENT);
-    callbacks.fireEventsFor(WIDGET_CLOSED_EVENT);
+    callbacks.fireFor(WIDGET_CLOSED_EVENT);
 
     expect(callbackSpy)
       .not
@@ -74,11 +74,11 @@ describe('valid event', () => {
     expect(callbackSpys[3]).toHaveBeenCalled();
   });
 
-  test('fireEventsFor with arguments', () => {
+  test('fireFor with arguments', () => {
     const callbackSpy = jest.fn();
 
     callbacks.registerCallback(callbackSpy, CHAT_DEPARTMENT_STATUS_EVENT);
-    callbacks.fireEventsFor(CHAT_DEPARTMENT_STATUS_EVENT, ['yeet', 10]);
+    callbacks.fireFor(CHAT_DEPARTMENT_STATUS_EVENT, ['yeet', 10]);
 
     expect(callbackSpy).toHaveBeenCalledWith('yeet', 10);
   });

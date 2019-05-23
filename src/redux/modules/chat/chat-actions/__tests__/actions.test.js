@@ -86,13 +86,13 @@ describe('endChat', () => {
 
   describe('when there are no errors', () => {
     it('dispatches CHAT_ALL_AGENTS_INACTIVE and END_CHAT_REQUEST_SUCCESS', () => {
-      jest.spyOn(callbacks, 'fireEventsFor');
+      jest.spyOn(callbacks, 'fireFor');
       const { store } = dispatchZChatWithTimeoutAction(
         actions.endChat()
       );
 
       expect(store.getActions()).toEqual(happyPathActions);
-      expect(callbacks.fireEventsFor)
+      expect(callbacks.fireFor)
         .toHaveBeenCalledWith(CHAT_ENDED_EVENT);
     });
 
@@ -102,14 +102,14 @@ describe('endChat', () => {
   describe('when there is an error', () => {
     describe("when it's a timeout error", () => {
       it('dispatches CHAT_ALL_AGENTS_INACTIVE and END_CHAT_REQUEST_SUCCESS', () => {
-        jest.spyOn(callbacks, 'fireEventsFor');
+        jest.spyOn(callbacks, 'fireFor');
         const { store } = dispatchZChatWithTimeoutAction(
           actions.endChat(),
           timeoutError
         );
 
         expect(store.getActions()).toEqual(happyPathActions);
-        expect(callbacks.fireEventsFor)
+        expect(callbacks.fireFor)
           .toHaveBeenCalledWith(CHAT_ENDED_EVENT);
       });
 
@@ -737,30 +737,30 @@ describe('closedChatHistory', () => {
 });
 
 test('chatConnected', () => {
-  jest.spyOn(callbacks, 'fireEventsFor');
+  jest.spyOn(callbacks, 'fireFor');
   const result = dispatchAction(actions.chatConnected());
 
-  expect(callbacks.fireEventsFor)
+  expect(callbacks.fireFor)
     .toHaveBeenCalledWith(CHAT_CONNECTED_EVENT);
   expect(result)
     .toEqual({ type: actionTypes.CHAT_CONNECTED });
 });
 
 test('chatStarted', () => {
-  jest.spyOn(callbacks, 'fireEventsFor');
+  jest.spyOn(callbacks, 'fireFor');
   const result = dispatchAction(actions.chatStarted());
 
-  expect(callbacks.fireEventsFor)
+  expect(callbacks.fireFor)
     .toHaveBeenCalledWith(CHAT_STARTED_EVENT);
   expect(result)
     .toEqual({ type: actionTypes.CHAT_STARTED });
 });
 
 test('newAgentReceived', () => {
-  jest.spyOn(callbacks, 'fireEventsFor');
+  jest.spyOn(callbacks, 'fireFor');
   const result = dispatchAction(actions.newAgentMessageReceived('yeet'));
 
-  expect(callbacks.fireEventsFor)
+  expect(callbacks.fireFor)
     .toHaveBeenCalledWith(CHAT_UNREAD_MESSAGES_EVENT);
   expect(result)
     .toEqual({ type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload: 'yeet' });

@@ -26,7 +26,7 @@ let actions,
   httpPostSpy = jasmine.createSpy('http'),
   broadcastSpy = jasmine.createSpy('broadcast'),
   contextualSearchSpy = jasmine.createSpy('contextualSearch').and.returnValue({ type: 'someActionType' }),
-  fireEventsForSpy = jasmine.createSpy('fireEventsFor');
+  fireEventsForSpy = jasmine.createSpy('fireFor');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -52,7 +52,7 @@ describe('base redux actions', () => {
         WIDGET_OPENED_EVENT
       },
       'service/api/callbacks': {
-        fireEventsFor: fireEventsForSpy
+        fireFor: fireEventsForSpy
       },
       'src/redux/modules/chat': {
         chatNotificationDismissed: chatNotificationDismissedSpy,

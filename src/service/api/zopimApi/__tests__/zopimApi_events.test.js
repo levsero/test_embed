@@ -53,7 +53,7 @@ describe('zopim events', () => {
 
     mockWin.$zopim.livechat.setOnConnected(callback);
 
-    callbacks.fireEventsFor(CHAT_CONNECTED_EVENT);
+    callbacks.fireFor(CHAT_CONNECTED_EVENT);
 
     expect(callback)
       .toHaveBeenCalled();
@@ -64,7 +64,7 @@ describe('zopim events', () => {
 
     mockWin.$zopim.livechat.setOnChatStart(callback);
 
-    callbacks.fireEventsFor(CHAT_STARTED_EVENT);
+    callbacks.fireFor(CHAT_STARTED_EVENT);
 
     expect(callback)
       .toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe('zopim events', () => {
 
     mockWin.$zopim.livechat.setOnChatEnd(callback);
 
-    callbacks.fireEventsFor(CHAT_ENDED_EVENT);
+    callbacks.fireFor(CHAT_ENDED_EVENT);
 
     expect(callback)
       .toHaveBeenCalled();
@@ -96,7 +96,7 @@ describe('zopim events', () => {
         msg: 'check it'
       }
     });
-    callbacks.fireEventsFor(CHAT_UNREAD_MESSAGES_EVENT);
+    callbacks.fireFor(CHAT_UNREAD_MESSAGES_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith(1);
@@ -112,8 +112,8 @@ describe('zopim events', () => {
       mockWin.$zopim.livechat.setOnStatus(callback);
       expect(callback).not.toHaveBeenCalled();
 
-      callbacks.fireEventsFor(CHAT_STATUS_EVENT);
-      callbacks.fireEventsFor(CHAT_DEPARTMENT_STATUS_EVENT, ['someActionPayloadData']);
+      callbacks.fireFor(CHAT_STATUS_EVENT);
+      callbacks.fireFor(CHAT_DEPARTMENT_STATUS_EVENT, ['someActionPayloadData']);
 
       await wait(() => {
         expect(callback).toHaveBeenCalledWith('yeetStat');
