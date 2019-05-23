@@ -466,6 +466,7 @@ describe('hideApi', () => {
     beforeEach(() => {
       baseSelectors.getWidgetShown = jest.fn().mockReturnValue(true);
     });
+
     it('dispatches the hideReceived action', () => {
       apis.hideApi(store);
 
@@ -487,17 +488,39 @@ describe('hideApi', () => {
   });
 });
 
-test('showApi dispatches the showReceived action', () => {
-  const store = createStore();
+describe('showApi', () => {
+  let store;
 
-  store.dispatch = jest.fn();
+  beforeEach(() => {
+    store = createStore();
 
-  apis.showApi(store);
+    store.dispatch = jest.fn();
+  });
 
-  expect(store.dispatch)
-    .toHaveBeenCalledWith(expect.objectContaining(
-      { type: baseActionTypes.SHOW_RECEIVED }
-    ));
+  describe('when widget is open',() => {
+    beforeEach(() => {
+      baseSelectors.getWidgetShown = jest.fn().mockReturnValue(true);
+      apis.showApi(store);
+    });
+
+    it('dispatches the showReceived action', () => {
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('when widget is closed',() => {
+    beforeEach(() => {
+      baseSelectors.getWidgetShown = jest.fn().mockReturnValue(false);
+      apis.showApi(store);
+    });
+
+    it('dispatches the showReceived action', () => {
+      expect(store.dispatch)
+        .toHaveBeenCalledWith(expect.objectContaining(
+          { type: baseActionTypes.SHOW_RECEIVED }
+        ));
+    });
+  });
 });
 
 test('clearFormState dispatches the apiClearform action', () => {

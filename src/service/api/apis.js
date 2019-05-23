@@ -148,6 +148,9 @@ export const hideApi = (reduxStore) => {
 };
 
 export const showApi = (reduxStore) => {
+  const state = reduxStore.getState();
+
+  if (getWidgetShown(state)) return;
   reduxStore.dispatch(showRecieved());
 };
 
