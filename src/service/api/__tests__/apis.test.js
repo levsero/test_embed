@@ -462,11 +462,28 @@ describe('hideApi', () => {
 
   afterEach(() => spy.mockRestore());
 
-  it('dispatches the hideReceived action', () => {
-    apis.hideApi(store);
+  describe('when widget is open',() => {
+    beforeEach(() => {
+      baseSelectors.getWidgetShown = jest.fn().mockReturnValue(true);
+    });
+    it('dispatches the hideReceived action', () => {
+      apis.hideApi(store);
 
-    expect(store.dispatch)
-      .toHaveBeenCalledWith(mockActionValue);
+      expect(store.dispatch)
+        .toHaveBeenCalledWith(mockActionValue);
+    });
+  });
+
+  describe('when widget is closed',() => {
+    beforeEach(() => {
+      baseSelectors.getWidgetShown = jest.fn().mockReturnValue(false);
+    });
+    it('dispatches the hideReceived action', () => {
+      apis.hideApi(store);
+
+      expect(store.dispatch)
+        .not.toHaveBeenCalled();
+    });
   });
 });
 
