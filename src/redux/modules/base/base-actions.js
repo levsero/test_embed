@@ -19,6 +19,8 @@ import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { http } from 'service/transport';
 import { PHONE_PATTERN } from 'src/constants/shared';
+import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT } from 'constants/event';
+import * as callbacks from 'service/api/callbacks';
 
 function onAuthRequestSuccess(res, id, dispatch, webToken) {
   store.set(
@@ -267,32 +269,19 @@ export const widgetShowAnimationComplete = () => {
   };
 };
 
-export const executeApiOnCloseCallback = () => {
-  return {
-    type: actions.EXECUTE_API_ON_CLOSE_CALLBACK
-  };
-};
-
 export const handleCloseButtonClicked = () => {
   return (dispatch) => {
     dispatch({
       type: actions.CLOSE_BUTTON_CLICKED
     });
 
-    dispatch(executeApiOnCloseCallback());
+    callbacks.fireFor(WIDGET_CLOSED_EVENT);
   };
 };
 
 export const handlePopoutButtonClicked = () => {
   return {
     type: actions.POPOUT_BUTTON_CLICKED
-  };
-};
-
-export const handleOnApiCalled = (actionType, selectors = [], callback, payloadTransformer) => {
-  return {
-    type: actions.API_ON_RECEIVED,
-    payload: { actionType, selectors, callback, payloadTransformer }
   };
 };
 
@@ -320,12 +309,6 @@ export const apiResetWidget = () => {
   };
 };
 
-export const executeApiOnOpenCallback = () => {
-  return {
-    type: actions.EXECUTE_API_ON_OPEN_CALLBACK
-  };
-};
-
 export const launcherClicked = () => {
   return (dispatch, getState) => {
     const state = getState();
@@ -335,14 +318,15 @@ export const launcherClicked = () => {
     } else {
       dispatch({ type: actions.LAUNCHER_CLICKED });
     }
-    dispatch(executeApiOnOpenCallback());
+
+    callbacks.fireFor(WIDGET_OPENED_EVENT);
   };
 };
 
 export const chatBadgeClicked = () => {
   return (dispatch) => {
     dispatch({ type: actions.CHAT_BADGE_CLICKED });
-    dispatch(executeApiOnOpenCallback());
+    callbacks.fireFor(WIDGET_OPENED_EVENT);
     dispatch(addToAfterShowAnimationQueue(handleChatBadgeMinimize));
   };
 };
@@ -409,7 +393,7 @@ export const openReceived = () => {
   return (dispatch, getState) => {
     if (!getWebWidgetVisible(getState())) {
       dispatch({ type: actions.OPEN_RECEIVED });
-      dispatch(executeApiOnOpenCallback());
+      callbacks.fireFor(WIDGET_OPENED_EVENT);
     }
   };
 };
@@ -418,7 +402,7 @@ export const closeReceived = () => {
   return (dispatch, getState) => {
     if (getWebWidgetVisible(getState())) {
       dispatch({ type: actions.CLOSE_RECEIVED });
-      dispatch(executeApiOnCloseCallback());
+      callbacks.fireFor(WIDGET_CLOSED_EVENT);
     }
   };
 };

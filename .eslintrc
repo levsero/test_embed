@@ -29,7 +29,8 @@
   "rules": {
     "no-var": 0,
     "indent": [2, 2, {"SwitchCase": 1}],
-    "lodash/chaining": [2, "never"]
+    "lodash/chaining": [2, "never"],
+    "jest/no-focused-tests": "error"
    },
   "overrides": [
     {

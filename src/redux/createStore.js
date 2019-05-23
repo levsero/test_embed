@@ -10,7 +10,6 @@ import reducer from 'src/redux/modules/reducer';
 import onStateChangeFn from 'src/redux/middleware/onStateChange/onStateChange';
 import persist from 'src/redux/middleware/persist';
 import throttle from 'src/redux/middleware/throttle';
-import listen from 'src/redux/middleware/listener';
 import preventLoops from 'src/redux/middleware/preventLoops';
 import resetActiveEmbed from 'src/redux/middleware/resetActiveEmbed';
 
@@ -37,7 +36,6 @@ export default function(storeName = 'web_widget', options = {}) {
     throttle(options.throttleEvents, options.allowedActionsFn),
     onStateChangeWrapper(onStateChangeFn),
     sendBlips,
-    listen,
     onStateChangeWrapper(resetActiveEmbed),
     trackAnalytics,
     persist,

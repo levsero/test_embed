@@ -37,6 +37,7 @@ describe('onStateChange middleware', () => {
   const storeEnableSpy = jasmine.createSpy('enableStore');
   const storeDisableSpy = jasmine.createSpy('disableStore');
   const setUpChatSpy = jasmine.createSpy('setUpChat');
+  const chatStartedSpy = jasmine.createSpy('chatStarted');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
   let mockDepartment;
@@ -80,7 +81,8 @@ describe('onStateChange middleware', () => {
         chatConnected: chatConnectedSpy,
         chatWindowOpenOnNavigate: chatWindowOpenOnNavigateSpy,
         chatNotificationReset: chatNotificationResetSpy,
-        setUpChat: setUpChatSpy
+        setUpChat: setUpChatSpy,
+        chatStarted: chatStartedSpy
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
@@ -1210,9 +1212,9 @@ describe('onStateChange middleware', () => {
             stateChangeFn(prevState, currState, {}, dispatchSpy);
           });
 
-          it('dispatches the event CHAT_STARTED', () => {
-            expect(dispatchSpy)
-              .toHaveBeenCalledWith({ type: 'CHAT_STARTED' });
+          it('calls chatStarted', () => {
+            expect(chatStartedSpy)
+              .toHaveBeenCalled();
           });
         });
 

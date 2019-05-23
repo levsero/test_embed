@@ -79,6 +79,7 @@ describe('chat redux actions', () => {
     WHITELISTED_SOCIAL_LOGINS = chatConstants.WHITELISTED_SOCIAL_LOGINS;
 
     initMockRegistry({
+      'service/api/callbacks': {},
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone,
         getZChatConfig: () => mockZChatConfig
@@ -126,6 +127,7 @@ describe('chat redux actions', () => {
           CONNECTED: 'connected'
         }
       },
+      'constants/event': {},
       'service/mediator': {
         mediator: {
           channel: {
@@ -758,26 +760,6 @@ describe('chat redux actions', () => {
     it('has the updated screen in the payload', () => {
       expect(action.payload.screen)
         .toBe(screenTypes.CHATTING_SCREEN);
-    });
-  });
-
-  describe('newAgentMessageReceived', () => {
-    let action;
-    const agentMessage = { nick: 'agent:007', msg: 'hello, world' };
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.newAgentMessageReceived(agentMessage));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches a NEW_AGENT_MESSAGE_RECEIVED action', () => {
-      expect(action.type)
-        .toEqual(actionTypes.NEW_AGENT_MESSAGE_RECEIVED);
-    });
-
-    it('has the agent message in the payload', () => {
-      expect(action.payload)
-        .toEqual(agentMessage);
     });
   });
 

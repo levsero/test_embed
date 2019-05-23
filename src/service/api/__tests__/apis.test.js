@@ -2,6 +2,7 @@ import * as apis from '../apis';
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as constants from 'constants/api';
+import * as eventConstants from 'constants/event';
 import * as chatActions from 'src/redux/modules/chat/chat-actions/actions';
 import * as settingsActions from 'src/redux/modules/settings/settings-actions';
 import * as baseActions from 'src/redux/modules/base/base-actions';
@@ -15,6 +16,7 @@ import { beacon } from 'service/beacon';
 import { identity } from 'service/identity';
 import * as baseSelectors from 'src/redux/modules/base/base-selectors';
 import createStore from 'src/redux/createStore';
+import * as callbacks from 'service/api/callbacks';
 
 jest.mock('service/mediator');
 jest.mock('service/settings');
@@ -622,7 +624,7 @@ describe('onApi', () => {
       on[constants.API_ON_OPEN_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      store.dispatch({ type: baseActionTypes.EXECUTE_API_ON_OPEN_CALLBACK });
+      callbacks.fireFor(eventConstants.WIDGET_OPENED_EVENT);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();
@@ -635,7 +637,7 @@ describe('onApi', () => {
       on[constants.API_ON_CLOSE_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      store.dispatch({ type: baseActionTypes.EXECUTE_API_ON_CLOSE_CALLBACK });
+      callbacks.fireFor(eventConstants.WIDGET_CLOSED_EVENT);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();
@@ -647,7 +649,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_CONNECTED_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    store.dispatch({ type: chatActionTypes.CHAT_CONNECTED });
+    callbacks.fireFor(eventConstants.CHAT_CONNECTED_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -658,7 +660,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_END_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    store.dispatch({ type: chatActionTypes.END_CHAT_REQUEST_SUCCESS });
+    callbacks.fireFor(eventConstants.CHAT_ENDED_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -669,7 +671,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_START_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    store.dispatch({ type: chatActionTypes.CHAT_STARTED });
+    callbacks.fireFor(eventConstants.CHAT_STARTED_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -681,6 +683,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled();
     store.dispatch({ type: chatActionTypes.SDK_ACCOUNT_STATUS, payload: { detail: 'yeetStat' } });
+    callbacks.fireFor(eventConstants.CHAT_STATUS_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith('yeetStat');
@@ -700,6 +703,7 @@ describe('onApi', () => {
         msg: 'check it'
       }
     });
+    callbacks.fireFor(eventConstants.CHAT_UNREAD_MESSAGES_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith(1);
@@ -711,6 +715,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled();
     store.dispatch({ type: chatActionTypes.SDK_DEPARTMENT_UPDATE, payload: { detail: { id: 1 } } });
+    callbacks.fireFor(eventConstants.CHAT_DEPARTMENT_STATUS_EVENT, [{ id: 1 }]);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith({ id: 1 });
