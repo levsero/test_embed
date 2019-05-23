@@ -43,6 +43,7 @@ export class Navigation extends Component {
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
     handleCloseButtonClicked: PropTypes.func.isRequired,
+    handleOnCloseFocusChange: PropTypes.func.isRequired,
     hideNavigationButtons: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
     preventClose: PropTypes.bool,
@@ -154,6 +155,7 @@ export class Navigation extends Component {
     e.stopPropagation();
 
     this.props.handleCloseButtonClicked();
+    this.props.handleOnCloseFocusChange();
 
     // e.touches added for automation testing mobile browsers
     // which is firing 'click' event on iframe close
