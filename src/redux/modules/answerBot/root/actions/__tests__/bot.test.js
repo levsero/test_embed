@@ -103,6 +103,11 @@ test('botUserMessage dispatches expected payload', () => {
     .toMatchSnapshot();
 });
 
+test('botTyping dispatches expected payload', () => {
+  expect(actions.botTyping())
+    .toMatchSnapshot();
+});
+
 describe('botFeedbackMessage', () => {
   it('dispatches expected payload', () => {
     expect(actions.botFeedbackMessage('hello'))

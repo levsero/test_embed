@@ -55,6 +55,12 @@ Array [
   },
   Object {
     "payload": Object {
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/BOT_TYPING",
+  },
+  Object {
+    "payload": Object {
       "error": "error",
       "sessionID": 1234,
     },
@@ -91,6 +97,12 @@ Array [
   },
   Object {
     "payload": Object {
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/BOT_TYPING",
+  },
+  Object {
+    "payload": Object {
       "deflection": Object {
         "x": 123,
       },
@@ -124,6 +136,12 @@ Array [
     },
     "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
   },
+  Object {
+    "payload": Object {
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/BOT_TYPING",
+  },
 ]
 `;
 
@@ -152,6 +170,12 @@ Array [
       "timestamp": 123456789,
     },
     "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
+  },
+  Object {
+    "payload": Object {
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/BOT_TYPING",
   },
 ]
 `;

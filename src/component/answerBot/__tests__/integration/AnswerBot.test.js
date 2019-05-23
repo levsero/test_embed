@@ -127,6 +127,9 @@ test('integration', () => {
   fireEvent.change(textArea, { target: { value: 'Help me' } });
   fireEvent.keyDown(textArea, { key: 'Enter', keyCode: 13 });
 
+  // Let the bot typing animation finish
+  jest.runAllTimers();
+
   // Answer Bot API has been hit
   expect(interaction)
     .toHaveBeenCalledWith(expect.objectContaining({

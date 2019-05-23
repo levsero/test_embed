@@ -1,0 +1,33 @@
+@import 'src/styles/_vars.scss';
+
+.bubble {
+  composes: u-inlineBlock u-pullLeft from global;
+  background: $zd-color-anti-flash-white;
+  border-radius: #{16/$font-size}rem;
+  padding: #{8/$font-size}rem #{12/$font-size}rem;
+  margin-left: #{40/$font-size}rem;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: #{40/$font-size}rem;
+  }
+}
+
+.loadingContainer {
+  margin: #{4/$font-size}rem;
+}
+
+.loadingAnimation {
+  width: #{5.5/$font-size}rem;
+  height: #{5.5/$font-size}rem;
+
+  [dir='ltr'] & {
+    margin-right: #{4/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    margin-left: #{4/$font-size}rem;
+  }
+
+  background-color: $zd-color-grey-600;
+}

@@ -15,7 +15,8 @@ const renderComponent = (props) => {
   const store = createStore(reducer);
   const defaultProps = {
     isMobile: false,
-    popoutButtonVisible: true
+    popoutButtonVisible: true,
+    handleOnCloseFocusChange: jest.fn()
   };
   const actualProps = _.merge({}, defaultProps, props);
 

@@ -7,6 +7,7 @@ import Results from './results';
 import ChannelChoice from './channelChoice';
 import PrimaryFeedback from './feedback/PrimaryFeedback';
 import SecondaryFeedback from './feedback/SecondaryFeedback';
+import BotTyping from './botTyping';
 import { SlideAppear } from 'component/transition/SlideAppear';
 
 import { locals as styles } from './style.scss';
@@ -33,6 +34,8 @@ export default class Messages extends Component {
         return (<ChannelChoice leadingMessage={text} useLeadingMessageAsFallback={message.fallback} />);
       case 'feedback':
         return message.feedbackType === 'primary' ? <PrimaryFeedback /> : <SecondaryFeedback />;
+      case 'botTyping':
+        return <BotTyping />;
       default:
         return (<Text isVisitor={this.props.isVisitor} message={text} />);
     }

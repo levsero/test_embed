@@ -30,8 +30,9 @@
     "no-var": 0,
     "indent": [2, 2, {"SwitchCase": 1}],
     "lodash/chaining": [2, "never"],
+    "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error"
-   },
+  },
   "overrides": [
     {
       "files": ["*.test.js", "*_test.js"],

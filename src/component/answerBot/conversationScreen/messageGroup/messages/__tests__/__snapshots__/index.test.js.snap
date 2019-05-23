@@ -164,6 +164,46 @@ exports[`renders expected classes and components with default props for non-visi
         </div>
       </div>
     </div>
+    <div
+      class="transitionWrapper"
+      style="opacity: 1; bottom: 0px;"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="bubble"
+        >
+          <div
+            aria-busy="true"
+            aria-live="polite"
+            class="container loadingContainer"
+          >
+            <div
+              class="
+      circle loadingAnimation
+      bounce
+      
+    "
+            />
+            <div
+              class="
+      circle loadingAnimation
+      bounce
+      
+    "
+            />
+            <div
+              class="
+      circle loadingAnimation
+      bounce
+      
+    "
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

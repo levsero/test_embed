@@ -23,6 +23,9 @@ import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-se
 
 import { sessionStarted } from '../../sessions/actions';
 import { inputDisabled } from '../../root/actions';
+import { botTyping } from '../../root/actions/bot';
+
+const BOT_THINKING_DELAY = 3000;
 
 function messagePayload(message, sessionID) {
   return {
@@ -120,7 +123,10 @@ export const questionSubmitted = (message) => {
 
     dispatch(inputDisabled(true));
     dispatch(questionSubmittedPending(message, sessionID));
+    dispatch(botTyping());
 
-    sendQuery(message, labels, i18n.getLocale(), dispatch, sessionID);
+    setTimeout(() => {
+      sendQuery(message, labels, i18n.getLocale(), dispatch, sessionID);
+    }, BOT_THINKING_DELAY);
   };
 };

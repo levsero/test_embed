@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { InputBox } from 'component/shared/InputBox';
 import { i18n } from 'service/i18n';
 import { questionSubmitted, questionValueChanged } from 'src/redux/modules/answerBot/conversation/actions';
-import { botMessage } from 'src/redux/modules/answerBot/root/actions/bot';
 import {
   getCurrentMessage,
   isInputDisabled
@@ -24,7 +23,6 @@ class Footer extends Component {
     questionSubmitted: PropTypes.func.isRequired,
     scrollToBottom: PropTypes.func,
     questionValueChanged: PropTypes.func.isRequired,
-    botMessage: PropTypes.func.isRequired,
     inputDisabled: PropTypes.bool,
     isMobile: PropTypes.bool
   };
@@ -37,9 +35,6 @@ class Footer extends Component {
 
   handleQuestionSubmitted = (...args) => {
     this.props.questionSubmitted(...args);
-    this.props.botMessage(
-      i18n.t('embeddable_framework.answerBot.results.pending')
-    );
     this.props.scrollToBottom(); // Scroll to visitor's question
   }
 
@@ -120,8 +115,7 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
   questionSubmitted,
-  questionValueChanged,
-  botMessage
+  questionValueChanged
 };
 
 const connectedComponent = connect(

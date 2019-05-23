@@ -94,6 +94,43 @@ describe('getGroupMessageKeys', () => {
       .toMatchSnapshot();
   });
 
+  it('only keeps the last bot typing message', () => {
+    const mockState = {
+      answerBot: {
+        messages: new Map(
+          [
+            ['1', { message: 'Hello', isVisitor: false }],
+            ['2', { type: 'botTyping', isVisitor: false }],
+            ['3', { type: 'botTyping', isVisitor: false }]
+          ]
+        )
+      }
+    };
+    const results = selectors.getMessageGroupKeys(mockState);
+
+    expect(results)
+      .toMatchSnapshot();
+  });
+
+  it('discards bot typing if it is not the last message', () => {
+    const mockState = {
+      answerBot: {
+        messages: new Map(
+          [
+            ['1', { message: 'Hello', isVisitor: false }],
+            ['2', { type: 'botTyping', isVisitor: false }],
+            ['3', { type: 'botTyping', isVisitor: false }],
+            ['4', { message: 'hi', isVisitor: true }]
+          ]
+        )
+      }
+    };
+    const results = selectors.getMessageGroupKeys(mockState);
+
+    expect(results)
+      .toMatchSnapshot();
+  });
+
   it('discards previous feedback', () => {
     const mockState = {
       answerBot: {

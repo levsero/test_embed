@@ -45,9 +45,13 @@ const secondaryFeedbackMessage = {
   feedbackType: 'secondary'
 };
 
+const botTyping = {
+  type: 'botTyping'
+};
+
 test('renders expected classes and components with default props for non-visitor messages', () => {
   const messages = [resultsMessage, textMessage, channelChoiceMessage,
-    primaryFeedbackMessage, secondaryFeedbackMessage];
+    primaryFeedbackMessage, secondaryFeedbackMessage, botTyping];
 
   const store = createStore();
   const { container } = render(<Provider store={store}>

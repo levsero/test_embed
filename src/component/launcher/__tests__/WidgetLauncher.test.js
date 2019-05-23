@@ -21,7 +21,8 @@ const renderComponent = (props = {}) => {
     chatOfflineAvailable: false,
     launcherLabel: 'launcherLabel',
     chatLabel: 'chatLabel',
-    unreadMessages: 0
+    unreadMessages: 0,
+    showLabelMobile: false
   };
   const actualProps = { ...defaultProps, ...props };
 

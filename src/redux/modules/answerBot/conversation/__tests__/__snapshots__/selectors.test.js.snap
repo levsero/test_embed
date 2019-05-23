@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getGroupMessageKeys discards bot typing if it is not the last message 1`] = `
+Object {
+  "0": Object {
+    "isVisitor": false,
+    "messageKeys": Array [
+      "1",
+    ],
+  },
+  "1": Object {
+    "isVisitor": true,
+    "messageKeys": Array [
+      "4",
+    ],
+  },
+}
+`;
+
 exports[`getGroupMessageKeys discards previous feedback 1`] = `
 Object {
   "0": Object {
@@ -60,6 +77,18 @@ Object {
     "isVisitor": true,
     "messageKeys": Array [
       9,
+    ],
+  },
+}
+`;
+
+exports[`getGroupMessageKeys only keeps the last bot typing message 1`] = `
+Object {
+  "0": Object {
+    "isVisitor": false,
+    "messageKeys": Array [
+      "1",
+      "3",
     ],
   },
 }

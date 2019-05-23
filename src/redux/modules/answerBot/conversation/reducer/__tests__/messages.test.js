@@ -72,3 +72,14 @@ test('BOT_CHANNEL_CHOICE updates to expected state', () => {
 
   matchesSnapshot(state);
 });
+
+test('BOT_TYPING updates to expected state', () => {
+  const state = reducer(undefined, {
+    type: rootActionTypes.BOT_TYPING,
+    payload: {
+      timestamp: 123456
+    }
+  });
+
+  matchesSnapshot(state);
+});
