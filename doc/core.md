@@ -223,10 +223,10 @@ If you have access to your end user's name and email, use this command to pass t
 
 If the user's email doesn't already exist in your Zendesk Support account, a new user record with the details is created.
 
-Identify API calls are heavily throttled in several ways to prevent API abuse:
+Identify API calls are throttled in several ways to prevent API abuse:
 * IP address: A limit to identify users on a single IP address.
-* Daily limit per account: Up to 50,000 users created daily by a Zendesk Support account.
-* By payload: Throttled when a Zendesk Support account makes more than one API call using the same email address every 12 hours.
+* Limit the creation of user records per account: Up to 50,000 user records created daily by a Zendesk Support account.
+* Payload: Throttled when a Zendesk Support account makes more than one API call using the same email address every 12 hours.
 
 There might be a few minutes delay before the user record appears in your Zendesk Support account. During
 high API traffic periods, identify API calls might be dropped resulting in user records not being created.
