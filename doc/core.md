@@ -223,6 +223,14 @@ If you have access to your end user's name and email, use this command to pass t
 
 If the user's email doesn't already exist in your Zendesk Support account, a new user record with the details is created.
 
+Identify API calls are throttled in several ways to prevent API abuse:
+* IP address: A limit to identify users on a single IP address.
+* Limit the creation of user records per account: Up to 50,000 user records created daily by a Zendesk Support account.
+* Payload: Throttled when a Zendesk Support account makes more than one API call using the same email address every 12 hours.
+
+There might be a few minutes delay before the user record appears in your Zendesk Support account. During
+high API traffic periods, identify API calls might be dropped resulting in user records not being created.
+
 *Note*: Identify API will only prepopulate the user's details in the Chat forms (Prechat, Chat Offline and Update Contact Details forms). To prefill all forms in any product configuration, please use [prefill](#prefill).
 
 ##### Parameters
