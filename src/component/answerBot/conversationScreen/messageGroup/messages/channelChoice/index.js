@@ -16,6 +16,10 @@ import {
   updateActiveEmbed,
   updateBackButtonVisibility
 } from 'src/redux/modules/base';
+import {
+  getContactOptionsChatLabelOnline,
+  getContactOptionsContactFormLabel
+} from 'src/redux/modules/selectors';
 import { getZopimChatEmbed } from 'src/redux/modules/base/base-selectors';
 
 import { locals as styles } from './style.scss';
@@ -29,6 +33,8 @@ class ChannelChoice extends Component {
     submitTicketAvailable: PropTypes.bool.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     oldChat: PropTypes.bool,
+    submitTicketLabel: PropTypes.string.isRequired,
+    chatOnlineAvailableLabel: PropTypes.string.isRequired,
     actions: PropTypes.shape({
       updateBackButtonVisibility: PropTypes.func.isRequired,
       updateActiveEmbed: PropTypes.func.isRequired
@@ -112,7 +118,7 @@ class ChannelChoice extends Component {
   renderChatChoice = () => {
     if (!this.props.chatAvailable) return null;
 
-    return this.renderChannel('Icon--channelChoice-chat', i18n.t('embeddable_framework.common.button.chat'), 'chat');
+    return this.renderChannel('Icon--channelChoice-chat', this.props.chatOnlineAvailableLabel, 'chat');
   }
 
   renderTalkChoice = () => {
@@ -129,7 +135,7 @@ class ChannelChoice extends Component {
     if (!this.props.submitTicketAvailable) return null;
 
     return this.renderChannel('Icon--channelChoice-contactForm',
-      i18n.t('embeddable_framework.channelChoice.button.label.submitTicket'),
+      this.props.submitTicketLabel,
       'ticketSubmissionForm'
     );
   }
@@ -155,7 +161,9 @@ const mapStateToProps = (state) => ({
   callbackAvailable: getTalkOnline(state) && isCallbackEnabled(state),
   chatAvailable: getChatAvailable(state),
   oldChat: getZopimChatEmbed(state),
-  submitTicketAvailable: getSubmitTicketAvailable(state)
+  submitTicketAvailable: getSubmitTicketAvailable(state),
+  chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
+  submitTicketLabel: getContactOptionsContactFormLabel(state)
 });
 
 const actionCreators = (dispatch) => ({

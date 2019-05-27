@@ -15,6 +15,8 @@ const renderComponent = (props = {}) => {
     talkAvailable: false,
     submitTicketAvailable: false,
     chatAvailable: false,
+    chatOnlineAvailableLabel: 'Live chat',
+    submitTicketLabel: 'Leave a message',
     actions
   };
 
