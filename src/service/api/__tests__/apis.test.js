@@ -462,9 +462,9 @@ describe('hideApi', () => {
 
   afterEach(() => spy.mockRestore());
 
-  describe('when widget is open',() => {
+  describe('when widget is visible',() => {
     beforeEach(() => {
-      baseSelectors.getWidgetShown = jest.fn().mockReturnValue(true);
+      jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(false);
     });
 
     it('dispatches the hideReceived action', () => {
@@ -475,10 +475,11 @@ describe('hideApi', () => {
     });
   });
 
-  describe('when widget is closed',() => {
+  describe('when widget is already hidden',() => {
     beforeEach(() => {
-      baseSelectors.getWidgetShown = jest.fn().mockReturnValue(false);
+      jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(true);
     });
+
     it('dispatches the hideReceived action', () => {
       apis.hideApi(store);
 
@@ -497,9 +498,9 @@ describe('showApi', () => {
     store.dispatch = jest.fn();
   });
 
-  describe('when widget is open',() => {
+  describe('when widget is visible',() => {
     beforeEach(() => {
-      baseSelectors.getWidgetShown = jest.fn().mockReturnValue(true);
+      jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(false);
       apis.showApi(store);
     });
 
@@ -508,9 +509,9 @@ describe('showApi', () => {
     });
   });
 
-  describe('when widget is closed',() => {
+  describe('when widget is already hidden',() => {
     beforeEach(() => {
-      baseSelectors.getWidgetShown = jest.fn().mockReturnValue(false);
+      jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(true);
       apis.showApi(store);
     });
 

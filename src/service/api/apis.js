@@ -53,7 +53,7 @@ import { beacon } from 'service/beacon';
 import { createChatPopoutWindow } from 'src/util/chat';
 import { nameValid, emailValid } from 'utility/utils';
 import { apiResetWidget } from 'src/redux/modules/base/base-actions';
-import { getActiveEmbed, getWidgetShown } from 'src/redux/modules/base/base-selectors';
+import { getActiveEmbed, getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors';
 import * as callbacks from 'service/api/callbacks';
 
 export const endChatApi = (reduxStore) => {
@@ -143,14 +143,14 @@ export const prefill = (reduxStore, payload) => {
 export const hideApi = (reduxStore) => {
   const state = reduxStore.getState();
 
-  if (!getWidgetShown(state)) return;
+  if (getWidgetAlreadyHidden(state)) return;
   reduxStore.dispatch(hideRecieved());
 };
 
 export const showApi = (reduxStore) => {
   const state = reduxStore.getState();
 
-  if (getWidgetShown(state)) return;
+  if (!getWidgetAlreadyHidden(state)) return;
   reduxStore.dispatch(showRecieved());
 };
 

@@ -28,6 +28,9 @@ export const getBrandLogoUrl = (state) => state.base.embeddableConfig.brandLogoU
 export const getBrand = (state) => state.base.embeddableConfig.brand;
 export const getBrandCount = (state) => state.base.embeddableConfig.brandCount;
 export const getBackButtonVisible = (state) => state.base.backButtonVisible;
+export const getWidgetAlreadyHidden = (state) => {
+  return getHiddenByHideAPI(state) || (getHiddenByActivateAPI(state) && !getWebWidgetVisible(state));
+};
 
 export const getOAuth = () => {
   return store.get('zE_oauth');
