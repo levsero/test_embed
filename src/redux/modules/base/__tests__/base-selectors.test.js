@@ -73,3 +73,46 @@ test('getBrandLogoUrl', () => {
   expect(selectors.getBrandLogoUrl(config))
     .toEqual('logo url');
 });
+
+test('getLauncherVisible', () => {
+  const config = mockState({ launcherVisible: true });
+
+  expect(selectors.getLauncherVisible(config))
+    .toEqual(true);
+});
+
+test('getWebWidgetVisible', () => {
+  const config = mockState({ webWidgetVisible: true });
+
+  expect(selectors.getWebWidgetVisible(config))
+    .toEqual(true);
+});
+
+test('getHiddenByActivateAPI', () => {
+  const config = mockState({ hidden: { activateApi: true } });
+
+  expect(selectors.getHiddenByActivateAPI(config))
+    .toEqual(true);
+});
+
+test('getHiddenByHide', () => {
+  const config = mockState({ hidden: { hideApi: true } });
+
+  expect(selectors.getHiddenByHideAPI(config))
+    .toEqual(true);
+});
+
+describe('getWidgetAlreadyHidden', () => {
+  test.each([
+    [true, false, false, true],
+    [false, true, false, true],
+    [false, true, true, false],
+    [false, false, false, false]
+  ], 'fn(%p, %p, %p) = %p',
+  (hideApi, activateApi, webWidgetVisible, expected) => {
+    const config = mockState({ webWidgetVisible, hidden: { hideApi, activateApi } });
+
+    expect(selectors.getWebWidgetVisible(config))
+      .toEqual(expected);
+  });
+});
