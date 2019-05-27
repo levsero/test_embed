@@ -49,7 +49,6 @@ class AnswerBotContainer extends Component {
       botChannelChoice: PropTypes.func.isRequired,
       botGreeted: PropTypes.func.isRequired,
       botInitialFallback: PropTypes.func.isRequired,
-      inputDisabled: PropTypes.func.isRequired,
       botFeedback: PropTypes.func.isRequired,
       botFeedbackRequested: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
@@ -164,7 +163,6 @@ class AnswerBotContainer extends Component {
       && props.currentScreen === CONVERSATION_SCREEN
       && props.isFeedbackRequired
     ) {
-      this.props.actions.inputDisabled(true);
       this.props.actions.botFeedbackRequested();
       this.props.actions.botFeedbackMessage(
         i18n.t('embeddable_framework.answerBot.msg.feedback.question')
@@ -251,7 +249,6 @@ class AnswerBotContainer extends Component {
       }
       props.actions.botMessage(
         i18n.t('embeddable_framework.answerBot.msg.prompt'),
-        () => props.actions.inputDisabled(false)
       );
 
       return false;
@@ -280,7 +277,6 @@ class AnswerBotContainer extends Component {
       case 'NO_RESULTS':
         props.actions.botMessage(
           i18n.t('embeddable_framework.answerBot.msg.prompt'),
-          () => props.actions.inputDisabled(false)
         );
         props.actions.contextualSearchFinished();
         break;
@@ -342,7 +338,6 @@ class AnswerBotContainer extends Component {
     this.props.actions.botChannelChoice(message, fallback);
     this.props.actions.botMessage(
       i18n.t(messageKey),
-      () => this.props.actions.inputDisabled(false)
     );
   }
 
@@ -399,7 +394,6 @@ const actionCreators = (dispatch) => ({
     botFeedbackRequested: botActions.botFeedbackRequested,
     botFeedbackMessage: botActions.botFeedbackMessage,
     botInitialFallback: botActions.botInitialFallback,
-    inputDisabled: rootActions.inputDisabled,
     botTyping: botActions.botTyping,
     botContextualSearchResults: botActions.botContextualSearchResults,
     contextualSearchFinished: rootActions.contextualSearchFinished

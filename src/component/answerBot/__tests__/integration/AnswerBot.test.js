@@ -14,6 +14,16 @@ import AnswerBot from '../../index';
 jest.mock('service/transport');
 
 jest.useFakeTimers();
+jest.mock('lodash', () => {
+  const lodash = jest.requireActual('lodash');
+
+  return {
+    ...lodash,
+    debounce: (fn) => {
+      return fn;
+    }
+  };
+});
 
 const successfulResponse = (options) => options.callbacks.done();
 const resolution = jest.fn(successfulResponse);

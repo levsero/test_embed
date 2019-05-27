@@ -42,10 +42,6 @@ Array [
     "type": "widget/answerBot/SESSION_STARTED",
   },
   Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
-  },
-  Object {
     "payload": Object {
       "message": "hello world",
       "sessionID": 1234,
@@ -82,10 +78,6 @@ Array [
       "sessionID": 123456789,
     },
     "type": "widget/answerBot/SESSION_STARTED",
-  },
-  Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
   },
   Object {
     "payload": Object {
@@ -125,10 +117,6 @@ Array [
 exports[`questionSubmitted dispatches the expected action without session starting 1`] = `
 Array [
   Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
-  },
-  Object {
     "payload": Object {
       "message": "hello world",
       "sessionID": 4567,
@@ -158,10 +146,6 @@ Array [
       "sessionID": 123456789,
     },
     "type": "widget/answerBot/SESSION_STARTED",
-  },
-  Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
   },
   Object {
     "payload": Object {

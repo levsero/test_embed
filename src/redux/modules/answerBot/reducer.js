@@ -11,7 +11,6 @@ import currentScreen from './root/reducer/current-screen';
 import greeted from './root/reducer/greeted';
 import contextualSearchFinished from './root/reducer/contextual-search-finished';
 import initialFallbackSuggested from './root/reducer/initial-fallback-suggested';
-import inputDisabled from './root/reducer/input-disabled';
 
 export default combineReducers({
   messages,
@@ -23,7 +22,6 @@ export default combineReducers({
   currentScreen,
   greeted,
   initialFallbackSuggested,
-  inputDisabled,
   contextualSearchFinished,
   currentContextualArticle
 });

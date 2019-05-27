@@ -28,21 +28,6 @@ describe('botMessage', () => {
     expect(store.getActions())
       .toMatchSnapshot();
   });
-
-  test('callback parameter can only be called once', () => {
-    const originalCallback = jest.fn();
-
-    const store = createStore();
-
-    store.dispatch(actions.botMessage('hello world', originalCallback));
-
-    const callback = store.getActions()[0].payload.callback;
-
-    _.times(3, callback);
-
-    expect(originalCallback)
-      .toHaveBeenCalledTimes(1);
-  });
 });
 
 describe('botChannelChoice', () => {
@@ -112,15 +97,5 @@ describe('botFeedbackMessage', () => {
   it('dispatches expected payload', () => {
     expect(actions.botFeedbackMessage('hello'))
       .toMatchSnapshot();
-  });
-
-  it('limits callback in payload to be called only once', () => {
-    const originalCallback = jest.fn();
-    const callback = actions.botFeedbackMessage('hello', originalCallback).payload.callback;
-
-    _.times(4, callback);
-
-    expect(originalCallback)
-      .toHaveBeenCalledTimes(1);
   });
 });

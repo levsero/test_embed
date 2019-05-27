@@ -38,7 +38,6 @@ class ArticleScreen extends Component {
     channelAvailable: PropTypes.bool,
     actions: PropTypes.shape({
       screenChanged: PropTypes.func.isRequired,
-      inputDisabled: PropTypes.func.isRequired,
       articleDismissed: PropTypes.func.isRequired,
       sessionResolved: PropTypes.func.isRequired,
       sessionFallback: PropTypes.func.isRequired,
@@ -93,7 +92,6 @@ class ArticleScreen extends Component {
     );
     actions.botMessage(
       i18n.t('embeddable_framework.answerBot.msg.prompt_again_after_yes'),
-      () => actions.inputDisabled(false)
     );
 
     this.setState({ showPopup: false, popupDisplayed: false });
@@ -118,7 +116,6 @@ class ArticleScreen extends Component {
     actions.botFeedbackChannelChoice(i18n.t('embeddable_framework.answerBot.msg.channel_choice.title'), true);
     actions.botFeedbackMessage(
       i18n.t(messageKey),
-      () => actions.inputDisabled(false)
     );
 
     // Scroll to bottom when user switches back to conversation screen
@@ -187,7 +184,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     screenChanged: rootActions.screenChanged,
-    inputDisabled: rootActions.inputDisabled,
     articleDismissed,
     sessionResolved: sessionActions.sessionResolved,
     sessionFallback: sessionActions.sessionFallback,

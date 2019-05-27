@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { settings } from 'service/settings';
 import { identity } from 'service/identity';
 import { i18n } from 'service/i18n';
@@ -22,7 +23,6 @@ import { getAuthToken } from 'src/redux/modules/base/base-selectors';
 import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors';
 
 import { sessionStarted } from '../../sessions/actions';
-import { inputDisabled } from '../../root/actions';
 import { botTyping } from '../../root/actions/bot';
 
 const BOT_THINKING_DELAY = 3000;
@@ -114,19 +114,25 @@ function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
   /* eslint-enable camelcase */
 }
 
+let messages = [];
+
+const submitMessages = _.debounce((dispatch, getState, sessionID) => {
+  const labels = getAnswerBotSearchLabels(getState());
+
+  sendQuery(_.join(messages, ' '), labels, i18n.getLocale(), dispatch, sessionID);
+  messages = [];
+}, BOT_THINKING_DELAY);
+
 export const questionSubmitted = (message) => {
   return (dispatch, getState) => {
     const sessionID = getSessionID(getState, () => {
       dispatch(sessionStarted());
     });
-    const labels = getAnswerBotSearchLabels(getState());
 
-    dispatch(inputDisabled(true));
     dispatch(questionSubmittedPending(message, sessionID));
     dispatch(botTyping());
 
-    setTimeout(() => {
-      sendQuery(message, labels, i18n.getLocale(), dispatch, sessionID);
-    }, BOT_THINKING_DELAY);
+    messages.push(message);
+    submitMessages(dispatch, getState, sessionID);
   };
 };

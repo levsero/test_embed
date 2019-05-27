@@ -21,7 +21,6 @@ const actions = Object.freeze({
   botFeedbackChannelChoice: jest.fn(),
   sessionFallback: jest.fn(),
   screenChanged: jest.fn(),
-  inputDisabled: jest.fn(),
   sessionResolved: jest.fn()
 });
 
@@ -133,8 +132,7 @@ describe('feedback actions', () => {
       expect(actions.botMessage)
         .toHaveBeenNthCalledWith(1, 'Nice. Knowledge is power.');
       expect(actions.botMessage)
-        .toHaveBeenNthCalledWith(2, "If there's anything else I can find for you, just type another question.",
-          expect.any(Function));
+        .toHaveBeenNthCalledWith(2, "If there's anything else I can find for you, just type another question.");
       expect(actions.sessionResolved)
         .toHaveBeenCalled();
       expect(saveConversationScroll)
@@ -170,8 +168,7 @@ describe('feedback actions', () => {
         expect(actions.botFeedbackMessage)
           .toHaveBeenNthCalledWith(1, 'I see. Your question is still unresolved.');
         expect(actions.botFeedbackMessage)
-          .toHaveBeenNthCalledWith(2, 'Or you can ask another question.',
-            expect.any(Function));
+          .toHaveBeenNthCalledWith(2, 'Or you can ask another question.');
         expect(actions.articleDismissed)
           .toHaveBeenCalledWith(2);
         expect(actions.botMessage)
@@ -196,8 +193,7 @@ describe('feedback actions', () => {
         fireEvent.click(getByText('No, I need help'));
         fireEvent.click(getByText("It's related, but it didn't answer my question"));
         expect(actions.botFeedbackMessage)
-          .toHaveBeenNthCalledWith(2, 'You can ask another question.',
-            expect.any(Function));
+          .toHaveBeenNthCalledWith(2, 'You can ask another question.');
       });
     });
   });

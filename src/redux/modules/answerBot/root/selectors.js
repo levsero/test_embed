@@ -113,11 +113,6 @@ export const isFeedbackRequired = createSelector(
   }
 );
 
-export const isInputDisabled = createSelector(
-  [getState],
-  state => !!state.inputDisabled
-);
-
 export const getCurrentScreen = createSelector(
   [getState],
   state => state.currentScreen
