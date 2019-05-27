@@ -1169,6 +1169,21 @@ parts:
       title: "Tag that signifies something is a bot."
       screenshot: "https://drive.google.com/open?id=1GoxzjL8Wy1T2NcP_Db9Kc9iTsbKF3gU-"
       value: "Bot"
+  - translation:
+      key: "embeddable_framework.answerBot.contextualResults.intro.many_articles"
+      title: "Text for introducing the results of a contextual search in a conversation with bot."
+      screenshot: "https://drive.google.com/file/d/1865-ZHCXNtac9dlukWunjf3FFS_G9itH/view?usp=sharing"
+      value: "Here are some top suggestions for you:"
+  - translation:
+      key: "embeddable_framework.answerBot.contextualResults.intro.one_article"
+      title: "Text for introducing the result of a contextual search (one result only) in a conversation with bot."
+      screenshot: "https://drive.google.com/file/d/1rcgLeUCRKSnWnJJoc_HCLbSj30d61ptJ/view?usp=sharing"
+      value: "Here is the top suggestion for you:"
+  - translation:
+      key: "embeddable_framework.answerBot.button.get_in_touch"
+      title: "Text for button in answer bot that users can click to show the contact options available (e.g. chat with us, request a call back and leave a message)."
+      screenshot: "https://drive.google.com/file/d/1joW8FzHySlSslDRtERVZqn4tcMKLVU4j/view?usp=sharing"
+      value: "Get in touch"
 
   # Mobile
   - translation:
