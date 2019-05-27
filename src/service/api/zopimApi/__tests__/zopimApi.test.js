@@ -164,13 +164,19 @@ describe('setUpZopimApiMethods', () => {
     });
 
     describe('show method', () => {
+      let getChatStatusMock, getIsChattingMock;
+
       beforeEach(() => {
+        getChatStatusMock = jest.spyOn(chatSelectors, 'getChatStatus');
+        getIsChattingMock = jest.spyOn(chatSelectors, 'getIsChatting');
+
         mockWin.$zopim.livechat.window.show();
       });
 
       describe('when chat is online', () => {
         beforeEach(() => {
-          jest.spyOn(chatSelectors, 'getChatStatus').mockReturnValue('online');
+          getChatStatusMock.mockReturnValue('online');
+          getIsChattingMock.mockReturnValue(false);
         });
 
         it('calls the openApi method', () => {
@@ -189,7 +195,8 @@ describe('setUpZopimApiMethods', () => {
 
       describe('when chat is not online', () => {
         beforeEach(() => {
-          jest.spyOn(chatSelectors, 'getChatStatus').mockReturnValue('offline');
+          getChatStatusMock.mockReturnValue('offline');
+          getIsChattingMock.mockReturnValue(false);
         });
 
         it('calls the openApi method', () => {
@@ -203,6 +210,26 @@ describe('setUpZopimApiMethods', () => {
         it('does not update the active embed', () => {
           expect(baseActions.updateActiveEmbed)
             .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when chat is offline but there is an active chat', () => {
+        beforeEach(() => {
+          getChatStatusMock.mockReturnValue('offline');
+          getIsChattingMock.mockReturnValue(true);
+        });
+
+        it('calls the openApi method', () => {
+          expect(apis.openApi)
+            .toHaveBeenCalled();
+        });
+        it('calls the showApi method', () => {
+          expect(apis.showApi)
+            .toHaveBeenCalled();
+        });
+        it('updates the active embed', () => {
+          expect(baseActions.updateActiveEmbed)
+            .toHaveBeenCalledWith('chat');
         });
       });
     });

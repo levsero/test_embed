@@ -43,7 +43,7 @@ import {
 } from './helpers';
 import tracker from 'service/logging/tracker';
 import { updateActiveEmbed } from 'src/redux/modules/base';
-import { getChatStatus } from 'src/redux/modules/chat/chat-selectors';
+import { getChatStatus, getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 
 const noop = () => {};
 
@@ -71,7 +71,10 @@ export function setUpZopimApiMethods(win, store) {
           showApi(store);
           openApi(store);
 
-          if (getChatStatus(store.getState()) === 'online') {
+          const shouldChat = getIsChatting(store.getState())
+            || getChatStatus(store.getState()) === 'online';
+
+          if (shouldChat) {
             store.dispatch(updateActiveEmbed('chat'));
           }
         },
