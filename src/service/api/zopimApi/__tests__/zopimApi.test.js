@@ -1,5 +1,6 @@
 import zopimApi from '..';
 import * as chatActions from 'src/redux/modules/chat';
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
 import * as baseActions from 'src/redux/modules/base';
 import * as apis from 'src/service/api/apis';
 import tracker from 'service/logging/tracker';
@@ -9,6 +10,7 @@ jest.mock('src/redux/modules/chat', () => ({
   setStatusForcefully: jest.fn(),
   setVisitorInfo: jest.fn()
 }));
+jest.mock('src/redux/modules/chat/chat-selectors');
 jest.mock('src/redux/modules/base', () => ({
   badgeHideReceived: jest.fn(),
   badgeShowReceived: jest.fn(),
@@ -21,14 +23,10 @@ jest.mock('service/i18n', () => ({
 }));
 jest.mock('service/logging/tracker');
 
-let mockStore, state = jest.fn();
-
-beforeEach(() => {
-  mockStore = {
-    dispatch: jest.fn(),
-    getState: state
-  };
-});
+const mockStore = {
+  dispatch: jest.fn(),
+  getState: jest.fn()
+};
 
 describe('handleZopimQueue', () => {
   describe('queue was set up by web widget', () => {
@@ -171,10 +169,8 @@ describe('setUpZopimApiMethods', () => {
       });
 
       describe('when chat is online', () => {
-        beforeAll(() => {
-          state = () => {
-            return { chat: { account_status: 'online' } }; // eslint-disable-line camelcase
-          };
+        beforeEach(() => {
+          jest.spyOn(chatSelectors, 'getChatStatus').mockReturnValue('online');
         });
 
         it('calls the openApi method', () => {
@@ -192,10 +188,8 @@ describe('setUpZopimApiMethods', () => {
       });
 
       describe('when chat is not online', () => {
-        beforeAll(() => {
-          state = () => {
-            return { chat: { account_status: 'away' } }; // eslint-disable-line camelcase
-          };
+        beforeEach(() => {
+          jest.spyOn(chatSelectors, 'getChatStatus').mockReturnValue('offline');
         });
 
         it('calls the openApi method', () => {
