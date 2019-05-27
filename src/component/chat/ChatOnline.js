@@ -126,7 +126,8 @@ class Chat extends Component {
 
     this.state = {
       showEndChatMenu: false,
-      endChatFromFeedbackForm: false
+      endChatFromFeedbackForm: false,
+      hasEndedChatFromFeedbackForm: false
     };
 
     this.menu = null;
@@ -226,6 +227,10 @@ class Chat extends Component {
   renderChatScreen = () => {
     if (this.props.screen !== screens.CHATTING_SCREEN) return;
 
+    const {
+      hasEndedChatFromFeedbackForm
+    } = this.state;
+
     const showChatEndFn = (e) => {
       e.stopPropagation();
       this.props.updateMenuVisibility(false);
@@ -244,7 +249,8 @@ class Chat extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
-        showContactDetails={this.showContactDetailsFn} />
+        showContactDetails={this.showContactDetailsFn}
+        endedChatFromFeedbackForm={hasEndedChatFromFeedbackForm} / >
     );
   }
 
@@ -281,7 +287,11 @@ class Chat extends Component {
   renderChatEndPopup = () => {
     const hideChatEndFn = () => this.setState({ showEndChatMenu: false });
     const endChatFn = () => {
-      this.setState({ showEndChatMenu: false, endChatFromFeedbackForm: true });
+      this.setState({
+        showEndChatMenu: false,
+        endChatFromFeedbackForm: true,
+        hasEndedChatFromFeedbackForm: true
+      });
       this.props.endChatViaPostChatScreen();
     };
 

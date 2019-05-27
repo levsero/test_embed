@@ -220,39 +220,71 @@ describe('ChatLog component', () => {
           result = component.renderRequestRatingButton(eventKey);
         });
 
-        it('returns a button with the correct props', () => {
-          expect(result.props).toEqual(jasmine.objectContaining(
-            {
-              className: 'requestRatingButtonStyles',
-              onClick: goToFeedbackScreenSpy,
-              children: 'Leave a comment'
-            }
-          ));
+        it('does not render a button', () => {
+          expect(result).toBeUndefined();
         });
       });
     });
 
     describe('when the event is the latest rating request', () => {
-      beforeEach(() => {
+      let mockIsChatting = true,
+        mockEndChatFromFeedbackForm = false;
+
+      const renderButton = () => {
         component = instanceRender(
           <ChatLog
             chatLog={{}}
             agents={{}}
+            isChatting={mockIsChatting}
+            endedChatFromFeedbackForm={mockEndChatFromFeedbackForm}
             latestRatingRequest={1}
+
             goToFeedbackScreen={goToFeedbackScreenSpy} />
         );
 
-        result = component.renderRequestRatingButton(eventKey);
+        return component.renderRequestRatingButton(eventKey);
+      };
+
+      afterEach(() => {
+        mockIsChatting = true,
+        mockEndChatFromFeedbackForm = false;
       });
 
-      it('returns a button with the correct props', () => {
-        expect(result.props).toEqual(jasmine.objectContaining(
-          {
+      describe('and chat is offline', () => {
+        beforeEach(() => {
+          mockIsChatting = false;
+          result = renderButton();
+        });
+
+        it('Does not render a button', () => {
+          expect(result).toBeUndefined();
+        });
+      });
+
+      describe('and rating is being sent', () => {
+        beforeEach(() => {
+          mockEndChatFromFeedbackForm = true;
+
+          result = renderButton();
+        });
+
+        it('Does not render a button', () => {
+          expect(result).toBeUndefined();
+        });
+      });
+
+      describe('and chat is online and rating is not sending', () => {
+        beforeEach(() => {
+          result = renderButton();
+        });
+
+        it('returns a button with the correct props', () => {
+          expect(result.props).toEqual(jasmine.objectContaining({
             className: 'requestRatingButtonStyles',
             onClick: goToFeedbackScreenSpy,
             children: 'Rate this chat'
-          }
-        ));
+          }));
+        });
       });
     });
 
@@ -263,6 +295,8 @@ describe('ChatLog component', () => {
             <ChatLog
               chatLog={{}}
               agents={{}}
+              isChatting={true}
+              endedChatFromFeedbackForm={false}
               latestAgentLeaveEvent={1}
               goToFeedbackScreen={goToFeedbackScreenSpy} />
           );

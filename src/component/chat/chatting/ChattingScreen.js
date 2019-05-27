@@ -117,7 +117,8 @@ class ChattingScreen extends Component {
     notificationCount: PropTypes.number,
     markAsRead: PropTypes.func,
     visible: PropTypes.bool,
-    fullscreen: PropTypes.bool
+    fullscreen: PropTypes.bool,
+    endedChatFromFeedbackForm: PropTypes.bool
   };
 
   static defaultProps = {
@@ -505,6 +506,7 @@ class ChattingScreen extends Component {
               conciergeAvatar={this.props.conciergeSettings.avatar_path}
               updateInfoOnClick={this.props.showContactDetails}
               socialLogin={this.props.socialLogin}
+              endedChatFromFeedbackForm={this.props.endedChatFromFeedbackForm}
             />
             {this.renderQueuePosition()}
             {this.renderAgentTyping(agentsTyping)}

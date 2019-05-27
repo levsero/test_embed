@@ -14,7 +14,8 @@ import {
   getLatestRating,
   getLatestRatingRequest,
   getLatestAgentLeaveEvent,
-  getShowUpdateVisitorDetails
+  getShowUpdateVisitorDetails,
+  getIsChatting
 } from 'src/redux/modules/chat/chat-selectors';
 import chatPropTypes from 'types/chat';
 
@@ -26,7 +27,8 @@ const mapStateToProps = (state) => {
     latestRatingRequest: getLatestRatingRequest(state),
     latestAgentLeaveEvent: getLatestAgentLeaveEvent(state),
     showUpdateInfo: getShowUpdateVisitorDetails(state),
-    locale: i18n.getLocale()
+    locale: i18n.getLocale(),
+    isChatting: getIsChatting(state),
   };
 };
 
@@ -47,7 +49,9 @@ export class ChatLog extends PureComponent {
     updateInfoOnClick: PropTypes.func,
     socialLogin: PropTypes.object,
     conciergeAvatar: PropTypes.string,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
+    isChatting: PropTypes.bool.isRequired,
+    endedChatFromFeedbackForm: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -115,18 +119,23 @@ export class ChatLog extends PureComponent {
       goToFeedbackScreen,
       latestRating,
       latestRatingRequest,
-      latestAgentLeaveEvent
+      latestAgentLeaveEvent,
+      isChatting,
+      endedChatFromFeedbackForm
     } = this.props;
+
+    if (!isChatting || endedChatFromFeedbackForm) return;
 
     const isLatestRating = latestRating === eventKey;
     const isLatestRatingRequest = latestRatingRequest === eventKey;
     const isLastAgentLeaveEvent = _.size(agents) < 1 && latestAgentLeaveEvent === eventKey;
+    const isLatestRatingWithNoComment = isLatestRating && !chatCommentLeft;
+    const isLatestEventNotRatingOrAgentLeave = !(isLatestRatingRequest
+      || isLastAgentLeaveEvent
+      || isLatestRatingWithNoComment
+    );
 
-    if (!(
-      (isLatestRating && !chatCommentLeft) ||
-      isLatestRatingRequest ||
-      isLastAgentLeaveEvent
-    )) return;
+    if (isLatestEventNotRatingOrAgentLeave) return;
 
     const labelKey = isLatestRating && !chatCommentLeft
       ? 'embeddable_framework.chat.chatLog.button.leaveComment'
