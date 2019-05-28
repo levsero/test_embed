@@ -100,10 +100,109 @@ it('send api chat message', () => {
 
 
 ### Puppeteer
-Description:
-Considerations:
-Advantages:
-Disadvantages:
+#### Description:
+
+Puppeteer is node library developed by Goolge that use the Chrome Developer tools 
+protocol to communicate with Chromium or Chrome to run automated browser tests in 
+headles mode (default). Puppeteer can be used with any javascript test runner like 
+Jest, Mocha and Jasmine
+
+#### Considerations:
+
+The same considerations as noted above for Cypress where used when choosing Puppeteer,
+we looked for:
+* HTTP requests mocking
+* API queuing (for testing zE Settings API on page load)
+* Running API commands during runtime (for testing ze Settings API commands)
+* Web Sockets communication mocking/intercepting (for testing Chat, HC and Talk)
+* Run end-to-end tests on Travis as part of CI build
+
+All considerations were met during the POC exercise except for Web Sockets mocking which
+is still under investigation.
+
+#### HTTP requests mocking
+Puppeteer intercepts HTTP requests and responses via a set of APIs https://pptr.dev/#?product=Puppeteer&version=v1.17.0&show=api-pagesetrequestinterceptionvalue 
+```
+page.setRequestInterception(true);
+page.on('request', request => { 
+  // create custom response for testing e.g. customised widget config payload
+  });
+
+or
+
+page.on('response', response => {
+  // verify response payload
+});
+
+```
+We can then mock widget config response from the server which will allow us 
+to write tests for different widget configurations e.g. with HC only, Chat only, 
+HC And Chat only, etc
+
+#### API queuing
+In order to test API settings, the simplest solution is to use webpack to serve up
+a set of static HTML pages with the specific API Settings and tests these static pages
+via Puppeteer. 
+
+Or we could dynamically generate the html pages with Puppeteer and then run webpack
+to serve up the html pages and run the tests.
+
+#### Running API commands during runtime
+Puppeteer runs commands using the evaluate method https://pptr.dev/#?product=Puppeteer&version=v1.17.0&show=api-pageevaluatepagefunction-args
+
+e.g. `page.evaluate('ze.Hide()')`
+
+#### Web Sockets
+--- to be determined
+#### Run end-to-end tests on Travis as part of CI build
+
+We managed to use Puppeteer to run the dev server in Travis and run the end-to-end
+tests on the dev server during a Travis CI build. We set up Puppeteer to start the 
+webpack dev server once before test execution starts and shut down the dev server when
+the tests end. 
+
+Adjustments made:
+* Create a new, streamlined webpack server config, just for testing 
+* Check in a test html file into the repo for the dev server to serve up
+* Set a different port number for the dev server
+
+Example code to start up dev server:
+```
+const { setup: setupDevServer } = require('jest-dev-server');
+
+await setupDevServer({
+  command: 'npm run test-e2e:server',
+  launchTimeout: 50000,
+  host: '0.0.0.0', // waits for the domain to be available before running tests
+  port: 5000
+});
+```
+
+#### Advantages:
+* Supports **iFrames**.
+* Tests are written in **Jest** as it uses the Jest test runner
+* It uses the **Chrome Developer Tools protocol** - tests run faster than when using Selenium webdriver
+* **Reliable tests** using built-in APIs that handles asynchronous "waits":
+  * `page.waitForNavigation // resovles after a page navigates to another url`
+  * `page.waitForSelector // resolves after a selector appears on the page`
+  * `page.waitForResponse // waits for a specific URL in the response`
+* **Device emulation** testing with touch support for testing different viewport sizes
+* **Debugging** tests view the dev tools as you would any javascript application
+* **Console log** application errors during test execution 
+e.g. `page.on('console', msg => {console.log(msg)});`
+* Maintained by Google with over 200 contributors 
+ 
+
+#### Disadvantages:
+* Puppeteer is just an API to drive Chrome and the initial setup was a bit difficult because there is more than one way to setup it up but we got there eventually.
+* Need to plan and setup our own DSL to wrap around the API calls to make the commands more user friendly.
+
+#### Puppeteer References:
+* Demo of the latest features of Puppeteer (Google IO May 2019)
+https://www.youtube.com/watch?v=MbnATLCuKI4
+* Puppeteer Github repo https://github.com/GoogleChrome/puppeteer/
+* Puppeteer API docs https://pptr.dev
+
 
  ## Decision
 
