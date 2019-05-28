@@ -81,7 +81,7 @@ test('getChatRating', () => {
 test('getChatStatus', () => {
   const result = selectors.getChatStatus(testState);
 
-  expect(result).toEqual('Gaming');
+  expect(result).toEqual('online');
 });
 
 test('getChatVisitor', () => {
@@ -93,7 +93,13 @@ test('getChatVisitor', () => {
 test('getIsChatting', () => {
   const result = selectors.getIsChatting(testState);
 
-  expect(result).toEqual('foo');
+  expect(result).toEqual(true);
+});
+
+test('getCanShowOnlineChat', () => {
+  const result = selectors.getCanShowOnlineChat(testState);
+
+  expect(result).toEqual(true);
 });
 
 test('getNotificationCount', () => {

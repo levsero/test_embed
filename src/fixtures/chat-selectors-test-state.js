@@ -2,7 +2,7 @@
 
 export default {
   chat: {
-    account_status: 'Gaming',
+    account_status: 'online',
     accountSettings: {
       attachments: {
         enabled: 'maybe'
@@ -77,7 +77,7 @@ export default {
     inactiveAgents: 'Lois Lane',
     isAuthenticated: 'nope',
     isLoggingOut: 'eh',
-    is_chatting: 'foo',
+    is_chatting: true,
     lastReadTimestamp: 'Doomsday',
     menuVisible: 'sure thang buddy',
     notification: {
