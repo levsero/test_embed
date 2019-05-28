@@ -11,16 +11,8 @@ import _ from 'lodash';
 jest.mock('service/transport');
 jest.mock('service/identity');
 jest.mock('service/i18n');
-jest.mock('lodash', () => {
-  const lodash = jest.requireActual('lodash');
 
-  return {
-    ...lodash,
-    debounce: (fn) => {
-      return fn;
-    }
-  };
-});
+jest.useFakeTimers();
 
 const mockStore = configureMockStore([thunk]);
 
@@ -35,6 +27,7 @@ identity.getSuid = jest.fn(() => ({ id: 8888 }));
 
 beforeEach(() => {
   jest.clearAllTimers();
+  actions.resetSubmittingMessagesState();
 });
 
 describe('questionSubmitted', () => {
@@ -46,7 +39,8 @@ describe('questionSubmitted', () => {
           deflection: { id: 888 },
           interactionToken: { y: 2 }
         }]
-      ])
+      ]),
+      questionValueChangedTime: 123436789
     },
     settings: {
       answerBot: {
@@ -66,21 +60,30 @@ describe('questionSubmitted', () => {
   };
 
   it('dispatches the expected pending actions', () => {
-    expect(dispatchAction().getActions())
+    const store = dispatchAction();
+
+    jest.runAllTimers();
+
+    expect(store.getActions())
       .toMatchSnapshot();
   });
 
   it('dispatches the expected action without session starting', () => {
-    expect(dispatchAction({
+    const store = dispatchAction({
       answerBot: {
         currentSessionID: 4567
       }
-    }).getActions())
+    });
+
+    jest.runAllTimers();
+
+    expect(store.getActions())
       .toMatchSnapshot();
   });
 
   it('sends the expected http params', () => {
     dispatchAction();
+    jest.runAllTimers();
     expect(http.send)
       .toMatchSnapshot();
   });
@@ -88,6 +91,8 @@ describe('questionSubmitted', () => {
   describe('callbacks', () => {
     it('dispatches expected actions on successful request', () => {
       const store = dispatchAction();
+
+      jest.runAllTimers();
 
       const callback = http.send.mock.calls[0][0].callbacks.done;
 
@@ -103,7 +108,10 @@ describe('questionSubmitted', () => {
     });
 
     it('dispatches another request when there are no results and there is a locale in the request', () => {
-      dispatchAction();
+      const store = dispatchAction();
+
+      jest.runAllTimers();
+      store.clearActions();
 
       const callback = http.send.mock.calls[0][0].callbacks.done;
 
@@ -123,6 +131,7 @@ describe('questionSubmitted', () => {
     it('dispatches only 1 request when there are no results and there is no locale in the request', () => {
       jest.spyOn(i18n, 'getLocale').mockReturnValue(null);
       dispatchAction();
+      jest.runAllTimers();
       const callback = http.send.mock.calls[0][0].callbacks.done;
 
       callback({
@@ -139,6 +148,8 @@ describe('questionSubmitted', () => {
     it('dispatches expected actions on failed request', () => {
       const store = dispatchAction();
 
+      jest.runAllTimers();
+      store.clearActions();
       const callback = http.send.mock.calls[0][0].callbacks.fail;
 
       callback('error');

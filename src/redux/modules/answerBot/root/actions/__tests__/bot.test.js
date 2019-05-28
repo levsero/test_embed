@@ -1,5 +1,4 @@
 import configureMockStore from 'redux-mock-store';
-import _ from 'lodash';
 import thunk from 'redux-thunk';
 import * as actions from '../bot';
 

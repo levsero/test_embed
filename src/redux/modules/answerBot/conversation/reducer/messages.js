@@ -1,5 +1,5 @@
 import {
-  QUESTION_SUBMITTED_PENDING,
+  QUESTION_VALUE_SUBMITTED,
   QUESTION_SUBMITTED_FULFILLED
 } from '../action-types';
 
@@ -26,7 +26,7 @@ const messages = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case QUESTION_SUBMITTED_PENDING:
+    case QUESTION_VALUE_SUBMITTED:
       return addMessage(state, { ...payload, isVisitor: true });
     case QUESTION_SUBMITTED_FULFILLED:
       const {

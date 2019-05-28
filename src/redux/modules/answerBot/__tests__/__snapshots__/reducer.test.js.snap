@@ -15,6 +15,7 @@ Object {
   "greeted": false,
   "initialFallbackSuggested": false,
   "messages": Map {},
+  "questionValueChangedTime": null,
   "sessions": Map {},
 }
 `;

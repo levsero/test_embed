@@ -131,7 +131,7 @@ describe('greeting', () => {
     expect(actions.botMessage)
       .toHaveBeenNthCalledWith(1, 'Hello.');
     expect(actions.botMessage)
-      .not.toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.");
+      .toHaveBeenCalledTimes(1);
   });
 });
 
@@ -187,7 +187,7 @@ describe('contextual search', () => {
     });
 
     expect(actions.botMessage)
-      .not.toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.");
+      .toHaveBeenCalledTimes(1);
   });
 });
 
@@ -251,7 +251,7 @@ describe('initial fallback', () => {
       });
       jest.runAllTimers();
       expect(actions.botChannelChoice)
-        .not.toHaveBeenCalledWith('Or you can get in touch.');
+        .not.toHaveBeenCalled();
       expect(actions.botInitialFallback)
         .not.toHaveBeenCalled();
     });

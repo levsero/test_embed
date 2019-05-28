@@ -17,6 +17,11 @@ export const getCurrentSessionID = createSelector(
   state => state.currentSessionID
 );
 
+export const getQuestionValueChangedTime = createSelector(
+  [getState],
+  state => state.questionValueChangedTime
+);
+
 export const getCurrentRequestStatus = createSelector(
   [getCurrentSessionID, getSessions],
   (sessionID, sessions) => {

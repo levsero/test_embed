@@ -11,6 +11,7 @@ import currentScreen from './root/reducer/current-screen';
 import greeted from './root/reducer/greeted';
 import contextualSearchFinished from './root/reducer/contextual-search-finished';
 import initialFallbackSuggested from './root/reducer/initial-fallback-suggested';
+import questionValueChangedTime from './root/reducer/question-value-changed-time';
 
 export default combineReducers({
   messages,
@@ -23,5 +24,6 @@ export default combineReducers({
   greeted,
   initialFallbackSuggested,
   contextualSearchFinished,
-  currentContextualArticle
+  currentContextualArticle,
+  questionValueChangedTime,
 });
