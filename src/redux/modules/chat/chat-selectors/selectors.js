@@ -61,6 +61,13 @@ export const getFirstMessageTimestamp = (state) => {
   return first ? first.timestamp : Date.now();
 };
 
+export const getCanShowOnlineChat = (state) => {
+  const isChatting = getIsChatting(state);
+  const isOnline = getChatStatus(state) === 'online';
+
+  return isChatting || isOnline;
+};
+
 export const getChatOnline = (state) => {
   const forcedStatus = getForcedStatus(state);
 

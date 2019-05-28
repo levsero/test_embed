@@ -164,19 +164,17 @@ describe('setUpZopimApiMethods', () => {
     });
 
     describe('show method', () => {
-      let getChatStatusMock, getIsChattingMock;
+      let getCanShowOnlineChatMock;
 
       beforeEach(() => {
-        getChatStatusMock = jest.spyOn(chatSelectors, 'getChatStatus');
-        getIsChattingMock = jest.spyOn(chatSelectors, 'getIsChatting');
+        getCanShowOnlineChatMock = jest.spyOn(chatSelectors, 'getCanShowOnlineChat');
 
         mockWin.$zopim.livechat.window.show();
       });
 
-      describe('when chat is online', () => {
+      describe('when chat is online or there is an active chat session', () => {
         beforeEach(() => {
-          getChatStatusMock.mockReturnValue('online');
-          getIsChattingMock.mockReturnValue(false);
+          getCanShowOnlineChatMock.mockReturnValue(true);
         });
 
         it('calls the openApi method', () => {
@@ -193,10 +191,9 @@ describe('setUpZopimApiMethods', () => {
         });
       });
 
-      describe('when chat is not online', () => {
+      describe('when chat is offline and there is not an active chat session', () => {
         beforeEach(() => {
-          getChatStatusMock.mockReturnValue('offline');
-          getIsChattingMock.mockReturnValue(false);
+          getCanShowOnlineChatMock.mockReturnValue(false);
         });
 
         it('calls the openApi method', () => {
@@ -210,26 +207,6 @@ describe('setUpZopimApiMethods', () => {
         it('does not update the active embed', () => {
           expect(baseActions.updateActiveEmbed)
             .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when chat is offline but there is an active chat', () => {
-        beforeEach(() => {
-          getChatStatusMock.mockReturnValue('offline');
-          getIsChattingMock.mockReturnValue(true);
-        });
-
-        it('calls the openApi method', () => {
-          expect(apis.openApi)
-            .toHaveBeenCalled();
-        });
-        it('calls the showApi method', () => {
-          expect(apis.showApi)
-            .toHaveBeenCalled();
-        });
-        it('updates the active embed', () => {
-          expect(baseActions.updateActiveEmbed)
-            .toHaveBeenCalledWith('chat');
         });
       });
     });
