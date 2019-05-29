@@ -1184,6 +1184,11 @@ parts:
       title: "Text for button in answer bot that users can click to show the contact options available (e.g. chat with us, request a call back and leave a message)."
       screenshot: "https://drive.google.com/file/d/1joW8FzHySlSslDRtERVZqn4tcMKLVU4j/view?usp=sharing"
       value: "Get in touch"
+  - translation:
+      key: "embeddable_framework.answerBot.msg.channel_choice.get_in_touch"
+      title: "Title shown when user wants to get in touch through other channel choice options."
+      screenshot: "https://drive.google.com/file/d/1yGexH94XYOvOK2l_Y78reM4FtQ5E1JJV/view?usp=sharing"
+      value: "How would you like to get in touch?"
 
   # Mobile
   - translation:
