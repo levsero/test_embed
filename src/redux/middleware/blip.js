@@ -10,7 +10,11 @@ import {
   SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_FAILURE
 } from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { ARTICLE_SHOWN, SCREEN_CHANGED } from 'src/redux/modules/answerBot/root/action-types';
+import {
+  CONTEXTUAL_ARTICLE_SHOWN,
+  ARTICLE_SHOWN,
+  SCREEN_CHANGED
+} from 'src/redux/modules/answerBot/root/action-types';
 import { beacon } from 'service/beacon';
 import {
   getEmbeddableConfig,
@@ -145,15 +149,33 @@ const sendAnswerBotUserNavigation = (prevState, payload) => {
   }
 };
 
+const sendAnswerBotContextualArticleClickedBlip = (state, payload) => {
+  const { articleID } = payload;
+  const trackPayload = {
+    query: getSearchTerm(state),
+    resultsCount: getResultsCount(state),
+    contextualSearch: true,
+    articleId: articleID,
+    locale: i18n.getLocale(),
+    uniqueSearchResultClick: false,
+    answerBot: true
+  };
+
+  beacon.trackUserAction('helpCenter', 'click', {
+    label: 'helpCenterForm',
+    value: trackPayload
+  });
+};
+
 const sendAnswerBotArticleClickedBlip = (state, payload) => {
-  const { sessionID, articleID } = payload;
+  const { articleID, sessionID } = payload;
   const session = getSessionByID(state, sessionID);
   const trackPayload = {
     query: session.query,
     resultsCount: session.articles.length,
+    deflectionId: session.deflection.id,
     articleId: articleID,
     locale: i18n.getLocale(),
-    deflectionId: session.deflection.id,
     uniqueSearchResultClick: false,
     answerBot: true
   };
@@ -209,6 +231,9 @@ export function sendBlips({ getState }) {
     switch (type) {
       case SCREEN_CHANGED:
         sendAnswerBotUserNavigation(prevState, payload);
+        break;
+      case CONTEXTUAL_ARTICLE_SHOWN:
+        sendAnswerBotContextualArticleClickedBlip(prevState, payload);
         break;
       case ARTICLE_SHOWN:
         sendAnswerBotArticleClickedBlip(prevState, payload);

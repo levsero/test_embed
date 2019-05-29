@@ -17,6 +17,40 @@ describe('getMessages', () => {
   });
 });
 
+describe('getLastMessage', () => {
+  it('returns the messages', () => {
+    const mockState = {
+      answerBot: {
+        messages: new Map([
+          ['1', { message: 'Thing 1' }],
+          ['2', { message: 'Thing 2' }]
+        ])
+      }
+    };
+    const result = selectors.getLastMessage(mockState);
+
+    expect(result)
+      .toEqual({ message: 'Thing 2' });
+  });
+});
+
+describe('getLastMessageType', () => {
+  it('returns the messages', () => {
+    const mockState = {
+      answerBot: {
+        messages: new Map([
+          ['1', { message: 'Thing 1', type: 'wah' }],
+          ['2', { message: 'Thing 2', type: 'blah' }]
+        ])
+      }
+    };
+    const result = selectors.getLastMessageType(mockState);
+
+    expect(result)
+      .toEqual('blah');
+  });
+});
+
 describe('getGroupMessages', () => {
   it('returns messages according to passed in keys', () => {
     const mockState = {

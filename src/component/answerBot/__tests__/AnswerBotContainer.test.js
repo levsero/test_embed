@@ -18,7 +18,9 @@ const actions = Object.freeze({
   inputDisabled: jest.fn(),
   botFeedback: jest.fn(),
   botFeedbackRequested: jest.fn(),
-  botFeedbackMessage: jest.fn()
+  botFeedbackMessage: jest.fn(),
+  botTyping: jest.fn(),
+  botContextualSearchResults: jest.fn()
 });
 
 const renderComponent = (props = {}, renderFn) => {
@@ -119,6 +121,73 @@ describe('greeting', () => {
 
     expect(actions.botGreeted)
       .not.toHaveBeenCalled();
+  });
+
+  it('does not prompt for question if there is a contextual search', () => {
+    renderComponent({ contextualSearchStatus: 'PENDING', currentSessionID: 1234, isInitialSession: true });
+
+    expect(actions.botGreeted)
+      .toHaveBeenCalled();
+    expect(actions.botMessage)
+      .toHaveBeenNthCalledWith(1, 'Hello.');
+    expect(actions.botMessage)
+      .not.toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.", expect.any(Function));
+  });
+});
+
+describe('contextual search', () => {
+  it('shows bot typing when contextual search is still pending', () => {
+    renderComponent({ contextualSearchStatus: 'PENDING', currentSessionID: 1234, isInitialSession: true });
+
+    expect(actions.botTyping)
+      .toHaveBeenCalled();
+  });
+
+  it('shows the contextual search results when request completes', () => {
+    renderComponent({
+      contextualSearchResultsCount: 3,
+      contextualSearchStatus: 'COMPLETED',
+      currentSessionID: 1234,
+      isInitialSession: true
+    });
+
+    expect(actions.botMessage)
+      .toHaveBeenNthCalledWith(2, 'Here are some top suggestions for you:');
+    expect(actions.botContextualSearchResults)
+      .toHaveBeenCalled();
+  });
+
+  it('shows the proper contextual search result message when request completes and there is only one result', () => {
+    renderComponent({
+      contextualSearchResultsCount: 1,
+      contextualSearchStatus: 'COMPLETED',
+      currentSessionID: 1234,
+      isInitialSession: true
+    });
+
+    expect(actions.botMessage)
+      .toHaveBeenNthCalledWith(2, 'Here is the top suggestion for you:');
+    expect(actions.botContextualSearchResults)
+      .toHaveBeenCalled();
+  });
+
+  it('shows the normal prompt when there are no contextual search results', () => {
+    renderComponent({ contextualSearchStatus: 'NO_RESULTS', currentSessionID: 1234, isInitialSession: true });
+
+    expect(actions.botMessage)
+      .toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.", expect.any(Function));
+  });
+
+  it('does not prompt again if fallback has triggered', () => {
+    renderComponent({
+      initialFallbackSuggested: true,
+      contextualSearchStatus: 'NO_RESULTS',
+      currentSessionID: 1234,
+      isInitialSession: true
+    });
+
+    expect(actions.botMessage)
+      .not.toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.", expect.any(Function));
   });
 });
 
