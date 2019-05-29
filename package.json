@@ -8,6 +8,7 @@
     "npm": ">= 6.5.0"
   },
   "scripts": {
+    "latest": "git checkout master && git pull && ./script/setup_node_env",
     "build:version:generate": "git rev-parse --short HEAD > ./dist/VERSION_HASH",
     "build:version:clean": "rm -rf ./dist/VERSION_HASH",
     "predev": "npm run build:version:generate",
