@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { ButtonGroup } from 'component/button/ButtonGroup';
-import { FeedbackButton } from 'component/answerBot/articleScreen/feedbackPopup/FeedbackButton';
+import { PillButton } from 'src/component/shared/PillButton';
 import { i18n } from 'service/i18n';
 
 import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/';
@@ -54,7 +54,7 @@ export class SecondaryFeedback extends Component {
     return (
       <div className={styles.container}>
         <ButtonGroup>
-          <FeedbackButton
+          <PillButton
             className={styles.option}
             label={i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.related')}
             onClick={this.handleReason(
@@ -62,7 +62,7 @@ export class SecondaryFeedback extends Component {
               i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.related')
             )}
           />
-          <FeedbackButton
+          <PillButton
             label={i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.unrelated')}
             className={styles.option}
             onClick={this.handleReason(
