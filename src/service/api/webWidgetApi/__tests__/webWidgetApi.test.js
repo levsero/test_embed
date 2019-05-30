@@ -1,7 +1,7 @@
 import api from '..';
 import * as apis from 'service/api/apis';
 import tracker from 'service/logging/tracker';
-import { apiResetWidget } from 'src/redux/modules/base';
+import { apiResetWidget, legacyShowReceived } from 'src/redux/modules/base';
 import * as baseSelectors from 'src/redux/modules/base/base-selectors';
 import { API_GET_IS_CHATTING_NAME } from 'constants/api';
 
@@ -679,6 +679,35 @@ describe('legacy apis', () => {
 
   beforeEach(() => {
     api.legacyApiSetup(win, mockStore);
+  });
+
+  describe('zE.show', () => {
+    describe('when widget already shown', () => {
+      beforeEach(() => {
+        jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(true);
+        legacyShowReceived.mockReturnValue({ type: 'show' });
+        win.zE.show();
+      });
+
+      it('calls tracker on win.zE', () => {
+        expect(legacyShowReceived).toHaveBeenCalled();
+        expect(mockStore.dispatch)
+          .toHaveBeenCalledWith({ type: 'show' });
+      });
+    });
+
+    describe('when widget hidden', () => {
+      beforeEach(() => {
+        jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(false);
+        legacyShowReceived.mockReturnValue({ type: 'show' });
+        win.zE.show();
+      });
+
+      it('calls tracker on win.zE', () => {
+        expect(legacyShowReceived).not.toHaveBeenCalled();
+        expect(mockStore.dispatch).not.toHaveBeenCalledWith();
+      });
+    });
   });
 
   describe('zE.identify', () => {
