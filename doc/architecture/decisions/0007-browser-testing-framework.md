@@ -20,18 +20,18 @@
 
 In Progress
 
- ## Context
-In light of the recent [API infinite loop bug](https://zendesk.atlassian.net/wiki/spaces/ops/pages/694063407/2019-04-11+Integrated+chat+widget+causing+customer+sites+to+become+unresponsive+Non-SI), the team realised the need and importance extensive API test coverage. It is not enough to have one simple unittest for each api. In order to gain more confidence in deploys (especially deploys related to APIs), we need to test complex API configurations. Some customers have more than 200 lines of our API code triggering off an exponential number of different workflows within the widget.
+## Context
+In light of the recent [API infinite loop bug](https://zendesk.atlassian.net/wiki/spaces/ops/pages/694063407/2019-04-11+Integrated+chat+widget+causing+customer+sites+to+become+unresponsive+Non-SI), the team realised the need and importance of extensive API test coverage. It is not enough to have one simple unittest for each api. In order to gain more confidence in deploys (especially deploys related to APIs), we need to test complex API configurations. Some customers have more than 200 lines of our API code triggering off an exponential number of different workflows within the widget.
 
-After much deliberation, the team decided it's necessary to write proper browser tests to test the full sequence of the widget initialization under a number of different API usecases. Although integrations test would be easy to write and provide a decent amount of coverage, it is much more difficult to completely test the full widget initialization process which also includes queuing APIs on page load.
+After much deliberation, the team decided it's necessary to write proper browser tests to test the full sequence of the widget initialization under a number of different API usecases. Although Jest integrations test would be easy to write and provide a decent amount of coverage, it is still difficult to completely test the full widget initialization process that includes queuing APIs on page load.
 
-Furthermore, rather than writing more Zendesk Browser Tests, we have decided to move to a testing framework that can be embeded into our repository. The team prefers to write browser tests in one unified repository and our existing staging tests are very flaky due to Help Center account creation failing regularly. For that reason, we have also decided that our new browser tests will have limited dependency on external Zendesk services. The tests will depend on a shared Zendesk account but not interact with it to large extent. 
+Furthermore, rather than writing more Zendesk Browser Tests, we have decided to move to a testing framework that can be embeded into our repository. The team prefers to write browser tests in one unified repository and our existing staging tests are very flaky due to Help Center account creation failing regularly. For that reason, we have also decided that our new browser tests will have limited dependency on external Zendesk services. The tests will depend on a shared Zendesk account but not interact with it to large extent. In addition, putting these tests into our codebase mean that they run before merging which is beneficial as the master branch should no longer have commits merged that cause tests to fail.
 
 As such, two Web Widget Engineers (Apoorv Kansal and Adrian Yong) investigated two popular browser testing frameworks. The libraries have been critically evaluated below.
 
- ## Potential Solutions
+## Potential Solutions
 
- ### [Cypress](https://www.cypress.io/)
+### Cypress
 Cypress is a complete all-in-one end to end Javascript testing tool that includes a proper testing framework, assertion library, mocking capabilities and more. 
 It allows developers to easily write and run tests locally and on our CI providers. Some key differences Cypress has:
 - Does not use Selenium.
@@ -45,9 +45,6 @@ Cypress code a chain of commands where each command returns a Promise-like insta
 
 #### Considerations for the Web Widget
 
-##### Web Sockets
-Given that we cannot programmatically control Chat or Talk settings, we will need to mock out web socket payloads at the transport layer. Unfortunately, Cypress does not come with web socket mocking out of the box. However, we can easily monkey-patch the `window.WebSocket` class with an adaptor class. This adaptor class will return the original `window.WebSocket` class if the connection is not to a zopim endpoint. In the other case, it will return a wrapped object that has access to the socket listeners. This adaptor class can live inside our cypress code and allow for easy access to the chat web sdk socket listeners where we can send mocked payloads. 
-
 ##### HTTP Requests
 Given that we do not want to constantly change account settings to produce different web widget configurations, we should mock the `embeddable/config` endpoint to return different enabled products, widget colours or anything else. Cypress comes with [http mocking](https://docs.cypress.io/guides/guides/network-requests.html#Testing-Strategies) out of the box.
 
@@ -56,7 +53,7 @@ Given that we do not want to constantly change account settings to produce diffe
 We need to test complex API usecases and this includes using the `zE(() => {})` and `$zopim(() => {})` embedded onto a html page. Since having a separate html page for each test is unmaintable and not scalable, we should inject Javascript code onto the rendered html before the page loads. Cypress has a `onBeforeLoad` [handler](https://docs.cypress.io/api/commands/visit.html#Arguments) and here, we can inject the callbacks.
 
 ##### Running APIs during runtime
-Cypress provides [access](https://docs.cypress.io/api/commands/window.html#No-Args) to the window object during test execution, and hence, we can call apis during runtime. 
+Cypress provides [access](https://docs.cypress.io/api/commands/window.html#No-Args) to the window object during test execution, and hence, we can call APIs during runtime. 
 
 #### General Considerations
 ##### Advantages
@@ -74,7 +71,7 @@ Easy integration on Travis, Jenkins and local environment (requires slightly mor
 - Cypress is like jQuery. Queried elements always return a jQuery object and hence, it allows to easily select items with a common and popular interface.
 - Cypress is super simple and easy to read. Even a non-programmer can understand what is happening in the code below:
 
-```
+```js
 it('send api chat message', () => {
   cy.visit(`${Cypress.env('hostPage')}/live.html`);
 
@@ -152,8 +149,6 @@ Puppeteer runs commands using the evaluate method https://pptr.dev/#?product=Pup
 
 e.g. `page.evaluate('ze.Hide()')`
 
-#### Web Sockets
---- to be determined
 #### Run end-to-end tests on Travis as part of CI build
 
 We managed to use Puppeteer to run the dev server in Travis and run the end-to-end
@@ -202,6 +197,20 @@ e.g. `page.on('console', msg => {console.log(msg)});`
 https://www.youtube.com/watch?v=MbnATLCuKI4
 * Puppeteer Github repo https://github.com/GoogleChrome/puppeteer/
 * Puppeteer API docs https://pptr.dev
+
+
+## Further Investigation
+
+### Say no to Mocking
+We have exhaustively considered all parts of the widget that could be mocked (redux store, chat web sdk, chat web socket payloads etc.) and have come to the same conclusion: it will not scale. Mocking itself introduces more maintainability issues and outweighs the benefits of reducing our dependency on external services.
+
+If we do not mock parts of the widget, we will need to build up state by logging into Zendesk accounts and change the agent status through the UI. This is far from ideal but given the simplicity of changing agent statuses and far less boilerplate code in Puppeteer or Cypress compared to our existing browser tests, we think this is the simplest and most maintainable solution. We will create and maintain multiple shared Zendesk accounts that have different configurations enabled for different tests (eg. one account has chat badge enabled or another account has multiple talk routes). Our biggest pain point was account creation and this solution avoids account service creation completely. We want to stress that we should technically test the communication between the widget and various immediate service interfaces (eg. chat backend websocket endpoint, help center search endpoint, talk backend websocket endpoint, contact form submission endpoint) because if they fail, we fail and should not deploy at all. Hence, it makes sense to not mock out services like Talk and Chat. In the case of account service creation, the widget does not depend on account creation and hence, we do not need to test that dependency.
+
+### Recommendation
+After much investigation with Cypress, it's best to choose Puppeteer and use shared Zendesk accounts rather than mocking any software elements of the widget.
+
+Cypress is very restrictive for our complex usecase. For example, Cypress does not allow multiple tabs or disabling same origin policy to open iframes. Furthermore, we cannot access two different domains under the same test. These constraints mean that Cypress cannot accomodate the proposed solution as we cannot login into a Zendesk account and modify the agent status for either Talk or Chat. On the other hand, Puppeteer supports multiple tabs.
+
 
 
  ## Decision
