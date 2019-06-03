@@ -1188,7 +1188,7 @@ parts:
       key: "embeddable_framework.answerBot.msg.channel_choice.get_in_touch"
       title: "Title shown when user wants to get in touch through other channel choice options."
       screenshot: "https://drive.google.com/file/d/1yGexH94XYOvOK2l_Y78reM4FtQ5E1JJV/view?usp=sharing"
-      value: "How would you like to get in touch?"
+      value: "How do you want to get in touch?"
 
   # Mobile
   - translation:
