@@ -1,100 +1,243 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`desktop renders the expected classes 1`] = `
+exports[`desktop when showGetInTouch is false renders the expected classes 1`] = `
 <div>
-  <div
-    class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
-    data-garden-id="textfields.text_group"
-    data-garden-version="3.7.0"
-  >
-    <label
-      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-      data-garden-id="textfields.label"
+  <div>
+    <div
+      class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+      data-garden-id="textfields.text_group"
       data-garden-version="3.7.0"
-      for="garden-text-field-0--input"
-      id="garden-text-field-0--label"
     >
-      Type your question here...
-    </label>
-    <textarea
-      aria-invalid="false"
-      aria-labelledby="garden-text-field-0--label"
-      class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
-      data-garden-id="textfields.textarea"
-      data-garden-version="3.7.0"
-      id="garden-text-field-0--input"
-      name="answerBotInputValue"
-      placeholder="Type your question here..."
-      rows="3"
-    >
-      desktop message
-    </textarea>
+      <label
+        class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+        data-garden-id="textfields.label"
+        data-garden-version="3.7.0"
+        for="garden-text-field-0--input"
+        id="garden-text-field-0--label"
+      >
+        Type your question here...
+      </label>
+      <textarea
+        aria-invalid="false"
+        aria-labelledby="garden-text-field-0--label"
+        class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+        data-garden-id="textfields.textarea"
+        data-garden-version="3.7.0"
+        id="garden-text-field-0--input"
+        name="answerBotInputValue"
+        placeholder="Type your question here..."
+        rows="3"
+      >
+        desktop message
+      </textarea>
+    </div>
   </div>
 </div>
 `;
 
-exports[`mobile renders the expected classes 1`] = `
+exports[`desktop when showGetInTouch is true renders the expected classes 1`] = `
 <div>
-  <div
-    class="containerMobile"
-  >
+  <div>
     <div
-      class="inputContainerMobile"
+      class="slideAppear"
+      style="opacity: 0; bottom: -10px;"
     >
       <div
-        class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
-        data-garden-id="textfields.text_group"
-        data-garden-version="3.7.0"
+        class="quickReplyContainer"
       >
-        <label
-          class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-          data-garden-id="textfields.label"
-          data-garden-version="3.7.0"
-          for="garden-text-field-4--input"
-          id="garden-text-field-4--label"
+        <button
+          class="
+      button
+      getInTouch
+    "
         >
-          Type your question here...
-        </label>
-        <textarea
-          aria-invalid="false"
-          aria-labelledby="garden-text-field-4--label"
-          class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
-          data-garden-id="textfields.textarea"
-          data-garden-version="3.7.0"
-          id="garden-text-field-4--input"
-          name="answerBotInputValue"
-          placeholder="Type your question here..."
-          rows="1"
-        >
-          mobile message
-        </textarea>
+          Get in touch
+        </button>
       </div>
     </div>
     <div
-      class="wrapper"
+      class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+      data-garden-id="textfields.text_group"
+      data-garden-version="3.7.0"
     >
-      <button
-        class="button button"
-        title="Send"
-        type="button"
+      <label
+        class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+        data-garden-id="textfields.label"
+        data-garden-version="3.7.0"
+        for="garden-text-field-4--input"
+        id="garden-text-field-4--label"
       >
-        <span
-          class="container iconSendAnswerBotMobile Icon--sendChat"
-          data-testid="Icon--sendChat"
-          type="Icon--sendChat"
+        Type your question here...
+      </label>
+      <textarea
+        aria-invalid="false"
+        aria-labelledby="garden-text-field-4--label"
+        class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+        data-garden-id="textfields.textarea"
+        data-garden-version="3.7.0"
+        id="garden-text-field-4--input"
+        name="answerBotInputValue"
+        placeholder="Type your question here..."
+        rows="3"
+      >
+        desktop message
+      </textarea>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`mobile when showGetInTouch is false renders the expected classes 1`] = `
+<div>
+  <div>
+    <div
+      class="containerMobile"
+    >
+      <div
+        class="inputContainerMobile"
+      >
+        <div
+          class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+          data-garden-id="textfields.text_group"
+          data-garden-version="3.7.0"
         >
-          test-file-stub
-        </span>
-        <span
-          class="altText"
+          <label
+            class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+            data-garden-id="textfields.label"
+            data-garden-version="3.7.0"
+            for="garden-text-field-6--input"
+            id="garden-text-field-6--label"
+          >
+            Type your question here...
+          </label>
+          <textarea
+            aria-invalid="false"
+            aria-labelledby="garden-text-field-6--label"
+            class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+            data-garden-id="textfields.textarea"
+            data-garden-version="3.7.0"
+            id="garden-text-field-6--input"
+            name="answerBotInputValue"
+            placeholder="Type your question here..."
+            rows="1"
+          >
+            mobile message
+          </textarea>
+        </div>
+      </div>
+      <div
+        class="wrapper"
+      >
+        <button
+          class="button button"
+          title="Send"
+          type="button"
+        >
+          <span
+            class="container iconSendAnswerBotMobile Icon--sendChat"
+            data-testid="Icon--sendChat"
+            type="Icon--sendChat"
+          >
+            test-file-stub
+          </span>
+          <span
+            class="altText"
+          >
+            Send
+          </span>
+        </button>
+        <div
+          class="tooltip"
         >
           Send
-        </span>
-      </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`mobile when showGetInTouch is true renders the expected classes 1`] = `
+<div>
+  <div>
+    <div
+      class="slideAppear slideAppearMobile"
+      style="opacity: 0; bottom: -10px;"
+    >
       <div
-        class="tooltip"
+        class="quickReplyContainer"
       >
-        Send
+        <button
+          class="
+      button
+      getInTouch
+    "
+        >
+          Get in touch
+        </button>
+      </div>
+    </div>
+    <div
+      class="containerMobile"
+    >
+      <div
+        class="inputContainerMobile"
+      >
+        <div
+          class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+          data-garden-id="textfields.text_group"
+          data-garden-version="3.7.0"
+        >
+          <label
+            class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+            data-garden-id="textfields.label"
+            data-garden-version="3.7.0"
+            for="garden-text-field-10--input"
+            id="garden-text-field-10--label"
+          >
+            Type your question here...
+          </label>
+          <textarea
+            aria-invalid="false"
+            aria-labelledby="garden-text-field-10--label"
+            class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+            data-garden-id="textfields.textarea"
+            data-garden-version="3.7.0"
+            id="garden-text-field-10--input"
+            name="answerBotInputValue"
+            placeholder="Type your question here..."
+            rows="1"
+          >
+            mobile message
+          </textarea>
+        </div>
+      </div>
+      <div
+        class="wrapper"
+      >
+        <button
+          class="button button"
+          title="Send"
+          type="button"
+        >
+          <span
+            class="container iconSendAnswerBotMobile Icon--sendChat"
+            data-testid="Icon--sendChat"
+            type="Icon--sendChat"
+          >
+            test-file-stub
+          </span>
+          <span
+            class="altText"
+          >
+            Send
+          </span>
+        </button>
+        <div
+          class="tooltip"
+        >
+          Send
+        </div>
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as actions from '../bot';
+import * as selectors from 'src/redux/modules/selectors/selectors';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -8,17 +9,17 @@ beforeEach(() => {
   jest.spyOn(Date, 'now').mockReturnValue(1531267200000);
 });
 
-describe('botMessage', () => {
-  const createStore = () => {
-    const state = {
-      answerBot: {
-        currentSessionID: 1234
-      }
-    };
-
-    return mockStore(state);
+const createStore = () => {
+  const state = {
+    answerBot: {
+      currentSessionID: 1234,
+    },
   };
 
+  return mockStore(state);
+};
+
+describe('botMessage', () => {
   it('dispatches expected actions', () => {
     const store = createStore();
 
@@ -37,18 +38,6 @@ describe('botChannelChoice', () => {
 
   it('defaults to false fallback', () => {
     expect(actions.botChannelChoice('world'))
-      .toMatchSnapshot();
-  });
-});
-
-describe('botFeedbackChannelChoice', () => {
-  it('dispatches expected payload', () => {
-    expect(actions.botFeedbackChannelChoice('hello', true))
-      .toMatchSnapshot();
-  });
-
-  it('defaults to false fallback', () => {
-    expect(actions.botFeedbackChannelChoice('world'))
       .toMatchSnapshot();
   });
 });
@@ -96,5 +85,32 @@ describe('botFeedbackMessage', () => {
   it('dispatches expected payload', () => {
     expect(actions.botFeedbackMessage('hello'))
       .toMatchSnapshot();
+  });
+});
+
+describe('botFallbackMessage', () => {
+  [true, false].forEach((channelAvailable) => {
+    describe(`when channelAvailable is ${channelAvailable}`, () => {
+      it('dispatches the appropriate actions', () => {
+        const store = createStore();
+
+        jest.spyOn(selectors, 'getChannelAvailable').mockReturnValue(channelAvailable);
+        store.dispatch(actions.botFallbackMessage());
+
+        expect(store.getActions()).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('when feedbackRelated is true', () => {
+    it('adds `feedbackRelated: true` to the botMessage payload', () => {
+      const store = createStore();
+
+      jest.spyOn(selectors, 'getChannelAvailable').mockReturnValue(false);
+      store.dispatch(actions.botFallbackMessage(true));
+      const payload = store.getActions()[0].payload;
+
+      expect(payload.feedbackRelated).toEqual(true);
+    });
   });
 });

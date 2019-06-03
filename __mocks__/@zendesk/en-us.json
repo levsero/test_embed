@@ -275,7 +275,9 @@
       "embeddable_framework.talk.notify.error.phone_number_already_in_queue": "You've already submitted a request. We'll get back to you soon.",
       "embeddable_framework.talk.notify.error.invalid_phone_number": "Please enter a valid phone number.",
       "embeddable_framework.talk.offline.label": "Sorry, all agents are currently offline. Try again later.",
-      "embeddable_framework.talk.offline.link.help_center": "Go back to Help Center"
+      "embeddable_framework.talk.offline.link.help_center": "Go back to Help Center",
+      "embeddable_framework.answerBot.msg.channel_choice.get_in_touch": "How would you like to get in touch?",
+      "embeddable_framework.answerBot.button.get_in_touch": "Get in touch"
     }
   }
 }

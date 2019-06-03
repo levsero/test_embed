@@ -11,42 +11,34 @@ import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/';
 import {
   botFeedbackMessage,
   botUserMessage,
-  botFeedbackChannelChoice
+  botFallbackMessage
 } from 'src/redux/modules/answerBot/root/actions/bot';
-import { getChannelAvailable } from 'src/redux/modules/selectors';
 import { sessionFallback } from 'src/redux/modules/answerBot/sessions/actions/';
+import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions';
 
 import { locals as styles } from './style.scss';
 
 export class SecondaryFeedback extends Component {
   static propTypes = {
-    channelAvailable: PropTypes.bool,
     actions: PropTypes.shape({
       articleDismissed: PropTypes.func.isRequired,
       botUserMessage: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
+      botFallbackMessage: PropTypes.func.isRequired,
       sessionFallback: PropTypes.func.isRequred,
-      botFeedbackChannelChoice: PropTypes.func.isRequred
+      getInTouchShown: PropTypes.func.isRequred
     })
   };
 
   handleReason = (reasonID, message) => {
-    const messageKey = this.props.channelAvailable
-      ? 'embeddable_framework.answerBot.msg.prompt_again'
-      : 'embeddable_framework.answerBot.msg.prompt_again_no_channels_available';
+    const { actions } = this.props;
 
     return () => {
-      this.props.actions.botUserMessage(message);
-      this.props.actions.articleDismissed(reasonID);
-      this.props.actions.sessionFallback();
-      this.props.actions.botFeedbackMessage(i18n.t('embeddable_framework.answerBot.msg.no_acknowledgement'));
-      this.props.actions.botFeedbackChannelChoice(
-        i18n.t('embeddable_framework.answerBot.msg.channel_choice.title'),
-        true
-      );
-      this.props.actions.botFeedbackMessage(
-        i18n.t(messageKey),
-      );
+      actions.botUserMessage(message);
+      actions.articleDismissed(reasonID);
+      actions.sessionFallback();
+      actions.botFeedbackMessage(i18n.t('embeddable_framework.answerBot.msg.no_acknowledgement'));
+      actions.botFallbackMessage(true);
     };
   }
 
@@ -76,21 +68,18 @@ export class SecondaryFeedback extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  channelAvailable: getChannelAvailable(state)
-});
-
 const actionCreators = (dispatch) => ({
   actions: bindActionCreators({
     articleDismissed,
     botUserMessage,
     botFeedbackMessage,
+    botFallbackMessage,
     sessionFallback,
-    botFeedbackChannelChoice
+    getInTouchShown,
   }, dispatch)
 });
 
-const connectedComponent = connect(mapStateToProps, actionCreators, null, { withRef: true })(SecondaryFeedback);
+const connectedComponent = connect(null, actionCreators, null, { withRef: true })(SecondaryFeedback);
 
 export {
   connectedComponent as default,

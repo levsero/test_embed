@@ -14,13 +14,12 @@ import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/';
 import {
   botMessage,
   botFeedbackMessage,
-  botFeedbackChannelChoice,
-  botFeedbackRequested
+  botFeedbackRequested,
+  botFallbackMessage
 } from 'src/redux/modules/answerBot/root/actions/bot';
 
 import * as rootActions from 'src/redux/modules/answerBot/root/actions/';
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors';
-import * as channelSelectors from 'src/redux/modules/selectors';
 
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot';
 
@@ -35,16 +34,15 @@ class ArticleScreen extends Component {
     article: PropTypes.object.isRequired,
     isFeedbackRequired: PropTypes.bool.isRequired,
     saveConversationScroll: PropTypes.func,
-    channelAvailable: PropTypes.bool,
     actions: PropTypes.shape({
       screenChanged: PropTypes.func.isRequired,
       articleDismissed: PropTypes.func.isRequired,
       sessionResolved: PropTypes.func.isRequired,
       sessionFallback: PropTypes.func.isRequired,
       botMessage: PropTypes.func.isRequired,
-      botFeedbackChannelChoice: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
-      botFeedbackRequested: PropTypes.func.isRequired
+      botFeedbackRequested: PropTypes.func.isRequired,
+      botFallbackMessage: PropTypes.func.isRequired
     })
   };
 
@@ -53,7 +51,6 @@ class ArticleScreen extends Component {
     isMobile: false,
     scrollContainerClasses: '',
     saveConversationScroll: () => {},
-    channelAvailable: true
   };
 
   constructor(props) {
@@ -101,10 +98,7 @@ class ArticleScreen extends Component {
   }
 
   onNoFeedback = (reasonID) => {
-    const { actions, saveConversationScroll, channelAvailable } = this.props;
-    const messageKey = channelAvailable
-      ? 'embeddable_framework.answerBot.msg.prompt_again'
-      : 'embeddable_framework.answerBot.msg.prompt_again_no_channels_available';
+    const { actions, saveConversationScroll } = this.props;
 
     actions.articleDismissed(reasonID);
     actions.sessionFallback();
@@ -113,10 +107,7 @@ class ArticleScreen extends Component {
     actions.botFeedbackRequested();
 
     actions.botFeedbackMessage(i18n.t('embeddable_framework.answerBot.msg.no_acknowledgement'));
-    actions.botFeedbackChannelChoice(i18n.t('embeddable_framework.answerBot.msg.channel_choice.title'), true);
-    actions.botFeedbackMessage(
-      i18n.t(messageKey),
-    );
+    actions.botFallbackMessage(true);
 
     // Scroll to bottom when user switches back to conversation screen
     saveConversationScroll({ scrollToBottom: true });
@@ -177,8 +168,7 @@ class ArticleScreen extends Component {
 
 const mapStateToProps = (state) => ({
   article: rootSelectors.getCurrentArticle(state),
-  isFeedbackRequired: rootSelectors.isFeedbackRequired(state),
-  channelAvailable: channelSelectors.getChannelAvailable(state)
+  isFeedbackRequired: rootSelectors.isFeedbackRequired(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -189,8 +179,8 @@ const mapDispatchToProps = (dispatch) => ({
     sessionFallback: sessionActions.sessionFallback,
     botMessage,
     botFeedbackMessage,
-    botFeedbackChannelChoice,
-    botFeedbackRequested
+    botFeedbackRequested,
+    botFallbackMessage
   }, dispatch)
 });
 

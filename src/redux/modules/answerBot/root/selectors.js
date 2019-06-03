@@ -8,7 +8,11 @@ import {
   getResultsCount,
   getArticles
 } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getLastMessageType } from 'src/redux/modules/answerBot/conversation/selectors';
+import {
+  getLastMessageType,
+  getGetInTouchVisible
+} from 'src/redux/modules/answerBot/conversation/selectors';
+import { getChannelAvailable } from 'src/redux/modules/selectors';
 
 const getState = state => state.answerBot;
 
@@ -152,4 +156,9 @@ export const getContextualSearchStatus = createSelector(
     if (!searchLoading && resultsCount === 0) return 'NO_RESULTS';
     return null;
   }
+);
+
+export const getContactButtonVisible = createSelector(
+  [getGetInTouchVisible, getChannelAvailable],
+  (getInTouchVisible, channelAvailable) => channelAvailable && getInTouchVisible
 );

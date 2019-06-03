@@ -9,7 +9,7 @@ import * as sessionSelectors from 'src/redux/modules/answerBot/sessions/selector
 import * as rootActions from 'src/redux/modules/answerBot/root/actions';
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors';
 import * as botActions from 'src/redux/modules/answerBot/root/actions/bot';
-import * as channelSelectors from 'src/redux/modules/selectors';
+import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions';
 import { getBrand } from 'src/redux/modules/base/base-selectors';
 import { getResultsCount } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getAnswerBotDelayChannelChoice } from 'src/redux/modules/settings/settings-selectors';
@@ -35,7 +35,6 @@ class AnswerBotContainer extends Component {
     initialFallbackSuggested: PropTypes.bool.isRequired, // eslint-disable-line
     restoreConversationScroll: PropTypes.func,
     saveConversationScroll: PropTypes.func,
-    channelAvailable: PropTypes.bool,
     isFeedbackRequired: PropTypes.bool.isRequired, // eslint-disable-line
     sessions: PropTypes.any.isRequired, // eslint-disable-line
     delayInitialFallback: PropTypes.bool.isRequired, // eslint-disable-line
@@ -46,7 +45,7 @@ class AnswerBotContainer extends Component {
       sessionStarted: PropTypes.func.isRequired,
       sessionFallback: PropTypes.func.isRequired,
       botMessage: PropTypes.func.isRequired,
-      botChannelChoice: PropTypes.func.isRequired,
+      getInTouchShown: PropTypes.func.isRequired,
       botGreeted: PropTypes.func.isRequired,
       botInitialFallback: PropTypes.func.isRequired,
       botFeedback: PropTypes.func.isRequired,
@@ -54,7 +53,8 @@ class AnswerBotContainer extends Component {
       botFeedbackMessage: PropTypes.func.isRequired,
       botTyping: PropTypes.func.isRequired,
       botContextualSearchResults: PropTypes.func.isRequired,
-      contextualSearchFinished: PropTypes.func.isRequired
+      contextualSearchFinished: PropTypes.func.isRequired,
+      botFallbackMessage: PropTypes.func.isRequired
     })
   };
 
@@ -63,7 +63,6 @@ class AnswerBotContainer extends Component {
     currentRequestStatus: null,
     restoreConversationScroll: () => {},
     saveConversationScroll: () => {},
-    channelAvailable: true,
     contextualSearchFinished: false,
     contextualSearchStatus: null,
     contextualSearchResultsCount: 0
@@ -318,7 +317,7 @@ class AnswerBotContainer extends Component {
 
   startInitialFallbackTimer = () => {
     this.initialFallbackTimer = window.setTimeout(() => {
-      this.props.actions.botChannelChoice(i18n.t('embeddable_framework.answerBot.msg.initial_fallback'));
+      this.props.actions.getInTouchShown();
       this.props.actions.botInitialFallback();
     }, INITIAL_FALLBACK_DELAY);
   }
@@ -329,16 +328,9 @@ class AnswerBotContainer extends Component {
     }, FALLBACK_DELAY);
   }
 
-  runSessionFallback = (message, fallback = false) => {
-    const messageKey = this.props.channelAvailable
-      ? 'embeddable_framework.answerBot.msg.prompt_again'
-      : 'embeddable_framework.answerBot.msg.prompt_again_no_channels_available';
-
+  runSessionFallback = () => {
     this.props.actions.sessionFallback();
-    this.props.actions.botChannelChoice(message, fallback);
-    this.props.actions.botMessage(
-      i18n.t(messageKey),
-    );
+    this.props.actions.botFallbackMessage(false);
   }
 
   stopTimers = (shouldStopTimer) => {
@@ -373,7 +365,6 @@ const mapStateToProps = (state) => ({
   isInitialSession: sessionSelectors.isInitialSession(state),
   greeted: rootSelectors.getGreeted(state),
   initialFallbackSuggested: rootSelectors.getInitialFallbackSuggested(state),
-  channelAvailable: channelSelectors.getChannelAvailable(state),
   isFeedbackRequired: rootSelectors.isFeedbackRequired(state),
   sessions: sessionSelectors.getSessions(state),
   brand: getBrand(state),
@@ -388,7 +379,6 @@ const actionCreators = (dispatch) => ({
     sessionStarted: sessionActions.sessionStarted,
     sessionFallback: sessionActions.sessionFallback,
     botMessage: botActions.botMessage,
-    botChannelChoice: botActions.botChannelChoice,
     botGreeted: botActions.botGreeted,
     botFeedback: botActions.botFeedback,
     botFeedbackRequested: botActions.botFeedbackRequested,
@@ -396,7 +386,9 @@ const actionCreators = (dispatch) => ({
     botInitialFallback: botActions.botInitialFallback,
     botTyping: botActions.botTyping,
     botContextualSearchResults: botActions.botContextualSearchResults,
-    contextualSearchFinished: rootActions.contextualSearchFinished
+    contextualSearchFinished: rootActions.contextualSearchFinished,
+    botFallbackMessage: botActions.botFallbackMessage,
+    getInTouchShown
   }, dispatch)
 });
 

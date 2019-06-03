@@ -122,31 +122,33 @@ exports[`conversation screen renders expected components and styles in desktop 1
       <footer
         class="footer footerWithLogo "
       >
-        <div
-          class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
-          data-garden-id="textfields.text_group"
-          data-garden-version="3.7.0"
-        >
-          <label
-            class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-            data-garden-id="textfields.label"
+        <div>
+          <div
+            class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+            data-garden-id="textfields.text_group"
             data-garden-version="3.7.0"
-            for="garden-text-field-0--input"
-            id="garden-text-field-0--label"
           >
-            Type your question here...
-          </label>
-          <textarea
-            aria-invalid="false"
-            aria-labelledby="garden-text-field-0--label"
-            class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
-            data-garden-id="textfields.textarea"
-            data-garden-version="3.7.0"
-            id="garden-text-field-0--input"
-            name="answerBotInputValue"
-            placeholder="Type your question here..."
-            rows="3"
-          />
+            <label
+              class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+              data-garden-id="textfields.label"
+              data-garden-version="3.7.0"
+              for="garden-text-field-0--input"
+              id="garden-text-field-0--label"
+            >
+              Type your question here...
+            </label>
+            <textarea
+              aria-invalid="false"
+              aria-labelledby="garden-text-field-0--label"
+              class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+              data-garden-id="textfields.textarea"
+              data-garden-version="3.7.0"
+              id="garden-text-field-0--input"
+              name="answerBotInputValue"
+              placeholder="Type your question here..."
+              rows="3"
+            />
+          </div>
         </div>
       </footer>
     </div>
@@ -206,64 +208,66 @@ exports[`conversation screen renders expected components and styles in mobile 1`
       <footer
         class="footer footerMobile footerMobileWithLogo "
       >
-        <div
-          class="containerMobile"
-        >
+        <div>
           <div
-            class="inputContainerMobile"
+            class="containerMobile"
           >
             <div
-              class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
-              data-garden-id="textfields.text_group"
-              data-garden-version="3.7.0"
+              class="inputContainerMobile"
             >
-              <label
-                class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-                data-garden-id="textfields.label"
+              <div
+                class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+                data-garden-id="textfields.text_group"
                 data-garden-version="3.7.0"
-                for="garden-text-field-2--input"
-                id="garden-text-field-2--label"
               >
-                Type your question here...
-              </label>
-              <textarea
-                aria-invalid="false"
-                aria-labelledby="garden-text-field-2--label"
-                class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
-                data-garden-id="textfields.textarea"
-                data-garden-version="3.7.0"
-                id="garden-text-field-2--input"
-                name="answerBotInputValue"
-                placeholder="Type your question here..."
-                rows="1"
-              />
+                <label
+                  class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+                  data-garden-id="textfields.label"
+                  data-garden-version="3.7.0"
+                  for="garden-text-field-2--input"
+                  id="garden-text-field-2--label"
+                >
+                  Type your question here...
+                </label>
+                <textarea
+                  aria-invalid="false"
+                  aria-labelledby="garden-text-field-2--label"
+                  class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+                  data-garden-id="textfields.textarea"
+                  data-garden-version="3.7.0"
+                  id="garden-text-field-2--input"
+                  name="answerBotInputValue"
+                  placeholder="Type your question here..."
+                  rows="1"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            class="wrapper"
-          >
-            <button
-              class="button button"
-              title="Send"
-              type="button"
+            <div
+              class="wrapper"
             >
-              <span
-                class="container iconSendAnswerBotMobile Icon--sendChat"
-                data-testid="Icon--sendChat"
-                type="Icon--sendChat"
+              <button
+                class="button button"
+                title="Send"
+                type="button"
               >
-                test-file-stub
-              </span>
-              <span
-                class="altText"
+                <span
+                  class="container iconSendAnswerBotMobile Icon--sendChat"
+                  data-testid="Icon--sendChat"
+                  type="Icon--sendChat"
+                >
+                  test-file-stub
+                </span>
+                <span
+                  class="altText"
+                >
+                  Send
+                </span>
+              </button>
+              <div
+                class="tooltip"
               >
                 Send
-              </span>
-            </button>
-            <div
-              class="tooltip"
-            >
-              Send
+              </div>
             </div>
           </div>
         </div>
