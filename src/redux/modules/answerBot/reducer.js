@@ -9,7 +9,7 @@ import currentArticle from './root/reducer/current-article';
 import currentContextualArticle from './root/reducer/current-contextual-article';
 import currentScreen from './root/reducer/current-screen';
 import greeted from './root/reducer/greeted';
-import contextualSearchShown from './root/reducer/contextual-search-shown';
+import contextualSearchFinished from './root/reducer/contextual-search-finished';
 import initialFallbackSuggested from './root/reducer/initial-fallback-suggested';
 import inputDisabled from './root/reducer/input-disabled';
 
@@ -24,6 +24,6 @@ export default combineReducers({
   greeted,
   initialFallbackSuggested,
   inputDisabled,
-  contextualSearchShown,
+  contextualSearchFinished,
   currentContextualArticle
 });
