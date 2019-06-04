@@ -39,7 +39,7 @@ class AnswerBotContainer extends Component {
     isFeedbackRequired: PropTypes.bool.isRequired, // eslint-disable-line
     sessions: PropTypes.any.isRequired, // eslint-disable-line
     delayInitialFallback: PropTypes.bool.isRequired, // eslint-disable-line
-    contextualSearchShown: PropTypes.bool, // eslint-disable-line
+    contextualSearchFinished: PropTypes.bool, // eslint-disable-line
     contextualSearchStatus: PropTypes.string, // eslint-disable-line
     contextualSearchResultsCount: PropTypes.number, // eslint-disable-line
     actions: PropTypes.shape({
@@ -54,7 +54,8 @@ class AnswerBotContainer extends Component {
       botFeedbackRequested: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
       botTyping: PropTypes.func.isRequired,
-      botContextualSearchResults: PropTypes.func.isRequired
+      botContextualSearchResults: PropTypes.func.isRequired,
+      contextualSearchFinished: PropTypes.func.isRequired
     })
   };
 
@@ -64,7 +65,7 @@ class AnswerBotContainer extends Component {
     restoreConversationScroll: () => {},
     saveConversationScroll: () => {},
     channelAvailable: true,
-    contextualSearchShown: false,
+    contextualSearchFinished: false,
     contextualSearchStatus: null,
     contextualSearchResultsCount: 0
   };
@@ -260,7 +261,7 @@ class AnswerBotContainer extends Component {
   }
 
   checkContextualSearch = ({ props }) => {
-    if (props.contextualSearchShown) return true;
+    if (props.contextualSearchFinished) return true;
     if (props.initialFallbackSuggested) return true;
 
     switch (props.contextualSearchStatus) {
@@ -274,14 +275,14 @@ class AnswerBotContainer extends Component {
             : i18n.t('embeddable_framework.answerBot.contextualResults.intro.one_article')
         );
         props.actions.botContextualSearchResults();
+        props.actions.contextualSearchFinished();
         break;
       case 'NO_RESULTS':
-        if (!props.initialFallbackSuggested) {
-          props.actions.botMessage(
-            i18n.t('embeddable_framework.answerBot.msg.prompt'),
-            () => props.actions.inputDisabled(false)
-          );
-        }
+        props.actions.botMessage(
+          i18n.t('embeddable_framework.answerBot.msg.prompt'),
+          () => props.actions.inputDisabled(false)
+        );
+        props.actions.contextualSearchFinished();
         break;
     }
 
@@ -382,7 +383,7 @@ const mapStateToProps = (state) => ({
   sessions: sessionSelectors.getSessions(state),
   brand: getBrand(state),
   delayInitialFallback: getAnswerBotDelayChannelChoice(state),
-  contextualSearchShown: rootSelectors.getContextualSearchShown(state),
+  contextualSearchFinished: rootSelectors.getContextualSearchFinished(state),
   contextualSearchStatus: rootSelectors.getContextualSearchStatus(state),
   contextualSearchResultsCount: getResultsCount(state)
 });
@@ -400,7 +401,8 @@ const actionCreators = (dispatch) => ({
     botInitialFallback: botActions.botInitialFallback,
     inputDisabled: rootActions.inputDisabled,
     botTyping: botActions.botTyping,
-    botContextualSearchResults: botActions.botContextualSearchResults
+    botContextualSearchResults: botActions.botContextualSearchResults,
+    contextualSearchFinished: rootActions.contextualSearchFinished
   }, dispatch)
 });
 

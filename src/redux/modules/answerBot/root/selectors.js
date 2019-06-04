@@ -138,9 +138,9 @@ export const getInitialFallbackSuggested = createSelector(
   state => !!state.initialFallbackSuggested
 );
 
-export const getContextualSearchShown = createSelector(
+export const getContextualSearchFinished = createSelector(
   getState,
-  state => !!state.contextualSearchShown
+  state => !!state.contextualSearchFinished
 );
 
 export const getContextualSearchStatus = createSelector(

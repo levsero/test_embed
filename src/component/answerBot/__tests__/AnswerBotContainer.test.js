@@ -20,7 +20,8 @@ const actions = Object.freeze({
   botFeedbackRequested: jest.fn(),
   botFeedbackMessage: jest.fn(),
   botTyping: jest.fn(),
-  botContextualSearchResults: jest.fn()
+  botContextualSearchResults: jest.fn(),
+  contextualSearchFinished: jest.fn()
 });
 
 const renderComponent = (props = {}, renderFn) => {
@@ -178,9 +179,9 @@ describe('contextual search', () => {
       .toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.", expect.any(Function));
   });
 
-  it('does not prompt again if fallback has triggered', () => {
+  it('does not prompt again if contextual search has finished', () => {
     renderComponent({
-      initialFallbackSuggested: true,
+      contextualSearchFinished: true,
       contextualSearchStatus: 'NO_RESULTS',
       currentSessionID: 1234,
       isInitialSession: true

@@ -10,5 +10,6 @@ export const BOT_CONTEXTUAL_SEARCH_RESULTS = 'widget/answerBot/BOT_CONTEXTUAL_SE
 export const SCREEN_CHANGED = 'widget/answerBot/SCREEN_CHANGED';
 export const ARTICLE_SHOWN = 'widget/answerBot/ARTICLE_SHOWN';
 export const CONTEXTUAL_ARTICLE_SHOWN = 'widget/answerBot/CONTEXTUAL_ARTICLE_SHOWN';
+export const CONTEXTUAL_SEARCH_FINISHED = 'widget/answerBot/CONTEXTUAL_SEARCH_FINISHED';
 
 export const INPUT_DISABLED = 'widget/answerBot/INPUT_DISABLED';

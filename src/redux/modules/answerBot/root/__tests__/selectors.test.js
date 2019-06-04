@@ -297,8 +297,8 @@ test('getInitialFallbackSuggested returns the initialFallbackSuggested state', (
     .toEqual(true);
 });
 
-test('getContextualSearchShown returns the contextualSearchShown state', () => {
-  const result = selectors.getContextualSearchShown(getMockState({ contextualSearchShown: true }));
+test('getContextualSearchShown returns the contextualSearchFinished state', () => {
+  const result = selectors.getContextualSearchFinished(getMockState({ contextualSearchFinished: true }));
 
   expect(result)
     .toEqual(true);

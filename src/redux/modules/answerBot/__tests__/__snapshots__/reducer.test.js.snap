@@ -2,7 +2,7 @@
 
 exports[`answerBot root reducer has the messages sub state 1`] = `
 Object {
-  "contextualSearchShown": false,
+  "contextualSearchFinished": false,
   "conversation": Object {
     "lastScreenClosed": 0,
     "lastScroll": 0,
