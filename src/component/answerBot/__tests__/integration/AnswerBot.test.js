@@ -14,6 +14,7 @@ import AnswerBot from '../../index';
 jest.mock('service/transport');
 
 jest.useFakeTimers();
+Date.now = jest.fn(() => 1559097574000);
 
 const successfulResponse = (options) => options.callbacks.done();
 const resolution = jest.fn(successfulResponse);
@@ -127,14 +128,19 @@ test('integration', () => {
   fireEvent.change(textArea, { target: { value: 'Help me' } });
   fireEvent.keyDown(textArea, { key: 'Enter', keyCode: 13 });
 
+  fireEvent.change(textArea, { target: { value: 'do something' } });
+  fireEvent.keyDown(textArea, { key: 'Enter', keyCode: 13 });
+
+  // question only submitted with an advance of 3000 ms
+  Date.now = jest.fn(() => 1559097577000);
   // Let the bot typing animation finish
-  jest.runAllTimers();
+  jest.advanceTimersByTime(1000);
 
   // Answer Bot API has been hit
   expect(interaction)
     .toHaveBeenCalledWith(expect.objectContaining({
       params: expect.objectContaining({
-        enquiry: 'Help me'
+        enquiry: 'Help me do something'
       })
     }));
 
@@ -210,9 +216,6 @@ test('integration', () => {
   expect(utils.queryByText('Hello.'))
     .toBeInTheDocument();
 
-  // Let animation kick in
-  jest.advanceTimersByTime(1000);
-
   // Displays a new message because question is still unresolved
   expect(utils.getByText('I see. Your question is still unresolved.'))
     .toBeInTheDocument();
@@ -223,9 +226,6 @@ test('integration', () => {
   // Sanity check that we're in the article screen
   expect(utils.getByText('first article'))
     .toBeInTheDocument();
-
-  // After 1 second...
-  jest.advanceTimersByTime(1000);
 
   // The feedback popup is not shown again, because user has already given feedback for this article
   expect(utils.queryByText('Does this article answer your question?'))
@@ -244,22 +244,12 @@ test('integration', () => {
   // Go back to conversation screen
   store.dispatch(screenChanged(CONVERSATION_SCREEN));
 
-  // Do not display in-conversation feedback immediately
-  expect(utils.queryByText('Did the article you viewed help to answer your question?'))
-    .not.toBeInTheDocument();
-
-  // After 1 second...
-  jest.advanceTimersByTime(1000);
-
   // The in-conversation feedback is displayed
   expect(utils.queryByText('Did the article you viewed help to answer your question?'))
     .toBeInTheDocument();
 
   // Click in-conversation feedback
   fireEvent.click(utils.getByText('No, I need help'));
-
-  // Let the animation fire
-  jest.advanceTimersByTime(1000);
 
   // Click in-conversation feedback reason
   fireEvent.click(utils.getByText("It's related, but it didn't answer my question"));
@@ -279,6 +269,10 @@ test('integration', () => {
   // The article content is displayed
   expect(utils.getByText('third article'))
     .toBeInTheDocument();
+
+  // The feedback is not yet displayed
+  expect(utils.queryByText('Yes'))
+    .not.toBeInTheDocument();
 
   // After 1 second...
   jest.advanceTimersByTime(1000);

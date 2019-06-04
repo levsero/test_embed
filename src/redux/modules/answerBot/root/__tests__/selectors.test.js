@@ -229,18 +229,6 @@ describe('getCurrentQuery', () => {
   });
 });
 
-describe('isInputDisabled', () => {
-  it('returns inputDisabled value', () => {
-    expect(selectors.isInputDisabled.resultFunc({
-      inputDisabled: true
-    })).toBe(true);
-
-    expect(selectors.isInputDisabled.resultFunc({
-      inputDisabled: false
-    })).toBe(false);
-  });
-});
-
 describe('isCurrentSessionResolved', () => {
   describe('active session', () => {
     describe('is resolved', () => {

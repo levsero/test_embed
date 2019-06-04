@@ -15,7 +15,6 @@ const actions = Object.freeze({
   botChannelChoice: jest.fn(),
   botGreeted: jest.fn(),
   botInitialFallback: jest.fn(),
-  inputDisabled: jest.fn(),
   botFeedback: jest.fn(),
   botFeedbackRequested: jest.fn(),
   botFeedbackMessage: jest.fn(),
@@ -100,7 +99,7 @@ describe('greeting', () => {
     expect(actions.botMessage)
       .toHaveBeenNthCalledWith(1, 'Hello.');
     expect(actions.botMessage)
-      .toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.", expect.any(Function));
+      .toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.");
   });
 
   it('does not greet if it is article screen', () => {
@@ -132,7 +131,7 @@ describe('greeting', () => {
     expect(actions.botMessage)
       .toHaveBeenNthCalledWith(1, 'Hello.');
     expect(actions.botMessage)
-      .not.toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.", expect.any(Function));
+      .toHaveBeenCalledTimes(1);
   });
 });
 
@@ -176,7 +175,7 @@ describe('contextual search', () => {
     renderComponent({ contextualSearchStatus: 'NO_RESULTS', currentSessionID: 1234, isInitialSession: true });
 
     expect(actions.botMessage)
-      .toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.", expect.any(Function));
+      .toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.");
   });
 
   it('does not prompt again if contextual search has finished', () => {
@@ -188,7 +187,7 @@ describe('contextual search', () => {
     });
 
     expect(actions.botMessage)
-      .not.toHaveBeenNthCalledWith(2, "Ask me a question and I'll find the answer for you.", expect.any(Function));
+      .toHaveBeenCalledTimes(1);
   });
 });
 
@@ -200,8 +199,6 @@ describe('in-conversation feedback', () => {
 
     expect(actions.botFeedbackRequested)
       .toHaveBeenCalled();
-    expect(actions.inputDisabled)
-      .toHaveBeenCalledWith(true);
     expect(actions.botFeedback)
       .toHaveBeenCalled();
     expect(actions.botFeedbackMessage)
@@ -254,7 +251,7 @@ describe('initial fallback', () => {
       });
       jest.runAllTimers();
       expect(actions.botChannelChoice)
-        .not.toHaveBeenCalledWith('Or you can get in touch.');
+        .not.toHaveBeenCalled();
       expect(actions.botInitialFallback)
         .not.toHaveBeenCalled();
     });
@@ -309,7 +306,7 @@ describe('session fallback', () => {
     expect(actions.botChannelChoice)
       .toHaveBeenCalledWith('Would you like to get in touch?', true);
     expect(actions.botMessage)
-      .toHaveBeenCalledWith('Or you can ask another question.', expect.any(Function));
+      .toHaveBeenCalledWith('Or you can ask another question.');
   });
 
   it('fires fallback suggestion if no articles are returned', () => {
@@ -326,7 +323,7 @@ describe('session fallback', () => {
     expect(actions.botChannelChoice)
       .toHaveBeenCalledWith('Would you like to get in touch?', true);
     expect(actions.botMessage)
-      .toHaveBeenCalledWith('Or you can ask another question.', expect.any(Function));
+      .toHaveBeenCalledWith('Or you can ask another question.');
   });
 
   describe('on request success', () => {
@@ -356,14 +353,14 @@ describe('session fallback', () => {
       expect(actions.botChannelChoice)
         .toHaveBeenCalledWith('You can also get in touch.', false);
       expect(actions.botMessage)
-        .toHaveBeenCalledWith('You can ask another question.', expect.any(Function));
+        .toHaveBeenCalledWith('You can ask another question.');
     });
 
     it('displays different message if channels are available', () => {
       renderInitial({ channelAvailable: true });
       jest.runAllTimers();
       expect(actions.botMessage)
-        .toHaveBeenCalledWith('Or you can ask another question.', expect.any(Function));
+        .toHaveBeenCalledWith('Or you can ask another question.');
     });
 
     it('does not run fallback if unmounted', () => {

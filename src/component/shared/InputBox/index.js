@@ -48,7 +48,6 @@ export class InputBox extends Component {
       {
         [styles.inputMobile]: this.props.isMobile,
         [styles.fieldMobile]: this.props.isMobile,
-        [styles.inputDisabled]: disabled
       }
     );
 

@@ -31,36 +31,6 @@ exports[`questionSubmitted callbacks dispatches expected actions on failed reque
 Array [
   Object {
     "payload": Object {
-      "sessionData": Object {
-        "articles": Array [],
-        "fallbackSuggested": false,
-        "requestStatus": null,
-        "resolved": false,
-      },
-      "sessionID": 123456789,
-    },
-    "type": "widget/answerBot/SESSION_STARTED",
-  },
-  Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
-  },
-  Object {
-    "payload": Object {
-      "message": "hello world",
-      "sessionID": 1234,
-      "timestamp": 123456789,
-    },
-    "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
-  },
-  Object {
-    "payload": Object {
-      "timestamp": 123456789,
-    },
-    "type": "widget/answerBot/BOT_TYPING",
-  },
-  Object {
-    "payload": Object {
       "error": "error",
       "sessionID": 1234,
     },
@@ -73,6 +43,20 @@ exports[`questionSubmitted callbacks dispatches expected actions on successful r
 Array [
   Object {
     "payload": Object {
+      "message": "hello world",
+      "sessionID": undefined,
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/QUESTION_VALUE_SUBMITTED",
+  },
+  Object {
+    "payload": Object {
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/BOT_TYPING",
+  },
+  Object {
+    "payload": Object {
       "sessionData": Object {
         "articles": Array [],
         "fallbackSuggested": false,
@@ -84,22 +68,12 @@ Array [
     "type": "widget/answerBot/SESSION_STARTED",
   },
   Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
-  },
-  Object {
     "payload": Object {
       "message": "hello world",
       "sessionID": 1234,
       "timestamp": 123456789,
     },
     "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
-  },
-  Object {
-    "payload": Object {
-      "timestamp": 123456789,
-    },
-    "type": "widget/answerBot/BOT_TYPING",
   },
   Object {
     "payload": Object {
@@ -125,8 +99,18 @@ Array [
 exports[`questionSubmitted dispatches the expected action without session starting 1`] = `
 Array [
   Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
+    "payload": Object {
+      "message": "hello world",
+      "sessionID": undefined,
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/QUESTION_VALUE_SUBMITTED",
+  },
+  Object {
+    "payload": Object {
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/BOT_TYPING",
   },
   Object {
     "payload": Object {
@@ -136,17 +120,25 @@ Array [
     },
     "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
   },
+]
+`;
+
+exports[`questionSubmitted dispatches the expected pending actions 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "message": "hello world",
+      "sessionID": undefined,
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/QUESTION_VALUE_SUBMITTED",
+  },
   Object {
     "payload": Object {
       "timestamp": 123456789,
     },
     "type": "widget/answerBot/BOT_TYPING",
   },
-]
-`;
-
-exports[`questionSubmitted dispatches the expected pending actions 1`] = `
-Array [
   Object {
     "payload": Object {
       "sessionData": Object {
@@ -160,22 +152,12 @@ Array [
     "type": "widget/answerBot/SESSION_STARTED",
   },
   Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
-  },
-  Object {
     "payload": Object {
       "message": "hello world",
       "sessionID": 1234,
       "timestamp": 123456789,
     },
     "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
-  },
-  Object {
-    "payload": Object {
-      "timestamp": 123456789,
-    },
-    "type": "widget/answerBot/BOT_TYPING",
   },
 ]
 `;

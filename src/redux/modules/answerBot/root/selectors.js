@@ -17,6 +17,11 @@ export const getCurrentSessionID = createSelector(
   state => state.currentSessionID
 );
 
+export const getQuestionValueChangedTime = createSelector(
+  [getState],
+  state => state.questionValueChangedTime
+);
+
 export const getCurrentRequestStatus = createSelector(
   [getCurrentSessionID, getSessions],
   (sessionID, sessions) => {
@@ -111,11 +116,6 @@ export const isFeedbackRequired = createSelector(
       && !currentSessionResolved
       && !(article && article.markedAsIrrelevant);
   }
-);
-
-export const isInputDisabled = createSelector(
-  [getState],
-  state => !!state.inputDisabled
 );
 
 export const getCurrentScreen = createSelector(

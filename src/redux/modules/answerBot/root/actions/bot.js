@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {
   BOT_MESSAGE,
   BOT_GREETED,
@@ -15,7 +13,7 @@ import {
   getCurrentSessionID
 } from 'src/redux/modules/answerBot/root/selectors';
 
-const generateBotMessage = (state, message, callback) => {
+const generateBotMessage = (state, message) => {
   const sessionID = getCurrentSessionID(state);
 
   return {
@@ -24,14 +22,13 @@ const generateBotMessage = (state, message, callback) => {
       message,
       sessionID,
       timestamp: Date.now(),
-      callback: _.isFunction(callback) ? _.once(callback) : null
     }
   };
 };
 
-export const botMessage = (message, callback) => {
+export const botMessage = (message) => {
   return (dispatch, getState) => {
-    dispatch(generateBotMessage(getState(), message, callback));
+    dispatch(generateBotMessage(getState(), message));
   };
 };
 
@@ -100,14 +97,13 @@ export const botUserMessage = (message) => {
   };
 };
 
-export const botFeedbackMessage = (message, callback) => {
+export const botFeedbackMessage = (message) => {
   return {
     type: BOT_MESSAGE,
     payload: {
       timestamp: Date.now(),
       feedbackRelated: true,
       message,
-      callback: _.isFunction(callback) ? _.once(callback) : null
     }
   };
 };

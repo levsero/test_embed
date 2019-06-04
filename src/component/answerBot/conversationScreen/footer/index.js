@@ -7,7 +7,6 @@ import { i18n } from 'service/i18n';
 import { questionSubmitted, questionValueChanged } from 'src/redux/modules/answerBot/conversation/actions';
 import {
   getCurrentMessage,
-  isInputDisabled
 } from 'src/redux/modules/answerBot/root/selectors';
 import { IconButton } from 'component/Icon';
 
@@ -15,7 +14,6 @@ import { ICONS } from 'constants/shared';
 
 import { locals as styles } from './Footer.scss';
 import _ from 'lodash';
-import classNames from 'classnames';
 
 class Footer extends Component {
   static propTypes = {
@@ -23,12 +21,10 @@ class Footer extends Component {
     questionSubmitted: PropTypes.func.isRequired,
     scrollToBottom: PropTypes.func,
     questionValueChanged: PropTypes.func.isRequired,
-    inputDisabled: PropTypes.bool,
     isMobile: PropTypes.bool
   };
 
   static defaultProps = {
-    inputDisabled: false,
     scrollToBottom: () => {},
     isMobile: false
   };
@@ -39,7 +35,7 @@ class Footer extends Component {
   }
 
   renderDesktop = () => {
-    const { currentMessage, inputDisabled, questionValueChanged } = this.props;
+    const { currentMessage, questionValueChanged } = this.props;
     const placeholder = i18n.t('embeddable_framework.answerBot.inputBox.placeholder');
 
     return (
@@ -49,7 +45,6 @@ class Footer extends Component {
         placeholder={placeholder}
         updateInputValue={questionValueChanged}
         handleSendInputValue={this.handleSendInputValue}
-        disabled={inputDisabled}
       />
     );
   };
@@ -64,7 +59,7 @@ class Footer extends Component {
   }
 
   renderMobile = () => {
-    const { currentMessage, inputDisabled, questionValueChanged } = this.props;
+    const { currentMessage, questionValueChanged } = this.props;
     const placeholder = i18n.t('embeddable_framework.answerBot.inputBox.placeholder');
 
     return (
@@ -75,7 +70,6 @@ class Footer extends Component {
             name='answerBotInputValue'
             placeholder={placeholder}
             updateInputValue={questionValueChanged}
-            disabled={inputDisabled}
             handleSendInputValue={this.handleSendInputValue}
             isMobile={true} />
         </div>
@@ -85,19 +79,15 @@ class Footer extends Component {
   }
 
   renderSend = () => {
-    const buttonClasses = classNames(styles.button, {
-      [styles.disabledSend]: this.props.inputDisabled
-    });
-
     return (
       <IconButton
         type={ICONS.SEND_CHAT}
         disableTooltip={this.props.isMobile}
         altText={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
-        buttonClassName={buttonClasses}
+        buttonClassName={styles.button}
         className={styles.iconSendAnswerBotMobile}
         onClick={this.handleSendInputValue}
-        disabled={this.props.inputDisabled} />
+      />
     );
   }
 
@@ -108,8 +98,7 @@ class Footer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentMessage: getCurrentMessage(state),
-    inputDisabled: isInputDisabled(state)
+    currentMessage: getCurrentMessage(state)
   };
 };
 

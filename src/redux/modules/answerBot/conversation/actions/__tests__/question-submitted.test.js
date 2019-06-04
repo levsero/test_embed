@@ -27,6 +27,7 @@ identity.getSuid = jest.fn(() => ({ id: 8888 }));
 
 beforeEach(() => {
   jest.clearAllTimers();
+  actions.resetSubmittingMessagesState();
 });
 
 describe('questionSubmitted', () => {
@@ -38,7 +39,8 @@ describe('questionSubmitted', () => {
           deflection: { id: 888 },
           interactionToken: { y: 2 }
         }]
-      ])
+      ]),
+      questionValueChangedTime: 123436789
     },
     settings: {
       answerBot: {
@@ -58,16 +60,24 @@ describe('questionSubmitted', () => {
   };
 
   it('dispatches the expected pending actions', () => {
-    expect(dispatchAction().getActions())
+    const store = dispatchAction();
+
+    jest.runAllTimers();
+
+    expect(store.getActions())
       .toMatchSnapshot();
   });
 
   it('dispatches the expected action without session starting', () => {
-    expect(dispatchAction({
+    const store = dispatchAction({
       answerBot: {
         currentSessionID: 4567
       }
-    }).getActions())
+    });
+
+    jest.runAllTimers();
+
+    expect(store.getActions())
       .toMatchSnapshot();
   });
 
@@ -83,6 +93,7 @@ describe('questionSubmitted', () => {
       const store = dispatchAction();
 
       jest.runAllTimers();
+
       const callback = http.send.mock.calls[0][0].callbacks.done;
 
       callback({
@@ -97,9 +108,11 @@ describe('questionSubmitted', () => {
     });
 
     it('dispatches another request when there are no results and there is a locale in the request', () => {
-      dispatchAction();
+      const store = dispatchAction();
 
       jest.runAllTimers();
+      store.clearActions();
+
       const callback = http.send.mock.calls[0][0].callbacks.done;
 
       callback({
@@ -136,6 +149,7 @@ describe('questionSubmitted', () => {
       const store = dispatchAction();
 
       jest.runAllTimers();
+      store.clearActions();
       const callback = http.send.mock.calls[0][0].callbacks.fail;
 
       callback('error');

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { settings } from 'service/settings';
 import { identity } from 'service/identity';
 import { i18n } from 'service/i18n';
@@ -8,6 +9,7 @@ import { isOnHostMappedDomain } from 'utility/pages';
 import { WEB_WIDGET_SUID } from 'src/constants/answerBot';
 
 import {
+  QUESTION_VALUE_SUBMITTED,
   QUESTION_SUBMITTED_PENDING,
   QUESTION_SUBMITTED_FULFILLED,
   QUESTION_SUBMITTED_REJECTED
@@ -16,13 +18,13 @@ import {
 import { isInitialSession } from 'src/redux/modules/answerBot/sessions/selectors';
 import {
   getCurrentSessionID,
-  getCurrentRequestStatus
+  getCurrentRequestStatus,
+  getQuestionValueChangedTime
 } from 'src/redux/modules/answerBot/root/selectors';
 import { getAuthToken } from 'src/redux/modules/base/base-selectors';
 import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors';
 
 import { sessionStarted } from '../../sessions/actions';
-import { inputDisabled } from '../../root/actions';
 import { botTyping } from '../../root/actions/bot';
 
 const BOT_THINKING_DELAY = 3000;
@@ -39,6 +41,13 @@ function questionSubmittedPending(message, sessionID) {
   return {
     type: QUESTION_SUBMITTED_PENDING,
     payload: messagePayload(message, sessionID)
+  };
+}
+
+function questionValueSubmitted(message) {
+  return {
+    type: QUESTION_VALUE_SUBMITTED,
+    payload: messagePayload(message)
   };
 }
 
@@ -114,19 +123,49 @@ function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
   /* eslint-enable camelcase */
 }
 
+let messages = [];
+let waitingToSubmit = false;
+
+export const resetSubmittingMessagesState = () => {
+  messages = [];
+  waitingToSubmit = false;
+};
+
+const submitQuestion = (dispatch, getState) => {
+  const sessionID = getSessionID(getState, () => {
+    dispatch(sessionStarted());
+  });
+
+  const labels = getAnswerBotSearchLabels(getState());
+  const message = _.join(messages, ' ');
+
+  dispatch(questionSubmittedPending(message, sessionID));
+  sendQuery(message, labels, i18n.getLocale(), dispatch, sessionID);
+};
+
+// Only submit the user request after BOT_THINKING_DELAY seconds of the user not typing
+const submitMessagesOnTypingCompleted = (dispatch, getState) => {
+  if (waitingToSubmit) return;
+  waitingToSubmit = true;
+
+  (function submitMessageLoop() {
+    setTimeout(function() {
+      const timeSinceValueChange = Date.now() - getQuestionValueChangedTime(getState());
+
+      if (timeSinceValueChange < BOT_THINKING_DELAY) return submitMessageLoop();
+
+      submitQuestion(dispatch, getState);
+      resetSubmittingMessagesState();
+    }, 1000);
+  })();
+};
+
 export const questionSubmitted = (message) => {
   return (dispatch, getState) => {
-    const sessionID = getSessionID(getState, () => {
-      dispatch(sessionStarted());
-    });
-    const labels = getAnswerBotSearchLabels(getState());
-
-    dispatch(inputDisabled(true));
-    dispatch(questionSubmittedPending(message, sessionID));
+    dispatch(questionValueSubmitted(message));
     dispatch(botTyping());
 
-    setTimeout(() => {
-      sendQuery(message, labels, i18n.getLocale(), dispatch, sessionID);
-    }, BOT_THINKING_DELAY);
+    messages.push(message);
+    submitMessagesOnTypingCompleted(dispatch, getState);
   };
 };

@@ -7,7 +7,6 @@ import { ButtonGroup } from 'component/button/ButtonGroup';
 import { FeedbackButton } from 'component/answerBot/articleScreen/feedbackPopup/FeedbackButton';
 import { i18n } from 'service/i18n';
 
-import { inputDisabled } from 'src/redux/modules/answerBot/root/actions';
 import { sessionResolved } from 'src/redux/modules/answerBot/sessions/actions';
 import {
   botFeedback,
@@ -23,7 +22,6 @@ export class PrimaryFeedback extends Component {
       sessionResolved: PropTypes.func.isRequired,
       botUserMessage: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
-      inputDisabled: PropTypes.func.isRequired,
       botFeedback: PropTypes.func.isRequired
     })
   };
@@ -51,7 +49,6 @@ export class PrimaryFeedback extends Component {
     );
     this.props.actions.botFeedbackMessage(
       i18n.t('embeddable_framework.answerBot.msg.prompt_again_after_yes'),
-      () => this.props.actions.inputDisabled(false)
     );
   }
 
@@ -74,7 +71,6 @@ export class PrimaryFeedback extends Component {
 
 const actionCreators = (dispatch) => ({
   actions: bindActionCreators({
-    inputDisabled,
     sessionResolved,
     botUserMessage,
     botFeedbackMessage,

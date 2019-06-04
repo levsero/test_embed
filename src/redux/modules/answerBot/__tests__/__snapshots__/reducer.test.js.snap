@@ -14,8 +14,8 @@ Object {
   "currentSessionID": null,
   "greeted": false,
   "initialFallbackSuggested": false,
-  "inputDisabled": false,
   "messages": Map {},
+  "questionValueChangedTime": null,
   "sessions": Map {},
 }
 `;

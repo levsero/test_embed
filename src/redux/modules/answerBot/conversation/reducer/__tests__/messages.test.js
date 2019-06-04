@@ -12,14 +12,14 @@ test('initial state is empty map', () => {
     .toEqual(0);
 });
 
-test('QUESTION_SUBMITTED_PENDING updates to expected state', () => {
+test('QUESTION_VALUE_SUBMITTED updates to expected state', () => {
   const payload = {
     timestamp: 123456,
     message: 'Surely not EVERYONE was kung fu fighting.'
   };
 
   const state = reducer(undefined, {
-    type: actionTypes.QUESTION_SUBMITTED_PENDING,
+    type: actionTypes.QUESTION_VALUE_SUBMITTED,
     payload
   });
 

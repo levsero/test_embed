@@ -9,7 +9,6 @@ const actions = Object.freeze({
   sessionResolved: jest.fn(),
   botUserMessage: jest.fn(),
   botFeedbackMessage: jest.fn(),
-  inputDisabled: jest.fn(),
   botFeedback: jest.fn()
 });
 
@@ -37,8 +36,7 @@ describe('on yes click', () => {
       .toHaveBeenNthCalledWith(1, 'Nice. Knowledge is power.');
     expect(actions.botFeedbackMessage)
       .toHaveBeenNthCalledWith(2,
-        "If there's anything else I can find for you, just type another question.",
-        expect.any(Function));
+        "If there's anything else I can find for you, just type another question.");
     expect(actions.botUserMessage)
       .toHaveBeenCalledWith('Yes');
   });

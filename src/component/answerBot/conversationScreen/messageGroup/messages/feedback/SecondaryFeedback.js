@@ -7,7 +7,6 @@ import { ButtonGroup } from 'component/button/ButtonGroup';
 import { FeedbackButton } from 'component/answerBot/articleScreen/feedbackPopup/FeedbackButton';
 import { i18n } from 'service/i18n';
 
-import { inputDisabled } from 'src/redux/modules/answerBot/root/actions';
 import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/';
 import {
   botFeedbackMessage,
@@ -26,7 +25,6 @@ export class SecondaryFeedback extends Component {
       articleDismissed: PropTypes.func.isRequired,
       botUserMessage: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
-      inputDisabled: PropTypes.func.isRequired,
       sessionFallback: PropTypes.func.isRequred,
       botFeedbackChannelChoice: PropTypes.func.isRequred
     })
@@ -48,7 +46,6 @@ export class SecondaryFeedback extends Component {
       );
       this.props.actions.botFeedbackMessage(
         i18n.t(messageKey),
-        () => this.props.actions.inputDisabled(false)
       );
     };
   }
@@ -85,7 +82,6 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = (dispatch) => ({
   actions: bindActionCreators({
-    inputDisabled,
     articleDismissed,
     botUserMessage,
     botFeedbackMessage,

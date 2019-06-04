@@ -9,7 +9,6 @@ const actions = Object.freeze({
   articleDismissed: jest.fn(),
   botUserMessage: jest.fn(),
   botFeedbackMessage: jest.fn(),
-  inputDisabled: jest.fn(),
   sessionFallback: jest.fn(),
   botFeedbackChannelChoice: jest.fn()
 });
@@ -42,7 +41,7 @@ describe('actions', () => {
     expect(actions.botFeedbackMessage)
       .toHaveBeenNthCalledWith(1, 'I see. Your question is still unresolved.');
     expect(actions.botFeedbackMessage)
-      .toHaveBeenNthCalledWith(2, 'You can ask another question.', expect.any(Function));
+      .toHaveBeenNthCalledWith(2, 'You can ask another question.');
   });
 
   it('displays different message if channels are available', () => {
@@ -61,6 +60,6 @@ describe('actions', () => {
     expect(actions.botFeedbackChannelChoice)
       .toHaveBeenCalledWith('Choose a way to get in touch:', true);
     expect(actions.botFeedbackMessage)
-      .toHaveBeenNthCalledWith(2, 'Or you can ask another question.', expect.any(Function));
+      .toHaveBeenNthCalledWith(2, 'Or you can ask another question.');
   });
 });

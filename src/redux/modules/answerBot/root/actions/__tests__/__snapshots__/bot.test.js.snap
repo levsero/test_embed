@@ -69,7 +69,6 @@ Object {
 exports[`botFeedbackMessage dispatches expected payload 1`] = `
 Object {
   "payload": Object {
-    "callback": null,
     "feedbackRelated": true,
     "message": "hello",
     "timestamp": 1531267200000,
@@ -102,7 +101,6 @@ exports[`botMessage dispatches expected actions 1`] = `
 Array [
   Object {
     "payload": Object {
-      "callback": null,
       "message": "hello world",
       "sessionID": 1234,
       "timestamp": 1531267200000,
