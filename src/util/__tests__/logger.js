@@ -1,7 +1,7 @@
+/* eslint no-console:0 */
 import logger from '../logger';
 
 describe('#error', () => {
-  /* eslint no-console:0 */
   const errPayload = {
     error: {
       message: 'error'

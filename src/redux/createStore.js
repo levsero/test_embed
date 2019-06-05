@@ -2,8 +2,7 @@ import { createStore, compose, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 
-import { debug } from 'utility/runtime'
-import logger from 'utility/logger'
+import { inDebugMode } from 'utility/runtime'
 import onStateChangeWrapper from 'src/redux/middleware/onStateChange/wrapper'
 import reducer from 'src/redux/modules/reducer'
 import onStateChangeFn from 'src/redux/middleware/onStateChange/onStateChange'
@@ -21,7 +20,6 @@ function loggerTitleFormatter(storeName) {
 
 export default function(storeName = 'web_widget', options = {}) {
   const reduxLogger = createLogger({
-    logger: logger,
     collapsed: true,
     titleFormatter: loggerTitleFormatter(storeName)
   })
@@ -40,7 +38,7 @@ export default function(storeName = 'web_widget', options = {}) {
   ]
   let storeEnhancers
 
-  if (debug) {
+  if (inDebugMode()) {
     storeEnhancers = devToolsExtension
       ? [applyMiddleware(...middlewares), devToolsExtension]
       : [applyMiddleware(...middlewares, reduxLogger)]

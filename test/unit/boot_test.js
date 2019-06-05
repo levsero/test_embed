@@ -15,7 +15,7 @@ describe('boot', () => {
       'sendConfigLoadTime'
     ),
     identitySpy = registerImportSpy('identity', 'init'),
-    loggingSpy = registerImportSpy('logging', 'init', 'error'),
+    errorTracker = jasmine.createSpyObj('errorTracker', ['configure', 'error']),
     transportSpy = registerImportSpy('http', 'get', 'init', 'updateConfig'),
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
     gaSpy = registerImportSpy('GA', 'init'),
@@ -34,11 +34,11 @@ describe('boot', () => {
     initMockRegistry({
       'service/beacon': beaconSpy,
       'service/identity': identitySpy,
-      'service/logging': loggingSpy,
+      'service/errorTracker': errorTracker,
       'service/api/webWidgetApi': apiSpy,
       'service/api/zopimApi': zopimApiSpy,
       'service/analytics/googleAnalytics': gaSpy,
-      'service/logging/tracker': trackerSpy,
+      'service/tracker': trackerSpy,
       'service/settings': {
         settings: {
           get: noop,
@@ -171,9 +171,9 @@ describe('boot', () => {
         mockGetErrorReportingEnabled = true
         boot.setupServices({})
       })
-
-      it('calls logging.init with errorReportingDisabled as true', () => {
-        expect(loggingSpy.logging.init).toHaveBeenCalledWith(true)
+      
+      it('enables error tracking', () => {
+        expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: true })
       })
     })
 
@@ -182,9 +182,9 @@ describe('boot', () => {
         mockGetErrorReportingEnabled = false
         boot.setupServices({})
       })
-
-      it('calls logging.init with errorReportingDisabled as false', () => {
-        expect(loggingSpy.logging.init).toHaveBeenCalledWith(false)
+      
+      it('disables error tracking', () => {
+        expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: false })
       })
     })
   })
@@ -456,7 +456,7 @@ describe('boot', () => {
         })
 
         it('does not call logging.error', () => {
-          expect(loggingSpy.logging.error).not.toHaveBeenCalled()
+          expect(errorTracker.error).not.toHaveBeenCalled()
         })
       })
 
@@ -468,7 +468,7 @@ describe('boot', () => {
         })
 
         it('calls logging.error', () => {
-          expect(loggingSpy.logging.error).toHaveBeenCalledWith(error)
+          expect(errorTracker.error).toHaveBeenCalledWith(error)
         })
       })
     })
