@@ -14,13 +14,13 @@ const articles = [
     id: 123,
     url: 'https://support.zendesk.com/api/v2/help_center/en-us/articles/204231676-Guide-resources.json',
     title: 'title 123',
-    body: '<p>to be filled later 123</p>',
+    body: '    <div></div><p>to be filled later 123</p>',
   },
   {
     id: 456,
     url: 'https://support.zendesk.com/api/v2/help_center/en-us/articles/204231676-Guide-resources.json',
     title: 'title 456',
-    body: '<h1>to be filled later 456</h1>',
+    body: '        <h1>to be filled later 456</h1>',
   }
 ];
 

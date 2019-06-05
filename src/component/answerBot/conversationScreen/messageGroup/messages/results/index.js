@@ -27,6 +27,10 @@ const renderLeadingMessage = (message) => (
   message ? <Text isVisitor={false} message={message} /> : null
 );
 
+const cleanHtml = (body) => {
+  return sanitizeHtml(body, { allowedTags: [] }).replace(/\s+/g,' ').trim();
+};
+
 const renderResult = (article, index, onClick) => {
   return (
     <div key={index} className={styles.result} onClick={() => onClick(article)}>
@@ -35,7 +39,7 @@ const renderResult = (article, index, onClick) => {
         <div className={styles.optionText}>{_.truncate(article.title, { length: 65 })}</div>
       </div>
       <div className={`${styles.snippet}`}>
-        <div>{sanitizeHtml(article.snippet || article.body, { allowedTags: [] })}</div>
+        <div>{cleanHtml(article.snippet || article.body)}</div>
       </div>
     </div>
   );
