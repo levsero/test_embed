@@ -28,7 +28,7 @@ const renderLeadingMessage = (message) => (
 );
 
 const cleanHtml = (body) => {
-  return sanitizeHtml(body, { allowedTags: [] }).replace(/\s+/g,' ').trim();
+  return { __html: _.truncate(sanitizeHtml(body, { allowedTags: [] }).replace(/\s+/g,' ').trim(), { length: 100 }) };
 };
 
 const renderResult = (article, index, onClick) => {
@@ -39,7 +39,7 @@ const renderResult = (article, index, onClick) => {
         <div className={styles.optionText}>{_.truncate(article.title, { length: 65 })}</div>
       </div>
       <div className={`${styles.snippet}`}>
-        <div>{cleanHtml(article.snippet || article.body)}</div>
+        <div dangerouslySetInnerHTML={cleanHtml(article.snippet || article.body)}/>
       </div>
     </div>
   );
