@@ -352,13 +352,13 @@ window.zESettings = {
 
 ### chatLabelOffline
 
-Replaces the default string that informs the user that chat is unavailable when [contactOptions](#contact-options-settings) is enabled.
+Replaces the default string that informs the user that chat is unavailable when [contactOptions](./core#contactoptions) is enabled.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
-* [contactOptions](./core#contact-options-settings)
+* [contactOptions](./core#contactoptions)
 
 <a name="example-chatlabeloffline"></a>
 #### Example
@@ -386,13 +386,13 @@ window.zESettings = {
 
 ### chatLabelOnline
 
-Replaces the default string of the link that lets a user start a chat when [contactOptions](#contact-options-settings) is enabled.
+Replaces the default string of the link that lets a user start a chat when [contactOptions](./core#contactoptions) is enabled.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
-* [contactOptions](./core#contact-options-settings)
+* [contactOptions](./core#contactoptions)
 
 <a name="example-chatlabelonline"></a>
 #### Example
@@ -561,7 +561,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactOptions](./core#contact-options-settings)
+* [contactOptions](./core#contactoptions)
 
 <a name="example-contactbutton"></a>
 #### Example
@@ -588,13 +588,13 @@ window.zESettings = {
 
 ### contactFormLabel
 
-Replaces the default string of the link that lets the user submit a ticket when [contactOptions](#contact-options-settings) is enabled.
+Replaces the default string of the link that lets the user submit a ticket when [contactOptions](#core#contactoptions) is enabled.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
-* [contactOptions](./core#contact-options-settings)
+* [contactOptions](./core#contactoptions)
 
 <a name="example-contactformlabel"></a>
 #### Example
@@ -1383,7 +1383,7 @@ window.zESettings = {
 
 ### suppress
 
-Suppresses the Help Center, Chat, Talk, or contact form in the Web Widget on that page.
+Suppresses the Help Center, Chat, Talk, Contact Form, or Answer Bot in the Web Widget.
 
 #### Availability
 
@@ -1391,6 +1391,7 @@ Suppresses the Help Center, Chat, Talk, or contact form in the Web Widget on tha
 * [contactForm](./contact_form)
 * [helpCenter](./help_center)
 * [talk](./talk)
+* [answerBot](./answerbot)
 
 <a name="example-suppress"></a>
 #### Example
@@ -1402,14 +1403,22 @@ window.zESettings = {
     chat: {
       suppress: true
     },
+    contactForm: {
+      suppress: true
+    },
     helpCenter: {
+      suppress: true
+    },
+    talk: {
+      suppress: true
+    },
+    answerBot: {
       suppress: true
     }
   }
 };
 </script>
 ```
-
 
 ### tags
 
@@ -1526,6 +1535,7 @@ You can use different strings for different locales or use one string for all lo
 * [helpCenter](./help_center)
 * [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 * [talk](./talk)
+* [answerBot](./answerbot)
 
 <a name="example-title"></a>
 #### Example
@@ -1554,6 +1564,11 @@ window.zESettings = {
     talk: {
       title: {
         '*': 'Talk with us!'
+      }
+    },
+    answerBot: {
+      title: {
+        '*': 'Chat with us!'
       }
     }
   }
@@ -1600,3 +1615,74 @@ window.zESettings = {
 * [color](#color)
 * [offset](#offset)
 * [position](#position)
+
+
+### contactOnlyAfterQuery
+
+Specifies whether to show the contact option on initial load or only after a query has been submitted.
+
+#### Availability
+
+* [answerBot](./answerbot)
+
+#### Example
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    answerBot: {
+      contactOnlyAfterQuery: true
+    }
+  }
+};
+</script>
+```
+
+### search
+
+Attaches contextual data when submitting a user query.
+
+#### Availability
+
+* [answerBot](./answerbot)
+
+#### Example
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    answerBot: {
+      search: {
+        labels: ['I would like some help']
+      }
+    }
+  }
+};
+</script>
+```
+
+### avatar
+
+Customizes the avatar bot name and profile picture.
+
+#### Availability
+
+* [answerBot](./answerbot)
+
+#### Example
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    answerBot: {
+      avatar: {
+        url: 'https://zendesk.com/bot.png',
+        name: {
+          '*': 'Zendesk Bot'
+        }
+      }
+    }
+  }
+};
+</script>
+```
