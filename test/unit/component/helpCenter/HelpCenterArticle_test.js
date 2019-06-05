@@ -345,7 +345,8 @@ describe('HelpCenterArticle component', () => {
           '//players.brightcove.net/fooid',
           '//play.vidyard.com/fooid.html',
           '//content.jwplatform.com/players/fooid.html',
-          '//screencast.com/users/fooid'
+          '//screencast.com/users/fooid',
+          '//www.loom.com/embed/4f75d84cff274ce488b3f6268aab98b5'
         ];
         let attribs = {
           allowfullscreen: '',

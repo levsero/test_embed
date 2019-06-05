@@ -192,7 +192,8 @@ export class HelpCenterArticle extends Component {
       'play\.vidyard',
       'fast\.wistia',
       'content\.jwplatform',
-      'screencast'
+      'screencast',
+      'loom'
     ];
     const hasMatched = _.some(allowedDomains, (domain) => {
       const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
