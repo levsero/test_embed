@@ -43,7 +43,7 @@ import {
   hideBadgeApi,
   authenticateApi
 } from './helpers'
-import tracker from 'service/logging/tracker'
+import tracker from 'service/tracker'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { getCanShowOnlineChat } from 'src/redux/modules/chat/chat-selectors'
 

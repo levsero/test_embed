@@ -3,7 +3,8 @@ import * as chatActions from 'src/redux/modules/chat'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import * as baseActions from 'src/redux/modules/base'
 import * as apis from 'src/service/api/apis'
-import tracker from 'service/logging/tracker'
+
+import tracker from 'service/tracker'
 import { settings } from 'service/settings'
 
 jest.mock('src/service/api/apis')
@@ -22,7 +23,7 @@ jest.mock('service/i18n', () => ({
     setCustomTranslations: jest.fn()
   }
 }))
-jest.mock('service/logging/tracker')
+jest.mock('service/tracker')
 
 // Assume chat has been initialized and connected when testing zopim api methods.
 zopimApi.handleChatSDKInitialized()

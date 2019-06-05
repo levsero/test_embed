@@ -94,8 +94,8 @@ describe('embed.chat', () => {
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'getLocale', 't'])
       },
-      'service/logging/tracker': {
-        suspend: cb => cb()
+      'service/tracker': {
+        suspend: (cb) => cb()
       },
       'service/mediator': {
         mediator: {

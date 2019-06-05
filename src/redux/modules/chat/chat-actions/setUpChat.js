@@ -1,8 +1,12 @@
 import _ from 'lodash'
-import { logging } from 'service/logging'
+import errorTracker from 'service/errorTracker'
 import { store } from 'service/persistence'
 import { settings } from 'service/settings'
-import { getChatConfig, getBrandCount, getBrand } from 'src/redux/modules/base/base-selectors'
+import {
+  getChatConfig,
+  getBrandCount,
+  getBrand
+} from 'src/redux/modules/base/base-selectors'
 import {
   fetchConversationHistory,
   handleChatVendorLoaded,
@@ -113,7 +117,7 @@ export function setUpChat() {
       zopimApi.handleChatSDKInitialized()
     }
     const onFailure = err => {
-      logging.error(err)
+      errorTracker.error(err)
     }
 
     Promise.all([import('chat-web-sdk'), import('react-slick')])

@@ -1,23 +1,29 @@
-import _ from 'lodash'
+import _ from 'lodash';
 
-import { beacon } from 'service/beacon'
-import { identity } from 'service/identity'
-import { logging } from 'service/logging'
-import { store as persistenceStore } from 'service/persistence'
-import { renderer } from 'service/renderer'
-import webWidgetApi from 'service/api/webWidgetApi'
-import zopimApi from 'service/api/zopimApi'
-import { settings } from 'service/settings'
-import { http } from 'service/transport'
-import { GA } from 'service/analytics/googleAnalytics'
-import { clickBusterHandler, isMobileBrowser } from 'utility/devices'
-import { initMobileScaling } from 'utility/mobileScaling'
-import { updateEmbeddableConfig } from 'src/redux/modules/base'
-import { initResizeMonitor } from 'utility/window'
-import { i18n } from 'service/i18n'
-import createStore from 'src/redux/createStore'
-import tracker from 'service/logging/tracker'
-import { getZendeskHost, setReferrerMetas } from 'utility/globals'
+import { beacon } from 'service/beacon';
+import { identity } from 'service/identity';
+import errorTracker from 'service/errorTracker';
+import { store as persistenceStore } from 'service/persistence';
+import { renderer } from 'service/renderer';
+import webWidgetApi from 'service/api/webWidgetApi';
+import zopimApi from 'service/api/zopimApi';
+import { settings } from 'service/settings';
+import { http } from 'service/transport';
+import { GA } from 'service/analytics/googleAnalytics';
+import {
+  clickBusterHandler,
+  isMobileBrowser
+} from 'utility/devices';
+import { initMobileScaling } from 'utility/mobileScaling';
+import { updateEmbeddableConfig } from 'src/redux/modules/base';
+import { initResizeMonitor } from 'utility/window';
+import { i18n } from 'service/i18n';
+import createStore from 'src/redux/createStore';
+import tracker from 'service/tracker';
+import {
+  getZendeskHost,
+  setReferrerMetas
+} from 'utility/globals';
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -48,8 +54,8 @@ const setupServices = reduxStore => {
     version: __EMBEDDABLE_VERSION__
   })
 
-  logging.init(settings.getErrorReportingEnabled())
-  GA.init()
+  errorTracker.configure({ enabled: settings.getErrorReportingEnabled() });
+  GA.init();
 }
 
 const displayOssAttribution = () => {
@@ -117,7 +123,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
   }
   const fail = error => {
     if (error.status !== 404) {
-      logging.error(error)
+      errorTracker.error(error);
     }
   }
 
