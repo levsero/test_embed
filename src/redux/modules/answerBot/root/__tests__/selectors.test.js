@@ -314,3 +314,21 @@ describe('getContextualSearchStatus', () => {
     },
   );
 });
+
+describe('getContactButtonVisible', () => {
+  test.each([
+    [true,  true,   true],
+    [true,  false, false],
+    [false, false, false],
+    [false, true,  false]
+  ])('when getInTouchVisible is %p && channelAvailable is %p, it returns %p',
+    (getInTouchVisible, channelAvailable, expected) => {
+      const result = selectors.getContactButtonVisible.resultFunc(
+        getInTouchVisible,
+        channelAvailable
+      );
+
+      expect(result).toEqual(expected);
+    }
+  );
+});

@@ -209,3 +209,10 @@ describe('getGroupMessageKeys', () => {
       .toMatchSnapshot();
   });
 });
+
+test('getGetInTouchVisible', () => {
+  const mockState = { getInTouchVisible: true };
+  const result = selectors.getGetInTouchVisible.resultFunc(mockState);
+
+  expect(result).toEqual(true);
+});

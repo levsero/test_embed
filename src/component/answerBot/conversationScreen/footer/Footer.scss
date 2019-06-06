@@ -8,6 +8,7 @@
 .containerMobile {
   display: flex;
   align-items: center;
+  border-top: $thin-border-size solid $zd-color-grey-200;
 }
 
 .inputContainerMobile {
@@ -75,4 +76,35 @@
       fill: $zd-color-grey-500 !important;
     }
   }
+}
+
+.slideAppear {
+  position: relative;
+}
+
+.slideAppearMobile {
+  [dir='ltr'] & {
+    right: #{10/$font-size}rem
+  }
+  [dir='rtl'] & {
+    left: #{10/$font-size}rem
+  }
+}
+
+.quickReplyContainer {
+  height: #{32/$font-size}rem;
+  margin-bottom: #{10/$font-size}rem;
+}
+
+.getInTouch {
+  height: #{32/$font-size}rem;
+  line-height: 1 !important;
+  font-size: #{14/$font-size}rem;
+  [dir='ltr'] & {
+    right: 0;
+  }
+  [dir='rtl'] & {
+    left: 0;
+  }
+  position: absolute;
 }

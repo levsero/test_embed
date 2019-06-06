@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { ButtonGroup } from 'component/button/ButtonGroup';
-import { FeedbackButton } from 'component/answerBot/articleScreen/feedbackPopup/FeedbackButton';
+import { PillButton } from 'src/component/shared/PillButton';
 import { i18n } from 'service/i18n';
 
 import { sessionResolved } from 'src/redux/modules/answerBot/sessions/actions';
@@ -29,11 +29,11 @@ export class PrimaryFeedback extends Component {
   renderOptions = () => {
     return (
       <ButtonGroup>
-        <FeedbackButton
+        <PillButton
           label={i18n.t('embeddable_framework.answerBot.article.feedback.yes')}
           onClick={this.handleYes}
         />
-        <FeedbackButton
+        <PillButton
           label={i18n.t('embeddable_framework.answerBot.article.feedback.no.need_help')}
           onClick={this.handleNo}
         />

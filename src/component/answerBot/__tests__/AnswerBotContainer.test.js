@@ -20,7 +20,9 @@ const actions = Object.freeze({
   botFeedbackMessage: jest.fn(),
   botTyping: jest.fn(),
   botContextualSearchResults: jest.fn(),
-  contextualSearchFinished: jest.fn()
+  contextualSearchFinished: jest.fn(),
+  getInTouchShown: jest.fn(),
+  botFallbackMessage: jest.fn()
 });
 
 const renderComponent = (props = {}, renderFn) => {
@@ -109,7 +111,7 @@ describe('greeting', () => {
       .not.toHaveBeenCalled();
   });
 
-  it('greets with brand it brand is available', () => {
+  it('greets with brand if brand is available', () => {
     renderComponent({ brand: 'Wayne', currentSessionID: 1234, isInitialSession: true });
 
     expect(actions.botMessage)
@@ -233,15 +235,15 @@ describe('initial fallback', () => {
     it('fire fallback suggestion after a delay on startup', () => {
       renderComponent({ greeted: true, isInitialSession: true, currentSessionID: 1234, currentScreen: 'conversation' });
       jest.runAllTimers();
-      expect(actions.botChannelChoice)
-        .toHaveBeenCalledWith('Or you can get in touch.');
       expect(actions.botInitialFallback)
+        .toHaveBeenCalled();
+      expect(actions.getInTouchShown)
         .toHaveBeenCalled();
     });
   });
 
   describe('and delayInitialFallback is true', () => {
-    it('does not fires fallback', () => {
+    it('does not fire fallback', () => {
       renderComponent({
         greeted: true,
         isInitialSession: true,
@@ -303,10 +305,8 @@ describe('session fallback', () => {
     });
     expect(actions.sessionFallback)
       .toHaveBeenCalled();
-    expect(actions.botChannelChoice)
-      .toHaveBeenCalledWith('Would you like to get in touch?', true);
-    expect(actions.botMessage)
-      .toHaveBeenCalledWith('Or you can ask another question.');
+    expect(actions.botFallbackMessage)
+      .toHaveBeenCalledWith(false);
   });
 
   it('fires fallback suggestion if no articles are returned', () => {
@@ -320,10 +320,8 @@ describe('session fallback', () => {
     });
     expect(actions.sessionFallback)
       .toHaveBeenCalled();
-    expect(actions.botChannelChoice)
-      .toHaveBeenCalledWith('Would you like to get in touch?', true);
-    expect(actions.botMessage)
-      .toHaveBeenCalledWith('Or you can ask another question.');
+    expect(actions.botFallbackMessage)
+      .toHaveBeenCalledWith(false);
   });
 
   describe('on request success', () => {
@@ -350,17 +348,8 @@ describe('session fallback', () => {
       jest.runAllTimers();
       expect(actions.sessionFallback)
         .toHaveBeenCalled();
-      expect(actions.botChannelChoice)
-        .toHaveBeenCalledWith('You can also get in touch.', false);
-      expect(actions.botMessage)
-        .toHaveBeenCalledWith('You can ask another question.');
-    });
-
-    it('displays different message if channels are available', () => {
-      renderInitial({ channelAvailable: true });
-      jest.runAllTimers();
-      expect(actions.botMessage)
-        .toHaveBeenCalledWith('Or you can ask another question.');
+      expect(actions.botFallbackMessage)
+        .toHaveBeenCalledWith(false);
     });
 
     it('does not run fallback if unmounted', () => {

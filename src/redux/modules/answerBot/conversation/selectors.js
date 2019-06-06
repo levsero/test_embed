@@ -140,3 +140,8 @@ export const getLastScreenClosed = createSelector(
   [getConversation],
   conversation => conversation.lastScreenClosed
 );
+
+export const getGetInTouchVisible = createSelector(
+  getConversation,
+  (conversation) => conversation.getInTouchVisible
+);

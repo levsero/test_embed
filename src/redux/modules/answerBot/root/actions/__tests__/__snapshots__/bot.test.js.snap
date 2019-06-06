@@ -22,6 +22,46 @@ Object {
 }
 `;
 
+exports[`botFallbackMessage when channelAvailable is false dispatches the appropriate actions 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "message": "If there's anything else I can find for you, just type another question.",
+      "sessionID": 1234,
+      "timestamp": 1531267200000,
+    },
+    "type": "widget/answerBot/BOT_MESSAGE",
+  },
+  Object {
+    "type": "widget/answerBot/GET_IN_TOUCH_SHOWN",
+  },
+]
+`;
+
+exports[`botFallbackMessage when channelAvailable is true dispatches the appropriate actions 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "message": "You can ask another question.",
+      "sessionID": 1234,
+      "timestamp": 1531267200000,
+    },
+    "type": "widget/answerBot/BOT_MESSAGE",
+  },
+  Object {
+    "payload": Object {
+      "message": "Or you can get in touch.",
+      "sessionID": 1234,
+      "timestamp": 1531267200000,
+    },
+    "type": "widget/answerBot/BOT_MESSAGE",
+  },
+  Object {
+    "type": "widget/answerBot/GET_IN_TOUCH_SHOWN",
+  },
+]
+`;
+
 exports[`botFeedback defaults to primary 1`] = `
 Object {
   "payload": Object {
@@ -39,30 +79,6 @@ Object {
     "timestamp": 1531267200000,
   },
   "type": "widget/answerBot/BOT_FEEDBACK",
-}
-`;
-
-exports[`botFeedbackChannelChoice defaults to false fallback 1`] = `
-Object {
-  "payload": Object {
-    "fallback": false,
-    "feedbackRelated": true,
-    "message": "world",
-    "timestamp": 1531267200000,
-  },
-  "type": "widget/answerBot/BOT_CHANNEL_CHOICE",
-}
-`;
-
-exports[`botFeedbackChannelChoice dispatches expected payload 1`] = `
-Object {
-  "payload": Object {
-    "fallback": true,
-    "feedbackRelated": true,
-    "message": "hello",
-    "timestamp": 1531267200000,
-  },
-  "type": "widget/answerBot/BOT_CHANNEL_CHOICE",
 }
 `;
 
