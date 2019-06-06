@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import {
   zopimExistsOnPage
-} from './helpers'
-import ZopimApiError from 'errors/reportable/ZopimApiError'
+} from './helpers';
+import ZopimApiError from 'errors/console/ZopimApiError'
 
 export function setupZopimQueue(win) {
   // To enable $zopim api calls to work we need to define the queue callback.

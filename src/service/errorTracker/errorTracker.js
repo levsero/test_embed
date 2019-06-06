@@ -1,7 +1,7 @@
 import Rollbar from 'rollbar';
 import logger from 'utility/logger';
 import { inDebugMode } from 'utility/runtime';
-import ReportableError from 'errors/ReportableError';
+import ConsoleError from 'errors/ConsoleError';
 
 const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/];
 
@@ -41,7 +41,7 @@ const rollbarConfig =  {
 const errorTracker = new Rollbar(rollbarConfig);
 
 const errorHandler = (error, ...args) => {
-  if (inDebugMode() || (error && error instanceof ReportableError)) {
+  if (inDebugMode() || (error && error instanceof ConsoleError)) {
     logger.error(error, ...args);
   }
   errorTracker.error(error, ...args);

@@ -18,7 +18,7 @@ import {
   setupPublicApi,
   setupDevApi
 } from './setupLegacyApi'
-import ZDApiError from 'errors/reportable/ZDApiError'
+import ZDApiError from 'errors/console/ZDApiError'
 
 const newAPIPostRenderQueue = []
 
