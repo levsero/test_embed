@@ -28,6 +28,7 @@ export class PrechatForm extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     form: PropTypes.object,
+    settingsDepartmentsEnabled: PropTypes.array,
     formState: PropTypes.object,
     readOnlyState: PropTypes.object.isRequired,
     onPrechatFormChange: PropTypes.func,
@@ -52,6 +53,7 @@ export class PrechatForm extends Component {
 
   static defaultProps = {
     form: {},
+    settingsDepartmentsEnabled: [],
     formState: {},
     readOnlyState: {},
     onPrechatFormChange: () => {},
@@ -92,6 +94,11 @@ export class PrechatForm extends Component {
 
   findDepartment = (departments, departmentId) => {
     return _.find(departments, (d) => d.id == departmentId) || {}; // eslint-disable-line eqeqeq
+  }
+
+  shouldHideDepartments = (departments) => {
+    return _.size(departments) === 0 ||
+    (_.size(departments) === 1 && departments[0].isDefault && _.size(this.props.settingsDepartmentsEnabled) === 0);
   }
 
   isFieldRequired = (required = false) => {
@@ -298,7 +305,7 @@ export class PrechatForm extends Component {
   renderDepartmentsField = () => {
     const { department: departmentSettings, departments } = this.props.form;
 
-    if (_.size(departments) === 0) return null;
+    if (this.shouldHideDepartments(departments)) return null;
 
     const options = _.map(departments, (dept) => {
       return <Item disabled={dept.disabled} key={dept.id}>{dept.name}</Item>;
