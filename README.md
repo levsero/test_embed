@@ -181,4 +181,4 @@ Please refer to https://github.com/npryce/adr-tools
 
 See <a href="https://zendesk.atlassian.net/wiki/spaces/DOC/pages/641704628/How+developer+docs+are+produced+at+Zendesk" target="_blank">How developer docs are produced at Zendesk</a> on the Docs team wiki.
 
-Please cc **@zendesk/documentation** on any PR that adds or updates documentation on the developer portal at https://developers.zendesk.com.
+Please cc **@zendesk/documentation** on any PR that adds or updates documentation on the developer portal at https://developer.zendesk.com.
