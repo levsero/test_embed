@@ -246,3 +246,69 @@ test('submits expected form data', () => {
   expect(formHandler)
     .toHaveBeenCalledWith(formData);
 });
+
+describe('#shouldHideDepartments', () => {
+  let mockDepartments,
+    mockSettingsDepartments,
+    component,
+    result;
+
+  beforeEach(() => {
+
+    component = instanceRender(
+      <PrechatForm
+        settingsDepartmentsEnabled={mockSettingsDepartments}
+        form={mockFormProp}
+        formState={mockForm} />
+    );
+
+    result = component.shouldHideDepartments(mockDepartments);
+  });
+
+
+  describe('when there are no departments', () => {
+    beforeAll(() => {
+      mockDepartments = [];
+    });
+
+    it('returns true', () => {
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('when there is one department', () => {
+    describe('and it is a default, hidden via api', () => {
+      beforeAll(() => {
+        mockSettingsDepartments = [];
+        mockDepartments = [{ id: 1, status: 'online', isDefault: true }];
+      });
+
+      it('returns true', () => {
+        expect(result).toEqual(true);
+      });
+    });
+
+    describe('and it is not default', () => {
+      beforeAll(() => {
+        mockDepartments = [{ id: 1, status: 'online', isDefault: false }];
+      });
+
+      it('returns false', () => {
+        expect(result).toEqual(false);
+      });
+    });
+  });
+
+  describe('when there are more than one departments', () => {
+    beforeAll(() => {
+      mockDepartments = [
+      { id: 1, status: 'online', isDefault: false },
+      { id: 2, status: 'offline', isDefault: true }
+      ];
+    });
+
+    it('returns false', () => {
+      expect(result).toEqual(false);
+    });
+  });
+});

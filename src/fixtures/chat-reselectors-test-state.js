@@ -67,6 +67,9 @@ const getModifiedState = (inputState) => {
         { id: 222, name: 'pizza' },
         { id: 333, name: 'thickshakes' }
       ],
+      defaultDepartment: {
+        id: 1234
+      },
       screen: CHATTING_SCREEN,
       forcedStatus: 'online',
       isAuthenticated: false,
