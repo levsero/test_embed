@@ -14,17 +14,19 @@ import { trackAnalytics } from 'src/redux/middleware/analytics'
 import { sendBlips } from 'src/redux/middleware/blip'
 import queueCalls from 'src/redux/middleware/queue'
 
-function loggerTitleFormatter(storeName) {
-  return action => [`${storeName}`, `%c${String(action.type)}`, '%c'].join(' ')
+const reduxConsoleLogger = (storeName) => {
+  return createLogger({
+    collapsed: true,
+    titleFormatter: (action) => [`${storeName}`, `%c${String(action.type)}`, '%c'].join(' ')
+  })
+}
+
+const useReduxDevtools = inDebugMode() && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+const reduxDevtoolsComposer = (storeName) => {
+  return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ name: storeName })
 }
 
 export default function(storeName = 'web_widget', options = {}) {
-  const reduxLogger = createLogger({
-    collapsed: true,
-    titleFormatter: loggerTitleFormatter(storeName)
-  })
-  const devToolsExtension = window.parent.__REDUX_DEVTOOLS_EXTENSION__
-    && window.parent.__REDUX_DEVTOOLS_EXTENSION__({ name: storeName })
   const middlewares = [
     thunk,
     preventLoops,
@@ -36,15 +38,12 @@ export default function(storeName = 'web_widget', options = {}) {
     persist,
     onStateChangeWrapper(queueCalls)
   ]
-  let storeEnhancers
 
   if (inDebugMode()) {
-    storeEnhancers = devToolsExtension
-      ? [applyMiddleware(...middlewares), devToolsExtension]
-      : [applyMiddleware(...middlewares, reduxLogger)]
-  } else {
-    storeEnhancers = [applyMiddleware(...middlewares)]
+    middlewares.push(reduxConsoleLogger(storeName))
   }
 
-  return compose(...storeEnhancers)(createStore)(reducer)
+  const composeEnhancers = useReduxDevtools ? reduxDevtoolsComposer(storeName) : compose
+
+  return composeEnhancers(applyMiddleware(...middlewares))(createStore)(reducer)
 }
