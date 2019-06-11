@@ -1,0 +1,15 @@
+{
+  "zendeskHost": "z3nwebwidget2019.zendesk.com",
+  "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6",
+  "talkIntegration": "https://z3nwebwidget2019.zendesk.com",
+  "talkNickname": "hola",
+  "sharedSecret": "abc123",
+  "chatSharedSecret": "123abc",
+  "articleId": "123",
+  "gaID": "UA-103023081-1",
+  "user": {
+    "name": "Alice Bob",
+    "email": "ayong@zendesk.com",
+    "externalId": "1234"
+  }
+}
