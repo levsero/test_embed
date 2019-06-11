@@ -8,7 +8,10 @@ const mockFormProp = {
   email: { name: 'email', required: true },
   phone: { name: 'phone', label: 'Phone Number', required: false, hidden: false },
   message: { name: 'message', label: 'Message', required: false },
-  department: { name: 'department', label: 'department', required: false }
+  department: { name: 'department', label: 'Choose Department', required: false },
+  departments: [
+    { name: 'dept', id: 1234, isDefault: false }
+  ]
 };
 
 const renderPrechatForm = (inProps = {}) => {
@@ -52,6 +55,80 @@ test('renders the expected fields', () => {
     .toBeInTheDocument();
   expect(queryByLabelText(/Message/))
     .toBeInTheDocument();
+  expect(queryByLabelText(/Choose Department/))
+    .toBeInTheDocument();
+});
+
+describe('Departments', () => {
+  describe('when there are no departments', () => {
+    it('does not show the department dropdown', () => {
+      const formProp = {
+        ...mockFormProp,
+        departments: [],
+      };
+
+      const { queryByLabelText } = renderPrechatForm({
+        form: formProp
+      });
+
+      expect(queryByLabelText(/Choose Department/))
+        .not.toBeInTheDocument();
+    });
+  });
+
+  describe('when there is one department', () => {
+    describe('and it is a default, hidden via api', () => {
+      it('does not show the department dropdown', () => {
+        const formProp = {
+          ...mockFormProp,
+          departments: [{ id: 1, status: 'online', isDefault: true }]
+        };
+
+        const { queryByLabelText } = renderPrechatForm({
+          form: formProp,
+          settingsDepartmentsEnabled: []
+        });
+
+        expect(queryByLabelText(/Choose Department/))
+          .not.toBeInTheDocument();
+      });
+    });
+
+    describe('and it is not default', () => {
+      it('shows the department dropdown', () => {
+        const formProp = {
+          ...mockFormProp,
+          departments: [{ id: 1, status: 'online', isDefault: false }]
+        };
+
+        const { queryByLabelText } = renderPrechatForm({
+          form: formProp,
+        });
+
+        expect(queryByLabelText(/Choose Department/))
+          .toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('when there are more than one departments', () => {
+    it('shows the department dropdown', () => {
+      const formProp = {
+        ...mockFormProp,
+        departments: [
+          { id: 1, status: 'online', isDefault: false },
+          { id: 2, status: 'offline', isDefault: true }
+        ]
+      };
+
+      const { queryByLabelText } = renderPrechatForm({
+        form: formProp
+      });
+
+      expect(queryByLabelText(/Choose Department/))
+        .toBeInTheDocument();
+    });
+  });
 });
 
 test('renders fields as optional if required is false', () => {
@@ -245,70 +322,4 @@ test('submits expected form data', () => {
 
   expect(formHandler)
     .toHaveBeenCalledWith(formData);
-});
-
-describe('#shouldHideDepartments', () => {
-  let mockDepartments,
-    mockSettingsDepartments,
-    component,
-    result;
-
-  beforeEach(() => {
-
-    component = instanceRender(
-      <PrechatForm
-        settingsDepartmentsEnabled={mockSettingsDepartments}
-        form={mockFormProp}
-        formState={mockForm} />
-    );
-
-    result = component.shouldHideDepartments(mockDepartments);
-  });
-
-
-  describe('when there are no departments', () => {
-    beforeAll(() => {
-      mockDepartments = [];
-    });
-
-    it('returns true', () => {
-      expect(result).toEqual(true);
-    });
-  });
-
-  describe('when there is one department', () => {
-    describe('and it is a default, hidden via api', () => {
-      beforeAll(() => {
-        mockSettingsDepartments = [];
-        mockDepartments = [{ id: 1, status: 'online', isDefault: true }];
-      });
-
-      it('returns true', () => {
-        expect(result).toEqual(true);
-      });
-    });
-
-    describe('and it is not default', () => {
-      beforeAll(() => {
-        mockDepartments = [{ id: 1, status: 'online', isDefault: false }];
-      });
-
-      it('returns false', () => {
-        expect(result).toEqual(false);
-      });
-    });
-  });
-
-  describe('when there are more than one departments', () => {
-    beforeAll(() => {
-      mockDepartments = [
-      { id: 1, status: 'online', isDefault: false },
-      { id: 2, status: 'offline', isDefault: true }
-      ];
-    });
-
-    it('returns false', () => {
-      expect(result).toEqual(false);
-    });
-  });
 });
