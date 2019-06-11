@@ -9,7 +9,7 @@ import {
   chatWindowOpenOnNavigate,
   chatConnected,
   setUpChat,
-  chatStarted
+  chatStarted,
 } from 'src/redux/modules/chat';
 import {
   updateActiveEmbed,
@@ -19,8 +19,6 @@ import {
 import {
   IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
-  SDK_CHAT_MEMBER_LEAVE,
-  CHAT_AGENT_INACTIVE,
   SDK_VISITOR_UPDATE,
   CHAT_SOCIAL_LOGIN_SUCCESS
 } from 'src/redux/modules/chat/chat-action-types';
@@ -36,7 +34,6 @@ import {
   getIsProactiveSession,
   getUserSoundSettings,
   getIsChatting as getIsChattingState,
-  getActiveAgents,
   getLastReadTimestamp,
   hasUnseenAgentMessage
 } from 'src/redux/modules/chat/chat-selectors';
@@ -63,6 +60,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { resetShouldWarn } from 'src/util/nullZChat';
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
+import onAgentLeave from 'src/redux/middleware/onStateChange/onAgentLeave';
 import onChatConnectionClosed from 'src/redux/middleware/onStateChange/onChatConnectionClosed';
 import onChannelChoiceTransition from 'src/redux/middleware/onStateChange/onChannelChoiceTransition';
 import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger';
@@ -229,21 +227,6 @@ const onArticleDisplayed = (prevState, nextState, dispatch) => {
   }
 };
 
-const onAgentLeave = (prevState, { type, payload }, dispatch) => {
-  const memberLeaveEvent = type === SDK_CHAT_MEMBER_LEAVE;
-  const isAgent = _.get(payload, 'detail.nick', '')
-    .indexOf('agent:') > -1;
-
-  if (memberLeaveEvent && isAgent) {
-    const agents = getActiveAgents(prevState);
-
-    dispatch({
-      type: CHAT_AGENT_INACTIVE,
-      payload: agents[payload.detail.nick]
-    });
-  }
-};
-
 const onVisitorUpdate = ({ type, payload }, dispatch) => {
   const isVisitorUpdate = (type === SDK_VISITOR_UPDATE);
   const authObj = _.get(payload, 'detail.auth');
@@ -310,7 +293,7 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onArticleDisplayed(prevState, nextState, dispatch);
   onChatStatus(action, dispatch);
   onChatEnd(nextState, action, dispatch);
-  onAgentLeave(prevState, action, dispatch);
+  onAgentLeave(prevState, nextState, action, dispatch);
   onVisitorUpdate(action, dispatch);
   onWidgetOpen(prevState, nextState);
   onChatOpen(prevState, nextState, dispatch);
