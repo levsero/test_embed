@@ -20,7 +20,11 @@ import {
   getIsChatting,
   getChatRating
 } from 'src/redux/modules/chat/chat-selectors';
-import { getCurrentConcierges, getChatTitle } from 'src/redux/modules/selectors';
+import {
+  getCurrentConcierges,
+  getChatTitle,
+  getHideZendeskLogo
+} from 'src/redux/modules/selectors';
 import { locals as styles } from './RatingScreen.scss';
 
 const mapStateToProps = (state) => {
@@ -30,6 +34,7 @@ const mapStateToProps = (state) => {
     concierges: getCurrentConcierges(state),
     rating: getChatRating(state),
     title: getChatTitle(state),
+    hideZendeskLogo: getHideZendeskLogo(state)
   };
 };
 
@@ -37,7 +42,7 @@ class RatingScreen extends Component {
   static propTypes = {
     isMobile: PropTypes.bool,
     concierges: PropTypes.array.isRequired,
-    hideZendeskLogo: PropTypes.bool,
+    hideZendeskLogo: PropTypes.bool.isRequired,
     endChatFromFeedbackForm: PropTypes.bool,
     postChatFormSettings: PropTypes.object.isRequired,
     rating: PropTypes.object.isRequired,
@@ -57,7 +62,6 @@ class RatingScreen extends Component {
     endChatFromFeedbackForm: false,
     sendChatRating: () => {},
     postChatFormSettings: {},
-    hideZendeskLogo: false,
     onRatingButtonClick: () => {}
   };
 
