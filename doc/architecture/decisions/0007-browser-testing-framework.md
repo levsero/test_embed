@@ -21,13 +21,13 @@
 In Progress
 
 ## Context
-In light of the recent [API infinite loop bug](https://zendesk.atlassian.net/wiki/spaces/ops/pages/694063407/2019-04-11+Integrated+chat+widget+causing+customer+sites+to+become+unresponsive+Non-SI), the team realised the need and importance of extensive API test coverage. It is not enough to have one simple unittest for each api. In order to gain more confidence in deploys (especially deploys related to APIs), we need to test complex API configurations. Some customers have more than 200 lines of our API code triggering off an exponential number of different workflows within the widget.
+In light of the recent [API infinite loop bug](https://zendesk.atlassian.net/wiki/spaces/ops/pages/694063407/2019-04-11+Integrated+chat+widget+causing+customer+sites+to+become+unresponsive+Non-SI), the team realised the need and importance of extensive API test coverage. It is not enough to have one simple unit test for each API. In order to gain more confidence in deploys (especially deploys related to APIs), we need to test complex API configurations. Some customers have more than 200 lines of our API code triggering off an exponential number of different workflows within the widget.
 
-After much deliberation, the team decided it's necessary to write proper browser tests to test the full sequence of the widget initialization under a number of different API usecases. Although Jest integrations test would be easy to write and provide a decent amount of coverage, it is still difficult to completely test the full widget initialization process that includes queuing APIs on page load.
+After much deliberation, the team decided it's necessary to write proper browser tests to test the full sequence of the widget initialization under a number of different API use cases. Although Jest integrations test would be easy to write and provide a decent amount of coverage, it is still difficult to completely test the full widget initialization process that includes queuing APIs on page load.
 
-Furthermore, rather than writing more Zendesk Browser Tests, we have decided to move to a testing framework that can be embeded into our repository. The team prefers to write browser tests in one unified repository and our existing staging tests are very flaky due to Help Center account creation failing regularly. For that reason, we have also decided that our new browser tests will have limited dependency on external Zendesk services. The tests will depend on a shared Zendesk account but not interact with it to large extent. In addition, putting these tests into our codebase mean that they run before merging which is beneficial as the master branch should no longer have commits merged that cause tests to fail.
+Furthermore, rather than writing more Zendesk browser tests, we have decided to move to a testing framework that can be embeded into our repository. The team prefers to write browser tests in one unified repository and our existing staging tests are very flaky due to Help Center account creation failing regularly. For that reason, we have also decided that our new browser tests will have limited dependency on external Zendesk services. The tests will depend on a shared Zendesk account but not interact with it to a large extent. In addition, putting these tests into our codebase mean that they run before merging which is beneficial as the master branch should no longer have commits merged that cause tests to fail.
 
-As such, two Web Widget Engineers (Apoorv Kansal and Adrian Yong) investigated two popular browser testing frameworks. The libraries have been critically evaluated below.
+As such, Apoorv Kansal and Adrian Yong investigated two popular browser testing frameworks. The libraries have been critically evaluated below.
 
 ## Potential Solutions
 
@@ -50,15 +50,15 @@ Given that we do not want to constantly change account settings to produce diffe
 
 
 ##### API queuing 
-We need to test complex API usecases and this includes using the `zE(() => {})` and `$zopim(() => {})` embedded onto a html page. Since having a separate html page for each test is unmaintable and not scalable, we should inject Javascript code onto the rendered html before the page loads. Cypress has a `onBeforeLoad` [handler](https://docs.cypress.io/api/commands/visit.html#Arguments) and here, we can inject the callbacks.
+We need to test complex API use cases and this includes using the `zE(() => {})` and `$zopim(() => {})` embedded onto a html page. Since having a separate html page for each test is unmaintable and not scalable, we should inject Javascript code onto the rendered html before the page loads. Cypress has a `onBeforeLoad` [handler](https://docs.cypress.io/api/commands/visit.html#Arguments) and here, we can inject the callbacks.
 
 ##### Running APIs during runtime
-Cypress provides [access](https://docs.cypress.io/api/commands/window.html#No-Args) to the window object during test execution, and hence, we can call APIs during runtime. 
+Cypress provides [access](https://docs.cypress.io/api/commands/window.html#No-Args) to the window object during test execution, allowing us to call APIs during runtime. 
 
 #### General Considerations
 ##### Advantages
 - Cypress supports making [http requests](https://docs.cypress.io/api/commands/request.html#Syntax) to backend services and mocking http requests.
-- All tests run in the browser. This means that Cypress can there is no need for object serialization or JSON wire protocols. We will have full access to the Chrome Developer tools and have access to powerful debugging. 
+- All tests run in the browser. This means there is no need for object serialization or JSON wire protocols. We will have full access to the Chrome Developer tools and have access to powerful debugging. 
 - Cypress supports [plugins](https://docs.cypress.io/guides/tooling/plugins-guide.html#Use-Cases) that allow us to tap in node based processes if needed.
 - Chai-like testing syntax.
 - Powerful development environment that makes writing and testing so easy and quick.
@@ -68,11 +68,11 @@ Cypress provides [access](https://docs.cypress.io/api/commands/window.html#No-Ar
 - Able to integrate with Kent C Dodd's react testing library for querying and interacting with elements (see: https://github.com/testing-library/cypress-testing-library).
 Easy integration on Travis, Jenkins and local environment (requires slightly more configuration given that we do not have an asset composer iframe locally).
 - Cypress has support for custom commands that can easily work with the chain of commands. For example, we can easily abstract opening the widget into a simple command to dry up the tests.
-- Cypress is like jQuery. Queried elements always return a jQuery object and hence, it allows to easily select items with a common and popular interface.
+- Cypress is like jQuery. Queried elements always return a jQuery object allowing us to easily select items with a common and popular interface.
 - Cypress is super simple and easy to read. Even a non-programmer can understand what is happening in the code below:
 
 ```js
-it('send api chat message', () => {
+it('send an API chat message', () => {
   cy.visit(`${Cypress.env('hostPage')}/live.html`);
 
   cy.findByText('Live chat')
@@ -99,9 +99,9 @@ it('send api chat message', () => {
 ### Puppeteer
 #### Description:
 
-Puppeteer is node library developed by Goolge that use the Chrome Developer tools 
+Puppeteer is a node library developed by Goolge that use the Chrome Developer tools 
 protocol to communicate with Chromium or Chrome to run automated browser tests in 
-headles mode (default). Puppeteer can be used with any javascript test runner like 
+headless mode (default). Puppeteer can be used with any javascript test runner like 
 Jest, Mocha and Jasmine
 
 #### Considerations:
@@ -189,7 +189,7 @@ e.g. `page.on('console', msg => {console.log(msg)});`
  
 
 #### Disadvantages:
-* Puppeteer is just an API to drive Chrome and the initial setup was a bit difficult because there is more than one way to setup it up but we got there eventually.
+* Puppeteer is just an API to drive Chrome and the initial setup was a bit difficult because there is more than one way to set it up but we got there eventually.
 * Need to plan and setup our own DSL to wrap around the API calls to make the commands more user friendly.
 
 #### Puppeteer References:
@@ -209,13 +209,15 @@ If we do not mock parts of the widget, we will need to build up state by logging
 ### Recommendation
 After much investigation with Cypress, it's best to choose Puppeteer and use shared Zendesk accounts rather than mocking any software elements of the widget.
 
-Cypress is very restrictive for our complex usecase. For example, Cypress does not allow multiple tabs or disabling same origin policy to open iframes. Furthermore, we cannot access two different domains under the same test. These constraints mean that Cypress cannot accomodate the proposed solution as we cannot login into a Zendesk account and modify the agent status for either Talk or Chat. On the other hand, Puppeteer supports multiple tabs.
+Cypress is very restrictive for our complex use case. For example, Cypress does not allow multiple tabs or disabling same origin policy to open iframes. Furthermore, we cannot access two different domains under the same test. These constraints mean that Cypress cannot accomodate the proposed solution as we cannot login into a Zendesk account and modify the agent status for either Talk or Chat. On the other hand, Puppeteer supports multiple tabs.
 
 
 
  ## Decision
-
+The final decision is to use Puppeteer. 
 
  ## Consequences of Decision
-
- TBD
+- Developers must learn how to use the Puppeteer framework.
+- Developers will need to install the necessary frameworks.
+- Developers will need to embed browser tests into their Pull Requests.
+- Developers should be able to easily run browser tests locally.
