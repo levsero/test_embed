@@ -1422,13 +1422,13 @@ window.zESettings = {
 
 ### tags
 
-Adds one or more tags to the visitor's chat session.
-
-Note: The tags are visible in the JavaScript console in the user's browser.
+Adds one or more tags to the visitor's chat session or to the tickets
+submitted through the Web Widget.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+* [chat](./chat)
+* [contactForm](./contact_form)
 
 <a name="example-tags"></a>
 #### Example
@@ -1438,6 +1438,9 @@ Note: The tags are visible in the JavaScript console in the user's browser.
 window.zESettings = {
   webWidget: {
     chat: {
+      tags: ['loggedin']
+    },
+    contactForm: {
       tags: ['loggedin']
     }
   }
