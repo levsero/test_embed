@@ -14,7 +14,6 @@ The `contactForm` object has the following settings:
 * [selectTicketForm](./settings#selectticketform)
 * [subject](./settings#subject)
 * [suppress](./settings#suppress)
-* [tags](./settings#tags)
 * [ticketForms](./settings#ticketforms)
 * [title](./settings#title)
 
