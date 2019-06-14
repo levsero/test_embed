@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`zopimChat root reducer has the expected sub states 1`] = `
+Object {
+  "connected": false,
+  "isChatting": false,
+  "isOpen": false,
+  "status": "",
+  "unreadMessages": 0,
+}
+`;
