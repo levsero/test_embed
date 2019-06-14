@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`answerBot root reducer has the messages sub state 1`] = `
+exports[`answerBot root reducer has the expected sub states 1`] = `
 Object {
   "contextualSearchFinished": false,
   "conversation": Object {
