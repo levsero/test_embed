@@ -3,6 +3,7 @@ describe('EventMessage component', () => {
     i18n;
 
   const EventMessagePath = buildSrcPath('component/chat/chatting/log/events/EventMessage');
+  const chatConstantsPath = buildSrcPath('constants/chat');
   const mockStringValues = {
     'embeddable_framework.chat.chatLog.chatStarted': 'Chat started',
     'embeddable_framework.chat.chatLog.rating.good': 'Good',
@@ -10,6 +11,9 @@ describe('EventMessage component', () => {
     'embeddable_framework.chat.chatLog.button.leaveComment': 'Leave a comment',
     'embeddable_framework.chat.chatLog.button.rateChat': 'Rate this chat'
   };
+
+  let chatConstants = requireUncached(chatConstantsPath);
+  let DISCONNECTION_REASONS = chatConstants.DISCONNECTION_REASONS;
 
   beforeEach(() => {
     mockery.enable();
@@ -24,6 +28,9 @@ describe('EventMessage component', () => {
           'eventMessage': 'eventMessageClass',
           'fadeIn': 'fadeInClass'
         }
+      },
+      'constants/chat': {
+        DISCONNECTION_REASONS
       },
       'src/redux/modules/chat/chat-selectors': {
         getGroupMessages: noop
@@ -63,6 +70,18 @@ describe('EventMessage component', () => {
       {
         description: 'member left event from an agent',
         event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberleave' },
+        expectedString: 'embeddable_framework.chat.chatLog.agentLeft',
+        expectedArgs: { agent: 'Agent 123' }
+      },
+      {
+        description: 'member left event from an agent with reason considered to be disconnection',
+        event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberleave', reason: 'disconnect_user' },
+        expectedString: 'embeddable_framework.chat.chatLog.agentDisconnected',
+        expectedArgs: { agent: 'Agent 123' }
+      },
+      {
+        description: 'member left event from an agent with reason not considered to be disconnection',
+        event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberleave', reason: 'arbitrary_unknown_reason' },
         expectedString: 'embeddable_framework.chat.chatLog.agentLeft',
         expectedArgs: { agent: 'Agent 123' }
       },

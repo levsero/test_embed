@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { DISCONNECTION_REASONS } from 'constants/chat';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './EventMessage.scss';
 import classNames from 'classnames';
@@ -29,9 +31,16 @@ export default class EventMessage extends Component {
           : i18n.t('embeddable_framework.chat.chatLog.chatStarted');
 
       case 'chat.memberleave':
-        return isAgent(event.nick)
-          ? i18n.t('embeddable_framework.chat.chatLog.agentLeft', { agent: event.display_name } )
-          : i18n.t('embeddable_framework.chat.chatLog.chatEnded');
+        if (isAgent(event.nick)) {
+          return i18n.t(
+            _.includes(DISCONNECTION_REASONS, event.reason)
+              ? 'embeddable_framework.chat.chatLog.agentDisconnected'
+              : 'embeddable_framework.chat.chatLog.agentLeft',
+            { agent: event.display_name }
+          );
+        }
+
+        return i18n.t('embeddable_framework.chat.chatLog.chatEnded');
 
       case 'chat.rating':
         const ratingValue = event.new_rating;

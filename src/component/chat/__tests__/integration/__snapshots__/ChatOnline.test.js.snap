@@ -55,6 +55,50 @@ exports[`chat log agent join 1`] = `
 </div>
 `;
 
+exports[`chat log agent member leave with disconnection reason 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="eventMessage"
+    >
+      Mugen joined the chat
+    </div>
+    <div
+      class="eventMessage"
+    >
+      Mugen was disconnected and has left the chat
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
+exports[`chat log agent member leave with non-disconnection reason 1`] = `
+<div
+  class="chatLogContainer"
+>
+  <div>
+    <div
+      class="eventMessage"
+    >
+      Mugen joined the chat
+    </div>
+    <div
+      class="eventMessage"
+    >
+      Mugen left the chat
+    </div>
+  </div>
+  <div
+    class="noAgentTyping"
+  />
+</div>
+`;
+
 exports[`chat log agent message 1`] = `
 <div
   class="chatLogContainer"
