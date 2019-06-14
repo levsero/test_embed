@@ -78,6 +78,31 @@ describe('init', () => {
   });
 });
 
+describe('getUserIdentity', () => {
+  it('returns saved user identity', () => {
+    const userInfo = { name: 'Bob', email: 'bob@example.com' };
+
+    expect(identity.getUserIdentity())
+      .toEqual({ name: null, email: null });
+
+    identity.setUserIdentity(userInfo.name, userInfo.email);
+
+    expect(identity.getUserIdentity())
+      .toEqual(userInfo);
+  });
+});
+
+describe('setUserIdentity', () => {
+  it('saves user identity', () => {
+    const userInfo = { name: 'Bob', email: 'bob@example.com' };
+
+    identity.setUserIdentity(userInfo.name, userInfo.email);
+
+    expect(identity.getUserIdentity())
+      .toEqual(userInfo);
+  });
+});
+
 describe('getSuid', () => {
   it('generates a new suid if it does not exist currently', () => {
     const suid = identity.getSuid();

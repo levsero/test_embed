@@ -1,5 +1,6 @@
 import zopimApi from '..';
 import * as chatActions from 'src/redux/modules/chat';
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
 import * as baseActions from 'src/redux/modules/base';
 import * as apis from 'src/service/api/apis';
 import tracker from 'service/logging/tracker';
@@ -9,9 +10,11 @@ jest.mock('src/redux/modules/chat', () => ({
   setStatusForcefully: jest.fn(),
   setVisitorInfo: jest.fn()
 }));
+jest.mock('src/redux/modules/chat/chat-selectors');
 jest.mock('src/redux/modules/base', () => ({
   badgeHideReceived: jest.fn(),
-  badgeShowReceived: jest.fn()
+  badgeShowReceived: jest.fn(),
+  updateActiveEmbed: jest.fn()
 }));
 jest.mock('service/i18n', () => ({
   i18n: {
@@ -21,7 +24,8 @@ jest.mock('service/i18n', () => ({
 jest.mock('service/logging/tracker');
 
 const mockStore = {
-  dispatch: () => {}
+  dispatch: jest.fn(),
+  getState: jest.fn()
 };
 
 describe('handleZopimQueue', () => {
@@ -159,13 +163,52 @@ describe('setUpZopimApiMethods', () => {
         .toHaveBeenCalled();
     });
 
-    test('show method', () => {
-      mockWin.$zopim.livechat.window.show();
+    describe('show method', () => {
+      let getCanShowOnlineChatMock;
 
-      expect(apis.openApi)
-        .toHaveBeenCalled();
-      expect(apis.showApi)
-        .toHaveBeenCalled();
+      beforeEach(() => {
+        getCanShowOnlineChatMock = jest.spyOn(chatSelectors, 'getCanShowOnlineChat');
+
+        mockWin.$zopim.livechat.window.show();
+      });
+
+      describe('when chat is online or there is an active chat session', () => {
+        beforeEach(() => {
+          getCanShowOnlineChatMock.mockReturnValue(true);
+        });
+
+        it('calls the openApi method', () => {
+          expect(apis.openApi)
+            .toHaveBeenCalled();
+        });
+        it('calls the showApi method', () => {
+          expect(apis.showApi)
+            .toHaveBeenCalled();
+        });
+        it('updates the active embed', () => {
+          expect(baseActions.updateActiveEmbed)
+            .toHaveBeenCalledWith('chat');
+        });
+      });
+
+      describe('when chat is offline and there is not an active chat session', () => {
+        beforeEach(() => {
+          getCanShowOnlineChatMock.mockReturnValue(false);
+        });
+
+        it('calls the openApi method', () => {
+          expect(apis.openApi)
+            .toHaveBeenCalled();
+        });
+        it('calls the showApi method', () => {
+          expect(apis.showApi)
+            .toHaveBeenCalled();
+        });
+        it('does not update the active embed', () => {
+          expect(baseActions.updateActiveEmbed)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
 
     test('getDisplay method', () => {

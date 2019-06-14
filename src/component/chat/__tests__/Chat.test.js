@@ -7,15 +7,19 @@ import { Provider } from 'react-redux';
 import reducer from 'src/redux/modules/reducer';
 import Chat from '../Chat';
 import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors';
+import * as simpleSelectors from 'src/redux/modules/chat/chat-selectors/selectors';
 
-let showOfflineChatMock;
+let showOfflineChatMock,
+  getShowChatHistoryMock;
 
 beforeEach(() => {
   showOfflineChatMock = jest.spyOn(selectors, 'getShowOfflineChat');
+  getShowChatHistoryMock = jest.spyOn(simpleSelectors, 'getShowChatHistory');
 });
 
 afterEach(() => {
   showOfflineChatMock.mockRestore();
+  getShowChatHistoryMock.mockRestore();
 });
 
 const renderChat = (fullscreen = false) => {
@@ -79,5 +83,33 @@ describe('show offline chat is false', () => {
       expect(renderChat(false).getByTestId('scrollcontainer'))
         .not.toHaveClass('desktopFullscreen');
     });
+  });
+});
+
+describe('when showChatHistory is true', () => {
+  beforeEach(() => {
+    getShowChatHistoryMock.mockReturnValue(true);
+  });
+
+  it('does not render the chatting screen', () => {
+    expect(renderChat().queryByText('LiveSupport')).toBeNull();
+  });
+
+  it('does not render the offline screen', () => {
+    expect(renderChat().queryByText('Sorry, we are not online at the moment')).toBeNull();
+  });
+
+  it('does render the ChatHistory screen', () => {
+    expect(renderChat().getByText('Chat with us')).toBeInTheDocument();
+  });
+});
+
+describe('when showChatHistory is false', () => {
+  beforeEach(() => {
+    getShowChatHistoryMock.mockReturnValue(false);
+  });
+
+  it('does not render the ChatHistory screen', () => {
+    expect(renderChat().queryByText('Past Chats')).toBeNull();
   });
 });

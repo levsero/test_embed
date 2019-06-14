@@ -15,7 +15,7 @@ describe('boot', () => {
     transportSpy = registerImportSpy('http', 'get', 'init', 'updateConfig'),
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
     gaSpy = registerImportSpy('GA', 'init'),
-    apiSpy = jasmine.createSpyObj('webWidgetApi', ['apisExecutePostRenderQueue', ]),
+    apiSpy = jasmine.createSpyObj('webWidgetApi', ['apisExecutePostRenderQueue', 'apiSetup']),
     zopimApiSpy = jasmine.createSpyObj('zopimApi', ['setupZopimQueue', 'setUpZopimApiMethods']),
     trackerSpy = jasmine.createSpyObj('tracker', ['send', 'enable']),
     initSpy = jasmine.createSpy('init');
@@ -260,6 +260,11 @@ describe('boot', () => {
       it('calls tracker.enable', () => {
         expect(trackerSpy.enable)
           .toHaveBeenCalled();
+      });
+
+      it('calls apisExecutePostRenderQueue with win, postRenderQueue and reduxStore', () => {
+        expect(apiSpy.apiSetup)
+          .toHaveBeenCalledWith(win, reduxStore, config);
       });
 
       it('calls renderer.init with the config', () => {

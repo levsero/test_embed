@@ -33,6 +33,7 @@ import vendor from './chat-vendor';
 import isLoggingOut from './chat-is-logging-out';
 import forcedStatus from './chat-forced-status';
 import defaultDepartment from './chat-default-department';
+import showChatHistory from './chat-show-history';
 
 const combinedReducers = combineReducers({
   accountSettings,
@@ -67,6 +68,7 @@ const combinedReducers = combineReducers({
   userSettings,
   vendor,
   visitor,
+  showChatHistory,
 });
 
 export default function reducer(state, action) {

@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import Text from './text';
-import Results from './results';
+import SearchResults from './results/SearchResults';
+import ContextualSearchResults from './results/ContextualSearchResults';
 import ChannelChoice from './channelChoice';
 import PrimaryFeedback from './feedback/PrimaryFeedback';
 import SecondaryFeedback from './feedback/SecondaryFeedback';
+import BotTyping from './botTyping';
 import { SlideAppear } from 'component/transition/SlideAppear';
 
 import { locals as styles } from './style.scss';
@@ -27,12 +29,16 @@ export default class Messages extends Component {
     const { type, message: text, articles, sessionID } = message;
 
     switch (type) {
+      case 'contextualSearchResults':
+        return (<ContextualSearchResults />);
       case 'results':
-        return (<Results articles={articles} sessionID={sessionID} />);
+        return (<SearchResults articles={articles} sessionID={sessionID} />);
       case 'channelChoice':
         return (<ChannelChoice leadingMessage={text} useLeadingMessageAsFallback={message.fallback} />);
       case 'feedback':
         return message.feedbackType === 'primary' ? <PrimaryFeedback /> : <SecondaryFeedback />;
+      case 'botTyping':
+        return <BotTyping />;
       default:
         return (<Text isVisitor={this.props.isVisitor} message={text} />);
     }

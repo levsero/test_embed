@@ -14,6 +14,52 @@ exports[`renders expected classes and components with default props for non-visi
       >
         <div>
           <div
+            class="messageBubble container"
+          >
+            <div
+              class="firstItem lastItem optionItem"
+            >
+              <div
+                class="result"
+              >
+                <div
+                  class="heading"
+                >
+                  <span
+                    class="container icon Icon--article"
+                    data-testid="Icon--article"
+                    type="Icon--article"
+                  >
+                    test-file-stub
+                  </span>
+                  <div
+                    class="optionText"
+                  >
+                    contextual search results
+                  </div>
+                </div>
+                <div
+                  class="snippet"
+                >
+                  <div>
+                    body of contextual search results
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="transitionWrapper"
+      style="opacity: 1; bottom: 0px;"
+    >
+      <div
+        class="wrapper"
+      >
+        <div>
+          <div
             class="message botMessage"
           >
             <div>
@@ -147,7 +193,7 @@ exports[`renders expected classes and components with default props for non-visi
             <button
               class="
       button
-      topOption
+      option
     "
             >
               It's related, but it didn't answer my question
@@ -155,11 +201,51 @@ exports[`renders expected classes and components with default props for non-visi
             <button
               class="
       button
-      block
+      option
     "
             >
               It's not related to my question
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="transitionWrapper"
+      style="opacity: 1; bottom: 0px;"
+    >
+      <div
+        class="wrapper"
+      >
+        <div
+          class="bubble"
+        >
+          <div
+            aria-busy="true"
+            aria-live="polite"
+            class="container loadingContainer"
+          >
+            <div
+              class="
+      circle loadingAnimation
+      bounce
+      
+    "
+            />
+            <div
+              class="
+      circle loadingAnimation
+      bounce
+      
+    "
+            />
+            <div
+              class="
+      circle loadingAnimation
+      bounce
+      
+    "
+            />
           </div>
         </div>
       </div>

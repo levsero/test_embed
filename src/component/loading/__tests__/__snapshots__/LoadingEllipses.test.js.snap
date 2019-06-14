@@ -3,6 +3,8 @@
 exports[`\`fade\` class is there when ios8 1`] = `
 <div>
   <div
+    aria-busy="true"
+    aria-live="polite"
     class="container "
   >
     <div
@@ -33,6 +35,8 @@ exports[`\`fade\` class is there when ios8 1`] = `
 exports[`background color class can be disabled 1`] = `
 <div>
   <div
+    aria-busy="true"
+    aria-live="polite"
     class="container "
   >
     <div
@@ -63,6 +67,8 @@ exports[`background color class can be disabled 1`] = `
 exports[`renders the expected classes 1`] = `
 <div>
   <div
+    aria-busy="true"
+    aria-live="polite"
     class="container "
   >
     <div

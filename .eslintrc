@@ -17,6 +17,7 @@
   "globals": {
     "__DEV__": true,
     "__EMBEDDABLE_VERSION__": true,
+    "__EMBEDDABLE_FRAMEWORK_ENV__": true,
     "__ASSET_BASE_PATH__": true,
     "addCustomCommands": true,
     "webdrivercss": true,
@@ -28,8 +29,10 @@
   "rules": {
     "no-var": 0,
     "indent": [2, 2, {"SwitchCase": 1}],
-    "lodash/chaining": [2, "never"]
-   },
+    "lodash/chaining": [2, "never"],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error"
+  },
   "overrides": [
     {
       "files": ["*.test.js", "*_test.js"],

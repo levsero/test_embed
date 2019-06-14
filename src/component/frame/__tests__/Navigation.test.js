@@ -15,7 +15,8 @@ const renderComponent = (props) => {
   const store = createStore(reducer);
   const defaultProps = {
     isMobile: false,
-    popoutButtonVisible: true
+    popoutButtonVisible: true,
+    handleOnCloseFocusChange: jest.fn()
   };
   const actualProps = _.merge({}, defaultProps, props);
 
@@ -36,7 +37,8 @@ const renderPureComponent = (props) => {
     zChat: { getMachineId: () => 'machine id' },
     isChatPreview: false,
     chatPopoutSettings: {},
-    locale: 'en-US'
+    locale: 'en-US',
+    handleOnCloseFocusChange: noop
   };
   const actualProps = _.merge({}, defaultProps, props);
 

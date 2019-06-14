@@ -1,13 +1,14 @@
 import _ from 'lodash';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 import { updateSettingsApi } from 'src/service/api/apis';
+import { getChatStatus } from 'src/redux/modules/chat/chat-selectors';
 import {
-  handleOnApiCalled,
   badgeHideReceived,
   badgeShowReceived
 } from 'src/redux/modules/base';
-import { SDK_ACCOUNT_STATUS, SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types';
-import { getChatStatus } from 'src/redux/modules/chat/chat-selectors';
+import * as callbacks from 'service/api/callbacks';
+import { CHAT_STATUS_EVENT, CHAT_DEPARTMENT_STATUS_EVENT } from 'constants/event';
+
 import tracker from 'service/logging/tracker';
 
 export const setPositionApi = (store) => (position) => {
@@ -156,9 +157,14 @@ export function zopimExistsOnPage(win) {
 
 export const setOnStatusApi = (store, callback) => {
   if (_.isFunction(callback)) {
-    store.dispatch(handleOnApiCalled(SDK_ACCOUNT_STATUS, [getChatStatus], callback));
+    const wrappedCallbackWithArgs = () => {
+      const chatStatus = getChatStatus(store.getState());
 
-    store.dispatch(handleOnApiCalled(SDK_DEPARTMENT_UPDATE, [getChatStatus], _.debounce(callback, 0)));
+      callback(chatStatus);
+    };
+
+    callbacks.registerCallback(wrappedCallbackWithArgs, CHAT_STATUS_EVENT);
+    callbacks.registerCallback(callback, CHAT_DEPARTMENT_STATUS_EVENT);
   }
 };
 

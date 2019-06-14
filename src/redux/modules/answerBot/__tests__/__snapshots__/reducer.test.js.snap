@@ -2,18 +2,21 @@
 
 exports[`answerBot root reducer has the messages sub state 1`] = `
 Object {
+  "contextualSearchFinished": false,
   "conversation": Object {
+    "getInTouchVisible": false,
     "lastScreenClosed": 0,
     "lastScroll": 0,
   },
   "currentArticle": null,
+  "currentContextualArticle": null,
   "currentMessage": "",
   "currentScreen": "conversation",
   "currentSessionID": null,
   "greeted": false,
   "initialFallbackSuggested": false,
-  "inputDisabled": false,
   "messages": Map {},
+  "questionValueChangedTime": null,
   "sessions": Map {},
 }
 `;

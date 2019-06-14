@@ -19,7 +19,7 @@ exports[`renders as disabled 1`] = `
     <textarea
       aria-invalid="false"
       aria-labelledby="garden-text-field-2--label"
-      class="input inputDisabled Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl text__is-disabled___3Uekk kpjxwv"
+      class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl text__is-disabled___3Uekk kpjxwv"
       data-garden-id="textfields.textarea"
       data-garden-version="3.7.0"
       disabled=""

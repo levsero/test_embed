@@ -18,6 +18,8 @@ exports[`render renders button with loading animation 1`] = `
         type="button"
       >
         <div
+          aria-busy="true"
+          aria-live="polite"
           class="container "
         >
           <div

@@ -16,6 +16,7 @@ import {
   setLocaleApi
 } from 'src/service/api/apis';
 import tracker from 'service/logging/tracker';
+import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors';
 
 export function apiSetup(win, reduxStore, embeddableConfig = {}) {
   const existingConfig = !_.isEmpty(embeddableConfig.embeds);
@@ -62,6 +63,9 @@ export function legacyApiSetup(win, reduxStore) {
   win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
   win.zE.hide = () => hideApi(reduxStore);
   win.zE.show = () => {
+    const state = reduxStore.getState();
+
+    if (!getWidgetAlreadyHidden(state)) return;
     reduxStore.dispatch(legacyShowReceived());
   };
   win.zE.setLocale = setLocaleApi;
@@ -71,9 +75,7 @@ export function legacyApiSetup(win, reduxStore) {
 export function setupDevApi(win, reduxStore) {
   return {
     devRender: (config) => {
-      if (config.ipmAllowed) {
-        apiSetup(win, reduxStore, config);
-      }
+      apiSetup(win, reduxStore, config);
       renderer.init(config, reduxStore);
     }
   };

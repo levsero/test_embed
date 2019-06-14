@@ -32,6 +32,24 @@ testReducer(chatIsChatting, [
   },
   {
     action: {
+      type: actions.SDK_CONNECTION_UPDATE,
+      payload: { type: 'connection_update', detail: 'closed' }
+    },
+    initialState: true,
+    expected: false,
+    extraDesc: 'sets to false on connection close'
+  },
+  {
+    action: {
+      type: actions.SDK_CONNECTION_UPDATE,
+      payload: { type: 'connection_update', detail: 'open' }
+    },
+    extraDesc: 'does not set to false if not connection close',
+    initialState: true,
+    expected: true
+  },
+  {
+    action: {
       type: actions.CHAT_MSG_REQUEST_SUCCESS
     },
     initialState: false,

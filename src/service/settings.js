@@ -12,6 +12,7 @@ const optionAllowList = {
     'answerBot.avatar.name',
     'answerBot.avatar.url',
     'answerBot.suppress',
+    'answerBot.contactOnlyAfterQuery',
     'authenticate',
     'authenticate.support',
     'authenticate.chat',

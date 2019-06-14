@@ -6,16 +6,26 @@ import * as actions from '../actions';
 import * as actionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors';
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors';
+import * as callbacks from 'service/api/callbacks';
+import {
+  CHAT_CONNECTED_EVENT,
+  CHAT_STARTED_EVENT,
+  CHAT_ENDED_EVENT,
+  CHAT_UNREAD_MESSAGES_EVENT
+} from 'constants/event';
 
 const timeoutError = { code: 'ETIMEDOUT' };
 const otherError = { code: 'DERP DERP', message: 'I gone derped up' };
 const mockStore = configureMockStore([thunk]);
 const invoker = jest.fn();
 const mockTimeout = jest.fn(() => invoker);
+const sendFile = jest.fn();
 const stateWithZChat = {
   chat: {
     vendor: {
-      zChat: {}
+      zChat: {
+        sendFile
+      }
     }
   }
 };
@@ -36,6 +46,14 @@ const dispatchZChatWithTimeoutAction = (action, ...callbackArgs) => {
     timeoutArgs,
     callback
   };
+};
+
+const dispatchAction = (action) => {
+  const store = mockStore(stateWithZChat);
+
+  store.dispatch(action);
+
+  return store.getActions()[0];
 };
 
 describe('endChat', () => {
@@ -68,11 +86,14 @@ describe('endChat', () => {
 
   describe('when there are no errors', () => {
     it('dispatches CHAT_ALL_AGENTS_INACTIVE and END_CHAT_REQUEST_SUCCESS', () => {
+      jest.spyOn(callbacks, 'fireFor');
       const { store } = dispatchZChatWithTimeoutAction(
         actions.endChat()
       );
 
       expect(store.getActions()).toEqual(happyPathActions);
+      expect(callbacks.fireFor)
+        .toHaveBeenCalledWith(CHAT_ENDED_EVENT);
     });
 
     verifyCallbackCalled();
@@ -81,12 +102,15 @@ describe('endChat', () => {
   describe('when there is an error', () => {
     describe("when it's a timeout error", () => {
       it('dispatches CHAT_ALL_AGENTS_INACTIVE and END_CHAT_REQUEST_SUCCESS', () => {
+        jest.spyOn(callbacks, 'fireFor');
         const { store } = dispatchZChatWithTimeoutAction(
           actions.endChat(),
           timeoutError
         );
 
         expect(store.getActions()).toEqual(happyPathActions);
+        expect(callbacks.fireFor)
+          .toHaveBeenCalledWith(CHAT_ENDED_EVENT);
       });
 
       verifyCallbackCalled();
@@ -377,35 +401,36 @@ describe('sendAttachments', () => {
   });
 
   it('dispatches CHAT_FILE_REQUEST_SENT for each file in the list', () => {
-    const { store } = dispatchZChatWithTimeoutAction(
-      actions.sendAttachments(mockFileList),
-      null,
-      mockData
-    );
+    const store = mockStore(stateWithZChat);
 
+    store.dispatch(actions.sendAttachments(mockFileList));
     expect(store.getActions()).toMatchSnapshot();
   });
 
   describe('when there are no errors', () => {
     it('dispatches CHAT_FILE_REQUEST_SUCCESS for each file in the list', () => {
-      const { store } = dispatchZChatWithTimeoutAction(
-        actions.sendAttachments(mockFileList),
-        null,
-        mockData
-      );
+      const store = mockStore(stateWithZChat);
 
+      store.dispatch(actions.sendAttachments(mockFileList));
+
+      const call = sendFile.mock.calls[0];
+      const callback = call[1];
+
+      callback(null, mockData);
       expect(store.getActions()).toMatchSnapshot();
     });
   });
 
   describe('when there is an error', () => {
     it('dispatches CHAT_FILE_REQUEST_FAILURE for each file in the list', () => {
-      const { store } = dispatchZChatWithTimeoutAction(
-        actions.sendAttachments(mockFileList),
-        timeoutError,
-        mockData
-      );
+      const store = mockStore(stateWithZChat);
 
+      store.dispatch(actions.sendAttachments(mockFileList));
+
+      const call = sendFile.mock.calls[0];
+      const callback = call[1];
+
+      callback(new Error('some error'), mockData);
       expect(store.getActions()).toMatchSnapshot();
     });
   });
@@ -693,4 +718,50 @@ describe('editContactDetailsSubmitted', () => {
       payload: { ...mockVisitor, timestamp: Date.now() }
     });
   });
+});
+
+describe('openedChatHistory', () => {
+  it('dispatches OPENED_CHAT_HISTORY', () => {
+    const result = dispatchAction(actions.openedChatHistory());
+
+    expect(result).toEqual({ type: actionTypes.OPENED_CHAT_HISTORY });
+  });
+});
+
+describe('closedChatHistory', () => {
+  it('dispatches CLOSED_CHAT_HISTORY', () => {
+    const result = dispatchAction(actions.closedChatHistory());
+
+    expect(result).toEqual({ type: actionTypes.CLOSED_CHAT_HISTORY });
+  });
+});
+
+test('chatConnected', () => {
+  jest.spyOn(callbacks, 'fireFor');
+  const result = dispatchAction(actions.chatConnected());
+
+  expect(callbacks.fireFor)
+    .toHaveBeenCalledWith(CHAT_CONNECTED_EVENT);
+  expect(result)
+    .toEqual({ type: actionTypes.CHAT_CONNECTED });
+});
+
+test('chatStarted', () => {
+  jest.spyOn(callbacks, 'fireFor');
+  const result = dispatchAction(actions.chatStarted());
+
+  expect(callbacks.fireFor)
+    .toHaveBeenCalledWith(CHAT_STARTED_EVENT);
+  expect(result)
+    .toEqual({ type: actionTypes.CHAT_STARTED });
+});
+
+test('newAgentReceived', () => {
+  jest.spyOn(callbacks, 'fireFor');
+  const result = dispatchAction(actions.newAgentMessageReceived('yeet'));
+
+  expect(callbacks.fireFor)
+    .toHaveBeenCalledWith(CHAT_UNREAD_MESSAGES_EVENT);
+  expect(result)
+    .toEqual({ type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload: 'yeet' });
 });

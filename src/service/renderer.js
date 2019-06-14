@@ -101,7 +101,6 @@ function renderEmbeds(parsedConfig, config, reduxStore) {
       configItem.props.brand = config.brand;
       configItem.props.color = { base: config.color, text: config.textColor };
       configItem.props.brandCount = config.brandCount;
-      configItem.props.ipmAllowed = config.ipmAllowed;
 
       embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
       embedsMap[configItem.embed].render(embedName);

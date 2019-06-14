@@ -28,6 +28,13 @@ import {
   zChatWithTimeout,
   canBeIgnored
 } from 'src/redux/modules/chat/helpers/zChatWithTimeout';
+import {
+  CHAT_CONNECTED_EVENT,
+  CHAT_ENDED_EVENT,
+  CHAT_STARTED_EVENT,
+  CHAT_UNREAD_MESSAGES_EVENT
+} from 'constants/event';
+import * as callbacks from 'service/api/callbacks';
 
 const chatTypingTimeout = 2000;
 let history = [];
@@ -110,6 +117,7 @@ export const endChat = (callback = noop) => {
 
         dispatch({ type: actions.CHAT_ALL_AGENTS_INACTIVE, payload: activeAgents });
         dispatch({ type: actions.END_CHAT_REQUEST_SUCCESS });
+        callbacks.fireFor(CHAT_ENDED_EVENT);
       } else {
         dispatch({ type: actions.END_CHAT_REQUEST_FAILURE });
       }
@@ -147,6 +155,18 @@ export const handleSoundIconClick = (settings) => {
 export function resetCurrentMessage() {
   return {
     type: actions.RESET_CURRENT_MESSAGE
+  };
+}
+
+export function openedChatHistory() {
+  return {
+    type: actions.OPENED_CHAT_HISTORY
+  };
+}
+
+export function closedChatHistory() {
+  return {
+    type: actions.CLOSED_CHAT_HISTORY
   };
 }
 
@@ -377,6 +397,7 @@ export function chatNotificationReset() {
 
 export function sendAttachments(fileList) {
   return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
     const visitor = getChatVisitor(getState());
 
     _.forEach(fileList, file => {
@@ -401,7 +422,7 @@ export function sendAttachments(fileList) {
         }
       });
 
-      zChatWithTimeout(getState, 'sendFile')(file, (err, data) => {
+      zChat.sendFile(file, (err, data) => {
         if (!err) {
           dispatch({
             type: actions.CHAT_FILE_REQUEST_SUCCESS,
@@ -435,7 +456,10 @@ export function sendAttachments(fileList) {
 }
 
 export function newAgentMessageReceived(chat) {
-  return { type: actions.NEW_AGENT_MESSAGE_RECEIVED, payload: chat };
+  return (dispatch) => {
+    dispatch({ type: actions.NEW_AGENT_MESSAGE_RECEIVED, payload: chat });
+    callbacks.fireFor(CHAT_UNREAD_MESSAGES_EVENT);
+  };
 }
 
 export function chatOpened() {
@@ -641,28 +665,25 @@ export function chatLogout() {
   return (dispatch, getState) => {
     const state = getState();
     const zChat = getZChatVendor(state);
-    const isAuthenticated = getIsAuthenticated(state);
     const zChatConfig = getZChatConfig(state);
 
-    if (isAuthenticated) {
-      zChat.endChat(() => {
-        dispatch({
-          type: actions.CHAT_USER_LOGGING_OUT
-        });
-
-        zChat.logout();
-        zChat.init(zChatConfig);
-        zChat.on('connection_update', (connectionStatus) => {
-          const isLoggingOut = getIsLoggingOut(getState());
-
-          if (connectionStatus === CONNECTION_STATUSES.CONNECTED && isLoggingOut) {
-            dispatch({
-              type: actions.CHAT_USER_LOGGED_OUT
-            });
-          }
-        });
+    zChat.endChat(() => {
+      dispatch({
+        type: actions.CHAT_USER_LOGGING_OUT
       });
-    }
+
+      zChat.logoutForAll();
+      zChat.init(zChatConfig);
+      zChat.on('connection_update', (connectionStatus) => {
+        const isLoggingOut = getIsLoggingOut(getState());
+
+        if (connectionStatus === CONNECTION_STATUSES.CONNECTED && isLoggingOut) {
+          dispatch({
+            type: actions.CHAT_USER_LOGGED_OUT
+          });
+        }
+      });
+    });
   };
 }
 
@@ -685,9 +706,19 @@ export function chatWindowOpenOnNavigate() {
   };
 }
 
+export function chatStarted() {
+  return (dispatch) => {
+    dispatch({ type: actions.CHAT_STARTED });
+    callbacks.fireFor(CHAT_STARTED_EVENT);
+  };
+}
+
 export function chatConnected() {
-  return {
-    type: actions.CHAT_CONNECTED
+  return (dispatch) => {
+    dispatch({
+      type: actions.CHAT_CONNECTED
+    });
+    callbacks.fireFor(CHAT_CONNECTED_EVENT);
   };
 }
 

@@ -68,7 +68,7 @@ export const getSettingsNavigationPopoutButtonEnabled = (state) => state.setting
 export const getSettingsContactFormAttachments = (state) => state.settings.contactForm.settings.attachments;
 export const getSettingsContactFormSubject = (state) => state.settings.contactForm.settings.subject;
 export const getSettingsContactFormTitle = (state) => state.settings.contactForm.settings.title;
-
+export const getSettingsSelectTicketFormLabel = (state) => state.settings.contactForm.settings.selectTicketForm;
 export const getSettingsContactFormSuppress = (state) => state.settings.contactForm.settings.suppress;
 export const getSettingsContactFormTags = (state) => state.settings.contactForm.settings.tags;
 
@@ -173,6 +173,7 @@ export const getSettingsChatPopout = createSelector(
 );
 
 export const getAnswerBotTitle = (state) => state.settings.answerBot.title;
+export const getAnswerBotDelayChannelChoice = (state) => state.settings.answerBot.delayChannelChoice;
 export const getAnswerBotSearchLabels = (state) => state.settings.answerBot.search.labels;
 const getSettingsAnswerBotAvatar = (state) => state.settings.answerBot.avatar;
 

@@ -1,5 +1,5 @@
 import {
-  QUESTION_SUBMITTED_PENDING,
+  QUESTION_VALUE_SUBMITTED,
   QUESTION_SUBMITTED_FULFILLED
 } from '../action-types';
 
@@ -7,7 +7,9 @@ import {
   BOT_MESSAGE,
   BOT_CHANNEL_CHOICE,
   BOT_FEEDBACK,
-  BOT_FEEDBACK_REQUESTED
+  BOT_FEEDBACK_REQUESTED,
+  BOT_TYPING,
+  BOT_CONTEXTUAL_SEARCH_RESULTS
 } from '../../root/action-types';
 
 const initialState = new Map();
@@ -24,7 +26,7 @@ const messages = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case QUESTION_SUBMITTED_PENDING:
+    case QUESTION_VALUE_SUBMITTED:
       return addMessage(state, { ...payload, isVisitor: true });
     case QUESTION_SUBMITTED_FULFILLED:
       const {
@@ -41,6 +43,10 @@ const messages = (state = initialState, action) => {
       return addMessage(state, { ...payload, isVisitor: true, type: 'feedback' });
     case BOT_FEEDBACK_REQUESTED:
       return addMessage(state, { ...payload, type: 'feedbackRequested' });
+    case BOT_TYPING:
+      return addMessage(state, { ...payload, type: 'botTyping' });
+    case BOT_CONTEXTUAL_SEARCH_RESULTS:
+      return addMessage(state, { ...payload, type: 'contextualSearchResults' });
     default:
       return state;
   }

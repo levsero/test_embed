@@ -18,6 +18,7 @@ import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { ICONS, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
 import { locals as styles } from './ChatOfflineForm.scss';
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
+import ChatHistoryLink from './ChatHistoryLink';
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -44,7 +45,10 @@ export class ChatOfflineForm extends Component {
     getFrameContentDocument: PropTypes.func.isRequired,
     widgetShown: PropTypes.bool.isRequired,
     channels: PropTypes.object,
-    fullscreen: PropTypes.bool
+    fullscreen: PropTypes.bool,
+    hasChatHistory: PropTypes.bool.isRequired,
+    openedChatHistory: PropTypes.func.isRequired,
+    chatHistoryLabel: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -379,6 +383,11 @@ export class ChatOfflineForm extends Component {
           fullscreen={this.props.fullscreen}
           title={this.props.title}
           scrollShadowVisible={true}>
+          <ChatHistoryLink
+            isAuthenticated={this.props.isAuthenticated}
+            hasChatHistory={this.props.hasChatHistory}
+            openedChatHistory={this.props.openedChatHistory}
+            label={this.props.chatHistoryLabel} />
           {this.renderOfflineGreeting()}
           {this.renderOperatingHoursLink()}
           {this.renderMessagingChannels()}

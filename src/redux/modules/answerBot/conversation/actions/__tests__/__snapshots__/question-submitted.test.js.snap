@@ -1,31 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`questionSubmitted callbacks dispatches another request when there are no results and there is a locale in the request 1`] = `
+Object {
+  "authorization": "Bearer abc123",
+  "callbacks": Object {
+    "done": [Function],
+    "fail": [Function],
+  },
+  "method": "post",
+  "params": Object {
+    "deflection_channel_id": 67,
+    "enquiry": "hello world",
+    "interaction_reference": 8888,
+    "interaction_reference_type": 1,
+    "labels": Array [
+      "this",
+      "is",
+      "a",
+      "label",
+    ],
+    "locale": null,
+    "via_id": 67,
+  },
+  "path": "/api/v2/answer_bot/interaction?include=html_body",
+  "useHostMappingIfAvailable": false,
+}
+`;
+
 exports[`questionSubmitted callbacks dispatches expected actions on failed request 1`] = `
 Array [
-  Object {
-    "payload": Object {
-      "sessionData": Object {
-        "articles": Array [],
-        "fallbackSuggested": false,
-        "requestStatus": null,
-        "resolved": false,
-      },
-      "sessionID": 123456789,
-    },
-    "type": "widget/answerBot/SESSION_STARTED",
-  },
-  Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
-  },
-  Object {
-    "payload": Object {
-      "message": "hello world",
-      "sessionID": 1234,
-      "timestamp": 123456789,
-    },
-    "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
-  },
   Object {
     "payload": Object {
       "error": "error",
@@ -40,6 +43,20 @@ exports[`questionSubmitted callbacks dispatches expected actions on successful r
 Array [
   Object {
     "payload": Object {
+      "message": "hello world",
+      "sessionID": undefined,
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/QUESTION_VALUE_SUBMITTED",
+  },
+  Object {
+    "payload": Object {
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/BOT_TYPING",
+  },
+  Object {
+    "payload": Object {
       "sessionData": Object {
         "articles": Array [],
         "fallbackSuggested": false,
@@ -49,10 +66,6 @@ Array [
       "sessionID": 123456789,
     },
     "type": "widget/answerBot/SESSION_STARTED",
-  },
-  Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
   },
   Object {
     "payload": Object {
@@ -86,8 +99,18 @@ Array [
 exports[`questionSubmitted dispatches the expected action without session starting 1`] = `
 Array [
   Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
+    "payload": Object {
+      "message": "hello world",
+      "sessionID": undefined,
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/QUESTION_VALUE_SUBMITTED",
+  },
+  Object {
+    "payload": Object {
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/BOT_TYPING",
   },
   Object {
     "payload": Object {
@@ -104,6 +127,20 @@ exports[`questionSubmitted dispatches the expected pending actions 1`] = `
 Array [
   Object {
     "payload": Object {
+      "message": "hello world",
+      "sessionID": undefined,
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/QUESTION_VALUE_SUBMITTED",
+  },
+  Object {
+    "payload": Object {
+      "timestamp": 123456789,
+    },
+    "type": "widget/answerBot/BOT_TYPING",
+  },
+  Object {
+    "payload": Object {
       "sessionData": Object {
         "articles": Array [],
         "fallbackSuggested": false,
@@ -113,10 +150,6 @@ Array [
       "sessionID": 123456789,
     },
     "type": "widget/answerBot/SESSION_STARTED",
-  },
-  Object {
-    "payload": true,
-    "type": "widget/answerBot/INPUT_DISABLED",
   },
   Object {
     "payload": Object {
@@ -151,6 +184,7 @@ exports[`questionSubmitted sends the expected http params 1`] = `
             "a",
             "label",
           ],
+          "locale": "tl",
           "via_id": 67,
         },
         "path": "/api/v2/answer_bot/interaction?include=html_body",

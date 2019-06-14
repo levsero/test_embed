@@ -79,6 +79,7 @@ describe('chat redux actions', () => {
     WHITELISTED_SOCIAL_LOGINS = chatConstants.WHITELISTED_SOCIAL_LOGINS;
 
     initMockRegistry({
+      'service/api/callbacks': {},
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone,
         getZChatConfig: () => mockZChatConfig
@@ -115,7 +116,7 @@ describe('chat redux actions', () => {
             getAuthLoginUrl: (key) => `www.foo.com/${key}/bar-baz`,
             doAuthLogout: (cb) => cb(mockDoAuthLogoutArgs),
             init: mockInit,
-            logout: mockLogout
+            logoutForAll: mockLogout
           };
         }
       },
@@ -126,6 +127,7 @@ describe('chat redux actions', () => {
           CONNECTED: 'connected'
         }
       },
+      'constants/event': {},
       'service/mediator': {
         mediator: {
           channel: {
@@ -761,26 +763,6 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('newAgentMessageReceived', () => {
-    let action;
-    const agentMessage = { nick: 'agent:007', msg: 'hello, world' };
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.newAgentMessageReceived(agentMessage));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches a NEW_AGENT_MESSAGE_RECEIVED action', () => {
-      expect(action.type)
-        .toEqual(actionTypes.NEW_AGENT_MESSAGE_RECEIVED);
-    });
-
-    it('has the agent message in the payload', () => {
-      expect(action.payload)
-        .toEqual(agentMessage);
-    });
-  });
-
   describe('chatOpened', () => {
     let action;
 
@@ -1333,24 +1315,6 @@ describe('chat redux actions', () => {
             });
           });
         });
-      });
-    });
-
-    describe('when not authenticated', () => {
-      beforeAll(() => {
-        mockIsAuthenticated = false;
-      });
-
-      it('does not call endChat', () => {
-        expect(mockEndChat)
-          .not
-          .toHaveBeenCalled();
-      });
-
-      it('does not call logout', () => {
-        expect(mockLogout)
-          .not
-          .toHaveBeenCalled();
       });
     });
   });

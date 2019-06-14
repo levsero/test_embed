@@ -19,7 +19,8 @@ import {
   setVisitorInfo,
   clearDepartment,
   handlePrechatFormSubmit,
-  initiateSocialLogout
+  initiateSocialLogout,
+  openedChatHistory
 } from 'src/redux/modules/chat';
 import {
   getDepartments,
@@ -36,10 +37,12 @@ import {
 import {
   getChatTitle,
   getPrechatFormSettings,
-  getPrechatFormFields
+  getPrechatFormFields,
+  getChatHistoryLabel
 } from 'src/redux/modules/selectors';
 import { getSettingsChatDepartmentsEmpty } from 'src/redux/modules/settings/settings-selectors';
 import { locals as styles } from './PrechatScreen.scss';
+import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors';
 
 const mapStateToProps = (state) => {
   const prechatForm = getPrechatFormSettings(state);
@@ -59,7 +62,9 @@ const mapStateToProps = (state) => {
     preChatFormState: getPreChatFormState(state),
     isAuthenticated: getIsAuthenticated(state),
     title: getChatTitle(state),
-    departmentFieldHidden: getSettingsChatDepartmentsEmpty(state)
+    departmentFieldHidden: getSettingsChatDepartmentsEmpty(state),
+    hasChatHistory: getHasChatHistory(state),
+    chatHistoryLabel: getChatHistoryLabel(state),
   };
 };
 
@@ -71,6 +76,7 @@ class PrechatScreen extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     setDepartment: PropTypes.func.isRequired,
     departments: PropTypes.object,
+    hasChatHistory: PropTypes.bool.isRequired,
     sendOfflineMessage: PropTypes.func,
     sendMsg: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
@@ -92,7 +98,9 @@ class PrechatScreen extends Component {
     isAuthenticated: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     fullscreen: PropTypes.bool,
-    departmentFieldHidden: PropTypes.bool.isRequired
+    departmentFieldHidden: PropTypes.bool.isRequired,
+    openedChatHistory: PropTypes.func.isRequired,
+    chatHistoryLabel: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -177,6 +185,7 @@ class PrechatScreen extends Component {
         socialLogin={this.props.socialLogin}
         chatVisitor={this.props.visitor}
         initiateSocialLogout={this.props.initiateSocialLogout}
+        hasChatHistory={this.props.hasChatHistory}
         form={form}
         readOnlyState={this.props.readOnlyState}
         formState={this.props.preChatFormState}
@@ -190,7 +199,9 @@ class PrechatScreen extends Component {
         isMobile={this.props.isMobile}
         chatId={this.props.chatId}
         fullscreen={this.props.fullscreen}
-        hideZendeskLogo={this.props.hideZendeskLogo} />
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        openedChatHistory={this.props.openedChatHistory}
+        chatHistoryLabel={this.props.chatHistoryLabel} />
     );
   }
 
@@ -225,7 +236,8 @@ const actionCreators = {
   resetCurrentMessage,
   handlePreChatFormChange,
   handlePrechatFormSubmit,
-  initiateSocialLogout
+  initiateSocialLogout,
+  openedChatHistory
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(PrechatScreen);

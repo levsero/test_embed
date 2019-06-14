@@ -2,6 +2,7 @@ import * as apis from '../apis';
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types';
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as constants from 'constants/api';
+import * as eventConstants from 'constants/event';
 import * as chatActions from 'src/redux/modules/chat/chat-actions/actions';
 import * as settingsActions from 'src/redux/modules/settings/settings-actions';
 import * as baseActions from 'src/redux/modules/base/base-actions';
@@ -12,12 +13,15 @@ import { wait } from 'react-testing-library';
 import { chat as zopimChat } from 'embed/chat/chat';
 import { mediator } from 'service/mediator';
 import { beacon } from 'service/beacon';
+import { identity } from 'service/identity';
 import * as baseSelectors from 'src/redux/modules/base/base-selectors';
 import createStore from 'src/redux/createStore';
+import * as callbacks from 'service/api/callbacks';
 
 jest.mock('service/mediator');
 jest.mock('service/settings');
 jest.mock('service/beacon');
+jest.mock('service/identity');
 jest.mock('embed/chat/chat');
 
 const mockActionValue = Date.now();
@@ -116,6 +120,8 @@ describe('identify', () => {
     it('calls identify and chat setUser', () => {
       expect(beacon.identify)
         .toHaveBeenCalledWith(params);
+      expect(identity.setUserIdentity)
+        .toHaveBeenCalledWith(params.name, params.email);
       expect(zopimChat.setUser)
         .toHaveBeenCalledWith(params);
     });
@@ -456,25 +462,66 @@ describe('hideApi', () => {
 
   afterEach(() => spy.mockRestore());
 
-  it('dispatches the hideReceived action', () => {
-    apis.hideApi(store);
+  describe('when widget is visible',() => {
+    beforeEach(() => {
+      jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(false);
+    });
 
-    expect(store.dispatch)
-      .toHaveBeenCalledWith(mockActionValue);
+    it('dispatches the hideReceived action', () => {
+      apis.hideApi(store);
+
+      expect(store.dispatch)
+        .toHaveBeenCalledWith(mockActionValue);
+    });
+  });
+
+  describe('when widget is already hidden',() => {
+    beforeEach(() => {
+      jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(true);
+    });
+
+    it('dispatches the hideReceived action', () => {
+      apis.hideApi(store);
+
+      expect(store.dispatch)
+        .not.toHaveBeenCalled();
+    });
   });
 });
 
-test('showApi dispatches the showReceived action', () => {
-  const store = createStore();
+describe('showApi', () => {
+  let store;
 
-  store.dispatch = jest.fn();
+  beforeEach(() => {
+    store = createStore();
 
-  apis.showApi(store);
+    store.dispatch = jest.fn();
+  });
 
-  expect(store.dispatch)
-    .toHaveBeenCalledWith(expect.objectContaining(
-      { type: baseActionTypes.SHOW_RECEIVED }
-    ));
+  describe('when widget is visible',() => {
+    beforeEach(() => {
+      jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(false);
+      apis.showApi(store);
+    });
+
+    it('dispatches the showReceived action', () => {
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('when widget is already hidden',() => {
+    beforeEach(() => {
+      jest.spyOn(baseSelectors, 'getWidgetAlreadyHidden').mockReturnValue(true);
+      apis.showApi(store);
+    });
+
+    it('dispatches the showReceived action', () => {
+      expect(store.dispatch)
+        .toHaveBeenCalledWith(expect.objectContaining(
+          { type: baseActionTypes.SHOW_RECEIVED }
+        ));
+    });
+  });
 });
 
 test('clearFormState dispatches the apiClearform action', () => {
@@ -618,7 +665,7 @@ describe('onApi', () => {
       on[constants.API_ON_OPEN_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      store.dispatch({ type: baseActionTypes.EXECUTE_API_ON_OPEN_CALLBACK });
+      callbacks.fireFor(eventConstants.WIDGET_OPENED_EVENT);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();
@@ -631,7 +678,7 @@ describe('onApi', () => {
       on[constants.API_ON_CLOSE_NAME](store, callback);
 
       expect(callback).not.toHaveBeenCalled();
-      store.dispatch({ type: baseActionTypes.EXECUTE_API_ON_CLOSE_CALLBACK });
+      callbacks.fireFor(eventConstants.WIDGET_CLOSED_EVENT);
 
       await wait(() => {
         expect(callback).toHaveBeenCalled();
@@ -643,7 +690,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_CONNECTED_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    store.dispatch({ type: chatActionTypes.CHAT_CONNECTED });
+    callbacks.fireFor(eventConstants.CHAT_CONNECTED_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -654,7 +701,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_END_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    store.dispatch({ type: chatActionTypes.END_CHAT_REQUEST_SUCCESS });
+    callbacks.fireFor(eventConstants.CHAT_ENDED_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -665,7 +712,7 @@ describe('onApi', () => {
     on.chat[constants.API_ON_CHAT_START_NAME](store, callback);
 
     expect(callback).not.toHaveBeenCalled();
-    store.dispatch({ type: chatActionTypes.CHAT_STARTED });
+    callbacks.fireFor(eventConstants.CHAT_STARTED_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalled();
@@ -677,6 +724,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled();
     store.dispatch({ type: chatActionTypes.SDK_ACCOUNT_STATUS, payload: { detail: 'yeetStat' } });
+    callbacks.fireFor(eventConstants.CHAT_STATUS_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith('yeetStat');
@@ -696,6 +744,7 @@ describe('onApi', () => {
         msg: 'check it'
       }
     });
+    callbacks.fireFor(eventConstants.CHAT_UNREAD_MESSAGES_EVENT);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith(1);
@@ -707,6 +756,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled();
     store.dispatch({ type: chatActionTypes.SDK_DEPARTMENT_UPDATE, payload: { detail: { id: 1 } } });
+    callbacks.fireFor(eventConstants.CHAT_DEPARTMENT_STATUS_EVENT, [{ id: 1 }]);
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith({ id: 1 });

@@ -21,6 +21,7 @@ const icons = {
   [ICONS.SEND_CHAT]: require('icons/widget-icon_sendChat.svg'),
   'Icon--agent-avatar': require('icons/widget-icon_avatar.svg'),
   'Icon--answerBot': require('icons/widget-icon_answerBot.svg'),
+  'Icon--clock-stroke': require('@zendeskgarden/svg-icons/src/16/clock-stroke.svg'),
   'Icon--article': require('icons/widget-icon_article.svg'),
   'Icon--avatar': require('icons/widget-icon_concierge.svg'),
   'Icon--channelChoice-contactForm': require('icons/widget-icon_channelChoice-contactForm.svg'),

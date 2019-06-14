@@ -50,6 +50,19 @@ describe('ChatOffline component', () => {
           OPERATING_HOURS: 'OPERATING_HOURS',
           SUCCESS: 'SUCCESS'
         }
+      }, 'src/redux/modules/chat/chat-history-selectors': {
+
+      },
+      './ChatHistoryLink.scss': {
+        locals: {
+
+        }
+      },
+      'component/Icon': {
+        Icon: noop
+      },
+      'src/constants/shared': {
+
       }
     });
 
@@ -133,13 +146,22 @@ describe('ChatOffline component', () => {
   describe('renderChatOfflineScreen', () => {
     let result;
 
-    beforeEach(() => {
+    const doInstanceRender = () => {
       const component = instanceRender(<ChatOffline
         title={mockTitle}
         fullscreen={true}
-        isMobile={true}/>);
+        isMobile={true}
+        isAuthenticated={'testValue'}
+        hasChatHistory={'anotherTestValue'}
+        openedChatHistory={'HELLO FREN'}
+        chatHistoryLabel={'whoop'}
+      />);
 
-      result = component.renderChatOfflineScreen();
+      return component.renderChatOfflineScreen();
+    };
+
+    beforeEach(() => {
+      result = doInstanceRender();
     });
 
     it('renders with the correct title', () => {
@@ -155,6 +177,15 @@ describe('ChatOffline component', () => {
     it('renders with the correct isMobile status', () => {
       expect(result.props.isMobile)
         .toEqual(true);
+    });
+
+    it('renders the Chat History Link ', () => {
+      expect(_.get(result, 'props.children.props.children[0].props')).toEqual({
+        isAuthenticated: 'testValue',
+        hasChatHistory: 'anotherTestValue',
+        openedChatHistory: 'HELLO FREN',
+        label: 'whoop'
+      });
     });
   });
 });

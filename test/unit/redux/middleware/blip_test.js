@@ -9,6 +9,7 @@ describe('blip middleware', () => {
   const SEARCH_REQUEST_SUCCESS = 'widget/helpCenter/SEARCH_REQUEST_SUCCESS';
   const SEARCH_REQUEST_FAILURE = 'widget/helpCenter/SEARCH_REQUEST_FAILURE';
   const ARTICLE_SHOWN = 'widget/answerBot/ARTICLE_SHOWN';
+  const CONTEXTUAL_ARTICLE_SHOWN = 'widget/answerBot/CONTEXTUAL_ARTICLE_SHOWN';
   const UPDATE_WIDGET_SHOWN = 'widget/base/UPDATE_WIDGET_SHOWN';
   const SCREEN_CHANGED = 'widget/answerBot/SCREEN_CHANGED';
   const ZOPIM_ON_OPEN = 'widget/zopim_chat/ZOPIM_ON_OPEN';
@@ -78,7 +79,8 @@ describe('blip middleware', () => {
       },
       'src/redux/modules/answerBot/root/action-types': {
         ARTICLE_SHOWN: ARTICLE_SHOWN,
-        SCREEN_CHANGED: SCREEN_CHANGED
+        SCREEN_CHANGED: SCREEN_CHANGED,
+        CONTEXTUAL_ARTICLE_SHOWN
       },
       'src/constants/answerBot': {
         ARTICLE_SCREEN: 'article',
@@ -666,6 +668,44 @@ describe('blip middleware', () => {
           deflectionId: 9,
           answerBot: true,
           uniqueSearchResultClick: false
+        };
+
+        expect(beaconSpy.trackUserAction)
+          .toHaveBeenCalledWith('helpCenter', 'click', {
+            label: 'helpCenterForm',
+            value: expectedValue
+          });
+      });
+    });
+
+    describe('action has type CONTEXTUAL_ARTICLE_SHOWN', () => {
+      let flatState;
+
+      beforeEach(() => {
+        beaconSpy.trackUserAction.calls.reset();
+        nextSpy = jasmine.createSpy('nextSpy');
+        flatState = {
+          searchTerm: 'i made a query...',
+          resultsCount: 3
+        };
+        action = {
+          type: CONTEXTUAL_ARTICLE_SHOWN,
+          payload: {
+            articleID: 456
+          }
+        };
+        sendBlips({ getState: () => flatState })(nextSpy)(action);
+      });
+
+      it('calls trackUserAction with the correct params', () => {
+        const expectedValue = {
+          query: 'i made a query...',
+          resultsCount: 3,
+          articleId: 456,
+          locale: 'US',
+          answerBot: true,
+          uniqueSearchResultClick: false,
+          contextualSearch: true
         };
 
         expect(beaconSpy.trackUserAction)

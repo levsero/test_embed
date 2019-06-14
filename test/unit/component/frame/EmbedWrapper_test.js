@@ -55,20 +55,19 @@ describe('EmbedWrapper', () => {
   });
 
   describe('render', () => {
-    let instance, styleBlock, rootElem, handleCloseClickMock;
+    let instance, styleBlock, rootElem;
 
     beforeEach(() => {
-      handleCloseClickMock = jasmine.createSpy();
       instance = domRender(
         <EmbedWrapper
           popoutButtonVisible={() => {}}
           reduxStore={{ getState: () => {} }}
-          handleCloseClick={handleCloseClickMock}
           baseCSS='.base-css-file {}'>
           <MockChildComponent />
         </EmbedWrapper>
       );
 
+      spyOn(instance, 'handleOnCloseFocusChange');
       rootElem = ReactDOM.findDOMNode(instance);
       styleBlock = rootElem.getElementsByTagName('style')[0];
     });
@@ -115,8 +114,8 @@ describe('EmbedWrapper', () => {
             targetId = 'webWidget';
           });
 
-          it('calls handleCloseClick', () => {
-            expect(instance.props.handleCloseClick)
+          it('calls handleOnCloseFocusChange', () => {
+            expect(instance.handleOnCloseFocusChange)
               .toHaveBeenCalled();
           });
         });
@@ -126,8 +125,8 @@ describe('EmbedWrapper', () => {
             targetId = 'launcher';
           });
 
-          it('does not call handleCloseClick', () => {
-            expect(instance.props.handleCloseClick)
+          it('does not call handleOnCloseFocusChange', () => {
+            expect(instance.handleOnCloseFocusChange)
               .not.toHaveBeenCalled();
           });
         });

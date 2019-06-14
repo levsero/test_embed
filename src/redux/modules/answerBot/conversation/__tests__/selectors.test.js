@@ -17,6 +17,40 @@ describe('getMessages', () => {
   });
 });
 
+describe('getLastMessage', () => {
+  it('returns the messages', () => {
+    const mockState = {
+      answerBot: {
+        messages: new Map([
+          ['1', { message: 'Thing 1' }],
+          ['2', { message: 'Thing 2' }]
+        ])
+      }
+    };
+    const result = selectors.getLastMessage(mockState);
+
+    expect(result)
+      .toEqual({ message: 'Thing 2' });
+  });
+});
+
+describe('getLastMessageType', () => {
+  it('returns the messages', () => {
+    const mockState = {
+      answerBot: {
+        messages: new Map([
+          ['1', { message: 'Thing 1', type: 'wah' }],
+          ['2', { message: 'Thing 2', type: 'blah' }]
+        ])
+      }
+    };
+    const result = selectors.getLastMessageType(mockState);
+
+    expect(result)
+      .toEqual('blah');
+  });
+});
+
 describe('getGroupMessages', () => {
   it('returns messages according to passed in keys', () => {
     const mockState = {
@@ -94,6 +128,43 @@ describe('getGroupMessageKeys', () => {
       .toMatchSnapshot();
   });
 
+  it('only keeps the last bot typing message', () => {
+    const mockState = {
+      answerBot: {
+        messages: new Map(
+          [
+            ['1', { message: 'Hello', isVisitor: false }],
+            ['2', { type: 'botTyping', isVisitor: false }],
+            ['3', { type: 'botTyping', isVisitor: false }]
+          ]
+        )
+      }
+    };
+    const results = selectors.getMessageGroupKeys(mockState);
+
+    expect(results)
+      .toMatchSnapshot();
+  });
+
+  it('discards bot typing if it is not the last message', () => {
+    const mockState = {
+      answerBot: {
+        messages: new Map(
+          [
+            ['1', { message: 'Hello', isVisitor: false }],
+            ['2', { type: 'botTyping', isVisitor: false }],
+            ['3', { type: 'botTyping', isVisitor: false }],
+            ['4', { message: 'hi', isVisitor: true }]
+          ]
+        )
+      }
+    };
+    const results = selectors.getMessageGroupKeys(mockState);
+
+    expect(results)
+      .toMatchSnapshot();
+  });
+
   it('discards previous feedback', () => {
     const mockState = {
       answerBot: {
@@ -137,4 +208,11 @@ describe('getGroupMessageKeys', () => {
     expect(results)
       .toMatchSnapshot();
   });
+});
+
+test('getGetInTouchVisible', () => {
+  const mockState = { getInTouchVisible: true };
+  const result = selectors.getGetInTouchVisible.resultFunc(mockState);
+
+  expect(result).toEqual(true);
 });

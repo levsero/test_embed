@@ -37,6 +37,8 @@ describe('onStateChange middleware', () => {
   const storeEnableSpy = jasmine.createSpy('enableStore');
   const storeDisableSpy = jasmine.createSpy('disableStore');
   const setUpChatSpy = jasmine.createSpy('setUpChat');
+  const chatStartedSpy = jasmine.createSpy('chatStarted');
+  const endChatSpy = jasmine.createSpy('endChat');
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange');
   let initialTimestamp = 80;
   let mockDepartment;
@@ -80,7 +82,9 @@ describe('onStateChange middleware', () => {
         chatConnected: chatConnectedSpy,
         chatWindowOpenOnNavigate: chatWindowOpenOnNavigateSpy,
         chatNotificationReset: chatNotificationResetSpy,
-        setUpChat: setUpChatSpy
+        setUpChat: setUpChatSpy,
+        chatStarted: chatStartedSpy,
+        endChat: endChatSpy
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
@@ -157,6 +161,7 @@ describe('onStateChange middleware', () => {
       'src/redux/middleware/onStateChange/onZopimStateChange': {
         onZopimChatStateChange: noop
       },
+      'src/redux/middleware/onStateChange/onAgentLeave': noop,
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleDisplayed: _.identity,
         getHasSearched: () => mockHasSearched
@@ -1017,75 +1022,6 @@ describe('onStateChange middleware', () => {
       });
     });
 
-    describe('onAgentLeave', () => {
-      let prevState,
-        action,
-        dispatchSpy;
-
-      beforeEach(() => {
-        dispatchSpy = jasmine.createSpy('dispatch');
-
-        stateChangeFn(prevState, {}, action, dispatchSpy);
-      });
-
-      describe('when the type of action is not SDK_CHAT_MEMBER_LEAVE', () => {
-        beforeAll(() => {
-          prevState = {};
-          action = {
-            type: 'some_type_that_is_not_member_leave',
-            payload: { detail: { nick: 'agent:terence' } }
-          };
-        });
-
-        it('does not call getActiveAgents', () => {
-          expect(getActiveAgentsSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when the type of user is not an agent', () => {
-        beforeAll(() => {
-          prevState = {};
-          action = {
-            type: 'SDK_CHAT_MEMBER_LEAVE',
-            payload: { detail: { nick: 'visitor' } }
-          };
-        });
-
-        it('does not call getActiveAgents', () => {
-          expect(getActiveAgentsSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when the action type is SDK_CHAT_MEMBER_LEAVE and the user is an agent', () => {
-        beforeAll(() => {
-          prevState = {
-            'agent:terence': { nick: 'agent:terence' }
-          };
-          action = {
-            type: 'SDK_CHAT_MEMBER_LEAVE',
-            payload: { detail: { nick: 'agent:terence' } }
-          };
-        });
-
-        it('calls getActiveAgents with previous state', () => {
-          expect(getActiveAgentsSpy)
-            .toHaveBeenCalledWith(prevState);
-        });
-
-        it('dispatches CHAT_AGENT_INACTIVE with expected payload', () => {
-          const expected = {
-            type: 'CHAT_AGENT_INACTIVE',
-            payload: { nick: 'agent:terence' }
-          };
-
-          expect(dispatchSpy)
-            .toHaveBeenCalledWith(expected);
-        });
-      });
-    });
-
     describe('onVisitorUpdate', () => {
       let action,
         dispatchSpy,
@@ -1210,9 +1146,9 @@ describe('onStateChange middleware', () => {
             stateChangeFn(prevState, currState, {}, dispatchSpy);
           });
 
-          it('dispatches the event CHAT_STARTED', () => {
-            expect(dispatchSpy)
-              .toHaveBeenCalledWith({ type: 'CHAT_STARTED' });
+          it('calls chatStarted', () => {
+            expect(chatStartedSpy)
+              .toHaveBeenCalled();
           });
         });
 

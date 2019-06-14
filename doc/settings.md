@@ -34,6 +34,7 @@ window.zESettings = {
 
 Available settings:
 
+* [analytics](#analytics)
 * [attachments](#attachments)
 * [authenticate](#authenticate)
 * [badge](#badge)
@@ -47,6 +48,7 @@ Available settings:
 * [contactButton](#contactbutton)
 * [contactFormLabel](#contactformlabel)
 * [departments](#departments)
+* [errorReporting](#errorreporting)
 * [fields](#fields)
 * [filter](#filter)
 * [hideWhenOffline](#hidewhenoffline)
@@ -70,8 +72,26 @@ Available settings:
 * [ticketForms](#ticketforms)
 * [title](#title)
 * [zIndex](#zindex)
-* [analytics](#analytics)
-* [errorReporting](#errorreporting)
+
+### analytics
+
+Specifies whether to enable or disable Google Analytics tracking.
+
+**Note**: For information on currently supported events, see [Google Analytics for Chat in the Web Widget](https://support.zendesk.com/hc/en-us/community/posts/360003215947-New-Feature-Google-Analytics-for-Chat-in-the-Web-Widget)
+
+#### Availability
+
+* [Core widget setting](./core)
+
+#### Usage
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  analytics: true
+};
+</script>
+```
 
 ### attachments
 
@@ -332,13 +352,13 @@ window.zESettings = {
 
 ### chatLabelOffline
 
-Replaces the default string that informs the user that chat is unavailable when [contactOptions](#contact-options-settings) is enabled.
+Replaces the default string that informs the user that chat is unavailable when [contactOptions](./core#contactoptions) is enabled.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
-* [contactOptions](./core#contact-options-settings)
+* [contactOptions](./core#contactoptions)
 
 <a name="example-chatlabeloffline"></a>
 #### Example
@@ -366,13 +386,13 @@ window.zESettings = {
 
 ### chatLabelOnline
 
-Replaces the default string of the link that lets a user start a chat when [contactOptions](#contact-options-settings) is enabled.
+Replaces the default string of the link that lets a user start a chat when [contactOptions](./core#contactoptions) is enabled.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
-* [contactOptions](./core#contact-options-settings)
+* [contactOptions](./core#contactoptions)
 
 <a name="example-chatlabelonline"></a>
 #### Example
@@ -541,7 +561,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactOptions](./core#contact-options-settings)
+* [contactOptions](./core#contactoptions)
 
 <a name="example-contactbutton"></a>
 #### Example
@@ -568,13 +588,13 @@ window.zESettings = {
 
 ### contactFormLabel
 
-Replaces the default string of the link that lets the user submit a ticket when [contactOptions](#contact-options-settings) is enabled.
+Replaces the default string of the link that lets the user submit a ticket when [contactOptions](#core#contactoptions) is enabled.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
-* [contactOptions](./core#contact-options-settings)
+* [contactOptions](./core#contactoptions)
 
 <a name="example-contactformlabel"></a>
 #### Example
@@ -684,6 +704,23 @@ window.zESettings = {
       }
     }
   }
+};
+</script>
+```
+### errorReporting
+
+The Web Widget sends any errors that occur to a reporting service used by Zendesk to help diagnose and address issues. This error reporting can be disabled setting `errorReporting` to `false`.
+
+#### Availability
+
+* [Core widget setting](./core)
+
+#### Usage
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  errorReporting: true
 };
 </script>
 ```
@@ -1185,7 +1222,8 @@ Dictates whether to show the agent's rating.
 
 <a name="example-prechatForm"></a>
 #### Example
-```
+
+```html
 <script type="text/javascript">
 window.zESettings = {
   webWidget: {
@@ -1345,7 +1383,7 @@ window.zESettings = {
 
 ### suppress
 
-Suppresses the Help Center, Chat, Talk, or contact form in the Web Widget on that page.
+Suppresses the Help Center, Chat, Talk, Contact Form, or Answer Bot in the Web Widget.
 
 #### Availability
 
@@ -1353,6 +1391,7 @@ Suppresses the Help Center, Chat, Talk, or contact form in the Web Widget on tha
 * [contactForm](./contact_form)
 * [helpCenter](./help_center)
 * [talk](./talk)
+* [answerBot](./answerbot)
 
 <a name="example-suppress"></a>
 #### Example
@@ -1364,14 +1403,22 @@ window.zESettings = {
     chat: {
       suppress: true
     },
+    contactForm: {
+      suppress: true
+    },
     helpCenter: {
+      suppress: true
+    },
+    talk: {
+      suppress: true
+    },
+    answerBot: {
       suppress: true
     }
   }
 };
 </script>
 ```
-
 
 ### tags
 
@@ -1488,6 +1535,7 @@ You can use different strings for different locales or use one string for all lo
 * [helpCenter](./help_center)
 * [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 * [talk](./talk)
+* [answerBot](./answerbot)
 
 <a name="example-title"></a>
 #### Example
@@ -1516,6 +1564,11 @@ window.zESettings = {
     talk: {
       title: {
         '*': 'Talk with us!'
+      }
+    },
+    answerBot: {
+      title: {
+        '*': 'Chat with us!'
       }
     }
   }
@@ -1563,40 +1616,73 @@ window.zESettings = {
 * [offset](#offset)
 * [position](#position)
 
-### analytics
 
-Specifies whether to enable or disable Google Analytics tracking.
+### contactOnlyAfterQuery
 
-**Note**: The currently supported events can be found [here](https://support.zendesk.com/hc/en-us/community/posts/360003215947-New-Feature-Google-Analytics-for-Chat-in-the-Web-Widget)
+Specifies whether to show the contact option on initial load or only after a query has been submitted.
 
 #### Availability
 
-* [Core widget setting](./core)
+* [answerBot](./answerbot)
 
-#### Usage
-
+#### Example
 ```html
 <script type="text/javascript">
 window.zESettings = {
-  analytics: true
+  webWidget: {
+    answerBot: {
+      contactOnlyAfterQuery: true
+    }
+  }
 };
 </script>
 ```
 
-### errorReporting
+### search
 
-The Web Widget sends any errors that occur to a reporting service used by Zendesk to help diagnose and address issues. This error reporting can be disabled setting `errorReporting` to `false`.
+Attaches contextual data when submitting a user query.
 
 #### Availability
 
-* [Core widget setting](./core)
+* [answerBot](./answerbot)
 
-#### Usage
-
+#### Example
 ```html
 <script type="text/javascript">
 window.zESettings = {
-  errorReporting: true
+  webWidget: {
+    answerBot: {
+      search: {
+        labels: ['I would like some help']
+      }
+    }
+  }
+};
+</script>
+```
+
+### avatar
+
+Customizes the avatar bot name and profile picture.
+
+#### Availability
+
+* [answerBot](./answerbot)
+
+#### Example
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    answerBot: {
+      avatar: {
+        url: 'https://zendesk.com/bot.png',
+        name: {
+          '*': 'Zendesk Bot'
+        }
+      }
+    }
+  }
 };
 </script>
 ```

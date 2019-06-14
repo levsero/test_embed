@@ -97,16 +97,12 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     beacon.setConfig(config);
 
-    if (config.ipmAllowed) {
-      webWidgetApi.apiSetup(win, reduxStore, config);
-    }
+    webWidgetApi.apiSetup(win, reduxStore, config);
 
     // Only send 1/10 times
     if (Math.random() <= 0.1) {
       beacon.sendConfigLoadTime(Date.now() - configLoadStart);
     }
-
-    beacon.sendPageView();
 
     if (win.zESettings) {
       beacon.trackSettings(settings.getTrackSettings());
@@ -119,6 +115,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     const renderCallback = () => {
       renderer.init(config, reduxStore);
       webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore);
+      beacon.sendPageView();
     };
 
     i18n.setLocale(undefined, renderCallback, config.locale);

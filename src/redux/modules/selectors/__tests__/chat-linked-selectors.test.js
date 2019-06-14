@@ -66,6 +66,38 @@ describe('getChatAccountSettingsTitle', () => {
   });
 });
 
+describe('getShowBackButton', () => {
+  let result;
+  const backButtonState = (showChatHistory, backButtonVisible) => ({
+    chat: { showChatHistory },
+    base: { backButtonVisible }
+  });
+
+  test('when getShowChatHistory is true', () => {
+    result = selectors.getShowBackButton(getModifiedState(backButtonState(true, false)));
+
+    expect(result).toEqual(true);
+  });
+
+  test('when getBackButtonVisible is true', () => {
+    result = selectors.getShowBackButton(getModifiedState(backButtonState(false, true)));
+
+    expect(result).toEqual(true);
+  });
+
+  test('when both are true', () => {
+    result = selectors.getShowBackButton(getModifiedState(backButtonState(true, true)));
+
+    expect(result).toEqual(true);
+  });
+
+  test('when both are false', () => {
+    result = selectors.getShowBackButton(getModifiedState(backButtonState(false, false)));
+
+    expect(result).toEqual(false);
+  });
+});
+
 describe('getChatTitle', () => {
   let result;
 
@@ -447,6 +479,16 @@ describe('isInChattingScreen', () => {
     }));
 
     expect(result).toEqual(false);
+  });
+});
+
+describe('getChatHistoryLabel', () => {
+  let result;
+
+  it('returns the expected string', () => {
+    result = selectors.getChatHistoryLabel(getModifiedState());
+
+    expect(result).toEqual('View past chats');
   });
 });
 

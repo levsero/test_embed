@@ -8,6 +8,7 @@
     "npm": ">= 6.5.0"
   },
   "scripts": {
+    "latest": "git checkout master && git pull && ./script/setup_node_env",
     "build:version:generate": "git rev-parse --short HEAD > ./dist/VERSION_HASH",
     "build:version:clean": "rm -rf ./dist/VERSION_HASH",
     "predev": "npm run build:version:generate",
@@ -25,7 +26,7 @@
     "test:old": "node test/runner.js",
     "test:ci": "npm run test -- --runInBand --ci && NODE_ENV=test node test/runner.js",
     "test:debug:old": "node debug test/runner.js",
-    "test:debug": "TZ=utc node --inspect node_modules/.bin/jest --runInBand",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --watch",
     "lint": "eslint src test --ignore-pattern=src/translation/*.js",
     "lint-fix": "eslint --fix src test --ignore-pattern=src/translation/*.js",
     "size": "bundlesize",
@@ -45,11 +46,11 @@
   "bundlesize": [
     {
       "path": "dist/web_widget.*.js",
-      "maxSize": "390 KB"
+      "maxSize": "395 KB"
     },
     {
       "path": "dist/common_vendor.*.js",
-      "maxSize": "100 KB"
+      "maxSize": "120 KB"
     },
     {
       "path": "dist/talk_vendor.*.js",
@@ -75,14 +76,13 @@
     "@zendeskgarden/react-notifications": "^3.2.0",
     "@zendeskgarden/react-select": "^2.5.2",
     "@zendeskgarden/react-selection": "^4.6.2",
-    "@zendeskgarden/react-tags": "^1.2.0",
     "@zendeskgarden/react-textfields": "^3.7.0",
     "@zendeskgarden/react-theming": "^3.2.1",
     "@zendeskgarden/react-utilities": "^0.2.5",
     "@zendeskgarden/svg-icons": "~5.0.0",
     "airwaves": "~0.3.0",
     "async": "^2.6.1",
-    "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v20.0.0",
+    "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v22.0.0",
     "classnames": "^2.2.5",
     "color": "~3.0.0",
     "core-js": "^2.5.1",
@@ -100,6 +100,7 @@
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "reselect": "^3.0.1",
+    "rollbar": "^2.7.0",
     "sanitize-html": "~1.11.4",
     "sha1": "^1.1.1",
     "snapshot-diff": "^0.5.0",

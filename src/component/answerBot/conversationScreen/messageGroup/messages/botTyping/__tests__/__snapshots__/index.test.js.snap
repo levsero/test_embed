@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div
+    class="bubble"
+  >
+    <div
+      aria-busy="true"
+      aria-live="polite"
+      class="container loadingContainer"
+    >
+      <div
+        class="
+      circle loadingAnimation
+      bounce
+      
+    "
+      />
+      <div
+        class="
+      circle loadingAnimation
+      bounce
+      
+    "
+      />
+      <div
+        class="
+      circle loadingAnimation
+      bounce
+      
+    "
+      />
+    </div>
+  </div>
+</div>
+`;

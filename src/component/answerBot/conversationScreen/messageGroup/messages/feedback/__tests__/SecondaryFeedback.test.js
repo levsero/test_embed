@@ -9,9 +9,8 @@ const actions = Object.freeze({
   articleDismissed: jest.fn(),
   botUserMessage: jest.fn(),
   botFeedbackMessage: jest.fn(),
-  inputDisabled: jest.fn(),
   sessionFallback: jest.fn(),
-  botFeedbackChannelChoice: jest.fn()
+  botFallbackMessage: jest.fn()
 });
 
 const renderComponent = (props = {}) => {
@@ -41,26 +40,7 @@ describe('actions', () => {
       .toHaveBeenCalled();
     expect(actions.botFeedbackMessage)
       .toHaveBeenNthCalledWith(1, 'I see. Your question is still unresolved.');
-    expect(actions.botFeedbackMessage)
-      .toHaveBeenNthCalledWith(2, 'You can ask another question.', expect.any(Function));
-  });
-
-  it('displays different message if channels are available', () => {
-    const { getByText } = renderComponent({ channelAvailable: true });
-
-    fireEvent.click(getByText("It's related, but it didn't answer my question"));
-
-    expect(actions.botUserMessage)
-      .toHaveBeenCalledWith("It's related, but it didn't answer my question");
-    expect(actions.articleDismissed)
-      .toHaveBeenCalledWith(2);
-    expect(actions.sessionFallback)
-      .toHaveBeenCalled();
-    expect(actions.botFeedbackMessage)
-      .toHaveBeenNthCalledWith(1, 'I see. Your question is still unresolved.');
-    expect(actions.botFeedbackChannelChoice)
-      .toHaveBeenCalledWith('Choose a way to get in touch:', true);
-    expect(actions.botFeedbackMessage)
-      .toHaveBeenNthCalledWith(2, 'Or you can ask another question.', expect.any(Function));
+    expect(actions.botFallbackMessage)
+      .toHaveBeenCalledWith(true);
   });
 });

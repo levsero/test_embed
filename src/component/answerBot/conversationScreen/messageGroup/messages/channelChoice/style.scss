@@ -2,6 +2,7 @@
 
 .container {
   margin-bottom: #{7/$font-size}rem;
+  max-width: #{219/$font-size}rem !important;
 }
 
 .title {

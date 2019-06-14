@@ -18,11 +18,10 @@ const actions = Object.freeze({
   botFeedbackMessage: jest.fn(),
   articleDismissed: jest.fn(),
   botMessage: jest.fn(),
-  botFeedbackChannelChoice: jest.fn(),
   sessionFallback: jest.fn(),
   screenChanged: jest.fn(),
-  inputDisabled: jest.fn(),
-  sessionResolved: jest.fn()
+  sessionResolved: jest.fn(),
+  botFallbackMessage: jest.fn()
 });
 
 const renderComponent = (props = {}) => {
@@ -133,8 +132,7 @@ describe('feedback actions', () => {
       expect(actions.botMessage)
         .toHaveBeenNthCalledWith(1, 'Nice. Knowledge is power.');
       expect(actions.botMessage)
-        .toHaveBeenNthCalledWith(2, "If there's anything else I can find for you, just type another question.",
-          expect.any(Function));
+        .toHaveBeenNthCalledWith(2, "If there's anything else I can find for you, just type another question.");
       expect(actions.sessionResolved)
         .toHaveBeenCalled();
       expect(saveConversationScroll)
@@ -169,35 +167,18 @@ describe('feedback actions', () => {
           .toHaveBeenCalled();
         expect(actions.botFeedbackMessage)
           .toHaveBeenNthCalledWith(1, 'I see. Your question is still unresolved.');
-        expect(actions.botFeedbackMessage)
-          .toHaveBeenNthCalledWith(2, 'Or you can ask another question.',
-            expect.any(Function));
+        expect(actions.botFallbackMessage)
+          .toHaveBeenCalledWith(true);
         expect(actions.articleDismissed)
           .toHaveBeenCalledWith(2);
         expect(actions.botMessage)
           .not.toHaveBeenCalled();
-        expect(actions.botFeedbackChannelChoice)
-          .toHaveBeenCalledWith('Choose a way to get in touch:', true);
         expect(actions.sessionFallback)
           .toHaveBeenCalled();
         expect(saveConversationScroll)
           .toHaveBeenCalledWith({ scrollToBottom: true });
         expect(actions.screenChanged)
           .toHaveBeenCalledWith('conversation');
-      });
-
-      it('displays a different follow up if channel choice is not available', () => {
-        const { getByText } = renderComponent({
-          isFeedbackRequired: true,
-          channelAvailable: false
-        });
-
-        jest.runAllTimers();
-        fireEvent.click(getByText('No, I need help'));
-        fireEvent.click(getByText("It's related, but it didn't answer my question"));
-        expect(actions.botFeedbackMessage)
-          .toHaveBeenNthCalledWith(2, 'You can ask another question.',
-            expect.any(Function));
       });
     });
   });

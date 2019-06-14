@@ -1,5 +1,7 @@
+import _ from 'lodash';
 import { settings } from 'service/settings';
 import { identity } from 'service/identity';
+import { i18n } from 'service/i18n';
 import { http } from 'service/transport';
 
 import { isOnHostMappedDomain } from 'utility/pages';
@@ -7,6 +9,7 @@ import { isOnHostMappedDomain } from 'utility/pages';
 import { WEB_WIDGET_SUID } from 'src/constants/answerBot';
 
 import {
+  QUESTION_VALUE_SUBMITTED,
   QUESTION_SUBMITTED_PENDING,
   QUESTION_SUBMITTED_FULFILLED,
   QUESTION_SUBMITTED_REJECTED
@@ -15,13 +18,16 @@ import {
 import { isInitialSession } from 'src/redux/modules/answerBot/sessions/selectors';
 import {
   getCurrentSessionID,
-  getCurrentRequestStatus
+  getCurrentRequestStatus,
+  getQuestionValueChangedTime
 } from 'src/redux/modules/answerBot/root/selectors';
 import { getAuthToken } from 'src/redux/modules/base/base-selectors';
 import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors';
 
 import { sessionStarted } from '../../sessions/actions';
-import { inputDisabled } from '../../root/actions';
+import { botTyping } from '../../root/actions/bot';
+
+const BOT_THINKING_DELAY = 3000;
 
 function messagePayload(message, sessionID) {
   return {
@@ -35,6 +41,13 @@ function questionSubmittedPending(message, sessionID) {
   return {
     type: QUESTION_SUBMITTED_PENDING,
     payload: messagePayload(message, sessionID)
+  };
+}
+
+function questionValueSubmitted(message) {
+  return {
+    type: QUESTION_VALUE_SUBMITTED,
+    payload: messagePayload(message)
   };
 }
 
@@ -74,43 +87,85 @@ function getSessionID(getState, createSessionCallback) {
   return getCurrentSessionID(getState());
 }
 
+function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
+  const token = getAuthToken();
+
+  const callbacks = {
+    done: (res) => {
+      if (res.body.deflection_articles.length || !locale) {
+        dispatch(questionSubmittedFulfilled(res.body, sessionID));
+      } else if (locale) {
+        sendQuery(enquiry, labels, null, dispatch, sessionID);
+      }
+    },
+    fail: (err) => {
+      dispatch(questionSubmittedRejected(err, sessionID));
+    }
+  };
+
+  /* eslint-disable camelcase */
+  http.send({
+    callbacks,
+    method: 'post',
+    path: '/api/v2/answer_bot/interaction?include=html_body',
+    useHostMappingIfAvailable: isOnHostMappedDomain(),
+    params: {
+      via_id: settings.get('viaIdAnswerBot'),
+      deflection_channel_id: settings.get('viaIdAnswerBot'),
+      interaction_reference: identity.getSuid().id || null,
+      interaction_reference_type: WEB_WIDGET_SUID,
+      locale,
+      enquiry,
+      labels
+    },
+    authorization: token ? `Bearer ${token}` : '',
+  });
+  /* eslint-enable camelcase */
+}
+
+let messages = [];
+let waitingToSubmit = false;
+
+export const resetSubmittingMessagesState = () => {
+  messages = [];
+  waitingToSubmit = false;
+};
+
+const submitQuestion = (dispatch, getState) => {
+  const sessionID = getSessionID(getState, () => {
+    dispatch(sessionStarted());
+  });
+
+  const labels = getAnswerBotSearchLabels(getState());
+  const message = _.join(messages, ' ');
+
+  dispatch(questionSubmittedPending(message, sessionID));
+  sendQuery(message, labels, i18n.getLocale(), dispatch, sessionID);
+};
+
+// Only submit the user request after BOT_THINKING_DELAY seconds of the user not typing
+const submitMessagesOnTypingCompleted = (dispatch, getState) => {
+  if (waitingToSubmit) return;
+  waitingToSubmit = true;
+
+  (function submitMessageLoop() {
+    setTimeout(function() {
+      const timeSinceValueChange = Date.now() - getQuestionValueChangedTime(getState());
+
+      if (timeSinceValueChange < BOT_THINKING_DELAY) return submitMessageLoop();
+
+      submitQuestion(dispatch, getState);
+      resetSubmittingMessagesState();
+    }, 1000);
+  })();
+};
+
 export const questionSubmitted = (message) => {
   return (dispatch, getState) => {
-    const sessionID = getSessionID(getState, () => {
-      dispatch(sessionStarted());
-    });
-    const labels = getAnswerBotSearchLabels(getState());
+    dispatch(questionValueSubmitted(message));
+    dispatch(botTyping());
 
-    dispatch(inputDisabled(true));
-    dispatch(questionSubmittedPending(message, sessionID));
-
-    const callbacks = {
-      done: (res) => {
-        dispatch(questionSubmittedFulfilled(res.body, sessionID));
-      },
-      fail: (err) => {
-        dispatch(questionSubmittedRejected(err, sessionID));
-      }
-    };
-
-    const token = getAuthToken();
-
-    /* eslint-disable camelcase */
-    http.send({
-      callbacks,
-      method: 'post',
-      path: '/api/v2/answer_bot/interaction?include=html_body',
-      useHostMappingIfAvailable: isOnHostMappedDomain(),
-      params: {
-        via_id: settings.get('viaIdAnswerBot'),
-        deflection_channel_id: settings.get('viaIdAnswerBot'),
-        interaction_reference: identity.getSuid().id || null,
-        interaction_reference_type: WEB_WIDGET_SUID,
-        enquiry: message,
-        labels
-      },
-      authorization: token ? `Bearer ${token}` : '',
-    });
-    /* eslint-enable camelcase */
+    messages.push(message);
+    submitMessagesOnTypingCompleted(dispatch, getState);
   };
 };

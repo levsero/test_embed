@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { i18n } from 'service/i18n';
 
-import { FeedbackButton } from './FeedbackButton';
+import { PillButton } from 'src/component/shared/PillButton';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 
 import { locals as styles } from './FeedbackPopup.scss';
@@ -27,11 +27,11 @@ class FeedbackPopup extends Component {
   initialOptions = () => {
     return (
       <ButtonGroup containerClasses={styles.optionButtons}>
-        <FeedbackButton
+        <PillButton
           label={i18n.t('embeddable_framework.answerBot.article.feedback.yes')}
           onClick={this.props.onYesClick}
         />
-        <FeedbackButton
+        <PillButton
           className={styles.noBtn}
           label={i18n.t('embeddable_framework.answerBot.article.feedback.no.need_help')}
           onClick={this.handleNoClicked}
@@ -43,12 +43,12 @@ class FeedbackPopup extends Component {
   reasonOptions = () => {
     return (
       <div className={styles.reasonButtons}>
-        <FeedbackButton
+        <PillButton
           className={styles.relatedBtn}
           label={i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.related')}
           onClick={() => this.props.onReasonClick(2)}
         />
-        <FeedbackButton
+        <PillButton
           className={styles.unrelatedBtn}
           label={i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.unrelated')}
           onClick={() => this.props.onReasonClick(1)}

@@ -51,7 +51,6 @@ describe('base root reducer', () => {
       'embeddableConfig',
       'isAuthenticationPending',
       'queue',
-      'onApiListeners',
       'hasWidgetShown',
       'webWidgetVisible',
       'launcherVisible',

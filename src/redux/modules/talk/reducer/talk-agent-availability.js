@@ -11,7 +11,7 @@ const agentAvailability = (state = initialState, action) => {
   switch (action.type) {
     case TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT:
     case TALK_AGENT_AVAILABILITY_SOCKET_EVENT:
-      return _.get(action.payload, 'agentAvailability') || state;
+      return _.get(action.payload, 'agentAvailability', state);
     case TALK_DISCONNECT_SOCKET_EVENT:
       return false;
     default:

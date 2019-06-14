@@ -56,7 +56,6 @@ const embeddableConfig = (state = initialState, action) => {
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
         ...state,
-        ipmAllowed: payload.ipmAllowed,
         embeds: {
           helpCenterForm: {
             props: {

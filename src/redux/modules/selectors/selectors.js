@@ -50,7 +50,8 @@ import {
   getSettingsChatConnectionSuppress,
   getSettingsChatConnectOnDemand,
   getCookiesDisabled,
-  getSettingsAnswerBotSuppress
+  getSettingsAnswerBotSuppress,
+  getSettingsSelectTicketFormLabel
 } from '../settings/settings-selectors';
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
@@ -144,6 +145,14 @@ export const getContactFormTitle = createSelector(
   (contactFormTitle, formTitleKey, _locale) => (
     i18n.getSettingTranslation(contactFormTitle) ||
     i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)
+  )
+);
+
+export const getSelectTicketFormLabel = createSelector(
+  [getSettingsSelectTicketFormLabel, getLocale],
+  (settingsSelectTicketFormLabel, _locale) => (
+    i18n.getSettingTranslation(settingsSelectTicketFormLabel) ||
+    i18n.t('embeddable_framework.submitTicket.ticketForms.title')
   )
 );
 
@@ -477,9 +486,9 @@ export const getHorizontalPosition = createSelector(
 );
 
 export const getIpmHelpCenterAllowed = createSelector(
-  [getHelpCenterEmbed, getEmbeddableConfig],
-  (helpCenterEnabled, config) => {
-    return !helpCenterEnabled && config.ipmAllowed;
+  getHelpCenterEmbed,
+  (helpCenterEnabled) => {
+    return !helpCenterEnabled;
   }
 );
 
@@ -547,7 +556,7 @@ export const getWidgetDisplayInfo = createSelector(
 );
 
 export const getFrameStyle = (state, frame) => {
-  if (frame === 'webWidget' || frame === 'chatPreview' || frame === 'webWidgetPreview') {
+  if (frame === 'webWidget' || frame === 'ipmWidget' || frame === 'chatPreview' || frame === 'webWidgetPreview') {
     const margin = !isPopout() ? settings.get('margin') : '0';
 
     return {

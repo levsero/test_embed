@@ -4,20 +4,24 @@ import {
   CHAT_MSG_REQUEST_SUCCESS,
   END_CHAT_REQUEST_SUCCESS,
   CHAT_BANNED,
-  IS_CHATTING
+  IS_CHATTING,
+  SDK_CONNECTION_UPDATE
 } from '../chat-action-types';
 import { store } from 'service/persistence';
 
 const initialState = _.get(store.get('store'), 'is_chatting', false);
 
-const isChatting = (state = initialState, action) => {
-  switch (action.type) {
+const isChatting = (state = initialState, { payload, type }) => {
+  switch (type) {
     case IS_CHATTING:
-      return action.payload;
+      return payload;
     case UPDATE_PREVIEWER_SCREEN:
-      return action.payload.status;
+      return payload.status;
     case CHAT_MSG_REQUEST_SUCCESS:
       return true;
+    case SDK_CONNECTION_UPDATE:
+      if (payload.type === 'connection_update' && payload.detail === 'closed') return false;
+      return state;
     case CHAT_BANNED:
     case END_CHAT_REQUEST_SUCCESS:
       return false;

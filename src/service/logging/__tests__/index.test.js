@@ -1,10 +1,10 @@
-import Rollbar from 'vendor/rollbar.umd.min.js'; // eslint-disable-line import/extensions
+import Rollbar from 'rollbar';
 import * as devices from 'utility/devices';
 import _ from 'lodash';
 
 import { logging, setInitialise } from '../index';
 
-jest.mock('vendor/rollbar.umd.min.js');
+jest.mock('rollbar');
 
 beforeEach(() => {
   devices.isIE = jest.fn(() => false);

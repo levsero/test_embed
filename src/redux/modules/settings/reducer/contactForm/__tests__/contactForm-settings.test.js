@@ -19,7 +19,8 @@ test('initial state', () => {
       subject: false,
       suppress: false,
       tags: [],
-      'title': {}
+      'title': {},
+      selectTicketForm: {}
     });
 });
 
@@ -32,7 +33,8 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           subject: true,
           suppress: true,
           tags: ['hello'],
-          title: { '*': 'wassup' }
+          title: { '*': 'wassup' },
+          selectTicketForm: { '*': 'yo select this ticket form' }
         }
       }
     };
@@ -43,7 +45,8 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
         subject: true,
         suppress: true,
         tags: ['hello'],
-        title: { '*': 'wassup' }
+        title: { '*': 'wassup' },
+        selectTicketForm: { '*': 'yo select this ticket form' }
       });
   });
 });

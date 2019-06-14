@@ -1,4 +1,4 @@
-describe('ChatOffline component', () => {
+describe('Chat component', () => {
   let Chat,
     handleDragEnterSpy = jasmine.createSpy('handleDragEnter');
   const ChatPath = buildSrcPath('component/chat/Chat');
@@ -17,6 +17,9 @@ describe('ChatOffline component', () => {
       },
       'src/redux/modules/base': {
         cancelButtonClicked: noop
+      },
+      'src/component/chat/chatting/chatHistoryScreen': {
+
       }
     });
 

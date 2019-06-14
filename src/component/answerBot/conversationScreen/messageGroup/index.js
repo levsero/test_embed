@@ -12,12 +12,10 @@ import {
 } from 'src/redux/modules/answerBot/conversation/selectors';
 import { getBrandLogoUrl } from 'src/redux/modules/base/base-selectors';
 
-import { isMobileBrowser } from 'utility/devices';
-
 import { Avatar } from 'src/component/Avatar';
 import { locals as styles } from './MessageGroup.scss';
-import { Tag } from '@zendeskgarden/react-tags';
 import classNames from 'classnames';
+import { i18n } from 'service/i18n';
 
 const makeMapStateToProps = () => {
   const getGroupMessages = makeGetGroupMessages();
@@ -96,12 +94,16 @@ class MessageGroup extends Component {
   updateAvatarPosition = () => {
     if (!this.container || !this.avatar) return;
 
-    const containerHeight = this.container.getBoundingClientRect().height - (isMobileBrowser() ? 15 : 5);
+    const containerHeight = this.container.getBoundingClientRect().height - 5;
     const avatarHeight = this.avatar.getBoundingClientRect().height;
     let newTopPosition = containerHeight - avatarHeight;
 
     if (this.props.agentAvatarUrl || this.props.brandLogoUrl) {
       newTopPosition -= 7;
+    }
+
+    if (_.get(this.props.messages, '0.type') === 'botTyping') {
+      newTopPosition += 7;
     }
 
     if (this.avatar.style.top !== newTopPosition) {
@@ -187,10 +189,15 @@ class MessageGroup extends Component {
 
     return !this.props.isVisitor ?
       <div className={nameClasses}>
-        <div className={styles.nameOnly}>
+        <span>
           {this.props.agentAvatarName}
-        </div>
-        <Tag className={styles.tag}>BOT</Tag>
+        </span>
+        &nbsp;
+        &middot;
+        &nbsp;
+        <span>
+          {i18n.t('embeddable_framework.answerBot.tag.bot')}
+        </span>
       </div> : null;
   }
 

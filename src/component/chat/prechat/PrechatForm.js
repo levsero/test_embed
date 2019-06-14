@@ -22,6 +22,7 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './PrechatForm.scss';
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
 import { FONT_SIZE, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
+import ChatHistoryLink from '../ChatHistoryLink';
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -35,6 +36,7 @@ export class PrechatForm extends Component {
     onFormCompleted: PropTypes.func,
     loginEnabled: PropTypes.bool,
     phoneEnabled: PropTypes.bool,
+    hasChatHistory: PropTypes.bool.isRequired,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
@@ -43,7 +45,9 @@ export class PrechatForm extends Component {
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
-    fullscreen: PropTypes.bool
+    fullscreen: PropTypes.bool,
+    openedChatHistory: PropTypes.func.isRequired,
+    chatHistoryLabel: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -342,12 +346,18 @@ export class PrechatForm extends Component {
   }
 
   renderSubmitButton() {
+    const { form, formState } = this.props;
+
+    const label = this.isDepartmentOffline(form.departments, formState.department)
+      ? i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')
+      : i18n.t('embeddable_framework.chat.preChat.online.button.startChat');
+
     return (
       <Button
         primary={true}
         className={styles.submitBtn}
         type='submit'>
-        {i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
+        {label}
       </Button>
     );
   }
@@ -377,6 +387,11 @@ export class PrechatForm extends Component {
           fullscreen={this.props.fullscreen}
           isMobile={this.props.isMobile}
           scrollShadowVisible={true}>
+          <ChatHistoryLink
+            isAuthenticated={this.props.isAuthenticated}
+            hasChatHistory={this.props.hasChatHistory}
+            openedChatHistory={this.props.openedChatHistory}
+            label={this.props.chatHistoryLabel} />
           {this.renderGreetingMessage()}
           {this.renderUserProfile()}
           {this.renderDepartmentsField()}
