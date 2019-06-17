@@ -280,17 +280,31 @@ describe('getEnabledDepartments', () => {
     });
   });
 
-  // TODO fix fixtures _.merge cannot be used
-  // describe('when enabled is an empty array', () => {
-  //   it('returns no department', () => {
-  //     const result = selectors.getEnabledDepartments(
-  //       getModifiedState({
-  //         settings: { chat: { departments: { enabled: [] } } }
-  //       }));
-  //
-  //     expect(result).toEqual([]);
-  //   });
-  // });
+  describe('when enabled is an empty array', () => {
+    it('returns no department', () => {
+      let modifiedState = getModifiedState({});
+
+      modifiedState.settings.chat.departments.enabled = [];
+      const result = selectors.getEnabledDepartments(modifiedState);
+
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe('when a department is not enabled, but it is the default', () => {
+    it('returns it', () => {
+      let modifiedState = getModifiedState({});
+
+      modifiedState.settings.chat.departments.enabled = [];
+      modifiedState.chat.defaultDepartment.id = 333;
+
+      const result = selectors.getEnabledDepartments(modifiedState);
+
+      expect(result).toEqual([
+        { id: 333, name: 'thickshakes' }
+      ]);
+    });
+  });
 
   describe('when enabled is not an array', () => {
     it('returns all departments', () => {

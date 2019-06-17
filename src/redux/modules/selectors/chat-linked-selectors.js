@@ -196,20 +196,6 @@ const getFormFields = createSelector(
   }
 );
 
-export const getEnabledDepartments = createSelector(
-  [getSettingsChatDepartmentsEnabled, getDepartmentsList],
-  (settingsDepartmentsEnabled, departmentsList) => {
-    if (Array.isArray(settingsDepartmentsEnabled)) {
-      return departmentsList.filter((department) => (
-        _.includes(settingsDepartmentsEnabled, department.id) ||
-        _.includes(settingsDepartmentsEnabled, department.name.toLowerCase())
-      ));
-    }
-
-    return departmentsList;
-  }
-);
-
 export const getDefaultSelectedDepartment = createSelector(
   [getSettingsChatDepartment, getAccountDefaultDepartmentId, getDepartmentsList],
   (settingsDefault, accountDefault, departments) => {
@@ -218,6 +204,21 @@ export const getDefaultSelectedDepartment = createSelector(
     return _.find(departments, (dept) => (
       dept.name.toLowerCase() === selector || dept.id === selector
     ));
+  }
+);
+
+export const getEnabledDepartments = createSelector(
+  [getSettingsChatDepartmentsEnabled, getDepartmentsList, getDefaultSelectedDepartment],
+  (settingsDepartmentsEnabled, departmentsList, defaultSelectedDepartment) => {
+    if (Array.isArray(settingsDepartmentsEnabled)) {
+      return departmentsList.filter((department) => (
+        _.includes(settingsDepartmentsEnabled, department.id) ||
+        _.includes(settingsDepartmentsEnabled, department.name.toLowerCase()) ||
+        _.get(defaultSelectedDepartment, 'id') === department.id
+      ));
+    }
+
+    return departmentsList;
   }
 );
 
@@ -240,7 +241,8 @@ export const getPrechatFormFields = createSelector(
     const departmentOptions = _.map(enabledDepartments, (department) => {
       let departmentOption = {
         ...department,
-        value: department.id
+        value: department.id,
+        isDefault: (selectedDepartment && selectedDepartment.id === department.id)
       };
 
       if (department.status === DEPARTMENT_STATUSES.OFFLINE) {
