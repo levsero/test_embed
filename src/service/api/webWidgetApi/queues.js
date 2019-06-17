@@ -50,6 +50,7 @@ export function apisExecutePostRenderQueue(win, postRenderQueue, reduxStore) {
 
 export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
   let devApi;
+
   const postRenderCallback = (...args) => {
     if (_.isFunction(args[0])) {
       args[0]();
@@ -63,6 +64,7 @@ export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
     postRenderQueue.push([this, args]);
   };
   const publicApi = setupPublicApi(postRenderQueueCallback, reduxStore);
+  const pairs = _.toPairs(win.zEmbed);
 
   if (__DEV__) {
     devApi = setupDevApi(win, reduxStore);
@@ -72,6 +74,11 @@ export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
   } else {
     win.zEmbed = postRenderCallback;
   }
+
+  pairs.forEach(([key, value]) => {
+    if (win.zE) win.zE[key] = value;
+    if (win.zEmbed) win.zEmbed[key] =  value;
+  });
 
   return {
     publicApi,
