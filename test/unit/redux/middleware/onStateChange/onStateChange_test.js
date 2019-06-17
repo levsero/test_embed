@@ -70,7 +70,7 @@ describe('onStateChange middleware', () => {
     mockChatEnabled = true;
 
     initMockRegistry({
-      'src/redux/modules/chat': {
+      'src/redux/modules/chat/chat-actions/actions': {
         getAccountSettings: getAccountSettingsSpy,
         newAgentMessageReceived: newAgentMessageReceivedSpy,
         getOperatingHours: getOperatingHoursSpy,
@@ -82,9 +82,11 @@ describe('onStateChange middleware', () => {
         chatConnected: chatConnectedSpy,
         chatWindowOpenOnNavigate: chatWindowOpenOnNavigateSpy,
         chatNotificationReset: chatNotificationResetSpy,
-        setUpChat: setUpChatSpy,
         chatStarted: chatStartedSpy,
         endChat: endChatSpy
+      },
+      'src/redux/modules/chat/chat-actions/setUpChat': {
+        setUpChat: setUpChatSpy,
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,

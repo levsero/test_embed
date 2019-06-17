@@ -8,9 +8,9 @@ import {
   getIsChatting,
   chatWindowOpenOnNavigate,
   chatConnected,
-  setUpChat,
-  chatStarted,
-} from 'src/redux/modules/chat';
+  chatStarted
+} from 'src/redux/modules/chat/chat-actions/actions';
+import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat';
 import {
   updateActiveEmbed,
   updateBackButtonVisibility,
