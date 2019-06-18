@@ -375,6 +375,8 @@ export default function WebWidgetFactory(name) {
   }
 
   function postRender() {
+    beacon.sendWidgetInitInterval();
+
     if (!embed.config.helpCenterForm) return;
 
     const config = embed.config.helpCenterForm;

@@ -205,8 +205,9 @@ describe('sendPageView', () => {
 
     it('sends the expected payload', () => {
       document.title = 'hello world';
-      document.t = 50;
+
       dateNowMock.mockImplementation(() => 67);
+      globals.win.zEmbed = { t: 50 };
       beacon.sendPageView();
 
       expect(http.sendWithMeta)

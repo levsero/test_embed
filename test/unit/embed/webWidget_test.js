@@ -76,7 +76,7 @@ describe('embed.webWidget', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
+        beacon: jasmine.createSpyObj('beacon', ['trackUserAction', 'sendWidgetInitInterval'])
       },
       'service/i18n': {
         i18n: {
@@ -1173,6 +1173,12 @@ describe('embed.webWidget', () => {
   });
 
   describe('postRender', () => {
+    let mockBeacon;
+
+    beforeEach(() => {
+      mockBeacon = mockRegistry['service/beacon'].beacon;
+    });
+
     describe('authentication', () => {
       describe('when there is a jwt', () => {
         beforeEach(() => {
@@ -1189,6 +1195,10 @@ describe('embed.webWidget', () => {
         it('calls authenticate with the jwt token', () => {
           expect(authenticateSpy)
             .toHaveBeenCalledWith('token');
+        });
+
+        it('calls beacon.sendWidgetInitInterval', () => {
+          expect(mockBeacon.sendWidgetInitInterval).toHaveBeenCalled();
         });
 
         describe('when there is a jwtFn', () => {
