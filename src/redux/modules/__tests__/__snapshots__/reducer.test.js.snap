@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`combined reducer has the expected state 1`] = `
+Array [
+  "base",
+  "settings",
+  "chat",
+  "talk",
+  "helpCenter",
+  "zopimChat",
+  "submitTicket",
+  "answerBot",
+  "preview",
+]
+`;

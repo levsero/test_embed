@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UPDATE_EMBEDDABLE_CONFIG 1`] = `
+Object {
+  "brand": "hello",
+  "brandCount": 2,
+  "brandLogoUrl": "helloworld",
+  "color": "white",
+  "cp4": true,
+  "embeds": Object {
+    "helpCenterForm": Object {
+      "props": Object {
+        "answerBotEnabled": true,
+        "contextualHelpEnabled": true,
+        "signInRequired": false,
+      },
+    },
+    "talk": Object {
+      "props": Object {
+        "color": "#123123",
+        "nickname": "bluey",
+        "serviceUrl": "https://example.com",
+      },
+    },
+    "ticketSubmissionForm": Object {
+      "props": Object {
+        "attachmentsEnabled": true,
+        "nameFieldEnabled": true,
+        "nameFieldRequired": false,
+      },
+    },
+    "zopimChat": Object {
+      "props": Object {
+        "overrideProxy": null,
+        "standalone": false,
+        "zopimId": "yoloId",
+      },
+    },
+  },
+  "hideZendeskLogo": true,
+  "position": "left",
+  "textColor": "black",
+}
+`;
+
+exports[`initial state 1`] = `
+Object {
+  "brand": undefined,
+  "brandCount": undefined,
+  "brandLogoUrl": undefined,
+  "color": "#1F73B7",
+  "cp4": false,
+  "embeds": Object {
+    "helpCenterForm": Object {
+      "props": Object {
+        "answerBotEnabled": false,
+        "contextualHelpEnabled": false,
+        "signInRequired": false,
+      },
+    },
+    "talk": Object {
+      "props": Object {
+        "color": "",
+        "nickname": "",
+        "serviceUrl": "",
+      },
+    },
+    "ticketSubmissionForm": Object {
+      "props": Object {
+        "attachmentsEnabled": false,
+        "nameFieldEnabled": true,
+        "nameFieldRequired": false,
+      },
+    },
+    "zopimChat": Object {
+      "props": Object {
+        "overrideProxy": null,
+        "standalone": false,
+        "zopimId": null,
+      },
+    },
+  },
+  "hideZendeskLogo": false,
+  "position": "right",
+  "textColor": undefined,
+}
+`;
