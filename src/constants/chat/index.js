@@ -28,6 +28,7 @@ export const CHAT_SYSTEM_EVENTS = {
 };
 
 export const DISCONNECTION_REASONS = [
+  'user_no_ping',
   'disconnect_user',
   'kick_account',
   'unauthorized_user'
