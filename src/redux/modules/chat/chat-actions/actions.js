@@ -35,6 +35,7 @@ import {
   CHAT_UNREAD_MESSAGES_EVENT
 } from 'constants/event';
 import * as callbacks from 'service/api/callbacks';
+import zopimApi from 'service/api/zopimApi';
 
 const chatTypingTimeout = 2000;
 let history = [];
@@ -715,6 +716,7 @@ export function chatStarted() {
 
 export function chatConnected() {
   return (dispatch) => {
+    zopimApi.handleChatConnected();
     dispatch({
       type: actions.CHAT_CONNECTED
     });

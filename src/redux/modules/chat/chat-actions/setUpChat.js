@@ -55,6 +55,8 @@ function makeChatConfig(config) {
 
 export function setUpChat() {
   return (dispatch, getState) => {
+    zopimApi.handleZopimQueue(win);
+
     const authentication = settings.getChatAuthSettings();
     const state = getState();
 
@@ -91,7 +93,7 @@ export function setUpChat() {
         });
       }
       zChat.init(makeChatConfig(config));
-      zopimApi.handleZopimQueue(win);
+
       zChat.setOnFirstReady({
         fetchHistory: () => {
           if (_.get(config, 'authentication.jwtFn')) {
@@ -124,6 +126,7 @@ export function setUpChat() {
         dispatch(chatAction);
         fireWidgetChatEvent(chatAction);
       });
+      zopimApi.handleChatSDKInitialized();
     };
     const onFailure = (err) => {
       logging.error(err);

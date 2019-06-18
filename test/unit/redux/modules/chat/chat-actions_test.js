@@ -79,6 +79,7 @@ describe('chat redux actions', () => {
     WHITELISTED_SOCIAL_LOGINS = chatConstants.WHITELISTED_SOCIAL_LOGINS;
 
     initMockRegistry({
+      'service/api/zopimApi': {},
       'service/api/callbacks': {},
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone,

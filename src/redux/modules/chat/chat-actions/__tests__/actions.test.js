@@ -7,6 +7,8 @@ import * as actionTypes from 'src/redux/modules/chat/chat-action-types';
 import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors';
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors';
 import * as callbacks from 'service/api/callbacks';
+import zopimApi from 'service/api/zopimApi';
+
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
@@ -738,8 +740,11 @@ describe('closedChatHistory', () => {
 
 test('chatConnected', () => {
   jest.spyOn(callbacks, 'fireFor');
+  jest.spyOn(zopimApi, 'handleChatConnected');
   const result = dispatchAction(actions.chatConnected());
 
+  expect(zopimApi.handleChatConnected)
+    .toHaveBeenCalled();
   expect(callbacks.fireFor)
     .toHaveBeenCalledWith(CHAT_CONNECTED_EVENT);
   expect(result)

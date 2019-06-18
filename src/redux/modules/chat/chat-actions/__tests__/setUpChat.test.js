@@ -30,6 +30,15 @@ const dispatchAction = (customState = {}) => {
 };
 
 describe('setupChat', () => {
+  it('calls handleChatSDKInitialized', async () => {
+    dispatchAction();
+
+    await wait(() => {
+      expect(zopimApi.handleChatSDKInitialized)
+        .toHaveBeenCalled();
+    });
+  });
+
   it('dispatches the handleChatVendorLoaded action creator with zChat and slider vendor', async () => {
     const store = dispatchAction();
 

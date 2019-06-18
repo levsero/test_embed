@@ -4,6 +4,7 @@ import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
 import * as baseActions from 'src/redux/modules/base';
 import * as apis from 'src/service/api/apis';
 import tracker from 'service/logging/tracker';
+import { settings } from 'service/settings';
 
 jest.mock('src/service/api/apis');
 jest.mock('src/redux/modules/chat', () => ({
@@ -22,6 +23,10 @@ jest.mock('service/i18n', () => ({
   }
 }));
 jest.mock('service/logging/tracker');
+
+// Assume chat has been initialized and connected when testing zopim api methods.
+zopimApi.handleChatSDKInitialized();
+zopimApi.handleChatConnected();
 
 const mockStore = {
   dispatch: jest.fn(),
@@ -146,6 +151,17 @@ describe('setUpZopimApiMethods', () => {
   beforeEach(() => {
     mockWin = {};
     zopimApi.setUpZopimApiMethods(mockWin, mockStore);
+  });
+
+  test('authenticate', () => {
+    const jwtFnSpy = jest.fn();
+
+    mockWin.$zopim.livechat.authenticate({
+      jwtFn: jwtFnSpy
+    });
+
+    expect(settings.get('authenticate.chat.jwtFn'))
+      .toEqual(jwtFnSpy);
   });
 
   describe('window', () => {

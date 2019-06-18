@@ -7,6 +7,7 @@ import {
   API_ON_CLOSE_NAME,
   API_ON_OPEN_NAME
 } from 'constants/api';
+import { onChatConnected, onChatSDKInitialized } from './callbacks';
 import { setStatusForcefully, setVisitorInfo } from 'src/redux/modules/chat';
 import {
   endChatApi,
@@ -39,7 +40,8 @@ import {
   setGreetingsApi,
   setOnStatusApi,
   showBadgeApi,
-  hideBadgeApi
+  hideBadgeApi,
+  authenticateApi
 } from './helpers';
 import tracker from 'service/logging/tracker';
 import { updateActiveEmbed } from 'src/redux/modules/base';
@@ -55,6 +57,7 @@ export function setUpZopimApiMethods(win, store) {
     const { setOffsetVertical, setOffsetHorizontal } = setOffsetApi(store);
 
     win.$zopim.livechat = {
+      authenticate: ({ jwtFn }) => authenticateApi(jwtFn),
       cookieLaw: {
         comply: noop,
         showPrivacyPanel: noop,
@@ -68,12 +71,13 @@ export function setUpZopimApiMethods(win, store) {
         toggle: () => toggleApi(store),
         hide: () => hideApi(store),
         show: () => {
-          showApi(store);
-          openApi(store);
-
-          if (getCanShowOnlineChat(store.getState())) {
-            store.dispatch(updateActiveEmbed('chat'));
-          }
+          onChatConnected(() => {
+            showApi(store);
+            openApi(store);
+            if (getCanShowOnlineChat(store.getState())) {
+              store.dispatch(updateActiveEmbed('chat'));
+            }
+          });
         },
         setSize: noop,
         getDisplay: () => displayApi(store),
@@ -81,7 +85,7 @@ export function setUpZopimApiMethods(win, store) {
         onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback),
         setTitle: (title) => updateSettings(store, 'webWidget.chat.title.*', title),
         setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
-        openPopout: () => popoutApi(store),
+        openPopout: () => onChatConnected(() => popoutApi(store)),
         setPosition: setPositionApi(store),
         setOffsetHorizontal,
         setOffsetVertical,
@@ -141,12 +145,20 @@ export function setUpZopimApiMethods(win, store) {
         setIgnoreChatButtonVisibility: noop
       },
       departments: {
-        setLabel: (label) => updateSettings(store, 'webWidget.chat.prechatForm.departmentLabel.*', label),
-        getDepartment: (id) => getDepartmentApi(store, id),
-        getAllDepartments: () => getAllDepartmentsApi(store),
-        filter: (...deps) => updateSettings(store, 'webWidget.chat.departments.enabled', [...deps]),
-        setVisitorDepartment: (nameOrId) => updateSettings(store, 'webWidget.chat.departments.select', nameOrId),
-        clearVisitorDepartment: () => updateSettings(store, 'webWidget.chat.departments.select', ''),
+        setLabel: (label) => onChatConnected(() => {
+          updateSettings(store, 'webWidget.chat.prechatForm.departmentLabel.*', label);
+        }),
+        getDepartment: (id) => onChatConnected(() => getDepartmentApi(store, id)),
+        getAllDepartments: () => onChatConnected(() => getAllDepartmentsApi(store)),
+        filter: (...deps) => onChatConnected(() => {
+          updateSettings(store, 'webWidget.chat.departments.enabled', [...deps]);
+        }),
+        setVisitorDepartment: (nameOrId) => onChatConnected(() => {
+          updateSettings(store, 'webWidget.chat.departments.select', nameOrId);
+        }),
+        clearVisitorDepartment: () => onChatConnected(() => {
+          updateSettings(store, 'webWidget.chat.departments.select', '');
+        }),
       },
       concierge: {
         setAvatar: (path) => updateSettings(store, 'webWidget.chat.concierge.avatarPath', path),
@@ -155,30 +167,34 @@ export function setUpZopimApiMethods(win, store) {
       },
       setColor: (color) =>  updateSettings(store, 'webWidget.color.theme', color),
       hideAll: () => hideApi(store),
-      set: (options) => setApi(win, options),
-      isChatting: () => isChattingApi(store),
-      say: (msg) => sendChatMsgApi(store, msg),
+      set: (options) => onChatSDKInitialized(() => setApi(win, options)),
+      isChatting: () => onChatConnected(() => isChattingApi(store)),
+      say: (msg) => onChatConnected(() => sendChatMsgApi(store, msg)),
       endChat: () => endChatApi(store),
       addTags: addTagsApi(store),
       removeTags: removeTagsApi(store),
       setName: (name) => {
-        store.dispatch(setVisitorInfo({ display_name: name })); // eslint-disable-line camelcase
+        onChatSDKInitialized(() => {
+          store.dispatch(setVisitorInfo({ display_name: name })); // eslint-disable-line camelcase
 
-        prefill(store, { name: { value: name } });
+          prefill(store, { name: { value: name } });
+        });
       },
       setPhone: (phone) => {
-        store.dispatch(setVisitorInfo({ phone }));
-
-        prefill(store, { phone: { value: phone } });
+        onChatSDKInitialized(() => {
+          store.dispatch(setVisitorInfo({ phone }));
+          prefill(store, { phone: { value: phone } });
+        });
       },
       setEmail: (email) => {
-        store.dispatch(setVisitorInfo({ email }));
-
-        prefill(store, { email: { value: email } });
+        onChatSDKInitialized(() => {
+          store.dispatch(setVisitorInfo({ email }));
+          prefill(store, { email: { value: email } });
+        });
       },
       setLanguage: setLocaleApi,
-      sendVisitorPath: (page) => updatePathApi(store, page),
-      clearAll: () => logoutApi(store),
+      sendVisitorPath: (page) => onChatSDKInitialized(() => updatePathApi(store, page)),
+      clearAll: () => onChatSDKInitialized(() => logoutApi(store)),
       setStatus: (status) => {
         if (status !== 'online' && status !== 'offline') return;
 

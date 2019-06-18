@@ -8,6 +8,7 @@ import {
 } from 'src/redux/modules/base';
 import * as callbacks from 'service/api/callbacks';
 import { CHAT_STATUS_EVENT, CHAT_DEPARTMENT_STATUS_EVENT } from 'constants/event';
+import { settings } from 'service/settings';
 
 import tracker from 'service/logging/tracker';
 
@@ -174,6 +175,16 @@ export const showBadgeApi = (store) => {
 
 export const hideBadgeApi = (store) => {
   store.dispatch(badgeHideReceived());
+};
+
+export const authenticateApi = (jwtFn) => {
+  settings.updateSettingsLegacy({
+    authenticate: {
+      chat: {
+        jwtFn
+      }
+    }
+  });
 };
 
 export function trackZopimApis(win) {
