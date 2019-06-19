@@ -10,7 +10,6 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  WIDGET_INITIALISED,
   POPOUT_BUTTON_CLICKED,
 } from '../../base-action-types';
 import {
@@ -25,7 +24,6 @@ import {
   CHAT_BANNED
 } from 'src/redux/modules/chat/chat-action-types';
 import * as devices from 'utility/devices';
-import * as globals from 'utility/globals';
 import { testReducer } from 'src/util/testHelpers';
 
 testReducer(launcherVisibility, [
@@ -104,18 +102,6 @@ testReducer(launcherVisibility, [
     expected: true
   }
 ]);
-
-describe('WIDGET_INITIALISED', () => {
-  it('returns false if popout', () => {
-    jest.spyOn(globals, 'isPopout').mockReturnValue(true);
-    expect(launcherVisibility(undefined, { type: WIDGET_INITIALISED })).toEqual(false);
-  });
-
-  it('returns true if not popout', () => {
-    jest.spyOn(globals, 'isPopout').mockReturnValue(false);
-    expect(launcherVisibility(undefined, { type: WIDGET_INITIALISED })).toEqual(true);
-  });
-});
 
 [ZOPIM_SHOW, NEXT_BUTTON_CLICKED].forEach((type) => {
   describe(type, () => {

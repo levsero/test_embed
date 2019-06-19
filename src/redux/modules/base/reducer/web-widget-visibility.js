@@ -8,7 +8,6 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  WIDGET_INITIALISED,
   POPOUT_BUTTON_CLICKED,
   UPDATE_ACTIVE_EMBED
 } from '../base-action-types';
@@ -25,7 +24,7 @@ import {
 import { NIL_EMBED } from 'constants/shared';
 import { isPopout } from 'utility/globals';
 
-const initialState = false;
+const initialState = isPopout();
 
 const webWidgetVisible = (state = initialState, action) => {
   const { type, payload } = action;
@@ -50,8 +49,6 @@ const webWidgetVisible = (state = initialState, action) => {
       return false;
     case TOGGLE_RECEIVED:
       return !state;
-    case WIDGET_INITIALISED:
-      return isPopout();
     case UPDATE_ACTIVE_EMBED:
       if (payload === NIL_EMBED) return false;
       return state;

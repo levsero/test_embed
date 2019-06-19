@@ -9,7 +9,6 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  WIDGET_INITIALISED,
   POPOUT_BUTTON_CLICKED,
 } from '../base-action-types';
 import {
@@ -26,7 +25,7 @@ import {
 import { isMobileBrowser } from 'utility/devices';
 import { isPopout } from 'utility/globals';
 
-const initialState = true;
+const initialState = !isPopout();
 
 const launcherVisible = (state = initialState, action) => {
   const { type } = action;
@@ -52,8 +51,6 @@ const launcherVisible = (state = initialState, action) => {
     case ZOPIM_SHOW:
     case NEXT_BUTTON_CLICKED:
       return isMobileBrowser();
-    case WIDGET_INITIALISED:
-      return !isPopout();
     case TOGGLE_RECEIVED:
       return !state;
     default:
