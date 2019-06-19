@@ -6,7 +6,7 @@ let onChatSDKInitializedQueue = [];
 
 export const onChatConnected = (cb) => {
   if (chatConnected) {
-    cb();
+    return cb();
   } else {
     onChatConnectedQueue.push(cb);
   }
@@ -14,7 +14,7 @@ export const onChatConnected = (cb) => {
 
 export const onChatSDKInitialized = (cb) => {
   if (chatSDKInitialized) {
-    cb();
+    return cb();
   } else {
     onChatSDKInitializedQueue.push(cb);
   }
