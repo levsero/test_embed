@@ -148,8 +148,8 @@ export function setUpZopimApiMethods(win, store) {
         setLabel: (label) => onChatConnected(() => {
           updateSettings(store, 'webWidget.chat.prechatForm.departmentLabel.*', label);
         }),
-        getDepartment: (id) => onChatConnected(() => getDepartmentApi(store, id)),
-        getAllDepartments: () => onChatConnected(() => getAllDepartmentsApi(store)),
+        getDepartment: (id) => getDepartmentApi(store, id),
+        getAllDepartments: () => getAllDepartmentsApi(store),
         filter: (...deps) => onChatConnected(() => {
           updateSettings(store, 'webWidget.chat.departments.enabled', [...deps]);
         }),
@@ -168,7 +168,7 @@ export function setUpZopimApiMethods(win, store) {
       setColor: (color) =>  updateSettings(store, 'webWidget.color.theme', color),
       hideAll: () => hideApi(store),
       set: (options) => onChatSDKInitialized(() => setApi(win, options)),
-      isChatting: () => onChatConnected(() => isChattingApi(store)),
+      isChatting: () => isChattingApi(store),
       say: (msg) => onChatConnected(() => sendChatMsgApi(store, msg)),
       endChat: () => endChatApi(store),
       addTags: addTagsApi(store),
