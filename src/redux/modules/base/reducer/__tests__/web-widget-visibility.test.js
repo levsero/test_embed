@@ -9,7 +9,6 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  WIDGET_INITIALISED,
   POPOUT_BUTTON_CLICKED,
   UPDATE_ACTIVE_EMBED
 } from '../../base-action-types';
@@ -24,7 +23,6 @@ import {
   CHAT_BANNED
 } from 'src/redux/modules/chat/chat-action-types';
 import { NIL_EMBED } from 'constants/shared';
-import * as globals from 'utility/globals';
 import { testReducer } from 'src/util/testHelpers';
 
 testReducer(webWidgetVisibility, [
@@ -113,15 +111,3 @@ testReducer(webWidgetVisibility, [
     expected: false
   }
 ]);
-
-describe('WIDGET_INITIALISED', () => {
-  it('returns true if popout', () => {
-    jest.spyOn(globals, 'isPopout').mockReturnValue(true);
-    expect(webWidgetVisibility(undefined, { type: WIDGET_INITIALISED })).toEqual(true);
-  });
-
-  it('returns true if not popout', () => {
-    jest.spyOn(globals, 'isPopout').mockReturnValue(true);
-    expect(webWidgetVisibility(undefined, { type: WIDGET_INITIALISED })).toEqual(true);
-  });
-});
