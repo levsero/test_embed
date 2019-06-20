@@ -9,7 +9,8 @@ import {
 } from 'src/redux/modules/base/base-selectors';
 import {
   fetchConversationHistory,
-  handleChatVendorLoaded
+  handleChatVendorLoaded,
+  chatConnectionError
 } from 'src/redux/modules/chat';
 import {
   SDK_ACTION_TYPE_PREFIX,
@@ -73,6 +74,10 @@ export function setUpChat() {
     const onChatImported = (zChat, slider) => {
       dispatch(handleChatVendorLoaded({ zChat, slider: slider.default }));
 
+      zChat.on('error', () => {
+        dispatch(chatConnectionError());
+      });
+
       if (config.authentication) {
         const onAuthFailure = (e) => {
           if (_.get(e, 'extra.reason') === JWT_ERROR) {
@@ -83,6 +88,8 @@ export function setUpChat() {
 
             zChat.init(makeChatConfig(config));
             if (brandName) zChat.addTag(brandName);
+          } else {
+            dispatch(chatConnectionError());
           }
         };
 

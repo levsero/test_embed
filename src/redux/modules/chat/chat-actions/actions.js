@@ -471,6 +471,10 @@ export function chatBanned() {
   return { type: actions.CHAT_BANNED };
 }
 
+export function chatConnectionError() {
+  return { type: actions.CHAT_CONNECTION_ERROR };
+}
+
 export function chatOfflineFormChanged(formState) {
   return {
     type: actions.CHAT_OFFLINE_FORM_CHANGED,
