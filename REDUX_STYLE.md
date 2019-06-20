@@ -43,15 +43,18 @@ This document contains guidelines for the Embeddable Framework's redux coding co
 
 ## Structure
 
-#### Modular state trees
+#### Old file structure
 We use different modules for each Embed or feature and a base module for anything that is common between them.
+
+#### New file structure
+We store all Embed specific code inside it's folder and anything more general goes in the Web Widget folder.
 
 ## Reducers
 
 #### Break state into multiple reducers
 Each piece of state in the module should have it's own reducer so that we don't end up with a giant reducer that is difficult to manage. Some parts of state can be combined into a single reducer if they are tightly coupled.
 
-#### Reducers should be simple
+#### Reducers should be fairly simple
 Do not put much logic inside of reducers. Any complex logic should be handled inside actions or inside middleware.
 
 A reducer should never need to know about the state of other reducers.
@@ -60,7 +63,7 @@ A reducer should never need to know about the state of other reducers.
 const actionCreator = {
   return {
     type: REQUEST_SENT,
-    payload: otherReducerState ? true : false // logic handled inside actionCreator
+    payload: requestPayload
   }
 };
 
@@ -69,7 +72,7 @@ const reducer = (state = initialState, action) => {
 
   switch (type) {
     case REQUEST_SENT:
-      return payload; // reducer simply saves what it's given
+      return payload ? true : false; // only simple logic inside the reducer
     default:
       return state;
   }
@@ -77,7 +80,7 @@ const reducer = (state = initialState, action) => {
 ```
 
 #### Reducers file name convention
-Reducers should be named as `module-stateName` such as `helpCenter-articles`.
+Reducers don't need to have the module name prefixing their state. eg `helpCenter-articles` can just be  `articles` as it is already stored within the Help Center context.
 
 ## Actions
 
@@ -104,6 +107,9 @@ export const UPDATE_VIEW_MORE = 'widget/helpCenter/UPDATE_VIEW_MORE'; // bad
 ```
 
 Note: There are some slight exceptions to this rule that were allowed on a case by case basis.
+
+#### Name actions in past tense
+For example `BUTTON_CLICKED` instead of `BUTTON_CLICK`.
 
 #### Async requests should be named consistently
 When sending an asynchronous request to a 3rd party we use the thunk middleware and generate three actions. One for the request and then for any possible responses, usually success or fail. For example they should be named `*_REQUEST_SENT`, `*_REQUEST_SUCCESS`, `*_REQUEST_FAILURE`.
@@ -158,6 +164,9 @@ export const sendMsgRequest = () => {
 
 #### Name actions creators based on the action performed and not the result of the action
 Like actions, action creators should be named according to the action that is happening, not what the outcome of the action will be.
+
+#### Name actions creators in past tense
+For example `handleButtonClicked` instead of `handleButtonClick`.
 
 ## Selectors
 
