@@ -165,8 +165,8 @@ export const sendMsgRequest = () => {
 #### Name actions creators based on the action performed and not the result of the action
 Like actions, action creators should be named according to the action that is happening, not what the outcome of the action will be.
 
-#### Name actions creators in present tense
-For example `handleButtonClick` instead of `handleButtonClicked`.
+#### Name actions creators in past tense
+For example `handleButtonClicked` instead of `handleButtonClick`.
 
 ## Selectors
 

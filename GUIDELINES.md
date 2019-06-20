@@ -4,7 +4,7 @@ This doc lists our guidelines and conventions for the code in this codebase. We 
 
 # File structure
 
-Part of this change it switching to a new file structure. This shows what the old one is and what the new one will be. Components in the new structure should match the guidelines specified below.
+Part of this change is switching to a new file structure. This shows what the old one is and what the new one will be. Components in the new structure should match the guidelines specified below.
 
 ### Old file structure
 
@@ -49,11 +49,8 @@ Part of this change it switching to a new file structure. This shows what the ol
         |-- selectors
         |-- utils
         |-- index.js
-|-- framework
-  |-- Frame.js
-  |-- mobileScaling.js
-  |-- services
 |-- webWidget
+  |-- services
   |-- actions
   |-- reducers
     |-- settings
@@ -78,11 +75,7 @@ This folder will contain any components that should be shared across all embeds.
 
 #### embeds
 
-Each embed will have it's own folder and should never reach across it's own boundried to to get information from other embeds. Any files that relate only to that component should be stored in here.
-
-#### framework*
-
-Contains any logic needed for rendering an embeddable. No Web Widget logic should be in here, it should be able to render any embeddable. Contains services like tracking, http and renderer
+Each embed will have its own folder and should never reach across its own boundries to to get information from other embeds. Any files that relate only to that component should be stored in here. Any embed specific state inside the settings and base reducers should be moved to the embed reducers.
 
 #### webWidget*
 
@@ -104,7 +97,8 @@ Contains any shared utils
 - You can use relative paths to access files in the same folder. `./`
 - They can also be used to access children if it makes sense for that file.
 - Don't be afraid to set up a webpack alias to a folder.
-- Note: An exemption to this rule is in our style files as you can't use webpack aliases *pending investigate story
+- An exemption to this a jest test file. It can reach one level up to get the file it is testng.
+- An exemption to this rule is in our style files as you can't use webpack aliases *pending investigate story
 
 ## React Components
 
@@ -133,7 +127,7 @@ ComponentName
 
 ### Break down components as much as needed
 
-- Small components that only render one thing are fine
+- Components that only render one thing and are only a few lines long are fine
 - If concerned about lines of code a component can always be functional
 
 ### Use Garden components where possible
@@ -141,6 +135,16 @@ ComponentName
 - Prefer using Garden components to building them ourself. If it is possible to replace one of ours with a garden one try to do so.
 - We can always wrap garden components in our own component to override styles if needed. Garden should still be the base component.
 - Mandy has prepared a [design menu](https://app.goabstract.com/invitations/bcbe7a4adc99e746b51bf6a79d0b3457fa4d6c10ec61cf9891b077e2354f5dcc) for our components. Try to match these designs.
+
+### Avoid using PropTypes.object
+
+- Prefer to use PropTypes.shape and define the properites passed in the object
+- If the shape is shared across multiple components it can be extracted into it's own file for reuse
+
+### Limit the use of globals inside components
+
+- Try to avoid using globals from imports as we need to call `forceUpdate` to have the UI rerender when it changes
+- Globals can be passed into a component as a prop through the `mapStateToProps` object
 
 ## Styles
 
@@ -235,7 +239,7 @@ The talk routes directory will look like:
 
 ## Testing
 
-### Use Jest as the unit testing framework
+### Use Jest as the unit and integration testing framework
 
 - Any tests currently in Jasmine must be ported to Jest
 - Follow the [style guide](https://github.com/zendesk/embeddable_framework/blob/master/TEST_STYLE.md)
