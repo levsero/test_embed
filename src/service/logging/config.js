@@ -26,7 +26,9 @@ export const rollbarConfig =  {
     environment: __EMBEDDABLE_FRAMEWORK_ENV__,
     client: {
       javascript: {
-        code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase
+        source_map_enabled: true, // eslint-disable-line camelcase
+        code_version: __EMBEDDABLE_VERSION__, // eslint-disable-line camelcase
+        guess_uncaught_frames: true // eslint-disable-line camelcase
       }
     }
   }
