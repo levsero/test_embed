@@ -1,32 +1,29 @@
-## Thank you
+#### Before opening a PR
+* Please run both the `test:ci` and `lint` npm tasks before opening a pull request - a PR can't be merged until we have green status checks for these items
+* All pull requests need two :+1:'s to be merged, *at least one from a Taipan team member*. Please also include a `/cc` to **@zendesk/taipan**. If a Taipan team member hasn't reviewed your PR in a reasonable amount of time, feel free to ping us on Slack in `#taipan-team` and do a group mention using `@taipan-dev`.
+* Please be verbose in your PR description. The more context we have on your change, the easier it is for us to review.
 
-Thanks for your interest in the Web Widget. Improvements and bug-fixes are always welcome!
-
-## Getting started
-
-Please see the [readme](https://github.com/zendesk/embeddable_framework#getting-started) on how to get the Widget running locally for development.
-
-## Making changes
-
-Once the Widget is running locally, checkout a new branch and make your changes there. When making changes, there are a few things to keep in mind:
-
-### General
+#### General
 * Please check in with a [Taipan](https://cerebro.zende.sk/teams/taipan) team member if your change is likely to affect shared files across multiple embedded products (eg: services, middleware, etc).
 * Make sure your change works in [all browsers](https://support.zendesk.com/hc/en-us/articles/203908456-Using-Web-Widget-to-embed-customer-service-in-your-website) from IE11 up.
 * Be aware of bundle size. For a list of limitations, consult `"bundlesize"` in `package.json`.
 
-### CSS
+#### Git
+* Please follow our [git commit practices](https://zendesk.atlassian.net/wiki/spaces/CE/pages/279216606/Taipan+Git+Practices) when submitting a Pull Request for review.
+
+#### JS
+* Please see our [code style guidelines](STYLE.md) before committing code to our repo.
+
+#### CSS
 * Please use `rem` sizing in CSS instead of `em`.
 * Avoid single-line utility composition in SCSS.
 
-### Testing
+#### Testing
 * All new features should have appropriate test coverage.
-* New tests should be written using the [Jest](https://jestjs.io/) JS test framework.
+* All new tests should be written using the [Jest](https://jestjs.io/) JS test framework.
+* Please see our [test style guidelines](TEST_STYLE.md) on how we like to see our tests written.
 
-### Git
-* Please follow [these guidelines](https://zendesk.atlassian.net/wiki/spaces/CE/pages/279216606/Taipan+Git+Practices) on our Git practices for smooth reviews and merging.
-* Be verbose in your PR description. The more context we have on your change, the easier it is for us to review.
+#### Documentation changes
+* For any PRs that include documentation changes, please `/cc` **@zendesk/documentation** for an extra +1 on your pull request
 
-Drop us a line in the `#taipan-team` Slack channel when you're done so we don't miss your PR. When you have two approving reviews from team members, you can merge your changes to master.
-
-Don't forget to feel warm and fuzzy knowing you helped us out :)
+**Don't forget to feel warm and fuzzy knowing you helped us out :)**

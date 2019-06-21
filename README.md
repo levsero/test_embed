@@ -8,6 +8,8 @@ This repository is maintained by [Team Taipan](https://zendesk.atlassian.net/wik
 * Email **taipan@zendesk.com**
 * Slack **#taipan-team** channel
 * Mention **@zendesk/taipan** on Github
+* [Taipan JIRA Sprint Board](https://zendesk.atlassian.net/jira/software/projects/EWW/boards/1270)
+* [Taipan JIRA Backlog](https://zendesk.atlassian.net/jira/software/projects/EWW/boards/1270/backlog)
 
 We are based in Melbourne, Australia and our timezone is **GMT+10**. You can always check the [time](http://time.is/Melbourne) in Melbourne.
 
@@ -90,46 +92,14 @@ This will allow you to make as many different configurations as you like to test
 - Verify the built image with `zdi embeddable_framework restart -l`.
 - To push, run `zdi embeddable_framework release --official`.
 
-## Testing
-We use the [Jasmine](http://jasmine.github.io/) framework for all our unit tests, and [ESlint](http://eslint.org/) for Javascript linting. Please run both the test and lint npm tasks before opening a pull request.
-
-```bash
-npm run lint && npm t
-```
-
-To run specific tests, specify either paths to the test files or glob patterns after `npm t`.
-
-Examples:
-```bash
-# Single file
-npm t test/unit/boot_test.js
-
-# Multiple files
-npm t test/unit/boot_test.js test/unit/chatPreview_test.js
-
-# Single pattern
-npm t test/unit/*_test.js
-
-# Multiple patterns
-npm t test/unit/component/chat/**/*_test.js test/unit/component/talk/**/*_test.js
-```
-
-To debug in tests, run the `test:debug` task: `npm run test:debug`. This task uses the built-in cli node.js debugger. To set a breakpoint from the source code, place a `debugger` statement on the line you want to pause execution. To inspect the value of variables run the `repl` command at a breakpoint. For more information please view the [documentation](https://nodejs.org/api/debugger.html#debugger_information).
-
-*NOTE: The node debugger will always automatically break at the first line, just run `continue` (or `c`) to resume execution.*
-
 ## Contribute
-All pull requests need two :+1:'s to be merged, *at least one from a Taipan team member*. Please also include a `/cc` to **@zendesk/taipan**. If a Taipan team member hasn't reviewed your PR in a reasonable amount of time, feel free to ping us on Slack in `#taipan-team` and do a group mention using `@taipan`.
-
-See [STYLE.md](https://github.com/zendesk/embeddable_framework/blob/master/STYLE.md) for more information on code style.
-
-*Note: There is a pull request template (PULL_REQUEST_TEMPLATE.md) for auto completing the description. If you have the Zendesk chrome dev tools installed this will cause a conflict so disable the dev tools before opening a PR.*
+If you would like to submit a PR to our repo, please read our [contribution guidelines](CONTRIBUTING.md) first.
 
 ## Deploying
 Please see our [Deploy guidelines](https://github.com/zendesk/embeddable_framework/blob/master/DEPLOY.md) for more information.
 
 ## Bugs
-Bugs are tracked in JIRA under the Customer Engagement project (`CE`) with the component *Web Widget*. Bugs should always have clear reproduction steps, some notion of urgency/scope and relevant references.
+Please inform us of any bugs that you have to report in our #taipan-team Slack channel and tag your comment with @taipan-firefighter.
 
 ## Refreshing Rosetta translations
 To download the latest translations, run the following command from the root of this project:
@@ -145,29 +115,18 @@ To download the latest translations, run the following command from the root of 
 ./script/fetch_countries
 ```
 
-## Refreshing node_module dependencies
-Use `./setup-environment.sh` instead of `npm install` to update your node modules to ensure the package-lock stays in sync across computers.
-
-## NPM tasks
-Run each task like this: ```npm run <taskname>```
-
-* **build** - Generates snippet and framework in production mode. This means the final source and assets are optimised and no sourcemaps are generated.
-* **dev** - Launches a local server that automatically rebuilds the source and refreshes the browser on any changes. Navigate to any of the pages at http://localhost:1337.
-* **test** - Runs all the jasmine unit tests.
-* **lint** - Runs eslint on the *src* and *test* directories.
-
 ## Debugging customer issues
 Sometimes we have issues that only manifest on customers sites.
 
 ### Viewing Redux logs
 To see redux logging information on their site we can add a value to localstorage to surface the debug logs.
 
-In the browsers console
+Go to the customer's site, open a browser console and run the following command:
 ```
 localStorage["ZD-debug"] = true
 ```
 
-After that when you refresh the page you will start seeing redux logs in your console.
+After that when you refresh the page you will start seeing redux logs in your console and redux devtools if you have the [browser extension](https://github.com/zalmoxisus/redux-devtools-extension) installed.
 
 ## Documenting ADRs
 We will be documenting architectural decisions surrounding this project under `doc/architecture/decisions`.
