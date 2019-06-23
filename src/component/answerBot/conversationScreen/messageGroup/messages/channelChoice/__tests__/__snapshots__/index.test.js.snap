@@ -34,7 +34,41 @@ exports[`channels does not render chat if chat is available 1`] = `
 </div>
 `;
 
-exports[`channels renders expected leading message if only call us is available 1`] = `
+exports[`channels renders expected components if chat and chat offline are available 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      blah
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel singleChannel"
+      >
+        <span
+          class="container icon Icon--channelChoice-chat"
+          data-testid="Icon--channelChoice-chat"
+          type="Icon--channelChoice-chat"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Live chat is offline
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected components if only call us is available 1`] = `
 <div>
   <div
     class="messageBubble container"
@@ -68,7 +102,7 @@ exports[`channels renders expected leading message if only call us is available 
 </div>
 `;
 
-exports[`channels renders expected leading message if only chat is available 1`] = `
+exports[`channels renders expected components if only chat is available 1`] = `
 <div>
   <div
     class="messageBubble container"
@@ -102,21 +136,7 @@ exports[`channels renders expected leading message if only chat is available 1`]
 </div>
 `;
 
-exports[`channels renders expected leading message if only request callback is available 1`] = `
-<div>
-  <div
-    class="messageBubble container"
-  >
-    <div
-      class="header firstItem title"
-    >
-      blah
-    </div>
-  </div>
-</div>
-`;
-
-exports[`channels renders expected leading message if only submit ticket is available 1`] = `
+exports[`channels renders expected components if only submit ticket is available 1`] = `
 <div>
   <div
     class="messageBubble container"
@@ -143,6 +163,40 @@ exports[`channels renders expected leading message if only submit ticket is avai
           class="optionText"
         >
           Leave a message
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected components if talk and request callback are available 1`] = `
+<div>
+  <div
+    class="messageBubble container"
+  >
+    <div
+      class="header firstItem title"
+    >
+      blah
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel singleChannel"
+      >
+        <span
+          class="container icon Icon--channelChoice-talk"
+          data-testid="Icon--channelChoice-talk"
+          type="Icon--channelChoice-talk"
+        >
+          test-file-stub
+        </span>
+        <div
+          class="optionText"
+        >
+          Request a callback
         </div>
       </div>
     </div>
@@ -251,40 +305,6 @@ exports[`channels renders leading message if more than 1 channel is available an
           class="optionText"
         >
           Call us
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`channels renders request callback leading message if request callback and call us are available 1`] = `
-<div>
-  <div
-    class="messageBubble container"
-  >
-    <div
-      class="header firstItem title"
-    >
-      blah
-    </div>
-    <div
-      class=" lastItem optionItem"
-    >
-      <div
-        class="channel singleChannel"
-      >
-        <span
-          class="container icon Icon--channelChoice-talk"
-          data-testid="Icon--channelChoice-talk"
-          type="Icon--channelChoice-talk"
-        >
-          test-file-stub
-        </span>
-        <div
-          class="optionText"
-        >
-          Request a callback
         </div>
       </div>
     </div>
