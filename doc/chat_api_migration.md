@@ -14,6 +14,7 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 
 | $zopim.livechat syntax | zE syntax |
 | ---------------------- | --------- |
+| authenticate              | `zESettings.webWidget.authenticate.chat`  |
 | badge.hide                | `zE('webWidget', 'hide')` |
 | badge.show                | `zE('webWidget', 'show')` |
 | button.hide               | `zE('webWidget', 'hide')` |
@@ -153,10 +154,3 @@ Below is a list of the $zopim.livechat APIs that are not supported in the Web Wi
 | theme.setFontConfig | Chat themes are no longer available |
 | theme.setTheme      | As above |
 | cookieLaw.comply    | Cookie law format is changing |
-
-### What APIs are coming soon
-
-#### Planned
-| $zopim.livechat syntax | zE syntax |
-| ---------------------- | --------- |
-| authenticate           | `zESettings.webWidget.authenticate.chat`  |
