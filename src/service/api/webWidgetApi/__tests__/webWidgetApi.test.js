@@ -53,17 +53,16 @@ describe('apisExecuteQueue', () => {
 
 describe('setupLegacyApiQueue', () => {
   describe('win.zEmbed', () => {
-    let win = { zEmbed: {} };
-
-    beforeEach(() => {
+    const fireSetup = (win = { zEmbed: { t: 'hello fren' } }) => {
       api.setupLegacyApiQueue(win, [], mockStore);
-    });
+      return win;
+    };
 
     describe('when a function is passed into zEmbed', () => {
       const zEFunctionSpy = jest.fn();
 
       beforeEach(() => {
-        win.zEmbed(zEFunctionSpy);
+        fireSetup().zEmbed(zEFunctionSpy);
       });
 
       it('calls the function passed in', () => {
@@ -74,13 +73,61 @@ describe('setupLegacyApiQueue', () => {
 
     describe('when a string is passed into zEmbed', () => {
       beforeEach(() => {
-        win.zEmbed('webWidget', 'hide');
+        fireSetup().zEmbed('webWidget', 'hide');
       });
 
       it('handles the api call', () => {
         expect(apis.hideApi)
           .toHaveBeenCalled();
       });
+    });
+
+    describe('when win.zE and win.zEmbed are the same upon override', () => {
+      let win;
+
+      beforeEach(() => {
+        const  embedState = { t: 'hello fren' };
+
+        win = fireSetup({
+          zEmbed: embedState,
+          zE: embedState
+        });
+      });
+
+      it('expects them to be the same reference upon resolution of override', () => {
+        expect(win.zE).toEqual(win.zEmbed);
+      });
+
+      it('expects their properties to match', () => {
+        expect(win.zE.t).toEqual(win.zEmbed.t);
+      });
+    });
+
+    describe('when win.zE and win.zEmbed are different upon override', () => {
+      let win;
+
+      beforeEach(() => {
+        win = fireSetup({
+          zEmbed: {
+            t: 'hello fren'
+          },
+          zE: {
+            t: 'hello fren'
+          }
+        });
+      });
+
+      it('expects them to be different upon resolution of override', () => {
+        expect(win.zE).not.toEqual(win.zEmbed);
+      });
+
+      it('expects their properties to match', () => {
+        expect(win.zE.t).toEqual(win.zEmbed.t);
+      });
+    });
+
+    it('does not strip existing properties', () => {
+      expect(fireSetup().zEmbed.t).toEqual('hello fren');
     });
   });
 });
