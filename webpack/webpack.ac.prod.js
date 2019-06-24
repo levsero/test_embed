@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -48,14 +49,15 @@ let config = merge(common, {
         return indexA - indexB;
       },
       generate: function (seed, files) {
-        const assets = files.map(function (file) {
-          const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name);
-          const asset = { path: file.path };
+        const assets = files.filter(file => path.extname(file.path) !== '.map')
+          .map(function (file) {
+            const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name);
+            const asset = { path: file.path };
 
-          if (chunk.feature) asset.feature = chunk.feature;
+            if (chunk.feature) asset.feature = chunk.feature;
 
-          return asset;
-        }, seed);
+            return asset;
+          }, seed);
 
         return { assets };
       }
