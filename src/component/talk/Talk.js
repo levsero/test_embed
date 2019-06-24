@@ -14,6 +14,7 @@ import { ICONS } from 'src/constants/shared';
 import { Button } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
 import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
+import ErrorNotification from './ErrorNotification';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -250,6 +251,7 @@ class Talk extends Component {
 
   renderFormScreen = () => {
     const submitButtonStyles = classNames(styles.submitButton, { [styles.submitBtnMobile]: this.props.isMobile });
+    const { isMobile, formState, callback } = this.props;
 
     return (
       <Form
@@ -258,8 +260,8 @@ class Talk extends Component {
         submitButtonClasses={submitButtonStyles}
         submitButtonLabel={i18n.t('embeddable_framework.common.button.send')}
         rtl={i18n.isRTL()}
-        isMobile={this.props.isMobile}
-        formState={this.props.formState}
+        isMobile={isMobile}
+        formState={formState}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}>
         {this.renderFormHeader()}
@@ -267,7 +269,8 @@ class Talk extends Component {
         {this.renderPhoneField()}
         {this.renderNameField()}
         {this.renderDescriptionField()}
-        {this.renderErrorNotification()}
+        {callback.error.message &&
+          <ErrorNotification message={this.resolveErrorMessage(callback.error.message)} />}
       </Form>
     );
   }
@@ -384,21 +387,6 @@ class Talk extends Component {
     return _.includes(errorCodes, code)
       ? i18n.t(`embeddable_framework.talk.notify.error.${code}`)
       : i18n.t('embeddable_framework.common.notify.error.generic');
-  }
-
-  renderErrorNotification = () => {
-    const { error } = this.props.callback;
-
-    if (_.isEmpty(error)) return null;
-
-    const errorMsg = this.resolveErrorMessage(error.message);
-
-    return (
-      <div className={styles.error}>
-        <Icon type='Icon--error' className={styles.errorIcon} />
-        {errorMsg}
-      </div>
-    );
   }
 
   render = () => {
