@@ -1,6 +1,5 @@
 import { render } from 'react-testing-library';
 import React from 'react';
-import * as fieldUtils from 'src/util/fields';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -44,6 +43,35 @@ const renderComponent = (overrideProps = {}) => {
 };
 
 describe('talk', () => {
+  describe('rendering the zendesk logo', () => {
+    describe('with the logo enabled', () => {
+      it('renders the zendesk logo', () => {
+        const { queryByText } = renderComponent({ agentAvailability: false });
+
+        expect(queryByText('zendesk'))
+          .toBeInTheDocument();
+      });
+    });
+
+    describe('with logo disabled', () => {
+      it('does not render the zendesk logo', () => {
+        const { queryByText } = renderComponent({ agentAvailability: false, isMobile: true });
+
+        expect(queryByText('zendesk'))
+          .not.toBeInTheDocument();
+      });
+    });
+
+    describe('on mobile', () => {
+      it('does not render the zendesk logo', () => {
+        const { queryByText } = renderComponent({ agentAvailability: false, hideZendeskLogo: true });
+
+        expect(queryByText('zendesk'))
+          .not.toBeInTheDocument();
+      });
+    });
+  });
+
   describe('when no agents are available', () => {
     it('renders the offline screen', () => {
       const { queryByText } = renderComponent({ agentAvailability: false });
@@ -85,15 +113,19 @@ describe('talk', () => {
         .toBeInTheDocument();
     });
 
-    describe('when the fields are invalid', () => {
+    describe('when the fields have values', () => {
       it('renders error messages', () => {
-        jest.spyOn(fieldUtils, 'shouldRenderErrorMessage').mockReturnValue(true);
+        const { queryByValue, queryByText } = renderComponent({
+          screen: CALLBACK_ONLY_SCREEN,
+          formState: {
+            name: 'taipan',
+            description: 'no one is quite sure'
+          }
+        });
 
-        const { queryByText } = renderComponent({ screen: CALLBACK_ONLY_SCREEN });
-
-        expect(queryByText('Please enter a valid name.'))
+        expect(queryByValue('taipan'))
           .toBeInTheDocument();
-        expect(queryByText('Please enter a valid message.'))
+        expect(queryByText('no one is quite sure'))
           .toBeInTheDocument();
       });
     });
@@ -126,19 +158,76 @@ describe('talk', () => {
 
   describe('phone only screen', () => {
     it('displays a phone number and a message to call it', () => {
-      const { queryByText } = renderComponent();
+      const { queryByText } = renderComponent({ screen: PHONE_ONLY_SCREEN });
 
       expect(queryByText('Call us at the phone number below to get in contact with us.'))
         .toBeInTheDocument();
       expect(queryByText('12345678'))
         .toBeInTheDocument();
     });
+
+    describe('with an average wait time', () => {
+      describe('of 0', () => {
+        it('does not display the average wait time', () => {
+          const { queryByText } = renderComponent({
+            screen: PHONE_ONLY_SCREEN,
+            averageWaitTimeEnabled: true,
+            averageWaitTime: '0'
+          });
+
+          expect(queryByText('Average wait time: 0 minutes'))
+            .not.toBeInTheDocument();
+        });
+      });
+
+      describe('of 1', () => {
+        it('display the average wait time in singular', () => {
+          const { queryByText } = renderComponent({
+            screen: PHONE_ONLY_SCREEN,
+            averageWaitTimeEnabled: true,
+            averageWaitTime: '1'
+          });
+
+          expect(queryByText('Average wait time: 1 minute'))
+            .toBeInTheDocument();
+        });
+      });
+
+      describe('of greater than 1', () => {
+        it('display the average wait time in plural', () => {
+          const { queryByText } = renderComponent({
+            screen: PHONE_ONLY_SCREEN,
+            averageWaitTimeEnabled: true,
+            averageWaitTime: '10'
+          });
+
+          expect(queryByText('Average wait time: 10 minutes'))
+            .toBeInTheDocument();
+        });
+      });
+    });
+  });
+
+  describe('success notification screen', () => {
+    it('displays a phone number and a callback form', () => {
+      const { queryByText } = renderComponent({
+        screen: SUCCESS_NOTIFICATION_SCREEN
+      });
+
+      expect(queryByText('Thanks for reaching out.'))
+        .toBeInTheDocument();
+      expect(queryByText("We'll get back to you soon."))
+        .toBeInTheDocument();
+      expect(queryByText('Done'))
+        .toBeInTheDocument();
+    });
   });
 
   describe('callback and phone screen', () => {
     it('displays a phone number and a callback form', () => {
-      const container = renderComponent({ screen: CALLBACK_AND_PHONE_SCREEN });
-      const { queryByText, getByLabelText } = container;
+      const { queryByText, getByLabelText } = renderComponent({
+        screen: CALLBACK_AND_PHONE_SCREEN
+      });
 
       expect(queryByText('Enter your phone number and we\'ll call you back.'))
         .toBeInTheDocument();
