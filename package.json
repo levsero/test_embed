@@ -99,7 +99,6 @@
     "classnames": "^2.2.5",
     "color": "~3.0.0",
     "core-js": "^2.5.1",
-    "es6-error": "^4.1.1",
     "libphonenumber-js": "~0.4.49",
     "lodash": "^4.17.14",
     "prop-types": "^15.6.1",

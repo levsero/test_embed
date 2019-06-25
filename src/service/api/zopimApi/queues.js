@@ -35,7 +35,7 @@ export function handleZopimQueue(win) {
     try {
       method()
     } catch (e) {
-      throw new ZopimApiError('An error occurred in your use of the $zopim Widget API')
+      throw new ZopimApiError()
     }
   })
   _.set(win.$zopim, 'flushed', true)
