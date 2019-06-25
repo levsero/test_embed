@@ -420,4 +420,5 @@ const actionCreators = {
   submitTalkCallbackForm
 };
 
+export { Talk as Component };
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Talk);
