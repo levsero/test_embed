@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -5,6 +7,8 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const common = require('./webpack.ac.common.js');
 const chunks = require('./chunks');
+const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
+const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
 
 // Assets must be downloaded in the order specified in CHUNKS
 const CHUNKS = [
@@ -15,12 +19,14 @@ const CHUNKS = [
   { name: chunks.WEB_WIDGET_CHUNK }
 ];
 
-module.exports = merge(common, {
+const PUBLIC_PATH = process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest';
+
+let config = merge(common, {
   mode: 'production',
-  devtool: false,
+  devtool: 'hidden-source-map',
   output: {
     filename: '[name].[chunkhash].js',
-    publicPath: process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest/'
+    publicPath: PUBLIC_PATH + '/'
   },
   plugins: [
     new webpack.HashedModuleIdsPlugin(),
@@ -43,14 +49,15 @@ module.exports = merge(common, {
         return indexA - indexB;
       },
       generate: function (seed, files) {
-        const assets = files.map(function (file) {
-          const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name);
-          const asset = { path: file.path };
+        const assets = files.filter(file => path.extname(file.path) !== '.map')
+          .map(function (file) {
+            const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name);
+            const asset = { path: file.path };
 
-          if (chunk.feature) asset.feature = chunk.feature;
+            if (chunk.feature) asset.feature = chunk.feature;
 
-          return asset;
-        }, seed);
+            return asset;
+          }, seed);
 
         return { assets };
       }
@@ -65,3 +72,18 @@ module.exports = merge(common, {
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
   ]
 });
+
+if (process.env.ROLLBAR_ACCESS_TOKEN && process.env.ROLLBAR_ENDPOINT) {
+  config = merge(config, {
+    plugins: [
+      new RollbarSourceMapPlugin({
+        accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+        version: version,
+        publicPath: PUBLIC_PATH,
+        rollbarEndpoint: process.env.ROLLBAR_ENDPOINT
+      })
+    ]
+  });
+}
+
+module.exports = config;
