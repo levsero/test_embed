@@ -17,6 +17,7 @@ env:
   - TASK=securityscan SECURITYSCAN=srcclr
   - TASK=validate-i18n
   - TASK=fossa
+  - TASK=e2e:ci
 
 before_install:
   - curl -u "$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY" https://zdrepo.jfrog.io/zdrepo/api/npm/npm/auth/zendesk >> ~/.npmrc
