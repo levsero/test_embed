@@ -306,6 +306,38 @@ describe('getShowOfflineChat', () => {
   });
 });
 
+describe('getChatConnectionMade', () => {
+  it('returns true when chat connection state is connected', () => {
+    const result = selectors.getChatConnectionMade(getModifiedState({
+      chat: {
+        connection: 'connected',
+      }
+    }));
+
+    expect(result).toEqual(true);
+  });
+
+  it('returns true when chat connection state is closed', () => {
+    const result = selectors.getChatConnectionMade(getModifiedState({
+      chat: {
+        connection: 'closed'
+      }
+    }));
+
+    expect(result).toEqual(true);
+  });
+
+  it('returns false when chat connection state is not connected or closed', () => {
+    const result = selectors.getChatConnectionMade(getModifiedState({
+      chat: {
+        connection: 'connecting',
+      }
+    }));
+
+    expect(result).toEqual(false);
+  });
+});
+
 describe('getChatBanned', () => {
   it('returns the expected value', () => {
     const result = selectors.getChatBanned(getModifiedState({
