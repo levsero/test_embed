@@ -1,0 +1,108 @@
+API:
+  Core:
+    Activate: # zE.activate(options <object>);
+      When the widget is visible:
+        - It does nothing
+        When the "-" button is clicked:
+          When no options argument is passed:
+            - It hides the widget
+            - It shows the launcher
+          When `{ hideOnClose: true }` is passed:
+            - It hides the widget
+            - It hides the launcher
+          When `{ hideOnClose: false }` is passed:
+            - It hides the widget
+            - It shows the launcher
+          When any other argument is passed:
+            - It does not affect behaviour
+      When the widget is invisible:
+        - It shows the widget
+      When the launcher is visible:
+        - It hides the launcher
+        - It shows the widget
+
+    Hide: # zE('webWidget', 'hide');
+      When the launcher is visible:
+        - It hides the launcher
+      When the widget is visible:
+        - It hides the widget, does not show the launcher
+      When the launcher and widget are invisible:
+        - It does nothing
+
+    Show: # zE('webWidget', 'show');
+      When the launcher is visible:
+        - It does nothing
+      When the widget is visible:
+        - It does nothing
+      When launcher is invisible:
+        - It shows the launcher
+
+    Set locale: # zE('webWidget', 'setLocale', data<string>);
+      When a supported locale string is passed:
+        - It immediately over-rides the current locale with the new value
+      When an unsupported locale string is passed:
+        - It does nothing ### This is not happening atm. It's falling back to en-US, even if the browser is set to some other locale
+      When no argument is passed:
+        - It does nothing ### This is not happening atm. It's falling back to en-US
+
+  Settings:
+    Color: # zESettings.webWidget.color.theme => hex<string>
+      When a valid color value is passed:
+        - The Widget loads with that theme color
+      When an invalid colour value is passed:
+        - It does nothing
+        - The widget uses the account settings theme color ### Doesn't currently do this, defaults back to yucky green instead of account setting
+
+    Contact Form:
+      Attachments: # zESettings.webWidget.contactForm.attachments => boolean
+        When not set:
+          - The attachment drop zone is visible
+        When set to false:
+          - The attachment drop zone is invisible
+        When set to any other value:
+          - The attachment drop zone is visible
+          - It does not throw errors # not happening atm. React proptypes errors in console.
+
+    Offset: # zESettings.webWidget.offset => { horizontal: 'XXXpx', vertical: 'YYYpx' }
+      When valid pixel values are set:
+        When the page has loaded:
+          - The launcher is rendered offset correctly from its starting position
+        When the launcher is clicked:
+          - The widget appears offset correctly from the starting position
+          - The launcher is hidden
+      When invalid values are set:
+        - Renders in the default position # Not currently doing this. Throws react error to console
+
+    Position: #zESettings.webWidget.position => { horizontal: 'left'/'right', vertical: 'top'/'bottom' }
+      When valid parameters are set:
+        When the page has loaded:
+          - The launcher is rendered in the appropriate position
+        When the launcher is clicked:
+          - The widget appears in the appropriate position
+          - The launcher disappears
+      When invalid parameters are set:
+        - Renders in the default position # Not currently doing this, throwing react error to console
+
+    Suppress: # zESettings.webWidget.<embed>.suppress => boolean
+      When a given embed is enabled:
+        When suppress for that embed is set to true:
+          - It does not render that embed
+          When channel choice is viewed:
+            - It does not offer that embed as an option
+        When suppress for that embed is set to any other value:
+          - It renders the embed # not happening atm. Other values are JS truthy, so suppress is set
+          When channel choice is viewed:
+            - It displays that embed as an option
+
+    Launcher:
+      Label: # zESettings.launcher.label => translation map <object>
+        When provided with a translation map containing a local and a wild-card (*):
+          When the browser is set to the same locale as the translation map:
+            - It renders the locale text as the launcher label
+          When the browser is set to a locale not in the translation map:
+            - It renders the wild-card test as the launcher label
+        When provided with a translation map containing only a locale:
+          When the browser is set to the same locale as the translation map:
+            - It renders the locale text as the launcher label
+          When the browser is set to a locale not in the translation map:
+            - It falls back to the default English label string
