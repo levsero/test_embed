@@ -54,7 +54,7 @@ function snippet(zendeskHost) {
         };
 
         window.zE = window.zE || window.zEmbed;
-        document.t = +new Date();
+        window.zEmbed.t = +new Date();
         document.zendeskHost = host;
         document.zEQueue = queue;
       }('${zendeskHost}'));

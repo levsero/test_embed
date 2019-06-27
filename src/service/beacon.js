@@ -53,9 +53,12 @@ const sendPageView = () => {
   };
   const referrerUrl = getReferrerPolicy() ? referrerPolicyUrl(getReferrerPolicy(), referrer.href) : referrer.href;
   const pageViewParams = referrerUrl ? { referrer: referrerUrl } : {};
+  const frameworkLoadTime = getFrameworkLoadTime();
+
+  if (_.isNil(frameworkLoadTime)) return;
   const pageView = {
     time: timeOnLastPage(),
-    loadTime: getFrameworkLoadTime(),
+    loadTime: frameworkLoadTime,
     navigatorLanguage: navigator.language,
     pageTitle: doc.title,
     userAgent: navigator.userAgent,
@@ -72,6 +75,30 @@ const sendPageView = () => {
 
   http.sendWithMeta(payload);
 };
+
+function sendWidgetInitInterval() {
+  if (config.reduceBlipping) return;
+
+  const initTime = (win.zEmbed || win.zE || {}).t;
+
+  if (!initTime) return;
+
+  const time = Date.now() - initTime;
+
+  const params = {
+    performance: {
+      InitInterval: time
+    }
+  };
+  const payload = {
+    type: 'performance',
+    method: config.method,
+    path: config.endpoint,
+    params: params
+  };
+
+  http.sendWithMeta(payload);
+}
 
 function setConfig(_config) {
   _.merge(config, {
@@ -183,22 +210,26 @@ function identify(user) {
   http.sendWithMeta(payload);
 }
 
-function checkEntryLoadTime(entry) {
+function isEntryTrackedScript(entry) {
   const name = entry.name;
 
-  return name.indexOf('main.js') !== -1 || name.indexOf('web_widget.js') !== -1;
+  return name.indexOf('main.js') !== -1 || name.indexOf('web_widget/latest/') !== -1;
 }
 
 function getFrameworkLoadTime() {
   let entry;
   const now = Date.now();
-  let loadTime = document.t ? now - document.t : undefined;
+  const initTime = (win.zEmbed || win.zE || {}).t;
+
+  if (!initTime) return null;
+
+  let loadTime = now - initTime;
 
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
   try {
     if ('performance' in window && 'getEntries' in window.performance) {
       entry = _.find(window.performance.getEntries(), function(entry) {
-        return checkEntryLoadTime(entry);
+        return isEntryTrackedScript(entry);
       });
 
       if (entry && entry.duration) {
@@ -218,5 +249,6 @@ export const beacon = {
   sendConfigLoadTime: sendConfigLoadTime,
   getFrameworkLoadTime: getFrameworkLoadTime,
   sendPageView: sendPageViewWhenReady,
-  setConfig: setConfig
+  setConfig: setConfig,
+  sendWidgetInitInterval: sendWidgetInitInterval
 };
