@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`no results renders expected classes 1`] = `
+<div>
+  <div
+    class=""
+  >
+    <div
+      class="noResults noResultsDesktop"
+    >
+      <p
+        class="u-marginBN u-marginTL"
+      >
+        There are no results for ""
+      </p>
+      <p
+        class="noResultsParagraph noResultsParagraphDesktop"
+      >
+        Try searching for something else.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`no results renders expected mobile classes 1`] = `
+<div>
+  <div
+    class=""
+  >
+    <div
+      class="noResults noResultsMobile"
+    >
+      <p
+        class="u-marginBN u-marginTL"
+      >
+        There are no results for ""
+      </p>
+      <p
+        class="noResultsParagraph "
+      >
+        Try searching for something else.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`with results renders expected classes 1`] = `
+<div>
+  <div
+    class=""
+  >
+    <div
+      class="legend "
+    >
+      <h2
+        class="legendContent"
+      >
+        Top results
+      </h2>
+    </div>
+    <ol
+      class="list listBottom "
+    >
+      <li
+        class="item "
+      >
+        <a
+          class="u-userTextColor"
+          href="http://www.example.com"
+          target="_blank"
+        >
+          Test article one
+        </a>
+      </li>
+      <li
+        class="item "
+      >
+        <a
+          class="u-userTextColor"
+          href="http://www.example.com"
+          target="_blank"
+        >
+          Test article two
+        </a>
+      </li>
+    </ol>
+  </div>
+</div>
+`;
+
+exports[`with results renders expected mobile classes 1`] = `
+<div>
+  <div
+    class=""
+  >
+    <div
+      class="legend "
+    >
+      <h2
+        class="legendContent"
+      >
+        Top results
+      </h2>
+    </div>
+    <ol
+      class="list listBottom listMobile"
+    >
+      <li
+        class="item itemMobile"
+      >
+        <a
+          class="u-userTextColor"
+          href="http://www.example.com"
+          target="_blank"
+        >
+          Test article one
+        </a>
+      </li>
+      <li
+        class="item itemMobile"
+      >
+        <a
+          class="u-userTextColor"
+          href="http://www.example.com"
+          target="_blank"
+        >
+          Test article two
+        </a>
+      </li>
+    </ol>
+  </div>
+</div>
+`;
