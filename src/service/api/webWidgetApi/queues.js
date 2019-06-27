@@ -17,6 +17,7 @@ import {
   setupPublicApi,
   setupDevApi
 } from './setupLegacyApi';
+import { beacon } from 'service/beacon';
 import _ from 'lodash';
 
 const newAPIPostRenderQueue = [];
@@ -73,6 +74,7 @@ export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
     win.zE = win.zEmbed = postRenderCallback;
   } else {
     win.zEmbed = postRenderCallback;
+    beacon.trackUserAction('zEmbedFallback', 'warning');
   }
 
   pairs.forEach(([key, value]) => {
