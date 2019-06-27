@@ -38,42 +38,42 @@ const setUpComponent = () => {
   );
 };
 
+const submitForm = (utils) => fireEvent.click(utils.getByText('Send'));
+const updatePhonefield = (utils, number) => {
+  const phoneField = utils.getByLabelText('Phone Number');
+
+  fireEvent.change(phoneField, { target: { value: number } });
+};
+
+const checkForForm = (utils) => {
+  expect(utils.queryByText('Enter your phone number and we\'ll call you back.')).toBeInTheDocument();
+};
+const checkForErrorMessage = (utils) => {
+  expect(utils.queryByText('Please enter a valid phone number.')).toBeInTheDocument();
+};
+const checkForFlag = (utils) => {
+  expect(utils.queryByAltText('US')).toBeInTheDocument();
+  expect(utils.queryByAltText('AU')).not.toBeInTheDocument();
+};
+const checkForSuccessMesage = (utils) => {
+  expect(utils.queryByText('Thanks for reaching out.')).toBeInTheDocument();
+  expect(utils.queryByText('We\'ll get back to you soon.')).toBeInTheDocument();
+};
+
 test('talk callback submission', () => {
   const utils = setUpComponent();
 
-  // renders the form
-  expect(utils.queryByText('Enter your phone number and we\'ll call you back.'))
-    .toBeInTheDocument();
+  checkForForm(utils);
 
-  fireEvent.click(utils.getByText('Send'));
+  submitForm(utils);
+  checkForErrorMessage(utils); // empty phone number error
 
-  // shows error message when attempting to submit without a phone number
-  expect(utils.queryByText('Please enter a valid phone number.'))
-    .toBeInTheDocument();
+  updatePhonefield(utils, '12345678');
+  submitForm(utils);
+  checkForErrorMessage(utils); // incorrect phone number error
 
-  const phoneField = utils.getByLabelText('Phone Number');
-
-  fireEvent.change(phoneField, { target: { value: '12345678' } });
-
-  fireEvent.click(utils.getByText('Send'));
-
-  // shows error message when attempting to submit without a phone number
-  expect(utils.queryByText('Please enter a valid phone number.'))
-    .toBeInTheDocument();
-
-  fireEvent.change(phoneField, { target: { value: '+15417543010' } });
-
-  // Formats the flag to US
-  expect(utils.queryByAltText('US'))
-    .toBeInTheDocument();
-  expect(utils.queryByAltText('AU'))
-    .not.toBeInTheDocument();
-
-  fireEvent.click(utils.getByText('Send'));
-
-  // Displays the success message when the phone number is valid
-  expect(utils.queryByText('Thanks for reaching out.'))
-    .toBeInTheDocument();
-  expect(utils.queryByText('We\'ll get back to you soon.'))
-    .toBeInTheDocument();
+  updatePhonefield(utils, '+15417543010');
+  checkForFlag(utils);
+  submitForm(utils);
+  checkForSuccessMesage(utils);
 });
