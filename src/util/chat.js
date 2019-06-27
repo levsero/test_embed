@@ -78,10 +78,10 @@ function createChatPopoutWindow(chatPopoutSettings, machineId, locale) {
 
 function generateQueryString(chatPopoutSettings, machineId, locale) {
   const subdomain = getZendeskHost(document);
-  const settings = win.btoa(JSON.stringify(chatPopoutSettings));
+  const settings = win.btoa(JSON.stringify(escape(chatPopoutSettings)));
   const title = encodeURI(i18n.t('embeddable_framework.popout.title'));
 
-  return `?v=5#key=${subdomain}&settings=${settings}&mid=${machineId}&locale=${locale}&title=${title}`;
+  return `?v=6#key=${subdomain}&settings=${settings}&mid=${machineId}&locale=${locale}&title=${title}`;
 }
 
 export {

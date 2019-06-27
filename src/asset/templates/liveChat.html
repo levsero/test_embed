@@ -26,7 +26,7 @@
     var parseSettings = function(parameters) {
       if (!parameters || !parameters.settings) return {};
 
-      return JSON.parse(window.atob(parameters.settings));
+      return JSON.parse(unescape(window.atob(parameters.settings)));
     }
 
     var setPageTitle = function(title) {
