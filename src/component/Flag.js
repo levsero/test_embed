@@ -20,6 +20,7 @@ export class Flag extends Component {
     return (
       /* eslint max-len: 0 */
       <img className={flagClasses}
+        alt={this.props.country}
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAAxJREFUeNpjYBjcAAAAoAABjvuxtAAAAABJRU5ErkJggg=="
       />
     );
