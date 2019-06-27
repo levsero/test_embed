@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the component 1`] = `
+<div>
+  <div
+    class="error"
+  >
+    <span
+      class="container errorIcon Icon--error"
+      data-testid="Icon--error"
+      type="Icon--error"
+    >
+      test-file-stub
+    </span>
+    there was an error
+  </div>
+</div>
+`;

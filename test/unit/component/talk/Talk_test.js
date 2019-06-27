@@ -37,6 +37,7 @@ describe('Talk component', () => {
       'component/form/Form': { Form: noopReactComponent },
       'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
       'component/Icon': { Icon },
+      './ErrorNotification': noopReactComponent,
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo },
       'component/shared/SuccessNotification': { SuccessNotification },
@@ -912,38 +913,6 @@ describe('Talk component', () => {
           expect(link.props.children)
             .toBe('');
         });
-      });
-    });
-  });
-
-  describe('renderErrorNotification', () => {
-    let result;
-
-    describe('when the user has queued a callback', () => {
-      beforeEach(() => {
-        const mockCallback = { error: { message: 'phone_number_already_in_queue' } };
-        const talk = instanceRender(<Talk callback={mockCallback} />);
-
-        result = talk.renderErrorNotification();
-      });
-
-      it('renders a message describing the subject ', () => {
-        expect(result.props.children)
-          .toContain('embeddable_framework.talk.notify.error.phone_number_already_in_queue');
-      });
-    });
-
-    describe('when a generic error has occurred upon form submission', () => {
-      beforeEach(() => {
-        const mockCallback = { error: { message: 'fooBar' } };
-        const talk = instanceRender(<Talk callback={mockCallback} />);
-
-        result = talk.renderErrorNotification();
-      });
-
-      it('renders a message describing the subject ', () => {
-        expect(result.props.children)
-          .toContain('embeddable_framework.common.notify.error.generic');
       });
     });
   });
