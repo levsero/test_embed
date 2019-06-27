@@ -213,18 +213,14 @@ class Talk extends Component {
   renderNameField = () => {
     const nameLabel = i18n.t('embeddable_framework.common.textLabel.name');
     const isRequired = false;
-    const value = this.props.formState.name;
-    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.name');
 
     return (
       <TextField className={styles.textField}>
         {renderLabel(Label, nameLabel, isRequired)}
         <Input
-          defaultValue={value}
+          defaultValue={this.props.formState.name}
           name='name'
-          validation={error ? 'error' : 'none'}
           required={isRequired} />
-        {error}
       </TextField>
     );
   }
@@ -232,19 +228,15 @@ class Talk extends Component {
   renderDescriptionField = () => {
     const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
     const isRequired = false;
-    const value = this.props.formState.description;
-    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.message');
 
     return (
       <TextField className={styles.textField}>
         {renderLabel(Label, descriptionLabel, isRequired)}
         <Textarea
-          value={this.props.formState.value}
+          defaultValue={this.props.formState.description}
           rows='4'
           name='description'
-          required={isRequired}
-          validation={error ? 'error' : 'none'} />
-        {error}
+          required={isRequired} />
       </TextField>
     );
   }
@@ -420,4 +412,5 @@ const actionCreators = {
   submitTalkCallbackForm
 };
 
+export { Talk as Component };
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Talk);
