@@ -302,10 +302,6 @@ export const getShowTicketFormsBackButton = createSelector(
   }
 );
 
-export const getTalkStandalone = (state) => {
-  return getTalkEnabled(state) && !getChatEmbed(state) && !getHelpCenterEmbed(state) && !getSubmitTicketEmbed(state);
-};
-
 export const getFixedStyles = (state, frame = 'webWidget') => {
   if (frame === 'webWidget') {
     return getWidgetFixedFrameStyles(state);

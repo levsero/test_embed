@@ -5,7 +5,6 @@ import {
   AGENT_BOT,
   CHAT_MESSAGE_EVENTS,
   CHAT_SYSTEM_EVENTS,
-  CHAT_CUSTOM_MESSAGE_EVENTS,
   WHITELISTED_SOCIAL_LOGINS,
   CONNECTION_STATUSES
 } from 'constants/chat';
@@ -148,35 +147,6 @@ export const getShowRatingScreen = createSelector(
   (rating, ratingSettings, agents) => (
     !rating.value && ratingSettings.enabled && _.size(agents) > 0 && !rating.disableEndScreen
   )
-);
-
-/**
- * Return quickReplies if it is valid
- */
-export const getQuickRepliesFromChatLog = createSelector(
-  [getChats],
-  (chats) => {
-    const chatArr = Array.from(chats.values());
-
-    return chatArr.reduce((quickReply, chat) => {
-      if (chat.type === CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES) {
-        return chat;
-      }
-
-      if (quickReply &&
-        _.includes(CHAT_MESSAGE_EVENTS, chat.type) ||
-        chat.type === CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE &&
-        (
-          chat.nick === (quickReply && quickReply.nick) ||
-          !isAgent(chat.nick)
-        )
-      ) {
-        quickReply = null;
-      }
-
-      return quickReply;
-    }, null);
-  }
 );
 
 export const getShowOfflineChat = createSelector(
