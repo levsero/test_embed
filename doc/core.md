@@ -380,7 +380,7 @@ None
 
 `zE('webWidget', 'reset');`
 
-Completely resets the state of the widget.
+Completely resets the state of the widget. To preserve end-user experience, this API only functions when the widget is minimized.
 
 ##### Parameters
 
