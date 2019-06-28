@@ -85,33 +85,7 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidUpdate = () => {
-    const form = ReactDOM.findDOMNode(this.refs.form);
     const canSubmit = this.attachmentsReady();
-
-    if (this.refs.formWrapper && this.props.formState && this.state.shouldRemoveForm) {
-      _.forEach(form.elements, function(field) {
-        if (field.type === 'submit') {
-          return;
-        }
-
-        if (this.props.formState[field.name]) {
-          if (field.type === 'checkbox') {
-            // Based on formState set checked property
-            field.checked = !!this.props.formState[field.name];
-          } else {
-            field.value = this.props.formState[field.name];
-          }
-        } else {
-          // If clearing form after submit we need to make sure
-          // formState clears out undefined values
-          field.value = '';
-
-          // Don't need to check for type here as non checkbox inputs
-          // will ignore this property.
-          field.checked = false;
-        }
-      }, this);
-    }
 
     if (this.state.canSubmit !== canSubmit) {
       this.setState({ canSubmit });
@@ -127,14 +101,7 @@ export class SubmitTicketForm extends Component {
     isValid: false,
     canSubmit: true,
     showErrors: false,
-    shouldRemoveForm: false,
     showErrorMessage: false
-  }
-
-  resetTicketFormVisibility = () => {
-    // if the user closes and reopens, we need to
-    // re-render the search field
-    this.setState({ shouldRemoveForm: false });
   }
 
   focusField = () => {
@@ -516,7 +483,6 @@ export class SubmitTicketForm extends Component {
     const { attachmentsEnabled, fullscreen, formTitle, hide, isMobile } = this.props;
 
     const form = this.props.activeTicketForm ? this.renderTicketFormBody() : this.renderFormBody();
-    const formBody = this.state.shouldRemoveForm ? null : form;
     const buttonCancel = isMobile ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
     const hiddenClass = hide ? styles.hidden : '';
@@ -556,7 +522,7 @@ export class SubmitTicketForm extends Component {
           }
           fullscreen={fullscreen}
           isMobile={isMobile}>
-          {formBody}
+          {form}
           {attachments}
         </ScrollContainer>
       </form>

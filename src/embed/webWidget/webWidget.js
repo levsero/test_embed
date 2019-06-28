@@ -77,13 +77,8 @@ export default function WebWidgetFactory(name) {
     getWebWidgetComponent().show();
 
     if (rootComponent) {
-      const { submitTicketForm } = rootComponent.refs;
-
       if (isMobileBrowser()) {
         onShowMobile();
-      }
-      if (submitTicketForm) {
-        submitTicketForm.resetTicketFormVisibility();
       }
     }
   };

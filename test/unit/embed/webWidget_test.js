@@ -335,11 +335,6 @@ describe('embed.webWidget', () => {
           frame.props.onShow(frame);
         });
 
-        it('should reset form state', () => {
-          expect(grandchild.resetTicketFormVisibility)
-            .toHaveBeenCalled();
-        });
-
         it('should call setScaleLock', () => {
           expect(mockSetScaleLock)
             .toHaveBeenCalledWith(true);
