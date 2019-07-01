@@ -1428,18 +1428,4 @@ describe('chat redux actions', () => {
         .toEqual('yeet');
     });
   });
-
-  describe('chatConnectionError', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.chatConnectionError());
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type CHAT_CONNECTION_ERROR', () => {
-      expect(action.type)
-        .toEqual(actionTypes.CHAT_CONNECTION_ERROR);
-    });
-  });
 });
