@@ -3,16 +3,16 @@ import _ from 'lodash';
 
 import { getSessions } from 'src/redux/modules/answerBot/sessions/selectors';
 
-const getState = state => state.answerBot;
-const getConversation = state => state.answerBot.conversation;
-const getGroupMessages = (state, props) => props.messageKeys.map(key => state.answerBot.messages.get(key));
+const getState = (state) => state.answerBot;
+const getConversation = (state) => state.answerBot.conversation;
+const getGroupMessages = (state, props) => props.messageKeys.map((key) => state.answerBot.messages.get(key));
 const appendGroup = (groups, group) => {
   groups[Object.keys(groups).length] = group;
 };
 
 export const getMessages = createSelector(
   [getState],
-  state => state.messages
+  (state) => state.messages
 );
 
 export const getLastMessage = createSelector(
@@ -122,7 +122,7 @@ const updateGroups = (currentGroup, groups, entry) => {
 export const makeGetGroupMessages = () => createSelector(
   [getGroupMessages, getSessions],
   (messages, sessions) => {
-    const messagesWithArticle = messages.map(m => {
+    const messagesWithArticle = messages.map((m) => {
       if (m.type === 'results') { m.articles = sessions.get(m.sessionID).articles; }
       return m;
     });
@@ -133,12 +133,12 @@ export const makeGetGroupMessages = () => createSelector(
 
 export const getLastScroll = createSelector(
   [getConversation],
-  conversation => conversation.lastScroll
+  (conversation) => conversation.lastScroll
 );
 
 export const getLastScreenClosed = createSelector(
   [getConversation],
-  conversation => conversation.lastScreenClosed
+  (conversation) => conversation.lastScreenClosed
 );
 
 export const getGetInTouchVisible = createSelector(

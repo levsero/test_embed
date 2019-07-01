@@ -59,5 +59,6 @@ module.exports = {
         'ignoreUrls': true
       }
     ],
+    'arrow-parens': ['error', 'always']
   }
 };

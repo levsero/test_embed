@@ -401,7 +401,7 @@ export function sendAttachments(fileList) {
     const zChat = getZChatVendor(getState());
     const visitor = getChatVisitor(getState());
 
-    _.forEach(fileList, file => {
+    _.forEach(fileList, (file) => {
       const basePayload = {
         type: 'chat.file',
         timestamp: Date.now(),

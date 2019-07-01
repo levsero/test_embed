@@ -132,14 +132,14 @@ class MessageGroup extends Component {
     this.setState({ messages: oldMessages });
 
     // Run callback of old messages
-    _.forEach(oldMessages, message => {
+    _.forEach(oldMessages, (message) => {
       if (_.isFunction(message.callback)) {
         message.callback();
       }
     });
 
     if (this.props.isVisitor && !this.isFeedbackMessage(newMessages)) { // For visitor, only animation and no delay
-      newMessages = _.map(newMessages, message => ({
+      newMessages = _.map(newMessages, (message) => ({
         ...message,
         shouldAnimate: true
       }));

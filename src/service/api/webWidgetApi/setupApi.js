@@ -60,7 +60,7 @@ export const resetWidget = (reduxStore) => {
 
 export const apiExecute = (apiStructure, reduxStore, args) => {
   const getApiFunction = (methodAccessors) => {
-    const keys = _.flatten(methodAccessors.map((accessor => {
+    const keys = _.flatten(methodAccessors.map(((accessor) => {
       return accessor.split(':');
     }))).join('.');
 

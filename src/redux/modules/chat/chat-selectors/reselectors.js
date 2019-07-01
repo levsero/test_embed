@@ -168,7 +168,7 @@ export const getChatMessagesFromAgents = createSelector(
 
 export const hasUnseenAgentMessage = createSelector(
   [getChatMessagesFromAgents, getLastReadTimestamp],
-  (messages, timestamp) => !timestamp || !!_.find(messages, message => message.timestamp > timestamp)
+  (messages, timestamp) => !timestamp || !!_.find(messages, (message) => message.timestamp > timestamp)
 );
 
 export const getShowUpdateVisitorDetails = createSelector(

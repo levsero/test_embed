@@ -62,8 +62,8 @@ const selectOverrides = css`
     background-color: ${zdColorGrey200} !important;
   }
 
-  box-shadow: ${props => props.focused && `inset 0 ${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4), inset 0 -${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4) !important`};
-  background-color: ${props => props.focused && `${zdColorGrey400} !important`};
+  box-shadow: ${(props) => props.focused && `inset 0 ${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4), inset 0 -${3/FONT_SIZE}rem 0 rgba(153,153,153, 0.4) !important`};
+  background-color: ${(props) => props.focused && `${zdColorGrey400} !important`};
   ${mobileOverrides}
   ${isMobile ? `padding: ${10/FONT_SIZE}rem ${25/FONT_SIZE}rem !important` : ''};
   ${itemCheckOverrides}
@@ -132,19 +132,19 @@ const getButtonOverrides = (colorVariables) => {
   return css`
     height: ${38/FONT_SIZE}rem !important;
     font-size: ${isMobile && `${15/FONT_SIZE}rem`} !important;
-    border-radius: ${props => !props.pill && isMobile && `${4/FONT_SIZE}rem`} !important;
+    border-radius: ${(props) => !props.pill && isMobile && `${4/FONT_SIZE}rem`} !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
 
     :not([disabled]) {
-      background-color: ${props => (props.primary) ? colorVariables.buttonColorStr : zdColorWhite} !important;
-      color: ${props => (props.primary) ? colorVariables.buttonTextColorStr : colorVariables.buttonColorStr} !important;
+      background-color: ${(props) => (props.primary) ? colorVariables.buttonColorStr : zdColorWhite} !important;
+      color: ${(props) => (props.primary) ? colorVariables.buttonTextColorStr : colorVariables.buttonColorStr} !important;
       border-color: ${colorVariables.buttonColorStr} !important;
 
       &:hover, &:focus, &:active {
-        background-color: ${props => !props.link && !isMobile && ((props.primary) ? colorVariables.buttonHighlightColorStr : colorVariables.buttonColorStr)} !important;
-        color: ${props => !props.link && !isMobile && colorVariables.buttonTextColorStr} !important;
+        background-color: ${(props) => !props.link && !isMobile && ((props.primary) ? colorVariables.buttonHighlightColorStr : colorVariables.buttonColorStr)} !important;
+        color: ${(props) => !props.link && !isMobile && colorVariables.buttonTextColorStr} !important;
       }
     }
   `;
@@ -176,8 +176,8 @@ const checkboxLabelOverrides = isMobile
         box-shadow: 0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;
       }
 
-      box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-      border-color: ${props => props.focused && `${zdColorGrey600} !important` };
+      box-shadow: ${(props) => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+      border-color: ${(props) => props.focused && `${zdColorGrey600} !important` };
     `
   : css`
       ${labelOverrides}
@@ -187,7 +187,7 @@ const checkboxLabelOverrides = isMobile
       }
 
       &:before {
-        box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+        box-shadow: ${(props) => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
         border-color: ${zdColorGrey400} !important;
       }
       :active:before {
@@ -261,8 +261,8 @@ function getGardenOverrides(colors) {
     'select.select_view': css`
       ${genericOverrides}
       ${borderOverrides}
-      box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-      border-color: ${props => (props.focused || props.hovered) && `${zdColorGrey600} !important`};
+      box-shadow: ${(props) => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+      border-color: ${(props) => (props.focused || props.hovered) && `${zdColorGrey600} !important`};
       ${bottomMargin}
       ${arrowOverrides}
       min-height: ${isMobile ? `${42.5/FONT_SIZE}rem !important` : ''};

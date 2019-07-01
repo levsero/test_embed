@@ -184,7 +184,7 @@ global.__EMBEDDABLE_FRAMEWORK_ENV__ = 'test';
 global.__ASSET_BASE_PATH__ = 'https://static-staging.zdassets.com';
 
 global.shallowObjectValuesNull = (object) => {
-  _.keys(object).forEach(key => {
+  _.keys(object).forEach((key) => {
     expect(object[key]).toBeNull();
   });
 };

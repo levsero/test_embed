@@ -87,7 +87,7 @@ describe('ButtonCard component', () => {
       it('renders correct number of Button components', () => {
         expect(result.props.children.length).toEqual(componentProps.buttons.length);
 
-        result.props.children.forEach(child => {
+        result.props.children.forEach((child) => {
           expect(TestUtils.isElementOfType(child, Button)).toEqual(true);
         });
       });

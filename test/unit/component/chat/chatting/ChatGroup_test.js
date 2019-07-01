@@ -556,7 +556,7 @@ describe('ChatGroup component', () => {
 
     const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE);
 
-    structuredMessageTypes.forEach(structuredMessageType => {
+    structuredMessageTypes.forEach((structuredMessageType) => {
       describe(`when messages contain a chat.msg with ${structuredMessageType} structured message`, () => {
         beforeAll(() => {
           isAgent = true;
@@ -598,7 +598,7 @@ describe('ChatGroup component', () => {
 
     const carouselTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CAROUSEL);
 
-    carouselTypes.forEach(carouselType => {
+    carouselTypes.forEach((carouselType) => {
       describe(`when messages contain a chat.msg with ${carouselType} structured message`, () => {
         beforeAll(() => {
           isAgent = true;

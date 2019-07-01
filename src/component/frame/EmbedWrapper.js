@@ -52,7 +52,7 @@ export class EmbedWrapper extends Component {
   getEmbedWrapperProps = (ref) => {
     return {
       ref,
-      onKeyDown: evt => {
+      onKeyDown: (evt) => {
         const { target: { ownerDocument }, keyCode } = evt;
         const frameElem = ownerDocument.defaultView.frameElement;
 

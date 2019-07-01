@@ -23,7 +23,7 @@ const fireChatBannedEvent = (zChat, dispatch, data) => {
   }
 };
 
-const firehoseListener = (zChat, dispatch) => data => {
+const firehoseListener = (zChat, dispatch) => (data) => {
   let actionType;
 
   if (data.type === 'history') {

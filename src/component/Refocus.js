@@ -43,7 +43,7 @@ export class Refocus extends Component {
   render() {
     return (
       <div
-        ref={node => this.container = node}
+        ref={(node) => this.container = node}
         tabIndex='-1'>
         {this.props.children}
       </div>
