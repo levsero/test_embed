@@ -48,10 +48,18 @@ export class PrechatForm extends Component {
     chatId: PropTypes.string,
     fullscreen: PropTypes.bool,
     openedChatHistory: PropTypes.func.isRequired,
-    chatHistoryLabel: PropTypes.string.isRequired
+    chatHistoryLabel: PropTypes.string.isRequired,
+    defaultDepartment: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      status: PropTypes.string,
+      required: PropTypes.bool,
+      disabled: PropTypes.bool
+    })
   }
 
   static defaultProps = {
+    defaultDepartment: {},
     form: {},
     settingsDepartmentsEnabled: [],
     formState: {},
@@ -89,11 +97,17 @@ export class PrechatForm extends Component {
   isDepartmentOffline = (departments, departmentId) => {
     const department = this.findDepartment(departments, departmentId)
 
-    return _.get(department, 'status') === 'offline'
+    return !department ? true : _.get(department, 'status') === 'offline'
   }
 
   findDepartment = (departments, departmentId) => {
-    return _.find(departments, d => d.id == departmentId) || {} // eslint-disable-line eqeqeq
+    const { defaultDepartment } = this.props
+    const deptArray = [
+      ...(!departments ? [] : departments),
+      _.get(defaultDepartment, 'status') === 'online' ? defaultDepartment : {}
+    ]
+
+    return _.find(deptArray, d => parseInt(d.id, 10) === parseInt(departmentId, 10)) || {} // eslint-disable-line eqeqeq
   }
 
   shouldHideDepartments = departments => {

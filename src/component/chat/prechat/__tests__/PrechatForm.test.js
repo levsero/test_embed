@@ -1,4 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
 import React from 'react'
 
 import { PrechatForm } from '../PrechatForm'
@@ -38,7 +39,11 @@ const renderPrechatForm = (inProps = {}) => {
     ...inProps
   }
 
-  return render(<PrechatForm {...combinedProps} />)
+  return render(
+    <ThemeProvider>
+      <PrechatForm {...combinedProps} />
+    </ThemeProvider>
+  )
 }
 
 test('renders a greeting message', () => {
@@ -121,6 +126,105 @@ describe('Departments', () => {
       })
 
       expect(queryByLabelText(/Choose Department/)).toBeInTheDocument()
+    })
+  })
+
+  describe('when there is a default department', () => {
+    let form,
+      defaultDeptStatus = 'online',
+      departments
+
+    const render = () => {
+      const formProp = {
+        ...mockFormProp,
+        departments
+      }
+      form = renderPrechatForm({
+        form: formProp,
+        defaultDepartment: {
+          id: 1,
+          status: defaultDeptStatus,
+          isDefault: true,
+          name: 'defaultDept'
+        },
+        formState: { department: 1 }
+      })
+    }
+
+    describe('and it is online', () => {
+      beforeEach(() => {
+        departments = [
+          { id: 1, status: 'online', isDefault: true, name: 'defaultDept' },
+          { id: 2, status: 'online', isDefault: false, name: 'enabledDept' }
+        ]
+        defaultDeptStatus = 'online'
+      })
+
+      describe('"Choose a Department" default value', () => {
+        it('defaults to department1', () => {
+          render()
+
+          expect(form.queryByText('defaultDept')).toBeInTheDocument()
+        })
+      })
+
+      describe('but it is not enabled', () => {
+        beforeEach(() => {
+          departments = [{ id: 2, status: 'online', isDefault: false, name: 'enabledDept' }]
+          render()
+        })
+
+        it('makes only department2 selectable in dropdown', () => {
+          fireEvent.click(form.getByPlaceholderText('Choose a department'))
+
+          expect(form.queryByLabelText('defaultDept')).not.toBeInTheDocument()
+
+          expect(form.queryByText('enabledDept')).toBeInTheDocument()
+        })
+      })
+
+      describe('and it is enabled', () => {
+        beforeEach(() => {
+          departments = [
+            { id: 1, status: 'online', isDefault: true, name: 'defaultDept' },
+            { id: 2, status: 'online', isDefault: false, name: 'enabledDept' }
+          ]
+          render()
+        })
+
+        it('makes both departments available in dropdown', () => {
+          fireEvent.click(form.getByPlaceholderText('Choose a department'))
+
+          expect(form.getByPlaceholderText('Choose a department').textContent).toEqual(
+            'defaultDept'
+          )
+
+          expect(form.queryByText('enabledDept')).toBeInTheDocument()
+        })
+      })
+    })
+
+    describe('and it is offline', () => {
+      beforeEach(() => {
+        departments = [
+          { id: 1, status: 'offline', isDefault: true, name: 'defaultDept' },
+          { id: 2, status: 'online', isDefault: false, name: 'enabledDept' }
+        ]
+        defaultDeptStatus = 'offline'
+        render()
+      })
+
+      it('defaults to null', () => {
+        expect(form.queryByLabelText('defaultDept')).not.toBeInTheDocument()
+      })
+
+      it('makes only the enabled department available in the dropdown', () => {
+        fireEvent.click(form.getByPlaceholderText('Choose a department'))
+
+        expect(form.queryByText('enabledDept')).toBeInTheDocument()
+
+        expect(form.queryByLabelText('defaultDept')).not.toBeInTheDocument()
+      })
     })
   })
 })

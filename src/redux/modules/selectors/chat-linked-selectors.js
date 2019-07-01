@@ -191,14 +191,13 @@ export const getDefaultSelectedDepartment = createSelector(
 )
 
 export const getEnabledDepartments = createSelector(
-  [getSettingsChatDepartmentsEnabled, getDepartmentsList, getDefaultSelectedDepartment],
-  (settingsDepartmentsEnabled, departmentsList, defaultSelectedDepartment) => {
+  [getSettingsChatDepartmentsEnabled, getDepartmentsList],
+  (settingsDepartmentsEnabled, departmentsList) => {
     if (Array.isArray(settingsDepartmentsEnabled)) {
       return departmentsList.filter(
         department =>
           _.includes(settingsDepartmentsEnabled, department.id) ||
-          _.includes(settingsDepartmentsEnabled, department.name.toLowerCase()) ||
-          _.get(defaultSelectedDepartment, 'id') === department.id
+          _.includes(settingsDepartmentsEnabled, department.name.toLowerCase())
       )
     }
 
