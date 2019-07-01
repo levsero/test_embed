@@ -269,36 +269,6 @@ describe('HelpCenterMobile component', () => {
       });
     });
 
-    describe('when props.channelChoice is true', () => {
-      beforeEach(() => {
-        helpCenterMobile = domRender(<HelpCenterMobile channelChoice={true} />);
-        helpCenterMobileComponent = ReactDOM.findDOMNode(helpCenterMobile);
-      });
-
-      it('should render the ChannelChoicePopupDesktop component', () => {
-        expect(helpCenterMobileComponent.querySelector('.ChannelChoicePopupMobile'))
-          .not.toBeNull();
-      });
-
-      it('should have the channehChoiceContainer class on the container div', () => {
-        expect(helpCenterMobileComponent.querySelector('.channelChoiceContainer'))
-          .not.toBeNull();
-      });
-    });
-
-    describe('when props.channelChoice is false', () => {
-      beforeEach(() => {
-        helpCenterMobile = domRender(<HelpCenterMobile channelChoice={false} />);
-        helpCenterMobileComponent = ReactDOM.findDOMNode(helpCenterMobile);
-      });
-
-      it('should not render the ChannelChoicePopupMobile component', () => {
-        expect(helpCenterMobileComponent.querySelector('.ChannelChoicePopupMobile'))
-          .toBeNull();
-      });
-    });
-  });
-
   describe('renderFooterContent', () => {
     it('is not rendered when show next button is false', () => {
       const component = instanceRender(<HelpCenterMobile showNextButton={false} />);
