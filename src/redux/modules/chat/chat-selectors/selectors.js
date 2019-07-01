@@ -99,4 +99,4 @@ export const getLatestRating = (state) => state.chat.chatLog.latestRating;
 export const getLastMessageAuthor = (state) => state.chat.chatLog.lastMessageAuthor;
 export const getLatestAgentLeaveEvent = (state) => state.chat.chatLog.latestAgentLeaveEvent;
 export const getLatestQuickReplyKey = (state) => state.chat.chatLog.latestQuickReply;
-export const getChatBanned = state => state.chat.chatBanned;
+export const getChatBanned = (state) => state.chat.chatBanned;

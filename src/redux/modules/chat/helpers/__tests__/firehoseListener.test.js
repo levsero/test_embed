@@ -1,12 +1,11 @@
-import firehoseListener from './../firehoseListener';
 import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
 import { registerCallback } from 'service/api/callbacks';
 import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT } from 'constants/event';
 import { chatBanned } from 'src/redux/modules/chat';
+import firehoseListener from '../firehoseListener';
 
 describe('firehoseListener', () => {
   let zChat;
-
   let dispatch;
   let listener;
   let departmentCallback;

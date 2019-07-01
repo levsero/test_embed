@@ -4,7 +4,7 @@ import { SDK_ACCOUNT_STATUS, SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/cha
 import * as callbacks from 'service/api/callbacks';
 import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT } from 'constants/event';
 
-function fireWidgetChatEvent(action) {
+const fireWidgetChatEvent = (action) => {
   switch (action.type) {
     case SDK_DEPARTMENT_UPDATE:
       callbacks.fireFor(CHAT_DEPARTMENT_STATUS_EVENT, [action.payload.detail]);
@@ -13,7 +13,15 @@ function fireWidgetChatEvent(action) {
       callbacks.fireFor(CHAT_STATUS_EVENT);
       break;
   }
-}
+};
+
+const fireChatBannedEvent = (zChat, dispatch, data) => {
+  if (data.type === 'connection_update' && data.detail === 'closed') {
+    if (zChat.getConnectionClosedReason() === CONNECTION_CLOSED_REASON.BANNED) {
+      dispatch(chatBanned());
+    }
+  }
+};
 
 const firehoseListener = (zChat, dispatch) => data => {
   let actionType;
@@ -37,12 +45,7 @@ const firehoseListener = (zChat, dispatch) => data => {
 
   dispatch(chatAction);
   fireWidgetChatEvent(chatAction);
-
-  if (data.type === 'connection_update' && data.detail === 'closed') {
-    if (zChat.getConnectionClosedReason() === CONNECTION_CLOSED_REASON.BANNED) {
-      dispatch(chatBanned());
-    }
-  }
+  fireChatBannedEvent(zChat, dispatch, data);
 };
 
 export default firehoseListener;
