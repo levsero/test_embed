@@ -1045,12 +1045,12 @@ describe('getChatConnected', () => {
 
 describe('getChatReady', () => {
   test.each([
-    ['when chat embed exists and chat is not connected',        true,   false,  false, false],
-    ['when chat embed doesn\'t exist and chat is connected',    false,  false,  false, true],
-    ['when chat embed exists exist and chat isn\'t connected',  true,   true,   false, true],
-    ['when chat embed exists exist and chat is suppressed',     true,   false,  true,  true],
-  ])('%p', (__title, chatEmbed, chatConnected, chatSupressed, expectedValue) => {
-    const result = selectors.getChatReady.resultFunc(chatEmbed, chatConnected, chatSupressed);
+    ['when chat embed exists and chat has not finished connecting',       true,   false,  false, false],
+    ['when chat embed doesn\'t exist and chat connection is finished',    false,  false,  false, true],
+    ['when chat embed exists and chat has not finished connecting', true,   true,   false, true],
+    ['when chat embed exists and chat is suppressed',               true,   false,  true,  true],
+  ])('%p', (__title, chatEmbed, chatConnectionFinished, chatSupressed, expectedValue) => {
+    const result = selectors.getChatReady.resultFunc(chatEmbed, chatConnectionFinished, chatSupressed);
 
     expect(result).toEqual(expectedValue);
   });
@@ -1488,4 +1488,3 @@ describe('getChatConnectionConnecting', () => {
     expect(result).toEqual(false);
   });
 });
-

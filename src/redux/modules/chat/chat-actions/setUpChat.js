@@ -69,6 +69,10 @@ export function setUpChat() {
         dispatch(chatConnectionError());
       });
 
+      zChat.on('error', () => {
+        dispatch(chatConnectionError());
+      });
+
       if (config.authentication) {
         const onAuthFailure = (e) => {
           if (_.get(e, 'extra.reason') === JWT_ERROR) {
