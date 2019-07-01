@@ -37,6 +37,12 @@ const firehoseListener = (zChat, dispatch) => data => {
 
   dispatch(chatAction);
   fireWidgetChatEvent(chatAction);
+
+  if (data.type === 'connection_update' && data.detail === 'closed') {
+    if (zChat.getConnectionClosedReason() === CONNECTION_CLOSED_REASON.BANNED) {
+      dispatch(chatBanned());
+    }
+  }
 };
 
 export default firehoseListener;

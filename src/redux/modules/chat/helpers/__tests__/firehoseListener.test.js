@@ -135,4 +135,30 @@ describe('firehoseListener', () => {
 
     expect(statusCallback).toHaveBeenCalled();
   });
+
+  it('dispatches a chat banned action when the connection was closed due to being banned', () => {
+    zChat.getConnectionClosedReason.mockReturnValue(CONNECTION_CLOSED_REASON.BANNED);
+
+    const data = {
+      type: 'connection_update',
+      detail: 'closed'
+    };
+
+    listener(data);
+
+    expect(dispatch).toHaveBeenCalledWith(chatBanned());
+  });
+
+  it('does not dispatch a chat banned action when the connection was closed but not banned', () => {
+    zChat.getConnectionClosedReason.mockReturnValue(CONNECTION_CLOSED_REASON.UNKNOWN);
+
+    const data = {
+      type: 'connection_update',
+      detail: 'closed'
+    };
+
+    listener(data);
+
+    expect(dispatch).not.toHaveBeenCalledWith(chatBanned());
+  });
 });
