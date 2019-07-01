@@ -8,6 +8,7 @@ describe('chat root reducer', () => {
     'chatHistory',
     'chatLog',
     'chats',
+    'chatBanned',
     'connection',
     'currentMessage',
     'departments',

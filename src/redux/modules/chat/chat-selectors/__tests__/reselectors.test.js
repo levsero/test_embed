@@ -306,37 +306,35 @@ describe('getShowOfflineChat', () => {
   });
 });
 
-describe('getChatBanned', () => {
-  it('returns the expected value', () => {
-    const result = selectors.getChatBanned(getModifiedState({
+describe('getChatConnectionMade', () => {
+  it('returns true when chat connection state is connected', () => {
+    const result = selectors.getChatConnectionMade(getModifiedState({
       chat: {
-        connection: 'closed',
-        vendor: {
-          zChat: {
-            isBanned: () => 'blarg'
-          }
-        }
+        connection: 'connected',
       }
     }));
 
-    expect(result).toEqual('blarg');
+    expect(result).toEqual(true);
   });
-});
 
-describe('getConnectionClosedReason', () => {
-  it('returns the expected value', () => {
-    const result = selectors.getConnectionClosedReason(getModifiedState({
+  it('returns true when chat connection state is closed', () => {
+    const result = selectors.getChatConnectionMade(getModifiedState({
       chat: {
-        connection: 'closed',
-        vendor: {
-          zChat: {
-            getConnectionClosedReason: () => 'helloPersonReadingThis'
-          }
-        }
+        connection: 'closed'
       }
     }));
 
-    expect(result).toEqual('helloPersonReadingThis');
+    expect(result).toEqual(true);
+  });
+
+  it('returns false when chat connection state is not connected or closed', () => {
+    const result = selectors.getChatConnectionMade(getModifiedState({
+      chat: {
+        connection: 'connecting',
+      }
+    }));
+
+    expect(result).toEqual(false);
   });
 });
 
