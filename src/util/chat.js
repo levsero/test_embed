@@ -76,12 +76,18 @@ function createChatPopoutWindow(chatPopoutSettings, machineId, locale) {
   win.open(url, 'WebWidgetLiveChat', 'height=600,width=400');
 }
 
-function generateQueryString(chatPopoutSettings, machineId, locale) {
+function encodeSettings(settings) {
+  return win.btoa(encodeURIComponent(JSON.stringify(settings)));
+}
+
+function generateQueryString(settings, machineId, locale) {
   const subdomain = getZendeskHost(document);
-  const settings = win.btoa(JSON.stringify(escape(chatPopoutSettings)));
+
+  const encodedSettings = encodeSettings(settings);
+
   const title = encodeURI(i18n.t('embeddable_framework.popout.title'));
 
-  return `?v=6#key=${subdomain}&settings=${settings}&mid=${machineId}&locale=${locale}&title=${title}`;
+  return `?v=10#key=${subdomain}&settings=${encodedSettings}&mid=${machineId}&locale=${locale}&title=${title}`;
 }
 
 export {
