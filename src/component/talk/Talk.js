@@ -15,6 +15,7 @@ import { Button } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
 import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 import ErrorNotification from './ErrorNotification';
+import PhoneNumber from './PhoneNumber';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -35,6 +36,7 @@ import {
   getAverageWaitTime,
   getAverageWaitTimeEnabled,
   getLibPhoneNumberVendor,
+  getFormattedPhoneNumber,
 } from 'src/redux/modules/talk/talk-selectors';
 import {
   getTalkTitle,
@@ -56,6 +58,7 @@ const mapStateToProps = (state) => {
     callback: getCallback(state),
     averageWaitTime: getAverageWaitTime(state),
     averageWaitTimeEnabled: getAverageWaitTimeEnabled(state),
+    formattedPhoneNumber: getFormattedPhoneNumber(state),
     libphonenumber: getLibPhoneNumberVendor(state),
     title: getTalkTitle(state),
     nickname: getTalkNickname(state),
@@ -78,6 +81,7 @@ class Talk extends Component {
     isMobile: PropTypes.bool.isRequired,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
+    formattedPhoneNumber: PropTypes.string.isRequired,
     libphonenumber: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
@@ -87,14 +91,9 @@ class Talk extends Component {
   static defaultProps = {
     hideZendeskLogo: false,
     formState: { phone: '' },
-    embeddableConfig: { phoneNumber: '' },
     callback: { error: {} },
     onBackClick: () => {},
     agentAvailability: true,
-    libphonenumber: {
-      parse: () => {},
-      format: () => {}
-    }
   };
 
   constructor() {
@@ -129,18 +128,11 @@ class Talk extends Component {
     }
   }
 
-  formatPhoneNumber = (phoneNumber, format = 'International') => {
-    const { libphonenumber } = this.props;
-    const parsed = libphonenumber.parse(phoneNumber);
-
-    return libphonenumber.format(parsed, format);
-  }
-
   renderPhoneNumber = () => {
     const { phoneNumber } = this.props.embeddableConfig;
-    const formattedPhoneNumber = this.formatPhoneNumber(phoneNumber);
+    const { formattedPhoneNumber } = this.props;
 
-    return (<a className={styles.phoneLink} href={`tel:${phoneNumber}`} target='_blank'>{formattedPhoneNumber}</a>);
+    return (<PhoneNumber phoneNumber={phoneNumber} formattedPhoneNumber={formattedPhoneNumber} />);
   }
 
   renderAverageWaitTime = () => {

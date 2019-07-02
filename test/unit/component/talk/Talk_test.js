@@ -36,6 +36,7 @@ describe('Talk component', () => {
       'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
       'component/Icon': { Icon },
       './ErrorNotification': noopReactComponent,
+      './PhoneNumber': noopReactComponent,
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo },
       'component/shared/SuccessNotification': { SuccessNotification },
@@ -105,7 +106,8 @@ describe('Talk component', () => {
         <Talk
           nickname={mockNickname}
           serviceUrl={mockServiceUrl}
-          submitTalkCallbackForm={submitTalkCallbackFormSpy} />
+          submitTalkCallbackForm={submitTalkCallbackFormSpy}
+          embeddableConfig={{ phoneNumber: '' }} />
       );
       spyOn(talk, 'setState');
       form = { clear: jasmine.createSpy('form.clear') };
@@ -161,41 +163,17 @@ describe('Talk component', () => {
 
     beforeEach(() => {
       updateTalkCallbackFormSpy = jasmine.createSpy('updateTalkCallbackForm');
-      talk = instanceRender(<Talk updateTalkCallbackForm={updateTalkCallbackFormSpy} />);
+      talk = instanceRender(<Talk
+        updateTalkCallbackForm={updateTalkCallbackFormSpy}
+        formattedPhoneNumber={'614234567'}
+        embeddableConfig={{ phoneNumber: '' }}
+      />);
       talk.handleFormChange({ phone: '+61423456789', name: 'Sally' });
     });
 
     it('calls updateTalkCallbackForm with the newly changed form state', () => {
       expect(updateTalkCallbackFormSpy)
         .toHaveBeenCalledWith({ phone: '+61423456789', name: 'Sally' });
-    });
-  });
-
-  describe('formatPhoneNumber', () => {
-    let libPhoneNumberFormatSpy,
-      libPhoneNumberParseSpy;
-
-    beforeEach(() => {
-      libPhoneNumberFormatSpy = jasmine.createSpy('libphonenumber.format').and.callFake((phoneObj) => phoneObj.phone);
-      libPhoneNumberParseSpy = jasmine.createSpy('libphonenumber.parse').and.callFake((phone) => {
-        return { country: 'AU', phone };
-      });
-
-      const libPhoneNumberVendor = { format: libPhoneNumberFormatSpy, parse: libPhoneNumberParseSpy };
-      const config = { phoneNumber: '+61361275109' };
-      const talk = instanceRender(<Talk embeddableConfig={config} libphonenumber={libPhoneNumberVendor} />);
-
-      talk.formatPhoneNumber(config.phoneNumber);
-    });
-
-    it('calls libphonenumber.parse with correct params', () => {
-      expect(libPhoneNumberParseSpy)
-        .toHaveBeenCalledWith('+61361275109');
-    });
-
-    it('calls libphonenumber.format with correct params', () => {
-      expect(libPhoneNumberFormatSpy)
-        .toHaveBeenCalledWith({ country: 'AU', phone: '+61361275109' }, 'International');
     });
   });
 });
