@@ -10,10 +10,12 @@ import zopimApi from 'service/api/zopimApi';
 import * as zChat from 'chat-web-sdk';
 import slider from 'react-slick';
 import { settings } from 'service/settings';
+import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener';
 
 jest.mock('react-slick');
 jest.mock('chat-web-sdk');
 jest.mock('service/api/zopimApi');
+jest.mock('src/redux/modules/chat/helpers/firehoseListener');
 
 zChat.getFirehose.mockImplementation(() => ({ on: jest.fn() }));
 zChat.setOnFirstReady.mockImplementation((readyObj) => {
@@ -150,18 +152,32 @@ describe('setupChat', () => {
   });
 
   it('calls zChat getFirehose', async () => {
+    const mockListener = jest.fn();
+    const on = jest.fn();
+
+    zChat.getFirehose.mockClear().mockImplementation(() => ({ on }));
+
+    firehoseListener.mockReturnValue(mockListener);
+
     dispatchAction();
 
     await wait(() => {
-      expect(zChat.getFirehose)
-        .toHaveBeenCalled();
+      expect(on)
+        .toHaveBeenCalledWith('data', mockListener);
     });
   });
 
   describe('adding brand tag', () => {
     describe('with no jwtFn in settings', () => {
       it('calls zopimApi handleZopimQueue with the window', async () => {
-        dispatchAction({ base: { embeddableConfig: { brandCount: 2, brand: 'brand 1' } } });
+        dispatchAction({
+          base: {
+            embeddableConfig: {
+              brandCount: 2,
+              brand: 'brand 1'
+            }
+          }
+        });
 
         await wait(() => {
           expect(zChat.addTags)
@@ -172,11 +188,18 @@ describe('setupChat', () => {
 
     describe('with a jwtFn in settings', () => {
       beforeEach(() => {
-        settings.getChatAuthSettings = () => ( { jwtFn: noop });
+        settings.getChatAuthSettings = () => ({ jwtFn: noop });
       });
 
       it('calls zopimApi handleZopimQueue with the window', async () => {
-        dispatchAction({ base: { embeddableConfig: { brandCount: 2, brand: 'brand 1' } } });
+        dispatchAction({
+          base: {
+            embeddableConfig: {
+              brandCount: 2,
+              brand: 'brand 1'
+            }
+          }
+        });
 
         await wait(() => {
           expect(zChat.addTags)

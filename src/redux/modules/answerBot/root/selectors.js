@@ -14,16 +14,16 @@ import {
 } from 'src/redux/modules/answerBot/conversation/selectors';
 import { getChannelAvailable } from 'src/redux/modules/selectors';
 
-const getState = state => state.answerBot;
+const getState = (state) => state.answerBot;
 
 export const getCurrentSessionID = createSelector(
   [getState],
-  state => state.currentSessionID
+  (state) => state.currentSessionID
 );
 
 export const getQuestionValueChangedTime = createSelector(
   [getState],
-  state => state.questionValueChangedTime
+  (state) => state.questionValueChangedTime
 );
 
 export const getCurrentRequestStatus = createSelector(
@@ -73,17 +73,17 @@ export const isCurrentSessionResolved = createSelector(
 
 export const getCurrentArticleID = createSelector(
   getState,
-  state => _.get(state, 'currentArticle.articleID', null)
+  (state) => _.get(state, 'currentArticle.articleID', null)
 );
 
 const getCurrentContextualArticleID = createSelector(
   getState,
-  state => _.get(state, 'currentContextualArticle.articleID', null)
+  (state) => _.get(state, 'currentContextualArticle.articleID', null)
 );
 
 export const getCurrentArticleSessionID = createSelector(
   [getState],
-  state => state.currentArticle ? state.currentArticle.sessionID : null
+  (state) => state.currentArticle ? state.currentArticle.sessionID : null
 );
 
 const getCurrentContextualArticle = createSelector(
@@ -124,27 +124,27 @@ export const isFeedbackRequired = createSelector(
 
 export const getCurrentScreen = createSelector(
   [getState],
-  state => state.currentScreen
+  (state) => state.currentScreen
 );
 
 export const getCurrentMessage = createSelector(
   [getState],
-  state => state.currentMessage
+  (state) => state.currentMessage
 );
 
 export const getGreeted = createSelector(
   [getState],
-  state => !!state.greeted
+  (state) => !!state.greeted
 );
 
 export const getInitialFallbackSuggested = createSelector(
   [getState],
-  state => !!state.initialFallbackSuggested
+  (state) => !!state.initialFallbackSuggested
 );
 
 export const getContextualSearchFinished = createSelector(
   getState,
-  state => !!state.contextualSearchFinished
+  (state) => !!state.contextualSearchFinished
 );
 
 export const getContextualSearchStatus = createSelector(

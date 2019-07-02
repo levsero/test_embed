@@ -115,7 +115,7 @@ class AnswerBotContainer extends Component {
     this.stopTimers(args.shouldStopTimer);
   }
 
-  runNext = fn => {
+  runNext = (fn) => {
     if (this.runningFlow && _.isFunction(fn)) {
       this.runningFlow = fn();
     }

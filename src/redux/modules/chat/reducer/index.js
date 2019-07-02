@@ -34,12 +34,14 @@ import isLoggingOut from './chat-is-logging-out';
 import forcedStatus from './chat-forced-status';
 import defaultDepartment from './chat-default-department';
 import showChatHistory from './chat-show-history';
+import chatBanned from './chat-banned';
 
 const combinedReducers = combineReducers({
   accountSettings,
   account_status: accountStatus,
   agentJoined,
   agents,
+  chatBanned,
   chatHistory,
   chatLog,
   chats,

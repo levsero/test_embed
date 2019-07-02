@@ -129,7 +129,7 @@ describe('MessageOptions component', () => {
         it('does not render remaining option items with firstItemBorders styles', ()=> {
           const middleItems = response.props.children;
 
-          _.slice(middleItems, 1).forEach(optionItem => {
+          _.slice(middleItems, 1).forEach((optionItem) => {
             const classes = optionItem.props.className;
 
             expect(classes)
@@ -171,7 +171,7 @@ describe('MessageOptions component', () => {
         it('does not render remaining option items with firstItemBorders', ()=> {
           const middleItems = response.props.children;
 
-          _.slice(middleItems, 1).forEach(optionItem => {
+          _.slice(middleItems, 1).forEach((optionItem) => {
             const classes = optionItem.props.className;
 
             expect(classes)

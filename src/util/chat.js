@@ -14,7 +14,7 @@ function combineNumbers(numbers) {
 
   const dump = () => start = (result.push(start ? [start, last] : last), undefined);
 
-  numbers.forEach(num => {
+  numbers.forEach((num) => {
     num = parseInt(num, 10);
     if (last === num-1) {
       if (!start) start = last;
@@ -27,9 +27,9 @@ function combineNumbers(numbers) {
   return result;
 }
 
-const periodsToString = (periods) => periods.map(period => `${period.start},${period.end}`).toString();
+const periodsToString = (periods) => periods.map((period) => `${period.start},${period.end}`).toString();
 const stringToPeriods = (str) => str
-  ? _.chunk(str.split(','), 2).map(arr => ({ start: parseInt(arr[0], 10), end: parseInt(arr[1], 10) }))
+  ? _.chunk(str.split(','), 2).map((arr) => ({ start: parseInt(arr[0], 10), end: parseInt(arr[1], 10) }))
   : [];
 
 /**

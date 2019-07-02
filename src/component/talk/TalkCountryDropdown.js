@@ -14,11 +14,11 @@ const ScrollableArea = styled.div`
 const SmallFlag = styled(Flag)`
   height: ${17.5/FONT_SIZE}rem;
   [dir='ltr'] & {
-    margin-right: ${props => props.gap && `${10/FONT_SIZE}rem`}
+    margin-right: ${(props) => props.gap && `${10/FONT_SIZE}rem`}
   }
 
   [dir='rtl'] & {
-    margin-left: ${props => props.gap && `${10/FONT_SIZE}rem`}
+    margin-left: ${(props) => props.gap && `${10/FONT_SIZE}rem`}
   }
 `;
 
@@ -108,7 +108,7 @@ export class TalkCountryDropdown extends Component {
                 // it's about to be opened
                 this.setState({ selectFocused: !isOpen });
               },
-              inputRef: ref => {
+              inputRef: (ref) => {
                 this.triggerRef = ref;
                 triggerRef(ref);
               }

@@ -39,6 +39,6 @@ export const reset = () => {
 };
 
 const flushQueue = (queue) => {
-  queue.forEach(cb => cb());
+  queue.forEach((cb) => cb());
   queue = [];
 };

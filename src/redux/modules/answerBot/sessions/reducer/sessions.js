@@ -34,7 +34,7 @@ function setSession(state, { sessionID }, val) {
 
 function normalize(articles) {
   articles = _.isArray(articles) ? _.take(articles, 3) : [];
-  return articles.map(article => ({
+  return articles.map((article) => ({
     ...article,
     id: article.article_id,
     body: article.html_body || article.body
@@ -73,7 +73,7 @@ const sessions = (state = initialState, action) => {
     case ARTICLE_DISMISSED_PENDING:
       const { sessionID, articleID } = action.payload;
       const session = state.get(sessionID);
-      const articles = session.articles.map(a => {
+      const articles = session.articles.map((a) => {
         if (a.id === articleID) {
           return { ...a, markedAsIrrelevant: true } ;
         } else {

@@ -213,7 +213,7 @@ export default class NestedDropdown extends Component {
           <Select
             isOpen={this.state.isOpen}
             appendToNode={this.props.getFrameContentDocument().body}
-            onStateChange={newState => this.setState(newState)}
+            onStateChange={(newState) => this.setState(newState)}
             onChange={this.handleSelectedItem}
             options={this.renderCurrentLevelItems()}
             validation={this.props.showError ? 'error': 'none'}

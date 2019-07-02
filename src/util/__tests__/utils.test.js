@@ -29,7 +29,7 @@ describe('isValidUrl', () => {
       'ftp://google.com'
     ];
 
-    validUrls.forEach(url => {
+    validUrls.forEach((url) => {
       expect(isValidUrl(url))
         .toEqual(true);
     });
@@ -49,7 +49,7 @@ describe('isValidUrl', () => {
       '255.255.255.255'
     ];
 
-    invalidUrls.forEach(url => {
+    invalidUrls.forEach((url) => {
       expect(isValidUrl(url))
         .toEqual(false);
     });

@@ -188,9 +188,9 @@ export class TalkPhoneField extends ControlledComponent {
                     {...focused}
                     validation={error ? 'error' : 'none'}
                     mediaLayout={true}
-                    inputRef={container => this.containerRef = container}>
+                    inputRef={(container) => this.containerRef = container}>
                     <TalkCountryDropdown
-                      ref={node => this.countryDropdown = node}
+                      ref={(node) => this.countryDropdown = node}
                       document={this.props.getFrameContentDocument()}
                       getContainerRef={() => this.containerRef}
                       selectedKey={this.state.selectedKey}
@@ -203,7 +203,7 @@ export class TalkPhoneField extends ControlledComponent {
                       type='tel'
                       name='phone'
                       autoComplete='off'
-                      innerRef={node => this.phoneInput = node}
+                      innerRef={(node) => this.phoneInput = node}
                       required={this.props.required}
                       bare={true} />
                   </StyledFauxInput>

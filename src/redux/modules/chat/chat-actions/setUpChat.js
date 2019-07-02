@@ -9,33 +9,19 @@ import {
 } from 'src/redux/modules/base/base-selectors';
 import {
   fetchConversationHistory,
-  handleChatVendorLoaded
+  handleChatVendorLoaded,
+  chatConnectionError,
 } from 'src/redux/modules/chat';
 import {
-  SDK_ACTION_TYPE_PREFIX,
-  JWT_ERROR,
+  JWT_ERROR
 } from 'constants/chat';
 import {
   AUTHENTICATION_STARTED,
   AUTHENTICATION_FAILED,
-  SDK_DEPARTMENT_UPDATE,
-  SDK_ACCOUNT_STATUS
 } from 'src/redux/modules/chat/chat-action-types';
-import * as callbacks from 'service/api/callbacks';
-import { CHAT_STATUS_EVENT, CHAT_DEPARTMENT_STATUS_EVENT } from 'constants/event';
 import zopimApi from 'service/api/zopimApi';
 import { win, isPopout } from 'utility/globals';
-
-function fireWidgetChatEvent(action) {
-  switch (action.type) {
-    case SDK_DEPARTMENT_UPDATE:
-      callbacks.fireFor(CHAT_DEPARTMENT_STATUS_EVENT, [action.payload.detail]);
-      break;
-    case SDK_ACCOUNT_STATUS:
-      callbacks.fireFor(CHAT_STATUS_EVENT);
-      break;
-  }
-}
+import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener';
 
 function makeChatConfig(config) {
   /* eslint-disable camelcase */
@@ -60,7 +46,10 @@ export function setUpChat() {
     const authentication = settings.getChatAuthSettings();
     const state = getState();
 
-    const config = { ...getChatConfig(state).props, authentication };
+    const config = {
+      ...getChatConfig(state).props,
+      authentication
+    };
 
     const brandCount = getBrandCount(state);
     const brand = getBrand(state);
@@ -71,7 +60,18 @@ export function setUpChat() {
     }
 
     const onChatImported = (zChat, slider) => {
-      dispatch(handleChatVendorLoaded({ zChat, slider: slider.default }));
+      dispatch(handleChatVendorLoaded({
+        zChat,
+        slider: slider.default
+      }));
+
+      zChat.on('error', () => {
+        dispatch(chatConnectionError());
+      });
+
+      zChat.on('error', () => {
+        dispatch(chatConnectionError());
+      });
 
       if (config.authentication) {
         const onAuthFailure = (e) => {
@@ -83,6 +83,8 @@ export function setUpChat() {
 
             zChat.init(makeChatConfig(config));
             if (brandName) zChat.addTag(brandName);
+          } else {
+            dispatch(chatConnectionError());
           }
         };
 
@@ -107,25 +109,7 @@ export function setUpChat() {
         }
       });
 
-      zChat.getFirehose().on('data', (data) => {
-        let actionType;
-
-        if (data.type === 'history') {
-          actionType = `${SDK_ACTION_TYPE_PREFIX}/history/${data.detail.type}`;
-        } else {
-          actionType = data.detail.type
-            ? `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`
-            : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`;
-        }
-
-        if (data.type === 'chat' && data.detail) {
-          data.detail.timestamp = data.detail.timestamp || Date.now();
-        }
-        const chatAction = { type: actionType, payload: data };
-
-        dispatch(chatAction);
-        fireWidgetChatEvent(chatAction);
-      });
+      zChat.getFirehose().on('data', firehoseListener(zChat, dispatch));
       zopimApi.handleChatSDKInitialized();
     };
     const onFailure = (err) => {
@@ -133,7 +117,7 @@ export function setUpChat() {
     };
 
     Promise.all([import('chat-web-sdk'), import('react-slick')])
-      .then((arr)=> onChatImported(...arr))
+      .then((arr) => onChatImported(...arr))
       .catch(onFailure);
   };
 }

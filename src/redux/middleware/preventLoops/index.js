@@ -23,7 +23,7 @@ const NUMBER_OF_ACTIONS_TO_SEND = 20;
 
 let loggedToRollbarAndBlips = false;
 
-export default (_store) => next => action => {
+export default (_store) => (next) => (action) => {
   const { type } = action;
 
   if (_.includes(actionsToSkip, type)) return next(action);

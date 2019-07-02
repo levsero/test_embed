@@ -401,7 +401,7 @@ export function sendAttachments(fileList) {
     const zChat = getZChatVendor(getState());
     const visitor = getChatVisitor(getState());
 
-    _.forEach(fileList, file => {
+    _.forEach(fileList, (file) => {
       const basePayload = {
         type: 'chat.file',
         timestamp: Date.now(),
@@ -469,6 +469,10 @@ export function chatOpened() {
 
 export function chatBanned() {
   return { type: actions.CHAT_BANNED };
+}
+
+export function chatConnectionError() {
+  return { type: actions.CHAT_CONNECTION_ERROR };
 }
 
 export function chatOfflineFormChanged(formState) {

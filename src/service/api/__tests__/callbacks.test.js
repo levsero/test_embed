@@ -62,11 +62,11 @@ describe('valid event', () => {
 
     callbacks.fireFor(WIDGET_CLOSED_EVENT);
     runExpectedCalls([false, false, true, false]);
-    callbackSpys.forEach(cb => cb.mockClear());
+    callbackSpys.forEach((cb) => cb.mockClear());
 
     callbacks.fireFor(WIDGET_OPENED_EVENT);
     runExpectedCalls([true, true, false, false]);
-    callbackSpys.forEach(cb => cb.mockClear());
+    callbackSpys.forEach((cb) => cb.mockClear());
 
     callbacks.fireFor(CHAT_CONNECTED_EVENT);
     runExpectedCalls([false, false, false, true]);

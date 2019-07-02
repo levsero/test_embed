@@ -8,6 +8,7 @@ import {
   getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible,
   getChatConnected as getNewChatConnected,
+  getChatConnectionMade,
   getBadgeColor as getAccountSettingsBadgeColor,
   getHideBranding as getAccountSettingsHideBranding,
   getChatBadgeEnabled,
@@ -235,9 +236,9 @@ export const getChatEnabled = createSelector(
 );
 
 export const getChatReady = createSelector(
-  [getChatEmbed, getChatConnected, getChatConnectionSuppressed],
-  (chatEmbed, chatConnected, chatConnectionSuppressed) => {
-    return !chatEmbed || chatConnected || chatConnectionSuppressed;
+  [getChatEmbed, getChatConnectionMade, getChatConnectionSuppressed],
+  (chatEmbed, chatConnectionFinished, chatConnectionSuppressed) => {
+    return !chatEmbed || chatConnectionFinished || chatConnectionSuppressed;
   }
 );
 
