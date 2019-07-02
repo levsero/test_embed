@@ -843,28 +843,6 @@ window.zESettings = {
 </script>
 ```
 
-### hideWhenChatOffline
-Hides the launcher button when chat is offline
-
-#### Availability
-
-* [launcher](./core#launcher-settings)
-
-<a name="example-hideWhenchatOffline"></a>
-#### Example
-
-```html
-<script type="text/javascript">
-window.zESettings= {
-  webWidget: {
-    launcher: {
-      setHideWhenChatOffline: true
-    }
-  }
-}
-</script>
-```
-
 ### label
 
 Replaces the default string on the launcher button.
