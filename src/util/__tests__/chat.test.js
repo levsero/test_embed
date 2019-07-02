@@ -215,7 +215,7 @@ describe('createChatPopoutWindow', () => {
     jest.spyOn(i18n, 't').mockImplementation(() => 'WebWidgetLiveChat');
     createChatPopoutWindow('settings, 初期設定時の質問', 'machineId', 'defactoLanguage');
 
-    const url = 'https://static-staging.zdassets.com/web_widget/latest/liveChat.html?v=6#key=a.zendesk.com&settings=\"settings%2C%20%u521D%u671F%u8A2D%u5B9A%u6642%u306E%u8CEA%u554F\"&mid=machineId&locale=defactoLanguage&title=WebWidgetLiveChat'; // eslint-disable-line no-useless-escape
+    const url = 'https://static-staging.zdassets.com/web_widget/latest/liveChat.html?v=10#key=a.zendesk.com&settings=%22settings%2C%20%E5%88%9D%E6%9C%9F%E8%A8%AD%E5%AE%9A%E6%99%82%E3%81%AE%E8%B3%AA%E5%95%8F%22&mid=machineId&locale=defactoLanguage&title=WebWidgetLiveChat'; // eslint-disable-line no-useless-escape
 
     expect(globals.win.open)
       .toHaveBeenCalledWith(url, 'WebWidgetLiveChat', 'height=600,width=400');
