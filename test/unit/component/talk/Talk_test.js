@@ -37,6 +37,7 @@ describe('Talk component', () => {
       'component/Icon': { Icon },
       './ErrorNotification': noopReactComponent,
       './PhoneNumber': noopReactComponent,
+      './DescriptionField': noopReactComponent,
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo },
       'component/shared/SuccessNotification': { SuccessNotification },

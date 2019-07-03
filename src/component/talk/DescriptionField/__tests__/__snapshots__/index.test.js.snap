@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DescriptionField 1`] = `
+<div>
+  <div
+    class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+    data-garden-id="textfields.text_group"
+    data-garden-version="3.7.0"
+  >
+    <label
+      class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+      data-garden-id="textfields.label"
+      data-garden-version="3.7.0"
+      for="garden-text-field-0--input"
+      id="garden-text-field-0--label"
+    >
+      This is a description field
+    </label>
+    <textarea
+      aria-invalid="false"
+      aria-labelledby="garden-text-field-0--label"
+      class="Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+      data-garden-id="textfields.textarea"
+      data-garden-version="3.7.0"
+      id="garden-text-field-0--input"
+      name="description"
+      rows="4"
+    >
+      this value should be populated
+    </textarea>
+  </div>
+</div>
+`;

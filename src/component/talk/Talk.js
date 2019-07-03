@@ -13,9 +13,10 @@ import { errorCodes } from './talkErrorCodes';
 import { ICONS } from 'src/constants/shared';
 import { Button } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
-import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
+import { Message, TextField, Label, Input } from '@zendeskgarden/react-textfields';
 import ErrorNotification from './ErrorNotification';
 import PhoneNumber from './PhoneNumber';
+import DescriptionField from './DescriptionField';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -204,17 +205,13 @@ class Talk extends Component {
 
   renderDescriptionField = () => {
     const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
-    const isRequired = false;
+    const labelText = i18n.t('embeddable_framework.validation.label.new_optional', { label: descriptionLabel });
 
     return (
-      <TextField className={styles.textField}>
-        {renderLabel(Label, descriptionLabel, isRequired)}
-        <Textarea
-          defaultValue={this.props.formState.description}
-          rows='4'
-          name='description'
-          required={isRequired} />
-      </TextField>
+      <DescriptionField
+        label={labelText}
+        defaultValue={this.props.formState.description}
+      />
     );
   }
 
