@@ -43,6 +43,7 @@ import {
 } from 'src/redux/modules/selectors';
 import { i18n } from 'service/i18n';
 import { renderLabel, getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields';
+import OfflinePage from 'src/embeds/talk/pages/offline';
 
 import { locals as styles } from './Talk.scss';
 
@@ -75,8 +76,6 @@ class Talk extends Component {
     submitTalkCallbackForm: PropTypes.func.isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
-    helpCenterAvailable: PropTypes.bool,
-    channelChoiceAvailable: PropTypes.bool,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     libphonenumber: PropTypes.object.isRequired,
@@ -90,8 +89,6 @@ class Talk extends Component {
     formState: { phone: '' },
     embeddableConfig: { phoneNumber: '' },
     callback: { error: {} },
-    helpCenterAvailable: false,
-    channelChoiceAvailable: false,
     onBackClick: () => {},
     agentAvailability: true,
     libphonenumber: {
@@ -137,18 +134,6 @@ class Talk extends Component {
     const parsed = libphonenumber.parse(phoneNumber);
 
     return libphonenumber.format(parsed, format);
-  }
-
-  getOfflineScreenLink = () => {
-    const { helpCenterAvailable, channelChoiceAvailable } = this.props;
-
-    if (helpCenterAvailable) {
-      return i18n.t('embeddable_framework.talk.offline.link.help_center');
-    } else if (channelChoiceAvailable) {
-      return i18n.t('embeddable_framework.common.button.goBack');
-    }
-
-    return '';
   }
 
   renderPhoneNumber = () => {
@@ -334,19 +319,6 @@ class Talk extends Component {
     }
   }
 
-  renderOfflineScreen = () => {
-    if (this.props.agentAvailability) return null;
-
-    return (
-      <div className={styles.offline}>
-        <p className={styles.offlineLabel}>
-          {i18n.t('embeddable_framework.talk.offline.label')}
-        </p>
-        <button className={styles.offlineLink} onClick={this.props.onBackClick}>{this.getOfflineScreenLink()}</button>
-      </div>
-    );
-  }
-
   renderZendeskLogo = () => {
     if (this.props.hideZendeskLogo || this.props.isMobile) return;
 
@@ -385,7 +357,8 @@ class Talk extends Component {
     const { isMobile, screen } = this.props;
     const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
     const scrollContainerClasses = classNames({
-      [styles.scrollContainerSuccess]: screen === SUCCESS_NOTIFICATION_SCREEN
+      [styles.scrollContainerSuccess]: screen === SUCCESS_NOTIFICATION_SCREEN,
+      [styles.scrollContainerFullHeight]: !this.props.agentAvailability
     });
 
     return (
@@ -397,8 +370,11 @@ class Talk extends Component {
           isMobile={this.props.isMobile}
           title={this.props.title}>
           <div className={contentClasses}>
-            {this.renderContent()}
-            {this.renderOfflineScreen()}
+            {
+              this.props.agentAvailability
+                ? this.renderContent()
+                : <OfflinePage />
+            }
           </div>
         </ScrollContainer>
         {this.renderZendeskLogo()}

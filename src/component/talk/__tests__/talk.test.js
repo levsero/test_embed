@@ -9,6 +9,9 @@ import {
 } from 'src/redux/modules/talk/talk-screen-types';
 
 import { Component as Talk } from '../Talk';
+import { Provider } from 'react-redux';
+import createStore from 'src/redux/createStore';
+import { locals as styles } from './Talk.scss';
 
 const renderComponent = (overrideProps = {}) => {
   const defaultProps = {
@@ -38,7 +41,9 @@ const renderComponent = (overrideProps = {}) => {
   const props = { ...defaultProps, ...overrideProps };
 
   return render(
-    <Talk {...props} />
+    <Provider store={createStore()}>
+      <Talk {...props} />
+    </Provider>
   );
 };
 
@@ -74,28 +79,17 @@ describe('talk', () => {
 
   describe('when no agents are available', () => {
     it('renders the offline screen', () => {
-      const { queryByText } = renderComponent({ agentAvailability: false });
+      const { getByTestId } = renderComponent({ agentAvailability: false });
 
-      expect(queryByText('Sorry, all agents are currently offline. Try again later.'))
+      expect(getByTestId('talk--offlinePage'))
         .toBeInTheDocument();
     });
 
-    describe('and help center is available', () => {
-      it('displays a back button to help center', () => {
-        const { queryByText } = renderComponent({ agentAvailability: false, helpCenterAvailable: true });
+    it('styles the scroll container to take up the full height of the widget', () => {
+      const { getByTestId } = renderComponent({ agentAvailability: false });
 
-        expect(queryByText('Go back to Help Center'))
-          .toBeInTheDocument();
-      });
-    });
-
-    describe('and channelChoiceAvailable is available', () => {
-      it('displays a back button', () => {
-        const { queryByText } = renderComponent({ agentAvailability: false, channelChoiceAvailable: true });
-
-        expect(queryByText('Go Back'))
-          .toBeInTheDocument();
-      });
+      expect(getByTestId('scrollcontainer').querySelector('div').className)
+        .toContain(styles.scrollContainerFullHeight);
     });
   });
 
