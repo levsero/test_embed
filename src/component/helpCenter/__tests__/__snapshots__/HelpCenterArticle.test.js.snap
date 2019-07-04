@@ -1,0 +1,309 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the expected classes 1`] = `
+<div>
+  <div
+    class="content "
+  >
+    <h2
+      class="title"
+    />
+    <div
+      class="originalArticleButton"
+    >
+      <a
+        target="_blank"
+        title="View original article"
+      >
+        <span
+          class="container Icon--link-external"
+          data-testid="Icon--link-external"
+          type="Icon--link-external"
+        >
+          test-file-stub
+        </span>
+      </a>
+    </div>
+    <div
+      class="article"
+    >
+      
+    
+      <h1
+        id="foo"
+      >
+        Foobar
+      </h1>
+      
+    
+      <h2>
+        Baz
+      </h2>
+      
+    
+      <a
+        href="#foo"
+      >
+        inpage link
+      </a>
+      
+    
+      <a
+        href="#1"
+      >
+        inpage link 2
+      </a>
+      
+    
+      <a
+        href="https://dev.zd-dev.com/relative/link"
+        id="relative"
+        name="bar"
+      >
+        relative link
+      </a>
+      
+    
+      <a
+        href="//youtube/embed/xyz"
+        id="protocol-relative"
+        name="pbar"
+      >
+        protcol relative link
+      </a>
+      
+    
+      <div
+        id="preserved"
+      >
+        
+      This text contains a sub-note
+        <sub>
+          1
+        </sub>
+        
+    
+      </div>
+      
+    
+      <div
+        id="notes"
+      >
+        <sup>
+          1
+        </sup>
+        This explains the note
+      </div>
+      
+    
+      <div
+        class="table-wrap"
+      >
+        <table>
+          
+      
+          <tbody>
+            <tr>
+              
+        
+              <td>
+                <p>
+                  Zombocom
+                </p>
+                
+      
+              </td>
+            </tr>
+            
+    
+          </tbody>
+        </table>
+      </div>
+      
+    
+      <p>
+        Whoa!
+      </p>
+      
+    
+      <div
+        class="table-wrap"
+      >
+        <table>
+          
+      
+          <tbody>
+            <tr>
+              
+        
+              <td>
+                OMGWTFBBQ!!1! wat? another table? but why??
+              </td>
+              
+      
+            </tr>
+            
+    
+          </tbody>
+        </table>
+      </div>
+      
+  
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the expected mobile classes 1`] = `
+<div>
+  <div
+    class="content contentMobile"
+  >
+    <h2
+      class="title"
+    />
+    <div
+      class="originalArticleButton"
+    >
+      <a
+        target="_blank"
+        title="View original article"
+      >
+        <span
+          class="container Icon--link-external mobile"
+          data-testid="Icon--link-external"
+          type="Icon--link-external"
+        >
+          test-file-stub
+        </span>
+      </a>
+    </div>
+    <div
+      class="article"
+    >
+      
+    
+      <h1
+        id="foo"
+      >
+        Foobar
+      </h1>
+      
+    
+      <h2>
+        Baz
+      </h2>
+      
+    
+      <a
+        href="#foo"
+      >
+        inpage link
+      </a>
+      
+    
+      <a
+        href="#1"
+      >
+        inpage link 2
+      </a>
+      
+    
+      <a
+        href="https://dev.zd-dev.com/relative/link"
+        id="relative"
+        name="bar"
+      >
+        relative link
+      </a>
+      
+    
+      <a
+        href="//youtube/embed/xyz"
+        id="protocol-relative"
+        name="pbar"
+      >
+        protcol relative link
+      </a>
+      
+    
+      <div
+        id="preserved"
+      >
+        
+      This text contains a sub-note
+        <sub>
+          1
+        </sub>
+        
+    
+      </div>
+      
+    
+      <div
+        id="notes"
+      >
+        <sup>
+          1
+        </sup>
+        This explains the note
+      </div>
+      
+    
+      <div
+        class="table-wrap"
+      >
+        <table>
+          
+      
+          <tbody>
+            <tr>
+              
+        
+              <td>
+                <p>
+                  Zombocom
+                </p>
+                
+      
+              </td>
+            </tr>
+            
+    
+          </tbody>
+        </table>
+      </div>
+      
+    
+      <p>
+        Whoa!
+      </p>
+      
+    
+      <div
+        class="table-wrap"
+      >
+        <table>
+          
+      
+          <tbody>
+            <tr>
+              
+        
+              <td>
+                OMGWTFBBQ!!1! wat? another table? but why??
+              </td>
+              
+      
+            </tr>
+            
+    
+          </tbody>
+        </table>
+      </div>
+      
+  
+    </div>
+  </div>
+</div>
+`;
