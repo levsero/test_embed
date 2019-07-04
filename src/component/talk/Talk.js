@@ -42,7 +42,8 @@ import {
 import {
   getTalkTitle,
   getTalkNickname,
-  getTalkServiceUrl
+  getTalkServiceUrl,
+  getTalkDescriptionLabel,
 } from 'src/redux/modules/selectors';
 import { i18n } from 'service/i18n';
 import { renderLabel, getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields';
@@ -63,7 +64,8 @@ const mapStateToProps = (state) => {
     libphonenumber: getLibPhoneNumberVendor(state),
     title: getTalkTitle(state),
     nickname: getTalkNickname(state),
-    serviceUrl: getTalkServiceUrl(state)
+    serviceUrl: getTalkServiceUrl(state),
+    descriptionlabelText: getTalkDescriptionLabel(state)
   };
 };
 
@@ -86,7 +88,8 @@ class Talk extends Component {
     libphonenumber: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
-    serviceUrl: PropTypes.string.isRequired
+    serviceUrl: PropTypes.string.isRequired,
+    descriptionlabelText: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -204,12 +207,9 @@ class Talk extends Component {
   }
 
   renderDescriptionField = () => {
-    const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
-    const labelText = i18n.t('embeddable_framework.validation.label.new_optional', { label: descriptionLabel });
-
     return (
       <DescriptionField
-        label={labelText}
+        label={this.props.descriptionlabelText}
         defaultValue={this.props.formState.description}
       />
     );

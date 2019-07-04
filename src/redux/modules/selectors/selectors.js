@@ -111,6 +111,15 @@ import * as screens from 'src/redux/modules/talk/talk-screen-types';
 
 const getLabel = (_, label) => label;
 
+export const getTalkDescriptionLabel = createSelector(
+  [getLocale],
+  (_locale) => {
+    const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
+
+    return i18n.t('embeddable_framework.validation.label.new_optional', { label: descriptionLabel });
+  }
+);
+
 export const getSettingsHelpCenterTitle = createSelector(
   [getHelpCenterTitle, getLocale, getLabel],
   (helpCenterTitle, _locale, label) => (

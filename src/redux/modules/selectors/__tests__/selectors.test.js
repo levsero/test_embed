@@ -294,6 +294,13 @@ describe('selectors', () => {
     });
   });
 
+  describe('getTalkDescriptionLabel', () => {
+    it('returns the value from i18n', () => {
+      expect(selectors.getTalkDescriptionLabel({ base: { locale: 'en-US' } }))
+        .toEqual('<strong>How can we help?</strong> (optional)');
+    });
+  });
+
   describe('getSettingsHelpCenterMessageButton', () => {
     let state, label;
 
