@@ -484,4 +484,9 @@ const actionCreators = {
   addRestrictedImage
 };
 
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);
+
+export {
+  connectedComponent as default,
+  HelpCenter as Component
+};
