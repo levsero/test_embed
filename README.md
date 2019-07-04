@@ -15,6 +15,12 @@ We are based in Melbourne, Australia and our timezone is **GMT+10**. You can alw
 
 ## Getting Started
 
+### Prerequesites
+- [Ruby version manager (rbenv)](https://github.com/rbenv/rbenv)
+- [Node version manager (nvm)](https://github.com/nvm-sh/nvm)
+
+_Tip: Add `eval "$(rbenv init -)"` to your `.bash_profile`/`.zshrc` so rbenv starts up automatically_
+
 ### Run the bootstrap script
 Run the following commands inside this folder:
 
