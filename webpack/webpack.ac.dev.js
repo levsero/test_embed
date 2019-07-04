@@ -15,9 +15,8 @@ const CSP_HEADER = "\
 
 module.exports = () => {
   const userConfig = process.env.USER_CONFIG || 'example-template';
-  const config = JSON.parse(
-    fs.readFileSync(`./dev/configs/${userConfig}.json`)
-  );
+
+  const config = require(path.join(CWD, `/dev/configs/${userConfig}`));
 
   return merge(common, {
     mode: 'development',

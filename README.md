@@ -54,7 +54,7 @@ The `./script/setup_node_env` script will ensure that all Dev team members are u
 To use your own values in the dev task you can create a new user config file in dev/configs.
 
 ```bash
-cp dev/configs/example-template.json dev/configs/${yourUserConfigName}.json
+cp dev/configs/example-template.js dev/configs/${yourUserConfigName}.js
 ```
 
 The example template contains the following values:
@@ -84,7 +84,7 @@ Then edit the values inside the config to whatever values you like. You can then
 USER_CONFIG={yourConfigName} npm run dev
 ```
 
-This will start the dev task using the values found in `dev/configs/${yourConfigName}.json`. If no `USER_CONFIG` variable is passed, the dev task will default to using the `example-template.json` config which uses `dev.zd-dev.com`.
+This will start the dev task using the values found in `dev/configs/${yourConfigName}.json`. If no `USER_CONFIG` variable is passed, the dev task will default to using the `example-template.js` config which uses `dev.zd-dev.com`.
 
 This will allow you to make as many different configurations as you like to test different scenarios with. It is recommended to have one for your production account.
 
