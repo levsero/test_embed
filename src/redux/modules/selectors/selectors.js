@@ -114,11 +114,15 @@ const getLabel = (_, label) => label;
 export const getTalkDescriptionLabel = createSelector(
   [getLocale],
   (_locale) => {
-    const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
+    const descriptionLabel = getTranslation('embeddable_framework.common.textLabel.description');
 
-    return i18n.t('embeddable_framework.validation.label.new_optional', { label: descriptionLabel });
+    return getTranslation('embeddable_framework.validation.label.new_optional', { label: descriptionLabel });
   }
 );
+
+export const getTranslation = (translationKey, override) => {
+  return i18n.t(translationKey, override);
+};
 
 export const getSettingsHelpCenterTitle = createSelector(
   [getHelpCenterTitle, getLocale, getLabel],
