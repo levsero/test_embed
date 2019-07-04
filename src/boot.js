@@ -142,6 +142,10 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
   }, false);
 };
 
+const shouldSendZeDiffBlip = (win) => {
+  return win.zE !== win.zEmbed;
+};
+
 const start = (win, doc) => {
   const reduxStore = createStore();
   const postRenderQueue = [];
@@ -164,6 +168,10 @@ const start = (win, doc) => {
   boot.getConfig(win, postRenderQueue, reduxStore, devApi);
 
   displayOssAttribution();
+
+  if (shouldSendZeDiffBlip(win)) {
+    beacon.trackUserAction('zEmbedFallback', 'warning');
+  }
 
   if (isMobileBrowser()) {
     initMobileScaling();
