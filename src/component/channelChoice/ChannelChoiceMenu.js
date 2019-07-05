@@ -15,7 +15,8 @@ import {
 
 const mapStateToProps = (state) => ({
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
-  chatOfflineAvailableLabel: getContactOptionsChatLabelOffline(state),
+  chatOfflineLabel: getContactOptionsChatLabelOffline(state),
+  chatOfflineAvailableLabel: getContactOptionsContactFormLabel(state),
   submitTicketLabel: getContactOptionsContactFormLabel(state)
 });
 
@@ -30,6 +31,7 @@ class ChannelChoiceMenu extends Component {
     chatOfflineAvailable: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatOnlineAvailableLabel: PropTypes.string.isRequired,
+    chatOfflineLabel: PropTypes.string.isRequired,
     chatOfflineAvailableLabel: PropTypes.string.isRequired,
     submitTicketLabel: PropTypes.string.isRequired
   };
@@ -151,20 +153,21 @@ class ChannelChoiceMenu extends Component {
   }
 
   renderChatLabel = () => {
-    const { chatAvailable, chatOfflineAvailable, chatOnlineAvailableLabel, chatOfflineAvailableLabel } = this.props;
-    const offlineFormKey = 'embeddable_framework.channelChoice.button.label.no_available_agents_offline_form';
-    const offlineAvailableLabel = i18n.t(offlineFormKey);
+    const {
+      chatAvailable, chatOfflineAvailable, chatOnlineAvailableLabel,
+      chatOfflineLabel, chatOfflineAvailableLabel
+    } = this.props;
     const offlineLabel = (
       <span className={styles.offlineOptionContainer}>
-        <div className={styles.offlineLabelOption}>{chatOfflineAvailableLabel}</div>
+        <div className={styles.offlineLabelOption}>{chatOfflineLabel}</div>
         <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
       </span>
     );
 
-    if (chatAvailable) {
+    if (chatOfflineAvailable) {
+      return chatOfflineAvailableLabel;
+    } else if (chatAvailable) {
       return chatOnlineAvailableLabel;
-    } else if (chatOfflineAvailable) {
-      return offlineAvailableLabel;
     }
     return offlineLabel;
   }
