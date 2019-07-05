@@ -1,6 +1,7 @@
 import AttachmentStyles from 'component/attachment/Attachment.scss';
 import AttachmentBoxStyles from 'component/attachment/AttachmentBox.scss';
 import AttachmentListStyles from 'component/attachment/AttachmentList.scss';
+import AverageWaitTime from 'component/talk/AverageWaitTime/styles/index.scss';
 import ButtonDropzoneStyles from 'component/button/ButtonDropzone.scss';
 import ButtonIconStyles from 'component/button/ButtonIcon.scss';
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss';
@@ -139,4 +140,5 @@ export const webWidgetStyles = `
   ${TalkNotificationStyles}
   ${TalkOfflinePageStyles}
   ${TalkPhoneNumberStyles}
+  ${AverageWaitTime}
 `;

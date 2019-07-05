@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the component 1`] = `
+<div>
+  <p
+    class="message"
+  >
+    Average wait time: 1 minute
+  </p>
+</div>
+`;

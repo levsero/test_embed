@@ -186,3 +186,16 @@ test.each([[PHONE_ONLY, false], [CALLBACK_ONLY, true], [CALLBACK_AND_PHONE, true
       .toEqual(expected);
   },
 );
+
+describe('getAverageWaitTimeString', () => {
+  test.each([
+    ['average wait time is not enabled', false, '1', null],
+    ['average wait time is enabled and wait time is 0', true, '0', null],
+    ['average wait time is enabled and wait time is 1', true, '1', 'Average wait time: 1 minute'],
+    ['average wait time is enabled and wait time is 2', true, '2', 'Average wait time: 2 minutes'],
+  ])('%p', (__title, averageWaitTimeEnabled, averageWaitTime, expectedValue) => {
+    const result = selectors.getAverageWaitTimeString.resultFunc(averageWaitTimeEnabled, averageWaitTime);
+
+    expect(result).toEqual(expectedValue);
+  });
+});

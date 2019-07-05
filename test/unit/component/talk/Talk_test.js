@@ -38,6 +38,7 @@ describe('Talk component', () => {
       './ErrorNotification': noopReactComponent,
       './PhoneNumber': noopReactComponent,
       './DescriptionField': noopReactComponent,
+      './AverageWaitTime': noopReactComponent,
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       './NameField': noopReactComponent,
       'component/ZendeskLogo': { ZendeskLogo },
