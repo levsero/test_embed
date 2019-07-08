@@ -81,7 +81,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
         <span
           class="label "
         >
-          Live chat
+          Chat is offline, leave a message
         </span>
       </button>
     </li>
@@ -138,7 +138,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
         <span
           class="label "
         >
-          No agents available. Leave us a message
+          Chat is offline, leave a message
         </span>
       </button>
     </li>
@@ -598,7 +598,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
         <span
           class="label label-class"
         >
-          Live chat
+          Chat is offline, leave a message
         </span>
       </button>
     </li>
@@ -680,7 +680,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
         <span
           class="label "
         >
-          Live chat
+          Chat is offline, leave a message
         </span>
       </button>
     </li>

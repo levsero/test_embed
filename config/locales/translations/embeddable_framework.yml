@@ -1359,3 +1359,8 @@ parts:
       title: "A link to go back to Help Center when all agents are offline"
       screenshot: "https://zendesk.box.com/s/rtxyqticqshlbje59ufctq1j6g44q0pj"
       value: "Go back to Help Center"
+  - translation:
+      key: "embeddable_framework.talk.offline.label_v2"
+      title: "A message that displays when all agents go offline"
+      screenshot: "https://drive.google.com/open?id=1FQGryGgTyF2XFH9PYds4Pi6AXjJDufCX"
+      value: "All agents are currently offline. Try again later."

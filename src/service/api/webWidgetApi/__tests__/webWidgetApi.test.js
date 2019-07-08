@@ -4,18 +4,12 @@ import tracker from 'service/logging/tracker';
 import { apiResetWidget, legacyShowReceived } from 'src/redux/modules/base';
 import * as baseSelectors from 'src/redux/modules/base/base-selectors';
 import { API_GET_IS_CHATTING_NAME } from 'constants/api';
-import { beacon } from 'service/beacon';
 
 jest.mock('service/api/apis');
 jest.mock('service/logging/tracker');
 jest.mock('src/redux/modules/base');
 jest.mock('src/service/renderer');
 jest.mock('src/service/mediator');
-jest.mock('service/beacon', () => ({
-  beacon: {
-    trackUserAction: jest.fn()
-  },
-}));
 
 const mockStore = {
   dispatch: jest.fn(),
@@ -107,10 +101,6 @@ describe('setupLegacyApiQueue', () => {
       it('expects their properties to match', () => {
         expect(win.zE.t).toEqual(win.zEmbed.t);
       });
-
-      it('expect `zEmbedFallback` Blip to not fire', () => {
-        expect(beacon.trackUserAction).not.toHaveBeenCalled();
-      });
     });
 
     describe('when win.zE and win.zEmbed are different upon override', () => {
@@ -133,10 +123,6 @@ describe('setupLegacyApiQueue', () => {
 
       it('expects their properties to match', () => {
         expect(win.zE.t).toEqual(win.zEmbed.t);
-      });
-
-      it('expect `zEmbedFallback` Blip to fire', () => {
-        expect(beacon.trackUserAction).toHaveBeenCalledWith('zEmbedFallback', 'warning');
       });
     });
 
