@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the component 1`] = `
+<div>
+  <a
+    class="phoneLink"
+    href="tel:95556666"
+    target="_blank"
+  >
+    9-555-6666
+  </a>
+</div>
+`;

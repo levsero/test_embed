@@ -70,15 +70,6 @@
   font-size: #{20/$font-size}rem;
 }
 
-.phoneLink {
-  color: $neutral-link-color;
-  text-decoration: underline;
-
-  &:hover, &:focus, &:active {
-    color: $neutral-link-color;
-  }
-}
-
 .error {
   composes: u-flex u-marginBM from global;
   composes: Error from '../../styles/components/Error.scss';

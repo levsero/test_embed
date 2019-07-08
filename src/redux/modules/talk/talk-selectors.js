@@ -15,6 +15,14 @@ export const getInitialScreen = (state) => `${getCapability(state)}_SCREEN`;
 export const getSocketIoVendor = (state) => state.talk.vendor.io;
 export const getLibPhoneNumberVendor = (state) => state.talk.vendor.libphonenumber;
 
+export const getFormattedPhoneNumber = (state) => {
+  const { phoneNumber } = getEmbeddableConfig(state);
+  const phoneNumberUtils = getLibPhoneNumberVendor(state);
+  const parsed = phoneNumberUtils.parse(phoneNumber);
+
+  return phoneNumberUtils.format(parsed, 'International');
+};
+
 export const isCallbackEnabled = (state) => {
   const { capability } = state.talk.embeddableConfig;
 

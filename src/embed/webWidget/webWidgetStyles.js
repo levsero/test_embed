@@ -63,6 +63,7 @@ import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCa
 import AnswerBotStyles from 'component/answerBot/styles';
 import TalkNotificationStyles from 'component/talk/ErrorNotification/styles/index.scss';
 import TalkOfflinePageStyles from 'src/embeds/talk/pages/offline/styles.scss';
+import TalkPhoneNumberStyles from 'component/talk/PhoneNumber/styles/index.scss';
 
 import SharedComponentStyles from 'component/shared/styles';
 import { sharedStyles } from 'embed/sharedStyles';
@@ -137,4 +138,5 @@ export const webWidgetStyles = `
   ${AnswerBotStyles}
   ${TalkNotificationStyles}
   ${TalkOfflinePageStyles}
+  ${TalkPhoneNumberStyles}
 `;
