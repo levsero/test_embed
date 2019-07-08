@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import _ from 'lodash';
-import 'utility/i18nTestHelper';
 import * as globals from 'utility/globals';
 import * as devices from 'utility/devices';
 import { testTranslationStringSelector } from 'src/util/testHelpers';
