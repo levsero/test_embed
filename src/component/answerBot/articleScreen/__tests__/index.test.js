@@ -1,4 +1,3 @@
-import 'utility/i18nTestHelper';
 import _ from 'lodash';
 import { render, fireEvent } from 'react-testing-library';
 import React from 'react';

@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import * as selectors from '../chat-linked-selectors';
 import * as globals from 'utility/globals';
-import 'utility/i18nTestHelper';
 import getModifiedState from 'src/fixtures/chat-reselectors-test-state';
 
 describe('getShowMenu', () => {
