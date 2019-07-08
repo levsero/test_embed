@@ -55,7 +55,6 @@ const sendPageView = () => {
   const pageViewParams = referrerUrl ? { referrer: referrerUrl } : {};
   const frameworkLoadTime = getFrameworkLoadTime();
 
-  if (_.isNil(frameworkLoadTime)) return;
   const pageView = {
     time: timeOnLastPage(),
     loadTime: frameworkLoadTime,
