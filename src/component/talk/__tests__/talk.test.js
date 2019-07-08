@@ -20,6 +20,7 @@ const renderComponent = (overrideProps = {}) => {
       phoneNumber: '12345678',
       supportedCountries: ['US']
     },
+    formattedPhoneNumber: '12345678',
     formState: {},
     screen: PHONE_ONLY_SCREEN,
     callback: { error: {} },
