@@ -89,20 +89,6 @@
   margin-right: #{12/$font-size}rem;
 }
 
-.offline {
-  margin-bottom: #{50/$font-size}rem;
-}
-
-.offlineLabel {
-  composes: u-textCenter from global;
-
-  padding-bottom: $spacing-sml !important;
-}
-
-.offlineLink {
-  composes: u-isActionable u-textCenter u-userLinkColor u-hiddenButton from global;
-}
-
 .button {
   width: 100%;
 }
@@ -127,4 +113,13 @@
 
 .textField {
   margin-bottom: $field-margin-bottom;
+}
+
+.scrollContainerFullHeight {
+  display: flex;
+
+  > div, .content, .contentMobile {
+    display: flex;
+    flex: 1;
+  }
 }
