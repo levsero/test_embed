@@ -39,6 +39,7 @@ const renderComponent = (overrideProps = {}) => {
     submitTalkCallbackForm: () => {},
     serviceUrl: '',
     descriptionlabelText: 'How can we help? (optional)',
+    namelabelText: 'Name (optional)',
   };
   const props = { ...defaultProps, ...overrideProps };
 

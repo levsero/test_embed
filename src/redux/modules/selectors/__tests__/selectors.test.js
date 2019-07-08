@@ -314,6 +314,13 @@ describe('selectors', () => {
     });
   });
 
+  describe('getTalkNameLabel', () => {
+    it('returns the value from i18n', () => {
+      expect(selectors.getTalkNameLabel(state, 'embeddable_framework.fake.translation', { override: 'fake' }))
+        .toEqual('<strong>Name</strong> (optional)');
+    });
+  });
+
   describe('getSettingsHelpCenterMessageButton', () => {
     let state, label;
 
