@@ -10,8 +10,8 @@ module.exports = {
   talkIntegration: 'https://talkintegration-pod999.zendesk-staging.com',
 
   // The nickname for the Talk/Widget configuration you want to use
-  // If you haven't already, create a new configuration under "Widget" here https://subdomain.zendesk-staging.com/agent/admin/voice'
-  //  Can also be found in the embeddable config under "nickname" https://subdomain.zendesk-staging.com/embeddable/config
+  // If you haven't already, create a new configuration under "Widget" here https://subdomain.zendesk-staging.com/agent/admin/voice
+  // Can also be found in the embeddable config under "nickname" https://subdomain.zendesk-staging.com/embeddable/config
   talkNickname: 'hola',
 
   // Shared secret for your Support account
@@ -19,15 +19,15 @@ module.exports = {
   // You may need to activate the widget in the Help Center first
   sharedSecret: 'abc123',
 
-  // Shared secret used for authenticating chat sessions.
-  // Can be found here under Vistor Authentication https://subdomain.zendesk.com/chat/agent#widget/widget_security
+  // Shared secret used for authenticating chat sessions
+  // Can be found here under Visitor Authentication https://subdomain.zendesk.com/chat/agent#widget/widget_security
   // You may need to click "Generate"
   chatSharedSecret: '123abc',
 
   // Google Analytics id
   gaID: 'UA-103023081-1',
 
-  // This information used for zE.identify
+  // This information is used to identify a user using zE.identify
   user: {
     name: 'Alice Bob',
     email: 'alice.bob+12345@zddev.com',
