@@ -15,7 +15,9 @@ const renderComponent = (props = {}) => {
     talkAvailable: false,
     submitTicketAvailable: false,
     chatAvailable: false,
+    chatOfflineAvailable: false,
     chatOnlineAvailableLabel: 'Live chat',
+    chatOfflineAvailableLabel: 'Live chat is offline',
     submitTicketLabel: 'Leave a message',
     actions
   };
@@ -68,23 +70,23 @@ describe('channels', () => {
     });
   });
 
-  it('renders expected leading message if only submit ticket is available', () => {
+  it('renders expected components if only submit ticket is available', () => {
     assertExpected({ submitTicketAvailable: true, leadingMessage: 'blah' });
   });
 
-  it('renders expected leading message if only chat is available', () => {
+  it('renders expected components if only chat is available', () => {
     assertExpected({ chatAvailable: true, leadingMessage: 'blah' });
   });
 
-  it('renders expected leading message if only request callback is available', () => {
-    assertExpected({ callbackAvailable: true, leadingMessage: 'blah' });
+  it('renders expected components if chat and chat offline are available', () => {
+    assertExpected({ chatOfflineAvailable: true, chatAvailable: true, leadingMessage: 'blah' });
   });
 
-  it('renders expected leading message if only call us is available', () => {
+  it('renders expected components if only call us is available', () => {
     assertExpected({ talkAvailable: true, leadingMessage: 'blah' });
   });
 
-  it('renders request callback leading message if request callback and call us are available', () => {
+  it('renders expected components if talk and request callback are available', () => {
     assertExpected({ callbackAvailable: true, talkAvailable: true, leadingMessage: 'blah' });
   });
 
@@ -121,6 +123,16 @@ describe('actions', () => {
     const { getByText } = renderComponent({ chatAvailable: true });
 
     fireEvent.click(getByText('Live chat'));
+    expect(actions.updateActiveEmbed)
+      .toHaveBeenCalledWith('chat');
+    expect(actions.updateBackButtonVisibility)
+      .toHaveBeenCalledWith(true);
+  });
+
+  test('clicking on Live chat is offline', () => {
+    const { getByText } = renderComponent({ chatOfflineAvailable: true });
+
+    fireEvent.click(getByText('Live chat is offline'));
     expect(actions.updateActiveEmbed)
       .toHaveBeenCalledWith('chat');
     expect(actions.updateBackButtonVisibility)

@@ -16,8 +16,9 @@ describe('rendering', () => {
       onNextClick: jest.fn(),
       callbackEnabled: false,
       chatOnlineAvailableLabel: 'Live chat',
-      chatOfflineAvailableLabel: 'Live chat is offline',
-      submitTicketLabel: 'Leave a message'
+      chatOfflineLabel: 'Live chat is offline',
+      submitTicketLabel: 'Leave a message',
+      chatOfflineAvailableLabel: 'Chat is offline, leave a message'
     };
     const mergedProps = { ...defaultProps, ...props };
     const component = <ChannelChoiceMenu {...mergedProps} />;
@@ -173,8 +174,9 @@ describe('dom interaction', () => {
       onNextClick: jest.fn(),
       callbackEnabled: false,
       chatOnlineAvailableLabel: 'Live chat',
-      chatOfflineAvailableLabel: 'Chat is offline',
-      submitTicketLabel: 'Leave a message'
+      chatOfflineLabel: 'Chat is offline',
+      submitTicketLabel: 'Leave a message',
+      chatOfflineAvailableLabel: 'Leave a message'
     };
     const mergedProps = { ...defaultProps, ...props };
     const component =  <ChannelChoiceMenu {...mergedProps} />;
@@ -210,7 +212,7 @@ describe('dom interaction', () => {
 
   describe('chat button', () => {
     it('click "Live chat"', () => {
-      const props = { onNextClick: click, chatAvailable: true, chatOfflineAvailable: true };
+      const props = { onNextClick: click, chatAvailable: true };
       const {
         getByText
       } = component(props);
@@ -219,6 +221,20 @@ describe('dom interaction', () => {
 
       expect(click.mock.calls.length).toEqual(1);
       expect(click.mock.calls[0]).toEqual(['chat']);
+    });
+
+    describe('chat offline available', () => {
+      it('click "Live chat"', () => {
+        const props = { onNextClick: click, chatAvailable: true, chatOfflineAvailable: true };
+        const {
+          getByText
+        } = component(props);
+
+        fireEvent.click(getByText('Leave a message'));
+
+        expect(click.mock.calls.length).toEqual(1);
+        expect(click.mock.calls[0]).toEqual(['chat']);
+      });
     });
   });
 

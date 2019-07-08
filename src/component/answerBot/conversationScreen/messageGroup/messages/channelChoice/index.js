@@ -9,17 +9,16 @@ import { Icon } from 'component/Icon';
 import {
   getSubmitTicketAvailable,
   getChatAvailable,
-  getTalkOnline
+  getChatOfflineAvailable,
+  getTalkOnline,
+  getContactOptionsChatLabelOnline,
+  getContactOptionsContactFormLabel
 } from 'src/redux/modules/selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import {
   updateActiveEmbed,
   updateBackButtonVisibility
 } from 'src/redux/modules/base';
-import {
-  getContactOptionsChatLabelOnline,
-  getContactOptionsContactFormLabel
-} from 'src/redux/modules/selectors';
 import { getZopimChatEmbed } from 'src/redux/modules/base/base-selectors';
 
 import { locals as styles } from './style.scss';
@@ -32,9 +31,11 @@ class ChannelChoice extends Component {
     talkAvailable: PropTypes.bool.isRequired,
     submitTicketAvailable: PropTypes.bool.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
+    chatOfflineAvailable: PropTypes.bool.isRequired,
     oldChat: PropTypes.bool,
     submitTicketLabel: PropTypes.string.isRequired,
     chatOnlineAvailableLabel: PropTypes.string.isRequired,
+    chatOfflineAvailableLabel: PropTypes.string.isRequired,
     actions: PropTypes.shape({
       updateBackButtonVisibility: PropTypes.func.isRequired,
       updateActiveEmbed: PropTypes.func.isRequired
@@ -59,10 +60,10 @@ class ChannelChoice extends Component {
   }
 
   getAvailableChannels = (props) => {
-    const { chatAvailable, talkAvailable, callbackAvailable, submitTicketAvailable } = props;
+    const { chatAvailable, chatOfflineAvailable, talkAvailable, callbackAvailable, submitTicketAvailable } = props;
     let availableChannels = [];
 
-    if (chatAvailable) {
+    if (chatAvailable || chatOfflineAvailable) {
       availableChannels.push('chat');
     }
 
@@ -116,9 +117,13 @@ class ChannelChoice extends Component {
   }
 
   renderChatChoice = () => {
-    if (!this.props.chatAvailable) return null;
+    const { chatAvailable, chatOfflineAvailable, chatOnlineAvailableLabel, chatOfflineAvailableLabel } =
+      this.props;
 
-    return this.renderChannel('Icon--channelChoice-chat', this.props.chatOnlineAvailableLabel, 'chat');
+    if (!chatAvailable && !chatOfflineAvailable) return null;
+    const label = chatOfflineAvailable ? chatOfflineAvailableLabel : chatOnlineAvailableLabel;
+
+    return this.renderChannel('Icon--channelChoice-chat', label, 'chat');
   }
 
   renderTalkChoice = () => {
@@ -160,9 +165,11 @@ const mapStateToProps = (state) => ({
   talkAvailable: getTalkOnline(state),
   callbackAvailable: getTalkOnline(state) && isCallbackEnabled(state),
   chatAvailable: getChatAvailable(state),
+  chatOfflineAvailable: getChatOfflineAvailable(state),
   oldChat: getZopimChatEmbed(state),
   submitTicketAvailable: getSubmitTicketAvailable(state),
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
+  chatOfflineAvailableLabel: getContactOptionsContactFormLabel(state),
   submitTicketLabel: getContactOptionsContactFormLabel(state)
 });
 
