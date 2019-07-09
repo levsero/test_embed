@@ -13,10 +13,11 @@ import { errorCodes } from './talkErrorCodes';
 import { ICONS } from 'src/constants/shared';
 import { Button } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
-import { Message, TextField, Label, Input } from '@zendeskgarden/react-textfields';
+import { Message } from '@zendeskgarden/react-textfields';
 import ErrorNotification from './ErrorNotification';
 import PhoneNumber from './PhoneNumber';
 import DescriptionField from './DescriptionField';
+import NameField from './NameField';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -44,9 +45,10 @@ import {
   getTalkNickname,
   getTalkServiceUrl,
   getTalkDescriptionLabel,
+  getTalkNameLabel,
 } from 'src/redux/modules/selectors';
 import { i18n } from 'service/i18n';
-import { renderLabel, getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields';
+import { getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields';
 import OfflinePage from 'src/embeds/talk/pages/offline';
 
 import { locals as styles } from './Talk.scss';
@@ -65,7 +67,8 @@ const mapStateToProps = (state) => {
     title: getTalkTitle(state),
     nickname: getTalkNickname(state),
     serviceUrl: getTalkServiceUrl(state),
-    descriptionlabelText: getTalkDescriptionLabel(state)
+    namelabelText: getTalkNameLabel(state),
+    descriptionlabelText: getTalkDescriptionLabel(state),
   };
 };
 
@@ -90,6 +93,7 @@ class Talk extends Component {
     nickname: PropTypes.string.isRequired,
     serviceUrl: PropTypes.string.isRequired,
     descriptionlabelText: PropTypes.string.isRequired,
+    namelabelText: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -192,17 +196,11 @@ class Talk extends Component {
   }
 
   renderNameField = () => {
-    const nameLabel = i18n.t('embeddable_framework.common.textLabel.name');
-    const isRequired = false;
-
     return (
-      <TextField className={styles.textField}>
-        {renderLabel(Label, nameLabel, isRequired)}
-        <Input
-          defaultValue={this.props.formState.name}
-          name='name'
-          required={isRequired} />
-      </TextField>
+      <NameField
+        label={this.props.namelabelText}
+        defaultValue={this.props.formState.name}
+      />
     );
   }
 

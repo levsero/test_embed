@@ -39,6 +39,7 @@ describe('Talk component', () => {
       './PhoneNumber': noopReactComponent,
       './DescriptionField': noopReactComponent,
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
+      './NameField': noopReactComponent,
       'component/ZendeskLogo': { ZendeskLogo },
       'component/shared/SuccessNotification': { SuccessNotification },
       'service/i18n': { i18n: { t: i18nTranslateSpy, isRTL: _.noop } },
