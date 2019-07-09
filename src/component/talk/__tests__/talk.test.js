@@ -24,8 +24,7 @@ const renderComponent = (overrideProps = {}) => {
     formState: {},
     screen: PHONE_ONLY_SCREEN,
     callback: { error: {} },
-    averageWaitTime: '1',
-    averageWaitTimeEnabled: false,
+    averageWaitTime: 'Average wait time: 1 minute',
     agentAvailability: true,
     isMobile: false,
     libphonenumber: {
@@ -161,47 +160,6 @@ describe('talk', () => {
         .toBeInTheDocument();
       expect(queryByText('12345678'))
         .toBeInTheDocument();
-    });
-
-    describe('with an average wait time', () => {
-      describe('of 0', () => {
-        it('does not display the average wait time', () => {
-          const { queryByText } = renderComponent({
-            screen: PHONE_ONLY_SCREEN,
-            averageWaitTimeEnabled: true,
-            averageWaitTime: '0'
-          });
-
-          expect(queryByText('Average wait time: 0 minutes'))
-            .not.toBeInTheDocument();
-        });
-      });
-
-      describe('of 1', () => {
-        it('display the average wait time in singular', () => {
-          const { queryByText } = renderComponent({
-            screen: PHONE_ONLY_SCREEN,
-            averageWaitTimeEnabled: true,
-            averageWaitTime: '1'
-          });
-
-          expect(queryByText('Average wait time: 1 minute'))
-            .toBeInTheDocument();
-        });
-      });
-
-      describe('of greater than 1', () => {
-        it('display the average wait time in plural', () => {
-          const { queryByText } = renderComponent({
-            screen: PHONE_ONLY_SCREEN,
-            averageWaitTimeEnabled: true,
-            averageWaitTime: '10'
-          });
-
-          expect(queryByText('Average wait time: 10 minutes'))
-            .toBeInTheDocument();
-        });
-      });
     });
   });
 

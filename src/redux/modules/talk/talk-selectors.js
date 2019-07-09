@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { createSelector } from 'reselect';
+import { i18n } from 'service/i18n';
 import { CALLBACK_ONLY, CALLBACK_AND_PHONE } from './talk-capability-types';
 
 export const getEmbeddableConfig = (state) => state.talk.embeddableConfig;
@@ -28,3 +30,18 @@ export const isCallbackEnabled = (state) => {
 
   return _.includes([CALLBACK_ONLY, CALLBACK_AND_PHONE], capability);
 };
+
+export const getAverageWaitTimeString = createSelector(
+  [getAverageWaitTimeEnabled, getAverageWaitTime],
+  (averageWaitTimeEnabled, averageWaitTime) => {
+    const averageWaitTimeNumber = parseInt(averageWaitTime, 10);
+
+    if (!averageWaitTimeEnabled || averageWaitTimeNumber === 0) return null;
+
+    const waitTimeForm = averageWaitTimeNumber > 1 ? 'Plural' : 'Singular';
+
+    return i18n.t(`embeddable_framework.talk.form.averageWaitTime${waitTimeForm}`, {
+      averageWaitTime
+    });
+  }
+);

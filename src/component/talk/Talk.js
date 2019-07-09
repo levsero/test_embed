@@ -18,6 +18,7 @@ import ErrorNotification from './ErrorNotification';
 import PhoneNumber from './PhoneNumber';
 import DescriptionField from './DescriptionField';
 import NameField from './NameField';
+import AverageWaitTime from './AverageWaitTime';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -35,8 +36,7 @@ import {
   getFormState,
   getScreen,
   getCallback,
-  getAverageWaitTime,
-  getAverageWaitTimeEnabled,
+  getAverageWaitTimeString,
   getLibPhoneNumberVendor,
   getFormattedPhoneNumber,
 } from 'src/redux/modules/talk/talk-selectors';
@@ -60,9 +60,8 @@ const mapStateToProps = (state) => {
     formState: getFormState(state),
     screen: getScreen(state),
     callback: getCallback(state),
-    averageWaitTime: getAverageWaitTime(state),
-    averageWaitTimeEnabled: getAverageWaitTimeEnabled(state),
     formattedPhoneNumber: getFormattedPhoneNumber(state),
+    averageWaitTime: getAverageWaitTimeString(state),
     libphonenumber: getLibPhoneNumberVendor(state),
     title: getTalkTitle(state),
     nickname: getTalkNickname(state),
@@ -78,8 +77,7 @@ class Talk extends Component {
     formState: PropTypes.object.isRequired,
     screen: PropTypes.string.isRequired,
     callback: PropTypes.object.isRequired,
-    averageWaitTime: PropTypes.string.isRequired,
-    averageWaitTimeEnabled: PropTypes.bool.isRequired,
+    averageWaitTime: PropTypes.string,
     agentAvailability: PropTypes.bool.isRequired,
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
@@ -143,26 +141,13 @@ class Talk extends Component {
     return (<PhoneNumber phoneNumber={phoneNumber} formattedPhoneNumber={formattedPhoneNumber} />);
   }
 
-  renderAverageWaitTime = () => {
-    const { averageWaitTime, averageWaitTimeEnabled } = this.props;
-
-    if (!averageWaitTimeEnabled || averageWaitTime === '0') return;
-
-    const waitTimeForm = parseInt(averageWaitTime, 10) > 1 ? 'Plural' : 'Singular';
-    const waitTimeMessage = i18n.t(`embeddable_framework.talk.form.averageWaitTime${waitTimeForm}`, {
-      averageWaitTime
-    });
-
-    return <p className={styles.averageWaitTime}>{waitTimeMessage}</p>;
-  }
-
   renderFormHeader = () => {
     const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage_new');
 
     return (
       <div>
         <p className={styles.formHeaderMessage}>{headerMessage}</p>
-        {this.renderAverageWaitTime()}
+        {this.props.averageWaitTime && <AverageWaitTime message={this.props.averageWaitTime} />}
       </div>
     );
   }
@@ -274,7 +259,7 @@ class Talk extends Component {
         <p className={styles.phoneOnlyMessage}>
           {callUsMessage}
         </p>
-        {this.renderAverageWaitTime()}
+        {this.props.averageWaitTime && <AverageWaitTime message={this.props.averageWaitTime} />}
         <div className={styles.phoneNumber}>{this.renderPhoneNumber()}</div>
       </div>
     );
