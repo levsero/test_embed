@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
+<div>
+  <div
+    class="content"
+  >
+    <span
+      class="container icon Icon--success-talk"
+      data-testid="Icon--success-talk"
+      type="Icon--success-talk"
+    >
+      test-file-stub
+    </span>
+    <div
+      class="desktopMessages"
+    >
+      <h2
+        class="firstMessage firstMessageDesktop"
+      >
+        Thanks for reaching out.
+      </h2>
+      <p>
+        We'll get back to you soon.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SuccessNotificationPage renders when on a mobile browser 1`] = `
+<div>
+  <div
+    class="content contentMobile"
+  >
+    <span
+      class="container icon Icon--success-talk mobile"
+      data-testid="Icon--success-talk"
+      type="Icon--success-talk"
+    >
+      test-file-stub
+    </span>
+    <div
+      class="mobileMessages"
+    >
+      <h2
+        class="firstMessage firstMessageMobile"
+      >
+        Thanks for reaching out.
+      </h2>
+      <p>
+        We'll get back to you soon.
+      </p>
+    </div>
+  </div>
+</div>
+`;
