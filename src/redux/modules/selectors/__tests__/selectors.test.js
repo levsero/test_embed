@@ -294,6 +294,33 @@ describe('selectors', () => {
     });
   });
 
+  describe('getTranslation', () => {
+    beforeEach(() => {
+      jest.spyOn(i18n, 't')
+        .mockImplementation(() => 'Help');
+    });
+
+    it('returns the value from i18n', () => {
+      expect(selectors.getTranslation('embeddable_framework.fake.translation', { override: 'fake' }))
+        .toEqual('Help');
+      expect(i18n.t).toHaveBeenCalledWith('embeddable_framework.fake.translation', { override: 'fake' });
+    });
+  });
+
+  describe('getTalkDescriptionLabel', () => {
+    it('returns the value from i18n', () => {
+      expect(selectors.getTalkDescriptionLabel(state, 'embeddable_framework.fake.translation', { override: 'fake' }))
+        .toEqual('<strong>How can we help?</strong> (optional)');
+    });
+  });
+
+  describe('getTalkNameLabel', () => {
+    it('returns the value from i18n', () => {
+      expect(selectors.getTalkNameLabel(state, 'embeddable_framework.fake.translation', { override: 'fake' }))
+        .toEqual('<strong>Name</strong> (optional)');
+    });
+  });
+
   describe('getSettingsHelpCenterMessageButton', () => {
     let state, label;
 

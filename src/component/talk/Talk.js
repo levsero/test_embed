@@ -13,9 +13,12 @@ import { errorCodes } from './talkErrorCodes';
 import { ICONS } from 'src/constants/shared';
 import { Button } from '@zendeskgarden/react-buttons';
 import classNames from 'classnames';
-import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
+import { Message } from '@zendeskgarden/react-textfields';
 import ErrorNotification from './ErrorNotification';
 import PhoneNumber from './PhoneNumber';
+import DescriptionField from './DescriptionField';
+import NameField from './NameField';
+import AverageWaitTime from './AverageWaitTime';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -33,18 +36,19 @@ import {
   getFormState,
   getScreen,
   getCallback,
-  getAverageWaitTime,
-  getAverageWaitTimeEnabled,
+  getAverageWaitTimeString,
   getLibPhoneNumberVendor,
   getFormattedPhoneNumber,
 } from 'src/redux/modules/talk/talk-selectors';
 import {
   getTalkTitle,
   getTalkNickname,
-  getTalkServiceUrl
+  getTalkServiceUrl,
+  getTalkDescriptionLabel,
+  getTalkNameLabel,
 } from 'src/redux/modules/selectors';
 import { i18n } from 'service/i18n';
-import { renderLabel, getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields';
+import { getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields';
 import OfflinePage from 'src/embeds/talk/pages/offline';
 
 import { locals as styles } from './Talk.scss';
@@ -56,13 +60,14 @@ const mapStateToProps = (state) => {
     formState: getFormState(state),
     screen: getScreen(state),
     callback: getCallback(state),
-    averageWaitTime: getAverageWaitTime(state),
-    averageWaitTimeEnabled: getAverageWaitTimeEnabled(state),
     formattedPhoneNumber: getFormattedPhoneNumber(state),
+    averageWaitTime: getAverageWaitTimeString(state),
     libphonenumber: getLibPhoneNumberVendor(state),
     title: getTalkTitle(state),
     nickname: getTalkNickname(state),
-    serviceUrl: getTalkServiceUrl(state)
+    serviceUrl: getTalkServiceUrl(state),
+    namelabelText: getTalkNameLabel(state),
+    descriptionlabelText: getTalkDescriptionLabel(state),
   };
 };
 
@@ -72,8 +77,7 @@ class Talk extends Component {
     formState: PropTypes.object.isRequired,
     screen: PropTypes.string.isRequired,
     callback: PropTypes.object.isRequired,
-    averageWaitTime: PropTypes.string.isRequired,
-    averageWaitTimeEnabled: PropTypes.bool.isRequired,
+    averageWaitTime: PropTypes.string,
     agentAvailability: PropTypes.bool.isRequired,
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
@@ -85,7 +89,9 @@ class Talk extends Component {
     libphonenumber: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
-    serviceUrl: PropTypes.string.isRequired
+    serviceUrl: PropTypes.string.isRequired,
+    descriptionlabelText: PropTypes.string.isRequired,
+    namelabelText: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -135,26 +141,13 @@ class Talk extends Component {
     return (<PhoneNumber phoneNumber={phoneNumber} formattedPhoneNumber={formattedPhoneNumber} />);
   }
 
-  renderAverageWaitTime = () => {
-    const { averageWaitTime, averageWaitTimeEnabled } = this.props;
-
-    if (!averageWaitTimeEnabled || averageWaitTime === '0') return;
-
-    const waitTimeForm = parseInt(averageWaitTime, 10) > 1 ? 'Plural' : 'Singular';
-    const waitTimeMessage = i18n.t(`embeddable_framework.talk.form.averageWaitTime${waitTimeForm}`, {
-      averageWaitTime
-    });
-
-    return <p className={styles.averageWaitTime}>{waitTimeMessage}</p>;
-  }
-
   renderFormHeader = () => {
     const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage_new');
 
     return (
       <div>
         <p className={styles.formHeaderMessage}>{headerMessage}</p>
-        {this.renderAverageWaitTime()}
+        {this.props.averageWaitTime && <AverageWaitTime message={this.props.averageWaitTime} />}
       </div>
     );
   }
@@ -188,33 +181,20 @@ class Talk extends Component {
   }
 
   renderNameField = () => {
-    const nameLabel = i18n.t('embeddable_framework.common.textLabel.name');
-    const isRequired = false;
-
     return (
-      <TextField className={styles.textField}>
-        {renderLabel(Label, nameLabel, isRequired)}
-        <Input
-          defaultValue={this.props.formState.name}
-          name='name'
-          required={isRequired} />
-      </TextField>
+      <NameField
+        label={this.props.namelabelText}
+        defaultValue={this.props.formState.name}
+      />
     );
   }
 
   renderDescriptionField = () => {
-    const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
-    const isRequired = false;
-
     return (
-      <TextField className={styles.textField}>
-        {renderLabel(Label, descriptionLabel, isRequired)}
-        <Textarea
-          defaultValue={this.props.formState.description}
-          rows='4'
-          name='description'
-          required={isRequired} />
-      </TextField>
+      <DescriptionField
+        label={this.props.descriptionlabelText}
+        defaultValue={this.props.formState.description}
+      />
     );
   }
 
@@ -279,7 +259,7 @@ class Talk extends Component {
         <p className={styles.phoneOnlyMessage}>
           {callUsMessage}
         </p>
-        {this.renderAverageWaitTime()}
+        {this.props.averageWaitTime && <AverageWaitTime message={this.props.averageWaitTime} />}
         <div className={styles.phoneNumber}>{this.renderPhoneNumber()}</div>
       </div>
     );
