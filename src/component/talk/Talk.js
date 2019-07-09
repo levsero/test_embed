@@ -49,7 +49,7 @@ import {
 } from 'src/redux/modules/selectors';
 import { i18n } from 'service/i18n';
 import { getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields';
-import OfflinePage from 'src/embeds/talk/pages/offline';
+import OfflinePage from 'src/embeds/talk/pages/OfflinePage';
 
 import { locals as styles } from './Talk.scss';
 
