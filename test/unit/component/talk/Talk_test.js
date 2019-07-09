@@ -85,7 +85,8 @@ describe('Talk component', () => {
         getTalkNickname: () => mockNickname,
         getTalkServiceUrl: () => mockServiceUrl
       },
-      'src/embeds/talk/pages/offline': noopReactComponent
+      'src/embeds/talk/pages/OfflinePage': noopReactComponent,
+      'src/embeds/talk/pages/SuccessNotificationPage': noopReactComponent
     });
 
     mockery.registerAllowable(talkPath);

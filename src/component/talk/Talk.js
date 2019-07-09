@@ -8,7 +8,6 @@ import { Form } from 'component/form/Form';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { errorCodes } from './talkErrorCodes';
 import { ICONS } from 'src/constants/shared';
 import { Button } from '@zendeskgarden/react-buttons';
@@ -52,6 +51,7 @@ import { getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields';
 import OfflinePage from 'src/embeds/talk/pages/OfflinePage';
 
 import { locals as styles } from './Talk.scss';
+import SuccessNotificationPage from 'src/embeds/talk/pages/SuccessNotificationPage';
 
 const mapStateToProps = (state) => {
   return {
@@ -263,16 +263,7 @@ class Talk extends Component {
         <div className={styles.phoneNumber}>{this.renderPhoneNumber()}</div>
       </div>
     );
-  }
-
-  renderSuccessNotificationScreen = () => {
-    return (
-      <SuccessNotification
-        icon={ICONS.SUCCESS_TALK}
-        isMobile={this.props.isMobile}
-      />
-    );
-  }
+  };
 
   renderContent = () => {
     if (!this.props.agentAvailability) return null;
@@ -283,7 +274,7 @@ class Talk extends Component {
       case PHONE_ONLY_SCREEN:
         return this.renderPhoneOnlyScreen();
       case SUCCESS_NOTIFICATION_SCREEN:
-        return this.renderSuccessNotificationScreen();
+        return <SuccessNotificationPage />;
       case CALLBACK_AND_PHONE_SCREEN:
         return this.renderPhoneFormScreen();
       default:
