@@ -11,14 +11,14 @@ Part of this change is switching to a new file structure. This shows what the ol
 ```
 |-- asset
 |-- component
-    |-- ${Embed name}
+    |-- ${EmbedName}
 |-- constants
-    |-- ${Embed name}
+    |-- ${embedName}
 |-- embed
 |-- fixtures
 |-- polyfills
 |-- redux
-    |-- {$Embed name}
+    |-- {$embedName}
         |-- actions.js
         |-- reducers
         |-- selectors.js
@@ -35,13 +35,13 @@ Part of this change is switching to a new file structure. This shows what the ol
 |-- assets
 |-- components
 |-- embeds
-    |-- {$Embed name}
+    |-- {$embedName}
         |-- actions
         |-- assets
         |-- components
         |-- constants
         |-- pages
-            |-- {$page components}
+            |-- {$PageComponents}
             |-- routes.js
         |-- reducers
             |-- settings
@@ -75,7 +75,39 @@ This folder will contain any components that should be shared across all embeds.
 
 #### embeds
 
-Each embed will have its own folder and should never reach across its own boundries to to get information from other embeds. Any files that relate only to that component should be stored in here. Any embed specific state inside the settings and base reducers should be moved to the embed reducers.
+Each embed will have its own folder and must never reach across its own boundries to to get information from other embeds. More detail on the subfolders is listed below.
+
+##### actions
+
+Contains any redux actions used by the embed.
+
+##### assets
+
+Contains any assets used only by the embed. These include images and icons.
+
+##### components
+
+Contains any React Components that are only used by the Embed. If the component is a common across multiple components it should go in the top level components folder.
+
+##### constants
+
+Contains any constants used by the embed.
+
+##### pages
+
+Contains the Page components and the routing logic for the embed
+
+##### reducers
+
+Contains any redux reducers used by the embed. Any embed specific state inside the settings and base reducers should be moved to the embed reducers.
+
+##### selectors
+
+Contains any redux selectors used multiple times by the embed. Any selectors that are only used by one component should be stored with that component. Basic selectors should be kept in a seperate file to reselectors.
+
+##### utils
+
+Contains any utils only used by the embed. If the util is used across multiple embeds it should go in the top level utils folder.
 
 #### webWidget*
 
@@ -99,6 +131,12 @@ Contains any shared utils
 - Don't be afraid to set up a webpack alias to a folder.
 - An exemption to this a jest test file. It can reach one level up to get the file it is testng.
 - An exemption to this rule is in our style files as you can't use webpack aliases *pending investigate story
+
+### Files and folders should follow a consistent naming convention
+
+- All file and folder names must be camelcase.
+- React components must be capitalized.
+- Non react components must not be capitalized.
 
 ## React Components
 
