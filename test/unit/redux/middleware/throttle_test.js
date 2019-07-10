@@ -1,63 +1,62 @@
 describe('throttle middleware', () => {
-  let throttle;
+  let throttle
 
   beforeEach(() => {
-    const throttlePath = buildSrcPath('redux/middleware/throttle');
+    const throttlePath = buildSrcPath('redux/middleware/throttle')
 
-    mockery.enable();
+    mockery.enable()
 
-    throttle = requireUncached(throttlePath).default;
-  });
+    throttle = requireUncached(throttlePath).default
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('throttle', () => {
-    let action;
-    const nextSpy = jasmine.createSpy('nextSpy');
+    let action
+    const nextSpy = jasmine.createSpy('nextSpy')
 
     afterEach(() => {
-      nextSpy.calls.reset();
-    });
+      nextSpy.calls.reset()
+    })
 
     describe('when block is false', () => {
       beforeEach(() => {
-        action = { type: 'random_type' };
-        throttle(false)()(nextSpy)(action);
-      });
+        action = { type: 'random_type' }
+        throttle(false)()(nextSpy)(action)
+      })
 
       it('calls next function with the action passed in', () => {
-        expect(nextSpy)
-          .toHaveBeenCalledWith({ type: 'random_type' });
-      });
-    });
+        expect(nextSpy).toHaveBeenCalledWith({ type: 'random_type' })
+      })
+    })
 
     describe('when block is true', () => {
       describe('and a non allowed action is passed in', () => {
         beforeEach(() => {
-          action = { type: 'random_type' };
-          throttle(true)()(nextSpy)(action);
-        });
+          action = { type: 'random_type' }
+          throttle(true)()(nextSpy)(action)
+        })
 
         it('does not call nextSpy', () => {
-          expect(nextSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
+          expect(nextSpy).not.toHaveBeenCalled()
+        })
+      })
 
       describe('and an allowed action is passed in', () => {
         beforeEach(() => {
-          action = { type: 'UPDATE_PREVIEWER_SCREEN' };
-          throttle(true, () => true)()(nextSpy)(action);
-        });
+          action = { type: 'UPDATE_PREVIEWER_SCREEN' }
+          throttle(true, () => true)()(nextSpy)(action)
+        })
 
         it('calls next function with the action passed in', () => {
-          expect(nextSpy)
-            .toHaveBeenCalledWith({ type: 'UPDATE_PREVIEWER_SCREEN' });
-        });
-      });
-    });
-  });
-});
+          expect(nextSpy).toHaveBeenCalledWith({
+            type: 'UPDATE_PREVIEWER_SCREEN'
+          })
+        })
+      })
+    })
+  })
+})

@@ -1,16 +1,18 @@
 describe('ChattingFooter component', () => {
   let ChattingFooter,
     i18n,
-    mockIsRTL = false;
-  const ChattingFooterPath = buildSrcPath('component/chat/chatting/ChattingFooter');
+    mockIsRTL = false
+  const ChattingFooterPath = buildSrcPath('component/chat/chatting/ChattingFooter')
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     i18n = {
-      t: jasmine.createSpy().and.callFake((key) => { return key; }),
+      t: jasmine.createSpy().and.callFake(key => {
+        return key
+      }),
       isRTL: () => mockIsRTL
-    };
+    }
 
     initMockRegistry({
       'service/i18n': {
@@ -37,270 +39,250 @@ describe('ChattingFooter component', () => {
       'constants/shared': {
         ICONS: {}
       }
-    });
+    })
 
-    mockery.registerAllowable(ChattingFooterPath);
-    ChattingFooter = requireUncached(ChattingFooterPath).ChattingFooter;
-  });
+    mockery.registerAllowable(ChattingFooterPath)
+    ChattingFooter = requireUncached(ChattingFooterPath).ChattingFooter
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('render', () => {
-    let component, componentNode;
+    let component, componentNode
 
     describe('icons', () => {
       beforeEach(() => {
-        component = domRender(<ChattingFooter />);
-        componentNode = ReactDOM.findDOMNode(component);
-      });
+        component = domRender(<ChattingFooter />)
+        componentNode = ReactDOM.findDOMNode(component)
+      })
 
       it('renders the chat footer with styled icons', () => {
-        expect(componentNode.querySelector('.iconsClass'))
-          .toBeTruthy();
-      });
-    });
+        expect(componentNode.querySelector('.iconsClass')).toBeTruthy()
+      })
+    })
 
     describe('on non-mobile devices', () => {
-      let result;
+      let result
 
       beforeEach(() => {
-        component = instanceRender(<ChattingFooter isMobile={false} />);
-        result = component.render();
-      });
+        component = instanceRender(<ChattingFooter isMobile={false} />)
+        result = component.render()
+      })
 
       it('renders the desktop version', () => {
-        expect(result.props.className)
-          .not.toContain('containerMobileClass');
-      });
-    });
+        expect(result.props.className).not.toContain('containerMobileClass')
+      })
+    })
 
     describe('on mobile devices', () => {
-      let result;
+      let result
 
       beforeEach(() => {
-        component = instanceRender(<ChattingFooter isMobile={true} />);
-        result = component.render();
-      });
+        component = instanceRender(<ChattingFooter isMobile={true} />)
+        result = component.render()
+      })
 
       it('renders the mobile version', () => {
-        expect(result.props.className)
-          .toContain('containerMobileClass');
-      });
-    });
-  });
+        expect(result.props.className).toContain('containerMobileClass')
+      })
+    })
+  })
 
   describe('renderEndChatOption', () => {
-    let result;
+    let result
 
     describe('when props.isChatting is false', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChattingFooter isChatting={false} />);
+        const component = instanceRender(<ChattingFooter isChatting={false} />)
 
-        result = component.renderEndChatOption();
-      });
+        result = component.renderEndChatOption()
+      })
 
       it('has disabled classes', () => {
-        expect(result.props.buttonClassName)
-          .toContain('iconEndChatClass');
-        expect(result.props.buttonClassName)
-          .toContain('iconDisabledClasses');
-      });
-    });
+        expect(result.props.buttonClassName).toContain('iconEndChatClass')
+        expect(result.props.buttonClassName).toContain('iconDisabledClasses')
+      })
+    })
 
     describe('when props.isChatting is true', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChattingFooter isChatting={true} />);
+        const component = instanceRender(<ChattingFooter isChatting={true} />)
 
-        result = component.renderEndChatOption();
-      });
+        result = component.renderEndChatOption()
+      })
 
       it('does not have disabled classes', () => {
-        expect(result.props.buttonClassName)
-          .toContain('iconEndChatClass');
-        expect(result.props.buttonClassName)
-          .not.toContain('iconDisabledClasses');
-      });
-    });
-  });
+        expect(result.props.buttonClassName).toContain('iconEndChatClass')
+        expect(result.props.buttonClassName).not.toContain('iconDisabledClasses')
+      })
+    })
+  })
 
   describe('renderAttachmentOption', () => {
-    let result;
+    let result
 
     describe('when props.attachmentsEnabled is true', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChattingFooter attachmentsEnabled={true} />);
+        const component = instanceRender(<ChattingFooter attachmentsEnabled={true} />)
 
-        result = component.renderAttachmentOption();
-      });
+        result = component.renderAttachmentOption()
+      })
 
       it('returns the attachment option', () => {
-        expect(result)
-          .toBeTruthy();
-      });
-    });
+        expect(result).toBeTruthy()
+      })
+    })
 
     describe('when props.attachmentsEnabled is false', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChattingFooter attachmentsEnabled={false} />);
+        const component = instanceRender(<ChattingFooter attachmentsEnabled={false} />)
 
-        result = component.renderAttachmentOption();
-      });
+        result = component.renderAttachmentOption()
+      })
 
       it('returns null', () => {
-        expect(result)
-          .toBeNull();
-      });
-    });
+        expect(result).toBeNull()
+      })
+    })
 
     describe('on non-mobile devices', () => {
       beforeEach(() => {
         const component = instanceRender(
           <ChattingFooter attachmentsEnabled={true} isMobile={false} />
-        );
+        )
 
-        result = component.renderAttachmentOption();
-      });
+        result = component.renderAttachmentOption()
+      })
 
       it('does not have mobile specific classes', () => {
-        expect(result.props.children.props.buttonClassName)
-          .toContain('iconAttachmentClass');
-        expect(result.props.children.props.buttonClassName)
-          .not.toContain('iconAttachmentMobileClass');
-      });
-    });
+        expect(result.props.children.props.buttonClassName).toContain('iconAttachmentClass')
+        expect(result.props.children.props.buttonClassName).not.toContain(
+          'iconAttachmentMobileClass'
+        )
+      })
+    })
 
     describe('on mobile devices', () => {
       beforeEach(() => {
         const component = instanceRender(
           <ChattingFooter attachmentsEnabled={true} isMobile={true} />
-        );
+        )
 
-        result = component.renderAttachmentOption();
-      });
+        result = component.renderAttachmentOption()
+      })
 
       it('has mobile specific classes', () => {
-        expect(result.props.children.props.buttonClassName)
-          .toContain('iconAttachmentClass');
-        expect(result.props.children.props.buttonClassName)
-          .toContain('iconAttachmentMobileClass');
-      });
-    });
-  });
+        expect(result.props.children.props.buttonClassName).toContain('iconAttachmentClass')
+        expect(result.props.children.props.buttonClassName).toContain('iconAttachmentMobileClass')
+      })
+    })
+  })
 
   describe('renderMenuOption', () => {
-    let result;
+    let result
 
     beforeEach(() => {
-      const component = instanceRender(<ChattingFooter />);
+      const component = instanceRender(<ChattingFooter />)
 
-      result = component.renderMenuOption();
-    });
+      result = component.renderMenuOption()
+    })
 
     it('has correct classes', () => {
-      expect(result.props.buttonClassName)
-        .toContain('iconMenuClass');
-    });
-  });
+      expect(result.props.buttonClassName).toContain('iconMenuClass')
+    })
+  })
 
   describe('renderSendChatOption', () => {
-    let result, sendChatSpy;
+    let result, sendChatSpy
 
     beforeEach(() => {
-      sendChatSpy = jasmine.createSpy();
-      const component = instanceRender(<ChattingFooter sendChat={sendChatSpy} />);
+      sendChatSpy = jasmine.createSpy()
+      const component = instanceRender(<ChattingFooter sendChat={sendChatSpy} />)
 
-      result = component.renderSendChatOption();
-    });
+      result = component.renderSendChatOption()
+    })
 
     it('has correct classes', () => {
-      expect(result.props.className)
-        .toContain('iconSendChatMobileClass');
-    });
+      expect(result.props.className).toContain('iconSendChatMobileClass')
+    })
 
     it('passes sendChat to onClick handler', () => {
-      expect(result.props.onClick)
-        .toBe(sendChatSpy);
-    });
+      expect(result.props.onClick).toBe(sendChatSpy)
+    })
 
     describe('when locale is RTL', () => {
       beforeAll(() => {
-        mockIsRTL = true;
-      });
+        mockIsRTL = true
+      })
 
       it('passes true to the flipX prop', () => {
-        expect(result.props.flipX)
-          .toBe(true);
-      });
-    });
+        expect(result.props.flipX).toBe(true)
+      })
+    })
 
     describe('when locale is not RTL', () => {
       beforeAll(() => {
-        mockIsRTL = false;
-      });
+        mockIsRTL = false
+      })
 
       it('passes false to the flipX prop', () => {
-        expect(result.props.flipX)
-          .toBe(false);
-      });
-    });
-  });
+        expect(result.props.flipX).toBe(false)
+      })
+    })
+  })
 
   describe('handleMenuClick', () => {
-    let component, stopPropagationSpy, toggleMenuSpy;
+    let component, stopPropagationSpy, toggleMenuSpy
 
     beforeEach(() => {
-      stopPropagationSpy = jasmine.createSpy();
-      toggleMenuSpy = jasmine.createSpy();
+      stopPropagationSpy = jasmine.createSpy()
+      toggleMenuSpy = jasmine.createSpy()
 
-      component = instanceRender(<ChattingFooter showIcons={true} toggleMenu={toggleMenuSpy} />);
-      component.handleMenuClick({ stopPropagation: stopPropagationSpy });
-    });
+      component = instanceRender(<ChattingFooter showIcons={true} toggleMenu={toggleMenuSpy} />)
+      component.handleMenuClick({ stopPropagation: stopPropagationSpy })
+    })
 
     it('calls stopPropagation on the event', () => {
-      expect(stopPropagationSpy)
-        .toHaveBeenCalled();
-    });
+      expect(stopPropagationSpy).toHaveBeenCalled()
+    })
 
     it('calls props.toggleMenu', () => {
-      expect(toggleMenuSpy)
-        .toHaveBeenCalled();
-    });
-  });
+      expect(toggleMenuSpy).toHaveBeenCalled()
+    })
+  })
 
   describe('handleEndChatClick', () => {
-    let component, endChatSpy;
+    let component, endChatSpy
 
     beforeEach(() => {
-      endChatSpy = jasmine.createSpy();
-    });
+      endChatSpy = jasmine.createSpy()
+    })
 
     describe('when props.isChatting is false', () => {
       beforeEach(() => {
-        component = instanceRender(<ChattingFooter isChatting={false} endChat={endChatSpy} />);
+        component = instanceRender(<ChattingFooter isChatting={false} endChat={endChatSpy} />)
 
-        component.handleEndChatClick('some event');
-      });
+        component.handleEndChatClick('some event')
+      })
 
       it('does not call props.endChat', () => {
-        expect(endChatSpy)
-          .not.toHaveBeenCalled();
-      });
-    });
+        expect(endChatSpy).not.toHaveBeenCalled()
+      })
+    })
 
     describe('when props.isChatting is true', () => {
       beforeEach(() => {
-        component = instanceRender(<ChattingFooter isChatting={true} endChat={endChatSpy} />);
+        component = instanceRender(<ChattingFooter isChatting={true} endChat={endChatSpy} />)
 
-        component.handleEndChatClick('some event');
-      });
+        component.handleEndChatClick('some event')
+      })
 
       it('calls props.endChat', () => {
-        expect(endChatSpy)
-          .toHaveBeenCalledWith('some event');
-      });
-    });
-  });
-});
+        expect(endChatSpy).toHaveBeenCalledWith('some event')
+      })
+    })
+  })
+})

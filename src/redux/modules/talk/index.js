@@ -1,1 +1,1 @@
-export * from './talk-actions';
+export * from './talk-actions'

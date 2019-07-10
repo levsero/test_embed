@@ -1,11 +1,11 @@
-import vendor from '../talk-vendor';
-import * as actionTypes from 'src/redux/modules/talk/talk-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import vendor from '../talk-vendor'
+import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   io: null,
   libphonenumber: null
-};
+}
 
 testReducer(vendor, [
   {
@@ -24,4 +24,4 @@ testReducer(vendor, [
     },
     expected: { io: 'hello', libphonenumber: 'world' }
   }
-]);
+])

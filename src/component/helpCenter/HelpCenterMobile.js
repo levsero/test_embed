@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { Button } from '@zendeskgarden/react-buttons';
-import { ButtonGroup } from 'component/button/ButtonGroup';
-import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile';
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { SearchField } from 'component/field/SearchField';
-import { ZendeskLogo } from 'component/ZendeskLogo';
-import { LoadingBarContent } from 'component/loading/LoadingBarContent';
-import { LoadingEllipses } from 'component/loading/LoadingEllipses';
-import { i18n } from 'service/i18n';
+import { Button } from '@zendeskgarden/react-buttons'
+import { ButtonGroup } from 'component/button/ButtonGroup'
+import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile'
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { SearchField } from 'component/field/SearchField'
+import { ZendeskLogo } from 'component/ZendeskLogo'
+import { LoadingBarContent } from 'component/loading/LoadingBarContent'
+import { LoadingEllipses } from 'component/loading/LoadingEllipses'
+import { i18n } from 'service/i18n'
 
-import { locals as styles } from './HelpCenterMobile.scss';
+import { locals as styles } from './HelpCenterMobile.scss'
 
 export class HelpCenterMobile extends Component {
   static propTypes = {
@@ -42,7 +42,7 @@ export class HelpCenterMobile extends Component {
     searchPlaceholder: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     buttonLoading: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     articleViewActive: false,
@@ -60,91 +60,96 @@ export class HelpCenterMobile extends Component {
     onNextClick: () => {},
     talkOnline: false,
     buttonLoading: false
-  };
+  }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
 
     this.state = {
       searchFieldFocused: false,
       showIntroScreen: !props.contextualHelpRequestNeeded && !props.articleViewActive
-    };
+    }
 
-    this.searchField = null;
+    this.searchField = null
   }
 
   componentDidUpdate = (prevProps, prevState) => {
     // We have to do this check in componentDidUpdate so that
     // the searchField is the most recent one and ios focuses
     // on the correct one.
-    if (prevState.showIntroScreen === true &&
-        this.state.showIntroScreen === false &&
-        this.props.hasContextualSearched === false) {
-      this.searchField.focus();
+    if (
+      prevState.showIntroScreen === true &&
+      this.state.showIntroScreen === false &&
+      this.props.hasContextualSearched === false
+    ) {
+      this.searchField.focus()
     }
 
     if (this.searchField) {
-      this.searchField.setState({ searchInputVal: this.props.searchFieldValue });
+      this.searchField.setState({ searchInputVal: this.props.searchFieldValue })
     }
   }
 
   getSearchField() {
-    return this.searchField;
+    return this.searchField
   }
 
   resetState = () => {
     if (!this.props.hasSearched) {
-      this.setState({ showIntroScreen: true });
-      this.setSearchFieldFocused(false);
+      this.setState({ showIntroScreen: true })
+      this.setSearchFieldFocused(false)
     }
   }
 
   setIntroScreen = () => {
     this.setState({
       showIntroScreen: false
-    });
+    })
   }
 
-  setSearchFieldFocused = (focused) => {
-    this.setState({ searchFieldFocused: !!focused });
-    this.props.onSearchFieldFocus(!!focused);
+  setSearchFieldFocused = focused => {
+    this.setState({ searchFieldFocused: !!focused })
+    this.props.onSearchFieldFocus(!!focused)
   }
 
   handleSearchBoxClicked = () => {
     if (this.state.showIntroScreen) {
-      this.setState({ showIntroScreen: false });
-      this.setSearchFieldFocused(true);
+      this.setState({ showIntroScreen: false })
+      this.setSearchFieldFocused(true)
     }
   }
 
   handleOnBlur = () => {
     // defer event to allow onClick events to fire first
     setTimeout(() => {
-      this.setSearchFieldFocused(false);
+      this.setSearchFieldFocused(false)
 
       if (!this.props.hasSearched && !this.props.isLoading) {
-        this.setState({ showIntroScreen: true });
+        this.setState({ showIntroScreen: true })
       }
-    }, 1);
+    }, 1)
   }
 
   handleOnFocus = () => {
-    this.setSearchFieldFocused(true);
+    this.setSearchFieldFocused(true)
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.search();
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.search()
   }
 
   showFooterContent = () => {
-    return this.props.showNextButton &&
-      (this.props.articleViewActive || (!this.state.showIntroScreen && !this.state.searchFieldFocused));
+    return (
+      this.props.showNextButton &&
+      (this.props.articleViewActive ||
+        (!this.state.showIntroScreen && !this.state.searchFieldFocused))
+    )
   }
 
   renderChannelChoice = () => {
-    return this.props.channelChoice
-      ? <div className={styles.channelChoiceContainer}>
+    return this.props.channelChoice ? (
+      <div className={styles.channelChoiceContainer}>
         <ChannelChoicePopupMobile
           chatOfflineAvailable={this.props.chatOfflineAvailable}
           submitTicketAvailable={this.props.submitTicketAvailable}
@@ -153,15 +158,18 @@ export class HelpCenterMobile extends Component {
           talkOnline={this.props.talkOnline}
           chatAvailable={this.props.chatAvailable}
           onNextClick={this.props.onNextClick}
-          onCancelClick={() => this.props.setChannelChoiceShown(false)} />
+          onCancelClick={() => this.props.setChannelChoiceShown(false)}
+        />
       </div>
-      : null;
+    ) : null
   }
 
   renderSearchField = () => {
     return (
       <SearchField
-        ref={(el) => { this.searchField = el; }}
+        ref={el => {
+          this.searchField = el
+        }}
         fullscreen={true}
         isMobile={true}
         onFocus={this.handleOnFocus}
@@ -171,44 +179,44 @@ export class HelpCenterMobile extends Component {
         onSearchIconClick={this.handleSubmit}
         onClick={this.handleSearchBoxClicked}
         isLoading={this.props.isLoading}
-        searchPlaceholder={this.props.searchPlaceholder} />
-    );
+        searchPlaceholder={this.props.searchPlaceholder}
+      />
+    )
   }
 
   renderForm = () => {
-    const hiddenClasses = !this.state.showIntroScreen ? 'u-isHidden' : '';
+    const hiddenClasses = !this.state.showIntroScreen ? 'u-isHidden' : ''
 
     return (
       <form
-        ref='helpCenterForm'
+        ref="helpCenterForm"
         className={styles.form}
         noValidate={true}
-        onSubmit={this.handleSubmit}>
+        onSubmit={this.handleSubmit}
+      >
         <h1 className={`${styles.searchTitle} ${hiddenClasses}`}>
           {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
         </h1>
         {this.renderSearchField()}
       </form>
-    );
+    )
   }
 
   renderFormContainer = () => {
-    return this.props.articleViewActive || !this.state.showIntroScreen
-      ? null
-      : (
-        <div>
-          {this.renderForm()}
-          {this.renderLinkContent()}
-        </div>
-      );
+    return this.props.articleViewActive || !this.state.showIntroScreen ? null : (
+      <div>
+        {this.renderForm()}
+        {this.renderLinkContent()}
+      </div>
+    )
   }
 
   renderLinkContent = () => {
-    if (!this.props.showNextButton || !this.state.showIntroScreen) return null;
+    if (!this.props.showNextButton || !this.state.showIntroScreen) return null
 
     const linkContext = this.props.chatAvailable
       ? i18n.t('embeddable_framework.helpCenter.label.linkContext.chat')
-      : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
+      : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket')
 
     return (
       <div className={styles.linkContainer}>
@@ -217,95 +225,82 @@ export class HelpCenterMobile extends Component {
           {this.props.buttonLabel}
         </a>
       </div>
-    );
+    )
   }
 
   renderHeaderContent = () => {
-    return (this.props.articleViewActive || this.state.showIntroScreen)
-      ? null
-      : this.renderForm();
+    return this.props.articleViewActive || this.state.showIntroScreen ? null : this.renderForm()
   }
 
   renderLoadingAnimation = () => {
-    return (
-      <LoadingEllipses
-        useUserColor={false}
-        itemClassName={styles.loadingAnimation} />
-    );
+    return <LoadingEllipses useUserColor={false} itemClassName={styles.loadingAnimation} />
   }
 
   renderLoadingButton = () => {
     return (
-      <Button
-        primary={true}
-        className={styles.footerButton}>
+      <Button primary={true} className={styles.footerButton}>
         {this.renderLoadingAnimation()}
       </Button>
-    );
+    )
   }
 
   renderButton = () => {
     return (
-      <Button
-        primary={true}
-        className={styles.footerButton}
-        onClick={this.props.handleNextClick}>
+      <Button primary={true} className={styles.footerButton} onClick={this.props.handleNextClick}>
         {this.props.buttonLabel}
       </Button>
-    );
+    )
   }
 
   renderFooterContent = () => {
-    return this.showFooterContent() ?
-      (
-        <div className={styles.buttonContainer}>
-          <ButtonGroup rtl={i18n.isRTL()}>
-            {this.props.buttonLoading ? this.renderLoadingButton() : this.renderButton()}
-          </ButtonGroup>
-        </div>
-      ) : null;
+    return this.showFooterContent() ? (
+      <div className={styles.buttonContainer}>
+        <ButtonGroup rtl={i18n.isRTL()}>
+          {this.props.buttonLoading ? this.renderLoadingButton() : this.renderButton()}
+        </ButtonGroup>
+      </div>
+    ) : null
   }
 
-  renderZendeskLogo = (hideZendeskLogo) => {
-    return !hideZendeskLogo
-      ? <ZendeskLogo fullscreen={true} />
-      : null;
+  renderZendeskLogo = hideZendeskLogo => {
+    return !hideZendeskLogo ? <ZendeskLogo fullscreen={true} /> : null
   }
 
   renderChildContent() {
-    const { children, isContextualSearchPending, articleViewActive } = this.props;
+    const { children, isContextualSearchPending, articleViewActive } = this.props
 
-    if (this.state.showIntroScreen && !articleViewActive) return null;
+    if (this.state.showIntroScreen && !articleViewActive) return null
 
-    return (isContextualSearchPending && !articleViewActive)
-      ? <LoadingBarContent containerClasses={styles.loadingBarContent} />
-      : children;
+    return isContextualSearchPending && !articleViewActive ? (
+      <LoadingBarContent containerClasses={styles.loadingBarContent} />
+    ) : (
+      children
+    )
   }
 
   render = () => {
-    const mobileHideLogoState = this.props.hasSearched;
-    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
-    const containerClasses = !this.props.showNextButton && hideZendeskLogo
-      ? styles.container
-      : '';
+    const mobileHideLogoState = this.props.hasSearched
+    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState
+    const containerClasses = !this.props.showNextButton && hideZendeskLogo ? styles.container : ''
 
     return (
       <div>
         <ScrollContainer
-          ref='scrollContainer'
+          ref="scrollContainer"
           title={this.props.title}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}
           fullscreen={true}
           isMobile={true}
           containerClasses={containerClasses}
-          isVirtualKeyboardOpen={this.state.searchFieldFocused}>
+          isVirtualKeyboardOpen={this.state.searchFieldFocused}
+        >
           {this.renderFormContainer()}
           {this.renderChildContent()}
         </ScrollContainer>
         {this.renderZendeskLogo(hideZendeskLogo)}
         {this.renderChannelChoice()}
       </div>
-    );
+    )
   }
 }

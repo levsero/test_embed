@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { Alert } from '@zendeskgarden/react-notifications';
-import { locals as styles } from './MessageError.scss';
+import { Alert } from '@zendeskgarden/react-notifications'
+import { locals as styles } from './MessageError.scss'
 
-import classNames from 'classnames';
+import classNames from 'classnames'
 
 export class MessageError extends Component {
   static propTypes = {
@@ -12,34 +12,34 @@ export class MessageError extends Component {
     handleError: PropTypes.func,
     className: PropTypes.string,
     messageErrorClasses: PropTypes.string
-  };
+  }
 
   static defaultProps = {
     messageErrorClasses: ''
-  };
+  }
 
   render() {
-    let errorTag;
-    const { messageErrorClasses } = this.props;
-    const errorClasses = classNames(styles.container, this.props.className);
+    let errorTag
+    const { messageErrorClasses } = this.props
+    const errorClasses = classNames(styles.container, this.props.className)
 
     if (this.props.handleError) {
       errorTag = (
-        <a className={`${styles.messageErrorLink} ${messageErrorClasses}`}
-          onClick={this.props.handleError}>
+        <a
+          className={`${styles.messageErrorLink} ${messageErrorClasses}`}
+          onClick={this.props.handleError}
+        >
           {this.props.errorMessage}
         </a>
-      );
+      )
     } else {
-      errorTag = (
-        <span className={messageErrorClasses}>{this.props.errorMessage}</span>
-      );
+      errorTag = <span className={messageErrorClasses}>{this.props.errorMessage}</span>
     }
 
     return (
       <Alert type="error" role="alert" className={errorClasses}>
         {errorTag}
       </Alert>
-    );
+    )
   }
 }

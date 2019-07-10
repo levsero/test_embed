@@ -1,12 +1,12 @@
-import { render } from 'react-testing-library';
-import React from 'react';
-import { Component as ChatHistoryScreen } from '../';
-import snapshotDiff from 'snapshot-diff';
+import { render } from 'react-testing-library'
+import React from 'react'
+import { Component as ChatHistoryScreen } from '../'
+import snapshotDiff from 'snapshot-diff'
 
-jest.mock('component/chat/chatting/HistoryLog');
+jest.mock('component/chat/chatting/HistoryLog')
 
 const renderChatHistoryScreen = (customProps = {}) => {
-  const defaultProps =   {
+  const defaultProps = {
     historyLength: 2,
     hasMoreHistory: false,
     historyRequestStatus: 'done',
@@ -18,53 +18,49 @@ const renderChatHistoryScreen = (customProps = {}) => {
     chatId: 'id-1012',
     firstMessageTimestamp: 1555030483758,
     fullscreen: false,
-    title: 'this is the title',
-  };
+    title: 'this is the title'
+  }
 
   const props = {
     ...defaultProps,
     ...customProps
-  };
+  }
 
-  return render(
-    <ChatHistoryScreen
-      {...props}
-    />
-  );
-};
+  return render(<ChatHistoryScreen {...props} />)
+}
 
 describe('ChatHistoryScreen', () => {
-  let result, defaultProps;
+  let result, defaultProps
 
   describe('when not mobile', () => {
     beforeEach(() => {
-      result = renderChatHistoryScreen();
-    });
+      result = renderChatHistoryScreen()
+    })
 
     it('renders ChatHistory', () => {
-      expect(result.container).toMatchSnapshot();
-    });
-  });
+      expect(result.container).toMatchSnapshot()
+    })
+  })
 
   describe('when mobile', () => {
     beforeEach(() => {
-      defaultProps = renderChatHistoryScreen();
-      result = renderChatHistoryScreen({ isMobile: true });
-    });
+      defaultProps = renderChatHistoryScreen()
+      result = renderChatHistoryScreen({ isMobile: true })
+    })
 
     it('renders mobile classes', () => {
-      expect(snapshotDiff(defaultProps, result, { contextLines: 2 })).toMatchSnapshot();
-    });
-  });
+      expect(snapshotDiff(defaultProps, result, { contextLines: 2 })).toMatchSnapshot()
+    })
+  })
 
   describe('when hideZendeskLogo is true', () => {
     beforeEach(() => {
-      defaultProps = renderChatHistoryScreen();
-      result = renderChatHistoryScreen({ hideZendeskLogo: true });
-    });
+      defaultProps = renderChatHistoryScreen()
+      result = renderChatHistoryScreen({ hideZendeskLogo: true })
+    })
 
     it('has no logo and correct margin', () => {
-      expect(snapshotDiff(defaultProps, result, { contextLines: 2 })).toMatchSnapshot();
-    });
-  });
-});
+      expect(snapshotDiff(defaultProps, result, { contextLines: 2 })).toMatchSnapshot()
+    })
+  })
+})

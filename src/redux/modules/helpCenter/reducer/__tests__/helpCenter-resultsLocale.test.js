@@ -1,7 +1,7 @@
-import resultsLocale from '../helpCenter-resultsLocale';
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import resultsLocale from '../helpCenter-resultsLocale'
+import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(resultsLocale, [
   {
@@ -37,4 +37,4 @@ testReducer(resultsLocale, [
     initialState: 'en',
     expected: ''
   }
-]);
+])

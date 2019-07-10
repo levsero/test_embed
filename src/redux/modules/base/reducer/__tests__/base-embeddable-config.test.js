@@ -1,16 +1,16 @@
-import embeddableConfig from '../base-embeddable-config';
-import { UPDATE_EMBEDDABLE_CONFIG } from '../../base-action-types';
-import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types';
+import embeddableConfig from '../base-embeddable-config'
+import { UPDATE_EMBEDDABLE_CONFIG } from '../../base-action-types'
+import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types'
 
 test('initial state', () => {
-  expect(embeddableConfig(undefined, { type: '' })).toMatchSnapshot();
-});
+  expect(embeddableConfig(undefined, { type: '' })).toMatchSnapshot()
+})
 
 test('UPDATE_PREVIEWER_SETTINGS', () => {
-  const state = embeddableConfig(undefined, { type: UPDATE_PREVIEWER_SETTINGS });
+  const state = embeddableConfig(undefined, { type: UPDATE_PREVIEWER_SETTINGS })
 
-  expect(state.cp4).toEqual(true);
-});
+  expect(state.cp4).toEqual(true)
+})
 
 test('UPDATE_EMBEDDABLE_CONFIG', () => {
   const action = {
@@ -50,9 +50,9 @@ test('UPDATE_EMBEDDABLE_CONFIG', () => {
       brandCount: 2,
       brandLogoUrl: 'helloworld'
     }
-  };
+  }
 
-  const state = embeddableConfig(undefined, action);
+  const state = embeddableConfig(undefined, action)
 
-  expect(state).toMatchSnapshot();
-});
+  expect(state).toMatchSnapshot()
+})

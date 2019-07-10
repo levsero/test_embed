@@ -1,93 +1,86 @@
 describe('zopimChat selectors', () => {
-  let getZopimChatStatus,
-    getZopimChatConnected,
-    getZopimIsChatting,
-    getZopimChatOpen;
+  let getZopimChatStatus, getZopimChatConnected, getZopimIsChatting, getZopimChatOpen
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const selectorsPath = buildSrcPath('redux/modules/zopimChat/zopimChat-selectors');
+    const selectorsPath = buildSrcPath('redux/modules/zopimChat/zopimChat-selectors')
 
-    mockery.registerAllowable(selectorsPath);
+    mockery.registerAllowable(selectorsPath)
 
-    const selectors = requireUncached(selectorsPath);
+    const selectors = requireUncached(selectorsPath)
 
-    getZopimChatStatus = selectors.getZopimChatStatus;
-    getZopimChatConnected = selectors.getZopimChatConnected;
-    getZopimIsChatting = selectors.getZopimIsChatting;
-    getZopimChatOpen = selectors.getZopimChatOpen;
-  });
+    getZopimChatStatus = selectors.getZopimChatStatus
+    getZopimChatConnected = selectors.getZopimChatConnected
+    getZopimIsChatting = selectors.getZopimIsChatting
+    getZopimChatOpen = selectors.getZopimChatOpen
+  })
 
   describe('getZopimChatStatus', () => {
-    let result;
+    let result
     const mockState = {
       zopimChat: {
         status: 'online'
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getZopimChatStatus(mockState);
-    });
+      result = getZopimChatStatus(mockState)
+    })
 
     it('returns the current state of zopimChat.status', () => {
-      expect(result)
-        .toEqual('online');
-    });
-  });
+      expect(result).toEqual('online')
+    })
+  })
 
   describe('getZopimChatConnected', () => {
-    let result;
+    let result
     const mockState = {
       zopimChat: {
         connected: true
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getZopimChatConnected(mockState);
-    });
+      result = getZopimChatConnected(mockState)
+    })
 
     it('returns the current state of zopimChat.connected', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getZopimIsChatting', () => {
-    let result;
+    let result
     const mockState = {
       zopimChat: {
         isChatting: false
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getZopimIsChatting(mockState);
-    });
+      result = getZopimIsChatting(mockState)
+    })
 
     it('returns the current state of zopimChat.isChatting', () => {
-      expect(result)
-        .toEqual(false);
-    });
-  });
+      expect(result).toEqual(false)
+    })
+  })
 
   describe('getZopimChatOpen', () => {
-    let result;
+    let result
     const mockState = {
       zopimChat: {
         isOpen: true
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getZopimChatOpen(mockState);
-    });
+      result = getZopimChatOpen(mockState)
+    })
 
     it('returns the current state of zopimChat.isOpen', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
-});
+      expect(result).toEqual(true)
+    })
+  })
+})

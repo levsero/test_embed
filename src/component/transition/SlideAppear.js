@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Transition from 'react-transition-group/Transition';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Transition from 'react-transition-group/Transition'
 
 const DIRECTION_MAP = {
   UP: 'bottom',
   DOWN: 'top'
-};
+}
 
 export class SlideAppear extends Component {
   static propTypes = {
@@ -20,7 +20,7 @@ export class SlideAppear extends Component {
     onClick: PropTypes.func,
     onExited: PropTypes.func,
     onEntered: PropTypes.func
-  };
+  }
 
   static defaultProps = {
     className: '',
@@ -33,16 +33,16 @@ export class SlideAppear extends Component {
     onExited: () => {},
     onEntered: () => {},
     transitionOnMount: false
-  };
+  }
 
   render = () => {
-    const { duration } = this.props;
-    const direction = this.props.direction.toUpperCase();
-    const position = DIRECTION_MAP[direction] || DIRECTION_MAP.UP;
+    const { duration } = this.props
+    const direction = this.props.direction.toUpperCase()
+    const position = DIRECTION_MAP[direction] || DIRECTION_MAP.UP
     const style = {
       transition: `all ${duration}ms ease-in-out`,
       opacity: 0
-    };
+    }
     const transitionStyles = {
       entering: {
         opacity: 0,
@@ -56,7 +56,7 @@ export class SlideAppear extends Component {
         opacity: 0,
         [position]: this.props.startPosHeight
       }
-    };
+    }
 
     return (
       <Transition
@@ -66,16 +66,20 @@ export class SlideAppear extends Component {
         unmountOnExit={true}
         mountOnEnter={true}
         onExited={this.props.onExited}
-        onEntered={this.props.onEntered}>
-        {(status) => {
+        onEntered={this.props.onEntered}
+      >
+        {status => {
           return (
-            <div onClick={this.props.onClick}
+            <div
+              onClick={this.props.onClick}
               className={this.props.className}
-              style={{ ...style, ...transitionStyles[status] }}>
+              style={{ ...style, ...transitionStyles[status] }}
+            >
               {this.props.children}
             </div>
-          );}}
+          )
+        }}
       </Transition>
-    );
+    )
   }
 }

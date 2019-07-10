@@ -1,1 +1,1 @@
-export const launcherStyles = '';
+export const launcherStyles = ''

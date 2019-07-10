@@ -1,10 +1,9 @@
-import reducer from '../current-article';
-import * as actionTypes from '../../action-types';
+import reducer from '../current-article'
+import * as actionTypes from '../../action-types'
 
 test('initial state is null', () => {
-  expect(reducer(undefined, { type: '' }))
-    .toBeNull();
-});
+  expect(reducer(undefined, { type: '' })).toBeNull()
+})
 
 test('updates to expected state', () => {
   const state = reducer(undefined, {
@@ -13,8 +12,7 @@ test('updates to expected state', () => {
       sessionID: 'one',
       articleID: 'two'
     }
-  });
+  })
 
-  expect(state)
-    .toMatchSnapshot();
-});
+  expect(state).toMatchSnapshot()
+})

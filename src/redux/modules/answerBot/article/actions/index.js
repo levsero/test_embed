@@ -1,7 +1,4 @@
-import { articleDismissed } from './article-dismissed';
-import { articleViewed } from './article-viewed';
+import { articleDismissed } from './article-dismissed'
+import { articleViewed } from './article-viewed'
 
-export {
-  articleDismissed,
-  articleViewed
-};
+export { articleDismissed, articleViewed }

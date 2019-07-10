@@ -1,13 +1,13 @@
-import { ZOPIM_CONNECTED } from '../zopimChat-action-types';
+import { ZOPIM_CONNECTED } from '../zopimChat-action-types'
 
-const initialState = false;
+const initialState = false
 const connected = (state = initialState, action) => {
   switch (action.type) {
     case ZOPIM_CONNECTED:
-      return true;
+      return true
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default connected;
+export default connected

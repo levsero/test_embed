@@ -7,64 +7,66 @@ import {
   BOT_FEEDBACK_REQUESTED,
   BOT_TYPING,
   BOT_CONTEXTUAL_SEARCH_RESULTS
-} from '../action-types';
-import { getChannelAvailable } from 'src/redux/modules/selectors/selectors';
-import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions/get-in-touch-shown';
-import { i18n } from 'service/i18n';
+} from '../action-types'
+import { getChannelAvailable } from 'src/redux/modules/selectors/selectors'
+import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions/get-in-touch-shown'
+import { i18n } from 'service/i18n'
 
-import {
-  getCurrentSessionID
-} from 'src/redux/modules/answerBot/root/selectors';
+import { getCurrentSessionID } from 'src/redux/modules/answerBot/root/selectors'
 
 const generateBotMessage = (state, message, payloadOptions = {}) => {
-  const sessionID = getCurrentSessionID(state);
+  const sessionID = getCurrentSessionID(state)
   const payload = {
     ...payloadOptions,
     message,
     sessionID,
     timestamp: Date.now()
-  };
+  }
 
   return {
     type: BOT_MESSAGE,
     payload
-  };
-};
+  }
+}
 
-export const botMessage = (message) => {
+export const botMessage = message => {
   return (dispatch, getState) => {
-    dispatch(generateBotMessage(getState(), message));
-  };
-};
+    dispatch(generateBotMessage(getState(), message))
+  }
+}
 
-export const botFallbackMessage = (feedbackRelated = false) => (
-  (dispatch, getState) => {
-    const state = getState();
-    const channelAvailable = getChannelAvailable(state);
-    const options = feedbackRelated ? { feedbackRelated } : {};
+export const botFallbackMessage = (feedbackRelated = false) => (dispatch, getState) => {
+  const state = getState()
+  const channelAvailable = getChannelAvailable(state)
+  const options = feedbackRelated ? { feedbackRelated } : {}
 
-    if (channelAvailable) {
-      dispatch(generateBotMessage(
+  if (channelAvailable) {
+    dispatch(
+      generateBotMessage(
         state,
         i18n.t('embeddable_framework.answerBot.msg.prompt_again_no_channels_available'),
         options
-      ));
-      dispatch(generateBotMessage(
+      )
+    )
+    dispatch(
+      generateBotMessage(
         state,
         i18n.t('embeddable_framework.answerBot.msg.initial_fallback'),
         options
-      ));
-    } else {
-      dispatch(generateBotMessage(
+      )
+    )
+  } else {
+    dispatch(
+      generateBotMessage(
         state,
         i18n.t('embeddable_framework.answerBot.msg.prompt_again_after_yes'),
         options
-      ));
-    }
-
-    dispatch(getInTouchShown());
+      )
+    )
   }
-);
+
+  dispatch(getInTouchShown())
+}
 
 export const botChannelChoice = (message, fallback = false) => {
   return {
@@ -74,8 +76,8 @@ export const botChannelChoice = (message, fallback = false) => {
       message,
       fallback
     }
-  };
-};
+  }
+}
 
 export const botFeedback = (feedbackType = 'primary') => {
   return {
@@ -84,30 +86,30 @@ export const botFeedback = (feedbackType = 'primary') => {
       feedbackType,
       timestamp: Date.now()
     }
-  };
-};
+  }
+}
 
 export const botFeedbackRequested = () => {
   return {
     type: BOT_FEEDBACK_REQUESTED
-  };
-};
+  }
+}
 
 export const botGreeted = () => {
   return {
     type: BOT_GREETED,
     payload: true
-  };
-};
+  }
+}
 
 export const botInitialFallback = () => {
   return {
     type: BOT_INITIAL_FALLBACK,
     payload: true
-  };
-};
+  }
+}
 
-export const botUserMessage = (message) => {
+export const botUserMessage = message => {
   return {
     type: BOT_MESSAGE,
     payload: {
@@ -116,19 +118,19 @@ export const botUserMessage = (message) => {
       isVisitor: true,
       message
     }
-  };
-};
+  }
+}
 
-export const botFeedbackMessage = (message) => {
+export const botFeedbackMessage = message => {
   return {
     type: BOT_MESSAGE,
     payload: {
       timestamp: Date.now(),
       feedbackRelated: true,
-      message,
+      message
     }
-  };
-};
+  }
+}
 
 export const botTyping = () => {
   return {
@@ -136,8 +138,8 @@ export const botTyping = () => {
     payload: {
       timestamp: Date.now()
     }
-  };
-};
+  }
+}
 
 export const botContextualSearchResults = () => {
   return {
@@ -145,5 +147,5 @@ export const botContextualSearchResults = () => {
     payload: {
       timestamp: Date.now()
     }
-  };
-};
+  }
+}

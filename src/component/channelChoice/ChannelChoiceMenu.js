@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
-import { i18n } from 'service/i18n';
-import { ButtonIcon } from 'component/button/ButtonIcon';
-import { locals as styles } from './ChannelChoiceMenu.scss';
+import { i18n } from 'service/i18n'
+import { ButtonIcon } from 'component/button/ButtonIcon'
+import { locals as styles } from './ChannelChoiceMenu.scss'
 import {
   getContactOptionsChatLabelOnline,
   getContactOptionsChatLabelOffline,
   getContactOptionsContactFormLabel
-} from 'src/redux/modules/selectors';
+} from 'src/redux/modules/selectors'
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
   chatOfflineLabel: getContactOptionsChatLabelOffline(state),
   chatOfflineAvailableLabel: getContactOptionsContactFormLabel(state),
   submitTicketLabel: getContactOptionsContactFormLabel(state)
-});
+})
 
 class ChannelChoiceMenu extends Component {
   static propTypes = {
@@ -34,7 +34,7 @@ class ChannelChoiceMenu extends Component {
     chatOfflineLabel: PropTypes.string.isRequired,
     chatOfflineAvailableLabel: PropTypes.string.isRequired,
     submitTicketLabel: PropTypes.string.isRequired
-  };
+  }
 
   static defaultProps = {
     buttonClasses: '',
@@ -43,71 +43,69 @@ class ChannelChoiceMenu extends Component {
     submitTicketAvailable: true,
     chatAvailable: false,
     chatOfflineAvailable: false
-  };
+  }
 
   state = {
     chatWasOnline: false,
     talkWasOnline: false
-  };
+  }
 
   static getDerivedStateFromProps(props, state) {
-    let newState = {};
+    let newState = {}
 
     if ((props.chatAvailable || props.chatOfflineAvailable) && !state.chatWasOnline) {
-      newState.chatWasOnline = true;
+      newState.chatWasOnline = true
     }
     if (props.talkOnline && !state.talkWasOnline) {
-      newState.talkWasOnline = true;
+      newState.talkWasOnline = true
     }
 
-    return _.isEmpty(newState) ? null : newState;
+    return _.isEmpty(newState) ? null : newState
   }
 
   handleChatClick = () => {
     return this.props.chatAvailable || this.props.chatOfflineAvailable
       ? this.handleNextClick('chat')
-      : (e) => e.stopPropagation(); // prevent container from hiding channelChoice
+      : e => e.stopPropagation() // prevent container from hiding channelChoice
   }
 
-  handleNextClick = (embed) => {
-    return () => this.props.onNextClick(embed);
+  handleNextClick = embed => {
+    return () => this.props.onNextClick(embed)
   }
 
   getIconFlipX = () => {
     // Needs to flip icons for RTL languages: https://zendesk.atlassian.net/browse/CE-4045
-    return i18n.isRTL();
+    return i18n.isRTL()
   }
 
   renderTalkLabel = () => {
-    const { callbackEnabled, talkOnline } = this.props;
-    const optionLabel = (callbackEnabled)
+    const { callbackEnabled, talkOnline } = this.props
+    const optionLabel = callbackEnabled
       ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
-      : i18n.t('embeddable_framework.channelChoice.button.label.call_us');
+      : i18n.t('embeddable_framework.channelChoice.button.label.call_us')
     const offlineLabel = (
       <span className={styles.offlineOptionContainer}>
         <div className={styles.offlineLabelOption}>{optionLabel}</div>
         <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
       </span>
-    );
+    )
 
-    return (talkOnline)
-      ? optionLabel
-      : offlineLabel;
+    return talkOnline ? optionLabel : offlineLabel
   }
 
   renderTalkButton = () => {
-    const { talkOnline, buttonClasses } = this.props;
+    const { talkOnline, buttonClasses } = this.props
 
-    if (!this.state.talkWasOnline && !talkOnline) return null;
+    if (!this.state.talkWasOnline && !talkOnline) return null
 
     const iconStyle = classNames(styles.iconTalk, {
       [styles.newIcon]: talkOnline,
       [styles.newIconDisabled]: !talkOnline
-    });
+    })
     const buttonStyle = classNames(buttonClasses, styles.btn, {
       [styles.btnEnabled]: talkOnline,
       [styles.talkBtnDisabled]: !talkOnline
-    });
+    })
 
     return (
       <li className={styles.listItem}>
@@ -119,24 +117,18 @@ class ChannelChoiceMenu extends Component {
           iconClasses={iconStyle}
           label={this.renderTalkLabel()}
           flipX={this.getIconFlipX()}
-          icon={'Icon--channelChoice-talk'} />
+          icon={'Icon--channelChoice-talk'}
+        />
       </li>
-    );
+    )
   }
 
   renderSubmitTicketButton = () => {
-    if (!this.props.submitTicketAvailable) return null;
+    if (!this.props.submitTicketAvailable) return null
 
-    const { buttonClasses, submitTicketLabel } = this.props;
-    const iconStyle = classNames(
-      styles.newIcon,
-      styles.iconSubmitTicket
-    );
-    const buttonStyle = classNames(
-      buttonClasses,
-      styles.btn,
-      styles.btnEnabled
-    );
+    const { buttonClasses, submitTicketLabel } = this.props
+    const iconStyle = classNames(styles.newIcon, styles.iconSubmitTicket)
+    const buttonStyle = classNames(buttonClasses, styles.btn, styles.btnEnabled)
 
     return (
       <li className={styles.listItem}>
@@ -147,45 +139,49 @@ class ChannelChoiceMenu extends Component {
           onClick={this.handleNextClick('ticketSubmissionForm')}
           label={submitTicketLabel}
           flipX={this.getIconFlipX()}
-          icon={'Icon--channelChoice-contactForm'} />
+          icon={'Icon--channelChoice-contactForm'}
+        />
       </li>
-    );
+    )
   }
 
   renderChatLabel = () => {
     const {
-      chatAvailable, chatOfflineAvailable, chatOnlineAvailableLabel,
-      chatOfflineLabel, chatOfflineAvailableLabel
-    } = this.props;
+      chatAvailable,
+      chatOfflineAvailable,
+      chatOnlineAvailableLabel,
+      chatOfflineLabel,
+      chatOfflineAvailableLabel
+    } = this.props
     const offlineLabel = (
       <span className={styles.offlineOptionContainer}>
         <div className={styles.offlineLabelOption}>{chatOfflineLabel}</div>
         <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
       </span>
-    );
+    )
 
     if (chatOfflineAvailable) {
-      return chatOfflineAvailableLabel;
+      return chatOfflineAvailableLabel
     } else if (chatAvailable) {
-      return chatOnlineAvailableLabel;
+      return chatOnlineAvailableLabel
     }
-    return offlineLabel;
+    return offlineLabel
   }
 
   renderChatButton = () => {
-    const { chatAvailable, chatOfflineAvailable, buttonClasses, labelClasses } = this.props;
-    const showChatChannel = chatAvailable || chatOfflineAvailable;
+    const { chatAvailable, chatOfflineAvailable, buttonClasses, labelClasses } = this.props
+    const showChatChannel = chatAvailable || chatOfflineAvailable
 
-    if (!this.state.chatWasOnline && !showChatChannel) return null;
+    if (!this.state.chatWasOnline && !showChatChannel) return null
 
     const iconStyle = classNames(styles.iconChat, {
       [styles.newIcon]: showChatChannel,
       [styles.newIconDisabled]: !showChatChannel
-    });
+    })
     const buttonStyle = classNames(buttonClasses, styles.btn, {
       [styles.btnEnabled]: showChatChannel,
       [styles.chatBtnDisabled]: !showChatChannel
-    });
+    })
 
     return (
       <li className={styles.listItem}>
@@ -197,9 +193,10 @@ class ChannelChoiceMenu extends Component {
           onClick={this.handleChatClick()}
           label={this.renderChatLabel()}
           flipX={this.getIconFlipX()}
-          icon={'Icon--channelChoice-chat'} />
+          icon={'Icon--channelChoice-chat'}
+        />
       </li>
-    );
+    )
   }
 
   render = () => {
@@ -209,13 +206,15 @@ class ChannelChoiceMenu extends Component {
         {this.renderChatButton()}
         {this.renderSubmitTicketButton()}
       </ul>
-    );
+    )
   }
 }
 
-const connectedComponent = connect(mapStateToProps, null, null, { withRef: true })(ChannelChoiceMenu);
+const connectedComponent = connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(ChannelChoiceMenu)
 
-export {
-  connectedComponent as default,
-  ChannelChoiceMenu as Component
-};
+export { connectedComponent as default, ChannelChoiceMenu as Component }

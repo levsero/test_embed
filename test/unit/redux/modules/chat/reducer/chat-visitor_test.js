@@ -1,37 +1,34 @@
 describe('chat reducer visitor', () => {
-  let reducer,
-    actionTypes,
-    initialState;
+  let reducer, actionTypes, initialState
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-visitor');
-    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-visitor')
+    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
-    reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
+    reducer = requireUncached(reducerPath).default
+    actionTypes = requireUncached(actionTypesPath)
 
-    initialState = reducer(undefined, { type: '' });
-  });
+    initialState = reducer(undefined, { type: '' })
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('reducer', () => {
-    let state;
+    let state
 
     describe('initial state', () => {
       it('is set to an empty object', () => {
-        expect(initialState)
-          .toEqual({});
-      });
-    });
+        expect(initialState).toEqual({})
+      })
+    })
 
     describe('when a SDK_CHAT_MEMBER_JOIN action is dispatched', () => {
-      let payload;
+      let payload
 
       describe('when the member is a visitor', () => {
         beforeEach(() => {
@@ -39,19 +36,18 @@ describe('chat reducer visitor', () => {
             detail: {
               nick: 'visitor:xxx'
             }
-          };
+          }
 
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
             payload: payload
-          });
-        });
+          })
+        })
 
         it('updates state.nick', () => {
-          expect(state.nick)
-            .toEqual(payload.detail.nick);
-        });
-      });
+          expect(state.nick).toEqual(payload.detail.nick)
+        })
+      })
 
       describe('when the member is an agent', () => {
         beforeEach(() => {
@@ -59,23 +55,22 @@ describe('chat reducer visitor', () => {
             detail: {
               nick: 'agent:xxx'
             }
-          };
+          }
 
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
             payload: payload
-          });
-        });
+          })
+        })
 
         it('does not change the state', () => {
-          expect(state)
-            .toEqual(initialState);
-        });
-      });
-    });
+          expect(state).toEqual(initialState)
+        })
+      })
+    })
 
     describe('when a SDK_VISITOR_UPDATE action is dispatched', () => {
-      let payload;
+      let payload
 
       beforeEach(() => {
         payload = {
@@ -84,44 +79,41 @@ describe('chat reducer visitor', () => {
             email: 'bob@example.com',
             phone: '0400123456'
           }
-        };
+        }
 
         state = reducer(initialState, {
           type: actionTypes.SDK_VISITOR_UPDATE,
           payload: payload
-        });
-      });
+        })
+      })
 
       it('updates state with data from payload.detail', () => {
-        expect(state)
-          .toEqual(jasmine.objectContaining(payload.detail));
-      });
+        expect(state).toEqual(jasmine.objectContaining(payload.detail))
+      })
 
       it('defaults nick to visitor', () => {
-        expect(state)
-          .toEqual(jasmine.objectContaining({ nick: 'visitor' }));
-      });
-    });
+        expect(state).toEqual(jasmine.objectContaining({ nick: 'visitor' }))
+      })
+    })
 
     describe('when a SET_VISITOR_INFO_REQUEST_SUCCESS action is dispatched', () => {
-      let payload;
+      let payload
 
       beforeEach(() => {
         payload = {
           display_name: 'Tay Tay',
           email: 'tt@example.com'
-        };
+        }
 
         state = reducer(initialState, {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
           payload: payload
-        });
-      });
+        })
+      })
 
       it('updates state with data from payload', () => {
-        expect(state)
-          .toEqual(jasmine.objectContaining(payload));
-      });
-    });
-  });
-});
+        expect(state).toEqual(jasmine.objectContaining(payload))
+      })
+    })
+  })
+})

@@ -1,25 +1,24 @@
-import reducer from '../chat-profile-card';
-import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types';
+import reducer from '../chat-profile-card'
+import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
 
 const initialState = () => {
-  return reducer(undefined, { type: '' });
-};
+  return reducer(undefined, { type: '' })
+}
 
-const reduce = (payload) => {
+const reduce = payload => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
     payload: payload
-  });
-};
+  })
+}
 
 test('initial state', () => {
-  expect(initialState())
-    .toEqual({
-      avatar: true,
-      title: true,
-      rating: true
-    });
-});
+  expect(initialState()).toEqual({
+    avatar: true,
+    title: true,
+    rating: true
+  })
+})
 
 describe('when UPDATE_SETTINGS is dispatched', () => {
   it('updates the settings', () => {
@@ -33,15 +32,14 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           }
         }
       }
-    };
+    }
 
-    expect(reduce(payload))
-      .toEqual({
-        avatar: false,
-        title: true,
-        rating: false
-      });
-  });
+    expect(reduce(payload)).toEqual({
+      avatar: false,
+      title: true,
+      rating: false
+    })
+  })
 
   it('keeps the defaults if payload does not include setting', () => {
     const payload = {
@@ -52,13 +50,12 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           }
         }
       }
-    };
+    }
 
-    expect(reduce(payload))
-      .toEqual({
-        avatar: false,
-        title: true,
-        rating: true
-      });
-  });
-});
+    expect(reduce(payload)).toEqual({
+      avatar: false,
+      title: true,
+      rating: true
+    })
+  })
+})

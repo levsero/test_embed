@@ -1,12 +1,12 @@
-import formState from '../talk-form-state';
-import * as actionTypes from 'src/redux/modules/talk/talk-action-types';
-import { API_CLEAR_FORM } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import formState from '../talk-form-state'
+import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
+import { API_CLEAR_FORM } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   name: '',
   phone: ''
-};
+}
 
 testReducer(formState, [
   {
@@ -35,4 +35,4 @@ testReducer(formState, [
     initialState: { name: 'fasdfas', phone: '+412341234' },
     expected: initialState
   }
-]);
+])

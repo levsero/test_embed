@@ -1,16 +1,16 @@
 describe('UserProfile component', () => {
-  let UserProfile;
-  const UserProfilePath = buildSrcPath('component/chat/UserProfile');
-  const chatConstantsPath = buildSrcPath('constants/chat');
-  const Icon = noopReactComponent();
-  const LoadingSpinner = noopReactComponent();
-  const Avatar = noopReactComponent();
+  let UserProfile
+  const UserProfilePath = buildSrcPath('component/chat/UserProfile')
+  const chatConstantsPath = buildSrcPath('constants/chat')
+  const Icon = noopReactComponent()
+  const LoadingSpinner = noopReactComponent()
+  const Avatar = noopReactComponent()
 
-  let chatConstants = requireUncached(chatConstantsPath);
-  let CHAT_SOCIAL_LOGIN_SCREENS = chatConstants.CHAT_SOCIAL_LOGIN_SCREENS;
+  let chatConstants = requireUncached(chatConstantsPath)
+  let CHAT_SOCIAL_LOGIN_SCREENS = chatConstants.CHAT_SOCIAL_LOGIN_SCREENS
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './UserProfile.scss': {
@@ -30,29 +30,28 @@ describe('UserProfile component', () => {
           t: _.identity
         }
       }
-    });
+    })
 
-    mockery.registerAllowable(UserProfilePath);
-    UserProfile = requireUncached(UserProfilePath).UserProfile;
-  });
+    mockery.registerAllowable(UserProfilePath)
+    UserProfile = requireUncached(UserProfilePath).UserProfile
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('render', () => {
-    let component,
-      componentArgs;
+    let component, componentArgs
 
     beforeEach(() => {
-      component = instanceRender(<UserProfile {...componentArgs} />);
+      component = instanceRender(<UserProfile {...componentArgs} />)
 
-      spyOn(component, 'renderAuthedProfileField');
-      spyOn(component, 'renderDefaultProfileFields');
+      spyOn(component, 'renderAuthedProfileField')
+      spyOn(component, 'renderDefaultProfileFields')
 
-      component.render();
-    });
+      component.render()
+    })
 
     describe('when social login is authenticated', () => {
       beforeAll(() => {
@@ -60,17 +59,15 @@ describe('UserProfile component', () => {
           socialLogin: {
             authenticated: true
           }
-        };
-      });
+        }
+      })
 
       it('calls renderAuthedProfileField', () => {
-        expect(component.renderAuthedProfileField)
-          .toHaveBeenCalled();
+        expect(component.renderAuthedProfileField).toHaveBeenCalled()
 
-        expect(component.renderDefaultProfileFields)
-          .not.toHaveBeenCalled();
-      });
-    });
+        expect(component.renderDefaultProfileFields).not.toHaveBeenCalled()
+      })
+    })
 
     describe('when social login is not authenticated', () => {
       beforeAll(() => {
@@ -78,169 +75,155 @@ describe('UserProfile component', () => {
           socialLogin: {
             authenticated: false
           }
-        };
-      });
+        }
+      })
 
       it('calls renderDefaultProfileFields', () => {
-        expect(component.renderDefaultProfileFields)
-          .toHaveBeenCalled();
+        expect(component.renderDefaultProfileFields).toHaveBeenCalled()
 
-        expect(component.renderAuthedProfileField)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
+        expect(component.renderAuthedProfileField).not.toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('renderSocialLoginField', () => {
-    let result,
-      component,
-      componentArgs;
+    let result, component, componentArgs
 
     beforeEach(() => {
-      component = instanceRender(<UserProfile {...componentArgs} />);
+      component = instanceRender(<UserProfile {...componentArgs} />)
 
-      spyOn(component, 'renderSocialLoginOptions');
+      spyOn(component, 'renderSocialLoginOptions')
 
-      result = component.renderSocialLoginField();
-    });
+      result = component.renderSocialLoginField()
+    })
 
     describe('when there is at least one social login available', () => {
       beforeAll(() => {
         componentArgs = {
           socialLogin: { authenticated: true },
-          authUrls: [{ Goggle: 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY' }]
-        };
-      });
+          authUrls: [
+            {
+              Goggle:
+                'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
+            }
+          ]
+        }
+      })
 
       it('renders a component', () => {
-        expect(result)
-          .not.toBeNull();
-      });
+        expect(result).not.toBeNull()
+      })
 
       it('calls renderSocialLoginOptions with expected args', () => {
-        expect(component.renderSocialLoginOptions)
-          .toHaveBeenCalledWith(componentArgs.authUrls);
-      });
+        expect(component.renderSocialLoginOptions).toHaveBeenCalledWith(componentArgs.authUrls)
+      })
 
       it('renders the social login label', () => {
-        expect(result.props.children[0])
-          .toEqual('embeddable_framework.chat.form.common.field.social_login.label');
-      });
-    });
+        expect(result.props.children[0]).toEqual(
+          'embeddable_framework.chat.form.common.field.social_login.label'
+        )
+      })
+    })
 
     describe('when there are no social logins available', () => {
       beforeAll(() => {
         componentArgs = {
           authUrls: []
-        };
-      });
+        }
+      })
 
       it('returns null', () => {
-        expect(result)
-          .toBeNull();
-      });
+        expect(result).toBeNull()
+      })
 
       it('does not call renderSocialLoginOptions', () => {
-        expect(component.renderSocialLoginOptions)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
+        expect(component.renderSocialLoginOptions).not.toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('renderSocialLoginOptions', () => {
-    let result;
+    let result
     const authUrls = {
       google: 'https://www.zopim.com/auth/Google/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY',
-      facebook: 'https://www.zopim.com/auth/Facebook/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
-    };
+      facebook:
+        'https://www.zopim.com/auth/Facebook/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
+    }
 
     beforeEach(() => {
-      const component = instanceRender(<UserProfile />);
+      const component = instanceRender(<UserProfile />)
 
-      result = component.renderSocialLoginOptions(authUrls);
-    });
+      result = component.renderSocialLoginOptions(authUrls)
+    })
 
     it('has at least one element in the array', () => {
-      expect(_.size(authUrls))
-        .toBeGreaterThan(0);
-    });
+      expect(_.size(authUrls)).toBeGreaterThan(0)
+    })
 
     it('has an anchor element with expected attrs related to Google', () => {
-      const element = result[0];
-      const icon = element.props.children;
+      const element = result[0]
+      const icon = element.props.children
 
-      expect(element.type)
-        .toEqual('a');
+      expect(element.type).toEqual('a')
 
-      expect(element.props.href)
-        .toEqual(authUrls.google);
+      expect(element.props.href).toEqual(authUrls.google)
 
-      expect(icon.props.type)
-        .toEqual('Icon--google');
-    });
+      expect(icon.props.type).toEqual('Icon--google')
+    })
 
     it('has an anchor element with expected attrs related to Facebook', () => {
-      const element = result[1];
-      const icon = element.props.children;
+      const element = result[1]
+      const icon = element.props.children
 
-      expect(element.type)
-        .toEqual('a');
+      expect(element.type).toEqual('a')
 
-      expect(element.props.href)
-        .toEqual(authUrls.facebook);
+      expect(element.props.href).toEqual(authUrls.facebook)
 
-      expect(icon.props.type)
-        .toEqual('Icon--facebook');
-    });
-  });
+      expect(icon.props.type).toEqual('Icon--facebook')
+    })
+  })
 
   describe('renderDefaultProfileFields', () => {
-    let result,
-      component,
-      componentArgs;
+    let result, component, componentArgs
 
     beforeEach(() => {
       componentArgs = {
         nameField: noopReactComponent(),
         emailField: noopReactComponent()
-      };
+      }
 
-      component = instanceRender(<UserProfile {...componentArgs} />);
+      component = instanceRender(<UserProfile {...componentArgs} />)
 
-      spyOn(component, 'renderSocialLoginField');
+      spyOn(component, 'renderSocialLoginField')
 
-      result = component.renderDefaultProfileFields();
-    });
+      result = component.renderDefaultProfileFields()
+    })
 
     it('calls renderSocialLoginField', () => {
-      expect(component.renderSocialLoginField)
-        .toHaveBeenCalled();
-    });
+      expect(component.renderSocialLoginField).toHaveBeenCalled()
+    })
 
     it('renders props.nameField', () => {
-      const element = result.props.children[0];
+      const element = result.props.children[0]
 
-      expect(element)
-        .toEqual(componentArgs.nameField);
-    });
+      expect(element).toEqual(componentArgs.nameField)
+    })
 
     it('renders props.emailField', () => {
-      const element = result.props.children[2];
+      const element = result.props.children[2]
 
-      expect(element)
-        .toEqual(componentArgs.emailField);
-    });
-  });
+      expect(element).toEqual(componentArgs.emailField)
+    })
+  })
 
   describe('renderAuthedProfileField', () => {
-    let result,
-      componentArgs;
+    let result, componentArgs
 
     beforeEach(() => {
-      const component = instanceRender(<UserProfile {...componentArgs} />);
+      const component = instanceRender(<UserProfile {...componentArgs} />)
 
-      result = component.renderAuthedProfileField();
-    });
+      result = component.renderAuthedProfileField()
+    })
 
     describe('when authenitcated via social auth', () => {
       describe('when the screen is pending logout', () => {
@@ -250,25 +233,23 @@ describe('UserProfile component', () => {
               authenticated: true,
               screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING
             }
-          };
-        });
+          }
+        })
 
         it('renders a LoadingSpinner', () => {
-          const authContainer = result.props.children[1];
-          const targetElement = authContainer.props.children[2];
+          const authContainer = result.props.children[1]
+          const targetElement = authContainer.props.children[2]
 
-          expect(TestUtils.isElementOfType(targetElement, LoadingSpinner))
-            .toEqual(true);
-        });
+          expect(TestUtils.isElementOfType(targetElement, LoadingSpinner)).toEqual(true)
+        })
 
         it('has a profile with authProfileFieldContainer classes', () => {
-          const authContainer = result.props.children[1];
-          const targetElement = authContainer.props.children[1];
+          const authContainer = result.props.children[1]
+          const targetElement = authContainer.props.children[1]
 
-          expect(targetElement.props.className)
-            .toEqual('authProfileFieldContainerClasses');
-        });
-      });
+          expect(targetElement.props.className).toEqual('authProfileFieldContainerClasses')
+        })
+      })
 
       describe('when the screen is not pending logout', () => {
         beforeAll(() => {
@@ -277,57 +258,50 @@ describe('UserProfile component', () => {
               authenticated: true,
               screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_SUCCESS
             }
-          };
-        });
+          }
+        })
 
         it('renders an Icon', () => {
-          const authContainer = result.props.children[1];
-          const targetElement = authContainer.props.children[2];
+          const authContainer = result.props.children[1]
+          const targetElement = authContainer.props.children[2]
 
-          expect(TestUtils.isElementOfType(targetElement, Icon))
-            .toEqual(true);
-        });
+          expect(TestUtils.isElementOfType(targetElement, Icon)).toEqual(true)
+        })
 
         it('renders a child for the avatar, details and logout button', () => {
-          const authContainer = result.props.children[1];
+          const authContainer = result.props.children[1]
 
-          expect(authContainer.props.children.length > 0)
-            .toBe(true);
+          expect(authContainer.props.children.length > 0).toBe(true)
 
-          _.forEach(authContainer.props.children, (child) => {
-            expect(child)
-              .toBeTruthy();
-          });
-        });
-      });
-    });
+          _.forEach(authContainer.props.children, child => {
+            expect(child).toBeTruthy()
+          })
+        })
+      })
+    })
 
     describe('when authenticated via jwt token', () => {
       beforeAll(() => {
         componentArgs = {
           socialLogin: {},
           isAuthenticated: true
-        };
-      });
+        }
+      })
 
       it('only renders a child for the details', () => {
-        const authContainer = result.props.children[1];
+        const authContainer = result.props.children[1]
 
-        expect(authContainer.props.children[0])
-          .toBeFalsy();
-        expect(authContainer.props.children[1])
-          .toBeTruthy();
-        expect(authContainer.props.children[2])
-          .toBeFalsy();
-      });
+        expect(authContainer.props.children[0]).toBeFalsy()
+        expect(authContainer.props.children[1]).toBeTruthy()
+        expect(authContainer.props.children[2]).toBeFalsy()
+      })
 
       it('has a profile with historyAuthProfileFieldContainer classes', () => {
-        const authContainer = result.props.children[1];
-        const targetElement = authContainer.props.children[1];
+        const authContainer = result.props.children[1]
+        const targetElement = authContainer.props.children[1]
 
-        expect(targetElement.props.className)
-          .toEqual('historyAuthProfileFieldContainerClasses');
-      });
-    });
-  });
-});
+        expect(targetElement.props.className).toEqual('historyAuthProfileFieldContainerClasses')
+      })
+    })
+  })
+})

@@ -1,45 +1,43 @@
 describe('settings reducer', () => {
-  let reducer;
+  let reducer
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       'service/settings': {
-        settings : {
+        settings: {
           get: noop
         }
       },
       'src/redux/modules/settings/settings-action-types': {
         UPDATE_SETTINGS: 'UPDATE_SETTINGS'
       }
-    });
+    })
 
-    const reducerPath = buildSrcPath('redux/modules/settings/reducer/index');
+    const reducerPath = buildSrcPath('redux/modules/settings/reducer/index')
 
-    reducer = requireUncached(reducerPath).default;
-  });
+    reducer = requireUncached(reducerPath).default
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('initial state', () => {
-    let state;
+    let state
 
     beforeEach(() => {
-      state = reducer({}, { type: '' });
-    });
+      state = reducer({}, { type: '' })
+    })
 
     it('has the chat sub state', () => {
-      expect(state.chat)
-        .toBeDefined();
-    });
+      expect(state.chat).toBeDefined()
+    })
 
     it('has the launcher sub state', () => {
-      expect(state.launcher)
-        .toBeDefined();
-    });
-  });
-});
+      expect(state.launcher).toBeDefined()
+    })
+  })
+})

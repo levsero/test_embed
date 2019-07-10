@@ -1,32 +1,31 @@
 describe('EventMessage component', () => {
-  let EventMessage,
-    i18n;
+  let EventMessage, i18n
 
-  const EventMessagePath = buildSrcPath('component/chat/chatting/log/events/EventMessage');
-  const chatConstantsPath = buildSrcPath('constants/chat');
+  const EventMessagePath = buildSrcPath('component/chat/chatting/log/events/EventMessage')
+  const chatConstantsPath = buildSrcPath('constants/chat')
   const mockStringValues = {
     'embeddable_framework.chat.chatLog.chatStarted': 'Chat started',
     'embeddable_framework.chat.chatLog.rating.good': 'Good',
     'embeddable_framework.chat.chatLog.rating.bad': 'Bad',
     'embeddable_framework.chat.chatLog.button.leaveComment': 'Leave a comment',
     'embeddable_framework.chat.chatLog.button.rateChat': 'Rate this chat'
-  };
+  }
 
-  let chatConstants = requireUncached(chatConstantsPath);
-  let DISCONNECTION_REASONS = chatConstants.DISCONNECTION_REASONS;
+  let chatConstants = requireUncached(chatConstantsPath)
+  let DISCONNECTION_REASONS = chatConstants.DISCONNECTION_REASONS
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     i18n = {
       t: jasmine.createSpy()
-    };
+    }
 
     initMockRegistry({
       './EventMessage.scss': {
         locals: {
-          'eventMessage': 'eventMessageClass',
-          'fadeIn': 'fadeInClass'
+          eventMessage: 'eventMessageClass',
+          fadeIn: 'fadeInClass'
         }
       },
       'constants/chat': {
@@ -38,16 +37,16 @@ describe('EventMessage component', () => {
       'service/i18n': {
         i18n
       }
-    });
+    })
 
-    mockery.registerAllowable(EventMessagePath);
-    EventMessage = requireUncached(EventMessagePath).default;
-  });
+    mockery.registerAllowable(EventMessagePath)
+    EventMessage = requireUncached(EventMessagePath).default
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('#renderEventMessage', () => {
     const testCases = [
@@ -58,7 +57,11 @@ describe('EventMessage component', () => {
       },
       {
         description: 'member joined event from an agent',
-        event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberjoin' },
+        event: {
+          nick: 'agent:123',
+          display_name: 'Agent 123',
+          type: 'chat.memberjoin'
+        },
         expectedString: 'embeddable_framework.chat.chatLog.agentJoined',
         expectedArgs: { agent: 'Agent 123' }
       },
@@ -69,19 +72,34 @@ describe('EventMessage component', () => {
       },
       {
         description: 'member left event from an agent',
-        event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberleave' },
+        event: {
+          nick: 'agent:123',
+          display_name: 'Agent 123',
+          type: 'chat.memberleave'
+        },
         expectedString: 'embeddable_framework.chat.chatLog.agentLeft',
         expectedArgs: { agent: 'Agent 123' }
       },
       {
         description: 'member left event from an agent with reason considered to be disconnection',
-        event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberleave', reason: 'disconnect_user' },
+        event: {
+          nick: 'agent:123',
+          display_name: 'Agent 123',
+          type: 'chat.memberleave',
+          reason: 'disconnect_user'
+        },
         expectedString: 'embeddable_framework.chat.chatLog.agentDisconnected',
         expectedArgs: { agent: 'Agent 123' }
       },
       {
-        description: 'member left event from an agent with reason not considered to be disconnection',
-        event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberleave', reason: 'arbitrary_unknown_reason' },
+        description:
+          'member left event from an agent with reason not considered to be disconnection',
+        event: {
+          nick: 'agent:123',
+          display_name: 'Agent 123',
+          type: 'chat.memberleave',
+          reason: 'arbitrary_unknown_reason'
+        },
         expectedString: 'embeddable_framework.chat.chatLog.agentLeft',
         expectedArgs: { agent: 'Agent 123' }
       },
@@ -100,26 +118,23 @@ describe('EventMessage component', () => {
         event: { type: 'chat.contact_details.updated' },
         expectedString: 'embeddable_framework.chat.contact_details.updated'
       }
-    ];
+    ]
 
-    testCases.forEach((testCase) => {
+    testCases.forEach(testCase => {
       describe(`when passed a ${testCase.description}`, () => {
         beforeEach(() => {
-          domRender(<EventMessage event={testCase.event} />);
-        });
+          domRender(<EventMessage event={testCase.event} />)
+        })
 
         it('returns the appropriate string', () => {
           if (testCase.expectedArgs) {
-            expect(i18n.t).toHaveBeenCalledWith(
-              testCase.expectedString,
-              testCase.expectedArgs
-            );
+            expect(i18n.t).toHaveBeenCalledWith(testCase.expectedString, testCase.expectedArgs)
           } else {
-            expect(i18n.t).toHaveBeenCalledWith(testCase.expectedString);
+            expect(i18n.t).toHaveBeenCalledWith(testCase.expectedString)
           }
-        });
-      });
-    });
+        })
+      })
+    })
 
     const ratingTestCases = [
       {
@@ -134,98 +149,94 @@ describe('EventMessage component', () => {
         expectedString: 'embeddable_framework.chat.chatLog.rating.description',
         expectedArgs: { value: 'Bad' }
       }
-    ];
+    ]
 
-    ratingTestCases.forEach((testCase) => {
+    ratingTestCases.forEach(testCase => {
       describe(`when passed a ${testCase.description}`, () => {
         beforeEach(() => {
-          i18n.t.and.callFake((key) => {
-            return mockStringValues[key];
-          });
+          i18n.t.and.callFake(key => {
+            return mockStringValues[key]
+          })
 
-          domRender(<EventMessage event={testCase.event} />);
-        });
+          domRender(<EventMessage event={testCase.event} />)
+        })
 
         it('returns the appropriate string', () => {
           if (testCase.expectedArgs) {
-            expect(i18n.t).toHaveBeenCalledWith(
-              testCase.expectedString,
-              testCase.expectedArgs
-            );
+            expect(i18n.t).toHaveBeenCalledWith(testCase.expectedString, testCase.expectedArgs)
           } else {
-            expect(i18n.t).toHaveBeenCalledWith(testCase.expectedString);
+            expect(i18n.t).toHaveBeenCalledWith(testCase.expectedString)
           }
-        });
-      });
-    });
-  });
+        })
+      })
+    })
+  })
 
   describe('#render', () => {
-    let componentNode;
-    const event = { nick: 'visitor', type: 'chat.memberjoin', timestamp: 123456789 };
+    let componentNode
+    const event = {
+      nick: 'visitor',
+      type: 'chat.memberjoin',
+      timestamp: 123456789
+    }
 
     beforeEach(() => {
-      i18n.t.and.callFake((key) => {
-        return mockStringValues[key];
-      });
+      i18n.t.and.callFake(key => {
+        return mockStringValues[key]
+      })
 
-      const component = domRender(<EventMessage event={event} />);
+      const component = domRender(<EventMessage event={event} />)
 
-      componentNode = ReactDOM.findDOMNode(component);
-    });
+      componentNode = ReactDOM.findDOMNode(component)
+    })
 
     it('wraps the translated event message in a container with styles', () => {
-      expect(componentNode.textContent)
-        .toEqual(mockStringValues['embeddable_framework.chat.chatLog.chatStarted']);
-    });
+      expect(componentNode.textContent).toEqual(
+        mockStringValues['embeddable_framework.chat.chatLog.chatStarted']
+      )
+    })
 
     describe('when rendering a new event', () => {
       beforeEach(() => {
         const component = domRender(
           <EventMessage event={event} chatLogCreatedAt={event.timestamp - 1} />
-        );
+        )
 
-        componentNode = ReactDOM.findDOMNode(component);
-      });
+        componentNode = ReactDOM.findDOMNode(component)
+      })
 
       it('renders container with correct classnames', () => {
-        expect(componentNode.className)
-          .toEqual('eventMessageClass fadeInClass');
-      });
-    });
+        expect(componentNode.className).toEqual('eventMessageClass fadeInClass')
+      })
+    })
 
     describe('when rendering an old event', () => {
       beforeEach(() => {
         const component = domRender(
           <EventMessage event={event} chatLogCreatedAt={event.timestamp + 1} />
-        );
+        )
 
-        componentNode = ReactDOM.findDOMNode(component);
-      });
+        componentNode = ReactDOM.findDOMNode(component)
+      })
 
       it('renders container with correct classnames', () => {
-        expect(componentNode.className)
-          .toEqual('eventMessageClass');
-      });
-    });
+        expect(componentNode.className).toEqual('eventMessageClass')
+      })
+    })
 
     describe('when passed a child component', () => {
-      const childElement = <div id='last-child-element' />;
-      let children;
+      const childElement = <div id="last-child-element" />
+      let children
 
       beforeEach(() => {
-        const component = domRender(
-          <EventMessage event={event}>
-            {childElement}
-          </EventMessage>
-        );
+        const component = domRender(<EventMessage event={event}>{childElement}</EventMessage>)
 
-        children = component.render().props.children;
-      });
+        children = component.render().props.children
+      })
 
       it('is rendered as the last element in the wrapper element', () => {
-        expect(children[children.length - 1]).toEqual(childElement);
-      });
-    });
-  });
-});
+        expect(children[children.length - 1]).toEqual(childElement)
+      })
+    })
+  })
+})

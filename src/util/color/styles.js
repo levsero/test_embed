@@ -1,31 +1,29 @@
-import { themeColor, mainTextColor, colorFor } from './validate';
-import { ColorMixer } from './mixer';
-import { FONT_SIZE } from 'constants/shared';
+import { themeColor, mainTextColor, colorFor } from './validate'
+import { ColorMixer } from './mixer'
+import { FONT_SIZE } from 'constants/shared'
 
 function getWidgetColorVariables(color) {
-  const mixer = new ColorMixer(
-    themeColor(color && color.base)
-  );
+  const mixer = new ColorMixer(themeColor(color && color.base))
 
-  const baseColor = mixer.getBaseColor();
-  const textColor = (color && color.text) ? mainTextColor(color.text) : null;
-  const baseHighlightColor = mixer.highlight(baseColor);
-  const iconColor = mixer.getIconColor();
+  const baseColor = mixer.getBaseColor()
+  const textColor = color && color.text ? mainTextColor(color.text) : null
+  const baseHighlightColor = mixer.highlight(baseColor)
+  const iconColor = mixer.getIconColor()
 
-  const buttonColorStr = colorFor(color.button, mixer.getButtonColor());
-  const buttonHighlightColorStr = mixer.highlight(buttonColorStr);
-  const buttonTextColorStr = textColor || mixer.foregroundColorFrom(buttonColorStr);
+  const buttonColorStr = colorFor(color.button, mixer.getButtonColor())
+  const buttonHighlightColorStr = mixer.highlight(buttonColorStr)
+  const buttonTextColorStr = textColor || mixer.foregroundColorFrom(buttonColorStr)
 
-  const listColorStr = colorFor(color.resultLists, mixer.getListColor());
-  const listHighlightColorStr = mixer.highlight(listColorStr);
+  const listColorStr = colorFor(color.resultLists, mixer.getListColor())
+  const listHighlightColorStr = mixer.highlight(listColorStr)
 
-  const linkColorStr = colorFor(color.articleLinks, mixer.getListColor());
-  const linkTextColorStr = mixer.uiElementColorFrom(linkColorStr);
+  const linkColorStr = colorFor(color.articleLinks, mixer.getListColor())
+  const linkTextColorStr = mixer.uiElementColorFrom(linkColorStr)
 
-  const headerColorStr = colorFor(color.header, baseColor);
-  const headerTextColorStr = textColor || mixer.foregroundColorFrom(headerColorStr);
-  const headerFocusRingColorStr = mixer.alpha(headerColorStr, 0.4);
-  const headerBackgroundColorStr = mixer.highlight(headerColorStr);
+  const headerColorStr = colorFor(color.header, baseColor)
+  const headerTextColorStr = textColor || mixer.foregroundColorFrom(headerColorStr)
+  const headerFocusRingColorStr = mixer.alpha(headerColorStr, 0.4)
+  const headerBackgroundColorStr = mixer.highlight(headerColorStr)
 
   return {
     baseColor,
@@ -41,39 +39,37 @@ function getWidgetColorVariables(color) {
     headerTextColorStr,
     headerFocusRingColorStr,
     headerBackgroundColorStr,
-    iconColor,
-  };
+    iconColor
+  }
 }
 
 function getLauncherColorVariables(color) {
-  const mixer = new ColorMixer(
-    themeColor(color && color.base)
-  );
+  const mixer = new ColorMixer(themeColor(color && color.base))
 
-  const baseColor = mixer.getBaseColor();
-  const textColor = mainTextColor(color && color.text);
+  const baseColor = mixer.getBaseColor()
+  const textColor = mainTextColor(color && color.text)
 
-  const launcherColorStr = colorFor(color.base, baseColor);
+  const launcherColorStr = colorFor(color.base, baseColor)
   const launcherTextColorStr = colorFor(
     color.launcherText,
     textColor,
     mixer.foregroundColorFrom(launcherColorStr)
-  );
-  const launcherFocusRingColorStr = mixer.alpha(launcherTextColorStr, 0.3);
-  const launcherIsAlmostWhite = mixer.isAlmostWhite(launcherColorStr);
+  )
+  const launcherFocusRingColorStr = mixer.alpha(launcherTextColorStr, 0.3)
+  const launcherIsAlmostWhite = mixer.isAlmostWhite(launcherColorStr)
 
   return {
     launcherColorStr,
     launcherTextColorStr,
     launcherFocusRingColorStr,
     launcherIsAlmostWhite
-  };
+  }
 }
 
 function generateUserWidgetCSS(color) {
-  const colorVariables = getWidgetColorVariables(color);
+  const colorVariables = getWidgetColorVariables(color)
 
-  return (`
+  return `
     .u-userTextDecorationColor {
       text-decoration-color: ${colorVariables.baseColor} !important;
     }
@@ -162,17 +158,17 @@ function generateUserWidgetCSS(color) {
     .u-userHeaderButtonColorMobile {
       fill: ${colorVariables.headerTextColorStr} !important;
     }
-  `);
+  `
 }
 
 function generateUserLauncherCSS(color) {
-  const colorVariables = getLauncherColorVariables(color);
-  const zdColorGrey300 = '216, 220, 222';
-  const boxShadow = colorVariables.launcherIsAlmostWhite ?
-    `inset 0 0 0 ${3/FONT_SIZE}rem rgba(${zdColorGrey300}, 0.8)`
-    : 'none';
+  const colorVariables = getLauncherColorVariables(color)
+  const zdColorGrey300 = '216, 220, 222'
+  const boxShadow = colorVariables.launcherIsAlmostWhite
+    ? `inset 0 0 0 ${3 / FONT_SIZE}rem rgba(${zdColorGrey300}, 0.8)`
+    : 'none'
 
-  return (`
+  return `
     .u-userLauncherColor:not([disabled]) {
       box-shadow: ${boxShadow};
       background-color: ${colorVariables.launcherColorStr} !important;
@@ -190,15 +186,17 @@ function generateUserLauncherCSS(color) {
     }
 
     .u-userLauncherColor:not([disabled]):focus {
-      box-shadow: inset 0 0 0 ${3/FONT_SIZE}rem ${colorVariables.launcherFocusRingColorStr} !important;
+      box-shadow: inset 0 0 0 ${3 / FONT_SIZE}rem ${
+    colorVariables.launcherFocusRingColorStr
+  } !important;
     }
-  `);
+  `
 }
 
 function generateWebWidgetPreviewCSS(color) {
-  const colorVariables = getWidgetColorVariables(color);
+  const colorVariables = getWidgetColorVariables(color)
 
-  return (`
+  return `
     .u-userBackgroundColor:not([disabled]) {
       background-color: ${colorVariables.buttonColorStr} !important;
       color: ${colorVariables.buttonTextColorStr} !important;
@@ -227,7 +225,7 @@ function generateWebWidgetPreviewCSS(color) {
       background-color: ${colorVariables.buttonColorStr} !important;
       color: ${colorVariables.buttonTextColorStr} !important;
     }
-  `);
+  `
 }
 
 export {
@@ -235,4 +233,4 @@ export {
   generateUserLauncherCSS,
   generateWebWidgetPreviewCSS,
   getWidgetColorVariables
-};
+}

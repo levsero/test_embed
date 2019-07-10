@@ -1,12 +1,12 @@
-import cookies from '../cookies';
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import cookies from '../cookies'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 const settingsPayload = {
   webWidget: {
     cookies: false
   }
-};
+}
 
 testReducer(cookies, [
   {
@@ -19,4 +19,4 @@ testReducer(cookies, [
     payload: settingsPayload,
     expected: false
   }
-]);
+])

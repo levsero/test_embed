@@ -1,37 +1,34 @@
-import { initResizeMonitor } from '../window';
-import { renderer } from 'service/renderer';
+import { initResizeMonitor } from '../window'
+import { renderer } from 'service/renderer'
 
-jest.mock('service/renderer');
+jest.mock('service/renderer')
 
 const mockWindow = {
   addEventListener: jest.fn()
-};
+}
 
-jest.useFakeTimers();
+jest.useFakeTimers()
 
 describe('initResizeMonitor', () => {
   beforeEach(() => {
-    initResizeMonitor(mockWindow);
-  });
+    initResizeMonitor(mockWindow)
+  })
 
   it('calls addEventListers with the correct params', () => {
-    expect(mockWindow.addEventListener)
-      .toHaveBeenCalledWith('resize', expect.any(Function));
-  });
+    expect(mockWindow.addEventListener).toHaveBeenCalledWith('resize', expect.any(Function))
+  })
 
   it('throttles calls to renderer.updateEmbeds for every 10 ms', () => {
-    const fn = mockWindow.addEventListener.mock.calls[0][1];
+    const fn = mockWindow.addEventListener.mock.calls[0][1]
 
-    fn();
-    fn();
-    jest.runAllTimers();
-    expect(renderer.updateEmbeds)
-      .toHaveBeenCalledTimes(1);
+    fn()
+    fn()
+    jest.runAllTimers()
+    expect(renderer.updateEmbeds).toHaveBeenCalledTimes(1)
 
-    fn();
-    fn();
-    jest.runAllTimers();
-    expect(renderer.updateEmbeds)
-      .toHaveBeenCalledTimes(2);
-  });
-});
+    fn()
+    fn()
+    jest.runAllTimers()
+    expect(renderer.updateEmbeds).toHaveBeenCalledTimes(2)
+  })
+})

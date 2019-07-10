@@ -1,9 +1,9 @@
-import _ from 'lodash';
-import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
+import _ from 'lodash'
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
 /* eslint-disable camelcase */
 
-const getModifiedState = (inputState) => {
+const getModifiedState = inputState => {
   const defaultState = {
     base: {
       activeEmbed: 'chat',
@@ -58,10 +58,7 @@ const getModifiedState = (inputState) => {
           message_type: 'basic_avatar'
         }
       },
-      agents: new Map([
-        [ 'agent:mcbob', { avatar_path: 'bobPath' }],
-        [ 'agent:trigger', { }]
-      ]),
+      agents: new Map([['agent:mcbob', { avatar_path: 'bobPath' }], ['agent:trigger', {}]]),
       departments: [
         { id: 111, name: 'burgers' },
         { id: 222, name: 'pizza' },
@@ -83,7 +80,7 @@ const getModifiedState = (inputState) => {
       },
       vendor: {
         zChat: {
-          getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`
+          getAuthLoginUrl: socialMedia => `www.foo.com/${socialMedia}/bar-baz`
         }
       }
     },
@@ -95,10 +92,7 @@ const getModifiedState = (inputState) => {
           title: { '*': 'overrideTitle' }
         },
         departments: {
-          enabled: [
-            'burgers',
-            222
-          ],
+          enabled: ['burgers', 222]
         },
         offlineForm: { greeting: { '*': 'hello fren' } },
         profileCard: {
@@ -106,7 +100,7 @@ const getModifiedState = (inputState) => {
           title: 'ti',
           rating: 'ra'
         },
-        title: { '*': 'Hello World', },
+        title: { '*': 'Hello World' }
       },
       navigation: {
         popoutButton: {
@@ -118,9 +112,9 @@ const getModifiedState = (inputState) => {
         bleep: 'blap'
       }
     }
-  };
+  }
 
-  return _.merge({}, defaultState, inputState);
-};
+  return _.merge({}, defaultState, inputState)
+}
 
-export default getModifiedState;
+export default getModifiedState

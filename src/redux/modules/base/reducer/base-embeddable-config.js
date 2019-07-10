@@ -1,7 +1,7 @@
-import { UPDATE_EMBEDDABLE_CONFIG } from '../base-action-types';
-import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types';
+import { UPDATE_EMBEDDABLE_CONFIG } from '../base-action-types'
+import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types'
 
-import _ from 'lodash';
+import _ from 'lodash'
 
 const initialState = {
   embeds: {
@@ -42,17 +42,17 @@ const initialState = {
   brand: undefined,
   brandCount: undefined,
   brandLogoUrl: undefined
-};
+}
 
 const embeddableConfig = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case UPDATE_PREVIEWER_SETTINGS:
       return {
         ...state,
         cp4: true
-      };
+      }
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
         ...state,
@@ -78,8 +78,16 @@ const embeddableConfig = (state = initialState, action) => {
           talk: {
             props: {
               color: _.get(payload, 'embeds.talk.props.color', state.embeds.talk.props.color),
-              serviceUrl: _.get(payload, 'embeds.talk.props.serviceUrl', state.embeds.talk.props.serviceUrl),
-              nickname: _.get(payload, 'embeds.talk.props.nickname', state.embeds.talk.props.nickname)
+              serviceUrl: _.get(
+                payload,
+                'embeds.talk.props.serviceUrl',
+                state.embeds.talk.props.serviceUrl
+              ),
+              nickname: _.get(
+                payload,
+                'embeds.talk.props.nickname',
+                state.embeds.talk.props.nickname
+              )
             }
           }
         },
@@ -91,10 +99,10 @@ const embeddableConfig = (state = initialState, action) => {
         brand: _.get(payload, 'brand', state.brand),
         brandCount: _.get(payload, 'brandCount', state.brandCount),
         brandLogoUrl: _.get(payload, 'brandLogoUrl', state.brandLogoUrl)
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default embeddableConfig;
+export default embeddableConfig

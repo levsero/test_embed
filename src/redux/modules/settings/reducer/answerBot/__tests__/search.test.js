@@ -1,21 +1,20 @@
-import reducer from '../search';
-import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types';
+import reducer from '../search'
+import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
 
 const initialState = () => {
-  return reducer(undefined, { type: '' });
-};
+  return reducer(undefined, { type: '' })
+}
 
-const reduce = (payload) => {
+const reduce = payload => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
     payload: payload
-  });
-};
+  })
+}
 
 test('initial state', () => {
-  expect(initialState())
-    .toEqual({ labels: [] });
-});
+  expect(initialState()).toEqual({ labels: [] })
+})
 
 describe('when UPDATE_SETTINGS is dispatched', () => {
   it('updates the settings', () => {
@@ -27,18 +26,18 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           }
         }
       }
-    };
+    }
 
-    expect(reduce(payload))
-      .toEqual({ labels: ['hello', 'world'] });
-  });
+    expect(reduce(payload)).toEqual({ labels: ['hello', 'world'] })
+  })
 
   it('returns the default when a different payload is dispatched', () => {
-    expect(reduce({}))
-      .toEqual({ labels: [] });
-  });
+    expect(reduce({})).toEqual({ labels: [] })
+  })
 
   it('returns the current state when other actions are dispatched', () => {
-    expect(reducer({ labels: ['hello'] }, { type: 'something else' })).toEqual({ labels: ['hello'] });
-  });
-});
+    expect(reducer({ labels: ['hello'] }, { type: 'something else' })).toEqual({
+      labels: ['hello']
+    })
+  })
+})

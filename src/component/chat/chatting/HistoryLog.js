@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
-import { dateTime } from 'utility/formatters';
-import { locals as styles } from './HistoryLog.scss';
+import { dateTime } from 'utility/formatters'
+import { locals as styles } from './HistoryLog.scss'
 
-import HistoryChatGroup from 'component/chat/chatting/log/messages/ConnectedHistoryGroup';
-import HistoryEventMessage from 'component/chat/chatting/log/events/ConnectedHistoryEvent';
-import { getHistoryLog } from 'src/redux/modules/chat/chat-history-selectors';
+import HistoryChatGroup from 'component/chat/chatting/log/messages/ConnectedHistoryGroup'
+import HistoryEventMessage from 'component/chat/chatting/log/events/ConnectedHistoryEvent'
+import { getHistoryLog } from 'src/redux/modules/chat/chat-history-selectors'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     chatHistoryLog: getHistoryLog(state)
-  };
-};
+  }
+}
 
 export class HistoryLog extends Component {
   static propTypes = {
@@ -23,38 +23,38 @@ export class HistoryLog extends Component {
     showAvatar: PropTypes.bool.isRequired,
     firstMessageTimestamp: PropTypes.number,
     isMobile: PropTypes.bool.isRequired
-  };
+  }
 
   static defaultProps = {
     firstMessageTimestamp: null
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.createdTimestamp = Date.now();
-    this.container = null;
+    this.createdTimestamp = Date.now()
+    this.container = null
   }
 
   getScrollHeight = () => {
-    return (this.container && this.container.scrollHeight) || 0;
+    return (this.container && this.container.scrollHeight) || 0
   }
 
-  renderDivider = (timestamp) => {
-    const format = dateTime(timestamp, { showToday: true });
+  renderDivider = timestamp => {
+    const format = dateTime(timestamp, { showToday: true })
 
-    return <div className={styles.divider}>{format}</div>;
+    return <div className={styles.divider}>{format}</div>
   }
 
   renderHistoryLog = () => {
-    const chatLogEl = _.map(this.props.chatHistoryLog, (chatGroup) => {
-      const { type, author, first } = chatGroup;
+    const chatLogEl = _.map(this.props.chatHistoryLog, chatGroup => {
+      const { type, author, first } = chatGroup
 
       if (type === 'message') {
-        const timestamp = chatGroup.messages[0];
-        const groupNick = author || 'visitor';
-        const isAgent = author.indexOf('agent:') > -1;
-        const avatarPath = _.get(this.props.agents, `${groupNick}.avatar_path`);
+        const timestamp = chatGroup.messages[0]
+        const groupNick = author || 'visitor'
+        const isAgent = author.indexOf('agent:') > -1
+        const avatarPath = _.get(this.props.agents, `${groupNick}.avatar_path`)
 
         return (
           <HistoryChatGroup
@@ -66,9 +66,9 @@ export class HistoryLog extends Component {
             isMobile={this.props.isMobile}
             chatLogCreatedAt={this.createdTimestamp}
           />
-        );
+        )
       } else if (type === 'event') {
-        const event = chatGroup.messages[0];
+        const event = chatGroup.messages[0]
 
         return (
           <HistoryEventMessage
@@ -77,23 +77,32 @@ export class HistoryLog extends Component {
             chatLogCreatedAt={this.createdTimestamp}
             divider={first ? this.renderDivider(event) : null}
           />
-        );
+        )
       }
-    });
+    })
 
-    return chatLogEl;
+    return chatLogEl
   }
 
   render() {
-    if (_.isEmpty(this.props.chatHistoryLog)) return null;
+    if (_.isEmpty(this.props.chatHistoryLog)) return null
 
     return (
-      <div ref={(el) => { this.container = el; }}>
+      <div
+        ref={el => {
+          this.container = el
+        }}
+      >
         {this.renderHistoryLog()}
         {this.renderDivider(this.props.firstMessageTimestamp)}
       </div>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps, {}, null, { withRef: true })(HistoryLog);
+export default connect(
+  mapStateToProps,
+  {},
+  null,
+  { withRef: true }
+)(HistoryLog)

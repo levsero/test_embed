@@ -1,8 +1,6 @@
-import { SESSION_FALLBACK } from '../action-types';
+import { SESSION_FALLBACK } from '../action-types'
 
-import {
-  getCurrentSessionID
-} from 'src/redux/modules/answerBot/root/selectors';
+import { getCurrentSessionID } from 'src/redux/modules/answerBot/root/selectors'
 
 export const sessionFallback = () => {
   return (dispatch, getState) => {
@@ -11,6 +9,6 @@ export const sessionFallback = () => {
       payload: {
         sessionID: getCurrentSessionID(getState())
       }
-    });
-  };
-};
+    })
+  }
+}

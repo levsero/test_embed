@@ -1,22 +1,21 @@
 describe('Pure PanelCard Component', () => {
-  let PanelCard;
+  let PanelCard
 
-  const panelCardPath = buildSrcPath('component/shared/StructuredMessage/PanelCard');
+  const panelCardPath = buildSrcPath('component/shared/StructuredMessage/PanelCard')
 
-  const Card = noopReactComponent();
-  const ButtonList = noopReactComponent();
-  const Panel = noopReactComponent();
+  const Card = noopReactComponent()
+  const ButtonList = noopReactComponent()
+  const Panel = noopReactComponent()
 
   const expectedDefaultProps = {
     children: [],
-    panel:
-    {
+    panel: {
       roundedTop: true
     }
-  };
+  }
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './pure/Card': {
@@ -28,75 +27,81 @@ describe('Pure PanelCard Component', () => {
       './pure/Panel': {
         Panel
       }
-    });
+    })
 
-    mockery.registerAllowable(panelCardPath);
-    PanelCard = requireUncached(panelCardPath).PanelCard;
-  });
+    mockery.registerAllowable(panelCardPath)
+    PanelCard = requireUncached(panelCardPath).PanelCard
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   it('has correct default value', () => {
-    const component = instanceRender(<PanelCard />);
+    const component = instanceRender(<PanelCard />)
 
-    expect(component.props).toEqual(expectedDefaultProps);
-  });
+    expect(component.props).toEqual(expectedDefaultProps)
+  })
 
   describe('when props are empty', () => {
     let result,
-      props = {};
+      props = {}
 
     beforeEach(() => {
-      const component = instanceRender(<PanelCard {...props} />);
+      const component = instanceRender(<PanelCard {...props} />)
 
-      result = component.render();
-    });
+      result = component.render()
+    })
 
     it('parent element should be Card component', () => {
-      expect(TestUtils.isElementOfType(result, Card)).toEqual(true);
-    });
+      expect(TestUtils.isElementOfType(result, Card)).toEqual(true)
+    })
 
     it('first child element should be div element', () => {
-      const firstChild = result.props.children[0];
+      const firstChild = result.props.children[0]
 
-      expect(TestUtils.isElementOfType(firstChild, Panel));
-    });
+      expect(TestUtils.isElementOfType(firstChild, Panel))
+    })
 
     it('second child element should be ButtonList component', () => {
-      const secondChild = result.props.children[1];
+      const secondChild = result.props.children[1]
 
-      expect(TestUtils.isElementOfType(secondChild, ButtonList));
-    });
-  });
+      expect(TestUtils.isElementOfType(secondChild, ButtonList))
+    })
+  })
 
   describe('Panel element should receive the correct props', () => {
-    let props;
+    let props
 
     beforeEach(() => {
-      props = {};
-    });
+      props = {}
+    })
 
     describe('when button list is empty', () => {
       it('should pass the correct props to Panel element', () => {
-        const component = instanceRender(<PanelCard {...props} />);
-        const result = component.render();
-        const panel = result.props.children[0];
+        const component = instanceRender(<PanelCard {...props} />)
+        const result = component.render()
+        const panel = result.props.children[0]
 
-        expect(panel.props.panel).toEqual({ roundedTop: true, roundedBottom: true });
-      });
-    });
+        expect(panel.props.panel).toEqual({
+          roundedTop: true,
+          roundedBottom: true
+        })
+      })
+    })
 
     describe('when button list is not empty', () => {
       it('should pass the correct props to Panel element', () => {
-        const component = instanceRender(<PanelCard {...{ ...props, children: [1, 2] }} />);
-        const result = component.render();
-        const panel = result.props.children[0];
+        const component = instanceRender(<PanelCard {...{ ...props, children: [1, 2] }} />)
+        const result = component.render()
+        const panel = result.props.children[0]
 
-        expect(panel.props.panel).toEqual({ roundedTop: true, roundedBottom: false });
-      });
-    });
-  });
-});
+        expect(panel.props.panel).toEqual({
+          roundedTop: true,
+          roundedBottom: false
+        })
+      })
+    })
+  })
+})

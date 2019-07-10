@@ -1,5 +1,5 @@
 describe('chat root reducer', () => {
-  let reducer;
+  let reducer
   const subStateList = [
     'account_status',
     'accountSettings',
@@ -37,13 +37,13 @@ describe('chat root reducer', () => {
     'vendor',
     'isLoggingOut',
     'forcedStatus',
-    'showChatHistory',
-  ];
+    'showChatHistory'
+  ]
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/index');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/index')
 
     initMockRegistry({
       'component/chat/rating/RatingGroup': {
@@ -64,59 +64,57 @@ describe('chat root reducer', () => {
       'src/redux/modules/chat/chat-action-types': noop,
       'src/redux/modules/base/base-action-types': noop,
       'src/component/chat/chatting/chatHistoryScreen': {}
-    });
+    })
 
-    reducer = requireUncached(reducerPath).default;
-  });
+    reducer = requireUncached(reducerPath).default
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('initial state', () => {
-    let state;
+    let state
 
     beforeEach(() => {
-      state = reducer({}, { type: '' });
-    });
+      state = reducer({}, { type: '' })
+    })
 
     it('has the expected sub states', () => {
-      _.keys(state).forEach((subState) => {
+      _.keys(state).forEach(subState => {
         if (!subStateList.includes(subState)) {
-          fail(`${subState} sub state is missing`);
+          fail(`${subState} sub state is missing`)
         }
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('when CHAT_USER_LOGGING_OUT action is dispatched', () => {
     let state,
       prevState = {
         vendor: 'yoloVendorLibrary',
         isLoggingOut: true
-      };
+      }
 
     beforeEach(() => {
-      state = reducer(prevState, { type: 'widget/chat/CHAT_USER_LOGGING_OUT' });
-    });
+      state = reducer(prevState, { type: 'widget/chat/CHAT_USER_LOGGING_OUT' })
+    })
 
     it('has the expected sub states', () => {
-      _.keys(state).forEach((subState) => {
+      _.keys(state).forEach(subState => {
         if (!subStateList.includes(subState)) {
-          fail(`${subState} sub state is missing`);
+          fail(`${subState} sub state is missing`)
         }
-      });
-    });
+      })
+    })
 
     it('does not change the vendor state', () => {
-      expect(state.vendor)
-        .toEqual('yoloVendorLibrary');
-    });
+      expect(state.vendor).toEqual('yoloVendorLibrary')
+    })
 
     it('does not change the isLoggingOut state', () => {
-      expect(state.isLoggingOut)
-        .toEqual(true);
-    });
-  });
-});
+      expect(state.isLoggingOut).toEqual(true)
+    })
+  })
+})

@@ -11,26 +11,26 @@ describe('Talk component', () => {
     shouldRenderErrorMessageSpy = jasmine.createSpy('shouldRenderErrorMessage'),
     mockServiceUrl = 'https://talk_service.com',
     mockNickname = 'Support',
-    mockTitle = 'Some call title';
-  const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
-  const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
-  const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
+    mockTitle = 'Some call title'
+  const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN'
+  const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN'
+  const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN'
 
   class MockScrollContainer extends Component {
     render() {
-      return <div />;
+      return <div />
     }
   }
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const talkPath = buildSrcPath('component/talk/Talk');
+    const talkPath = buildSrcPath('component/talk/Talk')
 
-    i18nTranslateSpy = jasmine.createSpy('i18n.translate').and.callFake((key) => key);
+    i18nTranslateSpy = jasmine.createSpy('i18n.translate').and.callFake(key => key)
 
     initMockRegistry({
-      'React': React,
+      React: React,
       '@zendeskgarden/react-buttons': { Button: noopReactComponent },
       'component/form/Form': { Form: noopReactComponent },
       'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
@@ -39,7 +39,9 @@ describe('Talk component', () => {
       './PhoneNumber': noopReactComponent,
       './DescriptionField': noopReactComponent,
       './AverageWaitTime': noopReactComponent,
-      'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
+      'component/container/ScrollContainer': {
+        ScrollContainer: MockScrollContainer
+      },
       './NameField': noopReactComponent,
       'component/ZendeskLogo': { ZendeskLogo },
       'component/shared/SuccessNotification': { SuccessNotification },
@@ -87,97 +89,97 @@ describe('Talk component', () => {
       },
       'src/embeds/talk/pages/OfflinePage': noopReactComponent,
       'src/embeds/talk/pages/SuccessNotificationPage': noopReactComponent
-    });
+    })
 
-    mockery.registerAllowable(talkPath);
-    Talk = requireUncached(talkPath).default.WrappedComponent;
-  });
+    mockery.registerAllowable(talkPath)
+    Talk = requireUncached(talkPath).default.WrappedComponent
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('handleFormCompleted', () => {
-    let talk,
-      form,
-      submitTalkCallbackFormSpy,
-      mockFormValid;
+    let talk, form, submitTalkCallbackFormSpy, mockFormValid
 
     beforeEach(() => {
-      submitTalkCallbackFormSpy = jasmine.createSpy('submitTalkCallbackForm');
+      submitTalkCallbackFormSpy = jasmine.createSpy('submitTalkCallbackForm')
       talk = instanceRender(
         <Talk
           nickname={mockNickname}
           serviceUrl={mockServiceUrl}
           submitTalkCallbackForm={submitTalkCallbackFormSpy}
-          embeddableConfig={{ phoneNumber: '' }} />
-      );
-      spyOn(talk, 'setState');
-      form = { clear: jasmine.createSpy('form.clear') };
+          embeddableConfig={{ phoneNumber: '' }}
+        />
+      )
+      spyOn(talk, 'setState')
+      form = { clear: jasmine.createSpy('form.clear') }
 
-      talk.form = form;
+      talk.form = form
       talk.form.state = {
         valid: mockFormValid
-      };
+      }
       talk.handleFormCompleted({
         phone: '+61423456789',
         name: 'John',
         email: 'john@john.com',
         description: 'I need help in understanding your products.'
-      });
-    });
+      })
+    })
 
     describe('when form is valid', () => {
       beforeAll(() => {
-        mockFormValid = true;
-      });
+        mockFormValid = true
+      })
 
       it('calls submitTalkCallbackForm with the form state', () => {
-        expect(submitTalkCallbackFormSpy)
-          .toHaveBeenCalledWith('https://talk_service.com', 'Support');
-      });
+        expect(submitTalkCallbackFormSpy).toHaveBeenCalledWith(
+          'https://talk_service.com',
+          'Support'
+        )
+      })
 
       it('sets showErrors to false', () => {
-        expect(talk.setState)
-          .toHaveBeenCalledWith({ showErrors: false });
-      });
-    });
+        expect(talk.setState).toHaveBeenCalledWith({ showErrors: false })
+      })
+    })
 
     describe('when form is invalid', () => {
       beforeAll(() => {
-        mockFormValid = false;
-      });
+        mockFormValid = false
+      })
 
       it('does not call submitTalkCallbackForm', () => {
-        expect(submitTalkCallbackFormSpy)
-          .not
-          .toHaveBeenCalled();
-      });
+        expect(submitTalkCallbackFormSpy).not.toHaveBeenCalled()
+      })
 
       it('sets showErrors to true', () => {
-        expect(talk.setState)
-          .toHaveBeenCalledWith({ showErrors: true });
-      });
-    });
-  });
+        expect(talk.setState).toHaveBeenCalledWith({ showErrors: true })
+      })
+    })
+  })
 
   describe('handleFormChange', () => {
-    let talk, updateTalkCallbackFormSpy;
+    let talk, updateTalkCallbackFormSpy
 
     beforeEach(() => {
-      updateTalkCallbackFormSpy = jasmine.createSpy('updateTalkCallbackForm');
-      talk = instanceRender(<Talk
-        updateTalkCallbackForm={updateTalkCallbackFormSpy}
-        formattedPhoneNumber={'614234567'}
-        embeddableConfig={{ phoneNumber: '' }}
-      />);
-      talk.handleFormChange({ phone: '+61423456789', name: 'Sally' });
-    });
+      updateTalkCallbackFormSpy = jasmine.createSpy('updateTalkCallbackForm')
+      talk = instanceRender(
+        <Talk
+          updateTalkCallbackForm={updateTalkCallbackFormSpy}
+          formattedPhoneNumber={'614234567'}
+          embeddableConfig={{ phoneNumber: '' }}
+        />
+      )
+      talk.handleFormChange({ phone: '+61423456789', name: 'Sally' })
+    })
 
     it('calls updateTalkCallbackForm with the newly changed form state', () => {
-      expect(updateTalkCallbackFormSpy)
-        .toHaveBeenCalledWith({ phone: '+61423456789', name: 'Sally' });
-    });
-  });
-});
+      expect(updateTalkCallbackFormSpy).toHaveBeenCalledWith({
+        phone: '+61423456789',
+        name: 'Sally'
+      })
+    })
+  })
+})

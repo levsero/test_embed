@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { ChannelChoiceDesktop } from 'component/channelChoice/ChannelChoiceDesktop';
-import { ChannelChoiceMobile } from 'component/channelChoice/ChannelChoiceMobile';
+import { ChannelChoiceDesktop } from 'component/channelChoice/ChannelChoiceDesktop'
+import { ChannelChoiceMobile } from 'component/channelChoice/ChannelChoiceMobile'
 
 export class ChannelChoice extends Component {
   static propTypes = {
@@ -16,7 +16,7 @@ export class ChannelChoice extends Component {
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
     talkOnline: PropTypes.bool.isRequired
-  };
+  }
 
   static defaultProps = {
     formTitleKey: 'help',
@@ -26,18 +26,18 @@ export class ChannelChoice extends Component {
     talkOnline: false,
     submitTicketAvailable: true,
     chatEnabled: false
-  };
+  }
 
-  handleNextClick = (embed) => {
-    this.props.onNextClick(embed);
+  handleNextClick = embed => {
+    this.props.onNextClick(embed)
   }
 
   renderMobile = () => {
-    const { chatAvailable, chatOfflineAvailable, formTitleKey } = this.props;
+    const { chatAvailable, chatOfflineAvailable, formTitleKey } = this.props
 
     return (
       <ChannelChoiceMobile
-        ref='channelChoiceMobile'
+        ref="channelChoiceMobile"
         chatAvailable={chatAvailable}
         chatOfflineAvailable={chatOfflineAvailable}
         formTitleKey={formTitleKey}
@@ -45,16 +45,17 @@ export class ChannelChoice extends Component {
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
-        handleNextClick={this.handleNextClick} />
-    );
+        handleNextClick={this.handleNextClick}
+      />
+    )
   }
 
   renderDesktop = () => {
-    const { formTitleKey, hideZendeskLogo } = this.props;
+    const { formTitleKey, hideZendeskLogo } = this.props
 
     return (
       <ChannelChoiceDesktop
-        ref='channelChoiceDesktop'
+        ref="channelChoiceDesktop"
         chatAvailable={this.props.chatAvailable}
         chatOfflineAvailable={this.props.chatOfflineAvailable}
         formTitleKey={formTitleKey}
@@ -63,19 +64,14 @@ export class ChannelChoice extends Component {
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
-        hideZendeskLogo={hideZendeskLogo} />
-    );
+        hideZendeskLogo={hideZendeskLogo}
+      />
+    )
   }
 
   render = () => {
-    const channelChoice = this.props.isMobile
-      ? this.renderMobile()
-      : this.renderDesktop();
+    const channelChoice = this.props.isMobile ? this.renderMobile() : this.renderDesktop()
 
-    return (
-      <div>
-        {channelChoice}
-      </div>
-    );
+    return <div>{channelChoice}</div>
   }
 }

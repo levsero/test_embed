@@ -3,31 +3,31 @@ import {
   UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
   UPDATE_CHAT_MENU_VISIBILITY,
   CHAT_FILE_REQUEST_SUCCESS
-} from '../chat-action-types';
+} from '../chat-action-types'
 
-const initialState = false;
+const initialState = false
 
 const menuVisible = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case UPDATE_CHAT_MENU_VISIBILITY:
-      return payload;
+      return payload
     case UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY:
       if (payload === true) {
-        return false;
+        return false
       }
-      return state;
+      return state
     case UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY:
       if (payload === true) {
-        return false;
+        return false
       }
-      return state;
+      return state
     case CHAT_FILE_REQUEST_SUCCESS:
-      return false;
+      return false
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default menuVisible;
+export default menuVisible

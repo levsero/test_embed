@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
-import { i18n } from 'service/i18n';
-import classNames from 'classnames';
-import Linkify from 'react-linkify';
-import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import _ from 'lodash'
+import { i18n } from 'service/i18n'
+import classNames from 'classnames'
+import Linkify from 'react-linkify'
+import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields'
 
-import { ZendeskLogo } from 'component/ZendeskLogo';
-import { Button } from '@zendeskgarden/react-buttons';
-import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { OFFLINE_FORM_SCREENS } from 'constants/chat';
-import { UserProfile } from 'component/chat/UserProfile';
-import { ChatMessagingChannels } from 'component/chat/ChatMessagingChannels';
-import { SuccessNotification } from 'component/shared/SuccessNotification';
-import { ICONS, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared';
-import { locals as styles } from './ChatOfflineForm.scss';
-import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields';
-import ChatHistoryLink from './ChatHistoryLink';
+import { ZendeskLogo } from 'component/ZendeskLogo'
+import { Button } from '@zendeskgarden/react-buttons'
+import { LoadingSpinner } from 'component/loading/LoadingSpinner'
+import { ChatOperatingHours } from 'component/chat/ChatOperatingHours'
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { OFFLINE_FORM_SCREENS } from 'constants/chat'
+import { UserProfile } from 'component/chat/UserProfile'
+import { ChatMessagingChannels } from 'component/chat/ChatMessagingChannels'
+import { SuccessNotification } from 'component/shared/SuccessNotification'
+import { ICONS, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
+import { locals as styles } from './ChatOfflineForm.scss'
+import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
+import ChatHistoryLink from './ChatHistoryLink'
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -48,8 +48,8 @@ export class ChatOfflineForm extends Component {
     fullscreen: PropTypes.bool,
     hasChatHistory: PropTypes.bool.isRequired,
     openedChatHistory: PropTypes.func.isRequired,
-    chatHistoryLabel: PropTypes.string.isRequired,
-  };
+    chatHistoryLabel: PropTypes.string.isRequired
+  }
 
   static defaultProps = {
     operatingHours: { enabled: false },
@@ -66,54 +66,58 @@ export class ChatOfflineForm extends Component {
     formState: {},
     readOnlyState: {},
     channels: {}
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.offlineForm = null;
+    this.offlineForm = null
 
     this.state = {
       valid: false,
       showErrors: false
-    };
+    }
   }
 
   componentDidMount() {
     if (this.props.offlineMessage.screen === OFFLINE_FORM_SCREENS.MAIN) {
-      this.validate();
+      this.validate()
     }
   }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.widgetShown && this.props.widgetShown) {
-      this.validate();
+      this.validate()
     }
   }
 
   getScrollContainerClasses() {
     return classNames(styles.scrollContainer, {
       [styles.mobileContainer]: this.props.isMobile
-    });
+    })
   }
 
   renderErrorMessage(value, required, errorString, pattern) {
     if (shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)) {
-      return <Message validation='error'>{i18n.t(errorString)}</Message>;
+      return <Message validation="error">{i18n.t(errorString)}</Message>
     }
-    return null;
+    return null
   }
 
   renderNameField() {
-    const { formFields, formState, authUrls, readOnlyState } = this.props;
-    const isRequired = !!_.get(formFields, 'name.required');
-    const value = formState.name;
+    const { formFields, formState, authUrls, readOnlyState } = this.props
+    const isRequired = !!_.get(formFields, 'name.required')
+    const value = formState.name
     const fieldContainerStyle = classNames({
       [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0,
       [styles.textField]: _.size(authUrls) === 0
-    });
-    const error = this.renderErrorMessage(value, isRequired,
-      'embeddable_framework.validation.error.name', NAME_PATTERN);
+    })
+    const error = this.renderErrorMessage(
+      value,
+      isRequired,
+      'embeddable_framework.validation.error.name',
+      NAME_PATTERN
+    )
 
     return (
       <TextField className={fieldContainerStyle}>
@@ -126,22 +130,27 @@ export class ChatOfflineForm extends Component {
           required={isRequired}
           aria-required={isRequired}
           value={value}
-          autoComplete='off'
+          autoComplete="off"
           onChange={() => {}}
-          name='name'
+          name="name"
           validation={error ? 'error' : 'none'}
           pattern={NAME_PATTERN.source}
-          readOnly={readOnlyState.name} />
+          readOnly={readOnlyState.name}
+        />
         {error}
       </TextField>
-    );
+    )
   }
 
   renderEmailField() {
-    const isRequired = !!_.get(this.props.formFields, 'email.required');
-    const value = this.props.formState.email;
-    const error = this.renderErrorMessage(value,
-      isRequired, 'embeddable_framework.validation.error.email', EMAIL_PATTERN);
+    const isRequired = !!_.get(this.props.formFields, 'email.required')
+    const value = this.props.formState.email
+    const error = this.renderErrorMessage(
+      value,
+      isRequired,
+      'embeddable_framework.validation.error.email',
+      EMAIL_PATTERN
+    )
 
     /* eslint-disable max-len */
     return (
@@ -156,23 +165,28 @@ export class ChatOfflineForm extends Component {
           aria-required={isRequired}
           value={value}
           onChange={() => {}}
-          name='email'
+          name="email"
           validation={error ? 'error' : 'none'}
           readOnly={this.props.readOnlyState.email}
-          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+        />
         {error}
       </TextField>
-    );
+    )
     /* eslint-enable max-len */
   }
 
   renderPhoneNumberField() {
-    if (!this.props.phoneEnabled) return null;
+    if (!this.props.phoneEnabled) return null
 
-    const isRequired = !!_.get(this.props.formFields, 'phone.required');
-    const value = this.props.formState.phone;
-    const error = this.renderErrorMessage(value,
-      isRequired, 'embeddable_framework.validation.error.phone', PHONE_PATTERN);
+    const isRequired = !!_.get(this.props.formFields, 'phone.required')
+    const value = this.props.formState.phone
+    const error = this.renderErrorMessage(
+      value,
+      isRequired,
+      'embeddable_framework.validation.error.phone',
+      PHONE_PATTERN
+    )
 
     return (
       <TextField className={styles.textField}>
@@ -186,20 +200,26 @@ export class ChatOfflineForm extends Component {
           aria-required={isRequired}
           value={value}
           onChange={() => {}}
-          type='tel'
-          name='phone'
+          type="tel"
+          name="phone"
           readOnly={this.props.readOnlyState.phone}
           pattern={PHONE_PATTERN.source}
-          validation={error ? 'error' : 'none'} />
+          validation={error ? 'error' : 'none'}
+        />
         {error}
       </TextField>
-    );
+    )
   }
 
   renderMessageField() {
-    const isRequired = !!_.get(this.props.formFields, 'message.required');
-    const value = this.props.formState.message;
-    const error = this.renderErrorMessage(value, isRequired, 'embeddable_framework.validation.error.message', null);
+    const isRequired = !!_.get(this.props.formFields, 'message.required')
+    const value = this.props.formState.message
+    const error = this.renderErrorMessage(
+      value,
+      isRequired,
+      'embeddable_framework.validation.error.message',
+      null
+    )
 
     return (
       <TextField>
@@ -209,81 +229,82 @@ export class ChatOfflineForm extends Component {
           aria-required={isRequired}
           value={value}
           onChange={() => {}}
-          rows='5'
-          name='message'
-          validation={error ? 'error' : 'none'} />
+          rows="5"
+          name="message"
+          validation={error ? 'error' : 'none'}
+        />
         {error}
       </TextField>
-    );
+    )
   }
 
   renderSuccess() {
-    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS) return;
+    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS) return
 
     return (
       <ScrollContainer
-        ref='scrollContainer'
+        ref="scrollContainer"
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.fullscreen}
         isMobile={this.props.isMobile}
-        title={this.props.title}>
-        <SuccessNotification
-          icon={ICONS.SUCCESS_CONTACT_FORM}
-          isMobile={this.props.isMobile} />
+        title={this.props.title}
+      >
+        <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
         <Button
           primary={true}
           className={styles.doneButton}
-          onClick={this.props.handleOfflineFormBack}>
+          onClick={this.props.handleOfflineFormBack}
+        >
           {i18n.t('embeddable_framework.common.button.done')}
         </Button>
       </ScrollContainer>
-    );
+    )
   }
 
   renderLoading() {
-    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.LOADING) return;
+    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.LOADING) return
 
     return (
       <ScrollContainer
-        ref='scrollContainer'
+        ref="scrollContainer"
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.loadingSpinnerContainer}
-        title={this.props.title}>
+        title={this.props.title}
+      >
         <div className={styles.loadingSpinner}>
           <LoadingSpinner />
         </div>
       </ScrollContainer>
-    );
+    )
   }
 
   renderOfflineGreeting() {
-    const { greeting } = this.props;
+    const { greeting } = this.props
 
     return (
       <Linkify properties={{ target: '_blank' }} className={styles.offlineGreeting}>
         {greeting}
       </Linkify>
-    );
+    )
   }
 
   renderOperatingHoursLink() {
-    const { operatingHours } = this.props;
+    const { operatingHours } = this.props
 
-    if (!operatingHours.enabled) return;
+    if (!operatingHours.enabled) return
 
-    const operatingHoursAnchor = i18n.t('embeddable_framework.chat.operatingHours.label.anchor');
+    const operatingHoursAnchor = i18n.t('embeddable_framework.chat.operatingHours.label.anchor')
 
     return (
       <p className={styles.operatingHoursContainer}>
-        <a className={styles.operatingHoursLink}
-          onClick={this.props.handleOperatingHoursClick}>
+        <a className={styles.operatingHoursLink} onClick={this.props.handleOperatingHoursClick}>
           {operatingHoursAnchor}
         </a>
       </p>
-    );
+    )
   }
 
   renderUserProfile() {
@@ -295,99 +316,100 @@ export class ChatOfflineForm extends Component {
         initiateSocialLogout={this.props.initiateSocialLogout}
         isAuthenticated={this.props.isAuthenticated}
         nameField={this.renderNameField()}
-        emailField={this.renderEmailField()} />
-    );
+        emailField={this.renderEmailField()}
+      />
+    )
   }
 
   renderMessagingChannels() {
-    return (
-      <ChatMessagingChannels
-        isMobile={this.props.isMobile}
-        channels={this.props.channels} />
-    );
+    return <ChatMessagingChannels isMobile={this.props.isMobile} channels={this.props.channels} />
   }
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
+  handleFormSubmit = e => {
+    e.preventDefault()
 
     if (!this.state.valid) {
-      this.setState({ showErrors: true });
-      return;
+      this.setState({ showErrors: true })
+      return
     }
-    this.setState({ showErrors: false });
+    this.setState({ showErrors: false })
 
-    const { authenticated: isSociallyAuthenticated } = this.props.socialLogin;
-    const { visitor, formState, isAuthenticated } = this.props;
-    const formData = (isSociallyAuthenticated || isAuthenticated)
-      ? { ...formState, name: visitor.display_name, email: visitor.email }
-      : this.props.formState;
+    const { authenticated: isSociallyAuthenticated } = this.props.socialLogin
+    const { visitor, formState, isAuthenticated } = this.props
+    const formData =
+      isSociallyAuthenticated || isAuthenticated
+        ? { ...formState, name: visitor.display_name, email: visitor.email }
+        : this.props.formState
 
-    this.props.sendOfflineMessage(formData);
+    this.props.sendOfflineMessage(formData)
   }
 
   renderSubmitButton() {
     return (
-      <Button
-        primary={true}
-        className={styles.submitBtn}
-        type='submit'>
+      <Button primary={true} className={styles.submitBtn} type="submit">
         {i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')}
       </Button>
-    );
+    )
   }
 
   renderZendeskLogo = () => {
-    return !this.props.hideZendeskLogo ?
+    return !this.props.hideZendeskLogo ? (
       <ZendeskLogo
         className={`${styles.zendeskLogo}`}
         chatId={this.props.chatId}
         fullscreen={false}
-      /> : null;
+      />
+    ) : null
   }
 
   validate() {
-    if (!this.offlineForm) return;
+    if (!this.offlineForm) return
 
-    const isFormValid = this.offlineForm.checkValidity();
-    const isFormStateEmpty = _.isEmpty(this.props.formState);
+    const isFormValid = this.offlineForm.checkValidity()
+    const isFormStateEmpty = _.isEmpty(this.props.formState)
 
-    this.setState({ valid: isFormValid && !isFormStateEmpty });
+    this.setState({ valid: isFormValid && !isFormStateEmpty })
   }
 
-  handleFormChanged = (e) => {
-    if (!this.offlineForm) return;
+  handleFormChanged = e => {
+    if (!this.offlineForm) return
 
-    const { name, value } = e.target;
-    const fieldState = { [name]: value };
-    const formState = { ...this.props.formState, ...fieldState };
+    const { name, value } = e.target
+    const fieldState = { [name]: value }
+    const formState = { ...this.props.formState, ...fieldState }
 
-    this.validate();
-    this.props.chatOfflineFormChanged(formState);
+    this.validate()
+    this.props.chatOfflineFormChanged(formState)
   }
 
   renderForm() {
-    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.MAIN) return null;
+    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.MAIN) return null
 
     return (
       <form
         noValidate={true}
-        ref={(el) => { this.offlineForm = el; }}
+        ref={el => {
+          this.offlineForm = el
+        }}
         onSubmit={this.handleFormSubmit}
-        onChange={this.handleFormChanged}>
+        onChange={this.handleFormChanged}
+      >
         <ScrollContainer
-          ref='scrollContainer'
+          ref="scrollContainer"
           classes={this.getScrollContainerClasses()}
           containerClasses={styles.scrollContainerContent}
           footerContent={this.renderSubmitButton()}
           isMobile={this.props.isMobile}
           fullscreen={this.props.fullscreen}
           title={this.props.title}
-          scrollShadowVisible={true}>
+          scrollShadowVisible={true}
+        >
           <ChatHistoryLink
             isAuthenticated={this.props.isAuthenticated}
             hasChatHistory={this.props.hasChatHistory}
             openedChatHistory={this.props.openedChatHistory}
-            label={this.props.chatHistoryLabel} />
+            label={this.props.chatHistoryLabel}
+          />
           {this.renderOfflineGreeting()}
           {this.renderOperatingHoursLink()}
           {this.renderMessagingChannels()}
@@ -397,30 +419,32 @@ export class ChatOfflineForm extends Component {
           {this.renderZendeskLogo()}
         </ScrollContainer>
       </form>
-    );
+    )
   }
 
   renderOperatingHours() {
-    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.OPERATING_HOURS) return null;
+    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.OPERATING_HOURS) return null
 
-    const { operatingHours, handleOfflineFormBack, getFrameContentDocument } = this.props;
+    const { operatingHours, handleOfflineFormBack, getFrameContentDocument } = this.props
 
-    if (!operatingHours.enabled) return null;
+    if (!operatingHours.enabled) return null
 
     return (
       <ScrollContainer
-        ref='scrollContainer'
+        ref="scrollContainer"
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
         classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
-        title={this.props.title}>
+        title={this.props.title}
+      >
         <ChatOperatingHours
           getFrameContentDocument={getFrameContentDocument}
           handleOfflineFormBack={handleOfflineFormBack}
-          operatingHours={operatingHours} />
+          operatingHours={operatingHours}
+        />
       </ScrollContainer>
-    );
+    )
   }
 
   render() {
@@ -431,6 +455,6 @@ export class ChatOfflineForm extends Component {
         {this.renderSuccess()}
         {this.renderOperatingHours()}
       </div>
-    );
+    )
   }
 }

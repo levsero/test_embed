@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import _ from 'lodash'
 
-import MessageGroup from './messageGroup';
-import { conversationScreenClosed } from 'src/redux/modules/answerBot/conversation/actions';
-import { getMessageGroupKeys } from 'src/redux/modules/answerBot/conversation/selectors';
-import { updateBackButtonVisibility } from 'src/redux/modules/base/base-actions';
-import { getSettingsAnswerBotAvatarUrl } from 'src/redux/modules/settings/settings-selectors';
-import { getSettingsAnswerBotAvatarName } from 'src/redux/modules/selectors';
-import { locals as styles } from './ConversationScreen.scss';
+import MessageGroup from './messageGroup'
+import { conversationScreenClosed } from 'src/redux/modules/answerBot/conversation/actions'
+import { getMessageGroupKeys } from 'src/redux/modules/answerBot/conversation/selectors'
+import { updateBackButtonVisibility } from 'src/redux/modules/base/base-actions'
+import { getSettingsAnswerBotAvatarUrl } from 'src/redux/modules/settings/settings-selectors'
+import { getSettingsAnswerBotAvatarName } from 'src/redux/modules/selectors'
+import { locals as styles } from './ConversationScreen.scss'
 
 class ConversationScreen extends Component {
   static propTypes = {
@@ -22,61 +22,63 @@ class ConversationScreen extends Component {
     }),
     agentAvatarUrl: PropTypes.string,
     agentAvatarName: PropTypes.string
-  };
+  }
 
   static defaultProps = {
     scrollToBottom: () => {},
     agentAvatarName: '',
-    agentAvatarUrl: '',
-  };
+    agentAvatarUrl: ''
+  }
 
   componentDidMount() {
-    this.props.actions.updateBackButtonVisibility(false);
+    this.props.actions.updateBackButtonVisibility(false)
   }
 
   componentWillUnmount() {
-    this.props.actions.conversationScreenClosed();
+    this.props.actions.conversationScreenClosed()
   }
 
   render = () => {
     return (
       <div className={styles.messages}>
-        {_.map(
-          this.props.messageGroups,
-          (group, key) => (
-            <MessageGroup
-              key={key}
-              isVisitor={!!group.isVisitor}
-              messageKeys={group.messageKeys}
-              scrollToBottom={this.props.scrollToBottom}
-              agentAvatarName={this.props.agentAvatarName}
-              agentAvatarUrl={this.props.agentAvatarUrl}
-            />
-          )
-        )}
+        {_.map(this.props.messageGroups, (group, key) => (
+          <MessageGroup
+            key={key}
+            isVisitor={!!group.isVisitor}
+            messageKeys={group.messageKeys}
+            scrollToBottom={this.props.scrollToBottom}
+            agentAvatarName={this.props.agentAvatarName}
+            agentAvatarUrl={this.props.agentAvatarUrl}
+          />
+        ))}
       </div>
-    );
+    )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     messageGroups: getMessageGroupKeys(state),
     agentAvatarName: getSettingsAnswerBotAvatarName(state),
     agentAvatarUrl: getSettingsAnswerBotAvatarUrl(state)
-  };
-};
+  }
+}
 
-const actionCreators = (dispatch) => ({
-  actions: bindActionCreators({
-    conversationScreenClosed,
-    updateBackButtonVisibility
-  }, dispatch)
-});
+const actionCreators = dispatch => ({
+  actions: bindActionCreators(
+    {
+      conversationScreenClosed,
+      updateBackButtonVisibility
+    },
+    dispatch
+  )
+})
 
-const connectedComponent = connect(mapStateToProps, actionCreators, null, { withRef: true })(ConversationScreen);
+const connectedComponent = connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(ConversationScreen)
 
-export {
-  connectedComponent as default,
-  ConversationScreen as Component
-};
+export { connectedComponent as default, ConversationScreen as Component }

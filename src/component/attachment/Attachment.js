@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import sharedPropTypes from 'types/shared';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import sharedPropTypes from 'types/shared'
+import _ from 'lodash'
 
-import { Icon } from 'component/Icon';
-import { ProgressBar } from 'component/attachment/ProgressBar';
-import { Alert, Title, Close } from '@zendeskgarden/react-notifications';
-import { i18n } from 'service/i18n';
-import { locals as styles } from './Attachment.scss';
-import classNames from 'classnames';
+import { Icon } from 'component/Icon'
+import { ProgressBar } from 'component/attachment/ProgressBar'
+import { Alert, Title, Close } from '@zendeskgarden/react-notifications'
+import { i18n } from 'service/i18n'
+import { locals as styles } from './Attachment.scss'
+import classNames from 'classnames'
 
 export class Attachment extends Component {
   static propTypes = {
@@ -26,7 +26,7 @@ export class Attachment extends Component {
     uploading: PropTypes.bool.isRequired,
     uploadProgress: PropTypes.number,
     uploadRequestSender: PropTypes.object
-  };
+  }
 
   static defaultProps = {
     attachmentId: '',
@@ -38,144 +38,132 @@ export class Attachment extends Component {
     uploading: false,
     uploadProgress: 0,
     uploadRequestSender: {}
-  };
+  }
 
   handleIconClick = () => {
     if (this.props.uploading) {
-      this.props.uploadRequestSender.abort();
+      this.props.uploadRequestSender.abort()
     }
 
-    this.props.handleRemoveAttachment(this.props.attachmentId);
+    this.props.handleRemoveAttachment(this.props.attachmentId)
   }
 
-  formatAttachmentSize = (bytes) => {
+  formatAttachmentSize = bytes => {
     // if the size of the file is less than 1KB, just round it up
-    const size = _.max([bytes, 1000]);
+    const size = _.max([bytes, 1000])
 
     return size >= 1000000
-      ? i18n.t('embeddable_framework.submitTicket.attachments.size_megabyte',
-        { size: _.floor(size / 1000000, 1) })
-      : i18n.t('embeddable_framework.submitTicket.attachments.size_kilobyte',
-        { size: _.floor(size / 1000) });
+      ? i18n.t('embeddable_framework.submitTicket.attachments.size_megabyte', {
+          size: _.floor(size / 1000000, 1)
+        })
+      : i18n.t('embeddable_framework.submitTicket.attachments.size_kilobyte', {
+          size: _.floor(size / 1000)
+        })
   }
 
   truncateFilename = (filename, filenameMaxLength, trailingCharsLength) => {
-    if (filename.length <= filenameMaxLength) return filename;
+    if (filename.length <= filenameMaxLength) return filename
 
-    const nameStart = filename.slice(0, (filenameMaxLength - trailingCharsLength) - 1);
-    const nameEnd = filename.slice(-trailingCharsLength);
+    const nameStart = filename.slice(0, filenameMaxLength - trailingCharsLength - 1)
+    const nameEnd = filename.slice(-trailingCharsLength)
 
-    return `${nameStart}…${nameEnd}`;
+    return `${nameStart}…${nameEnd}`
   }
 
   renderLinkedEl = (el, url) => {
     return (
-      <a className={styles.link} target="_blank" href={url}>{el}</a>
-    );
+      <a className={styles.link} target="_blank" href={url}>
+        {el}
+      </a>
+    )
   }
 
   renderSecondaryText(file, isDownloadable, downloading, uploading) {
-    const attachmentSize = this.formatAttachmentSize(file.size);
+    const attachmentSize = this.formatAttachmentSize(file.size)
     const downloadLink = (
       <div>
         <span className={styles.downloadSize}>{attachmentSize}</span>
-        <span className={styles.downloadText}>{i18n.t('embeddable_framework.chat.chatLog.attachmentDownload')}</span>
+        <span className={styles.downloadText}>
+          {i18n.t('embeddable_framework.chat.chatLog.attachmentDownload')}
+        </span>
       </div>
-    );
-    let secondaryText;
+    )
+    let secondaryText
 
     if (uploading) {
-      secondaryText = i18n.t('embeddable_framework.chat.chatLog.uploading');
+      secondaryText = i18n.t('embeddable_framework.chat.chatLog.uploading')
     } else if (downloading) {
-      secondaryText = i18n.t('embeddable_framework.chat.chatLog.loadingImage', { attachmentSize });
+      secondaryText = i18n.t('embeddable_framework.chat.chatLog.loadingImage', {
+        attachmentSize
+      })
     } else if (isDownloadable) {
-      secondaryText = this.renderLinkedEl(downloadLink, file.url);
+      secondaryText = this.renderLinkedEl(downloadLink, file.url)
     } else {
-      secondaryText = attachmentSize;
+      secondaryText = attachmentSize
     }
 
-    return secondaryText;
+    return secondaryText
   }
 
   previewNameString = () => {
-    const { file, filenameMaxLength } = this.props;
+    const { file, filenameMaxLength } = this.props
 
-    return filenameMaxLength ? this.truncateFilename(file.name, filenameMaxLength, 7) : file.name;
+    return filenameMaxLength ? this.truncateFilename(file.name, filenameMaxLength, 7) : file.name
   }
 
   renderPreviewIcon = () => {
-    if (!this.props.icon) return null;
+    if (!this.props.icon) return null
 
-    const { file, isDownloadable } = this.props;
-    const previewIcon = <Icon type={this.props.icon} className={styles.iconPreview} />;
+    const { file, isDownloadable } = this.props
+    const previewIcon = <Icon type={this.props.icon} className={styles.iconPreview} />
 
-    return (isDownloadable)
-      ? this.renderLinkedEl(previewIcon, file.url)
-      : previewIcon;
+    return isDownloadable ? this.renderLinkedEl(previewIcon, file.url) : previewIcon
   }
 
   renderAttachmentBox() {
-    const {
-      file,
-      downloading,
-      errorMessage,
-      isDownloadable,
-      uploading
-    } = this.props;
+    const { file, downloading, errorMessage, isDownloadable, uploading } = this.props
 
-    if (errorMessage) return;
+    if (errorMessage) return
 
-    const previewName = (
-      <div className={styles.previewName}>
-        {this.previewNameString()}
-      </div>
-    );
+    const previewName = <div className={styles.previewName}>{this.previewNameString()}</div>
 
     const removeIcon = (
-      <Icon
-        onClick={this.handleIconClick}
-        className={styles.icon}
-        type='Icon--close' />
-    );
+      <Icon onClick={this.handleIconClick} className={styles.icon} type="Icon--close" />
+    )
 
-    const containerClasses = classNames(
-      styles.container,
-      this.props.className
-    );
+    const containerClasses = classNames(styles.container, this.props.className)
 
     const progressBar = (
       <ProgressBar
         percentLoaded={this.props.uploadProgress}
         fakeProgress={this.props.fakeProgress}
       />
-    );
+    )
 
     return (
-      <div className={containerClasses} ui-test-id={`attachmentContainer-${this.props.attachmentId}`}>
+      <div
+        className={containerClasses}
+        ui-test-id={`attachmentContainer-${this.props.attachmentId}`}
+      >
         <div className={styles.preview}>
           {this.renderPreviewIcon()}
           <div className={styles.description}>
             {isDownloadable ? this.renderLinkedEl(previewName, file.url) : previewName}
             <div className={styles.secondaryText}>
-              {this.renderSecondaryText(
-                file,
-                isDownloadable,
-                downloading,
-                uploading)
-              }
+              {this.renderSecondaryText(file, isDownloadable, downloading, uploading)}
             </div>
           </div>
           {this.props.isRemovable && removeIcon}
         </div>
-        {(uploading && !errorMessage) && progressBar}
+        {uploading && !errorMessage && progressBar}
       </div>
-    );
+    )
   }
 
   renderAttachmentError() {
-    const { errorMessage } = this.props;
+    const { errorMessage } = this.props
 
-    if (!errorMessage) return;
+    if (!errorMessage) return
 
     return (
       <Alert type="error" role="alert" className={styles.containerError}>
@@ -183,7 +171,7 @@ export class Attachment extends Component {
         <div className={styles.secondaryTextError}>{errorMessage}</div>
         <Close onClick={this.handleIconClick} />
       </Alert>
-    );
+    )
   }
 
   render() {
@@ -192,6 +180,6 @@ export class Attachment extends Component {
         {this.renderAttachmentBox()}
         {this.renderAttachmentError()}
       </div>
-    );
+    )
   }
 }

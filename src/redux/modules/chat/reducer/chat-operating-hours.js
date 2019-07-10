@@ -1,14 +1,14 @@
-import { GET_OPERATING_HOURS_REQUEST_SUCCESS } from '../chat-action-types';
+import { GET_OPERATING_HOURS_REQUEST_SUCCESS } from '../chat-action-types'
 
-const initialState = { enabled: false };
+const initialState = { enabled: false }
 
 const operatingHours = (state = initialState, action) => {
   switch (action.type) {
     case GET_OPERATING_HOURS_REQUEST_SUCCESS:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default operatingHours;
+export default operatingHours

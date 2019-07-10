@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import PureCarousel from '../../shared/Carousel';
-import StructuredMessage from './StructuredMessage';
+import PureCarousel from '../../shared/Carousel'
+import StructuredMessage from './StructuredMessage'
 
 export default class Carousel extends Component {
   static propTypes = {
@@ -12,19 +12,20 @@ export default class Carousel extends Component {
 
   static defaultProps = {
     isMobile: false
-  };
+  }
 
   render() {
     const children = this.props.items.map((item, index) => {
       return (
-        <StructuredMessage schema={item} key={index} isMobile={this.props.isMobile} inCarousel={true} />
-      );
-    });
+        <StructuredMessage
+          schema={item}
+          key={index}
+          isMobile={this.props.isMobile}
+          inCarousel={true}
+        />
+      )
+    })
 
-    return (
-      <PureCarousel isMobile={this.props.isMobile}>
-        {children}
-      </PureCarousel>
-    );
+    return <PureCarousel isMobile={this.props.isMobile}>{children}</PureCarousel>
   }
 }

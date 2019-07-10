@@ -1,7 +1,7 @@
-import _ from 'lodash';
-import { createSelector } from 'reselect';
-import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
-import { i18n } from 'service/i18n';
+import _ from 'lodash'
+import { createSelector } from 'reselect'
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
+import { i18n } from 'service/i18n'
 import {
   getChatScreen,
   getWindowSettings,
@@ -16,7 +16,7 @@ import {
   getActiveAgents,
   getIsPopoutAvailable,
   getShowChatHistory
-} from 'src/redux/modules/chat/chat-selectors';
+} from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatProfileCard,
   getSettingsChatTitle,
@@ -27,31 +27,27 @@ import {
   getSettingsChatDepartmentsEnabled,
   getSettingsChatDepartment,
   getSettingsNavigationPopoutButtonEnabled
-} from 'src/redux/modules/settings/settings-selectors';
-import {
-  DEPARTMENT_STATUSES,
-} from 'constants/chat';
+} from 'src/redux/modules/settings/settings-selectors'
+import { DEPARTMENT_STATUSES } from 'constants/chat'
 import {
   getActiveEmbed,
   getLocale,
   getWidgetShown,
   getBackButtonVisible
-} from 'src/redux/modules/base/base-selectors';
-import { isPopout } from 'utility/globals';
+} from 'src/redux/modules/base/base-selectors'
+import { isPopout } from 'utility/globals'
 
 /* eslint-disable camelcase */
 
 export const getShowBackButton = createSelector(
   [getShowChatHistory, getBackButtonVisible],
   (showChatHistory, backButtonVisible) => {
-    return showChatHistory || backButtonVisible;
+    return showChatHistory || backButtonVisible
   }
-);
+)
 
-export const getShowMenu = (state) =>
-  getActiveEmbed(state) === 'chat' &&
-  getChatScreen(state) === CHATTING_SCREEN &&
-  !isPopout();
+export const getShowMenu = state =>
+  getActiveEmbed(state) === 'chat' && getChatScreen(state) === CHATTING_SCREEN && !isPopout()
 
 export const getProfileConfig = createSelector(
   [getSettingsChatProfileCard, getRatingSettings],
@@ -60,167 +56,155 @@ export const getProfileConfig = createSelector(
     title: settingsChatProfileCard.title,
     rating: ratingSettings.enabled && settingsChatProfileCard.rating
   })
-);
+)
 
 export const getChatAccountSettingsTitle = createSelector(
   [getWindowSettings, getLocale],
-  (windowSettings, __) => (
-    windowSettings.title || i18n.t('embeddable_framework.chat.title')
-  )
-);
+  (windowSettings, __) => windowSettings.title || i18n.t('embeddable_framework.chat.title')
+)
 
 export const getChatTitle = createSelector(
   [getSettingsChatTitle, getChatAccountSettingsTitle, getLocale],
-  (settingsChatTitle, chatAccountSettingsTitle, __) => (
-    i18n.getSettingTranslation(settingsChatTitle) ||
-    chatAccountSettingsTitle
-  )
-);
+  (settingsChatTitle, chatAccountSettingsTitle, __) =>
+    i18n.getSettingTranslation(settingsChatTitle) || chatAccountSettingsTitle
+)
 
 export const getChatHistoryLabel = createSelector(
   [getLocale],
-  (__) => (
-    i18n.t('embeddable_framework.chat.historyLink.label')
-  )
-);
+  __ => i18n.t('embeddable_framework.chat.historyLink.label')
+)
 
 export const getLauncherBadgeSettings = createSelector(
   [getSettingsLauncherBadge, getAccountSettingsLauncherBadge, getLocale],
   (settingsBadge, accountSettingsBadge, _locale) => {
-    const maxLabelLength = 60;
-    const settingsLabel = _.get(settingsBadge, 'label', {});
-    const fullLabel = i18n.getSettingTranslation(settingsLabel) ||
+    const maxLabelLength = 60
+    const settingsLabel = _.get(settingsBadge, 'label', {})
+    const fullLabel =
+      i18n.getSettingTranslation(settingsLabel) ||
       accountSettingsBadge.text ||
-      i18n.t('embeddable_framework.chat.badge.label');
+      i18n.t('embeddable_framework.chat.badge.label')
     const label = _.truncate(fullLabel, {
-      'length': maxLabelLength,
-      'omission': '…'
-    });
+      length: maxLabelLength,
+      omission: '…'
+    })
 
     return _.mergeWith({}, accountSettingsBadge, settingsBadge, { label: label }, (a, b) => {
-      if (b === null) return a;
-      return b;
-    });
+      if (b === null) return a
+      return b
+    })
   }
-);
+)
 
 export const getConciergeSettings = createSelector(
   [getSettingsChatConcierge, getChatAccountSettingsConcierge, getLocale],
   (settingsChatConcierge, chatAccountSettingsConcierge, __) => {
-    let concierge = { ...chatAccountSettingsConcierge };
+    let concierge = { ...chatAccountSettingsConcierge }
 
     if (settingsChatConcierge) {
       if (settingsChatConcierge.avatarPath) {
-        concierge.avatar_path = settingsChatConcierge.avatarPath;
+        concierge.avatar_path = settingsChatConcierge.avatarPath
       }
       if (settingsChatConcierge.name) {
-        concierge.display_name = settingsChatConcierge.name;
+        concierge.display_name = settingsChatConcierge.name
       }
       if (settingsChatConcierge.title) {
-        concierge.title = i18n.getSettingTranslation(
-          settingsChatConcierge.title
-        );
+        concierge.title = i18n.getSettingTranslation(settingsChatConcierge.title)
       }
     }
 
-    return concierge;
+    return concierge
   }
-);
+)
 
 export const getOfflineFormSettings = createSelector(
   [getSettingsChatOfflineForm, getChatAccountSettingsOfflineForm, getLocale],
   (settingsChatOfflineForm, accountSettingsOfflineForm, __) => {
-    const greeting = _.get(settingsChatOfflineForm, 'greeting', null);
+    const greeting = _.get(settingsChatOfflineForm, 'greeting', null)
 
     return {
       ...accountSettingsOfflineForm,
-      message: (
+      message:
         i18n.getSettingTranslation(greeting) ||
         _.get(accountSettingsOfflineForm, 'message', null) ||
         i18n.t('embeddable_framework.chat.preChat.offline.greeting')
-      )
-    };
+    }
   }
-);
+)
 
-export const getIsPopoutButtonVisible = (state) => {
-  return getSettingsNavigationPopoutButtonEnabled(state)
-    && getIsPopoutAvailable(state)
-    && getActiveEmbed(state) === 'chat';
-};
+export const getIsPopoutButtonVisible = state => {
+  return (
+    getSettingsNavigationPopoutButtonEnabled(state) &&
+    getIsPopoutAvailable(state) &&
+    getActiveEmbed(state) === 'chat'
+  )
+}
 
 export const getPrechatFormSettings = createSelector(
   [getSettingsChatPrechatForm, getChatAccountSettingsPrechatForm, getLocale],
   (settingsChatPrechatForm, accountSettingsPrechatForm, __) => {
-    const greeting = _.get(settingsChatPrechatForm, 'greeting', null);
-    const departmentLabel = _.get(settingsChatPrechatForm, 'departmentLabel', null);
+    const greeting = _.get(settingsChatPrechatForm, 'greeting', null)
+    const departmentLabel = _.get(settingsChatPrechatForm, 'departmentLabel', null)
 
     return {
       ...accountSettingsPrechatForm,
-      message: (
-        i18n.getSettingTranslation(greeting) ||
-        _.get(accountSettingsPrechatForm, 'message', '')
-      ),
-      departmentLabel: (
+      message:
+        i18n.getSettingTranslation(greeting) || _.get(accountSettingsPrechatForm, 'message', ''),
+      departmentLabel:
         i18n.getSettingTranslation(departmentLabel) ||
         _.get(accountSettingsPrechatForm, 'departmentLabel', '')
-      )
-    };
+    }
   }
-);
+)
 
-const extractFormFields = (settings) => (
-  _.keyBy(_.values(settings.form), 'name')
-);
+const extractFormFields = settings => _.keyBy(_.values(settings.form), 'name')
 
 const getDefaultFormFields = createSelector(
-  getPrechatFormSettings, extractFormFields
-);
+  getPrechatFormSettings,
+  extractFormFields
+)
 
 const getFormFields = createSelector(
   [getDefaultFormFields, getSettingsChatPrechatForm, getLocale],
   (defaultFields, prechatFormSettings, __) => {
-    const departmentLabel = _.get(prechatFormSettings, 'departmentLabel', null);
+    const departmentLabel = _.get(prechatFormSettings, 'departmentLabel', null)
 
     return {
       ...defaultFields,
       department: {
         ...defaultFields.department,
-        label: (
+        label:
           i18n.getSettingTranslation(departmentLabel) ||
           _.get(defaultFields, 'department.label', null) ||
           i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')
-        )
       }
-    };
+    }
   }
-);
+)
 
 export const getDefaultSelectedDepartment = createSelector(
   [getSettingsChatDepartment, getAccountDefaultDepartmentId, getDepartmentsList],
   (settingsDefault, accountDefault, departments) => {
-    const selector = settingsDefault || accountDefault;
+    const selector = settingsDefault || accountDefault
 
-    return _.find(departments, (dept) => (
-      dept.name.toLowerCase() === selector || dept.id === selector
-    ));
+    return _.find(departments, dept => dept.name.toLowerCase() === selector || dept.id === selector)
   }
-);
+)
 
 export const getEnabledDepartments = createSelector(
   [getSettingsChatDepartmentsEnabled, getDepartmentsList, getDefaultSelectedDepartment],
   (settingsDepartmentsEnabled, departmentsList, defaultSelectedDepartment) => {
     if (Array.isArray(settingsDepartmentsEnabled)) {
-      return departmentsList.filter((department) => (
-        _.includes(settingsDepartmentsEnabled, department.id) ||
-        _.includes(settingsDepartmentsEnabled, department.name.toLowerCase()) ||
-        _.get(defaultSelectedDepartment, 'id') === department.id
-      ));
+      return departmentsList.filter(
+        department =>
+          _.includes(settingsDepartmentsEnabled, department.id) ||
+          _.includes(settingsDepartmentsEnabled, department.name.toLowerCase()) ||
+          _.get(defaultSelectedDepartment, 'id') === department.id
+      )
     }
 
-    return departmentsList;
+    return departmentsList
   }
-);
+)
 
 export const getPrechatFormFields = createSelector(
   [
@@ -230,85 +214,82 @@ export const getPrechatFormFields = createSelector(
     getEnabledDepartments,
     getLocale
   ],
-  (
-    formFields,
-    offlineFormSettings,
-    selectedDepartment,
-    enabledDepartments,
-    _locale
-  ) => {
-    let firstOnlineDepartment = true;
-    const departmentOptions = _.map(enabledDepartments, (department) => {
+  (formFields, offlineFormSettings, selectedDepartment, enabledDepartments, _locale) => {
+    let firstOnlineDepartment = true
+    const departmentOptions = _.map(enabledDepartments, department => {
       let departmentOption = {
         ...department,
         value: department.id,
-        isDefault: (selectedDepartment && selectedDepartment.id === department.id)
-      };
+        isDefault: selectedDepartment && selectedDepartment.id === department.id
+      }
 
       if (department.status === DEPARTMENT_STATUSES.OFFLINE) {
         if (!offlineFormSettings.enabled) {
-          departmentOption.disabled = true;
+          departmentOption.disabled = true
         }
-        departmentOption.name = i18n.t(
-          'embeddable_framework.chat.department.offline.label', {
-            department: department.name
-          }
-        );
+        departmentOption.name = i18n.t('embeddable_framework.chat.department.offline.label', {
+          department: department.name
+        })
       } else {
-        if (firstOnlineDepartment && _.get(formFields, 'department.required', false) && !selectedDepartment) {
-          departmentOption.default = true;
-          firstOnlineDepartment = false;
+        if (
+          firstOnlineDepartment &&
+          _.get(formFields, 'department.required', false) &&
+          !selectedDepartment
+        ) {
+          departmentOption.default = true
+          firstOnlineDepartment = false
         }
       }
-      return departmentOption;
-    });
+      return departmentOption
+    })
 
     return _.extend({}, formFields, {
       departments: departmentOptions
-    });
+    })
   }
-);
+)
 
 export const getCurrentConcierges = createSelector(
   [getActiveAgents, getConciergeSettings],
   (agents, conciergeSettings) => {
     if (_.size(agents) === 0) {
-      return [conciergeSettings];
+      return [conciergeSettings]
     }
 
-    return _.map(agents, (agent) => {
+    return _.map(agents, agent => {
       if (!agent.avatar_path) {
         return {
           ...agent,
           avatar_path: conciergeSettings.avatar_path
-        };
+        }
       }
-      return agent;
-    });
+      return agent
+    })
   }
-);
+)
 
 export const getOfflineFormFields = createSelector(
-  getOfflineFormSettings, extractFormFields
-);
+  getOfflineFormSettings,
+  extractFormFields
+)
 
 export const getChatNotification = createSelector(
   [getNotification, getActiveAgents, getConciergeSettings],
   (notification, agents, conciergeSettings) => {
-    const currentAgent = agents[notification.nick];
-    const avatar_path = _.get(currentAgent, 'avatar_path') || conciergeSettings.avatar_path; // eslint-disable-line camelcase
+    const currentAgent = agents[notification.nick]
+    const avatar_path = _.get(currentAgent, 'avatar_path') || conciergeSettings.avatar_path // eslint-disable-line camelcase
 
-    return ({
+    return {
       ...notification,
       ...currentAgent,
       avatar_path
-    });
+    }
   }
-);
+)
 
 export const isInChattingScreen = createSelector(
   [getChatScreen, getActiveEmbed, getWidgetShown],
   (screen, embed, widgetShown) => widgetShown && screen === CHATTING_SCREEN && embed === 'chat'
-);
+)
 
-export const getOfflineFormEnabled = (state) => getOfflineFormSettings(state).enabled;
+export const getOfflineFormEnabled = state => getOfflineFormSettings(state).enabled

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash'
 import {
   UPDATE_PREVIEWER_SCREEN,
   CHAT_MSG_REQUEST_SUCCESS,
@@ -6,28 +6,28 @@ import {
   CHAT_BANNED,
   IS_CHATTING,
   SDK_CONNECTION_UPDATE
-} from '../chat-action-types';
-import { store } from 'service/persistence';
+} from '../chat-action-types'
+import { store } from 'service/persistence'
 
-const initialState = _.get(store.get('store'), 'is_chatting', false);
+const initialState = _.get(store.get('store'), 'is_chatting', false)
 
 const isChatting = (state = initialState, { payload, type }) => {
   switch (type) {
     case IS_CHATTING:
-      return payload;
+      return payload
     case UPDATE_PREVIEWER_SCREEN:
-      return payload.status;
+      return payload.status
     case CHAT_MSG_REQUEST_SUCCESS:
-      return true;
+      return true
     case SDK_CONNECTION_UPDATE:
-      if (payload.type === 'connection_update' && payload.detail === 'closed') return false;
-      return state;
+      if (payload.type === 'connection_update' && payload.detail === 'closed') return false
+      return state
     case CHAT_BANNED:
     case END_CHAT_REQUEST_SUCCESS:
-      return false;
+      return false
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default isChatting;
+export default isChatting

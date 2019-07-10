@@ -1,44 +1,44 @@
-let chatConnected = false;
-let chatSDKInitialized = false;
+let chatConnected = false
+let chatSDKInitialized = false
 
-let onChatConnectedQueue = [];
-let onChatSDKInitializedQueue = [];
+let onChatConnectedQueue = []
+let onChatSDKInitializedQueue = []
 
-export const onChatConnected = (cb) => {
+export const onChatConnected = cb => {
   if (chatConnected) {
-    return cb();
+    return cb()
   } else {
-    onChatConnectedQueue.push(cb);
+    onChatConnectedQueue.push(cb)
   }
-};
+}
 
-export const onChatSDKInitialized = (cb) => {
+export const onChatSDKInitialized = cb => {
   if (chatSDKInitialized) {
-    return cb();
+    return cb()
   } else {
-    onChatSDKInitializedQueue.push(cb);
+    onChatSDKInitializedQueue.push(cb)
   }
-};
+}
 
 export const handleChatConnected = () => {
-  flushQueue(onChatConnectedQueue);
-  chatConnected = true;
-};
+  flushQueue(onChatConnectedQueue)
+  chatConnected = true
+}
 
 export const handleChatSDKInitialized = () => {
-  flushQueue(onChatSDKInitializedQueue);
-  chatSDKInitialized = true;
-};
+  flushQueue(onChatSDKInitializedQueue)
+  chatSDKInitialized = true
+}
 
 // Used solely for testing purposes.
 export const reset = () => {
-  chatConnected = false;
-  chatSDKInitialized = false;
-  onChatConnectedQueue = [];
-  onChatSDKInitializedQueue = [];
-};
+  chatConnected = false
+  chatSDKInitialized = false
+  onChatConnectedQueue = []
+  onChatSDKInitializedQueue = []
+}
 
-const flushQueue = (queue) => {
-  queue.forEach((cb) => cb());
-  queue = [];
-};
+const flushQueue = queue => {
+  queue.forEach(cb => cb())
+  queue = []
+}

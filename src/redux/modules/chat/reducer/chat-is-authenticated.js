@@ -1,19 +1,16 @@
-import {
-  AUTHENTICATION_STARTED,
-  AUTHENTICATION_FAILED
-} from '../chat-action-types';
+import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from '../chat-action-types'
 
-const initialState = false;
+const initialState = false
 
 const isAuthenticated = (state = initialState, action) => {
   switch (action.type) {
     case AUTHENTICATION_STARTED:
-      return true;
+      return true
     case AUTHENTICATION_FAILED:
-      return false;
+      return false
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default isAuthenticated;
+export default isAuthenticated

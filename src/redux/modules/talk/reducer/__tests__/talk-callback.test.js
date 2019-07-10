@@ -1,12 +1,12 @@
-import callback from '../talk-callback';
-import * as actionTypes from 'src/redux/modules/talk/talk-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import callback from '../talk-callback'
+import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   isSending: false,
   error: {},
   phoneNumber: ''
-};
+}
 
 testReducer(callback, [
   {
@@ -53,4 +53,4 @@ testReducer(callback, [
       error: { e: 'this is the error' }
     }
   }
-]);
+])

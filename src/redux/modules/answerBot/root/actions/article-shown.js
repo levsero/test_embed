@@ -1,4 +1,4 @@
-import { ARTICLE_SHOWN } from '../action-types';
+import { ARTICLE_SHOWN } from '../action-types'
 
 export const articleShown = (sessionID, articleID) => {
   return {
@@ -7,5 +7,5 @@ export const articleShown = (sessionID, articleID) => {
       sessionID,
       articleID
     }
-  };
-};
+  }
+}

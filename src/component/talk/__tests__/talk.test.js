@@ -1,17 +1,17 @@
-import { render } from 'react-testing-library';
-import React from 'react';
+import { render } from 'react-testing-library'
+import React from 'react'
 
 import {
   CALLBACK_ONLY_SCREEN,
   PHONE_ONLY_SCREEN,
   CALLBACK_AND_PHONE_SCREEN,
   SUCCESS_NOTIFICATION_SCREEN
-} from 'src/redux/modules/talk/talk-screen-types';
+} from 'src/redux/modules/talk/talk-screen-types'
 
-import { Component as Talk } from '../Talk';
-import { Provider } from 'react-redux';
-import createStore from 'src/redux/createStore';
-import { locals as styles } from './Talk.scss';
+import { Component as Talk } from '../Talk'
+import { Provider } from 'react-redux'
+import createStore from 'src/redux/createStore'
+import { locals as styles } from './Talk.scss'
 
 const renderComponent = (overrideProps = {}) => {
   const defaultProps = {
@@ -28,8 +28,8 @@ const renderComponent = (overrideProps = {}) => {
     agentAvailability: true,
     isMobile: false,
     libphonenumber: {
-      parse: (num) => num,
-      format: (num) => num,
+      parse: num => num,
+      format: num => num,
       isValidNumber: () => true
     },
     title: 'Talk',
@@ -38,76 +38,77 @@ const renderComponent = (overrideProps = {}) => {
     submitTalkCallbackForm: () => {},
     serviceUrl: '',
     descriptionlabelText: 'How can we help? (optional)',
-    namelabelText: 'Name (optional)',
-  };
-  const props = { ...defaultProps, ...overrideProps };
+    namelabelText: 'Name (optional)'
+  }
+  const props = { ...defaultProps, ...overrideProps }
 
   return render(
     <Provider store={createStore()}>
       <Talk {...props} />
     </Provider>
-  );
-};
+  )
+}
 
 describe('talk', () => {
   describe('rendering the zendesk logo', () => {
     describe('with the logo enabled', () => {
       it('renders the zendesk logo', () => {
-        const { queryByText } = renderComponent({ agentAvailability: false });
+        const { queryByText } = renderComponent({ agentAvailability: false })
 
-        expect(queryByText('zendesk'))
-          .toBeInTheDocument();
-      });
-    });
+        expect(queryByText('zendesk')).toBeInTheDocument()
+      })
+    })
 
     describe('with logo disabled', () => {
       it('does not render the zendesk logo', () => {
-        const { queryByText } = renderComponent({ agentAvailability: false, isMobile: true });
+        const { queryByText } = renderComponent({
+          agentAvailability: false,
+          isMobile: true
+        })
 
-        expect(queryByText('zendesk'))
-          .not.toBeInTheDocument();
-      });
-    });
+        expect(queryByText('zendesk')).not.toBeInTheDocument()
+      })
+    })
 
     describe('on mobile', () => {
       it('does not render the zendesk logo', () => {
-        const { queryByText } = renderComponent({ agentAvailability: false, hideZendeskLogo: true });
+        const { queryByText } = renderComponent({
+          agentAvailability: false,
+          hideZendeskLogo: true
+        })
 
-        expect(queryByText('zendesk'))
-          .not.toBeInTheDocument();
-      });
-    });
-  });
+        expect(queryByText('zendesk')).not.toBeInTheDocument()
+      })
+    })
+  })
 
   describe('when no agents are available', () => {
     it('renders the offline screen', () => {
-      const { getByTestId } = renderComponent({ agentAvailability: false });
+      const { getByTestId } = renderComponent({ agentAvailability: false })
 
-      expect(getByTestId('talk--offlinePage'))
-        .toBeInTheDocument();
-    });
+      expect(getByTestId('talk--offlinePage')).toBeInTheDocument()
+    })
 
     it('styles the scroll container to take up the full height of the widget', () => {
-      const { getByTestId } = renderComponent({ agentAvailability: false });
+      const { getByTestId } = renderComponent({ agentAvailability: false })
 
-      expect(getByTestId('scrollcontainer').querySelector('div').className)
-        .toContain(styles.scrollContainerFullHeight);
-    });
-  });
+      expect(getByTestId('scrollcontainer').querySelector('div').className).toContain(
+        styles.scrollContainerFullHeight
+      )
+    })
+  })
 
   describe('callback only screen', () => {
     it('displays a callback form', () => {
-      const { queryByText, getByLabelText } = renderComponent({ screen: CALLBACK_ONLY_SCREEN });
+      const { queryByText, getByLabelText } = renderComponent({
+        screen: CALLBACK_ONLY_SCREEN
+      })
 
-      expect(queryByText('Enter your phone number and we\'ll call you back.'))
-        .toBeInTheDocument();
-      expect(getByLabelText('Phone Number'))
-        .toBeInTheDocument();
-      expect(getByLabelText('Name (optional)'))
-        .toBeInTheDocument();
-      expect(getByLabelText('How can we help? (optional)'))
-        .toBeInTheDocument();
-    });
+      expect(queryByText("Enter your phone number and we'll call you back.")).toBeInTheDocument()
+      expect(getByLabelText('Phone Number')).toBeInTheDocument()
+      expect(getByLabelText('Name (optional)')).toBeInTheDocument()
+      expect(getByLabelText('How can we help? (optional)')).toBeInTheDocument()
+    })
 
     describe('when the fields have values', () => {
       it('renders error messages', () => {
@@ -117,14 +118,12 @@ describe('talk', () => {
             name: 'taipan',
             description: 'no one is quite sure'
           }
-        });
+        })
 
-        expect(queryByValue('taipan'))
-          .toBeInTheDocument();
-        expect(queryByText('no one is quite sure'))
-          .toBeInTheDocument();
-      });
-    });
+        expect(queryByValue('taipan')).toBeInTheDocument()
+        expect(queryByText('no one is quite sure')).toBeInTheDocument()
+      })
+    })
 
     describe('with a callback error', () => {
       describe('already enqueued error', () => {
@@ -132,70 +131,62 @@ describe('talk', () => {
           const { queryByText } = renderComponent({
             screen: CALLBACK_ONLY_SCREEN,
             callback: { error: { message: 'phone_number_already_in_queue' } }
-          });
+          })
 
-          expect(queryByText("You've already submitted a request. We'll get back to you soon."))
-            .toBeInTheDocument();
-        });
-      });
+          expect(
+            queryByText("You've already submitted a request. We'll get back to you soon.")
+          ).toBeInTheDocument()
+        })
+      })
 
       describe('with a generic error', () => {
         it('renders the error message', () => {
           const { queryByText } = renderComponent({
             screen: CALLBACK_ONLY_SCREEN,
             callback: { error: { message: 'fooBar' } }
-          });
+          })
 
-          expect(queryByText('There was an error processing your request. Please try again later.'));
-        });
-      });
-    });
-  });
+          expect(queryByText('There was an error processing your request. Please try again later.'))
+        })
+      })
+    })
+  })
 
   describe('phone only screen', () => {
     it('displays a phone number and a message to call it', () => {
-      const { queryByText } = renderComponent({ screen: PHONE_ONLY_SCREEN });
+      const { queryByText } = renderComponent({ screen: PHONE_ONLY_SCREEN })
 
-      expect(queryByText('Call us at the phone number below to get in contact with us.'))
-        .toBeInTheDocument();
-      expect(queryByText('12345678'))
-        .toBeInTheDocument();
-    });
-  });
+      expect(
+        queryByText('Call us at the phone number below to get in contact with us.')
+      ).toBeInTheDocument()
+      expect(queryByText('12345678')).toBeInTheDocument()
+    })
+  })
 
   describe('success notification screen', () => {
     it('displays a phone number and a callback form', () => {
       const { queryByText } = renderComponent({
         screen: SUCCESS_NOTIFICATION_SCREEN
-      });
+      })
 
-      expect(queryByText('Thanks for reaching out.'))
-        .toBeInTheDocument();
-      expect(queryByText("We'll get back to you soon."))
-        .toBeInTheDocument();
-      expect(queryByText('Done'))
-        .toBeInTheDocument();
-    });
-  });
+      expect(queryByText('Thanks for reaching out.')).toBeInTheDocument()
+      expect(queryByText("We'll get back to you soon.")).toBeInTheDocument()
+      expect(queryByText('Done')).toBeInTheDocument()
+    })
+  })
 
   describe('callback and phone screen', () => {
     it('displays a phone number and a callback form', () => {
       const { queryByText, getByLabelText } = renderComponent({
         screen: CALLBACK_AND_PHONE_SCREEN
-      });
+      })
 
-      expect(queryByText('Enter your phone number and we\'ll call you back.'))
-        .toBeInTheDocument();
-      expect(queryByText('Our phone number:'))
-        .toBeInTheDocument();
-      expect(queryByText('12345678'))
-        .toBeInTheDocument();
-      expect(getByLabelText('Phone Number'))
-        .toBeInTheDocument();
-      expect(getByLabelText('Name (optional)'))
-        .toBeInTheDocument();
-      expect(getByLabelText('How can we help? (optional)'))
-        .toBeInTheDocument();
-    });
-  });
-});
+      expect(queryByText("Enter your phone number and we'll call you back.")).toBeInTheDocument()
+      expect(queryByText('Our phone number:')).toBeInTheDocument()
+      expect(queryByText('12345678')).toBeInTheDocument()
+      expect(getByLabelText('Phone Number')).toBeInTheDocument()
+      expect(getByLabelText('Name (optional)')).toBeInTheDocument()
+      expect(getByLabelText('How can we help? (optional)')).toBeInTheDocument()
+    })
+  })
+})

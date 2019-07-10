@@ -1,52 +1,47 @@
-import { base64decode, sha1 } from 'utility/utils';
+import { base64decode, sha1 } from 'utility/utils'
 
-import _ from 'lodash';
+import _ from 'lodash'
 
 function isTokenValid(token) {
   if (token && token.expiry) {
-    const now = Math.floor(Date.now() / 1000);
+    const now = Math.floor(Date.now() / 1000)
 
-    return token.expiry > now;
+    return token.expiry > now
   }
-  return false;
+  return false
 }
 
 const extractTokenId = _.memoize(function(jwt) {
-  const jwtBody = jwt.split('.')[1];
+  const jwtBody = jwt.split('.')[1]
 
   if (typeof jwtBody === 'undefined') {
-    return null;
+    return null
   }
 
-  const decodedBody = base64decode(jwtBody);
-  const message = JSON.parse(decodedBody);
+  const decodedBody = base64decode(jwtBody)
+  const message = JSON.parse(decodedBody)
 
-  return message.email ? sha1(message.email) : null;
-});
+  return message.email ? sha1(message.email) : null
+})
 
 function isTokenRenewable(token) {
   if (token && token.expiry) {
-    const now = Math.floor(Date.now() / 1000);
-    const timeDiff = token.expiry - now;
-    const renewTime = 20 * 60; // 20 mins in secs
+    const now = Math.floor(Date.now() / 1000)
+    const timeDiff = token.expiry - now
+    const renewTime = 20 * 60 // 20 mins in secs
 
-    return timeDiff > 0 && timeDiff <= renewTime;
+    return timeDiff > 0 && timeDiff <= renewTime
   }
-  return false;
+  return false
 }
 
 function isTokenExpired(token) {
   if (token && token.expiry) {
-    const now = Math.floor(Date.now() / 1000);
+    const now = Math.floor(Date.now() / 1000)
 
-    return token.expiry < now;
+    return token.expiry < now
   }
-  return false;
+  return false
 }
 
-export {
-  isTokenValid,
-  extractTokenId,
-  isTokenRenewable,
-  isTokenExpired
-};
+export { isTokenValid, extractTokenId, isTokenRenewable, isTokenExpired }

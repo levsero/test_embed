@@ -9,26 +9,22 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  POPOUT_BUTTON_CLICKED,
-} from '../base-action-types';
-import {
-  ZOPIM_HIDE,
-  ZOPIM_SHOW,
-  ZOPIM_ON_CLOSE
-} from '../../zopimChat/zopimChat-action-types';
+  POPOUT_BUTTON_CLICKED
+} from '../base-action-types'
+import { ZOPIM_HIDE, ZOPIM_SHOW, ZOPIM_ON_CLOSE } from '../../zopimChat/zopimChat-action-types'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
-} from '../../chat/chat-action-types';
-import { isMobileBrowser } from 'utility/devices';
-import { isPopout } from 'utility/globals';
+} from '../../chat/chat-action-types'
+import { isMobileBrowser } from 'utility/devices'
+import { isPopout } from 'utility/globals'
 
-const initialState = !isPopout();
+const initialState = !isPopout()
 
 const launcherVisible = (state = initialState, action) => {
-  const { type } = action;
+  const { type } = action
 
   switch (type) {
     case LAUNCHER_CLICKED:
@@ -37,7 +33,7 @@ const launcherVisible = (state = initialState, action) => {
     case PROACTIVE_CHAT_RECEIVED:
     case CHAT_WINDOW_OPEN_ON_NAVIGATE:
     case OPEN_RECEIVED:
-      return false;
+      return false
     case CLOSE_BUTTON_CLICKED:
     case POPOUT_BUTTON_CLICKED:
     case ZOPIM_HIDE:
@@ -47,15 +43,15 @@ const launcherVisible = (state = initialState, action) => {
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
     case CHAT_BANNED:
     case CLOSE_RECEIVED:
-      return true;
+      return true
     case ZOPIM_SHOW:
     case NEXT_BUTTON_CLICKED:
-      return isMobileBrowser();
+      return isMobileBrowser()
     case TOGGLE_RECEIVED:
-      return !state;
+      return !state
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default launcherVisible;
+export default launcherVisible

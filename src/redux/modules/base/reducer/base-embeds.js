@@ -1,8 +1,8 @@
-import { UPDATE_EMBED } from '../base-action-types';
+import { UPDATE_EMBED } from '../base-action-types'
 
-const initialState = {};
+const initialState = {}
 const embeds = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case UPDATE_EMBED:
@@ -13,10 +13,10 @@ const embeds = (state = initialState, action) => {
           ...state[payload.name],
           ...payload.params
         }
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default embeds;
+export default embeds

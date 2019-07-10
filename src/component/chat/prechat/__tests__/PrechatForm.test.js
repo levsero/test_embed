@@ -1,18 +1,25 @@
-import { render, fireEvent } from 'react-testing-library';
-import React from 'react';
+import { render, fireEvent } from 'react-testing-library'
+import React from 'react'
 
-import { PrechatForm } from '../PrechatForm';
+import { PrechatForm } from '../PrechatForm'
 
 const mockFormProp = {
   name: { name: 'name', required: true },
   email: { name: 'email', required: true },
-  phone: { name: 'phone', label: 'Phone Number', required: false, hidden: false },
+  phone: {
+    name: 'phone',
+    label: 'Phone Number',
+    required: false,
+    hidden: false
+  },
   message: { name: 'message', label: 'Message', required: false },
-  department: { name: 'department', label: 'Choose Department', required: false },
-  departments: [
-    { name: 'dept', id: 1234, isDefault: false }
-  ]
-};
+  department: {
+    name: 'department',
+    label: 'Choose Department',
+    required: false
+  },
+  departments: [{ name: 'dept', id: 1234, isDefault: false }]
+}
 
 const renderPrechatForm = (inProps = {}) => {
   const defaultProps = {
@@ -24,57 +31,47 @@ const renderPrechatForm = (inProps = {}) => {
     isAuthenticated: false,
     openedChatHistory: () => {},
     chatHistoryLabel: 'Chat History here!'
-  };
+  }
 
   const combinedProps = {
     ...defaultProps,
     ...inProps
-  };
+  }
 
-  return render(
-    <PrechatForm
-      {...combinedProps}
-    /> );
-};
+  return render(<PrechatForm {...combinedProps} />)
+}
 
 test('renders a greeting message', () => {
-  const { queryByText } = renderPrechatForm();
+  const { queryByText } = renderPrechatForm()
 
-  expect(queryByText('Hi there this is a greeting message'))
-    .toBeInTheDocument();
-});
+  expect(queryByText('Hi there this is a greeting message')).toBeInTheDocument()
+})
 
 test('renders the expected fields', () => {
-  const { queryByLabelText } = renderPrechatForm();
+  const { queryByLabelText } = renderPrechatForm()
 
-  expect(queryByLabelText('Name'))
-    .toBeInTheDocument();
-  expect(queryByLabelText('Email'))
-    .toBeInTheDocument();
-  expect(queryByLabelText(/Phone Number/))
-    .toBeInTheDocument();
-  expect(queryByLabelText(/Message/))
-    .toBeInTheDocument();
-  expect(queryByLabelText(/Choose Department/))
-    .toBeInTheDocument();
-});
+  expect(queryByLabelText('Name')).toBeInTheDocument()
+  expect(queryByLabelText('Email')).toBeInTheDocument()
+  expect(queryByLabelText(/Phone Number/)).toBeInTheDocument()
+  expect(queryByLabelText(/Message/)).toBeInTheDocument()
+  expect(queryByLabelText(/Choose Department/)).toBeInTheDocument()
+})
 
 describe('Departments', () => {
   describe('when there are no departments', () => {
     it('does not show the department dropdown', () => {
       const formProp = {
         ...mockFormProp,
-        departments: [],
-      };
+        departments: []
+      }
 
       const { queryByLabelText } = renderPrechatForm({
         form: formProp
-      });
+      })
 
-      expect(queryByLabelText(/Choose Department/))
-        .not.toBeInTheDocument();
-    });
-  });
+      expect(queryByLabelText(/Choose Department/)).not.toBeInTheDocument()
+    })
+  })
 
   describe('when there is one department', () => {
     describe('and it is a default, hidden via api', () => {
@@ -82,34 +79,32 @@ describe('Departments', () => {
         const formProp = {
           ...mockFormProp,
           departments: [{ id: 1, status: 'online', isDefault: true }]
-        };
+        }
 
         const { queryByLabelText } = renderPrechatForm({
           form: formProp,
           settingsDepartmentsEnabled: []
-        });
+        })
 
-        expect(queryByLabelText(/Choose Department/))
-          .not.toBeInTheDocument();
-      });
-    });
+        expect(queryByLabelText(/Choose Department/)).not.toBeInTheDocument()
+      })
+    })
 
     describe('and it is not default', () => {
       it('shows the department dropdown', () => {
         const formProp = {
           ...mockFormProp,
           departments: [{ id: 1, status: 'online', isDefault: false }]
-        };
+        }
 
         const { queryByLabelText } = renderPrechatForm({
-          form: formProp,
-        });
+          form: formProp
+        })
 
-        expect(queryByLabelText(/Choose Department/))
-          .toBeInTheDocument();
-      });
-    });
-  });
+        expect(queryByLabelText(/Choose Department/)).toBeInTheDocument()
+      })
+    })
+  })
 
   describe('when there are more than one departments', () => {
     it('shows the department dropdown', () => {
@@ -119,97 +114,91 @@ describe('Departments', () => {
           { id: 1, status: 'online', isDefault: false },
           { id: 2, status: 'offline', isDefault: true }
         ]
-      };
+      }
 
       const { queryByLabelText } = renderPrechatForm({
         form: formProp
-      });
+      })
 
-      expect(queryByLabelText(/Choose Department/))
-        .toBeInTheDocument();
-    });
-  });
-});
+      expect(queryByLabelText(/Choose Department/)).toBeInTheDocument()
+    })
+  })
+})
 
 test('renders fields as optional if required is false', () => {
   let formProp = {
     name: { name: 'name' },
     email: { name: 'email' },
-    phone: { name: 'phone', label: 'Phone Number', required: false, hidden: false },
+    phone: {
+      name: 'phone',
+      label: 'Phone Number',
+      required: false,
+      hidden: false
+    },
     message: { name: 'message', required: false }
-  };
+  }
   const { queryByLabelText } = renderPrechatForm({
     form: formProp
-  });
+  })
 
-  expect(queryByLabelText('Name (optional)'))
-    .toBeInTheDocument();
-  expect(queryByLabelText('Email (optional)'))
-    .toBeInTheDocument();
-  expect(queryByLabelText('Phone Number (optional)'))
-    .toBeInTheDocument();
-  expect(queryByLabelText('Message (optional)'))
-    .toBeInTheDocument();
-});
+  expect(queryByLabelText('Name (optional)')).toBeInTheDocument()
+  expect(queryByLabelText('Email (optional)')).toBeInTheDocument()
+  expect(queryByLabelText('Phone Number (optional)')).toBeInTheDocument()
+  expect(queryByLabelText('Message (optional)')).toBeInTheDocument()
+})
 
 test('does not render phoneEnabled is true', () => {
   let formProp = {
     ...mockFormProp,
-    phone: { name: 'phone', required: false, hidden: true },
-  };
-  const { queryByLabelText } = renderPrechatForm( {
+    phone: { name: 'phone', required: false, hidden: true }
+  }
+  const { queryByLabelText } = renderPrechatForm({
     phoneEnabled: false,
     form: formProp
-  });
+  })
 
-  expect(queryByLabelText(/Phone/))
-    .not.toBeInTheDocument();
-});
+  expect(queryByLabelText(/Phone/)).not.toBeInTheDocument()
+})
 
 test('does not render contact information if loginEnabled is false', () => {
   const { queryByLabelText } = renderPrechatForm({
-    loginEnabled:false
-  });
+    loginEnabled: false
+  })
 
-  expect(queryByLabelText('Name'))
-    .not.toBeInTheDocument();
-  expect(queryByLabelText('Email'))
-    .not.toBeInTheDocument();
-  expect(queryByLabelText(/Phone Number/))
-    .not.toBeInTheDocument();
-});
+  expect(queryByLabelText('Name')).not.toBeInTheDocument()
+  expect(queryByLabelText('Email')).not.toBeInTheDocument()
+  expect(queryByLabelText(/Phone Number/)).not.toBeInTheDocument()
+})
 
 describe('submit button', () => {
   it('has the `Start chat` string when an online department is selected', () => {
     let formProp = {
       ...mockFormProp,
       departments: [{ name: 'department', id: 123, status: 'online' }]
-    };
+    }
 
     const { queryByText } = renderPrechatForm({
       form: formProp,
       formState: { department: 123 }
-    });
+    })
 
-    expect(queryByText('Start chat'))
-      .toBeInTheDocument();
-  });
+    expect(queryByText('Start chat')).toBeInTheDocument()
+  })
 
   it('has the `Send message` string when an offline department is selected', () => {
     let formProp = {
       ...mockFormProp,
-      departments: [{ name: 'department', id: 123, status: 'offline' }],
-    };
+      departments: [{ name: 'department', id: 123, status: 'offline' }]
+    }
 
     const { queryByText } = renderPrechatForm({
       form: formProp,
       formState: { department: 123 }
-    });
+    })
 
-    expect(queryByText('Send message'))
-      .toBeInTheDocument();
-  });
-});
+    expect(queryByText('Send message')).toBeInTheDocument()
+  })
+})
 
 describe('ChatHistoryLink', () => {
   describe('when Authenticated and Chat History exists', () => {
@@ -217,11 +206,11 @@ describe('ChatHistoryLink', () => {
       const { queryByText } = renderPrechatForm({
         isAuthenticated: true,
         hasChatHistory: true
-      });
+      })
 
-      expect(queryByText('Chat History here!')).toBeInTheDocument();
-    });
-  });
+      expect(queryByText('Chat History here!')).toBeInTheDocument()
+    })
+  })
 
   describe('when values are false', () => {
     describe('when isAuthenticated is false', () => {
@@ -229,24 +218,24 @@ describe('ChatHistoryLink', () => {
         const { queryByText } = renderPrechatForm({
           isAuthenticated: false,
           hasChatHistory: true
-        });
+        })
 
-        expect(queryByText('Chat History here!')).not.toBeInTheDocument();
-      });
-    });
+        expect(queryByText('Chat History here!')).not.toBeInTheDocument()
+      })
+    })
 
     describe('when hasChatHistory is false', () => {
       it('does not contain link', () => {
         const { queryByText } = renderPrechatForm({
           isAuthenticated: true,
           hasChatHistory: false
-        });
+        })
 
-        expect(queryByText('Chat History here!')).not.toBeInTheDocument();
-      });
-    });
-  });
-});
+        expect(queryByText('Chat History here!')).not.toBeInTheDocument()
+      })
+    })
+  })
+})
 
 describe('validation', () => {
   it('validates required fields', () => {
@@ -255,22 +244,18 @@ describe('validation', () => {
       email: { name: 'email', required: true },
       phone: { name: 'phone', label: 'Phone Number', required: true },
       message: { name: 'message', label: 'Message', required: true }
-    };
+    }
     const { getByText, queryByText } = renderPrechatForm({
       form: formProp
-    });
+    })
 
-    fireEvent.click(getByText('Start chat'));
+    fireEvent.click(getByText('Start chat'))
 
-    expect(queryByText('Please enter a valid name.'))
-      .toBeInTheDocument();
-    expect(queryByText('Please enter a valid email address.'))
-      .toBeInTheDocument();
-    expect(queryByText('Please enter a valid phone number.'))
-      .toBeInTheDocument();
-    expect(queryByText('Please enter a valid message.'))
-      .toBeInTheDocument();
-  });
+    expect(queryByText('Please enter a valid name.')).toBeInTheDocument()
+    expect(queryByText('Please enter a valid email address.')).toBeInTheDocument()
+    expect(queryByText('Please enter a valid phone number.')).toBeInTheDocument()
+    expect(queryByText('Please enter a valid message.')).toBeInTheDocument()
+  })
 
   it('validates email value is a valid email', () => {
     const formProp = {
@@ -278,48 +263,45 @@ describe('validation', () => {
       email: { name: 'email', required: false },
       phone: { name: 'phone', required: false },
       message: { name: 'message', required: false }
-    };
+    }
     const { getByText, queryByText } = renderPrechatForm({
       form: formProp,
-      formState:  { email: 'sadfasdfsfd' }
-    });
+      formState: { email: 'sadfasdfsfd' }
+    })
 
-    fireEvent.click(getByText('Start chat'));
+    fireEvent.click(getByText('Start chat'))
 
-    expect(queryByText('Please enter a valid email address.'))
-      .toBeInTheDocument();
-  });
+    expect(queryByText('Please enter a valid email address.')).toBeInTheDocument()
+  })
 
   it('validates phone number value is a valid phone number', () => {
     const { getByText, queryByText } = renderPrechatForm({
       formState: { phone: 'sadfasdfsfd' }
-    });
+    })
 
-    fireEvent.click(getByText('Start chat'));
+    fireEvent.click(getByText('Start chat'))
 
-    expect(queryByText('Please enter a valid phone number.'))
-      .toBeInTheDocument();
-  });
-});
+    expect(queryByText('Please enter a valid phone number.')).toBeInTheDocument()
+  })
+})
 
 test('submits expected form data', () => {
-  jest.useFakeTimers();
+  jest.useFakeTimers()
   const formData = {
     email: 'me@zd.com',
     name: 'Homer Simpson',
     phone: '555-555-5555',
     message: 'This is the message'
-  };
-  const formHandler = jest.fn();
+  }
+  const formHandler = jest.fn()
   const { getByText } = renderPrechatForm({
     formState: formData,
     onFormCompleted: formHandler
-  });
+  })
 
-  jest.runAllTimers();
+  jest.runAllTimers()
 
-  fireEvent.click(getByText('Start chat'));
+  fireEvent.click(getByText('Start chat'))
 
-  expect(formHandler)
-    .toHaveBeenCalledWith(formData);
-});
+  expect(formHandler).toHaveBeenCalledWith(formData)
+})

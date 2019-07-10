@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { locals as styles } from './MessageBubbleChoices.scss';
+import { locals as styles } from './MessageBubbleChoices.scss'
 
 export class MessageBubbleChoices extends Component {
   static propTypes = {
@@ -9,7 +9,7 @@ export class MessageBubbleChoices extends Component {
     containerStyle: PropTypes.string,
     leadingMessageStyle: PropTypes.string,
     children: PropTypes.node.isRequired
-  };
+  }
 
   static defaultProps = {
     leadingMessage: null,
@@ -18,36 +18,36 @@ export class MessageBubbleChoices extends Component {
   }
 
   renderLeadingMessage = () => {
-    const { leadingMessage, leadingMessageStyle } = this.props;
+    const { leadingMessage, leadingMessageStyle } = this.props
 
-    if (!leadingMessage) return;
+    if (!leadingMessage) return
     return (
       <div className={`${styles.header} ${styles.firstItem} ${leadingMessageStyle}`}>
         {leadingMessage}
       </div>
-    );
+    )
   }
 
   renderChildItems = () => {
-    const children = React.Children.toArray(this.props.children);
+    const children = React.Children.toArray(this.props.children)
 
     return children.map((child, index) => {
-      let childStyle = '';
+      let childStyle = ''
 
       if (!this.props.leadingMessage && index === 0) {
-        childStyle = styles.firstItem;
+        childStyle = styles.firstItem
       }
 
       if (index === children.length - 1) {
-        childStyle = `${childStyle} ${styles.lastItem}`;
+        childStyle = `${childStyle} ${styles.lastItem}`
       }
 
       return (
         <div key={index} className={`${childStyle} ${styles.optionItem}`}>
           {child}
         </div>
-      );
-    });
+      )
+    })
   }
 
   render() {
@@ -56,6 +56,6 @@ export class MessageBubbleChoices extends Component {
         {this.renderLeadingMessage()}
         {this.renderChildItems()}
       </div>
-    );
+    )
   }
 }

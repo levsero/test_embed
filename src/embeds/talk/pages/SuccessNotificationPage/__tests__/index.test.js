@@ -1,26 +1,24 @@
-jest.mock('utility/devices');
+jest.mock('utility/devices')
 
-import React from 'react';
-import { render } from 'react-testing-library';
-import SuccessNotificationPage from '../';
-import { isMobileBrowser } from 'utility/devices';
+import React from 'react'
+import { render } from 'react-testing-library'
+import SuccessNotificationPage from '../'
+import { isMobileBrowser } from 'utility/devices'
 
 describe('SuccessNotificationPage', () => {
   it('renders when not on a mobile browser', () => {
-    isMobileBrowser.mockReturnValue(false);
+    isMobileBrowser.mockReturnValue(false)
 
-    const { container } = render(<SuccessNotificationPage/>);
+    const { container } = render(<SuccessNotificationPage />)
 
-    expect(container)
-      .toMatchSnapshot();
-  });
+    expect(container).toMatchSnapshot()
+  })
 
   it('renders when on a mobile browser', () => {
-    isMobileBrowser.mockReturnValue(true);
+    isMobileBrowser.mockReturnValue(true)
 
-    const { container } = render(<SuccessNotificationPage/>);
+    const { container } = render(<SuccessNotificationPage />)
 
-    expect(container)
-      .toMatchSnapshot();
-  });
-});
+    expect(container).toMatchSnapshot()
+  })
+})

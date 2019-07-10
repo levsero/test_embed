@@ -1,7 +1,7 @@
-import loading from '../helpCenter-searchLoading';
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import loading from '../helpCenter-searchLoading'
+import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(loading, [
   {
@@ -68,4 +68,4 @@ testReducer(loading, [
     initialState: true,
     expected: false
   }
-]);
+])

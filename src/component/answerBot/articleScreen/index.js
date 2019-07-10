@@ -1,30 +1,30 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import FeedbackPopup from './feedbackPopup';
+import FeedbackPopup from './feedbackPopup'
 
-import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { SlideAppear } from 'component/transition/SlideAppear';
+import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle'
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { SlideAppear } from 'component/transition/SlideAppear'
 
-import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/';
-import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/';
+import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/'
+import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/'
 import {
   botMessage,
   botFeedbackMessage,
   botFeedbackRequested,
   botFallbackMessage
-} from 'src/redux/modules/answerBot/root/actions/bot';
+} from 'src/redux/modules/answerBot/root/actions/bot'
 
-import * as rootActions from 'src/redux/modules/answerBot/root/actions/';
-import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors';
+import * as rootActions from 'src/redux/modules/answerBot/root/actions/'
+import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 
-import { CONVERSATION_SCREEN } from 'src/constants/answerBot';
+import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
-import { i18n } from 'service/i18n';
-import { locals as styles } from './ArticleScreen.scss';
+import { i18n } from 'service/i18n'
+import { locals as styles } from './ArticleScreen.scss'
 
 class ArticleScreen extends Component {
   static propTypes = {
@@ -44,82 +44,78 @@ class ArticleScreen extends Component {
       botFeedbackRequested: PropTypes.func.isRequired,
       botFallbackMessage: PropTypes.func.isRequired
     })
-  };
+  }
 
   static defaultProps = {
     articleTitleKey: 'help',
     isMobile: false,
     scrollContainerClasses: '',
-    saveConversationScroll: () => {},
-  };
+    saveConversationScroll: () => {}
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       showPopup: false,
       popupDisplayed: false,
       initialOptions: true
-    };
-    this.showPopupTimer = null;
+    }
+    this.showPopupTimer = null
   }
 
   componentDidMount = () => {
     this.showPopupTimer = setTimeout(() => {
       if (this.props.isFeedbackRequired && !this.state.showPopup) {
-        this.setState({ showPopup: true });
+        this.setState({ showPopup: true })
       }
-    }, 1000);
+    }, 1000)
   }
 
   componentWillUnmount() {
-    this.showPopupTimer = clearTimeout(this.showPopupTimer);
+    this.showPopupTimer = clearTimeout(this.showPopupTimer)
   }
 
   onYesFeedback = () => {
-    const { actions, saveConversationScroll } = this.props;
+    const { actions, saveConversationScroll } = this.props
 
-    actions.sessionResolved();
+    actions.sessionResolved()
 
     // Clear previous feedback
-    actions.botFeedbackRequested();
+    actions.botFeedbackRequested()
 
-    actions.botMessage(
-      i18n.t('embeddable_framework.answerBot.msg.yes_acknowledgement')
-    );
-    actions.botMessage(
-      i18n.t('embeddable_framework.answerBot.msg.prompt_again_after_yes'),
-    );
+    actions.botMessage(i18n.t('embeddable_framework.answerBot.msg.yes_acknowledgement'))
+    actions.botMessage(i18n.t('embeddable_framework.answerBot.msg.prompt_again_after_yes'))
 
-    this.setState({ showPopup: false, popupDisplayed: false });
+    this.setState({ showPopup: false, popupDisplayed: false })
 
     // Scroll to bottom when user switches back to conversation screen
-    saveConversationScroll({ scrollToBottom: true });
+    saveConversationScroll({ scrollToBottom: true })
   }
 
-  onNoFeedback = (reasonID) => {
-    const { actions, saveConversationScroll } = this.props;
+  onNoFeedback = reasonID => {
+    const { actions, saveConversationScroll } = this.props
 
-    actions.articleDismissed(reasonID);
-    actions.sessionFallback();
+    actions.articleDismissed(reasonID)
+    actions.sessionFallback()
 
     // Clear previous feedback
-    actions.botFeedbackRequested();
+    actions.botFeedbackRequested()
 
-    actions.botFeedbackMessage(i18n.t('embeddable_framework.answerBot.msg.no_acknowledgement'));
-    actions.botFallbackMessage(true);
+    actions.botFeedbackMessage(i18n.t('embeddable_framework.answerBot.msg.no_acknowledgement'))
+    actions.botFallbackMessage(true)
 
     // Scroll to bottom when user switches back to conversation screen
-    saveConversationScroll({ scrollToBottom: true });
-    actions.screenChanged(CONVERSATION_SCREEN);
+    saveConversationScroll({ scrollToBottom: true })
+    actions.screenChanged(CONVERSATION_SCREEN)
   }
 
   handlePopupAppeared = () => {
-    this.setState({ popupDisplayed: true });
+    this.setState({ popupDisplayed: true })
   }
 
   handleNoClick = () => {
-    this.setState({ initialOptions: false });
+    this.setState({ initialOptions: false })
   }
 
   feedbackPopup = () => {
@@ -130,21 +126,24 @@ class ArticleScreen extends Component {
         startPosHeight={'-100px'}
         endPosHeight={'0px'}
         duration={400}
-        onEntered={this.handlePopupAppeared}>
+        onEntered={this.handlePopupAppeared}
+      >
         <FeedbackPopup
           onYesClick={this.onYesFeedback}
           onNoClick={this.handleNoClick}
           onReasonClick={this.onNoFeedback}
         />
       </SlideAppear>
-    );
+    )
   }
 
   render = () => {
-    let popupStyles = '';
+    let popupStyles = ''
 
     if (this.state.popupDisplayed) {
-      popupStyles = this.state.initialOptions ? styles.optionsPopupSpacing : styles.reasonsPopupSpacing;
+      popupStyles = this.state.initialOptions
+        ? styles.optionsPopupSpacing
+        : styles.reasonsPopupSpacing
     }
 
     return (
@@ -153,7 +152,8 @@ class ArticleScreen extends Component {
           containerClasses={`${this.props.scrollContainerClasses} ${styles.scrollContainer} ${popupStyles}`}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.articleTitleKey}`)}
           isMobile={this.props.isMobile}
-          footerClasses={styles.footer}>
+          footerClasses={styles.footer}
+        >
           <HelpCenterArticle
             activeArticle={this.props.article}
             originalArticleButton={false}
@@ -162,31 +162,36 @@ class ArticleScreen extends Component {
         </ScrollContainer>
         {this.feedbackPopup()}
       </div>
-    );
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   article: rootSelectors.getCurrentArticle(state),
   isFeedbackRequired: rootSelectors.isFeedbackRequired(state)
-});
+})
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({
-    screenChanged: rootActions.screenChanged,
-    articleDismissed,
-    sessionResolved: sessionActions.sessionResolved,
-    sessionFallback: sessionActions.sessionFallback,
-    botMessage,
-    botFeedbackMessage,
-    botFeedbackRequested,
-    botFallbackMessage
-  }, dispatch)
-});
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(
+    {
+      screenChanged: rootActions.screenChanged,
+      articleDismissed,
+      sessionResolved: sessionActions.sessionResolved,
+      sessionFallback: sessionActions.sessionFallback,
+      botMessage,
+      botFeedbackMessage,
+      botFeedbackRequested,
+      botFallbackMessage
+    },
+    dispatch
+  )
+})
 
-const connectedComponent = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(ArticleScreen);
+const connectedComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  null,
+  { withRef: true }
+)(ArticleScreen)
 
-export {
-  connectedComponent as default,
-  ArticleScreen as Component
-};
+export { connectedComponent as default, ArticleScreen as Component }

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { MessageBubbleChoices }  from 'component/shared/MessageBubbleChoices';
-import { i18n } from 'service/i18n';
-import { Icon } from 'component/Icon';
+import { MessageBubbleChoices } from 'component/shared/MessageBubbleChoices'
+import { i18n } from 'service/i18n'
+import { Icon } from 'component/Icon'
 import {
   getSubmitTicketAvailable,
   getChatAvailable,
@@ -13,15 +13,12 @@ import {
   getTalkOnline,
   getContactOptionsChatLabelOnline,
   getContactOptionsContactFormLabel
-} from 'src/redux/modules/selectors';
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import {
-  updateActiveEmbed,
-  updateBackButtonVisibility
-} from 'src/redux/modules/base';
-import { getZopimChatEmbed } from 'src/redux/modules/base/base-selectors';
+} from 'src/redux/modules/selectors'
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
+import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
+import { getZopimChatEmbed } from 'src/redux/modules/base/base-selectors'
 
-import { locals as styles } from './style.scss';
+import { locals as styles } from './style.scss'
 
 class ChannelChoice extends Component {
   static propTypes = {
@@ -40,128 +37,146 @@ class ChannelChoice extends Component {
       updateBackButtonVisibility: PropTypes.func.isRequired,
       updateActiveEmbed: PropTypes.func.isRequired
     })
-  };
+  }
 
   static defaultProps = {
     useLeadingMessageAsFallback: false,
     oldChat: false
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       availableChannels: this.getAvailableChannels(this.props)
-    };
+    }
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ availableChannels: this.getAvailableChannels(props) });
+    this.setState({ availableChannels: this.getAvailableChannels(props) })
   }
 
-  getAvailableChannels = (props) => {
-    const { chatAvailable, chatOfflineAvailable, talkAvailable, callbackAvailable, submitTicketAvailable } = props;
-    let availableChannels = [];
+  getAvailableChannels = props => {
+    const {
+      chatAvailable,
+      chatOfflineAvailable,
+      talkAvailable,
+      callbackAvailable,
+      submitTicketAvailable
+    } = props
+    let availableChannels = []
 
     if (chatAvailable || chatOfflineAvailable) {
-      availableChannels.push('chat');
+      availableChannels.push('chat')
     }
 
     if (callbackAvailable) {
-      availableChannels.push('request_callback');
+      availableChannels.push('request_callback')
     } else if (talkAvailable) {
-      availableChannels.push('call_us');
+      availableChannels.push('call_us')
     }
 
     if (submitTicketAvailable) {
-      availableChannels.push('submit_ticket');
+      availableChannels.push('submit_ticket')
     }
 
-    return availableChannels;
+    return availableChannels
   }
 
-  handleClick = (channel) => {
+  handleClick = channel => {
     return () => {
-      this.props.actions.updateBackButtonVisibility(true);
+      this.props.actions.updateBackButtonVisibility(true)
       if (this.props.oldChat && channel === 'chat') {
-        channel = 'zopimChat';
+        channel = 'zopimChat'
       }
-      this.props.actions.updateActiveEmbed(channel);
-    };
+      this.props.actions.updateActiveEmbed(channel)
+    }
   }
 
   leadingMessage = () => {
-    const { leadingMessage, useLeadingMessageAsFallback } = this.props;
+    const { leadingMessage, useLeadingMessageAsFallback } = this.props
 
-    if (!useLeadingMessageAsFallback && leadingMessage) return leadingMessage;
+    if (!useLeadingMessageAsFallback && leadingMessage) return leadingMessage
 
     if (this.state.availableChannels.length === 1) {
-      return i18n.t(`embeddable_framework.answerBot.msg.channel_choice.${this.state.availableChannels[0]}_only.title`);
+      return i18n.t(
+        `embeddable_framework.answerBot.msg.channel_choice.${
+          this.state.availableChannels[0]
+        }_only.title`
+      )
     } else if (leadingMessage) {
-      return leadingMessage;
+      return leadingMessage
     } else {
-      return i18n.t('embeddable_framework.answerBot.msg.channel_choice.title');
+      return i18n.t('embeddable_framework.answerBot.msg.channel_choice.title')
     }
   }
 
   renderChannel = (icon, label, channel) => {
-    const iconClasses = `${styles.icon}`;
-    const singleChannelStyles = (this.state.availableChannels.length === 1) ? styles.singleChannel : '';
+    const iconClasses = `${styles.icon}`
+    const singleChannelStyles =
+      this.state.availableChannels.length === 1 ? styles.singleChannel : ''
 
     return (
-      <div className={`${styles.channel} ${singleChannelStyles}`} onClick={this.handleClick(channel)}>
+      <div
+        className={`${styles.channel} ${singleChannelStyles}`}
+        onClick={this.handleClick(channel)}
+      >
         <Icon className={iconClasses} type={icon} />
         <div className={styles.optionText}>{label}</div>
       </div>
-    );
+    )
   }
 
   renderChatChoice = () => {
-    const { chatAvailable, chatOfflineAvailable, chatOnlineAvailableLabel, chatOfflineAvailableLabel } =
-      this.props;
+    const {
+      chatAvailable,
+      chatOfflineAvailable,
+      chatOnlineAvailableLabel,
+      chatOfflineAvailableLabel
+    } = this.props
 
-    if (!chatAvailable && !chatOfflineAvailable) return null;
-    const label = chatOfflineAvailable ? chatOfflineAvailableLabel : chatOnlineAvailableLabel;
+    if (!chatAvailable && !chatOfflineAvailable) return null
+    const label = chatOfflineAvailable ? chatOfflineAvailableLabel : chatOnlineAvailableLabel
 
-    return this.renderChannel('Icon--channelChoice-chat', label, 'chat');
+    return this.renderChannel('Icon--channelChoice-chat', label, 'chat')
   }
 
   renderTalkChoice = () => {
-    if (!this.props.talkAvailable) return null;
+    if (!this.props.talkAvailable) return null
 
-    const label = (this.props.callbackAvailable)
+    const label = this.props.callbackAvailable
       ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
-      : i18n.t('embeddable_framework.channelChoice.button.label.call_us');
+      : i18n.t('embeddable_framework.channelChoice.button.label.call_us')
 
-    return this.renderChannel('Icon--channelChoice-talk', label, 'talk');
+    return this.renderChannel('Icon--channelChoice-talk', label, 'talk')
   }
 
   renderSubmitTicketChoice = () => {
-    if (!this.props.submitTicketAvailable) return null;
+    if (!this.props.submitTicketAvailable) return null
 
-    return this.renderChannel('Icon--channelChoice-contactForm',
+    return this.renderChannel(
+      'Icon--channelChoice-contactForm',
       this.props.submitTicketLabel,
       'ticketSubmissionForm'
-    );
+    )
   }
 
   render = () => {
-    return this.state.availableChannels.length > 0 ?
-      (
-        <MessageBubbleChoices
-          leadingMessage={this.leadingMessage()}
-          containerStyle={styles.container}
-          leadingMessageStyle={styles.title}>
-          {this.renderChatChoice()}
-          {this.renderTalkChoice()}
-          {this.renderSubmitTicketChoice()}
-        </MessageBubbleChoices>
-      )
-      : null;
+    return this.state.availableChannels.length > 0 ? (
+      <MessageBubbleChoices
+        leadingMessage={this.leadingMessage()}
+        containerStyle={styles.container}
+        leadingMessageStyle={styles.title}
+      >
+        {this.renderChatChoice()}
+        {this.renderTalkChoice()}
+        {this.renderSubmitTicketChoice()}
+      </MessageBubbleChoices>
+    ) : null
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   talkAvailable: getTalkOnline(state),
   callbackAvailable: getTalkOnline(state) && isCallbackEnabled(state),
   chatAvailable: getChatAvailable(state),
@@ -171,18 +186,23 @@ const mapStateToProps = (state) => ({
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
   chatOfflineAvailableLabel: getContactOptionsContactFormLabel(state),
   submitTicketLabel: getContactOptionsContactFormLabel(state)
-});
+})
 
-const actionCreators = (dispatch) => ({
-  actions: bindActionCreators({
-    updateBackButtonVisibility,
-    updateActiveEmbed
-  }, dispatch)
-});
+const actionCreators = dispatch => ({
+  actions: bindActionCreators(
+    {
+      updateBackButtonVisibility,
+      updateActiveEmbed
+    },
+    dispatch
+  )
+})
 
-const connectedComponent = connect(mapStateToProps, actionCreators, null, { withRef: true })(ChannelChoice);
+const connectedComponent = connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(ChannelChoice)
 
-export {
-  connectedComponent as default,
-  ChannelChoice as Component
-};
+export { connectedComponent as default, ChannelChoice as Component }

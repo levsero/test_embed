@@ -4,23 +4,23 @@ import {
   PRE_CHAT_FORM_ON_CHANGE,
   CHAT_BADGE_MESSAGE_CHANGED,
   CHAT_BANNED
-} from '../chat-action-types';
+} from '../chat-action-types'
 
-const initialState = '';
+const initialState = ''
 
 const currentMessage = (state = initialState, action) => {
   switch (action.type) {
     case CHAT_BADGE_MESSAGE_CHANGED:
     case CHAT_BOX_CHANGED:
-      return action.payload;
+      return action.payload
     case PRE_CHAT_FORM_ON_CHANGE:
-      return action.payload.message || '';
+      return action.payload.message || ''
     case CHAT_BANNED:
     case RESET_CURRENT_MESSAGE:
-      return initialState;
+      return initialState
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default currentMessage;
+export default currentMessage

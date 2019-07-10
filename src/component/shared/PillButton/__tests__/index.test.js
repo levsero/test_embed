@@ -1,18 +1,16 @@
-import { render } from 'react-testing-library';
-import React from 'react';
+import { render } from 'react-testing-library'
+import React from 'react'
 
-import { PillButton } from '../index';
+import { PillButton } from '../index'
 
 test('renders the expected classes', () => {
-  const { container } = render(<PillButton label='hello world' />);
+  const { container } = render(<PillButton label="hello world" />)
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 test('allows custom classes', () => {
-  const { container } = render(<PillButton label='custom class' className='blah' />);
+  const { container } = render(<PillButton label="custom class" className="blah" />)
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})

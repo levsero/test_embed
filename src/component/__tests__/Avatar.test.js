@@ -1,18 +1,16 @@
-import { render } from 'react-testing-library';
-import React from 'react';
+import { render } from 'react-testing-library'
+import React from 'react'
 
-import { Avatar } from '../Avatar';
+import { Avatar } from '../Avatar'
 
 test('renders an img when src is provided ', () => {
-  const { container } = render(<Avatar src="http://sauce" fallbackIcon="fallback" />);
+  const { container } = render(<Avatar src="http://sauce" fallbackIcon="fallback" />)
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 test('renders a button', () => {
-  const { container } = render(<Avatar fallbackIcon="Icon--avatar" />);
+  const { container } = render(<Avatar fallbackIcon="Icon--avatar" />)
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})

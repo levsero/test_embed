@@ -1,9 +1,9 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
-import { win } from 'utility/globals';
-import { objectDifference } from 'utility/utils';
-import { updateSettings } from 'src/redux/modules/settings';
-import { mediator } from 'service/mediator';
+import { win } from 'utility/globals'
+import { objectDifference } from 'utility/utils'
+import { updateSettings } from 'src/redux/modules/settings'
+import { mediator } from 'service/mediator'
 
 const optionAllowList = {
   webWidget: [
@@ -77,10 +77,8 @@ const optionAllowList = {
     'talk.title',
     'zIndex'
   ]
-};
-const customizationsAllowList = [
-  'helpCenter.localeFallbacks'
-];
+}
+const customizationsAllowList = ['helpCenter.localeFallbacks']
 const webWidgetStoreDefaults = {
   answerBot: {
     avatar: {
@@ -118,7 +116,7 @@ const webWidgetStoreDefaults = {
     },
     tags: []
   },
-  launcher: { },
+  launcher: {},
   margin: 8,
   talk: {
     suppress: false,
@@ -127,57 +125,62 @@ const webWidgetStoreDefaults = {
   },
   viaId: 48,
   viaIdAnswerBot: 67
-};
+}
 const baseDefaults = {
   errorReporting: true,
   analytics: true,
   cookies: true
-};
-let settingsStore = {};
-let webWidgetStore = {};
-let webWidgetCustomizations = false;
+}
+let settingsStore = {}
+let webWidgetStore = {}
+let webWidgetCustomizations = false
 
 const initStore = (settings, options, defaults) => {
   const store = options.reduce((result, option) => {
     if (_.has(settings, option)) {
-      _.set(result, option, _.get(settings, option, null));
+      _.set(result, option, _.get(settings, option, null))
     }
 
-    return result;
-  }, {});
+    return result
+  }, {})
 
-  return _.defaultsDeep(store, defaults);
-};
+  return _.defaultsDeep(store, defaults)
+}
 
 function init(reduxStore = { dispatch: () => {} }) {
-  settingsStore = _.assign({}, baseDefaults, win.zESettings);
+  settingsStore = _.assign({}, baseDefaults, win.zESettings)
 
   // for backwards compatibility with authenticate.
   if (settingsStore.authenticate) {
     if (!settingsStore.webWidget) {
-      settingsStore.webWidget = {};
+      settingsStore.webWidget = {}
     }
-    settingsStore.webWidget.authenticate = settingsStore.authenticate;
+    settingsStore.webWidget.authenticate = settingsStore.authenticate
   }
 
-  webWidgetStore = initStore(settingsStore.webWidget, optionAllowList.webWidget, webWidgetStoreDefaults);
+  webWidgetStore = initStore(
+    settingsStore.webWidget,
+    optionAllowList.webWidget,
+    webWidgetStoreDefaults
+  )
 
-  reduxStore.dispatch(updateSettings({
-    webWidget: {
-      ...webWidgetStore,
-      ...settingsStore
-    }
-  }));
+  reduxStore.dispatch(
+    updateSettings({
+      webWidget: {
+        ...webWidgetStore,
+        ...settingsStore
+      }
+    })
+  )
 }
 
 function get(path) {
   // TODO: Remove this check when web widget customizations are out of beta.
-  if (customizationsAllowList.indexOf(path) > -1 &&
-      !webWidgetCustomizations) {
-    return _.get(webWidgetStoreDefaults, path, null);
+  if (customizationsAllowList.indexOf(path) > -1 && !webWidgetCustomizations) {
+    return _.get(webWidgetStoreDefaults, path, null)
   }
 
-  return _.get(webWidgetStore, path, null);
+  return _.get(webWidgetStore, path, null)
 }
 
 function getTranslations() {
@@ -190,64 +193,67 @@ function getTranslations() {
     helpCenterTitle: webWidgetStore.helpCenter.title,
     launcherChatLabel: webWidgetStore.launcher.chatLabel,
     launcherLabel: webWidgetStore.launcher.label
-  };
+  }
 
-  return _.omitBy(translations, _.isUndefined);
+  return _.omitBy(translations, _.isUndefined)
 }
 
 function getTrackSettings() {
-  const denyList = ['margin', 'viaId', 'viaIdAnswerBot'];
-  const userSettings = _.omit(webWidgetStore, denyList);
-  const defaults = _.omit(webWidgetStoreDefaults, denyList);
-  const widgetSettings = objectDifference(userSettings, defaults);
+  const denyList = ['margin', 'viaId', 'viaIdAnswerBot']
+  const userSettings = _.omit(webWidgetStore, denyList)
+  const defaults = _.omit(webWidgetStoreDefaults, denyList)
+  const widgetSettings = objectDifference(userSettings, defaults)
 
   if (widgetSettings.authenticate) {
-    const authSettings = widgetSettings.authenticate;
+    const authSettings = widgetSettings.authenticate
 
     widgetSettings.authenticate = {
       helpCenter: !!authSettings.jwt || !!_.get(authSettings, 'support.jwt'),
       chat: !!(authSettings.chat && authSettings.chat.jwtFn)
-    };
+    }
   }
 
-  return _.omitBy({
-    webWidget: widgetSettings
-  }, _.isEmpty);
+  return _.omitBy(
+    {
+      webWidget: widgetSettings
+    },
+    _.isEmpty
+  )
 }
 
 function getAuthSettingsJwt() {
-  return get('authenticate.jwt') || get('authenticate.support.jwt');
+  return get('authenticate.jwt') || get('authenticate.support.jwt')
 }
 
 function getAuthSettingsJwtFn() {
-  const authenticateFn = get('authenticate.jwtFn');
+  const authenticateFn = get('authenticate.jwtFn')
 
-  return _.isFunction(authenticateFn) ? authenticateFn : null;
+  return _.isFunction(authenticateFn) ? authenticateFn : null
 }
 
 function getChatAuthSettings() {
-  const authSetting = get('authenticate.chat');
+  const authSetting = get('authenticate.chat')
 
-  return (authSetting && authSetting.jwtFn) ? authSetting : null;
+  return authSetting && authSetting.jwtFn ? authSetting : null
 }
 
 function getErrorReportingEnabled() {
-  return Boolean(settingsStore.errorReporting);
+  return Boolean(settingsStore.errorReporting)
 }
 
 function enableCustomizations() {
-  webWidgetCustomizations = true;
+  webWidgetCustomizations = true
 }
 
 // Only used in testing
 function disableCustomizations() {
-  webWidgetCustomizations = false;
+  webWidgetCustomizations = false
 }
 
-function updateSettingsLegacy(newSettings, callback=() => {}) {
-  _.merge(webWidgetStore, newSettings);
-  callback();
-  mediator.channel.broadcast('.onUpdateSettings');
+function updateSettingsLegacy(newSettings, callback = () => {}) {
+  _.merge(webWidgetStore, newSettings)
+  callback()
+  mediator.channel.broadcast('.onUpdateSettings')
 }
 
 export const settings = {
@@ -262,4 +268,4 @@ export const settings = {
   enableCustomizations,
   updateSettingsLegacy,
   disableCustomizations
-};
+}

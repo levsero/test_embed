@@ -1,1 +1,1 @@
-export const webWidgetStyles = '';
+export const webWidgetStyles = ''

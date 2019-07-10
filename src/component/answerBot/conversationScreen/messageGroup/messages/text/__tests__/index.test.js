@@ -1,18 +1,16 @@
-import { render } from 'react-testing-library';
-import React from 'react';
+import { render } from 'react-testing-library'
+import React from 'react'
 
-import Text from '../index';
+import Text from '../index'
 
 test('renders the expected classes when not visitor', () => {
-  const { container } = render(<Text isVisitor={false} message='not a visitor' />);
+  const { container } = render(<Text isVisitor={false} message="not a visitor" />)
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 test('renders the expected classes when visitor', () => {
-  const { container } = render(<Text isVisitor={true} message='a visitor' />);
+  const { container } = render(<Text isVisitor={true} message="a visitor" />)
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})

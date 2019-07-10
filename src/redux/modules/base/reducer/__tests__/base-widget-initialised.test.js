@@ -1,6 +1,6 @@
-import widgetInitialised from '../base-widget-initialised';
-import { WIDGET_INITIALISED } from '../../base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import widgetInitialised from '../base-widget-initialised'
+import { WIDGET_INITIALISED } from '../../base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(widgetInitialised, [
   {
@@ -16,4 +16,4 @@ testReducer(widgetInitialised, [
     action: { type: WIDGET_INITIALISED },
     expected: true
   }
-]);
+])

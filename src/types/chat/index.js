@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import sharedPropTypes from 'types/shared';
-import { CHAT_MESSAGE_EVENTS } from 'constants/chat';
-import _ from 'lodash';
+import PropTypes from 'prop-types'
+import sharedPropTypes from 'types/shared'
+import { CHAT_MESSAGE_EVENTS } from 'constants/chat'
+import _ from 'lodash'
 
 const chatMessage = PropTypes.shape({
   type: PropTypes.oneOf(_.values(CHAT_MESSAGE_EVENTS)).isRequired,
@@ -17,15 +17,15 @@ const chatMessage = PropTypes.shape({
     size: PropTypes.number,
     url: PropTypes.string
   })
-});
+})
 
 const chatLogEntry = PropTypes.shape({
   type: PropTypes.oneOf(['message', 'event']).isRequired,
   author: PropTypes.string.isRequired,
   messages: PropTypes.arrayOf(PropTypes.number)
-});
+})
 
 export default {
   chatMessage,
   chatLogEntry
-};
+}

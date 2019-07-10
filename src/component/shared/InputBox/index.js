@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields'
 
-import { keyCodes } from 'utility/keyboard';
+import { keyCodes } from 'utility/keyboard'
 
-import { locals as styles } from './InputBox.scss';
-import classNames from 'classnames';
+import { locals as styles } from './InputBox.scss'
+import classNames from 'classnames'
 
 export class InputBox extends Component {
   static propTypes = {
@@ -16,46 +16,41 @@ export class InputBox extends Component {
     updateInputValue: PropTypes.func,
     disabled: PropTypes.bool,
     isMobile: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     inputValue: '',
     disabled: false,
     updateInputValue: () => {},
     isMobile: false
-  };
+  }
 
-  handleKeyDown = (e) => {
+  handleKeyDown = e => {
     if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
-      e.preventDefault();
-      this.props.handleSendInputValue();
+      e.preventDefault()
+      this.props.handleSendInputValue()
     }
   }
 
-  handleInputValueChanged = (e) => {
-    const { value } = e.target;
+  handleInputValueChanged = e => {
+    const { value } = e.target
 
-    this.props.updateInputValue(value);
+    this.props.updateInputValue(value)
   }
 
   render = () => {
-    const { placeholder, name, inputValue, disabled, isMobile } = this.props;
+    const { placeholder, name, inputValue, disabled, isMobile } = this.props
     const fieldClasses = classNames(styles.textField, {
       [styles.fieldDisabled]: disabled
-    });
-    const inputClasses = classNames(
-      styles.input,
-      {
-        [styles.inputMobile]: this.props.isMobile,
-        [styles.fieldMobile]: this.props.isMobile,
-      }
-    );
+    })
+    const inputClasses = classNames(styles.input, {
+      [styles.inputMobile]: this.props.isMobile,
+      [styles.fieldMobile]: this.props.isMobile
+    })
 
     return (
       <TextField className={fieldClasses}>
-        <Label className={styles.label}>
-          {placeholder}
-        </Label>
+        <Label className={styles.label}>{placeholder}</Label>
         <Textarea
           value={inputValue}
           disabled={disabled}
@@ -64,8 +59,9 @@ export class InputBox extends Component {
           className={inputClasses}
           placeholder={placeholder}
           name={name}
-          rows={isMobile ? 1 : 3} />
+          rows={isMobile ? 1 : 3}
+        />
       </TextField>
-    );
-  };
+    )
+  }
 }

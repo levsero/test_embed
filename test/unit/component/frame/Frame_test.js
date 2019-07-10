@@ -11,20 +11,20 @@ describe('Frame', () => {
     mockWidgetHideAnimationComplete,
     mockIsPopout = false,
     renderedFrame,
-    mockHorizontalPosition;
+    mockHorizontalPosition
 
-  const FramePath = buildSrcPath('component/frame/Frame');
-  const MAX_WIDGET_HEIGHT = 550;
-  const MIN_WIDGET_HEIGHT = 150;
-  const WIDGET_WIDTH = 342;
+  const FramePath = buildSrcPath('component/frame/Frame')
+  const MAX_WIDGET_HEIGHT = 550
+  const MIN_WIDGET_HEIGHT = 150
+  const WIDGET_WIDTH = 342
 
   class MockEmbedWrapper extends Component {
     constructor(props, context) {
-      super(props, context);
-      this.embed = null;
+      super(props, context)
+      this.embed = null
       this.nav = {
         forceUpdate: noop
-      };
+      }
     }
 
     setCustomCSS() {}
@@ -32,46 +32,55 @@ describe('Frame', () => {
     render() {
       const newChild = React.cloneElement(this.props.children, {
         ref: 'rootComponent'
-      });
+      })
 
-      return <div id='Embed' ref={(el) => {this.embed = el;}}>{newChild}</div>;
+      return (
+        <div
+          id="Embed"
+          ref={el => {
+            this.embed = el
+          }}
+        >
+          {newChild}
+        </div>
+      )
     }
   }
 
   class MockChildComponent extends Component {
     constructor(props) {
-      super(props);
-      this.onClick = props.onClickHandler;
-      this.onSubmit = props.onSubmitHandler;
-      this.setOffsetHorizontal = props.setOffsetHorizontal;
-      this.getActiveComponent = () => this.refs.activeComponent;
+      super(props)
+      this.onClick = props.onClickHandler
+      this.onSubmit = props.onSubmitHandler
+      this.setOffsetHorizontal = props.setOffsetHorizontal
+      this.getActiveComponent = () => this.refs.activeComponent
     }
     componentWillUnmount() {}
     render() {
-      return <div className='mock-component' refs='activeComponent' />;
+      return <div className="mock-component" refs="activeComponent" />
     }
   }
-  mockHorizontalPosition = 'right';
+  mockHorizontalPosition = 'right'
 
   beforeEach(() => {
-    mockery.enable();
-    renderedFrame = null;
-    mockIsRTLValue = false;
-    mockLocaleValue = 'en-US';
-    mockZoomSizingRatioValue = 1;
-    mockWindowHeight = 1000;
+    mockery.enable()
+    renderedFrame = null
+    mockIsRTLValue = false
+    mockLocaleValue = 'en-US'
+    mockZoomSizingRatioValue = 1
+    mockWindowHeight = 1000
 
     mockSettingsValue = {
       offset: { vertical: 0, horizontal: 0 },
       zIndex: 999999,
       position: { vertical: 'bottom' }
-    };
+    }
 
-    mockUpdateWidgetShown = jasmine.createSpy('updateWidgetShown');
-    mockWidgetHideAnimationComplete = jasmine.createSpy('widgetHideAnimationComplete');
+    mockUpdateWidgetShown = jasmine.createSpy('updateWidgetShown')
+    mockWidgetHideAnimationComplete = jasmine.createSpy('widgetHideAnimationComplete')
 
     mockRegistryMocks = {
-      'React': React,
+      React: React,
       './Frame.scss': {
         locals: {}
       },
@@ -88,10 +97,10 @@ describe('Frame', () => {
       'utility/color/styles': {},
       'utility/devices': {
         getZoomSizingRatio: () => {
-          return mockZoomSizingRatioValue;
+          return mockZoomSizingRatioValue
         },
         isFirefox: () => {
-          return false;
+          return false
         }
       },
       'service/i18n': {
@@ -103,7 +112,7 @@ describe('Frame', () => {
       },
       'service/settings': {
         settings: {
-          get: (name) => _.get(mockSettingsValue, name, null)
+          get: name => _.get(mockSettingsValue, name, null)
         }
       },
       'component/frame/EmbedWrapper': {
@@ -120,7 +129,7 @@ describe('Frame', () => {
         MIN_WIDGET_HEIGHT,
         WIDGET_WIDTH
       },
-      'lodash': _,
+      lodash: _,
       'component/Icon': {
         Icon: noop
       },
@@ -130,144 +139,136 @@ describe('Frame', () => {
       'src/redux/modules/base/base-selectors': {
         getFrameVisible: () => {}
       }
-    };
+    }
 
-    jasmine.clock().install();
-    initMockRegistry(mockRegistryMocks);
+    jasmine.clock().install()
+    initMockRegistry(mockRegistryMocks)
 
-    mockChild = (<MockChildComponent className='mock-component' />);
+    mockChild = <MockChildComponent className="mock-component" />
 
-    Frame = requireUncached(FramePath).default.WrappedComponent;
-  });
+    Frame = requireUncached(FramePath).default.WrappedComponent
+  })
 
   afterEach(() => {
-    jasmine.clock().uninstall();
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    jasmine.clock().uninstall()
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   // force frame document readyState to complete
-  const forceFrameReady = (frame) => {
-    const doc = frame.getContentWindow().document;
+  const forceFrameReady = frame => {
+    const doc = frame.getContentWindow().document
 
-    spyOnProperty(doc, 'readyState').and.returnValue('complete');
-    jasmine.clock().tick();
-  };
+    spyOnProperty(doc, 'readyState').and.returnValue('complete')
+    jasmine.clock().tick()
+  }
 
   const renderFrame = (props = {}) => {
     const defaultProps = {
       horizontalPosition: 'right',
       verticalPosition: 'bottom',
       isMobile: false
-    };
-    const mergedProps = { ...defaultProps, ...props };
+    }
+    const mergedProps = { ...defaultProps, ...props }
 
-    renderedFrame = domRender(<Frame {...mergedProps}>{mockChild}</Frame>);
-    forceFrameReady(renderedFrame);
-  };
+    renderedFrame = domRender(<Frame {...mergedProps}>{mockChild}</Frame>)
+    forceFrameReady(renderedFrame)
+  }
 
   describe('getRootComponent', () => {
-    let frame;
+    let frame
 
     beforeEach(() => {
-      frame = domRender(<Frame>{mockChild}</Frame>);
-      forceFrameReady(frame);
-    });
+      frame = domRender(<Frame>{mockChild}</Frame>)
+      forceFrameReady(frame)
+    })
 
     it('returns the child component when called', () => {
-      expect(frame.getRootComponent().props.className)
-        .toEqual('mock-component');
-    });
-  });
+      expect(frame.getRootComponent().props.className).toEqual('mock-component')
+    })
+  })
 
   describe('getChild', () => {
-    let frame;
+    let frame
 
     beforeEach(() => {
-      frame = domRender(<Frame name='Nick'>{mockChild}</Frame>);
-      forceFrameReady(frame);
-    });
+      frame = domRender(<Frame name="Nick">{mockChild}</Frame>)
+      forceFrameReady(frame)
+    })
 
     it('returns a react component with the name passed in', () => {
-      expect(frame.child.props.name)
-        .toEqual('Nick');
-    });
-  });
+      expect(frame.child.props.name).toEqual('Nick')
+    })
+  })
 
   describe('updateFrameLocale', () => {
-    let frame,
-      documentElem;
+    let frame, documentElem
 
     describe('when frame child exists', () => {
       beforeEach(() => {
-        frame = domRender(<Frame>{mockChild}</Frame>);
-        forceFrameReady(frame);
-        spyOn(frame, 'forceUpdateWorld');
-        frame.updateFrameLocale();
-      });
+        frame = domRender(<Frame>{mockChild}</Frame>)
+        forceFrameReady(frame)
+        spyOn(frame, 'forceUpdateWorld')
+        frame.updateFrameLocale()
+      })
 
       it('calls forceUpdateWorld', () => {
-        expect(frame.forceUpdateWorld)
-          .toHaveBeenCalled();
-      });
-    });
+        expect(frame.forceUpdateWorld).toHaveBeenCalled()
+      })
+    })
 
     describe('when the locale is RTL', () => {
       beforeEach(() => {
-        mockIsRTLValue = true;
-        mockLocaleValue = 'ar';
+        mockIsRTLValue = true
+        mockLocaleValue = 'ar'
 
-        frame = domRender(<Frame>{mockChild}</Frame>);
-        spyOn(frame, 'forceUpdateWorld');
-        frame.updateFrameLocale();
-        documentElem = frame.getContentDocument().documentElement;
+        frame = domRender(<Frame>{mockChild}</Frame>)
+        spyOn(frame, 'forceUpdateWorld')
+        frame.updateFrameLocale()
+        documentElem = frame.getContentDocument().documentElement
 
-        jasmine.clock().tick();
-      });
+        jasmine.clock().tick()
+      })
 
       it('updates html lang attribute', () => {
-        expect(documentElem.lang)
-          .toEqual(mockLocaleValue);
-      });
+        expect(documentElem.lang).toEqual(mockLocaleValue)
+      })
 
       it('updates html dir attribute to rtl', () => {
-        expect(documentElem.dir)
-          .toEqual('rtl');
-      });
-    });
+        expect(documentElem.dir).toEqual('rtl')
+      })
+    })
 
     describe('when the locale is LTR', () => {
       beforeEach(() => {
-        mockIsRTLValue = false;
-        mockLocaleValue = 'en-GB';
+        mockIsRTLValue = false
+        mockLocaleValue = 'en-GB'
 
-        frame = domRender(<Frame>{mockChild}</Frame>);
-        spyOn(frame, 'forceUpdateWorld');
-        frame.updateFrameLocale();
-        documentElem = frame.getContentDocument().documentElement;
+        frame = domRender(<Frame>{mockChild}</Frame>)
+        spyOn(frame, 'forceUpdateWorld')
+        frame.updateFrameLocale()
+        documentElem = frame.getContentDocument().documentElement
 
-        jasmine.clock().tick();
-      });
+        jasmine.clock().tick()
+      })
 
       it('updates html lang attribute', () => {
-        expect(documentElem.lang)
-          .toEqual(mockLocaleValue);
-      });
+        expect(documentElem.lang).toEqual(mockLocaleValue)
+      })
 
       it('updates html dir attribute to ltr', () => {
-        expect(documentElem.dir)
-          .toEqual('ltr');
-      });
-    });
-  });
+        expect(documentElem.dir).toEqual('ltr')
+      })
+    })
+  })
 
   describe('show', () => {
-    let frame, mockOnShow, frameProps, mockAfterShowAnimate;
-    const animationDuration = 300;
+    let frame, mockOnShow, frameProps, mockAfterShowAnimate
+    const animationDuration = 300
 
     beforeEach(() => {
-      mockOnShow = jasmine.createSpy('onShow');
-      mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate');
+      mockOnShow = jasmine.createSpy('onShow')
+      mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate')
 
       frameProps = {
         transitions: {
@@ -281,384 +282,376 @@ describe('Frame', () => {
         store: {
           dispatch: noop
         }
-      };
+      }
 
-      frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
-      forceFrameReady(frame);
+      frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>)
+      forceFrameReady(frame)
 
-      frame.show();
-    });
+      frame.show()
+    })
 
     it('triggers onShow callback', () => {
-      expect(mockOnShow)
-        .toHaveBeenCalled();
-    });
+      expect(mockOnShow).toHaveBeenCalled()
+    })
 
     it('calls afterShowAnimate', () => {
-      jasmine.clock().tick(animationDuration);
+      jasmine.clock().tick(animationDuration)
 
-      expect(mockAfterShowAnimate)
-        .toHaveBeenCalled();
-    });
+      expect(mockAfterShowAnimate).toHaveBeenCalled()
+    })
 
     it('applies webkitOverflowScrolling when not set', () => {
-      jasmine.clock().tick(50);
+      jasmine.clock().tick(50)
 
-      const frameContainerStyle = frame.getRootComponentElement().style;
+      const frameContainerStyle = frame.getRootComponentElement().style
 
-      expect(frameContainerStyle.webkitOverflowScrolling)
-        .toEqual('touch');
-    });
+      expect(frameContainerStyle.webkitOverflowScrolling).toEqual('touch')
+    })
 
     describe('when the name is not launcher', () => {
       beforeEach(() => {
-        mockUpdateWidgetShown.calls.reset();
+        mockUpdateWidgetShown.calls.reset()
 
-        frame = domRender(<Frame name='webWidget' updateWidgetShown={mockUpdateWidgetShown} />);
-        frame.show();
-      });
+        frame = domRender(<Frame name="webWidget" updateWidgetShown={mockUpdateWidgetShown} />)
+        frame.show()
+      })
 
       it('calls updateWidgetShown with true', () => {
-        expect(mockUpdateWidgetShown)
-          .toHaveBeenCalledWith(true);
-      });
-    });
+        expect(mockUpdateWidgetShown).toHaveBeenCalledWith(true)
+      })
+    })
 
     describe('when the name is launcher', () => {
       beforeEach(() => {
-        mockUpdateWidgetShown.calls.reset();
+        mockUpdateWidgetShown.calls.reset()
 
-        frame = domRender(<Frame name='launcher' updateWidgetShown={mockUpdateWidgetShown} />);
-        frame.show();
-      });
+        frame = domRender(<Frame name="launcher" updateWidgetShown={mockUpdateWidgetShown} />)
+        frame.show()
+      })
 
       it('does not call updateWidgetShown', () => {
-        expect(mockUpdateWidgetShown)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
+        expect(mockUpdateWidgetShown).not.toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('forceUpdateWorld', () => {
-    let frame, rootComponent, activeComponentForceUpdateSpy;
+    let frame, rootComponent, activeComponentForceUpdateSpy
 
     beforeEach(() => {
-      frame = domRender(<Frame>{mockChild}</Frame>);
-      forceFrameReady(frame);
+      frame = domRender(<Frame>{mockChild}</Frame>)
+      forceFrameReady(frame)
 
-      rootComponent = frame.getRootComponent();
-      activeComponentForceUpdateSpy = jasmine.createSpy('activeComponent.forceUpdate');
+      rootComponent = frame.getRootComponent()
+      activeComponentForceUpdateSpy = jasmine.createSpy('activeComponent.forceUpdate')
 
-      spyOn(rootComponent, 'getActiveComponent').and.returnValue({ forceUpdate: activeComponentForceUpdateSpy });
+      spyOn(rootComponent, 'getActiveComponent').and.returnValue({
+        forceUpdate: activeComponentForceUpdateSpy
+      })
 
-      spyOn(frame.child, 'forceUpdate');
-      spyOn(frame.child.nav, 'forceUpdate');
+      spyOn(frame.child, 'forceUpdate')
+      spyOn(frame.child.nav, 'forceUpdate')
 
-      frame.forceUpdateWorld();
-    });
+      frame.forceUpdateWorld()
+    })
 
     it('calls forceUpdate on the child', () => {
-      expect(frame.child.forceUpdate)
-        .toHaveBeenCalled();
-    });
+      expect(frame.child.forceUpdate).toHaveBeenCalled()
+    })
 
     it('calls forceUpdate on the child nav', () => {
-      expect(frame.child.nav.forceUpdate)
-        .toHaveBeenCalled();
-    });
+      expect(frame.child.nav.forceUpdate).toHaveBeenCalled()
+    })
 
     it('calls forceUpdate on the active component', () => {
-      expect(activeComponentForceUpdateSpy)
-        .toHaveBeenCalled();
-    });
-  });
+      expect(activeComponentForceUpdateSpy).toHaveBeenCalled()
+    })
+  })
 
   describe('hide', () => {
-    let frame, mockOnHide, frameProps;
+    let frame, mockOnHide, frameProps
 
     beforeEach(() => {
-      mockOnHide = jasmine.createSpy('onHide');
+      mockOnHide = jasmine.createSpy('onHide')
       frameProps = {
         onHide: mockOnHide,
         widgetHideAnimationComplete: mockWidgetHideAnimationComplete
-      };
+      }
 
-      frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
-      forceFrameReady(frame);
+      frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>)
+      forceFrameReady(frame)
 
-      frame.hide();
+      frame.hide()
 
-      jasmine.clock().tick(300);
-    });
+      jasmine.clock().tick(300)
+    })
 
     it('triggers props.callbacks.onHide if set', () => {
-      expect(mockOnHide)
-        .toHaveBeenCalled();
-    });
+      expect(mockOnHide).toHaveBeenCalled()
+    })
 
     it('calls widgetHideAnimationComplete', () => {
-      expect(mockWidgetHideAnimationComplete)
-        .toHaveBeenCalled();
-    });
+      expect(mockWidgetHideAnimationComplete).toHaveBeenCalled()
+    })
 
     describe('when options.onHide is defined', () => {
-      let onHideSpy;
+      let onHideSpy
 
       beforeEach(() => {
-        onHideSpy = jasmine.createSpy('onHide');
+        onHideSpy = jasmine.createSpy('onHide')
 
-        frame.hide({ transition: 'none', onHide: onHideSpy });
-      });
+        frame.hide({ transition: 'none', onHide: onHideSpy })
+      })
 
       it('calls options.onHide', () => {
-        expect(onHideSpy)
-          .toHaveBeenCalled();
-      });
-    });
+        expect(onHideSpy).toHaveBeenCalled()
+      })
+    })
 
     describe('when the name is not launcher', () => {
       beforeEach(() => {
         frameProps = {
           name: 'webWidget',
           updateWidgetShown: mockUpdateWidgetShown
-        };
+        }
 
-        frame = domRender(<Frame {...frameProps} />);
-        frame.hide();
-      });
+        frame = domRender(<Frame {...frameProps} />)
+        frame.hide()
+      })
 
       it('calls updateWidgetShown with false', () => {
-        expect(mockUpdateWidgetShown)
-          .toHaveBeenCalledWith(false);
-      });
-    });
+        expect(mockUpdateWidgetShown).toHaveBeenCalledWith(false)
+      })
+    })
 
     describe('when the name is launcher', () => {
       beforeEach(() => {
         frameProps = {
           name: 'launcher',
           updateWidgetShown: mockUpdateWidgetShown
-        };
+        }
 
-        mockUpdateWidgetShown.calls.reset();
+        mockUpdateWidgetShown.calls.reset()
 
-        frame = domRender(<Frame {...frameProps} />);
-        frame.hide();
-      });
+        frame = domRender(<Frame {...frameProps} />)
+        frame.hide()
+      })
 
       it('does not call updateWidgetShown', () => {
-        expect(mockUpdateWidgetShown)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
+        expect(mockUpdateWidgetShown).not.toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('back', () => {
-    let frame, mockOnBack;
+    let frame, mockOnBack
 
     beforeEach(() => {
-      mockOnBack = jasmine.createSpy('onBack');
+      mockOnBack = jasmine.createSpy('onBack')
 
-      frame = domRender(<Frame onBack={mockOnBack}>{mockChild}</Frame>);
-      forceFrameReady(frame);
+      frame = domRender(<Frame onBack={mockOnBack}>{mockChild}</Frame>)
+      forceFrameReady(frame)
 
-      frame.back({ preventDefault: noop });
-    });
+      frame.back({ preventDefault: noop })
+    })
 
     it('calls props.callbacks.onBack', () => {
-      expect(mockOnBack)
-        .toHaveBeenCalled();
-    });
-  });
+      expect(mockOnBack).toHaveBeenCalled()
+    })
+  })
 
   describe('onShowAnimationComplete', () => {
-    let frame, widgetShowAnimationCompleteSpy, frameName;
+    let frame, widgetShowAnimationCompleteSpy, frameName
 
     beforeEach(() => {
-      widgetShowAnimationCompleteSpy = jasmine.createSpy('widgetShowAnimationComplete');
+      widgetShowAnimationCompleteSpy = jasmine.createSpy('widgetShowAnimationComplete')
 
       frame = domRender(
-        <Frame widgetShowAnimationComplete={widgetShowAnimationCompleteSpy}
-          name={frameName}>{mockChild}</Frame>
-      );
-      forceFrameReady(frame);
+        <Frame widgetShowAnimationComplete={widgetShowAnimationCompleteSpy} name={frameName}>
+          {mockChild}
+        </Frame>
+      )
+      forceFrameReady(frame)
 
-      frame.onShowAnimationComplete({ preventDefault: noop });
-    });
+      frame.onShowAnimationComplete({ preventDefault: noop })
+    })
 
     describe('when frame name is webWidget', () => {
       beforeAll(() => {
-        frameName = 'webWidget';
-      });
+        frameName = 'webWidget'
+      })
 
       it('calls props.widgetShowAnimationComplete', () => {
-        expect(widgetShowAnimationCompleteSpy)
-          .toHaveBeenCalled();
-      });
-    });
+        expect(widgetShowAnimationCompleteSpy).toHaveBeenCalled()
+      })
+    })
 
     describe('when frame name is not webWidget', () => {
       beforeAll(() => {
-        frameName = 'launcher';
-      });
+        frameName = 'launcher'
+      })
 
       it('does not call props.widgetShowAnimationComplete', () => {
-        expect(widgetShowAnimationCompleteSpy)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
+        expect(widgetShowAnimationCompleteSpy).not.toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('computeIframeStyle', () => {
-    let frame;
+    let frame
 
     describe('props.frameStyleModifier', () => {
-      let frameStyleModifierSpy,
-        result;
+      let frameStyleModifierSpy, result
 
       describe('when frameStyleModifier exists', () => {
-        const modifiedFrameStyle = { marginTop: '10px', marginLeft: '55px' };
+        const modifiedFrameStyle = { marginTop: '10px', marginLeft: '55px' }
 
         beforeEach(() => {
-          frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(modifiedFrameStyle);
-          frame = domRender(<Frame frameStyleModifier={frameStyleModifierSpy}>{mockChild}</Frame>);
-          forceFrameReady(frame);
-          result = frame.computeIframeStyle();
-        });
+          frameStyleModifierSpy = jasmine
+            .createSpy('frameStyleModifier')
+            .and.returnValue(modifiedFrameStyle)
+          frame = domRender(<Frame frameStyleModifier={frameStyleModifierSpy}>{mockChild}</Frame>)
+          forceFrameReady(frame)
+          result = frame.computeIframeStyle()
+        })
 
         it('modified frameStyle contains at least 1 property', () => {
-          expect(_.keys(modifiedFrameStyle).length)
-            .toBeGreaterThan(0);
-        });
+          expect(_.keys(modifiedFrameStyle).length).toBeGreaterThan(0)
+        })
 
         it('computeIframeStyle contains styles from the modification', () => {
-          expect(result)
-            .toEqual(jasmine.objectContaining(modifiedFrameStyle));
-        });
-      });
+          expect(result).toEqual(jasmine.objectContaining(modifiedFrameStyle))
+        })
+      })
 
       describe('when frameStyleModifier does not exist', () => {
-        const frameStyle = { marginRight: '22px', marginLeft: '10px', marginTop: '66px' };
+        const frameStyle = {
+          marginRight: '22px',
+          marginLeft: '10px',
+          marginTop: '66px'
+        }
 
         beforeEach(() => {
-          frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(undefined);
-          frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>);
-          forceFrameReady(frame);
-          result = frame.computeIframeStyle();
-        });
+          frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(undefined)
+          frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>)
+          forceFrameReady(frame)
+          result = frame.computeIframeStyle()
+        })
 
         it('computeIframeStyle contains styles from frameStyle', () => {
-          expect(result)
-            .toEqual(jasmine.objectContaining(frameStyle));
-        });
-      });
-    });
+          expect(result).toEqual(jasmine.objectContaining(frameStyle))
+        })
+      })
+    })
 
     describe('zIndex', () => {
-      let frame;
+      let frame
 
       beforeEach(() => {
-        frame = domRender(<Frame zIndex={10001}>{mockChild}</Frame>);
-        forceFrameReady(frame);
-      });
+        frame = domRender(<Frame zIndex={10001}>{mockChild}</Frame>)
+        forceFrameReady(frame)
+      })
 
       it('uses the value from props if it exists', () => {
-        expect(frame.computeIframeStyle().zIndex)
-          .toBe(10001);
-      });
-    });
+        expect(frame.computeIframeStyle().zIndex).toBe(10001)
+      })
+    })
 
     describe('fixedStyles prop', () => {
-      let result;
-      const frameStyle = { width: 0, height: 0, background: 'rgb(255, 255, 255)' };
+      let result
+      const frameStyle = {
+        width: 0,
+        height: 0,
+        background: 'rgb(255, 255, 255)'
+      }
 
       describe('when fixedStyles has properties', () => {
-        const fixedStyles = { width: '10px', height: 'auto', background: 'transparent' };
+        const fixedStyles = {
+          width: '10px',
+          height: 'auto',
+          background: 'transparent'
+        }
 
         beforeEach(() => {
-          frame = domRender(<Frame frameStyle={frameStyle} fixedStyles={fixedStyles}>{mockChild}</Frame>);
-          forceFrameReady(frame);
-          result = frame.computeIframeStyle();
-        });
+          frame = domRender(
+            <Frame frameStyle={frameStyle} fixedStyles={fixedStyles}>
+              {mockChild}
+            </Frame>
+          )
+          forceFrameReady(frame)
+          result = frame.computeIframeStyle()
+        })
 
         it('computeIframeStyle contains styles from the modification', () => {
-          expect(result)
-            .toEqual(jasmine.objectContaining(fixedStyles));
-        });
-      });
+          expect(result).toEqual(jasmine.objectContaining(fixedStyles))
+        })
+      })
 
       describe('when frameStyleModifier does not exist', () => {
         beforeEach(() => {
-          frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>);
-          forceFrameReady(frame);
-          result = frame.computeIframeStyle();
-        });
+          frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>)
+          forceFrameReady(frame)
+          result = frame.computeIframeStyle()
+        })
 
         it('computeIframeStyle contains styles from frameStyle', () => {
-          expect(result)
-            .toEqual(jasmine.objectContaining(frameStyle));
-        });
-      });
-    });
-  });
+          expect(result).toEqual(jasmine.objectContaining(frameStyle))
+        })
+      })
+    })
+  })
 
   describe('getOffsetPosition', () => {
     describe('vertical', () => {
       describe('when settings sets position to top', () => {
         beforeEach(() => {
-          renderFrame({ verticalPosition: 'top', horizontalPosition: 'right' });
-        });
+          renderFrame({ verticalPosition: 'top', horizontalPosition: 'right' })
+        })
 
         it('has top classes', () => {
-          expect(renderedFrame.getOffsetPosition().top)
-            .toBeDefined();
-          expect(renderedFrame.getOffsetPosition().bottom)
-            .toBeUndefined();
-        });
-      });
-    });
+          expect(renderedFrame.getOffsetPosition().top).toBeDefined()
+          expect(renderedFrame.getOffsetPosition().bottom).toBeUndefined()
+        })
+      })
+    })
 
     describe('horizontal', () => {
       describe('when set to right', () => {
         beforeEach(() => {
-          renderFrame({ verticalPosition: 'top', horizontalPosition: 'right' });
-        });
+          renderFrame({ verticalPosition: 'top', horizontalPosition: 'right' })
+        })
 
         it('has right offset', () => {
-          expect(renderedFrame.getOffsetPosition().right)
-            .toBeDefined();
+          expect(renderedFrame.getOffsetPosition().right).toBeDefined()
 
-          expect(renderedFrame.getOffsetPosition().left)
-            .toBeUndefined();
-        });
-      });
+          expect(renderedFrame.getOffsetPosition().left).toBeUndefined()
+        })
+      })
 
       describe('when set to left', () => {
         beforeEach(() => {
-          renderFrame({ verticalPosition: 'top', horizontalPosition: 'left' });
-        });
+          renderFrame({ verticalPosition: 'top', horizontalPosition: 'left' })
+        })
         it('has left offset', () => {
-          expect(renderedFrame.getOffsetPosition().left)
-            .toBeDefined();
+          expect(renderedFrame.getOffsetPosition().left).toBeDefined()
 
-          expect(renderedFrame.getOffsetPosition().right)
-            .toBeUndefined();
-        });
-      });
-    });
-  });
+          expect(renderedFrame.getOffsetPosition().right).toBeUndefined()
+        })
+      })
+    })
+  })
 
   describe('offset', () => {
     const desktopOnlyOffset = {
       vertical: 31,
       horizontal: 52
-    };
+    }
     const mobileOnlyOffset = {
       mobile: {
         horizontal: 100,
         vertical: 200
       }
-    };
+    }
     const desktopAndMobileOffset = {
       horizontal: 101,
       vertical: 102,
@@ -666,382 +659,348 @@ describe('Frame', () => {
         horizontal: 100,
         vertical: 200
       }
-    };
+    }
 
     describe('when not on webWidget', () => {
       describe('when on desktop', () => {
         describe('when there is a desktop offset only', () => {
           beforeEach(() => {
-            renderFrame({ offset: desktopOnlyOffset });
-          });
+            renderFrame({ offset: desktopOnlyOffset })
+          })
 
           it('applies the customized desktop offsets', () => {
-            expect(renderedFrame.getOffsetPosition().bottom)
-              .toBe(31);
+            expect(renderedFrame.getOffsetPosition().bottom).toBe(31)
 
-            expect(renderedFrame.getOffsetPosition().right)
-              .toBe(52);
-          });
-        });
+            expect(renderedFrame.getOffsetPosition().right).toBe(52)
+          })
+        })
 
         describe('when there is a mobile offset only', () => {
           beforeEach(() => {
-            renderFrame({ offset: mobileOnlyOffset });
-          });
+            renderFrame({ offset: mobileOnlyOffset })
+          })
 
           it('does not apply customized mobile offsets', () => {
-            expect(renderedFrame.getOffsetPosition().bottom)
-              .toBe(0);
+            expect(renderedFrame.getOffsetPosition().bottom).toBe(0)
 
-            expect(renderedFrame.getOffsetPosition().right)
-              .toBe(0);
-          });
-        });
+            expect(renderedFrame.getOffsetPosition().right).toBe(0)
+          })
+        })
 
         describe('when there are desktop and mobile offsets', () => {
           beforeEach(() => {
-            renderFrame({ offset: desktopAndMobileOffset });
-          });
+            renderFrame({ offset: desktopAndMobileOffset })
+          })
 
           it('applies only customized desktop offsets', () => {
-            expect(renderedFrame.getOffsetPosition().bottom)
-              .toBe(102);
+            expect(renderedFrame.getOffsetPosition().bottom).toBe(102)
 
-            expect(renderedFrame.getOffsetPosition().right)
-              .toBe(101);
-          });
-        });
+            expect(renderedFrame.getOffsetPosition().right).toBe(101)
+          })
+        })
 
         describe('when there is no offset', () => {
           beforeEach(() => {
-            renderFrame({ offset: {} });
-          });
+            renderFrame({ offset: {} })
+          })
 
           it('defaults to 0', () => {
-            expect(renderedFrame.getOffsetPosition().bottom)
-              .toBe(0);
+            expect(renderedFrame.getOffsetPosition().bottom).toBe(0)
 
-            expect(renderedFrame.getOffsetPosition().right)
-              .toBe(0);
-          });
-        });
+            expect(renderedFrame.getOffsetPosition().right).toBe(0)
+          })
+        })
 
         describe('when an animationOffset is passed in', () => {
           beforeEach(() => {
-            renderFrame({ offset: desktopOnlyOffset });
-          });
+            renderFrame({ offset: desktopOnlyOffset })
+          })
 
           it('adds it to the vertical property', () => {
-            expect(renderedFrame.getOffsetPosition(20).bottom)
-              .toBe(51);
-          });
-        });
+            expect(renderedFrame.getOffsetPosition(20).bottom).toBe(51)
+          })
+        })
 
         describe('when on mobile', () => {
           describe('when there is a desktop offset only', () => {
             beforeEach(() => {
-              renderFrame({ isMobile: true, offset: desktopOnlyOffset });
-            });
+              renderFrame({ isMobile: true, offset: desktopOnlyOffset })
+            })
 
             it('does not apply the customized desktop offsets', () => {
-              expect(renderedFrame.getOffsetPosition().bottom)
-                .toBe(0);
+              expect(renderedFrame.getOffsetPosition().bottom).toBe(0)
 
-              expect(renderedFrame.getOffsetPosition().right)
-                .toBe(0);
-            });
-          });
+              expect(renderedFrame.getOffsetPosition().right).toBe(0)
+            })
+          })
 
           describe('when there is a mobile offset only', () => {
             beforeEach(() => {
-              renderFrame({ isMobile: true, offset: mobileOnlyOffset });
-            });
+              renderFrame({ isMobile: true, offset: mobileOnlyOffset })
+            })
 
             it('applies customized mobile offsets', () => {
-              expect(renderedFrame.getOffsetPosition().bottom)
-                .toBe(200);
+              expect(renderedFrame.getOffsetPosition().bottom).toBe(200)
 
-              expect(renderedFrame.getOffsetPosition().right)
-                .toBe(100);
-            });
-          });
+              expect(renderedFrame.getOffsetPosition().right).toBe(100)
+            })
+          })
 
           describe('when there are desktop and mobile offsets', () => {
             beforeEach(() => {
-              renderFrame({ isMobile: true, offset: desktopAndMobileOffset });
-            });
+              renderFrame({ isMobile: true, offset: desktopAndMobileOffset })
+            })
 
             it('applies only customized mobile offsets', () => {
-              expect(renderedFrame.getOffsetPosition().bottom)
-                .toBe(200);
+              expect(renderedFrame.getOffsetPosition().bottom).toBe(200)
 
-              expect(renderedFrame.getOffsetPosition().right)
-                .toBe(100);
-            });
-          });
+              expect(renderedFrame.getOffsetPosition().right).toBe(100)
+            })
+          })
 
           describe('when there is no offset', () => {
             beforeEach(() => {
-              renderFrame({ isMobile: true, offset: {} });
-            });
+              renderFrame({ isMobile: true, offset: {} })
+            })
 
             it('defaults to 0', () => {
-              expect(renderedFrame.getOffsetPosition().bottom)
-                .toBe(0);
+              expect(renderedFrame.getOffsetPosition().bottom).toBe(0)
 
-              expect(renderedFrame.getOffsetPosition().right)
-                .toBe(0);
-            });
-          });
+              expect(renderedFrame.getOffsetPosition().right).toBe(0)
+            })
+          })
 
           describe('when an animationOffset is passed in', () => {
             beforeEach(() => {
-              renderFrame({ isMobile: true, offset: mobileOnlyOffset });
-            });
+              renderFrame({ isMobile: true, offset: mobileOnlyOffset })
+            })
 
             it('adds it to the vertical property', () => {
-              expect(renderedFrame.getOffsetPosition(20).bottom)
-                .toBe(220);
-            });
-          });
-        });
-      });
+              expect(renderedFrame.getOffsetPosition(20).bottom).toBe(220)
+            })
+          })
+        })
+      })
 
       describe('when on Web Widget', () => {
         describe('when on mobile', () => {
           beforeEach(() => {
-            renderFrame({ name: 'webWidget', offset: desktopAndMobileOffset });
-          });
+            renderFrame({ name: 'webWidget', offset: desktopAndMobileOffset })
+          })
 
           it('applies the customized desktop offsets', () => {
-            expect(renderedFrame.getOffsetPosition().bottom)
-              .toBe(102);
+            expect(renderedFrame.getOffsetPosition().bottom).toBe(102)
 
-            expect(renderedFrame.getOffsetPosition().right)
-              .toBe(101);
-          });
-        });
+            expect(renderedFrame.getOffsetPosition().right).toBe(101)
+          })
+        })
 
         describe('and on mobile', () => {
           beforeEach(() => {
-            renderFrame({ isMobile: true, name: 'webWidget', offset: desktopAndMobileOffset });
-          });
+            renderFrame({
+              isMobile: true,
+              name: 'webWidget',
+              offset: desktopAndMobileOffset
+            })
+          })
 
           it('does not apply customized offsets', () => {
-            expect(renderedFrame.getOffsetPosition()).toEqual({});
-          });
-        });
-      });
-    });
-  });
+            expect(renderedFrame.getOffsetPosition()).toEqual({})
+          })
+        })
+      })
+    })
+  })
 
   describe('render', () => {
-    let frame, visibleValue = true;
+    let frame,
+      visibleValue = true
 
     beforeEach(() => {
-      frame = domRender(<Frame visible={visibleValue} name='foo' verticalPosition='bottom'>{mockChild}</Frame>);
-      forceFrameReady(frame);
-    });
+      frame = domRender(
+        <Frame visible={visibleValue} name="foo" verticalPosition="bottom">
+          {mockChild}
+        </Frame>
+      )
+      forceFrameReady(frame)
+    })
 
     it('renders an iframe', () => {
-      expect(frame.iframe)
-        .toBeDefined();
-    });
+      expect(frame.iframe).toBeDefined()
+    })
 
     it('assigns the correct classes', () => {
-      expect(frame.iframe.className)
-        .toContain('foo');
-    });
+      expect(frame.iframe.className).toContain('foo')
+    })
 
     describe('when visible', () => {
       it('has `--active` in classes', () => {
-        expect(frame.iframe.className)
-          .toContain('--active');
-      });
+        expect(frame.iframe.className).toContain('--active')
+      })
 
       it('sets the tab index to 0', () => {
-        expect(frame.iframe.attributes.tabindex.value)
-          .toEqual('0');
-      });
+        expect(frame.iframe.attributes.tabindex.value).toEqual('0')
+      })
 
       it('has the correct animation styles applied to it', () => {
-        expect(frame.iframe.style.getPropertyValue('opacity'))
-          .toEqual('1');
+        expect(frame.iframe.style.getPropertyValue('opacity')).toEqual('1')
 
-        expect(frame.iframe.style.getPropertyValue('bottom'))
-          .toEqual('0px');
-      });
-    });
+        expect(frame.iframe.style.getPropertyValue('bottom')).toEqual('0px')
+      })
+    })
 
     describe('when not visible', () => {
       beforeAll(() => {
-        visibleValue = false;
-      });
+        visibleValue = false
+      })
 
       it('does not have `--active` in classes', () => {
-        expect(frame.iframe.className)
-          .not.toContain('--active');
-      });
+        expect(frame.iframe.className).not.toContain('--active')
+      })
 
       it('sets the tab index to -1', () => {
-        expect(frame.iframe.attributes.tabindex.value)
-          .toEqual('-1');
-      });
+        expect(frame.iframe.attributes.tabindex.value).toEqual('-1')
+      })
 
       it('has the correct animation styles applied to it', () => {
-        expect(frame.iframe.style.getPropertyValue('opacity'))
-          .toEqual('0');
-      });
-    });
-  });
+        expect(frame.iframe.style.getPropertyValue('opacity')).toEqual('0')
+      })
+    })
+  })
 
   describe('renderFrameContent', () => {
-    let frame,
-      doc;
+    let frame, doc
 
     beforeEach(() => {
-      mockLocaleValue = 'fr';
-      mockIsRTLValue = true;
-    });
+      mockLocaleValue = 'fr'
+      mockIsRTLValue = true
+    })
 
-    describe('when the iframe\'s document is ready', () => {
+    describe("when the iframe's document is ready", () => {
       beforeEach(() => {
-        frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
-        doc = frame.getContentWindow().document;
+        frame = domRender(<Frame css="css-prop">{mockChild}</Frame>)
+        doc = frame.getContentWindow().document
 
-        spyOn(frame, 'updateFrameLocale');
-        spyOnProperty(doc, 'readyState').and.returnValue('complete');
-        jasmine.clock().tick(0);
+        spyOn(frame, 'updateFrameLocale')
+        spyOnProperty(doc, 'readyState').and.returnValue('complete')
+        jasmine.clock().tick(0)
 
-        frame.setState({ childRendering: false });
-      });
+        frame.setState({ childRendering: false })
+      })
 
       it('calls updateFrameLocale ', () => {
-        expect(frame.updateFrameLocale)
-          .toHaveBeenCalled();
-      });
-    });
+        expect(frame.updateFrameLocale).toHaveBeenCalled()
+      })
+    })
 
-    describe('when the iframe\'s document is not ready', () => {
-      let count;
+    describe("when the iframe's document is not ready", () => {
+      let count
 
       beforeEach(() => {
-        count = 0;
-        frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
-        doc = frame.getContentWindow().document;
+        count = 0
+        frame = domRender(<Frame css="css-prop">{mockChild}</Frame>)
+        doc = frame.getContentWindow().document
 
-        spyOn(frame, 'updateFrameLocale');
-        spyOn(frame, 'renderFrameContent').and.callThrough();
-        spyOn(frame, 'constructEmbed');
+        spyOn(frame, 'updateFrameLocale')
+        spyOn(frame, 'renderFrameContent').and.callThrough()
+        spyOn(frame, 'constructEmbed')
         spyOnProperty(doc, 'readyState').and.callFake(() => {
           if (count > 3) {
             // state will become complete after 3rd call
-            return 'complete';
+            return 'complete'
           } else {
-            count += 1;
-            return 'loading';
+            count += 1
+            return 'loading'
           }
-        });
-        jasmine.clock().tick(0);
-        frame.setState({ childRendering: false });
-      });
+        })
+        jasmine.clock().tick(0)
+        frame.setState({ childRendering: false })
+      })
 
       it('does not call updateFrameLocale ', () => {
-        expect(frame.updateFrameLocale)
-          .not.toHaveBeenCalled();
-      });
+        expect(frame.updateFrameLocale).not.toHaveBeenCalled()
+      })
 
       it('queues renderFrameContent until it is ready', () => {
-        jasmine.clock().tick(0);
-        expect(frame.renderFrameContent)
-          .toHaveBeenCalledTimes(2);
-      });
+        jasmine.clock().tick(0)
+        expect(frame.renderFrameContent).toHaveBeenCalledTimes(2)
+      })
 
       it('only calls constructEmbed once', () => {
-        jasmine.clock().tick(0);
-        expect(frame.constructEmbed)
-          .not.toHaveBeenCalled();
+        jasmine.clock().tick(0)
+        expect(frame.constructEmbed).not.toHaveBeenCalled()
 
-        jasmine.clock().tick(0);
-        expect(frame.constructEmbed)
-          .not.toHaveBeenCalled();
+        jasmine.clock().tick(0)
+        expect(frame.constructEmbed).not.toHaveBeenCalled()
 
-        jasmine.clock().tick(0);
-        expect(frame.constructEmbed)
-          .toHaveBeenCalledTimes(1);
-      });
-    });
+        jasmine.clock().tick(0)
+        expect(frame.constructEmbed).toHaveBeenCalledTimes(1)
+      })
+    })
 
     describe('on document complete', () => {
       beforeEach(() => {
-        frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
-        forceFrameReady(frame);
-        jasmine.clock().tick();
+        frame = domRender(<Frame css="css-prop">{mockChild}</Frame>)
+        forceFrameReady(frame)
+        jasmine.clock().tick()
 
-        frame.setState({ childRendering: false });
-      });
+        frame.setState({ childRendering: false })
+      })
 
       it('sets rtl and lang attr on the frame', () => {
-        expect(frame.getContentDocument().documentElement.lang)
-          .toBe('fr');
+        expect(frame.getContentDocument().documentElement.lang).toBe('fr')
 
-        expect(frame.getContentDocument().documentElement.dir)
-          .toBe('rtl');
-      });
+        expect(frame.getContentDocument().documentElement.dir).toBe('rtl')
+      })
 
       it('sets the state childRendering to true', () => {
-        expect(frame.state.childRendering)
-          .toEqual(true);
-      });
+        expect(frame.state.childRendering).toEqual(true)
+      })
 
       describe('constructEmbed', () => {
         it('adds getFrameContentDocument to the child component', () => {
-          expect(frame.getRootComponent().props.getFrameContentDocument)
-            .toBeDefined();
-        });
+          expect(frame.getRootComponent().props.getFrameContentDocument).toBeDefined()
+        })
 
         it('adds onBackButtonClick to the child component', () => {
-          expect(frame.getRootComponent().props.onBackButtonClick)
-            .toBeDefined();
-        });
+          expect(frame.getRootComponent().props.onBackButtonClick).toBeDefined()
+        })
 
         it('adds forceUpdateWorld to the child component', () => {
-          expect(frame.getRootComponent().props.forceUpdateWorld)
-            .toBeDefined();
-        });
+          expect(frame.getRootComponent().props.forceUpdateWorld).toBeDefined()
+        })
 
         it('adds css styles to the element', () => {
-          expect(frame.getChild().props.baseCSS)
-            .toContain('css-prop');
-        });
-      });
-    });
-  });
+          expect(frame.getChild().props.baseCSS).toContain('css-prop')
+        })
+      })
+    })
+  })
 
   describe('getDefaultDimensions', () => {
-    let mockFullscreenable, mockIsMobile;
+    let mockFullscreenable, mockIsMobile
 
     const expectedMobileDimensions = {
       width: '100%',
       maxWidth: '100%',
       height: '100%'
-    };
+    }
     const expectedDesktopDimensions = {
       width: `${WIDGET_WIDTH + 15}px`,
       height: '100%',
       maxHeight: `${MAX_WIDGET_HEIGHT + 15}px`,
       minHeight: `${MIN_WIDGET_HEIGHT}px`
-    };
+    }
     const expectedDesktopPopoutDimensions = {
       ...expectedMobileDimensions,
       right: '50%',
       background: '#EEE'
-    };
+    }
     const expectedDesktopPopoutLeftDimensions = {
       ...expectedMobileDimensions,
       left: undefined,
       background: '#EEE'
-    };
+    }
 
     beforeEach(() => {
       renderFrame({
@@ -1049,91 +1008,98 @@ describe('Frame', () => {
         horizontalPosition: mockHorizontalPosition,
         fullscreen: mockIsPopout,
         fullscreenable: mockFullscreenable
-      });
-    });
+      })
+    })
 
     describe('when mobile', () => {
       beforeAll(() => {
-        mockIsMobile = true;
-      });
+        mockIsMobile = true
+      })
 
       describe('when fullscreenable is true', () => {
         beforeAll(() => {
-          mockFullscreenable = true;
-        });
+          mockFullscreenable = true
+        })
 
         it('returns the expected mobile dimensions', () => {
-          expect(renderedFrame.getDefaultDimensions())
-            .toEqual(expectedMobileDimensions);
-        });
-      });
+          expect(renderedFrame.getDefaultDimensions()).toEqual(expectedMobileDimensions)
+        })
+      })
 
       describe('when fullscreenable is false', () => {
         beforeAll(() => {
-          mockFullscreenable = false;
-        });
+          mockFullscreenable = false
+        })
 
         it('returns the expected desktop dimensions', () => {
-          expect(renderedFrame.getDefaultDimensions())
-            .toEqual(expectedDesktopDimensions);
-        });
-      });
-    });
+          expect(renderedFrame.getDefaultDimensions()).toEqual(expectedDesktopDimensions)
+        })
+      })
+    })
 
     describe('on desktop', () => {
       beforeAll(() => {
-        mockIsMobile = false;
-      });
+        mockIsMobile = false
+      })
 
       it('returns the expected mobile dimensions', () => {
-        expect(renderedFrame.getDefaultDimensions())
-          .toEqual(expectedDesktopDimensions);
-      });
+        expect(renderedFrame.getDefaultDimensions()).toEqual(expectedDesktopDimensions)
+      })
 
       describe('when Popout', () => {
         beforeAll(() => {
-          mockIsPopout = true;
-          mockFullscreenable = true;
-        });
+          mockIsPopout = true
+          mockFullscreenable = true
+        })
 
         it('returns the expected popout dimensions', () => {
-          expect(renderedFrame.getDefaultDimensions())
-            .toEqual(expectedDesktopPopoutDimensions);
-        });
+          expect(renderedFrame.getDefaultDimensions()).toEqual(expectedDesktopPopoutDimensions)
+        })
 
         describe('when position left is true', () => {
           beforeAll(() => {
-            mockHorizontalPosition = 'left';
-          });
+            mockHorizontalPosition = 'left'
+          })
 
           it('returns the expected popout dimensions', () => {
-            expect(renderedFrame.getDefaultDimensions())
-              .toEqual(expectedDesktopPopoutLeftDimensions);
-          });
-        });
-      });
-    });
-  });
+            expect(renderedFrame.getDefaultDimensions()).toEqual(
+              expectedDesktopPopoutLeftDimensions
+            )
+          })
+        })
+      })
+    })
+  })
 
   describe('setCustomCSS', () => {
-    let frame;
+    let frame
 
     beforeEach(() => {
-      frame = domRender(<Frame generateUserCSS={_.identity} color='black'>{mockChild}</Frame>);
-      forceFrameReady(frame);
-      spyOn(frame, 'setCustomCSS');
-    });
+      frame = domRender(
+        <Frame generateUserCSS={_.identity} color="black">
+          {mockChild}
+        </Frame>
+      )
+      forceFrameReady(frame)
+      spyOn(frame, 'setCustomCSS')
+    })
 
     it('calls setCustomCSS if the colors change', () => {
-      domRender(<Frame generateUserCSS={_.identity} color='white'>{mockChild}</Frame>);
-      expect(frame.setCustomCSS)
-        .toHaveBeenCalledWith('white');
-    });
+      domRender(
+        <Frame generateUserCSS={_.identity} color="white">
+          {mockChild}
+        </Frame>
+      )
+      expect(frame.setCustomCSS).toHaveBeenCalledWith('white')
+    })
 
     it('does not call setCustomCSS if the colors do not change', () => {
-      domRender(<Frame generateUserCSS={_.identity} color='black'>{mockChild}</Frame>);
-      expect(frame.setCustomCSS)
-        .not.toHaveBeenCalled();
-    });
-  });
-});
+      domRender(
+        <Frame generateUserCSS={_.identity} color="black">
+          {mockChild}
+        </Frame>
+      )
+      expect(frame.setCustomCSS).not.toHaveBeenCalled()
+    })
+  })
+})

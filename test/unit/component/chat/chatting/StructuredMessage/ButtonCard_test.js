@@ -1,19 +1,19 @@
 describe('ButtonCard component', () => {
-  let ButtonCard;
+  let ButtonCard
 
-  const buttonCardPath = buildSrcPath('component/chat/chatting/structuredMessage/ButtonCard');
-  const chatConstantsPath = buildSrcPath('constants/chat');
+  const buttonCardPath = buildSrcPath('component/chat/chatting/structuredMessage/ButtonCard')
+  const chatConstantsPath = buildSrcPath('constants/chat')
 
-  const PureButtonCard = noopReactComponent();
-  const Button = noopReactComponent();
+  const PureButtonCard = noopReactComponent()
+  const Button = noopReactComponent()
 
-  const createActionSpy = jasmine.createSpy('createAction');
+  const createActionSpy = jasmine.createSpy('createAction')
 
-  const chatConstants = requireUncached(chatConstantsPath);
-  let CHAT_STRUCTURED_MESSAGE_ACTION_TYPE = chatConstants.CHAT_STRUCTURED_MESSAGE_ACTION_TYPE;
+  const chatConstants = requireUncached(chatConstantsPath)
+  let CHAT_STRUCTURED_MESSAGE_ACTION_TYPE = chatConstants.CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       'component/shared/StructuredMessage/ButtonCard': {
@@ -27,18 +27,18 @@ describe('ButtonCard component', () => {
           mobile: 'mobile'
         }
       }
-    });
+    })
 
-    mockery.registerAllowable(buttonCardPath);
-    ButtonCard = requireUncached(buttonCardPath).ButtonCard;
-  });
+    mockery.registerAllowable(buttonCardPath)
+    ButtonCard = requireUncached(buttonCardPath).ButtonCard
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
+    mockery.deregisterAll()
+    mockery.disable()
 
-    createActionSpy.calls.reset();
-  });
+    createActionSpy.calls.reset()
+  })
 
   describe('#render', () => {
     const componentProps = {
@@ -59,49 +59,50 @@ describe('ButtonCard component', () => {
           }
         }
       ]
-    };
+    }
 
-    let component,
-      result;
+    let component, result
 
     describe('default props', () => {
       beforeEach(() => {
-        component = instanceRender(<ButtonCard {...componentProps} createAction={createActionSpy} />);
-        result = component.render();
-      });
+        component = instanceRender(
+          <ButtonCard {...componentProps} createAction={createActionSpy} />
+        )
+        result = component.render()
+      })
 
       it('returns a PureButtonCard component', () => {
-        expect(TestUtils.isElementOfType(result, PureButtonCard))
-          .toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(result, PureButtonCard)).toEqual(true)
+      })
 
       it('passes no custom class to PureButtonCard', () => {
-        expect(result.props.className).toEqual('');
-      });
+        expect(result.props.className).toEqual('')
+      })
 
       it('passes the message value', () => {
-        expect(result.props.message)
-          .toEqual(componentProps.msg);
-      });
+        expect(result.props.message).toEqual(componentProps.msg)
+      })
 
       it('renders correct number of Button components', () => {
-        expect(result.props.children.length).toEqual(componentProps.buttons.length);
+        expect(result.props.children.length).toEqual(componentProps.buttons.length)
 
-        result.props.children.forEach((child) => {
-          expect(TestUtils.isElementOfType(child, Button)).toEqual(true);
-        });
-      });
-    });
+        result.props.children.forEach(child => {
+          expect(TestUtils.isElementOfType(child, Button)).toEqual(true)
+        })
+      })
+    })
 
     describe('custom props', () => {
       describe('isMobile', () => {
         it('should pass mobile class to PureButtonCard', () => {
-          component = instanceRender(<ButtonCard {...{ ...componentProps, isMobile: true }} createAction={createActionSpy} />);
-          result = component.render();
+          component = instanceRender(
+            <ButtonCard {...{ ...componentProps, isMobile: true }} createAction={createActionSpy} />
+          )
+          result = component.render()
 
-          expect(result.props.className).toEqual('mobile');
-        });
-      });
-    });
-  });
-});
+          expect(result.props.className).toEqual('mobile')
+        })
+      })
+    })
+  })
+})

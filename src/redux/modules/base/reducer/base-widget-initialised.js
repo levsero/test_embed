@@ -1,15 +1,15 @@
-import { WIDGET_INITIALISED } from '../base-action-types';
+import { WIDGET_INITIALISED } from '../base-action-types'
 
-const initialState = false;
+const initialState = false
 const widgetInitialised = (state = initialState, action) => {
-  const { type } = action;
+  const { type } = action
 
   switch (type) {
     case WIDGET_INITIALISED:
-      return true;
+      return true
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default widgetInitialised;
+export default widgetInitialised

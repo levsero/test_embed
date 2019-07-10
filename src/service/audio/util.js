@@ -1,19 +1,19 @@
-import { includes } from 'lodash';
+import { includes } from 'lodash'
 
-const canPlayTypeResultWhitelist = ['maybe', 'probably'];
+const canPlayTypeResultWhitelist = ['maybe', 'probably']
 
 export function getSupportedAudioType(audio) {
   if (!audio.canPlayType) {
-    return;
+    return
   }
 
-  const canPlayType = (type) => includes(canPlayTypeResultWhitelist, audio.canPlayType(type));
+  const canPlayType = type => includes(canPlayTypeResultWhitelist, audio.canPlayType(type))
 
   if (canPlayType('audio/mpeg')) {
-    return 'mp3';
+    return 'mp3'
   } else if (canPlayType('audio/ogg; codecs="vorbis"')) {
-    return 'ogg';
+    return 'ogg'
   } else if (canPlayType('audio/wav')) {
-    return 'wav';
+    return 'wav'
   }
 }

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { ButtonList } from './ButtonCard';
+import { ButtonList } from './ButtonCard'
 
-import { locals as styles } from './MessageCard.scss';
+import { locals as styles } from './MessageCard.scss'
 
 export class MessageCard extends Component {
   static propTypes = {
@@ -11,12 +11,12 @@ export class MessageCard extends Component {
     body: PropTypes.string.isRequired,
     imageUrl: PropTypes.string,
     buttons: PropTypes.array
-  };
+  }
 
   static defaultProps = {
     imageUrl: null,
     buttons: []
-  };
+  }
 
   render() {
     return (
@@ -30,6 +30,6 @@ export class MessageCard extends Component {
         </div>
         <ButtonList content={this.props.buttons} />
       </div>
-    );
+    )
   }
 }

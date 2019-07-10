@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
 const defaultState = {
   base: {
@@ -10,7 +10,7 @@ const defaultState = {
           props: {
             standalone: true,
             zopimId: '123abc',
-            overrideProxy: null,
+            overrideProxy: null
           }
         },
         helpCenterForm: {
@@ -30,9 +30,7 @@ const defaultState = {
       brand: 'ACME'
     },
     embeds: {
-      ipmWidget: {
-
-      },
+      ipmWidget: {},
       chat: {},
       ticketSubmissionForm: undefined
     }
@@ -67,8 +65,7 @@ const defaultState = {
   },
   helpCenter: {
     contextualSearch: true,
-    manualContextualSuggestions: {
-    }
+    manualContextualSuggestions: {}
   },
   settings: {
     cookies: true,
@@ -88,6 +85,6 @@ const defaultState = {
   zopimChat: {
     status: 'offline'
   }
-};
+}
 
-export const getModifiedState = (modifier = {}) => _.merge({}, defaultState, modifier);
+export const getModifiedState = (modifier = {}) => _.merge({}, defaultState, modifier)

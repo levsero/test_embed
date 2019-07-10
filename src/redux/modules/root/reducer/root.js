@@ -1,9 +1,9 @@
 const rootReducer = (state = {}, action) => {
   switch (action.type) {
     default: {
-      return state;
+      return state
     }
   }
-};
+}
 
-export default rootReducer;
+export default rootReducer

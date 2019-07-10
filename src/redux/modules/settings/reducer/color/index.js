@@ -1,5 +1,5 @@
-import { UPDATE_SETTINGS } from '../../settings-action-types';
-import _ from 'lodash';
+import { UPDATE_SETTINGS } from '../../settings-action-types'
+import _ from 'lodash'
 
 const initialState = {
   launcher: '',
@@ -9,10 +9,10 @@ const initialState = {
   resultLists: '',
   header: '',
   articleLinks: ''
-};
+}
 
 const colorSettings = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case UPDATE_SETTINGS:
@@ -23,11 +23,11 @@ const colorSettings = (state = initialState, action) => {
         launcher: _.get(payload, 'webWidget.color.launcher', state.launcher),
         launcherText: _.get(payload, 'webWidget.color.launcherText', state.launcherText),
         resultLists: _.get(payload, 'webWidget.color.resultLists', state.resultLists),
-        theme: _.get(payload, 'webWidget.color.theme', state.theme),
-      };
+        theme: _.get(payload, 'webWidget.color.theme', state.theme)
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default colorSettings;
+export default colorSettings

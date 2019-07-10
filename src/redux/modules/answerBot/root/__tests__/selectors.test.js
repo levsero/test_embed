@@ -1,73 +1,69 @@
-import * as selectors from '../selectors';
+import * as selectors from '../selectors'
 
-const getMockState = (state) => {
-  return { answerBot: state };
-};
+const getMockState = state => {
+  return { answerBot: state }
+}
 
 describe('getCurrentMessage', () => {
   const message = `If EA suffers big enough losses from the backlash of Battlefront 2,
       and it all started because some guy couldn't unlock Vader,
-      this will be the second time Anakin brought balance to something.`;
-  const mockState = getMockState({ currentMessage: message });
+      this will be the second time Anakin brought balance to something.`
+  const mockState = getMockState({ currentMessage: message })
 
   it('returns the current message', () => {
-    const result = selectors.getCurrentMessage(mockState);
+    const result = selectors.getCurrentMessage(mockState)
 
-    expect(result)
-      .toEqual(message);
-  });
-});
+    expect(result).toEqual(message)
+  })
+})
 
 describe('getCurrentArticle', () => {
-  const article1 = { id: 1, body: '123' };
-  const article2 = { id: 2, body: '456' };
+  const article1 = { id: 1, body: '123' }
+  const article2 = { id: 2, body: '456' }
 
   it.each([
-    [null, 1, 2, new Map([ [1, { articles: [article1] }] ]), undefined],
-    [null, 1, 1, new Map([ [1, { articles: [] }] ]), undefined],
-    [null, 1, 1, new Map([ [1, { articles: [article2] }] ]), undefined],
-    [null, 1, 1, new Map([ [1, { articles: [article1] }] ]), article1],
-    [article1, 1, 1, new Map([ [1, { articles: [article2] }] ]), article1],
-  ])('fn(%p, %i, %i, %p)',
-    (contextualArticle, articleID, sessionID, sessions, expected) => {
-      const result = selectors.getCurrentArticle.resultFunc(
-        contextualArticle,
-        articleID,
-        sessionID,
-        sessions
-      );
+    [null, 1, 2, new Map([[1, { articles: [article1] }]]), undefined],
+    [null, 1, 1, new Map([[1, { articles: [] }]]), undefined],
+    [null, 1, 1, new Map([[1, { articles: [article2] }]]), undefined],
+    [null, 1, 1, new Map([[1, { articles: [article1] }]]), article1],
+    [article1, 1, 1, new Map([[1, { articles: [article2] }]]), article1]
+  ])('fn(%p, %i, %i, %p)', (contextualArticle, articleID, sessionID, sessions, expected) => {
+    const result = selectors.getCurrentArticle.resultFunc(
+      contextualArticle,
+      articleID,
+      sessionID,
+      sessions
+    )
 
-      expect(result)
-        .toEqual(expected);
-    },
-  );
-});
+    expect(result).toEqual(expected)
+  })
+})
 
 describe('getCurrentArticleID', () => {
-  const articleID = 123;
+  const articleID = 123
   const mockState = {
     currentArticle: { articleID }
-  };
+  }
 
   it('returns the current article ID', () => {
-    const result = selectors.getCurrentArticleID.resultFunc(mockState);
+    const result = selectors.getCurrentArticleID.resultFunc(mockState)
 
-    expect(result).toEqual(articleID);
-  });
-});
+    expect(result).toEqual(articleID)
+  })
+})
 
 describe('getCurrentArticleSessionID', () => {
-  const sessionID = 123;
+  const sessionID = 123
   const mockState = {
     currentArticle: { sessionID }
-  };
+  }
 
   it('returns the current article sessionID', () => {
-    const result = selectors.getCurrentArticleSessionID.resultFunc(mockState);
+    const result = selectors.getCurrentArticleSessionID.resultFunc(mockState)
 
-    expect(result).toEqual(sessionID);
-  });
-});
+    expect(result).toEqual(sessionID)
+  })
+})
 
 describe('isFeedbackRequired', () => {
   it.each([
@@ -76,7 +72,8 @@ describe('isFeedbackRequired', () => {
     [null, { markedAsIrrelevant: false }, 1, 2, false, false],
     [null, { markedAsIrrelevant: false }, 1, 1, true, false],
     [null, { markedAsIrrelevant: false }, 1, 1, false, true]
-  ])('fn(%p, %p, %i, %i, %s)',
+  ])(
+    'fn(%p, %p, %i, %i, %s)',
     (contextual, article, sessionID, currentSessionID, currentSessionResolved, expected) => {
       const result = selectors.isFeedbackRequired.resultFunc(
         contextual,
@@ -84,41 +81,38 @@ describe('isFeedbackRequired', () => {
         sessionID,
         currentSessionID,
         currentSessionResolved
-      );
+      )
 
-      expect(result)
-        .toEqual(expected);
-    },
-  );
-});
+      expect(result).toEqual(expected)
+    }
+  )
+})
 
 describe('getCurrentScreen', () => {
-  const screen = 'article';
+  const screen = 'article'
   const mockState = getMockState({
     currentScreen: screen
-  });
+  })
 
   it('returns the current screen', () => {
-    const result = selectors.getCurrentScreen(mockState);
+    const result = selectors.getCurrentScreen(mockState)
 
-    expect(result)
-      .toEqual(screen);
-  });
-});
+    expect(result).toEqual(screen)
+  })
+})
 
 describe('getCurrentSessionID', () => {
-  const session = 1234;
+  const session = 1234
   const mockState = getMockState({
     currentSessionID: session
-  });
+  })
 
   it('returns the current sessionID', () => {
-    const result = selectors.getCurrentSessionID(mockState);
+    const result = selectors.getCurrentSessionID(mockState)
 
-    expect(result)
-      .toEqual(session);
-  });
-});
+    expect(result).toEqual(session)
+  })
+})
 
 describe('getCurrentRequestStatus', () => {
   describe('active session', () => {
@@ -126,27 +120,25 @@ describe('getCurrentRequestStatus', () => {
       const mockState = getMockState({
         currentSessionID: 1,
         sessions: new Map([[1, { requestStatus: 'blah' }]])
-      });
+      })
 
-      const result = selectors.getCurrentRequestStatus(mockState);
+      const result = selectors.getCurrentRequestStatus(mockState)
 
-      expect(result)
-        .toEqual('blah');
-    });
-  });
+      expect(result).toEqual('blah')
+    })
+  })
 
   describe('no session', () => {
     it('returns null', () => {
       const mockState = getMockState({
         sessions: new Map()
-      });
-      const result = selectors.getCurrentRequestStatus(mockState);
+      })
+      const result = selectors.getCurrentRequestStatus(mockState)
 
-      expect(result)
-        .toEqual(null);
-    });
-  });
-});
+      expect(result).toEqual(null)
+    })
+  })
+})
 
 describe('getCurrentDeflection', () => {
   describe('active session', () => {
@@ -154,26 +146,24 @@ describe('getCurrentDeflection', () => {
       const mockState = getMockState({
         currentSessionID: 1,
         sessions: new Map([[1, { deflection: 'blah' }]])
-      });
-      const result = selectors.getCurrentDeflection(mockState);
+      })
+      const result = selectors.getCurrentDeflection(mockState)
 
-      expect(result)
-        .toEqual('blah');
-    });
-  });
+      expect(result).toEqual('blah')
+    })
+  })
 
   describe('no session', () => {
     it('returns null', () => {
       const mockState = getMockState({
         sessions: new Map()
-      });
-      const result = selectors.getCurrentDeflection(mockState);
+      })
+      const result = selectors.getCurrentDeflection(mockState)
 
-      expect(result)
-        .toEqual(null);
-    });
-  });
-});
+      expect(result).toEqual(null)
+    })
+  })
+})
 
 describe('getCurrentInteractionToken', () => {
   describe('active session', () => {
@@ -181,26 +171,24 @@ describe('getCurrentInteractionToken', () => {
       const mockState = getMockState({
         currentSessionID: 1,
         sessions: new Map([[1, { interactionToken: 'blah' }]])
-      });
-      const result = selectors.getCurrentInteractionToken(mockState);
+      })
+      const result = selectors.getCurrentInteractionToken(mockState)
 
-      expect(result)
-        .toEqual('blah');
-    });
-  });
+      expect(result).toEqual('blah')
+    })
+  })
 
   describe('no session', () => {
     it('returns null', () => {
       const mockState = getMockState({
         sessions: new Map()
-      });
-      const result = selectors.getCurrentInteractionToken(mockState);
+      })
+      const result = selectors.getCurrentInteractionToken(mockState)
 
-      expect(result)
-        .toEqual(null);
-    });
-  });
-});
+      expect(result).toEqual(null)
+    })
+  })
+})
 
 describe('getCurrentQuery', () => {
   describe('active session', () => {
@@ -208,26 +196,24 @@ describe('getCurrentQuery', () => {
       const mockState = getMockState({
         currentSessionID: 1,
         sessions: new Map([[1, { query: 'blah' }]])
-      });
-      const result = selectors.getCurrentQuery(mockState);
+      })
+      const result = selectors.getCurrentQuery(mockState)
 
-      expect(result)
-        .toEqual('blah');
-    });
-  });
+      expect(result).toEqual('blah')
+    })
+  })
 
   describe('no session', () => {
     it('returns null', () => {
       const mockState = getMockState({
         sessions: new Map()
-      });
-      const result = selectors.getCurrentQuery(mockState);
+      })
+      const result = selectors.getCurrentQuery(mockState)
 
-      expect(result)
-        .toEqual(null);
-    });
-  });
-});
+      expect(result).toEqual(null)
+    })
+  })
+})
 
 describe('isCurrentSessionResolved', () => {
   describe('active session', () => {
@@ -236,61 +222,59 @@ describe('isCurrentSessionResolved', () => {
         const mockState = getMockState({
           currentSessionID: 1,
           sessions: new Map([[1, { resolved: true }]])
-        });
-        const result = selectors.isCurrentSessionResolved(mockState);
+        })
+        const result = selectors.isCurrentSessionResolved(mockState)
 
-        expect(result)
-          .toEqual(true);
-      });
-    });
+        expect(result).toEqual(true)
+      })
+    })
 
     describe('is not resolved', () => {
       it('returns false', () => {
         const mockState = getMockState({
           currentSessionID: 1,
           sessions: new Map([[1, { resolved: false }]])
-        });
-        const result = selectors.isCurrentSessionResolved(mockState);
+        })
+        const result = selectors.isCurrentSessionResolved(mockState)
 
-        expect(result)
-          .toEqual(false);
-      });
-    });
-  });
+        expect(result).toEqual(false)
+      })
+    })
+  })
 
   describe('no session', () => {
     it('returns false', () => {
       const mockState = getMockState({
         sessions: new Map()
-      });
-      const result = selectors.isCurrentSessionResolved(mockState);
+      })
+      const result = selectors.isCurrentSessionResolved(mockState)
 
-      expect(result)
-        .toEqual(false);
-    });
-  });
-});
+      expect(result).toEqual(false)
+    })
+  })
+})
 
 test('getGreeted returns the greeted state', () => {
-  const result = selectors.getGreeted(getMockState({ greeted: true }));
+  const result = selectors.getGreeted(getMockState({ greeted: true }))
 
-  expect(result)
-    .toEqual(true);
-});
+  expect(result).toEqual(true)
+})
 
 test('getInitialFallbackSuggested returns the initialFallbackSuggested state', () => {
-  const result = selectors.getInitialFallbackSuggested(getMockState({ initialFallbackSuggested: true }));
+  const result = selectors.getInitialFallbackSuggested(
+    getMockState({ initialFallbackSuggested: true })
+  )
 
-  expect(result)
-    .toEqual(true);
-});
+  expect(result).toEqual(true)
+})
 
 test('getContextualSearchShown returns the contextualSearchFinished state', () => {
-  const result = selectors.getContextualSearchFinished(getMockState({ contextualSearchFinished: true }));
+  const result = selectors.getContextualSearchFinished(
+    getMockState({ contextualSearchFinished: true })
+  )
 
-  expect(result)
-    .toEqual(true);
-});
+  expect(result).toEqual(true)
+})
 
 describe('getContextualSearchStatus', () => {
   it.each([
@@ -300,35 +284,36 @@ describe('getContextualSearchStatus', () => {
     [true, true, 'botTyping', 0, null],
     [true, false, 'botTyping', 3, 'COMPLETED'],
     [true, false, 'botTyping', 0, 'NO_RESULTS']
-  ])('fn(%p, %p, %s, %i)',
+  ])(
+    'fn(%p, %p, %s, %i)',
     (hasContextuallySearched, searchLoading, lastMessageType, resultsCount, expected) => {
       const result = selectors.getContextualSearchStatus.resultFunc(
         hasContextuallySearched,
         searchLoading,
         lastMessageType,
         resultsCount
-      );
+      )
 
-      expect(result)
-        .toEqual(expected);
-    },
-  );
-});
+      expect(result).toEqual(expected)
+    }
+  )
+})
 
 describe('getContactButtonVisible', () => {
   test.each([
-    [true,  true,   true],
-    [true,  false, false],
+    [true, true, true],
+    [true, false, false],
     [false, false, false],
-    [false, true,  false]
-  ])('when getInTouchVisible is %p && channelAvailable is %p, it returns %p',
+    [false, true, false]
+  ])(
+    'when getInTouchVisible is %p && channelAvailable is %p, it returns %p',
     (getInTouchVisible, channelAvailable, expected) => {
       const result = selectors.getContactButtonVisible.resultFunc(
         getInTouchVisible,
         channelAvailable
-      );
+      )
 
-      expect(result).toEqual(expected);
+      expect(result).toEqual(expected)
     }
-  );
-});
+  )
+})

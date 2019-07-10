@@ -1,14 +1,14 @@
 describe('ChatOffline component', () => {
-  let ChatOffline;
-  const ChatOfflinePath = buildSrcPath('component/chat/ChatOffline');
+  let ChatOffline
+  const ChatOfflinePath = buildSrcPath('component/chat/ChatOffline')
 
-  const Button = noopReactComponent();
-  const ChatOfflineForm = noopReactComponent();
+  const Button = noopReactComponent()
+  const ChatOfflineForm = noopReactComponent()
 
-  const mockTitle = 'My custom title';
+  const mockTitle = 'My custom title'
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './ChatOffline.scss': {
@@ -37,7 +37,7 @@ describe('ChatOffline component', () => {
         ChatOfflineFormChanged: ''
       },
       'src/redux/modules/chat/chat-selectors': {
-        getChatOfflineForm: '',
+        getChatOfflineForm: ''
       },
       'src/redux/modules/selectors': {
         getOfflineFormFields: ''
@@ -50,134 +50,120 @@ describe('ChatOffline component', () => {
           OPERATING_HOURS: 'OPERATING_HOURS',
           SUCCESS: 'SUCCESS'
         }
-      }, 'src/redux/modules/chat/chat-history-selectors': {
-
       },
+      'src/redux/modules/chat/chat-history-selectors': {},
       './ChatHistoryLink.scss': {
-        locals: {
-
-        }
+        locals: {}
       },
       'component/Icon': {
         Icon: noop
       },
-      'src/constants/shared': {
+      'src/constants/shared': {}
+    })
 
-      }
-    });
-
-    mockery.registerAllowable(ChatOfflinePath);
-    ChatOffline = requireUncached(ChatOfflinePath).default.WrappedComponent;
-  });
+    mockery.registerAllowable(ChatOfflinePath)
+    ChatOffline = requireUncached(ChatOfflinePath).default.WrappedComponent
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('render', () => {
-    let component,
-      mockFormSettings;
+    let component, mockFormSettings
 
     beforeEach(() => {
-      component = instanceRender(<ChatOffline formSettings={mockFormSettings}/>);
+      component = instanceRender(<ChatOffline formSettings={mockFormSettings} />)
 
-      spyOn(component, 'renderOfflineForm');
-      spyOn(component, 'renderChatOfflineScreen');
+      spyOn(component, 'renderOfflineForm')
+      spyOn(component, 'renderChatOfflineScreen')
 
-      component.render();
-    });
+      component.render()
+    })
 
     describe('when formSettings is enabled', () => {
       beforeAll(() => {
-        mockFormSettings = { enabled: true };
-      });
+        mockFormSettings = { enabled: true }
+      })
 
       it('calls renderOfflineForm', () => {
-        expect(component.renderOfflineForm)
-          .toHaveBeenCalled();
-      });
-    });
+        expect(component.renderOfflineForm).toHaveBeenCalled()
+      })
+    })
 
     describe('when formSettings is not enabled', () => {
       beforeAll(() => {
-        mockFormSettings = { enabled: false };
-      });
+        mockFormSettings = { enabled: false }
+      })
 
       it('calls renderChatOfflineScreen', () => {
-        expect(component.renderChatOfflineScreen)
-          .toHaveBeenCalled();
-      });
-    });
-  });
+        expect(component.renderChatOfflineScreen).toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('renderOfflineForm', () => {
-    let result;
+    let result
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOffline
-        title={mockTitle}
-        fullscreen={true}
-        isMobile={true} />);
+      const component = instanceRender(
+        <ChatOffline title={mockTitle} fullscreen={true} isMobile={true} />
+      )
 
-      result = component.renderOfflineForm();
-    });
+      result = component.renderOfflineForm()
+    })
 
     it('renders ChatOfflineForm', () => {
-      expect(TestUtils.isElementOfType(result, ChatOfflineForm))
-        .toEqual(true);
-    });
+      expect(TestUtils.isElementOfType(result, ChatOfflineForm)).toEqual(true)
+    })
 
     it('renders with the correct title', () => {
-      expect(result.props.title)
-        .toEqual(mockTitle);
-    });
+      expect(result.props.title).toEqual(mockTitle)
+    })
     it('renders with the correct fullscreen status', () => {
-      expect(result.props.fullscreen)
-        .toEqual(true);
-    });
+      expect(result.props.fullscreen).toEqual(true)
+    })
 
     it('renders with the correct isMobile status', () => {
-      expect(result.props.isMobile)
-        .toEqual(true);
-    });
-  });
+      expect(result.props.isMobile).toEqual(true)
+    })
+  })
 
   describe('renderChatOfflineScreen', () => {
-    let result;
+    let result
 
     const doInstanceRender = () => {
-      const component = instanceRender(<ChatOffline
-        title={mockTitle}
-        fullscreen={true}
-        isMobile={true}
-        isAuthenticated={'testValue'}
-        hasChatHistory={'anotherTestValue'}
-        openedChatHistory={'HELLO FREN'}
-        chatHistoryLabel={'whoop'}
-      />);
+      const component = instanceRender(
+        <ChatOffline
+          title={mockTitle}
+          fullscreen={true}
+          isMobile={true}
+          isAuthenticated={'testValue'}
+          hasChatHistory={'anotherTestValue'}
+          openedChatHistory={'HELLO FREN'}
+          chatHistoryLabel={'whoop'}
+        />
+      )
 
-      return component.renderChatOfflineScreen();
-    };
+      return component.renderChatOfflineScreen()
+    }
 
     beforeEach(() => {
-      result = doInstanceRender();
-    });
+      result = doInstanceRender()
+    })
 
     it('renders with the correct title', () => {
-      expect(result.props.title)
-        .toEqual(mockTitle);
-    });
+      expect(result.props.title).toEqual(mockTitle)
+    })
 
     it('renders with the correct fullscreen status', () => {
-      expect(result.props.fullscreen)
-        .toEqual(true);
-    });
+      expect(result.props.fullscreen).toEqual(true)
+    })
 
     it('renders with the correct isMobile status', () => {
-      expect(result.props.isMobile)
-        .toEqual(true);
-    });
+      expect(result.props.isMobile).toEqual(true)
+    })
 
     it('renders the Chat History Link ', () => {
       expect(_.get(result, 'props.children.props.children[0].props')).toEqual({
@@ -185,7 +171,7 @@ describe('ChatOffline component', () => {
         hasChatHistory: 'anotherTestValue',
         openedChatHistory: 'HELLO FREN',
         label: 'whoop'
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

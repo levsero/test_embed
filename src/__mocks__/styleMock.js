@@ -2,9 +2,9 @@ const locals = new Proxy(
   {},
   {
     get: function getter(target, key) {
-      return key;
-    },
-  },
-);
+      return key
+    }
+  }
+)
 
-export { locals };
+export { locals }

@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { ButtonIcon } from 'component/button/ButtonIcon';
+import { ButtonIcon } from 'component/button/ButtonIcon'
 
-import { locals as styles } from './RatingGroup.scss';
+import { locals as styles } from './RatingGroup.scss'
 
 export const ratings = {
   GOOD: 'good',
   BAD: 'bad',
   NOT_SET: null
-};
+}
 
 export class RatingGroup extends Component {
   static propTypes = {
@@ -23,39 +23,41 @@ export class RatingGroup extends Component {
     className: ''
   }
 
-  ratingClickedHandler = (value) => {
-    const rating = this.props.rating === value ? ratings.NOT_SET : value;
+  ratingClickedHandler = value => {
+    const rating = this.props.rating === value ? ratings.NOT_SET : value
 
-    this.props.updateRating(rating);
+    this.props.updateRating(rating)
   }
 
   renderThumbsUpButton = () => {
-    const { rating } = this.props;
-    const thumbUpActiveStyle = rating === ratings.GOOD ? styles.ratingIconActive : '';
+    const { rating } = this.props
+    const thumbUpActiveStyle = rating === ratings.GOOD ? styles.ratingIconActive : ''
 
     return (
       <ButtonIcon
-        key='good'
+        key="good"
         containerStyles={`${styles.ratingIcon} ${thumbUpActiveStyle}`}
         iconClasses={styles.icon}
-        icon='Icon--thumbUp'
-        onClick={() => this.ratingClickedHandler(ratings.GOOD)} />
-    );
+        icon="Icon--thumbUp"
+        onClick={() => this.ratingClickedHandler(ratings.GOOD)}
+      />
+    )
   }
 
   renderThumbsDownButton = () => {
-    const { rating } = this.props;
-    const thumbDownActiveStyle = rating === ratings.BAD ? styles.ratingIconActive : '';
-    const iconStyles = `${styles.ratingIcon} ${styles.thumbDownIcon}`;
+    const { rating } = this.props
+    const thumbDownActiveStyle = rating === ratings.BAD ? styles.ratingIconActive : ''
+    const iconStyles = `${styles.ratingIcon} ${styles.thumbDownIcon}`
 
     return (
       <ButtonIcon
-        key='bad'
+        key="bad"
         containerStyles={`${iconStyles} ${thumbDownActiveStyle}`}
         iconClasses={styles.icon}
-        icon='Icon--thumbDown'
-        onClick={() => this.ratingClickedHandler(ratings.BAD)} />
-    );
+        icon="Icon--thumbDown"
+        onClick={() => this.ratingClickedHandler(ratings.BAD)}
+      />
+    )
   }
 
   render = () => {
@@ -64,6 +66,6 @@ export class RatingGroup extends Component {
         {this.renderThumbsUpButton()}
         {this.renderThumbsDownButton()}
       </div>
-    );
+    )
   }
 }

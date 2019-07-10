@@ -1,6 +1,6 @@
-import reducer from '../launcher-mobile-settings';
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import reducer from '../launcher-mobile-settings'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 describe('mobileSettings', () => {
   const goodPayload = {
@@ -11,11 +11,11 @@ describe('mobileSettings', () => {
         }
       }
     }
-  };
+  }
 
   const badPayload = {
     derp: 'derp'
-  };
+  }
 
   testReducer(reducer, [
     {
@@ -30,5 +30,5 @@ describe('mobileSettings', () => {
       type: 'ANY_OTHER_ACTION',
       payload: goodPayload
     }
-  ]);
-});
+  ])
+})

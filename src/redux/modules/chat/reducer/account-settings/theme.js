@@ -1,5 +1,8 @@
-import _ from 'lodash';
-import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS, UPDATE_PREVIEWER_SETTINGS } from '../../chat-action-types';
+import _ from 'lodash'
+import {
+  GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
+  UPDATE_PREVIEWER_SETTINGS
+} from '../../chat-action-types'
 
 const initialState = {
   message_type: '',
@@ -8,7 +11,7 @@ const initialState = {
     primary: '#555555',
     banner: ''
   }
-};
+}
 
 const theme = (state = initialState, action) => {
   switch (action.type) {
@@ -21,10 +24,10 @@ const theme = (state = initialState, action) => {
           primary: _.get(action.payload, 'theme.colors.primary', state.color.primary),
           banner: _.get(action.payload, 'theme.colors.banner', state.color.banner)
         }
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default theme;
+export default theme

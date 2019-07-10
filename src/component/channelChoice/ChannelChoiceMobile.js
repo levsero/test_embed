@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { locals as styles } from './ChannelChoiceMobile.scss';
+import { locals as styles } from './ChannelChoiceMobile.scss'
 
-import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile';
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { i18n } from 'service/i18n';
+import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile'
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { i18n } from 'service/i18n'
 
 export class ChannelChoiceMobile extends Component {
   static propTypes = {
@@ -17,13 +17,13 @@ export class ChannelChoiceMobile extends Component {
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
     chatOfflineAvailable: PropTypes.bool.isRequired
-  };
+  }
 
   static defaultProps = {
     talkOnline: false,
     submitTicketAvailable: true,
     chatEnabled: false
-  };
+  }
 
   render = () => {
     const {
@@ -33,7 +33,7 @@ export class ChannelChoiceMobile extends Component {
       talkOnline,
       callbackEnabled,
       chatOfflineAvailable
-    } = this.props;
+    } = this.props
 
     return (
       <ScrollContainer
@@ -41,7 +41,8 @@ export class ChannelChoiceMobile extends Component {
         fullscreen={true}
         isMobile={true}
         containerClasses={styles.newContainer}
-        title={i18n.t(`embeddable_framework.helpCenter.form.title.${formTitleKey}`)}>
+        title={i18n.t(`embeddable_framework.helpCenter.form.title.${formTitleKey}`)}
+      >
         <ChannelChoicePopupMobile
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatEnabled={this.props.chatEnabled}
@@ -53,6 +54,6 @@ export class ChannelChoiceMobile extends Component {
           chatOfflineAvailable={chatOfflineAvailable}
         />
       </ScrollContainer>
-    );
+    )
   }
 }

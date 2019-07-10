@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
-import { locals as styles } from './Carousel.scss';
+import { locals as styles } from './Carousel.scss'
 
-import Slider from '../SliderContainer';
+import Slider from '../SliderContainer'
 
 export default class Carousel extends Component {
   static propTypes = {
@@ -14,24 +14,22 @@ export default class Carousel extends Component {
 
   static defaultProps = {
     isMobile: false
-  };
-
-  constructor(props) {
-    super(props);
   }
 
-  render= () => {
-    const containerClassName = classNames('structuredMessageSlider', styles.carouselSlider);
+  constructor(props) {
+    super(props)
+  }
+
+  render = () => {
+    const containerClassName = classNames('structuredMessageSlider', styles.carouselSlider)
     const sliderSettings = {
-      arrows: !(this.props.isMobile)
-    };
+      arrows: !this.props.isMobile
+    }
 
     return (
       <div className={containerClassName}>
-        <Slider {...sliderSettings}>
-          {this.props.children}
-        </Slider>
+        <Slider {...sliderSettings}>{this.props.children}</Slider>
       </div>
-    );
+    )
   }
 }

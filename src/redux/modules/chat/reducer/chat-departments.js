@@ -1,9 +1,9 @@
-import { SDK_DEPARTMENT_UPDATE } from '../chat-action-types';
+import { SDK_DEPARTMENT_UPDATE } from '../chat-action-types'
 
-const initialState = {};
+const initialState = {}
 
 const departments = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case SDK_DEPARTMENT_UPDATE:
@@ -13,10 +13,10 @@ const departments = (state = initialState, action) => {
           ...state[payload.detail.id],
           ...payload.detail
         }
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default departments;
+export default departments

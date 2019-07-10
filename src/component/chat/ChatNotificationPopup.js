@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { Avatar } from 'component/Avatar';
-import { ChatPopup } from 'component/chat/ChatPopup';
-import { i18n } from 'service/i18n';
+import { Avatar } from 'component/Avatar'
+import { ChatPopup } from 'component/chat/ChatPopup'
+import { i18n } from 'service/i18n'
 
-import { locals as styles } from './ChatNotificationPopup.scss';
-import classNames from 'classnames';
+import { locals as styles } from './ChatNotificationPopup.scss'
+import classNames from 'classnames'
 
 export class ChatNotificationPopup extends Component {
   static propTypes = {
@@ -24,45 +24,51 @@ export class ChatNotificationPopup extends Component {
   }
 
   constructor() {
-    super();
+    super()
 
-    this.agentMessage = null;
+    this.agentMessage = null
   }
 
-  renderAgentName = (agentName) => {
-    if (agentName === '') return null;
+  renderAgentName = agentName => {
+    if (agentName === '') return null
 
-    return <div className={styles.agentName}>{agentName}</div>;
+    return <div className={styles.agentName}>{agentName}</div>
   }
 
-  renderAgentMessage = (message) => {
-    const { scrollHeight, clientHeight } = this.agentMessage || {};
-    const className = this.agentMessage && (scrollHeight > clientHeight)
-      ? `${styles.agentMessage} ${styles.agentMessageOverflow}`
-      : styles.agentMessage;
+  renderAgentMessage = message => {
+    const { scrollHeight, clientHeight } = this.agentMessage || {}
+    const className =
+      this.agentMessage && scrollHeight > clientHeight
+        ? `${styles.agentMessage} ${styles.agentMessageOverflow}`
+        : styles.agentMessage
 
     return (
-      <div ref={(el) => this.agentMessage = el} className={className}>
+      <div ref={el => (this.agentMessage = el)} className={className}>
         {message}
       </div>
-    );
+    )
   }
 
   renderAvatar = (avatarPath, proactive) => {
-    const avatarClasses = proactive ? styles.proactiveAvatar : styles.avatar;
+    const avatarClasses = proactive ? styles.proactiveAvatar : styles.avatar
 
-    if (avatarPath === '') return null;
+    if (avatarPath === '') return null
 
-    return <Avatar className={avatarClasses} src={avatarPath} fallbackIcon="Icon--avatar" />;
+    return <Avatar className={avatarClasses} src={avatarPath} fallbackIcon="Icon--avatar" />
   }
 
   renderProactiveContent = () => {
-    const { avatar_path: avatarPath, display_name: displayName , proactive, msg } = this.props.notification; // eslint-disable-line camelcase
-    const noAvatar = (avatarPath === '');
+    const {
+      avatar_path: avatarPath,
+      display_name: displayName,
+      proactive,
+      msg
+    } = this.props.notification // eslint-disable-line camelcase
+    const noAvatar = avatarPath === ''
     const agentContainerStyle = classNames(styles.agentContainer, {
       [styles.agentContainerWithAvatar]: !noAvatar,
       [styles.ongoingAgentContainer]: !proactive
-    });
+    })
 
     return (
       <div className={styles.proactiveContainer}>
@@ -72,7 +78,7 @@ export class ChatNotificationPopup extends Component {
           {this.renderAgentMessage(msg)}
         </div>
       </div>
-    );
+    )
   }
 
   render = () => {
@@ -83,15 +89,15 @@ export class ChatNotificationPopup extends Component {
       chatNotificationRespond,
       isMobile,
       resultsCount
-    } = this.props;
-    const { proactive } = notification;
-    const hasArticleResults = (resultsCount > 0);
+    } = this.props
+    const { proactive } = notification
+    const hasArticleResults = resultsCount > 0
     const componentStyles = classNames({
       [styles.proactiveNotificationMobile]: proactive && isMobile,
       [styles.ongoingNotificationDesktop]: hasArticleResults && !proactive && !isMobile,
       [styles.ongoingNotificationMobile]: !proactive && isMobile,
       [styles.ongoingNotificationNoResultsDesktop]: !hasArticleResults && !proactive && !isMobile
-    });
+    })
 
     return (
       <ChatPopup
@@ -105,9 +111,10 @@ export class ChatNotificationPopup extends Component {
         leftCtaFn={chatNotificationDismissed}
         rightCtaLabel={i18n.t('embeddable_framework.chat.popup.button.reply')}
         rightCtaFn={chatNotificationRespond}
-        childrenOnClick={chatNotificationRespond}>
+        childrenOnClick={chatNotificationRespond}
+      >
         {this.renderProactiveContent()}
       </ChatPopup>
-    );
+    )
   }
 }

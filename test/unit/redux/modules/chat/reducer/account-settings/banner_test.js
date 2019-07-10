@@ -1,27 +1,25 @@
 describe('banner', () => {
-  let reducer,
-    actionTypes,
-    initialState;
+  let reducer, actionTypes, initialState
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/account-settings/banner');
-    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/account-settings/banner')
+    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
-    reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
+    reducer = requireUncached(reducerPath).default
+    actionTypes = requireUncached(actionTypesPath)
 
-    initialState = reducer(undefined, { type: '' });
-  });
+    initialState = reducer(undefined, { type: '' })
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('when GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS is dispatched', () => {
-    let state;
+    let state
 
     beforeEach(() => {
       state = reducer(initialState, {
@@ -34,17 +32,16 @@ describe('banner', () => {
             enabled: true
           }
         }
-      });
-    });
+      })
+    })
 
     it('returns the banner state', () => {
-      expect(state)
-        .toEqual({
-          layout: 'image_left',
-          image: 'http://img.com/img.png',
-          text: 'chat it up',
-          enabled: true
-        });
-    });
-  });
-});
+      expect(state).toEqual({
+        layout: 'image_left',
+        image: 'http://img.com/img.png',
+        text: 'chat it up',
+        enabled: true
+      })
+    })
+  })
+})

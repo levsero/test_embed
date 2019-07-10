@@ -1,23 +1,22 @@
-import reducer from '../delay-channel-choice';
-import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types';
+import reducer from '../delay-channel-choice'
+import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
 
 const initialState = () => {
-  return reducer(undefined, { type: '' });
-};
+  return reducer(undefined, { type: '' })
+}
 
 const reduce = (payload, customState) => {
-  const state = customState || initialState();
+  const state = customState || initialState()
 
   return reducer(state, {
     type: settingsActionTypes.UPDATE_SETTINGS,
     payload: payload
-  });
-};
+  })
+}
 
 test('initial state', () => {
-  expect(initialState())
-    .toEqual(false);
-});
+  expect(initialState()).toEqual(false)
+})
 
 describe('when UPDATE_SETTINGS is dispatched', () => {
   describe('with default settings', () => {
@@ -28,12 +27,11 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
             contactOnlyAfterQuery: true
           }
         }
-      };
+      }
 
-      expect(reduce(payload))
-        .toEqual(true);
-    });
-  });
+      expect(reduce(payload)).toEqual(true)
+    })
+  })
 
   describe('when already set to true', () => {
     it('updates the settings to false', () => {
@@ -43,11 +41,10 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
             contactOnlyAfterQuery: false
           }
         }
-      };
+      }
 
-      expect(reduce(payload, true))
-        .toEqual(false);
-    });
+      expect(reduce(payload, true)).toEqual(false)
+    })
 
     describe('when contactOnlyAfterQuery is not updated', () => {
       it('remains true', () => {
@@ -57,11 +54,10 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
               title: 'false'
             }
           }
-        };
+        }
 
-        expect(reduce(payload, true))
-          .toEqual(true);
-      });
-    });
-  });
-});
+        expect(reduce(payload, true)).toEqual(true)
+      })
+    })
+  })
+})

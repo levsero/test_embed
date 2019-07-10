@@ -1,7 +1,7 @@
-import { AGENT_BOT } from 'constants/chat';
-import { win, getZendeskHost } from 'utility/globals';
-import { i18n } from 'service/i18n';
-import _ from 'lodash';
+import { AGENT_BOT } from 'constants/chat'
+import { win, getZendeskHost } from 'utility/globals'
+import { i18n } from 'service/i18n'
+import _ from 'lodash'
 
 /**
  * Return a new array with consecutive numbers combined into an array containing only the start and end (inclusive) number.
@@ -9,28 +9,31 @@ import _ from 'lodash';
  * @returns {NumberRange[]} numberRanges
  */
 function combineNumbers(numbers) {
-  const result = [];
-  let last, start;
+  const result = []
+  let last, start
 
-  const dump = () => start = (result.push(start ? [start, last] : last), undefined);
+  const dump = () => (start = (result.push(start ? [start, last] : last), undefined))
 
-  numbers.forEach((num) => {
-    num = parseInt(num, 10);
-    if (last === num-1) {
-      if (!start) start = last;
-    }
-    else if (last) dump();
-    last = num;
-  });
+  numbers.forEach(num => {
+    num = parseInt(num, 10)
+    if (last === num - 1) {
+      if (!start) start = last
+    } else if (last) dump()
+    last = num
+  })
 
-  dump();
-  return result;
+  dump()
+  return result
 }
 
-const periodsToString = (periods) => periods.map((period) => `${period.start},${period.end}`).toString();
-const stringToPeriods = (str) => str
-  ? _.chunk(str.split(','), 2).map((arr) => ({ start: parseInt(arr[0], 10), end: parseInt(arr[1], 10) }))
-  : [];
+const periodsToString = periods => periods.map(period => `${period.start},${period.end}`).toString()
+const stringToPeriods = str =>
+  str
+    ? _.chunk(str.split(','), 2).map(arr => ({
+        start: parseInt(arr[0], 10),
+        end: parseInt(arr[1], 10)
+      }))
+    : []
 
 /**
  * Return a FormattedSchedule array that is more amendable to the Widget's rendering needs.
@@ -38,56 +41,59 @@ const stringToPeriods = (str) => str
  * @return {FormattedSchedule[]}
  */
 function formatSchedule(schedule) {
-  schedule = { ...schedule, 7: schedule[0] }; // use 7 for Sunday
-  delete schedule[0];
-  let preprocessedDates = _.invertBy(_.mapValues(schedule, periodsToString));
+  schedule = { ...schedule, 7: schedule[0] } // use 7 for Sunday
+  delete schedule[0]
+  let preprocessedDates = _.invertBy(_.mapValues(schedule, periodsToString))
 
-  return _.sortBy(_.map(preprocessedDates, (days, periods) => ({
-    periods: stringToPeriods(periods),
-    days: combineNumbers(days)
-  })), ['days']);
+  return _.sortBy(
+    _.map(preprocessedDates, (days, periods) => ({
+      periods: stringToPeriods(periods),
+      days: combineNumbers(days)
+    })),
+    ['days']
+  )
 }
 
 function isAgent(nick) {
-  return nick.indexOf('agent:') > -1 && nick !== AGENT_BOT;
+  return nick.indexOf('agent:') > -1 && nick !== AGENT_BOT
 }
 
 function isDefaultNickname(name) {
-  const nameRegex = new RegExp(/^Visitor [0-9]{3,}$/);
+  const nameRegex = new RegExp(/^Visitor [0-9]{3,}$/)
 
-  return nameRegex.test(name);
+  return nameRegex.test(name)
 }
 
 function getDisplayName(inName, fallbackName = '') {
-  return isDefaultNickname(inName) ? fallbackName : inName;
+  return isDefaultNickname(inName) ? fallbackName : inName
 }
 
 function createChatPopoutWindow(chatPopoutSettings, machineId, locale) {
-  let url;
+  let url
 
   if (__DEV__) {
-    url = '/liveChat.html';
+    url = '/liveChat.html'
   } else {
-    url = `${__ASSET_BASE_PATH__}/web_widget/latest/liveChat.html`;
+    url = `${__ASSET_BASE_PATH__}/web_widget/latest/liveChat.html`
   }
 
-  url += generateQueryString(chatPopoutSettings, machineId, locale);
+  url += generateQueryString(chatPopoutSettings, machineId, locale)
 
-  win.open(url, 'WebWidgetLiveChat', 'height=600,width=400');
+  win.open(url, 'WebWidgetLiveChat', 'height=600,width=400')
 }
 
 function encodeSettings(settings) {
-  return win.btoa(encodeURIComponent(JSON.stringify(settings)));
+  return win.btoa(encodeURIComponent(JSON.stringify(settings)))
 }
 
 function generateQueryString(settings, machineId, locale) {
-  const subdomain = getZendeskHost(document);
+  const subdomain = getZendeskHost(document)
 
-  const encodedSettings = encodeSettings(settings);
+  const encodedSettings = encodeSettings(settings)
 
-  const title = encodeURI(i18n.t('embeddable_framework.popout.title'));
+  const title = encodeURI(i18n.t('embeddable_framework.popout.title'))
 
-  return `?v=10#key=${subdomain}&settings=${encodedSettings}&mid=${machineId}&locale=${locale}&title=${title}`;
+  return `?v=10#key=${subdomain}&settings=${encodedSettings}&mid=${machineId}&locale=${locale}&title=${title}`
 }
 
 export {
@@ -97,7 +103,7 @@ export {
   isAgent,
   createChatPopoutWindow,
   getDisplayName
-};
+}
 
 /**
  * A number, or a string containing a number.

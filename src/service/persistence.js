@@ -1,15 +1,15 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
-import { win } from 'utility/globals';
+import { win } from 'utility/globals'
 
-const prefix = 'ZD-';
+const prefix = 'ZD-'
 
 // TODO: find a better way to differentiate between localStorage
 // and sessionStorage, and refactor everywhere it is used
 
-let enabled = true;
+let enabled = true
 
-const storage = (type) => win[`${type}Storage`];
+const storage = type => win[`${type}Storage`]
 
 const defaults = {
   suid: {
@@ -17,68 +17,66 @@ const defaults = {
     tabs: []
   },
   store: {}
-};
+}
 
 function get(name, type = 'local') {
   try {
-    const data = deserialize(storage(type).getItem(prefix + name));
+    const data = deserialize(storage(type).getItem(prefix + name))
 
-    return data ? data : defaults[name] || null;
+    return data ? data : defaults[name] || null
   } catch (e) {}
 
-  return defaults[name];
+  return defaults[name]
 }
 
 function set(name, data, type = 'local') {
-  if (!enabled) return data;
+  if (!enabled) return data
 
   try {
-    storage(type).setItem(prefix + name, serialize(data));
+    storage(type).setItem(prefix + name, serialize(data))
   } catch (e) {}
 
-  return data;
+  return data
 }
 
 function remove(name, type = 'local') {
   try {
-    storage(type).removeItem(prefix + name);
+    storage(type).removeItem(prefix + name)
   } catch (e) {}
 }
 
 function clear(type = 'local') {
   try {
-    const backend = storage(type);
-    const keys = _.keys(backend).filter((key) => (
-      _.includes(key, prefix)
-    ));
+    const backend = storage(type)
+    const keys = _.keys(backend).filter(key => _.includes(key, prefix))
 
-    keys.forEach((key) => {
-      backend.removeItem(key);
-    });
+    keys.forEach(key => {
+      backend.removeItem(key)
+    })
   } catch (e) {}
 }
 
 function enable() {
-  enabled = true;
+  enabled = true
 }
 
 function disable() {
-  enabled = false;
-  clear();
+  enabled = false
+  clear()
 }
 
 function serialize(data) {
   if (typeof data === 'object') {
-    data = JSON.stringify(data);
+    data = JSON.stringify(data)
   }
-  return data;
+  return data
 }
 
 function deserialize(data) {
   try {
-    return JSON.parse(data);
+    return JSON.parse(data)
   } catch (e) {
-    return data;
+    return data
   }
 }
 
@@ -89,4 +87,4 @@ export const store = {
   clear: clear,
   enable: enable,
   disable: disable
-};
+}

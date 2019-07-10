@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { locals as styles } from './ButtonNav.scss';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { locals as styles } from './ButtonNav.scss'
 
 export class ButtonNav extends Component {
   static propTypes = {
@@ -12,7 +12,7 @@ export class ButtonNav extends Component {
     rtl: PropTypes.bool,
     'aria-label': PropTypes.string.isRequired,
     isMobile: PropTypes.bool.isRequired
-  };
+  }
 
   static defaultProps = {
     className: '',
@@ -20,22 +20,22 @@ export class ButtonNav extends Component {
     onClick: () => {},
     position: 'left',
     rtl: false
-  };
+  }
 
   render = () => {
-    const { className, isMobile, fullscreen, position, rtl } = this.props;
-    const isLeft = (position === 'left');
-    const isRight = (position === 'right');
-    const fullscreenStyles = (isMobile || fullscreen) ? styles.fullscreen : styles.desktop;
-    const directionStyles = (rtl) ? styles.rtl : '';
-    const buttonStyles = styles.button;
-    let positionStyles;
+    const { className, isMobile, fullscreen, position, rtl } = this.props
+    const isLeft = position === 'left'
+    const isRight = position === 'right'
+    const fullscreenStyles = isMobile || fullscreen ? styles.fullscreen : styles.desktop
+    const directionStyles = rtl ? styles.rtl : ''
+    const buttonStyles = styles.button
+    let positionStyles
 
     if (isLeft) {
-      positionStyles = (rtl) ? styles.leftRtl : styles.left;
+      positionStyles = rtl ? styles.leftRtl : styles.left
     }
     if (isRight) {
-      positionStyles = (rtl) ? styles.rightRtl : styles.right;
+      positionStyles = rtl ? styles.rightRtl : styles.right
     }
 
     const buttonClasses = `
@@ -44,17 +44,18 @@ export class ButtonNav extends Component {
       ${positionStyles}
       ${directionStyles}
       ${className}
-    `;
+    `
 
     return (
       <div className={styles.container}>
         <button
           onClick={this.props.onClick}
           aria-label={this.props['aria-label']}
-          className={buttonClasses}>
+          className={buttonClasses}
+        >
           {this.props.label}
         </button>
       </div>
-    );
+    )
   }
 }

@@ -1,32 +1,32 @@
-import _ from 'lodash';
-import { render, fireEvent } from 'react-testing-library';
-import React from 'react';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import reducer from 'src/redux/modules/reducer';
-import Navigation, { Navigation as NonConnectedNavigation } from '../Navigation';
-import * as selectors from 'src/redux/modules/selectors/chat-linked-selectors';
-import * as chatUtil from 'src/util/chat';
+import _ from 'lodash'
+import { render, fireEvent } from 'react-testing-library'
+import React from 'react'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from 'src/redux/modules/reducer'
+import Navigation, { Navigation as NonConnectedNavigation } from '../Navigation'
+import * as selectors from 'src/redux/modules/selectors/chat-linked-selectors'
+import * as chatUtil from 'src/util/chat'
 
-jest.mock('src/util/chat');
+jest.mock('src/util/chat')
 
-const renderComponent = (props) => {
-  const store = createStore(reducer);
+const renderComponent = props => {
+  const store = createStore(reducer)
   const defaultProps = {
     isMobile: false,
     popoutButtonVisible: true,
     handleOnCloseFocusChange: jest.fn()
-  };
-  const actualProps = _.merge({}, defaultProps, props);
+  }
+  const actualProps = _.merge({}, defaultProps, props)
 
   return render(
     <Provider store={store}>
       <Navigation {...actualProps} />
-    </Provider>,
-  );
-};
+    </Provider>
+  )
+}
 
-const renderPureComponent = (props) => {
+const renderPureComponent = props => {
   const defaultProps = {
     isMobile: false,
     popoutButtonVisible: true,
@@ -38,128 +38,120 @@ const renderPureComponent = (props) => {
     chatPopoutSettings: {},
     locale: 'en-US',
     handleOnCloseFocusChange: noop
-  };
-  const actualProps = _.merge({}, defaultProps, props);
+  }
+  const actualProps = _.merge({}, defaultProps, props)
 
-  return render(
-    <NonConnectedNavigation {...actualProps} />
-  );
-};
+  return render(<NonConnectedNavigation {...actualProps} />)
+}
 
 describe('rendering', () => {
   describe('with default props', () => {
-    const { container } = renderPureComponent();
+    const { container } = renderPureComponent()
 
-    it('renders correctly',() => {
-      expect(container).toMatchSnapshot();
-    });
-  });
-});
+    it('renders correctly', () => {
+      expect(container).toMatchSnapshot()
+    })
+  })
+})
 
 describe('actions', () => {
   describe('clicking popout', () => {
-    const mockHandlePopoutButtonClicked = jest.fn();
+    const mockHandlePopoutButtonClicked = jest.fn()
 
     beforeEach(() => {
-      jest.spyOn(chatUtil, 'createChatPopoutWindow');
-    });
+      jest.spyOn(chatUtil, 'createChatPopoutWindow')
+    })
 
     describe('when not preview', () => {
       beforeEach(() => {
         const container = renderPureComponent({
           handlePopoutButtonClicked: mockHandlePopoutButtonClicked
-        }).container;
+        }).container
 
-        fireEvent.click(container.querySelector('.popoutDesktop'));
-      });
+        fireEvent.click(container.querySelector('.popoutDesktop'))
+      })
 
       it('calls createChatPopoutWindow', () => {
-        expect(chatUtil.createChatPopoutWindow).toHaveBeenCalledWith({}, 'machine id', 'en-US');
-      });
+        expect(chatUtil.createChatPopoutWindow).toHaveBeenCalledWith({}, 'machine id', 'en-US')
+      })
 
       it('calls handlePopoutButtonClicked', () => {
-        expect(mockHandlePopoutButtonClicked).toHaveBeenCalled();
-      });
-    });
+        expect(mockHandlePopoutButtonClicked).toHaveBeenCalled()
+      })
+    })
 
     describe('clicking popout', () => {
       describe('when it is preview', () => {
         it('does not call createChatPopoutWindow', () => {
-          jest.spyOn(chatUtil, 'createChatPopoutWindow');
+          jest.spyOn(chatUtil, 'createChatPopoutWindow')
 
-          const { container } = renderPureComponent({ isChatPreview: true });
+          const { container } = renderPureComponent({ isChatPreview: true })
 
-          fireEvent.click(container.querySelector('.popoutDesktop'));
+          fireEvent.click(container.querySelector('.popoutDesktop'))
 
-          expect(chatUtil.createChatPopoutWindow).not.toHaveBeenCalled();
-        });
+          expect(chatUtil.createChatPopoutWindow).not.toHaveBeenCalled()
+        })
 
         it('does not call handlePopoutButtonClicked', () => {
-          expect(mockHandlePopoutButtonClicked).not.toHaveBeenCalled();
-        });
-      });
-    });
-  });
-});
+          expect(mockHandlePopoutButtonClicked).not.toHaveBeenCalled()
+        })
+      })
+    })
+  })
+})
 
 describe('menu button', () => {
   beforeEach(() => {
-    jest.spyOn(selectors, 'getShowMenu').mockReturnValue(true);
-  });
+    jest.spyOn(selectors, 'getShowMenu').mockReturnValue(true)
+  })
 
   afterEach(() => {
-    selectors.getShowMenu.mockRestore();
-  });
+    selectors.getShowMenu.mockRestore()
+  })
 
   it('can be shown', () => {
-    const { container } = renderComponent({ isMobile: true });
+    const { container } = renderComponent({ isMobile: true })
 
-    expect(container.querySelector('button[aria-label=Menu]'))
-      .toBeInTheDocument();
-  });
+    expect(container.querySelector('button[aria-label=Menu]')).toBeInTheDocument()
+  })
 
   it('can be hidden', () => {
-    const { container } = renderComponent({ isMobile: false });
+    const { container } = renderComponent({ isMobile: false })
 
-    expect(container.querySelector('button[aria-label=Menu]'))
-      .not.toBeInTheDocument();
-  });
-});
+    expect(container.querySelector('button[aria-label=Menu]')).not.toBeInTheDocument()
+  })
+})
 
 test('can hide the close button', () => {
-  const { container } = renderComponent({ hideNavigationButtons: true });
+  const { container } = renderComponent({ hideNavigationButtons: true })
 
-  expect(container.querySelector('button[aria-label=Close]'))
-    .not.toBeInTheDocument();
-});
+  expect(container.querySelector('button[aria-label=Close]')).not.toBeInTheDocument()
+})
 
 test('renders the close button by default', () => {
-  const { container } = renderComponent();
+  const { container } = renderComponent()
 
-  expect(container.querySelector('button[aria-label=Close]'))
-    .toBeInTheDocument();
-});
+  expect(container.querySelector('button[aria-label=Close]')).toBeInTheDocument()
+})
 
 describe('popout button', () => {
   afterEach(() => {
-    selectors.getIsPopoutButtonVisible.mockRestore();
-  });
+    selectors.getIsPopoutButtonVisible.mockRestore()
+  })
 
   it('can be shown', () => {
-    jest.spyOn(selectors, 'getIsPopoutButtonVisible').mockReturnValue(true);
+    jest.spyOn(selectors, 'getIsPopoutButtonVisible').mockReturnValue(true)
 
-    const { container } = renderComponent();
+    const { container } = renderComponent()
 
-    expect(container.querySelector('button[aria-label=Popout]')).toBeInTheDocument();
-  });
+    expect(container.querySelector('button[aria-label=Popout]')).toBeInTheDocument()
+  })
 
   it('can be hidden', () => {
-    jest.spyOn(selectors, 'getIsPopoutButtonVisible')
-      .mockImplementation(jest.fn(() => false));
+    jest.spyOn(selectors, 'getIsPopoutButtonVisible').mockImplementation(jest.fn(() => false))
 
-    const { container } = renderComponent({ hideNavigationButtons: true });
+    const { container } = renderComponent({ hideNavigationButtons: true })
 
-    expect(container.querySelector('button[aria-label=Popout]'))
-      .not.toBeInTheDocument();
-  });
-});
+    expect(container.querySelector('button[aria-label=Popout]')).not.toBeInTheDocument()
+  })
+})

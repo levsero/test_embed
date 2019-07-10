@@ -2,20 +2,20 @@ import {
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_NOTIFICATION_RESPONDED,
   SHOW_STANDALONE_MOBILE_NOTIFICATION
-} from '../chat-action-types';
+} from '../chat-action-types'
 
-const initialState = false;
+const initialState = false
 
 const standaloneMobileNotificationVisible = (state = initialState, action) => {
   switch (action.type) {
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
     case CHAT_NOTIFICATION_RESPONDED:
-      return false;
+      return false
     case SHOW_STANDALONE_MOBILE_NOTIFICATION:
-      return true;
+      return true
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default standaloneMobileNotificationVisible;
+export default standaloneMobileNotificationVisible

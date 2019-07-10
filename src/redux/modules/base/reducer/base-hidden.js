@@ -3,15 +3,15 @@ import {
   LEGACY_SHOW_RECEIVED,
   SHOW_RECEIVED,
   HIDE_RECEIVED
-} from '../base-action-types';
+} from '../base-action-types'
 
 const initialState = {
   hideApi: false,
   activateApi: false
-};
+}
 
 const hidden = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case ACTIVATE_RECEIVED:
@@ -19,23 +19,23 @@ const hidden = (state = initialState, action) => {
         return {
           hideApi: false,
           activateApi: true
-        };
+        }
       }
       return {
         ...state,
         hideApi: false
-      };
+      }
     case HIDE_RECEIVED:
       return {
         activateApi: true,
         hideApi: true
-      };
+      }
     case LEGACY_SHOW_RECEIVED:
     case SHOW_RECEIVED:
-      return initialState;
+      return initialState
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default hidden;
+export default hidden

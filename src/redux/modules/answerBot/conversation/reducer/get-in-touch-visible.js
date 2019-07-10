@@ -1,19 +1,16 @@
-import {
-  GET_IN_TOUCH_SHOWN,
-  GET_IN_TOUCH_CLICKED
-} from '../action-types';
+import { GET_IN_TOUCH_SHOWN, GET_IN_TOUCH_CLICKED } from '../action-types'
 
-const initialState = false;
+const initialState = false
 
 const getInTouchVisible = (state = initialState, action) => {
   switch (action.type) {
     case GET_IN_TOUCH_SHOWN:
-      return true;
+      return true
     case GET_IN_TOUCH_CLICKED:
-      return false;
+      return false
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default getInTouchVisible;
+export default getInTouchVisible

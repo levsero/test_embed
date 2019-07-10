@@ -1,18 +1,15 @@
 describe('RatingGroup component', () => {
-  let RatingGroup,
-    ChatRatings;
-  const RatingGroupPath = buildSrcPath('component/chat/rating/RatingGroup');
+  let RatingGroup, ChatRatings
+  const RatingGroupPath = buildSrcPath('component/chat/rating/RatingGroup')
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       'component/button/ButtonIcon': {
         ButtonIcon: class extends Component {
           render = () => {
-            return (
-              <div className={`${this.props.icon} ${this.props.containerStyles}`} />
-            );
+            return <div className={`${this.props.icon} ${this.props.containerStyles}`} />
           }
         }
       },
@@ -25,132 +22,118 @@ describe('RatingGroup component', () => {
           thumbDownIcon: 'thumbDownIcon'
         }
       }
-    });
+    })
 
-    mockery.registerAllowable(RatingGroupPath);
-    RatingGroup = requireUncached(RatingGroupPath).RatingGroup;
-    ChatRatings = requireUncached(RatingGroupPath).ratings;
-  });
+    mockery.registerAllowable(RatingGroupPath)
+    RatingGroup = requireUncached(RatingGroupPath).RatingGroup
+    ChatRatings = requireUncached(RatingGroupPath).ratings
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('render', () => {
-    let RatingGroupNode;
+    let RatingGroupNode
 
     describe('when the rating value is good', () => {
       beforeEach(() => {
-        const component = domRender(<RatingGroup rating={ChatRatings.GOOD} />);
+        const component = domRender(<RatingGroup rating={ChatRatings.GOOD} />)
 
-        RatingGroupNode = ReactDOM.findDOMNode(component);
-      });
+        RatingGroupNode = ReactDOM.findDOMNode(component)
+      })
 
       it('renders active styles for thumbUp button', () => {
-        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbUp');
+        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbUp')
 
-        expect(buttonIconNode.className)
-          .toContain('ratingIconActive');
-      });
+        expect(buttonIconNode.className).toContain('ratingIconActive')
+      })
 
       it('does not render active styles for thumbDown button', () => {
-        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbDown');
+        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbDown')
 
-        expect(buttonIconNode.className)
-          .not.toContain('ratingIconActive');
-      });
-    });
+        expect(buttonIconNode.className).not.toContain('ratingIconActive')
+      })
+    })
 
     describe('when the rating value is bad', () => {
       beforeEach(() => {
-        const component = domRender(<RatingGroup rating={ChatRatings.BAD} />);
+        const component = domRender(<RatingGroup rating={ChatRatings.BAD} />)
 
-        RatingGroupNode = ReactDOM.findDOMNode(component);
-      });
+        RatingGroupNode = ReactDOM.findDOMNode(component)
+      })
 
       it('renders active styles for thumbDown button', () => {
-        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbDown');
+        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbDown')
 
-        expect(buttonIconNode.className)
-          .toContain('ratingIconActive');
-      });
+        expect(buttonIconNode.className).toContain('ratingIconActive')
+      })
 
       it('does not render active styles for thumbDown button', () => {
-        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbUp');
+        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbUp')
 
-        expect(buttonIconNode.className)
-          .not.toContain('ratingIconActive');
-      });
-    });
+        expect(buttonIconNode.className).not.toContain('ratingIconActive')
+      })
+    })
 
     describe('when the rating value is falsy', () => {
-      let thumbUpNode,
-        thumbDownNode;
+      let thumbUpNode, thumbDownNode
 
       beforeEach(() => {
-        const component = domRender(<RatingGroup />);
+        const component = domRender(<RatingGroup />)
 
-        RatingGroupNode = ReactDOM.findDOMNode(component);
-        thumbUpNode = RatingGroupNode.querySelector('.Icon--thumbUp');
-        thumbDownNode = RatingGroupNode.querySelector('.Icon--thumbDown');
-      });
+        RatingGroupNode = ReactDOM.findDOMNode(component)
+        thumbUpNode = RatingGroupNode.querySelector('.Icon--thumbUp')
+        thumbDownNode = RatingGroupNode.querySelector('.Icon--thumbDown')
+      })
 
       it('renders both buttons without active styles', () => {
-        expect(thumbUpNode)
-          .not.toContain('ratingIconActive');
+        expect(thumbUpNode).not.toContain('ratingIconActive')
 
-        expect(thumbDownNode)
-          .not.toContain('ratingIconActive');
-      });
-    });
-  });
+        expect(thumbDownNode).not.toContain('ratingIconActive')
+      })
+    })
+  })
 
   describe('ratingClickedHandler', () => {
-    let component,
-      mockUpdateRating,
-      mockRating;
+    let component, mockUpdateRating, mockRating
 
     describe('when an existing rating does not exist', () => {
       beforeEach(() => {
-        mockUpdateRating = jasmine.createSpy('updateRating');
-        mockRating = ChatRatings.GOOD;
+        mockUpdateRating = jasmine.createSpy('updateRating')
+        mockRating = ChatRatings.GOOD
 
-        component = instanceRender(<RatingGroup updateRating={mockUpdateRating} />);
-        component.ratingClickedHandler(mockRating);
-      });
+        component = instanceRender(<RatingGroup updateRating={mockUpdateRating} />)
+        component.ratingClickedHandler(mockRating)
+      })
 
       it('calls updateRating with the new rating', () => {
-        expect(mockUpdateRating)
-          .toHaveBeenCalledWith(mockRating);
-      });
-    });
+        expect(mockUpdateRating).toHaveBeenCalledWith(mockRating)
+      })
+    })
 
     describe('when an existing rating exists', () => {
       beforeEach(() => {
-        mockUpdateRating = jasmine.createSpy('updateRating');
-        mockRating = ChatRatings.GOOD;
+        mockUpdateRating = jasmine.createSpy('updateRating')
+        mockRating = ChatRatings.GOOD
 
         component = instanceRender(
-          <RatingGroup
-            rating={mockRating}
-            updateRating={mockUpdateRating} />
-        );
-      });
+          <RatingGroup rating={mockRating} updateRating={mockUpdateRating} />
+        )
+      })
 
       it('calls updateRating with the new rating for a different', () => {
-        component.ratingClickedHandler(ChatRatings.BAD);
+        component.ratingClickedHandler(ChatRatings.BAD)
 
-        expect(mockUpdateRating)
-          .toHaveBeenCalledWith(ChatRatings.BAD);
-      });
+        expect(mockUpdateRating).toHaveBeenCalledWith(ChatRatings.BAD)
+      })
 
       it('calls updateRating with null for the same rating', () => {
-        component.ratingClickedHandler(mockRating);
+        component.ratingClickedHandler(mockRating)
 
-        expect(mockUpdateRating)
-          .toHaveBeenCalledWith(null);
-      });
-    });
-  });
-});
+        expect(mockUpdateRating).toHaveBeenCalledWith(null)
+      })
+    })
+  })
+})

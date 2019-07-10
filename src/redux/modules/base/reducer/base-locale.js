@@ -1,16 +1,16 @@
-import { LOCALE_SET } from '../base-action-types';
+import { LOCALE_SET } from '../base-action-types'
 
-const initialState = '';
+const initialState = ''
 
 const locale = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case LOCALE_SET:
-      return payload;
+      return payload
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default locale;
+export default locale

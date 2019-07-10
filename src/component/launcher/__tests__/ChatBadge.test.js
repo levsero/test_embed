@@ -1,7 +1,7 @@
-import { render } from 'react-testing-library';
-import React from 'react';
-import ChatBadgeConnect from '../ChatBadge';
-const ChatBadge = ChatBadgeConnect.WrappedComponent;
+import { render } from 'react-testing-library'
+import React from 'react'
+import ChatBadgeConnect from '../ChatBadge'
+const ChatBadge = ChatBadgeConnect.WrappedComponent
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
@@ -13,32 +13,29 @@ const renderComponent = (props = {}) => {
     updateChatScreen: noop,
     chatBadgeClicked: noop,
     bannerSettings: {}
-  };
+  }
 
-  const mergedProps = { ...defaultProps, ...props };
+  const mergedProps = { ...defaultProps, ...props }
 
-  return render(<ChatBadge {...mergedProps} />);
-};
+  return render(<ChatBadge {...mergedProps} />)
+}
 
 test('renders the component', () => {
-  const { container } = renderComponent();
+  const { container } = renderComponent()
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 test('with chatBadgeColor passed in', () => {
-  const chatBadgeColor = { text: 'blue', base: 'yellow' };
-  const { container } = renderComponent({ chatBadgeColor });
+  const chatBadgeColor = { text: 'blue', base: 'yellow' }
+  const { container } = renderComponent({ chatBadgeColor })
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 test('with label passed in', () => {
-  const bannerSettings = { label: 'wanna chat?' };
-  const { container } = renderComponent({ bannerSettings });
+  const bannerSettings = { label: 'wanna chat?' }
+  const { container } = renderComponent({ bannerSettings })
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})

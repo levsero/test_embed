@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import ChatBadge from 'src/component/launcher/ChatBadge';
+import ChatBadge from 'src/component/launcher/ChatBadge'
 
-const noop = () => {};
+const noop = () => {}
 
 export class LauncherPreview extends Component {
   render() {
@@ -18,6 +18,6 @@ export class LauncherPreview extends Component {
         prechatFormRequired={false}
         hideBranding={false}
       />
-    );
+    )
   }
 }

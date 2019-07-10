@@ -1,33 +1,33 @@
-const prechatScreen = 'widget/chat/PRECHAT_SCREEN';
-const chattingScreen = 'widget/chat/CHATTING_SCREEN';
-const loadingScreen = 'widget/chat/LOADING_SCREEN';
-const feedbackScreen = 'widget/chat/FEEDBACK_SCREEN';
-const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN';
+const prechatScreen = 'widget/chat/PRECHAT_SCREEN'
+const chattingScreen = 'widget/chat/CHATTING_SCREEN'
+const loadingScreen = 'widget/chat/LOADING_SCREEN'
+const feedbackScreen = 'widget/chat/FEEDBACK_SCREEN'
+const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN'
 
 describe('ChatOnline component', () => {
-  let ChatOnline;
+  let ChatOnline
 
-  const chatPath = buildSrcPath('component/chat/ChatOnline');
-  const chatConstantsPath = buildSrcPath('constants/chat');
+  const chatPath = buildSrcPath('component/chat/ChatOnline')
+  const chatConstantsPath = buildSrcPath('constants/chat')
 
-  const AGENT_LIST_SCREEN = 'widget/chat/AGENT_LIST_SCREEN';
+  const AGENT_LIST_SCREEN = 'widget/chat/AGENT_LIST_SCREEN'
 
-  const updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
-  const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage');
+  const updateChatScreenSpy = jasmine.createSpy('updateChatScreen')
+  const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage')
 
-  const AttachmentBox = noopReactComponent('AttachmentBox');
-  const ChatMenu = noopReactComponent('ChatMenu');
-  const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble');
-  const ButtonPill = noopReactComponent('ButtonPill');
-  const LoadingSpinner = noopReactComponent('LoadingSpinner');
-  const ZendeskLogo = noopReactComponent('ZendeskLogo');
-  const AgentScreen = noopReactComponent('AgentScreen');
+  const AttachmentBox = noopReactComponent('AttachmentBox')
+  const ChatMenu = noopReactComponent('ChatMenu')
+  const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble')
+  const ButtonPill = noopReactComponent('ButtonPill')
+  const LoadingSpinner = noopReactComponent('LoadingSpinner')
+  const ZendeskLogo = noopReactComponent('ZendeskLogo')
+  const AgentScreen = noopReactComponent('AgentScreen')
 
-  const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES;
-  const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
+  const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES
+  const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './ChatOnline.scss': {
@@ -105,32 +105,30 @@ describe('ChatOnline component', () => {
       'src/util/chat': {
         isDefaultNickname: noop
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/redux/modules/chat/chat-selectors': {}
+    })
 
-      }
-    });
-
-    mockery.registerAllowable(chatPath);
-    ChatOnline = requireUncached(chatPath).default.WrappedComponent;
-  });
+    mockery.registerAllowable(chatPath)
+    ChatOnline = requireUncached(chatPath).default.WrappedComponent
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
+    mockery.deregisterAll()
+    mockery.disable()
 
-    updateChatScreenSpy.calls.reset();
-  });
+    updateChatScreenSpy.calls.reset()
+  })
 
   describe('onContainerClick', () => {
     let component,
       updateMenuVisibilitySpy,
       updateContactDetailsVisibilitySpy,
-      updateEmailTranscriptVisibilitySpy;
+      updateEmailTranscriptVisibilitySpy
 
     beforeEach(() => {
-      updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
-      updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
-      updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility');
+      updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility')
+      updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
+      updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility')
 
       component = instanceRender(
         <ChatOnline
@@ -138,198 +136,165 @@ describe('ChatOnline component', () => {
           updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
           updateMenuVisibility={updateMenuVisibilitySpy}
         />
-      );
-      component.onContainerClick();
-    });
+      )
+      component.onContainerClick()
+    })
 
     it('should set the correct state', () => {
-      expect(component.state)
-        .toEqual(jasmine.objectContaining({
+      expect(component.state).toEqual(
+        jasmine.objectContaining({
           showEndChatMenu: false
-        }));
-    });
+        })
+      )
+    })
 
     it('calls updateEmailTranscriptVisibility with false', () => {
-      expect(updateEmailTranscriptVisibilitySpy)
-        .toHaveBeenCalledWith(false);
-    });
+      expect(updateEmailTranscriptVisibilitySpy).toHaveBeenCalledWith(false)
+    })
 
     it('calls updateContactDetailsVisibility with false', () => {
-      expect(updateContactDetailsVisibilitySpy)
-        .toHaveBeenCalledWith(false);
-    });
+      expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(false)
+    })
 
     it('calls updateMenuVisibility with false', () => {
-      expect(updateMenuVisibilitySpy)
-        .toHaveBeenCalledWith(false);
-    });
-  });
+      expect(updateMenuVisibilitySpy).toHaveBeenCalledWith(false)
+    })
+  })
 
   describe('componentDidMount', () => {
-    let updateChatBackButtonVisibilitySpy;
+    let updateChatBackButtonVisibilitySpy
 
     beforeEach(() => {
-      updateChatBackButtonVisibilitySpy = jasmine.createSpy('updateChatBackButtonVisibility');
+      updateChatBackButtonVisibilitySpy = jasmine.createSpy('updateChatBackButtonVisibility')
 
-      const component = instanceRender(<ChatOnline updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} />);
+      const component = instanceRender(
+        <ChatOnline updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} />
+      )
 
-      component.componentDidMount();
-    });
+      component.componentDidMount()
+    })
 
     it('calls props.updateChatBackButtonVisibility', () => {
-      expect(updateChatBackButtonVisibilitySpy)
-        .toHaveBeenCalled();
-    });
-  });
+      expect(updateChatBackButtonVisibilitySpy).toHaveBeenCalled()
+    })
+  })
 
   describe('renderPrechatScreen', () => {
-    let component,
-      result;
+    let component, result
 
     describe('when state.screen is `prechat`', () => {
       beforeEach(() => {
         component = instanceRender(
-          <ChatOnline
-            screen={prechatScreen}
-            isMobile={true}
-            fullscreen={true} />
-        );
-        result = component.renderPrechatScreen();
-      });
+          <ChatOnline screen={prechatScreen} isMobile={true} fullscreen={true} />
+        )
+        result = component.renderPrechatScreen()
+      })
 
       it('returns a component', () => {
-        expect(result)
-          .toBeTruthy();
-      });
+        expect(result).toBeTruthy()
+      })
       it('component returns valid isMobile value', () => {
-        expect(result.props.isMobile)
-          .toEqual(true);
-      });
+        expect(result.props.isMobile).toEqual(true)
+      })
 
       it('component returns valid fullscreen value', () => {
-        expect(result.props.fullscreen)
-          .toEqual(true);
-      });
-    });
+        expect(result.props.fullscreen).toEqual(true)
+      })
+    })
 
     describe('when state.screen is `offlinemessage`', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={offlineMessageScreen} />
-        );
-        result = component.renderPrechatScreen();
-      });
+        component = instanceRender(<ChatOnline screen={offlineMessageScreen} />)
+        result = component.renderPrechatScreen()
+      })
 
       it('returns a component', () => {
-        expect(result)
-          .toBeTruthy();
-      });
-    });
+        expect(result).toBeTruthy()
+      })
+    })
 
     describe('when state.screen is `loading`', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={loadingScreen} />
-        );
-        result = component.renderPrechatScreen();
-      });
+        component = instanceRender(<ChatOnline screen={loadingScreen} />)
+        result = component.renderPrechatScreen()
+      })
 
       it('returns a component', () => {
-        expect(result)
-          .toBeTruthy();
-      });
-    });
+        expect(result).toBeTruthy()
+      })
+    })
 
     describe('when state.screen is not `prechat`, `loading` or `offlinemessage`', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={'yoloScreen'} />
-        );
-        result = component.renderPrechatScreen();
-      });
+        component = instanceRender(<ChatOnline screen={'yoloScreen'} />)
+        result = component.renderPrechatScreen()
+      })
 
       it('should not render prechat form', () => {
-        expect(result)
-          .toBeUndefined();
-      });
-    });
-  });
+        expect(result).toBeUndefined()
+      })
+    })
+  })
 
   describe('renderPostchatScreen', () => {
-    let component, result;
+    let component, result
 
     describe('when state.screen is not `feedback`', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOnline screen={chattingScreen} />);
-        result = component.renderPostchatScreen();
-      });
+        component = instanceRender(<ChatOnline screen={chattingScreen} />)
+        result = component.renderPostchatScreen()
+      })
 
       it('does not return anything', () => {
-        expect(result)
-          .toBeFalsy();
-      });
-    });
+        expect(result).toBeFalsy()
+      })
+    })
 
     describe('when state.screen is `feedback`', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOnline
-          screen={feedbackScreen}
-          isMobile={true}
-          fullscreen={true} />);
-        result = component.renderPostchatScreen();
-      });
+        component = instanceRender(
+          <ChatOnline screen={feedbackScreen} isMobile={true} fullscreen={true} />
+        )
+        result = component.renderPostchatScreen()
+      })
 
       it('returns a component', () => {
-        expect(result)
-          .toBeTruthy();
-      });
+        expect(result).toBeTruthy()
+      })
 
       it('component returns valid isMobile value', () => {
-        expect(result.props.isMobile)
-          .toEqual(true);
-      });
+        expect(result.props.isMobile).toEqual(true)
+      })
 
       it('component returns valid fullscreen value', () => {
-        expect(result.props.fullscreen)
-          .toEqual(true);
-      });
-    });
-  });
+        expect(result.props.fullscreen).toEqual(true)
+      })
+    })
+  })
 
   describe('renderChatScreen', () => {
-    let component;
+    let component
 
     describe('when state.screen is not `chatting`', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={prechatScreen} />
-        );
-      });
+        component = instanceRender(<ChatOnline screen={prechatScreen} />)
+      })
 
       it('does not return anything', () => {
-        expect(component.renderChatScreen())
-          .toBeFalsy();
-      });
-    });
+        expect(component.renderChatScreen()).toBeFalsy()
+      })
+    })
 
     describe('when state.screen is `chatting`', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={chattingScreen} />
-        );
-      });
+        component = instanceRender(<ChatOnline screen={chattingScreen} />)
+      })
 
       it('returns a component', () => {
-        expect(component.renderChatScreen())
-          .toBeTruthy();
-      });
-    });
-  });
+        expect(component.renderChatScreen()).toBeTruthy()
+      })
+    })
+  })
 
   describe('renderChatMenu', () => {
     let component,
@@ -337,177 +302,165 @@ describe('ChatOnline component', () => {
       mockUserSoundSettings,
       updateContactDetailsVisibilitySpy,
       updateEmailTranscriptVisibilitySpy,
-      handleSoundIconClickSpy;
+      handleSoundIconClickSpy
 
     describe('when method is called', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOnline />);
-      });
+        component = instanceRender(<ChatOnline />)
+      })
 
       it('returns a ChatMenu component', () => {
-        expect(TestUtils.isElementOfType(component.renderChatMenu(), ChatMenu))
-          .toEqual(true);
-      });
-    });
+        expect(TestUtils.isElementOfType(component.renderChatMenu(), ChatMenu)).toEqual(true)
+      })
+    })
 
     describe('when prop.menuVisible is false', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOnline menuVisible={false} />);
-      });
+        component = instanceRender(<ChatOnline menuVisible={false} />)
+      })
 
       it('passes false to its popup components show prop', () => {
-        expect(component.renderChatMenu().props.show)
-          .toBe(false);
-      });
-    });
+        expect(component.renderChatMenu().props.show).toBe(false)
+      })
+    })
 
     describe('when prop.menuVisible is true', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOnline menuVisible={true} />);
-      });
+        component = instanceRender(<ChatOnline menuVisible={true} />)
+      })
 
       it('passes true to its popup components show prop', () => {
-        expect(component.renderChatMenu().props.show)
-          .toBe(true);
-      });
-    });
+        expect(component.renderChatMenu().props.show).toBe(true)
+      })
+    })
 
     describe('when prop.endChatOnClick is called', () => {
-      let updateMenuVisibilitySpy;
+      let updateMenuVisibilitySpy
 
       beforeEach(() => {
-        updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility');
-        component = instanceRender(<ChatOnline updateMenuVisibility={updateMenuVisibilitySpy} />);
+        updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility')
+        component = instanceRender(<ChatOnline updateMenuVisibility={updateMenuVisibilitySpy} />)
 
-        spyOn(component, 'setState');
+        spyOn(component, 'setState')
 
-        const chatMenu = component.renderChatMenu();
+        const chatMenu = component.renderChatMenu()
 
-        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
-        chatMenu.props.endChatOnClick(mockEvent);
-      });
+        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') }
+        chatMenu.props.endChatOnClick(mockEvent)
+      })
 
       it('calls stopPropagation on event', () => {
-        expect(mockEvent.stopPropagation)
-          .toHaveBeenCalled();
-      });
+        expect(mockEvent.stopPropagation).toHaveBeenCalled()
+      })
 
       it('calls updateMenuVisibility', () => {
-        expect(updateMenuVisibilitySpy)
-          .toHaveBeenCalledWith(false);
-      });
+        expect(updateMenuVisibilitySpy).toHaveBeenCalledWith(false)
+      })
 
       it('calls setState with expected arguments', () => {
         const expected = {
           showEndChatMenu: true
-        };
+        }
 
-        expect(component.setState)
-          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
-      });
-    });
+        expect(component.setState).toHaveBeenCalledWith(jasmine.objectContaining(expected))
+      })
+    })
 
     describe('when prop.contactDetailsOnClick is called', () => {
       beforeEach(() => {
-        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
+        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility')
         component = instanceRender(
           <ChatOnline updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />
-        );
+        )
 
-        const chatMenu = component.renderChatMenu();
+        const chatMenu = component.renderChatMenu()
 
-        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
-        chatMenu.props.contactDetailsOnClick(mockEvent);
-      });
+        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') }
+        chatMenu.props.contactDetailsOnClick(mockEvent)
+      })
 
       it('calls stopPropagation on event', () => {
-        expect(mockEvent.stopPropagation)
-          .toHaveBeenCalled();
-      });
+        expect(mockEvent.stopPropagation).toHaveBeenCalled()
+      })
 
       it('calls updateContactDetailsVisibility with true', () => {
-        expect(updateContactDetailsVisibilitySpy)
-          .toHaveBeenCalledWith(true);
-      });
-    });
+        expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(true)
+      })
+    })
 
     describe('when prop.emailTranscriptOnClick is called', () => {
       beforeEach(() => {
-        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
+        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
 
-        component = instanceRender(<ChatOnline updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy} />);
+        component = instanceRender(
+          <ChatOnline updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy} />
+        )
 
-        spyOn(component, 'setState');
+        spyOn(component, 'setState')
 
-        const chatMenu = component.renderChatMenu();
+        const chatMenu = component.renderChatMenu()
 
-        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
-        chatMenu.props.emailTranscriptOnClick(mockEvent);
-      });
+        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') }
+        chatMenu.props.emailTranscriptOnClick(mockEvent)
+      })
 
       it('calls stopPropagation on event', () => {
-        expect(mockEvent.stopPropagation)
-          .toHaveBeenCalled();
-      });
+        expect(mockEvent.stopPropagation).toHaveBeenCalled()
+      })
 
       it('calls updateEmailTranscriptVisibility with true', () => {
-        expect(updateEmailTranscriptVisibilitySpy)
-          .toHaveBeenCalledWith(true);
-      });
-    });
+        expect(updateEmailTranscriptVisibilitySpy).toHaveBeenCalledWith(true)
+      })
+    })
 
     describe('when prop.onSoundClick is called', () => {
       beforeEach(() => {
-        mockUserSoundSettings = false;
-        handleSoundIconClickSpy = jasmine.createSpy('handleSoundIconClick');
+        mockUserSoundSettings = false
+        handleSoundIconClickSpy = jasmine.createSpy('handleSoundIconClick')
         component = instanceRender(
           <ChatOnline
             userSoundSettings={mockUserSoundSettings}
-            handleSoundIconClick={handleSoundIconClickSpy} />
-        );
+            handleSoundIconClick={handleSoundIconClickSpy}
+          />
+        )
 
-        const chatMenu = component.renderChatMenu();
+        const chatMenu = component.renderChatMenu()
 
-        chatMenu.props.onSoundClick();
-      });
+        chatMenu.props.onSoundClick()
+      })
 
       it('calls handleSoundIconClick with expected arguments', () => {
-        const expected = { sound: !mockUserSoundSettings };
+        const expected = { sound: !mockUserSoundSettings }
 
-        expect(handleSoundIconClickSpy)
-          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
-      });
-    });
-  });
+        expect(handleSoundIconClickSpy).toHaveBeenCalledWith(jasmine.objectContaining(expected))
+      })
+    })
+  })
 
   describe('renderChatEndPopup', () => {
-    let component;
+    let component
 
     describe('when the notification should be shown', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline chat={{ rating: null }} />
-        );
-        component.setState({ showEndChatMenu: true });
-      });
+        component = instanceRender(<ChatOnline chat={{ rating: null }} />)
+        component.setState({ showEndChatMenu: true })
+      })
 
       it('passes true to its popup components show prop', () => {
-        expect(component.renderChatEndPopup().props.show)
-          .toBe(true);
-      });
-    });
+        expect(component.renderChatEndPopup().props.show).toBe(true)
+      })
+    })
 
     describe('when the notification should not be shown', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOnline chat={{ rating: null }} />);
-      });
+        component = instanceRender(<ChatOnline chat={{ rating: null }} />)
+      })
 
       it('passes false to its popup components show prop', () => {
-        expect(component.renderChatEndPopup().props.show)
-          .toBe(false);
-      });
-    });
-  });
+        expect(component.renderChatEndPopup().props.show).toBe(false)
+      })
+    })
+  })
 
   describe('renderChatContactDetailsPopup', () => {
     let chatContactDetailsPopup,
@@ -519,14 +472,17 @@ describe('ChatOnline component', () => {
       mockIsAuthenticated,
       mockInitiateSocialLogout,
       updateContactDetailsVisibilitySpy,
-      editContactDetailsSubmittedSpy;
+      editContactDetailsSubmittedSpy
 
     beforeEach(() => {
-      mockEditContactDetails = { show: true, status: 'error' };
-      mockVisitor = { name: 'Terence', email: 'foo@bar.com' };
-      mockAuthUrls = { google: 'https://g.co/auth', facebook: 'https://fb.co/auth' };
-      mockIsAuthenticated = true;
-      mockInitiateSocialLogout = () => {};
+      mockEditContactDetails = { show: true, status: 'error' }
+      mockVisitor = { name: 'Terence', email: 'foo@bar.com' }
+      mockAuthUrls = {
+        google: 'https://g.co/auth',
+        facebook: 'https://fb.co/auth'
+      }
+      mockIsAuthenticated = true
+      mockInitiateSocialLogout = () => {}
 
       const component = instanceRender(
         <ChatOnline
@@ -534,491 +490,455 @@ describe('ChatOnline component', () => {
           visitor={mockVisitor}
           authUrls={mockAuthUrls}
           isAuthenticated={mockIsAuthenticated}
-          initiateSocialLogout={mockInitiateSocialLogout} />
-      );
+          initiateSocialLogout={mockInitiateSocialLogout}
+        />
+      )
 
-      chatContactDetailsPopup = component.renderChatContactDetailsPopup();
-    });
+      chatContactDetailsPopup = component.renderChatContactDetailsPopup()
+    })
 
-    it('passes a status string to the popup component\'s screen prop', () => {
-      expect(chatContactDetailsPopup.props.screen)
-        .toBe(mockEditContactDetails.status);
-    });
+    it("passes a status string to the popup component's screen prop", () => {
+      expect(chatContactDetailsPopup.props.screen).toBe(mockEditContactDetails.status)
+    })
 
-    it('passes the correct value to the popup component\'s show prop', () => {
-      expect(chatContactDetailsPopup.props.show)
-        .toBe(mockEditContactDetails.show);
-    });
+    it("passes the correct value to the popup component's show prop", () => {
+      expect(chatContactDetailsPopup.props.show).toBe(mockEditContactDetails.show)
+    })
 
-    it('passes an expected object to the popup component\'s visitor prop', () => {
-      expect(chatContactDetailsPopup.props.visitor)
-        .toEqual(jasmine.objectContaining(mockVisitor));
-    });
+    it("passes an expected object to the popup component's visitor prop", () => {
+      expect(chatContactDetailsPopup.props.visitor).toEqual(jasmine.objectContaining(mockVisitor))
+    })
 
-    it('passes the correct value to the popup component\'s authUrls prop', () => {
-      expect(chatContactDetailsPopup.props.authUrls)
-        .toEqual(jasmine.objectContaining(mockAuthUrls));
-    });
+    it("passes the correct value to the popup component's authUrls prop", () => {
+      expect(chatContactDetailsPopup.props.authUrls).toEqual(jasmine.objectContaining(mockAuthUrls))
+    })
 
-    it('passes the correct value to the popup component\'s isAuthenticated prop', () => {
-      expect(chatContactDetailsPopup.props.isAuthenticated)
-        .toEqual(mockIsAuthenticated);
-    });
+    it("passes the correct value to the popup component's isAuthenticated prop", () => {
+      expect(chatContactDetailsPopup.props.isAuthenticated).toEqual(mockIsAuthenticated)
+    })
 
-    it('passes the correct value to the popup component\'s initiateSocialLogout prop', () => {
-      expect(chatContactDetailsPopup.props.initiateSocialLogout)
-        .toEqual(mockInitiateSocialLogout);
-    });
+    it("passes the correct value to the popup component's initiateSocialLogout prop", () => {
+      expect(chatContactDetailsPopup.props.initiateSocialLogout).toEqual(mockInitiateSocialLogout)
+    })
 
     describe('when props.tryAgainFn is called', () => {
       beforeEach(() => {
-        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
+        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
 
         const component = instanceRender(
           <ChatOnline
             updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
-            editContactDetails={{ show: true }} />
-        );
-        const popup = component.renderChatContactDetailsPopup();
+            editContactDetails={{ show: true }}
+          />
+        )
+        const popup = component.renderChatContactDetailsPopup()
 
-        popup.props.tryAgainFn();
-      });
+        popup.props.tryAgainFn()
+      })
 
       it('calls updateEmailTranscriptVisibility with true', () => {
-        expect(updateContactDetailsVisibilitySpy)
-          .toHaveBeenCalledWith(true);
-      });
-    });
+        expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(true)
+      })
+    })
 
     describe('when props.leftCtaFn is called', () => {
       beforeEach(() => {
-        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
+        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility')
 
         const component = instanceRender(
           <ChatOnline
             updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
-            editContactDetails={mockEditContactDetails} />
-        );
-        const chatContactDetailsPopup = component.renderChatContactDetailsPopup();
+            editContactDetails={mockEditContactDetails}
+          />
+        )
+        const chatContactDetailsPopup = component.renderChatContactDetailsPopup()
 
-        chatContactDetailsPopup.props.leftCtaFn();
-      });
+        chatContactDetailsPopup.props.leftCtaFn()
+      })
 
       it('calls updateContactDetailsVisibility with false', () => {
-        expect(updateContactDetailsVisibilitySpy)
-          .toHaveBeenCalledWith(false);
-      });
-    });
+        expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(false)
+      })
+    })
 
     describe('when props.rightCtaFn is called', () => {
       beforeEach(() => {
-        editContactDetailsSubmittedSpy = jasmine.createSpy('editContactDetailsSubmitted');
-        mockName = 'Terence';
-        mockEmail = 'foo@bar.com';
+        editContactDetailsSubmittedSpy = jasmine.createSpy('editContactDetailsSubmitted')
+        mockName = 'Terence'
+        mockEmail = 'foo@bar.com'
 
         const component = instanceRender(
           <ChatOnline
             editContactDetailsSubmitted={editContactDetailsSubmittedSpy}
-            editContactDetails={mockEditContactDetails} />
-        );
-        const chatContactDetailsPopup = component.renderChatContactDetailsPopup();
+            editContactDetails={mockEditContactDetails}
+          />
+        )
+        const chatContactDetailsPopup = component.renderChatContactDetailsPopup()
 
-        chatContactDetailsPopup.props.rightCtaFn(mockName, mockEmail);
-      });
+        chatContactDetailsPopup.props.rightCtaFn(mockName, mockEmail)
+      })
 
       it('calls editContactDetailsSubmitted with an expected argument', () => {
-        const expected = { display_name: mockName, email: mockEmail };
+        const expected = { display_name: mockName, email: mockEmail }
 
-        expect(editContactDetailsSubmittedSpy)
-          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
-      });
-    });
-  });
+        expect(editContactDetailsSubmittedSpy).toHaveBeenCalledWith(
+          jasmine.objectContaining(expected)
+        )
+      })
+    })
+  })
 
   describe('renderChatEmailTranscriptPopup', () => {
-    let component,
-      updateEmailTranscriptVisibilitySpy,
-      sendEmailTranscriptSpy;
+    let component, updateEmailTranscriptVisibilitySpy, sendEmailTranscriptSpy
 
     describe('when the popup should be shown', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline emailTranscript={{ show: true }} />
-        );
-      });
+        component = instanceRender(<ChatOnline emailTranscript={{ show: true }} />)
+      })
 
       it('passes true to its popup components show prop', () => {
-        expect(component.renderChatEmailTranscriptPopup().props.show)
-          .toBe(true);
-      });
-    });
+        expect(component.renderChatEmailTranscriptPopup().props.show).toBe(true)
+      })
+    })
 
     describe('when props.tryEmailTranscriptAgain is called', () => {
       beforeEach(() => {
-        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
+        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
 
         const component = instanceRender(
           <ChatOnline
             updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
-            emailTranscript={{ show: true }} />
-        );
-        const popup = component.renderChatEmailTranscriptPopup();
+            emailTranscript={{ show: true }}
+          />
+        )
+        const popup = component.renderChatEmailTranscriptPopup()
 
-        popup.props.tryEmailTranscriptAgain();
-      });
+        popup.props.tryEmailTranscriptAgain()
+      })
 
       it('calls updateEmailTranscriptVisibility with true', () => {
-        expect(updateEmailTranscriptVisibilitySpy)
-          .toHaveBeenCalledWith(true);
-      });
-    });
+        expect(updateEmailTranscriptVisibilitySpy).toHaveBeenCalledWith(true)
+      })
+    })
 
     describe('when props.leftCtaFn is called', () => {
       beforeEach(() => {
-        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
+        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
 
         const component = instanceRender(
           <ChatOnline
             updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
-            emailTranscript={{ show: true }} />
-        );
-        const popup = component.renderChatEmailTranscriptPopup();
+            emailTranscript={{ show: true }}
+          />
+        )
+        const popup = component.renderChatEmailTranscriptPopup()
 
-        popup.props.leftCtaFn();
-      });
+        popup.props.leftCtaFn()
+      })
 
       it('calls updateEmailTranscriptVisibility with false', () => {
-        expect(updateEmailTranscriptVisibilitySpy)
-          .toHaveBeenCalledWith(false);
-      });
-    });
+        expect(updateEmailTranscriptVisibilitySpy).toHaveBeenCalledWith(false)
+      })
+    })
 
     describe('when props.rightCtaFn is called', () => {
-      let mockEmailTranscript;
+      let mockEmailTranscript
 
       beforeEach(() => {
-        sendEmailTranscriptSpy = jasmine.createSpy('sendEmailTranscript');
-        mockEmailTranscript = { show: true, email: 'foo@bar.com' };
+        sendEmailTranscriptSpy = jasmine.createSpy('sendEmailTranscript')
+        mockEmailTranscript = { show: true, email: 'foo@bar.com' }
 
         const component = instanceRender(
           <ChatOnline
             sendEmailTranscript={sendEmailTranscriptSpy}
-            emailTranscript={mockEmailTranscript} />
-        );
-        const popup = component.renderChatEmailTranscriptPopup();
+            emailTranscript={mockEmailTranscript}
+          />
+        )
+        const popup = component.renderChatEmailTranscriptPopup()
 
-        popup.props.rightCtaFn(mockEmailTranscript.email);
-      });
+        popup.props.rightCtaFn(mockEmailTranscript.email)
+      })
 
       it('calls sendEmailTranscript with an expected argument', () => {
-        const expected = mockEmailTranscript.email;
+        const expected = mockEmailTranscript.email
 
-        expect(sendEmailTranscriptSpy)
-          .toHaveBeenCalledWith(expected);
-      });
-    });
-  });
+        expect(sendEmailTranscriptSpy).toHaveBeenCalledWith(expected)
+      })
+    })
+  })
 
   describe('renderAttachmentsBox', () => {
-    let component;
-    const renderChatComponent = (screen, attachmentsEnabled) => (
-      instanceRender(
-        <ChatOnline screen={screen} attachmentsEnabled={attachmentsEnabled} />
-      )
-    );
+    let component
+    const renderChatComponent = (screen, attachmentsEnabled) =>
+      instanceRender(<ChatOnline screen={screen} attachmentsEnabled={attachmentsEnabled} />)
 
     describe('when screen is not `chatting`', () => {
       beforeEach(() => {
-        component = renderChatComponent(prechatScreen, true);
-        component.handleDragEnter();
-      });
+        component = renderChatComponent(prechatScreen, true)
+        component.handleDragEnter()
+      })
 
       it('does not return anything', () => {
-        expect(component.renderAttachmentsBox())
-          .toBeFalsy();
-      });
-    });
+        expect(component.renderAttachmentsBox()).toBeFalsy()
+      })
+    })
 
     describe('when attachmentsEnabled is false', () => {
       beforeEach(() => {
-        component = renderChatComponent(chattingScreen, false);
-        component.handleDragEnter();
-      });
+        component = renderChatComponent(chattingScreen, false)
+        component.handleDragEnter()
+      })
 
       it('does not return anything', () => {
-        expect(component.renderAttachmentsBox())
-          .toBeFalsy();
-      });
-    });
+        expect(component.renderAttachmentsBox()).toBeFalsy()
+      })
+    })
 
     describe('when the component has not had handleDragEnter called on it', () => {
       beforeEach(() => {
-        component = renderChatComponent(chattingScreen, true);
-      });
+        component = renderChatComponent(chattingScreen, true)
+      })
 
       it('does not return anything', () => {
-        expect(component.renderAttachmentsBox())
-          .toBeFalsy();
-      });
-    });
+        expect(component.renderAttachmentsBox()).toBeFalsy()
+      })
+    })
 
     describe('when the screen is `chatting`, the attachments are enabled and handleDragEnter has been called', () => {
       beforeEach(() => {
-        component = renderChatComponent(chattingScreen, true);
-        component.handleDragEnter();
-      });
+        component = renderChatComponent(chattingScreen, true)
+        component.handleDragEnter()
+      })
 
       it('returns the AttachmentsBox component', () => {
-        expect(TestUtils.isElementOfType(component.renderAttachmentsBox(), AttachmentBox))
-          .toEqual(true);
-      });
-    });
-  });
+        expect(TestUtils.isElementOfType(component.renderAttachmentsBox(), AttachmentBox)).toEqual(
+          true
+        )
+      })
+    })
+  })
 
   describe('renderChatReconnectionBubble', () => {
-    let connectionStatus,
-      isLoggingOut,
-      result;
+    let connectionStatus, isLoggingOut, result
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOnline connection={connectionStatus} isLoggingOut={isLoggingOut} />);
+      const component = instanceRender(
+        <ChatOnline connection={connectionStatus} isLoggingOut={isLoggingOut} />
+      )
 
-      result = component.renderChatReconnectionBubble();
-    });
+      result = component.renderChatReconnectionBubble()
+    })
 
     describe('when the connection prop is set to connecting', () => {
       beforeAll(() => {
-        isLoggingOut = false;
-        connectionStatus = CONNECTION_STATUSES.CONNECTING;
-      });
+        isLoggingOut = false
+        connectionStatus = CONNECTION_STATUSES.CONNECTING
+      })
 
       it('returns the ChatReconnectingBubble component', () => {
-        expect(TestUtils.isElementOfType(result, ChatReconnectionBubble))
-          .toEqual(true);
-      });
-    });
+        expect(TestUtils.isElementOfType(result, ChatReconnectionBubble)).toEqual(true)
+      })
+    })
 
     describe('when the connection prop is not set to connecting', () => {
       beforeAll(() => {
-        isLoggingOut = false;
-        connectionStatus = CONNECTION_STATUSES.CONNECTED;
-      });
+        isLoggingOut = false
+        connectionStatus = CONNECTION_STATUSES.CONNECTED
+      })
 
       it('returns undefined', () => {
-        expect(result)
-          .toBeUndefined();
-      });
-    });
+        expect(result).toBeUndefined()
+      })
+    })
 
     describe('when user is logging out', () => {
       beforeAll(() => {
-        connectionStatus = CONNECTION_STATUSES.CONNECTING;
-        isLoggingOut = true;
-      });
+        connectionStatus = CONNECTION_STATUSES.CONNECTING
+        isLoggingOut = true
+      })
 
       it('returns undefined', () => {
-        expect(result)
-          .toBeUndefined();
-      });
-    });
-  });
+        expect(result).toBeUndefined()
+      })
+    })
+  })
 
   describe('renderAgentListScreen', () => {
-    let component,
-      screen;
+    let component, screen
 
     beforeEach(() => {
       component = instanceRender(
-        <ChatOnline
-          screen={screen}
-          isMobile={true}
-          fullscreen={true} />
-      ).renderAgentListScreen();
-    });
+        <ChatOnline screen={screen} isMobile={true} fullscreen={true} />
+      ).renderAgentListScreen()
+    })
 
     describe('when the screen is not AGENT_LIST_SCREEN', () => {
       beforeAll(() => {
-        screen = chattingScreen;
-      });
+        screen = chattingScreen
+      })
 
       it('returns nothing', () => {
-        expect(component)
-          .toBeFalsy();
-      });
-    });
+        expect(component).toBeFalsy()
+      })
+    })
 
     describe('when the screen is AGENT_LIST_SCREEN', () => {
       beforeAll(() => {
-        screen = AGENT_LIST_SCREEN;
-      });
+        screen = AGENT_LIST_SCREEN
+      })
 
       it('returns a AgentScreen component', () => {
-        expect(TestUtils.isElementOfType(component, AgentScreen))
-          .toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(component, AgentScreen)).toEqual(true)
+      })
 
       it('component returns valid isMobile value', () => {
-        expect(component.props.isMobile)
-          .toEqual(true);
-      });
+        expect(component.props.isMobile).toEqual(true)
+      })
 
       it('component returns valid fullscreen value', () => {
-        expect(component.props.fullscreen)
-          .toEqual(true);
-      });
-    });
-  });
+        expect(component.props.fullscreen).toEqual(true)
+      })
+    })
+  })
 
   describe('renderChatReconnectButton', () => {
-    let connectionStatus,
-      isLoggingOut,
-      result;
+    let connectionStatus, isLoggingOut, result
 
     beforeEach(() => {
-      const component = instanceRender(<ChatOnline connection={connectionStatus} isLoggingOut={isLoggingOut} />);
+      const component = instanceRender(
+        <ChatOnline connection={connectionStatus} isLoggingOut={isLoggingOut} />
+      )
 
-      result = component.renderChatReconnectButton();
-    });
+      result = component.renderChatReconnectButton()
+    })
 
     describe('when the connection prop is set to closed', () => {
       beforeAll(() => {
-        connectionStatus = CONNECTION_STATUSES.CLOSED;
-        isLoggingOut = false;
-      });
+        connectionStatus = CONNECTION_STATUSES.CLOSED
+        isLoggingOut = false
+      })
 
       it('returns a div with a ButtonPill component inside it', () => {
-        expect(TestUtils.isElementOfType(result.props.children, ButtonPill))
-          .toEqual(true);
-      });
-    });
+        expect(TestUtils.isElementOfType(result.props.children, ButtonPill)).toEqual(true)
+      })
+    })
 
     describe('when the connection prop is not set to closed', () => {
       beforeAll(() => {
-        connectionStatus = CONNECTION_STATUSES.CONNECTED;
-        isLoggingOut = false;
-      });
+        connectionStatus = CONNECTION_STATUSES.CONNECTED
+        isLoggingOut = false
+      })
 
       it('returns undefined', () => {
-        expect(result)
-          .toBeUndefined();
-      });
-    });
+        expect(result).toBeUndefined()
+      })
+    })
 
     describe('when user is logging out', () => {
       beforeAll(() => {
-        connectionStatus = CONNECTION_STATUSES.CONNECTED;
-        isLoggingOut = true;
-      });
+        connectionStatus = CONNECTION_STATUSES.CONNECTED
+        isLoggingOut = true
+      })
 
       it('returns undefined', () => {
-        expect(result)
-          .toBeUndefined();
-      });
-    });
-  });
+        expect(result).toBeUndefined()
+      })
+    })
+  })
 
   describe('showContactDetailsFn', () => {
-    let updateContactDetailsVisibilitySpy,
-      stopPropagationSpy;
+    let updateContactDetailsVisibilitySpy, stopPropagationSpy
 
     beforeEach(() => {
-      updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
-      stopPropagationSpy = jasmine.createSpy('stopPropagation');
+      updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility')
+      stopPropagationSpy = jasmine.createSpy('stopPropagation')
 
       const component = instanceRender(
-        <ChatOnline
-          updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
-        />
-      );
+        <ChatOnline updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />
+      )
 
-      component.showContactDetailsFn({ stopPropagation: stopPropagationSpy });
-    });
+      component.showContactDetailsFn({ stopPropagation: stopPropagationSpy })
+    })
 
     it('stops the event propagating', () => {
-      expect(stopPropagationSpy)
-        .toHaveBeenCalled();
-    });
+      expect(stopPropagationSpy).toHaveBeenCalled()
+    })
 
     it('calls updateContactDetailsVisibility with true', () => {
-      expect(updateContactDetailsVisibilitySpy)
-        .toHaveBeenCalledWith(true);
-    });
-  });
+      expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(true)
+    })
+  })
 
   describe('toggleMenu', () => {
-    let component, menuVisible, keypress, focusSpy;
+    let component, menuVisible, keypress, focusSpy
 
     beforeEach(() => {
-      component = domRender(<ChatOnline menuVisible={menuVisible} />);
+      component = domRender(<ChatOnline menuVisible={menuVisible} />)
 
-      jasmine.clock().install();
-      focusSpy = jasmine.createSpy('focus');
+      jasmine.clock().install()
+      focusSpy = jasmine.createSpy('focus')
       component.menu = {
         focus: focusSpy
-      };
+      }
 
-      component.toggleMenu(keypress);
-      jasmine.clock().tick();
-    });
+      component.toggleMenu(keypress)
+      jasmine.clock().tick()
+    })
 
     afterEach(() => {
-      jasmine.clock().uninstall();
-    });
+      jasmine.clock().uninstall()
+    })
 
     describe('when menuVisibile is false', () => {
       beforeAll(() => {
-        menuVisible = false;
-      });
+        menuVisible = false
+      })
 
       describe('when keypress param is true', () => {
         beforeAll(() => {
-          keypress = true;
-        });
+          keypress = true
+        })
 
         it('calls focus on the menu', () => {
-          expect(focusSpy)
-            .toHaveBeenCalled();
-        });
-      });
+          expect(focusSpy).toHaveBeenCalled()
+        })
+      })
 
       describe('when keypress param is false', () => {
         beforeAll(() => {
-          keypress = false;
-        });
+          keypress = false
+        })
 
         it('does not call focus on the menu', () => {
-          expect(focusSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-    });
+          expect(focusSpy).not.toHaveBeenCalled()
+        })
+      })
+    })
 
     describe('when menuVisibile is true', () => {
       beforeAll(() => {
-        menuVisible = true;
-      });
+        menuVisible = true
+      })
 
       describe('when keypress param is true', () => {
         beforeAll(() => {
-          keypress = true;
-        });
+          keypress = true
+        })
 
         it('does not call focus on the menu', () => {
-          expect(focusSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
+          expect(focusSpy).not.toHaveBeenCalled()
+        })
+      })
 
       describe('when keypress param is false', () => {
         beforeAll(() => {
-          keypress = false;
-        });
+          keypress = false
+        })
 
         it('does not call focus on the menu', () => {
-          expect(focusSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-    });
-  });
-});
+          expect(focusSpy).not.toHaveBeenCalled()
+        })
+      })
+    })
+  })
+})

@@ -1,6 +1,6 @@
-import baseArturos from '../base-arturos';
-import { UPDATE_ARTUROS } from '../../base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import baseArturos from '../base-arturos'
+import { UPDATE_ARTUROS } from '../../base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(baseArturos, [
   {
@@ -17,4 +17,4 @@ testReducer(baseArturos, [
     initialState: { b: 3 },
     expected: { a: 1, b: 3 }
   }
-]);
+])

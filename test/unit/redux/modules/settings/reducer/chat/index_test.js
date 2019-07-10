@@ -1,73 +1,68 @@
 describe('settings chat reducer', () => {
-  let reducer;
+  let reducer
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       'service/settings': {
-        settings : {
+        settings: {
           get: noop
         }
       }
-    });
+    })
 
-    const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/index');
+    const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/index')
 
-    reducer = requireUncached(reducerPath).default;
-  });
+    reducer = requireUncached(reducerPath).default
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('initial state', () => {
-    let state;
+    let state
 
     beforeEach(() => {
-      state = reducer({}, { type: '' });
-    });
+      state = reducer({}, { type: '' })
+    })
 
     it('has the suppress sub state', () => {
-      expect(state.suppress)
-        .toBeDefined();
-    });
+      expect(state.suppress).toBeDefined()
+    })
 
     it('has the departments enabled sub state', () => {
-      expect(state.departments.enabled)
-        .toBeDefined();
-    });
+      expect(state.departments.enabled).toBeDefined()
+    })
 
     it('has the departments select sub state', () => {
-      expect(state.departments.select)
-        .toBeDefined();
-    });
+      expect(state.departments.select).toBeDefined()
+    })
 
     it('has the concierge sub state', () => {
-      expect(state.concierge).toBeDefined();
-    });
+      expect(state.concierge).toBeDefined()
+    })
 
     it('has the mobile notifications disabled state', () => {
-      expect(state.mobileNotificationsDisabled)
-        .toBeDefined();
-    });
+      expect(state.mobileNotificationsDisabled).toBeDefined()
+    })
 
     it('has the tags state', () => {
-      expect(state.tags)
-        .toBeDefined();
-    });
+      expect(state.tags).toBeDefined()
+    })
 
     it('has the title state', () => {
-      expect(state.title).toBeDefined();
-    });
+      expect(state.title).toBeDefined()
+    })
 
     it('has the prechat form sub state', () => {
-      expect(state.prechatForm).toBeDefined();
-    });
+      expect(state.prechatForm).toBeDefined()
+    })
 
     it('has the offline form sub state', () => {
-      expect(state.offlineForm).toBeDefined();
-    });
-  });
-});
+      expect(state.offlineForm).toBeDefined()
+    })
+  })
+})

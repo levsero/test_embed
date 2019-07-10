@@ -1,7 +1,7 @@
-import searchFailed from '../helpCenter-searchFailed';
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import searchFailed from '../helpCenter-searchFailed'
+import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(searchFailed, [
   {
@@ -22,7 +22,7 @@ testReducer(searchFailed, [
   },
   {
     action: {
-      type: actionTypes.SEARCH_REQUEST_SENT,
+      type: actionTypes.SEARCH_REQUEST_SENT
     },
     initialState: true,
     expected: false
@@ -32,4 +32,4 @@ testReducer(searchFailed, [
     initialState: true,
     expected: false
   }
-]);
+])

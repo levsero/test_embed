@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
-import { isMobileBrowser } from 'utility/devices';
+import { isMobileBrowser } from 'utility/devices'
 
-import { locals as styles } from './ButtonList.scss';
+import { locals as styles } from './ButtonList.scss'
 
-const isMobile = isMobileBrowser();
+const isMobile = isMobileBrowser()
 
 export class ButtonList extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
-  };
+    children: PropTypes.node.isRequired
+  }
 
   render() {
     const buttonItemStyles = classNames(styles.buttonItem, {
       [styles.overwriteState]: isMobile
-    });
+    })
 
     return (
       <ul className={styles.buttonList}>
@@ -25,9 +25,9 @@ export class ButtonList extends Component {
             <li key={idx} className={buttonItemStyles}>
               {child}
             </li>
-          );
+          )
         })}
       </ul>
-    );
+    )
   }
 }

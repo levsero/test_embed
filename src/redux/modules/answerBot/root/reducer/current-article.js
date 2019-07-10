@@ -1,6 +1,6 @@
-import { ARTICLE_SHOWN } from '../action-types';
+import { ARTICLE_SHOWN } from '../action-types'
 
-const initialState = null;
+const initialState = null
 
 const currentArticle = (state = initialState, action) => {
   switch (action.type) {
@@ -8,10 +8,10 @@ const currentArticle = (state = initialState, action) => {
       return {
         articleID: action.payload.articleID,
         sessionID: action.payload.sessionID
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default currentArticle;
+export default currentArticle

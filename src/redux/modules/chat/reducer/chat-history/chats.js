@@ -6,21 +6,21 @@ import {
   SDK_HISTORY_CHAT_MEMBER_LEAVE,
   SDK_HISTORY_CHAT_REQUEST_RATING,
   SDK_HISTORY_CHAT_RATING,
-  SDK_HISTORY_CHAT_COMMENT,
-} from '../../chat-action-types';
+  SDK_HISTORY_CHAT_COMMENT
+} from '../../chat-action-types'
 
-const initialState = new Map();
+const initialState = new Map()
 
-const newEntry = (message) => {
-  const timestamp = message.timestamp || Date.now();
-  const map = new Map().set(timestamp, { ...message, timestamp });
+const newEntry = message => {
+  const timestamp = message.timestamp || Date.now()
+  const map = new Map().set(timestamp, { ...message, timestamp })
 
-  return map;
-};
+  return map
+}
 
 const chats = (state = initialState, action) => {
-  const { type, payload } = action;
-  const detail = payload && payload.detail;
+  const { type, payload } = action
+  const detail = payload && payload.detail
 
   switch (type) {
     case SDK_HISTORY_CHAT_FILE:
@@ -31,10 +31,10 @@ const chats = (state = initialState, action) => {
     case SDK_HISTORY_CHAT_COMMENT:
     case SDK_HISTORY_CHAT_MEMBER_JOIN:
     case SDK_HISTORY_CHAT_MEMBER_LEAVE:
-      return new Map([...newEntry(detail), ...state]);
+      return new Map([...newEntry(detail), ...state])
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default chats;
+export default chats

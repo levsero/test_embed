@@ -1,123 +1,115 @@
 describe('chat reducer currentMessage', () => {
-  let reducer,
-    actionTypes,
-    initialState;
+  let reducer, actionTypes, initialState
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-current-message');
-    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-current-message')
+    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
-    reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
+    reducer = requireUncached(reducerPath).default
+    actionTypes = requireUncached(actionTypesPath)
 
-    initialState = reducer(undefined, { type: '' });
-  });
+    initialState = reducer(undefined, { type: '' })
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('reducer', () => {
-    let state;
+    let state
 
     describe('initial state', () => {
       it('is set to an empty string', () => {
-        expect(initialState)
-          .toEqual('');
-      });
-    });
+        expect(initialState).toEqual('')
+      })
+    })
 
     describe('when a CHAT_BOX_CHANGED action is dispatched', () => {
-      let payload;
+      let payload
 
       beforeEach(() => {
-        payload = 'im typing here';
+        payload = 'im typing here'
 
         state = reducer(initialState, {
           type: actionTypes.CHAT_BOX_CHANGED,
           payload: payload
-        });
-      });
+        })
+      })
 
       it('updates the state with payload', () => {
-        expect(state)
-          .toEqual(payload);
-      });
-    });
+        expect(state).toEqual(payload)
+      })
+    })
 
     describe('when a CHAT_BADGE_MESSAGE_CHANGED action is dispatched', () => {
-      let payload;
+      let payload
 
       beforeEach(() => {
-        payload = 'im typing here';
+        payload = 'im typing here'
 
         state = reducer(initialState, {
           type: actionTypes.CHAT_BADGE_MESSAGE_CHANGED,
           payload: payload
-        });
-      });
+        })
+      })
 
       it('updates the state with payload', () => {
-        expect(state)
-          .toEqual(payload);
-      });
-    });
+        expect(state).toEqual(payload)
+      })
+    })
 
     describe('when a PRE_CHAT_FORM_ON_CHANGE action is dispatched', () => {
-      let payload;
+      let payload
 
       beforeEach(() => {
         payload = {
           message: 'im typing here',
           name: 'some_name',
           email: 'yeah@yeah.com'
-        };
+        }
 
         state = reducer(initialState, {
           type: actionTypes.PRE_CHAT_FORM_ON_CHANGE,
           payload: payload
-        });
-      });
+        })
+      })
 
       it('updates the state with payload', () => {
-        expect(state)
-          .toEqual(payload.message);
-      });
-    });
+        expect(state).toEqual(payload.message)
+      })
+    })
 
     describe('when a RESET_CURRENT_MESSAGE action is dispatched', () => {
-      let payload;
+      let payload
 
       beforeEach(() => {
         state = reducer('yolo', {
           type: actionTypes.RESET_CURRENT_MESSAGE,
           payload: payload
-        });
-      });
+        })
+      })
 
       it('returns the initialState', () => {
-        expect(state)
-          .toEqual(initialState);
-      });
-    });
+        expect(state).toEqual(initialState)
+      })
+    })
 
     describe('when a CHAT_BANNED action is dispatched', () => {
-      let payload;
+      let payload
 
       beforeEach(() => {
         state = reducer('yolo', {
           type: actionTypes.CHAT_BANNED,
           payload: payload
-        });
-      });
+        })
+      })
 
       it('returns the initialState', () => {
-        expect(state)
-          .toEqual(initialState);
-      });
-    });
-  });
-});
+        expect(state).toEqual(initialState)
+      })
+    })
+  })
+})

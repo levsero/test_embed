@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { LauncherPreview } from './LauncherPreview';
-import Frame from 'src/component/frame/Frame';
-import { launcherStyles } from 'embed/launcher/launcherStyles';
-import { generateUserLauncherCSS } from 'utility/color/styles';
+import { LauncherPreview } from './LauncherPreview'
+import Frame from 'src/component/frame/Frame'
+import { launcherStyles } from 'embed/launcher/launcherStyles'
+import { generateUserLauncherCSS } from 'utility/color/styles'
 
-import {
-  FRAME_OFFSET_WIDTH,
-  FRAME_OFFSET_HEIGHT
-} from 'constants/launcher';
+import { FRAME_OFFSET_WIDTH, FRAME_OFFSET_HEIGHT } from 'constants/launcher'
 
 export class LauncherContainer extends Component {
   static propTypes = {
@@ -18,46 +15,40 @@ export class LauncherContainer extends Component {
     frameStyle: PropTypes.shape({
       position: PropTypes.string,
       float: PropTypes.string,
-      marginTop: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-      ]),
-      marginRight: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-      ]),
+      marginTop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      marginRight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       width: PropTypes.string,
       height: PropTypes.string
     })
-  };
+  }
 
   static defaultProps = {
     webWidgetVisible: false
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.frame = null;
+    this.frame = null
   }
 
   updateFrameLocale = () => {
-    if (this.frame) this.frame.updateFrameLocale();
+    if (this.frame) this.frame.updateFrameLocale()
   }
 
   render() {
-    const {
-      store,
-      webWidgetVisible,
-      frameStyle
-    } = this.props;
+    const { store, webWidgetVisible, frameStyle } = this.props
 
-    if (webWidgetVisible) return null;
+    if (webWidgetVisible) return null
 
     return (
       <Frame
-        ref={(el) => { if (el) this.frame = el.getWrappedInstance(); }}
-        css={`${require('globalCSS')} ${launcherStyles}`}
+        ref={el => {
+          if (el) this.frame = el.getWrappedInstance()
+        }}
+        css={`
+          ${require('globalCSS')} ${launcherStyles}
+        `}
         generateUserCSS={generateUserLauncherCSS}
         name={'launcher'}
         customFrameStyle={frameStyle}
@@ -73,6 +64,6 @@ export class LauncherContainer extends Component {
       >
         <LauncherPreview />
       </Frame>
-    );
+    )
   }
 }

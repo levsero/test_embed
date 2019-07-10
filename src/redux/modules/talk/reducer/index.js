@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
 
-import embeddableConfig from './talk-embeddable-config';
-import agentAvailability from './talk-agent-availability';
-import screen from './talk-screen';
-import formState from './talk-form-state';
-import callback from './talk-callback';
-import averageWaitTime from './talk-average-wait-time';
-import vendor from './talk-vendor';
+import embeddableConfig from './talk-embeddable-config'
+import agentAvailability from './talk-agent-availability'
+import screen from './talk-screen'
+import formState from './talk-form-state'
+import callback from './talk-callback'
+import averageWaitTime from './talk-average-wait-time'
+import vendor from './talk-vendor'
 
 export default combineReducers({
   agentAvailability,
@@ -15,5 +15,5 @@ export default combineReducers({
   embeddableConfig,
   formState,
   screen,
-  vendor,
-});
+  vendor
+})

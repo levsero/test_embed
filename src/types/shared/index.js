@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 const file = PropTypes.shape({
   lastModified: PropTypes.number,
@@ -7,8 +7,8 @@ const file = PropTypes.shape({
   size: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired, // TODO: limit to oneOf a set number of allowed filetypes
   webkitRelativePath: PropTypes.string
-});
+})
 
 export default {
   file
-};
+}

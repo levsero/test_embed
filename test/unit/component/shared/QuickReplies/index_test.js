@@ -1,20 +1,20 @@
 describe('QuickReplies Component', () => {
-  let QuickReplies;
+  let QuickReplies
 
-  const quickRepliesPath = buildSrcPath('component/shared/QuickReplies');
-  const Slider = noopReactComponent();
+  const quickRepliesPath = buildSrcPath('component/shared/QuickReplies')
+  const Slider = noopReactComponent()
 
   const smallContainer = {
     scrollWidth: 1,
     clientWidth: 2
-  };
+  }
   const largeContainer = {
     scrollWidth: 2,
     clientWidth: 1
-  };
+  }
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './QuickReplies.scss': {
@@ -24,85 +24,80 @@ describe('QuickReplies Component', () => {
         Button: noopReactComponent()
       },
       '../SliderContainer': Slider
-    });
+    })
 
-    mockery.registerAllowable(quickRepliesPath);
-    QuickReplies = requireUncached(quickRepliesPath).QuickReplies;
-  });
+    mockery.registerAllowable(quickRepliesPath)
+    QuickReplies = requireUncached(quickRepliesPath).QuickReplies
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('componentDidMount', () => {
-    let mockProps = {};
-    let component;
+    let mockProps = {}
+    let component
 
     beforeEach(() => {
-      component = instanceRender(<QuickReplies {...mockProps}/>);
-    });
+      component = instanceRender(<QuickReplies {...mockProps} />)
+    })
 
     afterEach(() => {
-      mockProps = {};
-    });
+      mockProps = {}
+    })
 
     describe('props.isMobile is true', () => {
       beforeAll(() => {
-        mockProps = { isMobile: true };
-      });
+        mockProps = { isMobile: true }
+      })
 
       it('state.useCarousel should be false', () => {
-        component.componentDidMount();
-        expect(component.state.useCarousel)
-          .toEqual(false);
-      });
-    });
+        component.componentDidMount()
+        expect(component.state.useCarousel).toEqual(false)
+      })
+    })
 
     it('state.useCarousel should be false if container.scrollWidth is less than container.clientWidth', () => {
-      component.container = smallContainer;
+      component.container = smallContainer
 
-      component.componentDidMount();
-      expect(component.state.useCarousel)
-        .toEqual(false);
-    });
+      component.componentDidMount()
+      expect(component.state.useCarousel).toEqual(false)
+    })
 
     it('state.useCarousel should be true if container.scrollWidth is greater than container.clientWidth', () => {
-      component.container = largeContainer;
+      component.container = largeContainer
 
-      component.componentDidMount();
-      expect(component.state.useCarousel)
-        .toEqual(true);
-    });
-  });
+      component.componentDidMount()
+      expect(component.state.useCarousel).toEqual(true)
+    })
+  })
 
   describe('render', () => {
-    let component;
+    let component
 
     beforeEach(() => {
-      component = instanceRender(<QuickReplies />);
-    });
+      component = instanceRender(<QuickReplies />)
+    })
 
     it('does not render Slider component when state.useCarousel is false', () => {
-      component.container = smallContainer;
+      component.container = smallContainer
 
-      component.componentDidMount();
+      component.componentDidMount()
 
-      const result = component.render();
+      const result = component.render()
 
-      expect(TestUtils.isElementOfType(result.props.children, Slider))
-        .toEqual(false);
-    });
+      expect(TestUtils.isElementOfType(result.props.children, Slider)).toEqual(false)
+    })
 
     it('render Slider component when state.useCarousel is true', () => {
-      component.container = largeContainer;
+      component.container = largeContainer
 
-      component.componentDidMount();
+      component.componentDidMount()
 
-      const result = component.render();
+      const result = component.render()
 
-      expect(TestUtils.isElementOfType(result.props.children, Slider))
-        .toEqual(true);
-    });
-  });
-});
+      expect(TestUtils.isElementOfType(result.props.children, Slider)).toEqual(true)
+    })
+  })
+})

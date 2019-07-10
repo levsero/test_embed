@@ -2,69 +2,70 @@ class MockEmbedWrapper extends Component {
   setHighlightColor() {
     this.setState({
       css: 'setHighlightColorCSS { background-color: red; }'
-    });
+    })
   }
 
   showBackButton() {
-    this.setState({ showBackButton: true });
+    this.setState({ showBackButton: true })
   }
 
   render() {
     const newChild = React.cloneElement(this.props.children, {
       ref: 'rootComponent'
-    });
+    })
 
-    return (<div>{newChild}</div>);
+    return <div>{newChild}</div>
   }
 }
 
 export class MockFrame extends Component {
   constructor() {
-    super();
-    this.show = noop;
-    this.hide = noop;
-    this.setHighlightColor = noop;
-    this.forceUpdateWorld = noop;
-    this.componentDidUpdate = noop;
-    this.getFrameContentDocument = () => {};
+    super()
+    this.show = noop
+    this.hide = noop
+    this.setHighlightColor = noop
+    this.forceUpdateWorld = noop
+    this.componentDidUpdate = noop
+    this.getFrameContentDocument = () => {}
 
-    this.state = {};
+    this.state = {}
   }
 
   componentDidMount = () => {
-    this.renderFrameContent();
+    this.renderFrameContent()
   }
 
-  getWrappedInstance = () => this;
+  getWrappedInstance = () => this
 
   updateFrameLocale() {}
 
   getChild() {
-    return this.child;
+    return this.child
   }
 
   getRootComponent() {
-    return this.child.refs.rootComponent;
+    return this.child.refs.rootComponent
   }
 
   renderFrameContent = () => {
-    const iframe = ReactDOM.findDOMNode(this);
-    const doc = iframe.contentWindow.document;
-    const element = doc.body.appendChild(doc.createElement('div'));
+    const iframe = ReactDOM.findDOMNode(this)
+    const doc = iframe.contentWindow.document
+    const element = doc.body.appendChild(doc.createElement('div'))
 
     ReactDOM.render(
       <MockEmbedWrapper
-        ref={(el) => { this.child = el; }}
-        className='mock-frame'>
+        ref={el => {
+          this.child = el
+        }}
+        className="mock-frame"
+      >
         {this.props.children}
       </MockEmbedWrapper>,
       element
-    );
+    )
   }
 
   render = () => {
-    return (
-      <iframe ref='frame' className='mock-frame' />
-    );
+    return <iframe ref="frame" className="mock-frame" />
   }
 }

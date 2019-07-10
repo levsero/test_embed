@@ -1,14 +1,14 @@
-import { CONTEXTUAL_SEARCH_FINISHED } from '../action-types';
+import { CONTEXTUAL_SEARCH_FINISHED } from '../action-types'
 
-const initialState = false;
+const initialState = false
 
 const contextualSearchFinished = (state = initialState, action) => {
   switch (action.type) {
     case CONTEXTUAL_SEARCH_FINISHED:
-      return true;
+      return true
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default contextualSearchFinished;
+export default contextualSearchFinished

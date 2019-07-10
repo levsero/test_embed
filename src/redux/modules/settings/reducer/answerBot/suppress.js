@@ -1,18 +1,18 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
-import { UPDATE_SETTINGS } from '../../settings-action-types';
+import { UPDATE_SETTINGS } from '../../settings-action-types'
 
-const initialState = false;
+const initialState = false
 
 const suppress = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'webWidget.answerBot.suppress', state);
+      return _.get(payload, 'webWidget.answerBot.suppress', state)
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default suppress;
+export default suppress
