@@ -104,13 +104,13 @@ export const getSettingsHelpCenterFilter = createSelector(
   (label, category, section) => {
     const filters = {}
 
-    if (!_.isEmpty(label)) {
+    if (label) {
       filters.label_names = label
     } // eslint-disable-line camelcase
-    if (!_.isEmpty(section)) {
+    if (section) {
       filters.section = section
     }
-    if (!_.isEmpty(category)) {
+    if (category) {
       filters.category = category
     }
 

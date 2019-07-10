@@ -813,7 +813,7 @@ zESettings = {
 
 ### filter
 
-Limits Help Center search results to a specified category, section, or label. The `filter` property consists of an object with a `category`, `section`, or `label` property.
+Limits Help Center search results to a specified category, section, or label. The `filter` property consists of an object with a `category`, `section`, or `label_names` property.
 
 #### Availability
 
