@@ -39,9 +39,7 @@ describe('Talk component', () => {
       './PhoneNumber': noopReactComponent,
       './DescriptionField': noopReactComponent,
       './AverageWaitTime': noopReactComponent,
-      'component/container/ScrollContainer': {
-        ScrollContainer: MockScrollContainer
-      },
+      'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       './NameField': noopReactComponent,
       'component/ZendeskLogo': { ZendeskLogo },
       'component/shared/SuccessNotification': { SuccessNotification },
@@ -88,7 +86,8 @@ describe('Talk component', () => {
         getTalkServiceUrl: () => mockServiceUrl
       },
       'src/embeds/talk/pages/OfflinePage': noopReactComponent,
-      'src/embeds/talk/pages/SuccessNotificationPage': noopReactComponent
+      'src/embeds/talk/pages/SuccessNotificationPage': noopReactComponent,
+      'src/embeds/talk/pages/PhoneOnlyPage': noopReactComponent
     })
 
     mockery.registerAllowable(talkPath)

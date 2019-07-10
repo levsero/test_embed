@@ -5,11 +5,9 @@ import { connect } from 'react-redux'
 
 import { TalkPhoneField } from 'component/talk/TalkPhoneField'
 import { Form } from 'component/form/Form'
-import { Icon } from 'component/Icon'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { errorCodes } from './talkErrorCodes'
-import { ICONS } from 'src/constants/shared'
 import { Button } from '@zendeskgarden/react-buttons'
 import classNames from 'classnames'
 import { Message } from '@zendeskgarden/react-textfields'
@@ -46,6 +44,7 @@ import {
 import { i18n } from 'service/i18n'
 import { getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields'
 import OfflinePage from 'src/embeds/talk/pages/OfflinePage'
+import PhoneOnlyPage from 'src/embeds/talk/pages/PhoneOnlyPage'
 
 import { locals as styles } from './Talk.scss'
 import SuccessNotificationPage from 'src/embeds/talk/pages/SuccessNotificationPage'
@@ -233,27 +232,6 @@ class Talk extends Component {
     )
   }
 
-  renderPhoneOnlyScreen = () => {
-    const containerClasses = classNames(styles.phoneOnlyContainer, {
-      [styles.phoneOnlyMobileContainer]: this.props.isMobile
-    })
-
-    let callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.new_message')
-
-    const talkIcon = (
-      <Icon type={ICONS.TALK} className="u-userFillCustomColor" isMobile={this.props.isMobile} />
-    )
-
-    return (
-      <div className={containerClasses}>
-        {talkIcon}
-        <p className={styles.phoneOnlyMessage}>{callUsMessage}</p>
-        {this.props.averageWaitTime && <AverageWaitTime message={this.props.averageWaitTime} />}
-        <div className={styles.phoneNumber}>{this.renderPhoneNumber()}</div>
-      </div>
-    )
-  }
-
   renderContent = () => {
     if (!this.props.agentAvailability) return null
 
@@ -261,7 +239,7 @@ class Talk extends Component {
       case CALLBACK_ONLY_SCREEN:
         return this.renderFormScreen()
       case PHONE_ONLY_SCREEN:
-        return this.renderPhoneOnlyScreen()
+        return <PhoneOnlyPage />
       case SUCCESS_NOTIFICATION_SCREEN:
         return <SuccessNotificationPage />
       case CALLBACK_AND_PHONE_SCREEN:
