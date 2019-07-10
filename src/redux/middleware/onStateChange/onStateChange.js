@@ -138,8 +138,8 @@ const onChatConnected = (prevState, nextState, dispatch) => {
     dispatch(updateChatSettings());
 
     if (!chatAccountSettingsFetched) {
-      dispatch(getAccountSettings());
       dispatch(getIsChatting());
+      dispatch(getAccountSettings());
       dispatch(getOperatingHours());
       chatAccountSettingsFetched = true;
       mediator.channel.broadcast('newChat.connected', showOnLoad);
