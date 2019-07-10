@@ -125,9 +125,10 @@ describe('i18n', () => {
       ['zh-Hans-SG', 'zh-sg'],
       ['zh-Hant-MO', 'zh-mo'],
       ['zh-TW', 'zh-tw'],
-      ['nb', 'no'],
-      ['nb-NO', 'no'],
+      ['nb', 'nb'],
+      ['nb-NO', 'nb'],
       ['nn-NO', 'nn'],
+      ['no', 'no'],
       ['tl', 'tl'],
       ['en-AU', 'en-au']
     ])('setLocale(%s) resolves to %s',
