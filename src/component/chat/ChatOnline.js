@@ -31,13 +31,14 @@ import {
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
+import { getChatEmailTranscriptEnabled } from 'src/redux/modules/selectors'
 import { locals as styles } from './ChatOnline.scss'
 import { CONNECTION_STATUSES } from 'constants/chat'
 
 const mapStateToProps = state => {
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
-    chatsLength: selectors.getChatsLength(state),
+    emailTranscriptEnabled: getChatEmailTranscriptEnabled(state),
     screen: selectors.getChatScreen(state),
     isChatting: selectors.getIsChatting(state),
     visitor: selectors.getChatVisitor(state),
@@ -59,7 +60,7 @@ const mapStateToProps = state => {
 class Chat extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
-    chatsLength: PropTypes.number.isRequired,
+    emailTranscriptEnabled: PropTypes.bool.isRequired,
     endChatViaPostChatScreen: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
@@ -177,7 +178,7 @@ class Chat extends Component {
       loginSettings,
       menuVisible,
       updateMenuVisibility,
-      chatsLength
+      emailTranscriptEnabled
     } = this.props
     const showChatEndFn = e => {
       e.stopPropagation()
@@ -203,7 +204,7 @@ class Chat extends Component {
         contactDetailsOnClick={this.showContactDetailsFn}
         emailTranscriptOnClick={this.showEmailTranscriptFn}
         onSoundClick={toggleSoundFn}
-        emailTranscriptEnabled={chatsLength > 0}
+        emailTranscriptEnabled={emailTranscriptEnabled}
         isMobile={isMobile}
         loginEnabled={loginSettings.enabled}
       />

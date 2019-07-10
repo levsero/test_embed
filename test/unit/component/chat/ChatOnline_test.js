@@ -81,7 +81,8 @@ describe('ChatOnline component', () => {
         resetCurrentMessage: resetCurrentMessageSpy
       },
       'src/redux/modules/selectors': {
-        getPrechatFormFields: noop
+        getPrechatFormFields: noop,
+        getChatEmailTranscriptEnabled: noop
       },
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,

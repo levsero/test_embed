@@ -9,7 +9,8 @@ describe('settings chat reducer', () => {
         settings: {
           get: noop
         }
-      }
+      },
+      'src/redux/modules/settings/settings-action-types': {}
     })
 
     const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/index')
