@@ -286,7 +286,7 @@ describe('Pure Panel Component', () => {
   describe('PanelWrapper', () => {
     describe('when onclick is invalid', () => {
       it('should return div element', () => {
-        const result = new PanelWrapper({})
+        const result = PanelWrapper({})
 
         expect(result.type).toEqual('div')
       })
@@ -294,7 +294,7 @@ describe('Pure Panel Component', () => {
 
     describe('when onclick is valid', () => {
       it('should return button element', () => {
-        const result = new PanelWrapper({ onClick: onClickSpy })
+        const result = PanelWrapper({ onClick: onClickSpy })
 
         expect(TestUtils.isElementOfType(result, KeyboardFocusButton)).toEqual(true)
       })

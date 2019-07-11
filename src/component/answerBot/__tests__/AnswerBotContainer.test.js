@@ -1,4 +1,4 @@
-import { render } from 'react-testing-library'
+import { render } from '@testing-library/react'
 import React from 'react'
 
 import { CONVERSATION_SCREEN, ARTICLE_SCREEN } from 'src/constants/answerBot'

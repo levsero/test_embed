@@ -1,4 +1,4 @@
-import { render } from 'react-testing-library'
+import { render } from '@testing-library/react'
 import React from 'react'
 
 import {
@@ -112,7 +112,7 @@ describe('talk', () => {
 
     describe('when the fields have values', () => {
       it('renders error messages', () => {
-        const { queryByValue, queryByText } = renderComponent({
+        const { queryByDisplayValue, queryByText } = renderComponent({
           screen: CALLBACK_ONLY_SCREEN,
           formState: {
             name: 'taipan',
@@ -120,7 +120,7 @@ describe('talk', () => {
           }
         })
 
-        expect(queryByValue('taipan')).toBeInTheDocument()
+        expect(queryByDisplayValue('taipan')).toBeInTheDocument()
         expect(queryByText('no one is quite sure')).toBeInTheDocument()
       })
     })

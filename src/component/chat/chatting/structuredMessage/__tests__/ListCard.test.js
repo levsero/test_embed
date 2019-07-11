@@ -1,4 +1,4 @@
-import { render } from 'react-testing-library'
+import { render } from '@testing-library/react'
 import React from 'react'
 
 import { ListCard } from '../ListCard'
@@ -29,17 +29,15 @@ describe('render', () => {
     }
   ]
 
-  let result
-
-  beforeEach(() => {
-    result = renderListCard(items)
-  })
-
   it('renders the list correctly', () => {
+    const result = renderListCard(items)
+
     expect(result.container).toMatchSnapshot()
   })
 
   it('heading line clamp should be 1', () => {
-    expect(result.getByTestId('panelHeading').style.WebkitLineClamp).toEqual('1')
+    const { getByText } = renderListCard(items)
+
+    expect(getByText('Nsync').style.WebkitLineClamp).toEqual('1')
   })
 })
