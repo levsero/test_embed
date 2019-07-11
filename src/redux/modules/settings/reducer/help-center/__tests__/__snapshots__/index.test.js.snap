@@ -4,7 +4,7 @@ exports[`when UPDATE_SETTINGS is dispatched does not affect values not passed in
 Object {
   "categoryFilter": null,
   "chatButton": null,
-  "labelFilter": undefined,
+  "labelFilter": null,
   "localeFallbacks": Array [],
   "messageButton": null,
   "originalArticleButton": true,

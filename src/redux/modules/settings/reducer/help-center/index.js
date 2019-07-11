@@ -37,7 +37,7 @@ const helpCenter = (state = initialState, action) => {
           'webWidget.helpCenter.filter.category',
           state.categoryFilter
         ),
-        labelFilter: _.get(payload, 'webWidget.helpCenter.filter.label_names', state.labeFilter),
+        labelFilter: _.get(payload, 'webWidget.helpCenter.filter.label_names', state.labelFilter),
         messageButton: _.get(payload, 'webWidget.helpCenter.messageButton', state.messageButton),
         searchPlaceholder: _.get(
           payload,
