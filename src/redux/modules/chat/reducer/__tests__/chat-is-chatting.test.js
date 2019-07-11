@@ -57,6 +57,13 @@ testReducer(chatIsChatting, [
   },
   {
     action: {
+      type: actions.SDK_CHAT_MEMBER_JOIN
+    },
+    initialState: false,
+    expected: true
+  },
+  {
+    action: {
       type: actions.END_CHAT_REQUEST_SUCCESS
     },
     initialState: true,
