@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import Results from './index'
 
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { screenChanged, articleShown } from 'src/redux/modules/answerBot/root/actions/'
 import { articleViewed } from 'src/redux/modules/answerBot/article/actions/'
 
@@ -75,8 +76,14 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
+const mapStateToProps = state => {
+  return {
+    locale: getLocale(state)
+  }
+}
+
 const connectedComponent = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
   null,
   { withRef: true }
