@@ -10,7 +10,7 @@ describe('settings selectors', () => {
     getSettingsChatPrechatForm,
     getSettingsChatTitle,
     result,
-    mockState;
+    mockState
 
   beforeAll(() => {
     mockState = {
@@ -39,142 +39,136 @@ describe('settings selectors', () => {
           }
         }
       }
-    };
-  });
+    }
+  })
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const settingsSelectorsPath = buildSrcPath('redux/modules/settings/settings-selectors');
+    const settingsSelectorsPath = buildSrcPath('redux/modules/settings/settings-selectors')
 
-    mockery.registerAllowable(settingsSelectorsPath);
+    mockery.registerAllowable(settingsSelectorsPath)
 
-    const selectors = requireUncached(settingsSelectorsPath);
+    const selectors = requireUncached(settingsSelectorsPath)
 
-    getSettingsChatSuppress = selectors.getSettingsChatSuppress;
-    getSettingsChatDepartment = selectors.getSettingsChatDepartment;
-    getSettingsChatDepartmentsEnabled = selectors.getSettingsChatDepartmentsEnabled;
-    getSettingsMobileNotificationsDisabled = selectors.getSettingsMobileNotificationsDisabled;
-    getSettingsChatTags = selectors.getSettingsChatTags;
-    getAnalyticsDisabled = selectors.getAnalyticsDisabled;
-    getSettingsChatConcierge = selectors.getSettingsChatConcierge;
-    getSettingsChatOfflineForm = selectors.getSettingsChatOfflineForm;
-    getSettingsChatPrechatForm = selectors.getSettingsChatPrechatForm;
-    getSettingsChatTitle = selectors.getSettingsChatTitle;
-  });
+    getSettingsChatSuppress = selectors.getSettingsChatSuppress
+    getSettingsChatDepartment = selectors.getSettingsChatDepartment
+    getSettingsChatDepartmentsEnabled = selectors.getSettingsChatDepartmentsEnabled
+    getSettingsMobileNotificationsDisabled = selectors.getSettingsMobileNotificationsDisabled
+    getSettingsChatTags = selectors.getSettingsChatTags
+    getAnalyticsDisabled = selectors.getAnalyticsDisabled
+    getSettingsChatConcierge = selectors.getSettingsChatConcierge
+    getSettingsChatOfflineForm = selectors.getSettingsChatOfflineForm
+    getSettingsChatPrechatForm = selectors.getSettingsChatPrechatForm
+    getSettingsChatTitle = selectors.getSettingsChatTitle
+  })
 
   describe('getSettingsChatTags', () => {
     beforeEach(() => {
-      result = getSettingsChatTags(mockState);
-    });
+      result = getSettingsChatTags(mockState)
+    })
 
     it('sets the correct tags', () => {
-      expect(result)
-        .toEqual(['yolo', 'yolo2']);
-    });
-  });
+      expect(result).toEqual(['yolo', 'yolo2'])
+    })
+  })
 
   describe('getSettingsMobileNotificationsDisabled', () => {
     beforeEach(() => {
-      result = getSettingsMobileNotificationsDisabled(mockState);
-    });
+      result = getSettingsMobileNotificationsDisabled(mockState)
+    })
 
     it('returns true', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getSettingsChatSuppress', () => {
     beforeEach(() => {
-      result = getSettingsChatSuppress(mockState);
-    });
+      result = getSettingsChatSuppress(mockState)
+    })
 
     it('returns true', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getSettingsChatDepartment', () => {
     beforeEach(() => {
-      result = getSettingsChatDepartment(mockState);
-    });
+      result = getSettingsChatDepartment(mockState)
+    })
 
     it('returns yolo', () => {
-      expect(result)
-        .toEqual('yolo');
-    });
-  });
+      expect(result).toEqual('yolo')
+    })
+  })
 
   describe('getSettingsChatDepartmentsEnabled', () => {
     beforeEach(() => {
-      result = getSettingsChatDepartmentsEnabled(mockState);
-    });
+      result = getSettingsChatDepartmentsEnabled(mockState)
+    })
 
     it('returns ["bin tapi"]', () => {
-      expect(result)
-        .toEqual(['bin tapi']);
-    });
-  });
+      expect(result).toEqual(['bin tapi'])
+    })
+  })
 
   describe('getAnalyticsDisabled', () => {
     beforeEach(() => {
-      result = getAnalyticsDisabled(mockState);
-    });
+      result = getAnalyticsDisabled(mockState)
+    })
 
     it('returns the inverse of the analytics value', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getSettingsChatConcierge', () => {
     beforeEach(() => {
-      result = getSettingsChatConcierge(mockState);
-    });
+      result = getSettingsChatConcierge(mockState)
+    })
 
     it('returns the chat settings concierge state', () => {
       expect(result).toEqual({
         avatarPath: 'https://www.example.com/myPic.jpg',
         title: 'Some title',
         name: 'Mr McGee'
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('getSettingsChatOfflineForm', () => {
     beforeEach(() => {
-      result = getSettingsChatOfflineForm(mockState);
-    });
+      result = getSettingsChatOfflineForm(mockState)
+    })
 
     it('returns the the chat offline form settings', () => {
       expect(result).toEqual({
         greeting: 'no admittance except on party business'
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('getSettingsChatPrechatForm', () => {
     beforeEach(() => {
-      result = getSettingsChatPrechatForm(mockState);
-    });
+      result = getSettingsChatPrechatForm(mockState)
+    })
 
     it('returns the prechat form settings', () => {
       expect(result).toEqual({
         departmentLabel: 'the guild of calamitous intent',
         greeting: 'wazzup?!'
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('getSettingsChatTitle', () => {
     beforeEach(() => {
-      result = getSettingsChatTitle(mockState);
-    });
+      result = getSettingsChatTitle(mockState)
+    })
 
     it('returns the chat title setting', () => {
-      expect(result).toEqual('something pithy');
-    });
-  });
-});
+      expect(result).toEqual('something pithy')
+    })
+  })
+})

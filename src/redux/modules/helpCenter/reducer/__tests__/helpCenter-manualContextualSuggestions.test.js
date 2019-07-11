@@ -1,13 +1,13 @@
-import manualContextualSuggestions from '../helpCenter-manualContextualSuggestions';
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import manualContextualSuggestions from '../helpCenter-manualContextualSuggestions'
+import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   query: '',
   labels: [],
   url: false
-};
+}
 
 testReducer(manualContextualSuggestions, [
   {
@@ -73,4 +73,4 @@ testReducer(manualContextualSuggestions, [
     },
     expected: initialState
   }
-]);
+])

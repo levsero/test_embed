@@ -8,195 +8,186 @@ describe('submitTicket selectors', () => {
     getTicketFieldsAvailable,
     getTicketFields,
     getTicketForms,
-    getActiveTicketFormFields;
+    getActiveTicketFormFields
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const selectorsPath = buildSrcPath('redux/modules/submitTicket/submitTicket-selectors');
+    const selectorsPath = buildSrcPath('redux/modules/submitTicket/submitTicket-selectors')
 
-    mockery.registerAllowable(selectorsPath);
+    mockery.registerAllowable(selectorsPath)
 
-    const selectors = requireUncached(selectorsPath);
+    const selectors = requireUncached(selectorsPath)
 
-    getFormState = selectors.getFormState;
-    getLoading = selectors.getLoading;
-    getErrorMsg = selectors.getErrorMsg;
-    getShowNotification = selectors.getShowNotification;
-    getTicketFields = selectors.getTicketFields;
-    getTicketForms = selectors.getTicketForms;
-    getActiveTicketForm = selectors.getActiveTicketForm;
-    getTicketFormsAvailable = selectors.getTicketFormsAvailable;
-    getTicketFieldsAvailable = selectors.getTicketFieldsAvailable;
-    getActiveTicketFormFields = selectors.getActiveTicketFormFields;
-  });
+    getFormState = selectors.getFormState
+    getLoading = selectors.getLoading
+    getErrorMsg = selectors.getErrorMsg
+    getShowNotification = selectors.getShowNotification
+    getTicketFields = selectors.getTicketFields
+    getTicketForms = selectors.getTicketForms
+    getActiveTicketForm = selectors.getActiveTicketForm
+    getTicketFormsAvailable = selectors.getTicketFormsAvailable
+    getTicketFieldsAvailable = selectors.getTicketFieldsAvailable
+    getActiveTicketFormFields = selectors.getActiveTicketFormFields
+  })
 
   describe('getFormState', () => {
-    let result;
+    let result
     const mockFormState = {
       name: 'Gandalf',
       email: 'abc@123.com'
-    };
+    }
     const mockSubmitTicketState = {
       submitTicket: {
         formState: mockFormState
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getFormState(mockSubmitTicketState);
-    });
+      result = getFormState(mockSubmitTicketState)
+    })
 
     it('returns the current state of formState', () => {
-      expect(result)
-        .toEqual(mockFormState);
-    });
-  });
+      expect(result).toEqual(mockFormState)
+    })
+  })
 
   describe('getLoading', () => {
-    let result;
+    let result
     const mockSubmitTicketState = {
       submitTicket: {
         loading: false
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getLoading(mockSubmitTicketState);
-    });
+      result = getLoading(mockSubmitTicketState)
+    })
 
     it('returns the current state of loading', () => {
-      expect(result)
-        .toEqual(false);
-    });
-  });
+      expect(result).toEqual(false)
+    })
+  })
 
   describe('getTicketForms', () => {
-    let result;
+    let result
     const mockSubmitTicketState = {
       submitTicket: {
         ticketForms: [{ id: 1 }, { id: 2 }, { id: 4 }]
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getTicketForms(mockSubmitTicketState);
-    });
+      result = getTicketForms(mockSubmitTicketState)
+    })
 
     it('returns the current state of ticketForms', () => {
-      expect(result)
-        .toEqual([{ id: 1 }, { id: 2 }, { id: 4 }]);
-    });
-  });
+      expect(result).toEqual([{ id: 1 }, { id: 2 }, { id: 4 }])
+    })
+  })
 
   describe('getTicketFormsAvailable', () => {
-    let result;
+    let result
     const mockSubmitTicketState = {
       submitTicket: {
         ticketForms: [{ id: 1 }, { id: 2 }, { id: 4 }]
       }
-    };
+    }
 
     describe('when the ticket fields array is not empty', () => {
       beforeEach(() => {
-        result = getTicketFormsAvailable(mockSubmitTicketState);
-      });
+        result = getTicketFormsAvailable(mockSubmitTicketState)
+      })
 
       it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
+        expect(result).toEqual(true)
+      })
+    })
 
     describe('when the ticket fields array is empty', () => {
       beforeEach(() => {
-        mockSubmitTicketState.submitTicket.ticketForms = [];
-        result = getTicketFormsAvailable(mockSubmitTicketState);
-      });
+        mockSubmitTicketState.submitTicket.ticketForms = []
+        result = getTicketFormsAvailable(mockSubmitTicketState)
+      })
 
       it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
-    });
-  });
+        expect(result).toEqual(false)
+      })
+    })
+  })
 
   describe('getTicketFields', () => {
-    let result;
+    let result
     const mockSubmitTicketState = {
       submitTicket: {
         ticketFields: [{ id: 1 }, { id: 3 }, { id: 5 }]
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getTicketFields(mockSubmitTicketState);
-    });
+      result = getTicketFields(mockSubmitTicketState)
+    })
 
     it('returns the current state of ticketFields', () => {
       const expectation = {
         1: { id: 1 },
         3: { id: 3 },
         5: { id: 5 }
-      };
+      }
 
-      expect(result)
-        .toEqual(jasmine.objectContaining(expectation));
-    });
-  });
+      expect(result).toEqual(jasmine.objectContaining(expectation))
+    })
+  })
 
   describe('getTicketFieldsAvailable', () => {
-    let result;
+    let result
     const mockSubmitTicketState = {
       submitTicket: {
         ticketFields: [{ id: 2 }, { id: 3 }, { id: 5 }]
       }
-    };
+    }
 
     describe('when the ticket fields array is not empty', () => {
       beforeEach(() => {
-        result = getTicketFieldsAvailable(mockSubmitTicketState);
-      });
+        result = getTicketFieldsAvailable(mockSubmitTicketState)
+      })
 
       it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
+        expect(result).toEqual(true)
+      })
+    })
 
     describe('when the ticket fields array is empty', () => {
       beforeEach(() => {
-        mockSubmitTicketState.submitTicket.ticketFields = [];
-        result = getTicketFieldsAvailable(mockSubmitTicketState);
-      });
+        mockSubmitTicketState.submitTicket.ticketFields = []
+        result = getTicketFieldsAvailable(mockSubmitTicketState)
+      })
 
       it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
-    });
-  });
+        expect(result).toEqual(false)
+      })
+    })
+  })
 
   describe('getActiveTicketForm', () => {
-    let result;
+    let result
     const mockSubmitTicketState = {
       submitTicket: {
         activeForm: { id: 2 }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getActiveTicketForm(mockSubmitTicketState);
-    });
+      result = getActiveTicketForm(mockSubmitTicketState)
+    })
 
     it('returns the current state of activeForm', () => {
-      expect(result)
-        .toEqual({ id: 2 });
-    });
-  });
+      expect(result).toEqual({ id: 2 })
+    })
+  })
 
   describe('getActiveTicketFormFields', () => {
-    let result;
+    let result
     const mockSubmitTicketState = {
       submitTicket: {
         activeForm: {
@@ -213,66 +204,61 @@ describe('submitTicket selectors', () => {
           777: { id: 777 }
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getActiveTicketFormFields(mockSubmitTicketState);
-    });
+      result = getActiveTicketFormFields(mockSubmitTicketState)
+    })
 
     it('returns the an array of sorted ticket forms', () => {
-      const expectation = [{ id: 777 }, { id: 111 }, { id: 333 }, { id: 555 }];
+      const expectation = [{ id: 777 }, { id: 111 }, { id: 333 }, { id: 555 }]
 
-      expect(result)
-        .toEqual(expectation);
-    });
+      expect(result).toEqual(expectation)
+    })
 
     it('ignores ticket fields that do not exist', () => {
-      const ticketFieldIds = _.map(result, (obj) => obj.id);
-      const doesNotInclude = (fieldName) => !_.includes(ticketFieldIds, fieldName);
+      const ticketFieldIds = _.map(result, obj => obj.id)
+      const doesNotInclude = fieldName => !_.includes(ticketFieldIds, fieldName)
 
-      expect(doesNotInclude('blah'))
-        .toBe(true);
+      expect(doesNotInclude('blah')).toBe(true)
 
-      expect(doesNotInclude(420))
-        .toBe(true);
-    });
-  });
+      expect(doesNotInclude(420)).toBe(true)
+    })
+  })
 
   describe('getErrorMsg', () => {
-    let result;
+    let result
     const mockSubmitTicketState = {
       submitTicket: {
         errorMsg: 'oh no'
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getErrorMsg(mockSubmitTicketState);
-    });
+      result = getErrorMsg(mockSubmitTicketState)
+    })
 
     it('returns the current state of getErrorMsg', () => {
-      expect(result)
-        .toEqual('oh no');
-    });
-  });
+      expect(result).toEqual('oh no')
+    })
+  })
 
   describe('getShowNotification', () => {
-    let result;
+    let result
     const mockSubmitTicketState = {
       submitTicket: {
         notification: {
           show: true
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = getShowNotification(mockSubmitTicketState);
-    });
+      result = getShowNotification(mockSubmitTicketState)
+    })
 
     it('returns the current state of notification.show', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
-});
+      expect(result).toEqual(true)
+    })
+  })
+})

@@ -1,13 +1,11 @@
 describe('ChannelChoiceMobile component', () => {
-  let ChannelChoiceMobile,
-    channelChoiceMobile,
-    channelChoiceComponent;
-  const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoiceMobile');
+  let ChannelChoiceMobile, channelChoiceMobile, channelChoiceComponent
+  const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoiceMobile')
 
-  const Button = noopReactComponent();
+  const Button = noopReactComponent()
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './ChannelChoiceMobile.scss': {
@@ -19,7 +17,7 @@ describe('ChannelChoiceMobile component', () => {
       'component/channelChoice/ChannelChoicePopupMobile': {
         ChannelChoicePopupMobile: class extends Component {
           render() {
-            return <div className='ChannelChoicePopupMobile' />;
+            return <div className="ChannelChoicePopupMobile" />
           }
         }
       },
@@ -27,7 +25,7 @@ describe('ChannelChoiceMobile component', () => {
       'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           render() {
-            return <div>{this.props.children}</div>;
+            return <div>{this.props.children}</div>
           }
         }
       },
@@ -36,52 +34,46 @@ describe('ChannelChoiceMobile component', () => {
           t: _.identity
         }
       }
-    });
+    })
 
-    ChannelChoiceMobile = requireUncached(channelChoicePath).ChannelChoiceMobile;
-    jasmine.clock().install();
-  });
+    ChannelChoiceMobile = requireUncached(channelChoicePath).ChannelChoiceMobile
+    jasmine.clock().install()
+  })
 
   afterEach(() => {
-    jasmine.clock().uninstall();
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    jasmine.clock().uninstall()
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('render', () => {
-    let result;
+    let result
 
     describe('when it is called', () => {
       beforeEach(() => {
         channelChoiceMobile = domRender(
-          <ChannelChoiceMobile
-            handleNextClick={noop}
-            handleCancelClick={noop} />
-        );
-        channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceMobile);
-      });
+          <ChannelChoiceMobile handleNextClick={noop} handleCancelClick={noop} />
+        )
+        channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceMobile)
+      })
 
       it('renders the ChannelChoiceMobilePopup component', () => {
-        expect(channelChoiceComponent.querySelector('.ChannelChoicePopupMobile'))
-          .not.toBeNull();
-      });
-    });
+        expect(channelChoiceComponent.querySelector('.ChannelChoicePopupMobile')).not.toBeNull()
+      })
+    })
 
     describe('classes', () => {
       beforeEach(() => {
         const component = instanceRender(
-          <ChannelChoiceMobile
-            handleNextClick={noop}
-            handleCancelClick={noop} />
-        );
+          <ChannelChoiceMobile handleNextClick={noop} handleCancelClick={noop} />
+        )
 
-        result = component.render();
-      });
+        result = component.render()
+      })
 
       it('has newContainer class', () => {
-        expect(result.props.containerClasses)
-          .toContain('newContainerClass');
-      });
-    });
-  });
-});
+        expect(result.props.containerClasses).toContain('newContainerClass')
+      })
+    })
+  })
+})

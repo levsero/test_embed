@@ -1,7 +1,5 @@
-import * as actions from '../question-value-changed';
+import * as actions from '../question-value-changed'
 
 test('questionValueChanged dispatches expected payload', () => {
-  expect(actions.questionValueChanged('hello'))
-    .toMatchSnapshot();
-});
-
+  expect(actions.questionValueChanged('hello')).toMatchSnapshot()
+})

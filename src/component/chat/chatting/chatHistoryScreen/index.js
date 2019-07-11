@@ -1,31 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import Transition from 'react-transition-group/Transition';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import classNames from 'classnames'
+import Transition from 'react-transition-group/Transition'
 
-import HistoryLog from 'component/chat/chatting/HistoryLog';
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { ZendeskLogo } from 'component/ZendeskLogo';
-import { i18n } from 'service/i18n';
-import { isFirefox, isIE } from 'utility/devices';
-import {
-  updateChatScreen,
-  fetchConversationHistory,
-} from 'src/redux/modules/chat';
+import HistoryLog from 'component/chat/chatting/HistoryLog'
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { ZendeskLogo } from 'component/ZendeskLogo'
+import { i18n } from 'service/i18n'
+import { isFirefox, isIE } from 'utility/devices'
+import { updateChatScreen, fetchConversationHistory } from 'src/redux/modules/chat'
 import {
   getHistoryLength,
   getHasMoreHistory,
   getHistoryRequestStatus
-} from 'src/redux/modules/chat/chat-history-selectors';
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
-import {
-  getChatTitle,
-} from 'src/redux/modules/selectors';
-import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
-import { locals as styles } from './styles/index.scss';
+} from 'src/redux/modules/chat/chat-history-selectors'
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
+import { getChatTitle } from 'src/redux/modules/selectors'
+import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
+import { locals as styles } from './styles/index.scss'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     historyLength: getHistoryLength(state),
     hasMoreHistory: getHasMoreHistory(state),
@@ -34,9 +29,9 @@ const mapStateToProps = (state) => {
     visitor: chatSelectors.getChatVisitor(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
-    title: getChatTitle(state),
-  };
-};
+    title: getChatTitle(state)
+  }
+}
 
 class ChatHistoryScreen extends Component {
   static propTypes = {
@@ -45,7 +40,7 @@ class ChatHistoryScreen extends Component {
     historyRequestStatus: PropTypes.oneOf([
       HISTORY_REQUEST_STATUS.PENDING,
       HISTORY_REQUEST_STATUS.DONE,
-      HISTORY_REQUEST_STATUS.FAIL,
+      HISTORY_REQUEST_STATUS.FAIL
     ]),
     isMobile: PropTypes.bool,
     allAgents: PropTypes.object.isRequired,
@@ -55,8 +50,8 @@ class ChatHistoryScreen extends Component {
     chatId: PropTypes.string,
     firstMessageTimestamp: PropTypes.number,
     fullscreen: PropTypes.bool,
-    title: PropTypes.string,
-  };
+    title: PropTypes.string
+  }
 
   static defaultProps = {
     isMobile: false,
@@ -71,133 +66,132 @@ class ChatHistoryScreen extends Component {
     chatId: '',
     firstMessageTimestamp: null,
     showContactDetails: () => {},
-    markAsRead: () => {},
-  };
+    markAsRead: () => {}
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.scrollContainer = null;
-    this.scrollHeightBeforeUpdate = null;
-    this.scrollToBottomTimer = null;
+    this.scrollContainer = null
+    this.scrollHeightBeforeUpdate = null
+    this.scrollToBottomTimer = null
   }
 
   componentDidMount() {
-    const { historyLength } = this.props;
-    const hasMessages = historyLength > 0;
+    const { historyLength } = this.props
+    const hasMessages = historyLength > 0
 
     if (hasMessages) {
-      this.scrollToBottom();
+      this.scrollToBottom()
     }
   }
 
   componentWillUpdate(prevProps) {
-    if (prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
-        this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE) {
-      this.scrollHeightBeforeUpdate = this.scrollContainer.getScrollHeight();
+    if (
+      prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
+      this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE
+    ) {
+      this.scrollHeightBeforeUpdate = this.scrollContainer.getScrollHeight()
     }
   }
 
   componentDidUpdate() {
     if (this.scrollContainer) {
-      this.didUpdateFetchHistory();
+      this.didUpdateFetchHistory()
     }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.scrollToBottomTimer);
+    clearTimeout(this.scrollToBottomTimer)
   }
 
   didUpdateFetchHistory = () => {
-    if (!this.scrollHeightBeforeUpdate) return;
+    if (!this.scrollHeightBeforeUpdate) return
 
-    const scrollTop = this.scrollContainer.getScrollTop();
-    const scrollHeight = this.scrollContainer.getScrollHeight();
-    const lengthDifference = scrollHeight - this.scrollHeightBeforeUpdate;
+    const scrollTop = this.scrollContainer.getScrollTop()
+    const scrollHeight = this.scrollContainer.getScrollHeight()
+    const lengthDifference = scrollHeight - this.scrollHeightBeforeUpdate
 
     // When chat history is fetched, we record the scroll just before
     // the component updates in order to adjust the  scrollTop
     // by the difference in container height of pre and post update.
     if (lengthDifference !== 0) {
-      this.scrollContainer.scrollTo(scrollTop + lengthDifference);
-      this.scrollHeightBeforeUpdate = null;
+      this.scrollContainer.scrollTo(scrollTop + lengthDifference)
+      this.scrollHeightBeforeUpdate = null
     }
   }
 
   isScrollCloseToBottom = () => {
-    return (this.scrollContainer)
+    return this.scrollContainer
       ? this.scrollContainer.getScrollBottom() < SCROLL_BOTTOM_THRESHOLD
-      : false;
+      : false
   }
 
   scrollToBottom = () => {
     this.scrollToBottomTimer = setTimeout(() => {
       if (this.scrollContainer) {
-        this.scrollContainer.scrollToBottom();
+        this.scrollContainer.scrollToBottom()
       }
-    }, 0);
+    }, 0)
   }
 
   handleChatScreenScrolled = () => {
-    if (!this.scrollContainer) return;
+    if (!this.scrollContainer) return
 
     if (
       this.scrollContainer.isAtTop() &&
       this.props.hasMoreHistory &&
       this.props.historyRequestStatus !== HISTORY_REQUEST_STATUS.PENDING
     ) {
-      this.props.fetchConversationHistory();
+      this.props.fetchConversationHistory()
     }
   }
 
   renderHistoryFetching = () => {
-    const { historyRequestStatus } = this.props;
-    const duration = 300;
+    const { historyRequestStatus } = this.props
+    const duration = 300
     const defaultStyle = {
       transition: `opacity ${duration}ms ease-in-out`,
-      opacity: 0,
-    };
+      opacity: 0
+    }
     const transitionStyles = {
       entering: { opacity: 0.9 },
-      entered:  { opacity: 1 },
-    };
+      entered: { opacity: 1 }
+    }
 
     return this.props.historyRequestStatus ? (
       <div className={styles.historyFetchingContainer}>
         <Transition in={historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING} timeout={0}>
-          {(state) => (
+          {state => (
             <div
               style={{ ...defaultStyle, ...transitionStyles[state] }}
-              className={styles.historyFetchingText}>
+              className={styles.historyFetchingText}
+            >
               {i18n.t('embeddable_framework.chat.fetching_history')}
             </div>
           )}
         </Transition>
       </div>
-    ) : null;
+    ) : null
   }
 
   renderZendeskLogo = () => {
-    const logoClasses = classNames(
-      { [styles.zendeskLogoChatMobile]: this.props.isMobile }
-    );
+    const logoClasses = classNames({
+      [styles.zendeskLogoChatMobile]: this.props.isMobile
+    })
 
-    return !this.props.hideZendeskLogo ?
+    return !this.props.hideZendeskLogo ? (
       <ZendeskLogo
         className={`${styles.zendeskLogo} ${logoClasses}`}
         fullscreen={false}
         chatId={this.props.chatId}
-        logoLink='chat'
-      /> : null;
+        logoLink="chat"
+      />
+    ) : null
   }
 
   render = () => {
-    const {
-      isMobile,
-      fullscreen,
-      hideZendeskLogo,
-      title,
-    } = this.props;
+    const { isMobile, fullscreen, hideZendeskLogo, title } = this.props
     const containerClasses = classNames({
       [styles.footerMarginWithLogo]: !hideZendeskLogo,
       [styles.footerMargin]: hideZendeskLogo,
@@ -206,21 +200,23 @@ class ChatHistoryScreen extends Component {
       [styles.scrollContainerMessagesContentDesktop]: !isMobile,
       [styles.scrollContainerMobile]: isMobile,
       [styles.scrollBarFix]: isFirefox() || isIE()
-    });
-    const chatLogContainerClasses = classNames(
-      styles.chatLogContainer,
-      { [styles.chatLogContainerMobile]: isMobile }
-    );
+    })
+    const chatLogContainerClasses = classNames(styles.chatLogContainer, {
+      [styles.chatLogContainerMobile]: isMobile
+    })
 
     return (
       <div>
         <ScrollContainer
-          ref={(el) => { this.scrollContainer = el; }}
+          ref={el => {
+            this.scrollContainer = el
+          }}
           title={title}
           onContentScrolled={this.handleChatScreenScrolled}
           containerClasses={containerClasses}
           fullscreen={fullscreen}
-          isMobile={isMobile}>
+          isMobile={isMobile}
+        >
           <div className={chatLogContainerClasses}>
             <HistoryLog
               isMobile={this.props.isMobile}
@@ -233,17 +229,19 @@ class ChatHistoryScreen extends Component {
         </ScrollContainer>
         {this.renderZendeskLogo()}
       </div>
-    );
+    )
   }
 }
 
 const actionCreators = {
   updateChatScreen,
-  fetchConversationHistory,
-};
+  fetchConversationHistory
+}
 
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatHistoryScreen);
-export {
-  ChatHistoryScreen as Component
-};
-
+export default connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(ChatHistoryScreen)
+export { ChatHistoryScreen as Component }

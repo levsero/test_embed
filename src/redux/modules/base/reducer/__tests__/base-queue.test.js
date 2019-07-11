@@ -1,9 +1,6 @@
-import queue from '../base-queue';
-import {
-  UPDATE_QUEUE,
-  REMOVE_FROM_QUEUE
-} from '../../base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import queue from '../base-queue'
+import { UPDATE_QUEUE, REMOVE_FROM_QUEUE } from '../../base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(queue, [
   {
@@ -29,4 +26,4 @@ testReducer(queue, [
     initialState: { y: ['o'], z: ['o'] },
     expected: { z: ['o'] }
   }
-]);
+])

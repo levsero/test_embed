@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { i18n } from 'service/i18n';
-import { Icon } from 'component/Icon';
-import { Button } from '@zendeskgarden/react-buttons';
-import { Dropzone } from 'component/Dropzone';
-import { SlideAppear } from 'component/transition/SlideAppear';
+import { i18n } from 'service/i18n'
+import { Icon } from 'component/Icon'
+import { Button } from '@zendeskgarden/react-buttons'
+import { Dropzone } from 'component/Dropzone'
+import { SlideAppear } from 'component/transition/SlideAppear'
 
-import { locals as styles } from './ChatMenu.scss';
-import classNames from 'classnames';
+import { locals as styles } from './ChatMenu.scss'
+import classNames from 'classnames'
 
 export class ChatMenu extends Component {
   static propTypes = {
@@ -25,7 +25,7 @@ export class ChatMenu extends Component {
     emailTranscriptEnabled: PropTypes.bool,
     isMobile: PropTypes.bool,
     loginEnabled: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     endChatOnClick: () => {},
@@ -37,136 +37,138 @@ export class ChatMenu extends Component {
     emailTranscriptEnabled: false,
     isMobile: false,
     loginEnabled: false
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       soundButtonClicked: false,
       soundButtonHovered: false
-    };
+    }
 
-    this.firstButton = null;
+    this.firstButton = null
   }
 
-  handleSoundClick = (e) => {
-    e.stopPropagation();
-    this.props.onSoundClick();
+  handleSoundClick = e => {
+    e.stopPropagation()
+    this.props.onSoundClick()
     this.setState({
       soundButtonClicked: true
-    });
+    })
   }
 
   handleSoundMouseOver = () => {
     this.setState({
       soundButtonHovered: true
-    });
+    })
   }
 
   handleSoundMouseOut = () => {
     this.setState({
       soundButtonHovered: false
-    });
+    })
   }
 
-  preventContainerClick = (e) => {
+  preventContainerClick = e => {
     // This is needed to keep the menu being opened
-    e.stopPropagation();
+    e.stopPropagation()
   }
 
   renderButton = (onClick, children, disabled = false) => {
-    const classes = this.getItemClasses(disabled);
+    const classes = this.getItemClasses(disabled)
 
     return (
-      <Button type='button' className={classes} onClick={onClick} disabled={disabled}>
+      <Button type="button" className={classes} onClick={onClick} disabled={disabled}>
         {children}
       </Button>
-    );
+    )
   }
 
   focus = () => {
-    this.firstButton.focus();
+    this.firstButton.focus()
   }
 
-  renderDivider = () => <div className={styles.itemLine} />;
+  renderDivider = () => <div className={styles.itemLine} />
 
-  getItemClasses = (disabled = false) => (
-    classNames(
-      this.props.isMobile ? styles.itemMobile : styles.item,
-      { [styles.disabled]: disabled }
-    )
-  );
+  getItemClasses = (disabled = false) =>
+    classNames(this.props.isMobile ? styles.itemMobile : styles.item, {
+      [styles.disabled]: disabled
+    })
 
   renderSoundButton = () => {
-    const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off';
-    const classes = classNames(
-      { [styles.soundButtonReset]: this.state.soundButtonClicked && !this.state.soundButtonHovered }
-    );
+    const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off'
+    const classes = classNames({
+      [styles.soundButtonReset]: this.state.soundButtonClicked && !this.state.soundButtonHovered
+    })
     const children = [
       i18n.t('embeddable_framework.chat.options.sound'),
-      <Icon key='icon' className={styles.soundIcon} type={iconType} flipX={i18n.isRTL()} />
-    ];
+      <Icon key="icon" className={styles.soundIcon} type={iconType} flipX={i18n.isRTL()} />
+    ]
 
     return (
       <Button
-        type='button'
-        innerRef={(el) => this.firstButton = el}
+        type="button"
+        innerRef={el => (this.firstButton = el)}
         className={`${this.getItemClasses()} ${classes}`}
         onClick={this.handleSoundClick}
         onMouseOver={this.handleSoundMouseOver}
         onMouseOut={this.handleSoundMouseOut}
         onFocus={this.handleSoundMouseOver}
-        onBlur={this.handleSoundMouseOut}>
+        onBlur={this.handleSoundMouseOut}
+      >
         {children}
       </Button>
-    );
+    )
   }
 
   renderEmailTranscriptButton = () => {
-    const { emailTranscriptOnClick, emailTranscriptEnabled } = this.props;
-    const label = i18n.t('embeddable_framework.chat.options.emailTranscript');
+    const { emailTranscriptOnClick, emailTranscriptEnabled } = this.props
+    const label = i18n.t('embeddable_framework.chat.options.emailTranscript')
 
-    return this.renderButton(emailTranscriptOnClick, label, !emailTranscriptEnabled);
+    return this.renderButton(emailTranscriptOnClick, label, !emailTranscriptEnabled)
   }
 
   renderContactDetailsButton = () => {
-    const { loginEnabled, contactDetailsOnClick } = this.props;
-    const label = i18n.t('embeddable_framework.chat.options.editContactDetails');
+    const { loginEnabled, contactDetailsOnClick } = this.props
+    const label = i18n.t('embeddable_framework.chat.options.editContactDetails')
 
-    return loginEnabled ? this.renderButton(contactDetailsOnClick, label) : null;
+    return loginEnabled ? this.renderButton(contactDetailsOnClick, label) : null
   }
 
   renderEndChatButton = () => {
-    const { isMobile, disableEndChat, endChatOnClick } = this.props;
-    const label = i18n.t('embeddable_framework.chat.options.endChat');
+    const { isMobile, disableEndChat, endChatOnClick } = this.props
+    const label = i18n.t('embeddable_framework.chat.options.endChat')
     const containerClasses = classNames(styles.endChatContainerMobile, {
       [styles.disabled]: this.props.disableEndChat
-    });
+    })
 
-    return (isMobile)
-      ? <div className={containerClasses} onClick={this.preventContainerClick}>
+    return isMobile ? (
+      <div className={containerClasses} onClick={this.preventContainerClick}>
         <Button
           primary={true}
-          type='button'
+          type="button"
           onClick={endChatOnClick}
           className={styles.endChatMobileButton}
-          disabled={disableEndChat}>
+          disabled={disableEndChat}
+        >
           {label}
         </Button>
       </div>
-      : this.renderButton(endChatOnClick, label, disableEndChat);
+    ) : (
+      this.renderButton(endChatOnClick, label, disableEndChat)
+    )
   }
 
   renderGoBackButton = () => {
-    const { onGoBackClick } = this.props;
-    const label = i18n.t('embeddable_framework.chat.options.goBack');
+    const { onGoBackClick } = this.props
+    const label = i18n.t('embeddable_framework.chat.options.goBack')
 
-    return this.renderButton(onGoBackClick, label);
+    return this.renderButton(onGoBackClick, label)
   }
 
   renderSendFileButton = () => {
-    if (!this.props.attachmentsEnabled) return null;
+    if (!this.props.attachmentsEnabled) return null
 
     return (
       <div onClick={this.preventContainerClick}>
@@ -174,7 +176,7 @@ export class ChatMenu extends Component {
           {i18n.t('embeddable_framework.chat.options.sendFile')}
         </Dropzone>
       </div>
-    );
+    )
   }
 
   renderDesktop = () => {
@@ -183,7 +185,8 @@ export class ChatMenu extends Component {
         startPosHeight={'10px'}
         endPosHeight={'30px'}
         className={styles.container}
-        trigger={this.props.show}>
+        trigger={this.props.show}
+      >
         {this.renderSoundButton()}
         {this.renderDivider()}
         {this.renderEmailTranscriptButton()}
@@ -191,14 +194,13 @@ export class ChatMenu extends Component {
         {this.renderDivider()}
         {this.renderEndChatButton()}
       </SlideAppear>
-    );
+    )
   }
 
   renderMobile = () => {
-    const containerClasses = classNames(
-      styles.containerMobile,
-      { [styles.hidden]: !this.props.show }
-    );
+    const containerClasses = classNames(styles.containerMobile, {
+      [styles.hidden]: !this.props.show
+    })
 
     return (
       <div className={containerClasses}>
@@ -209,7 +211,8 @@ export class ChatMenu extends Component {
           startPosHeight={'-10px'}
           endPosHeight={'0px'}
           className={styles.wrapperMobile}
-          trigger={this.props.show}>
+          trigger={this.props.show}
+        >
           {this.renderGoBackButton()}
           {this.renderContactDetailsButton()}
           {this.renderSendFileButton()}
@@ -217,10 +220,10 @@ export class ChatMenu extends Component {
           {this.renderEndChatButton()}
         </SlideAppear>
       </div>
-    );
+    )
   }
 
   render() {
-    return this.props.isMobile ? this.renderMobile() : this.renderDesktop();
+    return this.props.isMobile ? this.renderMobile() : this.renderDesktop()
   }
 }

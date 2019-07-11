@@ -1,12 +1,12 @@
-import searchTerm from '../helpCenter-searchTerm';
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import searchTerm from '../helpCenter-searchTerm'
+import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   current: '',
   previous: ''
-};
+}
 
 testReducer(searchTerm, [
   {
@@ -62,4 +62,4 @@ testReducer(searchTerm, [
     },
     expected: { current: 'help', previous: '' }
   }
-]);
+])

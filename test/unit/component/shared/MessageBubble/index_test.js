@@ -1,12 +1,12 @@
 describe('MessageBubble component', () => {
-  let MessageBubble;
+  let MessageBubble
 
-  const messageBubblePath = buildSrcPath('component/shared/MessageBubble');
-  const MessageOptions = noopReactComponent();
-  const Linkify = noopReactComponent('Linkify');
+  const messageBubblePath = buildSrcPath('component/shared/MessageBubble')
+  const MessageOptions = noopReactComponent()
+  const Linkify = noopReactComponent('Linkify')
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './MessageBubble.scss': {
@@ -18,136 +18,120 @@ describe('MessageBubble component', () => {
       'component/shared/MessageOptions': {
         MessageOptions: MessageOptions
       },
-      'react-linkify' : Linkify,
+      'react-linkify': Linkify,
       'service/i18n': {
-        'i18n': {
+        i18n: {
           t: _.identity
         }
       }
-    });
+    })
 
-    mockery.registerAllowable(messageBubblePath);
-    MessageBubble = requireUncached(messageBubblePath).MessageBubble;
-  });
+    mockery.registerAllowable(messageBubblePath)
+    MessageBubble = requireUncached(messageBubblePath).MessageBubble
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('#render', () => {
-    let component,
-      response,
-      options;
+    let component, response, options
 
     describe('component props', () => {
       beforeEach(() => {
-        component = instanceRender(<MessageBubble message='Test Message' className='bob' options={options}/>);
-        spyOn(component, 'renderOptions');
-        response = component.render();
-      });
+        component = instanceRender(
+          <MessageBubble message="Test Message" className="bob" options={options} />
+        )
+        spyOn(component, 'renderOptions')
+        response = component.render()
+      })
 
       it('calls renderOptions', () => {
-        expect(component.renderOptions).toHaveBeenCalled();
-      });
+        expect(component.renderOptions).toHaveBeenCalled()
+      })
 
       it('wraps the text content in a linkify component', () => {
-        expect(TestUtils.isElementOfType(response.props.children[0].props.children[0], Linkify))
-          .toEqual(true);
-      });
+        expect(
+          TestUtils.isElementOfType(response.props.children[0].props.children[0], Linkify)
+        ).toEqual(true)
+      })
 
       it('sets the text content', () => {
-        expect(response.props.children[0].props.children[0].props.children)
-          .toEqual('Test Message');
-      });
+        expect(response.props.children[0].props.children[0].props.children).toEqual('Test Message')
+      })
 
       it('sets the custom className', () => {
-        expect(response.props.children[0].props.className)
-          .toContain('bob');
-      });
+        expect(response.props.children[0].props.className).toContain('bob')
+      })
 
       describe('when there are no options', () => {
         beforeAll(() => {
-          options = [];
-        });
+          options = []
+        })
 
         it('sets the messageBubble style', () => {
-          expect(response.props.children[0].props.className)
-            .toContain('messageBubble');
-        });
-      });
+          expect(response.props.children[0].props.className).toContain('messageBubble')
+        })
+      })
 
       describe('when there are options', () => {
         beforeAll(() => {
-          options = ['yes', 'no'];
-        });
+          options = ['yes', 'no']
+        })
 
         it('sets the messageBubbleWithOptions style', () => {
-          expect(response.props.children[0].props.className)
-            .toContain('messageBubbleWithOptions');
-        });
-      });
-    });
-  });
+          expect(response.props.children[0].props.className).toContain('messageBubbleWithOptions')
+        })
+      })
+    })
+  })
 
   describe('#renderOptions', () => {
-    let component,
-      response,
-      handleSendMsgSpy,
-      options;
+    let component, response, handleSendMsgSpy, options
 
     beforeEach(() => {
-      handleSendMsgSpy = jasmine.createSpy();
+      handleSendMsgSpy = jasmine.createSpy()
 
       component = instanceRender(
-        <MessageBubble
-          message='Test Message'
-          handleSendMsg={handleSendMsgSpy}
-          options={options} />
-      );
+        <MessageBubble message="Test Message" handleSendMsg={handleSendMsgSpy} options={options} />
+      )
 
-      response = component.renderOptions();
-    });
+      response = component.renderOptions()
+    })
 
     describe('when there are no options', () => {
       beforeAll(() => {
-        options = [];
-      });
+        options = []
+      })
 
       it('does not render options with message bubble', () => {
-        expect(response)
-          .toBeFalsy();
-      });
-    });
+        expect(response).toBeFalsy()
+      })
+    })
 
     describe('when there are options', () => {
       beforeAll(() => {
-        options = ['yes', 'no'];
-      });
+        options = ['yes', 'no']
+      })
 
       it('renders MessageOptions', () => {
-        expect(TestUtils.isElementOfType(response, MessageOptions))
-          .toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(response, MessageOptions)).toEqual(true)
+      })
 
       it('sets isMessageBubbleLinked prop to true', () => {
-        expect(response.props.isMessageBubbleLinked)
-          .toEqual(true);
-      });
+        expect(response.props.isMessageBubbleLinked).toEqual(true)
+      })
 
       it('sets onOptionClick prop correctly', () => {
-        expect(response.props.onOptionClick)
-          .toBe(handleSendMsgSpy);
-      });
+        expect(response.props.onOptionClick).toBe(handleSendMsgSpy)
+      })
 
       it('sets the correct optionItems', () => {
-        expect(response.props.optionItems.length)
-          .toEqual(2);
-        expect(response.props.optionItems[0])
-          .toEqual('yes');
-        expect(response.props.optionItems[1])
-          .toEqual('no');
-      });
-    });
-  });
-});
+        expect(response.props.optionItems.length).toEqual(2)
+        expect(response.props.optionItems[0]).toEqual('yes')
+        expect(response.props.optionItems[1]).toEqual('no')
+      })
+    })
+  })
+})

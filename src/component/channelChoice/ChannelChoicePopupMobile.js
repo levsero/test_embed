@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { locals as styles } from './ChannelChoicePopupMobile.scss';
+import { locals as styles } from './ChannelChoicePopupMobile.scss'
 
-import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu';
+import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu'
 
 export class ChannelChoicePopupMobile extends Component {
   static propTypes = {
@@ -15,7 +15,7 @@ export class ChannelChoicePopupMobile extends Component {
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
     chatOfflineAvailable: PropTypes.bool.isRequired
-  };
+  }
 
   static defaultProps = {
     showCancelButton: true,
@@ -23,9 +23,9 @@ export class ChannelChoicePopupMobile extends Component {
     talkOnline: false,
     submitTicketAvailable: true,
     chatEnabled: false
-  };
+  }
 
-  handleContainerClick = (e) => e.stopPropagation();
+  handleContainerClick = e => e.stopPropagation()
 
   render = () => {
     const {
@@ -35,7 +35,7 @@ export class ChannelChoicePopupMobile extends Component {
       talkOnline,
       callbackEnabled,
       chatOfflineAvailable
-    } = this.props;
+    } = this.props
 
     return (
       <div onClick={this.handleContainerClick}>
@@ -53,6 +53,6 @@ export class ChannelChoicePopupMobile extends Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }

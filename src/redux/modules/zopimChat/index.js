@@ -1,1 +1,1 @@
-export * from './zopimChat-actions';
+export * from './zopimChat-actions'

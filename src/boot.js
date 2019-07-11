@@ -1,29 +1,23 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
-import { beacon } from 'service/beacon';
-import { identity } from 'service/identity';
-import { logging } from 'service/logging';
-import { store as persistenceStore } from 'service/persistence';
-import { renderer } from 'service/renderer';
-import webWidgetApi from 'service/api/webWidgetApi';
-import zopimApi from 'service/api/zopimApi';
-import { settings } from 'service/settings';
-import { http } from 'service/transport';
-import { GA } from 'service/analytics/googleAnalytics';
-import {
-  clickBusterHandler,
-  isMobileBrowser
-} from 'utility/devices';
-import { initMobileScaling } from 'utility/mobileScaling';
-import { updateEmbeddableConfig } from 'src/redux/modules/base';
-import { initResizeMonitor } from 'utility/window';
-import { i18n } from 'service/i18n';
-import createStore from 'src/redux/createStore';
-import tracker from 'service/logging/tracker';
-import {
-  getZendeskHost,
-  setReferrerMetas
-} from 'utility/globals';
+import { beacon } from 'service/beacon'
+import { identity } from 'service/identity'
+import { logging } from 'service/logging'
+import { store as persistenceStore } from 'service/persistence'
+import { renderer } from 'service/renderer'
+import webWidgetApi from 'service/api/webWidgetApi'
+import zopimApi from 'service/api/zopimApi'
+import { settings } from 'service/settings'
+import { http } from 'service/transport'
+import { GA } from 'service/analytics/googleAnalytics'
+import { clickBusterHandler, isMobileBrowser } from 'utility/devices'
+import { initMobileScaling } from 'utility/mobileScaling'
+import { updateEmbeddableConfig } from 'src/redux/modules/base'
+import { initResizeMonitor } from 'utility/window'
+import { i18n } from 'service/i18n'
+import createStore from 'src/redux/createStore'
+import tracker from 'service/logging/tracker'
+import { getZendeskHost, setReferrerMetas } from 'utility/globals'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -31,156 +25,160 @@ const setupIframe = (iframe, doc) => {
   // the iframe so when we need to query the parent document it will work.
   // http://bugzil.la/548397
   if (getComputedStyle(doc.documentElement) === null) {
-    const newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px';
+    const newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px'
 
-    iframe.removeAttribute('style');
-    iframe.setAttribute('style', newStyle);
+    iframe.removeAttribute('style')
+    iframe.setAttribute('style', newStyle)
   }
 
   // Honour any no-referrer policies on the host page by dynamically
   // injecting the appropriate meta tags on the iframe.
   // TODO: When main.js refactor is complete, test this.
   if (iframe) {
-    setReferrerMetas(iframe, doc);
+    setReferrerMetas(iframe, doc)
   }
-};
+}
 
-const setupServices = (reduxStore) => {
-  settings.init(reduxStore);
-  identity.init();
+const setupServices = reduxStore => {
+  settings.init(reduxStore)
+  identity.init()
 
   http.init({
     zendeskHost: getZendeskHost(document),
     version: __EMBEDDABLE_VERSION__
-  });
+  })
 
-  logging.init(settings.getErrorReportingEnabled());
-  GA.init();
-};
+  logging.init(settings.getErrorReportingEnabled())
+  GA.init()
+}
 
 const displayOssAttribution = () => {
-  const message = 'Our embeddable contains third-party, open source software and/or libraries. ' +
-                  'To view them and their license terms, go to http://goto.zendesk.com/embeddable-legal-notices';
+  const message =
+    'Our embeddable contains third-party, open source software and/or libraries. ' +
+    'To view them and their license terms, go to http://goto.zendesk.com/embeddable-legal-notices'
 
-  console.info(message); // eslint-disable-line no-console
-};
+  console.info(message) // eslint-disable-line no-console
+}
 
-const filterEmbeds = (config) => {
-  const features = _.get(document.zendesk, 'web_widget.features');
+const filterEmbeds = config => {
+  const features = _.get(document.zendesk, 'web_widget.features')
 
   // If there are no features available to read, do not do filtering
-  if (!features) return config;
+  if (!features) return config
   // If talk feature isn't available, act as if talk isn't in the config
-  if (!_.includes(features, 'talk') && _.has(config.embeds, 'talk')) delete config.embeds.talk;
+  if (!_.includes(features, 'talk') && _.has(config.embeds, 'talk')) delete config.embeds.talk
   // If chat feature isn't available and new chat is requested, act as if chat isn't in the config
   if (!_.includes(features, 'chat') && config.newChat && _.has(config.embeds, 'zopimChat')) {
-    delete config.embeds.zopimChat;
+    delete config.embeds.zopimChat
   }
 
-  return config;
-};
+  return config
+}
 
 const getConfig = (win, postRenderQueue, reduxStore) => {
-  if (win.zESkipWebWidget) return;
+  if (win.zESkipWebWidget) return
 
-  const configLoadStart = Date.now();
-  const done = (res) => {
-    const config = filterEmbeds(res.body);
+  const configLoadStart = Date.now()
+  const done = res => {
+    const config = filterEmbeds(res.body)
 
     if (config.hostMapping) {
-      http.updateConfig({ hostMapping: config.hostMapping });
+      http.updateConfig({ hostMapping: config.hostMapping })
     }
 
-    tracker.enable();
+    tracker.enable()
 
-    reduxStore.dispatch(updateEmbeddableConfig(res.body));
+    reduxStore.dispatch(updateEmbeddableConfig(res.body))
 
-    beacon.setConfig(config);
+    beacon.setConfig(config)
 
-    webWidgetApi.apiSetup(win, reduxStore, config);
+    webWidgetApi.apiSetup(win, reduxStore, config)
 
     // Only send 1/10 times
     if (Math.random() <= 0.1) {
-      beacon.sendConfigLoadTime(Date.now() - configLoadStart);
+      beacon.sendConfigLoadTime(Date.now() - configLoadStart)
     }
 
     if (win.zESettings) {
-      beacon.trackSettings(settings.getTrackSettings());
+      beacon.trackSettings(settings.getTrackSettings())
     }
 
     if (config.newChat) {
-      zopimApi.setUpZopimApiMethods(win, reduxStore);
+      zopimApi.setUpZopimApiMethods(win, reduxStore)
     }
 
     const renderCallback = () => {
-      renderer.init(config, reduxStore);
-      webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore);
-      beacon.sendPageView();
-    };
-
-    i18n.setLocale(undefined, renderCallback, config.locale);
-  };
-  const fail = (error) => {
-    if (error.status !== 404) {
-      logging.error(error);
+      renderer.init(config, reduxStore)
+      webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore)
+      beacon.sendPageView()
     }
-  };
 
-  const embeddableConfig = persistenceStore.get('embeddableConfig');
+    i18n.setLocale(undefined, renderCallback, config.locale)
+  }
+  const fail = error => {
+    if (error.status !== 404) {
+      logging.error(error)
+    }
+  }
+
+  const embeddableConfig = persistenceStore.get('embeddableConfig')
 
   if (embeddableConfig) {
-    done({ body: embeddableConfig });
-    return;
+    done({ body: embeddableConfig })
+    return
   }
-  http.get({
-    method: 'get',
-    path: '/embeddable/config',
-    callbacks: {
-      done,
-      fail
-    }
-  }, false);
-};
+  http.get(
+    {
+      method: 'get',
+      path: '/embeddable/config',
+      callbacks: {
+        done,
+        fail
+      }
+    },
+    false
+  )
+}
 
-const shouldSendZeDiffBlip = (win) => {
-  return win.zE !== win.zEmbed;
-};
+const shouldSendZeDiffBlip = win => {
+  return win.zE !== win.zEmbed
+}
 
 const start = (win, doc) => {
-  const reduxStore = createStore();
-  const postRenderQueue = [];
-  const { publicApi, devApi } = webWidgetApi.setupLegacyApiQueue(win, postRenderQueue, reduxStore);
+  const reduxStore = createStore()
+  const postRenderQueue = []
+  const { publicApi, devApi } = webWidgetApi.setupLegacyApiQueue(win, postRenderQueue, reduxStore)
 
-  i18n.init(reduxStore);
-  boot.setupIframe(window.frameElement, doc);
-  boot.setupServices(reduxStore);
-  zopimApi.setupZopimQueue(win);
+  i18n.init(reduxStore)
+  boot.setupIframe(window.frameElement, doc)
+  boot.setupServices(reduxStore)
+  zopimApi.setupZopimQueue(win)
 
-  _.extend(win.zEmbed, publicApi, devApi);
+  _.extend(win.zEmbed, publicApi, devApi)
 
-  webWidgetApi.apisExecuteQueue(reduxStore, document.zEQueue);
+  webWidgetApi.apisExecuteQueue(reduxStore, document.zEQueue)
 
-  beacon.init();
-  win.onunload = identity.unload;
+  beacon.init()
+  win.onunload = identity.unload
 
-  webWidgetApi.legacyApiSetup(win, reduxStore);
+  webWidgetApi.legacyApiSetup(win, reduxStore)
 
-  boot.getConfig(win, postRenderQueue, reduxStore, devApi);
+  boot.getConfig(win, postRenderQueue, reduxStore, devApi)
 
-  displayOssAttribution();
+  displayOssAttribution()
 
   if (shouldSendZeDiffBlip(win)) {
-    beacon.trackUserAction('zEmbedFallback', 'warning');
+    beacon.trackUserAction('zEmbedFallback', 'warning')
   }
 
   if (isMobileBrowser()) {
-    initMobileScaling();
+    initMobileScaling()
 
-    win.addEventListener('click', clickBusterHandler, true);
+    win.addEventListener('click', clickBusterHandler, true)
   } else {
-    initResizeMonitor(win);
+    initResizeMonitor(win)
   }
-};
+}
 
 export const boot = {
   start,
@@ -189,4 +187,4 @@ export const boot = {
   setupIframe,
   setupServices,
   getConfig
-};
+}

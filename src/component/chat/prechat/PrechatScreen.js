@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
-import { PrechatForm } from 'component/chat/prechat/PrechatForm';
-import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { DEPARTMENT_STATUSES } from 'constants/chat';
-import * as screens from 'src/redux/modules/chat/chat-screen-types';
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm'
+import { PrechatForm } from 'component/chat/prechat/PrechatForm'
+import { LoadingSpinner } from 'component/loading/LoadingSpinner'
+import { DEPARTMENT_STATUSES } from 'constants/chat'
+import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   sendMsg,
   setDepartment,
@@ -21,7 +21,7 @@ import {
   handlePrechatFormSubmit,
   initiateSocialLogout,
   openedChatHistory
-} from 'src/redux/modules/chat';
+} from 'src/redux/modules/chat'
 import {
   getDepartments,
   getChatScreen,
@@ -33,23 +33,23 @@ import {
   getChatVisitor,
   getIsAuthenticated,
   getReadOnlyState
-} from 'src/redux/modules/chat/chat-selectors';
+} from 'src/redux/modules/chat/chat-selectors'
 import {
   getChatTitle,
   getPrechatFormSettings,
   getPrechatFormFields,
   getChatHistoryLabel
-} from 'src/redux/modules/selectors';
+} from 'src/redux/modules/selectors'
 import {
   getSettingsChatDepartmentsEmpty,
   getSettingsChatDepartmentsEnabled
-} from 'src/redux/modules/settings/settings-selectors';
-import { locals as styles } from './PrechatScreen.scss';
-import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors';
+} from 'src/redux/modules/settings/settings-selectors'
+import { locals as styles } from './PrechatScreen.scss'
+import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
 
-const mapStateToProps = (state) => {
-  const prechatForm = getPrechatFormSettings(state);
-  const prechatFormFields = getPrechatFormFields(state);
+const mapStateToProps = state => {
+  const prechatForm = getPrechatFormSettings(state)
+  const prechatFormFields = getPrechatFormFields(state)
 
   return {
     departments: getDepartments(state),
@@ -68,9 +68,9 @@ const mapStateToProps = (state) => {
     title: getChatTitle(state),
     departmentFieldHidden: getSettingsChatDepartmentsEmpty(state),
     hasChatHistory: getHasChatHistory(state),
-    chatHistoryLabel: getChatHistoryLabel(state),
-  };
-};
+    chatHistoryLabel: getChatHistoryLabel(state)
+  }
+}
 
 class PrechatScreen extends Component {
   static propTypes = {
@@ -105,8 +105,8 @@ class PrechatScreen extends Component {
     fullscreen: PropTypes.bool,
     departmentFieldHidden: PropTypes.bool.isRequired,
     openedChatHistory: PropTypes.func.isRequired,
-    chatHistoryLabel: PropTypes.string.isRequired,
-  };
+    chatHistoryLabel: PropTypes.string.isRequired
+  }
 
   static defaultProps = {
     isMobile: false,
@@ -121,49 +121,51 @@ class PrechatScreen extends Component {
     loginSettings: {},
     departmentFieldHidden: false,
     settingsDepartmentsEnabled: []
-  };
+  }
 
-  onPrechatFormComplete = (info) => {
-    const currentDepartment = parseInt(info.department);
-    const isSelectedDepartmentUnavailable = (!!currentDepartment && !this.props.departments[currentDepartment]);
-    const selectedDepartment = isSelectedDepartmentUnavailable ? undefined : currentDepartment;
+  onPrechatFormComplete = info => {
+    const currentDepartment = parseInt(info.department)
+    const isSelectedDepartmentUnavailable =
+      !!currentDepartment && !this.props.departments[currentDepartment]
+    const selectedDepartment = isSelectedDepartmentUnavailable ? undefined : currentDepartment
 
-    const isSelectedDepartmentOffline = (!!selectedDepartment && !isSelectedDepartmentUnavailable &&
-      this.props.departments[selectedDepartment].status === DEPARTMENT_STATUSES.OFFLINE);
+    const isSelectedDepartmentOffline =
+      !!selectedDepartment &&
+      !isSelectedDepartmentUnavailable &&
+      this.props.departments[selectedDepartment].status === DEPARTMENT_STATUSES.OFFLINE
 
     if (isSelectedDepartmentOffline) {
-      const successCallback = () => this.props.updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN);
-      const failureCallback = () => this.props.updateChatScreen(screens.PRECHAT_SCREEN);
+      const successCallback = () => this.props.updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN)
+      const failureCallback = () => this.props.updateChatScreen(screens.PRECHAT_SCREEN)
 
-      this.props.updateChatScreen(screens.LOADING_SCREEN);
-      this.props.sendOfflineMessage(info, successCallback, failureCallback);
+      this.props.updateChatScreen(screens.LOADING_SCREEN)
+      this.props.sendOfflineMessage(info, successCallback, failureCallback)
     } else {
-      const sendOnlineMessage = () => info.message ? this.props.sendMsg(info.message) : null;
+      const sendOnlineMessage = () => (info.message ? this.props.sendMsg(info.message) : null)
 
       if (this.props.departmentFieldHidden) {
-        if (sendOnlineMessage) sendOnlineMessage();
+        if (sendOnlineMessage) sendOnlineMessage()
       } else if (selectedDepartment) {
-        this.props.setDepartment(
-          selectedDepartment,
-          sendOnlineMessage,
-          sendOnlineMessage
-        );
+        this.props.setDepartment(selectedDepartment, sendOnlineMessage, sendOnlineMessage)
       } else {
-        this.props.clearDepartment(sendOnlineMessage);
+        this.props.clearDepartment(sendOnlineMessage)
       }
       if (info.display_name || info.name || info.email || info.phone) {
         this.props.setVisitorInfo(
-          _.omitBy({
-            display_name: info.display_name || info.name,
-            email: info.email,
-            phone: info.phone
-          }, _.isNil)
-        );
+          _.omitBy(
+            {
+              display_name: info.display_name || info.name,
+              email: info.email,
+              phone: info.phone
+            },
+            _.isNil
+          )
+        )
       }
-      this.props.handlePrechatFormSubmit(info);
+      this.props.handlePrechatFormSubmit(info)
     }
 
-    this.props.resetCurrentMessage();
+    this.props.resetCurrentMessage()
   }
 
   renderChatOfflineForm() {
@@ -172,16 +174,18 @@ class PrechatScreen extends Component {
         title={this.props.title}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.fullscreen}
-        isMobile={this.props.isMobile}>
+        isMobile={this.props.isMobile}
+      >
         <ChatOfflineMessageForm
           offlineMessage={this.props.offlineMessage}
-          onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)} />
+          onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)}
+        />
       </ScrollContainer>
-    );
+    )
   }
 
   renderPreChatForm() {
-    const { form, message, settingsDepartmentsEnabled } = this.props.prechatFormSettings;
+    const { form, message, settingsDepartmentsEnabled } = this.props.prechatFormSettings
 
     return (
       <PrechatForm
@@ -208,8 +212,9 @@ class PrechatScreen extends Component {
         fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
         openedChatHistory={this.props.openedChatHistory}
-        chatHistoryLabel={this.props.chatHistoryLabel} />
-    );
+        chatHistoryLabel={this.props.chatHistoryLabel}
+      />
+    )
   }
 
   renderLoadingSpinner() {
@@ -218,17 +223,21 @@ class PrechatScreen extends Component {
         title={this.props.title}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.fullscreen}
-        isMobile={this.props.isMobile}>
+        isMobile={this.props.isMobile}
+      >
         <LoadingSpinner className={styles.loadingSpinner} />
       </ScrollContainer>
-    );
+    )
   }
 
   render = () => {
     switch (this.props.screen) {
-      case screens.PRECHAT_SCREEN: return this.renderPreChatForm();
-      case screens.LOADING_SCREEN: return this.renderLoadingSpinner();
-      case screens.OFFLINE_MESSAGE_SCREEN: return this.renderChatOfflineForm();
+      case screens.PRECHAT_SCREEN:
+        return this.renderPreChatForm()
+      case screens.LOADING_SCREEN:
+        return this.renderLoadingSpinner()
+      case screens.OFFLINE_MESSAGE_SCREEN:
+        return this.renderChatOfflineForm()
     }
   }
 }
@@ -245,6 +254,11 @@ const actionCreators = {
   handlePrechatFormSubmit,
   initiateSocialLogout,
   openedChatHistory
-};
+}
 
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(PrechatScreen);
+export default connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(PrechatScreen)

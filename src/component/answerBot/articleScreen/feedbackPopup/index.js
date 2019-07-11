@@ -1,27 +1,27 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { i18n } from 'service/i18n';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { i18n } from 'service/i18n'
 
-import { PillButton } from 'src/component/shared/PillButton';
-import { ButtonGroup } from 'component/button/ButtonGroup';
+import { PillButton } from 'src/component/shared/PillButton'
+import { ButtonGroup } from 'component/button/ButtonGroup'
 
-import { locals as styles } from './FeedbackPopup.scss';
+import { locals as styles } from './FeedbackPopup.scss'
 
 class FeedbackPopup extends Component {
   static propTypes = {
     onYesClick: PropTypes.func.isRequired,
     onNoClick: PropTypes.func.isRequired,
     onReasonClick: PropTypes.func.isRequired
-  };
+  }
 
   constructor(props) {
-    super(props);
-    this.state = { showRejectReasons: false };
+    super(props)
+    this.state = { showRejectReasons: false }
   }
 
   handleNoClicked = () => {
-    this.setState({ showRejectReasons: true });
-    this.props.onNoClick();
+    this.setState({ showRejectReasons: true })
+    this.props.onNoClick()
   }
 
   initialOptions = () => {
@@ -37,7 +37,7 @@ class FeedbackPopup extends Component {
           onClick={this.handleNoClicked}
         />
       </ButtonGroup>
-    );
+    )
   }
 
   reasonOptions = () => {
@@ -54,12 +54,12 @@ class FeedbackPopup extends Component {
           onClick={() => this.props.onReasonClick(1)}
         />
       </div>
-    );
+    )
   }
 
   render = () => {
-    const initialOptions = !this.state.showRejectReasons;
-    const titleKey = initialOptions ? 'title' : 'no.reason.title';
+    const initialOptions = !this.state.showRejectReasons
+    const titleKey = initialOptions ? 'title' : 'no.reason.title'
 
     return (
       <div className={styles.container}>
@@ -68,8 +68,8 @@ class FeedbackPopup extends Component {
         </h3>
         {initialOptions ? this.initialOptions() : this.reasonOptions()}
       </div>
-    );
+    )
   }
 }
 
-export default FeedbackPopup;
+export default FeedbackPopup

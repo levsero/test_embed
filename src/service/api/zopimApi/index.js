@@ -1,9 +1,6 @@
-import {
-  setupZopimQueue,
-  handleZopimQueue
-} from './queues';
-import { handleChatSDKInitialized, handleChatConnected } from './callbacks';
-import { setUpZopimApiMethods } from './setup';
+import { setupZopimQueue, handleZopimQueue } from './queues'
+import { handleChatSDKInitialized, handleChatConnected } from './callbacks'
+import { setUpZopimApiMethods } from './setup'
 
 const zopimApi = {
   setupZopimQueue,
@@ -11,6 +8,6 @@ const zopimApi = {
   setUpZopimApiMethods,
   handleChatSDKInitialized,
   handleChatConnected
-};
+}
 
-export default zopimApi;
+export default zopimApi

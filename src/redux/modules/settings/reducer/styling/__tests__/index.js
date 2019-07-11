@@ -1,14 +1,14 @@
-import reducer from '../index';
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types';
+import reducer from '../index'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 
 describe('launcher settings reducer', () => {
-  let defaultState;
-  let result;
+  let defaultState
+  let result
 
   beforeEach(() => {
-    result = {};
-    defaultState = reducer(undefined, { type: '' });
-  });
+    result = {}
+    defaultState = reducer(undefined, { type: '' })
+  })
 
   describe('default state', () => {
     it('is correctly set', () => {
@@ -20,24 +20,24 @@ describe('launcher settings reducer', () => {
         offsetVertical: 0,
         offsetMobileHorizontal: 0,
         offsetMobileVertical: 0
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('when an UPDATE_SETTINGS action is passed', () => {
-    const type = UPDATE_SETTINGS;
+    const type = UPDATE_SETTINGS
 
     describe('when the payload is not a not in state', () => {
       beforeEach(() => {
-        const payload = { webWidget: { notConnected: 'hey' } };
+        const payload = { webWidget: { notConnected: 'hey' } }
 
-        result = reducer(defaultState, { type, payload });
-      });
+        result = reducer(defaultState, { type, payload })
+      })
 
       it('returns the initial state', () => {
-        expect(result).toEqual(defaultState);
-      });
-    });
+        expect(result).toEqual(defaultState)
+      })
+    })
 
     describe('when the payload updates the state', () => {
       beforeEach(() => {
@@ -48,19 +48,19 @@ describe('launcher settings reducer', () => {
               horizontal: 15,
               mobile: {
                 vertical: 20,
-                horizontal: 30,
+                horizontal: 30
               }
             },
             position: {
               vertical: 'top',
-              horizontal: 'left',
+              horizontal: 'left'
             },
             zIndex: 10000
           }
-        };
+        }
 
-        result = reducer(defaultState, { type, payload });
-      });
+        result = reducer(defaultState, { type, payload })
+      })
 
       it('updates the state', () => {
         expect(result).toEqual({
@@ -71,8 +71,8 @@ describe('launcher settings reducer', () => {
           positionHorizontal: 'left',
           positionVertical: 'top',
           zIndex: 10000
-        });
-      });
-    });
-  });
-});
+        })
+      })
+    })
+  })
+})

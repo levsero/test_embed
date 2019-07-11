@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { locals as styles } from './Flag.scss';
+import { locals as styles } from './Flag.scss'
 
 export class Flag extends Component {
   static propTypes = {
     country: PropTypes.string.isRequired,
     className: PropTypes.string
-  };
+  }
 
   render = () => {
     const flagClasses = `
@@ -15,14 +15,15 @@ export class Flag extends Component {
       ${styles.flag}-${this.props.country}
       ${styles.flagCustom}
       ${this.props.className}
-    `;
+    `
 
     return (
       /* eslint max-len: 0 */
-      <img className={flagClasses}
+      <img
+        className={flagClasses}
         alt={this.props.country}
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAAxJREFUeNpjYBjcAAAAoAABjvuxtAAAAABJRU5ErkJggg=="
       />
-    );
+    )
   }
 }

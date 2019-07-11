@@ -6,43 +6,43 @@ describe('chat history selectors', () => {
     getGroupMessages,
     getEventMessage,
     CHAT_MESSAGE_EVENTS,
-    CHAT_SYSTEM_EVENTS;
+    CHAT_SYSTEM_EVENTS
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const chatConstantsPath = basePath('src/constants/chat');
+    const chatConstantsPath = basePath('src/constants/chat')
 
-    CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
-    CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
+    CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS
+    CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS
 
     initMockRegistry({
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS
       }
-    });
+    })
 
-    const chatHistorySelectorsPath = buildSrcPath('redux/modules/chat/chat-history-selectors');
+    const chatHistorySelectorsPath = buildSrcPath('redux/modules/chat/chat-history-selectors')
 
-    mockery.registerAllowable(chatHistorySelectorsPath);
-    const selectors = requireUncached(chatHistorySelectorsPath);
+    mockery.registerAllowable(chatHistorySelectorsPath)
+    const selectors = requireUncached(chatHistorySelectorsPath)
 
-    getHasMoreHistory = selectors.getHasMoreHistory;
-    getHistoryRequestStatus = selectors.getHistoryRequestStatus;
-    getHistoryLength = selectors.getHistoryLength;
-    getHasChatHistory = selectors.getHasChatHistory;
-    getGroupMessages = selectors.getGroupMessages;
-    getEventMessage = selectors.getEventMessage;
-  });
+    getHasMoreHistory = selectors.getHasMoreHistory
+    getHistoryRequestStatus = selectors.getHistoryRequestStatus
+    getHistoryLength = selectors.getHistoryLength
+    getHasChatHistory = selectors.getHasChatHistory
+    getGroupMessages = selectors.getGroupMessages
+    getEventMessage = selectors.getEventMessage
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('getHasMoreHistory', () => {
-    let result;
+    let result
 
     beforeEach(() => {
       result = getHasMoreHistory({
@@ -51,17 +51,16 @@ describe('chat history selectors', () => {
             hasMore: true
           }
         }
-      });
-    });
+      })
+    })
 
     it('returns the has more state', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getHistoryRequestStatus', () => {
-    let result;
+    let result
 
     beforeEach(() => {
       result = getHistoryRequestStatus({
@@ -70,17 +69,16 @@ describe('chat history selectors', () => {
             requestStatus: 'pending'
           }
         }
-      });
-    });
+      })
+    })
 
     it('returns the request status state', () => {
-      expect(result)
-        .toEqual('pending');
-    });
-  });
+      expect(result).toEqual('pending')
+    })
+  })
 
   describe('getHistoryLength', () => {
-    let result;
+    let result
 
     beforeEach(() => {
       const mockState = {
@@ -94,19 +92,18 @@ describe('chat history selectors', () => {
             ])
           }
         }
-      };
+      }
 
-      result = getHistoryLength(mockState);
-    });
+      result = getHistoryLength(mockState)
+    })
 
     it('returns the correct size', () => {
-      expect(result)
-        .toEqual(4);
-    });
-  });
+      expect(result).toEqual(4)
+    })
+  })
 
   describe('getGroupMessages', () => {
-    let result;
+    let result
 
     beforeEach(() => {
       const mockState = {
@@ -120,22 +117,21 @@ describe('chat history selectors', () => {
             ])
           }
         }
-      };
+      }
 
-      result = getGroupMessages(mockState, [5, 7]);
-    });
+      result = getGroupMessages(mockState, [5, 7])
+    })
 
     it('returns the messages in the group', () => {
-      expect(result)
-        .toEqual([
-          { nick: 'agent:123', type: 'chat.msg', timestamp: 5 },
-          { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }
-        ]);
-    });
-  });
+      expect(result).toEqual([
+        { nick: 'agent:123', type: 'chat.msg', timestamp: 5 },
+        { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }
+      ])
+    })
+  })
 
   describe('getEventMessage', () => {
-    let result;
+    let result
 
     beforeEach(() => {
       const mockState = {
@@ -149,51 +145,54 @@ describe('chat history selectors', () => {
             ])
           }
         }
-      };
+      }
 
-      result = getEventMessage(mockState, 3);
-    });
+      result = getEventMessage(mockState, 3)
+    })
 
     it('returns the correct event message', () => {
-      expect(result)
-        .toEqual({ nick: 'visitor:2', type: 'member.join', timestamp: 3 });
-    });
-  });
+      expect(result).toEqual({
+        nick: 'visitor:2',
+        type: 'member.join',
+        timestamp: 3
+      })
+    })
+  })
 
   describe('getHasChatHistory', () => {
-    let result;
+    let result
 
-    const getResult = (entries) => {
+    const getResult = entries => {
       return getHasChatHistory({
         chat: {
           chatHistory: {
             chats: new Map(entries)
           }
         }
-      });
-    };
+      })
+    }
 
     describe('when chat log entries are greater than zero', () => {
       it('returns true', () => {
-        result = getResult([{}, {}]);
+        result = getResult([{}, {}])
 
-        expect(result).toEqual(true);
-      });
-    });
+        expect(result).toEqual(true)
+      })
+    })
 
     describe('when chat log entries are zero', () => {
       it('returns false', () => {
-        result = getResult([]);
+        result = getResult([])
 
-        expect(result).toEqual(false);
-      });
-    });
+        expect(result).toEqual(false)
+      })
+    })
     describe('when chat log entries are null', () => {
       it('returns false', () => {
-        result = getResult(null);
+        result = getResult(null)
 
-        expect(result).toEqual(false);
-      });
-    });
-  });
-});
+        expect(result).toEqual(false)
+      })
+    })
+  })
+})

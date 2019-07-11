@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { locals as styles } from './WidgetLauncher.scss';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { locals as styles } from './WidgetLauncher.scss'
 
-import { Icon } from 'component/Icon';
-import { i18n } from 'service/i18n';
+import { Icon } from 'component/Icon'
+import { i18n } from 'service/i18n'
 import {
   getChatAvailable,
   getTalkOnline,
   getChatOfflineAvailable,
   getHelpCenterAvailable
-} from 'src/redux/modules/selectors';
-import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
-import { launcherClicked } from 'src/redux/modules/base/';
-import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors';
-import { getZopimMessageCount } from 'src/redux/modules/zopimChat/zopimChat-selectors';
-import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors';
+} from 'src/redux/modules/selectors'
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
+import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors'
+import { launcherClicked } from 'src/redux/modules/base/'
+import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors'
+import { getZopimMessageCount } from 'src/redux/modules/zopimChat/zopimChat-selectors'
+import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -32,8 +32,8 @@ const mapStateToProps = (state, ownProps) => {
     launcherLabel: getLauncherLabel(state, ownProps.label),
     unreadMessages: getZopimMessageCount(state),
     showLabelMobile: getSettingsLauncherMobile(state).labelVisible
-  };
-};
+  }
+}
 
 class WidgetLauncher extends Component {
   static propTypes = {
@@ -53,164 +53,179 @@ class WidgetLauncher extends Component {
     chatLabel: PropTypes.string.isRequired,
     unreadMessages: PropTypes.number.isRequired,
     showLabelMobile: PropTypes.bool.isRequired
-  };
+  }
 
   static defaultProps = {
     isMobile: false
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.notificationCount !== prevProps.notificationCount) {
-      this.props.forceUpdateWorld();
+      this.props.forceUpdateWorld()
     }
   }
 
   getTalkLabel = () => {
     if (this.props.callbackEnabled) {
-      return i18n.t('embeddable_framework.launcher.label.talk.request_callback');
+      return i18n.t('embeddable_framework.launcher.label.talk.request_callback')
     } else {
-      return i18n.t('embeddable_framework.launcher.label.talk.call_us');
+      return i18n.t('embeddable_framework.launcher.label.talk.call_us')
     }
   }
 
   getNotificationCount = () => {
-    const { notificationCount, unreadMessages } = this.props;
+    const { notificationCount, unreadMessages } = this.props
 
-    return Math.max(notificationCount, unreadMessages);
+    return Math.max(notificationCount, unreadMessages)
   }
 
   getLabel = () => {
-    const { helpCenterAvailable, talkOnline, chatAvailable, launcherLabel, chatLabel } = this.props;
-    const notificationCount = this.getNotificationCount();
+    const { helpCenterAvailable, talkOnline, chatAvailable, launcherLabel, chatLabel } = this.props
+    const notificationCount = this.getNotificationCount()
 
     if (notificationCount) {
       return notificationCount > 1
-        ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
-        : i18n.t('embeddable_framework.chat.notification');
+        ? i18n.t('embeddable_framework.chat.notification_multiple', {
+            count: notificationCount
+          })
+        : i18n.t('embeddable_framework.chat.notification')
     } else if (chatAvailable && talkOnline) {
-      return launcherLabel;
+      return launcherLabel
     } else if (chatAvailable && !helpCenterAvailable) {
-      return chatLabel;
+      return chatLabel
     } else if (talkOnline && !helpCenterAvailable) {
-      return this.getTalkLabel();
+      return this.getTalkLabel()
     }
-    return launcherLabel;
+    return launcherLabel
   }
 
   getActiveEmbedLabel = () => {
-    const { launcherLabel, chatAvailable, chatLabel, chatOfflineAvailable, activeEmbed } = this.props;
-    const notificationCount = this.getNotificationCount();
+    const {
+      launcherLabel,
+      chatAvailable,
+      chatLabel,
+      chatOfflineAvailable,
+      activeEmbed
+    } = this.props
+    const notificationCount = this.getNotificationCount()
 
     if (notificationCount) {
       return notificationCount > 1
-        ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
-        : i18n.t('embeddable_framework.chat.notification');
+        ? i18n.t('embeddable_framework.chat.notification_multiple', {
+            count: notificationCount
+          })
+        : i18n.t('embeddable_framework.chat.notification')
     }
 
     switch (activeEmbed) {
       case 'ticketSubmissionForm':
       case 'helpCenterForm':
-        return launcherLabel;
+        return launcherLabel
       case 'chat':
       case 'zopimChat':
         if (chatOfflineAvailable) {
-          return launcherLabel;
+          return launcherLabel
         }
         if (chatAvailable) {
-          return chatLabel;
+          return chatLabel
         }
-        return this.getLabel();
+        return this.getLabel()
       case 'talk':
-        return this.getTalkLabel();
+        return this.getTalkLabel()
       default:
-        return this.getLabel();
+        return this.getLabel()
     }
   }
 
   getTitle = () => {
-    const defaultTitle = i18n.t('embeddable_framework.launcher.frame.title');
+    const defaultTitle = i18n.t('embeddable_framework.launcher.frame.title')
 
     switch (this.props.activeEmbed) {
       case 'chat':
       case 'zopimChat':
-        if (this.props.chatAvailable) return i18n.t('embeddable_framework.launcher.chat.title');
-        return defaultTitle;
+        if (this.props.chatAvailable) return i18n.t('embeddable_framework.launcher.chat.title')
+        return defaultTitle
       case 'talk':
-        return i18n.t('embeddable_framework.launcher.talk.title');
+        return i18n.t('embeddable_framework.launcher.talk.title')
       default:
-        return defaultTitle;
+        return defaultTitle
     }
   }
 
   getIconType = () => {
-    const { talkOnline, chatAvailable, chatOfflineAvailable } = this.props;
+    const { talkOnline, chatAvailable, chatOfflineAvailable } = this.props
 
-    if (chatAvailable && talkOnline) return 'Icon';
-    if (chatAvailable && !chatOfflineAvailable) return 'Icon--chat';
-    if (talkOnline) return 'Icon--launcher-talk';
+    if (chatAvailable && talkOnline) return 'Icon'
+    if (chatAvailable && !chatOfflineAvailable) return 'Icon--chat'
+    if (talkOnline) return 'Icon--launcher-talk'
 
-    return 'Icon';
+    return 'Icon'
   }
 
   getActiveEmbedIconType = () => {
     switch (this.props.activeEmbed) {
       case 'ticketSubmissionForm':
-        return 'Icon';
+        return 'Icon'
       case 'chat':
       case 'zopimChat':
-        if (this.props.chatAvailable && !this.props.chatOfflineAvailable) return 'Icon--chat';
-        return this.getIconType();
+        if (this.props.chatAvailable && !this.props.chatOfflineAvailable) return 'Icon--chat'
+        return this.getIconType()
       case 'talk':
-        return 'Icon--launcher-talk';
+        return 'Icon--launcher-talk'
       default:
-        return this.getIconType();
+        return this.getIconType()
     }
   }
 
   render = () => {
-    const { isMobile } = this.props;
-    const baseMobileClasses = isMobile ? styles.wrapperMobile : '';
-    const shouldShowMobileClasses = isMobile && !(this.getNotificationCount() > 0) && !this.props.showLabelMobile;
-    const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
-    const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
-    const type = this.getActiveEmbedIconType();
+    const { isMobile } = this.props
+    const baseMobileClasses = isMobile ? styles.wrapperMobile : ''
+    const shouldShowMobileClasses =
+      isMobile && !(this.getNotificationCount() > 0) && !this.props.showLabelMobile
+    const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : ''
+    const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : ''
+    const type = this.getActiveEmbedIconType()
     /**
      * - Question mark needs to be flipped in RTL languages except Hebrew: https://zendesk.atlassian.net/browse/CE-4044
      * - Chat icon needs to be flipped in all RTL languages: https://zendesk.atlassian.net/browse/CE-4045
      */
-    const locale = i18n.getLocale();
-    const isRTL = i18n.isRTL();
-    const shouldFlipX = (
-      (type === 'Icon' && isRTL && locale !== 'he') ||
-      (type === 'Icon--chat' && isRTL)
-    );
+    const locale = i18n.getLocale()
+    const isRTL = i18n.isRTL()
+    const shouldFlipX =
+      (type === 'Icon' && isRTL && locale !== 'he') || (type === 'Icon--chat' && isRTL)
 
     if (this.props.updateFrameTitle) {
-      this.props.updateFrameTitle(this.getTitle());
+      this.props.updateFrameTitle(this.getTitle())
     }
 
     return (
-      <button className={`${styles.wrapper} ${baseMobileClasses}`}
-        onClick={(e) => { this.props.onClick(e); this.props.launcherClicked(); }}>
-        <Icon
-          type={type}
-          flipX={shouldFlipX}
-          className={`${styles.icon} ${iconMobileClasses}`}
-        />
+      <button
+        className={`${styles.wrapper} ${baseMobileClasses}`}
+        onClick={e => {
+          this.props.onClick(e)
+          this.props.launcherClicked()
+        }}
+      >
+        <Icon type={type} flipX={shouldFlipX} className={`${styles.icon} ${iconMobileClasses}`} />
         <span className={`${styles.label} ${labelMobileClasses}`} data-testid="launcherLabel">
           {this.getActiveEmbedLabel()}
         </span>
       </button>
-    );
+    )
   }
 }
 
 const actionCreators = {
   launcherClicked
-};
+}
 
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WidgetLauncher);
+export default connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(WidgetLauncher)

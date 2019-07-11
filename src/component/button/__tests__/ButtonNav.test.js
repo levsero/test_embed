@@ -1,38 +1,34 @@
-import { render } from 'react-testing-library';
-import React from 'react';
+import { render } from 'react-testing-library'
+import React from 'react'
 
-import { ButtonNav } from '../ButtonNav';
+import { ButtonNav } from '../ButtonNav'
 
-const renderComponent = (props) => {
-  const label = <span>this is a label</span>;
+const renderComponent = props => {
+  const label = <span>this is a label</span>
 
-  return render(<ButtonNav aria-label='blah' label={label} isMobile={false} {...props} />);
-};
+  return render(<ButtonNav aria-label="blah" label={label} isMobile={false} {...props} />)
+}
 
 test('renders the expected classes', () => {
-  const { container } = renderComponent();
+  const { container } = renderComponent()
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 test('renders the expected mobile classes', () => {
-  const { container } = renderComponent({ fullscreen: true });
+  const { container } = renderComponent({ fullscreen: true })
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 test('renders the expected left classes', () => {
-  const { container } = renderComponent({ position: 'left' });
+  const { container } = renderComponent({ position: 'left' })
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 test('renders the expected right classes', () => {
-  const { container } = renderComponent({ position: 'right' });
+  const { container } = renderComponent({ position: 'right' })
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})

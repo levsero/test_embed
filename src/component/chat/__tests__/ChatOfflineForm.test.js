@@ -1,7 +1,7 @@
-import { ChatOfflineForm } from '../ChatOfflineForm';
-import { render } from 'react-testing-library';
-import React from 'react';
-import { OFFLINE_FORM_SCREENS } from 'constants/chat';
+import { ChatOfflineForm } from '../ChatOfflineForm'
+import { render } from 'react-testing-library'
+import React from 'react'
+import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 
 const renderForm = (props = {}) => {
   const defaultProps = {
@@ -17,18 +17,16 @@ const renderForm = (props = {}) => {
     greeting: 'hello fren',
     visitor: {},
     widgetShown: true,
-    chatHistoryLabel: 'Chat History Here',
-  };
+    chatHistoryLabel: 'Chat History Here'
+  }
 
   const combinedProps = {
     ...defaultProps,
     ...props
-  };
+  }
 
-  return render(
-    <ChatOfflineForm {...combinedProps} />
-  );
-};
+  return render(<ChatOfflineForm {...combinedProps} />)
+}
 
 describe('render', () => {
   describe('renderForm', () => {
@@ -41,11 +39,11 @@ describe('render', () => {
             screen: OFFLINE_FORM_SCREENS.MAIN
           },
           title: 'Hello fren'
-        });
+        })
 
-        expect(result.getByText('Chat History Here')).toBeInTheDocument();
-      });
-    });
+        expect(result.getByText('Chat History Here')).toBeInTheDocument()
+      })
+    })
 
     describe('when not authenticated', () => {
       it('does not render the ChatHistoryLink', () => {
@@ -54,11 +52,11 @@ describe('render', () => {
           offlineMessage: {
             screen: OFFLINE_FORM_SCREENS.MAIN
           }
-        });
+        })
 
-        expect(result.queryByText('Chat History Here')).toBeNull();
-      });
-    });
+        expect(result.queryByText('Chat History Here')).toBeNull()
+      })
+    })
 
     describe('when not when does not have history', () => {
       it('does not render the ChatHistoryLink', () => {
@@ -67,10 +65,10 @@ describe('render', () => {
           offlineMessage: {
             screen: OFFLINE_FORM_SCREENS.MAIN
           }
-        });
+        })
 
-        expect(result.queryByText('Chat History Here')).toBeNull();
-      });
-    });
-  });
-});
+        expect(result.queryByText('Chat History Here')).toBeNull()
+      })
+    })
+  })
+})

@@ -1,11 +1,7 @@
-import embeddableConfig from '../talk-embeddable-config';
-import * as actionTypes from 'src/redux/modules/talk/talk-action-types';
-import {
-  CALLBACK_ONLY,
-  PHONE_ONLY,
-  CALLBACK_AND_PHONE
-} from '../../talk-capability-types';
-import { testReducer } from 'src/util/testHelpers';
+import embeddableConfig from '../talk-embeddable-config'
+import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
+import { CALLBACK_ONLY, PHONE_ONLY, CALLBACK_AND_PHONE } from '../../talk-capability-types'
+import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   averageWaitTimeSetting: null,
@@ -15,7 +11,7 @@ const initialState = {
   phoneNumber: '',
   supportedCountries: [],
   connected: false
-};
+}
 
 const mockConfig = {
   averageWaitTimeSetting: null,
@@ -24,7 +20,7 @@ const mockConfig = {
   nickname: 'nickname',
   phoneNumber: '+61412345678',
   supportedCountries: 'CA,ID'
-};
+}
 
 testReducer(embeddableConfig, [
   {
@@ -81,4 +77,4 @@ testReducer(embeddableConfig, [
       connected: true
     }
   }
-]);
+])

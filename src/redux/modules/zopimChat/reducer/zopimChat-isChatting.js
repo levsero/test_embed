@@ -1,15 +1,15 @@
-import { ZOPIM_IS_CHATTING, ZOPIM_END_CHAT } from '../zopimChat-action-types';
+import { ZOPIM_IS_CHATTING, ZOPIM_END_CHAT } from '../zopimChat-action-types'
 
-const initialState = false;
+const initialState = false
 const isChatting = (state = initialState, action) => {
   switch (action.type) {
     case ZOPIM_IS_CHATTING:
-      return true;
+      return true
     case ZOPIM_END_CHAT:
-      return false;
+      return false
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default isChatting;
+export default isChatting

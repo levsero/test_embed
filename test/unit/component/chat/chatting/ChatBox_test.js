@@ -1,11 +1,11 @@
 describe('ChatBox component', () => {
-  let ChatBox;
-  let locale = 'en';
-  let isIos = false;
-  const chatBoxPath = buildSrcPath('component/chat/chatting/ChatBox');
+  let ChatBox
+  let locale = 'en'
+  let isIos = false
+  const chatBoxPath = buildSrcPath('component/chat/chatting/ChatBox')
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './ChatBox.scss': {
@@ -30,189 +30,183 @@ describe('ChatBox component', () => {
       },
       'utility/keyboard': {
         keyCodes: {
-          'a': 65,
-          'ENTER': 13
+          a: 65,
+          ENTER: 13
         }
       },
       'utility/devices': { isIos: () => isIos }
-    });
+    })
 
-    mockery.registerAllowable(chatBoxPath);
-    ChatBox = requireUncached(chatBoxPath).ChatBox;
-  });
+    mockery.registerAllowable(chatBoxPath)
+    ChatBox = requireUncached(chatBoxPath).ChatBox
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('handleChange', () => {
-    let component, updateCurrentMsgSpy;
+    let component, updateCurrentMsgSpy
 
     beforeEach(() => {
-      updateCurrentMsgSpy = jasmine.createSpy();
-      component = instanceRender(<ChatBox handleChatBoxChange={updateCurrentMsgSpy} />);
+      updateCurrentMsgSpy = jasmine.createSpy()
+      component = instanceRender(<ChatBox handleChatBoxChange={updateCurrentMsgSpy} />)
 
-      component.handleChange({ target: { value: '!' } });
-    });
+      component.handleChange({ target: { value: '!' } })
+    })
 
     it('calls handleChatBoxChange prop', () => {
-      expect(updateCurrentMsgSpy)
-        .toHaveBeenCalledWith('!');
-    });
-  });
+      expect(updateCurrentMsgSpy).toHaveBeenCalledWith('!')
+    })
+  })
 
   describe('handleKeyDown', () => {
-    const keyCodes = { enter: 13, a: 65 };
-    let component, sendChatSpy;
-    let event = { keyCode: keyCodes.enter, preventDefault: () => false };
+    const keyCodes = { enter: 13, a: 65 }
+    let component, sendChatSpy
+    let event = { keyCode: keyCodes.enter, preventDefault: () => false }
 
     beforeEach(() => {
-      sendChatSpy = jasmine.createSpy();
-      component = instanceRender(<ChatBox sendChat={sendChatSpy} />);
-    });
+      sendChatSpy = jasmine.createSpy()
+      component = instanceRender(<ChatBox sendChat={sendChatSpy} />)
+    })
 
     describe('when the user presses <Enter>', () => {
       describe('when shift is _not_ pressed simultaneously', () => {
         it('interprets it as a send signal and sends the message', () => {
-          component.handleKeyDown(event);
+          component.handleKeyDown(event)
 
-          expect(sendChatSpy)
-            .toHaveBeenCalled();
-        });
-      });
+          expect(sendChatSpy).toHaveBeenCalled()
+        })
+      })
 
       describe('when shift _is_ pressed simultaneously', () => {
         it('does not send the message and enters a line break', () => {
-          event = _.merge(event, { shiftKey: true });
-          component.handleKeyDown(event);
+          event = _.merge(event, { shiftKey: true })
+          component.handleKeyDown(event)
 
-          expect(sendChatSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-    });
+          expect(sendChatSpy).not.toHaveBeenCalled()
+        })
+      })
+    })
 
-    describe('when the user presses any other key', () =>{
+    describe('when the user presses any other key', () => {
       it('does not send the message', () => {
-        event = _.merge(event, { keyCode: keyCodes.a });
-        component.handleKeyDown(event);
+        event = _.merge(event, { keyCode: keyCodes.a })
+        component.handleKeyDown(event)
 
-        expect(sendChatSpy)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
+        expect(sendChatSpy).not.toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('handleInput', () => {
-    let component;
+    let component
 
     describe('when locale is set to `ja` and the user is on iOS Safari', () => {
       beforeEach(() => {
-        locale = 'ja';
-        isIos = true;
-        component = domRender(<ChatBox />);
-        component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
-      });
+        locale = 'ja'
+        isIos = true
+        component = domRender(<ChatBox />)
+        component.textArea = {
+          scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded')
+        }
+      })
 
       it('triggers scrollIntoViewIfNeeded on the textArea', () => {
-        component.handleInput();
+        component.handleInput()
 
-        expect(component.textArea.scrollIntoViewIfNeeded)
-          .toHaveBeenCalled();
-      });
-    });
+        expect(component.textArea.scrollIntoViewIfNeeded).toHaveBeenCalled()
+      })
+    })
 
     describe('when locale is set to `ja` and the user is not on iOS Safari', () => {
       beforeEach(() => {
-        locale = 'ja';
-        isIos = false;
-        component = domRender(<ChatBox />);
-        component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
-      });
+        locale = 'ja'
+        isIos = false
+        component = domRender(<ChatBox />)
+        component.textArea = {
+          scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded')
+        }
+      })
 
       it('does not triggers scrollIntoViewIfNeeded on the textArea', () => {
-        component.handleInput();
+        component.handleInput()
 
-        expect(component.textArea.scrollIntoViewIfNeeded)
-          .not.toHaveBeenCalled();
-      });
-    });
+        expect(component.textArea.scrollIntoViewIfNeeded).not.toHaveBeenCalled()
+      })
+    })
 
     describe('when locale is set to `en` and the user is on iOS Safari', () => {
       beforeEach(() => {
-        locale = 'en';
-        isIos = true;
-        component = domRender(<ChatBox />);
-        component.textArea = { scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded') };
-      });
+        locale = 'en'
+        isIos = true
+        component = domRender(<ChatBox />)
+        component.textArea = {
+          scrollIntoViewIfNeeded: jasmine.createSpy('scrollIntoViewIfNeeded')
+        }
+      })
 
       it('does not triggers scrollIntoViewIfNeeded on the textArea', () => {
-        component.handleInput();
+        component.handleInput()
 
-        expect(component.textArea.scrollIntoViewIfNeeded)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
+        expect(component.textArea.scrollIntoViewIfNeeded).not.toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('chatBoxTextarea', () => {
-    let component, textarea;
+    let component, textarea
 
     describe('on non-mobile devices', () => {
       beforeEach(() => {
-        component = domRender(<ChatBox isMobile={false} />);
+        component = domRender(<ChatBox isMobile={false} />)
 
-        textarea = component.render().props.children.props.children[1];
-      });
+        textarea = component.render().props.children.props.children[1]
+      })
 
       it('has 3 rows', () => {
-        expect(textarea.props.rows)
-          .toBe(3);
-      });
-    });
+        expect(textarea.props.rows).toBe(3)
+      })
+    })
 
     describe('on mobile devices', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatBox isMobile={true} />);
+        component = instanceRender(<ChatBox isMobile={true} />)
 
-        textarea = component.render().props.children.props.children[1];
-      });
+        textarea = component.render().props.children.props.children[1]
+      })
 
       it('has 1 row', () => {
-        expect(textarea.props.rows)
-          .toBe(1);
-      });
-    });
-  });
+        expect(textarea.props.rows).toBe(1)
+      })
+    })
+  })
 
   describe('Field component', () => {
-    let component, field;
+    let component, field
 
     describe('on non-mobile devices', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatBox isMobile={false} />);
-        field = component.render().props.children.props.children[1];
-      });
+        component = instanceRender(<ChatBox isMobile={false} />)
+        field = component.render().props.children.props.children[1]
+      })
 
       it('passes correct classnames to Field', () => {
-        expect(field.props.className)
-          .toContain('input');
-        expect(field.props.className)
-          .not.toContain('inputMobile');
-      });
-    });
+        expect(field.props.className).toContain('input')
+        expect(field.props.className).not.toContain('inputMobile')
+      })
+    })
 
     describe('on mobile devices', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatBox isMobile={true} />);
-        field = component.render().props.children.props.children[1];
-      });
+        component = instanceRender(<ChatBox isMobile={true} />)
+        field = component.render().props.children.props.children[1]
+      })
 
       it('passes correct classnames to Field', () => {
-        expect(field.props.className)
-          .toContain('input inputMobile');
-      });
-    });
-  });
-});
+        expect(field.props.className).toContain('input inputMobile')
+      })
+    })
+  })
+})

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
 import {
   getAccountSettings,
@@ -9,23 +9,23 @@ import {
   chatWindowOpenOnNavigate,
   chatConnected,
   chatStarted
-} from 'src/redux/modules/chat/chat-actions/actions';
-import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat';
+} from 'src/redux/modules/chat/chat-actions/actions'
+import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat'
 import {
   updateActiveEmbed,
   updateBackButtonVisibility,
   activateRecieved
-} from 'src/redux/modules/base';
+} from 'src/redux/modules/base'
 import {
   IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
   SDK_VISITOR_UPDATE,
   CHAT_SOCIAL_LOGIN_SUCCESS
-} from 'src/redux/modules/chat/chat-action-types';
-import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types';
-import { CONNECTION_STATUSES } from 'src/constants/chat';
-import { audio } from 'service/audio';
-import { mediator } from 'service/mediator';
+} from 'src/redux/modules/chat/chat-action-types'
+import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
+import { audio } from 'service/audio'
+import { mediator } from 'service/mediator'
 import {
   getChatMessagesFromAgents,
   getConnection,
@@ -36,11 +36,11 @@ import {
   getIsChatting as getIsChattingState,
   getLastReadTimestamp,
   hasUnseenAgentMessage
-} from 'src/redux/modules/chat/chat-selectors';
+} from 'src/redux/modules/chat/chat-selectors'
 import {
   getArticleDisplayed,
   getHasSearched
-} from 'src/redux/modules/helpCenter/helpCenter-selectors';
+} from 'src/redux/modules/helpCenter/helpCenter-selectors'
 import {
   getActiveEmbed,
   getWidgetShown,
@@ -49,255 +49,262 @@ import {
   getSubmitTicketEmbed,
   getHasWidgetShown,
   getChatEmbed
-} from 'src/redux/modules/base/base-selectors';
-import { store } from 'service/persistence';
+} from 'src/redux/modules/base/base-selectors'
+import { store } from 'service/persistence'
 import {
   getSettingsMobileNotificationsDisabled,
-  getCookiesDisabled,
-} from 'src/redux/modules/settings/settings-selectors';
-import { getAnswerBotAvailable } from 'src/redux/modules/selectors';
-import { isMobileBrowser } from 'utility/devices';
-import { resetShouldWarn } from 'src/util/nullZChat';
-import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen';
-import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen';
-import onAgentLeave from 'src/redux/middleware/onStateChange/onAgentLeave';
-import onChannelChoiceTransition from 'src/redux/middleware/onStateChange/onChannelChoiceTransition';
-import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger';
-import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange';
-import { updateChatSettings } from 'src/redux/modules/settings/settings-actions';
-import { isPopout } from 'utility/globals';
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types';
+  getCookiesDisabled
+} from 'src/redux/modules/settings/settings-selectors'
+import { getAnswerBotAvailable } from 'src/redux/modules/selectors'
+import { isMobileBrowser } from 'utility/devices'
+import { resetShouldWarn } from 'src/util/nullZChat'
+import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen'
+import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen'
+import onAgentLeave from 'src/redux/middleware/onStateChange/onAgentLeave'
+import onChannelChoiceTransition from 'src/redux/middleware/onStateChange/onChannelChoiceTransition'
+import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger'
+import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange'
+import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
+import { isPopout } from 'utility/globals'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 
-const showOnLoad = _.get(store.get('store'), 'widgetShown');
-const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed');
-const createdAtTimestamp = Date.now();
-let chatAccountSettingsFetched = false;
-let chatNotificationTimeout = null;
+const showOnLoad = _.get(store.get('store'), 'widgetShown')
+const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed')
+const createdAtTimestamp = Date.now()
+let chatAccountSettingsFetched = false
+let chatNotificationTimeout = null
 
 const startChatNotificationTimer = ({ proactive }) => {
   if (chatNotificationTimeout) {
-    clearTimeout(chatNotificationTimeout);
+    clearTimeout(chatNotificationTimeout)
   }
 
-  const timeout = proactive ? 5000 : 3000;
+  const timeout = proactive ? 5000 : 3000
 
   chatNotificationTimeout = setTimeout(() => {
-    mediator.channel.broadcast('webWidget.hideChatNotification');
-  }, timeout);
-};
+    mediator.channel.broadcast('webWidget.hideChatNotification')
+  }, timeout)
+}
 
-const getNewAgentMessage = (state) => {
-  const agentChats = getChatMessagesFromAgents(state);
-  const newAgentMessage = _.last(agentChats);
-  const proactive = getIsProactiveSession(state);
+const getNewAgentMessage = state => {
+  const agentChats = getChatMessagesFromAgents(state)
+  const newAgentMessage = _.last(agentChats)
+  const proactive = getIsProactiveSession(state)
 
-  return { ...newAgentMessage, proactive };
-};
+  return { ...newAgentMessage, proactive }
+}
 
-const isRecentMessage = (agentMessage) => {
-  return agentMessage.timestamp && (agentMessage.timestamp > createdAtTimestamp);
-};
+const isRecentMessage = agentMessage => {
+  return agentMessage.timestamp && agentMessage.timestamp > createdAtTimestamp
+}
 
 const handleNewAgentMessage = (nextState, dispatch) => {
-  const activeEmbed = getActiveEmbed(nextState);
-  const widgetShown = getWidgetShown(nextState);
-  const hasWidgetShown = getHasWidgetShown(nextState);
-  const otherEmbedOpen = widgetShown && activeEmbed !== 'chat';
-  const agentMessage = getNewAgentMessage(nextState);
-  const recentMessage = isRecentMessage(agentMessage);
+  const activeEmbed = getActiveEmbed(nextState)
+  const widgetShown = getWidgetShown(nextState)
+  const hasWidgetShown = getHasWidgetShown(nextState)
+  const otherEmbedOpen = widgetShown && activeEmbed !== 'chat'
+  const agentMessage = getNewAgentMessage(nextState)
+  const recentMessage = isRecentMessage(agentMessage)
 
-  dispatch(newAgentMessageReceived(agentMessage));
+  dispatch(newAgentMessageReceived(agentMessage))
 
   if (hasWidgetShown && recentMessage && getUserSoundSettings(nextState)) {
-    audio.play('incoming_message');
+    audio.play('incoming_message')
   }
 
   if (!widgetShown || otherEmbedOpen) {
-    const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState);
-    const isMobile = isMobileBrowser();
+    const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState)
+    const isMobile = isMobileBrowser()
 
-    if (_.size(getChatMessagesFromAgents(nextState)) === 1
-      && !isMobile
-      && activeEmbed === 'helpCenterForm'
-      && !getHasSearched(nextState)) {
-      dispatch(updateActiveEmbed('chat'));
+    if (
+      _.size(getChatMessagesFromAgents(nextState)) === 1 &&
+      !isMobile &&
+      activeEmbed === 'helpCenterForm' &&
+      !getHasSearched(nextState)
+    ) {
+      dispatch(updateActiveEmbed('chat'))
     }
 
-    startChatNotificationTimer(agentMessage);
+    startChatNotificationTimer(agentMessage)
 
-    if (!widgetShown && recentMessage && agentMessage.proactive && !(isMobile && isMobileNotificationsDisabled)) {
-      mediator.channel.broadcast('newChat.newMessage');
+    if (
+      !widgetShown &&
+      recentMessage &&
+      agentMessage.proactive &&
+      !(isMobile && isMobileNotificationsDisabled)
+    ) {
+      mediator.channel.broadcast('newChat.newMessage')
     }
   }
-};
+}
 
 const onChatConnected = (prevState, nextState, dispatch) => {
-  if (getConnection(prevState) === CONNECTION_STATUSES.CONNECTING
-      && getConnection(nextState) === CONNECTION_STATUSES.CONNECTED) {
-    dispatch(chatConnected());
-    dispatch(updateChatSettings());
+  if (
+    getConnection(prevState) === CONNECTION_STATUSES.CONNECTING &&
+    getConnection(nextState) === CONNECTION_STATUSES.CONNECTED
+  ) {
+    dispatch(chatConnected())
+    dispatch(updateChatSettings())
 
     if (!chatAccountSettingsFetched) {
-      dispatch(getIsChatting());
-      dispatch(getAccountSettings());
-      dispatch(getOperatingHours());
-      chatAccountSettingsFetched = true;
-      mediator.channel.broadcast('newChat.connected', showOnLoad);
+      dispatch(getIsChatting())
+      dispatch(getAccountSettings())
+      dispatch(getOperatingHours())
+      chatAccountSettingsFetched = true
+      mediator.channel.broadcast('newChat.connected', showOnLoad)
     }
   }
-};
+}
 
 const onChatStatus = (action, dispatch) => {
   if (action.type === IS_CHATTING) {
     if (action.payload) {
-      let activeEmbed = storedActiveEmbed;
+      let activeEmbed = storedActiveEmbed
 
-      if (storedActiveEmbed === 'zopimChat') activeEmbed = 'chat';
+      if (storedActiveEmbed === 'zopimChat') activeEmbed = 'chat'
 
       if (activeEmbed) {
-        dispatch(updateActiveEmbed(activeEmbed));
+        dispatch(updateActiveEmbed(activeEmbed))
       }
 
       if (showOnLoad) {
-        dispatch(chatWindowOpenOnNavigate());
+        dispatch(chatWindowOpenOnNavigate())
       }
     }
   }
-};
+}
 
 const onNewChatMessage = (prevState, nextState, dispatch) => {
-  const prev = getChatMessagesFromAgents(prevState);
-  const next = getChatMessagesFromAgents(nextState);
-  const newAgentMessage = next.length > prev.length;
+  const prev = getChatMessagesFromAgents(prevState)
+  const next = getChatMessagesFromAgents(nextState)
+  const newAgentMessage = next.length > prev.length
 
   if (newAgentMessage && hasUnseenAgentMessage(nextState)) {
-    handleNewAgentMessage(nextState, dispatch);
+    handleNewAgentMessage(nextState, dispatch)
   }
-};
+}
 
 const onLastReadTimestampChange = (prevState, nextState, dispatch) => {
-  const prev = getLastReadTimestamp(prevState);
-  const next = getLastReadTimestamp(nextState);
+  const prev = getLastReadTimestamp(prevState)
+  const next = getLastReadTimestamp(nextState)
 
   if (prev !== next && !hasUnseenAgentMessage(nextState)) {
-    dispatch(chatNotificationReset());
+    dispatch(chatNotificationReset())
   }
-};
+}
 
 const onChatStatusChange = (prevState, nextState, dispatch) => {
   if (getChatStatus(prevState) !== getChatStatus(nextState)) {
     if (!getChatOnline(nextState)) {
       if (
-        getSubmitTicketEmbed(nextState)
-        && !getIsChattingState(nextState)
-        && getActiveEmbed(nextState) === 'chat'
-        && !isPopout()) {
-        dispatch(updateActiveEmbed('ticketSubmissionForm'));
+        getSubmitTicketEmbed(nextState) &&
+        !getIsChattingState(nextState) &&
+        getActiveEmbed(nextState) === 'chat' &&
+        !isPopout()
+      ) {
+        dispatch(updateActiveEmbed('ticketSubmissionForm'))
       }
     }
   }
-};
+}
 
 const onChatEnd = (nextState, action, dispatch) => {
   if (action.type === END_CHAT_REQUEST_SUCCESS) {
-    if (
-      !getChatOnline(nextState)
-      && getSubmitTicketEmbed(nextState)
-      && !isPopout()) {
-      dispatch(updateActiveEmbed('ticketSubmissionForm'));
+    if (!getChatOnline(nextState) && getSubmitTicketEmbed(nextState) && !isPopout()) {
+      dispatch(updateActiveEmbed('ticketSubmissionForm'))
     }
     if (getAnswerBotAvailable(nextState)) {
-      dispatch(updateBackButtonVisibility(true));
+      dispatch(updateBackButtonVisibility(true))
     }
   }
-};
+}
 
 const onArticleDisplayed = (prevState, nextState, dispatch) => {
-  const prevDisplay = getArticleDisplayed(prevState);
-  const nextDisplay = getArticleDisplayed(nextState);
+  const prevDisplay = getArticleDisplayed(prevState)
+  const nextDisplay = getArticleDisplayed(nextState)
 
   if (!prevDisplay && nextDisplay) {
-    const ipmWidget = getIPMWidget(prevState);
-    const isBackButtonVisible = ipmWidget ? false : getHelpCenterEmbed(prevState);
-    const widgetShown = getWidgetShown(prevState);
+    const ipmWidget = getIPMWidget(prevState)
+    const isBackButtonVisible = ipmWidget ? false : getHelpCenterEmbed(prevState)
+    const widgetShown = getWidgetShown(prevState)
 
-    dispatch(updateBackButtonVisibility(isBackButtonVisible));
-    if (!widgetShown) dispatch(activateRecieved());
+    dispatch(updateBackButtonVisibility(isBackButtonVisible))
+    if (!widgetShown) dispatch(activateRecieved())
   }
-};
+}
 
 const onVisitorUpdate = ({ type, payload }, dispatch) => {
-  const isVisitorUpdate = (type === SDK_VISITOR_UPDATE);
-  const authObj = _.get(payload, 'detail.auth');
-  const avatarPath = _.get(authObj, 'avatar$string');
-  const isSociallyAuth = _.get(authObj, 'verified$bool');
+  const isVisitorUpdate = type === SDK_VISITOR_UPDATE
+  const authObj = _.get(payload, 'detail.auth')
+  const avatarPath = _.get(authObj, 'avatar$string')
+  const isSociallyAuth = _.get(authObj, 'verified$bool')
 
   if (isVisitorUpdate && isSociallyAuth) {
     dispatch({
       type: CHAT_SOCIAL_LOGIN_SUCCESS,
       payload: avatarPath
-    });
+    })
   }
-};
+}
 
 const onChatStarted = (prevState, nextState, dispatch) => {
-  const previouslyChatting = getIsChattingState(prevState);
-  const currentlyChatting = getIsChattingState(nextState);
-  const answerBot = getAnswerBotAvailable(nextState);
+  const previouslyChatting = getIsChattingState(prevState)
+  const currentlyChatting = getIsChattingState(nextState)
+  const answerBot = getAnswerBotAvailable(nextState)
 
   if (!previouslyChatting && currentlyChatting) {
-    dispatch(chatStarted());
+    dispatch(chatStarted())
 
     if (answerBot) {
-      dispatch(updateBackButtonVisibility(false));
+      dispatch(updateBackButtonVisibility(false))
     }
   }
-};
+}
 
-const onUpdateEmbeddableConfig = (action) => {
+const onUpdateEmbeddableConfig = action => {
   if (action.type === UPDATE_EMBEDDABLE_CONFIG) {
     if (action.payload) {
       if (!action.payload.newChat) {
-        resetShouldWarn();
+        resetShouldWarn()
       }
     }
   }
-};
+}
 
 const onCookiePermissionsChange = (action, prevState, nextState, dispatch) => {
-  const cookieValue = _.get(action.payload, 'webWidget.cookies');
-  const validCookieUpdate = cookieValue !== undefined
-    && cookieValue !== !getCookiesDisabled(prevState);
-    // the setting is true = enabled, the selector is true = disabled -_-
+  const cookieValue = _.get(action.payload, 'webWidget.cookies')
+  const validCookieUpdate =
+    cookieValue !== undefined && cookieValue !== !getCookiesDisabled(prevState)
+  // the setting is true = enabled, the selector is true = disabled -_-
 
-  if (action.type !== UPDATE_SETTINGS || !validCookieUpdate) return;
+  if (action.type !== UPDATE_SETTINGS || !validCookieUpdate) return
 
   if (cookieValue === false) {
-    store.disable();
+    store.disable()
   } else {
-    store.enable();
+    store.enable()
     if (getChatEmbed(nextState) && !getConnection(nextState)) {
-      dispatch(setUpChat());
+      dispatch(setUpChat())
     }
   }
-};
+}
 
 export default function onStateChange(prevState, nextState, action = {}, dispatch = () => {}) {
-  onChatStarted(prevState, nextState, dispatch);
-  onChatStatusChange(prevState, nextState, dispatch);
-  onZopimChatStateChange(prevState, nextState, dispatch);
-  onChatConnected(prevState, nextState, dispatch);
-  onNewChatMessage(prevState, nextState, dispatch);
-  onLastReadTimestampChange(prevState, nextState, dispatch);
-  onArticleDisplayed(prevState, nextState, dispatch);
-  onChatStatus(action, dispatch);
-  onChatEnd(nextState, action, dispatch);
-  onAgentLeave(prevState, nextState, action, dispatch);
-  onVisitorUpdate(action, dispatch);
-  onWidgetOpen(prevState, nextState);
-  onChatOpen(prevState, nextState, dispatch);
-  onUpdateEmbeddableConfig(action);
-  onChannelChoiceTransition(prevState, nextState, action, dispatch);
-  onChatConnectOnDemandTrigger(prevState, action, dispatch);
-  onCookiePermissionsChange(action, prevState, nextState, dispatch);
+  onChatStarted(prevState, nextState, dispatch)
+  onChatStatusChange(prevState, nextState, dispatch)
+  onZopimChatStateChange(prevState, nextState, dispatch)
+  onChatConnected(prevState, nextState, dispatch)
+  onNewChatMessage(prevState, nextState, dispatch)
+  onLastReadTimestampChange(prevState, nextState, dispatch)
+  onArticleDisplayed(prevState, nextState, dispatch)
+  onChatStatus(action, dispatch)
+  onChatEnd(nextState, action, dispatch)
+  onAgentLeave(prevState, nextState, action, dispatch)
+  onVisitorUpdate(action, dispatch)
+  onWidgetOpen(prevState, nextState)
+  onChatOpen(prevState, nextState, dispatch)
+  onUpdateEmbeddableConfig(action)
+  onChannelChoiceTransition(prevState, nextState, action, dispatch)
+  onChatConnectOnDemandTrigger(prevState, action, dispatch)
+  onCookiePermissionsChange(action, prevState, nextState, dispatch)
 }

@@ -1,1 +1,1 @@
-export const sharedStyles = '';
+export const sharedStyles = ''

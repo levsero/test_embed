@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { isMobileBrowser } from 'utility/devices';
-import { i18n } from 'service/i18n';
-import { ICONS } from 'constants/shared';
-import { locals as styles } from './Icon.scss';
-import { keyCodes } from 'utility/keyboard';
-import classNames from 'classnames';
+import { isMobileBrowser } from 'utility/devices'
+import { i18n } from 'service/i18n'
+import { ICONS } from 'constants/shared'
+import { locals as styles } from './Icon.scss'
+import { keyCodes } from 'utility/keyboard'
+import classNames from 'classnames'
 
 const icons = {
-  'Icon': require('icons/widget-icon_help.svg'),
+  Icon: require('icons/widget-icon_help.svg'),
   [ICONS.BACK]: require('icons/widget-icon_back.svg'),
   [ICONS.POPOUT]: require('icons/widget-icon_popout.svg'),
   [ICONS.DASH]: require('icons/widget-icon_dash.svg'),
@@ -65,7 +65,7 @@ const icons = {
   [ICONS.SUCCESS_CONTACT_FORM]: require('icons/widget-icon_success_contactForm.svg'),
   [ICONS.SUCCESS_TALK]: require('icons/widget-icon_success_talk.svg'),
   [ICONS.TALK]: require('icons/widget-icon_talk.svg')
-};
+}
 
 export class Icon extends Component {
   static propTypes = {
@@ -74,32 +74,29 @@ export class Icon extends Component {
     onClick: PropTypes.func,
     type: PropTypes.string,
     flipX: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     isMobile: isMobileBrowser(),
     flipX: false
-  };
+  }
 
   render() {
-    const icon = icons[this.props.type];
-    const iconClasses = classNames(
-      styles.container,
-      this.props.className,
-      this.props.type,
-      {
-        [styles.mobile]: this.props.isMobile,
-        [styles.flipX]: this.props.flipX
-      }
-    );
+    const icon = icons[this.props.type]
+    const iconClasses = classNames(styles.container, this.props.className, this.props.type, {
+      [styles.mobile]: this.props.isMobile,
+      [styles.flipX]: this.props.flipX
+    })
 
     return (
-      <span onClick={this.props.onClick}
+      <span
+        onClick={this.props.onClick}
         data-testid={this.props.type}
         className={iconClasses}
         type={this.props.type}
-        dangerouslySetInnerHTML={{ __html: icon }} />
-    );
+        dangerouslySetInnerHTML={{ __html: icon }}
+      />
+    )
   }
 }
 
@@ -113,7 +110,7 @@ export class IconButton extends Component {
     isMobile: PropTypes.bool,
     onClick: PropTypes.func,
     type: PropTypes.string.isRequired
-  };
+  }
 
   static defaultProps = {
     className: '',
@@ -122,46 +119,41 @@ export class IconButton extends Component {
     disableTooltip: false,
     isMobile: isMobileBrowser(),
     onClick: () => {}
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       showTooltip: false
-    };
+    }
   }
 
   handleMouseOver = () => {
-    this.setState({ showTooltip: true });
+    this.setState({ showTooltip: true })
   }
 
   handleMouseOut = () => {
-    this.setState({ showTooltip: false });
+    this.setState({ showTooltip: false })
   }
 
-  handleKeyDown = (e) => {
+  handleKeyDown = e => {
     if (e.keyCode === keyCodes.ENTER) {
-      this.props.onClick(e, true);
+      this.props.onClick(e, true)
     }
-    e.stopPropagation(); // stops the onClick from also being called
+    e.stopPropagation() // stops the onClick from also being called
   }
 
   render() {
-    const {
-      altText, buttonClassName, disabled, disableTooltip, onClick, ...iconProps
-    } = this.props;
+    const { altText, buttonClassName, disabled, disableTooltip, onClick, ...iconProps } = this.props
 
-    const showTooltip = !disabled && !disableTooltip && this.state.showTooltip;
-    const showTitle = !disabled && (disableTooltip || !this.state.showTooltip);
-    const tooltipClass = i18n.isRTL() ? styles.tooltipRtl : styles.tooltip;
-    const tooltipStyles = classNames(
-      tooltipClass,
-      {
-        [styles.tooltipShown]: showTooltip,
-        [styles.tooltipTransition]: showTooltip
-      }
-    );
+    const showTooltip = !disabled && !disableTooltip && this.state.showTooltip
+    const showTitle = !disabled && (disableTooltip || !this.state.showTooltip)
+    const tooltipClass = i18n.isRTL() ? styles.tooltipRtl : styles.tooltip
+    const tooltipStyles = classNames(tooltipClass, {
+      [styles.tooltipShown]: showTooltip,
+      [styles.tooltipTransition]: showTooltip
+    })
 
     return (
       <div className={styles.wrapper}>
@@ -172,14 +164,13 @@ export class IconButton extends Component {
           onKeyDown={this.handleKeyDown}
           onMouseOver={this.handleMouseOver}
           onMouseOut={this.handleMouseOut}
-          title={showTitle ? altText : null}>
+          title={showTitle ? altText : null}
+        >
           <Icon {...iconProps} />
-          <span className={styles.altText}>
-            {altText}
-          </span>
+          <span className={styles.altText}>{altText}</span>
         </button>
         <div className={tooltipStyles}>{altText}</div>
       </div>
-    );
+    )
   }
 }

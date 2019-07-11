@@ -1,19 +1,19 @@
-import { TALK_VENDOR_LOADED } from '../talk-action-types';
+import { TALK_VENDOR_LOADED } from '../talk-action-types'
 
 const initialState = {
   io: null,
   libphonenumber: null
-};
+}
 
 const vendor = (state = initialState, action = {}) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case TALK_VENDOR_LOADED:
-      return { ...state, ...payload };
+      return { ...state, ...payload }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default vendor;
+export default vendor

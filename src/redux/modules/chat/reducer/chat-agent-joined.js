@@ -2,30 +2,30 @@ import {
   SDK_CHAT_MEMBER_JOIN,
   END_CHAT_REQUEST_SUCCESS,
   SDK_CHAT_MEMBER_LEAVE
-} from '../chat-action-types';
-import { AGENT_BOT } from 'constants/chat';
+} from '../chat-action-types'
+import { AGENT_BOT } from 'constants/chat'
 
-const initialState = false;
+const initialState = false
 
-const isAgent = (nick) => nick.indexOf('agent:') > -1 && nick !== AGENT_BOT;
+const isAgent = nick => nick.indexOf('agent:') > -1 && nick !== AGENT_BOT
 
 const agentJoined = (state = initialState, action) => {
   switch (action.type) {
     case SDK_CHAT_MEMBER_JOIN:
       if (isAgent(action.payload.detail.nick)) {
-        return true;
+        return true
       }
-      return state;
+      return state
     case SDK_CHAT_MEMBER_LEAVE:
       if (!isAgent(action.payload.detail.nick)) {
-        return initialState;
+        return initialState
       }
-      return state;
+      return state
     case END_CHAT_REQUEST_SUCCESS:
-      return initialState;
+      return initialState
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default agentJoined;
+export default agentJoined

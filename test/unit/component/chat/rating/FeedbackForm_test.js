@@ -1,17 +1,16 @@
 describe('FeedbackForm component', () => {
-  let FeedbackForm,
-    mockChatRatings;
+  let FeedbackForm, mockChatRatings
 
-  const FeedbackFormPath = buildSrcPath('component/chat/rating/FeedbackForm');
+  const FeedbackFormPath = buildSrcPath('component/chat/rating/FeedbackForm')
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     mockChatRatings = {
       GOOD: 'good',
       BAD: 'bad',
       NOT_SET: null
-    };
+    }
 
     initMockRegistry({
       './FeedbackForm.scss': {
@@ -23,9 +22,7 @@ describe('FeedbackForm component', () => {
       '@zendeskgarden/react-buttons': {
         Button: class extends Component {
           render() {
-            return (
-              <input disabled={this.props.disabled} className={this.props.className} />
-            );
+            return <input disabled={this.props.disabled} className={this.props.className} />
           }
         }
       },
@@ -41,46 +38,44 @@ describe('FeedbackForm component', () => {
           t: _.noop
         }
       }
-    });
+    })
 
-    mockery.registerAllowable(FeedbackFormPath);
-    FeedbackForm = requireUncached(FeedbackFormPath).FeedbackForm;
-  });
+    mockery.registerAllowable(FeedbackFormPath)
+    FeedbackForm = requireUncached(FeedbackFormPath).FeedbackForm
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('renderActionButtons', () => {
-    let rightButton;
+    let rightButton
 
     describe('when a rating is not yet chosen', () => {
       beforeEach(() => {
-        const component = domRender(<FeedbackForm />);
-        const componentNode = ReactDOM.findDOMNode(component);
+        const component = domRender(<FeedbackForm />)
+        const componentNode = ReactDOM.findDOMNode(component)
 
-        rightButton = componentNode.querySelector('.rightButtonClasses');
-      });
+        rightButton = componentNode.querySelector('.rightButtonClasses')
+      })
 
       it('disables the right action button', () => {
-        expect(rightButton.disabled)
-          .toEqual(true);
-      });
-    });
+        expect(rightButton.disabled).toEqual(true)
+      })
+    })
 
     describe('when a rating is chosen', () => {
       beforeEach(() => {
-        const component = domRender(<FeedbackForm rating={mockChatRatings.GOOD} />);
-        const componentNode = ReactDOM.findDOMNode(component);
+        const component = domRender(<FeedbackForm rating={mockChatRatings.GOOD} />)
+        const componentNode = ReactDOM.findDOMNode(component)
 
-        rightButton = componentNode.querySelector('.rightButtonClasses');
-      });
+        rightButton = componentNode.querySelector('.rightButtonClasses')
+      })
 
       it('enables the right action button', () => {
-        expect(rightButton.disabled)
-          .toEqual(false);
-      });
-    });
-  });
-});
+        expect(rightButton.disabled).toEqual(false)
+      })
+    })
+  })
+})

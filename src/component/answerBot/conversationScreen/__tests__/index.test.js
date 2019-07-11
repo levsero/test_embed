@@ -1,45 +1,42 @@
-import { render } from 'react-testing-library';
-import React from 'react';
+import { render } from 'react-testing-library'
+import React from 'react'
 
-import { Component as ConversationScreen } from '../index';
+import { Component as ConversationScreen } from '../index'
 
 const actions = Object.freeze({
   conversationScreenClosed: jest.fn(),
   updateBackButtonVisibility: jest.fn()
-});
+})
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
     messageGroups: {},
     actions
-  };
+  }
 
   const componentProps = {
     ...defaultProps,
     ...props
-  };
+  }
 
-  return render(<ConversationScreen {...componentProps} />);
-};
+  return render(<ConversationScreen {...componentProps} />)
+}
 
 test('renders messages', () => {
-  const { container } = renderComponent();
+  const { container } = renderComponent()
 
-  expect(container.querySelector('.messages'))
-    .toBeInTheDocument();
-});
+  expect(container.querySelector('.messages')).toBeInTheDocument()
+})
 
 test('calls updateBackButtonVisibility on mount', () => {
-  renderComponent();
+  renderComponent()
 
-  expect(actions.updateBackButtonVisibility)
-    .toHaveBeenCalledWith(false);
-});
+  expect(actions.updateBackButtonVisibility).toHaveBeenCalledWith(false)
+})
 
 test('calls conversationScreenClosed on unmount', () => {
-  const { unmount } = renderComponent();
+  const { unmount } = renderComponent()
 
-  unmount();
-  expect(actions.conversationScreenClosed)
-    .toHaveBeenCalled();
-});
+  unmount()
+  expect(actions.conversationScreenClosed).toHaveBeenCalled()
+})

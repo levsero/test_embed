@@ -1,14 +1,14 @@
-import { PREVIEWER_LOADED } from '../../chat/chat-action-types';
+import { PREVIEWER_LOADED } from '../../chat/chat-action-types'
 
-const initialState = false;
+const initialState = false
 
 const enabled = (state = initialState, action) => {
   switch (action.type) {
     case PREVIEWER_LOADED:
-      return true;
+      return true
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default enabled;
+export default enabled

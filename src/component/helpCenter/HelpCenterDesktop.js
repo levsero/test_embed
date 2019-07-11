@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { Button } from '@zendeskgarden/react-buttons';
-import { ButtonGroup } from 'component/button/ButtonGroup';
-import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoicePopupDesktop';
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { SearchField } from 'component/field/SearchField';
-import { ZendeskLogo } from 'component/ZendeskLogo';
-import { LoadingBarContent } from 'component/loading/LoadingBarContent';
-import { i18n } from 'service/i18n';
-import { LoadingEllipses } from 'component/loading/LoadingEllipses';
+import { Button } from '@zendeskgarden/react-buttons'
+import { ButtonGroup } from 'component/button/ButtonGroup'
+import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoicePopupDesktop'
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { SearchField } from 'component/field/SearchField'
+import { ZendeskLogo } from 'component/ZendeskLogo'
+import { LoadingBarContent } from 'component/loading/LoadingBarContent'
+import { i18n } from 'service/i18n'
+import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 
-import { locals as styles } from './HelpCenterDesktop.scss';
-import classNames from 'classnames';
+import { locals as styles } from './HelpCenterDesktop.scss'
+import classNames from 'classnames'
 
 export class HelpCenterDesktop extends Component {
   static propTypes = {
@@ -42,7 +42,7 @@ export class HelpCenterDesktop extends Component {
     title: PropTypes.string.isRequired,
     buttonLoading: PropTypes.bool,
     contextualHelpRequestNeeded: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     articleViewActive: false,
@@ -60,62 +60,65 @@ export class HelpCenterDesktop extends Component {
     isOnInitialDesktopSearchScreen: false,
     buttonLoading: false,
     contextualHelpRequestNeeded: false
-  };
+  }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
 
-    this.agentMessage = null;
-    this.searchField = null;
+    this.agentMessage = null
+    this.searchField = null
   }
 
   componentDidUpdate = () => {
     if (this.searchField) {
       this.searchField.setState({
         searchInputVal: this.props.searchFieldValue
-      });
+      })
     }
   }
 
   getSearchField() {
-    return this.searchField;
+    return this.searchField
   }
 
   focusField = () => {
     if (!this.props.articleViewActive) {
-      const searchFieldInputNode = this.searchField.getSearchField();
-      const strLength = searchFieldInputNode.value.length;
+      const searchFieldInputNode = this.searchField.getSearchField()
+      const strLength = searchFieldInputNode.value.length
 
-      this.searchField.focus();
+      this.searchField.focus()
 
       if (searchFieldInputNode.setSelectionRange) {
-        searchFieldInputNode.setSelectionRange(strLength, strLength);
+        searchFieldInputNode.setSelectionRange(strLength, strLength)
       }
     }
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.search();
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.search()
   }
 
   renderForm = () => {
-    const { hasSearched, contextualHelpRequestNeeded, hideZendeskLogo } = this.props;
+    const { hasSearched, contextualHelpRequestNeeded, hideZendeskLogo } = this.props
 
     const customSearchContainerClasses = classNames({
-      [styles.onHelpCenterSmallScreen]: !hasSearched && !contextualHelpRequestNeeded && hideZendeskLogo,
-      [styles.onHelpCenterLargeScreen]: hasSearched || contextualHelpRequestNeeded,
-    });
+      [styles.onHelpCenterSmallScreen]:
+        !hasSearched && !contextualHelpRequestNeeded && hideZendeskLogo,
+      [styles.onHelpCenterLargeScreen]: hasSearched || contextualHelpRequestNeeded
+    })
 
     return (
       <form
-        ref='helpCenterForm'
+        ref="helpCenterForm"
         noValidate={true}
         className={styles.form}
-        onSubmit={this.handleSubmit}>
-
+        onSubmit={this.handleSubmit}
+      >
         <SearchField
-          ref={(el) => { this.searchField = el; }}
+          ref={el => {
+            this.searchField = el
+          }}
           fullscreen={false}
           hideZendeskLogo={hideZendeskLogo}
           onChangeValue={this.props.handleOnChangeValue}
@@ -123,123 +126,109 @@ export class HelpCenterDesktop extends Component {
           onSearchIconClick={this.handleSubmit}
           isLoading={this.props.isLoading}
           searchPlaceholder={this.props.searchPlaceholder}
-          customSearchContainerClasses={customSearchContainerClasses} />
+          customSearchContainerClasses={customSearchContainerClasses}
+        />
       </form>
-    );
+    )
   }
 
   renderHeaderContent = () => {
     return this.props.isOnInitialDesktopSearchScreen || this.props.articleViewActive
       ? null
-      : this.renderForm();
+      : this.renderForm()
   }
 
   renderBodyForm = () => {
-    return !this.props.isOnInitialDesktopSearchScreen
-      ? null
-      : this.renderForm();
+    return !this.props.isOnInitialDesktopSearchScreen ? null : this.renderForm()
   }
 
   renderZendeskLogo = () => {
-    return !this.props.hideZendeskLogo
-      ? <ZendeskLogo fullscreen={false} />
-      : null;
+    return !this.props.hideZendeskLogo ? <ZendeskLogo fullscreen={false} /> : null
   }
 
   renderChannelChoice = () => {
-    return (this.props.channelChoiceShown)
-      ? <ChannelChoicePopupDesktop
+    return this.props.channelChoiceShown ? (
+      <ChannelChoicePopupDesktop
         chatOfflineAvailable={this.props.chatOfflineAvailable}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         callbackEnabled={this.props.callbackEnabled}
         chatAvailable={this.props.chatAvailable}
-        onNextClick={this.props.onNextClick} />
-      : null;
+        onNextClick={this.props.onNextClick}
+      />
+    ) : null
   }
 
   renderLoadingAnimation = () => {
-    return (
-      <LoadingEllipses
-        useUserColor={false}
-        itemClassName={styles.loadingAnimation} />
-    );
+    return <LoadingEllipses useUserColor={false} itemClassName={styles.loadingAnimation} />
   }
 
   renderLoadingButton = () => {
-    const buttonStyles = classNames(
-      styles.button,
-      styles.disabledButton
-    );
+    const buttonStyles = classNames(styles.button, styles.disabledButton)
 
     return (
-      <Button
-        primary={true}
-        className={buttonStyles}>
+      <Button primary={true} className={buttonStyles}>
         {this.renderLoadingAnimation()}
       </Button>
-    );
+    )
   }
 
   renderButton = () => {
-    const { channelChoice, buttonLabel, onNextClick, handleNextClick } = this.props;
-    const onClickHandler = channelChoice
-      ? onNextClick
-      : handleNextClick;
+    const { channelChoice, buttonLabel, onNextClick, handleNextClick } = this.props
+    const onClickHandler = channelChoice ? onNextClick : handleNextClick
 
     return (
-      <Button
-        primary={true}
-        onClick={onClickHandler}
-        className={styles.button}>
+      <Button primary={true} onClick={onClickHandler} className={styles.button}>
         {buttonLabel}
       </Button>
-    );
+    )
   }
 
   renderFooterContent = () => {
-    const { showNextButton, buttonLoading } = this.props;
+    const { showNextButton, buttonLoading } = this.props
 
-    return showNextButton && !this.props.isOnInitialDesktopSearchScreen
-      ? (
-        <div className={styles.buttonContainer}>
-          <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
-            {buttonLoading ? this.renderLoadingButton() : this.renderButton()}
-          </ButtonGroup>
-          {this.renderChannelChoice()}
-        </div>
-      )
-      : null;
+    return showNextButton && !this.props.isOnInitialDesktopSearchScreen ? (
+      <div className={styles.buttonContainer}>
+        <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
+          {buttonLoading ? this.renderLoadingButton() : this.renderButton()}
+        </ButtonGroup>
+        {this.renderChannelChoice()}
+      </div>
+    ) : null
   }
 
   renderChildContent() {
-    const { children, isContextualSearchPending, articleViewActive } = this.props;
+    const { children, isContextualSearchPending, articleViewActive } = this.props
 
-    return (isContextualSearchPending && !articleViewActive)
-      ? <LoadingBarContent containerClasses={styles.loadingBars} />
-      : children;
+    return isContextualSearchPending && !articleViewActive ? (
+      <LoadingBarContent containerClasses={styles.loadingBars} />
+    ) : (
+      children
+    )
   }
 
   render = () => {
-    const customHeightClasses = this.props.isOnInitialDesktopSearchScreen ? styles.noCustomHeight : '';
-    let footerClasses = '';
+    const customHeightClasses = this.props.isOnInitialDesktopSearchScreen
+      ? styles.noCustomHeight
+      : ''
+    let footerClasses = ''
 
     if (!this.props.showNextButton) {
       if (this.props.articleViewActive && this.props.hideZendeskLogo) {
-        footerClasses = styles.footerArticleView;
+        footerClasses = styles.footerArticleView
       } else {
-        footerClasses = this.props.hideZendeskLogo ? styles.footer : styles.footerLogo;
+        footerClasses = this.props.hideZendeskLogo ? styles.footer : styles.footerLogo
       }
     }
-    const shadowVisible = (
-      this.props.showNextButton
-      && !this.props.isOnInitialDesktopSearchScreen
-      && !this.props.hideZendeskLogo);
+    const shadowVisible =
+      this.props.showNextButton &&
+      !this.props.isOnInitialDesktopSearchScreen &&
+      !this.props.hideZendeskLogo
 
     return (
       <div>
         <ScrollContainer
-          ref='scrollContainer'
+          ref="scrollContainer"
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={this.props.title}
           classes={customHeightClasses}
@@ -247,12 +236,13 @@ export class HelpCenterDesktop extends Component {
           footerClasses={footerClasses}
           scrollShadowVisible={shadowVisible}
           headerContent={this.renderHeaderContent()}
-          footerContent={this.renderFooterContent()}>
+          footerContent={this.renderFooterContent()}
+        >
           {this.renderBodyForm()}
           {this.renderChildContent()}
         </ScrollContainer>
         {this.renderZendeskLogo()}
       </div>
-    );
+    )
   }
 }

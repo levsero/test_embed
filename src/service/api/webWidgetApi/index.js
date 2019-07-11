@@ -1,12 +1,5 @@
-import {
-  apisExecuteQueue,
-  apisExecutePostRenderQueue,
-  setupLegacyApiQueue
-} from './queues';
-import {
-  legacyApiSetup,
-  apiSetup
-} from './setupLegacyApi';
+import { apisExecuteQueue, apisExecutePostRenderQueue, setupLegacyApiQueue } from './queues'
+import { legacyApiSetup, apiSetup } from './setupLegacyApi'
 
 const webWidgetApi = {
   apisExecuteQueue,
@@ -14,6 +7,6 @@ const webWidgetApi = {
   legacyApiSetup,
   setupLegacyApiQueue,
   apiSetup
-};
+}
 
-export default webWidgetApi;
+export default webWidgetApi

@@ -1,14 +1,14 @@
-import { BOT_GREETED } from '../action-types';
+import { BOT_GREETED } from '../action-types'
 
-const initialState = false;
+const initialState = false
 
 const greeted = (state = initialState, action) => {
   switch (action.type) {
     case BOT_GREETED:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default greeted;
+export default greeted

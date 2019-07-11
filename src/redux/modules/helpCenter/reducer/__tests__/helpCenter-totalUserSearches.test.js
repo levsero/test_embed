@@ -1,7 +1,7 @@
-import totalUserSearches from '../helpCenter-totalUserSearches';
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import totalUserSearches from '../helpCenter-totalUserSearches'
+import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(totalUserSearches, [
   {
@@ -31,4 +31,4 @@ testReducer(totalUserSearches, [
     initialState: 20,
     expected: 0
   }
-]);
+])

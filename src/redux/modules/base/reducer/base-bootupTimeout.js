@@ -1,15 +1,15 @@
-import { BOOT_UP_TIMER_COMPLETE } from '../base-action-types';
+import { BOOT_UP_TIMER_COMPLETE } from '../base-action-types'
 
-const initialState = false;
+const initialState = false
 const bootupTimeout = (state = initialState, action) => {
-  const { type } = action;
+  const { type } = action
 
   switch (type) {
     case BOOT_UP_TIMER_COMPLETE:
-      return true;
+      return true
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default bootupTimeout;
+export default bootupTimeout

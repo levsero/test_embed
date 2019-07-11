@@ -1,14 +1,14 @@
-import { settings } from 'service/settings';
+import { settings } from 'service/settings'
 
 import {
   ARTICLE_VIEWED_PENDING,
   ARTICLE_VIEWED_FULFILLED,
   ARTICLE_VIEWED_REJECTED
-} from '../action-types';
+} from '../action-types'
 
-import { getSessionByID } from 'src/redux/modules/answerBot/sessions/selectors';
+import { getSessionByID } from 'src/redux/modules/answerBot/sessions/selectors'
 
-import { http } from 'service/transport';
+import { http } from 'service/transport'
 
 function articleViewedPending(sessionID, articleID) {
   return {
@@ -17,7 +17,7 @@ function articleViewedPending(sessionID, articleID) {
       sessionID,
       articleID
     }
-  };
+  }
 }
 
 function articleViewedFulfilled(sessionID, articleID) {
@@ -27,7 +27,7 @@ function articleViewedFulfilled(sessionID, articleID) {
       sessionID,
       articleID
     }
-  };
+  }
 }
 
 function articleViewedRejected(error, sessionID, articleID) {
@@ -38,26 +38,26 @@ function articleViewedRejected(error, sessionID, articleID) {
       sessionID,
       articleID
     }
-  };
+  }
 }
 
 export const articleViewed = (sessionID, articleID) => {
   return (dispatch, getState) => {
-    const state = getState();
-    const session = getSessionByID(state, sessionID);
-    const deflectionID = session.deflection.id;
-    const interactionToken = session.interactionToken;
+    const state = getState()
+    const session = getSessionByID(state, sessionID)
+    const deflectionID = session.deflection.id
+    const interactionToken = session.interactionToken
 
-    dispatch(articleViewedPending(sessionID, articleID));
+    dispatch(articleViewedPending(sessionID, articleID))
 
     const callbacks = {
       done: () => {
-        dispatch(articleViewedFulfilled(sessionID, articleID));
+        dispatch(articleViewedFulfilled(sessionID, articleID))
       },
-      fail: (err) => {
-        dispatch(articleViewedRejected(err, sessionID, articleID));
+      fail: err => {
+        dispatch(articleViewedRejected(err, sessionID, articleID))
       }
-    };
+    }
 
     /* eslint-disable camelcase */
     const params = {
@@ -65,7 +65,7 @@ export const articleViewed = (sessionID, articleID) => {
       interaction_access_token: interactionToken,
       article_id: articleID,
       resolution_channel_id: settings.get('viaIdAnswerBot')
-    };
+    }
     /* eslint-enable camelcase */
 
     http.send({
@@ -73,6 +73,6 @@ export const articleViewed = (sessionID, articleID) => {
       method: 'post',
       path: '/api/v2/answer_bot/viewed',
       params
-    });
-  };
-};
+    })
+  }
+}

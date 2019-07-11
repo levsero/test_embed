@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Label } from '@zendeskgarden/react-textfields';
-import { _ } from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Label } from '@zendeskgarden/react-textfields'
+import { _ } from 'lodash'
 
-import { i18n } from 'service/i18n';
-import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n'
+import { Icon } from 'component/Icon'
 
-import { renderLabel } from 'src/util/fields';
-import { locals as styles } from './ChatMessagingChannels.scss';
+import { renderLabel } from 'src/util/fields'
+import { locals as styles } from './ChatMessagingChannels.scss'
 
 const URL_PREFIXES = {
   messenger: 'https://m.me/',
   twitter: 'https://twitter.com/messages/compose?recipient_id='
-};
+}
 
 export class ChatMessagingChannels extends Component {
   static propTypes = {
     channels: PropTypes.object,
     isMobile: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     channels: {},
     isMobile: false
-  };
+  }
 
   renderChannelIcon = (type, pageId) => {
-    const { isMobile } = this.props;
+    const { isMobile } = this.props
 
     return (
       <a
@@ -37,19 +37,19 @@ export class ChatMessagingChannels extends Component {
       >
         <Icon isMobile={isMobile} type={`Icon--${type}`} />
       </a>
-    );
-  };
+    )
+  }
 
   render = () => {
-    const { channels } = this.props;
-    const { facebook, twitter } = channels;
+    const { channels } = this.props
+    const { facebook, twitter } = channels
 
-    if (_.isEmpty(channels)) return null;
+    if (_.isEmpty(channels)) return null
 
-    const { allowed: messengerAllowed, page_id: messengerPageId } = facebook;
-    const { allowed: twitterAllowed, page_id: twitterPageId } = twitter;
+    const { allowed: messengerAllowed, page_id: messengerPageId } = facebook
+    const { allowed: twitterAllowed, page_id: twitterPageId } = twitter
 
-    if (!messengerAllowed && !twitterAllowed) return null;
+    if (!messengerAllowed && !twitterAllowed) return null
 
     return (
       <div className={styles.container}>
@@ -59,6 +59,6 @@ export class ChatMessagingChannels extends Component {
           {twitterAllowed && this.renderChannelIcon('twitter', twitterPageId)}
         </div>
       </div>
-    );
-  };
+    )
+  }
 }

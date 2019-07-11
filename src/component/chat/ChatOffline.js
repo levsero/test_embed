@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { i18n } from 'service/i18n';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { i18n } from 'service/i18n'
 
-import { Button } from '@zendeskgarden/react-buttons';
-import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
-import { ScrollContainer } from 'component/container/ScrollContainer';
+import { Button } from '@zendeskgarden/react-buttons'
+import { ChatOfflineForm } from 'component/chat/ChatOfflineForm'
+import { ScrollContainer } from 'component/container/ScrollContainer'
 import {
   chatOfflineFormChanged,
   sendOfflineMessage,
@@ -13,7 +13,7 @@ import {
   handleOperatingHoursClick,
   initiateSocialLogout,
   openedChatHistory
-} from 'src/redux/modules/chat';
+} from 'src/redux/modules/chat'
 import {
   getChatOfflineForm,
   getOfflineMessage,
@@ -23,25 +23,21 @@ import {
   getAuthUrls,
   getChatVisitor,
   getIsAuthenticated,
-  getReadOnlyState,
-} from 'src/redux/modules/chat/chat-selectors';
-import {
-  getChatHistoryLabel
-} from 'src/redux/modules/selectors';
+  getReadOnlyState
+} from 'src/redux/modules/chat/chat-selectors'
+import { getChatHistoryLabel } from 'src/redux/modules/selectors'
 import {
   getChatTitle,
   getOfflineFormSettings,
   getOfflineFormFields
-} from 'src/redux/modules/selectors';
-import { getWidgetShown } from 'src/redux/modules/base/base-selectors';
-import {
-  getHasChatHistory
-} from 'src/redux/modules/chat/chat-history-selectors';
-import ChatHistoryLink from './ChatHistoryLink';
+} from 'src/redux/modules/selectors'
+import { getWidgetShown } from 'src/redux/modules/base/base-selectors'
+import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
+import ChatHistoryLink from './ChatHistoryLink'
 
-import { locals as styles } from './ChatOffline.scss';
+import { locals as styles } from './ChatOffline.scss'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     readOnlyState: getReadOnlyState(state),
     formState: getChatOfflineForm(state),
@@ -57,9 +53,9 @@ const mapStateToProps = (state) => {
     isAuthenticated: getIsAuthenticated(state),
     widgetShown: getWidgetShown(state),
     title: getChatTitle(state),
-    chatHistoryLabel: getChatHistoryLabel(state),
-  };
-};
+    chatHistoryLabel: getChatHistoryLabel(state)
+  }
+}
 
 class ChatOffline extends Component {
   static propTypes = {
@@ -89,8 +85,8 @@ class ChatOffline extends Component {
     fullscreen: PropTypes.bool.isRequired,
     hasChatHistory: PropTypes.bool.isRequired,
     openedChatHistory: PropTypes.func.isRequired,
-    chatHistoryLabel: PropTypes.string.isRequired,
-  };
+    chatHistoryLabel: PropTypes.string.isRequired
+  }
 
   static defaultProps = {
     handleCloseClick: () => {},
@@ -103,7 +99,7 @@ class ChatOffline extends Component {
     offlineMessage: {},
     getFrameContentDocument: () => ({}),
     loginSettings: {}
-  };
+  }
 
   renderOfflineForm = () => {
     return (
@@ -134,42 +130,42 @@ class ChatOffline extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         hasChatHistory={this.props.hasChatHistory}
         openedChatHistory={this.props.openedChatHistory}
-        chatHistoryLabel={this.props.chatHistoryLabel} />
-    );
+        chatHistoryLabel={this.props.chatHistoryLabel}
+      />
+    )
   }
 
   renderChatOfflineScreen = () => {
     return (
       <ScrollContainer
-        ref='scrollContainer'
+        ref="scrollContainer"
         containerClasses={styles.scrollContainerContent}
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
-        title={this.props.title}>
+        title={this.props.title}
+      >
         <div className={styles.innerContent}>
           <ChatHistoryLink
             isAuthenticated={this.props.isAuthenticated}
             hasChatHistory={this.props.hasChatHistory}
             openedChatHistory={this.props.openedChatHistory}
-            label={this.props.chatHistoryLabel} / >
+            label={this.props.chatHistoryLabel}
+          />
           <p className={styles.greeting}>
             {i18n.t('embeddable_framework.chat.offline.label.noForm')}
           </p>
-          <Button
-            primary={true}
-            onClick={this.props.handleCloseClick}
-            className={styles.button}>
+          <Button primary={true} onClick={this.props.handleCloseClick} className={styles.button}>
             {i18n.t('embeddable_framework.chat.offline.button.close')}
           </Button>
         </div>
       </ScrollContainer>
-    );
+    )
   }
 
   render() {
-    return (this.props.formSettings.enabled) ?
-      this.renderOfflineForm():
-      this.renderChatOfflineScreen();
+    return this.props.formSettings.enabled
+      ? this.renderOfflineForm()
+      : this.renderChatOfflineScreen()
   }
 }
 
@@ -181,6 +177,11 @@ const actionCreators = {
   getGroupedOperatingHours,
   initiateSocialLogout,
   openedChatHistory
-};
+}
 
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatOffline);
+export default connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(ChatOffline)

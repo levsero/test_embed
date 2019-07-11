@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import classNames from 'classnames';
-import Transition from 'react-transition-group/Transition';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import _ from 'lodash'
+import classNames from 'classnames'
+import Transition from 'react-transition-group/Transition'
 
-import { ChatBox } from 'component/chat/chatting/ChatBox';
-import { ChattingFooter } from 'component/chat/chatting/ChattingFooter';
-import ChatLog from 'component/chat/chatting/ChatLog';
-import HistoryLog from 'component/chat/chatting/HistoryLog';
-import { ChatHeader } from 'component/chat/ChatHeader';
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { ButtonPill } from 'component/button/ButtonPill';
-import { LoadingEllipses } from 'component/loading/LoadingEllipses';
-import { ZendeskLogo } from 'component/ZendeskLogo';
-import { QuickReply, QuickReplies } from 'component/shared/QuickReplies';
-import { i18n } from 'service/i18n';
-import { isAgent } from 'utility/chat';
-import { isFirefox, isIE } from 'utility/devices';
+import { ChatBox } from 'component/chat/chatting/ChatBox'
+import { ChattingFooter } from 'component/chat/chatting/ChattingFooter'
+import ChatLog from 'component/chat/chatting/ChatLog'
+import HistoryLog from 'component/chat/chatting/HistoryLog'
+import { ChatHeader } from 'component/chat/ChatHeader'
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { ButtonPill } from 'component/button/ButtonPill'
+import { LoadingEllipses } from 'component/loading/LoadingEllipses'
+import { ZendeskLogo } from 'component/ZendeskLogo'
+import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
+import { i18n } from 'service/i18n'
+import { isAgent } from 'utility/chat'
+import { isFirefox, isIE } from 'utility/devices'
 import {
   sendMsg,
   sendAttachments,
@@ -27,25 +27,25 @@ import {
   resetCurrentMessage,
   markAsRead,
   fetchConversationHistory
-} from 'src/redux/modules/chat';
-import * as screens from 'src/redux/modules/chat/chat-screen-types';
+} from 'src/redux/modules/chat'
+import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   getHistoryLength,
   getHasMoreHistory,
   getHistoryRequestStatus
-} from 'src/redux/modules/chat/chat-history-selectors';
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors';
+} from 'src/redux/modules/chat/chat-history-selectors'
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import {
   getProfileConfig,
   getChatTitle,
   getConciergeSettings,
   getCurrentConcierges,
   isInChattingScreen
-} from 'src/redux/modules/selectors';
-import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
-import { locals as styles } from './ChattingScreen.scss';
+} from 'src/redux/modules/selectors'
+import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
+import { locals as styles } from './ChattingScreen.scss'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     attachmentsEnabled: chatSelectors.getAttachmentsEnabled(state),
     chatsLength: chatSelectors.getChatsLength(state),
@@ -73,8 +73,8 @@ const mapStateToProps = (state) => {
     profileConfig: getProfileConfig(state),
     notificationCount: chatSelectors.getNotificationCount(state),
     visible: isInChattingScreen(state)
-  };
-};
+  }
+}
 
 class ChattingScreen extends Component {
   static propTypes = {
@@ -119,7 +119,7 @@ class ChattingScreen extends Component {
     visible: PropTypes.bool,
     fullscreen: PropTypes.bool,
     endedChatFromFeedbackForm: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     attachmentsEnabled: false,
@@ -149,142 +149,149 @@ class ChattingScreen extends Component {
     notificationCount: 0,
     markAsRead: () => {},
     visible: false
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.scrollContainer = null;
-    this.scrollHeightBeforeUpdate = null;
-    this.scrollToBottomTimer = null;
+    this.scrollContainer = null
+    this.scrollHeightBeforeUpdate = null
+    this.scrollToBottomTimer = null
   }
 
   componentDidMount() {
-    const { chatsLength, historyLength } = this.props;
-    const hasMessages = (chatsLength + historyLength) > 0;
+    const { chatsLength, historyLength } = this.props
+    const hasMessages = chatsLength + historyLength > 0
 
     if (hasMessages) {
-      this.scrollToBottom();
+      this.scrollToBottom()
     }
   }
 
   componentWillUpdate(prevProps) {
-    if (prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
-        this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE) {
-      this.scrollHeightBeforeUpdate = this.scrollContainer.getScrollHeight();
+    if (
+      prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
+      this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE
+    ) {
+      this.scrollHeightBeforeUpdate = this.scrollContainer.getScrollHeight()
     }
   }
 
   componentDidUpdate(prevProps) {
     if (this.scrollContainer) {
-      this.didUpdateFetchHistory();
-      this.didUpdateNewEntry(prevProps);
+      this.didUpdateFetchHistory()
+      this.didUpdateNewEntry(prevProps)
     }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.scrollToBottomTimer);
+    clearTimeout(this.scrollToBottomTimer)
   }
 
   didUpdateFetchHistory = () => {
-    if (!this.scrollHeightBeforeUpdate) return;
+    if (!this.scrollHeightBeforeUpdate) return
 
-    const scrollTop = this.scrollContainer.getScrollTop();
-    const scrollHeight = this.scrollContainer.getScrollHeight();
-    const lengthDifference = scrollHeight - this.scrollHeightBeforeUpdate;
+    const scrollTop = this.scrollContainer.getScrollTop()
+    const scrollHeight = this.scrollContainer.getScrollHeight()
+    const lengthDifference = scrollHeight - this.scrollHeightBeforeUpdate
 
     // When chat history is fetched, we record the scroll just before
     // the component updates in order to adjust the  scrollTop
     // by the difference in container height of pre and post update.
     if (lengthDifference !== 0) {
-      this.scrollContainer.scrollTo(scrollTop + lengthDifference);
-      this.scrollHeightBeforeUpdate = null;
+      this.scrollContainer.scrollTo(scrollTop + lengthDifference)
+      this.scrollHeightBeforeUpdate = null
     }
   }
 
-  didUpdateNewEntry = (prevProps) => {
-    const newMessage = (this.props.chatsLength - prevProps.chatsLength) > 0;
-    const lastUserMessage = this.props.lastMessageAuthor;
-    const scrollCloseToBottom = this.isScrollCloseToBottom();
+  didUpdateNewEntry = prevProps => {
+    const newMessage = this.props.chatsLength - prevProps.chatsLength > 0
+    const lastUserMessage = this.props.lastMessageAuthor
+    const scrollCloseToBottom = this.isScrollCloseToBottom()
 
     if (
-      this.props.visible && scrollCloseToBottom &&
-      (newMessage && isAgent(lastUserMessage) || !prevProps.visible)
+      this.props.visible &&
+      scrollCloseToBottom &&
+      ((newMessage && isAgent(lastUserMessage)) || !prevProps.visible)
     ) {
-      this.props.markAsRead();
+      this.props.markAsRead()
     }
 
-    if ((newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor'))) {
-      this.scrollToBottom();
+    if (newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor')) {
+      this.scrollToBottom()
     }
   }
 
   isScrollCloseToBottom = () => {
-    return (this.scrollContainer)
+    return this.scrollContainer
       ? this.scrollContainer.getScrollBottom() < SCROLL_BOTTOM_THRESHOLD
-      : false;
+      : false
   }
 
   scrollToBottom = () => {
     this.scrollToBottomTimer = setTimeout(() => {
       if (this.scrollContainer) {
-        this.scrollContainer.scrollToBottom();
+        this.scrollContainer.scrollToBottom()
       }
-    }, 0);
+    }, 0)
   }
 
   handleChatScreenScrolled = () => {
-    if (!this.scrollContainer) return;
+    if (!this.scrollContainer) return
 
     if (
       this.scrollContainer.isAtTop() &&
       this.props.hasMoreHistory &&
       this.props.historyRequestStatus !== HISTORY_REQUEST_STATUS.PENDING
     ) {
-      this.props.fetchConversationHistory();
+      this.props.fetchConversationHistory()
     }
 
     if (this.props.visible && this.isScrollCloseToBottom()) {
-      this.props.markAsRead();
+      this.props.markAsRead()
     }
   }
 
   renderQueuePosition = () => {
-    const { queuePosition, activeAgents } = this.props;
+    const { queuePosition, activeAgents } = this.props
 
-    if (!queuePosition || _.size(activeAgents) > 0) return null;
+    if (!queuePosition || _.size(activeAgents) > 0) return null
 
     return (
       <div className={styles.queuePosition}>
-        {i18n.t('embeddable_framework.chat.chatLog.queuePosition', { value: queuePosition })}
+        {i18n.t('embeddable_framework.chat.chatLog.queuePosition', {
+          value: queuePosition
+        })}
       </div>
-    );
+    )
   }
 
   renderAgentTyping = (typingAgents = []) => {
-    let typingNotification;
-    const agentTypingStyles = (this.props.isMobile)
-      ? styles.agentTypingMobile
-      : styles.agentTyping;
-    const noAgentTypingStyles = (this.props.isMobile)
+    let typingNotification
+    const agentTypingStyles = this.props.isMobile ? styles.agentTypingMobile : styles.agentTyping
+    const noAgentTypingStyles = this.props.isMobile
       ? styles.noAgentTypingMobile
-      : styles.noAgentTyping;
+      : styles.noAgentTyping
 
     switch (typingAgents.length) {
-      case 0: return <div className={noAgentTypingStyles} />;
+      case 0:
+        return <div className={noAgentTypingStyles} />
       case 1:
-        const agent = typingAgents[0].display_name;
+        const agent = typingAgents[0].display_name
 
-        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping', { agent });
-        break;
+        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping', { agent })
+        break
       case 2:
         const agent1 = typingAgents[0].display_name,
-          agent2 = typingAgents[1].display_name;
+          agent2 = typingAgents[1].display_name
 
-        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping_two', { agent1, agent2 });
-        break;
+        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping_two', {
+          agent1,
+          agent2
+        })
+        break
       default:
-        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping_multiple');
+        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping_multiple')
     }
 
     return (
@@ -292,49 +299,58 @@ class ChattingScreen extends Component {
         <LoadingEllipses
           useUserColor={false}
           className={styles.loadingEllipses}
-          itemClassName={styles.loadingEllipsesItem} />
+          itemClassName={styles.loadingEllipsesItem}
+        />
         {typingNotification}
       </div>
-    );
+    )
   }
 
   renderHistoryFetching = () => {
-    const { historyRequestStatus } = this.props;
-    const duration = 300;
+    const { historyRequestStatus } = this.props
+    const duration = 300
     const defaultStyle = {
       transition: `opacity ${duration}ms ease-in-out`,
-      opacity: 0,
-    };
+      opacity: 0
+    }
     const transitionStyles = {
       entering: { opacity: 0.9 },
-      entered:  { opacity: 1 },
-    };
+      entered: { opacity: 1 }
+    }
 
     return this.props.historyRequestStatus ? (
       <div className={styles.historyFetchingContainer}>
         <Transition in={historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING} timeout={0}>
-          {(state) => (
+          {state => (
             <div
               style={{ ...defaultStyle, ...transitionStyles[state] }}
-              className={styles.historyFetchingText}>
+              className={styles.historyFetchingText}
+            >
               {i18n.t('embeddable_framework.chat.fetching_history')}
             </div>
           )}
         </Transition>
       </div>
-    ) : null;
+    ) : null
   }
 
   renderChatFooter = () => {
-    const { currentMessage, sendMsg, resetCurrentMessage, handleChatBoxChange, isMobile, menuVisible } = this.props;
+    const {
+      currentMessage,
+      sendMsg,
+      resetCurrentMessage,
+      handleChatBoxChange,
+      isMobile,
+      menuVisible
+    } = this.props
 
     const sendChatFn = () => {
       if (!_.isEmpty(currentMessage.trim())) {
-        sendMsg(currentMessage);
+        sendMsg(currentMessage)
       }
 
-      resetCurrentMessage();
-    };
+      resetCurrentMessage()
+    }
 
     return (
       <ChattingFooter
@@ -345,14 +361,16 @@ class ChattingScreen extends Component {
         isChatting={this.props.isChatting}
         handleAttachmentDrop={this.props.sendAttachments}
         menuVisible={menuVisible}
-        toggleMenu={this.props.toggleMenu}>
+        toggleMenu={this.props.toggleMenu}
+      >
         <ChatBox
           isMobile={isMobile}
           currentMessage={currentMessage}
           sendChat={sendChatFn}
-          handleChatBoxChange={handleChatBoxChange} />
+          handleChatBoxChange={handleChatBoxChange}
+        />
       </ChattingFooter>
-    );
+    )
   }
 
   renderChatHeader = () => {
@@ -364,11 +382,10 @@ class ChattingScreen extends Component {
       updateChatScreen,
       activeAgents,
       profileConfig
-    } = this.props;
-    const showRating = profileConfig.rating && agentJoined;
-    const onAgentDetailsClick = _.size(activeAgents) > 0
-      ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
-      : null;
+    } = this.props
+    const showRating = profileConfig.rating && agentJoined
+    const onAgentDetailsClick =
+      _.size(activeAgents) > 0 ? () => updateChatScreen(screens.AGENT_LIST_SCREEN) : null
 
     return (
       <ChatHeader
@@ -378,73 +395,81 @@ class ChattingScreen extends Component {
         rating={rating.value}
         updateRating={sendChatRating}
         concierges={concierges}
-        onAgentDetailsClick={onAgentDetailsClick} />
-    );
+        onAgentDetailsClick={onAgentDetailsClick}
+      />
+    )
   }
 
   renderZendeskLogo = () => {
-    const logoClasses = classNames(
-      { [styles.zendeskLogoChatMobile]: this.props.isMobile }
-    );
+    const logoClasses = classNames({
+      [styles.zendeskLogoChatMobile]: this.props.isMobile
+    })
 
-    return !this.props.hideZendeskLogo ?
+    return !this.props.hideZendeskLogo ? (
       <ZendeskLogo
         className={`${styles.zendeskLogo} ${logoClasses}`}
         fullscreen={false}
         chatId={this.props.chatId}
-        logoLink='chat'
-      /> : null;
+        logoLink="chat"
+      />
+    ) : null
   }
 
   renderScrollPill = () => {
-    if (this.props.notificationCount === 0) return null;
-    if (this.isScrollCloseToBottom()) return null;
+    if (this.props.notificationCount === 0) return null
+    if (this.isScrollCloseToBottom()) return null
 
-    const { notificationCount } = this.props;
-    const containerStyles = (this.props.isMobile) ? styles.scrollBottomPillMobile : styles.scrollBottomPill;
+    const { notificationCount } = this.props
+    const containerStyles = this.props.isMobile
+      ? styles.scrollBottomPillMobile
+      : styles.scrollBottomPill
     const goToBottomFn = () => {
-      this.scrollToBottom();
-      this.props.markAsRead();
-    };
+      this.scrollToBottom()
+      this.props.markAsRead()
+    }
 
-    const pillLabel = (notificationCount > 1)
-      ? i18n.t('embeddable_framework.common.notification.manyMessages', { plural_number: notificationCount })
-      : i18n.t('embeddable_framework.common.notification.oneMessage');
+    const pillLabel =
+      notificationCount > 1
+        ? i18n.t('embeddable_framework.common.notification.manyMessages', {
+            plural_number: notificationCount
+          })
+        : i18n.t('embeddable_framework.common.notification.oneMessage')
 
     return (
       <ButtonPill
         showIcon={true}
         containerClass={containerStyles}
         onClick={goToBottomFn}
-        label={pillLabel} />
-    );
+        label={pillLabel}
+      />
+    )
   }
 
   /**
    * Render QuickReplies component if one should be shown
    */
   renderQuickReply = () => {
-    const quickReply = this.props.latestQuickReply;
+    const quickReply = this.props.latestQuickReply
 
-    if (!quickReply) return null;
+    if (!quickReply) return null
 
-    const { timestamp, items } = quickReply;
+    const { timestamp, items } = quickReply
 
     return (
       <QuickReplies key={timestamp} isMobile={this.props.isMobile}>
         {items.map((item, idx) => {
-          const { action, text } = item;
-          const actionFn = () => this.props.sendMsg(action.value);
+          const { action, text } = item
+          const actionFn = () => this.props.sendMsg(action.value)
 
-          return <QuickReply key={idx} label={text} onClick={actionFn} />;
+          return <QuickReply key={idx} label={text} onClick={actionFn} />
         })}
       </QuickReplies>
-    );
+    )
   }
 
   goToFeedbackScreen = () => {
-    this.props.updateChatScreen(screens.FEEDBACK_SCREEN);
-  };
+    this.props.updateChatScreen(screens.FEEDBACK_SCREEN)
+  }
 
   render = () => {
     const {
@@ -455,30 +480,29 @@ class ChattingScreen extends Component {
       profileConfig,
       agentJoined,
       fullscreen
-    } = this.props;
+    } = this.props
     const containerClasses = classNames({
-      [styles.headerMargin]: profileConfig.avatar || profileConfig.title || (profileConfig.rating && agentJoined),
+      [styles.headerMargin]:
+        profileConfig.avatar || profileConfig.title || (profileConfig.rating && agentJoined),
       [styles.scrollContainerMessagesContent]: isMobile,
       [styles.scrollContainerMessagesContentDesktop]: !isMobile,
       [styles.scrollContainerMobile]: isMobile,
       [styles.scrollBarFix]: isFirefox() || isIE()
-    });
-    const chatLogContainerClasses = classNames(
-      styles.chatLogContainer,
-      { [styles.chatLogContainerMobile]: isMobile }
-    );
-    const footerClasses = classNames(
-      styles.footer,
-      {
-        [styles.footerMobile]: isMobile,
-        [styles.footerMobileWithLogo]: isMobile && !hideZendeskLogo
-      }
-    );
+    })
+    const chatLogContainerClasses = classNames(styles.chatLogContainer, {
+      [styles.chatLogContainerMobile]: isMobile
+    })
+    const footerClasses = classNames(styles.footer, {
+      [styles.footerMobile]: isMobile,
+      [styles.footerMobileWithLogo]: isMobile && !hideZendeskLogo
+    })
 
     return (
       <div>
         <ScrollContainer
-          ref={(el) => { this.scrollContainer = el; }}
+          ref={el => {
+            this.scrollContainer = el
+          }}
           title={this.props.title}
           onContentScrolled={this.handleChatScreenScrolled}
           headerContent={this.renderChatHeader()}
@@ -487,7 +511,8 @@ class ChattingScreen extends Component {
           footerClasses={footerClasses}
           footerContent={this.renderChatFooter()}
           fullscreen={fullscreen}
-          isMobile={isMobile}>
+          isMobile={isMobile}
+        >
           <div className={chatLogContainerClasses}>
             <HistoryLog
               isMobile={this.props.isMobile}
@@ -514,11 +539,10 @@ class ChattingScreen extends Component {
             {this.renderScrollPill()}
           </div>
           {this.renderQuickReply()}
-
         </ScrollContainer>
         {this.renderZendeskLogo()}
       </div>
-    );
+    )
   }
 }
 
@@ -531,6 +555,11 @@ const actionCreators = {
   sendAttachments,
   sendChatRating,
   markAsRead
-};
+}
 
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChattingScreen);
+export default connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(ChattingScreen)

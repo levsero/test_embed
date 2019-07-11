@@ -1,4 +1,4 @@
-import { i18nTimeFromMinutes } from '../time';
+import { i18nTimeFromMinutes } from '../time'
 
 test.each([
   [0, null, '12:00 AM'],
@@ -6,13 +6,10 @@ test.each([
   [1000, null, '4:40 PM'],
   [720, null, '12:00 PM'],
   [1440, null, '12:00 AM']
-])('i18nTimeFromMinutes(%i, %s)',
-  (timeInMinutes, locale, expected) => {
-    const result = locale
-      ? i18nTimeFromMinutes(timeInMinutes, locale)
-      : i18nTimeFromMinutes(timeInMinutes);
+])('i18nTimeFromMinutes(%i, %s)', (timeInMinutes, locale, expected) => {
+  const result = locale
+    ? i18nTimeFromMinutes(timeInMinutes, locale)
+    : i18nTimeFromMinutes(timeInMinutes)
 
-    expect(result)
-      .toEqual(expected);
-  },
-);
+  expect(result).toEqual(expected)
+})

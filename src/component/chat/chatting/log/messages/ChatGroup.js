@@ -1,26 +1,27 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import chatPropTypes from 'types/chat';
-import classNames from 'classnames';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import chatPropTypes from 'types/chat'
+import classNames from 'classnames'
+import _ from 'lodash'
 
-import { Avatar } from 'component/Avatar';
-import { MessageBubble } from 'component/shared/MessageBubble';
-import { Attachment } from 'component/attachment/Attachment';
-import { MessageError } from 'component/chat/chatting/MessageError';
-import { ImageMessage } from 'component/chat/chatting/ImageMessage';
-import { ICONS, FILETYPE_ICONS } from 'constants/shared';
+import { Avatar } from 'component/Avatar'
+import { MessageBubble } from 'component/shared/MessageBubble'
+import { Attachment } from 'component/attachment/Attachment'
+import { MessageError } from 'component/chat/chatting/MessageError'
+import { ImageMessage } from 'component/chat/chatting/ImageMessage'
+import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import {
   ATTACHMENT_ERROR_TYPES,
-  CHAT_MESSAGE_TYPES, CHAT_STRUCTURED_CONTENT_TYPE
-} from 'constants/chat';
-import { i18n } from 'service/i18n';
-import { locals as styles } from './ChatGroup.scss';
-import { Icon } from 'component/Icon';
-import StructuredMessage from 'component/chat/chatting/StructuredMessage';
-import Carousel from 'component/chat/chatting/Carousel';
+  CHAT_MESSAGE_TYPES,
+  CHAT_STRUCTURED_CONTENT_TYPE
+} from 'constants/chat'
+import { i18n } from 'service/i18n'
+import { locals as styles } from './ChatGroup.scss'
+import { Icon } from 'component/Icon'
+import StructuredMessage from 'component/chat/chatting/StructuredMessage'
+import Carousel from 'component/chat/chatting/Carousel'
 
-const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE);
+const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE)
 
 export default class ChatGroup extends Component {
   static propTypes = {
@@ -34,7 +35,7 @@ export default class ChatGroup extends Component {
     avatarPath: PropTypes.string,
     children: PropTypes.object,
     isMobile: PropTypes.bool.isRequired
-  };
+  }
 
   static defaultProps = {
     messages: [],
@@ -44,12 +45,12 @@ export default class ChatGroup extends Component {
     chatLogCreatedAt: 0,
     socialLogin: {},
     avatarPath: ''
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.container = null;
+    this.container = null
   }
 
   state = {
@@ -57,93 +58,82 @@ export default class ChatGroup extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const hasSocialLoginAvatar = !!props.socialLogin.avatarPath && props.socialLogin.avatarPath !== '';
-    const shouldShowAvatar = props.showAvatar && (props.isAgent || hasSocialLoginAvatar);
+    const hasSocialLoginAvatar =
+      !!props.socialLogin.avatarPath && props.socialLogin.avatarPath !== ''
+    const shouldShowAvatar = props.showAvatar && (props.isAgent || hasSocialLoginAvatar)
 
     if (shouldShowAvatar !== state.shouldShowAvatar) {
-      return { shouldShowAvatar };
+      return { shouldShowAvatar }
     }
 
-    return null;
+    return null
   }
 
   renderName = (isAgent, showAvatar, messages) => {
-    const name = _.get(messages, '0.display_name');
-    const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt;
+    const name = _.get(messages, '0.display_name')
+    const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt
     const nameClasses = classNames({
       [styles.nameAvatar]: showAvatar,
       [styles.nameNoAvatar]: !showAvatar,
       [styles.fadeIn]: shouldAnimate
-    });
+    })
 
-    return isAgent && name ?
-      <div className={nameClasses}>{name}</div> : null;
+    return isAgent && name ? <div className={nameClasses}>{name}</div> : null
   }
 
   renderChatMessages = (isAgent, showAvatar, messages) => {
-    let messageClasses = classNames(
-      styles.message,
-      {
-        [styles.messageUser]: !isAgent,
-        [styles.messageAgent]: isAgent
-      }
-    );
+    let messageClasses = classNames(styles.message, {
+      [styles.messageUser]: !isAgent,
+      [styles.messageAgent]: isAgent
+    })
 
-    return messages.map((chat) => {
-      let message;
+    return messages.map(chat => {
+      let message
 
       if (chat.msg) {
         if (chat.structured_msg && _.includes(structuredMessageTypes, chat.structured_msg.type)) {
-          messageClasses = classNames(
-            messageClasses,
-            styles.structuredMessageContainer
-          );
+          messageClasses = classNames(messageClasses, styles.structuredMessageContainer)
 
-          message = this.renderStructuredMessage(chat.structured_msg);
-        } else if (chat.structured_msg && _.includes(CHAT_STRUCTURED_CONTENT_TYPE.CAROUSEL, chat.structured_msg.type)) {
-          messageClasses = classNames(
-            messageClasses,
-            {
-              [styles.carouselContainer]: !this.props.isMobile,
-              [styles.carouselMobileContainer]: this.props.isMobile
-            }
-          );
+          message = this.renderStructuredMessage(chat.structured_msg)
+        } else if (
+          chat.structured_msg &&
+          _.includes(CHAT_STRUCTURED_CONTENT_TYPE.CAROUSEL, chat.structured_msg.type)
+        ) {
+          messageClasses = classNames(messageClasses, {
+            [styles.carouselContainer]: !this.props.isMobile,
+            [styles.carouselMobileContainer]: this.props.isMobile
+          })
 
-          message = this.renderCarousel(chat.structured_msg.items);
+          message = this.renderCarousel(chat.structured_msg.items)
         } else {
-          message = this.renderPrintedMessage(chat, isAgent, showAvatar);
+          message = this.renderPrintedMessage(chat, isAgent, showAvatar)
         }
       } else if (chat.file || chat.attachment) {
-        message = this.renderInlineAttachment(isAgent, chat);
+        message = this.renderInlineAttachment(isAgent, chat)
       }
 
-      const shouldAnimate = chat.timestamp > this.props.chatLogCreatedAt;
-      const wrapperClasses = classNames(
-        styles.wrapper,
-        {
-          [styles.avatarAgentWrapper]: this.state.shouldShowAvatar && this.props.isAgent,
-          [styles.avatarEndUserWrapper]: this.state.shouldShowAvatar && !this.props.isAgent,
-          [styles.fadeUp]: shouldAnimate
-        }
-      );
+      const shouldAnimate = chat.timestamp > this.props.chatLogCreatedAt
+      const wrapperClasses = classNames(styles.wrapper, {
+        [styles.avatarAgentWrapper]: this.state.shouldShowAvatar && this.props.isAgent,
+        [styles.avatarEndUserWrapper]: this.state.shouldShowAvatar && !this.props.isAgent,
+        [styles.fadeUp]: shouldAnimate
+      })
 
       return (
         <div key={chat.timestamp} className={wrapperClasses}>
-          <div className={messageClasses}>
-            {message}
-          </div>
+          <div className={messageClasses}>{message}</div>
         </div>
-      );
-    });
+      )
+    })
   }
 
   renderMessageBubble = (chat, isAgent, showAvatar) => {
-    const { msg, options, translation } = chat;
+    const { msg, options, translation } = chat
     const messageBubbleClasses = classNames({
       [styles.messageBubble]: showAvatar,
       [styles.userBackground]: !isAgent,
       [styles.agentBackground]: isAgent
-    });
+    })
 
     return (
       <MessageBubble
@@ -153,60 +143,65 @@ export default class ChatGroup extends Component {
         translatedMessage={translation ? translation.msg : ''}
         handleSendMsg={this.props.handleSendMsg}
       />
-    );
+    )
   }
 
   renderErrorMessage = (chat, isAgent, showAvatar) => {
-    const { numFailedTries, msg, timestamp } = chat;
-    const messageError = (numFailedTries === 1)
-      ? (<MessageError
-        errorMessage={i18n.t('embeddable_framework.chat.messagefailed.resend')}
-        handleError={() => this.props.handleSendMsg(msg, timestamp)} />)
-      : <MessageError errorMessage={i18n.t('embeddable_framework.chat.messagefailed.failed_twice')} />;
+    const { numFailedTries, msg, timestamp } = chat
+    const messageError =
+      numFailedTries === 1 ? (
+        <MessageError
+          errorMessage={i18n.t('embeddable_framework.chat.messagefailed.resend')}
+          handleError={() => this.props.handleSendMsg(msg, timestamp)}
+        />
+      ) : (
+        <MessageError
+          errorMessage={i18n.t('embeddable_framework.chat.messagefailed.failed_twice')}
+        />
+      )
 
     return (
       <div>
         {this.renderMessageBubble(chat, isAgent, showAvatar)}
-        <div className={styles.messageErrorContainer}>
-          {messageError}
-        </div>
+        <div className={styles.messageErrorContainer}>{messageError}</div>
       </div>
-    );
+    )
   }
 
   renderDefaultMessage = (chat, isAgent, showAvatar) => {
-    const sentIndicator = (chat.status === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS)
-      ? <Icon className={styles.sentIndicator} type='Icon--mini-tick' />
-      : null;
+    const sentIndicator =
+      chat.status === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS ? (
+        <Icon className={styles.sentIndicator} type="Icon--mini-tick" />
+      ) : null
 
     return (
       <div className={styles.defaultMessageContainer}>
         {sentIndicator}
         {this.renderMessageBubble(chat, isAgent, showAvatar)}
       </div>
-    );
+    )
   }
 
   renderPrintedMessage = (chat, isAgent, showAvatar) => {
-    return (chat.status === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE)
+    return chat.status === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE
       ? this.renderErrorMessage(chat, isAgent, showAvatar)
-      : this.renderDefaultMessage(chat, isAgent, showAvatar);
+      : this.renderDefaultMessage(chat, isAgent, showAvatar)
   }
 
   renderInlineAttachment = (isAgent, chat) => {
-    let inlineAttachment;
+    let inlineAttachment
 
-    const file = chat.file
-      ? chat.file
-      : { ...chat.attachment, type: chat.attachment.mime_type };
-    const extension = file.name.split('.').pop().toUpperCase();
-    const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
-    const isImage = /(gif|jpe?g|png)$/i.test(extension);
+    const file = chat.file ? chat.file : { ...chat.attachment, type: chat.attachment.mime_type }
+    const extension = file.name
+      .split('.')
+      .pop()
+      .toUpperCase()
+    const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT
+    const isImage = /(gif|jpe?g|png)$/i.test(extension)
 
-    const attachmentClasses = classNames(
-      styles.attachment,
-      { [styles.attachmentError]: !!file.error }
-    );
+    const attachmentClasses = classNames(styles.attachment, {
+      [styles.attachmentError]: !!file.error
+    })
 
     inlineAttachment = (
       <Attachment
@@ -219,11 +214,12 @@ export default class ChatGroup extends Component {
         isDownloadable={!file.error && !file.uploading}
         uploading={!file.error && file.uploading}
       />
-    );
+    )
 
     if (file.error && file.error.message) {
-      const errorType = ATTACHMENT_ERROR_TYPES[file.error.message] || ATTACHMENT_ERROR_TYPES.UNKNOWN_ERROR;
-      const errorMessage = i18n.t(`embeddable_framework.chat.attachments.error.${errorType}`);
+      const errorType =
+        ATTACHMENT_ERROR_TYPES[file.error.message] || ATTACHMENT_ERROR_TYPES.UNKNOWN_ERROR
+      const errorMessage = i18n.t(`embeddable_framework.chat.attachments.error.${errorType}`)
 
       return (
         <div>
@@ -232,14 +228,15 @@ export default class ChatGroup extends Component {
             <MessageError
               className={styles.attachmentErrorMessageContainer}
               messageErrorClasses={styles.attachmentMessageError}
-              errorMessage={errorMessage} />
+              errorMessage={errorMessage}
+            />
           </div>
         </div>
-      );
+      )
     }
 
     if (!file.uploading && isImage) {
-      const placeholderEl = !isAgent ? inlineAttachment : null;
+      const placeholderEl = !isAgent ? inlineAttachment : null
 
       return (
         <ImageMessage
@@ -247,47 +244,45 @@ export default class ChatGroup extends Component {
           placeholderEl={placeholderEl}
           onImageLoad={this.props.onImageLoad}
         />
-      );
+      )
     }
 
-    return inlineAttachment;
+    return inlineAttachment
   }
 
-  renderAvatar = (messages) => {
-    if (!this.state.shouldShowAvatar) return;
+  renderAvatar = messages => {
+    if (!this.state.shouldShowAvatar) return
 
-    const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt;
+    const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt
     const avatarPath = this.props.isAgent
       ? this.props.avatarPath
-      : this.props.socialLogin.avatarPath;
+      : this.props.socialLogin.avatarPath
     const avatarClasses = classNames({
       [styles.avatar]: true,
       [styles.agentAvatar]: this.props.isAgent,
       [styles.endUserAvatar]: !this.props.isAgent,
       [styles.fadeIn]: shouldAnimate
-    });
+    })
 
-    return (<Avatar
-      className={avatarClasses}
-      src={avatarPath}
-      fallbackIcon='Icon--agent-avatar'
-    />);
+    return <Avatar className={avatarClasses} src={avatarPath} fallbackIcon="Icon--agent-avatar" />
   }
 
-  renderStructuredMessage = (schema) => {
-    return (<StructuredMessage schema={schema} isMobile={this.props.isMobile}/>);
+  renderStructuredMessage = schema => {
+    return <StructuredMessage schema={schema} isMobile={this.props.isMobile} />
   }
 
-  renderCarousel = (items) => {
-    return (<Carousel items={items} isMobile={this.props.isMobile}/>);
+  renderCarousel = items => {
+    return <Carousel items={items} isMobile={this.props.isMobile} />
   }
 
   render() {
-    const { isAgent, messages, showAvatar } = this.props;
+    const { isAgent, messages, showAvatar } = this.props
 
     return (
       <div
-        ref={(el) => { this.container = el; }}
+        ref={el => {
+          this.container = el
+        }}
         className={styles.container}
       >
         {this.renderName(isAgent, showAvatar, messages)}
@@ -295,6 +290,6 @@ export default class ChatGroup extends Component {
         {this.renderAvatar(messages)}
         {this.props.children}
       </div>
-    );
+    )
   }
 }

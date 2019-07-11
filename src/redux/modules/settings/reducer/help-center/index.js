@@ -1,5 +1,5 @@
-import { UPDATE_SETTINGS } from '../../settings-action-types';
-import _ from 'lodash';
+import { UPDATE_SETTINGS } from '../../settings-action-types'
+import _ from 'lodash'
 
 const initialState = {
   originalArticleButton: true,
@@ -12,12 +12,12 @@ const initialState = {
   messageButton: null,
   searchPlaceholder: null,
   title: null
-};
+}
 
-const maxLocaleFallbacks = 3;
+const maxLocaleFallbacks = 3
 
 const helpCenter = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case UPDATE_SETTINGS:
@@ -32,15 +32,23 @@ const helpCenter = (state = initialState, action) => {
           maxLocaleFallbacks
         ),
         sectionFilter: _.get(payload, 'webWidget.helpCenter.filter.section', state.sectionFilter),
-        categoryFilter: _.get(payload, 'webWidget.helpCenter.filter.category', state.categoryFilter),
+        categoryFilter: _.get(
+          payload,
+          'webWidget.helpCenter.filter.category',
+          state.categoryFilter
+        ),
         labelFilter: _.get(payload, 'webWidget.helpCenter.filter.label_names', state.labeFilter),
         messageButton: _.get(payload, 'webWidget.helpCenter.messageButton', state.messageButton),
-        searchPlaceholder: _.get(payload, 'webWidget.helpCenter.searchPlaceholder', state.searchPlaceholder),
-        title: _.get(payload, 'webWidget.helpCenter.title', state.title),
-      };
+        searchPlaceholder: _.get(
+          payload,
+          'webWidget.helpCenter.searchPlaceholder',
+          state.searchPlaceholder
+        ),
+        title: _.get(payload, 'webWidget.helpCenter.title', state.title)
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default helpCenter;
+export default helpCenter

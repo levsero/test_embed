@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import _ from 'lodash'
 
-import { Button } from '@zendeskgarden/react-buttons';
-import { ButtonGroup } from 'component/button/ButtonGroup';
+import { Button } from '@zendeskgarden/react-buttons'
+import { ButtonGroup } from 'component/button/ButtonGroup'
 
 export class Form extends Component {
   static propTypes = {
@@ -16,7 +16,7 @@ export class Form extends Component {
     onCompleted: PropTypes.func,
     onChange: PropTypes.func,
     submitButtonClasses: PropTypes.string
-  };
+  }
 
   static defaultProps = {
     formState: {},
@@ -28,56 +28,53 @@ export class Form extends Component {
     onCompleted: () => {},
     onChange: () => {},
     submitButtonClasses: ''
-  };
+  }
 
   constructor() {
-    super();
+    super()
 
     this.state = {
       valid: false
-    };
+    }
 
-    this.form = null;
+    this.form = null
   }
 
   componentDidMount = () => {
-    this.validate();
+    this.validate()
   }
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
+  handleFormSubmit = e => {
+    e.preventDefault()
 
-    this.props.onCompleted(this.props.formState);
+    this.props.onCompleted(this.props.formState)
   }
 
-  handleFormChange = (e) => {
-    const { name, value } = e.target;
-    const fieldState = { [name]: value };
-    const formState = { ...this.props.formState, ...fieldState };
+  handleFormChange = e => {
+    const { name, value } = e.target
+    const fieldState = { [name]: value }
+    const formState = { ...this.props.formState, ...fieldState }
 
-    this.validate();
-    this.props.onChange(formState);
+    this.validate()
+    this.props.onChange(formState)
   }
 
   renderSubmitButton = () => {
     return (
       <ButtonGroup fullscreen={this.props.isMobile} rtl={this.props.rtl}>
-        <Button
-          primary={true}
-          className={this.props.submitButtonClasses}
-          type='submit'>
+        <Button primary={true} className={this.props.submitButtonClasses} type="submit">
           {this.props.submitButtonLabel}
         </Button>
       </ButtonGroup>
-    );
+    )
   }
 
   isFormValid = () => {
-    return this.form.checkValidity() && !_.isEmpty(this.props.formState);
+    return this.form.checkValidity() && !_.isEmpty(this.props.formState)
   }
 
   validate() {
-    this.setState({ valid: this.isFormValid() });
+    this.setState({ valid: this.isFormValid() })
   }
 
   render = () => {
@@ -86,11 +83,12 @@ export class Form extends Component {
         noValidate={true}
         onSubmit={this.handleFormSubmit}
         onChange={this.handleFormChange}
-        ref={(el) => this.form = el}
-        className={this.props.className}>
+        ref={el => (this.form = el)}
+        className={this.props.className}
+      >
         {this.props.children}
         {this.renderSubmitButton()}
       </form>
-    );
+    )
   }
 }

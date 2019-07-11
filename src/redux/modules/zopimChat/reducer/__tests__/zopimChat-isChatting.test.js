@@ -1,6 +1,6 @@
-import isChatting from '../zopimChat-isChatting';
-import { ZOPIM_IS_CHATTING, ZOPIM_END_CHAT } from '../../zopimChat-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import isChatting from '../zopimChat-isChatting'
+import { ZOPIM_IS_CHATTING, ZOPIM_END_CHAT } from '../../zopimChat-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(isChatting, [
   {
@@ -21,4 +21,4 @@ testReducer(isChatting, [
     initialState: true,
     expected: false
   }
-]);
+])

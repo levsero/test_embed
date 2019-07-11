@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
-import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
-import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
-import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
-import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
-import { i18n } from 'service/i18n';
-import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors';
+import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle'
+import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop'
+import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile'
+import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults'
+import { i18n } from 'service/i18n'
+import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors'
 import {
   handleArticleClick,
   performSearch,
@@ -18,7 +18,7 @@ import {
   addRestrictedImage,
   handleSearchFieldChange,
   handleSearchFieldFocus
-} from 'src/redux/modules/helpCenter';
+} from 'src/redux/modules/helpCenter'
 import {
   getActiveArticle,
   getResultsLocale,
@@ -34,12 +34,9 @@ import {
   getIsContextualSearchPending,
   getIsContextualSearchComplete,
   getContextualHelpRequestNeeded
-} from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import {
-  getNotificationCount,
-  getIsChatting,
-} from 'src/redux/modules/chat/chat-selectors';
+} from 'src/redux/modules/helpCenter/helpCenter-selectors'
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
+import { getNotificationCount, getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 import {
   getIsOnInitialDesktopSearchScreen,
   getMaxWidgetHeight,
@@ -49,15 +46,15 @@ import {
   getSettingsHelpCenterTitle,
   getContactOptionsButton,
   getChatConnectionConnecting
-} from 'src/redux/modules/selectors';
-import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter';
+} from 'src/redux/modules/selectors'
+import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
 
 const mapStateToProps = (state, ownProps) => {
-  const buttonLabelKey = (ownProps.buttonLabelKey || 'message');
-  const messageButtonLabelKey = `embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`;
+  const buttonLabelKey = ownProps.buttonLabelKey || 'message'
+  const messageButtonLabelKey = `embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`
 
-  const formTitleKey = (ownProps.formTitleKey || 'help');
-  const titleKey = `embeddable_framework.helpCenter.form.title.${formTitleKey}`;
+  const formTitleKey = ownProps.formTitleKey || 'help'
+  const titleKey = `embeddable_framework.helpCenter.form.title.${formTitleKey}`
 
   return {
     resultsLocale: getResultsLocale(state),
@@ -86,8 +83,8 @@ const mapStateToProps = (state, ownProps) => {
     contactButtonLabel: getContactOptionsButton(state),
     chatConnecting: getChatConnectionConnecting(state),
     contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state)
-  };
-};
+  }
+}
 
 class HelpCenter extends Component {
   static propTypes = {
@@ -138,7 +135,7 @@ class HelpCenter extends Component {
     title: PropTypes.string.isRequired,
     contactButtonLabel: PropTypes.string.isRequired,
     chatConnecting: PropTypes.bool.isRequired
-  };
+  }
 
   static defaultProps = {
     callbackEnabled: false,
@@ -166,66 +163,64 @@ class HelpCenter extends Component {
     isChatting: false,
     isOnInitialDesktopSearchScreen: true,
     chatConnecting: false
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       images: []
-    };
+    }
 
-    this.helpCenterMobile = null;
-    this.helpCenterDesktop = null;
-    this.helpCenterResults = null;
+    this.helpCenterMobile = null
+    this.helpCenterDesktop = null
+    this.helpCenterResults = null
   }
 
   componentDidUpdate() {
     if (this.props.articles.length > 0) {
       if (this.helpCenterMobile) {
-        this.helpCenterMobile.setIntroScreen();
+        this.helpCenterMobile.setIntroScreen()
       }
     }
   }
 
   pauseAllVideos = () => {
-    const componentNode = ReactDOM.findDOMNode(this);
-    const videoList = componentNode.getElementsByTagName('video');
+    const componentNode = ReactDOM.findDOMNode(this)
+    const videoList = componentNode.getElementsByTagName('video')
 
-    _.forEach(videoList, (videoElem) => {
-      videoElem.pause();
-    });
+    _.forEach(videoList, videoElem => {
+      videoElem.pause()
+    })
   }
 
   getHelpCenterComponent = () => {
-    return (this.props.isMobile)
-      ? this.helpCenterMobile
-      : this.helpCenterDesktop;
+    return this.props.isMobile ? this.helpCenterMobile : this.helpCenterDesktop
   }
 
   interactiveSearchSuccessFn = () => {
-    this.props.showBackButton(false);
-    this.focusOnFirstResult();
+    this.props.showBackButton(false)
+    this.focusOnFirstResult()
   }
 
   focusField = () => {
     if (this.helpCenterDesktop) {
-      this.helpCenterDesktop.focusField();
+      this.helpCenterDesktop.focusField()
     }
   }
 
   focusOnFirstResult() {
     if (this.helpCenterDesktop && this.helpCenterResults) {
-      this.helpCenterResults.focusField();
+      this.helpCenterResults.focusField()
     }
   }
 
   search = () => {
-    const searchField = this.getHelpCenterComponent().getSearchField();
-    const searchTerm = searchField.getValue();
+    const searchField = this.getHelpCenterComponent().getSearchField()
+    const searchTerm = searchField.getValue()
 
     if (_.isEmpty(searchTerm)) {
-      return;
+      return
     }
 
     /* eslint camelcase:0 */
@@ -234,14 +229,14 @@ class HelpCenter extends Component {
       query: searchTerm,
       per_page: MAXIMUM_SEARCH_RESULTS,
       origin: 'web_widget'
-    };
+    }
 
-    this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
+    this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn)
 
     if (this.props.isMobile) {
       setTimeout(() => {
-        searchField.blur();
-      }, 1);
+        searchField.blur()
+      }, 1)
     }
   }
 
@@ -251,40 +246,40 @@ class HelpCenter extends Component {
     // try the search with no locale (injects an empty string into localeFallbacks).
     const localeFallbacks = !_.isEmpty(this.props.localeFallbacks)
       ? this.props.localeFallbacks.slice()
-      : [''];
+      : ['']
     const failFn = () => {
-      this.focusField();
-    };
-    const doneFn = (res) => {
+      this.focusField()
+    }
+    const doneFn = res => {
       if (res.ok) {
         if (res.body.count > 0 || _.isEmpty(localeFallbacks)) {
-          successFn();
+          successFn()
         } else {
-          query.locale = localeFallbacks.shift();
-          this.props.performSearch(_.pickBy(query), doneFn, failFn);
+          query.locale = localeFallbacks.shift()
+          this.props.performSearch(_.pickBy(query), doneFn, failFn)
         }
       } else {
-        this.focusOnFirstResult();
+        this.focusOnFirstResult()
       }
-    };
+    }
 
-    this.props.performSearch(query, doneFn, failFn);
+    this.props.performSearch(query, doneFn, failFn)
   }
 
-  handleNextClick = (e) => {
-    e.preventDefault();
+  handleNextClick = e => {
+    e.preventDefault()
 
-    this.props.onNextClick();
+    this.props.onNextClick()
   }
 
   resetState = () => {
-    this.helpCenterMobile.resetState();
+    this.helpCenterMobile.resetState()
   }
 
   handleArticleClick = (articleIndex, e) => {
-    e.preventDefault();
-    this.props.handleArticleClick(this.props.articles[articleIndex]);
-    this.props.showBackButton();
+    e.preventDefault()
+    this.props.handleArticleClick(this.props.articles[articleIndex])
+    this.props.showBackButton()
   }
 
   renderResults = () => {
@@ -301,15 +296,17 @@ class HelpCenter extends Component {
       hasSearched,
       contextualHelpRequestNeeded,
       articles
-    } = this.props;
+    } = this.props
 
-    if (articleViewActive || (!hasSearched && !contextualHelpRequestNeeded)) return null;
+    if (articleViewActive || (!hasSearched && !contextualHelpRequestNeeded)) return null
 
-    const applyPadding = !showNextButton && !hideZendeskLogo;
+    const applyPadding = !showNextButton && !hideZendeskLogo
 
     return (
       <HelpCenterResults
-        ref={(ref)=> { this.helpCenterResults = ref; }}
+        ref={ref => {
+          this.helpCenterResults = ref
+        }}
         fullscreen={fullscreen}
         articles={articles}
         applyPadding={applyPadding}
@@ -323,12 +320,13 @@ class HelpCenter extends Component {
         hideZendeskLogo={hideZendeskLogo}
         isMobile={this.props.isMobile}
         contextualHelpRequestNeeded={contextualHelpRequestNeeded}
-        hasSearched={hasSearched} />
-    );
+        hasSearched={hasSearched}
+      />
+    )
   }
 
   renderArticles = () => {
-    if (!this.props.articleViewActive) return null;
+    if (!this.props.articleViewActive) return null
 
     return (
       <HelpCenterArticle
@@ -340,14 +338,17 @@ class HelpCenter extends Component {
         imagesSender={this.props.performImageSearch}
         updateStoredImages={this.props.addRestrictedImage}
         fullscreen={this.props.fullscreen}
-        isMobile={this.props.isMobile} />
-    );
+        isMobile={this.props.isMobile}
+      />
+    )
   }
 
-  renderHelpCenterDesktop = (buttonLabel) => {
+  renderHelpCenterDesktop = buttonLabel => {
     return (
       <HelpCenterDesktop
-        ref={(el) => { this.helpCenterDesktop = el; }}
+        ref={el => {
+          this.helpCenterDesktop = el
+        }}
         isOnInitialDesktopSearchScreen={this.props.isOnInitialDesktopSearchScreen}
         chatOfflineAvailable={this.props.chatOfflineAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
@@ -374,18 +375,21 @@ class HelpCenter extends Component {
         updateChatScreen={this.props.updateChatScreen}
         maxWidgetHeight={this.props.maxWidgetHeight}
         searchPlaceholder={this.props.searchPlaceholder}
-        contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}>
+        contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}
+      >
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>
-    );
+    )
   }
 
-  renderHelpCenterMobile = (buttonLabel) => {
+  renderHelpCenterMobile = buttonLabel => {
     return (
       <HelpCenterMobile
         buttonLoading={this.props.chatConnecting}
-        ref={(el) => { this.helpCenterMobile = el; }}
+        ref={el => {
+          this.helpCenterMobile = el
+        }}
         chatOfflineAvailable={this.props.chatOfflineAvailable}
         handleOnChangeValue={this.props.handleSearchFieldChange}
         onSearchFieldFocus={this.props.handleSearchFieldFocus}
@@ -408,11 +412,12 @@ class HelpCenter extends Component {
         buttonLabel={buttonLabel}
         title={this.props.title}
         contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}
-        searchPlaceholder={this.props.searchPlaceholder}>
+        searchPlaceholder={this.props.searchPlaceholder}
+      >
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterMobile>
-    );
+    )
   }
 
   chatLabel = () => {
@@ -421,16 +426,18 @@ class HelpCenter extends Component {
       chatButtonLabel,
       chatNotificationCount,
       chatOfflineAvailable
-    } = this.props;
+    } = this.props
 
     if (chatNotificationCount > 0) {
       return chatNotificationCount > 1
-        ? i18n.t('embeddable_framework.common.notification.manyMessages', { plural_number: chatNotificationCount })
-        : i18n.t('embeddable_framework.common.notification.oneMessage');
+        ? i18n.t('embeddable_framework.common.notification.manyMessages', {
+            plural_number: chatNotificationCount
+          })
+        : i18n.t('embeddable_framework.common.notification.oneMessage')
     } else if (chatOfflineAvailable) {
-      return messageButtonLabel;
+      return messageButtonLabel
     }
-    return chatButtonLabel;
+    return chatButtonLabel
   }
 
   buttonLabel = () => {
@@ -443,34 +450,30 @@ class HelpCenter extends Component {
       callbackEnabled,
       messageButtonLabel,
       contactButtonLabel
-    } = this.props;
+    } = this.props
 
     if (isChatting) {
-      return this.chatLabel();
+      return this.chatLabel()
     } else if (channelChoice) {
-      return contactButtonLabel;
+      return contactButtonLabel
     } else if (chatAvailable || chatOfflineAvailable) {
-      return this.chatLabel();
+      return this.chatLabel()
     } else if (talkOnline) {
       return callbackEnabled
         ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
-        : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone');
+        : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone')
     }
-    return messageButtonLabel;
+    return messageButtonLabel
   }
 
   render = () => {
-    const buttonLabel = this.buttonLabel();
+    const buttonLabel = this.buttonLabel()
 
-    const helpCenter = (this.props.isMobile)
+    const helpCenter = this.props.isMobile
       ? this.renderHelpCenterMobile(buttonLabel)
-      : this.renderHelpCenterDesktop(buttonLabel);
+      : this.renderHelpCenterDesktop(buttonLabel)
 
-    return (
-      <div>
-        {helpCenter}
-      </div>
-    );
+    return <div>{helpCenter}</div>
   }
 }
 
@@ -482,11 +485,13 @@ const actionCreators = {
   performImageSearch,
   handleOriginalArticleClicked,
   addRestrictedImage
-};
+}
 
-const connectedComponent = connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);
+const connectedComponent = connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(HelpCenter)
 
-export {
-  connectedComponent as default,
-  HelpCenter as Component
-};
+export { connectedComponent as default, HelpCenter as Component }

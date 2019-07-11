@@ -1,24 +1,24 @@
 describe('EmbedWrapper', () => {
-  let EmbedWrapper;
+  let EmbedWrapper
 
-  const EmbedWrapperPath = buildSrcPath('component/frame/EmbedWrapper');
+  const EmbedWrapperPath = buildSrcPath('component/frame/EmbedWrapper')
 
   class MockChildComponent extends Component {
     constructor(props) {
-      super(props);
+      super(props)
     }
     render() {
-      return <div className='mock-component' />;
+      return <div className="mock-component" />
     }
   }
 
-  const hostDocumentFocusSpy = jasmine.createSpy('hostDocumentFocus');
+  const hostDocumentFocusSpy = jasmine.createSpy('hostDocumentFocus')
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
-      'React': React,
+      React: React,
       'utility/color/styles': {},
       'utility/globals': {
         document: global.document,
@@ -30,65 +30,63 @@ describe('EmbedWrapper', () => {
                 querySelector: () => ({ focus: noop })
               }
             })
-          };
+          }
         }
       },
       'component/frame/Navigation': noopReactComponent(),
       'src/redux/modules/selectors': {
         getColor: noop
       },
-      'lodash': _,
+      lodash: _,
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['isRTL'])
       },
       './gardenOverrides': {
         getGardenOverrides: noop
       }
-    });
+    })
 
-    EmbedWrapper = requireUncached(EmbedWrapperPath).EmbedWrapper;
-  });
+    EmbedWrapper = requireUncached(EmbedWrapperPath).EmbedWrapper
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('render', () => {
-    let instance, styleBlock, rootElem;
+    let instance, styleBlock, rootElem
 
     beforeEach(() => {
       instance = domRender(
         <EmbedWrapper
           popoutButtonVisible={() => {}}
           reduxStore={{ getState: () => {} }}
-          baseCSS='.base-css-file {}'>
+          baseCSS=".base-css-file {}"
+        >
           <MockChildComponent />
         </EmbedWrapper>
-      );
+      )
 
-      spyOn(instance, 'handleOnCloseFocusChange');
-      rootElem = ReactDOM.findDOMNode(instance);
-      styleBlock = rootElem.getElementsByTagName('style')[0];
-    });
+      spyOn(instance, 'handleOnCloseFocusChange')
+      rootElem = ReactDOM.findDOMNode(instance)
+      styleBlock = rootElem.getElementsByTagName('style')[0]
+    })
 
     it('adds a <style> block to the iframe document', () => {
-      expect(styleBlock.innerHTML)
-        .toContain('.base-css-file {}');
-    });
+      expect(styleBlock.innerHTML).toContain('.base-css-file {}')
+    })
 
     it('renders the child in the wrapper', () => {
-      expect(instance.embed.firstChild.className)
-        .toBe('mock-component');
-    });
+      expect(instance.embed.firstChild.className).toBe('mock-component')
+    })
 
     it('adds a rootComponent ref to that child', () => {
-      expect(instance.refs.rootComponent)
-        .toBeDefined();
-    });
+      expect(instance.refs.rootComponent).toBeDefined()
+    })
 
     describe('on keypress', () => {
-      let target, targetId, keypressId;
+      let target, targetId, keypressId
 
       beforeEach(() => {
         target = {
@@ -99,66 +97,67 @@ describe('EmbedWrapper', () => {
               }
             }
           }
-        };
+        }
 
-        TestUtils.Simulate.keyDown(rootElem, { key: 'Escape', keyCode: keypressId, which: keypressId, target });
-      });
+        TestUtils.Simulate.keyDown(rootElem, {
+          key: 'Escape',
+          keyCode: keypressId,
+          which: keypressId,
+          target
+        })
+      })
 
       describe('when ESC is pressed', () => {
         beforeAll(() => {
-          keypressId = 27;
-        });
+          keypressId = 27
+        })
 
         describe('when webWidget is focused', () => {
           beforeAll(() => {
-            targetId = 'webWidget';
-          });
+            targetId = 'webWidget'
+          })
 
           it('calls handleOnCloseFocusChange', () => {
-            expect(instance.handleOnCloseFocusChange)
-              .toHaveBeenCalled();
-          });
-        });
+            expect(instance.handleOnCloseFocusChange).toHaveBeenCalled()
+          })
+        })
 
         describe('when launcher is focused', () => {
           beforeAll(() => {
-            targetId = 'launcher';
-          });
+            targetId = 'launcher'
+          })
 
           it('does not call handleOnCloseFocusChange', () => {
-            expect(instance.handleOnCloseFocusChange)
-              .not.toHaveBeenCalled();
-          });
-        });
-      });
+            expect(instance.handleOnCloseFocusChange).not.toHaveBeenCalled()
+          })
+        })
+      })
 
       describe('when TAB is pressed', () => {
         beforeAll(() => {
-          keypressId = 9;
-        });
+          keypressId = 9
+        })
 
         describe('when webWidget is focused', () => {
           beforeAll(() => {
-            targetId = 'webWidget';
-          });
+            targetId = 'webWidget'
+          })
 
           it('does not give document focus', () => {
-            expect(hostDocumentFocusSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
+            expect(hostDocumentFocusSpy).not.toHaveBeenCalled()
+          })
+        })
 
         describe('when launcher is focused', () => {
           beforeAll(() => {
-            targetId = 'launcher';
-          });
+            targetId = 'launcher'
+          })
 
           it('gives the document focus', () => {
-            expect(hostDocumentFocusSpy)
-              .toHaveBeenCalled();
-          });
-        });
-      });
-    });
-  });
-});
+            expect(hostDocumentFocusSpy).toHaveBeenCalled()
+          })
+        })
+      })
+    })
+  })
+})

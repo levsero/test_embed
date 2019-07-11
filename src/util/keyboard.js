@@ -1,6 +1,6 @@
 const keyCodes = {
-  'ENTER': 13,
-  'SPACE': 32
-};
+  ENTER: 13,
+  SPACE: 32
+}
 
-export { keyCodes };
+export { keyCodes }

@@ -1,55 +1,51 @@
-import { render } from 'react-testing-library';
-import React from 'react';
+import { render } from 'react-testing-library'
+import React from 'react'
 
-import createStore from 'src/redux/createStore';
-import { Provider } from 'react-redux';
+import createStore from 'src/redux/createStore'
+import { Provider } from 'react-redux'
 
-import { dispatchChatAccountSettings } from 'utility/testHelpers';
-import { settings } from 'service/settings';
+import { dispatchChatAccountSettings } from 'utility/testHelpers'
+import { settings } from 'service/settings'
 
-import ChatOnline from '../../ChatOnline';
+import ChatOnline from '../../ChatOnline'
 
-import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types';
-import { CHAT_MESSAGE_TYPES } from 'src/constants/chat';
+import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
+import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 
-jest.useFakeTimers();
+jest.useFakeTimers()
 
-let store;
+let store
 
 beforeEach(() => {
-  store = createStore();
-  settings.init(store);
-});
+  store = createStore()
+  settings.init(store)
+})
 
-let counter = 0;
+let counter = 0
 
 const timestamp = () => {
-  counter += 1;
-  return 1544788677868 + counter;
-};
+  counter += 1
+  return 1544788677868 + counter
+}
 
 const renderComponent = () => {
   return render(
     <Provider store={store}>
-      <ChatOnline
-        getFrameContentDocument={() => {}}
-        updateChatBackButtonVisibility={() => {}}
-      />
+      <ChatOnline getFrameContentDocument={() => {}} updateChatBackButtonVisibility={() => {}} />
     </Provider>
-  );
-};
+  )
+}
 
 describe('chat log', () => {
   const assertChatLog = (...actions) => {
-    const { container } = renderComponent();
+    const { container } = renderComponent()
 
-    actions.forEach((action) => {
-      store.dispatch(action);
-    });
-    jest.runAllTimers();
-    expect(container.querySelector('.chatLogContainer'))
-      .toMatchSnapshot();
-  };
+    actions.forEach(action => {
+      store.dispatch(action)
+    })
+    jest.runAllTimers()
+    expect(container.querySelector('.chatLogContainer')).toMatchSnapshot()
+  }
 
   test('member join', () => {
     assertChatLog({
@@ -63,16 +59,16 @@ describe('chat log', () => {
           type: 'chat.memberjoin'
         }
       }
-    });
-  });
+    })
+  })
 
   describe('visitor message', () => {
     describe('account settings login enabled', () => {
       beforeEach(() => {
         dispatchChatAccountSettings(store, {
           login: { enabled: true }
-        });
-      });
+        })
+      })
 
       test('displays update info if visitor info is not available', () => {
         assertChatLog({
@@ -84,145 +80,160 @@ describe('chat log', () => {
               msg: 'Hi',
               nick: 'visitor',
               display_name: 'Visitor 123',
-              type: 'chat.msg',
+              type: 'chat.msg'
             }
           }
-        });
-      });
+        })
+      })
 
       test('does not display update info if visitor email is already set', () => {
-        assertChatLog({
-          type: chatActionTypes.SDK_VISITOR_UPDATE,
-          payload: {
-            type: 'visitor_update',
-            detail: {
-              email: 'hello@me.com'
+        assertChatLog(
+          {
+            type: chatActionTypes.SDK_VISITOR_UPDATE,
+            payload: {
+              type: 'visitor_update',
+              detail: {
+                email: 'hello@me.com'
+              }
+            }
+          },
+          {
+            type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
+            payload: {
+              status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
+              detail: {
+                timestamp: timestamp(),
+                msg: 'Hi',
+                nick: 'visitor',
+                display_name: 'Visitor 123',
+                type: 'chat.msg'
+              }
             }
           }
-        }, {
-          type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
-          payload: {
-            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-            detail: {
-              timestamp: timestamp(),
-              msg: 'Hi',
-              nick: 'visitor',
-              display_name: 'Visitor 123',
-              type: 'chat.msg',
-            }
-          }
-        });
-      });
+        )
+      })
 
       test('does not display update info if visitor name is already set', () => {
-        assertChatLog({
-          type: chatActionTypes.SDK_VISITOR_UPDATE,
-          payload: {
-            type: 'visitor_update',
-            detail: {
-              display_name: 'Jill'
+        assertChatLog(
+          {
+            type: chatActionTypes.SDK_VISITOR_UPDATE,
+            payload: {
+              type: 'visitor_update',
+              detail: {
+                display_name: 'Jill'
+              }
+            }
+          },
+          {
+            type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
+            payload: {
+              status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
+              detail: {
+                timestamp: timestamp(),
+                msg: 'Hi',
+                nick: 'visitor',
+                display_name: 'Jill',
+                type: 'chat.msg'
+              }
             }
           }
-        }, {
-          type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
-          payload: {
-            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-            detail: {
-              timestamp: timestamp(),
-              msg: 'Hi',
-              nick: 'visitor',
-              display_name: 'Jill',
-              type: 'chat.msg',
-            }
-          }
-        });
-      });
+        )
+      })
 
       test('displays update info if visitor name is default', () => {
-        assertChatLog({
-          type: chatActionTypes.SDK_VISITOR_UPDATE,
-          payload: {
-            type: 'visitor_update',
-            detail: {
-              display_name: 'Visitor 123'
+        assertChatLog(
+          {
+            type: chatActionTypes.SDK_VISITOR_UPDATE,
+            payload: {
+              type: 'visitor_update',
+              detail: {
+                display_name: 'Visitor 123'
+              }
+            }
+          },
+          {
+            type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
+            payload: {
+              status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
+              detail: {
+                timestamp: timestamp(),
+                msg: 'Hi',
+                nick: 'visitor',
+                display_name: 'Visitor 123',
+                type: 'chat.msg'
+              }
             }
           }
-        }, {
+        )
+      })
+    })
+
+    test('success', () => {
+      const time = timestamp()
+
+      assertChatLog(
+        {
           type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
           payload: {
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
             detail: {
-              timestamp: timestamp(),
+              timestamp: time,
               msg: 'Hi',
               nick: 'visitor',
               display_name: 'Visitor 123',
               type: 'chat.msg'
             }
           }
-        });
-      });
-    });
-
-    test('success', () => {
-      const time = timestamp();
-
-      assertChatLog({
-        type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
-        payload: {
-          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-          detail: {
-            timestamp: time,
-            msg: 'Hi',
-            nick: 'visitor',
-            display_name: 'Visitor 123',
-            type: 'chat.msg',
+        },
+        {
+          type: chatActionTypes.CHAT_MSG_REQUEST_SUCCESS,
+          payload: {
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
+            detail: {
+              timestamp: time,
+              msg: 'Hi',
+              nick: 'visitor',
+              display_name: 'Visitor 123',
+              type: 'chat.msg'
+            }
           }
         }
-      },{
-        type: chatActionTypes.CHAT_MSG_REQUEST_SUCCESS,
-        payload: {
-          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
-          detail: {
-            timestamp: time,
-            msg: 'Hi',
-            nick: 'visitor',
-            display_name: 'Visitor 123',
-            type: 'chat.msg',
-          }
-        }
-      });
-    });
+      )
+    })
 
     test('failure', () => {
-      const time = timestamp();
+      const time = timestamp()
 
-      assertChatLog({
-        type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
-        payload: {
-          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-          detail: {
-            timestamp: time,
-            msg: 'Hi',
-            nick: 'visitor',
-            display_name: 'Visitor 123',
-            type: 'chat.msg',
+      assertChatLog(
+        {
+          type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
+          payload: {
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
+            detail: {
+              timestamp: time,
+              msg: 'Hi',
+              nick: 'visitor',
+              display_name: 'Visitor 123',
+              type: 'chat.msg'
+            }
+          }
+        },
+        {
+          type: chatActionTypes.CHAT_MSG_REQUEST_FAILURE,
+          payload: {
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
+            detail: {
+              timestamp: time,
+              msg: 'Hi',
+              nick: 'visitor',
+              display_name: 'Visitor 123',
+              type: 'chat.msg'
+            }
           }
         }
-      },{
-        type: chatActionTypes.CHAT_MSG_REQUEST_FAILURE,
-        payload: {
-          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
-          detail: {
-            timestamp: time,
-            msg: 'Hi',
-            nick: 'visitor',
-            display_name: 'Visitor 123',
-            type: 'chat.msg',
-          }
-        }
-      });
-    });
-  });
+      )
+    })
+  })
 
   test('queue position', () => {
     assertChatLog({
@@ -236,8 +247,8 @@ describe('chat log', () => {
           type: 'chat.queue_position'
         }
       }
-    });
-  });
+    })
+  })
 
   test('agent join', () => {
     assertChatLog({
@@ -251,8 +262,8 @@ describe('chat log', () => {
           type: 'chat.memberjoin'
         }
       }
-    });
-  });
+    })
+  })
 
   test('agent attachment', () => {
     assertChatLog({
@@ -273,8 +284,8 @@ describe('chat log', () => {
           }
         }
       }
-    });
-  });
+    })
+  })
 
   test('agent typing', () => {
     assertChatLog(
@@ -289,7 +300,8 @@ describe('chat log', () => {
             type: 'agent_update'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_TYPING,
         payload: {
           type: 'chat',
@@ -301,8 +313,8 @@ describe('chat log', () => {
           }
         }
       }
-    );
-  });
+    )
+  })
 
   test('agent stopped typing', () => {
     assertChatLog(
@@ -316,7 +328,8 @@ describe('chat log', () => {
             type: 'agent_update'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_TYPING,
         payload: {
           type: 'chat',
@@ -327,7 +340,8 @@ describe('chat log', () => {
             type: 'typing'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_TYPING,
         payload: {
           type: 'chat',
@@ -339,8 +353,8 @@ describe('chat log', () => {
           }
         }
       }
-    );
-  });
+    )
+  })
 
   test('agent message', () => {
     assertChatLog({
@@ -356,8 +370,8 @@ describe('chat log', () => {
           type: 'chat.msg'
         }
       }
-    });
-  });
+    })
+  })
 
   test('rating', () => {
     assertChatLog({
@@ -373,8 +387,8 @@ describe('chat log', () => {
           new_rating: 'good'
         }
       }
-    });
-  });
+    })
+  })
 
   test('comment', () => {
     assertChatLog({
@@ -390,88 +404,97 @@ describe('chat log', () => {
           type: 'chat.comment'
         }
       }
-    });
-  });
+    })
+  })
 
   test('member leave', () => {
-    assertChatLog({
-      type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
-      payload: {
-        type: 'chat',
-        detail: {
-          display_name: 'Mugen',
-          nick: 'agent:123',
-          timestamp: timestamp(),
-          type: 'chat.memberjoin'
+    assertChatLog(
+      {
+        type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+        payload: {
+          type: 'chat',
+          detail: {
+            display_name: 'Mugen',
+            nick: 'agent:123',
+            timestamp: timestamp(),
+            type: 'chat.memberjoin'
+          }
+        }
+      },
+      {
+        type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
+        payload: {
+          type: 'chat',
+          detail: {
+            display_name: 'Mugen',
+            nick: 'agent:123',
+            timestamp: timestamp(),
+            type: 'chat.memberleave'
+          }
         }
       }
-    }, {
-      type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
-      payload: {
-        type: 'chat',
-        detail: {
-          display_name: 'Mugen',
-          nick: 'agent:123',
-          timestamp: timestamp(),
-          type: 'chat.memberleave'
-        }
-      }
-    });
-  });
+    )
+  })
 
   test('agent member leave with disconnection reason', () => {
-    assertChatLog({
-      type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
-      payload: {
-        type: 'chat',
-        detail: {
-          display_name: 'Mugen',
-          nick: 'agent:123',
-          timestamp: timestamp(),
-          type: 'chat.memberjoin'
+    assertChatLog(
+      {
+        type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+        payload: {
+          type: 'chat',
+          detail: {
+            display_name: 'Mugen',
+            nick: 'agent:123',
+            timestamp: timestamp(),
+            type: 'chat.memberjoin'
+          }
+        }
+      },
+      {
+        type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
+        payload: {
+          type: 'chat',
+          detail: {
+            display_name: 'Mugen',
+            nick: 'agent:123',
+            reason: 'disconnect_user',
+            timestamp: timestamp(),
+            type: 'chat.memberleave'
+          }
         }
       }
-    }, {
-      type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
-      payload: {
-        type: 'chat',
-        detail: {
-          display_name: 'Mugen',
-          nick: 'agent:123',
-          reason: 'disconnect_user',
-          timestamp: timestamp(),
-          type: 'chat.memberleave'
-        }
-      }
-    });
-  });
+    )
+  })
 
   test('agent member leave with non-disconnection reason', () => {
-    assertChatLog({
-      type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
-      payload: {
-        type: 'chat',
-        detail: {
-          display_name: 'Mugen',
-          nick: 'agent:123',
-          timestamp: timestamp(),
-          type: 'chat.memberjoin'
+    assertChatLog(
+      {
+        type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+        payload: {
+          type: 'chat',
+          detail: {
+            display_name: 'Mugen',
+            nick: 'agent:123',
+            timestamp: timestamp(),
+            type: 'chat.memberjoin'
+          }
+        }
+      },
+      {
+        type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
+        payload: {
+          type: 'chat',
+          detail: {
+            display_name: 'Mugen',
+            nick: 'agent:123',
+            reason: 'arbitrary_unknown_reason',
+            timestamp: timestamp(),
+            type: 'chat.memberleave'
+          }
         }
       }
-    }, {
-      type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
-      payload: {
-        type: 'chat',
-        detail: {
-          display_name: 'Mugen',
-          nick: 'agent:123',
-          reason: 'arbitrary_unknown_reason',
-          timestamp: timestamp(),
-          type: 'chat.memberleave'
-        }
-      }
-    });
-  });
+    )
+  })
 
   test('series of actions', () => {
     assertChatLog(
@@ -485,13 +508,15 @@ describe('chat log', () => {
             email: ''
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CONNECTION_UPDATE,
         payload: {
           type: 'connection_update',
           detail: 'connected'
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
         payload: {
           type: 'chat',
@@ -502,7 +527,8 @@ describe('chat log', () => {
             type: 'chat.memberjoin'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
         payload: {
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
@@ -511,10 +537,11 @@ describe('chat log', () => {
             msg: 'Hi',
             nick: 'visitor',
             display_name: 'Spike',
-            type: 'chat.msg',
+            type: 'chat.msg'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.CHAT_MSG_REQUEST_SUCCESS,
         payload: {
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
@@ -523,10 +550,11 @@ describe('chat log', () => {
             msg: 'Hi',
             nick: 'visitor',
             display_name: 'Spike',
-            type: 'chat.msg',
+            type: 'chat.msg'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_QUEUE_POSITION,
         payload: {
           type: 'chat',
@@ -537,7 +565,8 @@ describe('chat log', () => {
             type: 'chat.queue_position'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_QUEUE_POSITION,
         payload: {
           type: 'chat',
@@ -548,7 +577,8 @@ describe('chat log', () => {
             type: 'chat.queue_position'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
         payload: {
           type: 'chat',
@@ -559,7 +589,8 @@ describe('chat log', () => {
             type: 'chat.memberjoin'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_AGENT_UPDATE,
         payload: {
           detail: {
@@ -569,7 +600,8 @@ describe('chat log', () => {
             type: 'agent_update'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_FILE,
         payload: {
           type: 'chat',
@@ -587,7 +619,8 @@ describe('chat log', () => {
             }
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_MSG,
         payload: {
           type: 'chat',
@@ -600,7 +633,8 @@ describe('chat log', () => {
             type: 'chat.msg'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_RATING,
         payload: {
           type: 'chat',
@@ -613,7 +647,8 @@ describe('chat log', () => {
             new_rating: 'good'
           }
         }
-      }, {
+      },
+      {
         type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
         payload: {
           type: 'chat',
@@ -624,12 +659,13 @@ describe('chat log', () => {
             type: 'chat.memberleave'
           }
         }
-      });
-  });
-});
+      }
+    )
+  })
+})
 
 test('update chat header', () => {
-  const { getByTestId } = renderComponent();
+  const { getByTestId } = renderComponent()
 
   store.dispatch({
     type: chatActionTypes.SDK_AGENT_UPDATE,
@@ -641,19 +677,18 @@ test('update chat header', () => {
         type: 'agent_update'
       }
     }
-  });
+  })
 
-  expect(getByTestId('header-text-container'))
-    .toMatchSnapshot();
-});
+  expect(getByTestId('header-text-container')).toMatchSnapshot()
+})
 
 describe('rating', () => {
   it('does not show rating on agent join if rating settings are disabled', () => {
     dispatchChatAccountSettings(store, {
       rating: { enabled: false }
-    });
+    })
 
-    const { container } = renderComponent();
+    const { container } = renderComponent()
 
     store.dispatch({
       type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -666,21 +701,19 @@ describe('rating', () => {
           type: 'chat.memberjoin'
         }
       }
-    });
+    })
 
-    expect(container.querySelector('.Icon--thumbUp'))
-      .not.toBeInTheDocument();
+    expect(container.querySelector('.Icon--thumbUp')).not.toBeInTheDocument()
 
-    expect(container.querySelector('.Icon--thumbDown'))
-      .not.toBeInTheDocument();
-  });
+    expect(container.querySelector('.Icon--thumbDown')).not.toBeInTheDocument()
+  })
 
   it('shows rating on agent join if rating settings are enabled', () => {
     dispatchChatAccountSettings(store, {
       rating: { enabled: true }
-    });
+    })
 
-    const { container } = renderComponent();
+    const { container } = renderComponent()
 
     store.dispatch({
       type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -693,18 +726,16 @@ describe('rating', () => {
           type: 'chat.memberjoin'
         }
       }
-    });
+    })
 
-    expect(container.querySelector('.Icon--thumbUp'))
-      .toBeInTheDocument();
+    expect(container.querySelector('.Icon--thumbUp')).toBeInTheDocument()
 
-    expect(container.querySelector('.Icon--thumbDown'))
-      .toBeInTheDocument();
-  });
-});
+    expect(container.querySelector('.Icon--thumbDown')).toBeInTheDocument()
+  })
+})
 
 test('connection closed', () => {
-  const { getByText } = renderComponent();
+  const { getByText } = renderComponent()
 
   store.dispatch({
     type: chatActionTypes.SDK_CONNECTION_UPDATE,
@@ -712,8 +743,7 @@ test('connection closed', () => {
       type: 'connection_update',
       detail: 'closed'
     }
-  });
+  })
 
-  expect(getByText('Click to reconnect'))
-    .toBeInTheDocument();
-});
+  expect(getByText('Click to reconnect')).toBeInTheDocument()
+})

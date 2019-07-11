@@ -1,11 +1,11 @@
 describe('MessageError component', () => {
-  let MessageError;
+  let MessageError
 
-  const messageErrorPath = buildSrcPath('component/chat/chatting/MessageError');
-  const Alert = noopReactComponent();
+  const messageErrorPath = buildSrcPath('component/chat/chatting/MessageError')
+  const Alert = noopReactComponent()
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './MessageError.scss': {
@@ -17,103 +17,96 @@ describe('MessageError component', () => {
       '@zendeskgarden/react-notifications': {
         Alert: Alert
       }
-    });
+    })
 
-    mockery.registerAllowable(messageErrorPath);
-    MessageError = requireUncached(messageErrorPath).MessageError;
-  });
+    mockery.registerAllowable(messageErrorPath)
+    MessageError = requireUncached(messageErrorPath).MessageError
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('#render', () => {
-    let el,
-      handleErrorSpy;
-    const errorMessage = 'Something went wrong';
+    let el, handleErrorSpy
+    const errorMessage = 'Something went wrong'
 
     beforeEach(() => {
       const messageErrorComponent = (
-        <MessageError errorMessage={errorMessage}
-          className='customClassName' handleError={handleErrorSpy} />
-      );
-      const component = instanceRender(messageErrorComponent);
+        <MessageError
+          errorMessage={errorMessage}
+          className="customClassName"
+          handleError={handleErrorSpy}
+        />
+      )
+      const component = instanceRender(messageErrorComponent)
 
-      el = component.render();
-    });
+      el = component.render()
+    })
 
     describe('error element', () => {
-      let errorElement;
+      let errorElement
 
       it('renders default class container', () => {
-        expect(el.props.className)
-          .toContain('container');
-      });
+        expect(el.props.className).toContain('container')
+      })
 
       it('renders custom class container', () => {
-        expect(el.props.className)
-          .toContain('customClassName');
-      });
+        expect(el.props.className).toContain('customClassName')
+      })
 
       it('returns a garden <Alert> component', () => {
-        expect(TestUtils.isElementOfType(el, Alert)).toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(el, Alert)).toEqual(true)
+      })
 
       describe('when there is a handler', () => {
         beforeAll(() => {
-          handleErrorSpy = jasmine.createSpy('handleError').and.returnValue('random click');
-        });
+          handleErrorSpy = jasmine.createSpy('handleError').and.returnValue('random click')
+        })
 
         beforeEach(() => {
-          errorElement = el.props.children;
-        });
+          errorElement = el.props.children
+        })
 
         it('renders an anchor tag', () => {
-          expect(TestUtils.isElementOfType(errorElement, 'a'))
-            .toEqual(true);
-        });
+          expect(TestUtils.isElementOfType(errorElement, 'a')).toEqual(true)
+        })
 
         it('renders an onClick handler', () => {
-          const result = errorElement.props.onClick();
+          const result = errorElement.props.onClick()
 
-          expect(handleErrorSpy)
-            .toHaveBeenCalled();
+          expect(handleErrorSpy).toHaveBeenCalled()
 
-          expect(result)
-            .toEqual('random click');
-        });
+          expect(result).toEqual('random click')
+        })
 
         it('renders the error message', () => {
-          expect(errorElement.props.children)
-            .toEqual(errorMessage);
-        });
+          expect(errorElement.props.children).toEqual(errorMessage)
+        })
 
         it('renders the correct messageErrorLink className', () => {
-          expect(errorElement.props.className)
-            .toContain('messageErrorLink');
-        });
-      });
+          expect(errorElement.props.className).toContain('messageErrorLink')
+        })
+      })
 
       describe('when there is no handler', () => {
         beforeAll(() => {
-          handleErrorSpy = null;
-        });
+          handleErrorSpy = null
+        })
 
         beforeEach(() => {
-          errorElement = el.props.children;
-        });
+          errorElement = el.props.children
+        })
 
         it('renders the error message', () => {
-          expect(errorElement.props.children)
-            .toEqual(errorMessage);
-        });
+          expect(errorElement.props.children).toEqual(errorMessage)
+        })
 
         it('does not render an anchor tag', () => {
-          expect(TestUtils.isElementOfType(errorElement, 'a'))
-            .toEqual(false);
-        });
-      });
-    });
-  });
-});
+          expect(TestUtils.isElementOfType(errorElement, 'a')).toEqual(false)
+        })
+      })
+    })
+  })
+})

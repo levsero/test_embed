@@ -1,20 +1,20 @@
-import { UPDATE_WIDGET_SHOWN, API_RESET_WIDGET, WIDGET_INITIALISED } from '../base-action-types';
-import { isPopout } from 'utility/globals';
-const initialState = false;
+import { UPDATE_WIDGET_SHOWN, API_RESET_WIDGET, WIDGET_INITIALISED } from '../base-action-types'
+import { isPopout } from 'utility/globals'
+const initialState = false
 
 const widgetShown = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case UPDATE_WIDGET_SHOWN:
-      return payload;
+      return payload
     case API_RESET_WIDGET:
-      return initialState;
+      return initialState
     case WIDGET_INITIALISED:
-      return isPopout();
+      return isPopout()
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default widgetShown;
+export default widgetShown

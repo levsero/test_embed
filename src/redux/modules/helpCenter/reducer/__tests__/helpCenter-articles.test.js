@@ -1,12 +1,9 @@
-import articles from '../helpCenter-articles';
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import articles from '../helpCenter-articles'
+import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
-const mockArticles = [
-  { id: 1, body: 'hello' },
-  { id: 2, body: 'world' },
-];
+const mockArticles = [{ id: 1, body: 'hello' }, { id: 2, body: 'world' }]
 
 testReducer(articles, [
   {
@@ -42,4 +39,4 @@ testReducer(articles, [
     initialState: mockArticles,
     expected: []
   }
-]);
+])

@@ -1,59 +1,56 @@
-import _ from 'lodash';
+import _ from 'lodash'
 import {
   generateUserWidgetCSS,
   generateUserLauncherCSS,
   generateWebWidgetPreviewCSS
-} from '../styles';
-import { settings } from 'service/settings';
+} from '../styles'
+import { settings } from 'service/settings'
 
-let mockSettingsValue;
+let mockSettingsValue
 
-settings.get = (name) => _.get(mockSettingsValue, name, null);
+settings.get = name => _.get(mockSettingsValue, name, null)
 
 describe('generateUserWidgetCSS', () => {
   describe('when the color is light', () => {
-    let css;
+    let css
 
     beforeEach(() => {
-      css = generateUserWidgetCSS({ base: '#58F9F7' });
-    });
+      css = generateUserWidgetCSS({ base: '#58F9F7' })
+    })
 
     it('calculates the css correctly', () => {
-      expect(css)
-        .toMatchSnapshot();
-    });
-  });
+      expect(css).toMatchSnapshot()
+    })
+  })
 
   describe('when the color is not light', () => {
-    let css;
+    let css
 
     beforeEach(() => {
-      css = generateUserWidgetCSS({ base: '#283646' });
-    });
+      css = generateUserWidgetCSS({ base: '#283646' })
+    })
 
     describe('u-userTextColor', () => {
       it('calculates the css correctly', () => {
-        expect(css)
-          .toMatchSnapshot();
-      });
-    });
-  });
+        expect(css).toMatchSnapshot()
+      })
+    })
+  })
 
   describe('when the color is set via embeddable config', () => {
-    let css;
+    let css
 
     beforeEach(() => {
-      css = generateUserWidgetCSS({ base: '#283646', color: '#FF9900' });
-    });
+      css = generateUserWidgetCSS({ base: '#283646', color: '#FF9900' })
+    })
 
     it('uses the color passed in from config', () => {
-      expect(css)
-        .toMatchSnapshot();
-    });
-  });
+      expect(css).toMatchSnapshot()
+    })
+  })
 
   describe('when the color are overidden in settings', () => {
-    let colors;
+    let colors
 
     beforeEach(() => {
       colors = generateUserWidgetCSS({
@@ -65,95 +62,88 @@ describe('generateUserWidgetCSS', () => {
         header: '#203D9D',
         articleLinks: '#F00',
         base: '#283646',
-        color: '#FF9900',
-      });
-    });
+        color: '#FF9900'
+      })
+    })
 
     it('uses the color passed in from config', () => {
-      expect(colors)
-        .toMatchSnapshot();
-    });
-  });
-});
+      expect(colors).toMatchSnapshot()
+    })
+  })
+})
 
 describe('generateUserLauncherCSS', () => {
   describe('when the color is light', () => {
-    let css;
+    let css
 
     beforeEach(() => {
-      css = generateUserLauncherCSS({ base: '#58F9F7' });
-    });
+      css = generateUserLauncherCSS({ base: '#58F9F7' })
+    })
 
     it('is calculated to the same color with a darker text color', () => {
-      expect(css)
-        .toMatchSnapshot();
-    });
-  });
+      expect(css).toMatchSnapshot()
+    })
+  })
 
   describe('when the color is not light', () => {
-    let css;
+    let css
 
     beforeEach(() => {
-      css = generateUserLauncherCSS({ base: '#283646' });
-    });
+      css = generateUserLauncherCSS({ base: '#283646' })
+    })
 
     it('is calculated to the same color with a white highlight', () => {
-      expect(css)
-        .toMatchSnapshot();
-    });
-  });
+      expect(css).toMatchSnapshot()
+    })
+  })
 
   describe('when the color is set via embeddable config', () => {
-    let css;
+    let css
 
     beforeEach(() => {
-      css = generateUserLauncherCSS({ base: '#283646' });
-    });
+      css = generateUserLauncherCSS({ base: '#283646' })
+    })
 
     it('uses the color passed in from config', () => {
-      expect(css)
-        .toMatchSnapshot();
-    });
-  });
-});
+      expect(css).toMatchSnapshot()
+    })
+  })
+})
 
 describe('when the color is extremely light (white or almost white)', () => {
   describe('generateUserWidgetCSS', () => {
-    let css;
+    let css
 
     beforeEach(() => {
-      css = generateUserWidgetCSS({ base: '#FFFFFF' });
-    });
+      css = generateUserWidgetCSS({ base: '#FFFFFF' })
+    })
 
     it('calculates the colours correctly', () => {
-      expect(css)
-        .toMatchSnapshot();
-    });
-  });
+      expect(css).toMatchSnapshot()
+    })
+  })
 
   describe('generateUserLauncherCSS', () => {
-    let css;
+    let css
 
     beforeEach(() => {
-      css = generateUserLauncherCSS({ base: '#FFFFFF' });
-    });
+      css = generateUserLauncherCSS({ base: '#FFFFFF' })
+    })
 
     it('calculates the colours correctly', () => {
-      expect(css)
-        .toMatchSnapshot();
-    });
-  });
-});
+      expect(css).toMatchSnapshot()
+    })
+  })
+})
 
 describe('generateWebWidgetPreviewCSS', () => {
-  let css;
+  let css
 
   beforeEach(() => {
-    css = generateWebWidgetPreviewCSS({ base: '#58F9F7' });
-  });
+    css = generateWebWidgetPreviewCSS({ base: '#58F9F7' })
+  })
 
   it('calculates the colours correctly', () => {
-    expect(css)
-      .toMatchSnapshot();
-  });
-});
+    expect(css).toMatchSnapshot()
+  })
+})

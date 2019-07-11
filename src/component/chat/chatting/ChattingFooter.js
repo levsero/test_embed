@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { locals as styles } from './ChattingFooter.scss';
-import classNames from 'classnames';
+import { locals as styles } from './ChattingFooter.scss'
+import classNames from 'classnames'
 
-import { i18n } from 'service/i18n';
-import { IconButton } from 'component/Icon';
-import { Dropzone } from 'component/Dropzone';
+import { i18n } from 'service/i18n'
+import { IconButton } from 'component/Icon'
+import { Dropzone } from 'component/Dropzone'
 
-import { ICONS } from 'constants/shared';
+import { ICONS } from 'constants/shared'
 
 export class ChattingFooter extends Component {
   static propTypes = {
@@ -33,22 +33,21 @@ export class ChattingFooter extends Component {
   }
 
   handleMenuClick = (e, keypress) => {
-    e.stopPropagation();
-    this.props.toggleMenu(keypress);
+    e.stopPropagation()
+    this.props.toggleMenu(keypress)
   }
 
-  handleEndChatClick = (e) => {
+  handleEndChatClick = e => {
     if (this.props.isChatting) {
-      this.props.endChat(e);
+      this.props.endChat(e)
     }
   }
 
   renderEndChatOption = () => {
-    const disabled = !this.props.isChatting;
-    const endChatClasses = classNames(
-      styles.iconEndChat,
-      { [styles.iconDisabled]: disabled }
-    );
+    const disabled = !this.props.isChatting
+    const endChatClasses = classNames(styles.iconEndChat, {
+      [styles.iconDisabled]: disabled
+    })
 
     return (
       <IconButton
@@ -56,17 +55,17 @@ export class ChattingFooter extends Component {
         buttonClassName={endChatClasses}
         disabled={disabled}
         altText={i18n.t('embeddable_framework.chat.icon.endChat.hover.label')}
-        onClick={this.handleEndChatClick} />
-    );
+        onClick={this.handleEndChatClick}
+      />
+    )
   }
 
   renderAttachmentOption = () => {
-    if (!this.props.attachmentsEnabled) return null;
+    if (!this.props.attachmentsEnabled) return null
 
-    const attachmentClasses = classNames(
-      styles.iconAttachment,
-      { [styles.iconAttachmentMobile]: this.props.isMobile }
-    );
+    const attachmentClasses = classNames(styles.iconAttachment, {
+      [styles.iconAttachmentMobile]: this.props.isMobile
+    })
 
     return (
       <Dropzone onDrop={this.props.handleAttachmentDrop}>
@@ -74,16 +73,16 @@ export class ChattingFooter extends Component {
           buttonClassName={attachmentClasses}
           altText={i18n.t('embeddable_framework.chat.icon.attachments.hover.label')}
           disableTooltip={this.props.isMobile}
-          type={ICONS.PAPERCLIP_SMALL} />
+          type={ICONS.PAPERCLIP_SMALL}
+        />
       </Dropzone>
-    );
+    )
   }
 
   renderMenuOption = () => {
-    const menuClasses = classNames(
-      styles.iconMenu,
-      { [styles.iconActive]: this.props.menuVisible }
-    );
+    const menuClasses = classNames(styles.iconMenu, {
+      [styles.iconActive]: this.props.menuVisible
+    })
 
     return (
       <IconButton
@@ -91,8 +90,9 @@ export class ChattingFooter extends Component {
         buttonClassName={menuClasses}
         disableTooltip={this.props.menuVisible}
         altText={i18n.t('embeddable_framework.chat.icon.menu.hover.label')}
-        onClick={this.handleMenuClick} />
-    );
+        onClick={this.handleMenuClick}
+      />
+    )
   }
 
   renderSendChatOption = () => {
@@ -103,8 +103,9 @@ export class ChattingFooter extends Component {
         disableTooltip={this.props.isMobile}
         altText={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
         className={styles.iconSendChatMobile}
-        onClick={this.props.sendChat} />
-    );
+        onClick={this.props.sendChat}
+      />
+    )
   }
 
   renderDesktop = () => {
@@ -117,22 +118,20 @@ export class ChattingFooter extends Component {
           {this.renderMenuOption()}
         </div>
       </div>
-    );
+    )
   }
 
   renderMobile = () => {
     return (
       <div className={styles.containerMobile}>
         {this.renderAttachmentOption()}
-        <div className={styles.inputContainerMobile}>
-          {this.props.children}
-        </div>
+        <div className={styles.inputContainerMobile}>{this.props.children}</div>
         {this.renderSendChatOption()}
       </div>
-    );
+    )
   }
 
   render() {
-    return this.props.isMobile ? this.renderMobile() : this.renderDesktop();
+    return this.props.isMobile ? this.renderMobile() : this.renderDesktop()
   }
 }

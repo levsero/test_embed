@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
 
-import contactFormSettings from './contactForm-settings';
+import contactFormSettings from './contactForm-settings'
 
 export default combineReducers({
   settings: contactFormSettings
-});
+})

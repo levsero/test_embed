@@ -1,6 +1,5 @@
-import * as actions from '../screen-changed';
+import * as actions from '../screen-changed'
 
 test('screenChanged dispatches expected payload', () => {
-  expect(actions.screenChanged('article'))
-    .toMatchSnapshot();
-});
+  expect(actions.screenChanged('article')).toMatchSnapshot()
+})

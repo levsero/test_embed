@@ -7,21 +7,21 @@ describe('ChatBadge component', () => {
     updateChatScreenSpy = jasmine.createSpy('updateChatScreen'),
     sendMsgSpy = jasmine.createSpy('sendMsg'),
     resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage'),
-    onSendSpy = jasmine.createSpy('onSend');
+    onSendSpy = jasmine.createSpy('onSend')
 
-  const chatBadgePath = buildSrcPath('component/launcher/ChatBadge');
-  const sharedConstantsPath = buildSrcPath('constants/shared');
+  const chatBadgePath = buildSrcPath('component/launcher/ChatBadge')
+  const sharedConstantsPath = buildSrcPath('constants/shared')
 
   const Icon = class extends Component {
     render() {
-      return <div className={this.props.className}>{this.props.type}</div>;
+      return <div className={this.props.className}>{this.props.type}</div>
     }
-  };
+  }
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
-    ICONS = requireUncached(sharedConstantsPath).ICONS;
+    ICONS = requireUncached(sharedConstantsPath).ICONS
     initMockRegistry({
       'component/Icon': {
         Icon
@@ -66,8 +66,8 @@ describe('ChatBadge component', () => {
       },
       'utility/keyboard': {
         keyCodes: {
-          'SPACE': 32,
-          'ENTER': 13
+          SPACE: 32,
+          ENTER: 13
         }
       },
       'constants/shared': {
@@ -86,394 +86,351 @@ describe('ChatBadge component', () => {
         PRECHAT_SCREEN: 'PRECHAT_SCREEN',
         CHATTING_SCREEN: 'CHATTING_SCREEN'
       }
-    });
+    })
 
-    ChatBadge = requireUncached(chatBadgePath).default.WrappedComponent;
-  });
+    ChatBadge = requireUncached(chatBadgePath).default.WrappedComponent
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-    sendMsgSpy.calls.reset();
-    resetCurrentMessageSpy.calls.reset();
-    updateChatScreenSpy.calls.reset();
-    onSendSpy.calls.reset();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+    sendMsgSpy.calls.reset()
+    resetCurrentMessageSpy.calls.reset()
+    updateChatScreenSpy.calls.reset()
+    onSendSpy.calls.reset()
+  })
 
   describe('renderLabel', () => {
     let result,
-      mockBannerSettings = {};
+      mockBannerSettings = {}
 
     beforeEach(() => {
-      component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-      result = component.renderLabel();
-    });
+      component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />)
+      result = component.renderLabel()
+    })
 
     describe('when layout is image_right', () => {
       beforeAll(() => {
-        mockBannerSettings.layout = 'image_right';
-      });
+        mockBannerSettings.layout = 'image_right'
+      })
 
       it('renders textOnLeft class', () => {
-        expect(result.props.className)
-          .toContain('textOnLeft');
-      });
-    });
+        expect(result.props.className).toContain('textOnLeft')
+      })
+    })
 
     describe('when layout is image_left', () => {
       beforeAll(() => {
-        mockBannerSettings.layout = 'image_left';
-      });
+        mockBannerSettings.layout = 'image_left'
+      })
 
       it('renders textOnRight class', () => {
-        expect(result.props.className)
-          .toContain('textOnRight');
-      });
-    });
+        expect(result.props.className).toContain('textOnRight')
+      })
+    })
 
     describe('when layout is text_only', () => {
       beforeAll(() => {
-        mockBannerSettings.layout = 'text_only';
-      });
+        mockBannerSettings.layout = 'text_only'
+      })
 
       it('renders textOnly class', () => {
-        expect(result.props.className)
-          .toContain('textOnly');
-      });
-    });
-  });
+        expect(result.props.className).toContain('textOnly')
+      })
+    })
+  })
 
   describe('renderImage', () => {
     let result,
-      mockBannerSettings = {};
+      mockBannerSettings = {}
 
     beforeEach(() => {
-      component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-      result = component.renderImage();
-    });
+      component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />)
+      result = component.renderImage()
+    })
 
     describe('when custom image is present', () => {
       beforeAll(() => {
-        mockBannerSettings.image = 'http://img.com/img.png';
-      });
+        mockBannerSettings.image = 'http://img.com/img.png'
+      })
 
       it('renders custom image', () => {
-        expect(TestUtils.isElementOfType(result.props.children, 'img'))
-          .toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(result.props.children, 'img')).toEqual(true)
+      })
 
       describe('when layout is image_only', () => {
         beforeAll(() => {
-          mockBannerSettings.layout = 'image_only';
-        });
+          mockBannerSettings.layout = 'image_only'
+        })
 
         it('renders customImgOnly class', () => {
-          expect(result.props.children.props.className)
-            .toContain('customImgOnly');
-        });
-      });
+          expect(result.props.children.props.className).toContain('customImgOnly')
+        })
+      })
 
       describe('when layout is not image_only', () => {
         describe('when layout aligns the image to the right', () => {
           beforeAll(() => {
-            mockBannerSettings.layout = 'image_right';
-          });
+            mockBannerSettings.layout = 'image_right'
+          })
 
           it('renders customImg class', () => {
-            expect(result.props.children.props.className)
-              .toContain('customImg');
-          });
+            expect(result.props.children.props.className).toContain('customImg')
+          })
 
           it('renders the imgRight class', () => {
-            expect(result.props.children.props.className)
-              .toContain('imgRight');
-          });
-        });
+            expect(result.props.children.props.className).toContain('imgRight')
+          })
+        })
 
         describe('when layout aligns the image to the left', () => {
           beforeAll(() => {
-            mockBannerSettings.layout = 'image_left';
-          });
+            mockBannerSettings.layout = 'image_left'
+          })
 
           it('renders the imgLeft class', () => {
-            expect(result.props.children.props.className)
-              .toContain('imgLeft');
-          });
-        });
-      });
-    });
+            expect(result.props.children.props.className).toContain('imgLeft')
+          })
+        })
+      })
+    })
 
     describe('when custom image is not present', () => {
       beforeAll(() => {
-        mockBannerSettings.image = '';
-      });
+        mockBannerSettings.image = ''
+      })
 
       it('renders an SVG icon', () => {
-        expect(TestUtils.isElementOfType(result.props.children, Icon))
-          .toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(result.props.children, Icon)).toEqual(true)
+      })
 
       it('renders the SVG icon classes', () => {
-        expect(result.props.children.props.className)
-          .toContain('chatIcon');
-      });
+        expect(result.props.children.props.className).toContain('chatIcon')
+      })
 
       describe('and layout is image_only', () => {
         beforeAll(() => {
-          mockBannerSettings.layout = 'image_only';
-        });
+          mockBannerSettings.layout = 'image_only'
+        })
 
         it('renders an "imgOnly" class', () => {
-          expect(result.props.children.props.className)
-            .toContain('imgOnly');
-        });
-      });
-    });
-  });
+          expect(result.props.children.props.className).toContain('imgOnly')
+        })
+      })
+    })
+  })
 
   describe('renderContent', () => {
     let result,
-      mockBannerSettings = {};
+      mockBannerSettings = {}
 
     describe('when layout is image_right', () => {
       beforeEach(() => {
-        mockBannerSettings.layout = 'image_right';
-        component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-        result = component.renderContent();
-      });
+        mockBannerSettings.layout = 'image_right'
+        component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />)
+        result = component.renderContent()
+      })
 
       it('calls renderLabel then renderImage', () => {
-        expect(result[0].key)
-          .toEqual('label');
-        expect(result[1].key)
-          .toEqual('image');
-      });
-    });
+        expect(result[0].key).toEqual('label')
+        expect(result[1].key).toEqual('image')
+      })
+    })
 
     describe('when layout is image_left', () => {
       beforeEach(() => {
-        mockBannerSettings.layout = 'image_left';
-        component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-        result = component.renderContent();
-      });
+        mockBannerSettings.layout = 'image_left'
+        component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />)
+        result = component.renderContent()
+      })
 
       it('calls renderImage then renderLabel', () => {
-        expect(result[0].key)
-          .toEqual('image');
-        expect(result[1].key)
-          .toEqual('label');
-      });
-    });
+        expect(result[0].key).toEqual('image')
+        expect(result[1].key).toEqual('label')
+      })
+    })
 
     describe('when layout is text_only', () => {
       beforeEach(() => {
-        mockBannerSettings.layout = 'text_only';
-        component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-        spyOn(component, 'renderLabel');
-        spyOn(component, 'renderImage');
-        result = component.renderContent();
-      });
+        mockBannerSettings.layout = 'text_only'
+        component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />)
+        spyOn(component, 'renderLabel')
+        spyOn(component, 'renderImage')
+        result = component.renderContent()
+      })
 
       it('calls renderLabel only', () => {
-        expect(component.renderLabel)
-          .toHaveBeenCalled();
-        expect(component.renderImage)
-          .not
-          .toHaveBeenCalled();
-      });
-    });
+        expect(component.renderLabel).toHaveBeenCalled()
+        expect(component.renderImage).not.toHaveBeenCalled()
+      })
+    })
 
     describe('when layout is image_only', () => {
       beforeEach(() => {
-        mockBannerSettings.layout = 'image_only';
-        component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-        spyOn(component, 'renderLabel');
-        spyOn(component, 'renderImage');
-        result = component.renderContent();
-      });
+        mockBannerSettings.layout = 'image_only'
+        component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />)
+        spyOn(component, 'renderLabel')
+        spyOn(component, 'renderImage')
+        result = component.renderContent()
+      })
 
       it('calls renderImage only', () => {
-        expect(component.renderLabel)
-          .not
-          .toHaveBeenCalled();
-        expect(component.renderImage)
-          .toHaveBeenCalled();
-      });
-    });
-  });
+        expect(component.renderLabel).not.toHaveBeenCalled()
+        expect(component.renderImage).toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('renderSplashDisplay', () => {
     let result,
-      mockBannerSettings = {};
+      mockBannerSettings = {}
 
     beforeEach(() => {
-      component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />);
-      result = component.renderSplashDisplay();
-    });
+      component = instanceRender(<ChatBadge bannerSettings={mockBannerSettings} />)
+      result = component.renderSplashDisplay()
+    })
 
     describe('when layout is image_only', () => {
       beforeAll(() => {
-        mockBannerSettings.layout = 'image_only';
-      });
+        mockBannerSettings.layout = 'image_only'
+      })
 
       it('does not render splashPadding display class', () => {
-        expect(result.props.className)
-          .not
-          .toContain('splashPadding');
-      });
-    });
+        expect(result.props.className).not.toContain('splashPadding')
+      })
+    })
 
     describe('when layout is image_right', () => {
       beforeAll(() => {
-        mockBannerSettings.layout = 'image_right';
-      });
+        mockBannerSettings.layout = 'image_right'
+      })
 
       it('renders splashPadding display class', () => {
-        expect(result.props.className)
-          .toContain('splashPadding');
-      });
-    });
-  });
+        expect(result.props.className).toContain('splashPadding')
+      })
+    })
+  })
 
   describe('sendChatMsg', () => {
     let mockMessage,
       mockEvent = {
         preventDefault: () => {}
       },
-      mockPrechatFormRequired;
+      mockPrechatFormRequired
 
     beforeEach(() => {
-      component = instanceRender(<ChatBadge
-        currentMessage={mockMessage}
-        updateChatScreen={updateChatScreenSpy}
-        sendMsg={sendMsgSpy}
-        resetCurrentMessage={resetCurrentMessageSpy}
-        onSend={onSendSpy}
-        prechatFormRequired={mockPrechatFormRequired}
-      />);
-      component.sendChatMsg(mockEvent);
-    });
+      component = instanceRender(
+        <ChatBadge
+          currentMessage={mockMessage}
+          updateChatScreen={updateChatScreenSpy}
+          sendMsg={sendMsgSpy}
+          resetCurrentMessage={resetCurrentMessageSpy}
+          onSend={onSendSpy}
+          prechatFormRequired={mockPrechatFormRequired}
+        />
+      )
+      component.sendChatMsg(mockEvent)
+    })
 
     describe('when there is no message', () => {
       beforeAll(() => {
-        mockMessage = '';
-      });
+        mockMessage = ''
+      })
 
       it('does not send message', () => {
-        expect(sendMsgSpy)
-          .not
-          .toHaveBeenCalled();
-        expect(updateChatScreenSpy)
-          .not
-          .toHaveBeenCalled();
-        expect(resetCurrentMessageSpy)
-          .not
-          .toHaveBeenCalled();
-        expect(onSendSpy)
-          .not
-          .toHaveBeenCalled();
-      });
-    });
+        expect(sendMsgSpy).not.toHaveBeenCalled()
+        expect(updateChatScreenSpy).not.toHaveBeenCalled()
+        expect(resetCurrentMessageSpy).not.toHaveBeenCalled()
+        expect(onSendSpy).not.toHaveBeenCalled()
+      })
+    })
 
     describe('when there is a message', () => {
       beforeAll(() => {
-        mockMessage = 'yolo';
-      });
+        mockMessage = 'yolo'
+      })
 
       describe('when nextScreen is PRECHAT_SCREEN', () => {
         beforeAll(() => {
-          mockPrechatFormRequired = true;
-        });
+          mockPrechatFormRequired = true
+        })
 
         it('updates to PRECHAT_SCREEN', () => {
-          expect(updateChatScreenSpy)
-            .toHaveBeenCalledWith('PRECHAT_SCREEN');
-        });
+          expect(updateChatScreenSpy).toHaveBeenCalledWith('PRECHAT_SCREEN')
+        })
 
         it('does not send message', () => {
-          expect(sendMsgSpy)
-            .not
-            .toHaveBeenCalled();
-          expect(resetCurrentMessageSpy)
-            .not
-            .toHaveBeenCalled();
-        });
-      });
+          expect(sendMsgSpy).not.toHaveBeenCalled()
+          expect(resetCurrentMessageSpy).not.toHaveBeenCalled()
+        })
+      })
 
       describe('when nextScreen is CHATTING_SCREEN', () => {
         beforeAll(() => {
-          mockPrechatFormRequired = false;
-        });
+          mockPrechatFormRequired = false
+        })
 
         it('updates to CHATTING_SCREEN', () => {
-          expect(updateChatScreenSpy)
-            .toHaveBeenCalledWith('CHATTING_SCREEN');
-        });
+          expect(updateChatScreenSpy).toHaveBeenCalledWith('CHATTING_SCREEN')
+        })
 
         it('sends message', () => {
-          expect(sendMsgSpy)
-            .toHaveBeenCalledWith('yolo');
-          expect(resetCurrentMessageSpy)
-            .toHaveBeenCalled();
-        });
-      });
-    });
-  });
+          expect(sendMsgSpy).toHaveBeenCalledWith('yolo')
+          expect(resetCurrentMessageSpy).toHaveBeenCalled()
+        })
+      })
+    })
+  })
 
   describe('handleKeyDown', () => {
     let mockEvent = {
       preventDefault: () => {}
-    };
+    }
 
     beforeEach(() => {
-      component = instanceRender(<ChatBadge />);
-      spyOn(component, 'sendChatMsg');
-      component.handleKeyDown(mockEvent);
-    });
+      component = instanceRender(<ChatBadge />)
+      spyOn(component, 'sendChatMsg')
+      component.handleKeyDown(mockEvent)
+    })
 
     describe('when key pressed was ENTER', () => {
       beforeAll(() => {
-        mockEvent.keyCode = 13;
-      });
+        mockEvent.keyCode = 13
+      })
 
       describe('when shift was not pressed', () => {
         beforeAll(() => {
-          mockEvent.shiftKey = false;
-        });
+          mockEvent.shiftKey = false
+        })
 
         it('sends chat message', () => {
-          expect(component.sendChatMsg)
-            .toHaveBeenCalledWith(mockEvent);
-        });
-      });
+          expect(component.sendChatMsg).toHaveBeenCalledWith(mockEvent)
+        })
+      })
 
       describe('when shift was pressed', () => {
         beforeAll(() => {
-          mockEvent.shiftKey = true;
-        });
+          mockEvent.shiftKey = true
+        })
 
         afterEach(() => {
-          mockEvent.shiftKey = false;
-        });
+          mockEvent.shiftKey = false
+        })
 
         it('does not send chat message', () => {
-          expect(component.sendChatMsg)
-            .not
-            .toHaveBeenCalled();
-        });
-      });
-    });
+          expect(component.sendChatMsg).not.toHaveBeenCalled()
+        })
+      })
+    })
 
     describe('when key pressed was not ENTER', () => {
       beforeAll(() => {
-        mockEvent.keyCode = 32;
-      });
+        mockEvent.keyCode = 32
+      })
 
       it('does not send chat message', () => {
-        expect(component.sendChatMsg)
-          .not
-          .toHaveBeenCalled();
-      });
-    });
-  });
-});
+        expect(component.sendChatMsg).not.toHaveBeenCalled()
+      })
+    })
+  })
+})

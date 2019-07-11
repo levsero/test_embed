@@ -1,19 +1,19 @@
-import { CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN } from '../helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types';
+import { CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN } from '../helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 
-const initialState = false;
+const initialState = false
 
 const channelChoiceShown = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN:
-      return payload;
+      return payload
     case API_CLEAR_HC_SEARCHES:
-      return initialState;
+      return initialState
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default channelChoiceShown;
+export default channelChoiceShown

@@ -1,18 +1,15 @@
-import _ from 'lodash';
-import jsSha1 from 'sha1';
+import _ from 'lodash'
+import jsSha1 from 'sha1'
 
-import {
-  document as doc,
-  location
-} from 'utility/globals';
-import { NAME_PATTERN, EMAIL_PATTERN } from 'constants/shared';
+import { document as doc, location } from 'utility/globals'
+import { NAME_PATTERN, EMAIL_PATTERN } from 'constants/shared'
 
 function parseUrl(url) {
-  const anchor = document.createElement('a');
+  const anchor = document.createElement('a')
 
-  anchor.href = url;
+  anchor.href = url
 
-  return anchor;
+  return anchor
 }
 
 /**
@@ -27,7 +24,7 @@ function splitPath(path) {
     .replace(/\#|\:/g, ' ') // Strip out '#' and ':' characters.
     .replace(/\/(\d+(?:\.\w+)?)(?:$|\/)/g, ' ')
     .replace(/\.[^.]{1,4}$/, '')
-    .replace(/[\/\.\|_\-]/g, ' ');
+    .replace(/[\/\.\|_\-]/g, ' ')
 }
 
 function getPageKeywords() {
@@ -35,11 +32,11 @@ function getPageKeywords() {
   // location.pathname will break and only return '/', so we need to append location.hash.
   return splitPath(location.pathname + location.hash)
     .replace(/\s+/g, ' ')
-    .trim();
+    .trim()
 }
 
 function getPageTitle() {
-  return doc.title || '';
+  return doc.title || ''
 }
 
 function cappedTimeoutCall(callback, delay = 50, repetitionCap = 1) {
@@ -47,20 +44,20 @@ function cappedTimeoutCall(callback, delay = 50, repetitionCap = 1) {
   // There were past issues with IE10 when a function's closure variables
   // were getting snapshotted. The evaluated result would always be the
   // same, potentially generating an infinite loop.
-  let repCount = 0;
+  let repCount = 0
   const recurseFn = () => {
-    repCount = repCount + 1;
+    repCount = repCount + 1
 
-    if (callback() || repCount >= repetitionCap) return;
+    if (callback() || repCount >= repetitionCap) return
 
-    setTimeout(() => recurseFn(), delay);
-  };
+    setTimeout(() => recurseFn(), delay)
+  }
 
-  recurseFn();
+  recurseFn()
 }
 
 function base64decode(string) {
-  return window.atob(string);
+  return window.atob(string)
 }
 
 // As per this post on MDN https://goo.gl/XzjooY:
@@ -69,13 +66,15 @@ function base64decode(string) {
 // > exceeds the range of a 8-bit ASCII-encoded character.
 // So we escape the string before encoding it. A test has been added for this
 function base64encode(string) {
-  return window.btoa(encodeURIComponent(string).replace(/%([0-9A-F]{2})/g, (match, p1) => {
-    return String.fromCharCode('0x' + p1);
-  }));
+  return window.btoa(
+    encodeURIComponent(string).replace(/%([0-9A-F]{2})/g, (match, p1) => {
+      return String.fromCharCode('0x' + p1)
+    })
+  )
 }
 
 function sha1(string) {
-  return jsSha1(string);
+  return jsSha1(string)
 }
 
 function objectDifference(a, b) {
@@ -83,40 +82,40 @@ function objectDifference(a, b) {
     // Arrays are objects so we need to check that it's not an array
     // so that it doesn't coerce it into an object
     if (_.isObject(val) && !_.isArray(val) && _.has(b, key)) {
-      const diff = objectDifference(val, b[key]);
+      const diff = objectDifference(val, b[key])
 
       if (!_.isEmpty(diff)) {
-        res[key] = diff;
+        res[key] = diff
       }
     } else if (!_.isEqual(val, b[key])) {
-      res[key] = val;
+      res[key] = val
     }
-  };
+  }
 
-  return _.transform(a, transformFn, {});
+  return _.transform(a, transformFn, {})
 }
 
 function cssTimeToMs(str) {
-  const time = parseInt(str, 10) || 0;
-  const pattern = /\d+s$/;
+  const time = parseInt(str, 10) || 0
+  const pattern = /\d+s$/
 
-  return pattern.test(str) ? (time * 1000) : time;
+  return pattern.test(str) ? time * 1000 : time
 }
 
 function nowInSeconds() {
-  return Math.floor(Date.now() / 1000);
+  return Math.floor(Date.now() / 1000)
 }
 
 function emailValid(email, options = { allowEmpty: false }) {
-  const validEmpty = options.allowEmpty && email === '';
+  const validEmpty = options.allowEmpty && email === ''
 
-  return EMAIL_PATTERN.test(email) || validEmpty;
+  return EMAIL_PATTERN.test(email) || validEmpty
 }
 
 function nameValid(name, options = { allowEmpty: false }) {
-  const validEmpty = options.allowEmpty && name === '';
+  const validEmpty = options.allowEmpty && name === ''
 
-  return _.isString(name) && NAME_PATTERN.test(name) || validEmpty;
+  return (_.isString(name) && NAME_PATTERN.test(name)) || validEmpty
 }
 
 function referrerPolicyUrl(policy, url) {
@@ -125,25 +124,25 @@ function referrerPolicyUrl(policy, url) {
   switch (policy) {
     case 'no-referrer':
     case 'same-origin':
-      return null;
+      return null
     case 'origin':
     case 'origin-when-cross-origin':
     case 'strict-origin':
     case 'strict-origin-when-cross-origin':
-      return parseUrl(url).origin;
+      return parseUrl(url).origin
     default:
-      return url;
+      return url
   }
 }
 
 function getHostUrl() {
-  return location.toString();
+  return location.toString()
 }
 
 function isValidUrl(url) {
-  const a = parseUrl(url);
+  const a = parseUrl(url)
 
-  return !!(a.host && a.host !== location.host);
+  return !!(a.host && a.host !== location.host)
 }
 
 export {
@@ -163,4 +162,4 @@ export {
   referrerPolicyUrl,
   getHostUrl,
   isValidUrl
-};
+}

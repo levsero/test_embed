@@ -1,20 +1,18 @@
-import {
-  UPDATE_SETTINGS
-} from '../../settings-action-types';
+import { UPDATE_SETTINGS } from '../../settings-action-types'
 
-import _ from 'lodash';
+import _ from 'lodash'
 
-const initialState = null;
+const initialState = null
 
 const department = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'webWidget.chat.departments.enabled', state);
+      return _.get(payload, 'webWidget.chat.departments.enabled', state)
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default department;
+export default department

@@ -1,14 +1,14 @@
-import { ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE } from '../zopimChat-action-types';
+import { ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE } from '../zopimChat-action-types'
 
-const initialState = 0;
+const initialState = 0
 
 const unreadMessages = (state = initialState, action) => {
   switch (action.type) {
     case ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default unreadMessages;
+export default unreadMessages

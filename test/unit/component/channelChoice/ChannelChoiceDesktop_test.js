@@ -1,11 +1,9 @@
 describe('ChannelChoiceDesktop component', () => {
-  let ChannelChoiceDesktop,
-    channelChoiceDesktop,
-    channelChoiceComponent;
-  const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoiceDesktop');
+  let ChannelChoiceDesktop, channelChoiceDesktop, channelChoiceComponent
+  const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoiceDesktop')
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './ChannelChoiceDesktop.scss': {
@@ -24,16 +22,14 @@ describe('ChannelChoiceDesktop component', () => {
                 {this.props.children}
                 {this.props.footerContent}
               </div>
-            );
+            )
           }
         }
       },
       'component/ZendeskLogo': {
         ZendeskLogo: class extends Component {
           render() {
-            return (
-              <div className='zendeskLogo' />
-            );
+            return <div className="zendeskLogo" />
           }
         }
       },
@@ -45,70 +41,59 @@ describe('ChannelChoiceDesktop component', () => {
           t: _.identity
         }
       }
-    });
+    })
 
-    ChannelChoiceDesktop = requireUncached(channelChoicePath).ChannelChoiceDesktop;
-    jasmine.clock().install();
-  });
+    ChannelChoiceDesktop = requireUncached(channelChoicePath).ChannelChoiceDesktop
+    jasmine.clock().install()
+  })
 
   afterEach(() => {
-    jasmine.clock().uninstall();
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    jasmine.clock().uninstall()
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('render', () => {
     describe('default props', () => {
       beforeEach(() => {
         channelChoiceDesktop = domRender(
-          <ChannelChoiceDesktop
-            formTitleKey='key'
-            handleNextClick={noop} />
-        );
-        channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceDesktop);
-      });
+          <ChannelChoiceDesktop formTitleKey="key" handleNextClick={noop} />
+        )
+        channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceDesktop)
+      })
 
       it('has an inner container class', () => {
-        expect(channelChoiceComponent.querySelector('.inner'))
-          .not.toBeNull();
-      });
+        expect(channelChoiceComponent.querySelector('.inner')).not.toBeNull()
+      })
 
       it('does not pass the footerNoLogo class to ScrollContainer', () => {
-        expect(channelChoiceComponent.querySelector('.footerNoLogo'))
-          .toBeNull();
-      });
+        expect(channelChoiceComponent.querySelector('.footerNoLogo')).toBeNull()
+      })
 
       it('should render the zendesk logo', () => {
-        expect(channelChoiceComponent.querySelector('.zendeskLogo'))
-          .not.toBeNull();
-      });
-    });
+        expect(channelChoiceComponent.querySelector('.zendeskLogo')).not.toBeNull()
+      })
+    })
 
     describe('when hideZendeskLogo is true', () => {
       beforeEach(() => {
         channelChoiceDesktop = domRender(
-          <ChannelChoiceDesktop
-            formTitleKey='key'
-            handleNextClick={noop}
-            hideZendeskLogo={true} />
-        );
-        channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceDesktop);
-      });
+          <ChannelChoiceDesktop formTitleKey="key" handleNextClick={noop} hideZendeskLogo={true} />
+        )
+        channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceDesktop)
+      })
 
       it('does not have an inner container class', () => {
-        expect(channelChoiceComponent.querySelector('.inner'))
-          .toBeNull();
-      });
+        expect(channelChoiceComponent.querySelector('.inner')).toBeNull()
+      })
 
       it('passes the footerNoLogo class to ScrollContainer', () => {
-        expect(channelChoiceComponent.querySelector('.footerNoLogo'))
-          .not.toBeNull();
-      });
+        expect(channelChoiceComponent.querySelector('.footerNoLogo')).not.toBeNull()
+      })
 
       it('should not render the zendesk logo', () => {
-        expect(channelChoiceComponent.querySelector('.zendeskLogo'))
-          .toBeNull();
-      });
-    });
-  });
-});
+        expect(channelChoiceComponent.querySelector('.zendeskLogo')).toBeNull()
+      })
+    })
+  })
+})

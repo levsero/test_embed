@@ -1,44 +1,40 @@
 describe('chat reducer: operatingHours', () => {
-  let reducer,
-    actionTypes,
-    initialState;
+  let reducer, actionTypes, initialState
 
   beforeAll(() => {
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-operating-hours');
-    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-operating-hours')
+    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
-    reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
+    reducer = requireUncached(reducerPath).default
+    actionTypes = requireUncached(actionTypesPath)
 
-    initialState = reducer(undefined, { type: '' });
-  });
+    initialState = reducer(undefined, { type: '' })
+  })
 
   describe('reducer', () => {
-    let state;
+    let state
 
     describe('initial state', () => {
       it('is set to to an object with an enabled: false property', () => {
-        expect(initialState)
-          .toEqual({ enabled: false });
-      });
-    });
+        expect(initialState).toEqual({ enabled: false })
+      })
+    })
 
     describe('when a GET_OPERATING_HOURS_REQUEST_SUCCESS action is dispatched', () => {
-      let payload;
+      let payload
 
       beforeEach(() => {
-        payload = { account_schedule: [[456]] };
+        payload = { account_schedule: [[456]] }
 
         state = reducer(initialState, {
           type: actionTypes.GET_OPERATING_HOURS_REQUEST_SUCCESS,
           payload: payload
-        });
-      });
+        })
+      })
 
       it('updates the state with payload', () => {
-        expect(state)
-          .toEqual(payload);
-      });
-    });
-  });
-});
+        expect(state).toEqual(payload)
+      })
+    })
+  })
+})

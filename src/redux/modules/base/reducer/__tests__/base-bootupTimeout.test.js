@@ -1,6 +1,6 @@
-import bootupTimeout from '../base-bootupTimeout';
-import { BOOT_UP_TIMER_COMPLETE } from '../../base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import bootupTimeout from '../base-bootupTimeout'
+import { BOOT_UP_TIMER_COMPLETE } from '../../base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(bootupTimeout, [
   {
@@ -16,4 +16,4 @@ testReducer(bootupTimeout, [
     action: { type: BOOT_UP_TIMER_COMPLETE },
     expected: true
   }
-]);
+])

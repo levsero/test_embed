@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton'
 
-import { locals as styles } from './MessageOptions.scss';
-import classNames from 'classnames';
+import { locals as styles } from './MessageOptions.scss'
+import classNames from 'classnames'
 
 export class MessageOptions extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ export class MessageOptions extends Component {
     optionItems: PropTypes.array,
     onOptionClick: PropTypes.func,
     isMessageBubbleLinked: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     optionItems: [],
@@ -28,22 +28,19 @@ export class MessageOptions extends Component {
         {
           [styles.firstItemBorders]: index === 0 && !this.props.isMessageBubbleLinked
         }
-      );
+      )
 
       return (
         <KeyboardFocusButton
           key={index}
           className={childClasses}
-          onClick={() => this.props.onOptionClick(child)}>
+          onClick={() => this.props.onOptionClick(child)}
+        >
           <a>{child}</a>
         </KeyboardFocusButton>
-      );
-    });
+      )
+    })
 
-    return (
-      <ul>
-        {optionElems}
-      </ul>
-    );
+    return <ul>{optionElems}</ul>
   }
 }

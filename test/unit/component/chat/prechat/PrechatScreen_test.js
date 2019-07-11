@@ -1,32 +1,31 @@
-const prechatScreen = 'widget/chat/PRECHAT_SCREEN';
-const chattingScreen = 'widget/chat/CHATTING_SCREEN';
-const loadingScreen = 'widget/chat/LOADING_SCREEN';
-const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN';
+const prechatScreen = 'widget/chat/PRECHAT_SCREEN'
+const chattingScreen = 'widget/chat/CHATTING_SCREEN'
+const loadingScreen = 'widget/chat/LOADING_SCREEN'
+const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN'
 
 describe('PrechatScreen component', () => {
-  let PrechatScreen,
-    prechatFormSettingsProp;
+  let PrechatScreen, prechatFormSettingsProp
 
-  const chatPath = buildSrcPath('component/chat/prechat/PrechatScreen');
-  const chatConstantsPath = buildSrcPath('constants/chat');
+  const chatPath = buildSrcPath('component/chat/prechat/PrechatScreen')
+  const chatConstantsPath = buildSrcPath('constants/chat')
 
-  const updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
-  const handlePrechatFormSubmitSpy = jasmine.createSpy('handlePrechatFormSubmit');
-  const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage');
+  const updateChatScreenSpy = jasmine.createSpy('updateChatScreen')
+  const handlePrechatFormSubmitSpy = jasmine.createSpy('handlePrechatFormSubmit')
+  const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage')
 
-  const ChatOfflineMessageForm = noopReactComponent('ChatOfflineMessageForm');
-  const PrechatForm = noopReactComponent('PrechatForm');
-  const LoadingSpinner = noopReactComponent('LoadingSpinner');
-  const ZendeskLogo = noopReactComponent('ZendeskLogo');
+  const ChatOfflineMessageForm = noopReactComponent('ChatOfflineMessageForm')
+  const PrechatForm = noopReactComponent('PrechatForm')
+  const LoadingSpinner = noopReactComponent('LoadingSpinner')
+  const ZendeskLogo = noopReactComponent('ZendeskLogo')
 
-  const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
+  const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES
 
-  const mockTitle = 'My custom title';
+  const mockTitle = 'My custom title'
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
-    prechatFormSettingsProp = { form: {}, required: false };
+    prechatFormSettingsProp = { form: {}, required: false }
 
     initMockRegistry({
       './PrechatScreen.scss': {
@@ -87,24 +86,20 @@ describe('PrechatScreen component', () => {
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/redux/modules/chat/chat-selectors': {},
+      'src/redux/modules/chat/chat-history-selectors': {}
+    })
 
-      },
-      'src/redux/modules/chat/chat-history-selectors': {
-
-      }
-    });
-
-    mockery.registerAllowable(chatPath);
-    PrechatScreen = requireUncached(chatPath).default.WrappedComponent;
-  });
+    mockery.registerAllowable(chatPath)
+    PrechatScreen = requireUncached(chatPath).default.WrappedComponent
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
+    mockery.deregisterAll()
+    mockery.disable()
 
-    updateChatScreenSpy.calls.reset();
-  });
+    updateChatScreenSpy.calls.reset()
+  })
 
   describe('onPrechatFormComplete', () => {
     let component,
@@ -115,14 +110,14 @@ describe('PrechatScreen component', () => {
       sendOfflineMessageSpy,
       clearDepartmentSpy,
       mockDepartments,
-      deptHidden = false;
+      deptHidden = false
 
     beforeEach(() => {
-      setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo');
-      sendMsgSpy = jasmine.createSpy('sendMsg');
-      setDepartmentSpy = jasmine.createSpy('setDepartment');
-      sendOfflineMessageSpy = jasmine.createSpy('sendOfflineMessage');
-      clearDepartmentSpy = jasmine.createSpy('clearDepartment');
+      setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo')
+      sendMsgSpy = jasmine.createSpy('sendMsg')
+      setDepartmentSpy = jasmine.createSpy('setDepartment')
+      sendOfflineMessageSpy = jasmine.createSpy('sendOfflineMessage')
+      clearDepartmentSpy = jasmine.createSpy('clearDepartment')
       component = instanceRender(
         <PrechatScreen
           postChatFormSettings={{ header: 'foo' }}
@@ -136,24 +131,25 @@ describe('PrechatScreen component', () => {
           departments={mockDepartments}
           departmentFieldHidden={deptHidden}
           sendOfflineMessage={sendOfflineMessageSpy}
-          clearDepartment={clearDepartmentSpy} />
-      );
+          clearDepartment={clearDepartmentSpy}
+        />
+      )
 
-      component.onPrechatFormComplete(formInfo);
-    });
+      component.onPrechatFormComplete(formInfo)
+    })
 
     afterEach(() => {
-      deptHidden = false;
-      setVisitorInfoSpy.calls.reset();
-      sendMsgSpy.calls.reset();
-      setDepartmentSpy.calls.reset();
-      updateChatScreenSpy.calls.reset();
-      handlePrechatFormSubmitSpy.calls.reset();
-      sendOfflineMessageSpy.calls.reset();
-    });
+      deptHidden = false
+      setVisitorInfoSpy.calls.reset()
+      sendMsgSpy.calls.reset()
+      setDepartmentSpy.calls.reset()
+      updateChatScreenSpy.calls.reset()
+      handlePrechatFormSubmitSpy.calls.reset()
+      sendOfflineMessageSpy.calls.reset()
+    })
 
     describe('when display_name is not specified in the form data', () => {
-      const nameValue = 'test name';
+      const nameValue = 'test name'
 
       beforeAll(() => {
         formInfo = {
@@ -162,20 +158,19 @@ describe('PrechatScreen component', () => {
           phone: '87654321',
           message: 'bend the knee',
           department: 12345
-        };
+        }
 
         mockDepartments = {
           12345: {
             status: 'online'
           }
-        };
-      });
+        }
+      })
 
       it('uses the value of the name as the display_name', () => {
-        expect(setVisitorInfoSpy.calls.mostRecent().args[0].display_name)
-          .toEqual(nameValue);
-      });
-    });
+        expect(setVisitorInfoSpy.calls.mostRecent().args[0].display_name).toEqual(nameValue)
+      })
+    })
 
     describe('when the form data has null or undefined values', () => {
       beforeAll(() => {
@@ -183,16 +178,15 @@ describe('PrechatScreen component', () => {
           display_name: 'name',
           email: undefined,
           phone: null
-        };
-      });
+        }
+      })
 
       it('omits those values from the setVisitorInfo call', () => {
-        const visitorInfo = _.omit(formInfo, ['email', 'phone']);
+        const visitorInfo = _.omit(formInfo, ['email', 'phone'])
 
-        expect(setVisitorInfoSpy)
-          .toHaveBeenCalledWith(visitorInfo);
-      });
-    });
+        expect(setVisitorInfoSpy).toHaveBeenCalledWith(visitorInfo)
+      })
+    })
 
     describe('when the form data has no information about the visitor', () => {
       beforeAll(() => {
@@ -201,14 +195,13 @@ describe('PrechatScreen component', () => {
           name: undefined,
           email: undefined,
           phone: undefined
-        };
-      });
+        }
+      })
 
       it('does not call setVisitorInfo', () => {
-        expect(setVisitorInfoSpy)
-          .not.toHaveBeenCalled();
-      });
-    });
+        expect(setVisitorInfoSpy).not.toHaveBeenCalled()
+      })
+    })
 
     describe('when department is specified', () => {
       describe('when department is online', () => {
@@ -219,59 +212,57 @@ describe('PrechatScreen component', () => {
             phone: '87654321',
             message: 'bend the knee',
             department: 12345
-          };
+          }
 
           mockDepartments = {
             12345: {
               status: 'online'
             }
-          };
-        });
+          }
+        })
 
         it('calls setDepartment with correct arguments', () => {
-          expect(setDepartmentSpy)
-            .toHaveBeenCalledWith(formInfo.department, jasmine.any(Function), jasmine.any(Function));
-        });
+          expect(setDepartmentSpy).toHaveBeenCalledWith(
+            formInfo.department,
+            jasmine.any(Function),
+            jasmine.any(Function)
+          )
+        })
 
         it('calls setVisitorInfo with the correct arguments', () => {
-          expect(setVisitorInfoSpy)
-            .toHaveBeenCalledWith({
-              display_name: 'Daenerys Targaryen',
-              email: 'mother@of.dragons',
-              phone: '87654321'
-            });
-        });
+          expect(setVisitorInfoSpy).toHaveBeenCalledWith({
+            display_name: 'Daenerys Targaryen',
+            email: 'mother@of.dragons',
+            phone: '87654321'
+          })
+        })
 
         it('calls handlePrechatFormSubmit with the form info', () => {
-          expect(handlePrechatFormSubmitSpy)
-            .toHaveBeenCalledWith(formInfo);
-        });
+          expect(handlePrechatFormSubmitSpy).toHaveBeenCalledWith(formInfo)
+        })
 
         describe('when there is a message to send', () => {
           beforeAll(() => {
-            formInfo.message = 'Bend the knee m8.';
-          });
+            formInfo.message = 'Bend the knee m8.'
+          })
 
           it('sends an online message', () => {
-            setDepartmentSpy.calls.mostRecent().args[1]();
-            expect(sendMsgSpy)
-              .toHaveBeenCalledWith('Bend the knee m8.');
-          });
-        });
+            setDepartmentSpy.calls.mostRecent().args[1]()
+            expect(sendMsgSpy).toHaveBeenCalledWith('Bend the knee m8.')
+          })
+        })
 
         describe('when there is no message to send', () => {
           beforeAll(() => {
-            formInfo.message = null;
-          });
+            formInfo.message = null
+          })
 
           it('does not send online message', () => {
-            setDepartmentSpy.calls.mostRecent().args[1]();
-            expect(sendMsgSpy)
-              .not
-              .toHaveBeenCalled();
-          });
-        });
-      });
+            setDepartmentSpy.calls.mostRecent().args[1]()
+            expect(sendMsgSpy).not.toHaveBeenCalled()
+          })
+        })
+      })
 
       describe('when department is away', () => {
         beforeAll(() => {
@@ -281,59 +272,57 @@ describe('PrechatScreen component', () => {
             phone: '87654321',
             message: 'bend the knee',
             department: 12345
-          };
+          }
 
           mockDepartments = {
             12345: {
               status: 'away'
             }
-          };
-        });
+          }
+        })
 
         it('calls setDepartment with correct arguments', () => {
-          expect(setDepartmentSpy)
-            .toHaveBeenCalledWith(formInfo.department, jasmine.any(Function), jasmine.any(Function));
-        });
+          expect(setDepartmentSpy).toHaveBeenCalledWith(
+            formInfo.department,
+            jasmine.any(Function),
+            jasmine.any(Function)
+          )
+        })
 
         it('calls setVisitorInfo with the correct arguments', () => {
-          expect(setVisitorInfoSpy)
-            .toHaveBeenCalledWith({
-              display_name: 'Daenerys Targaryen',
-              email: 'mother@of.dragons',
-              phone: '87654321'
-            });
-        });
+          expect(setVisitorInfoSpy).toHaveBeenCalledWith({
+            display_name: 'Daenerys Targaryen',
+            email: 'mother@of.dragons',
+            phone: '87654321'
+          })
+        })
 
         it('calls handlePrechatFormSubmit with the form info', () => {
-          expect(handlePrechatFormSubmitSpy)
-            .toHaveBeenCalledWith(formInfo);
-        });
+          expect(handlePrechatFormSubmitSpy).toHaveBeenCalledWith(formInfo)
+        })
 
         describe('when there is a message to send', () => {
           beforeAll(() => {
-            formInfo.message = 'Bend the knee m8.';
-          });
+            formInfo.message = 'Bend the knee m8.'
+          })
 
           it('sends an online message', () => {
-            setDepartmentSpy.calls.mostRecent().args[1]();
-            expect(sendMsgSpy)
-              .toHaveBeenCalledWith('Bend the knee m8.');
-          });
-        });
+            setDepartmentSpy.calls.mostRecent().args[1]()
+            expect(sendMsgSpy).toHaveBeenCalledWith('Bend the knee m8.')
+          })
+        })
 
         describe('when there is no message to send', () => {
           beforeAll(() => {
-            formInfo.message = null;
-          });
+            formInfo.message = null
+          })
 
           it('does not send online message', () => {
-            setDepartmentSpy.calls.mostRecent().args[1]();
-            expect(sendMsgSpy)
-              .not
-              .toHaveBeenCalled();
-          });
-        });
-      });
+            setDepartmentSpy.calls.mostRecent().args[1]()
+            expect(sendMsgSpy).not.toHaveBeenCalled()
+          })
+        })
+      })
 
       describe('when department is offline', () => {
         beforeAll(() => {
@@ -343,43 +332,43 @@ describe('PrechatScreen component', () => {
             phone: '87654321',
             message: 'bend the knee',
             department: 12345
-          };
+          }
 
           mockDepartments = {
             12345: {
               status: 'offline'
             }
-          };
-        });
+          }
+        })
 
         it('calls updateChatScreen with LOADING_SCREEN', () => {
-          expect(updateChatScreenSpy)
-            .toHaveBeenCalledWith(loadingScreen);
-        });
+          expect(updateChatScreenSpy).toHaveBeenCalledWith(loadingScreen)
+        })
 
         it('calls sendOfflineMessage with formInfo', () => {
-          expect(sendOfflineMessageSpy)
-            .toHaveBeenCalledWith(formInfo, jasmine.any(Function), jasmine.any(Function));
-        });
+          expect(sendOfflineMessageSpy).toHaveBeenCalledWith(
+            formInfo,
+            jasmine.any(Function),
+            jasmine.any(Function)
+          )
+        })
 
         it('calls updateChatScreen with offline screen when the callbackSuccess is invoked', () => {
-          const callbackSuccess = sendOfflineMessageSpy.calls.mostRecent().args[1];
+          const callbackSuccess = sendOfflineMessageSpy.calls.mostRecent().args[1]
 
-          callbackSuccess();
+          callbackSuccess()
 
-          expect(updateChatScreenSpy)
-            .toHaveBeenCalledWith(offlineMessageScreen);
-        });
+          expect(updateChatScreenSpy).toHaveBeenCalledWith(offlineMessageScreen)
+        })
 
         it('calls updateChatScreen with preChat screen when the callbackFailure is invoked', () => {
-          const callbackFailure = sendOfflineMessageSpy.calls.mostRecent().args[2];
+          const callbackFailure = sendOfflineMessageSpy.calls.mostRecent().args[2]
 
-          callbackFailure();
+          callbackFailure()
 
-          expect(updateChatScreenSpy)
-            .toHaveBeenCalledWith(prechatScreen);
-        });
-      });
+          expect(updateChatScreenSpy).toHaveBeenCalledWith(prechatScreen)
+        })
+      })
 
       describe('when department is not enabled', () => {
         beforeAll(() => {
@@ -389,22 +378,20 @@ describe('PrechatScreen component', () => {
             phone: '87654321',
             message: 'bend the knee',
             department: 12345
-          };
+          }
 
-          mockDepartments = {};
-        });
+          mockDepartments = {}
+        })
 
         it('calls clearDepartment', () => {
-          expect(clearDepartmentSpy)
-            .toHaveBeenCalled();
-        });
+          expect(clearDepartmentSpy).toHaveBeenCalled()
+        })
 
         it('calls handlePrechatFormSubmit with the form info', () => {
-          expect(handlePrechatFormSubmitSpy)
-            .toHaveBeenCalledWith(formInfo);
-        });
-      });
-    });
+          expect(handlePrechatFormSubmitSpy).toHaveBeenCalledWith(formInfo)
+        })
+      })
+    })
 
     describe('when department field is hidden', () => {
       beforeAll(() => {
@@ -412,22 +399,20 @@ describe('PrechatScreen component', () => {
           display_name: 'Daenerys Targaryen',
           email: 'mother@of.dragons',
           phone: '87654321'
-        };
+        }
 
-        deptHidden = true;
-        mockDepartments = null;
-      });
+        deptHidden = true
+        mockDepartments = null
+      })
 
       it('does not call clearDepartment', () => {
-        expect(clearDepartmentSpy)
-          .not.toHaveBeenCalled();
-      });
+        expect(clearDepartmentSpy).not.toHaveBeenCalled()
+      })
 
       it('does not call setDepartment', () => {
-        expect(setDepartmentSpy)
-          .not.toHaveBeenCalled();
-      });
-    });
+        expect(setDepartmentSpy).not.toHaveBeenCalled()
+      })
+    })
 
     describe('when department is not specified', () => {
       beforeAll(() => {
@@ -435,234 +420,208 @@ describe('PrechatScreen component', () => {
           display_name: 'Daenerys Targaryen',
           email: 'mother@of.dragons',
           phone: '87654321'
-        };
+        }
 
-        mockDepartments = null;
-      });
+        mockDepartments = null
+      })
 
       it('calls clearDepartment with the correct arguments', () => {
-        expect(clearDepartmentSpy)
-          .toHaveBeenCalledWith(jasmine.any(Function));
-      });
+        expect(clearDepartmentSpy).toHaveBeenCalledWith(jasmine.any(Function))
+      })
 
       it('should call setVisitorInfo with the correct arguments', () => {
-        expect(setVisitorInfoSpy)
-          .toHaveBeenCalledWith({
-            display_name: 'Daenerys Targaryen',
-            email: 'mother@of.dragons',
-            phone: '87654321'
-          });
-      });
+        expect(setVisitorInfoSpy).toHaveBeenCalledWith({
+          display_name: 'Daenerys Targaryen',
+          email: 'mother@of.dragons',
+          phone: '87654321'
+        })
+      })
 
       it('calls handlePrechatFormSubmit with the form info', () => {
-        expect(handlePrechatFormSubmitSpy)
-          .toHaveBeenCalledWith(formInfo);
-      });
+        expect(handlePrechatFormSubmitSpy).toHaveBeenCalledWith(formInfo)
+      })
 
       describe('when there is a message to send', () => {
         beforeAll(() => {
-          formInfo.message = 'Bend the knee m8.';
-        });
+          formInfo.message = 'Bend the knee m8.'
+        })
 
         it('sends an online message', () => {
-          clearDepartmentSpy.calls.mostRecent().args[0]();
-          expect(sendMsgSpy)
-            .toHaveBeenCalledWith('Bend the knee m8.');
-        });
-      });
+          clearDepartmentSpy.calls.mostRecent().args[0]()
+          expect(sendMsgSpy).toHaveBeenCalledWith('Bend the knee m8.')
+        })
+      })
 
       describe('when there is no message to send', () => {
         beforeAll(() => {
-          formInfo.message = null;
-        });
+          formInfo.message = null
+        })
 
         it('does not send online message', () => {
-          clearDepartmentSpy.calls.mostRecent().args[0]();
-          expect(sendMsgSpy)
-            .not
-            .toHaveBeenCalled();
-        });
-      });
-    });
+          clearDepartmentSpy.calls.mostRecent().args[0]()
+          expect(sendMsgSpy).not.toHaveBeenCalled()
+        })
+      })
+    })
 
     it('calls resetCurrentMessage', () => {
-      expect(resetCurrentMessageSpy)
-        .toHaveBeenCalled();
-    });
-  });
+      expect(resetCurrentMessageSpy).toHaveBeenCalled()
+    })
+  })
 
   describe('render', () => {
-    let component,
-      mockScreen;
+    let component, mockScreen
 
     beforeEach(() => {
-      const prechatFormSettings = { form: {}, message: '' };
+      const prechatFormSettings = { form: {}, message: '' }
 
-      component = instanceRender(<PrechatScreen screen={mockScreen} prechatFormSettings={prechatFormSettings} />);
+      component = instanceRender(
+        <PrechatScreen screen={mockScreen} prechatFormSettings={prechatFormSettings} />
+      )
 
-      spyOn(component, 'renderPreChatForm');
-      spyOn(component, 'renderLoadingSpinner');
-      spyOn(component, 'renderChatOfflineForm');
+      spyOn(component, 'renderPreChatForm')
+      spyOn(component, 'renderLoadingSpinner')
+      spyOn(component, 'renderChatOfflineForm')
 
-      component.render();
-    });
+      component.render()
+    })
 
     describe('when the screen is prechat screen', () => {
       beforeAll(() => {
-        mockScreen = prechatScreen;
-      });
+        mockScreen = prechatScreen
+      })
 
       it('calls renderPreChatForm', () => {
-        expect(component.renderPreChatForm)
-          .toHaveBeenCalled();
-      });
-    });
+        expect(component.renderPreChatForm).toHaveBeenCalled()
+      })
+    })
 
     describe('when the screen is loading screen', () => {
       beforeAll(() => {
-        mockScreen = loadingScreen;
-      });
+        mockScreen = loadingScreen
+      })
 
       it('calls renderLoadingSpinner', () => {
-        expect(component.renderLoadingSpinner)
-          .toHaveBeenCalled();
-      });
-    });
+        expect(component.renderLoadingSpinner).toHaveBeenCalled()
+      })
+    })
 
     describe('when the screen is offline message screen', () => {
       beforeAll(() => {
-        mockScreen = offlineMessageScreen;
-      });
+        mockScreen = offlineMessageScreen
+      })
 
       it('calls renderChatOfflineForm', () => {
-        expect(component.renderChatOfflineForm)
-          .toHaveBeenCalled();
-      });
-    });
+        expect(component.renderChatOfflineForm).toHaveBeenCalled()
+      })
+    })
 
     describe('when the screen is unrecognised', () => {
       beforeAll(() => {
-        mockScreen = 'bob screen';
-      });
+        mockScreen = 'bob screen'
+      })
 
       it('does not call renderPreChatForm', () => {
-        expect(component.renderPreChatForm)
-          .not.toHaveBeenCalled();
-      });
+        expect(component.renderPreChatForm).not.toHaveBeenCalled()
+      })
 
       it('does not call renderLoadingSpinner', () => {
-        expect(component.renderLoadingSpinner)
-          .not.toHaveBeenCalled();
-      });
+        expect(component.renderLoadingSpinner).not.toHaveBeenCalled()
+      })
 
       it('does not call renderChatOfflineForm', () => {
-        expect(component.renderChatOfflineForm)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
+        expect(component.renderChatOfflineForm).not.toHaveBeenCalled()
+      })
+    })
+  })
 
   describe('renderChatOfflineForm', () => {
-    let result;
+    let result
 
     beforeEach(() => {
-      const component = instanceRender(<PrechatScreen
-        title={mockTitle}
-        isMobile={true}
-        fullscreen={true} />);
+      const component = instanceRender(
+        <PrechatScreen title={mockTitle} isMobile={true} fullscreen={true} />
+      )
 
-      result = component.renderChatOfflineForm();
-    });
+      result = component.renderChatOfflineForm()
+    })
 
     it('renders ChatOfflineMessageForm', () => {
-      expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
-        .toEqual(true);
-    });
+      expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm)).toEqual(true)
+    })
 
     it('renders with the correct title', () => {
-      expect(result.props.title)
-        .toEqual(mockTitle);
-    });
+      expect(result.props.title).toEqual(mockTitle)
+    })
 
     it('renders with the correct fullscreen', () => {
-      expect(result.props.fullscreen)
-        .toEqual(true);
-    });
+      expect(result.props.fullscreen).toEqual(true)
+    })
 
     it('renders with the correct isMobile', () => {
-      expect(result.props.isMobile)
-        .toEqual(true);
-    });
-  });
+      expect(result.props.isMobile).toEqual(true)
+    })
+  })
 
   describe('renderPreChatForm', () => {
-    let result;
+    let result
 
     beforeEach(() => {
-      const prechatFormSettings = { form: {}, message: '' };
+      const prechatFormSettings = { form: {}, message: '' }
       const component = instanceRender(
         <PrechatScreen
           title={mockTitle}
           prechatFormSettings={prechatFormSettings}
           isMobile={true}
-          fullscreen={true} />
-      );
+          fullscreen={true}
+        />
+      )
 
-      result = component.renderPreChatForm();
-    });
+      result = component.renderPreChatForm()
+    })
 
     it('renders renderPreChatForm', () => {
-      expect(TestUtils.isElementOfType(result, PrechatForm))
-        .toEqual(true);
-    });
+      expect(TestUtils.isElementOfType(result, PrechatForm)).toEqual(true)
+    })
 
     it('renders with the correct title', () => {
-      expect(result.props.title)
-        .toEqual(mockTitle);
-    });
+      expect(result.props.title).toEqual(mockTitle)
+    })
 
     it('renders with the correct title', () => {
-      expect(result.props.title)
-        .toEqual(mockTitle);
-    });
+      expect(result.props.title).toEqual(mockTitle)
+    })
 
     it('renders with the correct fullscreen', () => {
-      expect(result.props.fullscreen)
-        .toEqual(true);
-    });
-  });
+      expect(result.props.fullscreen).toEqual(true)
+    })
+  })
 
   describe('renderLoadingSpinner', () => {
-    let result,
-      component;
+    let result, component
 
     beforeEach(() => {
-      component = instanceRender(<PrechatScreen
-        title={mockTitle}
-        isMobile={true}
-        fullscreen={true} />);
+      component = instanceRender(
+        <PrechatScreen title={mockTitle} isMobile={true} fullscreen={true} />
+      )
 
-      result = component.renderLoadingSpinner();
-    });
+      result = component.renderLoadingSpinner()
+    })
 
     it('renders a LoadingSpinner', () => {
-      expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner))
-        .toEqual(true);
-    });
+      expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner)).toEqual(true)
+    })
 
     it('renders with the correct title', () => {
-      expect(result.props.title)
-        .toEqual(mockTitle);
-    });
+      expect(result.props.title).toEqual(mockTitle)
+    })
 
     it('renders with the correct title', () => {
-      expect(result.props.title)
-        .toEqual(mockTitle);
-    });
+      expect(result.props.title).toEqual(mockTitle)
+    })
 
     it('renders with the correct fullscreen', () => {
-      expect(result.props.fullscreen)
-        .toEqual(true);
-    });
-  });
-});
+      expect(result.props.fullscreen).toEqual(true)
+    })
+  })
+})

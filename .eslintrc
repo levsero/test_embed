@@ -3,7 +3,8 @@
     "./config/eslint/eslint-defaults.js",
     "./config/eslint/eslint-es6.js",
     "./config/eslint/eslint-react.js",
-    "./config/eslint/eslint-plugin-import.js"
+    "./config/eslint/eslint-plugin-import.js",
+    "plugin:prettier/recommended"
   ],
   "plugins": [
     "jest",
@@ -28,10 +29,12 @@
   },
   "rules": {
     "no-var": 0,
-    "indent": [2, 2, {"SwitchCase": 1}],
     "lodash/chaining": [2, "never"],
     "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "error"
+    "jest/no-focused-tests": "error",
+    "camelcase": [2, {"properties": "never"}],
+    "no-empty": 0,
+    "newline-after-var": 0
   },
   "overrides": [
     {

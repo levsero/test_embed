@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu';
-import { locals as styles } from './ChannelChoicePopupDesktop.scss';
+import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu'
+import { locals as styles } from './ChannelChoicePopupDesktop.scss'
 
 export class ChannelChoicePopupDesktop extends Component {
   static propTypes = {
@@ -14,14 +14,14 @@ export class ChannelChoicePopupDesktop extends Component {
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
     chatEnabled: false
-  };
+  }
 
   render = () => {
     const {
@@ -33,7 +33,7 @@ export class ChannelChoicePopupDesktop extends Component {
       chatEnabled,
       callbackEnabled,
       chatOfflineAvailable
-    } = this.props;
+    } = this.props
 
     return (
       <div className={styles.container}>
@@ -45,8 +45,9 @@ export class ChannelChoicePopupDesktop extends Component {
           callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
           talkEnabled={talkEnabled}
-          chatAvailable={chatAvailable} />
+          chatAvailable={chatAvailable}
+        />
       </div>
-    );
+    )
   }
 }

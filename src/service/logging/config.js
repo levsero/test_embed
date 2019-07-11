@@ -1,19 +1,20 @@
-
-export const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/];
+export const hostAllowList = [
+  /^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/
+]
 
 if (__DEV__) {
-  hostAllowList.push('localhost', '127.0.0.1');
+  hostAllowList.push('localhost', '127.0.0.1')
 }
 
 export const ignoreException = (_isUncaught, _args, _payload) => {
   if (__EMBEDDABLE_FRAMEWORK_ENV__ === 'production') {
     // throttles error notifications so that only 1 in 1000 errors is sent through to rollbar
-    return Math.floor(Math.random() * 1000) !== 0;
+    return Math.floor(Math.random() * 1000) !== 0
   }
-  return false;
-};
+  return false
+}
 
-export const rollbarConfig =  {
+export const rollbarConfig = {
   enabled: true,
   accessToken: '94eb0137fdc14471b21b34c5a04f9359',
   captureUncaught: true,
@@ -32,4 +33,4 @@ export const rollbarConfig =  {
       }
     }
   }
-};
+}

@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
-import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
-import AnswerBot from 'component/answerBot';
-import Chat from 'component/chat/Chat';
-import Talk from 'component/talk/Talk';
-import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
-import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
-import { Container } from 'component/container/Container';
-import HelpCenter from 'component/helpCenter/HelpCenter';
-import SubmitTicket from 'component/submitTicket/SubmitTicket';
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
+import AnswerBot from 'component/answerBot'
+import Chat from 'component/chat/Chat'
+import Talk from 'component/talk/Talk'
+import { ChannelChoice } from 'component/channelChoice/ChannelChoice'
+import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup'
+import { Container } from 'component/container/Container'
+import HelpCenter from 'component/helpCenter/HelpCenter'
+import SubmitTicket from 'component/submitTicket/SubmitTicket'
 import {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
   nextButtonClicked,
   cancelButtonClicked
-} from 'src/redux/modules/base';
+} from 'src/redux/modules/base'
 import {
   proactiveChatNotificationDismissed,
   chatNotificationDismissed,
@@ -26,8 +26,8 @@ import {
   chatNotificationRespond,
   showStandaloneMobileNotification,
   closedChatHistory
-} from 'src/redux/modules/chat';
-import { resetActiveArticle } from 'src/redux/modules/helpCenter';
+} from 'src/redux/modules/chat'
+import { resetActiveArticle } from 'src/redux/modules/helpCenter'
 import {
   getChatAvailable,
   getChatOfflineAvailable,
@@ -39,44 +39,42 @@ import {
   getChannelChoiceAvailable,
   getSubmitTicketAvailable,
   getAnswerBotAvailable
-} from 'src/redux/modules/selectors';
+} from 'src/redux/modules/selectors'
 import {
   getArticleViewActive,
   getSearchFieldFocused,
   getResultsCount
-} from 'src/redux/modules/helpCenter/helpCenter-selectors';
+} from 'src/redux/modules/helpCenter/helpCenter-selectors'
 import {
   getZopimChatEmbed,
   getActiveEmbed,
   getChatStandalone,
   getWebWidgetVisible
-} from 'src/redux/modules/base/base-selectors';
+} from 'src/redux/modules/base/base-selectors'
 import {
   getStandaloneMobileNotificationVisible,
   getShowChatHistory
-} from 'src/redux/modules/chat/chat-selectors';
-import { getChatNotification } from 'src/redux/modules/selectors';
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+} from 'src/redux/modules/chat/chat-selectors'
+import { getChatNotification } from 'src/redux/modules/selectors'
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import {
   getSettingsMobileNotificationsDisabled,
   getSettingsHelpCenterOriginalArticleButton
-} from 'src/redux/modules/settings/settings-selectors';
-import {
-  screenChanged as updateAnswerBotScreen
-} from 'src/redux/modules/answerBot/root/actions';
-import { CONVERSATION_SCREEN } from 'src/constants/answerBot';
+} from 'src/redux/modules/settings/settings-selectors'
+import { screenChanged as updateAnswerBotScreen } from 'src/redux/modules/answerBot/root/actions'
+import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
-const submitTicket = 'ticketSubmissionForm';
-const helpCenter = 'helpCenterForm';
-const chat = 'chat';
-const zopimChat = 'zopimChat';
-const channelChoice = 'channelChoice';
-const talk = 'talk';
-const mobileChatPopup = 'mobileChatPopup';
-const answerBot = 'answerBot';
-const noActiveEmbed = '';
+const submitTicket = 'ticketSubmissionForm'
+const helpCenter = 'helpCenterForm'
+const chat = 'chat'
+const zopimChat = 'zopimChat'
+const channelChoice = 'channelChoice'
+const talk = 'talk'
+const mobileChatPopup = 'mobileChatPopup'
+const answerBot = 'answerBot'
+const noActiveEmbed = ''
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     articleViewActive: getArticleViewActive(state),
     helpCenterSearchFocused: getSearchFieldFocused(state),
@@ -100,9 +98,9 @@ const mapStateToProps = (state) => {
     originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
     webWidgetVisible: getWebWidgetVisible(state),
     answerBotAvailable: getAnswerBotAvailable(state),
-    showChatHistory: getShowChatHistory(state),
-  };
-};
+    showChatHistory: getShowChatHistory(state)
+  }
+}
 
 class WebWidget extends Component {
   static propTypes = {
@@ -144,7 +142,7 @@ class WebWidget extends Component {
       maxFileCount: PropTypes.number,
       maxFileSize: PropTypes.number,
       position: PropTypes.string,
-      ticketForms: PropTypes.array,
+      ticketForms: PropTypes.array
     }),
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
@@ -186,8 +184,8 @@ class WebWidget extends Component {
     answerBotAvailable: PropTypes.bool.isRequired,
     updateAnswerBotScreen: PropTypes.func.isRequired,
     closedChatHistory: PropTypes.func.isRequired,
-    showChatHistory: PropTypes.bool.isRequired,
-  };
+    showChatHistory: PropTypes.bool.isRequired
+  }
 
   static defaultProps = {
     chatNotification: { show: false, playSound: false },
@@ -219,81 +217,79 @@ class WebWidget extends Component {
     webWidgetVisible: true,
     answerBotAvailable: false,
     updateAnswerBotScreen: () => {}
-  };
+  }
 
-  setComponent = (activeComponent) => {
-    this.props.updateBackButtonVisibility(true);
+  setComponent = activeComponent => {
+    this.props.updateBackButtonVisibility(true)
 
     if (activeComponent === chat) {
-      this.showChat();
+      this.showChat()
     } else {
-      this.props.updateActiveEmbed(activeComponent);
+      this.props.updateActiveEmbed(activeComponent)
     }
   }
 
   getActiveComponent = () => {
-    const component = this.refs[this.props.activeEmbed];
+    const component = this.refs[this.props.activeEmbed]
 
-    return component && component.getWrappedInstance ? component.getWrappedInstance() : component;
-  };
-
-  getSubmitTicketComponent = () => {
-    const component = this.refs[submitTicket];
-
-    return (component)
-      ? component.getWrappedInstance()
-      : null;
+    return component && component.getWrappedInstance ? component.getWrappedInstance() : component
   }
 
-  getHelpCenterComponent = () => this.refs[helpCenter].getWrappedInstance();
+  getSubmitTicketComponent = () => {
+    const component = this.refs[submitTicket]
 
-  noActiveEmbed = () => this.props.activeEmbed === '';
+    return component ? component.getWrappedInstance() : null
+  }
+
+  getHelpCenterComponent = () => this.refs[helpCenter].getWrappedInstance()
+
+  noActiveEmbed = () => this.props.activeEmbed === ''
 
   showChat = (options = { proactive: false }) => {
-    const { updateActiveEmbed, oldChat, zopimOnNext } = this.props;
+    const { updateActiveEmbed, oldChat, zopimOnNext } = this.props
 
     if (oldChat) {
-      zopimOnNext();
+      zopimOnNext()
 
-      updateActiveEmbed(zopimChat);
+      updateActiveEmbed(zopimChat)
     } else {
-      updateActiveEmbed(chat);
+      updateActiveEmbed(chat)
       if (options.proactive) {
-        this.props.updateChatScreen(CHATTING_SCREEN);
+        this.props.updateChatScreen(CHATTING_SCREEN)
       }
     }
   }
 
   showProactiveChat = () => {
     if (this.props.isMobile) {
-      this.props.showStandaloneMobileNotification();
+      this.props.showStandaloneMobileNotification()
     } else {
-      const { proactive, show } = this.props.chatNotification;
+      const { proactive, show } = this.props.chatNotification
 
       if (proactive && show) {
-        this.showChat({ proactive: true });
+        this.showChat({ proactive: true })
       }
     }
   }
 
   show = () => {
-    const { activeEmbed, chatAvailable, channelChoiceAvailable } = this.props;
+    const { activeEmbed, chatAvailable, channelChoiceAvailable } = this.props
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
     if (activeEmbed === submitTicket && chatAvailable && !channelChoiceAvailable) {
-      this.showChat();
+      this.showChat()
     }
   }
 
   showHelpCenter = () => {
-    const { updateActiveEmbed, updateBackButtonVisibility, articleViewActive } = this.props;
+    const { updateActiveEmbed, updateBackButtonVisibility, articleViewActive } = this.props
 
-    updateActiveEmbed(helpCenter);
-    updateBackButtonVisibility(articleViewActive);
+    updateActiveEmbed(helpCenter)
+    updateBackButtonVisibility(articleViewActive)
   }
 
-  onNextClick = (embed) => {
+  onNextClick = embed => {
     const {
       updateBackButtonVisibility,
       ipmHelpCenterAvailable,
@@ -303,32 +299,32 @@ class WebWidget extends Component {
       talkOnline,
       channelChoiceAvailable,
       nextButtonClicked
-    } = this.props;
+    } = this.props
 
     if (channelChoiceAvailable) {
-      updateActiveEmbed(channelChoice);
+      updateActiveEmbed(channelChoice)
       if (!ipmHelpCenterAvailable) {
-        updateBackButtonVisibility(true);
+        updateBackButtonVisibility(true)
       }
     } else if (embed) {
-      this.setComponent(embed);
+      this.setComponent(embed)
     } else if (chatAvailable) {
-      this.showChat();
+      this.showChat()
       // TODO: track chat started
       if (!oldChat) {
-        updateBackButtonVisibility(true);
+        updateBackButtonVisibility(true)
       }
     } else if (talkOnline) {
-      updateActiveEmbed(talk);
-      updateBackButtonVisibility(true);
+      updateActiveEmbed(talk)
+      updateBackButtonVisibility(true)
     } else {
-      updateActiveEmbed(submitTicket);
+      updateActiveEmbed(submitTicket)
       if (!ipmHelpCenterAvailable) {
-        updateBackButtonVisibility(true);
+        updateBackButtonVisibility(true)
       }
     }
 
-    nextButtonClicked();
+    nextButtonClicked()
   }
 
   onCancelClick = () => {
@@ -339,18 +335,18 @@ class WebWidget extends Component {
       helpCenterAvailable,
       channelChoiceAvailable,
       answerBotAvailable
-    } = this.props;
+    } = this.props
 
     if (answerBotAvailable) {
-      updateBackButtonVisibility(false);
-      updateActiveEmbed(answerBot);
+      updateBackButtonVisibility(false)
+      updateActiveEmbed(answerBot)
     } else if (helpCenterAvailable) {
-      this.showHelpCenter();
+      this.showHelpCenter()
     } else if (channelChoiceAvailable) {
-      updateActiveEmbed(channelChoice);
-      updateBackButtonVisibility(false);
-    }  else {
-      cancelButtonClicked();
+      updateActiveEmbed(channelChoice)
+      updateBackButtonVisibility(false)
+    } else {
+      cancelButtonClicked()
     }
   }
 
@@ -368,69 +364,68 @@ class WebWidget extends Component {
       channelChoiceAvailable,
       showChatHistory,
       closedChatHistory
-    } = this.props;
-    const activeComponent = this.getActiveComponent();
-    const isShowingChatHistory = (activeEmbed === chat && showChatHistory);
+    } = this.props
+    const activeComponent = this.getActiveComponent()
+    const isShowingChatHistory = activeEmbed === chat && showChatHistory
 
     if (activeEmbed === answerBot) {
-      updateBackButtonVisibility(false);
-      updateAnswerBotScreen(CONVERSATION_SCREEN);
+      updateBackButtonVisibility(false)
+      updateAnswerBotScreen(CONVERSATION_SCREEN)
     } else if (isShowingChatHistory) {
-      closedChatHistory();
+      closedChatHistory()
     } else if (activeEmbed === helpCenter) {
-      updateBackButtonVisibility(false);
-      resetActiveArticle();
+      updateBackButtonVisibility(false)
+      resetActiveArticle()
       if (ipmHelpCenterAvailable) {
-        updateActiveEmbed(channelChoice);
+        updateActiveEmbed(channelChoice)
       }
     } else if (showTicketFormsBackButton) {
-      activeComponent.clearForm();
-      updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
+      activeComponent.clearForm()
+      updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable)
     } else if (answerBotAvailable) {
-      updateBackButtonVisibility(false);
-      updateActiveEmbed(answerBot);
+      updateBackButtonVisibility(false)
+      updateActiveEmbed(answerBot)
     } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
-      updateActiveEmbed(channelChoice);
-      updateBackButtonVisibility(helpCenterAvailable);
+      updateActiveEmbed(channelChoice)
+      updateBackButtonVisibility(helpCenterAvailable)
     } else if (helpCenterAvailable) {
-      this.showHelpCenter();
+      this.showHelpCenter()
     } else {
       if (ipmHelpCenterAvailable) {
-        resetActiveArticle();
+        resetActiveArticle()
       }
-      updateActiveEmbed(channelChoice);
-      updateBackButtonVisibility(false);
+      updateActiveEmbed(channelChoice)
+      updateBackButtonVisibility(false)
     }
   }
 
   onContainerClick = () => {
-    const { activeEmbed } = this.props;
-    const activeComponent = this.getActiveComponent() || {};
+    const { activeEmbed } = this.props
+    const activeComponent = this.getActiveComponent() || {}
 
-    if (activeEmbed === noActiveEmbed) return;
+    if (activeEmbed === noActiveEmbed) return
 
-    _.attempt(activeComponent.onContainerClick);
-  };
+    _.attempt(activeComponent.onContainerClick)
+  }
 
   onContainerDragEnter = () => {
-    const { activeEmbed } = this.props;
+    const { activeEmbed } = this.props
 
     if (activeEmbed === submitTicket || activeEmbed === chat) {
-      this.getActiveComponent().handleDragEnter();
+      this.getActiveComponent().handleDragEnter()
     }
   }
 
   renderChat = () => {
-    if (this.props.activeEmbed !== chat) return;
+    if (this.props.activeEmbed !== chat) return
 
     const updateChatBackButtonVisibility = () => {
-      if (this.props.chatStandalone) return;
+      if (this.props.chatStandalone) return
 
       this.props.updateBackButtonVisibility(
-        this.props.helpCenterAvailable ||
-        this.props.channelChoiceAvailable
-      );
-    };
+        this.props.helpCenterAvailable || this.props.channelChoiceAvailable
+      )
+    }
 
     return (
       <Chat
@@ -444,11 +439,11 @@ class WebWidget extends Component {
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
       />
-    );
+    )
   }
 
   renderAnswerBot = () => {
-    if (this.props.activeEmbed !== answerBot) return;
+    if (this.props.activeEmbed !== answerBot) return
 
     return (
       <AnswerBot
@@ -457,12 +452,12 @@ class WebWidget extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         articleTitleKey={this.props.helpCenterConfig.formTitleKey}
       />
-    );
+    )
   }
 
   renderHelpCenter = () => {
-    if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return;
-    if (this.props.activeEmbed !== helpCenter) return null;
+    if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return
+    if (this.props.activeEmbed !== helpCenter) return null
 
     const {
       helpCenterConfig,
@@ -470,9 +465,9 @@ class WebWidget extends Component {
       chatAvailable,
       talkOnline,
       channelChoiceAvailable
-    } = this.props;
-    const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
-    const showNextButton = submitTicketAvailable || chatAvailable || talkOnline;
+    } = this.props
+    const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : ''
+    const showNextButton = submitTicketAvailable || chatAvailable || talkOnline
 
     return (
       <div className={classes}>
@@ -498,17 +493,18 @@ class WebWidget extends Component {
           chatAvailable={chatAvailable}
           chatNotificationDismissed={this.props.chatNotificationDismissed}
           updateChatScreen={this.props.updateChatScreen}
-          isMobile={this.props.isMobile} />
+          isMobile={this.props.isMobile}
+        />
       </div>
-    );
+    )
   }
 
   renderSubmitTicket = () => {
-    if (!this.props.submitTicketAvailable) return null;
-    if (this.props.activeEmbed !== submitTicket) return null;
+    if (!this.props.submitTicketAvailable) return null
+    if (this.props.activeEmbed !== submitTicket) return null
 
-    const { submitTicketConfig } = this.props;
-    const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : '';
+    const { submitTicketConfig } = this.props
+    const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : ''
 
     return (
       <div className={classes}>
@@ -529,13 +525,14 @@ class WebWidget extends Component {
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
           fullscreen={this.props.fullscreen}
-          isMobile={this.props.isMobile} />
+          isMobile={this.props.isMobile}
+        />
       </div>
-    );
+    )
   }
 
   renderChannelChoice = () => {
-    if (this.props.activeEmbed !== channelChoice) return null;
+    if (this.props.activeEmbed !== channelChoice) return null
 
     return (
       <ChannelChoice
@@ -549,12 +546,13 @@ class WebWidget extends Component {
         chatEnabled={this.props.chatEnabled}
         isMobile={this.props.isMobile}
         onNextClick={this.setComponent}
-        hideZendeskLogo={this.props.hideZendeskLogo} />
-    );
+        hideZendeskLogo={this.props.hideZendeskLogo}
+      />
+    )
   }
 
   renderTalk = () => {
-    if (this.props.activeEmbed !== talk) return null;
+    if (this.props.activeEmbed !== talk) return null
 
     return (
       <Talk
@@ -566,20 +564,21 @@ class WebWidget extends Component {
         helpCenterAvailable={this.props.helpCenterAvailable}
         channelChoiceAvailable={this.props.channelChoiceAvailable}
         onBackClick={this.onBackClick}
-        getFrameContentDocument={this.props.getFrameContentDocument} />
-    );
+        getFrameContentDocument={this.props.getFrameContentDocument}
+      />
+    )
   }
 
   renderChatNotification = () => {
     // For now only display notifications inside Help Center
-    if (this.props.activeEmbed !== helpCenter) return null;
+    if (this.props.activeEmbed !== helpCenter) return null
 
     const onNotificatonResponded = () => {
-      this.onNextClick(chat);
-      this.props.chatNotificationRespond();
-    };
+      this.onNextClick(chat)
+      this.props.chatNotificationRespond()
+    }
 
-    const shouldShow = !this.props.isMobile || !this.props.helpCenterSearchFocused;
+    const shouldShow = !this.props.isMobile || !this.props.helpCenterSearchFocused
 
     return (
       <ChatNotificationPopup
@@ -589,27 +588,24 @@ class WebWidget extends Component {
         shouldShow={shouldShow}
         fullscreen={this.props.fullscreen}
         chatNotificationRespond={onNotificatonResponded}
-        chatNotificationDismissed={this.props.chatNotificationDismissed} />
-    );
+        chatNotificationDismissed={this.props.chatNotificationDismissed}
+      />
+    )
   }
 
   dismissStandaloneChatPopup = () => {
-    this.props.proactiveChatNotificationDismissed();
+    this.props.proactiveChatNotificationDismissed()
   }
 
   renderStandaloneChatPopup() {
-    const {
-      style,
-      chatNotification,
-      chatNotificationRespond
-    } = this.props;
+    const { style, chatNotification, chatNotificationRespond } = this.props
     const onNotificatonResponded = () => {
-      chatNotificationRespond();
-      this.props.onShowMobile();
-      this.showChat({ proactive: true });
-    };
-    const containerStyle = { ...style, background: 'transparent' };
-    const notification = { ...chatNotification, show: true };
+      chatNotificationRespond()
+      this.props.onShowMobile()
+      this.showChat({ proactive: true })
+    }
+    const containerStyle = { ...style, background: 'transparent' }
+    const notification = { ...chatNotification, show: true }
 
     return (
       <div style={style} data-embed={mobileChatPopup}>
@@ -620,10 +616,11 @@ class WebWidget extends Component {
             fullscreen={this.props.fullscreen}
             shouldShow={true}
             chatNotificationRespond={onNotificatonResponded}
-            chatNotificationDismissed={this.dismissStandaloneChatPopup} />
+            chatNotificationDismissed={this.dismissStandaloneChatPopup}
+          />
         </Container>
       </div>
-    );
+    )
   }
 
   render = () => {
@@ -636,21 +633,22 @@ class WebWidget extends Component {
       mobileNotificationsDisabled,
       webWidgetVisible,
       chatStandaloneMobileNotificationVisible
-    } = this.props;
+    } = this.props
 
     if (isMobile && chatStandaloneMobileNotificationVisible && !mobileNotificationsDisabled) {
-      return this.renderStandaloneChatPopup();
+      return this.renderStandaloneChatPopup()
     }
 
-    if (!webWidgetVisible) return null;
+    if (!webWidgetVisible) return null
 
-    let containerStyle = (fullscreen && !isMobile) ?
-      {
-        ...style,
-        left: '50%',
-        transform: 'translate(-50%)' // Position the widget in the center
-      } :
-      style;
+    let containerStyle =
+      fullscreen && !isMobile
+        ? {
+            ...style,
+            left: '50%',
+            transform: 'translate(-50%)' // Position the widget in the center
+          }
+        : style
 
     return (
       // data-embed is needed for our intergration tests
@@ -661,7 +659,8 @@ class WebWidget extends Component {
           isMobile={isMobile}
           position={position}
           onClick={this.onContainerClick}
-          onDragEnter={this.onContainerDragEnter}>
+          onDragEnter={this.onContainerDragEnter}
+        >
           {this.renderSubmitTicket()}
           {this.renderChat()}
           {this.renderHelpCenter()}
@@ -671,7 +670,7 @@ class WebWidget extends Component {
           {this.renderChatNotification()}
         </Container>
       </div>
-    );
+    )
   }
 }
 
@@ -689,6 +688,11 @@ const actionCreators = {
   proactiveChatNotificationDismissed,
   updateAnswerBotScreen,
   closedChatHistory
-};
+}
 
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);
+export default connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(WebWidget)

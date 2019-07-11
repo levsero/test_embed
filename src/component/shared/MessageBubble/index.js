@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { locals as styles } from './MessageBubble.scss';
-import { MessageOptions }  from 'component/shared/MessageOptions';
-import Linkify from 'react-linkify';
-import { i18n } from 'service/i18n';
+import { locals as styles } from './MessageBubble.scss'
+import { MessageOptions } from 'component/shared/MessageOptions'
+import Linkify from 'react-linkify'
+import { i18n } from 'service/i18n'
 
 export class MessageBubble extends Component {
   static propTypes = {
@@ -13,7 +13,7 @@ export class MessageBubble extends Component {
     translatedMessage: PropTypes.string,
     options: PropTypes.array,
     handleSendMsg: PropTypes.func
-  };
+  }
 
   static defaultProps = {
     options: [],
@@ -22,60 +22,67 @@ export class MessageBubble extends Component {
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       userWantOriginalMessage: undefined
-    };
+    }
   }
 
   renderOptions = () => {
-    const { handleSendMsg, options } = this.props;
+    const { handleSendMsg, options } = this.props
 
     return options.length ? (
       <MessageOptions
         isMessageBubbleLinked={true}
         onOptionClick={handleSendMsg}
-        optionItems={options} />
-    ) : null;
+        optionItems={options}
+      />
+    ) : null
   }
 
   showTranslation = () => {
-    return (this.props.translatedMessage && this.state.userWantOriginalMessage === undefined) ||
-      this.state.userWantOriginalMessage;
+    return (
+      (this.props.translatedMessage && this.state.userWantOriginalMessage === undefined) ||
+      this.state.userWantOriginalMessage
+    )
   }
 
   renderTranslateLink = () => {
-    if (!this.props.translatedMessage) return null;
+    if (!this.props.translatedMessage) return null
 
-    const showTranslationText = this.showTranslation();
-    const translateText = showTranslationText ?
-      i18n.t('embeddable_framework.chat.show_original') :
-      i18n.t('embeddable_framework.chat.show_translated');
+    const showTranslationText = this.showTranslation()
+    const translateText = showTranslationText
+      ? i18n.t('embeddable_framework.chat.show_original')
+      : i18n.t('embeddable_framework.chat.show_translated')
     const onTranslatedMessageClick = () => {
       this.setState({
         userWantOriginalMessage: !showTranslationText
-      });
-    };
+      })
+    }
 
     return (
-      <a data-testid="translate_link"
+      <a
+        data-testid="translate_link"
         className={styles.translateLink}
-        onClick={onTranslatedMessageClick}>
+        onClick={onTranslatedMessageClick}
+      >
         {translateText}
       </a>
-    );
+    )
   }
 
   renderMessage = () => {
     if (!this.showTranslation()) {
-      return this.props.message;
+      return this.props.message
     }
-    return this.props.translatedMessage;
+    return this.props.translatedMessage
   }
 
   render() {
-    const messageBubbleClasses = this.props.options.length ? styles.messageBubbleWithOptions : styles.messageBubble;
+    const messageBubbleClasses = this.props.options.length
+      ? styles.messageBubbleWithOptions
+      : styles.messageBubble
 
     return (
       <div>
@@ -87,6 +94,6 @@ export class MessageBubble extends Component {
         </div>
         {this.renderOptions()}
       </div>
-    );
+    )
   }
 }

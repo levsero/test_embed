@@ -1,12 +1,12 @@
-import activeArticle from '../helpCenter-activeArticle';
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import activeArticle from '../helpCenter-activeArticle'
+import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 const mockArticle = {
   id: 123,
   body: 'bogan ipsum'
-};
+}
 
 testReducer(activeArticle, [
   {
@@ -23,7 +23,10 @@ testReducer(activeArticle, [
     expected: mockArticle
   },
   {
-    action: { type: actionTypes.GET_ARTICLE_REQUEST_SUCCESS, payload: mockArticle },
+    action: {
+      type: actionTypes.GET_ARTICLE_REQUEST_SUCCESS,
+      payload: mockArticle
+    },
     expected: mockArticle
   },
   {
@@ -36,4 +39,4 @@ testReducer(activeArticle, [
     initialState: mockArticle,
     expected: null
   }
-]);
+])

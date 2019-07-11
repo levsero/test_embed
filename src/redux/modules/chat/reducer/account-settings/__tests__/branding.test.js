@@ -1,23 +1,22 @@
-import reducer from '../branding';
-import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from '../../../chat-action-types';
+import reducer from '../branding'
+import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from '../../../chat-action-types'
 
 const initialState = () => {
-  return reducer(undefined, { type: '' });
-};
+  return reducer(undefined, { type: '' })
+}
 
-const reduce = (payload) => {
+const reduce = payload => {
   return reducer(initialState(), {
     type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
     payload
-  });
-};
+  })
+}
 
 test('initial state', () => {
-  expect(initialState())
-    .toEqual({
-      hide_branding: false
-    });
-});
+  expect(initialState()).toEqual({
+    hide_branding: false
+  })
+})
 
 describe('when GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS is dispatched', () => {
   it('updates the settings', () => {
@@ -25,13 +24,12 @@ describe('when GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS is dispatched', () => {
       branding: {
         hide_branding: true
       }
-    };
+    }
 
-    expect(reduce(payload))
-      .toEqual({
-        hide_branding: true
-      });
-  });
+    expect(reduce(payload)).toEqual({
+      hide_branding: true
+    })
+  })
 
   it('keeps the defaults if payload does not include setting', () => {
     const payload = {
@@ -42,11 +40,10 @@ describe('when GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS is dispatched', () => {
           }
         }
       }
-    };
+    }
 
-    expect(reduce(payload))
-      .toEqual({
-        hide_branding: false
-      });
-  });
-});
+    expect(reduce(payload)).toEqual({
+      hide_branding: false
+    })
+  })
+})

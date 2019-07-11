@@ -1,126 +1,132 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
-import {
-  win,
-  document as doc
-} from 'utility/globals';
-import { renderer } from 'service/renderer';
-import {
-  getDeviceZoom,
-  getZoomSizingRatio
-} from 'utility/devices';
-import { mediator } from 'service/mediator';
-import { setScrollKiller } from 'utility/scrollHacks';
-import { cappedTimeoutCall } from 'utility/utils';
+import { win, document as doc } from 'utility/globals'
+import { renderer } from 'service/renderer'
+import { getDeviceZoom, getZoomSizingRatio } from 'utility/devices'
+import { mediator } from 'service/mediator'
+import { setScrollKiller } from 'utility/scrollHacks'
+import { cappedTimeoutCall } from 'utility/utils'
 
-let lastTouchEnd = 0;
+let lastTouchEnd = 0
 
 const propagateFontRatioChange = () => {
   setTimeout(() => {
-    const hideWidget = getDeviceZoom() > 2;
+    const hideWidget = getDeviceZoom() > 2
 
     if (hideWidget) {
-      setScrollKiller(false);
+      setScrollKiller(false)
     }
 
-    renderer.hideByZoom(hideWidget);
+    renderer.hideByZoom(hideWidget)
 
-    mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
-  }, 0);
-};
+    mediator.channel.broadcast('.updateZoom', getZoomSizingRatio())
+  }, 0)
+}
 const zoomMonitor = (() => {
-  let oldZoom;
-  let interval = null;
-  let iterations = 0;
-  let oldOffset = [0, 0];
-  let currentZoom = getDeviceZoom;
+  let oldZoom
+  let interval = null
+  let iterations = 0
+  let oldOffset = [0, 0]
+  let currentZoom = getDeviceZoom
   const currentOffset = () => {
-    return [win.pageXOffset, win.pageYOffset];
-  };
+    return [win.pageXOffset, win.pageYOffset]
+  }
   const zoomEqual = (a, b) => {
-    return Math.abs(a - b) < 0.001;
-  };
+    return Math.abs(a - b) < 0.001
+  }
   const offsetEqual = (a, b) => {
-    return (a[0] === b[0]) && (a[1] === b[1]);
-  };
+    return a[0] === b[0] && a[1] === b[1]
+  }
   const startMonitor = () => {
     if (interval !== null) {
-      clearInterval(interval);
+      clearInterval(interval)
     }
 
-    iterations = 0;
+    iterations = 0
     interval = setInterval(() => {
-      if (iterations > 10000 || zoomEqual(oldZoom, currentZoom()) &&
-          offsetEqual(oldOffset, currentOffset())) {
-        clearInterval(interval);
-        interval = null;
+      if (
+        iterations > 10000 ||
+        (zoomEqual(oldZoom, currentZoom()) && offsetEqual(oldOffset, currentOffset()))
+      ) {
+        clearInterval(interval)
+        interval = null
         // show
-        propagateFontRatioChange(true);
+        propagateFontRatioChange(true)
       } else {
-        oldZoom = currentZoom();
-        oldOffset = currentOffset();
-        iterations++;
+        oldZoom = currentZoom()
+        oldOffset = currentOffset()
+        iterations++
       }
-    }, 300);
-  };
+    }, 300)
+  }
 
-  return _.debounce(startMonitor, 10);
-})();
+  return _.debounce(startMonitor, 10)
+})()
 
 function initMobileScaling() {
-  win.addEventListener('touchstart', (e) => {
+  win.addEventListener('touchstart', e => {
     if (e.touches.length === 2) {
-      renderer.hideByZoom(true);
+      renderer.hideByZoom(true)
     }
-    zoomMonitor();
-  });
+    zoomMonitor()
+  })
 
-  win.addEventListener('touchmove', (e) => {
+  win.addEventListener('touchmove', e => {
     if (e.touches.length === 2) {
-      renderer.hideByZoom(true);
+      renderer.hideByZoom(true)
     }
-    zoomMonitor();
-  });
+    zoomMonitor()
+  })
 
-  win.addEventListener('touchend', (e) => {
-    const now = e.timeStamp;
+  win.addEventListener('touchend', e => {
+    const now = e.timeStamp
 
     // If touchend's fire within 250ms of each other,
     // we're treating it as double-tap zoom.
     // Therefore, hide the widget.
-    if ((now - lastTouchEnd) < 250) {
-      renderer.hideByZoom(true);
+    if (now - lastTouchEnd < 250) {
+      renderer.hideByZoom(true)
     }
-    lastTouchEnd = now;
+    lastTouchEnd = now
 
-    zoomMonitor();
-  });
+    zoomMonitor()
+  })
 
   // Recalc ratio when user focus on field
   // delay by 500ms so browser zoom is done
-  doc.addEventListener('focus', () => {
-    setTimeout(() => propagateFontRatioChange(), 500);
-  }, true);
+  doc.addEventListener(
+    'focus',
+    () => {
+      setTimeout(() => propagateFontRatioChange(), 500)
+    },
+    true
+  )
 
   win.addEventListener('orientationchange', () => {
-    renderer.updateEmbeds();
+    renderer.updateEmbeds()
 
     setTimeout(() => {
-      propagateFontRatioChange();
-    }, 1000);
-  });
+      propagateFontRatioChange()
+    }, 1000)
+  })
 
-  win.addEventListener('load', () => {
-    propagateFontRatioChange();
-  }, false);
+  win.addEventListener(
+    'load',
+    () => {
+      propagateFontRatioChange()
+    },
+    false
+  )
 
-  doc.addEventListener('DOMContentLoaded', () => {
-    propagateFontRatioChange();
-  }, false);
+  doc.addEventListener(
+    'DOMContentLoaded',
+    () => {
+      propagateFontRatioChange()
+    },
+    false
+  )
 
-  cappedTimeoutCall(propagateFontRatioChange, 500, 10);
+  cappedTimeoutCall(propagateFontRatioChange, 500, 10)
 }
 
-export {
-  initMobileScaling
-};
+export { initMobileScaling }

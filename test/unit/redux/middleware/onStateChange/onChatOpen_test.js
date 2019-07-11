@@ -1,6 +1,6 @@
 describe('onChatOpen', () => {
-  const chatOpenedSpy = jasmine.createSpy('chatOpened');
-  const dispatchSpy = jasmine.createSpy('dispatch');
+  const chatOpenedSpy = jasmine.createSpy('chatOpened')
+  const dispatchSpy = jasmine.createSpy('dispatch')
 
   let onChatOpen,
     prevState,
@@ -8,117 +8,103 @@ describe('onChatOpen', () => {
     mockPrevWidgetShown,
     mockPrevActiveEmbed,
     mockNextWidgetShown,
-    mockNextActiveEmbed;
+    mockNextActiveEmbed
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       'src/redux/modules/base/base-selectors': {
-        getWidgetShown: (state) => state.widgetShown,
-        getActiveEmbed: (state) => state.activeEmbed
+        getWidgetShown: state => state.widgetShown,
+        getActiveEmbed: state => state.activeEmbed
       },
       'src/redux/modules/chat': {
         chatOpened: chatOpenedSpy
       }
-    });
+    })
 
     prevState = {
       widgetShown: mockPrevWidgetShown,
       activeEmbed: mockPrevActiveEmbed
-    };
+    }
 
     nextState = {
       widgetShown: mockNextWidgetShown,
       activeEmbed: mockNextActiveEmbed
-    };
+    }
 
-    const path = buildSrcPath('redux/middleware/onStateChange/onChatOpen');
+    const path = buildSrcPath('redux/middleware/onStateChange/onChatOpen')
 
-    onChatOpen = requireUncached(path).default;
+    onChatOpen = requireUncached(path).default
 
-    onChatOpen(prevState, nextState, dispatchSpy);
-  });
+    onChatOpen(prevState, nextState, dispatchSpy)
+  })
 
   afterEach(() => {
-    chatOpenedSpy.calls.reset();
-    dispatchSpy.calls.reset();
+    chatOpenedSpy.calls.reset()
+    dispatchSpy.calls.reset()
 
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('when widget not shown', () => {
     beforeAll(() => {
-      mockPrevWidgetShown = false;
-      mockPrevActiveEmbed = '';
-      mockNextActiveEmbed = 'chat';
-    });
+      mockPrevWidgetShown = false
+      mockPrevActiveEmbed = ''
+      mockNextActiveEmbed = 'chat'
+    })
 
     it('does not dispatch chatOpened', () => {
-      expect(chatOpenedSpy)
-        .not
-        .toHaveBeenCalled();
+      expect(chatOpenedSpy).not.toHaveBeenCalled()
 
-      expect(dispatchSpy)
-        .not
-        .toHaveBeenCalled();
-    });
+      expect(dispatchSpy).not.toHaveBeenCalled()
+    })
 
     describe('when widget is shown', () => {
       beforeAll(() => {
-        mockPrevWidgetShown = true;
-      });
+        mockPrevWidgetShown = true
+      })
 
       describe('when chat has already been opened', () => {
         beforeAll(() => {
-          mockPrevActiveEmbed = 'chat';
-          mockNextActiveEmbed = 'chat';
-        });
+          mockPrevActiveEmbed = 'chat'
+          mockNextActiveEmbed = 'chat'
+        })
 
         it('does not dispatch chatOpened', () => {
-          expect(chatOpenedSpy)
-            .not
-            .toHaveBeenCalled();
+          expect(chatOpenedSpy).not.toHaveBeenCalled()
 
-          expect(dispatchSpy)
-            .not
-            .toHaveBeenCalled();
-        });
-      });
+          expect(dispatchSpy).not.toHaveBeenCalled()
+        })
+      })
 
       describe('when active embed is not chat', () => {
         beforeAll(() => {
-          mockPrevWidgetShown = true;
-          mockPrevActiveEmbed = '';
-          mockNextActiveEmbed = 'helpCenter';
-        });
+          mockPrevWidgetShown = true
+          mockPrevActiveEmbed = ''
+          mockNextActiveEmbed = 'helpCenter'
+        })
 
         it('does not dispatch chatOpened', () => {
-          expect(chatOpenedSpy)
-            .not
-            .toHaveBeenCalled();
+          expect(chatOpenedSpy).not.toHaveBeenCalled()
 
-          expect(dispatchSpy)
-            .not
-            .toHaveBeenCalled();
-        });
-      });
+          expect(dispatchSpy).not.toHaveBeenCalled()
+        })
+      })
 
       describe('when chat has been opened', () => {
         beforeAll(() => {
-          mockPrevActiveEmbed = '';
-          mockNextActiveEmbed = 'chat';
-        });
+          mockPrevActiveEmbed = ''
+          mockNextActiveEmbed = 'chat'
+        })
 
         it('dispatchs chatOpened', () => {
-          expect(chatOpenedSpy)
-            .toHaveBeenCalled();
+          expect(chatOpenedSpy).toHaveBeenCalled()
 
-          expect(dispatchSpy)
-            .toHaveBeenCalled();
-        });
-      });
-    });
-  });
-});
+          expect(dispatchSpy).toHaveBeenCalled()
+        })
+      })
+    })
+  })
+})

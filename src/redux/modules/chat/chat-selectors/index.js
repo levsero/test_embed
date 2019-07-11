@@ -1,2 +1,2 @@
-export * from './reselectors';
-export * from './selectors';
+export * from './reselectors'
+export * from './selectors'

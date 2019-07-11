@@ -10,24 +10,21 @@ import {
   TOGGLE_RECEIVED,
   POPOUT_BUTTON_CLICKED,
   UPDATE_ACTIVE_EMBED
-} from '../base-action-types';
-import {
-  ZOPIM_SHOW,
-  ZOPIM_CHAT_GONE_OFFLINE
-} from '../../zopimChat/zopimChat-action-types';
+} from '../base-action-types'
+import { ZOPIM_SHOW, ZOPIM_CHAT_GONE_OFFLINE } from '../../zopimChat/zopimChat-action-types'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
-} from '../../chat/chat-action-types';
-import { NIL_EMBED } from 'constants/shared';
-import { isPopout } from 'utility/globals';
+} from '../../chat/chat-action-types'
+import { NIL_EMBED } from 'constants/shared'
+import { isPopout } from 'utility/globals'
 
-const initialState = isPopout();
+const initialState = isPopout()
 
 const webWidgetVisible = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case LAUNCHER_CLICKED:
@@ -37,7 +34,7 @@ const webWidgetVisible = (state = initialState, action) => {
     case CHAT_WINDOW_OPEN_ON_NAVIGATE:
     case OPEN_RECEIVED:
     case ZOPIM_CHAT_GONE_OFFLINE:
-      return true;
+      return true
     case CLOSE_BUTTON_CLICKED:
     case POPOUT_BUTTON_CLICKED:
     case ZOPIM_SHOW:
@@ -46,15 +43,15 @@ const webWidgetVisible = (state = initialState, action) => {
     case CANCEL_BUTTON_CLICKED:
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
     case CLOSE_RECEIVED:
-      return false;
+      return false
     case TOGGLE_RECEIVED:
-      return !state;
+      return !state
     case UPDATE_ACTIVE_EMBED:
-      if (payload === NIL_EMBED) return false;
-      return state;
+      if (payload === NIL_EMBED) return false
+      return state
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default webWidgetVisible;
+export default webWidgetVisible

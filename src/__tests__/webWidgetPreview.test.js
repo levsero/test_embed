@@ -1,44 +1,42 @@
-import '../webWidgetPreview';
+import '../webWidgetPreview'
 
-import { i18n } from 'service/i18n';
+import { i18n } from 'service/i18n'
 
 beforeEach(() => {
-  const div = document.createElement('div');
+  const div = document.createElement('div')
 
-  div.setAttribute('id', 'preview');
-  document.body.appendChild(div);
-});
+  div.setAttribute('id', 'preview')
+  document.body.appendChild(div)
+})
 
 afterEach(() => {
-  const rendered = webWidgetPreview();
+  const rendered = webWidgetPreview()
 
   if (rendered) {
-    rendered.remove();
+    rendered.remove()
   }
-  document.getElementById('preview').remove();
-});
+  document.getElementById('preview').remove()
+})
 
-const webWidgetPreview = () => document.getElementById('webWidgetPreview');
-const webWidgetPreviewBody = () => webWidgetPreview().contentWindow.document.body.innerHTML;
-const webWidgetPreviewBodyEl = () => webWidgetPreview().contentWindow.document.body;
+const webWidgetPreview = () => document.getElementById('webWidgetPreview')
+const webWidgetPreviewBody = () => webWidgetPreview().contentWindow.document.body.innerHTML
+const webWidgetPreviewBodyEl = () => webWidgetPreview().contentWindow.document.body
 
 describe('default parameters', () => {
-  let preview;
+  let preview
 
   beforeEach(() => {
     preview = window.zE.renderWebWidgetPreview({
       element: document.getElementById('preview')
-    });
-  });
+    })
+  })
 
   it('creates the iframe for preview', () => {
-    expect(webWidgetPreview())
-      .toBeInTheDocument();
-  });
+    expect(webWidgetPreview()).toBeInTheDocument()
+  })
 
   it('creates the iframe with the expected styles', () => {
-    expect(webWidgetPreview())
-      .toHaveStyle(`
+    expect(webWidgetPreview()).toHaveStyle(`
         position: relative;
         float: right;
         margin-top: 16px;
@@ -47,82 +45,74 @@ describe('default parameters', () => {
         bottom: 0px;
         width: 369px;
         height: 565px;
-    `);
-  });
+    `)
+  })
 
   it('renders the message title', () => {
-    preview.setTitle('message');
+    preview.setTitle('message')
 
-    expect(webWidgetPreviewBodyEl())
-      .toHaveTextContent('Leave us a message');
-  });
+    expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message')
+  })
 
   describe('the contact title', () => {
     it('renders it', () => {
-      preview.setTitle('contact');
+      preview.setTitle('contact')
 
-      expect(webWidgetPreviewBodyEl())
-        .toHaveTextContent('Contact us');
-    });
+      expect(webWidgetPreviewBodyEl()).toHaveTextContent('Contact us')
+    })
 
     it('updates it', () => {
-      preview.setTitle('message');
+      preview.setTitle('message')
 
-      expect(webWidgetPreviewBodyEl())
-        .toHaveTextContent('Leave us a message');
-    });
+      expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message')
+    })
 
-    it('preserves the widget\'s colour after changing it', () => {
-      preview.setColor('#AABBCC');
+    it("preserves the widget's colour after changing it", () => {
+      preview.setColor('#AABBCC')
 
-      expect(webWidgetPreviewBody())
-        .toMatch('background-color: #AABBCC !important;');
+      expect(webWidgetPreviewBody()).toMatch('background-color: #AABBCC !important;')
 
-      preview.setTitle('message');
+      preview.setTitle('message')
 
-      expect(webWidgetPreviewBody())
-        .toMatch('background-color: #AABBCC !important;');
-    });
-  });
+      expect(webWidgetPreviewBody()).toMatch('background-color: #AABBCC !important;')
+    })
+  })
 
   it('sets it with default title if no title is passed', () => {
-    preview.setTitle();
+    preview.setTitle()
 
-    expect(webWidgetPreviewBodyEl())
-      .toHaveTextContent('Leave us a message');
-  });
+    expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message')
+  })
 
   it('allows setting of color', () => {
-    preview.setColor('#FF1234');
+    preview.setColor('#FF1234')
 
-    expect(webWidgetPreviewBody())
-      .toMatch('background-color: #FF1234 !important;');
-  });
+    expect(webWidgetPreviewBody()).toMatch('background-color: #FF1234 !important;')
+  })
 
   it('sets it with default color', () => {
-    preview.setColor();
+    preview.setColor()
 
-    expect(webWidgetPreviewBody())
-      .toMatch('background-color: #1F73B7 !important;');
-  });
-});
+    expect(webWidgetPreviewBody()).toMatch('background-color: #1F73B7 !important;')
+  })
+})
 
 describe('when calling with no element property in options', () => {
   it('throws an error', () => {
-    expect(() => window.zE.renderWebWidgetPreview())
-      .toThrowError('A DOM element is required to render the Web Widget Preview into');
-  });
-});
+    expect(() => window.zE.renderWebWidgetPreview()).toThrowError(
+      'A DOM element is required to render the Web Widget Preview into'
+    )
+  })
+})
 
 test('locale can be set', () => {
   window.zE.renderWebWidgetPreview({
     element: document.getElementById('preview'),
     locale: 'fr'
-  });
+  })
 
-  expect(i18n.getLocale())
-    .toEqual('fr');
-});
+  expect(i18n.getLocale()).toEqual('fr')
+})
 
 test('styles can be customized', () => {
   const styles = {
@@ -130,18 +120,17 @@ test('styles can be customized', () => {
     marginTop: '32px',
     marginLeft: '32px',
     width: '100px'
-  };
+  }
 
   window.zE.renderWebWidgetPreview({
     element: document.getElementById('preview'),
     styles
-  });
+  })
 
-  expect(webWidgetPreview())
-    .toHaveStyle(`
+  expect(webWidgetPreview()).toHaveStyle(`
       float: left;
       margin-top: 32px;
       margin-left: 32px;
       width: 112px;
-    `);
-});
+    `)
+})

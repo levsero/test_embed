@@ -2,14 +2,14 @@ describe('base selectors', () => {
   let selectors,
     mockStoreValue,
     mockIsOnHelpCenterPage,
-    isTokenValidSpy = jasmine.createSpy('isTokenValid');
+    isTokenValidSpy = jasmine.createSpy('isTokenValid')
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const selectorsPath = buildSrcPath('redux/modules/base/base-selectors');
+    const selectorsPath = buildSrcPath('redux/modules/base/base-selectors')
 
-    mockery.registerAllowable(selectorsPath);
+    mockery.registerAllowable(selectorsPath)
 
     initMockRegistry({
       'service/persistence': {
@@ -23,18 +23,17 @@ describe('base selectors', () => {
       'utility/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPage
       }
-    });
+    })
 
-    selectors = requireUncached(selectorsPath);
-  });
+    selectors = requireUncached(selectorsPath)
+  })
 
   describe('getZChatConfig', () => {
-    let result,
-      mockState;
+    let result, mockState
 
     beforeEach(() => {
-      result = selectors.getZChatConfig(mockState);
-    });
+      result = selectors.getZChatConfig(mockState)
+    })
 
     describe('when overrideProxy exists', () => {
       beforeAll(() => {
@@ -51,19 +50,18 @@ describe('base selectors', () => {
               }
             }
           }
-        };
-      });
+        }
+      })
 
       it('returns the chat config', () => {
         /* eslint-disable camelcase */
-        expect(result)
-          .toEqual({
-            account_key: 'id',
-            override_proxy: 'someProxy'
-          });
+        expect(result).toEqual({
+          account_key: 'id',
+          override_proxy: 'someProxy'
+        })
         /* eslint-enable camelcase */
-      });
-    });
+      })
+    })
 
     describe('when overrideProxy does not exist', () => {
       beforeAll(() => {
@@ -79,22 +77,21 @@ describe('base selectors', () => {
               }
             }
           }
-        };
-      });
+        }
+      })
 
       it('returns the chat config', () => {
         /* eslint-disable camelcase */
-        expect(result)
-          .toEqual({
-            account_key: 'id'
-          });
+        expect(result).toEqual({
+          account_key: 'id'
+        })
         /* eslint-enable camelcase */
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('getZopimId', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         embeddableConfig: {
@@ -107,20 +104,19 @@ describe('base selectors', () => {
           }
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getZopimId(mockState);
-    });
+      result = selectors.getZopimId(mockState)
+    })
 
     it('returns the chat key', () => {
-      expect(result)
-        .toEqual('id');
-    });
-  });
+      expect(result).toEqual('id')
+    })
+  })
 
   describe('getChatOverrideProxy', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         embeddableConfig: {
@@ -133,96 +129,89 @@ describe('base selectors', () => {
           }
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getChatOverrideProxy(mockState);
-    });
+      result = selectors.getChatOverrideProxy(mockState)
+    })
 
     it('returns the override proxy', () => {
-      expect(result)
-        .toEqual('yoloo');
-    });
-  });
+      expect(result).toEqual('yoloo')
+    })
+  })
 
   describe('getOnApiListeners', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         onApiListeners: 'listening'
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getOnApiListeners(mockState);
-    });
+      result = selectors.getOnApiListeners(mockState)
+    })
 
     it('returns the override proxy', () => {
-      expect(result)
-        .toEqual('listening');
-    });
-  });
+      expect(result).toEqual('listening')
+    })
+  })
 
   describe('getUserMinimizedChatBadge', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         isChatBadgeMinimized: true
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getUserMinimizedChatBadge(mockState);
-    });
+      result = selectors.getUserMinimizedChatBadge(mockState)
+    })
 
     it('returns the value of isChatBadgeMinimized', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getAfterWidgetShowAnimation', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         afterWidgetShowAnimation: []
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getAfterWidgetShowAnimation(mockState);
-    });
+      result = selectors.getAfterWidgetShowAnimation(mockState)
+    })
 
     it('returns the value of afterWidgetShowAnimation', () => {
-      expect(result)
-        .toEqual([]);
-    });
-  });
+      expect(result).toEqual([])
+    })
+  })
 
   describe('getHiddenByHideAPI', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         hidden: {
           hideApi: true
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getHiddenByHideAPI(mockState);
-    });
+      result = selectors.getHiddenByHideAPI(mockState)
+    })
 
     it('returns the override proxy', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getHasPassedAuth', () => {
-    let result,
-      mockState,
-      mockHelpCenterSignInRequired;
+    let result, mockState, mockHelpCenterSignInRequired
 
     beforeEach(() => {
       mockState = {
@@ -237,139 +226,128 @@ describe('base selectors', () => {
             }
           }
         }
-      };
-      result = selectors.getHasPassedAuth(mockState);
-    });
+      }
+      result = selectors.getHasPassedAuth(mockState)
+    })
 
     describe('isAuthenticated', () => {
       beforeAll(() => {
-        mockHelpCenterSignInRequired = true;
-        mockIsOnHelpCenterPage = false;
-      });
+        mockHelpCenterSignInRequired = true
+        mockIsOnHelpCenterPage = false
+      })
 
       describe('when set to true', () => {
         beforeAll(() => {
-          isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(true);
-        });
+          isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(true)
+        })
 
         it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
-      });
+          expect(result).toEqual(true)
+        })
+      })
 
       describe('when set to false', () => {
         beforeAll(() => {
-          isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false);
-        });
+          isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false)
+        })
 
         it('returns false', () => {
-          expect(result)
-            .toEqual(false);
-        });
-      });
-    });
+          expect(result).toEqual(false)
+        })
+      })
+    })
 
     describe('helpCenterSignInRequired', () => {
       beforeAll(() => {
-        isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false);
-        mockIsOnHelpCenterPage = false;
-      });
+        isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false)
+        mockIsOnHelpCenterPage = false
+      })
 
       describe('when set to true', () => {
         beforeAll(() => {
-          mockHelpCenterSignInRequired = true;
-        });
+          mockHelpCenterSignInRequired = true
+        })
 
         it('returns false', () => {
-          expect(result)
-            .toEqual(false);
-        });
-      });
+          expect(result).toEqual(false)
+        })
+      })
 
       describe('when set to false', () => {
         beforeAll(() => {
-          mockHelpCenterSignInRequired = false;
-        });
+          mockHelpCenterSignInRequired = false
+        })
 
         it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
-      });
-    });
+          expect(result).toEqual(true)
+        })
+      })
+    })
 
     describe('isOnHelpCenterPage', () => {
       beforeAll(() => {
-        isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false);
-        mockHelpCenterSignInRequired = true;
-      });
+        isTokenValidSpy = jasmine.createSpy('isTokenValid').and.returnValue(false)
+        mockHelpCenterSignInRequired = true
+      })
 
       describe('when set to true', () => {
         beforeAll(() => {
-          mockIsOnHelpCenterPage = true;
-        });
+          mockIsOnHelpCenterPage = true
+        })
 
         it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
-      });
+          expect(result).toEqual(true)
+        })
+      })
 
       describe('when set to false', () => {
         beforeAll(() => {
-          mockIsOnHelpCenterPage = false;
-        });
+          mockIsOnHelpCenterPage = false
+        })
 
         it('returns false', () => {
-          expect(result)
-            .toEqual(false);
-        });
-      });
-    });
-  });
+          expect(result).toEqual(false)
+        })
+      })
+    })
+  })
 
   describe('getHasWidgetShown', () => {
-    let result,
-      mockState;
+    let result, mockState
 
     beforeEach(() => {
       mockState = {
         base: {
           hasWidgetShown: true
         }
-      };
-      result = selectors.getHasWidgetShown(mockState);
-    });
+      }
+      result = selectors.getHasWidgetShown(mockState)
+    })
 
     it('returns true', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getIsAuthenticationPending', () => {
-    let result,
-      mockState;
+    let result, mockState
 
     beforeEach(() => {
       mockState = {
         base: {
           isAuthenticationPending: true
         }
-      };
-      result = selectors.getIsAuthenticationPending(mockState);
-    });
+      }
+      result = selectors.getIsAuthenticationPending(mockState)
+    })
 
     it('returns true', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getHelpCenterSignInRequired', () => {
-    let result,
-      mockState;
+    let result, mockState
 
     beforeEach(() => {
       mockState = {
@@ -384,38 +362,34 @@ describe('base selectors', () => {
             }
           }
         }
-      };
-      result = selectors.getHelpCenterSignInRequired(mockState);
-    });
+      }
+      result = selectors.getHelpCenterSignInRequired(mockState)
+    })
 
     it('returns true', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getEmbeddableConfig', () => {
-    let result,
-      mockState;
+    let result, mockState
 
     beforeEach(() => {
       mockState = {
         base: {
           embeddableConfig: 'yoloConfig'
         }
-      };
-      result = selectors.getEmbeddableConfig(mockState);
-    });
+      }
+      result = selectors.getEmbeddableConfig(mockState)
+    })
 
     it('returns the embeddableConfig', () => {
-      expect(result)
-        .toEqual('yoloConfig');
-    });
-  });
+      expect(result).toEqual('yoloConfig')
+    })
+  })
 
   describe('getQueue', () => {
-    let result,
-      mockState;
+    let result, mockState
 
     beforeEach(() => {
       mockState = {
@@ -424,141 +398,133 @@ describe('base selectors', () => {
             someMethod: ['yeah', 'some', 'args']
           }
         }
-      };
-      result = selectors.getQueue(mockState);
-    });
+      }
+      result = selectors.getQueue(mockState)
+    })
 
     it('returns the queue', () => {
-      expect(result)
-        .toEqual({
-          someMethod: ['yeah', 'some', 'args']
-        });
-    });
-  });
+      expect(result).toEqual({
+        someMethod: ['yeah', 'some', 'args']
+      })
+    })
+  })
 
   describe('getActiveEmbed', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         activeEmbed: 'chat'
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getActiveEmbed(mockState);
-    });
+      result = selectors.getActiveEmbed(mockState)
+    })
 
     it('returns the current active embed', () => {
-      expect(result)
-        .toEqual('chat');
-    });
-  });
+      expect(result).toEqual('chat')
+    })
+  })
 
   describe('getZopimChatEmbed', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         embeds: {
           zopimChat: true
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getZopimChatEmbed(mockState);
-    });
+      result = selectors.getZopimChatEmbed(mockState)
+    })
 
     it('returns the current state of embed.zopimChat', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getHelpCenterEmbed', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         embeds: {
           helpCenterForm: true
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getHelpCenterEmbed(mockState);
-    });
+      result = selectors.getHelpCenterEmbed(mockState)
+    })
 
     it('returns the current state of embed.helpCenterForm', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getTalkEmbed', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         embeds: {
           talk: true
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getTalkEmbed(mockState);
-    });
+      result = selectors.getTalkEmbed(mockState)
+    })
 
     it('returns the current state of embed.talk', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getChatEmbed', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         embeds: {
           chat: true
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getChatEmbed(mockState);
-    });
+      result = selectors.getChatEmbed(mockState)
+    })
 
     it('returns the current state of embed.chat', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getWidgetShown', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         widgetShown: true
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getWidgetShown(mockState);
-    });
+      result = selectors.getWidgetShown(mockState)
+    })
 
     it('returns the current state of widgetShown', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getChatStandalone', () => {
-    let result,
-      mockState;
+    let result, mockState
 
     beforeEach(() => {
-      result = selectors.getChatStandalone(mockState);
-    });
+      result = selectors.getChatStandalone(mockState)
+    })
 
     describe('when chat is standalone', () => {
       beforeAll(() => {
@@ -574,14 +540,13 @@ describe('base selectors', () => {
               }
             }
           }
-        };
-      });
+        }
+      })
 
       it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
+        expect(result).toEqual(true)
+      })
+    })
 
     describe('when chat is not standalone', () => {
       beforeAll(() => {
@@ -597,108 +562,100 @@ describe('base selectors', () => {
               }
             }
           }
-        };
-      });
+        }
+      })
 
       it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
-    });
-  });
+        expect(result).toEqual(false)
+      })
+    })
+  })
 
   describe('getIPMWidget', () => {
-    let result;
+    let result
     const mockState = {
       base: {
         embeds: {
           ipmWidget: true
         }
       }
-    };
+    }
 
     beforeEach(() => {
-      result = selectors.getIPMWidget(mockState);
-    });
+      result = selectors.getIPMWidget(mockState)
+    })
 
     it('returns whether IPM widget is activated', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('getOAuth', () => {
-    let result;
+    let result
 
     beforeEach(() => {
-      mockStoreValue = 'someAuth';
-      result = selectors.getOAuth();
-    });
+      mockStoreValue = 'someAuth'
+      result = selectors.getOAuth()
+    })
 
     it('returns correct oauth details', () => {
-      expect(result)
-        .toEqual('someAuth');
-    });
-  });
+      expect(result).toEqual('someAuth')
+    })
+  })
 
   describe('getAuthToken', () => {
-    let result;
+    let result
 
     beforeEach(() => {
-      result = selectors.getAuthToken();
-    });
+      result = selectors.getAuthToken()
+    })
 
     describe('when token does exist', () => {
       beforeAll(() => {
         mockStoreValue = {
           token: 'token'
-        };
-      });
+        }
+      })
 
       it('returns the token', () => {
-        expect(result)
-          .toEqual('token');
-      });
-    });
+        expect(result).toEqual('token')
+      })
+    })
 
     describe('when token does not exist', () => {
       beforeAll(() => {
-        mockStoreValue = {};
-      });
+        mockStoreValue = {}
+      })
 
       it('returns null', () => {
-        expect(result)
-          .toEqual(null);
-      });
-    });
+        expect(result).toEqual(null)
+      })
+    })
 
     describe('when whole token object does not exist', () => {
       beforeAll(() => {
-        mockStoreValue = undefined;
-      });
+        mockStoreValue = undefined
+      })
 
       it('returns null', () => {
-        expect(result)
-          .toEqual(null);
-      });
-    });
-  });
+        expect(result).toEqual(null)
+      })
+    })
+  })
 
   describe('getBaseIsAuthenticated', () => {
     beforeEach(() => {
-      mockStoreValue = 'yolo';
-      selectors.getBaseIsAuthenticated();
-    });
+      mockStoreValue = 'yolo'
+      selectors.getBaseIsAuthenticated()
+    })
 
     it('calls isTokenValid with correct params', () => {
-      expect(isTokenValidSpy)
-        .toHaveBeenCalledWith('yolo');
-    });
-  });
+      expect(isTokenValidSpy).toHaveBeenCalledWith('yolo')
+    })
+  })
 
   describe('getConfigColor', () => {
-    let result,
-      mockState;
+    let result, mockState
 
     beforeEach(() => {
       mockState = {
@@ -708,32 +665,29 @@ describe('base selectors', () => {
             textColor: 'deep'
           }
         }
-      };
-      result = selectors.getConfigColor(mockState);
-    });
+      }
+      result = selectors.getConfigColor(mockState)
+    })
 
     it('returns the color in expected format', () => {
-      expect(result)
-        .toEqual({ base: 'blue', text: 'deep' });
-    });
-  });
+      expect(result).toEqual({ base: 'blue', text: 'deep' })
+    })
+  })
 
   describe('getLocale', () => {
-    let result,
-      mockState;
+    let result, mockState
 
     beforeEach(() => {
       mockState = {
         base: {
           locale: 'ar'
         }
-      };
-      result = selectors.getLocale(mockState);
-    });
+      }
+      result = selectors.getLocale(mockState)
+    })
 
     it('returns the expected locale', () => {
-      expect(result)
-        .toEqual('ar');
-    });
-  });
-});
+      expect(result).toEqual('ar')
+    })
+  })
+})

@@ -1,6 +1,6 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
-import { CHAT } from 'src/constants/preview';
+import { CHAT } from 'src/constants/preview'
 
 const getModifiedState = (inputState = {}) => {
   const defaultState = {
@@ -8,9 +8,9 @@ const getModifiedState = (inputState = {}) => {
       choice: CHAT,
       enabled: true
     }
-  };
+  }
 
-  return _.merge({}, defaultState, inputState);
-};
+  return _.merge({}, defaultState, inputState)
+}
 
-export default getModifiedState;
+export default getModifiedState

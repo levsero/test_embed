@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import Results from './index';
+import Results from './index'
 
-import { screenChanged, contextualArticleShown } from 'src/redux/modules/answerBot/root/actions/';
-import { getArticles } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { screenChanged, contextualArticleShown } from 'src/redux/modules/answerBot/root/actions/'
+import { getArticles } from 'src/redux/modules/helpCenter/helpCenter-selectors'
 
-import { ARTICLE_SCREEN } from 'src/constants/answerBot';
+import { ARTICLE_SCREEN } from 'src/constants/answerBot'
 
 class ContextualSearchResults extends Component {
   static propTypes = {
@@ -17,43 +17,43 @@ class ContextualSearchResults extends Component {
       screenChanged: PropTypes.func.isRequired,
       articleShown: PropTypes.func.isRequired
     })
-  };
+  }
 
-  articleClicked = (article) => {
-    const { actions: { screenChanged, articleShown } } = this.props;
+  articleClicked = article => {
+    const {
+      actions: { screenChanged, articleShown }
+    } = this.props
 
-    articleShown(article.id);
-    screenChanged(ARTICLE_SCREEN);
+    articleShown(article.id)
+    screenChanged(ARTICLE_SCREEN)
   }
 
   render() {
-    const { articles } = this.props;
+    const { articles } = this.props
 
-    return (<Results
-      articles={articles}
-      onArticleClick={this.articleClicked}
-    />);
+    return <Results articles={articles} onArticleClick={this.articleClicked} />
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   articles: getArticles(state)
-});
+})
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({
-    screenChanged: screenChanged,
-    articleShown: contextualArticleShown
-  }, dispatch)
-});
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(
+    {
+      screenChanged: screenChanged,
+      articleShown: contextualArticleShown
+    },
+    dispatch
+  )
+})
 
 const connectedComponent = connect(
   mapStateToProps,
   mapDispatchToProps,
   null,
-  { withRef: true })(ContextualSearchResults);
+  { withRef: true }
+)(ContextualSearchResults)
 
-export {
-  connectedComponent as default,
-  ContextualSearchResults as Component
-};
+export { connectedComponent as default, ContextualSearchResults as Component }

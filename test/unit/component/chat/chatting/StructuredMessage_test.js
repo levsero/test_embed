@@ -1,22 +1,22 @@
 describe('StructuredMessage component', () => {
-  let StructuredMessage;
+  let StructuredMessage
 
-  const structuredMessagePath = buildSrcPath('component/chat/chatting/StructuredMessage');
-  const chatConstantsPath = buildSrcPath('constants/chat');
+  const structuredMessagePath = buildSrcPath('component/chat/chatting/StructuredMessage')
+  const chatConstantsPath = buildSrcPath('constants/chat')
 
-  const ButtonCard = noopReactComponent();
-  const PanelCard = noopReactComponent();
-  const ListCard = noopReactComponent();
+  const ButtonCard = noopReactComponent()
+  const PanelCard = noopReactComponent()
+  const ListCard = noopReactComponent()
 
-  const sendMsgSpy = jasmine.createSpy('sendMsg');
-  const openSpy = jasmine.createSpy('open');
+  const sendMsgSpy = jasmine.createSpy('sendMsg')
+  const openSpy = jasmine.createSpy('open')
 
-  const chatConstants = requireUncached(chatConstantsPath);
-  let CHAT_STRUCTURED_CONTENT_TYPE = chatConstants.CHAT_STRUCTURED_CONTENT_TYPE;
-  let CHAT_STRUCTURED_MESSAGE_ACTION_TYPE = chatConstants.CHAT_STRUCTURED_MESSAGE_ACTION_TYPE;
+  const chatConstants = requireUncached(chatConstantsPath)
+  let CHAT_STRUCTURED_CONTENT_TYPE = chatConstants.CHAT_STRUCTURED_CONTENT_TYPE
+  let CHAT_STRUCTURED_MESSAGE_ACTION_TYPE = chatConstants.CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       './structuredMessage/ButtonCard': { ButtonCard },
@@ -34,75 +34,70 @@ describe('StructuredMessage component', () => {
           open: openSpy
         }
       }
-    });
+    })
 
-    mockery.registerAllowable(structuredMessagePath);
-    StructuredMessage = requireUncached(structuredMessagePath).default.WrappedComponent;
-  });
+    mockery.registerAllowable(structuredMessagePath)
+    StructuredMessage = requireUncached(structuredMessagePath).default.WrappedComponent
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
+    mockery.deregisterAll()
+    mockery.disable()
 
-    sendMsgSpy.calls.reset();
-    openSpy.calls.reset();
-  });
+    sendMsgSpy.calls.reset()
+    openSpy.calls.reset()
+  })
 
   describe('#createAction', () => {
-    let component;
+    let component
 
     beforeEach(() => {
-      component = instanceRender(<StructuredMessage schema={{}} sendMsg={sendMsgSpy} />);
-    });
+      component = instanceRender(<StructuredMessage schema={{}} sendMsg={sendMsgSpy} />)
+    })
 
     it('returns a function that calls sendMsg when action type is quick reply', () => {
       const actionSchema = {
         type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.QUICK_REPLY_ACTION,
         value: 'replied'
-      };
-      const result = component.createAction(actionSchema);
+      }
+      const result = component.createAction(actionSchema)
 
-      result();
+      result()
 
-      expect(sendMsgSpy)
-        .toHaveBeenCalledWith(actionSchema.value);
-    });
+      expect(sendMsgSpy).toHaveBeenCalledWith(actionSchema.value)
+    })
 
     it('returns a function that calls win.open when action type is link', () => {
       const actionSchema = {
         type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.LINK_ACTION,
         value: 'https://sample.com'
-      };
-      const result = component.createAction(actionSchema);
+      }
+      const result = component.createAction(actionSchema)
 
-      result();
+      result()
 
-      expect(openSpy)
-        .toHaveBeenCalledWith(actionSchema.value);
-    });
+      expect(openSpy).toHaveBeenCalledWith(actionSchema.value)
+    })
 
     it('returns undefined when action type is unknown', () => {
       const actionSchema = {
         type: 'UnknowAnction',
         value: 'oh no'
-      };
+      }
 
-      const result = component.createAction(actionSchema);
+      const result = component.createAction(actionSchema)
 
-      expect(result)
-        .toBeUndefined();
-    });
-  });
+      expect(result).toBeUndefined()
+    })
+  })
 
   describe('#render', () => {
-    let component,
-      result,
-      schema;
+    let component, result, schema
 
     beforeEach(() => {
-      component = instanceRender(<StructuredMessage schema={schema} />);
-      result = component.render();
-    });
+      component = instanceRender(<StructuredMessage schema={schema} />)
+      result = component.render()
+    })
 
     describe('schema type is ButtonTemplate', () => {
       beforeAll(() => {
@@ -110,29 +105,25 @@ describe('StructuredMessage component', () => {
           type: CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE.BUTTON_TEMPLATE,
           buttons: [],
           msg: 'Hello!'
-        };
-      });
+        }
+      })
 
       it('returns a ButtonCard component', () => {
-        expect(TestUtils.isElementOfType(result, ButtonCard))
-          .toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(result, ButtonCard)).toEqual(true)
+      })
 
       it('passes the buttons value', () => {
-        expect(result.props.buttons)
-          .toEqual(schema.buttons);
-      });
+        expect(result.props.buttons).toEqual(schema.buttons)
+      })
 
       it('passes the msg value', () => {
-        expect(result.props.msg)
-          .toEqual(schema.msg);
-      });
+        expect(result.props.msg).toEqual(schema.msg)
+      })
 
       it('passes the createAction value', () => {
-        expect(result.props.createAction)
-          .toEqual(component.createAction);
-      });
-    });
+        expect(result.props.createAction).toEqual(component.createAction)
+      })
+    })
 
     describe('schema type is PanelTemplate', () => {
       beforeAll(() => {
@@ -143,25 +134,25 @@ describe('StructuredMessage component', () => {
             heading: 'header 1',
             paragraph: 'this is a paragraph'
           }
-        };
-      });
+        }
+      })
 
       it('returns a PanelCard component', () => {
-        expect(TestUtils.isElementOfType(result, PanelCard)).toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(result, PanelCard)).toEqual(true)
+      })
 
       it('passes the buttons value', () => {
-        expect(result.props.buttons).toEqual(schema.buttons);
-      });
+        expect(result.props.buttons).toEqual(schema.buttons)
+      })
 
       it('passes the panel object', () => {
-        expect(result.props.panel).toEqual(schema.panel);
-      });
+        expect(result.props.panel).toEqual(schema.panel)
+      })
 
       it('passes the createAction value', () => {
-        expect(result.props.createAction).toEqual(component.createAction);
-      });
-    });
+        expect(result.props.createAction).toEqual(component.createAction)
+      })
+    })
 
     describe('schema type is ListTemplate', () => {
       beforeAll(() => {
@@ -178,7 +169,7 @@ describe('StructuredMessage component', () => {
               }
             },
             {
-              heading: 'Destiny\'s Child',
+              heading: "Destiny's Child",
               paragraph: 'Trust fund artisan master cleanse Etsy direct trade rye.',
               image_url: 'https://destiny.com/banner.png',
               action: {
@@ -196,24 +187,24 @@ describe('StructuredMessage component', () => {
               }
             }
           ]
-        };
-      });
+        }
+      })
 
       it('returns a ListCard component', () => {
-        expect(TestUtils.isElementOfType(result, ListCard)).toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(result, ListCard)).toEqual(true)
+      })
 
       it('passes the items value', () => {
-        expect(result.props.items).toEqual(schema.items);
-      });
+        expect(result.props.items).toEqual(schema.items)
+      })
 
       it('passes the buttons value', () => {
-        expect(result.props.buttons).toEqual(schema.buttons);
-      });
+        expect(result.props.buttons).toEqual(schema.buttons)
+      })
 
       it('passes the createAction value', () => {
-        expect(result.props.createAction).toEqual(component.createAction);
-      });
-    });
-  });
-});
+        expect(result.props.createAction).toEqual(component.createAction)
+      })
+    })
+  })
+})

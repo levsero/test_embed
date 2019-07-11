@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
-import { ButtonPill } from 'component/button/ButtonPill';
-import ChattingScreen from 'component/chat/chatting/ChattingScreen';
-import AgentScreen from 'component/chat/agents/AgentScreen';
-import RatingScreen from 'component/chat/rating/RatingScreen';
-import PrechatScreen from 'component/chat/prechat/PrechatScreen';
-import { ChatMenu } from 'component/chat/ChatMenu';
-import { ChatPopup } from 'component/chat/ChatPopup';
-import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
-import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup';
-import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble';
-import { AttachmentBox } from 'component/attachment/AttachmentBox';
-import { i18n } from 'service/i18n';
+import { ButtonPill } from 'component/button/ButtonPill'
+import ChattingScreen from 'component/chat/chatting/ChattingScreen'
+import AgentScreen from 'component/chat/agents/AgentScreen'
+import RatingScreen from 'component/chat/rating/RatingScreen'
+import PrechatScreen from 'component/chat/prechat/PrechatScreen'
+import { ChatMenu } from 'component/chat/ChatMenu'
+import { ChatPopup } from 'component/chat/ChatPopup'
+import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
+import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup'
+import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble'
+import { AttachmentBox } from 'component/attachment/AttachmentBox'
+import { i18n } from 'service/i18n'
 import {
   endChatViaPostChatScreen,
   sendAttachments,
@@ -28,13 +28,13 @@ import {
   updateEmailTranscriptVisibility,
   updateContactDetailsFields,
   initiateSocialLogout
-} from 'src/redux/modules/chat';
-import * as screens from 'src/redux/modules/chat/chat-screen-types';
-import * as selectors from 'src/redux/modules/chat/chat-selectors';
-import { locals as styles } from './ChatOnline.scss';
-import { CONNECTION_STATUSES } from 'constants/chat';
+} from 'src/redux/modules/chat'
+import * as screens from 'src/redux/modules/chat/chat-screen-types'
+import * as selectors from 'src/redux/modules/chat/chat-selectors'
+import { locals as styles } from './ChatOnline.scss'
+import { CONNECTION_STATUSES } from 'constants/chat'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
     chatsLength: selectors.getChatsLength(state),
@@ -53,8 +53,8 @@ const mapStateToProps = (state) => {
     socialLogin: selectors.getSocialLogin(state),
     isAuthenticated: selectors.getIsAuthenticated(state),
     isLoggingOut: selectors.getIsLoggingOut(state)
-  };
-};
+  }
+}
 
 class Chat extends Component {
   static propTypes = {
@@ -92,7 +92,7 @@ class Chat extends Component {
     isLoggingOut: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
     initiateSocialLogout: PropTypes.func.isRequired
-  };
+  }
 
   static defaultProps = {
     attachmentsEnabled: false,
@@ -119,51 +119,51 @@ class Chat extends Component {
     chatId: '',
     isAuthenticated: false,
     isLoggingOut: false
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       showEndChatMenu: false,
       endChatFromFeedbackForm: false,
       hasEndedChatFromFeedbackForm: false
-    };
+    }
 
-    this.menu = null;
+    this.menu = null
   }
 
   componentDidMount() {
-    this.props.updateChatBackButtonVisibility();
+    this.props.updateChatBackButtonVisibility()
   }
 
-  toggleMenu = (keypress) => {
-    this.props.updateMenuVisibility(!this.props.menuVisible);
+  toggleMenu = keypress => {
+    this.props.updateMenuVisibility(!this.props.menuVisible)
 
     if (!this.props.menuVisible && keypress) {
-      setTimeout(this.menu.focus, 0);
+      setTimeout(this.menu.focus, 0)
     }
   }
 
   onContainerClick = () => {
     this.setState({
       showEndChatMenu: false
-    });
+    })
 
-    this.props.updateMenuVisibility(false);
-    this.props.updateContactDetailsVisibility(false);
-    this.props.updateEmailTranscriptVisibility(false);
+    this.props.updateMenuVisibility(false)
+    this.props.updateContactDetailsVisibility(false)
+    this.props.updateEmailTranscriptVisibility(false)
   }
 
-  showContactDetailsFn = (e) => {
-    e.stopPropagation();
-    this.props.updateContactDetailsVisibility(true);
-  };
+  showContactDetailsFn = e => {
+    e.stopPropagation()
+    this.props.updateContactDetailsVisibility(true)
+  }
 
-  showEmailTranscriptFn = (e) => {
-    e.stopPropagation();
-    this.props.updateEmailTranscriptVisibility(true);
-  };
+  showEmailTranscriptFn = e => {
+    e.stopPropagation()
+    this.props.updateEmailTranscriptVisibility(true)
+  }
 
   renderChatMenu = () => {
     const {
@@ -178,21 +178,21 @@ class Chat extends Component {
       menuVisible,
       updateMenuVisibility,
       chatsLength
-    } = this.props;
-    const showChatEndFn = (e) => {
-      e.stopPropagation();
-      updateMenuVisibility(false);
+    } = this.props
+    const showChatEndFn = e => {
+      e.stopPropagation()
+      updateMenuVisibility(false)
       this.setState({
         showEndChatMenu: true
-      });
-    };
+      })
+    }
     const toggleSoundFn = () => {
-      handleSoundIconClick({ sound: !userSoundSettings });
-    };
+      handleSoundIconClick({ sound: !userSoundSettings })
+    }
 
     return (
       <ChatMenu
-        ref={(el) => this.menu = el}
+        ref={el => (this.menu = el)}
         show={menuVisible}
         playSound={userSoundSettings}
         disableEndChat={!isChatting}
@@ -205,14 +205,18 @@ class Chat extends Component {
         onSoundClick={toggleSoundFn}
         emailTranscriptEnabled={chatsLength > 0}
         isMobile={isMobile}
-        loginEnabled={loginSettings.enabled} />
-    );
+        loginEnabled={loginSettings.enabled}
+      />
+    )
   }
 
   renderPrechatScreen = () => {
-    if (this.props.screen !== screens.PRECHAT_SCREEN &&
-        this.props.screen !== screens.OFFLINE_MESSAGE_SCREEN &&
-        this.props.screen !== screens.LOADING_SCREEN) return;
+    if (
+      this.props.screen !== screens.PRECHAT_SCREEN &&
+      this.props.screen !== screens.OFFLINE_MESSAGE_SCREEN &&
+      this.props.screen !== screens.LOADING_SCREEN
+    )
+      return
 
     return (
       <PrechatScreen
@@ -220,26 +224,25 @@ class Chat extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         chatId={this.props.chatId}
         isMobile={this.props.isMobile}
-        fullscreen={this.props.fullscreen} />
-    );
+        fullscreen={this.props.fullscreen}
+      />
+    )
   }
 
   renderChatScreen = () => {
-    if (this.props.screen !== screens.CHATTING_SCREEN) return;
+    if (this.props.screen !== screens.CHATTING_SCREEN) return
 
-    const {
-      hasEndedChatFromFeedbackForm
-    } = this.state;
+    const { hasEndedChatFromFeedbackForm } = this.state
 
-    const showChatEndFn = (e) => {
-      e.stopPropagation();
-      this.props.updateMenuVisibility(false);
+    const showChatEndFn = e => {
+      e.stopPropagation()
+      this.props.updateMenuVisibility(false)
       this.setState({
         showEndChatMenu: true
-      });
-      this.props.updateContactDetailsVisibility(false);
-      this.props.updateEmailTranscriptVisibility(false);
-    };
+      })
+      this.props.updateContactDetailsVisibility(false)
+      this.props.updateEmailTranscriptVisibility(false)
+    }
 
     return (
       <ChattingScreen
@@ -250,50 +253,43 @@ class Chat extends Component {
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
         showContactDetails={this.showContactDetailsFn}
-        endedChatFromFeedbackForm={hasEndedChatFromFeedbackForm} / >
-    );
+        endedChatFromFeedbackForm={hasEndedChatFromFeedbackForm}
+      />
+    )
   }
 
   handleDragEnter = () => {
-    this.setState({ isDragActive: true });
+    this.setState({ isDragActive: true })
   }
 
   handleDragLeave = () => {
-    this.setState({ isDragActive: false });
+    this.setState({ isDragActive: false })
   }
 
-  handleDragDrop = (attachments) => {
-    this.setState({ isDragActive: false });
-    return this.props.sendAttachments(attachments);
+  handleDragDrop = attachments => {
+    this.setState({ isDragActive: false })
+    return this.props.sendAttachments(attachments)
   }
 
   renderAttachmentsBox = () => {
-    const { screen, attachmentsEnabled } = this.props;
+    const { screen, attachmentsEnabled } = this.props
 
-    if (
-      screen !== screens.CHATTING_SCREEN ||
-      !this.state.isDragActive ||
-      !attachmentsEnabled
-    ) return;
+    if (screen !== screens.CHATTING_SCREEN || !this.state.isDragActive || !attachmentsEnabled)
+      return
 
-    return (
-      <AttachmentBox
-        onDragLeave={this.handleDragLeave}
-        onDrop={this.handleDragDrop}
-      />
-    );
+    return <AttachmentBox onDragLeave={this.handleDragLeave} onDrop={this.handleDragDrop} />
   }
 
   renderChatEndPopup = () => {
-    const hideChatEndFn = () => this.setState({ showEndChatMenu: false });
+    const hideChatEndFn = () => this.setState({ showEndChatMenu: false })
     const endChatFn = () => {
       this.setState({
         showEndChatMenu: false,
         endChatFromFeedbackForm: true,
         hasEndedChatFromFeedbackForm: true
-      });
-      this.props.endChatViaPostChatScreen();
-    };
+      })
+      this.props.endChatViaPostChatScreen()
+    }
 
     return (
       <ChatPopup
@@ -303,20 +299,21 @@ class Chat extends Component {
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={endChatFn}
         show={this.state.showEndChatMenu}
-        rightCtaLabel={i18n.t('embeddable_framework.chat.form.endChat.button.end')}>
+        rightCtaLabel={i18n.t('embeddable_framework.chat.form.endChat.button.end')}
+      >
         <div className={styles.chatEndPopupDescription}>
           {i18n.t('embeddable_framework.chat.form.endChat.description')}
         </div>
       </ChatPopup>
-    );
+    )
   }
 
   renderPostchatScreen = () => {
-    if (this.props.screen !== screens.FEEDBACK_SCREEN) return null;
+    if (this.props.screen !== screens.FEEDBACK_SCREEN) return null
 
     const onRatingButtonClick = () => {
-      this.setState({ endChatFromFeedbackForm: false });
-    };
+      this.setState({ endChatFromFeedbackForm: false })
+    }
 
     return (
       <RatingScreen
@@ -325,7 +322,7 @@ class Chat extends Component {
         onRatingButtonClick={onRatingButtonClick}
         endChatFromFeedbackForm={this.state.endChatFromFeedbackForm}
       />
-    );
+    )
   }
 
   renderChatContactDetailsPopup = () => {
@@ -340,13 +337,15 @@ class Chat extends Component {
       isAuthenticated,
       socialLogin,
       initiateSocialLogout
-    } = this.props;
+    } = this.props
 
-    const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
-    const tryAgainFn = () => updateContactDetailsVisibility(true);
-    const saveContactDetailsFn = (name, email) => editContactDetailsSubmitted({ display_name: name, email });
-    const isAuthenticatedAtAll = isAuthenticated || _.get(socialLogin, 'authenticated', false);
-    const updateDetailsFn = (name, email) => updateContactDetailsFields({ display_name: name, email });
+    const hideContactDetailsFn = () => updateContactDetailsVisibility(false)
+    const tryAgainFn = () => updateContactDetailsVisibility(true)
+    const saveContactDetailsFn = (name, email) =>
+      editContactDetailsSubmitted({ display_name: name, email })
+    const isAuthenticatedAtAll = isAuthenticated || _.get(socialLogin, 'authenticated', false)
+    const updateDetailsFn = (name, email) =>
+      updateContactDetailsFields({ display_name: name, email })
 
     return (
       <ChatContactDetailsPopup
@@ -362,20 +361,17 @@ class Chat extends Component {
         authUrls={authUrls}
         socialLogin={socialLogin}
         initiateSocialLogout={initiateSocialLogout}
-        isAuthenticated={isAuthenticatedAtAll} />
-    );
+        isAuthenticated={isAuthenticatedAtAll}
+      />
+    )
   }
 
   renderChatEmailTranscriptPopup = () => {
-    const {
-      emailTranscript,
-      sendEmailTranscript,
-      updateEmailTranscriptVisibility
-    } = this.props;
+    const { emailTranscript, sendEmailTranscript, updateEmailTranscriptVisibility } = this.props
 
-    const hideEmailTranscriptFn = () => updateEmailTranscriptVisibility(false);
-    const tryEmailTranscriptAgain = () => updateEmailTranscriptVisibility(true);
-    const sendEmailTranscriptFn = (email) => sendEmailTranscript(email);
+    const hideEmailTranscriptFn = () => updateEmailTranscriptVisibility(false)
+    const tryEmailTranscriptAgain = () => updateEmailTranscriptVisibility(true)
+    const sendEmailTranscriptFn = email => sendEmailTranscript(email)
 
     return (
       <ChatEmailTranscriptPopup
@@ -386,42 +382,45 @@ class Chat extends Component {
         visitor={this.props.visitor}
         emailTranscript={emailTranscript}
         tryEmailTranscriptAgain={tryEmailTranscriptAgain}
-        resetEmailTranscript={this.props.resetEmailTranscript} />
-    );
+        resetEmailTranscript={this.props.resetEmailTranscript}
+      />
+    )
   }
 
   renderChatReconnectionBubble = () => {
-    const { connection, isLoggingOut } = this.props;
+    const { connection, isLoggingOut } = this.props
 
-    if (connection !== CONNECTION_STATUSES.CONNECTING || isLoggingOut) return;
+    if (connection !== CONNECTION_STATUSES.CONNECTING || isLoggingOut) return
 
-    return <ChatReconnectionBubble />;
+    return <ChatReconnectionBubble />
   }
 
   renderAgentListScreen = () => {
-    if (this.props.screen !== screens.AGENT_LIST_SCREEN) return null;
+    if (this.props.screen !== screens.AGENT_LIST_SCREEN) return null
 
     return (
       <AgentScreen
         chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
-        fullscreen={this.props.fullscreen} />
-    );
+        fullscreen={this.props.fullscreen}
+      />
+    )
   }
 
   renderChatReconnectButton = () => {
-    const { connection, isLoggingOut } = this.props;
+    const { connection, isLoggingOut } = this.props
 
-    if (connection !== CONNECTION_STATUSES.CLOSED || isLoggingOut) return;
+    if (connection !== CONNECTION_STATUSES.CLOSED || isLoggingOut) return
 
     return (
       <div className={styles.reconnectContainer}>
         <ButtonPill
           onClick={this.props.handleReconnect}
-          label={i18n.t('embeddable_framework.chat.chatLog.reconnect.label')} />
+          label={i18n.t('embeddable_framework.chat.chatLog.reconnect.label')}
+        />
       </div>
-    );
+    )
   }
 
   render = () => {
@@ -439,7 +438,7 @@ class Chat extends Component {
         {this.renderChatReconnectionBubble()}
         {this.renderChatReconnectButton()}
       </div>
-    );
+    )
   }
 }
 
@@ -456,6 +455,11 @@ const actionCreators = {
   updateEmailTranscriptVisibility,
   updateContactDetailsFields,
   initiateSocialLogout
-};
+}
 
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);
+export default connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { withRef: true }
+)(Chat)

@@ -38,12 +38,17 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "lint-staged"
+      "pre-push": "lint-staged",
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "eslint src test --ignore-pattern=src/translation/*.js",
+    "*.{js,css,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.js": [
+      "eslint --fix --ignore-pattern=src/translation/*.js",
       "git add"
     ]
   },
@@ -137,10 +142,12 @@
     "css-loader": "^0.28.11",
     "cssstyle": "1.1.1",
     "eslint": "^5.11.1",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jasmine": "^2.8.4",
     "eslint-plugin-jest": "^22.1.2",
     "eslint-plugin-lodash": "^5.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.12.2",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^1.3.1",
@@ -162,6 +169,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^2.1.5",
     "pptr-testing-library": "^0.4.0",
+    "prettier": "1.18.2",
     "progress-bar-webpack-plugin": "^1.11.0",
     "puppeteer": "^1.13.0",
     "raw-loader": "^0.5.1",

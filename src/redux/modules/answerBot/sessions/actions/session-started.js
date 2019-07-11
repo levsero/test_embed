@@ -1,13 +1,13 @@
-import { SESSION_STARTED } from '../action-types';
+import { SESSION_STARTED } from '../action-types'
 
-const generateSessionID = () => Date.now();
+const generateSessionID = () => Date.now()
 
 const generateSessionData = () => ({
   resolved: false,
   fallbackSuggested: false,
   requestStatus: null,
   articles: []
-});
+})
 
 export const sessionStarted = () => {
   return {
@@ -16,5 +16,5 @@ export const sessionStarted = () => {
       sessionID: generateSessionID(),
       sessionData: generateSessionData()
     }
-  };
-};
+  }
+}

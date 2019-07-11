@@ -1,13 +1,13 @@
-import hidden from '../base-hidden';
+import hidden from '../base-hidden'
 import {
   ACTIVATE_RECEIVED,
   LEGACY_SHOW_RECEIVED,
   SHOW_RECEIVED,
   HIDE_RECEIVED
-} from '../../base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+} from '../../base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
-const state = (hideApi, activateApi) => ({ hideApi, activateApi });
+const state = (hideApi, activateApi) => ({ hideApi, activateApi })
 
 testReducer(hidden, [
   {
@@ -41,4 +41,4 @@ testReducer(hidden, [
     initialState: state(true, false),
     expected: state(false, true)
   }
-]);
+])

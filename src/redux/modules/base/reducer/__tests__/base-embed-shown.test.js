@@ -1,7 +1,7 @@
-import embedShown from '../base-embed-shown';
-import { UPDATE_WIDGET_SHOWN, API_RESET_WIDGET, WIDGET_INITIALISED } from '../../base-action-types';
-import * as globals from 'utility/globals';
-import { testReducer } from 'src/util/testHelpers';
+import embedShown from '../base-embed-shown'
+import { UPDATE_WIDGET_SHOWN, API_RESET_WIDGET, WIDGET_INITIALISED } from '../../base-action-types'
+import * as globals from 'utility/globals'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(embedShown, [
   {
@@ -22,16 +22,16 @@ testReducer(embedShown, [
     initialState: true,
     expected: false
   }
-]);
+])
 
 describe('WIDGET_INITIALISED', () => {
   it('returns false if not popout', () => {
-    jest.spyOn(globals, 'isPopout').mockReturnValue(false);
-    expect(embedShown(undefined, { type: WIDGET_INITIALISED })).toEqual(false);
-  });
+    jest.spyOn(globals, 'isPopout').mockReturnValue(false)
+    expect(embedShown(undefined, { type: WIDGET_INITIALISED })).toEqual(false)
+  })
 
   it('returns true if popout', () => {
-    jest.spyOn(globals, 'isPopout').mockReturnValue(true);
-    expect(embedShown(undefined, { type: WIDGET_INITIALISED })).toEqual(true);
-  });
-});
+    jest.spyOn(globals, 'isPopout').mockReturnValue(true)
+    expect(embedShown(undefined, { type: WIDGET_INITIALISED })).toEqual(true)
+  })
+})

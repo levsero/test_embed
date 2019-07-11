@@ -1,27 +1,25 @@
 describe('chat reducer socialLogin', () => {
-  let reducer,
-    actionTypes,
-    initialState;
+  let reducer, actionTypes, initialState
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-social-login');
-    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-social-login')
+    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
-    reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
+    reducer = requireUncached(reducerPath).default
+    actionTypes = requireUncached(actionTypesPath)
 
-    initialState = reducer(undefined, { type: '' });
-  });
+    initialState = reducer(undefined, { type: '' })
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('reducer', () => {
-    let state;
+    let state
 
     describe('initial state', () => {
       it('is set to an expected default object', () => {
@@ -29,46 +27,43 @@ describe('chat reducer socialLogin', () => {
           authenticated: false,
           screen: '',
           avatarPath: ''
-        };
+        }
 
-        expect(initialState)
-          .toEqual(expected);
-      });
-    });
+        expect(initialState).toEqual(expected)
+      })
+    })
 
     describe('when an action is dispatched', () => {
-      let payload,
-        action;
+      let payload, action
 
       beforeEach(() => {
-        state = reducer(initialState, action);
-      });
+        state = reducer(initialState, action)
+      })
 
       describe('CHAT_SOCIAL_LOGIN_SUCCESS', () => {
         beforeAll(() => {
-          payload = 'wwww.terence.com/myAvatar.jpeg';
+          payload = 'wwww.terence.com/myAvatar.jpeg'
           action = {
             type: actionTypes.CHAT_SOCIAL_LOGIN_SUCCESS,
             payload: payload
-          };
-        });
+          }
+        })
 
         it('updates the state with the payload', () => {
           const expected = {
             ...initialState,
             authenticated: true,
             avatarPath: payload
-          };
+          }
 
-          expect(state)
-            .toEqual(expected);
-        });
-      });
+          expect(state).toEqual(expected)
+        })
+      })
 
       describe('CHAT_SOCIAL_LOGOUT_SUCCESS', () => {
         beforeAll(() => {
-          action = { type: actionTypes.CHAT_SOCIAL_LOGOUT_SUCCESS };
-        });
+          action = { type: actionTypes.CHAT_SOCIAL_LOGOUT_SUCCESS }
+        })
 
         it('updates the state with the payload', () => {
           const expected = {
@@ -76,44 +71,41 @@ describe('chat reducer socialLogin', () => {
             screen: actionTypes.CHAT_SOCIAL_LOGOUT_SUCCESS,
             avatarPath: '',
             authenticated: false
-          };
+          }
 
-          expect(state)
-            .toEqual(expected);
-        });
-      });
+          expect(state).toEqual(expected)
+        })
+      })
 
       describe('CHAT_SOCIAL_LOGOUT_PENDING', () => {
         beforeAll(() => {
-          action = { type: actionTypes.CHAT_SOCIAL_LOGOUT_PENDING };
-        });
+          action = { type: actionTypes.CHAT_SOCIAL_LOGOUT_PENDING }
+        })
 
         it('updates the state with the payload', () => {
           const expected = {
             ...initialState,
             screen: actionTypes.CHAT_SOCIAL_LOGOUT_PENDING
-          };
+          }
 
-          expect(state)
-            .toEqual(expected);
-        });
-      });
+          expect(state).toEqual(expected)
+        })
+      })
 
       describe('CHAT_SOCIAL_LOGOUT_FAILURE', () => {
         beforeAll(() => {
-          action = { type: actionTypes.CHAT_SOCIAL_LOGOUT_FAILURE };
-        });
+          action = { type: actionTypes.CHAT_SOCIAL_LOGOUT_FAILURE }
+        })
 
         it('updates the state with the payload', () => {
           const expected = {
             ...initialState,
             screen: actionTypes.CHAT_SOCIAL_LOGOUT_FAILURE
-          };
+          }
 
-          expect(state)
-            .toEqual(expected);
-        });
-      });
-    });
-  });
-});
+          expect(state).toEqual(expected)
+        })
+      })
+    })
+  })
+})

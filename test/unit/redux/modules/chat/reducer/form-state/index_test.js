@@ -1,38 +1,36 @@
 describe('chat form-state reducer', () => {
-  let reducer;
+  let reducer
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       'src/util/chat': {}
-    });
+    })
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/form-state/index');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/form-state/index')
 
-    reducer = requireUncached(reducerPath).default;
-  });
+    reducer = requireUncached(reducerPath).default
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('initial state', () => {
-    let state;
+    let state
 
     beforeEach(() => {
-      state = reducer({}, { type: '' });
-    });
+      state = reducer({}, { type: '' })
+    })
 
     it('has the offlineForm sub state', () => {
-      expect(state.offlineForm)
-        .toBeDefined();
-    });
+      expect(state.offlineForm).toBeDefined()
+    })
 
     it('has the preChatForm sub state', () => {
-      expect(state.preChatForm)
-        .toBeDefined();
-    });
-  });
-});
+      expect(state.preChatForm).toBeDefined()
+    })
+  })
+})

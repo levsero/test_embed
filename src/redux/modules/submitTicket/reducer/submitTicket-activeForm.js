@@ -1,16 +1,16 @@
-import { TICKET_FORM_UPDATE } from '../submitTicket-action-types';
+import { TICKET_FORM_UPDATE } from '../submitTicket-action-types'
 
-const initialState = null;
+const initialState = null
 
 const activeForm = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case TICKET_FORM_UPDATE:
-      return payload;
+      return payload
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default activeForm;
+export default activeForm

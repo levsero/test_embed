@@ -1,14 +1,14 @@
-import {  CHAT_BANNED } from '../chat-action-types';
+import { CHAT_BANNED } from '../chat-action-types'
 
-const initialState = false;
+const initialState = false
 
 const chatBanned = (state = initialState, action) => {
   switch (action.type) {
     case CHAT_BANNED:
-      return true;
+      return true
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default chatBanned;
+export default chatBanned

@@ -1,5 +1,5 @@
-import reducer from '../';
-import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types';
+import reducer from '../'
+import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
 
 const defaultState = () => {
   return {
@@ -13,20 +13,19 @@ const defaultState = () => {
     messageButton: null,
     searchPlaceholder: null,
     title: null
-  };
-};
+  }
+}
 
-const reduce = (payload) => {
+const reduce = payload => {
   return reducer(defaultState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
     payload: payload
-  });
-};
+  })
+}
 
 test('default state', () => {
-  expect(reducer(undefined, {}))
-    .toEqual(defaultState());
-});
+  expect(reducer(undefined, {})).toEqual(defaultState())
+})
 
 describe('when UPDATE_SETTINGS is dispatched', () => {
   it('updates the settings', () => {
@@ -44,27 +43,25 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           },
           messageButton: { '*': 'messageButton text' },
           searchPlaceholder: { '*': 'searchPlaceholder text' },
-          title: { '*': 'title text' },
+          title: { '*': 'title text' }
         }
       }
-    };
+    }
 
-    expect(reduce(payload))
-      .toMatchSnapshot();
-  });
+    expect(reduce(payload)).toMatchSnapshot()
+  })
 
   it('does not affect values not passed in', () => {
     const payload = {
       webWidget: {
         helpCenter: {
-          title: { '*': 'title text' },
+          title: { '*': 'title text' }
         }
       }
-    };
+    }
 
-    expect(reduce(payload))
-      .toMatchSnapshot();
-  });
+    expect(reduce(payload)).toMatchSnapshot()
+  })
 
   it('restricts the number of fallback locales', () => {
     const payload = {
@@ -73,9 +70,8 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           localeFallbacks: ['fr', 'ger', 'sp', 'rus']
         }
       }
-    };
+    }
 
-    expect(reduce(payload).localeFallbacks)
-      .toEqual(['fr', 'ger', 'sp']);
-  });
-});
+    expect(reduce(payload).localeFallbacks).toEqual(['fr', 'ger', 'sp'])
+  })
+})

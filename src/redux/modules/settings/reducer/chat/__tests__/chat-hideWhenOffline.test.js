@@ -1,21 +1,20 @@
-import reducer from '../chat-hideWhenOffline';
-import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types';
+import reducer from '../chat-hideWhenOffline'
+import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
 
 const initialState = () => {
-  return reducer(undefined, { type: '' });
-};
+  return reducer(undefined, { type: '' })
+}
 
-const reduce = (payload) => {
+const reduce = payload => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
     payload: payload
-  });
-};
+  })
+}
 
 test('initial state', () => {
-  expect(initialState())
-    .toEqual(false);
-});
+  expect(initialState()).toEqual(false)
+})
 
 describe('when UPDATE_SETTINGS is dispatched', () => {
   it('updates the settings', () => {
@@ -25,9 +24,8 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           hideWhenOffline: true
         }
       }
-    };
+    }
 
-    expect(reduce(payload))
-      .toEqual(true);
-  });
-});
+    expect(reduce(payload)).toEqual(true)
+  })
+})

@@ -1,4 +1,4 @@
-import webWidgetVisibility from '../web-widget-visibility';
+import webWidgetVisibility from '../web-widget-visibility'
 import {
   LAUNCHER_CLICKED,
   CHAT_BADGE_CLICKED,
@@ -11,19 +11,19 @@ import {
   TOGGLE_RECEIVED,
   POPOUT_BUTTON_CLICKED,
   UPDATE_ACTIVE_EMBED
-} from '../../base-action-types';
+} from '../../base-action-types'
 import {
   ZOPIM_SHOW,
   ZOPIM_CHAT_GONE_OFFLINE
-} from 'src/redux/modules/zopimChat/zopimChat-action-types';
+} from 'src/redux/modules/zopimChat/zopimChat-action-types'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
-} from 'src/redux/modules/chat/chat-action-types';
-import { NIL_EMBED } from 'constants/shared';
-import { testReducer } from 'src/util/testHelpers';
+} from 'src/redux/modules/chat/chat-action-types'
+import { NIL_EMBED } from 'constants/shared'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(webWidgetVisibility, [
   {
@@ -110,4 +110,4 @@ testReducer(webWidgetVisibility, [
     initialState: true,
     expected: false
   }
-]);
+])

@@ -1,30 +1,28 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import ReactDOM from 'react-dom'
+import _ from 'lodash'
 
-import { locals as styles } from './SubmitTicketForm.scss';
-import classNames from 'classnames';
+import { locals as styles } from './SubmitTicketForm.scss'
+import classNames from 'classnames'
 
-import { AttachmentList } from 'component/attachment/AttachmentList';
-import { Button } from '@zendeskgarden/react-buttons';
-import { ButtonGroup } from 'component/button/ButtonGroup';
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { i18n } from 'service/i18n';
-import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/fields';
-import { TextField, Textarea, Label, Input, Message } from '@zendeskgarden/react-textfields';
-import { EMAIL_PATTERN } from 'constants/shared';
+import { AttachmentList } from 'component/attachment/AttachmentList'
+import { Button } from '@zendeskgarden/react-buttons'
+import { ButtonGroup } from 'component/button/ButtonGroup'
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { i18n } from 'service/i18n'
+import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/fields'
+import { TextField, Textarea, Label, Input, Message } from '@zendeskgarden/react-textfields'
+import { EMAIL_PATTERN } from 'constants/shared'
 
-const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
-const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
-const cancelButtonMessageString = 'embeddable_framework.common.button.cancel';
+const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send'
+const sendingButtonMessageString =
+  'embeddable_framework.submitTicket.form.submitButton.label.sending'
+const cancelButtonMessageString = 'embeddable_framework.common.button.cancel'
 
 export class SubmitTicketForm extends Component {
   static propTypes = {
-    ticketFields: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.object
-    ]),
+    ticketFields: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
@@ -47,7 +45,7 @@ export class SubmitTicketForm extends Component {
     setFormState: PropTypes.func,
     subjectEnabled: PropTypes.bool,
     submit: PropTypes.func.isRequired
-  };
+  }
 
   static defaultProps = {
     attachmentsEnabled: false,
@@ -66,29 +64,29 @@ export class SubmitTicketForm extends Component {
     previewEnabled: false,
     setFormState: () => {},
     subjectEnabled: false
-  };
+  }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
 
     this.state = _.extend({}, this.initialState, {
       isValid: props.previewEnabled
-    });
+    })
   }
 
   componentDidMount = () => {
-    this.prefillFormState();
+    this.prefillFormState()
 
-    const form = ReactDOM.findDOMNode(this.refs.form);
+    const form = ReactDOM.findDOMNode(this.refs.form)
 
-    this.updateFormValidity(form);
+    this.updateFormValidity(form)
   }
 
   componentDidUpdate = () => {
-    const canSubmit = this.attachmentsReady();
+    const canSubmit = this.attachmentsReady()
 
     if (this.state.canSubmit !== canSubmit) {
-      this.setState({ canSubmit });
+      this.setState({ canSubmit })
     }
   }
 
@@ -105,186 +103,204 @@ export class SubmitTicketForm extends Component {
   }
 
   focusField = () => {
-    const form = ReactDOM.findDOMNode(this.refs.form);
+    const form = ReactDOM.findDOMNode(this.refs.form)
 
     // Focus on the first empty text or textarea
     const element = _.find(form.querySelectorAll('input, textarea'), function(input) {
-      return input.value === '' && _.includes(['text', 'textarea', 'email'], input.type);
-    });
+      return input.value === '' && _.includes(['text', 'textarea', 'email'], input.type)
+    })
 
-    if (element) element.focus();
+    if (element) element.focus()
   }
 
   failedToSubmit = () => {
     this.setState({
       isSubmitting: false,
       buttonMessage: sendButtonMessageString
-    });
+    })
 
-    this.refs.scrollContainer.scrollToBottom();
+    this.refs.scrollContainer.scrollToBottom()
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     if (this.props.previewEnabled) {
-      e.preventDefault();
-      return;
+      e.preventDefault()
+      return
     }
 
-    const isFormValid = this.state.isValid;
+    const isFormValid = this.state.isValid
 
     if (isFormValid) {
       this.setState({
         buttonMessage: sendingButtonMessageString,
         isSubmitting: true
-      });
+      })
 
       this.props.submit(e, {
         isFormValid: isFormValid,
         value: this.getFormState()
-      });
+      })
     } else {
-      e.preventDefault();
-      this.setState({ showErrors: true });
+      e.preventDefault()
+      this.setState({ showErrors: true })
     }
   }
 
   openAttachment = () => {
-    this.setState({ showAttachmentForm: true });
+    this.setState({ showAttachmentForm: true })
   }
 
   getFormState = () => {
-    const form = ReactDOM.findDOMNode(this.refs.form);
+    const form = ReactDOM.findDOMNode(this.refs.form)
 
-    return _.reduce(form.elements, (result, field) => {
-      if (_.isEmpty(field.name) || field.type === 'submit') {
-        return result;
-      } else if (field.type === 'checkbox') {
-        result[field.name] = field.checked ? 1 : 0;
-      } else {
-        result[field.name] = field.value;
-      }
+    return _.reduce(
+      form.elements,
+      (result, field) => {
+        if (_.isEmpty(field.name) || field.type === 'submit') {
+          return result
+        } else if (field.type === 'checkbox') {
+          result[field.name] = field.checked ? 1 : 0
+        } else {
+          result[field.name] = field.value
+        }
 
-      return result;
-    }, {});
+        return result
+      },
+      {}
+    )
   }
 
-  isPrefillValid = (prefill) => {
-    return Array.isArray(prefill) && prefill.length !== 0;
+  isPrefillValid = prefill => {
+    return Array.isArray(prefill) && prefill.length !== 0
   }
 
   mergePrefill = (prefillTicketForm, prefillTicketField) => {
-    const prefillTicketFormValid = this.isPrefillValid(prefillTicketForm);
-    const prefillTicketFieldValid = this.isPrefillValid(prefillTicketField);
-    const prefillFieldData = prefillTicketFormValid ? prefillTicketForm : [];
+    const prefillTicketFormValid = this.isPrefillValid(prefillTicketForm)
+    const prefillTicketFieldValid = this.isPrefillValid(prefillTicketField)
+    const prefillFieldData = prefillTicketFormValid ? prefillTicketForm : []
 
     return prefillTicketFieldValid
-         ? _.unionWith(prefillTicketForm, prefillTicketField, (a1, a2) => a1.id == a2.id) // eslint-disable-line
-      : prefillFieldData;
+      ? _.unionWith(
+          prefillTicketForm,
+          prefillTicketField,
+          (a1, a2) => a1.id == a2.id // eslint-disable-line
+        )
+      : prefillFieldData
   }
 
   filterPrefillFields = (fields, prefillTicketForm, prefillTicketField) => {
-    const permittedFieldTypes = ['description', 'subject', 'text', 'textarea', 'integer', 'decimal'];
-    const permittedSystemFieldIds = ['description', 'subject'];
-    const prefillData = this.mergePrefill(prefillTicketForm, prefillTicketField);
-    const findMatchingField = (prefillField) => (ticketField) => {
-      return ticketField.id == prefillField.id || // eslint-disable-line eqeqeq
-             (ticketField.type === prefillField.id && _.includes(permittedSystemFieldIds, prefillField.id));
-    };
+    const permittedFieldTypes = ['description', 'subject', 'text', 'textarea', 'integer', 'decimal']
+    const permittedSystemFieldIds = ['description', 'subject']
+    const prefillData = this.mergePrefill(prefillTicketForm, prefillTicketField)
+    const findMatchingField = prefillField => ticketField => {
+      return (
+        ticketField.id == prefillField.id || // eslint-disable-line eqeqeq
+        (ticketField.type === prefillField.id &&
+          _.includes(permittedSystemFieldIds, prefillField.id))
+      )
+    }
 
-    return _.reduce(prefillData, (result, prefillField) => {
-      const matchingField = _.find(fields, findMatchingField(prefillField)) || {};
+    return _.reduce(
+      prefillData,
+      (result, prefillField) => {
+        const matchingField = _.find(fields, findMatchingField(prefillField)) || {}
 
-      if (_.includes(permittedFieldTypes, matchingField.type)) {
-        // Replace ticketField.id where it could be a text instead of an integer
-        prefillField.id = matchingField.id;
-        result.push(prefillField);
-      }
+        if (_.includes(permittedFieldTypes, matchingField.type)) {
+          // Replace ticketField.id where it could be a text instead of an integer
+          prefillField.id = matchingField.id
+          result.push(prefillField)
+        }
 
-      return result;
-    }, []);
+        return result
+      },
+      []
+    )
   }
 
   // Passed in as params so the tests don't break
   prefillFormState = (
     fields = this.props.ticketFields,
     prefillTicketForm = this.props.ticketFormSettings,
-    prefillTicketField = this.props.ticketFieldSettings) => {
+    prefillTicketField = this.props.ticketFieldSettings
+  ) => {
     const internalFields = {
       description: { id: 'description', type: 'description' },
       subject: { id: 'subject', type: 'subject' }
-    };
-    const fieldsData = _.extend({}, fields, internalFields);
-    const filteredFields = this.filterPrefillFields(fieldsData, prefillTicketForm, prefillTicketField);
+    }
+    const fieldsData = _.extend({}, fields, internalFields)
+    const filteredFields = this.filterPrefillFields(
+      fieldsData,
+      prefillTicketForm,
+      prefillTicketField
+    )
 
     // Check if pre-fill is still valid after processing
-    if (filteredFields.length === 0) return;
+    if (filteredFields.length === 0) return
 
-    let formState = this.getFormState();
-    const currentLocale = i18n.getLocale();
+    let formState = this.getFormState()
+    const currentLocale = i18n.getLocale()
 
-    filteredFields.forEach((field) => {
-      formState[field.id] = field.prefill[`${currentLocale}`] || field.prefill['*'] || '';
-    });
+    filteredFields.forEach(field => {
+      formState[field.id] = field.prefill[`${currentLocale}`] || field.prefill['*'] || ''
+    })
 
-    this.props.setFormState(formState);
+    this.props.setFormState(formState)
   }
 
   attachmentsReady = () => {
-    return this.props.attachmentsEnabled
-      ? this.refs.attachments.attachmentsReady()
-      : true;
+    return this.props.attachmentsEnabled ? this.refs.attachments.attachmentsReady() : true
   }
 
-  updateFormValidity = (form) => {
+  updateFormValidity = form => {
     this.setState({
       isValid: form.checkValidity(),
       canSubmit: this.attachmentsReady()
-    });
+    })
   }
 
   updateForm = () => {
-    const form = ReactDOM.findDOMNode(this.refs.form);
+    const form = ReactDOM.findDOMNode(this.refs.form)
 
-    this.props.setFormState(this.getFormState());
-    this.updateFormValidity(form);
+    this.props.setFormState(this.getFormState())
+    this.updateFormValidity(form)
   }
 
   resetState = () => {
-    this.setState(this.initialState);
+    this.setState(this.initialState)
   }
 
-  handleOnDrop = (files) => {
-    this.refs.attachments.handleOnDrop(files);
-    setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0);
+  handleOnDrop = files => {
+    this.refs.attachments.handleOnDrop(files)
+    setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0)
   }
 
   handleAttachmentsError = () => {
-    setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0);
+    setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0)
   }
 
   clear = () => {
-    const { formState } = this.props;
-    const form = this.refs.form;
+    const { formState } = this.props
+    const form = this.refs.form
 
-    _.forEach(form.elements, (field) => {
+    _.forEach(form.elements, field => {
       if (formState[field.name] && field.type === 'checkbox') {
-        field.checked = false;
+        field.checked = false
       }
-    });
+    })
 
-    this.clearAttachments();
+    this.clearAttachments()
 
-    this.setState(this.initialState);
+    this.setState(this.initialState)
     this.props.setFormState({
       name: formState.name,
       email: formState.email
-    });
-    this.prefillFormState();
+    })
+    this.prefillFormState()
   }
 
   clearAttachments = () => {
     if (this.props.attachmentsEnabled) {
-      this.refs.attachments.clear();
+      this.refs.attachments.clear()
     }
   }
 
@@ -293,8 +309,8 @@ export class SubmitTicketForm extends Component {
       false,
       this.props.formState.subject,
       'embeddable_framework.validation.error.input'
-    );
-    const name = 'subject';
+    )
+    const name = 'subject'
 
     const subjectField = (
       <TextField key={name}>
@@ -302,16 +318,15 @@ export class SubmitTicketForm extends Component {
         <Input
           key={name}
           name={name}
-          validation={error ? 'error': 'none'}
+          validation={error ? 'error' : 'none'}
           value={this.props.formState.subject}
           disabled={this.props.previewEnabled}
-          readOnly={this.props.readOnlyState.subject} />
+          readOnly={this.props.readOnlyState.subject}
+        />
       </TextField>
-    );
+    )
 
-    return this.props.subjectEnabled
-      ? subjectField
-      : null;
+    return this.props.subjectEnabled ? subjectField : null
   }
 
   renderEmailField = () => {
@@ -320,15 +335,15 @@ export class SubmitTicketForm extends Component {
       this.props.formState.email,
       'embeddable_framework.validation.error.email',
       EMAIL_PATTERN
-    );
-    const name = 'email';
+    )
+    const name = 'email'
 
     /* eslint-disable max-len */
     return (
       <TextField key={name}>
         {renderLabel(Label, i18n.t('embeddable_framework.form.field.email.label'), true)}
         <Input
-          validation={error ? 'error': 'none'}
+          validation={error ? 'error' : 'none'}
           key={name}
           name={name}
           required={true}
@@ -336,21 +351,23 @@ export class SubmitTicketForm extends Component {
           value={this.props.formState.email}
           readOnly={this.props.readOnlyState.email}
           disabled={this.props.previewEnabled}
-          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" />
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+        />
         {error}
       </TextField>
-    );
+    )
     /* eslint-enable max-len */
   }
 
   renderNameField = () => {
-    if (!this.props.nameFieldEnabled) return;
+    if (!this.props.nameFieldEnabled) return
 
     const error = this.renderErrorMessage(
       this.props.nameFieldRequired,
       this.props.formState.name,
-      'embeddable_framework.validation.error.name');
-    const name = 'name';
+      'embeddable_framework.validation.error.name'
+    )
+    const name = 'name'
 
     return (
       <TextField key={name}>
@@ -363,48 +380,55 @@ export class SubmitTicketForm extends Component {
           key={name}
           name={name}
           required={this.props.nameFieldRequired}
-          validation={error ? 'error': 'none'}
+          validation={error ? 'error' : 'none'}
           disabled={this.props.previewEnabled}
           value={this.props.formState.name}
           onChange={() => {}}
-          readOnly={this.props.readOnlyState.name} />
+          readOnly={this.props.readOnlyState.name}
+        />
         {error}
       </TextField>
-    );
+    )
   }
 
   renderDescriptionField = () => {
     const error = this.renderErrorMessage(
       true,
       this.props.formState.description,
-      'embeddable_framework.validation.error.input');
-    const name = 'description';
+      'embeddable_framework.validation.error.input'
+    )
+    const name = 'description'
 
     return (
       <TextField key={name}>
-        {renderLabel(Label, i18n.t('embeddable_framework.submitTicket.field.description.label'), true)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.submitTicket.field.description.label'),
+          true
+        )}
         <Textarea
           key={name}
           name={name}
-          validation={error ? 'error': 'none'}
+          validation={error ? 'error' : 'none'}
           disabled={this.props.previewEnabled}
           required={true}
           value={this.props.formState.description}
           onChange={() => {}}
-          rows='5' />
+          rows="5"
+        />
         {error}
       </TextField>
-    );
+    )
   }
 
   renderErrorMessage = (required, value, errorString, pattern) => {
-    return shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)
-      ? <Message validation='error'>{i18n.t(errorString)}</Message>
-      : null;
-  };
+    return shouldRenderErrorMessage(value, required, this.state.showErrors, pattern) ? (
+      <Message validation="error">{i18n.t(errorString)}</Message>
+    ) : null
+  }
 
   renderTicketFormBody = () => {
-    const { activeTicketForm, ticketFields } = this.props;
+    const { activeTicketForm, ticketFields } = this.props
     const ticketFieldsElem = getCustomFields(
       ticketFields,
       this.props.formState,
@@ -414,35 +438,31 @@ export class SubmitTicketForm extends Component {
         showErrors: this.state.showErrors
       },
       activeTicketForm.end_user_conditions
-    );
-    const titleMobileClasses = this.props.isMobile ? styles.ticketFormTitleMobile : '';
+    )
+    const titleMobileClasses = this.props.isMobile ? styles.ticketFormTitleMobile : ''
 
-    ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
+    ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()])
 
     return (
-      <div ref='formWrapper' className={styles.formWrapper}>
+      <div ref="formWrapper" className={styles.formWrapper}>
         <h2 className={`${styles.ticketFormTitle} ${titleMobileClasses}`}>
           {activeTicketForm.display_name}
         </h2>
         {ticketFieldsElem.allFields}
         {this.props.children}
       </div>
-    );
+    )
   }
 
   renderFormBody = () => {
-    const ticketFields = getCustomFields(
-      this.props.ticketFields,
-      this.props.formState,
-      {
-        getFrameContentDocument: this.props.getFrameContentDocument,
-        onChange: this.updateForm,
-        showErrors: this.state.showErrors
-      }
-    );
+    const ticketFields = getCustomFields(this.props.ticketFields, this.props.formState, {
+      getFrameContentDocument: this.props.getFrameContentDocument,
+      onChange: this.updateForm,
+      showErrors: this.state.showErrors
+    })
 
     return (
-      <div ref='formWrapper' className={styles.formWrapper}>
+      <div ref="formWrapper" className={styles.formWrapper}>
         {this.renderNameField()}
         {this.renderEmailField()}
         {ticketFields.fields}
@@ -451,21 +471,19 @@ export class SubmitTicketForm extends Component {
         {ticketFields.checkboxes}
         {this.props.children}
       </div>
-    );
+    )
   }
 
   renderCancelButton = () => {
     return (
-      <Button
-        onClick={this.props.onCancel}
-        className={styles.button}>
+      <Button onClick={this.props.onCancel} className={styles.button}>
         {i18n.t(this.state.cancelButtonMessage)}
       </Button>
-    );
+    )
   }
 
   renderAttachments = () => {
-    const { attachmentSender, fullscreen } = this.props;
+    const { attachmentSender, fullscreen } = this.props
 
     return (
       <AttachmentList
@@ -475,36 +493,35 @@ export class SubmitTicketForm extends Component {
         maxFileCount={this.props.maxFileCount}
         maxFileSize={this.props.maxFileSize}
         fullscreen={fullscreen}
-        handleAttachmentsError={this.handleAttachmentsError} />
-    );
+        handleAttachmentsError={this.handleAttachmentsError}
+      />
+    )
   }
 
   render = () => {
-    const { attachmentsEnabled, fullscreen, formTitle, hide, isMobile } = this.props;
+    const { attachmentsEnabled, fullscreen, formTitle, hide, isMobile } = this.props
 
-    const form = this.props.activeTicketForm ? this.renderTicketFormBody() : this.renderFormBody();
-    const buttonCancel = isMobile ? null : this.renderCancelButton();
-    const attachments = attachmentsEnabled ? this.renderAttachments() : null;
-    const hiddenClass = hide ? styles.hidden : '';
-    const containerClasses = classNames(
-      styles.container,
-      {
-        [styles.ticketFormContainer]: this.props.activeTicketForm,
-        [styles.containerMobile]: isMobile
-      }
-    );
-    const buttonDisabled = !this.state.canSubmit || this.state.isSubmitting;
-    const showShadow = this.props.ticketFields.length > 0 || this.props.attachmentsEnabled;
+    const form = this.props.activeTicketForm ? this.renderTicketFormBody() : this.renderFormBody()
+    const buttonCancel = isMobile ? null : this.renderCancelButton()
+    const attachments = attachmentsEnabled ? this.renderAttachments() : null
+    const hiddenClass = hide ? styles.hidden : ''
+    const containerClasses = classNames(styles.container, {
+      [styles.ticketFormContainer]: this.props.activeTicketForm,
+      [styles.containerMobile]: isMobile
+    })
+    const buttonDisabled = !this.state.canSubmit || this.state.isSubmitting
+    const showShadow = this.props.ticketFields.length > 0 || this.props.attachmentsEnabled
 
     return (
       <form
         noValidate={true}
         onSubmit={this.handleSubmit}
         onChange={this.updateForm}
-        ref='form'
-        className={`${styles.form} ${hiddenClass}`}>
+        ref="form"
+        className={`${styles.form} ${hiddenClass}`}
+      >
         <ScrollContainer
-          ref='scrollContainer'
+          ref="scrollContainer"
           title={formTitle}
           containerClasses={containerClasses}
           scrollShadowVisible={showShadow}
@@ -514,18 +531,20 @@ export class SubmitTicketForm extends Component {
               <Button
                 primary={true}
                 disabled={buttonDisabled}
-                type='submit'
-                className={styles.button}>
+                type="submit"
+                className={styles.button}
+              >
                 {i18n.t(this.state.buttonMessage)}
               </Button>
             </ButtonGroup>
           }
           fullscreen={fullscreen}
-          isMobile={isMobile}>
+          isMobile={isMobile}
+        >
           {form}
           {attachments}
         </ScrollContainer>
       </form>
-    );
+    )
   }
 }

@@ -1,6 +1,6 @@
-import connected from '../zopimChat-connected';
-import { ZOPIM_CONNECTED } from '../../zopimChat-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import connected from '../zopimChat-connected'
+import { ZOPIM_CONNECTED } from '../../zopimChat-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(connected, [
   {
@@ -16,4 +16,4 @@ testReducer(connected, [
     action: { type: ZOPIM_CONNECTED },
     expected: true
   }
-]);
+])

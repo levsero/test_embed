@@ -1,20 +1,19 @@
-import { render, fireEvent } from 'react-testing-library';
-import React from 'react';
+import { render, fireEvent } from 'react-testing-library'
+import React from 'react'
 
-import { ButtonIcon } from '../ButtonIcon';
+import { ButtonIcon } from '../ButtonIcon'
 
-const renderComponent = (props) => {
-  const label = <span>Label</span>;
+const renderComponent = props => {
+  const label = <span>Label</span>
 
-  return render(<ButtonIcon label={label} {...props} />);
-};
+  return render(<ButtonIcon label={label} {...props} />)
+}
 
 test('renders the expected classes', () => {
-  const { container } = renderComponent();
+  const { container } = renderComponent()
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 test('classes are customizable', () => {
   const { container } = renderComponent({
@@ -22,32 +21,35 @@ test('classes are customizable', () => {
     actionable: false,
     flipX: true,
     iconClasses: 'here there'
-  });
+  })
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})
 
 describe('actionable', () => {
   it('calls handler on click when actionable is true', () => {
-    const handler = jest.fn();
+    const handler = jest.fn()
 
-    const { container } = renderComponent({ actionable: true, onClick: handler });
+    const { container } = renderComponent({
+      actionable: true,
+      onClick: handler
+    })
 
-    fireEvent.click(container.querySelector('button'));
+    fireEvent.click(container.querySelector('button'))
 
-    expect(handler)
-      .toHaveBeenCalled();
-  });
+    expect(handler).toHaveBeenCalled()
+  })
 
   it('does not call handler on click when actionable is false', () => {
-    const handler = jest.fn();
+    const handler = jest.fn()
 
-    const { container } = renderComponent({ actionable: false, onClick: handler });
+    const { container } = renderComponent({
+      actionable: false,
+      onClick: handler
+    })
 
-    fireEvent.click(container.querySelector('button'));
+    fireEvent.click(container.querySelector('button'))
 
-    expect(handler)
-      .not.toHaveBeenCalled();
-  });
-});
+    expect(handler).not.toHaveBeenCalled()
+  })
+})

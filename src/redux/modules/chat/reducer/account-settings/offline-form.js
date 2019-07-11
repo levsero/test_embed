@@ -1,5 +1,8 @@
-import _ from 'lodash';
-import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS, UPDATE_PREVIEWER_SETTINGS } from '../../chat-action-types';
+import _ from 'lodash'
+import {
+  GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
+  UPDATE_PREVIEWER_SETTINGS
+} from '../../chat-action-types'
 
 const initialState = {
   form: {
@@ -10,7 +13,7 @@ const initialState = {
   },
   enabled: false,
   message: ''
-};
+}
 
 const offlineForm = (state = initialState, action) => {
   switch (action.type) {
@@ -19,10 +22,10 @@ const offlineForm = (state = initialState, action) => {
       return {
         ..._.get(action.payload, 'forms.offline_form', state.form),
         enabled: !_.get(action.payload, 'chat_button.hide_when_offline', state.enabled)
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default offlineForm;
+export default offlineForm

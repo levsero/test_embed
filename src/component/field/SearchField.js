@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { IconFieldButton } from 'component/button/IconFieldButton';
-import { LoadingEllipses } from 'component/loading/LoadingEllipses';
-import { Icon } from 'component/Icon';
-import { locals as styles } from './SearchField.scss';
-import { FauxInput, MediaFigure, Input, Label } from '@zendeskgarden/react-textfields';
-import classNames from 'classnames';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { IconFieldButton } from 'component/button/IconFieldButton'
+import { LoadingEllipses } from 'component/loading/LoadingEllipses'
+import { Icon } from 'component/Icon'
+import { locals as styles } from './SearchField.scss'
+import { FauxInput, MediaFigure, Input, Label } from '@zendeskgarden/react-textfields'
+import classNames from 'classnames'
 
 export class SearchField extends Component {
   static propTypes = {
@@ -19,7 +19,7 @@ export class SearchField extends Component {
     onSearchIconClick: PropTypes.func,
     customSearchContainerClasses: PropTypes.string,
     searchPlaceholder: PropTypes.string.isRequired
-  };
+  }
 
   static defaultProps = {
     fullscreen: false,
@@ -29,69 +29,69 @@ export class SearchField extends Component {
     onChange: () => {},
     onChangeValue: () => {},
     onFocus: () => {},
-    onSearchIconClick:  () => {},
+    onSearchIconClick: () => {},
     onClick: () => {},
     hideZendeskLogo: false
-  };
+  }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
 
     this.state = {
       blurred: false,
       focused: false,
       searchInputVal: ''
-    };
-    this.searchField = null;
+    }
+    this.searchField = null
   }
 
-  onFocus = (e) => {
-    this.setState({ focused: true });
-    this.props.onFocus(e);
+  onFocus = e => {
+    this.setState({ focused: true })
+    this.props.onFocus(e)
   }
 
-  onBlur = (e) => {
+  onBlur = e => {
     this.setState({
       focused: false,
       blurred: true
-    });
+    })
 
-    this.props.onBlur(e);
+    this.props.onBlur(e)
   }
 
-  onChange = (e) => {
-    const value = e.target.value;
+  onChange = e => {
+    const value = e.target.value
 
-    this.setState({ searchInputVal: value });
+    this.setState({ searchInputVal: value })
 
-    this.props.onChange(e);
-    this.props.onChangeValue(value);
+    this.props.onChange(e)
+    this.props.onChangeValue(value)
   }
 
   clearInput = () => {
-    this.setState({ searchInputVal: '' });
-    this.props.onChangeValue('');
+    this.setState({ searchInputVal: '' })
+    this.props.onChangeValue('')
   }
 
   getSearchField = () => {
-    return this.searchField;
+    return this.searchField
   }
 
   getValue = () => {
-    return this.state.searchInputVal;
+    return this.state.searchInputVal
   }
 
-  setValue = (value) => {
-    this.setState({ searchInputVal: value });
-    this.props.onChangeValue(value);
+  setValue = value => {
+    this.setState({ searchInputVal: value })
+    this.props.onChangeValue(value)
   }
 
   focus = () => {
-    this.getSearchField().focus();
+    this.getSearchField().focus()
   }
 
   blur = () => {
-    this.getSearchField().blur();
+    this.getSearchField().blur()
   }
 
   renderMobileSearchIconButton = () => {
@@ -100,74 +100,75 @@ export class SearchField extends Component {
         <IconFieldButton
           onClick={this.props.onSearchIconClick}
           fullscreen={this.props.fullscreen}
-          icon='Icon--search' />
+          icon="Icon--search"
+        />
       </MediaFigure>
-    );
+    )
   }
 
   renderMobileLoadingOrClearIcon = () => {
-    let icon = null;
+    let icon = null
 
     if (this.props.isLoading) {
-      icon = <LoadingEllipses />;
+      icon = <LoadingEllipses />
     } else if (this.state.searchInputVal) {
       icon = (
         <Icon
           onClick={this.clearInput}
           onTouch={this.clearInput}
           className={styles.mobileClearInput}
-          type='Icon--clearInput' />
-      );
+          type="Icon--clearInput"
+        />
+      )
     }
 
     return (
       <MediaFigure key="loadingOrClear" className={styles.mobileNonSearchIconContainer}>
         {icon}
       </MediaFigure>
-    );
+    )
   }
 
   renderDesktopSearchOrLoadingIcon = () => {
-    const icon = this.props.isLoading
-      ? <LoadingEllipses />
-      : (<IconFieldButton
+    const icon = this.props.isLoading ? (
+      <LoadingEllipses />
+    ) : (
+      <IconFieldButton
         onClick={this.props.onSearchIconClick}
         focused={this.state.focused}
-        icon='Icon--search'
-      />);
+        icon="Icon--search"
+      />
+    )
 
     return (
-      <MediaFigure
-        key="searchOrLoading"
-        className={styles.desktopSearchOrLoading}>
+      <MediaFigure key="searchOrLoading" className={styles.desktopSearchOrLoading}>
         {icon}
       </MediaFigure>
-    );
+    )
   }
 
   renderIcons = () => {
-    let icons = [];
+    let icons = []
 
     if (this.props.fullscreen) {
-      icons.push(this.renderMobileLoadingOrClearIcon());
-      icons.push(this.renderMobileSearchIconButton());
+      icons.push(this.renderMobileLoadingOrClearIcon())
+      icons.push(this.renderMobileSearchIconButton())
     } else {
-      icons.push(this.renderDesktopSearchOrLoadingIcon());
+      icons.push(this.renderDesktopSearchOrLoadingIcon())
     }
 
-    return icons;
+    return icons
   }
 
   render = () => {
-    const { customSearchContainerClasses, fullscreen, searchPlaceholder } = this.props;
+    const { customSearchContainerClasses, fullscreen, searchPlaceholder } = this.props
     const searchContainerClasses = classNames(customSearchContainerClasses, {
       [styles.mobileContainer]: fullscreen,
       [styles.desktopContainer]: !fullscreen
-    });
-    const searchInputClasses = classNames(
-      styles.searchInput,
-      { [styles.mobileSearchInput]: fullscreen }
-    );
+    })
+    const searchInputClasses = classNames(styles.searchInput, {
+      [styles.mobileSearchInput]: fullscreen
+    })
 
     return (
       <FauxInput mediaLayout={true} className={searchContainerClasses} onClick={this.props.onClick}>
@@ -178,14 +179,16 @@ export class SearchField extends Component {
           value={this.state.searchInputVal}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          innerRef={(elem) => { this.searchField = elem; }}
-          autoCapitalize='off'
+          innerRef={elem => {
+            this.searchField = elem
+          }}
+          autoCapitalize="off"
           placeholder={searchPlaceholder}
-          type='search'
+          type="search"
           className={searchInputClasses}
         />
         {this.renderIcons()}
       </FauxInput>
-    );
+    )
   }
 }

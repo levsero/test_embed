@@ -1,34 +1,31 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
-import { i18n } from 'src/service/i18n';
+import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
+import { i18n } from 'src/service/i18n'
 
 export const dispatchChatAccountSettings = (store, settings) => {
   store.dispatch({
     type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
     payload: settings
-  });
-};
+  })
+}
 
 export const clearDOM = () => {
-  document.getElementsByTagName('html')[0].innerHTML = '';
-};
+  document.getElementsByTagName('html')[0].innerHTML = ''
+}
 
-export const noopReactComponent = () => class extends Component {
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node,
-  };
+export const noopReactComponent = () =>
+  class extends Component {
+    static propTypes = {
+      className: PropTypes.string,
+      children: PropTypes.node
+    }
 
-  render() {
-    return (
-      <div className={this.props.className}>
-        {this.props.children}
-      </div>
-    );
+    render() {
+      return <div className={this.props.className}>{this.props.children}</div>
+    }
   }
-};
 
 /*
   For testing reducers (duh).
@@ -42,52 +39,50 @@ export const noopReactComponent = () => class extends Component {
   of that key will be used to assert against the result of the reducer.
 */
 export const testReducer = (reducer, actions) => {
-  actions.forEach((params) => {
-    const { expected, initialState, extraDesc } = params;
-    const action = params.action || params;
-    const basicTestDesc = `${reducer.name}, action: ${action.type}`;
-    const testDesc = extraDesc ? `${basicTestDesc} ${extraDesc}` : basicTestDesc;
+  actions.forEach(params => {
+    const { expected, initialState, extraDesc } = params
+    const action = params.action || params
+    const basicTestDesc = `${reducer.name}, action: ${action.type}`
+    const testDesc = extraDesc ? `${basicTestDesc} ${extraDesc}` : basicTestDesc
 
     test(testDesc, () => {
-      const reduced = reducer(initialState, action);
+      const reduced = reducer(initialState, action)
 
       if ('expected' in params) {
-        expect(reduced).toEqual(expected);
+        expect(reduced).toEqual(expected)
       } else {
-        expect(reduced).toMatchSnapshot();
+        expect(reduced).toMatchSnapshot()
       }
-    });
-  });
-};
+    })
+  })
+}
 
 /*
   For testing basic translation selectors made using reselect's `createSelector`.
   And by basic, I mean of the i18n.getSettingTranslations(setting) || i18n.t('default.translation') kind.
   The resultFunc needs to have an arity of 2 for the unused locale param.
 */
-export const testTranslationStringSelector = (selector) => {
-  const subject = selector.resultFunc;
-  const defaultTranslation = 'default translation';
-  const settingsTranslation = 'settings translation';
+export const testTranslationStringSelector = selector => {
+  const subject = selector.resultFunc
+  const defaultTranslation = 'default translation'
+  const settingsTranslation = 'settings translation'
 
   if (!subject || subject.length !== 2) {
-    throw new Error('For testing create selector resultFuncs with arity of 2');
+    throw new Error('For testing create selector resultFuncs with arity of 2')
   }
 
   describe(selector.name, () => {
     test.each([
-      [undefined,            null,  defaultTranslation ],
-      [settingsTranslation,  null,  settingsTranslation]
-    ])('resultFunc(%p, %p) returns %p',
-      (settingString, locale, expected) => {
-        jest.spyOn(i18n, 't').mockReturnValue(defaultTranslation);
-        jest.spyOn(i18n, 'getSettingTranslation').mockReturnValue(settingString);
+      [undefined, null, defaultTranslation],
+      [settingsTranslation, null, settingsTranslation]
+    ])('resultFunc(%p, %p) returns %p', (settingString, locale, expected) => {
+      jest.spyOn(i18n, 't').mockReturnValue(defaultTranslation)
+      jest.spyOn(i18n, 'getSettingTranslation').mockReturnValue(settingString)
 
-        expect(subject(settingString, locale)).toEqual(expected);
+      expect(subject(settingString, locale)).toEqual(expected)
 
-        i18n.t.mockRestore();
-        i18n.getSettingTranslation.mockRestore();
-      }
-    );
-  });
-};
+      i18n.t.mockRestore()
+      i18n.getSettingTranslation.mockRestore()
+    })
+  })
+}

@@ -1,25 +1,22 @@
-import {
-  UPDATE_QUEUE,
-  REMOVE_FROM_QUEUE
-} from '../base-action-types';
+import { UPDATE_QUEUE, REMOVE_FROM_QUEUE } from '../base-action-types'
 
-import _ from 'lodash';
+import _ from 'lodash'
 
-const initialState = {};
+const initialState = {}
 const queue = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case UPDATE_QUEUE:
       return {
         ...state,
         ...payload
-      };
+      }
     case REMOVE_FROM_QUEUE:
-      return _.omit(state, [payload]);
+      return _.omit(state, [payload])
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default queue;
+export default queue

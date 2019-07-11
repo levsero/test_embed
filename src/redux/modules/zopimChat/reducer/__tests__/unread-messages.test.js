@@ -1,6 +1,6 @@
-import unreadMessages from '../unread-messages';
-import { ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE } from '../../zopimChat-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import unreadMessages from '../unread-messages'
+import { ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE } from '../../zopimChat-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(unreadMessages, [
   {
@@ -16,4 +16,4 @@ testReducer(unreadMessages, [
     action: { type: ZOPIM_CHAT_ON_UNREAD_MESSAGES_UPDATE, payload: 3 },
     expected: 3
   }
-]);
+])

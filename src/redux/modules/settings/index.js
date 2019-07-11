@@ -1,1 +1,1 @@
-export * from './settings-actions';
+export * from './settings-actions'

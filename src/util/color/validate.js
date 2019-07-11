@@ -1,58 +1,55 @@
-import { _ } from 'lodash';
+import { _ } from 'lodash'
 
-const defaultColor = '#78A300';
-let selectedThemeColor = { base: defaultColor };
+const defaultColor = '#78A300'
+let selectedThemeColor = { base: defaultColor }
 
 function themeColor(base = null) {
-  let color = colorFor(normalize(base), defaultColor);
+  let color = colorFor(normalize(base), defaultColor)
 
-  selectedThemeColor.base = color;
-  return color;
+  selectedThemeColor.base = color
+  return color
 }
 
 function mainTextColor(base = null) {
-  let color = colorFor(normalize(base));
+  let color = colorFor(normalize(base))
 
-  selectedThemeColor.text = color;
-  return color;
+  selectedThemeColor.text = color
+  return color
 }
 
 function colorFor() {
-  const colorOptions = arguments;
-  const color = _.find(colorOptions, (option) => { return validatedColor(option); });
+  const colorOptions = arguments
+  const color = _.find(colorOptions, option => {
+    return validatedColor(option)
+  })
 
-  return normalize(color);
+  return normalize(color)
 }
 
 function validatedColor(color) {
-  const normalizedColor = normalize(color);
+  const normalizedColor = normalize(color)
 
-  return isValid(normalizedColor) ? normalizedColor : null;
+  return isValid(normalizedColor) ? normalizedColor : null
 }
 
 function isValid(color) {
-  return color && isValidHex(color);
+  return color && isValidHex(color)
 }
 
 function isValidHex(color) {
-  const validRegex = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i;
+  const validRegex = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i
 
-  return validRegex.test(color);
+  return validRegex.test(color)
 }
 
 function normalize(color) {
-  const hashlessValidRegex = /(^[0-9A-F]{6}$)|(^[0-9A-F]{3}$)/i;
+  const hashlessValidRegex = /(^[0-9A-F]{6}$)|(^[0-9A-F]{3}$)/i
 
-  return hashlessValidRegex.test(color) ? `#${color}` : color;
+  return hashlessValidRegex.test(color) ? `#${color}` : color
 }
 
 function getThemeColor() {
-  return selectedThemeColor;
+  return selectedThemeColor
 }
 
-export {
-  themeColor,
-  mainTextColor,
-  colorFor,
-  getThemeColor
-};
+export { themeColor, mainTextColor, colorFor, getThemeColor }

@@ -1,6 +1,6 @@
-import status from '../zopimChat-status';
-import { ZOPIM_CHAT_ON_STATUS_UPDATE } from '../../zopimChat-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import status from '../zopimChat-status'
+import { ZOPIM_CHAT_ON_STATUS_UPDATE } from '../../zopimChat-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(status, [
   {
@@ -20,5 +20,5 @@ testReducer(status, [
     action: { type: ZOPIM_CHAT_ON_STATUS_UPDATE },
     initialState: 'offline',
     expected: 'offline'
-  },
-]);
+  }
+])

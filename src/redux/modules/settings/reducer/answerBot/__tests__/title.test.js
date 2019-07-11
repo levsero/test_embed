@@ -1,21 +1,20 @@
-import reducer from '../title';
-import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types';
+import reducer from '../title'
+import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
 
 const initialState = () => {
-  return reducer(undefined, { type: '' });
-};
+  return reducer(undefined, { type: '' })
+}
 
-const reduce = (payload) => {
+const reduce = payload => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
     payload: payload
-  });
-};
+  })
+}
 
 test('initial state', () => {
-  expect(initialState())
-    .toEqual({});
-});
+  expect(initialState()).toEqual({})
+})
 
 describe('when UPDATE_SETTINGS is dispatched', () => {
   it('updates the settings', () => {
@@ -27,11 +26,10 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           }
         }
       }
-    };
+    }
 
-    expect(reduce(payload))
-      .toEqual({
-        '*': 'blah'
-      });
-  });
-});
+    expect(reduce(payload)).toEqual({
+      '*': 'blah'
+    })
+  })
+})

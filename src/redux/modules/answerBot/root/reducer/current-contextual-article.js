@@ -1,18 +1,18 @@
-import { ARTICLE_SHOWN, CONTEXTUAL_ARTICLE_SHOWN } from '../action-types';
+import { ARTICLE_SHOWN, CONTEXTUAL_ARTICLE_SHOWN } from '../action-types'
 
-const initialState = null;
+const initialState = null
 
 const currentContextualArticle = (state = initialState, action) => {
   switch (action.type) {
     case ARTICLE_SHOWN:
-      return null;
+      return null
     case CONTEXTUAL_ARTICLE_SHOWN:
       return {
         articleID: action.payload.articleID
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default currentContextualArticle;
+export default currentContextualArticle

@@ -1,7 +1,7 @@
-import * as actions from 'src/redux/modules/chat/chat-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import * as actions from 'src/redux/modules/chat/chat-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
-let chatConnection = require('../chat-connection').default;
+let chatConnection = require('../chat-connection').default
 
 testReducer(chatConnection, [
   {
@@ -22,5 +22,5 @@ testReducer(chatConnection, [
       type: actions.CHAT_BANNED
     },
     expected: 'closed'
-  },
-]);
+  }
+])

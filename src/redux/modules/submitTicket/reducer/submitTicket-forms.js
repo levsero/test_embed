@@ -1,16 +1,16 @@
-import { TICKET_FORMS_REQUEST_SUCCESS } from '../submitTicket-action-types';
+import { TICKET_FORMS_REQUEST_SUCCESS } from '../submitTicket-action-types'
 
-const initialState = [];
+const initialState = []
 
 const forms = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case TICKET_FORMS_REQUEST_SUCCESS:
-      return payload.ticket_forms;
+      return payload.ticket_forms
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default forms;
+export default forms

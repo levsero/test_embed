@@ -1,27 +1,25 @@
 describe('chat reducer notification', () => {
-  let reducer,
-    actionTypes,
-    initialState;
+  let reducer, actionTypes, initialState
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-notification');
-    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-notification')
+    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
-    reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
+    reducer = requireUncached(reducerPath).default
+    actionTypes = requireUncached(actionTypesPath)
 
-    initialState = reducer(undefined, { type: '' });
-  });
+    initialState = reducer(undefined, { type: '' })
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('reducer', () => {
-    let state;
+    let state
     const mockInitialState = {
       nick: '',
       display_name: '',
@@ -29,17 +27,16 @@ describe('chat reducer notification', () => {
       show: false,
       count: 0,
       proactive: false
-    };
+    }
 
     describe('initial state', () => {
       it('is set to an expected object', () => {
-        expect(initialState)
-          .toEqual(mockInitialState);
-      });
-    });
+        expect(initialState).toEqual(mockInitialState)
+      })
+    })
 
     describe('when a NEW_AGENT_MESSAGE_RECEIVED action is dispatched', () => {
-      let payload;
+      let payload
 
       beforeEach(() => {
         payload = {
@@ -47,15 +44,15 @@ describe('chat reducer notification', () => {
           display_name: 'Terence',
           msg: 'Hello there!',
           proactive: true
-        };
+        }
 
-        const action = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload };
+        const action = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload }
 
-        state = reducer(initialState, action);
-      });
+        state = reducer(initialState, action)
+      })
 
       it('updates the state with payload', () => {
-        const { nick, display_name, msg } = payload; // eslint-disable-line camelcase
+        const { nick, display_name, msg } = payload // eslint-disable-line camelcase
         const expected = {
           ...mockInitialState,
           nick,
@@ -64,47 +61,44 @@ describe('chat reducer notification', () => {
           show: true,
           proactive: true,
           count: 1
-        };
+        }
 
-        expect(state)
-          .toEqual(expected);
-      });
-    });
+        expect(state).toEqual(expected)
+      })
+    })
 
     describe('when a CHAT_NOTIFICATION_DISMISSED action is dispatched', () => {
       beforeEach(() => {
-        const action = { type: actionTypes.CHAT_NOTIFICATION_DISMISSED };
+        const action = { type: actionTypes.CHAT_NOTIFICATION_DISMISSED }
 
-        state = reducer(initialState, action);
-      });
+        state = reducer(initialState, action)
+      })
 
       it('updates the state with payload', () => {
-        expect(state.show)
-          .toEqual(false);
-      });
-    });
+        expect(state.show).toEqual(false)
+      })
+    })
 
     describe('when a CHAT_OPENED action is dispatched', () => {
       beforeEach(() => {
-        const action = { type: actionTypes.CHAT_OPENED };
+        const action = { type: actionTypes.CHAT_OPENED }
 
-        initialState.count = 1;
+        initialState.count = 1
 
-        state = reducer(initialState, action);
-      });
+        state = reducer(initialState, action)
+      })
 
       it('resets the state for count to 0', () => {
-        expect(state.count)
-          .toEqual(0);
-      });
-    });
+        expect(state.count).toEqual(0)
+      })
+    })
 
     describe('when a CHAT_BANNED action is dispatched', () => {
       it('returns the initialState', () => {
-        const result = reducer('hello fren', { type: actionTypes.CHAT_BANNED });
+        const result = reducer('hello fren', { type: actionTypes.CHAT_BANNED })
 
-        expect(result).toEqual(initialState);
-      });
-    });
-  });
-});
+        expect(result).toEqual(initialState)
+      })
+    })
+  })
+})

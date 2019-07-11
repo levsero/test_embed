@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { Icon } from 'component/Icon';
-import { Button } from '@zendeskgarden/react-buttons';
-import { SlideAppear } from 'component/transition/SlideAppear';
+import { Icon } from 'component/Icon'
+import { Button } from '@zendeskgarden/react-buttons'
+import { SlideAppear } from 'component/transition/SlideAppear'
 
-import { locals as styles } from './ChatPopup.scss';
-import classNames from 'classnames';
+import { locals as styles } from './ChatPopup.scss'
+import classNames from 'classnames'
 
 export class ChatPopup extends Component {
   static propTypes = {
@@ -27,7 +27,7 @@ export class ChatPopup extends Component {
     isMobile: PropTypes.bool,
     useOverlay: PropTypes.bool,
     showOnlyLeftCta: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     isMobile: false,
@@ -47,78 +47,84 @@ export class ChatPopup extends Component {
     isDismissible: false,
     onCloseIconClick: () => {},
     showOnlyLeftCta: false
-  };
+  }
 
   constructor() {
-    super();
+    super()
 
-    this.firstButton = null;
+    this.firstButton = null
   }
 
-  onContainerClick = (e) => {
-    e.stopPropagation();
+  onContainerClick = e => {
+    e.stopPropagation()
   }
 
-  ctaButtonStyle = (orientation) => {
+  ctaButtonStyle = orientation => {
     return classNames({
       [styles[orientation + 'CtaBtn']]: true,
       [styles.ctaBtnMobile]: this.props.isMobile
-    });
+    })
   }
 
   onEntered = () => {
     if (this.firstButton) {
-      this.firstButton.focus();
+      this.firstButton.focus()
     }
   }
 
   renderCta = () => {
     const {
-      showCta, leftCtaFn, rightCtaFn,
-      leftCtaLabel, rightCtaLabel, rightCtaDisabled
-    } = this.props;
+      showCta,
+      leftCtaFn,
+      rightCtaFn,
+      leftCtaLabel,
+      rightCtaLabel,
+      rightCtaDisabled
+    } = this.props
 
-    if (!showCta) return null;
+    if (!showCta) return null
 
     const leftCtaButtonClasses = classNames({
       [this.ctaButtonStyle('left')]: !this.props.showOnlyLeftCta,
       [styles.fullWidthButton]: this.props.showOnlyLeftCta
-    });
+    })
     const ctaContainerClasses = classNames({
       [styles.ctaContainer]: !this.props.showOnlyLeftCta,
       [styles.ctaContainerNoCenter]: this.props.showOnlyLeftCta
-    });
+    })
     const leftCtaButton = (
       <Button
-        innerRef={(el) => this.firstButton = el}
+        innerRef={el => (this.firstButton = el)}
         onTouchStartDisabled={true}
         className={leftCtaButtonClasses}
-        onClick={leftCtaFn}>
+        onClick={leftCtaFn}
+      >
         {leftCtaLabel}
       </Button>
-    );
+    )
     const rightCtaButton = !this.props.showOnlyLeftCta ? (
       <Button
         primary={true}
         onTouchStartDisabled={true}
         className={this.ctaButtonStyle('right')}
         disabled={rightCtaDisabled}
-        onClick={rightCtaFn}>
+        onClick={rightCtaFn}
+      >
         {rightCtaLabel}
       </Button>
-    ) : null;
+    ) : null
 
     return (
       <div className={ctaContainerClasses}>
         {leftCtaButton}
         {rightCtaButton}
       </div>
-    );
+    )
   }
 
   renderCloseIcon = () => {
     if (!this.props.isDismissible) {
-      return null;
+      return null
     }
 
     return (
@@ -126,27 +132,32 @@ export class ChatPopup extends Component {
         className={styles.closeIcon}
         onClick={this.props.onCloseIconClick}
         isMobile={this.props.isMobile}
-        type='Icon--remove' />
-    );
+        type="Icon--remove"
+      />
+    )
   }
 
   renderChildren = () => {
-    const { childrenOnClick, children } = this.props;
+    const { childrenOnClick, children } = this.props
 
     if (childrenOnClick) {
-      return <button onClick={childrenOnClick} className={styles.button}>{children}</button>;
+      return (
+        <button onClick={childrenOnClick} className={styles.button}>
+          {children}
+        </button>
+      )
     } else {
-      return children;
+      return children
     }
   }
 
   renderDefault = () => {
-    const { className, containerClasses, isMobile } = this.props;
+    const { className, containerClasses, isMobile } = this.props
     const containerStyles = classNames(containerClasses, {
       [styles.container]: !isMobile,
       [styles.containerMobile]: isMobile
-    });
-    const body = this.renderChildren();
+    })
+    const body = this.renderChildren()
 
     return (
       <SlideAppear
@@ -155,40 +166,41 @@ export class ChatPopup extends Component {
         onClick={this.onContainerClick}
         onExited={this.props.onExited}
         onEntered={this.onEntered}
-        direction='up'
+        direction="up"
         duration={200}
-        startPosHeight='-10px'
-        endPosHeight='-5px'>
+        startPosHeight="-10px"
+        endPosHeight="-5px"
+      >
         <div className={containerStyles}>
           {body}
           {this.renderCta()}
           {this.renderCloseIcon()}
         </div>
       </SlideAppear>
-    );
+    )
   }
 
   renderMobileOverlay = () => {
-    const { className, containerClasses, show } = this.props;
-    const popupContainerClasses = classNames(
-      styles.popupContainerMobile,
-      { [styles.hidden]: !show }
-    );
-    const body = this.renderChildren();
+    const { className, containerClasses, show } = this.props
+    const popupContainerClasses = classNames(styles.popupContainerMobile, {
+      [styles.hidden]: !show
+    })
+    const body = this.renderChildren()
 
     return (
       <div className={popupContainerClasses}>
         <div className={styles.overlayMobile} />
         <SlideAppear
-          direction='down'
+          direction="down"
           duration={200}
-          startPosHeight='-10px'
-          endPosHeight='0px'
+          startPosHeight="-10px"
+          endPosHeight="0px"
           className={`${className} ${styles.wrapperMobile}`}
           trigger={show}
           onEntered={this.onEntered}
           onClick={this.onContainerClick}
-          onExited={this.props.onExited}>
+          onExited={this.props.onExited}
+        >
           <div className={containerClasses}>
             {body}
             {this.renderCta()}
@@ -196,12 +208,12 @@ export class ChatPopup extends Component {
           </div>
         </SlideAppear>
       </div>
-    );
+    )
   }
 
   render() {
-    return (this.props.isMobile && this.props.useOverlay)
+    return this.props.isMobile && this.props.useOverlay
       ? this.renderMobileOverlay()
-      : this.renderDefault();
+      : this.renderDefault()
   }
 }

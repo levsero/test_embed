@@ -1,7 +1,7 @@
-import searchFieldFocused from '../helpCenter-searchFieldFocused';
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types';
-import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types';
-import { testReducer } from 'src/util/testHelpers';
+import searchFieldFocused from '../helpCenter-searchFieldFocused'
+import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(searchFieldFocused, [
   {
@@ -26,4 +26,4 @@ testReducer(searchFieldFocused, [
     initialState: true,
     expected: false
   }
-]);
+])

@@ -1,14 +1,15 @@
-import { render } from 'react-testing-library';
-import React from 'react';
+import { render } from 'react-testing-library'
+import React from 'react'
 
-import DescriptionField from '../';
+import DescriptionField from '../'
 
 test('DescriptionField', () => {
-  const { container } = render(<DescriptionField
-    label='This is a description field'
-    defaultValue='this value should be populated'
-  />);
+  const { container } = render(
+    <DescriptionField
+      label="This is a description field"
+      defaultValue="this value should be populated"
+    />
+  )
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})

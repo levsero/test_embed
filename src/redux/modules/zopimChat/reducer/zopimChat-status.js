@@ -1,14 +1,14 @@
-import { ZOPIM_CHAT_ON_STATUS_UPDATE } from '../zopimChat-action-types';
+import { ZOPIM_CHAT_ON_STATUS_UPDATE } from '../zopimChat-action-types'
 
-const initialState = '';
+const initialState = ''
 
 const status = (state = initialState, action) => {
   switch (action.type) {
     case ZOPIM_CHAT_ON_STATUS_UPDATE:
-      return action.payload || state;
+      return action.payload || state
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default status;
+export default status

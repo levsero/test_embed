@@ -1,7 +1,7 @@
-import screen from '../talk-screen';
-import * as actionTypes from 'src/redux/modules/talk/talk-action-types';
-import * as screenTypes from 'src/redux/modules/talk/talk-screen-types';
-import { testReducer } from 'src/util/testHelpers';
+import screen from '../talk-screen'
+import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
+import * as screenTypes from 'src/redux/modules/talk/talk-screen-types'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(screen, [
   {
@@ -26,4 +26,4 @@ testReducer(screen, [
     },
     expected: screenTypes.SUCCESS_NOTIFICATION_SCREEN
   }
-]);
+])

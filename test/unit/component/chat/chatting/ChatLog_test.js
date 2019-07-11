@@ -1,29 +1,31 @@
 describe('ChatLog component', () => {
-  let ChatLog,
-    CHAT_MESSAGE_EVENTS,
-    CHAT_SYSTEM_EVENTS,
-    i18n;
+  let ChatLog, CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS, i18n
 
   let agents = {
-    'agent:123': { display_name: 'Agent123', nick: 'agent:123', typing: false, avatar_path: '/path/to/avatar' }
-  };
+    'agent:123': {
+      display_name: 'Agent123',
+      nick: 'agent:123',
+      typing: false,
+      avatar_path: '/path/to/avatar'
+    }
+  }
 
-  const chatLogPath = buildSrcPath('component/chat/chatting/ChatLog');
-  const chatConstantsPath = buildSrcPath('constants/chat');
+  const chatLogPath = buildSrcPath('component/chat/chatting/ChatLog')
+  const chatConstantsPath = buildSrcPath('constants/chat')
 
-  const ChatGroup = noopReactComponent();
-  const EventMessage = noopReactComponent();
-  const Button = noopReactComponent();
+  const ChatGroup = noopReactComponent()
+  const EventMessage = noopReactComponent()
+  const Button = noopReactComponent()
 
   beforeEach(() => {
-    mockery.enable();
+    mockery.enable()
 
-    CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
-    CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
+    CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS
+    CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS
 
     i18n = {
       t: jasmine.createSpy()
-    };
+    }
 
     initMockRegistry({
       'component/chat/chatting/log/messages/ConnectedChatGroup': ChatGroup,
@@ -35,7 +37,7 @@ describe('ChatLog component', () => {
       },
       './ChatLog.scss': {
         locals: {
-          'requestRatingButton': 'requestRatingButtonStyles'
+          requestRatingButton: 'requestRatingButtonStyles'
         }
       },
       'src/redux/modules/chat/chat-selectors': {
@@ -47,164 +49,167 @@ describe('ChatLog component', () => {
       'types/chat': {
         chatLogEntry: 'chatLogEntry'
       }
-    });
+    })
 
-    mockery.registerAllowable(chatLogPath);
-    ChatLog = requireUncached(chatLogPath).ChatLog;
-  });
+    mockery.registerAllowable(chatLogPath)
+    ChatLog = requireUncached(chatLogPath).ChatLog
+  })
 
   afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
+    mockery.deregisterAll()
+    mockery.disable()
+  })
 
   describe('#renderGroup', () => {
-    let agentsProp,
-      result;
+    let agentsProp, result
 
     const agentMessageGroup = {
       type: 'message',
       author: 'agent:123',
-      messages: [1,2,3]
-    };
+      messages: [1, 2, 3]
+    }
     const visitorMessageGroup = {
       type: 'message',
       author: 'visitor',
-      messages: [4,5,6]
-    };
+      messages: [4, 5, 6]
+    }
     const eventGroup = {
       type: 'event',
       author: 'system',
-      messages: [7,8]
-    };
+      messages: [7, 8]
+    }
 
     describe('when the group is a message group from an visitor', () => {
       beforeEach(() => {
-        const component = domRender(
-          <ChatLog chatLog={[]} />
-        );
+        const component = domRender(<ChatLog chatLog={[]} />)
 
-        result = component.renderGroup(visitorMessageGroup);
-      });
+        result = component.renderGroup(visitorMessageGroup)
+      })
 
       it('returns an element of type ChatGroup', () => {
-        expect(TestUtils.isElementOfType(result, ChatGroup))
-          .toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(result, ChatGroup)).toEqual(true)
+      })
 
       it('is passed the expected props', () => {
-        expect(result.props).toEqual(jasmine.objectContaining({
-          isAgent: false,
-          messageKeys: [4,5,6]
-        }));
-      });
-    });
+        expect(result.props).toEqual(
+          jasmine.objectContaining({
+            isAgent: false,
+            messageKeys: [4, 5, 6]
+          })
+        )
+      })
+    })
 
     describe('when the group is a message group from an agent', () => {
       beforeEach(() => {
         const component = domRender(
-          <ChatLog showAvatar={true} chatLog={[]} agents={agentsProp} conciergeAvatar='/path/to/concierge' />
-        );
+          <ChatLog
+            showAvatar={true}
+            chatLog={[]}
+            agents={agentsProp}
+            conciergeAvatar="/path/to/concierge"
+          />
+        )
 
-        result = component.renderGroup(agentMessageGroup);
-      });
+        result = component.renderGroup(agentMessageGroup)
+      })
 
       it('returns an element of type ChatGroup', () => {
-        expect(TestUtils.isElementOfType(result, ChatGroup))
-          .toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(result, ChatGroup)).toEqual(true)
+      })
 
       it('is passed the expected props', () => {
-        expect(result.props).toEqual(jasmine.objectContaining({
-          isAgent: true,
-          messageKeys: [1,2,3]
-        }));
-      });
+        expect(result.props).toEqual(
+          jasmine.objectContaining({
+            isAgent: true,
+            messageKeys: [1, 2, 3]
+          })
+        )
+      })
 
       describe('when avatar path exists for avatar', () => {
         beforeAll(() => {
-          agentsProp = agents;
-        });
+          agentsProp = agents
+        })
 
         it('is passed through to the child', () => {
-          expect(result.props).toEqual(jasmine.objectContaining({
-            avatarPath: '/path/to/avatar'
-          }));
-        });
-      });
+          expect(result.props).toEqual(
+            jasmine.objectContaining({
+              avatarPath: '/path/to/avatar'
+            })
+          )
+        })
+      })
 
       describe('when avatar path does not exist for avatar', () => {
         beforeAll(() => {
-          agentsProp = { nick: 'agent:123' };
-        });
+          agentsProp = { nick: 'agent:123' }
+        })
 
         it('passed the concierge avatar to the child', () => {
-          expect(result.props).toEqual(jasmine.objectContaining({
-            avatarPath: '/path/to/concierge'
-          }));
-        });
-      });
-    });
+          expect(result.props).toEqual(
+            jasmine.objectContaining({
+              avatarPath: '/path/to/concierge'
+            })
+          )
+        })
+      })
+    })
 
     describe('when the group is an event group', () => {
       beforeEach(() => {
-        const component = domRender(
-          <ChatLog chatLog={[]} />
-        );
+        const component = domRender(<ChatLog chatLog={[]} />)
 
-        result = component.renderGroup(eventGroup);
-      });
+        result = component.renderGroup(eventGroup)
+      })
 
       it('returns an element of type EventMessage', () => {
-        expect(TestUtils.isElementOfType(result, EventMessage))
-          .toEqual(true);
-      });
+        expect(TestUtils.isElementOfType(result, EventMessage)).toEqual(true)
+      })
 
       it('is passed the expected props', () => {
-        expect(result.props).toEqual(jasmine.objectContaining({
-          eventKey: 7
-        }));
-      });
-    });
-  });
+        expect(result.props).toEqual(
+          jasmine.objectContaining({
+            eventKey: 7
+          })
+        )
+      })
+    })
+  })
 
   describe('#renderRequestRatingButton', () => {
     let component,
       result,
       eventKey,
       mockStringValues,
-      goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
+      goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen')
 
     beforeEach(() => {
-      eventKey = 1;
+      eventKey = 1
       mockStringValues = {
         'embeddable_framework.chat.chatLog.button.leaveComment': 'Leave a comment',
         'embeddable_framework.chat.chatLog.button.rateChat': 'Rate this chat'
-      };
+      }
 
-      i18n.t.and.callFake((key) => {
-        return mockStringValues[key];
-      });
-    });
+      i18n.t.and.callFake(key => {
+        return mockStringValues[key]
+      })
+    })
 
     describe('when the event is the latest rating', () => {
       describe('and a comment has been left', () => {
         beforeEach(() => {
           component = instanceRender(
-            <ChatLog
-              chatLog={{}}
-              agents={{}}
-              latestRating={1}
-              chatCommentLeft={true} />
-          );
+            <ChatLog chatLog={{}} agents={{}} latestRating={1} chatCommentLeft={true} />
+          )
 
-          result = component.renderRequestRatingButton(eventKey);
-        });
+          result = component.renderRequestRatingButton(eventKey)
+        })
 
         it('returns nothing', () => {
-          expect(result).toBeFalsy();
-        });
-      });
+          expect(result).toBeFalsy()
+        })
+      })
 
       describe('and a comment has not been left', () => {
         beforeEach(() => {
@@ -214,21 +219,22 @@ describe('ChatLog component', () => {
               agents={{}}
               latestRating={1}
               chatCommentLeft={false}
-              goToFeedbackScreen={goToFeedbackScreenSpy} />
-          );
+              goToFeedbackScreen={goToFeedbackScreenSpy}
+            />
+          )
 
-          result = component.renderRequestRatingButton(eventKey);
-        });
+          result = component.renderRequestRatingButton(eventKey)
+        })
 
         it('does not render a button', () => {
-          expect(result).toBeUndefined();
-        });
-      });
-    });
+          expect(result).toBeUndefined()
+        })
+      })
+    })
 
     describe('when the event is the latest rating request', () => {
       let mockIsChatting = true,
-        mockEndChatFromFeedbackForm = false;
+        mockEndChatFromFeedbackForm = false
 
       const renderButton = () => {
         component = instanceRender(
@@ -238,55 +244,56 @@ describe('ChatLog component', () => {
             isChatting={mockIsChatting}
             endedChatFromFeedbackForm={mockEndChatFromFeedbackForm}
             latestRatingRequest={1}
+            goToFeedbackScreen={goToFeedbackScreenSpy}
+          />
+        )
 
-            goToFeedbackScreen={goToFeedbackScreenSpy} />
-        );
-
-        return component.renderRequestRatingButton(eventKey);
-      };
+        return component.renderRequestRatingButton(eventKey)
+      }
 
       afterEach(() => {
-        mockIsChatting = true,
-        mockEndChatFromFeedbackForm = false;
-      });
+        ;(mockIsChatting = true), (mockEndChatFromFeedbackForm = false)
+      })
 
       describe('and chat is offline', () => {
         beforeEach(() => {
-          mockIsChatting = false;
-          result = renderButton();
-        });
+          mockIsChatting = false
+          result = renderButton()
+        })
 
         it('Does not render a button', () => {
-          expect(result).toBeUndefined();
-        });
-      });
+          expect(result).toBeUndefined()
+        })
+      })
 
       describe('and rating is being sent', () => {
         beforeEach(() => {
-          mockEndChatFromFeedbackForm = true;
+          mockEndChatFromFeedbackForm = true
 
-          result = renderButton();
-        });
+          result = renderButton()
+        })
 
         it('Does not render a button', () => {
-          expect(result).toBeUndefined();
-        });
-      });
+          expect(result).toBeUndefined()
+        })
+      })
 
       describe('and chat is online and rating is not sending', () => {
         beforeEach(() => {
-          result = renderButton();
-        });
+          result = renderButton()
+        })
 
         it('returns a button with the correct props', () => {
-          expect(result.props).toEqual(jasmine.objectContaining({
-            className: 'requestRatingButtonStyles',
-            onClick: goToFeedbackScreenSpy,
-            children: 'Rate this chat'
-          }));
-        });
-      });
-    });
+          expect(result.props).toEqual(
+            jasmine.objectContaining({
+              className: 'requestRatingButtonStyles',
+              onClick: goToFeedbackScreenSpy,
+              children: 'Rate this chat'
+            })
+          )
+        })
+      })
+    })
 
     describe('when the event is the last agent leaving', () => {
       describe('and there are no more agents in the chat', () => {
@@ -298,22 +305,23 @@ describe('ChatLog component', () => {
               isChatting={true}
               endedChatFromFeedbackForm={false}
               latestAgentLeaveEvent={1}
-              goToFeedbackScreen={goToFeedbackScreenSpy} />
-          );
+              goToFeedbackScreen={goToFeedbackScreenSpy}
+            />
+          )
 
-          result = component.renderRequestRatingButton(eventKey);
-        });
+          result = component.renderRequestRatingButton(eventKey)
+        })
 
         it('returns a button with the correct props', () => {
-          expect(result.props).toEqual(jasmine.objectContaining(
-            {
+          expect(result.props).toEqual(
+            jasmine.objectContaining({
               className: 'requestRatingButtonStyles',
               onClick: goToFeedbackScreenSpy,
               children: 'Rate this chat'
-            }
-          ));
-        });
-      });
+            })
+          )
+        })
+      })
 
       describe('and there are agents remaining in the chat', () => {
         beforeEach(() => {
@@ -322,35 +330,36 @@ describe('ChatLog component', () => {
               chatLog={{}}
               agents={{ 1: { nick: 'agent:123' } }}
               latestAgentLeaveEvent={1}
-              goToFeedbackScreen={goToFeedbackScreenSpy} />
-          );
+              goToFeedbackScreen={goToFeedbackScreenSpy}
+            />
+          )
 
-          result = component.renderRequestRatingButton(eventKey);
-        });
+          result = component.renderRequestRatingButton(eventKey)
+        })
 
         it('returns nothing', () => {
-          expect(result).toBeFalsy();
-        });
-      });
-    });
-  });
+          expect(result).toBeFalsy()
+        })
+      })
+    })
+  })
 
   describe('#renderUpdateInfo', () => {
     let component,
       result,
       firstMessageKey = 1,
       mockStringValues,
-      updateInfoOnClickSpy = jasmine.createSpy('updateInfoOnClick');
+      updateInfoOnClickSpy = jasmine.createSpy('updateInfoOnClick')
 
     beforeEach(() => {
       mockStringValues = {
         'embeddable_framework.chat.chatLog.login.updateInfo': 'Please update your info'
-      };
+      }
 
-      i18n.t.and.callFake((key) => {
-        return mockStringValues[key];
-      });
-    });
+      i18n.t.and.callFake(key => {
+        return mockStringValues[key]
+      })
+    })
 
     describe('when props.showUpdateInfo is false', () => {
       beforeEach(() => {
@@ -359,17 +368,17 @@ describe('ChatLog component', () => {
             chatLog={{}}
             agents={{}}
             showUpdateInfo={false}
-            updateInfoOnClick={updateInfoOnClickSpy} />
-        );
+            updateInfoOnClick={updateInfoOnClickSpy}
+          />
+        )
 
-        result = component.renderUpdateInfo(firstMessageKey);
-      });
+        result = component.renderUpdateInfo(firstMessageKey)
+      })
 
       it('returns undefined', () => {
-        expect(result)
-          .toBeUndefined();
-      });
-    });
+        expect(result).toBeUndefined()
+      })
+    })
 
     describe('when props.showUpdateInfo is true', () => {
       describe('when the first message matches props.firstVisitorMessage', () => {
@@ -380,31 +389,29 @@ describe('ChatLog component', () => {
               agents={{}}
               showUpdateInfo={true}
               firstVisitorMessage={1}
-              updateInfoOnClick={updateInfoOnClickSpy} />
-          );
+              updateInfoOnClick={updateInfoOnClickSpy}
+            />
+          )
 
-          result = component.renderUpdateInfo(firstMessageKey);
-        });
+          result = component.renderUpdateInfo(firstMessageKey)
+        })
 
         it('returns a <button> tag', () => {
-          expect(TestUtils.isElementOfType(result, 'button'))
-            .toEqual(true);
-        });
+          expect(TestUtils.isElementOfType(result, 'button')).toEqual(true)
+        })
 
         it('returns an element with onClick set to the updateInfoOnClick argument', () => {
-          expect(result.props.onClick)
-            .toEqual(updateInfoOnClickSpy);
-        });
+          expect(result.props.onClick).toEqual(updateInfoOnClickSpy)
+        })
 
         it('returns an element containing the correct text as a child', () => {
-          expect(result.props)
-            .toEqual(
-              jasmine.objectContaining({
-                children: mockStringValues['embeddable_framework.chat.chatLog.login.updateInfo']
-              })
-            );
-        });
-      });
+          expect(result.props).toEqual(
+            jasmine.objectContaining({
+              children: mockStringValues['embeddable_framework.chat.chatLog.login.updateInfo']
+            })
+          )
+        })
+      })
 
       describe('when the first message does not match props.firstVisitorMessage', () => {
         beforeEach(() => {
@@ -414,37 +421,35 @@ describe('ChatLog component', () => {
               agents={{}}
               showUpdateInfo={true}
               firstVisitorMessage={-1}
-              updateInfoOnClick={updateInfoOnClickSpy} />
-          );
+              updateInfoOnClick={updateInfoOnClickSpy}
+            />
+          )
 
-          result = component.renderUpdateInfo(firstMessageKey);
-        });
+          result = component.renderUpdateInfo(firstMessageKey)
+        })
 
         it('returns undefined', () => {
-          expect(result)
-            .toBeUndefined();
-        });
-      });
-    });
-  });
+          expect(result).toBeUndefined()
+        })
+      })
+    })
+  })
 
   describe('#render', () => {
-    let component,
-      socialLogin;
+    let component, socialLogin
 
     beforeEach(() => {
-      component = instanceRender(<ChatLog chatLog={[]} agents={{}} socialLogin={socialLogin} />);
-    });
+      component = instanceRender(<ChatLog chatLog={[]} agents={{}} socialLogin={socialLogin} />)
+    })
 
     describe('props', () => {
       beforeAll(() => {
-        socialLogin = { avatarPath: 'heynow' };
-      });
+        socialLogin = { avatarPath: 'heynow' }
+      })
 
       it('has a props.socialLogin value', () => {
-        expect(component.props.socialLogin)
-          .toEqual(socialLogin);
-      });
-    });
-  });
-});
+        expect(component.props.socialLogin).toEqual(socialLogin)
+      })
+    })
+  })
+})

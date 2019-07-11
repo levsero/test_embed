@@ -1,11 +1,10 @@
-import { render } from 'react-testing-library';
-import React from 'react';
+import { render } from 'react-testing-library'
+import React from 'react'
 
-import BotTyping from '../index';
+import BotTyping from '../index'
 
 test('renders the expected classes', () => {
-  const { container } = render(<BotTyping />);
+  const { container } = render(<BotTyping />)
 
-  expect(container)
-    .toMatchSnapshot();
-});
+  expect(container).toMatchSnapshot()
+})

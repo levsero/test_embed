@@ -1,12 +1,10 @@
 describe('Launcher', () => {
-  let showChatBadgeLauncherValue,
-    Launcher,
-    component;
-  const ChatBadge = noopReactComponent();
-  const WidgetLauncher = noopReactComponent();
+  let showChatBadgeLauncherValue, Launcher, component
+  const ChatBadge = noopReactComponent()
+  const WidgetLauncher = noopReactComponent()
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
     initMockRegistry({
       'src/component/launcher/ChatBadge': ChatBadge,
@@ -17,46 +15,44 @@ describe('Launcher', () => {
       'src/redux/modules/base': {
         launcherClicked: noop
       }
-    });
+    })
 
-    const path = buildSrcPath('component/launcher/Launcher');
+    const path = buildSrcPath('component/launcher/Launcher')
 
-    Launcher = requireUncached(path).default.WrappedComponent;
-  });
+    Launcher = requireUncached(path).default.WrappedComponent
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('showChatBadgeLauncher', () => {
-    let result;
+    let result
 
     beforeEach(() => {
-      component = instanceRender(<Launcher showChatBadgeLauncher={showChatBadgeLauncherValue} />);
-      result = component.render();
-    });
+      component = instanceRender(<Launcher showChatBadgeLauncher={showChatBadgeLauncherValue} />)
+      result = component.render()
+    })
 
     describe('when we need to show chat badge', () => {
       beforeAll(() => {
-        showChatBadgeLauncherValue = true;
-      });
+        showChatBadgeLauncherValue = true
+      })
 
       it('render ChatBadgeLauncher', () => {
-        expect(TestUtils.isElementOfType(result, ChatBadge))
-          .toEqual(true);
-      });
-    });
+        expect(TestUtils.isElementOfType(result, ChatBadge)).toEqual(true)
+      })
+    })
 
     describe('when we need to show standard launcher pill', () => {
       beforeAll(() => {
-        showChatBadgeLauncherValue = false;
-      });
+        showChatBadgeLauncherValue = false
+      })
 
       it('render ChatBadgeLauncher', () => {
-        expect(TestUtils.isElementOfType(result, WidgetLauncher))
-          .toEqual(true);
-      });
-    });
-  });
-});
+        expect(TestUtils.isElementOfType(result, WidgetLauncher)).toEqual(true)
+      })
+    })
+  })
+})

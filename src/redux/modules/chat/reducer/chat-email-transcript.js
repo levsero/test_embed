@@ -6,20 +6,20 @@ import {
   RESET_EMAIL_TRANSCRIPT,
   UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
   SDK_ERROR
-} from '../chat-action-types';
+} from '../chat-action-types'
 import {
   EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
   EMAIL_TRANSCRIPT_FAILURE_SCREEN,
   EMAIL_TRANSCRIPT_SCREEN,
   EMAIL_TRANSCRIPT_LOADING_SCREEN
-} from '../chat-screen-types';
+} from '../chat-screen-types'
 
 const initialState = {
   screen: EMAIL_TRANSCRIPT_SCREEN,
   show: false,
   email: '',
   error: false
-};
+}
 
 const emailTranscript = (state = initialState, action) => {
   const screenLookUp = {
@@ -27,8 +27,8 @@ const emailTranscript = (state = initialState, action) => {
     [EMAIL_TRANSCRIPT_SUCCESS]: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
     [EMAIL_TRANSCRIPT_FAILURE]: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
     [EMAIL_TRANSCRIPT_IDLE]: EMAIL_TRANSCRIPT_SCREEN
-  };
-  const { type, payload } = action;
+  }
+  const { type, payload } = action
 
   switch (type) {
     case EMAIL_TRANSCRIPT_REQUEST_SENT:
@@ -40,24 +40,24 @@ const emailTranscript = (state = initialState, action) => {
         screen: screenLookUp[type],
         email: payload,
         error: false
-      };
+      }
     case RESET_EMAIL_TRANSCRIPT:
-      return initialState;
+      return initialState
     case SDK_ERROR:
       return {
         ...state,
         screen: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
         error: true
-      };
+      }
     case UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY:
       return {
         ...state,
         screen: EMAIL_TRANSCRIPT_SCREEN,
         show: payload
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default emailTranscript;
+export default emailTranscript

@@ -22,7 +22,7 @@ export default {
       },
       login: 'unsafePassword',
       offlineForm: {
-        ohNo: 'We\'re down!'
+        ohNo: "We're down!"
       },
       operatingHours: {
         display_notice: 'foo'
@@ -45,15 +45,21 @@ export default {
     agentJoined: 'Sam I am',
     agents: ['Bob', 'Charlie', 'Groundskeeper Willie'],
     chats: new Map([
-      [1, {
-        timestamp: 1
-      }],
-      [2, {
-        timestamp: 2
-      }]
+      [
+        1,
+        {
+          timestamp: 1
+        }
+      ],
+      [
+        2,
+        {
+          timestamp: 2
+        }
+      ]
     ]),
     connection: 'emotional',
-    currentMessage: 'I can\'t let you do that, Dave',
+    currentMessage: "I can't let you do that, Dave",
     defaultDepartment: {
       id: 123456
     },
@@ -72,7 +78,7 @@ export default {
       },
       preChatForm: {
         charlie: 'say hello back!'
-      },
+      }
     },
     inactiveAgents: 'Lois Lane',
     isAuthenticated: 'nope',
@@ -98,6 +104,6 @@ export default {
       zChat: 'mmm... legacy',
       slider: 'wheeeeeee'
     },
-    visitor: 'Kerrigan',
+    visitor: 'Kerrigan'
   }
-};
+}

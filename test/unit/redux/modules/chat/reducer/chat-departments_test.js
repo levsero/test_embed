@@ -1,38 +1,34 @@
 describe('chat reducer departments', () => {
-  let reducer,
-    actionTypes,
-    initialState;
+  let reducer, actionTypes, initialState
 
   beforeAll(() => {
-    mockery.enable();
+    mockery.enable()
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-departments');
-    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-departments')
+    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
-    reducer = requireUncached(reducerPath).default;
+    reducer = requireUncached(reducerPath).default
 
-    initialState = reducer(undefined, { type: '' });
-    actionTypes = requireUncached(actionTypesPath);
-  });
+    initialState = reducer(undefined, { type: '' })
+    actionTypes = requireUncached(actionTypesPath)
+  })
 
   afterAll(() => {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
+    mockery.disable()
+    mockery.deregisterAll()
+  })
 
   describe('reducer', () => {
-    let state;
+    let state
 
     describe('initial state', () => {
       it('is set to an empty object', () => {
-        expect(initialState)
-          .toEqual({});
-      });
-    });
+        expect(initialState).toEqual({})
+      })
+    })
 
     describe('when a SDK_DEPARTMENT_UPDATE action is dispatched', () => {
-      let payload,
-        newState;
+      let payload, newState
 
       beforeEach(() => {
         payload = {
@@ -41,13 +37,13 @@ describe('chat reducer departments', () => {
             name: 'Helpdesk',
             status: 'online'
           }
-        };
+        }
 
         state = reducer(initialState, {
           type: actionTypes.SDK_DEPARTMENT_UPDATE,
           payload: payload
-        });
-      });
+        })
+      })
 
       describe('when the department is not present', () => {
         beforeEach(() => {
@@ -56,14 +52,13 @@ describe('chat reducer departments', () => {
             payload: {
               detail: _.extend({}, payload.detail, { id: 456 })
             }
-          });
-        });
+          })
+        })
 
         it('adds a department with the payload data', () => {
-          expect(newState[payload.detail.id])
-            .toEqual(payload.detail);
-        });
-      });
+          expect(newState[payload.detail.id]).toEqual(payload.detail)
+        })
+      })
 
       describe('when the department is present', () => {
         beforeEach(() => {
@@ -72,14 +67,13 @@ describe('chat reducer departments', () => {
             payload: {
               detail: _.extend({}, payload.detail, { status: 'offline' })
             }
-          });
-        });
+          })
+        })
 
         it('updates the department with the payload data', () => {
-          expect(newState[payload.detail.id].status)
-            .toEqual('offline');
-        });
-      });
-    });
-  });
-});
+          expect(newState[payload.detail.id].status).toEqual('offline')
+        })
+      })
+    })
+  })
+})

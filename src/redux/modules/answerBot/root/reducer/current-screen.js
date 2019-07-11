@@ -1,14 +1,14 @@
-import { SCREEN_CHANGED } from '../action-types';
+import { SCREEN_CHANGED } from '../action-types'
 
-const initialState = 'conversation';
+const initialState = 'conversation'
 
 const currentScreen = (state = initialState, action) => {
   switch (action.type) {
     case SCREEN_CHANGED:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default currentScreen;
+export default currentScreen

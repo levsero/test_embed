@@ -1,4 +1,4 @@
-import launcherVisibility from '../launcher-visibility';
+import launcherVisibility from '../launcher-visibility'
 import {
   LAUNCHER_CLICKED,
   CHAT_BADGE_CLICKED,
@@ -10,21 +10,21 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  POPOUT_BUTTON_CLICKED,
-} from '../../base-action-types';
+  POPOUT_BUTTON_CLICKED
+} from '../../base-action-types'
 import {
   ZOPIM_HIDE,
   ZOPIM_SHOW,
   ZOPIM_ON_CLOSE
-} from 'src/redux/modules/zopimChat/zopimChat-action-types';
+} from 'src/redux/modules/zopimChat/zopimChat-action-types'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
-} from 'src/redux/modules/chat/chat-action-types';
-import * as devices from 'utility/devices';
-import { testReducer } from 'src/util/testHelpers';
+} from 'src/redux/modules/chat/chat-action-types'
+import * as devices from 'utility/devices'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(launcherVisibility, [
   {
@@ -101,18 +101,17 @@ testReducer(launcherVisibility, [
     initialState: false,
     expected: true
   }
-]);
-
-[ZOPIM_SHOW, NEXT_BUTTON_CLICKED].forEach((type) => {
+])
+;[ZOPIM_SHOW, NEXT_BUTTON_CLICKED].forEach(type => {
   describe(type, () => {
     it('returns true if mobile browser', () => {
-      jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(true);
-      expect(launcherVisibility(undefined, { type: type })).toEqual(true);
-    });
+      jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(true)
+      expect(launcherVisibility(undefined, { type: type })).toEqual(true)
+    })
 
     it('returns false if not mobile browser', () => {
-      jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false);
-      expect(launcherVisibility(undefined, { type: type })).toEqual(false);
-    });
-  });
-});
+      jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
+      expect(launcherVisibility(undefined, { type: type })).toEqual(false)
+    })
+  })
+})

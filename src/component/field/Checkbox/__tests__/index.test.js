@@ -1,9 +1,9 @@
-import React from 'react';
-import { render } from 'react-testing-library';
-import snapshotDiff from 'snapshot-diff';
-import { IdManager } from '@zendeskgarden/react-selection';
+import React from 'react'
+import { render } from 'react-testing-library'
+import snapshotDiff from 'snapshot-diff'
+import { IdManager } from '@zendeskgarden/react-selection'
 
-import Checkbox from '../';
+import Checkbox from '../'
 
 const renderComponent = (props = {}, checkboxProps = {}) => {
   const defaultProps = {
@@ -17,42 +17,38 @@ const renderComponent = (props = {}, checkboxProps = {}) => {
       checked: 0,
       ...checkboxProps
     }
-  };
+  }
   const mergedProps = {
     ...defaultProps,
     ...props
-  };
+  }
 
-  IdManager.setIdCounter(0);
-  return render(<Checkbox {...mergedProps} />);
-};
+  IdManager.setIdCounter(0)
+  return render(<Checkbox {...mergedProps} />)
+}
 
 describe('Checkbox', () => {
   it('renders the expected component', () => {
-    const { container } = renderComponent();
+    const { container } = renderComponent()
 
-    expect(container)
-      .toMatchSnapshot();
-  });
+    expect(container).toMatchSnapshot()
+  })
 
   describe('with an error', () => {
     it('renders the error component', () => {
-      const defaultComponent = renderComponent();
-      const component = renderComponent({ showError: true });
+      const defaultComponent = renderComponent()
+      const component = renderComponent({ showError: true })
 
-      expect(snapshotDiff(defaultComponent, component, { contextLines: 0 }))
-        .toMatchSnapshot();
-    });
-  });
+      expect(snapshotDiff(defaultComponent, component, { contextLines: 0 })).toMatchSnapshot()
+    })
+  })
 
   describe('with the checkbox ticked', () => {
     it('renders the expected with the checked value', () => {
-      const defaultComponent = renderComponent();
-      const component = renderComponent({}, { checked: 1 });
+      const defaultComponent = renderComponent()
+      const component = renderComponent({}, { checked: 1 })
 
-      expect(snapshotDiff(defaultComponent, component, { contextLines: 0 }))
-        .toMatchSnapshot();
-    });
-  });
-});
-
+      expect(snapshotDiff(defaultComponent, component, { contextLines: 0 })).toMatchSnapshot()
+    })
+  })
+})
