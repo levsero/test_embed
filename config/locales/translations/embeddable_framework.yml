@@ -803,7 +803,7 @@ parts:
       value: "View past chats"
   - translation:
       key: "embeddable_framework.chat.backHistoryLabel"
-      title: "The label on the button that when clicked returns the user back from Chat history screen"
+      title: "The label on the button that when clicked returns the user back from Chat History screen"
       screenshot: "https://drive.google.com/open?id=1k2TccOgxI7-sapLX9doZWvzsm3QnaBOA"
       value: "Back"
 
