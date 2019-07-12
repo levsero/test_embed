@@ -250,7 +250,7 @@ const ConnectedMessageGroup = connect(
   makeMapStateToProps,
   {},
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(MessageGroup)
 
 export { ConnectedMessageGroup as default, MessageGroup as Component }

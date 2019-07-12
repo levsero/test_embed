@@ -214,7 +214,7 @@ const connectedComponent = connect(
   mapStateToProps,
   null,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(ChannelChoiceMenu)
 
 export { connectedComponent as default, ChannelChoiceMenu as Component }

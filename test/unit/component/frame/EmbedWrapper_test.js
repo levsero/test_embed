@@ -61,7 +61,7 @@ describe('EmbedWrapper', () => {
       instance = domRender(
         <EmbedWrapper
           popoutButtonVisible={() => {}}
-          reduxStore={{ getState: () => {} }}
+          reduxStore={{ getState: () => undefined, subscribe: () => undefined }}
           baseCSS=".base-css-file {}"
         >
           <MockChildComponent />

@@ -79,7 +79,7 @@ const connectedComponent = connect(
   null,
   mapDispatchToProps,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(SearchResults)
 
 export { connectedComponent as default, SearchResults as Component }

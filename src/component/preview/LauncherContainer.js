@@ -44,7 +44,7 @@ export class LauncherContainer extends Component {
     return (
       <Frame
         ref={el => {
-          if (el) this.frame = el.getWrappedInstance()
+          if (el) this.frame = el
         }}
         css={`
           ${require('globalCSS')} ${launcherStyles}

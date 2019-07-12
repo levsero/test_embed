@@ -399,7 +399,7 @@ const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(AnswerBotContainer)
 
 export { connectedComponent as default, AnswerBotContainer as Component }

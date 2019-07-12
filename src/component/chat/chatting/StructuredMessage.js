@@ -87,5 +87,5 @@ export default connect(
   null,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(StructuredMessage)

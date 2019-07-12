@@ -206,7 +206,7 @@ const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(AnswerBot)
 
 export { connectedComponent as default, AnswerBot as Component }

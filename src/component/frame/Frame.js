@@ -222,9 +222,7 @@ class Frame extends Component {
 
   getRootComponent = () => {
     if (this.child) {
-      const rootComponent = this.child.refs.rootComponent
-
-      return rootComponent.getWrappedInstance ? rootComponent.getWrappedInstance() : rootComponent
+      return this.child.refs.rootComponent
     }
   }
 
@@ -593,5 +591,5 @@ export default connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(Frame)

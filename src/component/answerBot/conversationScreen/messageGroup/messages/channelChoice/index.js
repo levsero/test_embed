@@ -202,7 +202,7 @@ const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(ChannelChoice)
 
 export { connectedComponent as default, ChannelChoice as Component }

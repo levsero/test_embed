@@ -69,18 +69,7 @@ global.scrollContainerComponent = () =>
   }
 
 global.connectedComponent = component =>
-  class extends Component {
-    constructor() {
-      super()
-      this.state = {}
-    }
-    getWrappedInstance = () => this.refs.wrappedInstance
-    render() {
-      const child = React.cloneElement(component, { ref: 'wrappedInstance' })
-
-      return <div>{child}</div>
-    }
-  }
+  React.forwardRef((props, ref) => <div>{React.cloneElement(component, { ref: ref })}</div>)
 
 global.shallowRender = component => {
   const renderer = new ShallowRenderer()
