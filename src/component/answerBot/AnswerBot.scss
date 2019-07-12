@@ -1,15 +1,15 @@
 @import '../../styles/_vars.scss';
 
 .footerWithLogo {
-  box-shadow: 0 0 #{12/$font-size}rem #{8/$font-size}rem $zd-color-white;
-  padding-top: #{8/$font-size}rem !important;
-  padding-bottom: #{36/$font-size}rem !important;
+  box-shadow: 0 0 #{12 / $font-size}rem #{8 / $font-size}rem $zd-color-white;
+  padding-top: #{8 / $font-size}rem !important;
+  padding-bottom: #{36 / $font-size}rem !important;
 }
 
 .footer {
-  box-shadow: 0 0 #{12/$font-size}rem #{8/$font-size}rem $zd-color-white;
-  padding-top: #{8/$font-size}rem !important;
-  padding-bottom: #{8/$font-size}rem !important;
+  box-shadow: 0 0 #{12 / $font-size}rem #{8 / $font-size}rem $zd-color-white;
+  padding-top: #{8 / $font-size}rem !important;
+  padding-bottom: #{8 / $font-size}rem !important;
 }
 
 .scrollContainerMobile {
@@ -18,19 +18,19 @@
 }
 
 .scrollContainer {
-  margin-right: #{7/$font-size}rem !important;
-  margin-left: #{7/$font-size}rem !important;
-  padding-right: #{8/$font-size}rem !important;
-  padding-left: #{8/$font-size}rem !important;
+  margin-right: #{7 / $font-size}rem !important;
+  margin-left: #{7 / $font-size}rem !important;
+  padding-right: #{8 / $font-size}rem !important;
+  padding-left: #{8 / $font-size}rem !important;
 }
 
 .footerMobile {
   padding: 0 !important;
-  margin-top: #{12/$font-size}rem !important;
+  margin-top: #{12 / $font-size}rem !important;
 }
 
 .footerMobileWithLogo {
-  margin-top: #{24/$font-size}rem !important;
+  margin-top: #{24 / $font-size}rem !important;
 }
 
 .zendeskLogo {
@@ -38,13 +38,13 @@
 }
 
 .zendeskLogoChatMobile {
-  bottom: #{48/$font-size}rem;
+  bottom: #{48 / $font-size}rem;
 
   [dir='rtl'] & {
-    right: #{12/$font-size}rem;
+    right: #{12 / $font-size}rem;
   }
 
   [dir='ltr'] & {
-    left: #{12/$font-size}rem;
+    left: #{12 / $font-size}rem;
   }
 }

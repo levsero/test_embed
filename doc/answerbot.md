@@ -8,37 +8,38 @@ For more information about Answer Bot in the Web Widget, see [Enabling and using
 
 The `answerBot` object has the following settings:
 
-* [avatar](./settings#avatar)
-* [contactOnlyAfterQuery](./settings#contactonlyafterquery)
-* [contactOptions](./core#contactoptions)
-* [search](./settings#search)
-* [suppress](./settings#suppress)
-* [title](./settings#title)
+- [avatar](./settings#avatar)
+- [contactOnlyAfterQuery](./settings#contactonlyafterquery)
+- [contactOptions](./core#contactoptions)
+- [search](./settings#search)
+- [suppress](./settings#suppress)
+- [title](./settings#title)
 
 <a name="example-answerbot-settings"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    answerBot: {
-      suppress: false,
-      title: {
-        '*': 'Chat with us!'
-      },
-      contactOnlyAfterQuery: true,
-      search: {
-        labels: ['I would like help.']
-      },
-      avatar: {
-        url: 'https://youravatarurl.com/image.png',
-        name: {
-          '*': 'Company logo'
+  window.zESettings = {
+    webWidget: {
+      answerBot: {
+        suppress: false,
+        title: {
+          '*': 'Chat with us!'
+        },
+        contactOnlyAfterQuery: true,
+        search: {
+          labels: ['I would like help.']
+        },
+        avatar: {
+          url: 'https://youravatarurl.com/image.png',
+          name: {
+            '*': 'Company logo'
+          }
         }
       }
     }
   }
-};
 </script>
 ```

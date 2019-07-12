@@ -1,14 +1,12 @@
-const webpack = require('webpack');
-const path = require('path');
-const merge = require('webpack-merge');
-const common = require('./webpack.ac.common.js');
-const webWidgetTemplates = require('../dev/web_widget_templates');
-const fs = require('fs');
+const webpack = require('webpack')
+const path = require('path')
+const merge = require('webpack-merge')
+const common = require('./webpack.ac.common.js')
+const webWidgetTemplates = require('../dev/web_widget_templates')
+const fs = require('fs')
 
 module.exports = () => {
-  const config = JSON.parse(
-    fs.readFileSync('./e2e/fixtures/account-config/z3nwebwidget2019.json')
-  );
+  const config = JSON.parse(fs.readFileSync('./e2e/fixtures/account-config/z3nwebwidget2019.json'))
 
   return merge(common, {
     mode: 'development',
@@ -35,5 +33,5 @@ module.exports = () => {
         path.resolve(__dirname, './node_modules/')
       ])
     ]
-  });
-};
+  })
+}

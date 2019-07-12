@@ -1,37 +1,37 @@
-import { queries } from 'pptr-testing-library';
+import { queries } from 'pptr-testing-library'
 export default class WidgetHelper {
-  launcherFrame;
-  widgetFrame;
-  launcher;
+  launcherFrame
+  widgetFrame
+  launcher
 
   constructor(page) {
-    this.page = page;
-    this.launcherFrame = this.findFrameInPage('launcher');
-    this.widgetFrame = this.findFrameInPage('webWidget');
+    this.page = page
+    this.launcherFrame = this.findFrameInPage('launcher')
+    this.widgetFrame = this.findFrameInPage('webWidget')
   }
 
   findFrameInPage(frameName) {
-    let foundFrame;
+    let foundFrame
 
     for (const frame of this.page.mainFrame().childFrames()) {
       if (frame.name().includes(frameName)) {
-        foundFrame = frame;
+        foundFrame = frame
       }
     }
-    return foundFrame;
+    return foundFrame
   }
 
   async getDocumentHandle(iframe) {
-    const documentHandle = await iframe.evaluateHandle('document');
-    const frameDocument = documentHandle.asElement();
+    const documentHandle = await iframe.evaluateHandle('document')
+    const frameDocument = documentHandle.asElement()
 
-    return frameDocument;
+    return frameDocument
   }
 
   async clickLauncherPill() {
-    const launcher = await this.getDocumentHandle(this.launcherFrame);
-    const launcherButton = await queries.getByTestId(launcher, 'launcherLabel');
+    const launcher = await this.getDocumentHandle(this.launcherFrame)
+    const launcherButton = await queries.getByTestId(launcher, 'launcherLabel')
 
-    await launcherButton.click();
+    await launcherButton.click()
   }
 }

@@ -4,7 +4,7 @@
 @import '../../styles/_vars.scss';
 @import '../../styles/mixins.scss';
 
-$Button-baseFontSize: #{14/$font-size}rem;
+$Button-baseFontSize: #{14 / $font-size}rem;
 $Button-nudge: 5;
 
 .wrapper {
@@ -13,29 +13,29 @@ $Button-nudge: 5;
   color: $base-color;
   fill: $base-color;
   letter-spacing: 0.4;
-  padding: #{13/$font-size}rem #{22/$font-size}rem;
+  padding: #{13 / $font-size}rem #{22 / $font-size}rem;
   border-radius: 999rem; /* 1 */
   bottom: 0;
   letter-spacing: 0.6;
-  font-size: #{15/$font-size}rem;
+  font-size: #{15 / $font-size}rem;
 
   &:focus {
     outline: none;
-    box-shadow: inset 0 0 0 #{3/$font-size}rem rgba($base-color, 0.4);
+    box-shadow: inset 0 0 0 #{3 / $font-size}rem rgba($base-color, 0.4);
   }
 }
 
 .wrapperMobile {
-  padding: #{14/$font-size}rem;
+  padding: #{14 / $font-size}rem;
 }
 
 .icon {
   composes: Icon from '../../styles/components/Icon.scss';
   composes: Arrange-sizeFit u-textInheritColor u-inlineBlock from global;
-  padding-right: #{8/$font-size}rem;
+  padding-right: #{8 / $font-size}rem;
 
   [dir='rtl'] & {
-    padding-left: #{8/$font-size}rem;
+    padding-left: #{8 / $font-size}rem;
     padding-right: 0;
   }
 }

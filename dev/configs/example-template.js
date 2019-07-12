@@ -35,4 +35,4 @@ module.exports = {
     // Used for generating a Chat JWT token, this can be any value you want
     externalId: '1234'
   }
-};
+}

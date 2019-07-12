@@ -5,7 +5,7 @@
 @import '../../../styles/_vars.scss';
 
 .scrollContainerContent {
-  padding-bottom: #{20/$font-size}rem;
+  padding-bottom: #{20 / $font-size}rem;
   height: 100%;
   max-height: none;
 }
@@ -19,7 +19,7 @@
 .greetingMessage {
   color: $zd-color-grey-800;
   display: block;
-  margin-bottom: #{13/$font-size}rem;
+  margin-bottom: #{13 / $font-size}rem;
   white-space: pre-line;
 }
 
@@ -29,7 +29,7 @@
 
 .dropdownMenuContainer {
   height: auto !important;
-  max-height: #{200/$font-size}rem;
+  max-height: #{200 / $font-size}rem;
 }
 
 .defaultDropdownText {
@@ -37,16 +37,16 @@
 }
 
 .nameFieldWithSocialLogin {
-  margin-bottom: #{7/$font-size}rem !important;
+  margin-bottom: #{7 / $font-size}rem !important;
 }
 
 .submitBtn {
-  margin-top: #{15/$font-size}rem;
-  margin-bottom: #{15/$font-size}rem;
+  margin-top: #{15 / $font-size}rem;
+  margin-bottom: #{15 / $font-size}rem;
   float: right;
-  max-width: #{200/$font-size}rem !important;
-  padding-right: #{10/$font-size}rem !important;
-  padding-left: #{10/$font-size}rem !important;
+  max-width: #{200 / $font-size}rem !important;
+  padding-right: #{10 / $font-size}rem !important;
+  padding-left: #{10 / $font-size}rem !important;
 
   [dir='rtl'] & {
     float: left;
@@ -57,10 +57,10 @@
   z-index: 1;
 
   [dir='rtl'] & {
-    right: #{16/$font-size}rem;
+    right: #{16 / $font-size}rem;
   }
 }
 
 .textAreaMarginBtn {
-  margin-bottom: #{16/$font-size}rem !important;
+  margin-bottom: #{16 / $font-size}rem !important;
 }

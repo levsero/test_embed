@@ -1,17 +1,17 @@
-const path = require('path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
-const common = require('./webpack.common.js');
-const prefix = process.cwd();
+const common = require('./webpack.common.js')
+const prefix = process.cwd()
 
 module.exports = merge(common, {
   mode: 'production',
   entry: {
     webWidgetPreview: path.join(prefix, '/src/webWidgetPreview.js'),
-    chatPreview: path.join(prefix, '/src/chatPreview.js'),
+    chatPreview: path.join(prefix, '/src/chatPreview.js')
   },
   output: {
     publicPath: process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest/'
@@ -22,8 +22,8 @@ module.exports = merge(common, {
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     new OptimizeCSSAssetsPlugin({
-      cssProcessorOptions: { discardComments: { removeAll: true } },
+      cssProcessorOptions: { discardComments: { removeAll: true } }
     }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
   ]
-});
+})

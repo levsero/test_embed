@@ -1,11 +1,11 @@
 module.exports = {
-  'plugins': ['react'],
-  'settings': {
-    'react': {
-      'version': '16.5.2'
-    },
+  plugins: ['react'],
+  settings: {
+    react: {
+      version: '16.5.2'
+    }
   },
-  'rules': {
+  rules: {
     'react/prop-types': 2,
     'react/jsx-boolean-value': [2, 'always'],
     'react/jsx-curly-spacing': 2,
@@ -22,4 +22,4 @@ module.exports = {
     'react/jsx-no-duplicate-props': 2,
     'react/no-unused-prop-types': 2
   }
-};
+}

@@ -4,7 +4,9 @@
   color: $zd-color-blue-600;
   text-decoration: underline;
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     color: $zd-color-blue-600;
   }
 }

@@ -1,22 +1,22 @@
-const webpack = require('webpack');
-const path = require('path');
-const merge = require('webpack-merge');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const common = require('./webpack.ac.common.js');
-const fs = require('fs');
-const webWidgetTemplates = require('../dev/web_widget_templates');
+const webpack = require('webpack')
+const path = require('path')
+const merge = require('webpack-merge')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const common = require('./webpack.ac.common.js')
+const webWidgetTemplates = require('../dev/web_widget_templates')
 
-const CWD = process.cwd();
-const CSP_HEADER = "\
+const CWD = process.cwd()
+const CSP_HEADER =
+  "\
   object-src 'none';\
   script-src 'nonce-abc123' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;\
   base-uri 'none'\
-";
+"
 
 module.exports = () => {
-  const userConfig = process.env.USER_CONFIG || 'example-template';
+  const userConfig = process.env.USER_CONFIG || 'example-template'
 
-  const config = require(path.join(CWD, `/dev/configs/${userConfig}`));
+  const config = require(path.join(CWD, `/dev/configs/${userConfig}`))
 
   return merge(common, {
     mode: 'development',
@@ -52,5 +52,5 @@ module.exports = () => {
         clear: false
       })
     ]
-  });
-};
+  })
+}

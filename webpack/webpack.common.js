@@ -1,21 +1,17 @@
-const fs = require('fs');
-const path = require('path');
-const webpack = require('webpack');
-const I18nPlugin = require('./i18nPlugin.js');
+const fs = require('fs')
+const path = require('path')
+const webpack = require('webpack')
+const I18nPlugin = require('./i18nPlugin.js')
 
-const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp';
-const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com';
-const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_ENV || 'development';
+const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp'
+const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com'
+const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_ENV || 'development'
 
 const svgoConfig = JSON.stringify({
-  plugins: [
-    { removeTitle: true },
-    { convertPathData: false },
-    { convertStyleToAttrs: false }
-  ]
-});
-const prefix = process.cwd();
-const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
+  plugins: [{ removeTitle: true }, { convertPathData: false }, { convertStyleToAttrs: false }]
+})
+const prefix = process.cwd()
+const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
 module.exports = {
   module: {
@@ -53,25 +49,16 @@ module.exports = {
       {
         test: /\.css$/,
         include: /node_modules\/@zendeskgarden/,
-        use: [
-          'css-loader?importLoaders=1',
-          'postcss-loader'
-        ]
+        use: ['css-loader?importLoaders=1', 'postcss-loader']
       },
       { test: /lodash/, loader: 'imports-loader?define=>false' },
       {
         test: /\.svg$/,
-        use: [
-          'raw-loader',
-          'svgo-loader?' + svgoConfig
-        ]
+        use: ['raw-loader', 'svgo-loader?' + svgoConfig]
       },
       {
         test: /\.(yml|yaml)/,
-        use: [
-          'json-loader',
-          'yaml-loader'
-        ]
+        use: ['json-loader', 'yaml-loader']
       }
     ]
   },
@@ -110,4 +97,4 @@ module.exports = {
     }),
     I18nPlugin
   ]
-};
+}

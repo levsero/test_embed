@@ -3,6 +3,7 @@
 Date: 2018-09-25
 
 ## Attendees
+
 - Wayne See
 - Adrian Evans
 - Briana Coppard
@@ -33,7 +34,6 @@ It also offers additional features that the team can adopt later on, like built-
 For testing React components, the team will try out [react-testing-library](https://github.com/kentcdodds/react-testing-library#readme),
 with the hopes that it will allow the team to write maintainable tests, without sacrificing velocity. React-testing-library was
 chosen because it prevents developers from testing implementation details, and instead focus only on testing behaviour.
-
 
 ## Consequences
 

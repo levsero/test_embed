@@ -6,7 +6,6 @@ Embed the widget in your website using the latest `script` tag available in Zend
 
 The Web Widget API consists of commands and settings, which are described in the rest of this doc.
 
-
 ### Commands
 
 All commands follow the same basic syntax:
@@ -19,18 +18,17 @@ zE('webWidget:<action>', '<event|property>', <parameters>);
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'show', function() {
-  console.log("The widget has been shown!");
-});
+  zE('webWidget:on', 'show', function() {
+    console.log('The widget has been shown!')
+  })
 </script>
 ```
 
 The commands are grouped into core commands that affect the entire widget and channel-specific commands.
 
-* [Core](./core#commands)
-* [Chat](./chat#commands)
-* [Help Center](./help_center#commands)
-
+- [Core](./core#commands)
+- [Chat](./chat#commands)
+- [Help Center](./help_center#commands)
 
 ### Settings
 
@@ -40,18 +38,18 @@ You can specify various settings for the Web Widget by defining a `window.zESett
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    offset: { horizontal: '100px', vertical: '150px' }
+  window.zESettings = {
+    webWidget: {
+      offset: { horizontal: '100px', vertical: '150px' }
+    }
   }
-};
 </script>
 ```
 
 The settings are grouped into core settings that affect the entire widget and channel-specific settings.
 
-* [Core](./core#settings)
-* [Contact Form](./contact_form#settings)
-* [Help Center](./help_center#settings)
-* [Chat](./chat#settings)
-* [Talk](./talk#settings)
+- [Core](./core#settings)
+- [Contact Form](./contact_form#settings)
+- [Help Center](./help_center#settings)
+- [Chat](./chat#settings)
+- [Talk](./talk#settings)

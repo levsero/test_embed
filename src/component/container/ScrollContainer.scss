@@ -12,7 +12,7 @@
 }
 
 .desktop {
-  height: #{550/$font-size}rem;
+  height: #{550 / $font-size}rem;
 }
 
 .desktopFullscreen {
@@ -29,15 +29,15 @@
 }
 
 .containerDesktop {
-  border-radius: #{8/$font-size}rem;
+  border-radius: #{8 / $font-size}rem;
 }
 
 .header {
   composes: u-paddingHL from global;
   background: $zd-color-grey-100;
   color: $zd-color-grey-800;
-  padding-top: #{15/$font-size}rem !important;
-  padding-bottom: #{15/$font-size}rem !important;
+  padding-top: #{15 / $font-size}rem !important;
+  padding-bottom: #{15 / $font-size}rem !important;
 }
 
 .userHeader {
@@ -46,10 +46,10 @@
 
 .title {
   composes: u-textBold u-textCenter from global;
-  letter-spacing: #{0.3/$font-size}rem;
+  letter-spacing: #{0.3 / $font-size}rem;
   line-height: 1.2;
-  padding-left: #{30/$font-size}rem;
-  padding-right: #{30/$font-size}rem;
+  padding-left: #{30 / $font-size}rem;
+  padding-right: #{30 / $font-size}rem;
   font-size: $font-size-lrg;
 }
 
@@ -63,8 +63,8 @@
   overflow-x: hidden;
   box-sizing: border-box;
   flex-grow: 1;
-  padding-left: #{10/$font-size}rem !important;
-  padding-right: #{10/$font-size}rem !important;
+  padding-left: #{10 / $font-size}rem !important;
+  padding-right: #{10 / $font-size}rem !important;
 
   /*
    * Customise scrollbar for safari/chrome
@@ -74,18 +74,18 @@
   }
   &::-webkit-scrollbar {
     box-shadow: none;
-    width: #{3/$font-size}rem;
+    width: #{3 / $font-size}rem;
   }
   &::-webkit-scrollbar-thumb {
     background: $zd-color-grey-300;
-    border-radius: #{3/$font-size}rem;
+    border-radius: #{3 / $font-size}rem;
   }
 }
 
 .contentMobile {
   -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
-  height: calc(100% - #{108/$font-size}rem);
+  height: calc(100% - #{108 / $font-size}rem);
   max-height: initial;
   max-width: 100%;
 
@@ -95,7 +95,7 @@
 }
 
 .contentBigheader {
-  height: calc(100% - #{166/$font-size}rem);
+  height: calc(100% - #{166 / $font-size}rem);
 }
 
 .footer {
@@ -104,5 +104,5 @@
 
 .footerShadow {
   border-top: $thin-border-size solid $zd-color-grey-200;
-  box-shadow: 0 -#{1/$font-size}rem #{12/$font-size}rem rgba($base-shadow, .08);
+  box-shadow: 0 -#{1 / $font-size}rem #{12 / $font-size}rem rgba($base-shadow, 0.08);
 }

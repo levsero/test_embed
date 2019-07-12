@@ -2,13 +2,13 @@
 
 .container {
   composes: u-userLauncherColor from global;
-  margin-top: #{3/$font-size}rem;
+  margin-top: #{3 / $font-size}rem;
   background-color: $zd-color-grey-700;
-  border-radius: #{8/$font-size}rem;
-  height: #{200/$font-size}rem;
-  width: #{245/$font-size}rem;
-  margin-left: #{3/$font-size}rem;
-  box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.25);
+  border-radius: #{8 / $font-size}rem;
+  height: #{200 / $font-size}rem;
+  width: #{245 / $font-size}rem;
+  margin-left: #{3 / $font-size}rem;
+  box-shadow: 0 #{1 / $font-size}rem #{8 / $font-size}rem 0 rgba(0, 0, 0, 0.25);
 }
 
 .textContainer {
@@ -17,39 +17,39 @@
   word-wrap: break-word;
   overflow: hidden !important;
   text-overflow: ellipsis;
-  font-size: #{16/$font-size}rem;
+  font-size: #{16 / $font-size}rem;
   font-family: Verdana, Geneva, sans-serif;
-  padding: #{10/$font-size}rem 0;
+  padding: #{10 / $font-size}rem 0;
 }
 
 .textOnLeft {
-  padding-right: #{3/$font-size}rem;
-  padding-left: #{10/$font-size}rem;
+  padding-right: #{3 / $font-size}rem;
+  padding-left: #{10 / $font-size}rem;
 }
 
 .textOnRight {
-  padding-left: #{4/$font-size}rem;
-  padding-right: #{6/$font-size}rem;
+  padding-left: #{4 / $font-size}rem;
+  padding-right: #{6 / $font-size}rem;
 }
 
 .textOnly {
-  font-size: #{20/$font-size}rem !important;
+  font-size: #{20 / $font-size}rem !important;
   text-align: center !important;
 }
 
 .imageContainer {
   vertical-align: middle;
   text-align: center;
-  width: #{100/$font-size}rem;
+  width: #{100 / $font-size}rem;
 }
 
 .splashDisplayContainer {
   overflow: hidden;
-  height: #{160/$font-size}rem;
+  height: #{160 / $font-size}rem;
 }
 
 .splashPadding {
-  padding: #{20/$font-size}rem #{10/$font-size}rem #{10/$font-size}rem;
+  padding: #{20 / $font-size}rem #{10 / $font-size}rem #{10 / $font-size}rem;
 }
 
 .splashTable {
@@ -61,42 +61,44 @@
 
 .title {
   position: absolute;
-  top: #{3/$font-size}rem;
-  height: #{20/$font-size}rem !important;
+  top: #{3 / $font-size}rem;
+  height: #{20 / $font-size}rem !important;
   width: 100%;
   text-align: center;
-  padding-top: #{9/$font-size}rem !important;
+  padding-top: #{9 / $font-size}rem !important;
   font-family: Verdana, Geneva, sans-serif;
-  font-size: #{10/$font-size}rem !important;
+  font-size: #{10 / $font-size}rem !important;
 }
 
 .chatIcon {
-  width: #{75/$font-size}rem;
-  height: #{54/$font-size}rem;
+  width: #{75 / $font-size}rem;
+  height: #{54 / $font-size}rem;
 
   svg path[class='cls-1'] {
-   fill: $zd-color-white;
+    fill: $zd-color-white;
   }
 }
 
 .inputContainer {
-  height: #{40/$font-size}rem;
-  border-bottom-left-radius: #{8/$font-size}rem;
-  border-bottom-right-radius: #{8/$font-size}rem;
-  border-top: #{1/$font-size}rem $zd-color-grey-300 solid;
+  height: #{40 / $font-size}rem;
+  border-bottom-left-radius: #{8 / $font-size}rem;
+  border-bottom-right-radius: #{8 / $font-size}rem;
+  border-top: #{1 / $font-size}rem $zd-color-grey-300 solid;
 }
 
 .input {
   color: $zd-color-grey-700;
   display: inline-block;
   vertical-align: top;
-  height: #{40/$font-size}rem;
-  width: #{205/$font-size}rem;
-  padding: 0 #{8/$font-size}rem;
+  height: #{40 / $font-size}rem;
+  width: #{205 / $font-size}rem;
+  padding: 0 #{8 / $font-size}rem;
   border: none;
-  letter-spacing: #{-0.15/$font-size}rem;
+  letter-spacing: #{-0.15 / $font-size}rem;
   font-family: Verdana, Geneva, sans-serif;
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     outline: none !important;
     box-shadow: none !important;
   }
@@ -105,11 +107,11 @@
   }
 
   [dir='ltr'] & {
-    border-bottom-left-radius: #{8/$font-size}rem;
+    border-bottom-left-radius: #{8 / $font-size}rem;
   }
 
   [dir='rtl'] & {
-    border-bottom-right-radius: #{8/$font-size}rem;
+    border-bottom-right-radius: #{8 / $font-size}rem;
   }
 }
 
@@ -119,15 +121,15 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  height: #{40/$font-size}rem;
-  width: #{40/$font-size}rem;
+  height: #{40 / $font-size}rem;
+  width: #{40 / $font-size}rem;
 
   [dir='ltr'] & {
-    border-bottom-right-radius: #{8/$font-size}rem;
+    border-bottom-right-radius: #{8 / $font-size}rem;
   }
 
   [dir='rtl'] & {
-    border-top-right-radius: #{8/$font-size}rem;
+    border-top-right-radius: #{8 / $font-size}rem;
     transform: scale(-1);
   }
   svg {
@@ -149,26 +151,26 @@
 
 .minimizeButton {
   position: absolute;
-  top: #{10/$font-size}rem;
-  height: #{20/$font-size}rem;
-  width: #{21/$font-size}rem;
-  padding-top: #{9/$font-size}rem !important;
+  top: #{10 / $font-size}rem;
+  height: #{20 / $font-size}rem;
+  width: #{21 / $font-size}rem;
+  padding-top: #{9 / $font-size}rem !important;
 
-  border-radius: #{4/$font-size}rem;
+  border-radius: #{4 / $font-size}rem;
 
   svg {
-    height: #{2/$font-size}rem;
-    width: #{13/$font-size}rem;
+    height: #{2 / $font-size}rem;
+    width: #{13 / $font-size}rem;
   }
 
   [dir='ltr'] & {
-    right: #{6/$font-size}rem;
-    padding-left: #{4/$font-size}rem;
+    right: #{6 / $font-size}rem;
+    padding-left: #{4 / $font-size}rem;
   }
 
   [dir='rtl'] & {
-    left: #{6/$font-size}rem;
-    padding-right: #{4/$font-size}rem;
+    left: #{6 / $font-size}rem;
+    padding-right: #{4 / $font-size}rem;
   }
 
   &:hover {
@@ -177,27 +179,27 @@
 }
 
 .customImg {
-  max-height: #{100/$font-size}rem;
-  max-width: #{100/$font-size}rem;
+  max-height: #{100 / $font-size}rem;
+  max-width: #{100 / $font-size}rem;
 }
 
 .customImgOnly {
-  width: #{245/$font-size}rem;
-  border-top-left-radius: #{8/$font-size}rem;
-  border-top-right-radius: #{8/$font-size}rem;
+  width: #{245 / $font-size}rem;
+  border-top-left-radius: #{8 / $font-size}rem;
+  border-top-right-radius: #{8 / $font-size}rem;
 }
 
 .imgOnly {
   // pad left a tad because centred looks a bit off
   // humans and their perception quirks!
-  padding-left: #{8/$font-size}rem;
-  margin-top: #{24/$font-size}rem;
+  padding-left: #{8 / $font-size}rem;
+  margin-top: #{24 / $font-size}rem;
 }
 
 .imgRight {
-  margin-left: #{5/$font-size}rem;
+  margin-left: #{5 / $font-size}rem;
 }
 
 .imgLeft {
-  margin-right: #{5/$font-size}rem;
+  margin-right: #{5 / $font-size}rem;
 }

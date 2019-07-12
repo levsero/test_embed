@@ -1,11 +1,11 @@
 @import '../../styles/_vars.scss';
 
 .list {
-  padding: #{8/$font-size}rem 0 0 #{16/$font-size}rem;
-  font-size: #{19/$font-size}rem;
+  padding: #{8 / $font-size}rem 0 0 #{16 / $font-size}rem;
+  font-size: #{19 / $font-size}rem;
 
-  [dir="rtl"] & {
-    padding-right: #{24/$font-size}rem;
+  [dir='rtl'] & {
+    padding-right: #{24 / $font-size}rem;
     padding-left: 0;
   }
 }
@@ -13,9 +13,9 @@
 .item {
   color: $zd-color-grey-800;
   list-style: decimal;
-  font-size: #{14/$font-size}rem;
-  margin-bottom: #{7/$font-size}rem;
-  padding-left: #{2/$font-size}rem;
+  font-size: #{14 / $font-size}rem;
+  margin-bottom: #{7 / $font-size}rem;
+  padding-left: #{2 / $font-size}rem;
 
   &:last-child {
     margin-bottom: 0;
@@ -24,7 +24,7 @@
 
 .listMobile {
   composes: u-marginBS from global;
-  padding: #{8/$font-size}rem 0 0 #{24/$font-size}rem;
+  padding: #{8 / $font-size}rem 0 0 #{24 / $font-size}rem;
 }
 
 .itemMobile {
@@ -32,11 +32,11 @@
 }
 
 .listBottom {
-  padding-bottom: #{20/$font-size}rem;
+  padding-bottom: #{20 / $font-size}rem;
 }
 
 .resultsPadding {
-  padding-bottom: #{20/$font-size}rem;
+  padding-bottom: #{20 / $font-size}rem;
 }
 
 .noResults {
@@ -47,7 +47,7 @@
 }
 
 .noResultsDesktop {
-  margin-bottom: #{14/$font-size}rem !important;
+  margin-bottom: #{14 / $font-size}rem !important;
 }
 
 .noResultsMobile {
@@ -66,12 +66,12 @@
   composes: u-paddingTT Arrange Arrange--middle u-textBold from global;
 
   color: $zd-color-grey-800;
-  font-size: #{14/$font-size}rem !important;
+  font-size: #{14 / $font-size}rem !important;
 }
 
 .legendContent {
   composes: Arrange-sizeFill from global;
-  font-size: #{15/$font-size}rem;
+  font-size: #{15 / $font-size}rem;
 }
 
 .legendMobile {
@@ -83,22 +83,22 @@
   align-items: center;
   display: flex;
   height: 100%;
-  max-height: #{365/$font-size}rem;
+  max-height: #{365 / $font-size}rem;
   text-align: center;
-  margin-left: #{25/$font-size}rem;
-  margin-right: #{25/$font-size}rem;
+  margin-left: #{25 / $font-size}rem;
+  margin-right: #{25 / $font-size}rem;
 }
 
 .contextualNoResultsMobile {
-  font-size: #{16/$font-size}rem;
+  font-size: #{16 / $font-size}rem;
 }
 
 .useSearchBarTextDesktop {
-  line-height: #{18/$font-size}rem;
-  margin-bottom: #{40/$font-size}rem;
+  line-height: #{18 / $font-size}rem;
+  margin-bottom: #{40 / $font-size}rem;
 }
 
 .useSearchBarTextMobile {
-  line-height: #{22/$font-size}rem;
-  margin-bottom: #{40/$font-size}rem;
+  line-height: #{22 / $font-size}rem;
+  margin-bottom: #{40 / $font-size}rem;
 }

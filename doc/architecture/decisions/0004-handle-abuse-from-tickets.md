@@ -3,6 +3,7 @@
 Date: 12/2/2019
 
 ## Attendees
+
 - Briana Coppard
 - Adrian Evans
 - Apoorv Kansal
@@ -44,15 +45,18 @@ This approach is based on Help Centers implementation for recaptcha. It's not th
 - If we get a negative response from the endpoint we would stop the form from submitting.
 
 Pros:
+
 - No change to the request endpoint
 - We could use this for all the forms in the Web Widget, not just the request form
 - No code needed from the customer to implement this
 
 Cons:
+
 - More friction for legitimate users.
 - This service would be better to be built into the requests endpoint
 
 Future enhancements this could allow:
+
 - Add captacha to all forms
 - We would allow customers to be able to specifiy their own google keys. This would allow them to add a site whitelist and specify how many steps the end user needs to validate.
 
@@ -62,11 +66,13 @@ Future enhancements this could allow:
 - We could potentially combine this with the recaptcha approach and do validation for captcha on this endpoint.
 
 Pros:
+
 - No change to the request endpoint
 - No code needed from the customer to implement this
 - Potentially no friction for end users
 
 Cons:
+
 - Redoing functionality that should be handled by the requests endpoint
 - More for us to own
 - Feels like we would be moving backwards from all the work we did to make the Widget hit classic directly
@@ -82,10 +88,12 @@ The requests endpoint is going to get spam detection added to it that would be m
 - Send a blip if we hit the backoff to track this
 
 Pros:
+
 - Very easy to implement
 - Unlikely to introduce any friction to legitimate users
 
 Cons:
+
 - There are ways to get around this and continue to use the widget to spam the endpoint
 
 If Max and David are correct that most of these spammers aren't very sophisticated this could be all the friction we need to add to the experience for them to move on. This could be a small measure to help until the proper fix is implemented on the requests endpoint.
@@ -93,6 +101,7 @@ If Max and David are correct that most of these spammers aren't very sophisticat
 ## Decision
 
 We Rate limit on the client as a first step to this
+
 - Give a reasonable rate limit: 3 per minute with a backoff that doubles in time each time it is hit. Show a message to users to say "try again later" for legitimate users if this is ever hit.
 
 We like this because until the request endpoint itself has authentication added or some way to mitigate spam it is still very vulnerable no matter what we do, and it doesn't seem worth spending more time to add something like captcha which will cause friction to legitimate customers unless then request endpoint starts blocking requests that don't have it because it would still be easy to circumvent the captcha.

@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .icon {
-  margin-right: #{6/$font-size}rem;
+  margin-right: #{6 / $font-size}rem;
   vertical-align: middle;
 
   svg {
@@ -10,7 +10,7 @@
 }
 
 .linkDiv {
-  border-bottom: $zd-color-grey-300 #{1/$font-size}rem solid;
+  border-bottom: $zd-color-grey-300 #{1 / $font-size}rem solid;
   text-align: center;
   padding-bottom: $spacing-sml;
   padding-top: 0px;

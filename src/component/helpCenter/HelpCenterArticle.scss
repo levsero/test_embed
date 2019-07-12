@@ -4,8 +4,8 @@
   composes: u-textBold u-hsizeAll from global;
   display: table-cell;
   color: $zd-color-grey-800;
-  margin-bottom: #{5/$font-size}rem;
-  font-size: #{18/$font-size}rem !important;
+  margin-bottom: #{5 / $font-size}rem;
+  font-size: #{18 / $font-size}rem !important;
 }
 
 .originalArticleButton {
@@ -18,17 +18,17 @@
 }
 
 .contentMobile {
-  font-size: #{14/$font-size}rem;
+  font-size: #{14 / $font-size}rem;
   max-width: 100%;
 
   table {
-    font-size: #{14/$font-size}rem;
+    font-size: #{14 / $font-size}rem;
   }
 
   .originalArticleButton {
     svg {
-      width: #{18/$font-size}rem;
-      height: #{18/$font-size}rem;
+      width: #{18 / $font-size}rem;
+      height: #{18 / $font-size}rem;
     }
   }
 }
@@ -44,22 +44,23 @@
 .content {
   composes: u-userLinkColor from global;
 
-  margin-bottom: #{16/$font-size}rem;
+  margin-bottom: #{16 / $font-size}rem;
   word-break: break-word;
   line-height: 1.5;
-  font-size: #{14/$font-size}rem;
+  font-size: #{14 / $font-size}rem;
 
   p {
-    margin-bottom: #{15/$font-size}rem;
+    margin-bottom: #{15 / $font-size}rem;
   }
 
   ul {
     white-space: pre-wrap;
   }
 
-  ol, ul {
+  ol,
+  ul {
     list-style: disc;
-    margin: 0 0 #{20/$font-size}rem #{20/$font-size}rem;
+    margin: 0 0 #{20 / $font-size}rem #{20 / $font-size}rem;
   }
 
   ol {
@@ -74,41 +75,49 @@
     }
   }
 
-  h1, h2, h3, h4, h5, h6,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
   .wysiwyg-font-size-large,
   .wysiwyg-font-size-x-large {
     font-weight: 600;
     color: $zd-color-grey-800;
-    margin-bottom: #{5/$font-size}rem;
+    margin-bottom: #{5 / $font-size}rem;
   }
 
-  h1, .wysiwyg-font-size-x-large {
-    font-size: #{16/$font-size}rem;
+  h1,
+  .wysiwyg-font-size-x-large {
+    font-size: #{16 / $font-size}rem;
   }
 
-  h2, .wysiwyg-font-size-large {
-    font-size: #{15/$font-size}rem;
+  h2,
+  .wysiwyg-font-size-large {
+    font-size: #{15 / $font-size}rem;
   }
 
   h3 {
-    font-size: #{14/$font-size}rem;
+    font-size: #{14 / $font-size}rem;
   }
 
   h4 {
     font-size: $font-size-lrg;
   }
 
-  h5, .wysiwyg-font-size-small {
-    font-size: #{12/$font-size}rem;
+  h5,
+  .wysiwyg-font-size-small {
+    font-size: #{12 / $font-size}rem;
   }
 
   h6 {
-    font-size: #{11/$font-size}rem;
+    font-size: #{11 / $font-size}rem;
   }
 
   blockquote {
-    border-left: #{4/$font-size}rem solid $zd-color-silver-sand;
-    padding-left: #{20/$font-size}rem;
+    border-left: #{4 / $font-size}rem solid $zd-color-silver-sand;
+    padding-left: #{20 / $font-size}rem;
     font-style: italic;
   }
 
@@ -118,7 +127,7 @@
 
   iframe {
     width: 100%;
-    min-height: #{210/$font-size}rem;
+    min-height: #{210 / $font-size}rem;
   }
 
   .table-wrap {
@@ -127,16 +136,16 @@
     *width: 100%;
     min-width: 100%;
     overflow-y: auto;
-    margin: 0 0 #{16/$font-size}rem;
+    margin: 0 0 #{16 / $font-size}rem;
 
     &::-webkit-scrollbar {
       box-shadow: none;
-      height: #{6/$font-size}rem;
+      height: #{6 / $font-size}rem;
     }
 
     &::-webkit-scrollbar-thumb {
       background: $zd-color-grey-300;
-      border-radius: #{6/$font-size}rem;
+      border-radius: #{6 / $font-size}rem;
     }
   }
 
@@ -144,22 +153,23 @@
     word-break: normal;
     text-align: left;
     font-size: $font-size-lrg;
-    margin-bottom: #{10/$font-size}rem;
-    margin-right: #{3/$font-size}rem;
+    margin-bottom: #{10 / $font-size}rem;
+    margin-right: #{3 / $font-size}rem;
   }
 
-  th, td {
-    padding: #{10/$font-size}rem;
-    border: #{1/$font-size}rem solid $stroke-color;
+  th,
+  td {
+    padding: #{10 / $font-size}rem;
+    border: #{1 / $font-size}rem solid $stroke-color;
   }
 
   pre {
     background: $zd-color-grey-100;
-    border: #{1/$font-size}rem solid $zd-color-grey-200;
-    border-radius: #{3/$font-size}rem;
-    padding: #{10/$font-size}rem #{15/$font-size}rem;
+    border: #{1 / $font-size}rem solid $zd-color-grey-200;
+    border-radius: #{3 / $font-size}rem;
+    padding: #{10 / $font-size}rem #{15 / $font-size}rem;
     overflow: auto;
     white-space: pre;
-    margin-bottom: #{15/$font-size}rem;
+    margin-bottom: #{15 / $font-size}rem;
   }
 }

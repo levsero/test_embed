@@ -109,7 +109,7 @@ Contains any redux selectors used multiple times by the embed. Any selectors tha
 
 Contains any utils only used by the embed. If the util is used across multiple embeds it should go in the top level utils folder.
 
-#### webWidget*
+#### webWidget\*
 
 Contains the overall logic for the Web Widget, such as top level routing.
 
@@ -117,7 +117,7 @@ Contains the overall logic for the Web Widget, such as top level routing.
 
 Contains any shared utils
 
-* Note: These folders might be shifted and renamed once we have done some work on splitting out our Embeds and have a better idea of the ideal structure of the codebase.
+- Note: These folders might be shifted and renamed once we have done some work on splitting out our Embeds and have a better idea of the ideal structure of the codebase.
 
 # Guidelines
 
@@ -130,7 +130,7 @@ Contains any shared utils
 - They can also be used to access children if it makes sense for that file.
 - Don't be afraid to set up a webpack alias to a folder.
 - An exemption to this a jest test file. It can reach one level up to get the file it is testng.
-- An exemption to this rule is in our style files as you can't use webpack aliases *pending investigate story
+- An exemption to this rule is in our style files as you can't use webpack aliases \*pending investigate story
 
 ### Files and folders should follow a consistent naming convention
 
@@ -147,6 +147,7 @@ Contains any shared utils
 - You should be able to copy/paste a component folder and use it within another project in exactly the same way.
 
 Example directory:
+
 ```
 ComponentName
 |-- index.js
@@ -190,7 +191,7 @@ ComponentName
 
 - Remove any imported global styles from the component,
 - If the style is used in multiple places it should instead become a component that can be reused in the javascript.
-- Only the _vars file should be imported, and this is only used for $font-size, no other variables should be used
+- Only the \_vars file should be imported, and this is only used for \$font-size, no other variables should be used
 - The old styles folder will eventually be removed
 
 ### Avoid composing classes
@@ -231,7 +232,7 @@ The talk routes directory will look like:
 
 - Pages are stored separately to other components
 - The file path of a page component should match logically with the route that points to it
-  - Ie /embeds/talk/online/callback  => /embeds/talk/pages/online/CallbackPage
+  - Ie /embeds/talk/online/callback => /embeds/talk/pages/online/CallbackPage
 
 ### Routing components should only contain routing logic
 

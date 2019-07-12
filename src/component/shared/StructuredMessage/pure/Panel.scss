@@ -1,7 +1,7 @@
 @import '../../../../styles/_vars.scss';
 
 .panel {
-  border: #{1/$font-size}rem $zd-color-grey-200 solid !important; // messageOptions
+  border: #{1 / $font-size}rem $zd-color-grey-200 solid !important; // messageOptions
   text-align: left;
   background: white;
   width: 100%;
@@ -41,18 +41,18 @@
 }
 
 .panelContent {
-  padding: #{12/$font-size}rem;
+  padding: #{12 / $font-size}rem;
   overflow: hidden;
 }
 
 .floatedPanelContent {
-  width: calc(100% - #{60/$font-size}rem);
+  width: calc(100% - #{60 / $font-size}rem);
 }
 
 .panelContentImage {
-  width: #{48/$font-size}rem;
-  height: #{48/$font-size}rem;
-  border-radius: #{4/$font-size}rem;
+  width: #{48 / $font-size}rem;
+  height: #{48 / $font-size}rem;
+  border-radius: #{4 / $font-size}rem;
   position: relative;
   overflow: hidden;
 }
@@ -71,13 +71,13 @@
 
 .panelParagraph {
   color: $zd-color-grey-600;
-  margin-top: #{4/$font-size}rem;
+  margin-top: #{4 / $font-size}rem;
 }
 
 .imageContainer {
   position: relative;
-  border-top-left-radius: #{15/$font-size}rem; // Less rounded than messageBubble
-  border-top-right-radius: #{15/$font-size}rem; // Less rounded than messageBubble
+  border-top-left-radius: #{15 / $font-size}rem; // Less rounded than messageBubble
+  border-top-right-radius: #{15 / $font-size}rem; // Less rounded than messageBubble
   overflow: hidden;
 }
 
@@ -95,15 +95,15 @@
 
   &.scaleUp {
     svg {
-      width: #{32/$font-size}rem;
-      height: #{32/$font-size}rem;
+      width: #{32 / $font-size}rem;
+      height: #{32 / $font-size}rem;
     }
   }
 
   svg {
     color: $zd-color-grey-400;
-    width: #{16/$font-size}rem;
-    height: #{16/$font-size}rem;
+    width: #{16 / $font-size}rem;
+    height: #{16 / $font-size}rem;
   }
 }
 

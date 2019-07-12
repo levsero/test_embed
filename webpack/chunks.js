@@ -4,4 +4,4 @@ module.exports = {
   TALK_VENDOR_CHUNK: 'talk_vendor',
   WEB_WIDGET_CHUNK: 'web_widget',
   RUNTIME_CHUNK: 'runtime'
-};
+}

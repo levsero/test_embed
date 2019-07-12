@@ -5,9 +5,9 @@
   composes: u-userColor u-textTruncate from global;
 
   width: 100%;
-  padding: 0 #{16/$font-size}rem;
+  padding: 0 #{16 / $font-size}rem;
   margin: 0;
-  line-height: #{40/$font-size}rem;
+  line-height: #{40 / $font-size}rem;
   text-align: center;
 
   &:hover {
@@ -16,7 +16,9 @@
 }
 
 .overwriteState {
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     background-color: transparent !important;
     text-decoration: none;
   }

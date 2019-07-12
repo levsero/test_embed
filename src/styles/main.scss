@@ -17,7 +17,12 @@ html {
   overflow: hidden; /* 1 */
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0;
 }
 
@@ -27,7 +32,7 @@ a {
 }
 
 p {
-  margin-bottom: #{15/$font-size}rem;
+  margin-bottom: #{15 / $font-size}rem;
 }
 
 a:hover,
@@ -53,11 +58,11 @@ iframe {
  * might still respond to pointer events.
  */
 
-[tabindex="-1"]:focus {
+[tabindex='-1']:focus {
   outline: none !important;
 }
 
-input[type="search"] {
+input[type='search'] {
   box-sizing: border-box;
   border-radius: 0;
   -webkit-appearance: none;
@@ -71,6 +76,7 @@ select {
   appearance: none;
 }
 
-select::-ms-expand { /* 4 */
+select::-ms-expand {
+  /* 4 */
   display: none;
 }

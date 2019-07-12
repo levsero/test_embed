@@ -1,15 +1,15 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  height: #{350/$font-size}rem !important;
+  height: #{350 / $font-size}rem !important;
   width: 100%;
 }
 
 .barBase {
-  height: #{12/$font-size}rem;
-  border-radius: #{6.5/$font-size}rem;
+  height: #{12 / $font-size}rem;
+  border-radius: #{6.5 / $font-size}rem;
   background-color: $zd-color-grey-400;
-  margin-bottom: #{16/$font-size}rem;
+  margin-bottom: #{16 / $font-size}rem;
 }
 
 .barWidth30Percent {

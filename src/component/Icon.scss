@@ -31,8 +31,8 @@
   position: absolute;
   left: -10000px;
   top: auto;
-  width: #{1/$font-size}rem;
-  height: #{1/$font-size}rem;
+  width: #{1 / $font-size}rem;
+  height: #{1 / $font-size}rem;
   overflow: hidden;
 }
 
@@ -49,14 +49,14 @@
 .tooltip-base {
   composes: c-tooltip c-arrow from global;
   position: absolute;
-  top: #{-29/$font-size}rem;
-  right: #{3/$font-size}rem;
+  top: #{-29 / $font-size}rem;
+  right: #{3 / $font-size}rem;
   z-index: 9999;
   visibility: hidden;
-  border-radius: #{4/$font-size}rem;
+  border-radius: #{4 / $font-size}rem;
   background-color: $zd-color-grey-800;
-  padding-top: #{2/$font-size}rem;
-  padding-bottom: #{2/$font-size}rem;
+  padding-top: #{2 / $font-size}rem;
+  padding-bottom: #{2 / $font-size}rem;
   transition: opacity 150ms ease-out;
   opacity: 0;
 }
@@ -69,7 +69,7 @@
 .tooltipRtl {
   composes: tooltip-base;
   composes: c-arrow--bl from global;
-  left: #{3/$font-size}rem;
+  left: #{3 / $font-size}rem;
   right: auto;
 }
 

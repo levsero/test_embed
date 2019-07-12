@@ -2,7 +2,7 @@
 
 .container {
   bottom: 0;
-  left: 0 ;
+  left: 0;
   margin: auto;
   position: absolute;
   right: 0;
@@ -14,7 +14,7 @@
   composes: Container--dashed from '../../styles/components/Container.scss';
 
   position: absolute;
-  margin: #{10/$font-size}rem;
+  margin: #{10 / $font-size}rem;
 }
 
 .dropzoneActive {

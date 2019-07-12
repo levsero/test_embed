@@ -2,19 +2,23 @@
 
 .container {
   background-color: $zd-color-grey-300;
-  border-radius: #{4/$font-size}rem;
+  border-radius: #{4 / $font-size}rem;
   margin-top: $spacing-tny;
 }
 
 .progressBar {
-  height: #{5/$font-size}rem;
+  height: #{5 / $font-size}rem;
   background-color: $zd-color-green-500;
-  border-radius: #{4/$font-size}rem;
+  border-radius: #{4 / $font-size}rem;
 }
 
 @keyframes growWidth {
-  0% { width: 0; }
-  100% { width: 95%; }
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 95%;
+  }
 }
 
 .fakeProgressAnimation {

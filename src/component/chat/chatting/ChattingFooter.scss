@@ -3,30 +3,32 @@
 .iconContainer {
   composes: u-flex from global;
   justify-content: flex-end;
-  padding-top: #{8/$font-size}rem;
+  padding-top: #{8 / $font-size}rem;
 
   > div {
-    margin-right: #{3/$font-size}rem;
+    margin-right: #{3 / $font-size}rem;
   }
 }
 
 .icon {
-  border-radius: #{4/$font-size}rem;
+  border-radius: #{4 / $font-size}rem;
 
   svg {
     box-sizing: content-box;
-    padding: #{5/$font-size}rem;
-    min-width: #{14/$font-size}rem;
-    min-height: #{14/$font-size}rem;
-    width: #{14/$font-size}rem;
-    height: #{14/$font-size}rem;
+    padding: #{5 / $font-size}rem;
+    min-width: #{14 / $font-size}rem;
+    min-height: #{14 / $font-size}rem;
+    width: #{14 / $font-size}rem;
+    height: #{14 / $font-size}rem;
 
     g {
       fill: $zd-color-grey-500 !important;
     }
   }
 
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     cursor: pointer;
     background: $zd-color-grey-200;
 
@@ -47,17 +49,19 @@
 
 .iconMobile {
   border-radius: 50%;
-  margin: 0 #{4/$font-size}rem;
+  margin: 0 #{4 / $font-size}rem;
 
   svg {
-    padding: #{8/$font-size}rem;
-    min-width: #{16/$font-size}rem;
-    min-height: #{16/$font-size}rem;
-    width: #{16/$font-size}rem;
-    height: #{16/$font-size}rem;
+    padding: #{8 / $font-size}rem;
+    min-width: #{16 / $font-size}rem;
+    min-height: #{16 / $font-size}rem;
+    width: #{16 / $font-size}rem;
+    height: #{16 / $font-size}rem;
   }
 
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     background: $zd-color-grey-200;
   }
 }
@@ -75,7 +79,9 @@
     }
   }
 
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     svg > path {
       stroke: $zd-color-grey-700 !important;
     }
@@ -86,7 +92,7 @@
   composes: iconMobile;
 
   svg {
-    padding-right: #{8/$font-size}rem;
+    padding-right: #{8 / $font-size}rem;
   }
 }
 
@@ -99,7 +105,7 @@
   composes: icon iconMobile;
 
   svg {
-    padding: #{8/$font-size}rem #{7/$font-size}rem #{8/$font-size}rem #{9/$font-size}rem;
+    padding: #{8 / $font-size}rem #{7 / $font-size}rem #{8 / $font-size}rem #{9 / $font-size}rem;
 
     path {
       fill: $zd-color-grey-500 !important;
@@ -112,7 +118,9 @@
     fill: $zd-color-grey-300 !important;
   }
 
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     cursor: default;
     background: none;
 

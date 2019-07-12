@@ -4,7 +4,7 @@
   composes: u-inlineBlock from global;
   white-space: pre-wrap;
   word-wrap: break-word !important;
-  max-width: #{245/$font-size}rem;
+  max-width: #{245 / $font-size}rem;
 
   [dir='rtl'] & {
     float: left;
@@ -13,23 +13,26 @@
 
 .messageBubble {
   composes: genericMessageBubble;
-  border-radius: #{16/$font-size}rem;
-  line-height: #{16/$font-size}rem;
-  padding: #{8/$font-size}rem #{12/$font-size}rem;
+  border-radius: #{16 / $font-size}rem;
+  line-height: #{16 / $font-size}rem;
+  padding: #{8 / $font-size}rem #{12 / $font-size}rem;
 }
 
 .messageBubbleWithOptions {
-  line-height: #{16/$font-size}rem;
+  line-height: #{16 / $font-size}rem;
   composes: genericMessageBubble;
-  border-top-left-radius: #{16/$font-size}rem;
-  border-top-right-radius: #{16/$font-size}rem;
-  border: #{1/$font-size}rem #f3f3f3 solid;
-  padding: #{8/$font-size}rem #{12/$font-size}rem;
+  border-top-left-radius: #{16 / $font-size}rem;
+  border-top-right-radius: #{16 / $font-size}rem;
+  border: #{1 / $font-size}rem #f3f3f3 solid;
+  padding: #{8 / $font-size}rem #{12 / $font-size}rem;
   width: 100%;
 }
 
 .link {
-  &:link, &:hover, &:active, &:visited {
+  &:link,
+  &:hover,
+  &:active,
+  &:visited {
     color: inherit;
     text-decoration: underline;
   }
@@ -38,7 +41,7 @@
 .translateLink {
   margin-left: $spacing-tny;
   transition: 100ms ease;
-  border-bottom: #{1/$font-size}rem solid transparent;
+  border-bottom: #{1 / $font-size}rem solid transparent;
   text-decoration: none !important;
 
   [dir='rtl'] & {

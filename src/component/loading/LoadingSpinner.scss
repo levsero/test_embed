@@ -8,13 +8,13 @@
   fill: none;
   stroke: $zd-color-algae;
   stroke-dasharray: 333; // 3 quarters of a full circle
-  stroke-width: #{4/$font-size}rem;
+  stroke-width: #{4 / $font-size}rem;
 }
 
 .spinner {
-  width: #{32/$font-size}rem;
-  height: #{32/$font-size}rem;
-  animation: spin .8s linear infinite;
+  width: #{32 / $font-size}rem;
+  height: #{32 / $font-size}rem;
+  animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {

@@ -1,7 +1,7 @@
 # Deployment
 
 | Resource  | Link                                                      |
-|:----------|:----------------------------------------------------------|
+| :-------- | :-------------------------------------------------------- |
 | Samson    | https://samson.zende.sk/projects/embeddable_framework     |
 | Travis CI | https://travis-ci.com/zendesk/embeddable_framework/builds |
 | Jenkins   | https://jenkins.zende.sk/view/Embeddables/                |
@@ -22,11 +22,10 @@
 
 **Do not deploy** if a change freeze is in place unless an exemption is approved for a critical bug fix. They usually occur during big holidays and near the quaterly investor calls. To check, please look at the [production freeze] schedule.
 
-
 ## Samson Stages
 
 | Stage                      | S3 Bucket                              | Notes                                                                         |
-|:---------------------------|:---------------------------------------|:------------------------------------------------------------------------------|
+| :------------------------- | :------------------------------------- | :---------------------------------------------------------------------------- |
 | Build Staging              | static-staging.zdassets.com/web_widget | Builds and deploys static assets to the staging S3 bucket                     |
 | Release Staging            | static-staging.zdassets.com/web_widget | Updates staging environment to use the tagged version of the static assets    |
 | Deploy Popout (Staging)    | static-staging.zdassets.com/web_widget | Builds and deploys popout html file, Does not need to be released             |
@@ -70,7 +69,7 @@ https://static-staging.zdassets.com/web_widget/latest/liveChat.html
 
 #### Web Widget
 
-When your change has been QA'd on staging you can then deploy the release to the `Release Production` stage. This will update the latest version to point to the released SHA.  This can be found at:
+When your change has been QA'd on staging you can then deploy the release to the `Release Production` stage. This will update the latest version to point to the released SHA. This can be found at:
 
 ```
 https://static.zdassets.com/web_widget/latest/web_widget.js

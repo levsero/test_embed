@@ -4,14 +4,14 @@ This document contains guidelines for the Embeddable Framework's Javascript and 
 
 **Table of Contents**
 
-* [Core Formatting](#headFormatting)
-* [Modules](#headModules)
-  * [External Modules](#headModulesExternal)
-  * [Internal Modules](#headModulesInternal)
-* [React](#headReact)
-  * [Components](#headReactComponents)
-  * [Props](#headReactProps)
-  * [Event Handlers](#headReactEvents)
+- [Core Formatting](#headFormatting)
+- [Modules](#headModules)
+  - [External Modules](#headModulesExternal)
+  - [Internal Modules](#headModulesInternal)
+- [React](#headReact)
+  - [Components](#headReactComponents)
+  - [Props](#headReactProps)
+  - [Event Handlers](#headReactEvents)
 
 ## <a name="headFormatting"></a>Core Formatting
 
@@ -30,13 +30,13 @@ Always use spaces for tabs and indent **2** spaces.
 Always use `const` and `let` over `var`, preferably `const` unless mutability is required.
 
 ```js
-let thisWillChange;         // Good
-const thisWontChange = 10;  // Good
+let thisWillChange // Good
+const thisWontChange = 10 // Good
 
-var dontDoThis;             // Bad!
+var dontDoThis // Bad!
 ```
 
-*Note: `var` means the variable is both mutable and function scoped, while `let` is block scope. This is why we prefer `let`.*
+_Note: `var` means the variable is both mutable and function scoped, while `let` is block scope. This is why we prefer `let`._
 
 ##### Pad object literals with a space
 
@@ -51,8 +51,8 @@ const x = { someVar }
 Always use the ES6 object literal shorthand if possible.
 
 ```js
-const key = 'value';
-const foo = { key };
+const key = 'value'
+const foo = { key }
 
 // foo = { key: 'value' }
 ```
@@ -66,7 +66,7 @@ const obj = {
   key: 'val',
   foo: 'bar',
   bob: 'bear'
-};
+}
 ```
 
 ##### Single quotes only
@@ -74,8 +74,8 @@ const obj = {
 Always use single quotes for strings.
 
 ```js
-const good = 'foo';
-const bad = "foo";
+const good = 'foo'
+const bad = 'foo'
 ```
 
 ##### Use string interpolation
@@ -83,10 +83,10 @@ const bad = "foo";
 Always favour ES6 string interpolation over old style `+` concatenation.
 
 ```js
-const foo = 'bar';
+const foo = 'bar'
 
-const foobar = `foo ${foo}`; // good
-const foobad = 'foo ' + foo; // bad
+const foobar = `foo ${foo}` // good
+const foobad = 'foo ' + foo // bad
 ```
 
 ##### Always append semicolons
@@ -98,8 +98,8 @@ Always append semicolons to the end of statements (this isn't ruby...).
 Always leave a new line after declaring variables and beginning the next part of the logic.
 
 ```js
-let something;
-const foo = 'bar';
+let something
+const foo = 'bar'
 
 if (someFn()) {
   // ..
@@ -124,10 +124,9 @@ Never leave more than **1** new line.
 
 ```js
 // This will throw a eslint error
-const foo = 'hello';
+const foo = 'hello'
 
-
-someFn(foo);
+someFn(foo)
 ```
 
 ##### No padding new lines within a function
@@ -136,11 +135,9 @@ Never leave padding new lines in a function.
 
 ```js
 function foo() {
+  const foo = 'bar'
 
-  const foo = 'bar';
-
-  return foo;
-
+  return foo
 }
 ```
 
@@ -182,13 +179,9 @@ if (foo == bar) {
 Try to multi-line long statements that reduce readability.
 
 ```js
-const toBeOrNotToBe = foo === bar ||
-                      myName === 'anthony' ||
-                      true !== false;
+const toBeOrNotToBe = foo === bar || myName === 'anthony' || true !== false
 
-const someThingos = someVar === thisThingyMagingy
-                  ? grabThoseThingos()
-                  : someString().split(',');
+const someThingos = someVar === thisThingyMagingy ? grabThoseThingos() : someString().split(',')
 ```
 
 ##### Prefer ES6 fat-arrow
@@ -197,14 +190,14 @@ Use ES6 fat-arrow notation for both anonymous functions and function expressions
 
 ```js
 // anonymous function
-mediator.channel.subscribe('someEvent', (params) => {
- // ...
-});
+mediator.channel.subscribe('someEvent', params => {
+  // ...
+})
 
 // function expression
 const foo = () => {
   // ...
-};
+}
 ```
 
 ##### Prefer ES6 fat-arrow shorthand expression
@@ -212,7 +205,7 @@ const foo = () => {
 Use the ES6 shorthand expression if the function simply returns some value.
 
 ```js
-const isThisThingAvailable = () => isThingOnline && isThingVisible;
+const isThisThingAvailable = () => isThingOnline && isThingVisible
 
 // isThisThingAvailable() implicitly returns isThingOnline && isThingVisible
 ```
@@ -253,7 +246,7 @@ npm install package-name --save
 Use ES6 `import` statements over require if possible.
 
 ```js
-import React from 'react';
+import React from 'react'
 ```
 
 <a name="headModulesInternal"></a>**Internal Modules**
@@ -286,14 +279,14 @@ export {
 When importing either from an internal or external module, try to import only what function(s) or module(s) are actually required.
 
 ```js
-import { FooComponent } from 'component/FooComponent';
+import { FooComponent } from 'component/FooComponent'
 ```
 
-*Note: the lodash library is an exception to this rule as we typically use a range of different functions from it.*
+_Note: the lodash library is an exception to this rule as we typically use a range of different functions from it._
 
 ```js
 // always import the whole library
-import _ from 'lodash';
+import _ from 'lodash'
 ```
 
 When importing modules, make sure that they are imported in alphabetical order by the path/names.
@@ -353,12 +346,11 @@ For all optional (non-required) props, a default value must be supplied to the `
 ```js
 NewComponent.defaultProps = {
   bar: false
-};
+}
 ```
 
-*Note: `propTypes` and `defaultProps` are not required in tests.*
-
+_Note: `propTypes` and `defaultProps` are not required in tests._
 
 <a name="headReactEvents"></a>**Event Handlers**
 
-Prepend event handler functions with *handle* (e.g `handleOnClick`, `handleSubmit`, ...).
+Prepend event handler functions with _handle_ (e.g `handleOnClick`, `handleSubmit`, ...).

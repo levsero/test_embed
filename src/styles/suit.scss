@@ -339,8 +339,8 @@ input {
  * 2. Remove excess padding in IE 8/9/10.
  */
 
-input[type="checkbox"],
-input[type="radio"] {
+input[type='checkbox'],
+input[type='radio'] {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   /* 1 */
@@ -354,8 +354,8 @@ input[type="radio"] {
  * decrement button to change from `default` to `text`.
  */
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   height: auto;
 }
 
@@ -365,7 +365,7 @@ input[type="number"]::-webkit-outer-spin-button {
  *    (include `-moz` to future-proof).
  */
 
-input[type="search"] {
+input[type='search'] {
   -webkit-appearance: textfield;
   /* 1 */
   -moz-box-sizing: content-box;
@@ -379,8 +379,8 @@ input[type="search"] {
  * padding (and `textfield` appearance).
  */
 
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
@@ -446,8 +446,6 @@ th {
    Base
    ========================================================================== */
 
-
-
 /**
  * A thin layer on top of normalize.css that provides a starting point more
  * suitable for web applications. Removes the default spacing and border for
@@ -510,7 +508,7 @@ ul {
  * might still respond to pointer events.
  */
 
-[tabindex="-1"]:focus {
+[tabindex='-1']:focus {
   outline: none !important;
 }
 
@@ -526,7 +524,6 @@ ul {
 .u-alignTop {
   vertical-align: top !important;
 }
-
 
 /**
  * 1. Fix for Firefox bug: an image styled `max-width:100%` within an
@@ -560,7 +557,7 @@ ul {
 
 .u-cf:before,
 .u-cf:after {
-  content: " ";
+  content: ' ';
   /* 1 */
   display: table;
   /* 2 */
@@ -597,8 +594,6 @@ ul {
 }
 
 /*! suit-utils-link v0.3.1 | MIT License | github.com/suitcss */
-
-
 
 /**
  * Clean link
@@ -720,8 +715,6 @@ ul {
 /* ==========================================================================
    Arrange cells
    ========================================================================== */
-
-
 
 /**
  * This component lets you lay out a row of cells in various ways. You can
@@ -848,8 +841,6 @@ ul {
    SUIT: Button
    ========================================================================== */
 
-
-
 /**
  * The button classes are best applied to links, buttons, and submit inputs.
  * These components can be used in forms, as calls to action, or as part of the
@@ -928,7 +919,7 @@ ul {
 .Button.is-disabled {
   cursor: default;
   opacity: 0.6;
-  -ms-filter: "alpha(opacity=60)";
+  -ms-filter: 'alpha(opacity=60)';
 }
 
 .u-hiddenButton {

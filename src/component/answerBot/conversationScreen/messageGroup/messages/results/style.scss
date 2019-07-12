@@ -1,12 +1,12 @@
 @import 'src/styles/_vars.scss';
 
 .container {
-  margin-bottom: #{7/$font-size}rem;
+  margin-bottom: #{7 / $font-size}rem;
 }
 
 .result {
   composes: u-flex from global;
-  padding: #{12/$font-size}rem #{14/$font-size}rem;
+  padding: #{12 / $font-size}rem #{14 / $font-size}rem;
   flex-direction: column;
 
   &:hover {
@@ -22,7 +22,7 @@
 
 .heading {
   composes: u-flex u-flexAlignItemsCenter from global;
-  margin-bottom: #{8/$font-size}rem ;
+  margin-bottom: #{8 / $font-size}rem;
   overflow: hidden;
 }
 
@@ -35,9 +35,9 @@
   }
 
   svg {
-    min-width: #{14/$font-size}rem;
-    width: #{14/$font-size}rem;
-    height: #{14/$font-size}rem;
+    min-width: #{14 / $font-size}rem;
+    width: #{14 / $font-size}rem;
+    height: #{14 / $font-size}rem;
 
     path {
       stroke: $zd-color-aluminum !important;
@@ -46,12 +46,12 @@
 }
 
 .optionText {
-  color: #007FAB;
+  color: #007fab;
 }
 
 .snippet {
   composes: u-flex from global;
   color: $zd-color-monsoon;
   overflow: hidden;
-  max-height: #{33/$font-size}rem;
+  max-height: #{33 / $font-size}rem;
 }

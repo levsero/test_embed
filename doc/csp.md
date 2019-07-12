@@ -8,7 +8,11 @@ When following these guidelines, add the `nonce` attribute to the Web Widget sni
 
 ```html
 <!-- Start of Zendesk Widget script -->
-<script nonce="{random}" id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"> </script>
+<script
+  nonce="{random}"
+  id="ze-snippet"
+  src="https://static.zdassets.com/ekr/snippet.js?key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+></script>
 <!-- End of Zendesk Widget script -->
 ```
 
