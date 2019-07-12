@@ -2,8 +2,8 @@
 
 .feedbackMessage {
   composes: u-block u-textBold from global;
-  margin-top: #{60/$font-size}rem;
-  margin-bottom: #{10/$font-size}rem;
+  margin-top: #{60 / $font-size}rem;
+  margin-bottom: #{10 / $font-size}rem;
   color: $zd-color-grey-800;
 }
 
@@ -18,16 +18,16 @@
 
 .rightButton {
   composes: button;
-  margin-left: #{7/$font-size}rem !important;
+  margin-left: #{7 / $font-size}rem !important;
 
   [dir='rtl'] & {
     margin-left: 0 !important;
-    margin-right: #{7/$font-size}rem !important;
+    margin-right: #{7 / $font-size}rem !important;
   }
 }
 
 .textarea {
-  margin-bottom: #{15/$font-size}rem;
+  margin-bottom: #{15 / $font-size}rem;
 }
 
 .ratingGroup {

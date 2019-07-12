@@ -1,11 +1,11 @@
-const path = require('path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 
-const common = require('./webpack.common.js');
-const CWD = process.cwd();
-const previewTemplates = require('../dev/preview_templates');
+const common = require('./webpack.common.js')
+const CWD = process.cwd()
+const previewTemplates = require('../dev/preview_templates')
 
 module.exports = merge(common, {
   mode: 'development',
@@ -42,7 +42,7 @@ module.exports = merge(common, {
     ]),
     new ProgressBarPlugin({
       format: 'Build [:bar] :percent (:elapsed seconds)',
-      clear: false,
+      clear: false
     })
   ]
-});
+})

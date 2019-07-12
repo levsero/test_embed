@@ -1,4 +1,3 @@
-
 ## Settings reference
 
 This page documents all the available settings of the `window.zESettings` object. The `window.zESettings` object is loaded only when the widget boots. If you need to update the settings at run-time, please use the [updateSettings API](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings).
@@ -9,11 +8,11 @@ The following example shows the `offset` property of the `webWidget` parent obje
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    offset: { horizontal: '100px', vertical: '150px' }
+  window.zESettings = {
+    webWidget: {
+      offset: { horizontal: '100px', vertical: '150px' }
+    }
   }
-};
 </script>
 ```
 
@@ -21,58 +20,58 @@ The following example shows the `departments` setting of the `chat` child object
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      departments: {
-        enabled: ['finance', 'hr', 'sales']
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        departments: {
+          enabled: ['finance', 'hr', 'sales']
+        }
       }
     }
   }
-};
 </script>
 ```
 
 Available settings:
 
-* [analytics](#analytics)
-* [attachments](#attachments)
-* [authenticate](#authenticate)
-* [badge](#badge)
-* [chatButton](#chatbutton)
-* [chatLabel](#chatlabel)
-* [chatLabelOffline](#chatlabeloffline)
-* [chatLabelOnline](#chatlabelonline)
-* [cookies](#cookies)
-* [color](#color)
-* [concierge](#concierge)
-* [contactButton](#contactbutton)
-* [contactFormLabel](#contactformlabel)
-* [departments](#departments)
-* [errorReporting](#errorreporting)
-* [fields](#fields)
-* [filter](#filter)
-* [hideWhenOffline](#hidewhenoffline)
-* [label](#label)
-* [labelVisible](#labelvisible)
-* [messageButton](#messagebutton)
-* [navigation](#navigation)
-* [nickname](#nickname)
-* [notifications](#notifications)
-* [offset](#offset)
-* [originalArticleButton](#originalarticlebutton)
-* [position](#position)
-* [prechatForm](#prechatform)
-* [profileCard](#profilecard)
-* [offlineForm](#offlineform)
-* [searchPlaceholder](#searchplaceholder)
-* [selectTicketForm](#selectticketform)
-* [subject](#subject)
-* [suppress](#suppress)
-* [tags](#tags)
-* [ticketForms](#ticketforms)
-* [title](#title)
-* [zIndex](#zindex)
+- [analytics](#analytics)
+- [attachments](#attachments)
+- [authenticate](#authenticate)
+- [badge](#badge)
+- [chatButton](#chatbutton)
+- [chatLabel](#chatlabel)
+- [chatLabelOffline](#chatlabeloffline)
+- [chatLabelOnline](#chatlabelonline)
+- [cookies](#cookies)
+- [color](#color)
+- [concierge](#concierge)
+- [contactButton](#contactbutton)
+- [contactFormLabel](#contactformlabel)
+- [departments](#departments)
+- [errorReporting](#errorreporting)
+- [fields](#fields)
+- [filter](#filter)
+- [hideWhenOffline](#hidewhenoffline)
+- [label](#label)
+- [labelVisible](#labelvisible)
+- [messageButton](#messagebutton)
+- [navigation](#navigation)
+- [nickname](#nickname)
+- [notifications](#notifications)
+- [offset](#offset)
+- [originalArticleButton](#originalarticlebutton)
+- [position](#position)
+- [prechatForm](#prechatform)
+- [profileCard](#profilecard)
+- [offlineForm](#offlineform)
+- [searchPlaceholder](#searchplaceholder)
+- [selectTicketForm](#selectticketform)
+- [subject](#subject)
+- [suppress](#suppress)
+- [tags](#tags)
+- [ticketForms](#ticketforms)
+- [title](#title)
+- [zIndex](#zindex)
 
 ### analytics
 
@@ -82,15 +81,15 @@ Specifies whether to enable or disable Google Analytics tracking.
 
 #### Availability
 
-* [Core widget setting](./core)
+- [Core widget setting](./core)
 
 #### Usage
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  analytics: true
-};
+  window.zESettings = {
+    analytics: true
+  }
 </script>
 ```
 
@@ -100,33 +99,33 @@ Disables attaching files to tickets submitted through the Web Widget.
 
 #### Availability
 
-* [contactForm](./contact_form)
+- [contactForm](./contact_form)
 
 <a name="example-attachments"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactForm: {
-      attachments: false
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        attachments: false
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related Settings
 
-* [fields](#fields)
-* [selectTicketForm](#selectticketform)
-* [subject](#subject)
-* [suppress](#suppress)
-* [tags](#tags)
-* [ticketForms](#ticketforms)
-* [title](#title)
-
+- [fields](#fields)
+- [selectTicketForm](#selectticketform)
+- [subject](#subject)
+- [suppress](#suppress)
+- [tags](#tags)
+- [ticketForms](#ticketforms)
+- [title](#title)
 
 ### authenticate
 
@@ -134,7 +133,7 @@ Gives the user access to restricted Help Center content and authenticated Chat.
 
 #### Availability
 
-* [Core widget setting](./core)
+- [Core widget setting](./core)
 
 #### Usage
 
@@ -146,18 +145,18 @@ To authenticate with Chat, provide a function to zESettings.webWidget.authentica
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    authenticate: {
-      chat: {
-        jwtFn: function(<callback>) {
-          // Fetch your jwt token and then call our supplied callback below.
-          callback('YOUR_JWT_TOKEN');
+  window.zESettings = {
+    webWidget: {
+      authenticate: {
+        chat: {
+          jwtFn: function(<callback>) {
+            // Fetch your jwt token and then call our supplied callback below.
+            callback('YOUR_JWT_TOKEN');
+          }
         }
       }
     }
-  }
-};
+  };
 </script>
 ```
 
@@ -165,23 +164,22 @@ window.zESettings = {
 
 To use this setting, you must configure the Web Widget settings in the admin interface, and then create a JWT token based on a shared secret generated by the configuration. For details, see [Setting up the Web Widget to show restricted content](https://support.zendesk.com/hc/en-us/articles/222874768#topic_jxn_rpz_pw).
 
- 
 To authenticate with Help Center, provide a function to `zESettings.webWidget.authenticate.jwtFn` as seen below. Your function must accept a callback function as an argument, fetch your JWT from your server, and call the supplied callback with the new JWT value.
 
- **Note**: `zESettings.webWidget.authenticate.jwt` is now **deprecated**.
+**Note**: `zESettings.webWidget.authenticate.jwt` is now **deprecated**.
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    authenticate: {
-      jwtFn: function(<callback>) {
-        // Fetch your jwt token and then call our supplied callback below.
-        callback('YOUR_JWT_TOKEN');
+  window.zESettings = {
+    webWidget: {
+      authenticate: {
+        jwtFn: function(<callback>) {
+          // Fetch your jwt token and then call our supplied callback below.
+          callback('YOUR_JWT_TOKEN');
+        }
       }
     }
-  }
-};
+  };
 </script>
 ```
 
@@ -189,9 +187,9 @@ When the user has logged out or you wish to terminate the authenticated session 
 
 ```html
 <script type="text/javascript">
-zE(function() {
-  zE('webWidget', 'logout');
-});
+  zE(function() {
+    zE('webWidget', 'logout')
+  })
 </script>
 ```
 
@@ -199,15 +197,15 @@ zE(function() {
 
 The `badge` setting has the following properties:
 
-| Property | Type   | Description
-| -------- | ------ | -----------
-| label    | object | Sets the label of the badge
-| image    | string | Sets the image of the badge
-| layout   | string | Sets the layout of the badge
+| Property | Type   | Description                  |
+| -------- | ------ | ---------------------------- |
+| label    | object | Sets the label of the badge  |
+| image    | string | Sets the image of the badge  |
+| layout   | string | Sets the layout of the badge |
 
 #### Availability
 
-* [launcher](./core#launcher-settings)
+- [launcher](./core#launcher-settings)
 
 #### badge.label
 
@@ -216,22 +214,23 @@ Sets the label of the badge. Will only show if the label is allowed in the layou
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 <a name="example-badgelabel"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      badge: {
-        label: {
-          '*': 'Chat with us',
-          'fr': 'Discute avec nous'
+  window.zESettings = {
+    webWidget: {
+      launcher: {
+        badge: {
+          label: {
+            '*': 'Chat with us',
+            fr: 'Discute avec nous'
+          }
         }
       }
     }
   }
-};
 </script>
 ```
 
@@ -240,19 +239,20 @@ window.zESettings = {
 Sets the image of the badge. Will only show if the image is allowed in the layout.
 
 <a name="example-badgeimage"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      badge: {
-        image: 'https://example.com/img/avatar.jpg'
+  window.zESettings = {
+    webWidget: {
+      launcher: {
+        badge: {
+          image: 'https://example.com/img/avatar.jpg'
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -261,19 +261,20 @@ window.zESettings = {
 Sets the layout of the badge. Valid values are 'image_right', 'image_left', 'image_only' and 'text_only'. If an invalid value is used it will default to 'image_right'.
 
 <a name="example-badgelayout"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      badge: {
-        layout: 'image_only'
+  window.zESettings = {
+    webWidget: {
+      launcher: {
+        badge: {
+          layout: 'image_only'
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -283,20 +284,20 @@ window.zESettings = {
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      badge: {
-        label: {
-          '*': 'Chat with us',
-          'fr': 'Discute avec nous'
-        },
-        image: 'https://example.com/img/avatar.jpg',
-        layout: 'image_left'
+  window.zESettings = {
+    webWidget: {
+      launcher: {
+        badge: {
+          label: {
+            '*': 'Chat with us',
+            fr: 'Discute avec nous'
+          },
+          image: 'https://example.com/img/avatar.jpg',
+          layout: 'image_left'
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -312,35 +313,35 @@ The string can't exceed 25 characters.
 
 #### Availability
 
-* [helpCenter](./help_center)
+- [helpCenter](./help_center)
 
 <a name="example-chatbutton"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    helpCenter: {
-      chatButton: {
-        'fr': 'Discute avec nous',
-        '*': 'Chat with us'
+  window.zESettings = {
+    webWidget: {
+      helpCenter: {
+        chatButton: {
+          fr: 'Discute avec nous',
+          '*': 'Chat with us'
+        }
       }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [filter](#filter)
-* [messageButton](#messagebutton)
-* [originalArticleButton](#originalarticlebutton)
-* [searchPlaceholder](#searchplaceholder)
-* [suppress](#suppress)
-* [title](#title)
-
+- [filter](#filter)
+- [messageButton](#messagebutton)
+- [originalArticleButton](#originalarticlebutton)
+- [searchPlaceholder](#searchplaceholder)
+- [suppress](#suppress)
+- [title](#title)
 
 ### chatLabel
 
@@ -352,30 +353,30 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [launcher](./core#launcher-settings)
+- [launcher](./core#launcher-settings)
 
 <a name="example-chatlabel"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      chatLabel: {
-        '*': 'Chat now'
+  window.zESettings = {
+    webWidget: {
+      launcher: {
+        chatLabel: {
+          '*': 'Chat now'
+        }
       }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [label](#label)
-* [labelVisible](#labelvisible)
-
+- [label](#label)
+- [labelVisible](#labelvisible)
 
 ### chatLabelOffline
 
@@ -385,31 +386,31 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactOptions](./core#contactoptions)
+- [contactOptions](./core#contactoptions)
 
 <a name="example-chatlabeloffline"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactOptions: {
-      enabled: true,
-      chatLabelOnline: { '*': 'Live Chat' },
-      chatLabelOffline: { '*': 'Chat is unavailable' }
+  window.zESettings = {
+    webWidget: {
+      contactOptions: {
+        enabled: true,
+        chatLabelOnline: { '*': 'Live Chat' },
+        chatLabelOffline: { '*': 'Chat is unavailable' }
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [contactButton](#contactbutton)
-* [chatLabelOnline](#chatlabelonline)
-* [contactFormLabel](#contactformlabel)
-
+- [contactButton](#contactbutton)
+- [chatLabelOnline](#chatlabelonline)
+- [contactFormLabel](#contactformlabel)
 
 ### chatLabelOnline
 
@@ -419,50 +420,50 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactOptions](./core#contactoptions)
+- [contactOptions](./core#contactoptions)
 
 <a name="example-chatlabelonline"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactOptions: {
-      enabled: true,
-      chatLabelOnline: { '*': 'Live Chat' }
+  window.zESettings = {
+    webWidget: {
+      contactOptions: {
+        enabled: true,
+        chatLabelOnline: { '*': 'Live Chat' }
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [contactButton](#contactbutton)
-* [chatLabelOffline](#chatlabeloffline)
-* [contactFormLabel](#contactformlabel)
-
+- [contactButton](#contactbutton)
+- [chatLabelOffline](#chatlabeloffline)
+- [contactFormLabel](#contactformlabel)
 
 ### cookies
 
 Controls permission for the widget to use cookies and browser local storage. Please note that the following features will be impacted while permission is denied:
 
-* Chat will be unavailable
-* Help Center authentication will be unavailable
-* Pathfinder data will not be collected
+- Chat will be unavailable
+- Help Center authentication will be unavailable
+- Pathfinder data will not be collected
 
 #### Availability
 
-* [Core widget setting](./core)
+- [Core widget setting](./core)
 
 By default, cookie permission is enabled. The following example shows you how to disable it when the widget first loads:
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  cookies: false
-};
+  window.zESettings = {
+    cookies: false
+  }
 </script>
 ```
 
@@ -476,13 +477,13 @@ You can toggle cookie permissions dynamically in response to a user action by ca
 </div>
 
 <script>
-var allowCookies = document.getElementById('allow-cookies');
+  var allowCookies = document.getElementById('allow-cookies')
 
-allowCookies.addEventListener('click', function() {
-  zE('webWidget', 'updateSettings', {
-    cookies: true
-  });
-});
+  allowCookies.addEventListener('click', function() {
+    zE('webWidget', 'updateSettings', {
+      cookies: true
+    })
+  })
 </script>
 ```
 
@@ -492,7 +493,7 @@ Sets a color theme for the Web Widget.
 
 #### Availability
 
-* [Core widget setting](./core)
+- [Core widget setting](./core)
 
 #### Usage
 
@@ -502,11 +503,11 @@ The `theme` property may be used as a base, determining the overall color scheme
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    color: { theme: '#78a300' }
+  window.zESettings = {
+    webWidget: {
+      color: { theme: '#78a300' }
+    }
   }
-};
 </script>
 ```
 
@@ -514,19 +515,19 @@ You can define a number of additional options to target specific elements:
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    color: {
-      theme: '#FF69B4',
-      launcher: '#CC3A83', // This will also update the badge
-      launcherText: '#E589B7',
-      button: '#8A0648',
-      resultLists: '#691840',
-      header: '#203D9D',
-      articleLinks: '#FF4500'
+  window.zESettings = {
+    webWidget: {
+      color: {
+        theme: '#FF69B4',
+        launcher: '#CC3A83', // This will also update the badge
+        launcherText: '#E589B7',
+        button: '#8A0648',
+        resultLists: '#691840',
+        header: '#203D9D',
+        articleLinks: '#FF4500'
+      }
     }
   }
-};
 </script>
 ```
 
@@ -546,10 +547,9 @@ Examples of elements customized using `color` properties:
 
 #### Related settings
 
-* [offset](#offset)
-* [position](#position)
-* [zIndex](#zindex)
-
+- [offset](#offset)
+- [position](#position)
+- [zIndex](#zindex)
 
 ### concierge
 
@@ -557,24 +557,25 @@ Set the chat concierge’s avatar, name, and title.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-concierge"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      concierge: {
-        avatarPath: 'https://example.com/img/avatar.jpg',
-        name: 'Jane Doe',
-        title: { '*': 'Live support' }
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        concierge: {
+          avatarPath: 'https://example.com/img/avatar.jpg',
+          name: 'Jane Doe',
+          title: { '*': 'Live support' }
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -588,30 +589,30 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactOptions](./core#contactoptions)
+- [contactOptions](./core#contactoptions)
 
 <a name="example-contactbutton"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactOptions: {
-      enabled: true,
-      contactButton: { '*': 'Get in touch' }
+  window.zESettings = {
+    webWidget: {
+      contactOptions: {
+        enabled: true,
+        contactButton: { '*': 'Get in touch' }
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [chatLabelOnline](#chatlabelonline)
-* [chatLabelOffline](#chatlabeloffline)
-* [contactFormLabel](#contactformlabel)
-
+- [chatLabelOnline](#chatlabelonline)
+- [chatLabelOffline](#chatlabeloffline)
+- [contactFormLabel](#contactformlabel)
 
 ### contactFormLabel
 
@@ -621,45 +622,45 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactOptions](./core#contactoptions)
+- [contactOptions](./core#contactoptions)
 
 <a name="example-contactformlabel"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactOptions: {
-      enabled: true,
-      contactFormLabel: { '*': 'Leave us a message' }
+  window.zESettings = {
+    webWidget: {
+      contactOptions: {
+        enabled: true,
+        contactFormLabel: { '*': 'Leave us a message' }
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [contactButton](#contactbutton)
-* [chatLabelOnline](#chatlabelonline)
-* [chatLabelOffline](#chatlabeloffline)
-
+- [contactButton](#contactbutton)
+- [chatLabelOnline](#chatlabelonline)
+- [chatLabelOffline](#chatlabeloffline)
 
 ### departments
 
 The `departments` setting has the following properties:
 
-| Property | Type   | Description
-| -------- | ------ | -----------
-| enabled   | array  | Displays the specified departments in the pre-chat form
-| select   | string | Sets the visitor’s default department for the current session
+| Property | Type   | Description                                                   |
+| -------- | ------ | ------------------------------------------------------------- |
+| enabled  | array  | Displays the specified departments in the pre-chat form       |
+| select   | string | Sets the visitor’s default department for the current session |
 
 The properties can be used singly or in any combination.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 #### departments.enabled
 
@@ -668,21 +669,22 @@ Displays only the specified departments in the pre-chat form. All other departme
 Department names are matched in a case-insensitive manner.
 
 If the department names or IDs passed in are invalid, the department dropdown menu will not show those options. If an empty array is passed, the dropdown won't appear.
+
 #### Example
 
 <a name="example-departments-enabled"></a>
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      departments: {
-        enabled: ['finance', 'hr', 'sales']
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        departments: {
+          enabled: ['finance', 'hr', 'sales']
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -704,15 +706,15 @@ If the department names or ID is invalid or null the department will be cleared.
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      departments: {
-        select: 'hr'
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        departments: {
+          select: 'hr'
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -722,33 +724,34 @@ window.zESettings = {
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      departments: {
-        enabled: ['finance', 'hr', 'sales'],
-        select: 'hr'
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        departments: {
+          enabled: ['finance', 'hr', 'sales'],
+          select: 'hr'
+        }
       }
     }
   }
-};
 </script>
 ```
+
 ### errorReporting
 
 The Web Widget sends any errors that occur to a reporting service used by Zendesk to help diagnose and address issues. This error reporting can be disabled setting `errorReporting` to `false`.
 
 #### Availability
 
-* [Core widget setting](./core)
+- [Core widget setting](./core)
 
 #### Usage
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  errorReporting: true
-};
+  window.zESettings = {
+    errorReporting: true
+  }
 </script>
 ```
 
@@ -760,56 +763,52 @@ Pre-populates the value of one or more text fields in the contact form.
 
 #### Availability
 
-* [contactForm](./contact_form)
+- [contactForm](./contact_form)
 
 #### Usage
 
 For a default system field, specify the field name as the field `id`. Example:
 
 ```js
-fields: [
-  { id: 'description', prefill: { '*': 'My text' } }
-]
+fields: [{ id: 'description', prefill: { '*': 'My text' } }]
 ```
 
 For a custom field, specify the custom field's id as the `id`. To get the id, see [List Ticket Fields](https://developer.zendesk.com/rest_api/docs/core/ticket_fields#list-ticket-fields) in the Zendesk API docs. Example:
 
 ```js
-fields: [
-  { id: 2142225, prefill: { '*': 'My text' } }
-]
+fields: [{ id: 2142225, prefill: { '*': 'My text' } }]
 ```
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 <a name="example-fields"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-zESettings = {
-  webWidget: {
-    contactForm: {
-      fields: [
-        { id: 'description', prefill: { '*': 'My field text' } },
-        { id: 2142225, prefill: { '*': 'My custom field text' } }
-      ]
+  zESettings = {
+    webWidget: {
+      contactForm: {
+        fields: [
+          { id: 'description', prefill: { '*': 'My field text' } },
+          { id: 2142225, prefill: { '*': 'My custom field text' } }
+        ]
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [attachments](#attachments)
-* [selectTicketForm](#selectticketform)
-* [subject](#subject)
-* [suppress](#suppress)
-* [tags](#tags)
-* [ticketForms](#ticketforms)
-* [title](#title)
-
+- [attachments](#attachments)
+- [selectTicketForm](#selectticketform)
+- [subject](#subject)
+- [suppress](#suppress)
+- [tags](#tags)
+- [ticketForms](#ticketforms)
+- [title](#title)
 
 ### filter
 
@@ -817,22 +816,23 @@ Limits Help Center search results to a specified category, section, or label. Th
 
 #### Availability
 
-* [helpCenter](./help_center)
+- [helpCenter](./help_center)
 
 <a name="example-filter"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    helpCenter: {
-      filter: {
-        section: '200154474'
+  window.zESettings = {
+    webWidget: {
+      helpCenter: {
+        filter: {
+          section: '200154474'
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -840,12 +840,12 @@ For more examples, see [Limiting search results](https://support.zendesk.com/hc/
 
 #### Related settings
 
-* [chatButton](#chatbutton)
-* [messageButton](#messagebutton)
-* [originalArticleButton](#originalarticlebutton)
-* [searchPlaceholder](#searchplaceholder)
-* [suppress](#suppress)
-* [title](#title)
+- [chatButton](#chatbutton)
+- [messageButton](#messagebutton)
+- [originalArticleButton](#originalarticlebutton)
+- [searchPlaceholder](#searchplaceholder)
+- [suppress](#suppress)
+- [title](#title)
 
 ### hideWhenOffline
 
@@ -853,20 +853,21 @@ Hides chat offline form when the account status is offline.
 
 #### Availability
 
-* [chat](./chat)
+- [chat](./chat)
 
 <a name="example-hidewhenoffline"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      hideWhenOffline: true
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        hideWhenOffline: true
+      }
     }
   }
-};
 </script>
 ```
 
@@ -880,30 +881,31 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [launcher](./core#launcher-settings)
+- [launcher](./core#launcher-settings)
 
 <a name="example-label"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      label: {
-        'en-US': 'Need help?',
-        'fr': 'Besoin d\'aide?'
+  window.zESettings = {
+    webWidget: {
+      launcher: {
+        label: {
+          'en-US': 'Need help?',
+          fr: "Besoin d'aide?"
+        }
       }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [chatLabel](#chatlabel)
-* [labelVisible](#labelvisible)
+- [chatLabel](#chatlabel)
+- [labelVisible](#labelvisible)
 
 ### labelVisible
 
@@ -913,22 +915,22 @@ To avoid cluttering the display, the launcher label is not shown on mobile devic
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      mobile: {
-        labelVisible: true
+  window.zESettings = {
+    webWidget: {
+      launcher: {
+        mobile: {
+          labelVisible: true
+        }
       }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [label](#label)
-* [chatLabel](#chatlabel)
+- [label](#label)
+- [chatLabel](#chatlabel)
 
 ### messageButton
 
@@ -942,60 +944,62 @@ The string can't exceed 25 characters.
 
 #### Availability
 
-* [helpCenter](./help_center)
+- [helpCenter](./help_center)
 
 <a name="example-messagebutton"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    helpCenter: {
-      messageButton: {
-        '*': 'Contact us now.'
+  window.zESettings = {
+    webWidget: {
+      helpCenter: {
+        messageButton: {
+          '*': 'Contact us now.'
+        }
       }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [chatButton](#chatbutton)
-* [filter](#filter)
-* [originalArticleButton](#originalarticlebutton)
-* [searchPlaceholder](#searchplaceholder)
-* [suppress](#suppress)
-* [title](#title)
+- [chatButton](#chatbutton)
+- [filter](#filter)
+- [originalArticleButton](#originalarticlebutton)
+- [searchPlaceholder](#searchplaceholder)
+- [suppress](#suppress)
+- [title](#title)
 
 ### navigation
 
 The `navigation` setting has the following properties:
 
-| Property     | Type   | Description
-| ------------ | ------ | -----------
-| popoutButton | bool   | Allows the popout button to be removed from the navigation bar in chat.
+| Property     | Type | Description                                                             |
+| ------------ | ---- | ----------------------------------------------------------------------- |
+| popoutButton | bool | Allows the popout button to be removed from the navigation bar in chat. |
 
 #### Availability
 
-* [chat](./chat)
+- [chat](./chat)
 
 <a name="example-navigation"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    navigation: {
-      popoutButton: {
-        enabled: false
+  window.zESettings = {
+    webWidget: {
+      navigation: {
+        popoutButton: {
+          enabled: false
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -1009,20 +1013,21 @@ The nickname is publicly visible to anyone who looks at the page source code, so
 
 #### Availability
 
-* [talk](./talk)
+- [talk](./talk)
 
 <a name="example-nickname"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    talk: {
-      nickname: 'Sales Support'
+  window.zESettings = {
+    webWidget: {
+      talk: {
+        nickname: 'Sales Support'
+      }
     }
   }
-};
 </script>
 ```
 
@@ -1032,24 +1037,25 @@ Determines if notifications should show on mobile.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-notifications"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      notifications: {
-        mobile: {
-          disable: true
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        notifications: {
+          mobile: {
+            disable: true
+          }
         }
       }
     }
   }
-};
 </script>
 ```
 
@@ -1059,7 +1065,7 @@ Moves the Web Widget vertically and horizontally.
 
 #### Availability
 
-* [Core widget setting](./core)
+- [Core widget setting](./core)
 
 #### Usage
 
@@ -1067,14 +1073,14 @@ The `offset` property consists of an object with `horizontal` and `vertical` pro
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    offset: {
-      horizontal: '100px',
-      vertical: '150px'
+  window.zESettings = {
+    webWidget: {
+      offset: {
+        horizontal: '100px',
+        vertical: '150px'
+      }
     }
   }
-};
 </script>
 ```
 
@@ -1082,28 +1088,27 @@ To specify an offset for mobile devices, add a `mobile` property to the `offset`
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    offset: {
-      horizontal: '100px',
-      vertical: '150px',
-      mobile: {
-        horizontal: '230px',
-        vertical: '100px'
+  window.zESettings = {
+    webWidget: {
+      offset: {
+        horizontal: '100px',
+        vertical: '150px',
+        mobile: {
+          horizontal: '230px',
+          vertical: '100px'
+        }
       }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [authenticate](#authenticate)
-* [color](#color)
-* [position](#position)
-* [zIndex](#zindex)
-
+- [authenticate](#authenticate)
+- [color](#color)
+- [position](#position)
+- [zIndex](#zindex)
 
 ### originalArticleButton
 
@@ -1113,59 +1118,61 @@ Hides the "View Original Article" button.
 
 #### Availability
 
-* [helpCenter](./help_center)
+- [helpCenter](./help_center)
 
 <a name="example-originalarticlebutton"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    helpCenter: {
-      originalArticleButton: false
+  window.zESettings = {
+    webWidget: {
+      helpCenter: {
+        originalArticleButton: false
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [chatButton](#chatbutton)
-* [filter](#filter)
-* [messageButton](#messagebutton)
-* [searchPlaceholder](#searchplaceholder)
-* [suppress](#suppress)
-* [title](#title)
+- [chatButton](#chatbutton)
+- [filter](#filter)
+- [messageButton](#messagebutton)
+- [searchPlaceholder](#searchplaceholder)
+- [suppress](#suppress)
+- [title](#title)
 
 ### offlineForm
 
 Set the offline form greeting message.
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-offlineForm"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      offlineForm: {
-        greeting: {
-          '*': "We aren't online right now, please leave a message",
-          'fr': "Nous ne sommes pas en ligne pour le moment, s'il vous plaît laissez un message"
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        offlineForm: {
+          greeting: {
+            '*': "We aren't online right now, please leave a message",
+            fr: "Nous ne sommes pas en ligne pour le moment, s'il vous plaît laissez un message"
+          }
         }
       }
     }
   }
-};
 </script>
 ```
 
@@ -1173,33 +1180,34 @@ window.zESettings = {
 
 Set the prechat form greeting message or the department label.
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-prechatForm"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      prechatForm: {
-        greeting: {
-          '*': 'Please fill out the form below to chat with us',
-          'fr': "S'il vous plaît remplir le formulaire ci-dessous pour discuter avec nous"
-        },
-        departmentLabel: {
-          '*': 'Select a department',
-          'fr': "S'il vous plaît remplir le formulaire ci-dessous pour discuter avec nous"
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        prechatForm: {
+          greeting: {
+            '*': 'Please fill out the form below to chat with us',
+            fr: "S'il vous plaît remplir le formulaire ci-dessous pour discuter avec nous"
+          },
+          departmentLabel: {
+            '*': 'Select a department',
+            fr: "S'il vous plaît remplir le formulaire ci-dessous pour discuter avec nous"
+          }
         }
       }
     }
   }
-};
 </script>
 ```
 
@@ -1207,40 +1215,42 @@ window.zESettings = {
 
 sets values related to the Agent Profile Card during a chat session.
 
-
 #### Availabiltiy
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
-* Currently only available to be updated during a chat session via the [`updateSettings API`](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings).
+- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- Currently only available to be updated during a chat session via the [`updateSettings API`](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings).
 
 `profileCard` contains three booleans that can be modified:
 
 ##### avatar
+
 Dictates whether to show the agent's avatar.
 
 ##### title
+
 Dictates whether to show the agent's title.
 
 ##### rating
+
 Dictates whether to show the agent's rating.
 
-
 <a name="example-prechatForm"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      profileCard: {
-        avatar: true,
-        rating: false,
-        title: true
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        profileCard: {
+          avatar: true,
+          rating: false,
+          title: true
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -1250,7 +1260,7 @@ Positions the Web Widget on the left side of the page instead of the right side,
 
 #### Availability
 
-* [Core widget setting](./core)
+- [Core widget setting](./core)
 
 #### Usage
 
@@ -1258,21 +1268,20 @@ The `position` property consists of an object with `horizontal` and `vertical` p
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    position: { horizontal: 'left', vertical: 'top' }
+  window.zESettings = {
+    webWidget: {
+      position: { horizontal: 'left', vertical: 'top' }
+    }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [authenticate](#authenticate)
-* [color](#color)
-* [offset](#offset)
-* [zIndex](#zindex)
-
+- [authenticate](#authenticate)
+- [color](#color)
+- [offset](#offset)
+- [zIndex](#zindex)
 
 ### searchPlaceholder
 
@@ -1282,35 +1291,35 @@ Replaces the placeholder text displayed in the Help Center search box that says 
 
 #### Availability
 
-* [helpCenter](./help_center)
+- [helpCenter](./help_center)
 
 <a name="example-searchplaceholder"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    helpCenter: {
-      searchPlaceholder: {
-        '*': 'Search our Help Center',
-        'fr': "Cherchez dans le centre d'aide"
+  window.zESettings = {
+    webWidget: {
+      helpCenter: {
+        searchPlaceholder: {
+          '*': 'Search our Help Center',
+          fr: "Cherchez dans le centre d'aide"
+        }
       }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [chatButton](#chatbutton)
-* [filter](#filter)
-* [messageButton](#messagebutton)
-* [originalArticleButton](#originalarticlebutton)
-* [suppress](#suppress)
-* [title](#title)
-
+- [chatButton](#chatbutton)
+- [filter](#filter)
+- [messageButton](#messagebutton)
+- [originalArticleButton](#originalarticlebutton)
+- [suppress](#suppress)
+- [title](#title)
 
 ### selectTicketForm
 
@@ -1322,35 +1331,35 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactForm](./contact_form)
+- [contactForm](./contact_form)
 
 <a name="example-selectticketform"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactForm: {
-      selectTicketForm: {
-        '*': 'Please choose:'
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        selectTicketForm: {
+          '*': 'Please choose:'
+        }
       }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [attachments](#attachments)
-* [fields](#fields)
-* [subject](#subject)
-* [suppress](#suppress)
-* [tags](#tags)
-* [ticketForms](#ticketforms)
-* [title](#title)
-
+- [attachments](#attachments)
+- [fields](#fields)
+- [subject](#subject)
+- [suppress](#suppress)
+- [tags](#tags)
+- [ticketForms](#ticketforms)
+- [title](#title)
 
 ### subject
 
@@ -1358,33 +1367,33 @@ Inserts a Subject field in the contact form. The form doesn't have one by defaul
 
 #### Availability
 
-* [contactForm](./contact_form)
+- [contactForm](./contact_form)
 
 <a name="example-subject"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactForm: {
-      subject: true
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        subject: true
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [attachments](#attachments)
-* [fields](#fields)
-* [selectTicketForm](#selectticketform)
-* [suppress](#suppress)
-* [tags](#tags)
-* [ticketForms](#ticketforms)
-* [title](#title)
-
+- [attachments](#attachments)
+- [fields](#fields)
+- [selectTicketForm](#selectticketform)
+- [suppress](#suppress)
+- [tags](#tags)
+- [ticketForms](#ticketforms)
+- [title](#title)
 
 ### suppress
 
@@ -1392,36 +1401,37 @@ Suppresses the Help Center, Chat, Talk, Contact Form, or Answer Bot in the Web W
 
 #### Availability
 
-* [chat](./chat)
-* [contactForm](./contact_form)
-* [helpCenter](./help_center)
-* [talk](./talk)
-* [answerBot](./answerbot)
+- [chat](./chat)
+- [contactForm](./contact_form)
+- [helpCenter](./help_center)
+- [talk](./talk)
+- [answerBot](./answerbot)
 
 <a name="example-suppress"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      suppress: true
-    },
-    contactForm: {
-      suppress: true
-    },
-    helpCenter: {
-      suppress: true
-    },
-    talk: {
-      suppress: true
-    },
-    answerBot: {
-      suppress: true
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        suppress: true
+      },
+      contactForm: {
+        suppress: true
+      },
+      helpCenter: {
+        suppress: true
+      },
+      talk: {
+        suppress: true
+      },
+      answerBot: {
+        suppress: true
+      }
     }
   }
-};
 </script>
 ```
 
@@ -1433,27 +1443,27 @@ Note: The tags are visible in the JavaScript console in the user's browser.
 
 #### Availability
 
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
 
 <a name="example-tags"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      tags: ['loggedin']
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        tags: ['loggedin']
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [title](#title)
-
+- [title](#title)
 
 ### ticketForms
 
@@ -1461,7 +1471,7 @@ Specifies one or more [ticket forms](https://support.zendesk.com/hc/en-us/articl
 
 #### Availability
 
-* [contactForm](./contact_form)
+- [contactForm](./contact_form)
 
 #### Usage
 
@@ -1470,16 +1480,12 @@ If you list more than one ticket form, a dropdown menu appears in the contact fo
 Ticket forms are listed by id. Example:
 
 ```js
-ticketForms: [
-  {id: 426353},
-  {id: 429981}
-]
+ticketForms: [{ id: 426353 }, { id: 429981 }]
 ```
 
 To get a ticket form id, see [List Ticket Forms](https://developer.zendesk.com/rest_api/docs/core/ticket_forms#list-ticket-forms) in the Zendesk API docs.
 
 You can include the [fields](#fields) object to pre-populate one or more fields in one or more ticket forms. Example:
-
 
 ```js
 ticketForms: [
@@ -1499,32 +1505,30 @@ ticketForms: [
 ```
 
 <a name="example-ticketforms"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactForm: {
-      ticketForms: [
-        { id: 426353 }
-      ]
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        ticketForms: [{ id: 426353 }]
+      }
     }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [attachments](#attachments)
-* [fields](#fields)
-* [selectTicketForm](#selectticketform)
-* [subject](#subject)
-* [suppress](#suppress)
-* [tags](#tags)
-* [title](#title)
-
+- [attachments](#attachments)
+- [fields](#fields)
+- [selectTicketForm](#selectticketform)
+- [subject](#subject)
+- [suppress](#suppress)
+- [tags](#tags)
+- [title](#title)
 
 ### title
 
@@ -1536,62 +1540,61 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-* [contactForm](./contact_form)
-* [helpCenter](./help_center)
-* [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
-* [talk](./talk)
-* [answerBot](./answerbot)
+- [contactForm](./contact_form)
+- [helpCenter](./help_center)
+- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [talk](./talk)
+- [answerBot](./answerbot)
 
 <a name="example-title"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    helpCenter: {
-      title: {
-        'en-US': 'Search for help',
-        'fr': 'Recherche d\'aide'
-      }
-    },
-    contactForm: {
-      title: {
-        '*': 'Feedback'
-      }
-    },
-    chat: {
-      title: {
-        '*': 'Chat with us!',
-        'pl': 'Czat na żywo'
-      }
-    },
-    talk: {
-      title: {
-        '*': 'Talk with us!'
-      }
-    },
-    answerBot: {
-      title: {
-        '*': 'Chat with us!'
+  window.zESettings = {
+    webWidget: {
+      helpCenter: {
+        title: {
+          'en-US': 'Search for help',
+          fr: "Recherche d'aide"
+        }
+      },
+      contactForm: {
+        title: {
+          '*': 'Feedback'
+        }
+      },
+      chat: {
+        title: {
+          '*': 'Chat with us!',
+          pl: 'Czat na żywo'
+        }
+      },
+      talk: {
+        title: {
+          '*': 'Talk with us!'
+        }
+      },
+      answerBot: {
+        title: {
+          '*': 'Chat with us!'
+        }
       }
     }
   }
-};
 </script>
 ```
 
-
 #### Related settings
 
-* [chatButton](#chatbutton)
-* [filter](#filter)
-* [messageButton](#messagebutton)
-* [originalArticleButton](#originalarticlebutton)
-* [searchPlaceholder](#searchplaceholder)
-* [suppress](#suppress)
-* [title](#title)
-
+- [chatButton](#chatbutton)
+- [filter](#filter)
+- [messageButton](#messagebutton)
+- [originalArticleButton](#originalarticlebutton)
+- [searchPlaceholder](#searchplaceholder)
+- [suppress](#suppress)
+- [title](#title)
 
 ### zIndex
 
@@ -1599,7 +1602,7 @@ Specifies the stack order of the Widget on the page.
 
 #### Availability
 
-* [Core widget setting](./core)
+- [Core widget setting](./core)
 
 #### Usage
 
@@ -1607,20 +1610,19 @@ When two elements overlap, the z-index values of the elements determine which on
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    zIndex: 999999
+  window.zESettings = {
+    webWidget: {
+      zIndex: 999999
+    }
   }
-};
 </script>
 ```
 
 #### Related settings
 
-* [color](#color)
-* [offset](#offset)
-* [position](#position)
-
+- [color](#color)
+- [offset](#offset)
+- [position](#position)
 
 ### contactOnlyAfterQuery
 
@@ -1628,18 +1630,19 @@ Specifies whether to show the contact option on initial load or only after a que
 
 #### Availability
 
-* [answerBot](./answerbot)
+- [answerBot](./answerbot)
 
 #### Example
+
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    answerBot: {
-      contactOnlyAfterQuery: true
+  window.zESettings = {
+    webWidget: {
+      answerBot: {
+        contactOnlyAfterQuery: true
+      }
     }
   }
-};
 </script>
 ```
 
@@ -1649,20 +1652,21 @@ Attaches contextual data when submitting a user query.
 
 #### Availability
 
-* [answerBot](./answerbot)
+- [answerBot](./answerbot)
 
 #### Example
+
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    answerBot: {
-      search: {
-        labels: ['I would like some help']
+  window.zESettings = {
+    webWidget: {
+      answerBot: {
+        search: {
+          labels: ['I would like some help']
+        }
       }
     }
   }
-};
 </script>
 ```
 
@@ -1672,22 +1676,23 @@ Customizes the avatar bot name and profile picture.
 
 #### Availability
 
-* [answerBot](./answerbot)
+- [answerBot](./answerbot)
 
 #### Example
+
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    answerBot: {
-      avatar: {
-        url: 'https://zendesk.com/bot.png',
-        name: {
-          '*': 'Zendesk Bot'
+  window.zESettings = {
+    webWidget: {
+      answerBot: {
+        avatar: {
+          url: 'https://zendesk.com/bot.png',
+          name: {
+            '*': 'Zendesk Bot'
+          }
         }
       }
     }
   }
-};
 </script>
 ```

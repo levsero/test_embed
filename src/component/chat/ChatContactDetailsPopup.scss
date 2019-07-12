@@ -10,11 +10,11 @@
 
 .resultContainer {
   composes: u-paddingAL from global;
-  width: #{275/$font-size}rem;
+  width: #{275 / $font-size}rem;
 }
 
 .loadingContainer {
-  padding: #{18/$font-size}rem;
+  padding: #{18 / $font-size}rem;
 }
 
 .resultScreen {
@@ -24,7 +24,7 @@
 
 .resultIcon {
   float: left;
-  margin-right: #{15/$font-size}rem;
+  margin-right: #{15 / $font-size}rem;
 }
 
 .resultMessage {
@@ -41,9 +41,9 @@
 
 .title {
   color: $zd-color-grey-800;
-  margin-bottom: #{16/$font-size}rem;
+  margin-bottom: #{16 / $font-size}rem;
   text-align: center;
-  font-size: #{14/$font-size}rem;
+  font-size: #{14 / $font-size}rem;
 }
 
 .form {
@@ -51,7 +51,7 @@
 }
 
 .field {
-  margin-bottom: #{10/$font-size}rem;
+  margin-bottom: #{10 / $font-size}rem;
 }
 
 .loadingSpinner {
@@ -66,13 +66,13 @@
 .errorIcon {
   composes: u-alignTop u-inlineBlock u-marginTN from global;
   composes: ErrorIcon from '../../styles/components/Error.scss';
-  margin-right: #{12/$font-size}rem;
+  margin-right: #{12 / $font-size}rem;
 }
 
 .errorMsg {
   composes: u-inlineBlock from global;
   color: $error-color;
-  width: calc(100% - #{27/$font-size}rem);
+  width: calc(100% - #{27 / $font-size}rem);
 }
 
 .nameContainer {

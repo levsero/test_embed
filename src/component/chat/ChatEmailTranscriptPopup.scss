@@ -10,11 +10,11 @@
 
 .resultContainer {
   composes: u-paddingAL from global;
-  width: #{275/$font-size}rem;
+  width: #{275 / $font-size}rem;
 }
 
 .loadingContainer {
-  padding: #{18/$font-size}rem;
+  padding: #{18 / $font-size}rem;
 }
 
 .resultScreen {
@@ -24,7 +24,7 @@
 
 .resultIcon {
   float: left;
-  margin-right: #{15/$font-size}rem;
+  margin-right: #{15 / $font-size}rem;
 }
 
 .resultMessage {
@@ -41,7 +41,7 @@
 
 .title {
   color: $zd-color-grey-800;
-  margin-bottom: #{16/$font-size}rem;
+  margin-bottom: #{16 / $font-size}rem;
   text-align: center;
   font-size: $font-size-lrg;
 }

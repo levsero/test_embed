@@ -2,24 +2,24 @@
 
 .container {
   background-color: transparent;
-  background-position: #{14/$font-size}rem #{3/$font-size}rem;
+  background-position: #{14 / $font-size}rem #{3 / $font-size}rem;
   border: none;
   color: $error-color;
-  font-size: #{14/$font-size}rem;
-  padding-bottom: #{12/$font-size}rem;
+  font-size: #{14 / $font-size}rem;
+  padding-bottom: #{12 / $font-size}rem;
   padding-top: 0;
-  background-size: #{14/$font-size}rem;
+  background-size: #{14 / $font-size}rem;
 
   [dir='rtl'] & {
     padding-left: 0;
-    padding-right: #{35/$font-size}rem;
+    padding-right: #{35 / $font-size}rem;
 
-    background-position-x: #{67/$font-size}rem;
-    background-position-y: #{0.28/$font-size}rem;
+    background-position-x: #{67 / $font-size}rem;
+    background-position-y: #{0.28 / $font-size}rem;
   }
 
   [dir='ltr'] & {
-    padding-left: #{35/$font-size}rem;
+    padding-left: #{35 / $font-size}rem;
     padding-right: 0;
   }
 }
@@ -29,7 +29,9 @@
   cursor: pointer;
   text-decoration: underline;
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     color: $error-color;
   }
 }
@@ -37,14 +39,14 @@
 .icon {
   display: inline-block;
   position: relative;
-  height: #{14/$font-size}rem;
-  width: #{14/$font-size}rem;
+  height: #{14 / $font-size}rem;
+  width: #{14 / $font-size}rem;
   vertical-align: top;
-  top: #{2/$font-size}rem;
+  top: #{2 / $font-size}rem;
 
   svg {
-    height: #{14/$font-size}rem;
-    width: #{14/$font-size}rem;
+    height: #{14 / $font-size}rem;
+    width: #{14 / $font-size}rem;
   }
 
   [dir='rtl'] & {

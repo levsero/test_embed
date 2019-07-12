@@ -10,11 +10,11 @@
 .avatar {
   position: absolute;
   box-sizing: border-box;
-  box-shadow: 0 0 0 #{2/$font-size}rem white;
+  box-shadow: 0 0 0 #{2 / $font-size}rem white;
   max-width: none;
 
   svg {
-    padding-left: #{0.5/$font-size}rem;
+    padding-left: #{0.5 / $font-size}rem;
   }
 }
 
@@ -29,25 +29,25 @@
   top: 0;
 
   [dir='rtl'] & {
-    left: -#{32/$font-size}rem;
+    left: -#{32 / $font-size}rem;
   }
 }
 
 .avatar:nth-child(2) {
-  left: #{20/$font-size}rem;
+  left: #{20 / $font-size}rem;
   top: 0;
 
   [dir='rtl'] & {
-    left: -#{52/$font-size}rem;
+    left: -#{52 / $font-size}rem;
   }
 }
 
 .avatar:nth-child(3) {
-  left: #{40/$font-size}rem;
+  left: #{40 / $font-size}rem;
   top: 0;
 
   [dir='rtl'] & {
-    left: -#{72/$font-size}rem;
+    left: -#{72 / $font-size}rem;
   }
 }
 
@@ -55,9 +55,9 @@
   composes: u-flex u-flexJustifyCenter u-flexAlignItemsCenter from global;
   border-radius: 50%;
   background-color: $zd-color-white;
-  height: #{34/$font-size}rem;
-  width: #{34/$font-size}rem;
-  border: $zd-color-grey-400 #{2/$font-size}rem solid;
+  height: #{34 / $font-size}rem;
+  width: #{34 / $font-size}rem;
+  border: $zd-color-grey-400 #{2 / $font-size}rem solid;
 }
 
 .avatarOverflowText {
@@ -68,25 +68,25 @@
   composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global;
   background-color: $base-color;
   box-sizing: border-box;
-  box-shadow: 0 #{4/$font-size}rem #{8/$font-size}rem 0 rgba($zd-color-black, 0.1);
-  height: #{58/$font-size}rem;
-  padding: #{5/$font-size}rem #{17/$font-size}rem;
-  top: #{49/$font-size}rem;
+  box-shadow: 0 #{4 / $font-size}rem #{8 / $font-size}rem 0 rgba($zd-color-black, 0.1);
+  height: #{58 / $font-size}rem;
+  padding: #{5 / $font-size}rem #{17 / $font-size}rem;
+  top: #{49 / $font-size}rem;
   z-index: $chat-header-zindex;
 }
 
 .textContainer {
   color: $zd-color-grey-800;
-  line-height: #{15/$font-size}rem;
-  padding-top: #{1/$font-size}rem;
+  line-height: #{15 / $font-size}rem;
+  padding-top: #{1 / $font-size}rem;
 }
 
 .title {
   composes: u-textBold from global;
 
-  font-size: #{14/$font-size}rem;
+  font-size: #{14 / $font-size}rem;
   width: 100%;
-  max-height: #{15/$font-size}rem;
+  max-height: #{15 / $font-size}rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -98,7 +98,7 @@
 
 .subTextContainer {
   width: 100%;
-  max-height: #{30/$font-size}rem;
+  max-height: #{30 / $font-size}rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -120,11 +120,11 @@
 
 .ratingGroup {
   display: inline-flex;
-  margin-left: #{15/$font-size}rem !important;
+  margin-left: #{15 / $font-size}rem !important;
 
   [dir='rtl'] & {
     margin-left: 0 !important;
-    margin-right: #{15/$font-size}rem !important;
+    margin-right: #{15 / $font-size}rem !important;
   }
 }
 

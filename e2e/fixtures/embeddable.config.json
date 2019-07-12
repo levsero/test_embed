@@ -1,23 +1,23 @@
 {
-    "locale": "en-GB",
-    "brand": "Z3nab Browser Tests (ayong/1552883024)",
-    "brandCount": 1,
-    "newChat": true,
-    "color": "#b74a1e",
-    "captchaRequired": false,
-    "embeds": {
-        "helpCenterForm": {
-            "embed": "helpCenter",
-            "props": {
-                "color": "#1F73B7",
-                "contextualHelpEnabled": false
-            }
-        },
-        "launcher": {
-            "embed": "launcher",
-            "props": {
-                "color": "#1F73B7"
-            }
-        }
+  "locale": "en-GB",
+  "brand": "Z3nab Browser Tests (ayong/1552883024)",
+  "brandCount": 1,
+  "newChat": true,
+  "color": "#b74a1e",
+  "captchaRequired": false,
+  "embeds": {
+    "helpCenterForm": {
+      "embed": "helpCenter",
+      "props": {
+        "color": "#1F73B7",
+        "contextualHelpEnabled": false
+      }
+    },
+    "launcher": {
+      "embed": "launcher",
+      "props": {
+        "color": "#1F73B7"
+      }
     }
+  }
 }

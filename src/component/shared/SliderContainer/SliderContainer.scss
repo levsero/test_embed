@@ -13,7 +13,9 @@ $focusRingWidth: 3px;
     }
   }
 
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     background-color: white !important;
 
     svg {
@@ -40,7 +42,7 @@ $focusRingWidth: 3px;
 
 :global(.variableWidth) {
   .sliderButton--right {
-    box-shadow: 0 0 #{12/$font-size}rem #{8/$font-size}rem $zd-color-white;
+    box-shadow: 0 0 #{12 / $font-size}rem #{8 / $font-size}rem $zd-color-white;
     border-radius: 0;
   }
 

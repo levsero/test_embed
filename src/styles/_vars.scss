@@ -4,14 +4,14 @@
  *    we boost the calculation to do 1.1/12
  */
 
- // If this changes it also needs to change in javascript shared constants
+// If this changes it also needs to change in javascript shared constants
 $font-size: 14;
-$font-size-lrg: #{15/$font-size}rem;
-$font-size-mobile: #{15/$font-size}rem;
+$font-size-lrg: #{15 / $font-size}rem;
+$font-size-mobile: #{15 / $font-size}rem;
 
-$font-size-lrg: #{15/$font-size}rem;
+$font-size-lrg: #{15 / $font-size}rem;
 
-$thin-border-size: #{1.1/$font-size}rem; /* 1 */
+$thin-border-size: #{1.1 / $font-size}rem; /* 1 */
 
 @import '../../node_modules/@zendeskgarden/css-variables/dist/index';
 
@@ -19,16 +19,16 @@ $thin-border-size: #{1.1/$font-size}rem; /* 1 */
 $cta-color: $zd-color-zendesk-green;
 
 // Container colors
-$stroke-color: #DADADA;
+$stroke-color: #dadada;
 $base-color: $zd-color-white;
 $base-shadow: $zd-color-black;
 $base-border-color: $zd-color-grey-200;
 
 // Text colors
-$neutral-link-color: #007FAB;
+$neutral-link-color: #007fab;
 
 // Fields
-$field-margin-bottom: #{20/$font-size}rem;
+$field-margin-bottom: #{20 / $font-size}rem;
 
 // Errors
 $error-color: $zd-color-red-500;
@@ -48,15 +48,15 @@ $spacing-med: #{$med/$font-size}rem;
 $spacing-sml: #{$sml/$font-size}rem;
 $spacing-tny: #{$tny/$font-size}rem;
 
-$container-height: #{384/$font-size}rem;
-$container-width: #{342/$font-size}rem;
+$container-height: #{384 / $font-size}rem;
+$container-width: #{342 / $font-size}rem;
 
 $chat-header-zindex: 3;
 
 // Icon colors
-$facebook-blue: #3B5998;
-$messenger-blue: #0084FF;
-$twitter-blue: #1DA1F2;
+$facebook-blue: #3b5998;
+$messenger-blue: #0084ff;
+$twitter-blue: #1da1f2;
 
 // Structured Message
 $structure-msg-card-width: 240;

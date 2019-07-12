@@ -8,25 +8,26 @@ The Web Widget includes a Talk component that lets users talk to an agent. The c
 
 The `talk` object has the following settings:
 
-* [nickname](./settings#nickname)
-* [suppress](./settings#suppress)
-* [title](./settings#title)
+- [nickname](./settings#nickname)
+- [suppress](./settings#suppress)
+- [title](./settings#title)
 
 <a name="example-talk-settings"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    talk: {
-      nickname: 'Sales Support',
-      suppress: false,
-      title: {
-        '*': 'Talk with us!'
+  window.zESettings = {
+    webWidget: {
+      talk: {
+        nickname: 'Sales Support',
+        suppress: false,
+        title: {
+          '*': 'Talk with us!'
+        }
       }
     }
   }
-};
 </script>
 ```

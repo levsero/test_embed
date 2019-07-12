@@ -1,14 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const common = require('./webpack.ac.common.js');
-const chunks = require('./chunks');
-const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
-const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
+const fs = require('fs')
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const ManifestPlugin = require('webpack-manifest-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const common = require('./webpack.ac.common.js')
+const chunks = require('./chunks')
+const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin')
+const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
 // Assets must be downloaded in the order specified in CHUNKS
 const CHUNKS = [
@@ -17,9 +17,9 @@ const CHUNKS = [
   { name: chunks.CHAT_VENDOR_CHUNK, feature: 'chat' },
   { name: chunks.TALK_VENDOR_CHUNK, feature: 'talk' },
   { name: chunks.WEB_WIDGET_CHUNK }
-];
+]
 
-const PUBLIC_PATH = process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest';
+const PUBLIC_PATH = process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest'
 
 let config = merge(common, {
   mode: 'production',
@@ -33,33 +33,34 @@ let config = merge(common, {
     new ManifestPlugin({
       fileName: 'asset_manifest.json',
       publicPath: '',
-      filter: (file) => {
-        if (!file.isChunk) return false;
-        return Object.values(chunks).indexOf(file.chunk.name) >= 0;
+      filter: file => {
+        if (!file.isChunk) return false
+        return Object.values(chunks).indexOf(file.chunk.name) >= 0
       },
-      sort: function (a, b) {
+      sort: function(a, b) {
         const indexA = CHUNKS.findIndex(chunk => chunk.name === a.chunk.name),
-          indexB = CHUNKS.findIndex(chunk => chunk.name === b.chunk.name);
+          indexB = CHUNKS.findIndex(chunk => chunk.name === b.chunk.name)
 
         // Sanity check to make sure all chunks are accounted for
         if (indexA === -1 || indexB === -1) {
-          throw "Found chunk that's not in CHUNKS constant!";
+          throw "Found chunk that's not in CHUNKS constant!"
         }
 
-        return indexA - indexB;
+        return indexA - indexB
       },
-      generate: function (seed, files) {
-        const assets = files.filter(file => path.extname(file.path) !== '.map')
-          .map(function (file) {
-            const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name);
-            const asset = { path: file.path };
+      generate: function(seed, files) {
+        const assets = files
+          .filter(file => path.extname(file.path) !== '.map')
+          .map(function(file) {
+            const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name)
+            const asset = { path: file.path }
 
-            if (chunk.feature) asset.feature = chunk.feature;
+            if (chunk.feature) asset.feature = chunk.feature
 
-            return asset;
-          }, seed);
+            return asset
+          }, seed)
 
-        return { assets };
+        return { assets }
       }
     }),
     new webpack.DefinePlugin({
@@ -67,11 +68,11 @@ let config = merge(common, {
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     new OptimizeCSSAssetsPlugin({
-      cssProcessorOptions: { discardComments: { removeAll: true } },
+      cssProcessorOptions: { discardComments: { removeAll: true } }
     }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
   ]
-});
+})
 
 if (process.env.ROLLBAR_ACCESS_TOKEN && process.env.ROLLBAR_ENDPOINT) {
   config = merge(config, {
@@ -83,7 +84,7 @@ if (process.env.ROLLBAR_ACCESS_TOKEN && process.env.ROLLBAR_ENDPOINT) {
         rollbarEndpoint: process.env.ROLLBAR_ENDPOINT
       })
     ]
-  });
+  })
 }
 
-module.exports = config;
+module.exports = config

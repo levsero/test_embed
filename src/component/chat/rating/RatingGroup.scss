@@ -4,22 +4,26 @@
   composes: u-borderTransparent from global;
   background-color: transparent !important;
   box-sizing: content-box;
-  height: #{16/$font-size}rem;
-  padding: #{6/$font-size}rem;
-  border-radius: #{30/$font-size}rem;
+  height: #{16 / $font-size}rem;
+  padding: #{6 / $font-size}rem;
+  border-radius: #{30 / $font-size}rem;
   outline: none;
   display: inline-block !important;
 
   svg {
-    path, rect {
+    path,
+    rect {
       stroke: $zd-color-grey-600 !important;
       fill: none !important;
     }
   }
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     svg {
-      path, rect {
+      path,
+      rect {
         stroke: $zd-color-grey-800 !important;
         fill: none !important;
       }
@@ -28,27 +32,30 @@
 }
 
 .ratingIconActive {
-  border: #{1/$font-size}rem solid $zd-color-grey-200 !important;
+  border: #{1 / $font-size}rem solid $zd-color-grey-200 !important;
   background-color: $zd-color-grey-400 !important;
 
   svg {
-    path, rect {
+    path,
+    rect {
       fill: none !important;
     }
   }
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     background-color: $zd-color-grey-400 !important;
   }
 }
 
 .thumbDownIcon {
-  padding-top: #{8/$font-size}rem;
-  padding-bottom: #{4/$font-size}rem;
-  margin-left: #{2/$font-size}rem;
+  padding-top: #{8 / $font-size}rem;
+  padding-bottom: #{4 / $font-size}rem;
+  margin-left: #{2 / $font-size}rem;
 
   [dir='rtl'] & {
     margin-left: 0;
-    margin-right: #{4/$font-size}rem;
+    margin-right: #{4 / $font-size}rem;
   }
 }

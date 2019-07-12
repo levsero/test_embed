@@ -3,27 +3,27 @@
 .messageBubble {
   composes: u-textBreak u-inlineBlock from global;
   white-space: pre-wrap;
-  border-radius: #{16/$font-size}rem;
-  max-width: #{258/$font-size}rem;
-  margin-left: #{40/$font-size}rem;
-  border-left: #{1/$font-size}rem $zd-color-platinum solid;
-  border-right: #{1/$font-size}rem $zd-color-platinum solid;
+  border-radius: #{16 / $font-size}rem;
+  max-width: #{258 / $font-size}rem;
+  margin-left: #{40 / $font-size}rem;
+  border-left: #{1 / $font-size}rem $zd-color-platinum solid;
+  border-right: #{1 / $font-size}rem $zd-color-platinum solid;
 
   [dir='rtl'] & {
     margin-left: 0;
-    margin-right: #{40/$font-size}rem;
+    margin-right: #{40 / $font-size}rem;
   }
 }
 
 .firstItem {
-  border-top: #{1/$font-size}rem $zd-color-platinum solid;
-  border-top-left-radius: #{16/$font-size}rem;
-  border-top-right-radius: #{16/$font-size}rem;
+  border-top: #{1 / $font-size}rem $zd-color-platinum solid;
+  border-top-left-radius: #{16 / $font-size}rem;
+  border-top-right-radius: #{16 / $font-size}rem;
 }
 
 .lastItem {
-  border-bottom-left-radius: #{16/$font-size}rem;
-  border-bottom-right-radius: #{16/$font-size}rem;
+  border-bottom-left-radius: #{16 / $font-size}rem;
+  border-bottom-right-radius: #{16 / $font-size}rem;
 }
 
 .header {
@@ -33,7 +33,7 @@
 
 .optionItem {
   composes: u-isActionable from global;
-  border-bottom: #{1/$font-size}rem $zd-color-platinum solid;
+  border-bottom: #{1 / $font-size}rem $zd-color-platinum solid;
 
   &:hover {
     background-color: $zd-color-white-smoke;

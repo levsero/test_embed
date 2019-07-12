@@ -15,7 +15,7 @@
 }
 
 .message {
-  margin-bottom: #{7/$font-size}rem;
+  margin-bottom: #{7 / $font-size}rem;
 }
 
 .userMessage {
@@ -42,52 +42,52 @@
 
 .botBackground {
   background: $zd-color-anti-flash-white;
-  max-width: #{219/$font-size}rem !important;
+  max-width: #{219 / $font-size}rem !important;
 }
 
 .name {
   composes: u-marginTT from global;
   margin-bottom: $spacing-tny !important;
-  margin-left: #{50/$font-size}rem;
+  margin-left: #{50 / $font-size}rem;
   color: $zd-color-aluminum !important;
 
   [dir='rtl'] & {
     margin-left: 0;
-    margin-right: #{40/$font-size}rem;
+    margin-right: #{40 / $font-size}rem;
   }
 }
 
 .avatar {
   composes: u-posAbsolute from global;
-  bottom: #{4/$font-size}rem;
+  bottom: #{4 / $font-size}rem;
 
   svg {
-    padding-top: #{8/$font-size}rem;
-    min-width: #{13/$font-size}rem;
-    min-height: #{13/$font-size}rem;
-    max-width: #{13/$font-size}rem;
-    max-height: #{13/$font-size}rem;
+    padding-top: #{8 / $font-size}rem;
+    min-width: #{13 / $font-size}rem;
+    min-height: #{13 / $font-size}rem;
+    max-width: #{13 / $font-size}rem;
+    max-height: #{13 / $font-size}rem;
   }
 }
 
 .avatarDefault {
   composes: avatar;
-  height: #{32/$font-size}rem;
-  width: #{32/$font-size}rem;
+  height: #{32 / $font-size}rem;
+  width: #{32 / $font-size}rem;
 }
 
 .avatarWithSrc {
   composes: avatar;
-  height: #{30/$font-size}rem;
-  width: #{30/$font-size}rem;
+  height: #{30 / $font-size}rem;
+  width: #{30 / $font-size}rem;
 }
 
 .messageBubble {
-  margin-left: #{40/$font-size}rem;
+  margin-left: #{40 / $font-size}rem;
 
   [dir='rtl'] & {
     margin-left: 0;
-    margin-right: #{40/$font-size}rem;
+    margin-right: #{40 / $font-size}rem;
   }
 }
 

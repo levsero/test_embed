@@ -3,6 +3,7 @@
 Date: 2017-11-22
 
 ## Attendees
+
 - Aaron Cottrell
 - Adrian Evans
 - Briana Coppard

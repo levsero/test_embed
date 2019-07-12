@@ -8,42 +8,44 @@ The Web Widget includes a chat component that lets users chat with an agent. The
 
 The `chat` object has the following settings:
 
-* [suppress](./settings#suppress)
+- [suppress](./settings#suppress)
 
 In the [integrated Chat in the Web Widget](https://support.zendesk.com/hc/en-us/articles/360022185074), the `chat` object has the following additional settings:
 
-* [title](./settings#title)
-* [badge](./settings#badge)
-* [concierge](./settings#concierge)
-* [departments](./settings#departments)
-* [hideWhenOffline](./settings#hidewhenoffline)
-* [navigation](./settings#navigation)
-* [prechatForm](./settings#prechatForm)
-* [offlineForm](./settings#offlineForm)
-* [notifications](./settings#notifications)
-* [tags](./settings#tags)
-* [authenticate](./settings#authenticate)
+- [title](./settings#title)
+- [badge](./settings#badge)
+- [concierge](./settings#concierge)
+- [departments](./settings#departments)
+- [hideWhenOffline](./settings#hidewhenoffline)
+- [navigation](./settings#navigation)
+- [prechatForm](./settings#prechatForm)
+- [offlineForm](./settings#offlineForm)
+- [notifications](./settings#notifications)
+- [tags](./settings#tags)
+- [authenticate](./settings#authenticate)
 
 <a name="example-chat-settings"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    chat: {
-      suppress: false,
-      tags: ['vip'],
-      notifications: {
-        mobile: {
-          disable: true
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        suppress: false,
+        tags: ['vip'],
+        notifications: {
+          mobile: {
+            disable: true
+          }
         }
       }
     }
   }
-};
 </script>
 ```
+
 **_NOTE:_** The Integrated Chat feature must be enabled in Zendesk Support under Admin > Channels > Widget > Customization tab for the `chat` API settings to work.
 
 <img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/adminIntegratedChat.png" alt="Integrated Chat toggle" width="250px">
@@ -105,16 +107,15 @@ Makes the visitor send a message. Starts a chat session if one is not already in
 
 ##### Parameters
 
-* `message`: String. Message to be sent
+- `message`: String. Message to be sent
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget', 'chat:send', 'I\'d like the Jambalaya, please');
+  zE('webWidget', 'chat:send', "I'd like the Jambalaya, please")
 </script>
 ```
-
 
 #### get chat:isChatting
 
@@ -130,7 +131,6 @@ None
 
 Boolean
 
-
 #### get chat:department
 
 `zE('webWidget:get', 'chat:department', department<int|string>);`
@@ -139,21 +139,20 @@ Returns an object containing information about the specified department, includi
 
 ##### Parameters
 
-* `department`: Integer or string. ID or name of the department
+- `department`: Integer or string. ID or name of the department
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:get', 'chat:department', 'Accounting');
+  zE('webWidget:get', 'chat:department', 'Accounting')
 </script>
 ```
 
 ##### Return value
 
-* An object containing information about the specified department, including its id, name, and status
-* Otherwise `undefined` if the department is not found or not enabled
-
+- An object containing information about the specified department, including its id, name, and status
+- Otherwise `undefined` if the department is not found or not enabled
 
 #### get chat:departments
 
@@ -169,16 +168,18 @@ None
 
 ##### Return value
 
-* An array of objects containing information about each department, including its `id`, `name`, and `status`.
+- An array of objects containing information about each department, including its `id`, `name`, and `status`.
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:connected', function() {
-  const departments = zE('webWidget:get', 'chat:departments')
-  departments.forEach((department) => { console.log(department) })
-});
+  zE('webWidget:on', 'chat:connected', function() {
+    const departments = zE('webWidget:get', 'chat:departments')
+    departments.forEach(department => {
+      console.log(department)
+    })
+  })
 </script>
 ```
 
@@ -192,7 +193,6 @@ Ends the current chat session.
 
 None
 
-
 #### updatePath
 
 `zE('webWidget', 'updatePath', options<object>);`
@@ -203,23 +203,22 @@ Programmatically updates the visitor’s webpath.
 
 ##### Parameters
 
-* `options`: Object (optional). If not specified, the current page’s location and title will be used; if specified, the updated page url and title will be taken from the options object
+- `options`: Object (optional). If not specified, the current page’s location and title will be used; if specified, the updated page url and title will be taken from the options object
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-// Without options
-zE('webWidget', 'updatePath');
+  // Without options
+  zE('webWidget', 'updatePath')
 
-// With options
-zE('webWidget', 'updatePath', {
-  url: 'http://example.com',
-  title: "Ready to rock'n'roll!"
-});
+  // With options
+  zE('webWidget', 'updatePath', {
+    url: 'http://example.com',
+    title: "Ready to rock'n'roll!"
+  })
 </script>
 ```
-
 
 #### on chat:connected
 
@@ -229,18 +228,17 @@ Registers a callback to be fired when the widget successfully connects to the se
 
 ##### Parameters
 
-* `callback`: Function. The callback to perform on chat connection
+- `callback`: Function. The callback to perform on chat connection
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:connected', function() {
-  console.log('successfully connected to Zendesk Chat!');
-});
+  zE('webWidget:on', 'chat:connected', function() {
+    console.log('successfully connected to Zendesk Chat!')
+  })
 </script>
 ```
-
 
 #### on chat:start
 
@@ -250,18 +248,17 @@ Registers a callback to be fired when a chat starts.
 
 ##### Parameters
 
-* `callback`: Function. The callback to perform on chat start
+- `callback`: Function. The callback to perform on chat start
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:start', function() {
-  console.log('successfully started a Zendesk Chat!');
-});
+  zE('webWidget:on', 'chat:start', function() {
+    console.log('successfully started a Zendesk Chat!')
+  })
 </script>
 ```
-
 
 #### on chat:end
 
@@ -273,18 +270,17 @@ A chat only ends when the visitor (and not the agent) ends the chat, or when the
 
 ##### Parameters
 
-* `callback`: Function. The callback to perform on chat end
+- `callback`: Function. The callback to perform on chat end
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:end', function() {
-  console.log('successfully ended a Zendesk Chat session!');
-});
+  zE('webWidget:on', 'chat:end', function() {
+    console.log('successfully ended a Zendesk Chat session!')
+  })
 </script>
 ```
-
 
 #### on chat:status
 
@@ -294,15 +290,15 @@ Registers a callback to be fired when the account status changes.
 
 ##### Parameters
 
-* `callback`: Function. The callback to perform on account status change. Contains one parameter, `status`, a string that can be one of 'online'|'away'|'offline'
+- `callback`: Function. The callback to perform on account status change. Contains one parameter, `status`, a string that can be one of 'online'|'away'|'offline'
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:status', function(status) {
-  console.log('This chat session is now', status);
-});
+  zE('webWidget:on', 'chat:status', function(status) {
+    console.log('This chat session is now', status)
+  })
 </script>
 ```
 
@@ -314,18 +310,17 @@ Registers a callback to be fired when a department status changes.
 
 ##### Parameters
 
-* `callback`: Function. The callback to perform on each department status change. Contains one parameter, `department`, an object that contains the `name`, `id` and `status` of the changed department.
+- `callback`: Function. The callback to perform on each department status change. Contains one parameter, `department`, an object that contains the `name`, `id` and `status` of the changed department.
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:departmentStatus', function(dept) {
-  console.log('department', dept.name, 'changed to', dept.status);
-});
+  zE('webWidget:on', 'chat:departmentStatus', function(dept) {
+    console.log('department', dept.name, 'changed to', dept.status)
+  })
 </script>
 ```
-
 
 #### on chat:unreadMessages
 
@@ -335,15 +330,15 @@ Registers a callback to be fired when the number of unread messages changes.
 
 ##### Parameters
 
-* `callback`: Function. The callback to perform on unread messages. Contains one parameter, `number`, an integer detailing the number of unread messages.
+- `callback`: Function. The callback to perform on unread messages. Contains one parameter, `number`, an integer detailing the number of unread messages.
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'chat:unreadMessages', function(number) {
-  console.log(`It seems you have ${number} unread messages!`);
-});
+  zE('webWidget:on', 'chat:unreadMessages', function(number) {
+    console.log(`It seems you have ${number} unread messages!`)
+  })
 </script>
 ```
 
@@ -355,7 +350,7 @@ Attempts to open the live chat widget in a new window on desktop.
 
 May not work on some devices or configurations.
 
-Important: Should only be called from a user event listener callback.  See example.
+Important: Should only be called from a user event listener callback. See example.
 
 ##### Parameters
 

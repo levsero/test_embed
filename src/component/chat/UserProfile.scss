@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
-$avatar-size: #{30/$font-size}rem;
-$logout-spacing: #{18/$font-size}rem;
+$avatar-size: #{30 / $font-size}rem;
+$logout-spacing: #{18 / $font-size}rem;
 $avatar-logout-spacing: $avatar-size + $logout-spacing;
 
 .labelText {
@@ -9,27 +9,27 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
 }
 
 .socialLoginContainer {
-  margin-bottom: #{14/$font-size}rem;
+  margin-bottom: #{14 / $font-size}rem;
 }
 
 .socialLoginOptions {
   position: relative;
-  top: #{3/$font-size}rem;
-  margin-left: #{5/$font-size}rem;
+  top: #{3 / $font-size}rem;
+  margin-left: #{5 / $font-size}rem;
   display: inline-block;
 
   &:focus {
-    outline: -webkit-focus-ring-color auto #{5/$font-size}rem;
+    outline: -webkit-focus-ring-color auto #{5 / $font-size}rem;
   }
 
   [dir='rtl'] & {
     margin-left: 0;
-    margin-right: #{5/$font-size}rem;
+    margin-right: #{5 / $font-size}rem;
   }
 }
 
 .defaultProfileFieldsContainer {
-  margin-bottom: #{16/$font-size}rem;
+  margin-bottom: #{16 / $font-size}rem;
 }
 
 .authProfileName {
@@ -41,50 +41,50 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
   word-break: break-all;
   color: $zd-color-grey-800;
   background-color: $zd-color-grey-100;
-  border: #{1/$font-size}rem solid $zd-color-grey-300;
-  border-radius: #{4/$font-size}rem;
-  margin-bottom: #{15/$font-size}rem;
-  margin-top: #{8/$font-size}rem;
-  min-height: #{35/$font-size}rem;
-  padding-top: #{8/$font-size}rem;
-  padding-bottom: #{8/$font-size}rem;
-  padding-left: #{15/$font-size}rem;
-  line-height: #{18/$font-size}rem;
+  border: #{1 / $font-size}rem solid $zd-color-grey-300;
+  border-radius: #{4 / $font-size}rem;
+  margin-bottom: #{15 / $font-size}rem;
+  margin-top: #{8 / $font-size}rem;
+  min-height: #{35 / $font-size}rem;
+  padding-top: #{8 / $font-size}rem;
+  padding-bottom: #{8 / $font-size}rem;
+  padding-left: #{15 / $font-size}rem;
+  line-height: #{18 / $font-size}rem;
 
   [dir='rtl'] & {
     padding-left: 0;
-    padding-right: #{15/$font-size}rem;
+    padding-right: #{15 / $font-size}rem;
   }
 }
 
 .authProfileFieldContainer {
   display: inline-block;
-  max-width: calc(100% - #{70/$font-size}rem);
-  padding-left: #{12/$font-size}rem;
+  max-width: calc(100% - #{70 / $font-size}rem);
+  padding-left: #{12 / $font-size}rem;
 
   [dir='rtl'] & {
     padding-left: 0;
-    padding-right: #{12/$font-size}rem;
+    padding-right: #{12 / $font-size}rem;
   }
 }
 
 .historyAuthProfileFieldContainer {
-  max-width: calc(100% - #{20/$font-size}rem);
+  max-width: calc(100% - #{20 / $font-size}rem);
 }
 
 .logoutIcon {
   composes: u-isActionable from global;
 
   position: absolute;
-  top: #{18/$font-size}rem;
+  top: #{18 / $font-size}rem;
   color: $zd-color-grey-500;
 
   [dir='ltr'] & {
-    right: #{16/$font-size}rem;
+    right: #{16 / $font-size}rem;
   }
 
   [dir='rtl'] & {
-    left: #{16/$font-size}rem;
+    left: #{16 / $font-size}rem;
   }
 
   svg {
@@ -93,7 +93,9 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
     }
   }
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     svg {
       path {
         fill: $zd-color-grey-600;
@@ -104,21 +106,21 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
 
 .loadingSpinner {
   composes: logoutIcon;
-  height: #{15/$font-size}rem;
-  width: #{15/$font-size}rem;
+  height: #{15 / $font-size}rem;
+  width: #{15 / $font-size}rem;
 }
 
 .avatar {
   display: inline-block !important;
   vertical-align: top;
-  height: #{30/$font-size}rem;
-  width: #{30/$font-size}rem;
-  margin-top: #{2/$font-size}rem;
+  height: #{30 / $font-size}rem;
+  width: #{30 / $font-size}rem;
+  margin-top: #{2 / $font-size}rem;
 
   svg {
-    min-height: #{30/$font-size}rem;
-    min-width: #{30/$font-size}rem;
-    max-height: #{30/$font-size}rem;
-    max-width: #{30/$font-size}rem;
+    min-height: #{30 / $font-size}rem;
+    min-width: #{30 / $font-size}rem;
+    max-height: #{30 / $font-size}rem;
+    max-width: #{30 / $font-size}rem;
   }
 }

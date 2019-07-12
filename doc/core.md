@@ -2,30 +2,30 @@
 
 Core settings and commands affect the entire widget.
 
-
 ### Settings
 
 The Web Widget has the following core settings:
 
-* [authenticate](./settings#authenticate)
-* [color](./settings#color)
-* [cookies](./settings#cookies)
-* [offset](./settings#offset)
-* [position](./settings#position)
-* [zIndex](./settings#zindex)
-* [contactOptions](#contactoptions)
-* [launcher](#launcher)
+- [authenticate](./settings#authenticate)
+- [color](./settings#color)
+- [cookies](./settings#cookies)
+- [offset](./settings#offset)
+- [position](./settings#position)
+- [zIndex](./settings#zindex)
+- [contactOptions](#contactoptions)
+- [launcher](#launcher)
 
 <a name="example-general"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    color: { theme: '#78a300' }
+  window.zESettings = {
+    webWidget: {
+      color: { theme: '#78a300' }
+    }
   }
-};
 </script>
 ```
 
@@ -33,30 +33,31 @@ window.zESettings = {
 
 The widget's `contactOptions` object, which represents a component that lets the user choose between starting a chat or submitting a ticket, has the following settings:
 
-* enabled (Boolean)
-* [contactButton](./settings#contactbutton)
-* [chatLabelOnline](./settings#chatlabelonline)
-* [chatLabelOffline](./settings#chatlabeloffline)
-* [contactFormLabel](./settings#contactformlabel)
+- enabled (Boolean)
+- [contactButton](./settings#contactbutton)
+- [chatLabelOnline](./settings#chatlabelonline)
+- [chatLabelOffline](./settings#chatlabeloffline)
+- [contactFormLabel](./settings#contactformlabel)
 
 <img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/contactOptions.png" alt="Contact Options Example" width="250px">
 
 To learn more about contact options, see [Offering end-users multiple contact options](https://support.zendesk.com/hc/en-us/articles/229167008#topic_spt_fb1_l1b) in the Support Help Center.
 
-* Note: `chatLabelOnline` and `contactFormLabel` applies to the contact options shown to the end user on the Answer Bot channel.
-<a name="example-contact-options"></a>
+- Note: `chatLabelOnline` and `contactFormLabel` applies to the contact options shown to the end user on the Answer Bot channel.
+  <a name="example-contact-options"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    contactOptions: {
-      enabled: true,
-      contactButton: { '*': 'Get in touch' }
+  window.zESettings = {
+    webWidget: {
+      contactOptions: {
+        enabled: true,
+        contactButton: { '*': 'Get in touch' }
+      }
     }
   }
-};
 </script>
 ```
 
@@ -64,59 +65,58 @@ window.zESettings = {
 
 The widget's `launcher` object, which represents the launcher button, has the following settings:
 
-* [chatLabel](./settings#chatlabel)
-* [label](./settings#label)
-* mobile
-  * [labelVisible](./settings#labelvisible)
+- [chatLabel](./settings#chatlabel)
+- [label](./settings#label)
+- mobile
+  - [labelVisible](./settings#labelvisible)
 
 <a name="example-launcher-settings"></a>
+
 #### Example
 
 ```html
 <script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    launcher: {
-      chatLabel: {
-        '*': 'Chat now'
-      },
-      mobile: {
-        labelVisible: true
+  window.zESettings = {
+    webWidget: {
+      launcher: {
+        chatLabel: {
+          '*': 'Chat now'
+        },
+        mobile: {
+          labelVisible: true
+        }
       }
     }
   }
-};
 </script>
 ```
-
 
 ### Commands
 
 The Web Widget has the following core commands:
 
-* [get display](#get-display)
-* [on open](#on-open)
-* [on close](#on-close)
-* [hide](#hide)
-* [show](#show)
-* [logout](#logout)
-* [identify](#identify)
-* [prefill](#prefill)
-* [setLocale](#setlocale)
-* [updateSettings](#updatesettings)
-* [clear](#clear)
-* [updatePath](#updatepath)
-* [toggle](#toggle)
-* [reset](#reset)
-* [close](#close)
-* [open](#open)
+- [get display](#get-display)
+- [on open](#on-open)
+- [on close](#on-close)
+- [hide](#hide)
+- [show](#show)
+- [logout](#logout)
+- [identify](#identify)
+- [prefill](#prefill)
+- [setLocale](#setlocale)
+- [updateSettings](#updatesettings)
+- [clear](#clear)
+- [updatePath](#updatepath)
+- [toggle](#toggle)
+- [reset](#reset)
+- [close](#close)
+- [open](#open)
 
 #### get display
 
 `zE('webWidget:get', 'display');`
 
 Gets the current widget display (eg. Help Center).
-
 
 #### on open
 
@@ -126,18 +126,17 @@ Executes a callback when the widget is opened.
 
 ##### Parameters
 
-* `callback`: Function. Contains the code to be exected
+- `callback`: Function. Contains the code to be exected
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'open', function() {
-  console.log("The widget has been opened!");
-});
+  zE('webWidget:on', 'open', function() {
+    console.log('The widget has been opened!')
+  })
 </script>
 ```
-
 
 #### on close
 
@@ -147,15 +146,15 @@ Executes a callback when the widget is closed.
 
 ##### Parameters
 
-* `callback`: Function. Contains the code to be executed
+- `callback`: Function. Contains the code to be executed
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget:on', 'close', function() {
-  console.log("The widget has been closed!");
-});
+  zE('webWidget:on', 'close', function() {
+    console.log('The widget has been closed!')
+  })
 </script>
 ```
 
@@ -175,7 +174,7 @@ None
 
 ```html
 <script type="text/javascript">
-zE('webWidget', 'hide');
+  zE('webWidget', 'hide')
 </script>
 ```
 
@@ -184,7 +183,6 @@ zE('webWidget', 'hide');
 ```html
 <button onclick="zE('webWidget', 'hide')">Hide Web Widget</button>
 ```
-
 
 #### show
 
@@ -198,10 +196,9 @@ The widget is displayed by default on page load. You don't need to call `show` t
 
 ```html
 <script type="text/javascript">
-zE('webWidget', 'show');
+  zE('webWidget', 'show')
 </script>
 ```
-
 
 #### logout
 
@@ -212,7 +209,6 @@ Clears an end user's session.
 ##### Parameters
 
 None
-
 
 #### identify
 
@@ -228,32 +224,31 @@ User record creation is queued and there might be a few minutes delay before the
 
 Identify API calls are throttled in several ways to prevent API abuse:
 
-* IP address: A limit to identify users on a single IP address.
-* Limit the creation of user records per account: Up to 50,000 user records created daily by a Zendesk Support account.
-* Payload: Throttled when a Zendesk Support account makes more than one API call using the same email address every 12 hours.
+- IP address: A limit to identify users on a single IP address.
+- Limit the creation of user records per account: Up to 50,000 user records created daily by a Zendesk Support account.
+- Payload: Throttled when a Zendesk Support account makes more than one API call using the same email address every 12 hours.
 
-The Identify API call occurs when the widget loads. So if a ticket is submitted before a user record is created by the Identify API call, the details in the ticket is used for creating a user record. 
+The Identify API call occurs when the widget loads. So if a ticket is submitted before a user record is created by the Identify API call, the details in the ticket is used for creating a user record.
 
-*Note*: The Identify API only prepopulates the user's details in the Chat forms (Prechat, Chat Offline and Update Contact Details forms). To prefill all forms in any product configuration, please use [prefill](#prefill).
+_Note_: The Identify API only prepopulates the user's details in the Chat forms (Prechat, Chat Offline and Update Contact Details forms). To prefill all forms in any product configuration, please use [prefill](#prefill).
 
 ##### Parameters
 
-* `data`: Object. Contains a `name`, `email` and optionally, `organization` property
+- `data`: Object. Contains a `name`, `email` and optionally, `organization` property
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget', 'identify', {
-  name: 'Akira Kogane',
-  email: 'akira@voltron.com',
-  organization: 'Voltron, Inc.'
-});
+  zE('webWidget', 'identify', {
+    name: 'Akira Kogane',
+    email: 'akira@voltron.com',
+    organization: 'Voltron, Inc.'
+  })
 </script>
 ```
 
-*Note*: Passing an organization only works for existing organizations in your Zendesk Support account. It does not create a new organization.
-
+_Note_: Passing an organization only works for existing organizations in your Zendesk Support account. It does not create a new organization.
 
 #### prefill
 
@@ -263,26 +258,26 @@ Pre-fills an end-user's details on forms inside the Web Widget.
 
 ##### Parameters
 
-* `data`: Object. Contains a `name`, `email` and `phone` objects.
+- `data`: Object. Contains a `name`, `email` and `phone` objects.
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget', 'prefill', {
-  name: {
-    value: 'isamu',
-    readOnly: true // optional
-  },
-  email: {
-    value: 'isamu@voltron.com',
-    readOnly: true // optional
-  },
-  phone: {
-    value: '61431909749',
-    readOnly: true // optional
-  }
-});
+  zE('webWidget', 'prefill', {
+    name: {
+      value: 'isamu',
+      readOnly: true // optional
+    },
+    email: {
+      value: 'isamu@voltron.com',
+      readOnly: true // optional
+    },
+    phone: {
+      value: '61431909749',
+      readOnly: true // optional
+    }
+  })
 </script>
 ```
 
@@ -302,16 +297,15 @@ The following example displays the widget in German:
 
 ##### Parameters
 
-* `data`: String. The locale string to change the widget locale to.
+- `data`: String. The locale string to change the widget locale to.
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget', 'setLocale', 'de');
+  zE('webWidget', 'setLocale', 'de')
 </script>
 ```
-
 
 #### updateSettings
 
@@ -321,25 +315,24 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
 
 ##### Parameters
 
-* `data`: Object. Matches the structure defined in [zESettings](./settings)
+- `data`: Object. Matches the structure defined in [zESettings](./settings)
 
 ##### Example
 
 ```html
 <script type="text/javascript">
-zE('webWidget', 'updateSettings', {
-  webWidget: {
-    chat: {
-      departments: {
-        enabled: ['finance', 'hr', 'sales'],
-        select: 'sales'
+  zE('webWidget', 'updateSettings', {
+    webWidget: {
+      chat: {
+        departments: {
+          enabled: ['finance', 'hr', 'sales'],
+          select: 'sales'
+        }
       }
     }
-  }
-});
+  })
 </script>
 ```
-
 
 #### Clear
 
@@ -351,7 +344,6 @@ Clears all forms in the Web Widget.
 
 None
 
-
 #### updatePath
 
 `zE('webWidget', 'updatePath', data<object>);`
@@ -362,9 +354,7 @@ Updates the visitor path by setting the title to the current user's page title a
 
 ##### Parameters
 
-
-* `data`: Object. This object accepts two optional string parameters: `title` and `url`.
-
+- `data`: Object. This object accepts two optional string parameters: `title` and `url`.
 
 #### toggle
 
@@ -376,7 +366,6 @@ Opens the widget if it was closed or closes the widget if it was opened.
 
 None
 
-
 #### reset
 
 `zE('webWidget', 'reset');`
@@ -387,7 +376,6 @@ Completely resets the state of the widget. To preserve end-user experience, this
 
 None
 
-
 #### close
 
 `zE('webWidget', 'close');`
@@ -397,7 +385,6 @@ If the widget is opened, this api will close the widget and show the launcher.
 ##### Parameters
 
 None
-
 
 #### open
 

@@ -6,9 +6,9 @@
 }
 
 .desktop {
-  border-radius: #{8/$font-size}rem;
-  box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
-  background: rgba($base-color, .98);
+  border-radius: #{8 / $font-size}rem;
+  box-shadow: 0 0 #{6 / $font-size}rem 0 rgba($base-shadow, 0.2);
+  background: rgba($base-color, 0.98);
 }
 
 .mobile {
@@ -16,10 +16,10 @@
 }
 
 .card {
-  border-radius: #{5/$font-size}rem;
-  box-shadow: 0 #{$thin-border-size/$font-size}rem #{4/$font-size}rem 0 rgba($base-shadow, .3);
-  background: rgba($base-color, .98);
-  max-width: #{620/$font-size}rem;
-  min-width: #{400/$font-size}rem;
-  padding: #{30/$font-size}rem #{40/$font-size}rem 0;
+  border-radius: #{5 / $font-size}rem;
+  box-shadow: 0 #{$thin-border-size/$font-size}rem #{4 / $font-size}rem 0 rgba($base-shadow, 0.3);
+  background: rgba($base-color, 0.98);
+  max-width: #{620 / $font-size}rem;
+  min-width: #{400 / $font-size}rem;
+  padding: #{30 / $font-size}rem #{40 / $font-size}rem 0;
 }

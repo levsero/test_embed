@@ -8,7 +8,7 @@
 .container {
   align-items: center;
   border: $thin-border-size solid $stroke-color;
-  border-radius: #{4/$font-size}rem;
+  border-radius: #{4 / $font-size}rem;
 }
 
 .desktopContainer {
@@ -17,31 +17,31 @@
 
 .mobileContainer {
   composes: container;
-  height: #{40/$font-size}rem;
-  padding-top: #{0/$font-size}rem;
-  padding-bottom: #{0/$font-size}rem;
-  margin-top: #{15/$font-size}rem;
+  height: #{40 / $font-size}rem;
+  padding-top: #{0 / $font-size}rem;
+  padding-bottom: #{0 / $font-size}rem;
+  margin-top: #{15 / $font-size}rem;
 }
 
 .mobileSearchInput {
   font-size: $font-size-mobile;
-  height: #{43/$font-size}rem;
+  height: #{43 / $font-size}rem;
 }
 
 .mobileSearchIcon {
   max-height: 100%;
-  padding: #{12/$font-size}rem;
+  padding: #{12 / $font-size}rem;
   background-color: $zd-color-grey-200;
-  margin: 0 auto!important;
+  margin: 0 auto !important;
 
-  border-top-right-radius: #{4/$font-size}rem;
-  border-bottom-right-radius: #{4/$font-size}rem;
+  border-top-right-radius: #{4 / $font-size}rem;
+  border-bottom-right-radius: #{4 / $font-size}rem;
 
   [dir='rtl'] & {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    border-top-left-radius: #{4/$font-size}rem;
-    border-bottom-left-radius: #{4/$font-size}rem;
+    border-top-left-radius: #{4 / $font-size}rem;
+    border-bottom-left-radius: #{4 / $font-size}rem;
   }
 }
 
@@ -49,7 +49,7 @@
   composes: u-isActionable u-textCenter from global;
   composes: Icon Icon--clearInput from '../../styles/components/Icon.scss';
 
-  margin-right: #{10/$font-size}rem;
+  margin-right: #{10 / $font-size}rem;
 
   [dir='rtl'] & {
     margin-right: 0;
@@ -61,7 +61,7 @@
   composes: Arrange-sizeFit u-isActionable from global;
   margin: 0;
   max-height: 100%;
-  width: #{40/$font-size}rem;
+  width: #{40 / $font-size}rem;
 }
 
 .desktopSearchOrLoading {
@@ -75,11 +75,11 @@
         fill: currentColor !important;
       }
     }
-  };
+  }
 
   [dir='rtl'] & {
-    margin-left: #{12/$font-size}rem !important;
-    margin-right: #{16/$font-size}rem !important;
+    margin-left: #{12 / $font-size}rem !important;
+    margin-right: #{16 / $font-size}rem !important;
   }
 }
 
@@ -88,11 +88,11 @@
     box-shadow: none !important;
   }
 
-  padding-left: #{12/$font-size}rem !important;
+  padding-left: #{12 / $font-size}rem !important;
 
   [dir='rtl'] & {
     padding-left: 0 !important;
-    padding-right: #{11/$font-size}rem !important;
+    padding-right: #{11 / $font-size}rem !important;
   }
 }
 

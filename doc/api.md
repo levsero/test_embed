@@ -4,12 +4,12 @@
 
 The Web Widget API v1 consists of the following methods:
 
-* `zE.setLocale`
-* `zE.identify`
-* `zE.hide`
-* `zE.show`
-* `zE.activate`
-* `zE.setHelpCenterSuggestions`
+- `zE.setLocale`
+- `zE.identify`
+- `zE.hide`
+- `zE.show`
+- `zE.activate`
+- `zE.setHelpCenterSuggestions`
 
 You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
 
@@ -25,9 +25,9 @@ The following example displays the widget in German:
 
 ```html
 <script type="text/javascript">
-zE(function() {
-  zE.setLocale('de');
-});
+  zE(function() {
+    zE.setLocale('de')
+  })
 </script>
 ```
 
@@ -47,17 +47,17 @@ Here's how it works: If the user's email doesn't already exist in your Zendesk S
 
 The Widget also uses the information in the `zE.identify()` call to pre-populate the contact or pre-chat chat form, saving the user from having to type in the information. This is especially useful for end users using your website on a mobile device (screenshot below).
 
-Note: Passing an `organization` with `zE.identify()` only works for existing organizations in your Zendesk Support account. It does *not* create a new organization.
+Note: Passing an `organization` with `zE.identify()` only works for existing organizations in your Zendesk Support account. It does _not_ create a new organization.
 
 ```html
 <script type="text/javascript">
-zE(function() {
-  zE.identify({
-    name: 'John Citizen',
-    email: 'john@example.com',
-    organization: 'VIP'
-  });
-});
+  zE(function() {
+    zE.identify({
+      name: 'John Citizen',
+      email: 'john@example.com',
+      organization: 'VIP'
+    })
+  })
 </script>
 ```
 
@@ -75,9 +75,9 @@ The method completely hides all parts of the Widget from the page. You can invok
 
 ```html
 <script type="text/javascript">
-zE(function() {
-  zE.hide();
-});
+  zE(function() {
+    zE.hide()
+  })
 </script>
 ```
 
@@ -86,6 +86,7 @@ zE(function() {
 ```html
 <button onclick="zE.hide();">Hide Web Widget</button>
 ```
+
 ### zE.show
 
 `zE.show()`
@@ -96,11 +97,11 @@ For example, when someone logs into your website, you could call `zE.show()` to 
 
 ```html
 <script type="text/javascript">
-if(loggedIn) {
-  zE(function() {
-    zE.show();
-  });
-}
+  if (loggedIn) {
+    zE(function() {
+      zE.show()
+    })
+  }
 </script>
 ```
 
@@ -115,7 +116,8 @@ The method activates and opens the Widget in its starting state. The starting st
 For example, when someone clicks a 'Contact' button of your website, you could call `zE.activate()` to pop open the widget:
 
 **Parameters**
-> options object -  hideOnClose: If `true`, hides the widget after the user closes it, `false` by default
+
+> options object - hideOnClose: If `true`, hides the widget after the user closes it, `false` by default
 
 **Default**
 
@@ -139,11 +141,11 @@ The method enhances the contextual help provided by the Web Widget.
 
 #### Options
 
-* `zE.setHelpCenterSuggestions({ url: true })` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page. This function should be called each time you want to set the suggestions. For example, navigating on a single-page app.
+- `zE.setHelpCenterSuggestions({ url: true })` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page. This function should be called each time you want to set the suggestions. For example, navigating on a single-page app.
 
-* `zE.setHelpCenterSuggestions({ search: 'search string' })` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
+- `zE.setHelpCenterSuggestions({ search: 'search string' })` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
 
-* `zE.setHelpCenterSuggestions({ labels: ['label1'] })` -  For Guide Professional customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
+- `zE.setHelpCenterSuggestions({ labels: ['label1'] })` - For Guide Professional customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
 
 **Note**: If you pass both search strings and labels, the labels are ignored.
 
@@ -153,9 +155,9 @@ Add the method in your HTML source code immediately after your Web Widget code s
 
 ```html
 <script type="text/javascript">
-zE(function() {
-  zE.setHelpCenterSuggestions({ search: 'credit card' });
-});
+  zE(function() {
+    zE.setHelpCenterSuggestions({ search: 'credit card' })
+  })
 </script>
 ```
 

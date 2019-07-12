@@ -16,20 +16,20 @@
 }
 
 .optionsPopupSpacing {
-  padding-bottom: #{80/$font-size}rem !important;
+  padding-bottom: #{80 / $font-size}rem !important;
 }
 
 .reasonsPopupSpacing {
-  padding-bottom: #{140/$font-size}rem !important;
+  padding-bottom: #{140 / $font-size}rem !important;
 }
 
 .popupWrapper {
   composes: u-hsizeAll u-paddingTS u-posAbsolute u-zIndex1 from global;
   overflow: hidden;
-  border-radius: 0 0 #{8/$font-size}rem #{8/$font-size}rem;
+  border-radius: 0 0 #{8 / $font-size}rem #{8 / $font-size}rem;
 }
 
 .scrollContainerMobile {
-  height: calc(100% - #{150/$font-size}rem);
+  height: calc(100% - #{150 / $font-size}rem);
   max-height: none;
 }

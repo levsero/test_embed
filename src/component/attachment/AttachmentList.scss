@@ -20,12 +20,12 @@
   /* Force a single line to have exact font height  */
   line-height: 0.9;
 
-  margin-bottom: #{6/$font-size}rem;
+  margin-bottom: #{6 / $font-size}rem;
   font-weight: 700;
   color: $zd-color-grey-800;
 }
 
 .attachment {
   composes: u-marginTS from global;
-  border-radius: #{4/$font-size}rem;
+  border-radius: #{4 / $font-size}rem;
 }

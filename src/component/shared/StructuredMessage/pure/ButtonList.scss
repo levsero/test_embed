@@ -13,7 +13,9 @@
 }
 
 .overwriteState {
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     background-color: transparent !important;
   }
 }

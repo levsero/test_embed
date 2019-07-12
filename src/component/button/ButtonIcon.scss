@@ -4,9 +4,11 @@
   composes: u-flex u-flexAlignItemsCenter from global;
 
   color: $zd-color-grey-800;
-  padding: #{10/$font-size}rem;
+  padding: #{10 / $font-size}rem;
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     background: $zd-color-grey-100;
     color: $zd-color-grey-800;
   }
@@ -18,10 +20,10 @@
 
 .icon {
   svg {
-    min-width: #{16/$font-size}rem;
-    min-height: #{16/$font-size}rem;
-    height: #{16/$font-size}rem;
-    width: #{16/$font-size}rem;
+    min-width: #{16 / $font-size}rem;
+    min-height: #{16 / $font-size}rem;
+    height: #{16 / $font-size}rem;
+    width: #{16 / $font-size}rem;
 
     path {
       fill: $zd-color-grey-500;
@@ -31,5 +33,5 @@
 
 .label {
   composes: u-pullLeft from global;
-  padding-top: #{1/$font-size}rem;
+  padding-top: #{1 / $font-size}rem;
 }

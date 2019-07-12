@@ -2,13 +2,13 @@
 
 // Slider's height: button's line-height + button's padding + button's border-width + $focusRingWidth
 $focusRingWidth: 3px;
-$buttonLineHeight: 16/$font-size;
-$buttonPaddingVertical: 7/$font-size;
-$buttonBorderWidth: 1/$font-size;
+$buttonLineHeight: 16 / $font-size;
+$buttonPaddingVertical: 7 / $font-size;
+$buttonBorderWidth: 1 / $font-size;
 $buttonInnerHeight: $buttonLineHeight + ($buttonPaddingVertical * 2);
 
 // scrollBufferHeight hides the scrollbar
-$scrollBufferHeight: 10/$font-size;
+$scrollBufferHeight: 10 / $font-size;
 $mobileSliderHeight: $buttonInnerHeight + $buttonBorderWidth * 2;
 
 $sliderHeight: calc(#{$mobileSliderHeight}rem + #{$focusRingWidth * 2});
@@ -38,16 +38,18 @@ $sliderHeight: calc(#{$mobileSliderHeight}rem + #{$focusRingWidth * 2});
   min-width: 0;
   height: auto !important; // garden override
   line-height: #{$buttonLineHeight}rem; // garden override, follow MessageBubble
-  padding: #{$buttonPaddingVertical}rem #{12/$font-size}rem; // Different from MessageBubble because of border
+  padding: #{$buttonPaddingVertical}rem #{12 / $font-size}rem; // Different from MessageBubble because of border
   border-width: #{$buttonBorderWidth}rem; // garden override
 }
 
 .separator {
-  margin-right: #{8/$font-size}rem;
+  margin-right: #{8 / $font-size}rem;
 }
 
 .lastSeparator {
-  margin-right: calc(#{$buttonBorderWidth}rem + #{$focusRingWidth}); // prevent cutoff of the last element and its focus ring
+  margin-right: calc(
+    #{$buttonBorderWidth}rem + #{$focusRingWidth}
+  ); // prevent cutoff of the last element and its focus ring
 }
 
 :global {

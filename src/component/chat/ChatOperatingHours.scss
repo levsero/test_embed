@@ -14,17 +14,17 @@
 
 .dayList {
   font-size: $font-size-lrg;
-  margin: #{16/$font-size}rem 0;
+  margin: #{16 / $font-size}rem 0;
 }
 
 .dayName {
   font-size: $font-size-lrg;
   font-weight: bold;
-  padding-bottom: #{4/$font-size}rem;
+  padding-bottom: #{4 / $font-size}rem;
 }
 
 .lastTiming {
-  margin-bottom: #{12/$font-size}rem;
+  margin-bottom: #{12 / $font-size}rem;
 }
 
 .button {

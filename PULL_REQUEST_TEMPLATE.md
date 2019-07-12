@@ -3,13 +3,13 @@
 
 ### Description
 
-| Before        | After |
-| ------------- |:-------------:|
+| Before         |     After     |
+| -------------- | :-----------: |
 | before img/gif | after img/gif |
 
-
 ### References
- - Jira link: https://zendesk.atlassian.net/browse/%jira_id%
+
+- Jira link: https://zendesk.atlassian.net/browse/%jira_id%
 
 ### Risks
 

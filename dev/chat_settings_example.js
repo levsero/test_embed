@@ -190,4 +190,4 @@ module.exports = `{
   operating_hours: {
     display_notice: true
   }
-}`;
+}`

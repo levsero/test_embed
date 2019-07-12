@@ -5,13 +5,13 @@
 @import '../mixins.scss';
 @import '@zendeskgarden/css-buttons';
 
-$Button-baseFontSize: #{14/$font-size}rem;
+$Button-baseFontSize: #{14 / $font-size}rem;
 $Button-nudge: 5;
 
 .Button {
   font-size: $Button-baseFontSize;
   padding: $spacing-med $spacing-lrg;
-  border-radius: #{5/$font-size}rem;
+  border-radius: #{5 / $font-size}rem;
   color: $base-color;
   cursor: pointer;
 
@@ -19,7 +19,7 @@ $Button-nudge: 5;
     background: $zd-color-grey-200;
   }
   &.is-mobile {
-    padding: #{14/$font-size}rem;
+    padding: #{14 / $font-size}rem;
   }
 }
 
@@ -41,51 +41,56 @@ $Button-nudge: 5;
 */
 .c-btn {
   font-size: $font-size-lrg;
-  padding-right: #{24/$font-size}rem;
-  padding-left: #{24/$font-size}rem;
+  padding-right: #{24 / $font-size}rem;
+  padding-left: #{24 / $font-size}rem;
   min-width: 0;
 }
 
 .c-btn--primary {
-  color: rgba($base-color, .8);
+  color: rgba($base-color, 0.8);
   @include text-limit(75%);
 
   &.is-mobile {
     @include text-limit(100%);
   }
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     color: $base-color;
   }
 }
 
 .c-btn--primary--icon {
   background: $cta-color;
-  color: rgba($base-color, .8);
-  padding: #{11/$font-size}rem 0;
+  color: rgba($base-color, 0.8);
+  padding: #{11 / $font-size}rem 0;
   // TODO - Fix for width for wider string translations
-  min-width: #{76/$font-size}rem;
+  min-width: #{76 / $font-size}rem;
   line-height: 1;
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     color: $base-color;
   }
 }
 
 .c-btn--pill {
   border-radius: 999rem !important; /* 1 */
-  padding: #{7/$font-size}rem #{14/$font-size}rem;
+  padding: #{7 / $font-size}rem #{14 / $font-size}rem;
   line-height: 1;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     svg {
       fill: $zd-color-grey-800;
     }
   }
 
   [dir='rtl'] & {
-    padding-right: #{14/$font-size}rem !important;
-    padding-left: #{9/$font-size}rem !important;
+    padding-right: #{14 / $font-size}rem !important;
+    padding-left: #{9 / $font-size}rem !important;
   }
 }
 
@@ -93,7 +98,8 @@ $Button-nudge: 5;
   color: $zd-color-grey-600;
   border-color: $zd-color-grey-200 !important;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     color: $zd-color-grey-800 !important;
     background: $zd-color-grey-100 !important;
   }
