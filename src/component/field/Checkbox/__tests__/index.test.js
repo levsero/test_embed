@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-testing-library'
+import { render } from '@testing-library/react'
 import snapshotDiff from 'snapshot-diff'
 import { IdManager } from '@zendeskgarden/react-selection'
 

@@ -1,7 +1,7 @@
 jest.mock('utility/devices')
 
 import React from 'react'
-import { render } from 'react-testing-library'
+import { render } from '@testing-library/react'
 import SuccessNotificationPage from '../'
 import { isMobileBrowser } from 'utility/devices'
 

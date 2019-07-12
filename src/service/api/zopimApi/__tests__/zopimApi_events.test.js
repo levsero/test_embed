@@ -1,4 +1,4 @@
-import { wait } from 'react-testing-library'
+import { wait } from '@testing-library/react'
 import zopimApi from '..'
 
 import createStore from 'src/redux/createStore'

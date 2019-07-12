@@ -2,7 +2,7 @@ import _ from 'lodash'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { getModifiedState } from 'src/fixtures/selectors-test-state'
-import { wait } from 'react-testing-library'
+import { wait } from '@testing-library/react'
 
 import { setUpChat } from '../setUpChat'
 import { win } from 'utility/globals'

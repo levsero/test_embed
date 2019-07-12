@@ -1,6 +1,6 @@
 import React from 'react'
 import { i18n } from 'service/i18n'
-import { render, fireEvent } from 'react-testing-library'
+import { render, fireEvent } from '@testing-library/react'
 
 import { Component as ChannelChoiceMenu } from '../ChannelChoiceMenu'
 
@@ -231,7 +231,8 @@ describe('dom interaction', () => {
         const props = {
           onNextClick: click,
           chatAvailable: true,
-          chatOfflineAvailable: true
+          chatOfflineAvailable: true,
+          submitTicketAvailable: false
         }
         const { getByText } = component(props)
 

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { render, fireEvent } from 'react-testing-library'
+import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import { Component as PrimaryFeedback } from '../PrimaryFeedback'
