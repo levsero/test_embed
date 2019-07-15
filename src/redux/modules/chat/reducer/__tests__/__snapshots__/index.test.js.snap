@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`chat root reducer has the expected sub states 1`] = `
+Object {
+  "accountSettings": Object {
+    "attachments": Object {
+      "allowed_extensions": "png,jpg,jpeg,gif,txt,pdf",
+      "enabled": true,
+    },
+    "banner": Object {
+      "enabled": false,
+      "image": "",
+      "layout": "image_only",
+      "text": "Chat with us",
+    },
+    "branding": Object {
+      "hide_branding": false,
+    },
+    "chatWindow": Object {
+      "title": "",
+    },
+    "concierge": Object {
+      "avatar_path": "",
+      "display_name": "",
+      "title": "",
+    },
+    "login": Object {
+      "enabled": false,
+      "loginTypes": Object {},
+      "phoneEnabled": false,
+    },
+    "offlineForm": Object {
+      "enabled": false,
+      "form": Object {
+        "email": Object {
+          "name": "email",
+          "required": false,
+        },
+        "message": Object {
+          "name": "message",
+          "required": false,
+        },
+        "name": Object {
+          "name": "name",
+          "required": false,
+        },
+        "phone": Object {
+          "name": "phone",
+          "required": false,
+        },
+      },
+      "message": "",
+    },
+    "operatingHours": Object {
+      "display_notice": false,
+    },
+    "postchatForm": Object {
+      "header": "",
+      "message": "",
+    },
+    "prechatForm": Object {
+      "form": Object {
+        "department": Object {
+          "name": "department",
+          "required": false,
+        },
+        "email": Object {
+          "name": "email",
+          "required": false,
+        },
+        "message": Object {
+          "name": "message",
+          "required": false,
+        },
+        "name": Object {
+          "name": "name",
+          "required": false,
+        },
+        "phone": Object {
+          "name": "phone",
+          "required": false,
+        },
+      },
+      "message": "",
+      "profile_required": false,
+      "required": false,
+    },
+    "rating": Object {
+      "enabled": false,
+    },
+    "theme": Object {
+      "color": Object {
+        "banner": "",
+        "primary": "#555555",
+      },
+      "message_type": "",
+      "position": "br",
+    },
+  },
+  "account_status": "",
+  "agentJoined": false,
+  "agents": Map {},
+  "chatBanned": false,
+  "chatHistory": Object {
+    "chats": Map {},
+    "hasMore": false,
+    "log": Object {
+      "buffer": Array [],
+      "entries": Array [],
+    },
+    "requestStatus": null,
+  },
+  "chatLog": Object {
+    "firstVisitorMessage": -1,
+    "groups": Array [],
+    "lastMessageAuthor": "",
+    "latestAgentLeaveEvent": -1,
+    "latestQuickReply": -1,
+    "latestRating": -1,
+    "latestRatingRequest": -1,
+  },
+  "chats": Map {},
+  "connection": "",
+  "currentMessage": "",
+  "defaultDepartment": Object {
+    "id": null,
+  },
+  "departments": Object {},
+  "editContactDetails": Object {
+    "display_name": null,
+    "email": null,
+    "error": false,
+    "show": false,
+    "status": "widget/chat/EDIT_CONTACT_DETAILS_SCREEN",
+  },
+  "emailTranscript": Object {
+    "email": "",
+    "error": false,
+    "screen": "widget/chat/EMAIL_TRANSCRIPT_SCREEN",
+    "show": false,
+  },
+  "forcedStatus": null,
+  "formState": Object {
+    "offlineForm": Object {
+      "email": "",
+      "message": "",
+      "name": "",
+      "phone": "",
+    },
+    "preChatForm": Object {
+      "department": "",
+      "email": "",
+      "message": "",
+      "name": "",
+      "phone": "",
+    },
+    "readOnlyState": Object {
+      "email": false,
+      "name": false,
+      "phone": false,
+    },
+  },
+  "inactiveAgents": Object {},
+  "isAuthenticated": false,
+  "isLoggingOut": false,
+  "is_chatting": false,
+  "lastReadTimestamp": 1564104859456,
+  "menuVisible": false,
+  "notification": Object {
+    "count": 0,
+    "display_name": "",
+    "msg": "",
+    "nick": "",
+    "proactive": false,
+    "show": false,
+  },
+  "offlineMessage": Object {
+    "details": Object {
+      "email": "",
+      "message": "",
+      "name": "",
+    },
+    "error": false,
+    "screen": "widget/chat/OFFLINE_FORM_MAIN_SCREEN",
+  },
+  "operatingHours": Object {
+    "enabled": false,
+  },
+  "queuePosition": 0,
+  "rating": Object {
+    "comment": null,
+    "disableEndScreen": false,
+    "value": null,
+  },
+  "screen": "widget/chat/CHATTING_SCREEN",
+  "showChatHistory": false,
+  "socialLogin": Object {
+    "authenticated": false,
+    "avatarPath": "",
+    "screen": "",
+  },
+  "standaloneMobileNotificationVisible": false,
+  "userSettings": Object {
+    "sound": true,
+  },
+  "vendor": Object {
+    "slider": null,
+    "zChat": Object {},
+  },
+  "visitor": Object {},
+}
+`;

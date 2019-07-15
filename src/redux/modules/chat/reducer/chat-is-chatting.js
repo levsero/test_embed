@@ -2,6 +2,7 @@ import _ from 'lodash'
 import {
   UPDATE_PREVIEWER_SCREEN,
   CHAT_MSG_REQUEST_SUCCESS,
+  CHAT_USER_LOGGING_OUT,
   END_CHAT_REQUEST_SUCCESS,
   CHAT_BANNED,
   IS_CHATTING,
@@ -26,6 +27,7 @@ const isChatting = (state = initialState, { payload, type }) => {
       return state
     case CHAT_BANNED:
     case END_CHAT_REQUEST_SUCCESS:
+    case CHAT_USER_LOGGING_OUT:
       return false
     default:
       return state

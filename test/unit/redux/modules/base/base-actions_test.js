@@ -87,6 +87,12 @@ describe('base redux actions', () => {
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getHasContextuallySearched: () => mockHasContextuallySearched
       },
+      'src/redux/modules/chat/chat-selectors': {
+        getPrechatFormRequired: () => false
+      },
+      'src/redux/modules/chat/chat-screen-types': {
+        PRECHAT_SCREEN: 'PRECHAT_SCREEN'
+      },
       'src/redux/modules/helpCenter': {
         contextualSearch: contextualSearchSpy
       },
@@ -357,27 +363,6 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('apiResetWidget', () => {
-    let actionList
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.apiResetWidget())
-      actionList = mockStore.getActions()
-    })
-
-    it('dispatches an action of type API_CLEAR_FORM First', () => {
-      expect(actionList[0].type).toEqual(actionTypes.API_CLEAR_FORM)
-    })
-
-    it('dispatches an action of type API_CLEAR_HC_SEARCHES Second', () => {
-      expect(actionList[1].type).toEqual(actionTypes.API_CLEAR_HC_SEARCHES)
-    })
-
-    it('dispatches an action of type API_RESET_WIDGET Third', () => {
-      expect(actionList[2].type).toEqual(actionTypes.API_RESET_WIDGET)
-    })
-  })
-
   describe('apiClearHcSearches', () => {
     let action
 
@@ -391,26 +376,6 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('apiResetWidget', () => {
-    let actionList
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.apiResetWidget())
-      actionList = mockStore.getActions()
-    })
-
-    it('dispatches an action of type API_CLEAR_FORM First', () => {
-      expect(actionList[0].type).toEqual(actionTypes.API_CLEAR_FORM)
-    })
-
-    it('dispatches an action of type API_CLEAR_HC_SEARCHES Second', () => {
-      expect(actionList[1].type).toEqual(actionTypes.API_CLEAR_HC_SEARCHES)
-    })
-
-    it('dispatches an action of type API_RESET_WIDGET Third', () => {
-      expect(actionList[2].type).toEqual(actionTypes.API_RESET_WIDGET)
-    })
-  })
   describe('apiClearHcSearches', () => {
     let action
 

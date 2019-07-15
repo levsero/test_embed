@@ -6,7 +6,8 @@ describe('chat reducer screens', () => {
 
     initMockRegistry({
       '../chat-screen-types': {
-        CHATTING_SCREEN: 'chatting_screen'
+        CHATTING_SCREEN: 'chatting_screen',
+        PRECHAT_SCREEN: 'pre_chat_screen'
       }
     })
 
