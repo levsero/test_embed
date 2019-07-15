@@ -13,9 +13,9 @@ import styled from 'styled-components'
 
 import { FONT_SIZE } from 'constants/shared'
 import { countriesByIso } from './talkCountries'
-import { TalkCountryDropdown } from 'component/talk/TalkCountryDropdown'
 import { talkDropdownOverrides } from 'component/frame/gardenOverrides'
 import { i18n } from 'service/i18n'
+import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
 
 const StyledFauxInput = styled(FauxInput)`
   padding: 0 !important;
@@ -66,7 +66,8 @@ export class TalkPhoneField extends ControlledComponent {
       selectedKey,
       inputValue,
       countries: this.formatCountries(props.supportedCountries),
-      valid: false
+      valid: false,
+      countryDropdownOpen: false
     }
 
     this.countryDropdown = undefined
@@ -175,8 +176,7 @@ export class TalkPhoneField extends ControlledComponent {
     // prop is applied this way as we only want to control it
     // when the select is focused. Otherwise omit and let the component
     // control its focus state
-    const focused =
-      this.countryDropdown && this.countryDropdown.selectFocused() ? { focused: true } : {}
+    const focused = this.state.countryDropdownOpen ? { focused: true } : {}
     const error = this.renderErrorMessage()
 
     return (
@@ -200,13 +200,18 @@ export class TalkPhoneField extends ControlledComponent {
                     mediaLayout={true}
                     inputRef={container => (this.containerRef = container)}
                   >
-                    <TalkCountryDropdown
-                      ref={node => (this.countryDropdown = node)}
-                      document={this.props.getFrameContentDocument()}
-                      getContainerRef={() => this.containerRef}
+                    <CountryDropdown
                       selectedKey={this.state.selectedKey}
-                      countries={this.state.countries}
                       onChange={this.onFlagChange}
+                      countries={this.state.countries}
+                      width={
+                        this.containerRef ? this.containerRef.getBoundingClientRect().width : '100%'
+                      }
+                      appendToNode={this.props.getFrameContentDocument().body}
+                      isOpen={this.state.countryDropdownOpen}
+                      onToggleOpen={countryDropdownOpen => {
+                        this.setState({ countryDropdownOpen })
+                      }}
                     />
                     <StyledInput
                       {...getFieldInputProps()}

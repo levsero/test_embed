@@ -19,13 +19,6 @@ describe('Render phone field', () => {
       return <div className={this.props.className}>{this.props.children}</div>
     }
   }
-  const TalkCountryDropdown = class extends Component {
-    selectFocused = () => {}
-
-    render() {
-      return <div className={this.props.className}>{this.props.children}</div>
-    }
-  }
 
   beforeEach(() => {
     libphonenumber = require('libphonenumber-js')
@@ -53,7 +46,7 @@ describe('Render phone field', () => {
           t: _.identity
         }
       },
-      'component/talk/TalkCountryDropdown': { TalkCountryDropdown },
+      'src/embeds/talk/components/CountryDropdown': noopReactComponent(),
       'constants/shared': {},
       './talkCountries': {
         countriesByIso: {
@@ -339,7 +332,7 @@ describe('Render phone field', () => {
   })
 
   describe('rendering', () => {
-    let phoneField, countryDropdown, field
+    let phoneField, field
 
     const expectedCountries = [
       { name: 'Australia', iso: 'AU', code: '+61' },
@@ -358,7 +351,6 @@ describe('Render phone field', () => {
           libphonenumber={libphonenumber}
         />
       )
-      countryDropdown = phoneField.countryDropdown
       field = phoneField.phoneInput
     })
 
@@ -378,16 +370,6 @@ describe('Render phone field', () => {
       }
 
       expect(phoneField.props).toEqual(jasmine.objectContaining(expectedProps))
-    })
-
-    it('renders a TalkCountyDropdown with correct props', () => {
-      expect(countryDropdown.props).toEqual(
-        jasmine.objectContaining({
-          document,
-          selectedKey: 'AU',
-          countries: expectedCountries
-        })
-      )
     })
 
     it('formats the supported countries to the expected format', () => {

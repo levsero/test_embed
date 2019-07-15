@@ -242,7 +242,7 @@ const checkboxInputOverrides = themeColor => {
 const talkDropdownOverrides = {
   'textfields.input': genericOverrides,
   'select.select_view': css`
-    width: ${60 / FONT_SIZE}rem !important;
+    width: ${53 / FONT_SIZE}rem !important;
     min-height: ${38 / FONT_SIZE}rem !important;
     padding: ${10 / FONT_SIZE}rem ${10 / FONT_SIZE}rem 0 !important;
     border-radius: ${4 / FONT_SIZE}rem 0 0 ${4 / FONT_SIZE}rem !important;
