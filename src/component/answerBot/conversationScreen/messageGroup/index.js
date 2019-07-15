@@ -10,7 +10,7 @@ import {
   makeGetGroupMessages,
   getLastScreenClosed
 } from 'src/redux/modules/answerBot/conversation/selectors'
-import { getBrandLogoUrl } from 'src/redux/modules/base/base-selectors'
+import { getBrandLogoUrl, getLocale } from 'src/redux/modules/base/base-selectors'
 
 import { Avatar } from 'src/component/Avatar'
 import { locals as styles } from './MessageGroup.scss'
@@ -21,6 +21,7 @@ const makeMapStateToProps = () => {
   const getGroupMessages = makeGetGroupMessages()
 
   return (state, props) => ({
+    locale: getLocale(state),
     messages: getGroupMessages(state, props),
     lastConversationScreenClosed: getLastScreenClosed(state),
     brandLogoUrl: getBrandLogoUrl(state)
@@ -35,7 +36,8 @@ class MessageGroup extends Component {
     scrollToBottom: PropTypes.func,
     agentAvatarName: PropTypes.string,
     agentAvatarUrl: PropTypes.string,
-    brandLogoUrl: PropTypes.string.isRequired
+    brandLogoUrl: PropTypes.string.isRequired,
+    locale: PropTypes.string.isRequired // eslint-disable-line react/no-unused-prop-types
   }
 
   static defaultProps = {

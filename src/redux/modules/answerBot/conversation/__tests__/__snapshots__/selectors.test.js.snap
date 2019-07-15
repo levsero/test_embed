@@ -113,6 +113,9 @@ Map {
   "2" => Object {
     "message": "Thing 2",
   },
+  "3" => Object {
+    "message": "Loading image (someAttachmentSize)...",
+  },
 }
 `;
 

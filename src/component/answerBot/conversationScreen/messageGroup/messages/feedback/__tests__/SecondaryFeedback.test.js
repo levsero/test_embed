@@ -30,12 +30,14 @@ describe('actions', () => {
 
     fireEvent.click(getByText("It's not related to my question"))
 
-    expect(actions.botUserMessage).toHaveBeenCalledWith("It's not related to my question")
+    expect(actions.botUserMessage).toHaveBeenCalledWith(
+      'embeddable_framework.answerBot.article.feedback.no.reason.unrelated'
+    )
     expect(actions.articleDismissed).toHaveBeenCalledWith(1)
     expect(actions.sessionFallback).toHaveBeenCalled()
     expect(actions.botFeedbackMessage).toHaveBeenNthCalledWith(
       1,
-      'I see. Your question is still unresolved.'
+      'embeddable_framework.answerBot.msg.no_acknowledgement'
     )
     expect(actions.botFallbackMessage).toHaveBeenCalledWith(true)
   })

@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { i18n } from 'service/i18n'
 
 import { PillButton } from 'src/component/shared/PillButton'
 import { ButtonGroup } from 'component/button/ButtonGroup'
 
 import { locals as styles } from './FeedbackPopup.scss'
 
+import { i18n } from 'service/i18n'
+
 class FeedbackPopup extends Component {
   static propTypes = {
     onYesClick: PropTypes.func.isRequired,
     onNoClick: PropTypes.func.isRequired,
-    onReasonClick: PropTypes.func.isRequired
+    onReasonClick: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired // eslint-disable-line react/no-unused-prop-types
   }
 
   constructor(props) {
