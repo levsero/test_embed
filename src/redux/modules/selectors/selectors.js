@@ -13,6 +13,7 @@ import {
   getHideBranding as getAccountSettingsHideBranding,
   getChatBadgeEnabled,
   getChatBanned,
+  getChatsLength,
   getConnection as getChatConnection
 } from '../chat/chat-selectors'
 import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors'
@@ -50,6 +51,7 @@ import {
   getAnswerBotAvatarName,
   getSettingsChatConnectionSuppress,
   getSettingsChatConnectOnDemand,
+  getSettingsChatEmailTranscriptEnabled,
   getCookiesDisabled,
   getSettingsAnswerBotSuppress,
   getSettingsSelectTicketFormLabel
@@ -255,6 +257,13 @@ export const getChatEnabled = createSelector(
   [getChatEmbed, getSettingsChatSuppress, getChatConnectionSuppressed],
   (chatEmbed, chatSuppress, chatConnectedConnectionSuppressed) => {
     return chatEmbed && !chatSuppress && !chatConnectedConnectionSuppressed
+  }
+)
+
+export const getChatEmailTranscriptEnabled = createSelector(
+  [getChatsLength, getSettingsChatEmailTranscriptEnabled],
+  (chatsLength, emailsTranscriptEnabled) => {
+    return chatsLength > 0 && emailsTranscriptEnabled
   }
 )
 

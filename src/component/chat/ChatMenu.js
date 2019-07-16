@@ -124,9 +124,11 @@ export class ChatMenu extends Component {
 
   renderEmailTranscriptButton = () => {
     const { emailTranscriptOnClick, emailTranscriptEnabled } = this.props
-    const label = i18n.t('embeddable_framework.chat.options.emailTranscript')
 
-    return this.renderButton(emailTranscriptOnClick, label, !emailTranscriptEnabled)
+    if (!emailTranscriptEnabled) return null
+
+    const label = i18n.t('embeddable_framework.chat.options.emailTranscript')
+    return this.renderButton(emailTranscriptOnClick, label)
   }
 
   renderContactDetailsButton = () => {
