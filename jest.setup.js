@@ -25,6 +25,16 @@ const mockMedia = () => ({
 window.matchMedia = window.matchMedia || mockMedia
 window.requestAnimationFrame = window.requestAnimationFrame || (callback => setTimeout(callback, 0))
 
+// setup needed for popper.js
+document.createRange = () => ({
+  setStart: () => {},
+  setEnd: () => {},
+  commonAncestorContainer: {
+    nodeName: 'BODY',
+    ownerDocument: document
+  }
+})
+
 process.on('unhandledRejection', function(err, promise) {
   console.error('Unhandled rejection (promise: ', promise, ', reason: ', err, ').') // eslint-disable-line no-console
 })
