@@ -21,7 +21,7 @@ const reduxConsoleLogger = storeName => {
   })
 }
 
-const useReduxDevtools = inDebugMode() && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+const reduxDevtoolsAvailable = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 const reduxDevtoolsComposer = storeName => {
   return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ name: storeName })
 }
@@ -39,11 +39,15 @@ export default function(storeName = 'web_widget', options = {}) {
     onStateChangeWrapper(queueCalls)
   ]
 
-  if (inDebugMode()) {
-    middlewares.push(reduxConsoleLogger(storeName))
-  }
+  let composeEnhancers = compose
 
-  const composeEnhancers = useReduxDevtools ? reduxDevtoolsComposer(storeName) : compose
+  if (inDebugMode()) {
+    if (reduxDevtoolsAvailable) {
+      composeEnhancers = reduxDevtoolsComposer(storeName)
+    } else {
+      middlewares.push(reduxConsoleLogger(storeName))
+    }
+  }
 
   return composeEnhancers(applyMiddleware(...middlewares))(createStore)(reducer)
 }
