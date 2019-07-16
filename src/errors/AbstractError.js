@@ -1,7 +1,7 @@
 import extendableError from './extendableError'
 
 export default class AbstractError extends extendableError() {
-  constructor(name, message) {
+  constructor(message, name) {
     super(message)
     this.name = name // NOTE: minification of class names means that we need to specify the error name as a string
     this.message = message
