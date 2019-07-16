@@ -137,7 +137,7 @@ const renderPreview = options => {
           frameStyle={frameStyle}
           containerStyle={containerStyle}
           ref={el => {
-            if (el) previewContainer = el.getWrappedInstance()
+            if (el) previewContainer = el
           }}
         />
       </Provider>

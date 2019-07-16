@@ -349,5 +349,5 @@ export default connect(
   mapStateToProps,
   null,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(SliderContainer)

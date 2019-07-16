@@ -167,7 +167,7 @@ const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(Footer)
 
 export { connectedComponent as default, Footer as Component }

@@ -194,7 +194,7 @@ const connectedComponent = connect(
   mapStateToProps,
   mapDispatchToProps,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(ArticleScreen)
 
 export { connectedComponent as default, ArticleScreen as Component }

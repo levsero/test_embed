@@ -53,7 +53,8 @@ describe('embed.webWidget', () => {
     authenticateSpy = jasmine.createSpy('authenticate')
     mockStore = {
       getState: () => mockState,
-      dispatch: jasmine.createSpy('dispatch')
+      dispatch: jasmine.createSpy('dispatch'),
+      subscribe: () => undefined
     }
     mockChatNotification = { show: false, proactive: false }
     mockStandaloneMobileNotificationVisible = false

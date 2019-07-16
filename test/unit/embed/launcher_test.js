@@ -3,6 +3,11 @@ describe('embed.launcher', () => {
   const mockToken = 'someMockedToken'
   const launcherPath = buildSrcPath('embed/launcher/launcher')
 
+  const mockReduxStore = {
+    getState: () => ({}),
+    subscribe: () => ({})
+  }
+
   beforeEach(() => {
     mockIsMobileBrowser = false
     mockZoomSizingRatioValue = 1
@@ -72,7 +77,7 @@ describe('embed.launcher', () => {
 
   describe('create', () => {
     it('should add a new launcher to the internal list', () => {
-      launcher.create('launcher')
+      launcher.create('launcher', undefined, mockReduxStore)
       launcher.render()
       const alice = launcher.get()
 
@@ -84,7 +89,7 @@ describe('embed.launcher', () => {
     })
 
     it('changes config.labelKey if labelKey is set', () => {
-      launcher.create('launcher', { labelKey: 'test_label' })
+      launcher.create('launcher', { labelKey: 'test_label' }, mockReduxStore)
 
       const alice = launcher.get()
 
@@ -99,7 +104,7 @@ describe('embed.launcher', () => {
           onClick: jasmine.createSpy(),
           visible: true
         }
-        launcher.create('launcher', config)
+        launcher.create('launcher', config, mockReduxStore)
         launcher.render()
         alice = launcher.get()
         frame = alice.instance
@@ -153,7 +158,7 @@ describe('embed.launcher', () => {
         visible: true
       }
 
-      launcher.create('launcher', config)
+      launcher.create('launcher', config, mockReduxStore)
       const alice = launcher.get()
 
       expect(alice).not.toBeUndefined()
@@ -174,14 +179,14 @@ describe('embed.launcher', () => {
     })
 
     it('renders a launcher', () => {
-      launcher.create('launcher')
+      launcher.create('launcher', undefined, mockReduxStore)
       launcher.render()
 
       expect(launcher.get().instance).toBeDefined()
     })
 
     it('should only be allowed to render an launcher once', () => {
-      launcher.create('launcher')
+      launcher.create('launcher', undefined, mockReduxStore)
 
       expect(() => {
         launcher.render()
@@ -193,7 +198,7 @@ describe('embed.launcher', () => {
     })
 
     it('applies launcher styles to the frame', () => {
-      launcher.create('launcher')
+      launcher.create('launcher', undefined, mockReduxStore)
       launcher.render()
 
       expect(launcher.get().component.props.children.props.css).toContain('mockCss')
@@ -204,7 +209,7 @@ describe('embed.launcher', () => {
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator
-        launcher.create('launcher', { labelKey: 'test_label' })
+        launcher.create('launcher', { labelKey: 'test_label' }, mockReduxStore)
         launcher.render()
         alice = launcher.get()
         aliceLauncher = alice.instance.getRootComponent()
@@ -270,7 +275,7 @@ describe('embed.launcher', () => {
         beforeEach(() => {
           mockIsMobileBrowser = true
           mockZoomSizingRatioValue = Math.random()
-          launcher.create('launcher')
+          launcher.create('launcher', undefined, mockReduxStore)
           launcher.render()
 
           const alice = launcher.get().instance
@@ -319,7 +324,7 @@ describe('embed.launcher', () => {
         }
 
         beforeEach(() => {
-          launcher.create('launcher')
+          launcher.create('launcher', undefined, mockReduxStore)
           launcher.render()
 
           const alice = launcher.get().instance

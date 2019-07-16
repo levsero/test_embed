@@ -53,7 +53,7 @@ const connectedComponent = connect(
   mapStateToProps,
   mapDispatchToProps,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(ContextualSearchResults)
 
 export { connectedComponent as default, ContextualSearchResults as Component }

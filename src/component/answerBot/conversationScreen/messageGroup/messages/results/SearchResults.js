@@ -86,7 +86,7 @@ const connectedComponent = connect(
   mapStateToProps,
   mapDispatchToProps,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(SearchResults)
 
 export { connectedComponent as default, SearchResults as Component }

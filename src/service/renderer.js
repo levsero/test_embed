@@ -196,11 +196,7 @@ function renderedEmbedsApply(fn) {
     const currentEmbed = embedsMap[embed.embed].get(name).instance
 
     if (currentEmbed) {
-      if (currentEmbed.getWrappedInstance) {
-        fn(currentEmbed.getWrappedInstance())
-      } else {
-        fn(currentEmbed)
-      }
+      fn(currentEmbed)
     }
   })
 }

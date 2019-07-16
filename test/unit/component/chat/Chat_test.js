@@ -98,11 +98,7 @@ describe('Chat component', () => {
       describe('handleDragEnter', () => {
         beforeEach(() => {
           component.online = {
-            getWrappedInstance: () => {
-              return {
-                handleDragEnter: handleDragEnterSpy
-              }
-            }
+            handleDragEnter: handleDragEnterSpy
           }
           component.handleDragEnter()
         })
