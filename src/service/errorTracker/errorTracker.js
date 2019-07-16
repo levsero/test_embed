@@ -2,6 +2,7 @@ import Rollbar from 'rollbar'
 import logger from 'utility/logger'
 import { inDebugMode } from 'utility/runtime'
 import ConsoleError from 'errors/ConsoleError'
+import { getHostUrl } from 'src/util/utils'
 
 const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/]
 
@@ -28,6 +29,7 @@ const rollbarConfig = {
   maxItems: 10,
   payload: {
     environment: __EMBEDDABLE_FRAMEWORK_ENV__,
+    hostPageUrl: getHostUrl(),
     client: {
       javascript: {
         source_map_enabled: true, // eslint-disable-line camelcase
