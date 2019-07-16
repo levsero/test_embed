@@ -2,11 +2,7 @@ import _ from 'lodash'
 import errorTracker from 'service/errorTracker'
 import { store } from 'service/persistence'
 import { settings } from 'service/settings'
-import {
-  getChatConfig,
-  getBrandCount,
-  getBrand
-} from 'src/redux/modules/base/base-selectors'
+import { getChatConfig, getBrandCount, getBrand } from 'src/redux/modules/base/base-selectors'
 import {
   fetchConversationHistory,
   handleChatVendorLoaded,

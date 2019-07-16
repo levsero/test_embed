@@ -1,7 +1,5 @@
 import _ from 'lodash'
-import {
-  zopimExistsOnPage
-} from './helpers';
+import { zopimExistsOnPage } from './helpers'
 import ZopimApiError from 'errors/console/ZopimApiError'
 
 export function setupZopimQueue(win) {

@@ -1,22 +1,22 @@
-import { inDebugMode } from '../runtime';
-import { store } from 'service/persistence';
+import { inDebugMode } from '../runtime'
+import { store } from 'service/persistence'
 
 beforeEach(() => {
-  store.clear();
-});
+  store.clear()
+})
 
 describe('#inDebugMode', () => {
   it('returns false by default', () => {
-    expect(inDebugMode()).toEqual(false);
-  });
+    expect(inDebugMode()).toEqual(false)
+  })
 
-  describe('when the \'debug\' flag is set to true', () => {
+  describe("when the 'debug' flag is set to true", () => {
     beforeEach(() => {
-      store.set('debug', true);
-    });
+      store.set('debug', true)
+    })
 
     it('returns true', () => {
-      expect(inDebugMode()).toEqual(true);
-    });
-  });
-});
+      expect(inDebugMode()).toEqual(true)
+    })
+  })
+})

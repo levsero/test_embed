@@ -8,11 +8,7 @@ import { mediator } from 'service/mediator'
 import errorTracker from 'service/errorTracker'
 import { settings } from 'service/settings'
 import { win } from 'utility/globals'
-import {
-  updateEmbedAccessible,
-  updateArturos,
-  widgetInitialised
-} from 'src/redux/modules/base'
+import { updateEmbedAccessible, updateArturos, widgetInitialised } from 'src/redux/modules/base'
 import { FONT_SIZE } from 'constants/shared'
 import { setLocaleApi } from 'src/service/api/apis'
 
@@ -184,10 +180,9 @@ function initMediator(config, store) {
   } else if (embeds) {
     mediator.init(store)
   } else if (!_.isEmpty(embeds)) {
-    errorTracker.error(
-      new Error('Could not find correct embeds to initialise.'),
-      { params: { config: config } }
-    )
+    errorTracker.error(new Error('Could not find correct embeds to initialise.'), {
+      params: { config: config }
+    })
   }
 }
 

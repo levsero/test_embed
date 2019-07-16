@@ -1,12 +1,9 @@
 require('./polyfills')
 
-import { boot } from './boot';
-import errorTracker from 'service/errorTracker';
-import { isBlacklisted } from 'utility/devices';
-import {
-  win,
-  document as doc
-} from 'utility/globals';
+import { boot } from './boot'
+import errorTracker from 'service/errorTracker'
+import { isBlacklisted } from 'utility/devices'
+import { win, document as doc } from 'utility/globals'
 
 try {
   if (!isBlacklisted()) {
@@ -16,5 +13,5 @@ try {
     setTimeout(() => boot.start(win, doc), 0)
   }
 } catch (err) {
-  errorTracker.error(err);
+  errorTracker.error(err)
 }

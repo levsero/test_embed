@@ -134,10 +134,10 @@ export function loadTalkVendors(vendors, serviceUrl, nickname) {
       if (_.isEmpty(nickname)) return
 
       const socket = socketio.connect(io, serviceUrl, nickname)
-      
+
       socketio.mapEventsToActions(socket, { dispatch })
     }
-    const onFailure = (err) => {
+    const onFailure = err => {
       errorTracker.error(err)
     }
 

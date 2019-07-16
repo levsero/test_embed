@@ -1,3 +1,3 @@
-import errorTracker from './errorTracker';
+import errorTracker from './errorTracker'
 
-export default errorTracker;
+export default errorTracker

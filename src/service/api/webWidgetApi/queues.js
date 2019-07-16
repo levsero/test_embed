@@ -5,19 +5,10 @@ import {
   API_GET_DEPARTMENTS_DEPARTMENT_NAME,
   API_GET_DISPLAY_NAME
 } from 'constants/api'
-import {
-  setLocaleApi,
-} from 'src/service/api/apis'
+import { setLocaleApi } from 'src/service/api/apis'
 import { renderer } from 'service/renderer'
-import {
-  apiExecute,
-  apiStructurePostRenderSetup,
-  apiStructurePreRenderSetup,
-} from './setupApi'
-import {
-  setupPublicApi,
-  setupDevApi
-} from './setupLegacyApi'
+import { apiExecute, apiStructurePostRenderSetup, apiStructurePreRenderSetup } from './setupApi'
+import { setupPublicApi, setupDevApi } from './setupLegacyApi'
 import ZDApiError from 'errors/console/ZDApiError'
 
 const newAPIPostRenderQueue = []
@@ -89,13 +80,15 @@ export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
 
 export function apisExecuteQueue(reduxStore, queue) {
   const logApiError = (api, e = {}) => {
-    throw new ZDApiError([
-      'An error occurred in your use of the Zendesk Widget API:',
-      api,
-      'Check out the Developer API docs to make sure you\'re using it correctly',
-      'https://developer.zendesk.com/embeddables/docs/widget/api',
-      e.stack
-    ].join('\n\n'))
+    throw new ZDApiError(
+      [
+        'An error occurred in your use of the Zendesk Widget API:',
+        api,
+        "Check out the Developer API docs to make sure you're using it correctly",
+        'https://developer.zendesk.com/embeddables/docs/widget/api',
+        e.stack
+      ].join('\n\n')
+    )
   }
 
   _.forEach(queue, method => {

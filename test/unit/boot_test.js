@@ -171,7 +171,7 @@ describe('boot', () => {
         mockGetErrorReportingEnabled = true
         boot.setupServices({})
       })
-      
+
       it('enables error tracking', () => {
         expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: true })
       })
@@ -182,7 +182,7 @@ describe('boot', () => {
         mockGetErrorReportingEnabled = false
         boot.setupServices({})
       })
-      
+
       it('disables error tracking', () => {
         expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: false })
       })

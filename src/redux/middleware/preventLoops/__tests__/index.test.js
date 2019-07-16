@@ -29,7 +29,7 @@ describe('preventLoops', () => {
         preventLoops({ getState: noop })(jest.fn())(getAction())
       })
     })
-    
+
     it('does not log the action', () => {
       expect(errorTracker.error).not.toHaveBeenCalled()
       expect(beacon.trackUserAction).not.toHaveBeenCalled()

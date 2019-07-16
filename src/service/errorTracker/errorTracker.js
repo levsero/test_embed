@@ -1,9 +1,9 @@
-import Rollbar from 'rollbar';
-import logger from 'utility/logger';
-import { inDebugMode } from 'utility/runtime';
-import ConsoleError from 'errors/ConsoleError';
+import Rollbar from 'rollbar'
+import logger from 'utility/logger'
+import { inDebugMode } from 'utility/runtime'
+import ConsoleError from 'errors/ConsoleError'
 
-const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/];
+const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/]
 
 if (__DEV__) {
   hostAllowList.push('localhost', '127.0.0.1')
@@ -17,7 +17,7 @@ const ignoreException = (_isUncaught, _args, _payload) => {
   return false
 }
 
-const rollbarConfig =  {
+const rollbarConfig = {
   enabled: true,
   accessToken: '94eb0137fdc14471b21b34c5a04f9359',
   captureUncaught: true,
@@ -36,18 +36,20 @@ const rollbarConfig =  {
       }
     }
   }
-};
+}
 
-const errorTracker = new Rollbar(rollbarConfig);
+const errorTracker = new Rollbar(rollbarConfig)
 
 const errorHandler = (error, ...args) => {
   if (inDebugMode() || (error && error instanceof ConsoleError)) {
-    logger.error(error, ...args);
+    logger.error(error, ...args)
   }
-  errorTracker.error(error, ...args);
-};
+  errorTracker.error(error, ...args)
+}
 
 export default {
-  configure: (...args) => { errorTracker.configure(...args); },
-  error: errorHandler,
-};
+  configure: (...args) => {
+    errorTracker.configure(...args)
+  },
+  error: errorHandler
+}
