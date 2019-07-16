@@ -11,7 +11,8 @@ const renderComponent = (props = {}) => {
     getInTouchClicked: noop,
     botUserMessage: noop,
     botChannelChoice: noop,
-    showGetInTouch: false
+    showGetInTouch: false,
+    locale: 'en-US'
   }
 
   const componentProps = {

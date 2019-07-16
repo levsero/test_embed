@@ -134,6 +134,7 @@ class ArticleScreen extends Component {
           onYesClick={this.onYesFeedback}
           onNoClick={this.handleNoClick}
           onReasonClick={this.onNoFeedback}
+          locale={this.props.locale}
         />
       </SlideAppear>
     )

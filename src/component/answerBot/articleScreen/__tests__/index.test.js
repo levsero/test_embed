@@ -27,6 +27,7 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     article: {},
     isFeedbackRequired: false,
+    locale: 'en-US',
     actions
   }
 

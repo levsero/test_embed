@@ -21,14 +21,14 @@ import { locals as styles } from './style.scss'
 
 export class SecondaryFeedback extends Component {
   static propTypes = {
+    locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
     actions: PropTypes.shape({
       articleDismissed: PropTypes.func.isRequired,
       botUserMessage: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
       botFallbackMessage: PropTypes.func.isRequired,
       sessionFallback: PropTypes.func.isRequired,
-      getInTouchShown: PropTypes.func.isRequired,
-      locale: PropTypes.string.isRequired
+      getInTouchShown: PropTypes.func.isRequired
     })
   }
 
