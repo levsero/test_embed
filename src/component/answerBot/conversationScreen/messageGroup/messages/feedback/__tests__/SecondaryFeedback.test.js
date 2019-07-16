@@ -9,11 +9,12 @@ const actions = Object.freeze({
   botUserMessage: jest.fn(),
   botFeedbackMessage: jest.fn(),
   sessionFallback: jest.fn(),
-  botFallbackMessage: jest.fn()
+  botFallbackMessage: jest.fn(),
+  getInTouchShown: jest.fn()
 })
 
 const renderComponent = (props = {}) => {
-  const componentProps = _.merge({}, { actions }, props)
+  const componentProps = _.merge({ locale: 'en-US' }, { actions }, props)
 
   return render(<SecondaryFeedback {...componentProps} />)
 }

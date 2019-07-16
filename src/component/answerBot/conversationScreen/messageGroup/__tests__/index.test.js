@@ -19,7 +19,8 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     messages: messages,
     isVisitor: false,
-    agentAvatarName: 'Answer Bot'
+    agentAvatarName: 'Answer Bot',
+    locale: 'en-US'
   }
 
   const componentProps = {
@@ -77,7 +78,12 @@ describe('bot', () => {
       ]
 
       const { container } = render(
-        <MessageGroup lastConversationScreenClosed={1} isVisitor={false} messages={messages} />
+        <MessageGroup
+          locale={'en-US'}
+          lastConversationScreenClosed={1}
+          isVisitor={false}
+          messages={messages}
+        />
       )
 
       expect(container.querySelectorAll('.botMessage').length).toEqual(1)

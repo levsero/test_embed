@@ -25,6 +25,34 @@ const mockMedia = () => ({
 window.matchMedia = window.matchMedia || mockMedia
 window.requestAnimationFrame = window.requestAnimationFrame || (callback => setTimeout(callback, 0))
 
+// setup needed for popper.js
+document.createRange = () => ({
+  setStart: () => {},
+  setEnd: () => {},
+  commonAncestorContainer: {
+    nodeName: 'BODY',
+    ownerDocument: document
+  }
+})
+
+// this is just a little hack to silence a warning that we'll get until react
+// fixes this: https://github.com/facebook/react/pull/14853
+/* eslint-disable no-console */
+const originalError = console.error
+beforeAll(() => {
+  console.error = (...args) => {
+    if (/Warning.*not wrapped in act/.test(args[0])) {
+      return
+    }
+    originalError.call(console, ...args)
+  }
+})
+
+afterAll(() => {
+  console.error = originalError
+})
+/* eslint-enable no-console */
+
 process.on('unhandledRejection', function(err, promise) {
   console.error('Unhandled rejection (promise: ', promise, ', reason: ', err, ').') // eslint-disable-line no-console
 })
