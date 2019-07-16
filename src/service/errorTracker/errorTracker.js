@@ -12,7 +12,7 @@ if (__DEV__) {
 
 const ignoredMessagesList = [/^(.)*(Script error).?$/]
 
-const ignoreException = (_isUncaught, _args, _payload) => {
+export const ignoreException = (_isUncaught, _args, _payload) => {
   if (__EMBEDDABLE_FRAMEWORK_ENV__ === 'production') {
     // throttles error notifications so that only 1 in 1000 errors is sent through to rollbar
     return Math.floor(Math.random() * 1000) !== 0
