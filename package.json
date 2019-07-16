@@ -100,7 +100,7 @@
     "color": "~3.0.0",
     "core-js": "^2.5.1",
     "libphonenumber-js": "~0.4.49",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.14",
     "prop-types": "^15.6.1",
     "re-reselect": "^2.2.0",
     "react": "^16.8.6",
