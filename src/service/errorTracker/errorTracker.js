@@ -10,6 +10,8 @@ if (__DEV__) {
   hostAllowList.push('localhost', '127.0.0.1')
 }
 
+const ignoredMessagesList = [/^(.)*(Script error).?$/]
+
 const ignoreException = (_isUncaught, _args, _payload) => {
   if (__EMBEDDABLE_FRAMEWORK_ENV__ === 'production') {
     // throttles error notifications so that only 1 in 1000 errors is sent through to rollbar
@@ -24,6 +26,7 @@ const rollbarConfig = {
   captureUncaught: true,
   captureUnhandledRejections: true,
   checkIgnore: ignoreException,
+  ignoredMessages: ignoredMessagesList,
   endpoint: 'https://rollbar-eu.zendesk.com/api/1/item/',
   hostWhitelist: hostAllowList,
   maxItems: 10,
