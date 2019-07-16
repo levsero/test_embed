@@ -1,2 +1,4 @@
 src/translation/
 vendor/
+example/
+dist/
