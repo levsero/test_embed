@@ -2,18 +2,39 @@ import { createSelector } from 'reselect'
 import _ from 'lodash'
 
 import { getSessions } from 'src/redux/modules/answerBot/sessions/selectors'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
+import { i18n } from 'service/i18n'
 
 const getState = state => state.answerBot
 const getConversation = state => state.answerBot.conversation
-const getGroupMessages = (state, props) =>
-  props.messageKeys.map(key => state.answerBot.messages.get(key))
+const getGroupMessages = (state, props) => props.messageKeys.map(key => getMessages(state).get(key))
 const appendGroup = (groups, group) => {
   groups[Object.keys(groups).length] = group
 }
 
-export const getMessages = createSelector(
+const getRawMessages = createSelector(
   [getState],
   state => state.messages
+)
+
+export const getMessages = createSelector(
+  [getRawMessages, getLocale],
+  (rawMessages, _locale) => {
+    const translatedMessages = new Map()
+
+    rawMessages.forEach((val, key) => {
+      if (val.message && typeof val.message === 'object') {
+        // a translation object is present
+        translatedMessages.set(key, {
+          ...val,
+          message: i18n.t(val.message.key, val.message.interpolation)
+        })
+      } else {
+        translatedMessages.set(key, val)
+      }
+    })
+    return translatedMessages
+  }
 )
 
 export const getLastMessage = createSelector(

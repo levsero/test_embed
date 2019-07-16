@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { InputBox } from 'component/shared/InputBox'
 import { i18n } from 'service/i18n'
+
 import {
   questionSubmitted,
   questionValueChanged,
@@ -32,7 +33,8 @@ class Footer extends Component {
     isMobile: PropTypes.bool,
     showGetInTouch: PropTypes.bool.isRequired,
     botUserMessage: PropTypes.func.isRequired,
-    botChannelChoice: PropTypes.func.isRequired
+    botChannelChoice: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired // eslint-disable-line react/no-unused-prop-types
   }
 
   static defaultProps = {
@@ -123,10 +125,8 @@ class Footer extends Component {
 
   handleGetInTouchClicked = () => {
     this.props.getInTouchClicked()
-    this.props.botUserMessage(i18n.t('embeddable_framework.answerBot.button.get_in_touch'))
-    this.props.botChannelChoice(
-      i18n.t('embeddable_framework.answerBot.msg.channel_choice.get_in_touch')
-    )
+    this.props.botUserMessage('embeddable_framework.answerBot.button.get_in_touch')
+    this.props.botChannelChoice('embeddable_framework.answerBot.msg.channel_choice.get_in_touch')
   }
 
   renderSend = () => {
@@ -150,7 +150,8 @@ class Footer extends Component {
 const mapStateToProps = state => {
   return {
     currentMessage: getCurrentMessage(state),
-    showGetInTouch: getContactButtonVisible(state)
+    showGetInTouch: getContactButtonVisible(state),
+    locale: getLocale(state)
   }
 }
 

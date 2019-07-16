@@ -99,10 +99,14 @@ describe('greeting', () => {
     renderComponent({ currentSessionID: 1234, isInitialSession: true })
 
     expect(actions.botGreeted).toHaveBeenCalled()
-    expect(actions.botMessage).toHaveBeenNthCalledWith(1, 'Hello.')
+    expect(actions.botMessage).toHaveBeenNthCalledWith(
+      1,
+      'embeddable_framework.answerBot.msg.greetings',
+      undefined
+    )
     expect(actions.botMessage).toHaveBeenNthCalledWith(
       2,
-      "Ask me a question and I'll find the answer for you."
+      'embeddable_framework.answerBot.msg.prompt'
     )
   })
 
@@ -123,7 +127,11 @@ describe('greeting', () => {
       isInitialSession: true
     })
 
-    expect(actions.botMessage).toHaveBeenNthCalledWith(1, 'Hi! Welcome to Wayne.')
+    expect(actions.botMessage).toHaveBeenNthCalledWith(
+      1,
+      'embeddable_framework.answerBot.msg.greetings_with_brand',
+      { brand: 'Wayne' }
+    )
   })
 
   it('does not greet if it has greeted before', () => {
@@ -144,7 +152,11 @@ describe('greeting', () => {
     })
 
     expect(actions.botGreeted).toHaveBeenCalled()
-    expect(actions.botMessage).toHaveBeenNthCalledWith(1, 'Hello.')
+    expect(actions.botMessage).toHaveBeenNthCalledWith(
+      1,
+      'embeddable_framework.answerBot.msg.greetings',
+      undefined
+    )
     expect(actions.botMessage).toHaveBeenCalledTimes(1)
   })
 })
@@ -168,7 +180,10 @@ describe('contextual search', () => {
       isInitialSession: true
     })
 
-    expect(actions.botMessage).toHaveBeenNthCalledWith(2, 'Here are some top suggestions for you:')
+    expect(actions.botMessage).toHaveBeenNthCalledWith(
+      2,
+      'embeddable_framework.answerBot.contextualResults.intro.many_articles'
+    )
     expect(actions.botContextualSearchResults).toHaveBeenCalled()
   })
 
@@ -180,7 +195,10 @@ describe('contextual search', () => {
       isInitialSession: true
     })
 
-    expect(actions.botMessage).toHaveBeenNthCalledWith(2, 'Here is the top suggestion for you:')
+    expect(actions.botMessage).toHaveBeenNthCalledWith(
+      2,
+      'embeddable_framework.answerBot.contextualResults.intro.one_article'
+    )
     expect(actions.botContextualSearchResults).toHaveBeenCalled()
   })
 
@@ -193,7 +211,7 @@ describe('contextual search', () => {
 
     expect(actions.botMessage).toHaveBeenNthCalledWith(
       2,
-      "Ask me a question and I'll find the answer for you."
+      'embeddable_framework.answerBot.msg.prompt'
     )
   })
 
@@ -228,7 +246,7 @@ describe('in-conversation feedback', () => {
     expect(actions.botFeedbackRequested).toHaveBeenCalled()
     expect(actions.botFeedback).toHaveBeenCalled()
     expect(actions.botFeedbackMessage).toHaveBeenCalledWith(
-      'Did the article you viewed help to answer your question?'
+      'embeddable_framework.answerBot.msg.feedback.question'
     )
   })
 

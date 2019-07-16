@@ -306,7 +306,7 @@ describe('getEnabledDepartments', () => {
   })
 
   describe('when a department is not enabled, but it is the default', () => {
-    it('returns it', () => {
+    it('does not return it', () => {
       let modifiedState = getModifiedState({})
 
       modifiedState.settings.chat.departments.enabled = []
@@ -314,7 +314,7 @@ describe('getEnabledDepartments', () => {
 
       const result = selectors.getEnabledDepartments(modifiedState)
 
-      expect(result).toEqual([{ id: 333, name: 'thickshakes' }])
+      expect(result).toEqual([])
     })
   })
 

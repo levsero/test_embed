@@ -14,7 +14,6 @@ import { getBrand } from 'src/redux/modules/base/base-selectors'
 import { getResultsCount } from 'src/redux/modules/helpCenter/helpCenter-selectors'
 import { getAnswerBotDelayChannelChoice } from 'src/redux/modules/settings/settings-selectors'
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
-import { i18n } from 'service/i18n'
 
 const INITIAL_FALLBACK_DELAY = 5000
 const FALLBACK_DELAY = 5000
@@ -163,9 +162,7 @@ class AnswerBotContainer extends Component {
       props.isFeedbackRequired
     ) {
       this.props.actions.botFeedbackRequested()
-      this.props.actions.botFeedbackMessage(
-        i18n.t('embeddable_framework.answerBot.msg.feedback.question')
-      )
+      this.props.actions.botFeedbackMessage('embeddable_framework.answerBot.msg.feedback.question')
       this.props.actions.botFeedback()
       return false
     }
@@ -207,10 +204,7 @@ class AnswerBotContainer extends Component {
 
   suggestSessionFallback = ({ props, shouldStopTimer }) => {
     if (props.currentRequestStatus === 'REJECTED' || props.sessionArticlesLength === 0) {
-      this.runSessionFallback(
-        i18n.t('embeddable_framework.answerBot.msg.no_articles_fallback'),
-        true
-      )
+      this.runSessionFallback()
       return false
     }
 
@@ -244,11 +238,14 @@ class AnswerBotContainer extends Component {
   checkGreetings = ({ props }) => {
     if (!props.greeted) {
       props.actions.botGreeted()
-      props.actions.botMessage(this.greetingMessage())
+      const { key, interpolation } = this.greetingMessage()
+
+      props.actions.botMessage(key, interpolation)
+
       if (props.contextualSearchStatus !== null) {
         return true
       }
-      props.actions.botMessage(i18n.t('embeddable_framework.answerBot.msg.prompt'))
+      props.actions.botMessage('embeddable_framework.answerBot.msg.prompt')
 
       return false
     }
@@ -267,14 +264,14 @@ class AnswerBotContainer extends Component {
       case 'COMPLETED':
         props.actions.botMessage(
           props.contextualSearchResultsCount > 1
-            ? i18n.t('embeddable_framework.answerBot.contextualResults.intro.many_articles')
-            : i18n.t('embeddable_framework.answerBot.contextualResults.intro.one_article')
+            ? 'embeddable_framework.answerBot.contextualResults.intro.many_articles'
+            : 'embeddable_framework.answerBot.contextualResults.intro.one_article'
         )
         props.actions.botContextualSearchResults()
         props.actions.contextualSearchFinished()
         break
       case 'NO_RESULTS':
-        props.actions.botMessage(i18n.t('embeddable_framework.answerBot.msg.prompt'))
+        props.actions.botMessage('embeddable_framework.answerBot.msg.prompt')
         props.actions.contextualSearchFinished()
         break
     }
@@ -307,11 +304,14 @@ class AnswerBotContainer extends Component {
     const { brand } = this.props
 
     if (brand) {
-      return i18n.t('embeddable_framework.answerBot.msg.greetings_with_brand', {
-        brand
-      })
+      return {
+        key: 'embeddable_framework.answerBot.msg.greetings_with_brand',
+        interpolation: { brand }
+      }
     } else {
-      return i18n.t('embeddable_framework.answerBot.msg.greetings')
+      return {
+        key: 'embeddable_framework.answerBot.msg.greetings'
+      }
     }
   }
 
@@ -324,7 +324,7 @@ class AnswerBotContainer extends Component {
 
   startSessionFallbackTimer = () => {
     this.fallbackTimer = window.setTimeout(() => {
-      this.runSessionFallback(i18n.t('embeddable_framework.answerBot.msg.no_interaction_fallback'))
+      this.runSessionFallback()
     }, FALLBACK_DELAY)
   }
 

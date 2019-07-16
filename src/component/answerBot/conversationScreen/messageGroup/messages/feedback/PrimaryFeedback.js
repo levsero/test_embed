@@ -13,6 +13,7 @@ import {
   botFeedbackMessage,
   botUserMessage
 } from 'src/redux/modules/answerBot/root/actions/bot'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 
 import { locals as styles } from './style.scss'
 
@@ -43,21 +44,19 @@ export class PrimaryFeedback extends Component {
 
   handleYes = () => {
     this.props.actions.sessionResolved()
-    this.props.actions.botUserMessage(i18n.t('embeddable_framework.answerBot.article.feedback.yes'))
+    this.props.actions.botUserMessage('embeddable_framework.answerBot.article.feedback.yes')
+    this.props.actions.botFeedbackMessage('embeddable_framework.answerBot.msg.yes_acknowledgement')
     this.props.actions.botFeedbackMessage(
-      i18n.t('embeddable_framework.answerBot.msg.yes_acknowledgement')
-    )
-    this.props.actions.botFeedbackMessage(
-      i18n.t('embeddable_framework.answerBot.msg.prompt_again_after_yes')
+      'embeddable_framework.answerBot.msg.prompt_again_after_yes'
     )
   }
 
   handleNo = () => {
     this.props.actions.botUserMessage(
-      i18n.t('embeddable_framework.answerBot.article.feedback.no.need_help')
+      'embeddable_framework.answerBot.article.feedback.no.need_help'
     )
     this.props.actions.botFeedbackMessage(
-      i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.title')
+      'embeddable_framework.answerBot.article.feedback.no.reason.title'
     )
     this.props.actions.botFeedback('secondary')
   }
@@ -79,8 +78,12 @@ const actionCreators = dispatch => ({
   )
 })
 
+const mapStateToProps = state => ({
+  locale: getLocale(state)
+})
+
 const connectedComponent = connect(
-  null,
+  mapStateToProps,
   actionCreators,
   null,
   { forwardRef: true }

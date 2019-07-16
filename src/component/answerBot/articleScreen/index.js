@@ -20,6 +20,7 @@ import {
 
 import * as rootActions from 'src/redux/modules/answerBot/root/actions/'
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
+import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
@@ -28,6 +29,7 @@ import { locals as styles } from './ArticleScreen.scss'
 
 class ArticleScreen extends Component {
   static propTypes = {
+    locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
     isMobile: PropTypes.bool,
     scrollContainerClasses: PropTypes.string,
     articleTitleKey: PropTypes.string,
@@ -84,8 +86,8 @@ class ArticleScreen extends Component {
     // Clear previous feedback
     actions.botFeedbackRequested()
 
-    actions.botMessage(i18n.t('embeddable_framework.answerBot.msg.yes_acknowledgement'))
-    actions.botMessage(i18n.t('embeddable_framework.answerBot.msg.prompt_again_after_yes'))
+    actions.botMessage('embeddable_framework.answerBot.msg.yes_acknowledgement')
+    actions.botMessage('embeddable_framework.answerBot.msg.prompt_again_after_yes')
 
     this.setState({ showPopup: false, popupDisplayed: false })
 
@@ -102,7 +104,7 @@ class ArticleScreen extends Component {
     // Clear previous feedback
     actions.botFeedbackRequested()
 
-    actions.botFeedbackMessage(i18n.t('embeddable_framework.answerBot.msg.no_acknowledgement'))
+    actions.botFeedbackMessage('embeddable_framework.answerBot.msg.no_acknowledgement')
     actions.botFallbackMessage(true)
 
     // Scroll to bottom when user switches back to conversation screen
@@ -168,7 +170,8 @@ class ArticleScreen extends Component {
 
 const mapStateToProps = state => ({
   article: rootSelectors.getCurrentArticle(state),
-  isFeedbackRequired: rootSelectors.isFeedbackRequired(state)
+  isFeedbackRequired: rootSelectors.isFeedbackRequired(state),
+  locale: baseSelectors.getLocale(state)
 })
 
 const mapDispatchToProps = dispatch => ({

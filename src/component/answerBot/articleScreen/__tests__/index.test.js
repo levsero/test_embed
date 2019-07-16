@@ -119,15 +119,16 @@ describe('feedback actions', () => {
       jest.runAllTimers()
       fireEvent.click(getByText('Yes'))
       expect(actions.botFeedbackRequested).toHaveBeenCalled()
-      expect(actions.botMessage).toHaveBeenNthCalledWith(1, 'Nice. Knowledge is power.')
+      expect(actions.botMessage).toHaveBeenNthCalledWith(
+        1,
+        'embeddable_framework.answerBot.msg.yes_acknowledgement'
+      )
       expect(actions.botMessage).toHaveBeenNthCalledWith(
         2,
-        "If there's anything else I can find for you, just type another question."
+        'embeddable_framework.answerBot.msg.prompt_again_after_yes'
       )
       expect(actions.sessionResolved).toHaveBeenCalled()
-      expect(saveConversationScroll).toHaveBeenCalledWith({
-        scrollToBottom: true
-      })
+      expect(saveConversationScroll).toHaveBeenCalledWith({ scrollToBottom: true })
     })
   })
 
@@ -156,15 +157,13 @@ describe('feedback actions', () => {
         expect(actions.botFeedbackRequested).toHaveBeenCalled()
         expect(actions.botFeedbackMessage).toHaveBeenNthCalledWith(
           1,
-          'I see. Your question is still unresolved.'
+          'embeddable_framework.answerBot.msg.no_acknowledgement'
         )
         expect(actions.botFallbackMessage).toHaveBeenCalledWith(true)
         expect(actions.articleDismissed).toHaveBeenCalledWith(2)
         expect(actions.botMessage).not.toHaveBeenCalled()
         expect(actions.sessionFallback).toHaveBeenCalled()
-        expect(saveConversationScroll).toHaveBeenCalledWith({
-          scrollToBottom: true
-        })
+        expect(saveConversationScroll).toHaveBeenCalledWith({ scrollToBottom: true })
         expect(actions.screenChanged).toHaveBeenCalledWith('conversation')
       })
     })
