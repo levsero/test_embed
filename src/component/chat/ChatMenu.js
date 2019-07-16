@@ -24,7 +24,9 @@ export class ChatMenu extends Component {
     emailTranscriptOnClick: PropTypes.func,
     emailTranscriptEnabled: PropTypes.bool,
     isMobile: PropTypes.bool,
-    loginEnabled: PropTypes.bool
+    loginEnabled: PropTypes.bool,
+    channelChoiceAvailable: PropTypes.bool.isRequired,
+    helpCenterAvailable: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -163,10 +165,15 @@ export class ChatMenu extends Component {
   }
 
   renderGoBackButton = () => {
-    const { onGoBackClick } = this.props
-    const label = i18n.t('embeddable_framework.chat.options.goBack')
+    const { onGoBackClick, helpCenterAvailable, channelChoiceAvailable } = this.props
 
-    return this.renderButton(onGoBackClick, label)
+    if (helpCenterAvailable || channelChoiceAvailable) {
+      const label = i18n.t('embeddable_framework.common.button.goBack')
+
+      return this.renderButton(onGoBackClick, label)
+    } else {
+      return null
+    }
   }
 
   renderSendFileButton = () => {
