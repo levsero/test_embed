@@ -52,6 +52,11 @@ parts:
       screenshot: "https://drive.google.com/open?id=1L6v2seSK0Rn2v4WOrrwW-rzb0RYEz-Qy"
       value: "Go Back"
   - translation:
+      key: "embeddable_framework.common.button.goBack_v2"
+      title: "A generic navigation label for a button to go back to a previous section"
+      screenshot: "https://drive.google.com/file/d/19heeqTlmCq0FwVWsc1csx0dUdYZZST76/view?usp=sharing"
+      value: "Go back"
+  - translation:
       key: "embeddable_framework.common.notify.error.generic"
       title: "A message displayed on a styled error element, its purpose is to show a generic error message"
       screenshot: "https://zendesk.box.com/s/3sshpz05wv1fv4fj6wwbmsgbpqqu4c7w"
