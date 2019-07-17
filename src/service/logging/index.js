@@ -3,6 +3,7 @@ import Rollbar from 'rollbar'
 
 import { isIE } from 'utility/devices'
 import { rollbarConfig } from './config'
+import { getHostUrl } from 'src/util/utils'
 
 let rollbar
 let useRollbar = false
@@ -19,16 +20,17 @@ function init(errorReportingEnabled = true) {
   }
 }
 
-function error(err, customData) {
+function error(err, customData = {}) {
   if (__DEV__) {
-    /* eslint no-console:0 */
-    console.error(err)
-  } else {
-    if (_.get(err, 'error.special')) {
-      throw err.error.message
-    } else if (errorServiceInitialised) {
-      pushError(err, customData)
-    }
+    console.error(err) // eslint-disable-line no-console
+    return
+  }
+
+  if (_.get(err, 'error.special')) {
+    throw err.error.message
+  } else if (errorServiceInitialised) {
+    customData.hostPageUrl = getHostUrl()
+    pushError(err, customData)
   }
 }
 
