@@ -17,6 +17,7 @@ In the [integrated Chat in the Web Widget](https://support.zendesk.com/hc/en-us/
 - [concierge](./settings#concierge)
 - [departments](./settings#departments)
 - [hideWhenOffline](./settings#hidewhenoffline)
+- [menuOptions](./settings#menuOptions)
 - [navigation](./settings#navigation)
 - [prechatForm](./settings#prechatForm)
 - [offlineForm](./settings#offlineForm)
