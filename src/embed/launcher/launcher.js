@@ -65,7 +65,7 @@ function create(name, config = {}, reduxStore) {
   const isMobile = isMobileBrowser()
   const params = {
     ref: el => {
-      embed.instance = el.getWrappedInstance()
+      embed.instance = el
     },
     css: launcherCSS,
     generateUserCSS: generateUserLauncherCSS,

@@ -54,13 +54,13 @@ class Chat extends Component {
 
   onContainerClick = () => {
     if (!this.props.showOfflineChat) {
-      this.online.getWrappedInstance().onContainerClick()
+      this.online.onContainerClick()
     }
   }
 
   handleDragEnter = () => {
     if (this.online) {
-      this.online.getWrappedInstance().handleDragEnter()
+      this.online.handleDragEnter()
     }
   }
 
@@ -130,5 +130,5 @@ export default connect(
   mapStateToProps,
   { cancelButtonClicked },
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(Chat)

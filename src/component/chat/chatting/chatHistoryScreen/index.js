@@ -242,6 +242,6 @@ export default connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(ChatHistoryScreen)
 export { ChatHistoryScreen as Component }

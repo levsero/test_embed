@@ -7,7 +7,8 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     onYesClick: noop,
     onNoClick: noop,
-    onReasonClick: noop
+    onReasonClick: noop,
+    locale: 'en-US'
   }
 
   const componentProps = {

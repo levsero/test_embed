@@ -191,7 +191,7 @@ export default function WebWidgetFactory(name) {
 
     const frameParams = {
       ref: el => {
-        embed.instance = el.getWrappedInstance()
+        embed.instance = el
       },
       css: webWidgetCSS + frameBodyCss,
       generateUserCSS: generateUserWidgetCSS,

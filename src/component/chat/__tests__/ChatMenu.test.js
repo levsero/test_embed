@@ -132,24 +132,20 @@ describe('mobile', () => {
     })
 
     test('when disabled', () => {
-      const { queryByText, emailTranscriptOnClickMock } = renderMenu({
-        isMobile: false,
+      const { queryByText } = renderMenu({
+        isMobile: true,
         emailTranscriptEnabled: false
       })
       const emailTranscriptNode = queryByText('Email transcript')
 
-      expect(emailTranscriptNode).toBeInTheDocument()
-
-      expect(emailTranscriptOnClickMock).not.toHaveBeenCalled()
-      fireEvent.click(emailTranscriptNode)
-      expect(emailTranscriptOnClickMock).not.toHaveBeenCalled()
+      expect(emailTranscriptNode).not.toBeInTheDocument()
     })
   })
 
   describe('edit contact details', () => {
     test('when enabled', () => {
       const { queryByText, contactDetailsOnClickMock } = renderMenu({
-        isMobile: false,
+        isMobile: true,
         editContactDetailsEnabled: true
       })
       const editContactDetailsNode = queryByText('Edit contact details')
@@ -251,17 +247,12 @@ describe('desktop', () => {
     })
 
     test('when disabled', () => {
-      const { queryByText, emailTranscriptOnClickMock } = renderMenu({
+      const { queryByText } = renderMenu({
         isMobile: false,
         emailTranscriptEnabled: false
       })
-      const emailTranscriptNode = queryByText('Email transcript')
 
-      expect(emailTranscriptNode).toBeInTheDocument()
-
-      expect(emailTranscriptOnClickMock).not.toHaveBeenCalled()
-      fireEvent.click(emailTranscriptNode)
-      expect(emailTranscriptOnClickMock).not.toHaveBeenCalled()
+      expect(queryByText('Email transcript')).not.toBeInTheDocument()
     })
   })
 

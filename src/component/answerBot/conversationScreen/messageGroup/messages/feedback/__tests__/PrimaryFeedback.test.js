@@ -29,12 +29,17 @@ describe('on yes click', () => {
 
     fireEvent.click(getByText('Yes'))
     expect(actions.sessionResolved).toHaveBeenCalled()
-    expect(actions.botFeedbackMessage).toHaveBeenNthCalledWith(1, 'Nice. Knowledge is power.')
+    expect(actions.botFeedbackMessage).toHaveBeenNthCalledWith(
+      1,
+      'embeddable_framework.answerBot.msg.yes_acknowledgement'
+    )
     expect(actions.botFeedbackMessage).toHaveBeenNthCalledWith(
       2,
-      "If there's anything else I can find for you, just type another question."
+      'embeddable_framework.answerBot.msg.prompt_again_after_yes'
     )
-    expect(actions.botUserMessage).toHaveBeenCalledWith('Yes')
+    expect(actions.botUserMessage).toHaveBeenCalledWith(
+      'embeddable_framework.answerBot.article.feedback.yes'
+    )
   })
 })
 
@@ -44,7 +49,11 @@ describe('on no click', () => {
 
     fireEvent.click(getByText('No, I need help'))
     expect(actions.botFeedback).toHaveBeenCalledWith('secondary')
-    expect(actions.botFeedbackMessage).toHaveBeenCalledWith('Please tell us why.')
-    expect(actions.botUserMessage).toHaveBeenCalledWith('No, I need help')
+    expect(actions.botFeedbackMessage).toHaveBeenCalledWith(
+      'embeddable_framework.answerBot.article.feedback.no.reason.title'
+    )
+    expect(actions.botUserMessage).toHaveBeenCalledWith(
+      'embeddable_framework.answerBot.article.feedback.no.need_help'
+    )
   })
 })

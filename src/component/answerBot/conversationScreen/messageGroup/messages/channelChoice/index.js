@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { MessageBubbleChoices } from 'component/shared/MessageBubbleChoices'
-import { i18n } from 'service/i18n'
 import { Icon } from 'component/Icon'
 import {
   getSubmitTicketAvailable,
@@ -16,7 +15,8 @@ import {
 } from 'src/redux/modules/selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
-import { getZopimChatEmbed } from 'src/redux/modules/base/base-selectors'
+import { getLocale, getZopimChatEmbed } from 'src/redux/modules/base/base-selectors'
+import { i18n } from 'service/i18n'
 
 import { locals as styles } from './style.scss'
 
@@ -145,10 +145,10 @@ class ChannelChoice extends Component {
     if (!this.props.talkAvailable) return null
 
     const label = this.props.callbackAvailable
-      ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
-      : i18n.t('embeddable_framework.channelChoice.button.label.call_us')
+      ? 'embeddable_framework.channelChoice.button.label.request_callback'
+      : 'embeddable_framework.channelChoice.button.label.call_us'
 
-    return this.renderChannel('Icon--channelChoice-talk', label, 'talk')
+    return this.renderChannel('Icon--channelChoice-talk', i18n.t(label), 'talk')
   }
 
   renderSubmitTicketChoice = () => {
@@ -185,7 +185,8 @@ const mapStateToProps = state => ({
   submitTicketAvailable: getSubmitTicketAvailable(state),
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
   chatOfflineAvailableLabel: getContactOptionsContactFormLabel(state),
-  submitTicketLabel: getContactOptionsContactFormLabel(state)
+  submitTicketLabel: getContactOptionsContactFormLabel(state),
+  locale: getLocale(state)
 })
 
 const actionCreators = dispatch => ({
@@ -202,7 +203,7 @@ const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(ChannelChoice)
 
 export { connectedComponent as default, ChannelChoice as Component }

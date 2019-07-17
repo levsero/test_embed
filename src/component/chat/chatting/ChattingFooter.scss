@@ -22,7 +22,7 @@
     height: #{14 / $font-size}rem;
 
     g {
-      fill: $zd-color-grey-500 !important;
+      fill: $zd-color-grey-600 !important;
     }
   }
 
@@ -30,20 +30,20 @@
   &:active,
   &:focus {
     cursor: pointer;
-    background: $zd-color-grey-200;
+    background: $zd-color-grey-300;
 
     svg > g {
-      fill: $zd-color-grey-700 !important;
+      fill: $zd-color-grey-800 !important;
     }
   }
 }
 
 .iconActive {
   cursor: pointer;
-  background: $zd-color-grey-200;
+  background: $zd-color-grey-300;
 
   svg > g {
-    fill: $zd-color-grey-700 !important;
+    fill: $zd-color-grey-800 !important;
   }
 }
 
@@ -62,7 +62,7 @@
   &:hover,
   &:active,
   &:focus {
-    background: $zd-color-grey-200;
+    background: $zd-color-grey-300;
   }
 }
 
@@ -75,7 +75,7 @@
 
   svg {
     path {
-      stroke: $zd-color-grey-500 !important;
+      stroke: $zd-color-grey-600 !important;
     }
   }
 
@@ -83,7 +83,7 @@
   &:active,
   &:focus {
     svg > path {
-      stroke: $zd-color-grey-700 !important;
+      stroke: $zd-color-grey-800 !important;
     }
   }
 }
@@ -108,14 +108,14 @@
     padding: #{8 / $font-size}rem #{7 / $font-size}rem #{8 / $font-size}rem #{9 / $font-size}rem;
 
     path {
-      fill: $zd-color-grey-500 !important;
+      fill: $zd-color-grey-600 !important;
     }
   }
 }
 
 .iconDisabled {
   svg > g {
-    fill: $zd-color-grey-300 !important;
+    fill: $zd-color-grey-400 !important;
   }
 
   &:hover,
@@ -125,7 +125,7 @@
     background: none;
 
     svg > g {
-      fill: $zd-color-grey-300 !important;
+      fill: $zd-color-grey-400 !important;
     }
   }
 }

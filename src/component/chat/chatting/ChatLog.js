@@ -171,5 +171,5 @@ export default connect(
   mapStateToProps,
   {},
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(ChatLog)
