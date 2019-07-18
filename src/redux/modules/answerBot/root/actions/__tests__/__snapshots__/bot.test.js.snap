@@ -41,6 +41,9 @@ Array [
     },
     "type": "widget/answerBot/BOT_MESSAGE",
   },
+  Object {
+    "type": "widget/answerBot/GET_IN_TOUCH_SHOWN",
+  },
 ]
 `;
 
@@ -67,6 +70,9 @@ Array [
       "timestamp": 1531267200000,
     },
     "type": "widget/answerBot/BOT_MESSAGE",
+  },
+  Object {
+    "type": "widget/answerBot/GET_IN_TOUCH_SHOWN",
   },
 ]
 `;

@@ -34,6 +34,7 @@ import * as selectors from 'src/redux/modules/chat/chat-selectors'
 import { getChatEmailTranscriptEnabled } from 'src/redux/modules/selectors'
 import { locals as styles } from './ChatOnline.scss'
 import { CONNECTION_STATUSES } from 'constants/chat'
+import { getChannelChoiceAvailable, getHelpCenterAvailable } from 'src/redux/modules/selectors'
 
 const mapStateToProps = state => {
   return {
@@ -53,7 +54,9 @@ const mapStateToProps = state => {
     authUrls: selectors.getAuthUrls(state),
     socialLogin: selectors.getSocialLogin(state),
     isAuthenticated: selectors.getIsAuthenticated(state),
-    isLoggingOut: selectors.getIsLoggingOut(state)
+    isLoggingOut: selectors.getIsLoggingOut(state),
+    channelChoiceAvailable: getChannelChoiceAvailable(state),
+    helpCenterAvailable: getHelpCenterAvailable(state)
   }
 }
 
@@ -92,7 +95,9 @@ class Chat extends Component {
     isAuthenticated: PropTypes.bool,
     isLoggingOut: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
-    initiateSocialLogout: PropTypes.func.isRequired
+    initiateSocialLogout: PropTypes.func.isRequired,
+    channelChoiceAvailable: PropTypes.bool.isRequired,
+    helpCenterAvailable: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -178,7 +183,9 @@ class Chat extends Component {
       loginSettings,
       menuVisible,
       updateMenuVisibility,
-      emailTranscriptEnabled
+      emailTranscriptEnabled,
+      helpCenterAvailable,
+      channelChoiceAvailable
     } = this.props
     const showChatEndFn = e => {
       e.stopPropagation()
@@ -207,6 +214,8 @@ class Chat extends Component {
         emailTranscriptEnabled={emailTranscriptEnabled}
         isMobile={isMobile}
         loginEnabled={loginSettings.enabled}
+        helpCenterAvailable={helpCenterAvailable}
+        channelChoiceAvailable={channelChoiceAvailable}
       />
     )
   }

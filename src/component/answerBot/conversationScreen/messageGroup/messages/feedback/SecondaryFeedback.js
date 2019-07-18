@@ -14,7 +14,6 @@ import {
   botFallbackMessage
 } from 'src/redux/modules/answerBot/root/actions/bot'
 import { sessionFallback } from 'src/redux/modules/answerBot/sessions/actions/'
-import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 
 import { locals as styles } from './style.scss'
@@ -27,8 +26,7 @@ export class SecondaryFeedback extends Component {
       botUserMessage: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
       botFallbackMessage: PropTypes.func.isRequired,
-      sessionFallback: PropTypes.func.isRequired,
-      getInTouchShown: PropTypes.func.isRequired
+      sessionFallback: PropTypes.func.isRequired
     })
   }
 
@@ -77,8 +75,7 @@ const actionCreators = dispatch => ({
       botUserMessage,
       botFeedbackMessage,
       botFallbackMessage,
-      sessionFallback,
-      getInTouchShown
+      sessionFallback
     },
     dispatch
   )

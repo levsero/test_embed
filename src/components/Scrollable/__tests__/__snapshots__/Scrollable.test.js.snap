@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders provided component with the scrollable component 1`] = `
+<div>
+  <div
+    style="overflow: auto;"
+  >
+    <div>
+      Hello
+    </div>
+  </div>
+</div>
+`;
