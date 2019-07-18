@@ -26,7 +26,7 @@ import {
 } from 'src/redux/modules/settings/settings-selectors'
 import { getHorizontalPosition } from 'src/redux/modules/selectors'
 import { zopimExistsOnPage, trackZopimApis } from 'service/api/zopimApi/helpers'
-import tracker from 'service/logging/tracker'
+import tracker from 'service/tracker'
 
 let chats = {}
 let zopimApiOverwritten = false

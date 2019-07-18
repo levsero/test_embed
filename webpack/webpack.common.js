@@ -74,6 +74,7 @@ module.exports = {
       component: path.join(prefix + '/src/component'),
       constants: path.join(prefix + '/src/constants'),
       embed: path.join(prefix + '/src/embed'),
+      errors: path.join(prefix + '/src/errors'),
       mixin: path.join(prefix + '/src/component/mixin'),
       service: path.join(prefix + '/src/service'),
       src: path.join(prefix + '/src'),

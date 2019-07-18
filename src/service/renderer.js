@@ -5,7 +5,7 @@ import { launcher } from 'embed/launcher/launcher'
 import WebWidgetFactory from 'embed/webWidget/webWidget'
 import { i18n } from 'service/i18n'
 import { mediator } from 'service/mediator'
-import { logging } from 'service/logging'
+import errorTracker from 'service/errorTracker'
 import { settings } from 'service/settings'
 import { win } from 'utility/globals'
 import { updateEmbedAccessible, updateArturos, widgetInitialised } from 'src/redux/modules/base'
@@ -112,7 +112,7 @@ function renderEmbeds(parsedConfig, config, reduxStore) {
       }
 
       if (!_.isEmpty(err)) {
-        logging.error(err, customData)
+        errorTracker.error(err, customData)
       }
     }
   })
@@ -180,13 +180,8 @@ function initMediator(config, store) {
   } else if (embeds) {
     mediator.init(store)
   } else if (!_.isEmpty(embeds)) {
-    logging.error({
-      error: {
-        message: 'Could not find correct embeds to initialise.'
-      },
-      params: {
-        config: config
-      }
+    errorTracker.error(new Error('Could not find correct embeds to initialise.'), {
+      params: { config: config }
     })
   }
 }

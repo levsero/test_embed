@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import { logging } from 'service/logging'
+import InfiniteLoopError from 'errors/fatal/InfiniteLoopError'
+import errorTracker from 'service/errorTracker'
 import { beacon } from 'service/beacon'
 import {
   SDK_CHAT_MSG,
@@ -36,7 +37,7 @@ export default _store => next => action => {
 
   if (actionTimes.length === MAX_NUMBER_OF_ACTIONS && now - actionTimes[0] < TIME_WINDOW) {
     if (!loggedToRollbarAndBlips) {
-      logging.error(new Error('infiniteLoopDetected'), {
+      errorTracker.error(new InfiniteLoopError('infiniteLoopDetected'), {
         action: type,
         prevActions: actions
       })

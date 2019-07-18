@@ -1,12 +1,16 @@
-export const hostAllowList = [
-  /^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/
-]
+import Rollbar from 'rollbar'
+import logger from 'utility/logger'
+import { inDebugMode } from 'utility/runtime'
+import ConsoleError from 'errors/ConsoleError'
+import { getHostUrl } from 'src/util/utils'
+
+const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/]
 
 if (__DEV__) {
   hostAllowList.push('localhost', '127.0.0.1')
 }
 
-export const ignoreException = (_isUncaught, _args, _payload) => {
+const ignoreException = (_isUncaught, _args, _payload) => {
   if (__EMBEDDABLE_FRAMEWORK_ENV__ === 'production') {
     // throttles error notifications so that only 1 in 1000 errors is sent through to rollbar
     return Math.floor(Math.random() * 1000) !== 0
@@ -14,7 +18,7 @@ export const ignoreException = (_isUncaught, _args, _payload) => {
   return false
 }
 
-export const rollbarConfig = {
+const rollbarConfig = {
   enabled: true,
   accessToken: '94eb0137fdc14471b21b34c5a04f9359',
   captureUncaught: true,
@@ -25,6 +29,7 @@ export const rollbarConfig = {
   maxItems: 10,
   payload: {
     environment: __EMBEDDABLE_FRAMEWORK_ENV__,
+    hostPageUrl: getHostUrl(),
     client: {
       javascript: {
         source_map_enabled: true, // eslint-disable-line camelcase
@@ -33,4 +38,20 @@ export const rollbarConfig = {
       }
     }
   }
+}
+
+const errorTracker = new Rollbar(rollbarConfig)
+
+const errorHandler = (error, ...args) => {
+  if (inDebugMode() || (error && error instanceof ConsoleError)) {
+    logger.error(error, ...args)
+  }
+  errorTracker.error(error, ...args)
+}
+
+export default {
+  configure: (...args) => {
+    errorTracker.configure(...args)
+  },
+  error: errorHandler
 }

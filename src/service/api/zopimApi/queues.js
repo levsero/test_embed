@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { zopimExistsOnPage } from './helpers'
+import ZopimApiError from 'errors/console/ZopimApiError'
 
 export function setupZopimQueue(win) {
   // To enable $zopim api calls to work we need to define the queue callback.
@@ -32,10 +33,7 @@ export function handleZopimQueue(win) {
     try {
       method()
     } catch (e) {
-      const err = new Error('An error occurred in your use of the $zopim Widget API')
-
-      err.special = true
-      throw err
+      throw new ZopimApiError()
     }
   })
   _.set(win.$zopim, 'flushed', true)

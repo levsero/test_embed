@@ -30,7 +30,7 @@ import {
 import { getLauncherVisible } from 'src/redux/modules/base/base-selectors'
 import { apiResetWidget } from 'src/redux/modules/base'
 import _ from 'lodash'
-import tracker from 'service/logging/tracker'
+import tracker from 'service/tracker'
 
 export const getApiObj = () => {
   return {

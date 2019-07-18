@@ -1,11 +1,9 @@
-import { logging } from 'service/logging'
+import errorTracker from 'service/errorTracker'
 import { beacon } from 'service/beacon'
 const preventLoops = jest.requireActual('../').default
 
-jest.mock('service/logging', () => ({
-  logging: {
-    error: jest.fn()
-  }
+jest.mock('service/errorTracker', () => ({
+  error: jest.fn()
 }))
 jest.mock('service/beacon', () => ({
   beacon: {
@@ -32,8 +30,8 @@ describe('preventLoops', () => {
       })
     })
 
-    it('does not call the logger', () => {
-      expect(logging.error).not.toHaveBeenCalled()
+    it('does not log the action', () => {
+      expect(errorTracker.error).not.toHaveBeenCalled()
       expect(beacon.trackUserAction).not.toHaveBeenCalled()
     })
   })
@@ -46,7 +44,7 @@ describe('preventLoops', () => {
     })
 
     it('calls the logger a single time', () => {
-      expect(logging.error).toHaveBeenCalledTimes(1)
+      expect(errorTracker.error).toHaveBeenCalledTimes(1)
       expect(beacon.trackUserAction).toHaveBeenCalledTimes(1)
     })
   })
@@ -61,7 +59,7 @@ describe('preventLoops', () => {
     })
 
     it('does not call the logger for any action', () => {
-      expect(logging.error).not.toHaveBeenCalled()
+      expect(errorTracker.error).not.toHaveBeenCalled()
       expect(beacon.trackUserAction).not.toHaveBeenCalled()
     })
   })
