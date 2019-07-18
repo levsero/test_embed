@@ -9,7 +9,7 @@ import {
   BOT_CONTEXTUAL_SEARCH_RESULTS
 } from '../action-types'
 import { getChannelAvailable } from 'src/redux/modules/selectors/selectors'
-
+import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions/get-in-touch-shown'
 import { getCurrentSessionID } from 'src/redux/modules/answerBot/root/selectors'
 
 const generateBotMessage = (state, key, interpolation = {}, payloadOptions = {}) => {
@@ -60,6 +60,8 @@ export const botFallbackMessage = (feedbackRelated = false) => (dispatch, getSta
       )
     )
   }
+
+  dispatch(getInTouchShown())
 }
 
 export const botChannelChoice = (key, interpolation = {}, fallback = false) => {
