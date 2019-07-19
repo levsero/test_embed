@@ -37,6 +37,7 @@ Available settings:
 - [analytics](#analytics)
 - [attachments](#attachments)
 - [authenticate](#authenticate)
+- [avatar](#avatar)
 - [badge](#badge)
 - [chatButton](#chatbutton)
 - [chatLabel](#chatlabel)
@@ -191,6 +192,33 @@ When the user has logged out or you wish to terminate the authenticated session 
   zE(function() {
     zE('webWidget', 'logout')
   })
+</script>
+```
+
+### avatar
+
+Customizes the avatar bot name and profile picture.
+
+#### Availability
+
+- [answerBot](./answerbot)
+
+#### Example
+
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      answerBot: {
+        avatar: {
+          url: 'https://zendesk.com/bot.png',
+          name: {
+            '*': 'Zendesk Bot'
+          }
+        }
+      }
+    }
+  }
 </script>
 ```
 
@@ -1249,7 +1277,7 @@ sets values related to the Agent Profile Card during a chat session.
 
 `profileCard` contains three booleans that can be modified:
 
-##### avatar
+<a name="profileCard_avatar"><h5>avatar</h5></a>
 
 Dictates whether to show the agent's avatar.
 
@@ -1690,33 +1718,6 @@ Attaches contextual data when submitting a user query.
       answerBot: {
         search: {
           labels: ['I would like some help']
-        }
-      }
-    }
-  }
-</script>
-```
-
-### avatar
-
-Customizes the avatar bot name and profile picture.
-
-#### Availability
-
-- [answerBot](./answerbot)
-
-#### Example
-
-```html
-<script type="text/javascript">
-  window.zESettings = {
-    webWidget: {
-      answerBot: {
-        avatar: {
-          url: 'https://zendesk.com/bot.png',
-          name: {
-            '*': 'Zendesk Bot'
-          }
         }
       }
     }
