@@ -1277,8 +1277,7 @@ sets values related to the Agent Profile Card during a chat session.
 
 `profileCard` contains three booleans that can be modified:
 
-<a name="profileCard_avatar"/>
-##### avatar
+<a name="profileCard_avatar"><h5>avatar</h5></a>
 
 Dictates whether to show the agent's avatar.
 
