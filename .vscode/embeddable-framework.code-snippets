@@ -10,7 +10,7 @@
   // 	"scope": "javascript,typescript",
   // 	"prefix": "log",
   // 	"body": [
-  // 		"console.log('$1');",
+  // 		"console.log('$1')",
   // 		"$2"
   // 	],
   // 	"description": "Log output to console"
@@ -20,14 +20,14 @@
     "scope": "javascript,typescript",
     "body": [
       "describe('${1:testName}', () => {",
-      "\tlet result;",
+      "\tlet result",
       "",
       "\tit('${2:testCriteriaName}', () => {",
-      "\t\tresult = ${3:testCriteria};",
+      "\t\tresult = ${3:testCriteria}",
       "",
-      "\t\texpect(result).toEqual(${4:expectedValue});",
-      "\t});",
-      "});"
+      "\t\texpect(result).toEqual(${4:expectedValue})",
+      "\t})",
+      "})"
     ],
     "description": "Test (it) function within Describe"
   },
@@ -36,10 +36,10 @@
     "scope": "javascript,typescript",
     "body": [
       "test('${1:testName}', () => {",
-      "\tconst result = ${2:testCriteria};",
+      "\tconst result = ${2:testCriteria}",
       "",
-      "\texpect(result).toEqual(${3:expectedValue});",
-      "});"
+      "\texpect(result).toEqual(${3:expectedValue})",
+      "})"
     ],
     "description": "Test function with an expectation and result"
   },
@@ -47,7 +47,7 @@
     "prefix": "selector",
     "scope": "javascript,typescript",
     "body": [
-      "export const ${1:name} = (${2:state}) => ${3:data};"
+      "export const ${1:name} = (${2:state}) => ${3:data}"
     ],
     "description": "Basic selector with a name, state, and return value"
   },
@@ -55,25 +55,25 @@
     "prefix": "ConnectedComponent",
     "scope": "javascript,typescript",
     "body": [
-      "import React, { Component } from 'react';",
-      "import PropTypes from 'prop-types';",
-      "import { connnect } from 'react-redux';",
+      "import React, { Component } from 'react'",
+      "import PropTypes from 'prop-types'",
+      "import { connnect } from 'react-redux'",
       "",
       "const mapStateToProps = (state) => {",
-      "\treturn {${1:mapPropData}};",
-      "};",
+      "\treturn {${1:mapPropData}}",
+      "}",
       "",
       "class ${2:className} extends Component {",
       "\tstatic propTypes = {",
       "\t\t${3:propTypeData}",
-      "\t};",
+      "\t}",
       "\t",
       "\tstatic defaultProps = {",
       "\t\t${4:defaultPropData}",
-      "\t};",
+      "\t}",
       "",
       "\trender = () => {",
-      "\t\treturn (<></>);",
+      "\t\treturn (<div></div>)",
       "\t}",
       "}",
       "",
@@ -81,7 +81,7 @@
       "\t${5:actionData}",
       "}",
       "",
-      "export default connect(mapStateToProps, actionCreators, null, { withRef: true })(${2:className});"
+      "export default connect(mapStateToProps, actionCreators, null, { withRef: true })(${2:className})"
     ],
     "description": "Default Connected Component"
   },
@@ -89,20 +89,20 @@
     "prefix": "Component",
     "scope": "javascript,typescript",
     "body": [
-      "import React, { Component } from 'react';",
-      "import PropTypes from 'prop-types';",
+      "import React, { Component } from 'react'",
+      "import PropTypes from 'prop-types'",
       "",
       "class ${2:className} extends Component {",
       "\tstatic propTypes = {",
       "\t\t${3:propTypeData}",
-      "\t};",
+      "\t}",
       "\t",
       "\tstatic defaultProps = {",
       "\t\t${4:defaultPropData}",
-      "\t};",
+      "\t}",
       "",
       "\trender = () => {",
-      "\t\treturn (<></>);",
+      "\t\treturn (<div></div>)",
       "\t}",
       "}"
     ],
@@ -113,10 +113,10 @@
     "scope": "javascript,typescript",
     "body": [
       "it('${1}', () => {",
-      "\tconst result = ${2:test};",
+      "\tconst result = ${2:test}",
       "",
-      "\texpect(result).toEqual(${3:expectedValue});",
-      "});"
+      "\texpect(result).toEqual(${3:expectedValue})",
+      "})"
     ],
     "description": "it test for use within describe"
   },
@@ -136,18 +136,18 @@
     "body": [
       "const initialState = {",
       "\t${1:initialStateValues}",
-      "};",
+      "}",
       "",
       "const ${2:reducerName} = (state = initialState, action = {}) => {",
-      "\tconst { type, payload } = action;",
+      "\tconst { type, payload } = action",
       "",
       "\tswitch (type) {",
       "\t\tcase ${3:caseCheck}:",
-      "\t\t\treturn ${4:caseValue};",
+      "\t\t\treturn ${4:caseValue}",
       "\t\tdefault:",
-      "\t\t\treturn state;",
+      "\t\t\treturn state",
       "\t}",
-      "};"
+      "}"
     ],
     "description": "empty reducer class"
   },
@@ -159,11 +159,11 @@
       "\ttest.each([",
       "\t\t[${2:testvalue}],",
       "\t])('${3:title}', (${4:testParams}) => {",
-      "\t\tconst result = ${5:test};",
+      "\t\tconst result = ${5:test}",
       "\t\t",
-      "\t\texpect(result).toEqual(${6:value});",
-      "\t});",
-      "});"
+      "\t\texpect(result).toEqual(${6:value})",
+      "\t})",
+      "})"
     ]
   }
 }
