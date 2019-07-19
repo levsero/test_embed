@@ -65,6 +65,7 @@ import AnswerBotStyles from 'component/answerBot/styles'
 import TalkNotificationStyles from 'component/talk/ErrorNotification/styles/index.scss'
 import TalkOfflinePageStyles from 'src/embeds/talk/pages/OfflinePage/styles.scss'
 import TalkPhoneNumberStyles from 'component/talk/PhoneNumber/styles/index.scss'
+import TalkPhoneOnlyPageStyles from 'src/embeds/talk/pages/PhoneOnlyPage/styles.scss'
 
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
@@ -141,4 +142,5 @@ export const webWidgetStyles = `
   ${TalkOfflinePageStyles}
   ${TalkPhoneNumberStyles}
   ${AverageWaitTime}
+  ${TalkPhoneOnlyPageStyles}
 `

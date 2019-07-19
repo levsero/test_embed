@@ -1,0 +1,29 @@
+@import 'src/styles/_vars.scss';
+
+.container {
+  composes: u-userFillColor from global;
+  text-align: center;
+  font-size: #{14 / $font-size}rem !important;
+  margin-top: #{50 / $font-size}rem !important;
+  margin-bottom: #{40 / $font-size}rem;
+}
+
+.containerMobile {
+  line-height: #{20 / $font-size}rem;
+  font-size: $font-size-mobile;
+}
+
+.icon {
+  composes: u-userFillCustomColor from global;
+}
+
+.message {
+  margin-top: $spacing-lrg !important;
+  margin-bottom: $spacing-sml !important;
+}
+
+.phoneNumber {
+  composes: u-userLinkColor from global;
+  text-align: center;
+  font-size: #{20 / $font-size}rem;
+}

@@ -12,8 +12,15 @@ import { Component as Talk } from '../Talk'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 import { locals as styles } from './Talk.scss'
+import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 
 const renderComponent = (overrideProps = {}) => {
+  const libphonenumber = {
+    parse: num => num,
+    format: num => num,
+    isValidNumber: () => true
+  }
+
   const defaultProps = {
     getFrameContentDocument: () => document,
     embeddableConfig: {
@@ -27,11 +34,7 @@ const renderComponent = (overrideProps = {}) => {
     averageWaitTime: 'Average wait time: 1 minute',
     agentAvailability: true,
     isMobile: false,
-    libphonenumber: {
-      parse: num => num,
-      format: num => num,
-      isValidNumber: () => true
-    },
+    libphonenumber,
     title: 'Talk',
     nickname: '',
     updateTalkCallbackForm: () => {},
@@ -42,8 +45,11 @@ const renderComponent = (overrideProps = {}) => {
   }
   const props = { ...defaultProps, ...overrideProps }
 
+  const store = createStore()
+  store.dispatch(handleTalkVendorLoaded({ libphonenumber }))
+
   return render(
-    <Provider store={createStore()}>
+    <Provider store={store}>
       <Talk {...props} />
     </Provider>
   )
@@ -152,15 +158,12 @@ describe('talk', () => {
     })
   })
 
-  describe('phone only screen', () => {
-    it('displays a phone number and a message to call it', () => {
-      const { queryByText } = renderComponent({ screen: PHONE_ONLY_SCREEN })
-
-      expect(
-        queryByText('Call us at the phone number below to get in contact with us.')
-      ).toBeInTheDocument()
-      expect(queryByText('12345678')).toBeInTheDocument()
+  it('renders the phone only page when screen is PHONE_ONLY_SCREEN', () => {
+    const { queryByTestId } = renderComponent({
+      screen: PHONE_ONLY_SCREEN
     })
+
+    expect(queryByTestId('talk--phoneOnlyPage')).toBeInTheDocument()
   })
 
   describe('success notification screen', () => {

@@ -4,7 +4,11 @@ import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
 import libphonenumber from 'libphonenumber-js'
 
-import { updateTalkEmbeddableConfig, handleTalkVendorLoaded } from 'src/redux/modules/talk'
+import {
+  updateTalkEmbeddableConfig,
+  handleTalkVendorLoaded,
+  resetTalk
+} from 'src/redux/modules/talk'
 import Talk from '../../Talk'
 import { http } from 'service/transport'
 
@@ -31,11 +35,16 @@ const setUpComponent = () => {
     return { phone_number: '+15417543010' }
   }
 
-  return render(
+  const result = render(
     <Provider store={store}>
       <Talk getFrameContentDocument={() => document} isMobile={false} />
     </Provider>
   )
+
+  return {
+    ...result,
+    store
+  }
 }
 
 const submitForm = utils => fireEvent.click(utils.getByText('Send'))
@@ -60,6 +69,13 @@ const checkForSuccessMesage = utils => {
   expect(utils.queryByText("We'll get back to you soon.")).toBeInTheDocument()
 }
 
+const checkForPhoneOnlyPage = (utils, { phoneNumber, formattedPhoneNumber, averageWaitTime }) => {
+  expect(utils.queryByTestId('talk--phoneOnlyPage')).toBeInTheDocument()
+  expect(utils.queryByText(formattedPhoneNumber)).toBeInTheDocument()
+  expect(utils.queryByText(`Average wait time: ${averageWaitTime} minutes`)).toBeInTheDocument()
+  expect(document.querySelector(`[href="tel:${phoneNumber}"]`)).toBeInTheDocument()
+}
+
 test('talk callback submission', () => {
   const utils = setUpComponent()
 
@@ -76,4 +92,30 @@ test('talk callback submission', () => {
   checkForFlag(utils)
   submitForm(utils)
   checkForSuccessMesage(utils)
+})
+
+test('phone only page', () => {
+  const phoneNumber = '+61412345678'
+  const formattedPhoneNumber = '+61 412 345 678'
+  const averageWaitTime = '10'
+
+  const utils = setUpComponent()
+
+  utils.store.dispatch(
+    updateTalkEmbeddableConfig({
+      phoneNumber,
+      averageWaitTime,
+      capability: '1',
+      averageWaitTimeSetting: true,
+      averageWaitTimeEnabled: true
+    })
+  )
+
+  utils.store.dispatch(resetTalk())
+
+  checkForPhoneOnlyPage(utils, {
+    phoneNumber,
+    formattedPhoneNumber,
+    averageWaitTime
+  })
 })
