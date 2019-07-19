@@ -38,7 +38,8 @@ import {
   getChatTitle,
   getPrechatFormSettings,
   getPrechatFormFields,
-  getChatHistoryLabel
+  getChatHistoryLabel,
+  getDefaultSelectedDepartment
 } from 'src/redux/modules/selectors'
 import {
   getSettingsChatDepartmentsEmpty,
@@ -68,7 +69,8 @@ const mapStateToProps = state => {
     title: getChatTitle(state),
     departmentFieldHidden: getSettingsChatDepartmentsEmpty(state),
     hasChatHistory: getHasChatHistory(state),
-    chatHistoryLabel: getChatHistoryLabel(state)
+    chatHistoryLabel: getChatHistoryLabel(state),
+    defaultDepartment: getDefaultSelectedDepartment(state)
   }
 }
 
@@ -105,7 +107,8 @@ class PrechatScreen extends Component {
     fullscreen: PropTypes.bool,
     departmentFieldHidden: PropTypes.bool.isRequired,
     openedChatHistory: PropTypes.func.isRequired,
-    chatHistoryLabel: PropTypes.string.isRequired
+    chatHistoryLabel: PropTypes.string.isRequired,
+    defaultDepartment: PropTypes.object
   }
 
   static defaultProps = {
@@ -213,6 +216,7 @@ class PrechatScreen extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         openedChatHistory={this.props.openedChatHistory}
         chatHistoryLabel={this.props.chatHistoryLabel}
+        defaultDepartment={this.props.defaultDepartment}
       />
     )
   }
@@ -260,5 +264,5 @@ export default connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(PrechatScreen)

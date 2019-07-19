@@ -561,5 +561,5 @@ export default connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(ChattingScreen)

@@ -75,7 +75,7 @@ const renderWebWidgetPreview = options => {
     preventClose: true,
     generateUserCSS: generateUserWidgetCSS,
     ref: el => {
-      frame = el.getWrappedInstance()
+      frame = el
     },
     fullscreen: false,
     isMobile: false
@@ -128,7 +128,7 @@ const renderWebWidgetPreview = options => {
 }
 
 const getSubmitTicketComponent = () => {
-  return submitTicketComponent ? submitTicketComponent.getWrappedInstance() : null
+  return submitTicketComponent
 }
 
 const waitForSubmitTicketComponent = callback => {

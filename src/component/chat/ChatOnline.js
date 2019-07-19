@@ -31,13 +31,15 @@ import {
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
+import { getChatEmailTranscriptEnabled } from 'src/redux/modules/selectors'
 import { locals as styles } from './ChatOnline.scss'
 import { CONNECTION_STATUSES } from 'constants/chat'
+import { getChannelChoiceAvailable, getHelpCenterAvailable } from 'src/redux/modules/selectors'
 
 const mapStateToProps = state => {
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
-    chatsLength: selectors.getChatsLength(state),
+    emailTranscriptEnabled: getChatEmailTranscriptEnabled(state),
     screen: selectors.getChatScreen(state),
     isChatting: selectors.getIsChatting(state),
     visitor: selectors.getChatVisitor(state),
@@ -52,14 +54,16 @@ const mapStateToProps = state => {
     authUrls: selectors.getAuthUrls(state),
     socialLogin: selectors.getSocialLogin(state),
     isAuthenticated: selectors.getIsAuthenticated(state),
-    isLoggingOut: selectors.getIsLoggingOut(state)
+    isLoggingOut: selectors.getIsLoggingOut(state),
+    channelChoiceAvailable: getChannelChoiceAvailable(state),
+    helpCenterAvailable: getHelpCenterAvailable(state)
   }
 }
 
 class Chat extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
-    chatsLength: PropTypes.number.isRequired,
+    emailTranscriptEnabled: PropTypes.bool.isRequired,
     endChatViaPostChatScreen: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
@@ -91,7 +95,9 @@ class Chat extends Component {
     isAuthenticated: PropTypes.bool,
     isLoggingOut: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
-    initiateSocialLogout: PropTypes.func.isRequired
+    initiateSocialLogout: PropTypes.func.isRequired,
+    channelChoiceAvailable: PropTypes.bool.isRequired,
+    helpCenterAvailable: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -177,7 +183,9 @@ class Chat extends Component {
       loginSettings,
       menuVisible,
       updateMenuVisibility,
-      chatsLength
+      emailTranscriptEnabled,
+      helpCenterAvailable,
+      channelChoiceAvailable
     } = this.props
     const showChatEndFn = e => {
       e.stopPropagation()
@@ -203,9 +211,11 @@ class Chat extends Component {
         contactDetailsOnClick={this.showContactDetailsFn}
         emailTranscriptOnClick={this.showEmailTranscriptFn}
         onSoundClick={toggleSoundFn}
-        emailTranscriptEnabled={chatsLength > 0}
+        emailTranscriptEnabled={emailTranscriptEnabled}
         isMobile={isMobile}
         loginEnabled={loginSettings.enabled}
+        helpCenterAvailable={helpCenterAvailable}
+        channelChoiceAvailable={channelChoiceAvailable}
       />
     )
   }
@@ -461,5 +471,5 @@ export default connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(Chat)

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { logging } from 'service/logging'
+import errorTracker from 'service/errorTracker'
 import { http, socketio } from 'service/transport'
 import { parseUrl } from 'utility/utils'
 import {
@@ -138,7 +138,7 @@ export function loadTalkVendors(vendors, serviceUrl, nickname) {
       socketio.mapEventsToActions(socket, { dispatch })
     }
     const onFailure = err => {
-      logging.error(err)
+      errorTracker.error(err)
     }
 
     return Promise.all(vendors)

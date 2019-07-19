@@ -54,6 +54,7 @@ Available settings:
 - [hideWhenOffline](#hidewhenoffline)
 - [label](#label)
 - [labelVisible](#labelvisible)
+- [menuOptions](#menuoptions)
 - [messageButton](#messagebutton)
 - [navigation](#navigation)
 - [nickname](#nickname)
@@ -931,6 +932,32 @@ To avoid cluttering the display, the launcher label is not shown on mobile devic
 
 - [label](#label)
 - [chatLabel](#chatlabel)
+
+### menuOptions
+
+Hides the email transcript option in the chat menu when emailTranscript is set to false.
+
+#### Availability
+
+- [chat](./chat)
+
+<a name="example-menuOptions"></a>
+
+#### Example
+
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        menuOptions: {
+          emailTranscript: false
+        }
+      }
+    }
+  }
+</script>
+```
 
 ### messageButton
 

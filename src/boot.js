@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import { beacon } from 'service/beacon'
 import { identity } from 'service/identity'
-import { logging } from 'service/logging'
+import errorTracker from 'service/errorTracker'
 import { store as persistenceStore } from 'service/persistence'
 import { renderer } from 'service/renderer'
 import webWidgetApi from 'service/api/webWidgetApi'
@@ -16,7 +16,7 @@ import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { initResizeMonitor } from 'utility/window'
 import { i18n } from 'service/i18n'
 import createStore from 'src/redux/createStore'
-import tracker from 'service/logging/tracker'
+import tracker from 'service/tracker'
 import { getZendeskHost, setReferrerMetas } from 'utility/globals'
 
 const setupIframe = (iframe, doc) => {
@@ -48,7 +48,7 @@ const setupServices = reduxStore => {
     version: __EMBEDDABLE_VERSION__
   })
 
-  logging.init(settings.getErrorReportingEnabled())
+  errorTracker.configure({ enabled: settings.getErrorReportingEnabled() })
   GA.init()
 }
 
@@ -117,7 +117,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
   }
   const fail = error => {
     if (error.status !== 404) {
-      logging.error(error)
+      errorTracker.error(error)
     }
   }
 

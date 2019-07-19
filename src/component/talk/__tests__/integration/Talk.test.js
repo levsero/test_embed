@@ -24,7 +24,7 @@ const setUpComponent = () => {
       capability: '0',
       enabled: true,
       nickname: 'yolo',
-      phoneNumber: '12345678',
+      phoneNumber: '+61422422249',
       supportedCountries: 'US,AU',
       connected: true,
       agentAvailability: true

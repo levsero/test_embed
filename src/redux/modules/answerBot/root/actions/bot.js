@@ -10,15 +10,13 @@ import {
 } from '../action-types'
 import { getChannelAvailable } from 'src/redux/modules/selectors/selectors'
 import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions/get-in-touch-shown'
-import { i18n } from 'service/i18n'
-
 import { getCurrentSessionID } from 'src/redux/modules/answerBot/root/selectors'
 
-const generateBotMessage = (state, message, payloadOptions = {}) => {
+const generateBotMessage = (state, key, interpolation = {}, payloadOptions = {}) => {
   const sessionID = getCurrentSessionID(state)
   const payload = {
     ...payloadOptions,
-    message,
+    message: { key, interpolation },
     sessionID,
     timestamp: Date.now()
   }
@@ -29,9 +27,9 @@ const generateBotMessage = (state, message, payloadOptions = {}) => {
   }
 }
 
-export const botMessage = message => {
+export const botMessage = (key, interpolation = {}) => {
   return (dispatch, getState) => {
-    dispatch(generateBotMessage(getState(), message))
+    dispatch(generateBotMessage(getState(), key, interpolation))
   }
 }
 
@@ -44,22 +42,20 @@ export const botFallbackMessage = (feedbackRelated = false) => (dispatch, getSta
     dispatch(
       generateBotMessage(
         state,
-        i18n.t('embeddable_framework.answerBot.msg.prompt_again_no_channels_available'),
+        'embeddable_framework.answerBot.msg.prompt_again_no_channels_available',
+        {},
         options
       )
     )
     dispatch(
-      generateBotMessage(
-        state,
-        i18n.t('embeddable_framework.answerBot.msg.initial_fallback'),
-        options
-      )
+      generateBotMessage(state, 'embeddable_framework.answerBot.msg.initial_fallback', {}, options)
     )
   } else {
     dispatch(
       generateBotMessage(
         state,
-        i18n.t('embeddable_framework.answerBot.msg.prompt_again_after_yes'),
+        'embeddable_framework.answerBot.msg.prompt_again_after_yes',
+        {},
         options
       )
     )
@@ -68,12 +64,12 @@ export const botFallbackMessage = (feedbackRelated = false) => (dispatch, getSta
   dispatch(getInTouchShown())
 }
 
-export const botChannelChoice = (message, fallback = false) => {
+export const botChannelChoice = (key, interpolation = {}, fallback = false) => {
   return {
     type: BOT_CHANNEL_CHOICE,
     payload: {
       timestamp: Date.now(),
-      message,
+      message: { key, interpolation },
       fallback
     }
   }
@@ -109,25 +105,25 @@ export const botInitialFallback = () => {
   }
 }
 
-export const botUserMessage = message => {
+export const botUserMessage = (key, interpolation = {}) => {
   return {
     type: BOT_MESSAGE,
     payload: {
       timestamp: Date.now(),
       feedbackRelated: true,
       isVisitor: true,
-      message
+      message: { key, interpolation }
     }
   }
 }
 
-export const botFeedbackMessage = message => {
+export const botFeedbackMessage = (key, interpolation = {}) => {
   return {
     type: BOT_MESSAGE,
     payload: {
       timestamp: Date.now(),
       feedbackRelated: true,
-      message
+      message: { key, interpolation }
     }
   }
 }

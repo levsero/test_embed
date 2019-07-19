@@ -14,12 +14,14 @@ import title from './chat-title'
 import mobileNotificationsDisabled from './chat-mobile-notifications-disabled'
 import tags from './chat-tags'
 import hideWhenOffline from './chat-hideWhenOffline'
+import emailTranscriptEnabled from './email-transcript-enabled'
 
 export default combineReducers({
   concierge,
   connectionSuppress,
   connectOnDemand,
   departments: combineReducers({ enabled, select }),
+  emailTranscriptEnabled,
   hideWhenOffline,
   mobileNotificationsDisabled,
   offlineForm,

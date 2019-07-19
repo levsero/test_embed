@@ -4,7 +4,10 @@ exports[`botChannelChoice defaults to false fallback 1`] = `
 Object {
   "payload": Object {
     "fallback": false,
-    "message": "world",
+    "message": Object {
+      "interpolation": Object {},
+      "key": "world",
+    },
     "timestamp": 1531267200000,
   },
   "type": "widget/answerBot/BOT_CHANNEL_CHOICE",
@@ -14,8 +17,11 @@ Object {
 exports[`botChannelChoice dispatches expected payload 1`] = `
 Object {
   "payload": Object {
-    "fallback": true,
-    "message": "hello",
+    "fallback": false,
+    "message": Object {
+      "interpolation": true,
+      "key": "hello",
+    },
     "timestamp": 1531267200000,
   },
   "type": "widget/answerBot/BOT_CHANNEL_CHOICE",
@@ -26,7 +32,10 @@ exports[`botFallbackMessage when channelAvailable is false dispatches the approp
 Array [
   Object {
     "payload": Object {
-      "message": "If there's anything else I can find for you, just type another question.",
+      "message": Object {
+        "interpolation": Object {},
+        "key": "embeddable_framework.answerBot.msg.prompt_again_after_yes",
+      },
       "sessionID": 1234,
       "timestamp": 1531267200000,
     },
@@ -42,7 +51,10 @@ exports[`botFallbackMessage when channelAvailable is true dispatches the appropr
 Array [
   Object {
     "payload": Object {
-      "message": "You can ask another question.",
+      "message": Object {
+        "interpolation": Object {},
+        "key": "embeddable_framework.answerBot.msg.prompt_again_no_channels_available",
+      },
       "sessionID": 1234,
       "timestamp": 1531267200000,
     },
@@ -50,7 +62,10 @@ Array [
   },
   Object {
     "payload": Object {
-      "message": "Or you can get in touch.",
+      "message": Object {
+        "interpolation": Object {},
+        "key": "embeddable_framework.answerBot.msg.initial_fallback",
+      },
       "sessionID": 1234,
       "timestamp": 1531267200000,
     },
@@ -86,7 +101,10 @@ exports[`botFeedbackMessage dispatches expected payload 1`] = `
 Object {
   "payload": Object {
     "feedbackRelated": true,
-    "message": "hello",
+    "message": Object {
+      "interpolation": Object {},
+      "key": "hello",
+    },
     "timestamp": 1531267200000,
   },
   "type": "widget/answerBot/BOT_MESSAGE",
@@ -117,7 +135,10 @@ exports[`botMessage dispatches expected actions 1`] = `
 Array [
   Object {
     "payload": Object {
-      "message": "hello world",
+      "message": Object {
+        "interpolation": Object {},
+        "key": "hello world",
+      },
       "sessionID": 1234,
       "timestamp": 1531267200000,
     },
@@ -140,7 +161,10 @@ Object {
   "payload": Object {
     "feedbackRelated": true,
     "isVisitor": true,
-    "message": "hello",
+    "message": Object {
+      "interpolation": Object {},
+      "key": "hello",
+    },
     "timestamp": 1531267200000,
   },
   "type": "widget/answerBot/BOT_MESSAGE",

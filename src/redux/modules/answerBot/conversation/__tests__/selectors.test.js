@@ -4,7 +4,24 @@ describe('getMessages', () => {
   it('returns the messages', () => {
     const mockState = {
       answerBot: {
-        messages: new Map([['1', { message: 'Thing 1' }], ['2', { message: 'Thing 2' }]])
+        messages: new Map([
+          ['1', { message: 'Thing 1' }],
+          ['2', { message: 'Thing 2' }],
+          [
+            '3',
+            {
+              message: {
+                key: 'embeddable_framework.chat.chatLog.loadingImage',
+                interpolation: {
+                  attachmentSize: 'someAttachmentSize'
+                }
+              }
+            }
+          ]
+        ])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const result = selectors.getMessages(mockState)
@@ -18,6 +35,9 @@ describe('getLastMessage', () => {
     const mockState = {
       answerBot: {
         messages: new Map([['1', { message: 'Thing 1' }], ['2', { message: 'Thing 2' }]])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const result = selectors.getLastMessage(mockState)
@@ -34,6 +54,9 @@ describe('getLastMessageType', () => {
           ['1', { message: 'Thing 1', type: 'wah' }],
           ['2', { message: 'Thing 2', type: 'blah' }]
         ])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const result = selectors.getLastMessageType(mockState)
@@ -47,6 +70,9 @@ describe('getGroupMessages', () => {
     const mockState = {
       answerBot: {
         messages: new Map([[0, 'zero'], [1, 'one'], [2, 'two']])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const mockProps = {
@@ -68,9 +94,7 @@ describe('getLastScroll', () => {
 
 describe('getLastScreenClosed', () => {
   it('returns conversation lastScreenClosed', () => {
-    const results = selectors.getLastScreenClosed.resultFunc({
-      lastScreenClosed: 123
-    })
+    const results = selectors.getLastScreenClosed.resultFunc({ lastScreenClosed: 123 })
 
     expect(results).toMatchSnapshot()
   })
@@ -82,6 +106,9 @@ describe('makeGetGroupMessages', () => {
       answerBot: {
         messages: new Map([['message1', { type: 'results', sessionID: '123' }]]),
         sessions: new Map([['123', { resolved: true, articles: [{ id: 1 }, { id: 2 }] }]])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const mockProps = {
@@ -98,6 +125,9 @@ describe('getGroupMessageKeys', () => {
     const mockState = {
       answerBot: {
         messages: new Map([[0, {}], [1, {}], [2, { isVisitor: true }], [3, {}]])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const results = selectors.getMessageGroupKeys(mockState)
@@ -113,6 +143,9 @@ describe('getGroupMessageKeys', () => {
           ['2', { type: 'botTyping', isVisitor: false }],
           ['3', { type: 'botTyping', isVisitor: false }]
         ])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const results = selectors.getMessageGroupKeys(mockState)
@@ -129,6 +162,9 @@ describe('getGroupMessageKeys', () => {
           ['3', { type: 'botTyping', isVisitor: false }],
           ['4', { message: 'hi', isVisitor: true }]
         ])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const results = selectors.getMessageGroupKeys(mockState)
@@ -145,6 +181,9 @@ describe('getGroupMessageKeys', () => {
           [2, { type: 'feedbackRequested' }],
           [3, { feedbackRelated: true }]
         ])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const results = selectors.getMessageGroupKeys(mockState)
@@ -167,6 +206,9 @@ describe('getGroupMessageKeys', () => {
           [8, { feedbackRelated: true }],
           [9, { isVisitor: true }] // non-feedback related message, record current feedback
         ])
+      },
+      base: {
+        locale: 'fr'
       }
     }
     const results = selectors.getMessageGroupKeys(mockState)

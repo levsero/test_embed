@@ -1,7 +1,7 @@
 require('./polyfills')
 
 import { boot } from './boot'
-import { logging } from 'service/logging'
+import errorTracker from 'service/errorTracker'
 import { isBlacklisted } from 'utility/devices'
 import { win, document as doc } from 'utility/globals'
 
@@ -13,5 +13,5 @@ try {
     setTimeout(() => boot.start(win, doc), 0)
   }
 } catch (err) {
-  logging.error(err)
+  errorTracker.error(err)
 }

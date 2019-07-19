@@ -78,7 +78,7 @@ const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(ConversationScreen)
 
 export { connectedComponent as default, ConversationScreen as Component }

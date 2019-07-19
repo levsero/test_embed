@@ -35,6 +35,7 @@ const optionAllowList = {
     'chat.concierge.title',
     'chat.concierge.name',
     'chat.hideWhenOffline',
+    'chat.menuOptions.emailTranscript',
     'chat.tags',
     'color.theme',
     'color.button',

@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import createStore from 'src/redux/createStore'
@@ -734,16 +734,110 @@ describe('rating', () => {
   })
 })
 
-test('connection closed', () => {
-  const { getByText } = renderComponent()
+describe('end chat', () => {
+  it('enables end chat icon when chatting', () => {
+    const { getByTestId } = renderComponent()
+    const endChatButtonNode = getByTestId('Icon--endChat').closest('button')
 
+    store.dispatch({
+      type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+      payload: {
+        type: 'chat',
+        detail: {
+          display_name: 'Visitor 123',
+          nick: 'visitor',
+          timestamp: timestamp(),
+          type: 'chat.memberjoin'
+        }
+      }
+    })
+
+    expect(endChatButtonNode.classList).not.toEqual('iconDisabled')
+  })
+
+  it('disables end chat icon when not chatting', () => {
+    const { getByTestId } = renderComponent()
+    const endChatButtoNode = getByTestId('Icon--endChat').closest('button')
+
+    expect(endChatButtoNode.classList[1]).toEqual('iconDisabled')
+  })
+
+  it('enables end chat option when chatting', () => {
+    const { getByTestId, getAllByText } = renderComponent()
+    fireEvent.click(getByTestId('Icon--ellipsis'))
+
+    store.dispatch({
+      type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+      payload: {
+        type: 'chat',
+        detail: {
+          display_name: 'Visitor 123',
+          nick: 'visitor',
+          timestamp: timestamp(),
+          type: 'chat.memberjoin'
+        }
+      }
+    })
+
+    const endChatOptionNode = getAllByText('End chat')[2]
+
+    expect(endChatOptionNode.disabled).toEqual(false)
+  })
+
+  it('disables end chat icon when not chatting', () => {
+    const { getByTestId, getAllByText } = renderComponent()
+    fireEvent.click(getByTestId('Icon--ellipsis'))
+
+    const endChatOptionNode = getAllByText('End chat')[2]
+
+    expect(endChatOptionNode.disabled).toEqual(true)
+  })
+})
+
+it('opens edit contact details popout', () => {
   store.dispatch({
-    type: chatActionTypes.SDK_CONNECTION_UPDATE,
+    type: chatActionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
     payload: {
-      type: 'connection_update',
-      detail: 'closed'
+      enabled: true
     }
   })
 
-  expect(getByText('Click to reconnect')).toBeInTheDocument()
+  const { getByTestId, getByText, getAllByText } = renderComponent()
+
+  fireEvent.click(getByTestId('Icon--ellipsis'))
+  fireEvent.click(getByText('Edit contact details'))
+
+  const editContactDetailsPopoutNode = getAllByText('Edit contact details')[1]
+
+  expect(editContactDetailsPopoutNode).toBeInTheDocument()
+})
+
+describe('connection', () => {
+  it('shows "Click to reconnect" if the connection is closed', () => {
+    const { getByText } = renderComponent()
+
+    store.dispatch({
+      type: chatActionTypes.SDK_CONNECTION_UPDATE,
+      payload: {
+        type: 'connection_update',
+        detail: 'closed'
+      }
+    })
+
+    expect(getByText('Click to reconnect')).toBeInTheDocument()
+  })
+
+  it('shows "Reconnecting..." if the connection is connecting', () => {
+    const { getByText } = renderComponent()
+
+    store.dispatch({
+      type: chatActionTypes.SDK_CONNECTION_UPDATE,
+      payload: {
+        type: 'connection_update',
+        detail: 'connecting'
+      }
+    })
+
+    expect(getByText('Reconnecting...')).toBeInTheDocument()
+  })
 })

@@ -11,7 +11,8 @@ const renderComponent = (props = {}) => {
     getInTouchClicked: noop,
     botUserMessage: noop,
     botChannelChoice: noop,
-    showGetInTouch: false
+    showGetInTouch: false,
+    locale: 'en-US'
   }
 
   const componentProps = {
@@ -37,17 +38,14 @@ describe('desktop', () => {
         questionSubmitted = jest.fn(),
         scrollToBottom = jest.fn()
 
-      const { getByPlaceholderText } = renderComponent({
+      const { container } = renderComponent({
         currentMessage: 'send this',
         questionValueChanged,
         questionSubmitted,
         scrollToBottom
       })
 
-      fireEvent.keyDown(getByPlaceholderText('Type your question here...'), {
-        key: 'Enter',
-        keyCode: 13
-      })
+      fireEvent.keyDown(container.querySelector('textarea'), { key: 'Enter', keyCode: 13 })
 
       expect(questionValueChanged).toHaveBeenCalledWith('')
       expect(questionSubmitted).toHaveBeenCalledWith('send this')
@@ -128,7 +126,11 @@ describe('handleGetInTouchClicked', () => {
     fireEvent.click(getByText('Get in touch'))
 
     expect(getInTouchClicked).toHaveBeenCalled()
-    expect(botUserMessage).toHaveBeenCalledWith('Get in touch')
-    expect(botChannelChoice).toHaveBeenCalledWith('How would you like to get in touch?')
+    expect(botUserMessage).toHaveBeenCalledWith(
+      'embeddable_framework.answerBot.button.get_in_touch'
+    )
+    expect(botChannelChoice).toHaveBeenCalledWith(
+      'embeddable_framework.answerBot.msg.channel_choice.get_in_touch'
+    )
   })
 })

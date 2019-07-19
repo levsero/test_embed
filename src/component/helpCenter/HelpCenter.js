@@ -491,7 +491,7 @@ const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(HelpCenter)
 
 export { connectedComponent as default, HelpCenter as Component }

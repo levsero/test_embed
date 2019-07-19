@@ -12,8 +12,8 @@ import {
   setHelpCenterSuggestionsApi,
   setLocaleApi
 } from 'src/service/api/apis'
-import tracker from 'service/logging/tracker'
 import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
+import tracker from 'service/tracker'
 
 export function apiSetup(win, reduxStore, embeddableConfig = {}) {
   const existingConfig = !_.isEmpty(embeddableConfig.embeds)

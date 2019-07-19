@@ -230,18 +230,14 @@ class WebWidget extends Component {
   }
 
   getActiveComponent = () => {
-    const component = this.refs[this.props.activeEmbed]
-
-    return component && component.getWrappedInstance ? component.getWrappedInstance() : component
+    return this.refs[this.props.activeEmbed]
   }
 
   getSubmitTicketComponent = () => {
-    const component = this.refs[submitTicket]
-
-    return component ? component.getWrappedInstance() : null
+    return this.refs[submitTicket]
   }
 
-  getHelpCenterComponent = () => this.refs[helpCenter].getWrappedInstance()
+  getHelpCenterComponent = () => this.refs[helpCenter]
 
   noActiveEmbed = () => this.props.activeEmbed === ''
 
@@ -430,6 +426,7 @@ class WebWidget extends Component {
     return (
       <Chat
         ref={chat}
+        forwardRef={chat}
         getFrameContentDocument={this.props.getFrameContentDocument}
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
@@ -694,5 +691,5 @@ export default connect(
   mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(WebWidget)

@@ -14,19 +14,19 @@ import {
   botFallbackMessage
 } from 'src/redux/modules/answerBot/root/actions/bot'
 import { sessionFallback } from 'src/redux/modules/answerBot/sessions/actions/'
-import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 
 import { locals as styles } from './style.scss'
 
 export class SecondaryFeedback extends Component {
   static propTypes = {
+    locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
     actions: PropTypes.shape({
       articleDismissed: PropTypes.func.isRequired,
       botUserMessage: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
       botFallbackMessage: PropTypes.func.isRequired,
-      sessionFallback: PropTypes.func.isRequred,
-      getInTouchShown: PropTypes.func.isRequred
+      sessionFallback: PropTypes.func.isRequired
     })
   }
 
@@ -37,7 +37,7 @@ export class SecondaryFeedback extends Component {
       actions.botUserMessage(message)
       actions.articleDismissed(reasonID)
       actions.sessionFallback()
-      actions.botFeedbackMessage(i18n.t('embeddable_framework.answerBot.msg.no_acknowledgement'))
+      actions.botFeedbackMessage('embeddable_framework.answerBot.msg.no_acknowledgement')
       actions.botFallbackMessage(true)
     }
   }
@@ -51,7 +51,7 @@ export class SecondaryFeedback extends Component {
             label={i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.related')}
             onClick={this.handleReason(
               2,
-              i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.related')
+              'embeddable_framework.answerBot.article.feedback.no.reason.related'
             )}
           />
           <PillButton
@@ -59,7 +59,7 @@ export class SecondaryFeedback extends Component {
             className={styles.option}
             onClick={this.handleReason(
               1,
-              i18n.t('embeddable_framework.answerBot.article.feedback.no.reason.unrelated')
+              'embeddable_framework.answerBot.article.feedback.no.reason.unrelated'
             )}
           />
         </ButtonGroup>
@@ -75,18 +75,21 @@ const actionCreators = dispatch => ({
       botUserMessage,
       botFeedbackMessage,
       botFallbackMessage,
-      sessionFallback,
-      getInTouchShown
+      sessionFallback
     },
     dispatch
   )
 })
 
+const mapStateToProps = state => {
+  return { locale: getLocale(state) }
+}
+
 const connectedComponent = connect(
-  null,
+  mapStateToProps,
   actionCreators,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(SecondaryFeedback)
 
 export { connectedComponent as default, SecondaryFeedback as Component }

@@ -5,7 +5,8 @@ import {
   END_CHAT_REQUEST_SUCCESS,
   CHAT_BANNED,
   IS_CHATTING,
-  SDK_CONNECTION_UPDATE
+  SDK_CONNECTION_UPDATE,
+  SDK_CHAT_MEMBER_JOIN
 } from '../chat-action-types'
 import { store } from 'service/persistence'
 
@@ -18,6 +19,7 @@ const isChatting = (state = initialState, { payload, type }) => {
     case UPDATE_PREVIEWER_SCREEN:
       return payload.status
     case CHAT_MSG_REQUEST_SUCCESS:
+    case SDK_CHAT_MEMBER_JOIN:
       return true
     case SDK_CONNECTION_UPDATE:
       if (payload.type === 'connection_update' && payload.detail === 'closed') return false

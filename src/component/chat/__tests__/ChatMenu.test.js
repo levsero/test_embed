@@ -11,7 +11,9 @@ const renderMenu = (
     emailTranscriptEnabled = true,
     isMobile = false,
     editContactDetailsEnabled = true,
-    playSound = true
+    playSound = true,
+    channelChoiceAvailable = true,
+    helpCenterAvailable = true
   },
   options
 ) => {
@@ -37,6 +39,8 @@ const renderMenu = (
       emailTranscriptEnabled={emailTranscriptEnabled}
       isMobile={isMobile}
       loginEnabled={editContactDetailsEnabled}
+      channelChoiceAvailable={channelChoiceAvailable}
+      helpCenterAvailable={helpCenterAvailable}
     />,
     options
   )
@@ -55,15 +59,44 @@ const renderMenu = (
 }
 
 describe('mobile', () => {
-  test('go back to help center menu item', () => {
-    const { onGoBackClickMock, queryByText } = renderMenu({ isMobile: true })
-    const goBackNode = queryByText('Go back to Help Center')
+  describe('"Go back" menu item', () => {
+    const queryText = 'Go Back'
 
-    expect(goBackNode).toBeInTheDocument()
+    describe('conditionally rendering the item', () => {
+      test.each([
+        [true, true, true],
+        [true, false, true],
+        [false, true, true],
+        [false, false, false]
+      ])(
+        'when channelChoiceAvailable is %p, helpCenterAvailable is %p, rendering "Go back" is %p',
+        (channelChoiceAvailable, helpCenterAvailable, rendersGoBack) => {
+          const { queryByText } = renderMenu({
+            isMobile: true,
+            channelChoiceAvailable,
+            helpCenterAvailable
+          })
+          const goBackNode = queryByText(queryText)
 
-    expect(onGoBackClickMock).not.toHaveBeenCalled()
-    fireEvent.click(goBackNode)
-    expect(onGoBackClickMock).toHaveBeenCalled()
+          expect(!!goBackNode).toEqual(rendersGoBack)
+        }
+      )
+    })
+
+    describe('when the menu item is rendered', () => {
+      test('onGoBack click handler is bound', () => {
+        const { onGoBackClickMock, queryByText } = renderMenu({
+          isMobile: true,
+          channelChoiceAvailable: true,
+          helpCenterAvailable: true
+        })
+        const goBackNode = queryByText(queryText)
+
+        expect(onGoBackClickMock).not.toHaveBeenCalled()
+        fireEvent.click(goBackNode)
+        expect(onGoBackClickMock).toHaveBeenCalled()
+      })
+    })
   })
 
   describe('attachments', () => {
@@ -132,24 +165,20 @@ describe('mobile', () => {
     })
 
     test('when disabled', () => {
-      const { queryByText, emailTranscriptOnClickMock } = renderMenu({
-        isMobile: false,
+      const { queryByText } = renderMenu({
+        isMobile: true,
         emailTranscriptEnabled: false
       })
       const emailTranscriptNode = queryByText('Email transcript')
 
-      expect(emailTranscriptNode).toBeInTheDocument()
-
-      expect(emailTranscriptOnClickMock).not.toHaveBeenCalled()
-      fireEvent.click(emailTranscriptNode)
-      expect(emailTranscriptOnClickMock).not.toHaveBeenCalled()
+      expect(emailTranscriptNode).not.toBeInTheDocument()
     })
   })
 
   describe('edit contact details', () => {
     test('when enabled', () => {
       const { queryByText, contactDetailsOnClickMock } = renderMenu({
-        isMobile: false,
+        isMobile: true,
         editContactDetailsEnabled: true
       })
       const editContactDetailsNode = queryByText('Edit contact details')
@@ -251,17 +280,12 @@ describe('desktop', () => {
     })
 
     test('when disabled', () => {
-      const { queryByText, emailTranscriptOnClickMock } = renderMenu({
+      const { queryByText } = renderMenu({
         isMobile: false,
         emailTranscriptEnabled: false
       })
-      const emailTranscriptNode = queryByText('Email transcript')
 
-      expect(emailTranscriptNode).toBeInTheDocument()
-
-      expect(emailTranscriptOnClickMock).not.toHaveBeenCalled()
-      fireEvent.click(emailTranscriptNode)
-      expect(emailTranscriptOnClickMock).not.toHaveBeenCalled()
+      expect(queryByText('Email transcript')).not.toBeInTheDocument()
     })
   })
 

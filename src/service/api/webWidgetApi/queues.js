@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import {
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
@@ -8,7 +9,7 @@ import { setLocaleApi } from 'src/service/api/apis'
 import { renderer } from 'service/renderer'
 import { apiExecute, apiStructurePostRenderSetup, apiStructurePreRenderSetup } from './setupApi'
 import { setupPublicApi, setupDevApi } from './setupLegacyApi'
-import _ from 'lodash'
+import ZDApiError from 'errors/console/ZDApiError'
 
 const newAPIPostRenderQueue = []
 
@@ -79,7 +80,7 @@ export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
 
 export function apisExecuteQueue(reduxStore, queue) {
   const logApiError = (api, e = {}) => {
-    const err = new Error(
+    throw new ZDApiError(
       [
         'An error occurred in your use of the Zendesk Widget API:',
         api,
@@ -88,9 +89,6 @@ export function apisExecuteQueue(reduxStore, queue) {
         e.stack
       ].join('\n\n')
     )
-
-    err.special = true
-    throw err
   }
 
   _.forEach(queue, method => {
