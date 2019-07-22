@@ -1,0 +1,27 @@
+@import 'src/styles/_vars.scss';
+
+.submitButton {
+  max-width: #{200 / $font-size}rem !important;
+  padding-right: #{10 / $font-size}rem !important;
+  padding-left: #{10 / $font-size}rem !important;
+}
+
+.submitBtnMobile {
+  width: 100%;
+}
+
+.form {
+  margin-bottom: #{15 / $font-size}rem !important;
+}
+
+.formHeaderMessage {
+  margin-bottom: #{15 / $font-size}rem !important;
+}
+
+.formDivider {
+  margin-bottom: #{20 / $font-size}rem !important;
+  width: 100% !important;
+  border: #{0.5 / $font-size}rem solid $zd-color-grey-200;
+  margin-left: #{-10 / $font-size}rem;
+  padding-right: #{20 / $font-size}rem;
+}
