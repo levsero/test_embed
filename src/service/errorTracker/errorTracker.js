@@ -10,9 +10,21 @@ if (__DEV__) {
   hostAllowList.push('localhost', '127.0.0.1')
 }
 
-const ignoredMessagesList = [/^(.)*(Script error).?$/]
+const ignoredMessagesList = [
+  /^(.)*(Script error).?$/,
 
-const ignoreException = (_isUncaught, _args, _payload) => {
+  /* Occurs when a request sent to the server took longer than the server's maximum wait time.
+   Possible reasons include network quality, processing time on the server-side, etc. */
+  'timeout of [0-9]+ms exceeded',
+
+  // Occurs when the initial config request is prematurely ended
+  'Request has been terminated Possible causes',
+
+  // Occurs in safari and ios when there's no permission to play audio
+  'the user denied permission'
+]
+
+export const ignoreException = (_isUncaught, _args, _payload) => {
   if (__EMBEDDABLE_FRAMEWORK_ENV__ === 'production') {
     // throttles error notifications so that only 1 in 1000 errors is sent through to rollbar
     return Math.floor(Math.random() * 1000) !== 0
