@@ -366,6 +366,20 @@ describe('pre render methods', () => {
         expect(tracker.track).toHaveBeenCalledWith('webWidget.updatePath', options)
       })
     })
+
+    describe('when that call is get', () => {
+      beforeEach(() => {
+        enqueue(['webWidget:get', 'chat:isChatting'])
+      })
+
+      it('calls isChattingApi', () => {
+        expect(apis.isChattingApi).toHaveBeenCalled()
+      })
+
+      it('tracks the call', () => {
+        expect(tracker.track).toHaveBeenCalledWith(`webWidget:get.chat:isChatting`)
+      })
+    })
   })
 })
 
