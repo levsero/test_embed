@@ -1,5 +1,6 @@
-import _ from 'lodash'
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Label } from '@zendeskgarden/react-select'
 import { Message, FauxInput, Input } from '@zendeskgarden/react-textfields'
@@ -10,12 +11,13 @@ import {
 } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import styled from 'styled-components'
-
 import { FONT_SIZE } from 'constants/shared'
-import { countriesByIso } from './talkCountries'
-import { talkDropdownOverrides } from 'component/frame/gardenOverrides'
 import { i18n } from 'service/i18n'
+import countriesByIso from 'translation/ze_countries'
 import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
+import styleOverrides from './styles.overrides'
+import { getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors'
+import { getStyledLabelText } from 'utility/fields'
 
 const StyledFauxInput = styled(FauxInput)`
   padding: 0 !important;
@@ -30,10 +32,22 @@ const StyledContainer = styled.div`
   margin-bottom: ${16 / FONT_SIZE}rem !important;
 `
 
-export class TalkPhoneField extends ControlledComponent {
+const mapStateToProps = state => {
+  return {
+    libphonenumber: getLibPhoneNumberVendor(state),
+    isRTL: i18n.isRTL(),
+    label: getStyledLabelText(i18n.t('embeddable_framework.common.textLabel.phone_number'), true),
+    errorMessage: i18n.t('embeddable_framework.validation.error.phone')
+  }
+}
+
+class PhoneField extends ControlledComponent {
   static propTypes = {
-    supportedCountries: PropTypes.array.isRequired,
-    libphonenumber: PropTypes.object.isRequired,
+    supportedCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
+    libphonenumber: PropTypes.shape({
+      AsYouType: PropTypes.func,
+      isValidNumber: PropTypes.func
+    }).isRequired,
     getFrameContentDocument: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
     label: PropTypes.string,
@@ -45,8 +59,6 @@ export class TalkPhoneField extends ControlledComponent {
   }
 
   static defaultProps = {
-    rtl: false,
-    label: '',
     required: false,
     country: '',
     value: '',
@@ -70,7 +82,6 @@ export class TalkPhoneField extends ControlledComponent {
       countryDropdownOpen: false
     }
 
-    this.countryDropdown = undefined
     this.phoneInput = undefined
   }
 
@@ -84,7 +95,7 @@ export class TalkPhoneField extends ControlledComponent {
     // Input won't focus until nextTick
     setTimeout(() => this.phoneInput.focus(), 0)
 
-    this.props.onCountrySelect(selectedKey, this.state.inputValue)
+    this.props.onCountrySelect(selectedKey)
   }
 
   formatCountries(supportedCountries) {
@@ -106,16 +117,6 @@ export class TalkPhoneField extends ControlledComponent {
       onClick: composeEventHandlers(onClick, () => {
         this.selectRef && this.selectRef.focus()
       }),
-      ...other
-    }
-  }
-
-  getInputProps = ({ selectRef, ...other }) => {
-    return {
-      selectRef: ref => {
-        selectRef && selectRef(ref)
-        this.selectRef = ref
-      },
       ...other
     }
   }
@@ -157,17 +158,6 @@ export class TalkPhoneField extends ControlledComponent {
     }
   }
 
-  renderErrorMessage = () => {
-    if (this.props.showError && !this.state.valid) {
-      return (
-        <Message validation="error">
-          {i18n.t('embeddable_framework.validation.error.phone')}
-        </Message>
-      )
-    }
-    return null
-  }
-
   componentDidMount = () => {
     this.isValid(this.state.inputValue, this.state.selectedKey)
   }
@@ -177,14 +167,14 @@ export class TalkPhoneField extends ControlledComponent {
     // when the select is focused. Otherwise omit and let the component
     // control its focus state
     const focused = this.state.countryDropdownOpen ? { focused: true } : {}
-    const error = this.renderErrorMessage()
+    const showError = this.props.showError && !this.state.valid
 
     return (
       <StyledContainer>
         <ThemeProvider
           rtl={this.props.rtl}
           document={this.props.getFrameContentDocument()}
-          theme={talkDropdownOverrides}
+          theme={styleOverrides}
         >
           <FieldContainer>
             {({ getLabelProps: getFieldLabelProps, getInputProps: getFieldInputProps }) => {
@@ -196,7 +186,7 @@ export class TalkPhoneField extends ControlledComponent {
                   />
                   <StyledFauxInput
                     {...focused}
-                    validation={error ? 'error' : 'none'}
+                    validation={showError ? 'error' : 'none'}
                     mediaLayout={true}
                     inputRef={container => (this.containerRef = container)}
                   >
@@ -223,6 +213,7 @@ export class TalkPhoneField extends ControlledComponent {
                       innerRef={node => (this.phoneInput = node)}
                       required={this.props.required}
                       bare={true}
+                      data-testid="talkPhoneField--input"
                     />
                   </StyledFauxInput>
                 </Fragment>
@@ -230,8 +221,12 @@ export class TalkPhoneField extends ControlledComponent {
             }}
           </FieldContainer>
         </ThemeProvider>
-        {error}
+        {showError && <Message validation="error">{this.props.errorMessage}</Message>}
       </StyledContainer>
     )
   }
 }
+
+const connectedComponent = connect(mapStateToProps)(PhoneField)
+
+export { PhoneField as Component, connectedComponent as default }

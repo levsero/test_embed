@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 
-import { TalkPhoneField } from 'component/talk/TalkPhoneField'
 import { Form } from 'component/form/Form'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { ZendeskLogo } from 'component/ZendeskLogo'
@@ -31,7 +30,6 @@ import {
   getScreen,
   getCallback,
   getAverageWaitTimeString,
-  getLibPhoneNumberVendor,
   getFormattedPhoneNumber
 } from 'src/redux/modules/talk/talk-selectors'
 import {
@@ -42,12 +40,13 @@ import {
   getTalkNameLabel
 } from 'src/redux/modules/selectors'
 import { i18n } from 'service/i18n'
-import { getStyledLabelText, shouldRenderErrorMessage } from 'src/util/fields'
+import { shouldRenderErrorMessage } from 'src/util/fields'
 import OfflinePage from 'src/embeds/talk/pages/OfflinePage'
 import PhoneOnlyPage from 'src/embeds/talk/pages/PhoneOnlyPage'
 
 import { locals as styles } from './Talk.scss'
 import SuccessNotificationPage from 'src/embeds/talk/pages/SuccessNotificationPage'
+import PhoneField from 'src/embeds/talk/components/PhoneField'
 
 const mapStateToProps = state => {
   return {
@@ -58,7 +57,6 @@ const mapStateToProps = state => {
     callback: getCallback(state),
     formattedPhoneNumber: getFormattedPhoneNumber(state),
     averageWaitTime: getAverageWaitTimeString(state),
-    libphonenumber: getLibPhoneNumberVendor(state),
     title: getTalkTitle(state),
     nickname: getTalkNickname(state),
     serviceUrl: getTalkServiceUrl(state),
@@ -82,7 +80,6 @@ class Talk extends Component {
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     formattedPhoneNumber: PropTypes.string.isRequired,
-    libphonenumber: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
     serviceUrl: PropTypes.string.isRequired,
@@ -156,21 +153,15 @@ class Talk extends Component {
   }
 
   renderPhoneField = () => {
-    const phoneLabel = i18n.t('embeddable_framework.common.textLabel.phone_number')
-    const value = this.props.formState.phone
-
     return (
-      <TalkPhoneField
+      <PhoneField
         validate={val => this.form && this.form.validate(val)}
-        rtl={i18n.isRTL()}
-        label={getStyledLabelText(phoneLabel, true)}
         required={true}
         onCountrySelect={this.handleCountrySelect}
-        libphonenumber={this.props.libphonenumber}
         getFrameContentDocument={this.props.getFrameContentDocument}
         supportedCountries={this.props.embeddableConfig.supportedCountries}
         country={this.props.formState.country}
-        value={value}
+        value={this.props.formState.phone}
         showError={this.state.showErrors}
       />
     )

@@ -7,12 +7,11 @@ import {
   CALLBACK_AND_PHONE_SCREEN,
   SUCCESS_NOTIFICATION_SCREEN
 } from 'src/redux/modules/talk/talk-screen-types'
-
+import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 import { Component as Talk } from '../Talk'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 import { locals as styles } from './Talk.scss'
-import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 
 const renderComponent = (overrideProps = {}) => {
   const libphonenumber = {

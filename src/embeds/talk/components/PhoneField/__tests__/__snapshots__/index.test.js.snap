@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PhoneField focuses the input when dropdown is open 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -208,1 +208,1 @@
+-         class="sc-htpNat jVOplu Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn kFlDox"
++         class="sc-htpNat jVOplu Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn text__is-focused___3mc46 hDMyMD"
+@@ -218,1 +218,1 @@
+-             aria-expanded="false"
++             aria-expanded="true"
+@@ -221,1 +221,1 @@
+-             class="SelectView-gnmjk-0 ilfwUh Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--select___7_VcN kFlDox"
++             class="SelectView-gnmjk-0 ilfwUh Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--select___7_VcN text__is-focused___3mc46 text__is-open___1jG9_ hDMyMD"
+@@ -226,0 +226,1 @@
++             open=""
+`;

@@ -33,7 +33,7 @@ describe('Talk component', () => {
       React: React,
       '@zendeskgarden/react-buttons': { Button: noopReactComponent },
       'component/form/Form': { Form: noopReactComponent },
-      'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
+      'src/embeds/talk/components/PhoneField': noopReactComponent,
       'component/Icon': { Icon },
       './ErrorNotification': noopReactComponent,
       './PhoneNumber': noopReactComponent,
