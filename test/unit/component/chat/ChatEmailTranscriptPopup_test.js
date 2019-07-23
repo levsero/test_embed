@@ -196,19 +196,6 @@ describe('ChatEmailTranscriptPopup component', () => {
     })
   })
 
-  describe('getDerivedStateFromProps', () => {
-    let component
-
-    beforeEach(() => {
-      component = domRender(<ChatEmailTranscriptPopup />)
-      domRender(<ChatEmailTranscriptPopup visitor={{ email: 'bob@bob.com' }} />)
-    })
-
-    it('sets email form state to the email visitor prop passed in', () => {
-      expect(component.state.formState.email).toEqual('bob@bob.com')
-    })
-  })
-
   describe('render', () => {
     let component, emailTranscript
 
@@ -366,13 +353,19 @@ describe('ChatEmailTranscriptPopup component', () => {
       let result, component
 
       beforeEach(() => {
-        component = instanceRender(<ChatEmailTranscriptPopup />)
+        component = instanceRender(
+          <ChatEmailTranscriptPopup emailTranscript={{ email: 'example@example.com' }} />
+        )
 
         result = component.renderEmailField()
       })
 
       it('renders a TextField component', () => {
         expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+      })
+
+      it('uses the provided email as the initial value', () => {
+        expect(result.props.children[1].props.value).toEqual('example@example.com')
       })
 
       describe('when invalid', () => {

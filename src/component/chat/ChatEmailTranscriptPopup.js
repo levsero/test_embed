@@ -27,7 +27,6 @@ export class ChatEmailTranscriptPopup extends Component {
     visitor: PropTypes.object,
     emailTranscript: PropTypes.object,
     tryEmailTranscriptAgain: PropTypes.func,
-    show: PropTypes.bool,
     isMobile: PropTypes.bool,
     resetEmailTranscript: PropTypes.func
   }
@@ -47,25 +46,15 @@ export class ChatEmailTranscriptPopup extends Component {
   constructor(props) {
     super(props)
 
+    const email = props.emailTranscript.email || _.get(props.visitor, 'email', '')
+
     this.state = {
-      valid: false,
-      formState: { email: '' },
+      valid: emailValid(email),
+      formState: { email },
       showErrors: false
     }
 
     this.form = null
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    const email = props.emailTranscript.email || _.get(props.visitor, 'email', '')
-
-    if (email && email !== state.formState.email) {
-      return {
-        valid: emailValid(email),
-        formState: { email }
-      }
-    }
-    return null
   }
 
   handleSave = e => {
@@ -230,7 +219,8 @@ export class ChatEmailTranscriptPopup extends Component {
         useOverlay={isMobile}
         onExited={onExited}
         showCta={this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SCREEN}
-        show={this.props.show}
+        show={true}
+        transitionOnMount={true}
         className={className}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
