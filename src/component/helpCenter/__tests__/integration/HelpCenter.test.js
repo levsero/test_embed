@@ -210,11 +210,11 @@ const setupMocks = () => {
 
   http.send = options => {
     switch (options.path) {
-      case '/api/v2/help_center/search.json':
+      case '/api/v2/help_center/articles/embeddable_search.json':
         search(options)
         break
       default:
-        throw `Unrecognized http request received! Params are ${options}`
+        throw `Unrecognized http request received! Path is ${options.path}`
     }
   }
 }
