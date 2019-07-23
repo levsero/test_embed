@@ -586,3 +586,56 @@ describe('getIsPopoutButtonVisible', () => {
 describe('getOfflineFormEnabled', () => {
   // TODO
 })
+
+describe('getPrechatFormFields', () => {
+  let result
+  describe('with departments enabled', () => {
+    beforeEach(() => {
+      const stateOverride = {
+        chat: {
+          department: [
+            { id: 222, name: 'pizza' },
+            { id: 111, name: 'burgers' },
+            { id: 333, name: 'thickshakes' }
+          ]
+        },
+        settings: {
+          chat: {
+            departments: {
+              enabled: ['burgers', 222],
+              select: 'burgers'
+            }
+          }
+        }
+      }
+
+      result = selectors.getPrechatFormFields(getModifiedState(stateOverride))
+    })
+
+    it('returns the expected fields', () => {
+      expect(result).toEqual({
+        department: { label: 'Choose a department' },
+        departments: [
+          { id: 111, isDefault: true, name: 'burgers', value: 111 },
+          { id: 222, isDefault: false, name: 'pizza', value: 222 }
+        ]
+      })
+    })
+  })
+
+  describe('with no departments enabled', () => {
+    beforeEach(() => {
+      const modifiedState = getModifiedState()
+      modifiedState.settings.chat.departments.enabled = []
+
+      result = selectors.getPrechatFormFields(modifiedState)
+    })
+
+    it('returns the expected fields', () => {
+      expect(result).toEqual({
+        department: { label: 'Choose a department' },
+        departments: []
+      })
+    })
+  })
+})
