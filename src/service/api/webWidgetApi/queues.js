@@ -1,10 +1,4 @@
 import _ from 'lodash'
-import {
-  API_GET_IS_CHATTING_NAME,
-  API_GET_DEPARTMENTS_ALL_NAME,
-  API_GET_DEPARTMENTS_DEPARTMENT_NAME,
-  API_GET_DISPLAY_NAME
-} from 'constants/api'
 import { setLocaleApi } from 'src/service/api/apis'
 import { renderer } from 'service/renderer'
 import { apiExecute, apiStructurePostRenderSetup, apiStructurePreRenderSetup } from './setupApi'
@@ -12,17 +6,6 @@ import { setupPublicApi, setupDevApi } from './setupLegacyApi'
 import ZDApiError from 'errors/console/ZDApiError'
 
 const newAPIPostRenderQueue = []
-
-const getApiPostRenderQueue = () => {
-  const postRenderCallback = (_, ...args) => apiAddToPostRenderQueue(['webWidget:get', ...args])
-
-  return {
-    [API_GET_IS_CHATTING_NAME]: postRenderCallback,
-    [API_GET_DEPARTMENTS_ALL_NAME]: postRenderCallback,
-    [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: postRenderCallback,
-    [API_GET_DISPLAY_NAME]: postRenderCallback
-  }
-}
 
 const apiAddToPostRenderQueue = (...args) => {
   newAPIPostRenderQueue.push(args)
@@ -105,11 +88,7 @@ export function apisExecuteQueue(reduxStore, queue) {
     } else if (_.includes(method[0], 'webWidget')) {
       // New API
       try {
-        apiExecute(
-          apiStructurePreRenderSetup(apiAddToPostRenderQueue, getApiPostRenderQueue),
-          reduxStore,
-          method
-        )
+        apiExecute(apiStructurePreRenderSetup(apiAddToPostRenderQueue), reduxStore, method)
       } catch (e) {
         logApiError(`"${method[0]} ${method[1]}"`, e)
       }
