@@ -228,11 +228,11 @@ Identify API calls are throttled in several ways to prevent API abuse:
 - Limit the creation of user records per account: Up to 50,000 user records created daily by a Zendesk Support account.
 - Payload: Throttled when a Zendesk Support account makes more than one API call using the same email address every 12 hours.
 
-The Identify API call occurs when the widget loads. So if a ticket is submitted before a user record is created by the Identify API call, the details in the ticket are used for creating a user record.
+The Identify API call occurs when the widget loads. In the event that a ticket is submitted before a user record is created by the Identify API call, the details in the ticket are used for creating a user record.
 
 _Note_:
 
-- The Identify API call can specify an organization when a user record is first created. It can't be used to modify organizations on existing user records.
+- The Identify API call can only specify an organization when a user record is first created. It can't be used to modify organizations on existing user records.
 
 - The Identify API only prepopulates the user's details in the Chat forms (Prechat, Chat Offline and Update Contact Details forms). To prefill all forms in any product configuration, please use [prefill](#prefill).
 
