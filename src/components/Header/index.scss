@@ -1,0 +1,28 @@
+@import 'src/styles/_vars.scss';
+
+.userHeader {
+  composes: u-userHeaderColor from global;
+}
+
+.header {
+  padding-left: #{20 / $font-size}rem !important;
+  padding-right: #{20 / $font-size}rem !important;
+  background: $zd-color-grey-100;
+  color: $zd-color-grey-800;
+  padding-top: #{15 / $font-size}rem !important;
+  padding-bottom: #{15 / $font-size}rem !important;
+}
+
+.title {
+  font-weight: 700;
+  text-align: center !important;
+  letter-spacing: #{0.3 / $font-size}rem;
+  line-height: 1.2;
+  padding-left: #{30 / $font-size}rem;
+  padding-right: #{30 / $font-size}rem;
+  font-size: #{15 / $font-size}rem;
+}
+
+.titleMobile {
+  font-size: #{15 / $font-size}rem;
+}

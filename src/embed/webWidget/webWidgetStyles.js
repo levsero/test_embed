@@ -70,6 +70,7 @@ import TalkPhoneOnlyPageStyles from 'src/embeds/talk/pages/PhoneOnlyPage/styles.
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
 import gardenStyles from 'embed/gardenStyles'
+import componentStyles from 'src/components/styles'
 
 export const webWidgetStyles = `
   ${sharedStyles}
@@ -143,4 +144,5 @@ export const webWidgetStyles = `
   ${TalkPhoneNumberStyles}
   ${AverageWaitTime}
   ${TalkPhoneOnlyPageStyles}
+  ${componentStyles}
 `
