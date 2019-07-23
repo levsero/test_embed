@@ -75,6 +75,11 @@ export const getActiveAgents = createSelector(
   }
 )
 
+export const getActiveAgentCount = createSelector(
+  getActiveAgents,
+  activeAgents => Object.keys(activeAgents).length
+)
+
 export const getAllAgents = createSelector(
   [getActiveAgents, getInactiveAgents],
   (activeAgents, inactiveAgents) => {
@@ -207,15 +212,15 @@ export const getChatsLength = createSelector(
 
 export const getGroupMessages = createCachedSelector(
   getChats,
-  (state, messageKeys) => messageKeys,
+  (_state, messageKeys) => messageKeys,
   (chats, messageKeys) => _.map(messageKeys, key => chats.get(key))
-)((state, messageKeys) => messageKeys[messageKeys.length - 1])
+)((_state, messageKeys) => messageKeys[messageKeys.length - 1])
 
 export const getEventMessage = createCachedSelector(
   getChats,
-  (state, messageKey) => messageKey,
+  (_state, messageKey) => messageKey,
   (chats, messageKey) => chats.get(messageKey)
-)((state, messageKey) => messageKey)
+)((_state, messageKey) => messageKey)
 
 export const getLatestQuickReply = createSelector(
   getChats,

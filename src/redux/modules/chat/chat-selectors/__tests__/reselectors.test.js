@@ -446,3 +446,19 @@ describe('getChatMessagesFromAgents', () => {
     ])
   })
 })
+
+describe('getActiveAgentCount', () => {
+  const selector = selectors.getActiveAgentCount.resultFunc
+  const activeAgents = {
+    'agent:1234': {
+      name: 'Johnson'
+    },
+    'agent:5678': {
+      name: 'Smith'
+    }
+  }
+
+  it('returns the number of active agents passed', () => {
+    expect(selector(activeAgents)).toEqual(2)
+  })
+})

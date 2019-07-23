@@ -11,7 +11,8 @@ import {
   CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
   CHAT_MSG_REQUEST_SENT,
   CHAT_FILE_REQUEST_SENT,
-  CHAT_BANNED
+  CHAT_BANNED,
+  END_CHAT_REQUEST_SUCCESS
 } from '../chat-action-types'
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
@@ -46,6 +47,7 @@ const latestRating = (state = initialState.latestRating, action) => {
       return action.payload.detail.timestamp
     case API_RESET_WIDGET:
     case CHAT_BANNED:
+    case END_CHAT_REQUEST_SUCCESS:
       return initialState.latestRating
     default:
       return state
@@ -96,6 +98,7 @@ const latestAgentLeaveEvent = (state = initialState.latestAgentLeaveEvent, actio
         : state
     case API_RESET_WIDGET:
     case CHAT_BANNED:
+    case END_CHAT_REQUEST_SUCCESS:
       return initialState.latestAgentLeaveEvent
     default:
       return state

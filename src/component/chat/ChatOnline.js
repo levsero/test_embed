@@ -131,8 +131,7 @@ class Chat extends Component {
 
     this.state = {
       showEndChatMenu: false,
-      endChatFromFeedbackForm: false,
-      hasEndedChatFromFeedbackForm: false
+      endChatFromFeedbackForm: false
     }
 
     this.menu = null
@@ -240,8 +239,6 @@ class Chat extends Component {
   renderChatScreen = () => {
     if (this.props.screen !== screens.CHATTING_SCREEN) return
 
-    const { hasEndedChatFromFeedbackForm } = this.state
-
     const showChatEndFn = e => {
       e.stopPropagation()
       this.props.updateMenuVisibility(false)
@@ -261,7 +258,6 @@ class Chat extends Component {
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
         showContactDetails={this.showContactDetailsFn}
-        endedChatFromFeedbackForm={hasEndedChatFromFeedbackForm}
       />
     )
   }
@@ -293,8 +289,7 @@ class Chat extends Component {
     const endChatFn = () => {
       this.setState({
         showEndChatMenu: false,
-        endChatFromFeedbackForm: true,
-        hasEndedChatFromFeedbackForm: true
+        endChatFromFeedbackForm: true
       })
       this.props.endChatViaPostChatScreen()
     }
