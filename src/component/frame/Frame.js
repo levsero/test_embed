@@ -1,8 +1,3 @@
-// Needed for legacy browsers as specified in
-// https://reactjs.org/docs/javascript-environment-requirements.html
-import 'core-js/es6/map'
-import 'core-js/es6/set'
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'

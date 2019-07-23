@@ -1,4 +1,3 @@
-import Map from 'core-js/library/es6/map'
 import _ from 'lodash'
 
 import {

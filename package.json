@@ -74,6 +74,15 @@
       "maxSize": "60 KB"
     }
   ],
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 Android versions",
+    "last 2 ChromeAndroid versions",
+    "IE 11"
+  ],
   "author": "Zendesk",
   "license": "All Rights Reserved",
   "dependencies": {
@@ -98,7 +107,6 @@
     "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v23.0.0",
     "classnames": "^2.2.5",
     "color": "~3.0.0",
-    "core-js": "^2.5.1",
     "libphonenumber-js": "~0.4.49",
     "lodash": "^4.17.14",
     "prop-types": "^15.6.1",
@@ -133,7 +141,7 @@
     "@babel/plugin-proposal-throw-expressions": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@testing-library/jest-dom": "^4.0.0",

@@ -1,5 +1,3 @@
-require('./polyfills')
-
 import { boot } from './boot'
 import errorTracker from 'service/errorTracker'
 import { isBlacklisted } from 'utility/devices'
