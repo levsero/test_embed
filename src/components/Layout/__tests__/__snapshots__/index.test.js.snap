@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout Element matches snapshot 1`] = `
+<div>
+  <div
+    class="container flexContainer desktop desktopContainer"
+    style="height: 550px;"
+  >
+    <div
+      class="header userHeader"
+    >
+      <h1
+        class="title"
+      >
+        A title
+      </h1>
+    </div>
+    <footer
+      class="footer"
+    >
+      <button
+        class="Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
+        data-garden-id="buttons.button"
+        data-garden-version="3.7.0"
+        tabindex="0"
+        type="button"
+      >
+        Hello Fren
+      </button>
+    </footer>
+  </div>
+</div>
+`;
