@@ -102,7 +102,6 @@ const getFields = (customFields, formState, options) => {
     const title = field.title_in_portal || ''
     const sharedProps = {
       ...options,
-      getFrameContentDocument: options.getFrameContentDocument,
       description: field.description,
       fullscreen: isMobileBrowser(),
       key: title,

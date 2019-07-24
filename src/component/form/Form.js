@@ -15,7 +15,8 @@ export class Form extends Component {
     submitButtonLabel: PropTypes.string,
     onCompleted: PropTypes.func,
     onChange: PropTypes.func,
-    submitButtonClasses: PropTypes.string
+    submitButtonClasses: PropTypes.string,
+    testId: PropTypes.string
   }
 
   static defaultProps = {
@@ -85,6 +86,7 @@ export class Form extends Component {
         onChange={this.handleFormChange}
         ref={el => (this.form = el)}
         className={this.props.className}
+        data-testid={this.props.testId}
       >
         {this.props.children}
         {this.renderSubmitButton()}

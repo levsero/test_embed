@@ -43,7 +43,21 @@ export const getApiObj = () => {
   }
 }
 
-export const getWidgetChatApiObj = () => {
+const getApiPreRenderQueue = apiAddToPostRenderQueue => {
+  return {
+    chat: {
+      [API_GET_IS_CHATTING_NAME]: () =>
+        apiAddToPostRenderQueue(['webWidget:get', 'chat:isChatting']),
+      [API_GET_DEPARTMENTS_ALL_NAME]: (_, ...args) =>
+        apiAddToPostRenderQueue(['webWidget:get', 'departments:all', ...args]),
+      [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: (_, ...args) =>
+        apiAddToPostRenderQueue(['webWidget:get', 'departments', ...args])
+    },
+    [API_GET_DISPLAY_NAME]: () => apiAddToPostRenderQueue(['webWidget:get', 'display'])
+  }
+}
+
+export const chatApiObj = () => {
   return {
     end: endChatApi,
     send: sendChatMsgApi
@@ -83,7 +97,7 @@ export const apiExecute = (apiStructure, reduxStore, args) => {
   return apiFunction(reduxStore, ...apiMethodParams)
 }
 
-export const apiStructurePreRenderSetup = (apiAddToPostRenderQueue, getApiPostRenderQueue) => {
+export const apiStructurePreRenderSetup = apiAddToPostRenderQueue => {
   return {
     webWidget: {
       hide: hideApi,
@@ -100,9 +114,9 @@ export const apiStructurePreRenderSetup = (apiAddToPostRenderQueue, getApiPostRe
       clear: reduxStore => clearFormState(reduxStore),
       reset: reduxStore => resetWidget(reduxStore),
       prefill: prefill,
-      chat: getWidgetChatApiObj(),
+      chat: chatApiObj(),
       on: onApiObj(),
-      get: getApiPostRenderQueue(),
+      get: getApiPreRenderQueue(apiAddToPostRenderQueue),
       helpCenter: {
         setSuggestions: (_, ...args) =>
           apiAddToPostRenderQueue(['webWidget', 'helpCenter:setSuggestions', ...args])
@@ -127,7 +141,7 @@ export const apiStructurePostRenderSetup = () => {
       updatePath: updatePathApi,
       clear: clearFormState,
       prefill: prefill,
-      chat: getWidgetChatApiObj(),
+      chat: chatApiObj(),
       on: onApiObj(),
       get: getApiObj(),
       helpCenter: {

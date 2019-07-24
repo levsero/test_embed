@@ -1,20 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 import { connect } from 'react-redux'
 
-import { Form } from 'component/form/Form'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { ZendeskLogo } from 'component/ZendeskLogo'
-import { errorCodes } from './talkErrorCodes'
 import { Button } from '@zendeskgarden/react-buttons'
 import classNames from 'classnames'
-import { Message } from '@zendeskgarden/react-textfields'
-import ErrorNotification from './ErrorNotification'
 import PhoneNumber from './PhoneNumber'
-import DescriptionField from './DescriptionField'
-import NameField from './NameField'
-import AverageWaitTime from './AverageWaitTime'
+import CallbackForm from 'src/embeds/talk/components/CallbackForm'
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -26,71 +19,43 @@ import { updateTalkCallbackForm, submitTalkCallbackForm } from 'src/redux/module
 import {
   getEmbeddableConfig,
   getAgentAvailability,
-  getFormState,
   getScreen,
-  getCallback,
   getAverageWaitTimeString,
   getFormattedPhoneNumber
 } from 'src/redux/modules/talk/talk-selectors'
-import {
-  getTalkTitle,
-  getTalkNickname,
-  getTalkServiceUrl,
-  getTalkDescriptionLabel,
-  getTalkNameLabel
-} from 'src/redux/modules/selectors'
+import { getTalkTitle } from 'src/redux/modules/selectors'
 import { i18n } from 'service/i18n'
-import { shouldRenderErrorMessage } from 'src/util/fields'
 import OfflinePage from 'src/embeds/talk/pages/OfflinePage'
 import PhoneOnlyPage from 'src/embeds/talk/pages/PhoneOnlyPage'
 
 import { locals as styles } from './Talk.scss'
 import SuccessNotificationPage from 'src/embeds/talk/pages/SuccessNotificationPage'
-import PhoneField from 'src/embeds/talk/components/PhoneField'
 
 const mapStateToProps = state => {
   return {
     embeddableConfig: getEmbeddableConfig(state),
     agentAvailability: getAgentAvailability(state),
-    formState: getFormState(state),
     screen: getScreen(state),
-    callback: getCallback(state),
     formattedPhoneNumber: getFormattedPhoneNumber(state),
     averageWaitTime: getAverageWaitTimeString(state),
-    title: getTalkTitle(state),
-    nickname: getTalkNickname(state),
-    serviceUrl: getTalkServiceUrl(state),
-    namelabelText: getTalkNameLabel(state),
-    descriptionlabelText: getTalkDescriptionLabel(state)
+    title: getTalkTitle(state)
   }
 }
 
 class Talk extends Component {
   static propTypes = {
-    embeddableConfig: PropTypes.object.isRequired,
-    formState: PropTypes.object.isRequired,
-    screen: PropTypes.string.isRequired,
-    callback: PropTypes.object.isRequired,
-    averageWaitTime: PropTypes.string,
-    agentAvailability: PropTypes.bool.isRequired,
-    updateTalkCallbackForm: PropTypes.func.isRequired,
-    submitTalkCallbackForm: PropTypes.func.isRequired,
-    getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
+    embeddableConfig: PropTypes.object.isRequired,
+    agentAvailability: PropTypes.bool.isRequired,
+    screen: PropTypes.string.isRequired,
     formattedPhoneNumber: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    nickname: PropTypes.string.isRequired,
-    serviceUrl: PropTypes.string.isRequired,
-    descriptionlabelText: PropTypes.string.isRequired,
-    namelabelText: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired
   }
 
   static defaultProps = {
     hideZendeskLogo: false,
-    formState: { phone: '' },
-    callback: { error: {} },
     onBackClick: () => {},
     agentAvailability: true
   }
@@ -98,33 +63,6 @@ class Talk extends Component {
   constructor() {
     super()
     this.form = null
-
-    this.state = {
-      showErrors: false
-    }
-  }
-
-  handleFormCompleted = () => {
-    if (!this.form.state.valid) {
-      this.setState({ showErrors: true })
-      return
-    }
-
-    const { serviceUrl, nickname, submitTalkCallbackForm } = this.props
-
-    this.setState({ showErrors: false })
-    submitTalkCallbackForm(serviceUrl, nickname)
-  }
-
-  handleFormChange = formState => {
-    this.props.updateTalkCallbackForm(formState)
-  }
-
-  handleCountrySelect = country => {
-    this.props.updateTalkCallbackForm({ country })
-    if (this.form) {
-      this.form.validate()
-    }
   }
 
   renderPhoneNumber = () => {
@@ -132,82 +70,6 @@ class Talk extends Component {
     const { formattedPhoneNumber } = this.props
 
     return <PhoneNumber phoneNumber={phoneNumber} formattedPhoneNumber={formattedPhoneNumber} />
-  }
-
-  renderFormHeader = () => {
-    const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage_new')
-
-    return (
-      <div>
-        <p className={styles.formHeaderMessage}>{headerMessage}</p>
-        {this.props.averageWaitTime && <AverageWaitTime message={this.props.averageWaitTime} />}
-      </div>
-    )
-  }
-
-  renderErrorMessage = (value, required, errorString, pattern) => {
-    if (shouldRenderErrorMessage(value, required, this.state.showErrors, pattern)) {
-      return <Message validation="error">{i18n.t(errorString)}</Message>
-    }
-    return null
-  }
-
-  renderPhoneField = () => {
-    return (
-      <PhoneField
-        validate={val => this.form && this.form.validate(val)}
-        required={true}
-        onCountrySelect={this.handleCountrySelect}
-        getFrameContentDocument={this.props.getFrameContentDocument}
-        supportedCountries={this.props.embeddableConfig.supportedCountries}
-        country={this.props.formState.country}
-        value={this.props.formState.phone}
-        showError={this.state.showErrors}
-      />
-    )
-  }
-
-  renderNameField = () => {
-    return <NameField label={this.props.namelabelText} defaultValue={this.props.formState.name} />
-  }
-
-  renderDescriptionField = () => {
-    return (
-      <DescriptionField
-        label={this.props.descriptionlabelText}
-        defaultValue={this.props.formState.description}
-      />
-    )
-  }
-
-  renderFormScreen = () => {
-    const submitButtonStyles = classNames(styles.submitButton, {
-      [styles.submitBtnMobile]: this.props.isMobile
-    })
-    const { isMobile, formState, callback } = this.props
-
-    return (
-      <Form
-        ref={el => (this.form = el)}
-        className={styles.form}
-        submitButtonClasses={submitButtonStyles}
-        submitButtonLabel={i18n.t('embeddable_framework.common.button.send')}
-        rtl={i18n.isRTL()}
-        isMobile={isMobile}
-        formState={formState}
-        onCompleted={this.handleFormCompleted}
-        onChange={this.handleFormChange}
-      >
-        {this.renderFormHeader()}
-        <div className={styles.formDivider} />
-        {this.renderPhoneField()}
-        {this.renderNameField()}
-        {this.renderDescriptionField()}
-        {callback.error.message && (
-          <ErrorNotification message={this.resolveErrorMessage(callback.error.message)} />
-        )}
-      </Form>
-    )
   }
 
   renderPhoneFormScreen = () => {
@@ -218,7 +80,7 @@ class Talk extends Component {
         <div className={styles.phoneDisplayLabel}>
           {phoneLabel} {this.renderPhoneNumber()}
         </div>
-        {this.renderFormScreen()}
+        <CallbackForm />
       </div>
     )
   }
@@ -228,7 +90,7 @@ class Talk extends Component {
 
     switch (this.props.screen) {
       case CALLBACK_ONLY_SCREEN:
-        return this.renderFormScreen()
+        return <CallbackForm />
       case PHONE_ONLY_SCREEN:
         return <PhoneOnlyPage />
       case SUCCESS_NOTIFICATION_SCREEN:
@@ -263,12 +125,6 @@ class Talk extends Component {
         </Button>
       </div>
     )
-  }
-
-  resolveErrorMessage(code) {
-    return _.includes(errorCodes, code)
-      ? i18n.t(`embeddable_framework.talk.notify.error.${code}`)
-      : i18n.t('embeddable_framework.common.notify.error.generic')
   }
 
   render = () => {

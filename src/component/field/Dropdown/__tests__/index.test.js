@@ -30,8 +30,7 @@ const renderComponent = props => {
   const defaultProps = {
     options: mockOptions,
     required: false,
-    label: <div>dropdown label</div>,
-    getFrameContentDocument: () => window.document
+    label: <div>dropdown label</div>
   }
   const mergedProps = {
     ...defaultProps,

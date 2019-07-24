@@ -45,6 +45,11 @@ describe('PrechatForm component', () => {
     mockFormValidity = false
 
     initMockRegistry({
+      'utility/globals': {
+        getWebWidgetFrameContentDocumentBody: jasmine.createSpy(
+          'getWebWidgetFrameContentDocumentBody'
+        )
+      },
       './PrechatForm.scss': {
         locals: {
           nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass'

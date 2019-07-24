@@ -53,5 +53,13 @@ https://*.zopim.io
 You must also relax your policy for inline scripts and CSS styles by specifying `'unsafe-inline'` in both the `script-src` and `style-src` directives. This is because the snippet and styles for chat are injected into the host page at runtime. An example header that uses a custom `script-src` directive would look like:
 
 ```
-Content-Security-Policy: default-src 'self' https://static.zdassets.com https://ekr.zdassets.com https://{zendeskSubdomain}.zendesk.com wss://{zendeskSubdomain}.zendesk.com https://*.zopim.com wss://*.zopim.com https://*.zopim.io 'unsafe-inline'; style-src 'unsafe-inline'
+default-src 'self'
+            https://static.zdassets.com
+            https://ekr.zdassets.com
+            https://{zendeskSubdomain}.zendesk.com
+            wss://{zendeskSubdomain}.zendesk.com
+            https://*.zopim.com
+            wss://*.zopim.com
+            https://*.zopim.io 'unsafe-inline';
+            style-src 'unsafe-inline'
 ```

@@ -78,7 +78,6 @@ class ChatOffline extends Component {
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
-    getFrameContentDocument: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     widgetShown: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
@@ -97,7 +96,6 @@ class ChatOffline extends Component {
     chatId: '',
     formSettings: { enabled: false },
     offlineMessage: {},
-    getFrameContentDocument: () => ({}),
     loginSettings: {}
   }
 
@@ -106,7 +104,6 @@ class ChatOffline extends Component {
       <ChatOfflineForm
         title={this.props.title}
         widgetShown={this.props.widgetShown}
-        getFrameContentDocument={this.props.getFrameContentDocument}
         initiateSocialLogout={this.props.initiateSocialLogout}
         visitor={this.props.visitor}
         socialLogin={this.props.socialLogin}

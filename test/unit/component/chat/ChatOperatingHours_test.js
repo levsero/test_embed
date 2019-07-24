@@ -90,6 +90,11 @@ describe('ChatOperatingHours component', () => {
     i18nTimeFromMinutes.calls.reset()
 
     initMockRegistry({
+      'utility/globals': {
+        getWebWidgetFrameContentDocumentBody: jasmine.createSpy(
+          'getWebWidgetFrameContentDocumentBody'
+        )
+      },
       './ChatOperatingHours.scss': {
         locals: {
           container: 'containerClass',

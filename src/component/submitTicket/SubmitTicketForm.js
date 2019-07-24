@@ -27,7 +27,6 @@ export class SubmitTicketForm extends Component {
     attachmentSender: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
     activeTicketForm: PropTypes.object,
-    getFrameContentDocument: PropTypes.func.isRequired,
     nameFieldRequired: PropTypes.bool.isRequired,
     nameFieldEnabled: PropTypes.bool.isRequired,
     ticketFormSettings: PropTypes.array,
@@ -434,7 +433,6 @@ export class SubmitTicketForm extends Component {
       this.props.formState,
       {
         onChange: this.updateForm,
-        getFrameContentDocument: this.props.getFrameContentDocument,
         showErrors: this.state.showErrors
       },
       activeTicketForm.end_user_conditions
@@ -456,7 +454,6 @@ export class SubmitTicketForm extends Component {
 
   renderFormBody = () => {
     const ticketFields = getCustomFields(this.props.ticketFields, this.props.formState, {
-      getFrameContentDocument: this.props.getFrameContentDocument,
       onChange: this.updateForm,
       showErrors: this.state.showErrors
     })
