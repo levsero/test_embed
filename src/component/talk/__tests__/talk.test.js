@@ -21,7 +21,6 @@ const renderComponent = (overrideProps = {}) => {
   }
 
   const defaultProps = {
-    getFrameContentDocument: () => document,
     embeddableConfig: {
       phoneNumber: '12345678',
       supportedCountries: ['US']

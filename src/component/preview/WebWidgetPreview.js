@@ -12,18 +12,13 @@ export class WebWidgetPreview extends Component {
     containerStyle: PropTypes.shape({
       margin: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       width: PropTypes.string
-    }),
-    getFrameContentDocument: PropTypes.func
+    })
   }
 
   render() {
     return (
       <Container style={this.props.containerStyle}>
-        <Chat
-          locale={i18n.getLocale()}
-          updateChatBackButtonVisibility={noop}
-          getFrameContentDocument={this.props.getFrameContentDocument}
-        />
+        <Chat locale={i18n.getLocale()} updateChatBackButtonVisibility={noop} />
       </Container>
     )
   }

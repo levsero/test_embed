@@ -42,7 +42,6 @@ export class ChatOfflineForm extends Component {
     isAuthenticated: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
-    getFrameContentDocument: PropTypes.func.isRequired,
     widgetShown: PropTypes.bool.isRequired,
     channels: PropTypes.object,
     fullscreen: PropTypes.bool,
@@ -62,7 +61,6 @@ export class ChatOfflineForm extends Component {
     authUrls: {},
     hideZendeskLogo: false,
     chatId: '',
-    getFrameContentDocument: () => ({}),
     formState: {},
     readOnlyState: {},
     channels: {}
@@ -425,7 +423,7 @@ export class ChatOfflineForm extends Component {
   renderOperatingHours() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.OPERATING_HOURS) return null
 
-    const { operatingHours, handleOfflineFormBack, getFrameContentDocument } = this.props
+    const { operatingHours, handleOfflineFormBack } = this.props
 
     if (!operatingHours.enabled) return null
 
@@ -439,7 +437,6 @@ export class ChatOfflineForm extends Component {
         title={this.props.title}
       >
         <ChatOperatingHours
-          getFrameContentDocument={getFrameContentDocument}
           handleOfflineFormBack={handleOfflineFormBack}
           operatingHours={operatingHours}
         />

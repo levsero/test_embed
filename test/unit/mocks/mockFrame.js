@@ -26,7 +26,6 @@ export class MockFrame extends Component {
     this.setHighlightColor = noop
     this.forceUpdateWorld = noop
     this.componentDidUpdate = noop
-    this.getFrameContentDocument = () => {}
 
     this.state = {}
   }

@@ -75,7 +75,6 @@ class Talk extends Component {
     agentAvailability: PropTypes.bool.isRequired,
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
-    getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
@@ -158,7 +157,6 @@ class Talk extends Component {
         validate={val => this.form && this.form.validate(val)}
         required={true}
         onCountrySelect={this.handleCountrySelect}
-        getFrameContentDocument={this.props.getFrameContentDocument}
         supportedCountries={this.props.embeddableConfig.supportedCountries}
         country={this.props.formState.country}
         value={this.props.formState.phone}

@@ -26,11 +26,7 @@ const renderChat = (fullscreen = false) => {
 
   return render(
     <Provider store={store}>
-      <Chat
-        getFrameContentDocument={() => {}}
-        updateChatBackButtonVisibility={() => {}}
-        fullscreen={fullscreen}
-      />
+      <Chat updateChatBackButtonVisibility={() => {}} fullscreen={fullscreen} />
     </Provider>
   )
 }
