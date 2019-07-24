@@ -87,7 +87,6 @@ const renderWebWidgetPreview = options => {
             previewEnabled={true}
             submitTicketSender={() => {}}
             attachmentSender={() => {}}
-            getFrameContentDocument={() => {}}
             fullscreen={false}
             style={containerStyle}
             isMobile={false}

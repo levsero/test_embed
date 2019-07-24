@@ -70,7 +70,6 @@ class SubmitTicket extends Component {
     locale: PropTypes.string.isRequired,
     formState: PropTypes.object.isRequired,
     readOnlyState: PropTypes.object.isRequired,
-    getFrameContentDocument: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     loading: PropTypes.bool.isRequired,
     maxFileCount: PropTypes.number,
@@ -288,7 +287,6 @@ class SubmitTicket extends Component {
         maxFileCount={this.props.maxFileCount}
         nameFieldRequired={this.props.nameFieldRequired}
         nameFieldEnabled={this.props.nameFieldEnabled}
-        getFrameContentDocument={this.props.getFrameContentDocument}
         maxFileSize={this.props.maxFileSize}
         formState={this.props.formState}
         readOnlyState={this.props.readOnlyState}

@@ -13,7 +13,6 @@ describe('PhoneField', () => {
   const defaultProps = {
     label: 'Phone field label',
     supportedCountries: ['AU', 'US'],
-    getFrameContentDocument: jest.fn().mockReturnValue(document.body),
     libphonenumber: {
       AsYouType: jest.fn().mockImplementation(() => ({ input: asYouTypeInput })),
       isValidNumber: jest.fn()

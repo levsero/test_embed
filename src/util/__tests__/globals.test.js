@@ -60,18 +60,30 @@ describe('setReferrerMetas', () => {
     devices.appendMetaTag.mockRestore()
   })
 
-  describe('', () => {
-    it('appends two referrerMeta values to the iframe doc', () => {
-      expect(devices.appendMetaTag).toHaveBeenCalledTimes(2)
+  it('appends two referrerMeta values to the iframe doc', () => {
+    expect(devices.appendMetaTag).toHaveBeenCalledTimes(2)
+  })
+
+  it('append the correct meta tags', () => {
+    expect(devices.appendMetaTag).toHaveBeenCalledWith(mockDoc, 'referrer', 'hello')
+    expect(devices.appendMetaTag).toHaveBeenCalledWith(mockDoc, 'referrer', 'world')
+  })
+
+  it('sets the Referrer Policy to the last element', () => {
+    expect(globals.getReferrerPolicy()).toEqual('world')
+  })
+})
+
+describe('getWebWidgetFrameContentDocument', () => {
+  it('return the content document body', () => {
+    document.getElementById = jest.fn(() => {
+      return {
+        contentDocument: {
+          body: 'this is the body'
+        }
+      }
     })
 
-    it('append the correct meta tags', () => {
-      expect(devices.appendMetaTag).toHaveBeenCalledWith(mockDoc, 'referrer', 'hello')
-      expect(devices.appendMetaTag).toHaveBeenCalledWith(mockDoc, 'referrer', 'world')
-    })
-
-    it('sets the Referrer Policy to the last element', () => {
-      expect(globals.getReferrerPolicy()).toEqual('world')
-    })
+    expect(globals.getWebWidgetFrameContentDocumentBody()).toEqual('this is the body')
   })
 })

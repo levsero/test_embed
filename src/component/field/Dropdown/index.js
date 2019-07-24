@@ -18,6 +18,7 @@ import { FONT_SIZE } from 'constants/shared'
 
 import { locals as styles } from './NestedDropdown.scss'
 import Node from './OptionNode'
+import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 
 const findDefaultNode = (names, rootNode) => {
   let currNode = rootNode
@@ -42,7 +43,6 @@ const findDefaultNode = (names, rootNode) => {
 
 export default class NestedDropdown extends Component {
   static propTypes = {
-    getFrameContentDocument: PropTypes.func.isRequired,
     options: PropTypes.array.isRequired,
     label: PropTypes.object.isRequired,
     name: PropTypes.string,
@@ -60,7 +60,6 @@ export default class NestedDropdown extends Component {
     showError: false,
     description: '',
     onChange: () => {},
-    getFrameContentDocument: () => ({}),
     formState: {}
   }
 
@@ -213,7 +212,7 @@ export default class NestedDropdown extends Component {
           <Hint>{this.props.description}</Hint>
           <Select
             isOpen={this.state.isOpen}
-            appendToNode={this.props.getFrameContentDocument().body}
+            appendToNode={getWebWidgetFrameContentDocumentBody()}
             onStateChange={newState => this.setState(newState)}
             onChange={this.handleSelectedItem}
             options={this.renderCurrentLevelItems()}

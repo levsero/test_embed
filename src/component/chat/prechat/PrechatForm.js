@@ -23,6 +23,7 @@ import { locals as styles } from './PrechatForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import { FONT_SIZE, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
 import ChatHistoryLink from '../ChatHistoryLink'
+import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -42,7 +43,6 @@ export class PrechatForm extends Component {
     socialLogin: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
@@ -74,7 +74,6 @@ export class PrechatForm extends Component {
     socialLogin: {},
     hideZendeskLogo: false,
     chatId: '',
-    getFrameContentDocument: () => ({}),
     isMobile: false,
     fullscreen: false
   }
@@ -387,7 +386,7 @@ export class PrechatForm extends Component {
           placeholder={i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}
           name="department"
           selectedKey={value}
-          appendToNode={this.props.getFrameContentDocument().body}
+          appendToNode={getWebWidgetFrameContentDocumentBody()}
           onChange={this.handleSelectChange}
           popperModifiers={{
             flip: { enabled: false },

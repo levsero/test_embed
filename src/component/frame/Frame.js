@@ -465,8 +465,7 @@ class Frame extends Component {
   constructEmbed = () => {
     const newChild = React.cloneElement(this.props.children, {
       forceUpdateWorld: this.forceUpdateWorld,
-      onBackButtonClick: this.back,
-      getFrameContentDocument: this.getContentDocument
+      onBackButtonClick: this.back
     })
 
     const wrapper = (

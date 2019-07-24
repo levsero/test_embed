@@ -8,16 +8,12 @@ import { i18nTimeFromMinutes } from 'utility/time'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './ChatOperatingHours.scss'
 import { FONT_SIZE } from 'src/constants/shared'
+import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 
 export class ChatOperatingHours extends Component {
   static propTypes = {
     operatingHours: PropTypes.object.isRequired,
-    getFrameContentDocument: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired
-  }
-
-  static defaultProps = {
-    getFrameContentDocument: () => ({})
   }
 
   constructor(props, context) {
@@ -162,7 +158,7 @@ export class ChatOperatingHours extends Component {
           <Select
             name="department"
             selectedKey={String(this.state.activeDepartment)}
-            appendToNode={this.props.getFrameContentDocument().body}
+            appendToNode={getWebWidgetFrameContentDocumentBody()}
             onChange={this.setActiveDepartment}
             popperModifiers={{
               flip: { enabled: false },

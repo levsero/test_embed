@@ -6,7 +6,6 @@ import { SubmitTicketForm } from '../SubmitTicketForm'
 const renderSubmitTicketForm = props => {
   const defaultProps = {
     attachmentSender: noop,
-    getFrameContentDocument: noop,
     submit: noop,
     formTitle: 'message',
     nameFieldRequired: false,
