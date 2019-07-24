@@ -27,6 +27,7 @@ import { getTalkTitle } from 'src/redux/modules/selectors'
 import { i18n } from 'service/i18n'
 import OfflinePage from 'src/embeds/talk/pages/OfflinePage'
 import PhoneOnlyPage from 'src/embeds/talk/pages/PhoneOnlyPage'
+import CallbackPage from 'src/embeds/talk/pages/CallbackPage'
 
 import { locals as styles } from './Talk.scss'
 import SuccessNotificationPage from 'src/embeds/talk/pages/SuccessNotificationPage'
@@ -90,7 +91,7 @@ class Talk extends Component {
 
     switch (this.props.screen) {
       case CALLBACK_ONLY_SCREEN:
-        return <CallbackForm />
+        return <CallbackPage />
       case PHONE_ONLY_SCREEN:
         return <PhoneOnlyPage />
       case SUCCESS_NOTIFICATION_SCREEN:
