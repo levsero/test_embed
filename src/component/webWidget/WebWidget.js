@@ -551,13 +551,9 @@ class WebWidget extends Component {
     return (
       <Talk
         ref={talk}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        style={this.props.style}
         isMobile={this.props.isMobile}
-        talkConfig={this.props.talkConfig}
-        helpCenterAvailable={this.props.helpCenterAvailable}
-        channelChoiceAvailable={this.props.channelChoiceAvailable}
         onBackClick={this.onBackClick}
+        hideZendeskLogo={this.props.hideZendeskLogo}
       />
     )
   }
