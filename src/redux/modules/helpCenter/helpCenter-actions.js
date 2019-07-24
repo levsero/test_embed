@@ -85,7 +85,7 @@ export function performImageSearch(path, done) {
 
 export function performSearch(query, done = () => {}, fail = () => {}) {
   const timestamp = Date.now()
-  const path = '/api/v2/help_center/search.json'
+  const path = '/api/v2/help_center/articles/embeddable_search.json'
 
   return (dispatch, getState) => {
     const doneFn = response => {
