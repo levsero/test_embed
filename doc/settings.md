@@ -12,7 +12,7 @@ The following example shows the `offset` property of the `webWidget` parent obje
     webWidget: {
       offset: { horizontal: '100px', vertical: '150px' }
     }
-  }
+  };
 </script>
 ```
 
@@ -28,7 +28,7 @@ The following example shows the `departments` setting of the `chat` child object
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -91,7 +91,7 @@ Specifies whether to enable or disable Google Analytics tracking.
 <script type="text/javascript">
   window.zESettings = {
     analytics: true
-  }
+  };
 </script>
 ```
 
@@ -115,7 +115,7 @@ Disables attaching files to tickets submitted through the Web Widget.
         attachments: false
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -151,7 +151,7 @@ To authenticate with Chat, provide a function to zESettings.webWidget.authentica
     webWidget: {
       authenticate: {
         chat: {
-          jwtFn: function(<callback>) {
+          jwtFn: function(callback) {
             // Fetch your jwt token and then call our supplied callback below.
             callback('YOUR_JWT_TOKEN');
           }
@@ -175,7 +175,7 @@ To authenticate with Help Center, provide a function to `zESettings.webWidget.au
   window.zESettings = {
     webWidget: {
       authenticate: {
-        jwtFn: function(<callback>) {
+        jwtFn: function(callback) {
           // Fetch your jwt token and then call our supplied callback below.
           callback('YOUR_JWT_TOKEN');
         }
@@ -190,8 +190,8 @@ When the user has logged out or you wish to terminate the authenticated session 
 ```html
 <script type="text/javascript">
   zE(function() {
-    zE('webWidget', 'logout')
-  })
+    zE('webWidget', 'logout');
+  });
 </script>
 ```
 
@@ -218,7 +218,7 @@ Customizes the avatar bot name and profile picture.
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -259,7 +259,7 @@ You can use different strings for different locales or use one string for all lo
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -281,7 +281,7 @@ Sets the image of the badge. Will only show if the image is allowed in the layou
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -303,7 +303,7 @@ Sets the layout of the badge. Valid values are 'image_right', 'image_left', 'ima
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -326,7 +326,7 @@ Sets the layout of the badge. Valid values are 'image_right', 'image_left', 'ima
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -359,7 +359,7 @@ The string can't exceed 25 characters.
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -398,7 +398,7 @@ You can use different strings for different locales or use one string for all lo
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -431,7 +431,7 @@ You can use different strings for different locales or use one string for all lo
         chatLabelOffline: { '*': 'Chat is unavailable' }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -464,7 +464,7 @@ You can use different strings for different locales or use one string for all lo
         chatLabelOnline: { '*': 'Live Chat' }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -492,7 +492,7 @@ By default, cookie permission is enabled. The following example shows you how to
 <script type="text/javascript">
   window.zESettings = {
     cookies: false
-  }
+  };
 </script>
 ```
 
@@ -506,13 +506,13 @@ You can toggle cookie permissions dynamically in response to a user action by ca
 </div>
 
 <script>
-  var allowCookies = document.getElementById('allow-cookies')
+  var allowCookies = document.getElementById('allow-cookies');
 
   allowCookies.addEventListener('click', function() {
     zE('webWidget', 'updateSettings', {
       cookies: true
-    })
-  })
+    });
+  });
 </script>
 ```
 
@@ -536,7 +536,7 @@ The `theme` property may be used as a base, determining the overall color scheme
     webWidget: {
       color: { theme: '#78a300' }
     }
-  }
+  };
 </script>
 ```
 
@@ -556,7 +556,7 @@ You can define a number of additional options to target specific elements:
         articleLinks: '#FF4500'
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -604,7 +604,7 @@ Set the chat concierge’s avatar, name, and title.
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -633,7 +633,7 @@ You can use different strings for different locales or use one string for all lo
         contactButton: { '*': 'Get in touch' }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -666,7 +666,7 @@ You can use different strings for different locales or use one string for all lo
         contactFormLabel: { '*': 'Leave us a message' }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -713,7 +713,7 @@ If the department names or IDs passed in are invalid, the department dropdown me
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -743,7 +743,7 @@ If the department names or ID is invalid or null the department will be cleared.
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -762,7 +762,7 @@ If the department names or ID is invalid or null the department will be cleared.
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -780,7 +780,7 @@ The Web Widget sends any errors that occur to a reporting service used by Zendes
 <script type="text/javascript">
   window.zESettings = {
     errorReporting: true
-  }
+  };
 </script>
 ```
 
@@ -799,13 +799,13 @@ Pre-populates the value of one or more text fields in the contact form.
 For a default system field, specify the field name as the field `id`. Example:
 
 ```js
-fields: [{ id: 'description', prefill: { '*': 'My text' } }]
+fields: [{ id: 'description', prefill: { '*': 'My text' } }];
 ```
 
 For a custom field, specify the custom field's id as the `id`. To get the id, see [List Ticket Fields](https://developer.zendesk.com/rest_api/docs/core/ticket_fields#list-ticket-fields) in the Zendesk API docs. Example:
 
 ```js
-fields: [{ id: 2142225, prefill: { '*': 'My text' } }]
+fields: [{ id: 2142225, prefill: { '*': 'My text' } }];
 ```
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
@@ -825,7 +825,7 @@ You can use different strings for different locales or use one string for all lo
         ]
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -861,7 +861,7 @@ Limits Help Center search results to a specified category, section, or label. Th
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -896,7 +896,7 @@ Hides chat offline form when the account status is offline.
         hideWhenOffline: true
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -927,7 +927,7 @@ You can use different strings for different locales or use one string for all lo
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -952,7 +952,7 @@ To avoid cluttering the display, the launcher label is not shown on mobile devic
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -983,7 +983,7 @@ Hides the email transcript option in the chat menu when emailTranscript is set t
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1015,7 +1015,7 @@ The string can't exceed 25 characters.
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1054,7 +1054,7 @@ The `navigation` setting has the following properties:
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1082,7 +1082,7 @@ The nickname is publicly visible to anyone who looks at the page source code, so
         nickname: 'Sales Support'
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1110,7 +1110,7 @@ Determines if notifications should show on mobile.
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1135,7 +1135,7 @@ The `offset` property consists of an object with `horizontal` and `vertical` pro
         vertical: '150px'
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1154,7 +1154,7 @@ To specify an offset for mobile devices, add a `mobile` property to the `offset`
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1187,7 +1187,7 @@ Hides the "View Original Article" button.
         originalArticleButton: false
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1227,7 +1227,7 @@ You can use different strings for different locales or use one string for all lo
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1262,7 +1262,7 @@ You can use different strings for different locales or use one string for all lo
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1305,7 +1305,7 @@ Dictates whether to show the agent's rating.
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1327,7 +1327,7 @@ The `position` property consists of an object with `horizontal` and `vertical` p
     webWidget: {
       position: { horizontal: 'left', vertical: 'top' }
     }
-  }
+  };
 </script>
 ```
 
@@ -1363,7 +1363,7 @@ Replaces the placeholder text displayed in the Help Center search box that says 
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1402,7 +1402,7 @@ You can use different strings for different locales or use one string for all lo
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1436,7 +1436,7 @@ Inserts a Subject field in the contact form. The form doesn't have one by defaul
         subject: true
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1486,7 +1486,7 @@ Suppresses the Help Center, Chat, Talk, Contact Form, or Answer Bot in the Web W
         suppress: true
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1512,7 +1512,7 @@ Note: The tags are visible in the JavaScript console in the user's browser.
         tags: ['loggedin']
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1535,7 +1535,7 @@ If you list more than one ticket form, a dropdown menu appears in the contact fo
 Ticket forms are listed by id. Example:
 
 ```js
-ticketForms: [{ id: 426353 }, { id: 429981 }]
+ticketForms: [{ id: 426353 }, { id: 429981 }];
 ```
 
 To get a ticket form id, see [List Ticket Forms](https://developer.zendesk.com/rest_api/docs/core/ticket_forms#list-ticket-forms) in the Zendesk API docs.
@@ -1571,7 +1571,7 @@ ticketForms: [
         ticketForms: [{ id: 426353 }]
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1637,7 +1637,7 @@ You can use different strings for different locales or use one string for all lo
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1669,7 +1669,7 @@ When two elements overlap, the z-index values of the elements determine which on
     webWidget: {
       zIndex: 999999
     }
-  }
+  };
 </script>
 ```
 
@@ -1697,7 +1697,7 @@ Specifies whether to show the contact option on initial load or only after a que
         contactOnlyAfterQuery: true
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -1721,6 +1721,6 @@ Attaches contextual data when submitting a user query.
         }
       }
     }
-  }
+  };
 </script>
 ```

@@ -25,7 +25,7 @@ The Web Widget has the following core settings:
     webWidget: {
       color: { theme: '#78a300' }
     }
-  }
+  };
 </script>
 ```
 
@@ -57,7 +57,7 @@ To learn more about contact options, see [Offering end-users multiple contact op
         contactButton: { '*': 'Get in touch' }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -87,7 +87,7 @@ The widget's `launcher` object, which represents the launcher button, has the fo
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -133,8 +133,8 @@ Executes a callback when the widget is opened.
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'open', function() {
-    console.log('The widget has been opened!')
-  })
+    console.log('The widget has been opened!');
+  });
 </script>
 ```
 
@@ -153,8 +153,8 @@ Executes a callback when the widget is closed.
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'close', function() {
-    console.log('The widget has been closed!')
-  })
+    console.log('The widget has been closed!');
+  });
 </script>
 ```
 
@@ -174,7 +174,7 @@ None
 
 ```html
 <script type="text/javascript">
-  zE('webWidget', 'hide')
+  zE('webWidget', 'hide');
 </script>
 ```
 
@@ -196,7 +196,7 @@ The widget is displayed by default on page load. You don't need to call `show` t
 
 ```html
 <script type="text/javascript">
-  zE('webWidget', 'show')
+  zE('webWidget', 'show');
 </script>
 ```
 
@@ -248,7 +248,7 @@ _Note_:
     name: 'Akira Kogane',
     email: 'akira@voltron.com',
     organization: 'Voltron, Inc.'
-  })
+  });
 </script>
 ```
 
@@ -281,7 +281,7 @@ Pre-fills an end-user's details on forms inside the Web Widget.
       value: '61431909749',
       readOnly: true // optional
     }
-  })
+  });
 </script>
 ```
 
@@ -307,7 +307,7 @@ The following example displays the widget in German:
 
 ```html
 <script type="text/javascript">
-  zE('webWidget', 'setLocale', 'de')
+  zE('webWidget', 'setLocale', 'de');
 </script>
 ```
 
@@ -334,7 +334,7 @@ Updates the Web Widget's [zESettings](./settings). Can update multiple settings 
         }
       }
     }
-  })
+  });
 </script>
 ```
 

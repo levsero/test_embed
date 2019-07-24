@@ -43,7 +43,7 @@ In the [integrated Chat in the Web Widget](https://support.zendesk.com/hc/en-us/
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -114,7 +114,7 @@ Makes the visitor send a message. Starts a chat session if one is not already in
 
 ```html
 <script type="text/javascript">
-  zE('webWidget', 'chat:send', "I'd like the Jambalaya, please")
+  zE('webWidget', 'chat:send', "I'd like the Jambalaya, please");
 </script>
 ```
 
@@ -146,7 +146,7 @@ Returns an object containing information about the specified department, includi
 
 ```html
 <script type="text/javascript">
-  zE('webWidget:get', 'chat:department', 'Accounting')
+  zE('webWidget:get', 'chat:department', 'Accounting');
 </script>
 ```
 
@@ -176,11 +176,11 @@ None
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'chat:connected', function() {
-    const departments = zE('webWidget:get', 'chat:departments')
+    const departments = zE('webWidget:get', 'chat:departments');
     departments.forEach(department => {
-      console.log(department)
-    })
-  })
+      console.log(department);
+    });
+  });
 </script>
 ```
 
@@ -211,13 +211,13 @@ Programmatically updates the visitor’s webpath.
 ```html
 <script type="text/javascript">
   // Without options
-  zE('webWidget', 'updatePath')
+  zE('webWidget', 'updatePath');
 
   // With options
   zE('webWidget', 'updatePath', {
     url: 'http://example.com',
     title: "Ready to rock'n'roll!"
-  })
+  });
 </script>
 ```
 
@@ -236,8 +236,8 @@ Registers a callback to be fired when the widget successfully connects to the se
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'chat:connected', function() {
-    console.log('successfully connected to Zendesk Chat!')
-  })
+    console.log('successfully connected to Zendesk Chat!');
+  });
 </script>
 ```
 
@@ -256,8 +256,8 @@ Registers a callback to be fired when a chat starts.
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'chat:start', function() {
-    console.log('successfully started a Zendesk Chat!')
-  })
+    console.log('successfully started a Zendesk Chat!');
+  });
 </script>
 ```
 
@@ -278,8 +278,8 @@ A chat only ends when the visitor (and not the agent) ends the chat, or when the
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'chat:end', function() {
-    console.log('successfully ended a Zendesk Chat session!')
-  })
+    console.log('successfully ended a Zendesk Chat session!');
+  });
 </script>
 ```
 
@@ -298,8 +298,8 @@ Registers a callback to be fired when the account status changes.
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'chat:status', function(status) {
-    console.log('This chat session is now', status)
-  })
+    console.log('This chat session is now', status);
+  });
 </script>
 ```
 
@@ -318,8 +318,8 @@ Registers a callback to be fired when a department status changes.
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'chat:departmentStatus', function(dept) {
-    console.log('department', dept.name, 'changed to', dept.status)
-  })
+    console.log('department', dept.name, 'changed to', dept.status);
+  });
 </script>
 ```
 
@@ -338,8 +338,8 @@ Registers a callback to be fired when the number of unread messages changes.
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'chat:unreadMessages', function(number) {
-    console.log(`It seems you have ${number} unread messages!`)
-  })
+    console.log(`It seems you have ${number} unread messages!`);
+  });
 </script>
 ```
 

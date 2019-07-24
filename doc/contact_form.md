@@ -28,6 +28,6 @@ The `contactForm` object has the following settings:
         attachments: true
       }
     }
-  }
+  };
 </script>
 ```
