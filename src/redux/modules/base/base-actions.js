@@ -150,11 +150,9 @@ export const updateArturos = payload => {
 }
 
 export const updateActiveEmbed = embedName => {
-  return dispatch => {
-    dispatch({
-      type: actions.UPDATE_ACTIVE_EMBED,
-      payload: embedName
-    })
+  return {
+    type: actions.UPDATE_ACTIVE_EMBED,
+    payload: embedName
   }
 }
 
