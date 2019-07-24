@@ -21,6 +21,7 @@ export class ChatPopup extends Component {
     childrenOnClick: PropTypes.func,
     children: PropTypes.node,
     show: PropTypes.bool,
+    transitionOnMount: PropTypes.bool,
     onExited: PropTypes.func,
     isDismissible: PropTypes.bool,
     onCloseIconClick: PropTypes.func,
@@ -170,6 +171,7 @@ export class ChatPopup extends Component {
         duration={200}
         startPosHeight="-10px"
         endPosHeight="-5px"
+        transitionOnMount={this.props.transitionOnMount}
       >
         <div className={containerStyles}>
           {body}

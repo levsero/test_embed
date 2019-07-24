@@ -381,9 +381,12 @@ class Chat extends Component {
     const tryEmailTranscriptAgain = () => updateEmailTranscriptVisibility(true)
     const sendEmailTranscriptFn = email => sendEmailTranscript(email)
 
+    if (!emailTranscript.show) {
+      return
+    }
+
     return (
       <ChatEmailTranscriptPopup
-        show={emailTranscript.show}
         isMobile={this.props.isMobile}
         leftCtaFn={hideEmailTranscriptFn}
         rightCtaFn={sendEmailTranscriptFn}
