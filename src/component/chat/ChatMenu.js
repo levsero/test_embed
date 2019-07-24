@@ -189,6 +189,8 @@ export class ChatMenu extends Component {
   }
 
   renderDesktop = () => {
+    const { loginEnabled, emailTranscriptEnabled } = this.props
+    const renderExtraDivider = loginEnabled || emailTranscriptEnabled
     return (
       <SlideAppear
         startPosHeight={'10px'}
@@ -200,7 +202,7 @@ export class ChatMenu extends Component {
         {this.renderDivider()}
         {this.renderEmailTranscriptButton()}
         {this.renderContactDetailsButton()}
-        {this.renderDivider()}
+        {renderExtraDivider && this.renderDivider()}
         {this.renderEndChatButton()}
       </SlideAppear>
     )

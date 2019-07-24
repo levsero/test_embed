@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
+import snapshotDiff from 'snapshot-diff'
 
 import { ChatMenu } from '../ChatMenu'
 
@@ -312,6 +313,23 @@ describe('desktop', () => {
       const editContactDetailsNode = queryByText('Edit contact details')
 
       expect(editContactDetailsNode).not.toBeInTheDocument()
+    })
+  })
+
+  describe('edit contact details and email transcript both disabled', () => {
+    it('has no email contact details or divider', () => {
+      const withDiv = renderMenu({
+        isMobile: false,
+        editContactDetailsEnabled: true,
+        emailTranscriptEnabled: true
+      }).container
+      const noDiv = renderMenu({
+        isMobile: false,
+        editContactDetailsEnabled: false,
+        emailTranscriptEnabled: false
+      }).container
+
+      expect(snapshotDiff(noDiv, withDiv, { contextLines: 0 })).toMatchSnapshot()
     })
   })
 
