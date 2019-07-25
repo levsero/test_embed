@@ -28,6 +28,6 @@ The `talk` object has the following settings:
         }
       }
     }
-  }
+  };
 </script>
 ```

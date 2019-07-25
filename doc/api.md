@@ -26,8 +26,8 @@ The following example displays the widget in German:
 ```html
 <script type="text/javascript">
   zE(function() {
-    zE.setLocale('de')
-  })
+    zE.setLocale('de');
+  });
 </script>
 ```
 
@@ -56,8 +56,8 @@ Note: Passing an `organization` with `zE.identify()` only works for existing org
       name: 'John Citizen',
       email: 'john@example.com',
       organization: 'VIP'
-    })
-  })
+    });
+  });
 </script>
 ```
 
@@ -76,8 +76,8 @@ The method completely hides all parts of the Widget from the page. You can invok
 ```html
 <script type="text/javascript">
   zE(function() {
-    zE.hide()
-  })
+    zE.hide();
+  });
 </script>
 ```
 
@@ -99,8 +99,8 @@ For example, when someone logs into your website, you could call `zE.show()` to 
 <script type="text/javascript">
   if (loggedIn) {
     zE(function() {
-      zE.show()
-    })
+      zE.show();
+    });
   }
 </script>
 ```
@@ -156,8 +156,8 @@ Add the method in your HTML source code immediately after your Web Widget code s
 ```html
 <script type="text/javascript">
   zE(function() {
-    zE.setHelpCenterSuggestions({ search: 'credit card' })
-  })
+    zE.setHelpCenterSuggestions({ search: 'credit card' });
+  });
 </script>
 ```
 

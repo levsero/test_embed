@@ -81,19 +81,19 @@ Cypress provides [access](https://docs.cypress.io/api/commands/window.html#No-Ar
 
 ```js
 it('send an API chat message', () => {
-  cy.visit(`${Cypress.env('hostPage')}/live.html`)
+  cy.visit(`${Cypress.env('hostPage')}/live.html`);
 
   cy.findByText('Live chat')
     .click()
     .findByText('Start chat')
-    .click()
+    .click();
 
   cy.window().then(win => {
-    win.zE('webWidget', 'chat:send', "I'd like the Jambalaya, please")
-  })
+    win.zE('webWidget', 'chat:send', "I'd like the Jambalaya, please");
+  });
 
-  cy.findByText("I'd like the Jambalaya, please").should('exist')
-})
+  cy.findByText("I'd like the Jambalaya, please").should('exist');
+});
 ```
 
 ##### Disadvantages

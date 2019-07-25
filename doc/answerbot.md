@@ -40,6 +40,6 @@ The `answerBot` object has the following settings:
         }
       }
     }
-  }
+  };
 </script>
 ```

@@ -19,8 +19,8 @@ zE('webWidget:<action>', '<event|property>', <parameters>);
 ```html
 <script type="text/javascript">
   zE('webWidget:on', 'show', function() {
-    console.log('The widget has been shown!')
-  })
+    console.log('The widget has been shown!');
+  });
 </script>
 ```
 
@@ -42,7 +42,7 @@ You can specify various settings for the Web Widget by defining a `window.zESett
     webWidget: {
       offset: { horizontal: '100px', vertical: '150px' }
     }
-  }
+  };
 </script>
 ```
 

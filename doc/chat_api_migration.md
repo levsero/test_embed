@@ -12,7 +12,8 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 
 ### General APIs
 
-| \$zopim.livechat syntax   | zE syntax                                                                                   |
+<!-- prettier-ignore -->
+| $zopim.livechat syntax    | zE syntax                                                                                   |
 | ------------------------- | ------------------------------------------------------------------------------------------- |
 | authenticate              | `zESettings.webWidget.authenticate.chat`                                                    |
 | badge.hide                | `zE('webWidget', 'hide')`                                                                   |
@@ -38,7 +39,8 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 
 ### Visitor Information
 
-| \$zopim.livechat syntax | zE syntax                                                                                               |
+<!-- prettier-ignore -->
+| $zopim.livechat syntax  | zE syntax                                                                                               |
 | ----------------------- | ------------------------------------------------------------------------------------------------------- |
 | setName\*               | <code>zE('webWidget', 'prefill', { name: { value: 'John Doe', readOnly: true&#124;false }})</code>      |
 | setEmail\*              | <code>zE('webWidget', 'prefill', { email: { value: 'john@doe.com', readOnly: true&#124;false }})</code> |
@@ -58,7 +60,8 @@ zE('webWidget', 'prefill', {
 
 ### Events
 
-| \$zopim.livechat syntax | zE syntax                                                 |
+<!-- prettier-ignore -->
+| $zopim.livechat syntax  | zE syntax                                                 |
 | ----------------------- | --------------------------------------------------------- |
 | setOnConnected          | `zE('webWidget:on', 'chat:connected', () => {})`          |
 | setOnChatStart          | `zE('webWidget:on', 'chat:start', () => {})`              |
@@ -70,7 +73,8 @@ zE('webWidget', 'prefill', {
 
 ### Customization APIs
 
-| \$zopim.livechat syntax          | zE syntax                                                                                                                                     |
+<!-- prettier-ignore -->
+| $zopim.livechat syntax           | zE syntax                                                                                                                                     |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | badge.setColor                   | `zESettings.webWidget.color.launcher`                                                                                                         |
 | badge.setLayout                  | `zESettings.webWidget.launcher.badge.layout`                                                                                                  |
@@ -109,7 +113,8 @@ zE('webWidget', 'prefill', {
 
 ### Concierge
 
-| \$zopim.livechat syntax | zE syntax                                        |
+<!-- prettier-ignore -->
+| $zopim.livechat syntax  | zE syntax                                        |
 | ----------------------- | ------------------------------------------------ |
 | concierge.setAvatar     | `zESettings.webWidget.chat.concierge.avatarPath` |
 | concierge.setName       | `zESettings.webWidget.chat.concierge.name`       |
@@ -117,7 +122,8 @@ zE('webWidget', 'prefill', {
 
 ### Departments
 
-| \$zopim.livechat syntax            | zE syntax                                               |
+<!-- prettier-ignore -->
+| $zopim.livechat syntax             | zE syntax                                               |
 | ---------------------------------- | ------------------------------------------------------- |
 | departments.filter                 | `zESettings.webWidget.chat.departments.enabled`         |
 | departments.setVisitorDepartment   | `zESettings.webWidget.chat.departments.select`          |
@@ -128,11 +134,13 @@ zE('webWidget', 'prefill', {
 
 ### What APIs are not supported
 
-Below is a list of the \$zopim.livechat APIs that are not supported in the Web Widget.
+<!-- prettier-ignore -->
+Below is a list of the $zopim.livechat APIs that are not supported in the Web Widget.
 
 #### Deprecated
 
-| \$zopim.livechat syntax | Notes                                                                                                                                                                                                                                |
+<!-- prettier-ignore -->
+| $zopim.livechat syntax  | Notes                                                                                                                                                                                                                                |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | setDisableSound         | Admin setting has replaced the need for this                                                                                                                                                                                         |
 | setNotes                | No longer supported for security reasons                                                                                                                                                                                             |

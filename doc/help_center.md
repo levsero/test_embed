@@ -31,7 +31,7 @@ The `helpCenter` object has the following settings:
         }
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -63,7 +63,7 @@ Add the method in your HTML source code immediately after your Web Widget code s
 
 ```html
 <script type="text/javascript">
-  zE('webWidget', 'helpCenter:setSuggestions', { search: 'credit card' })
+  zE('webWidget', 'helpCenter:setSuggestions', { search: 'credit card' });
 </script>
 ```
 
