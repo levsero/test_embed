@@ -377,18 +377,6 @@ export function getOperatingHours() {
   }
 }
 
-export function getIsChatting() {
-  return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState())
-    const isChatting = zChat.isChatting()
-
-    dispatch({
-      type: actions.IS_CHATTING,
-      payload: isChatting
-    })
-  }
-}
-
 export function chatNotificationDismissed() {
   return { type: actions.CHAT_NOTIFICATION_DISMISSED }
 }
