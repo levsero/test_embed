@@ -15,10 +15,10 @@ import { FONT_SIZE } from 'constants/shared'
 import { i18n } from 'service/i18n'
 import countriesByIso from 'translation/ze_countries'
 import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
-import styleOverrides from './styles.overrides'
 import { getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors'
 import { getStyledLabelText } from 'utility/fields'
 import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
+import styleOverrides from './styles.overrides'
 
 const StyledFauxInput = styled(FauxInput)`
   padding: 0 !important;

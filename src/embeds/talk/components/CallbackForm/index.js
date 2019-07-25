@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form } from 'component/form/Form'
 import { i18n } from 'service/i18n'
-import ErrorNotification from 'component/talk/ErrorNotification'
 import classNames from 'classnames'
-import AverageWaitTime from 'component/talk/AverageWaitTime'
+import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
+import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
-import NameField from 'component/talk/NameField'
-import DescriptionField from 'component/talk/DescriptionField'
+import NameField from 'src/embeds/talk/components/NameField'
+import DescriptionField from 'src/embeds/talk/components/DescriptionField'
 import {
   getAverageWaitTimeString,
   getCallback,
@@ -25,8 +25,9 @@ import {
 import { isMobileBrowser } from 'utility/devices'
 import { locals as styles } from './styles.scss'
 import _ from 'lodash'
-import { errorCodes } from 'component/talk/talkErrorCodes'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
+
+const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
 class CallbackForm extends Component {
   static propTypes = {
