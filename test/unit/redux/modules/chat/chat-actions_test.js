@@ -762,23 +762,6 @@ describe('chat redux actions', () => {
     })
   })
 
-  describe('getIsChatting', () => {
-    let action
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.getIsChatting())
-      action = mockStore.getActions()[0]
-    })
-
-    it('dispatches IS_CHATTING action', () => {
-      expect(action.type).toEqual(actionTypes.IS_CHATTING)
-    })
-
-    it('has the value from zChat.getIsChatting in the payload', () => {
-      expect(action.payload).toEqual(true)
-    })
-  })
-
   describe('getOperatingHours', () => {
     let updateOperatingHoursAction
 

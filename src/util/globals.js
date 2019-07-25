@@ -58,6 +58,22 @@ const isPopout = () => win.zEPopout === true
   }
 })()
 
+const getWebWidgetFrameContentDocument = () => {
+  try {
+    return document.getElementById('webWidget').contentDocument
+  } catch (err) {
+    return null
+  }
+}
+
+const getWebWidgetFrameContentDocumentBody = () => {
+  try {
+    return getWebWidgetFrameContentDocument().body
+  } catch (err) {
+    return null
+  }
+}
+
 export {
   win,
   document,
@@ -67,5 +83,6 @@ export {
   getZendeskHost,
   isPopout,
   setReferrerMetas,
-  getReferrerPolicy
+  getReferrerPolicy,
+  getWebWidgetFrameContentDocumentBody
 }

@@ -146,7 +146,6 @@ class WebWidget extends Component {
     }),
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
-    getFrameContentDocument: PropTypes.func,
     zopimOnNext: PropTypes.func,
     onBackButtonClick: PropTypes.func,
     updateActiveEmbed: PropTypes.func.isRequired,
@@ -427,7 +426,6 @@ class WebWidget extends Component {
       <Chat
         ref={chat}
         forwardRef={chat}
-        getFrameContentDocument={this.props.getFrameContentDocument}
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
@@ -510,7 +508,6 @@ class WebWidget extends Component {
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
           formTitleKey={submitTicketConfig.formTitleKey}
-          getFrameContentDocument={this.props.getFrameContentDocument}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
           maxFileSize={submitTicketConfig.maxFileSize}
@@ -554,14 +551,9 @@ class WebWidget extends Component {
     return (
       <Talk
         ref={talk}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        style={this.props.style}
         isMobile={this.props.isMobile}
-        talkConfig={this.props.talkConfig}
-        helpCenterAvailable={this.props.helpCenterAvailable}
-        channelChoiceAvailable={this.props.channelChoiceAvailable}
         onBackClick={this.onBackClick}
-        getFrameContentDocument={this.props.getFrameContentDocument}
+        hideZendeskLogo={this.props.hideZendeskLogo}
       />
     )
   }

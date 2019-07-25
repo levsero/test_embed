@@ -958,10 +958,6 @@ describe('Frame', () => {
       })
 
       describe('constructEmbed', () => {
-        it('adds getFrameContentDocument to the child component', () => {
-          expect(frame.getRootComponent().props.getFrameContentDocument).toBeDefined()
-        })
-
         it('adds onBackButtonClick to the child component', () => {
           expect(frame.getRootComponent().props.onBackButtonClick).toBeDefined()
         })

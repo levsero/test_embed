@@ -31,7 +31,7 @@ const timestamp = () => {
 const renderComponent = () => {
   return render(
     <Provider store={store}>
-      <ChatOnline getFrameContentDocument={() => {}} updateChatBackButtonVisibility={() => {}} />
+      <ChatOnline updateChatBackButtonVisibility={() => {}} />
     </Provider>
   )
 }

@@ -7,7 +7,7 @@ import {
   CALLBACK_AND_PHONE_SCREEN,
   SUCCESS_NOTIFICATION_SCREEN
 } from 'src/redux/modules/talk/talk-screen-types'
-import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
+import { handleTalkVendorLoaded, updateTalkEmbeddableConfig } from 'src/redux/modules/talk'
 import { Component as Talk } from '../Talk'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
@@ -21,7 +21,6 @@ const renderComponent = (overrideProps = {}) => {
   }
 
   const defaultProps = {
-    getFrameContentDocument: () => document,
     embeddableConfig: {
       phoneNumber: '12345678',
       supportedCountries: ['US']
@@ -46,6 +45,11 @@ const renderComponent = (overrideProps = {}) => {
 
   const store = createStore()
   store.dispatch(handleTalkVendorLoaded({ libphonenumber }))
+  store.dispatch(
+    updateTalkEmbeddableConfig({
+      supportedCountries: 'US'
+    })
+  )
 
   return render(
     <Provider store={store}>
@@ -105,55 +109,11 @@ describe('talk', () => {
 
   describe('callback only screen', () => {
     it('displays a callback form', () => {
-      const { queryByText, getByLabelText } = renderComponent({
+      const { queryByTestId } = renderComponent({
         screen: CALLBACK_ONLY_SCREEN
       })
 
-      expect(queryByText("Enter your phone number and we'll call you back.")).toBeInTheDocument()
-      expect(getByLabelText('Phone Number')).toBeInTheDocument()
-      expect(getByLabelText('Name (optional)')).toBeInTheDocument()
-      expect(getByLabelText('How can we help? (optional)')).toBeInTheDocument()
-    })
-
-    describe('when the fields have values', () => {
-      it('renders error messages', () => {
-        const { queryByDisplayValue, queryByText } = renderComponent({
-          screen: CALLBACK_ONLY_SCREEN,
-          formState: {
-            name: 'taipan',
-            description: 'no one is quite sure'
-          }
-        })
-
-        expect(queryByDisplayValue('taipan')).toBeInTheDocument()
-        expect(queryByText('no one is quite sure')).toBeInTheDocument()
-      })
-    })
-
-    describe('with a callback error', () => {
-      describe('already enqueued error', () => {
-        it('renders the error message', () => {
-          const { queryByText } = renderComponent({
-            screen: CALLBACK_ONLY_SCREEN,
-            callback: { error: { message: 'phone_number_already_in_queue' } }
-          })
-
-          expect(
-            queryByText("You've already submitted a request. We'll get back to you soon.")
-          ).toBeInTheDocument()
-        })
-      })
-
-      describe('with a generic error', () => {
-        it('renders the error message', () => {
-          const { queryByText } = renderComponent({
-            screen: CALLBACK_ONLY_SCREEN,
-            callback: { error: { message: 'fooBar' } }
-          })
-
-          expect(queryByText('There was an error processing your request. Please try again later.'))
-        })
-      })
+      expect(queryByTestId('talk--callbackForm')).toBeInTheDocument()
     })
   })
 

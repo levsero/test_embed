@@ -5,19 +5,17 @@ import {
   newAgentMessageReceived,
   chatNotificationReset,
   getOperatingHours,
-  getIsChatting,
-  chatWindowOpenOnNavigate,
   chatConnected,
   chatStarted
 } from 'src/redux/modules/chat/chat-actions/actions'
 import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat'
+import { getIsChatting } from 'src/redux/modules/chat/chat-actions/getIsChatting'
 import {
   updateActiveEmbed,
   updateBackButtonVisibility,
   activateRecieved
 } from 'src/redux/modules/base'
 import {
-  IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
   SDK_VISITOR_UPDATE,
   CHAT_SOCIAL_LOGIN_SUCCESS
@@ -68,8 +66,6 @@ import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
 import { isPopout } from 'utility/globals'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 
-const showOnLoad = _.get(store.get('store'), 'widgetShown')
-const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed')
 const createdAtTimestamp = Date.now()
 let chatAccountSettingsFetched = false
 let chatNotificationTimeout = null
@@ -151,25 +147,6 @@ const onChatConnected = (prevState, nextState, dispatch) => {
       dispatch(getAccountSettings())
       dispatch(getOperatingHours())
       chatAccountSettingsFetched = true
-      mediator.channel.broadcast('newChat.connected', showOnLoad)
-    }
-  }
-}
-
-const onChatStatus = (action, dispatch) => {
-  if (action.type === IS_CHATTING) {
-    if (action.payload) {
-      let activeEmbed = storedActiveEmbed
-
-      if (storedActiveEmbed === 'zopimChat') activeEmbed = 'chat'
-
-      if (activeEmbed) {
-        dispatch(updateActiveEmbed(activeEmbed))
-      }
-
-      if (showOnLoad) {
-        dispatch(chatWindowOpenOnNavigate())
-      }
     }
   }
 }
@@ -297,7 +274,6 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onNewChatMessage(prevState, nextState, dispatch)
   onLastReadTimestampChange(prevState, nextState, dispatch)
   onArticleDisplayed(prevState, nextState, dispatch)
-  onChatStatus(action, dispatch)
   onChatEnd(nextState, action, dispatch)
   onAgentLeave(prevState, nextState, action, dispatch)
   onVisitorUpdate(action, dispatch)

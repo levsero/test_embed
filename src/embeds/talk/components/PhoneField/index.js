@@ -18,6 +18,7 @@ import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
 import styleOverrides from './styles.overrides'
 import { getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors'
 import { getStyledLabelText } from 'utility/fields'
+import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 
 const StyledFauxInput = styled(FauxInput)`
   padding: 0 !important;
@@ -48,7 +49,6 @@ class PhoneField extends ControlledComponent {
       AsYouType: PropTypes.func,
       isValidNumber: PropTypes.func
     }).isRequired,
-    getFrameContentDocument: PropTypes.func.isRequired,
     rtl: PropTypes.bool,
     label: PropTypes.string,
     required: PropTypes.bool,
@@ -173,7 +173,7 @@ class PhoneField extends ControlledComponent {
       <StyledContainer>
         <ThemeProvider
           rtl={this.props.rtl}
-          document={this.props.getFrameContentDocument()}
+          document={getWebWidgetFrameContentDocumentBody()}
           theme={styleOverrides}
         >
           <FieldContainer>
@@ -197,7 +197,7 @@ class PhoneField extends ControlledComponent {
                       width={
                         this.containerRef ? this.containerRef.getBoundingClientRect().width : '100%'
                       }
-                      appendToNode={this.props.getFrameContentDocument().body}
+                      appendToNode={getWebWidgetFrameContentDocumentBody()}
                       isOpen={this.state.countryDropdownOpen}
                       onToggleOpen={countryDropdownOpen => {
                         this.setState({ countryDropdownOpen })

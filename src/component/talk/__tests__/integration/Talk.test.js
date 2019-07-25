@@ -37,7 +37,7 @@ const setUpComponent = () => {
 
   const result = render(
     <Provider store={store}>
-      <Talk getFrameContentDocument={() => document} isMobile={false} />
+      <Talk isMobile={false} />
     </Provider>
   )
 

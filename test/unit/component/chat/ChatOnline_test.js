@@ -590,16 +590,18 @@ describe('ChatOnline component', () => {
   })
 
   describe('renderChatEmailTranscriptPopup', () => {
-    let component, updateEmailTranscriptVisibilitySpy, sendEmailTranscriptSpy
+    let updateEmailTranscriptVisibilitySpy, sendEmailTranscriptSpy
 
-    describe('when the popup should be shown', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline emailTranscript={{ show: true }} />)
-      })
+    it('does not render when pop should not be shown', () => {
+      const component = instanceRender(<ChatOnline emailTranscript={{ show: false }} />)
 
-      it('passes true to its popup components show prop', () => {
-        expect(component.renderChatEmailTranscriptPopup().props.show).toBe(true)
-      })
+      expect(component.renderChatEmailTranscriptPopup()).toBeUndefined()
+    })
+
+    it('renders the component when it should be shown', () => {
+      const component = instanceRender(<ChatOnline emailTranscript={{ show: true }} />)
+
+      expect(component.renderChatEmailTranscriptPopup()).not.toBeUndefined()
     })
 
     describe('when props.tryEmailTranscriptAgain is called', () => {

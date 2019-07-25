@@ -88,6 +88,9 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-actions/setUpChat': {
         setUpChat: setUpChatSpy
       },
+      'src/redux/modules/chat/chat-actions/getIsChatting': {
+        getIsChatting: getIsChattingSpy
+      },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
         updateBackButtonVisibility: updateBackButtonVisibilitySpy,
@@ -279,10 +282,6 @@ describe('onStateChange middleware', () => {
           expect(getOperatingHoursSpy).toHaveBeenCalled()
         })
 
-        it('calls mediator with newChat.connected with the store value', () => {
-          expect(broadcastSpy).toHaveBeenCalledWith('newChat.connected', false)
-        })
-
         describe('when the chat connects for a second time', () => {
           beforeEach(() => {
             getAccountSettingsSpy.calls.reset()
@@ -297,10 +296,6 @@ describe('onStateChange middleware', () => {
 
           it('does not dispatch the getIsChatting action creator', () => {
             expect(getIsChattingSpy).not.toHaveBeenCalled()
-          })
-
-          it('does not call mediator with newChat.connected with the store value', () => {
-            expect(broadcastSpy).not.toHaveBeenCalledWith('newChat.connected', false)
           })
         })
       })
@@ -700,82 +695,6 @@ describe('onStateChange middleware', () => {
       describe('articleDisplayed goes from true to false', () => {
         beforeEach(() => {
           stateChangeFn(true, false, dispatchSpy)
-        })
-
-        it('does not call mediator', () => {
-          expect(broadcastSpy).not.toHaveBeenCalled()
-        })
-      })
-    })
-
-    describe('onChatStatus', () => {
-      const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough()
-
-      beforeEach(() => {
-        broadcastSpy.calls.reset()
-      })
-
-      describe('when the action is IS_CHATTING', () => {
-        beforeEach(() => {
-          const action = {
-            type: 'IS_CHATTING',
-            payload: false
-          }
-
-          stateChangeFn(null, null, action, dispatchSpy)
-        })
-
-        describe('when the payload is false', () => {
-          it('does not dispatches updateActiveEmbed', () => {
-            expect(updateActiveEmbedSpy).not.toHaveBeenCalled()
-          })
-        })
-
-        describe('when the payload is true', () => {
-          const action = {
-            type: 'IS_CHATTING',
-            payload: true
-          }
-
-          beforeEach(() => {
-            mockStoreValue = { activeEmbed: 'helpCenter' }
-            stateChangeFn = requireUncached(path).default
-            updateActiveEmbedSpy.calls.reset()
-
-            stateChangeFn(null, null, action, dispatchSpy)
-          })
-
-          it('dispatches updateActiveEmbed with the value from the store', () => {
-            expect(updateActiveEmbedSpy).toHaveBeenCalledWith('helpCenter')
-          })
-
-          describe('when the value in the store is zopimChat', () => {
-            beforeEach(() => {
-              mockStoreValue = { activeEmbed: 'zopimChat', widgetShown: true }
-              stateChangeFn = requireUncached(path).default
-
-              stateChangeFn(null, null, action, dispatchSpy)
-            })
-
-            it('dispatches updateActiveEmbed with the chat', () => {
-              expect(updateActiveEmbedSpy).toHaveBeenCalledWith('chat')
-            })
-
-            it('dispatches chatWindowOpenOnNavigate', () => {
-              expect(chatWindowOpenOnNavigateSpy).toHaveBeenCalled()
-            })
-          })
-        })
-      })
-
-      describe('when the action is not IS_CHATTING', () => {
-        beforeEach(() => {
-          const action = {
-            type: 'something_else'
-          }
-
-          broadcastSpy.calls.reset()
-          stateChangeFn(null, null, action, dispatchSpy)
         })
 
         it('does not call mediator', () => {

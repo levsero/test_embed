@@ -47,6 +47,11 @@ describe('NestedDropdown component', () => {
     mockery.enable()
 
     initMockRegistry({
+      'utility/globals': {
+        getWebWidgetFrameContentDocumentBody: jasmine.createSpy(
+          'getWebWidgetFrameContentDocumentBody'
+        )
+      },
       './NestedDropdown.scss': {
         locals: {}
       },

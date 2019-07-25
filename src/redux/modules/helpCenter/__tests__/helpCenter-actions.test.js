@@ -324,7 +324,7 @@ describe('performSearch', () => {
     expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({
         method: 'get',
-        path: '/api/v2/help_center/search.json',
+        path: '/api/v2/help_center/articles/embeddable_search.json',
         query: {
           query: 'help',
           x: 123
