@@ -594,7 +594,7 @@ describe('getPrechatFormFields', () => {
       const stateOverride = {
         chat: {
           department: [
-            { id: 222, name: 'pizza' },
+            { id: 222, name: 'Pizza' },
             { id: 111, name: 'burgers' },
             { id: 333, name: 'thickshakes' }
           ]
