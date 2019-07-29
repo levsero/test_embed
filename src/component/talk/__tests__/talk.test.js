@@ -12,6 +12,11 @@ import { Component as Talk } from '../Talk'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 import { locals as styles } from './Talk.scss'
+import * as reselectors from 'src/embeds/talk/selectors/reselectors'
+
+jest.mock('src/embeds/talk/selectors/reselectors')
+jest.spyOn(reselectors, 'getPhoneNumber').mockReturnValue('12345678')
+jest.spyOn(reselectors, 'getFormattedPhoneNumber').mockReturnValue('12345678')
 
 const renderComponent = (overrideProps = {}) => {
   const libphonenumber = {
@@ -25,7 +30,6 @@ const renderComponent = (overrideProps = {}) => {
       phoneNumber: '12345678',
       supportedCountries: ['US']
     },
-    formattedPhoneNumber: '12345678',
     formState: {},
     screen: PHONE_ONLY_SCREEN,
     callback: { error: {} },

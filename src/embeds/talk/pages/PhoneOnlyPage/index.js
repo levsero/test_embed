@@ -7,12 +7,9 @@ import classNames from 'classnames'
 import { Icon } from 'component/Icon'
 import { ICONS } from 'constants/shared'
 import AverageWaitTime from 'component/talk/AverageWaitTime'
-import {
-  getAverageWaitTimeString,
-  getEmbeddableConfig,
-  getFormattedPhoneNumber
-} from 'src/redux/modules/talk/talk-selectors'
-import PhoneNumber from 'component/talk/PhoneNumber'
+import { getAverageWaitTimeString } from 'src/redux/modules/talk/talk-selectors'
+import { getPhoneNumber, getFormattedPhoneNumber } from 'src/embeds/talk/selectors'
+import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import { locals as styles } from './styles.scss'
 
 const PhoneOnlyPage = ({
@@ -50,7 +47,7 @@ const mapStateToProps = state => {
     isMobile: isMobileBrowser(),
     callUsMessage: i18n.t('embeddable_framework.talk.phoneOnly.new_message'),
     averageWaitTime: getAverageWaitTimeString(state),
-    phoneNumber: getEmbeddableConfig(state).phoneNumber,
+    phoneNumber: getPhoneNumber(state),
     formattedPhoneNumber: getFormattedPhoneNumber(state)
   }
 }

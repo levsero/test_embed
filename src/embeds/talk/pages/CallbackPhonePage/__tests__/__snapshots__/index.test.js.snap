@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the component 1`] = `
+<div>
+  <div>
+    <div
+      class="phoneDisplayLabel"
+    >
+      Our phone number 
+      <a
+        class="phoneLink"
+        href="tel:1234567890"
+        target="_blank"
+      >
+        +1 2345 67890
+      </a>
+    </div>
+    <div
+      data-testid="talk--callback-form"
+    />
+  </div>
+</div>
+`;
