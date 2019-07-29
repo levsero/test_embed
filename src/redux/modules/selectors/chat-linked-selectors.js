@@ -215,7 +215,11 @@ export const getPrechatFormFields = createSelector(
   ],
   (formFields, offlineFormSettings, selectedDepartment, enabledDepartments, _locale) => {
     let firstOnlineDepartment = true
-    const sortedDepartments = _.orderBy(enabledDepartments, ['name'], ['asc'])
+    const sortedDepartments = _.orderBy(
+      enabledDepartments,
+      [dep => dep.name.toLowerCase()],
+      ['asc']
+    )
     const departmentOptions = sortedDepartments.map(department => {
       let departmentOption = {
         ...department,
