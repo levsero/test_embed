@@ -409,9 +409,10 @@ const actionCreators = {
   handleTicketSubmission
 }
 
-export default connect(
+const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
   { forwardRef: true }
 )(SubmitTicket)
+export { connectedComponent as default, SubmitTicket as Component }

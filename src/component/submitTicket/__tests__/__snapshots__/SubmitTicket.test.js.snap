@@ -1,0 +1,526 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`active ticket form renders the expected components 1`] = `
+<div>
+  <div>
+    <form
+      class="form "
+      novalidate=""
+    >
+      <div
+        class="container flexContainer desktop containerDesktop"
+        data-testid="scrollcontainer"
+        style="height: 550px;"
+      >
+        <header
+          class="header userHeader"
+        >
+          <h1
+            class="title"
+          >
+            message
+          </h1>
+        </header>
+        <div
+          class="content container ticketFormContainer"
+        >
+          <div>
+            <div
+              class="formWrapper"
+            >
+              <h2
+                class="ticketFormTitle "
+              >
+                Ticket Forms
+              </h2>
+              <div
+                class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+                data-garden-id="textfields.text_group"
+                data-garden-version="3.7.0"
+              >
+                <label
+                  class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+                  data-garden-id="textfields.label"
+                  data-garden-version="3.7.0"
+                  for="garden-text-field-0--input"
+                  id="garden-text-field-0--label"
+                >
+                  <strong>
+                    Your name
+                  </strong>
+                   (optional)
+                </label>
+                <input
+                  aria-invalid="false"
+                  aria-labelledby="garden-text-field-0--label"
+                  class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+                  data-garden-id="textfields.input"
+                  data-garden-version="3.7.0"
+                  id="garden-text-field-0--input"
+                  name="name"
+                  value=""
+                />
+              </div>
+              <div
+                class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+                data-garden-id="textfields.text_group"
+                data-garden-version="3.7.0"
+              >
+                <label
+                  class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+                  data-garden-id="textfields.label"
+                  data-garden-version="3.7.0"
+                  for="garden-text-field-2--input"
+                  id="garden-text-field-2--label"
+                >
+                  <strong>
+                    Email address
+                  </strong>
+                </label>
+                <input
+                  aria-invalid="false"
+                  aria-labelledby="garden-text-field-2--label"
+                  class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+                  data-garden-id="textfields.input"
+                  data-garden-version="3.7.0"
+                  id="garden-text-field-2--input"
+                  name="email"
+                  pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+                  required=""
+                  value=""
+                />
+              </div>
+              <div
+                class=""
+                style="opacity: 1; bottom: 10px;"
+              >
+                <div
+                  class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+                  data-garden-id="textfields.text_group"
+                  data-garden-version="3.7.0"
+                >
+                  <label
+                    class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+                    data-garden-id="textfields.label"
+                    data-garden-version="3.7.0"
+                    for="garden-text-field-4--input"
+                    id="garden-text-field-4--label"
+                  >
+                    <strong>
+                      Description
+                    </strong>
+                     (optional)
+                  </label>
+                  <input
+                    aria-invalid="false"
+                    aria-labelledby="garden-text-field-4--label"
+                    aria-required="false"
+                    class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+                    data-garden-id="textfields.input"
+                    data-garden-version="3.7.0"
+                    id="garden-text-field-4--input"
+                    label="Description"
+                    name="1"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                class=""
+                style="opacity: 1; bottom: 10px;"
+              >
+                <div
+                  class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+                  data-garden-id="textfields.text_group"
+                  data-garden-version="3.7.0"
+                >
+                  <label
+                    class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+                    data-garden-id="textfields.label"
+                    data-garden-version="3.7.0"
+                    for="garden-text-field-6--input"
+                    id="garden-text-field-6--label"
+                  >
+                    <strong>
+                      Subject
+                    </strong>
+                     (optional)
+                  </label>
+                  <input
+                    aria-invalid="false"
+                    aria-labelledby="garden-text-field-6--label"
+                    aria-required="false"
+                    class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+                    data-garden-id="textfields.input"
+                    data-garden-version="3.7.0"
+                    id="garden-text-field-6--input"
+                    label="Subject"
+                    name="2"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                class=""
+                style="opacity: 1; bottom: 10px;"
+              >
+                <div
+                  class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+                  data-garden-id="textfields.text_group"
+                  data-garden-version="3.7.0"
+                >
+                  <label
+                    class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+                    data-garden-id="textfields.label"
+                    data-garden-version="3.7.0"
+                    for="garden-text-field-8--input"
+                    id="garden-text-field-8--label"
+                  >
+                    <strong>
+                      Favorite Pizza
+                    </strong>
+                  </label>
+                  <input
+                    aria-invalid="false"
+                    aria-labelledby="garden-text-field-8--label"
+                    aria-required="true"
+                    class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+                    data-garden-id="textfields.input"
+                    data-garden-version="3.7.0"
+                    id="garden-text-field-8--input"
+                    label="Favorite Pizza"
+                    name="5"
+                    required=""
+                    value=""
+                  />
+                </div>
+              </div>
+              <span />
+            </div>
+          </div>
+        </div>
+        <footer
+          class="footer  footerShadow"
+        >
+          <div
+            class="container buttonRight buttonGroup"
+          >
+            <button
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
+              data-garden-id="buttons.button"
+              data-garden-version="3.7.0"
+              tabindex="0"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+              data-garden-id="buttons.button"
+              data-garden-version="3.7.0"
+              tabindex="0"
+              type="submit"
+            >
+              Send
+            </button>
+          </div>
+        </footer>
+      </div>
+    </form>
+    <a
+      class="
+      logo
+      formSuccess
+      
+      
+    "
+      href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+      tabindex="-1"
+      target="_blank"
+    >
+      <span
+        class="container icon Icon--zendesk"
+        data-testid="Icon--zendesk"
+        type="Icon--zendesk"
+      >
+        test-file-stub
+      </span>
+      <span
+        class="hidden"
+      >
+        zendesk
+      </span>
+    </a>
+  </div>
+</div>
+`;
+
+exports[`active ticket form renders the expected components in mobile form 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -6,7 +6,6 @@
+      >
+        <div
+-         class="container flexContainer desktop containerDesktop"
++         class="container flexContainer mobile"
+          data-testid="scrollcontainer"
+-         style="height: 550px;"
+        >
+          <header
+@@ -14,5 +13,5 @@
+          >
+            <h1
+-             class="title"
++             class="title titleMobile"
+            >
+              message
+@@ -20,5 +19,5 @@
+          </header>
+          <div
+-           class="content container ticketFormContainer"
++           class="content container ticketFormContainer containerMobile contentMobile"
+          >
+            <div>
+@@ -27,5 +26,5 @@
+              >
+                <h2
+-                 class="ticketFormTitle "
++                 class="ticketFormTitle ticketFormTitleMobile"
+                >
+                  Ticket Forms
+@@ -202,14 +201,5 @@
+            <div
+              class="container buttonRight buttonGroup"
+-           >
+-             <button
+-               class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
+-               data-garden-id="buttons.button"
+-               data-garden-version="3.7.0"
+-               tabindex="0"
+-               type="button"
+            >
+-               Cancel
+-             </button>
+              <button
+                class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+`;
+
+exports[`renders the expected components 1`] = `
+<div>
+  <div>
+    <form
+      class="form "
+      novalidate=""
+    >
+      <div
+        class="container flexContainer desktop containerDesktop"
+        data-testid="scrollcontainer"
+        style="height: 550px;"
+      >
+        <header
+          class="header userHeader"
+        >
+          <h1
+            class="title"
+          >
+            message
+          </h1>
+        </header>
+        <div
+          class="content container"
+        >
+          <div>
+            <div
+              class="formWrapper"
+            >
+              <div
+                class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+                data-garden-id="textfields.text_group"
+                data-garden-version="3.7.0"
+              >
+                <label
+                  class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+                  data-garden-id="textfields.label"
+                  data-garden-version="3.7.0"
+                  for="garden-text-field-0--input"
+                  id="garden-text-field-0--label"
+                >
+                  <strong>
+                    Your name
+                  </strong>
+                   (optional)
+                </label>
+                <input
+                  aria-invalid="false"
+                  aria-labelledby="garden-text-field-0--label"
+                  class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+                  data-garden-id="textfields.input"
+                  data-garden-version="3.7.0"
+                  id="garden-text-field-0--input"
+                  name="name"
+                  value=""
+                />
+              </div>
+              <div
+                class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+                data-garden-id="textfields.text_group"
+                data-garden-version="3.7.0"
+              >
+                <label
+                  class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+                  data-garden-id="textfields.label"
+                  data-garden-version="3.7.0"
+                  for="garden-text-field-2--input"
+                  id="garden-text-field-2--label"
+                >
+                  <strong>
+                    Email address
+                  </strong>
+                </label>
+                <input
+                  aria-invalid="false"
+                  aria-labelledby="garden-text-field-2--label"
+                  class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
+                  data-garden-id="textfields.input"
+                  data-garden-version="3.7.0"
+                  id="garden-text-field-2--input"
+                  name="email"
+                  pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+                  required=""
+                  value=""
+                />
+              </div>
+              <div
+                class="TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
+                data-garden-id="textfields.text_group"
+                data-garden-version="3.7.0"
+              >
+                <label
+                  class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+                  data-garden-id="textfields.label"
+                  data-garden-version="3.7.0"
+                  for="garden-text-field-4--input"
+                  id="garden-text-field-4--label"
+                >
+                  <strong>
+                    How can we help you?
+                  </strong>
+                </label>
+                <textarea
+                  aria-invalid="false"
+                  aria-labelledby="garden-text-field-4--label"
+                  class="Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
+                  data-garden-id="textfields.textarea"
+                  data-garden-version="3.7.0"
+                  id="garden-text-field-4--input"
+                  name="description"
+                  required=""
+                  rows="5"
+                />
+              </div>
+              <span />
+            </div>
+          </div>
+        </div>
+        <footer
+          class="footer  "
+        >
+          <div
+            class="container buttonRight buttonGroup"
+          >
+            <button
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
+              data-garden-id="buttons.button"
+              data-garden-version="3.7.0"
+              tabindex="0"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+              data-garden-id="buttons.button"
+              data-garden-version="3.7.0"
+              tabindex="0"
+              type="submit"
+            >
+              Send
+            </button>
+          </div>
+        </footer>
+      </div>
+    </form>
+    <a
+      class="
+      logo
+      formSuccess
+      
+      
+    "
+      href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+      tabindex="-1"
+      target="_blank"
+    >
+      <span
+        class="container icon Icon--zendesk"
+        data-testid="Icon--zendesk"
+        type="Icon--zendesk"
+      >
+        test-file-stub
+      </span>
+      <span
+        class="hidden"
+      >
+        zendesk
+      </span>
+    </a>
+  </div>
+</div>
+`;
+
+exports[`renders the expected components in mobile mode 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -6,7 +6,6 @@
+      >
+        <div
+-         class="container flexContainer desktop containerDesktop"
++         class="container flexContainer mobile"
+          data-testid="scrollcontainer"
+-         style="height: 550px;"
+        >
+          <header
+@@ -14,5 +13,5 @@
+          >
+            <h1
+-             class="title"
++             class="title titleMobile"
+            >
+              message
+@@ -20,5 +19,5 @@
+          </header>
+          <div
+-           class="content container"
++           class="content container containerMobile contentMobile"
+          >
+            <div>
+@@ -120,14 +119,5 @@
+            <div
+              class="container buttonRight buttonGroup"
+-           >
+-             <button
+-               class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
+-               data-garden-id="buttons.button"
+-               data-garden-version="3.7.0"
+-               tabindex="0"
+-               type="button"
+            >
+-               Cancel
+-             </button>
+              <button
+                class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+`;
