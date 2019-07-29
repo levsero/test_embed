@@ -15,7 +15,9 @@ import {
   getLatestRatingRequest,
   getLatestAgentLeaveEvent,
   getShowUpdateVisitorDetails,
-  getIsChatting
+  getIsChatting,
+  getActiveAgentCount,
+  getRatingSettings
 } from 'src/redux/modules/chat/chat-selectors'
 import chatPropTypes from 'types/chat'
 
@@ -28,7 +30,9 @@ const mapStateToProps = state => {
     latestAgentLeaveEvent: getLatestAgentLeaveEvent(state),
     showUpdateInfo: getShowUpdateVisitorDetails(state),
     locale: i18n.getLocale(),
-    isChatting: getIsChatting(state)
+    isChatting: getIsChatting(state),
+    activeAgentCount: getActiveAgentCount(state),
+    canRateChat: getRatingSettings(state).enabled
   }
 }
 
@@ -40,7 +44,7 @@ export class ChatLog extends PureComponent {
     latestRatingRequest: PropTypes.number.isRequired,
     latestAgentLeaveEvent: PropTypes.number.isRequired,
     agents: PropTypes.object,
-    chatCommentLeft: PropTypes.bool.isRequired,
+    chatRating: PropTypes.object.isRequired,
     goToFeedbackScreen: PropTypes.func.isRequired,
     showAvatar: PropTypes.bool.isRequired,
     handleSendMsg: PropTypes.func,
@@ -51,7 +55,8 @@ export class ChatLog extends PureComponent {
     conciergeAvatar: PropTypes.string,
     isMobile: PropTypes.bool.isRequired,
     isChatting: PropTypes.bool.isRequired,
-    endedChatFromFeedbackForm: PropTypes.bool.isRequired
+    activeAgentCount: PropTypes.number.isRequired,
+    canRateChat: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -110,24 +115,19 @@ export class ChatLog extends PureComponent {
     }
   }
 
-  renderRequestRatingButton(eventKey) {
+  ratingButtonLabel(eventKey) {
     const {
-      agents,
-      chatCommentLeft,
-      goToFeedbackScreen,
+      activeAgentCount,
+      chatRating,
       latestRating,
       latestRatingRequest,
-      latestAgentLeaveEvent,
-      isChatting,
-      endedChatFromFeedbackForm
+      latestAgentLeaveEvent
     } = this.props
-
-    if (!isChatting || endedChatFromFeedbackForm) return
 
     const isLatestRating = latestRating === eventKey
     const isLatestRatingRequest = latestRatingRequest === eventKey
-    const isLastAgentLeaveEvent = _.size(agents) < 1 && latestAgentLeaveEvent === eventKey
-    const isLatestRatingWithNoComment = isLatestRating && !chatCommentLeft
+    const isLastAgentLeaveEvent = activeAgentCount < 1 && latestAgentLeaveEvent === eventKey
+    const isLatestRatingWithNoComment = isLatestRating && !chatRating.comment
     const isLatestEventNotRatingOrAgentLeave = !(
       isLatestRatingRequest ||
       isLastAgentLeaveEvent ||
@@ -135,11 +135,21 @@ export class ChatLog extends PureComponent {
     )
 
     if (isLatestEventNotRatingOrAgentLeave) return
+    if (!isLatestRatingWithNoComment && chatRating.value) return
 
-    const labelKey =
-      isLatestRating && !chatCommentLeft
-        ? 'embeddable_framework.chat.chatLog.button.leaveComment'
-        : 'embeddable_framework.chat.chatLog.button.rateChat'
+    return isLatestRatingWithNoComment
+      ? 'embeddable_framework.chat.chatLog.button.leaveComment'
+      : 'embeddable_framework.chat.chatLog.button.rateChat'
+  }
+
+  renderRequestRatingButton(eventKey) {
+    const { goToFeedbackScreen, isChatting, canRateChat } = this.props
+
+    if (!isChatting || !canRateChat) return
+
+    const labelKey = this.ratingButtonLabel(eventKey)
+
+    if (!labelKey) return
 
     return (
       <Button className={styles.requestRatingButton} onClick={goToFeedbackScreen}>

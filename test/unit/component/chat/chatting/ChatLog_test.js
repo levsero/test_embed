@@ -196,11 +196,46 @@ describe('ChatLog component', () => {
       })
     })
 
+    describe('when the Chat account settings prevent rating an agent', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <ChatLog
+            chatLog={{}}
+            agents={{}}
+            isChatting={true}
+            latestAgentLeaveEvent={1}
+            activeAgentCount={0}
+            goToFeedbackScreen={goToFeedbackScreenSpy}
+            canRateChat={false}
+            chatRating={{}}
+          />
+        )
+
+        result = component.renderRequestRatingButton(eventKey)
+      })
+
+      it('does not render a button', () => {
+        expect(result).toBeFalsy()
+      })
+    })
+
     describe('when the event is the latest rating', () => {
       describe('and a comment has been left', () => {
+        const rating = {
+          value: 'good',
+          comment: 'cool comment'
+        }
+
         beforeEach(() => {
           component = instanceRender(
-            <ChatLog chatLog={{}} agents={{}} latestRating={1} chatCommentLeft={true} />
+            <ChatLog
+              chatLog={{}}
+              agents={{}}
+              latestRating={1}
+              chatCommentLeft={true}
+              canRateChat={true}
+              chatRating={rating}
+            />
           )
 
           result = component.renderRequestRatingButton(eventKey)
@@ -212,6 +247,11 @@ describe('ChatLog component', () => {
       })
 
       describe('and a comment has not been left', () => {
+        const rating = {
+          value: 'good',
+          comment: null
+        }
+
         beforeEach(() => {
           component = instanceRender(
             <ChatLog
@@ -220,6 +260,8 @@ describe('ChatLog component', () => {
               latestRating={1}
               chatCommentLeft={false}
               goToFeedbackScreen={goToFeedbackScreenSpy}
+              canRateChat={true}
+              chatRating={rating}
             />
           )
 
@@ -233,65 +275,36 @@ describe('ChatLog component', () => {
     })
 
     describe('when the event is the latest rating request', () => {
-      let mockIsChatting = true,
-        mockEndChatFromFeedbackForm = false
+      let mockIsChatting = true
 
-      const renderButton = () => {
+      beforeEach(() => {
         component = instanceRender(
           <ChatLog
             chatLog={{}}
             agents={{}}
             isChatting={mockIsChatting}
-            endedChatFromFeedbackForm={mockEndChatFromFeedbackForm}
             latestRatingRequest={1}
             goToFeedbackScreen={goToFeedbackScreenSpy}
+            canRateChat={true}
+            chatRating={{}}
           />
         )
 
-        return component.renderRequestRatingButton(eventKey)
-      }
+        result = component.renderRequestRatingButton(eventKey)
+      })
 
       afterEach(() => {
-        ;(mockIsChatting = true), (mockEndChatFromFeedbackForm = false)
+        mockIsChatting = true
       })
 
-      describe('and chat is offline', () => {
-        beforeEach(() => {
-          mockIsChatting = false
-          result = renderButton()
-        })
-
-        it('Does not render a button', () => {
-          expect(result).toBeUndefined()
-        })
-      })
-
-      describe('and rating is being sent', () => {
-        beforeEach(() => {
-          mockEndChatFromFeedbackForm = true
-
-          result = renderButton()
-        })
-
-        it('Does not render a button', () => {
-          expect(result).toBeUndefined()
-        })
-      })
-
-      describe('and chat is online and rating is not sending', () => {
-        beforeEach(() => {
-          result = renderButton()
-        })
-
-        it('returns a button with the correct props', () => {
-          expect(result.props).toEqual(
-            jasmine.objectContaining({
-              className: 'requestRatingButtonStyles',
-              onClick: goToFeedbackScreenSpy,
-              children: 'Rate this chat'
-            })
-          )
-        })
+      it('returns a button with the correct props', () => {
+        expect(result.props).toEqual(
+          jasmine.objectContaining({
+            className: 'requestRatingButtonStyles',
+            onClick: goToFeedbackScreenSpy,
+            children: 'Rate this chat'
+          })
+        )
       })
     })
 
@@ -303,9 +316,11 @@ describe('ChatLog component', () => {
               chatLog={{}}
               agents={{}}
               isChatting={true}
-              endedChatFromFeedbackForm={false}
               latestAgentLeaveEvent={1}
+              activeAgentCount={0}
               goToFeedbackScreen={goToFeedbackScreenSpy}
+              canRateChat={true}
+              chatRating={{}}
             />
           )
 
@@ -328,9 +343,11 @@ describe('ChatLog component', () => {
           component = instanceRender(
             <ChatLog
               chatLog={{}}
-              agents={{ 1: { nick: 'agent:123' } }}
+              activeAgentCount={1}
               latestAgentLeaveEvent={1}
               goToFeedbackScreen={goToFeedbackScreenSpy}
+              canRateChat={true}
+              chatRating={{}}
             />
           )
 

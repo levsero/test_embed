@@ -117,8 +117,7 @@ class ChattingScreen extends Component {
     notificationCount: PropTypes.number,
     markAsRead: PropTypes.func,
     visible: PropTypes.bool,
-    fullscreen: PropTypes.bool,
-    endedChatFromFeedbackForm: PropTypes.bool
+    fullscreen: PropTypes.bool
   }
 
   static defaultProps = {
@@ -524,14 +523,13 @@ class ChattingScreen extends Component {
               isMobile={this.props.isMobile}
               showAvatar={this.props.showAvatar}
               agents={this.props.allAgents}
-              chatCommentLeft={!!this.props.rating.comment}
+              chatRating={this.props.rating}
               goToFeedbackScreen={this.goToFeedbackScreen}
               handleSendMsg={sendMsg}
               onImageLoad={this.scrollToBottom}
               conciergeAvatar={this.props.conciergeSettings.avatar_path}
               updateInfoOnClick={this.props.showContactDetails}
               socialLogin={this.props.socialLogin}
-              endedChatFromFeedbackForm={this.props.endedChatFromFeedbackForm}
             />
             {this.renderQueuePosition()}
             {this.renderAgentTyping(agentsTyping)}
