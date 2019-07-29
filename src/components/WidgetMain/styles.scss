@@ -1,0 +1,28 @@
+@import 'src/styles/_vars.scss';
+
+.container {
+  flex-grow: 2;
+  margin-left: $spacing-sml;
+  margin-right: $spacing-sml;
+  padding-top: $spacing-med;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: #{10 / $font-size}rem;
+  padding-right: #{10 / $font-size}rem;
+  height: 100%;
+
+  /*
+   * Customise scrollbar for safari/chrome
+   */
+  &::-webkit-scrollbar-track {
+    margin: $spacing-med 0;
+  }
+  &::-webkit-scrollbar {
+    box-shadow: none;
+    width: #{3 / $font-size}rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $zd-color-grey-300;
+    border-radius: #{3 / $font-size}rem;
+  }
+}
