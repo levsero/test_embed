@@ -64,7 +64,7 @@ import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCa
 import AnswerBotStyles from 'component/answerBot/styles'
 import TalkNotificationStyles from 'component/talk/ErrorNotification/styles/index.scss'
 import TalkOfflinePageStyles from 'src/embeds/talk/pages/OfflinePage/styles.scss'
-import TalkPhoneNumberStyles from 'component/talk/PhoneNumber/styles/index.scss'
+import TalkPhoneNumberStyles from 'src/embeds/talk/pages/CallbackPhonePage/styles.scss'
 import TalkPhoneOnlyPageStyles from 'src/embeds/talk/pages/PhoneOnlyPage/styles.scss'
 import TalkCallbackFormStyles from 'src/embeds/talk/components/CallbackForm/styles.scss'
 

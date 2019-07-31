@@ -144,26 +144,6 @@ test('getLibPhoneNumberVendor returns the libphonenumber vendor', () => {
   })
 })
 
-test('getFormattedPhoneNumber makes the correct calls', () => {
-  const stubbedFormat = jest.fn().mockReturnValue('formatted phone')
-  const stubbedParse = jest.fn().mockReturnValue('parsed phone')
-  const state = {
-    embeddableConfig: {
-      phoneNumber: '1231231'
-    },
-    vendor: {
-      libphonenumber: {
-        parse: stubbedParse,
-        format: stubbedFormat
-      }
-    }
-  }
-
-  expect(selectors.getFormattedPhoneNumber(talkConfig(state))).toEqual('formatted phone')
-  expect(stubbedParse).toHaveBeenCalledWith('1231231')
-  expect(stubbedFormat).toHaveBeenCalledWith('parsed phone', 'International')
-})
-
 test.each([[PHONE_ONLY, false], [CALLBACK_ONLY, true], [CALLBACK_AND_PHONE, true]])(
   'isCallbackEnabled(%s)',
   (capability, expected) => {

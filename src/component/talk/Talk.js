@@ -6,7 +6,6 @@ import { ScrollContainer } from 'component/container/ScrollContainer'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { Button } from '@zendeskgarden/react-buttons'
 import classNames from 'classnames'
-import PhoneNumber from './PhoneNumber'
 import CallbackForm from 'src/embeds/talk/components/CallbackForm'
 
 import {
@@ -17,11 +16,9 @@ import {
 } from 'src/redux/modules/talk/talk-screen-types'
 import { updateTalkCallbackForm, submitTalkCallbackForm } from 'src/redux/modules/talk'
 import {
-  getEmbeddableConfig,
   getAgentAvailability,
   getScreen,
-  getAverageWaitTimeString,
-  getFormattedPhoneNumber
+  getAverageWaitTimeString
 } from 'src/redux/modules/talk/talk-selectors'
 import { getTalkTitle } from 'src/redux/modules/selectors'
 import { i18n } from 'service/i18n'
@@ -31,13 +28,12 @@ import CallbackPage from 'src/embeds/talk/pages/CallbackPage'
 
 import { locals as styles } from './Talk.scss'
 import SuccessNotificationPage from 'src/embeds/talk/pages/SuccessNotificationPage'
+import CallbackPhonePage from 'src/embeds/talk/pages/CallbackPhonePage'
 
 const mapStateToProps = state => {
   return {
-    embeddableConfig: getEmbeddableConfig(state),
     agentAvailability: getAgentAvailability(state),
     screen: getScreen(state),
-    formattedPhoneNumber: getFormattedPhoneNumber(state),
     averageWaitTime: getAverageWaitTimeString(state),
     title: getTalkTitle(state)
   }
@@ -48,10 +44,8 @@ class Talk extends Component {
     isMobile: PropTypes.bool.isRequired,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
-    embeddableConfig: PropTypes.object.isRequired,
     agentAvailability: PropTypes.bool.isRequired,
     screen: PropTypes.string.isRequired,
-    formattedPhoneNumber: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired
   }
 
@@ -64,13 +58,6 @@ class Talk extends Component {
   constructor() {
     super()
     this.form = null
-  }
-
-  renderPhoneNumber = () => {
-    const { phoneNumber } = this.props.embeddableConfig
-    const { formattedPhoneNumber } = this.props
-
-    return <PhoneNumber phoneNumber={phoneNumber} formattedPhoneNumber={formattedPhoneNumber} />
   }
 
   renderPhoneFormScreen = () => {
@@ -97,7 +84,7 @@ class Talk extends Component {
       case SUCCESS_NOTIFICATION_SCREEN:
         return <SuccessNotificationPage />
       case CALLBACK_AND_PHONE_SCREEN:
-        return this.renderPhoneFormScreen()
+        return <CallbackPhonePage />
       default:
         return null
     }
