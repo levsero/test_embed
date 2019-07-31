@@ -9,7 +9,7 @@ import { i18n } from 'service/i18n'
 import { parseUrl } from 'utility/utils'
 import { http } from 'service/transport'
 
-import { locals as styles } from './HelpCenterArticle.scss'
+import { locals as styles } from './index.scss'
 import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors'
 
 const allowedIframeAttribs = [
@@ -22,7 +22,7 @@ const allowedIframeAttribs = [
   'name'
 ]
 
-export class HelpCenterArticle extends Component {
+export default class HelpCenterArticle extends Component {
   static propTypes = {
     activeArticle: PropTypes.object.isRequired,
     locale: PropTypes.string,

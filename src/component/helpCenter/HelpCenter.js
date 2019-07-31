@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle'
+import HelpCenterArticle from 'components/HelpCenterArticle'
 import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop'
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile'
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults'

@@ -44,7 +44,6 @@ import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
 import NestedDropdownStyles from 'component/field/Dropdown/NestedDropdown.scss'
 import FlagStyles from 'component/Flag.scss'
-import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.scss'
 import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss'
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.scss'
 import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.scss'
@@ -122,7 +121,6 @@ export const webWidgetStyles = `
   ${ContainerStyles}
   ${NestedDropdownStyles}
   ${FlagStyles}
-  ${HelpCenterArticleStyles}
   ${HelpCenterDesktopStyles}
   ${HelpCenterMobileStyles}
   ${HelpCenterResultsStyles}
