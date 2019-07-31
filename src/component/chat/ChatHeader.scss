@@ -77,7 +77,7 @@
 
 .textContainer {
   color: $zd-color-grey-800;
-  line-height: #{15 / $font-size}rem;
+  line-height: #{16 / $font-size}rem;
   padding-top: #{1 / $font-size}rem;
 }
 
@@ -86,7 +86,7 @@
 
   font-size: #{14 / $font-size}rem;
   width: 100%;
-  max-height: #{15 / $font-size}rem;
+  max-height: #{16 / $font-size}rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -98,7 +98,8 @@
 
 .subTextContainer {
   width: 100%;
-  max-height: #{30 / $font-size}rem;
+  margin-top: #{1 / $font-size}rem;
+  max-height: #{32 / $font-size}rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
