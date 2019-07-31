@@ -15,7 +15,7 @@ const splitChunkConfig = (name, type = 'initial') => {
 
 module.exports = merge(common, {
   entry: {
-    [chunks.WEB_WIDGET_CHUNK]: path.join(CWD, '/src/main.js'),
+    [chunks.WEB_WIDGET_CHUNK]: ['react-hot-loader/patch', path.join(CWD, '/src/main.js')],
     [chunks.COMMON_VENDOR_CHUNK]: ['lodash', 'react', 'react-dom', 'redux', 'rollbar'],
     [chunks.CHAT_VENDOR_CHUNK]: ['chat-web-sdk', 'react-slick'],
     [chunks.TALK_VENDOR_CHUNK]: ['libphonenumber-js', 'socket.io-client']
