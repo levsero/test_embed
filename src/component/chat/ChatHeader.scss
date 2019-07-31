@@ -98,6 +98,7 @@
 
 .subTextContainer {
   width: 100%;
+  margin-top: #{1 / $font-size}rem;
   max-height: #{32 / $font-size}rem;
   overflow: hidden;
   text-overflow: ellipsis;
