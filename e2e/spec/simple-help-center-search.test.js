@@ -31,8 +31,10 @@ describe('Help Center Smoke test', () => {
 
     await widgetHelper.clickLauncherPill()
     const helpCenterSearchInput = await queries.getByPlaceholderText(widget, 'How can we help?')
+    await page.keyboard.type('welcome')
+    let searchFieldValue = await helpCenterSearchInput.getProperty('value')
+    expect(await searchFieldValue.jsonValue()).toBe('welcome')
 
-    await helpCenterSearchInput.type('welcome')
     page.keyboard.press('Enter')
     await wait(() => queries.getByText(widget, 'Top results'))
     await wait(async () => {

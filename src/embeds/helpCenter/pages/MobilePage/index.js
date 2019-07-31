@@ -71,6 +71,7 @@ export default class MobilePage extends Component {
     }
 
     this.searchField = null
+    this.searchFieldFocusTimer = null
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -88,6 +89,16 @@ export default class MobilePage extends Component {
     if (this.searchField) {
       this.searchField.setState({ searchInputVal: this.props.searchFieldValue })
     }
+  }
+
+  componentWillUnmount = () => {
+    if (this.searchFieldFocusTimer) {
+      clearTimeout(this.searchFieldFocusTimer)
+    }
+  }
+
+  focusField() {
+    this.getSearchField().focus()
   }
 
   getSearchField() {
@@ -121,7 +132,7 @@ export default class MobilePage extends Component {
 
   handleOnBlur = () => {
     // defer event to allow onClick events to fire first
-    setTimeout(() => {
+    this.searchFieldFocusTimer = setTimeout(() => {
       this.setSearchFieldFocused(false)
 
       if (!this.props.hasSearched && !this.props.isLoading) {

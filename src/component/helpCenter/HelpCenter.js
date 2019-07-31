@@ -206,6 +206,8 @@ class HelpCenter extends Component {
   focusField = () => {
     if (this.helpCenterDesktop) {
       this.helpCenterDesktop.focusField()
+    } else if (this.helpCenterMobile) {
+      this.helpCenterMobile.focusField()
     }
   }
 

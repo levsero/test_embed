@@ -337,7 +337,12 @@ class Frame extends Component {
     }, scrollingStyleDelay)
 
     this.props.onShow(this)
-    this.props.afterShowAnimate(this)
+
+    // We need to call afterShowAnimate in next tick because the refs aren't available
+    // until then
+    setTimeout(() => {
+      this.props.afterShowAnimate(this)
+    }, 0)
 
     if (this.props.name !== 'launcher') {
       this.props.updateWidgetShown(true)
