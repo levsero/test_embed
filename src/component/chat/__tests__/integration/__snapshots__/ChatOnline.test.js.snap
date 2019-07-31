@@ -307,7 +307,7 @@ exports[`chat log series of actions 1`] = `
               data-testid="Icon--mini-tick"
               type="Icon--mini-tick"
             >
-              test-file-stub
+              check-sm-stroke.svg
             </span>
             <div>
               <div
@@ -637,7 +637,7 @@ exports[`chat log visitor message success 1`] = `
               data-testid="Icon--mini-tick"
               type="Icon--mini-tick"
             >
-              test-file-stub
+              check-sm-stroke.svg
             </span>
             <div>
               <div

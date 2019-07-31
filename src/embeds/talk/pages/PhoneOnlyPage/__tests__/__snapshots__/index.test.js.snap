@@ -37,7 +37,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
       data-testid="Icon--talk"
       type="Icon--talk"
     >
-      test-file-stub
+      widget-icon_talk.svg
     </span>
     <p
       class="message"

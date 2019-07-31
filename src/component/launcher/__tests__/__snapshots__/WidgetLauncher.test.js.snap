@@ -10,7 +10,7 @@ exports[`WidgetLauncher renders the component 1`] = `
       data-testid="Icon"
       type="Icon"
     >
-      test-file-stub
+      widget-icon_help.svg
     </span>
     <span
       class="label "

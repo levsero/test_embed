@@ -29,7 +29,7 @@ exports[`renders the component 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                test-file-stub
+                widget-icon_channelChoice-chat.svg
               </span>
             </td>
           </tr>
@@ -52,7 +52,7 @@ exports[`renders the component 1`] = `
         data-testid="Icon--sendChat"
         type="Icon--sendChat"
       >
-        test-file-stub
+        widget-icon_sendChat.svg
       </span>
     </div>
     <span
@@ -60,7 +60,7 @@ exports[`renders the component 1`] = `
       data-testid="Icon--dash"
       type="Icon--dash"
     >
-      test-file-stub
+      widget-icon_dash.svg
     </span>
   </div>
 </div>
@@ -95,7 +95,7 @@ exports[`with chatBadgeColor passed in 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                test-file-stub
+                widget-icon_channelChoice-chat.svg
               </span>
             </td>
           </tr>
@@ -118,7 +118,7 @@ exports[`with chatBadgeColor passed in 1`] = `
         data-testid="Icon--sendChat"
         type="Icon--sendChat"
       >
-        test-file-stub
+        widget-icon_sendChat.svg
       </span>
     </div>
     <span
@@ -126,7 +126,7 @@ exports[`with chatBadgeColor passed in 1`] = `
       data-testid="Icon--dash"
       type="Icon--dash"
     >
-      test-file-stub
+      widget-icon_dash.svg
     </span>
   </div>
 </div>
@@ -163,7 +163,7 @@ exports[`with label passed in 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                test-file-stub
+                widget-icon_channelChoice-chat.svg
               </span>
             </td>
           </tr>
@@ -186,7 +186,7 @@ exports[`with label passed in 1`] = `
         data-testid="Icon--sendChat"
         type="Icon--sendChat"
       >
-        test-file-stub
+        widget-icon_sendChat.svg
       </span>
     </div>
     <span
@@ -194,7 +194,7 @@ exports[`with label passed in 1`] = `
       data-testid="Icon--dash"
       type="Icon--dash"
     >
-      test-file-stub
+      widget-icon_dash.svg
     </span>
   </div>
 </div>

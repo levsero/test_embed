@@ -30,7 +30,7 @@ exports[`render renders the list correctly 1`] = `
                   data-testid="Icon--image-stroke"
                   type="Icon--image-stroke"
                 >
-                  test-file-stub
+                  image-stroke.svg
                 </span>
               </div>
               <div
@@ -80,7 +80,7 @@ exports[`render renders the list correctly 1`] = `
                   data-testid="Icon--image-stroke"
                   type="Icon--image-stroke"
                 >
-                  test-file-stub
+                  image-stroke.svg
                 </span>
               </div>
               <div

@@ -30,7 +30,7 @@ exports[`renders expected classes and components with default props for non-visi
                     data-testid="Icon--article"
                     type="Icon--article"
                   >
-                    test-file-stub
+                    widget-icon_article.svg
                   </span>
                   <div
                     class="optionText"
@@ -91,7 +91,7 @@ exports[`renders expected classes and components with default props for non-visi
                     data-testid="Icon--article"
                     type="Icon--article"
                   >
-                    test-file-stub
+                    widget-icon_article.svg
                   </span>
                   <div
                     class="optionText"

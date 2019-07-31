@@ -90,7 +90,7 @@ test('renders uploading text when it is uploading', () => {
 
 test('renders icon when icon is specified and attachment is not downloadable', () => {
   const { container } = renderComponent({
-    icon: 'myicon',
+    icon: 'Icon--preview-default',
     isDownloadable: false
   })
 
@@ -99,7 +99,7 @@ test('renders icon when icon is specified and attachment is not downloadable', (
 
 test('renders link when icon is specified and attachment is downloadable', () => {
   const { container } = renderComponent({
-    icon: 'myicon',
+    icon: 'Icon--preview-default',
     isDownloadable: true
   })
 
@@ -129,7 +129,6 @@ describe('dom interaction', () => {
     const handler = jest.fn()
     const uploadHandler = jest.fn()
     const { container } = renderComponent({
-      icon: 'icon',
       isRemovable: true,
       uploading: false,
       uploadRequestSender: { abort: uploadHandler },
@@ -145,7 +144,6 @@ describe('dom interaction', () => {
     const handler = jest.fn()
     const uploadHandler = jest.fn()
     const { container } = renderComponent({
-      icon: 'icon',
       isRemovable: true,
       uploading: true,
       uploadRequestSender: { abort: uploadHandler },

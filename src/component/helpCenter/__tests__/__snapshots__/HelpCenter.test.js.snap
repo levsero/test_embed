@@ -68,7 +68,7 @@ exports[`mobile renders mobile classes 1`] = `
                       data-testid="Icon--search"
                       type="Icon--search"
                     >
-                      test-file-stub
+                      widget-icon_search.svg
                     </span>
                   </div>
                 </div>
@@ -110,7 +110,7 @@ exports[`mobile renders mobile classes 1`] = `
           data-testid="Icon--zendesk"
           type="Icon--zendesk"
         >
-          test-file-stub
+          widget-icon_zendesk.svg
         </span>
         <span
           class="hidden"
@@ -176,7 +176,7 @@ exports[`renders expected classes in desktop 1`] = `
                   data-testid="Icon--search"
                   type="Icon--search"
                 >
-                  test-file-stub
+                  widget-icon_search.svg
                 </span>
               </div>
             </div>
@@ -225,7 +225,7 @@ exports[`renders expected classes in desktop 1`] = `
           data-testid="Icon--zendesk"
           type="Icon--zendesk"
         >
-          test-file-stub
+          widget-icon_zendesk.svg
         </span>
         <span
           class="hidden"

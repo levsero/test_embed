@@ -21,7 +21,7 @@ exports[`rendering with default props renders correctly 1`] = `
           data-testid="Icon--popout"
           type="Icon--popout"
         >
-          test-file-stub
+          widget-icon_popout.svg
         </span>
       </button>
     </div>
@@ -43,7 +43,7 @@ exports[`rendering with default props renders correctly 1`] = `
           data-testid="Icon--dash"
           type="Icon--dash"
         >
-          test-file-stub
+          widget-icon_dash.svg
         </span>
       </button>
     </div>

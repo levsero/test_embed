@@ -7,7 +7,7 @@ exports[`Icon renders expected classes 1`] = `
     data-testid="Icon--zendesk"
     type="Icon--zendesk"
   >
-    test-file-stub
+    widget-icon_zendesk.svg
   </span>
 </div>
 `;
@@ -19,7 +19,7 @@ exports[`Icon renders expected flipx classes when flipX is true 1`] = `
     data-testid="Icon--zendesk"
     type="Icon--zendesk"
   >
-    test-file-stub
+    widget-icon_zendesk.svg
   </span>
 </div>
 `;
@@ -31,7 +31,7 @@ exports[`Icon renders expected mobile classes when mobile is true 1`] = `
     data-testid="Icon--zendesk"
     type="Icon--zendesk"
   >
-    test-file-stub
+    widget-icon_zendesk.svg
   </span>
 </div>
 `;
@@ -50,7 +50,7 @@ exports[`IconButton mouseover event does not show tooltip when button is disable
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        test-file-stub
+        widget-icon_zendesk.svg
       </span>
       <span
         class="altText"
@@ -82,7 +82,7 @@ exports[`IconButton mouseover event does not show tooltip when tooltip is disabl
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        test-file-stub
+        widget-icon_zendesk.svg
       </span>
       <span
         class="altText"
@@ -113,7 +113,7 @@ exports[`IconButton mouseover event shows tooltip when button and tooltips are e
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        test-file-stub
+        widget-icon_zendesk.svg
       </span>
       <span
         class="altText"
@@ -145,7 +145,7 @@ exports[`IconButton renders expected classes, alt text and Icon 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        test-file-stub
+        widget-icon_zendesk.svg
       </span>
       <span
         class="altText"

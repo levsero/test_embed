@@ -19,7 +19,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <span
           class="label "
@@ -44,7 +44,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -76,7 +76,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <span
           class="label "
@@ -101,7 +101,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -133,7 +133,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <span
           class="label "
@@ -158,7 +158,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -190,7 +190,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -222,7 +222,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <span
           class="label "
@@ -258,7 +258,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -290,7 +290,7 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -322,7 +322,7 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -354,7 +354,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -386,7 +386,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <span
           class="label "
@@ -422,7 +422,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -454,7 +454,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <span
           class="label "
@@ -479,7 +479,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -511,7 +511,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <span
           class="label "
@@ -536,7 +536,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -568,7 +568,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <span
           class="label label-class"
@@ -593,7 +593,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <span
           class="label label-class"
@@ -618,7 +618,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label label-class"
@@ -650,7 +650,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <span
           class="label "
@@ -675,7 +675,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <span
           class="label "
@@ -700,7 +700,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
@@ -732,7 +732,7 @@ exports[`rendering renders ChannelChoiceMenu correctly with default props 1`] = 
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <span
           class="label "
