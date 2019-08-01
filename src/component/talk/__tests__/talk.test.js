@@ -11,8 +11,8 @@ import { handleTalkVendorLoaded, updateTalkEmbeddableConfig } from 'src/redux/mo
 import { Component as Talk } from '../Talk'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
-import { locals as styles } from './Talk.scss'
 import * as reselectors from 'src/embeds/talk/selectors/reselectors'
+import { updateEmbeddableConfig } from 'src/redux/modules/base/base-actions'
 
 jest.mock('src/embeds/talk/selectors/reselectors')
 jest.spyOn(reselectors, 'getPhoneNumber').mockReturnValue('12345678')
@@ -54,6 +54,7 @@ const renderComponent = (overrideProps = {}) => {
       supportedCountries: 'US'
     })
   )
+  store.dispatch(updateEmbeddableConfig({ hideZendeskLogo: overrideProps.hideZendeskLogo }))
 
   return render(
     <Provider store={store}>
@@ -66,9 +67,9 @@ describe('talk', () => {
   describe('rendering the zendesk logo', () => {
     describe('with the logo enabled', () => {
       it('renders the zendesk logo', () => {
-        const { queryByText } = renderComponent({ agentAvailability: false })
+        const { queryByText } = renderComponent({ hideZendeskLogo: false })
 
-        expect(queryByText('zendesk')).toBeInTheDocument()
+        expect(queryByText('widget-icon_zendesk.svg')).toBeInTheDocument()
       })
     })
 
@@ -76,10 +77,11 @@ describe('talk', () => {
       it('does not render the zendesk logo', () => {
         const { queryByText } = renderComponent({
           agentAvailability: false,
-          isMobile: true
+          isMobile: true,
+          hideZendeskLogo: true
         })
 
-        expect(queryByText('zendesk')).not.toBeInTheDocument()
+        expect(queryByText('widget-icon_zendesk.svg')).not.toBeInTheDocument()
       })
     })
 
@@ -90,7 +92,7 @@ describe('talk', () => {
           hideZendeskLogo: true
         })
 
-        expect(queryByText('zendesk')).not.toBeInTheDocument()
+        expect(queryByText('widget-icon_zendesk.svg')).not.toBeInTheDocument()
       })
     })
   })
@@ -100,14 +102,6 @@ describe('talk', () => {
       const { getByTestId } = renderComponent({ agentAvailability: false })
 
       expect(getByTestId('talk--offlinePage')).toBeInTheDocument()
-    })
-
-    it('styles the scroll container to take up the full height of the widget', () => {
-      const { getByTestId } = renderComponent({ agentAvailability: false })
-
-      expect(getByTestId('scrollcontainer').querySelector('div').className).toContain(
-        styles.scrollContainerFullHeight
-      )
     })
   })
 

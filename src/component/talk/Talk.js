@@ -121,7 +121,11 @@ class Talk extends Component {
       [styles.scrollContainerFullHeight]: !this.props.agentAvailability
     })
 
-    if (agentAvailability && screen === PHONE_ONLY_SCREEN) {
+    if (!agentAvailability) {
+      return <OfflinePage />
+    }
+
+    if (screen === PHONE_ONLY_SCREEN) {
       return <PhoneOnlyPage />
     }
 
@@ -134,9 +138,7 @@ class Talk extends Component {
           isMobile={this.props.isMobile}
           title={this.props.title}
         >
-          <div className={contentClasses}>
-            {this.props.agentAvailability ? this.renderContent() : <OfflinePage />}
-          </div>
+          <div className={contentClasses}>{this.renderContent()}</div>
         </ScrollContainer>
         {this.renderZendeskLogo()}
       </div>
