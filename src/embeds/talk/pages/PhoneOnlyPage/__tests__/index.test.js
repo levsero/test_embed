@@ -5,6 +5,8 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import snapshotDiff from 'snapshot-diff'
 import { Component as PhoneOnlyPage } from './../'
+import createStore from 'src/redux/createStore'
+import { Provider } from 'react-redux'
 
 describe('PhoneOnlyPage', () => {
   const defaultProps = {
@@ -12,11 +14,16 @@ describe('PhoneOnlyPage', () => {
     callUsMessage: 'Call us',
     averageWaitTime: '10',
     phoneNumber: '+61412345678',
-    formattedPhoneNumber: '+61412 345 678'
+    formattedPhoneNumber: '+61412 345 678',
+    title: 'Phone only page'
   }
 
   const renderComponent = (props = {}) =>
-    render(<PhoneOnlyPage {...defaultProps} {...props} />).container
+    render(
+      <Provider store={createStore()}>
+        <PhoneOnlyPage {...defaultProps} {...props} />
+      </Provider>
+    ).container
 
   describe('on mobile', () => {
     it('renders when there is an average wait time', () => {

@@ -79,8 +79,6 @@ class Talk extends Component {
     switch (this.props.screen) {
       case CALLBACK_ONLY_SCREEN:
         return <CallbackPage />
-      case PHONE_ONLY_SCREEN:
-        return <PhoneOnlyPage />
       case SUCCESS_NOTIFICATION_SCREEN:
         return <SuccessNotificationPage />
       case CALLBACK_AND_PHONE_SCREEN:
@@ -116,12 +114,16 @@ class Talk extends Component {
   }
 
   render = () => {
-    const { isMobile, screen } = this.props
+    const { isMobile, screen, agentAvailability } = this.props
     const contentClasses = isMobile ? styles.contentMobile : styles.content
     const scrollContainerClasses = classNames({
       [styles.scrollContainerSuccess]: screen === SUCCESS_NOTIFICATION_SCREEN,
       [styles.scrollContainerFullHeight]: !this.props.agentAvailability
     })
+
+    if (agentAvailability && screen === PHONE_ONLY_SCREEN) {
+      return <PhoneOnlyPage />
+    }
 
     return (
       <div>
