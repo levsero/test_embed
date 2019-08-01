@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { ZendeskLogo } from 'component/ZendeskLogo'
-import { Button } from '@zendeskgarden/react-buttons'
 import classNames from 'classnames'
 import CallbackForm from 'src/embeds/talk/components/CallbackForm'
 
@@ -79,8 +78,6 @@ class Talk extends Component {
     switch (this.props.screen) {
       case CALLBACK_ONLY_SCREEN:
         return <CallbackPage />
-      case SUCCESS_NOTIFICATION_SCREEN:
-        return <SuccessNotificationPage />
       case CALLBACK_AND_PHONE_SCREEN:
         return <CallbackPhonePage />
       default:
@@ -94,27 +91,8 @@ class Talk extends Component {
     return <ZendeskLogo fullscreen={false} />
   }
 
-  renderFooterContent = () => {
-    if (this.props.screen !== SUCCESS_NOTIFICATION_SCREEN) {
-      return null
-    }
-
-    const buttonContainer = classNames({
-      [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.isMobile),
-      [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.isMobile
-    })
-
-    return (
-      <div className={buttonContainer}>
-        <Button primary={true} className={styles.button} onClick={this.props.onBackClick}>
-          {i18n.t('embeddable_framework.common.button.done')}
-        </Button>
-      </div>
-    )
-  }
-
   render = () => {
-    const { isMobile, screen, agentAvailability } = this.props
+    const { isMobile, screen, agentAvailability, onBackClick } = this.props
     const contentClasses = isMobile ? styles.contentMobile : styles.content
     const scrollContainerClasses = classNames({
       [styles.scrollContainerSuccess]: screen === SUCCESS_NOTIFICATION_SCREEN,
@@ -127,6 +105,8 @@ class Talk extends Component {
 
     if (screen === PHONE_ONLY_SCREEN) {
       return <PhoneOnlyPage />
+    } else if (screen === SUCCESS_NOTIFICATION_SCREEN) {
+      return <SuccessNotificationPage onBackClick={onBackClick} />
     }
 
     return (
@@ -134,7 +114,6 @@ class Talk extends Component {
         <ScrollContainer
           ref="scrollContainer"
           containerClasses={scrollContainerClasses}
-          footerContent={this.renderFooterContent()}
           isMobile={this.props.isMobile}
           title={this.props.title}
         >
