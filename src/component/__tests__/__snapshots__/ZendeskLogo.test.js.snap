@@ -67,7 +67,7 @@ exports[`has the correct logo when chat is true 1`] = `
       
       
     "
-    href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=123abc&utm_content=undefined&iref=123abc&lang="
+    href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=123abc&utm_content=testingHost&iref=123abc&lang="
     tabindex="-1"
     target="_blank"
   >

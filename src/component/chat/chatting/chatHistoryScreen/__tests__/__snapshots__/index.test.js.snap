@@ -22,7 +22,7 @@ Snapshot Diff:
 -       
 -       zendeskLogo 
 -     "
--         href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=undefined&iref=id-1012&lang="
+-         href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=testingHost&iref=id-1012&lang="
 -         tabindex="-1"
 -         target="_blank"
 -       >
@@ -82,7 +82,7 @@ Snapshot Diff:
 -       zendeskLogo 
 +       zendeskLogo zendeskLogoChatMobile
       "
-          href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=undefined&iref=id-1012&lang="
+          href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=testingHost&iref=id-1012&lang="
 `;
 
 exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
@@ -133,7 +133,7 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
       
       zendeskLogo 
     "
-      href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=undefined&iref=id-1012&lang="
+      href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=testingHost&iref=id-1012&lang="
       tabindex="-1"
       target="_blank"
     >

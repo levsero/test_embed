@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getZendeskLogoLink return chat url if on chat product 1`] = `"https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=randomZopimId&utm_content=testingHost&iref=randomZopimId&lang=en-US"`;
+
+exports[`getZendeskLogoLink return generic web widget url if not on a chat product 1`] = `"https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"`;
