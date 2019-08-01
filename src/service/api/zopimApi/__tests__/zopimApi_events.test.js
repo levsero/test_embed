@@ -110,7 +110,7 @@ describe('zopim events', () => {
       })
 
       mockWin.$zopim.livechat.setOnStatus(callback)
-      expect(callback).not.toHaveBeenCalled()
+      expect(callback).toHaveBeenCalled()
 
       callbacks.fireFor(CHAT_STATUS_EVENT)
       callbacks.fireFor(CHAT_DEPARTMENT_STATUS_EVENT, ['someActionPayloadData'])
@@ -118,7 +118,7 @@ describe('zopim events', () => {
       await wait(() => {
         expect(callback).toHaveBeenCalledWith('yeetStat')
         expect(callback).toHaveBeenCalledWith('someActionPayloadData')
-        expect(callback).toHaveBeenCalledTimes(2)
+        expect(callback).toHaveBeenCalledTimes(3)
       })
     })
   })
