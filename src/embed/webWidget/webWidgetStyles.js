@@ -44,7 +44,6 @@ import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
 import NestedDropdownStyles from 'component/field/Dropdown/NestedDropdown.scss'
 import FlagStyles from 'component/Flag.scss'
-import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss'
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.scss'
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
@@ -67,7 +66,9 @@ import TalkPhoneOnlyPageStyles from 'src/embeds/talk/pages/PhoneOnlyPage/styles.
 import TalkCallbackFormStyles from 'src/embeds/talk/components/CallbackForm/styles.scss'
 import ZendeskLogoStyles from 'src/components/ZendeskLogo/styles.scss'
 import SuccessNotificationStyles from 'src/embeds/talk/pages/SuccessNotificationPage/styles.scss'
-import HelpCenterResultsStyles from 'src/embeds/helpCenter/components/Results/styles.scss'
+import HelpCenterResultsStyles from 'embeds/helpCenter/components/Results/styles.scss'
+import HelpCenterDesktopPageStyles from 'embeds/helpCenter/pages/DesktopPage/styles.scss'
+
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
 import gardenStyles from 'embed/gardenStyles'
@@ -121,7 +122,6 @@ export const webWidgetStyles = `
   ${ContainerStyles}
   ${NestedDropdownStyles}
   ${FlagStyles}
-  ${HelpCenterDesktopStyles}
   ${HelpCenterMobileStyles}
   ${IconFieldButtonStyles}
   ${ImageMessageStyles}
@@ -145,6 +145,7 @@ export const webWidgetStyles = `
   ${TalkPhoneOnlyPageStyles}
   ${TalkCallbackFormStyles}
   ${HelpCenterResultsStyles}
+  ${HelpCenterDesktopPageStyles}
   ${componentStyles}
   ${ZendeskLogoStyles}
   ${SuccessNotificationStyles}

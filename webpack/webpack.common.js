@@ -93,6 +93,7 @@ module.exports = {
       embed: path.join(prefix + '/src/embed'),
       embeds: path.join(prefix + '/src/embeds'),
       helpCenterComponents: path.join(prefix + '/src/embeds/helpCenter/components'),
+      helpCenterPages: path.join(prefix + '/src/embeds/helpCenter/pages'),
       errors: path.join(prefix + '/src/errors'),
       mixin: path.join(prefix + '/src/component/mixin'),
       service: path.join(prefix + '/src/service'),

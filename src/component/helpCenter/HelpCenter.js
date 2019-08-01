@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 import HelpCenterArticle from 'components/HelpCenterArticle'
-import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop'
+import DesktopPage from 'helpCenterPages/DesktopPage'
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile'
 import Results from 'helpCenterComponents/Results'
 import { i18n } from 'service/i18n'
@@ -345,7 +345,7 @@ class HelpCenter extends Component {
 
   renderHelpCenterDesktop = buttonLabel => {
     return (
-      <HelpCenterDesktop
+      <DesktopPage
         ref={el => {
           this.helpCenterDesktop = el
         }}
@@ -379,7 +379,7 @@ class HelpCenter extends Component {
       >
         {this.renderResults()}
         {this.renderArticles()}
-      </HelpCenterDesktop>
+      </DesktopPage>
     )
   }
 
