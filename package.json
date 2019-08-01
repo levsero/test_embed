@@ -1,6 +1,9 @@
 {
   "name": "engagement_framework",
   "version": "0.1.0",
+  "author": "Zendesk",
+  "license": "All Rights Reserved",
+  "private": true,
   "description": "3rd party embeddable framework and API",
   "engines": {
     "nvm": ">= 0.33.11",
@@ -83,8 +86,6 @@
     "last 2 ChromeAndroid versions",
     "IE 11"
   ],
-  "author": "Zendesk",
-  "license": "All Rights Reserved",
   "dependencies": {
     "@zendesk/client-i18n-tools": "^10.6.3",
     "@zendeskgarden/css-arrows": "^3.1.0",
