@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 import HelpCenterArticle from 'components/HelpCenterArticle'
 import DesktopPage from 'helpCenterPages/DesktopPage'
-import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile'
+import MobilePage from 'helpCenterPages/MobilePage'
 import Results from 'helpCenterComponents/Results'
 import { i18n } from 'service/i18n'
 import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors'
@@ -385,7 +385,7 @@ class HelpCenter extends Component {
 
   renderHelpCenterMobile = buttonLabel => {
     return (
-      <HelpCenterMobile
+      <MobilePage
         buttonLoading={this.props.chatConnecting}
         ref={el => {
           this.helpCenterMobile = el
@@ -416,7 +416,7 @@ class HelpCenter extends Component {
       >
         {this.renderResults()}
         {this.renderArticles()}
-      </HelpCenterMobile>
+      </MobilePage>
     )
   }
 

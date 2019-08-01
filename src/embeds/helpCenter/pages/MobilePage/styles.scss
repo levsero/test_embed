@@ -5,8 +5,8 @@
  * 3. fix big margin-top in landscape
  */
 
-@import '../../styles/_vars.scss';
-@import '../../styles/mixins.scss';
+@import 'src/styles/_vars.scss';
+@import 'src/styles/mixins.scss';
 
 .form {
   composes: u-cf from global;

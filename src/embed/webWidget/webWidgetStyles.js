@@ -44,7 +44,6 @@ import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
 import NestedDropdownStyles from 'component/field/Dropdown/NestedDropdown.scss'
 import FlagStyles from 'component/Flag.scss'
-import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.scss'
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss'
@@ -68,6 +67,7 @@ import ZendeskLogoStyles from 'src/components/ZendeskLogo/styles.scss'
 import SuccessNotificationStyles from 'src/embeds/talk/pages/SuccessNotificationPage/styles.scss'
 import HelpCenterResultsStyles from 'embeds/helpCenter/components/Results/styles.scss'
 import HelpCenterDesktopPageStyles from 'embeds/helpCenter/pages/DesktopPage/styles.scss'
+import HelpCenterMobilePageStyles from 'embeds/helpCenter/pages/MobilePage/styles.scss'
 
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
@@ -122,7 +122,6 @@ export const webWidgetStyles = `
   ${ContainerStyles}
   ${NestedDropdownStyles}
   ${FlagStyles}
-  ${HelpCenterMobileStyles}
   ${IconFieldButtonStyles}
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
@@ -146,6 +145,7 @@ export const webWidgetStyles = `
   ${TalkCallbackFormStyles}
   ${HelpCenterResultsStyles}
   ${HelpCenterDesktopPageStyles}
+  ${HelpCenterMobilePageStyles}
   ${componentStyles}
   ${ZendeskLogoStyles}
   ${SuccessNotificationStyles}
