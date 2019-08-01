@@ -7,9 +7,6 @@ const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp'
 const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com'
 const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_ENV || 'development'
 
-const svgoConfig = JSON.stringify({
-  plugins: [{ removeTitle: true }, { convertPathData: false }, { convertStyleToAttrs: false }]
-})
 const prefix = process.cwd()
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
@@ -54,7 +51,23 @@ module.exports = {
       { test: /lodash/, loader: 'imports-loader?define=>false' },
       {
         test: /\.svg$/,
-        use: ['raw-loader', 'svgo-loader?' + svgoConfig]
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              svgo: true,
+              svgoConfig: {
+                plugins: [
+                  { removeTitle: true },
+                  { convertPathData: false },
+                  { convertStyleToAttrs: false },
+                  { removeViewBox: false }
+                ]
+              },
+              titleProp: true
+            }
+          }
+        ]
       },
       {
         test: /\.(yml|yaml)/,

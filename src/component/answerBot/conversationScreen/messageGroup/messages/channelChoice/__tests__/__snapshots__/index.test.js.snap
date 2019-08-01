@@ -21,7 +21,7 @@ exports[`channels does not render chat if chat is available 1`] = `
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <div
           class="optionText"
@@ -55,7 +55,7 @@ exports[`channels renders expected components if chat and chat offline are avail
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <div
           class="optionText"
@@ -89,7 +89,7 @@ exports[`channels renders expected components if only call us is available 1`] =
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <div
           class="optionText"
@@ -123,7 +123,7 @@ exports[`channels renders expected components if only chat is available 1`] = `
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <div
           class="optionText"
@@ -157,7 +157,7 @@ exports[`channels renders expected components if only submit ticket is available
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <div
           class="optionText"
@@ -191,7 +191,7 @@ exports[`channels renders expected components if talk and request callback are a
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <div
           class="optionText"
@@ -225,7 +225,7 @@ exports[`channels renders generic leading message if more than 1 channel is avai
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <div
           class="optionText"
@@ -245,7 +245,7 @@ exports[`channels renders generic leading message if more than 1 channel is avai
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <div
           class="optionText"
@@ -279,7 +279,7 @@ exports[`channels renders leading message if more than 1 channel is available an
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <div
           class="optionText"
@@ -299,7 +299,7 @@ exports[`channels renders leading message if more than 1 channel is available an
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <div
           class="optionText"
@@ -333,7 +333,7 @@ exports[`channels renders the passed in leading message regardless of other prop
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <div
           class="optionText"
@@ -367,7 +367,7 @@ exports[`renders the expected classes 1`] = `
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <div
           class="optionText"
@@ -387,7 +387,7 @@ exports[`renders the expected classes 1`] = `
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <div
           class="optionText"
@@ -407,7 +407,7 @@ exports[`renders the expected classes 1`] = `
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <div
           class="optionText"
@@ -441,7 +441,7 @@ exports[`renders the leading message 1`] = `
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          test-file-stub
+          widget-icon_channelChoice-chat.svg
         </span>
         <div
           class="optionText"
@@ -461,7 +461,7 @@ exports[`renders the leading message 1`] = `
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          test-file-stub
+          widget-icon_channelChoice-talk.svg
         </span>
         <div
           class="optionText"
@@ -481,7 +481,7 @@ exports[`renders the leading message 1`] = `
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          test-file-stub
+          widget-icon_channelChoice-contactForm.svg
         </span>
         <div
           class="optionText"

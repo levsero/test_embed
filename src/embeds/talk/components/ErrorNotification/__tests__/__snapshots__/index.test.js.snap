@@ -10,7 +10,7 @@ exports[`renders the component 1`] = `
       data-testid="Icon--error"
       type="Icon--error"
     >
-      test-file-stub
+      error.svg
     </span>
     there was an error
   </div>

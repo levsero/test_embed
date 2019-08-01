@@ -6,7 +6,7 @@ import { ButtonIcon } from '../ButtonIcon'
 const renderComponent = props => {
   const label = <span>Label</span>
 
-  return render(<ButtonIcon label={label} {...props} />)
+  return render(<ButtonIcon label={label} icon="Icon--zendesk" {...props} />)
 }
 
 test('renders the expected classes', () => {

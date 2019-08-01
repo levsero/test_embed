@@ -15,7 +15,7 @@ exports[`filename is truncated when it is more than max 1`] = `
           data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
-          test-file-stub
+          file.svg
         </span>
         <div
           class="description"
@@ -52,7 +52,7 @@ exports[`renders expected classes 1`] = `
           data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
-          test-file-stub
+          file.svg
         </span>
         <div
           class="description"
@@ -85,10 +85,12 @@ exports[`renders icon when icon is specified and attachment is not downloadable 
         class="preview"
       >
         <span
-          class="container iconPreview myicon"
-          data-testid="myicon"
-          type="myicon"
-        />
+          class="container iconPreview Icon--preview-default"
+          data-testid="Icon--preview-default"
+          type="Icon--preview-default"
+        >
+          file.svg
+        </span>
         <div
           class="description"
         >
@@ -125,10 +127,12 @@ exports[`renders link when icon is specified and attachment is downloadable 1`] 
           target="_blank"
         >
           <span
-            class="container iconPreview myicon"
-            data-testid="myicon"
-            type="myicon"
-          />
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
+          >
+            file.svg
+          </span>
         </a>
         <div
           class="description"
@@ -193,7 +197,7 @@ exports[`renders link when it is downloadable 1`] = `
             data-testid="Icon--preview-default"
             type="Icon--preview-default"
           >
-            test-file-stub
+            file.svg
           </span>
         </a>
         <div
@@ -254,7 +258,7 @@ exports[`renders removal button when it is removable 1`] = `
           data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
-          test-file-stub
+          file.svg
         </span>
         <div
           class="description"
@@ -275,7 +279,7 @@ exports[`renders removal button when it is removable 1`] = `
           data-testid="Icon--close"
           type="Icon--close"
         >
-          test-file-stub
+          x-stroke.svg
         </span>
       </div>
     </div>
@@ -298,7 +302,7 @@ exports[`renders uploading text when it is uploading 1`] = `
           data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
-          test-file-stub
+          file.svg
         </span>
         <div
           class="description"
@@ -343,7 +347,7 @@ exports[`renders with custom class name 1`] = `
           data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
-          test-file-stub
+          file.svg
         </span>
         <div
           class="description"
@@ -413,7 +417,7 @@ exports[`size formatting greater than or equal to 1MB displays correctly 1`] = `
           data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
-          test-file-stub
+          file.svg
         </span>
         <div
           class="description"
@@ -450,7 +454,7 @@ exports[`size formatting greater than or equal to 1MB includes one decimal place
           data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
-          test-file-stub
+          file.svg
         </span>
         <div
           class="description"
@@ -487,7 +491,7 @@ exports[`size formatting when the file size is less than one kilobyte displays 1
           data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
-          test-file-stub
+          file.svg
         </span>
         <div
           class="description"
@@ -524,7 +528,7 @@ exports[`size formatting when the file size is less than one megabyte displays f
           data-testid="Icon--preview-default"
           type="Icon--preview-default"
         >
-          test-file-stub
+          file.svg
         </span>
         <div
           class="description"

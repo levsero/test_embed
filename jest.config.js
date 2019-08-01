@@ -77,7 +77,7 @@ module.exports = {
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/src/__mocks__/fileMock.js',
+    '\\.(jpg|jpeg|png|gif|webp)$': '<rootDir>/src/__mocks__/fileMock.js',
     '\\.(css|scss)$': '<rootDir>/src/__mocks__/styleMock.js'
   },
 
@@ -130,7 +130,7 @@ module.exports = {
   // setupFiles: [],
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
-  setupTestFrameworkScriptFile: require.resolve('./jest.setup.js'),
+  setupFilesAfterEnv: [require.resolve('./jest.setup.js')],
 
   snapshotSerializers: [require.resolve('snapshot-diff/serializer.js')],
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
@@ -174,13 +174,12 @@ module.exports = {
   // A map from regular expressions to paths to transformers
   transform: {
     '^.+\\.jsx$': 'babel-jest',
-    '^.+\\.js$': 'babel-jest'
-  }
+    '^.+\\.js$': 'babel-jest',
+    '^.+\\.svg$': '<rootDir>/src/__mocks__/svgrMock.js'
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  transformIgnorePatterns: ['node_modules/(?!(@zendeskgarden)/)']
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,

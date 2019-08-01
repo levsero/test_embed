@@ -10,7 +10,7 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
       data-testid="Icon--success-talk"
       type="Icon--success-talk"
     >
-      test-file-stub
+      widget-icon_success_talk.svg
     </span>
     <div
       class="desktopMessages"
@@ -38,7 +38,7 @@ exports[`SuccessNotificationPage renders when on a mobile browser 1`] = `
       data-testid="Icon--success-talk"
       type="Icon--success-talk"
     >
-      test-file-stub
+      widget-icon_success_talk.svg
     </span>
     <div
       class="mobileMessages"

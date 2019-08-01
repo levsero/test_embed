@@ -7,7 +7,7 @@ exports[`renders a button 1`] = `
     data-testid="Icon--avatar"
     type="Icon--avatar"
   >
-    test-file-stub
+    widget-icon_concierge.svg
   </span>
 </div>
 `;

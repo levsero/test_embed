@@ -31,7 +31,7 @@ Snapshot Diff:
 -           data-testid="Icon--zendesk"
 -           type="Icon--zendesk"
 -         >
--           test-file-stub
+-           widget-icon_zendesk.svg
 -         </span>
 -         <span
 -           class="hidden"
@@ -142,7 +142,7 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        test-file-stub
+        widget-icon_zendesk.svg
       </span>
       <span
         class="hidden"

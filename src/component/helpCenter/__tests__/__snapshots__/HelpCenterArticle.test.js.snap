@@ -20,7 +20,7 @@ exports[`renders the expected classes 1`] = `
           data-testid="Icon--link-external"
           type="Icon--link-external"
         >
-          test-file-stub
+          link-external.svg
         </span>
       </a>
     </div>
@@ -174,7 +174,7 @@ exports[`renders the expected mobile classes 1`] = `
           data-testid="Icon--link-external"
           type="Icon--link-external"
         >
-          test-file-stub
+          link-external.svg
         </span>
       </a>
     </div>

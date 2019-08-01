@@ -82,7 +82,7 @@ export class Icon extends Component {
   }
 
   render() {
-    const icon = icons[this.props.type]
+    const IconSVG = icons[this.props.type].default
     const iconClasses = classNames(styles.container, this.props.className, this.props.type, {
       [styles.mobile]: this.props.isMobile,
       [styles.flipX]: this.props.flipX
@@ -94,8 +94,9 @@ export class Icon extends Component {
         data-testid={this.props.type}
         className={iconClasses}
         type={this.props.type}
-        dangerouslySetInnerHTML={{ __html: icon }}
-      />
+      >
+        <IconSVG />
+      </span>
     )
   }
 }

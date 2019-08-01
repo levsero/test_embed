@@ -141,7 +141,7 @@ exports[`renders the expected components 1`] = `
                     data-testid="Icon--search"
                     type="Icon--search"
                   >
-                    test-file-stub
+                    widget-icon_search.svg
                   </span>
                 </div>
               </div>
@@ -181,7 +181,7 @@ exports[`renders the expected components 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        test-file-stub
+        widget-icon_zendesk.svg
       </span>
       <span
         class="hidden"
