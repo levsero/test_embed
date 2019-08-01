@@ -92,6 +92,7 @@ module.exports = {
       constants: path.join(prefix + '/src/constants'),
       embed: path.join(prefix + '/src/embed'),
       embeds: path.join(prefix + '/src/embeds'),
+      helpCenterComponents: path.join(prefix + '/src/embeds/helpCenter/components'),
       errors: path.join(prefix + '/src/errors'),
       mixin: path.join(prefix + '/src/component/mixin'),
       service: path.join(prefix + '/src/service'),

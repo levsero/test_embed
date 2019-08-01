@@ -7,7 +7,7 @@ import _ from 'lodash'
 import HelpCenterArticle from 'components/HelpCenterArticle'
 import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop'
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile'
-import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults'
+import Results from 'helpCenterComponents/Results'
 import { i18n } from 'service/i18n'
 import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors'
 import {
@@ -303,7 +303,7 @@ class HelpCenter extends Component {
     const applyPadding = !showNextButton && !hideZendeskLogo
 
     return (
-      <HelpCenterResults
+      <Results
         ref={ref => {
           this.helpCenterResults = ref
         }}

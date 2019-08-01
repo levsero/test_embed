@@ -46,7 +46,6 @@ import NestedDropdownStyles from 'component/field/Dropdown/NestedDropdown.scss'
 import FlagStyles from 'component/Flag.scss'
 import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss'
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.scss'
-import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.scss'
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss'
@@ -68,6 +67,7 @@ import TalkPhoneOnlyPageStyles from 'src/embeds/talk/pages/PhoneOnlyPage/styles.
 import TalkCallbackFormStyles from 'src/embeds/talk/components/CallbackForm/styles.scss'
 import ZendeskLogoStyles from 'src/components/ZendeskLogo/styles.scss'
 import SuccessNotificationStyles from 'src/embeds/talk/pages/SuccessNotificationPage/styles.scss'
+import HelpCenterResultsStyles from 'src/embeds/helpCenter/components/Results/styles.scss'
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
 import gardenStyles from 'embed/gardenStyles'
@@ -123,7 +123,6 @@ export const webWidgetStyles = `
   ${FlagStyles}
   ${HelpCenterDesktopStyles}
   ${HelpCenterMobileStyles}
-  ${HelpCenterResultsStyles}
   ${IconFieldButtonStyles}
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
@@ -145,6 +144,7 @@ export const webWidgetStyles = `
   ${AverageWaitTime}
   ${TalkPhoneOnlyPageStyles}
   ${TalkCallbackFormStyles}
+  ${HelpCenterResultsStyles}
   ${componentStyles}
   ${ZendeskLogoStyles}
   ${SuccessNotificationStyles}
