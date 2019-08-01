@@ -77,7 +77,9 @@ export default function reducer(state, action) {
   if (action.type === CHAT_USER_LOGGING_OUT) {
     state = {
       vendor: state.vendor,
-      isLoggingOut: state.isLoggingOut
+      isLoggingOut: state.isLoggingOut,
+      screen: state.screen,
+      accountSettings: state.accountSettings
     }
   }
 

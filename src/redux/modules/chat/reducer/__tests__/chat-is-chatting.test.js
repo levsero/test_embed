@@ -64,6 +64,13 @@ testReducer(chatIsChatting, [
   },
   {
     action: {
+      type: actions.CHAT_USER_LOGGING_OUT
+    },
+    initialState: true,
+    expected: false
+  },
+  {
+    action: {
       type: actions.END_CHAT_REQUEST_SUCCESS
     },
     initialState: true,

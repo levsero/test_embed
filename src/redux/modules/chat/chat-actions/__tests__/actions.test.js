@@ -8,6 +8,7 @@ import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as callbacks from 'service/api/callbacks'
 import zopimApi from 'service/api/zopimApi'
+import * as zChat from 'chat-web-sdk'
 
 import {
   CHAT_CONNECTED_EVENT,
@@ -21,13 +22,24 @@ const otherError = { code: 'DERP DERP', message: 'I gone derped up' }
 const mockStore = configureMockStore([thunk])
 const invoker = jest.fn()
 const mockTimeout = jest.fn(() => invoker)
-const sendFile = jest.fn()
+
+jest.mock('chat-web-sdk')
+
 const stateWithZChat = {
+  base: {
+    embeddableConfig: {
+      embeds: {
+        zopimChat: {
+          props: {
+            zopimId: 123
+          }
+        }
+      }
+    }
+  },
   chat: {
     vendor: {
-      zChat: {
-        sendFile
-      }
+      zChat
     }
   }
 }
@@ -48,6 +60,22 @@ const dispatchZChatWithTimeoutAction = (action, ...callbackArgs) => {
     timeoutArgs,
     callback
   }
+}
+
+const logoutDispatch = (action, status = 'connected') => {
+  const store = mockStore(stateWithZChat)
+  const endChatSpy = jest.spyOn(zChat, 'endChat')
+  const onSpy = jest.spyOn(zChat, 'on')
+
+  store.dispatch(action)
+
+  const endChatCallback = endChatSpy.mock.calls[0][0]
+  endChatCallback()
+
+  const onCallback = onSpy.mock.calls[0][1]
+  onCallback(status)
+
+  return store
 }
 
 const dispatchAction = action => {
@@ -373,7 +401,6 @@ describe('sendAttachments', () => {
       size: 666
     }
   ]
-  const mockData = { url: 'dio.example.com' }
 
   beforeEach(() => {
     jest.spyOn(selectors, 'getChatVisitor').mockReturnValue(mockVisitor)
@@ -388,29 +415,31 @@ describe('sendAttachments', () => {
   })
 
   describe('when there are no errors', () => {
+    beforeEach(() => {
+      jest.spyOn(zChat, 'sendFile').mockImplementation((file, callback) => {
+        callback(false, { url: 'dio.example.com' })
+      })
+    })
+
     it('dispatches CHAT_FILE_REQUEST_SUCCESS for each file in the list', () => {
       const store = mockStore(stateWithZChat)
-
       store.dispatch(actions.sendAttachments(mockFileList))
 
-      const call = sendFile.mock.calls[0]
-      const callback = call[1]
-
-      callback(null, mockData)
       expect(store.getActions()).toMatchSnapshot()
     })
   })
 
   describe('when there is an error', () => {
+    beforeEach(() => {
+      jest.spyOn(zChat, 'sendFile').mockImplementation((file, callback) => {
+        callback(new Error('some error'), null)
+      })
+    })
+
     it('dispatches CHAT_FILE_REQUEST_FAILURE for each file in the list', () => {
       const store = mockStore(stateWithZChat)
-
       store.dispatch(actions.sendAttachments(mockFileList))
 
-      const call = sendFile.mock.calls[0]
-      const callback = call[1]
-
-      callback(new Error('some error'), mockData)
       expect(store.getActions()).toMatchSnapshot()
     })
   })
@@ -662,6 +691,106 @@ describe('initiateSocialLogout', () => {
 
     expect(dispatchedActions).toContainEqual(failureAction)
     expect(dispatchedActions).not.toContainEqual(successAction)
+  })
+})
+
+describe('chatLogout', () => {
+  describe('when authenticated', () => {
+    it('calls endChat', () => {
+      logoutDispatch(actions.chatLogout())
+
+      expect(zChat.endChat).toHaveBeenCalled()
+    })
+
+    describe('Web SDK callback', () => {
+      it('dispatches an action with type CHAT_USER_LOGGING_OUT', () => {
+        const store = logoutDispatch(actions.chatLogout())
+
+        expect(store.getActions()).toContainEqual({
+          type: actionTypes.CHAT_USER_LOGGING_OUT
+        })
+      })
+
+      it('calls logoutForAll', () => {
+        logoutDispatch(actions.chatLogout())
+
+        expect(zChat.logoutForAll).toHaveBeenCalled()
+      })
+
+      it('calls init with correct args', () => {
+        logoutDispatch(actions.chatLogout())
+
+        expect(zChat.init).toHaveBeenCalledWith({ account_key: 123 })
+      })
+
+      it('calls the "on" api with the correct args', () => {
+        logoutDispatch(actions.chatLogout())
+
+        expect(zChat.on).toHaveBeenCalledWith('connection_update', expect.any(Function))
+      })
+
+      describe('on callback', () => {
+        describe('when connection status is connected', () => {
+          describe('when user is logging out', () => {
+            beforeEach(() => {
+              jest.spyOn(selectors, 'getIsLoggingOut').mockReturnValue(true)
+            })
+
+            it('dispatches an action with type CHAT_USER_LOGGED_OUT', () => {
+              const store = logoutDispatch(actions.chatLogout(), 'connected')
+
+              expect(store.getActions()).toContainEqual({
+                type: actionTypes.CHAT_USER_LOGGED_OUT
+              })
+            })
+          })
+
+          describe('when user is not logging out', () => {
+            beforeEach(() => {
+              jest.spyOn(selectors, 'getIsLoggingOut').mockReturnValue(false)
+            })
+
+            it('does not dispatch an action with type CHAT_USER_LOGGED_OUT', () => {
+              const store = logoutDispatch(actions.chatLogout(), 'connected')
+
+              expect(store.getActions()).not.toContainEqual({
+                type: actionTypes.CHAT_USER_LOGGED_OUT
+              })
+            })
+          })
+        })
+
+        describe('when connection status is not connected', () => {
+          describe('when user is logging out', () => {
+            beforeEach(() => {
+              jest.spyOn(selectors, 'getIsLoggingOut').mockReturnValue(true)
+            })
+
+            it('does not dispatch an action with type CHAT_USER_LOGGED_OUT', () => {
+              const store = logoutDispatch(actions.chatLogout(), 'closed')
+
+              expect(store.getActions()).not.toContainEqual({
+                type: actionTypes.CHAT_USER_LOGGED_OUT
+              })
+            })
+          })
+
+          describe('when user is not logging out', () => {
+            beforeEach(() => {
+              jest.spyOn(selectors, 'getIsLoggingOut').mockReturnValue(false)
+            })
+
+            it('does not dispatch an action with type CHAT_USER_LOGGED_OUT', () => {
+              const store = logoutDispatch(actions.chatLogout(), 'closed')
+
+              expect(store.getActions()).not.toContainEqual({
+                type: actionTypes.CHAT_USER_LOGGED_OUT
+              })
+            })
+          })
+        })
+      })
+    })
   })
 })
 
