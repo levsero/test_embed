@@ -1,0 +1,26 @@
+@import 'src/styles/_vars.scss';
+
+.contextualNoResults {
+  color: $zd-color-grey-600;
+  align-items: center;
+  display: flex;
+  height: 100%;
+  max-height: #{365 / $font-size}rem;
+  text-align: center;
+  margin-left: #{25 / $font-size}rem;
+  margin-right: #{25 / $font-size}rem;
+}
+
+.contextualNoResultsMobile {
+  font-size: #{16 / $font-size}rem;
+}
+
+.useSearchBarTextDesktop {
+  line-height: #{18 / $font-size}rem;
+  margin-bottom: #{40 / $font-size}rem;
+}
+
+.useSearchBarTextMobile {
+  line-height: #{22 / $font-size}rem;
+  margin-bottom: #{40 / $font-size}rem;
+}

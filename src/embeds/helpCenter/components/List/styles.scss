@@ -1,0 +1,20 @@
+@import 'src/styles/_vars.scss';
+
+.list {
+  padding: #{8 / $font-size}rem 0 0 #{16 / $font-size}rem;
+  font-size: #{19 / $font-size}rem;
+
+  [dir='rtl'] & {
+    padding-right: #{24 / $font-size}rem;
+    padding-left: 0;
+  }
+}
+
+.listMobile {
+  margin-bottom: #{20 / $font-size}rem !important;
+  padding: #{8 / $font-size}rem 0 0 #{24 / $font-size}rem;
+}
+
+.listBottom {
+  padding-bottom: #{20 / $font-size}rem;
+}
