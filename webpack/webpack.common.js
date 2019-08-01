@@ -61,7 +61,10 @@ module.exports = {
                   { removeTitle: true },
                   { convertPathData: false },
                   { convertStyleToAttrs: false },
-                  { removeViewBox: false }
+                  { removeViewBox: false },
+                  { prefixIds: false },
+                  { cleanupIDs: false },
+                  { inlineStyles: false }
                 ]
               },
               titleProp: true
