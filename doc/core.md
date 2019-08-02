@@ -315,7 +315,7 @@ The following example displays the widget in German:
 
 `zE('webWidget', 'updateSettings', data<object>);`
 
-Updates the Web Widget's [zESettings](./settings). It can update multiple settings at once. However, it cannot update Chat authentication in the [authenticate](./settings#authenticate)setting. This is due to the authentication occuring during page load, not during Web Widget runtime.
+Updates the Web Widget's [zESettings](./settings). It can update multiple settings at once. However, it cannot update the [authenticate](./settings#authenticate)setting since authentication occurs during page load, not during Web Widget runtime.
 
 ##### Parameters
 
