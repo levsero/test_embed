@@ -6,7 +6,7 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(screen, [
   {
     action: { type: undefined },
-    expected: screenTypes.CALLBACK_ONLY_SCREEN
+    expected: screenTypes.CALLBACK_SCREEN
   },
   {
     action: { type: 'DERP DERP' },
@@ -16,9 +16,9 @@ testReducer(screen, [
   {
     action: {
       type: actionTypes.UPDATE_TALK_SCREEN,
-      payload: screenTypes.PHONE_ONLY_SCREEN
+      payload: screenTypes.PHONE_US_SCREEN
     },
-    expected: screenTypes.PHONE_ONLY_SCREEN
+    expected: screenTypes.PHONE_US_SCREEN
   },
   {
     action: {

@@ -8,7 +8,7 @@ import SuccessNotificationPage from '../'
 import { isMobileBrowser } from 'utility/devices'
 
 const defaultProps = {
-  title: 'Request sent  '
+  title: 'Request sent'
 }
 
 const renderComponent = (props = {}) => {

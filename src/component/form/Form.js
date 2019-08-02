@@ -2,20 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
-import { Button } from '@zendeskgarden/react-buttons'
-import { ButtonGroup } from 'component/button/ButtonGroup'
-
 export class Form extends Component {
   static propTypes = {
     formState: PropTypes.object,
     className: PropTypes.string,
     children: PropTypes.node,
-    rtl: PropTypes.bool,
-    isMobile: PropTypes.bool,
-    submitButtonLabel: PropTypes.string,
     onCompleted: PropTypes.func,
     onChange: PropTypes.func,
-    submitButtonClasses: PropTypes.string,
     testId: PropTypes.string
   }
 
@@ -60,16 +53,6 @@ export class Form extends Component {
     this.props.onChange(formState)
   }
 
-  renderSubmitButton = () => {
-    return (
-      <ButtonGroup fullscreen={this.props.isMobile} rtl={this.props.rtl}>
-        <Button primary={true} className={this.props.submitButtonClasses} type="submit">
-          {this.props.submitButtonLabel}
-        </Button>
-      </ButtonGroup>
-    )
-  }
-
   isFormValid = () => {
     return this.form.checkValidity() && !_.isEmpty(this.props.formState)
   }
@@ -89,7 +72,6 @@ export class Form extends Component {
         data-testid={this.props.testId}
       >
         {this.props.children}
-        {this.renderSubmitButton()}
       </form>
     )
   }

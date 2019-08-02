@@ -629,10 +629,10 @@ describe('getTalkTitle', () => {
     })
   })
 
-  describe('when on the PHONE_ONLY_SCREEN', () => {
+  describe('when on the PHONE_US_SCREEN', () => {
     describe('when no setting is passed', () => {
       it('returns the default translation', () => {
-        callSelector(null, screens.PHONE_ONLY_SCREEN)
+        callSelector(null, screens.PHONE_US_SCREEN)
 
         expect(i18n.t).toHaveBeenCalledWith('embeddable_framework.talk.phoneOnly.title')
       })
@@ -640,17 +640,13 @@ describe('getTalkTitle', () => {
 
     describe('when a setting is passed', () => {
       it('returns the setting', () => {
-        expect(callSelector(mockTitle, screens.PHONE_ONLY_SCREEN)).toEqual(mockTitle)
+        expect(callSelector(mockTitle, screens.PHONE_US_SCREEN)).toEqual(mockTitle)
       })
     })
   })
 
   describe('when passed any other screen or nonsense', () => {
-    const testScreens = [
-      screens.CALLBACK_ONLY_SCREEN,
-      screens.CALLBACK_AND_PHONE_SCREEN,
-      'NONSENSE_SCREEN'
-    ]
+    const testScreens = [screens.CALLBACK_SCREEN, 'NONSENSE_SCREEN']
 
     describe('when no setting is passed', () => {
       testScreens.forEach(screen => {

@@ -2,9 +2,8 @@ import { render } from '@testing-library/react'
 import React from 'react'
 
 import {
-  CALLBACK_ONLY_SCREEN,
-  PHONE_ONLY_SCREEN,
-  CALLBACK_AND_PHONE_SCREEN,
+  CALLBACK_SCREEN,
+  PHONE_US_SCREEN,
   SUCCESS_NOTIFICATION_SCREEN
 } from 'src/redux/modules/talk/talk-screen-types'
 import { handleTalkVendorLoaded, updateTalkEmbeddableConfig } from 'src/redux/modules/talk'
@@ -18,7 +17,7 @@ jest.mock('src/embeds/talk/selectors/reselectors')
 jest.spyOn(reselectors, 'getPhoneNumber').mockReturnValue('12345678')
 jest.spyOn(reselectors, 'getFormattedPhoneNumber').mockReturnValue('12345678')
 
-const renderComponent = (overrideProps = {}) => {
+const renderComponent = (overrideProps = {}, talkCapability = '0') => {
   const libphonenumber = {
     parse: num => num,
     format: num => num,
@@ -31,7 +30,7 @@ const renderComponent = (overrideProps = {}) => {
       supportedCountries: ['US']
     },
     formState: {},
-    screen: PHONE_ONLY_SCREEN,
+    screen: PHONE_US_SCREEN,
     callback: { error: {} },
     averageWaitTime: 'Average wait time: 1 minute',
     agentAvailability: true,
@@ -51,7 +50,8 @@ const renderComponent = (overrideProps = {}) => {
   store.dispatch(handleTalkVendorLoaded({ libphonenumber }))
   store.dispatch(
     updateTalkEmbeddableConfig({
-      supportedCountries: 'US'
+      supportedCountries: 'US',
+      capability: talkCapability
     })
   )
   store.dispatch(updateEmbeddableConfig({ hideZendeskLogo: overrideProps.hideZendeskLogo }))
@@ -108,17 +108,21 @@ describe('talk', () => {
   describe('callback only screen', () => {
     it('displays a callback form', () => {
       const { queryByTestId } = renderComponent({
-        screen: CALLBACK_ONLY_SCREEN
+        screen: CALLBACK_SCREEN
       })
 
       expect(queryByTestId('talk--callbackForm')).toBeInTheDocument()
     })
   })
 
-  it('renders the phone only page when screen is PHONE_ONLY_SCREEN', () => {
-    const { queryByTestId } = renderComponent({
-      screen: PHONE_ONLY_SCREEN
-    })
+  it('renders the phone only page when screen is PHONE_US_SCREEN', () => {
+    const phoneOnlyCapability = '0'
+    const { queryByTestId } = renderComponent(
+      {
+        screen: PHONE_US_SCREEN
+      },
+      phoneOnlyCapability
+    )
 
     expect(queryByTestId('talk--phoneOnlyPage')).toBeInTheDocument()
   })
@@ -137,9 +141,13 @@ describe('talk', () => {
 
   describe('callback and phone screen', () => {
     it('displays a phone number and a callback form', () => {
-      const { queryByText, getByLabelText } = renderComponent({
-        screen: CALLBACK_AND_PHONE_SCREEN
-      })
+      const callBackAndPhoneCapability = '2'
+      const { queryByText, getByLabelText } = renderComponent(
+        {
+          screen: CALLBACK_SCREEN
+        },
+        callBackAndPhoneCapability
+      )
 
       expect(queryByText("Enter your phone number and we'll call you back.")).toBeInTheDocument()
       expect(queryByText('Our phone number:')).toBeInTheDocument()

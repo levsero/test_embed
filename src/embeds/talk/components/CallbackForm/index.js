@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form } from 'component/form/Form'
 import { i18n } from 'service/i18n'
-import classNames from 'classnames'
 import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
+import classNames from 'classnames'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
 import NameField from 'src/embeds/talk/components/NameField'
@@ -26,6 +26,11 @@ import { isMobileBrowser } from 'utility/devices'
 import { locals as styles } from './styles.scss'
 import _ from 'lodash'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
+import WidgetMain from 'src/components/WidgetMain'
+import WidgetFooter from 'src/components/WidgetFooter'
+import { Button } from '@zendeskgarden/react-buttons'
+import ZendeskLogo from 'src/components/ZendeskLogo'
+import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
@@ -48,7 +53,6 @@ class CallbackForm extends Component {
     submitButtonLabel: PropTypes.string.isRequired,
     headerMessage: PropTypes.string.isRequired,
     isMobile: PropTypes.bool.isRequired,
-    isRTL: PropTypes.bool.isRequired,
 
     // used to force the component to re-render when locale changes
     // eslint-disable-next-line react/no-unused-prop-types
@@ -102,7 +106,6 @@ class CallbackForm extends Component {
       isMobile,
       formState,
       submitButtonLabel,
-      isRTL,
       headerMessage,
       averageWaitTime,
       supportedCountries,
@@ -120,32 +123,40 @@ class CallbackForm extends Component {
       <Form
         ref={el => (this.form = el)}
         className={styles.form}
-        submitButtonClasses={submitButtonStyles}
-        submitButtonLabel={submitButtonLabel}
-        rtl={isRTL}
-        isMobile={isMobile}
         formState={formState}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}
         testId="talk--callbackForm"
       >
-        <div>
-          <p className={styles.formHeaderMessage}>{headerMessage}</p>
-          {averageWaitTime && <AverageWaitTime message={averageWaitTime} />}
-        </div>
-        <div className={styles.formDivider} />
-        <PhoneField
-          validate={val => this.form && this.form.validate(val)}
-          required={true}
-          onCountrySelect={this.handleCountrySelect}
-          supportedCountries={supportedCountries}
-          country={formState.country}
-          value={formState.phone}
-          showError={this.state.showErrors}
-        />
-        <NameField label={nameLabelText} defaultValue={formState.name} />
-        <DescriptionField label={descriptionLabelText} defaultValue={formState.description} />
-        {errorMessage && <ErrorNotification message={errorMessage} />}
+        <WidgetMain>
+          <CallbackPhone />
+          <div>
+            <p className={styles.formHeaderMessage}>{headerMessage}</p>
+            {averageWaitTime && <AverageWaitTime message={averageWaitTime} />}
+          </div>
+          <div className={styles.formDivider} />
+          <PhoneField
+            validate={val => this.form && this.form.validate(val)}
+            required={true}
+            onCountrySelect={this.handleCountrySelect}
+            supportedCountries={supportedCountries}
+            country={formState.country}
+            value={formState.phone}
+            showError={this.state.showErrors}
+          />
+          <NameField label={nameLabelText} defaultValue={formState.name} />
+          <DescriptionField label={descriptionLabelText} defaultValue={formState.description} />
+          {errorMessage && <ErrorNotification message={errorMessage} />}
+        </WidgetMain>
+        <WidgetFooter scrollShadowVisible={true}>
+          <div className={styles.footer}>
+            <ZendeskLogo />
+
+            <Button primary={true} className={submitButtonStyles} type="submit">
+              {submitButtonLabel}
+            </Button>
+          </div>
+        </WidgetFooter>
       </Form>
     )
   }

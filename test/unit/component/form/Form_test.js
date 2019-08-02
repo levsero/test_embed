@@ -165,27 +165,4 @@ describe('Form component', () => {
       expect(onChangeSpy).toHaveBeenCalledWith({ email: 'theta@zd.com' })
     })
   })
-
-  describe('render', () => {
-    let form
-
-    describe('submit button', () => {
-      let button
-
-      describe('button props', () => {
-        beforeEach(() => {
-          form = shallowRender(<Form formState={{ email: 'a@a.com' }} submitButtonLabel="label" />)
-          button = form.props.children[1].props.children
-        })
-
-        it('sets the chilren to props.submitButtonLabel', () => {
-          expect(button.props.children).toBe('label')
-        })
-
-        it('sets the type to submit', () => {
-          expect(button.props.type).toBe('submit')
-        })
-      })
-    })
-  })
 })
