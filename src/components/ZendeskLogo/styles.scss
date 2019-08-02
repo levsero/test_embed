@@ -1,0 +1,26 @@
+@import 'src/styles/_vars.scss';
+
+.icon {
+  position: relative;
+  display: inline-block;
+  margin-bottom: #{6 / $font-size}rem;
+
+  svg {
+    min-width: #{50 / $font-size}rem; /* 1 */
+    min-height: #{26 / $font-size}rem; /* 1 */
+    width: #{50 / $font-size}rem;
+    height: #{26 / $font-size}rem;
+
+    &:hover,
+    &:active,
+    &:focus {
+      path {
+        fill: $zd-color-grey-600;
+      }
+    }
+
+    path {
+      fill: $zd-color-grey-500;
+    }
+  }
+}

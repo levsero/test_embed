@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { locals as styles } from './index.scss'
+import { locals as styles } from './styles.scss'
 
-const Header = ({ children, isMobile }) => {
+const WidgetHeader = ({ children, isMobile }) => {
   const headerClasses = classNames(styles.header, styles.userHeader)
 
   const titleClasses = classNames(styles.title, {
@@ -17,13 +17,13 @@ const Header = ({ children, isMobile }) => {
   )
 }
 
-Header.propTypes = {
+WidgetHeader.propTypes = {
   children: PropTypes.node,
   isMobile: PropTypes.bool
 }
 
-Header.defaultProps = {
+WidgetHeader.defaultProps = {
   isMobile: false
 }
 
-export default Header
+export default WidgetHeader

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ZendeskLogo does not render logo if disabled 1`] = `null`;
+
+exports[`ZendeskLogo renders logo if enabled 1`] = `
+<a
+  class="icon"
+  href="yolo.com"
+  tabindex="-1"
+  target="_blank"
+>
+  widget-icon_zendesk.svg
+</a>
+`;

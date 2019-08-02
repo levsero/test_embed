@@ -1,13 +1,13 @@
-import FooterStyles from './Footer/index.scss'
-import HeaderStyles from './Header/index.scss'
-import LayoutStyles from './Layout/index.scss'
-import MainStyles from './Main/index.scss'
+import FooterStyles from './WidgetFooter/styles.scss'
+import WidgetHeader from './WidgetHeader/styles.scss'
+import WidgetContainer from './WidgetContainer/styles.scss'
+import WidgetMain from './WidgetMain/styles.scss'
 
 const styles = `
-  ${HeaderStyles}
+  ${WidgetHeader}
   ${FooterStyles}
-  ${LayoutStyles}
-  ${MainStyles}
+  ${WidgetContainer}
+  ${WidgetMain}
 `
 
 export default styles

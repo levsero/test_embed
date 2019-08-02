@@ -67,6 +67,7 @@ import TalkOfflinePageStyles from 'src/embeds/talk/pages/OfflinePage/styles.scss
 import TalkPhoneNumberStyles from 'src/embeds/talk/components/PhoneNumber/styles/index.scss'
 import TalkPhoneOnlyPageStyles from 'src/embeds/talk/pages/PhoneOnlyPage/styles.scss'
 import TalkCallbackFormStyles from 'src/embeds/talk/components/CallbackForm/styles.scss'
+import ZendeskLogoStyles from 'src/components/ZendeskLogo/styles.scss'
 
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
@@ -147,4 +148,5 @@ export const webWidgetStyles = `
   ${TalkPhoneOnlyPageStyles}
   ${TalkCallbackFormStyles}
   ${componentStyles}
+  ${ZendeskLogoStyles}
 `
