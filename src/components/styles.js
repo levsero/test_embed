@@ -2,7 +2,7 @@ import FooterStyles from './WidgetFooter/styles.scss'
 import WidgetHeader from './WidgetHeader/styles.scss'
 import WidgetContainer from './WidgetContainer/styles.scss'
 import WidgetMain from './WidgetMain/styles.scss'
-import HelpCenterArticleStyles from './HelpCenterArticle/index.scss'
+import HelpCenterArticleStyles from './HelpCenterArticle/styles.scss'
 import ZendeskLogoStyles from './ZendeskLogo/styles.scss'
 
 const styles = `
