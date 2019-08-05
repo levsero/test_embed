@@ -8,6 +8,8 @@ import * as utility from 'utility/devices'
 import createStore from 'src/redux/createStore'
 import { Component as HelpCenter } from '../HelpCenter'
 
+jest.mock('src/embeds/helpCenter/pages/ArticlePage', () => () => <div>ArticlePage</div>)
+
 const renderComponent = (props = {}) => {
   const componentProps = {
     chatEnabled: false,
@@ -238,5 +240,33 @@ describe('searching', () => {
       expect.any(Function),
       expect.any(Function)
     )
+  })
+})
+
+describe('renderArticles', () => {
+  describe('when articleViewActive is true', () => {
+    it('renders the article page', () => {
+      expect(
+        renderComponent({ articleViewActive: true }).getByText('ArticlePage')
+      ).toBeInTheDocument()
+    })
+
+    it('does not render the regular page', () => {
+      expect(
+        renderComponent({ articleViewActive: true }).queryByText('How can we help?')
+      ).toBeNull()
+    })
+  })
+
+  describe('when articleViewActive is false', () => {
+    it('does not render articlePage', () => {
+      expect(renderComponent({ articleViewActive: false }).queryByText('ArticlePage')).toBeNull()
+    })
+
+    it('does render other page', () => {
+      expect(
+        renderComponent({ articleViewActive: false }).getByText('How can we help?')
+      ).toBeInTheDocument()
+    })
   })
 })

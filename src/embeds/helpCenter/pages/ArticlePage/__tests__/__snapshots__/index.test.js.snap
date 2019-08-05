@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default render matches snapshot 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="header"
+    >
+      <h1
+        class="title"
+      >
+        pageTitle
+      </h1>
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="content "
+        lang="derp"
+      >
+        <h2
+          class="title"
+        >
+          articleTitle
+        </h2>
+        <div
+          class="article"
+          role="presentation"
+        />
+      </div>
+    </div>
+    <footer
+      class="footer footerShadow"
+    >
+      <div
+        class="footerContentMultiple"
+      >
+        <a
+          class="icon"
+          data-testid="Icon--zendesk"
+          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+          tabindex="-1"
+          target="_blank"
+        >
+          <svgr-mock
+            iconfilename="widget-icon_zendesk.svg"
+            title="zendesk"
+          />
+        </a>
+        <div
+          class="container containerDesktop"
+        >
+          <div
+            class="container buttonRight buttonGroup"
+          >
+            <button
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+              data-garden-id="buttons.button"
+              data-garden-version="3.7.0"
+              tabindex="0"
+              type="button"
+            >
+              buttonLabel
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+`;
+
+exports[`default render renders zendesk logo 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="header"
+    >
+      <h1
+        class="title"
+      >
+        pageTitle
+      </h1>
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="content "
+        lang="derp"
+      >
+        <h2
+          class="title"
+        >
+          articleTitle
+        </h2>
+        <div
+          class="article"
+          role="presentation"
+        />
+      </div>
+    </div>
+    <footer
+      class="footer footerShadow"
+    >
+      <div
+        class="footerContentMultiple"
+      >
+        <a
+          class="icon"
+          data-testid="Icon--zendesk"
+          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+          tabindex="-1"
+          target="_blank"
+        >
+          <svgr-mock
+            iconfilename="widget-icon_zendesk.svg"
+            title="zendesk"
+          />
+        </a>
+        <div
+          class="container containerDesktop"
+        >
+          <div
+            class="container buttonRight buttonGroup"
+          >
+            <button
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+              data-garden-id="buttons.button"
+              data-garden-version="3.7.0"
+              tabindex="0"
+              type="button"
+            >
+              buttonLabel
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+`;

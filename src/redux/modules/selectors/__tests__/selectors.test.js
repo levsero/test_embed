@@ -1763,3 +1763,20 @@ describe('getShowBackButton', () => {
     expect(result).toEqual(expectedValue)
   })
 })
+
+describe('getShowNextButton', () => {
+  test.each([
+    ['when all offline', false, false, false, false],
+    ['when submitTicket is available', true, false, false, true],
+    ['when chat is available', false, true, false, true],
+    ['when talk is online', false, false, true, true]
+  ])('%p', (_title, submitTicketAvailable, chatAvailable, talkOnline, expectedValue) => {
+    const result = selectors.getShowNextButton.resultFunc(
+      submitTicketAvailable,
+      chatAvailable,
+      talkOnline
+    )
+
+    expect(result).toEqual(expectedValue)
+  })
+})

@@ -4,20 +4,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import HelpCenterArticle from 'components/HelpCenterArticle'
 import DesktopPage from 'embeds/helpCenter/pages/DesktopPage'
 import MobilePage from 'embeds/helpCenter/pages/MobilePage'
 import Results from 'embeds/helpCenter/components/Results'
 import {
   handleArticleClick,
   performSearch,
-  performImageSearch,
-  handleOriginalArticleClicked,
-  addRestrictedImage,
   handleSearchFieldChange
 } from 'embeds/helpCenter/actions'
 import {
-  getActiveArticle,
   getResultsLocale,
   getSearchLoading,
   getSearchFailed,
@@ -26,7 +21,6 @@ import {
   getHasContextuallySearched,
   getArticles,
   getArticleViewActive,
-  getRestrictedImages,
   getSearchFieldValue,
   getIsContextualSearchPending,
   getIsContextualSearchComplete,
@@ -43,11 +37,11 @@ import {
   getChatConnectionConnecting,
   getHelpCenterButtonLabel
 } from 'src/redux/modules/selectors'
+import ArticlePage from 'src/embeds/helpCenter/pages/ArticlePage'
 
 const mapStateToProps = state => {
   return {
     resultsLocale: getResultsLocale(state),
-    activeArticle: getActiveArticle(state),
     searchLoading: getSearchLoading(state),
     searchFailed: getSearchFailed(state),
     previousSearchTerm: getPreviousSearchTerm(state),
@@ -58,7 +52,6 @@ const mapStateToProps = state => {
     callbackEnabled: isCallbackEnabled(state),
     articleViewActive: getArticleViewActive(state),
     articles: getArticles(state),
-    restrictedImages: getRestrictedImages(state),
     searchFieldValue: getSearchFieldValue(state),
     chatNotificationCount: getNotificationCount(state),
     isChatting: getIsChatting(state),
@@ -75,16 +68,13 @@ const mapStateToProps = state => {
 
 class HelpCenter extends Component {
   static propTypes = {
-    activeArticle: PropTypes.object,
     channelChoice: PropTypes.bool,
     fullscreen: PropTypes.bool.isRequired,
     previousSearchTerm: PropTypes.string.isRequired,
     hasContextualSearched: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     onNextClick: PropTypes.func,
-    originalArticleButton: PropTypes.bool,
     performSearch: PropTypes.func.isRequired,
-    performImageSearch: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
     showNextButton: PropTypes.bool,
     searchLoading: PropTypes.bool.isRequired,
@@ -94,10 +84,7 @@ class HelpCenter extends Component {
     resultsLocale: PropTypes.string.isRequired,
     articles: PropTypes.array.isRequired,
     hasSearched: PropTypes.bool.isRequired,
-    handleOriginalArticleClicked: PropTypes.func.isRequired,
     articleViewActive: PropTypes.bool.isRequired,
-    restrictedImages: PropTypes.object.isRequired,
-    addRestrictedImage: PropTypes.func,
     searchFieldValue: PropTypes.string.isRequired,
     handleSearchFieldChange: PropTypes.func.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
@@ -117,7 +104,6 @@ class HelpCenter extends Component {
     channelChoice: false,
     hideZendeskLogo: false,
     onNextClick: () => {},
-    originalArticleButton: true,
     showBackButton: () => {},
     showNextButton: true,
     submitTicketAvailable: true,
@@ -127,11 +113,7 @@ class HelpCenter extends Component {
     handleArticleClick: () => {},
     articles: [],
     articleViewActive: false,
-    handleOriginalArticleClicked: () => {},
     hasSearched: false,
-    activeArticle: null,
-    restrictedImages: {},
-    addRestrictedImage: () => {},
     handleSearchFieldChange: () => {},
     chatNotificationCount: 0,
     isChatting: false,
@@ -264,24 +246,6 @@ class HelpCenter extends Component {
     )
   }
 
-  renderArticles = () => {
-    if (!this.props.articleViewActive) return null
-
-    return (
-      <HelpCenterArticle
-        activeArticle={this.props.activeArticle}
-        locale={this.props.resultsLocale}
-        originalArticleButton={this.props.originalArticleButton}
-        handleOriginalArticleClick={this.props.handleOriginalArticleClicked}
-        storedImages={this.props.restrictedImages}
-        imagesSender={this.props.performImageSearch}
-        updateStoredImages={this.props.addRestrictedImage}
-        fullscreen={this.props.fullscreen}
-        isMobile={this.props.isMobile}
-      />
-    )
-  }
-
   renderHelpCenterDesktop = () => {
     return (
       <DesktopPage
@@ -311,7 +275,6 @@ class HelpCenter extends Component {
         contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}
       >
         {this.renderResults()}
-        {this.renderArticles()}
       </DesktopPage>
     )
   }
@@ -340,12 +303,15 @@ class HelpCenter extends Component {
         searchPlaceholder={this.props.searchPlaceholder}
       >
         {this.renderResults()}
-        {this.renderArticles()}
       </MobilePage>
     )
   }
 
   render = () => {
+    if (this.props.articleViewActive) {
+      return <ArticlePage onClick={this.handleNextClick} />
+    }
+
     const helpCenter = this.props.isMobile
       ? this.renderHelpCenterMobile()
       : this.renderHelpCenterDesktop()
@@ -357,10 +323,7 @@ class HelpCenter extends Component {
 const actionCreators = {
   handleSearchFieldChange,
   handleArticleClick,
-  performSearch,
-  performImageSearch,
-  handleOriginalArticleClicked,
-  addRestrictedImage
+  performSearch
 }
 
 const connectedComponent = connect(

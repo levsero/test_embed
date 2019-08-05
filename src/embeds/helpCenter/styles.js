@@ -9,6 +9,7 @@ import MobilePageStyles from 'embeds/helpCenter/pages/MobilePage/styles.scss'
 import InitialSearchPageStyles from 'embeds/helpCenter/pages/SearchPromptPage/styles.scss'
 import ChannelButtonStyles from 'src/embeds/helpCenter/components/ChannelButton/index.scss'
 import SearchFormStyles from 'src/embeds/helpCenter/components/SearchForm/styles.scss'
+import ArticlePageStyles from 'src/embeds/helpCenter/pages/ArticlePage/index.scss'
 
 const styles = `
   ${InitialSearchPageStyles}
@@ -22,6 +23,7 @@ const styles = `
   ${NoResultsMessageStyles}
   ${ChannelButtonStyles}
   ${SearchFormStyles}
+  ${ArticlePageStyles}
 `
 
 export default styles
