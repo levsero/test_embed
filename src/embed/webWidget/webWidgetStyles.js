@@ -57,7 +57,6 @@ import FrameStyles from 'component/frame/Frame.scss'
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss'
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss'
 import AnswerBotStyles from 'component/answerBot/styles'
-import ZendeskLogoStyles from 'src/components/ZendeskLogo/styles.scss'
 import HelpCenterResultsStyles from 'embeds/helpCenter/components/Results/styles.scss'
 import HelpCenterDesktopPageStyles from 'embeds/helpCenter/pages/DesktopPage/styles.scss'
 import HelpCenterMobilePageStyles from 'embeds/helpCenter/pages/MobilePage/styles.scss'
@@ -136,5 +135,4 @@ export const webWidgetStyles = `
   ${HelpCenterDesktopPageStyles}
   ${HelpCenterMobilePageStyles}
   ${componentStyles}
-  ${ZendeskLogoStyles}
 `
