@@ -2,11 +2,38 @@
 
 exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
 <div>
-  <p
-    class="offline"
-    data-testid="talk--offlinePage"
+  <div
+    class="container"
   >
-    Offline message
-  </p>
+    <div
+      class="header userHeader"
+    >
+      <h1
+        class="title"
+      />
+    </div>
+    <div
+      class="container"
+    >
+      <p
+        class="offline"
+        data-testid="talk--offlinePage"
+      >
+        Offline message
+      </p>
+    </div>
+    <footer
+      class="footer"
+    >
+      <a
+        class="icon"
+        href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+        tabindex="-1"
+        target="_blank"
+      >
+        widget-icon_zendesk.svg
+      </a>
+    </footer>
+  </div>
 </div>
 `;

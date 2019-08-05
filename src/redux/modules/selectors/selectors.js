@@ -630,10 +630,9 @@ export const getTalkTitle = createSelector(
     switch (screen) {
       case screens.SUCCESS_NOTIFICATION_SCREEN:
         return title || i18n.t('embeddable_framework.talk.notify.success.title')
-      case screens.PHONE_ONLY_SCREEN:
+      case screens.PHONE_US_SCREEN:
         return title || i18n.t('embeddable_framework.talk.phoneOnly.title')
-      case screens.CALLBACK_ONLY_SCREEN:
-      case screens.CALLBACK_AND_PHONE_SCREEN:
+      case screens.CALLBACK_SCREEN:
       default:
         return title || i18n.t('embeddable_framework.talk.form.title')
     }

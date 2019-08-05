@@ -4,6 +4,7 @@ import { Component as CallbackForm } from '../'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
+import * as libphonenumber from 'libphonenumber-js'
 
 describe('CallbackForm', () => {
   const defaultProps = {
@@ -20,7 +21,6 @@ describe('CallbackForm', () => {
     averageWaitTime: 'Average wait time: 25m',
     updateTalkCallbackForm: jest.fn(),
     submitTalkCallbackForm: jest.fn(),
-    getFrameContentDocument: jest.fn(() => document.createElement('div')),
     isMobile: false,
     nickname: 'Nick name',
     serviceUrl: 'https://example.com',
@@ -30,11 +30,6 @@ describe('CallbackForm', () => {
     submitButtonLabel: 'Submit',
     headerMessage: 'Register a callback',
     locale: 'en'
-  }
-
-  const libphonenumber = {
-    AsYouType: jest.fn(),
-    isValidNumber: jest.fn()
   }
 
   const renderComponent = (props = {}) => {

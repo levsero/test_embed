@@ -1,5 +1,6 @@
 import * as selectors from '../talk-selectors'
 import { PHONE_ONLY, CALLBACK_ONLY, CALLBACK_AND_PHONE } from '../talk-capability-types'
+import { CALLBACK_SCREEN, PHONE_US_SCREEN } from 'src/redux/modules/talk/talk-screen-types'
 
 const embeddableConfig = state => ({
   talk: {
@@ -108,12 +109,30 @@ test('getAverageWaitTimeEnabled returns the callback object', () => {
   expect(selectors.getAverageWaitTimeEnabled(talkConfig(state))).toEqual(true)
 })
 
-test('getInitialScreen returns the expected string', () => {
-  const state = {
-    capability: 'TALK'
-  }
+describe('getInitialScreen', () => {
+  test('getInitialScreen returns CALLBACK_SCREEN when capability is CALLBACK_ONLY', () => {
+    const state = {
+      capability: CALLBACK_ONLY
+    }
 
-  expect(selectors.getInitialScreen(embeddableConfig(state))).toEqual('TALK_SCREEN')
+    expect(selectors.getInitialScreen(embeddableConfig(state))).toEqual(CALLBACK_SCREEN)
+  })
+
+  test('getInitialScreen returns CALLBACK_SCREEN when capability is CALLBACK_AND_PHONE', () => {
+    const state = {
+      capability: CALLBACK_AND_PHONE
+    }
+
+    expect(selectors.getInitialScreen(embeddableConfig(state))).toEqual(CALLBACK_SCREEN)
+  })
+
+  test('getInitialScreen returns PHONE_US_SCREEN when capability is PHONE_ONLY', () => {
+    const state = {
+      capability: PHONE_ONLY
+    }
+
+    expect(selectors.getInitialScreen(embeddableConfig(state))).toEqual(PHONE_US_SCREEN)
+  })
 })
 
 test('getSocketIoVendor returns the socket.io vendor', () => {

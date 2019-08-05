@@ -87,7 +87,7 @@ describe('resetTalkScreen', () => {
     expect(store.getActions()).toEqual([
       {
         type: types.UPDATE_TALK_SCREEN,
-        payload: screenTypes.PHONE_ONLY_SCREEN
+        payload: screenTypes.PHONE_US_SCREEN
       },
       {
         type: baseTypes.UPDATE_BACK_BUTTON_VISIBILITY,
@@ -118,7 +118,7 @@ describe('resetTalkScreen', () => {
     expect(store.getActions()).toEqual([
       {
         type: types.UPDATE_TALK_SCREEN,
-        payload: screenTypes.CALLBACK_AND_PHONE_SCREEN
+        payload: screenTypes.CALLBACK_SCREEN
       },
       {
         type: baseTypes.UPDATE_BACK_BUTTON_VISIBILITY,
@@ -142,7 +142,7 @@ describe('resetTalk', () => {
   expect(store.getActions()).toEqual([
     {
       type: types.UPDATE_TALK_SCREEN,
-      payload: screenTypes.PHONE_ONLY_SCREEN
+      payload: screenTypes.PHONE_US_SCREEN
     }
   ])
 })

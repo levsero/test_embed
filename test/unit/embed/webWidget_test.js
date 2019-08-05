@@ -34,7 +34,7 @@ describe('embed.webWidget', () => {
   const getTicketFormsSpy = jasmine.createSpy('ticketForms')
   const getTicketFieldsSpy = jasmine.createSpy('ticketFields')
   const AUTHENTICATION_STARTED = 'widget/chat/AUTHENTICATION_STARTED'
-  const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN'
+  const callMeScreen = 'widget/talk/CALLBACK_SCREEN'
 
   beforeEach(() => {
     mockIsOnHelpCenterPageValue = false
@@ -162,7 +162,7 @@ describe('embed.webWidget', () => {
         getChatConnectionSuppressed: () => false
       },
       'src/redux/modules/talk/talk-screen-types': {
-        CALLBACK_ONLY_SCREEN: callMeScreen
+        CALLBACK_SCREEN: callMeScreen
       },
       'service/api/zopimApi': {
         zopimApi: {
