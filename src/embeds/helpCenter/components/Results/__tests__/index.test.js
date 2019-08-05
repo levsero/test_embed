@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import React from 'react'
 
-import { HelpCenterResults } from '../HelpCenterResults'
+import Results from '../index'
 
 const renderComponent = props => {
   const mergedProps = {
@@ -11,7 +11,7 @@ const renderComponent = props => {
     ...props
   }
 
-  return render(<HelpCenterResults {...mergedProps} />)
+  return render(<Results {...mergedProps} />)
 }
 
 const articles = [

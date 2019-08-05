@@ -3,7 +3,7 @@ import React from 'react'
 
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { http } from 'service/transport/http'
-import { HelpCenterArticle } from '../HelpCenterArticle'
+import HelpCenterArticle from '../index'
 
 const renderComponent = props => {
   const mergedProps = {

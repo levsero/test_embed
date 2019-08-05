@@ -5,9 +5,9 @@ import classNames from 'classnames'
 
 import { i18n } from 'service/i18n'
 
-import { locals as styles } from './HelpCenterResults.scss'
+import { locals as styles } from './styles.scss'
 
-export class HelpCenterResults extends Component {
+export default class Results extends Component {
   static propTypes = {
     applyPadding: PropTypes.bool,
     articles: PropTypes.array,

@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle'
-import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop'
-import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile'
-import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults'
+import HelpCenterArticle from 'components/HelpCenterArticle'
+import DesktopPage from 'embeds/helpCenter/pages/DesktopPage'
+import MobilePage from 'embeds/helpCenter/pages/MobilePage'
+import Results from 'embeds/helpCenter/components/Results'
 import { i18n } from 'service/i18n'
 import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors'
 import {
@@ -303,7 +303,7 @@ class HelpCenter extends Component {
     const applyPadding = !showNextButton && !hideZendeskLogo
 
     return (
-      <HelpCenterResults
+      <Results
         ref={ref => {
           this.helpCenterResults = ref
         }}
@@ -345,7 +345,7 @@ class HelpCenter extends Component {
 
   renderHelpCenterDesktop = buttonLabel => {
     return (
-      <HelpCenterDesktop
+      <DesktopPage
         ref={el => {
           this.helpCenterDesktop = el
         }}
@@ -379,13 +379,13 @@ class HelpCenter extends Component {
       >
         {this.renderResults()}
         {this.renderArticles()}
-      </HelpCenterDesktop>
+      </DesktopPage>
     )
   }
 
   renderHelpCenterMobile = buttonLabel => {
     return (
-      <HelpCenterMobile
+      <MobilePage
         buttonLoading={this.props.chatConnecting}
         ref={el => {
           this.helpCenterMobile = el
@@ -416,7 +416,7 @@ class HelpCenter extends Component {
       >
         {this.renderResults()}
         {this.renderArticles()}
-      </HelpCenterMobile>
+      </MobilePage>
     )
   }
 

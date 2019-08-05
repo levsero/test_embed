@@ -1,7 +1,7 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 
-import { HelpCenterDesktop } from '../HelpCenterDesktop'
+import DesktopPage from '../index'
 
 const renderHelpCenterDesktop = props => {
   const defaultProps = {
@@ -20,7 +20,7 @@ const renderHelpCenterDesktop = props => {
 
   const mergedProps = { ...defaultProps, ...props }
 
-  return render(<HelpCenterDesktop {...mergedProps} />)
+  return render(<DesktopPage {...mergedProps} />)
 }
 
 test('renders the expected components', () => {

@@ -11,9 +11,9 @@ import { LoadingBarContent } from 'component/loading/LoadingBarContent'
 import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 import { i18n } from 'service/i18n'
 
-import { locals as styles } from './HelpCenterMobile.scss'
+import { locals as styles } from './styles.scss'
 
-export class HelpCenterMobile extends Component {
+export default class MobilePage extends Component {
   static propTypes = {
     chatOfflineAvailable: PropTypes.bool,
     articleViewActive: PropTypes.bool,

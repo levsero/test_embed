@@ -11,10 +11,10 @@ import { LoadingBarContent } from 'component/loading/LoadingBarContent'
 import { i18n } from 'service/i18n'
 import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 
-import { locals as styles } from './HelpCenterDesktop.scss'
+import { locals as styles } from './styles.scss'
 import classNames from 'classnames'
 
-export class HelpCenterDesktop extends Component {
+export default class DesktopPage extends Component {
   static propTypes = {
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,

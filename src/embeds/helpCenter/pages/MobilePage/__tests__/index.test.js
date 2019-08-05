@@ -2,7 +2,7 @@ import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
-import { HelpCenterMobile } from '../HelpCenterMobile'
+import MobilePage from '../index'
 
 const renderComponent = props => {
   const store = createStore()
@@ -27,7 +27,7 @@ const renderComponent = props => {
 
   return render(
     <Provider store={store}>
-      <HelpCenterMobile {...mergedProps} />
+      <MobilePage {...mergedProps} />
     </Provider>
   )
 }

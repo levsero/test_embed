@@ -44,10 +44,6 @@ import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
 import NestedDropdownStyles from 'component/field/Dropdown/NestedDropdown.scss'
 import FlagStyles from 'component/Flag.scss'
-import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.scss'
-import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss'
-import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.scss'
-import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.scss'
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss'
@@ -62,13 +58,17 @@ import FrameStyles from 'component/frame/Frame.scss'
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss'
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss'
 import AnswerBotStyles from 'component/answerBot/styles'
-import TalkNotificationStyles from 'src/embeds/talk/components/ErrorNotification/styles/index.scss'
-import TalkOfflinePageStyles from 'src/embeds/talk/pages/OfflinePage/styles.scss'
-import TalkPhoneNumberStyles from 'src/embeds/talk/components/PhoneNumber/styles/index.scss'
-import TalkPhoneOnlyPageStyles from 'src/embeds/talk/pages/PhoneOnlyPage/styles.scss'
-import TalkCallbackFormStyles from 'src/embeds/talk/components/CallbackForm/styles.scss'
+import TalkNotificationStyles from 'embeds/talk/components/ErrorNotification/styles/index.scss'
+import TalkOfflinePageStyles from 'embeds/talk/pages/OfflinePage/styles.scss'
+import TalkPhoneNumberStyles from 'embeds/talk/components/PhoneNumber/styles/index.scss'
+import TalkPhoneOnlyPageStyles from 'embeds/talk/pages/PhoneOnlyPage/styles.scss'
+import TalkCallbackFormStyles from 'embeds/talk/components/CallbackForm/styles.scss'
+import SuccessNotificationStyles from 'embeds/talk/pages/SuccessNotificationPage/styles.scss'
 import ZendeskLogoStyles from 'src/components/ZendeskLogo/styles.scss'
-import SuccessNotificationStyles from 'src/embeds/talk/pages/SuccessNotificationPage/styles.scss'
+import HelpCenterResultsStyles from 'embeds/helpCenter/components/Results/styles.scss'
+import HelpCenterDesktopPageStyles from 'embeds/helpCenter/pages/DesktopPage/styles.scss'
+import HelpCenterMobilePageStyles from 'embeds/helpCenter/pages/MobilePage/styles.scss'
+
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
 import gardenStyles from 'embed/gardenStyles'
@@ -122,10 +122,6 @@ export const webWidgetStyles = `
   ${ContainerStyles}
   ${NestedDropdownStyles}
   ${FlagStyles}
-  ${HelpCenterArticleStyles}
-  ${HelpCenterDesktopStyles}
-  ${HelpCenterMobileStyles}
-  ${HelpCenterResultsStyles}
   ${IconFieldButtonStyles}
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
@@ -147,6 +143,9 @@ export const webWidgetStyles = `
   ${AverageWaitTime}
   ${TalkPhoneOnlyPageStyles}
   ${TalkCallbackFormStyles}
+  ${HelpCenterResultsStyles}
+  ${HelpCenterDesktopPageStyles}
+  ${HelpCenterMobilePageStyles}
   ${componentStyles}
   ${ZendeskLogoStyles}
   ${SuccessNotificationStyles}

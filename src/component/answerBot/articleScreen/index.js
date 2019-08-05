@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import FeedbackPopup from './feedbackPopup'
 
-import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle'
+import HelpCenterArticle from 'components/HelpCenterArticle'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SlideAppear } from 'component/transition/SlideAppear'
 
