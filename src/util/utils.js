@@ -145,6 +145,10 @@ function isValidUrl(url) {
   return !!(a.host && a.host !== location.host)
 }
 
+function onNextTick(callback) {
+  setTimeout(callback, 0)
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -161,5 +165,6 @@ export {
   emailValid,
   referrerPolicyUrl,
   getHostUrl,
-  isValidUrl
+  isValidUrl,
+  onNextTick
 }
