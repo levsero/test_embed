@@ -5,9 +5,9 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 import HelpCenterArticle from 'components/HelpCenterArticle'
-import DesktopPage from 'helpCenterPages/DesktopPage'
-import MobilePage from 'helpCenterPages/MobilePage'
-import Results from 'helpCenterComponents/Results'
+import DesktopPage from 'embeds/helpCenter/pages/DesktopPage'
+import MobilePage from 'embeds/helpCenter/pages/MobilePage'
+import Results from 'embeds/helpCenter/components/Results'
 import { i18n } from 'service/i18n'
 import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors'
 import {
