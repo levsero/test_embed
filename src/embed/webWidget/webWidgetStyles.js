@@ -1,7 +1,6 @@
 import AttachmentStyles from 'component/attachment/Attachment.scss'
 import AttachmentBoxStyles from 'component/attachment/AttachmentBox.scss'
 import AttachmentListStyles from 'component/attachment/AttachmentList.scss'
-import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime/styles.scss'
 import ButtonDropzoneStyles from 'component/button/ButtonDropzone.scss'
 import ButtonIconStyles from 'component/button/ButtonIcon.scss'
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss'
@@ -58,16 +57,11 @@ import FrameStyles from 'component/frame/Frame.scss'
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss'
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss'
 import AnswerBotStyles from 'component/answerBot/styles'
-import TalkNotificationStyles from 'embeds/talk/components/ErrorNotification/styles.scss'
-import TalkOfflinePageStyles from 'embeds/talk/pages/OfflinePage/styles.scss'
-import TalkPhoneNumberStyles from 'embeds/talk/components/PhoneNumber/styles.scss'
-import TalkPhoneOnlyPageStyles from 'embeds/talk/pages/PhoneOnlyPage/styles.scss'
-import TalkCallbackFormStyles from 'embeds/talk/components/CallbackForm/styles.scss'
-import SuccessNotificationStyles from 'embeds/talk/pages/SuccessNotificationPage/styles.scss'
 import ZendeskLogoStyles from 'src/components/ZendeskLogo/styles.scss'
 import HelpCenterResultsStyles from 'embeds/helpCenter/components/Results/styles.scss'
 import HelpCenterDesktopPageStyles from 'embeds/helpCenter/pages/DesktopPage/styles.scss'
 import HelpCenterMobilePageStyles from 'embeds/helpCenter/pages/MobilePage/styles.scss'
+import talkStyles from 'embeds/talk/styles'
 
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
@@ -131,22 +125,16 @@ export const webWidgetStyles = `
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
   ${TalkStyles}
+  ${talkStyles}
   ${LoadingBarContentStyles}
   ${SharedComponentStyles}
   ${FrameStyles}
   ${PanelCardStyles}
   ${ButtonCardStyles}
   ${AnswerBotStyles}
-  ${TalkNotificationStyles}
-  ${TalkOfflinePageStyles}
-  ${TalkPhoneNumberStyles}
-  ${AverageWaitTime}
-  ${TalkPhoneOnlyPageStyles}
-  ${TalkCallbackFormStyles}
   ${HelpCenterResultsStyles}
   ${HelpCenterDesktopPageStyles}
   ${HelpCenterMobilePageStyles}
   ${componentStyles}
   ${ZendeskLogoStyles}
-  ${SuccessNotificationStyles}
 `
