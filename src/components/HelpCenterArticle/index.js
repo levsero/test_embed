@@ -9,7 +9,7 @@ import { i18n } from 'service/i18n'
 import { parseUrl } from 'utility/utils'
 import { http } from 'service/transport'
 
-import { locals as styles } from './index.scss'
+import { locals as styles } from './styles.scss'
 import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors'
 
 const allowedIframeAttribs = [

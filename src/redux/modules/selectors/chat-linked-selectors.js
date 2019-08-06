@@ -158,7 +158,7 @@ export const getPrechatFormSettings = createSelector(
 
 const extractFormFields = settings => _.keyBy(_.values(settings.form), 'name')
 
-const getDefaultFormFields = createSelector(
+export const getDefaultFormFields = createSelector(
   getPrechatFormSettings,
   extractFormFields
 )

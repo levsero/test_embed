@@ -1,5 +1,5 @@
 import React from 'react'
-import { locals as styles } from './styles/index.scss'
+import { locals as styles } from './styles.scss'
 import PropTypes from 'prop-types'
 
 const AverageWaitTime = ({ message }) => {

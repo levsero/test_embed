@@ -34,7 +34,11 @@ import * as selectors from 'src/redux/modules/chat/chat-selectors'
 import { getChatEmailTranscriptEnabled } from 'src/redux/modules/selectors'
 import { locals as styles } from './ChatOnline.scss'
 import { CONNECTION_STATUSES } from 'constants/chat'
-import { getChannelChoiceAvailable, getHelpCenterAvailable } from 'src/redux/modules/selectors'
+import {
+  getChannelChoiceAvailable,
+  getHelpCenterAvailable,
+  getDefaultFormFields
+} from 'src/redux/modules/selectors'
 
 const mapStateToProps = state => {
   return {
@@ -56,7 +60,8 @@ const mapStateToProps = state => {
     isAuthenticated: selectors.getIsAuthenticated(state),
     isLoggingOut: selectors.getIsLoggingOut(state),
     channelChoiceAvailable: getChannelChoiceAvailable(state),
-    helpCenterAvailable: getHelpCenterAvailable(state)
+    helpCenterAvailable: getHelpCenterAvailable(state),
+    contactDetailsRequiredFormData: getDefaultFormFields(state)
   }
 }
 
@@ -96,7 +101,8 @@ class Chat extends Component {
     fullscreen: PropTypes.bool,
     initiateSocialLogout: PropTypes.func.isRequired,
     channelChoiceAvailable: PropTypes.bool.isRequired,
-    helpCenterAvailable: PropTypes.bool.isRequired
+    helpCenterAvailable: PropTypes.bool.isRequired,
+    contactDetailsRequiredFormData: PropTypes.object
   }
 
   static defaultProps = {
@@ -339,7 +345,8 @@ class Chat extends Component {
       authUrls,
       isAuthenticated,
       socialLogin,
-      initiateSocialLogout
+      initiateSocialLogout,
+      contactDetailsRequiredFormData
     } = this.props
 
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false)
@@ -355,6 +362,7 @@ class Chat extends Component {
         contactDetails={editContactDetails}
         screen={editContactDetails.status}
         show={editContactDetails.show}
+        requiredFormData={contactDetailsRequiredFormData}
         isMobile={isMobile}
         leftCtaFn={hideContactDetailsFn}
         rightCtaFn={saveContactDetailsFn}
