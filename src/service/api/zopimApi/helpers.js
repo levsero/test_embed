@@ -166,7 +166,7 @@ export const setOnStatusApi = (store, callback) => {
     // Jira: https://zendesk.atlassian.net/browse/EWW-507
     // Slack convo for context:
     // https://zendesk.slack.com/archives/C0R1EJ3UP/p1564446511266300
-    callback()
+    wrappedCallbackWithArgs()
 
     callbacks.registerCallback(wrappedCallbackWithArgs, CHAT_STATUS_EVENT)
     callbacks.registerCallback(callback, CHAT_DEPARTMENT_STATUS_EVENT)
