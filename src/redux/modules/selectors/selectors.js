@@ -14,7 +14,8 @@ import {
   getChatBadgeEnabled,
   getChatBanned,
   getChatsLength,
-  getConnection as getChatConnection
+  getConnection as getChatConnection,
+  getNotificationCount
 } from '../chat/chat-selectors'
 import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors'
 import {
@@ -58,7 +59,8 @@ import {
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
   getAgentAvailability,
-  getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected
+  getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
+  isCallbackEnabled
 } from '../talk/talk-selectors'
 import { getActiveTicketForm, getTicketForms } from '../submitTicket/submitTicket-selectors'
 import {
@@ -156,9 +158,12 @@ export const getSettingsHelpCenterSearchPlaceholder = createSelector(
 )
 
 export const getSettingsHelpCenterMessageButton = createSelector(
-  [getHelpCenterMessageButton, getLocale, getLabel],
-  (helpCenterMessageButton, _locale, label) =>
-    i18n.getSettingTranslation(helpCenterMessageButton) || i18n.t(label)
+  [getHelpCenterMessageButton, getLocale, getEmbeddableConfig],
+  (helpCenterMessageButton, _locale, config) => {
+    const buttonLabelKey = _.get(config, 'helpCenterForm.props.buttonLabelKey') || 'message'
+    const labelKey = `embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`
+    return i18n.getSettingTranslation(helpCenterMessageButton) || i18n.t(labelKey)
+  }
 )
 
 export const getSettingsHelpCenterChatButton = createSelector(
@@ -657,4 +662,61 @@ export const getChatConnectionConnecting = createSelector(
     !cookiesDisabled &&
     chatEnabled &&
     (connection === CONNECTION_STATUSES.CONNECTING || connection === '')
+)
+
+export const getHelpCenterButtonChatLabel = createSelector(
+  [
+    getSettingsHelpCenterChatButton,
+    getNotificationCount,
+    getChatOfflineAvailable,
+    getSettingsHelpCenterMessageButton
+  ],
+  (chatButtonLabel, chatNotificationCount, chatOfflineAvailable, messageButtonLabel) => {
+    if (chatNotificationCount > 0) {
+      return chatNotificationCount > 1
+        ? i18n.t('embeddable_framework.common.notification.manyMessages', {
+            plural_number: chatNotificationCount
+          })
+        : i18n.t('embeddable_framework.common.notification.oneMessage')
+    } else if (chatOfflineAvailable) {
+      return messageButtonLabel
+    }
+    return chatButtonLabel
+  }
+)
+
+export const getHelpCenterButtonLabel = createSelector(
+  [
+    getIsChatting,
+    getChannelChoiceAvailable,
+    getChatAvailable,
+    getChatOfflineAvailable,
+    getTalkOnline,
+    isCallbackEnabled,
+    getContactOptionsButton,
+    getHelpCenterButtonChatLabel
+  ],
+  (
+    isChatting,
+    channelChoiceAvailable,
+    chatAvailable,
+    chatOfflineAvailable,
+    talkOnline,
+    callbackEnabled,
+    contactButtonLabel,
+    chatLabel
+  ) => {
+    if (isChatting) {
+      return chatLabel
+    } else if (channelChoiceAvailable) {
+      return contactButtonLabel
+    } else if (chatAvailable || chatOfflineAvailable) {
+      return chatLabel
+    } else if (talkOnline) {
+      return callbackEnabled
+        ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
+        : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone')
+    }
+    return chatLabel
+  }
 )

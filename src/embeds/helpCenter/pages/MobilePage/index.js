@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button } from '@zendeskgarden/react-buttons'
-import { ButtonGroup } from 'component/button/ButtonGroup'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SearchField } from 'component/field/SearchField'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { LoadingBarContent } from 'component/loading/LoadingBarContent'
-import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 import { i18n } from 'service/i18n'
+import HelpCenterChannelButton from 'src/embeds/helpCenter/components/HelpCenterChannelButton'
 
 import { locals as styles } from './styles.scss'
 
@@ -195,34 +193,19 @@ export default class MobilePage extends Component {
     return this.props.articleViewActive || this.state.showIntroScreen ? null : this.renderForm()
   }
 
-  renderLoadingAnimation = () => {
-    return <LoadingEllipses useUserColor={false} itemClassName={styles.loadingAnimation} />
-  }
-
-  renderLoadingButton = () => {
-    return (
-      <Button primary={true} className={styles.footerButton}>
-        {this.renderLoadingAnimation()}
-      </Button>
-    )
-  }
-
-  renderButton = () => {
-    return (
-      <Button primary={true} className={styles.footerButton} onClick={this.props.handleNextClick}>
-        {this.props.buttonLabel}
-      </Button>
-    )
-  }
-
   renderFooterContent = () => {
-    return this.showFooterContent() ? (
-      <div className={styles.buttonContainer}>
-        <ButtonGroup rtl={i18n.isRTL()}>
-          {this.props.buttonLoading ? this.renderLoadingButton() : this.renderButton()}
-        </ButtonGroup>
-      </div>
-    ) : null
+    if (!this.showFooterContent()) return null
+
+    const { buttonLabel, handleNextClick, buttonLoading } = this.props
+    return (
+      <HelpCenterChannelButton
+        buttonLabel={buttonLabel}
+        onClick={handleNextClick}
+        loading={buttonLoading}
+        isRTL={i18n.isRTL()}
+        isMobile={true}
+      />
+    )
   }
 
   renderZendeskLogo = hideZendeskLogo => {

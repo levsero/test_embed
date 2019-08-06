@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button } from '@zendeskgarden/react-buttons'
-import { ButtonGroup } from 'component/button/ButtonGroup'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SearchField } from 'component/field/SearchField'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { LoadingBarContent } from 'component/loading/LoadingBarContent'
 import { i18n } from 'service/i18n'
-import { LoadingEllipses } from 'component/loading/LoadingEllipses'
+import HelpCenterChannelButton from 'src/embeds/helpCenter/components/HelpCenterChannelButton'
 
 import SearchPromptPage from 'src/embeds/helpCenter/pages/SearchPromptPage'
 import { locals as styles } from './styles.scss'
@@ -140,40 +138,24 @@ export default class DesktopPage extends Component {
     return !this.props.hideZendeskLogo ? <ZendeskLogo fullscreen={false} /> : null
   }
 
-  renderLoadingAnimation = () => {
-    return <LoadingEllipses useUserColor={false} itemClassName={styles.loadingAnimation} />
-  }
-
-  renderLoadingButton = () => {
-    const buttonStyles = classNames(styles.button, styles.disabledButton)
-
-    return (
-      <Button primary={true} className={buttonStyles}>
-        {this.renderLoadingAnimation()}
-      </Button>
-    )
-  }
-
-  renderButton = () => {
-    const { channelChoice, buttonLabel, onNextClick, handleNextClick } = this.props
+  renderFooterContent = () => {
+    const {
+      showNextButton,
+      buttonLoading,
+      channelChoice,
+      buttonLabel,
+      onNextClick,
+      handleNextClick
+    } = this.props
     const onClickHandler = channelChoice ? onNextClick : handleNextClick
 
-    return (
-      <Button primary={true} onClick={onClickHandler} className={styles.button}>
-        {buttonLabel}
-      </Button>
-    )
-  }
-
-  renderFooterContent = () => {
-    const { showNextButton, buttonLoading } = this.props
-
     return showNextButton && !this.props.isOnInitialDesktopSearchScreen ? (
-      <div className={styles.buttonContainer}>
-        <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
-          {buttonLoading ? this.renderLoadingButton() : this.renderButton()}
-        </ButtonGroup>
-      </div>
+      <HelpCenterChannelButton
+        onClick={onClickHandler}
+        buttonLabel={buttonLabel}
+        isRTL={i18n.isRTL()}
+        loading={buttonLoading}
+      />
     ) : null
   }
 

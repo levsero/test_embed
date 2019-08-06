@@ -15,9 +15,9 @@ import { getModifiedState } from 'src/fixtures/selectors-test-state'
 import { LAUNCHER } from 'constants/shared'
 import { CONNECTION_STATUSES } from 'constants/chat'
 
-const stateLauncherSettings = settings => {
+const stateLauncherSettings = (settings = {}) => {
   return {
-    base: { locale: 'en-US' },
+    base: stateBaseSettings(),
     settings: {
       launcher: {
         settings
@@ -26,9 +26,25 @@ const stateLauncherSettings = settings => {
   }
 }
 
-const stateHelpCenterSettings = settings => {
+const stateBaseSettings = (settings = {}) => {
+  const defaultSettings = {
+    locale: 'en-us',
+    embeddableConfig: {
+      brand: undefined
+    }
+  }
+
+  const compiledSettings = {
+    ...defaultSettings,
+    ...settings
+  }
+
+  return compiledSettings
+}
+
+const stateHelpCenterSettings = (settings = {}, otherOverides = {}) => {
   return {
-    base: { locale: 'en-US' },
+    base: stateBaseSettings(otherOverides.base),
     settings: {
       helpCenter: settings
     }
@@ -37,7 +53,7 @@ const stateHelpCenterSettings = settings => {
 
 const stateContactFormSettings = settings => {
   return {
-    base: { locale: 'en-US' },
+    base: stateBaseSettings(),
     settings: {
       contactForm: {
         settings: settings
@@ -48,12 +64,7 @@ const stateContactFormSettings = settings => {
 
 const stateAnswerBotSettings = settings => {
   return {
-    base: {
-      locale: 'en-US',
-      embeddableConfig: {
-        brand: undefined
-      }
-    },
+    base: stateBaseSettings(),
     settings: {
       answerBot: settings
     }
@@ -327,12 +338,7 @@ describe('selectors', () => {
   })
 
   describe('getSettingsHelpCenterMessageButton', () => {
-    let state, label
-
-    beforeEach(() => {
-      label = 'embeddable_framework.helpCenter.submitButton.label.submitTicket.message'
-    })
-
+    let state
     describe('when messageButton is defined in helpCenter settings', () => {
       beforeEach(() => {
         state = stateHelpCenterSettings({
@@ -341,7 +347,7 @@ describe('selectors', () => {
       })
 
       it('returns the messageButton', () => {
-        expect(selectors.getSettingsHelpCenterMessageButton(state, label)).toEqual(
+        expect(selectors.getSettingsHelpCenterMessageButton(state)).toEqual(
           'helpCenter messageButton'
         )
       })
@@ -359,8 +365,10 @@ describe('selectors', () => {
       })
 
       it('returns the value from i18n', () => {
-        expect(selectors.getSettingsHelpCenterMessageButton(state, label)).toEqual('Help')
-        expect(i18n.t).toHaveBeenCalledWith(label)
+        expect(selectors.getSettingsHelpCenterMessageButton(state)).toEqual('Help')
+        expect(i18n.t).toHaveBeenCalledWith(
+          'embeddable_framework.helpCenter.submitButton.label.submitTicket.message'
+        )
       })
     })
   })
@@ -1557,4 +1565,157 @@ describe('getChatConnectionConnecting', () => {
 
     expect(result).toEqual(false)
   })
+})
+
+describe('getHelpCenterButtonChatLabel', () => {
+  test.each([
+    [
+      'no chat notifications and chat offline is not available',
+      'chatButtonLabel',
+      0,
+      false,
+      'messageButtonLabel',
+      'chatButtonLabel'
+    ],
+    [
+      'no chat notifications and chat offline is available',
+      'chatButtonLabel',
+      0,
+      true,
+      'messageButtonLabel',
+      'messageButtonLabel'
+    ],
+    ['one chat notification', 'chatButtonLabel', 1, false, 'messageButtonLabel', '1 new message'],
+    [
+      'multiple chat notifications',
+      'chatButtonLabel',
+      2,
+      false,
+      'messageButtonLabel',
+      '2 new messages'
+    ]
+  ])(
+    '%p',
+    (
+      __title,
+      chatButtonLabel,
+      chatNotificationCount,
+      chatOfflineAvailable,
+      messageButtonLabel,
+      expectedResult
+    ) => {
+      const result = selectors.getHelpCenterButtonChatLabel.resultFunc(
+        chatButtonLabel,
+        chatNotificationCount,
+        chatOfflineAvailable,
+        messageButtonLabel
+      )
+
+      expect(result).toEqual(expectedResult)
+    }
+  )
+})
+
+describe('getHCButtonLabel', () => {
+  test.each([
+    [
+      'isChatting, other channels not available',
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      'contactButtonLabel',
+      'chatLabel',
+      'chatLabel'
+    ],
+    [
+      'channelChoice is available, other channels not available',
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      'contactButtonLabel',
+      'chatLabel',
+      'contactButtonLabel'
+    ],
+    [
+      'chat (online) is available, other channels not available',
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      'contactButtonLabel',
+      'chatLabel',
+      'chatLabel'
+    ],
+    [
+      'chat (offline) is available, other channels not available',
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      'contactButtonLabel',
+      'chatLabel',
+      'chatLabel'
+    ],
+    [
+      'talk is available, other channels not available, callback disabled',
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      'contactButtonLabel',
+      'chatLabel',
+      'Call us'
+    ],
+    [
+      'talk is available, other channels not available, callback disabled',
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      'contactButtonLabel',
+      'chatLabel',
+      'Request a callback'
+    ]
+  ])(
+    '%p',
+    (
+      __title,
+      isChatting,
+      chatAvailable,
+      chatOfflineAvailable,
+      channelChoiceAvailable,
+      talkOnline,
+      callbackEnabled,
+      contactButtonLabel,
+      chatLabel,
+      expectedResult
+    ) => {
+      const result = selectors.getHelpCenterButtonLabel.resultFunc(
+        isChatting,
+        chatAvailable,
+        chatOfflineAvailable,
+        channelChoiceAvailable,
+        talkOnline,
+        callbackEnabled,
+        contactButtonLabel,
+        chatLabel
+      )
+
+      expect(result).toEqual(expectedResult)
+    }
+  )
 })

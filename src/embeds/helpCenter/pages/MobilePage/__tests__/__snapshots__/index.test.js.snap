@@ -5,13 +5,13 @@ exports[`render renders button with loading animation 1`] = `
   class="footer  "
 >
   <div
-    class="buttonContainer"
+    class="container containerMobile"
   >
     <div
-      class="container buttonRight "
+      class="container buttonRight buttonGroup"
     >
       <button
-        class="footerButton Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+        class="button disabledButton Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
         data-garden-id="buttons.button"
         data-garden-version="3.7.0"
         tabindex="0"
@@ -55,13 +55,13 @@ exports[`render renders expected next button 1`] = `
   class="footer  "
 >
   <div
-    class="buttonContainer"
+    class="container containerMobile"
   >
     <div
-      class="container buttonRight "
+      class="container buttonRight buttonGroup"
     >
       <button
-        class="footerButton Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+        class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
         data-garden-id="buttons.button"
         data-garden-version="3.7.0"
         tabindex="0"

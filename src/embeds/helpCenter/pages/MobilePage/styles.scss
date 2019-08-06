@@ -13,14 +13,6 @@
   margin: 0;
 }
 
-.buttonContainer {
-  composes: u-posRelative, u-marginVS from global;
-}
-
-.footerButton {
-  width: 100%;
-}
-
 .searchTitle {
   composes: u-marginTM u-textCenter from global;
 
@@ -60,10 +52,4 @@
     opacity: 1;
     bottom: 0;
   }
-}
-
-.loadingAnimation {
-  background-color: white !important;
-  width: #{4 / $font-size}rem;
-  height: #{4 / $font-size}rem;
 }

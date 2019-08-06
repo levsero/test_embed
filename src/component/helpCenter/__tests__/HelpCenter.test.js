@@ -28,7 +28,7 @@ const renderComponent = (props = {}, renderer) => {
     isContextualSearchComplete: false,
     searchPlaceholder: 'How can we help?',
     chatButtonLabel: 'Live chat',
-    messageButtonLabel: 'Leave us a message',
+    buttonLabel: 'Leave us a message',
     title: 'Help',
     contactButtonLabel: 'Contact us',
     chatConnecting: false,
@@ -137,89 +137,12 @@ describe('mobile', () => {
 })
 
 describe('help center button', () => {
-  describe('when chat is available', () => {
-    describe('when channel choice is off', () => {
-      it('uses the chat label when there are no notifications', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          chatButtonLabel: 'chat button',
-          channelChoice: false
-        })
-
-        expect(queryByText('chat button')).toBeInTheDocument()
-      })
-
-      it('uses the expected label when there is 1 notification', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          chatNotificationCount: 1,
-          chatButtonLabel: 'chat button',
-          channelChoice: false
-        })
-
-        expect(queryByText('1 new message')).toBeInTheDocument()
-      })
-
-      it('uses the expected label when there is more than 1 notification', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          chatNotificationCount: 3,
-          channelChoice: false
-        })
-
-        expect(queryByText('3 new messages')).toBeInTheDocument()
-      })
+  it('uses the buttonLabel prop', () => {
+    const { queryByText } = renderComponent({
+      buttonLabel: 'click this button'
     })
 
-    describe('when channel choice is on', () => {
-      it('uses contact button label', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          messageButtonLabel: 'message button',
-          contactButtonLabel: 'this is the contact button',
-          channelChoice: true
-        })
-
-        expect(queryByText('this is the contact button')).toBeInTheDocument()
-      })
-    })
-
-    describe('when chat is offline but offline form is enabled', () => {
-      it('uses the message button label', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          messageButtonLabel: 'message button',
-          chatOfflineAvailable: true,
-          channelChoice: false
-        })
-
-        expect(queryByText('message button')).toBeInTheDocument()
-      })
-    })
-  })
-
-  describe('when talk is online', () => {
-    describe('when callback is enabled', () => {
-      it('uses the callback label', () => {
-        const { queryByText } = renderComponent({
-          talkOnline: true,
-          callbackEnabled: true
-        })
-
-        expect(queryByText('Request a callback')).toBeInTheDocument()
-      })
-    })
-
-    describe('when callback is disabled', () => {
-      it('uses the callback label', () => {
-        const { queryByText } = renderComponent({
-          talkOnline: true,
-          callbackEnabled: false
-        })
-
-        expect(queryByText('Call us')).toBeInTheDocument()
-      })
-    })
+    expect(queryByText('click this button')).toBeInTheDocument()
   })
 })
 

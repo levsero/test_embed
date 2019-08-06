@@ -111,7 +111,7 @@ describe('render', () => {
         showNextButton: false
       })
 
-      expect(container.querySelector('.buttonContainer')).not.toBeInTheDocument()
+      expect(container.querySelector('.button')).not.toBeInTheDocument()
     })
 
     it('does not render footer content if showNextButton is false and hasSearched is true', () => {
@@ -120,7 +120,7 @@ describe('render', () => {
         showNextButton: false
       })
 
-      expect(container.querySelector('.buttonContainer')).not.toBeInTheDocument()
+      expect(container.querySelector('.button')).not.toBeInTheDocument()
     })
 
     it('shows after something has been searched', () => {
@@ -129,7 +129,7 @@ describe('render', () => {
         showNextButton: true
       })
 
-      expect(container.querySelector('.buttonContainer')).toBeInTheDocument()
+      expect(container.querySelector('.button')).toBeInTheDocument()
     })
   })
 
@@ -249,6 +249,7 @@ describe('on button click', () => {
     it('calls onNextClick', () => {
       const onNextClick = jest.fn(),
         handleNextClick = jest.fn()
+
       const { getByText } = renderHelpCenterDesktop({
         showNextButton: true,
         hasSearched: true,

@@ -7,6 +7,7 @@ import NoResultsMessageStyles from 'embeds/helpCenter/components/NoResultsMessag
 import DesktopPageStyles from 'embeds/helpCenter/pages/DesktopPage/styles.scss'
 import MobilePageStyles from 'embeds/helpCenter/pages/MobilePage/styles.scss'
 import InitialSearchPageStyles from 'embeds/helpCenter/pages/SearchPromptPage/styles.scss'
+import HelpCenterChannelButtonStyles from 'src/embeds/helpCenter/components/HelpCenterChannelButton/index.scss'
 
 const styles = `
   ${InitialSearchPageStyles}
@@ -18,6 +19,7 @@ const styles = `
   ${ListStyles}
   ${LegendStyles}
   ${NoResultsMessageStyles}
+  ${HelpCenterChannelButtonStyles}
 `
 
 export default styles

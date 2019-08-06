@@ -5,7 +5,7 @@ exports[`render footer renders button with loading animation 1`] = `
   class="footer  footerShadow"
 >
   <div
-    class="buttonContainer"
+    class="container containerDesktop"
   >
     <div
       class="container buttonRight buttonGroup"
@@ -55,7 +55,7 @@ exports[`render footer renders expected next button 1`] = `
   class="footer  footerShadow"
 >
   <div
-    class="buttonContainer"
+    class="container containerDesktop"
   >
     <div
       class="container buttonRight buttonGroup"
@@ -139,7 +139,7 @@ exports[`renders the expected components 1`] = `
         class="footer  footerShadow"
       >
         <div
-          class="buttonContainer"
+          class="container containerDesktop"
         >
           <div
             class="container buttonRight buttonGroup"
@@ -209,7 +209,7 @@ exports[`renders the expected components when articleViewActive is true 1`] = `
         class="footer  footerShadow"
       >
         <div
-          class="buttonContainer"
+          class="container containerDesktop"
         >
           <div
             class="container buttonRight buttonGroup"
