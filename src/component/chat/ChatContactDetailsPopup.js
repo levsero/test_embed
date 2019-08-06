@@ -36,7 +36,15 @@ export class ChatContactDetailsPopup extends Component {
     updateFn: PropTypes.func,
     show: PropTypes.bool,
     isMobile: PropTypes.bool,
-    isAuthenticated: PropTypes.bool
+    isAuthenticated: PropTypes.bool,
+    requiredFormData: PropTypes.shape({
+      name: PropTypes.shape({
+        enabled: PropTypes.bool
+      }),
+      email: PropTypes.shape({
+        enabled: PropTypes.bool
+      })
+    })
   }
 
   static defaultProps = {
@@ -47,22 +55,24 @@ export class ChatContactDetailsPopup extends Component {
     updateFn: () => {},
     show: false,
     isMobile: false,
-    isAuthenticated: false
+    isAuthenticated: false,
+    requiredFormData: { name: { required: false }, email: { required: false } }
   }
 
   constructor(props) {
     super(props)
     const email = props.contactDetails.email || _.get(props.visitor, 'email', '')
     const name = props.contactDetails.display_name || _.get(props.visitor, 'display_name', '')
+    const { name: nameRules, email: emailRules } = this.props.requiredFormData
 
     this.props.updateFn(isDefaultNickname(name) ? '' : name, email)
 
     this.state = {
       showNameError: !nameValid(name, {
-        allowEmpty: true
+        allowEmpty: !nameRules.required
       }),
       showEmailError: !emailValid(email, {
-        allowEmpty: true
+        allowEmpty: !emailRules.required
       })
     }
 
@@ -83,12 +93,13 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   handleSave = () => {
+    const { name: nameRules, email: emailRules } = this.props.requiredFormData
     const { display_name: name, email } = this.props.contactDetails
     const isNameError = !nameValid(name, {
-      allowEmpty: true
+      allowEmpty: !nameRules.required
     })
     const isEmailError = !emailValid(email, {
-      allowEmpty: true
+      allowEmpty: !emailRules.required
     })
 
     if (isNameError || isEmailError) {
@@ -115,6 +126,7 @@ export class ChatContactDetailsPopup extends Component {
 
   handleFormChange = e => {
     const { name, value } = e.target
+    const { name: nameRules, email: emailRules } = this.props.requiredFormData
     const newState = {
       ...this.props.contactDetails,
       [name]: value
@@ -122,16 +134,16 @@ export class ChatContactDetailsPopup extends Component {
 
     // We only want this to clear an existing error
     if (this.state.showNameError) {
-      this.setState({
-        showNameError: !nameValid(name, { alloweEmpty: true })
-      })
     }
+    this.setState({
+      showNameError: !nameValid(newState.display_name, { allowEmpty: !nameRules.required })
+    })
 
     if (this.state.showEmailError) {
-      this.setState({
-        showEmailError: !emailValid(newState.email, { allowEmpty: true })
-      })
     }
+    this.setState({
+      showEmailError: !emailValid(newState.email, { allowEmpty: !emailRules.required })
+    })
 
     this.props.updateFn(newState.display_name, newState.email)
   }
@@ -153,9 +165,11 @@ export class ChatContactDetailsPopup extends Component {
     const value = _.isNil(this.props.contactDetails.display_name)
       ? ''
       : this.props.contactDetails.display_name
+    const { name: nameRules } = this.props.requiredFormData
+
     const error = this.renderErrorMessage(
       value,
-      false,
+      nameRules.required,
       this.state.showNameError,
       'embeddable_framework.validation.error.name',
       NAME_PATTERN
@@ -163,7 +177,11 @@ export class ChatContactDetailsPopup extends Component {
 
     return (
       <TextField>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.name'), false)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.common.textLabel.name'),
+          nameRules.required
+        )}
         <Input
           defaultValue={value}
           name="display_name"
@@ -180,9 +198,11 @@ export class ChatContactDetailsPopup extends Component {
 
   renderEmailField = () => {
     const value = _.isNil(this.props.contactDetails.email) ? '' : this.props.contactDetails.email
+    const { email: emailRules } = this.props.requiredFormData
+
     const error = this.renderErrorMessage(
       value,
-      false,
+      emailRules.required,
       this.state.showEmailError,
       'embeddable_framework.validation.error.email',
       EMAIL_PATTERN
@@ -191,7 +211,11 @@ export class ChatContactDetailsPopup extends Component {
     /* eslint-disable max-len */
     return (
       <TextField>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), false)}
+        {renderLabel(
+          Label,
+          i18n.t('embeddable_framework.common.textLabel.email'),
+          emailRules.required
+        )}
         <Input
           defaultValue={value}
           disabled={this.props.isAuthenticated}
@@ -263,10 +287,11 @@ export class ChatContactDetailsPopup extends Component {
     return <LoadingSpinner height={32} width={32} className={styles.loadingSpinner} />
   }
 
-  render = () => {
+  render() {
     const { isMobile, className, leftCtaFn, screen, isAuthenticated } = this.props
     const isLoading = screen === EDIT_CONTACT_DETAILS_LOADING_SCREEN
     const containerClasses = isLoading ? styles.popupChildrenContainerLoading : ''
+    const inputError = this.state.showEmailError || this.state.showNameError
 
     return (
       <ChatPopup
@@ -281,6 +306,7 @@ export class ChatContactDetailsPopup extends Component {
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.handleSave}
         rightCtaLabel={i18n.t('embeddable_framework.common.button.save')}
+        rightCtaDisabled={inputError}
       >
         {this.renderForm()}
         {this.renderFailureScreen()}
