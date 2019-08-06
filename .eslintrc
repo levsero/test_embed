@@ -4,11 +4,12 @@
     "./config/eslint/eslint-es6.js",
     "./config/eslint/eslint-react.js",
     "./config/eslint/eslint-plugin-import.js",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
   ],
   "plugins": [
     "jest",
-    "lodash"
+    "lodash",
+    "react-hooks"
   ],
   "root": true,
   "env": {
@@ -34,7 +35,9 @@
     "jest/no-focused-tests": "error",
     "camelcase": [2, {"properties": "never"}],
     "no-empty": 0,
-    "newline-after-var": 0
+    "newline-after-var": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "overrides": [
     {
