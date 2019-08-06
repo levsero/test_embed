@@ -8,7 +8,7 @@ import { ThemeProvider } from '@zendeskgarden/react-theming'
 import Navigation from 'component/frame/Navigation'
 import { i18n } from 'service/i18n'
 import { getGardenOverrides } from './gardenOverrides'
-import { getDocumentHost } from 'utility/globals'
+import { focusLauncher, getDocumentHost } from 'utility/globals'
 import { getColor } from 'src/redux/modules/selectors'
 
 export class EmbedWrapper extends Component {
@@ -71,22 +71,10 @@ export class EmbedWrapper extends Component {
         }
 
         if (keyCode === KEY_CODES.ESCAPE) {
-          this.handleOnCloseFocusChange()
+          focusLauncher()
         }
       }
     }
-  }
-
-  handleOnCloseFocusChange = () => {
-    // Due to the tabIndex switching based on visibility
-    // we need to move focus on the next tick
-    setTimeout(() => {
-      const doc = getDocumentHost().querySelector('#launcher')
-
-      if (doc) {
-        doc.contentDocument.querySelector('button').focus()
-      }
-    }, 0)
   }
 
   render = () => {
@@ -114,7 +102,7 @@ export class EmbedWrapper extends Component {
                     this.nav = el
                   }}
                   handleBackClick={this.props.handleBackClick}
-                  handleOnCloseFocusChange={this.handleOnCloseFocusChange}
+                  handleOnCloseFocusChange={focusLauncher}
                   fullscreen={this.props.fullscreen}
                   isMobile={this.props.isMobile}
                   useBackButton={this.props.useBackButton}

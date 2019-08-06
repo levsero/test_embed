@@ -50,6 +50,18 @@ const getWebWidgetFrameContentDocumentBody = () => {
   }
 }
 
+const focusLauncher = () => {
+  // Due to the tabIndex switching based on visibility
+  // we need to move focus on the next tick
+  setTimeout(() => {
+    const launcher = getDocumentHost().querySelector('#launcher')
+
+    if (launcher) {
+      launcher.contentDocument.querySelector('button').focus()
+    }
+  }, 0)
+}
+
 export {
   win,
   document,
@@ -60,5 +72,6 @@ export {
   isPopout,
   setReferrerMetas,
   getReferrerPolicy,
-  getWebWidgetFrameContentDocumentBody
+  getWebWidgetFrameContentDocumentBody,
+  focusLauncher
 }
