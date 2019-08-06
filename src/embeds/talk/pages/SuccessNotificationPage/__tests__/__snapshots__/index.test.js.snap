@@ -11,7 +11,7 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
       <h1
         class="title"
       >
-        Request a callback
+        Request sent
       </h1>
     </div>
     <div
@@ -71,71 +71,30 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
 `;
 
 exports[`SuccessNotificationPage renders when on a mobile browser 1`] = `
-<div>
-  <div
-    class="container"
-  >
-    <div
-      class="header userHeader"
-    >
-      <h1
-        class="title"
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -16,8 +16,8 @@
       >
-        Request a callback
-      </h1>
-    </div>
-    <div
-      class="container"
-    >
-      <div
-        class="content contentMobile"
-      >
-        <span
-          class="container icon Icon--success-talk mobile"
-          data-testid="Icon--success-talk"
-          type="Icon--success-talk"
-        >
-          widget-icon_success_talk.svg
-        </span>
         <div
-          class="mobileMessages"
+-         class="content"
++         class="content contentMobile"
         >
-          <h2
-            class="firstMessage firstMessageMobile"
+          <span
+-           class="container icon Icon--success-talk"
++           class="container icon Icon--success-talk mobile"
+            data-testid="Icon--success-talk"
+            type="Icon--success-talk"
+@@ -26,8 +26,8 @@
+          </span>
+          <div
+-           class="desktopMessages"
++           class="mobileMessages"
           >
-            Thanks for reaching out.
-          </h2>
-          <p>
-            We'll get back to you soon.
-          </p>
-        </div>
-      </div>
-    </div>
-    <footer
-      class="footer"
-    >
-      <div
-        class="footer"
-      >
-        <button
-          class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
-          data-garden-id="buttons.button"
-          data-garden-version="3.7.0"
-          tabindex="0"
-          type="button"
-        >
-          Done
-        </button>
-        <a
-          class="icon"
-          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-          tabindex="-1"
-          target="_blank"
-        >
-          widget-icon_zendesk.svg
-        </a>
-      </div>
-    </footer>
-  </div>
-</div>
+            <h2
+-             class="firstMessage firstMessageDesktop"
++             class="firstMessage firstMessageMobile"
+            >
+              Thanks for reaching out.
 `;

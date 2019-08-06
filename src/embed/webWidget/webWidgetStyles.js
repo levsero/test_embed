@@ -51,7 +51,6 @@ import ProgressBarStyles from 'component/attachment/ProgressBar.scss'
 import SearchFieldStyles from 'component/field/SearchField.scss'
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss'
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss'
-import TalkStyles from 'component/talk/Talk.scss'
 import LoadingBarContentStyles from 'component/loading/LoadingBarContent.scss'
 import FrameStyles from 'component/frame/Frame.scss'
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss'
@@ -121,7 +120,6 @@ export const webWidgetStyles = `
   ${SearchFieldStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
-  ${TalkStyles}
   ${talkStyles}
   ${LoadingBarContentStyles}
   ${SharedComponentStyles}

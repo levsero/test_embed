@@ -31,6 +31,7 @@ import WidgetFooter from 'src/components/WidgetFooter'
 import { Button } from '@zendeskgarden/react-buttons'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
+import { Redirect } from 'react-router-dom'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
@@ -103,6 +104,7 @@ class CallbackForm extends Component {
 
   render() {
     const {
+      callback,
       isMobile,
       formState,
       submitButtonLabel,
@@ -112,6 +114,10 @@ class CallbackForm extends Component {
       nameLabelText,
       descriptionLabelText
     } = this.props
+
+    if (callback.success) {
+      return <Redirect to="/talk/success" />
+    }
 
     const submitButtonStyles = classNames(styles.submitButton, {
       [styles.submitBtnMobile]: isMobile

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router'
 import { FocusJailContainer } from '@zendeskgarden/react-modals'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
@@ -87,39 +88,41 @@ export class EmbedWrapper extends Component {
 
     return (
       <Provider store={this.props.reduxStore}>
-        <ThemeProvider
-          theme={getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget'))}
-          rtl={i18n.isRTL()}
-          document={this.props.document}
-        >
-          <FocusJailContainer focusOnMount={false}>
-            {({ getContainerProps, containerRef }) => (
-              <div {...getContainerProps(this.getEmbedWrapperProps(containerRef))}>
-                {css}
-                {styleTag}
-                <Navigation
-                  ref={el => {
-                    this.nav = el
-                  }}
-                  handleBackClick={this.props.handleBackClick}
-                  handleOnCloseFocusChange={focusLauncher}
-                  fullscreen={this.props.fullscreen}
-                  isMobile={this.props.isMobile}
-                  useBackButton={this.props.useBackButton}
-                  hideNavigationButtons={this.props.hideNavigationButtons}
-                />
-                <div
-                  id="Embed"
-                  ref={el => {
-                    this.embed = el
-                  }}
-                >
-                  {newChild}
+        <MemoryRouter>
+          <ThemeProvider
+            theme={getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget'))}
+            rtl={i18n.isRTL()}
+            document={this.props.document}
+          >
+            <FocusJailContainer focusOnMount={false}>
+              {({ getContainerProps, containerRef }) => (
+                <div {...getContainerProps(this.getEmbedWrapperProps(containerRef))}>
+                  {css}
+                  {styleTag}
+                  <Navigation
+                    ref={el => {
+                      this.nav = el
+                    }}
+                    handleBackClick={this.props.handleBackClick}
+                    handleOnCloseFocusChange={focusLauncher}
+                    fullscreen={this.props.fullscreen}
+                    isMobile={this.props.isMobile}
+                    useBackButton={this.props.useBackButton}
+                    hideNavigationButtons={this.props.hideNavigationButtons}
+                  />
+                  <div
+                    id="Embed"
+                    ref={el => {
+                      this.embed = el
+                    }}
+                  >
+                    {newChild}
+                  </div>
                 </div>
-              </div>
-            )}
-          </FocusJailContainer>
-        </ThemeProvider>
+              )}
+            </FocusJailContainer>
+          </ThemeProvider>
+        </MemoryRouter>
       </Provider>
     )
   }

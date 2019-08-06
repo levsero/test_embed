@@ -4,13 +4,10 @@ import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
 import libphonenumber from 'libphonenumber-js'
 
-import {
-  updateTalkEmbeddableConfig,
-  handleTalkVendorLoaded,
-  resetTalk
-} from 'src/redux/modules/talk'
-import Talk from '../../Talk'
+import { updateTalkEmbeddableConfig, handleTalkVendorLoaded } from 'src/redux/modules/talk'
+import Talk from '../../'
 import { http } from 'service/transport'
+import { MemoryRouter } from 'react-router-dom'
 
 jest.mock('service/transport')
 
@@ -36,9 +33,11 @@ const setUpComponent = () => {
   }
 
   const result = render(
-    <Provider store={store}>
-      <Talk isMobile={false} />
-    </Provider>
+    <MemoryRouter>
+      <Provider store={store}>
+        <Talk isMobile={false} />
+      </Provider>
+    </MemoryRouter>
   )
 
   return {
@@ -110,8 +109,6 @@ test('phone only page', () => {
       averageWaitTimeEnabled: true
     })
   )
-
-  utils.store.dispatch(resetTalk())
 
   checkForPhoneOnlyPage(utils, {
     phoneNumber,

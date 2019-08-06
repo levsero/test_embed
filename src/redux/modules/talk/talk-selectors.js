@@ -1,29 +1,16 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
 import { i18n } from 'service/i18n'
-import { CALLBACK_ONLY, CALLBACK_AND_PHONE, PHONE_ONLY } from './talk-capability-types'
-import { CALLBACK_SCREEN, PHONE_US_SCREEN } from 'src/redux/modules/talk/talk-screen-types'
+import { CALLBACK_ONLY, CALLBACK_AND_PHONE } from './talk-capability-types'
 export const getEmbeddableConfig = state => state.talk.embeddableConfig
 export const getCapability = state => getEmbeddableConfig(state).capability
 export const getEmbeddableConfigEnabled = state => getEmbeddableConfig(state).enabled
 export const getEmbeddableConfigConnected = state => getEmbeddableConfig(state).connected
 export const getAgentAvailability = state => state.talk.agentAvailability
 export const getFormState = state => state.talk.formState
-export const getScreen = state => state.talk.screen
 export const getCallback = state => state.talk.callback
 export const getAverageWaitTime = state => state.talk.averageWaitTime.waitTime
 export const getAverageWaitTimeEnabled = state => state.talk.averageWaitTime.enabled
-export const getInitialScreen = state => {
-  const capability = getCapability(state)
-
-  switch (capability) {
-    case CALLBACK_AND_PHONE:
-    case CALLBACK_ONLY:
-      return CALLBACK_SCREEN
-    case PHONE_ONLY:
-      return PHONE_US_SCREEN
-  }
-}
 export const getSocketIoVendor = state => state.talk.vendor.io
 export const getLibPhoneNumberVendor = state => state.talk.vendor.libphonenumber
 

@@ -1,7 +1,5 @@
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
 
-jest.mock('')
-
 import { getTitle, getOfflineTitle } from '../selectors'
 
 describe('talk selectors', () => {

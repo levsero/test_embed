@@ -57,16 +57,6 @@ describe('WebWidget component', () => {
       }
     }
 
-    class MockTalk extends Component {
-      constructor() {
-        super()
-        this.state = {}
-      }
-      render() {
-        return <div ref="talk" />
-      }
-    }
-
     initMockRegistry({
       React: React,
       'component/container/Container': {
@@ -80,7 +70,7 @@ describe('WebWidget component', () => {
       'component/chat/Chat': connectedComponent(<MockChat />),
       'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
-      'component/talk/Talk': connectedComponent(<MockTalk />),
+      'src/embeds/talk': noopReactComponent(),
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: noopReactComponent()
       },

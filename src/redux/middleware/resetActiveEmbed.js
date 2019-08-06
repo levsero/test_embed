@@ -10,7 +10,8 @@ import {
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-  TALK_AGENT_AVAILABILITY_SOCKET_EVENT
+  TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
+  TALK_SUCCESS_DONE_BUTTON_CLICKED
 } from 'src/redux/modules/talk/talk-action-types'
 import {
   CHAT_BANNED,
@@ -173,7 +174,8 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     ZOPIM_CONNECTED,
     ZOPIM_END_CHAT,
     API_RESET_WIDGET,
-    GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
+    GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
+    TALK_SUCCESS_DONE_BUTTON_CLICKED
   ]
   const widgetVisible = getWebWidgetVisible(prevState)
   const isZopimChatting = getZopimIsChatting(nextState) && getActiveEmbed(nextState) === 'zopimChat'

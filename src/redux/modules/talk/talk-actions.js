@@ -8,16 +8,16 @@ import {
   TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
   TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT,
   TALK_DISCONNECT_SOCKET_EVENT,
-  UPDATE_TALK_SCREEN,
   UPDATE_CALLBACK_FORM,
   TALK_CALLBACK_REQUEST,
   TALK_CALLBACK_SUCCESS,
   TALK_CALLBACK_FAILURE,
   TALK_VENDOR_LOADED
 } from './talk-action-types'
-import { getFormState, getInitialScreen } from './talk-selectors'
-import { updateBackButtonVisibility } from 'src/redux/modules/base'
+import { getFormState } from './talk-selectors'
+import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getShowTalkBackButton } from 'src/redux/modules/selectors'
+import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
 
 export function updateTalkEmbeddableConfig(config) {
   return {
@@ -46,26 +46,11 @@ export function talkDisconnect() {
   }
 }
 
-export function updateTalkScreen(screen) {
-  return {
-    type: UPDATE_TALK_SCREEN,
-    payload: screen
-  }
-}
-
 export function resetTalkScreen() {
   return (dispatch, getState) => {
-    dispatch(resetTalk())
-
     const talkBackButtonAvailable = getShowTalkBackButton(getState())
 
     dispatch(updateBackButtonVisibility(talkBackButtonAvailable))
-  }
-}
-
-export function resetTalk() {
-  return (dispatch, getState) => {
-    dispatch(updateTalkScreen(getInitialScreen(getState())))
   }
 }
 
@@ -152,4 +137,11 @@ export function handleTalkVendorLoaded(vendor) {
     type: TALK_VENDOR_LOADED,
     payload: vendor
   }
+}
+
+export const successDoneButtonClicked = () => dispatch => {
+  dispatch(handleCloseButtonClicked())
+  dispatch({
+    type: TALK_SUCCESS_DONE_BUTTON_CLICKED
+  })
 }
