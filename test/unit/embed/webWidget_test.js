@@ -266,7 +266,7 @@ describe('embed.webWidget', () => {
       it('applies webWidget.scss to the frame factory', () => {
         webWidget.create('', mockConfig, mockStore)
 
-        expect(webWidget.get().component.props.children.props.css).toContain('mockCss')
+        expect(frame.props.css).toContain('mockCss')
       })
 
       it('sets the iframe title', () => {
