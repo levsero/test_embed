@@ -12,14 +12,13 @@ import {
   getAverageWaitTimeString,
   getEmbeddableConfig
 } from 'src/redux/modules/talk/talk-selectors'
-import { getTalkTitle } from 'src/redux/modules/selectors'
 import { locals as styles } from './styles.scss'
 import WidgetHeader from 'src/components/WidgetHeader'
 import WidgetContainer from 'src/components/WidgetContainer'
 import WidgetMain from 'src/components/WidgetMain'
 import WidgetFooter from 'src/components/WidgetFooter'
 import ZendeskLogo from 'src/components/ZendeskLogo'
-import { getFormattedPhoneNumber } from 'src/embeds/talk/selectors'
+import { getFormattedPhoneNumber, getTitle } from 'src/embeds/talk/selectors'
 
 const PhoneOnlyPage = ({
   isMobile,
@@ -68,7 +67,7 @@ const mapStateToProps = state => {
     averageWaitTime: getAverageWaitTimeString(state),
     phoneNumber: getEmbeddableConfig(state).phoneNumber,
     formattedPhoneNumber: getFormattedPhoneNumber(state),
-    title: getTalkTitle(state)
+    title: getTitle(state, 'embeddable_framework.talk.phoneOnly.title')
   }
 }
 
