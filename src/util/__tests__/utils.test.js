@@ -11,7 +11,8 @@ import {
   nameValid,
   emailValid,
   referrerPolicyUrl,
-  isValidUrl
+  isValidUrl,
+  onNextTick
 } from '../utils'
 import * as globals from 'utility/globals'
 
@@ -406,5 +407,19 @@ describe('#cappedTimeoutCall', () => {
     it(`keeps calling callback until ${repetitions} repetitions`, () => {
       expect(callback).toHaveBeenCalledTimes(repetitions)
     })
+  })
+})
+
+describe('onNextTick', () => {
+  const callback = jest.fn()
+
+  beforeEach(() => {
+    onNextTick(callback)
+  })
+
+  it('calls the passed callback on the next tick', () => {
+    expect(callback).not.toHaveBeenCalled()
+    jest.advanceTimersByTime(0)
+    expect(callback).toHaveBeenCalled()
   })
 })
