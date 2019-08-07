@@ -938,8 +938,7 @@ describe('onStateChange middleware', () => {
               payload: {
                 detail: {
                   auth: {
-                    avatar$string: avatarPath,
-                    verified$bool: false
+                    avatar$string: avatarPath
                   }
                 }
               }
