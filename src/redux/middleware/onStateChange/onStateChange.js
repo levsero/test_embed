@@ -214,7 +214,7 @@ const onVisitorUpdate = ({ type, payload }, dispatch) => {
   const isVisitorUpdate = type === SDK_VISITOR_UPDATE
   const authObj = _.get(payload, 'detail.auth')
   const avatarPath = _.get(authObj, 'avatar$string')
-  const isSociallyAuth = _.get(authObj, 'verified$bool')
+  const isSociallyAuth = _.has(authObj, 'verified$bool')
 
   if (isVisitorUpdate && isSociallyAuth) {
     dispatch({
