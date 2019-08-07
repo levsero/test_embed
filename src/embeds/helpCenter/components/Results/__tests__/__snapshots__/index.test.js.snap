@@ -9,7 +9,7 @@ exports[`no results renders expected classes 1`] = `
       class="noResults noResultsDesktop"
     >
       <p
-        class="u-marginBN u-marginTL"
+        class="title"
       >
         There are no results for ""
       </p>
@@ -32,12 +32,12 @@ exports[`no results renders expected mobile classes 1`] = `
       class="noResults noResultsMobile"
     >
       <p
-        class="u-marginBN u-marginTL"
+        class="title"
       >
         There are no results for ""
       </p>
       <p
-        class="noResultsParagraph "
+        class="noResultsParagraph"
       >
         Try searching for something else.
       </p>
@@ -52,22 +52,22 @@ exports[`with results renders expected classes 1`] = `
     class=""
   >
     <div
-      class="legend "
+      class="container"
     >
       <h2
-        class="legendContent"
+        class="content"
       >
         Top results
       </h2>
     </div>
     <ol
-      class="list listBottom "
+      class="list listBottom"
     >
       <li
-        class="item "
+        class="item"
       >
         <a
-          class="u-userTextColor"
+          class="link"
           href="http://www.example.com"
           target="_blank"
         >
@@ -75,10 +75,10 @@ exports[`with results renders expected classes 1`] = `
         </a>
       </li>
       <li
-        class="item "
+        class="item"
       >
         <a
-          class="u-userTextColor"
+          class="link"
           href="http://www.example.com"
           target="_blank"
         >
@@ -96,10 +96,10 @@ exports[`with results renders expected mobile classes 1`] = `
     class=""
   >
     <div
-      class="legend "
+      class="container"
     >
       <h2
-        class="legendContent"
+        class="content"
       >
         Top results
       </h2>
@@ -111,7 +111,7 @@ exports[`with results renders expected mobile classes 1`] = `
         class="item itemMobile"
       >
         <a
-          class="u-userTextColor"
+          class="link"
           href="http://www.example.com"
           target="_blank"
         >
@@ -122,7 +122,7 @@ exports[`with results renders expected mobile classes 1`] = `
         class="item itemMobile"
       >
         <a
-          class="u-userTextColor"
+          class="link"
           href="http://www.example.com"
           target="_blank"
         >
