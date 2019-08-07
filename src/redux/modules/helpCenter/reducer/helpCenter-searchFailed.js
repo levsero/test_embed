@@ -1,4 +1,4 @@
-import { SEARCH_REQUEST_SENT, SEARCH_REQUEST_FAILURE } from '../helpCenter-action-types'
+import { SEARCH_REQUEST_SENT, SEARCH_REQUEST_FAILURE } from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 
 const initialState = false

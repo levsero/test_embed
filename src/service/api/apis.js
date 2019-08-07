@@ -42,7 +42,7 @@ import {
   getChatStatus
 } from 'src/redux/modules/chat/chat-selectors'
 import { updateSettings } from 'src/redux/modules/settings'
-import { setContextualSuggestionsManually } from 'src/redux/modules/helpCenter'
+import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
 
 import { chat as zopimChat } from 'embed/chat/chat'

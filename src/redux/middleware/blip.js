@@ -9,7 +9,7 @@ import {
   ORIGINAL_ARTICLE_CLICKED,
   SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_FAILURE
-} from 'src/redux/modules/helpCenter/helpCenter-action-types'
+} from 'src/embeds/helpCenter/actions/action-types'
 import {
   CONTEXTUAL_ARTICLE_SHOWN,
   ARTICLE_SHOWN,

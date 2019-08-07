@@ -1,4 +1,4 @@
-import { CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN } from '../helpCenter-action-types'
+import { CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN } from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 
 const initialState = false

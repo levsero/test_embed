@@ -1,4 +1,4 @@
-import { CONTEXTUAL_SUGGESTIONS_MANUALLY_SET } from '../helpCenter-action-types'
+import { CONTEXTUAL_SUGGESTIONS_MANUALLY_SET } from 'embeds/helpCenter/actions/action-types'
 import _ from 'lodash'
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 

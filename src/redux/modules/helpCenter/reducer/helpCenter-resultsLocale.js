@@ -1,7 +1,7 @@
 import {
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_SUCCESS
-} from '../helpCenter-action-types'
+} from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 
 const initialState = ''

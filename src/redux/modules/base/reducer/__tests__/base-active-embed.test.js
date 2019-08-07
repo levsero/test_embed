@@ -1,6 +1,6 @@
 import baseActiveEmbed from '../base-active-embed'
 import { UPDATE_ACTIVE_EMBED } from '../../base-action-types'
-import { GET_ARTICLE_REQUEST_SUCCESS } from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import { GET_ARTICLE_REQUEST_SUCCESS } from 'embeds/helpCenter/actions/action-types'
 import { ZOPIM_SHOW } from 'src/redux/modules/zopimChat/zopimChat-action-types'
 import { testReducer } from 'src/util/testHelpers'
 

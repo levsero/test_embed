@@ -27,7 +27,7 @@ import {
   showStandaloneMobileNotification,
   closedChatHistory
 } from 'src/redux/modules/chat'
-import { resetActiveArticle } from 'src/redux/modules/helpCenter'
+import { resetActiveArticle } from 'embeds/helpCenter/actions'
 import {
   getChatAvailable,
   getChatOfflineAvailable,

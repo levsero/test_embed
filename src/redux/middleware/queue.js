@@ -1,5 +1,5 @@
 import { AUTHENTICATION_SUCCESS } from 'src/redux/modules/base/base-action-types'
-import { performContextualSearch } from 'src/redux/modules/helpCenter'
+import { performContextualSearch } from 'embeds/helpCenter/actions'
 import { removeFromQueue } from 'src/redux/modules/base'
 import { getQueue } from 'src/redux/modules/base/base-selectors'
 

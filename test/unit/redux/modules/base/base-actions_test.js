@@ -93,7 +93,7 @@ describe('base redux actions', () => {
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: 'PRECHAT_SCREEN'
       },
-      'src/redux/modules/helpCenter': {
+      'embeds/helpCenter/actions': {
         contextualSearch: contextualSearchSpy
       },
       'src/constants/shared': {

@@ -1,4 +1,8 @@
-import { SEARCH_REQUEST_SENT, ARTICLE_CLICKED, ARTICLE_CLOSED } from '../helpCenter-action-types'
+import {
+  SEARCH_REQUEST_SENT,
+  ARTICLE_CLICKED,
+  ARTICLE_CLOSED
+} from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 
 const initialState = false
