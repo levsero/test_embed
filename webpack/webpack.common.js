@@ -103,8 +103,7 @@ module.exports = {
       // CSS Components
       componentCSS: path.join(prefix + '/src/styles/components'),
       icons: path.join(prefix + '/src/asset/icons'),
-      globalCSS: path.join(prefix + '/src/styles/globals.scss'),
-      'react-dom': '@hot-loader/react-dom'
+      globalCSS: path.join(prefix + '/src/styles/globals.scss')
     },
     extensions: ['.js'],
     modules: ['node_modules']

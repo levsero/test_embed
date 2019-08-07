@@ -15,7 +15,6 @@ import PhoneOnlyPage from 'src/embeds/talk/pages/PhoneOnlyPage'
 import CallbackPage from 'src/embeds/talk/pages/CallbackPage'
 
 import SuccessNotificationPage from 'src/embeds/talk/pages/SuccessNotificationPage'
-import { hot } from 'react-hot-loader/root'
 
 const mapStateToProps = state => {
   return {
@@ -67,4 +66,4 @@ export default connect(
   actionCreators,
   null,
   { forwardRef: true }
-)(hot(Talk))
+)(Talk)

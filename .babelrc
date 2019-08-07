@@ -3,8 +3,7 @@
     [
       "@babel/preset-env",
       {
-        "useBuiltIns": "usage",
-        "modules": false
+        "useBuiltIns": "usage"
       }
     ],
     "@babel/preset-react"
@@ -13,7 +12,7 @@
   "env": {
     "test": {
       "presets": [
-        ["@babel/preset-env", { "targets": { "node": "current" }, "useBuiltIns": false }],
+        ["@babel/preset-env", { "targets": { "node": "current" } }],
         "@babel/preset-react"
       ],
       "plugins": ["dynamic-import-node"]
@@ -39,7 +38,6 @@
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",
     "@babel/plugin-proposal-numeric-separator",
-    "@babel/plugin-proposal-throw-expressions",
-    "react-hot-loader/babel"
+    "@babel/plugin-proposal-throw-expressions"
   ]
 }
