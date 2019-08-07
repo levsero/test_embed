@@ -9,7 +9,7 @@ import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_FAILURE
-} from 'src/redux/modules/helpCenter/helpCenter-action-types'
+} from 'embeds/helpCenter/actions/action-types'
 
 const getContextualSearch = state => state.helpCenter.contextualSearch
 const getContextualSearchScreen = state => getContextualSearch(state).screen

@@ -95,7 +95,7 @@ describe('WebWidget component', () => {
         updateChatScreen: noop,
         proactiveChatNotificationDismissed: noop
       },
-      'src/redux/modules/helpCenter': {
+      'embeds/helpCenter/actions': {
         resetActiveArticle: noop
       },
       'src/redux/modules/base/base-selectors': {

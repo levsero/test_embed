@@ -1,4 +1,4 @@
-import { SEARCH_FIELD_CHANGED } from '../helpCenter-action-types'
+import { SEARCH_FIELD_CHANGED } from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 
 const initialState = ''

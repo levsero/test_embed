@@ -2,7 +2,7 @@ import {
   ARTICLE_CLICKED,
   ARTICLE_CLOSED,
   GET_ARTICLE_REQUEST_SUCCESS
-} from '../helpCenter-action-types'
+} from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 
 const initialState = null

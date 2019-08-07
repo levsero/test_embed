@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { mediator } from 'service/mediator'
 import { renderer } from 'service/renderer'
 import { activateRecieved, legacyShowReceived } from 'src/redux/modules/base'
-import { displayArticle } from 'src/redux/modules/helpCenter'
+import { displayArticle } from 'embeds/helpCenter/actions'
 import {
   hideApi,
   identifyApi,

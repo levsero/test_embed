@@ -1,4 +1,4 @@
-import { ADD_RESTRICTED_IMAGE } from '../helpCenter-action-types'
+import { ADD_RESTRICTED_IMAGE } from 'embeds/helpCenter/actions/action-types'
 import _ from 'lodash'
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 

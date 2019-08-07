@@ -55,7 +55,7 @@ describe('blip middleware', () => {
       'src/redux/modules/talk/talk-action-types': {
         TALK_CALLBACK_SUCCESS: TALK_CALLBACK_SUCCESS
       },
-      'src/redux/modules/helpCenter/helpCenter-action-types': {
+      'src/embeds/helpCenter/actions/action-types': {
         ARTICLE_CLICKED: ARTICLE_CLICKED,
         ORIGINAL_ARTICLE_CLICKED: ORIGINAL_ARTICLE_CLICKED,
         SEARCH_REQUEST_SUCCESS: SEARCH_REQUEST_SUCCESS,

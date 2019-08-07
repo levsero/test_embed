@@ -1,4 +1,7 @@
-import { SEARCH_REQUEST_SENT, CONTEXTUAL_SEARCH_REQUEST_SENT } from '../helpCenter-action-types'
+import {
+  SEARCH_REQUEST_SENT,
+  CONTEXTUAL_SEARCH_REQUEST_SENT
+} from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from '../../base/base-action-types'
 
 const initialState = -1

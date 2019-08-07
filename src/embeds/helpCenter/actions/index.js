@@ -33,7 +33,7 @@ import {
   SEARCH_FIELD_CHANGED,
   SEARCH_FIELD_FOCUSED,
   CONTEXTUAL_SUGGESTIONS_MANUALLY_SET
-} from './helpCenter-action-types'
+} from './action-types'
 import { updateQueue } from 'src/redux/modules/base'
 import { isOnHostMappedDomain } from 'utility/pages'
 import { getSettingsHelpCenterFilter } from 'src/redux/modules/settings/settings-selectors'

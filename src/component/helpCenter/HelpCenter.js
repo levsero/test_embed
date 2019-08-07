@@ -18,7 +18,7 @@ import {
   addRestrictedImage,
   handleSearchFieldChange,
   handleSearchFieldFocus
-} from 'src/redux/modules/helpCenter'
+} from 'embeds/helpCenter/actions'
 import {
   getActiveArticle,
   getResultsLocale,

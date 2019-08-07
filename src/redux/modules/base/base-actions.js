@@ -9,7 +9,7 @@ import {
 } from 'src/redux/modules/base/base-selectors'
 import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors'
 import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
-import { contextualSearch } from 'src/redux/modules/helpCenter'
+import { contextualSearch } from 'embeds/helpCenter/actions'
 import {
   extractTokenId,
   isTokenRenewable,

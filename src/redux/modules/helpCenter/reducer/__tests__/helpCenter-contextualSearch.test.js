@@ -1,5 +1,5 @@
 import contextualSearch from '../helpCenter-contextualSearch'
-import * as actionTypes from 'src/redux/modules/helpCenter/helpCenter-action-types'
+import * as actionTypes from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from '../../../base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
 

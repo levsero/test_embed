@@ -15,7 +15,7 @@ describe('queue middleware', () => {
       'src/redux/modules/base': {
         removeFromQueue: removeFromQueueSpy
       },
-      'src/redux/modules/helpCenter': {
+      'embeds/helpCenter/actions': {
         performContextualSearch: performContextualSearchSpy
       },
       'src/redux/modules/base/base-action-types': {
