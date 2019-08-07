@@ -912,7 +912,7 @@ describe('onStateChange middleware', () => {
                 detail: {
                   auth: {
                     avatar$string: avatarPath,
-                    verified$bool: true
+                    type$string: 'facebook'
                   }
                 }
               }
@@ -938,7 +938,8 @@ describe('onStateChange middleware', () => {
               payload: {
                 detail: {
                   auth: {
-                    avatar$string: avatarPath
+                    avatar$string: avatarPath,
+                    type$string: 'zopim'
                   }
                 }
               }
