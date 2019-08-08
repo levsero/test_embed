@@ -57,7 +57,7 @@ describe('resetActiveEmbed middleware', () => {
         getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
         getAnswerBotAvailable: () => mockAnswerBotAvailable
       },
-      'src/redux/modules/helpCenter/helpCenter-selectors': {
+      'embeds/helpCenter/selectors': {
         getArticleViewActive: () => mockArticleViewActive
       },
       'src/redux/modules/zopimChat/zopimChat-selectors': {

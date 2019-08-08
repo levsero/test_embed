@@ -7,7 +7,7 @@ import {
   getSearchLoading,
   getResultsCount,
   getArticles
-} from 'src/redux/modules/helpCenter/helpCenter-selectors'
+} from 'embeds/helpCenter/selectors'
 import {
   getLastMessageType,
   getGetInTouchVisible

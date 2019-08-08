@@ -11,7 +11,7 @@ import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 import * as botActions from 'src/redux/modules/answerBot/root/actions/bot'
 import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions'
 import { getBrand } from 'src/redux/modules/base/base-selectors'
-import { getResultsCount } from 'src/redux/modules/helpCenter/helpCenter-selectors'
+import { getResultsCount } from 'embeds/helpCenter/selectors'
 import { getAnswerBotDelayChannelChoice } from 'src/redux/modules/settings/settings-selectors'
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
 

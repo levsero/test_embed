@@ -34,7 +34,7 @@ import {
   getIsContextualSearchPending,
   getIsContextualSearchComplete,
   getContextualHelpRequestNeeded
-} from 'src/redux/modules/helpCenter/helpCenter-selectors'
+} from 'embeds/helpCenter/selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { getNotificationCount, getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 import {

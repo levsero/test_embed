@@ -84,7 +84,7 @@ describe('base redux actions', () => {
         getAfterWidgetShowAnimation: () => mockAfterWidgetShowAnimationQueue,
         getWebWidgetVisible: () => mockWebWidgetVisible
       },
-      'src/redux/modules/helpCenter/helpCenter-selectors': {
+      'embeds/helpCenter/selectors': {
         getHasContextuallySearched: () => mockHasContextuallySearched
       },
       'src/redux/modules/chat/chat-selectors': {

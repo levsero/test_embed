@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 
 import Messages from '../index'
 
-import * as selectors from 'src/redux/modules/helpCenter/helpCenter-selectors'
+import * as selectors from 'embeds/helpCenter/selectors'
 
 const resultsMessage = {
   type: 'results',

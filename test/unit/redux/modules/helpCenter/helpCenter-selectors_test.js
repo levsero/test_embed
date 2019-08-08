@@ -52,7 +52,7 @@ describe('helpCenter selectors', () => {
       }
     })
 
-    const selectorsPath = buildSrcPath('redux/modules/helpCenter/helpCenter-selectors')
+    const selectorsPath = buildSrcPath('embeds/helpCenter/selectors')
 
     mockery.registerAllowable(selectorsPath)
 

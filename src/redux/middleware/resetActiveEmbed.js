@@ -42,7 +42,7 @@ import {
   getAnswerBotAvailable,
   getWebWidgetVisible
 } from 'src/redux/modules/selectors'
-import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors'
+import { getArticleViewActive } from 'embeds/helpCenter/selectors'
 import {
   getZopimChatOnline,
   getZopimIsChatting

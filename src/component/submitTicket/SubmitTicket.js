@@ -18,11 +18,11 @@ import {
   handleTicketSubmission
 } from 'src/redux/modules/submitTicket'
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
-import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors'
+import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { i18n } from 'service/i18n'
 import { isIE } from 'utility/devices'
 import { ICONS } from 'src/constants/shared'
-import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors'
+import { getSearchTerm } from 'embeds/helpCenter/selectors'
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors'
 import {
   getConfigNameFieldRequired,

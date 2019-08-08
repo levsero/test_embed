@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { getIsShowHCIntroState } from '../helpCenter/helpCenter-selectors'
+import { getIsShowHCIntroState } from 'embeds/helpCenter/selectors'
 import { isMobileBrowser } from 'utility/devices'
 import {
   getActiveEmbed,

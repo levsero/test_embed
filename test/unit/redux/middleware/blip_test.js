@@ -44,7 +44,7 @@ describe('blip middleware', () => {
         getWebWidgetVisible: prevState => prevState.webWidgetVisible,
         getActiveEmbed: prevState => prevState.activeEmbed
       },
-      'src/redux/modules/helpCenter/helpCenter-selectors': {
+      'embeds/helpCenter/selectors': {
         getTotalUserSearches: prevState => prevState.totalUserSearches,
         getSearchTerm: prevState => prevState.searchTerm,
         getResultsCount: prevState => prevState.resultsCount,

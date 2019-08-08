@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Results from './index'
 
 import { screenChanged, contextualArticleShown } from 'src/redux/modules/answerBot/root/actions/'
-import { getArticles } from 'src/redux/modules/helpCenter/helpCenter-selectors'
+import { getArticles } from 'embeds/helpCenter/selectors'
 
 import { ARTICLE_SCREEN } from 'src/constants/answerBot'
 

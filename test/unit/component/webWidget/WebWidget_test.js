@@ -111,7 +111,7 @@ describe('WebWidget component', () => {
       'src/redux/modules/talk/talk-selectors': {
         getTalkAvailable: noop
       },
-      'src/redux/modules/helpCenter/helpCenter-selectors': {
+      'embeds/helpCenter/selectors': {
         getArticleViewActive: noop
       },
       'src/redux/modules/submitTicket/submitTicket-selectors': {
