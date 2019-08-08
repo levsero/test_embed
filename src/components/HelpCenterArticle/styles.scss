@@ -3,9 +3,10 @@
 .title {
   composes: u-textBold u-hsizeAll from global;
   display: table-cell;
+  font-weight: 600;
   color: $zd-color-grey-800;
+  font-size: #{22 / $font-size}rem !important;
   margin-bottom: #{5 / $font-size}rem;
-  font-size: #{18 / $font-size}rem !important;
 }
 
 .originalArticleButton {
@@ -83,36 +84,39 @@
   h6,
   .wysiwyg-font-size-large,
   .wysiwyg-font-size-x-large {
-    font-weight: 600;
     color: $zd-color-grey-800;
     margin-bottom: #{5 / $font-size}rem;
   }
 
   h1,
   .wysiwyg-font-size-x-large {
-    font-size: #{16 / $font-size}rem;
+    font-weight: 600;
+    font-size: #{22 / $font-size}rem;
   }
 
   h2,
   .wysiwyg-font-size-large {
-    font-size: #{15 / $font-size}rem;
+    font-size: #{22 / $font-size}rem;
   }
 
   h3 {
-    font-size: #{14 / $font-size}rem;
+    font-weight: 600;
+    font-size: #{18 / $font-size}rem;
   }
 
   h4 {
-    font-size: $font-size-lrg;
+    font-size: #{18 / $font-size}rem;
   }
 
   h5,
   .wysiwyg-font-size-small {
-    font-size: #{12 / $font-size}rem;
+    font-weight: 600;
+    font-size: #{14 / $font-size}rem;
   }
 
   h6 {
-    font-size: #{11 / $font-size}rem;
+    font-weight: 600;
+    font-size: #{12 / $font-size}rem;
   }
 
   blockquote {
