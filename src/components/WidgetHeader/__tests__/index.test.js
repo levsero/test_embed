@@ -1,32 +1,41 @@
+jest.mock('utility/devices')
+
 import React from 'react'
 import { render } from '@testing-library/react'
-import Header from '../index'
+import snapshotDiff from 'snapshot-diff'
+import { isMobileBrowser } from 'utility/devices'
+import WidgetHeader from '../index'
 
-const defaultProps = {
-  children: 'Hallo'
-}
-
-const renderComponent = modifiedProps => {
-  const props = {
-    ...defaultProps,
-    ...modifiedProps
+describe('WidgetHeader', () => {
+  const defaultProps = {
+    children: 'Hallo'
   }
 
-  return render(<Header {...props} />)
-}
+  const renderComponent = modifiedProps => {
+    const props = {
+      ...defaultProps,
+      ...modifiedProps
+    }
 
-describe('render', () => {
-  let result
+    return render(<WidgetHeader {...props} />)
+  }
 
-  beforeEach(() => {
-    result = renderComponent()
+  it('renders on desktop browsers', () => {
+    isMobileBrowser.mockReturnValue(false)
+    const { container } = renderComponent()
+
+    expect(container.firstChild).toMatchSnapshot()
   })
 
-  it('renders children in props', () => {
-    expect(result.queryByText('Hallo')).toBeInTheDocument()
-  })
+  it('renders on mobile browsers', () => {
+    isMobileBrowser.mockReturnValue(false)
+    const { container: desktopContainer } = renderComponent()
 
-  it('matches default snapshot', () => {
-    expect(result.container).toMatchSnapshot()
+    isMobileBrowser.mockReturnValue(true)
+    const { container: mobileContainer } = renderComponent()
+
+    expect(
+      snapshotDiff(desktopContainer.firstChild, mobileContainer.firstChild, { contextLines: 2 })
+    ).toMatchSnapshot()
   })
 })

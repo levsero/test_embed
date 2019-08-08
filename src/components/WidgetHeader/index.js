@@ -2,13 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { locals as styles } from './styles.scss'
+import { isMobileBrowser } from 'utility/devices'
 
-const WidgetHeader = ({ children, isMobile }) => {
-  const headerClasses = classNames(styles.header, styles.userHeader)
-
-  const titleClasses = classNames(styles.title, {
-    [styles.titleMobile]: isMobile
+const WidgetHeader = ({ children }) => {
+  const headerClasses = classNames(styles.header, {
+    [styles.headerMobile]: isMobileBrowser()
   })
+
+  const titleClasses = classNames(styles.title)
 
   return (
     <div className={headerClasses}>
@@ -18,12 +19,7 @@ const WidgetHeader = ({ children, isMobile }) => {
 }
 
 WidgetHeader.propTypes = {
-  children: PropTypes.node,
-  isMobile: PropTypes.bool
-}
-
-WidgetHeader.defaultProps = {
-  isMobile: false
+  children: PropTypes.node
 }
 
 export default WidgetHeader

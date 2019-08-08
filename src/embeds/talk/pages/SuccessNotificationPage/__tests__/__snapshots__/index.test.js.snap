@@ -6,7 +6,7 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
     class="container"
   >
     <div
-      class="header userHeader"
+      class="header"
     >
       <h1
         class="title"
@@ -75,6 +75,13 @@ Snapshot Diff:
 - First value
 + Second value
 
+@@ -4,5 +4,5 @@
+    >
+      <div
+-       class="header"
++       class="header headerMobile"
+      >
+        <h1
 @@ -16,8 +16,8 @@
       >
         <div

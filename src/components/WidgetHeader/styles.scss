@@ -1,17 +1,15 @@
 @import 'src/styles/_vars.scss';
 
-.userHeader {
+.header {
+  background: $zd-color-grey-100;
+  color: $zd-color-grey-800;
+  border-radius: #{8 / $font-size}rem #{8 / $font-size}rem 0 0;
+  padding: #{15 / $font-size}rem #{20 / $font-size}rem;
   composes: u-userHeaderColor from global;
 }
 
-.header {
-  padding-left: #{20 / $font-size}rem;
-  padding-right: #{20 / $font-size}rem;
-  background: $zd-color-grey-100;
-  color: $zd-color-grey-800;
-  padding-top: #{15 / $font-size}rem;
-  padding-bottom: #{15 / $font-size}rem;
-  border-radius: #{8 / $font-size}rem #{8 / $font-size}rem 0 0;
+.headerMobile {
+  border-radius: 0;
 }
 
 .title {
@@ -24,6 +22,6 @@
   font-size: #{15 / $font-size}rem;
 }
 
-.titleMobile {
+.headerMobile .title {
   font-size: #{15 / $font-size}rem;
 }
