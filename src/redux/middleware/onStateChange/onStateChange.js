@@ -35,10 +35,7 @@ import {
   getLastReadTimestamp,
   hasUnseenAgentMessage
 } from 'src/redux/modules/chat/chat-selectors'
-import {
-  getArticleDisplayed,
-  getHasSearched
-} from 'src/redux/modules/helpCenter/helpCenter-selectors'
+import { getArticleDisplayed, getHasSearched } from 'embeds/helpCenter/selectors'
 import {
   getActiveEmbed,
   getWidgetShown,

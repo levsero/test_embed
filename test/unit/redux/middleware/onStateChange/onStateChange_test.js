@@ -167,7 +167,7 @@ describe('onStateChange middleware', () => {
         onZopimChatStateChange: noop
       },
       'src/redux/middleware/onStateChange/onAgentLeave': noop,
-      'src/redux/modules/helpCenter/helpCenter-selectors': {
+      'embeds/helpCenter/selectors': {
         getArticleDisplayed: _.identity,
         getHasSearched: () => mockHasSearched
       },

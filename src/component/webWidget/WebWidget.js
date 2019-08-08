@@ -44,7 +44,7 @@ import {
   getArticleViewActive,
   getSearchFieldFocused,
   getResultsCount
-} from 'src/redux/modules/helpCenter/helpCenter-selectors'
+} from 'embeds/helpCenter/selectors'
 import {
   getZopimChatEmbed,
   getActiveEmbed,

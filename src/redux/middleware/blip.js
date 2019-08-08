@@ -29,7 +29,7 @@ import {
   getArticleClicked,
   getActiveArticle,
   getHasContextuallySearched
-} from 'src/redux/modules/helpCenter/helpCenter-selectors'
+} from 'embeds/helpCenter/selectors'
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 import { getWebWidgetVisible, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { getSessionByID } from 'src/redux/modules/answerBot/sessions/selectors'

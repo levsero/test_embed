@@ -12,7 +12,7 @@ import {
   getLastSearchTimestamp,
   getContextualHelpRequestNeeded,
   getSearchQuery
-} from 'src/redux/modules/helpCenter/helpCenter-selectors'
+} from 'embeds/helpCenter/selectors'
 import { i18n } from 'service/i18n'
 import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
 import {
