@@ -10,6 +10,8 @@ const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_E
 const prefix = process.cwd()
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
+const cssModulesName = embeddableEnv === 'production' ? '[hash:base64:5]' : '[path][name]-[local]'
+
 module.exports = {
   module: {
     rules: [
@@ -30,7 +32,7 @@ module.exports = {
             options: {
               minimize: true,
               modules: true,
-              localIdentName: '[path][name]-[local]',
+              localIdentName: cssModulesName,
               importLoaders: 2
             }
           },
