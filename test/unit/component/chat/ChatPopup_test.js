@@ -37,7 +37,15 @@ describe('ChatPopup component', () => {
           render() {
             const { className, onClick } = this.props
 
-            return <div onClick={onClick} className={className} />
+            return (
+              <div
+                onKeyPress={onClick}
+                role="button"
+                tabIndex="0"
+                onClick={onClick}
+                className={className}
+              />
+            )
           }
         }
       },

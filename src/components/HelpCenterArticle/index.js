@@ -369,7 +369,12 @@ export default class HelpCenterArticle extends Component {
       >
         <h2 className={styles.title}>{this.props.activeArticle.title}</h2>
         {this.renderOriginalArticleButton()}
-        <div ref="article" className={styles.article} onClick={this.handleClick} />
+        <div
+          role="presentation"
+          ref="article"
+          className={styles.article}
+          onClick={this.handleClick}
+        />
       </div>
     )
   }

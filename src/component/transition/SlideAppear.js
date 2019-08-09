@@ -71,6 +71,7 @@ export class SlideAppear extends Component {
         {status => {
           return (
             <div
+              role="presentation"
               onClick={this.props.onClick}
               className={this.props.className}
               style={{ ...style, ...transitionStyles[status] }}

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import _ from 'lodash'
 
-import { keyCodes } from 'utility/keyboard'
+import { triggerOnEnter } from 'utility/keyboard'
 import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import {
   sendMsg,
@@ -101,7 +101,13 @@ class ChatBadge extends Component {
     })
 
     if (image) {
-      imageElement = <img src={this.props.bannerSettings.image} className={imgClasses} />
+      imageElement = (
+        <img
+          alt={this.props.bannerSettings.label}
+          src={this.props.bannerSettings.image}
+          className={imgClasses}
+        />
+      )
     } else {
       imageElement = <Icon className={imgClasses} type="Icon--channelChoice-chat" />
     }
@@ -135,7 +141,13 @@ class ChatBadge extends Component {
     })
 
     return (
-      <div onClick={this.props.chatBadgeClicked} className={displayClasses}>
+      <div
+        onKeyPress={triggerOnEnter(this.props.chatBadgeClicked)}
+        role="button"
+        tabIndex="0"
+        onClick={this.props.chatBadgeClicked}
+        className={displayClasses}
+      >
         <table className={styles.splashTable}>
           <tbody>
             <tr>{this.renderContent()}</tr>
@@ -159,7 +171,7 @@ class ChatBadge extends Component {
           className={styles.input}
           placeholder={i18n.t('embeddable_framework.chat.chatBox.placeholder.type_your_message')}
           onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
+          onKeyDown={triggerOnEnter(this.sendChatMsg)}
           value={this.props.currentMessage}
         />
         <Icon onClick={this.sendChatMsg} className={sendButtonClasses} type={ICONS.SEND_CHAT} />
@@ -180,13 +192,6 @@ class ChatBadge extends Component {
     }
 
     this.props.onSend(e)
-  }
-
-  handleKeyDown = e => {
-    if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
-      this.sendChatMsg(e)
-      e.preventDefault()
-    }
   }
 
   handleChange = e => {

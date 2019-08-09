@@ -139,6 +139,8 @@ exports[`renders the expected components 1`] = `
                   <span
                     class="container icon Icon--search"
                     data-testid="Icon--search"
+                    role="button"
+                    tabindex="0"
                     type="Icon--search"
                   >
                     widget-icon_search.svg

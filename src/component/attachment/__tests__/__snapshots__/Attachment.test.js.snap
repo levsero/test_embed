@@ -277,6 +277,8 @@ exports[`renders removal button when it is removable 1`] = `
         <span
           class="container icon Icon--close"
           data-testid="Icon--close"
+          role="button"
+          tabindex="0"
           type="Icon--close"
         >
           x-stroke.svg

@@ -26,6 +26,8 @@ exports[`renders the expected classes 1`] = `
       >
         <div
           class="result"
+          role="button"
+          tabindex="0"
         >
           <div
             class="heading"
@@ -57,6 +59,8 @@ exports[`renders the expected classes 1`] = `
       >
         <div
           class="result"
+          role="button"
+          tabindex="0"
         >
           <div
             class="heading"

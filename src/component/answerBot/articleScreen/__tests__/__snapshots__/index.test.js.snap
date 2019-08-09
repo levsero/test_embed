@@ -48,6 +48,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             />
           </div>
         </div>
@@ -108,6 +109,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             />
           </div>
         </div>
@@ -118,6 +120,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
     </div>
     <div
       class="popupWrapper"
+      role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
       <div
@@ -202,6 +205,7 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             />
           </div>
         </div>
@@ -262,6 +266,7 @@ exports[`passing of scroll container classes 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             />
           </div>
         </div>
@@ -322,6 +327,7 @@ exports[`renders the expected classes 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             />
           </div>
         </div>
@@ -381,6 +387,7 @@ exports[`renders the expected mobile classes 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             />
           </div>
         </div>
@@ -441,6 +448,7 @@ exports[`renders the expected title 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             />
           </div>
         </div>
@@ -501,6 +509,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             />
           </div>
         </div>
@@ -511,6 +520,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
     </div>
     <div
       class="popupWrapper"
+      role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
       <div
@@ -597,6 +607,7 @@ exports[`renders the help center article 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             >
               <p>
                 body

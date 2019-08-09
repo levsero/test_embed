@@ -4,6 +4,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
     <div
@@ -44,6 +45,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
     <div
@@ -99,6 +101,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
     <div
@@ -154,6 +157,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
     <div
@@ -193,6 +197,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
     <div
@@ -244,6 +249,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
     <div
@@ -296,6 +302,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
     <div
@@ -345,6 +352,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
     <div
@@ -384,6 +392,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
     <div

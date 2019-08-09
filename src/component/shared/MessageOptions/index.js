@@ -36,7 +36,7 @@ export class MessageOptions extends Component {
           className={childClasses}
           onClick={() => this.props.onOptionClick(child)}
         >
-          <a>{child}</a>
+          <button>{child}</button>
         </KeyboardFocusButton>
       )
     })

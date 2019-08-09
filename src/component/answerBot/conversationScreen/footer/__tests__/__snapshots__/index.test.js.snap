@@ -40,6 +40,7 @@ exports[`desktop when showGetInTouch is true renders the expected classes 1`] = 
   <div>
     <div
       class="slideAppear"
+      role="presentation"
       style="opacity: 0; bottom: -10px;"
     >
       <div
@@ -162,6 +163,7 @@ exports[`mobile when showGetInTouch is true renders the expected classes 1`] = `
   <div>
     <div
       class="slideAppear slideAppearMobile"
+      role="presentation"
       style="opacity: 0; bottom: -10px;"
     >
       <div
