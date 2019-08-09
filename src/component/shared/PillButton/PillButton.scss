@@ -1,8 +1,11 @@
 @import 'src/styles/_vars.scss';
 
 .button {
-  composes: u-textNormal u-userBorderColor from global;
-  composes: c-btn from 'src/styles/components/Button.scss';
+  composes: u-userBorderColor from global;
+  font-size: $font-size-lrg;
+  padding-right: #{24 / $font-size}rem;
+  padding-left: #{24 / $font-size}rem;
+  min-width: 0;
   padding: #{8 / $font-size}rem #{14 / $font-size}rem !important;
   border-radius: #{16 / $font-size}rem !important;
   border-width: #{1 / $font-size}rem !important;

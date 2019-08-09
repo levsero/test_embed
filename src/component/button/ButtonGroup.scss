@@ -1,7 +1,16 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: ButtonGroup from '../../styles/components/Button.scss';
+  :last-child:not(:only-child) {
+    margin-left: #{5 / $font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    :last-child:not(:only-child) {
+      margin-right: #{5 / $font-size}rem;
+      margin-left: 0;
+    }
+  }
 }
 
 .buttonLeft {

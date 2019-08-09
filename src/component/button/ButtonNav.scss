@@ -6,8 +6,12 @@
 }
 
 .button {
-  composes: u-posAbsolute u-borderNone from global;
-  composes: Button from '../../styles/components/Button.scss';
+  position: absolute;
+  border: none;
+  font-size: #{14 / $font-size}rem;
+  border-radius: #{5 / $font-size}rem;
+  color: $zd-color-white;
+  cursor: pointer;
   top: 0;
   margin-top: #{13.5 / $font-size}rem !important;
   margin-right: #{14 / $font-size}rem !important;
@@ -15,9 +19,16 @@
   padding: #{6 / $font-size}rem !important;
   background: transparent;
 
+  &:disabled {
+    background: $zd-color-grey-200;
+  }
+  &.is-mobile {
+    padding: #{14 / $font-size}rem;
+  }
+
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 #{3 / $font-size}rem rgba($base-color, 0.4);
+    box-shadow: 0 0 0 #{3 / $font-size}rem rgba($zd-color-white, 0.4);
   }
 }
 
