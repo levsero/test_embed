@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Label } from '@zendeskgarden/react-textfields'
-import { _ } from 'lodash'
+import _ from 'lodash'
 
 import { i18n } from 'service/i18n'
 import { Icon } from 'component/Icon'
