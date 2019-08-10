@@ -1,14 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Form } from 'component/form/Form'
-import { i18n } from 'service/i18n'
-import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
+import { Redirect } from 'react-router-dom'
 import classNames from 'classnames'
+import _ from 'lodash'
+import { Button } from '@zendeskgarden/react-buttons'
+
+import { i18n } from 'service/i18n'
+import { Form } from 'component/form/Form'
+import { isMobileBrowser } from 'utility/devices'
+import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
 import NameField from 'src/embeds/talk/components/NameField'
 import DescriptionField from 'src/embeds/talk/components/DescriptionField'
+import WidgetMain from 'src/components/WidgetMain'
+import WidgetFooter from 'src/components/WidgetFooter'
+import ZendeskLogo from 'src/components/ZendeskLogo'
+import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 import {
   getAverageWaitTimeString,
   getCallback,
@@ -23,16 +33,8 @@ import {
   getTalkServiceUrl,
   getHideZendeskLogo
 } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
+
 import { locals as styles } from './styles.scss'
-import _ from 'lodash'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetFooter from 'src/components/WidgetFooter'
-import { Button } from '@zendeskgarden/react-buttons'
-import ZendeskLogo from 'src/components/ZendeskLogo'
-import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
-import { Redirect } from 'react-router-dom'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 

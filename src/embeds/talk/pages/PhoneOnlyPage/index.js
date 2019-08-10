@@ -20,7 +20,7 @@ import { getFormattedPhoneNumber, getTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 
 import { locals as styles } from './styles.scss'
-import TalkIcon from 'src/embeds/talk/icons/icon_talk.svg'
+import TalkIcon from 'src/embeds/talk/icons/talk.svg'
 
 const PhoneOnlyPage = ({
   callUsMessage,
