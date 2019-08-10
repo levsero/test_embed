@@ -1,30 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { SuccessNotification } from 'component/shared/SuccessNotification'
-import { ICONS } from 'constants/shared'
-import { isMobileBrowser } from 'utility/devices'
+
+import { focusLauncher } from 'utility/globals'
 import { i18n } from 'service/i18n'
 import { Button } from '@zendeskgarden/react-buttons'
-import { locals as styles } from './styles.scss'
 import WidgetContainer from 'src/components/WidgetContainer'
 import WidgetHeader from 'src/components/WidgetHeader'
 import WidgetMain from 'src/components/WidgetMain'
 import WidgetFooter from 'src/components/WidgetFooter'
 import ZendeskLogo from 'src/components/ZendeskLogo'
+import SuccessNotificationMessage from 'src/embeds/talk/components/SuccessNotificationMessage'
 import { successDoneButtonClicked } from 'src/redux/modules/talk'
-import { focusLauncher } from 'utility/globals'
 import { getTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 
-const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendeskLogo }) => {
-  const isMobile = isMobileBrowser()
+import { locals as styles } from './styles.scss'
 
+const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendeskLogo }) => {
   return (
     <WidgetContainer>
       <WidgetHeader>{title}</WidgetHeader>
       <WidgetMain>
-        <SuccessNotification icon={ICONS.SUCCESS_TALK} isMobile={isMobile} />
+        <SuccessNotificationMessage />
       </WidgetMain>
       <WidgetFooter>
         <div className={styles.footer}>
