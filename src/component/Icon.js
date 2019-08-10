@@ -32,7 +32,6 @@ const icons = {
   'Icon--chevron-right-fill': require('@zendeskgarden/svg-icons/src/16/chevron-right-fill.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('@zendeskgarden/svg-icons/src/16/x-stroke.svg'),
-  'Icon--error': require('@zendeskgarden/svg-icons/src/14/error.svg'),
   'Icon--launcher-talk': require('icons/widget-icon_launcher-talk.svg'),
   'Icon--arrow-down': require('icons/widget-icon_arrow-down-stroke.svg'),
   'Icon--image-stroke': require('@zendeskgarden/svg-icons/src/16/image-stroke.svg'),
