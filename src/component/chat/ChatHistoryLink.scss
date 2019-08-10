@@ -1,4 +1,5 @@
-@import '../../styles/_vars.scss';
+@import 'src/styles/_vars.scss';
+@import 'src/styles/mixins.scss';
 
 .icon {
   margin-right: #{6 / $font-size}rem;
@@ -18,6 +19,7 @@
 }
 
 .linkText {
+  @include link-button();
   color: $zd-color-grey-800;
   text-decoration: underline;
   vertical-align: bottom;
