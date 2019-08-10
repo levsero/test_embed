@@ -5,13 +5,7 @@ exports[`renders the component 1`] = `
   <div
     class="error"
   >
-    <span
-      class="container errorIcon Icon--error"
-      data-testid="Icon--error"
-      type="Icon--error"
-    >
-      error.svg
-    </span>
+    error.svg
     there was an error
   </div>
 </div>
