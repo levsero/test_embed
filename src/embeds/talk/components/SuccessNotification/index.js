@@ -5,7 +5,7 @@ import { i18n } from 'service/i18n'
 import TalkSuccessIcon from 'src/embeds/talk/icons/talk_success.svg'
 import { locals as styles } from './styles.scss'
 
-const SuccessNotificationMessage = () => {
+const SuccessNotification = () => {
   return (
     <div className={styles.container}>
       <TalkSuccessIcon className={styles.talkSuccessIcon} />
@@ -21,4 +21,4 @@ const SuccessNotificationMessage = () => {
   )
 }
 
-export default SuccessNotificationMessage
+export default SuccessNotification
