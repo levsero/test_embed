@@ -1,6 +1,6 @@
 describe('EmbedWrapper', () => {
   let EmbedWrapper
-
+  let focusSpy = jasmine.createSpy()
   const EmbedWrapperPath = buildSrcPath('component/frame/EmbedWrapper')
 
   class MockChildComponent extends Component {
@@ -21,7 +21,7 @@ describe('EmbedWrapper', () => {
       React: React,
       'utility/color/styles': {},
       'utility/globals': {
-        document: global.document,
+        focusLauncher: focusSpy,
         getDocumentHost: () => {
           return {
             querySelector: () => ({
@@ -52,6 +52,7 @@ describe('EmbedWrapper', () => {
   afterEach(() => {
     mockery.deregisterAll()
     mockery.disable()
+    focusSpy.calls.reset()
   })
 
   describe('render', () => {
@@ -68,7 +69,6 @@ describe('EmbedWrapper', () => {
         </EmbedWrapper>
       )
 
-      spyOn(instance, 'handleOnCloseFocusChange')
       rootElem = ReactDOM.findDOMNode(instance)
       styleBlock = rootElem.getElementsByTagName('style')[0]
     })
@@ -118,7 +118,7 @@ describe('EmbedWrapper', () => {
           })
 
           it('calls handleOnCloseFocusChange', () => {
-            expect(instance.handleOnCloseFocusChange).toHaveBeenCalled()
+            expect(focusSpy).toHaveBeenCalled()
           })
         })
 
@@ -128,7 +128,7 @@ describe('EmbedWrapper', () => {
           })
 
           it('does not call handleOnCloseFocusChange', () => {
-            expect(instance.handleOnCloseFocusChange).not.toHaveBeenCalled()
+            expect(focusSpy).not.toHaveBeenCalled()
           })
         })
       })

@@ -6,6 +6,7 @@ import createStore from 'src/redux/createStore'
 import { render } from '@testing-library/react'
 import SuccessNotificationPage from '../'
 import { isMobileBrowser } from 'utility/devices'
+import snapshotDiff from 'snapshot-diff'
 
 const defaultProps = {
   title: 'Request sent'
@@ -29,10 +30,13 @@ describe('SuccessNotificationPage', () => {
   })
 
   it('renders when on a mobile browser', () => {
+    isMobileBrowser.mockReturnValue(false)
+    const { container: desktopContainer } = renderComponent()
+
     isMobileBrowser.mockReturnValue(true)
 
-    const { container } = renderComponent()
+    const { container: mobileContainer } = renderComponent()
 
-    expect(container).toMatchSnapshot()
+    expect(snapshotDiff(desktopContainer, mobileContainer, { contextLines: 2 })).toMatchSnapshot()
   })
 })

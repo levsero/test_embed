@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import CallbackForm from 'src/embeds/talk/components/CallbackForm'
 import WidgetContainer from 'src/components/WidgetContainer'
 import WidgetHeader from 'src/components/WidgetHeader'
-import { getTalkTitle } from 'src/redux/modules/selectors/selectors'
+import { getTitle } from 'src/embeds/talk/selectors'
 
 const CallbackPage = ({ title }) => {
   return (
@@ -21,6 +21,6 @@ CallbackPage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  title: getTalkTitle(state)
+  title: getTitle(state, 'embeddable_framework.talk.form.title')
 })
 export default connect(mapStateToProps)(CallbackPage)

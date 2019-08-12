@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
-import Talk from 'component/talk/Talk'
+import Talk from 'src/embeds/talk'
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice'
 import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup'
 import { Container } from 'component/container/Container'
@@ -548,14 +548,7 @@ class WebWidget extends Component {
   renderTalk = () => {
     if (this.props.activeEmbed !== talk) return null
 
-    return (
-      <Talk
-        ref={talk}
-        isMobile={this.props.isMobile}
-        onBackClick={this.onBackClick}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-      />
-    )
+    return <Talk />
   }
 
   renderChatNotification = () => {

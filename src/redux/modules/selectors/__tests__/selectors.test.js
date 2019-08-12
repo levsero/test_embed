@@ -10,7 +10,6 @@ import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 
 // Cannot mock base-selectors due to reimports.
-import * as screens from 'src/redux/modules/talk/talk-screen-types'
 import { i18n } from 'src/service/i18n'
 import { getModifiedState } from 'src/fixtures/selectors-test-state'
 import { LAUNCHER } from 'constants/shared'
@@ -595,77 +594,6 @@ describe('getTalkOnline', () => {
       expect(selectors.getTalkOnline.resultFunc(talkAvailable, agentsAvailable)).toEqual(expected)
     }
   )
-})
-
-describe('getTalkTitle', () => {
-  const mockTitle = 'No, you hang up!'
-  const callSelector = (title, screen) => selectors.getTalkTitle.resultFunc(title, screen)
-
-  beforeEach(() => {
-    jest.spyOn(i18n, 't')
-    i18n.getSettingTranslation = jest.fn(tran => tran)
-  })
-
-  afterEach(() => {
-    i18n.t.mockRestore()
-  })
-
-  describe('when on the SUCCESS_NOTIFICATION_SCREEN', () => {
-    describe('when no setting is passed', () => {
-      it('returns the default translation', () => {
-        callSelector(null, screens.SUCCESS_NOTIFICATION_SCREEN)
-
-        expect(i18n.t).toHaveBeenCalledWith('embeddable_framework.talk.notify.success.title')
-      })
-    })
-
-    describe('when a setting is passed', () => {
-      it('returns the setting', () => {
-        const result = callSelector(mockTitle, screens.SUCCESS_NOTIFICATION_SCREEN)
-
-        expect(result).toEqual(mockTitle)
-        expect(i18n.t).not.toHaveBeenCalled()
-      })
-    })
-  })
-
-  describe('when on the PHONE_US_SCREEN', () => {
-    describe('when no setting is passed', () => {
-      it('returns the default translation', () => {
-        callSelector(null, screens.PHONE_US_SCREEN)
-
-        expect(i18n.t).toHaveBeenCalledWith('embeddable_framework.talk.phoneOnly.title')
-      })
-    })
-
-    describe('when a setting is passed', () => {
-      it('returns the setting', () => {
-        expect(callSelector(mockTitle, screens.PHONE_US_SCREEN)).toEqual(mockTitle)
-      })
-    })
-  })
-
-  describe('when passed any other screen or nonsense', () => {
-    const testScreens = [screens.CALLBACK_SCREEN, 'NONSENSE_SCREEN']
-
-    describe('when no setting is passed', () => {
-      testScreens.forEach(screen => {
-        it('returns the default translation', () => {
-          callSelector(null, screen)
-
-          expect(i18n.t).toHaveBeenCalledWith('embeddable_framework.talk.form.title')
-        })
-      })
-    })
-
-    describe('when a setting is passed', () => {
-      testScreens.forEach(screen => {
-        it('returns the setting', () => {
-          expect(callSelector(mockTitle, screen)).toEqual(mockTitle)
-        })
-      })
-    })
-  })
 })
 
 describe('getTalkNickname', () => {

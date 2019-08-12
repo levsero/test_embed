@@ -165,4 +165,20 @@ describe('Form component', () => {
       expect(onChangeSpy).toHaveBeenCalledWith({ email: 'theta@zd.com' })
     })
   })
+
+  describe('render', () => {
+    let form
+
+    beforeEach(() => {
+      form = shallowRender(
+        <Form formState={{ email: 'a@a.com' }} submitButtonLabel="label">
+          form children
+        </Form>
+      )
+    })
+
+    it('renders the form children', () => {
+      expect(form.props.children).toBe('form children')
+    })
+  })
 })

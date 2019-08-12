@@ -4,6 +4,7 @@ import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   isSending: false,
+  success: false,
   error: {},
   phoneNumber: ''
 }
@@ -26,7 +27,8 @@ testReducer(callback, [
     expected: {
       isSending: true,
       phoneNumber: '+1234',
-      error: {}
+      error: {},
+      success: false
     }
   },
   {
@@ -38,7 +40,8 @@ testReducer(callback, [
     expected: {
       isSending: false,
       phoneNumber: '+1234',
-      error: {}
+      error: {},
+      success: true
     }
   },
   {
@@ -50,7 +53,15 @@ testReducer(callback, [
     expected: {
       isSending: false,
       phoneNumber: '+1234',
-      error: { e: 'this is the error' }
+      error: { e: 'this is the error' },
+      success: false
     }
+  },
+  {
+    action: {
+      type: actionTypes.TALK_SUCCESS_DONE_BUTTON_CLICKED
+    },
+    initialState: { phoneNumber: '+1234', success: true },
+    expected: { phoneNumber: '+1234', success: false }
   }
 ])

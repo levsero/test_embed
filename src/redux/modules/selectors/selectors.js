@@ -38,7 +38,6 @@ import {
   getStylingZIndex,
   getSettingsContactFormSuppress,
   getSettingsContactFormAttachments,
-  getSettingsTalkTitle,
   getSettingsTalkNickname,
   getSettingsTalkSuppress,
   getSettingsContactOptionsEnabled,
@@ -59,8 +58,7 @@ import {
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
   getAgentAvailability,
-  getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
-  getScreen
+  getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected
 } from '../talk/talk-selectors'
 import { getActiveTicketForm, getTicketForms } from '../submitTicket/submitTicket-selectors'
 import {
@@ -110,8 +108,6 @@ import {
   getSettingsLauncherLabel
 } from '../settings/settings-selectors'
 import { i18n } from 'service/i18n'
-
-import * as screens from 'src/redux/modules/talk/talk-screen-types'
 
 /*
  * Terms:
@@ -621,23 +617,6 @@ export const getHideZendeskLogo = state => {
 export const getAttachmentsEnabled = state => {
   return getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state)
 }
-
-export const getTalkTitle = createSelector(
-  [getSettingsTalkTitle, getScreen, getLocale],
-  (settingsTitle, screen, _locale) => {
-    const title = i18n.getSettingTranslation(settingsTitle)
-
-    switch (screen) {
-      case screens.SUCCESS_NOTIFICATION_SCREEN:
-        return title || i18n.t('embeddable_framework.talk.notify.success.title')
-      case screens.PHONE_US_SCREEN:
-        return title || i18n.t('embeddable_framework.talk.phoneOnly.title')
-      case screens.CALLBACK_SCREEN:
-      default:
-        return title || i18n.t('embeddable_framework.talk.form.title')
-    }
-  }
-)
 
 export const getTalkServiceUrl = createSelector(
   getTalkConfig,

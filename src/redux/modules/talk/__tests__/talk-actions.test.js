@@ -2,7 +2,6 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import * as actions from '../talk-actions'
 import * as types from '../talk-action-types'
-import * as screenTypes from 'src/redux/modules/talk/talk-screen-types'
 import * as baseTypes from 'src/redux/modules/base/base-action-types'
 import { http, socketio } from 'service/transport'
 
@@ -53,15 +52,6 @@ test('talkDisconnect dispatches TALK_DISCONNECT_SOCKET_EVENT action', () => {
   expect(actions.talkDisconnect()).toEqual(expected)
 })
 
-test('updateTalkScreen dispatches UPDATE_TALK_SCREEN action', () => {
-  const expected = {
-    type: types.UPDATE_TALK_SCREEN,
-    payload: screenTypes.SUCCESS_NOTIFICATION_SCREEN
-  }
-
-  expect(actions.updateTalkScreen(screenTypes.SUCCESS_NOTIFICATION_SCREEN)).toEqual(expected)
-})
-
 describe('resetTalkScreen', () => {
   test('show back button', () => {
     const state = {
@@ -85,10 +75,6 @@ describe('resetTalkScreen', () => {
     store.dispatch(actions.resetTalkScreen())
 
     expect(store.getActions()).toEqual([
-      {
-        type: types.UPDATE_TALK_SCREEN,
-        payload: screenTypes.PHONE_US_SCREEN
-      },
       {
         type: baseTypes.UPDATE_BACK_BUTTON_VISIBILITY,
         payload: true
@@ -117,34 +103,11 @@ describe('resetTalkScreen', () => {
 
     expect(store.getActions()).toEqual([
       {
-        type: types.UPDATE_TALK_SCREEN,
-        payload: screenTypes.CALLBACK_SCREEN
-      },
-      {
         type: baseTypes.UPDATE_BACK_BUTTON_VISIBILITY,
         payload: false
       }
     ])
   })
-})
-
-describe('resetTalk', () => {
-  const state = {
-    talk: {
-      embeddableConfig: { capability: 'widget/talk/PHONE_ONLY' }
-    }
-  }
-
-  const store = mockStore(state)
-
-  store.dispatch(actions.resetTalk())
-
-  expect(store.getActions()).toEqual([
-    {
-      type: types.UPDATE_TALK_SCREEN,
-      payload: screenTypes.PHONE_US_SCREEN
-    }
-  ])
 })
 
 test('updateTalkCallMeForm dispatches expected actions', () => {

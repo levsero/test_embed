@@ -11,6 +11,7 @@ Object {
     "error": Object {},
     "isSending": false,
     "phoneNumber": "",
+    "success": false,
   },
   "embeddableConfig": Object {
     "averageWaitTimeSetting": null,
@@ -25,7 +26,6 @@ Object {
     "name": "",
     "phone": "",
   },
-  "screen": "widget/talk/CALLBACK_SCREEN",
   "vendor": Object {
     "io": null,
     "libphonenumber": null,
