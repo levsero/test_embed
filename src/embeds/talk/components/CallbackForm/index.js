@@ -20,7 +20,8 @@ import {
   getTalkDescriptionLabel,
   getTalkNameLabel,
   getTalkNickname,
-  getTalkServiceUrl
+  getTalkServiceUrl,
+  getHideZendeskLogo
 } from 'src/redux/modules/selectors'
 import { isMobileBrowser } from 'utility/devices'
 import { locals as styles } from './styles.scss'
@@ -54,6 +55,7 @@ class CallbackForm extends Component {
     submitButtonLabel: PropTypes.string.isRequired,
     headerMessage: PropTypes.string.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    hideZendeskLogo: PropTypes.bool.isRequired,
 
     // used to force the component to re-render when locale changes
     // eslint-disable-next-line react/no-unused-prop-types
@@ -112,7 +114,8 @@ class CallbackForm extends Component {
       averageWaitTime,
       supportedCountries,
       nameLabelText,
-      descriptionLabelText
+      descriptionLabelText,
+      hideZendeskLogo
     } = this.props
 
     if (callback.success) {
@@ -124,6 +127,10 @@ class CallbackForm extends Component {
     })
 
     const errorMessage = this.getErrorMessage()
+    const footerClasses = classNames(styles.footer, {
+      [styles.multipleItems]: !hideZendeskLogo,
+      [styles.singleItem]: hideZendeskLogo
+    })
 
     return (
       <Form
@@ -155,8 +162,8 @@ class CallbackForm extends Component {
           {errorMessage && <ErrorNotification message={errorMessage} />}
         </WidgetMain>
         <WidgetFooter scrollShadowVisible={true}>
-          <div className={styles.footer}>
-            <ZendeskLogo />
+          <div className={footerClasses}>
+            {hideZendeskLogo ? null : <ZendeskLogo />}
 
             <Button primary={true} className={submitButtonStyles} type="submit">
               {submitButtonLabel}
@@ -183,7 +190,8 @@ const mapStateToProps = state => {
     callback: getCallback(state),
     isRTL: i18n.isRTL(),
     isMobile: isMobileBrowser(),
-    locale: getLocale(state)
+    locale: getLocale(state),
+    hideZendeskLogo: getHideZendeskLogo(state)
   }
 }
 
