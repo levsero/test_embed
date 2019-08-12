@@ -34,22 +34,6 @@
   }
 }
 
-.link {
-  composes: u-block u-userTextColor u-textNoWrap from global;
-  margin: 0 auto;
-  @include text-limit(80%);
-}
-
-.linkContext {
-  composes: u-marginBN from global;
-}
-
-.linkContainer {
-  composes: u-textCenter u-marginTL from global;
-
-  font-size: $font-size-mobile;
-}
-
 .container {
   /* 1 */
   height: calc(100% - #{60 / $font-size}rem);
