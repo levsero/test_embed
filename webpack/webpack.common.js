@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const I18nPlugin = require('./i18nPlugin.js')
+const LodashWebpackPlugin = require('lodash-webpack-plugin')
 
 const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp'
 const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com'
@@ -114,6 +115,7 @@ module.exports = {
       __EMBEDDABLE_FRAMEWORK_ENV__: JSON.stringify(embeddableEnv),
       __ASSET_BASE_PATH__: JSON.stringify(assetBasePath)
     }),
-    I18nPlugin
+    I18nPlugin,
+    new LodashWebpackPlugin()
   ]
 }

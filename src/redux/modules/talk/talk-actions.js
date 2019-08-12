@@ -84,7 +84,7 @@ export function submitTalkCallbackForm(serviceUrl, nickname) {
         name: formState.name,
         description: formState.description
       },
-      _.identify
+      _.identity
     )
     const subdomain = parseUrl(serviceUrl).hostname.split('.')[0]
     const params = {

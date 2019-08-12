@@ -6,8 +6,13 @@ const chunks = require('./chunks')
 const CWD = process.cwd()
 
 const splitChunkConfig = (name, type = 'initial') => {
+  const test =
+    name === chunks.COMMON_VENDOR_CHUNK
+      ? /[\\/]node_modules[\\/](react|react-dom|lodash|redux|rollbar)[\\/]/
+      : name
+
   return {
-    test: name,
+    test,
     name,
     chunks: type
   }
@@ -16,7 +21,6 @@ const splitChunkConfig = (name, type = 'initial') => {
 module.exports = merge(common, {
   entry: {
     [chunks.WEB_WIDGET_CHUNK]: path.join(CWD, '/src/main.js'),
-    [chunks.COMMON_VENDOR_CHUNK]: ['lodash', 'react', 'react-dom', 'redux', 'rollbar'],
     [chunks.CHAT_VENDOR_CHUNK]: ['chat-web-sdk', 'react-slick'],
     [chunks.TALK_VENDOR_CHUNK]: ['libphonenumber-js', 'socket.io-client']
   },
