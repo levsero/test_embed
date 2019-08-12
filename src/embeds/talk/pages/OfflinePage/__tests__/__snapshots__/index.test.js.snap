@@ -6,7 +6,7 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
     class="container"
   >
     <div
-      class="header userHeader"
+      class="header"
     >
       <h1
         class="title"
