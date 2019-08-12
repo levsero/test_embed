@@ -1,4 +1,4 @@
-import { _ } from 'lodash'
+import _ from 'lodash'
 
 const defaultColor = '#78A300'
 let selectedThemeColor = { base: defaultColor }

@@ -66,11 +66,11 @@
     },
     {
       "path": "dist/common_vendor.*.js",
-      "maxSize": "120 KB"
+      "maxSize": "100 KB"
     },
     {
       "path": "dist/talk_vendor.*.js",
-      "maxSize": "55 KB"
+      "maxSize": "60 KB"
     },
     {
       "path": "dist/chat_vendor.*.js",
@@ -154,6 +154,7 @@
     "babel-jest": "23.4.2",
     "babel-loader": "^8.0.0",
     "babel-plugin-dynamic-import-node": "^2.0.0",
+    "babel-plugin-lodash": "^3.3.4",
     "bundlesize": "^0.18.0",
     "css-loader": "^0.28.11",
     "cssstyle": "1.1.1",
@@ -180,6 +181,7 @@
     "json-loader": "^0.5.7",
     "jsonwebtoken": "^5.7.0",
     "lint-staged": "^8.1.0",
+    "lodash-webpack-plugin": "^0.11.5",
     "mockery": "~1.4.0",
     "node-sass": "4.11.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",

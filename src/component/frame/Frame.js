@@ -37,11 +37,6 @@ import {
   getStylingZIndex
 } from 'src/redux/modules/settings/settings-selectors'
 
-// Unregister lodash from window._
-if (!__DEV__) {
-  _.noConflict()
-}
-
 const mapStateToProps = (state, ownProps) => {
   return {
     fixedStyles: getFixedStyles(state, ownProps.name),
