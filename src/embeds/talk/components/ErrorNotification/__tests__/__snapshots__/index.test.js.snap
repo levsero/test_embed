@@ -4,6 +4,7 @@ exports[`renders the component 1`] = `
 <div>
   <div
     class="error"
+    data-testid="talk--errorNotification"
   >
     error.svg
     there was an error

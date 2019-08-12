@@ -6,7 +6,7 @@ import { locals as styles } from './styles.scss'
 
 const ErrorNotification = ({ message }) => {
   return (
-    <div className={styles.error}>
+    <div className={styles.error} data-testid="talk--errorNotification">
       <ErrorIcon className={styles.errorIcon} />
       {message}
     </div>
