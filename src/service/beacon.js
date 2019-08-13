@@ -81,7 +81,7 @@ function sendWidgetInitInterval() {
 
   const params = {
     performance: {
-      InitInterval: time
+      initInterval: time
     }
   }
   const payload = {
