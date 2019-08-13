@@ -91,7 +91,6 @@ class HelpCenter extends Component {
     activeArticle: PropTypes.object,
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
-    chatEnabled: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool.isRequired,
     previousSearchTerm: PropTypes.string.isRequired,
     hasContextualSearched: PropTypes.bool.isRequired,
@@ -105,7 +104,6 @@ class HelpCenter extends Component {
     showNextButton: PropTypes.bool,
     searchLoading: PropTypes.bool.isRequired,
     searchFailed: PropTypes.bool.isRequired,
-    submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool,
     chatOfflineAvailable: PropTypes.bool,
     talkOnline: PropTypes.bool.isRequired,
@@ -352,12 +350,8 @@ class HelpCenter extends Component {
           this.helpCenterDesktop = el
         }}
         isOnInitialDesktopSearchScreen={this.props.isOnInitialDesktopSearchScreen}
-        chatOfflineAvailable={this.props.chatOfflineAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         isContextualSearchPending={this.props.isContextualSearchPending}
-        chatAvailable={this.props.chatAvailable}
-        submitTicketAvailable={this.props.submitTicketAvailable}
-        chatEnabled={this.props.chatEnabled}
         handleOnChangeValue={this.props.handleSearchFieldChange}
         handleNextClick={this.handleNextClick}
         search={this.search}
@@ -366,8 +360,6 @@ class HelpCenter extends Component {
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
         channelChoice={this.props.channelChoice}
-        callbackEnabled={this.props.callbackEnabled}
-        talkOnline={this.props.talkOnline}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
@@ -392,21 +384,14 @@ class HelpCenter extends Component {
         ref={el => {
           this.helpCenterMobile = el
         }}
-        chatOfflineAvailable={this.props.chatOfflineAvailable}
         handleOnChangeValue={this.props.handleSearchFieldChange}
         onSearchFieldFocus={this.props.handleSearchFieldFocus}
-        submitTicketAvailable={this.props.submitTicketAvailable}
-        chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.props.searchLoading}
-        onNextClick={this.props.onNextClick}
         showNextButton={this.props.showNextButton}
-        chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         isContextualSearchPending={this.props.isContextualSearchPending}
-        callbackEnabled={this.props.callbackEnabled}
-        talkOnline={this.props.talkOnline}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         searchFieldValue={this.props.searchFieldValue}
