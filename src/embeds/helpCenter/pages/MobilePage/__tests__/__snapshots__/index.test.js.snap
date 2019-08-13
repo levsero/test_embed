@@ -146,18 +146,6 @@ exports[`renders the expected components 1`] = `
                 </div>
               </div>
             </form>
-            <div
-              class="linkContainer"
-            >
-              <p
-                class="linkContext"
-              >
-                Do you have a specific question?
-              </p>
-              <a
-                class="link"
-              />
-            </div>
           </div>
         </div>
       </div>

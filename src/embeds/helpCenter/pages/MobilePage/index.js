@@ -57,7 +57,6 @@ export default class MobilePage extends Component {
     chatEnabled: false,
     channelChoice: false,
     setChannelChoiceShown: () => {},
-    onNextClick: () => {},
     talkOnline: false,
     buttonLoading: false
   }
@@ -215,27 +214,7 @@ export default class MobilePage extends Component {
 
   renderFormContainer = () => {
     return this.props.articleViewActive || !this.state.showIntroScreen ? null : (
-      <div>
-        {this.renderForm()}
-        {this.renderLinkContent()}
-      </div>
-    )
-  }
-
-  renderLinkContent = () => {
-    if (!this.props.showNextButton || !this.state.showIntroScreen) return null
-
-    const linkContext = this.props.chatAvailable
-      ? i18n.t('embeddable_framework.helpCenter.label.linkContext.chat')
-      : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket')
-
-    return (
-      <div className={styles.linkContainer}>
-        <p className={styles.linkContext}>{linkContext}</p>
-        <a className={styles.link} onClick={this.props.handleNextClick}>
-          {this.props.buttonLabel}
-        </a>
-      </div>
+      <div>{this.renderForm()}</div>
     )
   }
 

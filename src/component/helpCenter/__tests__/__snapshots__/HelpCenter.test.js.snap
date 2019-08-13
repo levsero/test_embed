@@ -73,20 +73,6 @@ exports[`mobile renders mobile classes 1`] = `
                   </div>
                 </div>
               </form>
-              <div
-                class="linkContainer"
-              >
-                <p
-                  class="linkContext"
-                >
-                  Do you have a specific question?
-                </p>
-                <a
-                  class="link"
-                >
-                  Leave us a message
-                </a>
-              </div>
             </div>
           </div>
         </div>

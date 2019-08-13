@@ -126,25 +126,6 @@ describe('mobile', () => {
     expect(container).toMatchSnapshot()
   })
 
-  it('does not show intro screen when there are articles', () => {
-    const { queryByText, rerender } = renderComponent({
-      isMobile: true,
-      articles: []
-    })
-
-    expect(queryByText('Do you have a specific question?')).toBeInTheDocument()
-    renderComponent({ isMobile: true, articles: ['hello', 'world'] }, rerender)
-    expect(queryByText('Do you have a specific question?')).not.toBeInTheDocument()
-  })
-
-  it('calls onNextClick on click of button', () => {
-    const onNextClick = jest.fn()
-    const { getByText } = renderComponent({ isMobile: true, onNextClick })
-
-    fireEvent.click(getByText('Leave us a message'))
-    expect(onNextClick).toHaveBeenCalled()
-  })
-
   it('hides zendesk logo when hideZendeskLogo is true', () => {
     const { queryByTestId } = renderComponent({
       isMobile: true,
