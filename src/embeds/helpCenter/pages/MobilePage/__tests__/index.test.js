@@ -10,6 +10,7 @@ const renderComponent = props => {
     buttonLabel: '',
     chatAvailable: false,
     children: <div />,
+    onNextClick: noop,
     handleNextClick: noop,
     handleOnChangeValue: noop,
     onSearchFieldFocus: noop,
@@ -170,31 +171,6 @@ describe('render', () => {
 })
 
 describe('search box clicked', () => {
-  it('changes screen when search box is clicked', () => {
-    const { queryByText, getByPlaceholderText } = renderComponent({
-      searchPlaceholder: 'How can we help?'
-    })
-
-    expect(queryByText('Do you have a specific question?')).toBeInTheDocument()
-
-    fireEvent.click(getByPlaceholderText('How can we help?'))
-
-    expect(queryByText('Do you have a specific question?')).not.toBeInTheDocument()
-  })
-
-  it('changes screen back to inital view when user clicks outside the search box ', () => {
-    const { queryByText, getByPlaceholderText } = renderComponent({
-      searchPlaceholder: 'How can we help?'
-    })
-
-    fireEvent.click(getByPlaceholderText('How can we help?'))
-    fireEvent.blur(getByPlaceholderText('How can we help?'))
-
-    expect(queryByText('Do you have a specific question?')).not.toBeInTheDocument()
-    jest.runAllTimers()
-    expect(queryByText('Do you have a specific question?')).toBeInTheDocument()
-  })
-
   it('hides the footer', () => {
     const { queryByText, getByPlaceholderText } = renderComponent({
       showNextButton: true,
