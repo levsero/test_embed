@@ -65,20 +65,6 @@ describe('render', () => {
     expect(container.querySelector('footer')).toMatchSnapshot()
   })
 
-  describe('show channelChoice options', () => {
-    it('show channel choice when channelChoice is true', () => {
-      const { queryByText } = renderComponent({ channelChoice: true })
-
-      expect(queryByText('Leave a message')).toBeInTheDocument()
-    })
-
-    it('hide channel choice when channelChoice is false', () => {
-      const { queryByText } = renderComponent({ channelChoice: false })
-
-      expect(queryByText('Leave a message')).not.toBeInTheDocument()
-    })
-  })
-
   describe('hide zendesk logo', () => {
     it('hides the zendesk logo when hasSearched is true', () => {
       const { queryByTestId } = renderComponent({ hasSearched: true })

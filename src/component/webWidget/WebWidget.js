@@ -470,7 +470,6 @@ class WebWidget extends Component {
           ref={helpCenter}
           chatOfflineAvailable={this.props.chatOfflineAvailable}
           notification={this.props.chatNotification}
-          chatEnabled={this.props.chatEnabled}
           talkOnline={this.props.talkOnline}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
@@ -484,7 +483,6 @@ class WebWidget extends Component {
           originalArticleButton={this.props.originalArticleButton}
           channelChoice={channelChoiceAvailable}
           callbackEnabled={this.props.callbackEnabled}
-          submitTicketAvailable={submitTicketAvailable}
           chatAvailable={chatAvailable}
           chatNotificationDismissed={this.props.chatNotificationDismissed}
           updateChatScreen={this.props.updateChatScreen}
