@@ -32,6 +32,22 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
               help
             </h2>
             <div
+              class="originalArticleButton"
+            >
+              <a
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
+            <div
               class="article"
             >
               here
@@ -77,6 +93,22 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
             >
               help
             </h2>
+            <div
+              class="originalArticleButton"
+            >
+              <a
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external mobile"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
             <div
               class="article"
             >

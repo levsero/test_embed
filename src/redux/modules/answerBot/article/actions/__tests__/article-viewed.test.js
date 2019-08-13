@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import * as actions from '../article-viewed'
 import { http } from 'service/transport'
 import { settings } from 'service/settings'
+import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/redux/modules/answerBot/article/action-types'
 
 jest.mock('service/transport')
 
@@ -56,6 +57,17 @@ describe('articleViewed', () => {
 
       callback()
       expect(store.getActions()).toMatchSnapshot()
+    })
+  })
+})
+
+describe('originalArticleClicked', () => {
+  it('returns an action including the provided article id', () => {
+    expect(actions.originalArticleClicked('articleId')).toEqual({
+      type: ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED,
+      payload: {
+        articleId: 'articleId'
+      }
     })
   })
 })
