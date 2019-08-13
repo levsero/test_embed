@@ -352,12 +352,8 @@ class HelpCenter extends Component {
           this.helpCenterDesktop = el
         }}
         isOnInitialDesktopSearchScreen={this.props.isOnInitialDesktopSearchScreen}
-        chatOfflineAvailable={this.props.chatOfflineAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         isContextualSearchPending={this.props.isContextualSearchPending}
-        chatAvailable={this.props.chatAvailable}
-        submitTicketAvailable={this.props.submitTicketAvailable}
-        chatEnabled={this.props.chatEnabled}
         handleOnChangeValue={this.props.handleSearchFieldChange}
         handleNextClick={this.handleNextClick}
         search={this.search}
@@ -366,8 +362,6 @@ class HelpCenter extends Component {
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
         channelChoice={this.props.channelChoice}
-        callbackEnabled={this.props.callbackEnabled}
-        talkOnline={this.props.talkOnline}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
