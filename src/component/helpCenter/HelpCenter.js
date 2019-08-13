@@ -386,21 +386,14 @@ class HelpCenter extends Component {
         ref={el => {
           this.helpCenterMobile = el
         }}
-        chatOfflineAvailable={this.props.chatOfflineAvailable}
         handleOnChangeValue={this.props.handleSearchFieldChange}
         onSearchFieldFocus={this.props.handleSearchFieldFocus}
-        submitTicketAvailable={this.props.submitTicketAvailable}
-        chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.props.searchLoading}
-        onNextClick={this.props.onNextClick}
         showNextButton={this.props.showNextButton}
-        chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         isContextualSearchPending={this.props.isContextualSearchPending}
-        callbackEnabled={this.props.callbackEnabled}
-        talkOnline={this.props.talkOnline}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         searchFieldValue={this.props.searchFieldValue}
