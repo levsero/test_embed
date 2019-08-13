@@ -1,3 +1,6 @@
+import 'core-js/modules/es6.promise'
+import 'core-js/modules/es6.array.iterator'
+import './util/dev'
 import { boot } from './boot'
 import errorTracker from 'service/errorTracker'
 import { isBlacklisted } from 'utility/devices'

@@ -38,6 +38,11 @@ module.exports = () => {
         'Content-Security-Policy': CSP_HEADER
       }
     },
+    resolve: {
+      alias: {
+        'react-dom': '@hot-loader/react-dom'
+      }
+    },
     plugins: [
       ...webWidgetTemplates(config),
       new webpack.DefinePlugin({

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { hot } from 'react-hot-loader/root'
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CallbackPage from './pages/CallbackPage'
@@ -44,6 +45,6 @@ const mapStateToProps = state => ({
 const connectedComponent = connect(
   mapStateToProps,
   { forwardRef: true }
-)(Talk)
+)(hot(Talk))
 
 export { connectedComponent as default, Talk as Component }
