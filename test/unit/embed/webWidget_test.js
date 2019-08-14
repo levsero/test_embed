@@ -1139,6 +1139,35 @@ describe('embed.webWidget', () => {
       mockBeacon = mockRegistry['service/beacon'].beacon
     })
 
+    describe('initInterval blip', () => {
+      const renderWidget = () => {
+        const config = {
+          ...mockConfig,
+          helpCenterForm: {}
+        }
+
+        webWidget.create('', config, mockStore)
+        mockSupportJwtValue = 'token'
+        webWidget.postRender()
+      }
+
+      describe('9/10 times', () => {
+        it('does not fire blip', () => {
+          Math.random = jasmine.createSpy('random').and.returnValue(1)
+          renderWidget()
+          expect(mockBeacon.sendWidgetInitInterval).not.toHaveBeenCalled()
+        })
+      })
+
+      describe('1/10 times', () => {
+        it('does fire blip', () => {
+          Math.random = jasmine.createSpy('random').and.returnValue(0.1)
+          renderWidget()
+          expect(mockBeacon.sendWidgetInitInterval).toHaveBeenCalled()
+        })
+      })
+    })
+
     describe('authentication', () => {
       describe('when there is a jwt', () => {
         beforeEach(() => {
@@ -1154,10 +1183,6 @@ describe('embed.webWidget', () => {
 
         it('calls authenticate with the jwt token', () => {
           expect(authenticateSpy).toHaveBeenCalledWith('token')
-        })
-
-        it('calls beacon.sendWidgetInitInterval', () => {
-          expect(mockBeacon.sendWidgetInitInterval).toHaveBeenCalled()
         })
 
         describe('when there is a jwtFn', () => {

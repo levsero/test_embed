@@ -9,7 +9,6 @@ import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.s
 import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.scss'
 import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.scss'
 import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.scss'
-import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoicePopupDesktop.scss'
 import AgentListStyles from 'component/chat/agents/AgentList.scss'
 import ChatBoxStyles from 'component/chat/chatting/ChatBox.scss'
 import ChatPopupStyles from 'component/chat/ChatPopup.scss'
@@ -77,7 +76,6 @@ export const webWidgetStyles = `
   ${ButtonPillStyles}
   ${ChannelChoiceMenuStyles}
   ${ChannelChoiceDesktopStyles}
-  ${ChannelChoicePopupDesktopStyles}
   ${ChannelChoiceMobileStyles}
   ${ChannelChoicePopupMobileStyles}
   ${ChatBoxStyles}

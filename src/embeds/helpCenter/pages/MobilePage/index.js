@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { Button } from '@zendeskgarden/react-buttons'
 import { ButtonGroup } from 'component/button/ButtonGroup'
-import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SearchField } from 'component/field/SearchField'
 import { ZendeskLogo } from 'component/ZendeskLogo'
@@ -15,28 +14,19 @@ import { locals as styles } from './styles.scss'
 
 export default class MobilePage extends Component {
   static propTypes = {
-    chatOfflineAvailable: PropTypes.bool,
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
-    chatAvailable: PropTypes.bool,
     children: PropTypes.node.isRequired,
     hasContextualSearched: PropTypes.bool,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
     onSearchFieldFocus: PropTypes.func.isRequired,
-    onNextClick: PropTypes.func,
     hasSearched: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     isLoading: PropTypes.bool,
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
     showNextButton: PropTypes.bool,
-    submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool,
-    channelChoice: PropTypes.bool,
-    setChannelChoiceShown: PropTypes.func,
-    talkOnline: PropTypes.bool.isRequired,
-    callbackEnabled: PropTypes.bool.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpRequestNeeded: PropTypes.bool.isRequired,
     searchPlaceholder: PropTypes.string.isRequired,
@@ -157,23 +147,6 @@ export default class MobilePage extends Component {
     )
   }
 
-  renderChannelChoice = () => {
-    return this.props.channelChoice ? (
-      <div className={styles.channelChoiceContainer}>
-        <ChannelChoicePopupMobile
-          chatOfflineAvailable={this.props.chatOfflineAvailable}
-          submitTicketAvailable={this.props.submitTicketAvailable}
-          chatEnabled={this.props.chatEnabled}
-          callbackEnabled={this.props.callbackEnabled}
-          talkOnline={this.props.talkOnline}
-          chatAvailable={this.props.chatAvailable}
-          onNextClick={this.props.onNextClick}
-          onCancelClick={() => this.props.setChannelChoiceShown(false)}
-        />
-      </div>
-    ) : null
-  }
-
   renderSearchField = () => {
     return (
       <SearchField
@@ -289,7 +262,6 @@ export default class MobilePage extends Component {
           {this.renderChildContent()}
         </ScrollContainer>
         {this.renderZendeskLogo(hideZendeskLogo)}
-        {this.renderChannelChoice()}
       </div>
     )
   }

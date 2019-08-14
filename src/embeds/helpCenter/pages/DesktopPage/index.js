@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { Button } from '@zendeskgarden/react-buttons'
 import { ButtonGroup } from 'component/button/ButtonGroup'
-import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoicePopupDesktop'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SearchField } from 'component/field/SearchField'
 import { ZendeskLogo } from 'component/ZendeskLogo'
@@ -19,8 +18,6 @@ export default class DesktopPage extends Component {
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
-    channelChoiceShown: PropTypes.bool,
-    chatAvailable: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
@@ -31,11 +28,7 @@ export default class DesktopPage extends Component {
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
     showNextButton: PropTypes.bool,
-    submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool,
-    callbackEnabled: PropTypes.bool.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
-    chatOfflineAvailable: PropTypes.bool.isRequired,
     isOnInitialDesktopSearchScreen: PropTypes.bool,
     maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     searchPlaceholder: PropTypes.string.isRequired,
@@ -146,19 +139,6 @@ export default class DesktopPage extends Component {
     return !this.props.hideZendeskLogo ? <ZendeskLogo fullscreen={false} /> : null
   }
 
-  renderChannelChoice = () => {
-    return this.props.channelChoiceShown ? (
-      <ChannelChoicePopupDesktop
-        chatOfflineAvailable={this.props.chatOfflineAvailable}
-        submitTicketAvailable={this.props.submitTicketAvailable}
-        chatEnabled={this.props.chatEnabled}
-        callbackEnabled={this.props.callbackEnabled}
-        chatAvailable={this.props.chatAvailable}
-        onNextClick={this.props.onNextClick}
-      />
-    ) : null
-  }
-
   renderLoadingAnimation = () => {
     return <LoadingEllipses useUserColor={false} itemClassName={styles.loadingAnimation} />
   }
@@ -192,7 +172,6 @@ export default class DesktopPage extends Component {
         <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
           {buttonLoading ? this.renderLoadingButton() : this.renderButton()}
         </ButtonGroup>
-        {this.renderChannelChoice()}
       </div>
     ) : null
   }
