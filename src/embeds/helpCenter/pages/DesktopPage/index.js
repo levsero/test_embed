@@ -39,7 +39,6 @@ export default class DesktopPage extends Component {
   static defaultProps = {
     articleViewActive: false,
     channelChoice: false,
-    channelChoiceShown: false,
     formTitleKey: 'help',
     hasSearched: false,
     hideZendeskLogo: false,

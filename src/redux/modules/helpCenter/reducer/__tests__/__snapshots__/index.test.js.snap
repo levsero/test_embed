@@ -6,7 +6,6 @@ Object {
   "articleClicked": false,
   "articleDisplayed": false,
   "articles": Array [],
-  "channelChoiceShown": false,
   "contextualSearch": Object {
     "hasSearched": false,
     "screen": "",

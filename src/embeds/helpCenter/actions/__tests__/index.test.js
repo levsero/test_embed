@@ -50,15 +50,6 @@ test('addRestrictedImage dispatches expected action', () => {
   expect(actions.addRestrictedImage({ x: 123 })).toEqual(expected)
 })
 
-test('updateChannelChoiceShown dispatches expected action', () => {
-  const expected = {
-    type: types.CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
-    payload: true
-  }
-
-  expect(actions.updateChannelChoiceShown(true)).toEqual(expected)
-})
-
 test('handleSearchFieldChange dispatches expected action', () => {
   const expected = {
     type: types.SEARCH_FIELD_CHANGED,

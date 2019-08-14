@@ -10,8 +10,6 @@ export const ARTICLE_CLICKED = 'widget/helpCenter/ARTICLE_CLICKED'
 export const ARTICLE_CLOSED = 'widget/helpCenter/ARTICLE_CLOSED'
 export const ORIGINAL_ARTICLE_CLICKED = 'widget/helpCenter/ORIGINAL_ARTICLE_CLICKED'
 export const ADD_RESTRICTED_IMAGE = 'widget/helpCenter/ADD_RESTRICTED_IMAGE'
-export const CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN =
-  'widget/helpCenter/CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN'
 export const SEARCH_FIELD_CHANGED = 'widget/helpCenter/SEARCH_FIELD_CHANGED'
 export const SEARCH_FIELD_FOCUSED = 'widget/helpCenter/SEARCH_FIELD_FOCUSED'
 export const GET_ARTICLE_REQUEST_SENT = 'widget/helpCenter/GET_ARTICLE_REQUEST_SENT'
