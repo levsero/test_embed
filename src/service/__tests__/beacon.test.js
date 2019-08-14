@@ -98,21 +98,6 @@ describe('trackUserAction', () => {
   })
 })
 
-test('sendConfigLoadTime', () => {
-  beacon.sendConfigLoadTime(100)
-
-  expect(http.sendWithMeta).toHaveBeenCalledWith({
-    method: 'GET',
-    path: '/embeddable_blip',
-    type: 'performance',
-    params: {
-      performance: {
-        configLoadTime: 100
-      }
-    }
-  })
-})
-
 describe('init', () => {
   beforeEach(() => {
     beacon.init()
@@ -481,11 +466,6 @@ describe('setConfig', () => {
 
     it('does not send sendPageView', () => {
       beacon.sendPageView()
-      expect(http.sendWithMeta).not.toHaveBeenCalled()
-    })
-
-    it('does not send sendPageView', () => {
-      beacon.sendConfigLoadTime(100)
       expect(http.sendWithMeta).not.toHaveBeenCalled()
     })
 

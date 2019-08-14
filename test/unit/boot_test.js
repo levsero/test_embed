@@ -12,7 +12,7 @@ describe('boot', () => {
       'setConfig',
       'sendPageView',
       'trackSettings',
-      'sendConfigLoadTime'
+      'setConfigLoadTime'
     ),
     identitySpy = registerImportSpy('identity', 'init'),
     errorTracker = jasmine.createSpyObj('errorTracker', ['configure', 'error']),
@@ -229,8 +229,6 @@ describe('boot', () => {
         boot.getConfig(win, postRenderQueue, reduxStore)
         doneHandler = mockGetCalls.mostRecent().args[0].callbacks.done
 
-        Math.random = jasmine.createSpy('random').and.returnValue(1)
-
         doneHandler({ body: config })
       })
 
@@ -272,10 +270,6 @@ describe('boot', () => {
           postRenderQueue,
           reduxStore
         )
-      })
-
-      it('does not call beacon.sendConfigLoadTime', () => {
-        expect(beaconSpy.beacon.sendConfigLoadTime).not.toHaveBeenCalled()
       })
 
       describe('when newChat is not part of config', () => {
@@ -435,8 +429,8 @@ describe('boot', () => {
           doneHandler({ body: config })
         })
 
-        it('calls beacon.sendConfigLoadTime with the load time', () => {
-          expect(beaconSpy.beacon.sendConfigLoadTime).toHaveBeenCalledWith(1000)
+        it('calls beacon.setConfigLoadTime with the load time', () => {
+          expect(beaconSpy.beacon.setConfigLoadTime).toHaveBeenCalledWith(1000)
         })
       })
     })

@@ -94,10 +94,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     webWidgetApi.apiSetup(win, reduxStore, config)
 
-    // Only send 1/10 times
-    if (Math.random() <= 0.1) {
-      beacon.sendConfigLoadTime(Date.now() - configLoadStart)
-    }
+    beacon.setConfigLoadTime(Date.now() - configLoadStart)
 
     if (win.zESettings) {
       beacon.trackSettings(settings.getTrackSettings())
