@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import { createSelector } from 'reselect'
-import { getSessions } from '../sessions/selectors'
+import { getSessionByID, getSessions } from '../sessions/selectors'
 import {
   getHasContextuallySearched,
   getSearchLoading,
@@ -160,3 +160,19 @@ export const getContactButtonVisible = createSelector(
   [getGetInTouchVisible, getChannelAvailable],
   (getInTouchVisible, channelAvailable) => channelAvailable && getInTouchVisible
 )
+
+export const getAuthToken = state => {
+  const sessionId = getCurrentArticleSessionID(state)
+
+  if (!sessionId) {
+    return undefined
+  }
+
+  const currentSession = getSessionByID(state, sessionId)
+
+  if (!currentSession || !currentSession.deflection) {
+    return undefined
+  }
+
+  return currentSession.deflection.auth_token
+}

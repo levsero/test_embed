@@ -20,12 +20,15 @@ const actions = Object.freeze({
   sessionFallback: jest.fn(),
   screenChanged: jest.fn(),
   sessionResolved: jest.fn(),
-  botFallbackMessage: jest.fn()
+  botFallbackMessage: jest.fn(),
+  originalArticleClicked: jest.fn()
 })
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    article: {},
+    article: {
+      html_url: 'https://example.com'
+    },
     isFeedbackRequired: false,
     locale: 'en-US',
     actions
@@ -168,5 +171,44 @@ describe('feedback actions', () => {
         expect(actions.screenChanged).toHaveBeenCalledWith('conversation')
       })
     })
+  })
+})
+
+describe('original article button', () => {
+  it('is shown to the user', () => {
+    const { queryByTitle } = renderComponent()
+
+    expect(queryByTitle('View original article')).toBeInTheDocument()
+  })
+
+  it('links to the help enter article with answer bot auth token', () => {
+    const authToken = 'token'
+    const article = {
+      id: 'article123',
+      html_url: 'https://example.com/'
+    }
+
+    const { queryByTitle } = renderComponent({ authToken, article })
+    const link = queryByTitle('View original article')
+
+    expect(link.href).toBe('https://example.com/?auth_token=token')
+  })
+
+  it('dispatches an original article clicked action when clicked', () => {
+    const originalArticleClicked = jest.fn()
+    const article = {
+      id: 'article123',
+      html_url: 'https://example.com'
+    }
+
+    const { queryByTitle } = renderComponent({
+      actions: { ...actions, originalArticleClicked },
+      article
+    })
+    const link = queryByTitle('View original article')
+
+    link.click()
+
+    expect(originalArticleClicked).toHaveBeenCalledWith('article123')
   })
 })

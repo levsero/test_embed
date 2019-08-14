@@ -317,3 +317,58 @@ describe('getContactButtonVisible', () => {
     }
   )
 })
+
+describe('getAuthToken', () => {
+  const createState = ({ sessionID, session }) => {
+    const sessions = new Map()
+    if (sessionID && session) {
+      sessions.set(sessionID, session)
+    }
+
+    return {
+      answerBot: {
+        currentArticle: {
+          sessionID
+        },
+        sessions
+      }
+    }
+  }
+
+  it('returns undefined when there is no current article session id', () => {
+    expect(selectors.getAuthToken(createState({ sessionID: null }))).toBeUndefined()
+  })
+
+  it('returns undefined when session information is not known', () => {
+    const state = createState({
+      sessionID: '123',
+      session: null
+    })
+
+    expect(selectors.getAuthToken(state)).toBeUndefined()
+  })
+
+  it('returns undefined if sessions deflection is falsy', () => {
+    const state = createState({
+      sessionID: '123',
+      session: {
+        deflection: false
+      }
+    })
+
+    expect(selectors.getAuthToken(state)).toBeUndefined()
+  })
+
+  it("returns the session's auth token when it exists", () => {
+    const state = createState({
+      sessionID: '123',
+      session: {
+        deflection: {
+          auth_token: 'token'
+        }
+      }
+    })
+
+    expect(selectors.getAuthToken(state)).toBe('token')
+  })
+})

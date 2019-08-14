@@ -12,7 +12,8 @@ import {
   emailValid,
   referrerPolicyUrl,
   isValidUrl,
-  onNextTick
+  onNextTick,
+  appendParams
 } from '../utils'
 import * as globals from 'utility/globals'
 
@@ -421,5 +422,19 @@ describe('onNextTick', () => {
     expect(callback).not.toHaveBeenCalled()
     jest.advanceTimersByTime(0)
     expect(callback).toHaveBeenCalled()
+  })
+})
+
+describe('appendParams', () => {
+  it('returns the url when no params provided', () => {
+    expect(appendParams('www.example.com')).toBe('www.example.com')
+  })
+
+  it('appends params correctly when url does not already have params', () => {
+    expect(appendParams('www.example.com', 'a=b')).toBe('www.example.com?a=b')
+  })
+
+  it('appends params correctly when url already has params', () => {
+    expect(appendParams('www.example.com?a=b', 'c=d')).toBe('www.example.com?a=b&c=d')
   })
 })

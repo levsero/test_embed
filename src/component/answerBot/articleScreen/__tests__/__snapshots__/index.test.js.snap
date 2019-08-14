@@ -30,6 +30,23 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
               class="title"
             />
             <div
+              class="originalArticleButton"
+            >
+              <a
+                href="https://example.com"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
+            <div
               class="article"
             />
           </div>
@@ -72,6 +89,23 @@ exports[`feedback actions on no click asks for the reason 1`] = `
             <h2
               class="title"
             />
+            <div
+              class="originalArticleButton"
+            >
+              <a
+                href="https://example.com"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
             <div
               class="article"
             />
@@ -150,6 +184,23 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
               class="title"
             />
             <div
+              class="originalArticleButton"
+            >
+              <a
+                href="https://example.com"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
+            <div
               class="article"
             />
           </div>
@@ -192,6 +243,23 @@ exports[`passing of scroll container classes 1`] = `
             <h2
               class="title"
             />
+            <div
+              class="originalArticleButton"
+            >
+              <a
+                href="https://example.com"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
             <div
               class="article"
             />
@@ -236,6 +304,23 @@ exports[`renders the expected classes 1`] = `
               class="title"
             />
             <div
+              class="originalArticleButton"
+            >
+              <a
+                href="https://example.com"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
+            <div
               class="article"
             />
           </div>
@@ -277,6 +362,23 @@ exports[`renders the expected mobile classes 1`] = `
             <h2
               class="title"
             />
+            <div
+              class="originalArticleButton"
+            >
+              <a
+                href="https://example.com"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external mobile"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
             <div
               class="article"
             />
@@ -321,6 +423,23 @@ exports[`renders the expected title 1`] = `
               class="title"
             />
             <div
+              class="originalArticleButton"
+            >
+              <a
+                href="https://example.com"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
+            <div
               class="article"
             />
           </div>
@@ -363,6 +482,23 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
             <h2
               class="title"
             />
+            <div
+              class="originalArticleButton"
+            >
+              <a
+                href="https://example.com"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
             <div
               class="article"
             />
@@ -442,6 +578,23 @@ exports[`renders the help center article 1`] = `
             >
               title
             </h2>
+            <div
+              class="originalArticleButton"
+            >
+              <a
+                href="https://example.com"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  link-external.svg
+                </span>
+              </a>
+            </div>
             <div
               class="article"
             >

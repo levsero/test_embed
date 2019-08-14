@@ -43,6 +43,7 @@ import { ZOPIM_ON_OPEN } from 'src/redux/modules/zopimChat/zopimChat-action-type
 import { i18n } from 'service/i18n'
 
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/redux/modules/answerBot/article/action-types'
 
 let talkOpenedBlipSent = false
 let chatOpenedBlipSent = false
@@ -60,15 +61,16 @@ const createTalkBlipData = (state, phone) => {
   }
 }
 
-const getArticleClickValues = (state, activeArticle) => {
+const getArticleClickValues = (state, articleId, answerBot) => {
   const resultsCount = getResultsCount(state)
   const trackPayload = {
     query: getSearchTerm(state),
     resultsCount: resultsCount > 3 ? 3 : resultsCount,
     uniqueSearchResultClick: !getArticleClicked(state),
-    articleId: activeArticle.id,
+    articleId,
     locale: i18n.getLocale(),
-    contextualSearch: getHasContextuallySearched(state)
+    contextualSearch: getHasContextuallySearched(state),
+    answerBot: Boolean(answerBot)
   }
 
   return trackPayload
@@ -119,13 +121,19 @@ const sendArticleClickedBlip = (state, latestArticle) => {
   if (latestArticle) {
     beacon.trackUserAction('helpCenter', 'click', {
       label: 'helpCenterForm',
-      value: getArticleClickValues(state, latestArticle)
+      value: getArticleClickValues(state, latestArticle.id)
     })
   }
 }
 
-const sendOriginalArticleClickedBlip = state => {
-  const value = getArticleClickValues(state, getActiveArticle(state))
+const sendHelpCenterOriginalArticleClickedBlip = state => {
+  const article = getActiveArticle(state)
+
+  sendOriginalArticleClickedBlip(state, article.id)
+}
+
+const sendOriginalArticleClickedBlip = (state, articleId, answerBot) => {
+  const value = getArticleClickValues(state, articleId, answerBot)
 
   beacon.trackUserAction('helpCenter', 'viewOriginalArticle', {
     label: 'helpCenterForm',
@@ -276,7 +284,10 @@ export function sendBlips({ getState }) {
         }
         break
       case ORIGINAL_ARTICLE_CLICKED:
-        sendOriginalArticleClickedBlip(prevState)
+        sendHelpCenterOriginalArticleClickedBlip(prevState)
+        break
+      case ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED:
+        sendOriginalArticleClickedBlip(prevState, action.payload.articleId, true)
         break
       case UPDATE_WIDGET_SHOWN:
         if (payload === false) {

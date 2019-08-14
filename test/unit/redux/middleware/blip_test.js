@@ -61,6 +61,9 @@ describe('blip middleware', () => {
         SEARCH_REQUEST_SUCCESS: SEARCH_REQUEST_SUCCESS,
         SEARCH_REQUEST_FAILURE: SEARCH_REQUEST_FAILURE
       },
+      'src/redux/modules/answerBot/article/action-types': {
+        ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED: 'ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED'
+      },
       'src/redux/modules/base/base-action-types': {
         UPDATE_ACTIVE_EMBED,
         UPDATE_WIDGET_SHOWN,
@@ -441,7 +444,8 @@ describe('blip middleware', () => {
             uniqueSearchResultClick: true,
             articleId: 121212112,
             locale: 'US',
-            contextualSearch: false
+            contextualSearch: false,
+            answerBot: false
           }
 
           expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('helpCenter', 'click', {
@@ -584,7 +588,8 @@ describe('blip middleware', () => {
           uniqueSearchResultClick: false,
           articleId: 1213211232123,
           locale: 'US',
-          contextualSearch: true
+          contextualSearch: true,
+          answerBot: false
         }
 
         expect(beaconSpy.trackUserAction).toHaveBeenCalledWith(

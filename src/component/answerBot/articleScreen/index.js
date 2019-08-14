@@ -17,7 +17,6 @@ import {
   botFeedbackRequested,
   botFallbackMessage
 } from 'src/redux/modules/answerBot/root/actions/bot'
-
 import * as rootActions from 'src/redux/modules/answerBot/root/actions/'
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
@@ -26,6 +25,8 @@ import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
 import { i18n } from 'service/i18n'
 import { locals as styles } from './ArticleScreen.scss'
+import { appendParams } from 'utility/utils'
+import { originalArticleClicked } from 'src/redux/modules/answerBot/article/actions/article-viewed'
 
 class ArticleScreen extends Component {
   static propTypes = {
@@ -36,6 +37,7 @@ class ArticleScreen extends Component {
     article: PropTypes.object.isRequired,
     isFeedbackRequired: PropTypes.bool.isRequired,
     saveConversationScroll: PropTypes.func,
+    authToken: PropTypes.string,
     actions: PropTypes.shape({
       screenChanged: PropTypes.func.isRequired,
       articleDismissed: PropTypes.func.isRequired,
@@ -44,12 +46,14 @@ class ArticleScreen extends Component {
       botMessage: PropTypes.func.isRequired,
       botFeedbackMessage: PropTypes.func.isRequired,
       botFeedbackRequested: PropTypes.func.isRequired,
-      botFallbackMessage: PropTypes.func.isRequired
+      botFallbackMessage: PropTypes.func.isRequired,
+      originalArticleClicked: PropTypes.func.isRequired
     })
   }
 
   static defaultProps = {
     articleTitleKey: 'help',
+    authToken: '',
     isMobile: false,
     scrollContainerClasses: '',
     saveConversationScroll: () => {}
@@ -149,6 +153,10 @@ class ArticleScreen extends Component {
         : styles.reasonsPopupSpacing
     }
 
+    const url = this.props.authToken
+      ? appendParams(this.props.article.html_url, `auth_token=${this.props.authToken}`)
+      : this.props.article.html_url
+
     return (
       <div className={styles.container}>
         <ScrollContainer
@@ -158,9 +166,12 @@ class ArticleScreen extends Component {
           footerClasses={styles.footer}
         >
           <HelpCenterArticle
-            activeArticle={this.props.article}
-            originalArticleButton={false}
+            activeArticle={{ ...this.props.article, html_url: url }}
+            originalArticleButton={true}
             isMobile={this.props.isMobile}
+            handleOriginalArticleClick={() => {
+              this.props.actions.originalArticleClicked(this.props.article.id)
+            }}
           />
         </ScrollContainer>
         {this.feedbackPopup()}
@@ -172,7 +183,8 @@ class ArticleScreen extends Component {
 const mapStateToProps = state => ({
   article: rootSelectors.getCurrentArticle(state),
   isFeedbackRequired: rootSelectors.isFeedbackRequired(state),
-  locale: baseSelectors.getLocale(state)
+  locale: baseSelectors.getLocale(state),
+  authToken: rootSelectors.getAuthToken(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -185,7 +197,8 @@ const mapDispatchToProps = dispatch => ({
       botMessage,
       botFeedbackMessage,
       botFeedbackRequested,
-      botFallbackMessage
+      botFallbackMessage,
+      originalArticleClicked
     },
     dispatch
   )
