@@ -8,6 +8,8 @@ import { win, document as doc, navigator, getReferrerPolicy } from 'utility/glob
 import { isOnHelpCenterPage } from 'utility/pages'
 import { nowInSeconds, parseUrl, referrerPolicyUrl, sha1 } from 'utility/utils'
 
+let configLoadTime
+
 let config = {
   method: 'GET',
   endpoint: '/embeddable_blip',
@@ -81,9 +83,11 @@ function sendWidgetInitInterval() {
 
   const params = {
     performance: {
-      initInterval: time
+      initInterval: time,
+      configLoadTime: configLoadTime
     }
   }
+
   const payload = {
     type: 'performance',
     method: config.method,
@@ -110,20 +114,8 @@ function init() {
   mediator.channel.subscribe('beacon.trackUserAction', trackUserAction)
 }
 
-function sendConfigLoadTime(time) {
-  if (config.reduceBlipping) return
-
-  const params = {
-    performance: { configLoadTime: time }
-  }
-  const payload = {
-    type: 'performance',
-    method: config.method,
-    path: config.endpoint,
-    params: params
-  }
-
-  http.sendWithMeta(payload)
+function setConfigLoadTime(time) {
+  configLoadTime = time
 }
 
 function trackUserAction(category, action, options) {
@@ -237,13 +229,13 @@ function getFrameworkLoadTime() {
 }
 
 export const beacon = {
-  init: init,
-  trackUserAction: trackUserAction,
-  trackSettings: trackSettings,
-  identify: identify,
-  sendConfigLoadTime: sendConfigLoadTime,
-  getFrameworkLoadTime: getFrameworkLoadTime,
+  init,
+  trackUserAction,
+  trackSettings,
+  identify,
+  setConfigLoadTime,
+  getFrameworkLoadTime,
   sendPageView: sendPageViewWhenReady,
-  setConfig: setConfig,
-  sendWidgetInitInterval: sendWidgetInitInterval
+  setConfig,
+  sendWidgetInitInterval
 }
