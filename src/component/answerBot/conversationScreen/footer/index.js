@@ -167,7 +167,8 @@ const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
-  { forwardRef: true }
+  // pure needs to be false to avoid a bug where the cursor jumps to end of input box on every update
+  { forwardRef: true, pure: false }
 )(Footer)
 
 export { connectedComponent as default, Footer as Component }
