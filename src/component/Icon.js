@@ -97,7 +97,7 @@ export class Icon extends Component {
 
     return (
       <span {...spanProps} data-testid={type} className={iconClasses} type={type}>
-        <IconSVG />
+        <IconSVG aria-hidden={'true'} />
       </span>
     )
   }
