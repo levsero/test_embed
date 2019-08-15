@@ -10,7 +10,6 @@ const CallbackPage = ({ title }) => {
   return (
     <WidgetContainer>
       <WidgetHeader>{title}</WidgetHeader>
-
       <CallbackForm />
     </WidgetContainer>
   )

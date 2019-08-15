@@ -177,7 +177,7 @@ exports[`renders expected classes in desktop 1`] = `
           class="footer  footerShadow"
         >
           <div
-            class="buttonContainer"
+            class="container containerDesktop"
           >
             <div
               class="container buttonRight buttonGroup"

@@ -41,18 +41,14 @@ import {
   getIsOnInitialDesktopSearchScreen,
   getMaxWidgetHeight,
   getSettingsHelpCenterSearchPlaceholder,
-  getSettingsHelpCenterChatButton,
-  getSettingsHelpCenterMessageButton,
   getSettingsHelpCenterTitle,
   getContactOptionsButton,
-  getChatConnectionConnecting
+  getChatConnectionConnecting,
+  getHelpCenterButtonLabel
 } from 'src/redux/modules/selectors'
 import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
 
 const mapStateToProps = (state, ownProps) => {
-  const buttonLabelKey = ownProps.buttonLabelKey || 'message'
-  const messageButtonLabelKey = `embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`
-
   const formTitleKey = ownProps.formTitleKey || 'help'
   const titleKey = `embeddable_framework.helpCenter.form.title.${formTitleKey}`
 
@@ -77,19 +73,17 @@ const mapStateToProps = (state, ownProps) => {
     isOnInitialDesktopSearchScreen: getIsOnInitialDesktopSearchScreen(state),
     localeFallbacks: getSettingsHelpCenterLocaleFallbacks(state),
     searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
-    chatButtonLabel: getSettingsHelpCenterChatButton(state),
-    messageButtonLabel: getSettingsHelpCenterMessageButton(state, messageButtonLabelKey),
     title: getSettingsHelpCenterTitle(state, titleKey),
     contactButtonLabel: getContactOptionsButton(state),
     chatConnecting: getChatConnectionConnecting(state),
-    contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state)
+    contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state),
+    buttonLabel: getHelpCenterButtonLabel(state)
   }
 }
 
 class HelpCenter extends Component {
   static propTypes = {
     activeArticle: PropTypes.object,
-    callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
     fullscreen: PropTypes.bool.isRequired,
     previousSearchTerm: PropTypes.string.isRequired,
@@ -104,9 +98,6 @@ class HelpCenter extends Component {
     showNextButton: PropTypes.bool,
     searchLoading: PropTypes.bool.isRequired,
     searchFailed: PropTypes.bool.isRequired,
-    chatAvailable: PropTypes.bool,
-    chatOfflineAvailable: PropTypes.bool,
-    talkOnline: PropTypes.bool.isRequired,
     updateChatScreen: PropTypes.func,
     handleArticleClick: PropTypes.func.isRequired,
     resultsLocale: PropTypes.string.isRequired,
@@ -119,8 +110,6 @@ class HelpCenter extends Component {
     searchFieldValue: PropTypes.string.isRequired,
     handleSearchFieldChange: PropTypes.func.isRequired,
     handleSearchFieldFocus: PropTypes.func.isRequired,
-    chatNotificationCount: PropTypes.number,
-    isChatting: PropTypes.bool,
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpRequestNeeded: PropTypes.bool.isRequired,
     isContextualSearchComplete: PropTypes.bool.isRequired,
@@ -128,11 +117,9 @@ class HelpCenter extends Component {
     isOnInitialDesktopSearchScreen: PropTypes.bool,
     isMobile: PropTypes.bool.isRequired,
     searchPlaceholder: PropTypes.string.isRequired,
-    chatButtonLabel: PropTypes.string.isRequired,
-    messageButtonLabel: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    contactButtonLabel: PropTypes.string.isRequired,
-    chatConnecting: PropTypes.bool.isRequired
+    chatConnecting: PropTypes.bool.isRequired,
+    buttonLabel: PropTypes.string
   }
 
   static defaultProps = {
@@ -342,7 +329,7 @@ class HelpCenter extends Component {
     )
   }
 
-  renderHelpCenterDesktop = buttonLabel => {
+  renderHelpCenterDesktop = () => {
     return (
       <DesktopPage
         ref={el => {
@@ -361,7 +348,7 @@ class HelpCenter extends Component {
         channelChoice={this.props.channelChoice}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
-        buttonLabel={buttonLabel}
+        buttonLabel={this.props.buttonLabel}
         buttonLoading={this.props.chatConnecting}
         title={this.props.title}
         searchFieldValue={this.props.searchFieldValue}
@@ -376,7 +363,7 @@ class HelpCenter extends Component {
     )
   }
 
-  renderHelpCenterMobile = buttonLabel => {
+  renderHelpCenterMobile = () => {
     return (
       <MobilePage
         buttonLoading={this.props.chatConnecting}
@@ -395,7 +382,7 @@ class HelpCenter extends Component {
         hasSearched={this.props.hasSearched}
         searchFieldValue={this.props.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        buttonLabel={buttonLabel}
+        buttonLabel={this.props.buttonLabel}
         title={this.props.title}
         contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}
         searchPlaceholder={this.props.searchPlaceholder}
@@ -406,58 +393,10 @@ class HelpCenter extends Component {
     )
   }
 
-  chatLabel = () => {
-    const {
-      messageButtonLabel,
-      chatButtonLabel,
-      chatNotificationCount,
-      chatOfflineAvailable
-    } = this.props
-
-    if (chatNotificationCount > 0) {
-      return chatNotificationCount > 1
-        ? i18n.t('embeddable_framework.common.notification.manyMessages', {
-            plural_number: chatNotificationCount
-          })
-        : i18n.t('embeddable_framework.common.notification.oneMessage')
-    } else if (chatOfflineAvailable) {
-      return messageButtonLabel
-    }
-    return chatButtonLabel
-  }
-
-  buttonLabel = () => {
-    const {
-      channelChoice,
-      chatAvailable,
-      chatOfflineAvailable,
-      isChatting,
-      talkOnline,
-      callbackEnabled,
-      messageButtonLabel,
-      contactButtonLabel
-    } = this.props
-
-    if (isChatting) {
-      return this.chatLabel()
-    } else if (channelChoice) {
-      return contactButtonLabel
-    } else if (chatAvailable || chatOfflineAvailable) {
-      return this.chatLabel()
-    } else if (talkOnline) {
-      return callbackEnabled
-        ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
-        : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone')
-    }
-    return messageButtonLabel
-  }
-
   render = () => {
-    const buttonLabel = this.buttonLabel()
-
     const helpCenter = this.props.isMobile
-      ? this.renderHelpCenterMobile(buttonLabel)
-      : this.renderHelpCenterDesktop(buttonLabel)
+      ? this.renderHelpCenterMobile()
+      : this.renderHelpCenterDesktop()
 
     return <div>{helpCenter}</div>
   }
