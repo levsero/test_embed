@@ -6,17 +6,20 @@ import {
 } from 'src/redux/modules/chat/chat-action-types'
 import { getChatOnline, getActiveAgents } from 'src/redux/modules/chat/chat-selectors'
 import { endChat } from 'src/redux/modules/chat'
+import { getChatStatus, getActiveAgentCount } from 'src/redux/modules/chat/chat-selectors'
 
 export default (prevState, nextState, { type, payload }, dispatch) => {
+  if (_.isEmpty(getChatStatus(nextState))) return
+
   const memberLeaveEvent = type === SDK_CHAT_MEMBER_LEAVE
   const isAgent = _.get(payload, 'detail.nick', '').indexOf('agent:') > -1
 
   if (memberLeaveEvent && isAgent) {
     const prevAgents = getActiveAgents(prevState)
-    const agents = getActiveAgents(nextState)
+    const agentCount = getActiveAgentCount(nextState)
     const chatOnline = getChatOnline(nextState)
 
-    if (_.size(agents) === 0 && !chatOnline) {
+    if (agentCount === 0 && !chatOnline) {
       dispatch(endChat())
     } else {
       dispatch({
