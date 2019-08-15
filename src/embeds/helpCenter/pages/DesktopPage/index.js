@@ -10,6 +10,7 @@ import { LoadingBarContent } from 'component/loading/LoadingBarContent'
 import { i18n } from 'service/i18n'
 import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 
+import SearchPromptPage from 'src/embeds/helpCenter/pages/SearchPromptPage'
 import { locals as styles } from './styles.scss'
 import classNames from 'classnames'
 
@@ -75,7 +76,7 @@ export default class DesktopPage extends Component {
   }
 
   focusField = () => {
-    if (!this.props.articleViewActive) {
+    if (!this.props.articleViewActive && this.searchField) {
       const searchFieldInputNode = this.searchField.getSearchField()
       const strLength = searchFieldInputNode.value.length
 
@@ -203,6 +204,18 @@ export default class DesktopPage extends Component {
       this.props.showNextButton &&
       !this.props.isOnInitialDesktopSearchScreen &&
       !this.props.hideZendeskLogo
+
+    if (this.props.isOnInitialDesktopSearchScreen) {
+      return (
+        <SearchPromptPage
+          title={this.props.title}
+          makeSearchRequest={this.props.search}
+          handleOnChangeValue={this.props.handleOnChangeValue}
+          isLoading={this.props.isLoading}
+          searchPlaceholder={this.props.searchPlaceholder}
+        />
+      )
+    }
 
     return (
       <div>

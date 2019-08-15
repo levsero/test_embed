@@ -227,25 +227,14 @@ const checkArticlesDisplayed = queryByText => {
 }
 
 describe('desktop', () => {
-  const checkContainerSize = (container, height) => {
-    expect(container).toHaveStyle(`height: ${height};`)
-  }
-
   test('integration', () => {
-    const { container, getByTestId, getByPlaceholderText, queryByText } = renderComponent()
-    const scrollContainer = getByTestId('scrollcontainer')
-
-    // initially, the component is sized 150px
-    checkContainerSize(scrollContainer, 150)
+    const { container, getByPlaceholderText, queryByText } = renderComponent()
 
     const form = container.querySelector('form')
     const input = getByPlaceholderText('How can we help?')
 
     fireEvent.change(input, { target: { value: 'Help me' } })
     fireEvent.submit(form)
-
-    // after searching, the component should expand to 550px
-    checkContainerSize(scrollContainer, 550)
 
     // displays the articles
     checkArticlesDisplayed(queryByText)

@@ -1,7 +1,9 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
+import { Provider } from 'react-redux'
 
 import DesktopPage from '../index'
+import createStore from 'src/redux/createStore'
 
 const renderHelpCenterDesktop = props => {
   const defaultProps = {
@@ -20,7 +22,11 @@ const renderHelpCenterDesktop = props => {
 
   const mergedProps = { ...defaultProps, ...props }
 
-  return render(<DesktopPage {...mergedProps} />)
+  return render(
+    <Provider store={createStore()}>
+      <DesktopPage {...mergedProps} />
+    </Provider>
+  )
 }
 
 test('renders the expected components', () => {
@@ -128,17 +134,6 @@ describe('render', () => {
   })
 
   describe('height', () => {
-    it('sets the expected properties when on initial desktop screen', () => {
-      const { getByTestId } = renderHelpCenterDesktop({
-        isOnInitialDesktopSearchScreen: true,
-        maxWidgetHeight: 150
-      })
-      const scrollContainer = getByTestId('scrollcontainer')
-
-      expect(scrollContainer).toHaveStyle('height: 150px;')
-      expect(scrollContainer).toHaveClass('noCustomHeight')
-    })
-
     it('sets the expected properties when not on initial desktop screen', () => {
       const { getByTestId } = renderHelpCenterDesktop({
         isOnInitialDesktopSearchScreen: false

@@ -1,0 +1,9 @@
+@import 'src/styles/_vars.scss';
+
+.footer {
+  margin-top: #{10 / $font-size}rem;
+}
+
+.form {
+  margin-bottom: 0;
+}

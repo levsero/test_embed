@@ -215,10 +215,9 @@ class HelpCenter extends Component {
     }
   }
 
-  search = () => {
+  search = (searchValue = '') => {
     const searchField = this.getHelpCenterComponent().getSearchField()
-    const searchTerm = searchField.getValue()
-
+    const searchTerm = searchValue || searchField.getValue()
     if (_.isEmpty(searchTerm)) {
       return
     }

@@ -23,7 +23,6 @@ export class SearchField extends Component {
 
   static defaultProps = {
     fullscreen: false,
-    hasSearched: false,
     isLoading: false,
     onBlur: () => {},
     onChange: () => {},
@@ -31,7 +30,7 @@ export class SearchField extends Component {
     onFocus: () => {},
     onSearchIconClick: () => {},
     onClick: () => {},
-    hideZendeskLogo: false
+    hideZendeskLogo: true
   }
 
   constructor(props, context) {
