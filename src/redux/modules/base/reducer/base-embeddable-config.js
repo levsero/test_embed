@@ -12,13 +12,6 @@ const initialState = {
         nameFieldRequired: false
       }
     },
-    helpCenterForm: {
-      props: {
-        contextualHelpEnabled: false,
-        signInRequired: false,
-        answerBotEnabled: false
-      }
-    },
     zopimChat: {
       props: {
         zopimId: null,
@@ -57,12 +50,6 @@ const embeddableConfig = (state = initialState, action) => {
       return {
         ...state,
         embeds: {
-          helpCenterForm: {
-            props: {
-              ...state.embeds.helpCenterForm.props,
-              ..._.get(payload, 'embeds.helpCenterForm.props')
-            }
-          },
           zopimChat: {
             props: {
               ...state.embeds.zopimChat.props,

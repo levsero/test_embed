@@ -6,6 +6,11 @@ Object {
   "articleClicked": false,
   "articleDisplayed": false,
   "articles": Array [],
+  "config": Object {
+    "answerBotEnabled": false,
+    "contextualHelpEnabled": false,
+    "signInRequired": false,
+  },
   "contextualSearch": Object {
     "hasSearched": false,
     "screen": "",

@@ -92,6 +92,7 @@ import {
   getHelpCenterAvailable,
   getHelpCenterReady
 } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
+import { getAnswerBotEnabled as getAnswerBotConfigEnabled } from 'src/embeds/helpCenter/selectors'
 
 import { settings } from 'service/settings'
 
@@ -645,9 +646,8 @@ export const getSettingsAnswerBotAvatarName = createSelector(
 )
 
 export const getAnswerBotEnabled = createSelector(
-  [getEmbeddableConfig, getSettingsAnswerBotSuppress],
-  (embeddableConfig, suppress) =>
-    !suppress && embeddableConfig.embeds.helpCenterForm.props.answerBotEnabled
+  [getAnswerBotConfigEnabled, getSettingsAnswerBotSuppress],
+  (answerBotEnabled, suppress) => !suppress && answerBotEnabled
 )
 
 export const getAnswerBotAvailable = getAnswerBotEnabled

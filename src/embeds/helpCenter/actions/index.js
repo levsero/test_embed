@@ -6,7 +6,6 @@ import { location } from 'utility/globals'
 import {
   getAuthToken,
   getHasWidgetShown,
-  getHasPassedAuth,
   getIsAuthenticationPending
 } from 'src/redux/modules/base/base-selectors'
 import {
@@ -14,6 +13,7 @@ import {
   getContextualHelpRequestNeeded,
   getSearchQuery
 } from 'embeds/helpCenter/selectors'
+import { getHasPassedAuth } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import { i18n } from 'service/i18n'
 import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
 import {

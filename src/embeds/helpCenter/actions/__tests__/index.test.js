@@ -5,6 +5,7 @@ import * as types from 'embeds/helpCenter/actions/action-types'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as helpCenterSelectors from 'embeds/helpCenter/selectors'
+import * as helpCenterLinkedSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import * as settingsSelectors from 'src/redux/modules/settings/settings-selectors'
 import * as pages from 'utility/pages'
 import { http } from 'service/transport'
@@ -231,7 +232,7 @@ describe('setContextualSuggestionsManually', () => {
     beforeEach(() => {
       jest.spyOn(baseSelectors, 'getHasWidgetShown').mockReturnValue(true)
       jest.spyOn(helpCenterSelectors, 'getContextualHelpRequestNeeded').mockReturnValue(true)
-      jest.spyOn(baseSelectors, 'getHasPassedAuth').mockReturnValue(true)
+      jest.spyOn(helpCenterLinkedSelectors, 'getHasPassedAuth').mockReturnValue(true)
       jest.spyOn(helpCenterSelectors, 'getSearchQuery').mockReturnValue({
         query: 'help'
       })
@@ -570,7 +571,7 @@ describe('contextualSearch', () => {
 
     describe('has passed auth', () => {
       it('performs contextual search if auth passed', () => {
-        jest.spyOn(baseSelectors, 'getHasPassedAuth').mockReturnValue(true)
+        jest.spyOn(helpCenterLinkedSelectors, 'getHasPassedAuth').mockReturnValue(true)
         jest.spyOn(helpCenterSelectors, 'getSearchQuery').mockReturnValue({
           query: 'help'
         })
@@ -586,7 +587,7 @@ describe('contextualSearch', () => {
 
     describe('auth is pending', () => {
       it('updates the queue', () => {
-        jest.spyOn(baseSelectors, 'getHasPassedAuth').mockReturnValue(false)
+        jest.spyOn(helpCenterLinkedSelectors, 'getHasPassedAuth').mockReturnValue(false)
         jest.spyOn(baseSelectors, 'getIsAuthenticationPending').mockReturnValue(true)
         const store = dispatchAction()
 

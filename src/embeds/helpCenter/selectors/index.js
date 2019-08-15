@@ -3,8 +3,6 @@ import { createSelector } from 'reselect'
 import { getPageKeywords } from 'utility/utils'
 import { isOnHelpCenterPage } from 'utility/pages'
 
-import { getHelpCenterContextualEnabled } from 'src/redux/modules/base/base-selectors'
-
 import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
@@ -32,6 +30,9 @@ export const getSearchFieldFocused = state => !!state.helpCenter.searchFieldFocu
 export const getHasContextuallySearched = state => getContextualSearch(state).hasSearched
 export const getLastSearchTimestamp = state => state.helpCenter.lastSearchTimestamp
 export const getManualContextualSuggestions = state => state.helpCenter.manualContextualSuggestions
+export const getHelpCenterContextualEnabled = state => state.helpCenter.config.contextualHelpEnabled
+export const getHelpCenterSignInRequired = state => state.helpCenter.config.signInRequired
+export const getAnswerBotEnabled = state => state.helpCenter.config.answerBotEnabled
 
 export const getIsContextualSearchPending = state => {
   return getContextualSearchScreen(state) === CONTEXTUAL_SEARCH_REQUEST_SENT

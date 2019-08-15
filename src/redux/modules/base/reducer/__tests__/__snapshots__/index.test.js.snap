@@ -14,13 +14,6 @@ Object {
     "color": "#1F73B7",
     "cp4": false,
     "embeds": Object {
-      "helpCenterForm": Object {
-        "props": Object {
-          "answerBotEnabled": false,
-          "contextualHelpEnabled": false,
-          "signInRequired": false,
-        },
-      },
       "talk": Object {
         "props": Object {
           "color": "",
