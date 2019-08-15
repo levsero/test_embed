@@ -5,7 +5,9 @@ import { testReducer } from 'src/util/testHelpers'
 const initialState = {
   contextualHelpEnabled: false,
   signInRequired: false,
-  answerBotEnabled: false
+  answerBotEnabled: false,
+  buttonLabelKey: 'message',
+  formTitleKey: 'help'
 }
 const embeddableConfigPayload = {
   embeds: {
@@ -25,9 +27,8 @@ testReducer(config, [
   {
     action: { type: UPDATE_EMBEDDABLE_CONFIG, payload: embeddableConfigPayload },
     expected: {
-      contextualHelpEnabled: true,
-      signInRequired: false,
-      answerBotEnabled: false
+      ...initialState,
+      contextualHelpEnabled: true
     }
   },
   {

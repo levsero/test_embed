@@ -5,7 +5,9 @@ import _ from 'lodash'
 const initialState = {
   contextualHelpEnabled: false,
   signInRequired: false,
-  answerBotEnabled: false
+  answerBotEnabled: false,
+  buttonLabelKey: 'message',
+  formTitleKey: 'help'
 }
 
 const config = (state = initialState, action) => {

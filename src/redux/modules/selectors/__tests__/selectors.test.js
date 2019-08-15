@@ -42,11 +42,17 @@ const stateBaseSettings = (settings = {}) => {
   return compiledSettings
 }
 
-const stateHelpCenterSettings = (settings = {}, otherOverides = {}) => {
+const stateHelpCenterSettings = (settings = {}) => {
   return {
-    base: stateBaseSettings(otherOverides.base),
+    base: stateBaseSettings(),
     settings: {
       helpCenter: settings
+    },
+    helpCenter: {
+      config: {
+        buttonLabelKey: 'message',
+        formTitleKey: 'help'
+      }
     }
   }
 }

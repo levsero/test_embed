@@ -8,7 +8,9 @@ Object {
   "articles": Array [],
   "config": Object {
     "answerBotEnabled": false,
+    "buttonLabelKey": "message",
     "contextualHelpEnabled": false,
+    "formTitleKey": "help",
     "signInRequired": false,
   },
   "contextualSearch": Object {

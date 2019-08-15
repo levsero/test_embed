@@ -33,6 +33,8 @@ export const getManualContextualSuggestions = state => state.helpCenter.manualCo
 export const getHelpCenterContextualEnabled = state => state.helpCenter.config.contextualHelpEnabled
 export const getHelpCenterSignInRequired = state => state.helpCenter.config.signInRequired
 export const getAnswerBotEnabled = state => state.helpCenter.config.answerBotEnabled
+export const getButtonLabelKey = state => state.helpCenter.config.buttonLabelKey
+export const getFormTitleKey = state => state.helpCenter.config.formTitleKey
 
 export const getIsContextualSearchPending = state => {
   return getContextualSearchScreen(state) === CONTEXTUAL_SEARCH_REQUEST_SENT
