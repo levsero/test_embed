@@ -285,11 +285,14 @@ describe('performSearch', () => {
   const doneFn = jest.fn(),
     failFn = jest.fn(),
     helpCenterFilter = { x: 123 },
-    query = { query: 'help' }
+    query = 'help'
 
   beforeEach(() => {
     jest.spyOn(Date, 'now').mockReturnValue(1234)
     jest.spyOn(settingsSelectors, 'getSettingsHelpCenterFilter').mockReturnValue(helpCenterFilter)
+    jest
+      .spyOn(settingsSelectors, 'getSettingsHelpCenterLocaleFallbacks')
+      .mockReturnValue(['fr', 'ar'])
   })
 
   it('dispatches SEARCH_REQUEST_SENT', () => {
@@ -318,7 +321,10 @@ describe('performSearch', () => {
         path: '/api/v2/help_center/articles/embeddable_search.json',
         query: {
           query: 'help',
-          x: 123
+          x: 123,
+          locale: '',
+          origin: 'web_widget',
+          per_page: 9
         }
       })
     )

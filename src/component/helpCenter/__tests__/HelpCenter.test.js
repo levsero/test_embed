@@ -177,12 +177,7 @@ describe('searching', () => {
     const { performSearch } = search('Help me')
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'en-AU',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -207,12 +202,7 @@ describe('searching', () => {
     const { performSearch } = search('Help me')
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'en-AU',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -220,12 +210,7 @@ describe('searching', () => {
     successFn(performSearch)(noResultsFound)
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: '',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -237,12 +222,7 @@ describe('searching', () => {
     })
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'en-AU',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -250,12 +230,7 @@ describe('searching', () => {
     successFn(performSearch)(noResultsFound)
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'fr',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -263,12 +238,7 @@ describe('searching', () => {
     successFn(performSearch)(noResultsFound)
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'es',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
