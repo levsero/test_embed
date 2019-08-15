@@ -19,14 +19,16 @@ import WidgetMain from 'src/components/WidgetMain'
 import WidgetFooter from 'src/components/WidgetFooter'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import { getFormattedPhoneNumber, getTitle } from 'src/embeds/talk/selectors'
+import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 
 const PhoneOnlyPage = ({
-  isMobile,
   callUsMessage,
+  isMobile,
   averageWaitTime,
   phoneNumber,
   formattedPhoneNumber,
-  title
+  title,
+  hideZendeskLogo
 }) => {
   return (
     <WidgetContainer>
@@ -44,9 +46,7 @@ const PhoneOnlyPage = ({
           </div>
         </div>
       </WidgetMain>
-      <WidgetFooter>
-        <ZendeskLogo />
-      </WidgetFooter>
+      <WidgetFooter>{hideZendeskLogo ? null : <ZendeskLogo />}</WidgetFooter>
     </WidgetContainer>
   )
 }
@@ -57,7 +57,8 @@ PhoneOnlyPage.propTypes = {
   formattedPhoneNumber: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string.isRequired,
   callUsMessage: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  hideZendeskLogo: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => {
@@ -67,7 +68,8 @@ const mapStateToProps = state => {
     averageWaitTime: getAverageWaitTimeString(state),
     phoneNumber: getEmbeddableConfig(state).phoneNumber,
     formattedPhoneNumber: getFormattedPhoneNumber(state),
-    title: getTitle(state, 'embeddable_framework.talk.phoneOnly.title')
+    title: getTitle(state, 'embeddable_framework.talk.phoneOnly.title'),
+    hideZendeskLogo: getHideZendeskLogo(state)
   }
 }
 

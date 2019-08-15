@@ -15,8 +15,9 @@ import ZendeskLogo from 'src/components/ZendeskLogo'
 import { successDoneButtonClicked } from 'src/redux/modules/talk'
 import { focusLauncher } from 'utility/globals'
 import { getTitle } from 'src/embeds/talk/selectors'
+import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 
-const SuccessNotificationPage = ({ title, doneText, onDone, history }) => {
+const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendeskLogo }) => {
   const isMobile = isMobileBrowser()
 
   return (
@@ -38,7 +39,7 @@ const SuccessNotificationPage = ({ title, doneText, onDone, history }) => {
           >
             {doneText}
           </Button>
-          <ZendeskLogo />
+          {hideZendeskLogo ? null : <ZendeskLogo />}
         </div>
       </WidgetFooter>
     </WidgetContainer>
@@ -51,11 +52,13 @@ SuccessNotificationPage.propTypes = {
   onDone: PropTypes.func.isRequired,
   history: PropTypes.shape({
     replace: PropTypes.func
-  })
+  }),
+  hideZendeskLogo: PropTypes.bool.isRequired
 }
 const mapStateToProps = state => ({
   title: getTitle(state, 'embeddable_framework.talk.notify.success.title'),
-  doneText: i18n.t('embeddable_framework.common.button.done')
+  doneText: i18n.t('embeddable_framework.common.button.done'),
+  hideZendeskLogo: getHideZendeskLogo(state)
 })
 
 const actionCreators = {
