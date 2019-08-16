@@ -214,7 +214,6 @@ export default function WebWidgetFactory(name) {
             attachmentSender={submitTicketSettings.attachmentSender}
             fullscreen={popout}
             isMobile={isMobile}
-            helpCenterConfig={helpCenterSettings.config}
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
             isOnHelpCenterPage={isOnHelpCenterPage()}
             imagesSender={helpCenterSettings.imagesSenderFn}
@@ -492,17 +491,6 @@ export default function WebWidgetFactory(name) {
   }
 
   function setUpHelpCenter(config) {
-    const helpCenterConfigDefaults = {
-      position: 'right',
-      contextualHelpEnabled: false,
-      buttonLabelKey: 'message',
-      formTitleKey: 'help',
-      signInRequired: false,
-      color: '#1F73B7'
-    }
-
-    config = _.extend({}, helpCenterConfigDefaults, config)
-
     return {
       config
     }

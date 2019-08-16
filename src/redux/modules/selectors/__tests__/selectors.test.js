@@ -42,11 +42,17 @@ const stateBaseSettings = (settings = {}) => {
   return compiledSettings
 }
 
-const stateHelpCenterSettings = (settings = {}, otherOverides = {}) => {
+const stateHelpCenterSettings = (settings = {}) => {
   return {
-    base: stateBaseSettings(otherOverides.base),
+    base: stateBaseSettings(),
     settings: {
       helpCenter: settings
+    },
+    helpCenter: {
+      config: {
+        buttonLabelKey: 'message',
+        formTitleKey: 'help'
+      }
     }
   }
 }
@@ -152,21 +158,13 @@ describe('selectors', () => {
     })
 
     describe('getAnswerBotEnabled', () => {
-      const embeddableConfig = answerBotEnabled => ({
-        embeddableConfig: {
-          embeds: {
-            helpCenterForm: {
-              props: {
-                answerBotEnabled
-              }
-            }
-          }
-        }
-      })
-
       test('config is enabled and not suppressed', () => {
         const result = selectors.getAnswerBotEnabled({
-          base: embeddableConfig(true),
+          helpCenter: {
+            config: {
+              answerBotEnabled: true
+            }
+          },
           settings: {
             answerBot: {}
           }
@@ -177,7 +175,11 @@ describe('selectors', () => {
 
       test('config is enabled and suppressed', () => {
         const result = selectors.getAnswerBotEnabled({
-          base: embeddableConfig(true),
+          helpCenter: {
+            config: {
+              answerBotEnabled: true
+            }
+          },
           settings: {
             answerBot: {
               suppress: true
@@ -190,7 +192,11 @@ describe('selectors', () => {
 
       test('config is disabled', () => {
         const result = selectors.getAnswerBotEnabled({
-          base: embeddableConfig(false),
+          helpCenter: {
+            config: {
+              answerBotEnabled: false
+            }
+          },
           settings: {
             answerBot: {}
           }

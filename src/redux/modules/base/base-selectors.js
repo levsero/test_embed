@@ -1,7 +1,6 @@
 import { store } from 'service/persistence'
 import { isTokenValid } from 'src/redux/modules/base/helpers/auth'
 import { createSelector } from 'reselect'
-import { isOnHelpCenterPage } from 'utility/pages'
 import _ from 'lodash'
 
 export const getHiddenByHideAPI = state => state.base.hidden.hideApi
@@ -60,25 +59,9 @@ export const getChatStandalone = createSelector(
     return embeddableConfig.embeds.zopimChat.props.standalone
   }
 )
-export const getHelpCenterContextualEnabled = createSelector(
-  getEmbeddableConfig,
-  embeddableConfig => {
-    return embeddableConfig.embeds.helpCenterForm.props.contextualHelpEnabled
-  }
-)
-export const getHelpCenterSignInRequired = createSelector(
-  getEmbeddableConfig,
-  embeddableConfig => {
-    return embeddableConfig.embeds.helpCenterForm.props.signInRequired
-  }
-)
+
 export const getQueue = state => state.base.queue
-export const getHasPassedAuth = createSelector(
-  [getBaseIsAuthenticated, getHelpCenterSignInRequired],
-  (isAuthenticated, helpCenterSignInRequired) => {
-    return isAuthenticated || !helpCenterSignInRequired || isOnHelpCenterPage()
-  }
-)
+
 export const getZopimId = createSelector(
   [getEmbeddableConfig],
   embeddableConfig => {

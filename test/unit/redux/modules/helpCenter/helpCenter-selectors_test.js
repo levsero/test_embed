@@ -45,9 +45,6 @@ describe('helpCenter selectors', () => {
       },
       'utility/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPage
-      },
-      'src/redux/modules/base/base-selectors': {
-        getHelpCenterContextualEnabled: () => mockHelpCenterContextualEnabled
       }
     })
 
@@ -93,7 +90,8 @@ describe('helpCenter selectors', () => {
           manualContextualSuggestions: mockManualContextualSuggestions,
           contextualSearch: {
             hasSearched: mockHasSearched
-          }
+          },
+          config: {}
         }
       }
 
@@ -161,7 +159,10 @@ describe('helpCenter selectors', () => {
     beforeEach(() => {
       let mockState = {
         helpCenter: {
-          manualContextualSuggestions: mockManualContextualSuggestions
+          manualContextualSuggestions: mockManualContextualSuggestions,
+          config: {
+            contextualHelpEnabled: mockHelpCenterContextualEnabled
+          }
         }
       }
 

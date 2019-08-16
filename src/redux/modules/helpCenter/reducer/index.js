@@ -16,12 +16,14 @@ import articleDisplayed from './helpCenter-articleDisplayed'
 import contextualSearch from './helpCenter-contextualSearch'
 import lastSearchTimestamp from './helpCenter-lastSearchTimestamp'
 import manualContextualSuggestions from './helpCenter-manualContextualSuggestions'
+import config from './config'
 
 export default combineReducers({
   activeArticle,
   articleClicked,
   articleDisplayed,
   articles,
+  config,
   contextualSearch,
   lastSearchTimestamp,
   manualContextualSuggestions,

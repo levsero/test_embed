@@ -92,6 +92,11 @@ import {
   getHelpCenterAvailable,
   getHelpCenterReady
 } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
+import {
+  getAnswerBotEnabled as getAnswerBotConfigEnabled,
+  getButtonLabelKey,
+  getFormTitleKey as getHelpCenterFormTitleKey
+} from 'src/embeds/helpCenter/selectors'
 
 import { settings } from 'service/settings'
 
@@ -146,8 +151,11 @@ export const getTalkNameLabel = createSelector(
   }
 )
 export const getSettingsHelpCenterTitle = createSelector(
-  [getHelpCenterTitle, getLocale, getLabel],
-  (helpCenterTitle, _locale, label) => i18n.getSettingTranslation(helpCenterTitle) || i18n.t(label)
+  [getHelpCenterTitle, getLocale, getHelpCenterFormTitleKey],
+  (helpCenterTitle, _locale, formTitleKey) => {
+    const labelKey = `embeddable_framework.helpCenter.form.title.${formTitleKey}`
+    return i18n.getSettingTranslation(helpCenterTitle) || i18n.t(labelKey)
+  }
 )
 
 export const getSettingsHelpCenterSearchPlaceholder = createSelector(
@@ -158,9 +166,8 @@ export const getSettingsHelpCenterSearchPlaceholder = createSelector(
 )
 
 export const getSettingsHelpCenterMessageButton = createSelector(
-  [getHelpCenterMessageButton, getLocale, getEmbeddableConfig],
-  (helpCenterMessageButton, _locale, config) => {
-    const buttonLabelKey = _.get(config, 'helpCenterForm.props.buttonLabelKey') || 'message'
+  [getHelpCenterMessageButton, getLocale, getButtonLabelKey],
+  (helpCenterMessageButton, _locale, buttonLabelKey) => {
     const labelKey = `embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`
     return i18n.getSettingTranslation(helpCenterMessageButton) || i18n.t(labelKey)
   }
@@ -645,9 +652,8 @@ export const getSettingsAnswerBotAvatarName = createSelector(
 )
 
 export const getAnswerBotEnabled = createSelector(
-  [getEmbeddableConfig, getSettingsAnswerBotSuppress],
-  (embeddableConfig, suppress) =>
-    !suppress && embeddableConfig.embeds.helpCenterForm.props.answerBotEnabled
+  [getAnswerBotConfigEnabled, getSettingsAnswerBotSuppress],
+  (answerBotEnabled, suppress) => !suppress && answerBotEnabled
 )
 
 export const getAnswerBotAvailable = getAnswerBotEnabled

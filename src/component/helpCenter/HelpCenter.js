@@ -45,10 +45,7 @@ import {
   getHelpCenterButtonLabel
 } from 'src/redux/modules/selectors'
 
-const mapStateToProps = (state, ownProps) => {
-  const formTitleKey = ownProps.formTitleKey || 'help'
-  const titleKey = `embeddable_framework.helpCenter.form.title.${formTitleKey}`
-
+const mapStateToProps = state => {
   return {
     resultsLocale: getResultsLocale(state),
     activeArticle: getActiveArticle(state),
@@ -69,7 +66,7 @@ const mapStateToProps = (state, ownProps) => {
     maxWidgetHeight: getMaxWidgetHeight(state, 'webWidget'),
     isOnInitialDesktopSearchScreen: getIsOnInitialDesktopSearchScreen(state),
     searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
-    title: getSettingsHelpCenterTitle(state, titleKey),
+    title: getSettingsHelpCenterTitle(state),
     contactButtonLabel: getContactOptionsButton(state),
     chatConnecting: getChatConnectionConnecting(state),
     contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state),
