@@ -7,7 +7,7 @@ import { getZendeskLogoLink } from './selectors'
 import LogoIcon from 'icons/widget-icon_zendesk.svg'
 
 const ZendeskLogo = ({ href }) => (
-  <a href={href} target="_blank" tabIndex="-1" className={styles.icon}>
+  <a data-testid="Icon--zendesk" href={href} target="_blank" tabIndex="-1" className={styles.icon}>
     <LogoIcon title="zendesk" />
   </a>
 )

@@ -58,6 +58,7 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
         </button>
         <a
           class="icon"
+          data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
           target="_blank"

@@ -3,6 +3,7 @@
 exports[`renders logo 1`] = `
 <a
   class="icon"
+  data-testid="Icon--zendesk"
   href="yolo.com"
   tabindex="-1"
   target="_blank"
