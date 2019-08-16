@@ -1616,10 +1616,10 @@ describe('getHelpCenterButtonChatLabel', () => {
   )
 })
 
-describe('getHCButtonLabel', () => {
+describe('getHelpCenterButtonLabel', () => {
   test.each([
     [
-      'isChatting, other channels not available',
+      'isChatting, other channels not available, returns chatLabel',
       true,
       false,
       false,
@@ -1628,10 +1628,11 @@ describe('getHCButtonLabel', () => {
       false,
       'contactButtonLabel',
       'chatLabel',
+      'messageLabel',
       'chatLabel'
     ],
     [
-      'channelChoice is available, other channels not available',
+      'channelChoice is available, other channels not available, returns contactButtonLabel',
       false,
       true,
       false,
@@ -1640,10 +1641,11 @@ describe('getHCButtonLabel', () => {
       false,
       'contactButtonLabel',
       'chatLabel',
+      'messageLabel',
       'contactButtonLabel'
     ],
     [
-      'chat (online) is available, other channels not available',
+      'chat (online) is available, other channels not available, returns chatLabel',
       false,
       false,
       true,
@@ -1652,10 +1654,11 @@ describe('getHCButtonLabel', () => {
       false,
       'contactButtonLabel',
       'chatLabel',
+      'messageLabel',
       'chatLabel'
     ],
     [
-      'chat (offline) is available, other channels not available',
+      'chat (offline) is available, other channels not available, returns chatLabel',
       false,
       false,
       false,
@@ -1664,10 +1667,11 @@ describe('getHCButtonLabel', () => {
       false,
       'contactButtonLabel',
       'chatLabel',
+      'messageLabel',
       'chatLabel'
     ],
     [
-      'talk is available, other channels not available, callback disabled',
+      'talk is available, other channels not available, callback disabled, returns translated phone label',
       false,
       false,
       false,
@@ -1676,10 +1680,11 @@ describe('getHCButtonLabel', () => {
       false,
       'contactButtonLabel',
       'chatLabel',
+      'messageLabel',
       'Call us'
     ],
     [
-      'talk is available, other channels not available, callback disabled',
+      'talk is available, other channels not available, callback disabled, returns translated callback label',
       false,
       false,
       false,
@@ -1688,7 +1693,21 @@ describe('getHCButtonLabel', () => {
       true,
       'contactButtonLabel',
       'chatLabel',
+      'messageLabel',
       'Request a callback'
+    ],
+    [
+      'no channels available, returns messageLabel',
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      'contactButtonLabel',
+      'chaLabel',
+      'messageLabel',
+      'messageLabel'
     ]
   ])(
     '%p',
@@ -1702,6 +1721,7 @@ describe('getHCButtonLabel', () => {
       callbackEnabled,
       contactButtonLabel,
       chatLabel,
+      messageLabel,
       expectedResult
     ) => {
       const result = selectors.getHelpCenterButtonLabel.resultFunc(
@@ -1712,7 +1732,8 @@ describe('getHCButtonLabel', () => {
         talkOnline,
         callbackEnabled,
         contactButtonLabel,
-        chatLabel
+        chatLabel,
+        messageLabel
       )
 
       expect(result).toEqual(expectedResult)
