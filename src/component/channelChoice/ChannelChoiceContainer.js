@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { locals as styles } from './ChannelChoiceDesktop.scss'
+import { locals as styles } from './ChannelChoiceContainer.scss'
 
 import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { i18n } from 'service/i18n'
 
-export class ChannelChoiceDesktop extends Component {
+export default class ChannelChoiceContainer extends Component {
   static propTypes = {
+    isMobile: PropTypes.bool,
     chatAvailable: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string.isRequired,
     handleNextClick: PropTypes.func.isRequired,
@@ -25,30 +26,35 @@ export class ChannelChoiceDesktop extends Component {
     hideZendeskLogo: false,
     talkOnline: false,
     submitTicketAvailable: true,
-    chatEnabled: false
+    chatEnabled: false,
+    isMobile: false
   }
 
+  hideLogo = () => this.props.hideZendeskLogo || this.props.isMobile
+
   renderZendeskLogo = () => {
-    if (this.props.hideZendeskLogo) return null
+    if (this.hideLogo()) return null
 
     return <ZendeskLogo fullscreen={false} />
   }
 
   renderBody = () => {
     const {
-      hideZendeskLogo,
       chatAvailable,
       handleNextClick,
       talkOnline,
       callbackEnabled,
-      chatOfflineAvailable
+      chatOfflineAvailable,
+      submitTicketAvailable,
+      isMobile
     } = this.props
-    const containerStyle = !hideZendeskLogo ? styles.inner : ''
+    const containerStyle = !this.hideLogo() ? styles.inner : ''
 
     return (
       <div className={containerStyle}>
         <ChannelChoiceMenu
-          submitTicketAvailable={this.props.submitTicketAvailable}
+          isMobile={isMobile}
+          submitTicketAvailable={submitTicketAvailable}
           chatEnabled={this.props.chatEnabled}
           callbackEnabled={callbackEnabled}
           talkOnline={talkOnline}
@@ -61,8 +67,8 @@ export class ChannelChoiceDesktop extends Component {
   }
 
   render = () => {
-    const { formTitleKey, hideZendeskLogo } = this.props
-    const footerClasses = hideZendeskLogo ? styles.footerNoLogo : ''
+    const { formTitleKey } = this.props
+    const footerClasses = this.hideLogo() ? styles.footerNoLogo : ''
 
     return (
       <div>
@@ -70,7 +76,6 @@ export class ChannelChoiceDesktop extends Component {
           ref="scrollContainer"
           containerClasses={styles.newChannelChoiceContainer}
           footerClasses={footerClasses}
-          hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${formTitleKey}`)}
         >
           {this.renderBody()}

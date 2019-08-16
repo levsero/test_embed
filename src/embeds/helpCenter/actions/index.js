@@ -26,7 +26,6 @@ import {
   ORIGINAL_ARTICLE_CLICKED,
   ARTICLE_CLOSED,
   ADD_RESTRICTED_IMAGE,
-  CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
   GET_ARTICLE_REQUEST_SENT,
   GET_ARTICLE_REQUEST_SUCCESS,
   GET_ARTICLE_REQUEST_FAILURE,
@@ -199,13 +198,6 @@ export function addRestrictedImage(img) {
   return {
     type: ADD_RESTRICTED_IMAGE,
     payload: img
-  }
-}
-
-export function updateChannelChoiceShown(bool) {
-  return {
-    type: CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
-    payload: bool
   }
 }
 

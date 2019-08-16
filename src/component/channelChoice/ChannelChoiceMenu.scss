@@ -1,4 +1,4 @@
-@import '../../styles/_vars.scss';
+@import 'src/styles/_vars.scss';
 
 .btn {
   width: 100%;
@@ -155,4 +155,8 @@
 
 .listItem {
   padding: 0 #{6 / $font-size}rem #{12 / $font-size}rem;
+}
+
+.listItemMobile {
+  font-size: #{15 / $font-size}rem;
 }

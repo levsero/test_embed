@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rendering renders ChannelChoiceContainer correctly in mobile mode 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -22,1 +22,1 @@
+-             class="inner"
++             class=""
+@@ -26,1 +26,1 @@
+-                 class="listItem"
++                 class="listItem listItemMobile"
+@@ -55,1 +55,1 @@
+-         class="footer  "
++         class="footer footerNoLogo "
+@@ -58,24 +58,0 @@
+-     <a
+-       class="
+-       logo
+-       formSuccess
+-       
+-       
+-     "
+-       href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+-       tabindex="-1"
+-       target="_blank"
+-     >
+-       <span
+-         class="container icon Icon--zendesk"
+-         data-testid="Icon--zendesk"
+-         type="Icon--zendesk"
+-       >
+-         widget-icon_zendesk.svg
+-       </span>
+-       <span
+-         class="hidden"
+-       >
+-         zendesk
+-       </span>
+-     </a>
+`;
+
+exports[`rendering renders ChannelChoiceContainer correctly with default props 1`] = `
+<div>
+  <div>
+    <div
+      class="container flexContainer desktop containerDesktop"
+      data-testid="scrollcontainer"
+      style="height: 550px;"
+    >
+      <header
+        class="header userHeader"
+      >
+        <h1
+          class="title"
+        >
+          Support
+        </h1>
+      </header>
+      <div
+        class="content newChannelChoiceContainer"
+      >
+        <div>
+          <div
+            class="inner"
+          >
+            <ul>
+              <li
+                class="listItem"
+              >
+                <button
+                  class="
+      container
+      btn btnEnabled
+      containerActionable
+      Icon--channelChoice-contactForm
+    "
+                >
+                  <span
+                    class="container icon newIcon iconSubmitTicket Icon--channelChoice-contactForm"
+                    data-testid="Icon--channelChoice-contactForm"
+                    type="Icon--channelChoice-contactForm"
+                  >
+                    widget-icon_channelChoice-contactForm.svg
+                  </span>
+                  <span
+                    class="label "
+                  >
+                    Leave a message
+                  </span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <footer
+        class="footer  "
+      />
+    </div>
+    <a
+      class="
+      logo
+      formSuccess
+      
+      
+    "
+      href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+      tabindex="-1"
+      target="_blank"
+    >
+      <span
+        class="container icon Icon--zendesk"
+        data-testid="Icon--zendesk"
+        type="Icon--zendesk"
+      >
+        widget-icon_zendesk.svg
+      </span>
+      <span
+        class="hidden"
+      >
+        zendesk
+      </span>
+    </a>
+  </div>
+</div>
+`;
