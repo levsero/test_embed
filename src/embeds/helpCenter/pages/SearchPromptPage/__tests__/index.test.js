@@ -2,7 +2,7 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
-import SearchPromptPage from '../index'
+import { Component as SearchPromptPage } from '../index'
 
 const renderInitialSearchPage = () => {
   const makeSearchRequestSpy = jest.fn()
@@ -10,8 +10,8 @@ const renderInitialSearchPage = () => {
     <Provider store={createStore()}>
       <SearchPromptPage
         title="yolo"
-        makeSearchRequest={makeSearchRequestSpy}
-        isLoading={false}
+        performSearch={makeSearchRequestSpy}
+        searchLoading={false}
         searchPlaceholder="yoloPlaceHolder"
       />
     </Provider>

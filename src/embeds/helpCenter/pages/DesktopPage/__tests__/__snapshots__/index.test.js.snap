@@ -263,7 +263,9 @@ exports[`renders the expected components when isOnInitialDesktopSearchScreen is 
     >
       <h1
         class="title"
-      />
+      >
+        Help
+      </h1>
     </div>
     <div
       class="container"
@@ -281,14 +283,16 @@ exports[`renders the expected components when isOnInitialDesktopSearchScreen is 
             class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
             data-garden-id="textfields.label"
             data-garden-version="3.7.0"
-          />
+          >
+            How can we help?
+          </label>
           <input
             aria-invalid="false"
             autocapitalize="off"
             class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
             data-garden-id="textfields.input"
             data-garden-version="3.7.0"
-            placeholder=""
+            placeholder="How can we help?"
             type="search"
             value=""
           />

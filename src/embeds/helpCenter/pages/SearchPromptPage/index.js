@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import WidgetContainer from 'src/components/WidgetContainer'
@@ -8,13 +9,19 @@ import WidgetFooter from 'src/components/WidgetFooter'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import { SearchField } from 'src/component/field/SearchField'
 import { locals as styles } from './styles.scss'
+import { getSearchLoading } from 'embeds/helpCenter/selectors'
+import {
+  getSettingsHelpCenterSearchPlaceholder,
+  getSettingsHelpCenterTitle
+} from 'src/redux/modules/selectors'
+import { performSearch } from 'embeds/helpCenter/actions'
 
-const useSearchForm = callback => {
+const useSearchForm = performSearch => {
   const [searchValue, setSearchValue] = useState('')
   const handleSubmit = e => {
     e.preventDefault()
     if (searchValue) {
-      callback(searchValue)
+      performSearch(searchValue)
     }
   }
 
@@ -30,8 +37,8 @@ const SearchPromptPage = props => {
   useEffect(() => {
     searchFieldElem.current.focus()
   }, [searchFieldElem])
-  const { makeSearchRequest, title, isLoading, searchPlaceholder } = props
-  const { setSearchValue, handleSubmit } = useSearchForm(makeSearchRequest)
+  const { performSearch, title, searchLoading, searchPlaceholder } = props
+  const { setSearchValue, handleSubmit } = useSearchForm(performSearch)
 
   return (
     <WidgetContainer>
@@ -43,7 +50,7 @@ const SearchPromptPage = props => {
             fullscreen={false}
             onChangeValue={setSearchValue}
             onSearchIconClick={handleSubmit}
-            isLoading={isLoading}
+            isLoading={searchLoading}
             searchPlaceholder={searchPlaceholder}
           />
         </form>
@@ -59,9 +66,26 @@ const SearchPromptPage = props => {
 
 SearchPromptPage.propTypes = {
   title: PropTypes.string.isRequired,
-  makeSearchRequest: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  performSearch: PropTypes.func.isRequired,
+  searchLoading: PropTypes.bool.isRequired,
   searchPlaceholder: PropTypes.string.isRequired
 }
 
-export default SearchPromptPage
+const mapStateToProps = state => {
+  return {
+    searchLoading: getSearchLoading(state),
+    searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
+    title: getSettingsHelpCenterTitle(state)
+  }
+}
+
+const mapDispatchToProps = {
+  performSearch
+}
+
+const connectedComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchPromptPage)
+
+export { connectedComponent as default, SearchPromptPage as Component }

@@ -187,15 +187,7 @@ export default class DesktopPage extends Component {
       !this.props.hideZendeskLogo
 
     if (this.props.isOnInitialDesktopSearchScreen) {
-      return (
-        <SearchPromptPage
-          title={this.props.title}
-          makeSearchRequest={this.props.search}
-          handleOnChangeValue={this.props.handleOnChangeValue}
-          isLoading={this.props.isLoading}
-          searchPlaceholder={this.props.searchPlaceholder}
-        />
-      )
+      return <SearchPromptPage />
     }
 
     return (
