@@ -694,7 +694,8 @@ export const getHelpCenterButtonLabel = createSelector(
     getTalkOnline,
     isCallbackEnabled,
     getContactOptionsButton,
-    getHelpCenterButtonChatLabel
+    getHelpCenterButtonChatLabel,
+    getSettingsHelpCenterMessageButton
   ],
   (
     isChatting,
@@ -704,7 +705,8 @@ export const getHelpCenterButtonLabel = createSelector(
     talkOnline,
     callbackEnabled,
     contactButtonLabel,
-    chatLabel
+    chatLabel,
+    messageLabel
   ) => {
     if (isChatting) {
       return chatLabel
@@ -717,6 +719,6 @@ export const getHelpCenterButtonLabel = createSelector(
         ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
         : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone')
     }
-    return chatLabel
+    return messageLabel
   }
 )
