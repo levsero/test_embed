@@ -20,6 +20,7 @@ import {
 import * as rootActions from 'src/redux/modules/answerBot/root/actions/'
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
+import { getFormTitleKey } from 'embeds/helpCenter/selectors'
 
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
@@ -184,7 +185,8 @@ const mapStateToProps = state => ({
   article: rootSelectors.getCurrentArticle(state),
   isFeedbackRequired: rootSelectors.isFeedbackRequired(state),
   locale: baseSelectors.getLocale(state),
-  authToken: rootSelectors.getAuthToken(state)
+  authToken: rootSelectors.getAuthToken(state),
+  articleTitleKey: getFormTitleKey(state)
 })
 
 const mapDispatchToProps = dispatch => ({

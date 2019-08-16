@@ -450,8 +450,7 @@ describe('embed.webWidget', () => {
       beforeEach(() => {
         const config = {
           ...mockConfig,
-          ticketSubmissionForm: { formTitleKey: 'foo' },
-          helpCenterForm: { formTitleKey: 'bar' }
+          ticketSubmissionForm: { formTitleKey: 'foo' }
         }
 
         webWidget.create('', config, mockStore)
@@ -462,8 +461,6 @@ describe('embed.webWidget', () => {
 
       it('should apply the different formTitleKey props to the correct embed props', () => {
         expect(faythe.props.submitTicketConfig.formTitleKey).toEqual('foo')
-
-        expect(faythe.props.helpCenterConfig.formTitleKey).toEqual('bar')
       })
 
       it('should have default container styles', () => {
@@ -838,31 +835,6 @@ describe('embed.webWidget', () => {
 
         it('with the talk nickname', () => {
           expect(args[2]).toEqual('Support')
-        })
-      })
-    })
-
-    describe('setUpHelpCenter', () => {
-      describe('config', () => {
-        beforeEach(() => {
-          const config = {
-            ...mockConfig,
-            helpCenterForm: {
-              buttonLabelKey: 'test_label',
-              formTitleKey: 'test_title'
-            }
-          }
-
-          webWidget.create('', config, mockStore)
-          faythe = webWidget.get()
-        })
-
-        it('changes config.buttonLabelKey if buttonLabelKey is set', () => {
-          expect(faythe.config.helpCenterForm.buttonLabelKey).toEqual('test_label')
-        })
-
-        it('changes config.formTitleKey if formTitleKey is set', () => {
-          expect(faythe.config.helpCenterForm.formTitleKey).toEqual('test_title')
         })
       })
     })

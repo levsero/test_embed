@@ -117,14 +117,6 @@ class WebWidget extends Component {
     }).isRequired,
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
-    helpCenterConfig: PropTypes.shape({
-      buttonLabelKey: PropTypes.string,
-      color: PropTypes.string,
-      contextualHelpEnabled: PropTypes.bool,
-      formTitleKey: PropTypes.string,
-      position: PropTypes.string,
-      signInRequired: PropTypes.bool
-    }),
     hideZendeskLogo: PropTypes.bool,
     oldChat: PropTypes.bool.isRequired,
     onSubmitted: PropTypes.func,
@@ -190,7 +182,6 @@ class WebWidget extends Component {
     chatNotification: { show: false, playSound: false },
     fullscreen: true,
     helpCenterAvailable: false,
-    helpCenterConfig: {},
     hideZendeskLogo: false,
     onSubmitted: () => {},
     originalArticleButton: true,
@@ -445,7 +436,6 @@ class WebWidget extends Component {
         ref={answerBot}
         isMobile={this.props.isMobile}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        articleTitleKey={this.props.helpCenterConfig.formTitleKey}
       />
     )
   }
@@ -454,13 +444,7 @@ class WebWidget extends Component {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return
     if (this.props.activeEmbed !== helpCenter) return null
 
-    const {
-      helpCenterConfig,
-      submitTicketAvailable,
-      chatAvailable,
-      talkOnline,
-      channelChoiceAvailable
-    } = this.props
+    const { submitTicketAvailable, chatAvailable, talkOnline, channelChoiceAvailable } = this.props
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : ''
     const showNextButton = submitTicketAvailable || chatAvailable || talkOnline
 
@@ -474,8 +458,6 @@ class WebWidget extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           position={this.props.position}
-          buttonLabelKey={helpCenterConfig.buttonLabelKey}
-          formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
           showNextButton={showNextButton}
           style={this.props.style}

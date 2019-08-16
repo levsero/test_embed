@@ -28,7 +28,6 @@ const SCROLL_TO_BOTTOM_INDICATOR = -1
 class AnswerBot extends Component {
   static propTypes = {
     isMobile: PropTypes.bool,
-    articleTitleKey: PropTypes.string,
     currentScreen: PropTypes.string.isRequired,
     lastConversationScroll: PropTypes.number.isRequired,
     hideZendeskLogo: PropTypes.bool,
@@ -41,7 +40,6 @@ class AnswerBot extends Component {
 
   static defaultProps = {
     isMobile: false,
-    articleTitleKey: 'help',
     hideZendeskLogo: false
   }
 
@@ -80,7 +78,6 @@ class AnswerBot extends Component {
       <ArticleScreen
         isMobile={this.props.isMobile}
         scrollContainerClasses={this.containerStyle()}
-        articleTitleKey={this.props.articleTitleKey}
         saveConversationScroll={this.saveConversationScroll}
       />
     )
