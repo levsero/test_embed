@@ -8,8 +8,6 @@ import HelpCenterArticle from 'components/HelpCenterArticle'
 import DesktopPage from 'embeds/helpCenter/pages/DesktopPage'
 import MobilePage from 'embeds/helpCenter/pages/MobilePage'
 import Results from 'embeds/helpCenter/components/Results'
-import { i18n } from 'service/i18n'
-import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors'
 import {
   handleArticleClick,
   performSearch,
@@ -46,7 +44,6 @@ import {
   getChatConnectionConnecting,
   getHelpCenterButtonLabel
 } from 'src/redux/modules/selectors'
-import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
 
 const mapStateToProps = (state, ownProps) => {
   const formTitleKey = ownProps.formTitleKey || 'help'
@@ -71,7 +68,6 @@ const mapStateToProps = (state, ownProps) => {
     isChatting: getIsChatting(state),
     maxWidgetHeight: getMaxWidgetHeight(state, 'webWidget'),
     isOnInitialDesktopSearchScreen: getIsOnInitialDesktopSearchScreen(state),
-    localeFallbacks: getSettingsHelpCenterLocaleFallbacks(state),
     searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
     title: getSettingsHelpCenterTitle(state, titleKey),
     contactButtonLabel: getContactOptionsButton(state),
@@ -89,7 +85,6 @@ class HelpCenter extends Component {
     previousSearchTerm: PropTypes.string.isRequired,
     hasContextualSearched: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    localeFallbacks: PropTypes.array,
     onNextClick: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     performSearch: PropTypes.func.isRequired,
@@ -126,7 +121,6 @@ class HelpCenter extends Component {
     callbackEnabled: false,
     channelChoice: false,
     hideZendeskLogo: false,
-    localeFallbacks: [],
     onNextClick: () => {},
     originalArticleButton: true,
     showBackButton: () => {},
@@ -183,11 +177,6 @@ class HelpCenter extends Component {
     return this.props.isMobile ? this.helpCenterMobile : this.helpCenterDesktop
   }
 
-  interactiveSearchSuccessFn = () => {
-    this.props.showBackButton(false)
-    this.focusOnFirstResult()
-  }
-
   focusField = () => {
     if (this.helpCenterDesktop) {
       this.helpCenterDesktop.focusField()
@@ -209,47 +198,20 @@ class HelpCenter extends Component {
       return
     }
 
-    /* eslint camelcase:0 */
-    const query = {
-      locale: i18n.getLocale(),
-      query: searchTerm,
-      per_page: MAXIMUM_SEARCH_RESULTS,
-      origin: 'web_widget'
+    const success = () => {
+      this.props.showBackButton(false)
+      this.focusOnFirstResult()
     }
-
-    this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn)
+    const fail = () => {
+      this.focusField()
+    }
+    this.props.performSearch(searchTerm, success, fail)
 
     if (this.props.isMobile) {
       setTimeout(() => {
         searchField.blur()
       }, 1)
     }
-  }
-
-  performSearchWithLocaleFallback = (query, successFn) => {
-    // When localeFallbacks is defined in the zESettings object then
-    // attempt the search with each locale in that array in order. Otherwise
-    // try the search with no locale (injects an empty string into localeFallbacks).
-    const localeFallbacks = !_.isEmpty(this.props.localeFallbacks)
-      ? this.props.localeFallbacks.slice()
-      : ['']
-    const failFn = () => {
-      this.focusField()
-    }
-    const doneFn = res => {
-      if (res.ok) {
-        if (res.body.count > 0 || _.isEmpty(localeFallbacks)) {
-          successFn()
-        } else {
-          query.locale = localeFallbacks.shift()
-          this.props.performSearch(_.pickBy(query), doneFn, failFn)
-        }
-      } else {
-        this.focusOnFirstResult()
-      }
-    }
-
-    this.props.performSearch(query, doneFn, failFn)
   }
 
   handleNextClick = e => {
