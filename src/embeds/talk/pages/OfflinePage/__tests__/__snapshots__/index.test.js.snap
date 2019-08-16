@@ -27,6 +27,7 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
     >
       <a
         class="icon"
+        data-testid="Icon--zendesk"
         href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
         tabindex="-1"
         target="_blank"
