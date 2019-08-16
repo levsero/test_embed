@@ -2,41 +2,36 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
-import { Component as SearchPromptPage } from '../index'
+import { getSearchLoading } from 'embeds/helpCenter/selectors'
+import SearchPromptPage from '../index'
+
+jest.mock('service/transport')
 
 const renderInitialSearchPage = () => {
-  const makeSearchRequestSpy = jest.fn()
+  const store = createStore()
   const utils = render(
-    <Provider store={createStore()}>
-      <SearchPromptPage
-        title="yolo"
-        performSearch={makeSearchRequestSpy}
-        searchLoading={false}
-        searchPlaceholder="yoloPlaceHolder"
-      />
+    <Provider store={store}>
+      <SearchPromptPage />
     </Provider>
   )
 
-  const inputNode = utils.getByPlaceholderText('yoloPlaceHolder')
+  const inputNode = utils.getByPlaceholderText('How can we help?')
   const formNode = utils.container.querySelector('form')
 
-  return { ...utils, inputNode, formNode, makeSearchRequestSpy }
+  return { ...utils, inputNode, formNode, store }
 }
 
-it('searches when text provided', () => {
-  const { inputNode, formNode, makeSearchRequestSpy } = renderInitialSearchPage()
+it('renders the full page', () => {
+  const { container } = renderInitialSearchPage()
 
-  fireEvent.change(inputNode, { target: { value: 'help me!' } })
-  fireEvent.submit(formNode)
-
-  expect(makeSearchRequestSpy).toHaveBeenCalled()
+  expect(container.firstChild).toMatchSnapshot()
 })
 
-it('does not search when no text provided', () => {
-  const { inputNode, formNode, makeSearchRequestSpy } = renderInitialSearchPage()
+it('searches when text provided', () => {
+  const { inputNode, formNode, store } = renderInitialSearchPage()
 
-  fireEvent.change(inputNode, { target: { value: '' } })
+  expect(getSearchLoading(store.getState())).toEqual(false)
+  fireEvent.change(inputNode, { target: { value: 'help me!' } })
   fireEvent.submit(formNode)
-
-  expect(makeSearchRequestSpy).not.toHaveBeenCalled()
+  expect(getSearchLoading(store.getState())).toEqual(true)
 })

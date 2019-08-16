@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -7,53 +7,17 @@ import WidgetHeader from 'src/components/WidgetHeader'
 import WidgetMain from 'src/components/WidgetMain'
 import WidgetFooter from 'src/components/WidgetFooter'
 import ZendeskLogo from 'src/components/ZendeskLogo'
-import { SearchField } from 'src/component/field/SearchField'
+import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
 import { locals as styles } from './styles.scss'
-import { getSearchLoading } from 'embeds/helpCenter/selectors'
-import {
-  getSettingsHelpCenterSearchPlaceholder,
-  getSettingsHelpCenterTitle
-} from 'src/redux/modules/selectors'
+import { getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
 import { performSearch } from 'embeds/helpCenter/actions'
 
-const useSearchForm = performSearch => {
-  const [searchValue, setSearchValue] = useState('')
-  const handleSubmit = e => {
-    e.preventDefault()
-    if (searchValue) {
-      performSearch(searchValue)
-    }
-  }
-
-  return {
-    setSearchValue,
-    handleSubmit
-  }
-}
-
-const SearchPromptPage = props => {
-  const searchFieldElem = useRef(null)
-
-  useEffect(() => {
-    searchFieldElem.current.focus()
-  }, [searchFieldElem])
-  const { performSearch, title, searchLoading, searchPlaceholder } = props
-  const { setSearchValue, handleSubmit } = useSearchForm(performSearch)
-
+const SearchPromptPage = ({ title }) => {
   return (
     <WidgetContainer>
       <WidgetHeader>{title}</WidgetHeader>
       <WidgetMain>
-        <form noValidate={true} onSubmit={handleSubmit} className={styles.form}>
-          <SearchField
-            ref={searchFieldElem}
-            fullscreen={false}
-            onChangeValue={setSearchValue}
-            onSearchIconClick={handleSubmit}
-            isLoading={searchLoading}
-            searchPlaceholder={searchPlaceholder}
-          />
-        </form>
+        <SearchForm />
       </WidgetMain>
       <WidgetFooter>
         <div className={styles.footer}>
@@ -65,19 +29,12 @@ const SearchPromptPage = props => {
 }
 
 SearchPromptPage.propTypes = {
-  title: PropTypes.string.isRequired,
-  performSearch: PropTypes.func.isRequired,
-  searchLoading: PropTypes.bool.isRequired,
-  searchPlaceholder: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired
 }
 
-const mapStateToProps = state => {
-  return {
-    searchLoading: getSearchLoading(state),
-    searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
-    title: getSettingsHelpCenterTitle(state)
-  }
-}
+const mapStateToProps = state => ({
+  title: getSettingsHelpCenterTitle(state)
+})
 
 const mapDispatchToProps = {
   performSearch
