@@ -439,7 +439,7 @@ class Chat extends Component {
 
   render = () => {
     return (
-      <div>
+      <div className={styles.chat}>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderAgentListScreen()}
