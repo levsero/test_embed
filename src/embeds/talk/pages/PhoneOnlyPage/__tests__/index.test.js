@@ -2,11 +2,12 @@ jest.mock('src/redux/modules/talk/talk-selectors')
 jest.mock('utility/devices')
 
 import React from 'react'
+import { Provider } from 'react-redux'
 import { render } from '@testing-library/react'
 import snapshotDiff from 'snapshot-diff'
-import { Component as PhoneOnlyPage } from './../'
+
 import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { Component as PhoneOnlyPage } from './../'
 
 describe('PhoneOnlyPage', () => {
   const defaultProps = {

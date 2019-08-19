@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { i18n } from 'service/i18n'
-import { locals as styles } from './styles.scss'
 
+import { i18n } from 'service/i18n'
 import WidgetContainer from 'src/components/WidgetContainer'
 import WidgetHeader from 'src/components/WidgetHeader'
 import WidgetMain from 'src/components/WidgetMain'
@@ -11,6 +10,8 @@ import WidgetFooter from 'src/components/WidgetFooter'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import { getOfflineTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
+
+import { locals as styles } from './styles.scss'
 
 const OfflinePage = ({ message, title, hideZendeskLogo }) => {
   return (

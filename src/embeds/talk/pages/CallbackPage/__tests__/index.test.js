@@ -1,10 +1,11 @@
 import React from 'react'
+import { Provider } from 'react-redux'
+import * as libphonenumber from 'libphonenumber-js'
 import { render } from '@testing-library/react'
+
 import CallbackPage from '../index'
 import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
 import { handleTalkVendorLoaded, updateTalkCallbackForm } from 'src/redux/modules/talk'
-import * as libphonenumber from 'libphonenumber-js'
 
 const renderComponent = (params = { country: 'AU' }) => {
   const store = createStore()

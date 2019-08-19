@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { hot } from 'react-hot-loader/root'
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
+
+import { CONTACT_OPTIONS } from './constants'
 import CallbackPage from './pages/CallbackPage'
 import OfflinePage from './pages/OfflinePage'
 import PhoneOnlyPage from './pages/PhoneOnlyPage'
 import SuccessNotificationPage from './pages/SuccessNotificationPage'
-import PropTypes from 'prop-types'
-import { CONTACT_OPTIONS } from './constants'
 import { getAgentAvailability, getCapability } from 'src/redux/modules/talk/talk-selectors'
 
 const ROUTES = {
@@ -37,6 +38,7 @@ Talk.propTypes = {
   agentAvailability: PropTypes.bool.isRequired,
   contactOption: PropTypes.oneOf(Object.values(CONTACT_OPTIONS)).isRequired
 }
+
 const mapStateToProps = state => ({
   agentAvailability: getAgentAvailability(state),
   contactOption: getCapability(state)

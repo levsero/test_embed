@@ -26,8 +26,6 @@ export const ICONS = {
   BACK: 'Icon--back',
   POPOUT: 'Icon--popout',
   SUCCESS_CONTACT_FORM: 'Icon--success-contactForm',
-  SUCCESS_TALK: 'Icon--success-talk',
-  TALK: 'Icon--talk',
   CLOCK: 'Icon--clock-stroke'
 }
 

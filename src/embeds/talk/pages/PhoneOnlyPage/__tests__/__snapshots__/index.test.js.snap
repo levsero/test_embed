@@ -8,9 +8,6 @@ Snapshot Diff:
 @@ -18,1 +18,1 @@
 -         class="container containerMobile"
 +         class="container"
-@@ -22,1 +22,1 @@
--           class="container icon Icon--talk mobile"
-+           class="container icon Icon--talk"
 `;
 
 exports[`PhoneOnlyPage on desktop renders when there is no average wait time 1`] = `
@@ -18,7 +15,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -33,5 +33,0 @@
+@@ -27,5 +27,0 @@
 -         <p
 -           class="message"
 -         >
@@ -47,13 +44,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
         class="container containerMobile"
         data-testid="talk--phoneOnlyPage"
       >
-        <span
-          class="container icon Icon--talk mobile"
-          data-testid="Icon--talk"
-          type="Icon--talk"
-        >
-          widget-icon_talk.svg
-        </span>
+        talk.svg
         <p
           class="message"
         >
@@ -99,7 +90,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -33,5 +33,0 @@
+@@ -27,5 +27,0 @@
 -         <p
 -           class="message"
 -         >

@@ -39,7 +39,6 @@ import RatingScreenStyles from 'component/chat/rating/RatingScreen.scss'
 import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
 import NestedDropdownStyles from 'component/field/Dropdown/NestedDropdown.scss'
-import FlagStyles from 'component/Flag.scss'
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss'
@@ -105,7 +104,6 @@ export const webWidgetStyles = `
   ${PrechatScreenStyles}
   ${ContainerStyles}
   ${NestedDropdownStyles}
-  ${FlagStyles}
   ${IconFieldButtonStyles}
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}

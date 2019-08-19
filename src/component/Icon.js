@@ -32,7 +32,6 @@ const icons = {
   'Icon--chevron-right-fill': require('@zendeskgarden/svg-icons/src/16/chevron-right-fill.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('@zendeskgarden/svg-icons/src/16/x-stroke.svg'),
-  'Icon--error': require('@zendeskgarden/svg-icons/src/14/error.svg'),
   'Icon--launcher-talk': require('icons/widget-icon_launcher-talk.svg'),
   'Icon--arrow-down': require('icons/widget-icon_arrow-down-stroke.svg'),
   'Icon--image-stroke': require('@zendeskgarden/svg-icons/src/16/image-stroke.svg'),
@@ -62,9 +61,7 @@ const icons = {
   'Icon--channelChoice-chat': require('icons/widget-icon_channelChoice-chat.svg'),
   'Icon--previous': require('@zendeskgarden/svg-icons/src/14/previous.svg'),
   [ICONS.MENU]: require('icons/widget-icon_menu.svg'),
-  [ICONS.SUCCESS_CONTACT_FORM]: require('icons/widget-icon_success_contactForm.svg'),
-  [ICONS.SUCCESS_TALK]: require('icons/widget-icon_success_talk.svg'),
-  [ICONS.TALK]: require('icons/widget-icon_talk.svg')
+  [ICONS.SUCCESS_CONTACT_FORM]: require('icons/widget-icon_success_contactForm.svg')
 }
 
 export class Icon extends Component {
