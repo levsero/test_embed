@@ -614,7 +614,7 @@ class WebWidget extends Component {
 
     return (
       // data-embed is needed for our intergration tests
-      <div data-embed={activeEmbed}>
+      <div data-embed={activeEmbed} style={{ height: '100%' }}>
         <Container
           style={containerStyle}
           fullscreen={fullscreen}
