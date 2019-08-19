@@ -977,7 +977,7 @@ parts:
       value: "Leave us a message"
   - translation:
       key: "embeddable_framework.helpCenter.submitButton.label.submitTicket.contact"
-      title: "Alternative label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed (https://zendesk.box.com/s/yt5paokjfmnyhe78d1eaircqdgmrhs1q)"
+      title: "Alternative label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed."
       screenshot: "https://zendesk.box.com/s/yt5paokjfmnyhe78d1eaircqdgmrhs1q"
       value: "Contact us"
   - translation:
