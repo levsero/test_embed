@@ -65,10 +65,7 @@ describe('ChatBadge component', () => {
         launcherClicked: noop
       },
       'utility/keyboard': {
-        keyCodes: {
-          SPACE: 32,
-          ENTER: 13
-        }
+        triggerOnEnter: noop
       },
       'constants/shared': {
         ICONS
@@ -378,58 +375,6 @@ describe('ChatBadge component', () => {
           expect(sendMsgSpy).toHaveBeenCalledWith('yolo')
           expect(resetCurrentMessageSpy).toHaveBeenCalled()
         })
-      })
-    })
-  })
-
-  describe('handleKeyDown', () => {
-    let mockEvent = {
-      preventDefault: () => {}
-    }
-
-    beforeEach(() => {
-      component = instanceRender(<ChatBadge />)
-      spyOn(component, 'sendChatMsg')
-      component.handleKeyDown(mockEvent)
-    })
-
-    describe('when key pressed was ENTER', () => {
-      beforeAll(() => {
-        mockEvent.keyCode = 13
-      })
-
-      describe('when shift was not pressed', () => {
-        beforeAll(() => {
-          mockEvent.shiftKey = false
-        })
-
-        it('sends chat message', () => {
-          expect(component.sendChatMsg).toHaveBeenCalledWith(mockEvent)
-        })
-      })
-
-      describe('when shift was pressed', () => {
-        beforeAll(() => {
-          mockEvent.shiftKey = true
-        })
-
-        afterEach(() => {
-          mockEvent.shiftKey = false
-        })
-
-        it('does not send chat message', () => {
-          expect(component.sendChatMsg).not.toHaveBeenCalled()
-        })
-      })
-    })
-
-    describe('when key pressed was not ENTER', () => {
-      beforeAll(() => {
-        mockEvent.keyCode = 32
-      })
-
-      it('does not send chat message', () => {
-        expect(component.sendChatMsg).not.toHaveBeenCalled()
       })
     })
   })

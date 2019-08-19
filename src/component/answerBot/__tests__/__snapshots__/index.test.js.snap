@@ -49,6 +49,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
             </div>
             <div
               class="article"
+              role="presentation"
             >
               here
             </div>
@@ -111,6 +112,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
             </div>
             <div
               class="article"
+              role="presentation"
             >
               here
             </div>

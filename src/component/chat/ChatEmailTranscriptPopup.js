@@ -175,9 +175,9 @@ export class ChatEmailTranscriptPopup extends Component {
       <div className={styles.resultMessage}>
         {failureMessageLabel}
         <br />
-        <a className={styles.tryAgain} onClick={this.props.tryEmailTranscriptAgain}>
+        <button className={styles.tryAgain} onClick={this.props.tryEmailTranscriptAgain}>
           {tryAgainLabel}
-        </a>
+        </button>
       </div>
     )
 

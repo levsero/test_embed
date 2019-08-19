@@ -25,12 +25,12 @@ export class MessageError extends Component {
 
     if (this.props.handleError) {
       errorTag = (
-        <a
+        <button
           className={`${styles.messageErrorLink} ${messageErrorClasses}`}
           onClick={this.props.handleError}
         >
           {this.props.errorMessage}
-        </a>
+        </button>
       )
     } else {
       errorTag = <span className={messageErrorClasses}>{this.props.errorMessage}</span>

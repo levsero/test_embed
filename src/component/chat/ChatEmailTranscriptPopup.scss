@@ -2,7 +2,8 @@
  * 1. Non standard for WebKit
  */
 
-@import '../../styles/_vars.scss';
+@import 'src/styles/_vars.scss';
+@import 'src/styles/mixins.scss';
 
 .childrenContainer {
   composes: u-paddingTM u-paddingBT u-paddingHL from global;
@@ -55,5 +56,6 @@
 }
 
 .tryAgain {
+  @include link-button();
   color: $zd-color-blue-600 !important;
 }

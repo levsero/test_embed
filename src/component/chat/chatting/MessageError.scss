@@ -1,4 +1,5 @@
 @import '../../../styles/_vars.scss';
+@import 'src/styles/mixins.scss';
 
 .container {
   background-color: transparent;
@@ -25,6 +26,7 @@
 }
 
 .messageErrorLink {
+  @include link-button();
   color: $error-color;
   cursor: pointer;
   text-decoration: underline;

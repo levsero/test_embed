@@ -66,6 +66,8 @@ exports[`mobile renders mobile classes 1`] = `
                     <span
                       class="container icon Icon--search"
                       data-testid="Icon--search"
+                      role="button"
+                      tabindex="0"
                       type="Icon--search"
                     >
                       widget-icon_search.svg
@@ -160,6 +162,8 @@ exports[`renders expected classes in desktop 1`] = `
                 <span
                   class="container notFocused icon Icon--search"
                   data-testid="Icon--search"
+                  role="button"
+                  tabindex="0"
                   type="Icon--search"
                 >
                   widget-icon_search.svg

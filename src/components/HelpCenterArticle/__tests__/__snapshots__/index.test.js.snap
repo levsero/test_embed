@@ -26,6 +26,7 @@ exports[`renders the expected classes 1`] = `
     </div>
     <div
       class="article"
+      role="presentation"
     >
       
     
@@ -180,6 +181,7 @@ exports[`renders the expected mobile classes 1`] = `
     </div>
     <div
       class="article"
+      role="presentation"
     >
       
     

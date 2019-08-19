@@ -69,8 +69,8 @@ describe('MessageError component', () => {
           errorElement = el.props.children
         })
 
-        it('renders an anchor tag', () => {
-          expect(TestUtils.isElementOfType(errorElement, 'a')).toEqual(true)
+        it('renders a button tag', () => {
+          expect(TestUtils.isElementOfType(errorElement, 'button')).toEqual(true)
         })
 
         it('renders an onClick handler', () => {

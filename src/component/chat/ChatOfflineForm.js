@@ -298,9 +298,12 @@ export class ChatOfflineForm extends Component {
 
     return (
       <p className={styles.operatingHoursContainer}>
-        <a className={styles.operatingHoursLink} onClick={this.props.handleOperatingHoursClick}>
+        <button
+          className={styles.operatingHoursLink}
+          onClick={this.props.handleOperatingHoursClick}
+        >
           {operatingHoursAnchor}
-        </a>
+        </button>
       </p>
     )
   }

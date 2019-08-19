@@ -91,7 +91,12 @@ export class Dropzone extends Component {
         style={this.props.containerStyle}
         onDrop={this.onDrop}
       >
-        <div onClick={this.onClick} style={this.props.style} className={dropzoneClasses}>
+        <div
+          role="presentation"
+          onClick={this.onClick}
+          style={this.props.style}
+          className={dropzoneClasses}
+        >
           {this.props.children}
           <input
             type="file"

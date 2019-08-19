@@ -62,13 +62,13 @@ export class MessageBubble extends Component {
     }
 
     return (
-      <a
+      <button
         data-testid="translate_link"
         className={styles.translateLink}
         onClick={onTranslatedMessageClick}
       >
         {translateText}
-      </a>
+      </button>
     )
   }
 

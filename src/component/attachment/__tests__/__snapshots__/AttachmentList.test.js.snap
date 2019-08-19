@@ -44,6 +44,8 @@ exports[`allows attaching file 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -64,6 +66,7 @@ exports[`allows attaching file 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"
@@ -139,6 +142,7 @@ exports[`exceed file size 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"
@@ -213,6 +217,8 @@ exports[`exceed maximum number of files 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -260,6 +266,8 @@ exports[`exceed maximum number of files 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -307,6 +315,8 @@ exports[`exceed maximum number of files 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -354,6 +364,8 @@ exports[`exceed maximum number of files 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -401,6 +413,8 @@ exports[`exceed maximum number of files 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -426,6 +440,7 @@ exports[`exceed maximum number of files 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"
@@ -501,6 +516,7 @@ exports[`failed upload 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"
@@ -575,6 +591,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -622,6 +640,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -669,6 +689,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -716,6 +738,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -763,6 +787,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -810,6 +836,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -857,6 +885,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -904,6 +934,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -951,6 +983,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -998,6 +1032,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1045,6 +1081,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1092,6 +1130,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1139,6 +1179,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1186,6 +1228,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1233,6 +1277,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1280,6 +1326,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1327,6 +1375,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1374,6 +1424,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1421,6 +1473,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1468,6 +1522,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1515,6 +1571,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1562,6 +1620,8 @@ exports[`picks the correct icon types 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1582,6 +1642,7 @@ exports[`picks the correct icon types 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"
@@ -1629,6 +1690,7 @@ exports[`remove attachment 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"
@@ -1676,6 +1738,7 @@ exports[`renders the component 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"
@@ -1723,6 +1786,7 @@ exports[`renders the component with mobile styles 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"
@@ -1797,6 +1861,8 @@ exports[`successful upload 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1809,6 +1875,7 @@ exports[`successful upload 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"
@@ -1883,6 +1950,8 @@ exports[`uploading in progress upload 1`] = `
             <span
               class="container icon Icon--close"
               data-testid="Icon--close"
+              role="button"
+              tabindex="0"
               type="Icon--close"
             >
               x-stroke.svg
@@ -1903,6 +1972,7 @@ exports[`uploading in progress upload 1`] = `
       >
         <div
           class="dropzone "
+          role="presentation"
         >
           <div
             class="dropzoneChild"

@@ -98,6 +98,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -140,6 +141,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -182,6 +184,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -233,6 +236,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -277,6 +281,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -322,6 +327,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -363,6 +369,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -405,6 +412,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -708,6 +716,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -743,6 +752,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -778,6 +788,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -822,6 +833,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -857,6 +869,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -903,6 +916,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -941,6 +955,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -975,6 +990,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -1009,6 +1025,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div
@@ -1053,6 +1070,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
               <div

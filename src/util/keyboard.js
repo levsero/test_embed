@@ -3,4 +3,11 @@ const keyCodes = {
   SPACE: 32
 }
 
-export { keyCodes }
+const triggerOnEnter = callback => e => {
+  if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
+    e.preventDefault()
+    callback(e)
+  }
+}
+
+export { keyCodes, triggerOnEnter }

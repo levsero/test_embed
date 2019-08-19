@@ -597,11 +597,11 @@ exports[`chat log visitor message failure 1`] = `
                 role="alert"
                 type="error"
               >
-                <a
+                <button
                   class="messageErrorLink "
                 >
                   Resend
-                </a>
+                </button>
               </div>
             </div>
           </div>

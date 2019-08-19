@@ -148,7 +148,7 @@ export class ChatMenu extends Component {
     })
 
     return isMobile ? (
-      <div className={containerClasses} onClick={this.preventContainerClick}>
+      <div role="presentation" className={containerClasses} onClick={this.preventContainerClick}>
         <Button
           primary={true}
           type="button"
@@ -180,7 +180,7 @@ export class ChatMenu extends Component {
     if (!this.props.attachmentsEnabled) return null
 
     return (
-      <div onClick={this.preventContainerClick}>
+      <div role="presentation" onClick={this.preventContainerClick}>
         <Dropzone className={styles.dropzoneItem} onDrop={this.props.onSendFileClick}>
           {i18n.t('embeddable_framework.chat.options.sendFile')}
         </Dropzone>
