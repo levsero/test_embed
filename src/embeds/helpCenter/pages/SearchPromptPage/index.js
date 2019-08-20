@@ -9,10 +9,10 @@ import WidgetFooter from 'src/components/WidgetFooter'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
 import { locals as styles } from './styles.scss'
-import { getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
+import { getHideZendeskLogo, getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
 import { performSearch } from 'embeds/helpCenter/actions'
 
-const SearchPromptPage = ({ title }) => {
+const SearchPromptPage = ({ title, hideZendeskLogo }) => {
   return (
     <WidgetContainer>
       <WidgetHeader>{title}</WidgetHeader>
@@ -20,20 +20,20 @@ const SearchPromptPage = ({ title }) => {
         <SearchForm />
       </WidgetMain>
       <WidgetFooter>
-        <div className={styles.footer}>
-          <ZendeskLogo />
-        </div>
+        <div className={styles.footer}>{hideZendeskLogo ? null : <ZendeskLogo />}</div>
       </WidgetFooter>
     </WidgetContainer>
   )
 }
 
 SearchPromptPage.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  hideZendeskLogo: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
-  title: getSettingsHelpCenterTitle(state)
+  title: getSettingsHelpCenterTitle(state),
+  hideZendeskLogo: getHideZendeskLogo(state)
 })
 
 const mapDispatchToProps = {
