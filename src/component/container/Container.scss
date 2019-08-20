@@ -3,6 +3,7 @@
 .container {
   composes: u-posRelative from global;
   box-sizing: border-box;
+  height: calc(100% - #{15 / $font-size}rem);
 }
 
 .desktop {
