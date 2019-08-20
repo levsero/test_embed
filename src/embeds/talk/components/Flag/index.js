@@ -6,7 +6,7 @@ import { locals as styles } from './styles.scss'
 const Flag = ({ country }) => {
   const flagClasses = `
       ${styles.flag}
-      ${styles.flag}-${country}
+      ${styles[`flag-${country.toLowerCase()}`]}
       ${styles.flagCustom}
     `
   return (
