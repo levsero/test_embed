@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
+import * as selectors from 'src/redux/modules/selectors/selectors'
 import SearchPromptPage from '../index'
 
 jest.mock('service/transport')
@@ -34,4 +35,11 @@ it('searches when text provided', () => {
   fireEvent.change(inputNode, { target: { value: 'help me!' } })
   fireEvent.submit(formNode)
   expect(getSearchLoading(store.getState())).toEqual(true)
+})
+
+it('hides the footer when requested', () => {
+  jest.spyOn(selectors, 'getHideZendeskLogo').mockReturnValue(true)
+  const { queryByTestId } = renderInitialSearchPage()
+
+  expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
 })
