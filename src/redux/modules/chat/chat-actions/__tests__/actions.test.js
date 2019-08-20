@@ -4,9 +4,12 @@ import thunk from 'redux-thunk'
 import * as timeout from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import * as actions from '../actions'
 import * as actionTypes from 'src/redux/modules/chat/chat-action-types'
+import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
 import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as callbacks from 'service/api/callbacks'
+import * as connectedSelectors from 'src/redux/modules/selectors/selectors'
+import * as helpCenterSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import zopimApi from 'service/api/zopimApi'
 import * as zChat from 'chat-web-sdk'
 
@@ -22,24 +25,34 @@ const otherError = { code: 'DERP DERP', message: 'I gone derped up' }
 const mockStore = configureMockStore([thunk])
 const invoker = jest.fn()
 const mockTimeout = jest.fn(() => invoker)
-
+let mockHelpCenterAvailable = true
+let mockChannelChoiceAvailable = true
 jest.mock('chat-web-sdk')
+const getState = () => {
+  jest
+    .spyOn(helpCenterSelectors, 'getHelpCenterAvailable')
+    .mockImplementation(() => mockHelpCenterAvailable)
 
-const stateWithZChat = {
-  base: {
-    embeddableConfig: {
-      embeds: {
-        zopimChat: {
-          props: {
-            zopimId: 123
+  jest
+    .spyOn(connectedSelectors, 'getChannelChoiceAvailable')
+    .mockImplementation(() => mockChannelChoiceAvailable)
+
+  return {
+    base: {
+      embeddableConfig: {
+        embeds: {
+          zopimChat: {
+            props: {
+              zopimId: 123
+            }
           }
         }
       }
-    }
-  },
-  chat: {
-    vendor: {
-      zChat
+    },
+    chat: {
+      vendor: {
+        zChat
+      }
     }
   }
 }
@@ -47,7 +60,7 @@ const stateWithZChat = {
 timeout.zChatWithTimeout = jest.fn(() => mockTimeout())
 
 const dispatchZChatWithTimeoutAction = (action, ...callbackArgs) => {
-  const store = mockStore(stateWithZChat)
+  const store = mockStore(getState())
 
   store.dispatch(action)
   const timeoutArgs = invoker.mock.calls[0]
@@ -63,7 +76,7 @@ const dispatchZChatWithTimeoutAction = (action, ...callbackArgs) => {
 }
 
 const logoutDispatch = (action, status = 'connected') => {
-  const store = mockStore(stateWithZChat)
+  const store = mockStore(getState())
   const endChatSpy = jest.spyOn(zChat, 'endChat')
   const onSpy = jest.spyOn(zChat, 'on')
 
@@ -79,7 +92,7 @@ const logoutDispatch = (action, status = 'connected') => {
 }
 
 const dispatchAction = action => {
-  const store = mockStore(stateWithZChat)
+  const store = mockStore(getState())
 
   store.dispatch(action)
 
@@ -88,9 +101,25 @@ const dispatchAction = action => {
 
 describe('endChat', () => {
   const payload = { agent: 'smith' }
+  let expectedVisibilityPayload = true,
+    happyPathActions
 
   beforeEach(() => {
     jest.spyOn(reselectors, 'getActiveAgents').mockReturnValue(payload)
+
+    happyPathActions = [
+      {
+        type: actionTypes.CHAT_ALL_AGENTS_INACTIVE,
+        payload
+      },
+      {
+        type: actionTypes.END_CHAT_REQUEST_SUCCESS
+      },
+      {
+        payload: expectedVisibilityPayload,
+        type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY
+      }
+    ]
   })
 
   const verifyCallbackCalled = () => {
@@ -102,15 +131,48 @@ describe('endChat', () => {
       expect(callback).toHaveBeenCalled()
     })
   }
-  const happyPathActions = [
-    {
-      type: actionTypes.CHAT_ALL_AGENTS_INACTIVE,
-      payload
-    },
-    {
-      type: actionTypes.END_CHAT_REQUEST_SUCCESS
-    }
-  ]
+
+  describe('when there are no other available channels', () => {
+    beforeEach(() => {
+      mockHelpCenterAvailable = false
+      mockChannelChoiceAvailable = false
+      expectedVisibilityPayload = false
+      jest.spyOn(connectedSelectors, 'getChannelChoiceAvailable').mockImplementation(() => false)
+    })
+    afterEach(() => {
+      mockHelpCenterAvailable = true
+      mockChannelChoiceAvailable = true
+      expectedVisibilityPayload = true
+    })
+
+    it('dispatches UPDATE_BACK_BUTTON_VISIBILITY with false payloadasdasdasdad', () => {
+      const { store } = dispatchZChatWithTimeoutAction(actions.endChat())
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            payload: false,
+            type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY
+          }
+        ])
+      )
+    })
+  })
+
+  describe('when there are other channels available', () => {
+    it('dispatches UPDATE_BACK_BUTTON_VISIBILITY with true payload', () => {
+      const { store } = dispatchZChatWithTimeoutAction(actions.endChat())
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            payload: true,
+            type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY
+          }
+        ])
+      )
+    })
+  })
 
   describe('when there are no errors', () => {
     it('dispatches CHAT_ALL_AGENTS_INACTIVE and END_CHAT_REQUEST_SUCCESS', () => {
@@ -163,7 +225,7 @@ describe('setVisitorInfo', () => {
     })
 
     it('does not dispatch any actions', () => {
-      const store = mockStore(stateWithZChat)
+      const store = mockStore(getState())
 
       store.dispatch(actions.setVisitorInfo(mockVisitor, { type: 'w00t' }, mockTimestamp))
 
@@ -177,7 +239,7 @@ describe('setVisitorInfo', () => {
     })
 
     it('dispatches SET_VISITOR_INFO_REQUEST_PENDING', () => {
-      const store = mockStore(stateWithZChat)
+      const store = mockStore(getState())
 
       store.dispatch(actions.setVisitorInfo(mockVisitor, {}, 1234))
       expect(store.getActions()).toEqual([
@@ -408,7 +470,7 @@ describe('sendAttachments', () => {
   })
 
   it('dispatches CHAT_FILE_REQUEST_SENT for each file in the list', () => {
-    const store = mockStore(stateWithZChat)
+    const store = mockStore(getState())
 
     store.dispatch(actions.sendAttachments(mockFileList))
     expect(store.getActions()).toMatchSnapshot()
@@ -422,7 +484,7 @@ describe('sendAttachments', () => {
     })
 
     it('dispatches CHAT_FILE_REQUEST_SUCCESS for each file in the list', () => {
-      const store = mockStore(stateWithZChat)
+      const store = mockStore(getState())
       store.dispatch(actions.sendAttachments(mockFileList))
 
       expect(store.getActions()).toMatchSnapshot()
@@ -437,7 +499,7 @@ describe('sendAttachments', () => {
     })
 
     it('dispatches CHAT_FILE_REQUEST_FAILURE for each file in the list', () => {
-      const store = mockStore(stateWithZChat)
+      const store = mockStore(getState())
       store.dispatch(actions.sendAttachments(mockFileList))
 
       expect(store.getActions()).toMatchSnapshot()
