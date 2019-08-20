@@ -77,11 +77,12 @@ function generateHcJwt(sharedSecret, user) {
 }
 
 function generateChatJwt(sharedSecret, user) {
+  const nowInSeconds = Math.floor(Date.now() / 1000)
   const message = {
     name: user.name,
     email: user.email,
-    iat: Math.floor(Date.now() / 1000),
-    exp: Math.floor((Date.now() + 50000) / 1000), // 5min JWT expiry time
+    iat: nowInSeconds,
+    exp: nowInSeconds + 300, // 5min JWT expiry time
     external_id: user.externalId.toString() // eslint-disable-line camelcase
   }
 
