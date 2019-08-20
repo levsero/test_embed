@@ -169,7 +169,8 @@ function render(name) {
     if (brandCount > 1 || brandCount === undefined) {
       win.$zopim(() => {
         tracker.suspend(() => {
-          win.$zopim.livechat.addTags([config.brand])
+          const sanitizedBrandString = config.brand.replace(/,/g, '')
+          win.$zopim.livechat.addTags([sanitizedBrandString])
         })
       })
     }
