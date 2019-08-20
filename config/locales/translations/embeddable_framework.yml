@@ -592,6 +592,16 @@ parts:
       screenshot: "https://zendesk.box.com/s/6217lsbb6xpx9islgzrtg65o6ozma3zz"
       value: "Chat rated %(value)s"
   - translation:
+      key: "embeddable_framework.chat.chatLog.rating.title.good"
+      title: "A call to action to rate the chat as good"
+      screenshot: ""
+      value: "Rate this chat good"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.rating.title.bad"
+      title: "A call to action to rate the chat as bad"
+      screenshot: ""
+      value: "Rate this chat bad"
+  - translation:
       key: "embeddable_framework.chat.chatLog.rating.good"
       title: "A rating value that is displayed once the user clicks on thumbs up icon"
       screenshot: "https://zendesk.box.com/s/78c2btcx77ly5d1a4bdaekugzdldoiay"
