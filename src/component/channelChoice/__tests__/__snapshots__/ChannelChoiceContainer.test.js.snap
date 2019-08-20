@@ -5,16 +5,27 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -22,1 +22,1 @@
+@@ -4,1 +4,1 @@
+-       class="container flexContainer desktop containerDesktop"
++       class="container flexContainer mobile"
+@@ -6,1 +6,0 @@
+-       style="height: 550px;"
+@@ -12,1 +11,1 @@
+-           class="title"
++           class="title titleMobile"
+@@ -18,1 +17,1 @@
+-         class="content newChannelChoiceContainer"
++         class="content newChannelChoiceContainer contentMobile"
+@@ -22,1 +21,1 @@
 -             class="inner"
 +             class=""
-@@ -26,1 +26,1 @@
+@@ -26,1 +25,1 @@
 -                 class="listItem"
 +                 class="listItem listItemMobile"
-@@ -55,1 +55,1 @@
+@@ -55,1 +54,1 @@
 -         class="footer  "
 +         class="footer footerNoLogo "
-@@ -58,24 +58,0 @@
+@@ -58,24 +57,0 @@
 -     <a
 -       class="
 -       logo

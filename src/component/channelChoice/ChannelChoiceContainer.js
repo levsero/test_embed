@@ -67,7 +67,7 @@ export default class ChannelChoiceContainer extends Component {
   }
 
   render = () => {
-    const { formTitleKey } = this.props
+    const { formTitleKey, isMobile } = this.props
     const footerClasses = this.hideLogo() ? styles.footerNoLogo : ''
 
     return (
@@ -77,6 +77,7 @@ export default class ChannelChoiceContainer extends Component {
           containerClasses={styles.newChannelChoiceContainer}
           footerClasses={footerClasses}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${formTitleKey}`)}
+          isMobile={isMobile}
         >
           {this.renderBody()}
         </ScrollContainer>
