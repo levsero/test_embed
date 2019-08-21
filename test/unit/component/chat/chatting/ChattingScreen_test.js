@@ -627,13 +627,17 @@ describe('ChattingScreen component', () => {
 
     describe('when there are chats', () => {
       beforeEach(() => {
-        component = instanceRender(<ChattingScreen chatsLength={3} />)
+        component = instanceRender(<ChattingScreen chatsLength={3} markAsRead={markAsReadSpy} />)
         spyOn(component, 'scrollToBottom')
         component.componentDidMount()
       })
 
       it('scrolls to bottom', () => {
         expect(component.scrollToBottom).toHaveBeenCalled()
+      })
+
+      it('calls mark as read', () => {
+        expect(markAsReadSpy).toHaveBeenCalled()
       })
     })
 
