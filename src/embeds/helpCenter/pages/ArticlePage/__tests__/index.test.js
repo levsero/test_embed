@@ -1,6 +1,6 @@
 import { Component as ArticlePage } from 'src/embeds/helpCenter/pages/ArticlePage'
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 
@@ -10,7 +10,6 @@ const performImageSearch = jest.fn(),
 
 const renderComponent = inProps => {
   const props = {
-    buttonLabel: 'buttonLabel',
     activeArticle: { title: 'articleTitle' },
     originalArticleButton: false,
     performImageSearch,
@@ -38,8 +37,8 @@ describe('default render', () => {
     expect(renderComponent().container).toMatchSnapshot()
   })
 
-  it('renders button label', () => {
-    expect(renderComponent().getByText('buttonLabel')).toBeInTheDocument()
+  it('renders button', () => {
+    expect(renderComponent().getByText('Leave us a message')).toBeInTheDocument()
   })
 
   it('renders the article', () => {
@@ -48,35 +47,5 @@ describe('default render', () => {
 
   it('renders page title', () => {
     expect(renderComponent().getByText('pageTitle')).toBeInTheDocument()
-  })
-
-  it('renders zendesk logo', () => {
-    expect(renderComponent().container).toMatchSnapshot()
-  })
-})
-
-describe('when hiding zendeskLogo', () => {
-  it('does not render the zendesk logo', () => {
-    const result = renderComponent({ hideZendeskLogo: true })
-    expect(result.queryByText('ZendeskLogo')).toBeNull()
-  })
-})
-
-describe('button', () => {
-  it('onClick', () => {
-    const { getByText } = renderComponent()
-
-    fireEvent.click(getByText('buttonLabel'))
-    expect(onClick).toHaveBeenCalled()
-
-    onClick.mockReset()
-  })
-
-  describe('when disabled', () => {
-    it('does not render', () => {
-      const { queryByText } = renderComponent({ showNextButton: false })
-
-      expect(queryByText('buttonLabel')).toBeNull()
-    })
   })
 })

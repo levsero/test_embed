@@ -6,12 +6,7 @@ import _ from 'lodash'
 
 import DesktopPage from 'embeds/helpCenter/pages/DesktopPage'
 import MobilePage from 'embeds/helpCenter/pages/MobilePage'
-import Results from 'embeds/helpCenter/components/Results'
-import {
-  handleArticleClick,
-  performSearch,
-  handleSearchFieldChange
-} from 'embeds/helpCenter/actions'
+import { performSearch, handleSearchFieldChange } from 'embeds/helpCenter/actions'
 import {
   getResultsLocale,
   getSearchLoading,
@@ -38,6 +33,7 @@ import {
   getHelpCenterButtonLabel
 } from 'src/redux/modules/selectors'
 import ArticlePage from 'src/embeds/helpCenter/pages/ArticlePage'
+import SearchPage from 'src/embeds/helpCenter/pages/SearchPage'
 
 const mapStateToProps = state => {
   return {
@@ -69,8 +65,6 @@ const mapStateToProps = state => {
 class HelpCenter extends Component {
   static propTypes = {
     channelChoice: PropTypes.bool,
-    fullscreen: PropTypes.bool.isRequired,
-    previousSearchTerm: PropTypes.string.isRequired,
     hasContextualSearched: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     onNextClick: PropTypes.func,
@@ -78,10 +72,7 @@ class HelpCenter extends Component {
     showBackButton: PropTypes.func,
     showNextButton: PropTypes.bool,
     searchLoading: PropTypes.bool.isRequired,
-    searchFailed: PropTypes.bool.isRequired,
     updateChatScreen: PropTypes.func,
-    handleArticleClick: PropTypes.func.isRequired,
-    resultsLocale: PropTypes.string.isRequired,
     articles: PropTypes.array.isRequired,
     hasSearched: PropTypes.bool.isRequired,
     articleViewActive: PropTypes.bool.isRequired,
@@ -89,7 +80,6 @@ class HelpCenter extends Component {
     handleSearchFieldChange: PropTypes.func.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpRequestNeeded: PropTypes.bool.isRequired,
-    isContextualSearchComplete: PropTypes.bool.isRequired,
     maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     isOnInitialDesktopSearchScreen: PropTypes.bool,
     isMobile: PropTypes.bool.isRequired,
@@ -110,7 +100,6 @@ class HelpCenter extends Component {
     chatAvailable: false,
     chatOfflineAvailable: false,
     updateChatScreen: () => {},
-    handleArticleClick: () => {},
     articles: [],
     articleViewActive: false,
     hasSearched: false,
@@ -197,55 +186,6 @@ class HelpCenter extends Component {
     this.props.onNextClick()
   }
 
-  handleArticleClick = (articleIndex, e) => {
-    e.preventDefault()
-    this.props.handleArticleClick(this.props.articles[articleIndex])
-    this.props.showBackButton()
-  }
-
-  renderResults = () => {
-    const {
-      showNextButton,
-      fullscreen,
-      hideZendeskLogo,
-      searchFailed,
-      resultsLocale,
-      previousSearchTerm,
-      hasContextualSearched,
-      isContextualSearchComplete,
-      articleViewActive,
-      hasSearched,
-      contextualHelpRequestNeeded,
-      articles
-    } = this.props
-
-    if (articleViewActive || (!hasSearched && !contextualHelpRequestNeeded)) return null
-
-    const applyPadding = !showNextButton && !hideZendeskLogo
-
-    return (
-      <Results
-        ref={ref => {
-          this.helpCenterResults = ref
-        }}
-        fullscreen={fullscreen}
-        articles={articles}
-        applyPadding={applyPadding}
-        searchFailed={searchFailed}
-        locale={resultsLocale}
-        previousSearchTerm={previousSearchTerm}
-        handleArticleClick={this.handleArticleClick}
-        hasContextualSearched={hasContextualSearched}
-        isContextualSearchComplete={isContextualSearchComplete}
-        showContactButton={showNextButton}
-        hideZendeskLogo={hideZendeskLogo}
-        isMobile={this.props.isMobile}
-        contextualHelpRequestNeeded={contextualHelpRequestNeeded}
-        hasSearched={hasSearched}
-      />
-    )
-  }
-
   renderHelpCenterDesktop = () => {
     return (
       <DesktopPage
@@ -273,9 +213,7 @@ class HelpCenter extends Component {
         maxWidgetHeight={this.props.maxWidgetHeight}
         searchPlaceholder={this.props.searchPlaceholder}
         contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}
-      >
-        {this.renderResults()}
-      </DesktopPage>
+      />
     )
   }
 
@@ -299,17 +237,20 @@ class HelpCenter extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={this.props.buttonLabel}
         title={this.props.title}
+        onNextClick={this.props.onNextClick}
         contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}
         searchPlaceholder={this.props.searchPlaceholder}
-      >
-        {this.renderResults()}
-      </MobilePage>
+      />
     )
   }
 
   render = () => {
-    if (this.props.articleViewActive) {
+    const { articleViewActive, hasSearched, contextualHelpRequestNeeded } = this.props
+
+    if (articleViewActive) {
       return <ArticlePage onClick={this.handleNextClick} />
+    } else if (hasSearched || contextualHelpRequestNeeded) {
+      return <SearchPage onClick={this.handleNextClick} />
     }
 
     const helpCenter = this.props.isMobile
@@ -322,7 +263,6 @@ class HelpCenter extends Component {
 
 const actionCreators = {
   handleSearchFieldChange,
-  handleArticleClick,
   performSearch
 }
 

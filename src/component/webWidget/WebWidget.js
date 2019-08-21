@@ -442,9 +442,8 @@ class WebWidget extends Component {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return
     if (this.props.activeEmbed !== helpCenter) return null
 
-    const { submitTicketAvailable, chatAvailable, talkOnline, channelChoiceAvailable } = this.props
+    const { chatAvailable, channelChoiceAvailable } = this.props
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : ''
-    const showNextButton = submitTicketAvailable || chatAvailable || talkOnline
 
     return (
       <div className={classes}>
@@ -457,7 +456,6 @@ class WebWidget extends Component {
           onNextClick={this.onNextClick}
           position={this.props.position}
           showBackButton={this.props.updateBackButtonVisibility}
-          showNextButton={showNextButton}
           style={this.props.style}
           fullscreen={this.props.fullscreen}
           originalArticleButton={this.props.originalArticleButton}

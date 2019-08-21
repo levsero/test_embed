@@ -6,13 +6,9 @@ import NoResultsMessage from 'embeds/helpCenter/components/NoResultsMessage'
 import ContextualNoResultsMessage from 'embeds/helpCenter/components/ContextualNoResultsMessage'
 import List from 'embeds/helpCenter/components/List'
 
-import { locals as styles } from './styles.scss'
-
 export default class Results extends Component {
   static propTypes = {
-    applyPadding: PropTypes.bool,
     articles: PropTypes.array,
-    fullscreen: PropTypes.bool,
     locale: PropTypes.string,
     handleArticleClick: PropTypes.func,
     hasContextualSearched: PropTypes.bool.isRequired,
@@ -27,9 +23,7 @@ export default class Results extends Component {
   }
 
   static defaultProps = {
-    applyPadding: false,
     articles: [],
-    fullscreen: false,
     handleArticleClick: () => {},
     previousSearchTerm: '',
     searchFailed: false,
@@ -103,7 +97,7 @@ export default class Results extends Component {
   renderLegend = () => {
     return (
       <Legend
-        fullscreen={this.props.fullscreen}
+        fullscreen={this.props.isMobile}
         hasContextuallySearched={this.props.hasContextualSearched}
         locale={this.props.locale}
       />
@@ -112,15 +106,13 @@ export default class Results extends Component {
 
   render = () => {
     const hasInitialSearchResults = this.hasInitialSearchResults()
-    const applyPadding = this.props.applyPadding && hasInitialSearchResults
-    const paddingClasses = applyPadding ? styles.resultsPadding : ''
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
       ? this.renderLegend()
       : null
     const results = hasInitialSearchResults ? this.renderResults() : this.renderNoResults()
 
     return (
-      <div className={paddingClasses}>
+      <div>
         {legend}
         {results}
       </div>

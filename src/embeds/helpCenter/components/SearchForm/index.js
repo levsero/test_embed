@@ -27,9 +27,13 @@ const useSearchForm = (callback, handleOnChangeValue) => {
   }
 }
 
-const SearchForm = props => {
-  const { isMobile, performSearch, isLoading, searchPlaceholder, handleSearchFieldChange } = props
-
+const SearchForm = ({
+  performSearch,
+  isLoading,
+  searchPlaceholder,
+  isMobile,
+  handleSearchFieldChange
+}) => {
   const searchFieldElem = useRef(null)
   useEffect(() => {
     searchFieldElem.current.focus()

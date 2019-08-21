@@ -71,48 +71,18 @@ test('renders expected classes in desktop', () => {
   expect(container).toMatchSnapshot()
 })
 
-test('renders results component when hasSearched is true', () => {
+test('renders search page when hasSearched is true', () => {
   const { queryByText } = renderComponent({
-    previousSearchTerm: 'blah',
     hasSearched: true
   })
 
-  expect(queryByText('There are no results for "blah"')).toBeInTheDocument()
+  expect(queryByText('There are no results for ""')).toBeInTheDocument()
 })
 
 test('hide zendesk logo when hideZendeskLogo is true', () => {
   const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
 
   expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
-})
-
-describe('on article click', () => {
-  it('calls handleArticleClick with the article', () => {
-    const handleArticleClick = jest.fn()
-    const { getByText } = renderComponent({
-      handleArticleClick,
-      hasSearched: true,
-      articles
-    })
-
-    fireEvent.click(getByText('Second article'))
-    expect(handleArticleClick).toHaveBeenCalledWith(articles[1])
-
-    fireEvent.click(getByText('First article'))
-    expect(handleArticleClick).toHaveBeenCalledWith(articles[0])
-  })
-
-  it('calls showBackButton', () => {
-    const showBackButton = jest.fn()
-    const { getByText } = renderComponent({
-      showBackButton,
-      hasSearched: true,
-      articles
-    })
-
-    fireEvent.click(getByText('Second article'))
-    expect(showBackButton).toHaveBeenCalled()
-  })
 })
 
 describe('mobile', () => {

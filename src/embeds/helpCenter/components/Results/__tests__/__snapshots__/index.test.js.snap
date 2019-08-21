@@ -2,9 +2,7 @@
 
 exports[`no results renders expected classes 1`] = `
 <div>
-  <div
-    class=""
-  >
+  <div>
     <div
       class="noResults noResultsDesktop"
     >
@@ -25,9 +23,7 @@ exports[`no results renders expected classes 1`] = `
 
 exports[`no results renders expected mobile classes 1`] = `
 <div>
-  <div
-    class=""
-  >
+  <div>
     <div
       class="noResults noResultsMobile"
     >
@@ -48,9 +44,7 @@ exports[`no results renders expected mobile classes 1`] = `
 
 exports[`with results renders expected classes 1`] = `
 <div>
-  <div
-    class=""
-  >
+  <div>
     <div
       class="container"
     >
@@ -92,11 +86,9 @@ exports[`with results renders expected classes 1`] = `
 
 exports[`with results renders expected mobile classes 1`] = `
 <div>
-  <div
-    class=""
-  >
+  <div>
     <div
-      class="container"
+      class="container containerMobile"
     >
       <h2
         class="content"

@@ -15,7 +15,7 @@ export default class DesktopPage extends Component {
   static propTypes = {
     articleViewActive: PropTypes.bool,
     channelChoice: PropTypes.bool,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
     hasSearched: PropTypes.bool,

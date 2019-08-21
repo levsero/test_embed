@@ -2,10 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import WidgetMain from 'src/components/WidgetMain'
-import WidgetFooter from 'src/components/WidgetFooter'
 import WidgetContainer from 'src/components/WidgetContainer'
 import WidgetHeader from 'src/components/WidgetHeader'
-import { locals as styles } from 'src/embeds/helpCenter/pages/ArticlePage/index.scss'
+import Footer from 'src/embeds/helpCenter/components/Footer'
 import { i18n } from 'service/i18n'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import {
@@ -27,25 +26,20 @@ import {
   getShowNextButton
 } from 'src/redux/modules/selectors'
 import HelpCenterArticle from 'src/components/HelpCenterArticle'
-import ZendeskLogo from 'src/components/ZendeskLogo'
-import HelpCenterChannelButton from 'src/embeds/helpCenter/components/HelpCenterChannelButton'
 import { isMobileBrowser } from 'utility/devices'
 
 const ArticlePage = ({
   activeArticle,
   addRestrictedImage,
-  buttonLabel,
   handleOriginalArticleClicked,
   hideZendeskLogo,
   isMobile,
-  loading,
   onClick,
   originalArticleButton,
   performImageSearch,
   restrictedImages,
   resultsLocale,
   title,
-  isRTL,
   showNextButton
 }) => {
   return (
@@ -64,26 +58,17 @@ const ArticlePage = ({
           isMobile={isMobile}
         />
       </WidgetMain>
-      <WidgetFooter scrollShadowVisible={!hideZendeskLogo}>
-        <div className={!hideZendeskLogo && !isMobile ? styles.footerContentMultiple : ''}>
-          {!hideZendeskLogo && !isMobile && <ZendeskLogo />}
-          {showNextButton && (
-            <HelpCenterChannelButton
-              buttonLabel={buttonLabel}
-              isRTL={isRTL}
-              loading={loading}
-              onClick={onClick}
-              isMobile={isMobile}
-            />
-          )}
-        </div>
-      </WidgetFooter>
+      <Footer
+        isMobile={isMobile}
+        hideZendeskLogo={hideZendeskLogo}
+        onClick={onClick}
+        showNextButton={showNextButton}
+      />
     </WidgetContainer>
   )
 }
 
 ArticlePage.propTypes = {
-  buttonLabel: PropTypes.string,
   activeArticle: PropTypes.object,
   originalArticleButton: PropTypes.bool,
   performImageSearch: PropTypes.func.isRequired,
@@ -94,9 +79,7 @@ ArticlePage.propTypes = {
   title: PropTypes.string,
   isMobile: PropTypes.bool,
   hideZendeskLogo: PropTypes.bool,
-  loading: PropTypes.bool,
   onClick: PropTypes.func,
-  isRTL: PropTypes.bool,
   showNextButton: PropTypes.bool
 }
 
