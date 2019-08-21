@@ -17,12 +17,12 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
     <div
       class="container"
     >
-      <p
-        class="offline"
+      <div
+        class="sc-bdVaJa fbhXCk"
         data-testid="talk--offlinePage"
       >
         Offline message
-      </p>
+      </div>
     </div>
     <footer
       class="footer"
