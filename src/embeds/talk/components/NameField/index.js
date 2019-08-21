@@ -1,11 +1,11 @@
 import React from 'react'
-import { locals as styles } from './styles/index.scss'
 import PropTypes from 'prop-types'
-import { TextField, Input, Label } from '@zendeskgarden/react-textfields'
+import { Input, Label } from '@zendeskgarden/react-textfields'
+import { TextField } from './styles'
 
 const NameField = ({ label, defaultValue }) => {
   return (
-    <TextField className={styles.textField}>
+    <TextField>
       <Label dangerouslySetInnerHTML={{ __html: label }} />
       <Input defaultValue={defaultValue} name="name" />
     </TextField>
