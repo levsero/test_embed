@@ -140,7 +140,7 @@ class CallbackForm extends Component {
           <CallbackPhone />
           <div>
             <p className={styles.formHeaderMessage}>{headerMessage}</p>
-            {averageWaitTime && <AverageWaitTime message={averageWaitTime} />}
+            {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
           </div>
           <div className={styles.formDivider} />
           <PhoneField

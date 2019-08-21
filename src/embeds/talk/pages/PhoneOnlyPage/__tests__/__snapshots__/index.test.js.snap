@@ -17,7 +17,7 @@ Snapshot Diff:
 
 @@ -30,5 +30,0 @@
 -         <p
--           class="message"
+-           class="sc-bdVaJa iAKeoj"
 -         >
 -           10
 -         </p>
@@ -54,7 +54,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
           Call us
         </p>
         <p
-          class="message"
+          class="sc-bdVaJa iAKeoj"
         >
           10
         </p>
@@ -98,7 +98,7 @@ Snapshot Diff:
 
 @@ -30,5 +30,0 @@
 -         <p
--           class="message"
+-           class="sc-bdVaJa iAKeoj"
 -         >
 -           10
 -         </p>

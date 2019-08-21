@@ -1,14 +1,14 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { locals as styles } from './styles.scss'
+import { FONT_SIZE } from 'constants/shared'
 
-const AverageWaitTime = ({ message }) => {
-  return <p className={styles.message}>{message}</p>
-}
+const AverageWaitTime = styled.p`
+  margin-bottom: ${15 / FONT_SIZE}rem;
+`
 
 AverageWaitTime.propTypes = {
-  message: PropTypes.string
+  children: PropTypes.string
 }
 
 export default AverageWaitTime

@@ -41,7 +41,7 @@ const PhoneOnlyPage = ({
         >
           <TalkIcon className={styles.talkIcon} />
           <p className={styles.message}>{callUsMessage}</p>
-          {averageWaitTime && <AverageWaitTime message={averageWaitTime} />}
+          {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
           <div className={styles.phoneNumber}>
             <PhoneNumber phoneNumber={phoneNumber} formattedPhoneNumber={formattedPhoneNumber} />
           </div>
