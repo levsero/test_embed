@@ -164,6 +164,7 @@ class ChattingScreen extends Component {
 
     if (hasMessages) {
       this.scrollToBottom()
+      this.props.markAsRead()
     }
   }
 
