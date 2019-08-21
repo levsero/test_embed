@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import classNames from 'classnames'
 import _ from 'lodash'
-import { Button } from '@zendeskgarden/react-buttons'
-
 import { i18n } from 'service/i18n'
-import { Form } from 'component/form/Form'
+import { isMobileBrowser } from 'utility/devices'
 import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
@@ -32,8 +29,7 @@ import {
   getTalkServiceUrl,
   getHideZendeskLogo
 } from 'src/redux/modules/selectors'
-
-import { locals as styles } from './styles.scss'
+import { SubmitButton, Footer, Form, Header, FormDivider } from './styles'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
@@ -122,15 +118,10 @@ class CallbackForm extends Component {
     }
 
     const errorMessage = this.getErrorMessage()
-    const footerClasses = classNames(styles.footer, {
-      [styles.multipleItems]: !hideZendeskLogo,
-      [styles.singleItem]: hideZendeskLogo
-    })
 
     return (
       <Form
-        ref={el => (this.form = el)}
-        className={styles.form}
+        innerRef={el => (this.form = el)}
         formState={formState}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}
@@ -139,10 +130,10 @@ class CallbackForm extends Component {
         <WidgetMain>
           <CallbackPhone />
           <div>
-            <p className={styles.formHeaderMessage}>{headerMessage}</p>
+            <Header>{headerMessage}</Header>
             {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
           </div>
-          <div className={styles.formDivider} />
+          <FormDivider />
           <PhoneField
             validate={val => this.form && this.form.validate(val)}
             required={true}
@@ -157,13 +148,11 @@ class CallbackForm extends Component {
           {errorMessage && <ErrorNotification message={errorMessage} />}
         </WidgetMain>
         <WidgetFooter scrollShadowVisible={true}>
-          <div className={footerClasses}>
-            {hideZendeskLogo ? null : <ZendeskLogo />}
+          <Footer hideZendeskLogo={hideZendeskLogo}>
+            {!hideZendeskLogo && <ZendeskLogo />}
 
-            <Button primary={true} className={styles.submitButton} type="submit">
-              {submitButtonLabel}
-            </Button>
-          </div>
+            <SubmitButton>{submitButtonLabel}</SubmitButton>
+          </Footer>
         </WidgetFooter>
       </Form>
     )
@@ -184,6 +173,7 @@ const mapStateToProps = state => {
     formState: getFormState(state),
     callback: getCallback(state),
     isRTL: i18n.isRTL(),
+    isMobile: isMobileBrowser(),
     locale: getLocale(state),
     hideZendeskLogo: getHideZendeskLogo(state)
   }
