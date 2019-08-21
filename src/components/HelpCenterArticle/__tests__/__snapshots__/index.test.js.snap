@@ -12,6 +12,7 @@ exports[`renders the expected classes 1`] = `
       class="originalArticleButton"
     >
       <a
+        aria-label="View original article"
         target="_blank"
         title="View original article"
       >
@@ -167,6 +168,7 @@ exports[`renders the expected mobile classes 1`] = `
       class="originalArticleButton"
     >
       <a
+        aria-label="View original article"
         target="_blank"
         title="View original article"
       >

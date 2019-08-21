@@ -350,6 +350,7 @@ export default class HelpCenterArticle extends Component {
           href={this.props.activeArticle.html_url}
           target="_blank"
           onClick={this.props.handleOriginalArticleClick}
+          aria-label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
           title={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
         >
           <Icon type="Icon--link-external" isMobile={this.props.isMobile} />

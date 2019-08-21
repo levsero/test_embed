@@ -35,6 +35,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 target="_blank"
                 title="View original article"
               >
@@ -98,6 +99,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 target="_blank"
                 title="View original article"
               >
