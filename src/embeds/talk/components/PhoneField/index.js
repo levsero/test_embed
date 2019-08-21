@@ -3,15 +3,13 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Label } from '@zendeskgarden/react-select'
-import { Message, FauxInput, Input } from '@zendeskgarden/react-textfields'
+import { Message } from '@zendeskgarden/react-textfields'
 import {
   FieldContainer,
   composeEventHandlers,
   ControlledComponent
 } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
-import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
 import { i18n } from 'service/i18n'
 import countriesByIso from 'translation/ze_countries'
 import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
@@ -19,20 +17,8 @@ import { getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors'
 import { getStyledLabelText } from 'utility/fields'
 import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 import styleOverrides from './styles.overrides'
+import { Container, FauxInput, Input } from './styles'
 import { onNextTick } from 'src/util/utils'
-
-const StyledFauxInput = styled(FauxInput)`
-  padding: 0 !important;
-`
-
-const StyledInput = styled(Input)`
-  padding: ${10 / FONT_SIZE}rem !important;
-  align-self: center !important;
-`
-
-const StyledContainer = styled.div`
-  margin-bottom: ${16 / FONT_SIZE}rem !important;
-`
 
 const mapStateToProps = state => {
   return {
@@ -171,7 +157,7 @@ class PhoneField extends ControlledComponent {
     const showError = this.props.showError && !this.state.valid
 
     return (
-      <StyledContainer>
+      <Container>
         <ThemeProvider
           rtl={this.props.rtl}
           document={getWebWidgetFrameContentDocumentBody()}
@@ -185,7 +171,7 @@ class PhoneField extends ControlledComponent {
                     {...this.getLabelProps(getFieldLabelProps())}
                     dangerouslySetInnerHTML={{ __html: this.props.label }}
                   />
-                  <StyledFauxInput
+                  <FauxInput
                     {...focused}
                     validation={showError ? 'error' : 'none'}
                     mediaLayout={true}
@@ -204,7 +190,7 @@ class PhoneField extends ControlledComponent {
                         this.setState({ countryDropdownOpen })
                       }}
                     />
-                    <StyledInput
+                    <Input
                       {...getFieldInputProps()}
                       value={this.state.inputValue}
                       onChange={this.onInputChange}
@@ -216,14 +202,14 @@ class PhoneField extends ControlledComponent {
                       bare={true}
                       data-testid="talkPhoneField--input"
                     />
-                  </StyledFauxInput>
+                  </FauxInput>
                 </Fragment>
               )
             }}
           </FieldContainer>
         </ThemeProvider>
         {showError && <Message validation="error">{this.props.errorMessage}</Message>}
-      </StyledContainer>
+      </Container>
     )
   }
 }
