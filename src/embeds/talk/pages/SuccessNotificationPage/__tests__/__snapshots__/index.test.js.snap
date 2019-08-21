@@ -18,20 +18,20 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
       class="container"
     >
       <div
-        class="container"
+        class="sc-bdVaJa biVTNi"
       >
         <svg
-          class="talkSuccessIcon sc-bdVaJa ibTDPh"
+          class="sc-bwzfXH dKgBBG"
           realfilename="talk_success.svg"
         />
         <div>
           <h2
-            class="primary"
+            class="sc-htpNat eVeHYg"
           >
             Thanks for reaching out.
           </h2>
           <p
-            class="secondary"
+            class="sc-bxivhb bLWVOb"
           >
             We'll get back to you soon.
           </p>

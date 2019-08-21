@@ -1,33 +1,18 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
 import { i18n } from 'service/i18n'
-
-import TalkSuccessIcon from 'src/embeds/talk/icons/talk_success.svg'
-import { locals as styles } from './styles.scss'
-
-const StyledSuccessIcon = styled(TalkSuccessIcon)`
-  ${props =>
-    props.theme.baseColor &&
-    css`
-      .customColor {
-        fill: ${props.theme.baseColor} !important;
-      }
-    `}
-`
+import { Container, SuccessIcon, Heading, Message } from './styles'
 
 const SuccessNotification = () => {
   return (
-    <div className={styles.container}>
-      <StyledSuccessIcon className={styles.talkSuccessIcon} />
+    <Container>
+      <SuccessIcon />
       <div>
-        <h2 className={styles.primary}>
+        <Heading>
           {i18n.t('embeddable_framework.common.notify.message.thanks_for_reaching_out')}
-        </h2>
-        <p className={styles.secondary}>
-          {i18n.t('embeddable_framework.common.notify.message.get_back')}
-        </p>
+        </Heading>
+        <Message>{i18n.t('embeddable_framework.common.notify.message.get_back')}</Message>
       </div>
-    </div>
+    </Container>
   )
 }
 
