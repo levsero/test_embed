@@ -2,12 +2,7 @@
 
 exports[`PhoneOnlyPage on desktop renders when there is an average wait time 1`] = `
 Snapshot Diff:
-- First value
-+ Second value
-
-@@ -18,1 +18,1 @@
--         class="container containerMobile"
-+         class="container"
+Compared values have no visual difference.
 `;
 
 exports[`PhoneOnlyPage on desktop renders when there is no average wait time 1`] = `
@@ -24,6 +19,80 @@ Snapshot Diff:
 `;
 
 exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] = `
+.c3 {
+  margin-bottom: 1.0714285714285714rem;
+}
+
+.c5 {
+  color: #1f73b7;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c5:hover,
+.c5:focus,
+.c5:active {
+  color: #1f73b7;
+}
+
+.c0 {
+  text-align: center;
+  font-size: 1rem !important;
+  min-height: 70%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.c0:not(:disabled) svg,
+.c0:not(:disabled) svg path {
+  fill: !important;
+}
+
+.c1 {
+  min-width: 3.5714285714285716rem;
+  min-height: 3.5714285714285716rem;
+  height: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+}
+
+.c1 path.customColor,
+.c1 rect.customColor {
+  fill: !important;
+}
+
+.c2 {
+  margin-top: 1.4285714285714286rem !important;
+  margin-bottom: 0.7142857142857143rem !important;
+}
+
+.c4 {
+  text-align: center;
+  font-size: 1.4285714285714286rem;
+}
+
+.c4 a,
+.c4 a span {
+  color: !important;
+}
+
+.c4 a:hover {
+  color: !important;
+}
+
 <div>
   <div
     class="container"
@@ -41,28 +110,28 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
       class="container"
     >
       <div
-        class="container containerMobile"
+        class="c0"
         data-testid="talk--phoneOnlyPage"
       >
         <svg
-          class="talkIcon"
+          class="c1"
           realfilename="talk.svg"
         />
         <p
-          class="message"
+          class="c2"
         >
           Call us
         </p>
         <p
-          class="sc-bdVaJa iAKeoj"
+          class="c3"
         >
           10
         </p>
         <div
-          class="phoneNumber"
+          class="c4"
         >
           <a
-            class="sc-bwzfXH gsqmun"
+            class="c5"
             href="tel:+61412345678"
             target="_blank"
           >

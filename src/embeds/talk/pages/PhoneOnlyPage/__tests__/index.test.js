@@ -8,6 +8,7 @@ import snapshotDiff from 'snapshot-diff'
 
 import createStore from 'src/redux/createStore'
 import { Component as PhoneOnlyPage } from './../'
+import 'jest-styled-components'
 
 describe('PhoneOnlyPage', () => {
   const defaultProps = {
