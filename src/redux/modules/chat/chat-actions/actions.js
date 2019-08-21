@@ -27,6 +27,8 @@ import {
 } from 'constants/event'
 import * as callbacks from 'service/api/callbacks'
 import zopimApi from 'service/api/zopimApi'
+import { updateBackButtonVisibility } from 'src/redux/modules/base'
+import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
 
 const chatTypingTimeout = 2000
 let history = []
@@ -112,6 +114,11 @@ export const endChat = (callback = noop) => {
           payload: activeAgents
         })
         dispatch({ type: actions.END_CHAT_REQUEST_SUCCESS })
+        dispatch(
+          updateBackButtonVisibility(
+            getHelpCenterAvailable(getState()) || getChannelChoiceAvailable(getState())
+          )
+        )
         callbacks.fireFor(CHAT_ENDED_EVENT)
       } else {
         dispatch({ type: actions.END_CHAT_REQUEST_FAILURE })
