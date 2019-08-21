@@ -2,7 +2,6 @@ import SuccessNotificationPageStyles from 'embeds/talk/pages/SuccessNotification
 import SuccessNotificationStyles from 'src/embeds/talk/components/SuccessNotification/styles.scss'
 import TalkCallbackFormStyles from 'embeds/talk/components/CallbackForm/styles.scss'
 import TalkOfflinePageStyles from 'embeds/talk/pages/OfflinePage/styles.scss'
-import TalkPhoneNumberStyles from 'embeds/talk/components/PhoneNumber/styles.scss'
 import TalkPhoneOnlyPageStyles from 'embeds/talk/pages/PhoneOnlyPage/styles.scss'
 
 const styles = `
@@ -10,7 +9,6 @@ const styles = `
   ${SuccessNotificationStyles}
   ${TalkCallbackFormStyles}
   ${TalkOfflinePageStyles}
-  ${TalkPhoneNumberStyles}
   ${TalkPhoneOnlyPageStyles}
 `
 

@@ -3,11 +3,11 @@
 exports[`renders the component 1`] = `
 <div>
   <div
-    class="sc-bdVaJa dJIVuV"
+    class="sc-bwzfXH gHzNhV"
   >
     Our phone number 
     <a
-      class="phoneLink"
+      class="sc-bdVaJa daVghx"
       href="tel:1234567890"
       target="_blank"
     >

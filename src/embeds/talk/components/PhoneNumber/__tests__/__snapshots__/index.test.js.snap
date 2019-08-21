@@ -3,7 +3,7 @@
 exports[`renders the component 1`] = `
 <div>
   <a
-    class="phoneLink"
+    class="sc-bdVaJa daVghx"
     href="tel:95556666"
     target="_blank"
   >
