@@ -34,7 +34,7 @@ OfflinePage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  message: i18n.t('embeddable_framework.talk.offline.label'),
+  message: i18n.t('embeddable_framework.talk.offline.label_v2'),
   title: getOfflineTitle(state),
   hideZendeskLogo: getHideZendeskLogo(state)
 })
