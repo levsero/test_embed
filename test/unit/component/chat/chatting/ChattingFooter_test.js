@@ -3,6 +3,8 @@ describe('ChattingFooter component', () => {
     i18n,
     mockIsRTL = false
   const ChattingFooterPath = buildSrcPath('component/chat/chatting/ChattingFooter')
+  const IconButton = noopReactComponent()
+  const Icon = noopReactComponent()
 
   beforeEach(() => {
     mockery.enable()
@@ -33,12 +35,11 @@ describe('ChattingFooter component', () => {
       'component/Dropzone': {
         Dropzone: noopReactComponent()
       },
-      'component/Icon': {
-        IconButton: noopReactComponent()
-      },
       'constants/shared': {
         ICONS: {}
-      }
+      },
+      'component/Icon': { Icon },
+      '@zendeskgarden/react-buttons': { IconButton }
     })
 
     mockery.registerAllowable(ChattingFooterPath)
@@ -92,18 +93,21 @@ describe('ChattingFooter component', () => {
   })
 
   describe('renderEndChatOption', () => {
-    let result
+    let classNames
 
     describe('when props.isChatting is false', () => {
       beforeEach(() => {
         const component = instanceRender(<ChattingFooter isChatting={false} />)
 
-        result = component.renderEndChatOption()
+        const result = component.renderEndChatOption()
+        const triggerSpy = jasmine.createSpy('spy')
+        result.props.children.props.trigger({ getTriggerProps: triggerSpy, ref: {} })
+        classNames = triggerSpy.calls.first().args[0].className
       })
 
       it('has disabled classes', () => {
-        expect(result.props.buttonClassName).toContain('iconEndChatClass')
-        expect(result.props.buttonClassName).toContain('iconDisabledClasses')
+        expect(classNames).toContain('iconEndChatClass')
+        expect(classNames).toContain('iconDisabledClasses')
       })
     })
 
@@ -111,18 +115,22 @@ describe('ChattingFooter component', () => {
       beforeEach(() => {
         const component = instanceRender(<ChattingFooter isChatting={true} />)
 
-        result = component.renderEndChatOption()
+        const result = component.renderEndChatOption()
+
+        const triggerSpy = jasmine.createSpy('spy')
+        result.props.children.props.trigger({ getTriggerProps: triggerSpy, ref: {} })
+        classNames = triggerSpy.calls.first().args[0].className
       })
 
       it('does not have disabled classes', () => {
-        expect(result.props.buttonClassName).toContain('iconEndChatClass')
-        expect(result.props.buttonClassName).not.toContain('iconDisabledClasses')
+        expect(classNames).toContain('iconEndChatClass')
+        expect(classNames).not.toContain('iconDisabledClasses')
       })
     })
   })
 
   describe('renderAttachmentOption', () => {
-    let result
+    let result, classNames
 
     describe('when props.attachmentsEnabled is true', () => {
       beforeEach(() => {
@@ -155,13 +163,16 @@ describe('ChattingFooter component', () => {
         )
 
         result = component.renderAttachmentOption()
+
+        const triggerSpy = jasmine.createSpy('spy')
+        const triggerFunction = result.props.children.props.children.props.trigger
+        triggerFunction({ getTriggerProps: triggerSpy, ref: {} })
+        classNames = triggerSpy.calls.first().args[0].className
       })
 
       it('does not have mobile specific classes', () => {
-        expect(result.props.children.props.buttonClassName).toContain('iconAttachmentClass')
-        expect(result.props.children.props.buttonClassName).not.toContain(
-          'iconAttachmentMobileClass'
-        )
+        expect(classNames).toContain('iconAttachmentClass')
+        expect(classNames).not.toContain('iconAttachmentMobileClass')
       })
     })
 
@@ -172,26 +183,35 @@ describe('ChattingFooter component', () => {
         )
 
         result = component.renderAttachmentOption()
+
+        const triggerSpy = jasmine.createSpy('spy')
+        const triggerFunction = result.props.children.props.children.props.trigger
+        triggerFunction({ getTriggerProps: triggerSpy, ref: {} })
+        classNames = triggerSpy.calls.first().args[0].className
       })
 
       it('has mobile specific classes', () => {
-        expect(result.props.children.props.buttonClassName).toContain('iconAttachmentClass')
-        expect(result.props.children.props.buttonClassName).toContain('iconAttachmentMobileClass')
+        expect(classNames).toContain('iconAttachmentClass')
+        expect(classNames).toContain('iconAttachmentMobileClass')
       })
     })
   })
 
   describe('renderMenuOption', () => {
-    let result
+    let classNames
 
     beforeEach(() => {
       const component = instanceRender(<ChattingFooter />)
 
-      result = component.renderMenuOption()
+      const result = component.renderMenuOption()
+
+      const triggerSpy = jasmine.createSpy('spy')
+      result.props.children.props.trigger({ getTriggerProps: triggerSpy, ref: {} })
+      classNames = triggerSpy.calls.first().args[0].className
     })
 
     it('has correct classes', () => {
-      expect(result.props.buttonClassName).toContain('iconMenuClass')
+      expect(classNames).toContain('iconMenuClass')
     })
   })
 
@@ -211,26 +231,6 @@ describe('ChattingFooter component', () => {
 
     it('passes sendChat to onClick handler', () => {
       expect(result.props.onClick).toBe(sendChatSpy)
-    })
-
-    describe('when locale is RTL', () => {
-      beforeAll(() => {
-        mockIsRTL = true
-      })
-
-      it('passes true to the flipX prop', () => {
-        expect(result.props.flipX).toBe(true)
-      })
-    })
-
-    describe('when locale is not RTL', () => {
-      beforeAll(() => {
-        mockIsRTL = false
-      })
-
-      it('passes false to the flipX prop', () => {
-        expect(result.props.flipX).toBe(false)
-      })
     })
   })
 

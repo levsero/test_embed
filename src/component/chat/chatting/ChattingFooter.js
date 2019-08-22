@@ -5,8 +5,12 @@ import { locals as styles } from './ChattingFooter.scss'
 import classNames from 'classnames'
 
 import { i18n } from 'service/i18n'
-import { IconButton } from 'component/Icon'
 import { Dropzone } from 'component/Dropzone'
+
+import { IconButton } from '@zendeskgarden/react-buttons'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { TooltipContainer, TooltipView } from '@zendeskgarden/react-tooltips'
+import { Icon } from 'component/Icon'
 
 import { ICONS } from 'constants/shared'
 
@@ -48,15 +52,32 @@ export class ChattingFooter extends Component {
     const endChatClasses = classNames(styles.iconEndChat, {
       [styles.iconDisabled]: disabled
     })
+    const altText = i18n.t('embeddable_framework.chat.icon.endChat.hover.label')
 
     return (
-      <IconButton
-        type={ICONS.END_CHAT}
-        buttonClassName={endChatClasses}
-        disabled={disabled}
-        altText={i18n.t('embeddable_framework.chat.icon.endChat.hover.label')}
-        onClick={this.handleEndChatClick}
-      />
+      <ThemeProvider>
+        <TooltipContainer
+          placement="top-end"
+          trigger={({ getTriggerProps, ref }) => (
+            <IconButton
+              {...getTriggerProps({
+                ref,
+                size: 'small',
+                className: endChatClasses,
+                onClick: this.handleEndChatClick,
+                'aria-label': altText,
+                disabled: disabled
+              })}
+            >
+              <Icon type={ICONS.END_CHAT} />
+            </IconButton>
+          )}
+        >
+          {({ getTooltipProps, placement }) => (
+            <TooltipView {...getTooltipProps({ placement })}>{altText}</TooltipView>
+          )}
+        </TooltipContainer>
+      </ThemeProvider>
     )
   }
 
@@ -67,14 +88,33 @@ export class ChattingFooter extends Component {
       [styles.iconAttachmentMobile]: this.props.isMobile
     })
 
+    const visibility = this.props.isMobile ? { isVisible: false } : {}
+    const altText = i18n.t('embeddable_framework.chat.icon.attachments.hover.label')
+
     return (
       <Dropzone onDrop={this.props.handleAttachmentDrop}>
-        <IconButton
-          buttonClassName={attachmentClasses}
-          altText={i18n.t('embeddable_framework.chat.icon.attachments.hover.label')}
-          disableTooltip={this.props.isMobile}
-          type={ICONS.PAPERCLIP_SMALL}
-        />
+        <ThemeProvider>
+          <TooltipContainer
+            placement="top-end"
+            {...visibility}
+            trigger={({ getTriggerProps, ref }) => (
+              <IconButton
+                {...getTriggerProps({
+                  ref,
+                  size: 'small',
+                  className: attachmentClasses,
+                  'aria-label': altText
+                })}
+              >
+                <Icon type={ICONS.PAPERCLIP_SMALL} />
+              </IconButton>
+            )}
+          >
+            {({ getTooltipProps, placement }) => (
+              <TooltipView {...getTooltipProps({ placement })}>{altText}</TooltipView>
+            )}
+          </TooltipContainer>
+        </ThemeProvider>
       </Dropzone>
     )
   }
@@ -84,27 +124,46 @@ export class ChattingFooter extends Component {
       [styles.iconActive]: this.props.menuVisible
     })
 
+    const visibility = this.props.menuVisible ? { isVisible: false } : {}
+    const altText = i18n.t('embeddable_framework.chat.icon.menu.hover.label')
+
     return (
-      <IconButton
-        type={ICONS.ELLIPSIS}
-        buttonClassName={menuClasses}
-        disableTooltip={this.props.menuVisible}
-        altText={i18n.t('embeddable_framework.chat.icon.menu.hover.label')}
-        onClick={this.handleMenuClick}
-      />
+      <ThemeProvider>
+        <TooltipContainer
+          placement="top-end"
+          {...visibility}
+          trigger={({ getTriggerProps, ref }) => (
+            <IconButton
+              {...getTriggerProps({
+                ref,
+                size: 'small',
+                className: menuClasses,
+                onClick: this.handleMenuClick,
+                'aria-label': altText
+              })}
+            >
+              <Icon type={ICONS.ELLIPSIS} />
+            </IconButton>
+          )}
+        >
+          {({ getTooltipProps, placement }) => (
+            <TooltipView {...getTooltipProps({ placement })}>{altText}</TooltipView>
+          )}
+        </TooltipContainer>
+      </ThemeProvider>
     )
   }
 
   renderSendChatOption = () => {
     return (
       <IconButton
-        type={ICONS.SEND_CHAT}
-        flipX={i18n.isRTL()}
-        disableTooltip={this.props.isMobile}
-        altText={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
+        size="small"
         className={styles.iconSendChatMobile}
         onClick={this.props.sendChat}
-      />
+        aria-label={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
+      >
+        <Icon type={ICONS.SEND_CHAT} />
+      </IconButton>
     )
   }
 
