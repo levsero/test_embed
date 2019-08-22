@@ -711,8 +711,9 @@ export function chatWindowOpenOnNavigate() {
 }
 
 export function chatStarted() {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({ type: actions.CHAT_STARTED })
+    dispatch(updateBackButtonVisibility(getHelpCenterAvailable(getState())))
     callbacks.fireFor(CHAT_STARTED_EVENT)
   }
 }
