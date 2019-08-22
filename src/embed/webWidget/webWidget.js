@@ -266,10 +266,14 @@ export default function WebWidgetFactory(name) {
     })
 
     mediator.channel.subscribe(prefix + 'webWidget.clearAttachments', () => {
-      const submitTicket = getWebWidgetComponent().getSubmitTicketComponent()
+      const webWidgetComponent = getWebWidgetComponent()
 
-      if (submitTicket) {
-        submitTicket.clearAttachments()
+      if (webWidgetComponent) {
+        const submitTicket = webWidgetComponent.getSubmitTicketComponent()
+
+        if (submitTicket) {
+          submitTicket.clearAttachments()
+        }
       }
     })
 

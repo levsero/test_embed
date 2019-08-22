@@ -14,6 +14,11 @@ import zopimApi from 'service/api/zopimApi'
 import * as zChat from 'chat-web-sdk'
 
 import {
+  handleChatSDKInitialized,
+  reset as resetChatSDKInitializedQueue
+} from 'src/service/api/zopimApi/callbacks'
+
+import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
   CHAT_ENDED_EVENT,
@@ -759,12 +764,29 @@ describe('initiateSocialLogout', () => {
 describe('chatLogout', () => {
   describe('when authenticated', () => {
     it('calls endChat', () => {
-      logoutDispatch(actions.chatLogout())
+      const store = mockStore(getState())
+      jest.spyOn(zChat, 'endChat')
+
+      store.dispatch(actions.chatLogout())
+
+      expect(zChat.endChat).not.toHaveBeenCalled()
+
+      handleChatSDKInitialized()
 
       expect(zChat.endChat).toHaveBeenCalled()
+
+      resetChatSDKInitializedQueue()
     })
 
     describe('Web SDK callback', () => {
+      beforeEach(() => {
+        handleChatSDKInitialized()
+      })
+
+      afterEach(() => {
+        resetChatSDKInitializedQueue()
+      })
+
       it('dispatches an action with type CHAT_USER_LOGGING_OUT', () => {
         const store = logoutDispatch(actions.chatLogout())
 

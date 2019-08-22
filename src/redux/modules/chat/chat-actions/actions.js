@@ -29,6 +29,7 @@ import * as callbacks from 'service/api/callbacks'
 import zopimApi from 'service/api/zopimApi'
 import { updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
+import { onChatSDKInitialized } from 'src/service/api/zopimApi/callbacks'
 
 const chatTypingTimeout = 2000
 let history = []
@@ -232,13 +233,13 @@ export function editContactDetailsSubmitted(visitor) {
 
 export function sendVisitorPath(options = {}) {
   return (dispatch, getState) => {
-    const zChat = getZChatVendor(getState())
-    let page = {}
+    onChatSDKInitialized(() => {
+      const zChat = getZChatVendor(getState())
+      let page = {}
 
-    page.title = _.isString(options.title) ? options.title : getPageTitle()
-    page.url = isValidUrl(options.url) ? options.url : getHostUrl()
+      page.title = _.isString(options.title) ? options.title : getPageTitle()
+      page.url = isValidUrl(options.url) ? options.url : getHostUrl()
 
-    zChat &&
       zChat.sendVisitorPath(page, err => {
         if (!err) {
           dispatch({
@@ -249,6 +250,7 @@ export function sendVisitorPath(options = {}) {
           dispatch({ type: actions.SEND_VISITOR_PATH_REQUEST_FAILURE })
         }
       })
+    })
   }
 }
 
@@ -667,25 +669,27 @@ export function handlePrechatFormSubmit(info) {
 
 export function chatLogout() {
   return (dispatch, getState) => {
-    const state = getState()
-    const zChat = getZChatVendor(state)
-    const zChatConfig = getZChatConfig(state)
+    onChatSDKInitialized(() => {
+      const state = getState()
+      const zChat = getZChatVendor(state)
+      const zChatConfig = getZChatConfig(state)
 
-    zChat.endChat(() => {
-      dispatch({
-        type: actions.CHAT_USER_LOGGING_OUT
-      })
+      zChat.endChat(() => {
+        dispatch({
+          type: actions.CHAT_USER_LOGGING_OUT
+        })
 
-      zChat.logoutForAll()
-      zChat.init(zChatConfig)
-      zChat.on('connection_update', connectionStatus => {
-        const isLoggingOut = getIsLoggingOut(getState())
+        zChat.logoutForAll()
+        zChat.init(zChatConfig)
+        zChat.on('connection_update', connectionStatus => {
+          const isLoggingOut = getIsLoggingOut(getState())
 
-        if (connectionStatus === CONNECTION_STATUSES.CONNECTED && isLoggingOut) {
-          dispatch({
-            type: actions.CHAT_USER_LOGGED_OUT
-          })
-        }
+          if (connectionStatus === CONNECTION_STATUSES.CONNECTED && isLoggingOut) {
+            dispatch({
+              type: actions.CHAT_USER_LOGGED_OUT
+            })
+          }
+        })
       })
     })
   }

@@ -22,6 +22,7 @@ let actions,
   mockChannelChoiceAvailable = false,
   mockChatMessagesByAgent,
   mockInit = jasmine.createSpy('init'),
+  mockOnChatSDKInitializedSpy = jasmine.createSpy('onChatSDKInitialized').and.callFake(cb => cb()),
   mockLogout = jasmine.createSpy('logout'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('setVisitorInfo'),
@@ -90,6 +91,9 @@ describe('chat redux actions', () => {
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone,
         getZChatConfig: () => mockZChatConfig
+      },
+      'src/service/api/zopimApi/callbacks': {
+        onChatSDKInitialized: mockOnChatSDKInitializedSpy
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatVisitor: () => mockVisitor,
