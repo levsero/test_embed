@@ -67,7 +67,7 @@ exports[`render renders expected next button 1`] = `
         tabindex="0"
         type="button"
       >
-        hello world
+        click me
       </button>
     </div>
   </div>

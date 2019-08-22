@@ -67,7 +67,7 @@ exports[`render footer renders expected next button 1`] = `
         tabindex="0"
         type="button"
       >
-        hello world
+        click me
       </button>
     </div>
   </div>
@@ -155,7 +155,9 @@ exports[`renders the expected components 1`] = `
               data-garden-version="3.7.0"
               tabindex="0"
               type="button"
-            />
+            >
+              click me
+            </button>
           </div>
         </div>
       </footer>
@@ -228,7 +230,9 @@ exports[`renders the expected components when articleViewActive is true 1`] = `
               data-garden-version="3.7.0"
               tabindex="0"
               type="button"
-            />
+            >
+              click me
+            </button>
           </div>
         </div>
       </footer>
