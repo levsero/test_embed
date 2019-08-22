@@ -2,6 +2,7 @@ import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
+import * as utility from 'utility/devices'
 import MobilePage from '../index'
 
 const renderComponent = props => {
@@ -36,6 +37,10 @@ const renderComponent = props => {
 
 jest.useFakeTimers()
 
+beforeEach(() => {
+  jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+})
+
 test('renders the expected components', () => {
   const { container } = renderComponent({
     searchPlaceholder: 'How can we help?',
@@ -64,34 +69,6 @@ describe('render', () => {
     })
 
     expect(container.querySelector('footer')).toMatchSnapshot()
-  })
-
-  describe('hide zendesk logo', () => {
-    it('hides the zendesk logo when hasSearched is true', () => {
-      const { queryByTestId } = renderComponent({ hasSearched: true })
-
-      expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
-    })
-
-    it('hide the zendesk logo when hideZendeskLogo is true', () => {
-      const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
-
-      expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
-    })
-  })
-
-  describe('shows zendesk logo', () => {
-    it('show the zendesk logo when hasSearched is false', () => {
-      const { queryByTestId } = renderComponent({ hasSearched: false })
-
-      expect(queryByTestId('Icon--zendesk')).toBeInTheDocument()
-    })
-
-    it('shows the zendesk logo when hideZendeskLogo is false', () => {
-      const { queryByTestId } = renderComponent({ hideZendeskLogo: false })
-
-      expect(queryByTestId('Icon--zendesk')).toBeInTheDocument()
-    })
   })
 
   describe('footer content', () => {
@@ -141,18 +118,6 @@ describe('render', () => {
       })
 
       expect(queryByText('Hello World')).toBeInTheDocument()
-    })
-
-    test('loading bar is rendered when articleViewActive is false and search input is clicked', () => {
-      const { getByPlaceholderText, container } = renderComponent({
-        children: <div>Hello World</div>,
-        articleViewActive: false,
-        isContextualSearchPending: true,
-        searchPlaceholder: 'How can we help?'
-      })
-
-      fireEvent.click(getByPlaceholderText('How can we help?'))
-      expect(container.querySelector('.loadingBarContent')).toBeInTheDocument()
     })
 
     test('child content is rendered when isContextualSearchPending is false and articleViewActive is true', () => {

@@ -7,6 +7,7 @@ import { ZendeskLogo } from 'component/ZendeskLogo'
 import { LoadingBarContent } from 'component/loading/LoadingBarContent'
 import { i18n } from 'service/i18n'
 import HelpCenterChannelButton from 'src/embeds/helpCenter/components/HelpCenterChannelButton'
+import SearchPromptPage from 'src/embeds/helpCenter/pages/SearchPromptPage'
 
 import { locals as styles } from './styles.scss'
 
@@ -224,6 +225,10 @@ export default class MobilePage extends Component {
     const mobileHideLogoState = this.props.hasSearched
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState
     const containerClasses = !this.props.showNextButton && hideZendeskLogo ? styles.container : ''
+
+    if (this.state.showIntroScreen) {
+      return <SearchPromptPage />
+    }
 
     return (
       <div>
