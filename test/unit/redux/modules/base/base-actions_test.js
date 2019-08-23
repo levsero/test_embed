@@ -576,19 +576,6 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('widgetHideAnimationComplete', () => {
-    let action
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.widgetHideAnimationComplete())
-      action = mockStore.getActions()[0]
-    })
-
-    it('dispatches an action of type WIDGET_HIDE_ANIMATION_COMPLETE', () => {
-      expect(action.type).toEqual(actionTypes.WIDGET_HIDE_ANIMATION_COMPLETE)
-    })
-  })
-
   describe('logout', function() {
     let action
 

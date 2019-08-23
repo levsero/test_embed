@@ -11,11 +11,7 @@ import { EmbedWrapper } from 'component/frame/EmbedWrapper'
 import { i18n } from 'service/i18n'
 import { getZoomSizingRatio } from 'utility/devices'
 import Transition from 'react-transition-group/Transition'
-import {
-  updateWidgetShown,
-  widgetShowAnimationComplete,
-  widgetHideAnimationComplete
-} from 'src/redux/modules/base/base-actions'
+import { updateWidgetShown, widgetShowAnimationComplete } from 'src/redux/modules/base/base-actions'
 import {
   getFixedStyles,
   getColor,
@@ -105,7 +101,6 @@ class Frame extends Component {
       maxHeight: PropTypes.string
     }),
     updateWidgetShown: PropTypes.func,
-    widgetHideAnimationComplete: PropTypes.func,
     widgetShowAnimationComplete: PropTypes.func,
     color: PropTypes.shape({
       base: PropTypes.string,
@@ -154,7 +149,6 @@ class Frame extends Component {
     title: '',
     fixedStyles: {},
     updateWidgetShown: () => {},
-    widgetHideAnimationComplete: () => {},
     widgetShowAnimationComplete: () => {},
     generateUserCSS: () => {},
     chatStandalone: false,
@@ -349,7 +343,6 @@ class Frame extends Component {
 
     onHide(this)
     if (options.onHide) options.onHide()
-    this.props.widgetHideAnimationComplete()
 
     if (this.props.name !== 'launcher') {
       updateWidgetShown(false)
@@ -577,7 +570,6 @@ class Frame extends Component {
 
 const actionCreators = {
   updateWidgetShown,
-  widgetHideAnimationComplete,
   widgetShowAnimationComplete
 }
 
