@@ -2,6 +2,7 @@ import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 
+import { dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
 import { i18n } from 'service/i18n'
 import * as utility from 'utility/devices'
 import createStore from 'src/redux/createStore'
@@ -45,11 +46,14 @@ const renderComponent = (props = {}, renderer) => {
     </Provider>
   )
 
+  let utils
   if (renderer) {
-    return renderer(component)
+    utils = renderer(component)
   } else {
-    return render(component)
+    utils = render(component)
   }
+
+  return { store, ...utils }
 }
 
 const articles = [
@@ -136,6 +140,15 @@ describe('mobile', () => {
     const { container } = renderComponent({ isMobile: true })
 
     expect(container).toMatchSnapshot()
+  })
+
+  it('hides zendesk logo when hideZendeskLogo is true', () => {
+    const { store, queryByTestId } = renderComponent({
+      hideZendeskLogo: true
+    })
+    dispatchUpdateEmbeddableConfig(store, { hideZendeskLogo: true })
+
+    expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
   })
 })
 

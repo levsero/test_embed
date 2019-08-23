@@ -24,6 +24,7 @@ const renderComponent = (newProps = {}) => {
     callbackEnabled: false,
     submitTicketAvailable: false,
     chatAvailable: false,
+    isMobile: false,
     ...newProps
   }
   const store = createStore()
