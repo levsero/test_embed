@@ -57,35 +57,19 @@ The `./script/setup_node_env` script will ensure that all Dev team members are u
 
 #### Setting up your own test values
 
-To use your own values in the dev task you can create a new user config file in dev/configs.
+To use your own values in the dev task you can create a new user config with this script.
+
+```bash
+./script/create-dev-config
+```
+
+Or manually copy the example config
 
 ```bash
 cp dev/configs/example-template.js dev/configs/${yourUserConfigName}.js
 ```
 
-The example template contains the following values:
-
-```js
-{
-  "zendeskHost": "dev.zd-dev.com",
-  "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6",
-  "talkIntegration": "https://talkintegration-pod999.zendesk-staging.com",
-  "talkNickname": "hola",
-  "sharedSecret": "abc123",
-  "chatSharedSecret": "123abc",
-  "articleId": "123",
-  "gaID": "UA-103023081-1",
-  "user": {
-    "name": "Alice Bob",
-    "email": "alice.bob+12345@zddev.com",
-    "externalId": "1234"
-  }
-}
-```
-
-A good first step would be to change the value of `zendeskHost` to a production Zendesk account host.
-
-Then edit the values inside the config to whatever values you like. You can then use this config in the dev task by running
+You can use this config in the dev task by running
 
 ```bash
 USER_CONFIG={yourConfigName} npm run dev
