@@ -1,7 +1,11 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
+import { Provider } from 'react-redux'
 
+import { dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
 import { i18n } from 'service/i18n'
+import * as utility from 'utility/devices'
+import createStore from 'src/redux/createStore'
 import { Component as HelpCenter } from '../HelpCenter'
 
 const renderComponent = (props = {}, renderer) => {
@@ -35,13 +39,21 @@ const renderComponent = (props = {}, renderer) => {
     isOnInitialDesktopSearchScreen: false,
     ...props
   }
-  const component = <HelpCenter {...componentProps} />
+  const store = createStore()
+  const component = (
+    <Provider store={store}>
+      <HelpCenter {...componentProps} />
+    </Provider>
+  )
 
+  let utils
   if (renderer) {
-    return renderer(component)
+    utils = renderer(component)
   } else {
-    return render(component)
+    utils = render(component)
   }
+
+  return { store, ...utils }
 }
 
 const articles = [
@@ -120,6 +132,10 @@ describe('on article click', () => {
 })
 
 describe('mobile', () => {
+  beforeEach(() => {
+    jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+  })
+
   test('renders mobile classes', () => {
     const { container } = renderComponent({ isMobile: true })
 
@@ -127,10 +143,10 @@ describe('mobile', () => {
   })
 
   it('hides zendesk logo when hideZendeskLogo is true', () => {
-    const { queryByTestId } = renderComponent({
-      isMobile: true,
+    const { store, queryByTestId } = renderComponent({
       hideZendeskLogo: true
     })
+    dispatchUpdateEmbeddableConfig(store, { hideZendeskLogo: true })
 
     expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
   })

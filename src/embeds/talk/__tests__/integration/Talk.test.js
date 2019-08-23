@@ -4,7 +4,8 @@ import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
 import libphonenumber from 'libphonenumber-js'
 
-import { updateTalkEmbeddableConfig, handleTalkVendorLoaded } from 'src/redux/modules/talk'
+import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
+import { dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
 import Talk from '../../'
 import { http } from 'service/transport'
 import { MemoryRouter } from 'react-router-dom'
@@ -15,18 +16,17 @@ const setUpComponent = () => {
   const store = createStore()
 
   store.dispatch(handleTalkVendorLoaded({ libphonenumber: libphonenumber }))
-  store.dispatch(
-    updateTalkEmbeddableConfig({
-      averageWaitTimeSetting: null,
-      capability: '0',
-      enabled: true,
-      nickname: 'yolo',
-      phoneNumber: '+61422422249',
-      supportedCountries: 'US,AU',
-      connected: true,
-      agentAvailability: true
-    })
-  )
+
+  dispatchUpdateEmbeddableConfig(store, {
+    averageWaitTimeSetting: null,
+    capability: '0',
+    enabled: true,
+    nickname: 'yolo',
+    phoneNumber: '+61422422249',
+    supportedCountries: 'US,AU',
+    connected: true,
+    agentAvailability: true
+  })
   http.callMeRequest = (__, options) => {
     options.callbacks.done()
     return { phone_number: '+15417543010' }
@@ -100,15 +100,13 @@ test('phone only page', () => {
 
   const utils = setUpComponent()
 
-  utils.store.dispatch(
-    updateTalkEmbeddableConfig({
-      phoneNumber,
-      averageWaitTime,
-      capability: '1',
-      averageWaitTimeSetting: true,
-      averageWaitTimeEnabled: true
-    })
-  )
+  dispatchUpdateEmbeddableConfig(utils.store, {
+    phoneNumber,
+    averageWaitTime,
+    capability: '1',
+    averageWaitTimeSetting: true,
+    averageWaitTimeEnabled: true
+  })
 
   checkForPhoneOnlyPage(utils, {
     phoneNumber,
