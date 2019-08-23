@@ -8,7 +8,6 @@ describe('Frame', () => {
     mockLocaleValue,
     mockZoomSizingRatioValue,
     mockUpdateWidgetShown,
-    mockWidgetHideAnimationComplete,
     mockIsPopout = false,
     renderedFrame,
     mockHorizontalPosition
@@ -77,7 +76,6 @@ describe('Frame', () => {
     }
 
     mockUpdateWidgetShown = jasmine.createSpy('updateWidgetShown')
-    mockWidgetHideAnimationComplete = jasmine.createSpy('widgetHideAnimationComplete')
 
     mockRegistryMocks = {
       React: React,
@@ -120,8 +118,7 @@ describe('Frame', () => {
       },
       'src/redux/modules/settings/settings-selectors': {},
       'src/redux/modules/base/base-actions': {
-        updateWidgetShown: mockUpdateWidgetShown,
-        widgetHideAnimationComplete: mockWidgetHideAnimationComplete
+        updateWidgetShown: mockUpdateWidgetShown
       },
       'constants/shared': {
         FONT_SIZE: 14,
@@ -374,8 +371,7 @@ describe('Frame', () => {
     beforeEach(() => {
       mockOnHide = jasmine.createSpy('onHide')
       frameProps = {
-        onHide: mockOnHide,
-        widgetHideAnimationComplete: mockWidgetHideAnimationComplete
+        onHide: mockOnHide
       }
 
       frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>)
@@ -388,24 +384,6 @@ describe('Frame', () => {
 
     it('triggers props.callbacks.onHide if set', () => {
       expect(mockOnHide).toHaveBeenCalled()
-    })
-
-    it('calls widgetHideAnimationComplete', () => {
-      expect(mockWidgetHideAnimationComplete).toHaveBeenCalled()
-    })
-
-    describe('when options.onHide is defined', () => {
-      let onHideSpy
-
-      beforeEach(() => {
-        onHideSpy = jasmine.createSpy('onHide')
-
-        frame.hide({ transition: 'none', onHide: onHideSpy })
-      })
-
-      it('calls options.onHide', () => {
-        expect(onHideSpy).toHaveBeenCalled()
-      })
     })
 
     describe('when the name is not launcher', () => {

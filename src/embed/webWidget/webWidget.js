@@ -14,7 +14,6 @@ import { generateUserWidgetCSS } from 'utility/color/styles'
 import { getZoomSizingRatio, isIE, isMobileBrowser, setScaleLock } from 'utility/devices'
 import { document, getDocumentHost, isPopout } from 'utility/globals'
 import { isOnHelpCenterPage } from 'utility/pages'
-import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import {
   getChatNotification,
   getChatConnectionSuppressed,
@@ -28,7 +27,6 @@ import {
   getSettingsContactFormSuppress,
   getCookiesDisabled
 } from 'src/redux/modules/settings/settings-selectors'
-import { resetTalkScreen } from 'src/redux/modules/talk'
 import { getTicketForms, getTicketFields } from 'src/redux/modules/submitTicket'
 import { authenticate, expireToken } from 'src/redux/modules/base'
 import WebWidget from 'component/webWidget/WebWidget'
@@ -77,10 +75,6 @@ export default function WebWidgetFactory(name) {
       }
       if (rootComponent.pauseAllVideos) {
         rootComponent.pauseAllVideos()
-      }
-
-      if (getActiveEmbed(embed.store.getState()) === 'talk') {
-        embed.store.dispatch(resetTalkScreen())
       }
     }
   }

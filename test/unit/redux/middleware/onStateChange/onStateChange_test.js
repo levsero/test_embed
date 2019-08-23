@@ -22,7 +22,6 @@ describe('onStateChange middleware', () => {
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
   const audioPlaySpy = jasmine.createSpy('audioPlay')
   const broadcastSpy = jasmine.createSpy('broadcast')
-  const resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen').and.returnValue('reset talk')
   const chatNotificationResetSpy = jasmine.createSpy('chatNotificationReset')
   const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity)
   const clearDepartmentSpy = jasmine.createSpy('clearDepartment')
@@ -95,9 +94,6 @@ describe('onStateChange middleware', () => {
         updateActiveEmbed: updateActiveEmbedSpy,
         updateBackButtonVisibility: updateBackButtonVisibilitySpy,
         activateRecieved: activateRecievedSpy
-      },
-      'src/redux/modules/talk': {
-        resetTalkScreen: resetTalkScreenSpy
       },
       'service/audio': {
         audio: {

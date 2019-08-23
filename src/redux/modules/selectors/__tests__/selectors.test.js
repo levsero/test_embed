@@ -881,15 +881,15 @@ describe('getChatOfflineAvailable', () => {
 
 describe('getShowTalkBackButton', () => {
   test.each([
-    ['all values false', false, false, false, false],
-    ['helpcenter embed doesnt exist', true, false, false, true],
-    ['chat is not available', false, true, false, true],
-    ['ticket embed does not exist', false, false, true, true]
-  ])('%p', (__title, embedExists, chatIsAvailable, submitTicketEmbedExists, expectedValue) => {
+    ['all values false', 'talk', false, false, false],
+    ['active embed is not talk values false', 'chat', true, true, false],
+    ['helpcenter embed exists', 'talk', true, false, true],
+    ['channelChoice is available', 'talk', false, true, true]
+  ])('%p', (_title, activeEmbed, embedExists, channelChoiceAvailable, expectedValue) => {
     const result = selectors.getShowTalkBackButton.resultFunc(
+      activeEmbed,
       embedExists,
-      chatIsAvailable,
-      submitTicketEmbedExists
+      channelChoiceAvailable
     )
 
     expect(result).toEqual(expectedValue)
@@ -903,7 +903,7 @@ describe('getChatOnline', () => {
     ['when neither are online', false, true, false],
     ['when zopimChat is online', true, false, true],
     ['when showOffline is false', false, false, true]
-  ])('%p', (__title, zopimOnline, offlineChatVisible, expectedValue) => {
+  ])('%p', (_title, zopimOnline, offlineChatVisible, expectedValue) => {
     jest.spyOn(zopimChatSelectors, 'getZopimChatOnline').mockReturnValue(zopimOnline)
     jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(offlineChatVisible)
     result = selectors.getChatOnline()
@@ -923,7 +923,7 @@ describe('getChatConnectionSuppressed', () => {
   ])(
     '%p',
     (
-      __title,
+      _title,
       chatConnectOnDemand,
       isChatting,
       chatConnected,
@@ -950,7 +950,7 @@ describe('getChatEnabled', () => {
     ['chatEmbed is missing', { base: { embeds: { chat: null } } }, false],
     ['chat is suppressed', { settings: { chat: { suppress: true } } }, false],
     ['chat is connection suppressed', { settings: { chat: { connectionSuppress: true } } }, false]
-  ])('%p', (__title, modifier, expectedValue) => {
+  ])('%p', (_title, modifier, expectedValue) => {
     const result = selectors.getChatEnabled(getModifiedState(modifier))
 
     expect(result).toEqual(expectedValue)
@@ -976,7 +976,7 @@ describe('getChatAvailable', () => {
       false
     ],
     ['when banned', { chat: { connection: 'closed', chatBanned: true } }, false]
-  ])('%p', (__title, modifier, expectedValue) => {
+  ])('%p', (_title, modifier, expectedValue) => {
     const result = selectors.getChatAvailable(getModifiedState(modifier))
 
     expect(result).toEqual(expectedValue)
@@ -989,7 +989,7 @@ describe('getShowTicketFormsBackButton', () => {
     ['ActiveForm is invalid', false, [1, 2], 'ticketSubmissionForm', false],
     ['Less than 2 ticket forms', true, [1], 'ticketSubmissionForm', false],
     ['Incorrect embed', true, [1, 2], 'notTheRightForm', false]
-  ])('%p', (__title, activeForm, ticketForms, activeEmbed, expectedValue) => {
+  ])('%p', (_title, activeForm, ticketForms, activeEmbed, expectedValue) => {
     const result = selectors.getShowTicketFormsBackButton.resultFunc(
       activeForm,
       ticketForms,
@@ -1040,7 +1040,7 @@ describe('getChatReady', () => {
     ["when chat embed doesn't exist and chat connection is finished", false, false, false, true],
     ['when chat embed exists and chat has not finished connecting', true, true, false, true],
     ['when chat embed exists and chat is suppressed', true, false, true, true]
-  ])('%p', (__title, chatEmbed, chatConnectionFinished, chatSupressed, expectedValue) => {
+  ])('%p', (_title, chatEmbed, chatConnectionFinished, chatSupressed, expectedValue) => {
     const result = selectors.getChatReady.resultFunc(
       chatEmbed,
       chatConnectionFinished,
@@ -1056,7 +1056,7 @@ describe('getTalkReady', () => {
     ["talkEmbed exists and talk config isn't connected", {}, false, false],
     ["talkEmbed doesn't exist", null, false, true],
     ['talk config is connected', {}, true, true]
-  ])('%p', (__title, talkEmbedValue, connectedVal, expectedValue) => {
+  ])('%p', (_title, talkEmbedValue, connectedVal, expectedValue) => {
     const result = selectors.getTalkReady({
       base: { embeds: { talk: talkEmbedValue } },
       talk: { embeddableConfig: { connected: connectedVal } }
@@ -1074,7 +1074,7 @@ describe('getIsWidgetReady', () => {
     ['chatReady is true, others are false, return false', false, true, false, false, false],
     ['helpCenterReady is true, others are false, return false', false, false, true, false, false],
     ['all values are true, return true', true, true, true, false, true]
-  ])('%p', (__title, talkReady, chatReady, hcReady, bootupTimeout, expectedValue) => {
+  ])('%p', (_title, talkReady, chatReady, hcReady, bootupTimeout, expectedValue) => {
     const result = selectors.getIsWidgetReady.resultFunc(
       talkReady,
       chatReady,
@@ -1090,7 +1090,7 @@ describe('getIpmHelpCenterAllowed', () => {
   test.each([
     ['helpCenter is disabled, return true', false, true],
     ['helpCenter is enabled, return false', true, false]
-  ])('%p', (__title, helpCenterEnabled, expectedValue) => {
+  ])('%p', (_title, helpCenterEnabled, expectedValue) => {
     const result = selectors.getIpmHelpCenterAllowed.resultFunc(helpCenterEnabled)
 
     expect(result).toEqual(expectedValue)
@@ -1102,7 +1102,7 @@ describe('getSubmitTicketAvailable', () => {
     ['embed exists and not suppressed', true, false, true],
     ["embed doesn't exist and not suppressed", false, false, false],
     ['embed exists and is suppressed', true, true, false]
-  ])('%p', (__title, submitTicketEmbed, suppressed, expectedValue) => {
+  ])('%p', (_title, submitTicketEmbed, suppressed, expectedValue) => {
     const result = selectors.getSubmitTicketAvailable({
       base: { embeds: { ticketSubmissionForm: submitTicketEmbed } },
       settings: { contactForm: { settings: { suppress: suppressed } } }
@@ -1445,7 +1445,7 @@ describe('getPosition', () => {
       undefined,
       'l'
     ]
-  ])('%p', (__title, embeddableConfig, chatThemePosition, expectedValue) => {
+  ])('%p', (_title, embeddableConfig, chatThemePosition, expectedValue) => {
     const result = selectors.getPosition.resultFunc(embeddableConfig, chatThemePosition)
 
     expect(result).toEqual(expectedValue)
@@ -1463,7 +1463,7 @@ describe('getLauncherVisible', () => {
   ])(
     '%p',
     (
-      __title,
+      _title,
       launcherVisible,
       channelAvailale,
       hiddenByHide,
@@ -1499,7 +1499,7 @@ describe('getWidgetDisplayInfo', () => {
     ['zopimChat is active', false, false, true, '', 'chat']
   ])(
     '%p',
-    (__title, launcherVisible, webWidgetVisible, zopimChatOpen, activeEmbed, expectedValue) => {
+    (_title, launcherVisible, webWidgetVisible, zopimChatOpen, activeEmbed, expectedValue) => {
       const result = selectors.getWidgetDisplayInfo.resultFunc(
         launcherVisible,
         webWidgetVisible,
@@ -1603,7 +1603,7 @@ describe('getHelpCenterButtonChatLabel', () => {
   ])(
     '%p',
     (
-      __title,
+      _title,
       chatButtonLabel,
       chatNotificationCount,
       chatOfflineAvailable,
@@ -1718,7 +1718,7 @@ describe('getHelpCenterButtonLabel', () => {
   ])(
     '%p',
     (
-      __title,
+      _title,
       isChatting,
       chatAvailable,
       chatOfflineAvailable,
@@ -1745,4 +1745,21 @@ describe('getHelpCenterButtonLabel', () => {
       expect(result).toEqual(expectedResult)
     }
   )
+})
+
+describe('getShowBackButton', () => {
+  test.each([
+    ['showChatHistory is true', true, false, false, true],
+    ['backButtonVisible is true', false, true, false, true],
+    ['talkBackButton is true', false, false, true, true],
+    ['all are false', false, false, false, false]
+  ])('%p', (_title, showChatHistory, backButtonVisible, talkBackButton, expectedValue) => {
+    const result = selectors.getShowBackButton.resultFunc(
+      showChatHistory,
+      backButtonVisible,
+      talkBackButton
+    )
+
+    expect(result).toEqual(expectedValue)
+  })
 })

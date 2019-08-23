@@ -16,7 +16,6 @@ import {
 } from './talk-action-types'
 import { getFormState } from './talk-selectors'
 import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
-import { getShowTalkBackButton } from 'src/redux/modules/selectors'
 import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
 
 export function updateTalkEmbeddableConfig(config) {
@@ -43,14 +42,6 @@ export function updateTalkAverageWaitTime(averageWaitTime) {
 export function talkDisconnect() {
   return {
     type: TALK_DISCONNECT_SOCKET_EVENT
-  }
-}
-
-export function resetTalkScreen() {
-  return (dispatch, getState) => {
-    const talkBackButtonAvailable = getShowTalkBackButton(getState())
-
-    dispatch(updateBackButtonVisibility(talkBackButtonAvailable))
   }
 }
 
