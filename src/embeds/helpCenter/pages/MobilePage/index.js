@@ -19,7 +19,6 @@ export default class MobilePage extends Component {
     hasContextualSearched: PropTypes.bool,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
-    onSearchFieldFocus: PropTypes.func.isRequired,
     hasSearched: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     isLoading: PropTypes.bool,
@@ -93,44 +92,10 @@ export default class MobilePage extends Component {
     return this.searchField
   }
 
-  resetState = () => {
-    if (!this.props.hasSearched) {
-      this.setState({ showIntroScreen: true })
-      this.setSearchFieldFocused(false)
-    }
-  }
-
   setIntroScreen = () => {
     this.setState({
       showIntroScreen: false
     })
-  }
-
-  setSearchFieldFocused = focused => {
-    this.setState({ searchFieldFocused: !!focused })
-    this.props.onSearchFieldFocus(!!focused)
-  }
-
-  handleSearchBoxClicked = () => {
-    if (this.state.showIntroScreen) {
-      this.setState({ showIntroScreen: false })
-      this.setSearchFieldFocused(true)
-    }
-  }
-
-  handleOnBlur = () => {
-    // defer event to allow onClick events to fire first
-    this.searchFieldFocusTimer = setTimeout(() => {
-      this.setSearchFieldFocused(false)
-
-      if (!this.props.hasSearched && !this.props.isLoading) {
-        this.setState({ showIntroScreen: true })
-      }
-    }, 1)
-  }
-
-  handleOnFocus = () => {
-    this.setSearchFieldFocused(true)
   }
 
   handleSubmit = e => {
@@ -150,12 +115,9 @@ export default class MobilePage extends Component {
         }}
         fullscreen={true}
         isMobile={true}
-        onFocus={this.handleOnFocus}
-        onBlur={this.handleOnBlur}
         onChangeValue={this.props.handleOnChangeValue}
         hasSearched={this.props.hasSearched}
         onSearchIconClick={this.handleSubmit}
-        onClick={this.handleSearchBoxClicked}
         isLoading={this.props.isLoading}
         searchPlaceholder={this.props.searchPlaceholder}
       />

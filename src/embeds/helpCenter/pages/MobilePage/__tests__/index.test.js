@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
@@ -84,6 +84,7 @@ describe('render', () => {
 
     it('renders footer buttons when showNextButton and hasSearched is true', () => {
       const { queryByText } = renderComponent({
+        articleViewActive: true,
         showNextButton: true,
         buttonLabel: 'Leave us a message',
         hasSearched: true

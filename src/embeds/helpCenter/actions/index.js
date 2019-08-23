@@ -31,7 +31,6 @@ import {
   GET_ARTICLE_REQUEST_SUCCESS,
   GET_ARTICLE_REQUEST_FAILURE,
   SEARCH_FIELD_CHANGED,
-  SEARCH_FIELD_FOCUSED,
   CONTEXTUAL_SUGGESTIONS_MANUALLY_SET
 } from './action-types'
 import { updateQueue } from 'src/redux/modules/base'
@@ -230,13 +229,6 @@ export function addRestrictedImage(img) {
 export function handleSearchFieldChange(value) {
   return {
     type: SEARCH_FIELD_CHANGED,
-    payload: value
-  }
-}
-
-export function handleSearchFieldFocus(value) {
-  return {
-    type: SEARCH_FIELD_FOCUSED,
     payload: value
   }
 }
