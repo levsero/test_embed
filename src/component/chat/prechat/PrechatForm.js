@@ -24,6 +24,7 @@ import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import { FONT_SIZE, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
 import ChatHistoryLink from '../ChatHistoryLink'
 import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
+import { onNextTick } from 'src/util/utils'
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -167,12 +168,12 @@ export class PrechatForm extends Component {
 
     this.props.onPrechatFormChange(values)
 
-    setTimeout(() => {
+    onNextTick(() => {
       const valid = !!this.form.checkValidity()
 
       // FIXME: This is not tested due to timing pollution on our specs
       this.setState({ valid: valid && this.isDepartmentFieldValid() })
-    }, 0)
+    })
   }
 
   handleSelectChange = value => {

@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 import { Attachment } from 'component/attachment/Attachment'
 import { ButtonDropzone } from 'component/button/ButtonDropzone'
+import { onNextTick } from 'src/util/utils'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './AttachmentList.scss'
@@ -73,10 +74,10 @@ export class AttachmentList extends Component {
             })
           : null
 
-      setTimeout(() => this.createAttachment(file, errorMessage), 0)
+      onNextTick(() => this.createAttachment(file, errorMessage))
     })
 
-    setTimeout(this.props.updateForm, 0)
+    onNextTick(this.props.updateForm)
   }
 
   handleRemoveAttachment = attachmentId => {
@@ -85,7 +86,7 @@ export class AttachmentList extends Component {
       errorMessage: null
     })
 
-    setTimeout(this.props.updateForm, 0)
+    onNextTick(this.props.updateForm)
   }
 
   createAttachment = (file, errorMessage) => {
@@ -107,7 +108,7 @@ export class AttachmentList extends Component {
         uploadToken: token
       })
 
-      setTimeout(this.props.updateForm, 0)
+      onNextTick(this.props.updateForm)
     }
     const failFn = errorMessage => () => {
       this.updateAttachmentState(attachmentId, {
@@ -115,7 +116,7 @@ export class AttachmentList extends Component {
         errorMessage: errorMessage
       })
 
-      setTimeout(this.props.updateForm, 0)
+      onNextTick(this.props.updateForm)
     }
     const progressFn = event => {
       this.updateAttachmentState(attachmentId, {
@@ -129,7 +130,7 @@ export class AttachmentList extends Component {
       })
     })
 
-    setTimeout(() => {
+    onNextTick(() => {
       if (!errorMessage) {
         const error = i18n.t('embeddable_framework.submitTicket.attachments.error.other')
 
@@ -139,7 +140,7 @@ export class AttachmentList extends Component {
       } else {
         failFn(errorMessage)()
       }
-    }, 0)
+    })
   }
 
   updateAttachmentState = (attachmentId, newState = {}) => {

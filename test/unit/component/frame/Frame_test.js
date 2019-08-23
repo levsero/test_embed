@@ -132,6 +132,9 @@ describe('Frame', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getFrameVisible: () => {}
+      },
+      'src/util/utils': {
+        onNextTick: cb => setTimeout(cb, 0)
       }
     }
 

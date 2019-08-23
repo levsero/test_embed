@@ -14,6 +14,7 @@ import { i18n } from 'service/i18n'
 import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/fields'
 import { TextField, Textarea, Label, Input, Message } from '@zendeskgarden/react-textfields'
 import { EMAIL_PATTERN } from 'constants/shared'
+import { onNextTick } from 'src/util/utils'
 
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send'
 const sendingButtonMessageString =
@@ -270,11 +271,11 @@ export class SubmitTicketForm extends Component {
 
   handleOnDrop = files => {
     this.refs.attachments.handleOnDrop(files)
-    setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0)
+    onNextTick(() => this.refs.scrollContainer.scrollToBottom())
   }
 
   handleAttachmentsError = () => {
-    setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0)
+    onNextTick(() => this.refs.scrollContainer.scrollToBottom())
   }
 
   clear = () => {

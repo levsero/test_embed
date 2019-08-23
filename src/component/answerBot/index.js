@@ -12,6 +12,7 @@ import ConversationScreen from './conversationScreen/'
 
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { i18n } from 'service/i18n'
+import { onNextTick } from 'src/util/utils'
 
 import { updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getLastScroll } from 'src/redux/modules/answerBot/conversation/selectors'
@@ -136,11 +137,11 @@ class AnswerBot extends Component {
   }
 
   scrollToBottom = () => {
-    setTimeout(() => {
+    onNextTick(() => {
       if (this.conversationContainer) {
         this.conversationContainer.scrollToBottom()
       }
-    }, 0)
+    })
   }
 
   restoreConversationScroll = () => {
@@ -149,11 +150,11 @@ class AnswerBot extends Component {
     if (scrollTop === SCROLL_TO_BOTTOM_INDICATOR) {
       this.scrollToBottom()
     } else {
-      setTimeout(() => {
+      onNextTick(() => {
         if (this.conversationContainer) {
           this.conversationContainer.scrollTo(scrollTop)
         }
-      }, 0)
+      })
     }
   }
 

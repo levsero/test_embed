@@ -5,6 +5,7 @@ import { getWebWidgetVisible } from 'src/redux/modules/selectors'
 import { mediator } from 'service/mediator'
 import { setScaleLock, getZoomSizingRatio } from 'utility/devices'
 import { setScrollKiller, setWindowScroll, revertWindowScroll } from 'utility/scrollHacks'
+import { onNextTick } from 'src/util/utils'
 
 export default function onWidgetOpen(prevState, nextState, dispatch) {
   if (getActiveEmbed(nextState) === 'zopimChat') return
@@ -13,12 +14,12 @@ export default function onWidgetOpen(prevState, nextState, dispatch) {
     dispatch(updateWidgetShown(true))
 
     if (isMobileBrowser()) {
-      setTimeout(() => {
+      onNextTick(() => {
         setScaleLock(true)
         setWindowScroll(0)
         setScrollKiller(true)
         mediator.channel.broadcast('.updateZoom', getZoomSizingRatio())
-      }, 0)
+      })
     }
   } else if (getWebWidgetVisible(prevState) && !getWebWidgetVisible(nextState)) {
     dispatch(updateWidgetShown(false))
