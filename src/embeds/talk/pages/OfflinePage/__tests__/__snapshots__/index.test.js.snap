@@ -10,7 +10,9 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
     >
       <h1
         class="title"
-      />
+      >
+        title
+      </h1>
     </div>
     <div
       class="container"
