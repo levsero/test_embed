@@ -172,7 +172,6 @@ describe('embed.webWidget', () => {
         isMobileBrowser() {
           return mockIsMobileBrowser
         },
-        setScaleLock: jasmine.createSpy('setScaleLock'),
         isIE() {
           return mockIsIE
         },
@@ -236,7 +235,7 @@ describe('embed.webWidget', () => {
     })
 
     describe('frame props', () => {
-      let child, grandchild, frame, mockSetScaleLock
+      let child, grandchild, frame
 
       const createRender = () => {
         const config = {
@@ -244,8 +243,6 @@ describe('embed.webWidget', () => {
           ticketSubmissionForm: { attachmentsEnabled: true },
           helpCenterForm: {}
         }
-
-        mockSetScaleLock = mockRegistry['utility/devices'].setScaleLock
 
         webWidget.create('', config, mockStore)
         webWidget.render()
@@ -326,10 +323,6 @@ describe('embed.webWidget', () => {
 
           frame.props.onShow(frame)
         })
-
-        it('should call setScaleLock', () => {
-          expect(mockSetScaleLock).toHaveBeenCalledWith(true)
-        })
       })
 
       describe('onHide', () => {
@@ -342,10 +335,6 @@ describe('embed.webWidget', () => {
 
         it('should hide virtual keyboard', () => {
           expect(child.resetState).toHaveBeenCalled()
-        })
-
-        it('should call setScaleLock', () => {
-          expect(mockSetScaleLock).toHaveBeenCalledWith(false)
         })
       })
 
