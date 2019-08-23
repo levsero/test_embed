@@ -8,6 +8,9 @@ exports[`renders logo 1`] = `
   tabindex="-1"
   target="_blank"
 >
-  widget-icon_zendesk.svg
+  <svgr-mock
+    iconfilename="widget-icon_zendesk.svg"
+    title="zendesk"
+  />
 </a>
 `;

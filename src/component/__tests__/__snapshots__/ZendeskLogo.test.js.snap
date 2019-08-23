@@ -18,7 +18,10 @@ exports[`does not has the rtl classnames when rtl language is false 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      widget-icon_zendesk.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_zendesk.svg"
+      />
     </span>
     <span
       class="hidden"
@@ -47,7 +50,10 @@ exports[`does not have the positional classnames when mobile browser is true 1`]
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      widget-icon_zendesk.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_zendesk.svg"
+      />
     </span>
     <span
       class="hidden"
@@ -76,7 +82,10 @@ exports[`has the correct logo when chat is true 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      widget-icon_zendesk.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_zendesk.svg"
+      />
     </span>
     <span
       class="hidden"
@@ -105,7 +114,10 @@ exports[`has the positional classnames for mobile browser and formSuccess is tru
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      widget-icon_zendesk.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_zendesk.svg"
+      />
     </span>
     <span
       class="hidden"
@@ -134,7 +146,10 @@ exports[`has the rtl classnames when rtl language is true 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      widget-icon_zendesk.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_zendesk.svg"
+      />
     </span>
     <span
       class="hidden"
@@ -163,7 +178,10 @@ exports[`renders the expected classes 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      widget-icon_zendesk.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_zendesk.svg"
+      />
     </span>
     <span
       class="hidden"

@@ -44,7 +44,10 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -108,7 +111,10 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -204,7 +210,10 @@ exports[`conversation screen renders expected components and styles in desktop 1
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_zendesk.svg"
+        />
       </span>
       <span
         class="hidden"
@@ -291,7 +300,10 @@ exports[`conversation screen renders expected components and styles in mobile 1`
                   data-testid="Icon--sendChat"
                   type="Icon--sendChat"
                 >
-                  widget-icon_sendChat.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="widget-icon_sendChat.svg"
+                  />
                 </span>
                 <span
                   class="altText"
@@ -325,7 +337,10 @@ exports[`conversation screen renders expected components and styles in mobile 1`
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_zendesk.svg"
+        />
       </span>
       <span
         class="hidden"

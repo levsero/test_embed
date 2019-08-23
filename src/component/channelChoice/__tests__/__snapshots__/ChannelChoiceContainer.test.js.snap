@@ -22,10 +22,10 @@ Snapshot Diff:
 @@ -26,1 +25,1 @@
 -                 class="listItem"
 +                 class="listItem listItemMobile"
-@@ -55,1 +54,1 @@
+@@ -58,1 +57,1 @@
 -         class="footer  "
 +         class="footer footerNoLogo "
-@@ -58,24 +57,0 @@
+@@ -61,27 +60,0 @@
 -     <a
 -       class="
 -       logo
@@ -42,7 +42,10 @@ Snapshot Diff:
 -         data-testid="Icon--zendesk"
 -         type="Icon--zendesk"
 -       >
--         widget-icon_zendesk.svg
+-         <svgr-mock
+-           aria-hidden="true"
+-           iconfilename="widget-icon_zendesk.svg"
+-         />
 -       </span>
 -       <span
 -         class="hidden"
@@ -93,7 +96,10 @@ exports[`rendering renders ChannelChoiceContainer correctly with default props 1
                     data-testid="Icon--channelChoice-contactForm"
                     type="Icon--channelChoice-contactForm"
                   >
-                    widget-icon_channelChoice-contactForm.svg
+                    <svgr-mock
+                      aria-hidden="true"
+                      iconfilename="widget-icon_channelChoice-contactForm.svg"
+                    />
                   </span>
                   <span
                     class="label "
@@ -126,7 +132,10 @@ exports[`rendering renders ChannelChoiceContainer correctly with default props 1
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_zendesk.svg"
+        />
       </span>
       <span
         class="hidden"
