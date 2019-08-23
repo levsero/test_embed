@@ -274,7 +274,7 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onChatEnd(nextState, action, dispatch)
   onAgentLeave(prevState, nextState, action, dispatch)
   onVisitorUpdate(action, dispatch)
-  onWidgetOpen(prevState, nextState)
+  onWidgetOpen(prevState, nextState, dispatch)
   onChatOpen(prevState, nextState, dispatch)
   onUpdateEmbeddableConfig(action)
   onChannelChoiceTransition(prevState, nextState, action, dispatch)

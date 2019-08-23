@@ -7,7 +7,6 @@ describe('Frame', () => {
     mockIsRTLValue,
     mockLocaleValue,
     mockZoomSizingRatioValue,
-    mockUpdateWidgetShown,
     mockIsPopout = false,
     renderedFrame,
     mockHorizontalPosition
@@ -75,8 +74,6 @@ describe('Frame', () => {
       position: { vertical: 'bottom' }
     }
 
-    mockUpdateWidgetShown = jasmine.createSpy('updateWidgetShown')
-
     mockRegistryMocks = {
       React: React,
       './Frame.scss': {
@@ -118,7 +115,7 @@ describe('Frame', () => {
       },
       'src/redux/modules/settings/settings-selectors': {},
       'src/redux/modules/base/base-actions': {
-        updateWidgetShown: mockUpdateWidgetShown
+        widgetShowAnimationComplete: noop
       },
       'constants/shared': {
         FONT_SIZE: 14,
@@ -304,32 +301,6 @@ describe('Frame', () => {
 
       expect(frameContainerStyle.webkitOverflowScrolling).toEqual('touch')
     })
-
-    describe('when the name is not launcher', () => {
-      beforeEach(() => {
-        mockUpdateWidgetShown.calls.reset()
-
-        frame = domRender(<Frame name="webWidget" updateWidgetShown={mockUpdateWidgetShown} />)
-        frame.show()
-      })
-
-      it('calls updateWidgetShown with true', () => {
-        expect(mockUpdateWidgetShown).toHaveBeenCalledWith(true)
-      })
-    })
-
-    describe('when the name is launcher', () => {
-      beforeEach(() => {
-        mockUpdateWidgetShown.calls.reset()
-
-        frame = domRender(<Frame name="launcher" updateWidgetShown={mockUpdateWidgetShown} />)
-        frame.show()
-      })
-
-      it('does not call updateWidgetShown', () => {
-        expect(mockUpdateWidgetShown).not.toHaveBeenCalled()
-      })
-    })
   })
 
   describe('forceUpdateWorld', () => {
@@ -384,40 +355,6 @@ describe('Frame', () => {
 
     it('triggers props.callbacks.onHide if set', () => {
       expect(mockOnHide).toHaveBeenCalled()
-    })
-
-    describe('when the name is not launcher', () => {
-      beforeEach(() => {
-        frameProps = {
-          name: 'webWidget',
-          updateWidgetShown: mockUpdateWidgetShown
-        }
-
-        frame = domRender(<Frame {...frameProps} />)
-        frame.hide()
-      })
-
-      it('calls updateWidgetShown with false', () => {
-        expect(mockUpdateWidgetShown).toHaveBeenCalledWith(false)
-      })
-    })
-
-    describe('when the name is launcher', () => {
-      beforeEach(() => {
-        frameProps = {
-          name: 'launcher',
-          updateWidgetShown: mockUpdateWidgetShown
-        }
-
-        mockUpdateWidgetShown.calls.reset()
-
-        frame = domRender(<Frame {...frameProps} />)
-        frame.hide()
-      })
-
-      it('does not call updateWidgetShown', () => {
-        expect(mockUpdateWidgetShown).not.toHaveBeenCalled()
-      })
     })
   })
 
