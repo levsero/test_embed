@@ -15,6 +15,7 @@ const renderComponent = props => {
     handleOnChangeValue: noop,
     onSearchFieldFocus: noop,
     search: noop,
+    hasSearched: false,
     callbackEnabled: false,
     isContextualSearchPending: false,
     chatOfflineAvailable: false,
@@ -104,6 +105,16 @@ describe('render', () => {
       expect(queryByText('Leave us a message')).toBeInTheDocument()
     })
 
+    it('renders footer buttons when showNextButton and hasSearched is true', () => {
+      const { queryByText } = renderComponent({
+        showNextButton: true,
+        buttonLabel: 'Leave us a message',
+        hasSearched: true
+      })
+
+      expect(queryByText('Leave us a message')).toBeInTheDocument()
+    })
+
     it('does not render footer buttons when showNextButton is false', () => {
       const { queryByText } = renderComponent({
         showNextButton: false
@@ -153,38 +164,5 @@ describe('render', () => {
 
       expect(queryByText('Hello World')).toBeInTheDocument()
     })
-  })
-})
-
-describe('search box clicked', () => {
-  it('hides the footer', () => {
-    const { queryByText, getByPlaceholderText } = renderComponent({
-      showNextButton: true,
-      hasSearched: true,
-      contextualHelpRequestNeeded: true,
-      buttonLabel: 'Leave us a message',
-      searchPlaceholder: 'How can we help?'
-    })
-
-    expect(queryByText('Leave us a message')).toBeInTheDocument()
-
-    fireEvent.focus(getByPlaceholderText('How can we help?'))
-
-    expect(queryByText('Leave us a message')).not.toBeInTheDocument()
-  })
-
-  it('shows the footer after focus is lost from search input', () => {
-    const { queryByText, getByPlaceholderText } = renderComponent({
-      showNextButton: true,
-      hasSearched: true,
-      contextualHelpRequestNeeded: true,
-      buttonLabel: 'Leave us a message',
-      searchPlaceholder: 'How can we help?'
-    })
-
-    fireEvent.focus(getByPlaceholderText('How can we help?'))
-    fireEvent.blur(getByPlaceholderText('How can we help?'))
-    jest.runAllTimers()
-    expect(queryByText('Leave us a message')).toBeInTheDocument()
   })
 })

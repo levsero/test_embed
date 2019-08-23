@@ -138,11 +138,7 @@ export default class MobilePage extends Component {
   }
 
   showFooterContent = () => {
-    return (
-      this.props.showNextButton &&
-      (this.props.articleViewActive ||
-        (!this.state.showIntroScreen && !this.state.searchFieldFocused))
-    )
+    return this.props.showNextButton && (this.props.hasSearched || this.props.articleViewActive)
   }
 
   renderSearchField = () => {
