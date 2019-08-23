@@ -103,7 +103,7 @@ class PhoneField extends ControlledComponent {
     return supportedCountries
       .map(iso => this.getCountryByIso(iso))
       .sort((a, b) => {
-        return a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        return a.name > b.name ? 1 : b.name > a.name ? -1 : 0 // eslint-disable-line no-nested-ternary
       })
   }
 

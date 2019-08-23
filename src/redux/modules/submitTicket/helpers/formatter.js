@@ -45,6 +45,9 @@ const formatTicketFieldData = (formState, subjectFieldId, descriptionFieldId) =>
   return params
 }
 
+const formatDescriptionData = descriptionData =>
+  descriptionData.length <= 50 ? descriptionData : `${descriptionData.slice(0, 50)}...`
+
 export const formatRequestData = (
   state,
   formState,
@@ -60,11 +63,7 @@ export const formatRequestData = (
     ticketFormsAvailable && subjectField ? formState[subjectField] : formState.subject
   const subjectAllowed = getSettingsContactFormSubject(state) || ticketFormsAvailable
   const subject =
-    subjectAllowed && !_.isEmpty(subjectData)
-      ? subjectData
-      : descriptionData.length <= 50
-      ? descriptionData
-      : `${descriptionData.slice(0, 50)}...`
+    subjectAllowed && !_.isEmpty(subjectData) ? subjectData : formatDescriptionData(descriptionData)
 
   return {
     request: {
