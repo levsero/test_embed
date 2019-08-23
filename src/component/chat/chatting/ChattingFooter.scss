@@ -31,8 +31,7 @@
   &:hover,
   &:active,
   &:focus {
-    cursor: pointer;
-    background: $zd-color-grey-300;
+    background: $zd-color-grey-300 !important;
 
     svg > g {
       fill: $zd-color-grey-800 !important;
@@ -116,13 +115,13 @@
 }
 
 .iconDisabled {
-  background: transparent !important;
+  background: none !important;
 
   &:hover,
   &:active,
   &:focus {
+    background: none !important;
     cursor: default;
-    background: none;
   }
 }
 

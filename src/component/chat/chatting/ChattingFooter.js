@@ -36,6 +36,10 @@ export class ChattingFooter extends Component {
     toggleMenu: () => {}
   }
 
+  tooltipPlacement = () => {
+    return i18n.isRTL() ? 'top-start' : 'top-end'
+  }
+
   handleMenuClick = (e, keypress) => {
     e.stopPropagation()
     this.props.toggleMenu(keypress)
@@ -52,12 +56,14 @@ export class ChattingFooter extends Component {
     const endChatClasses = classNames(styles.iconEndChat, {
       [styles.iconDisabled]: disabled
     })
+    const visibility = disabled ? { isVisible: false } : {}
     const altText = i18n.t('embeddable_framework.chat.icon.endChat.hover.label')
 
     return (
       <ThemeProvider>
         <TooltipContainer
-          placement="top-end"
+          placement={this.tooltipPlacement()}
+          {...visibility}
           trigger={({ getTriggerProps, ref }) => (
             <IconButton
               {...getTriggerProps({
@@ -95,7 +101,7 @@ export class ChattingFooter extends Component {
       <Dropzone onDrop={this.props.handleAttachmentDrop}>
         <ThemeProvider>
           <TooltipContainer
-            placement="top-end"
+            placement={this.tooltipPlacement()}
             {...visibility}
             trigger={({ getTriggerProps, ref }) => (
               <IconButton
@@ -130,7 +136,7 @@ export class ChattingFooter extends Component {
     return (
       <ThemeProvider>
         <TooltipContainer
-          placement="top-end"
+          placement={this.tooltipPlacement()}
           {...visibility}
           trigger={({ getTriggerProps, ref }) => (
             <IconButton
