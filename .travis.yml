@@ -47,7 +47,7 @@ script:
     elif [[ "$TASK" == "audit" ]]
     then
         echo "Starting npm audit";
-        npm audit --audit-level=critical
+        audit-ci --critical
     else
         echo "Running unit or integration tests";
         npm run $TASK;
