@@ -11,7 +11,7 @@ import { mediator } from 'service/mediator'
 import { settings } from 'service/settings'
 import { http } from 'service/transport'
 import { generateUserWidgetCSS } from 'utility/color/styles'
-import { getZoomSizingRatio, isIE, isMobileBrowser, setScaleLock } from 'utility/devices'
+import { isIE, isMobileBrowser } from 'utility/devices'
 import { document, getDocumentHost, isPopout } from 'utility/globals'
 import { isOnHelpCenterPage } from 'utility/pages'
 import {
@@ -44,22 +44,8 @@ export default function WebWidgetFactory(name) {
     prefix = name + '.'
   }
 
-  const onShowMobile = () => {
-    setScaleLock(true)
-    setTimeout(() => {
-      mediator.channel.broadcast(prefix + '.updateZoom', getZoomSizingRatio())
-    }, 0)
-  }
   const onShow = () => {
-    const rootComponent = getActiveComponent()
-
     getWebWidgetComponent().show()
-
-    if (rootComponent) {
-      if (isMobileBrowser()) {
-        onShowMobile()
-      }
-    }
   }
   const onHide = () => {
     const rootComponent = getActiveComponent()
@@ -68,7 +54,6 @@ export default function WebWidgetFactory(name) {
 
     if (rootComponent) {
       if (isMobileBrowser()) {
-        setScaleLock(false)
         if (rootComponent.resetState) {
           rootComponent.resetState()
         }
@@ -221,7 +206,6 @@ export default function WebWidgetFactory(name) {
             talkConfig={talkConfig}
             zopimOnNext={zopimOnNext}
             chatId={_.get(chatConfig, 'zopimId')}
-            onShowMobile={onShowMobile}
           />
         </Frame>
       </Provider>

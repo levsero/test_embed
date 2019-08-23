@@ -3,7 +3,7 @@ let selectors = require('src/redux/modules/selectors')
 let baseActions = require('src/redux/modules/base/base-actions')
 let scrollHacks = require('utility/scrollHacks')
 let onWidgetOpen = require('../onWidgetOpen').default
-let isMobileBrowser = require('utility/devices').isMobileBrowser
+let devices = require('utility/devices')
 
 const dispatch = jest.fn()
 
@@ -12,7 +12,7 @@ beforeEach(() => {
   jest.useFakeTimers()
 
   onWidgetOpen = require('../onWidgetOpen').default
-  isMobileBrowser = require('utility/devices').isMobileBrowser
+  devices = require('utility/devices')
   baseSelectors = require('src/redux/modules/base/base-selectors')
   selectors = require('src/redux/modules/selectors')
   baseActions = require('src/redux/modules/base/base-actions')
@@ -42,8 +42,8 @@ describe('when widget visibility transitions from false to true', () => {
     expect(baseActions.updateWidgetShown).toHaveBeenCalledWith(true)
   })
 
-  it('calls setWindowScroll and setScrollKiller when on mobile', () => {
-    isMobileBrowser.mockReturnValue(true)
+  it('calls mobile functions when on mobile', () => {
+    devices.isMobileBrowser.mockReturnValue(true)
 
     onWidgetOpen(false, true, dispatch)
 
@@ -51,15 +51,19 @@ describe('when widget visibility transitions from false to true', () => {
 
     expect(scrollHacks.setWindowScroll).toHaveBeenCalledWith(0)
     expect(scrollHacks.setScrollKiller).toHaveBeenCalledWith(true)
+    expect(devices.setScaleLock).toHaveBeenCalledWith(true)
+    expect(devices.getZoomSizingRatio).toHaveBeenCalled()
   })
 
-  it('does not call setWindowScroll and setScrollKiller when on desktop', () => {
+  it('does not call any mobile functions when on desktop', () => {
     onWidgetOpen(false, true, dispatch)
 
     jest.runAllTimers()
 
     expect(scrollHacks.setWindowScroll).not.toHaveBeenCalled()
     expect(scrollHacks.setScrollKiller).not.toHaveBeenCalled()
+    expect(devices.setScaleLock).not.toHaveBeenCalled()
+    expect(devices.getZoomSizingRatio).not.toHaveBeenCalled()
   })
 })
 
@@ -70,19 +74,21 @@ describe('when widget visibility transitions from true to false', () => {
     expect(baseActions.updateWidgetShown).toHaveBeenCalledWith(false)
   })
 
-  it('calls setWindowScroll and setScrollKiller when on mobile', () => {
-    isMobileBrowser.mockReturnValue(true)
+  it('calls mobile functions when on mobile', () => {
+    devices.isMobileBrowser.mockReturnValue(true)
 
     onWidgetOpen(true, false, dispatch)
 
     expect(scrollHacks.revertWindowScroll).toHaveBeenCalled()
     expect(scrollHacks.setScrollKiller).toHaveBeenCalledWith(false)
+    expect(devices.setScaleLock).toHaveBeenCalledWith(false)
   })
 
-  it('does not call setWindowScroll and setScrollKiller when on desktop', () => {
+  it('does not call any mobile functions when on desktop', () => {
     onWidgetOpen(true, false, dispatch)
 
     expect(scrollHacks.revertWindowScroll).not.toHaveBeenCalled()
     expect(scrollHacks.setScrollKiller).not.toHaveBeenCalled()
+    expect(devices.setScaleLock).not.toHaveBeenCalled()
   })
 })

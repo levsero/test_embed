@@ -160,7 +160,6 @@ class WebWidget extends Component {
     articleViewActive: PropTypes.bool.isRequired,
     helpCenterSearchFocused: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
-    onShowMobile: PropTypes.func,
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
@@ -199,7 +198,6 @@ class WebWidget extends Component {
     talkConfig: {},
     resetActiveArticle: () => {},
     articleViewActive: false,
-    onShowMobile: () => {},
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
     proactiveChatNotificationDismissed: () => {},
@@ -563,7 +561,6 @@ class WebWidget extends Component {
     const { style, chatNotification, chatNotificationRespond } = this.props
     const onNotificatonResponded = () => {
       chatNotificationRespond()
-      this.props.onShowMobile()
       this.showChat({ proactive: true })
     }
     const containerStyle = { ...style, background: 'transparent' }
