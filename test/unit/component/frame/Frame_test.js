@@ -371,7 +371,7 @@ describe('Frame', () => {
     beforeEach(() => {
       mockOnHide = jasmine.createSpy('onHide')
       frameProps = {
-        onHide: mockOnHide,
+        onHide: mockOnHide
       }
 
       frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>)
@@ -384,20 +384,6 @@ describe('Frame', () => {
 
     it('triggers props.callbacks.onHide if set', () => {
       expect(mockOnHide).toHaveBeenCalled()
-    })
-
-    describe('when options.onHide is defined', () => {
-      let onHideSpy
-
-      beforeEach(() => {
-        onHideSpy = jasmine.createSpy('onHide')
-
-        frame.hide({ transition: 'none', onHide: onHideSpy })
-      })
-
-      it('calls options.onHide', () => {
-        expect(onHideSpy).toHaveBeenCalled()
-      })
     })
 
     describe('when the name is not launcher', () => {

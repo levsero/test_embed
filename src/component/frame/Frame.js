@@ -338,11 +338,10 @@ class Frame extends Component {
     }
   }
 
-  hide = (options = {}) => {
+  hide = () => {
     const { onHide, updateWidgetShown } = this.props
 
     onHide(this)
-    if (options.onHide) options.onHide()
 
     if (this.props.name !== 'launcher') {
       updateWidgetShown(false)
