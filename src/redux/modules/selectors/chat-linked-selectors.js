@@ -14,8 +14,7 @@ import {
   getChatAccountSettingsPrechatForm,
   getDepartmentsList,
   getActiveAgents,
-  getIsPopoutAvailable,
-  getShowChatHistory
+  getIsPopoutAvailable
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatProfileCard,
@@ -29,22 +28,10 @@ import {
   getSettingsNavigationPopoutButtonEnabled
 } from 'src/redux/modules/settings/settings-selectors'
 import { DEPARTMENT_STATUSES } from 'constants/chat'
-import {
-  getActiveEmbed,
-  getLocale,
-  getWidgetShown,
-  getBackButtonVisible
-} from 'src/redux/modules/base/base-selectors'
+import { getActiveEmbed, getLocale, getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { isPopout } from 'utility/globals'
 
 /* eslint-disable camelcase */
-
-export const getShowBackButton = createSelector(
-  [getShowChatHistory, getBackButtonVisible],
-  (showChatHistory, backButtonVisible) => {
-    return showChatHistory || backButtonVisible
-  }
-)
 
 export const getShowMenu = state =>
   getActiveEmbed(state) === 'chat' && getChatScreen(state) === CHATTING_SCREEN && !isPopout()
