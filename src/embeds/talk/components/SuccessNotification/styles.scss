@@ -10,7 +10,6 @@
 }
 
 .talkSuccessIcon {
-  composes: u-userFillCustomColor from global;
   min-width: #{160 / $font-size}rem;
   width: #{160 / $font-size}rem;
   height: #{80 / $font-size}rem;
