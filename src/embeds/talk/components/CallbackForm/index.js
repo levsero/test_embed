@@ -40,7 +40,8 @@ class CallbackForm extends Component {
     callback: PropTypes.shape({
       error: PropTypes.shape({
         message: PropTypes.striing
-      })
+      }),
+      success: PropTypes.bool
     }),
     averageWaitTime: PropTypes.string,
     updateTalkCallbackForm: PropTypes.func.isRequired,

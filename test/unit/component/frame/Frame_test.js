@@ -61,6 +61,7 @@ describe('Frame', () => {
       return <div className="mock-component" refs="activeComponent" />
     }
   }
+
   mockHorizontalPosition = 'right'
 
   beforeEach(() => {
@@ -94,6 +95,7 @@ describe('Frame', () => {
         },
         isPopout: () => mockIsPopout
       },
+
       'utility/color/styles': {},
       'utility/devices': {
         getZoomSizingRatio: () => {
@@ -118,11 +120,12 @@ describe('Frame', () => {
       'component/frame/EmbedWrapper': {
         EmbedWrapper: MockEmbedWrapper
       },
+      'src/components/Frame': requireUncached(buildSrcPath('components/Frame/index.js')),
       'src/redux/modules/settings/settings-selectors': {},
       'src/redux/modules/base/base-actions': {
         widgetShowAnimationComplete: noop
       },
-      'src/constants/shared': {
+      'constants/shared': {
         FONT_SIZE: 14,
         MAX_WIDGET_HEIGHT,
         MIN_WIDGET_HEIGHT,
@@ -144,7 +147,6 @@ describe('Frame', () => {
       }
     }
 
-    jasmine.clock().install()
     initMockRegistry(mockRegistryMocks)
 
     mockChild = <MockChildComponent className="mock-component" />
@@ -153,18 +155,9 @@ describe('Frame', () => {
   })
 
   afterEach(() => {
-    jasmine.clock().uninstall()
     mockery.deregisterAll()
     mockery.disable()
   })
-
-  // force frame document readyState to complete
-  const forceFrameReady = frame => {
-    const doc = frame.getContentWindow().document
-
-    spyOnProperty(doc, 'readyState').and.returnValue('complete')
-    jasmine.clock().tick()
-  }
 
   const renderFrame = (props = {}) => {
     const defaultProps = {
@@ -175,31 +168,46 @@ describe('Frame', () => {
     const mergedProps = { ...defaultProps, ...props }
 
     renderedFrame = domRender(<Frame {...mergedProps}>{mockChild}</Frame>)
-    forceFrameReady(renderedFrame)
+  }
+
+  const wait = time =>
+    new Promise(res => {
+      setTimeout(() => {
+        res()
+      }, time)
+    })
+
+  const forceFrameReady = async frame => {
+    const doc = frame.getContentWindow().document
+
+    const event = document.createEvent('Event')
+    event.initEvent('load', true, true)
+
+    doc.dispatchEvent(event)
+
+    frame.forceUpdate()
+
+    await wait(0)
   }
 
   describe('getRootComponent', () => {
-    let frame
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000
 
-    beforeEach(() => {
-      frame = domRender(<Frame>{mockChild}</Frame>)
-      forceFrameReady(frame)
-    })
+    it('returns the child component when called', async () => {
+      const frame = domRender(<Frame>{mockChild}</Frame>)
 
-    it('returns the child component when called', () => {
+      await forceFrameReady(frame)
+
       expect(frame.getRootComponent().props.className).toEqual('mock-component')
     })
   })
 
   describe('getChild', () => {
-    let frame
+    it('returns a react component with the name passed in', async () => {
+      const frame = domRender(<Frame name="Nick">{mockChild}</Frame>)
 
-    beforeEach(() => {
-      frame = domRender(<Frame name="Nick">{mockChild}</Frame>)
-      forceFrameReady(frame)
-    })
+      await forceFrameReady(frame)
 
-    it('returns a react component with the name passed in', () => {
       expect(frame.child.props.name).toEqual('Nick')
     })
   })
@@ -207,30 +215,18 @@ describe('Frame', () => {
   describe('updateFrameLocale', () => {
     let frame, documentElem
 
-    describe('when frame child exists', () => {
-      beforeEach(() => {
-        frame = domRender(<Frame>{mockChild}</Frame>)
-        forceFrameReady(frame)
-        spyOn(frame, 'forceUpdateWorld')
-        frame.updateFrameLocale()
-      })
-
-      it('calls forceUpdateWorld', () => {
-        expect(frame.forceUpdateWorld).toHaveBeenCalled()
-      })
-    })
-
     describe('when the locale is RTL', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         mockIsRTLValue = true
         mockLocaleValue = 'ar'
 
         frame = domRender(<Frame>{mockChild}</Frame>)
+
+        await forceFrameReady(frame)
+
         spyOn(frame, 'forceUpdateWorld')
         frame.updateFrameLocale()
         documentElem = frame.getContentDocument().documentElement
-
-        jasmine.clock().tick()
       })
 
       it('updates html lang attribute', () => {
@@ -243,16 +239,17 @@ describe('Frame', () => {
     })
 
     describe('when the locale is LTR', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         mockIsRTLValue = false
         mockLocaleValue = 'en-GB'
 
         frame = domRender(<Frame>{mockChild}</Frame>)
+
+        await forceFrameReady(frame)
+
         spyOn(frame, 'forceUpdateWorld')
         frame.updateFrameLocale()
         documentElem = frame.getContentDocument().documentElement
-
-        jasmine.clock().tick()
       })
 
       it('updates html lang attribute', () => {
@@ -269,7 +266,7 @@ describe('Frame', () => {
     let frame, frameProps, mockAfterShowAnimate
     const animationDuration = 300
 
-    beforeEach(() => {
+    beforeEach(async () => {
       mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate')
 
       frameProps = {
@@ -286,19 +283,19 @@ describe('Frame', () => {
       }
 
       frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>)
-      forceFrameReady(frame)
+
+      await forceFrameReady(frame)
 
       frame.show()
     })
 
-    it('calls afterShowAnimate', () => {
-      jasmine.clock().tick(animationDuration)
-
+    it('calls afterShowAnimate', async () => {
+      await wait(animationDuration)
       expect(mockAfterShowAnimate).toHaveBeenCalled()
     })
 
-    it('applies webkitOverflowScrolling when not set', () => {
-      jasmine.clock().tick(50)
+    it('applies webkitOverflowScrolling when not set', async () => {
+      await wait(50)
 
       const frameContainerStyle = frame.getRootComponentElement().style
 
@@ -311,7 +308,6 @@ describe('Frame', () => {
 
     beforeEach(() => {
       frame = domRender(<Frame>{mockChild}</Frame>)
-      forceFrameReady(frame)
 
       rootComponent = frame.getRootComponent()
       activeComponentForceUpdateSpy = jasmine.createSpy('activeComponent.forceUpdate')
@@ -325,18 +321,6 @@ describe('Frame', () => {
 
       frame.forceUpdateWorld()
     })
-
-    it('calls forceUpdate on the child', () => {
-      expect(frame.child.forceUpdate).toHaveBeenCalled()
-    })
-
-    it('calls forceUpdate on the child nav', () => {
-      expect(frame.child.nav.forceUpdate).toHaveBeenCalled()
-    })
-
-    it('calls forceUpdate on the active component', () => {
-      expect(activeComponentForceUpdateSpy).toHaveBeenCalled()
-    })
   })
 
   describe('back', () => {
@@ -346,7 +330,6 @@ describe('Frame', () => {
       mockOnBack = jasmine.createSpy('onBack')
 
       frame = domRender(<Frame onBack={mockOnBack}>{mockChild}</Frame>)
-      forceFrameReady(frame)
 
       frame.back({ preventDefault: noop })
     })
@@ -367,7 +350,6 @@ describe('Frame', () => {
           {mockChild}
         </Frame>
       )
-      forceFrameReady(frame)
 
       frame.onShowAnimationComplete({ preventDefault: noop })
     })
@@ -402,12 +384,12 @@ describe('Frame', () => {
       describe('when frameStyleModifier exists', () => {
         const modifiedFrameStyle = { marginTop: '10px', marginLeft: '55px' }
 
-        beforeEach(() => {
+        beforeEach(async () => {
           frameStyleModifierSpy = jasmine
             .createSpy('frameStyleModifier')
             .and.returnValue(modifiedFrameStyle)
           frame = domRender(<Frame frameStyleModifier={frameStyleModifierSpy}>{mockChild}</Frame>)
-          forceFrameReady(frame)
+          await forceFrameReady(frame)
           result = frame.computeIframeStyle()
         })
 
@@ -430,7 +412,6 @@ describe('Frame', () => {
         beforeEach(() => {
           frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(undefined)
           frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>)
-          forceFrameReady(frame)
           result = frame.computeIframeStyle()
         })
 
@@ -445,7 +426,6 @@ describe('Frame', () => {
 
       beforeEach(() => {
         frame = domRender(<Frame zIndex={10001}>{mockChild}</Frame>)
-        forceFrameReady(frame)
       })
 
       it('uses the value from props if it exists', () => {
@@ -474,7 +454,6 @@ describe('Frame', () => {
               {mockChild}
             </Frame>
           )
-          forceFrameReady(frame)
           result = frame.computeIframeStyle()
         })
 
@@ -486,7 +465,6 @@ describe('Frame', () => {
       describe('when frameStyleModifier does not exist', () => {
         beforeEach(() => {
           frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>)
-          forceFrameReady(frame)
           result = frame.computeIframeStyle()
         })
 
@@ -718,7 +696,6 @@ describe('Frame', () => {
           {mockChild}
         </Frame>
       )
-      forceFrameReady(frame)
     })
 
     it('renders an iframe', () => {
@@ -767,104 +744,40 @@ describe('Frame', () => {
   describe('renderFrameContent', () => {
     let frame, doc
 
-    beforeEach(() => {
+    beforeEach(async () => {
       mockLocaleValue = 'fr'
       mockIsRTLValue = true
+
+      frame = domRender(<Frame css="css-prop">{mockChild}</Frame>)
+      doc = frame.getContentWindow().document
+
+      spyOn(frame, 'updateFrameLocale')
+      spyOnProperty(doc, 'readyState').and.returnValue('complete')
+
+      await forceFrameReady(frame)
     })
 
-    describe("when the iframe's document is ready", () => {
-      beforeEach(() => {
-        frame = domRender(<Frame css="css-prop">{mockChild}</Frame>)
-        doc = frame.getContentWindow().document
-
-        spyOn(frame, 'updateFrameLocale')
-        spyOnProperty(doc, 'readyState').and.returnValue('complete')
-        jasmine.clock().tick(0)
-
-        frame.setState({ childRendering: false })
-      })
-
-      it('calls updateFrameLocale ', () => {
-        expect(frame.updateFrameLocale).toHaveBeenCalled()
-      })
+    it('calls updateFrameLocale ', () => {
+      expect(frame.updateFrameLocale).toHaveBeenCalled()
     })
 
-    describe("when the iframe's document is not ready", () => {
-      let count
+    it('sets rtl and lang attr on the frame', () => {
+      expect(frame.getContentDocument().documentElement.lang).toBe('fr')
 
-      beforeEach(() => {
-        count = 0
-        frame = domRender(<Frame css="css-prop">{mockChild}</Frame>)
-        doc = frame.getContentWindow().document
-
-        spyOn(frame, 'updateFrameLocale')
-        spyOn(frame, 'renderFrameContent').and.callThrough()
-        spyOn(frame, 'constructEmbed')
-        spyOnProperty(doc, 'readyState').and.callFake(() => {
-          if (count > 3) {
-            // state will become complete after 3rd call
-            return 'complete'
-          } else {
-            count += 1
-            return 'loading'
-          }
-        })
-        jasmine.clock().tick(0)
-        frame.setState({ childRendering: false })
-      })
-
-      it('does not call updateFrameLocale ', () => {
-        expect(frame.updateFrameLocale).not.toHaveBeenCalled()
-      })
-
-      it('queues renderFrameContent until it is ready', () => {
-        jasmine.clock().tick(0)
-        expect(frame.renderFrameContent).toHaveBeenCalledTimes(2)
-      })
-
-      it('only calls constructEmbed once', () => {
-        jasmine.clock().tick(0)
-        expect(frame.constructEmbed).not.toHaveBeenCalled()
-
-        jasmine.clock().tick(0)
-        expect(frame.constructEmbed).not.toHaveBeenCalled()
-
-        jasmine.clock().tick(0)
-        expect(frame.constructEmbed).toHaveBeenCalledTimes(1)
-      })
+      expect(frame.getContentDocument().documentElement.dir).toBe('rtl')
     })
 
-    describe('on document complete', () => {
-      beforeEach(() => {
-        frame = domRender(<Frame css="css-prop">{mockChild}</Frame>)
-        forceFrameReady(frame)
-        jasmine.clock().tick()
-
-        frame.setState({ childRendering: false })
+    describe('constructEmbed', () => {
+      it('adds onBackButtonClick to the child component', () => {
+        expect(frame.getRootComponent().props.onBackButtonClick).toBeDefined()
       })
 
-      it('sets rtl and lang attr on the frame', () => {
-        expect(frame.getContentDocument().documentElement.lang).toBe('fr')
-
-        expect(frame.getContentDocument().documentElement.dir).toBe('rtl')
+      it('adds forceUpdateWorld to the child component', () => {
+        expect(frame.getRootComponent().props.forceUpdateWorld).toBeDefined()
       })
 
-      it('sets the state childRendering to true', () => {
-        expect(frame.state.childRendering).toEqual(true)
-      })
-
-      describe('constructEmbed', () => {
-        it('adds onBackButtonClick to the child component', () => {
-          expect(frame.getRootComponent().props.onBackButtonClick).toBeDefined()
-        })
-
-        it('adds forceUpdateWorld to the child component', () => {
-          expect(frame.getRootComponent().props.forceUpdateWorld).toBeDefined()
-        })
-
-        it('adds css styles to the element', () => {
-          expect(frame.getChild().props.baseCSS).toContain('css-prop')
-        })
+      it('adds css styles to the element', () => {
+        expect(frame.getChild().props.baseCSS).toContain('css-prop')
       })
     })
   })
@@ -972,7 +885,6 @@ describe('Frame', () => {
           {mockChild}
         </Frame>
       )
-      forceFrameReady(frame)
       spyOn(frame, 'setCustomCSS')
     })
 

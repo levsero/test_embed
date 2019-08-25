@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router'
 import { FocusJailContainer } from '@zendeskgarden/react-modals'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
@@ -21,7 +20,7 @@ export class EmbedWrapper extends Component {
     hideNavigationButtons: PropTypes.bool,
     reduxStore: PropTypes.object.isRequired,
     useBackButton: PropTypes.bool,
-    document: PropTypes.object.isRequired,
+    document: PropTypes.object,
     isMobile: PropTypes.bool.isRequired,
     dataTestId: PropTypes.string
   }
@@ -88,46 +87,44 @@ export class EmbedWrapper extends Component {
     })
 
     return (
-      <Provider store={this.props.reduxStore}>
-        <MemoryRouter>
-          <ThemeProvider
-            theme={getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget'))}
-            rtl={i18n.isRTL()}
-            document={this.props.document}
-          >
-            <FocusJailContainer focusOnMount={false}>
-              {({ getContainerProps, containerRef }) => (
+      <MemoryRouter>
+        <ThemeProvider
+          theme={getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget'))}
+          rtl={i18n.isRTL()}
+          document={this.props.document}
+        >
+          <FocusJailContainer focusOnMount={false}>
+            {({ getContainerProps, containerRef }) => (
+              <div
+                {...getContainerProps(this.getEmbedWrapperProps(containerRef))}
+                data-testid={`position-${this.props.dataTestId}`}
+              >
+                {css}
+                {styleTag}
+                <Navigation
+                  ref={el => {
+                    this.nav = el
+                  }}
+                  handleBackClick={this.props.handleBackClick}
+                  handleOnCloseFocusChange={focusLauncher}
+                  fullscreen={this.props.fullscreen}
+                  isMobile={this.props.isMobile}
+                  useBackButton={this.props.useBackButton}
+                  hideNavigationButtons={this.props.hideNavigationButtons}
+                />
                 <div
-                  {...getContainerProps(this.getEmbedWrapperProps(containerRef))}
-                  data-testid={`position-${this.props.dataTestId}`}
+                  id="Embed"
+                  ref={el => {
+                    this.embed = el
+                  }}
                 >
-                  {css}
-                  {styleTag}
-                  <Navigation
-                    ref={el => {
-                      this.nav = el
-                    }}
-                    handleBackClick={this.props.handleBackClick}
-                    handleOnCloseFocusChange={focusLauncher}
-                    fullscreen={this.props.fullscreen}
-                    isMobile={this.props.isMobile}
-                    useBackButton={this.props.useBackButton}
-                    hideNavigationButtons={this.props.hideNavigationButtons}
-                  />
-                  <div
-                    id="Embed"
-                    ref={el => {
-                      this.embed = el
-                    }}
-                  >
-                    {newChild}
-                  </div>
+                  {newChild}
                 </div>
-              )}
-            </FocusJailContainer>
-          </ThemeProvider>
-        </MemoryRouter>
-      </Provider>
+              </div>
+            )}
+          </FocusJailContainer>
+        </ThemeProvider>
+      </MemoryRouter>
     )
   }
 }
