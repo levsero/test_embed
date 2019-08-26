@@ -53,8 +53,9 @@ const agents = (state = initialState, action = {}) => {
     case SDK_CHAT_MEMBER_LEAVE:
       if (isAgent(payload.detail.nick)) {
         return removeAgent(state, payload.detail.nick)
+      } else {
+        return initialState // visitor has left implying chat session has ended.
       }
-      return state
     case END_CHAT_REQUEST_SUCCESS:
     case CHAT_RECONNECT:
       return initialState
