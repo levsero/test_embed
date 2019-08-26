@@ -56,14 +56,13 @@ export class ChattingFooter extends Component {
     const endChatClasses = classNames(styles.iconEndChat, {
       [styles.iconDisabled]: disabled
     })
-    const visibility = disabled ? { isVisible: false } : {}
     const altText = i18n.t('embeddable_framework.chat.icon.endChat.hover.label')
 
     return (
       <ThemeProvider>
         <TooltipContainer
           placement={this.tooltipPlacement()}
-          {...visibility}
+          isVisible={disabled ? false : undefined}
           trigger={({ getTriggerProps, ref }) => (
             <IconButton
               {...getTriggerProps({
@@ -94,7 +93,6 @@ export class ChattingFooter extends Component {
       [styles.iconAttachmentMobile]: this.props.isMobile
     })
 
-    const visibility = this.props.isMobile ? { isVisible: false } : {}
     const altText = i18n.t('embeddable_framework.chat.icon.attachments.hover.label')
 
     return (
@@ -102,7 +100,7 @@ export class ChattingFooter extends Component {
         <ThemeProvider>
           <TooltipContainer
             placement={this.tooltipPlacement()}
-            {...visibility}
+            isVisible={this.props.isMobile ? false : undefined}
             trigger={({ getTriggerProps, ref }) => (
               <IconButton
                 {...getTriggerProps({
@@ -130,14 +128,13 @@ export class ChattingFooter extends Component {
       [styles.iconActive]: this.props.menuVisible
     })
 
-    const visibility = this.props.menuVisible ? { isVisible: false } : {}
     const altText = i18n.t('embeddable_framework.chat.icon.menu.hover.label')
 
     return (
       <ThemeProvider>
         <TooltipContainer
           placement={this.tooltipPlacement()}
-          {...visibility}
+          isVisible={this.props.menuVisible ? false : undefined}
           trigger={({ getTriggerProps, ref }) => (
             <IconButton
               {...getTriggerProps({
