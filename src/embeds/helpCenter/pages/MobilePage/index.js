@@ -6,15 +6,14 @@ import { SearchField } from 'component/field/SearchField'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { LoadingBarContent } from 'component/loading/LoadingBarContent'
 import { i18n } from 'service/i18n'
-import HelpCenterChannelButton from 'src/embeds/helpCenter/components/HelpCenterChannelButton'
 import SearchPromptPage from 'src/embeds/helpCenter/pages/SearchPromptPage'
+import ChannelButton from 'src/embeds/helpCenter/components/ChannelButton'
 
 import { locals as styles } from './styles.scss'
 
 export default class MobilePage extends Component {
   static propTypes = {
     articleViewActive: PropTypes.bool,
-    buttonLabel: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     hasContextualSearched: PropTypes.bool,
     handleNextClick: PropTypes.func.isRequired,
@@ -28,8 +27,7 @@ export default class MobilePage extends Component {
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpRequestNeeded: PropTypes.bool.isRequired,
     searchPlaceholder: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    buttonLoading: PropTypes.bool
+    title: PropTypes.string.isRequired
   }
 
   static defaultProps = {
@@ -155,16 +153,8 @@ export default class MobilePage extends Component {
   renderFooterContent = () => {
     if (!this.showFooterContent()) return null
 
-    const { buttonLabel, handleNextClick, buttonLoading } = this.props
-    return (
-      <HelpCenterChannelButton
-        buttonLabel={buttonLabel}
-        onClick={handleNextClick}
-        loading={buttonLoading}
-        isRTL={i18n.isRTL()}
-        isMobile={true}
-      />
-    )
+    const { handleNextClick } = this.props
+    return <ChannelButton onClick={handleNextClick} />
   }
 
   renderZendeskLogo = hideZendeskLogo => {

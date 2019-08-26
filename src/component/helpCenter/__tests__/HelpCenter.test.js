@@ -8,7 +8,7 @@ import * as utility from 'utility/devices'
 import createStore from 'src/redux/createStore'
 import { Component as HelpCenter } from '../HelpCenter'
 
-const renderComponent = (props = {}, renderer) => {
+const renderComponent = (props = {}) => {
   const componentProps = {
     chatEnabled: false,
     fullscreen: false,
@@ -31,10 +31,7 @@ const renderComponent = (props = {}, renderer) => {
     contextualHelpRequestNeeded: false,
     isContextualSearchComplete: false,
     searchPlaceholder: 'How can we help?',
-    chatButtonLabel: 'Live chat',
-    buttonLabel: 'Leave us a message',
     title: 'Help',
-    contactButtonLabel: 'Contact us',
     chatConnecting: false,
     isOnInitialDesktopSearchScreen: false,
     ...props
@@ -46,14 +43,7 @@ const renderComponent = (props = {}, renderer) => {
     </Provider>
   )
 
-  let utils
-  if (renderer) {
-    utils = renderer(component)
-  } else {
-    utils = render(component)
-  }
-
-  return { store, ...utils }
+  return { store, ...render(component) }
 }
 
 const articles = [
@@ -92,14 +82,6 @@ test('hide zendesk logo when hideZendeskLogo is true', () => {
   const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
 
   expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
-})
-
-test('calls onNextClick on click of button', () => {
-  const onNextClick = jest.fn()
-  const { getByText } = renderComponent({ onNextClick })
-
-  fireEvent.click(getByText('Leave us a message'))
-  expect(onNextClick).toHaveBeenCalled()
 })
 
 describe('on article click', () => {
@@ -152,13 +134,11 @@ describe('mobile', () => {
   })
 })
 
-describe('help center button', () => {
-  it('uses the buttonLabel prop', () => {
-    const { queryByText } = renderComponent({
-      buttonLabel: 'click this button'
-    })
+describe('help center channel button', () => {
+  it('renders', () => {
+    const { queryByText } = renderComponent()
 
-    expect(queryByText('click this button')).toBeInTheDocument()
+    expect(queryByText('Leave us a message')).toBeInTheDocument()
   })
 })
 
