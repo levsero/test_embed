@@ -139,7 +139,10 @@ exports[`renders the expected components 1`] = `
               tabindex="0"
               type="Icon--search"
             >
-              widget-icon_search.svg
+              <svgr-mock
+                aria-hidden="true"
+                iconfilename="widget-icon_search.svg"
+              />
             </span>
           </div>
         </div>
@@ -158,7 +161,10 @@ exports[`renders the expected components 1`] = `
           tabindex="-1"
           target="_blank"
         >
-          widget-icon_zendesk.svg
+          <svgr-mock
+            iconfilename="widget-icon_zendesk.svg"
+            title="zendesk"
+          />
         </a>
       </div>
     </footer>

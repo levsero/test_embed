@@ -139,7 +139,10 @@ exports[`mobile when showGetInTouch is false renders the expected classes 1`] = 
             data-testid="Icon--sendChat"
             type="Icon--sendChat"
           >
-            widget-icon_sendChat.svg
+            <svgr-mock
+              aria-hidden="true"
+              iconfilename="widget-icon_sendChat.svg"
+            />
           </span>
           <span
             class="altText"
@@ -227,7 +230,10 @@ exports[`mobile when showGetInTouch is true renders the expected classes 1`] = `
             data-testid="Icon--sendChat"
             type="Icon--sendChat"
           >
-            widget-icon_sendChat.svg
+            <svgr-mock
+              aria-hidden="true"
+              iconfilename="widget-icon_sendChat.svg"
+            />
           </span>
           <span
             class="altText"

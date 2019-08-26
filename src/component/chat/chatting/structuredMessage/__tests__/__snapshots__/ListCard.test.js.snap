@@ -30,7 +30,10 @@ exports[`render renders the list correctly 1`] = `
                   data-testid="Icon--image-stroke"
                   type="Icon--image-stroke"
                 >
-                  image-stroke.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="image-stroke.svg"
+                  />
                 </span>
               </div>
               <div
@@ -80,7 +83,10 @@ exports[`render renders the list correctly 1`] = `
                   data-testid="Icon--image-stroke"
                   type="Icon--image-stroke"
                 >
-                  image-stroke.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="image-stroke.svg"
+                  />
                 </span>
               </div>
               <div
