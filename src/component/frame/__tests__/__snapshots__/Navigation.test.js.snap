@@ -21,9 +21,9 @@ exports[`rendering with default props renders correctly 1`] = `
           data-testid="Icon--popout"
           type="Icon--popout"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_popout.svg"
+            realfilename="widget-icon_popout.svg"
           />
         </span>
       </button>
@@ -46,9 +46,9 @@ exports[`rendering with default props renders correctly 1`] = `
           data-testid="Icon--dash"
           type="Icon--dash"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_dash.svg"
+            realfilename="widget-icon_dash.svg"
           />
         </span>
       </button>

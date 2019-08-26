@@ -23,9 +23,9 @@ exports[`channels does not render chat if chat is available 1`] = `
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <div
@@ -62,9 +62,9 @@ exports[`channels renders expected components if chat and chat offline are avail
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <div
@@ -101,9 +101,9 @@ exports[`channels renders expected components if only call us is available 1`] =
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <div
@@ -140,9 +140,9 @@ exports[`channels renders expected components if only chat is available 1`] = `
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <div
@@ -179,9 +179,9 @@ exports[`channels renders expected components if only submit ticket is available
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <div
@@ -218,9 +218,9 @@ exports[`channels renders expected components if talk and request callback are a
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <div
@@ -257,9 +257,9 @@ exports[`channels renders generic leading message if more than 1 channel is avai
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <div
@@ -282,9 +282,9 @@ exports[`channels renders generic leading message if more than 1 channel is avai
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <div
@@ -321,9 +321,9 @@ exports[`channels renders leading message if more than 1 channel is available an
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <div
@@ -346,9 +346,9 @@ exports[`channels renders leading message if more than 1 channel is available an
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <div
@@ -385,9 +385,9 @@ exports[`channels renders the passed in leading message regardless of other prop
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <div
@@ -424,9 +424,9 @@ exports[`renders the expected classes 1`] = `
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <div
@@ -449,9 +449,9 @@ exports[`renders the expected classes 1`] = `
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <div
@@ -474,9 +474,9 @@ exports[`renders the expected classes 1`] = `
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <div
@@ -513,9 +513,9 @@ exports[`renders the leading message 1`] = `
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <div
@@ -538,9 +538,9 @@ exports[`renders the leading message 1`] = `
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <div
@@ -563,9 +563,9 @@ exports[`renders the leading message 1`] = `
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <div

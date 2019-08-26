@@ -37,9 +37,9 @@ exports[`renders the expected classes 1`] = `
               data-testid="Icon--article"
               type="Icon--article"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="widget-icon_article.svg"
+                realfilename="widget-icon_article.svg"
               />
             </span>
             <div
@@ -73,9 +73,9 @@ exports[`renders the expected classes 1`] = `
               data-testid="Icon--article"
               type="Icon--article"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="widget-icon_article.svg"
+                realfilename="widget-icon_article.svg"
               />
             </span>
             <div

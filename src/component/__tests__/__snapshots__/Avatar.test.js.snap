@@ -7,9 +7,9 @@ exports[`renders a button 1`] = `
     data-testid="Icon--avatar"
     type="Icon--avatar"
   >
-    <svgr-mock
+    <svg
       aria-hidden="true"
-      iconfilename="widget-icon_concierge.svg"
+      realfilename="widget-icon_concierge.svg"
     />
   </span>
 </div>

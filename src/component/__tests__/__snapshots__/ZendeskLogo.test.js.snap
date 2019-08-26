@@ -18,9 +18,9 @@ exports[`does not has the rtl classnames when rtl language is false 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_zendesk.svg"
+        realfilename="widget-icon_zendesk.svg"
       />
     </span>
     <span
@@ -50,9 +50,9 @@ exports[`does not have the positional classnames when mobile browser is true 1`]
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_zendesk.svg"
+        realfilename="widget-icon_zendesk.svg"
       />
     </span>
     <span
@@ -82,9 +82,9 @@ exports[`has the correct logo when chat is true 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_zendesk.svg"
+        realfilename="widget-icon_zendesk.svg"
       />
     </span>
     <span
@@ -114,9 +114,9 @@ exports[`has the positional classnames for mobile browser and formSuccess is tru
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_zendesk.svg"
+        realfilename="widget-icon_zendesk.svg"
       />
     </span>
     <span
@@ -146,9 +146,9 @@ exports[`has the rtl classnames when rtl language is true 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_zendesk.svg"
+        realfilename="widget-icon_zendesk.svg"
       />
     </span>
     <span
@@ -178,9 +178,9 @@ exports[`renders the expected classes 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_zendesk.svg"
+        realfilename="widget-icon_zendesk.svg"
       />
     </span>
     <span

@@ -42,9 +42,9 @@ Snapshot Diff:
 -         data-testid="Icon--zendesk"
 -         type="Icon--zendesk"
 -       >
--         <svgr-mock
+-         <svg
 -           aria-hidden="true"
--           iconfilename="widget-icon_zendesk.svg"
+-           realfilename="widget-icon_zendesk.svg"
 -         />
 -       </span>
 -       <span
@@ -96,9 +96,9 @@ exports[`rendering renders ChannelChoiceContainer correctly with default props 1
                     data-testid="Icon--channelChoice-contactForm"
                     type="Icon--channelChoice-contactForm"
                   >
-                    <svgr-mock
+                    <svg
                       aria-hidden="true"
-                      iconfilename="widget-icon_channelChoice-contactForm.svg"
+                      realfilename="widget-icon_channelChoice-contactForm.svg"
                     />
                   </span>
                   <span
@@ -132,9 +132,9 @@ exports[`rendering renders ChannelChoiceContainer correctly with default props 1
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
+          realfilename="widget-icon_zendesk.svg"
         />
       </span>
       <span

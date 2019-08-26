@@ -160,9 +160,9 @@ exports[`bot name renders agent name 1`] = `
       data-testid="Icon--answerBot"
       type="Icon--answerBot"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_answerBot.svg"
+        realfilename="widget-icon_answerBot.svg"
       />
     </span>
   </div>
@@ -219,9 +219,9 @@ exports[`renders expected classes and components with default props 1`] = `
       data-testid="Icon--answerBot"
       type="Icon--answerBot"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_answerBot.svg"
+        realfilename="widget-icon_answerBot.svg"
       />
     </span>
   </div>
