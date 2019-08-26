@@ -9,7 +9,7 @@ describe('OfflineMessage', () => {
   it('renders a label explaining that talk is offline', () => {
     const { container } = render(
       <Provider store={createStore()}>
-        <OfflinePage message="Offline message" />
+        <OfflinePage message="Offline message" title={'title'} hideZendeskLogo={false} />
       </Provider>
     )
 
