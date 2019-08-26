@@ -204,7 +204,9 @@ describe('embed.webWidget', () => {
       'utility/scrollHacks': {
         setScrollKiller: noop
       },
-      'src/util/utils': {},
+      'src/util/utils': {
+        onNextTick: cb => setTimeout(cb, 0)
+      },
       'src/util/chat': {}
     })
 

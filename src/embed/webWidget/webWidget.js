@@ -32,7 +32,7 @@ import { authenticate, expireToken } from 'src/redux/modules/base'
 import WebWidget from 'component/webWidget/WebWidget'
 import { loadTalkVendors } from 'src/redux/modules/talk'
 import { setScrollKiller } from 'utility/scrollHacks'
-import { nameValid, emailValid } from 'src/util/utils'
+import { nameValid, emailValid, onNextTick } from 'src/util/utils'
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
 
@@ -328,9 +328,9 @@ export default function WebWidgetFactory(name) {
     if (embed && embed.instance && getWebWidgetComponent()) {
       callback()
     } else {
-      setTimeout(() => {
+      onNextTick(() => {
         waitForRootComponent(callback)
-      }, 0)
+      })
     }
   }
 

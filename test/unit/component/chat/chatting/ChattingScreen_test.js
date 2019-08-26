@@ -136,7 +136,10 @@ describe('ChattingScreen component', () => {
         isDefaultNickname: isDefaultNicknameSpy,
         isAgent: () => mockIsAgent
       },
-      'src/redux/modules/chat/chat-selectors': {}
+      'src/redux/modules/chat/chat-selectors': {},
+      'src/util/utils': {
+        onNextTick: cb => setTimeout(cb, 0)
+      }
     })
 
     mockery.registerAllowable(chatPath)

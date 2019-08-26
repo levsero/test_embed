@@ -32,6 +32,7 @@ import {
   getStylingPositionVertical,
   getStylingZIndex
 } from 'src/redux/modules/settings/settings-selectors'
+import { onNextTick } from 'src/util/utils'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -225,12 +226,12 @@ class Frame extends Component {
   }
 
   flushQueue = () => {
-    setTimeout(() => {
+    onNextTick(() => {
       this.queue.forEach(callback => {
         callback()
       })
       this.queue = []
-    }, 0)
+    })
   }
 
   updateFrameLocale = () => {
@@ -238,10 +239,10 @@ class Frame extends Component {
     const direction = i18n.isRTL() ? 'rtl' : 'ltr'
 
     // Need to defer to the next tick because Firefox renders differently
-    setTimeout(() => {
+    onNextTick(() => {
       html.setAttribute('lang', i18n.getLocale())
       html.setAttribute('dir', direction)
-    }, 0)
+    })
 
     if (this.child) {
       this.forceUpdateWorld()
@@ -325,11 +326,10 @@ class Frame extends Component {
 
     this.props.onShow(this)
 
-    // We need to call afterShowAnimate in next tick because the refs aren't available
-    // until then
-    setTimeout(() => {
+    // refs aren't available until next tick
+    onNextTick(() => {
       this.props.afterShowAnimate(this)
-    }, 0)
+    })
   }
 
   hide = () => {
@@ -435,7 +435,7 @@ class Frame extends Component {
     ReactDOM.render(embed, element)
 
     if (mobileFullscreen) {
-      setTimeout(this.applyMobileBodyStyle, 0)
+      onNextTick(this.applyMobileBodyStyle)
     }
     this.flushQueue()
   }
@@ -504,7 +504,7 @@ class Frame extends Component {
       if (this.lastQueuedRender) {
         clearTimeout(this.lastQueuedRender)
       }
-      this.lastQueuedRender = setTimeout(this.renderFrameContent, 0)
+      this.lastQueuedRender = onNextTick(this.renderFrameContent)
     }
   }
 
