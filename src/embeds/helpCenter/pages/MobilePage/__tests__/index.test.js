@@ -1,7 +1,8 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
+import * as utility from 'utility/devices'
 import MobilePage from '../index'
 
 const renderComponent = props => {
@@ -15,6 +16,7 @@ const renderComponent = props => {
     handleOnChangeValue: noop,
     onSearchFieldFocus: noop,
     search: noop,
+    hasSearched: false,
     callbackEnabled: false,
     isContextualSearchPending: false,
     chatOfflineAvailable: false,
@@ -34,6 +36,10 @@ const renderComponent = props => {
 }
 
 jest.useFakeTimers()
+
+beforeEach(() => {
+  jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+})
 
 test('renders the expected components', () => {
   const { container } = renderComponent({
@@ -65,40 +71,23 @@ describe('render', () => {
     expect(container.querySelector('footer')).toMatchSnapshot()
   })
 
-  describe('hide zendesk logo', () => {
-    it('hides the zendesk logo when hasSearched is true', () => {
-      const { queryByTestId } = renderComponent({ hasSearched: true })
-
-      expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
-    })
-
-    it('hide the zendesk logo when hideZendeskLogo is true', () => {
-      const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
-
-      expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
-    })
-  })
-
-  describe('shows zendesk logo', () => {
-    it('show the zendesk logo when hasSearched is false', () => {
-      const { queryByTestId } = renderComponent({ hasSearched: false })
-
-      expect(queryByTestId('Icon--zendesk')).toBeInTheDocument()
-    })
-
-    it('shows the zendesk logo when hideZendeskLogo is false', () => {
-      const { queryByTestId } = renderComponent({ hideZendeskLogo: false })
-
-      expect(queryByTestId('Icon--zendesk')).toBeInTheDocument()
-    })
-  })
-
   describe('footer content', () => {
     it('renders footer buttons when showNextButton and articleViewActive is true', () => {
       const { queryByText } = renderComponent({
         showNextButton: true,
         buttonLabel: 'Leave us a message',
         articleViewActive: true
+      })
+
+      expect(queryByText('Leave us a message')).toBeInTheDocument()
+    })
+
+    it('renders footer buttons when showNextButton and hasSearched is true', () => {
+      const { queryByText } = renderComponent({
+        articleViewActive: true,
+        showNextButton: true,
+        buttonLabel: 'Leave us a message',
+        hasSearched: true
       })
 
       expect(queryByText('Leave us a message')).toBeInTheDocument()
@@ -132,18 +121,6 @@ describe('render', () => {
       expect(queryByText('Hello World')).toBeInTheDocument()
     })
 
-    test('loading bar is rendered when articleViewActive is false and search input is clicked', () => {
-      const { getByPlaceholderText, container } = renderComponent({
-        children: <div>Hello World</div>,
-        articleViewActive: false,
-        isContextualSearchPending: true,
-        searchPlaceholder: 'How can we help?'
-      })
-
-      fireEvent.click(getByPlaceholderText('How can we help?'))
-      expect(container.querySelector('.loadingBarContent')).toBeInTheDocument()
-    })
-
     test('child content is rendered when isContextualSearchPending is false and articleViewActive is true', () => {
       const { queryByText } = renderComponent({
         children: <div>Hello World</div>,
@@ -153,38 +130,5 @@ describe('render', () => {
 
       expect(queryByText('Hello World')).toBeInTheDocument()
     })
-  })
-})
-
-describe('search box clicked', () => {
-  it('hides the footer', () => {
-    const { queryByText, getByPlaceholderText } = renderComponent({
-      showNextButton: true,
-      hasSearched: true,
-      contextualHelpRequestNeeded: true,
-      buttonLabel: 'Leave us a message',
-      searchPlaceholder: 'How can we help?'
-    })
-
-    expect(queryByText('Leave us a message')).toBeInTheDocument()
-
-    fireEvent.focus(getByPlaceholderText('How can we help?'))
-
-    expect(queryByText('Leave us a message')).not.toBeInTheDocument()
-  })
-
-  it('shows the footer after focus is lost from search input', () => {
-    const { queryByText, getByPlaceholderText } = renderComponent({
-      showNextButton: true,
-      hasSearched: true,
-      contextualHelpRequestNeeded: true,
-      buttonLabel: 'Leave us a message',
-      searchPlaceholder: 'How can we help?'
-    })
-
-    fireEvent.focus(getByPlaceholderText('How can we help?'))
-    fireEvent.blur(getByPlaceholderText('How can we help?'))
-    jest.runAllTimers()
-    expect(queryByText('Leave us a message')).toBeInTheDocument()
   })
 })

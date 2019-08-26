@@ -33,6 +33,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 href="https://example.com"
                 target="_blank"
                 title="View original article"
@@ -42,7 +43,10 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -94,6 +98,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 href="https://example.com"
                 target="_blank"
                 title="View original article"
@@ -103,7 +108,10 @@ exports[`feedback actions on no click asks for the reason 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -190,6 +198,7 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 href="https://example.com"
                 target="_blank"
                 title="View original article"
@@ -199,7 +208,10 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -251,6 +263,7 @@ exports[`passing of scroll container classes 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 href="https://example.com"
                 target="_blank"
                 title="View original article"
@@ -260,7 +273,10 @@ exports[`passing of scroll container classes 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -312,6 +328,7 @@ exports[`renders the expected classes 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 href="https://example.com"
                 target="_blank"
                 title="View original article"
@@ -321,7 +338,10 @@ exports[`renders the expected classes 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -372,6 +392,7 @@ exports[`renders the expected mobile classes 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 href="https://example.com"
                 target="_blank"
                 title="View original article"
@@ -381,7 +402,10 @@ exports[`renders the expected mobile classes 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -433,6 +457,7 @@ exports[`renders the expected title 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 href="https://example.com"
                 target="_blank"
                 title="View original article"
@@ -442,7 +467,10 @@ exports[`renders the expected title 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -494,6 +522,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 href="https://example.com"
                 target="_blank"
                 title="View original article"
@@ -503,7 +532,10 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>
@@ -592,6 +624,7 @@ exports[`renders the help center article 1`] = `
               class="originalArticleButton"
             >
               <a
+                aria-label="View original article"
                 href="https://example.com"
                 target="_blank"
                 title="View original article"
@@ -601,7 +634,10 @@ exports[`renders the help center article 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  link-external.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
                 </span>
               </a>
             </div>

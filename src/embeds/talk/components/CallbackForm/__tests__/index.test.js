@@ -5,6 +5,15 @@ import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 import * as libphonenumber from 'libphonenumber-js'
+import * as talkSelectors from 'src/embeds/talk/selectors/reselectors'
+
+beforeEach(() => {
+  jest.spyOn(talkSelectors, 'getFormattedPhoneNumber').mockImplementation(() => '1800-7383773')
+})
+
+afterEach(() => {
+  talkSelectors.getFormattedPhoneNumber.mockRestore()
+})
 
 describe('CallbackForm', () => {
   const defaultProps = {
@@ -29,7 +38,8 @@ describe('CallbackForm', () => {
     isRTL: false,
     submitButtonLabel: 'Submit',
     headerMessage: 'Register a callback',
-    locale: 'en'
+    locale: 'en',
+    hideZendeskLogo: true
   }
 
   const renderComponent = (props = {}) => {

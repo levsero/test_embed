@@ -7,6 +7,16 @@ import CallbackPage from '../index'
 import createStore from 'src/redux/createStore'
 import { handleTalkVendorLoaded, updateTalkCallbackForm } from 'src/redux/modules/talk'
 
+import * as talkSelectors from 'src/embeds/talk/selectors/reselectors'
+
+beforeEach(() => {
+  jest.spyOn(talkSelectors, 'getFormattedPhoneNumber').mockImplementation(() => '1800-7383773')
+})
+
+afterEach(() => {
+  talkSelectors.getFormattedPhoneNumber.mockRestore()
+})
+
 const renderComponent = (params = { country: 'AU' }) => {
   const store = createStore()
 

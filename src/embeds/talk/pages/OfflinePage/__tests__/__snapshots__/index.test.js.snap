@@ -10,7 +10,9 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
     >
       <h1
         class="title"
-      />
+      >
+        title
+      </h1>
     </div>
     <div
       class="container"
@@ -32,7 +34,10 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
         tabindex="-1"
         target="_blank"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          iconfilename="widget-icon_zendesk.svg"
+          title="zendesk"
+        />
       </a>
     </footer>
   </div>

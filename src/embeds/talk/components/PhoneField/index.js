@@ -19,6 +19,7 @@ import { getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors'
 import { getStyledLabelText } from 'utility/fields'
 import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 import styleOverrides from './styles.overrides'
+import { onNextTick } from 'src/util/utils'
 
 const StyledFauxInput = styled(FauxInput)`
   padding: 0 !important;
@@ -93,7 +94,7 @@ class PhoneField extends ControlledComponent {
     this.setState({ selectedKey, inputValue: code })
 
     // Input won't focus until nextTick
-    setTimeout(() => this.phoneInput.focus(), 0)
+    onNextTick(() => this.phoneInput.focus())
 
     this.props.onCountrySelect(selectedKey)
   }
@@ -102,7 +103,7 @@ class PhoneField extends ControlledComponent {
     return supportedCountries
       .map(iso => this.getCountryByIso(iso))
       .sort((a, b) => {
-        return a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        return a.name > b.name ? 1 : b.name > a.name ? -1 : 0 // eslint-disable-line no-nested-ternary
       })
   }
 

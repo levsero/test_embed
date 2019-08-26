@@ -6,11 +6,12 @@ import { getDeviceZoom, getZoomSizingRatio } from 'utility/devices'
 import { mediator } from 'service/mediator'
 import { setScrollKiller } from 'utility/scrollHacks'
 import { cappedTimeoutCall } from 'utility/utils'
+import { onNextTick } from 'src/util/utils'
 
 let lastTouchEnd = 0
 
 const propagateFontRatioChange = () => {
-  setTimeout(() => {
+  onNextTick(() => {
     const hideWidget = getDeviceZoom() > 2
 
     if (hideWidget) {
@@ -20,7 +21,7 @@ const propagateFontRatioChange = () => {
     renderer.hideByZoom(hideWidget)
 
     mediator.channel.broadcast('.updateZoom', getZoomSizingRatio())
-  }, 0)
+  })
 }
 const zoomMonitor = (() => {
   let oldZoom

@@ -27,7 +27,6 @@ Object {
   "resultsCount": 0,
   "resultsLocale": "",
   "searchFailed": false,
-  "searchFieldFocused": false,
   "searchFieldValue": "",
   "searchLoading": false,
   "searchTerm": Object {

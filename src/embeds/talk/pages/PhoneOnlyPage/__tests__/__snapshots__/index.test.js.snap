@@ -15,7 +15,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -27,5 +27,0 @@
+@@ -30,5 +30,0 @@
 -         <p
 -           class="message"
 -         >
@@ -44,7 +44,10 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
         class="container containerMobile"
         data-testid="talk--phoneOnlyPage"
       >
-        talk.svg
+        <svgr-mock
+          classname="talkIcon"
+          iconfilename="talk.svg"
+        />
         <p
           class="message"
         >
@@ -78,7 +81,10 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
         tabindex="-1"
         target="_blank"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          iconfilename="widget-icon_zendesk.svg"
+          title="zendesk"
+        />
       </a>
     </footer>
   </div>
@@ -90,7 +96,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -27,5 +27,0 @@
+@@ -30,5 +30,0 @@
 -         <p
 -           class="message"
 -         >

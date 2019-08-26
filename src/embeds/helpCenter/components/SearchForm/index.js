@@ -4,11 +4,12 @@ import { connect } from 'react-redux'
 import { SearchField } from 'src/component/field/SearchField'
 import { getSettingsHelpCenterSearchPlaceholder } from 'src/redux/modules/selectors'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
-import { performSearch } from 'embeds/helpCenter/actions'
+import { performSearch, handleSearchFieldChange } from 'embeds/helpCenter/actions'
+import { isMobileBrowser } from 'utility/devices'
 
 import { locals as styles } from './styles.scss'
 
-const useSearchForm = callback => {
+const useSearchForm = (callback, handleOnChangeValue) => {
   const [searchValue, setSearchValue] = useState('')
   const handleSubmit = e => {
     e.preventDefault()
@@ -18,26 +19,29 @@ const useSearchForm = callback => {
   }
 
   return {
-    setSearchValue,
+    handleOnChange: text => {
+      setSearchValue(text)
+      handleOnChangeValue(text)
+    },
     handleSubmit
   }
 }
 
 const SearchForm = props => {
-  const { performSearch, isLoading, searchPlaceholder } = props
+  const { isMobile, performSearch, isLoading, searchPlaceholder, handleSearchFieldChange } = props
 
   const searchFieldElem = useRef(null)
   useEffect(() => {
     searchFieldElem.current.focus()
   }, [])
-  const { setSearchValue, handleSubmit } = useSearchForm(performSearch)
+  const { handleOnChange, handleSubmit } = useSearchForm(performSearch, handleSearchFieldChange)
 
   return (
     <form noValidate={true} onSubmit={handleSubmit} className={styles.form}>
       <SearchField
         ref={searchFieldElem}
-        fullscreen={false}
-        onChangeValue={setSearchValue}
+        fullscreen={isMobile}
+        onChangeValue={handleOnChange}
         onSearchIconClick={handleSubmit}
         isLoading={isLoading}
         searchPlaceholder={searchPlaceholder}
@@ -49,23 +53,28 @@ const SearchForm = props => {
 SearchForm.propTypes = {
   performSearch: PropTypes.func.isRequired,
   searchPlaceholder: PropTypes.string,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  isMobile: PropTypes.bool,
+  handleSearchFieldChange: PropTypes.func
 }
 
 SearchForm.defaultProps = {
   searchPlaceholder: '',
-  isLoading: false
+  isLoading: false,
+  isMobile: false
 }
 
 const mapStateToProps = state => {
   return {
     searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
-    isLoading: getSearchLoading(state)
+    isLoading: getSearchLoading(state),
+    isMobile: isMobileBrowser()
   }
 }
 
 const mapDispatchToProps = {
-  performSearch
+  performSearch,
+  handleSearchFieldChange
 }
 
 const connectedComponent = connect(

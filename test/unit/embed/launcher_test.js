@@ -62,6 +62,9 @@ describe('embed.launcher', () => {
       'constants/launcher': {
         FRAME_OFFSET_WIDTH: 5,
         FRAME_OFFSET_HEIGHT: 1
+      },
+      'src/util/utils': {
+        onNextTick: cb => setTimeout(cb, 0)
       }
     })
 

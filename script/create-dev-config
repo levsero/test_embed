@@ -1,0 +1,158 @@
+#!/usr/bin/env node
+
+/* eslint no-console: 0 */
+const fs = require('fs')
+const path = require('path')
+const inquirer = require('inquirer')
+const rest = require('rest')
+const _ = require('lodash')
+const prettier = require('prettier')
+
+const questions = [
+  {
+    type: 'input',
+    name: 'subdomain',
+    message: 'Subdomain',
+    validate: result => {
+      if (result.length === '') {
+        return 'Subdomain can not be empty'
+      }
+
+      return true
+    }
+  },
+  {
+    type: 'list',
+    name: 'environment',
+    message: 'Which environment is this for?',
+    choices: [
+      { name: 'Development (zd-dev.com)', value: 'development' },
+      { name: 'Staging (zendesk-staging.com', value: 'staging' },
+      { name: 'Production (zendesk.com)', value: 'production' }
+    ],
+    default: 'staging'
+  }
+]
+
+const environmentUrls = {
+  development: 'zd-dev.com',
+  staging: 'zendesk-staging.com',
+  production: 'zendesk.com'
+}
+
+const emptyValue = '<FILL THIS OUT>'
+
+const baseConfig = {
+  zendeskHost: emptyValue,
+  zopimId: emptyValue,
+  talkIntegration: emptyValue,
+  talkNickname: emptyValue,
+  sharedSecret: emptyValue,
+  chatSharedSecret: emptyValue,
+  gaID: emptyValue,
+  user: {
+    name: emptyValue,
+    email: emptyValue,
+    externalId: emptyValue
+  }
+}
+
+// getOriginalConfig will return the original config's values if it exists
+// otherwise an empty object will be returned.
+const getOriginalConfig = configFilePath => {
+  if (!fs.existsSync(configFilePath)) {
+    return {}
+  }
+
+  return require(configFilePath)
+}
+
+const run = async () => {
+  const { subdomain, environment } = await inquirer.prompt(questions)
+
+  const environmentUrl = environmentUrls[environment]
+
+  const response = await rest(`https://${subdomain}.${environmentUrl}/embeddable/config`)
+
+  if (response.status.code !== 200) {
+    const errorMessage = ['Failed to fetch embeddable config']
+
+    if (environment === 'staging') {
+      errorMessage.push('Make sure you are on the VPN')
+    }
+
+    console.error(errorMessage.join('\n'))
+    return
+  }
+
+  const embeddableConfig = JSON.parse(response.entity)
+
+  const configFilePath = path.resolve(__dirname, `../dev/configs/${subdomain}-${environment}.js`)
+
+  const originalConfigValues = getOriginalConfig(configFilePath)
+
+  const updatedConfigValues = {
+    zendeskHost: `${subdomain}.${environmentUrl}`,
+    zopimId: _.get(embeddableConfig, 'embeds.zopimChat.props.zopimId'),
+    talkIntegration: `https://${subdomain}.${environmentUrl}`,
+    talkNickname: _.get(embeddableConfig, 'embeds.talk.props.nickname')
+  }
+
+  const devConfigValues = _.merge(baseConfig, originalConfigValues, updatedConfigValues)
+
+  const devConfig = `
+    module.exports = {
+      // The url to your Zendesk domain
+      zendeskHost: '${devConfigValues.zendeskHost}',
+
+      // Your zopim/chat account id
+      // Can be found in the embeddable config under "zopimId" https://subdomain.zendesk-staging.com/embeddable/config
+      zopimId: '${devConfigValues.zopimId}',
+
+      // The full url to a Zendesk account that has Talk enabled
+      talkIntegration: '${devConfigValues.talkIntegration}',
+
+      // The nickname for the Talk/Widget configuration you want to use
+      // If you haven't already, create a new configuration under "Widget" here https://subdomain.zendesk-staging.com/agent/admin/voice
+      // Can also be found in the embeddable config under "nickname" https://subdomain.zendesk-staging.com/embeddable/config
+      talkNickname: '${devConfigValues.talkNickname}',
+
+      // Shared secret for your Support account
+      // Can be found by clicking on "configure" for the Security Settings here https://subdomain.zendesk-staging.com/agent/admin/widget
+      // You may need to activate the widget in the Help Center first
+      sharedSecret: '${devConfigValues.sharedSecret}',
+
+      // Shared secret used for authenticating chat sessions
+      // Can be found here under Visitor Authentication https://subdomain.zendesk.com/chat/agent#widget/widget_security
+      // You may need to click "Generate"
+      chatSharedSecret: '${devConfigValues.chatSharedSecret}',
+
+      // Google Analytics id
+      gaID: '${devConfigValues.gaID}',
+
+      // This information is used to identify a user using zE.identify
+      user: {
+        name: '${devConfigValues.user.name}',
+        email: '${devConfigValues.user.email}',
+
+        // Used for generating a Chat JWT token, this can be any value you want
+        externalId: '${devConfigValues.user.externalId}'
+      }
+    }
+    `
+
+  const formattedConfig = prettier.format(devConfig, {
+    parser: 'babel',
+    ...require('../.prettierrc.json')
+  })
+
+  fs.writeFileSync(configFilePath, formattedConfig)
+
+  if (Object.keys(originalConfigValues).length > 0) {
+    console.log('Successfully updated config', configFilePath)
+  } else {
+    console.log('Successfully created config', configFilePath)
+  }
+}
+
+run()

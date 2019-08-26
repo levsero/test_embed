@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 import { http } from 'service/transport'
 
+import * as utility from 'utility/devices'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
 
 import HelpCenter from '../../HelpCenter'
@@ -246,10 +247,12 @@ describe('desktop', () => {
 })
 
 describe('mobile', () => {
+  beforeEach(() => {
+    jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+  })
+
   test('integration', () => {
-    const { container, queryByText, getByPlaceholderText } = renderComponent({
-      isMobile: true
-    })
+    const { container, queryByText, getByPlaceholderText } = renderComponent({ isMobile: true })
 
     expect(queryByText('Search our Help Center')).toBeInTheDocument()
 

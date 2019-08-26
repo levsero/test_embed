@@ -249,12 +249,6 @@ export const addToAfterShowAnimationQueue = callback => {
   }
 }
 
-export const widgetHideAnimationComplete = () => {
-  return {
-    type: actions.WIDGET_HIDE_ANIMATION_COMPLETE
-  }
-}
-
 export const widgetShowAnimationComplete = () => {
   return (dispatch, getState) => {
     const queue = getAfterWidgetShowAnimation(getState())
