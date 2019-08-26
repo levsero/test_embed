@@ -3,14 +3,24 @@
 .container {
   composes: u-posAbsolute u-posEnd--flush from global;
 
+  $bottom-offset: 30 / $font-size;
+  $margin-bottom: 10 / $font-size;
+  $rough-widget-header-height: 3;
+  $top-margin: 1.5;
+  $chat-header-height: 58 / $font-size;
+  $offset-from-top: #{$top-margin + $rough-widget-header-height + $bottom-offset + $margin-bottom +
+    $chat-header-height}rem;
+
   z-index: 1;
   background-color: $base-color;
-  bottom: #{30 / $font-size}rem;
+  bottom: #{$bottom-offset}rem;
   width: calc(100% - #{32 / $font-size}rem);
   padding: #{4 / $font-size}rem 0;
-  margin: 0 #{16 / $font-size}rem #{10 / $font-size}rem;
+  margin: 0 #{16 / $font-size}rem #{$margin-bottom}rem;
   border-radius: #{4 / $font-size}rem;
   box-shadow: 0 0 #{6 / $font-size}rem 0 rgba($base-shadow, 0.2);
+  max-height: calc(100% - #{$offset-from-top});
+  overflow-y: auto;
 }
 
 .containerMobile {

@@ -51,8 +51,6 @@ $spacing-tny: #{$tny/$font-size}rem;
 $container-height: #{384 / $font-size}rem;
 $container-width: #{342 / $font-size}rem;
 
-$chat-header-zindex: 3;
-
 // Icon colors
 $facebook-blue: #3b5998;
 $messenger-blue: #0084ff;
@@ -61,3 +59,6 @@ $twitter-blue: #1da1f2;
 // Structured Message
 $structure-msg-card-width: 240;
 $structure-msg-card-margin: 12;
+
+// Chat
+$chat-header-zindex: 3;
