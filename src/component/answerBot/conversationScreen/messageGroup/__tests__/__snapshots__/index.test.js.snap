@@ -21,6 +21,7 @@ exports[`bot avatar renders agent avatar 1`] = `
     >
       <div
         class="transitionWrapper"
+        role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
         <div
@@ -45,6 +46,8 @@ exports[`bot avatar renders agent avatar 1`] = `
       </div>
     </div>
     <img
+      alt=""
+      aria-hidden="true"
       class="avatar avatar fadeIn"
       src="http://url"
     />
@@ -73,6 +76,7 @@ exports[`bot avatar renders brand logo 1`] = `
     >
       <div
         class="transitionWrapper"
+        role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
         <div
@@ -97,6 +101,8 @@ exports[`bot avatar renders brand logo 1`] = `
       </div>
     </div>
     <img
+      alt=""
+      aria-hidden="true"
       class="avatar avatar fadeIn"
       src="http://url"
     />
@@ -125,6 +131,7 @@ exports[`bot name renders agent name 1`] = `
     >
       <div
         class="transitionWrapper"
+        role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
         <div
@@ -153,7 +160,10 @@ exports[`bot name renders agent name 1`] = `
       data-testid="Icon--answerBot"
       type="Icon--answerBot"
     >
-      widget-icon_answerBot.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_answerBot.svg"
+      />
     </span>
   </div>
 </div>
@@ -180,6 +190,7 @@ exports[`renders expected classes and components with default props 1`] = `
     >
       <div
         class="transitionWrapper"
+        role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
         <div
@@ -208,7 +219,10 @@ exports[`renders expected classes and components with default props 1`] = `
       data-testid="Icon--answerBot"
       type="Icon--answerBot"
     >
-      widget-icon_answerBot.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_answerBot.svg"
+      />
     </span>
   </div>
 </div>
@@ -224,6 +238,7 @@ exports[`visitor name and avatar renders nothing 1`] = `
     >
       <div
         class="transitionWrapper"
+        role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
         <div

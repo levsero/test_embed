@@ -5,6 +5,15 @@ import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 import * as libphonenumber from 'libphonenumber-js'
+import * as talkSelectors from 'src/embeds/talk/selectors/reselectors'
+
+beforeEach(() => {
+  jest.spyOn(talkSelectors, 'getFormattedPhoneNumber').mockImplementation(() => '1800-7383773')
+})
+
+afterEach(() => {
+  talkSelectors.getFormattedPhoneNumber.mockRestore()
+})
 
 describe('CallbackForm', () => {
   const defaultProps = {
@@ -29,7 +38,8 @@ describe('CallbackForm', () => {
     isRTL: false,
     submitButtonLabel: 'Submit',
     headerMessage: 'Register a callback',
-    locale: 'en'
+    locale: 'en',
+    hideZendeskLogo: true
   }
 
   const renderComponent = (props = {}) => {
@@ -82,23 +92,25 @@ describe('CallbackForm', () => {
     const message = 'invalid_phone_number'
     const expectedErrorMessage = 'Please enter a valid phone number.'
 
-    const { queryByText } = renderComponent({ callback: { error: { message } } })
+    const { queryByText, queryByTestId } = renderComponent({ callback: { error: { message } } })
 
-    expect(queryByText(expectedErrorMessage)).toBeInTheDocument()
+    expect(queryByTestId('talk--errorNotification')).toBeInTheDocument()
+    expect(queryByText(new RegExp(expectedErrorMessage, 'i'))).toBeInTheDocument()
   })
 
   it('displays an error message when the phone number is already in the queue', () => {
     const message = 'phone_number_already_in_queue'
     const expectedErrorMessage = "You've already submitted a request. We'll get back to you soon."
 
-    const { queryByText } = renderComponent({ callback: { error: { message } } })
+    const { queryByText, queryByTestId } = renderComponent({ callback: { error: { message } } })
 
-    expect(queryByText(expectedErrorMessage)).toBeInTheDocument()
+    expect(queryByTestId('talk--errorNotification')).toBeInTheDocument()
+    expect(queryByText(new RegExp(expectedErrorMessage, 'i'))).toBeInTheDocument()
   })
 
   it('does not display an error message when there is no error', () => {
     const { queryByTestId } = renderComponent({ callback: { error: { message: null } } })
 
-    expect(queryByTestId('Icon--error')).not.toBeInTheDocument()
+    expect(queryByTestId('talk--errorNotification')).not.toBeInTheDocument()
   })
 })

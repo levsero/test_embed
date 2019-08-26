@@ -1,7 +1,8 @@
 import React from 'react'
-import { locals as styles } from './styles/index.scss'
 import PropTypes from 'prop-types'
 import { TextField, Textarea, Label } from '@zendeskgarden/react-textfields'
+
+import { locals as styles } from './styles/index.scss'
 
 const DescriptionField = ({ label, defaultValue }) => {
   return (

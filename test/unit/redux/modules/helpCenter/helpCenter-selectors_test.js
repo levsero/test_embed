@@ -15,7 +15,6 @@ describe('helpCenter selectors', () => {
     getArticles,
     getArticleViewActive,
     getTotalUserSearches,
-    getChannelChoiceShown,
     getArticleDisplayed,
     getSearchFieldValue,
     getSearchFieldFocused,
@@ -46,9 +45,6 @@ describe('helpCenter selectors', () => {
       },
       'utility/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPage
-      },
-      'src/redux/modules/base/base-selectors': {
-        getHelpCenterContextualEnabled: () => mockHelpCenterContextualEnabled
       }
     })
 
@@ -73,7 +69,6 @@ describe('helpCenter selectors', () => {
     getArticles = selectors.getArticles
     getArticleViewActive = selectors.getArticleViewActive
     getTotalUserSearches = selectors.getTotalUserSearches
-    getChannelChoiceShown = selectors.getChannelChoiceShown
     getSearchFieldValue = selectors.getSearchFieldValue
     getSearchFieldFocused = selectors.getSearchFieldFocused
     getArticleDisplayed = selectors.getArticleDisplayed
@@ -95,7 +90,8 @@ describe('helpCenter selectors', () => {
           manualContextualSuggestions: mockManualContextualSuggestions,
           contextualSearch: {
             hasSearched: mockHasSearched
-          }
+          },
+          config: {}
         }
       }
 
@@ -163,7 +159,10 @@ describe('helpCenter selectors', () => {
     beforeEach(() => {
       let mockState = {
         helpCenter: {
-          manualContextualSuggestions: mockManualContextualSuggestions
+          manualContextualSuggestions: mockManualContextualSuggestions,
+          config: {
+            contextualHelpEnabled: mockHelpCenterContextualEnabled
+          }
         }
       }
 
@@ -823,23 +822,6 @@ describe('helpCenter selectors', () => {
     })
 
     it('returns the current state of articleViewActive', () => {
-      expect(result).toEqual(true)
-    })
-  })
-
-  describe('channelChoiceShown', () => {
-    let result
-    const mockHelpCenterState = {
-      helpCenter: {
-        channelChoiceShown: true
-      }
-    }
-
-    beforeEach(() => {
-      result = getChannelChoiceShown(mockHelpCenterState)
-    })
-
-    it('returns the current state of channelChoiceShown', () => {
       expect(result).toEqual(true)
     })
   })

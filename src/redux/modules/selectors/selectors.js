@@ -14,7 +14,9 @@ import {
   getChatBadgeEnabled,
   getChatBanned,
   getChatsLength,
-  getConnection as getChatConnection
+  getConnection as getChatConnection,
+  getNotificationCount,
+  getShowChatHistory
 } from '../chat/chat-selectors'
 import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors'
 import {
@@ -58,7 +60,8 @@ import {
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
   getAgentAvailability,
-  getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected
+  getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
+  isCallbackEnabled
 } from '../talk/talk-selectors'
 import { getActiveTicketForm, getTicketForms } from '../submitTicket/submitTicket-selectors'
 import {
@@ -83,13 +86,19 @@ import {
   getLocale,
   getTalkConfig,
   getFormTitleKey,
-  getBrand
+  getBrand,
+  getBackButtonVisible
 } from '../base/base-selectors'
 import {
   getCanShowHelpCenterIntroState,
   getHelpCenterAvailable,
   getHelpCenterReady
 } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
+import {
+  getAnswerBotEnabled as getAnswerBotConfigEnabled,
+  getButtonLabelKey,
+  getFormTitleKey as getHelpCenterFormTitleKey
+} from 'src/embeds/helpCenter/selectors'
 
 import { settings } from 'service/settings'
 
@@ -144,8 +153,11 @@ export const getTalkNameLabel = createSelector(
   }
 )
 export const getSettingsHelpCenterTitle = createSelector(
-  [getHelpCenterTitle, getLocale, getLabel],
-  (helpCenterTitle, _locale, label) => i18n.getSettingTranslation(helpCenterTitle) || i18n.t(label)
+  [getHelpCenterTitle, getLocale, getHelpCenterFormTitleKey],
+  (helpCenterTitle, _locale, formTitleKey) => {
+    const labelKey = `embeddable_framework.helpCenter.form.title.${formTitleKey}`
+    return i18n.getSettingTranslation(helpCenterTitle) || i18n.t(labelKey)
+  }
 )
 
 export const getSettingsHelpCenterSearchPlaceholder = createSelector(
@@ -156,9 +168,11 @@ export const getSettingsHelpCenterSearchPlaceholder = createSelector(
 )
 
 export const getSettingsHelpCenterMessageButton = createSelector(
-  [getHelpCenterMessageButton, getLocale, getLabel],
-  (helpCenterMessageButton, _locale, label) =>
-    i18n.getSettingTranslation(helpCenterMessageButton) || i18n.t(label)
+  [getHelpCenterMessageButton, getLocale, getButtonLabelKey],
+  (helpCenterMessageButton, _locale, buttonLabelKey) => {
+    const labelKey = `embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`
+    return i18n.getSettingTranslation(helpCenterMessageButton) || i18n.t(labelKey)
+  }
 )
 
 export const getSettingsHelpCenterChatButton = createSelector(
@@ -292,10 +306,6 @@ export const getChatAvailable = state => {
 
   return getChatEnabled(state) && (getChatOnline(state) || offlineFormOn) && !getChatBanned(state)
 }
-export const getShowTalkBackButton = createSelector(
-  [getHelpCenterEmbed, getChatAvailable, getSubmitTicketEmbed],
-  (hcEmbed, chatAvailable, submitTicketEmbed) => hcEmbed || chatAvailable || submitTicketEmbed
-)
 export const getTalkReady = state => !getTalkEmbed(state) || getTalkEmbeddableConfigConnected(state)
 
 export const getTalkNickname = createSelector(
@@ -370,6 +380,12 @@ export const getChannelChoiceAvailable = createSelector(
 
     return channelChoicePrerequisite && channelsAvailable && !isChatting
   }
+)
+
+export const getShowTalkBackButton = createSelector(
+  [getActiveEmbed, getHelpCenterEmbed, getChannelChoiceAvailable],
+  (activeEmbed, hcEmbed, channelChoiceAvailable) =>
+    activeEmbed === 'talk' && (hcEmbed || channelChoiceAvailable)
 )
 
 export const getContactOptionsButton = createSelector(
@@ -640,9 +656,8 @@ export const getSettingsAnswerBotAvatarName = createSelector(
 )
 
 export const getAnswerBotEnabled = createSelector(
-  [getEmbeddableConfig, getSettingsAnswerBotSuppress],
-  (embeddableConfig, suppress) =>
-    !suppress && embeddableConfig.embeds.helpCenterForm.props.answerBotEnabled
+  [getAnswerBotConfigEnabled, getSettingsAnswerBotSuppress],
+  (answerBotEnabled, suppress) => !suppress && answerBotEnabled
 )
 
 export const getAnswerBotAvailable = getAnswerBotEnabled
@@ -657,4 +672,69 @@ export const getChatConnectionConnecting = createSelector(
     !cookiesDisabled &&
     chatEnabled &&
     (connection === CONNECTION_STATUSES.CONNECTING || connection === '')
+)
+
+export const getHelpCenterButtonChatLabel = createSelector(
+  [
+    getSettingsHelpCenterChatButton,
+    getNotificationCount,
+    getChatOfflineAvailable,
+    getSettingsHelpCenterMessageButton
+  ],
+  (chatButtonLabel, chatNotificationCount, chatOfflineAvailable, messageButtonLabel) => {
+    if (chatNotificationCount > 0) {
+      return chatNotificationCount > 1
+        ? i18n.t('embeddable_framework.common.notification.manyMessages', {
+            plural_number: chatNotificationCount
+          })
+        : i18n.t('embeddable_framework.common.notification.oneMessage')
+    } else if (chatOfflineAvailable) {
+      return messageButtonLabel
+    }
+    return chatButtonLabel
+  }
+)
+
+export const getHelpCenterButtonLabel = createSelector(
+  [
+    getIsChatting,
+    getChannelChoiceAvailable,
+    getChatAvailable,
+    getChatOfflineAvailable,
+    getTalkOnline,
+    isCallbackEnabled,
+    getContactOptionsButton,
+    getHelpCenterButtonChatLabel,
+    getSettingsHelpCenterMessageButton
+  ],
+  (
+    isChatting,
+    channelChoiceAvailable,
+    chatAvailable,
+    chatOfflineAvailable,
+    talkOnline,
+    callbackEnabled,
+    contactButtonLabel,
+    chatLabel,
+    messageLabel
+  ) => {
+    if (isChatting) {
+      return chatLabel
+    } else if (channelChoiceAvailable) {
+      return contactButtonLabel
+    } else if (chatAvailable || chatOfflineAvailable) {
+      return chatLabel
+    } else if (talkOnline) {
+      return callbackEnabled
+        ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
+        : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone')
+    }
+    return messageLabel
+  }
+)
+
+export const getShowBackButton = createSelector(
+  [getShowChatHistory, getBackButtonVisible, getShowTalkBackButton],
+  (showChatHistory, backButtonVisible, showTalkBackButton) =>
+    showChatHistory || backButtonVisible || showTalkBackButton
 )

@@ -13,7 +13,6 @@ describe('embed.webWidget', () => {
     mockFiltersValue,
     mockFrame,
     mockNicknameValue,
-    resetTalkScreenSpy,
     zChatInitSpy,
     authenticateSpy,
     mockIsIE,
@@ -48,7 +47,6 @@ describe('embed.webWidget', () => {
     mockIsMobileBrowser = false
     mockIsPopout = false
     mockActiveEmbed = ''
-    resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen')
     zChatInitSpy = jasmine.createSpy('zChatInit')
     authenticateSpy = jasmine.createSpy('authenticate')
     mockStore = {
@@ -137,7 +135,6 @@ describe('embed.webWidget', () => {
         chatNotificationDismissed: chatNotificationDismissedSpy
       },
       'src/redux/modules/talk': {
-        resetTalkScreen: resetTalkScreenSpy,
         loadTalkVendors: noop
       },
       'src/redux/modules/submitTicket': {
@@ -175,7 +172,6 @@ describe('embed.webWidget', () => {
         isMobileBrowser() {
           return mockIsMobileBrowser
         },
-        setScaleLock: jasmine.createSpy('setScaleLock'),
         isIE() {
           return mockIsIE
         },
@@ -208,7 +204,9 @@ describe('embed.webWidget', () => {
       'utility/scrollHacks': {
         setScrollKiller: noop
       },
-      'src/util/utils': {},
+      'src/util/utils': {
+        onNextTick: cb => setTimeout(cb, 0)
+      },
       'src/util/chat': {}
     })
 
@@ -239,7 +237,7 @@ describe('embed.webWidget', () => {
     })
 
     describe('frame props', () => {
-      let child, grandchild, frame, mockSetScaleLock
+      let child, grandchild, frame
 
       const createRender = () => {
         const config = {
@@ -247,8 +245,6 @@ describe('embed.webWidget', () => {
           ticketSubmissionForm: { attachmentsEnabled: true },
           helpCenterForm: {}
         }
-
-        mockSetScaleLock = mockRegistry['utility/devices'].setScaleLock
 
         webWidget.create('', config, mockStore)
         webWidget.render()
@@ -329,10 +325,6 @@ describe('embed.webWidget', () => {
 
           frame.props.onShow(frame)
         })
-
-        it('should call setScaleLock', () => {
-          expect(mockSetScaleLock).toHaveBeenCalledWith(true)
-        })
       })
 
       describe('onHide', () => {
@@ -345,34 +337,6 @@ describe('embed.webWidget', () => {
 
         it('should hide virtual keyboard', () => {
           expect(child.resetState).toHaveBeenCalled()
-        })
-
-        it('should call setScaleLock', () => {
-          expect(mockSetScaleLock).toHaveBeenCalledWith(false)
-        })
-
-        describe('active embed', () => {
-          describe('is talk', () => {
-            beforeEach(() => {
-              mockActiveEmbed = 'talk'
-              frame.props.onHide(frame)
-            })
-
-            it('dispatches a resetTalkScreen action', () => {
-              expect(resetTalkScreenSpy).toHaveBeenCalled()
-            })
-          })
-
-          describe('is not talk', () => {
-            beforeEach(() => {
-              mockActiveEmbed = 'chat'
-              frame.props.onHide(frame)
-            })
-
-            it('does not dispatch a resetTalkScreen action', () => {
-              expect(resetTalkScreenSpy).not.toHaveBeenCalled()
-            })
-          })
         })
       })
 
@@ -450,8 +414,7 @@ describe('embed.webWidget', () => {
       beforeEach(() => {
         const config = {
           ...mockConfig,
-          ticketSubmissionForm: { formTitleKey: 'foo' },
-          helpCenterForm: { formTitleKey: 'bar' }
+          ticketSubmissionForm: { formTitleKey: 'foo' }
         }
 
         webWidget.create('', config, mockStore)
@@ -462,8 +425,6 @@ describe('embed.webWidget', () => {
 
       it('should apply the different formTitleKey props to the correct embed props', () => {
         expect(faythe.props.submitTicketConfig.formTitleKey).toEqual('foo')
-
-        expect(faythe.props.helpCenterConfig.formTitleKey).toEqual('bar')
       })
 
       it('should have default container styles', () => {
@@ -841,31 +802,6 @@ describe('embed.webWidget', () => {
         })
       })
     })
-
-    describe('setUpHelpCenter', () => {
-      describe('config', () => {
-        beforeEach(() => {
-          const config = {
-            ...mockConfig,
-            helpCenterForm: {
-              buttonLabelKey: 'test_label',
-              formTitleKey: 'test_title'
-            }
-          }
-
-          webWidget.create('', config, mockStore)
-          faythe = webWidget.get()
-        })
-
-        it('changes config.buttonLabelKey if buttonLabelKey is set', () => {
-          expect(faythe.config.helpCenterForm.buttonLabelKey).toEqual('test_label')
-        })
-
-        it('changes config.formTitleKey if formTitleKey is set', () => {
-          expect(faythe.config.helpCenterForm.formTitleKey).toEqual('test_title')
-        })
-      })
-    })
   })
 
   describe('#render', () => {
@@ -1139,6 +1075,35 @@ describe('embed.webWidget', () => {
       mockBeacon = mockRegistry['service/beacon'].beacon
     })
 
+    describe('initInterval blip', () => {
+      const renderWidget = () => {
+        const config = {
+          ...mockConfig,
+          helpCenterForm: {}
+        }
+
+        webWidget.create('', config, mockStore)
+        mockSupportJwtValue = 'token'
+        webWidget.postRender()
+      }
+
+      describe('9/10 times', () => {
+        it('does not fire blip', () => {
+          Math.random = jasmine.createSpy('random').and.returnValue(1)
+          renderWidget()
+          expect(mockBeacon.sendWidgetInitInterval).not.toHaveBeenCalled()
+        })
+      })
+
+      describe('1/10 times', () => {
+        it('does fire blip', () => {
+          Math.random = jasmine.createSpy('random').and.returnValue(0.1)
+          renderWidget()
+          expect(mockBeacon.sendWidgetInitInterval).toHaveBeenCalled()
+        })
+      })
+    })
+
     describe('authentication', () => {
       describe('when there is a jwt', () => {
         beforeEach(() => {
@@ -1154,10 +1119,6 @@ describe('embed.webWidget', () => {
 
         it('calls authenticate with the jwt token', () => {
           expect(authenticateSpy).toHaveBeenCalledWith('token')
-        })
-
-        it('calls beacon.sendWidgetInitInterval', () => {
-          expect(mockBeacon.sendWidgetInitInterval).toHaveBeenCalled()
         })
 
         describe('when there is a jwtFn', () => {

@@ -1,14 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ZendeskLogo does not render logo if disabled 1`] = `null`;
-
-exports[`ZendeskLogo renders logo if enabled 1`] = `
+exports[`renders logo 1`] = `
 <a
   class="icon"
+  data-testid="Icon--zendesk"
   href="yolo.com"
   tabindex="-1"
   target="_blank"
 >
-  widget-icon_zendesk.svg
+  <svgr-mock
+    iconfilename="widget-icon_zendesk.svg"
+    title="zendesk"
+  />
 </a>
 `;

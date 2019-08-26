@@ -4,16 +4,16 @@ import { connect } from 'react-redux'
 
 import { i18n } from 'src/service/i18n'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
-import { locals as styles } from './styles.scss'
 import { getPhoneNumber, getFormattedPhoneNumber } from 'src/embeds/talk/selectors'
 import { getCapability } from 'src/redux/modules/talk/talk-selectors'
 import { CALLBACK_AND_PHONE } from 'src/redux/modules/talk/talk-capability-types'
+
+import { locals as styles } from './styles.scss'
 
 const CallbackPhone = ({ capability, phoneNumber, formattedPhoneNumber, phoneLabel }) => {
   if (capability !== CALLBACK_AND_PHONE) {
     return null
   }
-
   return (
     <div className={styles.phoneDisplayLabel}>
       {`${phoneLabel} `}

@@ -17,6 +17,7 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getLocale, getZopimChatEmbed } from 'src/redux/modules/base/base-selectors'
 import { i18n } from 'service/i18n'
+import { triggerOnEnter } from 'utility/keyboard'
 
 import { locals as styles } from './style.scss'
 
@@ -112,16 +113,18 @@ class ChannelChoice extends Component {
   }
 
   renderChannel = (icon, label, channel) => {
-    const iconClasses = `${styles.icon}`
     const singleChannelStyles =
       this.state.availableChannels.length === 1 ? styles.singleChannel : ''
 
     return (
       <div
+        tabIndex="0"
+        role="button"
         className={`${styles.channel} ${singleChannelStyles}`}
         onClick={this.handleClick(channel)}
+        onKeyPress={triggerOnEnter(() => this.handleClick(channel))}
       >
-        <Icon className={iconClasses} type={icon} />
+        <Icon className={styles.icon} type={icon} />
         <div className={styles.optionText}>{label}</div>
       </div>
     )

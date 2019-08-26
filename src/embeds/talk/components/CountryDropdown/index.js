@@ -1,20 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Item, SelectField, Select } from '@zendeskgarden/react-select'
 import styled from 'styled-components'
+import { Item, SelectField, Select } from '@zendeskgarden/react-select'
+
 import { FONT_SIZE } from 'constants/shared'
-import { Flag } from 'component/Flag'
-
-const SmallFlag = styled(Flag)`
-  height: ${17.5 / FONT_SIZE}rem;
-  [dir='ltr'] & {
-    margin-right: ${props => props.gap && `${10 / FONT_SIZE}rem`};
-  }
-
-  [dir='rtl'] & {
-    margin-left: ${props => props.gap && `${10 / FONT_SIZE}rem`};
-  }
-`
+import Flag from 'src/embeds/talk/components/Flag'
 
 const FlexItem = styled(Item)`
   display: flex !important;
@@ -55,13 +45,13 @@ const CountryDropdown = ({
         options={countries.map(({ name, iso, code }) => {
           return (
             <FlexItem key={iso}>
-              <SmallFlag gap={true} country={iso} />
+              <Flag country={iso} />
               {`${name} (${code})`}
             </FlexItem>
           )
         })}
       >
-        <SmallFlag country={selectedKey} data-testid="countryDropdown--selected" />
+        <Flag country={selectedKey} data-testid="countryDropdown--selected" />
       </Select>
     </SelectField>
   )

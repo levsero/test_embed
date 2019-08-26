@@ -117,14 +117,6 @@ class WebWidget extends Component {
     }).isRequired,
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
-    helpCenterConfig: PropTypes.shape({
-      buttonLabelKey: PropTypes.string,
-      color: PropTypes.string,
-      contextualHelpEnabled: PropTypes.bool,
-      formTitleKey: PropTypes.string,
-      position: PropTypes.string,
-      signInRequired: PropTypes.bool
-    }),
     hideZendeskLogo: PropTypes.bool,
     oldChat: PropTypes.bool.isRequired,
     onSubmitted: PropTypes.func,
@@ -168,7 +160,6 @@ class WebWidget extends Component {
     articleViewActive: PropTypes.bool.isRequired,
     helpCenterSearchFocused: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
-    onShowMobile: PropTypes.func,
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
@@ -190,7 +181,6 @@ class WebWidget extends Component {
     chatNotification: { show: false, playSound: false },
     fullscreen: true,
     helpCenterAvailable: false,
-    helpCenterConfig: {},
     hideZendeskLogo: false,
     onSubmitted: () => {},
     originalArticleButton: true,
@@ -208,7 +198,6 @@ class WebWidget extends Component {
     talkConfig: {},
     resetActiveArticle: () => {},
     articleViewActive: false,
-    onShowMobile: () => {},
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
     proactiveChatNotificationDismissed: () => {},
@@ -445,7 +434,6 @@ class WebWidget extends Component {
         ref={answerBot}
         isMobile={this.props.isMobile}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        articleTitleKey={this.props.helpCenterConfig.formTitleKey}
       />
     )
   }
@@ -454,13 +442,7 @@ class WebWidget extends Component {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return
     if (this.props.activeEmbed !== helpCenter) return null
 
-    const {
-      helpCenterConfig,
-      submitTicketAvailable,
-      chatAvailable,
-      talkOnline,
-      channelChoiceAvailable
-    } = this.props
+    const { submitTicketAvailable, chatAvailable, talkOnline, channelChoiceAvailable } = this.props
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : ''
     const showNextButton = submitTicketAvailable || chatAvailable || talkOnline
 
@@ -470,13 +452,10 @@ class WebWidget extends Component {
           ref={helpCenter}
           chatOfflineAvailable={this.props.chatOfflineAvailable}
           notification={this.props.chatNotification}
-          chatEnabled={this.props.chatEnabled}
           talkOnline={this.props.talkOnline}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           position={this.props.position}
-          buttonLabelKey={helpCenterConfig.buttonLabelKey}
-          formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
           showNextButton={showNextButton}
           style={this.props.style}
@@ -484,7 +463,6 @@ class WebWidget extends Component {
           originalArticleButton={this.props.originalArticleButton}
           channelChoice={channelChoiceAvailable}
           callbackEnabled={this.props.callbackEnabled}
-          submitTicketAvailable={submitTicketAvailable}
           chatAvailable={chatAvailable}
           chatNotificationDismissed={this.props.chatNotificationDismissed}
           updateChatScreen={this.props.updateChatScreen}
@@ -583,7 +561,6 @@ class WebWidget extends Component {
     const { style, chatNotification, chatNotificationRespond } = this.props
     const onNotificatonResponded = () => {
       chatNotificationRespond()
-      this.props.onShowMobile()
       this.showChat({ proactive: true })
     }
     const containerStyle = { ...style, background: 'transparent' }
@@ -634,7 +611,7 @@ class WebWidget extends Component {
 
     return (
       // data-embed is needed for our intergration tests
-      <div data-embed={activeEmbed}>
+      <div data-embed={activeEmbed} style={{ height: '100%' }}>
         <Container
           style={containerStyle}
           fullscreen={fullscreen}

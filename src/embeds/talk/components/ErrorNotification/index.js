@@ -1,12 +1,13 @@
 import React from 'react'
-import { locals as styles } from './styles.scss'
 import PropTypes from 'prop-types'
-import { Icon } from 'component/Icon'
+
+import ErrorIcon from '@zendeskgarden/svg-icons/src/14/error.svg'
+import { locals as styles } from './styles.scss'
 
 const ErrorNotification = ({ message }) => {
   return (
-    <div className={styles.error}>
-      <Icon type="Icon--error" className={styles.errorIcon} />
+    <div className={styles.error} data-testid="talk--errorNotification">
+      <ErrorIcon className={styles.errorIcon} />
       {message}
     </div>
   )

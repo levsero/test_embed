@@ -32,7 +32,28 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
               help
             </h2>
             <div
+              class="originalArticleButton"
+            >
+              <a
+                aria-label="View original article"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
+                </span>
+              </a>
+            </div>
+            <div
               class="article"
+              role="presentation"
             >
               here
             </div>
@@ -78,7 +99,28 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
               help
             </h2>
             <div
+              class="originalArticleButton"
+            >
+              <a
+                aria-label="View original article"
+                target="_blank"
+                title="View original article"
+              >
+                <span
+                  class="container Icon--link-external mobile"
+                  data-testid="Icon--link-external"
+                  type="Icon--link-external"
+                >
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="link-external.svg"
+                  />
+                </span>
+              </a>
+            </div>
+            <div
               class="article"
+              role="presentation"
             >
               here
             </div>
@@ -168,7 +210,10 @@ exports[`conversation screen renders expected components and styles in desktop 1
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_zendesk.svg"
+        />
       </span>
       <span
         class="hidden"
@@ -255,7 +300,10 @@ exports[`conversation screen renders expected components and styles in mobile 1`
                   data-testid="Icon--sendChat"
                   type="Icon--sendChat"
                 >
-                  widget-icon_sendChat.svg
+                  <svgr-mock
+                    aria-hidden="true"
+                    iconfilename="widget-icon_sendChat.svg"
+                  />
                 </span>
                 <span
                   class="altText"
@@ -289,7 +337,10 @@ exports[`conversation screen renders expected components and styles in mobile 1`
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_zendesk.svg"
+        />
       </span>
       <span
         class="hidden"

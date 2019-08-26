@@ -12,6 +12,7 @@ import ConversationScreen from './conversationScreen/'
 
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { i18n } from 'service/i18n'
+import { onNextTick } from 'src/util/utils'
 
 import { updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getLastScroll } from 'src/redux/modules/answerBot/conversation/selectors'
@@ -28,7 +29,6 @@ const SCROLL_TO_BOTTOM_INDICATOR = -1
 class AnswerBot extends Component {
   static propTypes = {
     isMobile: PropTypes.bool,
-    articleTitleKey: PropTypes.string,
     currentScreen: PropTypes.string.isRequired,
     lastConversationScroll: PropTypes.number.isRequired,
     hideZendeskLogo: PropTypes.bool,
@@ -41,7 +41,6 @@ class AnswerBot extends Component {
 
   static defaultProps = {
     isMobile: false,
-    articleTitleKey: 'help',
     hideZendeskLogo: false
   }
 
@@ -80,7 +79,6 @@ class AnswerBot extends Component {
       <ArticleScreen
         isMobile={this.props.isMobile}
         scrollContainerClasses={this.containerStyle()}
-        articleTitleKey={this.props.articleTitleKey}
         saveConversationScroll={this.saveConversationScroll}
       />
     )
@@ -139,11 +137,11 @@ class AnswerBot extends Component {
   }
 
   scrollToBottom = () => {
-    setTimeout(() => {
+    onNextTick(() => {
       if (this.conversationContainer) {
         this.conversationContainer.scrollToBottom()
       }
-    }, 0)
+    })
   }
 
   restoreConversationScroll = () => {
@@ -152,11 +150,11 @@ class AnswerBot extends Component {
     if (scrollTop === SCROLL_TO_BOTTOM_INDICATOR) {
       this.scrollToBottom()
     } else {
-      setTimeout(() => {
+      onNextTick(() => {
         if (this.conversationContainer) {
           this.conversationContainer.scrollTo(scrollTop)
         }
-      }, 0)
+      })
     }
   }
 

@@ -22,7 +22,7 @@ export class MessageCard extends Component {
     return (
       <div className={styles.cardContainer}>
         <div className={styles.heroImage}>
-          <img src={this.props.imageUrl} />
+          <img alt={this.props.title} src={this.props.imageUrl} />
         </div>
         <div className={styles.mainPanel}>
           <h2>{this.props.title}</h2>

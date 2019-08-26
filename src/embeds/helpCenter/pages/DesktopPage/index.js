@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button } from '@zendeskgarden/react-buttons'
-import { ButtonGroup } from 'component/button/ButtonGroup'
-import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoicePopupDesktop'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SearchField } from 'component/field/SearchField'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { LoadingBarContent } from 'component/loading/LoadingBarContent'
 import { i18n } from 'service/i18n'
-import { LoadingEllipses } from 'component/loading/LoadingEllipses'
+import HelpCenterChannelButton from 'src/embeds/helpCenter/components/HelpCenterChannelButton'
 
+import SearchPromptPage from 'src/embeds/helpCenter/pages/SearchPromptPage'
 import { locals as styles } from './styles.scss'
 import classNames from 'classnames'
 
@@ -19,8 +17,6 @@ export default class DesktopPage extends Component {
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
-    channelChoiceShown: PropTypes.bool,
-    chatAvailable: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
@@ -31,11 +27,7 @@ export default class DesktopPage extends Component {
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
     showNextButton: PropTypes.bool,
-    submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool,
-    callbackEnabled: PropTypes.bool.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
-    chatOfflineAvailable: PropTypes.bool.isRequired,
     isOnInitialDesktopSearchScreen: PropTypes.bool,
     maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     searchPlaceholder: PropTypes.string.isRequired,
@@ -47,7 +39,6 @@ export default class DesktopPage extends Component {
   static defaultProps = {
     articleViewActive: false,
     channelChoice: false,
-    channelChoiceShown: false,
     formTitleKey: 'help',
     hasSearched: false,
     hideZendeskLogo: false,
@@ -82,7 +73,7 @@ export default class DesktopPage extends Component {
   }
 
   focusField = () => {
-    if (!this.props.articleViewActive) {
+    if (!this.props.articleViewActive && this.searchField) {
       const searchFieldInputNode = this.searchField.getSearchField()
       const strLength = searchFieldInputNode.value.length
 
@@ -146,54 +137,24 @@ export default class DesktopPage extends Component {
     return !this.props.hideZendeskLogo ? <ZendeskLogo fullscreen={false} /> : null
   }
 
-  renderChannelChoice = () => {
-    return this.props.channelChoiceShown ? (
-      <ChannelChoicePopupDesktop
-        chatOfflineAvailable={this.props.chatOfflineAvailable}
-        submitTicketAvailable={this.props.submitTicketAvailable}
-        chatEnabled={this.props.chatEnabled}
-        callbackEnabled={this.props.callbackEnabled}
-        chatAvailable={this.props.chatAvailable}
-        onNextClick={this.props.onNextClick}
-      />
-    ) : null
-  }
-
-  renderLoadingAnimation = () => {
-    return <LoadingEllipses useUserColor={false} itemClassName={styles.loadingAnimation} />
-  }
-
-  renderLoadingButton = () => {
-    const buttonStyles = classNames(styles.button, styles.disabledButton)
-
-    return (
-      <Button primary={true} className={buttonStyles}>
-        {this.renderLoadingAnimation()}
-      </Button>
-    )
-  }
-
-  renderButton = () => {
-    const { channelChoice, buttonLabel, onNextClick, handleNextClick } = this.props
+  renderFooterContent = () => {
+    const {
+      showNextButton,
+      buttonLoading,
+      channelChoice,
+      buttonLabel,
+      onNextClick,
+      handleNextClick
+    } = this.props
     const onClickHandler = channelChoice ? onNextClick : handleNextClick
 
-    return (
-      <Button primary={true} onClick={onClickHandler} className={styles.button}>
-        {buttonLabel}
-      </Button>
-    )
-  }
-
-  renderFooterContent = () => {
-    const { showNextButton, buttonLoading } = this.props
-
     return showNextButton && !this.props.isOnInitialDesktopSearchScreen ? (
-      <div className={styles.buttonContainer}>
-        <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
-          {buttonLoading ? this.renderLoadingButton() : this.renderButton()}
-        </ButtonGroup>
-        {this.renderChannelChoice()}
-      </div>
+      <HelpCenterChannelButton
+        onClick={onClickHandler}
+        buttonLabel={buttonLabel}
+        isRTL={i18n.isRTL()}
+        loading={buttonLoading}
+      />
     ) : null
   }
 
@@ -224,6 +185,10 @@ export default class DesktopPage extends Component {
       this.props.showNextButton &&
       !this.props.isOnInitialDesktopSearchScreen &&
       !this.props.hideZendeskLogo
+
+    if (this.props.isOnInitialDesktopSearchScreen) {
+      return <SearchPromptPage />
+    }
 
     return (
       <div>

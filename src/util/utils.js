@@ -149,6 +149,28 @@ function onNextTick(callback) {
   setTimeout(callback, 0)
 }
 
+/**
+ * Appends the provided query params to the end of the given url
+ *
+ * @param  {string}  url          The URL/path e.g. "domain.com/foo/bar.index.html"
+ * @param  {string}  queryParams  The params you want to add to the end of the URL e.g. "some=example&another=example"
+ */
+function appendParams(url = '', queryParams = '') {
+  if (!queryParams || Object.keys(queryParams).length === 0) {
+    return url
+  }
+
+  const hashIndex = url.indexOf('#')
+  const hasHash = hashIndex !== -1
+
+  const urlBeforeHash = hasHash ? url.substring(0, hashIndex) : url
+  const originalHash = hasHash ? url.substring(hashIndex) : ''
+  const hasQueryParams = urlBeforeHash.indexOf('?') !== -1
+  const divider = hasQueryParams ? '&' : '?'
+
+  return urlBeforeHash + divider + queryParams + originalHash
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -166,5 +188,6 @@ export {
   referrerPolicyUrl,
   getHostUrl,
   isValidUrl,
-  onNextTick
+  onNextTick,
+  appendParams
 }

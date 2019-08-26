@@ -8,16 +8,13 @@ import HelpCenterArticle from 'components/HelpCenterArticle'
 import DesktopPage from 'embeds/helpCenter/pages/DesktopPage'
 import MobilePage from 'embeds/helpCenter/pages/MobilePage'
 import Results from 'embeds/helpCenter/components/Results'
-import { i18n } from 'service/i18n'
-import { getSettingsHelpCenterLocaleFallbacks } from 'src/redux/modules/settings/settings-selectors'
 import {
   handleArticleClick,
   performSearch,
   performImageSearch,
   handleOriginalArticleClicked,
   addRestrictedImage,
-  handleSearchFieldChange,
-  handleSearchFieldFocus
+  handleSearchFieldChange
 } from 'embeds/helpCenter/actions'
 import {
   getActiveArticle,
@@ -41,21 +38,13 @@ import {
   getIsOnInitialDesktopSearchScreen,
   getMaxWidgetHeight,
   getSettingsHelpCenterSearchPlaceholder,
-  getSettingsHelpCenterChatButton,
-  getSettingsHelpCenterMessageButton,
   getSettingsHelpCenterTitle,
   getContactOptionsButton,
-  getChatConnectionConnecting
+  getChatConnectionConnecting,
+  getHelpCenterButtonLabel
 } from 'src/redux/modules/selectors'
-import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
 
-const mapStateToProps = (state, ownProps) => {
-  const buttonLabelKey = ownProps.buttonLabelKey || 'message'
-  const messageButtonLabelKey = `embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`
-
-  const formTitleKey = ownProps.formTitleKey || 'help'
-  const titleKey = `embeddable_framework.helpCenter.form.title.${formTitleKey}`
-
+const mapStateToProps = state => {
   return {
     resultsLocale: getResultsLocale(state),
     activeArticle: getActiveArticle(state),
@@ -75,28 +64,23 @@ const mapStateToProps = (state, ownProps) => {
     isChatting: getIsChatting(state),
     maxWidgetHeight: getMaxWidgetHeight(state, 'webWidget'),
     isOnInitialDesktopSearchScreen: getIsOnInitialDesktopSearchScreen(state),
-    localeFallbacks: getSettingsHelpCenterLocaleFallbacks(state),
     searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
-    chatButtonLabel: getSettingsHelpCenterChatButton(state),
-    messageButtonLabel: getSettingsHelpCenterMessageButton(state, messageButtonLabelKey),
-    title: getSettingsHelpCenterTitle(state, titleKey),
+    title: getSettingsHelpCenterTitle(state),
     contactButtonLabel: getContactOptionsButton(state),
     chatConnecting: getChatConnectionConnecting(state),
-    contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state)
+    contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state),
+    buttonLabel: getHelpCenterButtonLabel(state)
   }
 }
 
 class HelpCenter extends Component {
   static propTypes = {
     activeArticle: PropTypes.object,
-    callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
-    chatEnabled: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool.isRequired,
     previousSearchTerm: PropTypes.string.isRequired,
     hasContextualSearched: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    localeFallbacks: PropTypes.array,
     onNextClick: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     performSearch: PropTypes.func.isRequired,
@@ -105,10 +89,6 @@ class HelpCenter extends Component {
     showNextButton: PropTypes.bool,
     searchLoading: PropTypes.bool.isRequired,
     searchFailed: PropTypes.bool.isRequired,
-    submitTicketAvailable: PropTypes.bool,
-    chatAvailable: PropTypes.bool,
-    chatOfflineAvailable: PropTypes.bool,
-    talkOnline: PropTypes.bool.isRequired,
     updateChatScreen: PropTypes.func,
     handleArticleClick: PropTypes.func.isRequired,
     resultsLocale: PropTypes.string.isRequired,
@@ -120,9 +100,6 @@ class HelpCenter extends Component {
     addRestrictedImage: PropTypes.func,
     searchFieldValue: PropTypes.string.isRequired,
     handleSearchFieldChange: PropTypes.func.isRequired,
-    handleSearchFieldFocus: PropTypes.func.isRequired,
-    chatNotificationCount: PropTypes.number,
-    isChatting: PropTypes.bool,
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpRequestNeeded: PropTypes.bool.isRequired,
     isContextualSearchComplete: PropTypes.bool.isRequired,
@@ -130,18 +107,15 @@ class HelpCenter extends Component {
     isOnInitialDesktopSearchScreen: PropTypes.bool,
     isMobile: PropTypes.bool.isRequired,
     searchPlaceholder: PropTypes.string.isRequired,
-    chatButtonLabel: PropTypes.string.isRequired,
-    messageButtonLabel: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    contactButtonLabel: PropTypes.string.isRequired,
-    chatConnecting: PropTypes.bool.isRequired
+    chatConnecting: PropTypes.bool.isRequired,
+    buttonLabel: PropTypes.string
   }
 
   static defaultProps = {
     callbackEnabled: false,
     channelChoice: false,
     hideZendeskLogo: false,
-    localeFallbacks: [],
     onNextClick: () => {},
     originalArticleButton: true,
     showBackButton: () => {},
@@ -198,11 +172,6 @@ class HelpCenter extends Component {
     return this.props.isMobile ? this.helpCenterMobile : this.helpCenterDesktop
   }
 
-  interactiveSearchSuccessFn = () => {
-    this.props.showBackButton(false)
-    this.focusOnFirstResult()
-  }
-
   focusField = () => {
     if (this.helpCenterDesktop) {
       this.helpCenterDesktop.focusField()
@@ -217,23 +186,21 @@ class HelpCenter extends Component {
     }
   }
 
-  search = () => {
+  search = (searchValue = '') => {
     const searchField = this.getHelpCenterComponent().getSearchField()
-    const searchTerm = searchField.getValue()
-
+    const searchTerm = searchValue || searchField.getValue()
     if (_.isEmpty(searchTerm)) {
       return
     }
 
-    /* eslint camelcase:0 */
-    const query = {
-      locale: i18n.getLocale(),
-      query: searchTerm,
-      per_page: MAXIMUM_SEARCH_RESULTS,
-      origin: 'web_widget'
+    const success = () => {
+      this.props.showBackButton(false)
+      this.focusOnFirstResult()
     }
-
-    this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn)
+    const fail = () => {
+      this.focusField()
+    }
+    this.props.performSearch(searchTerm, success, fail)
 
     if (this.props.isMobile) {
       setTimeout(() => {
@@ -242,40 +209,10 @@ class HelpCenter extends Component {
     }
   }
 
-  performSearchWithLocaleFallback = (query, successFn) => {
-    // When localeFallbacks is defined in the zESettings object then
-    // attempt the search with each locale in that array in order. Otherwise
-    // try the search with no locale (injects an empty string into localeFallbacks).
-    const localeFallbacks = !_.isEmpty(this.props.localeFallbacks)
-      ? this.props.localeFallbacks.slice()
-      : ['']
-    const failFn = () => {
-      this.focusField()
-    }
-    const doneFn = res => {
-      if (res.ok) {
-        if (res.body.count > 0 || _.isEmpty(localeFallbacks)) {
-          successFn()
-        } else {
-          query.locale = localeFallbacks.shift()
-          this.props.performSearch(_.pickBy(query), doneFn, failFn)
-        }
-      } else {
-        this.focusOnFirstResult()
-      }
-    }
-
-    this.props.performSearch(query, doneFn, failFn)
-  }
-
   handleNextClick = e => {
     e.preventDefault()
 
     this.props.onNextClick()
-  }
-
-  resetState = () => {
-    this.helpCenterMobile.resetState()
   }
 
   handleArticleClick = (articleIndex, e) => {
@@ -345,19 +282,15 @@ class HelpCenter extends Component {
     )
   }
 
-  renderHelpCenterDesktop = buttonLabel => {
+  renderHelpCenterDesktop = () => {
     return (
       <DesktopPage
         ref={el => {
           this.helpCenterDesktop = el
         }}
         isOnInitialDesktopSearchScreen={this.props.isOnInitialDesktopSearchScreen}
-        chatOfflineAvailable={this.props.chatOfflineAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         isContextualSearchPending={this.props.isContextualSearchPending}
-        chatAvailable={this.props.chatAvailable}
-        submitTicketAvailable={this.props.submitTicketAvailable}
-        chatEnabled={this.props.chatEnabled}
         handleOnChangeValue={this.props.handleSearchFieldChange}
         handleNextClick={this.handleNextClick}
         search={this.search}
@@ -366,11 +299,9 @@ class HelpCenter extends Component {
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
         channelChoice={this.props.channelChoice}
-        callbackEnabled={this.props.callbackEnabled}
-        talkOnline={this.props.talkOnline}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
-        buttonLabel={buttonLabel}
+        buttonLabel={this.props.buttonLabel}
         buttonLoading={this.props.chatConnecting}
         title={this.props.title}
         searchFieldValue={this.props.searchFieldValue}
@@ -385,33 +316,25 @@ class HelpCenter extends Component {
     )
   }
 
-  renderHelpCenterMobile = buttonLabel => {
+  renderHelpCenterMobile = () => {
     return (
       <MobilePage
         buttonLoading={this.props.chatConnecting}
         ref={el => {
           this.helpCenterMobile = el
         }}
-        chatOfflineAvailable={this.props.chatOfflineAvailable}
         handleOnChangeValue={this.props.handleSearchFieldChange}
-        onSearchFieldFocus={this.props.handleSearchFieldFocus}
-        submitTicketAvailable={this.props.submitTicketAvailable}
-        chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.props.searchLoading}
-        onNextClick={this.props.onNextClick}
         showNextButton={this.props.showNextButton}
-        chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         isContextualSearchPending={this.props.isContextualSearchPending}
-        callbackEnabled={this.props.callbackEnabled}
-        talkOnline={this.props.talkOnline}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         searchFieldValue={this.props.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        buttonLabel={buttonLabel}
+        buttonLabel={this.props.buttonLabel}
         title={this.props.title}
         contextualHelpRequestNeeded={this.props.contextualHelpRequestNeeded}
         searchPlaceholder={this.props.searchPlaceholder}
@@ -422,58 +345,10 @@ class HelpCenter extends Component {
     )
   }
 
-  chatLabel = () => {
-    const {
-      messageButtonLabel,
-      chatButtonLabel,
-      chatNotificationCount,
-      chatOfflineAvailable
-    } = this.props
-
-    if (chatNotificationCount > 0) {
-      return chatNotificationCount > 1
-        ? i18n.t('embeddable_framework.common.notification.manyMessages', {
-            plural_number: chatNotificationCount
-          })
-        : i18n.t('embeddable_framework.common.notification.oneMessage')
-    } else if (chatOfflineAvailable) {
-      return messageButtonLabel
-    }
-    return chatButtonLabel
-  }
-
-  buttonLabel = () => {
-    const {
-      channelChoice,
-      chatAvailable,
-      chatOfflineAvailable,
-      isChatting,
-      talkOnline,
-      callbackEnabled,
-      messageButtonLabel,
-      contactButtonLabel
-    } = this.props
-
-    if (isChatting) {
-      return this.chatLabel()
-    } else if (channelChoice) {
-      return contactButtonLabel
-    } else if (chatAvailable || chatOfflineAvailable) {
-      return this.chatLabel()
-    } else if (talkOnline) {
-      return callbackEnabled
-        ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
-        : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone')
-    }
-    return messageButtonLabel
-  }
-
   render = () => {
-    const buttonLabel = this.buttonLabel()
-
     const helpCenter = this.props.isMobile
-      ? this.renderHelpCenterMobile(buttonLabel)
-      : this.renderHelpCenterDesktop(buttonLabel)
+      ? this.renderHelpCenterMobile()
+      : this.renderHelpCenterDesktop()
 
     return <div>{helpCenter}</div>
   }
@@ -481,7 +356,6 @@ class HelpCenter extends Component {
 
 const actionCreators = {
   handleSearchFieldChange,
-  handleSearchFieldFocus,
   handleArticleClick,
   performSearch,
   performImageSearch,

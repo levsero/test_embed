@@ -1,11 +1,11 @@
 import _ from 'lodash'
 
+import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
 import { http } from 'service/transport'
 import { location } from 'utility/globals'
 import {
   getAuthToken,
   getHasWidgetShown,
-  getHasPassedAuth,
   getIsAuthenticationPending
 } from 'src/redux/modules/base/base-selectors'
 import {
@@ -13,6 +13,7 @@ import {
   getContextualHelpRequestNeeded,
   getSearchQuery
 } from 'embeds/helpCenter/selectors'
+import { getHasPassedAuth } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import { i18n } from 'service/i18n'
 import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
 import {
@@ -26,18 +27,18 @@ import {
   ORIGINAL_ARTICLE_CLICKED,
   ARTICLE_CLOSED,
   ADD_RESTRICTED_IMAGE,
-  CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
   GET_ARTICLE_REQUEST_SENT,
   GET_ARTICLE_REQUEST_SUCCESS,
   GET_ARTICLE_REQUEST_FAILURE,
   SEARCH_FIELD_CHANGED,
-  SEARCH_FIELD_FOCUSED,
   CONTEXTUAL_SUGGESTIONS_MANUALLY_SET
 } from './action-types'
 import { updateQueue } from 'src/redux/modules/base'
 import { isOnHostMappedDomain } from 'utility/pages'
-import { getSettingsHelpCenterFilter } from 'src/redux/modules/settings/settings-selectors'
-
+import {
+  getSettingsHelpCenterFilter,
+  getSettingsHelpCenterLocaleFallbacks
+} from 'src/redux/modules/settings/settings-selectors'
 const constructHelpCenterPayload = (path, query, doneFn, failFn, filter) => {
   const token = getAuthToken()
   const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:'
@@ -83,12 +84,30 @@ export function performImageSearch(path, done) {
   return { type: '' }
 }
 
-export function performSearch(query, done = () => {}, fail = () => {}) {
-  const timestamp = Date.now()
-  const path = '/api/v2/help_center/articles/embeddable_search.json'
-
+export function performSearch(searchTerm, success = () => {}, fail = () => {}, localeIndex = 0) {
   return (dispatch, getState) => {
-    const doneFn = response => {
+    // When localeFallbacks is defined in the zESettings object then
+    // attempt the search with each locale in that array in order. Otherwise
+    // try the search with no locale (injects an empty string into localeFallbacks).
+    const locales = [i18n.getLocale()].concat([
+      getSettingsHelpCenterLocaleFallbacks(getState()) || ['']
+    ])
+
+    if (localeIndex >= locales.length) {
+      return
+    }
+
+    const query = {
+      locale: locales[localeIndex],
+      query: searchTerm,
+      per_page: MAXIMUM_SEARCH_RESULTS,
+      origin: 'web_widget'
+    }
+
+    const timestamp = Date.now()
+    const path = '/api/v2/help_center/articles/embeddable_search.json'
+
+    const successFn = response => {
       if (preventSearchCompleteDispatch(getState, timestamp)) return
 
       dispatch({
@@ -96,8 +115,13 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
         payload: formatResults(response)
       })
 
-      done(response)
+      if (response.body.count > 0 || _.isEmpty(locales)) {
+        success(response)
+      } else {
+        dispatch(performSearch(searchTerm, success, fail, localeIndex + 1))
+      }
     }
+
     const failFn = error => {
       if (preventSearchCompleteDispatch(getState, timestamp)) return
 
@@ -112,7 +136,7 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
 
     const filter = getSettingsHelpCenterFilter(getState())
 
-    http.send(constructHelpCenterPayload(path, query, doneFn, failFn, filter))
+    http.send(constructHelpCenterPayload(path, query, successFn, failFn, filter))
   }
 }
 
@@ -202,23 +226,9 @@ export function addRestrictedImage(img) {
   }
 }
 
-export function updateChannelChoiceShown(bool) {
-  return {
-    type: CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
-    payload: bool
-  }
-}
-
 export function handleSearchFieldChange(value) {
   return {
     type: SEARCH_FIELD_CHANGED,
-    payload: value
-  }
-}
-
-export function handleSearchFieldFocus(value) {
-  return {
-    type: SEARCH_FIELD_FOCUSED,
     payload: value
   }
 }

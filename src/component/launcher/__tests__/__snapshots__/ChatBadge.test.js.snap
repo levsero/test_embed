@@ -12,6 +12,8 @@ exports[`renders the component 1`] = `
     </div>
     <div
       class="splashDisplayContainer splashPadding"
+      role="button"
+      tabindex="0"
     >
       <table
         class="splashTable"
@@ -29,7 +31,10 @@ exports[`renders the component 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                widget-icon_channelChoice-chat.svg
+                <svgr-mock
+                  aria-hidden="true"
+                  iconfilename="widget-icon_channelChoice-chat.svg"
+                />
               </span>
             </td>
           </tr>
@@ -50,17 +55,27 @@ exports[`renders the component 1`] = `
       <span
         class="container sendButton Icon--sendChat"
         data-testid="Icon--sendChat"
+        role="button"
+        tabindex="0"
         type="Icon--sendChat"
       >
-        widget-icon_sendChat.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_sendChat.svg"
+        />
       </span>
     </div>
     <span
       class="container minimizeButton Icon--dash"
       data-testid="Icon--dash"
+      role="button"
+      tabindex="0"
       type="Icon--dash"
     >
-      widget-icon_dash.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_dash.svg"
+      />
     </span>
   </div>
 </div>
@@ -78,6 +93,8 @@ exports[`with chatBadgeColor passed in 1`] = `
     </div>
     <div
       class="splashDisplayContainer splashPadding"
+      role="button"
+      tabindex="0"
     >
       <table
         class="splashTable"
@@ -95,7 +112,10 @@ exports[`with chatBadgeColor passed in 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                widget-icon_channelChoice-chat.svg
+                <svgr-mock
+                  aria-hidden="true"
+                  iconfilename="widget-icon_channelChoice-chat.svg"
+                />
               </span>
             </td>
           </tr>
@@ -116,17 +136,27 @@ exports[`with chatBadgeColor passed in 1`] = `
       <span
         class="container sendButton Icon--sendChat"
         data-testid="Icon--sendChat"
+        role="button"
+        tabindex="0"
         type="Icon--sendChat"
       >
-        widget-icon_sendChat.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_sendChat.svg"
+        />
       </span>
     </div>
     <span
       class="container minimizeButton Icon--dash"
       data-testid="Icon--dash"
+      role="button"
+      tabindex="0"
       type="Icon--dash"
     >
-      widget-icon_dash.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_dash.svg"
+      />
     </span>
   </div>
 </div>
@@ -144,6 +174,8 @@ exports[`with label passed in 1`] = `
     </div>
     <div
       class="splashDisplayContainer splashPadding"
+      role="button"
+      tabindex="0"
     >
       <table
         class="splashTable"
@@ -163,7 +195,10 @@ exports[`with label passed in 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                widget-icon_channelChoice-chat.svg
+                <svgr-mock
+                  aria-hidden="true"
+                  iconfilename="widget-icon_channelChoice-chat.svg"
+                />
               </span>
             </td>
           </tr>
@@ -184,17 +219,27 @@ exports[`with label passed in 1`] = `
       <span
         class="container sendButton Icon--sendChat"
         data-testid="Icon--sendChat"
+        role="button"
+        tabindex="0"
         type="Icon--sendChat"
       >
-        widget-icon_sendChat.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_sendChat.svg"
+        />
       </span>
     </div>
     <span
       class="container minimizeButton Icon--dash"
       data-testid="Icon--dash"
+      role="button"
+      tabindex="0"
       type="Icon--dash"
     >
-      widget-icon_dash.svg
+      <svgr-mock
+        aria-hidden="true"
+        iconfilename="widget-icon_dash.svg"
+      />
     </span>
   </div>
 </div>

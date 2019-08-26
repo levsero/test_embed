@@ -7,7 +7,10 @@ exports[`renders a button 1`] = `
     data-testid="Icon--avatar"
     type="Icon--avatar"
   >
-    widget-icon_concierge.svg
+    <svgr-mock
+      aria-hidden="true"
+      iconfilename="widget-icon_concierge.svg"
+    />
   </span>
 </div>
 `;
@@ -15,6 +18,8 @@ exports[`renders a button 1`] = `
 exports[`renders an img when src is provided  1`] = `
 <div>
   <img
+    alt=""
+    aria-hidden="true"
     class="avatar "
     src="http://sauce"
   />

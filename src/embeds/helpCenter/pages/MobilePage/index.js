@@ -1,42 +1,30 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button } from '@zendeskgarden/react-buttons'
-import { ButtonGroup } from 'component/button/ButtonGroup'
-import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SearchField } from 'component/field/SearchField'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { LoadingBarContent } from 'component/loading/LoadingBarContent'
-import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 import { i18n } from 'service/i18n'
+import HelpCenterChannelButton from 'src/embeds/helpCenter/components/HelpCenterChannelButton'
+import SearchPromptPage from 'src/embeds/helpCenter/pages/SearchPromptPage'
 
 import { locals as styles } from './styles.scss'
 
 export default class MobilePage extends Component {
   static propTypes = {
-    chatOfflineAvailable: PropTypes.bool,
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
-    chatAvailable: PropTypes.bool,
     children: PropTypes.node.isRequired,
     hasContextualSearched: PropTypes.bool,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
-    onSearchFieldFocus: PropTypes.func.isRequired,
-    onNextClick: PropTypes.func,
     hasSearched: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     isLoading: PropTypes.bool,
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
     showNextButton: PropTypes.bool,
-    submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool,
-    channelChoice: PropTypes.bool,
-    setChannelChoiceShown: PropTypes.func,
-    talkOnline: PropTypes.bool.isRequired,
-    callbackEnabled: PropTypes.bool.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpRequestNeeded: PropTypes.bool.isRequired,
     searchPlaceholder: PropTypes.string.isRequired,
@@ -104,44 +92,10 @@ export default class MobilePage extends Component {
     return this.searchField
   }
 
-  resetState = () => {
-    if (!this.props.hasSearched) {
-      this.setState({ showIntroScreen: true })
-      this.setSearchFieldFocused(false)
-    }
-  }
-
   setIntroScreen = () => {
     this.setState({
       showIntroScreen: false
     })
-  }
-
-  setSearchFieldFocused = focused => {
-    this.setState({ searchFieldFocused: !!focused })
-    this.props.onSearchFieldFocus(!!focused)
-  }
-
-  handleSearchBoxClicked = () => {
-    if (this.state.showIntroScreen) {
-      this.setState({ showIntroScreen: false })
-      this.setSearchFieldFocused(true)
-    }
-  }
-
-  handleOnBlur = () => {
-    // defer event to allow onClick events to fire first
-    this.searchFieldFocusTimer = setTimeout(() => {
-      this.setSearchFieldFocused(false)
-
-      if (!this.props.hasSearched && !this.props.isLoading) {
-        this.setState({ showIntroScreen: true })
-      }
-    }, 1)
-  }
-
-  handleOnFocus = () => {
-    this.setSearchFieldFocused(true)
   }
 
   handleSubmit = e => {
@@ -150,28 +104,7 @@ export default class MobilePage extends Component {
   }
 
   showFooterContent = () => {
-    return (
-      this.props.showNextButton &&
-      (this.props.articleViewActive ||
-        (!this.state.showIntroScreen && !this.state.searchFieldFocused))
-    )
-  }
-
-  renderChannelChoice = () => {
-    return this.props.channelChoice ? (
-      <div className={styles.channelChoiceContainer}>
-        <ChannelChoicePopupMobile
-          chatOfflineAvailable={this.props.chatOfflineAvailable}
-          submitTicketAvailable={this.props.submitTicketAvailable}
-          chatEnabled={this.props.chatEnabled}
-          callbackEnabled={this.props.callbackEnabled}
-          talkOnline={this.props.talkOnline}
-          chatAvailable={this.props.chatAvailable}
-          onNextClick={this.props.onNextClick}
-          onCancelClick={() => this.props.setChannelChoiceShown(false)}
-        />
-      </div>
-    ) : null
+    return this.props.showNextButton && (this.props.hasSearched || this.props.articleViewActive)
   }
 
   renderSearchField = () => {
@@ -182,12 +115,9 @@ export default class MobilePage extends Component {
         }}
         fullscreen={true}
         isMobile={true}
-        onFocus={this.handleOnFocus}
-        onBlur={this.handleOnBlur}
         onChangeValue={this.props.handleOnChangeValue}
         hasSearched={this.props.hasSearched}
         onSearchIconClick={this.handleSubmit}
-        onClick={this.handleSearchBoxClicked}
         isLoading={this.props.isLoading}
         searchPlaceholder={this.props.searchPlaceholder}
       />
@@ -222,34 +152,19 @@ export default class MobilePage extends Component {
     return this.props.articleViewActive || this.state.showIntroScreen ? null : this.renderForm()
   }
 
-  renderLoadingAnimation = () => {
-    return <LoadingEllipses useUserColor={false} itemClassName={styles.loadingAnimation} />
-  }
-
-  renderLoadingButton = () => {
-    return (
-      <Button primary={true} className={styles.footerButton}>
-        {this.renderLoadingAnimation()}
-      </Button>
-    )
-  }
-
-  renderButton = () => {
-    return (
-      <Button primary={true} className={styles.footerButton} onClick={this.props.handleNextClick}>
-        {this.props.buttonLabel}
-      </Button>
-    )
-  }
-
   renderFooterContent = () => {
-    return this.showFooterContent() ? (
-      <div className={styles.buttonContainer}>
-        <ButtonGroup rtl={i18n.isRTL()}>
-          {this.props.buttonLoading ? this.renderLoadingButton() : this.renderButton()}
-        </ButtonGroup>
-      </div>
-    ) : null
+    if (!this.showFooterContent()) return null
+
+    const { buttonLabel, handleNextClick, buttonLoading } = this.props
+    return (
+      <HelpCenterChannelButton
+        buttonLabel={buttonLabel}
+        onClick={handleNextClick}
+        loading={buttonLoading}
+        isRTL={i18n.isRTL()}
+        isMobile={true}
+      />
+    )
   }
 
   renderZendeskLogo = hideZendeskLogo => {
@@ -273,6 +188,10 @@ export default class MobilePage extends Component {
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState
     const containerClasses = !this.props.showNextButton && hideZendeskLogo ? styles.container : ''
 
+    if (this.state.showIntroScreen) {
+      return <SearchPromptPage />
+    }
+
     return (
       <div>
         <ScrollContainer
@@ -289,7 +208,6 @@ export default class MobilePage extends Component {
           {this.renderChildContent()}
         </ScrollContainer>
         {this.renderZendeskLogo(hideZendeskLogo)}
-        {this.renderChannelChoice()}
       </div>
     )
   }

@@ -52,64 +52,6 @@ test('talkDisconnect dispatches TALK_DISCONNECT_SOCKET_EVENT action', () => {
   expect(actions.talkDisconnect()).toEqual(expected)
 })
 
-describe('resetTalkScreen', () => {
-  test('show back button', () => {
-    const state = {
-      talk: {
-        embeddableConfig: { capability: 'widget/talk/PHONE_ONLY' }
-      },
-      settings: {
-        chat: {}
-      },
-      chat: {},
-      zopimChat: {},
-      base: {
-        embeds: {
-          helpCenterForm: {}
-        }
-      }
-    }
-
-    const store = mockStore(state)
-
-    store.dispatch(actions.resetTalkScreen())
-
-    expect(store.getActions()).toEqual([
-      {
-        type: baseTypes.UPDATE_BACK_BUTTON_VISIBILITY,
-        payload: true
-      }
-    ])
-  })
-
-  test('do not show back button', () => {
-    const state = {
-      talk: {
-        embeddableConfig: { capability: 'widget/talk/CALLBACK_AND_PHONE' }
-      },
-      settings: {
-        chat: {}
-      },
-      chat: {},
-      zopimChat: {},
-      base: {
-        embeds: {}
-      }
-    }
-
-    const store = mockStore(state)
-
-    store.dispatch(actions.resetTalkScreen())
-
-    expect(store.getActions()).toEqual([
-      {
-        type: baseTypes.UPDATE_BACK_BUTTON_VISIBILITY,
-        payload: false
-      }
-    ])
-  })
-})
-
 test('updateTalkCallMeForm dispatches expected actions', () => {
   const formState = {
     phone: '+61423423329',

@@ -5,13 +5,13 @@ exports[`render renders button with loading animation 1`] = `
   class="footer  "
 >
   <div
-    class="buttonContainer"
+    class="container containerMobile"
   >
     <div
-      class="container buttonRight "
+      class="container buttonRight buttonGroup"
     >
       <button
-        class="footerButton Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+        class="button disabledButton Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
         data-garden-id="buttons.button"
         data-garden-version="3.7.0"
         tabindex="0"
@@ -55,13 +55,13 @@ exports[`render renders expected next button 1`] = `
   class="footer  "
 >
   <div
-    class="buttonContainer"
+    class="container containerMobile"
   >
     <div
-      class="container buttonRight "
+      class="container buttonRight buttonGroup"
     >
       <button
-        class="footerButton Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+        class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
         data-garden-id="buttons.button"
         data-garden-version="3.7.0"
         tabindex="0"
@@ -76,107 +76,98 @@ exports[`render renders expected next button 1`] = `
 
 exports[`renders the expected components 1`] = `
 <div>
-  <div>
+  <div
+    class="container"
+  >
     <div
-      class="container flexContainer mobile"
-      data-testid="scrollcontainer"
+      class="header headerMobile"
     >
-      <header
-        class="header userHeader"
+      <h1
+        class="title"
       >
-        <h1
-          class="title titleMobile"
+        Help
+      </h1>
+    </div>
+    <div
+      class="container"
+    >
+      <h1
+        class="title"
+      >
+        Search our Help Center
+      </h1>
+      <form
+        class="form"
+        novalidate=""
+      >
+        <div
+          class="mobileContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn text__is-focused___3mc46 hytfkM"
+          data-garden-id="textfields.input"
+          data-garden-version="3.7.0"
         >
-          hello
-        </h1>
-      </header>
-      <div
-        class="content contentMobile"
-      >
-        <div>
-          <div>
-            <form
-              class="form"
-              novalidate=""
+          <label
+            class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+            data-garden-id="textfields.label"
+            data-garden-version="3.7.0"
+          >
+            How can we help?
+          </label>
+          <input
+            aria-invalid="false"
+            autocapitalize="off"
+            class="searchInput mobileSearchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
+            data-garden-id="textfields.input"
+            data-garden-version="3.7.0"
+            placeholder="How can we help?"
+            type="search"
+            value=""
+          />
+          <div
+            class="mobileNonSearchIconContainer MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
+            data-garden-id="textfields.media_figure"
+            data-garden-version="3.7.0"
+          />
+          <div
+            class="mobileSearchIcon MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
+            data-garden-id="textfields.media_figure"
+            data-garden-version="3.7.0"
+          >
+            <span
+              class="container icon Icon--search"
+              data-testid="Icon--search"
+              role="button"
+              tabindex="0"
+              type="Icon--search"
             >
-              <h1
-                class="searchTitle "
-              >
-                Search our Help Center
-              </h1>
-              <div
-                class="mobileContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn hytfkM"
-                data-garden-id="textfields.input"
-                data-garden-version="3.7.0"
-              >
-                <label
-                  class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-                  data-garden-id="textfields.label"
-                  data-garden-version="3.7.0"
-                >
-                  How can we help?
-                </label>
-                <input
-                  aria-invalid="false"
-                  autocapitalize="off"
-                  class="searchInput mobileSearchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
-                  data-garden-id="textfields.input"
-                  data-garden-version="3.7.0"
-                  placeholder="How can we help?"
-                  type="search"
-                  value=""
-                />
-                <div
-                  class="mobileNonSearchIconContainer MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
-                  data-garden-id="textfields.media_figure"
-                  data-garden-version="3.7.0"
-                />
-                <div
-                  class="mobileSearchIcon MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
-                  data-garden-id="textfields.media_figure"
-                  data-garden-version="3.7.0"
-                >
-                  <span
-                    class="container icon Icon--search"
-                    data-testid="Icon--search"
-                    type="Icon--search"
-                  >
-                    widget-icon_search.svg
-                  </span>
-                </div>
-              </div>
-            </form>
+              <svgr-mock
+                aria-hidden="true"
+                iconfilename="widget-icon_search.svg"
+              />
+            </span>
           </div>
         </div>
-      </div>
-      <footer
-        class="footer  "
-      />
+      </form>
     </div>
-    <a
-      class="
-      logo
-      
-      fullscreen
-      
-    "
-      href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-      tabindex="-1"
-      target="_blank"
+    <footer
+      class="footer"
     >
-      <span
-        class="container icon Icon--zendesk"
-        data-testid="Icon--zendesk"
-        type="Icon--zendesk"
+      <div
+        class="footer"
       >
-        widget-icon_zendesk.svg
-      </span>
-      <span
-        class="hidden"
-      >
-        zendesk
-      </span>
-    </a>
+        <a
+          class="icon"
+          data-testid="Icon--zendesk"
+          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+          tabindex="-1"
+          target="_blank"
+        >
+          <svgr-mock
+            iconfilename="widget-icon_zendesk.svg"
+            title="zendesk"
+          />
+        </a>
+      </div>
+    </footer>
   </div>
 </div>
 `;

@@ -13,6 +13,7 @@ import createStore from 'src/redux/createStore'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { updateSettings } from 'src/redux/modules/settings'
 import { generateUserWidgetCSS } from 'utility/color/styles'
+import { onNextTick } from 'src/util/utils'
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles'
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
@@ -132,7 +133,7 @@ const waitForSubmitTicketComponent = callback => {
   if (component !== null) {
     callback(component)
   } else {
-    setTimeout(() => waitForSubmitTicketComponent(callback), 0)
+    onNextTick(() => waitForSubmitTicketComponent(callback))
   }
 }
 

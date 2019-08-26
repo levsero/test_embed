@@ -18,24 +18,21 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
       class="container"
     >
       <div
-        class="content"
+        class="container"
       >
-        <span
-          class="container icon Icon--success-talk"
-          data-testid="Icon--success-talk"
-          type="Icon--success-talk"
-        >
-          widget-icon_success_talk.svg
-        </span>
-        <div
-          class="desktopMessages"
-        >
+        <svgr-mock
+          classname="talkSuccessIcon"
+          iconfilename="talk_success.svg"
+        />
+        <div>
           <h2
-            class="firstMessage firstMessageDesktop"
+            class="primary"
           >
             Thanks for reaching out.
           </h2>
-          <p>
+          <p
+            class="secondary"
+          >
             We'll get back to you soon.
           </p>
         </div>
@@ -58,11 +55,15 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
         </button>
         <a
           class="icon"
+          data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
           target="_blank"
         >
-          widget-icon_zendesk.svg
+          <svgr-mock
+            iconfilename="widget-icon_zendesk.svg"
+            title="zendesk"
+          />
         </a>
       </div>
     </footer>
@@ -82,26 +83,4 @@ Snapshot Diff:
 +       class="header headerMobile"
       >
         <h1
-@@ -16,8 +16,8 @@
-      >
-        <div
--         class="content"
-+         class="content contentMobile"
-        >
-          <span
--           class="container icon Icon--success-talk"
-+           class="container icon Icon--success-talk mobile"
-            data-testid="Icon--success-talk"
-            type="Icon--success-talk"
-@@ -26,8 +26,8 @@
-          </span>
-          <div
--           class="desktopMessages"
-+           class="mobileMessages"
-          >
-            <h2
--             class="firstMessage firstMessageDesktop"
-+             class="firstMessage firstMessageMobile"
-            >
-              Thanks for reaching out.
 `;

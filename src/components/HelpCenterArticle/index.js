@@ -350,6 +350,7 @@ export default class HelpCenterArticle extends Component {
           href={this.props.activeArticle.html_url}
           target="_blank"
           onClick={this.props.handleOriginalArticleClick}
+          aria-label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
           title={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
         >
           <Icon type="Icon--link-external" isMobile={this.props.isMobile} />
@@ -369,7 +370,12 @@ export default class HelpCenterArticle extends Component {
       >
         <h2 className={styles.title}>{this.props.activeArticle.title}</h2>
         {this.renderOriginalArticleButton()}
-        <div ref="article" className={styles.article} onClick={this.handleClick} />
+        <div
+          role="presentation"
+          ref="article"
+          className={styles.article}
+          onClick={this.handleClick}
+        />
       </div>
     )
   }

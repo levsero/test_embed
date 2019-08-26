@@ -307,7 +307,10 @@ exports[`chat log series of actions 1`] = `
               data-testid="Icon--mini-tick"
               type="Icon--mini-tick"
             >
-              check-sm-stroke.svg
+              <svgr-mock
+                aria-hidden="true"
+                iconfilename="check-sm-stroke.svg"
+              />
             </span>
             <div>
               <div
@@ -597,11 +600,11 @@ exports[`chat log visitor message failure 1`] = `
                 role="alert"
                 type="error"
               >
-                <a
+                <button
                   class="messageErrorLink "
                 >
                   Resend
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -637,7 +640,10 @@ exports[`chat log visitor message success 1`] = `
               data-testid="Icon--mini-tick"
               type="Icon--mini-tick"
             >
-              check-sm-stroke.svg
+              <svgr-mock
+                aria-hidden="true"
+                iconfilename="check-sm-stroke.svg"
+              />
             </span>
             <div>
               <div

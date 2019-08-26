@@ -92,6 +92,7 @@ exports[`active ticket form renders the expected components 1`] = `
               </div>
               <div
                 class=""
+                role="presentation"
                 style="opacity: 1; bottom: 10px;"
               >
                 <div
@@ -127,6 +128,7 @@ exports[`active ticket form renders the expected components 1`] = `
               </div>
               <div
                 class=""
+                role="presentation"
                 style="opacity: 1; bottom: 10px;"
               >
                 <div
@@ -162,6 +164,7 @@ exports[`active ticket form renders the expected components 1`] = `
               </div>
               <div
                 class=""
+                role="presentation"
                 style="opacity: 1; bottom: 10px;"
               >
                 <div
@@ -243,7 +246,10 @@ exports[`active ticket form renders the expected components 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_zendesk.svg"
+        />
       </span>
       <span
         class="hidden"
@@ -290,7 +296,7 @@ Snapshot Diff:
 +                 class="ticketFormTitle ticketFormTitleMobile"
                 >
                   Ticket Forms
-@@ -202,14 +201,5 @@
+@@ -205,14 +204,5 @@
             <div
               class="container buttonRight buttonGroup"
 -           >
@@ -468,7 +474,10 @@ exports[`renders the expected components 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_zendesk.svg"
+        />
       </span>
       <span
         class="hidden"

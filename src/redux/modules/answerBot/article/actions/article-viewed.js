@@ -9,6 +9,7 @@ import {
 import { getSessionByID } from 'src/redux/modules/answerBot/sessions/selectors'
 
 import { http } from 'service/transport'
+import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/redux/modules/answerBot/article/action-types'
 
 function articleViewedPending(sessionID, articleID) {
   return {
@@ -76,3 +77,10 @@ export const articleViewed = (sessionID, articleID) => {
     })
   }
 }
+
+export const originalArticleClicked = articleId => ({
+  type: ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED,
+  payload: {
+    articleId
+  }
+})

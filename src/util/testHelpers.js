@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import { updateTalkEmbeddableConfig } from 'src/redux/modules/talk'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
 import { i18n } from 'src/service/i18n'
 
@@ -9,6 +10,10 @@ export const dispatchChatAccountSettings = (store, settings) => {
     type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
     payload: settings
   })
+}
+
+export const dispatchUpdateEmbeddableConfig = (store, config) => {
+  store.dispatch(updateTalkEmbeddableConfig(config))
 }
 
 export const clearDOM = () => {

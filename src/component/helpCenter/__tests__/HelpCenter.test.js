@@ -1,7 +1,11 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
+import { Provider } from 'react-redux'
 
+import { dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
 import { i18n } from 'service/i18n'
+import * as utility from 'utility/devices'
+import createStore from 'src/redux/createStore'
 import { Component as HelpCenter } from '../HelpCenter'
 
 const renderComponent = (props = {}, renderer) => {
@@ -28,20 +32,28 @@ const renderComponent = (props = {}, renderer) => {
     isContextualSearchComplete: false,
     searchPlaceholder: 'How can we help?',
     chatButtonLabel: 'Live chat',
-    messageButtonLabel: 'Leave us a message',
+    buttonLabel: 'Leave us a message',
     title: 'Help',
     contactButtonLabel: 'Contact us',
     chatConnecting: false,
     isOnInitialDesktopSearchScreen: false,
     ...props
   }
-  const component = <HelpCenter {...componentProps} />
+  const store = createStore()
+  const component = (
+    <Provider store={store}>
+      <HelpCenter {...componentProps} />
+    </Provider>
+  )
 
+  let utils
   if (renderer) {
-    return renderer(component)
+    utils = renderer(component)
   } else {
-    return render(component)
+    utils = render(component)
   }
+
+  return { store, ...utils }
 }
 
 const articles = [
@@ -120,6 +132,10 @@ describe('on article click', () => {
 })
 
 describe('mobile', () => {
+  beforeEach(() => {
+    jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+  })
+
   test('renders mobile classes', () => {
     const { container } = renderComponent({ isMobile: true })
 
@@ -127,99 +143,22 @@ describe('mobile', () => {
   })
 
   it('hides zendesk logo when hideZendeskLogo is true', () => {
-    const { queryByTestId } = renderComponent({
-      isMobile: true,
+    const { store, queryByTestId } = renderComponent({
       hideZendeskLogo: true
     })
+    dispatchUpdateEmbeddableConfig(store, { hideZendeskLogo: true })
 
     expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
   })
 })
 
 describe('help center button', () => {
-  describe('when chat is available', () => {
-    describe('when channel choice is off', () => {
-      it('uses the chat label when there are no notifications', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          chatButtonLabel: 'chat button',
-          channelChoice: false
-        })
-
-        expect(queryByText('chat button')).toBeInTheDocument()
-      })
-
-      it('uses the expected label when there is 1 notification', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          chatNotificationCount: 1,
-          chatButtonLabel: 'chat button',
-          channelChoice: false
-        })
-
-        expect(queryByText('1 new message')).toBeInTheDocument()
-      })
-
-      it('uses the expected label when there is more than 1 notification', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          chatNotificationCount: 3,
-          channelChoice: false
-        })
-
-        expect(queryByText('3 new messages')).toBeInTheDocument()
-      })
+  it('uses the buttonLabel prop', () => {
+    const { queryByText } = renderComponent({
+      buttonLabel: 'click this button'
     })
 
-    describe('when channel choice is on', () => {
-      it('uses contact button label', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          messageButtonLabel: 'message button',
-          contactButtonLabel: 'this is the contact button',
-          channelChoice: true
-        })
-
-        expect(queryByText('this is the contact button')).toBeInTheDocument()
-      })
-    })
-
-    describe('when chat is offline but offline form is enabled', () => {
-      it('uses the message button label', () => {
-        const { queryByText } = renderComponent({
-          chatAvailable: true,
-          messageButtonLabel: 'message button',
-          chatOfflineAvailable: true,
-          channelChoice: false
-        })
-
-        expect(queryByText('message button')).toBeInTheDocument()
-      })
-    })
-  })
-
-  describe('when talk is online', () => {
-    describe('when callback is enabled', () => {
-      it('uses the callback label', () => {
-        const { queryByText } = renderComponent({
-          talkOnline: true,
-          callbackEnabled: true
-        })
-
-        expect(queryByText('Request a callback')).toBeInTheDocument()
-      })
-    })
-
-    describe('when callback is disabled', () => {
-      it('uses the callback label', () => {
-        const { queryByText } = renderComponent({
-          talkOnline: true,
-          callbackEnabled: false
-        })
-
-        expect(queryByText('Call us')).toBeInTheDocument()
-      })
-    })
+    expect(queryByText('click this button')).toBeInTheDocument()
   })
 })
 
@@ -254,12 +193,7 @@ describe('searching', () => {
     const { performSearch } = search('Help me')
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'en-AU',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -284,12 +218,7 @@ describe('searching', () => {
     const { performSearch } = search('Help me')
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'en-AU',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -297,12 +226,7 @@ describe('searching', () => {
     successFn(performSearch)(noResultsFound)
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: '',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -314,12 +238,7 @@ describe('searching', () => {
     })
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'en-AU',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -327,12 +246,7 @@ describe('searching', () => {
     successFn(performSearch)(noResultsFound)
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'fr',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )
@@ -340,12 +254,7 @@ describe('searching', () => {
     successFn(performSearch)(noResultsFound)
 
     expect(performSearch).toHaveBeenCalledWith(
-      {
-        locale: 'es',
-        origin: 'web_widget',
-        per_page: 9, // eslint-disable-line camelcase
-        query: 'Help me'
-      },
+      'Help me',
       expect.any(Function),
       expect.any(Function)
     )

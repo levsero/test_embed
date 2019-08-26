@@ -20,9 +20,9 @@ export default class ChatHistoryLink extends Component {
     return (
       <div className={styles.linkDiv}>
         <Icon className={styles.icon} type={ICONS.CLOCK} />
-        <a className={styles.linkText} onClick={openedChatHistory}>
+        <button className={styles.linkText} onClick={openedChatHistory}>
           {label}
-        </a>
+        </button>
       </div>
     )
   }

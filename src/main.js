@@ -5,13 +5,14 @@ import { boot } from './boot'
 import errorTracker from 'service/errorTracker'
 import { isBlacklisted } from 'utility/devices'
 import { win, document as doc } from 'utility/globals'
+import { onNextTick } from 'src/util/utils'
 
 try {
   if (!isBlacklisted()) {
-    // setTimeout needed for ie10. Otherwise it calls boot too early
+    // Needed for ie10. Otherwise it calls boot too early
     // and the other zE functions on the page aren't seen. This leads to
     // the pre render queue being skipped which breaks zE.hide.
-    setTimeout(() => boot.start(win, doc), 0)
+    onNextTick(() => boot.start(win, doc))
   }
 } catch (err) {
   errorTracker.error(err)

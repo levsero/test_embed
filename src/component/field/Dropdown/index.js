@@ -200,8 +200,9 @@ export default class NestedDropdown extends Component {
       displayedName = ''
     }
 
-    this.setState({ selectedValue, viewableNode, displayedName })
-    setTimeout(this.props.onChange, 0)
+    this.setState({ selectedValue, viewableNode, displayedName }, () => {
+      this.props.onChange()
+    })
   }
 
   render() {

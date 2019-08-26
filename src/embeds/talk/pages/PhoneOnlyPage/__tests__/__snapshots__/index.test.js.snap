@@ -8,9 +8,6 @@ Snapshot Diff:
 @@ -18,1 +18,1 @@
 -         class="container containerMobile"
 +         class="container"
-@@ -22,1 +22,1 @@
--           class="container icon Icon--talk mobile"
-+           class="container icon Icon--talk"
 `;
 
 exports[`PhoneOnlyPage on desktop renders when there is no average wait time 1`] = `
@@ -18,7 +15,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -33,5 +33,0 @@
+@@ -30,5 +30,0 @@
 -         <p
 -           class="message"
 -         >
@@ -47,13 +44,10 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
         class="container containerMobile"
         data-testid="talk--phoneOnlyPage"
       >
-        <span
-          class="container icon Icon--talk mobile"
-          data-testid="Icon--talk"
-          type="Icon--talk"
-        >
-          widget-icon_talk.svg
-        </span>
+        <svgr-mock
+          classname="talkIcon"
+          iconfilename="talk.svg"
+        />
         <p
           class="message"
         >
@@ -82,11 +76,15 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
     >
       <a
         class="icon"
+        data-testid="Icon--zendesk"
         href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
         tabindex="-1"
         target="_blank"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          iconfilename="widget-icon_zendesk.svg"
+          title="zendesk"
+        />
       </a>
     </footer>
   </div>
@@ -98,7 +96,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -33,5 +33,0 @@
+@@ -30,5 +30,0 @@
 -         <p
 -           class="message"
 -         >

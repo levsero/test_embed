@@ -5,7 +5,7 @@ import { isMobileBrowser } from 'utility/devices'
 import { i18n } from 'service/i18n'
 import { ICONS } from 'constants/shared'
 import { locals as styles } from './Icon.scss'
-import { keyCodes } from 'utility/keyboard'
+import { triggerOnEnter } from 'utility/keyboard'
 import classNames from 'classnames'
 
 const icons = {
@@ -32,7 +32,6 @@ const icons = {
   'Icon--chevron-right-fill': require('@zendeskgarden/svg-icons/src/16/chevron-right-fill.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('@zendeskgarden/svg-icons/src/16/x-stroke.svg'),
-  'Icon--error': require('@zendeskgarden/svg-icons/src/14/error.svg'),
   'Icon--launcher-talk': require('icons/widget-icon_launcher-talk.svg'),
   'Icon--arrow-down': require('icons/widget-icon_arrow-down-stroke.svg'),
   'Icon--image-stroke': require('@zendeskgarden/svg-icons/src/16/image-stroke.svg'),
@@ -62,9 +61,7 @@ const icons = {
   'Icon--channelChoice-chat': require('icons/widget-icon_channelChoice-chat.svg'),
   'Icon--previous': require('@zendeskgarden/svg-icons/src/14/previous.svg'),
   [ICONS.MENU]: require('icons/widget-icon_menu.svg'),
-  [ICONS.SUCCESS_CONTACT_FORM]: require('icons/widget-icon_success_contactForm.svg'),
-  [ICONS.SUCCESS_TALK]: require('icons/widget-icon_success_talk.svg'),
-  [ICONS.TALK]: require('icons/widget-icon_talk.svg')
+  [ICONS.SUCCESS_CONTACT_FORM]: require('icons/widget-icon_success_contactForm.svg')
 }
 
 export class Icon extends Component {
@@ -82,20 +79,25 @@ export class Icon extends Component {
   }
 
   render() {
-    const IconSVG = icons[this.props.type].default
-    const iconClasses = classNames(styles.container, this.props.className, this.props.type, {
-      [styles.mobile]: this.props.isMobile,
-      [styles.flipX]: this.props.flipX
+    const { type, onClick, className, isMobile, flipX } = this.props
+    const IconSVG = icons[type].default
+    const iconClasses = classNames(styles.container, className, type, {
+      [styles.mobile]: isMobile,
+      [styles.flipX]: flipX
     })
 
+    const spanProps = onClick
+      ? {
+          tabIndex: 0,
+          role: 'button',
+          onKeyDown: triggerOnEnter(onClick),
+          onClick: onClick
+        }
+      : {}
+
     return (
-      <span
-        onClick={this.props.onClick}
-        data-testid={this.props.type}
-        className={iconClasses}
-        type={this.props.type}
-      >
-        <IconSVG />
+      <span {...spanProps} data-testid={type} className={iconClasses} type={type}>
+        <IconSVG aria-hidden={'true'} />
       </span>
     )
   }
@@ -138,13 +140,6 @@ export class IconButton extends Component {
     this.setState({ showTooltip: false })
   }
 
-  handleKeyDown = e => {
-    if (e.keyCode === keyCodes.ENTER) {
-      this.props.onClick(e, true)
-    }
-    e.stopPropagation() // stops the onClick from also being called
-  }
-
   render() {
     const { altText, buttonClassName, disabled, disableTooltip, onClick, ...iconProps } = this.props
 
@@ -162,9 +157,11 @@ export class IconButton extends Component {
           type="button"
           className={`${buttonClassName} ${styles.button}`}
           onClick={onClick}
-          onKeyDown={this.handleKeyDown}
+          onKeyDown={triggerOnEnter(e => onClick(e, true))}
           onMouseOver={this.handleMouseOver}
+          onFocus={this.handleMouseOver}
           onMouseOut={this.handleMouseOut}
+          onBlur={this.handleMouseOut}
           title={showTitle ? altText : null}
         >
           <Icon {...iconProps} />

@@ -6,10 +6,7 @@ import ButtonIconStyles from 'component/button/ButtonIcon.scss'
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss'
 import ButtonPillStyles from 'component/button/ButtonPill.scss'
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss'
-import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.scss'
-import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.scss'
-import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.scss'
-import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoicePopupDesktop.scss'
+import ChannelChoiceContainerStyles from 'component/channelChoice/ChannelChoiceContainer.scss'
 import AgentListStyles from 'component/chat/agents/AgentList.scss'
 import ChatBoxStyles from 'component/chat/chatting/ChatBox.scss'
 import ChatPopupStyles from 'component/chat/ChatPopup.scss'
@@ -42,7 +39,6 @@ import RatingScreenStyles from 'component/chat/rating/RatingScreen.scss'
 import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
 import NestedDropdownStyles from 'component/field/Dropdown/NestedDropdown.scss'
-import FlagStyles from 'component/Flag.scss'
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss'
@@ -76,10 +72,7 @@ export const webWidgetStyles = `
   ${ButtonGroupStyles}
   ${ButtonPillStyles}
   ${ChannelChoiceMenuStyles}
-  ${ChannelChoiceDesktopStyles}
-  ${ChannelChoicePopupDesktopStyles}
-  ${ChannelChoiceMobileStyles}
-  ${ChannelChoicePopupMobileStyles}
+  ${ChannelChoiceContainerStyles}
   ${ChatBoxStyles}
   ${ChatPopupStyles}
   ${ChattHistoryScreenStyles}
@@ -111,7 +104,6 @@ export const webWidgetStyles = `
   ${PrechatScreenStyles}
   ${ContainerStyles}
   ${NestedDropdownStyles}
-  ${FlagStyles}
   ${IconFieldButtonStyles}
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}

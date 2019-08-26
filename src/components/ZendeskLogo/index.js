@@ -3,33 +3,22 @@ import PropTypes from 'prop-types'
 import { locals as styles } from './styles.scss'
 import { connect } from 'react-redux'
 import { getZendeskLogoLink } from './selectors'
-import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 
 import LogoIcon from 'icons/widget-icon_zendesk.svg'
 
-const ZendeskLogo = ({ href, hideZendeskLogo = false }) => {
-  if (hideZendeskLogo) {
-    return null
-  }
-
-  return (
-    <a href={href} target="_blank" tabIndex="-1" className={styles.icon}>
-      <LogoIcon title="zendesk" />
-    </a>
-  )
-}
+const ZendeskLogo = ({ href }) => (
+  <a data-testid="Icon--zendesk" href={href} target="_blank" tabIndex="-1" className={styles.icon}>
+    <LogoIcon title="zendesk" />
+  </a>
+)
 
 ZendeskLogo.propTypes = {
-  href: PropTypes.string.isRequired,
-  hideZendeskLogo: PropTypes.bool
+  href: PropTypes.string.isRequired
 }
 
-const mapStateToProps = (state, props) => {
-  return {
-    href: getZendeskLogoLink(state, props.linkToChat),
-    hideZendeskLogo: getHideZendeskLogo(state)
-  }
-}
+const mapStateToProps = (state, props) => ({
+  href: getZendeskLogoLink(state, props.linkToChat)
+})
 
 const connectedComponent = connect(mapStateToProps)(ZendeskLogo)
 

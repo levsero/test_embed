@@ -5,7 +5,7 @@ exports[`render footer renders button with loading animation 1`] = `
   class="footer  footerShadow"
 >
   <div
-    class="buttonContainer"
+    class="container containerDesktop"
   >
     <div
       class="container buttonRight buttonGroup"
@@ -55,7 +55,7 @@ exports[`render footer renders expected next button 1`] = `
   class="footer  footerShadow"
 >
   <div
-    class="buttonContainer"
+    class="container containerDesktop"
   >
     <div
       class="container buttonRight buttonGroup"
@@ -120,9 +120,14 @@ exports[`renders the expected components 1`] = `
               <span
                 class="container notFocused icon Icon--search"
                 data-testid="Icon--search"
+                role="button"
+                tabindex="0"
                 type="Icon--search"
               >
-                widget-icon_search.svg
+                <svgr-mock
+                  aria-hidden="true"
+                  iconfilename="widget-icon_search.svg"
+                />
               </span>
             </div>
           </div>
@@ -139,7 +144,7 @@ exports[`renders the expected components 1`] = `
         class="footer  footerShadow"
       >
         <div
-          class="buttonContainer"
+          class="container containerDesktop"
         >
           <div
             class="container buttonRight buttonGroup"
@@ -171,7 +176,10 @@ exports[`renders the expected components 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_zendesk.svg"
+        />
       </span>
       <span
         class="hidden"
@@ -209,7 +217,7 @@ exports[`renders the expected components when articleViewActive is true 1`] = `
         class="footer  footerShadow"
       >
         <div
-          class="buttonContainer"
+          class="container containerDesktop"
         >
           <div
             class="container buttonRight buttonGroup"
@@ -241,7 +249,10 @@ exports[`renders the expected components when articleViewActive is true 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        widget-icon_zendesk.svg
+        <svgr-mock
+          aria-hidden="true"
+          iconfilename="widget-icon_zendesk.svg"
+        />
       </span>
       <span
         class="hidden"
@@ -255,93 +266,88 @@ exports[`renders the expected components when articleViewActive is true 1`] = `
 
 exports[`renders the expected components when isOnInitialDesktopSearchScreen is true 1`] = `
 <div>
-  <div>
+  <div
+    class="container"
+  >
     <div
-      class="noCustomHeight container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
-      style="height: 550px;"
+      class="header"
     >
-      <header
-        class="header userHeader"
+      <h1
+        class="title"
       >
-        <h1
-          class="title"
-        />
-      </header>
-      <div
-        class="content"
-      >
-        <div>
-          <form
-            class="form"
-            novalidate=""
-          >
-            <div
-              class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn hytfkM"
-              data-garden-id="textfields.input"
-              data-garden-version="3.7.0"
-            >
-              <label
-                class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-                data-garden-id="textfields.label"
-                data-garden-version="3.7.0"
-              />
-              <input
-                aria-invalid="false"
-                autocapitalize="off"
-                class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
-                data-garden-id="textfields.input"
-                data-garden-version="3.7.0"
-                placeholder=""
-                type="search"
-                value=""
-              />
-              <div
-                class="desktopSearchOrLoading MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
-                data-garden-id="textfields.media_figure"
-                data-garden-version="3.7.0"
-              >
-                <span
-                  class="container notFocused icon Icon--search"
-                  data-testid="Icon--search"
-                  type="Icon--search"
-                >
-                  widget-icon_search.svg
-                </span>
-              </div>
-            </div>
-          </form>
-          <div />
-        </div>
-      </div>
-      <footer
-        class="footer  "
-      />
+        Help
+      </h1>
     </div>
-    <a
-      class="
-      logo
-      formSuccess
-      
-      
-    "
-      href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-      tabindex="-1"
-      target="_blank"
+    <div
+      class="container"
     >
-      <span
-        class="container icon Icon--zendesk"
-        data-testid="Icon--zendesk"
-        type="Icon--zendesk"
+      <form
+        class="form"
+        novalidate=""
       >
-        widget-icon_zendesk.svg
-      </span>
-      <span
-        class="hidden"
+        <div
+          class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn text__is-focused___3mc46 hytfkM"
+          data-garden-id="textfields.input"
+          data-garden-version="3.7.0"
+        >
+          <label
+            class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+            data-garden-id="textfields.label"
+            data-garden-version="3.7.0"
+          >
+            How can we help?
+          </label>
+          <input
+            aria-invalid="false"
+            autocapitalize="off"
+            class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
+            data-garden-id="textfields.input"
+            data-garden-version="3.7.0"
+            placeholder="How can we help?"
+            type="search"
+            value=""
+          />
+          <div
+            class="desktopSearchOrLoading MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
+            data-garden-id="textfields.media_figure"
+            data-garden-version="3.7.0"
+          >
+            <span
+              class="container focused notFocused icon Icon--search"
+              data-testid="Icon--search"
+              role="button"
+              tabindex="0"
+              type="Icon--search"
+            >
+              <svgr-mock
+                aria-hidden="true"
+                iconfilename="widget-icon_search.svg"
+              />
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+    <footer
+      class="footer"
+    >
+      <div
+        class="footer"
       >
-        zendesk
-      </span>
-    </a>
+        <a
+          class="icon"
+          data-testid="Icon--zendesk"
+          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+          tabindex="-1"
+          target="_blank"
+        >
+          <svgr-mock
+            iconfilename="widget-icon_zendesk.svg"
+            title="zendesk"
+          />
+        </a>
+      </div>
+    </footer>
   </div>
 </div>
 `;

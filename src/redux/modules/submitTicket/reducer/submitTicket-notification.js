@@ -1,5 +1,5 @@
 import { TICKET_SUBMISSION_REQUEST_SUCCESS } from '../submitTicket-action-types'
-import { WIDGET_HIDE_ANIMATION_COMPLETE, UPDATE_ACTIVE_EMBED } from '../../base/base-action-types'
+import { UPDATE_WIDGET_SHOWN, UPDATE_ACTIVE_EMBED } from '../../base/base-action-types'
 
 const initialState = {
   show: false
@@ -12,7 +12,7 @@ const notification = (state = initialState, action) => {
     case TICKET_SUBMISSION_REQUEST_SUCCESS:
       return { show: true }
     case UPDATE_ACTIVE_EMBED:
-    case WIDGET_HIDE_ANIMATION_COMPLETE:
+    case UPDATE_WIDGET_SHOWN:
       return { show: false }
     default:
       return state

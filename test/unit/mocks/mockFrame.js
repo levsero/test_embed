@@ -63,6 +63,6 @@ export class MockFrame extends Component {
   }
 
   render = () => {
-    return <iframe ref="frame" className="mock-frame" />
+    return <iframe title="mockFrame" ref="frame" className="mock-frame" />
   }
 }

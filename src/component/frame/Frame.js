@@ -11,11 +11,7 @@ import { EmbedWrapper } from 'component/frame/EmbedWrapper'
 import { i18n } from 'service/i18n'
 import { getZoomSizingRatio } from 'utility/devices'
 import Transition from 'react-transition-group/Transition'
-import {
-  updateWidgetShown,
-  widgetShowAnimationComplete,
-  widgetHideAnimationComplete
-} from 'src/redux/modules/base/base-actions'
+import { widgetShowAnimationComplete } from 'src/redux/modules/base/base-actions'
 import {
   getFixedStyles,
   getColor,
@@ -36,6 +32,7 @@ import {
   getStylingPositionVertical,
   getStylingZIndex
 } from 'src/redux/modules/settings/settings-selectors'
+import { onNextTick } from 'src/util/utils'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -104,8 +101,6 @@ class Frame extends Component {
       background: PropTypes.oneOf(['transparent']),
       maxHeight: PropTypes.string
     }),
-    updateWidgetShown: PropTypes.func,
-    widgetHideAnimationComplete: PropTypes.func,
     widgetShowAnimationComplete: PropTypes.func,
     color: PropTypes.shape({
       base: PropTypes.string,
@@ -153,8 +148,6 @@ class Frame extends Component {
     visible: true,
     title: '',
     fixedStyles: {},
-    updateWidgetShown: () => {},
-    widgetHideAnimationComplete: () => {},
     widgetShowAnimationComplete: () => {},
     generateUserCSS: () => {},
     chatStandalone: false,
@@ -233,12 +226,12 @@ class Frame extends Component {
   }
 
   flushQueue = () => {
-    setTimeout(() => {
+    onNextTick(() => {
       this.queue.forEach(callback => {
         callback()
       })
       this.queue = []
-    }, 0)
+    })
   }
 
   updateFrameLocale = () => {
@@ -246,10 +239,10 @@ class Frame extends Component {
     const direction = i18n.isRTL() ? 'rtl' : 'ltr'
 
     // Need to defer to the next tick because Firefox renders differently
-    setTimeout(() => {
+    onNextTick(() => {
       html.setAttribute('lang', i18n.getLocale())
       html.setAttribute('dir', direction)
-    }, 0)
+    })
 
     if (this.child) {
       this.forceUpdateWorld()
@@ -333,27 +326,16 @@ class Frame extends Component {
 
     this.props.onShow(this)
 
-    // We need to call afterShowAnimate in next tick because the refs aren't available
-    // until then
-    setTimeout(() => {
+    // refs aren't available until next tick
+    onNextTick(() => {
       this.props.afterShowAnimate(this)
-    }, 0)
-
-    if (this.props.name !== 'launcher') {
-      this.props.updateWidgetShown(true)
-    }
+    })
   }
 
-  hide = (options = {}) => {
-    const { onHide, updateWidgetShown } = this.props
+  hide = () => {
+    const { onHide } = this.props
 
     onHide(this)
-    if (options.onHide) options.onHide()
-    this.props.widgetHideAnimationComplete()
-
-    if (this.props.name !== 'launcher') {
-      updateWidgetShown(false)
-    }
   }
 
   back = e => {
@@ -453,7 +435,7 @@ class Frame extends Component {
     ReactDOM.render(embed, element)
 
     if (mobileFullscreen) {
-      setTimeout(this.applyMobileBodyStyle, 0)
+      onNextTick(this.applyMobileBodyStyle)
     }
     this.flushQueue()
   }
@@ -522,7 +504,7 @@ class Frame extends Component {
       if (this.lastQueuedRender) {
         clearTimeout(this.lastQueuedRender)
       }
-      this.lastQueuedRender = setTimeout(this.renderFrameContent, 0)
+      this.lastQueuedRender = onNextTick(this.renderFrameContent)
     }
   }
 
@@ -576,8 +558,6 @@ class Frame extends Component {
 }
 
 const actionCreators = {
-  updateWidgetShown,
-  widgetHideAnimationComplete,
   widgetShowAnimationComplete
 }
 

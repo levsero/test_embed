@@ -4,14 +4,12 @@ exports[`renders the component 1`] = `
 <div>
   <div
     class="error"
+    data-testid="talk--errorNotification"
   >
-    <span
-      class="container errorIcon Icon--error"
-      data-testid="Icon--error"
-      type="Icon--error"
-    >
-      error.svg
-    </span>
+    <svgr-mock
+      classname="errorIcon"
+      iconfilename="error.svg"
+    />
     there was an error
   </div>
 </div>

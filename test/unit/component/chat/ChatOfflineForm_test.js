@@ -811,15 +811,15 @@ describe('ChatOfflineForm component', () => {
         expect(result.props.className).toEqual('operatingHoursContainerClass')
       })
 
-      it('returns a link (<a> element) inside the <p>', () => {
-        expect(TestUtils.isElementOfType(link, 'a')).toEqual(true)
+      it('returns a link (<button> element) inside the <p>', () => {
+        expect(TestUtils.isElementOfType(link, 'button')).toEqual(true)
       })
 
-      it('returns the right classes for the <a> element', () => {
+      it('returns the right classes for the <button> element', () => {
         expect(link.props.className).toEqual('operatingHoursLinkClass')
       })
 
-      it('returns a prop for onClick for the <a> element', () => {
+      it('returns a prop for onClick for the <button> element', () => {
         expect(link.props.onClick).toEqual(handleOperatingHoursClickFn)
       })
 

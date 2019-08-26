@@ -13,8 +13,12 @@
   font-size: $font-size-mobile;
 }
 
-.icon {
+.talkIcon {
   composes: u-userFillCustomColor from global;
+  min-width: #{50 / $font-size}rem;
+  min-height: #{50 / $font-size}rem;
+  height: #{50 / $font-size}rem;
+  width: #{50 / $font-size}rem;
 }
 
 .message {

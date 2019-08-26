@@ -5,6 +5,7 @@ import * as types from 'embeds/helpCenter/actions/action-types'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as helpCenterSelectors from 'embeds/helpCenter/selectors'
+import * as helpCenterLinkedSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import * as settingsSelectors from 'src/redux/modules/settings/settings-selectors'
 import * as pages from 'utility/pages'
 import { http } from 'service/transport'
@@ -50,15 +51,6 @@ test('addRestrictedImage dispatches expected action', () => {
   expect(actions.addRestrictedImage({ x: 123 })).toEqual(expected)
 })
 
-test('updateChannelChoiceShown dispatches expected action', () => {
-  const expected = {
-    type: types.CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
-    payload: true
-  }
-
-  expect(actions.updateChannelChoiceShown(true)).toEqual(expected)
-})
-
 test('handleSearchFieldChange dispatches expected action', () => {
   const expected = {
     type: types.SEARCH_FIELD_CHANGED,
@@ -66,15 +58,6 @@ test('handleSearchFieldChange dispatches expected action', () => {
   }
 
   expect(actions.handleSearchFieldChange({ y: 1234 })).toEqual(expected)
-})
-
-test('handleSearchFieldFocus dispatches expected action', () => {
-  const expected = {
-    type: types.SEARCH_FIELD_FOCUSED,
-    payload: { y: 1234 }
-  }
-
-  expect(actions.handleSearchFieldFocus({ y: 1234 })).toEqual(expected)
 })
 
 describe('performImageSearch', () => {
@@ -240,7 +223,7 @@ describe('setContextualSuggestionsManually', () => {
     beforeEach(() => {
       jest.spyOn(baseSelectors, 'getHasWidgetShown').mockReturnValue(true)
       jest.spyOn(helpCenterSelectors, 'getContextualHelpRequestNeeded').mockReturnValue(true)
-      jest.spyOn(baseSelectors, 'getHasPassedAuth').mockReturnValue(true)
+      jest.spyOn(helpCenterLinkedSelectors, 'getHasPassedAuth').mockReturnValue(true)
       jest.spyOn(helpCenterSelectors, 'getSearchQuery').mockReturnValue({
         query: 'help'
       })
@@ -294,11 +277,14 @@ describe('performSearch', () => {
   const doneFn = jest.fn(),
     failFn = jest.fn(),
     helpCenterFilter = { x: 123 },
-    query = { query: 'help' }
+    query = 'help'
 
   beforeEach(() => {
     jest.spyOn(Date, 'now').mockReturnValue(1234)
     jest.spyOn(settingsSelectors, 'getSettingsHelpCenterFilter').mockReturnValue(helpCenterFilter)
+    jest
+      .spyOn(settingsSelectors, 'getSettingsHelpCenterLocaleFallbacks')
+      .mockReturnValue(['fr', 'ar'])
   })
 
   it('dispatches SEARCH_REQUEST_SENT', () => {
@@ -327,7 +313,10 @@ describe('performSearch', () => {
         path: '/api/v2/help_center/articles/embeddable_search.json',
         query: {
           query: 'help',
-          x: 123
+          x: 123,
+          locale: '',
+          origin: 'web_widget',
+          per_page: 9
         }
       })
     )
@@ -573,7 +562,7 @@ describe('contextualSearch', () => {
 
     describe('has passed auth', () => {
       it('performs contextual search if auth passed', () => {
-        jest.spyOn(baseSelectors, 'getHasPassedAuth').mockReturnValue(true)
+        jest.spyOn(helpCenterLinkedSelectors, 'getHasPassedAuth').mockReturnValue(true)
         jest.spyOn(helpCenterSelectors, 'getSearchQuery').mockReturnValue({
           query: 'help'
         })
@@ -589,7 +578,7 @@ describe('contextualSearch', () => {
 
     describe('auth is pending', () => {
       it('updates the queue', () => {
-        jest.spyOn(baseSelectors, 'getHasPassedAuth').mockReturnValue(false)
+        jest.spyOn(helpCenterLinkedSelectors, 'getHasPassedAuth').mockReturnValue(false)
         jest.spyOn(baseSelectors, 'getIsAuthenticationPending').mockReturnValue(true)
         const store = dispatchAction()
 

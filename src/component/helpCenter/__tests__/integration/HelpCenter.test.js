@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 import { http } from 'service/transport'
 
+import * as utility from 'utility/devices'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
 
 import HelpCenter from '../../HelpCenter'
@@ -227,25 +228,14 @@ const checkArticlesDisplayed = queryByText => {
 }
 
 describe('desktop', () => {
-  const checkContainerSize = (container, height) => {
-    expect(container).toHaveStyle(`height: ${height};`)
-  }
-
   test('integration', () => {
-    const { container, getByTestId, getByPlaceholderText, queryByText } = renderComponent()
-    const scrollContainer = getByTestId('scrollcontainer')
-
-    // initially, the component is sized 150px
-    checkContainerSize(scrollContainer, 150)
+    const { container, getByPlaceholderText, queryByText } = renderComponent()
 
     const form = container.querySelector('form')
     const input = getByPlaceholderText('How can we help?')
 
     fireEvent.change(input, { target: { value: 'Help me' } })
     fireEvent.submit(form)
-
-    // after searching, the component should expand to 550px
-    checkContainerSize(scrollContainer, 550)
 
     // displays the articles
     checkArticlesDisplayed(queryByText)
@@ -257,10 +247,12 @@ describe('desktop', () => {
 })
 
 describe('mobile', () => {
+  beforeEach(() => {
+    jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+  })
+
   test('integration', () => {
-    const { container, queryByText, getByPlaceholderText } = renderComponent({
-      isMobile: true
-    })
+    const { container, queryByText, getByPlaceholderText } = renderComponent({ isMobile: true })
 
     expect(queryByText('Search our Help Center')).toBeInTheDocument()
 

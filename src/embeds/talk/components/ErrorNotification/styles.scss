@@ -13,28 +13,24 @@
 
 .errorIcon {
   margin-top: #{2 / $font-size}rem;
+  margin-right: #{12 / $font-size}rem;
+  min-width: #{14 / $font-size}rem;
+  min-height: #{14 / $font-size}rem;
+  width: #{14 / $font-size}rem;
+  height: #{14 / $font-size}rem;
 
-  svg {
-    min-width: #{14 / $font-size}rem;
-    min-height: #{14 / $font-size}rem;
-    width: #{14 / $font-size}rem;
-    height: #{14 / $font-size}rem;
-
-    g {
-      circle {
-        stroke: $zd-color-red-600;
-        fill: $zd-color-red-600;
-      }
-
-      path {
-        stroke: $zd-color-white;
-      }
+  g {
+    circle {
+      stroke: $zd-color-red-600;
+      fill: $zd-color-red-600;
     }
 
-    circle {
-      fill: $zd-color-white;
+    path {
+      stroke: $zd-color-white;
     }
   }
 
-  margin-right: #{12 / $font-size}rem;
+  circle {
+    fill: $zd-color-white;
+  }
 }

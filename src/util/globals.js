@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { getMetaTagsByName, appendMetaTag } from 'utility/devices'
+import { onNextTick } from 'src/util/utils'
 
 const win = window.parent
 const document = win.document
@@ -53,13 +54,13 @@ const getWebWidgetFrameContentDocumentBody = () => {
 const focusLauncher = () => {
   // Due to the tabIndex switching based on visibility
   // we need to move focus on the next tick
-  setTimeout(() => {
+  onNextTick(() => {
     const launcher = getDocumentHost().querySelector('#launcher')
 
     if (launcher) {
       launcher.contentDocument.querySelector('button').focus()
     }
-  }, 0)
+  })
 }
 
 export {

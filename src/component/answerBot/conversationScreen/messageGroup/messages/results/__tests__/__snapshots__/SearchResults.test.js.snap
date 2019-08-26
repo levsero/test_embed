@@ -26,6 +26,8 @@ exports[`renders the expected classes 1`] = `
       >
         <div
           class="result"
+          role="button"
+          tabindex="0"
         >
           <div
             class="heading"
@@ -35,7 +37,10 @@ exports[`renders the expected classes 1`] = `
               data-testid="Icon--article"
               type="Icon--article"
             >
-              widget-icon_article.svg
+              <svgr-mock
+                aria-hidden="true"
+                iconfilename="widget-icon_article.svg"
+              />
             </span>
             <div
               class="optionText"
@@ -57,6 +62,8 @@ exports[`renders the expected classes 1`] = `
       >
         <div
           class="result"
+          role="button"
+          tabindex="0"
         >
           <div
             class="heading"
@@ -66,7 +73,10 @@ exports[`renders the expected classes 1`] = `
               data-testid="Icon--article"
               type="Icon--article"
             >
-              widget-icon_article.svg
+              <svgr-mock
+                aria-hidden="true"
+                iconfilename="widget-icon_article.svg"
+              />
             </span>
             <div
               class="optionText"

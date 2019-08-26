@@ -10,20 +10,19 @@ import articles from './helpCenter-articles'
 import resultsCount from './helpCenter-resultsCount'
 import resultsLocale from './helpCenter-resultsLocale'
 import restrictedImages from './helpCenter-restrictedImages'
-import channelChoiceShown from './helpCenter-channelChoiceShown'
 import searchFieldValue from './helpCenter-searchFieldValue'
-import searchFieldFocused from './helpCenter-searchFieldFocused'
 import articleDisplayed from './helpCenter-articleDisplayed'
 import contextualSearch from './helpCenter-contextualSearch'
 import lastSearchTimestamp from './helpCenter-lastSearchTimestamp'
 import manualContextualSuggestions from './helpCenter-manualContextualSuggestions'
+import config from './config'
 
 export default combineReducers({
   activeArticle,
   articleClicked,
   articleDisplayed,
   articles,
-  channelChoiceShown,
+  config,
   contextualSearch,
   lastSearchTimestamp,
   manualContextualSuggestions,
@@ -31,7 +30,6 @@ export default combineReducers({
   resultsCount,
   resultsLocale,
   searchFailed,
-  searchFieldFocused,
   searchFieldValue,
   searchLoading,
   searchTerm,

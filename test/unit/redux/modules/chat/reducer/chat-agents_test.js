@@ -193,8 +193,8 @@ describe('chat reducer agents', () => {
           })
         })
 
-        it('does not change the state', () => {
-          expect(state).toEqual(currentState)
+        it('returns the initial state', () => {
+          expect(state).toEqual(initialState)
         })
       })
     })

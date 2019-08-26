@@ -22,6 +22,7 @@ const mapStateToProps = state => ({
 
 class ChannelChoiceMenu extends Component {
   static propTypes = {
+    isMobile: PropTypes.bool,
     onNextClick: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     buttonClasses: PropTypes.string,
@@ -37,6 +38,7 @@ class ChannelChoiceMenu extends Component {
   }
 
   static defaultProps = {
+    isMobile: false,
     buttonClasses: '',
     labelClasses: '',
     talkOnline: false,
@@ -78,6 +80,8 @@ class ChannelChoiceMenu extends Component {
     return i18n.isRTL()
   }
 
+  getListStyle = () => classNames(styles.listItem, { [styles.listItemMobile]: this.props.isMobile })
+
   renderTalkLabel = () => {
     const { callbackEnabled, talkOnline } = this.props
     const optionLabel = callbackEnabled
@@ -108,7 +112,7 @@ class ChannelChoiceMenu extends Component {
     })
 
     return (
-      <li className={styles.listItem}>
+      <li className={this.getListStyle()}>
         <ButtonIcon
           actionable={talkOnline}
           containerStyles={buttonStyle}
@@ -131,7 +135,7 @@ class ChannelChoiceMenu extends Component {
     const buttonStyle = classNames(buttonClasses, styles.btn, styles.btnEnabled)
 
     return (
-      <li className={styles.listItem}>
+      <li className={this.getListStyle()}>
         <ButtonIcon
           containerStyles={buttonStyle}
           iconClasses={iconStyle}
@@ -184,7 +188,7 @@ class ChannelChoiceMenu extends Component {
     })
 
     return (
-      <li className={styles.listItem}>
+      <li className={this.getListStyle()}>
         <ButtonIcon
           actionable={showChatChannel}
           containerStyles={buttonStyle}

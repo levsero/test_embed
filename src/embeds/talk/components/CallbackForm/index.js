@@ -1,14 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Form } from 'component/form/Form'
-import { i18n } from 'service/i18n'
-import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
+import { Redirect } from 'react-router-dom'
 import classNames from 'classnames'
+import _ from 'lodash'
+import { Button } from '@zendeskgarden/react-buttons'
+
+import { i18n } from 'service/i18n'
+import { Form } from 'component/form/Form'
+import { isMobileBrowser } from 'utility/devices'
+import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
 import NameField from 'src/embeds/talk/components/NameField'
 import DescriptionField from 'src/embeds/talk/components/DescriptionField'
+import WidgetMain from 'src/components/WidgetMain'
+import WidgetFooter from 'src/components/WidgetFooter'
+import ZendeskLogo from 'src/components/ZendeskLogo'
+import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 import {
   getAverageWaitTimeString,
   getCallback,
@@ -20,18 +30,11 @@ import {
   getTalkDescriptionLabel,
   getTalkNameLabel,
   getTalkNickname,
-  getTalkServiceUrl
+  getTalkServiceUrl,
+  getHideZendeskLogo
 } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
+
 import { locals as styles } from './styles.scss'
-import _ from 'lodash'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetFooter from 'src/components/WidgetFooter'
-import { Button } from '@zendeskgarden/react-buttons'
-import ZendeskLogo from 'src/components/ZendeskLogo'
-import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
-import { Redirect } from 'react-router-dom'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
@@ -54,6 +57,7 @@ class CallbackForm extends Component {
     submitButtonLabel: PropTypes.string.isRequired,
     headerMessage: PropTypes.string.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    hideZendeskLogo: PropTypes.bool.isRequired,
 
     // used to force the component to re-render when locale changes
     // eslint-disable-next-line react/no-unused-prop-types
@@ -112,7 +116,8 @@ class CallbackForm extends Component {
       averageWaitTime,
       supportedCountries,
       nameLabelText,
-      descriptionLabelText
+      descriptionLabelText,
+      hideZendeskLogo
     } = this.props
 
     if (callback.success) {
@@ -124,6 +129,10 @@ class CallbackForm extends Component {
     })
 
     const errorMessage = this.getErrorMessage()
+    const footerClasses = classNames(styles.footer, {
+      [styles.multipleItems]: !hideZendeskLogo,
+      [styles.singleItem]: hideZendeskLogo
+    })
 
     return (
       <Form
@@ -155,8 +164,8 @@ class CallbackForm extends Component {
           {errorMessage && <ErrorNotification message={errorMessage} />}
         </WidgetMain>
         <WidgetFooter scrollShadowVisible={true}>
-          <div className={styles.footer}>
-            <ZendeskLogo />
+          <div className={footerClasses}>
+            {hideZendeskLogo ? null : <ZendeskLogo />}
 
             <Button primary={true} className={submitButtonStyles} type="submit">
               {submitButtonLabel}
@@ -183,7 +192,8 @@ const mapStateToProps = state => {
     callback: getCallback(state),
     isRTL: i18n.isRTL(),
     isMobile: isMobileBrowser(),
-    locale: getLocale(state)
+    locale: getLocale(state),
+    hideZendeskLogo: getHideZendeskLogo(state)
   }
 }
 

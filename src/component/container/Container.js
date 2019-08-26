@@ -29,6 +29,7 @@ export class Container extends Component {
 
     return (
       <div
+        role="presentation"
         onClick={this.props.onClick}
         className={`${styles.container} ${this.props.className} ${platformClasses} ${styleClasses}`}
         onDragEnter={this.props.onDragEnter}

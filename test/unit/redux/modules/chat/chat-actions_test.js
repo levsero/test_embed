@@ -18,6 +18,8 @@ let actions,
   mockIsValidUrl,
   mockPageTitle,
   mockHostUrl,
+  mockHelpCenterAvailable = false,
+  mockChannelChoiceAvailable = false,
   mockChatMessagesByAgent,
   mockInit = jasmine.createSpy('init'),
   mockLogout = jasmine.createSpy('logout'),
@@ -154,6 +156,11 @@ describe('chat redux actions', () => {
       },
       'src/util/chat': {
         formatSchedule: formatScheduleSpy
+      },
+      'src/redux/modules/base': {},
+      'src/redux/modules/selectors': {
+        getHelpCenterAvailable: () => mockHelpCenterAvailable,
+        getChannelChoiceAvailable: () => mockChannelChoiceAvailable
       }
     })
 

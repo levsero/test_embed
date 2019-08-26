@@ -6,8 +6,12 @@ import LegendStyles from 'embeds/helpCenter/components/Legend/styles.scss'
 import NoResultsMessageStyles from 'embeds/helpCenter/components/NoResultsMessage/styles.scss'
 import DesktopPageStyles from 'embeds/helpCenter/pages/DesktopPage/styles.scss'
 import MobilePageStyles from 'embeds/helpCenter/pages/MobilePage/styles.scss'
+import InitialSearchPageStyles from 'embeds/helpCenter/pages/SearchPromptPage/styles.scss'
+import HelpCenterChannelButtonStyles from 'src/embeds/helpCenter/components/HelpCenterChannelButton/index.scss'
+import SearchFormStyles from 'src/embeds/helpCenter/components/SearchForm/styles.scss'
 
 const styles = `
+  ${InitialSearchPageStyles}
   ${ResultsStyles}
   ${DesktopPageStyles}
   ${MobilePageStyles}
@@ -16,6 +20,8 @@ const styles = `
   ${ListStyles}
   ${LegendStyles}
   ${NoResultsMessageStyles}
+  ${HelpCenterChannelButtonStyles}
+  ${SearchFormStyles}
 `
 
 export default styles

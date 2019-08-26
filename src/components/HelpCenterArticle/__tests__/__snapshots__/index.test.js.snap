@@ -12,6 +12,7 @@ exports[`renders the expected classes 1`] = `
       class="originalArticleButton"
     >
       <a
+        aria-label="View original article"
         target="_blank"
         title="View original article"
       >
@@ -20,12 +21,16 @@ exports[`renders the expected classes 1`] = `
           data-testid="Icon--link-external"
           type="Icon--link-external"
         >
-          link-external.svg
+          <svgr-mock
+            aria-hidden="true"
+            iconfilename="link-external.svg"
+          />
         </span>
       </a>
     </div>
     <div
       class="article"
+      role="presentation"
     >
       
     
@@ -166,6 +171,7 @@ exports[`renders the expected mobile classes 1`] = `
       class="originalArticleButton"
     >
       <a
+        aria-label="View original article"
         target="_blank"
         title="View original article"
       >
@@ -174,12 +180,16 @@ exports[`renders the expected mobile classes 1`] = `
           data-testid="Icon--link-external"
           type="Icon--link-external"
         >
-          link-external.svg
+          <svgr-mock
+            aria-hidden="true"
+            iconfilename="link-external.svg"
+          />
         </span>
       </a>
     </div>
     <div
       class="article"
+      role="presentation"
     >
       
     

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import sanitizeHtml from 'sanitize-html'
 import _ from 'lodash'
 
+import { triggerOnEnter } from 'utility/keyboard'
 import { MessageBubbleChoices } from 'component/shared/MessageBubbleChoices'
 import { Icon } from 'component/Icon'
 import Text from '../text'
@@ -39,7 +40,14 @@ const cleanHtml = body => {
 
 const renderResult = (article, index, onClick) => {
   return (
-    <div key={index} className={styles.result} onClick={() => onClick(article)}>
+    <div
+      onKeyPress={triggerOnEnter(() => onClick(article))}
+      role="button"
+      tabIndex="0"
+      key={index}
+      className={styles.result}
+      onClick={() => onClick(article)}
+    >
       <div className={styles.heading}>
         <Icon className={styles.icon} type="Icon--article" />
         <div className={styles.optionText}>{_.truncate(article.title, { length: 65 })}</div>

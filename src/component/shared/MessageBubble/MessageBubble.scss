@@ -1,4 +1,5 @@
-@import '../../../styles/_vars.scss';
+@import 'src/styles/_vars.scss';
+@import 'src/styles/mixins.scss';
 
 .genericMessageBubble {
   composes: u-inlineBlock from global;
@@ -39,6 +40,7 @@
 }
 
 .translateLink {
+  @include link-button();
   margin-left: $spacing-tny;
   transition: 100ms ease;
   border-bottom: #{1 / $font-size}rem solid transparent;
