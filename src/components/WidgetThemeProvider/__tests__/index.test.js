@@ -35,7 +35,7 @@ const StyledTestButton = styled(TestButton)`
 `
 
 describe('connected WidgetThemeProvider', () => {
-  describe('default widget colors', () => {
+  describe('using default widget theme', () => {
     const expectedDefaultColours = {
       baseColor: '#1F73B7',
       baseHighlightColor: '#227EC9',
@@ -54,7 +54,7 @@ describe('connected WidgetThemeProvider', () => {
     }
 
     for (let colorVariableName in expectedDefaultColours) {
-      it(`can style a child element using our widget ${colorVariableName}`, () => {
+      it(`uses a default '${colorVariableName}' theme variable to style a component`, () => {
         const { getByTestId } = renderWithRedux(
           <StyledTestButton themeVariableName={colorVariableName} />
         )
@@ -67,7 +67,7 @@ describe('connected WidgetThemeProvider', () => {
   })
 
   describe('custom Widget Theme based on - settings: color: theme', () => {
-    const expectedDefaultColours = {
+    const expectedThemedColours = {
       baseColor: '#78A300',
       baseHighlightColor: '#84B300',
       buttonColorStr: '#78A300',
@@ -84,8 +84,8 @@ describe('connected WidgetThemeProvider', () => {
       iconColor: '#78A300'
     }
 
-    for (let colorVariableName in expectedDefaultColours) {
-      it(`styles a child element using our widget ${colorVariableName}`, () => {
+    for (let colorVariableName in expectedThemedColours) {
+      it(`uses a themed '${colorVariableName}' theme variable to style a component`, () => {
         const { getByTestId } = renderWithRedux(
           <StyledTestButton themeVariableName={colorVariableName} />,
           {
@@ -94,7 +94,7 @@ describe('connected WidgetThemeProvider', () => {
         )
         expect(getByTestId(generateTestID(colorVariableName))).toHaveStyleRule(
           'color',
-          expectedDefaultColours[colorVariableName]
+          expectedThemedColours[colorVariableName]
         )
       })
     }
