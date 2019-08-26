@@ -1,15 +1,18 @@
 import React from 'react'
-import styled from 'styled-components'
-
+import styled, { css } from 'styled-components'
 import { i18n } from 'service/i18n'
 
 import TalkSuccessIcon from 'src/embeds/talk/icons/talk_success.svg'
 import { locals as styles } from './styles.scss'
 
 const StyledSuccessIcon = styled(TalkSuccessIcon)`
-  .customColor {
-    fill: ${props => props.theme.baseColor} !important;
-  }
+  ${props =>
+    props.theme.baseColor &&
+    css`
+      .customColor {
+        fill: ${props.theme.baseColor} !important;
+      }
+    `}
 `
 
 const SuccessNotification = () => {
