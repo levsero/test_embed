@@ -2,13 +2,14 @@ import { render } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
-import * as utility from 'utility/devices'
 import MobilePage from '../index'
+import * as devices from 'utility/devices'
+
+import * as selectors from 'src/redux/modules/selectors/selectors'
 
 const renderComponent = props => {
   const store = createStore()
   const defaultProps = {
-    buttonLabel: '',
     chatAvailable: false,
     children: <div />,
     onNextClick: noop,
@@ -38,7 +39,8 @@ const renderComponent = props => {
 jest.useFakeTimers()
 
 beforeEach(() => {
-  jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+  jest.spyOn(selectors, 'getHelpCenterButtonLabel').mockReturnValue('click me')
+  jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(true)
 })
 
 test('renders the expected components', () => {
@@ -52,10 +54,10 @@ test('renders the expected components', () => {
 
 describe('render', () => {
   it('renders button with loading animation', () => {
+    jest.spyOn(selectors, 'getChatConnectionConnecting').mockReturnValue(true)
     const { container } = renderComponent({
       showNextButton: true,
-      articleViewActive: true,
-      buttonLoading: true
+      articleViewActive: true
     })
 
     expect(container.querySelector('footer')).toMatchSnapshot()
@@ -64,8 +66,7 @@ describe('render', () => {
   it('renders expected next button', () => {
     const { container } = renderComponent({
       showNextButton: true,
-      articleViewActive: true,
-      buttonLabel: 'hello world'
+      articleViewActive: true
     })
 
     expect(container.querySelector('footer')).toMatchSnapshot()
@@ -75,22 +76,20 @@ describe('render', () => {
     it('renders footer buttons when showNextButton and articleViewActive is true', () => {
       const { queryByText } = renderComponent({
         showNextButton: true,
-        buttonLabel: 'Leave us a message',
         articleViewActive: true
       })
 
-      expect(queryByText('Leave us a message')).toBeInTheDocument()
+      expect(queryByText('click me')).toBeInTheDocument()
     })
 
     it('renders footer buttons when showNextButton and hasSearched is true', () => {
       const { queryByText } = renderComponent({
         articleViewActive: true,
         showNextButton: true,
-        buttonLabel: 'Leave us a message',
         hasSearched: true
       })
 
-      expect(queryByText('Leave us a message')).toBeInTheDocument()
+      expect(queryByText('click me')).toBeInTheDocument()
     })
 
     it('does not render footer buttons when showNextButton is false', () => {
@@ -98,7 +97,7 @@ describe('render', () => {
         showNextButton: false
       })
 
-      expect(queryByText('Leave us a message')).not.toBeInTheDocument()
+      expect(queryByText('click me')).not.toBeInTheDocument()
     })
   })
 
