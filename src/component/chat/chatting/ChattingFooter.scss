@@ -5,13 +5,15 @@
   justify-content: flex-end;
   padding-top: #{8 / $font-size}rem;
 
-  > div {
+  button {
     margin-right: #{3 / $font-size}rem;
   }
 }
 
 .icon {
   border-radius: #{4 / $font-size}rem;
+  width: auto !important;
+  height: auto !important;
 
   svg {
     box-sizing: content-box;
@@ -29,8 +31,7 @@
   &:hover,
   &:active,
   &:focus {
-    cursor: pointer;
-    background: $zd-color-grey-300;
+    background: $zd-color-grey-300 !important;
 
     svg > g {
       fill: $zd-color-grey-800 !important;
@@ -114,19 +115,13 @@
 }
 
 .iconDisabled {
-  svg > g {
-    fill: $zd-color-grey-400 !important;
-  }
+  background: none !important;
 
   &:hover,
   &:active,
   &:focus {
+    background: none !important;
     cursor: default;
-    background: none;
-
-    svg > g {
-      fill: $zd-color-grey-400 !important;
-    }
   }
 }
 

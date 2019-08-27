@@ -4,11 +4,12 @@
   composes: u-borderTransparent from global;
   background-color: transparent !important;
   box-sizing: content-box;
-  height: #{16 / $font-size}rem;
-  padding: #{6 / $font-size}rem;
+  height: #{16 / $font-size}rem !important;
+  width: #{16 / $font-size}rem !important;
   border-radius: #{30 / $font-size}rem;
   outline: none;
   display: inline-block !important;
+  padding: #{10 / $font-size}rem;
 
   svg {
     path,
@@ -50,8 +51,6 @@
 }
 
 .thumbDownIcon {
-  padding-top: #{8 / $font-size}rem;
-  padding-bottom: #{4 / $font-size}rem;
   margin-left: #{2 / $font-size}rem;
 
   [dir='rtl'] & {
