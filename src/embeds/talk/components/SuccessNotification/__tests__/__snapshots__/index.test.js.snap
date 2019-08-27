@@ -11,8 +11,7 @@ exports[`"it applies a theme 'baseColor' to the success icon" 1`] = `
   >
     <svg
       class="talkSuccessIcon c0"
-      iconfilename="talk_success.svg"
-      type="svg-test-mock"
+      realfilename="talk_success.svg"
     />
     <div>
       <h2
@@ -37,8 +36,7 @@ exports[`renders a success notification 1`] = `
   >
     <svg
       class="talkSuccessIcon "
-      iconfilename="talk_success.svg"
-      type="svg-test-mock"
+      realfilename="talk_success.svg"
     />
     <div>
       <h2
