@@ -151,12 +151,6 @@ class HelpCenter extends Component {
     }
   }
 
-  focusOnFirstResult() {
-    if (this.helpCenterDesktop && this.helpCenterResults) {
-      this.helpCenterResults.focusField()
-    }
-  }
-
   search = (searchValue = '') => {
     const searchField = this.getHelpCenterComponent().getSearchField()
     const searchTerm = searchValue || searchField.getValue()
@@ -166,7 +160,6 @@ class HelpCenter extends Component {
 
     const success = () => {
       this.props.showBackButton(false)
-      this.focusOnFirstResult()
     }
     const fail = () => {
       this.focusField()

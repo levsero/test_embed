@@ -33,17 +33,6 @@ export default class Results extends Component {
     hasSearched: false
   }
 
-  constructor() {
-    super()
-    this.list = null
-  }
-
-  focusField() {
-    if (this.list) {
-      this.list.focusOnFirstItem()
-    }
-  }
-
   hasInitialSearchResults = () => {
     const { articles } = this.props
 
@@ -53,7 +42,6 @@ export default class Results extends Component {
   renderResults = () => {
     return (
       <List
-        ref={el => (this.list = el)}
         isMobile={this.props.isMobile}
         articles={this.props.articles}
         showContactButton={this.props.showContactButton}
