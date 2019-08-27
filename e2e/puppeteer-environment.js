@@ -21,7 +21,8 @@ class PuppeteerEnvironment extends NodeEnvironment {
     if (process.env.NODE_ENV === 'ci') {
       await setupDevServer({
         command: 'npm run e2e:server',
-        launchTimeout: 50000,
+        usedPortAction: 'error',
+        launchTimeout: 5000,
         host: devServerHost, // waits for the domain to be available before running tests
         port: devServerPort
       })
