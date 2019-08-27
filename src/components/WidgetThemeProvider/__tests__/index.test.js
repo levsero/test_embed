@@ -9,14 +9,13 @@ import 'jest-styled-components'
 import reducer from 'src/redux/modules/reducer'
 import WidgetThemeProvider from '../'
 
-function renderWithRedux(ui, { initialState, store = createStore(reducer, initialState) } = {}) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <WidgetThemeProvider>{ui}</WidgetThemeProvider>
-      </Provider>
-    )
-  }
+function renderWithRedux(ui, { initialState } = {}) {
+  const store = createStore(reducer, initialState)
+  return render(
+    <Provider store={store}>
+      <WidgetThemeProvider>{ui}</WidgetThemeProvider>
+    </Provider>
+  )
 }
 
 const generateTestID = variableName => `${variableName}Id`
