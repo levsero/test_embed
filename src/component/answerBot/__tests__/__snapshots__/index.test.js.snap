@@ -198,8 +198,8 @@ exports[`conversation screen renders expected components and styles in desktop 1
       class="
       logo
       formSuccess
-
-      zendeskLogo
+      
+      zendeskLogo 
     "
       href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
       tabindex="-1"
@@ -300,9 +300,9 @@ exports[`conversation screen renders expected components and styles in mobile 1`
                 data-testid="Icon--sendChat"
                 type="Icon--sendChat"
               >
-                <svgr-mock
+                <svg
                   aria-hidden="true"
-                  iconfilename="widget-icon_sendChat.svg"
+                  realfilename="widget-icon_sendChat.svg"
                 />
               </span>
             </button>
@@ -314,7 +314,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
       class="
       logo
       formSuccess
-
+      
       zendeskLogo zendeskLogoChatMobile
     "
       href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
