@@ -152,7 +152,7 @@ class HelpCenter extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.articles.length > 0) {
+    if (this.props.hasSearched) {
       if (this.helpCenterMobile) {
         this.helpCenterMobile.setIntroScreen()
       }
