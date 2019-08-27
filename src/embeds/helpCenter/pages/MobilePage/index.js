@@ -52,11 +52,18 @@ export default class MobilePage extends Component {
 
     this.state = {
       searchFieldFocused: false,
-      showIntroScreen: !props.contextualHelpRequestNeeded && !props.articleViewActive
+      showIntroScreen:
+        !props.contextualHelpRequestNeeded && !props.articleViewActive && !props.hasSearched
     }
 
     this.searchField = null
     this.searchFieldFocusTimer = null
+  }
+
+  componentDidMount() {
+    if (this.searchField) {
+      this.searchField.setState({ searchInputVal: this.props.searchFieldValue })
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -83,7 +90,10 @@ export default class MobilePage extends Component {
   }
 
   focusField() {
-    this.getSearchField().focus()
+    const searchField = this.getSearchField()
+    if (searchField) {
+      searchField.focus()
+    }
   }
 
   getSearchField() {
