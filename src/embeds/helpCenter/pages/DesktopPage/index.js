@@ -57,7 +57,15 @@ export default class DesktopPage extends Component {
     this.searchField = null
   }
 
-  componentDidUpdate = () => {
+  componentDidMount() {
+    this.updateSearchFieldValue()
+  }
+
+  componentDidUpdate() {
+    this.updateSearchFieldValue()
+  }
+
+  updateSearchFieldValue = () => {
     if (this.searchField) {
       this.searchField.setState({
         searchInputVal: this.props.searchFieldValue
