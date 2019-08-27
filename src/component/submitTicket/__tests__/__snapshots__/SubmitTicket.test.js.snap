@@ -246,9 +246,9 @@ exports[`active ticket form renders the expected components 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
+          realfilename="widget-icon_zendesk.svg"
         />
       </span>
       <span
@@ -474,9 +474,9 @@ exports[`renders the expected components 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
+          realfilename="widget-icon_zendesk.svg"
         />
       </span>
       <span

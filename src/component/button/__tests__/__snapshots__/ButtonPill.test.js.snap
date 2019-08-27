@@ -11,9 +11,9 @@ exports[`icon is rendered when showIcon is true 1`] = `
       data-testid="Icon--arrow-down"
       type="Icon--arrow-down"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_arrow-down-stroke.svg"
+        realfilename="widget-icon_arrow-down-stroke.svg"
       />
     </span>
   </button>

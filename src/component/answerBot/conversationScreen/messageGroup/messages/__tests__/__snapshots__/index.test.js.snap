@@ -33,9 +33,9 @@ exports[`renders expected classes and components with default props for non-visi
                     data-testid="Icon--article"
                     type="Icon--article"
                   >
-                    <svgr-mock
+                    <svg
                       aria-hidden="true"
-                      iconfilename="widget-icon_article.svg"
+                      realfilename="widget-icon_article.svg"
                     />
                   </span>
                   <div
@@ -100,9 +100,9 @@ exports[`renders expected classes and components with default props for non-visi
                     data-testid="Icon--article"
                     type="Icon--article"
                   >
-                    <svgr-mock
+                    <svg
                       aria-hidden="true"
-                      iconfilename="widget-icon_article.svg"
+                      realfilename="widget-icon_article.svg"
                     />
                   </span>
                   <div

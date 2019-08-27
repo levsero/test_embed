@@ -44,9 +44,9 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  <svgr-mock
+                  <svg
                     aria-hidden="true"
-                    iconfilename="link-external.svg"
+                    realfilename="link-external.svg"
                   />
                 </span>
               </a>
@@ -111,9 +111,9 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
                   data-testid="Icon--link-external"
                   type="Icon--link-external"
                 >
-                  <svgr-mock
+                  <svg
                     aria-hidden="true"
-                    iconfilename="link-external.svg"
+                    realfilename="link-external.svg"
                   />
                 </span>
               </a>
@@ -210,9 +210,9 @@ exports[`conversation screen renders expected components and styles in desktop 1
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
+          realfilename="widget-icon_zendesk.svg"
         />
       </span>
       <span
@@ -300,9 +300,9 @@ exports[`conversation screen renders expected components and styles in mobile 1`
                   data-testid="Icon--sendChat"
                   type="Icon--sendChat"
                 >
-                  <svgr-mock
+                  <svg
                     aria-hidden="true"
-                    iconfilename="widget-icon_sendChat.svg"
+                    realfilename="widget-icon_sendChat.svg"
                   />
                 </span>
                 <span
@@ -337,9 +337,9 @@ exports[`conversation screen renders expected components and styles in mobile 1`
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
+          realfilename="widget-icon_zendesk.svg"
         />
       </span>
       <span

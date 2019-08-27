@@ -31,9 +31,9 @@ Snapshot Diff:
 -           data-testid="Icon--zendesk"
 -           type="Icon--zendesk"
 -         >
--           <svgr-mock
+-           <svg
 -             aria-hidden="true"
--             iconfilename="widget-icon_zendesk.svg"
+-             realfilename="widget-icon_zendesk.svg"
 -           />
 -         </span>
 -         <span
@@ -145,9 +145,9 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
+          realfilename="widget-icon_zendesk.svg"
         />
       </span>
       <span

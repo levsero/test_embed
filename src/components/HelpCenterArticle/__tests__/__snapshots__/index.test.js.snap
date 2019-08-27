@@ -21,9 +21,9 @@ exports[`renders the expected classes 1`] = `
           data-testid="Icon--link-external"
           type="Icon--link-external"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="link-external.svg"
+            realfilename="link-external.svg"
           />
         </span>
       </a>
@@ -180,9 +180,9 @@ exports[`renders the expected mobile classes 1`] = `
           data-testid="Icon--link-external"
           type="Icon--link-external"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="link-external.svg"
+            realfilename="link-external.svg"
           />
         </span>
       </a>

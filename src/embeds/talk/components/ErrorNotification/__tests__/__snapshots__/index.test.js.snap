@@ -6,9 +6,9 @@ exports[`renders the component 1`] = `
     class="error"
     data-testid="talk--errorNotification"
   >
-    <svgr-mock
-      classname="errorIcon"
-      iconfilename="error.svg"
+    <svg
+      class="errorIcon"
+      realfilename="error.svg"
     />
     there was an error
   </div>

@@ -19,9 +19,9 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <span
@@ -47,9 +47,9 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -82,9 +82,9 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <span
@@ -110,9 +110,9 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -145,9 +145,9 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <span
@@ -173,9 +173,9 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -208,9 +208,9 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -243,9 +243,9 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <span
@@ -282,9 +282,9 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -317,9 +317,9 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -352,9 +352,9 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -387,9 +387,9 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -422,9 +422,9 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <span
@@ -461,9 +461,9 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -496,9 +496,9 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <span
@@ -524,9 +524,9 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -559,9 +559,9 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <span
@@ -587,9 +587,9 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -622,9 +622,9 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <span
@@ -650,9 +650,9 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <span
@@ -678,9 +678,9 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -713,9 +713,9 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
           data-testid="Icon--channelChoice-talk"
           type="Icon--channelChoice-talk"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-talk.svg"
+            realfilename="widget-icon_channelChoice-talk.svg"
           />
         </span>
         <span
@@ -741,9 +741,9 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
           data-testid="Icon--channelChoice-chat"
           type="Icon--channelChoice-chat"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-chat.svg"
+            realfilename="widget-icon_channelChoice-chat.svg"
           />
         </span>
         <span
@@ -769,9 +769,9 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
@@ -804,9 +804,9 @@ exports[`rendering renders ChannelChoiceMenu correctly with default props 1`] = 
           data-testid="Icon--channelChoice-contactForm"
           type="Icon--channelChoice-contactForm"
         >
-          <svgr-mock
+          <svg
             aria-hidden="true"
-            iconfilename="widget-icon_channelChoice-contactForm.svg"
+            realfilename="widget-icon_channelChoice-contactForm.svg"
           />
         </span>
         <span
