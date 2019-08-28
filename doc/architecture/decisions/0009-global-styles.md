@@ -215,14 +215,14 @@ But this might take time to find what feels right.
 
 ## Decision
 
-We will use `styled-components` for all CSS inside the Web Widget.
+We will use `styled-components` for all CSS inside the Web Widget going forward. This means that we will replace all sass `.scss` files as we migrate them across into their new `src/embeds` location.
 
 The migration path will roughly look like:
 
 1. Add information to the `GUIDELINES.md` for a simple outline of how to use `styled-components` in the repo
 2. Setup a `styled-components` `ThemeProvider` to provide global variables at the top of the app
 3. Migrate the `Talk` embed over to use `styled-components` for styling
-4. All components under the `src/embeds` directory must use `styled-components`, all references to `composes` should be replaced with dynamic styling where required
+4. All future components that are migrated into the `src/embeds` directory must use `styled-components` for **all** styles going forward.
 
 ## Consequences
 
