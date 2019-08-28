@@ -2,13 +2,12 @@
 
 .contextualNoResults {
   color: $zd-color-grey-600;
-  align-items: center;
-  display: flex;
-  height: 100%;
-  max-height: #{365 / $font-size}rem;
+  height: 80%;
   text-align: center;
-  margin-left: #{25 / $font-size}rem;
-  margin-right: #{25 / $font-size}rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .contextualNoResultsMobile {
@@ -17,10 +16,8 @@
 
 .useSearchBarTextDesktop {
   line-height: #{18 / $font-size}rem;
-  margin-bottom: #{40 / $font-size}rem;
 }
 
 .useSearchBarTextMobile {
   line-height: #{22 / $font-size}rem;
-  margin-bottom: #{40 / $font-size}rem;
 }
