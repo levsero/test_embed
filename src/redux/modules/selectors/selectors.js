@@ -674,6 +674,12 @@ export const getChatConnectionConnecting = createSelector(
     (connection === CONNECTION_STATUSES.CONNECTING || connection === '')
 )
 
+export const getShowNextButton = createSelector(
+  [getSubmitTicketAvailable, getChatAvailable, getTalkOnline],
+  (submitTicketAvailable, chatAvailable, talkOnline) =>
+    submitTicketAvailable || chatAvailable || talkOnline
+)
+
 export const getHelpCenterButtonChatLabel = createSelector(
   [
     getSettingsHelpCenterChatButton,

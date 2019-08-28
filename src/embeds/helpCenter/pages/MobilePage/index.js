@@ -14,7 +14,7 @@ import { locals as styles } from './styles.scss'
 export default class MobilePage extends Component {
   static propTypes = {
     articleViewActive: PropTypes.bool,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     hasContextualSearched: PropTypes.bool,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
