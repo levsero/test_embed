@@ -198,7 +198,7 @@ export function setUpZopimApiMethods(win, store) {
         })
       },
       setLanguage: setLocaleApi,
-      sendVisitorPath: page => onChatSDKInitialized(() => updatePathApi(store, page)),
+      sendVisitorPath: page => updatePathApi(store, page),
       clearAll: () => onChatSDKInitialized(() => logoutApi(store)),
       setStatus: status => {
         if (status !== 'online' && status !== 'offline') return
