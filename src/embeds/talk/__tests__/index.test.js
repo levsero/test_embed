@@ -10,6 +10,8 @@ jest.mock('src/embeds/talk/pages/OfflinePage', () => () => <div data-testid="tal
 import React from 'react'
 import { render } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import createStore from 'src/redux/createStore'
 import { CONTACT_OPTIONS } from '../constants'
 import { Component as Talk } from '../'
 
@@ -18,12 +20,15 @@ describe('Talk', () => {
     agentAvailability: true,
     contactOption: CONTACT_OPTIONS.CALLBACK_ONLY
   }
+  const store = createStore()
 
   const renderComponent = (props = {}, route = '') => {
     return render(
-      <MemoryRouter initialEntries={[route]}>
-        <Talk {...defaultProps} {...props} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[route]}>
+          <Talk {...defaultProps} {...props} />
+        </MemoryRouter>
+      </Provider>
     )
   }
 

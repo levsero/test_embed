@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader/root'
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import WidgetThemeProvider from 'src/components/WidgetThemeProvider'
 import { CONTACT_OPTIONS } from './constants'
 import CallbackPage from './pages/CallbackPage'
 import OfflinePage from './pages/OfflinePage'
@@ -26,10 +27,12 @@ class Talk extends Component {
     const IndexPage = agentAvailability ? ROUTES[contactOption] : OfflinePage
 
     return (
-      <Switch>
-        <Route path={'/talk/success'} component={SuccessNotificationPage} />
-        <Route component={IndexPage} />
-      </Switch>
+      <WidgetThemeProvider>
+        <Switch>
+          <Route path={'/talk/success'} component={SuccessNotificationPage} />
+          <Route component={IndexPage} />
+        </Switch>
+      </WidgetThemeProvider>
     )
   }
 }

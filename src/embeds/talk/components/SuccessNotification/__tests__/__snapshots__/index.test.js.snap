@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`"it applies a theme 'baseColor' to the success icon" 1`] = `
+.c0 .customColor {
+  fill: #4400FF !important;
+}
+
+<div>
+  <div
+    class="container"
+  >
+    <svg
+      class="talkSuccessIcon c0"
+      realfilename="talk_success.svg"
+    />
+    <div>
+      <h2
+        class="primary"
+      >
+        Thanks for reaching out.
+      </h2>
+      <p
+        class="secondary"
+      >
+        We'll get back to you soon.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders a success notification 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <svg
+      class="talkSuccessIcon "
+      realfilename="talk_success.svg"
+    />
+    <div>
+      <h2
+        class="primary"
+      >
+        Thanks for reaching out.
+      </h2>
+      <p
+        class="secondary"
+      >
+        We'll get back to you soon.
+      </p>
+    </div>
+  </div>
+</div>
+`;

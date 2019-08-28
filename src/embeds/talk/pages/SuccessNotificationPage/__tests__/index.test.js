@@ -2,11 +2,12 @@ jest.mock('utility/devices')
 
 import React from 'react'
 import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
 import { render } from '@testing-library/react'
-import SuccessNotificationPage from '../'
-import { isMobileBrowser } from 'utility/devices'
 import snapshotDiff from 'snapshot-diff'
+
+import createStore from 'src/redux/createStore'
+import { isMobileBrowser } from 'utility/devices'
+import SuccessNotificationPage from '../'
 
 const defaultProps = {
   title: 'Request sent'
