@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { ButtonIcon } from 'component/button/ButtonIcon'
+import { IconButton } from '@zendeskgarden/react-buttons'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { Icon } from 'component/Icon'
+import classNames from 'classnames'
 
 import { locals as styles } from './RatingGroup.scss'
+
+import { i18n } from 'service/i18n'
 
 export const ratings = {
   GOOD: 'good',
@@ -34,13 +39,14 @@ export class RatingGroup extends Component {
     const thumbUpActiveStyle = rating === ratings.GOOD ? styles.ratingIconActive : ''
 
     return (
-      <ButtonIcon
-        key="good"
-        containerStyles={`${styles.ratingIcon} ${thumbUpActiveStyle}`}
-        iconClasses={styles.icon}
-        icon="Icon--thumbUp"
+      <IconButton
+        size="small"
+        className={classNames(styles.ratingIcon, thumbUpActiveStyle, styles.icon)}
+        aria-label={i18n.t('embeddable_framework.chat.chatLog.rating.title.good')}
         onClick={() => this.ratingClickedHandler(ratings.GOOD)}
-      />
+      >
+        <Icon type="Icon--thumbUp" />
+      </IconButton>
     )
   }
 
@@ -50,22 +56,25 @@ export class RatingGroup extends Component {
     const iconStyles = `${styles.ratingIcon} ${styles.thumbDownIcon}`
 
     return (
-      <ButtonIcon
-        key="bad"
-        containerStyles={`${iconStyles} ${thumbDownActiveStyle}`}
-        iconClasses={styles.icon}
-        icon="Icon--thumbDown"
+      <IconButton
+        size="small"
+        className={classNames(iconStyles, thumbDownActiveStyle, styles.icon)}
+        aria-label={i18n.t('embeddable_framework.chat.chatLog.rating.title.bad')}
         onClick={() => this.ratingClickedHandler(ratings.BAD)}
-      />
+      >
+        <Icon type="Icon--thumbDown" />
+      </IconButton>
     )
   }
 
   render = () => {
     return (
-      <div className={this.props.className}>
-        {this.renderThumbsUpButton()}
-        {this.renderThumbsDownButton()}
-      </div>
+      <ThemeProvider>
+        <div className={this.props.className}>
+          {this.renderThumbsUpButton()}
+          {this.renderThumbsDownButton()}
+        </div>
+      </ThemeProvider>
     )
   }
 }

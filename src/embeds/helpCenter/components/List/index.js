@@ -25,6 +25,16 @@ export default class List extends PureComponent {
     this.firstArticleRef = null
   }
 
+  componentDidMount() {
+    this.focusOnFirstItem()
+  }
+
+  focusOnFirstItem() {
+    if (this.firstArticleRef) {
+      this.firstArticleRef.focus()
+    }
+  }
+
   renderResultRow = (article, index) => {
     const assignRef = ref => {
       if (index === 0) {
@@ -41,12 +51,6 @@ export default class List extends PureComponent {
         onClick={e => this.props.onItemClick(index, e)}
       />
     )
-  }
-
-  focusOnFirstItem() {
-    if (this.firstArticleRef) {
-      this.firstArticleRef.focus()
-    }
   }
 
   render() {

@@ -4,10 +4,10 @@ import { Provider } from 'react-redux'
 
 import DesktopPage from '../index'
 import createStore from 'src/redux/createStore'
+import * as selectors from 'src/redux/modules/selectors/selectors'
 
 const renderHelpCenterDesktop = props => {
   const defaultProps = {
-    buttonLabel: '',
     chatAvailable: false,
     children: <div />,
     handleNextClick: noop,
@@ -28,6 +28,10 @@ const renderHelpCenterDesktop = props => {
     </Provider>
   )
 }
+
+beforeEach(() => {
+  jest.spyOn(selectors, 'getHelpCenterButtonLabel').mockReturnValue('click me')
+})
 
 test('renders the expected components', () => {
   const { container } = renderHelpCenterDesktop()
@@ -88,6 +92,8 @@ describe('render', () => {
     })
 
     it('renders button with loading animation', () => {
+      jest.spyOn(selectors, 'getChatConnectionConnecting').mockReturnValue(true)
+
       const { container } = renderHelpCenterDesktop({
         showNextButton: true,
         buttonLoading: true
@@ -98,8 +104,7 @@ describe('render', () => {
 
     it('renders expected next button', () => {
       const { container } = renderHelpCenterDesktop({
-        showNextButton: true,
-        buttonLabel: 'hello world'
+        showNextButton: true
       })
 
       expect(container.querySelector('footer')).toMatchSnapshot()
@@ -255,7 +260,6 @@ describe('on button click', () => {
         hasSearched: true,
         onNextClick,
         handleNextClick,
-        buttonLabel: 'click me',
         channelChoice: true
       })
 
@@ -269,12 +273,12 @@ describe('on button click', () => {
     it('calls handleNextClick', () => {
       const onNextClick = jest.fn(),
         handleNextClick = jest.fn()
+
       const { getByText } = renderHelpCenterDesktop({
         showNextButton: true,
         hasSearched: true,
         onNextClick,
         handleNextClick,
-        buttonLabel: 'click me',
         channelChoice: false
       })
 

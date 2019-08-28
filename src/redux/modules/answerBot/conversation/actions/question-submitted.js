@@ -105,6 +105,7 @@ function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
 
   /* eslint-disable camelcase */
   http.send({
+    timeout: 10000,
     callbacks,
     method: 'post',
     path: '/api/v2/answer_bot/interaction?include=html_body',

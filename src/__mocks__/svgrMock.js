@@ -7,9 +7,15 @@ module.exports = {
         value: true
       })      
       const React = require('react');
-      exports.default = (props) => React.createElement('svgr-mock', 
-        {iconFilename: ${JSON.stringify(path.basename(filepath))}, ...props}
-      );
+      exports.default = props => (
+        React.createElement(
+          'svg',
+          {
+            realfilename: ${JSON.stringify(path.basename(filepath))},
+            ...props            
+          }
+        )
+      )
     `
   }
 }

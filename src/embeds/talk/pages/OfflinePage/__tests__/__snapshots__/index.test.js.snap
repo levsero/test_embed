@@ -34,8 +34,8 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
         tabindex="-1"
         target="_blank"
       >
-        <svgr-mock
-          iconfilename="widget-icon_zendesk.svg"
+        <svg
+          realfilename="widget-icon_zendesk.svg"
           title="zendesk"
         />
       </a>

@@ -13,4 +13,5 @@
   @media screen and (orientation: landscape) {
     padding-top: calc(10% - (#{40 / $font-size}rem));
   }
+  margin-bottom: #{10 / $font-size}rem;
 }

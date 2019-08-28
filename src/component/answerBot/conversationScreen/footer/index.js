@@ -11,11 +11,13 @@ import {
   getInTouchClicked
 } from 'src/redux/modules/answerBot/conversation/actions'
 import { getCurrentMessage } from 'src/redux/modules/answerBot/root/selectors'
-import { IconButton } from 'component/Icon'
 import { PillButton } from 'src/component/shared/PillButton'
 import { getContactButtonVisible } from 'src/redux/modules/answerBot/root/selectors'
 import { SlideAppear } from 'component/transition/SlideAppear'
 import { botUserMessage, botChannelChoice } from 'src/redux/modules/answerBot/root/actions/bot'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { Icon } from 'component/Icon'
+import { IconButton } from '@zendeskgarden/react-buttons'
 
 import { ICONS } from 'constants/shared'
 
@@ -130,15 +132,19 @@ class Footer extends Component {
   }
 
   renderSend = () => {
+    const containerClasses = classNames(styles.button, styles.iconSendAnswerBotMobile)
+
     return (
-      <IconButton
-        type={ICONS.SEND_CHAT}
-        disableTooltip={this.props.isMobile}
-        altText={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
-        buttonClassName={styles.button}
-        className={styles.iconSendAnswerBotMobile}
-        onClick={this.handleSendInputValue}
-      />
+      <ThemeProvider>
+        <IconButton
+          size="large"
+          aria-label={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
+          className={containerClasses}
+          onClick={this.handleSendInputValue}
+        >
+          <Icon type={ICONS.SEND_CHAT} />
+        </IconButton>
+      </ThemeProvider>
     )
   }
 

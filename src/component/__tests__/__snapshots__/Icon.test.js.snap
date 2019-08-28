@@ -7,9 +7,9 @@ exports[`Icon renders expected classes 1`] = `
     data-testid="Icon--zendesk"
     type="Icon--zendesk"
   >
-    <svgr-mock
+    <svg
       aria-hidden="true"
-      iconfilename="widget-icon_zendesk.svg"
+      realfilename="widget-icon_zendesk.svg"
     />
   </span>
 </div>
@@ -22,9 +22,9 @@ exports[`Icon renders expected flipx classes when flipX is true 1`] = `
     data-testid="Icon--zendesk"
     type="Icon--zendesk"
   >
-    <svgr-mock
+    <svg
       aria-hidden="true"
-      iconfilename="widget-icon_zendesk.svg"
+      realfilename="widget-icon_zendesk.svg"
     />
   </span>
 </div>
@@ -37,148 +37,10 @@ exports[`Icon renders expected mobile classes when mobile is true 1`] = `
     data-testid="Icon--zendesk"
     type="Icon--zendesk"
   >
-    <svgr-mock
+    <svg
       aria-hidden="true"
-      iconfilename="widget-icon_zendesk.svg"
+      realfilename="widget-icon_zendesk.svg"
     />
   </span>
-</div>
-`;
-
-exports[`IconButton mouseover event does not show tooltip when button is disabled 1`] = `
-<div>
-  <div
-    class="wrapper"
-  >
-    <button
-      class=" button"
-      type="button"
-    >
-      <span
-        class="container Icon--zendesk"
-        data-testid="Icon--zendesk"
-        type="Icon--zendesk"
-      >
-        <svgr-mock
-          aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
-        />
-      </span>
-      <span
-        class="altText"
-      >
-        Clickable Icon
-      </span>
-    </button>
-    <div
-      class="tooltip"
-    >
-      Clickable Icon
-    </div>
-  </div>
-</div>
-`;
-
-exports[`IconButton mouseover event does not show tooltip when tooltip is disabled 1`] = `
-<div>
-  <div
-    class="wrapper"
-  >
-    <button
-      class=" button"
-      title="Clickable Icon"
-      type="button"
-    >
-      <span
-        class="container Icon--zendesk"
-        data-testid="Icon--zendesk"
-        type="Icon--zendesk"
-      >
-        <svgr-mock
-          aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
-        />
-      </span>
-      <span
-        class="altText"
-      >
-        Clickable Icon
-      </span>
-    </button>
-    <div
-      class="tooltip"
-    >
-      Clickable Icon
-    </div>
-  </div>
-</div>
-`;
-
-exports[`IconButton mouseover event shows tooltip when button and tooltips are enabled 1`] = `
-<div>
-  <div
-    class="wrapper"
-  >
-    <button
-      class=" button"
-      type="button"
-    >
-      <span
-        class="container Icon--zendesk"
-        data-testid="Icon--zendesk"
-        type="Icon--zendesk"
-      >
-        <svgr-mock
-          aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
-        />
-      </span>
-      <span
-        class="altText"
-      >
-        Clickable Icon
-      </span>
-    </button>
-    <div
-      class="tooltip tooltipShown tooltipTransition"
-    >
-      Clickable Icon
-    </div>
-  </div>
-</div>
-`;
-
-exports[`IconButton renders expected classes, alt text and Icon 1`] = `
-<div>
-  <div
-    class="wrapper"
-  >
-    <button
-      class=" button"
-      title="Clickable Icon"
-      type="button"
-    >
-      <span
-        class="container Icon--zendesk"
-        data-testid="Icon--zendesk"
-        type="Icon--zendesk"
-      >
-        <svgr-mock
-          aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
-        />
-      </span>
-      <span
-        class="altText"
-      >
-        Clickable Icon
-      </span>
-    </button>
-    <div
-      class="tooltip"
-    >
-      Clickable Icon
-    </div>
-  </div>
 </div>
 `;

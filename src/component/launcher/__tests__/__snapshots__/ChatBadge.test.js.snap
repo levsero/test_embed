@@ -31,9 +31,9 @@ exports[`renders the component 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                <svgr-mock
+                <svg
                   aria-hidden="true"
-                  iconfilename="widget-icon_channelChoice-chat.svg"
+                  realfilename="widget-icon_channelChoice-chat.svg"
                 />
               </span>
             </td>
@@ -59,9 +59,9 @@ exports[`renders the component 1`] = `
         tabindex="0"
         type="Icon--sendChat"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_sendChat.svg"
+          realfilename="widget-icon_sendChat.svg"
         />
       </span>
     </div>
@@ -72,9 +72,9 @@ exports[`renders the component 1`] = `
       tabindex="0"
       type="Icon--dash"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_dash.svg"
+        realfilename="widget-icon_dash.svg"
       />
     </span>
   </div>
@@ -112,9 +112,9 @@ exports[`with chatBadgeColor passed in 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                <svgr-mock
+                <svg
                   aria-hidden="true"
-                  iconfilename="widget-icon_channelChoice-chat.svg"
+                  realfilename="widget-icon_channelChoice-chat.svg"
                 />
               </span>
             </td>
@@ -140,9 +140,9 @@ exports[`with chatBadgeColor passed in 1`] = `
         tabindex="0"
         type="Icon--sendChat"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_sendChat.svg"
+          realfilename="widget-icon_sendChat.svg"
         />
       </span>
     </div>
@@ -153,9 +153,9 @@ exports[`with chatBadgeColor passed in 1`] = `
       tabindex="0"
       type="Icon--dash"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_dash.svg"
+        realfilename="widget-icon_dash.svg"
       />
     </span>
   </div>
@@ -195,9 +195,9 @@ exports[`with label passed in 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                <svgr-mock
+                <svg
                   aria-hidden="true"
-                  iconfilename="widget-icon_channelChoice-chat.svg"
+                  realfilename="widget-icon_channelChoice-chat.svg"
                 />
               </span>
             </td>
@@ -223,9 +223,9 @@ exports[`with label passed in 1`] = `
         tabindex="0"
         type="Icon--sendChat"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_sendChat.svg"
+          realfilename="widget-icon_sendChat.svg"
         />
       </span>
     </div>
@@ -236,9 +236,9 @@ exports[`with label passed in 1`] = `
       tabindex="0"
       type="Icon--dash"
     >
-      <svgr-mock
+      <svg
         aria-hidden="true"
-        iconfilename="widget-icon_dash.svg"
+        realfilename="widget-icon_dash.svg"
       />
     </span>
   </div>

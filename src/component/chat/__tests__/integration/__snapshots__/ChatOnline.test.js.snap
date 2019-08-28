@@ -307,9 +307,9 @@ exports[`chat log series of actions 1`] = `
               data-testid="Icon--mini-tick"
               type="Icon--mini-tick"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="check-sm-stroke.svg"
+                realfilename="check-sm-stroke.svg"
               />
             </span>
             <div>
@@ -640,9 +640,9 @@ exports[`chat log visitor message success 1`] = `
               data-testid="Icon--mini-tick"
               type="Icon--mini-tick"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="check-sm-stroke.svg"
+                realfilename="check-sm-stroke.svg"
               />
             </span>
             <div>

@@ -8,6 +8,10 @@ var rest = require('rest'),
   localeIdMapPath = __dirname + '/../src/translation/ze_localeIdMap.js',
   localesEndpoint = 'https://support.zendesk.com/api/v2/locales/apps/web_widget.json'
 
+if (process.env.EMBEDDABLE_FRAMEWORK_ENV === 'staging') {
+  localesEndpoint.replace('.zendesk.com', '.zendesk-staging.com')
+}
+
 function filterLocales(locales) {
   return _.reject(locales, function(locale) {
     return locale.name === 'Deutsch (informell)'

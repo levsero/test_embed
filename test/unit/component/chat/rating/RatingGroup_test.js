@@ -1,18 +1,13 @@
 describe('RatingGroup component', () => {
   let RatingGroup, ChatRatings
   const RatingGroupPath = buildSrcPath('component/chat/rating/RatingGroup')
+  const IconButton = noopReactComponent()
+  const Icon = noopReactComponent()
 
   beforeEach(() => {
     mockery.enable()
 
     initMockRegistry({
-      'component/button/ButtonIcon': {
-        ButtonIcon: class extends Component {
-          render = () => {
-            return <div className={`${this.props.icon} ${this.props.containerStyles}`} />
-          }
-        }
-      },
       './RatingGroup.scss': {
         locals: {
           ratingIconActive: 'ratingIconActive',
@@ -21,7 +16,14 @@ describe('RatingGroup component', () => {
           container: 'container',
           thumbDownIcon: 'thumbDownIcon'
         }
-      }
+      },
+      'service/i18n': {
+        i18n: {
+          t: noop
+        }
+      },
+      'component/Icon': { Icon },
+      '@zendeskgarden/react-buttons': { IconButton }
     })
 
     mockery.registerAllowable(RatingGroupPath)
@@ -45,13 +47,13 @@ describe('RatingGroup component', () => {
       })
 
       it('renders active styles for thumbUp button', () => {
-        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbUp')
+        const buttonIconNode = RatingGroupNode.querySelectorAll('.ratingIcon')[0]
 
         expect(buttonIconNode.className).toContain('ratingIconActive')
       })
 
       it('does not render active styles for thumbDown button', () => {
-        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbDown')
+        const buttonIconNode = RatingGroupNode.querySelectorAll('.ratingIcon')[1]
 
         expect(buttonIconNode.className).not.toContain('ratingIconActive')
       })
@@ -65,13 +67,13 @@ describe('RatingGroup component', () => {
       })
 
       it('renders active styles for thumbDown button', () => {
-        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbDown')
+        const buttonIconNode = RatingGroupNode.querySelectorAll('.ratingIcon')[1]
 
         expect(buttonIconNode.className).toContain('ratingIconActive')
       })
 
       it('does not render active styles for thumbDown button', () => {
-        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbUp')
+        const buttonIconNode = RatingGroupNode.querySelectorAll('.ratingIcon')[0]
 
         expect(buttonIconNode.className).not.toContain('ratingIconActive')
       })
@@ -84,14 +86,14 @@ describe('RatingGroup component', () => {
         const component = domRender(<RatingGroup />)
 
         RatingGroupNode = ReactDOM.findDOMNode(component)
-        thumbUpNode = RatingGroupNode.querySelector('.Icon--thumbUp')
-        thumbDownNode = RatingGroupNode.querySelector('.Icon--thumbDown')
+        thumbUpNode = RatingGroupNode.querySelectorAll('.ratingIcon')[0]
+        thumbDownNode = RatingGroupNode.querySelectorAll('.ratingIcon')[1]
       })
 
       it('renders both buttons without active styles', () => {
-        expect(thumbUpNode).not.toContain('ratingIconActive')
+        expect(thumbUpNode.className).not.toContain('ratingIconActive')
 
-        expect(thumbDownNode).not.toContain('ratingIconActive')
+        expect(thumbDownNode.className).not.toContain('ratingIconActive')
       })
     })
   })

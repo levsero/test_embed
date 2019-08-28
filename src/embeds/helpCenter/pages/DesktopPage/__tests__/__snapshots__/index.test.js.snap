@@ -67,7 +67,7 @@ exports[`render footer renders expected next button 1`] = `
         tabindex="0"
         type="button"
       >
-        hello world
+        click me
       </button>
     </div>
   </div>
@@ -124,9 +124,9 @@ exports[`renders the expected components 1`] = `
                 tabindex="0"
                 type="Icon--search"
               >
-                <svgr-mock
+                <svg
                   aria-hidden="true"
-                  iconfilename="widget-icon_search.svg"
+                  realfilename="widget-icon_search.svg"
                 />
               </span>
             </div>
@@ -155,7 +155,9 @@ exports[`renders the expected components 1`] = `
               data-garden-version="3.7.0"
               tabindex="0"
               type="button"
-            />
+            >
+              click me
+            </button>
           </div>
         </div>
       </footer>
@@ -176,9 +178,9 @@ exports[`renders the expected components 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
+          realfilename="widget-icon_zendesk.svg"
         />
       </span>
       <span
@@ -228,7 +230,9 @@ exports[`renders the expected components when articleViewActive is true 1`] = `
               data-garden-version="3.7.0"
               tabindex="0"
               type="button"
-            />
+            >
+              click me
+            </button>
           </div>
         </div>
       </footer>
@@ -249,9 +253,9 @@ exports[`renders the expected components when articleViewActive is true 1`] = `
         data-testid="Icon--zendesk"
         type="Icon--zendesk"
       >
-        <svgr-mock
+        <svg
           aria-hidden="true"
-          iconfilename="widget-icon_zendesk.svg"
+          realfilename="widget-icon_zendesk.svg"
         />
       </span>
       <span
@@ -319,9 +323,9 @@ exports[`renders the expected components when isOnInitialDesktopSearchScreen is 
               tabindex="0"
               type="Icon--search"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="widget-icon_search.svg"
+                realfilename="widget-icon_search.svg"
               />
             </span>
           </div>
@@ -341,8 +345,8 @@ exports[`renders the expected components when isOnInitialDesktopSearchScreen is 
           tabindex="-1"
           target="_blank"
         >
-          <svgr-mock
-            iconfilename="widget-icon_zendesk.svg"
+          <svg
+            realfilename="widget-icon_zendesk.svg"
             title="zendesk"
           />
         </a>

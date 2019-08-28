@@ -25,9 +25,9 @@ exports[`allows attaching file 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -51,9 +51,9 @@ exports[`allows attaching file 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -82,9 +82,9 @@ exports[`allows attaching file 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div
@@ -161,9 +161,9 @@ exports[`exceed file size 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div
@@ -210,9 +210,9 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -236,9 +236,9 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -265,9 +265,9 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -291,9 +291,9 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -320,9 +320,9 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -346,9 +346,9 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -375,9 +375,9 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -401,9 +401,9 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -430,9 +430,9 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -456,9 +456,9 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -492,9 +492,9 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div
@@ -571,9 +571,9 @@ exports[`failed upload 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div
@@ -620,9 +620,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-pdf"
               type="Icon--preview-pdf"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-pdf.svg"
+                realfilename="file-pdf.svg"
               />
             </span>
             <div
@@ -646,9 +646,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -675,9 +675,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-zip"
               type="Icon--preview-zip"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-zip.svg"
+                realfilename="file-zip.svg"
               />
             </span>
             <div
@@ -701,9 +701,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -730,9 +730,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-presentation"
               type="Icon--preview-presentation"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-presentation.svg"
+                realfilename="file-presentation.svg"
               />
             </span>
             <div
@@ -756,9 +756,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -785,9 +785,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-zip"
               type="Icon--preview-zip"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-zip.svg"
+                realfilename="file-zip.svg"
               />
             </span>
             <div
@@ -811,9 +811,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -840,9 +840,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-document.svg"
+                realfilename="file-document.svg"
               />
             </span>
             <div
@@ -866,9 +866,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -895,9 +895,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-document.svg"
+                realfilename="file-document.svg"
               />
             </span>
             <div
@@ -921,9 +921,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -950,9 +950,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-presentation"
               type="Icon--preview-presentation"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-presentation.svg"
+                realfilename="file-presentation.svg"
               />
             </span>
             <div
@@ -976,9 +976,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1005,9 +1005,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-presentation"
               type="Icon--preview-presentation"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-presentation.svg"
+                realfilename="file-presentation.svg"
               />
             </span>
             <div
@@ -1031,9 +1031,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1060,9 +1060,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -1086,9 +1086,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1115,9 +1115,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -1141,9 +1141,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1170,9 +1170,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -1196,9 +1196,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1225,9 +1225,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-document.svg"
+                realfilename="file-document.svg"
               />
             </span>
             <div
@@ -1251,9 +1251,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1280,9 +1280,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-document.svg"
+                realfilename="file-document.svg"
               />
             </span>
             <div
@@ -1306,9 +1306,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1335,9 +1335,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-document.svg"
+                realfilename="file-document.svg"
               />
             </span>
             <div
@@ -1361,9 +1361,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1390,9 +1390,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-document.svg"
+                realfilename="file-document.svg"
               />
             </span>
             <div
@@ -1416,9 +1416,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1445,9 +1445,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-image.svg"
+                realfilename="file-image.svg"
               />
             </span>
             <div
@@ -1471,9 +1471,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1500,9 +1500,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-image.svg"
+                realfilename="file-image.svg"
               />
             </span>
             <div
@@ -1526,9 +1526,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1555,9 +1555,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-image.svg"
+                realfilename="file-image.svg"
               />
             </span>
             <div
@@ -1581,9 +1581,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1610,9 +1610,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-image.svg"
+                realfilename="file-image.svg"
               />
             </span>
             <div
@@ -1636,9 +1636,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1665,9 +1665,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-default"
               type="Icon--preview-default"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file.svg"
+                realfilename="file.svg"
               />
             </span>
             <div
@@ -1691,9 +1691,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1720,9 +1720,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-default"
               type="Icon--preview-default"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file.svg"
+                realfilename="file.svg"
               />
             </span>
             <div
@@ -1746,9 +1746,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1775,9 +1775,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-default"
               type="Icon--preview-default"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file.svg"
+                realfilename="file.svg"
               />
             </span>
             <div
@@ -1801,9 +1801,9 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -1832,9 +1832,9 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div
@@ -1883,9 +1883,9 @@ exports[`remove attachment 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div
@@ -1934,9 +1934,9 @@ exports[`renders the component 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div
@@ -1985,9 +1985,9 @@ exports[`renders the component with mobile styles 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div
@@ -2034,9 +2034,9 @@ exports[`successful upload 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -2060,9 +2060,9 @@ exports[`successful upload 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -2083,9 +2083,9 @@ exports[`successful upload 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div
@@ -2132,9 +2132,9 @@ exports[`uploading in progress upload 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="file-spreadsheet.svg"
+                realfilename="file-spreadsheet.svg"
               />
             </span>
             <div
@@ -2158,9 +2158,9 @@ exports[`uploading in progress upload 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="x-stroke.svg"
+                realfilename="x-stroke.svg"
               />
             </span>
           </div>
@@ -2189,9 +2189,9 @@ exports[`uploading in progress upload 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="attachment.svg"
+                realfilename="attachment.svg"
               />
             </span>
             <div

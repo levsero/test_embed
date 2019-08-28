@@ -94,6 +94,7 @@
 .header {
   composes: u-marginBM from global;
   position: relative;
+  z-index: 2;
 }
 
 .scrollBarFix {
