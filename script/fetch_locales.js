@@ -16,7 +16,9 @@ const writeJson = localeList => {
   })
 }
 
-rest('https://support.zendesk.com/api/v2/locales/apps/web_widget.json')
+const domain = process.env.EMBEDDABLE_FRAMEWORK_ENV === 'staging' ? 'zendesk-staging' : 'zendesk'
+
+rest(`https://support.${domain}.com/api/v2/locales/apps/web_widget.json`)
   .then(function(res) {
     console.log('\nCreating locales list')
     const localeList = generateLocaleList(JSON.parse(res.entity).locales)
