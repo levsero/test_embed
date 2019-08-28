@@ -51,9 +51,9 @@ exports[`renders correctly on desktop 1`] = `
               tabindex="0"
               type="Icon--search"
             >
-              <svgr-mock
+              <svg
                 aria-hidden="true"
-                iconfilename="widget-icon_search.svg"
+                realfilename="widget-icon_search.svg"
               />
             </span>
           </div>

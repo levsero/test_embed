@@ -54,9 +54,9 @@ exports[`default render matches snapshot 1`] = `
                 tabindex="0"
                 type="Icon--search"
               >
-                <svgr-mock
+                <svg
                   aria-hidden="true"
-                  iconfilename="widget-icon_search.svg"
+                  realfilename="widget-icon_search.svg"
                 />
               </span>
             </div>
@@ -119,8 +119,8 @@ exports[`default render matches snapshot 1`] = `
           tabindex="-1"
           target="_blank"
         >
-          <svgr-mock
-            iconfilename="widget-icon_zendesk.svg"
+          <svg
+            realfilename="widget-icon_zendesk.svg"
             title="zendesk"
           />
         </a>
