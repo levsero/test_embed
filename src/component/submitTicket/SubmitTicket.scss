@@ -41,7 +41,6 @@
 
 .ticketFormsContainer {
   composes: u-paddingTN u-posRelative from global;
-  min-height: #{357 / $font-size}rem;
 }
 
 .ticketFormsFooter {
