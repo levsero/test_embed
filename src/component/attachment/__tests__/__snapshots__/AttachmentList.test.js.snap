@@ -25,7 +25,10 @@ exports[`allows attaching file 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -48,7 +51,10 @@ exports[`allows attaching file 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -76,7 +82,10 @@ exports[`allows attaching file 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"
@@ -152,7 +161,10 @@ exports[`exceed file size 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"
@@ -198,7 +210,10 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -221,7 +236,10 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -247,7 +265,10 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -270,7 +291,10 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -296,7 +320,10 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -319,7 +346,10 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -345,7 +375,10 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -368,7 +401,10 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -394,7 +430,10 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -417,7 +456,10 @@ exports[`exceed maximum number of files 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -450,7 +492,10 @@ exports[`exceed maximum number of files 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"
@@ -526,7 +571,10 @@ exports[`failed upload 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"
@@ -572,7 +620,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-pdf"
               type="Icon--preview-pdf"
             >
-              file-pdf.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-pdf.svg"
+              />
             </span>
             <div
               class="description"
@@ -595,7 +646,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -621,7 +675,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-zip"
               type="Icon--preview-zip"
             >
-              file-zip.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-zip.svg"
+              />
             </span>
             <div
               class="description"
@@ -644,7 +701,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -670,7 +730,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-presentation"
               type="Icon--preview-presentation"
             >
-              file-presentation.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-presentation.svg"
+              />
             </span>
             <div
               class="description"
@@ -693,7 +756,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -719,7 +785,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-zip"
               type="Icon--preview-zip"
             >
-              file-zip.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-zip.svg"
+              />
             </span>
             <div
               class="description"
@@ -742,7 +811,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -768,7 +840,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              file-document.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-document.svg"
+              />
             </span>
             <div
               class="description"
@@ -791,7 +866,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -817,7 +895,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              file-document.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-document.svg"
+              />
             </span>
             <div
               class="description"
@@ -840,7 +921,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -866,7 +950,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-presentation"
               type="Icon--preview-presentation"
             >
-              file-presentation.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-presentation.svg"
+              />
             </span>
             <div
               class="description"
@@ -889,7 +976,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -915,7 +1005,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-presentation"
               type="Icon--preview-presentation"
             >
-              file-presentation.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-presentation.svg"
+              />
             </span>
             <div
               class="description"
@@ -938,7 +1031,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -964,7 +1060,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -987,7 +1086,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1013,7 +1115,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -1036,7 +1141,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1062,7 +1170,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -1085,7 +1196,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1111,7 +1225,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              file-document.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-document.svg"
+              />
             </span>
             <div
               class="description"
@@ -1134,7 +1251,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1160,7 +1280,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              file-document.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-document.svg"
+              />
             </span>
             <div
               class="description"
@@ -1183,7 +1306,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1209,7 +1335,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              file-document.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-document.svg"
+              />
             </span>
             <div
               class="description"
@@ -1232,7 +1361,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1258,7 +1390,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-document"
               type="Icon--preview-document"
             >
-              file-document.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-document.svg"
+              />
             </span>
             <div
               class="description"
@@ -1281,7 +1416,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1307,7 +1445,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
-              file-image.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-image.svg"
+              />
             </span>
             <div
               class="description"
@@ -1330,7 +1471,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1356,7 +1500,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
-              file-image.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-image.svg"
+              />
             </span>
             <div
               class="description"
@@ -1379,7 +1526,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1405,7 +1555,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
-              file-image.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-image.svg"
+              />
             </span>
             <div
               class="description"
@@ -1428,7 +1581,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1454,7 +1610,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-image"
               type="Icon--preview-image"
             >
-              file-image.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-image.svg"
+              />
             </span>
             <div
               class="description"
@@ -1477,7 +1636,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1503,7 +1665,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-default"
               type="Icon--preview-default"
             >
-              file.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file.svg"
+              />
             </span>
             <div
               class="description"
@@ -1526,7 +1691,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1552,7 +1720,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-default"
               type="Icon--preview-default"
             >
-              file.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file.svg"
+              />
             </span>
             <div
               class="description"
@@ -1575,7 +1746,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1601,7 +1775,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--preview-default"
               type="Icon--preview-default"
             >
-              file.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file.svg"
+              />
             </span>
             <div
               class="description"
@@ -1624,7 +1801,10 @@ exports[`picks the correct icon types 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1652,7 +1832,10 @@ exports[`picks the correct icon types 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"
@@ -1700,7 +1883,10 @@ exports[`remove attachment 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"
@@ -1748,7 +1934,10 @@ exports[`renders the component 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"
@@ -1796,7 +1985,10 @@ exports[`renders the component with mobile styles 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"
@@ -1842,7 +2034,10 @@ exports[`successful upload 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -1865,7 +2060,10 @@ exports[`successful upload 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
         </div>
@@ -1885,7 +2083,10 @@ exports[`successful upload 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"
@@ -1931,7 +2132,10 @@ exports[`uploading in progress upload 1`] = `
               data-testid="Icon--preview-spreadsheet"
               type="Icon--preview-spreadsheet"
             >
-              file-spreadsheet.svg
+              <svg
+                aria-hidden="true"
+                realfilename="file-spreadsheet.svg"
+              />
             </span>
             <div
               class="description"
@@ -1954,7 +2158,10 @@ exports[`uploading in progress upload 1`] = `
               tabindex="0"
               type="Icon--close"
             >
-              x-stroke.svg
+              <svg
+                aria-hidden="true"
+                realfilename="x-stroke.svg"
+              />
             </span>
           </div>
           <div
@@ -1982,7 +2189,10 @@ exports[`uploading in progress upload 1`] = `
               data-testid="Icon--paperclip-small"
               type="Icon--paperclip-small"
             >
-              attachment.svg
+              <svg
+                aria-hidden="true"
+                realfilename="attachment.svg"
+              />
             </span>
             <div
               class="dropzoneChildLabel"

@@ -11,7 +11,6 @@ import resultsCount from './helpCenter-resultsCount'
 import resultsLocale from './helpCenter-resultsLocale'
 import restrictedImages from './helpCenter-restrictedImages'
 import searchFieldValue from './helpCenter-searchFieldValue'
-import searchFieldFocused from './helpCenter-searchFieldFocused'
 import articleDisplayed from './helpCenter-articleDisplayed'
 import contextualSearch from './helpCenter-contextualSearch'
 import lastSearchTimestamp from './helpCenter-lastSearchTimestamp'
@@ -31,7 +30,6 @@ export default combineReducers({
   resultsCount,
   resultsLocale,
   searchFailed,
-  searchFieldFocused,
   searchFieldValue,
   searchLoading,
   searchTerm,

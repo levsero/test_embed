@@ -5,7 +5,8 @@
     "./config/eslint/eslint-react.js",
     "./config/eslint/eslint-plugin-import.js",
     "plugin:prettier/recommended",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "eslint:recommended"
   ],
   "plugins": [
     "jest",
@@ -39,7 +40,14 @@
     "no-empty": 0,
     "newline-after-var": 0,
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "eol-last": ["error", "always"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "no-nested-ternary": "error",
+    "space-infix-ops": "error",
+    "space-unary-ops": ["error", {"words": true, "nonwords": false}],
+    "no-case-declarations": "off",
+    "no-extra-semi":"off"
   },
   "overrides": [
     {

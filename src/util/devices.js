@@ -138,10 +138,12 @@ function metaStringToObj(str) {
   if (_.isEmpty(str)) {
     return {}
   } else {
-    return str.split(',').reduce((res, item) => {
+    return str.split(/(,| |;)/).reduce((res, item) => {
       const pair = item.trim().split('=')
 
-      res[pair[0]] = pair[1]
+      if (pair[1]) {
+        res[pair[0]] = pair[1]
+      }
       return res
     }, {})
   }

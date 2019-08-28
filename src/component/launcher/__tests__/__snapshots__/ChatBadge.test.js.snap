@@ -31,7 +31,10 @@ exports[`renders the component 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                widget-icon_channelChoice-chat.svg
+                <svg
+                  aria-hidden="true"
+                  realfilename="widget-icon_channelChoice-chat.svg"
+                />
               </span>
             </td>
           </tr>
@@ -56,7 +59,10 @@ exports[`renders the component 1`] = `
         tabindex="0"
         type="Icon--sendChat"
       >
-        widget-icon_sendChat.svg
+        <svg
+          aria-hidden="true"
+          realfilename="widget-icon_sendChat.svg"
+        />
       </span>
     </div>
     <span
@@ -66,7 +72,10 @@ exports[`renders the component 1`] = `
       tabindex="0"
       type="Icon--dash"
     >
-      widget-icon_dash.svg
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_dash.svg"
+      />
     </span>
   </div>
 </div>
@@ -103,7 +112,10 @@ exports[`with chatBadgeColor passed in 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                widget-icon_channelChoice-chat.svg
+                <svg
+                  aria-hidden="true"
+                  realfilename="widget-icon_channelChoice-chat.svg"
+                />
               </span>
             </td>
           </tr>
@@ -128,7 +140,10 @@ exports[`with chatBadgeColor passed in 1`] = `
         tabindex="0"
         type="Icon--sendChat"
       >
-        widget-icon_sendChat.svg
+        <svg
+          aria-hidden="true"
+          realfilename="widget-icon_sendChat.svg"
+        />
       </span>
     </div>
     <span
@@ -138,7 +153,10 @@ exports[`with chatBadgeColor passed in 1`] = `
       tabindex="0"
       type="Icon--dash"
     >
-      widget-icon_dash.svg
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_dash.svg"
+      />
     </span>
   </div>
 </div>
@@ -177,7 +195,10 @@ exports[`with label passed in 1`] = `
                 data-testid="Icon--channelChoice-chat"
                 type="Icon--channelChoice-chat"
               >
-                widget-icon_channelChoice-chat.svg
+                <svg
+                  aria-hidden="true"
+                  realfilename="widget-icon_channelChoice-chat.svg"
+                />
               </span>
             </td>
           </tr>
@@ -202,7 +223,10 @@ exports[`with label passed in 1`] = `
         tabindex="0"
         type="Icon--sendChat"
       >
-        widget-icon_sendChat.svg
+        <svg
+          aria-hidden="true"
+          realfilename="widget-icon_sendChat.svg"
+        />
       </span>
     </div>
     <span
@@ -212,7 +236,10 @@ exports[`with label passed in 1`] = `
       tabindex="0"
       type="Icon--dash"
     >
-      widget-icon_dash.svg
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_dash.svg"
+      />
     </span>
   </div>
 </div>

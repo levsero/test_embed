@@ -6,19 +6,18 @@ import { SearchField } from 'component/field/SearchField'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { LoadingBarContent } from 'component/loading/LoadingBarContent'
 import { i18n } from 'service/i18n'
-import HelpCenterChannelButton from 'src/embeds/helpCenter/components/HelpCenterChannelButton'
+import SearchPromptPage from 'src/embeds/helpCenter/pages/SearchPromptPage'
+import ChannelButton from 'src/embeds/helpCenter/components/ChannelButton'
 
 import { locals as styles } from './styles.scss'
 
 export default class MobilePage extends Component {
   static propTypes = {
     articleViewActive: PropTypes.bool,
-    buttonLabel: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     hasContextualSearched: PropTypes.bool,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
-    onSearchFieldFocus: PropTypes.func.isRequired,
     hasSearched: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     isLoading: PropTypes.bool,
@@ -28,8 +27,7 @@ export default class MobilePage extends Component {
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpRequestNeeded: PropTypes.bool.isRequired,
     searchPlaceholder: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    buttonLoading: PropTypes.bool
+    title: PropTypes.string.isRequired
   }
 
   static defaultProps = {
@@ -54,11 +52,18 @@ export default class MobilePage extends Component {
 
     this.state = {
       searchFieldFocused: false,
-      showIntroScreen: !props.contextualHelpRequestNeeded && !props.articleViewActive
+      showIntroScreen:
+        !props.contextualHelpRequestNeeded && !props.articleViewActive && !props.hasSearched
     }
 
     this.searchField = null
     this.searchFieldFocusTimer = null
+  }
+
+  componentDidMount() {
+    if (this.searchField) {
+      this.searchField.setState({ searchInputVal: this.props.searchFieldValue })
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -85,18 +90,14 @@ export default class MobilePage extends Component {
   }
 
   focusField() {
-    this.getSearchField().focus()
+    const searchField = this.getSearchField()
+    if (searchField) {
+      searchField.focus()
+    }
   }
 
   getSearchField() {
     return this.searchField
-  }
-
-  resetState = () => {
-    if (!this.props.hasSearched) {
-      this.setState({ showIntroScreen: true })
-      this.setSearchFieldFocused(false)
-    }
   }
 
   setIntroScreen = () => {
@@ -105,44 +106,13 @@ export default class MobilePage extends Component {
     })
   }
 
-  setSearchFieldFocused = focused => {
-    this.setState({ searchFieldFocused: !!focused })
-    this.props.onSearchFieldFocus(!!focused)
-  }
-
-  handleSearchBoxClicked = () => {
-    if (this.state.showIntroScreen) {
-      this.setState({ showIntroScreen: false })
-      this.setSearchFieldFocused(true)
-    }
-  }
-
-  handleOnBlur = () => {
-    // defer event to allow onClick events to fire first
-    this.searchFieldFocusTimer = setTimeout(() => {
-      this.setSearchFieldFocused(false)
-
-      if (!this.props.hasSearched && !this.props.isLoading) {
-        this.setState({ showIntroScreen: true })
-      }
-    }, 1)
-  }
-
-  handleOnFocus = () => {
-    this.setSearchFieldFocused(true)
-  }
-
   handleSubmit = e => {
     e.preventDefault()
     this.props.search()
   }
 
   showFooterContent = () => {
-    return (
-      this.props.showNextButton &&
-      (this.props.articleViewActive ||
-        (!this.state.showIntroScreen && !this.state.searchFieldFocused))
-    )
+    return this.props.showNextButton && (this.props.hasSearched || this.props.articleViewActive)
   }
 
   renderSearchField = () => {
@@ -153,12 +123,9 @@ export default class MobilePage extends Component {
         }}
         fullscreen={true}
         isMobile={true}
-        onFocus={this.handleOnFocus}
-        onBlur={this.handleOnBlur}
         onChangeValue={this.props.handleOnChangeValue}
         hasSearched={this.props.hasSearched}
         onSearchIconClick={this.handleSubmit}
-        onClick={this.handleSearchBoxClicked}
         isLoading={this.props.isLoading}
         searchPlaceholder={this.props.searchPlaceholder}
       />
@@ -196,16 +163,8 @@ export default class MobilePage extends Component {
   renderFooterContent = () => {
     if (!this.showFooterContent()) return null
 
-    const { buttonLabel, handleNextClick, buttonLoading } = this.props
-    return (
-      <HelpCenterChannelButton
-        buttonLabel={buttonLabel}
-        onClick={handleNextClick}
-        loading={buttonLoading}
-        isRTL={i18n.isRTL()}
-        isMobile={true}
-      />
-    )
+    const { handleNextClick } = this.props
+    return <ChannelButton onClick={handleNextClick} />
   }
 
   renderZendeskLogo = hideZendeskLogo => {
@@ -228,6 +187,10 @@ export default class MobilePage extends Component {
     const mobileHideLogoState = this.props.hasSearched
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState
     const containerClasses = !this.props.showNextButton && hideZendeskLogo ? styles.container : ''
+
+    if (this.state.showIntroScreen) {
+      return <SearchPromptPage />
+    }
 
     return (
       <div>

@@ -44,6 +44,7 @@ import {
 } from 'src/redux/modules/selectors'
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
 import { locals as styles } from './ChattingScreen.scss'
+import { onNextTick } from 'src/util/utils'
 
 const mapStateToProps = state => {
   return {
@@ -229,11 +230,11 @@ class ChattingScreen extends Component {
   }
 
   scrollToBottom = () => {
-    this.scrollToBottomTimer = setTimeout(() => {
+    this.scrollToBottomTimer = onNextTick(() => {
       if (this.scrollContainer) {
         this.scrollContainer.scrollToBottom()
       }
-    }, 0)
+    })
   }
 
   handleChatScreenScrolled = () => {

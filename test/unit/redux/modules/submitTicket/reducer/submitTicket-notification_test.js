@@ -43,14 +43,14 @@ describe('submitTicket reducer notification', () => {
     })
   })
 
-  describe('when an WIDGET_HIDE_ANIMATION_COMPLETE action is dispatched', () => {
+  describe('when an UPDATE_WIDGET_SHOWN action is dispatched', () => {
     let state
 
     beforeEach(() => {
       state = reducer(
         { show: true },
         {
-          type: baseActionTypes.WIDGET_HIDE_ANIMATION_COMPLETE
+          type: baseActionTypes.UPDATE_WIDGET_SHOWN
         }
       )
     })

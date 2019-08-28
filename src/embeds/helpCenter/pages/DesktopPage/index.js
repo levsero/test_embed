@@ -5,8 +5,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SearchField } from 'component/field/SearchField'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { LoadingBarContent } from 'component/loading/LoadingBarContent'
-import { i18n } from 'service/i18n'
-import HelpCenterChannelButton from 'src/embeds/helpCenter/components/HelpCenterChannelButton'
+import ChannelButton from 'src/embeds/helpCenter/components/ChannelButton'
 
 import SearchPromptPage from 'src/embeds/helpCenter/pages/SearchPromptPage'
 import { locals as styles } from './styles.scss'
@@ -15,7 +14,6 @@ import classNames from 'classnames'
 export default class DesktopPage extends Component {
   static propTypes = {
     articleViewActive: PropTypes.bool,
-    buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
     children: PropTypes.node.isRequired,
     handleNextClick: PropTypes.func.isRequired,
@@ -32,7 +30,6 @@ export default class DesktopPage extends Component {
     maxWidgetHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     searchPlaceholder: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    buttonLoading: PropTypes.bool,
     contextualHelpRequestNeeded: PropTypes.bool
   }
 
@@ -60,7 +57,15 @@ export default class DesktopPage extends Component {
     this.searchField = null
   }
 
-  componentDidUpdate = () => {
+  componentDidMount() {
+    this.updateSearchFieldValue()
+  }
+
+  componentDidUpdate() {
+    this.updateSearchFieldValue()
+  }
+
+  updateSearchFieldValue = () => {
     if (this.searchField) {
       this.searchField.setState({
         searchInputVal: this.props.searchFieldValue
@@ -138,23 +143,11 @@ export default class DesktopPage extends Component {
   }
 
   renderFooterContent = () => {
-    const {
-      showNextButton,
-      buttonLoading,
-      channelChoice,
-      buttonLabel,
-      onNextClick,
-      handleNextClick
-    } = this.props
+    const { showNextButton, channelChoice, onNextClick, handleNextClick } = this.props
     const onClickHandler = channelChoice ? onNextClick : handleNextClick
 
     return showNextButton && !this.props.isOnInitialDesktopSearchScreen ? (
-      <HelpCenterChannelButton
-        onClick={onClickHandler}
-        buttonLabel={buttonLabel}
-        isRTL={i18n.isRTL()}
-        loading={buttonLoading}
-      />
+      <ChannelButton onClick={onClickHandler} />
     ) : null
   }
 

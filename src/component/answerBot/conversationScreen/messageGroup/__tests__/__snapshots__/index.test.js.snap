@@ -160,7 +160,10 @@ exports[`bot name renders agent name 1`] = `
       data-testid="Icon--answerBot"
       type="Icon--answerBot"
     >
-      widget-icon_answerBot.svg
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_answerBot.svg"
+      />
     </span>
   </div>
 </div>
@@ -216,7 +219,10 @@ exports[`renders expected classes and components with default props 1`] = `
       data-testid="Icon--answerBot"
       type="Icon--answerBot"
     >
-      widget-icon_answerBot.svg
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_answerBot.svg"
+      />
     </span>
   </div>
 </div>

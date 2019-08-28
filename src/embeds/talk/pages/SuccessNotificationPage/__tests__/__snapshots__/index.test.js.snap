@@ -20,7 +20,10 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
       <div
         class="container"
       >
-        talk_success.svg
+        <svg
+          class="talkSuccessIcon"
+          realfilename="talk_success.svg"
+        />
         <div>
           <h2
             class="primary"
@@ -57,7 +60,10 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
           tabindex="-1"
           target="_blank"
         >
-          widget-icon_zendesk.svg
+          <svg
+            realfilename="widget-icon_zendesk.svg"
+            title="zendesk"
+          />
         </a>
       </div>
     </footer>

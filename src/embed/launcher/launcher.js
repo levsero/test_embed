@@ -12,6 +12,7 @@ import { generateUserLauncherCSS } from 'utility/color/styles'
 import { isMobileBrowser, getZoomSizingRatio } from 'utility/devices'
 import { renewToken } from 'src/redux/modules/base'
 import { FRAME_OFFSET_WIDTH, FRAME_OFFSET_HEIGHT } from 'constants/launcher'
+import { onNextTick } from 'src/util/utils'
 
 const launcherCSS = `${require('globalCSS')} ${launcherStyles}`
 
@@ -145,9 +146,9 @@ function waitForRootComponent(callback) {
   if (getRootComponent()) {
     callback()
   } else {
-    setTimeout(() => {
+    onNextTick(() => {
       waitForRootComponent(callback)
-    }, 0)
+    })
   }
 }
 

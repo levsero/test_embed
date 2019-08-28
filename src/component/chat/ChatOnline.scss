@@ -1,5 +1,10 @@
 @import '../../styles/_vars.scss';
 
+.chat {
+  position: relative;
+  overflow: hidden;
+}
+
 .chatEndPopupDescription {
   composes: u-paddingVL from global;
   color: $zd-color-grey-800;

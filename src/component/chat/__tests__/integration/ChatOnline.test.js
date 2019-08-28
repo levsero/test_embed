@@ -779,7 +779,7 @@ describe('end chat', () => {
       }
     })
 
-    const endChatOptionNode = getAllByText('End chat')[2]
+    const endChatOptionNode = getAllByText('End chat')[0]
 
     expect(endChatOptionNode.disabled).toEqual(false)
   })
@@ -788,7 +788,7 @@ describe('end chat', () => {
     const { getByTestId, getAllByText } = renderComponent()
     fireEvent.click(getByTestId('Icon--ellipsis'))
 
-    const endChatOptionNode = getAllByText('End chat')[2]
+    const endChatOptionNode = getAllByText('End chat')[0]
 
     expect(endChatOptionNode.disabled).toEqual(true)
   })

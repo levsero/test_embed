@@ -60,15 +60,6 @@ test('handleSearchFieldChange dispatches expected action', () => {
   expect(actions.handleSearchFieldChange({ y: 1234 })).toEqual(expected)
 })
 
-test('handleSearchFieldFocus dispatches expected action', () => {
-  const expected = {
-    type: types.SEARCH_FIELD_FOCUSED,
-    payload: { y: 1234 }
-  }
-
-  expect(actions.handleSearchFieldFocus({ y: 1234 })).toEqual(expected)
-})
-
 describe('performImageSearch', () => {
   const doneFn = jest.fn()
 

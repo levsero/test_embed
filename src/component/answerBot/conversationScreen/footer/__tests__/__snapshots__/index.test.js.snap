@@ -126,33 +126,25 @@ exports[`mobile when showGetInTouch is false renders the expected classes 1`] = 
           </textarea>
         </div>
       </div>
-      <div
-        class="wrapper"
+      <button
+        aria-label="Send"
+        class="button iconSendAnswerBotMobile IconButton-x15t1e-0 index__c-btn--icon___3Mbhs laoDmX Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--basic___3PMxO index__c-btn--muted___3GOeG index__c-btn--pill___3Lsyd index__c-btn--lg___16u8A lcPfmb"
+        data-garden-id="buttons.icon_button"
+        data-garden-version="3.7.0"
+        tabindex="0"
+        type="button"
       >
-        <button
-          class="button button"
-          title="Send"
-          type="button"
+        <span
+          class="container Icon--sendChat"
+          data-testid="Icon--sendChat"
+          type="Icon--sendChat"
         >
-          <span
-            class="container iconSendAnswerBotMobile Icon--sendChat"
-            data-testid="Icon--sendChat"
-            type="Icon--sendChat"
-          >
-            widget-icon_sendChat.svg
-          </span>
-          <span
-            class="altText"
-          >
-            Send
-          </span>
-        </button>
-        <div
-          class="tooltip"
-        >
-          Send
-        </div>
-      </div>
+          <svg
+            aria-hidden="true"
+            realfilename="widget-icon_sendChat.svg"
+          />
+        </span>
+      </button>
     </div>
   </div>
 </div>
@@ -214,33 +206,25 @@ exports[`mobile when showGetInTouch is true renders the expected classes 1`] = `
           </textarea>
         </div>
       </div>
-      <div
-        class="wrapper"
+      <button
+        aria-label="Send"
+        class="button iconSendAnswerBotMobile IconButton-x15t1e-0 index__c-btn--icon___3Mbhs laoDmX Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--basic___3PMxO index__c-btn--muted___3GOeG index__c-btn--pill___3Lsyd index__c-btn--lg___16u8A lcPfmb"
+        data-garden-id="buttons.icon_button"
+        data-garden-version="3.7.0"
+        tabindex="0"
+        type="button"
       >
-        <button
-          class="button button"
-          title="Send"
-          type="button"
+        <span
+          class="container Icon--sendChat"
+          data-testid="Icon--sendChat"
+          type="Icon--sendChat"
         >
-          <span
-            class="container iconSendAnswerBotMobile Icon--sendChat"
-            data-testid="Icon--sendChat"
-            type="Icon--sendChat"
-          >
-            widget-icon_sendChat.svg
-          </span>
-          <span
-            class="altText"
-          >
-            Send
-          </span>
-        </button>
-        <div
-          class="tooltip"
-        >
-          Send
-        </div>
-      </div>
+          <svg
+            aria-hidden="true"
+            realfilename="widget-icon_sendChat.svg"
+          />
+        </span>
+      </button>
     </div>
   </div>
 </div>

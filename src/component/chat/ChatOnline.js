@@ -15,6 +15,7 @@ import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopu
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble'
 import { AttachmentBox } from 'component/attachment/AttachmentBox'
 import { i18n } from 'service/i18n'
+import { onNextTick } from 'src/util/utils'
 import {
   endChatViaPostChatScreen,
   sendAttachments,
@@ -151,7 +152,7 @@ class Chat extends Component {
     this.props.updateMenuVisibility(!this.props.menuVisible)
 
     if (!this.props.menuVisible && keypress) {
-      setTimeout(this.menu.focus, 0)
+      onNextTick(this.menu.focus)
     }
   }
 
@@ -439,7 +440,7 @@ class Chat extends Component {
 
   render = () => {
     return (
-      <div>
+      <div className={styles.chat}>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderAgentListScreen()}

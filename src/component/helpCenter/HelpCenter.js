@@ -14,8 +14,7 @@ import {
   performImageSearch,
   handleOriginalArticleClicked,
   addRestrictedImage,
-  handleSearchFieldChange,
-  handleSearchFieldFocus
+  handleSearchFieldChange
 } from 'embeds/helpCenter/actions'
 import {
   getActiveArticle,
@@ -101,7 +100,6 @@ class HelpCenter extends Component {
     addRestrictedImage: PropTypes.func,
     searchFieldValue: PropTypes.string.isRequired,
     handleSearchFieldChange: PropTypes.func.isRequired,
-    handleSearchFieldFocus: PropTypes.func.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
     contextualHelpRequestNeeded: PropTypes.bool.isRequired,
     isContextualSearchComplete: PropTypes.bool.isRequired,
@@ -154,7 +152,7 @@ class HelpCenter extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.articles.length > 0) {
+    if (this.props.hasSearched) {
       if (this.helpCenterMobile) {
         this.helpCenterMobile.setIntroScreen()
       }
@@ -215,10 +213,6 @@ class HelpCenter extends Component {
     e.preventDefault()
 
     this.props.onNextClick()
-  }
-
-  resetState = () => {
-    this.helpCenterMobile.resetState()
   }
 
   handleArticleClick = (articleIndex, e) => {
@@ -330,7 +324,6 @@ class HelpCenter extends Component {
           this.helpCenterMobile = el
         }}
         handleOnChangeValue={this.props.handleSearchFieldChange}
-        onSearchFieldFocus={this.props.handleSearchFieldFocus}
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.props.searchLoading}
@@ -363,7 +356,6 @@ class HelpCenter extends Component {
 
 const actionCreators = {
   handleSearchFieldChange,
-  handleSearchFieldFocus,
   handleArticleClick,
   performSearch,
   performImageSearch,

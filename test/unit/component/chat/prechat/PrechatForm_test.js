@@ -96,6 +96,9 @@ describe('PrechatForm component', () => {
       },
       'component/Icon': {
         Icon: noop
+      },
+      'src/util/utils': {
+        onNextTick: cb => setTimeout(cb, 0)
       }
     })
 

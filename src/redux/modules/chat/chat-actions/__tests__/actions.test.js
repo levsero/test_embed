@@ -5,6 +5,7 @@ import * as timeout from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import * as actions from '../actions'
 import * as actionTypes from 'src/redux/modules/chat/chat-action-types'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
+import * as baseActions from 'src/redux/modules/base/base-actions'
 import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as callbacks from 'service/api/callbacks'
@@ -934,10 +935,16 @@ test('chatConnected', () => {
 
 test('chatStarted', () => {
   jest.spyOn(callbacks, 'fireFor')
+  jest.spyOn(baseActions, 'updateBackButtonVisibility')
+  mockHelpCenterAvailable = 'wassap'
+
   const result = dispatchAction(actions.chatStarted())
 
   expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_STARTED_EVENT)
   expect(result).toEqual({ type: actionTypes.CHAT_STARTED })
+  expect(baseActions.updateBackButtonVisibility).toHaveBeenCalledWith('wassap')
+
+  baseActions.updateBackButtonVisibility.mockRestore()
 })
 
 test('newAgentReceived', () => {

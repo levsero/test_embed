@@ -21,7 +21,10 @@ exports[`rendering with default props renders correctly 1`] = `
           data-testid="Icon--popout"
           type="Icon--popout"
         >
-          widget-icon_popout.svg
+          <svg
+            aria-hidden="true"
+            realfilename="widget-icon_popout.svg"
+          />
         </span>
       </button>
     </div>
@@ -43,7 +46,10 @@ exports[`rendering with default props renders correctly 1`] = `
           data-testid="Icon--dash"
           type="Icon--dash"
         >
-          widget-icon_dash.svg
+          <svg
+            aria-hidden="true"
+            realfilename="widget-icon_dash.svg"
+          />
         </span>
       </button>
     </div>

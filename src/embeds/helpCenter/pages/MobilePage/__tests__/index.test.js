@@ -1,13 +1,15 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
 import MobilePage from '../index'
+import * as devices from 'utility/devices'
+
+import * as selectors from 'src/redux/modules/selectors/selectors'
 
 const renderComponent = props => {
   const store = createStore()
   const defaultProps = {
-    buttonLabel: '',
     chatAvailable: false,
     children: <div />,
     onNextClick: noop,
@@ -15,6 +17,7 @@ const renderComponent = props => {
     handleOnChangeValue: noop,
     onSearchFieldFocus: noop,
     search: noop,
+    hasSearched: false,
     callbackEnabled: false,
     isContextualSearchPending: false,
     chatOfflineAvailable: false,
@@ -35,6 +38,11 @@ const renderComponent = props => {
 
 jest.useFakeTimers()
 
+beforeEach(() => {
+  jest.spyOn(selectors, 'getHelpCenterButtonLabel').mockReturnValue('click me')
+  jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(true)
+})
+
 test('renders the expected components', () => {
   const { container } = renderComponent({
     searchPlaceholder: 'How can we help?',
@@ -46,10 +54,10 @@ test('renders the expected components', () => {
 
 describe('render', () => {
   it('renders button with loading animation', () => {
+    jest.spyOn(selectors, 'getChatConnectionConnecting').mockReturnValue(true)
     const { container } = renderComponent({
       showNextButton: true,
-      articleViewActive: true,
-      buttonLoading: true
+      articleViewActive: true
     })
 
     expect(container.querySelector('footer')).toMatchSnapshot()
@@ -58,50 +66,30 @@ describe('render', () => {
   it('renders expected next button', () => {
     const { container } = renderComponent({
       showNextButton: true,
-      articleViewActive: true,
-      buttonLabel: 'hello world'
+      articleViewActive: true
     })
 
     expect(container.querySelector('footer')).toMatchSnapshot()
-  })
-
-  describe('hide zendesk logo', () => {
-    it('hides the zendesk logo when hasSearched is true', () => {
-      const { queryByTestId } = renderComponent({ hasSearched: true })
-
-      expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
-    })
-
-    it('hide the zendesk logo when hideZendeskLogo is true', () => {
-      const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
-
-      expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
-    })
-  })
-
-  describe('shows zendesk logo', () => {
-    it('show the zendesk logo when hasSearched is false', () => {
-      const { queryByTestId } = renderComponent({ hasSearched: false })
-
-      expect(queryByTestId('Icon--zendesk')).toBeInTheDocument()
-    })
-
-    it('shows the zendesk logo when hideZendeskLogo is false', () => {
-      const { queryByTestId } = renderComponent({ hideZendeskLogo: false })
-
-      expect(queryByTestId('Icon--zendesk')).toBeInTheDocument()
-    })
   })
 
   describe('footer content', () => {
     it('renders footer buttons when showNextButton and articleViewActive is true', () => {
       const { queryByText } = renderComponent({
         showNextButton: true,
-        buttonLabel: 'Leave us a message',
         articleViewActive: true
       })
 
-      expect(queryByText('Leave us a message')).toBeInTheDocument()
+      expect(queryByText('click me')).toBeInTheDocument()
+    })
+
+    it('renders footer buttons when showNextButton and hasSearched is true', () => {
+      const { queryByText } = renderComponent({
+        articleViewActive: true,
+        showNextButton: true,
+        hasSearched: true
+      })
+
+      expect(queryByText('click me')).toBeInTheDocument()
     })
 
     it('does not render footer buttons when showNextButton is false', () => {
@@ -109,7 +97,7 @@ describe('render', () => {
         showNextButton: false
       })
 
-      expect(queryByText('Leave us a message')).not.toBeInTheDocument()
+      expect(queryByText('click me')).not.toBeInTheDocument()
     })
   })
 
@@ -132,18 +120,6 @@ describe('render', () => {
       expect(queryByText('Hello World')).toBeInTheDocument()
     })
 
-    test('loading bar is rendered when articleViewActive is false and search input is clicked', () => {
-      const { getByPlaceholderText, container } = renderComponent({
-        children: <div>Hello World</div>,
-        articleViewActive: false,
-        isContextualSearchPending: true,
-        searchPlaceholder: 'How can we help?'
-      })
-
-      fireEvent.click(getByPlaceholderText('How can we help?'))
-      expect(container.querySelector('.loadingBarContent')).toBeInTheDocument()
-    })
-
     test('child content is rendered when isContextualSearchPending is false and articleViewActive is true', () => {
       const { queryByText } = renderComponent({
         children: <div>Hello World</div>,
@@ -153,38 +129,5 @@ describe('render', () => {
 
       expect(queryByText('Hello World')).toBeInTheDocument()
     })
-  })
-})
-
-describe('search box clicked', () => {
-  it('hides the footer', () => {
-    const { queryByText, getByPlaceholderText } = renderComponent({
-      showNextButton: true,
-      hasSearched: true,
-      contextualHelpRequestNeeded: true,
-      buttonLabel: 'Leave us a message',
-      searchPlaceholder: 'How can we help?'
-    })
-
-    expect(queryByText('Leave us a message')).toBeInTheDocument()
-
-    fireEvent.focus(getByPlaceholderText('How can we help?'))
-
-    expect(queryByText('Leave us a message')).not.toBeInTheDocument()
-  })
-
-  it('shows the footer after focus is lost from search input', () => {
-    const { queryByText, getByPlaceholderText } = renderComponent({
-      showNextButton: true,
-      hasSearched: true,
-      contextualHelpRequestNeeded: true,
-      buttonLabel: 'Leave us a message',
-      searchPlaceholder: 'How can we help?'
-    })
-
-    fireEvent.focus(getByPlaceholderText('How can we help?'))
-    fireEvent.blur(getByPlaceholderText('How can we help?'))
-    jest.runAllTimers()
-    expect(queryByText('Leave us a message')).toBeInTheDocument()
   })
 })

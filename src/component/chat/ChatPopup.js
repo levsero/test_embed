@@ -155,7 +155,6 @@ export class ChatPopup extends Component {
   renderDefault = () => {
     const { className, containerClasses, isMobile } = this.props
     const containerStyles = classNames(containerClasses, {
-      [styles.container]: !isMobile,
       [styles.containerMobile]: isMobile
     })
     const body = this.renderChildren()

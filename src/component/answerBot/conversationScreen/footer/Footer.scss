@@ -20,7 +20,7 @@
 }
 
 .button {
-  height: #{43 / $font-size}rem;
+  height: #{43 / $font-size}rem !important;
 }
 
 .icon {

@@ -10,7 +10,10 @@ exports[`WidgetLauncher renders the component 1`] = `
       data-testid="Icon"
       type="Icon"
     >
-      widget-icon_help.svg
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_help.svg"
+      />
     </span>
     <span
       class="label "

@@ -7,7 +7,10 @@ exports[`renders a button 1`] = `
     data-testid="Icon--avatar"
     type="Icon--avatar"
   >
-    widget-icon_concierge.svg
+    <svg
+      aria-hidden="true"
+      realfilename="widget-icon_concierge.svg"
+    />
   </span>
 </div>
 `;

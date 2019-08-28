@@ -145,7 +145,9 @@ describe('ChatPopup component', () => {
         beforeEach(() => {
           childrenOnClickSpy = jasmine.createSpy()
 
-          const component = domRender(<ChatPopup childrenOnClick={childrenOnClickSpy} />)
+          const component = domRender(
+            <ChatPopup childrenOnClick={childrenOnClickSpy} containerClasses="containerClasses" />
+          )
 
           componentNode = ReactDOM.findDOMNode(component)
         })

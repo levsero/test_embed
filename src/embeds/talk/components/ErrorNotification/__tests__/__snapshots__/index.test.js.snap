@@ -6,7 +6,10 @@ exports[`renders the component 1`] = `
     class="error"
     data-testid="talk--errorNotification"
   >
-    error.svg
+    <svg
+      class="errorIcon"
+      realfilename="error.svg"
+    />
     there was an error
   </div>
 </div>

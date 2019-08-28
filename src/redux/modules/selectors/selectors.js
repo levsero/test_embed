@@ -15,7 +15,8 @@ import {
   getChatBanned,
   getChatsLength,
   getConnection as getChatConnection,
-  getNotificationCount
+  getNotificationCount,
+  getShowChatHistory
 } from '../chat/chat-selectors'
 import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors'
 import {
@@ -85,7 +86,8 @@ import {
   getLocale,
   getTalkConfig,
   getFormTitleKey,
-  getBrand
+  getBrand,
+  getBackButtonVisible
 } from '../base/base-selectors'
 import {
   getCanShowHelpCenterIntroState,
@@ -304,10 +306,6 @@ export const getChatAvailable = state => {
 
   return getChatEnabled(state) && (getChatOnline(state) || offlineFormOn) && !getChatBanned(state)
 }
-export const getShowTalkBackButton = createSelector(
-  [getHelpCenterEmbed, getChatAvailable, getSubmitTicketEmbed],
-  (hcEmbed, chatAvailable, submitTicketEmbed) => hcEmbed || chatAvailable || submitTicketEmbed
-)
 export const getTalkReady = state => !getTalkEmbed(state) || getTalkEmbeddableConfigConnected(state)
 
 export const getTalkNickname = createSelector(
@@ -382,6 +380,12 @@ export const getChannelChoiceAvailable = createSelector(
 
     return channelChoicePrerequisite && channelsAvailable && !isChatting
   }
+)
+
+export const getShowTalkBackButton = createSelector(
+  [getActiveEmbed, getHelpCenterEmbed, getChannelChoiceAvailable],
+  (activeEmbed, hcEmbed, channelChoiceAvailable) =>
+    activeEmbed === 'talk' && (hcEmbed || channelChoiceAvailable)
 )
 
 export const getContactOptionsButton = createSelector(
@@ -727,4 +731,10 @@ export const getHelpCenterButtonLabel = createSelector(
     }
     return messageLabel
   }
+)
+
+export const getShowBackButton = createSelector(
+  [getShowChatHistory, getBackButtonVisible, getShowTalkBackButton],
+  (showChatHistory, backButtonVisible, showTalkBackButton) =>
+    showChatHistory || backButtonVisible || showTalkBackButton
 )

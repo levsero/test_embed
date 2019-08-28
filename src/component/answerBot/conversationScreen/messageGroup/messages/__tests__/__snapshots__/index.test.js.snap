@@ -33,7 +33,10 @@ exports[`renders expected classes and components with default props for non-visi
                     data-testid="Icon--article"
                     type="Icon--article"
                   >
-                    widget-icon_article.svg
+                    <svg
+                      aria-hidden="true"
+                      realfilename="widget-icon_article.svg"
+                    />
                   </span>
                   <div
                     class="optionText"
@@ -97,7 +100,10 @@ exports[`renders expected classes and components with default props for non-visi
                     data-testid="Icon--article"
                     type="Icon--article"
                   >
-                    widget-icon_article.svg
+                    <svg
+                      aria-hidden="true"
+                      realfilename="widget-icon_article.svg"
+                    />
                   </span>
                   <div
                     class="optionText"

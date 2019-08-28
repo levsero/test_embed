@@ -15,7 +15,10 @@ exports[`classes are customizable 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      widget-icon_zendesk.svg
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_zendesk.svg"
+      />
     </span>
     <span
       class="label "
@@ -43,7 +46,10 @@ exports[`renders the expected classes 1`] = `
       data-testid="Icon--zendesk"
       type="Icon--zendesk"
     >
-      widget-icon_zendesk.svg
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_zendesk.svg"
+      />
     </span>
     <span
       class="label "

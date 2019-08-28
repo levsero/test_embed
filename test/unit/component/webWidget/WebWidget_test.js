@@ -343,16 +343,14 @@ describe('WebWidget component', () => {
     })
 
     describe('when ChatNotificationPopup respond prop is called', () => {
-      let chatNotificationRespondSpy, onShowMobileSpy
+      let chatNotificationRespondSpy
 
       beforeEach(() => {
         chatNotificationRespondSpy = jasmine.createSpy('chatNotificationRespond')
-        onShowMobileSpy = jasmine.createSpy('onShowMobile')
         webWidget = domRender(
           <WebWidget
             chatNotification={mockChatNotification}
             chatNotificationRespond={chatNotificationRespondSpy}
-            onShowMobile={onShowMobileSpy}
           />
         )
 
@@ -366,10 +364,6 @@ describe('WebWidget component', () => {
 
       it('calls props.chatNotificationRespond', () => {
         expect(chatNotificationRespondSpy).toHaveBeenCalled()
-      })
-
-      it('calls props.onShowMobile', () => {
-        expect(onShowMobileSpy).toHaveBeenCalled()
       })
 
       it('calls showChat with proactive true', () => {

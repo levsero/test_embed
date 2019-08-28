@@ -11,7 +11,10 @@ exports[`icon is rendered when showIcon is true 1`] = `
       data-testid="Icon--arrow-down"
       type="Icon--arrow-down"
     >
-      widget-icon_arrow-down-stroke.svg
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_arrow-down-stroke.svg"
+      />
     </span>
   </button>
 </div>
