@@ -339,28 +339,6 @@ describe('Frame', () => {
     })
   })
 
-  describe('hide', () => {
-    let frame, mockOnHide, frameProps
-
-    beforeEach(() => {
-      mockOnHide = jasmine.createSpy('onHide')
-      frameProps = {
-        onHide: mockOnHide
-      }
-
-      frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>)
-      forceFrameReady(frame)
-
-      frame.hide()
-
-      jasmine.clock().tick(300)
-    })
-
-    it('triggers props.callbacks.onHide if set', () => {
-      expect(mockOnHide).toHaveBeenCalled()
-    })
-  })
-
   describe('back', () => {
     let frame, mockOnBack
 
