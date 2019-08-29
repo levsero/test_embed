@@ -157,6 +157,7 @@ const getButtonOverrides = colorVariables => {
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    line-height: ${36 / FONT_SIZE}rem !important;
 
     :not([disabled]) {
       background-color: ${props =>
