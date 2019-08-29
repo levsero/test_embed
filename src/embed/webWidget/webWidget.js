@@ -53,11 +53,6 @@ export default function WebWidgetFactory(name) {
     mediator.channel.broadcast('webWidget.onClose')
 
     if (rootComponent) {
-      if (isMobileBrowser()) {
-        if (rootComponent.resetState) {
-          rootComponent.resetState()
-        }
-      }
       if (rootComponent.pauseAllVideos) {
         rootComponent.pauseAllVideos()
       }

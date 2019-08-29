@@ -327,19 +327,6 @@ describe('embed.webWidget', () => {
         })
       })
 
-      describe('onHide', () => {
-        beforeEach(() => {
-          mockIsMobileBrowser = true
-
-          spyOn(child, 'resetState')
-          frame.props.onHide(frame)
-        })
-
-        it('should hide virtual keyboard', () => {
-          expect(child.resetState).toHaveBeenCalled()
-        })
-      })
-
       describe('afterShowAnimate', () => {
         beforeEach(() => {
           spyOn(child, 'focusField')

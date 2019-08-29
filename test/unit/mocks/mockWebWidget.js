@@ -1,7 +1,6 @@
 export default class MockWebWidget extends Component {
   constructor() {
     super()
-    this.resetState = noop
     this.backtrackSearch = noop
     this.contextualSearch = noop
     this.performSearch = noop
@@ -49,7 +48,6 @@ export default class MockWebWidget extends Component {
 class MockWebWidgetChild extends Component {
   constructor() {
     super()
-    this.resetState = noop
     this.backtrackSearch = noop
     this.contextualSearch = noop
     this.performSearch = noop
