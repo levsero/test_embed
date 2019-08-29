@@ -2,7 +2,6 @@
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 node $SCRIPT_DIR/i18n.js
 
-node $SCRIPT_DIR/fetch_locales.js
 $SCRIPT_DIR/download_translations
 
 bundle exec ruby $SCRIPT_DIR/fetch_countries.rb
