@@ -8,7 +8,6 @@ import { Button } from '@zendeskgarden/react-buttons'
 
 import { i18n } from 'service/i18n'
 import { Form } from 'component/form/Form'
-import { isMobileBrowser } from 'utility/devices'
 import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
@@ -56,7 +55,6 @@ class CallbackForm extends Component {
     descriptionLabelText: PropTypes.string.isRequired,
     submitButtonLabel: PropTypes.string.isRequired,
     headerMessage: PropTypes.string.isRequired,
-    isMobile: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool.isRequired,
 
     // used to force the component to re-render when locale changes
@@ -109,7 +107,6 @@ class CallbackForm extends Component {
   render() {
     const {
       callback,
-      isMobile,
       formState,
       submitButtonLabel,
       headerMessage,
@@ -123,10 +120,6 @@ class CallbackForm extends Component {
     if (callback.success) {
       return <Redirect to="/talk/success" />
     }
-
-    const submitButtonStyles = classNames(styles.submitButton, {
-      [styles.submitBtnMobile]: isMobile
-    })
 
     const errorMessage = this.getErrorMessage()
     const footerClasses = classNames(styles.footer, {
@@ -167,7 +160,7 @@ class CallbackForm extends Component {
           <div className={footerClasses}>
             {hideZendeskLogo ? null : <ZendeskLogo />}
 
-            <Button primary={true} className={submitButtonStyles} type="submit">
+            <Button primary={true} className={styles.submitButton} type="submit">
               {submitButtonLabel}
             </Button>
           </div>
@@ -191,7 +184,6 @@ const mapStateToProps = state => {
     formState: getFormState(state),
     callback: getCallback(state),
     isRTL: i18n.isRTL(),
-    isMobile: isMobileBrowser(),
     locale: getLocale(state),
     hideZendeskLogo: getHideZendeskLogo(state)
   }
