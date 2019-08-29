@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import { sprintf } from 'sprintf-js'
 import t from '@zendesk/client-i18n-tools'
-import locales from 'translation/locales.json'
 import zELocaleIdMap from 'translation/ze_localeIdMap'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
 import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors'
 
 let store
 let currentLocale
+const locales = Object.keys(zELocaleIdMap)
 // reset is only used in tests
 
 function reset() {
