@@ -10,7 +10,7 @@ export default class List extends PureComponent {
   static propTypes = {
     isMobile: PropTypes.bool,
     articles: PropTypes.array,
-    showContactButton: PropTypes.bool,
+    showNextButton: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     locale: PropTypes.string,
     onItemClick: PropTypes.func
@@ -54,11 +54,11 @@ export default class List extends PureComponent {
   }
 
   render() {
-    const { articles, isMobile, locale, showContactButton, hideZendeskLogo } = this.props
+    const { articles, isMobile, locale, showNextButton, hideZendeskLogo } = this.props
     const articleLinks = articles.map(this.renderResultRow)
 
     const classes = classNames(styles.list, {
-      [styles.listBottom]: !(!showContactButton && !hideZendeskLogo && articles.length > 0),
+      [styles.listBottom]: !(!showNextButton && !hideZendeskLogo && articles.length > 0),
       [styles.listMobile]: isMobile
     })
 

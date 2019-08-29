@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`default render matches snapshot 1`] = `
+exports[`render when isContextualSearchPending matches snapshot, renders LoadingBarContent 1`] = `
 <div>
   <div
     class="container"
@@ -67,43 +67,147 @@ exports[`default render matches snapshot 1`] = `
     <div
       class="container"
     >
-      <div>
+      <div
+        class="container"
+      >
         <div
-          class="container"
+          class="barWidth30Percent"
+        />
+        <div
+          class="barWidth90Percent"
+        />
+        <div
+          class="barWidth90Percent"
+        />
+        <div
+          class="barWidth90Percent"
+        />
+        <div
+          class="barWidth70Percent"
+        />
+      </div>
+    </div>
+    <footer
+      class="footer footerShadow"
+    >
+      <div
+        class="footerContentMultiple"
+      >
+        <a
+          class="icon"
+          data-testid="Icon--zendesk"
+          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+          tabindex="-1"
+          target="_blank"
         >
-          <h2
-            class="content"
+          <svg
+            realfilename="widget-icon_zendesk.svg"
+            title="zendesk"
+          />
+        </a>
+        <div
+          class="container containerDesktop"
+        >
+          <div
+            class="container buttonRight buttonGroup"
           >
-            Top results
-          </h2>
+            <button
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+              data-garden-id="buttons.button"
+              data-garden-version="3.7.0"
+              tabindex="0"
+              type="button"
+            >
+              Leave us a message
+            </button>
+          </div>
         </div>
-        <ol
-          class="list listBottom"
-          lang="derp"
+      </div>
+    </footer>
+  </div>
+</div>
+`;
+
+exports[`render when not isContextualSearchPending matches snapshot, renders NoResults 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="header"
+    >
+      <h1
+        class="title"
+      >
+        pageTitle
+      </h1>
+      <div
+        class="form"
+      >
+        <form
+          class="form"
+          novalidate=""
         >
-          <li
-            class="item"
+          <div
+            class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn text__is-focused___3mc46 hytfkM"
+            data-garden-id="textfields.input"
+            data-garden-version="3.7.0"
           >
-            <a
-              class="link"
-              href="https://first.article"
-              target="_blank"
+            <label
+              class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
+              data-garden-id="textfields.label"
+              data-garden-version="3.7.0"
             >
-              First article
-            </a>
-          </li>
-          <li
-            class="item"
-          >
-            <a
-              class="link"
-              href="https://second.article"
-              target="_blank"
+              How can we help?
+            </label>
+            <input
+              aria-invalid="false"
+              autocapitalize="off"
+              class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
+              data-garden-id="textfields.input"
+              data-garden-version="3.7.0"
+              placeholder="How can we help?"
+              type="search"
+              value=""
+            />
+            <div
+              class="desktopSearchOrLoading MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
+              data-garden-id="textfields.media_figure"
+              data-garden-version="3.7.0"
             >
-              Second article
-            </a>
-          </li>
-        </ol>
+              <span
+                class="container focused notFocused icon Icon--search"
+                data-testid="Icon--search"
+                role="button"
+                tabindex="0"
+                type="Icon--search"
+              >
+                <svg
+                  aria-hidden="true"
+                  realfilename="widget-icon_search.svg"
+                />
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="noResults noResultsDesktop"
+      >
+        <p
+          class="title"
+        >
+          There are no results for ""
+        </p>
+        <p
+          class="noResultsParagraph noResultsParagraphDesktop"
+        >
+          Try searching for something else.
+        </p>
       </div>
     </div>
     <footer

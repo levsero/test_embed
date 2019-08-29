@@ -110,3 +110,9 @@ export const getIsShowHCIntroState = createSelector(
     return !hasSearched && !contextualHelpRequestNeeded && !articleViewActive
   }
 )
+
+export const shouldShowContextualResults = createSelector(
+  [getHasContextuallySearched, getIsContextualSearchComplete, getContextualHelpRequestNeeded],
+  (hasContextualSearched, isContextualSearchComplete, contextualHelpRequestNeeded) =>
+    (hasContextualSearched && isContextualSearchComplete) || contextualHelpRequestNeeded
+)
