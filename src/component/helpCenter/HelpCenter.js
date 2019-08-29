@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -124,15 +123,6 @@ class HelpCenter extends Component {
         this.helpCenterMobile.setIntroScreen()
       }
     }
-  }
-
-  pauseAllVideos = () => {
-    const componentNode = ReactDOM.findDOMNode(this)
-    const videoList = componentNode.getElementsByTagName('video')
-
-    _.forEach(videoList, videoElem => {
-      videoElem.pause()
-    })
   }
 
   getHelpCenterComponent = () => {

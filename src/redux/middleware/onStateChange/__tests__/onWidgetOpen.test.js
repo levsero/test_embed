@@ -4,6 +4,7 @@ let baseActions = require('src/redux/modules/base/base-actions')
 let scrollHacks = require('utility/scrollHacks')
 let onWidgetOpen = require('../onWidgetOpen').default
 let devices = require('utility/devices')
+let mediator = require('service/mediator').mediator
 
 const dispatch = jest.fn()
 
@@ -17,7 +18,9 @@ beforeEach(() => {
   selectors = require('src/redux/modules/selectors')
   baseActions = require('src/redux/modules/base/base-actions')
   scrollHacks = require('utility/scrollHacks')
+  mediator = require('service/mediator').mediator
 
+  jest.mock('service/mediator')
   jest.mock('utility/devices')
   jest.mock('src/redux/modules/base/base-actions')
   jest.mock('src/redux/modules/selectors')
@@ -90,5 +93,11 @@ describe('when widget visibility transitions from true to false', () => {
     expect(scrollHacks.revertWindowScroll).not.toHaveBeenCalled()
     expect(scrollHacks.setScrollKiller).not.toHaveBeenCalled()
     expect(devices.setScaleLock).not.toHaveBeenCalled()
+  })
+
+  it('broadcasts webWidget.onClose through mediator', () => {
+    onWidgetOpen(true, false, dispatch)
+
+    expect(mediator.channel.broadcast).toHaveBeenCalledWith('webWidget.onClose')
   })
 })

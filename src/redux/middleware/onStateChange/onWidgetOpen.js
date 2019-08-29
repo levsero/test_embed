@@ -23,6 +23,7 @@ export default function onWidgetOpen(prevState, nextState, dispatch) {
     }
   } else if (getWebWidgetVisible(prevState) && !getWebWidgetVisible(nextState)) {
     dispatch(updateWidgetShown(false))
+    mediator.channel.broadcast('webWidget.onClose')
 
     if (isMobileBrowser()) {
       setScaleLock(false)

@@ -47,22 +47,6 @@ export default function WebWidgetFactory(name) {
   const onShow = () => {
     getWebWidgetComponent().show()
   }
-  const onHide = () => {
-    const rootComponent = getActiveComponent()
-
-    mediator.channel.broadcast('webWidget.onClose')
-
-    if (rootComponent) {
-      if (isMobileBrowser()) {
-        if (rootComponent.resetState) {
-          rootComponent.resetState()
-        }
-      }
-      if (rootComponent.pauseAllVideos) {
-        rootComponent.pauseAllVideos()
-      }
-    }
-  }
   const onBack = () => {
     getWebWidgetComponent().onBackClick()
   }
@@ -80,7 +64,6 @@ export default function WebWidgetFactory(name) {
   }
   const zopimOnNext = () => {
     mediator.channel.broadcast(prefix + 'helpCenterForm.onNextClick')
-    hide()
     if (isMobileBrowser()) {
       setScrollKiller(false)
     }
@@ -181,7 +164,6 @@ export default function WebWidgetFactory(name) {
       onShow,
       name: name,
       afterShowAnimate,
-      onHide,
       onBack,
       title: i18n.t('embeddable_framework.web_widget.frame.title')
     }
@@ -229,12 +211,6 @@ export default function WebWidgetFactory(name) {
     ReactDOM.render(embed.component, element)
 
     setupMediator()
-  }
-
-  function hide(options) {
-    waitForRootComponent(() => {
-      embed.instance.hide(options)
-    })
   }
 
   function setupMediator() {

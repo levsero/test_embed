@@ -265,10 +265,6 @@ export class SubmitTicketForm extends Component {
     this.updateFormValidity(form)
   }
 
-  resetState = () => {
-    this.setState(this.initialState)
-  }
-
   handleOnDrop = files => {
     this.refs.attachments.handleOnDrop(files)
     onNextTick(() => this.refs.scrollContainer.scrollToBottom())

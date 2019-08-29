@@ -86,7 +86,6 @@ class Frame extends Component {
     alwaysShow: PropTypes.bool,
     name: PropTypes.string,
     onBack: PropTypes.func,
-    onHide: PropTypes.func,
     onShow: PropTypes.func,
     horizontalPosition: PropTypes.oneOf(['right', 'left']),
     verticalPosition: PropTypes.oneOf(['top', 'bottom']),
@@ -140,7 +139,6 @@ class Frame extends Component {
     name: '',
     alwaysShow: false,
     onBack: () => {},
-    onHide: () => {},
     onShow: () => {},
     preventClose: false,
     store: { dispatch: () => {} },
@@ -174,9 +172,7 @@ class Frame extends Component {
   componentDidUpdate = prevProps => {
     this.renderFrameContent()
 
-    if (prevProps.visible && !this.props.visible) {
-      this.waitForRender(this.hide)
-    } else if (!prevProps.visible && this.props.visible) {
+    if (!prevProps.visible && this.props.visible) {
       this.waitForRender(this.show)
     }
 
@@ -330,12 +326,6 @@ class Frame extends Component {
     onNextTick(() => {
       this.props.afterShowAnimate(this)
     })
-  }
-
-  hide = () => {
-    const { onHide } = this.props
-
-    onHide(this)
   }
 
   back = e => {
