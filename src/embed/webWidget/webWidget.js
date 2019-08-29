@@ -50,8 +50,6 @@ export default function WebWidgetFactory(name) {
   const onHide = () => {
     const rootComponent = getActiveComponent()
 
-    mediator.channel.broadcast('webWidget.onClose')
-
     if (rootComponent) {
       if (rootComponent.pauseAllVideos) {
         rootComponent.pauseAllVideos()
