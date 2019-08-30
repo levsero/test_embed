@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { SearchField } from 'src/component/field/SearchField'
 import { getSettingsHelpCenterSearchPlaceholder } from 'src/redux/modules/selectors'
-import { getSearchLoading, getArticles } from 'embeds/helpCenter/selectors'
+import { getSearchLoading, getArticles, getSearchFieldValue } from 'embeds/helpCenter/selectors'
 import { performSearch, handleSearchFieldChange } from 'embeds/helpCenter/actions'
 import { isMobileBrowser } from 'utility/devices'
 
@@ -33,7 +33,8 @@ const SearchForm = ({
   searchPlaceholder,
   isMobile,
   handleSearchFieldChange,
-  articles
+  articles,
+  value
 }) => {
   const searchFieldElem = useRef(null)
   useEffect(() => {
@@ -44,6 +45,7 @@ const SearchForm = ({
   return (
     <form noValidate={true} onSubmit={handleSubmit} className={styles.form}>
       <SearchField
+        value={value}
         ref={searchFieldElem}
         fullscreen={isMobile}
         onChangeValue={handleOnChange}
@@ -61,18 +63,21 @@ SearchForm.propTypes = {
   isLoading: PropTypes.bool,
   isMobile: PropTypes.bool,
   handleSearchFieldChange: PropTypes.func,
-  articles: PropTypes.array
+  articles: PropTypes.array,
+  value: PropTypes.string
 }
 
 SearchForm.defaultProps = {
   searchPlaceholder: '',
   isLoading: false,
   isMobile: false,
-  articles: []
+  articles: [],
+  value: ''
 }
 
 const mapStateToProps = state => {
   return {
+    value: getSearchFieldValue(state),
     searchPlaceholder: getSettingsHelpCenterSearchPlaceholder(state),
     isLoading: getSearchLoading(state),
     isMobile: isMobileBrowser(),

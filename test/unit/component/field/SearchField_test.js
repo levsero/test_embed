@@ -63,10 +63,7 @@ describe('SearchField component', () => {
     let result, component, mockIsLoading, mockSearchInputVal
 
     beforeEach(() => {
-      component = domRender(<SearchField isLoading={mockIsLoading} />)
-      component.state = {
-        searchInputVal: mockSearchInputVal
-      }
+      component = domRender(<SearchField value={mockSearchInputVal} isLoading={mockIsLoading} />)
       result = component.renderMobileLoadingOrClearIcon()
     })
 
@@ -180,74 +177,20 @@ describe('SearchField component', () => {
     })
   })
 
-  describe('onFocus', () => {
-    let component, onFocusSpy
-
-    beforeEach(() => {
-      onFocusSpy = jasmine.createSpy('onFocus')
-      component = domRender(<SearchField onFocus={onFocusSpy} />)
-      spyOn(component, 'setState')
-      component.onFocus('yolo')
-    })
-
-    it('calls setState with the correct params', () => {
-      expect(component.setState).toHaveBeenCalledWith({ focused: true })
-    })
-
-    it('calls onFocus prop with correct params', () => {
-      expect(onFocusSpy).toHaveBeenCalledWith('yolo')
-    })
-  })
-
-  describe('onBlur', () => {
-    let component, onBlurSpy
-
-    beforeEach(() => {
-      onBlurSpy = jasmine.createSpy('onBlur')
-      component = domRender(<SearchField onBlur={onBlurSpy} />)
-      spyOn(component, 'setState')
-      component.onBlur('yolo')
-    })
-
-    it('calls setState with the correct params', () => {
-      expect(component.setState).toHaveBeenCalledWith({
-        focused: false,
-        blurred: true
-      })
-    })
-
-    it('calls onBlur prop with correct params', () => {
-      expect(onBlurSpy).toHaveBeenCalledWith('yolo')
-    })
-  })
-
   describe('onChange', () => {
     let component,
       eObj,
-      onChangeSpy = jasmine.createSpy('onChange'),
       onChangeValueSpy = jasmine.createSpy('onChangeValue')
 
     beforeEach(() => {
-      onChangeSpy = jasmine.createSpy('onChange')
       onChangeValueSpy = jasmine.createSpy('onChangeValue')
-      component = domRender(<SearchField onChange={onChangeSpy} onChangeValue={onChangeValueSpy} />)
-      spyOn(component, 'setState')
+      component = domRender(<SearchField onChangeValue={onChangeValueSpy} />)
       eObj = {
         target: {
           value: 'yolo'
         }
       }
       component.onChange(eObj)
-    })
-
-    it('calls setState with the correct params', () => {
-      expect(component.setState).toHaveBeenCalledWith({
-        searchInputVal: 'yolo'
-      })
-    })
-
-    it('calls onChange prop with correct params', () => {
-      expect(onChangeSpy).toHaveBeenCalledWith(eObj)
     })
 
     it('calls onChangeValue prop with correct params', () => {
@@ -261,12 +204,7 @@ describe('SearchField component', () => {
 
     beforeEach(() => {
       component = domRender(<SearchField onChangeValue={onChangeValueSpy} />)
-      spyOn(component, 'setState')
       component.clearInput()
-    })
-
-    it('calls clearInput with correct params', () => {
-      expect(component.setState).toHaveBeenCalledWith({ searchInputVal: '' })
     })
 
     it('calls onChangeValue prop with correct params', () => {
@@ -274,37 +212,12 @@ describe('SearchField component', () => {
     })
   })
 
-  describe('setInput', () => {
-    let component,
-      onChangeValueSpy = jasmine.createSpy('onChangeValue')
-
-    beforeEach(() => {
-      component = domRender(<SearchField onChangeValue={onChangeValueSpy} />)
-      spyOn(component, 'setState')
-      component.setValue('yolo')
-    })
-
-    it('calls setInput with correct params', () => {
-      expect(component.setState).toHaveBeenCalledWith({
-        searchInputVal: 'yolo'
-      })
-    })
-
-    it('calls onChangeValue prop with correct params', () => {
-      expect(onChangeValueSpy).toHaveBeenCalledWith('yolo')
-    })
-  })
-
   describe('render', () => {
-    let component, mockFullscreen, mockHideZendeskLogo, mockHasSearched, result
+    let component, mockFullscreen, mockHasSearched, result
 
     beforeEach(() => {
       component = domRender(
-        <SearchField
-          hideZendeskLogo={mockHideZendeskLogo}
-          hasSearched={mockHasSearched}
-          fullscreen={mockFullscreen}
-        />
+        <SearchField hasSearched={mockHasSearched} fullscreen={mockFullscreen} />
       )
       spyOn(component, 'renderIcons')
       result = component.render()
@@ -347,60 +260,6 @@ describe('SearchField component', () => {
 
       it('does not render mobileSearchInput class', () => {
         expect(result.props.children[0].props.className).not.toContain('mobileSearchInput')
-      })
-    })
-
-    describe('when hasSearched is false', () => {
-      beforeAll(() => {
-        mockHasSearched = false
-      })
-
-      describe('when hideZendeskLogo is true', () => {
-        beforeAll(() => {
-          mockHideZendeskLogo = true
-        })
-
-        it('does not render notSearchedWithLogo class', () => {
-          expect(result.props.className).not.toContain('notSearchedWithLogoClasses')
-        })
-      })
-
-      describe('when hideZendeskLogo is false', () => {
-        beforeAll(() => {
-          mockHideZendeskLogo = false
-        })
-
-        it('does not render notSearched class', () => {
-          expect(result.props.className).not.toContain('notSearchedClasses')
-        })
-
-        describe('when fullscreen is true', () => {
-          beforeAll(() => {
-            mockFullscreen = true
-          })
-
-          it('does not render notSearchedWithLogo class', () => {
-            expect(result.props.className).not.toContain('notSearchedWithLogoClasses')
-          })
-        })
-      })
-
-      it('does not render hasSearched class', () => {
-        expect(result.props.className).not.toContain('hasSearchedClasses')
-      })
-    })
-
-    describe('when hasSearched is true', () => {
-      beforeAll(() => {
-        mockHasSearched = true
-      })
-
-      it('does not render notSearched class', () => {
-        expect(result.props.className).not.toContain('notSearchedClasses')
-      })
-
-      it('does not render notSearchedWithLogo class', () => {
-        expect(result.props.className).not.toContain('notSearchedWithLogoClasses')
       })
     })
   })

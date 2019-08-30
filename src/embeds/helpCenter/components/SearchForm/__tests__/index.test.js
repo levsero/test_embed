@@ -3,7 +3,7 @@ import { render, fireEvent, wait } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
-import SearchForm from '../index'
+import SearchForm, { Component } from '../index'
 
 jest.mock('service/transport')
 
@@ -46,4 +46,17 @@ it('renders the search placeholder text', () => {
   const { queryByPlaceholderText } = renderInitialSearchForm()
 
   expect(queryByPlaceholderText('How can we help?')).toBeInTheDocument()
+})
+
+it('renders the initial search value', () => {
+  const { queryByPlaceholderText } = render(
+    <Component
+      value="Help"
+      performSearch={jest.fn()}
+      searchPlaceholder="HOw?"
+      handleSearchFieldChange={jest.fn()}
+    />
+  )
+
+  expect(queryByPlaceholderText('HOw?').value).toEqual('Help')
 })
