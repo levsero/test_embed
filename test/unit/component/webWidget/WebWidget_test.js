@@ -68,9 +68,9 @@ describe('WebWidget component', () => {
       },
       'component/answerBot': connectedComponent(<MockAnswerBot />),
       'component/chat/Chat': connectedComponent(<MockChat />),
-      'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
+      'embeds/helpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
-      'src/embeds/talk': noopReactComponent(),
+      'embeds/talk': noopReactComponent(),
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: noopReactComponent()
       },

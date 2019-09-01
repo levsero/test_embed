@@ -8,7 +8,7 @@ import { http } from 'service/transport'
 import * as utility from 'utility/devices'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
 
-import HelpCenter from '../../HelpCenter'
+import HelpCenter from '../../index'
 
 const renderComponent = (newProps = {}) => {
   const props = {

@@ -6,11 +6,11 @@ import _ from 'lodash'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
-import Talk from 'src/embeds/talk'
+import Talk from 'embeds/talk'
+import HelpCenter from 'embeds/helpCenter'
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice'
 import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup'
 import { Container } from 'component/container/Container'
-import HelpCenter from 'component/helpCenter/HelpCenter'
 import SubmitTicket from 'component/submitTicket/SubmitTicket'
 import {
   updateActiveEmbed,
