@@ -40,11 +40,7 @@ import {
   getSubmitTicketAvailable,
   getAnswerBotAvailable
 } from 'src/redux/modules/selectors'
-import {
-  getArticleViewActive,
-  getSearchFieldFocused,
-  getResultsCount
-} from 'embeds/helpCenter/selectors'
+import { getArticleViewActive, getResultsCount } from 'embeds/helpCenter/selectors'
 import {
   getZopimChatEmbed,
   getActiveEmbed,
@@ -77,7 +73,6 @@ const noActiveEmbed = ''
 const mapStateToProps = state => {
   return {
     articleViewActive: getArticleViewActive(state),
-    helpCenterSearchFocused: getSearchFieldFocused(state),
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     activeEmbed: getActiveEmbed(state),
@@ -158,7 +153,6 @@ class WebWidget extends Component {
     }),
     resetActiveArticle: PropTypes.func.isRequired,
     articleViewActive: PropTypes.bool.isRequired,
-    helpCenterSearchFocused: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
@@ -536,7 +530,7 @@ class WebWidget extends Component {
       this.props.chatNotificationRespond()
     }
 
-    const shouldShow = !this.props.isMobile || !this.props.helpCenterSearchFocused
+    const shouldShow = !this.props.isMobile
 
     return (
       <ChatNotificationPopup
