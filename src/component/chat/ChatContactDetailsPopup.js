@@ -134,16 +134,16 @@ export class ChatContactDetailsPopup extends Component {
 
     // We only want this to clear an existing error
     if (this.state.showNameError) {
+      this.setState({
+        showNameError: !nameValid(newState.display_name, { allowEmpty: !nameRules.required })
+      })
     }
-    this.setState({
-      showNameError: !nameValid(newState.display_name, { allowEmpty: !nameRules.required })
-    })
 
     if (this.state.showEmailError) {
+      this.setState({
+        showEmailError: !emailValid(newState.email, { allowEmpty: !emailRules.required })
+      })
     }
-    this.setState({
-      showEmailError: !emailValid(newState.email, { allowEmpty: !emailRules.required })
-    })
 
     this.props.updateFn(newState.display_name, newState.email)
   }
