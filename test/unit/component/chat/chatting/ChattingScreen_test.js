@@ -155,94 +155,96 @@ describe('ChattingScreen component', () => {
     markAsReadSpy.calls.reset()
   })
 
-  describe('componentWillUpdate', () => {
-    let component, componentProps, previousProps, getScrollHeightSpy, mockScrollHeightValue
-
-    beforeEach(() => {
-      mockScrollHeightValue = 123
-      getScrollHeightSpy = jasmine
-        .createSpy('getScrollHeight')
-        .and.returnValue(mockScrollHeightValue)
-
-      component = instanceRender(<ChattingScreen {...componentProps} />)
-      component.scrollContainer = {
-        getScrollHeight: getScrollHeightSpy
-      }
-
-      component.componentWillUpdate(previousProps)
-    })
-
-    describe('when previous historyStatus is pending', () => {
-      beforeAll(() => {
-        previousProps = { historyRequestStatus: 'pending' }
-      })
-
-      describe('when current historyStatus is done', () => {
-        beforeAll(() => {
-          componentProps = { historyRequestStatus: 'done' }
-        })
-
-        it('calls getScrollHeight', () => {
-          expect(getScrollHeightSpy).toHaveBeenCalled()
-        })
-
-        it('sets scrollHeightBeforeUpdate instance variable', () => {
-          expect(component.scrollHeightBeforeUpdate).toEqual(mockScrollHeightValue)
-        })
-      })
-
-      describe('when current historyStatus is not done', () => {
-        beforeAll(() => {
-          componentProps = { historyRequestStatus: 'pending' }
-        })
-
-        it('does not call getScrollHeight', () => {
-          expect(getScrollHeightSpy).not.toHaveBeenCalled()
-        })
-
-        it('does not set scrollHeightBeforeUpdate instance variable', () => {
-          expect(component.scrollHeightBeforeUpdate).toEqual(null)
-        })
-      })
-    })
-
-    describe('when previous historyStatus is not pending', () => {
-      beforeAll(() => {
-        previousProps = { historyRequestStatus: 'done' }
-      })
-
-      describe('when current historyStatus is done', () => {
-        beforeAll(() => {
-          componentProps = { historyRequestStatus: 'done' }
-        })
-
-        it('does not call getScrollHeight', () => {
-          expect(getScrollHeightSpy).not.toHaveBeenCalled()
-        })
-
-        it('does not set scrollHeightBeforeUpdate instance variable', () => {
-          expect(component.scrollHeightBeforeUpdate).toEqual(null)
-        })
-      })
-
-      describe('when current historyStatus is not done', () => {
-        beforeAll(() => {
-          componentProps = { historyRequestStatus: 'pending' }
-        })
-
-        it('does not call getScrollHeight', () => {
-          expect(getScrollHeightSpy).not.toHaveBeenCalled()
-        })
-
-        it('does not set scrollHeightBeforeUpdate instance variable', () => {
-          expect(component.scrollHeightBeforeUpdate).toEqual(null)
-        })
-      })
-    })
-  })
-
   describe('componentDidUpdate', () => {
     let component, mockPrevProps
+
+    describe('historyStatus', () => {
+      let componentProps, previousProps, getScrollHeightSpy, mockScrollHeightValue
+
+      beforeEach(() => {
+        mockScrollHeightValue = 123
+        getScrollHeightSpy = jasmine
+          .createSpy('getScrollHeight')
+          .and.returnValue(mockScrollHeightValue)
+
+        component = instanceRender(<ChattingScreen {...componentProps} />)
+        component.scrollContainer = {
+          getScrollHeight: getScrollHeightSpy,
+          getScrollBottom: noop,
+          getScrollTop: noop
+        }
+
+        component.componentDidUpdate(previousProps)
+      })
+
+      describe('when previous historyStatus is pending', () => {
+        beforeAll(() => {
+          previousProps = { historyRequestStatus: 'pending' }
+        })
+
+        describe('when current historyStatus is done', () => {
+          beforeAll(() => {
+            componentProps = { historyRequestStatus: 'done' }
+          })
+
+          it('calls getScrollHeight', () => {
+            expect(getScrollHeightSpy).toHaveBeenCalled()
+          })
+
+          it('sets scrollHeightBeforeUpdate instance variable', () => {
+            expect(component.scrollHeightBeforeUpdate).toEqual(mockScrollHeightValue)
+          })
+        })
+
+        describe('when current historyStatus is not done', () => {
+          beforeAll(() => {
+            componentProps = { historyRequestStatus: 'pending' }
+          })
+
+          it('does not call getScrollHeight', () => {
+            expect(getScrollHeightSpy).not.toHaveBeenCalled()
+          })
+
+          it('does not set scrollHeightBeforeUpdate instance variable', () => {
+            expect(component.scrollHeightBeforeUpdate).toEqual(null)
+          })
+        })
+      })
+
+      describe('when previous historyStatus is not pending', () => {
+        beforeAll(() => {
+          previousProps = { historyRequestStatus: 'done' }
+        })
+
+        describe('when current historyStatus is done', () => {
+          beforeAll(() => {
+            componentProps = { historyRequestStatus: 'done' }
+          })
+
+          it('does not call getScrollHeight', () => {
+            expect(getScrollHeightSpy).not.toHaveBeenCalled()
+          })
+
+          it('does not set scrollHeightBeforeUpdate instance variable', () => {
+            expect(component.scrollHeightBeforeUpdate).toEqual(null)
+          })
+        })
+
+        describe('when current historyStatus is not done', () => {
+          beforeAll(() => {
+            componentProps = { historyRequestStatus: 'pending' }
+          })
+
+          it('does not call getScrollHeight', () => {
+            expect(getScrollHeightSpy).not.toHaveBeenCalled()
+          })
+
+          it('does not set scrollHeightBeforeUpdate instance variable', () => {
+            expect(component.scrollHeightBeforeUpdate).toEqual(null)
+          })
+        })
+      })
+    })
 
     describe('when scrollContainer exists', () => {
       beforeEach(() => {
@@ -637,10 +639,6 @@ describe('ChattingScreen component', () => {
 
       it('scrolls to bottom', () => {
         expect(component.scrollToBottom).toHaveBeenCalled()
-      })
-
-      it('calls mark as read', () => {
-        expect(markAsReadSpy).toHaveBeenCalled()
       })
     })
 

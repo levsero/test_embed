@@ -73,7 +73,8 @@ const mapStateToProps = state => {
     title: getChatTitle(state),
     profileConfig: getProfileConfig(state),
     notificationCount: chatSelectors.getNotificationCount(state),
-    visible: isInChattingScreen(state)
+    visible: isInChattingScreen(state),
+    unreadMessages: chatSelectors.hasUnseenAgentMessage(state)
   }
 }
 
@@ -118,7 +119,8 @@ class ChattingScreen extends Component {
     notificationCount: PropTypes.number,
     markAsRead: PropTypes.func,
     visible: PropTypes.bool,
-    fullscreen: PropTypes.bool
+    fullscreen: PropTypes.bool,
+    unreadMessages: PropTypes.bool
   }
 
   static defaultProps = {
@@ -165,20 +167,21 @@ class ChattingScreen extends Component {
 
     if (hasMessages) {
       this.scrollToBottom()
+    }
+
+    if (this.props.unreadMessages && this.props.visible && this.isScrollCloseToBottom()) {
       this.props.markAsRead()
     }
   }
 
-  componentWillUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (
       prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
       this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE
     ) {
       this.scrollHeightBeforeUpdate = this.scrollContainer.getScrollHeight()
     }
-  }
 
-  componentDidUpdate(prevProps) {
     if (this.scrollContainer) {
       this.didUpdateFetchHistory()
       this.didUpdateNewEntry(prevProps)
@@ -557,9 +560,11 @@ const actionCreators = {
   markAsRead
 }
 
-export default connect(
+const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
   { forwardRef: true }
 )(ChattingScreen)
+
+export { connectedComponent as default, ChattingScreen as Component }
