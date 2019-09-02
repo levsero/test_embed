@@ -19,6 +19,10 @@
     }
   }
 
+  &:focus {
+    box-shadow: 0 0 0 #{3 / $font-size}rem rgba(153, 153, 153, 0.4) !important;
+  }
+
   &:hover,
   &:focus,
   &:active {
