@@ -555,25 +555,6 @@ describe('WebWidget component', () => {
         expect(result.props.shouldShow).toEqual(true)
       })
     })
-
-    describe('when props.isMobile is true and props.helpCenterSearchFocused is false', () => {
-      beforeEach(() => {
-        const webWidget = instanceRender(
-          <WebWidget
-            activeEmbed="helpCenterForm"
-            hasSearched={true}
-            isMobile={true}
-            helpCenterSearchFocused={false}
-          />
-        )
-
-        result = webWidget.renderChatNotification()
-      })
-
-      it('pass shouldShow as true to ChatNotificationPopup', () => {
-        expect(result.props.shouldShow).toEqual(true)
-      })
-    })
   })
 
   describe('#onCancelClick', () => {

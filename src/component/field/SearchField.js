@@ -11,86 +11,51 @@ export class SearchField extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
     isLoading: PropTypes.bool,
-    onBlur: PropTypes.func,
-    onChange: PropTypes.func,
     onChangeValue: PropTypes.func,
-    onFocus: PropTypes.func,
     onClick: PropTypes.func,
     onSearchIconClick: PropTypes.func,
-    customSearchContainerClasses: PropTypes.string,
-    searchPlaceholder: PropTypes.string.isRequired
+    searchPlaceholder: PropTypes.string.isRequired,
+    value: PropTypes.string
   }
 
   static defaultProps = {
     fullscreen: false,
     isLoading: false,
-    onBlur: () => {},
-    onChange: () => {},
     onChangeValue: () => {},
-    onFocus: () => {},
     onSearchIconClick: () => {},
     onClick: () => {},
-    hideZendeskLogo: true
+    value: ''
   }
 
   constructor(props, context) {
     super(props, context)
 
     this.state = {
-      blurred: false,
-      focused: false,
-      searchInputVal: ''
+      focused: false
     }
     this.searchField = null
   }
 
-  onFocus = e => {
+  onFocus = () => {
     this.setState({ focused: true })
-    this.props.onFocus(e)
   }
 
-  onBlur = e => {
-    this.setState({
-      focused: false,
-      blurred: true
-    })
-
-    this.props.onBlur(e)
+  onBlur = () => {
+    this.setState({ focused: false })
   }
 
   onChange = e => {
     const value = e.target.value
 
-    this.setState({ searchInputVal: value })
-
-    this.props.onChange(e)
     this.props.onChangeValue(value)
   }
 
   clearInput = () => {
-    this.setState({ searchInputVal: '' })
     this.props.onChangeValue('')
   }
 
-  getSearchField = () => {
-    return this.searchField
-  }
-
-  getValue = () => {
-    return this.state.searchInputVal
-  }
-
-  setValue = value => {
-    this.setState({ searchInputVal: value })
-    this.props.onChangeValue(value)
-  }
-
   focus = () => {
-    this.getSearchField().focus()
-  }
-
-  blur = () => {
-    this.getSearchField().blur()
+    this.searchField.focus()
   }
 
   renderMobileSearchIconButton = () => {
@@ -110,7 +75,7 @@ export class SearchField extends Component {
 
     if (this.props.isLoading) {
       icon = <LoadingEllipses />
-    } else if (this.state.searchInputVal) {
+    } else if (this.props.value) {
       icon = (
         <Icon
           onClick={this.clearInput}
@@ -160,8 +125,8 @@ export class SearchField extends Component {
   }
 
   render = () => {
-    const { customSearchContainerClasses, fullscreen, searchPlaceholder } = this.props
-    const searchContainerClasses = classNames(customSearchContainerClasses, {
+    const { fullscreen, searchPlaceholder } = this.props
+    const searchContainerClasses = classNames({
       [styles.mobileContainer]: fullscreen,
       [styles.desktopContainer]: !fullscreen
     })
@@ -175,7 +140,7 @@ export class SearchField extends Component {
         <Input
           bare={true}
           onChange={this.onChange}
-          value={this.state.searchInputVal}
+          value={this.props.value}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           innerRef={elem => {

@@ -26,7 +26,6 @@ export const getResultsLocale = state => state.helpCenter.resultsLocale
 export const getArticleDisplayed = state => state.helpCenter.articleDisplayed
 export const getRestrictedImages = state => state.helpCenter.restrictedImages
 export const getSearchFieldValue = state => state.helpCenter.searchFieldValue
-export const getSearchFieldFocused = state => !!state.helpCenter.searchFieldFocused
 export const getHasContextuallySearched = state => getContextualSearch(state).hasSearched
 export const getLastSearchTimestamp = state => state.helpCenter.lastSearchTimestamp
 export const getManualContextualSuggestions = state => state.helpCenter.manualContextualSuggestions

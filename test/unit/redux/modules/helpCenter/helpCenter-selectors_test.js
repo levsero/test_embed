@@ -17,7 +17,6 @@ describe('helpCenter selectors', () => {
     getTotalUserSearches,
     getArticleDisplayed,
     getSearchFieldValue,
-    getSearchFieldFocused,
     getIsContextualSearchComplete,
     getManualContextualSuggestions,
     getSearchQuery,
@@ -70,7 +69,6 @@ describe('helpCenter selectors', () => {
     getArticleViewActive = selectors.getArticleViewActive
     getTotalUserSearches = selectors.getTotalUserSearches
     getSearchFieldValue = selectors.getSearchFieldValue
-    getSearchFieldFocused = selectors.getSearchFieldFocused
     getArticleDisplayed = selectors.getArticleDisplayed
     getIsContextualSearchFailure = selectors.getIsContextualSearchFailure
     getIsContextualSearchComplete = selectors.getIsContextualSearchComplete
@@ -840,23 +838,6 @@ describe('helpCenter selectors', () => {
 
     it('returns the current state of searchFieldValue', () => {
       expect(result).toEqual('bob blah blerghh')
-    })
-  })
-
-  describe('getSearchFieldFocused', () => {
-    let result
-    const mockHelpCenterState = {
-      helpCenter: {
-        searchFieldFocused: true
-      }
-    }
-
-    beforeEach(() => {
-      result = getSearchFieldFocused(mockHelpCenterState)
-    })
-
-    it('returns the current state of searchFieldFocused', () => {
-      expect(result).toEqual(true)
     })
   })
 
