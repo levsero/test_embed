@@ -40,7 +40,7 @@ namespace :embeddable_framework do
   task :build_assets do
     logger.info 'Building assets'
 
-    sh 'npm set progress=false && npm ci'
+    sh 'npm set progress=false && npm install'
     sh 'npm run build-previewer'
   end
 
