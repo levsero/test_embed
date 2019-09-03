@@ -39,12 +39,10 @@ import RatingScreenStyles from 'component/chat/rating/RatingScreen.scss'
 import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
 import NestedDropdownStyles from 'component/field/Dropdown/NestedDropdown.scss'
-import IconFieldButtonStyles from 'component/button/IconFieldButton.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss'
 import MessageErrorStyles from 'component/chat/chatting/MessageError.scss'
 import ProgressBarStyles from 'component/attachment/ProgressBar.scss'
-import SearchFieldStyles from 'component/field/SearchField.scss'
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss'
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss'
 import LoadingBarContentStyles from 'component/loading/LoadingBarContent.scss'
@@ -103,12 +101,10 @@ export const webWidgetStyles = `
   ${PrechatScreenStyles}
   ${ContainerStyles}
   ${NestedDropdownStyles}
-  ${IconFieldButtonStyles}
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
   ${MessageErrorStyles}
   ${ProgressBarStyles}
-  ${SearchFieldStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
   ${LoadingBarContentStyles}

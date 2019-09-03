@@ -1,0 +1,30 @@
+@import 'src/styles/_vars.scss';
+
+.notFocused {
+  svg {
+    fill: $zd-color-grey-400 !important;
+  }
+}
+
+.focused {
+  svg {
+    fill: $zd-color-grey-600 !important;
+  }
+}
+
+.icon {
+  composes: u-userColor from global;
+  display: inline-block;
+
+  &:hover {
+    color: currentColor;
+  }
+
+  svg {
+    fill: $zd-color-grey-400;
+    min-width: #{14 / $font-size}rem; /* 1 */
+    min-height: #{14 / $font-size}rem; /* 1 */
+    height: #{14 / $font-size}rem;
+    width: #{14 / $font-size}rem;
+  }
+}

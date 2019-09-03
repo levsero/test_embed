@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { SearchField } from 'src/component/field/SearchField'
 import { getSettingsHelpCenterSearchPlaceholder } from 'src/redux/modules/selectors'
 import { getSearchLoading, getSearchFieldValue } from 'embeds/helpCenter/selectors'
+import SearchField from 'embeds/helpCenter/components/SearchField'
 import { performSearch, handleSearchFieldChange } from 'embeds/helpCenter/actions'
 import { isMobileBrowser } from 'utility/devices'
 
@@ -39,7 +39,7 @@ const SearchForm = React.forwardRef(
         <SearchField
           ref={ref}
           value={value}
-          fullscreen={isMobile}
+          isMobile={isMobile}
           onChangeValue={handleOnChange}
           onSearchIconClick={handleSubmit}
           isLoading={isLoading}

@@ -45,15 +45,13 @@ exports[`renders correctly on desktop 1`] = `
             data-garden-version="3.7.0"
           >
             <span
-              class="container notFocused icon Icon--search"
+              class="icon notFocused"
               data-testid="Icon--search"
               role="button"
               tabindex="0"
-              type="Icon--search"
             >
               <svg
-                aria-hidden="true"
-                realfilename="widget-icon_search.svg"
+                realfilename="search.svg"
               />
             </span>
           </div>
