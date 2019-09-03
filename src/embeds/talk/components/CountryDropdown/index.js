@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Item, SelectField, Select } from '@zendeskgarden/react-select'
+import { SelectField, Select } from '@zendeskgarden/react-select'
 
 import { FONT_SIZE } from 'constants/shared'
 import Flag from 'src/embeds/talk/components/Flag'
 
-const FlexItem = styled(Item)`
-  display: flex !important;
-`
+import { Item } from './styles'
 
 const CountryDropdown = ({
   appendToNode,
@@ -44,10 +41,10 @@ const CountryDropdown = ({
         data-testid={'countryDropdown--select'}
         options={countries.map(({ name, iso, code }) => {
           return (
-            <FlexItem key={iso}>
+            <Item key={iso}>
               <Flag country={iso} />
               {`${name} (${code})`}
-            </FlexItem>
+            </Item>
           )
         })}
       >

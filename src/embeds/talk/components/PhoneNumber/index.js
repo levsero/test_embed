@@ -1,12 +1,12 @@
 import React from 'react'
-import { locals as styles } from './styles.scss'
 import PropTypes from 'prop-types'
+import { PhoneLink } from './styles'
 
 const PhoneNumber = ({ phoneNumber, formattedPhoneNumber }) => {
   return (
-    <a className={styles.phoneLink} href={`tel:${phoneNumber}`} target="_blank">
+    <PhoneLink href={`tel:${phoneNumber}`} target="_blank">
       {formattedPhoneNumber}
-    </a>
+    </PhoneLink>
   )
 }
 

@@ -1,17 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import { locals as styles } from './styles.scss'
+import { FlagIcon } from './styles'
 
 const Flag = ({ country }) => {
-  const flagClasses = `
-      ${styles.flag}
-      ${styles[`flag-${country.toLowerCase()}`]}
-      ${styles.flagCustom}
-    `
   return (
-    <img
-      className={flagClasses}
+    <FlagIcon
+      country={country}
       alt={country}
       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAAxJREFUeNpjYBjcAAAAoAABjvuxtAAAAABJRU5ErkJggg=="
     />

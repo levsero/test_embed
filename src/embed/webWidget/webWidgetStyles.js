@@ -52,7 +52,6 @@ import FrameStyles from 'component/frame/Frame.scss'
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss'
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss'
 import answerBotStyles from 'component/answerBot/styles'
-import talkStyles from 'embeds/talk/styles'
 import helpCenterStyles from 'embeds/helpCenter/styles'
 
 import SharedComponentStyles from 'component/shared/styles'
@@ -112,7 +111,6 @@ export const webWidgetStyles = `
   ${SearchFieldStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
-  ${talkStyles}
   ${LoadingBarContentStyles}
   ${SharedComponentStyles}
   ${FrameStyles}

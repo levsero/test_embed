@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
-
 import { isMobileBrowser } from 'utility/devices'
 import { i18n } from 'service/i18n'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
@@ -18,13 +16,10 @@ import {
 } from 'src/redux/modules/talk/talk-selectors'
 import { getFormattedPhoneNumber, getTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
-
-import { locals as styles } from './styles.scss'
-import TalkIcon from 'src/embeds/talk/icons/talk.svg'
+import { Container, TalkIcon, Message, PhoneNumberContainer } from './styles'
 
 const PhoneOnlyPage = ({
   callUsMessage,
-  isMobile,
   averageWaitTime,
   phoneNumber,
   formattedPhoneNumber,
@@ -35,17 +30,14 @@ const PhoneOnlyPage = ({
     <WidgetContainer>
       <WidgetHeader>{title}</WidgetHeader>
       <WidgetMain>
-        <div
-          data-testid="talk--phoneOnlyPage"
-          className={classNames(styles.container, { [styles.containerMobile]: isMobile })}
-        >
-          <TalkIcon className={styles.talkIcon} />
-          <p className={styles.message}>{callUsMessage}</p>
-          {averageWaitTime && <AverageWaitTime message={averageWaitTime} />}
-          <div className={styles.phoneNumber}>
+        <Container data-testid="talk--phoneOnlyPage">
+          <TalkIcon />
+          <Message>{callUsMessage}</Message>
+          {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
+          <PhoneNumberContainer>
             <PhoneNumber phoneNumber={phoneNumber} formattedPhoneNumber={formattedPhoneNumber} />
-          </div>
-        </div>
+          </PhoneNumberContainer>
+        </Container>
       </WidgetMain>
       <WidgetFooter>{hideZendeskLogo ? null : <ZendeskLogo />}</WidgetFooter>
     </WidgetContainer>
@@ -54,7 +46,6 @@ const PhoneOnlyPage = ({
 
 PhoneOnlyPage.propTypes = {
   averageWaitTime: PropTypes.string,
-  isMobile: PropTypes.bool.isRequired,
   formattedPhoneNumber: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string.isRequired,
   callUsMessage: PropTypes.string.isRequired,

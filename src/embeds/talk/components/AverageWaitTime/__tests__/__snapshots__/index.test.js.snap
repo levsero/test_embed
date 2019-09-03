@@ -3,7 +3,7 @@
 exports[`renders the component 1`] = `
 <div>
   <p
-    class="message"
+    class="sc-bdVaJa iAKeoj"
   >
     Average wait time: 1 minute
   </p>

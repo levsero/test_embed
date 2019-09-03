@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 import { focusLauncher } from 'utility/globals'
 import { i18n } from 'service/i18n'
-import { Button } from '@zendeskgarden/react-buttons'
 import WidgetContainer from 'src/components/WidgetContainer'
 import WidgetHeader from 'src/components/WidgetHeader'
 import WidgetMain from 'src/components/WidgetMain'
@@ -14,8 +13,7 @@ import SuccessNotification from 'src/embeds/talk/components/SuccessNotification'
 import { successDoneButtonClicked } from 'src/redux/modules/talk'
 import { getTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
-
-import { locals as styles } from './styles.scss'
+import { Button, Footer } from './styles'
 
 const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendeskLogo }) => {
   return (
@@ -25,10 +23,9 @@ const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendesk
         <SuccessNotification />
       </WidgetMain>
       <WidgetFooter>
-        <div className={styles.footer}>
+        <Footer>
           <Button
             primary={true}
-            className={styles.button}
             onClick={() => {
               onDone()
               focusLauncher()
@@ -37,8 +34,8 @@ const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendesk
           >
             {doneText}
           </Button>
-          {hideZendeskLogo ? null : <ZendeskLogo />}
-        </div>
+          {!hideZendeskLogo && <ZendeskLogo />}
+        </Footer>
       </WidgetFooter>
     </WidgetContainer>
   )

@@ -8,17 +8,17 @@ import { getPhoneNumber, getFormattedPhoneNumber } from 'src/embeds/talk/selecto
 import { getCapability } from 'src/redux/modules/talk/talk-selectors'
 import { CALLBACK_AND_PHONE } from 'src/redux/modules/talk/talk-capability-types'
 
-import { locals as styles } from './styles.scss'
+import { DisplayLabel } from './styles'
 
 const CallbackPhone = ({ capability, phoneNumber, formattedPhoneNumber, phoneLabel }) => {
   if (capability !== CALLBACK_AND_PHONE) {
     return null
   }
   return (
-    <div className={styles.phoneDisplayLabel}>
+    <DisplayLabel>
       {`${phoneLabel} `}
       <PhoneNumber phoneNumber={phoneNumber} formattedPhoneNumber={formattedPhoneNumber} />
-    </div>
+    </DisplayLabel>
   )
 }
 

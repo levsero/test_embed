@@ -10,17 +10,14 @@ import WidgetFooter from 'src/components/WidgetFooter'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import { getOfflineTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
-
-import { locals as styles } from './styles.scss'
+import { Container } from './styles'
 
 const OfflinePage = ({ message, title, hideZendeskLogo }) => {
   return (
     <WidgetContainer>
       <WidgetHeader>{title}</WidgetHeader>
       <WidgetMain>
-        <p className={styles.offline} data-testid="talk--offlinePage">
-          {message}
-        </p>
+        <Container data-testid="talk--offlinePage">{message}</Container>
       </WidgetMain>
       <WidgetFooter>{hideZendeskLogo ? null : <ZendeskLogo />}</WidgetFooter>
     </WidgetContainer>

@@ -3,11 +3,11 @@
 exports[`renders the component 1`] = `
 <div>
   <div
-    class="error"
+    class="sc-bdVaJa lmtGzF"
     data-testid="talk--errorNotification"
   >
     <svg
-      class="errorIcon"
+      class="sc-bwzfXH cTfKdZ"
       realfilename="error.svg"
     />
     there was an error

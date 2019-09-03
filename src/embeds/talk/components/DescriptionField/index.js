@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField, Textarea, Label } from '@zendeskgarden/react-textfields'
+import { Textarea, Label } from '@zendeskgarden/react-textfields'
 
-import { locals as styles } from './styles/index.scss'
+import { TextField } from './styles'
 
 const DescriptionField = ({ label, defaultValue }) => {
   return (
-    <TextField className={styles.textField}>
+    <TextField>
       <Label dangerouslySetInnerHTML={{ __html: label }} />
       <Textarea defaultValue={defaultValue} rows="4" name="description" />
     </TextField>
