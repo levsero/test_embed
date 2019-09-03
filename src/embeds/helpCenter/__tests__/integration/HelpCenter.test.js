@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, wait } from '@testing-library/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 
@@ -7,26 +7,11 @@ import { http } from 'service/transport'
 
 import * as utility from 'utility/devices'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
+import { resetActiveArticle } from 'embeds/helpCenter/actions'
 
 import HelpCenter from '../../index'
 
-const renderComponent = (newProps = {}) => {
-  const props = {
-    chatOfflineAvailable: false,
-    chatEnabled: false,
-    talkOnline: false,
-    hideZendeskLogo: false,
-    onNextClick: noop,
-    showNextButton: false,
-    fullscreen: false,
-    originalArticleButton: false,
-    channelChoice: false,
-    callbackEnabled: false,
-    submitTicketAvailable: false,
-    chatAvailable: false,
-    isMobile: false,
-    ...newProps
-  }
+const renderComponent = () => {
   const store = createStore()
 
   setupMocks()
@@ -34,11 +19,14 @@ const renderComponent = (newProps = {}) => {
   store.dispatch(updateEmbedAccessible('helpCenterForm', true))
   store.dispatch(updateActiveEmbed('helpCenterForm'))
 
-  return render(
-    <Provider store={store}>
-      <HelpCenter {...props} />
-    </Provider>
-  )
+  return {
+    store,
+    ...render(
+      <Provider store={store}>
+        <HelpCenter />
+      </Provider>
+    )
+  }
 }
 
 const search = jest.fn(options => {
@@ -227,9 +215,13 @@ const checkArticlesDisplayed = queryByText => {
   expect(queryByText('How do I publish my content in other languages?')).toBeInTheDocument()
 }
 
+const focusedOnArticle = (queryByText, title) => {
+  expect(document.activeElement).toEqual(queryByText(title))
+}
+
 describe('desktop', () => {
-  test('integration', () => {
-    const { container, getByPlaceholderText, queryByText } = renderComponent()
+  test('integration', async () => {
+    const { store, container, getByPlaceholderText, queryByText } = renderComponent()
 
     const form = container.querySelector('form')
     const input = getByPlaceholderText('How can we help?')
@@ -240,9 +232,25 @@ describe('desktop', () => {
     // displays the articles
     checkArticlesDisplayed(queryByText)
 
+    // focused on first article
+    focusedOnArticle(queryByText, 'Welcome to your Help Center!')
+
     fireEvent.click(queryByText('What are these sections and articles doing here?'))
 
     expect(queryByText('this is the third article')).toBeInTheDocument()
+
+    // Go back to search page
+    store.dispatch(resetActiveArticle())
+
+    // focus is set on the previously clicked article
+    await wait(() => {
+      expect(document.activeElement).toEqual(
+        queryByText('What are these sections and articles doing here?')
+      )
+    })
+
+    // Search field is still filled in
+    expect(getByPlaceholderText('How can we help?').value).toEqual('Help me')
   })
 })
 
@@ -251,8 +259,8 @@ describe('mobile', () => {
     jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
   })
 
-  test('integration', () => {
-    const { container, queryByText, getByPlaceholderText } = renderComponent({ isMobile: true })
+  test('integration', async () => {
+    const { store, container, queryByText, getByPlaceholderText } = renderComponent()
 
     expect(queryByText('Search our Help Center')).toBeInTheDocument()
 
@@ -264,8 +272,24 @@ describe('mobile', () => {
 
     checkArticlesDisplayed(queryByText)
 
+    // focused on first article
+    focusedOnArticle(queryByText, 'Welcome to your Help Center!')
+
     fireEvent.click(queryByText('How can agents leverage knowledge to help customers?'))
 
     expect(queryByText('this is the second article')).toBeInTheDocument()
+
+    // Go back to search page
+    store.dispatch(resetActiveArticle())
+
+    // focus is set on the previously clicked article
+    await wait(() => {
+      expect(document.activeElement).toEqual(
+        queryByText('How can agents leverage knowledge to help customers?')
+      )
+    })
+
+    // Search field is still filled in
+    expect(getByPlaceholderText('How can we help?').value).toEqual('Help me')
   })
 })

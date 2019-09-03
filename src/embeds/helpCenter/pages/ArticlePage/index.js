@@ -54,7 +54,6 @@ const ArticlePage = ({
           storedImages={restrictedImages}
           imagesSender={performImageSearch}
           updateStoredImages={addRestrictedImage}
-          fullscreen={false}
           isMobile={isMobile}
         />
       </WidgetMain>

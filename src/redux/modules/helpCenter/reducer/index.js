@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import activeArticle from './helpCenter-activeArticle'
 import searchLoading from './helpCenter-searchLoading'
 import articleClicked from './helpCenter-articleClicked'
+import clickedArticles from './helpCenter-clickedArticles'
 import searchFailed from './helpCenter-searchFailed'
 import searchTerm from './helpCenter-searchTerm'
 import totalUserSearches from './helpCenter-totalUserSearches'
@@ -33,5 +34,6 @@ export default combineReducers({
   searchFieldValue,
   searchLoading,
   searchTerm,
-  totalUserSearches
+  totalUserSearches,
+  clickedArticles
 })

@@ -6,6 +6,10 @@ Object {
   "articleClicked": false,
   "articleDisplayed": false,
   "articles": Array [],
+  "clickedArticles": Object {
+    "current": null,
+    "previous": null,
+  },
   "config": Object {
     "answerBotEnabled": false,
     "buttonLabelKey": "message",

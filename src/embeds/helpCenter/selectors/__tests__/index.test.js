@@ -26,3 +26,15 @@ describe('shouldShowContextualResults', () => {
     }
   )
 })
+
+test('getPreviousActiveArticle', () => {
+  const result = selectors.getPreviousActiveArticle({
+    helpCenter: {
+      clickedArticles: {
+        current: 123,
+        previous: 456
+      }
+    }
+  })
+  expect(result).toEqual(456)
+})

@@ -22,24 +22,18 @@ export default class List extends PureComponent {
 
   constructor() {
     super()
-    this.firstArticleRef = null
+    this.itemRefs = {}
   }
 
-  componentDidMount() {
-    this.focusOnFirstItem()
-  }
-
-  focusOnFirstItem() {
-    if (this.firstArticleRef) {
-      this.firstArticleRef.focus()
+  focusOn(id) {
+    if (this.itemRefs[id]) {
+      this.itemRefs[id].focus()
     }
   }
 
   renderResultRow = (article, index) => {
     const assignRef = ref => {
-      if (index === 0) {
-        this.firstArticleRef = ref
-      }
+      this.itemRefs[article.id] = ref
     }
 
     return (
