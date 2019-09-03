@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { TextField } from '@zendeskgarden/react-textfields'
+import { Input } from '@zendeskgarden/react-forms'
 import { FONT_SIZE } from 'constants/shared'
 
-const StyledTextField = styled(TextField)`
+const StyledInput = styled(Input)`
   margin-bottom: ${20 / FONT_SIZE}rem;
 `
 
-export { StyledTextField as TextField }
+export { StyledInput as Input }

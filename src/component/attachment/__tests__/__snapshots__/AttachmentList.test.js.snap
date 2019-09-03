@@ -124,17 +124,17 @@ exports[`exceed file size 1`] = `
       </label>
       <div>
         <div
-          class="containerError Alert-prppfq-0 index__c-callout--error___E8TxN ktWtOK Well-zk7a8s-0 index__c-callout___cUpq9 mRGBp"
+          class="containerError Alert-prppfq-0 index__c-callout___K1eQ- index__c-callout--error___NED0s ktWtOK"
           data-garden-id="notifications.alert"
-          data-garden-version="3.2.0"
+          data-garden-version="6.4.4"
           data-testid="error-message"
           role="alert"
           type="error"
         >
           <div
-            class="previewError Title-sc-1329g54-0 index__c-callout__title___264nL fRGHFa"
+            class="previewError Title-sc-1329g54-0 index__c-callout__title___e5tnb fRGHFa"
             data-garden-id="notifications.title"
-            data-garden-version="3.2.0"
+            data-garden-version="6.4.4"
           >
             some.csv
           </div>
@@ -144,9 +144,9 @@ exports[`exceed file size 1`] = `
             The file is too big. Please attach files that are less than 5 MB.
           </div>
           <button
-            class="Close-oze0eo-0 index__c-callout__close___2yt98 czaHBx"
+            class="Close-oze0eo-0 index__c-callout__close___OudEV czaHBx"
             data-garden-id="notifications.close"
-            data-garden-version="3.2.0"
+            data-garden-version="6.4.4"
             type="button"
           />
         </div>
@@ -548,17 +548,17 @@ exports[`failed upload 1`] = `
       </label>
       <div>
         <div
-          class="containerError Alert-prppfq-0 index__c-callout--error___E8TxN ktWtOK Well-zk7a8s-0 index__c-callout___cUpq9 mRGBp"
+          class="containerError Alert-prppfq-0 index__c-callout___K1eQ- index__c-callout--error___NED0s ktWtOK"
           data-garden-id="notifications.alert"
-          data-garden-version="3.2.0"
+          data-garden-version="6.4.4"
           data-testid="error-message"
           role="alert"
           type="error"
         >
           <div
-            class="previewError Title-sc-1329g54-0 index__c-callout__title___264nL fRGHFa"
+            class="previewError Title-sc-1329g54-0 index__c-callout__title___e5tnb fRGHFa"
             data-garden-id="notifications.title"
-            data-garden-version="3.2.0"
+            data-garden-version="6.4.4"
           >
             some.csv
           </div>
@@ -568,9 +568,9 @@ exports[`failed upload 1`] = `
             There was a problem attaching this file. Please try again.
           </div>
           <button
-            class="Close-oze0eo-0 index__c-callout__close___2yt98 czaHBx"
+            class="Close-oze0eo-0 index__c-callout__close___OudEV czaHBx"
             data-garden-id="notifications.close"
-            data-garden-version="3.2.0"
+            data-garden-version="6.4.4"
             type="button"
           />
         </div>

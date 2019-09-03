@@ -9,9 +9,9 @@ Snapshot Diff:
 +       Email transcript
 +     </button>
 +     <button
-+       class="item Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
++       class="item Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
 +       data-garden-id="buttons.button"
-+       data-garden-version="3.7.0"
++       data-garden-version="6.4.4"
 +       data-testid="chat-menu-item"
 +       tabindex="0"
 +       type="button"
@@ -22,9 +22,9 @@ Snapshot Diff:
 +       class="itemLine"
 +     />
 +     <button
-+       class="item Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
++       class="item Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
 +       data-garden-id="buttons.button"
-+       data-garden-version="3.7.0"
++       data-garden-version="6.4.4"
 +       data-testid="chat-menu-item"
 +       tabindex="0"
 +       type="button"

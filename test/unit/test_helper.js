@@ -22,11 +22,25 @@ global.mockery = require('mockery')
 global.jsdom = require('jsdom')
 const { JSDOM } = jsdom
 
+global.Node = {}
+
 global.window = new JSDOM('<!DOCTYPE html><body></body></html>').window
 
 global.document = global.window.document
 global.navigator = global.window.navigator
 global.location = global.window.location
+
+global.document.createRange = () => ({
+  setStart: () => {},
+  setEnd: () => {},
+  commonAncestorContainer: {
+    nodeName: 'BODY',
+    ownerDocument: document
+  }
+})
+
+global.requestAnimationFrame = global.window.requestAnimationFrame =
+  global.window.requestAnimationFrame || (callback => setTimeout(callback, 0))
 
 // This global is a workaround for a bug in ThemeProvider from Garden
 global.Element = global.window.Element

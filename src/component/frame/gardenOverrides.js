@@ -92,20 +92,6 @@ const selectArrowOverrides = css`
   ${arrowOverrides}
 `
 
-const previousSelectArrowOverrides = css`
-  ${selectArrowOverrides}
-  &::before {
-    background: none !important;
-  }
-`
-
-const dropdownOverrides = isMobileBrowser()
-  ? css`
-  ${mobileOverrides}
-  max-height: ${300 / FONT_SIZE}rem !important;
-`
-  : ''
-
 const genericOverrides = css`
   :hover,
   :focus {
@@ -225,7 +211,8 @@ const checkboxLabelOverrides = isMobile
           props.focused && `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
         border-color: ${zdColorGrey400} !important;
       }
-      :active:before {
+      &:active:before,
+      &:focus:before {
         background-color: rgba(153, 153, 153, 0.4) !important;
         border-color: ${zdColorGrey600} !important;
       }
@@ -245,23 +232,21 @@ function getGardenOverrides(colors) {
   const colorVariables = getWidgetColorVariables({ ...themeColor, ...colors })
 
   return {
-    'textfields.text_group': bottomMargin,
-    'textfields.textarea': inputOverrides,
-    'textfields.input': inputOverrides,
-    'textfields.label': labelOverrides,
-    'textfields.message': messageOverrides,
-    'select.message': messageOverrides,
+    'forms.text_area': inputOverrides,
+    'forms.text_input': inputOverrides,
+    'forms.text_label': labelOverrides,
+    'forms.label': labelOverrides,
+    'forms.message': messageOverrides,
+    'dropdowns.message': messageOverrides,
     'checkboxes.message': messageOverrides,
     'textfields.hint': mobileOverrides,
     'buttons.button': getButtonOverrides(colorVariables),
-    'checkboxes.checkbox_view': bottomMargin,
-    'checkboxes.label': checkboxLabelOverrides,
-    'checkboxes.input': checkboxInputOverrides(themeColor),
-    'checkboxes.hint': checkboxHintMobileOverrides,
-    'select.label': mobileOverrides,
-    'select.hint': mobileOverrides,
-    'select.select_group': bottomMargin,
-    'select.select_view': css`
+    'forms.check_label': checkboxLabelOverrides,
+    'forms.check_input': checkboxInputOverrides(themeColor),
+    'forms.check_hint': checkboxHintMobileOverrides,
+    'dropdowns.label': mobileOverrides,
+    'dropdowns.hint': mobileOverrides,
+    'dropdowns.select': css`
       ${genericOverrides}
       ${borderOverrides}
       box-shadow: ${props =>
@@ -271,10 +256,8 @@ function getGardenOverrides(colors) {
       ${arrowOverrides}
       min-height: ${isMobile ? `${42.5 / FONT_SIZE}rem !important` : ''};
     `,
-    'select.dropdown': dropdownOverrides,
-    'select.item': selectOverrides,
-    'select.next_item': selectArrowOverrides,
-    'select.previous_item': previousSelectArrowOverrides
+    'dropdowns.item': selectOverrides,
+    'dropdowns.next_item': selectArrowOverrides
   }
 }
 

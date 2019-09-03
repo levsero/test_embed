@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField, Textarea, Label, Hint, Message } from '@zendeskgarden/react-textfields'
+import { Field, Textarea, Label, Hint, Message } from '@zendeskgarden/react-forms'
 import { renderLabel } from 'utility/fields'
 
 const Text = ({ label, required, description, errorString, showError, textareaProps }) => {
-  const validation = showError ? 'error' : 'none'
+  const validation = showError ? 'error' : undefined
 
   return (
-    <TextField>
+    <Field>
       {renderLabel(Label, label, required)}
       {description && <Hint>{description}</Hint>}
       <Textarea {...textareaProps} validation={validation} />
       {showError && <Message validation="error">{errorString}</Message>}
-    </TextField>
+    </Field>
   )
 }
 

@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import classNames from 'classnames'
-import { TextField, Label, Input, Textarea, Message } from '@zendeskgarden/react-textfields'
+import { Field, Label, Input, Textarea, Message } from '@zendeskgarden/react-forms'
 import {
+  Dropdown,
+  Menu,
+  Field as DropdownField,
   Select,
-  SelectField,
-  Label as SelectLabel,
-  Message as SelectMessage,
+  Label as DropdownLabel,
+  Message as DropdownMessage,
   Item
-} from '@zendeskgarden/react-select'
+} from '@zendeskgarden/react-dropdowns'
 import Linkify from 'react-linkify'
 
 import { Button } from '@zendeskgarden/react-buttons'
@@ -23,7 +25,7 @@ import { locals as styles } from './PrechatForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import { FONT_SIZE, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
 import ChatHistoryLink from '../ChatHistoryLink'
-import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
+import { getWebWidgetFrameContentWindow } from 'utility/globals'
 import { onNextTick } from 'src/util/utils'
 import { TEST_IDS } from 'src/constants/shared'
 
@@ -170,6 +172,10 @@ export class PrechatForm extends Component {
     this.props.onPrechatFormChange(values)
 
     onNextTick(() => {
+      if (!this.form) {
+        return
+      }
+
       const valid = !!this.form.checkValidity()
 
       // FIXME: This is not tested due to timing pollution on our specs
@@ -234,26 +240,28 @@ export class PrechatForm extends Component {
     )
 
     return (
-      <TextField className={fieldContainerStyle}>
-        {renderLabel(
-          Label,
-          i18n.t('embeddable_framework.common.textLabel.name'),
-          required || !!readOnlyState.name
-        )}
-        <Input
-          autoComplete="off"
-          aria-required={required}
-          required={required}
-          readOnly={readOnlyState.name}
-          value={value}
-          onChange={() => {}}
-          name={nameData.name}
-          pattern={NAME_PATTERN.source}
-          validation={error ? 'error' : 'none'}
-          data-testid={TEST_IDS.NAME_FIELD}
-        />
-        {error}
-      </TextField>
+      <div className={fieldContainerStyle}>
+        <Field>
+          {renderLabel(
+            Label,
+            i18n.t('embeddable_framework.common.textLabel.name'),
+            required || !!readOnlyState.name
+          )}
+          <Input
+            autoComplete="off"
+            aria-required={required}
+            required={required}
+            readOnly={readOnlyState.name}
+            value={value}
+            onChange={() => {}}
+            name={nameData.name}
+            pattern={NAME_PATTERN.source}
+            validation={error ? 'error' : undefined}
+            data-testid={TEST_IDS.NAME_FIELD}
+          />
+          {error}
+        </Field>
+      </div>
     )
   }
 
@@ -274,7 +282,7 @@ export class PrechatForm extends Component {
 
     /* eslint-disable max-len */
     return (
-      <TextField>
+      <Field>
         {renderLabel(
           Label,
           i18n.t('embeddable_framework.common.textLabel.email'),
@@ -287,12 +295,12 @@ export class PrechatForm extends Component {
           readOnly={this.props.readOnlyState.email}
           onChange={() => {}}
           name={emailData.name}
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
           data-testid={TEST_IDS.EMAIL_FIELD}
         />
         {error}
-      </TextField>
+      </Field>
     )
     /* eslint-enable max-len */
   }
@@ -312,26 +320,28 @@ export class PrechatForm extends Component {
     )
 
     return (
-      <TextField>
-        {renderLabel(
-          Label,
-          i18n.t('embeddable_framework.common.textLabel.phone_number'),
-          required || !!this.props.readOnlyState.phone
-        )}
-        <Input
-          required={required}
-          aria-required={required}
-          value={value}
-          readOnly={this.props.readOnlyState.phone}
-          onChange={() => {}}
-          type="tel"
-          name={phoneData.name}
-          pattern={PHONE_PATTERN.source}
-          validation={error ? 'error' : 'none'}
-          data-testid={TEST_IDS.PHONE_FIELD}
-        />
-        {error}
-      </TextField>
+      <div className={styles.field}>
+        <Field>
+          {renderLabel(
+            Label,
+            i18n.t('embeddable_framework.common.textLabel.phone_number'),
+            required || !!this.props.readOnlyState.phone
+          )}
+          <Input
+            required={required}
+            aria-required={required}
+            value={value}
+            readOnly={this.props.readOnlyState.phone}
+            onChange={() => {}}
+            type="tel"
+            name={phoneData.name}
+            pattern={PHONE_PATTERN.source}
+            validation={error ? 'error' : undefined}
+            data-testid={TEST_IDS.PHONE_FIELD}
+          />
+          {error}
+        </Field>
+      </div>
     )
   }
 
@@ -347,20 +357,22 @@ export class PrechatForm extends Component {
     )
 
     return (
-      <TextField className={styles.textAreaMarginBtn}>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.message'), required)}
-        <Textarea
-          required={required}
-          aria-required={required}
-          value={value}
-          onChange={() => {}}
-          rows="4"
-          name={messageData.name}
-          validation={error ? 'error' : 'none'}
-          data-testid={TEST_IDS.MESSAGE_FIELD}
-        />
-        {error}
-      </TextField>
+      <div className={styles.textAreaMarginBtn}>
+        <Field>
+          {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.message'), required)}
+          <Textarea
+            required={required}
+            aria-required={required}
+            value={value}
+            onChange={() => {}}
+            rows="4"
+            name={messageData.name}
+            validation={error ? 'error' : undefined}
+            data-testid={TEST_IDS.MESSAGE_FIELD}
+          />
+          {error}
+        </Field>
+      </div>
     )
   }
 
@@ -371,7 +383,7 @@ export class PrechatForm extends Component {
 
     const options = _.map(departments, dept => {
       return (
-        <Item disabled={dept.disabled} key={dept.id}>
+        <Item disabled={dept.disabled} key={dept.id} value={dept.id}>
           {dept.name}
         </Item>
       )
@@ -380,7 +392,7 @@ export class PrechatForm extends Component {
     const required = departmentSettings.required
     const value = selectedDepartment.id ? selectedDepartment.id.toString() : null
     const error = this.renderErrorMessage(
-      SelectMessage,
+      DropdownMessage,
       value,
       required,
       'embeddable_framework.validation.error.department'
@@ -388,30 +400,37 @@ export class PrechatForm extends Component {
     const departmentLabel = departmentSettings.label
 
     return (
-      <SelectField>
-        {renderLabel(SelectLabel, departmentLabel, required)}
-        <Select
-          required={required}
-          aria-required={required}
-          placeholder={i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}
-          name="department"
-          selectedKey={value}
-          appendToNode={getWebWidgetFrameContentDocumentBody()}
-          onChange={this.handleSelectChange}
+      <Dropdown
+        required={required}
+        aria-required={required}
+        name="department"
+        selectedItem={value}
+        onSelect={this.handleSelectChange}
+        downshiftProps={{
+          environment: getWebWidgetFrameContentWindow()
+        }}
+        validation={error ? 'error' : undefined}
+      >
+        <DropdownField className={styles.dropdown}>
+          {renderLabel(DropdownLabel, departmentLabel, required)}
+          <Select
+            placeholder={i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}
+            className={styles.dropdownSelect}
+          >
+            {selectedDepartment.name}
+          </Select>
+          {error}
+        </DropdownField>
+        <Menu
+          style={{ maxHeight: `${140 / FONT_SIZE}rem`, overflow: 'auto' }}
           popperModifiers={{
             flip: { enabled: false },
             preventOverflow: { escapeWithReference: true }
           }}
-          dropdownProps={{
-            style: { maxHeight: `${140 / FONT_SIZE}rem`, overflow: 'auto' }
-          }}
-          options={options}
-          validation={error ? 'error' : 'none'}
         >
-          {selectedDepartment.name}
-        </Select>
-        {error}
-      </SelectField>
+          {options}
+        </Menu>
+      </Dropdown>
     )
   }
 

@@ -15,7 +15,7 @@ import { ICONS, EMAIL_PATTERN } from 'constants/shared'
 import { locals as styles } from 'component/chat/ChatEmailTranscriptPopup.scss'
 import { emailValid } from 'src/util/utils'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
-import { TextField, Label, Input, Message } from '@zendeskgarden/react-textfields'
+import { Field, Label, Input, Message } from '@zendeskgarden/react-forms'
 import { Icon } from 'src/component/Icon'
 import _ from 'lodash'
 
@@ -107,18 +107,18 @@ export class ChatEmailTranscriptPopup extends Component {
 
     /* eslint-disable max-len */
     return (
-      <TextField>
+      <Field>
         {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), true)}
         <Input
           required={true}
           value={this.state.formState.email}
           onKeyPress={this.handleKeyPress}
           name="email"
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
         />
         {error}
-      </TextField>
+      </Field>
     )
     /* eslint-enable max-len */
   }

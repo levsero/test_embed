@@ -1,15 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Textarea, Label } from '@zendeskgarden/react-textfields'
-
-import { TextField } from './styles'
+import { Field, Label } from '@zendeskgarden/react-forms'
+import { Textarea } from './styles'
 
 const DescriptionField = ({ label, defaultValue }) => {
   return (
-    <TextField>
+    <Field>
       <Label dangerouslySetInnerHTML={{ __html: label }} />
       <Textarea defaultValue={defaultValue} rows="4" name="description" />
-    </TextField>
+    </Field>
   )
 }
 

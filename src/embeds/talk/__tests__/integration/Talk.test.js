@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, queryByAltText } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
@@ -47,6 +47,10 @@ const setUpComponent = () => {
   }
 }
 
+const getSelectedCountry = (utils, value) => {
+  return queryByAltText(utils.queryByTestId(TEST_IDS.DROPDOWN_SELECTED), value)
+}
+
 const submitForm = utils => fireEvent.click(utils.getByText('Send'))
 const updatePhonefield = (utils, number) => {
   const phoneField = utils.getByLabelText('Phone Number')
@@ -61,8 +65,8 @@ const checkForErrorMessage = utils => {
   expect(utils.queryByText('Please enter a valid phone number.')).toBeInTheDocument()
 }
 const checkForFlag = utils => {
-  expect(utils.queryByAltText('US')).toBeInTheDocument()
-  expect(utils.queryByAltText('AU')).not.toBeInTheDocument()
+  expect(getSelectedCountry(utils, 'US')).toBeInTheDocument()
+  expect(getSelectedCountry(utils, 'AU')).not.toBeInTheDocument()
 }
 const checkForSuccessMesage = utils => {
   expect(utils.queryByText('Thanks for reaching out.')).toBeInTheDocument()

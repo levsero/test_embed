@@ -4,8 +4,8 @@ import sanitizeHtml from 'sanitize-html'
 
 import { i18n } from 'service/i18n'
 import { isMobileBrowser, isLandscape } from 'utility/devices'
-import { Label } from '@zendeskgarden/react-textfields'
-import { Label as DropdownLabel } from '@zendeskgarden/react-select'
+import { Label } from '@zendeskgarden/react-forms'
+import { Label as DropdownLabel } from '@zendeskgarden/react-dropdowns'
 import { Checkbox, Text, TextArea, Dropdown } from 'src/component/field'
 import { SlideAppear } from 'component/transition/SlideAppear'
 

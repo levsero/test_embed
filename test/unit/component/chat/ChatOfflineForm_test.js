@@ -16,7 +16,7 @@ describe('ChatOfflineForm component', () => {
   const UserProfile = noopReactComponent()
   const ZendeskLogo = noopReactComponent()
   const ScrollContainer = noopReactComponent()
-  const TextField = noopReactComponent()
+  const GardenField = noopReactComponent()
   const Message = noopReactComponent()
   const Linkify = noopReactComponent('Linkify')
   const mainScreen = 'main'
@@ -57,8 +57,8 @@ describe('ChatOfflineForm component', () => {
           isRTL: () => {}
         }
       },
-      '@zendeskgarden/react-textfields': {
-        TextField,
+      '@zendeskgarden/react-forms': {
+        Field: GardenField,
         Label: noopReactComponent(),
         Input: noopReactComponent(),
         Textarea: noopReactComponent(),
@@ -952,7 +952,7 @@ describe('ChatOfflineForm component', () => {
       })
 
       it('renders a type of TextField', () => {
-        expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+        expect(TestUtils.isElementOfType(result, GardenField)).toEqual(true)
       })
 
       it('has props.name of name', () => {
@@ -977,7 +977,7 @@ describe('ChatOfflineForm component', () => {
       })
 
       it('renders with expected style', () => {
-        expect(result.props.className).toContain('nameFieldWithSocialLoginClass')
+        expect(result.props.children[1].props.className).toContain('nameFieldWithSocialLoginClass')
       })
     })
 
@@ -1009,7 +1009,7 @@ describe('ChatOfflineForm component', () => {
       })
 
       it('renders field not in an error state', () => {
-        expect(result.props.children[1].props.validation).toEqual('none')
+        expect(result.props.children[1].props.validation).toEqual(undefined)
       })
     })
   })
@@ -1028,7 +1028,7 @@ describe('ChatOfflineForm component', () => {
     })
 
     it('renders a type of TextField', () => {
-      expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+      expect(TestUtils.isElementOfType(result, GardenField)).toEqual(true)
     })
 
     it('has props.required of true', () => {
@@ -1051,7 +1051,7 @@ describe('ChatOfflineForm component', () => {
       })
 
       it('renders field not in an error state', () => {
-        expect(result.props.children[1].props.validation).toEqual('none')
+        expect(result.props.children[1].props.validation).toEqual(undefined)
       })
     })
   })
@@ -1076,7 +1076,7 @@ describe('ChatOfflineForm component', () => {
     })
 
     it('renders a type of TextField', () => {
-      expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+      expect(TestUtils.isElementOfType(result, GardenField)).toEqual(true)
     })
 
     it('has props.name of phone', () => {
@@ -1103,7 +1103,7 @@ describe('ChatOfflineForm component', () => {
       })
 
       it('renders field not in an error state', () => {
-        expect(result.props.children[1].props.validation).toEqual('none')
+        expect(result.props.children[1].props.validation).toEqual(undefined)
       })
     })
 
@@ -1132,7 +1132,7 @@ describe('ChatOfflineForm component', () => {
     })
 
     it('renders a type of TextField', () => {
-      expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+      expect(TestUtils.isElementOfType(result, GardenField)).toEqual(true)
     })
 
     it('has props.name of message', () => {
@@ -1159,7 +1159,7 @@ describe('ChatOfflineForm component', () => {
       })
 
       it('renders field not in an error state', () => {
-        expect(result.props.children[1].props.validation).toEqual('none')
+        expect(result.props.children[1].props.validation).toEqual(undefined)
       })
     })
   })

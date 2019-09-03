@@ -48,7 +48,7 @@
 }
 
 .form {
-  composes: u-marginBN from global;
+  margin-bottom: #{16 / FONT_SIZE}rem !important;
 }
 
 .loadingSpinner {

@@ -121,7 +121,7 @@ class CallbackForm extends Component {
 
     return (
       <Form
-        innerRef={el => (this.form = el)}
+        ref={el => (this.form = el)}
         formState={formState}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}

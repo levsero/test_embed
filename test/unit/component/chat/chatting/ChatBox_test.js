@@ -27,8 +27,8 @@ describe('ChatBox component', () => {
           getLocale: () => locale
         }
       },
-      '@zendeskgarden/react-textfields': {
-        TextField: noopReactComponent(),
+      '@zendeskgarden/react-forms': {
+        Field: noopReactComponent(),
         Label: noopReactComponent(),
         Textarea: noopReactComponent()
       },

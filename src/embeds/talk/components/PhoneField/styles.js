@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FauxInput, Input } from '@zendeskgarden/react-textfields'
+import { FauxInput, Input } from '@zendeskgarden/react-forms'
 import { FONT_SIZE } from 'constants/shared'
 
 const StyledFauxInput = styled(FauxInput)`

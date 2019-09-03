@@ -2,30 +2,25 @@
 
 exports[`NameField 1`] = `
 <div>
-  <div
-    class="sc-bdVaJa ksseBe TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
-    data-garden-id="textfields.text_group"
-    data-garden-version="3.7.0"
+  <label
+    class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+    data-garden-id="forms.text_label"
+    data-garden-version="6.4.4"
+    for="garden-field-container-0--input"
+    id="garden-field-container-0--label"
   >
-    <label
-      class="Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-      data-garden-id="textfields.label"
-      data-garden-version="3.7.0"
-      for="garden-text-field-0--input"
-      id="garden-text-field-0--label"
-    >
-      This is a name field
-    </label>
-    <input
-      aria-invalid="false"
-      aria-labelledby="garden-text-field-0--label"
-      class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
-      data-garden-id="textfields.input"
-      data-garden-version="3.7.0"
-      id="garden-text-field-0--input"
-      name="name"
-      value="this value should be populated"
-    />
-  </div>
+    This is a name field
+  </label>
+  <input
+    aria-describedby="garden-field-container-0--hint"
+    aria-invalid="false"
+    aria-labelledby="garden-field-container-0--label"
+    class="sc-bdVaJa ksseBe StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+    data-garden-id="forms.input"
+    data-garden-version="6.4.4"
+    id="garden-field-container-0--input"
+    name="name"
+    value="this value should be populated"
+  />
 </div>
 `;

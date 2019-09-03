@@ -3,32 +3,36 @@
 exports[`renders expected classes 1`] = `
 <div>
   <div
-    class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn hytfkM"
-    data-garden-id="textfields.input"
-    data-garden-version="3.7.0"
+    aria-invalid="false"
+    class="desktopContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
+    data-garden-id="forms.faux_input"
+    data-garden-version="6.4.4"
   >
     <label
-      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-      data-garden-id="textfields.label"
-      data-garden-version="3.7.0"
+      class="label StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+      data-garden-id="forms.text_label"
+      data-garden-version="6.4.4"
+      for="garden-field-container-0--input"
+      id="garden-field-container-0--label"
     >
       hello there
     </label>
     <input
+      aria-describedby="garden-field-container-0--hint"
       aria-invalid="false"
+      aria-labelledby="garden-field-container-0--label"
       autocapitalize="off"
-      class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
-      data-garden-id="textfields.input"
-      data-garden-version="3.7.0"
+      class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
+      data-garden-id="forms.input"
+      data-garden-version="6.4.4"
       data-testid="search-field"
+      id="garden-field-container-0--input"
       placeholder="hello there"
       type="search"
       value=""
     />
     <div
-      class="desktopSearchOrLoading MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
-      data-garden-id="textfields.media_figure"
-      data-garden-version="3.7.0"
+      class="desktopSearchOrLoading"
     >
       <span
         class="icon notFocused"
@@ -50,32 +54,47 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -1,5 +1,5 @@
-  <div>
+@@ -2,5 +2,5 @@
     <div
--     class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn hytfkM"
-+     class="mobileContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn hytfkM"
-      data-garden-id="textfields.input"
-      data-garden-version="3.7.0"
-@@ -15,5 +15,5 @@
+      aria-invalid="false"
+-     class="desktopContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
++     class="mobileContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
+      data-garden-id="forms.faux_input"
+      data-garden-version="6.4.4"
+@@ -10,19 +10,19 @@
+        data-garden-id="forms.text_label"
+        data-garden-version="6.4.4"
+-       for="garden-field-container-1--input"
+-       id="garden-field-container-1--label"
++       for="garden-field-container-2--input"
++       id="garden-field-container-2--label"
+      >
+        hello there
+      </label>
+      <input
+-       aria-describedby="garden-field-container-1--hint"
++       aria-describedby="garden-field-container-2--hint"
         aria-invalid="false"
+-       aria-labelledby="garden-field-container-1--label"
++       aria-labelledby="garden-field-container-2--label"
         autocapitalize="off"
--       class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
-+       class="searchInput mobileSearchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
-        data-garden-id="textfields.input"
-        data-garden-version="3.7.0"
-@@ -24,10 +24,15 @@
+-       class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
++       class="searchInput mobileSearchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
+        data-garden-id="forms.input"
+        data-garden-version="6.4.4"
+        data-testid="search-field"
+-       id="garden-field-container-1--input"
++       id="garden-field-container-2--input"
+        placeholder="hello there"
+        type="search"
+@@ -30,8 +30,11 @@
       />
       <div
--       class="desktopSearchOrLoading MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
-+       class="mobileNonSearchIconContainer MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
-+       data-garden-id="textfields.media_figure"
-+       data-garden-version="3.7.0"
+-       class="desktopSearchOrLoading"
++       class="mobileNonSearchIconContainer"
 +     />
 +     <div
-+       class="mobileSearchIcon MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
-        data-garden-id="textfields.media_figure"
-        data-garden-version="3.7.0"
++       class="mobileSearchIcon"
       >
         <span
 -         class="icon notFocused"
@@ -89,8 +108,33 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -28,14 +28,32 @@
-        data-garden-version="3.7.0"
+@@ -10,13 +10,13 @@
+        data-garden-id="forms.text_label"
+        data-garden-version="6.4.4"
+-       for="garden-field-container-3--input"
+-       id="garden-field-container-3--label"
++       for="garden-field-container-4--input"
++       id="garden-field-container-4--label"
+      >
+        hello there
+      </label>
+      <input
+-       aria-describedby="garden-field-container-3--hint"
++       aria-describedby="garden-field-container-4--hint"
+        aria-invalid="false"
+-       aria-labelledby="garden-field-container-3--label"
++       aria-labelledby="garden-field-container-4--label"
+        autocapitalize="off"
+        class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
+@@ -24,5 +24,5 @@
+        data-garden-version="6.4.4"
+        data-testid="search-field"
+-       id="garden-field-container-3--input"
++       id="garden-field-container-4--input"
+        placeholder="hello there"
+        type="search"
+@@ -32,14 +32,32 @@
+        class="desktopSearchOrLoading"
       >
 -       <span
 -         class="icon notFocused"
@@ -137,30 +181,46 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -1,5 +1,5 @@
-  <div>
+@@ -2,5 +2,5 @@
     <div
--     class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn hytfkM"
-+     class="mobileContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn hytfkM"
-      data-garden-id="textfields.input"
-      data-garden-version="3.7.0"
-@@ -15,5 +15,5 @@
+      aria-invalid="false"
+-     class="desktopContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
++     class="mobileContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
+      data-garden-id="forms.faux_input"
+      data-garden-version="6.4.4"
+@@ -10,19 +10,19 @@
+        data-garden-id="forms.text_label"
+        data-garden-version="6.4.4"
+-       for="garden-field-container-5--input"
+-       id="garden-field-container-5--label"
++       for="garden-field-container-6--input"
++       id="garden-field-container-6--label"
+      >
+        hello there
+      </label>
+      <input
+-       aria-describedby="garden-field-container-5--hint"
++       aria-describedby="garden-field-container-6--hint"
         aria-invalid="false"
+-       aria-labelledby="garden-field-container-5--label"
++       aria-labelledby="garden-field-container-6--label"
         autocapitalize="off"
--       class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
-+       class="searchInput mobileSearchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
-        data-garden-id="textfields.input"
-        data-garden-version="3.7.0"
-@@ -23,11 +23,45 @@
-        value=""
+-       class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
++       class="searchInput mobileSearchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
+        data-garden-id="forms.input"
+        data-garden-version="6.4.4"
+        data-testid="search-field"
+-       id="garden-field-container-5--input"
++       id="garden-field-container-6--input"
+        placeholder="hello there"
+        type="search"
+@@ -30,8 +30,40 @@
       />
-+     <div
-+       class="mobileNonSearchIconContainer MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
-+       data-garden-id="textfields.media_figure"
-+       data-garden-version="3.7.0"
+      <div
+-       class="desktopSearchOrLoading"
++       class="mobileNonSearchIconContainer"
 +     >
-        <div
--       class="desktopSearchOrLoading MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
++       <div
 +         aria-busy="true"
 +         aria-live="polite"
 +         class="container "
@@ -190,9 +250,7 @@ Snapshot Diff:
 +       </div>
 +     </div>
 +     <div
-+       class="mobileSearchIcon MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
-        data-garden-id="textfields.media_figure"
-        data-garden-version="3.7.0"
++       class="mobileSearchIcon"
       >
         <span
 -         class="icon notFocused"

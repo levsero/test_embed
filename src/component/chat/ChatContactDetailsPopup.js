@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-
-import { TextField, Label, Input, Message } from '@zendeskgarden/react-textfields'
+import { Field, Label, Input, Message } from '@zendeskgarden/react-forms'
 import { keyCodes } from 'utility/keyboard'
 import { document as doc } from 'utility/globals'
 import { i18n } from 'service/i18n'
@@ -176,7 +175,7 @@ export class ChatContactDetailsPopup extends Component {
     )
 
     return (
-      <TextField>
+      <Field>
         {renderLabel(
           Label,
           i18n.t('embeddable_framework.common.textLabel.name'),
@@ -187,13 +186,14 @@ export class ChatContactDetailsPopup extends Component {
           name="display_name"
           autoComplete="off"
           onKeyPress={this.handleKeyPress}
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           pattern={NAME_PATTERN.source}
           disabled={this.props.isAuthenticated}
+          className={styles.field}
           data-testid={TEST_IDS.NAME_FIELD}
         />
         {error}
-      </TextField>
+      </Field>
     )
   }
 
@@ -211,7 +211,7 @@ export class ChatContactDetailsPopup extends Component {
 
     /* eslint-disable max-len */
     return (
-      <TextField>
+      <Field>
         {renderLabel(
           Label,
           i18n.t('embeddable_framework.common.textLabel.email'),
@@ -222,12 +222,13 @@ export class ChatContactDetailsPopup extends Component {
           disabled={this.props.isAuthenticated}
           name="email"
           onKeyPress={this.handleKeyPress}
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+          className={styles.field}
           data-testid={TEST_IDS.EMAIL_FIELD}
         />
         {error}
-      </TextField>
+      </Field>
     )
     /* eslint-enable max-len */
   }

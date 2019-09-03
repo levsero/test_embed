@@ -23,8 +23,13 @@
   white-space: pre-line;
 }
 
-.dropdown {
+.dropdown,
+.field {
   composes: u-marginBL from global;
+}
+
+.dropdownSelect {
+  margin: 0 !important;
 }
 
 .dropdownMenuContainer {

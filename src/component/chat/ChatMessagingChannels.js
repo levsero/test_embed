@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Label } from '@zendeskgarden/react-textfields'
 import _ from 'lodash'
 
 import { i18n } from 'service/i18n'
@@ -44,16 +43,20 @@ export class ChatMessagingChannels extends Component {
     const { channels } = this.props
     const { facebook, twitter } = channels
 
-    if (_.isEmpty(channels)) return null
+    if (_.isEmpty(channels)) {
+      return null
+    }
 
     const { allowed: messengerAllowed, page_id: messengerPageId } = facebook
     const { allowed: twitterAllowed, page_id: twitterPageId } = twitter
 
-    if (!messengerAllowed && !twitterAllowed) return null
+    if (!messengerAllowed && !twitterAllowed) {
+      return null
+    }
 
     return (
       <div className={styles.container}>
-        {renderLabel(Label, i18n.t('embeddable_framework.chat.messagingChannels.title'), true)}
+        {renderLabel('label', i18n.t('embeddable_framework.chat.messagingChannels.title'), true)}
         <div>
           {messengerAllowed && this.renderChannelIcon('messenger', messengerPageId)}
           {twitterAllowed && this.renderChannelIcon('twitter', twitterPageId)}

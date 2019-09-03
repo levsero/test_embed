@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields'
+import { Field, Label, Textarea } from '@zendeskgarden/react-forms'
 
 import { i18n } from 'service/i18n'
 import { RatingGroup, ratings } from 'component/chat/rating/RatingGroup'
@@ -73,10 +73,10 @@ export class FeedbackForm extends Component {
           rating={this.state.selectedRating}
           updateRating={rating => this.setState({ selectedRating: rating })}
         />
-        <TextField>
+        <Field>
           <Label>{i18n.t('embeddable_framework.chat.postChat.rating.plainDescription')}</Label>
           <Textarea
-            innerRef={el => {
+            ref={el => {
               this.textarea = el
             }}
             className={styles.textarea}
@@ -84,7 +84,7 @@ export class FeedbackForm extends Component {
             defaultValue={rating.comment}
             data-testid={TEST_IDS.MESSAGE_FIELD}
           />
-        </TextField>
+        </Field>
         {this.renderActionButtons()}
       </div>
     )

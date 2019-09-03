@@ -7,7 +7,7 @@ describe('ChatEmailTranscriptPopup component', () => {
   const EMAIL_TRANSCRIPT_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SCREEN'
 
   const Message = noopReactComponent()
-  const TextField = noopReactComponent()
+  const Field = noopReactComponent()
 
   const chatEmailTranscriptPopupPath = buildSrcPath('component/chat/ChatEmailTranscriptPopup')
   const sharedConstantsPath = buildSrcPath('constants/shared')
@@ -38,8 +38,8 @@ describe('ChatEmailTranscriptPopup component', () => {
           t: noop
         }
       },
-      '@zendeskgarden/react-textfields': {
-        TextField,
+      '@zendeskgarden/react-forms': {
+        Field,
         Label: noopReactComponent(),
         Input: noopReactComponent(),
         Textarea: noopReactComponent(),
@@ -360,8 +360,8 @@ describe('ChatEmailTranscriptPopup component', () => {
         result = component.renderEmailField()
       })
 
-      it('renders a TextField component', () => {
-        expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+      it('renders a Field component', () => {
+        expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
       })
 
       it('uses the provided email as the initial value', () => {

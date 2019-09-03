@@ -410,7 +410,7 @@ describe('form', () => {
       it('submits the expected object and changes the button text', () => {
         let state = {}
         const { container, rerender, getByText, getByLabelText } = renderWithState(state)
-        fireEvent.click(container.querySelector('[data-garden-id="select.select_view"]'))
+        fireEvent.click(container.querySelector('[data-garden-id="dropdowns.select"]'))
         fireEvent.click(getByText('three'))
         jest.runAllTimers()
         fireEvent.change(getByLabelText('Email address'), { target: { value: 'hello@world.com' } })

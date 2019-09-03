@@ -13,7 +13,8 @@ jest.mock('popper.js', () => {
     constructor() {
       return {
         destroy: () => {},
-        scheduleUpdate: () => {}
+        scheduleUpdate: () => {},
+        enableEventListeners: () => {}
       }
     }
   }
@@ -48,9 +49,9 @@ describe('Dropdown', () => {
   it('renders the expected options when the field is required', () => {
     const { container, getAllByRole } = renderComponent({ required: true })
 
-    fireEvent.click(container.querySelector('[data-garden-id="select.select_view"]'))
+    fireEvent.click(container.querySelector('[data-garden-id="dropdowns.select"]'), {})
 
-    const options = getAllByRole('menuitemcheckbox')
+    const options = getAllByRole('option')
 
     expect(options.length).toEqual(1)
 
@@ -60,9 +61,9 @@ describe('Dropdown', () => {
   it('renders the expected options when the field is not required', () => {
     const { container, getAllByRole } = renderComponent()
 
-    fireEvent.click(container.querySelector('[data-garden-id="select.select_view"]'))
+    fireEvent.click(container.querySelector('[data-garden-id="dropdowns.select"]'))
 
-    const options = getAllByRole('menuitemcheckbox')
+    const options = getAllByRole('option')
 
     expect(options.length).toEqual(2)
 

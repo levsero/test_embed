@@ -2,23 +2,24 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {
-  SelectField,
+  Dropdown as GardenDropdown,
+  Field,
   Select,
   Separator,
   Item,
   NextItem,
   PreviousItem,
   Hint,
-  Message
-} from '@zendeskgarden/react-select'
-import { Icon } from 'component/Icon'
+  Message,
+  Menu
+} from '@zendeskgarden/react-dropdowns'
 
 import { i18n } from 'service/i18n'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE, TEST_IDS } from 'constants/shared'
 
 import { locals as styles } from './NestedDropdown.scss'
 import Node from './OptionNode'
-import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
+import { getWebWidgetFrameContentWindow } from 'utility/globals'
 
 const findDefaultNode = (names, rootNode) => {
   let currNode = rootNode
@@ -81,7 +82,8 @@ export default class NestedDropdown extends Component {
       selectedValue: defaultOption ? defaultOption.value : '',
       viewableNode: node,
       displayedName: names.length > 0 ? names[names.length - 1] : '-',
-      formState: {}
+      formState: {},
+      isOpen: false
     }
   }
 
@@ -155,9 +157,10 @@ export default class NestedDropdown extends Component {
     let items = []
 
     if (viewableNode.parentNode) {
+      const key = `${viewableNode.parentNode.name}--prev`
+
       const titleItem = (
-        <PreviousItem key={`${viewableNode.parentNode.name}--prev`}>
-          <Icon type="Icon--previous" className={styles.previous} />
+        <PreviousItem key={key} value={key}>
           {viewableNode.name}
         </PreviousItem>
       )
@@ -170,23 +173,31 @@ export default class NestedDropdown extends Component {
       const child = viewableNode.getChildNode(childName)
 
       if (child.hasChildren()) {
-        items.push(<NextItem key={child.name}>{child.name}</NextItem>)
+        items.push(
+          <NextItem key={child.name} value={child.name}>
+            {child.name}
+          </NextItem>
+        )
       } else {
-        items.push(<Item key={child.name}>{child.name}</Item>)
+        items.push(
+          <Item key={child.name} value={child.name} data-testid={TEST_IDS.DROPDOWN_OPTION}>
+            {child.name}
+          </Item>
+        )
       }
     })
 
     return items
   }
 
-  handleSelectedItem = selectedKey => {
+  handleSelectedItem = selectedItem => {
     let selectedValue, displayedName, viewableNode
     let previousViewableNode = this.state.viewableNode
 
-    if (selectedKey.slice(-6) === '--prev') {
+    if (selectedItem.slice(-6) === '--prev') {
       viewableNode = previousViewableNode.parentNode
     } else {
-      viewableNode = previousViewableNode.getChildNode(selectedKey)
+      viewableNode = previousViewableNode.getChildNode(selectedItem)
     }
     displayedName = viewableNode.name
 
@@ -200,40 +211,75 @@ export default class NestedDropdown extends Component {
       displayedName = ''
     }
 
-    this.setState({ selectedValue, viewableNode, displayedName }, () => {
+    this.setState({ selectedValue, viewableNode, displayedName, selectedItem }, () => {
       this.props.onChange()
     })
+  }
+
+  getNextIsOpenState(newState) {
+    const isOpen = newState.isOpen !== undefined ? newState.isOpen : this.state.isOpen
+
+    if (!newState.selectedItem) {
+      return isOpen
+    }
+
+    const { viewableNode } = this.state
+
+    if (
+      viewableNode.parentNode &&
+      newState.selectedItem === `${viewableNode.parentNode.name}--prev`
+    ) {
+      return true
+    }
+
+    if (viewableNode.getChildNode(newState.selectedItem).hasChildren()) {
+      return true
+    }
+
+    return isOpen
   }
 
   render() {
     return (
       <div className={styles.field}>
-        <SelectField>
-          {this.props.label}
-          <Hint>{this.props.description}</Hint>
-          <Select
-            isOpen={this.state.isOpen}
-            appendToNode={getWebWidgetFrameContentDocumentBody()}
-            onStateChange={newState => this.setState(newState)}
-            onChange={this.handleSelectedItem}
-            options={this.renderCurrentLevelItems()}
-            validation={this.props.showError ? 'error' : 'none'}
-            dropdownProps={{
-              style: {
-                maxHeight: `${240 / FONT_SIZE}rem`,
-                overflow: 'auto',
-                boxShadow: `0 ${10 / FONT_SIZE}rem ${30 / FONT_SIZE}rem 0 rgba(4, 68, 77, 0.15)`
-              }
+        <GardenDropdown
+          isOpen={this.state.isOpen}
+          onStateChange={newState => {
+            this.setState({
+              ...newState,
+              isOpen: this.getNextIsOpenState(newState)
+            })
+          }}
+          selectedItem={this.state.selectedItem}
+          onSelect={this.handleSelectedItem}
+          validation={this.props.showError ? 'error' : undefined}
+          downshiftProps={{
+            environment: getWebWidgetFrameContentWindow()
+          }}
+        >
+          <Field>
+            {this.props.label}
+            <Hint>{this.props.description}</Hint>
+            <Select data-testid={TEST_IDS.DROPDOWN_SELECTED}>{this.state.displayedName}</Select>
+
+            {this.props.showError && (
+              <Message validation="error">
+                {i18n.t('embeddable_framework.validation.error.select')}
+              </Message>
+            )}
+          </Field>
+          <Menu
+            maxHeight={`${240 / FONT_SIZE}rem`}
+            style={{
+              overflow: 'auto',
+              boxShadow: `0 ${10 / FONT_SIZE}rem ${30 / FONT_SIZE}rem 0 rgba(4, 68, 77, 0.15)`
             }}
+            data-testid={TEST_IDS.DROPDOWN_OPTIONS}
           >
-            {this.state.displayedName}
-          </Select>
-          {this.props.showError && (
-            <Message validation="error">
-              {i18n.t('embeddable_framework.validation.error.select')}
-            </Message>
-          )}
-        </SelectField>
+            {this.renderCurrentLevelItems()}
+          </Menu>
+        </GardenDropdown>
+
         {/* hidden field with the selected value so that the form grabs it on submit */}
         <input
           onChange={() => {}}

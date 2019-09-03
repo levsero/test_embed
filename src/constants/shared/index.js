@@ -106,6 +106,7 @@ export const TEST_IDS = {
   CHAT_MSG_USER: 'chat-msg-user',
   CHAT_MSG_AGENT: 'chat-msg-agent',
   CHAT_MSG_ANSWER_BOT: 'chat-msg-answer-bot',
+  CHECKBOX_FIELD: 'checkbox-field',
   STR_MSG_PANEL_HEADING: 'panelHeading',
   DROPDOWN_OPTIONS: 'dropdown-options',
   DROPDOWN_OPTION: 'dropdown-option',

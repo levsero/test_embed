@@ -1,10 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-
-import { Label } from '@zendeskgarden/react-select'
-import { Message } from '@zendeskgarden/react-textfields'
+import { Field, Message, Label } from '@zendeskgarden/react-forms'
 import {
   FieldContainer,
   composeEventHandlers,
@@ -68,7 +66,8 @@ class PhoneField extends ControlledComponent {
       inputValue,
       countries: this.formatCountries(props.supportedCountries),
       valid: false,
-      countryDropdownOpen: false
+      countryDropdownOpen: false,
+      dropdownWidth: null
     }
 
     this.phoneInput = undefined
@@ -168,24 +167,34 @@ class PhoneField extends ControlledComponent {
           <FieldContainer>
             {({ getLabelProps: getFieldLabelProps, getInputProps: getFieldInputProps }) => {
               return (
-                <Fragment>
+                <Field>
                   <Label
                     {...this.getLabelProps(getFieldLabelProps())}
                     dangerouslySetInnerHTML={{ __html: this.props.label }}
                   />
                   <FauxInput
                     {...focused}
-                    validation={showError ? 'error' : 'none'}
+                    validation={showError ? 'error' : undefined}
                     mediaLayout={true}
-                    inputRef={container => (this.containerRef = container)}
+                    ref={container => {
+                      if (!container) {
+                        return
+                      }
+
+                      this.containerRef = container
+
+                      if (!this.state.dropdownWidth) {
+                        this.setState({
+                          dropdownWidth: this.containerRef.getBoundingClientRect().width || '100%'
+                        })
+                      }
+                    }}
                   >
                     <CountryDropdown
                       selectedKey={this.state.selectedKey}
                       onChange={this.onFlagChange}
                       countries={this.state.countries}
-                      width={
-                        this.containerRef ? this.containerRef.getBoundingClientRect().width : '100%'
-                      }
+                      width={this.state.dropdownWidth || '100%'}
                       appendToNode={getWebWidgetFrameContentDocumentBody()}
                       isOpen={this.state.countryDropdownOpen}
                       onToggleOpen={countryDropdownOpen => {
@@ -199,13 +208,13 @@ class PhoneField extends ControlledComponent {
                       type="tel"
                       name="phone"
                       autoComplete="off"
-                      innerRef={node => (this.phoneInput = node)}
+                      ref={node => (this.phoneInput = node)}
                       required={this.props.required}
                       bare={true}
                       data-testid={TEST_IDS.PHONE_FIELD}
                     />
                   </FauxInput>
-                </Fragment>
+                </Field>
               )
             }}
           </FieldContainer>

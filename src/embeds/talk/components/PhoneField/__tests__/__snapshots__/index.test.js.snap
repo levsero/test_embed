@@ -5,15 +5,25 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -188,1 +188,1 @@
--         class="sc-htpNat jVOplu Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn kFlDox"
-+         class="sc-htpNat jVOplu Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn text__is-focused___3mc46 hDMyMD"
-@@ -198,1 +198,1 @@
--             aria-expanded="false"
-+             aria-expanded="true"
-@@ -201,1 +201,1 @@
--             class="SelectView-gnmjk-0 ilfwUh Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--select___7_VcN kFlDox"
-+             class="SelectView-gnmjk-0 ilfwUh Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--select___7_VcN text__is-focused___3mc46 text__is-open___1jG9_ hDMyMD"
-@@ -206,0 +206,1 @@
-+             open=""
+@@ -281,1 +281,1 @@
+-           aria-labelledby="downshift-4-label"
++           aria-labelledby="downshift-3-label"
+@@ -307,1 +307,1 @@
+-               aria-labelledby="downshift-4-label"
++               aria-labelledby="downshift-3-label"
+@@ -310,1 +310,1 @@
+-               id="downshift-4-input"
++               id="downshift-3-input"
+@@ -324,1 +324,1 @@
+-               aria-labelledby="downshift-4-label"
++               aria-labelledby="downshift-3-label"
+@@ -329,1 +329,1 @@
+-               id="downshift-4-menu"
++               id="downshift-3-menu"
+@@ -341,1 +341,1 @@
+-                   id="downshift-4-item-0"
++                   id="downshift-3-item-0"
+@@ -356,1 +356,1 @@
+-                   id="downshift-4-item-1"
++                   id="downshift-3-item-1"
 `;

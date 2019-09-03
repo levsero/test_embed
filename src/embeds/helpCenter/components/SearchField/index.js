@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import SearchIconButton from 'embeds/helpCenter/components/SearchIconButton'
 import ClearInputIcon from 'embeds/helpCenter/icons/clearInput.svg'
 import { LoadingEllipses } from 'component/loading/LoadingEllipses'
-import { locals as styles } from './styles.scss'
-import { FauxInput, MediaFigure, Input, Label } from '@zendeskgarden/react-textfields'
 import { IconButton } from '@zendeskgarden/react-buttons'
+import { locals as styles } from './styles.scss'
+import { FauxInput, Field, Input, Label } from '@zendeskgarden/react-forms'
 import classNames from 'classnames'
 import { TEST_IDS } from 'src/constants/shared'
 
@@ -14,6 +14,7 @@ export default class SearchField extends Component {
     isMobile: PropTypes.bool,
     isLoading: PropTypes.bool,
     onChangeValue: PropTypes.func,
+    onClick: PropTypes.func,
     onSearchIconClick: PropTypes.func,
     searchPlaceholder: PropTypes.string.isRequired,
     value: PropTypes.string
@@ -60,9 +61,9 @@ export default class SearchField extends Component {
 
   renderMobileSearchIconButton = () => {
     return (
-      <MediaFigure key="search" className={styles.mobileSearchIcon}>
+      <div key="search" className={styles.mobileSearchIcon}>
         <SearchIconButton onClick={this.props.onSearchIconClick} isMobile={this.props.isMobile} />
-      </MediaFigure>
+      </div>
     )
   }
 
@@ -84,9 +85,9 @@ export default class SearchField extends Component {
     }
 
     return (
-      <MediaFigure key="loadingOrClear" className={styles.mobileNonSearchIconContainer}>
+      <div key="loadingOrClear" className={styles.mobileNonSearchIconContainer}>
         {icon}
-      </MediaFigure>
+      </div>
     )
   }
 
@@ -98,9 +99,9 @@ export default class SearchField extends Component {
     )
 
     return (
-      <MediaFigure key="searchOrLoading" className={styles.desktopSearchOrLoading}>
+      <div key="searchOrLoading" className={styles.desktopSearchOrLoading}>
         {icon}
-      </MediaFigure>
+      </div>
     )
   }
 
@@ -128,24 +129,26 @@ export default class SearchField extends Component {
     })
 
     return (
-      <FauxInput mediaLayout={true} className={searchContainerClasses}>
-        <Label className={styles.label}>{searchPlaceholder}</Label>
-        <Input
-          bare={true}
-          onChange={this.onChange}
-          value={this.props.value}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          innerRef={elem => {
-            this.searchField = elem
-          }}
-          autoCapitalize="off"
-          placeholder={searchPlaceholder}
-          type="search"
-          className={searchInputClasses}
-          data-testid={TEST_IDS.SEARCH_FIELD}
-        />
-        {this.renderIcons()}
+      <FauxInput onClick={this.props.onClick} className={searchContainerClasses}>
+        <Field>
+          <Label className={styles.label}>{searchPlaceholder}</Label>
+          <Input
+            bare={true}
+            onChange={this.onChange}
+            value={this.props.value}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            ref={elem => {
+              this.searchField = elem
+            }}
+            autoCapitalize="off"
+            placeholder={searchPlaceholder}
+            type="search"
+            className={searchInputClasses}
+            data-testid={TEST_IDS.SEARCH_FIELD}
+          />
+          {this.renderIcons()}
+        </Field>
       </FauxInput>
     )
   }
