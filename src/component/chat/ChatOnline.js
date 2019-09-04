@@ -163,7 +163,6 @@ class Chat extends Component {
 
     this.props.updateMenuVisibility(false)
     this.props.updateContactDetailsVisibility(false)
-    this.props.updateEmailTranscriptVisibility(false)
   }
 
   showContactDetailsFn = e => {

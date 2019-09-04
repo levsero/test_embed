@@ -152,10 +152,6 @@ describe('ChatOnline component', () => {
       )
     })
 
-    it('calls updateEmailTranscriptVisibility with false', () => {
-      expect(updateEmailTranscriptVisibilitySpy).toHaveBeenCalledWith(false)
-    })
-
     it('calls updateContactDetailsVisibility with false', () => {
       expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(false)
     })

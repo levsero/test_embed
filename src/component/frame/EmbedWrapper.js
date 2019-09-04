@@ -54,7 +54,7 @@ export class EmbedWrapper extends Component {
         const frameElem = ownerDocument.defaultView.frameElement
 
         if (frameElem.id === 'launcher') {
-          if (keyCode === KEY_CODES.TAB) {
+          if (keyCode === KEY_CODES.TAB && getDocumentHost().querySelector('body')) {
             getDocumentHost()
               .querySelector('body')
               .focus()

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { keyCodes } from 'utility/keyboard'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
-import { ChatPopup } from 'component/chat/ChatPopup'
 import { i18n } from 'service/i18n'
 import {
   EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
@@ -18,16 +17,16 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { Field, Label, Input, Message } from '@zendeskgarden/react-forms'
 import { Icon } from 'src/component/Icon'
 import _ from 'lodash'
+import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
+import { Button } from '@zendeskgarden/react-buttons'
 
 export class ChatEmailTranscriptPopup extends Component {
   static propTypes = {
-    className: PropTypes.string,
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
     visitor: PropTypes.object,
     emailTranscript: PropTypes.object,
     tryEmailTranscriptAgain: PropTypes.func,
-    isMobile: PropTypes.bool,
     resetEmailTranscript: PropTypes.func
   }
 
@@ -55,6 +54,29 @@ export class ChatEmailTranscriptPopup extends Component {
     }
 
     this.form = null
+
+    this.emailInput = React.createRef()
+  }
+
+  componentDidMount() {
+    if (this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SCREEN) {
+      this.focusInput()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.emailTranscript.screen !== EMAIL_TRANSCRIPT_SCREEN &&
+      this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SCREEN
+    ) {
+      this.focusInput()
+    }
+  }
+
+  focusInput() {
+    if (this.emailInput.current) {
+      this.emailInput.current.focus()
+    }
   }
 
   handleSave = e => {
@@ -93,12 +115,6 @@ export class ChatEmailTranscriptPopup extends Component {
     })
   }
 
-  renderTitle = () => {
-    const title = i18n.t('embeddable_framework.chat.emailtranscript.title')
-
-    return <h4 className={styles.title}>{title}</h4>
-  }
-
   renderEmailField = () => {
     const value = this.state.formState.email
     const error = shouldRenderErrorMessage(value, true, this.state.showErrors, EMAIL_PATTERN) ? (
@@ -107,18 +123,21 @@ export class ChatEmailTranscriptPopup extends Component {
 
     /* eslint-disable max-len */
     return (
-      <Field>
-        {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), true)}
-        <Input
-          required={true}
-          defaultValue={this.state.formState.email}
-          onKeyPress={this.handleKeyPress}
-          name="email"
-          validation={error ? 'error' : undefined}
-          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-        />
-        {error}
-      </Field>
+      <div className={styles.field}>
+        <Field>
+          {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), true)}
+          <Input
+            required={true}
+            defaultValue={this.state.formState.email}
+            onKeyPress={this.handleKeyPress}
+            name="email"
+            validation={error ? 'error' : undefined}
+            pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+            ref={this.emailInput}
+          />
+          {error}
+        </Field>
+      </div>
     )
     /* eslint-enable max-len */
   }
@@ -136,8 +155,16 @@ export class ChatEmailTranscriptPopup extends Component {
           e.preventDefault()
         }}
       >
-        {this.renderTitle()}
         {this.renderEmailField()}
+
+        <ModalActions>
+          <Button onClick={this.props.leftCtaFn}>
+            {i18n.t('embeddable_framework.common.button.cancel')}
+          </Button>
+          <Button onClick={this.handleSave} primary={true}>
+            {i18n.t('embeddable_framework.common.button.send')}
+          </Button>
+        </ModalActions>
       </form>
     )
   }
@@ -195,45 +222,30 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   render() {
-    const { isMobile, className, leftCtaFn } = this.props
-    const isEmailTranscriptResult =
-      this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN ||
-      this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_FAILURE_SCREEN
-    let childrenContainerClasses = isEmailTranscriptResult
-      ? styles.resultContainer
-      : styles.childrenContainer
-
-    if (this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_LOADING_SCREEN) {
-      childrenContainerClasses = styles.loadingContainer
-    }
-
-    const onExited = () => {
-      if (this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN) {
-        this.props.resetEmailTranscript()
-      }
-    }
-
     return (
-      <ChatPopup
-        isMobile={isMobile}
-        useOverlay={isMobile}
-        onExited={onExited}
-        showCta={this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SCREEN}
-        show={true}
-        transitionOnMount={true}
-        className={className}
-        leftCtaFn={leftCtaFn}
-        leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
-        rightCtaFn={this.handleSave}
-        rightCtaLabel={i18n.t('embeddable_framework.common.button.send')}
+      <ChatModal
+        onClose={() => {
+          this.props.leftCtaFn()
+
+          if (this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN) {
+            this.props.resetEmailTranscript()
+          }
+        }}
+        title={
+          this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SCREEN
+            ? i18n.t('embeddable_framework.chat.emailtranscript.title')
+            : undefined
+        }
+        focusOnMount={
+          this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN ||
+          this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_FAILURE_SCREEN
+        }
       >
-        <div className={childrenContainerClasses}>
-          {this.renderFormScreen()}
-          {this.renderSuccessScreen()}
-          {this.renderLoadingScreen()}
-          {this.renderFailureScreen()}
-        </div>
-      </ChatPopup>
+        {this.renderFormScreen()}
+        {this.renderSuccessScreen()}
+        {this.renderLoadingScreen()}
+        {this.renderFailureScreen()}
+      </ChatModal>
     )
   }
 }
