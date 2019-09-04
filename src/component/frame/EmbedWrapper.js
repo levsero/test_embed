@@ -22,7 +22,8 @@ export class EmbedWrapper extends Component {
     reduxStore: PropTypes.object.isRequired,
     useBackButton: PropTypes.bool,
     document: PropTypes.object.isRequired,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
+    dataTestId: PropTypes.string
   }
 
   static defaultProps = {
@@ -96,7 +97,10 @@ export class EmbedWrapper extends Component {
           >
             <FocusJailContainer focusOnMount={false}>
               {({ getContainerProps, containerRef }) => (
-                <div {...getContainerProps(this.getEmbedWrapperProps(containerRef))}>
+                <div
+                  {...getContainerProps(this.getEmbedWrapperProps(containerRef))}
+                  data-testid={`position-${this.props.dataTestId}`}
+                >
                   {css}
                   {styleTag}
                   <Navigation

@@ -9,6 +9,7 @@ import { dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
 import Talk from '../../'
 import { http } from 'service/transport'
 import { MemoryRouter } from 'react-router-dom'
+import { TEST_IDS } from 'src/constants/shared/'
 
 jest.mock('service/transport')
 
@@ -69,7 +70,7 @@ const checkForSuccessMesage = utils => {
 }
 
 const checkForPhoneOnlyPage = (utils, { phoneNumber, formattedPhoneNumber, averageWaitTime }) => {
-  expect(utils.queryByTestId('talk--phoneOnlyPage')).toBeInTheDocument()
+  expect(utils.queryByTestId(TEST_IDS.TALK_PHONE_ONLY_PAGE)).toBeInTheDocument()
   expect(utils.queryByText(formattedPhoneNumber)).toBeInTheDocument()
   expect(utils.queryByText(`Average wait time: ${averageWaitTime} minutes`)).toBeInTheDocument()
   expect(document.querySelector(`[href="tel:${phoneNumber}"]`)).toBeInTheDocument()

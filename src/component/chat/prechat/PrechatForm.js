@@ -25,6 +25,7 @@ import { FONT_SIZE, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/const
 import ChatHistoryLink from '../ChatHistoryLink'
 import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 import { onNextTick } from 'src/util/utils'
+import { TEST_IDS } from 'src/constants/shared'
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -200,11 +201,15 @@ export class PrechatForm extends Component {
   renderGreetingMessage = () => {
     const { greetingMessage } = this.props
 
-    return greetingMessage !== '' ? (
-      <Linkify properties={{ target: '_blank' }} className={styles.greetingMessage}>
-        {greetingMessage}
+    if (!greetingMessage) return null
+
+    return (
+      <Linkify properties={{ target: '_blank' }}>
+        <span className={styles.greetingMessage} data-testid={TEST_IDS.FORM_GREETING_MSG}>
+          {greetingMessage}
+        </span>
       </Linkify>
-    ) : null
+    )
   }
 
   renderNameField = () => {
@@ -245,6 +250,7 @@ export class PrechatForm extends Component {
           name={nameData.name}
           pattern={NAME_PATTERN.source}
           validation={error ? 'error' : 'none'}
+          data-testid={TEST_IDS.NAME_FIELD}
         />
         {error}
       </TextField>
@@ -283,6 +289,7 @@ export class PrechatForm extends Component {
           name={emailData.name}
           validation={error ? 'error' : 'none'}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+          data-testid={TEST_IDS.EMAIL_FIELD}
         />
         {error}
       </TextField>
@@ -321,6 +328,7 @@ export class PrechatForm extends Component {
           name={phoneData.name}
           pattern={PHONE_PATTERN.source}
           validation={error ? 'error' : 'none'}
+          data-testid={TEST_IDS.PHONE_FIELD}
         />
         {error}
       </TextField>
@@ -349,6 +357,7 @@ export class PrechatForm extends Component {
           rows="4"
           name={messageData.name}
           validation={error ? 'error' : 'none'}
+          data-testid={TEST_IDS.MESSAGE_FIELD}
         />
         {error}
       </TextField>
@@ -428,7 +437,12 @@ export class PrechatForm extends Component {
       : i18n.t('embeddable_framework.chat.preChat.online.button.startChat')
 
     return (
-      <Button primary={true} className={styles.submitBtn} type="submit">
+      <Button
+        primary={true}
+        className={styles.submitBtn}
+        type="submit"
+        data-testid={TEST_IDS.CHAT_START}
+      >
         {label}
       </Button>
     )

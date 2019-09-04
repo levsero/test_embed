@@ -34,6 +34,7 @@ import {
   getSelectTicketFormLabel
 } from 'src/redux/modules/selectors'
 import { Alert } from '@zendeskgarden/react-notifications'
+import { TEST_IDS } from 'src/constants/shared'
 
 import classNames from 'classnames'
 
@@ -253,7 +254,7 @@ class SubmitTicket extends Component {
     if (!this.props.errorMsg) return
 
     return (
-      <Alert type="error" role="alert" className={styles.error}>
+      <Alert type="error" role="alert" className={styles.error} data-testid={TEST_IDS.ERROR_MSG}>
         {this.props.errorMsg}
       </Alert>
     )

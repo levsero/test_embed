@@ -13,6 +13,7 @@ exports[`renders the expected classes 1`] = `
       button
       
     "
+        data-testid="pill-button"
       >
         Yes
       </button>
@@ -21,6 +22,7 @@ exports[`renders the expected classes 1`] = `
       button
       
     "
+        data-testid="pill-button"
       >
         No, I need help
       </button>

@@ -15,6 +15,7 @@ import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/
 import { TextField, Textarea, Label, Input, Message } from '@zendeskgarden/react-textfields'
 import { EMAIL_PATTERN } from 'constants/shared'
 import { onNextTick } from 'src/util/utils'
+import { TEST_IDS } from 'src/constants/shared'
 
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send'
 const sendingButtonMessageString =
@@ -318,6 +319,7 @@ export class SubmitTicketForm extends Component {
           value={this.props.formState.subject}
           disabled={this.props.previewEnabled}
           readOnly={this.props.readOnlyState.subject}
+          data-testid={TEST_IDS.SUBJECT_FIELD}
         />
       </TextField>
     )
@@ -348,6 +350,7 @@ export class SubmitTicketForm extends Component {
           readOnly={this.props.readOnlyState.email}
           disabled={this.props.previewEnabled}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+          data-testid={TEST_IDS.EMAIL_FIELD}
         />
         {error}
       </TextField>
@@ -381,6 +384,7 @@ export class SubmitTicketForm extends Component {
           value={this.props.formState.name}
           onChange={() => {}}
           readOnly={this.props.readOnlyState.name}
+          data-testid={TEST_IDS.NAME_FIELD}
         />
         {error}
       </TextField>
@@ -411,6 +415,7 @@ export class SubmitTicketForm extends Component {
           value={this.props.formState.description}
           onChange={() => {}}
           rows="5"
+          data-testid={TEST_IDS.MESSAGE_FIELD}
         />
         {error}
       </TextField>
@@ -470,7 +475,11 @@ export class SubmitTicketForm extends Component {
 
   renderCancelButton = () => {
     return (
-      <Button onClick={this.props.onCancel} className={styles.button}>
+      <Button
+        onClick={this.props.onCancel}
+        className={styles.button}
+        data-testid={TEST_IDS.BUTTON_CANCEL}
+      >
         {i18n.t(this.state.cancelButtonMessage)}
       </Button>
     )
@@ -527,6 +536,7 @@ export class SubmitTicketForm extends Component {
                 disabled={buttonDisabled}
                 type="submit"
                 className={styles.button}
+                data-testid={TEST_IDS.BUTTON_OK}
               >
                 {i18n.t(this.state.buttonMessage)}
               </Button>

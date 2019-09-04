@@ -7,7 +7,8 @@ describe('ChatBadge component', () => {
     updateChatScreenSpy = jasmine.createSpy('updateChatScreen'),
     sendMsgSpy = jasmine.createSpy('sendMsg'),
     resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage'),
-    onSendSpy = jasmine.createSpy('onSend')
+    onSendSpy = jasmine.createSpy('onSend'),
+    TEST_IDS
 
   const chatBadgePath = buildSrcPath('component/launcher/ChatBadge')
   const sharedConstantsPath = buildSrcPath('constants/shared')
@@ -22,6 +23,8 @@ describe('ChatBadge component', () => {
     mockery.enable()
 
     ICONS = requireUncached(sharedConstantsPath).ICONS
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
+
     initMockRegistry({
       'component/Icon': {
         Icon
@@ -68,7 +71,8 @@ describe('ChatBadge component', () => {
         triggerOnEnter: noop
       },
       'constants/shared': {
-        ICONS
+        ICONS,
+        TEST_IDS
       },
       'src/redux/modules/chat': {
         sendMsg: sendMsgSpy,

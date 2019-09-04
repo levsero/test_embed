@@ -18,6 +18,7 @@ import { launcherClicked } from 'src/redux/modules/base/'
 import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors'
 import { getZopimMessageCount } from 'src/redux/modules/zopimChat/zopimChat-selectors'
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
+import { TEST_IDS, ICONS } from 'src/constants/shared'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -160,7 +161,7 @@ class WidgetLauncher extends Component {
     const { talkOnline, chatAvailable, chatOfflineAvailable } = this.props
 
     if (chatAvailable && talkOnline) return 'Icon'
-    if (chatAvailable && !chatOfflineAvailable) return 'Icon--chat'
+    if (chatAvailable && !chatOfflineAvailable) return ICONS.CHAT
     if (talkOnline) return 'Icon--launcher-talk'
 
     return 'Icon'
@@ -172,7 +173,7 @@ class WidgetLauncher extends Component {
         return 'Icon'
       case 'chat':
       case 'zopimChat':
-        if (this.props.chatAvailable && !this.props.chatOfflineAvailable) return 'Icon--chat'
+        if (this.props.chatAvailable && !this.props.chatOfflineAvailable) return ICONS.CHAT
         return this.getIconType()
       case 'talk':
         return 'Icon--launcher-talk'
@@ -196,7 +197,7 @@ class WidgetLauncher extends Component {
     const locale = i18n.getLocale()
     const isRTL = i18n.isRTL()
     const shouldFlipX =
-      (type === 'Icon' && isRTL && locale !== 'he') || (type === 'Icon--chat' && isRTL)
+      (type === 'Icon' && isRTL && locale !== 'he') || (type === ICONS.CHAT && isRTL)
 
     if (this.props.updateFrameTitle) {
       this.props.updateFrameTitle(this.getTitle())
@@ -211,7 +212,10 @@ class WidgetLauncher extends Component {
         }}
       >
         <Icon type={type} flipX={shouldFlipX} className={`${styles.icon} ${iconMobileClasses}`} />
-        <span className={`${styles.label} ${labelMobileClasses}`} data-testid="launcherLabel">
+        <span
+          className={`${styles.label} ${labelMobileClasses}`}
+          data-testid={TEST_IDS.LAUNCHER_LABEL}
+        >
           {this.getActiveEmbedLabel()}
         </span>
       </button>

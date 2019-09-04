@@ -11,6 +11,7 @@ import { http } from 'service/transport'
 
 import { locals as styles } from './styles.scss'
 import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors'
+import { TEST_IDS, ICONS } from 'src/constants/shared'
 
 const allowedIframeAttribs = [
   'src',
@@ -353,7 +354,7 @@ export default class HelpCenterArticle extends Component {
           aria-label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
           title={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
         >
-          <Icon type="Icon--link-external" isMobile={this.props.isMobile} />
+          <Icon type={ICONS.LINK_EXTERNAL} isMobile={this.props.isMobile} />
         </a>
       </div>
     )
@@ -367,14 +368,18 @@ export default class HelpCenterArticle extends Component {
         className={`${styles.content} ${mobileClasses}`}
         lang={this.props.locale}
         ref="userContent"
+        data-testid={TEST_IDS.HC_ARTICLE}
       >
-        <h2 className={styles.title}>{this.props.activeArticle.title}</h2>
+        <h2 className={styles.title} data-testid={TEST_IDS.HC_ARTICLE_TITLE}>
+          {this.props.activeArticle.title}
+        </h2>
         {this.renderOriginalArticleButton()}
         <div
           role="presentation"
           ref="article"
           className={styles.article}
           onClick={this.handleClick}
+          data-testid={TEST_IDS.HC_ARTICLE_BODY}
         />
       </div>
     )

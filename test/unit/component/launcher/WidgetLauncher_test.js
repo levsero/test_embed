@@ -2,12 +2,17 @@ describe('WidgetLauncher component', () => {
   let Launcher,
     mockChatSuppressedValue,
     mockLocale = 'en',
-    mockIsRTL = false
+    mockIsRTL = false,
+    TEST_IDS,
+    ICONS
   const launcherPath = buildSrcPath('component/launcher/WidgetLauncher')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   beforeEach(() => {
     mockery.enable()
 
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
+    ICONS = requireUncached(sharedConstantsPath).ICONS
     mockChatSuppressedValue = false
 
     initMockRegistry({
@@ -67,6 +72,10 @@ describe('WidgetLauncher component', () => {
           SPACE: 32,
           ENTER: 13
         }
+      },
+      'src/constants/shared': {
+        TEST_IDS,
+        ICONS
       }
     })
 

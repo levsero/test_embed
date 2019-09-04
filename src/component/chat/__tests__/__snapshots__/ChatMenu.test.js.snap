@@ -5,13 +5,14 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -36,0 +36,21 @@
+@@ -38,0 +38,23 @@
 +       Email transcript
 +     </button>
 +     <button
 +       class="item Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
 +       data-garden-id="buttons.button"
 +       data-garden-version="3.7.0"
++       data-testid="chat-menu-item"
 +       tabindex="0"
 +       type="button"
 +     >
@@ -24,6 +25,7 @@ Snapshot Diff:
 +       class="item Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
 +       data-garden-id="buttons.button"
 +       data-garden-version="3.7.0"
++       data-testid="chat-menu-item"
 +       tabindex="0"
 +       type="button"
 +     >

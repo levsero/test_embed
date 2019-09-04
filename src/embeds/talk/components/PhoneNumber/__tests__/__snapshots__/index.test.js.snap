@@ -4,6 +4,7 @@ exports[`renders the component 1`] = `
 <div>
   <a
     class="sc-bdVaJa daVghx"
+    data-testid="talk-phone-number"
     href="tel:95556666"
     target="_blank"
   >

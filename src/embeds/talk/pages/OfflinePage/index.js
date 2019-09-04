@@ -11,18 +11,17 @@ import ZendeskLogo from 'src/components/ZendeskLogo'
 import { getOfflineTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 import { Container } from './styles'
+import { TEST_IDS } from 'src/constants/shared'
 
-const OfflinePage = ({ message, title, hideZendeskLogo }) => {
-  return (
-    <WidgetContainer>
-      <WidgetHeader>{title}</WidgetHeader>
-      <WidgetMain>
-        <Container data-testid="talk--offlinePage">{message}</Container>
-      </WidgetMain>
-      <WidgetFooter>{hideZendeskLogo ? null : <ZendeskLogo />}</WidgetFooter>
-    </WidgetContainer>
-  )
-}
+const OfflinePage = ({ message, title, hideZendeskLogo }) => (
+  <WidgetContainer>
+    <WidgetHeader>{title}</WidgetHeader>
+    <WidgetMain>
+      <Container data-testid={TEST_IDS.TALK_OFFLINE_PAGE}>{message}</Container>
+    </WidgetMain>
+    <WidgetFooter>{hideZendeskLogo ? null : <ZendeskLogo />}</WidgetFooter>
+  </WidgetContainer>
+)
 
 OfflinePage.propTypes = {
   message: PropTypes.string.isRequired,

@@ -12,7 +12,7 @@ Snapshot Diff:
 
 @@ -30,5 +30,0 @@
 -         <p
--           class="sc-bdVaJa iAKeoj"
+-           class="sc-bdVaJa kFikJb"
 -         >
 -           10
 -         </p>
@@ -132,6 +132,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
         >
           <a
             class="c5"
+            data-testid="talk-phone-number"
             href="tel:+61412345678"
             target="_blank"
           >
@@ -167,7 +168,7 @@ Snapshot Diff:
 
 @@ -30,5 +30,0 @@
 -         <p
--           class="sc-bdVaJa iAKeoj"
+-           class="sc-bdVaJa kFikJb"
 -         >
 -           10
 -         </p>

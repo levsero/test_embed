@@ -1,11 +1,14 @@
 describe('RatingGroup component', () => {
-  let RatingGroup, ChatRatings
+  let RatingGroup, ChatRatings, TEST_IDS
   const RatingGroupPath = buildSrcPath('component/chat/rating/RatingGroup')
   const IconButton = noopReactComponent()
   const Icon = noopReactComponent()
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   beforeEach(() => {
     mockery.enable()
+
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
       './RatingGroup.scss': {
@@ -23,7 +26,10 @@ describe('RatingGroup component', () => {
         }
       },
       'component/Icon': { Icon },
-      '@zendeskgarden/react-buttons': { IconButton }
+      '@zendeskgarden/react-buttons': { IconButton },
+      'src/constants/shared': {
+        TEST_IDS
+      }
     })
 
     mockery.registerAllowable(RatingGroupPath)

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { locals as styles } from './ProgressBar.scss'
 import classNames from 'classnames'
+import { TEST_IDS } from 'src/constants/shared'
 
 export class ProgressBar extends Component {
   static propTypes = {
@@ -24,6 +25,7 @@ export class ProgressBar extends Component {
         <div
           className={progressBarClasses}
           style={{ width: `${Math.floor(this.props.percentLoaded)}%` }}
+          data-testid={TEST_IDS.PROGRESS_BAR}
         />
       </div>
     )

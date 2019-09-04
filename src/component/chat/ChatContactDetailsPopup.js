@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+
 import { TextField, Label, Input, Message } from '@zendeskgarden/react-textfields'
 import { keyCodes } from 'utility/keyboard'
 import { document as doc } from 'utility/globals'
@@ -11,16 +12,15 @@ import { ChatPopup } from 'component/chat/ChatPopup'
 import { Icon } from 'component/Icon'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { UserProfile } from 'component/chat/UserProfile'
-import { ICONS, NAME_PATTERN, EMAIL_PATTERN } from 'constants/shared'
+import { ICONS, NAME_PATTERN, EMAIL_PATTERN, TEST_IDS } from 'constants/shared'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
-
-import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss'
-
 import {
   EDIT_CONTACT_DETAILS_SCREEN,
   EDIT_CONTACT_DETAILS_LOADING_SCREEN,
   EDIT_CONTACT_DETAILS_ERROR_SCREEN
 } from 'constants/chat'
+
+import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss'
 
 export class ChatContactDetailsPopup extends Component {
   static propTypes = {
@@ -190,6 +190,7 @@ export class ChatContactDetailsPopup extends Component {
           validation={error ? 'error' : 'none'}
           pattern={NAME_PATTERN.source}
           disabled={this.props.isAuthenticated}
+          data-testid={TEST_IDS.NAME_FIELD}
         />
         {error}
       </TextField>
@@ -223,6 +224,7 @@ export class ChatContactDetailsPopup extends Component {
           onKeyPress={this.handleKeyPress}
           validation={error ? 'error' : 'none'}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+          data-testid={TEST_IDS.EMAIL_FIELD}
         />
         {error}
       </TextField>

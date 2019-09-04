@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 import * as libphonenumber from 'libphonenumber-js'
 import * as talkSelectors from 'src/embeds/talk/selectors/reselectors'
+import { TEST_IDS } from 'src/constants/shared'
 
 beforeEach(() => {
   jest.spyOn(talkSelectors, 'getFormattedPhoneNumber').mockImplementation(() => '1800-7383773')
@@ -69,7 +70,7 @@ describe('CallbackForm', () => {
   it('does not display the average wait time if it is not available', () => {
     const { queryByTestId } = renderComponent({ averageWaitTime: null })
 
-    expect(queryByTestId('averageWaitTime')).not.toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.TALK_AVG_WAIT_TIME)).not.toBeInTheDocument()
   })
 
   it('renders a field for the users name', () => {
@@ -94,7 +95,7 @@ describe('CallbackForm', () => {
 
     const { queryByText, queryByTestId } = renderComponent({ callback: { error: { message } } })
 
-    expect(queryByTestId('talk--errorNotification')).toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ERROR_MSG)).toBeInTheDocument()
     expect(queryByText(new RegExp(expectedErrorMessage, 'i'))).toBeInTheDocument()
   })
 
@@ -104,13 +105,13 @@ describe('CallbackForm', () => {
 
     const { queryByText, queryByTestId } = renderComponent({ callback: { error: { message } } })
 
-    expect(queryByTestId('talk--errorNotification')).toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ERROR_MSG)).toBeInTheDocument()
     expect(queryByText(new RegExp(expectedErrorMessage, 'i'))).toBeInTheDocument()
   })
 
   it('does not display an error message when there is no error', () => {
     const { queryByTestId } = renderComponent({ callback: { error: { message: null } } })
 
-    expect(queryByTestId('talk--errorNotification')).not.toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ERROR_MSG)).not.toBeInTheDocument()
   })
 })

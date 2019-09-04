@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Icon } from 'component/Icon'
+import { TEST_IDS } from 'src/constants/shared'
+
 import { locals as styles } from './ButtonIcon.scss'
 
 export class ButtonIcon extends Component {
@@ -46,7 +48,9 @@ export class ButtonIcon extends Component {
     return (
       <button className={buttonClasses} onClick={this.handleOnClick}>
         <Icon className={`${styles.icon} ${this.props.iconClasses}`} flipX={flipX} type={icon} />
-        <span className={`${styles.label} ${labelClassName}`}>{label}</span>
+        <span className={`${styles.label} ${labelClassName}`} data-testid={TEST_IDS.LABEL}>
+          {label}
+        </span>
       </button>
     )
   }

@@ -5,6 +5,7 @@ exports[`allows attaching file 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -15,7 +16,7 @@ exports[`allows attaching file 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-1"
+          data-testid="file-name-1"
         >
           <div
             class="preview"
@@ -32,6 +33,7 @@ exports[`allows attaching file 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -62,6 +64,7 @@ exports[`allows attaching file 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -111,6 +114,7 @@ exports[`exceed file size 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -123,6 +127,7 @@ exports[`exceed file size 1`] = `
           class="containerError Alert-prppfq-0 index__c-callout--error___E8TxN ktWtOK Well-zk7a8s-0 index__c-callout___cUpq9 mRGBp"
           data-garden-id="notifications.alert"
           data-garden-version="3.2.0"
+          data-testid="error-message"
           role="alert"
           type="error"
         >
@@ -190,6 +195,7 @@ exports[`exceed maximum number of files 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -200,7 +206,7 @@ exports[`exceed maximum number of files 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-1"
+          data-testid="file-name-1"
         >
           <div
             class="preview"
@@ -217,6 +223,7 @@ exports[`exceed maximum number of files 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -247,6 +254,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -255,7 +263,7 @@ exports[`exceed maximum number of files 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-2"
+          data-testid="file-name-2"
         >
           <div
             class="preview"
@@ -272,6 +280,7 @@ exports[`exceed maximum number of files 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -302,6 +311,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -310,7 +320,7 @@ exports[`exceed maximum number of files 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-3"
+          data-testid="file-name-3"
         >
           <div
             class="preview"
@@ -327,6 +337,7 @@ exports[`exceed maximum number of files 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -357,6 +368,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -365,7 +377,7 @@ exports[`exceed maximum number of files 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-4"
+          data-testid="file-name-4"
         >
           <div
             class="preview"
@@ -382,6 +394,7 @@ exports[`exceed maximum number of files 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -412,6 +425,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -420,7 +434,7 @@ exports[`exceed maximum number of files 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-5"
+          data-testid="file-name-5"
         >
           <div
             class="preview"
@@ -437,6 +451,7 @@ exports[`exceed maximum number of files 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -467,6 +482,7 @@ exports[`exceed maximum number of files 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -474,6 +490,7 @@ exports[`exceed maximum number of files 1`] = `
       </div>
       <div
         class="error"
+        data-testid="error-message"
       >
         You have already reached the limit of (5) attachments
       </div>
@@ -521,6 +538,7 @@ exports[`failed upload 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -533,6 +551,7 @@ exports[`failed upload 1`] = `
           class="containerError Alert-prppfq-0 index__c-callout--error___E8TxN ktWtOK Well-zk7a8s-0 index__c-callout___cUpq9 mRGBp"
           data-garden-id="notifications.alert"
           data-garden-version="3.2.0"
+          data-testid="error-message"
           role="alert"
           type="error"
         >
@@ -600,6 +619,7 @@ exports[`picks the correct icon types 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -610,7 +630,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-1"
+          data-testid="file-name-1"
         >
           <div
             class="preview"
@@ -627,6 +647,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -657,6 +678,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -665,7 +687,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-2"
+          data-testid="file-name-2"
         >
           <div
             class="preview"
@@ -682,6 +704,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -712,6 +735,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -720,7 +744,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-3"
+          data-testid="file-name-3"
         >
           <div
             class="preview"
@@ -737,6 +761,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -767,6 +792,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -775,7 +801,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-4"
+          data-testid="file-name-4"
         >
           <div
             class="preview"
@@ -792,6 +818,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -822,6 +849,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -830,7 +858,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-5"
+          data-testid="file-name-5"
         >
           <div
             class="preview"
@@ -847,6 +875,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -877,6 +906,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -885,7 +915,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-6"
+          data-testid="file-name-6"
         >
           <div
             class="preview"
@@ -902,6 +932,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -932,6 +963,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -940,7 +972,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-7"
+          data-testid="file-name-7"
         >
           <div
             class="preview"
@@ -957,6 +989,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -987,6 +1020,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -995,7 +1029,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-8"
+          data-testid="file-name-8"
         >
           <div
             class="preview"
@@ -1012,6 +1046,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1042,6 +1077,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1050,7 +1086,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-9"
+          data-testid="file-name-9"
         >
           <div
             class="preview"
@@ -1067,6 +1103,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1097,6 +1134,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1105,7 +1143,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-10"
+          data-testid="file-name-10"
         >
           <div
             class="preview"
@@ -1122,6 +1160,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1152,6 +1191,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1160,7 +1200,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-11"
+          data-testid="file-name-11"
         >
           <div
             class="preview"
@@ -1177,6 +1217,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1207,6 +1248,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1215,7 +1257,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-12"
+          data-testid="file-name-12"
         >
           <div
             class="preview"
@@ -1232,6 +1274,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1262,6 +1305,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1270,7 +1314,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-13"
+          data-testid="file-name-13"
         >
           <div
             class="preview"
@@ -1287,6 +1331,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1317,6 +1362,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1325,7 +1371,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-14"
+          data-testid="file-name-14"
         >
           <div
             class="preview"
@@ -1342,6 +1388,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1372,6 +1419,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1380,7 +1428,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-15"
+          data-testid="file-name-15"
         >
           <div
             class="preview"
@@ -1397,6 +1445,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1427,6 +1476,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1435,7 +1485,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-16"
+          data-testid="file-name-16"
         >
           <div
             class="preview"
@@ -1452,6 +1502,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1482,6 +1533,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1490,7 +1542,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-17"
+          data-testid="file-name-17"
         >
           <div
             class="preview"
@@ -1507,6 +1559,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1537,6 +1590,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1545,7 +1599,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-18"
+          data-testid="file-name-18"
         >
           <div
             class="preview"
@@ -1562,6 +1616,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1592,6 +1647,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1600,7 +1656,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-19"
+          data-testid="file-name-19"
         >
           <div
             class="preview"
@@ -1617,6 +1673,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1647,6 +1704,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1655,7 +1713,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-20"
+          data-testid="file-name-20"
         >
           <div
             class="preview"
@@ -1672,6 +1730,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1702,6 +1761,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1710,7 +1770,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-21"
+          data-testid="file-name-21"
         >
           <div
             class="preview"
@@ -1727,6 +1787,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1757,6 +1818,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1765,7 +1827,7 @@ exports[`picks the correct icon types 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-22"
+          data-testid="file-name-22"
         >
           <div
             class="preview"
@@ -1782,6 +1844,7 @@ exports[`picks the correct icon types 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -1812,6 +1875,7 @@ exports[`picks the correct icon types 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 0%;"
             />
           </div>
@@ -1861,6 +1925,7 @@ exports[`remove attachment 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -1912,6 +1977,7 @@ exports[`renders the component 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -1963,6 +2029,7 @@ exports[`renders the component with mobile styles 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -2014,6 +2081,7 @@ exports[`successful upload 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -2024,7 +2092,7 @@ exports[`successful upload 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-1"
+          data-testid="file-name-1"
         >
           <div
             class="preview"
@@ -2041,6 +2109,7 @@ exports[`successful upload 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -2112,6 +2181,7 @@ exports[`uploading in progress upload 1`] = `
   <div>
     <div
       class="container"
+      data-testid="attachment-list-container"
     >
       <label
         class="label"
@@ -2122,7 +2192,7 @@ exports[`uploading in progress upload 1`] = `
       <div>
         <div
           class="container attachment"
-          ui-test-id="attachmentContainer-1"
+          data-testid="file-name-1"
         >
           <div
             class="preview"
@@ -2139,6 +2209,7 @@ exports[`uploading in progress upload 1`] = `
             </span>
             <div
               class="description"
+              data-testid="description"
             >
               <div
                 class="previewName"
@@ -2169,6 +2240,7 @@ exports[`uploading in progress upload 1`] = `
           >
             <div
               class="progressBar"
+              data-testid="progress-bar"
               style="width: 55%;"
             />
           </div>

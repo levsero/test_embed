@@ -1,9 +1,11 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
+
 import createStore from 'src/redux/createStore'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import SearchPromptPage, { Component } from '../index'
+import { TEST_IDS } from 'src/constants/shared'
 
 jest.mock('service/transport')
 
@@ -58,7 +60,7 @@ it('searches when text provided', () => {
 it('hides the footer when requested', () => {
   const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
 
-  expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
+  expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).not.toBeInTheDocument()
 })
 
 it('renders the header when in mobile', () => {

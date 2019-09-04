@@ -24,8 +24,9 @@ import {
   MAX_WIDGET_HEIGHT,
   MIN_WIDGET_HEIGHT,
   WIDGET_WIDTH,
-  FRAME_TRANSITION_DURATION
-} from 'constants/shared'
+  FRAME_TRANSITION_DURATION,
+  TEST_IDS
+} from 'src/constants/shared'
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors'
 import {
   getStylingOffset,
@@ -439,6 +440,7 @@ class Frame extends Component {
       forceUpdateWorld: this.forceUpdateWorld,
       onBackButtonClick: this.back
     })
+    const { horizontalPosition } = this.props
 
     const wrapper = (
       <StyleSheetManager target={this.getContentDocument().head}>
@@ -459,6 +461,7 @@ class Frame extends Component {
           fullscreen={this.props.fullscreen}
           isMobile={this.props.isMobile}
           chatStandalone={this.props.chatStandalone}
+          dataTestId={horizontalPosition === 'left' ? TEST_IDS.LEFT : TEST_IDS.RIGHT}
         >
           {newChild}
         </EmbedWrapper>

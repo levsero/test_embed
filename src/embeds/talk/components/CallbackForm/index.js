@@ -125,7 +125,6 @@ class CallbackForm extends Component {
         formState={formState}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}
-        testId="talk--callbackForm"
       >
         <WidgetMain>
           <CallbackPhone />

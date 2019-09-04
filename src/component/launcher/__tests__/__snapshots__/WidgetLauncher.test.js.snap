@@ -17,7 +17,7 @@ exports[`WidgetLauncher renders the component 1`] = `
     </span>
     <span
       class="label "
-      data-testid="launcherLabel"
+      data-testid="launcher-label"
     >
       launcherLabel
     </span>

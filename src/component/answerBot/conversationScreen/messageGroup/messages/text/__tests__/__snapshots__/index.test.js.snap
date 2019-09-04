@@ -5,7 +5,9 @@ exports[`renders the expected classes when not visitor 1`] = `
   <div
     class="message botMessage"
   >
-    <div>
+    <div
+      data-testid="chat-msg-answer-bot"
+    >
       <div
         class="messageBubble messageBubble botBackground"
       >
@@ -25,7 +27,9 @@ exports[`renders the expected classes when visitor 1`] = `
   <div
     class="message userMessage"
   >
-    <div>
+    <div
+      data-testid="chat-msg-user"
+    >
       <div
         class="messageBubble messageBubble userBackground"
       >

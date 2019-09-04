@@ -20,6 +20,7 @@ exports[`renders expected classes 1`] = `
       class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
       data-garden-id="textfields.input"
       data-garden-version="3.7.0"
+      data-testid="search-field"
       placeholder="hello there"
       type="search"
       value=""
@@ -63,7 +64,7 @@ Snapshot Diff:
 +       class="searchInput mobileSearchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
         data-garden-id="textfields.input"
         data-garden-version="3.7.0"
-@@ -23,10 +23,15 @@
+@@ -24,10 +24,15 @@
       />
       <div
 -       class="desktopSearchOrLoading MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
@@ -88,7 +89,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -27,14 +27,31 @@
+@@ -28,14 +28,32 @@
         data-garden-version="3.7.0"
       >
 -       <span
@@ -100,6 +101,7 @@ Snapshot Diff:
 +         aria-busy="true"
 +         aria-live="polite"
 +         class="container "
++         data-testid="Icon--ellipsis"
         >
 -         <svg
 -           realfilename="search.svg"
@@ -109,15 +111,15 @@ Snapshot Diff:
 +       bounce
 +       u-userBackgroundColor
 +     "
-+         />
+          />
+-       </span>
 +         <div
 +           class="
 +       circle 
 +       bounce
 +       u-userBackgroundColor
 +     "
-          />
--       </span>
++         />
 +         <div
 +           class="
 +       circle 
@@ -149,7 +151,7 @@ Snapshot Diff:
 +       class="searchInput mobileSearchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
         data-garden-id="textfields.input"
         data-garden-version="3.7.0"
-@@ -22,11 +22,44 @@
+@@ -23,11 +23,45 @@
         value=""
       />
 +     <div
@@ -157,13 +159,14 @@ Snapshot Diff:
 +       data-garden-id="textfields.media_figure"
 +       data-garden-version="3.7.0"
 +     >
-+       <div
+        <div
+-       class="desktopSearchOrLoading MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
 +         aria-busy="true"
 +         aria-live="polite"
 +         class="container "
++         data-testid="Icon--ellipsis"
 +       >
-          <div
--       class="desktopSearchOrLoading MediaFigure-sc-1g79mon-0 text__c-txt__input--media__figure___Qcs4_ cqfywo"
++         <div
 +           class="
 +       circle 
 +       bounce

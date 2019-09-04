@@ -7,6 +7,8 @@ import { ButtonDropzone } from 'component/button/ButtonDropzone'
 import { onNextTick } from 'src/util/utils'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { i18n } from 'service/i18n'
+import { TEST_IDS } from 'src/constants/shared'
+
 import { locals as styles } from './AttachmentList.scss'
 
 export class AttachmentList extends Component {
@@ -211,9 +213,11 @@ export class AttachmentList extends Component {
     })
   }
 
-  renderErrorMessage = () => {
-    return <div className={styles.error}>{this.state.errorMessage}</div>
-  }
+  renderErrorMessage = () => (
+    <div className={styles.error} data-testid={TEST_IDS.ERROR_MSG}>
+      {this.state.errorMessage}
+    </div>
+  )
 
   render() {
     const numAttachments = this.numUploadedAttachments()
@@ -228,7 +232,7 @@ export class AttachmentList extends Component {
 
     return (
       <div>
-        <div className={styles.container}>
+        <div className={styles.container} data-testid={TEST_IDS.ATTACHMENT_LIST_CONTAINER}>
           <label className={styles.label} htmlFor={this.id}>
             {title}
           </label>

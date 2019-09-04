@@ -7,6 +7,7 @@ import { locals as styles } from './styles.scss'
 import { FauxInput, MediaFigure, Input, Label } from '@zendeskgarden/react-textfields'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import classNames from 'classnames'
+import { TEST_IDS } from 'src/constants/shared'
 
 export default class SearchField extends Component {
   static propTypes = {
@@ -142,6 +143,7 @@ export default class SearchField extends Component {
           placeholder={searchPlaceholder}
           type="search"
           className={searchInputClasses}
+          data-testid={TEST_IDS.SEARCH_FIELD}
         />
         {this.renderIcons()}
       </FauxInput>

@@ -5,7 +5,7 @@ import { Component as CallbackPhone } from '../'
 import { CALLBACK_AND_PHONE } from 'src/redux/modules/talk/talk-capability-types'
 
 jest.mock('src/embeds/talk/components/CallbackForm', () => () => (
-  <div data-testid="talk--callback-form" />
+  <div data-testid="talk--callbackForm" />
 ))
 
 test('renders the component', () => {

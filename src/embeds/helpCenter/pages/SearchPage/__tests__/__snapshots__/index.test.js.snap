@@ -7,6 +7,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   >
     <div
       class="header"
+      data-testid="page-header-container"
     >
       <h1
         class="title"
@@ -38,6 +39,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
               class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
               data-garden-id="textfields.input"
               data-garden-version="3.7.0"
+              data-testid="search-field"
               placeholder="How can we help?"
               type="search"
               value=""
@@ -133,6 +135,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   >
     <div
       class="header"
+      data-testid="page-header-container"
     >
       <h1
         class="title"
@@ -164,6 +167,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
               class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
               data-garden-id="textfields.input"
               data-garden-version="3.7.0"
+              data-testid="search-field"
               placeholder="How can we help?"
               type="search"
               value=""

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { locals as styles } from './LoadingEllipses.scss'
 
 import { isDevice } from 'utility/devices'
+import { TEST_IDS } from 'src/constants/shared'
+
+import { locals as styles } from './LoadingEllipses.scss'
 
 export class LoadingEllipses extends Component {
   static propTypes = {
@@ -33,7 +35,12 @@ export class LoadingEllipses extends Component {
     `
 
     return (
-      <div className={containerClass} aria-busy="true" aria-live="polite">
+      <div
+        className={containerClass}
+        aria-busy="true"
+        aria-live="polite"
+        data-testid={TEST_IDS.ICON_ELLIPSIS}
+      >
         <div className={ellipsesItemClasses} />
         <div className={ellipsesItemClasses} />
         <div className={ellipsesItemClasses} />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-
+import { TEST_IDS } from 'src/constants/shared'
 import { MessageBubble } from '../index'
 
 const messageText = 'this is the original text'
@@ -9,7 +9,9 @@ const translatedText = 'this is the translated text'
 describe('translated message', () => {
   describe('rerender', () => {
     test('translated message passed in but user has already clicked on link', () => {
-      const component = <MessageBubble message={messageText} translatedMessage={translatedText} />
+      const component = (
+        <MessageBubble message={messageText} translatedMessage={translatedText} data-testid="foo" />
+      )
       const { getByText, queryByText, rerender } = render(component)
 
       fireEvent.click(getByText('Show original'))
@@ -23,7 +25,7 @@ describe('translated message', () => {
 
   test('switching between original and translated text', () => {
     const { getByText, queryByText } = render(
-      <MessageBubble message={messageText} translatedMessage={translatedText} />
+      <MessageBubble message={messageText} translatedMessage={translatedText} data-testid="foo" />
     )
 
     expect(queryByText(translatedText)).toBeInTheDocument()
@@ -42,9 +44,11 @@ describe('translated message', () => {
 })
 
 test('translated message not passed in', () => {
-  const { queryByText, queryByTestId } = render(<MessageBubble message={messageText} />)
+  const { queryByText, queryByTestId } = render(
+    <MessageBubble message={messageText} data-testid="foo" />
+  )
 
   expect(queryByText(translatedText)).not.toBeInTheDocument()
   expect(queryByText(messageText)).toBeInTheDocument()
-  expect(queryByTestId('translate_link')).not.toBeInTheDocument()
+  expect(queryByTestId(TEST_IDS.TRANSLATE_LINK)).not.toBeInTheDocument()
 })

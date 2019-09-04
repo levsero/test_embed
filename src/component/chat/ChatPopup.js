@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Icon } from 'component/Icon'
 import { Button } from '@zendeskgarden/react-buttons'
 import { SlideAppear } from 'component/transition/SlideAppear'
+import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './ChatPopup.scss'
 import classNames from 'classnames'
@@ -99,6 +100,7 @@ export class ChatPopup extends Component {
         onTouchStartDisabled={true}
         className={leftCtaButtonClasses}
         onClick={leftCtaFn}
+        data-testid={TEST_IDS.BUTTON_CANCEL}
       >
         {leftCtaLabel}
       </Button>
@@ -110,6 +112,7 @@ export class ChatPopup extends Component {
         className={this.ctaButtonStyle('right')}
         disabled={rightCtaDisabled}
         onClick={rightCtaFn}
+        data-testid={TEST_IDS.BUTTON_OK}
       >
         {rightCtaLabel}
       </Button>

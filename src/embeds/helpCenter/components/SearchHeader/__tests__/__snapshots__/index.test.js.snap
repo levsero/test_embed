@@ -4,6 +4,7 @@ exports[`renders correctly on desktop 1`] = `
 <div>
   <div
     class="header"
+    data-testid="page-header-container"
   >
     <h1
       class="title"
@@ -35,6 +36,7 @@ exports[`renders correctly on desktop 1`] = `
             class="searchInput Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--bare___2auEk kdlara"
             data-garden-id="textfields.input"
             data-garden-version="3.7.0"
+            data-testid="search-field"
             placeholder="How can we help?"
             type="search"
             value=""
@@ -72,6 +74,6 @@ Snapshot Diff:
     <div
 -     class="header"
 +     class="header headerMobile"
+      data-testid="page-header-container"
     >
-      <h1
 `;

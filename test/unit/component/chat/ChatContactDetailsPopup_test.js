@@ -10,8 +10,11 @@ describe('ChatContactDetailsPopup component', () => {
     updateFnSpy,
     EDIT_CONTACT_DETAILS_SCREEN,
     EDIT_CONTACT_DETAILS_LOADING_SCREEN,
-    EDIT_CONTACT_DETAILS_ERROR_SCREEN
+    EDIT_CONTACT_DETAILS_ERROR_SCREEN,
+    TEST_IDS
   const ChatContactDetailsPopupPath = buildSrcPath('component/chat/ChatContactDetailsPopup')
+  const chatConstantsPath = basePath('src/constants/chat')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   const LoadingSpinner = noopReactComponent()
   const Message = noopReactComponent()
@@ -29,9 +32,7 @@ describe('ChatContactDetailsPopup component', () => {
   beforeEach(() => {
     mockery.enable()
 
-    const chatConstantsPath = basePath('src/constants/chat')
-    const sharedConstantsPath = basePath('src/constants/shared')
-
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
     ICONS = requireUncached(sharedConstantsPath).ICONS
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN
     EDIT_CONTACT_DETAILS_LOADING_SCREEN = requireUncached(chatConstantsPath)
@@ -55,7 +56,8 @@ describe('ChatContactDetailsPopup component', () => {
       'constants/shared': {
         ICONS,
         NAME_PATTERN: /.+/,
-        EMAIL_PATTERN: /.+/
+        EMAIL_PATTERN: /.+/,
+        TEST_IDS
       },
       'constants/chat': {
         EDIT_CONTACT_DETAILS_SCREEN,

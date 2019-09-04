@@ -1,7 +1,9 @@
 import { render } from '@testing-library/react'
 import React from 'react'
-import connectedLauncher from '../WidgetLauncher'
 import _ from 'lodash'
+
+import connectedLauncher from '../WidgetLauncher'
+import { TEST_IDS } from 'src/constants/shared'
 
 const WidgetLauncher = connectedLauncher.WrappedComponent
 const noop = () => {}
@@ -54,7 +56,7 @@ describe('WidgetLauncher', () => {
           showLabelMobile,
           notificationCount
         })
-        const label = queryByTestId('launcherLabel')
+        const label = queryByTestId(TEST_IDS.LAUNCHER_LABEL)
         const labelClasses = _.map(label.classList, klass => klass).join(' ')
 
         expect(label.innerHTML).toEqual(labelText)

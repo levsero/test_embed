@@ -17,6 +17,7 @@ import {
 import { getFormattedPhoneNumber, getTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 import { Container, TalkIcon, Message, PhoneNumberContainer } from './styles'
+import { TEST_IDS } from 'src/constants/shared'
 
 const PhoneOnlyPage = ({
   callUsMessage,
@@ -30,7 +31,7 @@ const PhoneOnlyPage = ({
     <WidgetContainer>
       <WidgetHeader>{title}</WidgetHeader>
       <WidgetMain>
-        <Container data-testid="talk--phoneOnlyPage">
+        <Container data-testid={TEST_IDS.TALK_PHONE_ONLY_PAGE}>
           <TalkIcon />
           <Message>{callUsMessage}</Message>
           {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}

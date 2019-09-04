@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import { TEST_IDS } from 'src/constants/shared'
 
 export class Form extends Component {
   static propTypes = {
@@ -8,8 +9,7 @@ export class Form extends Component {
     className: PropTypes.string,
     children: PropTypes.node,
     onCompleted: PropTypes.func,
-    onChange: PropTypes.func,
-    testId: PropTypes.string
+    onChange: PropTypes.func
   }
 
   static defaultProps = {
@@ -69,7 +69,7 @@ export class Form extends Component {
         onChange={this.handleFormChange}
         ref={el => (this.form = el)}
         className={this.props.className}
-        data-testid={this.props.testId}
+        data-testid={TEST_IDS.FORM}
       >
         {this.props.children}
       </form>

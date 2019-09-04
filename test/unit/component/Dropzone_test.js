@@ -1,11 +1,19 @@
 describe('Dropzone component', () => {
-  let Dropzone
+  let Dropzone, TEST_IDS
   const dropzonePath = buildSrcPath('component/Dropzone')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   beforeEach(() => {
     mockery.enable()
 
-    initMockRegistry({ React: React })
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
+
+    initMockRegistry({
+      React: React,
+      'src/constants/shared': {
+        TEST_IDS
+      }
+    })
 
     mockery.registerAllowable(dropzonePath)
 

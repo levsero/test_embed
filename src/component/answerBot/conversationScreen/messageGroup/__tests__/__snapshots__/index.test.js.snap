@@ -21,6 +21,7 @@ exports[`bot avatar renders agent avatar 1`] = `
     >
       <div
         class="transitionWrapper"
+        data-testid="slide-appear-container"
         role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
@@ -30,7 +31,9 @@ exports[`bot avatar renders agent avatar 1`] = `
           <div
             class="message botMessage"
           >
-            <div>
+            <div
+              data-testid="chat-msg-answer-bot"
+            >
               <div
                 class="messageBubble messageBubble botBackground"
               >
@@ -76,6 +79,7 @@ exports[`bot avatar renders brand logo 1`] = `
     >
       <div
         class="transitionWrapper"
+        data-testid="slide-appear-container"
         role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
@@ -85,7 +89,9 @@ exports[`bot avatar renders brand logo 1`] = `
           <div
             class="message botMessage"
           >
-            <div>
+            <div
+              data-testid="chat-msg-answer-bot"
+            >
               <div
                 class="messageBubble messageBubble botBackground"
               >
@@ -131,6 +137,7 @@ exports[`bot name renders agent name 1`] = `
     >
       <div
         class="transitionWrapper"
+        data-testid="slide-appear-container"
         role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
@@ -140,7 +147,9 @@ exports[`bot name renders agent name 1`] = `
           <div
             class="message botMessage"
           >
-            <div>
+            <div
+              data-testid="chat-msg-answer-bot"
+            >
               <div
                 class="messageBubble messageBubble botBackground"
               >
@@ -190,6 +199,7 @@ exports[`renders expected classes and components with default props 1`] = `
     >
       <div
         class="transitionWrapper"
+        data-testid="slide-appear-container"
         role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
@@ -199,7 +209,9 @@ exports[`renders expected classes and components with default props 1`] = `
           <div
             class="message botMessage"
           >
-            <div>
+            <div
+              data-testid="chat-msg-answer-bot"
+            >
               <div
                 class="messageBubble messageBubble botBackground"
               >
@@ -238,6 +250,7 @@ exports[`visitor name and avatar renders nothing 1`] = `
     >
       <div
         class="transitionWrapper"
+        data-testid="slide-appear-container"
         role="presentation"
         style="opacity: 1; bottom: 0px;"
       >
@@ -247,7 +260,9 @@ exports[`visitor name and avatar renders nothing 1`] = `
           <div
             class="message userMessage"
           >
-            <div>
+            <div
+              data-testid="chat-msg-user"
+            >
               <div
                 class="messageBubble messageBubble userBackground"
               >

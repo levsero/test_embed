@@ -2,6 +2,7 @@ import React from 'react'
 import { act, render, queryByTestId } from '@testing-library/react'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import CountryDropdown from '../'
+import { TEST_IDS } from 'src/constants/shared'
 
 describe('CountryDropdown', () => {
   const defaultProps = {
@@ -65,15 +66,13 @@ describe('CountryDropdown', () => {
   it('styles the dropdown wiith the provided width', () => {
     const { queryByTestId } = renderComponent({ isOpen: true })
 
-    expect(queryByTestId('countryDropdown--dropdown').style.width).toBe(defaultProps.width)
+    expect(queryByTestId(TEST_IDS.DROPDOWN_OPTIONS).style.width).toBe(defaultProps.width)
   })
 
   it('renders the dropdown in the provided appendToNode', () => {
     renderComponent({ isOpen: true })
 
-    expect(
-      queryByTestId(defaultProps.appendToNode, 'countryDropdown--dropdown')
-    ).toBeInTheDocument()
+    expect(queryByTestId(defaultProps.appendToNode, TEST_IDS.DROPDOWN_OPTIONS)).toBeInTheDocument()
   })
 
   it('calls onToggleOpen when opened', () => {
@@ -84,7 +83,7 @@ describe('CountryDropdown', () => {
     })
 
     act(() => {
-      queryByTestId('countryDropdown--select').click()
+      queryByTestId(TEST_IDS.DROPDOWN_OPTION).click()
     })
 
     expect(onToggleOpen).toHaveBeenCalledWith(false)
@@ -98,7 +97,7 @@ describe('CountryDropdown', () => {
     })
 
     act(() => {
-      queryByTestId('countryDropdown--select').click()
+      queryByTestId(TEST_IDS.DROPDOWN_OPTION).click()
     })
 
     expect(onToggleOpen).toHaveBeenCalledWith(true)

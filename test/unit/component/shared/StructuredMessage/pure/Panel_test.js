@@ -6,6 +6,7 @@ describe('Pure Panel Component', () => {
   const constantPath = buildSrcPath('constants/shared')
 
   const FONT_SIZE = requireUncached(constantPath).FONT_SIZE
+  const TEST_IDS = requireUncached(constantPath).TEST_IDS
 
   const Icon = noopReactComponent()
   const KeyboardFocusButton = noopReactComponent()
@@ -49,8 +50,9 @@ describe('Pure Panel Component', () => {
       'component/Icon': {
         Icon
       },
-      'constants/shared': {
-        FONT_SIZE
+      'src/constants/shared': {
+        FONT_SIZE,
+        TEST_IDS
       },
       'component/shared/KeyboardFocusButton': {
         KeyboardFocusButton: KeyboardFocusButton

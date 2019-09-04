@@ -7,6 +7,7 @@ exports[`allows custom classes 1`] = `
       button
       blah
     "
+    data-testid="pill-button"
   >
     custom class
   </button>
@@ -20,6 +21,7 @@ exports[`renders the expected classes 1`] = `
       button
       
     "
+    data-testid="pill-button"
   >
     hello world
   </button>

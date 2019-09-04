@@ -4,14 +4,18 @@ describe('ScrollContainer component', () => {
     mockIsFullScreen,
     result,
     mockWindowHeight,
-    mockIsMobile = false
+    mockIsMobile = false,
+    TEST_IDS
   const containerPath = buildSrcPath('component/container/ScrollContainer')
   const MAX_WIDGET_HEIGHT = 550
   const MIN_WIDGET_HEIGHT = 150
   const WIDGET_MARGIN = 15
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   beforeEach(() => {
     mockery.enable()
+
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
       React: React,
@@ -34,10 +38,11 @@ describe('ScrollContainer component', () => {
         }
       },
       'component/Refocus': noopReactComponent(),
-      'constants/shared': {
+      'src/constants/shared': {
         MAX_WIDGET_HEIGHT,
         MIN_WIDGET_HEIGHT,
-        WIDGET_MARGIN
+        WIDGET_MARGIN,
+        TEST_IDS
       },
       'utility/globals': {
         win: {

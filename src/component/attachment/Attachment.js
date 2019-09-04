@@ -9,6 +9,7 @@ import { Alert, Title, Close } from '@zendeskgarden/react-notifications'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './Attachment.scss'
 import classNames from 'classnames'
+import { TEST_IDS } from 'src/constants/shared'
 
 export class Attachment extends Component {
   static propTypes = {
@@ -143,11 +144,11 @@ export class Attachment extends Component {
     return (
       <div
         className={containerClasses}
-        ui-test-id={`attachmentContainer-${this.props.attachmentId}`}
+        data-testid={`${TEST_IDS.FILE_NAME}-${this.props.attachmentId}`}
       >
         <div className={styles.preview}>
           {this.renderPreviewIcon()}
-          <div className={styles.description}>
+          <div className={styles.description} data-testid={TEST_IDS.DESCRIPTION}>
             {isDownloadable ? this.renderLinkedEl(previewName, file.url) : previewName}
             <div className={styles.secondaryText}>
               {this.renderSecondaryText(file, isDownloadable, downloading, uploading)}
@@ -166,7 +167,12 @@ export class Attachment extends Component {
     if (!errorMessage) return
 
     return (
-      <Alert type="error" role="alert" className={styles.containerError}>
+      <Alert
+        type="error"
+        role="alert"
+        className={styles.containerError}
+        data-testid={TEST_IDS.ERROR_MSG}
+      >
         <Title className={styles.previewError}>{this.previewNameString()}</Title>
         <div className={styles.secondaryTextError}>{errorMessage}</div>
         <Close onClick={this.handleIconClick} />

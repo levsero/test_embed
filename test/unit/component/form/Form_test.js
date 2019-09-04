@@ -1,6 +1,7 @@
 describe('Form component', () => {
-  let Form
+  let Form, TEST_IDS
   const formPath = buildSrcPath('component/form/Form')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   class MockButton extends Component {
     render() {
@@ -11,6 +12,8 @@ describe('Form component', () => {
   beforeEach(() => {
     mockery.enable()
 
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
+
     initMockRegistry({
       React: React,
       '@zendeskgarden/react-buttons': { Button: MockButton },
@@ -20,6 +23,9 @@ describe('Form component', () => {
             return <div>{this.props.children}</div>
           }
         }
+      },
+      'src/constants/shared': {
+        TEST_IDS
       }
     })
 

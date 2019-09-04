@@ -2,10 +2,14 @@ describe('ChatBox component', () => {
   let ChatBox
   let locale = 'en'
   let isIos = false
+  let TEST_IDS
   const chatBoxPath = buildSrcPath('component/chat/chatting/ChatBox')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   beforeEach(() => {
     mockery.enable()
+
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
       './ChatBox.scss': {
@@ -34,7 +38,10 @@ describe('ChatBox component', () => {
           ENTER: 13
         }
       },
-      'utility/devices': { isIos: () => isIos }
+      'utility/devices': { isIos: () => isIos },
+      'src/constants/shared': {
+        TEST_IDS
+      }
     })
 
     mockery.registerAllowable(chatBoxPath)

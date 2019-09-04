@@ -8,6 +8,8 @@ import { triggerOnEnter } from 'utility/keyboard'
 import { MessageBubbleChoices } from 'component/shared/MessageBubbleChoices'
 import { Icon } from 'component/Icon'
 import Text from '../text'
+import { ICONS, TEST_IDS } from 'src/constants/shared'
+import { MAX_TITLE_LENGTH } from 'src/constants/answerBot'
 
 import { locals as styles } from './style.scss'
 
@@ -49,8 +51,10 @@ const renderResult = (article, index, onClick) => {
       onClick={() => onClick(article)}
     >
       <div className={styles.heading}>
-        <Icon className={styles.icon} type="Icon--article" />
-        <div className={styles.optionText}>{_.truncate(article.title, { length: 65 })}</div>
+        <Icon className={styles.icon} type={ICONS.ARTICLE} />
+        <div className={styles.optionText} data-testid={TEST_IDS.HC_ARTICLE_TITLE}>
+          {_.truncate(article.title, { length: MAX_TITLE_LENGTH })}
+        </div>
       </div>
       <div className={`${styles.snippet}`}>
         <div dangerouslySetInnerHTML={cleanHtml(article.snippet || article.body)} />

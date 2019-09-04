@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import snapshotDiff from 'snapshot-diff'
-
+import { TEST_IDS } from 'src/constants/shared'
 import { ChatMenu } from '../ChatMenu'
 
 const renderMenu = (
@@ -339,8 +339,8 @@ describe('desktop', () => {
       playSound: false
     })
     const soundNode = queryByText('Sound')
-    const getSoundOnIconNode = () => queryByTestId('Icon--sound-on')
-    const getSoundOffIconNode = () => queryByTestId('Icon--sound-off')
+    const getSoundOnIconNode = () => queryByTestId(TEST_IDS.ICON_SOUND_ON)
+    const getSoundOffIconNode = () => queryByTestId(TEST_IDS.ICON_SOUND_OFF)
 
     expect(soundNode).toBeInTheDocument()
 
