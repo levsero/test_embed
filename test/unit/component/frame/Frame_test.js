@@ -266,11 +266,10 @@ describe('Frame', () => {
   })
 
   describe('show', () => {
-    let frame, mockOnShow, frameProps, mockAfterShowAnimate
+    let frame, frameProps, mockAfterShowAnimate
     const animationDuration = 300
 
     beforeEach(() => {
-      mockOnShow = jasmine.createSpy('onShow')
       mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate')
 
       frameProps = {
@@ -280,7 +279,6 @@ describe('Frame', () => {
             end: { transitionDuration: `${animationDuration}ms` }
           }
         },
-        onShow: mockOnShow,
         afterShowAnimate: mockAfterShowAnimate,
         store: {
           dispatch: noop
@@ -291,10 +289,6 @@ describe('Frame', () => {
       forceFrameReady(frame)
 
       frame.show()
-    })
-
-    it('triggers onShow callback', () => {
-      expect(mockOnShow).toHaveBeenCalled()
     })
 
     it('calls afterShowAnimate', () => {

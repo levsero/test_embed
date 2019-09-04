@@ -7,6 +7,7 @@ import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 import { locals as styles } from './index.scss'
 import classNames from 'classnames'
 import { isMobileBrowser } from 'utility/devices'
+import { onHelpCenterNextClick as onClick } from 'src/redux/modules/base'
 import { getHelpCenterButtonLabel, getChatConnectionConnecting } from 'src/redux/modules/selectors'
 import { i18n } from 'service/i18n'
 
@@ -47,7 +48,7 @@ ChannelButton.defaultProps = {
   buttonLabel: '',
   isRTL: false,
   loading: false,
-  onClick: () => {},
+  onHelpCenterNextClick: () => {},
   isMobile: false
 }
 
@@ -60,6 +61,13 @@ const mapStateToProps = state => {
   }
 }
 
-const connectedComponent = connect(mapStateToProps)(ChannelButton)
+const actionCreators = {
+  onClick
+}
+
+const connectedComponent = connect(
+  mapStateToProps,
+  actionCreators
+)(ChannelButton)
 
 export { connectedComponent as default, ChannelButton as Component }

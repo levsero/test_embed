@@ -358,16 +358,11 @@ describe('WebWidget component', () => {
         container = result.props.children
         chatPopup = container.props.children
 
-        spyOn(webWidget, 'showChat')
         chatPopup.props.chatNotificationRespond()
       })
 
       it('calls props.chatNotificationRespond', () => {
         expect(chatNotificationRespondSpy).toHaveBeenCalled()
-      })
-
-      it('calls showChat with proactive true', () => {
-        expect(webWidget.showChat).toHaveBeenCalledWith({ proactive: true })
       })
     })
   })
@@ -442,33 +437,37 @@ describe('WebWidget component', () => {
   })
 
   describe('renderChatNotification', () => {
-    let result, chatNotification, chatNotificationDismissedSpy, chatNotificationRespondSpy
+    let result,
+      chatNotification,
+      chatNotificationDismissedSpy,
+      chatNotificationRespondSpy,
+      updateActiveEmbedSpy
 
     describe('when props.chatNotificationRespond is called', () => {
       beforeEach(() => {
         chatNotificationRespondSpy = jasmine.createSpy('chatNotificationRespond')
+        updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed')
 
         result = instanceRender(
           <WebWidget
             activeEmbed="helpCenterForm"
             hasSearched={true}
             chatNotificationRespond={chatNotificationRespondSpy}
+            updateActiveEmbed={updateActiveEmbedSpy}
           />
         )
-
-        spyOn(result, 'onNextClick')
 
         const chatNotification = result.renderChatNotification()
 
         chatNotification.props.chatNotificationRespond()
       })
 
-      it('calls onNextClick with chat', () => {
-        expect(result.onNextClick).toHaveBeenCalledWith('chat')
-      })
-
       it('calls chatNotificationRespond', () => {
         expect(chatNotificationRespondSpy).toHaveBeenCalled()
+      })
+
+      it('calls updateActiveEmbed with chat', () => {
+        expect(updateActiveEmbedSpy).toHaveBeenCalledWith('chat')
       })
     })
 
@@ -614,185 +613,6 @@ describe('WebWidget component', () => {
         it('calls cancelButtonClicked prop', () => {
           expect(onCancelSpy).toHaveBeenCalled()
         })
-      })
-    })
-  })
-
-  describe('#onNextClick', () => {
-    let webWidget, updateBackButtonVisibilitySpy, nextButtonClickedSpy
-
-    beforeEach(() => {
-      updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy')
-      nextButtonClickedSpy = jasmine.createSpy('nextButtonClicked')
-    })
-
-    afterEach(() => {
-      updateBackButtonVisibilitySpy.calls.reset()
-    })
-
-    describe('when a param is passed in', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            chatOnline={true}
-            oldChat={true}
-            helpCenterAvailable={true}
-            nextButtonClicked={nextButtonClickedSpy}
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            updateActiveEmbed={mockUpdateActiveEmbed}
-          />
-        )
-
-        webWidget.onNextClick('foo')
-      })
-
-      it('calls updateActiveEmbed with that param', () => {
-        expect(mockUpdateActiveEmbed).toHaveBeenCalledWith('foo')
-      })
-
-      describe('when that param is chat and oldChat is true', () => {
-        beforeEach(() => {
-          webWidget.onNextClick('chat')
-        })
-
-        it('calls updateActiveEmbed with that zopims variable', () => {
-          expect(mockUpdateActiveEmbed).toHaveBeenCalledWith('zopimChat')
-        })
-      })
-
-      it('calls nextButtonClicked', () => {
-        expect(nextButtonClickedSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when channelChoice is available', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            channelChoiceAvailable={true}
-            nextButtonClicked={nextButtonClickedSpy}
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            updateActiveEmbed={mockUpdateActiveEmbed}
-          />
-        )
-
-        webWidget.onNextClick()
-      })
-
-      it('calls updateActiveEmbed with channelChoice', () => {
-        expect(mockUpdateActiveEmbed).toHaveBeenCalledWith('channelChoice')
-      })
-
-      it('calls updateBackButtonVisibility with true', () => {
-        expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(true)
-      })
-
-      it('calls nextButtonClicked', () => {
-        expect(nextButtonClickedSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when channelChoice is not available', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            channelChoiceAvailable={false}
-            nextButtonClicked={nextButtonClickedSpy}
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            updateActiveEmbed={mockUpdateActiveEmbed}
-          />
-        )
-        webWidget.onNextClick()
-      })
-
-      it('does not call updateActiveEmbed with channelChoice', () => {
-        expect(mockUpdateActiveEmbed).not.toHaveBeenCalledWith('channelChoice')
-      })
-
-      it('calls nextButtonClicked', () => {
-        expect(nextButtonClickedSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when chat is online', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            chatOnline={true}
-            chatAvailable={true}
-            helpCenterAvailable={true}
-            nextButtonClicked={nextButtonClickedSpy}
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            updateActiveEmbed={mockUpdateActiveEmbed}
-          />
-        )
-        webWidget.onNextClick()
-      })
-
-      it('calls updateActiveEmbed with chat', () => {
-        expect(mockUpdateActiveEmbed).toHaveBeenCalledWith('chat')
-      })
-
-      it('calls updateBackButtonVisibility with true', () => {
-        expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(true)
-      })
-
-      it('calls nextButtonClicked', () => {
-        expect(nextButtonClickedSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when chat is offline', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            chatOnline={false}
-            chatAvailable={false}
-            helpCenterAvailable={true}
-            nextButtonClicked={nextButtonClickedSpy}
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            updateActiveEmbed={mockUpdateActiveEmbed}
-          />
-        )
-        webWidget.onNextClick()
-      })
-
-      it('calls updateActiveEmbed with ticketSubmissionForm', () => {
-        expect(mockUpdateActiveEmbed).toHaveBeenCalledWith('ticketSubmissionForm')
-      })
-
-      it('calls updateBackButtonVisibility with true', () => {
-        expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(true)
-      })
-
-      it('calls nextButtonClicked', () => {
-        expect(nextButtonClickedSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when ipm is activated', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            ipmHelpCenterAvailable={true}
-            nextButtonClicked={nextButtonClickedSpy}
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            updateActiveEmbed={mockUpdateActiveEmbed}
-          />
-        )
-        webWidget.onNextClick()
-      })
-
-      it('calls updateActiveEmbed with ticketSubmissionForm', () => {
-        expect(mockUpdateActiveEmbed).toHaveBeenCalledWith('ticketSubmissionForm')
-      })
-
-      it('does not update back button visibility', () => {
-        expect(updateBackButtonVisibilitySpy).not.toHaveBeenCalled()
-      })
-
-      it('calls nextButtonClicked', () => {
-        expect(nextButtonClickedSpy).toHaveBeenCalled()
       })
     })
   })
@@ -1062,147 +882,6 @@ describe('WebWidget component', () => {
     })
   })
 
-  describe('#show', () => {
-    let webWidget, updateActiveEmbedSpy
-
-    beforeEach(() => {
-      updateActiveEmbedSpy = jasmine.createSpy()
-    })
-
-    describe('when there is an active embed', () => {
-      describe('when the activeEmbed is submit ticket and chat is online', () => {
-        beforeEach(() => {
-          webWidget = domRender(
-            <WebWidget
-              submitTicketAvailable={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              chatAvailable={true}
-              chatOnline={true}
-              activeEmbed="ticketSubmissionForm"
-            />
-          )
-
-          webWidget.show()
-        })
-
-        it('sets the activeEmbed to chat', () => {
-          expect(updateActiveEmbedSpy).toHaveBeenCalledWith('chat')
-        })
-      })
-    })
-  })
-
-  describe('#showChat', () => {
-    let webWidget, updateActiveEmbedSpy, zopimOnNextSpy
-
-    beforeEach(() => {
-      updateActiveEmbedSpy = jasmine.createSpy()
-      zopimOnNextSpy = jasmine.createSpy()
-    })
-
-    describe('when oldChat is true', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget oldChat={true} updateActiveEmbed={updateActiveEmbedSpy} />
-        )
-        webWidget.showChat()
-      })
-
-      it('calls updateActiveEmbed with zopimChat', () => {
-        expect(updateActiveEmbedSpy).toHaveBeenCalledWith('zopimChat')
-      })
-
-      describe('when helpCenter is the active embed', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              oldChat={true}
-              activeEmbed="helpCenterForm"
-              zopimOnNext={zopimOnNextSpy}
-              updateActiveEmbed={updateActiveEmbedSpy}
-            />
-          )
-          webWidget.showChat()
-        })
-
-        it('calls zopimOnNext', () => {
-          expect(zopimOnNextSpy).toHaveBeenCalled()
-        })
-      })
-
-      describe('when channelChoice is the active embed', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              oldChat={true}
-              activeEmbed="channelChoice"
-              zopimOnNext={zopimOnNextSpy}
-              updateActiveEmbed={updateActiveEmbedSpy}
-            />
-          )
-          webWidget.showChat()
-        })
-
-        it('calls zopimOnNext', () => {
-          expect(zopimOnNextSpy).toHaveBeenCalled()
-        })
-      })
-    })
-
-    describe('when oldChat is false', () => {
-      const updateChatScreenSpy = jasmine.createSpy('updateChatScreen')
-      const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
-
-      describe('when proactive is false', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              oldChat={false}
-              updateChatScreen={updateChatScreenSpy}
-              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-              updateActiveEmbed={updateActiveEmbedSpy}
-            />
-          )
-          webWidget.showChat()
-        })
-
-        it('calls updateActiveEmbed with chat', () => {
-          expect(updateActiveEmbedSpy).toHaveBeenCalledWith('chat')
-        })
-
-        it('does not call updateChatScreen', () => {
-          expect(updateChatScreenSpy).not.toHaveBeenCalled()
-        })
-
-        it('does not call updateBackButtonVisibility', () => {
-          expect(updateBackButtonVisibilitySpy).not.toHaveBeenCalled()
-        })
-      })
-
-      describe('when proactive is true', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              oldChat={false}
-              updateChatScreen={updateChatScreenSpy}
-              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-              updateActiveEmbed={updateActiveEmbedSpy}
-            />
-          )
-          webWidget.showChat({ proactive: true })
-        })
-
-        it('calls updateActiveEmbed with chat', () => {
-          expect(updateActiveEmbedSpy).toHaveBeenCalledWith('chat')
-        })
-
-        it('calls updateChatScreen with chatting screen', () => {
-          expect(updateChatScreenSpy).toHaveBeenCalledWith('chatting')
-        })
-      })
-    })
-  })
-
   describe('showProactiveChat', () => {
     let webWidget
 
@@ -1233,13 +912,7 @@ describe('WebWidget component', () => {
         webWidget = instanceRender(
           <WebWidget oldChat={false} isMobile={false} chatNotification={mockChatNotification} />
         )
-
-        spyOn(webWidget, 'showChat')
         webWidget.showProactiveChat()
-      })
-
-      it('calls showChat with proactive true', () => {
-        expect(webWidget.showChat).toHaveBeenCalledWith({ proactive: true })
       })
     })
   })
@@ -1335,68 +1008,6 @@ describe('WebWidget component', () => {
 
       it('does not call the submitTicket onDragEnter handler', () => {
         expect(submitTicketOnDragEnterSpy).not.toHaveBeenCalled()
-      })
-    })
-  })
-
-  describe('setComponent', () => {
-    let webWidget, updateBackButtonVisibilitySpy, updateActiveEmbedSpy
-
-    describe('when the active component is Chat', () => {
-      beforeEach(() => {
-        updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
-        updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed')
-
-        webWidget = instanceRender(
-          <WebWidget
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            updateActiveEmbed={updateActiveEmbedSpy}
-          />
-        )
-        spyOn(webWidget, 'showChat')
-
-        webWidget.setComponent('chat')
-      })
-
-      it('calls showChat', () => {
-        expect(webWidget.showChat).toHaveBeenCalled()
-      })
-
-      it('calls updateBackButtonVisibility with true', () => {
-        expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(true)
-      })
-
-      it('does not call updateActiveEmbed', () => {
-        expect(updateActiveEmbedSpy).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('when the active component is not Chat', () => {
-      beforeEach(() => {
-        updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
-        updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed')
-
-        webWidget = instanceRender(
-          <WebWidget
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
-            updateActiveEmbed={updateActiveEmbedSpy}
-          />
-        )
-        spyOn(webWidget, 'showChat')
-
-        webWidget.setComponent('helpCenterForm')
-      })
-
-      it('does not call showChat', () => {
-        expect(webWidget.showChat).not.toHaveBeenCalled()
-      })
-
-      it('calls updateBackButtonVisibility with true', () => {
-        expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(true)
-      })
-
-      it('calls updateActiveEmbed with the component name', () => {
-        expect(updateActiveEmbedSpy).toHaveBeenCalledWith('helpCenterForm')
       })
     })
   })

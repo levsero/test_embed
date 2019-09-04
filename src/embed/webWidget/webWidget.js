@@ -31,8 +31,8 @@ import { getTicketForms, getTicketFields } from 'src/redux/modules/submitTicket'
 import { authenticate, expireToken } from 'src/redux/modules/base'
 import WebWidget from 'component/webWidget/WebWidget'
 import { loadTalkVendors } from 'src/redux/modules/talk'
-import { setScrollKiller } from 'utility/scrollHacks'
 import { nameValid, emailValid, onNextTick } from 'src/util/utils'
+import { updateActiveEmbed } from 'src/redux/modules/base'
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
 
@@ -44,9 +44,6 @@ export default function WebWidgetFactory(name) {
     prefix = name + '.'
   }
 
-  const onShow = () => {
-    getWebWidgetComponent().show()
-  }
   const onBack = () => {
     getWebWidgetComponent().onBackClick()
   }
@@ -60,12 +57,6 @@ export default function WebWidgetFactory(name) {
     }
     if (rootComponent && rootComponent.focusField) {
       rootComponent.focusField()
-    }
-  }
-  const zopimOnNext = () => {
-    mediator.channel.broadcast(prefix + 'helpCenterForm.onNextClick')
-    if (isMobileBrowser()) {
-      setScrollKiller(false)
     }
   }
 
@@ -161,7 +152,6 @@ export default function WebWidgetFactory(name) {
       visible: false,
       useBackButton: !popout,
       hideNavigationButtons: popout && isMobile,
-      onShow,
       name: name,
       afterShowAnimate,
       onBack,
@@ -186,7 +176,6 @@ export default function WebWidgetFactory(name) {
             ticketFieldSettings={settings.get('contactForm.fields')}
             submitTicketConfig={submitTicketSettings.config}
             talkConfig={talkConfig}
-            zopimOnNext={zopimOnNext}
             chatId={_.get(chatConfig, 'zopimId')}
           />
         </Frame>
@@ -245,7 +234,7 @@ export default function WebWidgetFactory(name) {
     mediator.channel.subscribe(prefix + 'webWidget.zopimChatStarted', () => {
       waitForRootComponent(() => {
         if (!embed.instance.props.visible) {
-          getWebWidgetComponent().setComponent('zopimChat')
+          embed.store.dispatch(updateActiveEmbed('zopimChat'))
         }
       })
     })
