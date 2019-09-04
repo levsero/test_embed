@@ -154,6 +154,7 @@
     "babel-loader": "^8.0.0",
     "babel-plugin-dynamic-import-node": "^2.0.0",
     "babel-plugin-lodash": "^3.3.4",
+    "babel-plugin-react-remove-properties": "^0.3.0",
     "bundlesize": "^0.18.0",
     "css-loader": "^0.28.11",
     "cssstyle": "1.1.1",
