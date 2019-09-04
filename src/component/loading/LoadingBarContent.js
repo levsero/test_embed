@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { locals as styles } from './LoadingBarContent.scss'
 
-export class LoadingBarContent extends Component {
+export default class LoadingBarContent extends Component {
   static propTypes = {
     containerClasses: PropTypes.string
   }

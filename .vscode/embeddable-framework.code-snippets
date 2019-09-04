@@ -46,9 +46,7 @@
   "Basic Selector": {
     "prefix": "selector",
     "scope": "javascript,typescript",
-    "body": [
-      "export const ${1:name} = (${2:state}) => ${3:data}"
-    ],
+    "body": ["export const ${1:name} = (${2:state}) => ${3:data}"],
     "description": "Basic selector with a name, state, and return value"
   },
   "ConnectedComponent": {
@@ -123,11 +121,7 @@
   "Component usage": {
     "prefix": "<",
     "scope": "javascript,typescript",
-    "body": [
-      "<${1:name} ${2:props}>",
-      "\t${3:body}",
-      "</${1:name}>"
-    ],
+    "body": ["<${1:name} ${2:props}>", "\t${3:body}", "</${1:name}>"],
     "description": "Basic component implementation"
   },
   "Reducer": {
@@ -164,6 +158,64 @@
       "\t\texpect(result).toEqual(${6:value})",
       "\t})",
       "})"
+    ]
+  },
+  "FunctionalComponent": {
+    "prefix": "functionalComponent",
+    "scope": "javascript,typescript",
+    "body": [
+      "import React from 'react'",
+      "import PropTypes from 'prop-types'",
+      "",
+      "const ${1:className} = ({${2:props}}) => {",
+      "\treturn <div></div>",
+      "}",
+      "",
+      "${1}.propTypes = {",
+      "\t${3:propTypes}",
+      "}",
+      "",
+      "${1}.defaultProps = {",
+      "\t${4:defaultProps}",
+      "}",
+      "",
+      "export default ${1}"
+    ]
+  },
+  "ConnectedFunctionalComponent": {
+    "prefix": "connectedFunctional",
+    "scope": "javascript,typescript",
+    "body": [
+      "import React from 'react'",
+      "import PropTypes from 'prop-types'",
+      "import { connect } from 'react-redux'",
+      "",
+      "const ${1:className} = ({ ${2:props} }) => {",
+      "\treturn <div></div>",
+      "}",
+      "",
+      "${1}.propTypes = {",
+      "\t${3:propTypes}",
+      "}",
+      "",
+      "${1}.defaultProps = {",
+      "\t${4:defaultProps}",
+      "}",
+      "",
+      "const mapStateToProps = state => {",
+      "\t${5:stateMaps}",
+      "}",
+      "",
+      "const actionCreators = {",
+      "\t${6:actionCreators}",
+      "}",
+      "",
+      "const connectedComponent = connect(",
+      "\tmapStateToProps,",
+      "\tactionCreators,",
+      ")(${1})",
+      "",
+      "export { connectedComponent as default, ${1} as Component } "
     ]
   }
 }
