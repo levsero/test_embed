@@ -53,10 +53,7 @@ import {
 } from 'src/redux/modules/chat/chat-selectors'
 import { getChatNotification } from 'src/redux/modules/selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
-import {
-  getSettingsMobileNotificationsDisabled,
-  getSettingsHelpCenterOriginalArticleButton
-} from 'src/redux/modules/settings/settings-selectors'
+import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { screenChanged as updateAnswerBotScreen } from 'src/redux/modules/answerBot/root/actions'
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
@@ -90,7 +87,6 @@ const mapStateToProps = state => {
     channelChoiceAvailable: getChannelChoiceAvailable(state),
     submitTicketAvailable: getSubmitTicketAvailable(state),
     hideZendeskLogo: getHideZendeskLogo(state),
-    originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
     webWidgetVisible: getWebWidgetVisible(state),
     answerBotAvailable: getAnswerBotAvailable(state),
     showChatHistory: getShowChatHistory(state)
@@ -115,7 +111,6 @@ class WebWidget extends Component {
     hideZendeskLogo: PropTypes.bool,
     oldChat: PropTypes.bool.isRequired,
     onSubmitted: PropTypes.func,
-    originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
     showTicketFormsBackButton: PropTypes.bool,
     style: PropTypes.shape({
@@ -177,7 +172,6 @@ class WebWidget extends Component {
     helpCenterAvailable: false,
     hideZendeskLogo: false,
     onSubmitted: () => {},
-    originalArticleButton: true,
     position: 'right',
     style: null,
     submitTicketConfig: {},
@@ -436,30 +430,11 @@ class WebWidget extends Component {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return
     if (this.props.activeEmbed !== helpCenter) return null
 
-    const { chatAvailable, channelChoiceAvailable } = this.props
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : ''
 
     return (
       <div className={classes}>
-        <HelpCenter
-          ref={helpCenter}
-          chatOfflineAvailable={this.props.chatOfflineAvailable}
-          notification={this.props.chatNotification}
-          talkOnline={this.props.talkOnline}
-          hideZendeskLogo={this.props.hideZendeskLogo}
-          onNextClick={this.onNextClick}
-          position={this.props.position}
-          showBackButton={this.props.updateBackButtonVisibility}
-          style={this.props.style}
-          fullscreen={this.props.fullscreen}
-          originalArticleButton={this.props.originalArticleButton}
-          channelChoice={channelChoiceAvailable}
-          callbackEnabled={this.props.callbackEnabled}
-          chatAvailable={chatAvailable}
-          chatNotificationDismissed={this.props.chatNotificationDismissed}
-          updateChatScreen={this.props.updateChatScreen}
-          isMobile={this.props.isMobile}
-        />
+        <HelpCenter onNextClick={this.onNextClick} />
       </div>
     )
   }
