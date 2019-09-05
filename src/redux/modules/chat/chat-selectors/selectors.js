@@ -108,3 +108,5 @@ export const getLastMessageAuthor = state => state.chat.chatLog.lastMessageAutho
 export const getLatestAgentLeaveEvent = state => state.chat.chatLog.latestAgentLeaveEvent
 export const getLatestQuickReplyKey = state => state.chat.chatLog.latestQuickReply
 export const getChatBanned = state => state.chat.chatBanned
+
+export const getHasBackfillCompleted = state => state.chat.chatLogBackfillCompleted
