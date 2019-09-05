@@ -54,6 +54,7 @@
 }
 
 .zendeskLogo {
+  margin-bottom: #{15 / $font-size}rem;
   z-index: 1;
 
   [dir='rtl'] & {
