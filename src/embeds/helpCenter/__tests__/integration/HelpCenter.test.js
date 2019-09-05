@@ -219,6 +219,35 @@ const focusedOnArticle = (queryByText, title) => {
   expect(document.activeElement).toEqual(queryByText(title))
 }
 
+const setupNoResultsMock = () => {
+  http.send = options => {
+    options.callbacks.done({
+      body: {
+        results: [],
+        page: 1,
+        previous_page: null,
+        next_page: null,
+        per_page: 9,
+        page_count: 0,
+        count: 0
+      }
+    })
+  }
+}
+
+test('shows no result page when there are no results', () => {
+  const { container, getByPlaceholderText, getByText } = renderComponent()
+  setupNoResultsMock()
+  const form = container.querySelector('form')
+  const input = getByPlaceholderText('How can we help?')
+
+  fireEvent.change(input, { target: { value: 'Help me' } })
+  fireEvent.submit(form)
+
+  expect(getByText('There are no results for "Help me"')).toBeInTheDocument()
+  expect(getByText('Try searching for something else.')).toBeInTheDocument()
+})
+
 describe('desktop', () => {
   test('integration', async () => {
     const { store, container, getByPlaceholderText, queryByText } = renderComponent()
@@ -257,6 +286,15 @@ describe('desktop', () => {
 describe('mobile', () => {
   beforeEach(() => {
     jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+  })
+
+  test('clearing search', () => {
+    const { getByPlaceholderText, getByTestId } = renderComponent()
+    const input = getByPlaceholderText('How can we help?')
+    fireEvent.change(input, { target: { value: 'Help me' } })
+    expect(input.value).toEqual('Help me')
+    fireEvent.click(getByTestId('Icon--clearInput'))
+    expect(input.value).toEqual('')
   })
 
   test('integration', async () => {
