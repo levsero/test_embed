@@ -393,6 +393,7 @@ class ChattingScreen extends Component {
 
     return (
       <ChatHeader
+        agentsActive={Object.keys(activeAgents).length > 0}
         showRating={showRating}
         showTitle={profileConfig.title}
         showAvatar={profileConfig.avatar}

@@ -37,6 +37,7 @@ describe('ChatHeader component', () => {
       },
       './ChatHeader.scss': {
         locals: {
+          agentDetails: 'agentDetails',
           container: 'container',
           textContainer: 'textContainer',
           ratingIconActive: 'ratingIconActive',
@@ -277,24 +278,87 @@ describe('ChatHeader component', () => {
   describe('onAgentDetailsClick', () => {
     let onClickSpy, agentDetailsContainer
 
-    beforeEach(() => {
-      const component = instanceRender(<ChatHeader onAgentDetailsClick={onClickSpy} />)
+    describe('when it is defined', () => {
+      describe('when agents are active', () => {
+        it('adds the clickable classNames to the agent details container', () => {
+          const onClickSpy = jasmine.createSpy()
+          const component = domRender(
+            <ChatHeader onAgentDetailsClick={onClickSpy} agentsActive={true} />
+          )
 
-      agentDetailsContainer = component.render().props.children[0]
+          const agentDetailsContainer = TestUtils.findRenderedDOMComponentWithClass(
+            component,
+            'agentDetails'
+          )
+
+          expect(agentDetailsContainer.className).toContain('clickableClasses')
+        })
+
+        it('sets the onClick of the agent details container to the prop', () => {
+          const onClickSpy = jasmine.createSpy()
+          const component = domRender(
+            <ChatHeader onAgentDetailsClick={onClickSpy} agentsActive={true} />
+          )
+
+          const agentDetailsContainer = TestUtils.findRenderedDOMComponentWithClass(
+            component,
+            'agentDetails'
+          )
+
+          agentDetailsContainer.click()
+
+          expect(onClickSpy).toHaveBeenCalled()
+        })
+
+        it('renders the agent information as a button', () => {
+          const onClickSpy = jasmine.createSpy()
+          const component = domRender(
+            <ChatHeader onAgentDetailsClick={onClickSpy} agentsActive={true} />
+          )
+
+          const agentDetailsContainer = TestUtils.findRenderedDOMComponentWithClass(
+            component,
+            'agentDetails'
+          )
+
+          expect(agentDetailsContainer.tagName).toBe('BUTTON')
+        })
+      })
+
+      describe('when agents are not active', () => {
+        it('does not set the onClick of the agent details container to the prop', () => {
+          onClickSpy = jasmine.createSpy()
+          const component = instanceRender(
+            <ChatHeader onAgentDetailsClick={onClickSpy} agentsActive={false} />
+          )
+
+          agentDetailsContainer = component.render().props.children[0]
+
+          expect(agentDetailsContainer.props.onClick).toBe(undefined)
+        })
+      })
+
+      it('renders the agent information in a div', () => {
+        const onClickSpy = jasmine.createSpy()
+        const component = domRender(
+          <ChatHeader onAgentDetailsClick={onClickSpy} agentsActive={false} />
+        )
+
+        const agentDetailsContainer = TestUtils.findRenderedDOMComponentWithClass(
+          component,
+          'agentDetails'
+        )
+
+        expect(agentDetailsContainer.tagName).toBe('DIV')
+      })
     })
 
-    describe('when it is defined', () => {
-      beforeAll(() => {
-        onClickSpy = jasmine.createSpy()
-      })
+    beforeEach(() => {
+      const component = instanceRender(
+        <ChatHeader onAgentDetailsClick={onClickSpy} active={true} />
+      )
 
-      it('adds the clickable classNames to the agent details container', () => {
-        expect(agentDetailsContainer.props.className).toContain('clickableClasses')
-      })
-
-      it('sets the onClick of the agent details container to the prop', () => {
-        expect(agentDetailsContainer.props.onClick).toEqual(onClickSpy)
-      })
+      agentDetailsContainer = component.render().props.children[0]
     })
 
     describe('when it is not defined', () => {
