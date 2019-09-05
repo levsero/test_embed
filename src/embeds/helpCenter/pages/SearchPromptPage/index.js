@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -15,12 +15,16 @@ import { performSearch } from 'embeds/helpCenter/actions'
 import { i18n } from 'service/i18n'
 
 const SearchPromptPage = ({ title, hideZendeskLogo, isMobile, header }) => {
+  const searchFormRef = useRef(null)
+  useEffect(() => {
+    searchFormRef.current.focus()
+  }, [])
   return (
     <WidgetContainer>
       <WidgetHeader>{title}</WidgetHeader>
       <WidgetMain>
         {isMobile && <h1 className={styles.title}>{header}</h1>}
-        <SearchForm />
+        <SearchForm ref={searchFormRef} />
       </WidgetMain>
       <WidgetFooter>
         {!hideZendeskLogo && (

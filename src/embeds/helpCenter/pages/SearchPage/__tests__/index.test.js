@@ -11,6 +11,7 @@ const renderComponent = inProps => {
     isContextualSearchPending: false,
     hideZendeskLogo: false,
     showNextButton: true,
+    articles: [],
     ...inProps
   }
 
@@ -41,5 +42,12 @@ describe('render', () => {
 
   it('renders page title', () => {
     expect(renderComponent().getByText('pageTitle')).toBeInTheDocument()
+  })
+
+  describe('no results', () => {
+    it('focuses on search field', () => {
+      const { getByPlaceholderText } = renderComponent({ articles: [] })
+      expect(document.activeElement).toEqual(getByPlaceholderText('How can we help?'))
+    })
   })
 })

@@ -18,7 +18,7 @@ exports[`renders correctly on desktop 1`] = `
         novalidate=""
       >
         <div
-          class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn text__is-focused___3mc46 hytfkM"
+          class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn hytfkM"
           data-garden-id="textfields.input"
           data-garden-version="3.7.0"
         >
@@ -45,15 +45,13 @@ exports[`renders correctly on desktop 1`] = `
             data-garden-version="3.7.0"
           >
             <span
-              class="container focused notFocused icon Icon--search"
+              class="icon notFocused"
               data-testid="Icon--search"
               role="button"
               tabindex="0"
-              type="Icon--search"
             >
               <svg
-                aria-hidden="true"
-                realfilename="widget-icon_search.svg"
+                realfilename="search.svg"
               />
             </span>
           </div>
@@ -76,18 +74,4 @@ Snapshot Diff:
 +     class="header headerMobile"
     >
       <h1
-@@ -16,5 +16,5 @@
-        >
-          <div
--           class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn hytfkM"
-+           class="desktopContainer Input-sc-4gf5js-0-div text__c-txt__input___2ZeOl text__c-txt__input--media___238Mn text__is-focused___3mc46 hytfkM"
-            data-garden-id="textfields.input"
-            data-garden-version="3.7.0"
-@@ -43,5 +43,5 @@
-            >
-              <span
--               class="container notFocused icon Icon--search"
-+               class="container focused notFocused icon Icon--search"
-                data-testid="Icon--search"
-                role="button"
 `;

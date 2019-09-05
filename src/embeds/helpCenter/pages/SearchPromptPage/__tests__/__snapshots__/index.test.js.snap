@@ -48,15 +48,13 @@ exports[`renders the full page 1`] = `
           data-garden-version="3.7.0"
         >
           <span
-            class="container focused notFocused icon Icon--search"
+            class="icon focused notFocused"
             data-testid="Icon--search"
             role="button"
             tabindex="0"
-            type="Icon--search"
           >
             <svg
-              aria-hidden="true"
-              realfilename="widget-icon_search.svg"
+              realfilename="search.svg"
             />
           </span>
         </div>

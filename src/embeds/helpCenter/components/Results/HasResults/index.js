@@ -1,59 +1,79 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Legend from 'embeds/helpCenter/components/Legend'
 import List from 'src/embeds/helpCenter/components/List'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { isMobileBrowser } from 'utility/devices'
-import { getArticles, getHasContextuallySearched } from 'embeds/helpCenter/selectors'
+import {
+  getArticles,
+  getHasContextuallySearched,
+  getPreviousActiveArticle
+} from 'embeds/helpCenter/selectors'
 import { getHideZendeskLogo, getShowNextButton } from 'src/redux/modules/selectors'
 import { handleArticleClick } from 'embeds/helpCenter/actions'
 import { updateBackButtonVisibility } from 'src/redux/modules/base'
 
-const HasResults = ({
-  isMobile,
-  articles,
-  showNextButton,
-  hideZendeskLogo,
-  locale,
-  handleArticleClick,
-  hasContextuallySearched,
-  updateBackButtonVisibility
-}) => {
-  const onArticleClick = (articleIndex, e) => {
-    e.preventDefault()
-    handleArticleClick(articles[articleIndex])
-    updateBackButtonVisibility()
+class HasResults extends PureComponent {
+  static propTypes = {
+    isMobile: PropTypes.bool,
+    articles: PropTypes.array,
+    showNextButton: PropTypes.bool,
+    hideZendeskLogo: PropTypes.bool,
+    locale: PropTypes.string,
+    handleArticleClick: PropTypes.func,
+    hasContextuallySearched: PropTypes.bool,
+    updateBackButtonVisibility: PropTypes.func,
+    previousActiveArticle: PropTypes.number
   }
 
-  return (
-    <div>
-      <Legend
-        fullscreen={isMobile}
-        hasContextuallySearched={hasContextuallySearched}
-        locale={locale}
-      />
-      <List
-        isMobile={isMobile}
-        articles={articles}
-        showNextButton={showNextButton}
-        hideZendeskLogo={hideZendeskLogo}
-        locale={locale}
-        onItemClick={onArticleClick}
-      />
-    </div>
-  )
-}
+  constructor() {
+    super()
+    this.list = null
+  }
 
-HasResults.propTypes = {
-  isMobile: PropTypes.bool,
-  articles: PropTypes.array,
-  showNextButton: PropTypes.bool,
-  hideZendeskLogo: PropTypes.bool,
-  locale: PropTypes.string,
-  handleArticleClick: PropTypes.func,
-  hasContextuallySearched: PropTypes.bool,
-  updateBackButtonVisibility: PropTypes.func
+  onArticleClick = (articleIndex, e) => {
+    e.preventDefault()
+    this.props.handleArticleClick(this.props.articles[articleIndex])
+    this.props.updateBackButtonVisibility()
+  }
+
+  focus = () => {
+    if (this.list) {
+      const id = this.props.previousActiveArticle || this.props.articles[0].id
+      this.list.focusOn(id)
+    }
+  }
+
+  render() {
+    const {
+      isMobile,
+      articles,
+      showNextButton,
+      hideZendeskLogo,
+      locale,
+      hasContextuallySearched
+    } = this.props
+
+    return (
+      <div>
+        <Legend
+          fullscreen={isMobile}
+          hasContextuallySearched={hasContextuallySearched}
+          locale={locale}
+        />
+        <List
+          ref={el => (this.list = el)}
+          isMobile={isMobile}
+          articles={articles}
+          showNextButton={showNextButton}
+          hideZendeskLogo={hideZendeskLogo}
+          locale={locale}
+          onItemClick={this.onArticleClick}
+        />
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => {
@@ -63,7 +83,8 @@ const mapStateToProps = state => {
     showNextButton: getShowNextButton(state),
     hideZendeskLogo: getHideZendeskLogo(state),
     locale: getLocale(state),
-    hasContextuallySearched: getHasContextuallySearched(state)
+    hasContextuallySearched: getHasContextuallySearched(state),
+    previousActiveArticle: getPreviousActiveArticle(state)
   }
 }
 
@@ -74,7 +95,9 @@ const actionCreators = {
 
 const connectedComponent = connect(
   mapStateToProps,
-  actionCreators
+  actionCreators,
+  null,
+  { forwardRef: true }
 )(HasResults)
 
 export { connectedComponent as default, HasResults as Component }

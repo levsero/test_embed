@@ -41,6 +41,11 @@ it('renders the full page', () => {
   expect(container.firstChild).toMatchSnapshot()
 })
 
+it('focuses on search field on load', () => {
+  const { getByPlaceholderText } = renderInitialSearchPage()
+  expect(document.activeElement).toEqual(getByPlaceholderText('How can we help?'))
+})
+
 it('searches when text provided', () => {
   const { inputNode, formNode, store } = renderInitialSearchPage()
 

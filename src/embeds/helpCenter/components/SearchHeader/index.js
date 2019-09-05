@@ -4,7 +4,7 @@ import { locals as styles } from './styles.scss'
 import classNames from 'classnames'
 import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
 
-const SearchHeader = ({ children, isMobile }) => {
+const SearchHeader = React.forwardRef(({ children, isMobile }, ref) => {
   const headerClasses = classNames(styles.header, {
     [styles.headerMobile]: isMobile
   })
@@ -13,11 +13,11 @@ const SearchHeader = ({ children, isMobile }) => {
     <div className={headerClasses}>
       <h1 className={styles.title}>{children}</h1>
       <div className={styles.form}>
-        <SearchForm />
+        <SearchForm ref={ref} />
       </div>
     </div>
   )
-}
+})
 
 SearchHeader.propTypes = {
   children: PropTypes.string,

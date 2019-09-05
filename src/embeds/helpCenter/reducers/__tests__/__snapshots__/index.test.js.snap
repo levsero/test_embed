@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`includes all expected substates 1`] = `
+Object {
+  "activeArticle": null,
+  "articleClicked": false,
+  "articleDisplayed": false,
+  "articles": Array [],
+  "clickedArticles": Object {
+    "current": null,
+    "previous": null,
+  },
+  "config": Object {
+    "answerBotEnabled": false,
+    "buttonLabelKey": "message",
+    "contextualHelpEnabled": false,
+    "formTitleKey": "help",
+    "signInRequired": false,
+  },
+  "contextualSearch": Object {
+    "hasSearched": false,
+    "screen": "",
+  },
+  "lastSearchTimestamp": -1,
+  "manualContextualSuggestions": Object {
+    "labels": Array [],
+    "query": "",
+    "url": false,
+  },
+  "restrictedImages": Object {},
+  "resultsCount": 0,
+  "resultsLocale": "",
+  "searchFailed": false,
+  "searchFieldValue": "",
+  "searchLoading": false,
+  "searchTerm": Object {
+    "current": "",
+    "previous": "",
+  },
+  "totalUserSearches": 0,
+}
+`;

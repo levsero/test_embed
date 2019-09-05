@@ -13,6 +13,7 @@ const getContextualSearch = state => state.helpCenter.contextualSearch
 const getContextualSearchScreen = state => getContextualSearch(state).screen
 
 export const getActiveArticle = state => state.helpCenter.activeArticle
+export const getPreviousActiveArticle = state => state.helpCenter.clickedArticles.previous
 export const getSearchLoading = state => state.helpCenter.searchLoading
 export const getArticleClicked = state => state.helpCenter.articleClicked
 export const getSearchFailed = state => state.helpCenter.searchFailed

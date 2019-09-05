@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -14,7 +14,7 @@ import {
   getSettingsHelpCenterTitle,
   getShowNextButton
 } from 'src/redux/modules/selectors'
-import { getIsContextualSearchPending } from 'embeds/helpCenter/selectors'
+import { getIsContextualSearchPending, getArticles } from 'embeds/helpCenter/selectors'
 import { isMobileBrowser } from 'utility/devices'
 
 const SearchPage = ({
@@ -23,13 +23,25 @@ const SearchPage = ({
   hideZendeskLogo,
   isMobile,
   onClick,
-  isContextualSearchPending
+  isContextualSearchPending,
+  articles
 }) => {
-  const content = isContextualSearchPending ? <LoadingBarContent /> : <Results />
+  const searchHeaderRef = useRef(null),
+    resultsRef = React.createRef(null)
+  const content = isContextualSearchPending ? <LoadingBarContent /> : <Results ref={resultsRef} />
+  useEffect(() => {
+    if (articles.length) {
+      resultsRef.current.focus()
+    } else {
+      searchHeaderRef.current.focus()
+    }
+  }, [articles, resultsRef])
 
   return (
     <WidgetContainer>
-      <SearchHeader isMobile={isMobile}>{title}</SearchHeader>
+      <SearchHeader ref={searchHeaderRef} isMobile={isMobile}>
+        {title}
+      </SearchHeader>
       <WidgetMain>{content}</WidgetMain>
       <Footer
         isMobile={isMobile}
@@ -47,7 +59,8 @@ SearchPage.propTypes = {
   showNextButton: PropTypes.bool,
   title: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
-  isContextualSearchPending: PropTypes.bool
+  isContextualSearchPending: PropTypes.bool,
+  articles: PropTypes.array
 }
 
 const mapStateToProps = state => ({
@@ -55,7 +68,8 @@ const mapStateToProps = state => ({
   showNextButton: getShowNextButton(state),
   isMobile: isMobileBrowser(),
   hideZendeskLogo: getHideZendeskLogo(state),
-  isContextualSearchPending: getIsContextualSearchPending(state)
+  isContextualSearchPending: getIsContextualSearchPending(state),
+  articles: getArticles(state)
 })
 
 const connectedComponent = connect(mapStateToProps)(SearchPage)
