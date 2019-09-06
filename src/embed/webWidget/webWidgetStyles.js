@@ -50,6 +50,7 @@ import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss'
 import answerBotStyles from 'component/answerBot/styles'
 import helpCenterStyles from 'embeds/helpCenter/styles'
+import chatStyles from 'embeds/chat/styles'
 
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
@@ -113,4 +114,5 @@ export const webWidgetStyles = `
   ${answerBotStyles}
   ${helpCenterStyles}
   ${componentStyles}
+  ${chatStyles}
 `
