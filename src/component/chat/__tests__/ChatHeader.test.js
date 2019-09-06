@@ -2,6 +2,7 @@ import { render } from '@testing-library/react'
 import React from 'react'
 
 import { ChatHeader } from '../ChatHeader'
+import { TEST_IDS } from 'src/constants/shared'
 
 it('renders the avatar', () => {
   const { container } = render(
@@ -82,7 +83,7 @@ describe('showTitle', () => {
       />
     )
 
-    expect(getByTestId('header-text-container').style.visibility).toEqual('hidden')
+    expect(getByTestId(TEST_IDS.CHAT_HEADER_TEXT_CONTAINER).style.visibility).toEqual('hidden')
   })
 })
 

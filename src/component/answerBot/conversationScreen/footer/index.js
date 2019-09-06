@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import _ from 'lodash'
+
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { InputBox } from 'component/shared/InputBox'
 import { i18n } from 'service/i18n'
-
 import {
   questionSubmitted,
   questionValueChanged,
@@ -18,12 +19,10 @@ import { botUserMessage, botChannelChoice } from 'src/redux/modules/answerBot/ro
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { Icon } from 'component/Icon'
 import { IconButton } from '@zendeskgarden/react-buttons'
-
 import { ICONS } from 'constants/shared'
 
 import { locals as styles } from './Footer.scss'
 import classNames from 'classnames'
-import _ from 'lodash'
 
 class Footer extends Component {
   static propTypes = {

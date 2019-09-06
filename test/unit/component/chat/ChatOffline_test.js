@@ -1,6 +1,7 @@
 describe('ChatOffline component', () => {
-  let ChatOffline
+  let ChatOffline, TEST_IDS
   const ChatOfflinePath = buildSrcPath('component/chat/ChatOffline')
+  const sharedConstantsPath = buildSrcPath('constants/shared')
 
   const Button = noopReactComponent()
   const ChatOfflineForm = noopReactComponent()
@@ -9,6 +10,8 @@ describe('ChatOffline component', () => {
 
   beforeEach(() => {
     mockery.enable()
+
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
       './ChatOffline.scss': {
@@ -58,7 +61,9 @@ describe('ChatOffline component', () => {
       'component/Icon': {
         Icon: noop
       },
-      'src/constants/shared': {}
+      'src/constants/shared': {
+        TEST_IDS
+      }
     })
 
     mockery.registerAllowable(ChatOfflinePath)

@@ -6,12 +6,14 @@ import _ from 'lodash'
 
 import { i18n } from 'service/i18n'
 import { ButtonIcon } from 'component/button/ButtonIcon'
-import { locals as styles } from './ChannelChoiceMenu.scss'
 import {
   getContactOptionsChatLabelOnline,
   getContactOptionsChatLabelOffline,
   getContactOptionsContactFormLabel
 } from 'src/redux/modules/selectors'
+import { TEST_IDS, ICONS } from 'src/constants/shared'
+
+import { locals as styles } from './ChannelChoiceMenu.scss'
 
 const mapStateToProps = state => ({
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
@@ -112,7 +114,7 @@ class ChannelChoiceMenu extends Component {
     })
 
     return (
-      <li className={this.getListStyle()}>
+      <li className={this.getListStyle()} data-testid={TEST_IDS.LIST_ITEM}>
         <ButtonIcon
           actionable={talkOnline}
           containerStyles={buttonStyle}
@@ -121,7 +123,7 @@ class ChannelChoiceMenu extends Component {
           iconClasses={iconStyle}
           label={this.renderTalkLabel()}
           flipX={this.getIconFlipX()}
-          icon={'Icon--channelChoice-talk'}
+          icon={ICONS.CC_TALK}
         />
       </li>
     )
@@ -135,7 +137,7 @@ class ChannelChoiceMenu extends Component {
     const buttonStyle = classNames(buttonClasses, styles.btn, styles.btnEnabled)
 
     return (
-      <li className={this.getListStyle()}>
+      <li className={this.getListStyle()} data-testid={TEST_IDS.LIST_ITEM}>
         <ButtonIcon
           containerStyles={buttonStyle}
           iconClasses={iconStyle}
@@ -143,7 +145,7 @@ class ChannelChoiceMenu extends Component {
           onClick={this.handleNextClick('ticketSubmissionForm')}
           label={submitTicketLabel}
           flipX={this.getIconFlipX()}
-          icon={'Icon--channelChoice-contactForm'}
+          icon={ICONS.CC_SUPPORT}
         />
       </li>
     )
@@ -188,7 +190,7 @@ class ChannelChoiceMenu extends Component {
     })
 
     return (
-      <li className={this.getListStyle()}>
+      <li className={this.getListStyle()} data-testid={TEST_IDS.LIST_ITEM}>
         <ButtonIcon
           actionable={showChatChannel}
           containerStyles={buttonStyle}
@@ -197,7 +199,7 @@ class ChannelChoiceMenu extends Component {
           onClick={this.handleChatClick()}
           label={this.renderChatLabel()}
           flipX={this.getIconFlipX()}
-          icon={'Icon--channelChoice-chat'}
+          icon={ICONS.CC_CHAT}
         />
       </li>
     )

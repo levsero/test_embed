@@ -19,15 +19,18 @@ exports[`default render matches snapshot 1`] = `
     >
       <div
         class="content "
+        data-testid="hc-article"
         lang="derp"
       >
         <h2
           class="title"
+          data-testid="hc-article-title"
         >
           articleTitle
         </h2>
         <div
           class="article"
+          data-testid="hc-article-body"
           role="presentation"
         />
       </div>

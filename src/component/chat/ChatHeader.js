@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { i18n } from 'service/i18n'
 import { Avatar } from 'component/Avatar'
 import { RatingGroup } from 'component/chat/rating/RatingGroup'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE, TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './ChatHeader.scss'
 
@@ -31,12 +31,12 @@ export class ChatHeader extends Component {
   }
 
   renderAvatars = concierges => {
-    return concierges.map(details => {
+    return concierges.map((details, index) => {
       const avatarPath = details.avatar_path ? details.avatar_path : ''
 
       return (
         <Avatar
-          key={_.uniqueId()}
+          key={index}
           className={styles.avatar}
           src={avatarPath}
           fallbackIcon="Icon--avatar"
@@ -108,11 +108,13 @@ export class ChatHeader extends Component {
 
     return (
       <div
-        data-testid="header-text-container"
+        data-testid={TEST_IDS.CHAT_HEADER_TEXT_CONTAINER}
         className={styles.textContainer}
         style={this.textContainerStyle()}
       >
-        <h2 className={styles.title}>{titleText}</h2>
+        <h2 className={styles.title} data-testid={TEST_IDS.CHAT_HEADER_TITLE}>
+          {titleText}
+        </h2>
         {this.renderSubText()}
       </div>
     )
@@ -123,7 +125,11 @@ export class ChatHeader extends Component {
     const defaultSubText = i18n.t('embeddable_framework.chat.header.by_line')
     const subText = _.get(concierges[0], 'title') || defaultSubText
 
-    return <div className={styles.subTextContainer}>{subText}</div>
+    return (
+      <div className={styles.subTextContainer} data-testid={TEST_IDS.CHAT_HEADER_SUBTEXT}>
+        {subText}
+      </div>
+    )
   }
 
   render = () => {
@@ -140,7 +146,7 @@ export class ChatHeader extends Component {
     }
 
     return (
-      <div className={styles.container}>
+      <div className={styles.container} data-testid={TEST_IDS.HEADER_CONTAINER}>
         <button className={agentDetailsClasses} onClick={onAgentDetailsClick}>
           {avatar}
           {textContainer}

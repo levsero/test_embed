@@ -1,16 +1,14 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
-
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
 
 import { dispatchChatAccountSettings } from 'utility/testHelpers'
 import { settings } from 'service/settings'
-
 import ChatOnline from '../../ChatOnline'
-
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
+import { TEST_IDS } from 'src/constants/shared'
 
 jest.useFakeTimers()
 
@@ -679,7 +677,7 @@ test('update chat header', () => {
     }
   })
 
-  expect(getByTestId('header-text-container')).toMatchSnapshot()
+  expect(getByTestId(TEST_IDS.CHAT_HEADER_TEXT_CONTAINER)).toMatchSnapshot()
 })
 
 describe('rating', () => {
@@ -737,7 +735,7 @@ describe('rating', () => {
 describe('end chat', () => {
   it('enables end chat icon when chatting', () => {
     const { getByTestId } = renderComponent()
-    const endChatButtonNode = getByTestId('Icon--endChat').closest('button')
+    const endChatButtonNode = getByTestId(TEST_IDS.ICON_END_CHAT).closest('button')
 
     store.dispatch({
       type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -757,14 +755,14 @@ describe('end chat', () => {
 
   it('disables end chat icon when not chatting', () => {
     const { getByTestId } = renderComponent()
-    const endChatButtoNode = getByTestId('Icon--endChat').closest('button')
+    const endChatButtoNode = getByTestId(TEST_IDS.ICON_END_CHAT).closest('button')
 
     expect(endChatButtoNode.classList[1]).toEqual('iconDisabled')
   })
 
   it('enables end chat option when chatting', () => {
     const { getByTestId, getAllByText } = renderComponent()
-    fireEvent.click(getByTestId('Icon--ellipsis'))
+    fireEvent.click(getByTestId(TEST_IDS.ICON_ELLIPSIS))
 
     store.dispatch({
       type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -786,7 +784,7 @@ describe('end chat', () => {
 
   it('disables end chat icon when not chatting', () => {
     const { getByTestId, getAllByText } = renderComponent()
-    fireEvent.click(getByTestId('Icon--ellipsis'))
+    fireEvent.click(getByTestId(TEST_IDS.ICON_ELLIPSIS))
 
     const endChatOptionNode = getAllByText('End chat')[0]
 
@@ -804,7 +802,7 @@ it('opens edit contact details popout', () => {
 
   const { getByTestId, getByText, getAllByText } = renderComponent()
 
-  fireEvent.click(getByTestId('Icon--ellipsis'))
+  fireEvent.click(getByTestId(TEST_IDS.ICON_ELLIPSIS))
   fireEvent.click(getByText('Edit contact details'))
 
   const editContactDetailsPopoutNode = getAllByText('Edit contact details')[1]

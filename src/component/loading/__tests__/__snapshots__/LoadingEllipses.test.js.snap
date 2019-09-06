@@ -6,6 +6,7 @@ exports[`\`fade\` class is there when ios8 1`] = `
     aria-busy="true"
     aria-live="polite"
     class="container "
+    data-testid="Icon--ellipsis"
   >
     <div
       class="
@@ -38,6 +39,7 @@ exports[`background color class can be disabled 1`] = `
     aria-busy="true"
     aria-live="polite"
     class="container "
+    data-testid="Icon--ellipsis"
   >
     <div
       class="
@@ -70,6 +72,7 @@ exports[`renders the expected classes 1`] = `
     aria-busy="true"
     aria-live="polite"
     class="container "
+    data-testid="Icon--ellipsis"
   >
     <div
       class="

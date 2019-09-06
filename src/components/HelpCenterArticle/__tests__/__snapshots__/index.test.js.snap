@@ -4,9 +4,11 @@ exports[`renders the expected classes 1`] = `
 <div>
   <div
     class="content "
+    data-testid="hc-article"
   >
     <h2
       class="title"
+      data-testid="hc-article-title"
     />
     <div
       class="originalArticleButton"
@@ -30,6 +32,7 @@ exports[`renders the expected classes 1`] = `
     </div>
     <div
       class="article"
+      data-testid="hc-article-body"
       role="presentation"
     >
       
@@ -163,9 +166,11 @@ exports[`renders the expected mobile classes 1`] = `
 <div>
   <div
     class="content contentMobile"
+    data-testid="hc-article"
   >
     <h2
       class="title"
+      data-testid="hc-article-title"
     />
     <div
       class="originalArticleButton"
@@ -189,6 +194,7 @@ exports[`renders the expected mobile classes 1`] = `
     </div>
     <div
       class="article"
+      data-testid="hc-article-body"
       role="presentation"
     >
       

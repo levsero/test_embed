@@ -22,6 +22,7 @@ exports[`classes are customizable 1`] = `
     </span>
     <span
       class="label "
+      data-testid="label"
     >
       <span>
         Label
@@ -53,6 +54,7 @@ exports[`renders the expected classes 1`] = `
     </span>
     <span
       class="label "
+      data-testid="label"
     >
       <span>
         Label

@@ -34,6 +34,7 @@ import {
 import { getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
 import ChatHistoryLink from './ChatHistoryLink'
+import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './ChatOffline.scss'
 
@@ -148,7 +149,7 @@ class ChatOffline extends Component {
             openedChatHistory={this.props.openedChatHistory}
             label={this.props.chatHistoryLabel}
           />
-          <p className={styles.greeting}>
+          <p className={styles.greeting} data-testid={TEST_IDS.FORM_GREETING_MSG}>
             {i18n.t('embeddable_framework.chat.offline.label.noForm')}
           </p>
           <Button primary={true} onClick={this.props.handleCloseClick} className={styles.button}>

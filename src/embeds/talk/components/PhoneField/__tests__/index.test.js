@@ -4,6 +4,7 @@ import { Component as PhoneField } from '../'
 import snapshotDiff from 'snapshot-diff'
 import { IdManager } from '@zendeskgarden/react-selection'
 import countriesByIso from 'translation/ze_countries'
+import { TEST_IDS } from 'src/constants/shared'
 
 describe('PhoneField', () => {
   const mockFormattedValue = '+61412 345 678'
@@ -50,7 +51,7 @@ describe('PhoneField', () => {
   it('focuses the input when dropdown is open', () => {
     const withOpenDropdown = renderComponent()
 
-    fireEvent.click(withOpenDropdown.queryByTestId('countryDropdown--select'))
+    fireEvent.click(withOpenDropdown.queryByTestId(TEST_IDS.DROPDOWN_OPTION))
 
     const withClosedDropdown = renderComponent()
 
@@ -63,7 +64,7 @@ describe('PhoneField', () => {
     it('initialises to the prop "value" formatted if provided', () => {
       const { queryByTestId } = renderComponent()
 
-      expect(queryByTestId('talkPhoneField--input')).toHaveValue(mockFormattedValue)
+      expect(queryByTestId(TEST_IDS.PHONE_FIELD)).toHaveValue(mockFormattedValue)
     })
 
     it('initialises to the current countries number code when prop "value" is not provided', () => {
@@ -72,7 +73,7 @@ describe('PhoneField', () => {
         country: 'AU'
       })
 
-      expect(queryByTestId('talkPhoneField--input')).toHaveValue(`+${countriesByIso.AU.code}`)
+      expect(queryByTestId(TEST_IDS.PHONE_FIELD)).toHaveValue(`+${countriesByIso.AU.code}`)
     })
 
     it('replaces "-" with spaces when displaying a country code', () => {
@@ -83,7 +84,7 @@ describe('PhoneField', () => {
 
       const expectedCountryCode = countriesByIso.BB.code.replace('-', ' ')
 
-      expect(queryByTestId('talkPhoneField--input')).toHaveValue(`+${expectedCountryCode}`)
+      expect(queryByTestId(TEST_IDS.PHONE_FIELD)).toHaveValue(`+${expectedCountryCode}`)
     })
   })
 
@@ -129,7 +130,7 @@ describe('PhoneField', () => {
     const onCountrySelect = jest.fn()
     const { queryByText, queryByTestId } = renderComponent({ onCountrySelect })
 
-    queryByTestId('countryDropdown--select').click()
+    queryByTestId(TEST_IDS.DROPDOWN_OPTION).click()
 
     queryByText('United States (+1)').click()
 

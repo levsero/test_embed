@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import { locals as styles } from './ChannelChoiceContainer.scss'
-
 import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { i18n } from 'service/i18n'
+import { TEST_IDS } from 'src/constants/shared'
+
+import { locals as styles } from './ChannelChoiceContainer.scss'
 
 export default class ChannelChoiceContainer extends Component {
   static propTypes = {
@@ -51,7 +51,7 @@ export default class ChannelChoiceContainer extends Component {
     const containerStyle = !this.hideLogo() ? styles.inner : ''
 
     return (
-      <div className={containerStyle}>
+      <div className={containerStyle} data-testid={TEST_IDS.CC_CONTAINER}>
         <ChannelChoiceMenu
           isMobile={isMobile}
           submitTicketAvailable={submitTicketAvailable}

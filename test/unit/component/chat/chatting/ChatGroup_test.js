@@ -1,5 +1,5 @@
 describe('ChatGroup component', () => {
-  let ChatGroup, ATTACHMENT_ERROR_TYPES, ICONS, FILETYPE_ICONS, i18n
+  let ChatGroup, ATTACHMENT_ERROR_TYPES, ICONS, FILETYPE_ICONS, i18n, TEST_IDS
 
   const chatGroupPath = buildSrcPath('component/chat/chatting/log/messages/ChatGroup')
   const chatConstantsPath = buildSrcPath('constants/chat')
@@ -24,6 +24,7 @@ describe('ChatGroup component', () => {
     ATTACHMENT_ERROR_TYPES = chatConstants.ATTACHMENT_ERROR_TYPES
     ICONS = requireUncached(sharedConstantsPath).ICONS
     FILETYPE_ICONS = requireUncached(sharedConstantsPath).FILETYPE_ICONS
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
     i18n = {
       t: jasmine.createSpy().and.callFake(key => {
         return key
@@ -47,9 +48,10 @@ describe('ChatGroup component', () => {
         CHAT_MESSAGE_TYPES,
         CHAT_STRUCTURED_CONTENT_TYPE
       },
-      'constants/shared': {
+      'src/constants/shared': {
         ICONS,
-        FILETYPE_ICONS
+        FILETYPE_ICONS,
+        TEST_IDS
       },
       'src/redux/modules/chat/chat-selectors': {
         getGroupMessages: noop

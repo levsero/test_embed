@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { locals as styles } from './Panel.scss'
 import { Icon } from 'component/Icon'
 import { isFirefox, isIE } from 'utility/devices'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE, TEST_IDS } from 'src/constants/shared'
 import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton'
+
+import { locals as styles } from './Panel.scss'
 
 /**
  * A HOC to return the outer element of the Panel
@@ -100,7 +101,11 @@ export class Panel extends Component {
         {this.renderThumbnail(panel)}
 
         <div className={contentClassNames}>
-          <div className={headingStyle} style={headingLineClampStyle} data-testid="panelHeading">
+          <div
+            className={headingStyle}
+            style={headingLineClampStyle}
+            data-testid={TEST_IDS.STR_MSG_PANEL_HEADING}
+          >
             {panel.heading}
           </div>
           {panel.paragraph ? (

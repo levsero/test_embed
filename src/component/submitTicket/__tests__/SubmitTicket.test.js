@@ -3,7 +3,7 @@ import React from 'react'
 import snapshotDiff from 'snapshot-diff'
 
 import { IdManager } from '@zendeskgarden/react-selection'
-
+import { TEST_IDS } from 'src/constants/shared'
 import { Component as SubmitTicket } from '../SubmitTicket'
 
 const renderComponent = props => {
@@ -123,7 +123,7 @@ describe('ticket form list', () => {
 test('can hide the zendesk logo', () => {
   const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
 
-  expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
+  expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).not.toBeInTheDocument()
 })
 
 test('renders the error message', () => {
@@ -156,7 +156,7 @@ test('renders the attachment box when something is dragged to it', () => {
   const { getByTestId, queryByText, queryByTestId } = render(component)
 
   fireEvent.dragEnter(getByTestId('container'))
-  expect(queryByTestId('Icon--paperclip-large')).toBeInTheDocument()
+  expect(queryByTestId(TEST_IDS.ICON_PAPERCLIP_LARGE)).toBeInTheDocument()
   expect(queryByText('Drop to attach')).toBeInTheDocument()
 })
 

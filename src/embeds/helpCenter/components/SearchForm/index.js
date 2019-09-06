@@ -6,6 +6,7 @@ import { getSearchLoading, getSearchFieldValue } from 'embeds/helpCenter/selecto
 import SearchField from 'embeds/helpCenter/components/SearchField'
 import { performSearch, handleSearchFieldChange } from 'embeds/helpCenter/actions'
 import { isMobileBrowser } from 'utility/devices'
+import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './styles.scss'
 
@@ -44,6 +45,7 @@ const SearchForm = React.forwardRef(
           onSearchIconClick={handleSubmit}
           isLoading={isLoading}
           searchPlaceholder={searchPlaceholder}
+          data-testid={TEST_IDS.SEARCH_FIELD}
         />
       </form>
     )

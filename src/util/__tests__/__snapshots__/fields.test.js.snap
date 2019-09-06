@@ -4,6 +4,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    data-testid="slide-appear-container"
     role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
@@ -45,6 +46,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    data-testid="slide-appear-container"
     role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
@@ -101,6 +103,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    data-testid="slide-appear-container"
     role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
@@ -157,6 +160,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    data-testid="slide-appear-container"
     role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
@@ -197,6 +201,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    data-testid="slide-appear-container"
     role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
@@ -249,6 +254,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    data-testid="slide-appear-container"
     role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
@@ -302,6 +308,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    data-testid="slide-appear-container"
     role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
@@ -352,6 +359,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    data-testid="slide-appear-container"
     role="presentation"
     style="opacity: 1; bottom: 10px;"
   >
@@ -392,6 +400,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 <div>
   <div
     class=""
+    data-testid="slide-appear-container"
     role="presentation"
     style="opacity: 1; bottom: 10px;"
   >

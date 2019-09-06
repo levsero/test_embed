@@ -15,7 +15,7 @@ import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { UserProfile } from 'component/chat/UserProfile'
 import { ChatMessagingChannels } from 'component/chat/ChatMessagingChannels'
 import { SuccessNotification } from 'component/shared/SuccessNotification'
-import { ICONS, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
+import { ICONS, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN, TEST_IDS } from 'src/constants/shared'
 import { locals as styles } from './ChatOfflineForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import ChatHistoryLink from './ChatHistoryLink'
@@ -284,7 +284,7 @@ export class ChatOfflineForm extends Component {
 
     return (
       <Linkify properties={{ target: '_blank' }} className={styles.offlineGreeting}>
-        {greeting}
+        <span data-testid={TEST_IDS.FORM_GREETING_MSG}>{greeting}</span>
       </Linkify>
     )
   }

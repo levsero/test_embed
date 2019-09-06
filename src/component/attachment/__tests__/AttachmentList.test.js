@@ -3,6 +3,7 @@ import React from 'react'
 import _ from 'lodash'
 
 import { AttachmentList } from '../AttachmentList'
+import { TEST_IDS } from 'src/constants/shared'
 
 beforeEach(() => {
   let value = 1
@@ -39,7 +40,7 @@ test('renders the component with mobile styles', () => {
 test('allows attaching file', () => {
   const file = new File(['hello world'], 'some.csv')
   const { getByTestId, container } = renderComponent()
-  const dz = getByTestId('dropzone')
+  const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(dz, 'files', { value: [file] })
   fireEvent.drop(dz)
@@ -60,7 +61,7 @@ test('exceed maximum number of files', () => {
     new File(['hello world 7'], '7.csv')
   ]
   const { getByTestId, container } = renderComponent()
-  const dz = getByTestId('dropzone')
+  const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(dz, 'files', { value: files })
   fireEvent.drop(dz)
@@ -73,7 +74,7 @@ test('exceed maximum number of files', () => {
 test('exceed file size', () => {
   const file = new File(['hello world'], 'some.csv')
   const { getByTestId, container } = renderComponent()
-  const dz = getByTestId('dropzone')
+  const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(file, 'size', {
     get: () => 1024 * 1024 * 1024
@@ -115,7 +116,7 @@ test('picks the correct icon types', () => {
   const { getByTestId, container } = renderComponent({
     maxFileCount: files.length
   })
-  const dz = getByTestId('dropzone')
+  const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(dz, 'files', { value: files })
   fireEvent.drop(dz)
@@ -132,7 +133,7 @@ test('remove attachment', () => {
   const { getByTestId, container } = renderComponent({
     attachmentSender: requestSender
   })
-  const dz = getByTestId('dropzone')
+  const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(dz, 'files', { value: [file] })
   fireEvent.drop(dz)
@@ -155,7 +156,7 @@ test('successful upload', () => {
     attachmentSender: requestSender,
     updateForm
   })
-  const dz = getByTestId('dropzone')
+  const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(dz, 'files', { value: [file] })
   fireEvent.drop(dz)
@@ -179,7 +180,7 @@ test('failed upload', () => {
     attachmentSender: requestSender,
     updateForm
   })
-  const dz = getByTestId('dropzone')
+  const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(dz, 'files', { value: [file] })
   fireEvent.drop(dz)
@@ -201,7 +202,7 @@ test('uploading in progress upload', () => {
   const { getByTestId, container } = renderComponent({
     attachmentSender: requestSender
   })
-  const dz = getByTestId('dropzone')
+  const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(dz, 'files', { value: [file] })
   fireEvent.drop(dz)

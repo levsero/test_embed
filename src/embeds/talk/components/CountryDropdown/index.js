@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { SelectField, Select } from '@zendeskgarden/react-select'
 
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE, TEST_IDS } from 'constants/shared'
 import Flag from 'src/embeds/talk/components/Flag'
 
 import { Item } from './styles'
@@ -34,11 +34,11 @@ const CountryDropdown = ({
         }}
         dropdownProps={{
           style: dropdownStyle,
-          'data-testid': 'countryDropdown--dropdown'
+          'data-testid': TEST_IDS.DROPDOWN_OPTIONS
         }}
         onChange={onChange}
         appendToNode={appendToNode}
-        data-testid={'countryDropdown--select'}
+        data-testid={TEST_IDS.DROPDOWN_OPTION}
         options={countries.map(({ name, iso, code }) => {
           return (
             <Item key={iso}>
@@ -48,7 +48,7 @@ const CountryDropdown = ({
           )
         })}
       >
-        <Flag country={selectedKey} data-testid="countryDropdown--selected" />
+        <Flag country={selectedKey} data-testid={TEST_IDS.DROPDOWN_SELECTED} />
       </Select>
     </SelectField>
   )

@@ -8,11 +8,12 @@ exports[`form ticket forms validation renders the error messages 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -22,6 +23,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
       </header>
       <div
         class="content container ticketFormContainer"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
@@ -55,6 +57,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
                 data-garden-id="textfields.input"
                 data-garden-version="3.7.0"
+                data-testid="name-field"
                 id="garden-text-field-0--input"
                 name="name"
                 value=""
@@ -82,6 +85,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl text__c-txt__input--error___15FsA kdlara"
                 data-garden-id="textfields.input"
                 data-garden-version="3.7.0"
+                data-testid="email-field"
                 id="garden-text-field-2--input"
                 name="email"
                 pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
@@ -98,6 +102,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -141,6 +146,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -184,6 +190,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -236,6 +243,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -281,6 +289,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -327,6 +336,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -369,6 +379,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -412,6 +423,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -474,6 +486,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
       </div>
       <footer
         class="footer  footerShadow"
+        data-testid="scroll-container-footer"
       >
         <div
           class="container buttonRight buttonGroup"
@@ -482,6 +495,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
             data-garden-id="buttons.button"
             data-garden-version="3.7.0"
+            data-testid="button-cancel"
             tabindex="0"
             type="button"
           >
@@ -491,6 +505,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
             data-garden-id="buttons.button"
             data-garden-version="3.7.0"
+            data-testid="button-ok"
             tabindex="0"
             type="submit"
           >
@@ -511,11 +526,12 @@ exports[`renders the expected components 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -525,6 +541,7 @@ exports[`renders the expected components 1`] = `
       </header>
       <div
         class="content container ticketFormContainer"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
@@ -556,6 +573,7 @@ exports[`renders the expected components 1`] = `
                 class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
                 data-garden-id="textfields.input"
                 data-garden-version="3.7.0"
+                data-testid="name-field"
                 id="garden-text-field-0--input"
                 name="name"
                 value=""
@@ -583,6 +601,7 @@ exports[`renders the expected components 1`] = `
                 class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
                 data-garden-id="textfields.input"
                 data-garden-version="3.7.0"
+                data-testid="email-field"
                 id="garden-text-field-2--input"
                 name="email"
                 pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
@@ -596,6 +615,7 @@ exports[`renders the expected components 1`] = `
       </div>
       <footer
         class="footer  "
+        data-testid="scroll-container-footer"
       >
         <div
           class="container buttonRight buttonGroup"
@@ -604,6 +624,7 @@ exports[`renders the expected components 1`] = `
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
             data-garden-id="buttons.button"
             data-garden-version="3.7.0"
+            data-testid="button-cancel"
             tabindex="0"
             type="button"
           >
@@ -613,6 +634,7 @@ exports[`renders the expected components 1`] = `
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
             data-garden-id="buttons.button"
             data-garden-version="3.7.0"
+            data-testid="button-ok"
             tabindex="0"
             type="submit"
           >
@@ -633,11 +655,12 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -647,6 +670,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
       </header>
       <div
         class="content container ticketFormContainer"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
@@ -680,6 +704,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                 class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
                 data-garden-id="textfields.input"
                 data-garden-version="3.7.0"
+                data-testid="name-field"
                 id="garden-text-field-0--input"
                 name="name"
                 value=""
@@ -707,6 +732,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                 class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
                 data-garden-id="textfields.input"
                 data-garden-version="3.7.0"
+                data-testid="email-field"
                 id="garden-text-field-2--input"
                 name="email"
                 pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
@@ -716,6 +742,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -752,6 +779,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -788,6 +816,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -833,6 +862,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -869,6 +899,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -916,6 +947,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -955,6 +987,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -990,6 +1023,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -1025,6 +1059,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -1070,6 +1105,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
             <div
               class=""
+              data-testid="slide-appear-container"
               role="presentation"
               style="opacity: 1; bottom: 10px;"
             >
@@ -1127,6 +1163,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
       </div>
       <footer
         class="footer  footerShadow"
+        data-testid="scroll-container-footer"
       >
         <div
           class="container buttonRight buttonGroup"
@@ -1135,6 +1172,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
             data-garden-id="buttons.button"
             data-garden-version="3.7.0"
+            data-testid="button-cancel"
             tabindex="0"
             type="button"
           >
@@ -1144,6 +1182,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
             data-garden-id="buttons.button"
             data-garden-version="3.7.0"
+            data-testid="button-ok"
             tabindex="0"
             type="submit"
           >

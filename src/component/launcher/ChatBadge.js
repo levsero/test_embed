@@ -17,8 +17,9 @@ import { getCurrentMessage, getPrechatFormRequired } from 'src/redux/modules/cha
 import { getLauncherBadgeSettings } from 'src/redux/modules/selectors'
 import { Input } from '@zendeskgarden/react-textfields'
 import { Icon } from 'component/Icon'
-import { ICONS } from 'constants/shared'
+import { ICONS, TEST_IDS } from 'constants/shared'
 import { i18n } from 'service/i18n'
+
 import { locals as styles } from './ChatBadge.scss'
 
 const mapStateToProps = state => {
@@ -109,7 +110,7 @@ class ChatBadge extends Component {
         />
       )
     } else {
-      imageElement = <Icon className={imgClasses} type="Icon--channelChoice-chat" />
+      imageElement = <Icon className={imgClasses} type={ICONS.CC_CHAT} />
     }
 
     return (
@@ -173,6 +174,7 @@ class ChatBadge extends Component {
           onChange={this.handleChange}
           onKeyDown={triggerOnEnter(this.sendChatMsg)}
           value={this.props.currentMessage}
+          data-testid={TEST_IDS.MESSAGE_FIELD}
         />
         <Icon onClick={this.sendChatMsg} className={sendButtonClasses} type={ICONS.SEND_CHAT} />
       </div>

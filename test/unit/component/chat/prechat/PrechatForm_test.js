@@ -2,7 +2,8 @@ describe('PrechatForm component', () => {
   let PrechatForm,
     mockShouldRenderErrorMessage,
     mockFormValidity,
-    renderLabelSpy = jasmine.createSpy('renderLabel').and.callFake(_.identity)
+    renderLabelSpy = jasmine.createSpy('renderLabel').and.callFake(_.identity),
+    TEST_IDS
   const PrechatFormPath = buildSrcPath('component/chat/prechat/PrechatForm')
   const UserProfile = noopReactComponent()
   const ScrollContainer = noopReactComponent()
@@ -13,6 +14,7 @@ describe('PrechatForm component', () => {
   const Message = noopReactComponent()
   const Label = noopReactComponent()
   const Linkify = noopReactComponent('Linkify')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   const mockFormProp = {
     name: { name: 'name', required: true },
@@ -42,6 +44,7 @@ describe('PrechatForm component', () => {
   beforeEach(() => {
     mockery.enable()
 
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
     mockFormValidity = false
 
     initMockRegistry({
@@ -59,7 +62,8 @@ describe('PrechatForm component', () => {
         NAME_PATTERN: /.+/,
         EMAIL_PATTERN: /.+/,
         PHONE_PATTERN: /.+/,
-        FONT_SIZE: 14
+        FONT_SIZE: 14,
+        TEST_IDS
       },
       '@zendeskgarden/react-buttons': {
         Button: noopReactComponent()
@@ -260,7 +264,7 @@ describe('PrechatForm component', () => {
       it('render a div with the greeting message', () => {
         expect(TestUtils.isElementOfType(result, Linkify)).toEqual(true)
 
-        expect(result.props.children).toEqual(greetingMessage)
+        expect(result.props.children.props.children).toEqual(greetingMessage)
       })
     })
   })

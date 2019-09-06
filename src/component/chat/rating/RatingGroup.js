@@ -5,6 +5,7 @@ import { IconButton } from '@zendeskgarden/react-buttons'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { Icon } from 'component/Icon'
 import classNames from 'classnames'
+import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './RatingGroup.scss'
 
@@ -70,7 +71,7 @@ export class RatingGroup extends Component {
   render = () => {
     return (
       <ThemeProvider>
-        <div className={this.props.className}>
+        <div className={this.props.className} data-testid={TEST_IDS.CHAT_HEADER_RATING_GROUP}>
           {this.renderThumbsUpButton()}
           {this.renderThumbsDownButton()}
         </div>

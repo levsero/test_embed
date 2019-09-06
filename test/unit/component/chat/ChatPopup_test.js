@@ -1,6 +1,8 @@
 describe('ChatPopup component', () => {
-  let ChatPopup
+  let ChatPopup, TEST_IDS
   const chatPopupPath = buildSrcPath('component/chat/ChatPopup')
+  const sharedConstantsPath = basePath('src/constants/shared')
+
   const Button = class extends Component {
     render() {
       const { className, disabled, onClick } = this.props
@@ -11,6 +13,8 @@ describe('ChatPopup component', () => {
 
   beforeEach(() => {
     mockery.enable()
+
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
       './ChatPopup.scss': {
@@ -59,6 +63,9 @@ describe('ChatPopup component', () => {
         i18n: {
           t: noop
         }
+      },
+      'src/constants/shared': {
+        TEST_IDS
       }
     })
 

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
+
 import { Label } from '@zendeskgarden/react-select'
 import { Message } from '@zendeskgarden/react-textfields'
 import {
@@ -10,6 +11,7 @@ import {
   ControlledComponent
 } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { TEST_IDS } from 'constants/shared'
 import { i18n } from 'service/i18n'
 import countriesByIso from 'translation/ze_countries'
 import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
@@ -200,7 +202,7 @@ class PhoneField extends ControlledComponent {
                       innerRef={node => (this.phoneInput = node)}
                       required={this.props.required}
                       bare={true}
-                      data-testid="talkPhoneField--input"
+                      data-testid={TEST_IDS.PHONE_FIELD}
                     />
                   </FauxInput>
                 </Fragment>

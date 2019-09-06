@@ -5,6 +5,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -26,6 +27,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Live chat
         </span>
@@ -33,6 +35,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -54,6 +57,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button and chatOffli
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -68,6 +72,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -89,6 +94,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Chat is offline, leave a message
         </span>
@@ -96,6 +102,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -117,6 +124,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -131,6 +139,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -152,6 +161,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Chat is offline, leave a message
         </span>
@@ -159,6 +169,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -180,6 +191,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatAvai
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -194,6 +206,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -215,6 +228,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -229,6 +243,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -250,6 +265,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           <span
             class="offlineOptionContainer"
@@ -268,6 +284,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -289,6 +306,7 @@ exports[`rendering renders ChannelChoiceMenu correctly chat button when chatOffl
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -303,6 +321,7 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -324,6 +343,7 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -338,6 +358,7 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -359,6 +380,7 @@ exports[`rendering renders ChannelChoiceMenu correctly submitTicket button when 
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -373,6 +395,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -394,6 +417,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -408,6 +432,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -429,6 +454,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           <span
             class="offlineOptionContainer"
@@ -447,6 +473,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -468,6 +495,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -482,6 +510,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -503,6 +532,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Call us
         </span>
@@ -510,6 +540,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -531,6 +562,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -545,6 +577,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -566,6 +599,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Request a callback
         </span>
@@ -573,6 +607,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -594,6 +629,7 @@ exports[`rendering renders ChannelChoiceMenu correctly talkButton when talkOnlin
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -608,6 +644,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -629,6 +666,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
         </span>
         <span
           class="label label-class"
+          data-testid="label"
         >
           Request a callback
         </span>
@@ -636,6 +674,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -657,6 +696,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
         </span>
         <span
           class="label label-class"
+          data-testid="label"
         >
           Chat is offline, leave a message
         </span>
@@ -664,6 +704,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -685,6 +726,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show the
         </span>
         <span
           class="label label-class"
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -699,6 +741,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -720,6 +763,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Request a callback
         </span>
@@ -727,6 +771,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -748,6 +793,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Chat is offline, leave a message
         </span>
@@ -755,6 +801,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
     </li>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -776,6 +823,7 @@ exports[`rendering renders ChannelChoiceMenu correctly when all buttons show whe
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>
@@ -790,6 +838,7 @@ exports[`rendering renders ChannelChoiceMenu correctly with default props 1`] = 
   <ul>
     <li
       class="listItem"
+      data-testid="list-item"
     >
       <button
         class="
@@ -811,6 +860,7 @@ exports[`rendering renders ChannelChoiceMenu correctly with default props 1`] = 
         </span>
         <span
           class="label "
+          data-testid="label"
         >
           Leave a message
         </span>

@@ -7,11 +7,12 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -21,13 +22,16 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
       </header>
       <div
         class="content  scrollContainer "
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content "
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             />
             <div
               class="originalArticleButton"
@@ -52,6 +56,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             />
           </div>
@@ -59,6 +64,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
   </div>
@@ -72,11 +78,12 @@ exports[`feedback actions on no click asks for the reason 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -86,13 +93,16 @@ exports[`feedback actions on no click asks for the reason 1`] = `
       </header>
       <div
         class="content  scrollContainer reasonsPopupSpacing"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content "
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             />
             <div
               class="originalArticleButton"
@@ -117,6 +127,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             />
           </div>
@@ -124,10 +135,12 @@ exports[`feedback actions on no click asks for the reason 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
     <div
       class="popupWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -147,6 +160,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
       button
       relatedBtn
     "
+            data-testid="pill-button"
           >
             It's related, but it didn't answer my question
           </button>
@@ -155,6 +169,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
       button
       unrelatedBtn
     "
+            data-testid="pill-button"
           >
             It's not related to my question
           </button>
@@ -172,11 +187,12 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -186,13 +202,16 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
       </header>
       <div
         class="content  scrollContainer "
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content "
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             />
             <div
               class="originalArticleButton"
@@ -217,6 +236,7 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             />
           </div>
@@ -224,6 +244,7 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
   </div>
@@ -237,11 +258,12 @@ exports[`passing of scroll container classes 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -251,13 +273,16 @@ exports[`passing of scroll container classes 1`] = `
       </header>
       <div
         class="content this is a class scrollContainer "
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content "
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             />
             <div
               class="originalArticleButton"
@@ -282,6 +307,7 @@ exports[`passing of scroll container classes 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             />
           </div>
@@ -289,6 +315,7 @@ exports[`passing of scroll container classes 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
   </div>
@@ -302,11 +329,12 @@ exports[`renders the expected classes 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -316,13 +344,16 @@ exports[`renders the expected classes 1`] = `
       </header>
       <div
         class="content  scrollContainer "
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content "
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             />
             <div
               class="originalArticleButton"
@@ -347,6 +378,7 @@ exports[`renders the expected classes 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             />
           </div>
@@ -354,6 +386,7 @@ exports[`renders the expected classes 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
   </div>
@@ -367,10 +400,11 @@ exports[`renders the expected mobile classes 1`] = `
   >
     <div
       class="container flexContainer mobile"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title titleMobile"
@@ -380,13 +414,16 @@ exports[`renders the expected mobile classes 1`] = `
       </header>
       <div
         class="content  scrollContainer  contentMobile"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content contentMobile"
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             />
             <div
               class="originalArticleButton"
@@ -411,6 +448,7 @@ exports[`renders the expected mobile classes 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             />
           </div>
@@ -418,6 +456,7 @@ exports[`renders the expected mobile classes 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
   </div>
@@ -431,11 +470,12 @@ exports[`renders the expected title 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -445,13 +485,16 @@ exports[`renders the expected title 1`] = `
       </header>
       <div
         class="content  scrollContainer "
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content "
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             />
             <div
               class="originalArticleButton"
@@ -476,6 +519,7 @@ exports[`renders the expected title 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             />
           </div>
@@ -483,6 +527,7 @@ exports[`renders the expected title 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
   </div>
@@ -496,11 +541,12 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -510,13 +556,16 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
       </header>
       <div
         class="content  scrollContainer optionsPopupSpacing"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content "
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             />
             <div
               class="originalArticleButton"
@@ -541,6 +590,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             />
           </div>
@@ -548,10 +598,12 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
     <div
       class="popupWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -571,6 +623,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
       button
       
     "
+            data-testid="pill-button"
           >
             Yes
           </button>
@@ -579,6 +632,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
       button
       noBtn
     "
+            data-testid="pill-button"
           >
             No, I need help
           </button>
@@ -596,11 +650,12 @@ exports[`renders the help center article 1`] = `
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -610,13 +665,16 @@ exports[`renders the help center article 1`] = `
       </header>
       <div
         class="content  scrollContainer "
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content "
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             >
               title
             </h2>
@@ -643,6 +701,7 @@ exports[`renders the help center article 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             >
               <p>
@@ -654,6 +713,7 @@ exports[`renders the help center article 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
   </div>

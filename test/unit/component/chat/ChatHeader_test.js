@@ -1,6 +1,7 @@
 describe('ChatHeader component', () => {
-  let ChatHeader, mockIsRTL
+  let ChatHeader, mockIsRTL, TEST_IDS
   const chatHeaderPath = buildSrcPath('component/chat/ChatHeader')
+  const sharedConstantsPath = buildSrcPath('constants/shared')
   const fontSize = 12
 
   class MockAvatar extends React.Component {
@@ -11,6 +12,8 @@ describe('ChatHeader component', () => {
 
   beforeEach(() => {
     mockery.enable()
+
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
       'component/Avatar': {
@@ -40,8 +43,9 @@ describe('ChatHeader component', () => {
           clickable: 'clickableClasses'
         }
       },
-      'constants/shared': {
-        FONT_SIZE: fontSize
+      'src/constants/shared': {
+        FONT_SIZE: fontSize,
+        TEST_IDS
       }
     })
 

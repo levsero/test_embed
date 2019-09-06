@@ -18,6 +18,7 @@ exports[`on no click displays the reasons 1`] = `
       button
       relatedBtn
     "
+        data-testid="pill-button"
       >
         It's related, but it didn't answer my question
       </button>
@@ -26,6 +27,7 @@ exports[`on no click displays the reasons 1`] = `
       button
       unrelatedBtn
     "
+        data-testid="pill-button"
       >
         It's not related to my question
       </button>
@@ -52,6 +54,7 @@ exports[`renders the expected classes 1`] = `
       button
       
     "
+        data-testid="pill-button"
       >
         Yes
       </button>
@@ -60,6 +63,7 @@ exports[`renders the expected classes 1`] = `
       button
       noBtn
     "
+        data-testid="pill-button"
       >
         No, I need help
       </button>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields'
 
+import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields'
+import { TEST_IDS } from 'src/constants/shared'
 import { keyCodes } from 'utility/keyboard'
 
 import { locals as styles } from './InputBox.scss'
@@ -60,6 +61,7 @@ export class InputBox extends Component {
           placeholder={placeholder}
           name={name}
           rows={isMobile ? 1 : 3}
+          data-testid={TEST_IDS.MESSAGE_FIELD}
         />
       </TextField>
     )

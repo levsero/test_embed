@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { locals as styles } from './styles.scss'
 import classNames from 'classnames'
 import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
+import { TEST_IDS } from 'src/constants/shared'
 
 const SearchHeader = React.forwardRef(({ children, isMobile }, ref) => {
   const headerClasses = classNames(styles.header, {
@@ -10,7 +11,7 @@ const SearchHeader = React.forwardRef(({ children, isMobile }, ref) => {
   })
 
   return (
-    <div className={headerClasses}>
+    <div className={headerClasses} data-testid={TEST_IDS.HEADER_CONTAINER}>
       <h1 className={styles.title}>{children}</h1>
       <div className={styles.form}>
         <SearchForm ref={ref} />

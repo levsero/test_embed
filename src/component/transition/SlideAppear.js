@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Transition from 'react-transition-group/Transition'
+import { TEST_IDS } from 'src/constants/shared'
 
 const DIRECTION_MAP = {
   UP: 'bottom',
@@ -75,6 +76,7 @@ export class SlideAppear extends Component {
               onClick={this.props.onClick}
               className={this.props.className}
               style={{ ...style, ...transitionStyles[status] }}
+              data-testid={TEST_IDS.SLIDE_APPEAR_CONTAINER}
             >
               {this.props.children}
             </div>

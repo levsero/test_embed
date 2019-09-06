@@ -9,9 +9,12 @@ describe('Frame', () => {
     mockZoomSizingRatioValue,
     mockIsPopout = false,
     renderedFrame,
-    mockHorizontalPosition
+    mockHorizontalPosition,
+    TEST_IDS
 
   const FramePath = buildSrcPath('component/frame/Frame')
+  const sharedConstantsPath = basePath('src/constants/shared')
+
   const MAX_WIDGET_HEIGHT = 550
   const MIN_WIDGET_HEIGHT = 150
   const WIDGET_WIDTH = 342
@@ -68,6 +71,8 @@ describe('Frame', () => {
     mockZoomSizingRatioValue = 1
     mockWindowHeight = 1000
 
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
+
     mockSettingsValue = {
       offset: { vertical: 0, horizontal: 0 },
       zIndex: 999999,
@@ -117,11 +122,12 @@ describe('Frame', () => {
       'src/redux/modules/base/base-actions': {
         widgetShowAnimationComplete: noop
       },
-      'constants/shared': {
+      'src/constants/shared': {
         FONT_SIZE: 14,
         MAX_WIDGET_HEIGHT,
         MIN_WIDGET_HEIGHT,
-        WIDGET_WIDTH
+        WIDGET_WIDTH,
+        TEST_IDS
       },
       lodash: _,
       'component/Icon': {

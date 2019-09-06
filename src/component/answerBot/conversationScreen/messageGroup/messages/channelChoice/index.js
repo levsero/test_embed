@@ -18,6 +18,7 @@ import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules
 import { getLocale, getZopimChatEmbed } from 'src/redux/modules/base/base-selectors'
 import { i18n } from 'service/i18n'
 import { triggerOnEnter } from 'utility/keyboard'
+import { ICONS, TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './style.scss'
 
@@ -123,6 +124,7 @@ class ChannelChoice extends Component {
         className={`${styles.channel} ${singleChannelStyles}`}
         onClick={this.handleClick(channel)}
         onKeyPress={triggerOnEnter(() => this.handleClick(channel))}
+        data-testid={TEST_IDS.LIST_ITEM}
       >
         <Icon className={styles.icon} type={icon} />
         <div className={styles.optionText}>{label}</div>
@@ -141,7 +143,7 @@ class ChannelChoice extends Component {
     if (!chatAvailable && !chatOfflineAvailable) return null
     const label = chatOfflineAvailable ? chatOfflineAvailableLabel : chatOnlineAvailableLabel
 
-    return this.renderChannel('Icon--channelChoice-chat', label, 'chat')
+    return this.renderChannel(ICONS.CC_CHAT, label, 'chat')
   }
 
   renderTalkChoice = () => {
@@ -151,14 +153,14 @@ class ChannelChoice extends Component {
       ? 'embeddable_framework.channelChoice.button.label.request_callback'
       : 'embeddable_framework.channelChoice.button.label.call_us'
 
-    return this.renderChannel('Icon--channelChoice-talk', i18n.t(label), 'talk')
+    return this.renderChannel(ICONS.CC_TALK, i18n.t(label), 'talk')
   }
 
   renderSubmitTicketChoice = () => {
     if (!this.props.submitTicketAvailable) return null
 
     return this.renderChannel(
-      'Icon--channelChoice-contactForm',
+      ICONS.CC_SUPPORT,
       this.props.submitTicketLabel,
       'ticketSubmissionForm'
     )

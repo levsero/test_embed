@@ -1,11 +1,13 @@
 describe('FeedbackForm component', () => {
-  let FeedbackForm, mockChatRatings
+  let FeedbackForm, mockChatRatings, TEST_IDS
 
   const FeedbackFormPath = buildSrcPath('component/chat/rating/FeedbackForm')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   beforeEach(() => {
     mockery.enable()
 
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
     mockChatRatings = {
       GOOD: 'good',
       BAD: 'bad',
@@ -37,6 +39,9 @@ describe('FeedbackForm component', () => {
         i18n: {
           t: _.noop
         }
+      },
+      'src/constants/shared': {
+        TEST_IDS
       }
     })
 

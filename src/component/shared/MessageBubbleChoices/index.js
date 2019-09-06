@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './MessageBubbleChoices.scss'
 
@@ -52,7 +53,11 @@ export class MessageBubbleChoices extends Component {
 
   render() {
     return (
-      <div className={`${styles.messageBubble} ${this.props.containerStyle}`}>
+      <div
+        className={`${styles.messageBubble}
+        ${this.props.containerStyle}`}
+        data-testid={TEST_IDS.AB_SELECTION_MESSAGE}
+      >
         {this.renderLeadingMessage()}
         {this.renderChildItems()}
       </div>

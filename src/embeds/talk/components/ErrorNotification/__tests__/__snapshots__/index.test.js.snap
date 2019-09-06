@@ -4,7 +4,7 @@ exports[`renders the component 1`] = `
 <div>
   <div
     class="sc-bdVaJa lmtGzF"
-    data-testid="talk--errorNotification"
+    data-testid="error-message"
   >
     <svg
       class="sc-bwzfXH cTfKdZ"

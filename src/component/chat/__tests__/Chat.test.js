@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react'
 import React from 'react'
-
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
@@ -8,6 +7,7 @@ import reducer from 'src/redux/modules/reducer'
 import Chat from '../Chat'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as simpleSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import { TEST_IDS } from 'src/constants/shared'
 
 let showOfflineChatMock, getShowChatHistoryMock
 
@@ -42,13 +42,17 @@ describe('show offline chat is true', () => {
 
   describe('when is Fullscreen', () => {
     it('offline form contains fullscreen style class', () => {
-      expect(renderChat(true).getByTestId('scrollcontainer')).toHaveClass('desktopFullscreen')
+      expect(renderChat(true).getByTestId(TEST_IDS.SCROLL_CONTAINER)).toHaveClass(
+        'desktopFullscreen'
+      )
     })
   })
 
   describe('when is not fullscreen', () => {
     it('offline form does not contain fullscreen style class', () => {
-      expect(renderChat(false).getByTestId('scrollcontainer')).not.toHaveClass('desktopFullscreen')
+      expect(renderChat(false).getByTestId(TEST_IDS.SCROLL_CONTAINER)).not.toHaveClass(
+        'desktopFullscreen'
+      )
     })
   })
 })
@@ -64,13 +68,17 @@ describe('show offline chat is false', () => {
 
   describe('when is Fullscreen', () => {
     it('offline form contains fullscreen style class', () => {
-      expect(renderChat(true).getByTestId('scrollcontainer')).toHaveClass('desktopFullscreen')
+      expect(renderChat(true).getByTestId(TEST_IDS.SCROLL_CONTAINER)).toHaveClass(
+        'desktopFullscreen'
+      )
     })
   })
 
   describe('when is not fullscreen', () => {
     it('offline form does not contain fullscreen style class', () => {
-      expect(renderChat(false).getByTestId('scrollcontainer')).not.toHaveClass('desktopFullscreen')
+      expect(renderChat(false).getByTestId(TEST_IDS.SCROLL_CONTAINER)).not.toHaveClass(
+        'desktopFullscreen'
+      )
     })
   })
 })

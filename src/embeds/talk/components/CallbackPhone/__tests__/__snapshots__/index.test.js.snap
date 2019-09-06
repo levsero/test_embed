@@ -8,6 +8,7 @@ exports[`renders the component 1`] = `
     Our phone number 
     <a
       class="sc-bdVaJa daVghx"
+      data-testid="talk-phone-number"
       href="tel:1234567890"
       target="_blank"
     >

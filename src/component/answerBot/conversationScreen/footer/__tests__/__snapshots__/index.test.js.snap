@@ -23,6 +23,7 @@ exports[`desktop when showGetInTouch is false renders the expected classes 1`] =
         class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
         data-garden-id="textfields.textarea"
         data-garden-version="3.7.0"
+        data-testid="message-field"
         id="garden-text-field-0--input"
         name="answerBotInputValue"
         placeholder="Type your question here..."
@@ -40,6 +41,7 @@ exports[`desktop when showGetInTouch is true renders the expected classes 1`] = 
   <div>
     <div
       class="slideAppear"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 0; bottom: -10px;"
     >
@@ -51,6 +53,7 @@ exports[`desktop when showGetInTouch is true renders the expected classes 1`] = 
       button
       getInTouch
     "
+          data-testid="pill-button"
         >
           Get in touch
         </button>
@@ -76,6 +79,7 @@ exports[`desktop when showGetInTouch is true renders the expected classes 1`] = 
         class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
         data-garden-id="textfields.textarea"
         data-garden-version="3.7.0"
+        data-testid="message-field"
         id="garden-text-field-4--input"
         name="answerBotInputValue"
         placeholder="Type your question here..."
@@ -117,6 +121,7 @@ exports[`mobile when showGetInTouch is false renders the expected classes 1`] = 
             class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
             data-garden-id="textfields.textarea"
             data-garden-version="3.7.0"
+            data-testid="message-field"
             id="garden-text-field-6--input"
             name="answerBotInputValue"
             placeholder="Type your question here..."
@@ -155,6 +160,7 @@ exports[`mobile when showGetInTouch is true renders the expected classes 1`] = `
   <div>
     <div
       class="slideAppear slideAppearMobile"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 0; bottom: -10px;"
     >
@@ -166,6 +172,7 @@ exports[`mobile when showGetInTouch is true renders the expected classes 1`] = `
       button
       getInTouch
     "
+          data-testid="pill-button"
         >
           Get in touch
         </button>
@@ -197,6 +204,7 @@ exports[`mobile when showGetInTouch is true renders the expected classes 1`] = `
             class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
             data-garden-id="textfields.textarea"
             data-garden-version="3.7.0"
+            data-testid="message-field"
             id="garden-text-field-10--input"
             name="answerBotInputValue"
             placeholder="Type your question here..."

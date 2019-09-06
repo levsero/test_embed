@@ -121,7 +121,9 @@ exports[`chat log agent message 1`] = `
           <div
             class="defaultMessageContainer"
           >
-            <div>
+            <div
+              data-testid="chat-msg-agent"
+            >
               <div
                 class="messageBubble agentBackground"
               >
@@ -164,6 +166,7 @@ exports[`chat log agent typing 1`] = `
       aria-busy="true"
       aria-live="polite"
       class="container loadingEllipses"
+      data-testid="Icon--ellipsis"
     >
       <div
         class="
@@ -312,7 +315,9 @@ exports[`chat log series of actions 1`] = `
                 realfilename="check-sm-stroke.svg"
               />
             </span>
-            <div>
+            <div
+              data-testid="chat-msg-user"
+            >
               <div
                 class="messageBubble userBackground"
               >
@@ -366,7 +371,9 @@ exports[`chat log series of actions 1`] = `
           <div
             class="defaultMessageContainer"
           >
-            <div>
+            <div
+              data-testid="chat-msg-agent"
+            >
               <div
                 class="messageBubble agentBackground"
               >
@@ -415,7 +422,9 @@ exports[`chat log visitor message account settings login enabled displays update
           <div
             class="defaultMessageContainer"
           >
-            <div>
+            <div
+              data-testid="chat-msg-user"
+            >
               <div
                 class="messageBubble userBackground"
               >
@@ -459,7 +468,9 @@ exports[`chat log visitor message account settings login enabled displays update
           <div
             class="defaultMessageContainer"
           >
-            <div>
+            <div
+              data-testid="chat-msg-user"
+            >
               <div
                 class="messageBubble userBackground"
               >
@@ -503,7 +514,9 @@ exports[`chat log visitor message account settings login enabled does not displa
           <div
             class="defaultMessageContainer"
           >
-            <div>
+            <div
+              data-testid="chat-msg-user"
+            >
               <div
                 class="messageBubble userBackground"
               >
@@ -542,7 +555,9 @@ exports[`chat log visitor message account settings login enabled does not displa
           <div
             class="defaultMessageContainer"
           >
-            <div>
+            <div
+              data-testid="chat-msg-user"
+            >
               <div
                 class="messageBubble userBackground"
               >
@@ -579,7 +594,9 @@ exports[`chat log visitor message failure 1`] = `
           class="message messageUser"
         >
           <div>
-            <div>
+            <div
+              data-testid="chat-msg-user"
+            >
               <div
                 class="messageBubble userBackground"
               >
@@ -645,7 +662,9 @@ exports[`chat log visitor message success 1`] = `
                 realfilename="check-sm-stroke.svg"
               />
             </span>
-            <div>
+            <div
+              data-testid="chat-msg-user"
+            >
               <div
                 class="messageBubble userBackground"
               >
@@ -670,16 +689,18 @@ exports[`chat log visitor message success 1`] = `
 exports[`update chat header 1`] = `
 <div
   class="textContainer"
-  data-testid="header-text-container"
+  data-testid="chat-header-text-container"
   style="padding-left: 3rem;"
 >
   <h2
     class="title"
+    data-testid="chat-header-title"
   >
     Mr F
   </h2>
   <div
     class="subTextContainer"
+    data-testid="chat-header-subtext"
   >
     Mistah J
   </div>

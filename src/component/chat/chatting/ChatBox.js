@@ -5,6 +5,7 @@ import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields'
 import { i18n } from 'service/i18n'
 import { keyCodes } from 'utility/keyboard'
 import { isIos } from 'utility/devices'
+import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './ChatBox.scss'
 import classNames from 'classnames'
@@ -68,6 +69,7 @@ export class ChatBox extends Component {
             placeholder={placeholder}
             name="chatBox"
             rows={this.props.isMobile ? 1 : 3}
+            data-testid={TEST_IDS.MESSAGE_FIELD}
           />
         </TextField>
       </div>

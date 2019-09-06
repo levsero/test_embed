@@ -1,12 +1,18 @@
 describe('SlideAppear component', () => {
-  let SlideAppear
+  let SlideAppear, TEST_IDS
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   beforeEach(() => {
     mockery.enable()
 
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
+
     initMockRegistry({
       'react-transition-group/Transition': {
         Transition: noopReactComponent
+      },
+      'src/constants/shared': {
+        TEST_IDS
       }
     })
 

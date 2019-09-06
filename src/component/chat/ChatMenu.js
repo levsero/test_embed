@@ -6,6 +6,7 @@ import { Icon } from 'component/Icon'
 import { Button } from '@zendeskgarden/react-buttons'
 import { Dropzone } from 'component/Dropzone'
 import { SlideAppear } from 'component/transition/SlideAppear'
+import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './ChatMenu.scss'
 import classNames from 'classnames'
@@ -81,7 +82,13 @@ export class ChatMenu extends Component {
     const classes = this.getItemClasses(disabled)
 
     return (
-      <Button type="button" className={classes} onClick={onClick} disabled={disabled}>
+      <Button
+        type="button"
+        className={classes}
+        onClick={onClick}
+        disabled={disabled}
+        data-testid={TEST_IDS.CHAT_MENU_ITEM}
+      >
         {children}
       </Button>
     )
@@ -105,7 +112,13 @@ export class ChatMenu extends Component {
     })
     const children = [
       i18n.t('embeddable_framework.chat.options.sound'),
-      <Icon key="icon" className={styles.soundIcon} type={iconType} flipX={i18n.isRTL()} />
+      <Icon
+        key="icon"
+        className={styles.soundIcon}
+        id="sound-icon"
+        type={iconType}
+        flipX={i18n.isRTL()}
+      />
     ]
 
     return (

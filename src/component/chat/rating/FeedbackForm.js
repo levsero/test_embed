@@ -5,6 +5,7 @@ import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields'
 import { i18n } from 'service/i18n'
 import { RatingGroup, ratings } from 'component/chat/rating/RatingGroup'
 import { Button } from '@zendeskgarden/react-buttons'
+import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './FeedbackForm.scss'
 
@@ -39,7 +40,11 @@ export class FeedbackForm extends Component {
 
     return (
       <div className={styles.buttonGroup}>
-        <Button className={styles.button} onClick={this.props.skipClickFn}>
+        <Button
+          className={styles.button}
+          onClick={this.props.skipClickFn}
+          data-testid={TEST_IDS.BUTTON_CANCEL}
+        >
           {cancelButtonText}
         </Button>
         <Button
@@ -47,6 +52,7 @@ export class FeedbackForm extends Component {
           className={styles.rightButton}
           disabled={disabled}
           onClick={() => this.props.sendClickFn(this.state.selectedRating, this.textarea.value)}
+          data-testid={TEST_IDS.BUTTON_OK}
         >
           {i18n.t('embeddable_framework.common.button.send')}
         </Button>
@@ -59,7 +65,7 @@ export class FeedbackForm extends Component {
 
     return (
       <div>
-        <label className={styles.feedbackMessage}>
+        <label className={styles.feedbackMessage} data-testid={TEST_IDS.FORM_GREETING_MSG}>
           {feedbackMessage || i18n.t('embeddable_framework.chat.postChat.rating.new_title')}
         </label>
         <RatingGroup
@@ -76,6 +82,7 @@ export class FeedbackForm extends Component {
             className={styles.textarea}
             rows={6}
             defaultValue={rating.comment}
+            data-testid={TEST_IDS.MESSAGE_FIELD}
           />
         </TextField>
         {this.renderActionButtons()}

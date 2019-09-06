@@ -1,9 +1,12 @@
 describe('Container component', () => {
-  let Container
+  let Container, TEST_IDS
   const containerPath = buildSrcPath('component/container/Container')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   beforeEach(() => {
     mockery.enable()
+
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
       React: React,
@@ -13,6 +16,9 @@ describe('Container component', () => {
           mobile: 'mobileClasses',
           card: 'cardClasses'
         }
+      },
+      'src/constants/shared': {
+        TEST_IDS
       }
     })
 

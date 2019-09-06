@@ -1,4 +1,7 @@
 import { queries } from 'pptr-testing-library'
+
+import { TEST_IDS } from '../../src/constants/shared'
+
 export default class WidgetHelper {
   launcherFrame
   widgetFrame
@@ -30,7 +33,7 @@ export default class WidgetHelper {
 
   async clickLauncherPill() {
     const launcher = await this.getDocumentHandle(this.launcherFrame)
-    const launcherButton = await queries.getByTestId(launcher, 'launcherLabel')
+    const launcherButton = await queries.getByTestId(launcher, TEST_IDS.LAUNCHER_LABEL)
 
     await launcherButton.click()
   }

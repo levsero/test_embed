@@ -5,7 +5,7 @@ exports[`filename is truncated when it is more than max 1`] = `
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -22,6 +22,7 @@ exports[`filename is truncated when it is more than max 1`] = `
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"
@@ -45,7 +46,7 @@ exports[`renders expected classes 1`] = `
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -62,6 +63,7 @@ exports[`renders expected classes 1`] = `
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"
@@ -85,7 +87,7 @@ exports[`renders icon when icon is specified and attachment is not downloadable 
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -102,6 +104,7 @@ exports[`renders icon when icon is specified and attachment is not downloadable 
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"
@@ -125,7 +128,7 @@ exports[`renders link when icon is specified and attachment is downloadable 1`] 
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -148,6 +151,7 @@ exports[`renders link when icon is specified and attachment is downloadable 1`] 
         </a>
         <div
           class="description"
+          data-testid="description"
         >
           <a
             class="link"
@@ -194,7 +198,7 @@ exports[`renders link when it is downloadable 1`] = `
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -217,6 +221,7 @@ exports[`renders link when it is downloadable 1`] = `
         </a>
         <div
           class="description"
+          data-testid="description"
         >
           <a
             class="link"
@@ -263,7 +268,7 @@ exports[`renders removal button when it is removable 1`] = `
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -280,6 +285,7 @@ exports[`renders removal button when it is removable 1`] = `
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"
@@ -315,7 +321,7 @@ exports[`renders uploading text when it is uploading 1`] = `
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -332,6 +338,7 @@ exports[`renders uploading text when it is uploading 1`] = `
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"
@@ -350,6 +357,7 @@ exports[`renders uploading text when it is uploading 1`] = `
       >
         <div
           class="progressBar"
+          data-testid="progress-bar"
           style="width: 0%;"
         />
       </div>
@@ -363,7 +371,7 @@ exports[`renders with custom class name 1`] = `
   <div>
     <div
       class="container custom"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -380,6 +388,7 @@ exports[`renders with custom class name 1`] = `
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"
@@ -405,6 +414,7 @@ exports[`renders with error message 1`] = `
       class="containerError Alert-prppfq-0 index__c-callout--error___E8TxN ktWtOK Well-zk7a8s-0 index__c-callout___cUpq9 mRGBp"
       data-garden-id="notifications.alert"
       data-garden-version="3.2.0"
+      data-testid="error-message"
       role="alert"
       type="error"
     >
@@ -436,7 +446,7 @@ exports[`size formatting greater than or equal to 1MB displays correctly 1`] = `
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -453,6 +463,7 @@ exports[`size formatting greater than or equal to 1MB displays correctly 1`] = `
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"
@@ -476,7 +487,7 @@ exports[`size formatting greater than or equal to 1MB includes one decimal place
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -493,6 +504,7 @@ exports[`size formatting greater than or equal to 1MB includes one decimal place
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"
@@ -516,7 +528,7 @@ exports[`size formatting when the file size is less than one kilobyte displays 1
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -533,6 +545,7 @@ exports[`size formatting when the file size is less than one kilobyte displays 1
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"
@@ -556,7 +569,7 @@ exports[`size formatting when the file size is less than one megabyte displays f
   <div>
     <div
       class="container"
-      ui-test-id="attachmentContainer-1234"
+      data-testid="file-name-1234"
     >
       <div
         class="preview"
@@ -573,6 +586,7 @@ exports[`size formatting when the file size is less than one megabyte displays f
         </span>
         <div
           class="description"
+          data-testid="description"
         >
           <div
             class="previewName"

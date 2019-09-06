@@ -7,6 +7,7 @@ exports[`renders expected classes and components with default props for non-visi
   >
     <div
       class="transitionWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -15,7 +16,9 @@ exports[`renders expected classes and components with default props for non-visi
       >
         <div>
           <div
-            class="messageBubble container"
+            class="messageBubble
+        container"
+            data-testid="answer-bot-selection-message"
           >
             <div
               class="firstItem lastItem optionItem"
@@ -40,6 +43,7 @@ exports[`renders expected classes and components with default props for non-visi
                   </span>
                   <div
                     class="optionText"
+                    data-testid="hc-article-title"
                   >
                     contextual search results
                   </div>
@@ -59,6 +63,7 @@ exports[`renders expected classes and components with default props for non-visi
     </div>
     <div
       class="transitionWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -69,7 +74,9 @@ exports[`renders expected classes and components with default props for non-visi
           <div
             class="message botMessage"
           >
-            <div>
+            <div
+              data-testid="chat-msg-answer-bot"
+            >
               <div
                 class="messageBubble messageBubble botBackground"
               >
@@ -82,7 +89,9 @@ exports[`renders expected classes and components with default props for non-visi
             </div>
           </div>
           <div
-            class="messageBubble container"
+            class="messageBubble
+        container"
+            data-testid="answer-bot-selection-message"
           >
             <div
               class="firstItem lastItem optionItem"
@@ -107,6 +116,7 @@ exports[`renders expected classes and components with default props for non-visi
                   </span>
                   <div
                     class="optionText"
+                    data-testid="hc-article-title"
                   >
                     title 123
                   </div>
@@ -126,6 +136,7 @@ exports[`renders expected classes and components with default props for non-visi
     </div>
     <div
       class="transitionWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -135,7 +146,9 @@ exports[`renders expected classes and components with default props for non-visi
         <div
           class="message botMessage"
         >
-          <div>
+          <div
+            data-testid="chat-msg-answer-bot"
+          >
             <div
               class="messageBubble messageBubble botBackground"
             >
@@ -151,6 +164,7 @@ exports[`renders expected classes and components with default props for non-visi
     </div>
     <div
       class="transitionWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -160,6 +174,7 @@ exports[`renders expected classes and components with default props for non-visi
     </div>
     <div
       class="transitionWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -177,6 +192,7 @@ exports[`renders expected classes and components with default props for non-visi
       button
       
     "
+              data-testid="pill-button"
             >
               Yes
             </button>
@@ -185,6 +201,7 @@ exports[`renders expected classes and components with default props for non-visi
       button
       
     "
+              data-testid="pill-button"
             >
               No, I need help
             </button>
@@ -194,6 +211,7 @@ exports[`renders expected classes and components with default props for non-visi
     </div>
     <div
       class="transitionWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -211,6 +229,7 @@ exports[`renders expected classes and components with default props for non-visi
       button
       option
     "
+              data-testid="pill-button"
             >
               It's related, but it didn't answer my question
             </button>
@@ -219,6 +238,7 @@ exports[`renders expected classes and components with default props for non-visi
       button
       option
     "
+              data-testid="pill-button"
             >
               It's not related to my question
             </button>
@@ -228,6 +248,7 @@ exports[`renders expected classes and components with default props for non-visi
     </div>
     <div
       class="transitionWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -241,6 +262,7 @@ exports[`renders expected classes and components with default props for non-visi
             aria-busy="true"
             aria-live="polite"
             class="container loadingContainer"
+            data-testid="Icon--ellipsis"
           >
             <div
               class="
@@ -278,6 +300,7 @@ exports[`renders expected classes and components with default props for visitor 
   >
     <div
       class="transitionWrapper"
+      data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
@@ -287,7 +310,9 @@ exports[`renders expected classes and components with default props for visitor 
         <div
           class="message userMessage"
         >
-          <div>
+          <div
+            data-testid="chat-msg-user"
+          >
             <div
               class="messageBubble messageBubble userBackground"
             >

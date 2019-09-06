@@ -3,7 +3,9 @@
 exports[`renders the expected classes 1`] = `
 <div>
   <div
-    class="messageBubble containerStyle"
+    class="messageBubble
+        containerStyle"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem gangnamStyle"
@@ -38,7 +40,9 @@ exports[`renders the expected classes 1`] = `
 exports[`renders the expected classes when there is no leading message 1`] = `
 <div>
   <div
-    class="messageBubble "
+    class="messageBubble
+        "
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="firstItem optionItem"
@@ -61,7 +65,9 @@ exports[`renders the expected classes when there is no leading message 1`] = `
 exports[`renders the expected classes when there is only one child 1`] = `
 <div>
   <div
-    class="messageBubble containerStyle"
+    class="messageBubble
+        containerStyle"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem gangnamStyle"

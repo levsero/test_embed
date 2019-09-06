@@ -10,22 +10,22 @@ Snapshot Diff:
 +       class="container flexContainer mobile"
 @@ -6,1 +6,0 @@
 -       style="height: 550px;"
-@@ -12,1 +11,1 @@
+@@ -13,1 +12,1 @@
 -           class="title"
 +           class="title titleMobile"
-@@ -18,1 +17,1 @@
+@@ -19,1 +18,1 @@
 -         class="content newChannelChoiceContainer"
 +         class="content newChannelChoiceContainer contentMobile"
-@@ -22,1 +21,1 @@
+@@ -24,1 +23,1 @@
 -             class="inner"
 +             class=""
-@@ -26,1 +25,1 @@
+@@ -29,1 +28,1 @@
 -                 class="listItem"
 +                 class="listItem listItemMobile"
-@@ -58,1 +57,1 @@
+@@ -63,1 +62,1 @@
 -         class="footer  "
 +         class="footer footerNoLogo "
-@@ -61,27 +60,0 @@
+@@ -67,27 +66,0 @@
 -     <a
 -       class="
 -       logo
@@ -60,11 +60,12 @@ exports[`rendering renders ChannelChoiceContainer correctly with default props 1
   <div>
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -74,14 +75,17 @@ exports[`rendering renders ChannelChoiceContainer correctly with default props 1
       </header>
       <div
         class="content newChannelChoiceContainer"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="inner"
+            data-testid="channel-choice-container"
           >
             <ul>
               <li
                 class="listItem"
+                data-testid="list-item"
               >
                 <button
                   class="
@@ -103,6 +107,7 @@ exports[`rendering renders ChannelChoiceContainer correctly with default props 1
                   </span>
                   <span
                     class="label "
+                    data-testid="label"
                   >
                     Leave a message
                   </span>
@@ -114,6 +119,7 @@ exports[`rendering renders ChannelChoiceContainer correctly with default props 1
       </div>
       <footer
         class="footer  "
+        data-testid="scroll-container-footer"
       />
     </div>
     <a

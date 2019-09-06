@@ -9,7 +9,7 @@ import { MessageBubble } from 'component/shared/MessageBubble'
 import { Attachment } from 'component/attachment/Attachment'
 import { MessageError } from 'component/chat/chatting/MessageError'
 import { ImageMessage } from 'component/chat/chatting/ImageMessage'
-import { ICONS, FILETYPE_ICONS } from 'constants/shared'
+import { ICONS, FILETYPE_ICONS, TEST_IDS } from 'src/constants/shared'
 import {
   ATTACHMENT_ERROR_TYPES,
   CHAT_MESSAGE_TYPES,
@@ -142,6 +142,7 @@ export default class ChatGroup extends Component {
         options={options}
         translatedMessage={translation ? translation.msg : ''}
         handleSendMsg={this.props.handleSendMsg}
+        data-testid={isAgent ? TEST_IDS.CHAT_MSG_AGENT : TEST_IDS.CHAT_MSG_USER}
       />
     )
   }

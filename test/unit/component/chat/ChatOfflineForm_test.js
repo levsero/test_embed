@@ -1,8 +1,10 @@
 describe('ChatOfflineForm component', () => {
   let ChatOfflineForm,
     SuccessNotification = noopReactComponent(),
-    mockShouldRenderErrorMessage
+    mockShouldRenderErrorMessage,
+    TEST_IDS
   const ChatOfflineFormPath = buildSrcPath('component/chat/ChatOfflineForm')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   const Form = noopReactComponent()
   const Field = noopReactComponent()
@@ -32,6 +34,8 @@ describe('ChatOfflineForm component', () => {
 
   beforeEach(() => {
     mockery.enable()
+
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
       './ChatOfflineForm.scss': {
@@ -99,7 +103,8 @@ describe('ChatOfflineForm component', () => {
           SUCCESS_CONTACT_FORM: 'icon'
         },
         NAME_PATTERN: /.+/,
-        PHONE_PATTERN: /.+/
+        PHONE_PATTERN: /.+/,
+        TEST_IDS
       },
       'component/ZendeskLogo': { ZendeskLogo },
       'component/container/ScrollContainer': { ScrollContainer },
@@ -869,7 +874,7 @@ describe('ChatOfflineForm component', () => {
       })
 
       it('uses the greeting passed in', () => {
-        expect(result.props.children).toEqual('Show me what you got!')
+        expect(result.props.children.props.children).toEqual('Show me what you got!')
       })
     })
   })

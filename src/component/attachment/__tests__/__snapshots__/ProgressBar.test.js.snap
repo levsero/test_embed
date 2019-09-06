@@ -7,6 +7,7 @@ exports[`renders with expected classes 1`] = `
   >
     <div
       class="progressBar"
+      data-testid="progress-bar"
       style="width: 0%;"
     />
   </div>
@@ -20,6 +21,7 @@ exports[`renders with expected classes and width 1`] = `
   >
     <div
       class="progressBar"
+      data-testid="progress-bar"
       style="width: 33%;"
     />
   </div>
@@ -33,6 +35,7 @@ exports[`renders with fake progress bar classes when needed 1`] = `
   >
     <div
       class="progressBar fakeProgressAnimation"
+      data-testid="progress-bar"
       style="width: 25%;"
     />
   </div>

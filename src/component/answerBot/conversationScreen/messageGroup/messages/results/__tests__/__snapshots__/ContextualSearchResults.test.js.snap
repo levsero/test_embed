@@ -4,7 +4,9 @@ exports[`renders the expected classes 1`] = `
 <div>
   <div>
     <div
-      class="messageBubble container"
+      class="messageBubble
+        container"
+      data-testid="answer-bot-selection-message"
     >
       <div
         class="firstItem optionItem"
@@ -29,6 +31,7 @@ exports[`renders the expected classes 1`] = `
             </span>
             <div
               class="optionText"
+              data-testid="hc-article-title"
             >
               title 123
             </div>
@@ -65,6 +68,7 @@ exports[`renders the expected classes 1`] = `
             </span>
             <div
               class="optionText"
+              data-testid="hc-article-title"
             >
               title 456
             </div>

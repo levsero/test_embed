@@ -4,14 +4,18 @@ const webpack = require('webpack')
 const I18nPlugin = require('./i18nPlugin.js')
 
 const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp'
+const DEV = 'development'
+const PROD = 'production'
 const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com'
-const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_ENV || 'development'
+const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_ENV || DEV
 
 const prefix = process.cwd()
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
-const cssModulesName =
-  embeddableEnv === 'production' ? '[local]-[hash:base64:5]' : '[path][name]-[local]'
+const cssModulesName = embeddableEnv === DEV ? '[path][name]-[local]' : '[local]-[hash:base64:5]'
+
+const babelLoaderPlugins =
+  embeddableEnv === PROD ? [['react-remove-properties', { properties: ['data-testid'] }]] : []
 
 module.exports = {
   module: {
@@ -21,7 +25,8 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          cacheDirectory: true
+          cacheDirectory: true,
+          plugins: babelLoaderPlugins
         }
       },
       {

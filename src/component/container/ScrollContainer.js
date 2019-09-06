@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_MARGIN } from 'constants/shared'
+import { MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_MARGIN, TEST_IDS } from 'src/constants/shared'
 import Refocus from 'component/Refocus'
-
 import { win } from 'utility/globals'
+
 import { locals as styles } from './ScrollContainer.scss'
 
 export class ScrollContainer extends Component {
@@ -126,6 +126,7 @@ export class ScrollContainer extends Component {
           this.footer = el
         }}
         className={`${styles.footer} ${footerClasses} ${footerShadowClasses}`}
+        data-testid={TEST_IDS.SCROLL_CONTAINER_FOOTER}
       >
         {footerContent}
       </footer>
@@ -161,7 +162,7 @@ export class ScrollContainer extends Component {
 
     return (
       <div
-        data-testid="scrollcontainer"
+        data-testid={TEST_IDS.SCROLL_CONTAINER}
         style={{ height: this.calculateHeight() }}
         className={scrollContainerClasses}
       >
@@ -170,6 +171,7 @@ export class ScrollContainer extends Component {
             this.header = el
           }}
           className={headerClasses}
+          data-testid={TEST_IDS.SCROLL_CONTAINER_HEADER}
         >
           <h1 className={titleClasses}>{this.props.title}</h1>
           {this.props.headerContent}
@@ -180,6 +182,7 @@ export class ScrollContainer extends Component {
           }}
           className={contentClasses}
           onScroll={onContentScrolled}
+          data-testid={TEST_IDS.SCROLL_CONTAINER_CONTENT}
         >
           <Refocus>{this.props.children}</Refocus>
         </div>

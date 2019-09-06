@@ -9,11 +9,12 @@ exports[`active ticket form renders the expected components 1`] = `
     >
       <div
         class="container flexContainer desktop containerDesktop"
-        data-testid="scrollcontainer"
+        data-testid="scroll-container"
         style="height: 550px;"
       >
         <header
           class="header userHeader"
+          data-testid="scroll-container-header"
         >
           <h1
             class="title"
@@ -23,6 +24,7 @@ exports[`active ticket form renders the expected components 1`] = `
         </header>
         <div
           class="content container ticketFormContainer"
+          data-testid="scroll-container-content"
         >
           <div>
             <div
@@ -56,6 +58,7 @@ exports[`active ticket form renders the expected components 1`] = `
                   class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
                   data-garden-id="textfields.input"
                   data-garden-version="3.7.0"
+                  data-testid="name-field"
                   id="garden-text-field-0--input"
                   name="name"
                   value=""
@@ -83,6 +86,7 @@ exports[`active ticket form renders the expected components 1`] = `
                   class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
                   data-garden-id="textfields.input"
                   data-garden-version="3.7.0"
+                  data-testid="email-field"
                   id="garden-text-field-2--input"
                   name="email"
                   pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
@@ -92,6 +96,7 @@ exports[`active ticket form renders the expected components 1`] = `
               </div>
               <div
                 class=""
+                data-testid="slide-appear-container"
                 role="presentation"
                 style="opacity: 1; bottom: 10px;"
               >
@@ -128,6 +133,7 @@ exports[`active ticket form renders the expected components 1`] = `
               </div>
               <div
                 class=""
+                data-testid="slide-appear-container"
                 role="presentation"
                 style="opacity: 1; bottom: 10px;"
               >
@@ -164,6 +170,7 @@ exports[`active ticket form renders the expected components 1`] = `
               </div>
               <div
                 class=""
+                data-testid="slide-appear-container"
                 role="presentation"
                 style="opacity: 1; bottom: 10px;"
               >
@@ -204,6 +211,7 @@ exports[`active ticket form renders the expected components 1`] = `
         </div>
         <footer
           class="footer  footerShadow"
+          data-testid="scroll-container-footer"
         >
           <div
             class="container buttonRight buttonGroup"
@@ -212,6 +220,7 @@ exports[`active ticket form renders the expected components 1`] = `
               class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
               data-garden-id="buttons.button"
               data-garden-version="3.7.0"
+              data-testid="button-cancel"
               tabindex="0"
               type="button"
             >
@@ -221,6 +230,7 @@ exports[`active ticket form renders the expected components 1`] = `
               class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
               data-garden-id="buttons.button"
               data-garden-version="3.7.0"
+              data-testid="button-ok"
               tabindex="0"
               type="submit"
             >
@@ -271,42 +281,42 @@ Snapshot Diff:
         <div
 -         class="container flexContainer desktop containerDesktop"
 +         class="container flexContainer mobile"
-          data-testid="scrollcontainer"
+          data-testid="scroll-container"
 -         style="height: 550px;"
         >
           <header
-@@ -14,5 +13,5 @@
+@@ -15,5 +14,5 @@
           >
             <h1
 -             class="title"
 +             class="title titleMobile"
             >
               message
-@@ -20,5 +19,5 @@
+@@ -21,5 +20,5 @@
           </header>
           <div
 -           class="content container ticketFormContainer"
 +           class="content container ticketFormContainer containerMobile contentMobile"
+            data-testid="scroll-container-content"
           >
-            <div>
-@@ -27,5 +26,5 @@
+@@ -29,5 +28,5 @@
               >
                 <h2
 -                 class="ticketFormTitle "
 +                 class="ticketFormTitle ticketFormTitleMobile"
                 >
                   Ticket Forms
-@@ -205,14 +204,5 @@
-            <div
+@@ -214,14 +213,4 @@
               class="container buttonRight buttonGroup"
--           >
+            >
 -             <button
 -               class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
 -               data-garden-id="buttons.button"
 -               data-garden-version="3.7.0"
+-               data-testid="button-cancel"
 -               tabindex="0"
 -               type="button"
-            >
+-             >
 -               Cancel
 -             </button>
               <button
@@ -322,11 +332,12 @@ exports[`renders the expected components 1`] = `
     >
       <div
         class="container flexContainer desktop containerDesktop"
-        data-testid="scrollcontainer"
+        data-testid="scroll-container"
         style="height: 550px;"
       >
         <header
           class="header userHeader"
+          data-testid="scroll-container-header"
         >
           <h1
             class="title"
@@ -336,6 +347,7 @@ exports[`renders the expected components 1`] = `
         </header>
         <div
           class="content container"
+          data-testid="scroll-container-content"
         >
           <div>
             <div
@@ -364,6 +376,7 @@ exports[`renders the expected components 1`] = `
                   class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
                   data-garden-id="textfields.input"
                   data-garden-version="3.7.0"
+                  data-testid="name-field"
                   id="garden-text-field-0--input"
                   name="name"
                   value=""
@@ -391,6 +404,7 @@ exports[`renders the expected components 1`] = `
                   class="Input-sc-4gf5js-0 text__c-txt__input___2ZeOl kdlara"
                   data-garden-id="textfields.input"
                   data-garden-version="3.7.0"
+                  data-testid="email-field"
                   id="garden-text-field-2--input"
                   name="email"
                   pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
@@ -420,6 +434,7 @@ exports[`renders the expected components 1`] = `
                   class="Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
                   data-garden-id="textfields.textarea"
                   data-garden-version="3.7.0"
+                  data-testid="message-field"
                   id="garden-text-field-4--input"
                   name="description"
                   required=""
@@ -432,6 +447,7 @@ exports[`renders the expected components 1`] = `
         </div>
         <footer
           class="footer  "
+          data-testid="scroll-container-footer"
         >
           <div
             class="container buttonRight buttonGroup"
@@ -440,6 +456,7 @@ exports[`renders the expected components 1`] = `
               class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
               data-garden-id="buttons.button"
               data-garden-version="3.7.0"
+              data-testid="button-cancel"
               tabindex="0"
               type="button"
             >
@@ -449,6 +466,7 @@ exports[`renders the expected components 1`] = `
               class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
               data-garden-id="buttons.button"
               data-garden-version="3.7.0"
+              data-testid="button-ok"
               tabindex="0"
               type="submit"
             >
@@ -499,35 +517,35 @@ Snapshot Diff:
         <div
 -         class="container flexContainer desktop containerDesktop"
 +         class="container flexContainer mobile"
-          data-testid="scrollcontainer"
+          data-testid="scroll-container"
 -         style="height: 550px;"
         >
           <header
-@@ -14,5 +13,5 @@
+@@ -15,5 +14,5 @@
           >
             <h1
 -             class="title"
 +             class="title titleMobile"
             >
               message
-@@ -20,5 +19,5 @@
+@@ -21,5 +20,5 @@
           </header>
           <div
 -           class="content container"
 +           class="content container containerMobile contentMobile"
+            data-testid="scroll-container-content"
           >
-            <div>
-@@ -120,14 +119,5 @@
-            <div
+@@ -127,14 +126,4 @@
               class="container buttonRight buttonGroup"
--           >
+            >
 -             <button
 -               class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn lcPfmb"
 -               data-garden-id="buttons.button"
 -               data-garden-version="3.7.0"
+-               data-testid="button-cancel"
 -               tabindex="0"
 -               type="button"
-            >
+-             >
 -               Cancel
 -             </button>
               <button

@@ -3,7 +3,9 @@
 exports[`channels does not render chat if chat is available 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -15,6 +17,7 @@ exports[`channels does not render chat if chat is available 1`] = `
     >
       <div
         class="channel singleChannel"
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -42,7 +45,9 @@ exports[`channels does not render chat if chat is available 1`] = `
 exports[`channels renders expected components if chat and chat offline are available 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -54,6 +59,7 @@ exports[`channels renders expected components if chat and chat offline are avail
     >
       <div
         class="channel singleChannel"
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -81,7 +87,9 @@ exports[`channels renders expected components if chat and chat offline are avail
 exports[`channels renders expected components if only call us is available 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -93,6 +101,7 @@ exports[`channels renders expected components if only call us is available 1`] =
     >
       <div
         class="channel singleChannel"
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -120,7 +129,9 @@ exports[`channels renders expected components if only call us is available 1`] =
 exports[`channels renders expected components if only chat is available 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -132,6 +143,7 @@ exports[`channels renders expected components if only chat is available 1`] = `
     >
       <div
         class="channel singleChannel"
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -159,7 +171,9 @@ exports[`channels renders expected components if only chat is available 1`] = `
 exports[`channels renders expected components if only submit ticket is available 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -171,6 +185,7 @@ exports[`channels renders expected components if only submit ticket is available
     >
       <div
         class="channel singleChannel"
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -198,7 +213,9 @@ exports[`channels renders expected components if only submit ticket is available
 exports[`channels renders expected components if talk and request callback are available 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -210,6 +227,7 @@ exports[`channels renders expected components if talk and request callback are a
     >
       <div
         class="channel singleChannel"
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -237,7 +255,9 @@ exports[`channels renders expected components if talk and request callback are a
 exports[`channels renders generic leading message if more than 1 channel is available 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -249,6 +269,7 @@ exports[`channels renders generic leading message if more than 1 channel is avai
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -274,6 +295,7 @@ exports[`channels renders generic leading message if more than 1 channel is avai
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -301,7 +323,9 @@ exports[`channels renders generic leading message if more than 1 channel is avai
 exports[`channels renders leading message if more than 1 channel is available and useLeadingMessageAsFallback is true 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -313,6 +337,7 @@ exports[`channels renders leading message if more than 1 channel is available an
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -338,6 +363,7 @@ exports[`channels renders leading message if more than 1 channel is available an
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -365,7 +391,9 @@ exports[`channels renders leading message if more than 1 channel is available an
 exports[`channels renders the passed in leading message regardless of other properties 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -377,6 +405,7 @@ exports[`channels renders the passed in leading message regardless of other prop
     >
       <div
         class="channel singleChannel"
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -404,7 +433,9 @@ exports[`channels renders the passed in leading message regardless of other prop
 exports[`renders the expected classes 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -416,6 +447,7 @@ exports[`renders the expected classes 1`] = `
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -441,6 +473,7 @@ exports[`renders the expected classes 1`] = `
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -466,6 +499,7 @@ exports[`renders the expected classes 1`] = `
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -493,7 +527,9 @@ exports[`renders the expected classes 1`] = `
 exports[`renders the leading message 1`] = `
 <div>
   <div
-    class="messageBubble container"
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
   >
     <div
       class="header firstItem title"
@@ -505,6 +541,7 @@ exports[`renders the leading message 1`] = `
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -530,6 +567,7 @@ exports[`renders the leading message 1`] = `
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >
@@ -555,6 +593,7 @@ exports[`renders the leading message 1`] = `
     >
       <div
         class="channel "
+        data-testid="list-item"
         role="button"
         tabindex="0"
       >

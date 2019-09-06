@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { locals as styles } from './PillButton.scss'
+import { TEST_IDS } from 'src/constants/shared'
 
 export class PillButton extends Component {
   static propTypes = {
@@ -21,7 +22,11 @@ export class PillButton extends Component {
     `
 
     return (
-      <button onClick={this.props.onClick} className={buttonClasses}>
+      <button
+        onClick={this.props.onClick}
+        className={buttonClasses}
+        data-testid={TEST_IDS.PILL_BUTTON}
+      >
         {this.props.label}
       </button>
     )

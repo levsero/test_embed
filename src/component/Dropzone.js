@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { TEST_IDS } from 'src/constants/shared'
 
 export class Dropzone extends Component {
   static propTypes = {
@@ -84,7 +85,7 @@ export class Dropzone extends Component {
 
     return (
       <div
-        data-testid="dropzone"
+        data-testid={TEST_IDS.DROPZONE}
         onDragEnter={this.onDragEnter}
         onDragOver={this.onDragOver}
         onDragLeave={this.onDragLeave}

@@ -7,11 +7,12 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
   >
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -21,13 +22,16 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
       </header>
       <div
         class="content scrollContainer scrollContainer "
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content "
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             >
               help
             </h2>
@@ -53,6 +57,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             >
               here
@@ -62,6 +67,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
   </div>
@@ -75,10 +81,11 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
   >
     <div
       class="container flexContainer mobile"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title titleMobile"
@@ -88,13 +95,16 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
       </header>
       <div
         class="content scrollContainerMobile scrollContainer  contentMobile"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
             class="content contentMobile"
+            data-testid="hc-article"
           >
             <h2
               class="title"
+              data-testid="hc-article-title"
             >
               help
             </h2>
@@ -120,6 +130,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
             </div>
             <div
               class="article"
+              data-testid="hc-article-body"
               role="presentation"
             >
               here
@@ -129,6 +140,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
       </div>
       <footer
         class="footer footer "
+        data-testid="scroll-container-footer"
       />
     </div>
   </div>
@@ -140,11 +152,12 @@ exports[`conversation screen renders expected components and styles in desktop 1
   <div>
     <div
       class="container flexContainer desktop containerDesktop"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
       style="height: 550px;"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title"
@@ -154,6 +167,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
       </header>
       <div
         class="content scrollContainer"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
@@ -163,6 +177,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
       </div>
       <footer
         class="footer footerWithLogo "
+        data-testid="scroll-container-footer"
       >
         <div>
           <div
@@ -185,6 +200,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
               class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
               data-garden-id="textfields.textarea"
               data-garden-version="3.7.0"
+              data-testid="message-field"
               id="garden-text-field-0--input"
               name="answerBotInputValue"
               placeholder="Type your question here..."
@@ -230,10 +246,11 @@ exports[`conversation screen renders expected components and styles in mobile 1`
   <div>
     <div
       class="container flexContainer mobile"
-      data-testid="scrollcontainer"
+      data-testid="scroll-container"
     >
       <header
         class="header userHeader"
+        data-testid="scroll-container-header"
       >
         <h1
           class="title titleMobile"
@@ -243,6 +260,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
       </header>
       <div
         class="content scrollContainerMobile contentMobile"
+        data-testid="scroll-container-content"
       >
         <div>
           <div
@@ -252,6 +270,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
       </div>
       <footer
         class="footer footerMobile footerMobileWithLogo "
+        data-testid="scroll-container-footer"
       >
         <div>
           <div
@@ -280,6 +299,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
                   class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
                   data-garden-id="textfields.textarea"
                   data-garden-version="3.7.0"
+                  data-testid="message-field"
                   id="garden-text-field-2--input"
                   name="answerBotInputValue"
                   placeholder="Type your question here..."

@@ -1,12 +1,15 @@
 describe('MessageBubble component', () => {
-  let MessageBubble
+  let MessageBubble, TEST_IDS
 
   const messageBubblePath = buildSrcPath('component/shared/MessageBubble')
   const MessageOptions = noopReactComponent()
   const Linkify = noopReactComponent('Linkify')
+  const sharedConstantsPath = basePath('src/constants/shared')
 
   beforeEach(() => {
     mockery.enable()
+
+    TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
       './MessageBubble.scss': {
@@ -23,6 +26,9 @@ describe('MessageBubble component', () => {
         i18n: {
           t: _.identity
         }
+      },
+      'src/constants/shared': {
+        TEST_IDS
       }
     })
 

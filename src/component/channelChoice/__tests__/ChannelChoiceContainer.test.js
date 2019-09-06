@@ -5,6 +5,7 @@ import snapshotDiff from 'snapshot-diff'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
 import ChannelChoiceContainer from '../ChannelChoiceContainer'
+import { TEST_IDS } from 'src/constants/shared'
 
 describe('rendering', () => {
   const renderComponent = (props = {}) => {
@@ -44,7 +45,7 @@ describe('rendering', () => {
     it('hides the logo when asked', () => {
       const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
 
-      expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
+      expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).not.toBeInTheDocument()
     })
   })
 })
