@@ -1,4 +1,4 @@
-import { render, fireEvent, wait } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 
@@ -249,7 +249,7 @@ test('shows no result page when there are no results', () => {
 })
 
 describe('desktop', () => {
-  test('integration', async () => {
+  test('integration', () => {
     const { store, container, getByPlaceholderText, queryByText } = renderComponent()
 
     const form = container.querySelector('form')
@@ -272,11 +272,9 @@ describe('desktop', () => {
     store.dispatch(resetActiveArticle())
 
     // focus is set on the previously clicked article
-    await wait(() => {
-      expect(document.activeElement).toEqual(
-        queryByText('What are these sections and articles doing here?')
-      )
-    })
+    expect(document.activeElement).toEqual(
+      queryByText('What are these sections and articles doing here?')
+    )
 
     // Search field is still filled in
     expect(getByPlaceholderText('How can we help?').value).toEqual('Help me')
@@ -297,7 +295,7 @@ describe('mobile', () => {
     expect(input.value).toEqual('')
   })
 
-  test('integration', async () => {
+  test('integration', () => {
     const { store, container, queryByText, getByPlaceholderText } = renderComponent()
 
     expect(queryByText('Search our Help Center')).toBeInTheDocument()
@@ -321,11 +319,9 @@ describe('mobile', () => {
     store.dispatch(resetActiveArticle())
 
     // focus is set on the previously clicked article
-    await wait(() => {
-      expect(document.activeElement).toEqual(
-        queryByText('How can agents leverage knowledge to help customers?')
-      )
-    })
+    expect(document.activeElement).toEqual(
+      queryByText('How can agents leverage knowledge to help customers?')
+    )
 
     // Search field is still filled in
     expect(getByPlaceholderText('How can we help?').value).toEqual('Help me')

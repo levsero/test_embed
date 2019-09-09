@@ -107,9 +107,7 @@ const actionCreators = {
 
 const connectedComponent = connect(
   mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
+  actionCreators
 )(HasResults)
 
 export { connectedComponent as default, HasResults as Component }
