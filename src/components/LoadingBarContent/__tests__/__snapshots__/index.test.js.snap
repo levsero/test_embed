@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders full skeleton loaders 1`] = `
+<div
+  class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 hvZKXb"
+  data-garden-id="loaders.skeleton"
+  data-garden-version="6.2.0"
+>
+   
+</div>
+`;
