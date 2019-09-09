@@ -27,15 +27,13 @@ const SearchPage = ({
   articles
 }) => {
   const searchHeaderRef = useRef(null),
-    resultsRef = React.createRef(null)
+    resultsRef = React.useRef(null)
   const content = isContextualSearchPending ? <LoadingBarContent /> : <Results ref={resultsRef} />
   useEffect(() => {
-    if (articles.length) {
-      resultsRef.current.focus()
-    } else {
+    if (!articles.length) {
       searchHeaderRef.current.focus()
     }
-  }, [articles, resultsRef])
+  }, [articles])
 
   return (
     <WidgetContainer>
