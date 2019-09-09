@@ -75,13 +75,8 @@
   margin-right: #{12 / $font-size}rem;
 }
 
-.loadingSpinner {
-  composes: u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter from global;
-}
-
-.loadingSpinnerIE {
-  padding-right: #{25 / $font-size}rem;
-  padding-bottom: #{25 / $font-size}rem;
+.loadingBarContentContainer {
+  padding-top: $spacing-med;
 }
 
 .button {

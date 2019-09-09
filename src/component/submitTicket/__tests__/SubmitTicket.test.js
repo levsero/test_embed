@@ -132,10 +132,10 @@ test('renders the error message', () => {
   expect(queryByText('this is the error message')).toBeInTheDocument()
 })
 
-test('renders the loading spinner', () => {
+test('renders the loading bar content', () => {
   const { container } = renderComponent({ loading: true })
 
-  expect(container.querySelector('.loadingSpinner')).toBeInTheDocument()
+  expect(container.firstChild).toMatchSnapshot()
 })
 
 test('renders the success notification', () => {

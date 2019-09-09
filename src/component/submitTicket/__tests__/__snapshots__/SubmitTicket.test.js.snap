@@ -712,3 +712,101 @@ Snapshot Diff:
               <button
                 class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
 `;
+
+exports[`renders the loading bar content 1`] = `
+<div>
+  <div
+    class="container flexContainer desktop containerDesktop"
+    data-testid="scroll-container"
+    style="height: 550px;"
+  >
+    <header
+      class="header userHeader"
+      data-testid="scroll-container-header"
+    >
+      <h1
+        class="title"
+      >
+        message
+      </h1>
+    </header>
+    <div
+      class="content ticketFormsContainer"
+      data-testid="scroll-container-content"
+    >
+      <div>
+        <div
+          class="loadingBarContentContainer"
+        >
+          <div
+            class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 hvZKXb"
+            data-garden-id="loaders.skeleton"
+            data-garden-version="6.2.0"
+          >
+             
+          </div>
+          <div
+            class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 fpTiEf"
+            data-garden-id="loaders.skeleton"
+            data-garden-version="6.2.0"
+          >
+             
+          </div>
+          <div
+            class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 fpTiEf"
+            data-garden-id="loaders.skeleton"
+            data-garden-version="6.2.0"
+          >
+             
+          </div>
+          <div
+            class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 fpTiEf"
+            data-garden-id="loaders.skeleton"
+            data-garden-version="6.2.0"
+          >
+             
+          </div>
+          <div
+            class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 fpTiEf"
+            data-garden-id="loaders.skeleton"
+            data-garden-version="6.2.0"
+          >
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer
+      class="footer  "
+      data-testid="scroll-container-footer"
+    />
+  </div>
+  <a
+    class="
+      logo
+      formSuccess
+      
+      
+    "
+    href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+    tabindex="-1"
+    target="_blank"
+  >
+    <span
+      class="container icon Icon--zendesk"
+      data-testid="Icon--zendesk"
+      type="Icon--zendesk"
+    >
+      <svg
+        aria-hidden="true"
+        realfilename="widget-icon_zendesk.svg"
+      />
+    </span>
+    <span
+      class="hidden"
+    >
+      zendesk
+    </span>
+  </a>
+</div>
+`;
