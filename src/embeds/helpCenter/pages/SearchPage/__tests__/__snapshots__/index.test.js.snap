@@ -72,23 +72,39 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
       class="container"
     >
       <div
-        class="container"
+        class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 hvZKXb"
+        data-garden-id="loaders.skeleton"
+        data-garden-version="6.2.0"
       >
-        <div
-          class="barWidth30Percent"
-        />
-        <div
-          class="barWidth90Percent"
-        />
-        <div
-          class="barWidth90Percent"
-        />
-        <div
-          class="barWidth90Percent"
-        />
-        <div
-          class="barWidth70Percent"
-        />
+         
+      </div>
+      <div
+        class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 fpTiEf"
+        data-garden-id="loaders.skeleton"
+        data-garden-version="6.2.0"
+      >
+         
+      </div>
+      <div
+        class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 fpTiEf"
+        data-garden-id="loaders.skeleton"
+        data-garden-version="6.2.0"
+      >
+         
+      </div>
+      <div
+        class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 fpTiEf"
+        data-garden-id="loaders.skeleton"
+        data-garden-version="6.2.0"
+      >
+         
+      </div>
+      <div
+        class="sc-bdVaJa eomxaD Skeleton__StyledSkeleton-sc-1uuy18r-0 fpTiEf"
+        data-garden-id="loaders.skeleton"
+        data-garden-version="6.2.0"
+      >
+         
       </div>
     </div>
     <footer
