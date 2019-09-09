@@ -32,6 +32,18 @@ class HasResults extends PureComponent {
     this.list = null
   }
 
+  componentDidMount() {
+    if (this.props.articles.length) {
+      this.focus()
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.articles.length) {
+      this.focus()
+    }
+  }
+
   onArticleClick = (articleIndex, e) => {
     e.preventDefault()
     this.props.handleArticleClick(this.props.articles[articleIndex])
