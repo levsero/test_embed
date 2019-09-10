@@ -26,9 +26,8 @@ const SearchPage = ({
   isContextualSearchPending,
   articles
 }) => {
-  const searchHeaderRef = useRef(null),
-    resultsRef = React.useRef(null)
-  const content = isContextualSearchPending ? <LoadingBarContent /> : <Results ref={resultsRef} />
+  const searchHeaderRef = useRef(null)
+  const content = isContextualSearchPending ? <LoadingBarContent /> : <Results />
   useEffect(() => {
     if (!articles.length) {
       searchHeaderRef.current.focus()
