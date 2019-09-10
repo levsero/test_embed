@@ -96,13 +96,20 @@ function generateQueryString(settings, machineId, locale) {
   return `?v=10#key=${subdomain}&settings=${encodedSettings}&mid=${machineId}&locale=${locale}&title=${title}`
 }
 
+function cleanBrandName(brand) {
+  if (brand) {
+    return brand.replace(/,/g, '')
+  }
+}
+
 export {
   combineNumbers,
   formatSchedule,
   isDefaultNickname,
   isAgent,
   createChatPopoutWindow,
-  getDisplayName
+  getDisplayName,
+  cleanBrandName
 }
 
 /**

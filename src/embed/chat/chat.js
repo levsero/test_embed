@@ -5,6 +5,7 @@ import { mediator } from 'service/mediator'
 import { getThemeColor } from 'utility/color/validate'
 import { document, win, getDocumentHost } from 'utility/globals'
 import { cappedTimeoutCall } from 'utility/utils'
+import { cleanBrandName } from 'utility/chat'
 import {
   updateZopimChatStatus,
   zopimHide,
@@ -169,7 +170,7 @@ function render(name) {
     if (brandCount > 1 || brandCount === undefined) {
       win.$zopim(() => {
         tracker.suspend(() => {
-          const sanitizedBrandString = config.brand.replace(/,/g, '')
+          const sanitizedBrandString = cleanBrandName(config.brand)
           win.$zopim.livechat.addTags([sanitizedBrandString])
         })
       })
