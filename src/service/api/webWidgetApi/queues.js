@@ -4,6 +4,8 @@ import { renderer } from 'service/renderer'
 import { apiExecute, apiStructurePostRenderSetup, apiStructurePreRenderSetup } from './setupApi'
 import { setupPublicApi, setupDevApi } from './setupLegacyApi'
 import ZDApiError from 'errors/console/ZDApiError'
+import ApiExecuteError from 'errors/nonFatal/ApiExecuteError'
+import errorTracker from 'service/errorTracker'
 
 const newAPIPostRenderQueue = []
 
@@ -12,25 +14,37 @@ const apiAddToPostRenderQueue = (...args) => {
 }
 
 export function apisExecutePostRenderQueue(win, postRenderQueue, reduxStore) {
-  _.forEach(postRenderQueue, method => {
-    win.zE[method[0]](...method[1])
-  })
+  try {
+    postRenderQueue.forEach(method => {
+      win.zE[method[0]](...method[1])
+    })
 
-  _.forEach(newAPIPostRenderQueue, item => {
-    apiExecute(apiStructurePostRenderSetup(), reduxStore, ...item)
-  })
+    newAPIPostRenderQueue.forEach(item => {
+      apiExecute(apiStructurePostRenderSetup(), reduxStore, ...item)
+    })
 
-  renderer.postRenderCallbacks()
+    renderer.postRenderCallbacks()
+  } catch (e) {
+    errorTracker.error(new ApiExecuteError('Api execution error found with new api'), {
+      actualErrorMessage: e.message
+    })
+  }
 }
 
 export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
   let devApi
 
   const postRenderCallback = (...args) => {
-    if (_.isFunction(args[0])) {
-      args[0]()
-    } else {
-      return apiExecute(apiStructurePostRenderSetup(), reduxStore, args)
+    try {
+      if (typeof args[0] === 'function') {
+        args[0]()
+      } else {
+        return apiExecute(apiStructurePostRenderSetup(), reduxStore, args)
+      }
+    } catch (e) {
+      errorTracker.error(new ApiExecuteError('Api execution error found with legacy api'), {
+        actualErrorMessage: e.message
+      })
     }
   }
   // no "fat arrow" because it binds `this` to the scoped environment and does not allow it to be re-set with .bind()
