@@ -15,6 +15,7 @@ import {
 } from 'src/redux/modules/chat/chat-action-types'
 import zopimApi from 'service/api/zopimApi'
 import { win, isPopout } from 'utility/globals'
+import { cleanBrandName } from 'utility/chat'
 import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener'
 
 function makeChatConfig(config) {
@@ -54,10 +55,7 @@ export function setUpChat() {
     let brandName
 
     if (brandCount === undefined || brandCount > 1) {
-      if (brand) {
-        const sanitizedBrandString = brand.replace(/,/g, '')
-        brandName = sanitizedBrandString
-      }
+      brandName = cleanBrandName(brand)
     }
 
     const onChatImported = (zChat, slider) => {

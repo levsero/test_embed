@@ -130,6 +130,9 @@ describe('embed.chat', () => {
       'utility/devices': {
         isMobileBrowser: () => mockIsMobileBrowserValue
       },
+      'utility/chat': {
+        cleanBrandName: x => x.replace(/,/g, '')
+      },
       'utility/globals': mockGlobals,
       'utility/utils': {
         cappedTimeoutCall: () => {}
