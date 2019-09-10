@@ -54,7 +54,10 @@ export function setUpChat() {
     let brandName
 
     if (brandCount === undefined || brandCount > 1) {
-      brandName = brand
+      if (brand) {
+        const sanitizedBrandString = brand.replace(/,/g, '')
+        brandName = sanitizedBrandString
+      }
     }
 
     const onChatImported = (zChat, slider) => {
