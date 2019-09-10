@@ -1,4 +1,3 @@
-import ContextualNoResultsMessageStyles from 'embeds/helpCenter/components/ContextualNoResultsMessage/styles.scss'
 import ItemStyles from 'embeds/helpCenter/components/Item/styles.scss'
 import ListStyles from 'embeds/helpCenter/components/List/styles.scss'
 import LegendStyles from 'embeds/helpCenter/components/Legend/styles.scss'
@@ -13,7 +12,6 @@ import FooterStyles from 'embeds/helpCenter/components/Footer/styles.scss'
 
 const styles = `
   ${InitialSearchPageStyles}
-  ${ContextualNoResultsMessageStyles}
   ${ItemStyles}
   ${ListStyles}
   ${LegendStyles}
