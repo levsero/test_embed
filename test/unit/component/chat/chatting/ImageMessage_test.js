@@ -19,6 +19,9 @@ describe('ImageMessage component', () => {
           spinner: 'spinner',
           link: 'link'
         }
+      },
+      'constants/shared': {
+        TEST_IDS: {}
       }
     })
 

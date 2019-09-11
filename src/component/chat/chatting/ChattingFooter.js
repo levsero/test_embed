@@ -12,7 +12,7 @@ import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { TooltipContainer, TooltipView } from '@zendeskgarden/react-tooltips'
 import { Icon } from 'component/Icon'
 
-import { ICONS } from 'constants/shared'
+import { ICONS, TEST_IDS } from 'constants/shared'
 
 export class ChattingFooter extends Component {
   static propTypes = {
@@ -107,7 +107,8 @@ export class ChattingFooter extends Component {
                   ref,
                   size: 'small',
                   className: attachmentClasses,
-                  'aria-label': altText
+                  'aria-label': altText,
+                  'data-testid': TEST_IDS.CHAT_ATTACHMENT_BUTTON
                 })}
               >
                 <Icon type={ICONS.PAPERCLIP_SMALL} />
@@ -142,7 +143,8 @@ export class ChattingFooter extends Component {
                 size: 'small',
                 className: menuClasses,
                 onClick: this.handleMenuClick,
-                'aria-label': altText
+                'aria-label': altText,
+                'data-testid': TEST_IDS.CHAT_FOOTER_MENU_BUTTONS
               })}
             >
               <Icon type={ICONS.ELLIPSIS} />

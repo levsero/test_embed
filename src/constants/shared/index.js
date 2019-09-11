@@ -105,6 +105,7 @@ export const TEST_IDS = {
   CHAT_MENU_ITEM: 'chat-menu-item',
   CHAT_MSG_USER: 'chat-msg-user',
   CHAT_MSG_AGENT: 'chat-msg-agent',
+  CHAT_MSG_EVENT: 'chat-msg-event',
   CHAT_MSG_ANSWER_BOT: 'chat-msg-answer-bot',
   CHECKBOX_FIELD: 'checkbox-field',
   STR_MSG_PANEL_HEADING: 'panelHeading',
@@ -145,7 +146,11 @@ export const TEST_IDS = {
   ICON_CC_SUPPORT: ICONS.CC_SUPPORT,
   ICON_CC_CHAT: ICONS.CC_CHAT,
   ICON_CC_TALK: ICONS.CC_SUPPORT,
-  ICON_SUCCESS_CONTACT_FORM: ICONS.SUCCESS_CONTACT_FORM
+  ICON_SUCCESS_CONTACT_FORM: ICONS.SUCCESS_CONTACT_FORM,
+  MESSAGE_OPTION: 'message-option',
+  CHAT_FOOTER_MENU_BUTTONS: 'chat-footer-menu-buttons',
+  CHAT_ATTACHMENT_BUTTON: 'chat-attachment-button',
+  IMAGE_MESSAGE_LINK: 'image-message-link'
 }
 
 export const GA_CATEGORY = 'Zendesk Web Widget'

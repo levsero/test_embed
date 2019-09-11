@@ -36,6 +36,9 @@ describe('EventMessage component', () => {
       },
       'service/i18n': {
         i18n
+      },
+      'src/constants/shared': {
+        TEST_IDS: {}
       }
     })
 

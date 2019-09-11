@@ -36,7 +36,8 @@ describe('ChattingFooter component', () => {
         Dropzone: noopReactComponent()
       },
       'constants/shared': {
-        ICONS: {}
+        ICONS: {},
+        TEST_IDS: {}
       },
       'component/Icon': { Icon },
       '@zendeskgarden/react-buttons': { IconButton }
