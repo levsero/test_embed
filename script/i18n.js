@@ -10,7 +10,7 @@ var rest = require('rest'),
   localesEndpoint = 'https://support.zendesk.com/api/v2/locales/apps/web_widget.json'
 
 if (process.env.EMBEDDABLE_FRAMEWORK_ENV === 'staging') {
-  localesEndpoint.replace('.zendesk.com', '.zendesk-staging.com')
+  localesEndpoint = localesEndpoint.replace('.zendesk.com', '.zendesk-staging.com')
 }
 
 function filterLocales(locales) {
