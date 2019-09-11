@@ -19,6 +19,9 @@ describe('MessageOptions component', () => {
       },
       'component/shared/KeyboardFocusButton': {
         KeyboardFocusButton: KeyboardFocusButton
+      },
+      'src/constants/shared': {
+        TEST_IDS: {}
       }
     })
 

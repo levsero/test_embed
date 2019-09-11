@@ -6,6 +6,7 @@ import { DISCONNECTION_REASONS } from 'constants/chat'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './EventMessage.scss'
 import classNames from 'classnames'
+import { TEST_IDS } from 'src/constants/shared'
 
 export default class EventMessage extends Component {
   static propTypes = {
@@ -68,7 +69,7 @@ export default class EventMessage extends Component {
     })
 
     return (
-      <div key={event.timestamp} className={wrapperClasses}>
+      <div key={event.timestamp} data-testid={TEST_IDS.CHAT_MSG_EVENT} className={wrapperClasses}>
         {this.props.divider}
         {this.renderEventMessage(event)}
         {this.props.children}

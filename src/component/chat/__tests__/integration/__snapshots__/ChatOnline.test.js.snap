@@ -45,6 +45,7 @@ exports[`chat log agent join 1`] = `
   <div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Agent McAgent joined the chat
     </div>
@@ -62,11 +63,13 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
   <div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Mugen joined the chat
     </div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Mugen was disconnected and has left the chat
     </div>
@@ -84,11 +87,13 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
   <div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Mugen joined the chat
     </div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Mugen left the chat
     </div>
@@ -202,6 +207,7 @@ exports[`chat log comment 1`] = `
   <div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Comment submitted
     </div>
@@ -219,6 +225,7 @@ exports[`chat log member join 1`] = `
   <div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Chat started
     </div>
@@ -236,11 +243,13 @@ exports[`chat log member leave 1`] = `
   <div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Mugen joined the chat
     </div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Mugen left the chat
     </div>
@@ -273,6 +282,7 @@ exports[`chat log rating 1`] = `
   <div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Chat rated Good
     </div>
@@ -290,6 +300,7 @@ exports[`chat log series of actions 1`] = `
   <div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Chat started
     </div>
@@ -334,6 +345,7 @@ exports[`chat log series of actions 1`] = `
     </div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Jet joined the chat
     </div>
@@ -390,11 +402,13 @@ exports[`chat log series of actions 1`] = `
     </div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Chat rated Good
     </div>
     <div
       class="eventMessage"
+      data-testid="chat-msg-event"
     >
       Jet left the chat
     </div>

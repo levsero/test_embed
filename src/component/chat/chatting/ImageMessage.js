@@ -4,6 +4,7 @@ import sharedPropTypes from 'types/shared'
 
 import { locals as styles } from './ImageMessage.scss'
 import classNames from 'classnames'
+import { TEST_IDS } from 'constants/shared'
 
 export class ImageMessage extends Component {
   static propTypes = {
@@ -43,7 +44,12 @@ export class ImageMessage extends Component {
     }
 
     const thumbnailDiv = (
-      <a className={styles.link} target="_blank" href={this.props.file.url}>
+      <a
+        className={styles.link}
+        data-testid={TEST_IDS.IMAGE_MESSAGE_LINK}
+        target="_blank"
+        href={this.props.file.url}
+      >
         <div className={imageClasses} style={imageStyle} />
       </a>
     )

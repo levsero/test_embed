@@ -4,6 +4,7 @@ import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton'
 
 import { locals as styles } from './MessageOptions.scss'
 import classNames from 'classnames'
+import { TEST_IDS } from 'src/constants/shared'
 
 export class MessageOptions extends Component {
   static propTypes = {
@@ -36,7 +37,7 @@ export class MessageOptions extends Component {
           className={childClasses}
           onClick={() => this.props.onOptionClick(child)}
         >
-          <button>{child}</button>
+          <button data-testid={TEST_IDS.MESSAGE_OPTION}>{child}</button>
         </KeyboardFocusButton>
       )
     })
